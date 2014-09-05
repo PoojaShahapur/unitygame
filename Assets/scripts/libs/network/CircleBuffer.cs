@@ -12,23 +12,29 @@ namespace San.Guo
         protected uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
         protected uint m_size;              // 存储在当前环形缓冲区中的数量
 
-        protected char[] m_buff;            // 当前环形缓冲区
+        protected byte[] m_buff;            // 当前环形缓冲区
         protected uint m_begin;             // 存储空间的第一个索引
         protected uint m_end;               // 存储空间的最后一个索引
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引
+
+        protected ByteArray m_headerBA;     // 主要是用来分析头的大小
+        protected ByteArray m_retBA;        // 返回的字节数组
 
         public CirculeBuffer()
         {
             m_iMaxCapacity = 8 * 1024 * 1024;      // 最大允许分配 8 M
             m_iCapacity = 64 * 1024;               // 默认分配 64 K
             m_size = 0;
-            m_buff = new char[m_iCapacity];
+            m_buff = new byte[m_iCapacity];
 
             m_begin = 0;
             m_end = m_iCapacity - 1;
             m_first = 0;
             m_last = 0;
+
+            m_headerBA = new ByteArray();
+            m_retBA = new ByteArray();
         }
 
         public bool isLinearized()
@@ -107,9 +113,9 @@ namespace San.Guo
         /**
          *@brief 向存储空尾部添加一段内容
          */
-        public void pushBack(char[] items)
+        public void pushBack(byte[] items, uint start, uint len)
         {
-            if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
+            if (!canAddData(len)) // 存储空间必须要比实际数据至少多 1
             {
                 if(2 * m_iCapacity <= m_iMaxCapacity)
                 {
@@ -123,30 +129,30 @@ namespace San.Guo
 
             if (isLinearized())
             {
-                if(items.Length <= (m_iCapacity - m_last))
+                if (len <= (m_iCapacity - m_last))
                 {
-                    Array.Copy(items, 0, m_buff, m_last, items.Length);
+                    Array.Copy(items, start, m_buff, m_last, len);
                 }
                 else
                 {
-                    Array.Copy(items, 0, m_buff, m_last, m_iCapacity - m_last);
-                    Array.Copy(items, m_iCapacity - m_last, m_buff, 0, items.Length - (m_iCapacity - m_last));
+                    Array.Copy(items, start, m_buff, m_last, m_iCapacity - m_last);
+                    Array.Copy(items, m_iCapacity - m_last, m_buff, 0, len - (m_iCapacity - m_last));
                 }
             }
             else
             {
-                Array.Copy(items, 0, m_buff, m_last, items.Length);
+                Array.Copy(items, start, m_buff, m_last, len);
             }
 
-            m_last += (uint)items.Length;
+            m_last += len;
             m_last %= m_iCapacity;
-            m_size += (uint)items.Length;
+            m_size += len;
         }
 
         /**
          *@brief 向存储空头部添加一段内容
          */
-        public void pushFront(char[] items)
+        public void pushFront(byte[] items)
         {
             if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
             {
@@ -201,9 +207,89 @@ namespace San.Guo
             return false;
         }
 
+        public void readByteToByteArray(ByteArray bytearray, uint len, bool movefirst)
+        {
+            if (m_size >= len)        // 头部占据 4 个字节
+            {
+                if(isLinearized())  // 在一段连续的内存
+                {
+                    bytearray.writeBytes(m_buff, m_first, len);
+                    if (movefirst)
+                    {
+                        m_first += len;
+                    }
+                }
+                else if (m_iCapacity - m_first >= len)
+                {
+                    bytearray.writeBytes(m_buff, m_first, len);
+                    if (movefirst)
+                    {
+                        m_first += len;
+                    }
+                }
+                else
+                {
+                    bytearray.writeBytes(m_buff, m_first, m_iCapacity - m_first);
+                    bytearray.writeBytes(m_buff, 0, len - (m_iCapacity - m_first));
+                    if (movefirst)
+                    {
+                        m_first = len - (m_iCapacity - m_first);
+                    }
+                }
+            }
+        }
+
+        protected bool checkHasMsg()
+        {
+            readByteToByteArray(m_headerBA, 4, false);
+            if (m_headerBA.readUnsignedInt() <= m_size - 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected void removeByLen(uint len)
+        {
+            if (isLinearized())  // 在一段连续的内存
+            {
+                m_first += len;
+            }
+            else if (m_iCapacity - m_first >= len)
+            {
+                m_first += len;
+            }
+            else
+            {
+                m_first = len - (m_iCapacity - m_first);
+            }
+        }
+
         /**
          *@brief 获取前面的数据
          */
-        public  popFront()
+        public ByteArray popFront(bool check)
+        {
+            readByteToByteArray(m_headerBA, 4, false);
+            uint msglen = m_headerBA.readUnsignedInt();
+            if(check)
+            {
+                if (msglen <= m_size - 4)
+                {
+                    removeByLen(4);
+                    readByteToByteArray(m_retBA, msglen, true);
+                }
+            }
+            else
+            {
+                removeByLen(4);
+                readByteToByteArray(m_retBA, msglen, true);
+            }
+
+            return m_retBA;
+        }
     }
 }

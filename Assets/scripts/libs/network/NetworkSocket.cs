@@ -22,6 +22,9 @@ namespace San.Guo
         CirculeBuffer m_msgBuffer;      // 可以使用的缓冲区
         CirculeBuffer m_sendBuffer;     // 发送缓冲区
 
+        protected byte[] m_buff;
+        protected uint m_len;
+
         public NetworkSocket(string host, Int32 port)
         {
             m_host = host;
@@ -30,20 +33,21 @@ namespace San.Guo
             m_rawBuffer = new CirculeBuffer();
             m_msgBuffer = new CirculeBuffer();
             m_sendBuffer = new CirculeBuffer();
+
+            m_buff = new byte[64 * 1024];
         }
 
         void Update()
         {
             // 接收数据
-            string received_data = readSocket();    // 读取数据
-            if (received_data != "")                // 如果有数据
+            readSocket();    // 读取数据
+            if (m_len > 0)                // 如果有数据
             {
-                m_rawBuffer.pushBack(received_data.ToCharArray());      // 放进原始缓冲区中
+                m_rawBuffer.pushBack(m_buff, 0, m_len);      // 放进原始缓冲区中
                 // Debug.Log(received_data);
             }
 
             // 发送数据处理
-
         }
 
         public void connect()
@@ -75,15 +79,18 @@ namespace San.Guo
             m_socketWriter.Flush();
         }
 
-        public String readSocket()
+        public void readSocket()
         {
             if (!m_socketReady)
-                return "";
+            {
+                m_len = 0;
+            }
 
             if (m_netStream.DataAvailable)
-                return m_socketReader.ReadLine();
-
-            return "";
+            {
+                m_len = (uint)m_netStream.Length;
+                m_socketReader.BaseStream.Read(m_buff, 0, (int)m_len);
+            }
         }
 
         public void closeSocket()
