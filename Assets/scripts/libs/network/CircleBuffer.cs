@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 /**
- *@brief 环形缓冲区
+ *@brief 环形缓冲区，不支持多线程写操作，但是支持单线程写，单线程读操作
  */
-namespace CircleBuffer
+namespace San.Guo
 {
     class CirculeBuffer
     {
@@ -31,27 +31,27 @@ namespace CircleBuffer
             m_last = 0;
         }
 
-        bool isLinearized()
+        public bool isLinearized()
         {
             return m_first < m_last || m_last == m_begin;
         }
 
-        uint size()
+        public uint size()
         {
             return m_size;
         }
 
-        bool empty()
+        public bool empty()
         {
             return size() == 0;
         }
 
-        uint capacity()
+        public uint capacity()
         {
             return m_iCapacity;
         }
 
-        bool full()
+        public bool full()
         { 
             return capacity() == size();
         }
@@ -59,7 +59,7 @@ namespace CircleBuffer
         /**
          * @brief 将数据尽量按照存储地址的从小到大排列
          */
-        void linearize()
+        public void linearize()
         {
             if (empty())        // 没有数据
             {
@@ -78,7 +78,7 @@ namespace CircleBuffer
         /**
          * @brief 更改存储内容空间大小
          */
-        void setCapacity(uint newCapacity) 
+        public void setCapacity(uint newCapacity) 
         {
             if (newCapacity == capacity())
             {
@@ -107,7 +107,7 @@ namespace CircleBuffer
         /**
          *@brief 向存储空尾部添加一段内容
          */
-        void pushBack(char[] items)
+        public void pushBack(char[] items)
         {
             if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
             {
@@ -146,7 +146,7 @@ namespace CircleBuffer
         /**
          *@brief 向存储空头部添加一段内容
          */
-        void pushFront(char[] items)
+        public void pushFront(char[] items)
         {
             if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
             {
@@ -191,7 +191,7 @@ namespace CircleBuffer
         /**
          *@brief 能否添加 num 长度的数据
          */
-        bool canAddData(uint num)
+        public bool canAddData(uint num)
         {
             if (m_iCapacity - m_size > num)
             {
@@ -200,5 +200,10 @@ namespace CircleBuffer
 
             return false;
         }
+
+        /**
+         *@brief 获取前面的数据
+         */
+        public  popFront()
     }
 }

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * @brief 数据系统
+ */
 public class DataSys : MonoBehaviour {
 
 	// Use this for initialization
@@ -12,4 +15,9 @@ public class DataSys : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnApplicationQuit()
+    {
+        
+    }
 }

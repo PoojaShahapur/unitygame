@@ -4,103 +4,97 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 
-public class NetworkSocket : MonoBehaviour
+namespace San.Guo
 {
-    public String host = "localhost";
-    public Int32 port = 50000;
-
-    internal Boolean socket_ready = false;
-    internal String input_buffer = "";
-    TcpClient tcp_socket;
-    NetworkStream net_stream;
-
-    StreamWriter socket_writer;
-    StreamReader socket_reader;
-
-    void Update()
+    public class NetworkSocket
     {
-        string received_data = readSocket();
-        string key_stroke = Input.inputString;
+        public String m_host = "localhost";
+        public Int32 m_port = 50000;
 
-        // Collects keystrokes into a buffer
-        if (key_stroke != ""){
-            input_buffer += key_stroke;
+        internal Boolean m_socketReady = false;
+        TcpClient m_tcpSocket;
+        NetworkStream m_netStream;
 
-            if (key_stroke == "\n"){
-            	// Send the buffer, clean it
-            	Debug.Log("Sending: " + input_buffer);
-            	writeSocket(input_buffer);
-            	input_buffer = "";
+        StreamWriter m_socketWriter;
+        StreamReader m_socketReader;
+
+        CirculeBuffer m_rawBuffer;      // 直接从服务器接收到的原始的数据，可能压缩和加密过
+        CirculeBuffer m_msgBuffer;      // 可以使用的缓冲区
+        CirculeBuffer m_sendBuffer;     // 发送缓冲区
+
+        public NetworkSocket(string host, Int32 port)
+        {
+            m_host = host;
+            m_port = port;
+
+            m_rawBuffer = new CirculeBuffer();
+            m_msgBuffer = new CirculeBuffer();
+            m_sendBuffer = new CirculeBuffer();
+        }
+
+        void Update()
+        {
+            // 接收数据
+            string received_data = readSocket();    // 读取数据
+            if (received_data != "")                // 如果有数据
+            {
+                m_rawBuffer.pushBack(received_data.ToCharArray());      // 放进原始缓冲区中
+                // Debug.Log(received_data);
             }
 
+            // 发送数据处理
+
         }
 
-        if (received_data != "")
+        public void connect()
         {
-        	// Do something with the received data,
-        	// print it in the log for now
-            Debug.Log(received_data);
+            try
+            {
+                m_tcpSocket = new TcpClient(m_host, m_port);
+
+                m_netStream = m_tcpSocket.GetStream();
+                m_socketWriter = new StreamWriter(m_netStream);
+                m_socketReader = new StreamReader(m_netStream);
+
+                m_socketReady = true;
+            }
+            catch (Exception e)
+            {
+                // Something went wrong
+                Debug.Log("Socket error: " + e);
+            }
         }
-    }
 
-    void Awake()
-    {
-        setupSocket();
-    }
-
-    void OnApplicationQuit()
-    {
-        closeSocket();
-    }
-
-    public void setupSocket()
-    {
-        try
+        public void writeSocket(string line)
         {
-            tcp_socket = new TcpClient(host, port);
+            if (!m_socketReady)
+                return;
 
-            net_stream = tcp_socket.GetStream();
-            socket_writer = new StreamWriter(net_stream);
-            socket_reader = new StreamReader(net_stream);
-
-            socket_ready = true;
+            line = line + "\r\n";
+            m_socketWriter.Write(line);
+            m_socketWriter.Flush();
         }
-        catch (Exception e)
+
+        public String readSocket()
         {
-        	// Something went wrong
-            Debug.Log("Socket error: " + e);
-        }
-    }
+            if (!m_socketReady)
+                return "";
 
-    public void writeSocket(string line)
-    {
-        if (!socket_ready)
-            return;
-            
-        line = line + "\r\n";
-        socket_writer.Write(line);
-        socket_writer.Flush();
-    }
+            if (m_netStream.DataAvailable)
+                return m_socketReader.ReadLine();
 
-    public String readSocket()
-    {
-        if (!socket_ready)
             return "";
+        }
 
-        if (net_stream.DataAvailable)
-            return socket_reader.ReadLine();
+        public void closeSocket()
+        {
+            if (!m_socketReady)
+                return;
 
-        return "";
-    }
-
-    public void closeSocket()
-    {
-        if (!socket_ready)
-            return;
-
-        socket_writer.Close();
-        socket_reader.Close();
-        tcp_socket.Close();
-        socket_ready = false;
+            m_socketWriter.Close();
+            m_socketReader.Close();
+            m_tcpSocket.Close();
+            m_socketReady = false;
+        }
     }
 }
