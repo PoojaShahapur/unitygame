@@ -8,7 +8,7 @@ namespace San.Guo
     /**
      *@brief 字节编码解码，大端小端
      */
-    class ByteUtil
+    public class ByteUtil
     {
         /**
          *@brief 检查大端小端

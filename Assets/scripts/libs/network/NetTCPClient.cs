@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace UnityNetwork
+namespace San.Guo
 {
     public class NetTCPClient
     {
@@ -10,23 +10,23 @@ namespace UnityNetwork
         public int _sendTimeout = 3;
         public int _revTimeout = 3;
 
-        // 网络管理器 处理消息和逻辑
-        private NetworkManager _netMgr=null;
+        public string m_host = "localhost";
+        public int m_port = 50000;
 
-        private Socket _socket = null;
+        protected Socket _socket = null;
+        protected DataBuffer m_dataBuffer;
 
-        public NetTCPClient()
+        public NetTCPClient(string ip, int port)
         {
-            _netMgr = NetworkManager.Instance;
+            m_host = ip;
+            m_port = port;
         }
-
 
         // 连接服务器
         public bool Connect(string address, int remotePort)
         {
             if (_socket != null && _socket.Connected)
                 return true;
-
 
             IPHostEntry hostEntry = Dns.GetHostEntry(address);
             foreach (IPAddress ip in hostEntry.AddressList)
@@ -35,23 +35,17 @@ namespace UnityNetwork
                 {
                     //获得远程服务器的地址
                     IPEndPoint ipe = new IPEndPoint(ip, remotePort);
-
                     // 创建socket
                     _socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
                     // 开始连接
                     _socket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), _socket);
-
                     break;
-
                 }
                 catch (System.Exception e)
                 {
                     // 连接失败
-                    PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_ATTEMPT_FAILED,e.Message);
                     return false;
                 }
-
             }
 
             return true;
@@ -60,11 +54,6 @@ namespace UnityNetwork
         // 异步连接回调
         void ConnectionCallback(System.IAsyncResult ar)
         {
-            NetBitStream stream = new NetBitStream();
-
-            // 获得服务器socket
-            stream._socket = (Socket)ar.AsyncState;
-
             try
             {
                 // 与服务器取得连接
@@ -74,24 +63,22 @@ namespace UnityNetwork
                 _socket.SendTimeout = _sendTimeout;
                 _socket.ReceiveTimeout = _revTimeout;
 
-                // 向Network Manager传递消息
-                PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_REQUEST_ACCEPTED, "");
-
                 // 接收从服务器返回的头信息
-                _socket.BeginReceive(stream.BYTES, 0, NetBitStream.header_length, SocketFlags.None, new System.AsyncCallback(ReceiveHeader), stream);
-
-
+                _socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
             }
             catch (System.Exception e)
             {
                 // 错误处理
                 if ( e.GetType() == typeof(SocketException))
                 {
-                    if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused){
-                        PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_ATTEMPT_FAILED, e.Message);
+                    if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused)
+                    {
+                        // 输出日志
                     }
                     else
-                        PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST, e.Message);
+                    {
+                        // 输出日志
+                    }
                 }
 
                 Disconnect(0);
@@ -100,70 +87,33 @@ namespace UnityNetwork
 
 
         // 接收头消息
-        void ReceiveHeader(System.IAsyncResult ar)
+        void ReceiveData(System.IAsyncResult ar)
         {
-            NetBitStream stream = (NetBitStream)ar.AsyncState;
-
             try
             {
-                int read = _socket.EndReceive(ar);
+                int read = _socket.EndReceive(ar);          // 获取读取的长度
 
                 // 服务器断开连接
                 if (read < 1)
                 {
                     Disconnect(0);
-                    PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST,"");
                     return;
                 }
-
-                // 获得消息体长度
-                stream.DecodeHeader();
+                m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
+                m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
 
                 // 下一个读取
-                _socket.BeginReceive(stream.BYTES, NetBitStream.header_length, stream.BodyLength, SocketFlags.None, new System.AsyncCallback(ReceiveBody), stream);  
+                _socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);  
             }
             catch (System.Exception e)
             {
-                PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST, e.Message);
-                Disconnect(0);
-            }
-
-
-        }
-
-        // 接收消息体
-        void ReceiveBody(System.IAsyncResult ar)
-        {
-            NetBitStream stream = (NetBitStream)ar.AsyncState;
-
-            try
-            {
-                int read = _socket.EndReceive(ar);
-
-                // 用户已下线
-                if (read < 1)
-                {
-                    Disconnect(0);
-                    PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST, "");
-                    return;
-                }
-
-                PushPacket2(stream);
-
-            
-                // 下一个读取
-                _socket.BeginReceive(stream.BYTES, 0, NetBitStream.header_length, SocketFlags.None, new System.AsyncCallback(ReceiveHeader), stream);
-
-            }
-            catch (System.Exception e)
-            {
-                PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST, e.Message);
+                // 输出日志
                 Disconnect(0);
             }
         }
 
         // 发送消息
-        public void Send( NetBitStream bts )
+        public void Send()
         {
             if (!_socket.Connected)
                 return;
@@ -178,11 +128,11 @@ namespace UnityNetwork
             {
                 try
                 {
-                    ns.BeginWrite(bts.BYTES, 0, bts.Length, new System.AsyncCallback(SendCallback), ns);
+                    ns.BeginWrite(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, new System.AsyncCallback(SendCallback), ns);
                 }
                 catch (System.Exception )
                 {
-                    PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST, "");
+                    // 输出日志
                     Disconnect(0);
                 }
             }
@@ -200,7 +150,7 @@ namespace UnityNetwork
             }
             catch (System.Exception)
             {
-                PushPacket((ushort)MessageIdentifiers.ID.CONNECTION_LOST, "");
+                // 输出日志
                 Disconnect(0);
             }
 
@@ -218,36 +168,6 @@ namespace UnityNetwork
             {
                 _socket.Close();
             }
-
         }
-
-        // 向Network Manager的队列传递内部消息
-        void PushPacket( ushort msgid, string exception )
-        {
-           
-            NetPacket packet = new NetPacket();
-            packet.SetIDOnly(msgid);
-            packet._error = exception;
-            packet._peer = _socket;
-
-            _netMgr.AddPacket(packet);
-        }
-
-        // 向Network Manager的队列传递数据
-        void PushPacket2(NetBitStream stream)
-        {
-
-            NetPacket packet = new NetPacket();
-            stream.BYTES.CopyTo(packet._bytes, 0);
-            packet._peer = stream._socket;
-
-            _netMgr.AddPacket(packet);
-        }
-      
     }
-
-   
-
-
-
 }

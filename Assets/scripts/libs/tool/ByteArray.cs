@@ -8,7 +8,7 @@ namespace San.Guo
     /**
      *@brief 类似 flash 的 ByteArray 功能
      */
-    class ByteArray
+    public class ByteArray
     {
         static public Endian m_sEndian = Endian.NONE_ENDIAN;     // 当前机器的编码
         static public byte[] m_intByte = new byte[4];

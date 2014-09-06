@@ -6,7 +6,7 @@ namespace San.Guo
     /**
      *@brief 基本的线程 wrap
      */
-    class ThreadWrap
+    public class ThreadWrap
     {
         // 数据区域
         protected Thread m_thread;

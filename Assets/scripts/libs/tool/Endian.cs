@@ -5,7 +5,7 @@ using System.Text;
 
 namespace San.Guo
 {
-    enum Endian
+    public enum Endian
     {
         BIG_ENDIAN,         // 小端
         LITTLE_ENDIAN,      // 大端

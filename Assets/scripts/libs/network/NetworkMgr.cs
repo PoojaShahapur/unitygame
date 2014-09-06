@@ -4,16 +4,16 @@ using San.Guo;
 
 namespace San.Guo
 {
-    class NetworkMgr
+    public class NetworkMgr
     {
         // 此处使用 Dictionary ，不适用 Hashable
-        protected Dictionary<string, NetworkSocket> m_id2SocketDic;
+        protected Dictionary<string, NetTCPClient> m_id2SocketDic;
         protected ThreadWrap m_threadWrap;
 
         // 函数区域
         public NetworkMgr()
         {
-            m_id2SocketDic = new Dictionary<string, NetworkSocket>();
+            m_id2SocketDic = new Dictionary<string, NetTCPClient>();
         }
 
         /**
@@ -27,13 +27,13 @@ namespace San.Guo
         /**
          *@brief 打开到 socket 的连接
          */
-        public bool openSocket(string ip, Int32 port)
+        public bool openSocket(string ip, int port)
         {
             string key = ip + "&" + port;
             if (!m_id2SocketDic.ContainsKey(key))
             {
-                m_id2SocketDic.Add(key, new NetworkSocket(ip, port));
-                m_id2SocketDic[key].connect();
+                m_id2SocketDic.Add(key, new NetTCPClient(ip, port));
+                m_id2SocketDic[key].Connect(ip, port);
             }
             else
             {

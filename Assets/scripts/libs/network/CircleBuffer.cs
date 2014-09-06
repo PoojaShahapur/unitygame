@@ -6,13 +6,14 @@ using System.Collections.Generic;
  */
 namespace San.Guo
 {
-    class CirculeBuffer
+    public class CirculeBuffer
     {
+        // 这里面的 byte[] 会频繁操作，就直接写在这里
         protected uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
         protected uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
         protected uint m_size;              // 存储在当前环形缓冲区中的数量
-
         protected byte[] m_buff;            // 当前环形缓冲区
+
         protected uint m_begin;             // 存储空间的第一个索引
         protected uint m_end;               // 存储空间的最后一个索引
         protected uint m_first;             // 当前缓冲区数据的第一个索引
@@ -42,14 +43,29 @@ namespace San.Guo
             return m_first < m_last || m_last == m_begin;
         }
 
-        public uint size()
+        public byte[] buff
         {
-            return m_size;
+            get
+            {
+                return m_buff;
+            }
+        }
+
+        public uint size
+        {
+            get
+            {
+                return m_size;
+            }
+            set
+            {
+                m_size = value;
+            }
         }
 
         public bool empty()
         {
-            return size() == 0;
+            return size == 0;
         }
 
         public uint capacity()
@@ -59,7 +75,7 @@ namespace San.Guo
 
         public bool full()
         { 
-            return capacity() == size();
+            return capacity() == size;
         }
 
         /**
@@ -90,7 +106,7 @@ namespace San.Guo
             {
                 return;
             }
-            if (newCapacity < size())       // 不能分配比当前已经占有的空间还小的空间
+            if (newCapacity < size)       // 不能分配比当前已经占有的空间还小的空间
             {
                 return;
             }
