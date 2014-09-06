@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Threading;
 
 /**
  *@brief 环形缓冲区，不支持多线程写操作，但是支持单线程写，单线程读操作
@@ -21,6 +23,8 @@ namespace San.Guo
 
         protected ByteArray m_headerBA;     // 主要是用来分析头的大小
         protected ByteArray m_retBA;        // 返回的字节数组
+
+        private Mutex m_visitMutex = new Mutex();   // 追要是添加和获取数据互斥
 
         public CirculeBuffer()
         {
@@ -97,7 +101,7 @@ namespace San.Guo
         /**
          * @brief 将数据尽量按照存储地址的从小到大排列
          */
-        public void linearize()
+        protected void linearize()
         {
             if (empty())        // 没有数据
             {
@@ -107,16 +111,19 @@ namespace San.Guo
             {
                 return;
             }
-            // 数据在两个不连续的内存空间中
-            char[] tmp = new char[m_last];
-            Array.Copy(m_buff, 0, tmp, 0, m_last);  // 拷贝一段内存空间中的数据到 tmp
-            Array.Copy(m_buff, m_first, m_buff, 0, m_iCapacity - m_first);
+            else
+            {
+                // 数据在两个不连续的内存空间中
+                char[] tmp = new char[m_last];
+                Array.Copy(m_buff, 0, tmp, 0, m_last);  // 拷贝一段内存空间中的数据到 tmp
+                Array.Copy(m_buff, m_first, m_buff, 0, m_iCapacity - m_first);
+            }
         }
 
         /**
          * @brief 更改存储内容空间大小
          */
-        public void setCapacity(uint newCapacity) 
+        protected void setCapacity(uint newCapacity) 
         {
             if (newCapacity == capacity())
             {
@@ -145,8 +152,9 @@ namespace San.Guo
         /**
          *@brief 向存储空尾部添加一段内容
          */
-        public void pushBack(byte[] items, uint start, uint len, bool needlock = true)
+        public void pushBack(byte[] items, uint start, uint len)
         {
+            m_visitMutex.WaitOne();
             if (!canAddData(len)) // 存储空间必须要比实际数据至少多 1
             {
                 if(2 * m_iCapacity <= m_iMaxCapacity)
@@ -178,20 +186,23 @@ namespace San.Guo
 
             m_last += len;
             m_last %= m_iCapacity;
-            if (needlock)
-            {
-                if(lock(m_size))
-                {
-                    m_size += len;
-                }
-            }
+
+            m_size += len;
+            m_visitMutex.ReleaseMutex();
+        }
+
+
+        public void pushBackBA(ByteArray ba)
+        {
+            pushBack(ba.buff, ba.position, ba.bytesAvailable);
         }
 
         /**
          *@brief 向存储空头部添加一段内容，暂时功能未完成
          */
-        public void pushFront(byte[] items)
+        protected void pushFront(byte[] items)
         {
+            m_visitMutex.WaitOne();
             if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
             {
                 if (2 * m_iCapacity <= m_iMaxCapacity)
@@ -230,12 +241,13 @@ namespace San.Guo
                 m_first = m_iCapacity - ((uint)items.Length - m_first);
             }
             m_size += (uint)items.Length;
+            m_visitMutex.ReleaseMutex();
         }
 
         /**
          *@brief 能否添加 num 长度的数据
          */
-        public bool canAddData(uint num)
+        protected bool canAddData(uint num)
         {
             if (m_iCapacity - m_size > num)
             {
@@ -245,7 +257,7 @@ namespace San.Guo
             return false;
         }
 
-        public void readByteToByteArray(ByteArray bytearray, uint len, bool movefirst)
+        protected void readByteToByteArray(ByteArray bytearray, uint len, bool movefirst)
         {
             if (m_size >= len)        // 头部占据 4 个字节
             {
@@ -277,7 +289,7 @@ namespace San.Guo
             }
         }
 
-        public bool checkHasMsg()
+        protected bool checkHasMsg()
         {
             readByteToByteArray(m_headerBA, 4, false);
             if (m_headerBA.readUnsignedInt() <= m_size - 4)
@@ -330,6 +342,22 @@ namespace San.Guo
             }
 
             return false;
+        }
+
+        /**
+         *@brief 数据放到流中
+         */
+        public void getByte2Stream(NetworkStream ns, System.AsyncCallback cb)
+        {
+            m_visitMutex.WaitOne();
+            linearize();
+            ns.BeginWrite(m_buff, (int)m_first, (int)m_size, cb, ns);
+
+            // 清空数据
+            m_first = 0;
+            m_size = 0;
+            m_last = 0;
+            m_visitMutex.ReleaseMutex();
         }
     }
 }

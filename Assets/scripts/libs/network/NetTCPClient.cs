@@ -126,6 +126,11 @@ namespace San.Guo
             if (!m_socket.Connected)
                 return;
 
+            if(m_dataBuffer.sendBuffer.size == 0)
+            {
+                return;
+            }
+
             NetworkStream ns;
             lock (m_socket)
             {
@@ -136,7 +141,8 @@ namespace San.Guo
             {
                 try
                 {
-                    ns.BeginWrite(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, new System.AsyncCallback(SendCallback), ns);
+                    //ns.BeginWrite(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, new System.AsyncCallback(SendCallback), ns);
+                    m_dataBuffer.sendBuffer.getByte2Stream(ns, new System.AsyncCallback(SendCallback));
                 }
                 catch (System.Exception )
                 {

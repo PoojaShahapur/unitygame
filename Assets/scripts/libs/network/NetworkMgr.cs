@@ -4,11 +4,13 @@ using San.Guo;
 
 namespace San.Guo
 {
-    public class NetworkMgr
+    public class NetworkMgr : INetworkMgr
     {
         // 此处使用 Dictionary ，不适用 Hashable
         protected Dictionary<string, NetTCPClient> m_id2SocketDic;
         protected ThreadWrap m_threadWrap;
+        protected bool m_quit;
+        protected NetTCPClient m_curSocket;
 
         // 函数区域
         public NetworkMgr()
@@ -34,6 +36,7 @@ namespace San.Guo
             {
                 m_id2SocketDic.Add(key, new NetTCPClient(ip, port));
                 m_id2SocketDic[key].Connect(ip, port);
+                m_curSocket = m_id2SocketDic[key];
             }
             else
             {
@@ -48,12 +51,22 @@ namespace San.Guo
          */
         public bool threadIO(Object param)
         {
-            // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
-            foreach (NetTCPClient socket in m_id2SocketDic.Values)
+            while (!m_quit)
             {
-                socket.dataBuffer.moveRaw2Msg();
+                // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
+                foreach (NetTCPClient socket in m_id2SocketDic.Values)
+                {
+                    socket.dataBuffer.moveRaw2Msg();
+                    socket.Send();
+                }
             }
+
             return true;
+        }
+
+        public ByteArray getMsg()
+        {
+            return m_curSocket.dataBuffer.getMsg();
         }
     }
 }

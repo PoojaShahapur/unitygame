@@ -15,14 +15,22 @@ namespace San.Guo
         static public byte[] m_shortByte = new byte[2];
 
         protected byte[] m_buff;            // 当前的缓冲区
-        protected uint m_length;              // 存储的数据的大小
-        protected uint m_position;               // 当前可以读取的位置索引
+        protected uint m_length;            // 存储的数据的大小
+        protected uint m_position;          // 当前可以读取的位置索引
         protected Endian m_endian;          // 大端小端
 
         public ByteArray()
         {
             m_endian = m_sEndian;
             m_buff = new byte[64 * 1024];       // 默认大小 64 K
+        }
+
+        public byte[] buff
+        {
+            get
+            {
+                return m_buff;
+            }
         }
 
 		public uint bytesAvailable
@@ -79,7 +87,15 @@ namespace San.Guo
             m_position += num;
         }
 
-		//public function compress (algorithm:String="zlib") : void;
+        public void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        {
+
+        }
+
+        public void uncompress ()
+        {
+    
+        }
 
 		public bool readBoolean ()
         {
@@ -159,7 +175,6 @@ namespace San.Guo
             }
         }
 
-
 		public uint readUnsignedShort ()
         {
             advancePosition(2);
@@ -196,7 +211,6 @@ namespace San.Guo
             }
             advancePosition(4);
         }
-
 
 		public void writeMultiByte (string value, Encoding charSet)
         {

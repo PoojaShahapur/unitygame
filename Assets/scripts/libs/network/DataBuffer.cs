@@ -15,6 +15,8 @@ namespace San.Guo
         protected CirculeBuffer m_sendBuffer;     // 发送缓冲区，压缩或者加密过的
 
         protected DynamicBuffer m_dynBuff;
+        protected ByteArray m_unCompressHeaderBA;            // 存放解压后的头的长度
+        protected ByteArray m_sendData;            // 存放发送的数据
 
         public DataBuffer()
         {
@@ -23,6 +25,8 @@ namespace San.Guo
             m_sendBuffer = new CirculeBuffer();
 
             m_dynBuff = new DynamicBuffer();
+            m_unCompressHeaderBA = new ByteArray();
+            m_sendData = new ByteArray();
         }
 
         public DynamicBuffer dynBuff
@@ -48,10 +52,28 @@ namespace San.Guo
 
         public void moveRaw2Msg()
         {
-            while (m_rawBuffer.popFront(true))
+            while (m_rawBuffer.popFront(true))  // 如果有数据
             {
-                m_rawBuffer.headerBA.position = 0;
+                m_rawBuffer.retBA.uncompress();
+                m_unCompressHeaderBA.writeUnsignedInt(m_rawBuffer.retBA.length);
+                m_msgBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
+                m_msgBuffer.pushBackBA(m_rawBuffer.retBA);      // 保存消息大小字段
             }
+        }
+
+        public void send()
+        {
+            m_sendBuffer.pushBackBA(m_sendData);
+        }
+
+        public ByteArray getMsg()
+        {
+            if(m_msgBuffer.popFront(true))
+            {
+                return m_msgBuffer.retBA;
+            }
+
+            return null;
         }
     }
 }
