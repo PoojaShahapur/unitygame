@@ -48,8 +48,11 @@ namespace San.Guo
          */
         public bool threadIO(Object param)
         {
-            // 读取数据
-
+            // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
+            foreach (NetTCPClient socket in m_id2SocketDic.Values)
+            {
+                socket.dataBuffer.moveRaw2Msg();
+            }
             return true;
         }
     }

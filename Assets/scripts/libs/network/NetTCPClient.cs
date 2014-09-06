@@ -7,13 +7,13 @@ namespace San.Guo
     public class NetTCPClient
     {
         // 发送和接收的超时时间
-        public int _sendTimeout = 3;
-        public int _revTimeout = 3;
+        public int m_sendTimeout = 3;
+        public int m_revTimeout = 3;
 
         public string m_host = "localhost";
         public int m_port = 50000;
 
-        protected Socket _socket = null;
+        protected Socket m_socket = null;
         protected DataBuffer m_dataBuffer;
 
         public NetTCPClient(string ip, int port)
@@ -22,10 +22,18 @@ namespace San.Guo
             m_port = port;
         }
 
+        public DataBuffer dataBuffer
+        {
+            get
+            {
+                return m_dataBuffer;
+            }
+        }
+
         // 连接服务器
         public bool Connect(string address, int remotePort)
         {
-            if (_socket != null && _socket.Connected)
+            if (m_socket != null && m_socket.Connected)
                 return true;
 
             IPHostEntry hostEntry = Dns.GetHostEntry(address);
@@ -36,9 +44,9 @@ namespace San.Guo
                     //获得远程服务器的地址
                     IPEndPoint ipe = new IPEndPoint(ip, remotePort);
                     // 创建socket
-                    _socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    m_socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                     // 开始连接
-                    _socket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), _socket);
+                    m_socket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), m_socket);
                     break;
                 }
                 catch (System.Exception e)
@@ -57,14 +65,14 @@ namespace San.Guo
             try
             {
                 // 与服务器取得连接
-                _socket.EndConnect(ar);
+                m_socket.EndConnect(ar);
 
                 // 设置timeout
-                _socket.SendTimeout = _sendTimeout;
-                _socket.ReceiveTimeout = _revTimeout;
+                m_socket.SendTimeout = m_sendTimeout;
+                m_socket.ReceiveTimeout = m_revTimeout;
 
                 // 接收从服务器返回的头信息
-                _socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
+                m_socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
             }
             catch (System.Exception e)
             {
@@ -91,7 +99,7 @@ namespace San.Guo
         {
             try
             {
-                int read = _socket.EndReceive(ar);          // 获取读取的长度
+                int read = m_socket.EndReceive(ar);          // 获取读取的长度
 
                 // 服务器断开连接
                 if (read < 1)
@@ -103,7 +111,7 @@ namespace San.Guo
                 m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
 
                 // 下一个读取
-                _socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);  
+                m_socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);  
             }
             catch (System.Exception e)
             {
@@ -115,13 +123,13 @@ namespace San.Guo
         // 发送消息
         public void Send()
         {
-            if (!_socket.Connected)
+            if (!m_socket.Connected)
                 return;
 
             NetworkStream ns;
-            lock (_socket)
+            lock (m_socket)
             {
-                ns = new NetworkStream(_socket);
+                ns = new NetworkStream(m_socket);
             }
 
             if (ns.CanWrite)
@@ -159,14 +167,14 @@ namespace San.Guo
         // 关闭连接
         public void Disconnect(int timeout)
         {
-            if (_socket.Connected)
+            if (m_socket.Connected)
             {
-                _socket.Shutdown(SocketShutdown.Receive);
-                _socket.Close(timeout);
+                m_socket.Shutdown(SocketShutdown.Receive);
+                m_socket.Close(timeout);
             }
             else
             {
-                _socket.Close();
+                m_socket.Close();
             }
         }
     }

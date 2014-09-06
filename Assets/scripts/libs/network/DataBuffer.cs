@@ -45,5 +45,13 @@ namespace San.Guo
         {
             m_rawBuffer.pushBack(m_dynBuff.buff, 0, m_dynBuff.size);
         }
+
+        public void moveRaw2Msg()
+        {
+            while (m_rawBuffer.popFront(true))
+            {
+                m_rawBuffer.headerBA.position = 0;
+            }
+        }
     }
 }

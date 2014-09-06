@@ -78,6 +78,22 @@ namespace San.Guo
             return capacity() == size;
         }
 
+        public ByteArray headerBA
+        {
+            get
+            {
+                return m_headerBA;
+            }
+        }
+
+        public ByteArray retBA
+        {
+            get
+            {
+                return m_retBA;
+            }
+        }
+
         /**
          * @brief 将数据尽量按照存储地址的从小到大排列
          */
@@ -129,7 +145,7 @@ namespace San.Guo
         /**
          *@brief 向存储空尾部添加一段内容
          */
-        public void pushBack(byte[] items, uint start, uint len)
+        public void pushBack(byte[] items, uint start, uint len, bool needlock = true)
         {
             if (!canAddData(len)) // 存储空间必须要比实际数据至少多 1
             {
@@ -162,11 +178,17 @@ namespace San.Guo
 
             m_last += len;
             m_last %= m_iCapacity;
-            m_size += len;
+            if (needlock)
+            {
+                if(lock(m_size))
+                {
+                    m_size += len;
+                }
+            }
         }
 
         /**
-         *@brief 向存储空头部添加一段内容
+         *@brief 向存储空头部添加一段内容，暂时功能未完成
          */
         public void pushFront(byte[] items)
         {
@@ -255,7 +277,7 @@ namespace San.Guo
             }
         }
 
-        protected bool checkHasMsg()
+        public bool checkHasMsg()
         {
             readByteToByteArray(m_headerBA, 4, false);
             if (m_headerBA.readUnsignedInt() <= m_size - 4)
@@ -287,7 +309,7 @@ namespace San.Guo
         /**
          *@brief 获取前面的数据
          */
-        public ByteArray popFront(bool check)
+        public bool popFront(bool check)
         {
             readByteToByteArray(m_headerBA, 4, false);
             uint msglen = m_headerBA.readUnsignedInt();
@@ -297,15 +319,17 @@ namespace San.Guo
                 {
                     removeByLen(4);
                     readByteToByteArray(m_retBA, msglen, true);
+                    return true;
                 }
             }
             else
             {
                 removeByLen(4);
                 readByteToByteArray(m_retBA, msglen, true);
+                return true;
             }
 
-            return m_retBA;
+            return false;
         }
     }
 }
