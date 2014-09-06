@@ -14,22 +14,32 @@ namespace San.Guo
         static public byte[] m_intByte = new byte[4];
         static public byte[] m_shortByte = new byte[2];
 
-        protected byte[] m_buff;            // 当前的缓冲区
-        protected uint m_length;            // 存储的数据的大小
+        //protected byte[] m_buff;            // 当前的缓冲区
+        //protected uint m_length;            // 存储的数据的大小
+        protected DynamicBuffer m_dynBuff;
         protected uint m_position;          // 当前可以读取的位置索引
         protected Endian m_endian;          // 大端小端
 
         public ByteArray()
         {
             m_endian = m_sEndian;
-            m_buff = new byte[64 * 1024];       // 默认大小 64 K
+            //m_buff = new byte[64 * 1024];       // 默认大小 64 K
+            m_dynBuff = new DynamicBuffer();
         }
 
-        public byte[] buff
+        //public byte[] buff
+        //{
+        //    get
+        //    {
+        //        return m_buff;
+        //    }
+        //}
+
+        public DynamicBuffer dynBuff
         {
             get
             {
-                return m_buff;
+                return m_dynBuff;
             }
         }
 
@@ -37,7 +47,7 @@ namespace San.Guo
         {
             get
             {
-                return (m_length - m_position);
+                return (m_dynBuff.size - m_position);
             }
         }
 
@@ -57,11 +67,11 @@ namespace San.Guo
         {
             get
             {
-                return m_length;
+                return m_dynBuff.size;
             }
             set
             {
-                m_length = value;
+                m_dynBuff.size = value;
             }
         }
 
@@ -79,12 +89,37 @@ namespace San.Guo
 
 		public void clear ()
         {
-
+            m_position = 0;
+            m_dynBuff.size = 0;
         }
 
-        public void advancePosition(uint num)
+        // 检查是否有足够的大小可以扩展
+        protected bool checkDelta(uint delta)
+        {
+            if(m_dynBuff.size + delta > m_dynBuff.capacity)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        protected void extendDeltaCapicity(uint delta)
+        {
+            if (m_dynBuff.capacity * 2 >= m_dynBuff.capacity + delta)
+            {
+                m_dynBuff.capacity *= 2;
+            }
+            else
+            {
+                m_dynBuff.capacity += delta;
+            }
+        }
+
+        protected void advancePosition(uint num)
         {
             m_position += num;
+            length = m_position;
         }
 
         public void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
@@ -99,29 +134,44 @@ namespace San.Guo
 
 		public bool readBoolean ()
         {
-            advancePosition(1);
-            return System.BitConverter.ToBoolean(m_buff, (int)(m_position - 1));
+            if (checkDelta(1))
+            {
+                advancePosition(1);
+                return System.BitConverter.ToBoolean(m_dynBuff.buff, (int)(m_position - 1));
+            }
+
+            return false;
         }
 
 		public int readByte ()
         {
-            advancePosition(1);
-            return System.BitConverter.ToInt32(m_buff, (int)(m_position - 1));
+            if (checkDelta(1))
+            {
+                advancePosition(1);
+                return System.BitConverter.ToInt32(m_dynBuff.buff, (int)(m_position - 1));
+            }
+
+            return 0;
         }
 
 		public int readInt ()
         {
-            advancePosition(4);
-            if(m_endian == m_sEndian)
+            if (checkDelta(1))
             {
-                return System.BitConverter.ToInt32(m_buff, (int)(m_position - 4));
+                advancePosition(4);
+                if (m_endian == m_sEndian)
+                {
+                    return System.BitConverter.ToInt32(m_dynBuff.buff, (int)(m_position - 4));
+                }
+                else
+                {
+                    Array.Copy(m_dynBuff.buff, (int)(m_position - 4), m_intByte, 0, 4);
+                    Array.Reverse(m_intByte);
+                    return System.BitConverter.ToInt32(m_intByte, 0);
+                }
             }
-            else
-            {
-                Array.Copy(m_buff, (int)(m_position - 4), m_intByte, 0, 4);
-                Array.Reverse(m_intByte);
-                return System.BitConverter.ToInt32(m_intByte, 0);
-            }
+
+            return 0;
         }
 
 		public string readMultiByte (uint length, Encoding charSet)
@@ -135,79 +185,112 @@ namespace San.Guo
             // Encoding  u16BE = Encoding.BigEndianUnicode;
             // Encoding  u32   = Encoding.UTF32;
             // 如果是 unicode ，需要大小端判断
-            advancePosition(length);
-            return charSet.GetString(m_buff, (int)m_position, (int)length);
+            if (checkDelta(length))
+            {
+                advancePosition(length);
+                return charSet.GetString(m_dynBuff.buff, (int)m_position, (int)length);
+            }
+
+            return "";
         }
 
 		public int readShort ()
         {
-            advancePosition(2);
-            if(m_endian == m_sEndian)
+            if (checkDelta(2))
             {
-                return System.BitConverter.ToInt32(m_buff, (int)(m_position - 2));
+                advancePosition(2);
+                if (m_endian == m_sEndian)
+                {
+                    return System.BitConverter.ToInt32(m_dynBuff.buff, (int)(m_position - 2));
+                }
+                else
+                {
+                    Array.Copy(m_dynBuff.buff, (int)(m_position - 2), m_shortByte, 0, 2);
+                    Array.Reverse(m_intByte);
+                    return System.BitConverter.ToInt16(m_shortByte, 0);
+                }
             }
-            else
-            {
-                Array.Copy(m_buff, (int)(m_position - 2), m_shortByte, 0, 2);
-                Array.Reverse(m_intByte);
-                return System.BitConverter.ToInt16(m_shortByte, 0);
-            }
+
+            return 0;
         }
 
 		public uint readUnsignedByte ()
         {
-            advancePosition(1);
-            return System.BitConverter.ToUInt32(m_buff, (int)(m_position - 1));
+            if (checkDelta(1))
+            {
+                advancePosition(1);
+                return System.BitConverter.ToUInt32(m_dynBuff.buff, (int)(m_position - 1));
+            }
+
+            return 0;
         }
 
 		public uint readUnsignedInt ()
         {
-            advancePosition(4);
-            if(m_endian == m_sEndian)
+            if (checkDelta(4))
             {
-                return System.BitConverter.ToUInt32(m_buff, (int)(m_position - 4));
+                advancePosition(4);
+                if (m_endian == m_sEndian)
+                {
+                    return System.BitConverter.ToUInt32(m_dynBuff.buff, (int)(m_position - 4));
+                }
+                else
+                {
+                    Array.Copy(m_dynBuff.buff, (int)(m_position - 4), m_intByte, 0, 4);
+                    Array.Reverse(m_intByte);
+                    return System.BitConverter.ToUInt32(m_intByte, 0);
+                }
             }
-            else
-            {
-                Array.Copy(m_buff, (int)(m_position - 4), m_intByte, 0, 4);
-                Array.Reverse(m_intByte);
-                return System.BitConverter.ToUInt32(m_intByte, 0);
-            }
+
+            return 0;
         }
 
 		public uint readUnsignedShort ()
         {
-            advancePosition(2);
-            if(m_endian == m_sEndian)
+            if (checkDelta(4))
             {
-                return System.BitConverter.ToUInt32(m_buff, (int)(m_position - 2));
+                advancePosition(2);
+                if (m_endian == m_sEndian)
+                {
+                    return System.BitConverter.ToUInt32(m_dynBuff.buff, (int)(m_position - 2));
+                }
+                else
+                {
+                    Array.Copy(m_dynBuff.buff, (int)(m_position - 2), m_shortByte, 0, 2);
+                    Array.Reverse(m_intByte);
+                    return System.BitConverter.ToUInt32(m_shortByte, 0);
+                }
             }
-            else
-            {
-                Array.Copy(m_buff, (int)(m_position - 2), m_shortByte, 0, 2);
-                Array.Reverse(m_intByte);
-                return System.BitConverter.ToUInt32(m_shortByte, 0);
-            }
+
+            return 0;
         }
 
 		public void writeByte (byte value)
         {
-            m_buff[m_position] = value;
+            if (!checkDelta(1))
+            {
+                extendDeltaCapicity(1);
+            }
+            m_dynBuff.buff[m_position] = value;
             advancePosition(1);
         }
 
 		public void writeInt (int value)
         {
+            if (!checkDelta(4))
+            {
+                extendDeltaCapicity(4);
+            }
             if (m_endian == m_sEndian)
             {
                 m_intByte = System.BitConverter.GetBytes(value);
-                Array.Copy(m_intByte, 0, m_buff, m_position, 4);
+                Array.Copy(m_intByte, 0, m_dynBuff.buff, m_position, 4);
             }
             else
             {
                 m_intByte = System.BitConverter.GetBytes(value);
                 Array.Reverse(m_intByte);
-                Array.Copy(m_intByte, 0, m_buff, m_position, 4);
+                Array.Copy(m_intByte, 0, m_dynBuff.buff, m_position, 4);
             }
             advancePosition(4);
         }
@@ -216,45 +299,64 @@ namespace San.Guo
         {
             char[] charPtr = value.ToCharArray();
             int num = charSet.GetByteCount(charPtr);
-            Array.Copy(charSet.GetBytes(charPtr), 0, m_buff, m_position, num);
+
+            if (!checkDelta((uint)num))
+            {
+                extendDeltaCapicity((uint)num);
+            }
+
+            Array.Copy(charSet.GetBytes(charPtr), 0, m_dynBuff.buff, m_position, num);
             advancePosition((uint)num);
         }
 
 		public void writeShort (short value)
         {
+            if (!checkDelta(2))
+            {
+                extendDeltaCapicity(2);
+            }
+
             if (m_endian == m_sEndian)
             {
                 m_shortByte = System.BitConverter.GetBytes(value);
-                Array.Copy(m_shortByte, 0, m_buff, m_position, 2);
+                Array.Copy(m_shortByte, 0, m_dynBuff.buff, m_position, 2);
             }
             else
             {
                 m_shortByte = System.BitConverter.GetBytes(value);
                 Array.Reverse(m_shortByte);
-                Array.Copy(m_shortByte, 0, m_buff, m_position, 2);
+                Array.Copy(m_shortByte, 0, m_dynBuff.buff, m_position, 2);
             }
             advancePosition(2);
         }
 
 		public void writeUnsignedInt (uint value)
         {
+            if (!checkDelta(4))
+            {
+                extendDeltaCapicity(4);
+            }
             if (m_endian == m_sEndian)
             {
                 m_intByte = System.BitConverter.GetBytes(value);
-                Array.Copy(m_intByte, 0, m_buff, m_position, 4);
+                Array.Copy(m_intByte, 0, m_dynBuff.buff, m_position, 4);
             }
             else
             {
                 m_intByte = System.BitConverter.GetBytes(value);
                 Array.Reverse(m_intByte);
-                Array.Copy(m_intByte, 0, m_buff, m_position, 4);
+                Array.Copy(m_intByte, 0, m_dynBuff.buff, m_position, 4);
             }
             advancePosition(4);
         }
 
         public void writeBytes(byte[] value, uint start, uint length)
         {
-            Array.Copy(value, start, m_buff, m_position, length);
+            if (!checkDelta(length))
+            {
+                extendDeltaCapicity(length);
+            }
+            Array.Copy(value, start, m_dynBuff.buff, m_position, length);
             advancePosition(length);
         }
     }

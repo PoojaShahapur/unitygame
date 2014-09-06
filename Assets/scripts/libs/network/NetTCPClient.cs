@@ -20,6 +20,8 @@ namespace San.Guo
         {
             m_host = ip;
             m_port = port;
+
+            m_dataBuffer = new DataBuffer();
         }
 
         public DataBuffer dataBuffer
@@ -52,6 +54,7 @@ namespace San.Guo
                 catch (System.Exception e)
                 {
                     // 连接失败
+                    Context.instance.m_log.log(e.Message);
                     return false;
                 }
             }
@@ -82,10 +85,12 @@ namespace San.Guo
                     if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused)
                     {
                         // 输出日志
+                        Context.instance.m_log.log(e.Message);
                     }
                     else
                     {
                         // 输出日志
+                        Context.instance.m_log.log(e.Message);
                     }
                 }
 
@@ -116,6 +121,7 @@ namespace San.Guo
             catch (System.Exception e)
             {
                 // 输出日志
+                Context.instance.m_log.log(e.Message);
                 Disconnect(0);
             }
         }
@@ -144,9 +150,10 @@ namespace San.Guo
                     //ns.BeginWrite(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, new System.AsyncCallback(SendCallback), ns);
                     m_dataBuffer.sendBuffer.getByte2Stream(ns, new System.AsyncCallback(SendCallback));
                 }
-                catch (System.Exception )
+                catch (System.Exception e)
                 {
                     // 输出日志
+                    Context.instance.m_log.log(e.Message);
                     Disconnect(0);
                 }
             }
@@ -162,9 +169,10 @@ namespace San.Guo
                 ns.Flush();
                 ns.Close();
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 // 输出日志
+                Context.instance.m_log.log(e.Message);
                 Disconnect(0);
             }
 

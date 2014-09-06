@@ -5,28 +5,34 @@ using System.Text;
 
 namespace San.Guo
 {
-    public class DB
+    public class Context
     {
         public INetworkMgr m_netMgr;
         public Config m_cfg;
-        static public DB m_instance;
+        static public Context m_instance;
+        public ILogger m_log;
 
-        static public DB instance
+        public Context()
+        {
+
+        }
+
+        static public Context instance
         {
             get
             {
                 if(m_instance == null)
                 {
-                    m_instance = new DB();
+                    m_instance = new Context();
                 }
 
                 return m_instance;
             }
         }
 
-        public void Awark()
+        public void Awake()
         {
-            m_netMgr = new NetworkMgr();
+            
         }
 
         // Use this for initialization

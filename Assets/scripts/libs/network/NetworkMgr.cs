@@ -66,7 +66,12 @@ namespace San.Guo
 
         public ByteArray getMsg()
         {
-            return m_curSocket.dataBuffer.getMsg();
+            if (m_curSocket != null)
+            {
+                return m_curSocket.dataBuffer.getMsg();
+            }
+
+            return null;
         }
     }
 }

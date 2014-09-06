@@ -10,6 +10,8 @@ namespace San.Guo
 {
     public class CirculeBuffer
     {
+        static public uint m_sHeaderSize = 4;   // 包长度占据几个字节
+
         // 这里面的 byte[] 会频繁操作，就直接写在这里
         protected uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
         protected uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
@@ -133,15 +135,15 @@ namespace San.Guo
             {
                 return;
             }
-            char[] buff = new char[newCapacity];   // 分配新的空间
+            byte[] tmpbuff = new byte[newCapacity];   // 分配新的空间
             if (isLinearized()) // 如果是在一段内存空间
             {
-                Array.Copy(m_buff, 0, buff, 0, m_size);
+                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);
             }
             else    // 如果在两端内存空间
             {
-                Array.Copy(m_buff, m_first, buff, 0, m_iCapacity - m_first);
-                Array.Copy(m_buff, 0, buff, m_iCapacity - m_first, m_last);
+                Array.Copy(m_buff, m_first, tmpbuff, 0, m_iCapacity - m_first);
+                Array.Copy(m_buff, 0, tmpbuff, m_iCapacity - m_first, m_last);
             }
 
             m_first = 0;
@@ -194,7 +196,7 @@ namespace San.Guo
 
         public void pushBackBA(ByteArray ba)
         {
-            pushBack(ba.buff, ba.position, ba.bytesAvailable);
+            pushBack(ba.dynBuff.buff, ba.position, ba.bytesAvailable);
         }
 
         /**
@@ -259,6 +261,7 @@ namespace San.Guo
 
         protected void readByteToByteArray(ByteArray bytearray, uint len, bool movefirst)
         {
+            bytearray.clear();         // 设置数据为初始值
             if (m_size >= len)        // 头部占据 4 个字节
             {
                 if(isLinearized())  // 在一段连续的内存
@@ -287,12 +290,14 @@ namespace San.Guo
                     }
                 }
             }
+
+            bytearray.position = 0;        // 设置数据读取起始位置
         }
 
         protected bool checkHasMsg()
         {
-            readByteToByteArray(m_headerBA, 4, false);
-            if (m_headerBA.readUnsignedInt() <= m_size - 4)
+            readByteToByteArray(m_headerBA, m_sHeaderSize, false);  // 将数据读取到 m_headerBA
+            if (m_headerBA.readUnsignedInt() <= m_size - m_sHeaderSize)
             {
                 return true;
             }
@@ -323,25 +328,32 @@ namespace San.Guo
          */
         public bool popFront(bool check)
         {
-            readByteToByteArray(m_headerBA, 4, false);
-            uint msglen = m_headerBA.readUnsignedInt();
-            if(check)
+            m_visitMutex.WaitOne();
+            bool ret = false;
+            if (m_size > m_sHeaderSize)         // 至少要是 m_sHeaderSize 大小加 1 ，如果正好是 m_sHeaderSize ，那只能说是只有大小字段，没有内容
             {
-                if (msglen <= m_size - 4)
+                readByteToByteArray(m_headerBA, m_sHeaderSize, false);
+                uint msglen = m_headerBA.readUnsignedInt();
+                if (check)
                 {
-                    removeByLen(4);
-                    readByteToByteArray(m_retBA, msglen, true);
-                    return true;
+                    if (msglen <= m_size - m_sHeaderSize)
+                    {
+                        removeByLen(m_sHeaderSize);
+                        readByteToByteArray(m_retBA, msglen, true);
+                        ret = true;
+                    }
                 }
-            }
-            else
-            {
-                removeByLen(4);
-                readByteToByteArray(m_retBA, msglen, true);
-                return true;
-            }
+                else
+                {
+                    removeByLen(m_sHeaderSize);
+                    readByteToByteArray(m_retBA, msglen, true);
+                    ret = true;
+                }
 
-            return false;
+                ret = false;
+            }
+            m_visitMutex.ReleaseMutex();
+            return ret;
         }
 
         /**
