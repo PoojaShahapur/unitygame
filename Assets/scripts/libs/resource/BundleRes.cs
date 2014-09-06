@@ -1,11 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using UnityEngine;
+using System.Collections;
 
-namespace Assets.scripts.libs.resource
+namespace San.Guo
 {
-    class BundleRes
+    public class BundleRes : Res
     {
+        AssetBundle m_bundle;
+        public BundleRes(string path)
+            : base(path)
+        {
+
+        }
+
+        override public void init(LoadItem item)
+        {
+            m_bundle = item.w3File.assetBundle;
+            StartCoroutine(initAsset());
+        }
+
+        override public IEnumerator initAsset()
+        {
+            Instantiate(m_bundle.Load("cube"));
+            yield return null;
+            m_bundle.Unload(false);
+
+            if (onInited != null)
+            {
+                onInited();
+            }
+        }
     }
 }

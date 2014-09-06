@@ -54,7 +54,7 @@ namespace San.Guo
                 catch (System.Exception e)
                 {
                     // 连接失败
-                    Context.instance.m_log.log(e.Message);
+                    Ctx.m_instance.m_log.log(e.Message);
                     return false;
                 }
             }
@@ -85,12 +85,12 @@ namespace San.Guo
                     if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused)
                     {
                         // 输出日志
-                        Context.instance.m_log.log(e.Message);
+                        Ctx.m_instance.m_log.log(e.Message);
                     }
                     else
                     {
                         // 输出日志
-                        Context.instance.m_log.log(e.Message);
+                        Ctx.m_instance.m_log.log(e.Message);
                     }
                 }
 
@@ -121,7 +121,7 @@ namespace San.Guo
             catch (System.Exception e)
             {
                 // 输出日志
-                Context.instance.m_log.log(e.Message);
+                Ctx.m_instance.m_log.log(e.Message);
                 Disconnect(0);
             }
         }
@@ -153,7 +153,7 @@ namespace San.Guo
                 catch (System.Exception e)
                 {
                     // 输出日志
-                    Context.instance.m_log.log(e.Message);
+                    Ctx.m_instance.m_log.log(e.Message);
                     Disconnect(0);
                 }
             }
@@ -172,7 +172,7 @@ namespace San.Guo
             catch (System.Exception e)
             {
                 // 输出日志
-                Context.instance.m_log.log(e.Message);
+                Ctx.m_instance.m_log.log(e.Message);
                 Disconnect(0);
             }
 

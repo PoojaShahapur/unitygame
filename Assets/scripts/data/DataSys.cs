@@ -10,16 +10,19 @@ public class DataSys : MonoBehaviour
     {
         DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
 
-        Context.instance.Awake();
+        Ctx.m_instance = new Ctx();
+        Ctx.m_instance.Awake();
+        Ctx.m_instance.m_netMgr = new NetworkMgr();
+        Ctx.m_instance.m_cfg = new Config();
+        Ctx.m_instance.m_log = new Logger();
+        Ctx.m_instance.m_resMgr = new ResMgr();
+        Ctx.m_instance.m_dataTrans = transform;
     }
 
 	// Use this for initialization
 	void Start () 
     {
-        Context.instance.m_netMgr = new NetworkMgr();
-        Context.instance.m_cfg = new Config();
-        Context.instance.m_log = new Logger();
-        Context.instance.Start();
+        Ctx.m_instance.Start();
 	}
 	
 	// Update is called once per frame
@@ -32,7 +35,7 @@ public class DataSys : MonoBehaviour
             GameObject.Destroy(nodestroy[1]);
         }
 
-        Context.instance.Update();
+        Ctx.m_instance.Update();
 	}
 
     void OnApplicationQuit()

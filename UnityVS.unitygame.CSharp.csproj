@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\data\Config.cs" />
-    <Compile Include="Assets\scripts\data\Context.cs" />
+    <Compile Include="Assets\scripts\data\Ctx.cs" />
     <Compile Include="Assets\scripts\data\DataSys.cs" />
     <Compile Include="Assets\scripts\libs\network\CircleBuffer.cs" />
     <Compile Include="Assets\scripts\libs\network\DataBuffer.cs" />
@@ -62,10 +60,13 @@
     <Compile Include="Assets\scripts\libs\network\NetTCPClient.cs" />
     <Compile Include="Assets\scripts\libs\network\NetworkMgr.cs" />
     <Compile Include="Assets\scripts\libs\resource\BundleRes.cs" />
+    <Compile Include="Assets\scripts\libs\resource\IResMgr.cs" />
     <Compile Include="Assets\scripts\libs\resource\LevelRes.cs" />
     <Compile Include="Assets\scripts\libs\resource\LoadItem.cs" />
+    <Compile Include="Assets\scripts\libs\resource\LoadParam.cs" />
     <Compile Include="Assets\scripts\libs\resource\Res.cs" />
     <Compile Include="Assets\scripts\libs\resource\ResMgr.cs" />
+    <Compile Include="Assets\scripts\libs\resource\ResType.cs" />
     <Compile Include="Assets\scripts\libs\thread\ThreadWrap.cs" />
     <Compile Include="Assets\scripts\libs\tool\ByteArray.cs" />
     <Compile Include="Assets\scripts\libs\tool\ByteUtil.cs" />
@@ -73,10 +74,10 @@
     <Compile Include="Assets\scripts\libs\tool\DynamicBuffer.cs" />
     <Compile Include="Assets\scripts\libs\tool\Endian.cs" />
     <Compile Include="Assets\scripts\libs\tool\ILogger.cs" />
-    <Compile Include="Assets\scripts\libs\tool\Logger.cs" />
     <Compile Include="Assets\scripts\libs\tool\LogColor.cs" />
+    <Compile Include="Assets\scripts\libs\tool\Logger.cs" />
+    <Compile Include="Assets\scripts\test\TestLoadLevel.cs" />
     <None Include="Assets\scripts\readme.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
