@@ -51,18 +51,17 @@ namespace San.Guo
                 Res resitem = findResFormPool(param.m_type, param.m_resNeedCoroutine);
                 if (!resitem)
                 {
+                    m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LevelRes>() as LevelRes;
                     if (!param.m_resNeedCoroutine)
                     {
-                        m_path2Res[param.m_path] = new LevelRes();
-                    }
-                    else
-                    {
-                        m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LevelRes>() as LevelRes;
+                        //m_path2Res[param.m_path] = new LevelRes();
+                        m_path2Res[param.m_path].enabled = false;
                     }
                 }
                 else
                 {
                     m_path2Res[param.m_path] = resitem;
+                    m_path2Res[param.m_path].enabled = true;
                 }
                 
                 (m_path2Res[param.m_path] as LevelRes).levelName = param.m_lvlName;
@@ -75,14 +74,17 @@ namespace San.Guo
             LoadItem loaditem = findLoadItemFormPool(param.m_type, param.m_resNeedCoroutine);
             if (!loaditem)
             {
+                loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LoadItem>() as LoadItem; loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LoadItem>() as LoadItem;
+
                 if (!param.m_loadNeedCoroutine)
                 {
-                    loaditem = new LoadItem();
+                    // loaditem = new LoadItem();
+                    loaditem.enabled = false;
                 }
-                else
-                {
-                    loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LoadItem>() as LoadItem;
-                }
+            }
+            else
+            {
+                loaditem.enabled = true;
             }
 
             loaditem.path = param.m_path;

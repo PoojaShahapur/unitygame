@@ -9,8 +9,8 @@ namespace San.Guo
      */
     public class StartRoot : MonoBehaviour
     {
-        private string m_SceneURL = "http://127.0.0.1/Level1.unity3d";
-        private string m_levelName = "Level";
+        private string m_SceneURL = "http://127.0.0.1/app.unity3d";
+        private string m_levelName = "app";
         // Use this for initialization
         void Start()
         {
