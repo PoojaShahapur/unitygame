@@ -6,9 +6,10 @@ namespace San.Guo
 {
     public class BundleRes : Res
     {
-        AssetBundle m_bundle;
-        public BundleRes(string path)
-            : base(path)
+        protected AssetBundle m_bundle;
+        //public BundleRes(string path)
+        //    : base(path)
+        public BundleRes()
         {
 
         }
@@ -16,10 +17,17 @@ namespace San.Guo
         override public void init(LoadItem item)
         {
             m_bundle = item.w3File.assetBundle;
-            StartCoroutine(initAsset());
+            if (m_resNeedCoroutine)
+            {
+                StartCoroutine(initAssetByCoroutine());
+            }
+            else
+            {
+                initAsset();
+            }
         }
 
-        override public IEnumerator initAsset()
+        override public IEnumerator initAssetByCoroutine()
         {
             Instantiate(m_bundle.Load("cube"));
             yield return null;
@@ -29,6 +37,23 @@ namespace San.Guo
             {
                 onInited();
             }
+        }
+
+        override public void initAsset()
+        {
+            Instantiate(m_bundle.Load("cube"));
+            m_bundle.Unload(false);
+
+            if (onInited != null)
+            {
+                onInited();
+            }
+        }
+
+        override public void reset()
+        {
+            base.reset();
+            m_bundle = null;
         }
     }
 }

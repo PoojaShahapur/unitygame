@@ -2,9 +2,11 @@
 using System.Collections;
 using San.Guo;
 
-public class TestLoadLevel : MonoBehaviour {
+public class TestLoadLevel : MonoBehaviour 
+{
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
         
 	}
 	

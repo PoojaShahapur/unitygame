@@ -8,10 +8,11 @@ namespace San.Guo
     {
         protected string m_levelName;
 
-        public LevelRes(string path, string lvlname)
-            : base(path)
+        //public LevelRes(string path, string lvlname)
+        //    : base(path)
+        public LevelRes()
         {
-            m_levelName = lvlname;
+            //m_levelName = lvlname;
         }
 
         public string levelName
@@ -28,10 +29,10 @@ namespace San.Guo
 
         override public void init(LoadItem item)
         {
-            StartCoroutine(initAsset());
+            StartCoroutine(initAssetByCoroutine());
         }
 
-        override public IEnumerator initAsset()
+        override public IEnumerator initAssetByCoroutine()
         {
             AsyncOperation async = Application.LoadLevelAsync(m_levelName);
             yield return async;
@@ -40,6 +41,12 @@ namespace San.Guo
             {
                 onInited();
             }
+        }
+
+        override public void reset()
+        {
+            base.reset();
+            m_levelName = "";
         }
     }
 }

@@ -6,16 +6,30 @@ namespace San.Guo
 {
     public class LoadItem : MonoBehaviour
     {
+        protected ResType m_type;
         protected string m_path;
         protected WWW m_w3File;
+        protected bool m_loadNeedCoroutine;    // 加载是否需要协同程序
 
-        public LoadItem(string path)
+        //public LoadItem(string path)
+        public LoadItem()
         {
-            m_path = path;
+            //m_path = path;
         }
 
-        public delegate void loaded(Component path);
+        public delegate void loaded(LoadItem item);
         public loaded onLoaded;
+        public ResType type
+        {
+            get
+            {
+                return m_type;
+            }
+            set
+            {
+                m_type = value;
+            }
+        }
 
         public string path
         {
@@ -37,6 +51,18 @@ namespace San.Guo
             }
         }
 
+        public bool loadNeedCoroutine
+        {
+            get
+            {
+                return m_loadNeedCoroutine;
+            }
+            set
+            {
+                m_loadNeedCoroutine = value;
+            }
+        }
+
         public void load()
         {
             StartCoroutine(downloadAsset());
@@ -51,6 +77,15 @@ namespace San.Guo
             {
                 onLoaded(this);
             }
+        }
+
+        public void reset()
+        {
+            //m_type = ResType.eNoneType;
+            m_path = "";
+            //m_loadNeedCoroutine = false;
+            m_w3File = null;
+            m_loadNeedCoroutine = false;
         }
     }
 }
