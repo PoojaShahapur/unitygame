@@ -184,6 +184,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+    <Compile Include="Assets\scripts\AgentLocomotion.cs" />
     <Compile Include="Assets\scripts\data\Config.cs" />
     <Compile Include="Assets\scripts\data\Ctx.cs" />
     <Compile Include="Assets\scripts\data\DataSys.cs" />
