@@ -9,8 +9,8 @@ namespace SDK.Lib
      */
     public class StartRoot : MonoBehaviour
     {
-        private string m_SceneURL = "http://127.0.0.1/app.unity3d";
-        private string m_levelName = "app";
+        private string m_SceneURL = "http://127.0.0.1/App.unity3d";
+        private string m_levelName = "App";
         // Use this for initialization
         void Start()
         {

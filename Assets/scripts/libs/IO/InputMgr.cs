@@ -8,7 +8,7 @@ namespace SDK.Lib
     class InputMgr : IInputMgr
     {
         public delegate bool onKeyUp(KeyCode value);
-        onKeyUp m_onKeyUp;
+        onKeyUp m_onKeyUp = null;
 
         public void handleKeyBoard()
         {

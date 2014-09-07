@@ -65,9 +65,9 @@ namespace Game.App
         {
             // 初始化完成，开始加载自己的游戏场景
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-            param.m_path = "game.unity3d";
+            param.m_path = "Game.unity3d";
             param.m_type = ResType.eLevelType;
-            param.m_lvlName = "game";
+            param.m_lvlName = "Game";
             Ctx.m_instance.m_resMgr.load(param);
         }
     }

@@ -72,7 +72,8 @@ namespace SDK.Lib
         IEnumerator downloadAsset()
         {
             string path = Ctx.m_instance.m_cfg.m_webIP + m_path;
-            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+            //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
+            m_w3File = WWW.LoadFromCacheOrDownload(path, 140);
             yield return m_w3File;
             if(onLoaded != null)
             {

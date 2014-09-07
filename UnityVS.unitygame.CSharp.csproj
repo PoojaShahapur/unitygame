@@ -187,6 +187,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\Scripts\AgentLocomotion.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\IEventHandle.cs" />
     <Compile Include="Assets\Scripts\Common\IO\IInputMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\IBundleRes.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\ILevelRes.cs" />

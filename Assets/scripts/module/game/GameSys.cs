@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace Game.Game
 {
-    public class GameSys
+    public class GameSys : IEventHandle
     {
         static public GameSys m_instance;
         public Ctx m_ctx;
@@ -26,6 +26,7 @@ namespace Game.Game
                 param.m_path = "UIScrollForm.assetbundle";
                 param.m_type = ResType.eBundleType;
                 param.m_prefabName = "UIScrollForm";
+                param.m_cb = this;
                 Ctx.m_instance.m_resMgr.load(param);
             }
         }
@@ -33,7 +34,8 @@ namespace Game.Game
         public void onResLoad(IRes res)
         {
             GameObject go = (res as IBundleRes).InstantiateObject("UIScrollForm");
-            //go.transform.parent = ;
+            GameObject nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
+            go.transform.parent = nodestroy.transform;
         }
     }
 }

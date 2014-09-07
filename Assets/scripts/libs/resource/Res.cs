@@ -16,8 +16,8 @@ namespace SDK.Lib
 
         protected uint m_refNum;                // 引用计数
 
-        protected delegate void Init(IRes res);
-        protected Init onInited;
+        public delegate void Init(IRes res);
+        public Init onInited;
 
         //public Res(string path)
         public Res()
@@ -94,6 +94,18 @@ namespace SDK.Lib
             set
             {
                 m_refNum = value;
+            }
+        }
+
+        public Init onInitedCB
+        {
+            get
+            {
+                return onInited;
+            }
+            set
+            {
+                onInited = value;
             }
         }
 

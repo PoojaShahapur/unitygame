@@ -8,7 +8,7 @@ using Game.App;
  */
 public class AppRoot : MonoBehaviour 
 {
-    public AppSys m_AppSys;
+    private AppSys m_AppSys;
 
     void Awake()
     {
