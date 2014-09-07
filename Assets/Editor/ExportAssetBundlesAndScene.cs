@@ -52,11 +52,14 @@ public class ExportAssetBundlesAndScen
             string destpath;
             //string outpath = "Assets/game/scene";
             // 这个是要保存在本地的 unity 文件，如果没有保存场景，一定要先保存，然后才能导出 assetbundle
-            levelssrc.Add("Assets/scene/app.unity");
-            levelsdst.Add("Assets/game/scene/app.unity3d");
+            levelssrc.Add("Assets/Scenes/App.unity");
+            levelsdst.Add("Assets/Game/Scene/App.unity3d");
 
-            levelssrc.Add("Assets/scene/game.unity");
-            levelsdst.Add("Assets/game/scene/game.unity3d");
+            levelssrc.Add("Assets/Scenes/Game.unity");
+            levelsdst.Add("Assets/game/scene/Game.unity3d");
+
+            levelssrc.Add("Assets/Scenes/cave.unity");
+            levelsdst.Add("Assets/Game/Scene/cave.unity3d");
 
             int idx = 0;
             while (idx < levelssrc.Count)

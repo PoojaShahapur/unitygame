@@ -1,31 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
-using San.Guo;
+using SDK.Common;
+using Game.App;
 
 /**
  * @brief 这个模块主要是代码，核心代码都在这里，以后代码都放在这个里面
  */
 public class AppRoot : MonoBehaviour 
 {
-    public DataSys m_DataSys;
+    public AppSys m_AppSys;
 
     void Awake()
     {
-        m_DataSys = new DataSys();
-        m_DataSys.Awake(transform);
+        m_AppSys = new AppSys();
+        m_AppSys.Awake(transform);
     }
 	// Use this for initialization
 	void Start () 
     {
-        DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
-        m_DataSys.Start();
-
-        // 初始化完成，开始加载自己的游戏场景
-        LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-        param.m_path = "game.unity3d";
-        param.m_type = ResType.eLevelType;
-        param.m_lvlName = "game";
-        Ctx.m_instance.m_resMgr.load(param);
+        //DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
+        m_AppSys.setNoDestroyObject();
+        m_AppSys.Start();
+        m_AppSys.loadScene();
 	}
 	
 	// Update is called once per frame
@@ -38,6 +34,11 @@ public class AppRoot : MonoBehaviour
             GameObject.Destroy(nodestroy[1]);
         }
 
-        m_DataSys.Update();
+        m_AppSys.Update();
 	}
+
+    public Ctx getCtx()
+    {
+        return Ctx.m_instance;
+    }
 }

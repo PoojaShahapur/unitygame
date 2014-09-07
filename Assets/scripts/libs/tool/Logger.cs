@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public class Logger : ILogger
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     /**
      *@brief 基本的线程 wrap

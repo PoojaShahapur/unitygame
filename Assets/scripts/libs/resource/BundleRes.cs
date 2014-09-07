@@ -1,17 +1,31 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
-    public class BundleRes : Res
+    public class BundleRes : Res, IBundleRes
     {
         protected AssetBundle m_bundle;
+        protected string m_prefabName;
         //public BundleRes(string path)
         //    : base(path)
         public BundleRes()
         {
 
+        }
+
+        public string prefabName
+        {
+            get
+            {
+                return m_prefabName;
+            }
+            set
+            {
+                m_prefabName = value;
+            }
         }
 
         override public void init(LoadItem item)
@@ -29,24 +43,24 @@ namespace San.Guo
 
         override public IEnumerator initAssetByCoroutine()
         {
-            Instantiate(m_bundle.Load("cube"));
+            Instantiate(m_bundle.Load(m_prefabName));
             yield return null;
             m_bundle.Unload(false);
 
             if (onInited != null)
             {
-                onInited();
+                onInited(this);
             }
         }
 
         override public void initAsset()
         {
-            Instantiate(m_bundle.Load("cube"));
-            m_bundle.Unload(false);
+            //Instantiate(m_bundle.Load(m_prefabName));
+            //m_bundle.Unload(false);
 
             if (onInited != null)
             {
-                onInited();
+                onInited(this);
             }
         }
 
@@ -54,6 +68,11 @@ namespace San.Guo
         {
             base.reset();
             m_bundle = null;
+        }
+
+        public GameObject InstantiateObject(string resname)
+        {
+            return Instantiate(m_bundle.Load(resname)) as GameObject;
         }
     }
 }

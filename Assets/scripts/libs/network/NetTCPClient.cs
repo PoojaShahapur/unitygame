@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public class NetTCPClient
     {

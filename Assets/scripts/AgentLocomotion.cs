@@ -75,7 +75,8 @@ public class AgentLocomotion : MonoBehaviour {
             //角色处于OffMeshLink，根据不同的地点，选择不同动画
             if( agent.isOnOffMeshLink ) {
                 locoState = SelectLinkAnimation();
-                return(true);
+                //return(true);
+                yield return null;
             }
         } while( agent.remainingDistance != 0 );
         //已经到达目标点，状态转为Stand

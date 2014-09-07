@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using San.Guo;
+using SDK.Lib;
+using SDK.Common;
 
 public class TestLoadLevel : MonoBehaviour 
 {

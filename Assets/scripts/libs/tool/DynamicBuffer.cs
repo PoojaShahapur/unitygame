@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     /**
      * @brief 动态增长的缓冲区，不是环形的，从 0 开始增长的

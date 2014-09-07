@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public class LevelRes : Res
     {
@@ -39,7 +39,7 @@ namespace San.Guo
 
             if(onInited != null)
             {
-                onInited();
+                onInited(this);
             }
         }
 

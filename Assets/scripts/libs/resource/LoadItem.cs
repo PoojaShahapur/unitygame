@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public class LoadItem : MonoBehaviour
     {

@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public class ResMgr : IResMgr
     {
@@ -35,7 +36,7 @@ namespace San.Guo
             }
         }
 
-        public Res load(LoadParam param)
+        public IRes load(LoadParam param)
         {
             if (m_path2Res.ContainsKey(param.m_path))
             {
@@ -46,9 +47,9 @@ namespace San.Guo
                 return m_path2Res[param.m_path];
             }
 
+            Res resitem = findResFormPool(param.m_type, param.m_resNeedCoroutine);
             if(param.m_type == ResType.eLevelType)
             {
-                Res resitem = findResFormPool(param.m_type, param.m_resNeedCoroutine);
                 if (!resitem)
                 {
                     m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LevelRes>() as LevelRes;
@@ -65,6 +66,24 @@ namespace San.Guo
                 }
                 
                 (m_path2Res[param.m_path] as LevelRes).levelName = param.m_lvlName;
+            }
+            else if (param.m_type == ResType.eBundleType)
+            {
+                if (!resitem)
+                {
+                    m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<BundleRes>() as BundleRes;
+                    if (!param.m_resNeedCoroutine)
+                    {
+                        m_path2Res[param.m_path].enabled = false;
+                    }
+                }
+                else
+                {
+                    m_path2Res[param.m_path] = resitem;
+                    m_path2Res[param.m_path].enabled = true;
+                }
+
+                (m_path2Res[param.m_path] as BundleRes).prefabName = param.m_prefabName;
             }
 
             m_path2Res[param.m_path].resNeedCoroutine = param.m_resNeedCoroutine;
@@ -182,6 +201,11 @@ namespace San.Guo
             }
 
             return null;
+        }
+
+        public LoadParam getLoadParam()
+        {
+            return m_loadParam;
         }
     }
 }

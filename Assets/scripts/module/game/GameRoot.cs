@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game.Game;
 
 public class GameRoot : MonoBehaviour 
 {
 	// Use this for initialization
 	void Start () 
     {
-	
+        GameSys.m_instance = new GameSys();
+        GameSys.m_instance.initGVar();
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-	
+	    // 处理
+        GameSys.m_instance.Update();
 	}
 
     void OnGUI()

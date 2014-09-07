@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
-    public class Res : MonoBehaviour
+    public class Res : MonoBehaviour, IRes
     {
         protected ResType m_type;
         protected string m_path;
@@ -15,7 +16,7 @@ namespace San.Guo
 
         protected uint m_refNum;                // 引用计数
 
-        protected delegate void Init();
+        protected delegate void Init(IRes res);
         protected Init onInited;
 
         //public Res(string path)

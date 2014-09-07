@@ -1,8 +1,8 @@
-﻿using San.Guo;
+﻿using SDK.Lib;
 using UnityEngine;
 using System.Collections;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     /**
      * @brief 这个模块主要是加载代码基础模块，然后加载游戏功能模块，然后加载资源

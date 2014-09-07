@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public enum Endian
     {

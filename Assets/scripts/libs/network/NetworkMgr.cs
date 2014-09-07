@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using San.Guo;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     public class NetworkMgr : INetworkMgr
     {
@@ -64,7 +64,7 @@ namespace San.Guo
             return true;
         }
 
-        public ByteArray getMsg()
+        public IByteArray getMsg()
         {
             if (m_curSocket != null)
             {

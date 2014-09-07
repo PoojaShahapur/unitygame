@@ -6,7 +6,7 @@ using System.Threading;
 /**
  *@brief 环形缓冲区，不支持多线程写操作，但是支持单线程写，单线程读操作
  */
-namespace San.Guo
+namespace SDK.Lib
 {
     public class CirculeBuffer
     {

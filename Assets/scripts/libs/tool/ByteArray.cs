@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SDK.Common;
 
-namespace San.Guo
+namespace SDK.Lib
 {
     /**
      *@brief 类似 flash 的 ByteArray 功能
      */
-    public class ByteArray
+    public class ByteArray : IByteArray
     {
         static public Endian m_sEndian = Endian.NONE_ENDIAN;     // 当前机器的编码
         static public byte[] m_intByte = new byte[4];
