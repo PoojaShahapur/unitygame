@@ -57,7 +57,9 @@ namespace Game.App
 
             nodestroy = GameObject.FindGameObjectWithTag("Camera");
             DontDestroyOnLoad(nodestroy);
+            // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
             nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
+            //nodestroy.transform.localScale = Vector3.one;
             DontDestroyOnLoad(nodestroy);
         }
 

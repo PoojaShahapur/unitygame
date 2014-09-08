@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -187,36 +185,36 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\Scripts\AgentLocomotion.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\IEventHandle.cs" />
-    <Compile Include="Assets\Scripts\Common\IO\IInputMgr.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\IBundleRes.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\ILevelRes.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\IRes.cs" />
     <Compile Include="Assets\Scripts\Common\Data\Config.cs" />
     <Compile Include="Assets\Scripts\Common\Data\Ctx.cs" />
+    <Compile Include="Assets\Scripts\Common\IO\IInputMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\INetworkMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\IBundleRes.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\IEventHandle.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\ILevelRes.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\IRes.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\IResMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\LoadParam.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\ResType.cs" />
+    <Compile Include="Assets\Scripts\Common\Tool\CompressionAlgorithm.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\IByteArray.cs" />
+    <Compile Include="Assets\Scripts\Common\Tool\ILogger.cs" />
+    <Compile Include="Assets\Scripts\Common\Tool\LogColor.cs" />
     <Compile Include="Assets\Scripts\Libs\IO\InputMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Network\CircleBuffer.cs" />
     <Compile Include="Assets\Scripts\Libs\Network\DataBuffer.cs" />
-    <Compile Include="Assets\Scripts\Common\Network\INetworkMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Network\NetTCPClient.cs" />
     <Compile Include="Assets\Scripts\Libs\Network\NetworkMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\BundleRes.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\IResMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\LevelRes.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\LoadItem.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\LoadParam.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\Res.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\ResMgr.cs" />
-    <Compile Include="Assets\Scripts\Common\Resource\ResType.cs" />
     <Compile Include="Assets\Scripts\Libs\Thread\ThreadWrap.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\ByteArray.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\ByteUtil.cs" />
-    <Compile Include="Assets\Scripts\Common\Tool\CompressionAlgorithm.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\DynamicBuffer.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\Endian.cs" />
-    <Compile Include="Assets\Scripts\Common\Tool\ILogger.cs" />
-    <Compile Include="Assets\Scripts\Common\Tool\LogColor.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\Logger.cs" />
     <Compile Include="Assets\Scripts\Module\App\AppRoot.cs" />
     <Compile Include="Assets\Scripts\Module\App\AppSys.cs" />
@@ -225,6 +223,7 @@
     <Compile Include="Assets\Scripts\Module\Game\GameSys.cs" />
     <Compile Include="Assets\Scripts\Module\Start\StartRoot.cs" />
     <Compile Include="Assets\Scripts\Test\TestLoadLevel.cs" />
+    <Compile Include="Assets\Scripts\Test\TestNguiLocalScale.cs" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
