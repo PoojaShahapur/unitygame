@@ -48,7 +48,7 @@ namespace SDK.Lib
             }
 
             Res resitem = findResFormPool(param.m_type, param.m_resNeedCoroutine);
-            if(param.m_type == ResType.eLevelType)
+            if (param.m_type == ResPackType.eLevelType)
             {
                 if (!resitem)
                 {
@@ -67,7 +67,7 @@ namespace SDK.Lib
                 
                 (m_path2Res[param.m_path] as LevelRes).levelName = param.m_lvlName;
             }
-            else if (param.m_type == ResType.eBundleType)
+            else if (param.m_type == ResPackType.eBundleType)
             {
                 if (!resitem)
                 {
@@ -181,7 +181,7 @@ namespace SDK.Lib
             }
         }
 
-        protected Res findResFormPool(ResType type, bool resNeedCoroutine)
+        protected Res findResFormPool(ResPackType type, bool resNeedCoroutine)
         {
             foreach(Res item in m_noUsedResItem)
             {
@@ -194,7 +194,7 @@ namespace SDK.Lib
             return null;
         }
 
-        protected LoadItem findLoadItemFormPool(ResType type, bool loadNeedCoroutine)
+        protected LoadItem findLoadItemFormPool(ResPackType type, bool loadNeedCoroutine)
         {
             foreach (LoadItem item in m_noUsedLDItem)
             {

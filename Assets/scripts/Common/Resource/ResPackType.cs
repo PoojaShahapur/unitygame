@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace SDK.Common
 {
-    public enum ResType
+    /**
+     * @brief 资源包的类型
+     */
+    public enum ResPackType
     {
         eLevelType,     // 关卡
         eBundleType,    // 资源包

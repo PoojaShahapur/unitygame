@@ -7,7 +7,7 @@ namespace SDK.Lib
 {
     public class Res : MonoBehaviour, IRes
     {
-        protected ResType m_type;
+        protected ResPackType m_type;
         protected string m_path;
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
 
@@ -22,7 +22,7 @@ namespace SDK.Lib
             
         }
 
-        public ResType type
+        public ResPackType type
         {
             get
             {

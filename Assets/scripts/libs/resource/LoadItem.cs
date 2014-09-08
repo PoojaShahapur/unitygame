@@ -7,7 +7,7 @@ namespace SDK.Lib
 {
     public class LoadItem : MonoBehaviour
     {
-        protected ResType m_type;
+        protected ResPackType m_type;
         protected string m_path;
         protected WWW m_w3File;
         protected bool m_loadNeedCoroutine;    // 加载是否需要协同程序
@@ -19,7 +19,7 @@ namespace SDK.Lib
 
         public delegate void loaded(LoadItem item);
         public loaded onLoaded;
-        public ResType type
+        public ResPackType type
         {
             get
             {

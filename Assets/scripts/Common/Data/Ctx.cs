@@ -6,13 +6,16 @@ namespace SDK.Common
 {
     public class Ctx
     {
+        static public Ctx m_instance;
+
         public INetworkMgr m_netMgr;
         public Config m_cfg;
-        static public Ctx m_instance;
         public ILogger m_log;
         public IResMgr m_resMgr;
         public IInputMgr m_inputMgr;
         public Transform m_dataTrans;
+
+        public IGameSys m_gameSys;
 
         public Ctx()
         {

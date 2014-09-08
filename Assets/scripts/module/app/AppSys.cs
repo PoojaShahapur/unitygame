@@ -63,14 +63,23 @@ namespace Game.App
             DontDestroyOnLoad(nodestroy);
         }
 
-        public void loadScene()
+        // 加载游戏模块
+        public void loadGame()
         {
             // 初始化完成，开始加载自己的游戏场景
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-            param.m_path = "Game.unity3d";
-            param.m_type = ResType.eLevelType;
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + "Game.unity3d";
+            param.m_type = ResPackType.eLevelType;
             param.m_lvlName = "Game";
+            param.m_cb = onGameLoaded;
             Ctx.m_instance.m_resMgr.load(param);
+        }
+
+        public void onGameLoaded(IRes res)
+        {
+            // 游戏模块也不释放
+            GameObject nodestroy = GameObject.FindGameObjectWithTag("GameModule");
+            DontDestroyOnLoad(nodestroy);
         }
     }
 }

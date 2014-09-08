@@ -25,7 +25,7 @@ public class TestLoadLevel : MonoBehaviour
             //GameObject.Destroy(this);//销毁这个脚本
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
             param.m_path = "Level1.unity3d";
-            param.m_type = ResType.eLevelType;
+            param.m_type = ResPackType.eLevelType;
             param.m_lvlName = "Level1";
             Ctx.m_instance.m_resMgr.load(param);
         }

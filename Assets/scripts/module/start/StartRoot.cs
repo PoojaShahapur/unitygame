@@ -32,11 +32,12 @@ namespace SDK.Lib
 
             if (GUI.Button(new Rect(100, 100, 300, 40), "点击加载游戏代码，开始游戏"))
             {
-                StartCoroutine(DownloadAssetAndScene());
+                StartCoroutine(DownloadAppAsset());
             }
         }
 
-        IEnumerator DownloadAssetAndScene()
+        // 下载 app 模块
+        IEnumerator DownloadAppAsset()
         {
             //下载场景，加载场景
             WWW scene = WWW.LoadFromCacheOrDownload(m_SceneURL, 1);

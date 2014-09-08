@@ -8,7 +8,7 @@ public class GameRoot : MonoBehaviour
 	void Start () 
     {
         GameSys.m_instance = new GameSys();
-        GameSys.m_instance.initGVar();
+        GameSys.m_instance.Start();
 	}
 	
 	// Update is called once per frame

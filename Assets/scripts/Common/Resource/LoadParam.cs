@@ -5,7 +5,7 @@ namespace SDK.Common
 {
     public class LoadParam
     {
-        public ResType m_type;              // 加载资源的类型
+        public ResPackType m_type;              // 加载资源的类型
         public string m_path;               // 资源路径
         public string m_lvlName;            // 关卡名字
         public Action<IRes> m_cb;        // 加载完成回调函数
