@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace Game.Game
 {
-    public class GameSys : IEventHandle
+    public class GameSys
     {
         static public GameSys m_instance;
         public Ctx m_ctx;
@@ -26,7 +26,7 @@ namespace Game.Game
                 param.m_path = "UIScrollForm.assetbundle";
                 param.m_type = ResType.eBundleType;
                 param.m_prefabName = "UIScrollForm";
-                param.m_cb = this;
+                param.m_cb = onResLoad;
                 Ctx.m_instance.m_resMgr.load(param);
             }
         }

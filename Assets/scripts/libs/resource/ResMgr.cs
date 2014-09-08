@@ -42,7 +42,7 @@ namespace SDK.Lib
             {
                 if (param.m_cb != null)
                 {
-                    param.m_cb.onResLoad(m_path2Res[param.m_path]);
+                    param.m_cb(m_path2Res[param.m_path]);
                 }
                 return m_path2Res[param.m_path];
             }
@@ -91,7 +91,7 @@ namespace SDK.Lib
             m_path2Res[param.m_path].path = param.m_path;
             if (param.m_cb != null)
             {
-                m_path2Res[param.m_path].onInitedCB += param.m_cb.onResLoad;
+                m_path2Res[param.m_path].onInitedCB += param.m_cb;
             }
 
             LoadItem loaditem = findLoadItemFormPool(param.m_type, param.m_resNeedCoroutine);

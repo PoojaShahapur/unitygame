@@ -12,10 +12,9 @@ namespace SDK.Lib
         protected WWW m_w3File;
         protected bool m_loadNeedCoroutine;    // 加载是否需要协同程序
 
-        //public LoadItem(string path)
         public LoadItem()
         {
-            //m_path = path;
+            
         }
 
         public delegate void loaded(LoadItem item);

@@ -15,14 +15,11 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
+        protected Action<IRes> onInited;
 
-        public delegate void Init(IRes res);
-        public Init onInited;
-
-        //public Res(string path)
         public Res()
         {
-            //m_path = path;
+            
         }
 
         public ResType type
@@ -97,7 +94,7 @@ namespace SDK.Lib
             }
         }
 
-        public Init onInitedCB
+        public Action<IRes> onInitedCB
         {
             get
             {

@@ -49,7 +49,7 @@ namespace SDK.Lib
         /**
          *brief 线程回调函数
          */
-        public bool threadIO(Object param)
+        public void threadIO(Object param)
         {
             while (!m_quit)
             {
@@ -60,8 +60,6 @@ namespace SDK.Lib
                     socket.Send();
                 }
             }
-
-            return true;
         }
 
         public IByteArray getMsg()

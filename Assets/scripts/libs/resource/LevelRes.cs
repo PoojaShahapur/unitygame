@@ -8,11 +8,9 @@ namespace SDK.Lib
     {
         protected string m_levelName;
 
-        //public LevelRes(string path, string lvlname)
-        //    : base(path)
         public LevelRes()
         {
-            //m_levelName = lvlname;
+            
         }
 
         public string levelName

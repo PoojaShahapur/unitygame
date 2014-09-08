@@ -10,10 +10,10 @@ namespace SDK.Lib
     {
         // 数据区域
         protected Thread m_thread;
-        protected Func<object, bool> m_cb;
+        protected Action<object> m_cb;
         protected object m_param;        // 参数数据
 
-        public ThreadWrap(Func<object, bool> func, object param)
+        public ThreadWrap(Action<object> func, object param)
         {
             m_cb = func;
             m_param = param;

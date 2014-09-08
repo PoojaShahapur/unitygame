@@ -9,8 +9,7 @@ namespace SDK.Lib
     {
         protected AssetBundle m_bundle;
         protected string m_prefabName;
-        //public BundleRes(string path)
-        //    : base(path)
+
         public BundleRes()
         {
 
