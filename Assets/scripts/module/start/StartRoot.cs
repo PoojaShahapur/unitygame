@@ -9,8 +9,8 @@ namespace SDK.Lib
      */
     public class StartRoot : MonoBehaviour
     {
-        private string m_SceneURL = "http://127.0.0.1/App.unity3d";
-        private string m_levelName = "App";
+        private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+        private string m_appName = "App";
         // Use this for initialization
         void Start()
         {
@@ -40,11 +40,15 @@ namespace SDK.Lib
         IEnumerator DownloadAppAsset()
         {
             //下载场景，加载场景
-            WWW scene = WWW.LoadFromCacheOrDownload(m_SceneURL, 1);
-            yield return scene;
+            WWW app3w = WWW.LoadFromCacheOrDownload(m_appURL, 15);
+            yield return app3w;
 
-            AsyncOperation async = Application.LoadLevelAsync(m_levelName);
-            yield return async;
+            // 使用预设加载
+            AssetBundle bundle = app3w.assetBundle;
+            Object bt = bundle.Load(m_appName);
+            Instantiate(bt);
+            bundle.Unload(false);
+            yield return null;
         }
     }
 }

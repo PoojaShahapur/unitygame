@@ -13,7 +13,7 @@ namespace Game.Game
         public void initGVar()
         {
             // 获取全局变量
-            GameObject nodestroy = GameObject.FindGameObjectWithTag("GoNoDestroy");
+            GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
             AppRoot approot = nodestroy.GetComponent<AppRoot>();
             GameSys.m_instance.m_ctx = approot.getCtx();
         }

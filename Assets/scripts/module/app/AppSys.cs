@@ -41,7 +41,7 @@ namespace Game.App
 
         public void setNoDestroyObject()
         {
-            GameObject nodestroy = GameObject.FindGameObjectWithTag("GoNoDestroy");
+            GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
             DontDestroyOnLoad(nodestroy);
             nodestroy = GameObject.FindGameObjectWithTag("RootLayer");
             DontDestroyOnLoad(nodestroy);
@@ -68,18 +68,21 @@ namespace Game.App
         {
             // 初始化完成，开始加载自己的游戏场景
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + "Game.unity3d";
-            param.m_type = ResPackType.eLevelType;
-            param.m_lvlName = "Game";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + "Game.unity3d";
+            param.m_type = ResPackType.eBundleType;
             param.m_cb = onGameLoaded;
             Ctx.m_instance.m_resMgr.load(param);
         }
 
         public void onGameLoaded(IRes res)
         {
+            GameObject go = (res as IBundleRes).InstantiateObject("Game");
+            GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
+            go.transform.parent = nodestroy.transform;
+
             // 游戏模块也不释放
-            GameObject nodestroy = GameObject.FindGameObjectWithTag("GameModule");
-            DontDestroyOnLoad(nodestroy);
+            DontDestroyOnLoad(go);
+            go.SetActive(false);         // 自己会更新的，不用这里更新
         }
     }
 }

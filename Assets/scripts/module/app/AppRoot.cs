@@ -21,13 +21,13 @@ public class AppRoot : MonoBehaviour
         //DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
         m_AppSys.setNoDestroyObject();
         m_AppSys.Start();
-        m_AppSys.loadScene();
+        m_AppSys.loadGame();
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        GameObject[] nodestroy = GameObject.FindGameObjectsWithTag("GoNoDestroy");  //得到存在的实例列表
+        GameObject[] nodestroy = GameObject.FindGameObjectsWithTag("App");  //得到存在的实例列表
         if (nodestroy.Length > 1)
         {
             // 将后产生的毁掉 保留第一个
