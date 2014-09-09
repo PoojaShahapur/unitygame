@@ -211,6 +211,8 @@
     <Compile Include="Assets\Scripts\Libs\Resource\LoadItem.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\Res.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\ResMgr.cs" />
+    <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTree.cs" />
+    <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTreeNode.cs" />
     <Compile Include="Assets\Scripts\Libs\Thread\ThreadWrap.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\ByteArray.cs" />
     <Compile Include="Assets\Scripts\Libs\Tool\ByteUtil.cs" />
