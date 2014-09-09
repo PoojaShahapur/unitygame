@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
+using UnityEngine;
 
-namespace SimpleQuadTree
+namespace QuadTree
 {
     /// <summary>
     /// The QuadTreeNode
@@ -233,6 +234,47 @@ namespace SimpleQuadTree
             m_nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_bounds.Left, m_bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight)), Tree));
             m_nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_bounds.Left + halfWidth, m_bounds.Top), new SizeF(halfWidth, halfHeight)), Tree));
             m_nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_bounds.Left + halfWidth, m_bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight)),Tree));
+        }
+
+        // 深度优先遍历
+        public void VisitNode(Camera camera)
+        {
+            if (IsVisible(camera))
+            {
+                foreach (QuadTreeNode<T> item in m_nodes)
+                {
+                    item.VisitNode(camera);
+                }
+            }
+        }
+
+        // 测试是否可见
+        public bool IsVisible(Camera camera)
+        {
+            // 判断四个顶点是否在屏幕空间可见范围内容
+            Vector3 pt;
+            pt = camera.WorldToScreenPoint(new Vector3(m_bounds.X, m_bounds.Y, 0));
+            if(pt.x >= 0 && pt.x <= Screen.width)
+            {
+                return true;
+            }
+            pt = camera.WorldToScreenPoint(new Vector3(m_bounds.X + m_bounds.Width, m_bounds.Y, 0));
+            if (pt.x >= 0 && pt.x <= Screen.width)
+            {
+                return true;
+            }
+            pt = camera.WorldToScreenPoint(new Vector3(m_bounds.X, m_bounds.Y + m_bounds.Height, 0));
+            if (pt.x >= 0 && pt.x <= Screen.width)
+            {
+                return true;
+            }
+            pt = camera.WorldToScreenPoint(new Vector3(m_bounds.X + m_bounds.Width, m_bounds.Y + m_bounds.Height, 0));
+            if (pt.x >= 0 && pt.x <= Screen.width)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

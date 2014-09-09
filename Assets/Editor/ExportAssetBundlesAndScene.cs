@@ -187,4 +187,17 @@ public class ExportAssetBundlesAndScen
             ++idx;
         }
 	}
+
+    // 场景文件导出，导出自己的地图文件格式，然后自己裁剪逐渐加载可见的模型资源
+    [MenuItem("Assets/Save Scene XML")]
+    static void ExportSceneXmlOne()
+    {
+        // 导出地形规则，地形还是打包成 Level 的 unity3d，地图中摆放的地物，需要制作成 Prefab ，然后导出 Xml ，Xml 中记录这些预设的资源包的 unity3d 的名字，然后是资源的 id ，然后是位置，旋转，缩放。凡是静态的地物，不加物理，物理通过导航格子模拟。游戏中动态生成的内容才可以加物理
+        // 所有需要导出的静态模型的根节点的 Tag 是 StaticRoot 
+        GameObject StaticRoot = GameObject.FindGameObjectWithTag("StaticRoot");
+        if(StaticRoot != null)
+        {
+            // 开始导出所有静态节点
+        }
+    }
 }

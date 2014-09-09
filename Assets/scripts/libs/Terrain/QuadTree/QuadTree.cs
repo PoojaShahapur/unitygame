@@ -2,8 +2,9 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEngine;
 
-namespace SimpleQuadTree
+namespace QuadTree
 {
     /// <summary>
     /// A Quadtree is a structure designed to partition space so
@@ -114,6 +115,12 @@ namespace SimpleQuadTree
         public void ForEach(QTAction action)
         {
             m_root.ForEach(action);
+        }
+
+        // 深度优先遍历树
+        public void VisitTree(Camera camera)
+        {
+            m_root.VisitNode(camera);
         }
     }
 }
