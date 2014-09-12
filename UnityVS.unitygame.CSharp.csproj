@@ -7,14 +7,17 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -22,7 +25,11 @@
     <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+<<<<<<< HEAD
     <DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+=======
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_2;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+>>>>>>> c0289a28f5e622896988bb11e7e707c514f188a8
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,11 +37,16 @@
     <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+<<<<<<< HEAD
     <DefineConstants>TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+=======
+    <DefineConstants>TRACE;UNITY_4_5_2;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+>>>>>>> c0289a28f5e622896988bb11e7e707c514f188a8
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="Boo.Lang" />
@@ -46,9 +58,6 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
@@ -201,32 +210,32 @@
     <Compile Include="Assets\Scripts\Common\Tool\IByteArray.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\ILogger.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\LogColor.cs" />
-    <Compile Include="Assets\Scripts\Libs\IO\InputMgr.cs" />
-    <Compile Include="Assets\Scripts\Libs\Network\CircleBuffer.cs" />
-    <Compile Include="Assets\Scripts\Libs\Network\DataBuffer.cs" />
-    <Compile Include="Assets\Scripts\Libs\Network\NetTCPClient.cs" />
-    <Compile Include="Assets\Scripts\Libs\Network\NetworkMgr.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\BundleRes.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\LevelRes.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\Res.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\ResMgr.cs" />
-    <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTree.cs" />
-    <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTreeNode.cs" />
-    <Compile Include="Assets\Scripts\Libs\Thread\ThreadWrap.cs" />
-    <Compile Include="Assets\Scripts\Libs\Tool\ByteArray.cs" />
-    <Compile Include="Assets\Scripts\Libs\Tool\ByteUtil.cs" />
-    <Compile Include="Assets\Scripts\Libs\Tool\DynamicBuffer.cs" />
-    <Compile Include="Assets\Scripts\Libs\Tool\Endian.cs" />
-    <Compile Include="Assets\Scripts\Libs\Tool\Logger.cs" />
-    <Compile Include="Assets\Scripts\Module\App\AppRoot.cs" />
-    <Compile Include="Assets\Scripts\Module\App\AppSys.cs" />
-    <Compile Include="Assets\Scripts\Module\Game\GameIO\GameSceneLogic.cs" />
-    <Compile Include="Assets\Scripts\Module\Game\GameRoot.cs" />
-    <Compile Include="Assets\Scripts\Module\Game\GameSys.cs" />
-    <Compile Include="Assets\Scripts\Module\Start\StartRoot.cs" />
-    <Compile Include="Assets\Scripts\Test\TestLoadLevel.cs" />
-    <Compile Include="Assets\Scripts\Test\TestNguiLocalScale.cs" />
+    <Compile Include="Assets\Scripts\libs\IO\InputMgr.cs" />
+    <Compile Include="Assets\Scripts\libs\Terrain\QuadTree\QuadTree.cs" />
+    <Compile Include="Assets\Scripts\libs\Terrain\QuadTree\QuadTreeNode.cs" />
+    <Compile Include="Assets\Scripts\libs\network\CircleBuffer.cs" />
+    <Compile Include="Assets\Scripts\libs\network\DataBuffer.cs" />
+    <Compile Include="Assets\Scripts\libs\network\NetTCPClient.cs" />
+    <Compile Include="Assets\Scripts\libs\network\NetworkMgr.cs" />
+    <Compile Include="Assets\Scripts\libs\resource\BundleRes.cs" />
+    <Compile Include="Assets\Scripts\libs\resource\LevelRes.cs" />
+    <Compile Include="Assets\Scripts\libs\resource\LoadItem.cs" />
+    <Compile Include="Assets\Scripts\libs\resource\Res.cs" />
+    <Compile Include="Assets\Scripts\libs\resource\ResMgr.cs" />
+    <Compile Include="Assets\Scripts\libs\thread\ThreadWrap.cs" />
+    <Compile Include="Assets\Scripts\libs\tool\ByteArray.cs" />
+    <Compile Include="Assets\Scripts\libs\tool\ByteUtil.cs" />
+    <Compile Include="Assets\Scripts\libs\tool\DynamicBuffer.cs" />
+    <Compile Include="Assets\Scripts\libs\tool\Endian.cs" />
+    <Compile Include="Assets\Scripts\libs\tool\Logger.cs" />
+    <Compile Include="Assets\Scripts\module\app\AppRoot.cs" />
+    <Compile Include="Assets\Scripts\module\app\AppSys.cs" />
+    <Compile Include="Assets\Scripts\module\game\GameIO\GameSceneLogic.cs" />
+    <Compile Include="Assets\Scripts\module\game\GameRoot.cs" />
+    <Compile Include="Assets\Scripts\module\game\GameSys.cs" />
+    <Compile Include="Assets\Scripts\module\start\StartRoot.cs" />
+    <Compile Include="Assets\Scripts\test\TestLoadLevel.cs" />
+    <Compile Include="Assets\Scripts\test\TestNguiLocalScale.cs" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
