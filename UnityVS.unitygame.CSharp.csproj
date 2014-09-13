@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,8 +49,35 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="BehaviorDesignerRuntime">
+      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Behavior Designer\Runtime\Actions\ExternalBehaviorTree.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Actions\Log.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Actions\PerformInterruption.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Actions\StartBehaviorTree.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Actions\StopBehaviorTree.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Actions\Wait.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\BehaviorTree.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\Parallel.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\ParallelSelector.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\PrioritySelector.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\RandomSelector.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\RandomSequence.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\Selector.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Composites\Sequence.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Conditionals\RandomProbability.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\Interrupt.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\Inverter.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\Repeater.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\ReturnFailure.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\ReturnSuccess.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\TaskGuard.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\UntilFailure.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\Decorators\UntilSuccess.cs" />
+    <Compile Include="Assets\Behavior Designer\Runtime\EntryTask.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -278,8 +303,9 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
-    <None Include="Assets\Scenes\Xml\TestTerrain.xml" />
+    <None Include="Assets\Scenes\Xml\cave.xml" />
     <None Include="Assets\Scripts\readme.txt" />
+    <None Include="Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

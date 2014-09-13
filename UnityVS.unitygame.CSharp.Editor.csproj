@@ -55,6 +55,12 @@
     <Reference Include="UnityEditor.Graphs">
       <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
     </Reference>
+    <Reference Include="BehaviorDesignerEditor">
+      <HintPath>Assets\Behavior Designer\Editor\BehaviorDesignerEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="BehaviorDesignerRuntime">
+      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
@@ -64,6 +70,12 @@
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\Editor\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.unitygame.CSharp.csproj">
@@ -72,6 +84,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Behavior Designer\Editor\BehaviorTreeInspector.cs" />
     <Compile Include="Assets\Editor\ExportAssetBundlesAndScene.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
@@ -191,9 +204,12 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
     <None Include="Assets\Scripts\readme.txt" />
+    <None Include="Assets\Behavior Designer\Editor\BehaviorDesignerEditor.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
     <None Include="Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll" />
+    <None Include="F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\Editor\UnityEditor.UI.dll" />
+    <None Include="F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\UnityEngine.UI.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
