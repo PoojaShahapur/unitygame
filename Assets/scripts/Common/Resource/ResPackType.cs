@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SDK.Common
+﻿namespace SDK.Common
 {
     /**
      * @brief 资源包的类型

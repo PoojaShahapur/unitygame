@@ -11,10 +11,19 @@ namespace SDK.Lib
     {
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
         private string m_appName = "App";
+        private int m_loadType;
         // Use this for initialization
         void Start()
         {
-
+            m_loadType = 1;
+            if(m_loadType == 2)
+            {
+                m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+            }
+            else
+            {
+                m_appURL = Application.dataPath + "/StreamingAssets/Module/App.unity3d";
+            }
         }
 
         // Update is called once per frame
@@ -32,7 +41,39 @@ namespace SDK.Lib
 
             if (GUI.Button(new Rect(100, 100, 300, 40), "点击加载游戏代码，开始游戏"))
             {
-                StartCoroutine(DownloadAppAsset());
+                if (m_loadType == 0)
+                {
+                    loadFromDefaultAssetBundle();
+                }
+                else if (m_loadType == 1)
+                {
+                    loadFromAssetBundle();
+                }
+                else if (m_loadType == 2)
+                {
+                    StartCoroutine(DownloadAppAsset());
+                }
+            }
+        }
+
+        protected void loadFromDefaultAssetBundle()
+        {
+            UnityEngine.Object prefabObj = Resources.Load(m_appURL);
+            if (prefabObj)
+            {
+                Instantiate(prefabObj);
+            }
+        }
+
+        // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
+        protected void loadFromAssetBundle()
+        {
+            AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
+            if (assetBundle != null)
+            {
+                Object bt = assetBundle.Load(m_appName);
+                Instantiate(bt);
+                assetBundle.Unload(false);
             }
         }
 

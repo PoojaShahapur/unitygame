@@ -14,11 +14,14 @@ namespace SDK.Common
         public string m_webIP = "";
 
         public string[] m_pathLst;
+        public ResLoadType m_resLoadType;   // 资源加载类型
 
         public Config()
         {
+            m_resLoadType = ResLoadType.eLoadDisc;
             m_pathLst = new string[(int)ResPathType.eTotal];
             m_pathLst[(int)ResPathType.ePathScene] = "StreamingAssets/Scene/";
+            m_pathLst[(int)ResPathType.ePathSceneXml] = "StreamingAssets/Scene/Xml/";
             m_pathLst[(int)ResPathType.ePathModule] = "StreamingAssets/Module/";
             m_pathLst[(int)ResPathType.ePathUI] = "StreamingAssets/UI/";
         }

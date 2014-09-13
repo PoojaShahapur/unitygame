@@ -14,5 +14,6 @@ namespace SDK.Common
         public bool m_loadNeedCoroutine;    // 加载是否需要协同程序
 
         public string m_prefabName;         // 预设的名字
+        public ResLoadType m_resLoadType;   // 资源加载类型
     }
 }

@@ -16,6 +16,7 @@ namespace SDK.Lib
 
         protected uint m_refNum;                // 引用计数
         protected Action<IRes> onInited;
+        protected ResLoadType m_resLoadType;   // 资源加载类型
 
         public Res()
         {
@@ -94,6 +95,18 @@ namespace SDK.Lib
             }
         }
 
+        public ResLoadType resLoadType
+        {
+            get
+            {
+                return m_resLoadType;
+            }
+            set
+            {
+                m_resLoadType = value;
+            }
+        }
+
         public Action<IRes> onInitedCB
         {
             get
@@ -130,6 +143,11 @@ namespace SDK.Lib
             m_isSucceed = false;
             m_refNum = 0;
             onInited = null ;
+        }
+
+        virtual public void unload()
+        {
+
         }
     }
 }

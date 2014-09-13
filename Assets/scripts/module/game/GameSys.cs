@@ -21,6 +21,7 @@ namespace Game.Game
         public void Start()
         {
             initGVar();
+            loadScene();
         }
 
         public void Update()
@@ -31,13 +32,25 @@ namespace Game.Game
             }
             else if(Input.GetKeyUp(KeyCode.K))  // 加载 UI 资源
             {
-                LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
-                param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathUI] + "UIScrollForm.assetbundle";
-                param.m_type = ResPackType.eBundleType;
-                param.m_prefabName = "UIScrollForm";
-                param.m_cb = onResLoad;
-                Ctx.m_instance.m_resMgr.load(param);
+                loadUI();
             }
+        }
+
+        public void loadUI()
+        {
+            LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathUI] + "UIScrollForm.unity3d";
+            param.m_type = ResPackType.eBundleType;
+            param.m_prefabName = "UIScrollForm";
+            param.m_cb = onResLoad;
+            param.m_resNeedCoroutine = false;
+            param.m_loadNeedCoroutine = true;
+            Ctx.m_instance.m_resMgr.load(param);
+        }
+
+        public void loadScene()
+        {
+            Ctx.m_instance.m_sceneSys.loadScene("cave", onResLoadScene);
         }
 
         public void onResLoad(IRes res)
@@ -45,6 +58,11 @@ namespace Game.Game
             GameObject go = (res as IBundleRes).InstantiateObject("UIScrollForm");
             GameObject nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
             go.transform.parent = nodestroy.transform;
+        }
+
+        public void onResLoadScene(IScene scene)
+        {
+            Ctx.m_instance.m_log.log("aaa");
         }
     }
 }

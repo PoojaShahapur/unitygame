@@ -2,11 +2,13 @@
 using UnityEditor;
 using System.Collections;
 using System.IO;
+using System.Xml;
+using System.Collections.Generic;
 
 /**
  * @brief 资源打包，导出 Bundles 和 Scene
  */
-public class ExportAssetBundlesAndScen
+public class ExportAssetBundlesAndScene
 {
 	// 在Unity编辑器中添加菜单，导出的时候，一定要先选择自己设置的预设，然后点击菜单，支持选中文件夹，导出选中的资源到一个文件
     [MenuItem("Assets/Build AssetBundle From Selection All - Track dependencies")]
@@ -22,7 +24,7 @@ public class ExportAssetBundlesAndScen
 			//打包  
             //BuildPipeline.BuildAssetBundle(Selection.activeObject, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets, BuildTarget.StandaloneWindows);
 
-            BuildPipeline.BuildAssetBundle(null, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets, BuildTarget.StandaloneWindows);
+            BuildPipeline.BuildAssetBundle(null, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows);
 
             Selection.objects = selection;
             //FileStream fs = File.Open(path + ".log", FileMode.OpenOrCreate);
@@ -166,6 +168,13 @@ public class ExportAssetBundlesAndScen
         string destfilename;
         string destext = ".unity3d";
         string destFileNoExt = "";
+        Dictionary<string, bool> exclude = new Dictionary<string, bool>();
+        exclude["App"] = true;
+        exclude["Game"] = true;
+        exclude["ScrollView"] = true;
+        exclude["Start"] = true;
+        exclude["TestNguiLocalScale"] = true;
+        exclude["TestScene"] = true;
 
         srcpath = Application.dataPath + "/Scenes/";                            // 查找目录
         destpath = Application.dataPath + "/StreamingAssets/Scene/";            // 存放目录
@@ -174,30 +183,74 @@ public class ExportAssetBundlesAndScen
         int idx = 0;
         int dotidx = 0;
         int splashidx = 0;
+        bool ret = false;
         while (idx < fileEntries.Length)
         {
             dotidx = fileEntries[idx].IndexOf('.');
             splashidx = fileEntries[idx].LastIndexOf('/');
             destFileNoExt = fileEntries[idx].Substring(splashidx + 1, dotidx - splashidx - 1);
 
-            destfilename = destpath + destFileNoExt + destext;
-            levels[0] = fileEntries[idx];
-            //打包
-            BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
+            if (!exclude.TryGetValue(destFileNoExt, out ret))
+            {
+                destfilename = destpath + destFileNoExt + destext;
+                levels[0] = fileEntries[idx];
+                //打包
+                BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
+            }
             ++idx;
         }
 	}
 
     // 场景文件导出，导出自己的地图文件格式，然后自己裁剪逐渐加载可见的模型资源
     [MenuItem("Assets/Save Scene XML")]
-    static void ExportSceneXmlOne()
+    static void ExportSceneXmlOneAndTerrainPrefab()
     {
-        // 导出地形规则，地形还是打包成 Level 的 unity3d，地图中摆放的地物，需要制作成 Prefab ，然后导出 Xml ，Xml 中记录这些预设的资源包的 unity3d 的名字，然后是资源的 id ，然后是位置，旋转，缩放。凡是静态的地物，不加物理，物理通过导航格子模拟。游戏中动态生成的内容才可以加物理
-        // 所有需要导出的静态模型的根节点的 Tag 是 StaticRoot 
-        GameObject StaticRoot = GameObject.FindGameObjectWithTag("StaticRoot");
-        if(StaticRoot != null)
+        // 打开保存面板，获得用户选择的路径  
+        string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "xml");
         {
+            // 导出地形规则，地形还是打包成 Level 的 unity3d，地图中摆放的地物，需要制作成 Prefab ，然后导出 Xml ，Xml 中记录这些预设的资源包的 unity3d 的名字，然后是资源的 id ，然后是位置，旋转，缩放。凡是静态的地物，不加物理，物理通过导航格子模拟。游戏中动态生成的内容才可以加物理
+            // 所有需要导出的静态模型的根节点的 name 是 StaticRoot 
+            GameObject[] gos = GameObject.FindObjectsOfType(typeof(GameObject)) as GameObject[];
             // 开始导出所有静态节点
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlNode sceneNode = xmlDoc.CreateElement("config");
+            xmlDoc.AppendChild(sceneNode);
+            XmlElement terrainNode = xmlDoc.CreateElement("Terrain");
+            sceneNode.AppendChild(terrainNode);
+            XmlElement sceneEntity;
+            string elemvalue;
+            foreach (GameObject go in gos)
+            {
+                if (go.name != "Terrain" && go.name != "Main Camera")       //  将地形排除在外
+                {
+                    if (go.transform.parent == null)     // 只有顶层 GameObject 才需要导出
+                    {
+                        sceneEntity = xmlDoc.CreateElement("go");
+                        sceneNode.AppendChild(sceneEntity);
+                        sceneEntity.SetAttribute("prefab", go.name);
+                        elemvalue = go.transform.localPosition.ToString();
+                        sceneEntity.SetAttribute("pos", elemvalue);
+                        elemvalue = go.transform.localRotation.ToString();
+                        sceneEntity.SetAttribute("rotate", elemvalue);
+                        elemvalue = go.transform.localScale.ToString();
+                        sceneEntity.SetAttribute("scale", elemvalue);
+                    }
+                }
+                else if (go.name == "Terrain")
+                {
+                    Terrain terrain = go.GetComponent<Terrain>();
+                    terrainNode.SetAttribute("size", terrain.terrainData.size.ToString());
+                }
+            }
+
+            xmlDoc.Save(path);
         }
+    }
+
+    // 清除缓存
+    [MenuItem("Assets/CleanCache")]
+    static void CleanCache()
+    {
+        Caching.CleanCache();
     }
 }

@@ -7,5 +7,6 @@ namespace SDK.Common
     interface IBundleRes : IRes
     {
         GameObject InstantiateObject(string resname);
+        UnityEngine.Object gerObject(string resname);
     }
 }

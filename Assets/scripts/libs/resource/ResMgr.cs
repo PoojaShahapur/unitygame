@@ -64,8 +64,6 @@ namespace SDK.Lib
                     m_path2Res[param.m_path] = resitem;
                     m_path2Res[param.m_path].enabled = true;
                 }
-                
-                (m_path2Res[param.m_path] as LevelRes).levelName = param.m_lvlName;
             }
             else if (param.m_type == ResPackType.eBundleType)
             {
@@ -89,6 +87,8 @@ namespace SDK.Lib
             m_path2Res[param.m_path].resNeedCoroutine = param.m_resNeedCoroutine;
             m_path2Res[param.m_path].type = param.m_type;
             m_path2Res[param.m_path].path = param.m_path;
+            m_path2Res[param.m_path].resLoadType = param.m_resLoadType;
+
             if (param.m_cb != null)
             {
                 m_path2Res[param.m_path].onInitedCB += param.m_cb;
@@ -110,8 +110,11 @@ namespace SDK.Lib
                 loaditem.enabled = true;
             }
 
+            loaditem.type = param.m_type;
+            loaditem.resLoadType = param.m_resLoadType;
             loaditem.path = param.m_path;
             loaditem.onLoaded += onLoad;
+            loaditem.levelName = param.m_lvlName;
 
             if (m_curNum < m_maxParral)
             {
@@ -137,6 +140,7 @@ namespace SDK.Lib
                     //GameObject.Destroy(m_path2Res[path]); // 不再从 gameobject 上移除了
                 }
 
+                m_path2Res[path].unload();
                 m_path2Res[path].reset();
                 m_noUsedLDItem.Add(m_path2Res[path]);
 

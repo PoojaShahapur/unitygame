@@ -29,7 +29,7 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
-            m_bundle = item.w3File.assetBundle;
+            m_bundle = item.assetBundle;
             if (m_resNeedCoroutine)
             {
                 StartCoroutine(initAssetByCoroutine());
@@ -72,6 +72,18 @@ namespace SDK.Lib
         public GameObject InstantiateObject(string resname)
         {
             return Instantiate(m_bundle.Load(resname)) as GameObject;
+        }
+
+        public UnityEngine.Object gerObject(string resname)
+        {
+            return m_bundle.Load(resname);
+        }
+
+        override public void unload()
+        {
+            m_bundle.Unload(true);
+            //Resources.UnloadUnusedAssets();
+            //GC.Collect();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace SDK.Common
         public Transform m_dataTrans;
 
         public IGameSys m_gameSys;
+        public ISceneSys m_sceneSys;
 
         public Ctx()
         {

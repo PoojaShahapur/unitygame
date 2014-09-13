@@ -6,35 +6,18 @@ namespace SDK.Lib
 {
     public class LevelRes : Res
     {
-        protected string m_levelName;
-
         public LevelRes()
         {
             
         }
 
-        public string levelName
-        {
-            get
-            {
-                return m_levelName;
-            }
-            set
-            {
-                m_levelName = value;
-            }
-        }
-
         override public void init(LoadItem item)
         {
-            StartCoroutine(initAssetByCoroutine());
+            initAsset();
         }
 
-        override public IEnumerator initAssetByCoroutine()
+        override public void initAsset()
         {
-            AsyncOperation async = Application.LoadLevelAsync(m_levelName);
-            yield return async;
-
             if(onInited != null)
             {
                 onInited(this);
@@ -44,7 +27,6 @@ namespace SDK.Lib
         override public void reset()
         {
             base.reset();
-            m_levelName = "";
         }
     }
 }
