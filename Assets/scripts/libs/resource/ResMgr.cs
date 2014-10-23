@@ -97,7 +97,8 @@ namespace SDK.Lib
             LoadItem loaditem = findLoadItemFormPool(param.m_type, param.m_resNeedCoroutine);
             if (!loaditem)
             {
-                loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LoadItem>() as LoadItem; loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LoadItem>() as LoadItem;
+                if (param.m_type)
+                loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LoadItem>() as LoadItem; 
 
                 if (!param.m_loadNeedCoroutine)
                 {
@@ -114,7 +115,10 @@ namespace SDK.Lib
             loaditem.resLoadType = param.m_resLoadType;
             loaditem.path = param.m_path;
             loaditem.onLoaded += onLoad;
-            loaditem.levelName = param.m_lvlName;
+            if (ResPackType.eLevelType == param.m_type)
+            {
+                (loaditem as LevelLoadItem).levelName = param.m_lvlName;
+            }
 
             if (m_curNum < m_maxParral)
             {
