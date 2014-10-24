@@ -31,7 +31,7 @@ namespace SDK.Lib
         public void Advance(float delta)
         {
             Ctx.m_instance.m_TickMgr.Advance(delta);            // 心跳
-            Ctx.m_instance.m_TimerMgr.Advance(delta);            // 定时器
+            Ctx.m_instance.m_TimerMgr.Advance(delta);           // 定时器
         }
     }
 }
