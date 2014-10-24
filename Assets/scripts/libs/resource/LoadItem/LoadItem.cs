@@ -13,14 +13,16 @@ namespace SDK.Lib
         protected bool m_loadNeedCoroutine;    // 加载是否需要协同程序
         protected ResLoadType m_resLoadType;   // 资源加载类型
         protected AssetBundle m_assetBundle;
+        protected ResLoadState m_ResLoadState = ResLoadState.eNotLoad;  // 资源加载状态
+
+        public delegate void loaded(LoadItem item);
+        public loaded onLoaded;
 
         public LoadItem()
         {
             
         }
 
-        public delegate void loaded(LoadItem item);
-        public loaded onLoaded;
         public ResPackType type
         {
             get
@@ -89,8 +91,21 @@ namespace SDK.Lib
             }
         }
 
+        public ResLoadState ResLoadState
+        {
+            get
+            {
+                return m_ResLoadState;
+            }
+            set
+            {
+                m_ResLoadState = value;
+            }
+        }
+
         public void load()
         {
+            m_ResLoadState = ResLoadState.eLoading;
             if (m_resLoadType == ResLoadType.eLoadResource)     // 从默认资源 Bundle 中读取
             {
                 loadFromDefaultAssetBundle();

@@ -17,6 +17,10 @@ namespace SDK.Common
 
         public IGameSys m_gameSys;
         public ISceneSys m_sceneSys;
+        public ITickMgr m_TickMgr;
+        public IProcessSys m_ProcessSys;
+
+        public ITimerMgr m_TimerMgr;
 
         public Ctx()
         {

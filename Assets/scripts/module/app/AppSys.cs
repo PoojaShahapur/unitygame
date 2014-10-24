@@ -20,7 +20,10 @@ namespace Game.App
             Ctx.m_instance.m_resMgr = new ResMgr();
             Ctx.m_instance.m_inputMgr = new InputMgr();
             Ctx.m_instance.m_dataTrans = transform;
-            Ctx.m_instance.m_sceneSys = new SceneSys(); ;
+
+            Ctx.m_instance.m_ProcessSys = new ProcessSys();
+            Ctx.m_instance.m_TickMgr = new TickMgr();
+            Ctx.m_instance.m_TimerMgr = new TimerMgr();
         }
 
         // Use this for initialization

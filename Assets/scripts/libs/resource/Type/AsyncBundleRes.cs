@@ -1,16 +1,14 @@
-﻿using System;
+﻿using SDK.Common;
 using UnityEngine;
-using System.Collections;
-using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class BundleRes : Res, IBundleRes
+    class AsyncBundleRes : AsyncRes, IBundleRes
     {
         protected AssetBundle m_bundle;
         protected string m_prefabName;
 
-        public BundleRes()
+        public AsyncBundleRes()
         {
 
         }
@@ -30,26 +28,6 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             m_bundle = item.assetBundle;
-            if (m_resNeedCoroutine)
-            {
-                StartCoroutine(initAssetByCoroutine());
-            }
-            else
-            {
-                initAsset();
-            }
-        }
-
-        override public IEnumerator initAssetByCoroutine()
-        {
-            Instantiate(m_bundle.Load(m_prefabName));
-            yield return null;
-            m_bundle.Unload(false);
-
-            if (onInited != null)
-            {
-                onInited(this);
-            }
         }
 
         override public void initAsset()
@@ -71,7 +49,7 @@ namespace SDK.Lib
 
         public GameObject InstantiateObject(string resname)
         {
-            return Instantiate(m_bundle.Load(resname)) as GameObject;
+            return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
         }
 
         public UnityEngine.Object getObject(string resname)
@@ -82,8 +60,6 @@ namespace SDK.Lib
         override public void unload()
         {
             m_bundle.Unload(true);
-            //Resources.UnloadUnusedAssets();
-            //GC.Collect();
         }
     }
 }

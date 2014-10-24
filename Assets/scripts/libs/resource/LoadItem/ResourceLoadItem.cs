@@ -25,6 +25,7 @@ namespace SDK.Lib
         {
             string path = Application.dataPath + "/" + m_path;
             m_prefabObj = Resources.Load(path);
+            //ResourceRequest req = Resources.LoadAsync<GameObject>(path);
             
             if (onLoaded != null)
             {
