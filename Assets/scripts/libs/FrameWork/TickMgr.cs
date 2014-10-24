@@ -10,6 +10,11 @@ namespace SDK.Lib
     {
         protected List<ITick> m_TickLst;
 
+        public TickMgr()
+        {
+            m_TickLst = new List<ITick>();
+        }
+
         public void Advance(float delta)
         {
             foreach (ITick tk in m_TickLst)

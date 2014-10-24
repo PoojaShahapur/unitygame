@@ -52,6 +52,15 @@
     <Reference Include="BehaviorDesignerRuntime">
       <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
     </Reference>
+    <Reference Include="TickedPriorityQueue">
+      <HintPath>Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\TickedPriorityQueue.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="UnityVS.unitygame.CSharp.Plugins.csproj">
+      <Project>{799FB5FD-C501-A295-633A-58FA455D740B}</Project>
+      <Name>UnityVS.unitygame.CSharp.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Behavior Designer\Runtime\Actions\ExternalBehaviorTree.cs" />
@@ -214,6 +223,11 @@
     <Compile Include="Assets\Scripts\AgentLocomotion.cs" />
     <Compile Include="Assets\Scripts\Common\Data\Config.cs" />
     <Compile Include="Assets\Scripts\Common\Data\Ctx.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\IProcessSys.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ITickMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ITimer.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ITimerMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\TimerType.cs" />
     <Compile Include="Assets\Scripts\Common\IO\IInputMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Module\IGameSys.cs" />
     <Compile Include="Assets\Scripts\Common\Network\INetworkMgr.cs" />
@@ -223,6 +237,7 @@
     <Compile Include="Assets\Scripts\Common\Resource\IRes.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\IResMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\LoadParam.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\ResLoadState.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\ResLoadType.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\ResPackType.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\ResPathType.cs" />
@@ -232,6 +247,75 @@
     <Compile Include="Assets\Scripts\Common\Tool\IByteArray.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\ILogger.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\LogColor.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Behavior.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Actions\BehaviorAction.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\BehaviorComponent.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\IndexSelector.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\PartialSelector.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\PartialSequence.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\RandomSelector.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\Selector.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\Sequence.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\StatefulSelector.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Composites\StatefulSequence.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Conditionals\Conditional.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\Counter.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\Inverter.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\RandomDecorator.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\RepeatUntilFail.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\Repeater.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\Succeeder.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Decorators\Timer.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Utility\UtilityPair.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Utility\UtilitySelector.cs" />
+    <Compile Include="Assets\Scripts\Extern\BehaviorLibrary\Components\Utility\UtilityVector.cs" />
+    <Compile Include="Assets\Scripts\Extern\Curve\BezierPath.cs" />
+    <Compile Include="Assets\Scripts\Extern\ITween\iTween.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Attributes\AngleCosineAttribute.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Attributes\RangeAttribute.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Attributes\Vector3ToggleAttribute.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\AutonomousVehicle.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\Biped.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\DetectableObject.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\DetectableObjectCreator.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\PassiveVehicle.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\Radar.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\RandomizeStartPosition.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\Speedometer.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForAlignment.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForCharacterEvasion.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForCohesion.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForEvasion.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForFear.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForForward.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForMatchingVelocity.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForMinimumSpeed.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForNavmesh.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForNeighborGroup.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForNeighbors.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForPathSimplified.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForPoint.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForPursuit.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForSeparation.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForSpeed.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForSpeedFluctuation.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForSphericalObstacles.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForTether.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerForWander.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\SteerToFollow.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\Steering.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\TickedVehicle.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Behaviors\Vehicle.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\IPathway.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\OpenSteerUtility.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\SplinePathway.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\UnityTickedQueue.cs" />
+    <Compile Include="Assets\Scripts\Extern\UnitySteer\Vector3Pathway.cs" />
+    <Compile Include="Assets\Scripts\Libs\FrameWork\ITick.cs" />
+    <Compile Include="Assets\Scripts\Libs\FrameWork\ProcessSys.cs" />
+    <Compile Include="Assets\Scripts\Libs\FrameWork\TickMgr.cs" />
+    <Compile Include="Assets\Scripts\Libs\FrameWork\TimerList.cs" />
+    <Compile Include="Assets\Scripts\Libs\FrameWork\TimerMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\IO\InputMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Math\PointF.cs" />
     <Compile Include="Assets\Scripts\Libs\Math\Rectangle.cs" />
@@ -240,12 +324,24 @@
     <Compile Include="Assets\Scripts\Libs\Network\DataBuffer.cs" />
     <Compile Include="Assets\Scripts\Libs\Network\NetTCPClient.cs" />
     <Compile Include="Assets\Scripts\Libs\Network\NetworkMgr.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\BundleRes.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\LevelRes.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\PrefabRes.cs" />
-    <Compile Include="Assets\Scripts\Libs\Resource\Res.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\AsyncResLoadData.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\AsyncLoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\BundleAsyncLoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\BundleLoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\LevelAsyncLoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\LevelLoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\LoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\LoadItem\ResourceLoadItem.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\ResLoadData.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\ResMgr.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Task\AsyncLoadTask.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\AsyncBundleRes.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\AsyncLevelRes.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\AsyncRes.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\BundleRes.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\LevelRes.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\PrefabRes.cs" />
+    <Compile Include="Assets\Scripts\Libs\Resource\Type\Res.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTree.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTreeNode.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\Scene\Scene.cs" />
@@ -303,9 +399,13 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
+    <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
+    <None Include="Assets\Scripts\Extern\UnitySteer\License.txt" />
+    <None Include="Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\LICENSE.txt" />
     <None Include="Assets\Scripts\readme.txt" />
     <None Include="Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll" />
+    <None Include="Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\TickedPriorityQueue.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

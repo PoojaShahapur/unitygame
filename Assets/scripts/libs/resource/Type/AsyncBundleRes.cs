@@ -25,7 +25,7 @@ namespace SDK.Lib
             }
         }
 
-        override public void init(LoadItem item)
+        virtual public void init(LoadItem item)
         {
             m_bundle = item.assetBundle;
         }

@@ -1,6 +1,6 @@
 ﻿namespace SDK.Common
 {
-    interface ITimer
+    public interface ITimer
     {
         void OnTimer(float delta);
     }

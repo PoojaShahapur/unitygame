@@ -3,7 +3,7 @@
  */
 namespace SDK.Common
 {
-    enum TimerType
+    public enum TimerType
     {
         eTickTimer,             // 每一帧定时器
         eOneSecTimer,           // 1 秒定时器

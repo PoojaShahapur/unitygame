@@ -45,7 +45,7 @@ namespace SDK.Lib
         protected void onSceneCfgLoadded(IRes res)
         {
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
-            byte[] bytes = ((res as IBundleRes).gerObject(m_scene.file) as TextAsset).bytes;
+            byte[] bytes = ((res as IBundleRes).getObject(m_scene.file) as TextAsset).bytes;
             Stream stream = new MemoryStream(bytes);
             m_sceneParse.parse(stream);
         }

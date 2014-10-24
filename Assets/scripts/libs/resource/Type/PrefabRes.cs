@@ -11,7 +11,7 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
-            m_prefabObj = item.prefabObj;
+            m_prefabObj = (item as ResourceLoadItem).prefabObj;
         }
 
         public UnityEngine.Object prefabObj()

@@ -3,7 +3,7 @@ using System;
 
 namespace SDK.Lib
 {
-    class AsyncRes : IRes
+    public class AsyncRes : IRes
     {
         protected ResPackType m_type;
         protected string m_path;

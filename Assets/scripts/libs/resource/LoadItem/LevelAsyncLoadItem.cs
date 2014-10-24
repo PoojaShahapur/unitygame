@@ -17,7 +17,7 @@
         }
 
         // 加载完成后，在线程中的初始化
-        virtual public void AsyncInit()
+        override public void AsyncInit()
         {
             m_assetBundle = m_w3File.assetBundle;
         }

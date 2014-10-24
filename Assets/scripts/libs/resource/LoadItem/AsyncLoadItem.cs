@@ -6,7 +6,7 @@ using UnityEngine;
  */
 namespace SDK.Lib
 {
-    class AsyncLoadItem
+    public class AsyncLoadItem
     {
         protected ResPackType m_type;
         protected string m_path;
@@ -90,7 +90,7 @@ namespace SDK.Lib
         }
 
         // 加载完成后，在线程中的初始化
-        override public void AsyncInit()
+        virtual public void AsyncInit()
         {
 
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    class ResLoadData
+    public class ResLoadData
     {
         // 因为资源有些需要协同程序，因此重复利用资源
         public Dictionary<string, LoadItem> m_path2LDItem;       // 正在加载的内容 loaditem
