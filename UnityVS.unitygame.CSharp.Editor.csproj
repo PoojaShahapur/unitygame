@@ -55,12 +55,6 @@
     <Reference Include="UnityEditor.Graphs">
       <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
     </Reference>
-    <Reference Include="BehaviorDesignerEditor">
-      <HintPath>Assets\Behavior Designer\Editor\BehaviorDesignerEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="BehaviorDesignerRuntime">
-      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
-    </Reference>
     <Reference Include="TickedPriorityQueue">
       <HintPath>Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\TickedPriorityQueue.dll</HintPath>
     </Reference>
@@ -73,25 +67,14 @@
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\Editor\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\UnityEngine.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.unitygame.CSharp.csproj">
       <Project>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</Project>
       <Name>UnityVS.unitygame.CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityVS.unitygame.CSharp.Plugins.csproj">
-      <Project>{799FB5FD-C501-A295-633A-58FA455D740B}</Project>
-      <Name>UnityVS.unitygame.CSharp.Plugins</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Behavior Designer\Editor\BehaviorTreeInspector.cs" />
     <Compile Include="Assets\Editor\ExportAssetBundlesAndScene.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
@@ -213,17 +196,13 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
-    <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
     <None Include="Assets\Scripts\Extern\UnitySteer\License.txt" />
     <None Include="Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\LICENSE.txt" />
     <None Include="Assets\Scripts\readme.txt" />
-    <None Include="Assets\Behavior Designer\Editor\BehaviorDesignerEditor.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
     <None Include="Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll" />
-    <None Include="F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\Editor\UnityEditor.UI.dll" />
-    <None Include="F:\Program Files(x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.0\UnityEngine.UI.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

@@ -39,5 +39,29 @@ namespace SDK.Lib
                 m_y = value;
             }
         }
+
+        public float x
+        {
+            get
+            {
+                return m_x;
+            }
+            set
+            {
+                m_x = value;
+            }
+        }
+
+        public float y
+        {
+            get
+            {
+                return m_y;
+            }
+            set
+            {
+                m_y = value;
+            }
+        }
     }
 }

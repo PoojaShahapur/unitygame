@@ -5,7 +5,7 @@ using System.Text;
 namespace SDK.Common
 {
     /**
-     *@brief 类似 flash 的 ByteArray 功能
+     *@brief IByteArray 功能
      */
     public interface IByteArray
     {

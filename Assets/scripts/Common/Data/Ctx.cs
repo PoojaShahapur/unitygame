@@ -21,6 +21,9 @@ namespace SDK.Common
         public IProcessSys m_ProcessSys;
 
         public ITimerMgr m_TimerMgr;
+        public IUIMgr m_UIMgr;
+        public IResizeMgr m_ResizeMgr;
+        public IUIEvent m_cbUIEvent;
 
         public Ctx()
         {

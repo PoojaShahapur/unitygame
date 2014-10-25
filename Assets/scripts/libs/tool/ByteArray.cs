@@ -6,7 +6,7 @@ using SDK.Common;
 namespace SDK.Lib
 {
     /**
-     *@brief 类似 flash 的 ByteArray 功能
+     *@brief ByteArray 功能
      */
     public class ByteArray : IByteArray
     {

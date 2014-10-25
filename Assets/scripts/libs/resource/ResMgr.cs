@@ -27,6 +27,11 @@ namespace SDK.Lib
             }
         }
 
+        public IRes getResource(string path)
+        {
+            return m_LoadData.m_path2Res[path];
+        }
+
         public IRes load(LoadParam param)
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
@@ -41,7 +46,7 @@ namespace SDK.Lib
             Res resitem = findResFormPool(param.m_type, param.m_resNeedCoroutine);
             if (param.m_type == ResPackType.eLevelType)
             {
-                if (!resitem)
+                if (resitem == null)
                 {
                     m_LoadData.m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LevelRes>() as LevelRes;
                     if (!param.m_resNeedCoroutine)

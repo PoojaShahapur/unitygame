@@ -13,7 +13,8 @@ namespace SDK.Lib
 
         protected uint m_refNum;                // 引用计数
         protected Action<IRes> onInited;
-        protected ResLoadType m_resLoadType;   // 资源加载类型
+        protected ResLoadType m_resLoadType;    // 资源加载类型
+        protected Action<Event> onLoadCB;        // 加载完成回调
 
         public AsyncRes()
         {
@@ -104,6 +105,11 @@ namespace SDK.Lib
             }
         }
 
+        public bool HasLoaded()
+        {
+            return m_isLoaded;
+        }
+
         virtual public void init(AsyncLoadItem item)
         {
 
@@ -128,6 +134,16 @@ namespace SDK.Lib
         virtual public void unload()
         {
 
+        }
+
+        public void addEventListener(EventID evtID, Action<Event> cb)
+        {
+            onLoadCB += cb;
+        }
+
+        public void removeEventListener(EventID evtID, Action<Event> cb)
+        {
+            onLoadCB -= cb;
         }
     }
 }

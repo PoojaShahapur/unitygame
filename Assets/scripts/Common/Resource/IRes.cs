@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace SDK.Common
 {
-    public interface IRes
+    public interface IRes : IEventDispatch
     {
+        bool HasLoaded();
     }
 }

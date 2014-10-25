@@ -8,16 +8,16 @@ namespace SDK.Lib
 {
     class TickMgr : ITickMgr
     {
-        protected List<ITick> m_TickLst;
+        protected List<ITickedObject> m_TickLst;
 
         public TickMgr()
         {
-            m_TickLst = new List<ITick>();
+            m_TickLst = new List<ITickedObject>();
         }
 
         public void Advance(float delta)
         {
-            foreach (ITick tk in m_TickLst)
+            foreach (ITickedObject tk in m_TickLst)
             {
                 tk.OnTick(delta);
             }

@@ -14,7 +14,7 @@ public class Compress
     /// </summary>
     /// <param name="param"></param>
     /// <returns></returns>
-    public string Compress(string param)
+    static public string CompressStr(string param)
     {
         byte[] data = System.Text.Encoding.UTF8.GetBytes(param);
         //byte[] data = Convert.FromBase64String(param);
@@ -37,7 +37,7 @@ public class Compress
     /// </summary>
     /// <param name="param"></param>
     /// <returns></returns>
-    public string Decompress(string param)
+    static public string DecompressStr(string param)
     {
         string commonString = "";
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(param);
@@ -63,7 +63,7 @@ public class Compress
     /// </summary>
     /// <param name="param"></param>
     /// <returns></returns>
-    public string Compress(byte[] data)
+    static public string CompressByte(byte[] data)
     {
         MemoryStream ms = new MemoryStream();
         Stream stream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
@@ -83,7 +83,7 @@ public class Compress
     /// </summary>
     /// <param name="param"></param>
     /// <returns></returns>
-    public string Decompress(byte[] buffer)
+    static public string DecompressByte(byte[] buffer)
     {
         string commonString = "";
         MemoryStream ms = new MemoryStream(buffer);

@@ -17,6 +17,7 @@ namespace SDK.Lib
         protected uint m_refNum;                // 引用计数
         protected Action<IRes> onInited;
         protected ResLoadType m_resLoadType;   // 资源加载类型
+        protected Action<SDK.Common.Event> onLoadCB;        // 加载完成回调
 
         public Res()
         {
@@ -119,6 +120,11 @@ namespace SDK.Lib
             }
         }
 
+        public bool HasLoaded()
+        {
+            return m_isLoaded;
+        }
+
         virtual public void init(LoadItem item)
         {
 
@@ -148,6 +154,16 @@ namespace SDK.Lib
         virtual public void unload()
         {
 
+        }
+
+        public void addEventListener(EventID evtID, Action<SDK.Common.Event> cb)
+        {
+            onLoadCB += cb;
+        }
+
+        public void removeEventListener(EventID evtID, Action<SDK.Common.Event> cb)
+        {
+            onLoadCB -= cb;
         }
     }
 }
