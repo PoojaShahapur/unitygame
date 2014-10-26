@@ -4,7 +4,7 @@ using SDK.Common;
 using Game.App;
 
 /**
- * @brief 这个模块主要是代码，核心代码都在这里，以后代码都放在这个里面
+ * @brief 这个模块主要是代码，启动必要的核心代码都在这里，可能某些依赖模块延迟加载
  */
 public class AppRoot : MonoBehaviour 
 {
