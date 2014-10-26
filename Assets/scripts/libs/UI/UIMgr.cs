@@ -10,7 +10,7 @@ namespace SDK.Lib
 	 */
 	public class UIMgr : IUIMgr, IResizeObject
 	{
-		private Dictionary<UIFormID, Form> m_dicForm; //[id,form]
+		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
 		private List<UILayer> m_vecLayer;
         public UIAttrs m_UIAttrs;
 		

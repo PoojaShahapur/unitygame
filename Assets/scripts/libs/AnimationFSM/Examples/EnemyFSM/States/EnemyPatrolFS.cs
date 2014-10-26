@@ -19,7 +19,7 @@ public class EnemyPatrolFS : FSMState {
 
     private float maxWaypointDistance = 20.0f;
 
-    private PlayerHealthController playerHealth;
+    //private PlayerHealthController playerHealth;
 
     public EnemyPatrolFS(FSM fsm, GameObject enemy, GameObject player)
         : base(fsm, enemy, player)
@@ -27,7 +27,7 @@ public class EnemyPatrolFS : FSMState {
         mEnemyNavAgent = enemy.GetComponent<NavMeshAgent>();
         mEnemyAnimation = enemy.GetComponent<Animation>();
 
-        playerHealth = player.GetComponent<PlayerHealthController>();
+        //playerHealth = player.GetComponent<PlayerHealthController>();
 
         waypoints = GameObject.FindGameObjectsWithTag("EnemyWaypoint");
     }
@@ -112,7 +112,8 @@ public class EnemyPatrolFS : FSMState {
 
     bool isTargetVisible()
     {
-        return !playerHealth.IsDead() && (CanSeePlayer() || IsNearbyPlayer());
+        //return !playerHealth.IsDead() && (CanSeePlayer() || IsNearbyPlayer());
+        return (CanSeePlayer() || IsNearbyPlayer());
     }
 
     bool CanSeePlayer()

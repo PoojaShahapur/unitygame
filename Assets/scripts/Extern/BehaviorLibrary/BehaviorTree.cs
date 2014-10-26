@@ -18,7 +18,7 @@ namespace BehaviorLibrary
     /// <summary>
     /// 
     /// </summary>
-    public class Behavior
+    public class BehaviorTree
     {
 
 		private BehaviorComponent _Root;
@@ -35,12 +35,13 @@ namespace BehaviorLibrary
         /// 
         /// </summary>
         /// <param name="root"></param>
-        public Behavior(IndexSelector root)
+        public BehaviorTree(IndexSelector root)
         {
             _Root = root;
         }
 
-		public Behavior(BehaviorComponent root){
+        public BehaviorTree(BehaviorComponent root)
+        {
 			_Root = root;
 		}
 

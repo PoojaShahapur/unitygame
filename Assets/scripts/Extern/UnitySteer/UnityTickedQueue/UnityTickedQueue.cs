@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using TickedPriorityQueue;
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// A helper class to create Unity updated Ticked Priority Queues.
@@ -92,10 +91,8 @@ public class UnityTickedQueue : MonoBehaviour
 		}
 	}
 	
-	void OnEnable()
-	{
-		_queue.TickExceptionHandler = LogException;
-	}
+	
+	private UnityTickedQueue () {}	
 	
 	/// <summary>
 	/// Adds an ITicked reference to the queue.
@@ -114,10 +111,9 @@ public class UnityTickedQueue : MonoBehaviour
 	/// <param name="ticked">
 	/// A <see cref="ITicked"/> reference, which will be ticked periodically based on its properties.
 	/// </param>
-	/// <returns>True if the item was successfully removed, false if otherwise</returns>
-	public bool  Remove(ITicked ticked)
+	public void Remove(ITicked ticked)
 	{
-		return _queue.Remove(ticked);
+		_queue.Remove(ticked);
 	}
 	
 	/// <summary>
@@ -132,11 +128,6 @@ public class UnityTickedQueue : MonoBehaviour
 	private void Update()
 	{
 		_queue.Update();
-	}
-
-	void LogException(Exception e, ITicked ticked)
-	{
-		Debug.LogException(e, this);
 	}
 }
 

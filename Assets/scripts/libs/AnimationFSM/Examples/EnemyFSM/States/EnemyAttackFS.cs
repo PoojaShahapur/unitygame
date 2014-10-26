@@ -5,9 +5,9 @@ using AIEngine;
 public class EnemyAttackFS : FSMState {
 
     private Animation mEnemyAnimation;
-    private EnemyHealthController mEnemyHealth;
+    //private EnemyHealthController mEnemyHealth;
 
-    private PlayerHealthController mPlayerHealth;
+    //private PlayerHealthController mPlayerHealth;
     private Animation mPlayerAnimation;
 
     private float mAttackTimeCounter;
@@ -19,10 +19,10 @@ public class EnemyAttackFS : FSMState {
     {
         mEnemyAnimation = enemy.GetComponent<Animation>();
 
-        mPlayerHealth = mPlayer.GetComponent<PlayerHealthController>();
+        //mPlayerHealth = mPlayer.GetComponent<PlayerHealthController>();
         mPlayerAnimation = mPlayer.GetComponent<Animation>();
 
-        mEnemyHealth = enemy.GetComponent<EnemyHealthController>();
+        //mEnemyHealth = enemy.GetComponent<EnemyHealthController>();
     }
 
     override public void OnStateEnter()
@@ -45,10 +45,10 @@ public class EnemyAttackFS : FSMState {
         {
             mFSM.MoveToState(EnemyStateId.Chase);
         }
-        else if(mPlayerHealth.IsDead())
-        {
-            mFSM.MoveToState(EnemyStateId.Patrol);
-        }
+        //else if(mPlayerHealth.IsDead())
+        //{
+        //    mFSM.MoveToState(EnemyStateId.Patrol);
+        //}
         else
         {
             Vector3 point = mPlayer.transform.position;
@@ -72,7 +72,7 @@ public class EnemyAttackFS : FSMState {
         mPlayerAnimation.CrossFade("damage");
         mPlayerAnimation.CrossFadeQueued("idle");
 
-        mPlayerHealth.LoseHealth(10);
+        //mPlayerHealth.LoseHealth(10);
 
         mEnemyAnimation.CrossFade("attack_1");
         mEnemyAnimation.CrossFadeQueued("idle");
