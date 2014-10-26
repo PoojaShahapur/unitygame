@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+
 namespace SDK.Lib
 {
     public class EncryptDecrypt

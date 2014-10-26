@@ -4,101 +4,104 @@ using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using ICSharpCode.SharpZipLib.GZip;
 
-/// <summary>
-/// Summary description for ICSharp
-/// </summary>
-public class Compress
+namespace SDK.Lib
 {
     /// <summary>
-    /// 压缩
+    /// Summary description for ICSharp
     /// </summary>
-    /// <param name="param"></param>
-    /// <returns></returns>
-    static public string CompressStr(string param)
+    public class Compress
     {
-        byte[] data = System.Text.Encoding.UTF8.GetBytes(param);
-        //byte[] data = Convert.FromBase64String(param);
-        MemoryStream ms = new MemoryStream();
-        Stream stream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
-        try
+        /// <summary>
+        /// 压缩
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        static public string CompressStr(string param)
         {
-            stream.Write(data, 0, data.Length);
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(param);
+            //byte[] data = Convert.FromBase64String(param);
+            MemoryStream ms = new MemoryStream();
+            Stream stream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
+            try
+            {
+                stream.Write(data, 0, data.Length);
+            }
+            finally
+            {
+                stream.Close();
+                ms.Close();
+            }
+            return Convert.ToBase64String(ms.ToArray());
         }
-        finally 
-        {
-            stream.Close();
-            ms.Close();
-        }
-        return Convert.ToBase64String(ms.ToArray());
-    }
 
-    /// <summary>
-    /// 解压
-    /// </summary>
-    /// <param name="param"></param>
-    /// <returns></returns>
-    static public string DecompressStr(string param)
-    {
-        string commonString = "";
-        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(param);
-        //byte[] buffer=Convert.FromBase64String(param);
-        MemoryStream ms = new MemoryStream(buffer);
-        Stream sm = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
-        //这里要指明要读入的格式，要不就有乱码
-        StreamReader reader = new StreamReader(sm,System.Text.Encoding.UTF8);
-        try
+        /// <summary>
+        /// 解压
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        static public string DecompressStr(string param)
         {
-            commonString=reader.ReadToEnd();
+            string commonString = "";
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(param);
+            //byte[] buffer=Convert.FromBase64String(param);
+            MemoryStream ms = new MemoryStream(buffer);
+            Stream sm = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
+            //这里要指明要读入的格式，要不就有乱码
+            StreamReader reader = new StreamReader(sm, System.Text.Encoding.UTF8);
+            try
+            {
+                commonString = reader.ReadToEnd();
+            }
+            finally
+            {
+                sm.Close();
+                ms.Close();
+            }
+            return commonString;
         }
-        finally
-        {
-            sm.Close();
-            ms.Close();
-        }
-        return commonString;
-    }
 
-    /// <summary>
-    /// 压缩
-    /// </summary>
-    /// <param name="param"></param>
-    /// <returns></returns>
-    static public string CompressByte(byte[] data)
-    {
-        MemoryStream ms = new MemoryStream();
-        Stream stream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
-        try
+        /// <summary>
+        /// 压缩
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        static public string CompressByte(byte[] data)
         {
-            stream.Write(data, 0, data.Length);
+            MemoryStream ms = new MemoryStream();
+            Stream stream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
+            try
+            {
+                stream.Write(data, 0, data.Length);
+            }
+            finally
+            {
+                stream.Close();
+                ms.Close();
+            }
+            return Convert.ToBase64String(ms.ToArray());
         }
-        finally
+        /// <summary>
+        /// 解压
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        static public string DecompressByte(byte[] buffer)
         {
-            stream.Close();
-            ms.Close();
+            string commonString = "";
+            MemoryStream ms = new MemoryStream(buffer);
+            Stream sm = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
+            //这里要指明要读入的格式，要不就有乱码
+            StreamReader reader = new StreamReader(sm, System.Text.Encoding.UTF8);
+            try
+            {
+                commonString = reader.ReadToEnd();
+            }
+            finally
+            {
+                sm.Close();
+                ms.Close();
+            }
+            return commonString;
         }
-        return Convert.ToBase64String(ms.ToArray());
-    }
-    /// <summary>
-    /// 解压
-    /// </summary>
-    /// <param name="param"></param>
-    /// <returns></returns>
-    static public string DecompressByte(byte[] buffer)
-    {
-        string commonString = "";
-        MemoryStream ms = new MemoryStream(buffer);
-        Stream sm = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(ms);
-        //这里要指明要读入的格式，要不就有乱码
-        StreamReader reader = new StreamReader(sm, System.Text.Encoding.UTF8);
-        try
-        {
-            commonString = reader.ReadToEnd();
-        }
-        finally
-        {
-            sm.Close();
-            ms.Close();
-        }
-        return commonString;
     }
 }
