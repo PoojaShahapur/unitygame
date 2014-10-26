@@ -3,7 +3,7 @@
     /**
      * @brief 深度排序
      */
-    class DepthMgr
+    public class DepthMgr
     {
     }
 }
