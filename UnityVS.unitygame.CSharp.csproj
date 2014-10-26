@@ -252,6 +252,8 @@
     <Compile Include="Assets\Scripts\Libs\AIModule\BehaviorLibrary\Components\Utility\UtilitySelector.cs" />
     <Compile Include="Assets\Scripts\Libs\AIModule\BehaviorLibrary\Components\Utility\UtilityVector.cs" />
     <Compile Include="Assets\Scripts\Libs\AIModule\BehaviorLibrary\Factory\FactoryBase.cs" />
+    <Compile Include="Assets\Scripts\Libs\Animation\NodeAnimation.cs" />
+    <Compile Include="Assets\Scripts\Libs\Animation\NodeAnimationTrack.cs" />
     <Compile Include="Assets\Scripts\Libs\AnimationFSM\Examples\EnemyFSM\EnemyFSM.cs" />
     <Compile Include="Assets\Scripts\Libs\AnimationFSM\Examples\EnemyFSM\EnemyStateId.cs" />
     <Compile Include="Assets\Scripts\Libs\AnimationFSM\Examples\EnemyFSM\States\EnemyAttackFS.cs" />
