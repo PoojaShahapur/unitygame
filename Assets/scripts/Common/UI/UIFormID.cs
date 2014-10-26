@@ -13,4 +13,9 @@ namespace SDK.Common
         FirstLayer = 0,
 		MaxLayer,
     }
+
+    public enum WinIDCnt
+    {
+        eIDCnt = 500,           // 每一个窗口中可以占用的 ID 数量
+    }
 }
