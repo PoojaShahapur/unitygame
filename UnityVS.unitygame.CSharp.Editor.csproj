@@ -7,14 +7,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8A0F3277-6E20-2146-1815-4F781BBD8065}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,9 +56,6 @@
     </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
-    </Reference>
-    <Reference Include="TickedPriorityQueue">
-      <HintPath>Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\TickedPriorityQueue.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
@@ -159,10 +158,10 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
-    <Compile Include="Assets\Scripts\Extern\UnitySteer\Editor\AngleCosineDrawer.cs" />
-    <Compile Include="Assets\Scripts\Extern\UnitySteer\Editor\DegreeEditor.cs" />
-    <Compile Include="Assets\Scripts\Extern\UnitySteer\Editor\Vector3FoldoutEditor.cs" />
-    <Compile Include="Assets\Scripts\Extern\UnitySteer\Editor\Vector3TogglePropertyDrawer.cs" />
+    <Compile Include="Assets\Scripts\Libs\UnitySteer\Editor\AngleCosineDrawer.cs" />
+    <Compile Include="Assets\Scripts\Libs\UnitySteer\Editor\DegreeEditor.cs" />
+    <Compile Include="Assets\Scripts\Libs\UnitySteer\Editor\Vector3FoldoutEditor.cs" />
+    <Compile Include="Assets\Scripts\Libs\UnitySteer\Editor\Vector3TogglePropertyDrawer.cs" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
@@ -197,8 +196,6 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
-    <None Include="Assets\Scripts\Extern\UnitySteer\License.txt" />
-    <None Include="Assets\Scripts\Extern\UnitySteer\TickedPriorityQueue\LICENSE.txt" />
     <None Include="Assets\Scripts\readme.txt" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
