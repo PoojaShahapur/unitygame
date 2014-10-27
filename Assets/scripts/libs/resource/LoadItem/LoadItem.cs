@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class LoadItem : MonoBehaviour
+    public class LoadItem
     {
         protected ResPackType m_type;
         protected string m_path;
@@ -116,7 +116,7 @@ namespace SDK.Lib
             }
             else                                    // 从 web 服务器加载
             {
-                StartCoroutine(downloadAsset());
+                Ctx.m_instance.m_CoroutineMgr.StartCoroutine(downloadAsset());
             }
         }
 

@@ -48,33 +48,22 @@ namespace SDK.Lib
             {
                 if (resitem == null)
                 {
-                    m_LoadData.m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LevelRes>() as LevelRes;
-                    if (!param.m_resNeedCoroutine)
-                    {
-                        //m_path2Res[param.m_path] = new LevelRes();
-                        m_LoadData.m_path2Res[param.m_path].enabled = false;
-                    }
+                    m_LoadData.m_path2Res[param.m_path] = new LevelRes();
                 }
                 else
                 {
                     m_LoadData.m_path2Res[param.m_path] = resitem;
-                    m_LoadData.m_path2Res[param.m_path].enabled = true;
                 }
             }
             else if (param.m_type == ResPackType.eBundleType)
             {
-                if (!resitem)
+                if (resitem == null)
                 {
-                    m_LoadData.m_path2Res[param.m_path] = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<BundleRes>() as BundleRes;
-                    if (!param.m_resNeedCoroutine)
-                    {
-                        m_LoadData.m_path2Res[param.m_path].enabled = false;
-                    }
+                    m_LoadData.m_path2Res[param.m_path] = new BundleRes();
                 }
                 else
                 {
                     m_LoadData.m_path2Res[param.m_path] = resitem;
-                    m_LoadData.m_path2Res[param.m_path].enabled = true;
                 }
 
                 (m_LoadData.m_path2Res[param.m_path] as BundleRes).prefabName = param.m_prefabName;
@@ -91,33 +80,23 @@ namespace SDK.Lib
             }
 
             LoadItem loaditem = findLoadItemFormPool(param.m_type, param.m_resNeedCoroutine);
-            if (!loaditem)
+            if (loaditem == null)
             {
                 if (ResPackType.eBundleType == param.m_type)        // Bundle 打包模式
                 {
                     if (ResLoadType.eLoadResource == param.m_resLoadType)            // 如果是从默认的 Bundle 中加载
                     {
-                        loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<ResourceLoadItem>() as LoadItem;
+                        loaditem = new ResourceLoadItem();
                     }
                     else if (ResLoadType.eLoadDisc == param.m_resLoadType)
                     {
-                        loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<BundleLoadItem>() as LoadItem;
+                        loaditem = new BundleLoadItem();
                     }
                 }
                 else if (ResPackType.eLevelType == param.m_type)
                 {
-                    loaditem = Ctx.m_instance.m_dataTrans.gameObject.AddComponent<LevelLoadItem>() as LoadItem;
+                    loaditem = new LevelLoadItem();
                 }
-
-                if (!param.m_loadNeedCoroutine)
-                {
-                    // loaditem = new LoadItem();
-                    loaditem.enabled = false;
-                }
-            }
-            else
-            {
-                loaditem.enabled = true;
             }
 
             loaditem.type = param.m_type;
@@ -149,7 +128,6 @@ namespace SDK.Lib
             {
                 if (m_LoadData.m_path2Res[path].resNeedCoroutine)
                 {
-                    m_LoadData.m_path2Res[path].enabled = false;       // 不移除，仅仅是不再更新
                     //GameObject.Destroy(m_path2Res[path]); // 不再从 gameobject 上移除了
                 }
 
@@ -172,7 +150,6 @@ namespace SDK.Lib
 
             if (item.loadNeedCoroutine)
             {
-                item.enabled = false;       // 不移除，仅仅是不再更新
                 //GameObject.Destroy(item); // 不再从 gameobject 上移除了
             }
 
@@ -287,12 +264,12 @@ namespace SDK.Lib
                 {
                     if (ResLoadType.eLoadDisc == param.m_resLoadType)
                     {
-                        loaditem = new BundleAsyncLoadItem();
+                        loaditem = new AsyncBundleLoadItem();
                     }
                 }
                 else if (ResPackType.eLevelType == param.m_type)
                 {
-                    loaditem = new LevelAsyncLoadItem();
+                    loaditem = new AsyncLevelLoadItem();
                 }
             }
 
@@ -302,7 +279,7 @@ namespace SDK.Lib
             loaditem.onLoaded += onAsyncLoad;
             if (ResPackType.eLevelType == param.m_type)
             {
-                (loaditem as LevelAsyncLoadItem).levelName = param.m_lvlName;
+                (loaditem as AsyncLevelLoadItem).levelName = param.m_lvlName;
             }
 
             if (m_curNum < m_maxParral)
@@ -320,7 +297,7 @@ namespace SDK.Lib
             return m_AsyncLoadData.m_path2Res[param.m_path];
         }
 
-        public void onAsyncLoad(AsyncLoadItem item)
+        public void onAsyncLoad(LoadItem item)
         {
             string path = item.path;
             item.onLoaded -= onAsyncLoad;

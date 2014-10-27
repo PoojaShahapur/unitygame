@@ -32,7 +32,7 @@ namespace SDK.Lib
             m_bundle = item.assetBundle;
             if (m_resNeedCoroutine)
             {
-                StartCoroutine(initAssetByCoroutine());
+                Ctx.m_instance.m_CoroutineMgr.StartCoroutine(initAssetByCoroutine());
             }
             else
             {
@@ -42,7 +42,7 @@ namespace SDK.Lib
 
         override public IEnumerator initAssetByCoroutine()
         {
-            Instantiate(m_bundle.Load(m_prefabName));
+            GameObject.Instantiate(m_bundle.Load(m_prefabName));
             yield return null;
             m_bundle.Unload(false);
 
@@ -54,8 +54,8 @@ namespace SDK.Lib
 
         override public void initAsset()
         {
-            //Instantiate(m_bundle.Load(m_prefabName));
-            //m_bundle.Unload(false);
+            GameObject.Instantiate(m_bundle.Load(m_prefabName));
+            m_bundle.Unload(false);
 
             if (onInited != null)
             {
@@ -71,7 +71,7 @@ namespace SDK.Lib
 
         public GameObject InstantiateObject(string resname)
         {
-            return Instantiate(m_bundle.Load(resname)) as GameObject;
+            return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
         }
 
         public UnityEngine.Object getObject(string resname)

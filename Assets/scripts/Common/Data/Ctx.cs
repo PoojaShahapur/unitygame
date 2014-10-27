@@ -24,6 +24,7 @@ namespace SDK.Common
         public IUIMgr m_UIMgr;
         public IResizeMgr m_ResizeMgr;
         public IUIEvent m_cbUIEvent;
+        public ICoroutineMgr m_CoroutineMgr;
 
         public Ctx()
         {

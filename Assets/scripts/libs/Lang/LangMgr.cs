@@ -27,7 +27,7 @@ namespace SDK.Lib
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(@"..\..\aaa.xml");
 
-            XmlElement xe;
+            //XmlElement xe;
             XmlNode xn = xmlDoc.SelectSingleNode("msg");
             XmlNodeList xnl = xn.ChildNodes;
             m_nodeList = xnl;

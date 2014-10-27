@@ -9,7 +9,7 @@ namespace SDK.Lib
 
         public BeingEntity()
         {
-            
+            m_skinAniModel = new SkinAniModel();
         }
 	}
 }

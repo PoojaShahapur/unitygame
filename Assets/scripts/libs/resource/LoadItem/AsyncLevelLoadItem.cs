@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    class LevelAsyncLoadItem : AsyncLoadItem
+    class AsyncLevelLoadItem : AsyncLoadItem
     {
         protected string m_levelName;
 

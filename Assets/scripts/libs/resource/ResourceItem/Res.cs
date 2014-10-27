@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class Res : MonoBehaviour, IRes
+    public class Res : IRes
     {
         protected ResPackType m_type;
         protected string m_path;
