@@ -1,11 +1,13 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     class Monster : BeingEntity
     {
         public Monster()
             : base()
         {
-            m_skinAniModel = new SkinAniModel[(int)MonstersModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new GameObject[(int)MonstersModelDef.eModelTotal];
         }
     }
 }

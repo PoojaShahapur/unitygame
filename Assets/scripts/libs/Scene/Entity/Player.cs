@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SDK.Lib
 {
 	/**
@@ -8,7 +10,7 @@ namespace SDK.Lib
 		public Player()
             : base()
 		{
-            m_skinAniModel = new SkinAniModel[(int)PlayerModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new GameObject[(int)PlayerModelDef.eModelTotal];
 		}
 	}
 }

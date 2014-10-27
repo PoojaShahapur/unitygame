@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SDK.Lib
 {		
 	/**
@@ -8,7 +10,7 @@ namespace SDK.Lib
 		public Npc()
             : base()
 		{
-            m_skinAniModel = new SkinAniModel[(int)NpcModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new GameObject[(int)NpcModelDef.eModelTotal];
 		}
 	}
 }
