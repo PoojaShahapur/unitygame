@@ -26,6 +26,8 @@ namespace SDK.Common
         public IUIEvent m_cbUIEvent;
         public ICoroutineMgr m_CoroutineMgr;
 
+        public IEngineLoop m_EngineLoop;
+
         public Ctx()
         {
 
