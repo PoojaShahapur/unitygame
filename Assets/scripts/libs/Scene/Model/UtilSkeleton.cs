@@ -1,31 +1,37 @@
 using UnityEngine;
 using System.Collections;
 
-public class UtilSkeleton : MonoBehaviour
+namespace SDK.Lib
 {
-    public string[] Bones;
-
-    // Use this for initialization
-    void Start()
+    /**
+     * @brief 工具，主要是修正骨骼
+     */
+    public class UtilSkeleton
     {
-        SkinnedMeshRenderer skinRenderer = GetComponent<SkinnedMeshRenderer>();
-        if (skinRenderer != null)
+        public string[] Bones;
+
+        // 修正骨骼，一定要先改变子模型，再修正骨骼
+        public static void CorrectSkel(GameObject subMesh, params string[] bonesList)
         {
-            Transform[] bindBones = new Transform[Bones.Length];
-            Transform[] transforms = transform.parent.GetComponentsInChildren<Transform>();
-            for (int i = 0; i < Bones.Length; i++)
+            SkinnedMeshRenderer skinRenderer = subMesh.GetComponent<SkinnedMeshRenderer>();
+            if (skinRenderer != null)
             {
-                string bone = Bones[i];
-                foreach (Transform trans in transforms)
+                Transform[] bindBones = new Transform[bonesList.Length];
+                Transform[] transforms = subMesh.transform.parent.GetComponentsInChildren<Transform>();
+                for (int i = 0; i < bonesList.Length; i++)
                 {
-                    if (trans.name == bone)
+                    string bone = bonesList[i];
+                    foreach (Transform trans in transforms)
                     {
-                        bindBones[i] = trans;
-                        break;
+                        if (trans.name == bone)
+                        {
+                            bindBones[i] = trans;
+                            break;
+                        }
                     }
                 }
+                skinRenderer.bones = bindBones;
             }
-            skinRenderer.bones = bindBones;
         }
     }
 }

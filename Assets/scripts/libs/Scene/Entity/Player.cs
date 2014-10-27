@@ -6,8 +6,9 @@ namespace SDK.Lib
 	public class Player : BeingEntity
 	{			
 		public Player()
+            : base()
 		{
-		
+            m_skinAniModel = new SkinAniModel[(int)PlayerModelDef.eModelTotal];
 		}
 	}
 }

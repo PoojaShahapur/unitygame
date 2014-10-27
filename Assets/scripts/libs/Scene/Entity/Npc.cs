@@ -5,9 +5,10 @@ namespace SDK.Lib
 	 */
 	public class Npc : BeingEntity 
 	{
-		public Npc() 
+		public Npc()
+            : base()
 		{
-
+            m_skinAniModel = new SkinAniModel[(int)NpcModelDef.eModelTotal];
 		}
 	}
 }
