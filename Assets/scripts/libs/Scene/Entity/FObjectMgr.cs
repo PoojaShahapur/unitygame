@@ -5,9 +5,9 @@ namespace SDK.Lib
 	/**
 	 * @brief 掉落物管理器   
 	 */
-    public class FObjectMgr : IFObjectManager
+    public class FObjectMgr : IFObjectMgr
 	{
-		public FObjectManager() 
+        public FObjectMgr()
 		{
 
 		}
