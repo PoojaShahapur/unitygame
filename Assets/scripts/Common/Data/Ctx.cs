@@ -8,25 +8,32 @@ namespace SDK.Common
     {
         static public Ctx m_instance;
 
-        public INetworkMgr m_netMgr;
-        public Config m_cfg;
-        public ILogger m_log;
-        public IResMgr m_resMgr;
-        public IInputMgr m_inputMgr;
-        public Transform m_dataTrans;
+        public INetworkMgr m_netMgr;                // 网络通信
+        public Config m_cfg;                        // 整体配置文件
+        public ILogger m_log;                       // 日志系统
+        public IResMgr m_resMgr;                    // 资源管理器
+        public IInputMgr m_inputMgr;                // 输入管理器
+        public Transform m_dataTrans;               // 整个系统使用的 GameObject
 
-        public IGameSys m_gameSys;
-        public ISceneSys m_sceneSys;
-        public ITickMgr m_TickMgr;
-        public IProcessSys m_ProcessSys;
+        public IGameSys m_gameSys;                  // 游戏系统
+        public ISceneSys m_sceneSys;                // 场景系统
+        public ITickMgr m_TickMgr;                  // 心跳管理器
+        public IProcessSys m_ProcessSys;            // 游戏处理系统
 
-        public ITimerMgr m_TimerMgr;
-        public IUIMgr m_UIMgr;
-        public IResizeMgr m_ResizeMgr;
-        public IUIEvent m_cbUIEvent;
-        public ICoroutineMgr m_CoroutineMgr;
+        public ITimerMgr m_TimerMgr;                // 定时器系统
+        public IUIMgr m_UIMgr;                      // UI 管理器
+        public IResizeMgr m_ResizeMgr;              // 窗口大小修改管理器
+        public IUIEvent m_cbUIEvent;                // UI 事件回调
+        public ICoroutineMgr m_CoroutineMgr;        // 协程管理器
 
-        public IEngineLoop m_EngineLoop;
+        public IEngineLoop m_EngineLoop;            // 引擎循环
+        public GameAttr m_gameAttr;                 // 游戏属性
+        public IFObjectMgr m_monsterMgr;            // 怪物管理器
+        public IMonsterMgr m_monsterMgr;            // NPC管理器
+        public INpcMgr m_npcMgr;                    // Npc管理器
+        public IPlayerMgr m_playerMgr;              // Player管理器
+        public ITerrainMgr m_terrainMgr;            // Terrain管理器
+
 
         public Ctx()
         {

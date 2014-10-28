@@ -1,13 +1,15 @@
+using SDK.Common;
+
 namespace SDK.Lib
 {
 	/**
 	 * @brief 玩家管理器
 	 */
-	public class PlayerManager
+    public class PlayerMgr : IPlayerMgr
 	{
         public BetterList<Player> m_playerLists;
 
-		public PlayerManager()
+        public PlayerMgr()
 		{
 
 		}
