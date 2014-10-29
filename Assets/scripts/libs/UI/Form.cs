@@ -8,7 +8,8 @@ namespace SDK.Lib
 	 */
 	public class Form : Window, IForm
 	{
-		protected bool m_bHideOnCreate;
+		protected bool m_bHideOnCreate = false;         // 创建后是否隐藏
+        protected bool m_bResLoaded = false;            // 资源加载进来
 		
 		public Form()
             : base()

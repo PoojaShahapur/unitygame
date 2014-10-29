@@ -20,7 +20,7 @@ namespace SDK.Lib
             if (m_dicAttr.ContainsKey(id))
             {
                 string ret = m_dicAttr[id].m_path;
-                ret = "asset/ui/" + ret + ".aaa";
+                ret = "aaa/bbb/" + ret + ".aaa";
                 return ret;
             }
 

@@ -13,6 +13,7 @@ namespace SDK.Lib
 		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
 		private List<UILayer> m_vecLayer;
         public UIAttrs m_UIAttrs;
+        public IUIFactory m_IUIFactory;
 		
 		public UIMgr()
 		{
@@ -55,6 +56,7 @@ namespace SDK.Lib
 			}
 			else
 			{
+                // 创建窗口资源
 				IRes res = Ctx.m_instance.m_resMgr.getResource(path);
 				if (res != null)
 				{
@@ -93,7 +95,8 @@ namespace SDK.Lib
 			return (m_dicForm.ContainsKey(ID));
 		}
 
-		public void showFormEx(UIFormID ID)
+        // 加载并且显示
+		public void LoadAndShowForm(UIFormID ID)
 		{
 			if (hasForm(ID))
 			{
