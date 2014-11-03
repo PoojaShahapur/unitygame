@@ -22,5 +22,10 @@ namespace SDK.Lib
                 tk.OnTick(delta);
             }
         }
+
+        public void AddTickObj(ITickedObject obj)
+        {
+            m_TickLst.Add(obj);
+        }
     }
 }

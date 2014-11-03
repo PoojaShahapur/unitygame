@@ -40,14 +40,15 @@ namespace SDK.Lib
                         }
                         else if(loadItem.ResLoadState == ResLoadState.eLoading) // 正在加载
                         {
-                            if(loadItem.w3File.isDone)          // 加载完成
-                            {
-                                loadItem.ResLoadState = ResLoadState.eLoaded;
-                            }
-                            if(loadItem.w3File.error.Length > 0)          // 加载出现错误
-                            {
-                                loadItem.ResLoadState = ResLoadState.eFailed;
-                            }
+                            //if(loadItem.w3File.isDone)          // 加载完成
+                            //{
+                            //    loadItem.ResLoadState = ResLoadState.eLoaded;
+                            //}
+                            //if(loadItem.w3File.error.Length > 0)          // 加载出现错误
+                            //{
+                            //    loadItem.ResLoadState = ResLoadState.eFailed;
+                            //}
+                            loadItem.CheckLoadState();
                         }
                     }
                 }

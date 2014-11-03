@@ -1,4 +1,4 @@
-﻿namespace SDK.Lib
+﻿namespace SDK.Common
 {
     public interface ITickedObject
     {

@@ -66,14 +66,14 @@ namespace SDK.Common
         }
 
         // Update is called once per frame
-        public void Update() 
-        {
+        //public void Update() 
+        //{
             // 处理网络
             //ByteArray ret = m_netMgr.getMsg();
 
             // 处理 input
-            m_inputMgr.handleKeyBoard();
-	    }
+            //m_inputMgr.handleKeyBoard();
+	    //}
 
         public void OnApplicationQuit()
         {

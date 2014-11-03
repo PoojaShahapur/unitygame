@@ -9,7 +9,12 @@ namespace SDK.Lib
     {
         public void MainLoop()
         {
-
+            // 处理网络
+            ByteArray ret = Ctx.m_instance.m_netMgr.getMsg() as ByteArray;
+            // 处理 input
+            Ctx.m_instance.m_inputMgr.handleKeyBoard();
+            // 游戏循环处理
+            Ctx.m_instance.m_ProcessSys.ProcessNextFrame();
         }
     }
 }

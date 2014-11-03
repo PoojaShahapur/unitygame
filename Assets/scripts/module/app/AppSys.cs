@@ -28,6 +28,10 @@ namespace Game.App
             Ctx.m_instance.m_shareMgr = new ShareMgr();
             Ctx.m_instance.m_sceneSys = new SceneSys();
             Ctx.m_instance.m_layerMgr = new LayerMgr();
+
+            Ctx.m_instance.m_EngineLoop = new EngineLoop();
+
+            PostInit();
         }
 
         // Use this for initialization
@@ -39,12 +43,18 @@ namespace Game.App
         // Update is called once per frame
         public void Update()
         {
-            Ctx.m_instance.Update();
+            //Ctx.m_instance.Update();
+            Ctx.m_instance.m_EngineLoop.MainLoop();
         }
 
         public void OnApplicationQuit()
         {
 
+        }
+
+        public void PostInit()
+        {
+            Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_resMgr as ITickedObject);
         }
 
         public void setNoDestroyObject()

@@ -191,5 +191,11 @@ namespace SDK.Lib
             m_w3File = null;
             m_loadNeedCoroutine = false;
         }
+
+        // 检查加载状态
+        virtual public void CheckLoadState()
+        {
+
+        }
     }
 }

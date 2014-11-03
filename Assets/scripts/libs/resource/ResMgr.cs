@@ -6,20 +6,23 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class ResMgr : IResMgr
+    public class ResMgr : IResMgr, ITickedObject
     {
         protected uint m_maxParral = 8;                             // 最多同时加载的内容
         protected uint m_curNum = 0;                                // 当前加载的数量
         protected LoadParam m_loadParam;
         protected ResLoadData m_LoadData;
-        protected AsyncLoadTask m_AsyncLoadTask;                    // 异步加载任务
+        protected AsyncLoadTask m_AsyncLoadTask = new AsyncLoadTask();                    // 异步加载任务
 
-        protected bool m_IsSyncLoad = true;                         // 是否是同步加载
+        protected bool m_IsSyncLoad = false;                         // 是否是同步加载
 
         public ResMgr()
         {
             m_loadParam = new LoadParam();
             m_LoadData = new ResLoadData();
+
+            m_AsyncLoadTask.AsyncResLoadData = m_AsyncLoadData;
+            m_AsyncLoadTask.start();
         }
 
         public LoadParam loadParam
@@ -228,7 +231,7 @@ namespace SDK.Lib
 
         #region AsyncLoad
 
-        protected AsyncResLoadData m_AsyncLoadData;
+        protected AsyncResLoadData m_AsyncLoadData = new AsyncResLoadData();
 
         // 线程异步加载
         public IRes AsyncLoad(LoadParam param)
