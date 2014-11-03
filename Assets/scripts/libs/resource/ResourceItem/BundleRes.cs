@@ -45,7 +45,7 @@ namespace SDK.Lib
             //GameObject.Instantiate(m_bundle.Load(m_prefabName));
             GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
             yield return null;
-            m_bundle.Unload(false);
+            //m_bundle.Unload(false);
 
             if (onLoadedCB != null)
             {
@@ -60,7 +60,7 @@ namespace SDK.Lib
             {
                 //GameObject.Instantiate(m_bundle.Load(m_prefabName));
                 GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
-                m_bundle.Unload(false);
+                //m_bundle.Unload(false);
             }
 
             if (onLoadedCB != null)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDK.Common
 {
@@ -15,6 +16,7 @@ namespace SDK.Common
 
         public string[] m_pathLst;
         public ResLoadType m_resLoadType;   // 资源加载类型
+        public string m_dataPath;
 
         public Config()
         {
@@ -24,6 +26,9 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathSceneXml] = "StreamingAssets/Scene/Xml/";
             m_pathLst[(int)ResPathType.ePathModule] = "StreamingAssets/Module/";
             m_pathLst[(int)ResPathType.ePathComUI] = "StreamingAssets/UI/";
+
+
+            m_dataPath = Application.dataPath;
         }
     }
 }

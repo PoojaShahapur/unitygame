@@ -195,6 +195,7 @@
     <Compile Include="Assets\Scripts\Common\FrameWork\IResizeMgr.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\IResizeObject.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITickMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ITickedObject.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITimer.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITimerMgr.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\IUIEvent.cs" />
@@ -279,7 +280,6 @@
     <Compile Include="Assets\Scripts\Libs\Encrypt\Encrypt.cs" />
     <Compile Include="Assets\Scripts\Libs\FrameWork\CoroutineMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\FrameWork\EngineLoop.cs" />
-    <Compile Include="Assets\Scripts\Libs\FrameWork\ITickedObject.cs" />
     <Compile Include="Assets\Scripts\Libs\FrameWork\MsgRoute.cs" />
     <Compile Include="Assets\Scripts\Libs\FrameWork\ProcessSys.cs" />
     <Compile Include="Assets\Scripts\Libs\FrameWork\ResizeMgr.cs" />

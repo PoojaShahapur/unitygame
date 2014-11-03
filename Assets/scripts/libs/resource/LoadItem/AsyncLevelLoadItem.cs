@@ -29,7 +29,8 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         override protected void loadFromDefaultAssetBundle()
         {
-            string path = Application.dataPath + "/" + m_path;
+            //string path = Application.dataPath + "/" + m_path;
+            string path = Ctx.m_instance.m_cfg.m_dataPath + "/" + m_path;
             Application.LoadLevel(path);
         }
 
@@ -37,7 +38,8 @@ namespace SDK.Lib
         override protected void loadFromAssetBundle()
         {
             string path;
-            path = Application.dataPath + "/" + m_path;
+            //path = Application.dataPath + "/" + m_path;
+            path = Ctx.m_instance.m_cfg.m_dataPath + "/" + m_path;
             m_assetBundle = AssetBundle.CreateFromFile(path);
 
             Application.LoadLevel(path);
@@ -49,7 +51,8 @@ namespace SDK.Lib
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
             if (m_resLoadType == ResLoadType.eLoadDisc)
             {
-                path = "file://" + Application.dataPath + "/" + m_path;
+                //path = "file://" + Application.dataPath + "/" + m_path;
+                path = "file://" + Ctx.m_instance.m_cfg.m_dataPath + "/" + m_path;
             }
             else
             {

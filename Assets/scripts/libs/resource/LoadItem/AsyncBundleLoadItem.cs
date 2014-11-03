@@ -33,7 +33,8 @@ namespace SDK.Lib
         override protected void loadFromAssetBundle()
         {
             string path;
-            path = Application.dataPath + "/" + m_path;
+            //path = Application.dataPath + "/" + m_path;
+            path = Ctx.m_instance.m_cfg.m_dataPath + "/" + m_path;
             m_assetBundle = AssetBundle.CreateFromFile(path);
         }
 
@@ -43,7 +44,8 @@ namespace SDK.Lib
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
             if (m_resLoadType == ResLoadType.eLoadDisc)
             {
-                path = "file://" + Application.dataPath + "/" + m_path;
+                //path = "file://" + Application.dataPath + "/" + m_path;
+                path = "file://" + Ctx.m_instance.m_cfg.m_dataPath + "/" + m_path;
             }
             else
             {

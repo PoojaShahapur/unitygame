@@ -14,7 +14,7 @@ namespace SDK.Lib
         protected ResLoadData m_LoadData;
         protected AsyncLoadTask m_AsyncLoadTask = new AsyncLoadTask();                    // 异步加载任务
 
-        protected bool m_IsSyncLoad = false;                         // 是否是同步加载
+        protected bool m_IsSyncLoad = true;                         // 是否是同步加载
 
         public ResMgr()
         {
@@ -22,7 +22,7 @@ namespace SDK.Lib
             m_LoadData = new ResLoadData();
 
             m_AsyncLoadTask.AsyncResLoadData = m_AsyncLoadData;
-            m_AsyncLoadTask.start();
+            //m_AsyncLoadTask.start();
         }
 
         public LoadParam loadParam
