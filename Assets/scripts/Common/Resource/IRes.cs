@@ -6,5 +6,6 @@ namespace SDK.Common
     public interface IRes : IEventDispatch
     {
         bool HasLoaded();
+        string GetPath();
     }
 }

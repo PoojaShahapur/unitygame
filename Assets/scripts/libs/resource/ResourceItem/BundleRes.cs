@@ -46,10 +46,10 @@ namespace SDK.Lib
             yield return null;
             m_bundle.Unload(false);
 
-            if (onInited != null)
-            {
-                onInited(this);
-            }
+            //if (onInited != null)
+            //{
+            //    onInited(this);
+            //}
         }
 
         override public void initAsset()
@@ -57,10 +57,10 @@ namespace SDK.Lib
             GameObject.Instantiate(m_bundle.Load(m_prefabName));
             m_bundle.Unload(false);
 
-            if (onInited != null)
-            {
-                onInited(this);
-            }
+            //if (onInited != null)
+            //{
+            //    onInited(this);
+            //}
         }
 
         override public void reset()

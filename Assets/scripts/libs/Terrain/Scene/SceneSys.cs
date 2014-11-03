@@ -35,15 +35,17 @@ namespace SDK.Lib
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename + ".unity3d";
             param.m_type = ResPackType.eBundleType;
-            param.m_cb = onSceneCfgLoadded;
+            //param.m_cb = onSceneCfgLoadded;
+            param.m_loadedcb = onSceneCfgLoadded;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             param.m_resNeedCoroutine = false;
             param.m_loadNeedCoroutine = false;
             Ctx.m_instance.m_resMgr.load(param);
         }
 
-        protected void onSceneCfgLoadded(IRes res)
+        protected void onSceneCfgLoadded(SDK.Common.Event resEvt)
         {
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
             byte[] bytes = ((res as IBundleRes).getObject(m_scene.file) as TextAsset).bytes;
             Stream stream = new MemoryStream(bytes);
@@ -55,7 +57,8 @@ namespace SDK.Lib
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename + ".unity3d";
             param.m_type = ResPackType.eLevelType;
-            param.m_cb = onSceneResLoadded;
+            //param.m_cb = onSceneResLoadded;
+            param.m_loadedcb = onSceneResLoadded;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
@@ -63,8 +66,9 @@ namespace SDK.Lib
             Ctx.m_instance.m_resMgr.load(param);
         }
 
-        public void onSceneResLoadded(IRes res)
+        public void onSceneResLoadded(SDK.Common.Event resEvt)
         {
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
             if(onSceneLoaded != null)
             {
                 onSceneLoaded(m_scene);

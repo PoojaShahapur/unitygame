@@ -74,13 +74,14 @@ namespace Game.App
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + "Game.unity3d";
             param.m_type = ResPackType.eBundleType;
-            param.m_cb = onGameLoaded;
+            param.m_loadedcb = onGameLoaded;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             Ctx.m_instance.m_resMgr.load(param);
         }
 
-        public void onGameLoaded(IRes res)
+        public void onGameLoaded(SDK.Common.Event resEvt)
         {
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
             GameObject go = (res as IBundleRes).InstantiateObject("Game");
             GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
             go.transform.parent = nodestroy.transform;

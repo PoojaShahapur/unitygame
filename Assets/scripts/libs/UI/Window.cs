@@ -37,6 +37,7 @@ namespace SDK.Lib
         public int m_width;
         public int m_height;
         public UILayer m_uiLayer;
+        protected bool m_isResReady = false;            // 资源是否已经加载并初始化
 
         public UIFormID id
         {
@@ -85,6 +86,18 @@ namespace SDK.Lib
         public bool IsVisible()
         {
             return m_GUIWin.m_uiRoot.activeInHierarchy;
+        }
+
+        public bool IsResReady
+        {
+            get
+            {
+                return m_isResReady;
+            }
+            set 
+            {
+                m_isResReady = value;
+            }
         }
     }
 }

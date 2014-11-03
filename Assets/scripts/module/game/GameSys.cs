@@ -39,10 +39,10 @@ namespace Game.Game
         public void loadUI()
         {
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathUI] + "UIScrollForm.unity3d";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
             param.m_type = ResPackType.eBundleType;
             param.m_prefabName = "UIScrollForm";
-            param.m_cb = onResLoad;
+            param.m_loadedcb = onResLoad;
             param.m_resNeedCoroutine = false;
             param.m_loadNeedCoroutine = true;
             Ctx.m_instance.m_resMgr.load(param);
@@ -53,8 +53,9 @@ namespace Game.Game
             Ctx.m_instance.m_sceneSys.loadScene("cave", onResLoadScene);
         }
 
-        public void onResLoad(IRes res)
+        public void onResLoad(SDK.Common.Event resEvt)
         {
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
             GameObject go = (res as IBundleRes).InstantiateObject("UIScrollForm");
             GameObject nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
             go.transform.parent = nodestroy.transform;

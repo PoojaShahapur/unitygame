@@ -15,9 +15,10 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
-        protected Action<IRes> onInited;
+        //protected Action<IRes> onInited;
         protected ResLoadType m_resLoadType;   // 资源加载类型
-        protected Action<SDK.Common.Event> onLoadCB;        // 加载完成回调
+        protected Action<SDK.Common.Event> onLoadedCB;        // 加载成功回调
+        protected Action<SDK.Common.Event> onFailedCB;        // 加载失败回调
 
         public Res()
         {
@@ -46,6 +47,11 @@ namespace SDK.Lib
             {
                 m_path = value;
             }
+        }
+
+        public string GetPath()
+        {
+            return m_path;
         }
 
         public bool resNeedCoroutine
@@ -108,17 +114,17 @@ namespace SDK.Lib
             }
         }
 
-        public Action<IRes> onInitedCB
-        {
-            get
-            {
-                return onInited;
-            }
-            set
-            {
-                onInited = value;
-            }
-        }
+        //public Action<IRes> onInitedCB
+        //{
+        //    get
+        //    {
+        //        return onInited;
+        //    }
+        //    set
+        //    {
+        //        onInited = value;
+        //    }
+        //}
 
         public bool HasLoaded()
         {
@@ -148,7 +154,7 @@ namespace SDK.Lib
             m_isLoaded = false;
             m_isSucceed = false;
             m_refNum = 0;
-            onInited = null ;
+            //onInited = null ;
         }
 
         virtual public void unload()
@@ -158,12 +164,26 @@ namespace SDK.Lib
 
         public void addEventListener(EventID evtID, Action<SDK.Common.Event> cb)
         {
-            onLoadCB += cb;
+            if(EventID.LOADED_EVENT == evtID)       // 加载成功事件
+            {
+                onLoadedCB += cb;
+            }
+            else if (EventID.FAILED_EVENT == evtID)
+            {
+                onFailedCB += cb;
+            }
         }
 
         public void removeEventListener(EventID evtID, Action<SDK.Common.Event> cb)
         {
-            onLoadCB -= cb;
+            if (EventID.LOADED_EVENT == evtID)       // 加载成功事件
+            {
+                onLoadedCB -= cb;
+            }
+            else if (EventID.FAILED_EVENT == evtID)
+            {
+                onFailedCB -= cb;
+            }
         }
     }
 }

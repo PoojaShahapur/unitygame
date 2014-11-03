@@ -7,6 +7,7 @@ namespace SDK.Lib
 	/**
 	 * @brief 所有 UI 管理
 	 * 1. 对于新创建的Form对象，其所属的层是由其ID决定的
+     * 2. UI 设计原则，主要界面是资源创建完成才运行逻辑，小的共享界面是逻辑和资源同时运行，因为 MVC 结构实在是要写很多代码，因此主要界面不适用 MVC 结构
 	 */
 	public class UIMgr : IUIMgr, IResizeObject
 	{
@@ -14,12 +15,14 @@ namespace SDK.Lib
 		private List<UILayer> m_vecLayer;
         public UIAttrs m_UIAttrs;
         public IUIFactory m_IUIFactory;
-		
+        private Dictionary<UIFormID, UILoadingItem> m_ID2LoadingItemDic;         // 记录当前正在加载的项
+
 		public UIMgr()
 		{
             m_vecLayer = new List<UILayer>();
             m_vecLayer.Add(new UILayer(UILayerID.FirstLayer));
 			Ctx.m_instance.m_ResizeMgr.addResizeObject(this);
+            m_ID2LoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
 		}
 		
 		public UILayer getLayer(UILayerID layerID)
@@ -35,30 +38,45 @@ namespace SDK.Lib
 		
 		public void addForm(Form form)
 		{
-			UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_LayerID);
-			form.uiLayer = layer;
-			m_dicForm[form.id] = form;
+            addFormNoReady(form);
 			form.onReady();
 		}
+
+        // 内部接口
+        private void addFormNoReady(Form form)
+        {
+            UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_LayerID);
+            form.uiLayer = layer;
+            m_dicForm[form.id] = form;
+        }
 		
 		public void loadForm(UIFormID ID)
 		{
 			string path = m_UIAttrs.getPath(ID);
 			Form window = getForm(ID);
 			
-			if (window != null)
+			if (window != null)     // 本地已经创建了这个窗口，
 			{
-                Action<IForm> loadedFun = Ctx.m_instance.m_cbUIEvent.getLoadedFunc(ID);
-				if (loadedFun != null)
-				{
-					loadedFun(window);
-				}
+                if (window.IsResReady)      // 如果资源也已经加载进来了
+                {
+                    Action<IForm> loadedFun = Ctx.m_instance.m_cbUIEvent.getLoadedFunc(ID);
+                    if (loadedFun != null)
+                    {
+                        loadedFun(window);
+                    }
+                }
 			}
-			else
+            else if(!m_ID2LoadingItemDic.ContainsKey(ID))                       // 如果什么都没有创建，第一次加载
 			{
+                m_ID2LoadingItemDic[ID] = new UILoadingItem();
+                m_ID2LoadingItemDic[ID].m_ID = ID;
                 // 创建窗口
                 IForm form = m_IUIFactory.CreateForm(ID);
-                addForm(form as Form);
+                if (form != null)                   // 如果代码已经在本地
+                {
+                    addFormNoReady(form as Form);           // 仅仅是创建数据，资源还没有加载完成
+                    m_ID2LoadingItemDic[ID].m_logicLoaded = true;
+                }
 
                 // 创建窗口资源
 				IRes res = Ctx.m_instance.m_resMgr.getResource(path);
@@ -78,7 +96,7 @@ namespace SDK.Lib
 				else // 资源从来没有加载过
 				{
                     LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
-                    param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathUI] + "UIScrollForm.unity3d";
+                    param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
                     param.m_type = ResPackType.eBundleType;
                     param.m_prefabName = "UIScrollForm";
                     //param.m_cb = onloaded;
@@ -191,7 +209,8 @@ namespace SDK.Lib
 		// 资源加载成功，通过事件回调
         public void onloaded(Event resEvt)
 		{
-			
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            onloadedByRes(res);
 		}
 		
 		// 资源加载失败，通过事件回调
@@ -212,7 +231,26 @@ namespace SDK.Lib
 
         public void onloadedByRes(IRes res)
         {
+            ResPathType pathType = UtilRes.ConvPath3Type(res.GetPath());
+            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), pathType);  // 获取 FormID
 
+            if (ResPathType.ePathComUI == pathType)
+            {
+                m_ID2LoadingItemDic[ID].m_resLoaded = true;
+            }
+            else if (ResPathType.ePathCodePath == pathType)
+            {
+                m_ID2LoadingItemDic[ID].m_logicLoaded = true;
+            }
+
+            if (m_ID2LoadingItemDic[ID].IsLoaded())
+            {
+                Action<IForm> loadedFun = Ctx.m_instance.m_cbUIEvent.getLoadedFunc(ID);
+                if (loadedFun != null)
+                {
+                    loadedFun(m_dicForm[ID]);
+                }
+            }
         }
 	}
 }

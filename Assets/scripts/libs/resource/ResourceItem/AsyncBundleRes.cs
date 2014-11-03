@@ -35,10 +35,10 @@ namespace SDK.Lib
             //Instantiate(m_bundle.Load(m_prefabName));
             //m_bundle.Unload(false);
 
-            if (onInited != null)
-            {
-                onInited(this);
-            }
+            //if (onInited != null)
+            //{
+            //    onInited(this);
+            //}
         }
 
         override public void reset()

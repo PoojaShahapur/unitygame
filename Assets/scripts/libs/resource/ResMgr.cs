@@ -36,9 +36,11 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                if (param.m_cb != null)
+                //if (param.m_cb != null)
+                if (param.m_loadedcb != null)
                 {
-                    param.m_cb(m_LoadData.m_path2Res[param.m_path]);
+                    Ctx.m_instance.m_shareMgr.m_evt.m_param = m_LoadData.m_path2Res[param.m_path];
+                    param.m_loadedcb(Ctx.m_instance.m_shareMgr.m_evt);
                 }
                 return m_LoadData.m_path2Res[param.m_path];
             }
@@ -74,9 +76,10 @@ namespace SDK.Lib
             m_LoadData.m_path2Res[param.m_path].path = param.m_path;
             m_LoadData.m_path2Res[param.m_path].resLoadType = param.m_resLoadType;
 
-            if (param.m_cb != null)
+            //if (param.m_cb != null)
+            if (param.m_loadedcb != null)
             {
-                m_LoadData.m_path2Res[param.m_path].onInitedCB += param.m_cb;
+                m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loadedcb);
             }
 
             LoadItem loaditem = findLoadItemFormPool(param.m_type, param.m_resNeedCoroutine);
@@ -215,9 +218,10 @@ namespace SDK.Lib
         {
             if (m_AsyncLoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                if (param.m_cb != null)
+                if (param.m_loadedcb != null)
                 {
-                    param.m_cb(m_AsyncLoadData.m_path2Res[param.m_path]);
+                    Ctx.m_instance.m_shareMgr.m_evt.m_param = m_AsyncLoadData.m_path2Res[param.m_path];
+                    param.m_loadedcb(Ctx.m_instance.m_shareMgr.m_evt);
                 }
                 return m_AsyncLoadData.m_path2Res[param.m_path];
             }
@@ -252,9 +256,9 @@ namespace SDK.Lib
             m_AsyncLoadData.m_path2Res[param.m_path].path = param.m_path;
             m_AsyncLoadData.m_path2Res[param.m_path].resLoadType = param.m_resLoadType;
 
-            if (param.m_cb != null)
+            if (param.m_loadedcb != null)
             {
-                m_AsyncLoadData.m_path2Res[param.m_path].onInitedCB += param.m_cb;
+                m_AsyncLoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loadedcb);
             }
 
             AsyncLoadItem loaditem = null;

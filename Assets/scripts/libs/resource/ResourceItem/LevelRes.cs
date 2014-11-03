@@ -18,10 +18,10 @@ namespace SDK.Lib
 
         override public void initAsset()
         {
-            if(onInited != null)
-            {
-                onInited(this);
-            }
+            //if(onInited != null)
+            //{
+            //    onInited(this);
+            //}
         }
 
         override public void reset()
