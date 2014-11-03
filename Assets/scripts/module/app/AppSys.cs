@@ -27,6 +27,7 @@ namespace Game.App
             Ctx.m_instance.m_CoroutineMgr = new CoroutineMgr();
             Ctx.m_instance.m_shareMgr = new ShareMgr();
             Ctx.m_instance.m_sceneSys = new SceneSys();
+            Ctx.m_instance.m_layerMgr = new LayerMgr();
         }
 
         // Use this for initialization
@@ -48,26 +49,32 @@ namespace Game.App
 
         public void setNoDestroyObject()
         {
-            GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
-            DontDestroyOnLoad(nodestroy);
-            nodestroy = GameObject.FindGameObjectWithTag("RootLayer");
-            DontDestroyOnLoad(nodestroy);
-            nodestroy = GameObject.FindGameObjectWithTag("SceneLayer");
-            DontDestroyOnLoad(nodestroy);
+            //GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App] = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
 
-            nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
-            DontDestroyOnLoad(nodestroy);
-            nodestroy = GameObject.FindGameObjectWithTag("UILayer");
-            DontDestroyOnLoad(nodestroy);
-            nodestroy = GameObject.FindGameObjectWithTag("UIRoot");
-            DontDestroyOnLoad(nodestroy);
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_RootLayer);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer]);
 
-            nodestroy = GameObject.FindGameObjectWithTag("Camera");
-            DontDestroyOnLoad(nodestroy);
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_SceneLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_SceneLayer);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_SceneLayer]);
+
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_GameLayer);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer]);
+
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_UILayer);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILayer]);
+
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIRoot] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_UIRoot);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIRoot]);
+
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Camera] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_Camera);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Camera]);
+
             // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
-            nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_UIFirstLayer);
             //nodestroy.transform.localScale = Vector3.one;
-            DontDestroyOnLoad(nodestroy);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer]);
         }
 
         // 加载游戏模块
@@ -85,12 +92,13 @@ namespace Game.App
         public void onGameLoaded(SDK.Common.Event resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
-            GameObject go = (res as IBundleRes).InstantiateObject("Game");
-            GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
-            go.transform.parent = nodestroy.transform;
+            //GameObject go = (res as IBundleRes).InstantiateObject("Game");
+            //GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = (res as IBundleRes).InstantiateObject("Game");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer].transform;
 
             // 游戏模块也不释放
-            DontDestroyOnLoad(go);
+            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game]);
             //go.SetActive(false);         // 自己会更新的，不用这里更新
         }
     }

@@ -34,7 +34,7 @@ namespace SDK.Common
         public ITerrainMgr m_terrainMgr;            // Terrain管理器
 
         public ShareMgr m_shareMgr;                 // 共享数据系统
-
+        public LayerMgr m_layerMgr;                 // 层管理器
 
         public Ctx()
         {

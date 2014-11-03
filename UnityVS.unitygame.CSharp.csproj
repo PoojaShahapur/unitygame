@@ -198,6 +198,8 @@
     <Compile Include="Assets\Scripts\Common\FrameWork\ITimer.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITimerMgr.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\IUIEvent.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\LayerMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\NotDestroyPath.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\TimerType.cs" />
     <Compile Include="Assets\Scripts\Common\IO\IInputMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Module\IGameSys.cs" />
