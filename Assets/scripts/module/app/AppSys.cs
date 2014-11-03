@@ -24,6 +24,9 @@ namespace Game.App
             Ctx.m_instance.m_ProcessSys = new ProcessSys();
             Ctx.m_instance.m_TickMgr = new TickMgr();
             Ctx.m_instance.m_TimerMgr = new TimerMgr();
+            Ctx.m_instance.m_CoroutineMgr = new CoroutineMgr();
+            Ctx.m_instance.m_shareMgr = new ShareMgr();
+            Ctx.m_instance.m_sceneSys = new SceneSys();
         }
 
         // Use this for initialization

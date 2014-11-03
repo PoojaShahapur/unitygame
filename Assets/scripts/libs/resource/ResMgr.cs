@@ -14,9 +14,12 @@ namespace SDK.Lib
         protected ResLoadData m_LoadData;
         protected AsyncLoadTask m_AsyncLoadTask;                    // 异步加载任务
 
+        protected bool m_IsSyncLoad = true;                         // 是否是同步加载
+
         public ResMgr()
         {
             m_loadParam = new LoadParam();
+            m_LoadData = new ResLoadData();
         }
 
         public LoadParam loadParam
@@ -33,6 +36,20 @@ namespace SDK.Lib
         }
 
         public IRes load(LoadParam param)
+        {
+            if(m_IsSyncLoad)
+            {
+                Syncload(param);
+            }
+            else
+            {
+                AsyncLoad(param);
+            }
+
+            return null;
+        }
+
+        public IRes Syncload(LoadParam param)
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
@@ -214,7 +231,7 @@ namespace SDK.Lib
         protected AsyncResLoadData m_AsyncLoadData;
 
         // 线程异步加载
-        public IRes asyncLoad(LoadParam param)
+        public IRes AsyncLoad(LoadParam param)
         {
             if (m_AsyncLoadData.m_path2Res.ContainsKey(param.m_path))
             {

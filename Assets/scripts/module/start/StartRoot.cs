@@ -12,18 +12,20 @@ namespace SDK.Lib
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
         private string m_appName = "App";
         private int m_loadType;
+
         // Use this for initialization
         void Start()
         {
-            m_loadType = 1;
-            if(m_loadType == 2)
-            {
-                m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
-            }
-            else
-            {
-                m_appURL = Application.dataPath + "/StreamingAssets/Module/App.unity3d";
-            }
+            m_loadType = 2;
+            //if(m_loadType == 2)
+            //{
+            //    m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+            //}
+            //else
+            //{
+                //m_appURL = Application.dataPath + "/StreamingAssets/Module/App.unity3d";
+                m_appURL = "file://" + Application.dataPath + "/StreamingAssets/Module/App.unity3d";
+            //}
         }
 
         // Update is called once per frame
@@ -66,6 +68,7 @@ namespace SDK.Lib
         }
 
         // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
+        // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
         protected void loadFromAssetBundle()
         {
             AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);

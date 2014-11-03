@@ -15,7 +15,6 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
-        //protected Action<IRes> onInited;
         protected ResLoadType m_resLoadType;   // 资源加载类型
         protected Action<SDK.Common.Event> onLoadedCB;        // 加载成功回调
         protected Action<SDK.Common.Event> onFailedCB;        // 加载失败回调
@@ -114,18 +113,6 @@ namespace SDK.Lib
             }
         }
 
-        //public Action<IRes> onInitedCB
-        //{
-        //    get
-        //    {
-        //        return onInited;
-        //    }
-        //    set
-        //    {
-        //        onInited = value;
-        //    }
-        //}
-
         public bool HasLoaded()
         {
             return m_isLoaded;
@@ -154,7 +141,6 @@ namespace SDK.Lib
             m_isLoaded = false;
             m_isSucceed = false;
             m_refNum = 0;
-            //onInited = null ;
         }
 
         virtual public void unload()

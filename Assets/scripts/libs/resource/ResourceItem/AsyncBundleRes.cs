@@ -35,10 +35,11 @@ namespace SDK.Lib
             //Instantiate(m_bundle.Load(m_prefabName));
             //m_bundle.Unload(false);
 
-            //if (onInited != null)
-            //{
-            //    onInited(this);
-            //}
+            if (onLoadedCB != null)
+            {
+                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
+                onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
+            }
         }
 
         override public void reset()

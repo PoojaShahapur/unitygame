@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -18,10 +19,11 @@ namespace SDK.Lib
 
         override public void initAsset()
         {
-            //if(onInited != null)
-            //{
-            //    onInited(this);
-            //}
+            if (onLoadedCB != null)
+            {
+                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
+                onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
+            }
         }
 
         override public void reset()

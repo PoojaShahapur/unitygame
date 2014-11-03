@@ -26,7 +26,7 @@ namespace SDK.Lib
             {
                 onSceneLoaded += func;
             }
-            loadSceneCfg(filename);
+            //loadSceneCfg(filename);
             loadSceneRes(filename);
         }
 
