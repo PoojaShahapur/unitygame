@@ -50,12 +50,13 @@ namespace SDK.Lib
 
         public GameObject InstantiateObject(string resname)
         {
-            return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
-        }
+            //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
+			return GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;}
 
         public UnityEngine.Object getObject(string resname)
         {
-            return m_bundle.Load(resname);
+            //return m_bundle.Load(resname);
+            return m_bundle.LoadAsset(resname);
         }
 
         override public void unload()

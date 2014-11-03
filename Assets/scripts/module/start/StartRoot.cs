@@ -74,7 +74,8 @@ namespace SDK.Lib
             AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
             if (assetBundle != null)
             {
-                Object bt = assetBundle.Load(m_appName);
+                //Object bt = assetBundle.Load(m_appName);
+                Object bt = assetBundle.LoadAsset(m_appName);
                 Instantiate(bt);
                 assetBundle.Unload(false);
             }
@@ -89,7 +90,8 @@ namespace SDK.Lib
 
             // 使用预设加载
             AssetBundle bundle = app3w.assetBundle;
-            Object bt = bundle.Load(m_appName);
+            //Object bt = bundle.Load(m_appName);
+            Object bt = bundle.LoadAsset(m_appName);
             Instantiate(bt);
             bundle.Unload(false);
             yield return null;

@@ -42,7 +42,8 @@ namespace SDK.Lib
 
         override public IEnumerator initAssetByCoroutine()
         {
-            GameObject.Instantiate(m_bundle.Load(m_prefabName));
+            //GameObject.Instantiate(m_bundle.Load(m_prefabName));
+            GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
             yield return null;
             m_bundle.Unload(false);
 
@@ -57,7 +58,8 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(m_prefabName))
             {
-                GameObject.Instantiate(m_bundle.Load(m_prefabName));
+                //GameObject.Instantiate(m_bundle.Load(m_prefabName));
+                GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
                 m_bundle.Unload(false);
             }
 
@@ -76,12 +78,14 @@ namespace SDK.Lib
 
         public GameObject InstantiateObject(string resname)
         {
-            return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
+            //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
+            return GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
         }
 
         public UnityEngine.Object getObject(string resname)
         {
-            return m_bundle.Load(resname);
+            //return m_bundle.Load(resname);
+            return m_bundle.LoadAsset(resname);
         }
 
         override public void unload()

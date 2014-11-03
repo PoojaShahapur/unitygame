@@ -38,7 +38,7 @@ public class EnemyFSM : FSM
 
     public override void StopFSM()
     {
-        animation.Play("death");
+        GetComponent<Animation>().Play("death");
         Destroy(gameObject, 1.5f);
 
         base.StopFSM();
