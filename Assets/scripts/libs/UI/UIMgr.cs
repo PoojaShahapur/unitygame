@@ -56,6 +56,10 @@ namespace SDK.Lib
 			}
 			else
 			{
+                // 创建窗口
+                IForm form = m_IUIFactory.CreateForm(ID);
+                addForm(form as Form);
+
                 // 创建窗口资源
 				IRes res = Ctx.m_instance.m_resMgr.getResource(path);
 				if (res != null)
