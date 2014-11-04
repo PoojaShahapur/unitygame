@@ -265,7 +265,7 @@
     <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\Utility\UtilityPair.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\Utility\UtilitySelector.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\Utility\UtilityVector.cs" />
-    <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Factory\FactoryBase.cs" />
+    <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Factory\BTFactory.cs" />
     <Compile Include="Assets\scripts\libs\Animation\NodeAnimation.cs" />
     <Compile Include="Assets\scripts\libs\Animation\NodeAnimationTrack.cs" />
     <Compile Include="Assets\scripts\libs\AnimationFSM\Examples\EnemyFSM\EnemyFSM.cs" />

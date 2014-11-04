@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Decorators
 {
     public class Inverter : BehaviorComponent
     {
-
         private BehaviorComponent _Behavior;
 
         /// <summary>
@@ -54,8 +53,6 @@ namespace BehaviorLibrary.Components.Decorators
 
             ReturnCode = BehaviorReturnCode.Success;
             return ReturnCode;
-
         }
-
     }
 }

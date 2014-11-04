@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Composites
 {
 	public class PartialSequence : BehaviorComponent
     {
-
 		protected BehaviorComponent[] _Behaviors;
 
         private short _sequence = 0;

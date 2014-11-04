@@ -12,7 +12,7 @@ namespace SDK.Lib
             {
                 
             }
-            else if (m_resLoadType == ResLoadType.eLoadDisc && m_type != ResPackType.eLevelType)        // 从本地 Bundle 中读取
+            else if (m_resLoadType == ResLoadType.eLoadDisc && m_resPackType != ResPackType.eLevelType)        // 从本地 Bundle 中读取
             {
                 m_assetBundle = m_w3File.assetBundle;
             }
@@ -63,7 +63,7 @@ namespace SDK.Lib
                 AsyncInit();
                 ResLoadState = ResLoadState.eLoaded;
             }
-            else if (m_resLoadType == ResLoadType.eLoadDisc && m_type != ResPackType.eLevelType)        // 从本地 Bundle 中读取
+            else if (m_resLoadType == ResLoadType.eLoadDisc && m_resPackType != ResPackType.eLevelType)        // 从本地 Bundle 中读取
             {
                 if (w3File.isDone)          // 加载完成
                 {

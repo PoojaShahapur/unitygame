@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Composites
 {
 	public class RandomSelector : BehaviorComponent
     {
-
 		private BehaviorComponent[] _Behaviors;
 
         //use current milliseconds to set random seed

@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Conditionals
 {
     public class Conditional : BehaviorComponent
     {
-
         private Func<Boolean> _Bool;
 
         /// <summary>

@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Decorators
 {
     public class Timer : BehaviorComponent
     {
-
         private Func<int> _ElapsedTimeFunction;
 
         private BehaviorComponent _Behavior;
