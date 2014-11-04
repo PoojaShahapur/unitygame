@@ -89,7 +89,7 @@ namespace SDK.Lib
         {
             string path;
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-            if (m_resLoadType == ResLoadType.eLoadDisc)
+            if (m_resLoadType == ResLoadType.eLoadDicWeb)
             {
                 path = "file://" + Application.dataPath + "/" + m_path;
             }

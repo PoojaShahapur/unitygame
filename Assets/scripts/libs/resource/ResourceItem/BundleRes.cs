@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class BundleRes : Res, IBundleRes
+    public class BundleRes : Res
     {
         protected AssetBundle m_bundle;
         protected string m_prefabName;
@@ -77,13 +77,13 @@ namespace SDK.Lib
             m_bundle = null;
         }
 
-        public GameObject InstantiateObject(string resname)
+        override public GameObject InstantiateObject(string resname)
         {
             //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
             return GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
         }
 
-        public UnityEngine.Object getObject(string resname)
+        override public UnityEngine.Object getObject(string resname)
         {
             //return m_bundle.Load(resname);
             return m_bundle.LoadAsset(resname);

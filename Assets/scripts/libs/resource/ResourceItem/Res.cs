@@ -24,6 +24,11 @@ namespace SDK.Lib
             
         }
 
+        public ResPackType GetResPackType()
+        {
+            return m_type;
+        }
+
         public ResPackType type
         {
             get
@@ -160,6 +165,16 @@ namespace SDK.Lib
             {
                 onFailedCB -= cb;
             }
+        }
+
+        virtual public GameObject InstantiateObject(string resname)
+        {
+            return null;
+        }
+
+        virtual public UnityEngine.Object getObject(string resname)
+        {
+            return null;
         }
     }
 }

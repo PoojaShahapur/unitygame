@@ -25,5 +25,15 @@ namespace SDK.Lib
             //Resources.UnloadUnusedAssets();
             //GC.Collect();
         }
+
+        override public GameObject InstantiateObject(string resname)
+        {
+            return GameObject.Instantiate(m_prefabObj) as GameObject;
+        }
+
+        override public UnityEngine.Object getObject(string resname)
+        {
+            return m_prefabObj;
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace SDK.Lib
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
-            byte[] bytes = ((res as IBundleRes).getObject(m_scene.file) as TextAsset).bytes;
+            byte[] bytes = (res.getObject(m_scene.file) as TextAsset).bytes;
             Stream stream = new MemoryStream(bytes);
             m_sceneParse.parse(stream);
         }

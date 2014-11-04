@@ -15,7 +15,7 @@ namespace SDK.Lib
                 return ResPathType.ePathComUI;
             }
 
-            return ResPathType.ePathScene;
+            return ResPathType.ePathComUI;
         }
     }
 }

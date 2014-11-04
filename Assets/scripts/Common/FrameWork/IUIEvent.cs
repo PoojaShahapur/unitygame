@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace SDK.Common
 {
     public interface IUIEvent

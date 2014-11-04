@@ -18,7 +18,7 @@ namespace SDK.Lib
         public static int EXITMODE_HIDE = 1;
 		public static int EXITMODE_DESTORY = 2;
 
-        public GUIWin m_GUIWin;      // 控件数据
+        public GUIWin m_GUIWin = new GUIWin();      // 控件数据
 
         protected UIFormID m_id;
 		protected int m_exitMode = EXITMODE_DESTORY;

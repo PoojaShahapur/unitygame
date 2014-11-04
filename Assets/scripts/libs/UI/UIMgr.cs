@@ -13,7 +13,7 @@ namespace SDK.Lib
 	{
 		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
 		private List<UILayer> m_vecLayer;
-        public UIAttrs m_UIAttrs;
+        public UIAttrs m_UIAttrs = new UIAttrs();
         public IUIFactory m_IUIFactory;
         private Dictionary<UIFormID, UILoadingItem> m_ID2LoadingItemDic;         // 记录当前正在加载的项
 
@@ -21,9 +21,13 @@ namespace SDK.Lib
 		{
             m_vecLayer = new List<UILayer>();
             m_vecLayer.Add(new UILayer(UILayerID.FirstLayer));
-			Ctx.m_instance.m_ResizeMgr.addResizeObject(this);
             m_ID2LoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
 		}
+
+        public void SetIUIFactory(IUIFactory value)
+        {
+            m_IUIFactory = value;
+        }
 		
 		public UILayer getLayer(UILayerID layerID)
 		{
@@ -52,7 +56,8 @@ namespace SDK.Lib
 		
 		public void loadForm(UIFormID ID)
 		{
-			string path = m_UIAttrs.getPath(ID);
+			//string path = m_UIAttrs.getPath(ID);
+            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
 			Form window = getForm(ID);
 			
 			if (window != null)     // 本地已经创建了这个窗口，
@@ -71,15 +76,19 @@ namespace SDK.Lib
                 m_ID2LoadingItemDic[ID] = new UILoadingItem();
                 m_ID2LoadingItemDic[ID].m_ID = ID;
                 // 创建窗口
-                IForm form = m_IUIFactory.CreateForm(ID);
-                if (form != null)                   // 如果代码已经在本地
+                IForm form = null;
+                if (m_IUIFactory != null)
                 {
-                    addFormNoReady(form as Form);           // 仅仅是创建数据，资源还没有加载完成
-                    m_ID2LoadingItemDic[ID].m_logicLoaded = true;
+                    form = m_IUIFactory.CreateForm(ID);
+                    if (form != null)                   // 如果代码已经在本地
+                    {
+                        addFormNoReady(form as Form);           // 仅仅是创建数据，资源还没有加载完成
+                        m_ID2LoadingItemDic[ID].m_logicLoaded = true;
+                    }
                 }
 
                 // 创建窗口资源
-				IRes res = Ctx.m_instance.m_resMgr.getResource(path);
+                IRes res = Ctx.m_instance.m_resMgr.getResource(attrItem.m_resPath);
 				if (res != null)
 				{
 					if (!res.HasLoaded())
@@ -96,10 +105,11 @@ namespace SDK.Lib
 				else // 资源从来没有加载过
 				{
                     LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
-                    param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
+                    param.m_path = attrItem.m_resPath;
                     param.m_type = ResPackType.eBundleType;
-                    param.m_prefabName = "UIScrollForm";
-                    //param.m_cb = onloaded;
+                    param.m_resLoadType = ResLoadType.eLoadDicWeb;
+                    param.m_prefabName = attrItem.m_prefabName;
+                    param.m_loadedcb = onloaded;
                     param.m_resNeedCoroutine = false;
                     param.m_loadNeedCoroutine = true;
                     Ctx.m_instance.m_resMgr.load(param);
@@ -109,7 +119,15 @@ namespace SDK.Lib
 		
 		public Form getForm(UIFormID ID)
 		{
-			return m_dicForm[ID];
+            //return m_dicForm[ID];
+            if(m_dicForm.ContainsKey(ID))
+            {
+                return m_dicForm[ID];
+            }
+            else
+            {
+                return null;
+            }
 		}
 		
 		public bool hasForm(UIFormID ID)
@@ -245,7 +263,9 @@ namespace SDK.Lib
 
             if (m_ID2LoadingItemDic[ID].IsLoaded())
             {
+                UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
                 Action<IForm> loadedFun = Ctx.m_instance.m_cbUIEvent.getLoadedFunc(ID);
+                m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_prefabName);
                 if (loadedFun != null)
                 {
                     loadedFun(m_dicForm[ID]);

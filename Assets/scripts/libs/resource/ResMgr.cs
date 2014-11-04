@@ -35,7 +35,14 @@ namespace SDK.Lib
 
         public IRes getResource(string path)
         {
-            return m_LoadData.m_path2Res[path];
+            if (m_LoadData.m_path2Res.ContainsKey(path))
+            {
+                return m_LoadData.m_path2Res[path];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public IRes load(LoadParam param)

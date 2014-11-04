@@ -29,7 +29,9 @@ namespace Game.App
             Ctx.m_instance.m_sceneSys = new SceneSys();
             Ctx.m_instance.m_layerMgr = new LayerMgr();
 
+            Ctx.m_instance.m_UIMgr = new UIMgr();
             Ctx.m_instance.m_EngineLoop = new EngineLoop();
+            Ctx.m_instance.m_ResizeMgr = new ResizeMgr();
 
             PostInit();
         }
@@ -55,6 +57,7 @@ namespace Game.App
         public void PostInit()
         {
             //Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_resMgr as ITickedObject);
+            Ctx.m_instance.m_ResizeMgr.addResizeObject(Ctx.m_instance.m_UIMgr as IResizeObject);
         }
 
         public void setNoDestroyObject()
@@ -104,7 +107,7 @@ namespace Game.App
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             //GameObject go = (res as IBundleRes).InstantiateObject("Game");
             //GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
-            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = (res as IBundleRes).InstantiateObject("Game");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = res.InstantiateObject("Game");
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer].transform;
 
             // 游戏模块也不释放
