@@ -54,7 +54,7 @@ namespace Game.App
 
         public void PostInit()
         {
-            Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_resMgr as ITickedObject);
+            //Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_resMgr as ITickedObject);
         }
 
         public void setNoDestroyObject()
