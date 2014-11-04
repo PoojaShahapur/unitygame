@@ -71,7 +71,5 @@ namespace BehaviorLibrary.Components.Composites
             ReturnCode = BehaviorReturnCode.Failure;
             return ReturnCode;
         }
-
-
     }
 }
