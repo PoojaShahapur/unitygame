@@ -1,9 +1,9 @@
-﻿using SDK.Common;
+using SDK.Common;
 using System;
 
 namespace Game.Game
 {
-    public class UIEvent : IUIEvent
+    public class GameUIEventCB : IUIEvent
     {
         public Action<IForm> getLoadedFunc(UIFormID ID)
         {

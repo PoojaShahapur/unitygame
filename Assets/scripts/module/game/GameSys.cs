@@ -21,7 +21,7 @@ namespace Game.Game
 
             // 场景逻辑处理逻辑
             GameSys.m_instance.m_ctx.m_UIMgr.SetIUIFactory(new UIFactory());
-            Ctx.m_instance.m_cbUIEvent = new UIEvent();
+            Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
         }
 
         public void Start()

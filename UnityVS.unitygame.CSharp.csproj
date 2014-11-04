@@ -237,7 +237,6 @@
     <Compile Include="Assets\scripts\Common\UI\IUIMgr.cs" />
     <Compile Include="Assets\scripts\Common\UI\LblType.cs" />
     <Compile Include="Assets\scripts\Common\UI\UIFormID.cs" />
-    <Compile Include="Assets\scripts\module\game\GameIO\UIEvent.cs" />
     <Compile Include="Assets\scripts\module\game\GameIO\UIFactory.cs" />
     <Compile Include="Assets\scripts\UI\UIPack\UIPack.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\AIController.cs" />
@@ -446,7 +445,7 @@
     <Compile Include="Assets\scripts\module\DepLib\DepLibSys.cs" />
     <Compile Include="Assets\scripts\module\app\AppRoot.cs" />
     <Compile Include="Assets\scripts\module\app\AppSys.cs" />
-    <Compile Include="Assets\scripts\module\game\EventCB\GameEventCB.cs" />
+    <Compile Include="Assets\scripts\module\game\EventCB\GameUIEventCB.cs" />
     <Compile Include="Assets\scripts\module\game\GameIO\GameSceneLogic.cs" />
     <Compile Include="Assets\scripts\module\game\GameRoot.cs" />
     <Compile Include="Assets\scripts\module\game\GameSys.cs" />
