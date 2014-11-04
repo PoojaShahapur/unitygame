@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 支持从本地和 Web 服务器加载场景和场景 Bundle 资源
+     */
     public class LevelLoadItem : LoadItem
     {
         protected string m_levelName;
@@ -20,11 +23,46 @@ namespace SDK.Lib
             }
         }
 
-        // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
-        override protected void loadFromDefaultAssetBundle()
+        override public void load()
         {
-            string path = Application.dataPath + "/" + m_path;
+            base.load();
+            if (ResLoadType.eLoadDisc == m_resLoadType)
+            {
+                if (loadNeedCoroutine)
+                {
+                    Ctx.m_instance.m_CoroutineMgr.StartCoroutine(AsyncLoadFromDefaultAssetBundle());
+                }
+                else
+                {
+                    SyncLoadFromDefaultAssetBundle();
+                }
+            }
+            else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
+            {
+                Ctx.m_instance.m_CoroutineMgr.StartCoroutine(downloadAsset());
+            }
+        }
+
+        // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
+        protected void SyncLoadFromDefaultAssetBundle()
+        {
+            //string path = Application.dataPath + "/" + m_path;
+            string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
             Application.LoadLevel(path);
+
+            if (onLoaded != null)
+            {
+                onLoaded(this);
+            }
+        }
+
+        protected IEnumerator AsyncLoadFromDefaultAssetBundle()
+        {
+            //string path = Application.dataPath + "/" + m_path;
+            string path = m_path;
+            AsyncOperation asyncOpt = Application.LoadLevelAsync(path);
+
+            yield return asyncOpt;
 
             if (onLoaded != null)
             {
@@ -33,25 +71,25 @@ namespace SDK.Lib
         }
 
         // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
-        override protected void loadFromAssetBundle()
-        {
-            string path;
-            path = Application.dataPath + "/" + m_path;
-            m_assetBundle = AssetBundle.CreateFromFile(path);
+        //protected void loadFromAssetBundle()
+        //{
+        //    string path;
+        //    path = Application.dataPath + "/" + m_path;
+        //    m_assetBundle = AssetBundle.CreateFromFile(path);
 
-            Application.LoadLevel(path);
+        //    Application.LoadLevel(path);
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
-        }
+        //    if (onLoaded != null)
+        //    {
+        //        onLoaded(this);
+        //    }
+        //}
 
-        override protected IEnumerator downloadAsset()
+        protected IEnumerator downloadAsset()
         {
             string path;
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-            if (m_resLoadType == ResLoadType.eLoadDisc)
+            if (m_resLoadType == ResLoadType.eLoadDicWeb)
             {
                 path = "file://" + Application.dataPath + "/" + m_path;
             }

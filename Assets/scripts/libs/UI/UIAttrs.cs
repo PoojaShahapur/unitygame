@@ -5,14 +5,15 @@ namespace SDK.Lib
 {
     public class UIAttrs
     {
-        public Dictionary<UIFormID, UIAttrItem> m_dicAttr;
+        public Dictionary<UIFormID, UIAttrItem> m_dicAttr = new Dictionary<UIFormID,UIAttrItem>();
 
-        public void UIPathFunc()
+        public UIAttrs()
         {
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
             m_dicAttr[UIFormID.UIBackPack] = new UIAttrItem();
             m_dicAttr[UIFormID.UIBackPack].m_LayerID = UILayerID.FirstLayer;
-            m_dicAttr[UIFormID.UIBackPack].m_resPath = "UIBackPack";
+            m_dicAttr[UIFormID.UIBackPack].m_resPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm" + ".unity3d";
+            m_dicAttr[UIFormID.UIBackPack].m_prefabName = "UIScrollForm";
         }
 
         public string getPath(UIFormID id)
@@ -20,7 +21,7 @@ namespace SDK.Lib
             if (m_dicAttr.ContainsKey(id))
             {
                 string ret = m_dicAttr[id].m_resPath;
-                ret = "aaa/bbb/" + ret + ".prefab";
+                ret = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + ret + ".unity3d";
                 return ret;
             }
 

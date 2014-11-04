@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Composites
 {
 	public class IndexSelector : BehaviorComponent
     {
-
 		private BehaviorComponent[] _Behaviors;
 
         private Func<int> _Index;

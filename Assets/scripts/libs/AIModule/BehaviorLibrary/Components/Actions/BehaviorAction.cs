@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Actions
 {
     public class BehaviorAction : BehaviorComponent
     {
-
         private Func<BehaviorReturnCode> _Action;
 
         public BehaviorAction() { }

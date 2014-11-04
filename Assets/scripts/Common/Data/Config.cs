@@ -20,7 +20,7 @@ namespace SDK.Common
 
         public Config()
         {
-            m_resLoadType = ResLoadType.eLoadDisc;
+            m_resLoadType = ResLoadType.eLoadDicWeb;
             m_pathLst = new string[(int)ResPathType.eTotal];
             m_pathLst[(int)ResPathType.ePathScene] = "StreamingAssets/Scene/";
             m_pathLst[(int)ResPathType.ePathSceneXml] = "StreamingAssets/Scene/Xml/";

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using SDK.Common;
+using Game.UI;
 
 namespace Game.Game
 {
@@ -17,6 +18,10 @@ namespace Game.Game
             GameObject nodestroy = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
             AppRoot approot = nodestroy.GetComponent<AppRoot>();
             GameSys.m_instance.m_ctx = approot.getCtx();
+
+            // 场景逻辑处理逻辑
+            GameSys.m_instance.m_ctx.m_UIMgr.SetIUIFactory(new UIFactory());
+            Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
         }
 
         public void Start()
@@ -39,14 +44,17 @@ namespace Game.Game
 
         public void loadUI()
         {
-            LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
-            param.m_type = ResPackType.eBundleType;
-            param.m_prefabName = "UIScrollForm";
-            param.m_loadedcb = onResLoad;
-            param.m_resNeedCoroutine = false;
-            param.m_loadNeedCoroutine = true;
-            Ctx.m_instance.m_resMgr.load(param);
+            //LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
+            //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
+            //param.m_type = ResPackType.eBundleType;
+            //param.m_resLoadType = ResLoadType.eLoadDicWeb;
+            //param.m_prefabName = "UIScrollForm";
+            //param.m_loadedcb = onResLoad;
+            //param.m_resNeedCoroutine = false;
+            //param.m_loadNeedCoroutine = true;
+            //Ctx.m_instance.m_resMgr.load(param);
+
+            Ctx.m_instance.m_UIMgr.loadForm(UIFormID.UIBackPack);
         }
 
         public void loadScene()
@@ -57,7 +65,7 @@ namespace Game.Game
         public void onResLoad(SDK.Common.Event resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
-            GameObject go = (res as IBundleRes).InstantiateObject("UIScrollForm");
+            GameObject go = res.InstantiateObject("UIScrollForm");
             GameObject nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
             go.transform.parent = nodestroy.transform;
         }

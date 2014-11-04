@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class BundleRes : Res, IBundleRes
+    public class BundleRes : Res
     {
         protected AssetBundle m_bundle;
         protected string m_prefabName;
@@ -40,11 +40,12 @@ namespace SDK.Lib
             }
         }
 
-        override public IEnumerator initAssetByCoroutine()
+        protected IEnumerator initAssetByCoroutine()
         {
-            //GameObject.Instantiate(m_bundle.Load(m_prefabName));
-            GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
-            yield return null;
+            AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+            yield return req;
+
+            GameObject.Instantiate(req.asset);
             //m_bundle.Unload(false);
 
             if (onLoadedCB != null)
@@ -54,7 +55,7 @@ namespace SDK.Lib
             }
         }
 
-        override public void initAsset()
+        protected void initAsset()
         {
             if (!string.IsNullOrEmpty(m_prefabName))
             {
@@ -76,13 +77,13 @@ namespace SDK.Lib
             m_bundle = null;
         }
 
-        public GameObject InstantiateObject(string resname)
+        override public GameObject InstantiateObject(string resname)
         {
             //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
             return GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
         }
 
-        public UnityEngine.Object getObject(string resname)
+        override public UnityEngine.Object getObject(string resname)
         {
             //return m_bundle.Load(resname);
             return m_bundle.LoadAsset(resname);

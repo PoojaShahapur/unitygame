@@ -5,6 +5,9 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 主要是场景消息处理， UI 消息单独走
+     */
     class InputMgr : IInputMgr
     {
         public delegate bool onKeyUp(KeyCode value);

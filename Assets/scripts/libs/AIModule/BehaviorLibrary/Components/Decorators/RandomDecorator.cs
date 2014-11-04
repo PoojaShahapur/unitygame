@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Decorators
 {
     public class RandomDecorator : BehaviorComponent
     {
-
         private float _Probability;
 
         private Func<float> _RandomFunction;

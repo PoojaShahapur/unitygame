@@ -7,7 +7,9 @@ namespace SDK.Lib
 {
     public class Res : IRes
     {
-        protected ResPackType m_type;
+        protected ResPackType m_resPackType;
+        protected ResLoadType m_resLoadType;   // 资源加载类型
+
         protected string m_path;
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
 
@@ -15,7 +17,6 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
-        protected ResLoadType m_resLoadType;   // 资源加载类型
         protected Action<SDK.Common.Event> onLoadedCB;        // 加载成功回调
         protected Action<SDK.Common.Event> onFailedCB;        // 加载失败回调
 
@@ -24,15 +25,20 @@ namespace SDK.Lib
             
         }
 
-        public ResPackType type
+        public ResPackType GetResPackType()
+        {
+            return m_resPackType;
+        }
+
+        public ResPackType resPackType
         {
             get
             {
-                return m_type;
+                return m_resPackType;
             }
             set
             {
-                m_type = value;
+                m_resPackType = value;
             }
         }
 
@@ -123,16 +129,6 @@ namespace SDK.Lib
 
         }
 
-        virtual public IEnumerator initAssetByCoroutine()
-        {
-            return null;
-        }
-
-        virtual public void initAsset()
-        {
-            
-        }
-
         virtual public void reset()
         {
             //m_type = ResType.eNoneType;
@@ -170,6 +166,16 @@ namespace SDK.Lib
             {
                 onFailedCB -= cb;
             }
+        }
+
+        virtual public GameObject InstantiateObject(string resname)
+        {
+            return null;
+        }
+
+        virtual public UnityEngine.Object getObject(string resname)
+        {
+            return null;
         }
     }
 }

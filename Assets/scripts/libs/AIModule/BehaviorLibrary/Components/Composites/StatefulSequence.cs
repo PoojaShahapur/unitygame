@@ -59,8 +59,5 @@ namespace BehaviorLibrary
 			ReturnCode = BehaviorReturnCode.Success;
 			return ReturnCode;
 		}
-
-
 	}
 }
-

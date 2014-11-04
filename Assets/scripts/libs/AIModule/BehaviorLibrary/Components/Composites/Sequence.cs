@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Composites
 {
 	public class Sequence : BehaviorComponent
     {
-
 		private BehaviorComponent[] _behaviors;
 
         /// <summary>
@@ -64,7 +63,5 @@ namespace BehaviorLibrary.Components.Composites
             ReturnCode = !anyRunning ? BehaviorReturnCode.Success : BehaviorReturnCode.Running;
             return ReturnCode;
         }
-
-
     }
 }

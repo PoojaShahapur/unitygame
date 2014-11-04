@@ -8,7 +8,7 @@ namespace SDK.Lib
 	{
 		//private Dictionary<TableID, TableBase<ItemBase> > m_dicTable;
         private Dictionary<TableID, TableBase> m_dicTable;
-		private IBundleRes m_res;
+		private IRes m_res;
 
 		public TableSys()
 		{

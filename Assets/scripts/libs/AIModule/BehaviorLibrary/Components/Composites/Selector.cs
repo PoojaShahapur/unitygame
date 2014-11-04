@@ -7,7 +7,6 @@ namespace BehaviorLibrary.Components.Composites
 {
 	public class Selector : BehaviorComponent
     {
-
 		protected BehaviorComponent[] _Behaviors;
 
 

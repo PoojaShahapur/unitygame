@@ -34,8 +34,7 @@ namespace SDK.Lib
         {
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename + ".unity3d";
-            param.m_type = ResPackType.eBundleType;
-            //param.m_cb = onSceneCfgLoadded;
+            param.m_resPackType = ResPackType.eBundleType;
             param.m_loadedcb = onSceneCfgLoadded;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             param.m_resNeedCoroutine = false;
@@ -47,7 +46,7 @@ namespace SDK.Lib
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
-            byte[] bytes = ((res as IBundleRes).getObject(m_scene.file) as TextAsset).bytes;
+            byte[] bytes = (res.getObject(m_scene.file) as TextAsset).bytes;
             Stream stream = new MemoryStream(bytes);
             m_sceneParse.parse(stream);
         }
@@ -56,7 +55,8 @@ namespace SDK.Lib
         {
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename + ".unity3d";
-            param.m_type = ResPackType.eLevelType;
+            param.m_resPackType = ResPackType.eLevelType;
+            //param.m_resLoadType = ResLoadType.eLoadDicWeb;
             //param.m_cb = onSceneResLoadded;
             param.m_loadedcb = onSceneResLoadded;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;

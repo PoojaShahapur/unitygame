@@ -17,7 +17,7 @@ namespace SDK.Lib
             initAsset();
         }
 
-        override public void initAsset()
+        protected void initAsset()
         {
             if (onLoadedCB != null)
             {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    class AsyncBundleRes : AsyncRes, IBundleRes
+    class AsyncBundleRes : AsyncRes
     {
         protected AssetBundle m_bundle;
         protected string m_prefabName;
@@ -30,7 +30,7 @@ namespace SDK.Lib
             m_bundle = item.assetBundle;
         }
 
-        override public void initAsset()
+        public void initAsset()
         {
             //Instantiate(m_bundle.Load(m_prefabName));
             //m_bundle.Unload(false);
