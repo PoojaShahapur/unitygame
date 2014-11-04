@@ -5,7 +5,7 @@
      */
     public class NotDestroyPath
     {
-        public const string ND_CV_App = "App(Clone)";       // 注意这个地方不是 "App" ，实例化的一定要加 (Clone)
+        public const string ND_CV_App = "App(Clone)";       // 注意这个地方不是 "App" ，实例化的一定要加 (Clone)，目前将名字改成了 App 了，直接 App 就能获取
         public const string ND_CV_RootLayer = "RootLayer";   // 注意不是 "App(Clone)/RootLayer"
         public const string ND_CV_SceneLayer = "RootLayer/SceneLayer";
         public const string ND_CV_GameLayer = "RootLayer/SceneLayer/GameLayer";

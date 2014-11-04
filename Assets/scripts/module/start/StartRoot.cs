@@ -92,7 +92,8 @@ namespace SDK.Lib
             AssetBundle bundle = app3w.assetBundle;
             //Object bt = bundle.Load(m_appName);
             Object bt = bundle.LoadAsset(m_appName);
-            Instantiate(bt);
+            Object insObj = Instantiate(bt);
+            insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
             bundle.Unload(false);
             yield return null;
         }
