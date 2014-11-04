@@ -106,7 +106,7 @@ namespace SDK.Lib
 				{
                     LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
                     param.m_path = attrItem.m_resPath;
-                    param.m_type = ResPackType.eBundleType;
+                    param.m_resPackType = ResPackType.eBundleType;
                     param.m_resLoadType = ResLoadType.eLoadDicWeb;
                     param.m_prefabName = attrItem.m_prefabName;
                     param.m_loadedcb = onloaded;

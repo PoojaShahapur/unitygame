@@ -7,11 +7,13 @@ namespace SDK.Lib
 {
     public class LoadItem
     {
-        protected ResPackType m_type;
+        protected ResPackType m_resPackType;
+        protected ResLoadType m_resLoadType;   // 资源加载类型
+
         protected string m_path;
         protected WWW m_w3File;
         protected bool m_loadNeedCoroutine;    // 加载是否需要协同程序
-        protected ResLoadType m_resLoadType;   // 资源加载类型
+
         protected AssetBundle m_assetBundle;
         protected ResLoadState m_ResLoadState = ResLoadState.eNotLoad;  // 资源加载状态
 
@@ -23,15 +25,15 @@ namespace SDK.Lib
             
         }
 
-        public ResPackType type
+        public ResPackType resPackType
         {
             get
             {
-                return m_type;
+                return m_resPackType;
             }
             set
             {
-                m_type = value;
+                m_resPackType = value;
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿namespace SDK.Common
 {
     /**
-     * @brief 资源加载类型
+     * @brief 资源加载类型，主要是从哪里加载
      */
     public enum ResLoadType
     {
