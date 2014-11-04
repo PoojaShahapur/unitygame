@@ -6,14 +6,14 @@
     public class BehaviorActionPatrol : BehaviorAction
     {
         public BehaviorActionPatrol()
-            : base(this.behaviorPatrol)
+            : base(null)
         {
-
+            base.action = this.behaviorPatrol;
         }
 
         protected BehaviorReturnCode behaviorPatrol()
         {
-
+            return BehaviorReturnCode.Success;
         }
     }
 }

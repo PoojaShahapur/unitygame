@@ -16,6 +16,14 @@ namespace BehaviorLibrary.Components.Actions
             _Action = action;
         }
 
+        public Func<BehaviorReturnCode> action
+        {
+            set
+            {
+                _Action = value;
+            }
+        }
+
         public override BehaviorReturnCode Behave()
         {
             try
