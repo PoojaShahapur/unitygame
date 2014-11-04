@@ -123,16 +123,6 @@ namespace SDK.Lib
 
         }
 
-        virtual public IEnumerator initAssetByCoroutine()
-        {
-            return null;
-        }
-
-        virtual public void initAsset()
-        {
-            
-        }
-
         virtual public void reset()
         {
             //m_type = ResType.eNoneType;

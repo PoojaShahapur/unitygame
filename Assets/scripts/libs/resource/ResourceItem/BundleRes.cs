@@ -40,11 +40,12 @@ namespace SDK.Lib
             }
         }
 
-        override public IEnumerator initAssetByCoroutine()
+        protected IEnumerator initAssetByCoroutine()
         {
-            //GameObject.Instantiate(m_bundle.Load(m_prefabName));
-            GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
-            yield return null;
+            AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+            yield return req;
+
+            GameObject.Instantiate(req.asset);
             //m_bundle.Unload(false);
 
             if (onLoadedCB != null)
@@ -54,7 +55,7 @@ namespace SDK.Lib
             }
         }
 
-        override public void initAsset()
+        protected void initAsset()
         {
             if (!string.IsNullOrEmpty(m_prefabName))
             {

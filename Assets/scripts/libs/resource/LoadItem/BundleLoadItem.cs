@@ -4,20 +4,36 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 支持从本地和 web 服务器加载自己手工打包的 Bundle 类型，但是不包括场景资源打包成 Bundle
+     */
     public class BundleLoadItem : LoadItem
     {
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
-        override protected void loadFromDefaultAssetBundle()
+        //protected void loadFromDefaultAssetBundle()
+        //{
+        //    if (onLoaded != null)
+        //    {
+        //        onLoaded(this);
+        //    }
+        //}
+
+        override public void load()
         {
-            if (onLoaded != null)
+            base.load();
+            if (ResLoadType.eLoadDisc == m_resLoadType)
             {
-                onLoaded(this);
+                loadFromAssetBundle();
+            }
+            else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
+            {
+                Ctx.m_instance.m_CoroutineMgr.StartCoroutine(downloadAsset());
             }
         }
 
         // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
         // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
-        override protected void loadFromAssetBundle()
+        protected void loadFromAssetBundle()
         {
             string path;
             path = Application.dataPath + "/" + m_path;
@@ -29,15 +45,15 @@ namespace SDK.Lib
             }
         }
 
-        override protected IEnumerator downloadAsset()
+        protected IEnumerator downloadAsset()
         {
-            string path;
+            string path = "";
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-            if (m_resLoadType == ResLoadType.eLoadDisc)
+            if (m_resLoadType == ResLoadType.eLoadDicWeb)
             {
                 path = "file://" + Application.dataPath + "/" + m_path;
             }
-            else
+            else if (m_resLoadType == ResLoadType.eLoadWeb)
             {
                 path = Ctx.m_instance.m_cfg.m_webIP + m_path;
             }

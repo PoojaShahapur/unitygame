@@ -30,7 +30,7 @@ namespace SDK.Lib
             m_bundle = item.assetBundle;
         }
 
-        override public void initAsset()
+        public void initAsset()
         {
             //Instantiate(m_bundle.Load(m_prefabName));
             //m_bundle.Unload(false);
