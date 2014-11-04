@@ -46,7 +46,8 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         protected void SyncLoadFromDefaultAssetBundle()
         {
-            string path = Application.dataPath + "/" + m_path;
+            //string path = Application.dataPath + "/" + m_path;
+            string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
             Application.LoadLevel(path);
 
             if (onLoaded != null)
@@ -57,7 +58,8 @@ namespace SDK.Lib
 
         protected IEnumerator AsyncLoadFromDefaultAssetBundle()
         {
-            string path = Application.dataPath + "/" + m_path;
+            //string path = Application.dataPath + "/" + m_path;
+            string path = m_path;
             AsyncOperation asyncOpt = Application.LoadLevelAsync(path);
 
             yield return asyncOpt;

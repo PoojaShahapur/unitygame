@@ -81,7 +81,14 @@ namespace SDK.Lib
             {
                 if (resitem == null)
                 {
-                    m_LoadData.m_path2Res[param.m_path] = new BundleRes();
+                    if (ResLoadType.eLoadResource == param.m_resLoadType)
+                    {
+                        m_LoadData.m_path2Res[param.m_path] = new PrefabRes();
+                    }
+                    else
+                    {
+                        m_LoadData.m_path2Res[param.m_path] = new BundleRes();
+                    }
                 }
                 else
                 {
@@ -111,7 +118,7 @@ namespace SDK.Lib
                     {
                         loaditem = new ResourceLoadItem();
                     }
-                    else if (ResLoadType.eLoadDisc == param.m_resLoadType)
+                    else //if (ResLoadType.eLoadDisc == param.m_resLoadType)
                     {
                         loaditem = new BundleLoadItem();
                     }
@@ -200,26 +207,26 @@ namespace SDK.Lib
 
         protected Res findResFormPool(ResPackType type, bool resNeedCoroutine)
         {
-            foreach (Res item in m_LoadData.m_noUsedResItem)
-            {
-                if(item.type == type && item.resNeedCoroutine == resNeedCoroutine)
-                {
-                    return item;
-                }
-            }
+            //foreach (Res item in m_LoadData.m_noUsedResItem)
+            //{
+            //    if(item.type == type && item.resNeedCoroutine == resNeedCoroutine)
+            //    {
+            //        return item;
+            //    }
+            //}
 
             return null;
         }
 
         protected LoadItem findLoadItemFormPool(ResPackType type, bool loadNeedCoroutine)
         {
-            foreach (LoadItem item in m_LoadData.m_noUsedLDItem)
-            {
-                if (item.type == type && item.loadNeedCoroutine == loadNeedCoroutine)
-                {
-                    return item;
-                }
-            }
+            //foreach (LoadItem item in m_LoadData.m_noUsedLDItem)
+            //{
+            //    if (item.type == type && item.loadNeedCoroutine == loadNeedCoroutine)
+            //    {
+            //        return item;
+            //    }
+            //}
 
             return null;
         }

@@ -42,6 +42,7 @@ namespace Game.Game
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
             param.m_type = ResPackType.eBundleType;
+            param.m_resLoadType = ResLoadType.eLoadDicWeb;
             param.m_prefabName = "UIScrollForm";
             param.m_loadedcb = onResLoad;
             param.m_resNeedCoroutine = false;
