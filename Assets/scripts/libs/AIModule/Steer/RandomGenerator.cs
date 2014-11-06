@@ -43,7 +43,6 @@ namespace OpenSteerDotNet
         public RandomGenerator()
         {
             generator = new Random();
-
         }
 
         public static RandomGenerator Singleton
@@ -56,7 +55,6 @@ namespace OpenSteerDotNet
                 }
                 return instance;
             }
-
         }
 
         public float nextFloat()

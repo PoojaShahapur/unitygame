@@ -247,7 +247,6 @@ namespace OpenSteerDotNet
             }
         }
 
-
         // ----------------------------------------------------------------------------
         // Obstacle Avoidance behavior
         //
