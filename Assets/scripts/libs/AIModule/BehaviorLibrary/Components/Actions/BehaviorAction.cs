@@ -13,7 +13,19 @@ namespace BehaviorLibrary.Components.Actions
 
         public BehaviorAction(Func<BehaviorReturnCode> action)
         {
-            _Action = action;
+            if (action != null)
+            {
+                _Action = action;
+            }
+            else
+            {
+                _Action = DefaultAction;
+            }
+        }
+
+        protected BehaviorReturnCode DefaultAction()
+        {
+            return BehaviorReturnCode.Success;
         }
 
         public Func<BehaviorReturnCode> action
@@ -24,7 +36,7 @@ namespace BehaviorLibrary.Components.Actions
             }
         }
 
-        public override BehaviorReturnCode Behave()
+        public override BehaviorReturnCode Behave(InsParam inputParam)
         {
             try
             {
@@ -53,6 +65,5 @@ namespace BehaviorLibrary.Components.Actions
                 return ReturnCode;
             }
         }
-
     }
 }

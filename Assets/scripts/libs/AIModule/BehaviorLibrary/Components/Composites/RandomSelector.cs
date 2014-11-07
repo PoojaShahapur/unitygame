@@ -28,13 +28,13 @@ namespace BehaviorLibrary.Components.Composites
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave()
+        public override BehaviorReturnCode Behave(InsParam inputParam)
         {
             _Random = new Random(DateTime.Now.Millisecond);
 
             try
             {
-                switch (_Behaviors[_Random.Next(0, _Behaviors.Length - 1)].Behave())
+                switch (_Behaviors[_Random.Next(0, _Behaviors.Length - 1)].Behave(inputParam))
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

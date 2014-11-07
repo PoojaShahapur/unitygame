@@ -24,12 +24,12 @@ namespace BehaviorLibrary.Components.Conditionals
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave()
+        public override BehaviorReturnCode Behave(InsParam inputParam)
         {
 
             try
             {
-                switch (_Bool.Invoke())
+                switch (_Bool.Invoke(inputParam))
                 {
                     case true:
                         ReturnCode = BehaviorReturnCode.Success;

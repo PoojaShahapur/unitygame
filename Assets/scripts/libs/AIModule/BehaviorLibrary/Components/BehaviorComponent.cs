@@ -11,6 +11,6 @@ namespace BehaviorLibrary.Components
 
         public BehaviorComponent() { }
 
-        public abstract BehaviorReturnCode Behave();
+        public abstract BehaviorReturnCode Behave(InsParam inputParam);
     }
 }

@@ -26,9 +26,9 @@ namespace BehaviorLibrary.Components.Decorators
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave()
+        public override BehaviorReturnCode Behave(InsParam inputParam)
         {
-            ReturnCode = _Behavior.Behave();
+            ReturnCode = _Behavior.Behave(inputParam);
             if (ReturnCode == BehaviorReturnCode.Failure) {
                 ReturnCode = BehaviorReturnCode.Success;
             }

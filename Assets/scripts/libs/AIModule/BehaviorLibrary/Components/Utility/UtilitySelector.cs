@@ -35,11 +35,11 @@ namespace BehaviorLibrary.Components.Utility
             this._utility_pairs = pairs;
 			this._utility_function = utility_function;
         }
-    
-        public override BehaviorReturnCode Behave()
+
+        public override BehaviorReturnCode Behave(InsParam inputParam)
         {
 			try{
-				UtilityVector func_vector = this._utility_function.Invoke ();
+				UtilityVector func_vector = this._utility_function.Invoke();
 
 				float min = -2.0f;
 				UtilityPair best_match = null;

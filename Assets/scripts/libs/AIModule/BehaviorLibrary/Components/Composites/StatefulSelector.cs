@@ -25,11 +25,12 @@ namespace BehaviorLibrary
 		/// performs the given behavior
 		/// </summary>
 		/// <returns>the behaviors return code</returns>
-		public override BehaviorReturnCode Behave(){
+        public override BehaviorReturnCode Behave(InsParam inputParam)
+        {
 
 			for(; _LastBehavior < _Behaviors.Length; _LastBehavior++){
 				try{
-					switch (_Behaviors[_LastBehavior].Behave()){
+					switch (_Behaviors[_LastBehavior].Behave(inputParam)){
 					case BehaviorReturnCode.Failure:
 						continue;
 					case BehaviorReturnCode.Success:

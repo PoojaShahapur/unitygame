@@ -31,13 +31,13 @@ namespace BehaviorLibrary.Components.Composites
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave()
+        public override BehaviorReturnCode Behave(InsParam inputParam)
         {
             while (_selections < _selLength)
             {
                 try
                 {
-                    switch (_Behaviors[_selections].Behave())
+                    switch (_Behaviors[_selections].Behave(inputParam))
                     {
                         case BehaviorReturnCode.Failure:
                             _selections++;
