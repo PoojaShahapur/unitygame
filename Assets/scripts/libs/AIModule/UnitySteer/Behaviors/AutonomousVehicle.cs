@@ -9,7 +9,6 @@ namespace UnitySteer.Behaviors
     /// for the vehicle always moving in the same direction as its forward vector,
     /// unlike Bipeds which are able to side-step.
     /// </summary>
-    [AddComponentMenu("UnitySteer/Vehicle/Autonomous")]
     public class AutonomousVehicle : TickedVehicle
     {
         #region Internal state values

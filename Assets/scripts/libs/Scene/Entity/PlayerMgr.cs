@@ -1,4 +1,5 @@
 using SDK.Common;
+using System.Collections.Generic;
 
 namespace SDK.Lib
 {
@@ -7,7 +8,7 @@ namespace SDK.Lib
 	 */
     public class PlayerMgr : IPlayerMgr
 	{
-        public BetterList<Player> m_playerLists;
+        public List<Player> m_playerLists;
 
         public PlayerMgr()
 		{

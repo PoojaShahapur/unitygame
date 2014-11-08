@@ -9,7 +9,6 @@ namespace UnitySteer.Behaviors
     /// This will have a significant effect on performance if you have a few
     /// thousand agents, so be warned.
     /// </remarks>
-    [AddComponentMenu("UnitySteer/Steer/... for SpeedFluctuation (Post-process)")]
     public class SteerForSpeedFluctuation : Steering
     {
         [SerializeField] private float _noiseImpact = 0.5f;

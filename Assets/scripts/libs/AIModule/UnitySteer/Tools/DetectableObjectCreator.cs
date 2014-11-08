@@ -7,7 +7,6 @@ namespace UnitySteer.Tools
 	/// Configures a detectable on the game object it is attached to, based
 	/// on the boundaries of its child colliders, and then destroys itself.
 	/// </summary>
-	[AddComponentMenu("UnitySteer/Detectables/DetectableObjectCreator")]
 	public class DetectableObjectCreator : MonoBehaviour
 	{
 		void Awake()

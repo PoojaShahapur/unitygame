@@ -5,8 +5,6 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Steers a vehicle to keep separate from neighbors
     /// </summary>
-    [AddComponentMenu("UnitySteer/Steer/... for Separation")]
-    [RequireComponent(typeof (SteerForNeighborGroup))]
     public class SteerForSeparation : SteerForNeighbors
     {
         /// <summary>

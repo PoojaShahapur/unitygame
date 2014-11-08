@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace UnitySteer.Behaviors
 {
-    [AddComponentMenu("UnitySteer/Steer/... for Point")]
     public class SteerForPoint : Steering
     {
         /// <summary>

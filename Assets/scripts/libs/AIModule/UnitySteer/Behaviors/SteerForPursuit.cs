@@ -6,7 +6,6 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Steers a vehicle to pursue another one
     /// </summary>
-    [AddComponentMenu("UnitySteer/Steer/... for Pursuit")]
     public class SteerForPursuit : Steering
     {
         #region Private fields

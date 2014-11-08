@@ -4,7 +4,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
-using Editor.ResCfg;
+using ResCfg;
 
 /**
  * @brief 资源打包，导出 Bundles 和 Scene

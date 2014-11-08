@@ -7,7 +7,6 @@ namespace UnitySteer.Behaviors
     /// (which may or may not be another vehicle)
     /// </summary>
     /// <seealso cref="SteerForPursuit"/>
-    [AddComponentMenu("UnitySteer/Steer/... to Follow")]
     public class SteerToFollow : Steering
     {
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Editor.ResCfg
+namespace ResCfg
 {
     class Item
     {

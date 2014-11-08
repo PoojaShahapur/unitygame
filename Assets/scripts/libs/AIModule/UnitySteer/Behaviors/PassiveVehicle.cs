@@ -14,7 +14,6 @@ namespace UnitySteer.Behaviors
     /// forward vector.  If it were to move like a biped, the implementation
     /// of the Velocity accessor should be changed.
     /// </remarks>
-    [AddComponentMenu("UnitySteer/Vehicle/Passive")]
     public class PassiveVehicle : Vehicle
     {
         #region Internal state values

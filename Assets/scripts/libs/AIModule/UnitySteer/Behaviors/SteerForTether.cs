@@ -5,7 +5,6 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Steers a vehicle to keep within a certain range of a point
     /// </summary>
-    [AddComponentMenu("UnitySteer/Steer/... for Tether")]
     public class SteerForTether : Steering
     {
         #region Private properties

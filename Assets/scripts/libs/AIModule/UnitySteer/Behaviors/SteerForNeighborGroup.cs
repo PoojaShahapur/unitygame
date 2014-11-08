@@ -29,8 +29,6 @@ namespace UnitySteer.Behaviors
     /// to calculate the contribution for each - on a typical boid scenario, it 
     /// cuts the checks down to a third.
     /// </remarks>
-    [AddComponentMenu("UnitySteer/Steer/... for Neighbor Group")]
-    [RequireComponent(typeof (Radar))]
     public class SteerForNeighborGroup : Steering
     {
         #region Private properties

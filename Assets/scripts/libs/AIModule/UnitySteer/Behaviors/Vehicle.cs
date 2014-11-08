@@ -17,7 +17,6 @@ namespace UnitySteer.Behaviors
     /// vehicles, at least for purposes of estimation, avoidance, pursuit, etc.
     /// In this case, the base Vehicle class can be used to provide an interface
     /// to whatever is doing the moving, like a CharacterMotor.</remarks>
-    [AddComponentMenu("UnitySteer/Vehicle/Vehicle")]
     public abstract class Vehicle : DetectableObject
     {
         [SerializeField] private float _minSpeedForTurning = 0.1f;

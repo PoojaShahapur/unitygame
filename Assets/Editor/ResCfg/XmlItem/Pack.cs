@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 
-namespace Editor.ResCfg
+namespace ResCfg
 {
     class Pack
     {

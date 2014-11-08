@@ -5,7 +5,6 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Trivial example that simply makes the vehicle move towards its forward vector
     /// </summary>
-    [AddComponentMenu("UnitySteer/Steer/... for Forward")]
     public class SteerForForward : Steering
     {
         private Vector3 _desiredForward = Vector3.zero;

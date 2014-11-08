@@ -12,7 +12,6 @@ namespace UnitySteer.Behaviors
     /// position. This means the vehicle is likely to cut corners if the 
     /// prediction time is too far ahead (which could be useful for spaceships).
     /// </remarks>
-    [AddComponentMenu("UnitySteer/Steer/... for PathSimplified")]
     public class SteerForPathSimplified : Steering
     {
         #region Private fields

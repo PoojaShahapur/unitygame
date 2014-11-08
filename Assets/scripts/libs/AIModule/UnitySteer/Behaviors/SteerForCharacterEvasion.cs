@@ -5,7 +5,6 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Steers a vehicle to avoid another CharacterController (very basic future position prediction)
     /// </summary>
-    [AddComponentMenu("UnitySteer/Steer/... for Character Evasion")]
     public class SteerForCharacterEvasion : Steering
     {
         #region Private fields
