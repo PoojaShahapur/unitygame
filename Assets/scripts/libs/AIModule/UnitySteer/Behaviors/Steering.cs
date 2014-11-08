@@ -10,7 +10,7 @@ namespace UnitySteer.Behaviors
     /// This is an abstract class because it does not provide any steering
     /// itself.  It should be subclassed for your particular steering needs.
     /// </remarks>
-    public abstract class Steering : MonoBehaviour
+    public abstract class Steering
     {
         #region Private fields
 
@@ -157,7 +157,7 @@ namespace UnitySteer.Behaviors
 
         protected virtual void Awake()
         {
-            _vehicle = GetComponent<Vehicle>();
+            //_vehicle = GetComponent<Vehicle>();
             ReportedArrival = true; // Default to true to avoid unnecessary notifications
         }
 

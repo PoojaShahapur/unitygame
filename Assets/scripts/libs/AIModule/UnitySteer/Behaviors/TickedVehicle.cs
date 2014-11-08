@@ -1,6 +1,6 @@
 #define TRACE_ADJUSTMENTS
 using System.Diagnostics;
-using TickedPriorityQueue;
+//using TickedPriorityQueue;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -14,8 +14,8 @@ namespace UnitySteer.Behaviors
     {
         #region Internal state values
 
-        private TickedObject _tickedObject;
-        private UnityTickedQueue _steeringQueue;
+        //private TickedObject _tickedObject;
+        //private UnityTickedQueue _steeringQueue;
 
         /// <summary>
         /// The name of the steering queue for this ticked vehicle.
@@ -83,23 +83,23 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Priority queue for this vehicle's updates
         /// </summary>
-        public UnityTickedQueue SteeringQueue
-        {
-            get { return _steeringQueue; }
-        }
+        //public UnityTickedQueue SteeringQueue
+        //{
+        //    get { return _steeringQueue; }
+        //}
 
 
         /// <summary>
         /// Ticked object for the vehicle, so that its owner can configure
         /// the priority as desired.
         /// </summary>
-        public TickedObject TickedObject { get; private set; }
+        //public TickedObject TickedObject { get; private set; }
 
         #region Unity events
 
         private void Start()
         {
-            CharacterController = GetComponent<CharacterController>();
+            CharacterController = sceneGo.GetComponent<CharacterController>();
             PreviousTickTime = Time.time;
         }
 
@@ -107,16 +107,16 @@ namespace UnitySteer.Behaviors
         protected override void OnEnable()
         {
             base.OnEnable();
-            TickedObject = new TickedObject(OnUpdateSteering);
-            TickedObject.TickLength = _tickLength;
-            _steeringQueue = UnityTickedQueue.GetInstance(QueueName);
-            _steeringQueue.Add(TickedObject);
-            _steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
+            //TickedObject = new TickedObject(OnUpdateSteering);
+            //TickedObject.TickLength = _tickLength;
+            //_steeringQueue = UnityTickedQueue.GetInstance(QueueName);
+            //_steeringQueue.Add(TickedObject);
+            //_steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
         }
 
         protected override void OnDisable()
         {
-            DeQueue();
+            //DeQueue();
             base.OnDisable();
         }
 
@@ -124,22 +124,22 @@ namespace UnitySteer.Behaviors
 
         #region Velocity / Speed methods
 
-        private void DeQueue()
-        {
-            if (_steeringQueue != null)
-            {
-                _steeringQueue.Remove(TickedObject);
-            }
-        }
+        //private void DeQueue()
+        //{
+        //    if (_steeringQueue != null)
+        //    {
+        //        _steeringQueue.Remove(TickedObject);
+        //    }
+        //}
 
         protected void OnUpdateSteering(object obj)
         {
-            if (enabled)
+            //if (enabled)
             {
                 // We just calculate the forces, and expect the radar updates itself.
                 CalculateForces();
             }
-            else
+            //else
             {
                 /*
 			 * This is an interesting edge case.
@@ -154,7 +154,7 @@ namespace UnitySteer.Behaviors
 			 * if so we de-queue it.  Must review TickedQueue to see if there's a way we can 
 			 * easily handle these sort of issues without a performance hit.
 			 */
-                DeQueue();
+                //DeQueue();
                 // Debug.LogError(string.Format("{0} HOLD YOUR HORSES. Disabled {1} being ticked", Time.time, this));
             }
         }
@@ -177,7 +177,7 @@ namespace UnitySteer.Behaviors
             for (var i = 0; i < Steerings.Length; i++)
             {
                 var s = Steerings[i];
-                if (s.enabled)
+                //if (s.enabled)
                 {
                     force += s.WeighedForce;
                 }
@@ -210,7 +210,7 @@ namespace UnitySteer.Behaviors
             for (var i = 0; i < SteeringPostprocessors.Length; i++)
             {
                 var s = SteeringPostprocessors[i];
-                if (s.enabled)
+                //if (s.enabled)
                 {
                     adjustedVelocity += s.WeighedForce;
                 }

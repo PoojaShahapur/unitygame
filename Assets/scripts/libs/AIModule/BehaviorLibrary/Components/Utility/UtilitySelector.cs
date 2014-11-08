@@ -63,7 +63,7 @@ namespace BehaviorLibrary.Components.Utility
 				}
 
 				//execute best pair match and return result
-				this.ReturnCode = best_match.behavior.Behave();
+                this.ReturnCode = best_match.behavior.Behave(inputParam);
 				return this.ReturnCode;
 			}catch(Exception e){
 				#if DEBUG

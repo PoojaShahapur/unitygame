@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using TickedPriorityQueue;
+//using TickedPriorityQueue;
 using UnityEngine;
 
 namespace UnitySteer.Behaviors
@@ -32,8 +32,8 @@ namespace UnitySteer.Behaviors
         #region Private properties
 
         private Transform _transform;
-        private TickedObject _tickedObject;
-        private UnityTickedQueue _steeringQueue;
+        //private TickedObject _tickedObject;
+        //private UnityTickedQueue _steeringQueue;
 
         [SerializeField] private string _queueName = "Radar";
 
@@ -188,19 +188,19 @@ namespace UnitySteer.Behaviors
 
         private void OnEnable()
         {
-            _tickedObject = new TickedObject(OnUpdateRadar) {TickLength = _tickLength};
-            _steeringQueue = UnityTickedQueue.GetInstance(_queueName);
-            _steeringQueue.Add(_tickedObject);
-            _steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
+            //_tickedObject = new TickedObject(OnUpdateRadar) {TickLength = _tickLength};
+            //_steeringQueue = UnityTickedQueue.GetInstance(_queueName);
+            //_steeringQueue.Add(_tickedObject);
+            //_steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
         }
 
 
         private void OnDisable()
         {
-            if (_steeringQueue != null)
-            {
-                _steeringQueue.Remove(_tickedObject);
-            }
+            //if (_steeringQueue != null)
+            //{
+            //    _steeringQueue.Remove(_tickedObject);
+            //}
         }
 
 
@@ -296,7 +296,8 @@ namespace UnitySteer.Behaviors
             {
                 var d = _detectedObjects[i];
                 var v = d as Vehicle;
-                if (v != null && (v.enabled || _detectDisabledVehicles))
+                //if (v != null && (v.enabled || _detectDisabledVehicles))
+                if (v != null && (_detectDisabledVehicles))
                 {
                     _vehicles.Add(v);
                 }

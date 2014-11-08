@@ -62,7 +62,7 @@ namespace UnitySteer.Behaviors
 
             if (_defaultToCurrentPosition && TargetPoint == Vector3.zero)
             {
-                enabled = false;
+                //enabled = false;
             }
         }
 

@@ -256,19 +256,19 @@ namespace UnitySteer.Behaviors
         protected override void Awake()
         {
             base.Awake();
-            GameObject = gameObject;
-            Rigidbody = GetComponent<Rigidbody>();
-            var allSteerings = GetComponents<Steering>();
+            GameObject = sceneGo;
+            Rigidbody = sceneGo.GetComponent<Rigidbody>();
+            var allSteerings = sceneGo.GetComponents<Steering>();
             Steerings = allSteerings.Where(x => !x.IsPostProcess).ToArray();
             SteeringPostprocessors = allSteerings.Where(x => x.IsPostProcess).ToArray();
             
 
-            if (_movementPriority == 0)
-            {
-                _movementPriority = gameObject.GetInstanceID();
-            }
-            Radar = GetComponent<Radar>();
-            Speedometer = GetComponent<Speedometer>();
+            //if (_movementPriority == 0)
+            //{
+            //    _movementPriority = gameObject.GetInstanceID();
+            //}
+            //Radar = GetComponent<Radar>();
+            //Speedometer = GetComponent<Speedometer>();
             SquaredArrivalRadius = ArrivalRadius * ArrivalRadius;
         }
 

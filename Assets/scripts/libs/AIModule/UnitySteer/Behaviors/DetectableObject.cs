@@ -6,9 +6,9 @@ namespace UnitySteer.Behaviors
     /// Parent class for objects that vehicles can aim for, be it other vehicles or
     /// static objects.
     /// </summary>
-    [AddComponentMenu("UnitySteer/Detectables/DetectableObject")]
-    public class DetectableObject : MonoBehaviour
+    public class DetectableObject
     {
+        private GameObject m_sceneGo;       // ³¡¾° GameObject
         private Transform _transform;
 
         [SerializeField] protected bool _drawGizmos = false;
@@ -22,6 +22,14 @@ namespace UnitySteer.Behaviors
         /// The vehicle's radius.
         /// </summary>
         [SerializeField] private float _radius = 1;
+
+        public GameObject sceneGo
+        {
+            get
+            {
+                return m_sceneGo;
+            }
+        }
 
 
         /// <summary>
@@ -86,7 +94,7 @@ namespace UnitySteer.Behaviors
                 // fails on Unity 4.3.4
                 if (_transform == null)
                 {
-                    _transform = transform;
+                    _transform = m_sceneGo.transform;
                 }
                 return _transform;
             }
@@ -96,7 +104,7 @@ namespace UnitySteer.Behaviors
 
         protected virtual void Awake()
         {
-            Collider = GetComponent<Collider>();
+            Collider = m_sceneGo.GetComponent<Collider>();
             SquaredRadius = _radius * _radius;
         }
 

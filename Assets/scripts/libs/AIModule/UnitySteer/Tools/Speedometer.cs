@@ -1,4 +1,4 @@
-using TickedPriorityQueue;
+//using TickedPriorityQueue;
 using UnityEngine;
 
 namespace UnitySteer.Tools
@@ -19,8 +19,8 @@ namespace UnitySteer.Tools
 
         private Transform _transform;
 
-        private TickedObject _tickedObject;
-        private UnityTickedQueue _queue;
+        //private TickedObject _tickedObject;
+        //private UnityTickedQueue _queue;
 
         [SerializeField] private string _queueName = "Steering";
 
@@ -84,18 +84,18 @@ namespace UnitySteer.Tools
         protected void OnEnable()
         {
             // Initialize the behavior tree and its queue
-            _tickedObject = new TickedObject(OnMeasureSpeed);
-            _tickedObject.TickLength = _measuringSpeed;
-            _queue = UnityTickedQueue.GetInstance(_queueName);
-            _queue.Add(_tickedObject);
+            //_tickedObject = new TickedObject(OnMeasureSpeed);
+            //_tickedObject.TickLength = _measuringSpeed;
+            //_queue = UnityTickedQueue.GetInstance(_queueName);
+            //_queue.Add(_tickedObject);
         }
 
         protected void OnDisable()
         {
-            if (_queue != null)
-            {
-                _queue.Remove(_tickedObject);
-            }
+            //if (_queue != null)
+            //{
+            //    _queue.Remove(_tickedObject);
+            //}
         }
 
 

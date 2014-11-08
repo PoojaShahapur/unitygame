@@ -56,7 +56,8 @@ namespace UnitySteer.Tools
 			var scale  = transform.lossyScale;
 			radius /= Mathf.Max(scale.x, Mathf.Max(scale.y, scale.z));
 
-			var detectable = gameObject.AddComponent<DetectableObject>();
+			//var detectable = gameObject.AddComponent<DetectableObject>();
+            var detectable = new DetectableObject();
 			detectable.Center = Vector3.zero;
 			detectable.Radius = radius;
 		}

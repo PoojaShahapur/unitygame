@@ -47,11 +47,11 @@ namespace BehaviorLibrary
         /// <summary>
         /// perform the behavior
         /// </summary>
-        public BehaviorReturnCode Behave()
+        public BehaviorReturnCode Behave(InsParam inputParam)
         {
             try
             {
-                switch (_Root.Behave())
+                switch (_Root.Behave(inputParam))
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

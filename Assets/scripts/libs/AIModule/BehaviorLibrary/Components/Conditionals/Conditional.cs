@@ -29,7 +29,7 @@ namespace BehaviorLibrary.Components.Conditionals
 
             try
             {
-                switch (_Bool.Invoke(inputParam))
+                switch (_Bool.Invoke())
                 {
                     case true:
                         ReturnCode = BehaviorReturnCode.Success;
