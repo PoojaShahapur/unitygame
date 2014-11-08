@@ -255,11 +255,12 @@ namespace UnitySteer.Behaviors
         protected override void Awake()
         {
             base.Awake();
+            Steerings = new Steering[1];
             GameObject = sceneGo;
             Rigidbody = sceneGo.GetComponent<Rigidbody>();
-            var allSteerings = sceneGo.GetComponents<Steering>();
-            Steerings = allSteerings.Where(x => !x.IsPostProcess).ToArray();
-            SteeringPostprocessors = allSteerings.Where(x => x.IsPostProcess).ToArray();
+            //var allSteerings = sceneGo.GetComponents<Steering>();
+            //Steerings = allSteerings.Where(x => !x.IsPostProcess).ToArray();
+            //SteeringPostprocessors = allSteerings.Where(x => x.IsPostProcess).ToArray();
             
 
             //if (_movementPriority == 0)

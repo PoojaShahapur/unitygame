@@ -29,6 +29,10 @@ namespace UnitySteer.Behaviors
             {
                 return m_sceneGo;
             }
+            set
+            {
+                m_sceneGo = value;
+            }
         }
 
 

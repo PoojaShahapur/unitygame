@@ -20,7 +20,7 @@ namespace UnitySteer.Behaviors
     /// on disable.
     /// </remarks>
     [AddComponentMenu("UnitySteer/Radar/Radar")]
-    public class Radar : MonoBehaviour
+    public class Radar
     {
         #region Private static properties
 
@@ -178,8 +178,8 @@ namespace UnitySteer.Behaviors
 
         protected virtual void Awake()
         {
-            Vehicle = GetComponent<Vehicle>();
-            _transform = transform;
+            //Vehicle = GetComponent<Vehicle>();
+            _transform = Vehicle.sceneGo.transform;
             _vehicles = new List<Vehicle>(_preAllocateSize);
             _obstacles = new List<DetectableObject>(_preAllocateSize);
             _detectedObjects = new List<DetectableObject>(_preAllocateSize * 3);
@@ -317,7 +317,7 @@ namespace UnitySteer.Behaviors
         {
             if (_drawGizmos)
             {
-                var pos = (Vehicle == null) ? transform.position : Vehicle.Position;
+                var pos = (Vehicle == null) ? Vehicle.sceneGo.transform.position : Vehicle.Position;
 
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(pos, DetectionRadius);

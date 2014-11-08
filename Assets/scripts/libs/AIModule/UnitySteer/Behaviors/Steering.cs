@@ -135,6 +135,10 @@ namespace UnitySteer.Behaviors
         public Vehicle Vehicle
         {
             get { return _vehicle; }
+            set
+            {
+                _vehicle = value;
+            }
         }
 
         /// <summary>

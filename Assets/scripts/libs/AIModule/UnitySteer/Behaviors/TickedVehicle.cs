@@ -307,10 +307,11 @@ namespace UnitySteer.Behaviors
 
         #endregion
 
-        private void Update()
+        public void Update()
         {
             if (CanMove)
             {
+                CalculateForces();
                 ApplySteeringForce(Time.deltaTime);
                 AdjustOrientation(Time.deltaTime);
             }

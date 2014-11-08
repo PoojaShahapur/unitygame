@@ -44,6 +44,14 @@ namespace BehaviorLibrary
 			_Root = root;
 		}
 
+        public BehaviorComponent root
+        {
+            get
+            {
+                return _Root;
+            }
+        }
+
         /// <summary>
         /// perform the behavior
         /// </summary>

@@ -1,11 +1,14 @@
 //using TickedPriorityQueue;
 using UnityEngine;
+using UnitySteer.Behaviors;
 
 namespace UnitySteer.Tools
 {
     [AddComponentMenu("UnitySteer/Vehicle/Speedometer")]
-    public class Speedometer : MonoBehaviour
+    public class Speedometer
     {
+        public Vehicle Vehicle { get; private set; }
+
         private Vector3 _lastRecordedPosition;
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace UnitySteer.Tools
 
         private void Awake()
         {
-            _transform = transform;
+            _transform = Vehicle.sceneGo.transform;
             _lastRecordedPosition = _transform.position;
             _squaredDistanceSamples = new float[_numberSamples];
         }

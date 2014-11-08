@@ -103,6 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\ExportAssetBundlesAndScene.cs" />
+    <Compile Include="Assets\Editor\ResCfg\ResCfgData.cs" />
+    <Compile Include="Assets\Editor\ResCfg\ResCfgParse.cs" />
+    <Compile Include="Assets\Editor\ResCfg\XmlItem\Item.cs" />
+    <Compile Include="Assets\Editor\ResCfg\XmlItem\Pack.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\ActiveAnimationEditor.cs" />
@@ -186,6 +190,8 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
+    <None Include="Assets\Config\Ai\Test.xml" />
+    <None Include="Assets\Config\Tool\ResPackCfg.xml" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
@@ -220,6 +226,7 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
+    <None Include="Assets\Scripts\Libs\AIModule\UnitySteer\License.txt" />
     <None Include="Assets\Scripts\readme.txt" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
