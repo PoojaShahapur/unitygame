@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml;
+
 namespace SDK.Lib
 {
     public class LangMgr

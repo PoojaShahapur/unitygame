@@ -4,6 +4,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
+using Editor.ResCfg;
 
 /**
  * @brief 资源打包，导出 Bundles 和 Scene
@@ -252,5 +253,18 @@ public class ExportAssetBundlesAndScene
     static void CleanCache()
     {
         Caching.CleanCache();
+    }
+
+    // 根据配置文件导出资源打包
+    [MenuItem("Assets/ExportByCfg")]
+    static void ExportByCfg()
+    {
+        ResCfgData resCfgData = new ResCfgData();
+        resCfgData.parseXml();
+
+        foreach(Pack pack in resCfgData.m_packList)
+        {
+
+        }
     }
 }
