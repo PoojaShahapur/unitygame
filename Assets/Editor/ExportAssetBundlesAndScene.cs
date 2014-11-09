@@ -17,6 +17,9 @@ public class ExportAssetBundlesAndScene
 	{
 		// 打开保存面板，获得用户选择的路径  
         string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "unity3d");
+        //EditorUtility.GetAssetPath
+        //EditorUtility.InstanceIDToObject
+        //EditorUtility.CreateGameObjectWithHideFlags
 		
 		if (path.Length != 0)
 		{  

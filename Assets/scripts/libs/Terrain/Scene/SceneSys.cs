@@ -56,8 +56,6 @@ namespace SDK.Lib
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename + ".unity3d";
             param.m_resPackType = ResPackType.eLevelType;
-            //param.m_resLoadType = ResLoadType.eLoadDicWeb;
-            //param.m_cb = onSceneResLoadded;
             param.m_loadedcb = onSceneResLoadded;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             param.m_resNeedCoroutine = true;

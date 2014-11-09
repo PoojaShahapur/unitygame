@@ -6,6 +6,5 @@ namespace SDK.Common
 {
     public interface IInputMgr
     {
-        void handleKeyBoard();
     }
 }
