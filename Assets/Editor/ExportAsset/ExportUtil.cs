@@ -1,0 +1,6 @@
+﻿namespace EditorTool
+{
+    class ExportUtil
+    {
+    }
+}

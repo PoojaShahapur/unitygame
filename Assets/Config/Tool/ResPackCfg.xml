@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='utf-8' ?>
+<!--  
+	ResType 就是资源的类型，如 level
+	Pack 就是一个输出资源包
+	PackItem 就是包中的一项
+	根目录都是 Assets 目录
+-->
 <Root>
-    <Pack name="" path="Terran">
-        <Item name="" path="" />
-    </Pack>
+	<PackType type="level" path="Terran" extname="unity3d">
+		<Pack name="">
+			<PackItem name="" path="" />
+		</Pack>
+	</PackType>
 </Root>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ResCfg
+namespace EditorTool
 {
     class ResCfgData
     {
