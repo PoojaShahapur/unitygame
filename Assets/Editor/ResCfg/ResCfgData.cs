@@ -10,7 +10,7 @@ namespace EditorTool
         public void parseXml()
         {
             ResCfgParse resCfgParse = new ResCfgParse();
-            resCfgParse.parseXml(Application.dataPath + "/Config/ResPackCfg.xml", m_packList);
+            resCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackCfg.xml"), m_packList);
         }
     }
 }

@@ -6,9 +6,14 @@
 	根目录都是 Assets 目录
 -->
 <Root>
-	<PackType type="level" path="Terran" extname="unity3d">
-		<Pack name="">
-			<PackItem name="" path="" />
+	<PackType type="bundle" inpath="Prefabs/UI" outpath="UI" >
+		<Pack name="UIScrollForm.unity3d">
+			<PackItem path="UIScrollForm.prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="level" inpath="Scenes" outpath="Scene" >
+		<Pack name="cave.unity3d">
+			<PackItem path="cave.unity" />
 		</Pack>
 	</PackType>
 </Root>

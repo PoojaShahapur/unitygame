@@ -3,7 +3,7 @@
     class PackParam
     {
         public string m_type;
-        public string m_path;
-        public string m_extName;
+        public string m_inPath;
+        public string m_outPath;
     }
 }

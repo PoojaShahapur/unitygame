@@ -12,8 +12,8 @@ namespace EditorTool
         public void parseXml(XmlElement elem)
         {
             m_packParam.m_type = elem.Attributes["type"].Value;
-            m_packParam.m_path = elem.Attributes["path"].Value;
-            m_packParam.m_extName = elem.Attributes["extname"].Value;
+            m_packParam.m_inPath = elem.Attributes["inpath"].Value;
+            m_packParam.m_outPath = elem.Attributes["outpath"].Value;
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;
@@ -30,6 +30,9 @@ namespace EditorTool
 
         public void packPack()
         {
+            string path = ExportUtil.getStreamingDataPath(m_packParam.m_outPath);
+            ExportUtil.CreateDirectory(path);
+
             foreach(Pack pack in m_packList)
             {
                 pack.packOnePack(m_packParam);

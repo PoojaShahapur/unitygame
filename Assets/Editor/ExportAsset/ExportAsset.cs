@@ -11,9 +11,9 @@ namespace EditorTool
             ResCfgData resCfgData = new ResCfgData();
             resCfgData.parseXml();
 
-            foreach (Pack pack in resCfgData.m_packList)
+            foreach (PackType packType in resCfgData.m_packList)
             {
-
+                packType.packPack();
             }
         }
     }

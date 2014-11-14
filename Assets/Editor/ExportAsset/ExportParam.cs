@@ -5,18 +5,18 @@ namespace EditorTool
 {
     class AssetBundleParam
     {
-        public UnityEngine.Object m_mainAsset;
+        public UnityEngine.Object m_mainAsset = null;
         public UnityEngine.Object[] m_assets;
         public string m_pathName;
-        public BuildAssetBundleOptions m_assetBundleOptions;
-        public BuildTarget m_targetPlatform;
+        public BuildAssetBundleOptions m_assetBundleOptions = BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.UncompressedAssetBundle;
+        public BuildTarget m_targetPlatform = EditorUserBuildSettings.activeBuildTarget;
     }
 
     class StreamedSceneAssetBundleParam
     {
         public string[] m_levels;
         public string m_locationPath;
-        public BuildTarget m_target;
-        public BuildOptions m_options;
+        public BuildTarget m_target = EditorUserBuildSettings.activeBuildTarget;
+        public BuildOptions m_options = BuildOptions.None;
     }
 }
