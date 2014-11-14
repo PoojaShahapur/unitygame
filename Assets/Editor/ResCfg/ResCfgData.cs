@@ -5,7 +5,7 @@ namespace EditorTool
 {
     class ResCfgData
     {
-        public List<Pack> m_packList = new List<Pack>();
+        public List<PackType> m_packList = new List<PackType>();
 
         public void parseXml()
         {

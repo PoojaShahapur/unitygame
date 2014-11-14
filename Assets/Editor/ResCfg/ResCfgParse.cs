@@ -5,7 +5,7 @@ namespace EditorTool
 {
     class ResCfgParse
     {
-        public void parseXml(string path, List<Pack> packList)
+        public void parseXml(string path, List<PackType> packList)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
@@ -13,14 +13,14 @@ namespace EditorTool
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
             XmlNodeList packNodeList = rootNode.ChildNodes;
             XmlElement packElem;
-            Pack pack;
+            PackType packType;
 
             foreach (XmlNode packNode in packNodeList)
             {
                 packElem = (XmlElement)packNode;
-                pack = new Pack();
-                packList.Add(pack);
-                pack.parseXml(packElem);
+                packType = new PackType();
+                packList.Add(packType);
+                packType.parseXml(packElem);
             }
         }
     }

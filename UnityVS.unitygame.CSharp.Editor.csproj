@@ -102,11 +102,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\ExportAssetBundlesAndScene.cs" />
+    <Compile Include="Assets\Editor\ExportAsset\ExportAsset.cs" />
+    <Compile Include="Assets\Editor\ExportAsset\ExportParam.cs" />
+    <Compile Include="Assets\Editor\ExportAsset\ExportUtil.cs" />
     <Compile Include="Assets\Editor\ResCfg\ResCfgData.cs" />
     <Compile Include="Assets\Editor\ResCfg\ResCfgParse.cs" />
-    <Compile Include="Assets\Editor\ResCfg\XmlItem\Item.cs" />
     <Compile Include="Assets\Editor\ResCfg\XmlItem\Pack.cs" />
+    <Compile Include="Assets\Editor\ResCfg\XmlItem\PackItem.cs" />
+    <Compile Include="Assets\Editor\ResCfg\XmlItem\PackType.cs" />
+    <Compile Include="Assets\Editor\Test\ExportAssetBundlesAndScene.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\ActiveAnimationEditor.cs" />
@@ -226,8 +230,8 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
-    <None Include="Assets\Scripts\Libs\AIModule\UnitySteer\License.txt" />
-    <None Include="Assets\Scripts\readme.txt" />
+    <None Include="Assets\scripts\libs\AIModule\UnitySteer\License.txt" />
+    <None Include="Assets\scripts\readme.txt" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
     <None Include="Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll" />

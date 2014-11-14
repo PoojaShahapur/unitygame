@@ -25,5 +25,10 @@ namespace EditorTool
                 item.parseXml(itemElem);
             }
         }
+
+        public void packOnePack(PackParam param)
+        {
+
+        }
     }
 }
