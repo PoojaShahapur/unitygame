@@ -106,13 +106,15 @@ namespace SDK.Lib
 				{
                     LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
                     param.m_path = attrItem.m_resPath;
-                    param.m_resPackType = ResPackType.eBundleType;
-                    param.m_resLoadType = ResLoadType.eLoadDicWeb;
+                    //param.m_resPackType = ResPackType.eBundleType;
+                    //param.m_resLoadType = ResLoadType.eLoadDicWeb;
+                    //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
                     param.m_prefabName = attrItem.m_prefabName;
                     param.m_loadedcb = onloaded;
-                    param.m_resNeedCoroutine = false;
-                    param.m_loadNeedCoroutine = true;
-                    Ctx.m_instance.m_resMgr.load(param);
+                    //param.m_resNeedCoroutine = false;
+                    //param.m_loadNeedCoroutine = true;
+                    //Ctx.m_instance.m_resMgr.load(param);
+                    Ctx.m_instance.m_resMgr.loadBundle(param);
 				}
 			}
 		}

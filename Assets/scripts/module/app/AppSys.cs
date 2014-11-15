@@ -97,10 +97,11 @@ namespace Game.App
             // 初始化完成，开始加载自己的游戏场景
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + "Game.unity3d";
-            param.m_resPackType = ResPackType.eBundleType;
+            //param.m_resPackType = ResPackType.eBundleType;
             param.m_loadedcb = onGameLoaded;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            Ctx.m_instance.m_resMgr.load(param);
+            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+            //Ctx.m_instance.m_resMgr.load(param);
+            Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
         public void onGameLoaded(SDK.Common.Event resEvt)
