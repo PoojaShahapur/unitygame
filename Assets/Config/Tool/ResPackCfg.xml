@@ -4,6 +4,30 @@
 	Pack 就是一个输出资源包
 	PackItem 就是包中的一项
 	根目录都是 Assets 目录
+	<PackType type="bundle" inpath="Prefabs/UI" outpath="UI" >
+		<Pack name="UIScrollForm.unity3d">
+			<PackItem path="UIScrollForm.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Table" outpath="Table" packallfiles="true" infileext="txt,xml" >
+		<Pack name="Table.unity3d">
+			<PackItem path="Table1.txt" restype="textasset" />
+			<PackItem path="Table2.xml" restype="textasset" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Prefabs/Module" outpath="Module" >
+		<Pack name="App.unity3d">
+			<PackItem path="App.prefab" restype="prefab" />
+		</Pack>
+		<Pack name="Game.unity3d">
+			<PackItem path="Game.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="true" infileext="unity" >
+		<Pack name="cave.unity3d">
+			<PackItem path="cave.unity" />
+		</Pack>
+	</PackType>
 -->
 <Root>
 	<PackType type="bundle" inpath="Prefabs/UI" outpath="UI" >

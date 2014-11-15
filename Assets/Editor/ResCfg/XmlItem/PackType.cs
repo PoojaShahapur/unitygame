@@ -121,12 +121,13 @@ namespace EditorTool
             List<string> filesList = ExportUtil.GetAll(ExportUtil.getDataPath(m_packParam.m_inPath));
             string ext = "";
             string nameNoExt = "";
+            string tmpStr = "";
             StreamedSceneAssetBundleParam bundleParam = new StreamedSceneAssetBundleParam();
 
             foreach (string filePath in filesList)
             {
                 ext = ExportUtil.getFileExt(filePath);
-                nameNoExt = ExportUtil.getFileExt(filePath);
+                nameNoExt = ExportUtil.getFileNameNoExt(filePath);
                 if (ExportUtil.isArrContainElem(ext, m_packParam.m_extArr))
                 {
                     resPath = ExportUtil.convFullPath2AssetsPath(filePath);
@@ -134,7 +135,8 @@ namespace EditorTool
                     bundleParam.m_levels = nameList.ToArray();
                     pathList.Clear();
                     pathList.Add(m_packParam.m_outPath);
-                    pathList.Add(string.Format("{0},{1}", nameNoExt, ExportUtil.DOTUNITY3D));
+                    tmpStr = string.Format("{0}{1}", nameNoExt, ExportUtil.DOTUNITY3D);
+                    pathList.Add(tmpStr);
                     bundleParam.m_locationPath = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
 
                     ExportUtil.BuildStreamedSceneAssetBundle(bundleParam);
