@@ -109,6 +109,7 @@ namespace Game.App
             //GameObject go = (res as IBundleRes).InstantiateObject("Game");
             //GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = res.InstantiateObject("Game");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].name = NotDestroyPath.CV_GameName;
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer].transform;
 
             // 游戏模块也不释放
