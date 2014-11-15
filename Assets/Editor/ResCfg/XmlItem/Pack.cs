@@ -60,7 +60,7 @@ namespace EditorTool
                 pathList.Add(packItem.m_path);
 
                 resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
-                go = AssetDatabase.LoadAssetAtPath(resPath, typeof(GameObject));
+                go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(packItem.m_resType));
                 objList.Add(go);
             }
 

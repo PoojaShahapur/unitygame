@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace EditorTool
     {
         public const string BUNDLE = "bundle";
         public const string LEVEL = "level";
+
+        public const string PREFAB = "prefab";
+        public const string TEXTASSET = "textasset";
 
         static public void BuildAssetBundle(AssetBundleParam param)
         {
@@ -95,6 +99,21 @@ namespace EditorTool
             }
             ret.Replace("//", "/");
             return ret;
+        }
+
+        static public Type convResStr2Type(string resStr)
+        {
+            Type retType = null;
+            if(PREFAB == resStr)
+            {
+                retType = typeof(GameObject);
+            }
+            else if (TEXTASSET == resStr)
+            {
+                retType = typeof(TextAsset);
+            }
+
+            return retType;
         }
     }
 }

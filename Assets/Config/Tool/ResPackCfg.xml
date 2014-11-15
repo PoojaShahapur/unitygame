@@ -8,7 +8,13 @@
 <Root>
 	<PackType type="bundle" inpath="Prefabs/UI" outpath="UI" >
 		<Pack name="UIScrollForm.unity3d">
-			<PackItem path="UIScrollForm.prefab" />
+			<PackItem path="UIScrollForm.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Table" outpath="Table" >
+		<Pack name="Table.unity3d">
+			<PackItem path="Table1.tbl" restype="textasset" />
+			<PackItem path="Table2.tbl" restype="textasset" />
 		</Pack>
 	</PackType>
 	<PackType type="level" inpath="Scenes" outpath="Scene" >
