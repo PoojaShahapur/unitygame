@@ -11,7 +11,7 @@
 			<PackItem path="UIScrollForm.prefab" restype="prefab" />
 		</Pack>
 	</PackType>
-	<PackType type="bundle" inpath="Table" outpath="Table" >
+	<PackType type="bundle" inpath="Table" outpath="Table" packallfiles="true" infileext="txt,xml" >
 		<Pack name="Table.unity3d">
 			<PackItem path="Table1.txt" restype="textasset" />
 			<PackItem path="Table2.xml" restype="textasset" />
@@ -25,7 +25,7 @@
 			<PackItem path="Game.prefab" restype="prefab" />
 		</Pack>
 	</PackType>
-	<PackType type="level" inpath="Scenes" outpath="Scene" >
+	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="true" infileext="unity" >
 		<Pack name="cave.unity3d">
 			<PackItem path="cave.unity" />
 		</Pack>

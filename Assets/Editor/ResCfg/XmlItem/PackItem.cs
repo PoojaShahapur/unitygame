@@ -9,11 +9,8 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_path = elem.Attributes["path"].Value;
-            if (elem.Attributes["restype"] != null)
-            {
-                m_resType = elem.Attributes["restype"].Value;
-            }
+            m_path = ExportUtil.getXmlAttrStr(elem.Attributes["path"]);
+            m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
         }
     }
 }
