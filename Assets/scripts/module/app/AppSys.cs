@@ -33,6 +33,8 @@ namespace Game.App
             Ctx.m_instance.m_EngineLoop = new EngineLoop();
             Ctx.m_instance.m_ResizeMgr = new ResizeMgr();
 
+            Ctx.m_instance.m_playerMgr = new PlayerMgr();
+
             PostInit();
         }
 
@@ -59,6 +61,7 @@ namespace Game.App
             //Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_resMgr as ITickedObject);
             Ctx.m_instance.m_ResizeMgr.addResizeObject(Ctx.m_instance.m_UIMgr as IResizeObject);
             Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_inputMgr as ITickedObject);
+            Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_playerMgr as ITickedObject);
         }
 
         public void setNoDestroyObject()

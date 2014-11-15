@@ -1,4 +1,5 @@
 using BehaviorLibrary;
+using SDK.Common;
 using UnitySteer.Behaviors;
 
 namespace SDK.Lib
@@ -6,7 +7,7 @@ namespace SDK.Lib
 	/**
 	 * @brief 生物 
 	 */
-	public class BeingEntity
+    public class BeingEntity : ITickedObject
 	{
         protected SkinAniModel m_skinAniModel;            // 一个数组
 
@@ -17,6 +18,11 @@ namespace SDK.Lib
         public BeingEntity()
         {
             m_skinAniModel = new SkinAniModel();
+        }
+
+        public void OnTick(float delta)
+        {
+
         }
 
         public Biped vehicle

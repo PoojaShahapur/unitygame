@@ -28,7 +28,7 @@ namespace SDK.Common
 
         public IEngineLoop m_EngineLoop;            // 引擎循环
         public GameAttr m_gameAttr;                 // 游戏属性
-        public IFObjectMgr m_monsterMgr;            // 掉落物管理器
+        public IFObjectMgr m_fObjectMgr;            // 掉落物管理器
         public INpcMgr m_npcMgr;                    // Npc管理器
         public IPlayerMgr m_playerMgr;              // Player管理器
         public ITerrainMgr m_terrainMgr;            // Terrain管理器

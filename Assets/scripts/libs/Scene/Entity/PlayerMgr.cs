@@ -6,10 +6,8 @@ namespace SDK.Lib
 	/**
 	 * @brief 玩家管理器
 	 */
-    public class PlayerMgr : IPlayerMgr
+    public class PlayerMgr : BeingMgr, IPlayerMgr
 	{
-        public List<Player> m_playerLists;
-
         public PlayerMgr()
 		{
 
