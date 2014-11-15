@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Common;
+using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -61,7 +62,14 @@ namespace EditorTool
 
                 resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
                 go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(packItem.m_resType));
-                objList.Add(go);
+                if (go)
+                {
+                    objList.Add(go);
+                }
+                else
+                {
+                    LoggerTool.error("error");
+                }
             }
 
             AssetBundleParam bundleParam = new AssetBundleParam();

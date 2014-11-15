@@ -13,8 +13,16 @@
 	</PackType>
 	<PackType type="bundle" inpath="Table" outpath="Table" >
 		<Pack name="Table.unity3d">
-			<PackItem path="Table1.tbl" restype="textasset" />
-			<PackItem path="Table2.tbl" restype="textasset" />
+			<PackItem path="Table1.txt" restype="textasset" />
+			<PackItem path="Table2.xml" restype="textasset" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Prefabs/Module" outpath="Module" >
+		<Pack name="App.unity3d">
+			<PackItem path="App.prefab" restype="prefab" />
+		</Pack>
+		<Pack name="Game.unity3d">
+			<PackItem path="Game.prefab" restype="prefab" />
 		</Pack>
 	</PackType>
 	<PackType type="level" inpath="Scenes" outpath="Scene" >
