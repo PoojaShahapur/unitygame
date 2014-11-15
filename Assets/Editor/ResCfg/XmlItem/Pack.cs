@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Common;
+using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -53,15 +54,22 @@ namespace EditorTool
             UnityEngine.Object go;
 
             List<string> pathList = new List<string>();
-            pathList.Clear();
             foreach (PackItem packItem in m_packList)
             {
+                pathList.Clear();
                 pathList.Add(param.m_inPath);
                 pathList.Add(packItem.m_path);
 
                 resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
-                go = AssetDatabase.LoadAssetAtPath(resPath, typeof(GameObject));
-                objList.Add(go);
+                go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(packItem.m_resType));
+                if (go)
+                {
+                    objList.Add(go);
+                }
+                else
+                {
+                    LoggerTool.error("error");
+                }
             }
 
             AssetBundleParam bundleParam = new AssetBundleParam();
@@ -79,9 +87,10 @@ namespace EditorTool
             string resPath = "";
             List<string> nameList = new List<string>();
             List<string> pathList = new List<string>();
-            pathList.Clear();
+
             foreach (PackItem packItem in m_packList)
             {
+                pathList.Clear();
                 pathList.Add(param.m_inPath);
                 pathList.Add(packItem.m_path);
                 resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));

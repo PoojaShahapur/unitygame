@@ -100,10 +100,11 @@ namespace Game.App
             // 初始化完成，开始加载自己的游戏场景
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + "Game.unity3d";
-            param.m_resPackType = ResPackType.eBundleType;
+            //param.m_resPackType = ResPackType.eBundleType;
             param.m_loadedcb = onGameLoaded;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            Ctx.m_instance.m_resMgr.load(param);
+            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+            //Ctx.m_instance.m_resMgr.load(param);
+            Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
         public void onGameLoaded(SDK.Common.Event resEvt)
@@ -112,6 +113,7 @@ namespace Game.App
             //GameObject go = (res as IBundleRes).InstantiateObject("Game");
             //GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = res.InstantiateObject("Game");
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].name = NotDestroyPath.CV_GameName;
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer].transform;
 
             // 游戏模块也不释放

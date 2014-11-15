@@ -42,17 +42,22 @@ namespace SDK.Lib
 
         protected IEnumerator initAssetByCoroutine()
         {
-            AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
-            yield return req;
+            if (!string.IsNullOrEmpty(m_prefabName))
+            {
+                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+                yield return req;
 
-            GameObject.Instantiate(req.asset);
-            //m_bundle.Unload(false);
+                GameObject.Instantiate(req.asset);
+                //m_bundle.Unload(false);
+            }
 
             if (onLoadedCB != null)
             {
                 Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
                 onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
             }
+
+            yield return null;
         }
 
         protected void initAsset()

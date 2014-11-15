@@ -34,12 +34,13 @@ namespace SDK.Lib
         {
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename + ".unity3d";
-            param.m_resPackType = ResPackType.eBundleType;
+            //param.m_resPackType = ResPackType.eBundleType;
             param.m_loadedcb = onSceneCfgLoadded;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            param.m_resNeedCoroutine = false;
-            param.m_loadNeedCoroutine = false;
-            Ctx.m_instance.m_resMgr.load(param);
+            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+            //param.m_resNeedCoroutine = false;
+            //param.m_loadNeedCoroutine = false;
+            //Ctx.m_instance.m_resMgr.load(param);
+            Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
         protected void onSceneCfgLoadded(SDK.Common.Event resEvt)
@@ -55,13 +56,14 @@ namespace SDK.Lib
         {
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename + ".unity3d";
-            param.m_resPackType = ResPackType.eLevelType;
+            //param.m_resPackType = ResPackType.eLevelType;
             param.m_loadedcb = onSceneResLoadded;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            param.m_resNeedCoroutine = true;
-            param.m_loadNeedCoroutine = true;
+            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+            //param.m_resNeedCoroutine = true;
+            //param.m_loadNeedCoroutine = true;
             param.m_lvlName = filename;
-            Ctx.m_instance.m_resMgr.load(param);
+            //Ctx.m_instance.m_resMgr.load(param);
+            Ctx.m_instance.m_resMgr.loadLevel(param);
         }
 
         public void onSceneResLoadded(SDK.Common.Event resEvt)

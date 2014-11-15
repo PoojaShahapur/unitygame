@@ -45,6 +45,37 @@ namespace SDK.Lib
             }
         }
 
+        // eBundleType 打包类型资源加载
+        public IRes loadBundle(LoadParam param)
+        {
+            param.m_resPackType = ResPackType.eBundleType;
+            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+
+            // 资源尽量异步加载
+            param.m_resNeedCoroutine = true;
+            param.m_loadNeedCoroutine = true;
+
+            return Syncload(param);
+        }
+
+        // eLevelType 打包类型资源加载
+        public IRes loadLevel(LoadParam param)
+        {
+            param.m_resPackType = ResPackType.eLevelType;
+            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+            param.m_resNeedCoroutine = true;
+            param.m_loadNeedCoroutine = true;
+
+            return Syncload(param);
+        }
+
+        // eResourcesType 打包类型资源加载
+        public IRes loadResources(LoadParam param)
+        {
+            return Syncload(param);
+        }
+
+        // 通用类型，需要自己设置很多参数
         public IRes load(LoadParam param)
         {
             //if(m_IsSyncLoad)
