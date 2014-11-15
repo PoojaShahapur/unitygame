@@ -54,7 +54,7 @@
 			<PackItem path="Game.prefab" restype="prefab" />
 		</Pack>
 	</PackType>
-	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="true" infileext="unity" >
+	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="false" infileext="unity" >
 		<Pack name="cave.unity3d">
 			<PackItem path="cave.unity" />
 		</Pack>

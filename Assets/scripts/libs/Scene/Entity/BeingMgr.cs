@@ -5,11 +5,11 @@ namespace SDK.Lib
 {
     public class BeingMgr : ITickedObject
     {
-        public List<BeingEntity> m_List;
+        public List<BeingEntity> m_list = new List<BeingEntity>();
 
         public void OnTick(float delta)
         {
-            foreach(BeingEntity being in m_List)
+            foreach (BeingEntity being in m_list)
             {
                 being.OnTick(delta);
             }
@@ -17,7 +17,7 @@ namespace SDK.Lib
 
         public void add(BeingEntity being)
         {
-            m_List.Add(being);
+            m_list.Add(being);
         }
 
         public void remove(int tmpid)
