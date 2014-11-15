@@ -53,9 +53,9 @@ namespace EditorTool
             UnityEngine.Object go;
 
             List<string> pathList = new List<string>();
-            pathList.Clear();
             foreach (PackItem packItem in m_packList)
             {
+                pathList.Clear();
                 pathList.Add(param.m_inPath);
                 pathList.Add(packItem.m_path);
 
@@ -79,9 +79,10 @@ namespace EditorTool
             string resPath = "";
             List<string> nameList = new List<string>();
             List<string> pathList = new List<string>();
-            pathList.Clear();
+
             foreach (PackItem packItem in m_packList)
             {
+                pathList.Clear();
                 pathList.Add(param.m_inPath);
                 pathList.Add(packItem.m_path);
                 resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
