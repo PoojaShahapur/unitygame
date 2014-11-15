@@ -41,6 +41,11 @@
 			<PackItem path="Table2.xml" restype="textasset" />
 		</Pack>
 	</PackType>
+  <PackType type="bundle" inpath="Config/Ai" outpath="AI" packallfiles="false" infileext="xml" >
+    <Pack name="AI.unity3d">
+      <PackItem path="Test.xml" restype="textasset" />
+    </Pack>
+  </PackType>
 	<PackType type="bundle" inpath="Prefabs/Module" outpath="Module" packallfiles="false" infileext="prefab" >
 		<Pack name="App.unity3d">
 			<PackItem path="App.prefab" restype="prefab" />

@@ -20,7 +20,6 @@ namespace SDK.Lib
         {
             if (m_CoroutineEntry == null)
             {
-                //m_CoroutineEntry = new GameObject("CoroutineMgr").AddComponent<CoroutineBehaviour>();
                 m_CoroutineEntry = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<CoroutineBehaviour>();
             }
             return m_CoroutineEntry.StartCoroutine(routine);
