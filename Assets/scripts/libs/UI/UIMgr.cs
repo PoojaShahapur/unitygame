@@ -104,7 +104,7 @@ namespace SDK.Lib
 				}
 				else // 资源从来没有加载过
 				{
-                    LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
+                    LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
                     param.m_path = attrItem.m_resPath;
                     //param.m_resPackType = ResPackType.eBundleType;
                     //param.m_resLoadType = ResLoadType.eLoadDicWeb;

@@ -46,6 +46,11 @@
       <PackItem path="Test.xml" restype="textasset" />
     </Pack>
   </PackType>
+  <PackType type="bundle" inpath="Prefabs/Being" outpath="Being" packallfiles="false" infileext="prefab" >
+    <Pack name="TestBeing.unity3d">
+      <PackItem path="TestBeing.prefab" restype="prefab" />
+    </Pack>
+  </PackType>
 	<PackType type="bundle" inpath="Prefabs/Module" outpath="Module" packallfiles="false" infileext="prefab" >
 		<Pack name="App.unity3d">
 			<PackItem path="App.prefab" restype="prefab" />
@@ -57,6 +62,9 @@
 	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="false" infileext="unity" >
 		<Pack name="cave.unity3d">
 			<PackItem path="cave.unity" />
+		</Pack>
+    <Pack name="TestScene1f.unity3d">
+			<PackItem path="TestScene1f.unity" />
 		</Pack>
 	</PackType>
 </Root>

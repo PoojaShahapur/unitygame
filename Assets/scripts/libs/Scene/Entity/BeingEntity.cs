@@ -83,5 +83,20 @@ namespace SDK.Lib
                 direction = 0.0f;
             }
         }
+
+        // 骨骼设置，骨骼不能更换
+        public void setSkeleton(string name)
+        {
+            if(string.IsNullOrEmpty(m_skinAniModel.m_skeletonName))
+            {
+                m_skinAniModel.m_skeletonName = name;
+                m_skinAniModel.loadSkeleton();
+            }
+        }
+
+        public void setPartModel(PlayerModelDef modelDef, string name)
+        {
+            
+        }
 	}
 }

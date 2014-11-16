@@ -26,6 +26,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathSceneXml] = "StreamingAssets/Scene/Xml/";
             m_pathLst[(int)ResPathType.ePathModule] = "StreamingAssets/Module/";
             m_pathLst[(int)ResPathType.ePathComUI] = "StreamingAssets/UI/";
+            m_pathLst[(int)ResPathType.ePathBeingPath] = "StreamingAssets/Being/";
 
 
             m_dataPath = Application.dataPath;

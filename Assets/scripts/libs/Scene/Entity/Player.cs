@@ -1,4 +1,5 @@
 using BehaviorLibrary;
+using SDK.Common;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -11,13 +12,13 @@ namespace SDK.Lib
 		public Player()
             : base()
 		{
-            m_skinAniModel.m_modelList = new GameObject[(int)PlayerModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new PartInfo[(int)PlayerModelDef.eModelTotal];
 		}
 
         override public void addAi(BehaviorTree behaviorTree)
         {
             base.addAi(behaviorTree);
-            m_vehicle.sceneGo = m_skinAniModel.m_modelList[(int)PlayerModelDef.eModelWaist];
+            m_vehicle.sceneGo = m_skinAniModel.m_modelList[(int)PlayerModelDef.eModelWaist].m_partGo;
         }
 	}
 }

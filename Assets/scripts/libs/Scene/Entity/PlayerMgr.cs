@@ -12,5 +12,10 @@ namespace SDK.Lib
 		{
 
 		}
+
+        public IPlayerMain createHero()
+        {
+            return new PlayerMain();
+        }
 	}
 }

@@ -61,7 +61,8 @@ namespace Game.Game
 
         public void loadScene()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("cave", onResLoadScene);
+            //Ctx.m_instance.m_sceneSys.loadScene("cave", onResLoadScene);
+            Ctx.m_instance.m_sceneSys.loadScene("TestScene1f", onResLoadScene);
         }
 
         public void onResLoad(SDK.Common.Event resEvt)

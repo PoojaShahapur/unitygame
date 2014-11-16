@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SDK.Common;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -7,7 +8,7 @@ namespace SDK.Lib
         public Monster()
             : base()
         {
-            m_skinAniModel.m_modelList = new GameObject[(int)MonstersModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new PartInfo[(int)MonstersModelDef.eModelTotal];
         }
     }
 }
