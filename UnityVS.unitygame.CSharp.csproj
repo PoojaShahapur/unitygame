@@ -211,6 +211,7 @@
     <Compile Include="Assets\Scripts\Common\IO\IInputMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Module\IGameSys.cs" />
     <Compile Include="Assets\Scripts\Common\Network\INetworkMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\Resource\IMeshMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\IRes.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\IResMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\LoadParam.cs" />

@@ -39,6 +39,7 @@ namespace SDK.Common
         public CamSys m_camSys;
 
         public ISceneLogic m_sceneLogic;
+        public IMeshMgr m_meshMgr;
 
         public Ctx()
         {
