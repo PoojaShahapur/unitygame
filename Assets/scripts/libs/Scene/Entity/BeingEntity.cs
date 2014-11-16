@@ -11,7 +11,6 @@ namespace SDK.Lib
     public class BeingEntity : ITickedObject
 	{
         protected SkinAniModel m_skinAniModel;             // 一个数组
-        protected AnimSys m_animSys = new AnimSys();       // 动画数据
 
         // AI 数据
         protected Biped m_vehicle;
@@ -27,10 +26,10 @@ namespace SDK.Lib
 
         public void OnTick(float delta)
         {
-            if (m_animSys.animator && Camera.main)
+            if (m_skinAniModel.animSys.animator && Camera.main)
             {
                 Do(m_skinAniModel.transform, Camera.main.transform, ref speed, ref direction);
-                m_animSys.Do(speed * 6, direction * 180);
+                m_skinAniModel.animSys.Do(speed * 6, direction * 180);
             }
         }
 

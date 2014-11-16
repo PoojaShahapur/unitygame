@@ -15,9 +15,9 @@ namespace SDK.Lib
             }
         }
 
-        public void add(BeingEntity being)
+        public void add(IBeingEntity being)
         {
-            m_list.Add(being);
+            m_list.Add(being as BeingEntity);
         }
 
         public void remove(int tmpid)

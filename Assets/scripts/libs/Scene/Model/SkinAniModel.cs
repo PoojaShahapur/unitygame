@@ -15,6 +15,8 @@ namespace SDK.Lib
         protected Transform m_transform;                // 位置信息
         protected Action m_handleCB;
 
+        protected AnimSys m_animSys = new AnimSys();       // 动画数据
+
         public GameObject rootGo
         {
             get
@@ -48,20 +50,29 @@ namespace SDK.Lib
             }
         }
 
+        public AnimSys animSys
+        {
+            get
+            {
+                return m_animSys;
+            }
+        }
+
         public void loadSkeleton()
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_skeletonName + ".unity3d"; ;
-            param.m_loadedcb = onloaded;
+            param.m_loadedcb = onSkeletonloaded;
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
         // 资源加载成功，通过事件回调
-        public void onloaded(SDK.Common.Event resEvt)
+        public void onSkeletonloaded(SDK.Common.Event resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             m_rootGo = res.InstantiateObject(m_skeletonName);
             m_transform = m_rootGo.transform;
+            m_animSys.animator = m_rootGo.GetComponent<Animator>();
 
             if(m_handleCB != null)
             {

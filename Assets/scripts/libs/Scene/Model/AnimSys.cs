@@ -14,6 +14,13 @@ namespace SDK.Lib
         public float m_AnguarSpeedDampTime = 0.25f;
         public float m_DirectionResponseTime = 0.2f;
 
+        public AnimSys()
+        {
+            m_SpeedId = Animator.StringToHash("Speed");
+            m_AgularSpeedId = Animator.StringToHash("AngularSpeed");
+            m_DirectionId = Animator.StringToHash("Direction");
+        }
+
         public Animator animator
         {
             get
