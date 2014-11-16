@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!--  
-
+	part 是指身体的哪一部分
 -->
 <Root outpath="Prefabs/Being" >
 	<Mesh name="TestBeing.prefab" restype="prefab" inpath="Prefabs/Being" outpath="Prefabs/Being" >

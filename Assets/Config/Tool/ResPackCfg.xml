@@ -50,6 +50,9 @@
     <Pack name="TestBeing.unity3d">
       <PackItem path="TestBeing.prefab" restype="prefab" />
     </Pack>
+    <Pack name="BonesList.unity3d">
+      <PackItem path="BoneList.xml" restype="textasset" />
+    </Pack>
   </PackType>
 	<PackType type="bundle" inpath="Prefabs/Module" outpath="Module" packallfiles="false" infileext="prefab" >
 		<Pack name="App.unity3d">
