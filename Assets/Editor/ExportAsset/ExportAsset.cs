@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace EditorTool
 {
@@ -10,11 +12,15 @@ namespace EditorTool
         {
             ResCfgData resCfgData = new ResCfgData();
             resCfgData.parseXml();
+            resCfgData.pack();
+        }
 
-            foreach (PackType packType in resCfgData.m_packList)
-            {
-                packType.packPack();
-            }
+        [MenuItem("Assets/ExportSkelMeshCfg")]
+        static void ExportSkelMeshCfg()
+        {
+            ResCfgData resCfgData = new ResCfgData();
+            resCfgData.parseSkelMeshXml();
+            resCfgData.exportBoneList();
         }
     }
 }

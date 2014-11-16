@@ -108,9 +108,13 @@
     <Compile Include="Assets\Editor\ResCfg\PackParam.cs" />
     <Compile Include="Assets\Editor\ResCfg\ResCfgData.cs" />
     <Compile Include="Assets\Editor\ResCfg\ResCfgParse.cs" />
+    <Compile Include="Assets\Editor\ResCfg\SkelMeshCfgParse.cs" />
+    <Compile Include="Assets\Editor\ResCfg\SkelMeshParam.cs" />
+    <Compile Include="Assets\Editor\ResCfg\XmlItem\Mesh.cs" />
     <Compile Include="Assets\Editor\ResCfg\XmlItem\Pack.cs" />
     <Compile Include="Assets\Editor\ResCfg\XmlItem\PackItem.cs" />
     <Compile Include="Assets\Editor\ResCfg\XmlItem\PackType.cs" />
+    <Compile Include="Assets\Editor\ResCfg\XmlItem\SubMesh.cs" />
     <Compile Include="Assets\Editor\Test\ExportAssetBundlesAndScene.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
@@ -197,6 +201,7 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
     <None Include="Assets\Config\Ai\Test.xml" />
     <None Include="Assets\Config\Tool\ResPackCfg.xml" />
+    <None Include="Assets\Config\Tool\SkelMeshCfg.xml" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
