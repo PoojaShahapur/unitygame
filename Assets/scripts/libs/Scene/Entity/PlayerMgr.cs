@@ -8,6 +8,8 @@ namespace SDK.Lib
 	 */
     public class PlayerMgr : BeingMgr, IPlayerMgr
 	{
+        protected PlayerMain m_hero;
+
         public PlayerMgr()
 		{
 
@@ -16,6 +18,17 @@ namespace SDK.Lib
         public IPlayerMain createHero()
         {
             return new PlayerMain();
+        }
+
+        public void addHero(IPlayerMain hero)
+        {
+            m_hero = hero as PlayerMain;
+            add(m_hero);
+        }
+
+        public IPlayerMain getHero()
+        {
+            return m_hero;
         }
 	}
 }

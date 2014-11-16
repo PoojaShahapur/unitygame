@@ -42,6 +42,7 @@ namespace Game.Game
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
             Ctx.m_instance.m_sceneEventCB = new SceneEventCB();
+            Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
         }
 
         public void loadUI()
@@ -65,7 +66,7 @@ namespace Game.Game
             Ctx.m_instance.m_sceneSys.loadScene("TestScene1f", onResLoadScene);
         }
 
-        public void onResLoad(SDK.Common.Event resEvt)
+        public void onResLoad(EventDisp resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             GameObject go = res.InstantiateObject("UIScrollForm");

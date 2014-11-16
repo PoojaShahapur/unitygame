@@ -12,7 +12,7 @@ namespace Game.Game
             Ctx.m_instance.m_camSys.m_sceneCam.onSceneLoaded();
             // 创建
             IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
-            Ctx.m_instance.m_playerMgr.add(playerMain);
+            Ctx.m_instance.m_playerMgr.addHero(playerMain);
             playerMain.setSkeleton("TestBeing");
         }
     }

@@ -8,12 +8,12 @@ namespace SDK.Lib
      */
     public class MsgRoute : IEventDispatch
     {
-        public void addEventListener(EventID evtID, Action<SDK.Common.Event> cb)
+        public void addEventListener(EventID evtID, Action<EventDisp> cb)
         {
             
         }
 
-        public void removeEventListener(EventID evtID, Action<SDK.Common.Event> cb)
+        public void removeEventListener(EventID evtID, Action<EventDisp> cb)
         {
             
         }

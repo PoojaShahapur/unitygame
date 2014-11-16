@@ -227,14 +227,14 @@ namespace SDK.Lib
 		}
 		
 		// 资源加载成功，通过事件回调
-        public void onloaded(Event resEvt)
+        public void onloaded(EventDisp resEvt)
 		{
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             onloadedByRes(res);
 		}
 		
 		// 资源加载失败，通过事件回调
-        private void onFailed(Event resEvt)
+        private void onFailed(EventDisp resEvt)
 		{
 
 		}

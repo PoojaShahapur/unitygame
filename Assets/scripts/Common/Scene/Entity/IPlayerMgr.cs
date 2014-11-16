@@ -1,8 +1,9 @@
 namespace SDK.Common
 {
-    public interface IPlayerMgr
+    public interface IPlayerMgr : IBeingMgr
     {
         IPlayerMain createHero();
-        void add(IBeingEntity being);
+        IPlayerMain getHero();
+        void addHero(IPlayerMain hero);
     }
 }

@@ -43,7 +43,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
-        protected void onSceneCfgLoadded(SDK.Common.Event resEvt)
+        protected void onSceneCfgLoadded(EventDisp resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
@@ -66,7 +66,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_resMgr.loadLevel(param);
         }
 
-        public void onSceneResLoadded(SDK.Common.Event resEvt)
+        public void onSceneResLoadded(EventDisp resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             if(onSceneLoaded != null)

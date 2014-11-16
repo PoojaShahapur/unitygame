@@ -108,7 +108,7 @@ namespace Game.App
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
-        public void onGameLoaded(SDK.Common.Event resEvt)
+        public void onGameLoaded(EventDisp resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             //GameObject go = (res as IBundleRes).InstantiateObject("Game");

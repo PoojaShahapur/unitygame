@@ -67,7 +67,7 @@ namespace SDK.Lib
         }
 
         // 资源加载成功，通过事件回调
-        public void onSkeletonloaded(SDK.Common.Event resEvt)
+        public void onSkeletonloaded(EventDisp resEvt)
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             m_rootGo = res.InstantiateObject(m_skeletonName);

@@ -2,6 +2,6 @@
 {
     public interface IPlayerMain : IBeingEntity
     {
-        
+        void evtMove();
     }
 }

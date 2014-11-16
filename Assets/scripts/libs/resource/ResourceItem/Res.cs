@@ -17,8 +17,8 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
-        protected Action<SDK.Common.Event> onLoadedCB;        // 加载成功回调
-        protected Action<SDK.Common.Event> onFailedCB;        // 加载失败回调
+        protected Action<EventDisp> onLoadedCB;        // 加载成功回调
+        protected Action<EventDisp> onFailedCB;        // 加载失败回调
 
         public Res()
         {
@@ -144,7 +144,7 @@ namespace SDK.Lib
 
         }
 
-        public void addEventListener(EventID evtID, Action<SDK.Common.Event> cb)
+        public void addEventListener(EventID evtID, Action<EventDisp> cb)
         {
             if(EventID.LOADED_EVENT == evtID)       // 加载成功事件
             {
@@ -156,7 +156,7 @@ namespace SDK.Lib
             }
         }
 
-        public void removeEventListener(EventID evtID, Action<SDK.Common.Event> cb)
+        public void removeEventListener(EventID evtID, Action<EventDisp> cb)
         {
             if (EventID.LOADED_EVENT == evtID)       // 加载成功事件
             {

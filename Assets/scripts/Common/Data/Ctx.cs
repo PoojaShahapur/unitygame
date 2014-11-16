@@ -38,6 +38,8 @@ namespace SDK.Common
         public ISceneEventCB m_sceneEventCB;        // 场景加载事件
         public CamSys m_camSys;
 
+        public ISceneLogic m_sceneLogic;
+
         public Ctx()
         {
 

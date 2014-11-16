@@ -5,6 +5,6 @@
      */
     public class ShareMgr
     {
-        public Event m_evt = new Event();
+        public EventDisp m_evt = new EventDisp();
     }
 }

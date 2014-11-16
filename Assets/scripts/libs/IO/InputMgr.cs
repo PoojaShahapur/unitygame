@@ -10,27 +10,17 @@ namespace SDK.Lib
      */
     class InputMgr : IInputMgr, ITickedObject
     {
-        public delegate bool onKeyUpCB(KeyCode value);
-        onKeyUpCB m_onKeyUp = null;
+        Action<KeyCode> m_onKeyUp = null;
+        Action<KeyCode> m_onKeyDown = null;
+        Action m_onMouseUp = null;
+        Action m_onMouseDown = null;
 
-        public delegate bool onKeyDownCB(KeyCode value);
-        onKeyDownCB m_onKeyDown = null;
-
-        public delegate bool onMouseUpCB();
-        onMouseUpCB m_onMouseUp = null;
-
-        public delegate bool onMouseDownCB();
-        onMouseDownCB m_onMouseDown = null;
+        Action m_onAxisDown = null;
 
         private List<bool> _keyState = new List<bool>();     // The most recent information on key states
         private List<bool> _keyStateOld = new List<bool>();  // The state of the keys on the previous tick
         private List<bool> _justPressed = new List<bool>();  // An array of keys that were just pressed within the last tick.
         private List<bool> _justReleased = new List<bool>(); // An array of keys that were just released within the last tick.
-
-        public onKeyUpCB getOnKeyUp()
-        {
-            return m_onKeyUp;
-        }
 
         /**
          * @inheritDoc
@@ -40,6 +30,16 @@ namespace SDK.Lib
             if (Input.GetKeyUp(KeyCode.Escape))
             {
                 onKeyUp(KeyCode.Escape);
+            }
+
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            if (vertical != 0.0f || vertical != 0.0f)
+            {
+                if (m_onAxisDown != null)
+                {
+                    m_onAxisDown();
+                }
             }
 
             // This function tracks which keys were just pressed (or released) within the last tick.
@@ -122,6 +122,50 @@ namespace SDK.Lib
         private void onMouseUp()
         {
             m_onMouseUp();
+        }
+
+        public void addKeyListener(EventID evtID, Action<KeyCode> cb)
+        {
+            if (EventID.KEYDOWN_EVENT == evtID)
+            {
+                m_onKeyUp += cb;
+            }
+            else if (EventID.KEYUP_EVENT == evtID)
+            {
+                m_onKeyDown += cb;
+            }
+        }
+
+        public void removeKeyListener(EventID evtID, Action<KeyCode> cb)
+        {
+
+        }
+
+        public void addMouseListener(EventID evtID, Action cb)
+        {
+            if (EventID.MOUSEDOWN_EVENT == evtID)
+            {
+                m_onMouseDown += cb;
+            }
+            else if (EventID.MOUSEUP_EVENT == evtID)
+            {
+                m_onMouseUp += cb;
+            }
+        }
+
+        public void removeMouseListener(EventID evtID, Action cb)
+        {
+
+        }
+
+        public void addAxisListener(EventID evtID, Action cb)
+        {
+            m_onAxisDown += cb;
+        }
+
+        public void removeAxisListener(EventID evtID, Action cb)
+        {
+
         }
     }
 }
