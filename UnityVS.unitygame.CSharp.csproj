@@ -7,14 +7,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -198,6 +200,8 @@
     <Compile Include="Assets\Scripts\Common\FrameWork\IProcessSys.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\IResizeMgr.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\IResizeObject.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ISceneEventCB.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ISceneLogic.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITickMgr.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITickedObject.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ITimer.cs" />
@@ -388,6 +392,7 @@
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\TerrainEntity.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\TerrainMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\UserState.cs" />
+    <Compile Include="Assets\Scripts\Libs\Scene\Model\AnimSys.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Model\EquipSlotDef.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Model\ModelDef.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Model\SkinAniModel.cs" />
@@ -493,9 +498,10 @@
     <Compile Include="Assets\Scripts\Module\DataApp\Logic\Pack\DataPack.cs" />
     <Compile Include="Assets\Scripts\Module\DepLib\DepLibRoot.cs" />
     <Compile Include="Assets\Scripts\Module\DepLib\DepLibSys.cs" />
+    <Compile Include="Assets\Scripts\Module\Game\EventCB\GameSceneLogic.cs" />
     <Compile Include="Assets\Scripts\Module\Game\EventCB\GameUIEventCB.cs" />
-    <Compile Include="Assets\Scripts\Module\Game\GameIO\GameSceneLogic.cs" />
-    <Compile Include="Assets\Scripts\Module\Game\GameIO\UIFactory.cs" />
+    <Compile Include="Assets\Scripts\Module\Game\EventCB\SceneEventCB.cs" />
+    <Compile Include="Assets\Scripts\Module\Game\EventCB\UIFactory.cs" />
     <Compile Include="Assets\Scripts\Module\Game\GameRoot.cs" />
     <Compile Include="Assets\Scripts\Module\Game\GameSys.cs" />
     <Compile Include="Assets\Scripts\Module\Start\StartRoot.cs" />

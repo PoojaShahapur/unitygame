@@ -35,6 +35,7 @@ namespace SDK.Common
 
         public ShareMgr m_shareMgr;                 // 共享数据系统
         public LayerMgr m_layerMgr;                 // 层管理器
+        public ISceneEventCB m_sceneEventCB;        // 场景加载事件
 
         public Ctx()
         {

@@ -11,19 +11,6 @@ namespace Game.Game
         static public GameSys m_instance;
         public Ctx m_ctx;
 
-        public void initGVar()
-        {
-            // 获取全局变量
-            //GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
-            GameObject nodestroy = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
-            AppRoot approot = nodestroy.GetComponent<AppRoot>();
-            GameSys.m_instance.m_ctx = approot.getCtx();
-
-            // 场景逻辑处理逻辑
-            GameSys.m_instance.m_ctx.m_UIMgr.SetIUIFactory(new UIFactory());
-            Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
-        }
-
         public void Start()
         {
             initGVar();
@@ -40,6 +27,21 @@ namespace Game.Game
             {
                 loadUI();
             }
+        }
+
+        public void initGVar()
+        {
+            // 获取全局变量
+            //GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
+            GameObject nodestroy = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
+            AppRoot approot = nodestroy.GetComponent<AppRoot>();
+            GameSys.m_instance.m_ctx = approot.getCtx();
+
+            // 场景逻辑处理逻辑
+            GameSys.m_instance.m_ctx.m_UIMgr.SetIUIFactory(new UIFactory());
+            // 游戏逻辑处理
+            Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
+            Ctx.m_instance.m_sceneEventCB = new SceneEventCB();
         }
 
         public void loadUI()
@@ -73,6 +75,7 @@ namespace Game.Game
         public void onResLoadScene(IScene scene)
         {
             Ctx.m_instance.m_log.log("aaa");
+            Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
         }
     }
 }
