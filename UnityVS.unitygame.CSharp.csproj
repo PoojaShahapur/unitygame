@@ -218,6 +218,8 @@
     <Compile Include="Assets\Scripts\Common\Resource\ResLoadType.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\ResPackType.cs" />
     <Compile Include="Assets\Scripts\Common\Resource\ResPathType.cs" />
+    <Compile Include="Assets\Scripts\Common\Scene\Entity\CamEntity.cs" />
+    <Compile Include="Assets\Scripts\Common\Scene\Entity\CamSys.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IBeingEntity.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IFObjectMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IMonsterMgr.cs" />

@@ -34,6 +34,7 @@ namespace Game.App
             Ctx.m_instance.m_ResizeMgr = new ResizeMgr();
 
             Ctx.m_instance.m_playerMgr = new PlayerMgr();
+            Ctx.m_instance.m_camSys = new CamSys();
 
             PostInit();
         }
