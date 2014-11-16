@@ -548,6 +548,7 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
+    <None Include="Assets\Prefabs\Being\BoneList.xml" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
     <None Include="Assets\Scripts\Libs\AIModule\UnitySteer\License.txt" />
     <None Include="Assets\Scripts\readme.txt" />

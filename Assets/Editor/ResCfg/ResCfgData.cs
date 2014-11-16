@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Xml;
 using UnityEngine;
 
@@ -45,8 +47,32 @@ namespace EditorTool
             List<string> pathList = new List<string>();
             string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
             xmlName = ExportUtil.getDataPath(xmlName);
+            xmlDocSave.Save(@xmlName);
+        }
 
-            xmlDocSave.Save(xmlName);
+        public void exportBoneListFile()
+        {
+            string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
+
+            foreach (Mesh mesh in m_meshList)
+            {
+                mesh.exportMeshBoneFile(ref xmlStr);
+            }
+
+            xmlStr += "</Root>";
+
+            List<string> pathList = new List<string>();
+            string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
+            xmlName = ExportUtil.getDataPath(xmlName);
+
+            FileStream sFile = new FileStream(xmlName, FileMode.Create);
+            byte[] data = new UTF8Encoding().GetBytes(xmlStr);
+            //开始写入
+            sFile.Write(data, 0, data.Length);
+
+            //清空缓冲区、关闭流
+            sFile.Flush();
+            sFile.Close(); 
         }
     }
 }

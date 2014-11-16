@@ -25,9 +25,10 @@ namespace EditorTool
             {
                 itemElem = (XmlElement)itemNode;
                 item = new SubMesh();
-                item.m_resType = m_resType;
+                
                 m_subMeshList.Add(item);
                 item.parseXml(itemElem);
+                item.m_resType = m_resType;
             }
         }
 
@@ -41,6 +42,16 @@ namespace EditorTool
             {
                 subMesh.exportSubMeshBone(m_skelMeshParam, xmlDocSave, meshXml);
             }
+        }
+
+        public void exportMeshBoneFile(ref string xmlStr)
+        {
+            xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name));
+            foreach (SubMesh subMesh in m_subMeshList)
+            {
+                subMesh.exportSubMeshBoneFile(m_skelMeshParam, ref xmlStr);
+            }
+            xmlStr += "    </Mesh>\n";
         }
     }
 }

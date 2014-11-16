@@ -20,7 +20,7 @@ namespace EditorTool
         {
             ResCfgData resCfgData = new ResCfgData();
             resCfgData.parseSkelMeshXml();
-            resCfgData.exportBoneList();
+            resCfgData.exportBoneListFile();
         }
     }
 }

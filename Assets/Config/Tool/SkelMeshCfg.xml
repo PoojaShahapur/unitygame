@@ -4,6 +4,6 @@
 -->
 <Root outpath="Prefabs/Being" >
 	<Mesh name="TestBeing.prefab" restype="prefab" inpath="Prefabs/Being" outpath="Prefabs/Being" >
-		<SubMesh name="Geo_grp/Unity_Body_Mesh" />
+		<SubMesh name="Geo_grp/Unity_Body_Mesh" part="leg"/>
 	</Mesh>
 </Root>
