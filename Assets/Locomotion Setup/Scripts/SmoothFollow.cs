@@ -12,12 +12,13 @@ Then we apply the smoothed values to the transform's position.
 // The target we are following
 var target : Transform;
 // The distance in the x-z plane to the target
-var distance = 10.0;
+var distance = 2.75;
 // the height we want the camera to be above the target
-var height = 5.0;
+var height = 2.5;
 // How much we 
 var heightDamping = 2.0;
-var rotationDamping = 3.0;
+var rotationDamping = 0.0;
+var lookAtAngle = 0.0;
 
 // Place the script in the Camera-Control group in the component menu
 @script AddComponentMenu("Camera-Control/Smooth Follow")
@@ -29,11 +30,11 @@ function LateUpdate () {
 		return;
 	
 	// Calculate the current rotation angles
-	var wantedRotationAngle = target.eulerAngles.y;
-	var wantedHeight = target.position.y + height;
+	var wantedRotationAngle : float = target.eulerAngles.y;
+	var wantedHeight : float = target.position.y + height;
 		
-	var currentRotationAngle = transform.eulerAngles.y;
-	var currentHeight = transform.position.y;
+	var currentRotationAngle : float = lookAtAngle; //transform.eulerAngles.y + 
+	var currentHeight : float = transform.position.y;
 	
 	// Damp the rotation around the y-axis
 	currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
@@ -42,7 +43,7 @@ function LateUpdate () {
 	currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 
 	// Convert the angle into a rotation
-	var currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
+	var currentRotation : Quaternion = Quaternion.Euler (0, currentRotationAngle, 0);
 	
 	// Set the position of the camera on the x-z plane to:
 	// distance meters behind the target
