@@ -17,36 +17,25 @@ namespace SDK.Lib
 
         Action m_onAxisDown = null;
 
-        private List<bool> _keyState = new List<bool>();     // The most recent information on key states
-        private List<bool> _keyStateOld = new List<bool>();  // The state of the keys on the previous tick
-        private List<bool> _justPressed = new List<bool>();  // An array of keys that were just pressed within the last tick.
-        private List<bool> _justReleased = new List<bool>(); // An array of keys that were just released within the last tick.
+        private bool[] _keyState = new bool[256];     // The most recent information on key states
+        private bool[] _keyStateOld = new bool[256];  // The state of the keys on the previous tick
+        private bool[] _justPressed = new bool[256];  // An array of keys that were just pressed within the last tick.
+        private bool[] _justReleased = new bool[256]; // An array of keys that were just released within the last tick.
 
         /**
          * @inheritDoc
          */
         public void OnTick(float deltaTime)
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
-            {
-                onKeyUp(KeyCode.Escape);
-            }
-
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            if (vertical != 0.0f || vertical != 0.0f)
-            {
-                if (m_onAxisDown != null)
-                {
-                    m_onAxisDown();
-                }
-            }
+            handleKeyDown();
+            handleKeyUp();
+            handleAxis();
 
             // This function tracks which keys were just pressed (or released) within the last tick.
             // It should be called at the beginning of the tick to give the most accurate responses possible.
             int cnt;
             
-            for (cnt = 0; cnt < _keyState.Count; cnt++)
+            for (cnt = 0; cnt < _keyState.Length; cnt++)
             {
                 if (_keyState[cnt] && !_keyStateOld[cnt])
                     _justPressed[cnt] = true;
@@ -60,7 +49,49 @@ namespace SDK.Lib
                 
                 _keyStateOld[cnt] = _keyState[cnt];
             }
-        } 
+        }
+
+        // 按下和起一定要对称
+        protected void handleKeyDown()
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                onKeyDown(KeyCode.M);
+            }
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                onKeyDown(KeyCode.K);
+            }
+        }
+
+        protected void handleKeyUp()
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                onKeyUp(KeyCode.Escape);
+            }
+            else if (Input.GetKeyUp(KeyCode.M))
+            {
+                onKeyUp(KeyCode.M);
+            }
+            else if (Input.GetKeyUp(KeyCode.K))
+            {
+                onKeyUp(KeyCode.K);
+            }
+        }
+
+        protected void handleAxis()
+        {
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            if (vertical != 0.0f || vertical != 0.0f)
+            {
+                if (m_onAxisDown != null)
+                {
+                    m_onAxisDown();
+                }
+            }
+        }
 
         /**
          * Returns whether or not a key was pressed since the last tick.
@@ -126,11 +157,11 @@ namespace SDK.Lib
 
         public void addKeyListener(EventID evtID, Action<KeyCode> cb)
         {
-            if (EventID.KEYDOWN_EVENT == evtID)
+            if (EventID.KEYUP_EVENT == evtID)
             {
                 m_onKeyUp += cb;
             }
-            else if (EventID.KEYUP_EVENT == evtID)
+            else if (EventID.KEYDOWN_EVENT == evtID)
             {
                 m_onKeyDown += cb;
             }

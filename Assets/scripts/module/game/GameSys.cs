@@ -17,18 +17,6 @@ namespace Game.Game
             loadScene();
         }
 
-        public void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.M))  // 加载场景资源
-            {
-
-            }
-            else if(Input.GetKeyUp(KeyCode.K))  // 加载 UI 资源
-            {
-                loadUI();
-            }
-        }
-
         public void initGVar()
         {
             // 获取全局变量
@@ -43,21 +31,6 @@ namespace Game.Game
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
             Ctx.m_instance.m_sceneEventCB = new SceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
-        }
-
-        public void loadUI()
-        {
-            //LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
-            //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
-            //param.m_type = ResPackType.eBundleType;
-            //param.m_resLoadType = ResLoadType.eLoadDicWeb;
-            //param.m_prefabName = "UIScrollForm";
-            //param.m_loadedcb = onResLoad;
-            //param.m_resNeedCoroutine = false;
-            //param.m_loadNeedCoroutine = true;
-            //Ctx.m_instance.m_resMgr.load(param);
-
-            Ctx.m_instance.m_UIMgr.loadForm(UIFormID.UIBackPack);
         }
 
         public void loadScene()

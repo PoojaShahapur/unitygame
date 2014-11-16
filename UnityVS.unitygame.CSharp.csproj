@@ -221,6 +221,7 @@
     <Compile Include="Assets\Scripts\Common\Scene\Entity\CamEntity.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\CamSys.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IBeingEntity.cs" />
+    <Compile Include="Assets\Scripts\Common\Scene\Entity\IBeingMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IFObjectMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IMonsterMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\INpcMgr.cs" />
@@ -232,7 +233,7 @@
     <Compile Include="Assets\Scripts\Common\Terrain\Scene\IScene.cs" />
     <Compile Include="Assets\Scripts\Common\Terrain\Scene\ISceneSys.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\CompressionAlgorithm.cs" />
-    <Compile Include="Assets\Scripts\Common\Tool\Event.cs" />
+    <Compile Include="Assets\Scripts\Common\Tool\EventDisp.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\GkEncode.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\IByteArray.cs" />
     <Compile Include="Assets\Scripts\Common\Tool\IEventDispatch.cs" />
