@@ -54,6 +54,7 @@
     <Compile Include="Assets\Locomotion Setup\Locomotion\Scripts\Locomotion.cs" />
     <Compile Include="Assets\Locomotion Setup\Scripts\JoystickToEvents.cs" />
     <Compile Include="Assets\Locomotion Setup\Scripts\LocomotionPlayer.cs" />
+    <Compile Include="Assets\Locomotion Setup\Scripts\SmoothFollow.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
