@@ -8,7 +8,8 @@ namespace EditorTool
         public UnityEngine.Object m_mainAsset = null;
         public UnityEngine.Object[] m_assets;
         public string m_pathName;
-        public BuildAssetBundleOptions m_assetBundleOptions = BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.UncompressedAssetBundle;
+        //public BuildAssetBundleOptions m_assetBundleOptions = BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.UncompressedAssetBundle;
+        public BuildAssetBundleOptions m_assetBundleOptions = BuildAssetBundleOptions.CompleteAssets;
         public BuildTarget m_targetPlatform = EditorUserBuildSettings.activeBuildTarget;
     }
 

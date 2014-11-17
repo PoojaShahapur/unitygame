@@ -13,7 +13,8 @@ namespace Game.Game
             // 创建
             IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
             Ctx.m_instance.m_playerMgr.addHero(playerMain);
-            playerMain.setSkeleton("TestBeing");
+            //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
+            playerMain.setSkeleton("DefaultAvatar");
         }
     }
 }

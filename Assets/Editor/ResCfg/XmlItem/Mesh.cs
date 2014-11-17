@@ -111,6 +111,7 @@ namespace EditorTool
                 }
 
                 AssetDatabase.Refresh();
+                go = AssetDatabase.LoadAssetAtPath(tmpPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
                 objList.Add(go);
 
                 AssetBundleParam bundleParam = new AssetBundleParam();
