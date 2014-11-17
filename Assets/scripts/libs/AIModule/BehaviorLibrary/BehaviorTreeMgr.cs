@@ -25,7 +25,7 @@ namespace BehaviorLibrary
         public void onloaded(EventDisp resEvt)
         {
             IRes res = resEvt.m_param as IRes;
-            TextAsset text = res.getObject("Test") as TextAsset;
+            TextAsset text = res.getObject("TestAi") as TextAsset;
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(text.text);
 
