@@ -32,7 +32,7 @@ namespace Game.Game
             Ctx.m_instance.m_sceneEventCB = new SceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 
-            //Ctx.m_instance.m_meshMgr.loadSkinInfo();
+            Ctx.m_instance.m_meshMgr.loadSkinInfo();
         }
 
         public void loadScene()

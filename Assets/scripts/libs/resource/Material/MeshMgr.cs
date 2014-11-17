@@ -28,7 +28,7 @@ namespace SDK.Lib
             IRes res = resEvt.m_param as IRes;
             TextAsset text = res.getObject("BoneList") as TextAsset;
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(text.text);
+            xmlDoc.LoadXml(text.text);
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
             XmlNodeList itemMeshList = rootNode.ChildNodes;
