@@ -104,7 +104,9 @@ namespace EditorTool
                     subMeshGo = go.transform.Find(subMesh.m_name).gameObject;
                     if (subMeshGo != null)
                     {
-                        GameObject.DestroyImmediate(subMeshGo);
+                        //GameObject.DestroyImmediate(subMeshGo);
+                        //GameObject.Destroy(subMeshGo);
+                        GameObject.DestroyImmediate(subMeshGo, true);
                     }
                 }
 
