@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!--  
+<!--
+  导出蒙皮列表
 	[SubMesh] 的 [part] 是指身体的哪一部分
   [Root] 标签中的 [outpath] 是指生成 [xml] 文件放在哪个文件夹下
   [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录

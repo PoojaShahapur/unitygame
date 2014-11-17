@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!--  
+<!--
+  资源打包配置
 	ResType 就是资源的类型，如 level
 	Pack 就是一个输出资源包
 	PackItem 就是包中的一项

@@ -18,10 +18,10 @@ namespace EditorTool
             resCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackCfg.xml"), m_packList);
         }
 
-        public void parseSkelMeshXml()
+        public void parseSkinsXml()
         {
             SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
-            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ExportBonesListCfg.xml"), m_meshList);
+            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ExportSkinsCfg.xml"), m_meshList);
             m_outPath = skelMeshCfgParse.m_outPath;
         }
 
@@ -44,13 +44,12 @@ namespace EditorTool
                 mesh.exportMeshBone(xmlDocSave, root);
             }
 
-            List<string> pathList = new List<string>();
             string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
             xmlName = ExportUtil.getDataPath(xmlName);
             xmlDocSave.Save(@xmlName);
         }
 
-        public void exportBoneListFile()
+        public void exportSkinsFile()
         {
             string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
 
@@ -61,7 +60,6 @@ namespace EditorTool
 
             xmlStr += "</Root>";
 
-            List<string> pathList = new List<string>();
             string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
             xmlName = ExportUtil.getDataPath(xmlName);
 

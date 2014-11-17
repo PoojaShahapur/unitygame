@@ -15,12 +15,23 @@ namespace EditorTool
             resCfgData.pack();
         }
 
-        [MenuItem("Assets/ExportSkelMeshCfg")]
-        static void ExportSkelMeshCfg()
+        [MenuItem("Assets/ExportSkinsCfg")]
+        static void ExportSkinsCfg()
         {
             ResCfgData resCfgData = new ResCfgData();
-            resCfgData.parseSkelMeshXml();
-            resCfgData.exportBoneListFile();
+            resCfgData.parseSkinsXml();
+            resCfgData.exportSkinsFile();
+        }
+
+        [MenuItem("Assets/ExportSkelSubmeshCfg")]
+        static void ExportSkelSubMeshCfg()
+        {
+            string resPath = ExportUtil.getRelDataPath("Locomotion Setup/Locomotion/Animations/DefaultAvatar.fbx");
+            GameObject go = AssetDatabase.LoadAssetAtPath(resPath, typeof(GameObject)) as GameObject;
+            if(go != null)
+            {
+
+            }
         }
     }
 }
