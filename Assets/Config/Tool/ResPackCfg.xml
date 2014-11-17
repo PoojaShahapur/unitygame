@@ -48,8 +48,8 @@
     </Pack>
   </PackType>
   <PackType type="bundle" inpath="Prefabs/Being" outpath="Being" packallfiles="false" infileext="prefab" >
-    <Pack name="DefaultAvata.unity3d">
-      <PackItem path="DefaultAvata.prefab" restype="prefab" />
+    <Pack name="DefaultAvatar.unity3d">
+      <PackItem path="DefaultAvatar.prefab" restype="prefab" />
     </Pack>
     <Pack name="TestBeing.unity3d">
       <PackItem path="TestBeing.prefab" restype="prefab" />

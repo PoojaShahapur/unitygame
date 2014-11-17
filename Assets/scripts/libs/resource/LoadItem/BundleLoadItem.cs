@@ -39,7 +39,6 @@ namespace SDK.Lib
         protected IEnumerator downloadAsset()
         {
             string path = "";
-            //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
             if (m_resLoadType == ResLoadType.eLoadDicWeb)
             {
                 path = "file://" + Application.dataPath + "/" + m_path;
@@ -48,7 +47,8 @@ namespace SDK.Lib
             {
                 path = Ctx.m_instance.m_cfg.m_webIP + m_path;
             }
-            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+            //m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+            m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
             yield return m_w3File;
             m_assetBundle = m_w3File.assetBundle;
 
