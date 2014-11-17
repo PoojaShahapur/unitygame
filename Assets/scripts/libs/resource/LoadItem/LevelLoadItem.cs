@@ -70,21 +70,6 @@ namespace SDK.Lib
             }
         }
 
-        // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
-        //protected void loadFromAssetBundle()
-        //{
-        //    string path;
-        //    path = Application.dataPath + "/" + m_path;
-        //    m_assetBundle = AssetBundle.CreateFromFile(path);
-
-        //    Application.LoadLevel(path);
-
-        //    if (onLoaded != null)
-        //    {
-        //        onLoaded(this);
-        //    }
-        //}
-
         protected IEnumerator downloadAsset()
         {
             string path;

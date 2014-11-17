@@ -9,15 +9,6 @@ namespace SDK.Lib
      */
     public class BundleLoadItem : LoadItem
     {
-        // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
-        //protected void loadFromDefaultAssetBundle()
-        //{
-        //    if (onLoaded != null)
-        //    {
-        //        onLoaded(this);
-        //    }
-        //}
-
         override public void load()
         {
             base.load();
