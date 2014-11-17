@@ -26,21 +26,31 @@ namespace BehaviorLibrary
         {
             IRes res = resEvt.m_param as IRes;
             TextAsset text = res.getObject("TestAi") as TextAsset;
+            parseXml(text.text);
+        }
+
+        protected void parseXml(string xmlStr)
+        {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(text.text);
+            xmlDoc.LoadXml(xmlStr);
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
             XmlNodeList behaviorTemplateNode = rootNode.ChildNodes;
+            XmlNodeList behaviorTreeXmlList = null;
             XmlElement xmlElemTpl;
             XmlElement xmlElemBT;
 
             foreach (XmlNode node in behaviorTemplateNode)  // 树列表，包括树和其它信息
             {
                 xmlElemTpl = (XmlElement)node;
-                xmlElemBT = xmlElemTpl.SelectSingleNode("BehaviorTree") as XmlElement;
-
-                m_id2BTDic[xmlElemBT.GetAttribute("name")] = new BehaviorTree(new BTRoot());
-                m_BTFactory.parseXml(m_id2BTDic[xmlElemBT.GetAttribute("name")], xmlElemBT);
+                //xmlElemBT = xmlElemTpl.SelectSingleNode("BehaviorTree") as XmlElement;
+                behaviorTreeXmlList = xmlElemTpl.ChildNodes;
+                foreach (XmlNode nodetree in behaviorTreeXmlList)
+                {
+                    xmlElemBT = nodetree as XmlElement;
+                    m_id2BTDic[xmlElemBT.GetAttribute("name")] = new BehaviorTree(new BTRoot());
+                    m_BTFactory.parseXml(m_id2BTDic[xmlElemBT.GetAttribute("name")], xmlElemBT);
+                }
             }
         }
     }
