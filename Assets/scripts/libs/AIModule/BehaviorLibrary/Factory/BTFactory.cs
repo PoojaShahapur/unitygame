@@ -73,6 +73,7 @@ namespace BehaviorLibrary
 
         public void parseXml(BehaviorTree btree, XmlNode btNode)
         {
+            buildBT(btree, btNode);
             Stack<BehaviorComponent> stack = new Stack<BehaviorComponent>();
             depthTraverse(stack, btree.root, btNode);
         }
@@ -97,6 +98,11 @@ namespace BehaviorLibrary
                 }
             }
             stack.Pop();
+        }
+
+        protected void buildBT(BehaviorTree btree, XmlNode btNode)
+        {
+
         }
 
         public BehaviorComponent createIndexSelector()
