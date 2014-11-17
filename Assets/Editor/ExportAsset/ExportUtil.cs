@@ -225,7 +225,7 @@ namespace EditorTool
                 }
                 else
                 {
-                    return path.Substring(0, dotIdx - 1);
+                    return path.Substring(0, dotIdx);
                 }
             }
 
