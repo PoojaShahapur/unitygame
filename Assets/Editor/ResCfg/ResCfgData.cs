@@ -21,7 +21,7 @@ namespace EditorTool
         public void parseSkelMeshXml()
         {
             SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
-            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/SkelMeshCfg.xml"), m_meshList);
+            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ExportBonesListCfg.xml"), m_meshList);
             m_outPath = skelMeshCfgParse.m_outPath;
         }
 
