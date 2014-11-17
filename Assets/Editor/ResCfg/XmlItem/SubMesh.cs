@@ -77,5 +77,52 @@ namespace EditorTool
 
             xmlStr += string.Format("        <SubMesh name=\"{0}\" bonelist=\"{1}\" />\n", m_part, ret);
         }
+
+        public void packSubMesh(SkelMeshParam param, RootParam rootParam)
+        {
+            List<string> pathList = new List<string>();
+            pathList.Add(param.m_inPath);
+            pathList.Add(param.m_name);
+
+            string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_resType)) as GameObject;
+            GameObject subMeshGo = null;
+            //GameObject insSubMeshGo = null;
+
+            string subMeshName = "";
+            string tmpPrefabPath = "";
+            List<Object> objList = new List<Object>();
+
+            if (go != null)
+            {
+                subMeshGo = go.transform.Find(m_name).gameObject;
+                if(subMeshGo != null)
+                {
+                    //insSubMeshGo = GameObject.Instantiate(subMeshGo);
+                    //insSubMeshGo.transform.parent = null;
+                    subMeshName = ExportUtil.getSubMeshName(param.m_name, m_name);
+
+                    pathList.Clear();
+                    pathList.Add(rootParam.m_tmpPath);
+                    pathList.Add(subMeshName + ".prefab");
+
+                    tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+                    //AssetDatabase.CreateAsset(insSubMeshGo, tmpPrefabPath);
+                    //PrefabUtility.CreatePrefab(tmpPrefabPath, insSubMeshGo);
+                    PrefabUtility.CreatePrefab(tmpPrefabPath, subMeshGo);
+
+                    objList.Add(subMeshGo);
+
+                    AssetBundleParam bundleParam = new AssetBundleParam();
+                    bundleParam.m_assets = objList.ToArray();
+                    pathList.Clear();
+                    pathList.Add(param.m_outPath);
+                    pathList.Add(subMeshName + ".unity3d");
+                    bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+
+                    ExportUtil.BuildAssetBundle(bundleParam);
+                }
+            }
+        }
     }
 }

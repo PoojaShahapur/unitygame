@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using UnityEditor;
+using UnityEngine;
 
 namespace EditorTool
 {
@@ -8,14 +10,14 @@ namespace EditorTool
     {
         protected SkelMeshParam m_skelMeshParam = new SkelMeshParam();
         public List<SubMesh> m_subMeshList = new List<SubMesh>();
-        public string m_resType;    // 资源类型
 
         public void parseXml(XmlElement elem)
         {
             m_skelMeshParam.m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
             m_skelMeshParam.m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);
             m_skelMeshParam.m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
-            m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
+            m_skelMeshParam.m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
+            m_skelMeshParam.m_packSkel = ExportUtil.getXmlAttrBool(elem.Attributes["packskel"]);
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;
@@ -28,7 +30,7 @@ namespace EditorTool
                 
                 m_subMeshList.Add(item);
                 item.parseXml(itemElem);
-                item.m_resType = m_resType;
+                item.m_resType = m_skelMeshParam.m_resType;
             }
         }
 
@@ -52,6 +54,72 @@ namespace EditorTool
                 subMesh.exportSubMeshBoneFile(m_skelMeshParam, ref xmlStr);
             }
             xmlStr += "    </Mesh>\n";
+        }
+
+        public void packSkelSubMesh(RootParam rootParam)
+        {
+            packSubMesh(rootParam);
+
+            if (m_skelMeshParam.m_packSkel)
+            {
+                packSkel(rootParam);
+            }
+        }
+
+        public void packSubMesh(RootParam rootParam)
+        {
+            foreach (SubMesh subMesh in m_subMeshList)
+            {
+                subMesh.packSubMesh(m_skelMeshParam, rootParam);
+            }
+        }
+
+        public void packSkel(RootParam rootParam)
+        {
+            List<string> pathList = new List<string>();
+            pathList.Add(m_skelMeshParam.m_inPath);
+            pathList.Add(m_skelMeshParam.m_name);
+
+            string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+            GameObject subMeshGo = null;
+
+            string skelNoExt = ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name);
+            string tmpPrefabPath = "";
+            List<Object> objList = new List<Object>();
+
+            pathList.Clear();
+            pathList.Add(rootParam.m_tmpPath);
+            pathList.Add(skelNoExt + ".prefab");
+
+            tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            PrefabUtility.CreatePrefab(tmpPrefabPath, go);
+
+            go = AssetDatabase.LoadAssetAtPath(tmpPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+
+            if (go != null)
+            {
+                foreach (SubMesh subMesh in m_subMeshList)
+                {
+                    subMeshGo = go.transform.Find(subMesh.m_name).gameObject;
+                    if (subMeshGo != null)
+                    {
+                        GameObject.DestroyImmediate(subMeshGo);
+                    }
+                }
+
+                AssetDatabase.Refresh();
+                objList.Add(go);
+
+                AssetBundleParam bundleParam = new AssetBundleParam();
+                bundleParam.m_assets = objList.ToArray();
+                pathList.Clear();
+                pathList.Add(m_skelMeshParam.m_outPath);
+                pathList.Add(skelNoExt + ".unity3d");
+                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+
+                ExportUtil.BuildAssetBundle(bundleParam);
+            }
         }
     }
 }

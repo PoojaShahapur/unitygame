@@ -26,12 +26,16 @@ namespace EditorTool
         [MenuItem("Assets/ExportSkelSubmeshCfg")]
         static void ExportSkelSubMeshCfg()
         {
-            string resPath = ExportUtil.getRelDataPath("Locomotion Setup/Locomotion/Animations/DefaultAvatar.fbx");
-            GameObject go = AssetDatabase.LoadAssetAtPath(resPath, typeof(GameObject)) as GameObject;
-            if(go != null)
-            {
+            //string resPath = ExportUtil.getRelDataPath("Locomotion Setup/Locomotion/Animations/DefaultAvatar.fbx");
+            //GameObject go = AssetDatabase.LoadAssetAtPath(resPath, typeof(GameObject)) as GameObject;
+            //if(go != null)
+            //{
+            //
+            //}
 
-            }
+            ResCfgData resCfgData = new ResCfgData();
+            resCfgData.parseSkelSubMeshPackXml();
+            resCfgData.skelSubMeshPackFile();
         }
     }
 }

@@ -249,5 +249,25 @@ namespace EditorTool
 
             return false;
         }
+
+        static public string getSubMeshName(string skelName, string submeshName)
+        {
+            string skelNoExt = "";
+            int dotIdx = skelName.LastIndexOf('.');
+            if(-1 != dotIdx)
+            {
+                skelNoExt = skelName.Substring(0, dotIdx);
+            }
+            
+            string submeshNameNoExt = submeshName;
+            int slashIdx = submeshName.LastIndexOf('/');
+            if(-1 != slashIdx)
+            {
+                submeshNameNoExt = submeshName.Substring(slashIdx + 1, submeshName.Length - 1 - slashIdx);
+            }
+            
+            string ret = string.Format("{0}_{1}", skelNoExt, submeshNameNoExt);
+            return ret;
+        }
     }
 }

@@ -10,7 +10,8 @@ namespace EditorTool
     {
         public List<PackType> m_packList = new List<PackType>();
         public List<Mesh> m_meshList = new List<Mesh>();
-        public string m_outPath = "";
+        public List<Mesh> m_skelSubMeshList = new List<Mesh>();
+        public RootParam m_rootParam = new RootParam();
 
         public void parseXml()
         {
@@ -22,7 +23,15 @@ namespace EditorTool
         {
             SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
             skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ExportSkinsCfg.xml"), m_meshList);
-            m_outPath = skelMeshCfgParse.m_outPath;
+            m_rootParam.m_outPath = skelMeshCfgParse.m_outPath;
+        }
+
+        public void parseSkelSubMeshPackXml()
+        {
+            SkelSubMeshPackParse skelSubMeshPackParse = new SkelSubMeshPackParse();
+            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Config/Tool/SkelSubMeshPackCfg.xml"), m_skelSubMeshList);
+            m_rootParam.m_outPath = skelSubMeshPackParse.m_outPath;
+            m_rootParam.m_tmpPath = skelSubMeshPackParse.m_tmpPath;
         }
 
         public void pack()
@@ -44,7 +53,7 @@ namespace EditorTool
                 mesh.exportMeshBone(xmlDocSave, root);
             }
 
-            string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
+            string xmlName = string.Format("{0}/{1}", m_rootParam.m_outPath, "BoneList.xml");
             xmlName = ExportUtil.getDataPath(xmlName);
             xmlDocSave.Save(@xmlName);
         }
@@ -60,7 +69,7 @@ namespace EditorTool
 
             xmlStr += "</Root>";
 
-            string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
+            string xmlName = string.Format("{0}/{1}", m_rootParam.m_outPath, "BoneList.xml");
             xmlName = ExportUtil.getDataPath(xmlName);
 
             FileStream sFile = new FileStream(xmlName, FileMode.Create);
@@ -71,6 +80,14 @@ namespace EditorTool
             //清空缓冲区、关闭流
             sFile.Flush();
             sFile.Close(); 
+        }
+
+        public void skelSubMeshPackFile()
+        {
+            foreach (Mesh mesh in m_skelSubMeshList)
+            {
+                mesh.packSkelSubMesh(m_rootParam);
+            }
         }
     }
 }
