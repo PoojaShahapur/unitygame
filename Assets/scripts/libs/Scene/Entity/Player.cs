@@ -13,6 +13,12 @@ namespace SDK.Lib
             : base()
 		{
             m_skinAniModel.m_modelList = new PartInfo[(int)PlayerModelDef.eModelTotal];
+            int idx = 0;
+            while (idx < (int)PlayerModelDef.eModelTotal)
+            {
+                m_skinAniModel.m_modelList[idx] = new PartInfo();
+                ++idx;
+            }
 		}
 
         override public void addAi(BehaviorTree behaviorTree)

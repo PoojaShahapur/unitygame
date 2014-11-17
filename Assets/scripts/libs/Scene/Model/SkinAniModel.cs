@@ -74,10 +74,56 @@ namespace SDK.Lib
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
 
+            foreach (PartInfo partInfo in m_modelList)
+            {
+                if (partInfo.m_partGo)
+                {
+                    partInfo.m_partGo.transform.parent = m_rootGo.transform;
+                }
+            }
+
             if(m_handleCB != null)
             {
                 m_handleCB();
             }
+        }
+
+        public void loadPartModel(PlayerModelDef modelDef)
+        {
+            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[(int)modelDef].m_partName + ".unity3d";
+            param.m_loadedcb = onPartModelloaded;
+            Ctx.m_instance.m_resMgr.loadBundle(param);
+        }
+
+        // 资源加载成功，通过事件回调
+        public void onPartModelloaded(EventDisp resEvt)
+        {
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            int idx = getModelIdx(res.GetPath());
+            m_modelList[idx].m_partGo = res.InstantiateObject(m_modelList[idx].m_partName);
+            if (m_rootGo != null)
+            {
+                m_modelList[idx].m_partGo.transform.parent = m_rootGo.transform;
+            }
+        }
+
+        protected int getModelIdx(string path)
+        {
+            string modelPath = "";
+            int ret = 0;
+            foreach(PartInfo partInfo in m_modelList)
+            {
+                modelPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + partInfo.m_partName + ".unity3d";
+                if(modelPath == path)
+                {
+                    break;
+                }
+
+                ++ret;
+            }
+
+            return ret;
         }
     }
 }

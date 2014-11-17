@@ -16,6 +16,10 @@ namespace Game.Game
             //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
             playerMain.setSkeleton("DefaultAvata");
             //playerMain.setSkeleton("TestBeing");
+            playerMain.setPartModel(PlayerModelDef.eModelHead, "DefaultAvatar_Lw_Teeth_Mesh");
+            playerMain.setPartModel(PlayerModelDef.eModelChest, "DefaultAvatar_Tounge_Mesh");
+            playerMain.setPartModel(PlayerModelDef.eModelWaist, "DefaultAvatar_Unity_Body_Mesh");
+            playerMain.setPartModel(PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh");
         }
     }
 }

@@ -60,7 +60,8 @@ namespace SDK.Lib
 
         public void setPartModel(PlayerModelDef modelDef, string name)
         {
-            
+            m_skinAniModel.m_modelList[(int)modelDef].m_partName = name;
+            m_skinAniModel.loadPartModel(modelDef);
         }
 	}
 }
