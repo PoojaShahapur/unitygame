@@ -12,17 +12,11 @@ namespace SDK.Lib
         protected uint m_curNum = 0;                                // 当前加载的数量
         protected LoadParam m_loadParam;
         protected ResLoadData m_LoadData;
-        //protected AsyncLoadTask m_AsyncLoadTask = new AsyncLoadTask();                    // 异步加载任务
-
-        //protected bool m_IsSyncLoad = true;                         // 是否是同步加载
 
         public ResMgr()
         {
             m_loadParam = new LoadParam();
             m_LoadData = new ResLoadData();
-
-            //m_AsyncLoadTask.AsyncResLoadData = m_AsyncLoadData;
-            //m_AsyncLoadTask.start();
         }
 
         public LoadParam loadParam
@@ -55,7 +49,7 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
 
-            return Syncload(param);
+            return load(param);
         }
 
         // eLevelType 打包类型资源加载
@@ -66,31 +60,17 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
 
-            return Syncload(param);
+            return load(param);
         }
 
         // eResourcesType 打包类型资源加载
         public IRes loadResources(LoadParam param)
         {
-            return Syncload(param);
+            return load(param);
         }
 
         // 通用类型，需要自己设置很多参数
         public IRes load(LoadParam param)
-        {
-            //if(m_IsSyncLoad)
-            //{
-                return Syncload(param);
-            //}
-            //else
-            //{
-            //    AsyncLoad(param);
-            //}
-
-            //return null;
-        }
-
-        public IRes Syncload(LoadParam param)
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
@@ -280,145 +260,5 @@ namespace SDK.Lib
         {
             return m_loadParam;
         }
-
-        //#region AsyncLoad
-
-        //protected AsyncResLoadData m_AsyncLoadData = new AsyncResLoadData();
-
-        // 线程异步加载
-        //public IRes AsyncLoad(LoadParam param)
-        //{
-        //    if (m_AsyncLoadData.m_path2Res.ContainsKey(param.m_path))
-        //    {
-        //        if (param.m_loadedcb != null)
-        //        {
-        //            Ctx.m_instance.m_shareMgr.m_evt.m_param = m_AsyncLoadData.m_path2Res[param.m_path];
-        //            param.m_loadedcb(Ctx.m_instance.m_shareMgr.m_evt);
-        //        }
-        //        return m_AsyncLoadData.m_path2Res[param.m_path];
-        //    }
-
-        //    AsyncRes resitem = null;
-        //    if (param.m_type == ResPackType.eLevelType)
-        //    {
-        //        if (resitem == null)
-        //        {
-        //            m_AsyncLoadData.m_path2Res[param.m_path] = new AsyncLevelRes();
-        //        }
-        //        else
-        //        {
-        //            m_AsyncLoadData.m_path2Res[param.m_path] = resitem;
-        //        }
-        //    }
-        //    else if (param.m_type == ResPackType.eBundleType)
-        //    {
-        //        if (resitem == null)
-        //        {
-        //            m_AsyncLoadData.m_path2Res[param.m_path] = new AsyncBundleRes();
-        //        }
-        //        else
-        //        {
-        //            m_AsyncLoadData.m_path2Res[param.m_path] = resitem;
-        //        }
-
-        //        (m_AsyncLoadData.m_path2Res[param.m_path] as AsyncBundleRes).prefabName = param.m_prefabName;
-        //    }
-
-        //    m_AsyncLoadData.m_path2Res[param.m_path].type = param.m_type;
-        //    m_AsyncLoadData.m_path2Res[param.m_path].path = param.m_path;
-        //    m_AsyncLoadData.m_path2Res[param.m_path].resLoadType = param.m_resLoadType;
-
-        //    if (param.m_loadedcb != null)
-        //    {
-        //        m_AsyncLoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loadedcb);
-        //    }
-
-        //    AsyncLoadItem loaditem = null;
-        //    if (loaditem == null)
-        //    {
-        //        if (ResPackType.eBundleType == param.m_type)        // Bundle 打包模式
-        //        {
-        //            if (ResLoadType.eLoadDisc == param.m_resLoadType)
-        //            {
-        //                loaditem = new AsyncBundleLoadItem();
-        //            }
-        //        }
-        //        else if (ResPackType.eLevelType == param.m_type)
-        //        {
-        //            loaditem = new AsyncLevelLoadItem();
-        //        }
-        //    }
-
-        //    loaditem.type = param.m_type;
-        //    loaditem.resLoadType = param.m_resLoadType;
-        //    loaditem.path = param.m_path;
-        //    loaditem.onLoaded += onAsyncLoad;
-        //    if (ResPackType.eLevelType == param.m_type)
-        //    {
-        //        (loaditem as AsyncLevelLoadItem).levelName = param.m_lvlName;
-        //    }
-
-        //    if (m_curNum < m_maxParral)
-        //    {
-        //        m_AsyncLoadData.m_path2LDItem[param.m_path] = loaditem;
-        //        // 线程中加载
-        //        //m_AsyncLoadData.m_path2LDItem[param.m_path].load();
-        //        ++m_curNum;
-        //    }
-        //    else
-        //    {
-        //        m_AsyncLoadData.m_willLDItem.Add(loaditem);
-        //    }
-
-        //    return m_AsyncLoadData.m_path2Res[param.m_path];
-        //}
-
-        //public void onAsyncLoad(LoadItem item)
-        //{
-        //    string path = item.path;
-        //    item.onLoaded -= onAsyncLoad;
-        //    if (m_AsyncLoadData.m_path2Res[path] != null)
-        //    {
-        //        m_AsyncLoadData.m_path2Res[path].init(m_AsyncLoadData.m_path2LDItem[path]);
-        //    }
-
-        //    item.reset();
-        //    m_AsyncLoadData.m_noUsedLDItem.Add(item);
-        //    m_AsyncLoadData.m_path2LDItem.Remove(path);
-
-        //    --m_curNum;
-        //    AsyncLoadNextItem();
-        //}
-
-        //protected void AsyncLoadNextItem()
-        //{
-        //    if (m_curNum < m_maxParral)
-        //    {
-        //        if (m_AsyncLoadData.m_willLDItem.Count > 0)
-        //        {
-        //            m_LoadData.m_path2LDItem[(m_AsyncLoadData.m_willLDItem[0] as LoadItem).path] = m_AsyncLoadData.m_willLDItem[0] as LoadItem;
-        //            m_LoadData.m_willLDItem.RemoveAt(0);
-
-        //            ++m_curNum;
-        //        }
-        //    }
-        //}
-
-        //#endregion
-
-        //public void OnTick(float delta)
-        //{
-        //    foreach (AsyncLoadItem loadItem in m_AsyncLoadData.m_path2LDItem.Values)
-        //    {
-        //        if (loadItem.ResLoadState == ResLoadState.eLoaded)  // 加载成功
-        //        {
-        //            onAsyncLoad(loadItem);
-        //        }
-        //        else if (loadItem.ResLoadState == ResLoadState.eFailed) // 加载失败
-        //        {
-        //            onAsyncLoad(loadItem);
-        //        }
-        //    }
-        //}
     }
 }

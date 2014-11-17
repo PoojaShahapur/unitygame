@@ -14,8 +14,8 @@ namespace Game.Game
             IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
             Ctx.m_instance.m_playerMgr.addHero(playerMain);
             //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
-            //playerMain.setSkeleton("DefaultAvatar");
-            playerMain.setSkeleton("TestBeing");
+            playerMain.setSkeleton("DefaultAvatar");
+            //playerMain.setSkeleton("TestBeing");
         }
     }
 }

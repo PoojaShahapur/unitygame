@@ -51,6 +51,9 @@
     <Pack name="DefaultAvata.unity3d">
       <PackItem path="DefaultAvata.prefab" restype="prefab" />
     </Pack>
+    <Pack name="TestBeing.unity3d">
+      <PackItem path="TestBeing.prefab" restype="prefab" />
+    </Pack>
     <Pack name="BonesList.unity3d">
       <PackItem path="BoneList.xml" restype="textasset" />
     </Pack>
