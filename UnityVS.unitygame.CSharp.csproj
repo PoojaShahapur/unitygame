@@ -191,6 +191,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\scripts\AgentLocomotion.cs" />
+    <Compile Include="Assets\scripts\Common\AIModule\IBehaviorTreeMgr.cs" />
     <Compile Include="Assets\scripts\Common\Data\Config.cs" />
     <Compile Include="Assets\scripts\Common\Data\Ctx.cs" />
     <Compile Include="Assets\scripts\Common\FrameWork\GameAttr.cs" />

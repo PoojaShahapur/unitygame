@@ -101,7 +101,7 @@ namespace BehaviorLibrary
 
         public BehaviorComponent createIndexSelector()
         {
-            IndexSelector indexSelector = new IndexSelector();
+            IndexSelector indexSelector = new IndexSelector(null, null);
             return indexSelector;
         }
 

@@ -11,7 +11,8 @@
         ePathComUI,     // UI 控件路径
         ePathCodePath,  // UI 代码目录
         ePathBeingPath, // Being 目录
+        ePathAIPath,    // AI 目录
 
-        eTotal      // 总数
+        eTotal          // 总数
     }
 }

@@ -33,6 +33,7 @@ namespace Game.Game
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 
             Ctx.m_instance.m_meshMgr.loadSkinInfo();
+            Ctx.m_instance.m_behaviorTreeMgr.loadBT();
         }
 
         public void loadScene()
