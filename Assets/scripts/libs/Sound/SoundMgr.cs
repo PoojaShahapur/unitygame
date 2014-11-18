@@ -1,9 +1,13 @@
+using UnityEngine;
+using System.Collections;
+
 namespace SDK.Lib
 {
     /**
-     * @brief ÒôÀÖÒôĞ§²Ö¿â
+     * @brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½Ö¿ï¿½
      */
-    public class SoundMgr
+    public class SoundMgr 
     {
+        
     }
 }
