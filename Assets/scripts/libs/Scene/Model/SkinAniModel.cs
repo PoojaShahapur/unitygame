@@ -63,7 +63,8 @@ namespace SDK.Lib
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_skeletonName;
             param.m_loadedcb = onSkeletonloaded;
-            Ctx.m_instance.m_resMgr.loadBundle(param);
+            //Ctx.m_instance.m_resMgr.loadBundle(param);
+            Ctx.m_instance.m_resMgr.loadResources(param);
         }
 
         // 资源加载成功，通过事件回调
@@ -74,17 +75,19 @@ namespace SDK.Lib
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
 
+            Ctx.m_instance.m_resMgr.unload(res.GetPath());
+
             int idx = 0;
             foreach (PartInfo partInfo in m_modelList)
             {
-                if (partInfo.m_partGo)
+                if (partInfo.m_res != null)
                 {
+                    partInfo.m_partGo = partInfo.m_res.InstantiateObject(m_modelList[idx].m_partName);
                     partInfo.m_partGo.transform.parent = m_rootGo.transform;
                     skinSubMesh(idx);
-                    if (!partInfo.m_partGo.activeInHierarchy)
-                    {
-                        partInfo.m_partGo.SetActive(true);
-                    }
+
+                    Ctx.m_instance.m_resMgr.unload(partInfo.m_res.GetPath());
+                    partInfo.m_res = null;
                 }
 
                 ++idx;
@@ -110,15 +113,16 @@ namespace SDK.Lib
         {
             IRes res = resEvt.m_param as IRes;                         // 类型转换
             int idx = getModelIdx(res.GetPath());
-            m_modelList[idx].m_partGo = res.InstantiateObject(m_modelList[idx].m_partName);
+            
             if (m_rootGo != null)
             {
+                m_modelList[idx].m_partGo = res.InstantiateObject(m_modelList[idx].m_partName);
                 m_modelList[idx].m_partGo.transform.parent = m_rootGo.transform;
                 skinSubMesh(idx);
             }
             else
             {
-                m_modelList[idx].m_partGo.SetActive(false);
+                m_modelList[idx].m_res = res;
             }
         }
 

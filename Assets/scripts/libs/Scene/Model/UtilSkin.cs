@@ -11,9 +11,10 @@ namespace SDK.Lib
     {
         public string[] Bones;
 
-        // 蒙皮子网格，一定要先改变子模型，再修正骨骼
+        // 蒙皮子网格，一定要先将子模型挂到骨骼上，再给子模型蒙皮，然后根骨骼赋值给子模型的位置信息
         public static void skinSkel(GameObject subMesh, params string[] bonesList)
         {
+            bool firstBone = false;
             SkinnedMeshRenderer skinRenderer = subMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinRenderer != null)
             {
@@ -27,6 +28,12 @@ namespace SDK.Lib
                         if (trans.name == bone)
                         {
                             bindBones[i] = trans;
+                            // 赋值根骨头，否则默认是不会赋值过去的，导致包围盒不能更新，如果移动可能导致包围盒不能被更新，如果移动远了，可能就会被裁剪掉
+                            if (!firstBone)
+                            {
+                                firstBone = true;
+                                skinRenderer.rootBone = trans;
+                            }
                             break;
                         }
                     }

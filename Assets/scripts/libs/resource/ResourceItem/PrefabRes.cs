@@ -28,8 +28,9 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            Resources.UnloadAsset(m_prefabObj);
-            //Resources.UnloadUnusedAssets();
+            //Resources.UnloadAsset(m_prefabObj);
+            m_prefabObj = null;
+            Resources.UnloadUnusedAssets();
             //GC.Collect();
         }
 

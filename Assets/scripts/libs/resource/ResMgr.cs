@@ -185,7 +185,13 @@ namespace SDK.Lib
                 m_LoadData.m_willLDItem.Add(loaditem);
             }
 
-            return m_LoadData.m_path2Res[param.m_path];
+            // 可能同步加载， m_LoadData.m_path2LDItem[param.m_path].load() 就加载完了，直接删除了
+            if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
+            {
+                return m_LoadData.m_path2Res[param.m_path];
+            }
+
+            return null;
         }
 
         public void unload(string path)
