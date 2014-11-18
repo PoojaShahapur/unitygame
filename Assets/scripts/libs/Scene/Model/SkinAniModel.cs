@@ -74,12 +74,20 @@ namespace SDK.Lib
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
 
+            int idx = 0;
             foreach (PartInfo partInfo in m_modelList)
             {
                 if (partInfo.m_partGo)
                 {
                     partInfo.m_partGo.transform.parent = m_rootGo.transform;
+                    skinSubMesh(idx);
+                    if (!partInfo.m_partGo.activeInHierarchy)
+                    {
+                        partInfo.m_partGo.SetActive(true);
+                    }
                 }
+
+                ++idx;
             }
 
             if(m_handleCB != null)
@@ -106,6 +114,11 @@ namespace SDK.Lib
             if (m_rootGo != null)
             {
                 m_modelList[idx].m_partGo.transform.parent = m_rootGo.transform;
+                skinSubMesh(idx);
+            }
+            else
+            {
+                m_modelList[idx].m_partGo.SetActive(false);
             }
         }
 
@@ -125,6 +138,13 @@ namespace SDK.Lib
             }
 
             return ret;
+        }
+
+        protected void skinSubMesh(int subMeshIdx)
+        {
+            string submeshName = UtilSkeleton.convID2PartName(subMeshIdx);
+            string[] bonesList = Ctx.m_instance.m_meshMgr.getBonesListByName(submeshName);
+            UtilSkeleton.skinSkel(m_modelList[subMeshIdx].m_partGo, bonesList);
         }
     }
 }

@@ -8,11 +8,21 @@ namespace SDK.Lib
     public class MeshMgr : IMeshMgr
     {
         // ¼ÇÂ¼ÃÉÆ¤ÐÅÏ¢
-        protected Dictionary<string, Dictionary<string, string> > m_skinDic = new Dictionary<string,Dictionary<string,string>>();
+        protected Dictionary<string, Dictionary<string, string[]> > m_skinDic = new Dictionary<string,Dictionary<string,string[]>>();
 
         public MeshMgr()
         {
 
+        }
+
+        public string[] getBonesListByName(string name)
+        {
+            if(m_skinDic["DefaultAvata"].ContainsKey(name))
+            {
+                return m_skinDic["DefaultAvata"][name];
+            }
+
+            return null;
         }
 
         public void loadSkinInfo()
@@ -44,7 +54,7 @@ namespace SDK.Lib
             {
                 itemMesh = (XmlElement)itemNode1f;
                 meshName = itemMesh.Attributes["name"].Value;
-                m_skinDic[meshName] = new Dictionary<string, string>();
+                m_skinDic[meshName] = new Dictionary<string, string[]>();
 
                 itemSubMeshList = itemMesh.ChildNodes;
                 foreach (XmlNode itemNode2f in itemSubMeshList)
@@ -52,7 +62,7 @@ namespace SDK.Lib
                     itemSubMesh = (XmlElement)itemNode2f;
                     subMeshName = itemSubMesh.Attributes["name"].Value;
                     bonesList = itemSubMesh.Attributes["bonelist"].Value;
-                    m_skinDic[meshName][subMeshName] = bonesList;
+                    m_skinDic[meshName][subMeshName] = bonesList.Split(',');
                 }
             }
         }

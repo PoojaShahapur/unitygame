@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -10,8 +11,8 @@ namespace SDK.Lib
     {
         public string[] Bones;
 
-        // 修正骨骼，一定要先改变子模型，再修正骨骼
-        public static void CorrectSkel(GameObject subMesh, params string[] bonesList)
+        // 蒙皮子网格，一定要先改变子模型，再修正骨骼
+        public static void skinSkel(GameObject subMesh, params string[] bonesList)
         {
             SkinnedMeshRenderer skinRenderer = subMesh.GetComponent<SkinnedMeshRenderer>();
             if (skinRenderer != null)
@@ -32,6 +33,28 @@ namespace SDK.Lib
                 }
                 skinRenderer.bones = bindBones;
             }
+        }
+
+        static public string convID2PartName(int id)
+        {
+            if ((int)PlayerModelDef.eModelHead == id)
+            {
+                return "body";
+            }
+            else if ((int)PlayerModelDef.eModelChest == id)
+            {
+                return "lwteeth";
+            }
+            else if ((int)PlayerModelDef.eModelWaist == id)
+            {
+                return "tounge";
+            }
+            else if ((int)PlayerModelDef.eModelLeg == id)
+            {
+                return "upteeth";
+            }
+
+            return "upteeth";
         }
     }
 }
