@@ -28,6 +28,11 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eLoadDisc == m_resLoadType)
             {
+                string path;
+                path = Application.dataPath + "/" + m_path;
+                AssetBundle asset = AssetBundle.CreateFromFile(path);
+                //asset.LoadAll();
+                Object[] resArr = asset.LoadAllAssets();
                 if (loadNeedCoroutine)
                 {
                     Ctx.m_instance.m_CoroutineMgr.StartCoroutine(AsyncLoadFromDefaultAssetBundle());
@@ -82,6 +87,7 @@ namespace SDK.Lib
             {
                 path = Ctx.m_instance.m_cfg.m_webIP + m_path;
             }
+            deleteFromCache(path);
             m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
             yield return m_w3File;
             m_assetBundle = m_w3File.assetBundle;

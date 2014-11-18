@@ -201,6 +201,7 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
+    <None Include="Assets\Config\Ai\Test2Ai.xml" />
     <None Include="Assets\Config\Ai\TestAi.xml" />
     <None Include="Assets\Config\Tool\ExportSkinsCfg.xml" />
     <None Include="Assets\Config\Tool\ResPackCfg.xml" />

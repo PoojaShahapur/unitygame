@@ -506,6 +506,7 @@
     <Compile Include="Assets\scripts\module\start\StartRoot.cs" />
     <Compile Include="Assets\scripts\test\TestLoadLevel.cs" />
     <Compile Include="Assets\scripts\test\TestNguiLocalScale.cs" />
+    <None Include="Assets\Config\Ai\Test2Ai.xml" />
     <None Include="Assets\Config\Ai\TestAi.xml" />
     <None Include="Assets\Config\Tool\ExportSkinsCfg.xml" />
     <None Include="Assets\Config\Tool\ResPackCfg.xml" />

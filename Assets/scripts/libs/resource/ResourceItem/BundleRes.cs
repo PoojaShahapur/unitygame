@@ -84,20 +84,36 @@ namespace SDK.Lib
 
         override public GameObject InstantiateObject(string resname)
         {
+            // Test 查看包内部资源
+            //UnityEngine.Object[] test = m_bundle.LoadAllAssets();
+            string[] allName = m_bundle.AllAssetNames();
             //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
-            UnityEngine.Object assets = m_bundle.LoadAsset(resname);
             GameObject insObj = null;
-            if (assets != null)
+            if (m_bundle.Contains(resname))
             {
-                insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+                UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+                if (assets != null)
+                {
+                    insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+                }
+                else
+                {
+                    assets = m_bundle.LoadAsset("DefaultAvatar");
+                }
             }
             return insObj;
         }
 
         override public UnityEngine.Object getObject(string resname)
         {
+            string[] allName = m_bundle.AllAssetNames();
+
             //return m_bundle.Load(resname);
-            UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+            UnityEngine.Object assets = null;
+            if (m_bundle.Contains(resname))
+            {
+                assets = m_bundle.LoadAsset(resname);
+            }
             return assets;
         }
 

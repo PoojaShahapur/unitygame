@@ -42,40 +42,5 @@ namespace SDK.Lib
                 onLoaded(this);
             }
         }
-
-        // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
-        //override protected void loadFromAssetBundle()
-        //{
-        //    string path;
-        //    path = Application.dataPath + "/" + m_path;
-        //    m_assetBundle = AssetBundle.CreateFromFile(path);
-
-        //    if (onLoaded != null)
-        //    {
-        //        onLoaded(this);
-        //    }
-        //}
-
-        //override protected IEnumerator downloadAsset()
-        //{
-        //    string path;
-            //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-        //    if (m_resLoadType == ResLoadType.eLoadDisc)
-        //    {
-        //        path = "file://" + Application.dataPath + "/" + m_path;
-        //    }
-        //    else
-        //    {
-        //        path = Ctx.m_instance.m_cfg.m_webIP + m_path;
-        //    }
-        //    m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
-        //    yield return m_w3File;
-        //    m_assetBundle = m_w3File.assetBundle;
-
-        //    if (onLoaded != null)
-        //    {
-        //        onLoaded(this);
-        //    }
-        //}
     }
 }

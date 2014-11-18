@@ -45,6 +45,7 @@
   <PackType type="bundle" inpath="Config/Ai" outpath="AI" packallfiles="false" infileext="xml" >
     <Pack name="AI.unity3d">
       <PackItem path="TestAi.xml" restype="textasset" />
+      <PackItem path="Test2Ai.xml" restype="textasset" />
     </Pack>
   </PackType>
   <PackType type="bundle" inpath="Prefabs/Being" outpath="Being" packallfiles="false" infileext="prefab" >

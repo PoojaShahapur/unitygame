@@ -124,5 +124,14 @@ namespace SDK.Lib
         {
 
         }
+
+        protected void deleteFromCache(string path)
+        {
+            if(Caching.IsVersionCached(path, 1))
+            {
+                //Caching.DeleteFromCache(path);
+                Caching.CleanCache();
+            }
+        }
     }
 }

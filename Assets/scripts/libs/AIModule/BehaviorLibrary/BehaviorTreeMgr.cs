@@ -27,6 +27,8 @@ namespace BehaviorLibrary
             IRes res = resEvt.m_param as IRes;
             TextAsset text = res.getObject("TestAi") as TextAsset;
             parseXml(text.text);
+            text = res.getObject("Test2Ai") as TextAsset;
+            parseXml(text.text);
         }
 
         protected void parseXml(string xmlStr)

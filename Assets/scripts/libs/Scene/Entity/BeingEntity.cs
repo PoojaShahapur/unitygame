@@ -58,9 +58,10 @@ namespace SDK.Lib
             }
         }
 
-        public void setPartModel(PlayerModelDef modelDef, string name)
+        public void setPartModel(PlayerModelDef modelDef, string assetBundleName, string partName)
         {
-            m_skinAniModel.m_modelList[(int)modelDef].m_partName = name;
+            m_skinAniModel.m_modelList[(int)modelDef].m_bundleName = assetBundleName;
+            m_skinAniModel.m_modelList[(int)modelDef].m_partName = partName;
             m_skinAniModel.loadPartModel(modelDef);
         }
 	}

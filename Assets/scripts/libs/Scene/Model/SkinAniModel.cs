@@ -91,7 +91,7 @@ namespace SDK.Lib
         public void loadPartModel(PlayerModelDef modelDef)
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[(int)modelDef].m_partName + ".unity3d";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[(int)modelDef].m_bundleName + ".unity3d";
             param.m_loadedcb = onPartModelloaded;
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }
@@ -114,7 +114,7 @@ namespace SDK.Lib
             int ret = 0;
             foreach(PartInfo partInfo in m_modelList)
             {
-                modelPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + partInfo.m_partName + ".unity3d";
+                modelPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + partInfo.m_bundleName + ".unity3d";
                 if(modelPath == path)
                 {
                     break;

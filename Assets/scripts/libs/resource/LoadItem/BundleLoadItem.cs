@@ -47,7 +47,8 @@ namespace SDK.Lib
             {
                 path = Ctx.m_instance.m_cfg.m_webIP + m_path;
             }
-            m_w3File = WWW.LoadFromCacheOrDownload(path, 10000);
+            deleteFromCache(path);
+            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
             yield return m_w3File;
             m_assetBundle = m_w3File.assetBundle;

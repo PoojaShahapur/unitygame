@@ -18,6 +18,6 @@ namespace EditorTool
         public string[] m_levels;
         public string m_locationPath;
         public BuildTarget m_target = EditorUserBuildSettings.activeBuildTarget;
-        public BuildOptions m_options = BuildOptions.None;
+        public BuildOptions m_options = BuildOptions.UncompressedAssetBundle;
     }
 }
