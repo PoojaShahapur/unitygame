@@ -7,14 +7,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{558341F8-C00F-BB46-E4E2-1E4363B2BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -374,7 +376,7 @@
     <Compile Include="Assets\scripts\libs\Scene\Model\AnimSys.cs" />
     <Compile Include="Assets\scripts\libs\Scene\Model\PartInfo.cs" />
     <Compile Include="Assets\scripts\libs\Scene\Model\SkinAniModel.cs" />
-    <Compile Include="Assets\scripts\libs\Scene\Model\UtilSkeleton.cs" />
+    <Compile Include="Assets\scripts\libs\Scene\Model\UtilSkin.cs" />
     <Compile Include="Assets\scripts\libs\SharpZipLib\BZip2\BZip2.cs" />
     <Compile Include="Assets\scripts\libs\SharpZipLib\BZip2\BZip2Constants.cs" />
     <Compile Include="Assets\scripts\libs\SharpZipLib\BZip2\BZip2Exception.cs" />

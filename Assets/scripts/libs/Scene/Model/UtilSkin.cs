@@ -7,7 +7,7 @@ namespace SDK.Lib
     /**
      * @brief 工具，主要是修正骨骼
      */
-    public class UtilSkeleton
+    public class UtilSkin
     {
         public string[] Bones;
 
