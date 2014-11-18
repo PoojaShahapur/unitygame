@@ -9,6 +9,8 @@ namespace SDK.Common
      */
     public class Config
     {
+        public const string StreamingAssets = "StreamingAssets/";
+
         public string m_ip = "127.0.0.1";
         public int m_port = 50000;
         //public string m_webIP = "http://127.0.0.1/";
@@ -22,12 +24,12 @@ namespace SDK.Common
         {
             m_resLoadType = ResLoadType.eLoadDicWeb;
             m_pathLst = new string[(int)ResPathType.eTotal];
-            m_pathLst[(int)ResPathType.ePathScene] = "StreamingAssets/Scene/";
-            m_pathLst[(int)ResPathType.ePathSceneXml] = "StreamingAssets/Scene/Xml/";
-            m_pathLst[(int)ResPathType.ePathModule] = "StreamingAssets/Module/";
-            m_pathLst[(int)ResPathType.ePathComUI] = "StreamingAssets/UI/";
-            m_pathLst[(int)ResPathType.ePathBeingPath] = "StreamingAssets/Being/";
-            m_pathLst[(int)ResPathType.ePathAIPath] = "StreamingAssets/AI/";
+            m_pathLst[(int)ResPathType.ePathScene] = "Scene/";
+            m_pathLst[(int)ResPathType.ePathSceneXml] = "Scene/Xml/";
+            m_pathLst[(int)ResPathType.ePathModule] = "Module/";
+            m_pathLst[(int)ResPathType.ePathComUI] = "UI/";
+            m_pathLst[(int)ResPathType.ePathBeingPath] = "Being/";
+            m_pathLst[(int)ResPathType.ePathAIPath] = "AI/";
 
 
             m_dataPath = Application.dataPath;

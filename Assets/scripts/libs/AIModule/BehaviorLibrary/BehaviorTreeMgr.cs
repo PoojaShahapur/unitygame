@@ -17,7 +17,7 @@ namespace BehaviorLibrary
         public void loadBT()
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath] + "AI.unity3d";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath] + "AI";
             param.m_loadedcb = onloaded;
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }

@@ -18,7 +18,7 @@ namespace SDK.Lib
         public void loadSkinInfo()
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList.unity3d";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList";
             param.m_loadedcb = onloaded;
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }

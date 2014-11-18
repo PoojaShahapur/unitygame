@@ -14,12 +14,12 @@ namespace Game.Game
             IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
             Ctx.m_instance.m_playerMgr.addHero(playerMain);
             //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
-            playerMain.setSkeleton("DefaultAvatar");
-            //playerMain.setSkeleton("TestBeing");
-            playerMain.setPartModel(PlayerModelDef.eModelHead, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
-            playerMain.setPartModel(PlayerModelDef.eModelChest, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
+            //playerMain.setSkeleton("DefaultAvatar");
+            playerMain.setSkeleton("TestBeing");
+            //playerMain.setPartModel(PlayerModelDef.eModelHead, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
+            //playerMain.setPartModel(PlayerModelDef.eModelChest, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
             playerMain.setPartModel(PlayerModelDef.eModelWaist, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
-            playerMain.setPartModel(PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
+            //playerMain.setPartModel(PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
         }
     }
 }

@@ -21,7 +21,7 @@ namespace SDK.Lib
             if (m_dicAttr.ContainsKey(id))
             {
                 string ret = m_dicAttr[id].m_resPath;
-                ret = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + ret + ".unity3d";
+                ret = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + ret;
                 return ret;
             }
 

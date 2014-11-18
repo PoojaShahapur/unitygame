@@ -49,6 +49,8 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
 
+            param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
+
             return load(param);
         }
 
@@ -60,12 +62,21 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
 
+            param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
+
             return load(param);
         }
 
         // eResourcesType 打包类型资源加载
         public IRes loadResources(LoadParam param)
         {
+            param.m_resPackType = ResPackType.eResourcesType;
+            param.m_resLoadType = ResLoadType.eLoadResource;
+
+            // 资源尽量异步加载
+            param.m_resNeedCoroutine = true;
+            param.m_loadNeedCoroutine = true;
+
             return load(param);
         }
 

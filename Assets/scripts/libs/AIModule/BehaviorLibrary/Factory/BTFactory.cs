@@ -102,7 +102,7 @@ namespace BehaviorLibrary
 
         protected void buildBT(BehaviorTree btree, XmlNode btNode)
         {
-
+            //btree.
         }
 
         public BehaviorComponent createIndexSelector()

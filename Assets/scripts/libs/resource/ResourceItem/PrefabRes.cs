@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SDK.Common;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -12,6 +13,12 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             m_prefabObj = (item as ResourceLoadItem).prefabObj;
+
+            if (onLoadedCB != null)
+            {
+                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
+                onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
+            }
         }
 
         public UnityEngine.Object prefabObj()

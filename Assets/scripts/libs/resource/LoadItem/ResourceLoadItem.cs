@@ -32,8 +32,8 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         protected void loadFromDefaultAssetBundle()
         {
-            string path = Application.dataPath + "/" + m_path;
-            m_prefabObj = Resources.Load(path);
+            //string path = Application.dataPath + "/" + m_path;
+            m_prefabObj = Resources.Load(m_path);
             // Resources.LoadAsync unity5.0 中暂时不支持
             //ResourceRequest req = Resources.LoadAsync<GameObject>(path);
             

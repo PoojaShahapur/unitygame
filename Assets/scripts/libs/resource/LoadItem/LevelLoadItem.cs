@@ -28,14 +28,15 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eLoadDisc == m_resLoadType)
             {
-                string path;
-                path = Application.dataPath + "/" + m_path;
-                AssetBundle asset = AssetBundle.CreateFromFile(path);
+                // 如果是打包成 AssetBundle ，然后放在本地磁盘，要加载的话，需要 WWW 打开，AssetBundle.CreateFromFile 是不行的
+                //string path;
+                //path = Application.dataPath + "/" + m_path;
+                //AssetBundle asset = AssetBundle.CreateFromFile(path);
                 //asset.LoadAll();
-                Object[] resArr = asset.LoadAllAssets();
+                //Object[] resArr = asset.LoadAllAssets();
                 if (loadNeedCoroutine)
                 {
-                    Ctx.m_instance.m_CoroutineMgr.StartCoroutine(AsyncLoadFromDefaultAssetBundle());
+                    Ctx.m_instance.m_CoroutineMgr.StartCoroutine(downloadAsset());
                 }
                 else
                 {

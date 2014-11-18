@@ -21,13 +21,26 @@ namespace BehaviorLibrary
     public class BehaviorTree
     {
 		private BehaviorComponent _Root;
-
         private BehaviorReturnCode _ReturnCode;
+
+        protected string m_name;            // ÐÐÎªÊ÷Ãû×Ö
 
         public BehaviorReturnCode ReturnCode
         {
             get { return _ReturnCode; }
             set { _ReturnCode = value; }
+        }
+
+        public string name
+        {
+            get
+            {
+                return m_name;
+            }
+            set
+            {
+                m_name = value;
+            }
         }
 
         /// <summary>
