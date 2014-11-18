@@ -240,8 +240,8 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\Prefabs\Being\BoneList.xml" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
-    <None Include="Assets\Scripts\Libs\AIModule\UnitySteer\License.txt" />
-    <None Include="Assets\Scripts\readme.txt" />
+    <None Include="Assets\scripts\libs\AIModule\UnitySteer\License.txt" />
+    <None Include="Assets\scripts\readme.txt" />
     <None Include="Assets\Table\Table1.txt" />
     <None Include="Assets\Table\Table2.xml" />
     <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />

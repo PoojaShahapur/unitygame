@@ -54,6 +54,9 @@
     <Pack name="TestBeing.unity3d">
       <PackItem path="TestBeing.prefab" restype="prefab" />
     </Pack>
+    <Pack name="DefaultAvatar_Unity_Body_Mesh.unity3d">
+      <PackItem path="DefaultAvatar_Unity_Body_Mesh.prefab" restype="prefab" />
+    </Pack>
     <Pack name="BonesList.unity3d">
       <PackItem path="BoneList.xml" restype="textasset" />
     </Pack>
