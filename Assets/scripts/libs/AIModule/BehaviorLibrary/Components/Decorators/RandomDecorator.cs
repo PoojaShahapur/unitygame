@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Decorators
 {
-    public class RandomDecorator : BehaviorComponent
+    public class RandomDecorator : SingleBranchComponent
     {
         private float _Probability;
-
         private Func<float> _RandomFunction;
-
-        private BehaviorComponent _Behavior;
 
         /// <summary>
         /// randomly executes the behavior
@@ -23,7 +17,7 @@ namespace BehaviorLibrary.Components.Decorators
         {
             _Probability = probability;
             _RandomFunction = randomFunction;
-            _Behavior = behavior;
+            m_childBehavior = behavior;
         }
 
 
@@ -33,7 +27,7 @@ namespace BehaviorLibrary.Components.Decorators
             {
                 if (_RandomFunction.Invoke() <= _Probability)
                 {
-                    ReturnCode = _Behavior.Behave(inputParam);
+                    ReturnCode = m_childBehavior.Behave(inputParam);
                     return ReturnCode;
                 }
                 else

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-	public class IndexSelector : BehaviorComponent
+    public class IndexSelector : MulBranchComponent
     {
-		private BehaviorComponent[] _Behaviors;
-
         private Func<int> _Index;
 
         /// <summary>
@@ -16,10 +11,9 @@ namespace BehaviorLibrary.Components.Composites
         /// </summary>
         /// <param name="index">an index representing which of the behavior branches to perform</param>
         /// <param name="behaviors">the behavior branches to be selected from</param>
-		public IndexSelector(Func<int> index, params BehaviorComponent[] behaviors)
+		public IndexSelector()
         {
-            _Index = index;
-            _Behaviors = behaviors;
+            
         }
 
         /// <summary>
@@ -30,7 +24,7 @@ namespace BehaviorLibrary.Components.Composites
         {
             try
             {
-                switch (_Behaviors[_Index.Invoke()].Behave(inputParam))
+                switch (m_childBehaviorsList[_Index.Invoke()].Behave(inputParam))
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

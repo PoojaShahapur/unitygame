@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Xml;
+using UnityEngine;
 
 namespace SDK.Common
 {
@@ -7,6 +8,9 @@ namespace SDK.Common
      */
     public class UtilApi
     {
+        public const string TRUE = "true";
+        public const string FALSE = "false";
+
         // 通过父对象和完整的目录查找 child 对象
         static public GameObject TransFindChildByPObjAndPath(GameObject pObject, string path)
         {
@@ -17,6 +21,33 @@ namespace SDK.Common
         static public GameObject GoFindChildByPObjAndName(string name)
         {
             return GameObject.Find(name);
+        }
+
+        static public bool getXmlAttrBool(XmlAttribute attr)
+        {
+            if (attr != null)
+            {
+                if (TRUE == attr.Value)
+                {
+                    return true;
+                }
+                else if (FALSE == attr.Value)
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        static public string getXmlAttrStr(XmlAttribute attr)
+        {
+            if (attr != null)
+            {
+                return attr.Value;
+            }
+
+            return "";
         }
     }
 }

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-	public class RandomSelector : BehaviorComponent
+    public class RandomSelector : MulBranchComponent
     {
-		private BehaviorComponent[] _Behaviors;
-
         //use current milliseconds to set random seed
         private Random _Random = new Random(DateTime.Now.Millisecond);
 
@@ -19,9 +14,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Running if selected behavior returns Running
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public RandomSelector(params BehaviorComponent[] behaviors) 
+		public RandomSelector() 
         {
-            _Behaviors = behaviors;
+            
         }
 
         /// <summary>
@@ -34,7 +29,7 @@ namespace BehaviorLibrary.Components.Composites
 
             try
             {
-                switch (_Behaviors[_Random.Next(0, _Behaviors.Length - 1)].Behave(inputParam))
+                switch (m_childBehaviorsList[_Random.Next(0, m_childBehaviorsList.Count - 1)].Behave(inputParam))
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-	public class Sequence : BehaviorComponent
+    public class Sequence : MulBranchComponent
     {
-		private BehaviorComponent[] _behaviors;
-
         /// <summary>
         /// attempts to run the behaviors all in one cycle
         /// -Returns Success when all are successful
@@ -16,9 +11,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Running if any are running
         /// </summary>
         /// <param name="behaviors"></param>
-		public Sequence(params BehaviorComponent[] behaviors)
+		public Sequence()
         {
-            _behaviors = behaviors;
+            
         }
 
         /// <summary>
@@ -30,11 +25,11 @@ namespace BehaviorLibrary.Components.Composites
 			//add watch for any running behaviors
 			bool anyRunning = false;
 
-            for(int i = 0; i < _behaviors.Length;i++)
+            for (int i = 0; i < m_childBehaviorsList.Count; i++)
             {
                 try
                 {
-                    switch (_behaviors[i].Behave(inputParam))
+                    switch (m_childBehaviorsList[i].Behave(inputParam))
                     {
                         case BehaviorReturnCode.Failure:
                             ReturnCode = BehaviorReturnCode.Failure;

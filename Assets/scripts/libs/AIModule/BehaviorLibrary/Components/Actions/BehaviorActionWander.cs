@@ -10,7 +10,7 @@ namespace BehaviorLibrary.Components.Actions
         public BehaviorActionPatrol()
             : base(null)
         {
-            
+            base.actionFunc = onExecAction;
         }
 
         public void init(InsParam inputParam)
@@ -19,7 +19,7 @@ namespace BehaviorLibrary.Components.Actions
             inputParam.m_beingEntity.vehicle.Steerings[0].Vehicle = inputParam.m_beingEntity.vehicle as Vehicle;
         }
 
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        protected BehaviorReturnCode onExecAction(InsParam inputParam)
         {
             inputParam.m_beingEntity.vehicle.Update();
             return BehaviorReturnCode.Success;

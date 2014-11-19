@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-	public class PartialSequence : BehaviorComponent
+    public class PartialSequence : MulBranchComponent
     {
-		protected BehaviorComponent[] _Behaviors;
-
         private short _sequence = 0;
-
         private short _seqLength = 0;
         
         /// <summary>
@@ -21,10 +15,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if a behavior components returns Failure or an error is encountered
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public PartialSequence(params BehaviorComponent[] behaviors)
+		public PartialSequence()
         {
-            _Behaviors = behaviors;
-            _seqLength = (short) _Behaviors.Length;
+            
         }
 
         /// <summary>
@@ -38,7 +31,7 @@ namespace BehaviorLibrary.Components.Composites
             {
                 try
                 {
-                    switch (_Behaviors[_sequence].Behave(inputParam))
+                    switch (m_childBehaviorsList[_sequence].Behave(inputParam))
                     {
                         case BehaviorReturnCode.Failure:
                             _sequence = 0;
@@ -71,5 +64,10 @@ namespace BehaviorLibrary.Components.Composites
 
         }
 
+        public override void addChild(BehaviorComponent child)
+        {
+            base.addChild(child);
+            _seqLength = (short)m_childBehaviorsList.Count;
+        }
     }
 }

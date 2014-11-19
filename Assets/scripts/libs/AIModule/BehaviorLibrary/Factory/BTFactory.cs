@@ -3,6 +3,7 @@ using BehaviorLibrary.Components.Actions;
 using BehaviorLibrary.Components.Composites;
 using BehaviorLibrary.Components.Conditionals;
 using BehaviorLibrary.Components.Decorators;
+using SDK.Common;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -73,7 +74,7 @@ namespace BehaviorLibrary
 
         public void parseXml(BehaviorTree btree, XmlNode btNode)
         {
-            buildBT(btree, btNode);
+            buildBT(btree, btNode as XmlElement);
             Stack<BehaviorComponent> stack = new Stack<BehaviorComponent>();
             depthTraverse(stack, btree.root, btNode);
         }
@@ -100,14 +101,14 @@ namespace BehaviorLibrary
             stack.Pop();
         }
 
-        protected void buildBT(BehaviorTree btree, XmlNode btNode)
+        protected void buildBT(BehaviorTree btree, XmlElement btNode)
         {
-            //btree.
+            btree.name = UtilApi.getXmlAttrStr(btNode.Attributes["name"]);
         }
 
         public BehaviorComponent createIndexSelector()
         {
-            IndexSelector indexSelector = new IndexSelector(null, null);
+            IndexSelector indexSelector = new IndexSelector();
             return indexSelector;
         }
 
@@ -195,7 +196,7 @@ namespace BehaviorLibrary
 
         public BehaviorComponent createConditional()
         {
-            Conditional conditional = new Conditional(null);
+            Condition conditional = new Condition(null);
             return conditional;
         }
 
@@ -217,7 +218,7 @@ namespace BehaviorLibrary
 
         public BehaviorComponent createInverter()
         {
-            Inverter inverter = new Inverter(null);
+            Inverter inverter = new Inverter();
             return inverter;
         }
 

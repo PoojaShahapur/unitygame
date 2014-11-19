@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Decorators
 {
-    public class Inverter : BehaviorComponent
+    public class Inverter : SingleBranchComponent
     {
-        private BehaviorComponent _Behavior;
-
         /// <summary>
         /// inverts the given behavior
         /// -Returns Success on Failure or Error
@@ -16,9 +11,9 @@ namespace BehaviorLibrary.Components.Decorators
         /// -Returns Running on Running
         /// </summary>
         /// <param name="behavior"></param>
-        public Inverter(BehaviorComponent behavior) 
+        public Inverter() 
         {
-            _Behavior = behavior;
+            
         }
 
         /// <summary>
@@ -29,7 +24,7 @@ namespace BehaviorLibrary.Components.Decorators
         {
             try
             {
-                switch (_Behavior.Behave(inputParam))
+                switch (m_childBehavior.Behave(inputParam))
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Success;

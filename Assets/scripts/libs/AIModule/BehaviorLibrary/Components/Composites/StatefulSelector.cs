@@ -3,10 +3,8 @@ using BehaviorLibrary.Components;
 
 namespace BehaviorLibrary
 {
-	public class StatefulSelector : BehaviorComponent
+    public class StatefulSelector : MulBranchComponent
 	{
-		private BehaviorComponent[] _Behaviors;
-
 		private int _LastBehavior = 0;
 
 		/// <summary>
@@ -17,8 +15,9 @@ namespace BehaviorLibrary
 		/// -Returns Failure if all behavior components returned Failure
 		/// </summary>
 		/// <param name="behaviors">one to many behavior components</param>
-		public StatefulSelector(params BehaviorComponent[] behaviors){
-			this._Behaviors = behaviors;
+		public StatefulSelector()
+        {
+			
 		}
 
 		/// <summary>
@@ -28,9 +27,11 @@ namespace BehaviorLibrary
         public override BehaviorReturnCode Behave(InsParam inputParam)
         {
 
-			for(; _LastBehavior < _Behaviors.Length; _LastBehavior++){
+            for (; _LastBehavior < m_childBehaviorsList.Count; _LastBehavior++)
+            {
 				try{
-					switch (_Behaviors[_LastBehavior].Behave(inputParam)){
+                    switch (m_childBehaviorsList[_LastBehavior].Behave(inputParam))
+                    {
 					case BehaviorReturnCode.Failure:
 						continue;
 					case BehaviorReturnCode.Success:

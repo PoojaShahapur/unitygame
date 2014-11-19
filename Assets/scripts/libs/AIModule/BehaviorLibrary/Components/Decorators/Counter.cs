@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Decorators
 {
-    public class Counter : BehaviorComponent
+    public class Counter : SingleBranchComponent
     {
         private int _MaxCount;
         private int _Counter = 0;
-
-        private BehaviorComponent _Behavior;
 
         /// <summary>
         /// executes the behavior based on a counter
@@ -22,7 +17,7 @@ namespace BehaviorLibrary.Components.Decorators
         public Counter(int maxCount, BehaviorComponent behavior)
         {
             _MaxCount = maxCount;
-            _Behavior = behavior;
+            m_childBehavior = behavior;
         }
 
         /// <summary>
@@ -42,7 +37,7 @@ namespace BehaviorLibrary.Components.Decorators
                 else
                 {
                     _Counter = 0;
-                    ReturnCode = _Behavior.Behave(inputParam);
+                    ReturnCode = m_childBehavior.Behave(inputParam);
                     return ReturnCode;
                 }
             }

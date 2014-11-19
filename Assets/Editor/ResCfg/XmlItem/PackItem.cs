@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using SDK.Common;
+using System.Xml;
 
 namespace EditorTool
 {
@@ -9,8 +10,8 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_path = ExportUtil.getXmlAttrStr(elem.Attributes["path"]);
-            m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
+            m_path = UtilApi.getXmlAttrStr(elem.Attributes["path"]);
+            m_resType = UtilApi.getXmlAttrStr(elem.Attributes["restype"]);
         }
     }
 }

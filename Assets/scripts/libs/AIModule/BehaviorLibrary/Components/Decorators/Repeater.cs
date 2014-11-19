@@ -9,10 +9,8 @@ using BehaviorLibrary.Components.Utility;
 
 namespace BehaviorLibrary.Components.Decorators
 {
-    public class Repeater : BehaviorComponent
+    public class Repeater : SingleBranchComponent
     {
-        private BehaviorComponent _Behavior;
-        
         /// <summary>
         /// executes the behavior every time again
         /// </summary>
@@ -20,7 +18,7 @@ namespace BehaviorLibrary.Components.Decorators
         /// <param name="behavior">behavior to run</param>
         public Repeater(BehaviorComponent behavior)
         {
-            _Behavior = behavior;
+            m_childBehavior = behavior;
         }
         
         /// <summary>
@@ -29,7 +27,7 @@ namespace BehaviorLibrary.Components.Decorators
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave(InsParam inputParam)
         {
-            ReturnCode = _Behavior.Behave(inputParam);
+            ReturnCode = m_childBehavior.Behave(inputParam);
             ReturnCode = BehaviorReturnCode.Running;
             return BehaviorReturnCode.Running;
         }

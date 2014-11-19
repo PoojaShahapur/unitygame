@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-	public class PartialSelector : BehaviorComponent
+    public class PartialSelector : MulBranchComponent
     {
-		protected BehaviorComponent[] _Behaviors;
-
         private short _selections = 0;
-
         private short _selLength = 0;
 
         /// <summary>
@@ -21,10 +15,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if all behavior components returned Failure or an error has occured
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public PartialSelector(params BehaviorComponent[] behaviors)
+		public PartialSelector()
         {
-            _Behaviors = behaviors;
-            _selLength = (short)_Behaviors.Length;
+            
         }
 
         /// <summary>
@@ -37,7 +30,7 @@ namespace BehaviorLibrary.Components.Composites
             {
                 try
                 {
-                    switch (_Behaviors[_selections].Behave(inputParam))
+                    switch (m_childBehaviorsList[_selections].Behave(inputParam))
                     {
                         case BehaviorReturnCode.Failure:
                             _selections++;
@@ -70,6 +63,12 @@ namespace BehaviorLibrary.Components.Composites
             _selections = 0;
             ReturnCode = BehaviorReturnCode.Failure;
             return ReturnCode;
+        }
+
+        public override void addChild(BehaviorComponent child)
+        {
+            base.addChild(child);
+            _selLength = (short)m_childBehaviorsList.Count;
         }
     }
 }

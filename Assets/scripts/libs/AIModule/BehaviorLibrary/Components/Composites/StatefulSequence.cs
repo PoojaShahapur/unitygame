@@ -3,10 +3,8 @@ using BehaviorLibrary.Components;
 
 namespace BehaviorLibrary
 {
-	public class StatefulSequence : BehaviorComponent
+    public class StatefulSequence : MulBranchComponent
 	{
-		private BehaviorComponent[] _Behaviors;
-
 		private int _LastBehavior = 0;
 
 		/// <summary>
@@ -16,8 +14,9 @@ namespace BehaviorLibrary
 		/// -Does not Return Running
 		/// </summary>
 		/// <param name="behaviors"></param>
-		public StatefulSequence (params BehaviorComponent[] behaviors){
-			this._Behaviors = behaviors;
+		public StatefulSequence ()
+        {
+			
 		}
 
 		/// <summary>
@@ -28,9 +27,11 @@ namespace BehaviorLibrary
         {
 
 			//start from last remembered position
-			for(; _LastBehavior < _Behaviors.Length;_LastBehavior++){
+            for (; _LastBehavior < m_childBehaviorsList.Count; _LastBehavior++)
+            {
 				try{
-					switch (_Behaviors[_LastBehavior].Behave(inputParam)){
+                    switch (m_childBehaviorsList[_LastBehavior].Behave(inputParam))
+                    {
 					case BehaviorReturnCode.Failure:
 						_LastBehavior = 0;
 						ReturnCode = BehaviorReturnCode.Failure;

@@ -3,9 +3,9 @@
     <BehaviorTemplate name="1000" >
         <BehaviorTree name="1000">
             <Sequence>
-				<Conditional expression="IsNearBase==true">
-					<BehaviorActionPatrol behavior="ReturnRes"/>
-				</Conditional>
+				<ConditionIdle >
+					<BehaviorActionPatrol />
+				</ConditionIdle>
             </Sequence>
         </BehaviorTree>
     </BehaviorTemplate>

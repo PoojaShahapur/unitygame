@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Common;
+using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -13,8 +14,8 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
-            m_part = ExportUtil.getXmlAttrStr(elem.Attributes["part"]);
+            m_name = UtilApi.getXmlAttrStr(elem.Attributes["name"]);
+            m_part = UtilApi.getXmlAttrStr(elem.Attributes["part"]);
         }
 
         public void exportSubMeshBone(SkelMeshParam param, XmlDocument xmlDocSave, XmlElement meshXml)

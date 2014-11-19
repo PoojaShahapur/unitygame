@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-	public class Selector : BehaviorComponent
+    public class Selector : MulBranchComponent
     {
-		protected BehaviorComponent[] _Behaviors;
-
-
         /// <summary>
         /// Selects among the given behavior components
         /// Performs an OR-Like behavior and will "fail-over" to each successive component until Success is reached or Failure is certain
@@ -18,9 +12,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if all behavior components returned Failure
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public Selector(params BehaviorComponent[] behaviors)
+		public Selector()
         {
-            _Behaviors = behaviors;
+            
         }
 
         /// <summary>
@@ -29,11 +23,11 @@ namespace BehaviorLibrary.Components.Composites
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave(InsParam inputParam)
         {
-            for (int i = 0; i < _Behaviors.Length; i++)
+            for (int i = 0; i < m_childBehaviorsList.Count; i++)
             {
                 try
                 {
-                    switch (_Behaviors[i].Behave(inputParam))
+                    switch (m_childBehaviorsList[i].Behave(inputParam))
                     {
                         case BehaviorReturnCode.Failure:
                             continue;

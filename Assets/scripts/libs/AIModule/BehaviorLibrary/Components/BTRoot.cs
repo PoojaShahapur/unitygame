@@ -1,6 +1,6 @@
 ﻿namespace BehaviorLibrary.Components
 {
-    public class BTRoot : BehaviorComponent
+    public class BTRoot : MulBranchComponent
     {
         public override BehaviorReturnCode Behave(InsParam inputParam)
         {

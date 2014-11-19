@@ -9,17 +9,15 @@ using BehaviorLibrary.Components.Utility;
 
 namespace BehaviorLibrary.Components.Decorators
 {
-    public class Succeeder : BehaviorComponent
+    public class Succeeder : SingleBranchComponent
     {
-        private BehaviorComponent _Behavior;
-        
         /// <summary>
         /// returns a success even when the decorated component failed
         /// </summary>
         /// <param name="behavior">behavior to run</param>
         public Succeeder(BehaviorComponent behavior)
         {
-            _Behavior = behavior;
+            m_childBehavior = behavior;
         }
         
         /// <summary>
@@ -28,7 +26,7 @@ namespace BehaviorLibrary.Components.Decorators
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave(InsParam inputParam)
         {
-            ReturnCode = _Behavior.Behave(inputParam);
+            ReturnCode = m_childBehavior.Behave(inputParam);
             if (ReturnCode == BehaviorReturnCode.Failure) {
                 ReturnCode = BehaviorReturnCode.Success;
             }

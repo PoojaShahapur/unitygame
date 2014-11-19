@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Actions
 {
-    public class BehaviorAction : BehaviorComponent
+    public class BehaviorAction : LeafComponent
     {
-        private Func<BehaviorReturnCode> _Action;
+        private Func<InsParam, BehaviorReturnCode> _Action;
 
         public BehaviorAction() { }
 
-        public BehaviorAction(Func<BehaviorReturnCode> action)
+        public BehaviorAction(Func<InsParam, BehaviorReturnCode> action)
         {
             if (action != null)
             {
@@ -23,12 +20,12 @@ namespace BehaviorLibrary.Components.Actions
             }
         }
 
-        protected BehaviorReturnCode DefaultAction()
+        protected BehaviorReturnCode DefaultAction(InsParam inputParam)
         {
             return BehaviorReturnCode.Success;
         }
 
-        public Func<BehaviorReturnCode> action
+        public Func<InsParam, BehaviorReturnCode> actionFunc
         {
             set
             {
@@ -40,7 +37,7 @@ namespace BehaviorLibrary.Components.Actions
         {
             try
             {
-                switch (_Action.Invoke())
+                switch (_Action.Invoke(inputParam))
                 {
                     case BehaviorReturnCode.Success:
                         ReturnCode = BehaviorReturnCode.Success;

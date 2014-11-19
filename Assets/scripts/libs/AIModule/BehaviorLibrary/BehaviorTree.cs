@@ -24,6 +24,7 @@ namespace BehaviorLibrary
         private BehaviorReturnCode _ReturnCode;
 
         protected string m_name;            // 行为树名字
+        protected InsParam m_inputParam;    // 输入数据
 
         public BehaviorReturnCode ReturnCode
         {
@@ -50,6 +51,7 @@ namespace BehaviorLibrary
         public BehaviorTree(IndexSelector root)
         {
             _Root = root;
+            m_inputParam = new InsParam();
         }
 
         public BehaviorTree(BehaviorComponent root)
@@ -68,11 +70,11 @@ namespace BehaviorLibrary
         /// <summary>
         /// perform the behavior
         /// </summary>
-        public BehaviorReturnCode Behave(InsParam inputParam)
+        public BehaviorReturnCode Behave()
         {
             try
             {
-                switch (_Root.Behave(inputParam))
+                switch (_Root.Behave(m_inputParam))
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

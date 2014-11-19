@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BehaviorLibrary.Components.Decorators
 {
-    public class Timer : BehaviorComponent
+    public class Timer : SingleBranchComponent
     {
         private Func<int> _ElapsedTimeFunction;
-
-        private BehaviorComponent _Behavior;
-
         private int _TimeElapsed = 0;
-
         private int _WaitTime;
 
         /// <summary>
@@ -24,7 +17,7 @@ namespace BehaviorLibrary.Components.Decorators
         public Timer(Func<int> elapsedTimeFunction, int timeToWait, BehaviorComponent behavior)
         {
             _ElapsedTimeFunction = elapsedTimeFunction;
-            _Behavior = behavior;
+            m_childBehavior = behavior;
             _WaitTime = timeToWait;
         }
 
@@ -41,7 +34,7 @@ namespace BehaviorLibrary.Components.Decorators
                 if (_TimeElapsed >= _WaitTime)
                 {
                     _TimeElapsed = 0;
-                    ReturnCode = _Behavior.Behave(inputParam);
+                    ReturnCode = m_childBehavior.Behave(inputParam);
                     return ReturnCode;
                 }
                 else

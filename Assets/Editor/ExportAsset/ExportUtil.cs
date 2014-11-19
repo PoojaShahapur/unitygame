@@ -15,9 +15,6 @@ namespace EditorTool
         public const string PREFAB = "prefab";
         public const string TEXTASSET = "textasset";
 
-        public const string TRUE = "true";
-        public const string FALSE = "false";
-
         public const string DOTUNITY3D = ".unity3d";
         public const string UNITY3D = "unity3d";
 
@@ -145,33 +142,6 @@ namespace EditorTool
             }
 
             return ret;
-        }
-
-        static public bool getXmlAttrBool(XmlAttribute attr)
-        {
-            if (attr != null)
-            {
-                if (TRUE == attr.Value)
-                {
-                    return true;
-                }
-                else if (FALSE == attr.Value)
-                {
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
-        static public string getXmlAttrStr(XmlAttribute attr)
-        {
-            if (attr != null)
-            {
-                return attr.Value;
-            }
-
-            return "";
         }
 
         static public List<string> GetAll(string path, bool recursion = false)//搜索文件夹中的文件
