@@ -17,6 +17,8 @@ namespace BehaviorLibrary.Components.Actions
         public override void onEnter()
         {
             m_behaviorTree.inputParam.beingEntity.vehicle.Steerings[0] = new SteerForWander();
+            (m_behaviorTree.inputParam.beingEntity.vehicle.Steerings[0] as SteerForWander).MaxLatitudeSide = 100;
+            (m_behaviorTree.inputParam.beingEntity.vehicle.Steerings[0] as SteerForWander).MaxLatitudeUp = 100;
             m_behaviorTree.inputParam.beingEntity.vehicle.Steerings[0].Vehicle = m_behaviorTree.inputParam.beingEntity.vehicle as Vehicle;
         }
 
