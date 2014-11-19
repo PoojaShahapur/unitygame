@@ -21,6 +21,8 @@ namespace Game.Game
             playerMain.setPartModel(PlayerModelDef.eModelChest, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
             playerMain.setPartModel(PlayerModelDef.eModelWaist, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
             playerMain.setPartModel(PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
+
+            playerMain.addAiByID("1001");
         }
     }
 }

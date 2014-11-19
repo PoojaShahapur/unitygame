@@ -42,8 +42,9 @@ namespace SDK.Lib
         }
 
         // 添加 AI
-        virtual public void addAi(BehaviorTree behaviorTree)
+        virtual public void addAiByID(string id)
         {
+            BehaviorTree behaviorTree = Ctx.m_instance.m_behaviorTreeMgr.getBTByID(id) as BehaviorTree;
             m_vehicle = new Biped();
             m_behaviorTree = behaviorTree;
         }

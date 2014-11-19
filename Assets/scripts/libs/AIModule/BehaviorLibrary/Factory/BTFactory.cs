@@ -18,8 +18,14 @@ namespace BehaviorLibrary
         protected Dictionary<string, Func<BehaviorComponent>> m_id2CreateDic = new Dictionary<string, Func<BehaviorComponent>>();
         protected Dictionary<string, Action<BehaviorComponent, XmlNode>> m_id2BuildDic = new Dictionary<string, Action<BehaviorComponent, XmlNode>>();
 
+        public BTFactory()
+        {
+            registerBuild();
+        }
+
         protected void registerBuild()
         {
+            // Composites 组件注册
             m_id2CreateDic["IndexSelector"] = createIndexSelector;
             m_id2BuildDic["IndexSelector"] = buildIndexSelector;
 
@@ -44,9 +50,14 @@ namespace BehaviorLibrary
             m_id2CreateDic["StatefulSequence"] = createStatefulSequence;
             m_id2BuildDic["StatefulSequence"] = buildStatefulSequence;
 
-            m_id2CreateDic["Conditional"] = createConditional;
-            m_id2BuildDic["Conditional"] = buildConditional;
+            // 条件组件注册
+            m_id2CreateDic["Condition"] = createCondition;
+            m_id2BuildDic["Condition"] = buildCondition;
 
+            m_id2CreateDic["ConditionIdle"] = createConditionIdle;
+            m_id2BuildDic["ConditionIdle"] = buildConditionIdle;
+
+            // Decorators 组件注册
             m_id2CreateDic["Counter"] = createCounter;
             m_id2BuildDic["Counter"] = buildCounter;
 
@@ -68,6 +79,7 @@ namespace BehaviorLibrary
             m_id2CreateDic["Timer"] = createTimer;
             m_id2BuildDic["Timer"] = buildTimer;
 
+            // Actions 组件注册
             m_id2CreateDic["BehaviorActionWander"] = createBehaviorActionWander;
             m_id2BuildDic["BehaviorActionWander"] = buildBehaviorActionWander;
         }
@@ -194,16 +206,28 @@ namespace BehaviorLibrary
 
         }
 
-        public BehaviorComponent createConditional()
+        public BehaviorComponent createCondition()
         {
-            Condition conditional = new Condition(null);
-            return conditional;
+            Condition condition = new Condition(null);
+            return condition;
         }
 
-        public void buildConditional(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildCondition(BehaviorComponent btCmt, XmlNode btNode)
         {
 
         }
+
+        public BehaviorComponent createConditionIdle()
+        {
+            ConditionIdle conditionIdle = new ConditionIdle();
+            return conditionIdle;
+        }
+
+        public void buildConditionIdle(BehaviorComponent btCmt, XmlNode btNode)
+        {
+
+        }
+
 
         public BehaviorComponent createCounter()
         {
@@ -284,7 +308,7 @@ namespace BehaviorLibrary
 
         public BehaviorComponent createBehaviorActionWander()
         {
-            BehaviorActionPatrol behaviorActionWander = new BehaviorActionPatrol();
+            BehaviorActionWander behaviorActionWander = new BehaviorActionWander();
             return behaviorActionWander;
         }
 

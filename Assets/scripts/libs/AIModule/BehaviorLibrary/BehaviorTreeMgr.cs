@@ -14,6 +14,16 @@ namespace BehaviorLibrary
         protected BTFactory m_BTFactory = new BTFactory();
         protected Dictionary<string, BehaviorTree> m_id2BTDic = new Dictionary<string,BehaviorTree>();
 
+        public IBehaviorTree getBTByID(string id)
+        {
+            if(m_id2BTDic.ContainsKey(id))
+            {
+                return m_id2BTDic[id];
+            }
+
+            return null;
+        }
+
         public void loadBT()
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();

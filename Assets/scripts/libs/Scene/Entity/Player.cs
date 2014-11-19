@@ -21,9 +21,9 @@ namespace SDK.Lib
             }
 		}
 
-        override public void addAi(BehaviorTree behaviorTree)
+        override public void addAiByID(string id)
         {
-            base.addAi(behaviorTree);
+            base.addAiByID(id);
             m_vehicle.sceneGo = m_skinAniModel.m_modelList[(int)PlayerModelDef.eModelWaist].m_partGo;
         }
 	}

@@ -4,5 +4,6 @@
     {
         void setSkeleton(string name);
         void setPartModel(PlayerModelDef modelDef, string assetBundleName, string partName);
+        void addAiByID(string id);
     }
 }

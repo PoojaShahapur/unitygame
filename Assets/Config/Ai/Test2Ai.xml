@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Root>
-    <BehaviorTemplate name="1000" >
-        <BehaviorTree name="1000">
+    <BehaviorTemplate name="1001" >
+        <BehaviorTree name="1001">
             <Sequence>
 				<ConditionIdle >
-					<BehaviorActionPatrol />
+					<BehaviorActionWander />
 				</ConditionIdle>
             </Sequence>
         </BehaviorTree>

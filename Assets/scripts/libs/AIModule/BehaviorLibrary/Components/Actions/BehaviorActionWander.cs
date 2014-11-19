@@ -5,9 +5,9 @@ namespace BehaviorLibrary.Components.Actions
     /**
      * @brief 徘徊
      */
-    public class BehaviorActionPatrol : BehaviorAction
+    public class BehaviorActionWander : BehaviorAction
     {
-        public BehaviorActionPatrol()
+        public BehaviorActionWander()
             : base(null)
         {
             base.actionFunc = onExecAction;

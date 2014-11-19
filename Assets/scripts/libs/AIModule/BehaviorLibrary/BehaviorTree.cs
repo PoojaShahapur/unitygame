@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using BehaviorLibrary.Components;
 using BehaviorLibrary.Components.Composites;
+using SDK.Common;
 
 namespace BehaviorLibrary
 {
@@ -18,7 +18,7 @@ namespace BehaviorLibrary
     /// <summary>
     /// @brief 行为树只处理结构，没有实例数据，共享同一个行为树
     /// </summary>
-    public class BehaviorTree
+    public class BehaviorTree : IBehaviorTree
     {
 		private BehaviorComponent _Root;
         private BehaviorReturnCode _ReturnCode;
