@@ -41,6 +41,8 @@ namespace BehaviorLibrary.Components.Conditionals
                 switch (_Bool.Invoke(inputParam))
                 {
                     case true:
+                        // 执行所有的代码
+                        execAllChild(inputParam);
                         ReturnCode = BehaviorReturnCode.Success;
                         return ReturnCode;
                     case false:

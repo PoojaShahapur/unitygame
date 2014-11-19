@@ -7,6 +7,18 @@ namespace BehaviorLibrary
      */
     public class InsParam
     {
-        public BeingEntity m_beingEntity;
+        protected BeingEntity m_beingEntity;
+
+        public BeingEntity beingEntity
+        {
+            get
+            {
+                return m_beingEntity;
+            }
+            set
+            {
+                m_beingEntity = value;
+            }
+        }
     }
 }

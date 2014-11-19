@@ -32,6 +32,16 @@ namespace BehaviorLibrary
             set { _ReturnCode = value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root"></param>
+        public BehaviorTree(IndexSelector root)
+        {
+            _Root = root;
+            m_inputParam = new InsParam();
+        }
+
         public string name
         {
             get
@@ -44,19 +54,22 @@ namespace BehaviorLibrary
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="root"></param>
-        public BehaviorTree(IndexSelector root)
+        public InsParam inputParam
         {
-            _Root = root;
-            m_inputParam = new InsParam();
+            get
+            {
+                return m_inputParam;
+            }
+            set
+            {
+                m_inputParam = value;
+            }
         }
 
         public BehaviorTree(BehaviorComponent root)
         {
 			_Root = root;
+            m_inputParam = new InsParam();
 		}
 
         public BehaviorComponent root

@@ -26,7 +26,11 @@ namespace SDK.Lib
 
         public void OnTick(float delta)
         {
-            
+            if (m_behaviorTree != null)
+            {
+                m_behaviorTree.inputParam.beingEntity = this;
+                m_behaviorTree.Behave();
+            }
         }
 
         public Biped vehicle
@@ -46,6 +50,7 @@ namespace SDK.Lib
         {
             BehaviorTree behaviorTree = Ctx.m_instance.m_behaviorTreeMgr.getBTByID(id) as BehaviorTree;
             m_vehicle = new Biped();
+            m_vehicle.initOwner(m_skinAniModel.rootGo);
             m_behaviorTree = behaviorTree;
         }
 

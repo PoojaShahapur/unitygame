@@ -1,10 +1,10 @@
 ﻿namespace BehaviorLibrary.Components
 {
-    public class BTRoot : MulBranchComponent
+    public class BTRoot : SingleBranchComponent
     {
         public override BehaviorReturnCode Behave(InsParam inputParam)
         {
-            return BehaviorReturnCode.Success;
+            return m_childBehavior.Behave(inputParam);
         }
     }
 }

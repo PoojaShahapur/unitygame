@@ -164,7 +164,6 @@ namespace UnitySteer.Behaviors
         /// </summary>
         public Speedometer Speedometer { get; protected set; }
 
-
         /// <summary>
         /// Vehicle arrival radius
         /// </summary>
@@ -250,6 +249,16 @@ namespace UnitySteer.Behaviors
 
         #endregion
 
+        public override void initOwner(GameObject owner)
+        {
+            base.initOwner(owner);
+
+            Steerings = new Steering[1];
+            GameObject = sceneGo;
+            Rigidbody = sceneGo.GetComponent<Rigidbody>();
+            SquaredArrivalRadius = ArrivalRadius * ArrivalRadius;
+        }
+
         #region Unity methods
 
         protected override void Awake()
@@ -303,7 +312,6 @@ namespace UnitySteer.Behaviors
             return Transform.position + (DesiredVelocity * predictionTime);
         }
 
-
         /// <summary>
         /// Calculates if a vehicle is in the neighborhood of another
         /// </summary>
@@ -350,7 +358,6 @@ namespace UnitySteer.Behaviors
             }
             return result;
         }
-
 
         /// <summary>
         /// Returns a vector to seek a target position
@@ -411,7 +418,6 @@ namespace UnitySteer.Behaviors
             var speedError = targetSpeed - Speed;
             return Transform.forward * Mathf.Clamp(speedError, -mf, +mf);
         }
-
 
         /// <summary>
         /// Returns the distance from this vehicle to another
@@ -476,7 +482,6 @@ namespace UnitySteer.Behaviors
 
             return projection / relSpeed;
         }
-
 
         /// <summary>
         /// Given the time until nearest approach (predictNearestApproachTime)
@@ -544,7 +549,6 @@ namespace UnitySteer.Behaviors
 
             return Vector3.Distance(ourPosition, hisPosition);
         }
-
 
         protected override void OnDrawGizmos()
         {

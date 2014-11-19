@@ -16,5 +16,13 @@ namespace BehaviorLibrary.Components
 
             m_childBehaviorsList.Add(child);
         }
+
+        protected void execAllChild(InsParam inputParam)
+        {
+            foreach (BehaviorComponent cmt in m_childBehaviorsList)
+            {
+                cmt.Behave(inputParam);
+            }
+        }
     }
 }

@@ -32,9 +32,10 @@ namespace UnitySteer.Behaviors
             set
             {
                 m_sceneGo = value;
+                Collider = m_sceneGo.GetComponent<Collider>();
+                SquaredRadius = _radius * _radius;
             }
         }
-
 
         /// <summary>
         /// Collider attached to this object. The GameObject that the DetectableObject
@@ -104,6 +105,11 @@ namespace UnitySteer.Behaviors
             }
         }
 
+        public virtual void initOwner(GameObject owner)
+        {
+            sceneGo = owner;
+        }
+
         #region Methods
 
         protected virtual void Awake()
@@ -142,7 +148,6 @@ namespace UnitySteer.Behaviors
         {
             return Transform.position;
         }
-
 
         /// <summary>
         /// Recalculates the object's radius based on the transform's scale,
