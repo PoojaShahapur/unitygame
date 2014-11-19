@@ -1,4 +1,6 @@
-﻿namespace BehaviorLibrary.Components.Conditionals
+﻿using SDK.Common;
+
+namespace BehaviorLibrary.Components.Conditionals
 {
     /**
      * @brief 空闲条件
@@ -11,8 +13,15 @@
             boolFunc = onExecBoolFunc;
         }
 
-        protected bool onExecBoolFunc(InsParam inputParam)
+        protected bool onExecBoolFunc()
         {
+            // 如果是 Idle 状态就需要
+            //if (m_behaviorTree.inputParam.beingEntity.aiLocalState.behaviorState == BehaviorState.BSIdle)
+            //{
+                // 目前测试，直接进入徘徊装填
+                //m_behaviorTree.inputParam.beingEntity.aiLocalState.behaviorState = BehaviorState.BSWander;
+            //}
+
             return true;
         }
     }

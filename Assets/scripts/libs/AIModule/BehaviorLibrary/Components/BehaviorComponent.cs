@@ -3,6 +3,7 @@
     public class BehaviorComponent
     {
         protected BehaviorReturnCode ReturnCode;
+        protected BehaviorTree m_behaviorTree;
 
         public BehaviorComponent() { }
 
@@ -12,8 +13,20 @@
 
         }
 
+        public BehaviorTree behaviorTree
+        {
+            get
+            {
+                return m_behaviorTree;
+            }
+            set
+            {
+                m_behaviorTree = value;
+            }
+        }
+
         // 更新
-        public virtual BehaviorReturnCode Behave(InsParam inputParam)
+        public virtual BehaviorReturnCode Behave()
         {
             return BehaviorReturnCode.Failure;
         }

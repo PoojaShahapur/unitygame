@@ -4,7 +4,7 @@ namespace BehaviorLibrary.Components.Conditionals
 {
     public class Condition : MulBranchComponent
     {
-        private Func<InsParam, Boolean> _Bool;
+        private Func<Boolean> _Bool;
 
         /// <summary>
         /// Returns a return code equivalent to the test 
@@ -12,12 +12,12 @@ namespace BehaviorLibrary.Components.Conditionals
         /// -Returns Failure if false
         /// </summary>
         /// <param name="test">the value to be tested</param>
-        public Condition(Func<InsParam, Boolean> test)
+        public Condition(Func<Boolean> test)
         {
             _Bool = test;
         }
 
-        public Func<InsParam, Boolean> boolFunc
+        public Func<Boolean> boolFunc
         {
             get
             {
@@ -33,16 +33,15 @@ namespace BehaviorLibrary.Components.Conditionals
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
-
             try
             {
-                switch (_Bool.Invoke(inputParam))
+                switch (_Bool.Invoke())
                 {
                     case true:
                         // 执行所有的代码
-                        execAllChild(inputParam);
+                        execAllChild();
                         ReturnCode = BehaviorReturnCode.Success;
                         return ReturnCode;
                     case false:

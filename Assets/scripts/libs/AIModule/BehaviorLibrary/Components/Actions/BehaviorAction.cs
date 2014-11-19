@@ -4,11 +4,11 @@ namespace BehaviorLibrary.Components.Actions
 {
     public class BehaviorAction : LeafComponent
     {
-        private Func<InsParam, BehaviorReturnCode> _Action;
+        private Func<BehaviorReturnCode> _Action;
 
         public BehaviorAction() { }
 
-        public BehaviorAction(Func<InsParam, BehaviorReturnCode> action)
+        public BehaviorAction(Func<BehaviorReturnCode> action)
         {
             if (action != null)
             {
@@ -20,12 +20,12 @@ namespace BehaviorLibrary.Components.Actions
             }
         }
 
-        protected BehaviorReturnCode DefaultAction(InsParam inputParam)
+        protected BehaviorReturnCode DefaultAction()
         {
             return BehaviorReturnCode.Success;
         }
 
-        public Func<InsParam, BehaviorReturnCode> actionFunc
+        public Func<BehaviorReturnCode> actionFunc
         {
             set
             {
@@ -33,11 +33,11 @@ namespace BehaviorLibrary.Components.Actions
             }
         }
 
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
             try
             {
-                switch (_Action.Invoke(inputParam))
+                switch (_Action.Invoke())
                 {
                     case BehaviorReturnCode.Success:
                         ReturnCode = BehaviorReturnCode.Success;

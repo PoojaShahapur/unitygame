@@ -1,4 +1,5 @@
-﻿using UnitySteer.Behaviors;
+﻿using SDK.Common;
+using UnitySteer.Behaviors;
 
 namespace BehaviorLibrary.Components.Actions
 {
@@ -13,15 +14,20 @@ namespace BehaviorLibrary.Components.Actions
             base.actionFunc = onExecAction;
         }
 
-        public void init(InsParam inputParam)
+        public override void onEnter()
         {
-            inputParam.beingEntity.vehicle.Steerings[0] = new SteerForWander();
-            inputParam.beingEntity.vehicle.Steerings[0].Vehicle = inputParam.beingEntity.vehicle as Vehicle;
+            m_behaviorTree.inputParam.beingEntity.vehicle.Steerings[0] = new SteerForWander();
+            m_behaviorTree.inputParam.beingEntity.vehicle.Steerings[0].Vehicle = m_behaviorTree.inputParam.beingEntity.vehicle as Vehicle;
         }
 
-        protected BehaviorReturnCode onExecAction(InsParam inputParam)
+        protected BehaviorReturnCode onExecAction()
         {
-            inputParam.beingEntity.vehicle.Update();
+            if(m_behaviorTree.inputParam.beingEntity.aiLocalState.behaviorState != BehaviorState.BSWander)
+            {
+                m_behaviorTree.inputParam.beingEntity.aiLocalState.behaviorState = BehaviorState.BSWander;
+                onEnter();
+            }
+            m_behaviorTree.inputParam.beingEntity.vehicle.Update();
             return BehaviorReturnCode.Success;
         }
     }

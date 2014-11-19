@@ -33,7 +33,7 @@ namespace BehaviorLibrary.Components.Utility
 			this._utility_function = utility_function;
         }
 
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
 			try{
 				UtilityVector func_vector = this._utility_function.Invoke();
@@ -60,7 +60,7 @@ namespace BehaviorLibrary.Components.Utility
 				}
 
 				//execute best pair match and return result
-                this.ReturnCode = best_match.behavior.Behave(inputParam);
+                this.ReturnCode = best_match.behavior.Behave();
 				return this.ReturnCode;
 			}catch(Exception e){
 				#if DEBUG

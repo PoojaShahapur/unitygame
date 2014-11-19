@@ -25,7 +25,7 @@ namespace BehaviorLibrary.Components.Decorators
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace BehaviorLibrary.Components.Decorators
                 if (_TimeElapsed >= _WaitTime)
                 {
                     _TimeElapsed = 0;
-                    ReturnCode = m_childBehavior.Behave(inputParam);
+                    ReturnCode = m_childBehavior.Behave();
                     return ReturnCode;
                 }
                 else

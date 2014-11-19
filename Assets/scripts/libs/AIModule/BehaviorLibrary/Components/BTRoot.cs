@@ -2,9 +2,9 @@
 {
     public class BTRoot : SingleBranchComponent
     {
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
-            return m_childBehavior.Behave(inputParam);
+            return m_childBehavior.Behave();
         }
     }
 }

@@ -21,13 +21,13 @@ namespace BehaviorLibrary.Components.Decorators
         }
 
 
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
             try
             {
                 if (_RandomFunction.Invoke() <= _Probability)
                 {
-                    ReturnCode = m_childBehavior.Behave(inputParam);
+                    ReturnCode = m_childBehavior.Behave();
                     return ReturnCode;
                 }
                 else

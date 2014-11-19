@@ -20,7 +20,7 @@ namespace BehaviorLibrary.Components.Composites
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
 			//add watch for any running behaviors
 			bool anyRunning = false;
@@ -29,7 +29,7 @@ namespace BehaviorLibrary.Components.Composites
             {
                 try
                 {
-                    switch (m_childBehaviorsList[i].Behave(inputParam))
+                    switch (m_childBehaviorsList[i].Behave())
                     {
                         case BehaviorReturnCode.Failure:
                             ReturnCode = BehaviorReturnCode.Failure;

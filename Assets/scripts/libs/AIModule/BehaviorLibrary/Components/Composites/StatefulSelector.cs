@@ -24,13 +24,13 @@ namespace BehaviorLibrary
 		/// performs the given behavior
 		/// </summary>
 		/// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
 
             for (; _LastBehavior < m_childBehaviorsList.Count; _LastBehavior++)
             {
 				try{
-                    switch (m_childBehaviorsList[_LastBehavior].Behave(inputParam))
+                    switch (m_childBehaviorsList[_LastBehavior].Behave())
                     {
 					case BehaviorReturnCode.Failure:
 						continue;

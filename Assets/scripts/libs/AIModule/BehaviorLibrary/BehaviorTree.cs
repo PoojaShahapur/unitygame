@@ -69,6 +69,7 @@ namespace BehaviorLibrary
         public BehaviorTree(BehaviorComponent root)
         {
 			_Root = root;
+            _Root.behaviorTree = this;
             m_inputParam = new InsParam();
 		}
 
@@ -87,7 +88,7 @@ namespace BehaviorLibrary
         {
             try
             {
-                switch (_Root.Behave(m_inputParam))
+                switch (_Root.Behave())
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

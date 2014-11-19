@@ -20,11 +20,11 @@ namespace BehaviorLibrary.Components.Decorators
         /// performs the given behavior
         /// </summary>
         /// <returns>the behaviors return code</returns>
-        public override BehaviorReturnCode Behave(InsParam inputParam)
+        public override BehaviorReturnCode Behave()
         {
             try
             {
-                switch (m_childBehavior.Behave(inputParam))
+                switch (m_childBehavior.Behave())
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Success;

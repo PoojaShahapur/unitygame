@@ -17,11 +17,11 @@ namespace BehaviorLibrary.Components
             m_childBehaviorsList.Add(child);
         }
 
-        protected void execAllChild(InsParam inputParam)
+        protected void execAllChild()
         {
             foreach (BehaviorComponent cmt in m_childBehaviorsList)
             {
-                cmt.Behave(inputParam);
+                cmt.Behave();
             }
         }
     }

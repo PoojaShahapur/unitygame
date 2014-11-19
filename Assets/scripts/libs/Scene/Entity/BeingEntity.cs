@@ -18,10 +18,24 @@ namespace SDK.Lib
 
         protected float speed = 0;
         protected float direction = 0;
+        protected AILocalState m_aiLocalState;
 
         public BeingEntity()
         {
             m_skinAniModel = new SkinAniModel();
+            m_aiLocalState = new AILocalState();
+        }
+
+        public AILocalState aiLocalState
+        {
+            get
+            {
+                return m_aiLocalState;
+            }
+            set
+            {
+                m_aiLocalState = value;
+            }
         }
 
         public void OnTick(float delta)

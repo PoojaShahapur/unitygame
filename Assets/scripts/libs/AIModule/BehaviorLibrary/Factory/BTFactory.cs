@@ -102,6 +102,7 @@ namespace BehaviorLibrary
                 if (m_id2CreateDic.ContainsKey(node.Name))
                 {
                     btCmt = m_id2CreateDic[node.Name].Invoke();
+                    btCmt.behaviorTree = parentNode.behaviorTree;
                     parentNode.addChild(btCmt);
                     if (m_id2BuildDic.ContainsKey(node.Name))
                     {
