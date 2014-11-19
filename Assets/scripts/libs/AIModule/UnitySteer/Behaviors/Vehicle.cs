@@ -84,6 +84,10 @@ namespace UnitySteer.Behaviors
         public Vector3 AllowedMovementAxes
         {
             get { return _allowedMovementAxes; }
+            set
+            {
+                _allowedMovementAxes = value;
+            }
         }
 
         /// <summary>

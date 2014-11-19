@@ -65,6 +65,9 @@ namespace SDK.Lib
             BehaviorTree behaviorTree = Ctx.m_instance.m_behaviorTreeMgr.getBTByID(id) as BehaviorTree;
             m_vehicle = new Biped();
             m_vehicle.initOwner(m_skinAniModel.rootGo);
+            m_vehicle.AllowedMovementAxes = new Vector3(1, 0, 1);
+            m_vehicle.MaxSpeed = 100;
+            m_vehicle.setSpeed(5);
             m_behaviorTree = behaviorTree;
         }
 
