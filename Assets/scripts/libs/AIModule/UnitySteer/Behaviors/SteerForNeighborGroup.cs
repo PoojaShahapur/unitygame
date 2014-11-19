@@ -135,20 +135,20 @@ namespace UnitySteer.Behaviors
         private void HandleDetection(Radar radar)
         {
             /*
-		 * Neighbors are cached on radar detection.
-		 * 
-		 * This means that IsInNeighborhood is evaluated when 
-		 * detected, not every time that the behavior is going to 
-		 * calculate its forces.  
-		 * 
-		 * This helps in lowering the processing load, but could 
-		 * lead to a case where a vehicle is beyond the set parameters 
-		 * but still considered a neighbor.
-		 * 
-		 * If this is a concern, make sure that vehicles are detected
-		 * as often as the vehicle updates is forces.
-		 * 
-		 */
+		     * Neighbors are cached on radar detection.
+		     * 
+		     * This means that IsInNeighborhood is evaluated when 
+		     * detected, not every time that the behavior is going to 
+		     * calculate its forces.  
+		     * 
+		     * This helps in lowering the processing load, but could 
+		     * lead to a case where a vehicle is beyond the set parameters 
+		     * but still considered a neighbor.
+		     * 
+		     * If this is a concern, make sure that vehicles are detected
+		     * as often as the vehicle updates is forces.
+		     * 
+		     */
 
             _neighbors.Clear();
             // I'd prefer an iterator, but trying to cut down on allocations
@@ -195,7 +195,7 @@ namespace UnitySteer.Behaviors
                     Profiler.EndSample();
                 }
             }
-            ;
+
             Profiler.EndSample();
 
             Profiler.BeginSample("Normalizing");

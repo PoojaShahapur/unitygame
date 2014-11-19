@@ -50,7 +50,6 @@ namespace UnitySteer.Behaviors
         /// <value>The last tick time.</value>
         public float PreviousTickTime { get; private set; }
 
-
         /// <summary>
         /// Current time that the tick was called.
         /// </summary>
@@ -88,7 +87,6 @@ namespace UnitySteer.Behaviors
         //    get { return _steeringQueue; }
         //}
 
-
         /// <summary>
         /// Ticked object for the vehicle, so that its owner can configure
         /// the priority as desired.
@@ -102,7 +100,6 @@ namespace UnitySteer.Behaviors
             CharacterController = sceneGo.GetComponent<CharacterController>();
             PreviousTickTime = Time.time;
         }
-
 
         protected override void OnEnable()
         {
@@ -135,12 +132,12 @@ namespace UnitySteer.Behaviors
         protected void OnUpdateSteering(object obj)
         {
             //if (enabled)
-            {
+            //{
                 // We just calculate the forces, and expect the radar updates itself.
                 CalculateForces();
-            }
+            //}
             //else
-            {
+            //{
                 /*
 			 * This is an interesting edge case.
 			 * 
@@ -156,9 +153,8 @@ namespace UnitySteer.Behaviors
 			 */
                 //DeQueue();
                 // Debug.LogError(string.Format("{0} HOLD YOUR HORSES. Disabled {1} being ticked", Time.time, this));
-            }
+            //}
         }
-
 
         protected void CalculateForces()
         {
@@ -211,12 +207,11 @@ namespace UnitySteer.Behaviors
             {
                 var s = SteeringPostprocessors[i];
                 //if (s.enabled)
-                {
+                //{
                     adjustedVelocity += s.WeighedForce;
-                }
+                //}
             }
             Profiler.EndSample();
-
 
             if (adjustedVelocity != Vector3.zero)
             {
@@ -230,7 +225,6 @@ namespace UnitySteer.Behaviors
             SetCalculatedVelocity(newVelocity);
             Profiler.EndSample();
         }
-
 
         /// <summary>
         /// Applies a steering force to this vehicle
@@ -257,7 +251,6 @@ namespace UnitySteer.Behaviors
                 Rigidbody.MovePosition(Rigidbody.position + acceleration);
             }
         }
-
 
         /// <summary>
         /// Turns the vehicle towards his velocity vector. Previously called

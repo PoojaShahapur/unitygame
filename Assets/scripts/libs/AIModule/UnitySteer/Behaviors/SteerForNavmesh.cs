@@ -95,7 +95,6 @@ namespace UnitySteer.Behaviors
             _navMeshLayerMask = 1 << NavMesh.GetNavMeshLayerFromName("Default");
         }
 
-
         public override bool IsPostProcess
         {
             get { return true; }

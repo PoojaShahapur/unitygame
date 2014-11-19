@@ -12,7 +12,6 @@ namespace UnitySteer.Behaviors
         /// </summary>
         [SerializeField] private float _targetSpeed = 5;
 
-
         public float TargetSpeed
         {
             get { return _targetSpeed; }

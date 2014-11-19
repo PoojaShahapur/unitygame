@@ -41,7 +41,6 @@ namespace UnitySteer.Behaviors
             }
         }
 
-
         /// <summary>
         /// Should the vehicle's velocity be considered in the seek calculations?
         /// </summary>

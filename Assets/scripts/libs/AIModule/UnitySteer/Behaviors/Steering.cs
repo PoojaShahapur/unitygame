@@ -83,7 +83,6 @@ namespace UnitySteer.Behaviors
             get { return false; }
         }
 
-
         /// <summary>
         /// Steering event handler for arrival notification
         /// </summary>
@@ -119,7 +118,6 @@ namespace UnitySteer.Behaviors
         /// Have we reported that we began moving?
         /// </summary>
         public bool ReportedMove { get; protected set; }
-
 
         /// <summary>
         /// Force vector modified by the assigned weight 

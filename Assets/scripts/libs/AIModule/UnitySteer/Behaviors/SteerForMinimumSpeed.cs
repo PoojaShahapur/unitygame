@@ -27,7 +27,6 @@ namespace UnitySteer.Behaviors
             set { _minimumSpeed = value; }
         }
 
-
         /// <summary>
         /// Calculates the force to apply to the vehicle to reach a point
         /// </summary>

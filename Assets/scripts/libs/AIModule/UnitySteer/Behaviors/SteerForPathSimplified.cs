@@ -48,7 +48,6 @@ namespace UnitySteer.Behaviors
         /// <value>The last path distance evaluated.</value>
         public float DistanceAlongPath { get; private set; }
 
-
         /// <summary>
         /// What percentage of the path we had traversed when we last evaluated?
         /// </summary>

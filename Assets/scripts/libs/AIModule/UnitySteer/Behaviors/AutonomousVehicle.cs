@@ -72,10 +72,10 @@ namespace UnitySteer.Behaviors
         protected override Vector3 CalculatePositionDelta(float deltaTime)
         {
             /*
-		 * Notice that we clamp the target speed and not the speed itself, 
-		 * because the vehicle's maximum speed might just have been lowered
-		 * and we don't want its actual speed to suddenly drop.
-		 */
+		     * Notice that we clamp the target speed and not the speed itself, 
+		     * because the vehicle's maximum speed might just have been lowered
+		     * and we don't want its actual speed to suddenly drop.
+		     */
             var targetSpeed = Mathf.Clamp(TargetSpeed, 0, MaxSpeed);
             if (Mathf.Approximately(_speed, targetSpeed))
             {

@@ -144,7 +144,6 @@ namespace UnitySteer.Behaviors
             get { return _minSpeedForTurning; }
         }
 
-
         /// <summary>
         /// The vehicle movement priority.
         /// </summary>
