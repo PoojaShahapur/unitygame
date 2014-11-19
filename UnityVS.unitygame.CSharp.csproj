@@ -223,6 +223,7 @@
     <Compile Include="Assets\scripts\Common\Resource\ResLoadType.cs" />
     <Compile Include="Assets\scripts\Common\Resource\ResPackType.cs" />
     <Compile Include="Assets\scripts\Common\Resource\ResPathType.cs" />
+    <Compile Include="Assets\scripts\Common\Scene\Entity\BehaviorState.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\CamEntity.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\CamSys.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\IBeingEntity.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\Conditionals\ConditionIdle.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\LeafComponent.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\SingleBranchComponent.cs" />
+    <Compile Include="Assets\scripts\libs\Scene\Entity\AILocalState.cs" />
     <Compile Include="Assets\scripts\UI\UIPack\UIPack.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\AIController.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\AISystem.cs" />

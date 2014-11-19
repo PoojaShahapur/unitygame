@@ -254,6 +254,7 @@ namespace UnitySteer.Behaviors
             base.initOwner(owner);
 
             Steerings = new Steering[1];
+            SteeringPostprocessors = new Steering[0];
             GameObject = sceneGo;
             Rigidbody = sceneGo.GetComponent<Rigidbody>();
             SquaredArrivalRadius = ArrivalRadius * ArrivalRadius;
