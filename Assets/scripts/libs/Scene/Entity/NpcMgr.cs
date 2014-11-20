@@ -5,7 +5,7 @@ namespace SDK.Lib
 	/**
 	 * @brief 所有的 npc 
 	 */
-    public class NpcMgr : INpcMgr
+    public class NpcMgr : BeingMgr, INpcMgr
 	{
         public NpcMgr() 
 		{

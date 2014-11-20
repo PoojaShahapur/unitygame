@@ -1,6 +1,6 @@
 ﻿namespace SDK.Common
 {
-    public interface INpcMgr
+    public interface INpcMgr : IBeingMgr
     {
     }
 }

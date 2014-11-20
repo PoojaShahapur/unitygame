@@ -1,6 +1,6 @@
 namespace SDK.Common
 {
-    public interface IFObjectMgr
+    public interface IFObjectMgr : IBeingMgr
     {
 
     }

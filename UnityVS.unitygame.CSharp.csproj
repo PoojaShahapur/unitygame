@@ -235,7 +235,6 @@
     <Compile Include="Assets\Scripts\Common\Scene\Entity\INpcMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IPlayerMain.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Entity\IPlayerMgr.cs" />
-    <Compile Include="Assets\Scripts\Common\Scene\Entity\ITerrainMgr.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Model\EquipSlotDef.cs" />
     <Compile Include="Assets\Scripts\Common\Scene\Model\ModelDef.cs" />
     <Compile Include="Assets\Scripts\Common\Terrain\Scene\IScene.cs" />
@@ -400,9 +399,6 @@
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\PlayerMain.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\PlayerMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\PlayerOther.cs" />
-    <Compile Include="Assets\Scripts\Libs\Scene\Entity\TerrainEntity.cs" />
-    <Compile Include="Assets\Scripts\Libs\Scene\Entity\TerrainMgr.cs" />
-    <Compile Include="Assets\Scripts\Libs\Scene\Entity\UserState.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Model\AnimSys.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Model\PartInfo.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Model\SkinAniModel.cs" />
