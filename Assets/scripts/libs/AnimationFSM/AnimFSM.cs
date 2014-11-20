@@ -1,15 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using AIEngine;
+using SDK.Lib;
 
-public class EnemyFSM : FSM 
+public class AnimFSM : FSM 
 {
-    private GameObject mPlayer;
+    private BeingEntity m_beingEntity;
+
+    public BeingEntity beingEntity
+    {
+        get
+        {
+            return m_beingEntity;
+        }
+        set
+        {
+            m_beingEntity = value;
+        }
+    }
 
     public override void InitFSM()
     {
-        mPlayer = GameObject.Find("Player");
-
         base.InitFSM();
     }
 
@@ -22,12 +33,12 @@ public class EnemyFSM : FSM
     {
         switch (state.GetId())
         {
-            case "EnemyPatrol":
-                return new EnemyPatrolFS(this, gameObject, mPlayer);
-            case "EnemyChase":
-                return new EnemyChaseFS(this, gameObject, mPlayer);
-            case "EnemyAttack":
-                return new EnemyAttackFS(this, gameObject, mPlayer);
+            case "ASIDLE":
+                return new AnimIdleFS(this, m_beingEntity);
+            case "ASIWALK":
+                return new AnimWalkFS(this, m_beingEntity);
+            case "ASRUN":
+                return new AnimRunFS(this, m_beingEntity);
             default:
                 return null;
         }
@@ -35,9 +46,6 @@ public class EnemyFSM : FSM
     
     public override void StopFSM()
     {
-        GetComponent<Animation>().Play("death");
-        Destroy(gameObject, 1.5f);
-
         base.StopFSM();
     }
 

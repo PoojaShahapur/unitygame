@@ -12,6 +12,7 @@ namespace SDK.Lib
         protected SkinAniModel m_skinAniModel;      // 模型数据
         protected BehaviorTree m_behaviorTree;      // 行为树
         protected AIController m_aiController;      // ai 控制
+        protected AnimFSM m_animFSM;                // 动画状态机
 
         protected string m_btID;
 
@@ -22,6 +23,8 @@ namespace SDK.Lib
         {
             m_skinAniModel = new SkinAniModel();
             m_skinAniModel.handleCB = onSkeletonLoaded;
+            m_animFSM = new AnimFSM();
+            m_animFSM.InitFSM();
         }
 
         public SkinAniModel skinAniModel
@@ -51,14 +54,20 @@ namespace SDK.Lib
 
         public void OnTick(float delta)
         {
+            // 更新一些 ai
             if (m_aiController != null)
             {
                 m_aiController.OnTick(delta);
             }
+            // 更新行为
             if (m_behaviorTree != null)
             {
                 m_behaviorTree.inputParam.beingEntity = this;
                 m_behaviorTree.Behave();
+            }
+            if(m_animFSM != null)
+            {
+                m_animFSM.UpdateFSM();
             }
         }
 

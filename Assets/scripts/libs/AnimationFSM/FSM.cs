@@ -8,9 +8,9 @@ namespace AIEngine
      * Extend this class to define your own state machine.
      *
      * */
-    public abstract class FSM : MonoBehaviour
+    public abstract class FSM
     {
-        public Renderer meshRenderer;
+        //public Renderer meshRenderer;
         public StateId initialState;
         public bool updateOnlyWhenVisible = true;
 
@@ -42,7 +42,7 @@ namespace AIEngine
 
         public virtual void InitFSM()
         {
-            currentState = CreateState(EnemyStateId.Patrol);
+            currentState = CreateState(AnimStateId.ASIDLE);
         }
 
         public virtual void UpdateFSM()
@@ -51,10 +51,10 @@ namespace AIEngine
             {
                 if (updateOnlyWhenVisible)
                 {
-                    if (meshRenderer.isVisible)
-                    {
+                    //if (meshRenderer.isVisible)
+                    //{
                         currentState.Update();
-                    }
+                    //}
                 }
                 else
                 {

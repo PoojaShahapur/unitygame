@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SDK.Lib;
 
 namespace AIEngine
 {
     public abstract class FSMState
     {
-        protected FSMState(FSM fsm, GameObject agent, GameObject player)
+        protected FSMState(FSM fsm, BeingEntity beingEntity)
         {
-            mAgent = agent;
             mFSM = fsm;
-            mPlayer = player;
+            m_beingEntity = beingEntity;
         }
 
         abstract public void OnStateEnter();
@@ -17,8 +17,7 @@ namespace AIEngine
         abstract public void Update();
         abstract public void OnDrawGizmos();
 
-        protected GameObject mAgent;
         protected FSM mFSM;
-        protected GameObject mPlayer;
+        protected BeingEntity m_beingEntity;
     }
 }
