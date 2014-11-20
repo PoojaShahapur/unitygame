@@ -20,11 +20,5 @@ namespace SDK.Lib
                 ++idx;
             }
 		}
-
-        override public void addAiByID(string id)
-        {
-            base.addAiByID(id);
-            m_aiController.vehicle.sceneGo = m_skinAniModel.rootGo;
-        }
 	}
 }

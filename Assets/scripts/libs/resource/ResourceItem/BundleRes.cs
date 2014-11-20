@@ -32,7 +32,7 @@ namespace SDK.Lib
             m_bundle = item.assetBundle;
             if (m_resNeedCoroutine)
             {
-                Ctx.m_instance.m_CoroutineMgr.StartCoroutine(initAssetByCoroutine());
+                Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
             }
             else
             {

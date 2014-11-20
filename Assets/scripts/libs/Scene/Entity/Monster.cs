@@ -10,5 +10,10 @@ namespace SDK.Lib
         {
             m_skinAniModel.m_modelList = new PartInfo[(int)MonstersModelDef.eModelTotal];
         }
+
+        override protected void initSteerings()
+        {
+            base.initSteerings();
+        }
     }
 }

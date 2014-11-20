@@ -18,7 +18,7 @@ namespace SDK.Lib
             }
             else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
             {
-                Ctx.m_instance.m_CoroutineMgr.StartCoroutine(downloadAsset());
+                Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
             }
         }
 

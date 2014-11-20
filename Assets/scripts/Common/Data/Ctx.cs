@@ -17,20 +17,21 @@ namespace SDK.Common
 
         public IGameSys m_gameSys;                  // 游戏系统
         public ISceneSys m_sceneSys;                // 场景系统
-        public ITickMgr m_TickMgr;                  // 心跳管理器
-        public IProcessSys m_ProcessSys;            // 游戏处理系统
+        public ITickMgr m_tickMgr;                  // 心跳管理器
+        public IProcessSys m_processSys;            // 游戏处理系统
 
-        public ITimerMgr m_TimerMgr;                // 定时器系统
-        public IUIMgr m_UIMgr;                      // UI 管理器
-        public IResizeMgr m_ResizeMgr;              // 窗口大小修改管理器
+        public ITimerMgr m_timerMgr;                // 定时器系统
+        public IUIMgr m_uiMgr;                      // UI 管理器
+        public IResizeMgr m_resizeMgr;              // 窗口大小修改管理器
         public IUIEvent m_cbUIEvent;                // UI 事件回调
-        public ICoroutineMgr m_CoroutineMgr;        // 协程管理器
+        public ICoroutineMgr m_coroutineMgr;        // 协程管理器
 
-        public IEngineLoop m_EngineLoop;            // 引擎循环
+        public IEngineLoop m_engineLoop;            // 引擎循环
         public GameAttr m_gameAttr;                 // 游戏属性
         public IFObjectMgr m_fObjectMgr;            // 掉落物管理器
         public INpcMgr m_npcMgr;                    // Npc管理器
         public IPlayerMgr m_playerMgr;              // Player管理器
+        public IMonsterMgr m_monsterMgr;
         public ITerrainMgr m_terrainMgr;            // Terrain管理器
 
         public ShareMgr m_shareMgr;                 // 共享数据系统
@@ -41,6 +42,7 @@ namespace SDK.Common
         public ISceneLogic m_sceneLogic;
         public IMeshMgr m_meshMgr;
         public IAISystem m_aiSystem;
+
 
         public Ctx()
         {

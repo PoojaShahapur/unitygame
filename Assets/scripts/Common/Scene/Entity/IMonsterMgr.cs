@@ -1,6 +1,6 @@
 namespace SDK.Common
 {
-    public interface IMonsterMgr
+    public interface IMonsterMgr : IBeingMgr
     {
 
     }

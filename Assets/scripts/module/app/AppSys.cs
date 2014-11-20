@@ -22,22 +22,24 @@ namespace Game.App
             Ctx.m_instance.m_inputMgr = new InputMgr();
             Ctx.m_instance.m_dataTrans = transform;
 
-            Ctx.m_instance.m_ProcessSys = new ProcessSys();
-            Ctx.m_instance.m_TickMgr = new TickMgr();
-            Ctx.m_instance.m_TimerMgr = new TimerMgr();
-            Ctx.m_instance.m_CoroutineMgr = new CoroutineMgr();
+            Ctx.m_instance.m_processSys = new ProcessSys();
+            Ctx.m_instance.m_tickMgr = new TickMgr();
+            Ctx.m_instance.m_timerMgr = new TimerMgr();
+            Ctx.m_instance.m_coroutineMgr = new CoroutineMgr();
             Ctx.m_instance.m_shareMgr = new ShareMgr();
             Ctx.m_instance.m_sceneSys = new SceneSys();
             Ctx.m_instance.m_layerMgr = new LayerMgr();
 
-            Ctx.m_instance.m_UIMgr = new UIMgr();
-            Ctx.m_instance.m_EngineLoop = new EngineLoop();
-            Ctx.m_instance.m_ResizeMgr = new ResizeMgr();
+            Ctx.m_instance.m_uiMgr = new UIMgr();
+            Ctx.m_instance.m_engineLoop = new EngineLoop();
+            Ctx.m_instance.m_resizeMgr = new ResizeMgr();
 
             Ctx.m_instance.m_playerMgr = new PlayerMgr();
             Ctx.m_instance.m_camSys = new CamSys();
             Ctx.m_instance.m_meshMgr = new MeshMgr();
             Ctx.m_instance.m_aiSystem = new AISystem();
+
+            Ctx.m_instance.m_monsterMgr = new MonsterMgr();
 
             PostInit();
         }
@@ -52,7 +54,7 @@ namespace Game.App
         public void Update()
         {
             //Ctx.m_instance.Update();
-            Ctx.m_instance.m_EngineLoop.MainLoop();
+            Ctx.m_instance.m_engineLoop.MainLoop();
         }
 
         public void OnApplicationQuit()
@@ -63,9 +65,9 @@ namespace Game.App
         public void PostInit()
         {
             //Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_resMgr as ITickedObject);
-            Ctx.m_instance.m_ResizeMgr.addResizeObject(Ctx.m_instance.m_UIMgr as IResizeObject);
-            Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_inputMgr as ITickedObject);
-            Ctx.m_instance.m_TickMgr.AddTickObj(Ctx.m_instance.m_playerMgr as ITickedObject);
+            Ctx.m_instance.m_resizeMgr.addResizeObject(Ctx.m_instance.m_uiMgr as IResizeObject);
+            Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_inputMgr as ITickedObject);
+            Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_playerMgr as ITickedObject);
         }
 
         public void setNoDestroyObject()

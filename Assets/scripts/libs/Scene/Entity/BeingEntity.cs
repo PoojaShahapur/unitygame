@@ -13,12 +13,15 @@ namespace SDK.Lib
         protected BehaviorTree m_behaviorTree;      // 行为树
         protected AIController m_aiController;      // ai 控制
 
+        protected string m_btID;
+
         protected float speed = 0;
         protected float direction = 0;
 
         public BeingEntity()
         {
             m_skinAniModel = new SkinAniModel();
+            m_skinAniModel.handleCB = onSkeletonLoaded;
         }
 
         public AIController aiController
@@ -35,6 +38,10 @@ namespace SDK.Lib
 
         public void OnTick(float delta)
         {
+            if (m_aiController != null)
+            {
+                m_aiController.OnTick(delta);
+            }
             if (m_behaviorTree != null)
             {
                 m_behaviorTree.inputParam.beingEntity = this;
@@ -45,12 +52,24 @@ namespace SDK.Lib
         // 添加 AI
         virtual public void addAiByID(string id)
         {
-            BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().getBTByID(id) as BehaviorTree;
-            m_behaviorTree = behaviorTree;
-            if(m_aiController == null)
+            m_btID = id;
+            initAi(m_btID);
+        }
+
+        protected void initAi(string id)
+        {
+            if (!string.IsNullOrEmpty(id) && m_behaviorTree == null && m_skinAniModel.rootGo != null)
             {
-                m_aiController = new AIController();
-                m_aiController.initControl(m_skinAniModel);
+                BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().getBTByID(id) as BehaviorTree;
+                m_behaviorTree = behaviorTree;
+                if (m_aiController == null)
+                {
+                    m_aiController = new AIController();
+                    m_aiController.initControl(m_skinAniModel);
+                }
+
+                m_aiController.vehicle.sceneGo = m_skinAniModel.rootGo;
+                initSteerings();
             }
         }
 
@@ -69,6 +88,17 @@ namespace SDK.Lib
             m_skinAniModel.m_modelList[(int)modelDef].m_bundleName = assetBundleName;
             m_skinAniModel.m_modelList[(int)modelDef].m_partName = partName;
             m_skinAniModel.loadPartModel(modelDef);
+        }
+
+        public virtual void onSkeletonLoaded()
+        {
+            initAi(m_btID);
+        }
+
+        // 目前只有怪有 Steerings ,加载这里是为了测试，全部都有 Steerings
+        virtual protected void initSteerings()
+        {
+
         }
 	}
 }

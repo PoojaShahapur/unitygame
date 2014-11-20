@@ -14,7 +14,7 @@ namespace SDK.Lib
             // 处理 input
             //Ctx.m_instance.m_inputMgr.handleKeyBoard();
             // 游戏循环处理
-            Ctx.m_instance.m_ProcessSys.ProcessNextFrame();
+            Ctx.m_instance.m_processSys.ProcessNextFrame();
         }
     }
 }

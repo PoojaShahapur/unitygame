@@ -24,11 +24,25 @@ namespace UnitySteer.Behaviors
         /// </summary>
         private Vehicle _vehicle;
 
+        private bool m_enabled = true;
+
         [SerializeField] private float _weight = 1;
 
         #endregion
 
         #region Public properties
+
+        public bool enabled
+        {
+            get
+            {
+                return m_enabled;
+            }
+            set
+            {
+                m_enabled = value;
+            }
+        }
 
         /// <summary>
         /// Calculates the force provided by this steering behavior and raises any

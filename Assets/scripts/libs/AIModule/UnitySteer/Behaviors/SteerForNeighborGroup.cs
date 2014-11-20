@@ -125,7 +125,7 @@ namespace UnitySteer.Behaviors
             foreach (var b in _behaviors)
             {
                 // Ensure UnitySteer does not call them
-                //b.enabled = false;
+                b.enabled = false;
                 // ... and since Unity may not call them either, initialize them ourselves.
                 b.Initialize();
             }

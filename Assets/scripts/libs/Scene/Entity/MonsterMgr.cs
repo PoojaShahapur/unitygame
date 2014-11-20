@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    class MonsterMgr : IMonsterMgr
+    class MonsterMgr : BeingMgr, IMonsterMgr
     {
     }
 }

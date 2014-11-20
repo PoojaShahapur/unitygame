@@ -79,7 +79,21 @@ namespace UnitySteer.Behaviors
 
         #endregion
 
+        private bool m_enabled = true;
+
         #region Public properties
+
+        public bool enabled
+        {
+            get
+            {
+                return m_enabled;
+            }
+            set
+            {
+                m_enabled = value;
+            }
+        }
 
         public Vector3 AllowedMovementAxes
         {
@@ -158,7 +172,8 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Radar assigned to this vehicle
         /// </summary>
-        public Radar Radar { get; private set; }
+        //public Radar Radar { get; private set; }
+        public Radar Radar { get; set; }
 
         public Rigidbody Rigidbody { get; private set; }
 
@@ -383,10 +398,10 @@ namespace UnitySteer.Behaviors
         public Vector3 GetSeekVector(Vector3 target, bool considerVelocity = false)
         {
             /*
-		 * First off, we calculate how far we are from the target, If this
-		 * distance is smaller than the configured vehicle radius, we tell
-		 * the vehicle to stop.
-		 */
+		     * First off, we calculate how far we are from the target, If this
+		     * distance is smaller than the configured vehicle radius, we tell
+		     * the vehicle to stop.
+		     */
             var force = Vector3.zero;
 
             var difference = target - Position;
@@ -394,13 +409,13 @@ namespace UnitySteer.Behaviors
             if (d > SquaredArrivalRadius)
             {
                 /*
-			 * But suppose we still have some distance to go. The first step
-			 * then would be calculating the steering force necessary to orient
-			 * ourselves to and walk to that point.
-			 * 
-			 * It doesn't apply the steering itself, simply returns the value so
-			 * we can continue operating on it.
-			 */
+			     * But suppose we still have some distance to go. The first step
+			     * then would be calculating the steering force necessary to orient
+			     * ourselves to and walk to that point.
+			     * 
+			     * It doesn't apply the steering itself, simply returns the value so
+			     * we can continue operating on it.
+			     */
                 force = considerVelocity ? difference - Velocity : difference;
             }
             return force;

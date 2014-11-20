@@ -10,11 +10,12 @@ namespace SDK.Lib
 	{
 		public PlayerMain()
 		{
-            m_skinAniModel.handleCB = onSkeletonLoaded;
+            
 		}
 
-        public void onSkeletonLoaded()
+        public override void onSkeletonLoaded()
         {
+            base.onSkeletonLoaded();
             Transform tran = m_skinAniModel.transform.FindChild("Reference/Hips");
             if(tran)
             {
@@ -60,6 +61,12 @@ namespace SDK.Lib
             {
                 direction = 0.0f;
             }
+        }
+
+        // 主角随机移动
+        override protected void initSteerings()
+        {
+
         }
 	}
 }

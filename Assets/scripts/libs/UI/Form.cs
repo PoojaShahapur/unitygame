@@ -113,7 +113,7 @@ namespace SDK.Lib
 			if (m_exitMode == EXITMODE_DESTORY)
 			{
                 GameObject.DestroyImmediate(m_GUIWin.m_uiRoot);
-                Ctx.m_instance.m_UIMgr.destroyForm(m_id);
+                Ctx.m_instance.m_uiMgr.destroyForm(m_id);
 			}
 			else
 			{

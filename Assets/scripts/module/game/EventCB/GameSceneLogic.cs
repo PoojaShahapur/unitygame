@@ -24,7 +24,7 @@ namespace Game.Game
             }
             else if (Input.GetKeyDown(KeyCode.K))  // 加载 UI 资源
             {
-                Ctx.m_instance.m_UIMgr.loadForm(UIFormID.UIBackPack);
+                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIBackPack);
             }
         }
 
@@ -60,7 +60,7 @@ namespace Game.Game
             //param.m_loadNeedCoroutine = true;
             //Ctx.m_instance.m_resMgr.load(param);
 
-            Ctx.m_instance.m_UIMgr.loadForm(UIFormID.UIBackPack);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIBackPack);
         }
     }
 }

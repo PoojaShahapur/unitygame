@@ -173,7 +173,7 @@ namespace UnitySteer.Behaviors
             for (var i = 0; i < Steerings.Length; i++)
             {
                 var s = Steerings[i];
-                //if (s.enabled)
+                if (s.enabled)
                 {
                     force += s.WeighedForce;
                 }
@@ -206,10 +206,10 @@ namespace UnitySteer.Behaviors
             for (var i = 0; i < SteeringPostprocessors.Length; i++)
             {
                 var s = SteeringPostprocessors[i];
-                //if (s.enabled)
-                //{
+                if (s.enabled)
+                {
                     adjustedVelocity += s.WeighedForce;
-                //}
+                }
             }
             Profiler.EndSample();
 

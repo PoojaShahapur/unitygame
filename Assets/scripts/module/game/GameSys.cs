@@ -26,7 +26,7 @@ namespace Game.Game
             GameSys.m_instance.m_ctx = approot.getCtx();
 
             // 场景逻辑处理逻辑
-            GameSys.m_instance.m_ctx.m_UIMgr.SetIUIFactory(new UIFactory());
+            GameSys.m_instance.m_ctx.m_uiMgr.SetIUIFactory(new UIFactory());
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
             Ctx.m_instance.m_sceneEventCB = new SceneEventCB();

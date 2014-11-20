@@ -19,7 +19,6 @@ namespace UnitySteer.Behaviors
     /// AddDetectableObject on enable, and remove itself via RemoveDetectableObject
     /// on disable.
     /// </remarks>
-    [AddComponentMenu("UnitySteer/Radar/Radar")]
     public class Radar
     {
         #region Private static properties
@@ -245,7 +244,6 @@ namespace UnitySteer.Behaviors
             OnUpdateRadar(null);
         }
 
-
         protected virtual Collider[] Detect()
         {
             return Physics.OverlapSphere(Position, DetectionRadius, LayersChecked);
@@ -254,17 +252,17 @@ namespace UnitySteer.Behaviors
         protected virtual void FilterDetected()
         {
             /*
-		 * For each detected item, obtain the DetectableObject it has.
-		 * We could have allowed people to have multiple DetectableObjects 
-		 * on a transform hierarchy, but this ends up with us having to do
-		 * calls to GetComponentsInChildren, which gets really expensive.
-		 * 
-		 * I *do not* recommend changing this to GetComponentsInChildren.
-		 * As a reference, whenever the radar fired up near a complex object
-		 * (say, a character model) obtaining the list of DetectableObjects
-		 * took about 75% of the time used for the frame.
-         * 
-		 */
+		     * For each detected item, obtain the DetectableObject it has.
+		     * We could have allowed people to have multiple DetectableObjects 
+		     * on a transform hierarchy, but this ends up with us having to do
+		     * calls to GetComponentsInChildren, which gets really expensive.
+		     * 
+		     * I *do not* recommend changing this to GetComponentsInChildren.
+		     * As a reference, whenever the radar fired up near a complex object
+		     * (say, a character model) obtaining the list of DetectableObjects
+		     * took about 75% of the time used for the frame.
+             * 
+		     */
             Profiler.BeginSample("Base FilterDetected");
 
             _vehicles.Clear();
@@ -296,8 +294,7 @@ namespace UnitySteer.Behaviors
             {
                 var d = _detectedObjects[i];
                 var v = d as Vehicle;
-                //if (v != null && (v.enabled || _detectDisabledVehicles))
-                if (v != null && (_detectDisabledVehicles))
+                if (v != null && (v.enabled || _detectDisabledVehicles))
                 {
                     _vehicles.Add(v);
                 }

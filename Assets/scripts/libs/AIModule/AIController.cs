@@ -9,6 +9,7 @@ namespace SDK.Lib
     public class AIController
     {
         protected Biped m_vehicle;
+        protected Radar m_radar;                // 每一个人身上有一个雷达
         protected AILocalState m_aiLocalState;
 
         public AIController()
@@ -40,9 +41,19 @@ namespace SDK.Lib
             }
         }
 
+        public void OnTick(float delta)
+        {
+            if(m_radar != null)
+            {
+                m_radar.UpdateRadar();      // 更新雷达数据
+            }
+        }
+
         public void initControl(SkinAniModel skinAniModel)
         {
+            m_radar = new Radar();
             m_vehicle = new Biped();
+            m_vehicle.Radar = m_radar;
             m_vehicle.initOwner(skinAniModel.rootGo);
             m_vehicle.AllowedMovementAxes = new Vector3(1, 0, 1);
             m_vehicle.MaxSpeed = 10;
