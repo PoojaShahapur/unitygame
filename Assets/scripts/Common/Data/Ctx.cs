@@ -40,7 +40,7 @@ namespace SDK.Common
 
         public ISceneLogic m_sceneLogic;
         public IMeshMgr m_meshMgr;
-        public IBehaviorTreeMgr m_behaviorTreeMgr;
+        public IAISystem m_aiSystem;
 
         public Ctx()
         {

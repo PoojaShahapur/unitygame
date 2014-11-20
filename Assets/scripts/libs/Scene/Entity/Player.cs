@@ -24,7 +24,7 @@ namespace SDK.Lib
         override public void addAiByID(string id)
         {
             base.addAiByID(id);
-            m_vehicle.sceneGo = m_skinAniModel.rootGo;
+            m_aiController.vehicle.sceneGo = m_skinAniModel.rootGo;
         }
 	}
 }

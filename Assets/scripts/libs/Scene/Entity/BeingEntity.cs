@@ -1,7 +1,6 @@
 using BehaviorLibrary;
 using SDK.Common;
 using UnityEngine;
-using UnitySteer.Behaviors;
 
 namespace SDK.Lib
 {
@@ -10,31 +9,27 @@ namespace SDK.Lib
 	 */
     public class BeingEntity : ITickedObject
 	{
-        protected SkinAniModel m_skinAniModel;             // 一个数组
-
-        // AI 数据
-        protected Biped m_vehicle;
-        protected BehaviorTree m_behaviorTree;
+        protected SkinAniModel m_skinAniModel;      // 模型数据
+        protected BehaviorTree m_behaviorTree;      // 行为树
+        protected AIController m_aiController;      // ai 控制
 
         protected float speed = 0;
         protected float direction = 0;
-        protected AILocalState m_aiLocalState;
 
         public BeingEntity()
         {
             m_skinAniModel = new SkinAniModel();
-            m_aiLocalState = new AILocalState();
         }
 
-        public AILocalState aiLocalState
+        public AIController aiController
         {
             get
             {
-                return m_aiLocalState;
+                return m_aiController;
             }
             set
             {
-                m_aiLocalState = value;
+                m_aiController = value;
             }
         }
 
@@ -47,28 +42,16 @@ namespace SDK.Lib
             }
         }
 
-        public Biped vehicle
-        {
-            get
-            {
-                return m_vehicle;
-            }
-            set
-            {
-                m_vehicle = value;
-            }
-        }
-
         // 添加 AI
         virtual public void addAiByID(string id)
         {
-            BehaviorTree behaviorTree = Ctx.m_instance.m_behaviorTreeMgr.getBTByID(id) as BehaviorTree;
-            m_vehicle = new Biped();
-            m_vehicle.initOwner(m_skinAniModel.rootGo);
-            m_vehicle.AllowedMovementAxes = new Vector3(1, 0, 1);
-            m_vehicle.MaxSpeed = 10;
-            m_vehicle.setSpeed(5);
+            BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().getBTByID(id) as BehaviorTree;
             m_behaviorTree = behaviorTree;
+            if(m_aiController == null)
+            {
+                m_aiController = new AIController();
+                m_aiController.initControl(m_skinAniModel);
+            }
         }
 
         // 骨骼设置，骨骼不能更换

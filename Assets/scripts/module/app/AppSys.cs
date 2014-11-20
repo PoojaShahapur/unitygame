@@ -37,7 +37,7 @@ namespace Game.App
             Ctx.m_instance.m_playerMgr = new PlayerMgr();
             Ctx.m_instance.m_camSys = new CamSys();
             Ctx.m_instance.m_meshMgr = new MeshMgr();
-            Ctx.m_instance.m_behaviorTreeMgr = new BehaviorTreeMgr();
+            Ctx.m_instance.m_aiSystem = new AISystem();
 
             PostInit();
         }
