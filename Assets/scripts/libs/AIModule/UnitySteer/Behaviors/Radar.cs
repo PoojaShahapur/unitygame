@@ -194,6 +194,11 @@ namespace UnitySteer.Behaviors
             _detectedObjects = new List<DetectableObject>(_preAllocateSize * 3);
         }
 
+        public void addVehicle(Vehicle value)
+        {
+            _vehicles.Add(value);
+        }
+
         private void OnEnable()
         {
             //_tickedObject = new TickedObject(OnUpdateRadar) {TickLength = _tickLength};
@@ -222,26 +227,26 @@ namespace UnitySteer.Behaviors
                 Profiler.EndSample();
             }
 #if TRACEDETECTED
-		if (DrawGizmos)
-		{
-			Debug.Log(gameObject.name+" detected at "+Time.time);
-			var sb = new System.Text.StringBuilder(); 
-			foreach (var v in Vehicles)
-			{
-				sb.Append(v.gameObject.name);
-				sb.Append(" ");
-				sb.Append(v.Position);
-				sb.Append(" ");
-			}
-			foreach (var o in Obstacles)
-			{
-				sb.Append(o.gameObject.name);
-				sb.Append(" ");
-				sb.Append(o.Position);
-				sb.Append(" ");
-			}
-			Debug.Log(sb.ToString());
-		}
+		    if (DrawGizmos)
+		    {
+			    Debug.Log(gameObject.name+" detected at "+Time.time);
+			    var sb = new System.Text.StringBuilder(); 
+			    foreach (var v in Vehicles)
+			    {
+				    sb.Append(v.gameObject.name);
+				    sb.Append(" ");
+				    sb.Append(v.Position);
+				    sb.Append(" ");
+			    }
+			    foreach (var o in Obstacles)
+			    {
+				    sb.Append(o.gameObject.name);
+				    sb.Append(" ");
+				    sb.Append(o.Position);
+				    sb.Append(" ");
+			    }
+			    Debug.Log(sb.ToString());
+		    }
 #endif
             Profiler.EndSample();
         }

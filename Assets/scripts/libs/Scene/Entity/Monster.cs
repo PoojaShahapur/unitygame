@@ -37,8 +37,8 @@ namespace SDK.Lib
             behaviors[0] = new SteerForCohesion();
             behaviors[0].Vehicle = aiController.vehicle;
             aiController.vehicle.Steerings[1] = new SteerForNeighborGroup();
-            aiController.vehicle.Steerings[1].Vehicle = aiController.vehicle;
             (aiController.vehicle.Steerings[1] as SteerForNeighborGroup).addBehaviors(behaviors);
+            aiController.vehicle.Steerings[1].Vehicle = aiController.vehicle;
         }
     }
 }
