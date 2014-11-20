@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using QuadTree;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -6,6 +7,7 @@ namespace SDK.Lib
     {
         protected SceneCfg m_sceneCfg;
         protected string m_file;
+        protected QuadTree<Area> m_quadTree;        // 地形四叉树
 
         public Scene()
         {

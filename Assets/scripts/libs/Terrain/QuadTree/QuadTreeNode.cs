@@ -178,7 +178,7 @@ namespace QuadTree
 	            }
 			}
 			//add, even if we are over capacity.
-			this.Contents.Add (item);
+			this.Contents.Add(item);
         }
 
 		void MoveContentsToSubNodes ()

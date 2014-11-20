@@ -474,6 +474,7 @@
     <Compile Include="Assets\Scripts\Libs\Table\UtilTable.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTree.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\QuadTree\QuadTreeNode.cs" />
+    <Compile Include="Assets\Scripts\Libs\Terrain\Scene\Area.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\Scene\Scene.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\Scene\SceneLoader\SceneCfg.cs" />
     <Compile Include="Assets\Scripts\Libs\Terrain\Scene\SceneLoader\SceneNodeCfg.cs" />
