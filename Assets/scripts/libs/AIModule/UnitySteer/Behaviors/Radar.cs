@@ -138,6 +138,10 @@ namespace UnitySteer.Behaviors
         public List<Vehicle> Vehicles
         {
             get { return _vehicles; }
+            set
+            {
+                _vehicles = value;
+            }
         }
 
         /// <summary>
@@ -218,8 +222,8 @@ namespace UnitySteer.Behaviors
         private void OnUpdateRadar(object obj)
         {
             Profiler.BeginSample("OnUpdateRadar");
-            _detectedColliders = Detect();
-            FilterDetected();
+            //_detectedColliders = Detect();
+            //FilterDetected();
             if (OnDetected != null)
             {
                 Profiler.BeginSample("Detection event handler");

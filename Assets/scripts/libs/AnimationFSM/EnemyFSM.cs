@@ -4,7 +4,6 @@ using AIEngine;
 
 public class EnemyFSM : FSM 
 {
-
     private GameObject mPlayer;
 
     public override void InitFSM()
@@ -13,7 +12,6 @@ public class EnemyFSM : FSM
 
         base.InitFSM();
     }
-
 
     public override void UpdateFSM()
     {
@@ -35,7 +33,6 @@ public class EnemyFSM : FSM
         }
     }
     
-
     public override void StopFSM()
     {
         GetComponent<Animation>().Play("death");

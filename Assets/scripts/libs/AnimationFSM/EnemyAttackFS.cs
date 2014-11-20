@@ -3,7 +3,6 @@ using System.Collections;
 using AIEngine;
 
 public class EnemyAttackFS : FSMState {
-
     private Animation mEnemyAnimation;
     //private EnemyHealthController mEnemyHealth;
 
@@ -82,5 +81,4 @@ public class EnemyAttackFS : FSMState {
     {
         Gizmos.DrawWireSphere(mAgent.transform.position, maxDistanceFromTarget);
     }
-
 }

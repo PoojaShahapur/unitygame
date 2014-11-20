@@ -9,13 +9,18 @@ namespace SDK.Lib
      */
     public class SkinAniModel
     {
-        protected GameObject m_rootGo;                  // 跟 GO
+        protected GameObject m_rootGo;                  // 根 GO ，骨骼同步加载，不会异步加载
         public PartInfo[] m_modelList;                  // 一个数组
         public string m_skeletonName;                   // 骨骼名字
         protected Transform m_transform;                // 位置信息
         protected Action m_handleCB;
 
         protected AnimSys m_animSys = new AnimSys();       // 动画数据
+
+        public SkinAniModel()
+        {
+            
+        }
 
         public GameObject rootGo
         {

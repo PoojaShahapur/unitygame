@@ -13,11 +13,11 @@ namespace Game.Game
             // 创建主角
             createHero();
             // 创建怪物
-            createMonster();
-            createMonster();
-            createMonster();
-            createMonster();
-            createMonster();
+            createMonster(new Vector3(0, 0, 0));
+            createMonster(new Vector3(3, 0, 0));
+            createMonster(new Vector3(6, 0, 0));
+            createMonster(new Vector3(9, 0, 0));
+            createMonster(new Vector3(12, 0, 0));
         }
 
         public void createHero()
@@ -33,16 +33,17 @@ namespace Game.Game
             playerMain.setPartModel((int)PlayerModelDef.eModelWaist, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
             playerMain.setPartModel((int)PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
 
-            playerMain.addAiByID("1001");
+            //playerMain.addAiByID("1001");
         }
 
-        public void createMonster()
+        public void createMonster(Vector3 pos)
         {
             IMonster monster = Ctx.m_instance.m_monsterMgr.createMonster();
             Ctx.m_instance.m_monsterMgr.add(monster);
             monster.setSkeleton("TestBeing");
             monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
             monster.addAiByID("1002");
+            monster.setLocalPos(pos);
         }
     }
 }

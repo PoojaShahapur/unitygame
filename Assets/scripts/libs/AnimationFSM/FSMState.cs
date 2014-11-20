@@ -5,7 +5,6 @@ namespace AIEngine
 {
     public abstract class FSMState
     {
-
         protected FSMState(FSM fsm, GameObject agent, GameObject player)
         {
             mAgent = agent;

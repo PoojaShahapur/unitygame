@@ -44,6 +44,11 @@ namespace SDK.Lib
             }
         }
 
+        public void setLocalPos(Vector3 pos)
+        {
+            m_skinAniModel.transform.localPosition = pos;
+        }
+
         public void OnTick(float delta)
         {
             if (m_aiController != null)

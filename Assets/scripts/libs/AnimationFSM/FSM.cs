@@ -4,14 +4,12 @@ using System.Collections.Generic;
 
 namespace AIEngine
 {
-
     /**
      * Extend this class to define your own state machine.
      *
      * */
     public abstract class FSM : MonoBehaviour
     {
-
         public Renderer meshRenderer;
         public StateId initialState;
         public bool updateOnlyWhenVisible = true;
@@ -31,9 +29,7 @@ namespace AIEngine
         public void MoveToState(StateId state)
         {
             currentState.OnStateExit();
-
             currentState = CreateState(state);
-
             currentState.OnStateEnter();
         }
 
@@ -67,5 +63,4 @@ namespace AIEngine
             }
         }
     }
-
 }

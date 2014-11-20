@@ -41,12 +41,24 @@ namespace SDK.Lib
             }
         }
 
+        public Radar radar
+        {
+            get
+            {
+                return m_radar;
+            }
+            set
+            {
+                m_radar = value;
+            }
+        }
+
         public void OnTick(float delta)
         {
-            //if(m_radar != null)
-            //{
-            //    m_radar.UpdateRadar();      // 更新雷达数据
-            //}
+            if(m_radar != null)
+            {
+                m_radar.UpdateRadar();      // 更新雷达数据
+            }
         }
 
         public void initControl(SkinAniModel skinAniModel)

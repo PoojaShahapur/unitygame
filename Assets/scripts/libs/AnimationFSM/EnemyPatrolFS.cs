@@ -151,6 +151,4 @@ public class EnemyPatrolFS : FSMState {
         Gizmos.DrawWireSphere(mAgent.transform.position, sphereRadius);
         Gizmos.DrawRay(mAgent.transform.position, mAgent.transform.forward * viewRange);
     }
-
-
 }

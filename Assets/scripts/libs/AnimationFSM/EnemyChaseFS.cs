@@ -61,5 +61,4 @@ public class EnemyChaseFS : FSMState {
     {
         Gizmos.DrawLine(mAgent.transform.position, mAgent.transform.forward * maxChaseDistance);
     }
-
 }
