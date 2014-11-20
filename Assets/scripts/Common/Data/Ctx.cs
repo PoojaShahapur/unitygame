@@ -31,7 +31,7 @@ namespace SDK.Common
         public IFObjectMgr m_fObjectMgr;            // 掉落物管理器
         public INpcMgr m_npcMgr;                    // Npc管理器
         public IPlayerMgr m_playerMgr;              // Player管理器
-        public IMonsterMgr m_monsterMgr;
+        public IMonsterMgr m_monsterMgr;            // Monster 管理器
         public ITerrainMgr m_terrainMgr;            // Terrain管理器
 
         public ShareMgr m_shareMgr;                 // 共享数据系统
@@ -42,7 +42,6 @@ namespace SDK.Common
         public ISceneLogic m_sceneLogic;
         public IMeshMgr m_meshMgr;
         public IAISystem m_aiSystem;
-
 
         public Ctx()
         {
