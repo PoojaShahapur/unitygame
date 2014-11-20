@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using BehaviorLibrary;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -7,7 +8,7 @@ namespace SDK.Lib
      */
     public class AISystem : IAISystem
     {
-        protected IBehaviorTreeMgr m_behaviorTreeMgr;
+        protected IBehaviorTreeMgr m_behaviorTreeMgr = new BehaviorTreeMgr();
 
         public IBehaviorTreeMgr getBehaviorTreeMgr()
         {

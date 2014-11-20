@@ -12,6 +12,12 @@ namespace SDK.Lib
             : base()
 		{
             m_skinAniModel.m_modelList = new PartInfo[(int)NpcModelDef.eModelTotal];
+            int idx = 0;
+            while (idx < (int)NpcModelDef.eModelTotal)
+            {
+                m_skinAniModel.m_modelList[idx] = new PartInfo();
+                ++idx;
+            }
 		}
 	}
 }

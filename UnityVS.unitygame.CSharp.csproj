@@ -230,6 +230,7 @@
     <Compile Include="Assets\scripts\Common\Scene\Entity\IBeingEntity.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\IBeingMgr.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\IFObjectMgr.cs" />
+    <Compile Include="Assets\scripts\Common\Scene\Entity\IMonster.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\IMonsterMgr.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\INpcMgr.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\IPlayerMain.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Assets\scripts\Common\UI\IUIMgr.cs" />
     <Compile Include="Assets\scripts\Common\UI\LblType.cs" />
     <Compile Include="Assets\scripts\Common\UI\UIFormID.cs" />
+    <Compile Include="Assets\scripts\libs\AIModule\BehaviorLibrary\Components\Actions\BehaviorActionFollow.cs" />
     <Compile Include="Assets\scripts\UI\UIPack\UIPack.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\AIController.cs" />
     <Compile Include="Assets\scripts\libs\AIModule\AISystem.cs" />

@@ -14,6 +14,10 @@ namespace Game.Game
             createHero();
             // 创建怪物
             createMonster();
+            createMonster();
+            createMonster();
+            createMonster();
+            createMonster();
         }
 
         public void createHero()

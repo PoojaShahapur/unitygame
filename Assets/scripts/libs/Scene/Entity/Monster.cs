@@ -10,6 +10,12 @@ namespace SDK.Lib
             : base()
         {
             m_skinAniModel.m_modelList = new PartInfo[(int)MonstersModelDef.eModelTotal];
+            int idx = 0;
+            while (idx < (int)MonstersModelDef.eModelTotal)
+            {
+                m_skinAniModel.m_modelList[idx] = new PartInfo();
+                ++idx;
+            }
         }
 
         override protected void initSteerings()
@@ -23,12 +29,15 @@ namespace SDK.Lib
             // 初始化 Steerings
             aiController.vehicle.Steerings = new Steering[2];
             aiController.vehicle.Steerings[0] = new SteerToFollow();
+            aiController.vehicle.Steerings[0].Vehicle = aiController.vehicle;
             (aiController.vehicle.Steerings[0] as SteerToFollow).Target = (Ctx.m_instance.m_playerMgr.getHero() as BeingEntity).skinAniModel.transform;
             aiController.vehicle.Steerings[0].Vehicle = aiController.vehicle as Vehicle;
 
             SteerForNeighbors[] behaviors = new SteerForNeighbors[1];
             behaviors[0] = new SteerForCohesion();
+            behaviors[0].Vehicle = aiController.vehicle;
             aiController.vehicle.Steerings[1] = new SteerForNeighborGroup();
+            aiController.vehicle.Steerings[1].Vehicle = aiController.vehicle;
             (aiController.vehicle.Steerings[1] as SteerForNeighborGroup).addBehaviors(behaviors);
         }
     }

@@ -129,7 +129,8 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Gets the vehicle this radar is attached to
         /// </summary>
-        public Vehicle Vehicle { get; private set; }
+        //public Vehicle Vehicle { get; private set; }
+        public Vehicle Vehicle { get; set; }
 
         /// <summary>
         /// List of vehicles detected among the colliders
@@ -184,6 +185,14 @@ namespace UnitySteer.Behaviors
             _detectedObjects = new List<DetectableObject>(_preAllocateSize * 3);
         }
 
+        public void initAwake()
+        {
+            //Vehicle = GetComponent<Vehicle>();
+            _transform = Vehicle.sceneGo.transform;
+            _vehicles = new List<Vehicle>(_preAllocateSize);
+            _obstacles = new List<DetectableObject>(_preAllocateSize);
+            _detectedObjects = new List<DetectableObject>(_preAllocateSize * 3);
+        }
 
         private void OnEnable()
         {
@@ -193,7 +202,6 @@ namespace UnitySteer.Behaviors
             //_steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
         }
 
-
         private void OnDisable()
         {
             //if (_steeringQueue != null)
@@ -201,7 +209,6 @@ namespace UnitySteer.Behaviors
             //    _steeringQueue.Remove(_tickedObject);
             //}
         }
-
 
         private void OnUpdateRadar(object obj)
         {
