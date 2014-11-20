@@ -10,19 +10,35 @@ namespace Game.Game
         public void onLevelLoaded()
         {
             Ctx.m_instance.m_camSys.m_sceneCam.onSceneLoaded();
-            // 创建
+            // 创建主角
+            createHero();
+            // 创建怪物
+            createMonster();
+        }
+
+        public void createHero()
+        {
             IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
             Ctx.m_instance.m_playerMgr.addHero(playerMain);
             //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
             //playerMain.setSkeleton("DefaultAvatar");
             playerMain.setSkeleton("TestBeing");
 
-            playerMain.setPartModel(PlayerModelDef.eModelHead, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
-            playerMain.setPartModel(PlayerModelDef.eModelChest, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
-            playerMain.setPartModel(PlayerModelDef.eModelWaist, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
-            playerMain.setPartModel(PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
+            playerMain.setPartModel((int)PlayerModelDef.eModelHead, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
+            playerMain.setPartModel((int)PlayerModelDef.eModelChest, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
+            playerMain.setPartModel((int)PlayerModelDef.eModelWaist, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
+            playerMain.setPartModel((int)PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
 
             playerMain.addAiByID("1001");
+        }
+
+        public void createMonster()
+        {
+            IMonster monster = Ctx.m_instance.m_monsterMgr.createMonster();
+            Ctx.m_instance.m_monsterMgr.add(monster);
+            monster.setSkeleton("TestBeing");
+            monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
+            monster.addAiByID("1002");
         }
     }
 }

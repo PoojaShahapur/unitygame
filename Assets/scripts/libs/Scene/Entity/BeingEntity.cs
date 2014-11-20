@@ -24,6 +24,14 @@ namespace SDK.Lib
             m_skinAniModel.handleCB = onSkeletonLoaded;
         }
 
+        public SkinAniModel skinAniModel
+        {
+            get
+            {
+                return m_skinAniModel;
+            }
+        }
+
         public AIController aiController
         {
             get
@@ -60,8 +68,10 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(id) && m_behaviorTree == null && m_skinAniModel.rootGo != null)
             {
+                // 生成行为树
                 BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().getBTByID(id) as BehaviorTree;
                 m_behaviorTree = behaviorTree;
+                // 生成 ai 控制器
                 if (m_aiController == null)
                 {
                     m_aiController = new AIController();
@@ -69,6 +79,7 @@ namespace SDK.Lib
                 }
 
                 m_aiController.vehicle.sceneGo = m_skinAniModel.rootGo;
+                // 初始化 Steerings 参数信息
                 initSteerings();
             }
         }
@@ -83,10 +94,10 @@ namespace SDK.Lib
             }
         }
 
-        public void setPartModel(PlayerModelDef modelDef, string assetBundleName, string partName)
+        public void setPartModel(int modelDef, string assetBundleName, string partName)
         {
-            m_skinAniModel.m_modelList[(int)modelDef].m_bundleName = assetBundleName;
-            m_skinAniModel.m_modelList[(int)modelDef].m_partName = partName;
+            m_skinAniModel.m_modelList[modelDef].m_bundleName = assetBundleName;
+            m_skinAniModel.m_modelList[modelDef].m_partName = partName;
             m_skinAniModel.loadPartModel(modelDef);
         }
 

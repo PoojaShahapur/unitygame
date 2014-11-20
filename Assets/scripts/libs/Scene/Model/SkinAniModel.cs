@@ -99,10 +99,10 @@ namespace SDK.Lib
             }
         }
 
-        public void loadPartModel(PlayerModelDef modelDef)
+        public void loadPartModel(int modelDef)
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[(int)modelDef].m_bundleName;
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[modelDef].m_bundleName;
             param.m_loadedcb = onPartModelloaded;
             //Ctx.m_instance.m_resMgr.loadBundle(param);
             Ctx.m_instance.m_resMgr.loadResources(param);

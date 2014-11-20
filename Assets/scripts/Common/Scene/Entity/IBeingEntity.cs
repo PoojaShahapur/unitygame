@@ -3,7 +3,7 @@
     public interface IBeingEntity
     {
         void setSkeleton(string name);
-        void setPartModel(PlayerModelDef modelDef, string assetBundleName, string partName);
+        void setPartModel(int modelDef, string assetBundleName, string partName);
         void addAiByID(string id);
     }
 }

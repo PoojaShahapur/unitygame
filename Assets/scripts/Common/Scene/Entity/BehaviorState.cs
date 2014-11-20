@@ -7,6 +7,7 @@
     {
         BSIdle,         // 空闲状态
         BSWander,       // 徘徊状态
+        BSFollow,       // 跟随状态
 
         PSTotal         // 总共状态
     }

@@ -226,7 +226,8 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Array of steering behaviors
         /// </summary>
-        public Steering[] Steerings { get; private set; }
+        //public Steering[] Steerings { get; private set; }
+        public Steering[] Steerings { get; set; }
 
         /// <summary>
         /// Array of steering post-processor behaviors
@@ -271,7 +272,7 @@ namespace UnitySteer.Behaviors
         {
             base.initOwner(owner);
 
-            Steerings = new Steering[1];
+            //Steerings = new Steering[1];
             SteeringPostprocessors = new Steering[0];
             GameObject = sceneGo;
             Rigidbody = sceneGo.GetComponent<Rigidbody>();

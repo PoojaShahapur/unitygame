@@ -1,4 +1,6 @@
-﻿namespace BehaviorLibrary.Components
+﻿using SDK.Common;
+
+namespace BehaviorLibrary.Components
 {
     public class BehaviorComponent
     {
@@ -6,12 +8,6 @@
         protected BehaviorTree m_behaviorTree;
 
         public BehaviorComponent() { }
-
-        // 第一次进入调用
-        public virtual void onEnter()
-        {
-
-        }
 
         public BehaviorTree behaviorTree
         {
@@ -23,6 +19,12 @@
             {
                 m_behaviorTree = value;
             }
+        }
+
+        // 第一次进入调用
+        public virtual void onEnter()
+        {
+
         }
 
         // 更新
@@ -41,6 +43,15 @@
         public virtual void addChild(BehaviorComponent child)
         {
 
+        }
+
+        public void toggleBehavior(BehaviorState bs)
+        {
+            if (m_behaviorTree.inputParam.beingEntity.aiController.aiLocalState.behaviorState != bs)
+            {
+                m_behaviorTree.inputParam.beingEntity.aiController.aiLocalState.behaviorState = bs;
+                onEnter();
+            }
         }
     }
 }

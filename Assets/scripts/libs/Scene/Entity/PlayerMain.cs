@@ -1,5 +1,6 @@
 using SDK.Common;
 using UnityEngine;
+using UnitySteer.Behaviors;
 
 namespace SDK.Lib
 {
@@ -66,7 +67,16 @@ namespace SDK.Lib
         // 主角随机移动
         override protected void initSteerings()
         {
+            // 初始化 vehicle
+            aiController.vehicle.MaxSpeed = 10;
+            aiController.vehicle.setSpeed(5);
 
+            // 初始化 Steerings
+            aiController.vehicle.Steerings = new Steering[1];
+            aiController.vehicle.Steerings[0] = new SteerForWander();
+            (aiController.vehicle.Steerings[0] as SteerForWander).MaxLatitudeSide = 100;
+            (aiController.vehicle.Steerings[0] as SteerForWander).MaxLatitudeUp = 100;
+            aiController.vehicle.Steerings[0].Vehicle = aiController.vehicle as Vehicle;
         }
 	}
 }

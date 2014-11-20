@@ -132,6 +132,19 @@ namespace UnitySteer.Behaviors
             Vehicle.Radar.OnDetected += HandleDetection;
         }
 
+        public void addBehaviors(SteerForNeighbors[] behaviors)
+        {
+            _behaviors = behaviors;
+            foreach (var b in _behaviors)
+            {
+                // Ensure UnitySteer does not call them
+                b.enabled = false;
+                // ... and since Unity may not call them either, initialize them ourselves.
+                b.Initialize();
+            }
+            Vehicle.Radar.OnDetected += HandleDetection;
+        }
+
         private void HandleDetection(Radar radar)
         {
             /*

@@ -35,11 +35,11 @@ namespace Game.App
             Ctx.m_instance.m_resizeMgr = new ResizeMgr();
 
             Ctx.m_instance.m_playerMgr = new PlayerMgr();
+            Ctx.m_instance.m_monsterMgr = new MonsterMgr();
+
             Ctx.m_instance.m_camSys = new CamSys();
             Ctx.m_instance.m_meshMgr = new MeshMgr();
             Ctx.m_instance.m_aiSystem = new AISystem();
-
-            Ctx.m_instance.m_monsterMgr = new MonsterMgr();
 
             PostInit();
         }
@@ -68,6 +68,7 @@ namespace Game.App
             Ctx.m_instance.m_resizeMgr.addResizeObject(Ctx.m_instance.m_uiMgr as IResizeObject);
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_inputMgr as ITickedObject);
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_playerMgr as ITickedObject);
+            Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_monsterMgr as ITickedObject);
         }
 
         public void setNoDestroyObject()

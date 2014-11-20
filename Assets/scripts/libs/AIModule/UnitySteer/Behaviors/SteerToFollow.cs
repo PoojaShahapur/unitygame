@@ -27,7 +27,6 @@ namespace UnitySteer.Behaviors
         /// </summary>
         [SerializeField] private Vector3 _distance;
 
-
         /// <summary>
         /// The target.
         /// </summary>
@@ -51,6 +50,18 @@ namespace UnitySteer.Behaviors
         {
             get { return _considerVelocity; }
             set { _considerVelocity = value; }
+        }
+
+        public Vector3 distance
+        {
+            get
+            {
+                return distance;
+            }
+            set
+            {
+                distance = value;
+            }
         }
 
         /// <summary>

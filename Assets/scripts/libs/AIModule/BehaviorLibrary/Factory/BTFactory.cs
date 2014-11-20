@@ -82,6 +82,9 @@ namespace BehaviorLibrary
             // Actions ×é¼þ×¢²á
             m_id2CreateDic["BehaviorActionWander"] = createBehaviorActionWander;
             m_id2BuildDic["BehaviorActionWander"] = buildBehaviorActionWander;
+
+            m_id2CreateDic["BehaviorActionFollow"] = createBehaviorActionFollow;
+            m_id2BuildDic["BehaviorActionFollow"] = buildBehaviorActionFollow;
         }
 
         public void parseXml(BehaviorTree btree, XmlNode btNode)
@@ -314,6 +317,17 @@ namespace BehaviorLibrary
         }
 
         public void buildBehaviorActionWander(BehaviorComponent btCmt, XmlNode btNode)
+        {
+
+        }
+
+        public BehaviorComponent createBehaviorActionFollow()
+        {
+            BehaviorActionFollow behaviorActionFollow = new BehaviorActionFollow();
+            return behaviorActionFollow;
+        }
+
+        public void buildBehaviorActionFollow(BehaviorComponent btCmt, XmlNode btNode)
         {
 
         }
