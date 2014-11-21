@@ -10,23 +10,10 @@ namespace SDK.Lib
     {
         protected Biped m_vehicle;
         protected Radar m_radar;                // 每一个人身上有一个雷达
-        protected AILocalState m_aiLocalState;
 
         public AIController()
         {
-            m_aiLocalState = new AILocalState();
-        }
-
-        public AILocalState aiLocalState
-        {
-            get
-            {
-                return m_aiLocalState;
-            }
-            set
-            {
-                m_aiLocalState = value;
-            }
+            
         }
 
         public Biped vehicle

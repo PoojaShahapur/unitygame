@@ -15,7 +15,7 @@ namespace AIEngine
 
         virtual public void OnStateEnter()
         {
-            m_beingEntity.skinAniModel.animSys.playAnim(UtilApi.convBeingState2ActState(m_beingEntity.aiController.aiLocalState.beingState, m_beingEntity.aiController.aiLocalState.beingSubState));
+            m_beingEntity.skinAniModel.animSys.playAnim(UtilApi.convBeingState2ActState(m_beingEntity.aiLocalState.beingState, m_beingEntity.aiLocalState.beingSubState));
         }
 
         virtual public void OnStateExit()
@@ -25,12 +25,13 @@ namespace AIEngine
 
         virtual public void Update()
         {
-            BeingState beingState = UtilApi.convBehaviorState2BeingState(m_beingEntity.aiController.aiLocalState.behaviorState);
-            if (beingState != m_beingEntity.aiController.aiLocalState.beingState)        // 行为状态改变，需要改变生物状态
+            BeingState beingState = UtilApi.convBehaviorState2BeingState(m_beingEntity.aiLocalState.behaviorState);
+            if (beingState != m_beingEntity.aiLocalState.beingState)        // 行为状态改变，需要改变生物状态
             {
-                mFSM.MoveToState(AnimStateId.getStateIdByBeingState(m_beingEntity.aiController.aiLocalState.beingState));
+                mFSM.MoveToState(AnimStateId.getStateIdByBeingState(m_beingEntity.aiLocalState.beingState));
             }
         }
+
         virtual public void OnDrawGizmos()
         {
 

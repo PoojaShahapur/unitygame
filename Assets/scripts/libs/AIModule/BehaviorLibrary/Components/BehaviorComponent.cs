@@ -47,9 +47,9 @@ namespace BehaviorLibrary.Components
 
         public void toggleBehavior(BehaviorState bs)
         {
-            if (m_behaviorTree.inputParam.beingEntity.aiController.aiLocalState.behaviorState != bs)
+            if (m_behaviorTree.inputParam.beingEntity.aiLocalState.behaviorState != bs)
             {
-                m_behaviorTree.inputParam.beingEntity.aiController.aiLocalState.behaviorState = bs;
+                m_behaviorTree.inputParam.beingEntity.aiLocalState.behaviorState = bs;
                 onEnter();
             }
         }

@@ -13,6 +13,7 @@ namespace SDK.Lib
         protected BehaviorTree m_behaviorTree;      // 行为树
         protected AIController m_aiController;      // ai 控制
         protected AnimFSM m_animFSM;                // 动画状态机
+        protected AILocalState m_aiLocalState;
 
         protected string m_btID;
 
@@ -23,9 +24,7 @@ namespace SDK.Lib
         {
             m_skinAniModel = new SkinAniModel();
             m_skinAniModel.handleCB = onSkeletonLoaded;
-            m_animFSM = new AnimFSM();
-            m_animFSM.beingEntity = this;
-            m_animFSM.InitFSM();
+            m_aiLocalState = new AILocalState();
         }
 
         public SkinAniModel skinAniModel
@@ -45,6 +44,18 @@ namespace SDK.Lib
             set
             {
                 m_aiController = value;
+            }
+        }
+
+        public AILocalState aiLocalState
+        {
+            get
+            {
+                return m_aiLocalState;
+            }
+            set
+            {
+                m_aiLocalState = value;
             }
         }
 
@@ -99,6 +110,16 @@ namespace SDK.Lib
             }
         }
 
+        protected void initAnimFSM()
+        {
+            if (m_animFSM == null)
+            {
+                m_animFSM = new AnimFSM();
+                m_animFSM.beingEntity = this;
+                m_animFSM.InitFSM();
+            }
+        }
+
         // 骨骼设置，骨骼不能更换
         public void setSkeleton(string name)
         {
@@ -119,6 +140,7 @@ namespace SDK.Lib
         public virtual void onSkeletonLoaded()
         {
             initAi(m_btID);
+            initAnimFSM();
         }
 
         // 目前只有怪有 Steerings ,加载这里是为了测试，全部都有 Steerings
