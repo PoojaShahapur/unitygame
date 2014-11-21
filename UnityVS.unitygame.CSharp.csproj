@@ -223,6 +223,7 @@
     <Compile Include="Assets\scripts\Common\Resource\ResPackType.cs" />
     <Compile Include="Assets\scripts\Common\Resource\ResPathType.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\BehaviorState.cs" />
+    <Compile Include="Assets\scripts\Common\Scene\Entity\BeingState.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\CamEntity.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\CamSys.cs" />
     <Compile Include="Assets\scripts\Common\Scene\Entity\IBeingEntity.cs" />

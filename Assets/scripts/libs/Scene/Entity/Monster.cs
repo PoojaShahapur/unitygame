@@ -42,7 +42,8 @@ namespace SDK.Lib
 
             //testSteerForCohesion();
             //testSteerForAlignment();
-            testSteerForSeparation();
+            //testSteerForSeparation();
+            testSteerForFollow();
 
             aiController.radar.Vehicles = (Ctx.m_instance.m_monsterMgr as MonsterMgr).getOrAddGroup(this.groupID);
             (Ctx.m_instance.m_monsterMgr as MonsterMgr).addGroupMember(this);
@@ -101,6 +102,16 @@ namespace SDK.Lib
             aiController.vehicle.Steerings[1] = new SteerForNeighborGroup();
             aiController.vehicle.Steerings[1].Vehicle = aiController.vehicle;
             (aiController.vehicle.Steerings[1] as SteerForNeighborGroup).addBehaviors(behaviors);
+        }
+
+        protected void testSteerForFollow()
+        {
+            // 初始化 Steerings
+            aiController.vehicle.Steerings = new Steering[1];
+            aiController.vehicle.Steerings[0] = new SteerToFollow();
+            aiController.vehicle.Steerings[0].Vehicle = aiController.vehicle;
+            (aiController.vehicle.Steerings[0] as SteerToFollow).Target = (Ctx.m_instance.m_playerMgr.getHero() as BeingEntity).skinAniModel.transform;
+            (aiController.vehicle.Steerings[0] as SteerToFollow).ConsiderVelocity = false;
         }
     }
 }
