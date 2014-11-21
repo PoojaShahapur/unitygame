@@ -153,7 +153,7 @@ namespace SDK.Lib
         {
             string submeshName = UtilSkin.convID2PartName(subMeshIdx);
             string[] bonesList = Ctx.m_instance.m_meshMgr.getBonesListByName(submeshName);
-            UtilSkin.skinSkel(m_modelList[subMeshIdx].m_partGo, bonesList);
+            UtilSkin.skinSkel(m_modelList[subMeshIdx].m_partGo, m_rootGo, bonesList);
         }
     }
 }
