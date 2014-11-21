@@ -6,7 +6,6 @@ namespace AIEngine
 {
     /**
      * Extend this class to define your own state machine.
-     *
      * */
     public abstract class FSM
     {

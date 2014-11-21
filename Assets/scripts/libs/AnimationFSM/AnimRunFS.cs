@@ -13,7 +13,7 @@ public class AnimRunFS : FSMState
 
     override public void OnStateEnter()
     {
-        
+        base.OnStateEnter();
     }
 
     override public void OnStateExit()
@@ -23,20 +23,7 @@ public class AnimRunFS : FSMState
 
     override public void Update()
     {
-        //if(isTargetVisible())
-        //{
-        //    mFSM.MoveToState(EnemyStateId.Chase);
-        //}
-        //else if(!IsMoving())
-        //{
-        //    waitCounter += Time.deltaTime;
-
-        //    if(waitCounter > 2.0f)
-        //    {
-        //        SetNewWaypoint();
-        //        waitCounter = 0.0f;
-        //    }
-        //}
+        base.Update();
     }
 
     public override void OnDrawGizmos()

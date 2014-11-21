@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SDK.Common;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -51,6 +52,14 @@ namespace SDK.Lib
             m_Animator.SetFloat(m_SpeedId, speed, speedDampTime, Time.deltaTime);
             m_Animator.SetFloat(m_AgularSpeedId, angularSpeed, angularSpeedDampTime, Time.deltaTime);
             m_Animator.SetFloat(m_DirectionId, direction, directionDampTime, Time.deltaTime);
+        }
+
+        // 播放动画
+        public void playAnim(ActState actState)
+        {
+            // 首先重置
+
+            // 然后设置具体的动作
         }
     }
 }

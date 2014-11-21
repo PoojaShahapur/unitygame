@@ -14,9 +14,6 @@ namespace SDK.Lib
         protected AIController m_aiController;      // ai 控制
         protected AnimFSM m_animFSM;                // 动画状态机
 
-        protected BeingState m_beingState = BeingState.BSIdle;          // 状态
-        protected BeingSubState m_beingSubState;    // 子状态
-
         protected string m_btID;
 
         protected float speed = 0;
@@ -48,30 +45,6 @@ namespace SDK.Lib
             set
             {
                 m_aiController = value;
-            }
-        }
-
-        public BeingState beingState
-        {
-            get
-            {
-                return m_beingState;
-            }
-            set
-            {
-                m_beingState = value;
-            }
-        }
-
-        public BeingSubState beingSubState
-        {
-            get
-            {
-                return m_beingSubState;
-            }
-            set
-            {
-                m_beingSubState = value;
             }
         }
 

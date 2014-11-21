@@ -49,5 +49,52 @@ namespace SDK.Common
 
             return "";
         }
+
+        // 转换行为状态到生物状态
+        static public BeingState convBehaviorState2BeingState(BehaviorState behaviorState)
+        {
+            BeingState retState = BeingState.BSIdle;
+            switch(behaviorState)
+            {
+                case BehaviorState.BSIdle:
+                    {
+                        retState = BeingState.BSIdle;
+                    }
+                    break;
+                case BehaviorState.BSWander:
+                    {
+                        retState = BeingState.BSWalk;
+                    }
+                    break;
+                case BehaviorState.BSFollow:
+                    {
+                        retState = BeingState.BSWalk;
+                    }
+                    break;
+            }
+
+            return retState;
+        }
+
+        static public ActState convBeingState2ActState(BeingState beingState, BeingSubState beingSubState)
+        {
+            switch(beingState)
+            {
+                case BeingState.BSIdle:
+                    {
+                        return ActState.ActIdle;
+                    }
+                case BeingState.BSWalk:
+                    {
+                        return ActState.ActWalk;
+                    }
+                case BeingState.BSRun:
+                    {
+                        return ActState.ActRun;
+                    }
+            }
+
+            return ActState.ActIdle;
+        }
     }
 }

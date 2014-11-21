@@ -13,7 +13,7 @@ public class AnimWalkFS : FSMState
 
     override public void OnStateEnter()
     {
-        
+        base.OnStateEnter();
     }
 
     override public void OnStateExit()
@@ -23,23 +23,7 @@ public class AnimWalkFS : FSMState
 
     override public void Update()
     {
-        //float distance = Vector3.Distance(mPlayer.transform.position, mAgent.transform.position);
-
-        //if (distance < maxAttackDistance)
-        //{
-        //    mFSM.MoveToState(EnemyStateId.Attack);
-        //} 
-        //else if (mEnemyNavAgent.remainingDistance < 2.0f)
-        //{
-        //    if(distance < 10.0f)
-        //    {
-        //        mEnemyNavAgent.SetDestination(mPlayer.transform.position);
-        //    }
-        //    else
-        //    {
-        //        mFSM.MoveToState(EnemyStateId.Patrol);
-        //    }
-        //}
+        base.Update();
     }
 
     public override void OnDrawGizmos()

@@ -1,4 +1,5 @@
 ﻿using AIEngine;
+using SDK.Common;
 
 public class AnimStateId : StateId
 {
@@ -9,5 +10,26 @@ public class AnimStateId : StateId
     public AnimStateId(string id)
         : base(id)
     {
+    }
+
+    static public StateId getStateIdByBeingState(BeingState beingState)
+    {
+        switch (beingState)
+        {
+            case BeingState.BSIdle:
+                {
+                    return ASIDLE;
+                }
+            case BeingState.BSWalk:
+                {
+                    return ASIWALK;
+                }
+            case BeingState.BSRun:
+                {
+                    return ASRUN;
+                }
+        }
+
+        return ASIDLE;
     }
 }
