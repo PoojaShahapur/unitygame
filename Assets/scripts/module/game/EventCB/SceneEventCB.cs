@@ -14,10 +14,10 @@ namespace Game.Game
             createHero();
             // 创建怪物
             createMonster(new Vector3(0, 0, 0));
-            createMonster(new Vector3(3, 0, 0));
-            createMonster(new Vector3(6, 0, 0));
-            createMonster(new Vector3(9, 0, 0));
-            createMonster(new Vector3(12, 0, 0));
+            //createMonster(new Vector3(10, 0, 0));
+            //createMonster(new Vector3(6, 0, 0));
+            //createMonster(new Vector3(9, 0, 0));
+            //createMonster(new Vector3(12, 0, 0));
         }
 
         public void createHero()
@@ -25,8 +25,8 @@ namespace Game.Game
             IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
             Ctx.m_instance.m_playerMgr.addHero(playerMain);
             //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
-            //playerMain.setSkeleton("DefaultAvatar");
-            playerMain.setSkeleton("TestBeing");
+            playerMain.setSkeleton("DefaultAvatar");
+            //playerMain.setSkeleton("TestBeing");
 
             playerMain.setPartModel((int)PlayerModelDef.eModelHead, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
             playerMain.setPartModel((int)PlayerModelDef.eModelChest, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
@@ -40,7 +40,7 @@ namespace Game.Game
         {
             IMonster monster = Ctx.m_instance.m_monsterMgr.createMonster();
             Ctx.m_instance.m_monsterMgr.add(monster);
-            monster.setSkeleton("TestBeing");
+            monster.setSkeleton("DefaultAvatar");
             monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
             monster.addAiByID("1002");
             monster.setLocalPos(pos);

@@ -24,6 +24,7 @@ namespace SDK.Lib
             m_skinAniModel = new SkinAniModel();
             m_skinAniModel.handleCB = onSkeletonLoaded;
             m_animFSM = new AnimFSM();
+            m_animFSM.beingEntity = this;
             m_animFSM.InitFSM();
         }
 
