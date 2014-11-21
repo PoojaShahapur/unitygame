@@ -14,10 +14,10 @@ namespace Game.Game
             createHero();
             // 创建怪物
             createMonster(new Vector3(0, 0, 0));
-            //createMonster(new Vector3(10, 0, 0));
-            //createMonster(new Vector3(6, 0, 0));
-            //createMonster(new Vector3(9, 0, 0));
-            //createMonster(new Vector3(12, 0, 0));
+            createMonster(new Vector3(10, 0, 0));
+            createMonster(new Vector3(6, 0, 0));
+            createMonster(new Vector3(9, 0, 0));
+            createMonster(new Vector3(12, 0, 0));
         }
 
         public void createHero()
