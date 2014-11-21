@@ -25,6 +25,7 @@ namespace BehaviorLibrary
 
         protected string m_name;            // 行为树名字
         protected InsParam m_inputParam;    // 输入数据
+        protected UBlackboardData m_blackboardData; // 黑盒数据
 
         public BehaviorReturnCode ReturnCode
         {
@@ -40,6 +41,7 @@ namespace BehaviorLibrary
         {
             _Root = root;
             m_inputParam = new InsParam();
+            m_blackboardData = new UBlackboardData();
         }
 
         public string name
