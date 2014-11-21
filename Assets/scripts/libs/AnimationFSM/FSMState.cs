@@ -18,7 +18,10 @@ namespace AIEngine
             m_beingEntity.skinAniModel.animSys.playAnim(UtilApi.convBeingState2ActState(m_beingEntity.aiController.aiLocalState.beingState, m_beingEntity.aiController.aiLocalState.beingSubState));
         }
 
-        abstract public void OnStateExit();
+        virtual public void OnStateExit()
+        {
+
+        }
 
         virtual public void Update()
         {
@@ -28,7 +31,10 @@ namespace AIEngine
                 mFSM.MoveToState(AnimStateId.getStateIdByBeingState(m_beingEntity.aiController.aiLocalState.beingState));
             }
         }
-        abstract public void OnDrawGizmos();
+        virtual public void OnDrawGizmos()
+        {
+
+        }
 
         protected FSM mFSM;
         protected BeingEntity m_beingEntity;
