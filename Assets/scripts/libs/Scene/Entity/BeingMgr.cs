@@ -9,9 +9,16 @@ namespace SDK.Lib
 
         public void OnTick(float delta)
         {
-            foreach (BeingEntity being in m_list)
+            //foreach (BeingEntity being in m_list)
+            //{
+            //    being.OnTick(delta);
+            //}
+
+            int idx = 0;
+            while (idx < m_list.Count)
             {
-                being.OnTick(delta);
+                m_list[idx].OnTick(delta);
+                ++idx;
             }
         }
 

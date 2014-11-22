@@ -145,7 +145,8 @@ namespace UnitySteer.Behaviors
             Vehicle.Radar.OnDetected += HandleDetection;
         }
 
-        private void HandleDetection(Radar radar)
+        //private void HandleDetection(Radar radar)
+        public void HandleDetection(Radar radar)
         {
             /*
 		     * Neighbors are cached on radar detection.
@@ -168,9 +169,12 @@ namespace UnitySteer.Behaviors
             for (var i = 0; i < radar.Vehicles.Count; i++)
             {
                 var other = radar.Vehicles[i];
-                if (Vehicle.IsInNeighborhood(other, MinRadius, MaxRadius, AngleCos))
+                if (other != Vehicle)
                 {
-                    _neighbors.Add(other);
+                    if (Vehicle.IsInNeighborhood(other, MinRadius, MaxRadius, AngleCos))
+                    {
+                        _neighbors.Add(other);
+                    }
                 }
             }
         }

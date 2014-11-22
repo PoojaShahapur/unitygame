@@ -18,6 +18,18 @@ namespace SDK.Lib
             m_sceneParse = new SceneParse();
         }
 
+        public Scene scene
+        {
+            get
+            {
+                return m_scene;
+            }
+            set
+            {
+                m_scene = value;
+            }
+        }
+
         public void loadScene(string filename, Action<IScene> func)
         {
             m_scene = new Scene();

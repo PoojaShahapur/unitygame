@@ -45,8 +45,11 @@ namespace SDK.Lib
             testSteerForSeparation();
             //testSteerForFollow();
 
-            aiController.radar.Vehicles = (Ctx.m_instance.m_monsterMgr as MonsterMgr).getOrAddGroup(this.groupID);
-            (Ctx.m_instance.m_monsterMgr as MonsterMgr).addGroupMember(this);
+            //aiController.radar.Vehicles = (Ctx.m_instance.m_monsterMgr as MonsterMgr).getOrAddGroup(this.groupID);
+            //(Ctx.m_instance.m_monsterMgr as MonsterMgr).addGroupMember(this);
+
+            aiController.radar.Vehicles = (Ctx.m_instance.m_sceneSys as SceneSys).scene.zoneSys.getOrAddDangerZone(this.groupID).vehicleList;
+            (Ctx.m_instance.m_sceneSys as SceneSys).scene.zoneSys.addMonster(this);
         }
 
         protected void testSteerForCohesion()
@@ -102,6 +105,8 @@ namespace SDK.Lib
             aiController.vehicle.Steerings[1] = new SteerForNeighborGroup();
             aiController.vehicle.Steerings[1].Vehicle = aiController.vehicle;
             (aiController.vehicle.Steerings[1] as SteerForNeighborGroup).addBehaviors(behaviors);
+            //(aiController.vehicle.Steerings[1] as SteerForNeighborGroup).MaxRadius = 100;
+            //(aiController.vehicle.Steerings[1] as SteerForNeighborGroup).MinRadius = 0;
         }
 
         protected void testSteerForFollow()

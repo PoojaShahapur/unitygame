@@ -61,6 +61,7 @@ namespace SDK.Lib
 
             m_radar.Vehicle = m_vehicle;
             m_radar.initAwake();
+            m_radar.DetectionRadius = 100;
         }
     }
 }

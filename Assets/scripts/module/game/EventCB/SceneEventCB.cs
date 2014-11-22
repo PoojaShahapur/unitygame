@@ -13,10 +13,10 @@ namespace Game.Game
             // 创建主角
             createHero();
             // 创建怪物
-            createMonster(new Vector3(0, 0, 0));
-            createMonster(new Vector3(10, 0, 0));
-            createMonster(new Vector3(6, 0, 0));
-            createMonster(new Vector3(9, 0, 0));
+            //createMonster(new Vector3(0, 0, 0));
+            //createMonster(new Vector3(10, 0, 0));
+            //createMonster(new Vector3(6, 0, 0));
+            //createMonster(new Vector3(11, 0, 0));
             createMonster(new Vector3(12, 0, 0));
         }
 
@@ -41,9 +41,9 @@ namespace Game.Game
             IMonster monster = Ctx.m_instance.m_monsterMgr.createMonster();
             Ctx.m_instance.m_monsterMgr.add(monster);
             monster.setSkeleton("DefaultAvatar");
+            monster.setLocalPos(pos);
             monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
             monster.addAiByID("1002");
-            monster.setLocalPos(pos);
         }
     }
 }

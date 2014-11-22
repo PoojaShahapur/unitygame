@@ -285,7 +285,6 @@ namespace UnitySteer.Behaviors
             _obstacles.Clear();
             _detectedObjects.Clear();
 
-
             Profiler.BeginSample("Initial detection");
             for (var i = 0; i < _detectedColliders.Length; i++)
             {

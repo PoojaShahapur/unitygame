@@ -108,6 +108,12 @@ namespace UnitySteer.Behaviors
         public virtual void initOwner(GameObject owner)
         {
             sceneGo = owner;
+            Collider = m_sceneGo.GetComponent<Collider>();
+            SquaredRadius = _radius * _radius;
+            if (Collider)
+            {
+                Radar.AddDetectableObject(this);
+            }
         }
 
         #region Methods
