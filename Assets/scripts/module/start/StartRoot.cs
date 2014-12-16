@@ -74,8 +74,10 @@ namespace SDK.Lib
             AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
             if (assetBundle != null)
             {
-                //Object bt = assetBundle.Load(m_appName);
-                Object bt = assetBundle.LoadAsset(m_appName);
+                // Unity5
+                // Object bt = assetBundle.LoadAsset(m_appName);
+                // Unity4
+                Object bt = assetBundle.Load(m_appName);
                 Instantiate(bt);
                 assetBundle.Unload(false);
             }
@@ -90,8 +92,10 @@ namespace SDK.Lib
 
             // 使用预设加载
             AssetBundle bundle = app3w.assetBundle;
-            //Object bt = bundle.Load(m_appName);
-            Object bt = bundle.LoadAsset(m_appName);
+            // Unity5
+            // Object bt = bundle.LoadAsset(m_appName);
+            // Unity4
+            Object bt = bundle.Load(m_appName);
             Object insObj = Instantiate(bt);
             insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
             bundle.Unload(false);

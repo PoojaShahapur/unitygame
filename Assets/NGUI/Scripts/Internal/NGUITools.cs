@@ -107,8 +107,9 @@ static public class NGUITools
 
 			if (mListener != null && mListener.enabled && NGUITools.GetActive(mListener.gameObject))
 			{
-				AudioSource source = mListener.GetComponent<AudioSource>();
+				AudioSource source = mListener.audio;
 				if (source == null) source = mListener.gameObject.AddComponent<AudioSource>();
+				source.priority = 50;
 				source.pitch = pitch;
 				source.PlayOneShot(clip, volume);
 				return source;
@@ -210,7 +211,7 @@ static public class NGUITools
 		cam = Camera.main;
 		if (cam && (cam.cullingMask & layerMask) != 0) return cam;
 
-#if UNITY_4_3
+#if UNITY_4_3 || UNITY_FLASH
 		Camera[] cameras = NGUITools.FindActive<Camera>();
 		for (int i = 0, imax = cameras.Length; i < imax; ++i)
 #else
@@ -375,13 +376,13 @@ static public class NGUITools
 			if (w != null)
 			{
 				Vector3[] corners = w.localCorners;
-				box.offset = Vector3.Lerp(corners[0], corners[2], 0.5f);
+				box.center = Vector3.Lerp(corners[0], corners[2], 0.5f);
 				box.size = corners[2] - corners[0];
 			}
 			else
 			{
 				Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform, considerInactive);
-				box.offset = b.center;
+				box.center = b.center;
 				box.size = new Vector2(b.size.x, b.size.y);
 			}
 #if UNITY_EDITOR
@@ -543,7 +544,7 @@ static public class NGUITools
 			for (int i = 0, imax = widgets.Length; i < imax; ++i)
 			{
 				UIWidget w = widgets[i];
-				if (w.cachedGameObject != go && (w.GetComponent<Collider>() != null || w.GetComponent<Collider2D>() != null)) continue;
+				if (w.cachedGameObject != go && (w.collider != null || w.GetComponent<Collider2D>() != null)) continue;
 				depth = Mathf.Max(depth, w.depth);
 			}
 			return depth + 1;
@@ -751,7 +752,7 @@ static public class NGUITools
 		{
 			UICamera cam = root.GetComponentInChildren<UICamera>();
 
-			if (cam != null && cam.GetComponent<Camera>().orthographic == advanced3D)
+			if (cam != null && cam.camera.isOrthoGraphic == advanced3D)
 			{
 				trans = null;
 				root = null;
@@ -914,7 +915,20 @@ static public class NGUITools
 		widget.width = 100;
 		widget.height = 100;
 		widget.depth = depth;
-		widget.gameObject.layer = go.layer;
+		return widget;
+	}
+
+	/// <summary>
+	/// Add a new widget of specified type.
+	/// </summary>
+
+	static public T AddWidget<T> (GameObject go, int depth) where T : UIWidget
+	{
+		// Create the widget and place it above other widgets
+		T widget = AddChild<T>(go);
+		widget.width = 100;
+		widget.height = 100;
+		widget.depth = depth;
 		return widget;
 	}
 
@@ -957,7 +971,9 @@ static public class NGUITools
 	static public T FindInParents<T> (GameObject go) where T : Component
 	{
 		if (go == null) return null;
-#if UNITY_4_3
+		// Commented out because apparently it causes Unity 4.5.3 to lag horribly:
+		// http://www.tasharen.com/forum/index.php?topic=10882.0
+//#if UNITY_4_3
  #if UNITY_FLASH
 		object comp = go.GetComponent<T>();
  #else
@@ -978,9 +994,9 @@ static public class NGUITools
  #else
 		return comp;
  #endif
-#else
-		return go.GetComponentInParent<T>();
-#endif
+//#else
+//		return go.GetComponentInParent<T>();
+//#endif
 	}
 
 	/// <summary>
@@ -1465,7 +1481,7 @@ static public class NGUITools
 
 	static public Vector3[] GetSides (this Camera cam, float depth, Transform relativeTo)
 	{
-		if (cam.orthographic)
+		if (cam.isOrthoGraphic)
 		{
 			float os = cam.orthographicSize;
 			float x0 = -os;
@@ -1540,7 +1556,7 @@ static public class NGUITools
 
 	static public Vector3[] GetWorldCorners (this Camera cam, float depth, Transform relativeTo)
 	{
-		if (cam.orthographic)
+		if (cam.isOrthoGraphic)
 		{
 			float os = cam.orthographicSize;
 			float x0 = -os;

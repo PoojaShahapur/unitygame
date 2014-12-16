@@ -27,7 +27,7 @@ namespace SDK.Lib
             audioSrc.rolloffMode = AudioRolloffMode.Linear;
             audioSrc.loop = true;
             audioSrc.dopplerLevel = 0f;
-            audioSrc.spatialBlend = 0f;
+            //audioSrc.spatialBlend = 0f;
         }
 
         public float volume

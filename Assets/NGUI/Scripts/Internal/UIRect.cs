@@ -119,7 +119,7 @@ public abstract class UIRect : MonoBehaviour
 			if (target != null)
 			{
 				if (rect != null) return rect.GetSides(relativeTo);
-				if (target.GetComponent<Camera>() != null) return target.GetComponent<Camera>().GetSides(relativeTo);
+				if (target.camera != null) return target.camera.GetSides(relativeTo);
 			}
 			return null;
 		}
@@ -309,7 +309,7 @@ public abstract class UIRect : MonoBehaviour
 		{
 			if (anchorCamera == null) return 0f;
 
-			if (!mCam.orthographic)
+			if (!mCam.isOrthoGraphic)
 			{
 				Transform t = cachedTransform;
 				Transform ct = mCam.transform;
@@ -389,9 +389,6 @@ public abstract class UIRect : MonoBehaviour
 		}
 		if (mStarted) OnInit();
 		mUpdateFrame = -1;
-#if UNITY_EDITOR
-		OnValidate();
-#endif
 	}
 
 	/// <summary>

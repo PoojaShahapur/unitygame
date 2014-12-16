@@ -44,7 +44,10 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(m_prefabName))
             {
-                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+                // Unity5
+                //AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+                // Unity4
+                AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
                 yield return req;
 
                 GameObject.Instantiate(req.asset);
@@ -64,8 +67,10 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(m_prefabName))
             {
-                //GameObject.Instantiate(m_bundle.Load(m_prefabName));
-                GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
+                // Unity5
+                //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
+                // Unity4
+                GameObject.Instantiate(m_bundle.Load(m_prefabName));
                 //m_bundle.Unload(false);
             }
 
@@ -86,19 +91,29 @@ namespace SDK.Lib
         {
             // Test 查看包内部资源
             //UnityEngine.Object[] test = m_bundle.LoadAllAssets();
-            string[] allName = m_bundle.AllAssetNames();
+            // Unity5
+            //string[] allName = m_bundle.AllAssetNames();
             //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
             GameObject insObj = null;
             if (m_bundle.Contains(resname))
             {
-                UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+                // Unity5
+                //UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+                // Unity4
+                UnityEngine.Object assets = m_bundle.Load(resname);
                 if (assets != null)
                 {
-                    insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+                    // Unity5
+                    //insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+                    // Unity4
+                    insObj = GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
                 }
                 else
                 {
-                    assets = m_bundle.LoadAsset("DefaultAvatar");
+                    // Unity5
+                    //assets = m_bundle.LoadAsset("DefaultAvatar");
+                    // Unity4
+                    assets = m_bundle.Load("DefaultAvatar");
                 }
             }
             return insObj;
@@ -106,13 +121,17 @@ namespace SDK.Lib
 
         override public UnityEngine.Object getObject(string resname)
         {
-            string[] allName = m_bundle.AllAssetNames();
+            // Unity5
+            //string[] allName = m_bundle.AllAssetNames();
 
             //return m_bundle.Load(resname);
             UnityEngine.Object assets = null;
             if (m_bundle.Contains(resname))
             {
-                assets = m_bundle.LoadAsset(resname);
+                // Unty5
+                //assets = m_bundle.LoadAsset(resname);
+                // Unity4
+                assets = m_bundle.Load(resname);
             }
             return assets;
         }

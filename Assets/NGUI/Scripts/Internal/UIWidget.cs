@@ -70,10 +70,16 @@ public class UIWidget : UIRect
 		}
 		set
 		{
+#if UNITY_FLASH
+			if (!(mOnRender == value))
+#else
 			if (mOnRender != value)
+#endif
 			{
+#if !UNITY_FLASH
 				if (drawCall != null && drawCall.onRender != null && mOnRender != null)
 					drawCall.onRender -= mOnRender;
+#endif
 				mOnRender = value;
 				if (drawCall != null) drawCall.onRender += value;
 			}
@@ -607,7 +613,7 @@ public class UIWidget : UIRect
 	{
 		get
 		{
-			BoxCollider box = GetComponent<Collider>() as BoxCollider;
+			BoxCollider box = collider as BoxCollider;
 			if (box != null) return true;
 			return GetComponent<BoxCollider2D>() != null;
 		}

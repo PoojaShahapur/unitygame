@@ -88,7 +88,7 @@ public class UIButton : UIButtonColor
 		get
 		{
 			if (!enabled) return false;
-			Collider col = GetComponent<Collider>();
+			Collider col = collider;
 			if (col && col.enabled) return true;
 			Collider2D c2d = GetComponent<Collider2D>();
 			return (c2d && c2d.enabled);
@@ -97,7 +97,7 @@ public class UIButton : UIButtonColor
 		{
 			if (isEnabled != value)
 			{
-				Collider col = GetComponent<Collider>();
+				Collider col = collider;
 
 				if (col != null)
 				{
@@ -263,7 +263,7 @@ public class UIButton : UIButtonColor
 			switch (state)
 			{
 				case State.Normal: SetSprite(mNormalSprite); break;
-				case State.Hover: SetSprite(hoverSprite); break;
+				case State.Hover: SetSprite(string.IsNullOrEmpty(hoverSprite) ? mNormalSprite : hoverSprite); break;
 				case State.Pressed: SetSprite(pressedSprite); break;
 				case State.Disabled: SetSprite(disabledSprite); break;
 			}
@@ -273,7 +273,7 @@ public class UIButton : UIButtonColor
 			switch (state)
 			{
 				case State.Normal: SetSprite(mNormalSprite2D); break;
-				case State.Hover: SetSprite(hoverSprite2D); break;
+				case State.Hover: SetSprite(hoverSprite2D == null ? mNormalSprite2D : hoverSprite2D); break;
 				case State.Pressed: SetSprite(pressedSprite2D); break;
 				case State.Disabled: SetSprite(disabledSprite2D); break;
 			}
