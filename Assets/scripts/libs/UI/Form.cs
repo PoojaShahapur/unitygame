@@ -43,22 +43,22 @@ namespace SDK.Lib
 			adjustPosWithAlign();
 		}
 
-        public void onReady()
+        virtual public void onReady()
         {
 
         }
-		
-		public void onShow()
+
+        virtual public void onShow()
 		{
 		    adjustPosWithAlign();
 		}
-		
-		public void onHide()
+
+        virtual public void onHide()
 		{
 			
 		}
-		
-		public void onDestroy()
+
+        virtual public void onDestroy()
 		{
 			
 		}

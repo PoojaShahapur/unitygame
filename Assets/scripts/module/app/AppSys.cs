@@ -15,8 +15,8 @@ namespace Game.App
         {
             Ctx.m_instance = new Ctx();
             Ctx.m_instance.Awake();
-            Ctx.m_instance.m_netMgr = new NetworkMgr();
             Ctx.m_instance.m_cfg = new Config();
+            Ctx.m_instance.m_netMgr = new NetworkMgr();
             Ctx.m_instance.m_log = new Logger();
             Ctx.m_instance.m_resMgr = new ResMgr();
             Ctx.m_instance.m_inputMgr = new InputMgr();
@@ -42,6 +42,7 @@ namespace Game.App
             Ctx.m_instance.m_camSys = new CamSys();
             Ctx.m_instance.m_meshMgr = new MeshMgr();
             Ctx.m_instance.m_aiSystem = new AISystem();
+            Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute();
 
             PostInit();
         }
@@ -106,16 +107,31 @@ namespace Game.App
         }
 
         // 加载游戏模块
-        public void loadGame()
+        public void loadModule(string name)
         {
             // 初始化完成，开始加载自己的游戏场景
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + "Game";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + name;
             //param.m_resPackType = ResPackType.eBundleType;
-            param.m_loadedcb = onGameLoaded;
+            if ("Game" == name)
+            {
+                param.m_loadedcb = onGameLoaded;
+            }
+            else
+            {
+                param.m_loadedcb = onLoginLoaded;
+            }
             //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             //Ctx.m_instance.m_resMgr.load(param);
-            Ctx.m_instance.m_resMgr.loadBundle(param);
+            //Ctx.m_instance.m_resMgr.loadBundle(param);
+            Ctx.m_instance.m_resMgr.loadResources(param);
+        }
+
+        public void onLoginLoaded(EventDisp resEvt)
+        {
+            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            GameObject goLogin = res.InstantiateObject("Login");
+            goLogin.transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer].transform;
         }
 
         public void onGameLoaded(EventDisp resEvt)

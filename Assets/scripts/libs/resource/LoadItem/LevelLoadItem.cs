@@ -53,8 +53,8 @@ namespace SDK.Lib
         protected void SyncLoadFromDefaultAssetBundle()
         {
             //string path = Application.dataPath + "/" + m_path;
-            string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
-            Application.LoadLevel(path);
+            //string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
+            Application.LoadLevel(m_levelName);
 
             if (onLoaded != null)
             {
@@ -78,20 +78,23 @@ namespace SDK.Lib
 
         protected IEnumerator downloadAsset()
         {
-            string path;
+            string path = "";
             //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-            if (m_resLoadType == ResLoadType.eLoadDicWeb)
+            if (m_resLoadType != ResLoadType.eLoadDisc) // 如果不是从本地磁盘直接加载
             {
-                path = "file://" + Application.dataPath + "/" + m_path;
+                if (m_resLoadType == ResLoadType.eLoadDicWeb)
+                {
+                    path = "file://" + Application.dataPath + "/" + m_path;
+                }
+                else if (m_resLoadType == ResLoadType.eLoadWeb)
+                {
+                    path = Ctx.m_instance.m_cfg.m_webIP + m_path;
+                }
+                deleteFromCache(path);
+                m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+                yield return m_w3File;
+                m_assetBundle = m_w3File.assetBundle;
             }
-            else
-            {
-                path = Ctx.m_instance.m_cfg.m_webIP + m_path;
-            }
-            deleteFromCache(path);
-            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
-            yield return m_w3File;
-            m_assetBundle = m_w3File.assetBundle;
 
             AsyncOperation async = Application.LoadLevelAsync(m_levelName);
             yield return async;

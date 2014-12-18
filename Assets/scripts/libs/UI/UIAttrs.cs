@@ -12,8 +12,13 @@ namespace SDK.Lib
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
             m_dicAttr[UIFormID.UIBackPack] = new UIAttrItem();
             m_dicAttr[UIFormID.UIBackPack].m_LayerID = UILayerID.FirstLayer;
-            m_dicAttr[UIFormID.UIBackPack].m_resPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm" + ".unity3d";
             m_dicAttr[UIFormID.UIBackPack].m_prefabName = "UIScrollForm";
+            m_dicAttr[UIFormID.UIBackPack].m_resPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIBackPack].m_prefabName;
+
+            m_dicAttr[UIFormID.UILogin] = new UIAttrItem();
+            m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.FirstLayer;
+            m_dicAttr[UIFormID.UILogin].m_prefabName = "UILogin";
+            m_dicAttr[UIFormID.UILogin].m_resPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UILogin].m_prefabName;
         }
 
         public string getPath(UIFormID id)

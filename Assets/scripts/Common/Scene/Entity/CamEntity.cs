@@ -13,7 +13,7 @@ namespace SDK.Common
 
         public void setTarget(Transform tran)
         {
-            m_camGo.GetComponent<SmoothFollow>().target = tran;
+            //m_camGo.GetComponent<SmoothFollow>().target = tran;
         }
     }
 }

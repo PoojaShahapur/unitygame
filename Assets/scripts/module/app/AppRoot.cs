@@ -21,7 +21,8 @@ public class AppRoot : MonoBehaviour
         //DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
         m_AppSys.setNoDestroyObject();
         m_AppSys.Start();
-        m_AppSys.loadGame();
+        //m_AppSys.loadModule("Game");
+        m_AppSys.loadModule("Login");
 	}
 	
 	// Update is called once per frame

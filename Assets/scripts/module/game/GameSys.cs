@@ -26,10 +26,10 @@ namespace Game.Game
             GameSys.m_instance.m_ctx = approot.getCtx();
 
             // 场景逻辑处理逻辑
-            GameSys.m_instance.m_ctx.m_uiMgr.SetIUIFactory(new UIFactory());
+            GameSys.m_instance.m_ctx.m_uiMgr.SetIUIFactory(new GameUIFactory());
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
-            Ctx.m_instance.m_sceneEventCB = new SceneEventCB();
+            Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 
             Ctx.m_instance.m_meshMgr.loadSkinInfo();

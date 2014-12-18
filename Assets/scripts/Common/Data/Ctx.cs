@@ -41,6 +41,8 @@ namespace SDK.Common
         public ISceneLogic m_sceneLogic;
         public IMeshMgr m_meshMgr;
         public IAISystem m_aiSystem;
+        public SysMsgRoute m_sysMsgRoute;           // 消息分发
+        public INetHandle m_netHandle;              // 网络处理器
 
         public Ctx()
         {

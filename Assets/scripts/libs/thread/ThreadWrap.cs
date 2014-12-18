@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDK.Common;
+using System;
 using System.Threading;
 
 namespace SDK.Lib
@@ -57,7 +58,7 @@ namespace SDK.Lib
         /**
          *@brief 线程回调函数
          */
-        public void threadHandle()
+        virtual public void threadHandle()
         {
             if(m_cb != null)
             {

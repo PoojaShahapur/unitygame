@@ -23,6 +23,18 @@ namespace SDK.Common
             return GameObject.Find(name);
         }
 
+        // 从 Parent 获取一个组件
+        static public T getComByP<T>(GameObject go, string path) where T : Component
+        {
+            return go.transform.Find(path).GetComponent<T>();
+        }
+
+        // 添加事件处理
+        public static void addEventHandle(GameObject go, string path, UIEventListener.VoidDelegate handle)
+        {
+            UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
+        }
+
         static public bool getXmlAttrBool(XmlAttribute attr)
         {
             if (attr != null)

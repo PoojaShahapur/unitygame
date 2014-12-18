@@ -1,6 +1,7 @@
 using SDK.Common;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -82,6 +83,7 @@ namespace SDK.Lib
                     form = m_IUIFactory.CreateForm(ID);
                     if (form != null)                   // 如果代码已经在本地
                     {
+                        (form as Form).id = ID;
                         addFormNoReady(form as Form);           // 仅仅是创建数据，资源还没有加载完成
                         m_ID2LoadingItemDic[ID].m_logicLoaded = true;
                     }
@@ -114,7 +116,8 @@ namespace SDK.Lib
                     //param.m_resNeedCoroutine = false;
                     //param.m_loadNeedCoroutine = true;
                     //Ctx.m_instance.m_resMgr.load(param);
-                    Ctx.m_instance.m_resMgr.loadBundle(param);
+                    //Ctx.m_instance.m_resMgr.loadBundle(param);
+                    Ctx.m_instance.m_resMgr.loadResources(param);
 				}
 			}
 		}
@@ -257,6 +260,7 @@ namespace SDK.Lib
             if (ResPathType.ePathComUI == pathType)
             {
                 m_ID2LoadingItemDic[ID].m_resLoaded = true;
+                //m_ID2LoadingItemDic[ID].m_logicLoaded = true;       // 代码启动的时候就加载了
             }
             else if (ResPathType.ePathCodePath == pathType)
             {
@@ -268,6 +272,12 @@ namespace SDK.Lib
                 UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
                 Action<IForm> loadedFun = Ctx.m_instance.m_cbUIEvent.getLoadedFunc(ID);
                 m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_prefabName);
+                // 设置位置
+                m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer].transform;
+                // 先设置再设置缩放，否则无效
+                m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localPosition = Vector3.zero;
+                m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localScale = Vector3.one;
+                m_dicForm[ID].onReady();
                 if (loadedFun != null)
                 {
                     loadedFun(m_dicForm[ID]);

@@ -17,7 +17,7 @@ namespace SDK.Lib
         public DynamicBuffer()
         {
             m_iMaxCapacity = 8 * 1024 * 1024;      // 最大允许分配 8 M
-            m_iCapacity = 64 * 1024;               // 默认分配 64 K
+            m_iCapacity = 1 * 1024;               // 默认分配 1 K
             m_size = 0;
             m_buff = new byte[m_iCapacity];
         }
@@ -27,6 +27,14 @@ namespace SDK.Lib
             get
             {
                 return m_buff;
+            }
+        }
+
+        public uint maxCapacity
+        {
+            get
+            {
+                return m_iMaxCapacity;
             }
         }
 

@@ -45,6 +45,10 @@ namespace SDK.Lib
             {
                 return m_id;
             }
+            set
+            {
+                m_id = value;
+            }
         }
 
         public float x

@@ -16,16 +16,34 @@ namespace SDK.Lib
         // Use this for initialization
         void Start()
         {
-            m_loadType = 2;
-            //if(m_loadType == 2)
-            //{
-            //    m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
-            //}
-            //else
-            //{
+            m_loadType = 0;
+
+            if (0 == m_loadType)
+            {
+                m_appURL = "Module/App";
+            }
+            else if(m_loadType == 2)
+            {
+                m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+            }
+            else
+            {
                 //m_appURL = Application.dataPath + "/StreamingAssets/Module/App.unity3d";
                 m_appURL = "file://" + Application.dataPath + "/StreamingAssets/Module/App.unity3d";
-            //}
+            }
+
+            if (m_loadType == 0)
+            {
+                loadFromDefaultAssetBundle();
+            }
+            else if (m_loadType == 1)
+            {
+                loadFromAssetBundle();
+            }
+            else if (m_loadType == 2)
+            {
+                StartCoroutine(DownloadAppAsset());
+            }
         }
 
         // Update is called once per frame
@@ -34,36 +52,37 @@ namespace SDK.Lib
 
         }
 
-        void OnGUI()
-        {
-            //设置按钮中文字的颜色  
-            GUI.color = Color.green;
-            //设置按钮的背景色  
-            GUI.backgroundColor = Color.red;
+        //void OnGUI()
+        //{
+        //    //设置按钮中文字的颜色  
+        //    GUI.color = Color.green;
+        //    //设置按钮的背景色  
+        //    GUI.backgroundColor = Color.red;
 
-            if (GUI.Button(new Rect(100, 100, 300, 40), "点击加载游戏代码，开始游戏"))
-            {
-                if (m_loadType == 0)
-                {
-                    loadFromDefaultAssetBundle();
-                }
-                else if (m_loadType == 1)
-                {
-                    loadFromAssetBundle();
-                }
-                else if (m_loadType == 2)
-                {
-                    StartCoroutine(DownloadAppAsset());
-                }
-            }
-        }
+        //    if (GUI.Button(new Rect(100, 100, 300, 40), "点击加载游戏代码，开始游戏"))
+        //    {
+        //        if (m_loadType == 0)
+        //        {
+        //            loadFromDefaultAssetBundle();
+        //        }
+        //        else if (m_loadType == 1)
+        //        {
+        //            loadFromAssetBundle();
+        //        }
+        //        else if (m_loadType == 2)
+        //        {
+        //            StartCoroutine(DownloadAppAsset());
+        //        }
+        //    }
+        //}
 
         protected void loadFromDefaultAssetBundle()
         {
             UnityEngine.Object prefabObj = Resources.Load(m_appURL);
             if (prefabObj)
             {
-                Instantiate(prefabObj);
+                Object insObj = Instantiate(prefabObj);
+                insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
             }
         }
 
@@ -78,7 +97,8 @@ namespace SDK.Lib
                 // Object bt = assetBundle.LoadAsset(m_appName);
                 // Unity4
                 Object bt = assetBundle.Load(m_appName);
-                Instantiate(bt);
+                Object insObj = Instantiate(bt);
+                insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
                 assetBundle.Unload(false);
             }
         }

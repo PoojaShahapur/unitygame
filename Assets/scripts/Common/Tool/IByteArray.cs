@@ -11,20 +11,26 @@ namespace SDK.Common
     {
         void clear();
         void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB);
-        void uncompress ();
-		bool readBoolean ();
-		int readByte ();
-		int readInt ();
+        void uncompress();
+		bool readBoolean();
+		byte readByte();
+		int readInt();
 		string readMultiByte (uint length, Encoding charSet);
-		int readShort ();
-		uint readUnsignedByte ();
-		uint readUnsignedInt ();
-		uint readUnsignedShort ();
-		void writeByte (byte value);
-		void writeInt (int value);
-		void writeMultiByte (string value, Encoding charSet);
-		void writeShort (short value);
-		void writeUnsignedInt (uint value);
+		int readShort();
+		uint readUnsignedByte();
+		uint readUnsignedInt();
+		ushort readUnsignedShort();
+        ulong readUnsignedLong();
+
+		void writeByte(byte value);
+		void writeInt(int value);
+        void writeMultiByte(string value, Encoding charSet, int len);
+		void writeShort(short value);
+        void writeUnsignedShort(ushort value);
+		void writeUnsignedInt(uint value);
         void writeBytes(byte[] value, uint start, uint length);
+        void writeUnsignedLong(ulong value);
+
+        void setPos(uint pos);
     }
 }

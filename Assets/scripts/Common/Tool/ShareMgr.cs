@@ -6,5 +6,6 @@
     public class ShareMgr
     {
         public EventDisp m_evt = new EventDisp();
+        public string m_tmpStr = "";
     }
 }
