@@ -23,6 +23,7 @@ namespace UnitySteer.Behaviors
     /// The final correction vector is the old desired velocity reflected 
     /// along the calculated avoidance vector.
     /// </remarks>
+    [AddComponentMenu("UnitySteer/Steer/... for SphericalObstacles")]
     public class SteerForSphericalObstacles : Steering
     {
         #region Structs

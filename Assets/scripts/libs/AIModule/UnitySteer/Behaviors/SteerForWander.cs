@@ -7,6 +7,7 @@ namespace UnitySteer.Behaviors
     /// vectors. Speed changes are smoothed based on the Vehicle.DeltaTime, not
     /// Time.deltaTime, since steering behaviors may not be refreshed every frame.
     /// </summary>
+    [AddComponentMenu("UnitySteer/Steer/... for Wander")]
     public class SteerForWander : Steering
     {
         #region Private fields

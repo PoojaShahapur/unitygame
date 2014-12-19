@@ -17,6 +17,7 @@ namespace UnitySteer.Behaviors
     /// vehicles, at least for purposes of estimation, avoidance, pursuit, etc.
     /// In this case, the base Vehicle class can be used to provide an interface
     /// to whatever is doing the moving, like a CharacterMotor.</remarks>
+    [AddComponentMenu("UnitySteer/Vehicle/Vehicle")]
     public abstract class Vehicle : DetectableObject
     {
         [SerializeField] private float _minSpeedForTurning = 0.1f;
@@ -79,29 +80,11 @@ namespace UnitySteer.Behaviors
 
         #endregion
 
-        private bool m_enabled = true;
-
         #region Public properties
-
-        public bool enabled
-        {
-            get
-            {
-                return m_enabled;
-            }
-            set
-            {
-                m_enabled = value;
-            }
-        }
 
         public Vector3 AllowedMovementAxes
         {
             get { return _allowedMovementAxes; }
-            set
-            {
-                _allowedMovementAxes = value;
-            }
         }
 
         /// <summary>
@@ -158,6 +141,7 @@ namespace UnitySteer.Behaviors
             get { return _minSpeedForTurning; }
         }
 
+
         /// <summary>
         /// The vehicle movement priority.
         /// </summary>
@@ -172,8 +156,7 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Radar assigned to this vehicle
         /// </summary>
-        //public Radar Radar { get; private set; }
-        public Radar Radar { get; set; }
+        public Radar Radar { get; private set; }
 
         public Rigidbody Rigidbody { get; private set; }
 
@@ -181,6 +164,7 @@ namespace UnitySteer.Behaviors
         /// Speedometer attached to the same object as this vehicle, if any
         /// </summary>
         public Speedometer Speedometer { get; protected set; }
+
 
         /// <summary>
         /// Vehicle arrival radius
@@ -226,8 +210,7 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Array of steering behaviors
         /// </summary>
-        //public Steering[] Steerings { get; private set; }
-        public Steering[] Steerings { get; set; }
+        public Steering[] Steerings { get; private set; }
 
         /// <summary>
         /// Array of steering post-processor behaviors
@@ -268,36 +251,24 @@ namespace UnitySteer.Behaviors
 
         #endregion
 
-        public override void initOwner(GameObject owner)
-        {
-            base.initOwner(owner);
-
-            //Steerings = new Steering[1];
-            SteeringPostprocessors = new Steering[0];
-            GameObject = sceneGo;
-            Rigidbody = sceneGo.GetComponent<Rigidbody>();
-            SquaredArrivalRadius = ArrivalRadius * ArrivalRadius;
-        }
-
         #region Unity methods
 
         protected override void Awake()
         {
             base.Awake();
-            Steerings = new Steering[1];
-            GameObject = sceneGo;
-            Rigidbody = sceneGo.GetComponent<Rigidbody>();
-            //var allSteerings = sceneGo.GetComponents<Steering>();
-            //Steerings = allSteerings.Where(x => !x.IsPostProcess).ToArray();
-            //SteeringPostprocessors = allSteerings.Where(x => x.IsPostProcess).ToArray();
+            GameObject = gameObject;
+            Rigidbody = GetComponent<Rigidbody>();
+            var allSteerings = GetComponents<Steering>();
+            Steerings = allSteerings.Where(x => !x.IsPostProcess).ToArray();
+            SteeringPostprocessors = allSteerings.Where(x => x.IsPostProcess).ToArray();
             
 
-            //if (_movementPriority == 0)
-            //{
-            //    _movementPriority = gameObject.GetInstanceID();
-            //}
-            //Radar = GetComponent<Radar>();
-            //Speedometer = GetComponent<Speedometer>();
+            if (_movementPriority == 0)
+            {
+                _movementPriority = gameObject.GetInstanceID();
+            }
+            Radar = GetComponent<Radar>();
+            Speedometer = GetComponent<Speedometer>();
             SquaredArrivalRadius = ArrivalRadius * ArrivalRadius;
         }
 
@@ -331,6 +302,7 @@ namespace UnitySteer.Behaviors
         {
             return Transform.position + (DesiredVelocity * predictionTime);
         }
+
 
         /// <summary>
         /// Calculates if a vehicle is in the neighborhood of another
@@ -379,6 +351,7 @@ namespace UnitySteer.Behaviors
             return result;
         }
 
+
         /// <summary>
         /// Returns a vector to seek a target position
         /// </summary>
@@ -399,10 +372,10 @@ namespace UnitySteer.Behaviors
         public Vector3 GetSeekVector(Vector3 target, bool considerVelocity = false)
         {
             /*
-		     * First off, we calculate how far we are from the target, If this
-		     * distance is smaller than the configured vehicle radius, we tell
-		     * the vehicle to stop.
-		     */
+		 * First off, we calculate how far we are from the target, If this
+		 * distance is smaller than the configured vehicle radius, we tell
+		 * the vehicle to stop.
+		 */
             var force = Vector3.zero;
 
             var difference = target - Position;
@@ -410,13 +383,13 @@ namespace UnitySteer.Behaviors
             if (d > SquaredArrivalRadius)
             {
                 /*
-			     * But suppose we still have some distance to go. The first step
-			     * then would be calculating the steering force necessary to orient
-			     * ourselves to and walk to that point.
-			     * 
-			     * It doesn't apply the steering itself, simply returns the value so
-			     * we can continue operating on it.
-			     */
+			 * But suppose we still have some distance to go. The first step
+			 * then would be calculating the steering force necessary to orient
+			 * ourselves to and walk to that point.
+			 * 
+			 * It doesn't apply the steering itself, simply returns the value so
+			 * we can continue operating on it.
+			 */
                 force = considerVelocity ? difference - Velocity : difference;
             }
             return force;
@@ -438,6 +411,7 @@ namespace UnitySteer.Behaviors
             var speedError = targetSpeed - Speed;
             return Transform.forward * Mathf.Clamp(speedError, -mf, +mf);
         }
+
 
         /// <summary>
         /// Returns the distance from this vehicle to another
@@ -502,6 +476,7 @@ namespace UnitySteer.Behaviors
 
             return projection / relSpeed;
         }
+
 
         /// <summary>
         /// Given the time until nearest approach (predictNearestApproachTime)
@@ -569,6 +544,7 @@ namespace UnitySteer.Behaviors
 
             return Vector3.Distance(ourPosition, hisPosition);
         }
+
 
         protected override void OnDrawGizmos()
         {

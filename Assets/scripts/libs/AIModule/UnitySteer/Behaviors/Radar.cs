@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-//using TickedPriorityQueue;
+using TickedPriorityQueue;
 using UnityEngine;
 
 namespace UnitySteer.Behaviors
@@ -19,7 +19,8 @@ namespace UnitySteer.Behaviors
     /// AddDetectableObject on enable, and remove itself via RemoveDetectableObject
     /// on disable.
     /// </remarks>
-    public class Radar
+    [AddComponentMenu("UnitySteer/Radar/Radar")]
+    public class Radar : MonoBehaviour
     {
         #region Private static properties
 
@@ -31,8 +32,8 @@ namespace UnitySteer.Behaviors
         #region Private properties
 
         private Transform _transform;
-        //private TickedObject _tickedObject;
-        //private UnityTickedQueue _steeringQueue;
+        private TickedObject _tickedObject;
+        private UnityTickedQueue _steeringQueue;
 
         [SerializeField] private string _queueName = "Radar";
 
@@ -129,8 +130,7 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// Gets the vehicle this radar is attached to
         /// </summary>
-        //public Vehicle Vehicle { get; private set; }
-        public Vehicle Vehicle { get; set; }
+        public Vehicle Vehicle { get; private set; }
 
         /// <summary>
         /// List of vehicles detected among the colliders
@@ -138,10 +138,6 @@ namespace UnitySteer.Behaviors
         public List<Vehicle> Vehicles
         {
             get { return _vehicles; }
-            set
-            {
-                _vehicles = value;
-            }
         }
 
         /// <summary>
@@ -182,48 +178,37 @@ namespace UnitySteer.Behaviors
 
         protected virtual void Awake()
         {
-            //Vehicle = GetComponent<Vehicle>();
-            _transform = Vehicle.sceneGo.transform;
+            Vehicle = GetComponent<Vehicle>();
+            _transform = transform;
             _vehicles = new List<Vehicle>(_preAllocateSize);
             _obstacles = new List<DetectableObject>(_preAllocateSize);
             _detectedObjects = new List<DetectableObject>(_preAllocateSize * 3);
         }
 
-        public void initAwake()
-        {
-            //Vehicle = GetComponent<Vehicle>();
-            _transform = Vehicle.sceneGo.transform;
-            _vehicles = new List<Vehicle>(_preAllocateSize);
-            _obstacles = new List<DetectableObject>(_preAllocateSize);
-            _detectedObjects = new List<DetectableObject>(_preAllocateSize * 3);
-        }
-
-        public void addVehicle(Vehicle value)
-        {
-            _vehicles.Add(value);
-        }
 
         private void OnEnable()
         {
-            //_tickedObject = new TickedObject(OnUpdateRadar) {TickLength = _tickLength};
-            //_steeringQueue = UnityTickedQueue.GetInstance(_queueName);
-            //_steeringQueue.Add(_tickedObject);
-            //_steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
+            _tickedObject = new TickedObject(OnUpdateRadar) {TickLength = _tickLength};
+            _steeringQueue = UnityTickedQueue.GetInstance(_queueName);
+            _steeringQueue.Add(_tickedObject);
+            _steeringQueue.MaxProcessedPerUpdate = _maxQueueProcessedPerUpdate;
         }
+
 
         private void OnDisable()
         {
-            //if (_steeringQueue != null)
-            //{
-            //    _steeringQueue.Remove(_tickedObject);
-            //}
+            if (_steeringQueue != null)
+            {
+                _steeringQueue.Remove(_tickedObject);
+            }
         }
+
 
         private void OnUpdateRadar(object obj)
         {
             Profiler.BeginSample("OnUpdateRadar");
-            //_detectedColliders = Detect();
-            //FilterDetected();
+            _detectedColliders = Detect();
+            FilterDetected();
             if (OnDetected != null)
             {
                 Profiler.BeginSample("Detection event handler");
@@ -231,26 +216,26 @@ namespace UnitySteer.Behaviors
                 Profiler.EndSample();
             }
 #if TRACEDETECTED
-		    if (DrawGizmos)
-		    {
-			    Debug.Log(gameObject.name+" detected at "+Time.time);
-			    var sb = new System.Text.StringBuilder(); 
-			    foreach (var v in Vehicles)
-			    {
-				    sb.Append(v.gameObject.name);
-				    sb.Append(" ");
-				    sb.Append(v.Position);
-				    sb.Append(" ");
-			    }
-			    foreach (var o in Obstacles)
-			    {
-				    sb.Append(o.gameObject.name);
-				    sb.Append(" ");
-				    sb.Append(o.Position);
-				    sb.Append(" ");
-			    }
-			    Debug.Log(sb.ToString());
-		    }
+		if (DrawGizmos)
+		{
+			Debug.Log(gameObject.name+" detected at "+Time.time);
+			var sb = new System.Text.StringBuilder(); 
+			foreach (var v in Vehicles)
+			{
+				sb.Append(v.gameObject.name);
+				sb.Append(" ");
+				sb.Append(v.Position);
+				sb.Append(" ");
+			}
+			foreach (var o in Obstacles)
+			{
+				sb.Append(o.gameObject.name);
+				sb.Append(" ");
+				sb.Append(o.Position);
+				sb.Append(" ");
+			}
+			Debug.Log(sb.ToString());
+		}
 #endif
             Profiler.EndSample();
         }
@@ -260,6 +245,7 @@ namespace UnitySteer.Behaviors
             OnUpdateRadar(null);
         }
 
+
         protected virtual Collider[] Detect()
         {
             return Physics.OverlapSphere(Position, DetectionRadius, LayersChecked);
@@ -268,22 +254,23 @@ namespace UnitySteer.Behaviors
         protected virtual void FilterDetected()
         {
             /*
-		     * For each detected item, obtain the DetectableObject it has.
-		     * We could have allowed people to have multiple DetectableObjects 
-		     * on a transform hierarchy, but this ends up with us having to do
-		     * calls to GetComponentsInChildren, which gets really expensive.
-		     * 
-		     * I *do not* recommend changing this to GetComponentsInChildren.
-		     * As a reference, whenever the radar fired up near a complex object
-		     * (say, a character model) obtaining the list of DetectableObjects
-		     * took about 75% of the time used for the frame.
-             * 
-		     */
+		 * For each detected item, obtain the DetectableObject it has.
+		 * We could have allowed people to have multiple DetectableObjects 
+		 * on a transform hierarchy, but this ends up with us having to do
+		 * calls to GetComponentsInChildren, which gets really expensive.
+		 * 
+		 * I *do not* recommend changing this to GetComponentsInChildren.
+		 * As a reference, whenever the radar fired up near a complex object
+		 * (say, a character model) obtaining the list of DetectableObjects
+		 * took about 75% of the time used for the frame.
+         * 
+		 */
             Profiler.BeginSample("Base FilterDetected");
 
             _vehicles.Clear();
             _obstacles.Clear();
             _detectedObjects.Clear();
+
 
             Profiler.BeginSample("Initial detection");
             for (var i = 0; i < _detectedColliders.Length; i++)
@@ -329,7 +316,7 @@ namespace UnitySteer.Behaviors
         {
             if (_drawGizmos)
             {
-                var pos = (Vehicle == null) ? Vehicle.sceneGo.transform.position : Vehicle.Position;
+                var pos = (Vehicle == null) ? transform.position : Vehicle.Position;
 
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(pos, DetectionRadius);

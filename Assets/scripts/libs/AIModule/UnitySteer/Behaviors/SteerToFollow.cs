@@ -7,6 +7,7 @@ namespace UnitySteer.Behaviors
     /// (which may or may not be another vehicle)
     /// </summary>
     /// <seealso cref="SteerForPursuit"/>
+    [AddComponentMenu("UnitySteer/Steer/... to Follow")]
     public class SteerToFollow : Steering
     {
         /// <summary>
@@ -27,6 +28,7 @@ namespace UnitySteer.Behaviors
         /// </summary>
         [SerializeField] private Vector3 _distance;
 
+
         /// <summary>
         /// The target.
         /// </summary>
@@ -40,6 +42,7 @@ namespace UnitySteer.Behaviors
             }
         }
 
+
         /// <summary>
         /// Should the vehicle's velocity be considered in the seek calculations?
         /// </summary>
@@ -50,18 +53,6 @@ namespace UnitySteer.Behaviors
         {
             get { return _considerVelocity; }
             set { _considerVelocity = value; }
-        }
-
-        public Vector3 distance
-        {
-            get
-            {
-                return distance;
-            }
-            set
-            {
-                distance = value;
-            }
         }
 
         /// <summary>

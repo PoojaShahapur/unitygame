@@ -7,6 +7,7 @@ namespace UnitySteer.Behaviors
     /// vector which can be separate from their forward vector (can side-step or
 	/// walk backwards).
     /// </summary>
+    [AddComponentMenu("UnitySteer/Vehicle/Biped")]
     public class Biped : TickedVehicle
     {
         #region Internal state values
@@ -14,7 +15,7 @@ namespace UnitySteer.Behaviors
         /// <summary>
         /// The magnitude of the last velocity vector assigned to the vehicle 
         /// </summary>
-        private float _speed = 1;
+        private float _speed;
 
         /// <summary>
         /// The biped's current velocity vector
@@ -43,21 +44,11 @@ namespace UnitySteer.Behaviors
             get { return _velocity; }
             protected set
             {
-                _velocity = value;
-                _velocity.Normalize();
-                //_velocity = Vector3.ClampMagnitude(value, MaxSpeed);
-                //_speed = _velocity.magnitude;
-                //TargetSpeed = _speed;
-                //OrientationVelocity = !Mathf.Approximately(_speed, 0) ? _velocity / _speed : Vector3.zero;
-                OrientationVelocity = !Mathf.Approximately(_speed, 0) ? _velocity : Vector3.zero;
+                _velocity = Vector3.ClampMagnitude(value, MaxSpeed);
+                _speed = _velocity.magnitude;
+                TargetSpeed = _speed;
+                OrientationVelocity = !Mathf.Approximately(_speed, 0) ? _velocity / _speed : Vector3.zero;
             }
-        }
-
-        // …Ë÷√ÀŸ¬ 
-        public void setSpeed(float value)
-        {
-            _speed = value;
-            TargetSpeed = _speed;
         }
 
         #region Methods
@@ -85,8 +76,7 @@ namespace UnitySteer.Behaviors
         /// <param name="deltaTime">Time delta to use in position calculations</param>
         protected override Vector3 CalculatePositionDelta(float deltaTime)
         {
-            //return Velocity * deltaTime;
-            return Velocity * deltaTime * _speed;
+            return Velocity * deltaTime;
         }
 
         /// <summary>

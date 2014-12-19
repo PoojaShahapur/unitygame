@@ -7,6 +7,7 @@ namespace UnitySteer.Behaviors
     /// Steers a vehicle to stay on the navmesh
     /// Currently only supports the Default layer
     /// </summary>
+    [AddComponentMenu("UnitySteer/Steer/... for Navmesh")]
     public class SteerForNavmesh : Steering
     {
         #region Private fields
@@ -94,6 +95,7 @@ namespace UnitySteer.Behaviors
             base.Start();
             _navMeshLayerMask = 1 << NavMesh.GetNavMeshLayerFromName("Default");
         }
+
 
         public override bool IsPostProcess
         {

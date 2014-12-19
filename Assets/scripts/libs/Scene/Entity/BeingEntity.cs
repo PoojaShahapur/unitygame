@@ -104,7 +104,7 @@ namespace SDK.Lib
                     m_aiController.initControl(m_skinAniModel);
                 }
 
-                m_aiController.vehicle.sceneGo = m_skinAniModel.rootGo;
+                //m_aiController.vehicle.sceneGo = m_skinAniModel.rootGo;
                 // 初始化 Steerings 参数信息
                 initSteerings();
             }

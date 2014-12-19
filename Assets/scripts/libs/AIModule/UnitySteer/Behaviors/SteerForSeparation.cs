@@ -5,6 +5,8 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Steers a vehicle to keep separate from neighbors
     /// </summary>
+    [AddComponentMenu("UnitySteer/Steer/... for Separation")]
+    [RequireComponent(typeof (SteerForNeighborGroup))]
     public class SteerForSeparation : SteerForNeighbors
     {
         /// <summary>
@@ -44,36 +46,7 @@ namespace UnitySteer.Behaviors
             }
         }
 
-        public float multiplierInsideComfortDistance
-        {
-            get
-            {
-                return _multiplierInsideComfortDistance;
-            }
-            set
-            {
-                _multiplierInsideComfortDistance = value;
-            }
-        }
-
-        public float vehicleRadiusImpact
-        {
-            get
-            {
-                return _vehicleRadiusImpact;
-            }
-            set
-            {
-                _vehicleRadiusImpact = value;
-            }
-        }
-
         protected override void Start()
-        {
-            _comfortDistanceSquared = _comfortDistance * _comfortDistance;
-        }
-
-        public void initStart()
         {
             _comfortDistanceSquared = _comfortDistance * _comfortDistance;
         }

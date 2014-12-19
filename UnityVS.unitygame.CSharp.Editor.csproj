@@ -15,6 +15,9 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityVersion>4.6.1f1</UnityVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,12 +66,6 @@
     </Reference>
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.1\Editor\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.1\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +174,12 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
+    <Compile Include="Assets\Scripts\Libs\AIModule\UnitySteer\Editor\AngleCosineDrawer.cs" />
+    <Compile Include="Assets\Scripts\Libs\AIModule\UnitySteer\Editor\DegreeEditor.cs" />
+    <Compile Include="Assets\Scripts\Libs\AIModule\UnitySteer\Editor\Vector3FoldoutEditor.cs" />
+    <Compile Include="Assets\Scripts\Libs\AIModule\UnitySteer\Editor\Vector3TogglePropertyDrawer.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Assets\Config\Ai\Test2Ai.xml" />
     <None Include="Assets\Config\Ai\TestAi.xml" />
     <None Include="Assets\Config\Tool\ExportSkinsCfg.xml" />
@@ -198,15 +201,19 @@
     <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
     <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth.shader" />
     <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
-    <None Include="Assets\NGUI\ReadMe - 3.7.0.txt" />
+    <None Include="Assets\NGUI\ReadMe - 3.7.5.txt" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text (TextureClip).shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
+    <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
@@ -217,15 +224,10 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\Prefabs\Resources\Being\BoneList.xml" />
     <None Include="Assets\Scenes\Xml\cave.xml" />
-    <None Include="Assets\scripts\libs\AIModule\UnitySteer\License.txt" />
-    <None Include="Assets\scripts\readme.txt" />
+    <None Include="Assets\Scripts\Libs\AIModule\UnitySteer\License.txt" />
+    <None Include="Assets\Scripts\readme.txt" />
     <None Include="Assets\Table\Table1.txt" />
     <None Include="Assets\Table\Table2.xml" />
-    <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
-    <None Include="Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
-    <None Include="Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll" />
-    <None Include="D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.1\Editor\UnityEditor.UI.dll" />
-    <None Include="D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.1\UnityEngine.UI.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

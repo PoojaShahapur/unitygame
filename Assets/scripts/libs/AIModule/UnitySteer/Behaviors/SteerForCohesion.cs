@@ -7,6 +7,8 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Steers a vehicle to remain in cohesion with neighbors
     /// </summary>
+    [AddComponentMenu("UnitySteer/Steer/... for Cohesion")]
+    [RequireComponent(typeof (SteerForNeighborGroup))]
     public class SteerForCohesion : SteerForNeighbors
     {
         public override Vector3 CalculateNeighborContribution(Vehicle other)

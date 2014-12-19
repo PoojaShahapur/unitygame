@@ -29,6 +29,8 @@ namespace UnitySteer.Behaviors
     /// to calculate the contribution for each - on a typical boid scenario, it 
     /// cuts the checks down to a third.
     /// </remarks>
+    [AddComponentMenu("UnitySteer/Steer/... for Neighbor Group")]
+    [RequireComponent(typeof (Radar))]
     public class SteerForNeighborGroup : Steering
     {
         #region Private properties
@@ -121,7 +123,7 @@ namespace UnitySteer.Behaviors
         protected override void Start()
         {
             base.Start();
-            //_behaviors = GetComponents<SteerForNeighbors>();
+            _behaviors = GetComponents<SteerForNeighbors>();
             foreach (var b in _behaviors)
             {
                 // Ensure UnitySteer does not call them
@@ -132,49 +134,32 @@ namespace UnitySteer.Behaviors
             Vehicle.Radar.OnDetected += HandleDetection;
         }
 
-        public void addBehaviors(SteerForNeighbors[] behaviors)
-        {
-            _behaviors = behaviors;
-            foreach (var b in _behaviors)
-            {
-                // Ensure UnitySteer does not call them
-                b.enabled = false;
-                // ... and since Unity may not call them either, initialize them ourselves.
-                b.Initialize();
-            }
-            Vehicle.Radar.OnDetected += HandleDetection;
-        }
-
-        //private void HandleDetection(Radar radar)
-        public void HandleDetection(Radar radar)
+        private void HandleDetection(Radar radar)
         {
             /*
-		     * Neighbors are cached on radar detection.
-		     * 
-		     * This means that IsInNeighborhood is evaluated when 
-		     * detected, not every time that the behavior is going to 
-		     * calculate its forces.  
-		     * 
-		     * This helps in lowering the processing load, but could 
-		     * lead to a case where a vehicle is beyond the set parameters 
-		     * but still considered a neighbor.
-		     * 
-		     * If this is a concern, make sure that vehicles are detected
-		     * as often as the vehicle updates is forces.
-		     * 
-		     */
+		 * Neighbors are cached on radar detection.
+		 * 
+		 * This means that IsInNeighborhood is evaluated when 
+		 * detected, not every time that the behavior is going to 
+		 * calculate its forces.  
+		 * 
+		 * This helps in lowering the processing load, but could 
+		 * lead to a case where a vehicle is beyond the set parameters 
+		 * but still considered a neighbor.
+		 * 
+		 * If this is a concern, make sure that vehicles are detected
+		 * as often as the vehicle updates is forces.
+		 * 
+		 */
 
             _neighbors.Clear();
             // I'd prefer an iterator, but trying to cut down on allocations
             for (var i = 0; i < radar.Vehicles.Count; i++)
             {
                 var other = radar.Vehicles[i];
-                if (other != Vehicle)
+                if (Vehicle.IsInNeighborhood(other, MinRadius, MaxRadius, AngleCos))
                 {
-                    if (Vehicle.IsInNeighborhood(other, MinRadius, MaxRadius, AngleCos))
-                    {
-                        _neighbors.Add(other);
-                    }
+                    _neighbors.Add(other);
                 }
             }
         }
@@ -212,7 +197,7 @@ namespace UnitySteer.Behaviors
                     Profiler.EndSample();
                 }
             }
-
+            ;
             Profiler.EndSample();
 
             Profiler.BeginSample("Normalizing");

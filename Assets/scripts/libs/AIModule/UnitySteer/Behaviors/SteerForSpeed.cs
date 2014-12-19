@@ -5,12 +5,14 @@ namespace UnitySteer.Behaviors
     /// <summary>
     /// Behavior that will aim to achieve a constant speed along the vehicle's forward vector
     /// </summary>
+    [AddComponentMenu("UnitySteer/Steer/... for Speed")]
     public class SteerForSpeed : Steering
     {
         /// <summary>
         /// Speed that the behavior will aim to achieve
         /// </summary>
         [SerializeField] private float _targetSpeed = 5;
+
 
         public float TargetSpeed
         {

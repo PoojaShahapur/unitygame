@@ -6,9 +6,9 @@ namespace UnitySteer.Behaviors
     /// Parent class for objects that vehicles can aim for, be it other vehicles or
     /// static objects.
     /// </summary>
-    public class DetectableObject
+    [AddComponentMenu("UnitySteer/Detectables/DetectableObject")]
+    public class DetectableObject : MonoBehaviour
     {
-        private GameObject m_sceneGo;       // ³¡¾° GameObject
         private Transform _transform;
 
         [SerializeField] protected bool _drawGizmos = false;
@@ -23,19 +23,6 @@ namespace UnitySteer.Behaviors
         /// </summary>
         [SerializeField] private float _radius = 1;
 
-        public GameObject sceneGo
-        {
-            get
-            {
-                return m_sceneGo;
-            }
-            set
-            {
-                m_sceneGo = value;
-                Collider = m_sceneGo.GetComponent<Collider>();
-                SquaredRadius = _radius * _radius;
-            }
-        }
 
         /// <summary>
         /// Collider attached to this object. The GameObject that the DetectableObject
@@ -99,20 +86,9 @@ namespace UnitySteer.Behaviors
                 // fails on Unity 4.3.4
                 if (_transform == null)
                 {
-                    _transform = m_sceneGo.transform;
+                    _transform = transform;
                 }
                 return _transform;
-            }
-        }
-
-        public virtual void initOwner(GameObject owner)
-        {
-            sceneGo = owner;
-            Collider = m_sceneGo.GetComponent<Collider>();
-            SquaredRadius = _radius * _radius;
-            if (Collider)
-            {
-                Radar.AddDetectableObject(this);
             }
         }
 
@@ -120,7 +96,7 @@ namespace UnitySteer.Behaviors
 
         protected virtual void Awake()
         {
-            Collider = m_sceneGo.GetComponent<Collider>();
+            Collider = GetComponent<Collider>();
             SquaredRadius = _radius * _radius;
         }
 
@@ -154,6 +130,7 @@ namespace UnitySteer.Behaviors
         {
             return Transform.position;
         }
+
 
         /// <summary>
         /// Recalculates the object's radius based on the transform's scale,

@@ -11,6 +11,7 @@ namespace UnitySteer.Behaviors
     /// This is only an experimental behaviour at this point and doesn't provide a 
     /// lot of configuration options. It is likely to change in the near future.
     /// </remarks>
+    [AddComponentMenu("UnitySteer/Steer/... for Fear")]
     public class SteerForFear : Steering
     {
         #region Private fields

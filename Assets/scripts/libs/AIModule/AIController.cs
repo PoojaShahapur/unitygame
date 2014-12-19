@@ -53,14 +53,15 @@ namespace SDK.Lib
             m_radar = new Radar();
             m_vehicle = new Biped();
 
-            m_vehicle.Radar = m_radar;
-            m_vehicle.initOwner(skinAniModel.rootGo);
-            m_vehicle.AllowedMovementAxes = new Vector3(1, 0, 1);
-            m_vehicle.MaxSpeed = 10;
-            m_vehicle.setSpeed(5);
+            //m_vehicle.Radar = m_radar;
+            //m_vehicle.ArrivalRadius = 1;
+            //m_vehicle.AllowedMovementAxes = new Vector3(1, 0, 1);
+            //m_vehicle.MaxSpeed = 10;
+            //m_vehicle.setSpeed(5);
+            //m_vehicle.initOwner(skinAniModel.rootGo);
 
-            m_radar.Vehicle = m_vehicle;
-            m_radar.initAwake();
+            //m_radar.Vehicle = m_vehicle;
+            //m_radar.initAwake();
             m_radar.DetectionRadius = 100;
         }
     }

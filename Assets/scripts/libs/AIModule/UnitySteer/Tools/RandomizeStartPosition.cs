@@ -3,6 +3,7 @@ using UnitySteer.Attributes;
 
 namespace UnitySteer.Tools
 {
+
 	/// <summary>
 	/// Randomizes a transform's position (and possibly rotation) on start, then self-destructs.
 	/// </summary>

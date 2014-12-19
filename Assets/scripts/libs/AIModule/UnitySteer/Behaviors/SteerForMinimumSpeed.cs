@@ -10,6 +10,7 @@ namespace UnitySteer.Behaviors
     /// This could also be done as a property of TickedVehicle, but adding it
     /// as a post-processing behavior for now to have it be more modular.
     /// </remarks>
+    [AddComponentMenu("UnitySteer/Steer/... for Minimum Speed (Post-process)")]
     public class SteerForMinimumSpeed : Steering
     {
         [SerializeField] private float _minimumSpeed = 4;
@@ -26,6 +27,7 @@ namespace UnitySteer.Behaviors
             get { return _minimumSpeed; }
             set { _minimumSpeed = value; }
         }
+
 
         /// <summary>
         /// Calculates the force to apply to the vehicle to reach a point

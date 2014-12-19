@@ -10,7 +10,7 @@ namespace UnitySteer.Behaviors
     /// This is an abstract class because it does not provide any steering
     /// itself.  It should be subclassed for your particular steering needs.
     /// </remarks>
-    public abstract class Steering
+    public abstract class Steering : MonoBehaviour
     {
         #region Private fields
 
@@ -24,25 +24,11 @@ namespace UnitySteer.Behaviors
         /// </summary>
         private Vehicle _vehicle;
 
-        private bool m_enabled = true;
-
         [SerializeField] private float _weight = 1;
 
         #endregion
 
         #region Public properties
-
-        public bool enabled
-        {
-            get
-            {
-                return m_enabled;
-            }
-            set
-            {
-                m_enabled = value;
-            }
-        }
 
         /// <summary>
         /// Calculates the force provided by this steering behavior and raises any
@@ -97,6 +83,7 @@ namespace UnitySteer.Behaviors
             get { return false; }
         }
 
+
         /// <summary>
         /// Steering event handler for arrival notification
         /// </summary>
@@ -133,6 +120,7 @@ namespace UnitySteer.Behaviors
         /// </summary>
         public bool ReportedMove { get; protected set; }
 
+
         /// <summary>
         /// Force vector modified by the assigned weight 
         /// </summary>
@@ -147,10 +135,6 @@ namespace UnitySteer.Behaviors
         public Vehicle Vehicle
         {
             get { return _vehicle; }
-            set
-            {
-                _vehicle = value;
-            }
         }
 
         /// <summary>
@@ -173,7 +157,7 @@ namespace UnitySteer.Behaviors
 
         protected virtual void Awake()
         {
-            //_vehicle = GetComponent<Vehicle>();
+            _vehicle = GetComponent<Vehicle>();
             ReportedArrival = true; // Default to true to avoid unnecessary notifications
         }
 

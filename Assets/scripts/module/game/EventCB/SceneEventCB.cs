@@ -16,7 +16,7 @@ namespace Game.Game
             //createMonster(new Vector3(0, 0, 0));
             //createMonster(new Vector3(10, 0, 0));
             //createMonster(new Vector3(6, 0, 0));
-            //createMonster(new Vector3(11, 0, 0));
+            createMonster(new Vector3(11, 0, 0));
             createMonster(new Vector3(12, 0, 0));
         }
 

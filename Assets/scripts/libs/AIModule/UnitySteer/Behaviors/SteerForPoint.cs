@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace UnitySteer.Behaviors
 {
+    [AddComponentMenu("UnitySteer/Steer/... for Point")]
     public class SteerForPoint : Steering
     {
         /// <summary>
@@ -61,7 +62,7 @@ namespace UnitySteer.Behaviors
 
             if (_defaultToCurrentPosition && TargetPoint == Vector3.zero)
             {
-                //enabled = false;
+                enabled = false;
             }
         }
 

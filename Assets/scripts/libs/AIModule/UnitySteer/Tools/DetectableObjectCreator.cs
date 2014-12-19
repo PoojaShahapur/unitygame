@@ -7,6 +7,7 @@ namespace UnitySteer.Tools
 	/// Configures a detectable on the game object it is attached to, based
 	/// on the boundaries of its child colliders, and then destroys itself.
 	/// </summary>
+	[AddComponentMenu("UnitySteer/Detectables/DetectableObjectCreator")]
 	public class DetectableObjectCreator : MonoBehaviour
 	{
 		void Awake()
@@ -55,8 +56,7 @@ namespace UnitySteer.Tools
 			var scale  = transform.lossyScale;
 			radius /= Mathf.Max(scale.x, Mathf.Max(scale.y, scale.z));
 
-			//var detectable = gameObject.AddComponent<DetectableObject>();
-            var detectable = new DetectableObject();
+			var detectable = gameObject.AddComponent<DetectableObject>();
 			detectable.Center = Vector3.zero;
 			detectable.Radius = radius;
 		}
