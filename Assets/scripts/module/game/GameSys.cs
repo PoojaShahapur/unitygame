@@ -32,28 +32,32 @@ namespace Game.Game
             Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 
-            Ctx.m_instance.m_meshMgr.loadSkinInfo();
-            Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().loadBT();
+            //Ctx.m_instance.m_meshMgr.loadSkinInfo();
+            //Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().loadBT();
         }
 
         public void loadScene()
         {
             //Ctx.m_instance.m_sceneSys.loadScene("cave", onResLoadScene);
-            Ctx.m_instance.m_sceneSys.loadScene("TestScene1f", onResLoadScene);
+            Ctx.m_instance.m_sceneSys.loadScene("game", onResLoadScene);
         }
 
-        public void onResLoad(EventDisp resEvt)
-        {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
-            GameObject go = res.InstantiateObject("UIScrollForm");
-            GameObject nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
-            go.transform.parent = nodestroy.transform;
-        }
+        //public void onResLoad(EventDisp resEvt)
+        //{
+        //    IRes res = resEvt.m_param as IRes;                         // 类型转换
+        //    GameObject go = res.InstantiateObject("UIScrollForm");
+        //    GameObject nodestroy = GameObject.FindGameObjectWithTag("UIFirstLayer");
+        //    go.transform.parent = nodestroy.transform;
+        //}
 
         public void onResLoadScene(IScene scene)
         {
-            Ctx.m_instance.m_log.log("aaa");
+            Ctx.m_instance.m_log.log("场景加载成功");
             Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
+
+            // 卸载登陆模块，关闭登陆界面
+            Ctx.m_instance.m_moduleSys.unloadModule(ModuleName.LOGINMN);
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
         }
     }
 }

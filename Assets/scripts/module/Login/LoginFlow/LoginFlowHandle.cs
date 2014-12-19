@@ -1,4 +1,5 @@
-﻿using Game.Msg;
+﻿using Game.App;
+using Game.Msg;
 using SDK.Common;
 
 namespace Game.Login
@@ -153,6 +154,9 @@ namespace Game.Login
             Ctx.m_instance.m_log.log("发送消息 stUserGameTimeTimerUserCmd");
             stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
             UtilMsg.sendMsg(cmd);
+
+            // 加载游戏模块
+            //Ctx.m_instance.m_moduleSys.loadModule(ModuleName.GAMEMN);
         }
     }
 }

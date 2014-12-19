@@ -12,6 +12,8 @@ namespace Game.UI
      */
     public class UILogin : Form
     {
+        protected bool m_bLogined = false;      // 是否登陆过
+
         // 初始化控件
         override public void onReady()
         {
@@ -26,10 +28,15 @@ namespace Game.UI
         // 点击登陆处理
         protected void onBtnClkLogin(GameObject go)
         {
-            UILabel lblName = UtilApi.getComByP<UILabel>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
-            UILabel lblPassWord = UtilApi.getComByP<UILabel>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+            if (!m_bLogined)
+            {
+                m_bLogined = true;
+                UILabel lblName = UtilApi.getComByP<UILabel>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+                UILabel lblPassWord = UtilApi.getComByP<UILabel>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
-            LoginSys.m_instance.m_loginFlowHandle.connectLoginServer();
+                //LoginSys.m_instance.m_loginFlowHandle.connectLoginServer();
+                Ctx.m_instance.m_moduleSys.loadModule(ModuleName.GAMEMN);
+            }
         }
     }
 }

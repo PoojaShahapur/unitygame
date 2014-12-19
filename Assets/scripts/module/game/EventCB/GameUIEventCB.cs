@@ -5,12 +5,12 @@ namespace Game.Game
 {
     public class GameUIEventCB : IUIEvent
     {
-        public Action<IForm> getLoadedFunc(UIFormID ID)
+        public void onCodeFormLoaded(IForm form)
         {
-            return OnFormLoaded;
+
         }
 
-        public void OnFormLoaded(IForm form)
+        public void onWidgetLoaded(IForm form)
         {
 
         }

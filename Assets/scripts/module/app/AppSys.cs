@@ -43,6 +43,7 @@ namespace Game.App
             Ctx.m_instance.m_meshMgr = new MeshMgr();
             Ctx.m_instance.m_aiSystem = new AISystem();
             Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute();
+            Ctx.m_instance.m_moduleSys = new ModuleSys();
 
             PostInit();
         }
@@ -80,72 +81,38 @@ namespace Game.App
         {
             //GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App] = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
 
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_RootLayer);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer]);
 
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_SceneLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_SceneLayer);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_SceneLayer]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_SceneLayer]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_SceneLayer]);
 
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_GameLayer);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer]);
 
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_UILayer);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILayer]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILayer]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILayer]);
 
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIRoot] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_UIRoot);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIRoot]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIRoot]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIRoot]);
 
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Camera] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_Camera);
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Camera]);
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Camera]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Camera]);
 
             // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App], NotDestroyPath.ND_CV_UIFirstLayer);
             //nodestroy.transform.localScale = Vector3.one;
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer]);
-        }
-
-        // 加载游戏模块
-        public void loadModule(string name)
-        {
-            // 初始化完成，开始加载自己的游戏场景
-            LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + name;
-            //param.m_resPackType = ResPackType.eBundleType;
-            if ("Game" == name)
-            {
-                param.m_loadedcb = onGameLoaded;
-            }
-            else
-            {
-                param.m_loadedcb = onLoginLoaded;
-            }
-            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            //Ctx.m_instance.m_resMgr.load(param);
-            //Ctx.m_instance.m_resMgr.loadBundle(param);
-            Ctx.m_instance.m_resMgr.loadResources(param);
-        }
-
-        public void onLoginLoaded(EventDisp resEvt)
-        {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
-            GameObject goLogin = res.InstantiateObject("Login");
-            goLogin.transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer].transform;
-        }
-
-        public void onGameLoaded(EventDisp resEvt)
-        {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
-            //GameObject go = (res as IBundleRes).InstantiateObject("Game");
-            //GameObject nodestroy = GameObject.FindGameObjectWithTag("GameLayer");
-            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = res.InstantiateObject("Game");
-            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].name = NotDestroyPath.CV_GameName;
-            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer].transform;
-
-            // 游戏模块也不释放
-            DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game]);
-            //go.SetActive(false);         // 自己会更新的，不用这里更新
+            //DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer]);
+            UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer]);
         }
     }
 }

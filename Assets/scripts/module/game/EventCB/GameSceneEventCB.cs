@@ -11,13 +11,13 @@ namespace Game.Game
         {
             Ctx.m_instance.m_camSys.m_sceneCam.onSceneLoaded();
             // 创建主角
-            createHero();
+            //createHero();
             // 创建怪物
             //createMonster(new Vector3(0, 0, 0));
             //createMonster(new Vector3(10, 0, 0));
             //createMonster(new Vector3(6, 0, 0));
             //createMonster(new Vector3(11, 0, 0));
-            createMonster(new Vector3(12, 0, 0));
+            //createMonster(new Vector3(12, 0, 0));
         }
 
         public void createHero()

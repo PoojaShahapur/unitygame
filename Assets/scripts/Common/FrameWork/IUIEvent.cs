@@ -4,6 +4,7 @@ namespace SDK.Common
 {
     public interface IUIEvent
     {
-        Action<IForm> getLoadedFunc(UIFormID ID);
+        void onCodeFormLoaded(IForm form);
+        void onWidgetLoaded(IForm form);
     }
 }

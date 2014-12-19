@@ -43,6 +43,7 @@ namespace SDK.Common
         public IAISystem m_aiSystem;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
         public INetHandle m_netHandle;              // 网络处理器
+        public IModuleSys m_moduleSys;              // 模块
 
         public Ctx()
         {

@@ -35,6 +35,28 @@ namespace SDK.Common
             UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
         }
 
+        // 销毁对象
+        public static void Destroy(Object obj)
+        {
+            GameObject.Destroy(obj);
+        }
+
+        // 立即销毁对象
+        public static void DestroyImmediate(Object obj)
+        {
+            GameObject.DestroyImmediate(obj);
+        }
+
+        public static void DestroyImmediate(Object obj, bool allowDestroyingAssets)
+        {
+            GameObject.DestroyImmediate(obj, allowDestroyingAssets);
+        }
+
+        public static void DontDestroyOnLoad(Object target)
+        {
+            Object.DontDestroyOnLoad(target);
+        }
+
         static public bool getXmlAttrBool(XmlAttribute attr)
         {
             if (attr != null)

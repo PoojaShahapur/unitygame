@@ -15,7 +15,16 @@
         public const string ND_CV_Camera = "RootLayer/UILayer/UIRoot/Camera";
         public const string ND_CV_UIFirstLayer = "RootLayer/UILayer/UIRoot/UIFirstLayer";
         public const string ND_CV_Game = "RootLayer/SceneLayer/GameLayer/Game";
+    }
 
-        public const string CV_GameName = "Game";
+    public class DestroyPath
+    {
+        public const string CV_Login = "RootLayer/Login";       // 这个是登陆模块的名字，这个是释放的
+    }
+
+    public class ModuleName
+    {
+        public const string LOGINMN = "Login";
+        public const string GAMEMN = "Game";
     }
 }

@@ -40,7 +40,7 @@ namespace Game.Login
 
         public void onResLoadScene(IScene scene)
         {
-            Ctx.m_instance.m_log.log("aaa");
+            Ctx.m_instance.m_log.log("加载场景");
             // 加载登陆界面
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UILogin);
         }

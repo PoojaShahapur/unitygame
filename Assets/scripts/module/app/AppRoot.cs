@@ -21,8 +21,8 @@ public class AppRoot : MonoBehaviour
         //DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
         m_AppSys.setNoDestroyObject();
         m_AppSys.Start();
-        //m_AppSys.loadModule("Game");
-        m_AppSys.loadModule("Login");
+        //m_AppSys.loadModule(ModuleName.GAMEMN);
+        Ctx.m_instance.m_moduleSys.loadModule(ModuleName.LOGINMN);
 	}
 	
 	// Update is called once per frame
@@ -38,8 +38,9 @@ public class AppRoot : MonoBehaviour
         GameObject[] nodestroy = GameObject.FindGameObjectsWithTag("App");  //得到存在的实例列表
         if (nodestroy.Length > 1)
         {
-            // 将后产生的毁掉 保留第一个
-            GameObject.Destroy(nodestroy[1]);
+            // 将后产生的毁掉，保留第一个
+            //GameObject.Destroy(nodestroy[1]);
+            UtilApi.Destroy(nodestroy[1]);
         }
     }
 
