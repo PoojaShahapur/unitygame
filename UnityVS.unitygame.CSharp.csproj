@@ -390,6 +390,14 @@
     <Compile Include="Assets\Scripts\Libs\AnimationFSM\FSM.cs" />
     <Compile Include="Assets\Scripts\Libs\AnimationFSM\FSMState.cs" />
     <Compile Include="Assets\Scripts\Libs\AnimationFSM\StateId.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardBase.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardBeingBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardBeingEntity.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardObject.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardPlayerMain.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardPlayerOther.cs" />
+    <Compile Include="Assets\Scripts\Libs\CardSys\CardData\CardSys.cs" />
     <Compile Include="Assets\Scripts\Libs\Compress\Compress.cs" />
     <Compile Include="Assets\Scripts\Libs\Curve\BezierPath.cs" />
     <Compile Include="Assets\Scripts\Libs\Encrypt\Encrypt.cs" />
@@ -429,6 +437,7 @@
     <Compile Include="Assets\Scripts\Libs\Resource\ResourceItem\Res.cs" />
     <Compile Include="Assets\Scripts\Libs\Resource\UtilRes.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\AILocalState.cs" />
+    <Compile Include="Assets\Scripts\Libs\Scene\Entity\BeingBehaviour.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\BeingEntity.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\BeingMgr.cs" />
     <Compile Include="Assets\Scripts\Libs\Scene\Entity\EffectEntity.cs" />
@@ -535,7 +544,6 @@
     <Compile Include="Assets\Scripts\Module\Game\EventCB\GameSceneLogic.cs" />
     <Compile Include="Assets\Scripts\Module\Game\EventCB\GameUIEventCB.cs" />
     <Compile Include="Assets\Scripts\Module\Game\EventCB\GameUIFactory.cs" />
-    <Compile Include="Assets\Scripts\Module\Game\EventCB\SceneEventCB.cs" />
     <Compile Include="Assets\Scripts\Module\Game\EventCB\UIFactory.cs" />
     <Compile Include="Assets\Scripts\Module\Game\GameRoot.cs" />
     <Compile Include="Assets\Scripts\Module\Game\GameSys.cs" />
@@ -617,5 +625,6 @@
     <None Include="Assets\Table\Table1.txt" />
     <None Include="Assets\Table\Table2.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

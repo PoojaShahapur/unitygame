@@ -40,7 +40,19 @@ namespace Game.Game
 
         private void onMouseUp()
         {
-
+            //定义一条从主相机射向鼠标位置的一条射向
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            //判断射线是否发生碰撞               
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                //判断碰撞物体是否为floor
+                if (hit.collider.gameObject.name == "floor")
+                {
+                    //打印出碰撞点的坐标
+                    Debug.Log(hit.point);
+                }
+            }
         }
 
         private void onAxisDown()

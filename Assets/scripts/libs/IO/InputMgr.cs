@@ -30,6 +30,7 @@ namespace SDK.Lib
             handleKeyDown();
             handleKeyUp();
             handleAxis();
+            handleMouseUp();
 
             // This function tracks which keys were just pressed (or released) within the last tick.
             // It should be called at the beginning of the tick to give the most accurate responses possible.
@@ -90,6 +91,14 @@ namespace SDK.Lib
                 {
                     m_onAxisDown();
                 }
+            }
+        }
+
+        public void handleMouseUp()
+        {
+            if(Input.GetMouseButtonUp(0))
+            {
+                onMouseUp();
             }
         }
 
