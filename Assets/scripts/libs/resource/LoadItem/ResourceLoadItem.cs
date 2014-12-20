@@ -26,7 +26,14 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
-            loadFromDefaultAssetBundle();
+            if (m_loadNeedCoroutine)
+            {
+                loadFromDefaultAssetBundleByCoroutine();
+            }
+            else
+            {
+                loadFromDefaultAssetBundle();
+            }
         }
 
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
@@ -40,6 +47,27 @@ namespace SDK.Lib
             if (onLoaded != null)
             {
                 onLoaded(this);
+            }
+        }
+
+        protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
+        {
+            ResourceRequest req = Resources.LoadAsync<GameObject>(m_path);
+            yield return req;
+
+            if (req.asset != null)
+            {
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+            }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
             }
         }
     }

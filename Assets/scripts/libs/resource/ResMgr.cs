@@ -85,7 +85,7 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                //if (param.m_cb != null)
+                m_LoadData.m_path2Res[param.m_path].increaseRef();
                 if (param.m_loadedcb != null)
                 {
                     Ctx.m_instance.m_shareMgr.m_evt.m_param = m_LoadData.m_path2Res[param.m_path];
@@ -94,85 +94,78 @@ namespace SDK.Lib
                 return m_LoadData.m_path2Res[param.m_path];
             }
 
-            Res resitem = findResFormPool(param.m_resPackType, param.m_resNeedCoroutine);
+            Res resitem = findResFormPool(param.m_resPackType);
             if (ResPackType.eLevelType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    m_LoadData.m_path2Res[param.m_path] = new LevelRes();
-                }
-                else
-                {
-                    m_LoadData.m_path2Res[param.m_path] = resitem;
+                    resitem = new LevelRes();
                 }
             }
             else if (ResPackType.eBundleType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    m_LoadData.m_path2Res[param.m_path] = new BundleRes();
-                }
-                else
-                {
-                    m_LoadData.m_path2Res[param.m_path] = resitem;
+                    resitem = new BundleRes();
                 }
 
-                (m_LoadData.m_path2Res[param.m_path] as BundleRes).prefabName = param.m_prefabName;
+                (resitem as BundleRes).prefabName = param.m_prefabName;
             }
             else if (ResPackType.eResourcesType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    m_LoadData.m_path2Res[param.m_path] = new PrefabRes();
-                }
-                else
-                {
-                    m_LoadData.m_path2Res[param.m_path] = resitem;
+                    resitem = new PrefabRes();
                 }
             }
 
-            m_LoadData.m_path2Res[param.m_path].resNeedCoroutine = param.m_resNeedCoroutine;
-            m_LoadData.m_path2Res[param.m_path].resPackType = param.m_resPackType;
-            m_LoadData.m_path2Res[param.m_path].path = param.m_path;
-            m_LoadData.m_path2Res[param.m_path].resLoadType = param.m_resLoadType;
+            resitem.resNeedCoroutine = param.m_resNeedCoroutine;
+            resitem.resPackType = param.m_resPackType;
+            resitem.resLoadType = param.m_resLoadType;
+            resitem.path = param.m_path;
+
+            m_LoadData.m_path2Res[param.m_path] = resitem;
 
             if (param.m_loadedcb != null)
             {
                 m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loadedcb);
             }
-
-            LoadItem loaditem = findLoadItemFormPool(param.m_resPackType, param.m_resNeedCoroutine);
-            if (loaditem == null)
+            if (param.m_failedcb != null)
             {
-                if (ResPackType.eResourcesType == param.m_resPackType)        // 默认 Bundle 中资源
+                m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.FAILED_EVENT, param.m_failedcb);
+            }
+
+            LoadItem loaditem = findLoadItemFormPool(param.m_resPackType);
+            
+            if (ResPackType.eResourcesType == param.m_resPackType)        // 默认 Bundle 中资源
+            {
+                if (loaditem == null)
                 {
                     loaditem = new ResourceLoadItem();
                 }
-                else if (ResPackType.eBundleType == param.m_resPackType)        // Bundle 打包模式
+            }
+            else if (ResPackType.eBundleType == param.m_resPackType)        // Bundle 打包模式
+            {
+                if (loaditem == null)
                 {
-                    //if (ResLoadType.eLoadResource == param.m_resLoadType)            // 如果是从默认的 Bundle 中加载
-                    //{
-                    //    loaditem = new ResourceLoadItem();
-                    //}
-                    //else //if (ResLoadType.eLoadDisc == param.m_resLoadType)
-                    //{
-                        loaditem = new BundleLoadItem();
-                    //}
+                    loaditem = new BundleLoadItem();
                 }
-                else if (ResPackType.eLevelType == param.m_resPackType)
+            }
+            else if (ResPackType.eLevelType == param.m_resPackType)
+            {
+                if (loaditem == null)
                 {
                     loaditem = new LevelLoadItem();
                 }
+
+                (loaditem as LevelLoadItem).levelName = param.m_lvlName;
             }
 
             loaditem.resPackType = param.m_resPackType;
             loaditem.resLoadType = param.m_resLoadType;
             loaditem.path = param.m_path;
-            loaditem.onLoaded += onLoad;
-            if (ResPackType.eLevelType == param.m_resPackType)
-            {
-                (loaditem as LevelLoadItem).levelName = param.m_lvlName;
-            }
+            loaditem.onLoaded += onLoaded;
+            loaditem.onFailed += onFailed;
 
             if (m_curNum < m_maxParral)
             {
@@ -198,39 +191,50 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
-                //if (m_LoadData.m_path2Res[path].resNeedCoroutine)
-                //{
-                    //GameObject.Destroy(m_path2Res[path]); // 不再从 gameobject 上移除了
-                //}
+                m_LoadData.m_path2Res[path].decreaseRef();
+                if (m_LoadData.m_path2Res[path].refNum == 0)
+                {
+                    m_LoadData.m_path2Res[path].unload();
+                    m_LoadData.m_path2Res[path].reset();
+                    m_LoadData.m_noUsedLDItem.Add(m_LoadData.m_path2Res[path]);
 
-                m_LoadData.m_path2Res[path].unload();
-                m_LoadData.m_path2Res[path].reset();
-                m_LoadData.m_noUsedLDItem.Add(m_LoadData.m_path2Res[path]);
-
-                m_LoadData.m_path2Res.Remove(path);
+                    m_LoadData.m_path2Res.Remove(path);
+                }
             }
         }
 
-        public void onLoad(LoadItem item)
+        public void onLoaded(LoadItem item)
         {
-            string path = item.path;
-            item.onLoaded -= onLoad;
-            if (m_LoadData.m_path2Res[path] != null)
+            item.onLoaded -= onLoaded;
+            if (m_LoadData.m_path2Res[item.path] != null)
             {
-                m_LoadData.m_path2Res[path].init(m_LoadData.m_path2LDItem[path]);
+                m_LoadData.m_path2Res[item.path].init(m_LoadData.m_path2LDItem[item.path]);
             }
 
-            //if (item.loadNeedCoroutine)
-            //{
-                //GameObject.Destroy(item); // 不再从 gameobject 上移除了
-            //}
-
-            item.reset();
-            m_LoadData.m_noUsedLDItem.Add(item);
-            m_LoadData.m_path2LDItem.Remove(path);
-
+            releaseLoadItem(item);
             --m_curNum;
             loadNextItem();
+        }
+
+        public void onFailed(LoadItem item)
+        {
+            string path = item.path;
+            item.onFailed -= onFailed;
+            if (m_LoadData.m_path2Res[path] != null)
+            {
+                m_LoadData.m_path2Res[path].failed(m_LoadData.m_path2LDItem[path]);
+            }
+
+            releaseLoadItem(item);
+            --m_curNum;
+            loadNextItem();
+        }
+
+        protected void releaseLoadItem(LoadItem item)
+        {
+            item.reset();
+            m_LoadData.m_noUsedLDItem.Add(item);
+            m_LoadData.m_path2LDItem.Remove(item.path);
         }
 
         protected void loadNextItem()
@@ -247,28 +251,28 @@ namespace SDK.Lib
             }
         }
 
-        protected Res findResFormPool(ResPackType type, bool resNeedCoroutine)
+        protected Res findResFormPool(ResPackType type)
         {
-            //foreach (Res item in m_LoadData.m_noUsedResItem)
-            //{
-            //    if(item.type == type && item.resNeedCoroutine == resNeedCoroutine)
-            //    {
-            //        return item;
-            //    }
-            //}
+            foreach (Res item in m_LoadData.m_noUsedResItem)
+            {
+                if (item.resPackType == type)
+                {
+                    return item;
+                }
+            }
 
             return null;
         }
 
-        protected LoadItem findLoadItemFormPool(ResPackType type, bool loadNeedCoroutine)
+        protected LoadItem findLoadItemFormPool(ResPackType type)
         {
-            //foreach (LoadItem item in m_LoadData.m_noUsedLDItem)
-            //{
-            //    if (item.type == type && item.loadNeedCoroutine == loadNeedCoroutine)
-            //    {
-            //        return item;
-            //    }
-            //}
+            foreach (LoadItem item in m_LoadData.m_noUsedLDItem)
+            {
+                if (item.resPackType == type)
+                {
+                    return item;
+                }
+            }
 
             return null;
         }

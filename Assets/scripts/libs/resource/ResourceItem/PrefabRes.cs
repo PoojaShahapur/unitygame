@@ -8,17 +8,17 @@ namespace SDK.Lib
      */
     public class PrefabRes : Res
     {
-        protected UnityEngine.Object m_prefabObj;
+        protected UnityEngine.Object m_prefabObj;   // 加载完成的 Prefab 对象
         protected GameObject m_retGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
             m_prefabObj = (item as ResourceLoadItem).prefabObj;
 
-            if (onLoadedCB != null)
+            if (onLoaded != null)
             {
                 Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
             }
         }
 

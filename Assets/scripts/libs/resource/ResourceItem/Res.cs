@@ -7,8 +7,8 @@ namespace SDK.Lib
 {
     public class Res : IRes
     {
-        protected ResPackType m_resPackType;
-        protected ResLoadType m_resLoadType;   // 资源加载类型
+        protected ResPackType m_resPackType;    // 资源打包类型
+        protected ResLoadType m_resLoadType;    // 资源加载类型
 
         protected string m_path;
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
@@ -17,12 +17,12 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
-        protected Action<EventDisp> onLoadedCB;        // 加载成功回调
-        protected Action<EventDisp> onFailedCB;        // 加载失败回调
+        protected Action<EventDisp> onLoaded;        // 加载成功回调
+        protected Action<EventDisp> onFailed;        // 加载失败回调
 
         public Res()
         {
-            
+            m_refNum = 1;
         }
 
         public ResPackType GetResPackType()
@@ -107,6 +107,16 @@ namespace SDK.Lib
             }
         }
 
+        public void increaseRef()
+        {
+            ++m_refNum;
+        }
+
+        public void decreaseRef()
+        {
+            --m_refNum;
+        }
+
         public ResLoadType resLoadType
         {
             get
@@ -129,6 +139,15 @@ namespace SDK.Lib
 
         }
 
+        virtual public void failed(LoadItem item)
+        {
+            if(onFailed != null)
+            {
+                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
+                onFailed(Ctx.m_instance.m_shareMgr.m_evt);
+            }
+        }
+
         virtual public void reset()
         {
             //m_type = ResType.eNoneType;
@@ -136,7 +155,7 @@ namespace SDK.Lib
             //m_resNeedCoroutine = false;
             m_isLoaded = false;
             m_isSucceed = false;
-            m_refNum = 0;
+            m_refNum = 1;
         }
 
         virtual public void unload()
@@ -148,11 +167,11 @@ namespace SDK.Lib
         {
             if(EventID.LOADED_EVENT == evtID)       // 加载成功事件
             {
-                onLoadedCB += cb;
+                onLoaded += cb;
             }
             else if (EventID.FAILED_EVENT == evtID)
             {
-                onFailedCB += cb;
+                onFailed += cb;
             }
         }
 
@@ -160,11 +179,11 @@ namespace SDK.Lib
         {
             if (EventID.LOADED_EVENT == evtID)       // 加载成功事件
             {
-                onLoadedCB -= cb;
+                onLoaded -= cb;
             }
             else if (EventID.FAILED_EVENT == evtID)
             {
-                onFailedCB -= cb;
+                onFailed -= cb;
             }
         }
 

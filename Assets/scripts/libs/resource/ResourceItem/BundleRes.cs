@@ -40,6 +40,24 @@ namespace SDK.Lib
             }
         }
 
+        protected void initAsset()
+        {
+            if (!string.IsNullOrEmpty(m_prefabName))
+            {
+                // Unity5
+                //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
+                // Unity4
+                //GameObject.Instantiate(m_bundle.Load(m_prefabName));
+                //m_bundle.Unload(false);
+            }
+
+            if (onLoaded != null)
+            {
+                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
+                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
+            }
+        }
+
         protected IEnumerator initAssetByCoroutine()
         {
             if (!string.IsNullOrEmpty(m_prefabName))
@@ -50,35 +68,17 @@ namespace SDK.Lib
                 AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
                 yield return req;
 
-                GameObject.Instantiate(req.asset);
+                //GameObject.Instantiate(req.asset);
                 //m_bundle.Unload(false);
             }
 
-            if (onLoadedCB != null)
+            if (onLoaded != null)
             {
                 Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
             }
 
             yield return null;
-        }
-
-        protected void initAsset()
-        {
-            if (!string.IsNullOrEmpty(m_prefabName))
-            {
-                // Unity5
-                //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
-                // Unity4
-                GameObject.Instantiate(m_bundle.Load(m_prefabName));
-                //m_bundle.Unload(false);
-            }
-
-            if (onLoadedCB != null)
-            {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoadedCB(Ctx.m_instance.m_shareMgr.m_evt);
-            }
         }
 
         override public void reset()

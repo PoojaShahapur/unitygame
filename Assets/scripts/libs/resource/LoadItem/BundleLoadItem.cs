@@ -30,32 +30,19 @@ namespace SDK.Lib
             path = Application.dataPath + "/" + m_path;
             m_assetBundle = AssetBundle.CreateFromFile(path);
 
-            if (onLoaded != null)
+            if (m_assetBundle != null)
             {
-                onLoaded(this);
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
             }
-        }
-
-        protected IEnumerator downloadAsset()
-        {
-            string path = "";
-            if (m_resLoadType == ResLoadType.eLoadDicWeb)
+            else
             {
-                path = "file://" + Application.dataPath + "/" + m_path;
-            }
-            else if (m_resLoadType == ResLoadType.eLoadWeb)
-            {
-                path = Ctx.m_instance.m_cfg.m_webIP + m_path;
-            }
-            deleteFromCache(path);
-            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
-            //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
-            yield return m_w3File;
-            m_assetBundle = m_w3File.assetBundle;
-
-            if (onLoaded != null)
-            {
-                onLoaded(this);
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
             }
         }
     }

@@ -17,8 +17,8 @@ namespace SDK.Lib
         protected AssetBundle m_assetBundle;
         protected ResLoadState m_ResLoadState = ResLoadState.eNotLoad;  // 资源加载状态
 
-        public delegate void loaded(LoadItem item);
-        public loaded onLoaded;
+        public Action<LoadItem> onLoaded;
+        public Action<LoadItem> onFailed;
 
         public LoadItem()
         {
@@ -119,10 +119,55 @@ namespace SDK.Lib
             m_loadNeedCoroutine = false;
         }
 
-        // 检查加载状态
-        virtual public void CheckLoadState()
+        protected IEnumerator downloadAsset()
         {
+            string path = "";
+            if (m_resLoadType == ResLoadType.eLoadDicWeb)
+            {
+                path = "file://" + Application.dataPath + "/" + m_path;
+            }
+            else if (m_resLoadType == ResLoadType.eLoadWeb)
+            {
+                path = Ctx.m_instance.m_cfg.m_webIP + m_path;
+            }
+            deleteFromCache(path);
+            m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
+            //m_w3File = WWW.LoadFromCacheOrDownload(path, UnityEngine.Random.Range(0, int.MaxValue));
+            yield return m_w3File;
 
+            onWWWEnd();
+        }
+
+        // 检查加载成功
+        protected bool isLoadedSuccess(WWW www)
+        {
+            if (www.error != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // 加载完成回调处理
+        protected void onWWWEnd()
+        {
+            if (isLoadedSuccess(m_w3File))
+            {
+                m_assetBundle = m_w3File.assetBundle;
+
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+            }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
+            }
         }
 
         protected void deleteFromCache(string path)
