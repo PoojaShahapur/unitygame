@@ -9,6 +9,8 @@ namespace Game.App
     public class ModuleHandleItem
     {
         public Action<IDispatchObject> m_loaded;
-        public string m_key;
+        public ModuleID m_moduleID;
+        public string m_modulePath;
+        public string m_moduleName;
     }
 }

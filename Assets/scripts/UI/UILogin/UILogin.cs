@@ -35,7 +35,7 @@ namespace Game.UI
                 UILabel lblPassWord = UtilApi.getComByP<UILabel>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
                 //LoginSys.m_instance.m_loginFlowHandle.connectLoginServer();
-                Ctx.m_instance.m_moduleSys.loadModule(ModuleName.GAMEMN);
+                Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
             }
         }
     }

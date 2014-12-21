@@ -222,6 +222,7 @@
     <Compile Include="Assets\Scripts\Common\FrameWork\ITimerMgr.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\IUIEvent.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\LayerMgr.cs" />
+    <Compile Include="Assets\Scripts\Common\FrameWork\ModuleDef.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\NotDestroyPath.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\PlatformDefine.cs" />
     <Compile Include="Assets\Scripts\Common\FrameWork\ShareMgr.cs" />

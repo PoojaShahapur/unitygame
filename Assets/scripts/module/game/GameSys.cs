@@ -56,7 +56,7 @@ namespace Game.Game
             Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
 
             // 卸载登陆模块，关闭登陆界面
-            Ctx.m_instance.m_moduleSys.unloadModule(ModuleName.LOGINMN);
+            Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
         }
     }

@@ -22,7 +22,7 @@ public class AppRoot : MonoBehaviour
         m_AppSys.setNoDestroyObject();
         m_AppSys.Start();
         //m_AppSys.loadModule(ModuleName.GAMEMN);
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleName.LOGINMN);
+        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
 	}
 	
 	// Update is called once per frame
