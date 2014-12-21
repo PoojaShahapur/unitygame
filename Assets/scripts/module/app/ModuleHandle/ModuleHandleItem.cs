@@ -8,7 +8,7 @@ namespace Game.App
      */
     public class ModuleHandleItem
     {
-        public Action<EventDisp> m_loadedcb;
+        public Action<IDispatchObject> m_loaded;
         public string m_key;
     }
 }

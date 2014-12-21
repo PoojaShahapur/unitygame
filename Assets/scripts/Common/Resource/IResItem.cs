@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SDK.Common
 {
-    public interface IRes : IEventDispatch
+    public interface IResItem : IEventDispatch, IDispatchObject
     {
         bool HasLoaded();
         string GetPath();

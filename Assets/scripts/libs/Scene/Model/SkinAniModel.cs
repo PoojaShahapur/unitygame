@@ -67,15 +67,15 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_skeletonName;
-            param.m_loadedcb = onSkeletonloaded;
+            param.m_loaded = onSkeletonloaded;
             //Ctx.m_instance.m_resMgr.loadBundle(param);
             Ctx.m_instance.m_resMgr.loadResources(param);
         }
 
         // 资源加载成功，通过事件回调
-        public void onSkeletonloaded(EventDisp resEvt)
+        public void onSkeletonloaded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             m_rootGo = res.InstantiateObject(m_skeletonName);
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
@@ -108,15 +108,15 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[modelDef].m_bundleName;
-            param.m_loadedcb = onPartModelloaded;
+            param.m_loaded = onPartModelloaded;
             //Ctx.m_instance.m_resMgr.loadBundle(param);
             Ctx.m_instance.m_resMgr.loadResources(param);
         }
 
         // 资源加载成功，通过事件回调
-        public void onPartModelloaded(EventDisp resEvt)
+        public void onPartModelloaded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             int idx = getModelIdx(res.GetPath());
             
             if (m_rootGo != null)

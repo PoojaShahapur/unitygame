@@ -47,7 +47,7 @@ namespace SDK.Lib
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename;
             //param.m_resPackType = ResPackType.eBundleType;
-            param.m_loadedcb = onSceneCfgLoadded;
+            param.m_loaded = onSceneCfgLoadded;
             //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             //param.m_resNeedCoroutine = false;
             //param.m_loadNeedCoroutine = false;
@@ -55,9 +55,9 @@ namespace SDK.Lib
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
-        protected void onSceneCfgLoadded(EventDisp resEvt)
+        protected void onSceneCfgLoadded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
             byte[] bytes = (res.getObject(m_scene.file) as TextAsset).bytes;
             Stream stream = new MemoryStream(bytes);
@@ -69,7 +69,7 @@ namespace SDK.Lib
             LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
             //param.m_resPackType = ResPackType.eLevelType;
-            param.m_loadedcb = onSceneResLoadded;
+            param.m_loaded = onSceneResLoadded;
             //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             //param.m_resNeedCoroutine = true;
             //param.m_loadNeedCoroutine = true;
@@ -78,9 +78,9 @@ namespace SDK.Lib
             Ctx.m_instance.m_resMgr.loadLevel(param);
         }
 
-        public void onSceneResLoadded(EventDisp resEvt)
+        public void onSceneResLoadded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             if(onSceneLoaded != null)
             {
                 onSceneLoaded(m_scene);

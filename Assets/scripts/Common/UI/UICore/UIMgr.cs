@@ -193,10 +193,10 @@ namespace SDK.Common
         }
 
         // 从本地磁盘或者网络加载资源
-        protected void loadFromFile(string reaPath, string prefabName, Action<EventDisp> onloaded, Action<EventDisp> onFailed, Action<IRes> onloadedAndInit)
+        protected void loadFromFile(string reaPath, string prefabName, Action<IDispatchObject> onloaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
         {
             // 创建窗口资源
-            IRes res = Ctx.m_instance.m_resMgr.getResource(reaPath);
+            IResItem res = Ctx.m_instance.m_resMgr.getResource(reaPath);
             if (res != null)
             {
                 if (!res.HasLoaded())
@@ -218,7 +218,7 @@ namespace SDK.Common
                 //param.m_resLoadType = ResLoadType.eLoadDicWeb;
                 //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
                 param.m_prefabName = prefabName;
-                param.m_loadedcb = onloaded;
+                param.m_loaded = onloaded;
                 //param.m_resNeedCoroutine = false;
                 //param.m_loadNeedCoroutine = true;
                 //Ctx.m_instance.m_resMgr.load(param);
@@ -228,33 +228,33 @@ namespace SDK.Common
         }
 		
 		// 代码资源加载成功
-        public void onCodeloaded(EventDisp resEvt)
+        public void onCodeloaded(IDispatchObject resEvt)
 		{
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             onCodeloadedByRes(res);
 		}
 
         // 代码资源加载失败
-        private void onCodeFailed(EventDisp resEvt)
+        private void onCodeFailed(IDispatchObject resEvt)
 		{
 
 		}
 
         // 窗口控件资源加载成功
-        public void onWidgetloaded(EventDisp resEvt)
+        public void onWidgetloaded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             onWidgetloadedByRes(res);
         }
 
         // 窗口控件资源加载失败
-        private void onWidgetFailed(EventDisp resEvt)
+        private void onWidgetFailed(IDispatchObject resEvt)
         {
 
         }
 
         // 代码资源加载完成处理
-        public void onCodeloadedByRes(IRes res)
+        public void onCodeloadedByRes(IResItem res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
             onCodeLoadedByForm(m_dicForm[ID]);
@@ -270,7 +270,7 @@ namespace SDK.Common
         }
 
         // 窗口控件资源加载完成处理
-        public void onWidgetloadedByRes(IRes res)
+        public void onWidgetloadedByRes(IResItem res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
 

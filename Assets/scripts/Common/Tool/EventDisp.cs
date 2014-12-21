@@ -11,10 +11,4 @@
         MOUSEUP_EVENT = 5,
         AXIS_EVENT = 5,
     }
-
-    public class EventDisp
-    {
-        public string m_name;
-        public object m_param;      // 回传的参数
-    }
 }

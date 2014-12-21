@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 预设资源，通常就一个资源
      */
-    public class PrefabRes : Res
+    public class PrefabResItem : ResItem
     {
         protected UnityEngine.Object m_prefabObj;   // 加载完成的 Prefab 对象
         protected GameObject m_retGO;       // 方便调试的临时对象
@@ -17,8 +17,7 @@ namespace SDK.Lib
 
             if (onLoaded != null)
             {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(this);
             }
         }
 

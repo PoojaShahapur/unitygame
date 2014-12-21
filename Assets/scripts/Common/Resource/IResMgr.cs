@@ -5,12 +5,12 @@ namespace SDK.Common
 {
     public interface IResMgr
     {
-        IRes loadBundle(LoadParam param);
-        IRes loadLevel(LoadParam param);
-        IRes loadResources(LoadParam param);
-        IRes load(LoadParam param);
+        IResItem loadBundle(LoadParam param);
+        IResItem loadLevel(LoadParam param);
+        IResItem loadResources(LoadParam param);
+        IResItem load(LoadParam param);
         void unload(string path);
-        IRes getResource(string path);
+        IResItem getResource(string path);
         LoadParam getLoadParam();
     }
 }

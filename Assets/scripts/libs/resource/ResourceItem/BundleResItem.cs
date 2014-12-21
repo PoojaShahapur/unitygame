@@ -5,12 +5,12 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class BundleRes : Res
+    public class BundleResItem : ResItem
     {
         protected AssetBundle m_bundle;
         protected string m_prefabName;
 
-        public BundleRes()
+        public BundleResItem()
         {
 
         }
@@ -53,8 +53,7 @@ namespace SDK.Lib
 
             if (onLoaded != null)
             {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(this);
             }
         }
 
@@ -74,8 +73,7 @@ namespace SDK.Lib
 
             if (onLoaded != null)
             {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(this);
             }
 
             yield return null;

@@ -28,13 +28,13 @@ namespace BehaviorLibrary
         {
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath] + "AI";
-            param.m_loadedcb = onloaded;
+            param.m_loaded = onloaded;
             Ctx.m_instance.m_resMgr.loadBundle(param);
         }
 
-        public void onloaded(EventDisp resEvt)
+        public void onloaded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;
+            IResItem res = resEvt as IResItem;
             TextAsset text = res.getObject("TestAi") as TextAsset;
             parseXml(text.text);
             text = res.getObject("Test2Ai") as TextAsset;

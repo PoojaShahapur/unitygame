@@ -5,11 +5,11 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class LevelRes : Res
+    public class LevelResItem : ResItem
     {
         protected string m_levelName;
 
-        public LevelRes()
+        public LevelResItem()
         {
             
         }
@@ -48,8 +48,7 @@ namespace SDK.Lib
 
             if (onLoaded != null)
             {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(this);
             }
         }
 
@@ -63,8 +62,7 @@ namespace SDK.Lib
 
             if (onLoaded != null)
             {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onLoaded(Ctx.m_instance.m_shareMgr.m_evt);
+                onLoaded(this);
             }
         }
     }

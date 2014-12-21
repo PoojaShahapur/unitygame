@@ -8,7 +8,7 @@ namespace SDK.Common
 	{
 		//private Dictionary<TableID, TableBase<ItemBase> > m_dicTable;
         private Dictionary<TableID, TableBase> m_dicTable;
-		private IRes m_res;
+		private IResItem m_res;
 
 		public TableSys()
 		{

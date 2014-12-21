@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class Res : IRes
+    public class ResItem : IResItem
     {
         protected ResPackType m_resPackType;    // 资源打包类型
         protected ResLoadType m_resLoadType;    // 资源加载类型
@@ -17,10 +17,10 @@ namespace SDK.Lib
         protected bool m_isSucceed;             // 资源是否加载成功
 
         protected uint m_refNum;                // 引用计数
-        protected Action<EventDisp> onLoaded;        // 加载成功回调
-        protected Action<EventDisp> onFailed;        // 加载失败回调
+        protected Action<IDispatchObject> onLoaded;        // 加载成功回调
+        protected Action<IDispatchObject> onFailed;        // 加载失败回调
 
-        public Res()
+        public ResItem()
         {
             m_refNum = 1;
         }
@@ -143,8 +143,7 @@ namespace SDK.Lib
         {
             if(onFailed != null)
             {
-                Ctx.m_instance.m_shareMgr.m_evt.m_param = this;
-                onFailed(Ctx.m_instance.m_shareMgr.m_evt);
+                onFailed(this);
             }
         }
 
@@ -163,7 +162,7 @@ namespace SDK.Lib
 
         }
 
-        public void addEventListener(EventID evtID, Action<EventDisp> cb)
+        public void addEventListener(EventID evtID, Action<IDispatchObject> cb)
         {
             if(EventID.LOADED_EVENT == evtID)       // 加载成功事件
             {
@@ -175,7 +174,7 @@ namespace SDK.Lib
             }
         }
 
-        public void removeEventListener(EventID evtID, Action<EventDisp> cb)
+        public void removeEventListener(EventID evtID, Action<IDispatchObject> cb)
         {
             if (EventID.LOADED_EVENT == evtID)       // 加载成功事件
             {

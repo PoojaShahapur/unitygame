@@ -10,8 +10,8 @@ namespace SDK.Common
 
         public string m_path;               // 资源路径
         public string m_lvlName;            // 关卡名字
-        public Action<EventDisp> m_loadedcb;        // 加载成功回调函数
-        public Action<EventDisp> m_failedcb;        // 加载失败回调函数
+        public Action<IDispatchObject> m_loaded;        // 加载成功回调函数
+        public Action<IDispatchObject> m_failed;        // 加载失败回调函数
 
         public bool m_resNeedCoroutine;     // 资源是否需要协同程序
         public bool m_loadNeedCoroutine;    // 加载是否需要协同程序

@@ -27,7 +27,7 @@ namespace SDK.Lib
             }
         }
 
-        public IRes getResource(string path)
+        public IResItem getResource(string path)
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
@@ -40,7 +40,7 @@ namespace SDK.Lib
         }
 
         // eBundleType 打包类型资源加载
-        public IRes loadBundle(LoadParam param)
+        public IResItem loadBundle(LoadParam param)
         {
             param.m_resPackType = ResPackType.eBundleType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
@@ -55,7 +55,7 @@ namespace SDK.Lib
         }
 
         // eLevelType 打包类型资源加载
-        public IRes loadLevel(LoadParam param)
+        public IResItem loadLevel(LoadParam param)
         {
             param.m_resPackType = ResPackType.eLevelType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
@@ -68,7 +68,7 @@ namespace SDK.Lib
         }
 
         // eResourcesType 打包类型资源加载
-        public IRes loadResources(LoadParam param)
+        public IResItem loadResources(LoadParam param)
         {
             param.m_resPackType = ResPackType.eResourcesType;
             param.m_resLoadType = ResLoadType.eLoadResource;
@@ -81,41 +81,40 @@ namespace SDK.Lib
         }
 
         // 通用类型，需要自己设置很多参数
-        public IRes load(LoadParam param)
+        public IResItem load(LoadParam param)
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
                 m_LoadData.m_path2Res[param.m_path].increaseRef();
-                if (param.m_loadedcb != null)
+                if (param.m_loaded != null)
                 {
-                    Ctx.m_instance.m_shareMgr.m_evt.m_param = m_LoadData.m_path2Res[param.m_path];
-                    param.m_loadedcb(Ctx.m_instance.m_shareMgr.m_evt);
+                    param.m_loaded(m_LoadData.m_path2Res[param.m_path]);
                 }
                 return m_LoadData.m_path2Res[param.m_path];
             }
 
-            Res resitem = findResFormPool(param.m_resPackType);
+            ResItem resitem = findResFormPool(param.m_resPackType);
             if (ResPackType.eLevelType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    resitem = new LevelRes();
+                    resitem = new LevelResItem();
                 }
             }
             else if (ResPackType.eBundleType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    resitem = new BundleRes();
+                    resitem = new BundleResItem();
                 }
 
-                (resitem as BundleRes).prefabName = param.m_prefabName;
+                (resitem as BundleResItem).prefabName = param.m_prefabName;
             }
             else if (ResPackType.eResourcesType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    resitem = new PrefabRes();
+                    resitem = new PrefabResItem();
                 }
             }
 
@@ -126,13 +125,13 @@ namespace SDK.Lib
 
             m_LoadData.m_path2Res[param.m_path] = resitem;
 
-            if (param.m_loadedcb != null)
+            if (param.m_loaded != null)
             {
-                m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loadedcb);
+                m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loaded);
             }
-            if (param.m_failedcb != null)
+            if (param.m_failed != null)
             {
-                m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.FAILED_EVENT, param.m_failedcb);
+                m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.FAILED_EVENT, param.m_failed);
             }
 
             LoadItem loaditem = findLoadItemFormPool(param.m_resPackType);
@@ -251,9 +250,9 @@ namespace SDK.Lib
             }
         }
 
-        protected Res findResFormPool(ResPackType type)
+        protected ResItem findResFormPool(ResPackType type)
         {
-            foreach (Res item in m_LoadData.m_noUsedResItem)
+            foreach (ResItem item in m_LoadData.m_noUsedResItem)
             {
                 if (item.resPackType == type)
                 {

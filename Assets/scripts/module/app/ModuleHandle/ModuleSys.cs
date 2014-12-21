@@ -22,12 +22,12 @@ namespace Game.App
             ModuleHandleItem item;
 
             item = new ModuleHandleItem();
-            item.m_loadedcb = onLoginLoaded;
+            item.m_loaded = onLoginLoaded;
             item.m_key = DestroyPath.CV_Login;
             m_type2ItemDic[ModuleName.LOGINMN] = item;
 
             item = new ModuleHandleItem();
-            item.m_loadedcb = onGameLoaded;
+            item.m_loaded = onGameLoaded;
             item.m_key = NotDestroyPath.ND_CV_Game;
             m_type2ItemDic[ModuleName.GAMEMN] = item;
         }
@@ -39,7 +39,7 @@ namespace Game.App
             LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + name;
             //param.m_resPackType = ResPackType.eBundleType;
-            param.m_loadedcb = m_type2ItemDic[name].m_loadedcb;
+            param.m_loaded = m_type2ItemDic[name].m_loaded;
             //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             //Ctx.m_instance.m_resMgr.load(param);
             //Ctx.m_instance.m_resMgr.loadBundle(param);
@@ -52,17 +52,17 @@ namespace Game.App
             Ctx.m_instance.m_layerMgr.m_path2Go.Remove(m_type2ItemDic[name].m_key);
         }
 
-        public void onLoginLoaded(EventDisp resEvt)
+        public void onLoginLoaded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             Ctx.m_instance.m_layerMgr.m_path2Go[DestroyPath.CV_Login] = res.InstantiateObject(ModuleName.LOGINMN);
             Ctx.m_instance.m_layerMgr.m_path2Go[DestroyPath.CV_Login].name = ModuleName.LOGINMN;
             Ctx.m_instance.m_layerMgr.m_path2Go[DestroyPath.CV_Login].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_RootLayer].transform;
         }
 
-        public void onGameLoaded(EventDisp resEvt)
+        public void onGameLoaded(IDispatchObject resEvt)
         {
-            IRes res = resEvt.m_param as IRes;                         // 类型转换
+            IResItem res = resEvt as IResItem;                         // 类型转换
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game] = res.InstantiateObject(ModuleName.GAMEMN);
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].name = ModuleName.GAMEMN;
             Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_GameLayer].transform;
