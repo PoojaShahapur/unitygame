@@ -17,10 +17,9 @@ namespace SDK.Lib
         public NetworkMgr()
         {
             m_id2SocketDic = new Dictionary<string, NetTCPClient>();
-            if (Ctx.m_instance.m_cfg.m_bNetMulThread)
-            {
-                startThread();
-            }
+            #if NETMULTHREAD
+            startThread();
+            #endif
         }
 
         /**
@@ -95,10 +94,9 @@ namespace SDK.Lib
         public void send()
         {
             m_curSocket.dataBuffer.send();
-            if (!Ctx.m_instance.m_cfg.m_bNetMulThread)
-            {
-                m_curSocket.Send();
-            }
+            #if !NETMULTHREAD
+            m_curSocket.Send();
+            #endif
         }
 
         //public void lockNetSocket()

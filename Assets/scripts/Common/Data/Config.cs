@@ -19,7 +19,6 @@ namespace SDK.Common
         public string[] m_pathLst;
         public ResLoadType m_resLoadType;   // 资源加载类型
         public string m_dataPath;
-        public bool m_bNetMulThread = true;        // 网络是否启动多线程
 
         public Config()
         {
@@ -31,7 +30,6 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathComUI] = "UI/";
             m_pathLst[(int)ResPathType.ePathBeingPath] = "Being/";
             m_pathLst[(int)ResPathType.ePathAIPath] = "AI/";
-
 
             m_dataPath = Application.dataPath;
         }

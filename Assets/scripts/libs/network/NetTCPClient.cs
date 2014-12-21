@@ -96,10 +96,9 @@ namespace SDK.Lib
                 //m_socket.SendTimeout = m_sendTimeout;
                 //m_socket.ReceiveTimeout = m_revTimeout;
 
-                if(!Ctx.m_instance.m_cfg.m_bNetMulThread)
-                {
-                    Receive();
-                }
+                #if !NETMULTHREAD
+                Receive();
+                #endif
 
                 // 连接成功，通知
                 if (Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB != null)
@@ -160,10 +159,9 @@ namespace SDK.Lib
 
                     m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
                     m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
-                    if (!Ctx.m_instance.m_cfg.m_bNetMulThread)
-                    {
-                        m_dataBuffer.moveRaw2Msg();
-                    }
+                    #if !NETMULTHREAD
+                    m_dataBuffer.moveRaw2Msg();
+                    #endif
 
                     Receive();                  // 继续接收
                 }
