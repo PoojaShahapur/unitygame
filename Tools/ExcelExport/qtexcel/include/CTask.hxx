@@ -8,6 +8,9 @@
 // import namespace
 using namespace std;
 
+#include "Platform.hxx"
+BEGINNAMESPACE(NSExcelExport)
+
 /**
  * @brief package a table
  */
@@ -71,5 +74,7 @@ public:
 	void readXML();		// read config.xml
 	void destroy();
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif

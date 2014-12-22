@@ -1,12 +1,19 @@
 #ifndef _PROPERTYDOUBLE_H
 #define _PROPERTYDOUBLE_H
 
-#include "Property.hxx"
+#include "NSEEProperty.hxx"
+#include "Platform.hxx"
+BEGINNAMESPACE(NSExcelExport)
 
-class PropertyDouble : public Property
+class PropertyDouble : public NSEEProperty
 {
+public:
+	double m_propData;
+
 public:
 	virtual void srz2BU(ByteBuffer& byteBuffer);
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif	// _PROPERTYDOUBLE_H  

@@ -47,7 +47,7 @@ else(NOT Qt5Widgets_FOUND)
 		./src/ByteBuffer.cpp
 		./src/System.cpp
 		
-		./src/Property.cpp
+		./src/NSEEProperty.cpp
 		./src/PropertyBool.cpp
 		./src/PropertyInt8.cpp
 		./src/PropertyInt16.cpp
@@ -80,7 +80,7 @@ else(NOT Qt5Widgets_FOUND)
 		./include/Common.hxx
 		./include/Error.hxx
 		
-		./include/Property.hxx
+		./include/NSEEProperty.hxx
 		./include/PropertyBool.hxx
 		./include/PropertyInt8.hxx
 		./include/PropertyInt16.hxx

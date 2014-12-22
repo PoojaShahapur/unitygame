@@ -42,7 +42,7 @@ QString ExcelExport::UTF82GBK(const QString &inStr)
 	return utf2gbk;
 }
 
-bool ExcelExport::convExcel2Tbl()
+bool ExcelExport::exportExcel()
 {
 	int iTmp = m_xmlPath.lastIndexOf('\\');
 	if(iTmp == -1)

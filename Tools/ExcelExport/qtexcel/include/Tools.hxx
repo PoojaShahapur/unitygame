@@ -9,8 +9,11 @@
 
 #include <stdio.h>
 #include <windows.h>
+#include "Platform.hxx"
 
 class QWidget;
+
+BEGINNAMESPACE(NSExcelExport)
 
 class Tools : public Singleton<Tools>
 {
@@ -55,5 +58,7 @@ public:
 	//QString utf82gbk(const std::string &inStr);
 	QString GBKChar2UNICODEStr(const char* inChar);
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif	// TOOL_H

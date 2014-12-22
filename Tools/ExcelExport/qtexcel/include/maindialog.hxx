@@ -6,6 +6,7 @@
 #include <QtCore/QTimer>
 //#include "WorkThread.hxx"
 //#include "ExcelTbl.hxx"
+#include "Platform.hxx"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ namespace Ui
 {
 	class Dialog;
 }
+
+BEGINNAMESPACE(NSExcelExport)
 
 class MainDialog : public QDialog
 {
@@ -38,5 +41,7 @@ private slots:
 protected:
 	void keyPressEvent(QKeyEvent *event);
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif // MAINDIALOG_H

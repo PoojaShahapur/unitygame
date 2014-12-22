@@ -9,6 +9,9 @@ class QThread;
 class ExcelExport;
 class QComboBox;
 
+#include "Platform.hxx"
+BEGINNAMESPACE(NSExcelExport)
+
 /**
  *@brief appdata
  */
@@ -40,5 +43,7 @@ public:
 
 	void initCombo(QComboBox *comboBoxSolution);
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif

@@ -11,6 +11,9 @@
 #include <tchar.h>		// _T
 #include "TabelAttr.hxx"
 
+#include "Platform.hxx"
+BEGINNAMESPACE(NSExcelExport)
+
 class ExcelExport
 {
 protected:
@@ -24,7 +27,7 @@ public:
 	~ExcelExport();
 	void setXmlPath(QString file);
 	void setOutputPath(QString path);
-	bool convExcel2Tbl();
+	bool exportExcel();
 	QString UTF82GBK(const QString &inStr);
 
 	virtual bool ExcelReaderCom(
@@ -40,5 +43,7 @@ public:
 					const char* extendedProperties = "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';"		// 扩展属性   
 				);
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif	// EXCELTBL_H

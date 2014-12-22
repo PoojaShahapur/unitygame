@@ -6,6 +6,9 @@
 #include "Error.hxx"
 #include "SystemEndian.hxx"
 #include "System.hxx"
+#include "Platform.hxx"
+
+BEGINNAMESPACE(NSExcelExport)
 
 class ByteBufferException
 {
@@ -65,7 +68,8 @@ class ByteBuffer
         }
 
 		// 放入的值一定和系统大小端一样的
-        template <typename T> void put(size_t pos, T value)
+        template <typename T>
+		void put(size_t pos, T value)
         {
 			if (System::getSingletonPtr()->isEndianDiffFromSys(m_sysEndian))
 			{
@@ -328,7 +332,8 @@ class ByteBuffer
 			append(skip);
 		}
 
-        template <typename T> T read()
+        template <typename T>
+		T read()
         {
             T r = read<T>(_rpos);
             _rpos += sizeof(T);
@@ -336,7 +341,8 @@ class ByteBuffer
         }
 
 		// 读取出来的一定是和系统大小端一样的
-        template <typename T> T read(size_t pos) const
+        template <typename T>
+		T read(size_t pos) const
         {
             if (pos + sizeof(T) > size())
                 throw ByteBufferException(false, pos, sizeof(T), size());
@@ -385,7 +391,8 @@ class ByteBuffer
             return append((const uint8*)src, cnt);
         }
 
-        template<class T> void append(const T* src, size_t cnt)
+        template<class T>
+		void append(const T* src, size_t cnt)
         {
             return append((const uint8*)src, cnt * sizeof(T));
         }
@@ -437,7 +444,8 @@ class ByteBuffer
     private:
 		// 添加的一定是和系统大小端相同的
         // limited for internal use because can "append" any unexpected type (like pointer and etc) with hard detection problem
-        template <typename T> void append(T value)
+        template <typename T>
+		void append(T value)
         {
 			if (System::getSingletonPtr()->isEndianDiffFromSys(m_sysEndian))
 			{
@@ -550,5 +558,7 @@ inline void ByteBuffer::read_skip<std::string>()
 {
     read_skip<char*>();
 }
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif

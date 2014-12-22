@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+#include "Platform.hxx"
+BEGINNAMESPACE(NSExcelExport)
+
 class IDRange
 {
 public:
@@ -24,5 +27,7 @@ public:
 	void parseInRange(std::string idrange);
 	bool bIdInRange(unsigned int id);
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif

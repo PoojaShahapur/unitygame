@@ -54,7 +54,7 @@ void CAppData::startMultiPack()
 		{
 			m_excelExport->setXmlPath((*itePack)->getXml().c_str());
 			m_excelExport->setOutputPath((*itePack)->getOutput().c_str());
-			m_excelExport->convExcel2Tbl();
+			m_excelExport->exportExcel();
 		}
 
 		// execute external program
@@ -68,7 +68,7 @@ void CAppData::startMultiPack()
 // start single
 void CAppData::startSinglePack()
 {
-	m_excelExport->convExcel2Tbl();
+	m_excelExport->exportExcel();
 }
 
 void CAppData::setXml(string outpath, string xmlpath, string xmlsolution)

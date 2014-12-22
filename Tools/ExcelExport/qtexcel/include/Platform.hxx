@@ -1,5 +1,5 @@
-﻿#ifndef PLATFORM_H
-#define PLATFORM_H
+﻿#ifndef _PLATFORM_H
+#define _PLATFORM_H
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
 	#define stricmp _stricmp
@@ -18,5 +18,10 @@ typedef int int32;
 
 typedef unsigned _int64 uint64;
 typedef _int64 int64;
+
+//#define BEGINNAMESPACE(name) namespace name {
+//#define ENDNAMESPACE(name) }
+#define BEGINNAMESPACE(name)
+#define ENDNAMESPACE(name)
 
 #endif		// PLATFORM_H    

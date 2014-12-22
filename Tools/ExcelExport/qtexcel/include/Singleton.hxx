@@ -3,6 +3,9 @@
 
 #include <string.h>
 
+#include "Platform.hxx"
+BEGINNAMESPACE(NSExcelExport)
+
 template<class T>
 class Singleton
 {
@@ -19,5 +22,7 @@ public:
 		return msSingleton;
 	}
 };
+
+ENDNAMESPACE(NSExcelExport)
 
 #endif				// SINGLETON_H
