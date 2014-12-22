@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GB2312">
+<config>
+	<table name="base" ExcelFile="test.xlsx" sheetname="测试表" idrange="1-100;130-500;7000-8000">
+		<fields>
+			<field name="id" type="int" size="4" />
+			<field name="字段2" type="int" size="8" />
+			<field name="字段3" type="float" size="4" />
+			<field name="字段4" type="string" size="256" />
+		</fields>
+	</table>
+</config>
