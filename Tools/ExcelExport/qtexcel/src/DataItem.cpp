@@ -30,6 +30,11 @@ void DataItem::writeFile(FILE* file)
 	m_data.writeFile(file);
 }
 
+std::vector<NSEEProperty*>& DataItem::getPropVec()
+{
+	return m_propVec;
+}
+
 bool lessCmp::operator() (DataItem* a, DataItem* b) 
 { 
 	return (a->getID() < b->getID());

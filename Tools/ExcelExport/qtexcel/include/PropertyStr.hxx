@@ -11,7 +11,7 @@ class PropertyStr : public NSEEProperty
 {
 public:
 	std::string m_propData;
-	size_t m_writeLen;			// 写入的长度
+	size_t m_cfgLen;			// 配置表中的长度
 
 public:
 	virtual void srz2BU(ByteBuffer& byteBuffer);

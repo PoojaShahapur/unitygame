@@ -136,7 +136,7 @@ bool ExcelExport::exportExcel()
 				memset(outfilename, 0, sizeof(outfilename));
 				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
 
-				ExcelReaderCom(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
+				exportExcel2PropertyVec(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
 			}
 			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
 			{
@@ -146,7 +146,7 @@ bool ExcelExport::exportExcel()
 				memset(outfilename, 0, sizeof(outfilename));
 				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
 
-				ExcelReaderCom(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
+				exportExcel2PropertyVec(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
 			}
 			else
 			{
@@ -177,7 +177,7 @@ bool ExcelExport::exportExcel()
 /**
 * com 接口
 */
-bool ExcelExport::ExcelReaderCom(
+bool ExcelExport::exportExcel2PropertyVec(
 	TiXmlElement* pXmlEmtFields,	//第一个字段
 	const char* lpszExcelFile,		//Excel文件的全路径（包括文件名称）
 	const char* lpszDB,
@@ -197,6 +197,7 @@ bool ExcelExport::ExcelReaderCom(
 		return false;
 	}
 
+	// 打开数据库
 	char szMsg[512];
 	std::string strCurField;
 	// 添加一个指向Connection对象的指针
@@ -263,6 +264,7 @@ bool ExcelExport::ExcelReaderCom(
 			return false;
 		}
 
+		// 操作数据库
 		//判读是否是客户端表
 		bool m_isClient = false;
 		if (strstr(lpszTableName, "client"))
@@ -292,7 +294,7 @@ bool ExcelExport::ExcelReaderCom(
 		char* _strId = new char[64];		// 唯一 id 字符串   
 		strcpy(_strId, "编号");				// 默认值
 
-		int iRecord = -1;	//在读取记录过程中，表示当前记录是第几行，zero-based
+		int iRecord = -1;	// 在读取记录过程中，表示当前记录是第几行，zero-based
 		int iCount = 0;		// 已经读取的数量   
 		for (; m_pRecordset->adoEOF != -1; m_pRecordset->MoveNext())
 		{
@@ -348,6 +350,7 @@ bool ExcelExport::ExcelReaderCom(
 
 				if (fieldName && fieldType)
 				{
+					// 读取字段值到 string 中
 					strCurField = fieldName;
 					_variant_t fieldValue = m_pRecordset->GetCollect((_variant_t)fieldName);
 					if (fieldValue.vt == VT_BSTR)
@@ -385,6 +388,7 @@ bool ExcelExport::ExcelReaderCom(
 						Tools::getSingletonPtr()->informationMessage(QStringLiteral("未能转换的字段"));
 					}
 
+					// 保存数据到 Property vector 
 					if (strTmp == "" && defaultValue)
 					{
 						strTmp = defaultValue;
@@ -424,6 +428,21 @@ bool ExcelExport::ExcelReaderCom(
 							}
 						}
 
+						if (fieldSize == -1)
+						{
+							fieldSize = 16;
+						}
+
+						strValue.resize(fieldSize, 0);
+
+						if (len + 1 > fieldSize)
+						{
+							memset(szMsg, 0, sizeof(szMsg));
+							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField);
+							strStructDef += szMsg;
+							len = fieldSize - 1;
+						}
+
 						if (m_isClient == true)
 						{
 							unsigned short stLen = (unsigned short)len;
@@ -432,20 +451,6 @@ bool ExcelExport::ExcelReaderCom(
 						}
 						else
 						{
-							if (fieldSize == -1)
-							{
-								fieldSize = 16;
-							}
-
-							strValue.resize(fieldSize, 0);
-							if (len + 1 > fieldSize)
-							{
-								memset(szMsg, 0, sizeof(szMsg));
-								sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField);
-								strStructDef += szMsg;
-								len = fieldSize - 1;
-							}
-
 							memcpy(&strValue[0], bytes, len);
 							strValue[len] = 0;
 
@@ -647,4 +652,14 @@ bool ExcelExport::ExcelReaderCom(
 		::CoUninitialize();
 		Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(error.what()));
 	}
+}
+
+void ExcelExport::exportPropertyVec2File(std::vector<DataItem*>& rowList)
+{
+
+}
+
+void ExcelExport::addPropertyInt8(DataItem* row)
+{
+	//row->
 }

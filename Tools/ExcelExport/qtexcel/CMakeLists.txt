@@ -53,10 +53,6 @@ else(NOT Qt5Widgets_FOUND)
 		./src/PropertyInt16.cpp
 		./src/PropertyInt32.cpp
 		./src/PropertyInt64.cpp
-		./src/PropertyUnsignedInt8.cpp
-		./src/PropertyUnsignedInt16.cpp
-		./src/PropertyUnsignedInt32.cpp
-		./src/PropertyUnsignedInt64.cpp
 		./src/PropertyFloat.cpp
 		./src/PropertyDouble.cpp
 		./src/PropertyStr.cpp
@@ -86,10 +82,6 @@ else(NOT Qt5Widgets_FOUND)
 		./include/PropertyInt16.hxx
 		./include/PropertyInt32.hxx
 		./include/PropertyInt64.hxx
-		./include/PropertyUnsignedInt8.hxx
-		./include/PropertyUnsignedInt16.hxx
-		./include/PropertyUnsignedInt32.hxx
-		./include/PropertyUnsignedInt64.hxx
 		./include/PropertyFloat.hxx
 		./include/PropertyDouble.hxx
 		./include/PropertyStr.hxx

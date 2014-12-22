@@ -27,6 +27,7 @@ public:
 	void setID(unsigned long int id);
 	ByteBuffer& getByteBuffer();
 	void writeFile(FILE* file);
+	std::vector<NSEEProperty*>& getPropVec();
 };
 
 struct lessCmp 

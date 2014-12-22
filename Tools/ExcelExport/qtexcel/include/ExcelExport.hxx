@@ -10,9 +10,12 @@
 #include <cstdio>		// File
 #include <tchar.h>		// _T
 #include "TabelAttr.hxx"
+#include <vector>
 
 #include "Platform.hxx"
 BEGINNAMESPACE(NSExcelExport)
+
+class DataItem;
 
 class ExcelExport
 {
@@ -30,7 +33,8 @@ public:
 	bool exportExcel();
 	QString UTF82GBK(const QString &inStr);
 
-	virtual bool ExcelReaderCom(
+	// 导出 Excel 到 Property Vector
+	virtual bool exportExcel2PropertyVec(
 					TiXmlElement* pXmlEmtFields,
 					const char* lpszExcelFile,
 					const char* lpszDB,
@@ -42,6 +46,10 @@ public:
 					const char* provider = "Provider=Microsoft.Jet.OLEDB.4.0;",		// 数据引擎提供者  
 					const char* extendedProperties = "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';"		// 扩展属性   
 				);
+
+	// 导出 Property Vector 到文件
+	virtual void exportPropertyVec2File(std::vector<DataItem*>& rowList);
+	void addPropertyInt8(DataItem* row);
 };
 
 ENDNAMESPACE(NSExcelExport)
