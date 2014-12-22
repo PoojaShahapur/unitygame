@@ -1,5 +1,5 @@
-﻿#ifndef WORKTHREAD_H
-#define WORKTHREAD_H
+﻿#ifndef _WORKTHREAD_H
+#define _WORKTHREAD_H
 
 #include <QtCore/QtCore>
 

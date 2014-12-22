@@ -1,5 +1,5 @@
-﻿#ifndef EXCELTBL_H
-#define EXCELTBL_H
+﻿#ifndef _EXCELTBL_H
+#define _EXCELTBL_H
 
 //#include <Windows.h>
 //#include <AfxWin.h>

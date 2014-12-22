@@ -1,5 +1,5 @@
-﻿#ifndef MAINDIALOG_H
-#define MAINDIALOG_H
+﻿#ifndef _MAINDIALOG_H
+#define _MAINDIALOG_H
 
 #include <QtWidgets/QDialog>
 #include <iostream>

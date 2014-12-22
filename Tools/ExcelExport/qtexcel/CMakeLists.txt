@@ -37,8 +37,7 @@ else(NOT Qt5Widgets_FOUND)
     set(SRCS
         ./src/maindialog.cpp
         ./src/main.cpp
-		./src/ExcelTbl.cpp
-		./src/ExcelTblSort.cpp
+		./src/ExcelExport.cpp
 		./src/Tools.cpp
 		./src/WorkThread.cpp
 		./src/DataItem.cpp
@@ -47,12 +46,25 @@ else(NOT Qt5Widgets_FOUND)
 		./src/CTask.cpp
 		./src/ByteBuffer.cpp
 		./src/System.cpp
+		
+		./src/Property.cpp
+		./src/PropertyBool.cpp
+		./src/PropertyInt8.cpp
+		./src/PropertyInt16.cpp
+		./src/PropertyInt32.cpp
+		./src/PropertyInt64.cpp
+		./src/PropertyUnsignedInt8.cpp
+		./src/PropertyUnsignedInt16.cpp
+		./src/PropertyUnsignedInt32.cpp
+		./src/PropertyUnsignedInt64.cpp
+		./src/PropertyFloat.cpp
+		./src/PropertyDouble.cpp
+		./src/PropertyStr.cpp
     )
 	
 	set(INCS
         ./include/maindialog.hxx
-		./include/ExcelTbl.hxx
-		./include/ExcelTblSort.hxx
+		./include/ExcelExport.hxx
 		./include/Singleton.hxx
 		./include/Tools.hxx
 		./include/WorkThread.hxx
@@ -67,6 +79,20 @@ else(NOT Qt5Widgets_FOUND)
 		./include/SystemEndian.hxx
 		./include/Common.hxx
 		./include/Error.hxx
+		
+		./include/Property.hxx
+		./include/PropertyBool.hxx
+		./include/PropertyInt8.hxx
+		./include/PropertyInt16.hxx
+		./include/PropertyInt32.hxx
+		./include/PropertyInt64.hxx
+		./include/PropertyUnsignedInt8.hxx
+		./include/PropertyUnsignedInt16.hxx
+		./include/PropertyUnsignedInt32.hxx
+		./include/PropertyUnsignedInt64.hxx
+		./include/PropertyFloat.hxx
+		./include/PropertyDouble.hxx
+		./include/PropertyStr.hxx
     )
 
     SET(MOC_SRCS2

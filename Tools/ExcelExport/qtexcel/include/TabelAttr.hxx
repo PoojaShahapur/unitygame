@@ -1,5 +1,5 @@
-﻿#ifndef TABLEATTR_H
-#define TABLEATTR_H
+﻿#ifndef _TABLEATTR_H
+#define _TABLEATTR_H
 
 #include <string>
 #include <vector>

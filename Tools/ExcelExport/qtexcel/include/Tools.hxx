@@ -1,5 +1,5 @@
-﻿#ifndef TOOLS_H
-#define TOOLS_H
+﻿#ifndef _TOOLS_H
+#define _TOOLS_H
 
 #include "Singleton.hxx"
 #include <QtCore/QtCore>

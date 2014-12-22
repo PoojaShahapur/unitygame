@@ -1,5 +1,5 @@
-﻿#ifndef DATAITEM_H
-#define DATAITEM_H
+﻿#ifndef _DATAITEM_H
+#define _DATAITEM_H
 
 #include <vector>
 #include "ByteBuffer.hxx"

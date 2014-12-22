@@ -25,13 +25,13 @@ CTask& CAppData::getTask()
 
 void CAppData::initData()
 {
-	m_excelTbl = new ExcelExport();
+	m_excelExport = new ExcelExport();
 	m_task.readXML();
 }
 
 ExcelExport* CAppData::getExcelTbl()
 {
-	return m_excelTbl;
+	return m_excelExport;
 }
 
 // start Multi
@@ -52,9 +52,9 @@ void CAppData::startMultiPack()
 		// package table
 		for (itePack = ite->getPackLst().begin(); itePack != ite->getPackLst().begin(); ++itePack)
 		{
-			m_excelTbl->setXmlPath((*itePack)->getXml().c_str());
-			m_excelTbl->setOutputPath((*itePack)->getOutput().c_str());
-			m_excelTbl->convExcel2Tbl();
+			m_excelExport->setXmlPath((*itePack)->getXml().c_str());
+			m_excelExport->setOutputPath((*itePack)->getOutput().c_str());
+			m_excelExport->convExcel2Tbl();
 		}
 
 		// execute external program
@@ -68,7 +68,7 @@ void CAppData::startMultiPack()
 // start single
 void CAppData::startSinglePack()
 {
-	m_excelTbl->convExcel2Tbl();
+	m_excelExport->convExcel2Tbl();
 }
 
 void CAppData::setXml(string outpath, string xmlpath, string xmlsolution)
@@ -77,8 +77,8 @@ void CAppData::setXml(string outpath, string xmlpath, string xmlsolution)
 	m_xmlFile = xmlpath;
 	m_xmlSolution = xmlsolution;
 
-	m_excelTbl->setXmlPath(m_xmlFile.c_str());
-	m_excelTbl->setOutputPath(m_outPath.c_str());
+	m_excelExport->setXmlPath(m_xmlFile.c_str());
+	m_excelExport->setOutputPath(m_outPath.c_str());
 }
 
 bool CAppData::isSetSolution()

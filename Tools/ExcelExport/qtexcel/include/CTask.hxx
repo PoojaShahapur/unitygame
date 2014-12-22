@@ -1,5 +1,5 @@
-﻿#ifndef CTASK_H
-#define CTASK_H
+﻿#ifndef _CTASK_H
+#define _CTASK_H
 
 #include<string>	// include string
 #include<vector>	// include vector
