@@ -6,7 +6,7 @@
 #include <string>
 
 class QThread;
-class ExcelTbl;
+class ExcelExport;
 class QComboBox;
 
 /**
@@ -16,7 +16,7 @@ class CAppData : public Singleton<CAppData>
 {
 protected:
 	CTask m_task;			// main thread task, but only one thread
-	ExcelTbl* m_excelTbl;
+	ExcelExport* m_excelTbl;
 	QThread* m_pthread;
 
 	string m_outPath;
@@ -29,7 +29,7 @@ public:
 
 	CTask& getTask();
 	void initData();
-	ExcelTbl* getExcelTbl();
+	ExcelExport* getExcelTbl();
 	void startMultiPack();
 	void startSinglePack();
 

@@ -1,7 +1,6 @@
 ﻿#include "maindialog.hxx"
 #include "ui_maindialog.h"
 #include "Tools.hxx"
-#include "ExcelTblSort.hxx"
 
 //#include <QtGui/QtGui>
 #include <QtCore/QVector>

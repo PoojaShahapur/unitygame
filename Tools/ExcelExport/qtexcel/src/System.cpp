@@ -8,11 +8,11 @@ void System::checkEndian()
 	char* pChar = (char *)&testData;
 	if (pChar[0] == 1)
 	{
-		m_sysEndian = eSys_BIG_ENDIAN;
+		m_sysEndian = eSys_LITTLE_ENDIAN;
 	}
 	else
 	{
-		m_sysEndian = eSys_LITTLE_ENDIAN;
+		m_sysEndian = eSys_BIG_ENDIAN;
 	}
 }
 

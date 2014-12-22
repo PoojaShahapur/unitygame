@@ -11,7 +11,7 @@
 #include <tchar.h>		// _T
 #include "TabelAttr.hxx"
 
-class ExcelTbl
+class ExcelExport
 {
 protected:
 	QString m_xmlPath;	// 绝对路径的文件名字   
@@ -20,8 +20,8 @@ protected:
 	TableAttr m_tableAttr;	// 定义的表的属性
 	QMutex mutex;
 public:
-	ExcelTbl();
-	~ExcelTbl();
+	ExcelExport();
+	~ExcelExport();
 	void setXmlPath(QString file);
 	void setOutputPath(QString path);
 	bool convExcel2Tbl();

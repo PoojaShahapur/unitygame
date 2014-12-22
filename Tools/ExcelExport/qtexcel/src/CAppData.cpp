@@ -1,5 +1,5 @@
 ﻿#include "CAppData.hxx"
-#include "ExcelTblSort.hxx"
+#include "ExcelExport.hxx"
 #include "CTask.hxx"
 #include <cstring>
 #include <QtGui/QtGui>
@@ -25,11 +25,11 @@ CTask& CAppData::getTask()
 
 void CAppData::initData()
 {
-	m_excelTbl = new ExcelTblSort();
+	m_excelTbl = new ExcelExport();
 	m_task.readXML();
 }
 
-ExcelTbl* CAppData::getExcelTbl()
+ExcelExport* CAppData::getExcelTbl()
 {
 	return m_excelTbl;
 }

@@ -1,5 +1,4 @@
 ﻿#include "WorkThread.hxx"
-#include "ExcelTbl.hxx"
 #include "Tools.hxx"
 #include "CAppData.hxx"
 
