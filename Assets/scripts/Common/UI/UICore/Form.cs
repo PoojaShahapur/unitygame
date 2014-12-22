@@ -29,6 +29,11 @@ namespace SDK.Common
             }
 		}
 
+        public void init()
+        {
+            onInit();
+        }
+
         public void show()
         {
             Ctx.m_instance.m_uiMgr.showForm(m_id);

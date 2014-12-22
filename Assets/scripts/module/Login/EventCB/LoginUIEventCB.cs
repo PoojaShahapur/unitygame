@@ -7,12 +7,12 @@ namespace Game.Login
     {
         public void onCodeFormLoaded(IForm form)
         {
-
+            form.init();
         }
 
         public void onWidgetLoaded(IForm form)
         {
-
+            form.show();
         }
     }
 }

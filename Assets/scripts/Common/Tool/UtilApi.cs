@@ -57,6 +57,11 @@ namespace SDK.Common
             Object.DontDestroyOnLoad(target);
         }
 
+        public static void SetActive(GameObject target, bool bshow)
+        {
+            target.SetActive(bshow);
+        }
+
         static public bool getXmlAttrBool(XmlAttribute attr)
         {
             if (attr != null)

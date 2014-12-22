@@ -39,7 +39,7 @@ namespace SDK.Common
 				}
                 if (!win.IsVisible())
                 {
-                    win.m_GUIWin.m_uiRoot.SetActive(true);
+                    UtilApi.SetActive(win.m_GUIWin.m_uiRoot, true);
                     win.onShow();
                 }
 			}
@@ -53,7 +53,7 @@ namespace SDK.Common
 				UILayer layer = win.uiLayer;
 				if (win.IsVisible())
 				{
-                    win.m_GUIWin.m_uiRoot.SetActive(false);
+                    UtilApi.SetActive(win.m_GUIWin.m_uiRoot, false);
 					win.onHide();
 				}
 			}
@@ -262,7 +262,6 @@ namespace SDK.Common
 
         protected void onCodeLoadedByForm(Form form)
         {
-            form.onInit();
             if (null != Ctx.m_instance.m_cbUIEvent)
             {
                 Ctx.m_instance.m_cbUIEvent.onCodeFormLoaded(form);  // 资源加载完成
@@ -281,6 +280,7 @@ namespace SDK.Common
             // 先设置再设置缩放，否则无效
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localPosition = Vector3.zero;
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localScale = Vector3.one;
+            UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);
 
             if (null != Ctx.m_instance.m_cbUIEvent)
             {
