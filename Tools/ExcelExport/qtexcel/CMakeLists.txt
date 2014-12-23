@@ -101,7 +101,7 @@ else(NOT Qt5Widgets_FOUND)
 
     ADD_EXECUTABLE(qtExcel WIN32 ${SRCS})
 
-    set_target_properties(qtExcel PROPERTIES DEBUG_POSTFIX _d)
+    set_target_properties(qtExcel PROPERTIES DEBUG_POSTFIX _d LINK_FLAGS "/ENTRY:\"mainCRTStartup\"")
 	#TARGET_LINK_LIBRARIES(qtExcel QtCore4 QtGui4 tinyxml)
 	TARGET_LINK_LIBRARIES(qtExcel ${Qt5Widgets_LIBRARIES} tinyxml)
 	add_dependencies(qtExcel tinyxml)
