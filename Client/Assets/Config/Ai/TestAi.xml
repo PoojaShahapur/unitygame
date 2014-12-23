@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+    <BehaviorTemplate name="Scv" race="Terran">
+        <BehaviorTree name="Scv">
+            <Sequence>
+                <Conditional expression="IsCarryingRes==true">
+                    <Sequence>
+                        <Conditional expression="IsNearBase==true">
+                            <BehaviorActionPatrol behavior="ReturnRes"/>
+                        </Conditional>
+                        <BehaviorActionPatrol behavior="MoveToBase"/>
+                    </Sequence>
+                </Conditional>
+                <Conditional expression="IsGathering==true">
+                    <Sequence>
+                        <Conditional expression="fGatheringTime greaterequal 3.0">
+                            <BehaviorActionPatrol behavior="RetriveRes"/>
+                        </Conditional>
+                        <BehaviorActionPatrol behavior="GatherRes"/>
+                    </Sequence>
+                </Conditional>
+                <Conditional expression="IsNearRes==true">
+                    <BehaviorActionPatrol behavior="GatherRes"/>
+                </Conditional>
+                <BehaviorActionPatrol behavior="MoveToRes"/>
+            </Sequence>
+        </BehaviorTree>
+    </BehaviorTemplate>
+</Root>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!--
+  资源打包配置
+	ResType 就是资源的类型，如 level
+	Pack 就是一个输出资源包
+	PackItem 就是包中的一项
+	根目录都是 Assets 目录
+	<PackType type="bundle" inpath="Prefabs/UI" outpath="UI" >
+		<Pack name="UIScrollForm.unity3d">
+			<PackItem path="UIScrollForm.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Table" outpath="Table" packallfiles="true" infileext="txt,xml" >
+		<Pack name="Table.unity3d">
+			<PackItem path="Table1.txt" restype="textasset" />
+			<PackItem path="Table2.xml" restype="textasset" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Prefabs/Module" outpath="Module" >
+		<Pack name="App.unity3d">
+			<PackItem path="App.prefab" restype="prefab" />
+		</Pack>
+		<Pack name="Game.unity3d">
+			<PackItem path="Game.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="true" infileext="unity" >
+		<Pack name="cave.unity3d">
+			<PackItem path="cave.unity" />
+		</Pack>
+	</PackType>
+-->
+<Root>
+	<PackType type="bundle" inpath="Prefabs/Resources/UI" outpath="UI" packallfiles="false" infileext="prefab" >
+		<Pack name="UIScrollForm.unity3d">
+			<PackItem path="UIScrollForm.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="bundle" inpath="Table" outpath="Table" packallfiles="false" infileext="txt,xml" >
+		<Pack name="Table.unity3d">
+			<PackItem path="Table1.txt" restype="textasset" />
+			<PackItem path="Table2.xml" restype="textasset" />
+		</Pack>
+	</PackType>
+  <PackType type="bundle" inpath="Config/Ai" outpath="AI" packallfiles="false" infileext="xml" >
+    <Pack name="AI.unity3d">
+      <PackItem path="TestAi.xml" restype="textasset" />
+      <PackItem path="Test2Ai.xml" restype="textasset" />
+    </Pack>
+  </PackType>
+  <PackType type="bundle" inpath="Prefabs/Resources/Being" outpath="Being" packallfiles="false" infileext="prefab" >
+    <Pack name="DefaultAvatar.unity3d">
+      <PackItem path="DefaultAvatar.prefab" restype="prefab" />
+    </Pack>
+    <Pack name="TestBeing.unity3d">
+      <PackItem path="TestBeing.prefab" restype="prefab" />
+    </Pack>
+    <Pack name="DefaultAvatar_Unity_Body_Mesh.unity3d">
+      <PackItem path="DefaultAvatar_Unity_Body_Mesh.prefab" restype="prefab" />
+    </Pack>
+    <Pack name="BonesList.unity3d">
+      <PackItem path="BoneList.xml" restype="textasset" />
+    </Pack>
+  </PackType>
+	<PackType type="bundle" inpath="Prefabs/Resources/Module" outpath="Module" packallfiles="false" infileext="prefab" >
+		<Pack name="App.unity3d">
+			<PackItem path="App.prefab" restype="prefab" />
+		</Pack>
+		<Pack name="Game.unity3d">
+			<PackItem path="Game.prefab" restype="prefab" />
+		</Pack>
+	</PackType>
+	<PackType type="level" inpath="Scenes" outpath="Scene" packallfiles="false" infileext="unity" >
+		<Pack name="cave.unity3d">
+			<PackItem path="cave.unity" />
+		</Pack>
+    <Pack name="TestScene1f.unity3d">
+			<PackItem path="TestScene1f.unity" />
+		</Pack>
+	</PackType>
+</Root>
