@@ -2,7 +2,6 @@
 
 namespace SDK.Common
 {
-    //public class TableBase<T> where T : ItemBase, new()
     public class TableBase
     {
         public string m_resName;

@@ -1,20 +1,17 @@
 using SDK.Common;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace SDK.Common
 {
-    public class TableSys : ITableSys
+    public class TableSys
 	{
-		//private Dictionary<TableID, TableBase<ItemBase> > m_dicTable;
         private Dictionary<TableID, TableBase> m_dicTable;
-		private IResItem m_res;
 
 		public TableSys()
 		{
 			m_dicTable = new Dictionary<TableID, TableBase>();
-            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("base_server", "base_server", "base_server");
+            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("base", "base", "base");
 		}
 
         public List<ItemBase> getTable(TableID tableID)
@@ -43,40 +40,12 @@ namespace SDK.Common
 		public void loadOneTable(TableID tableID)
 		{			
 			TableBase table = m_dicTable[tableID];
-
-            //LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
-            //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
-            //param.m_prefabName = table.m_prefabName;
-            //param.m_loaded = onloaded;
-            //Ctx.m_instance.m_resMgr.loadResources(param);
-            //TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
-
-            //if (textAsset != null)
-            //{
-            //    ByteArray byteArray = new ByteArray();
-            //    byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
-            //    readTable(TableID.TABLE_OBJECT, byteArray);
-            //}
-
-            string path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
-            byte[] bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalReadDir(), path + ".tbl");
+            byte[] bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_cfg.m_path, table.m_resName + ".txt");
             ByteArray byteArray = new ByteArray();
             byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
             byteArray.position = 0;
             readTable(TableID.TABLE_OBJECT, byteArray);
 		}
-
-        //public void onloaded(IDispatchObject resEvt)
-        //{
-        //    IResItem res = resEvt as IResItem;                         // 类型转换
-        //    TextAsset textAsset = res.getObject("") as TextAsset;
-        //    if(textAsset != null)
-        //    {
-        //        ByteArray byteArray = new ByteArray();
-        //        byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
-        //        readTable(TableID.TABLE_OBJECT, byteArray);
-        //    }
-        //}
 		
 		// 与getItem不同的方面在于：如果找到对应的项，不报错
 		public ItemBase getItemEx(TableID tableID, uint itemID)
@@ -116,7 +85,7 @@ namespace SDK.Common
                 {
                     item = new ObjectItem();
                 }
-                item.parseByteArray(bytes);
+                item.parseHeaderByteArray(bytes);
                 //item.parseByteArrayTestServer(bytes);
                 table.m_List.Add(item);
             }

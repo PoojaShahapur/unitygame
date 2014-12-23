@@ -2,14 +2,13 @@
 using System;
 using System.Collections;
 using System.IO;
-using UnityEngine;
 
-namespace SDK.Lib
+namespace SDK.Common
 {
     /**
      * @brief 本地文件系统，参考 http://www.xuanyusong.com/archives/1069
      */
-    public class LocalFileSys : ILocalFileSys
+    public class LocalFileSys
     {
         /**
         * @param path：文件创建目录
@@ -51,7 +50,7 @@ namespace SDK.Lib
             {
                 sr = File.OpenText(path + "//" + name);
             }
-            catch (Exception e)
+            catch (Exception error)
             {
                 //路径与名称未找到文件则直接返回空
                 return null;
@@ -96,26 +95,6 @@ namespace SDK.Lib
         public void DeleteFile(string path, string name)
         {
             File.Delete(path + "//" + name);
-        }
-
-        // 获取本地可以读取的目录，但是不能写
-        public string getLocalReadDir()
-        {
-            #if UNITY_EDITOR
-            string filepath = Application.dataPath +"/StreamingAssets";
-            #elif UNITY_IPHONE
-              string filepath = Application.dataPath +"/Raw";
-            #elif UNITY_ANDROID
-              string filepath = "jar:file://" + Application.dataPath + "!/assets/";
-            #endif
-
-            return filepath;
-        }
-
-        // 获取本地可以写的目录
-        public string getLocalWriteDir()
-        {
-            return Application.persistentDataPath;      // 这个目录是可读写的
         }
     }
 }
