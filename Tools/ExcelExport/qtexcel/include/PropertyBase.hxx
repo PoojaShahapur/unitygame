@@ -8,6 +8,12 @@ BEGINNAMESPACE(NSExcelExport)
 
 class PropertyBase
 {
+public:
+	virtual ~PropertyBase()
+	{
+
+	}
+
 protected:
 	// 这个是通用序列化
 	virtual void srz2BU(ByteBuffer& byteBuffer) = 0;

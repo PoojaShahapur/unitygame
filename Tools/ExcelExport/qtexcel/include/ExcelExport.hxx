@@ -14,6 +14,8 @@
 #include "PropertyIns.hxx"
 #include "PropertyStr.hxx"
 #include "DataItem.hxx"
+#include <cwchar>				// wchat_t
+#include <windows.h>			// WCHAR
 
 #include "Platform.hxx"
 BEGINNAMESPACE(NSExcelExport)
@@ -28,6 +30,9 @@ protected:
 	QString m_strOutput;	// 字符串日志输出    
 	TableAttr m_tableAttr;	// 定义的表的属性
 	QMutex mutex;
+	WCHAR* m_wBuf;			// 临时数据
+	char* m_bytes;
+
 public:
 	ExcelExport();
 	~ExcelExport();
@@ -37,7 +42,7 @@ public:
 	QString UTF82GBK(const QString &inStr);
 
 	// 导出 Excel 到 Property Vector
-	virtual bool exportExcel2PropertyVec(
+	virtual bool exportExcelInternal(
 					TiXmlElement* pXmlEmtFields,
 					const char* lpszExcelFile,
 					const char* lpszDB,

@@ -7,7 +7,16 @@ DataItem::DataItem()
 
 DataItem::~DataItem()
 {
+	std::vector<PropertyBase*>::iterator iteVecBeginProp;
+	std::vector<PropertyBase*>::iterator iteVecEndProp;
 
+	iteVecBeginProp = m_propVec.begin();
+	iteVecEndProp = m_propVec.end();
+	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
+	{
+		delete (*iteVecBeginProp);
+	}
+	m_propVec.clear();
 }
 
 ByteBuffer& DataItem::getByteBuffer()

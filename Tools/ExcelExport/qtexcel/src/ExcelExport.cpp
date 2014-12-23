@@ -11,12 +11,14 @@
 
 ExcelExport::ExcelExport()
 {
-
+	m_wBuf = new WCHAR[2048];
+	m_bytes = new char[4096];
 }
 
 ExcelExport::~ExcelExport()
 {
-
+	delete []m_wBuf;
+	delete []m_bytes;
 }
 
 void ExcelExport::setXmlPath(QString file)
@@ -136,7 +138,7 @@ bool ExcelExport::exportExcel()
 				memset(outfilename, 0, sizeof(outfilename));
 				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
 
-				exportExcel2PropertyVec(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
+				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
 			}
 			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
 			{
@@ -146,7 +148,7 @@ bool ExcelExport::exportExcel()
 				memset(outfilename, 0, sizeof(outfilename));
 				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
 
-				exportExcel2PropertyVec(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
+				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
 			}
 			else
 			{
@@ -177,7 +179,7 @@ bool ExcelExport::exportExcel()
 /**
 * com 接口
 */
-bool ExcelExport::exportExcel2PropertyVec(
+bool ExcelExport::exportExcelInternal(
 	TiXmlElement* pXmlEmtFields,	//第一个字段
 	const char* lpszExcelFile,		//Excel文件的全路径（包括文件名称）
 	const char* lpszDB,
@@ -275,7 +277,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 		// 这个作为一个中间值     
 		std::string strTmp = "";
 
-		std::vector<char> strValue;
+		//std::vector<char> strValue;
 		strStructDef = "struct  ";
 		strStructDef += lpszTableName;
 		strStructDef += "{\r\n";
@@ -346,7 +348,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 
 				if (fieldName && fieldType)
 				{
-					// 读取 Excel 字段值到 string 中
+					// 读取 Excel 字段值到 string 中， Excel 中只读取字符串，4个字节数字，8个字节数字
 					strCurField = fieldName;
 					_variant_t fieldValue = m_pRecordset->GetCollect((_variant_t)fieldName);
 					if (fieldValue.vt == VT_BSTR)
@@ -405,20 +407,20 @@ bool ExcelExport::exportExcel2PropertyVec(
 					}
 					if (stricmp(fieldType, "string") == 0)
 					{
-						WCHAR wBuf[2048] = { 0 };
-						char bytes[4096] = { 0 };
+						//WCHAR wBuf[2048] = { 0 };
+						//char bytes[4096] = { 0 };
 						int len = 0;
 
 						// 如果字符串是  "" 空就不转换了 
 						if (!strTmp.empty())
 						{
 							const char* strSor = (const char*)strTmp.c_str();
-							len = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, strSor, strTmp.length(), wBuf, 2048);
+							len = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, strSor, strTmp.length(), m_wBuf, 2048);
 							if (len == 0)
 							{
 								throw "从ANSI转换到UNICODE失败";
 							}
-							len = WideCharToMultiByte(CP_UTF8, 0, wBuf, len, bytes, 4096, NULL, NULL);
+							len = WideCharToMultiByte(CP_UTF8, 0, m_wBuf, len, m_bytes, 4096, NULL, NULL);
 							if (len == 0)
 							{
 								throw "从UNICODE转换到UTF-8失败";
@@ -430,7 +432,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 							fieldSize = 16;
 						}
 
-						strValue.resize(fieldSize, 0);
+						//strValue.resize(fieldSize, 0);
 
 						if (len + 1 > fieldSize)		// 最后一个字节填充 '\0'
 						{
@@ -438,7 +440,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField);
 							strStructDef += szMsg;
 							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'
-							bytes[len] = 0;
+							m_bytes[len] = 0;
 						}
 
 						//if (m_isClient == true)
@@ -455,7 +457,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 						//	_rowData->getByteBuffer().writeMultiByte(&strValue[0], fieldSize);
 						//}
 						// bytes 可能很长，但是传入后，构造的时候使用 '\0' 截断
-						addProperty(_rowData, bytes, fieldSize);
+						addProperty(_rowData, m_bytes, fieldSize);
 
 						if (bRecStructDef)
 						{
@@ -597,6 +599,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 			iCount++;
 		}
 
+		delete []_strId;
+
 		// 导出 Excel 到文件
 		exportPropertyVec2File(lpszOutputFile, _rowList, m_isClient);
 
@@ -607,9 +611,6 @@ bool ExcelExport::exportExcel2PropertyVec(
 		::CoUninitialize();
 
 		strStructDef += "};";
-		//fseek(file, 0, SEEK_SET);
-		//fwrite(&count, sizeof(count), 1, file);
-		//fclose(file);
 
 		memset(szMsg, 0, sizeof(szMsg));
 		sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", lpszTableName, count);
