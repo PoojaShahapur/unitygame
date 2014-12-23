@@ -432,12 +432,13 @@ bool ExcelExport::exportExcel2PropertyVec(
 
 						strValue.resize(fieldSize, 0);
 
-						if (len + 1 > fieldSize)
+						if (len + 1 > fieldSize)		// 最后一个字节填充 '\0'
 						{
 							memset(szMsg, 0, sizeof(szMsg));
 							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField);
 							strStructDef += szMsg;
-							len = fieldSize - 1;
+							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'
+							bytes[len] = 0;
 						}
 
 						//if (m_isClient == true)
@@ -597,7 +598,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 		}
 
 		// 导出 Excel 到文件
-		exportPropertyVec2File(lpszOutputFile, _rowList);
+		exportPropertyVec2File(lpszOutputFile, _rowList, m_isClient);
 
 		// 关闭打开句柄    
 		// TODO: 关闭打开的内容 
@@ -646,7 +647,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 	}
 }
 
-void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList)
+void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient)
 {
 	int count = 0;	// 数据表中总的行数 
 	count = _rowList.size();
@@ -666,7 +667,14 @@ void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector
 	iteVecEndDataItem = _rowList.end();
 	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
 	{
-		(*iteVecDataItem)->writeFile(file);
+		if (isClient)
+		{
+			(*iteVecDataItem)->writeFileMobile(file);
+		}
+		else
+		{ 
+			(*iteVecDataItem)->writeFileServer(file);
+		}
 		delete (*iteVecDataItem);
 	}
 	_rowList.clear();

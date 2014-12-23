@@ -51,7 +51,7 @@ public:
 				);
 
 	// 导出 Property Vector 到文件
-	virtual void exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList);
+	virtual void exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient);
 
 	template <class T>
 	void addProperty(DataItem* row, T value)

@@ -25,7 +25,7 @@ void DataItem::setID(unsigned long int id)
 	m_id = id;
 }
 
-void DataItem::writeFile(FILE* file)
+void DataItem::writeFileServer(FILE* file)
 {
 	// 写 Property 到 ByteBuffer 
 	std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -35,7 +35,55 @@ void DataItem::writeFile(FILE* file)
 	iteVecEndProp = m_propVec.end();
 	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
 	{
-		(*iteVecBeginProp)->srz2BU(m_data);
+		(*iteVecBeginProp)->srz2BUServer(m_data);
+	}
+
+	m_data.writeFile(file);
+}
+
+void DataItem::writeFileDesktop(FILE* file)
+{
+	// 写 Property 到 ByteBuffer 
+	std::vector<PropertyBase*>::iterator iteVecBeginProp;
+	std::vector<PropertyBase*>::iterator iteVecEndProp;
+
+	iteVecBeginProp = m_propVec.begin();
+	iteVecEndProp = m_propVec.end();
+	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
+	{
+		(*iteVecBeginProp)->srz2BUDesktop(m_data);
+	}
+
+	m_data.writeFile(file);
+}
+
+void DataItem::writeFileWeb(FILE* file)
+{
+	// 写 Property 到 ByteBuffer 
+	std::vector<PropertyBase*>::iterator iteVecBeginProp;
+	std::vector<PropertyBase*>::iterator iteVecEndProp;
+
+	iteVecBeginProp = m_propVec.begin();
+	iteVecEndProp = m_propVec.end();
+	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
+	{
+		(*iteVecBeginProp)->srz2BUWeb(m_data);
+	}
+
+	m_data.writeFile(file);
+}
+
+void DataItem::writeFileMobile(FILE* file)
+{
+	// 写 Property 到 ByteBuffer 
+	std::vector<PropertyBase*>::iterator iteVecBeginProp;
+	std::vector<PropertyBase*>::iterator iteVecEndProp;
+
+	iteVecBeginProp = m_propVec.begin();
+	iteVecEndProp = m_propVec.end();
+	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
+	{
+		(*iteVecBeginProp)->srz2BUMobile(m_data);
 	}
 
 	m_data.writeFile(file);

@@ -46,8 +46,6 @@ else(NOT Qt5Widgets_FOUND)
 		./src/CTask.cpp
 		./src/ByteBuffer.cpp
 		./src/System.cpp
-		
-		./src/PropertyBase.cpp
 		./src/PropertyStr.cpp
     )
 	
@@ -68,7 +66,6 @@ else(NOT Qt5Widgets_FOUND)
 		./include/SystemEndian.hxx
 		./include/Common.hxx
 		./include/Error.hxx
-		
 		./include/PropertyBase.hxx
 		./include/PropertyIns.hxx
 		./include/PropertyStr.hxx

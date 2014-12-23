@@ -26,7 +26,10 @@ public:
 	unsigned long int getID();
 	void setID(unsigned long int id);
 	ByteBuffer& getByteBuffer();
-	void writeFile(FILE* file);
+	void writeFileServer(FILE* file);
+	void writeFileDesktop(FILE* file);
+	void writeFileWeb(FILE* file);
+	void writeFileMobile(FILE* file);
 	std::vector<PropertyBase*>& getPropVec();
 };
 
