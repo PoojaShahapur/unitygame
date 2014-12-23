@@ -24,7 +24,7 @@ ByteBuffer& DataItem::getByteBuffer()
 	return m_byteBuffer;
 }
 
-unsigned long int DataItem::getID()
+unsigned int DataItem::getID()
 {
 	return m_id;
 }
@@ -99,7 +99,8 @@ void DataItem::writeFileMobile(FILE* file)
 }
 
 // 将所有的内容添加到 ByteBuffer 中
-void DataItem::writeByteBuffer()
+// ignoreID 是否写入 id 字段
+void DataItem::writeByteBuffer(bool ignoreID)
 {
 	// 写 Property 到 ByteBuffer 
 	std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -109,7 +110,17 @@ void DataItem::writeByteBuffer()
 	iteVecEndProp = m_propVec.end();
 	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
 	{
-		(*iteVecBeginProp)->srz2BUMobile(m_byteBuffer);
+		if (ignoreID)
+		{
+			if (!(*iteVecBeginProp)->m_isIDField)
+			{
+				(*iteVecBeginProp)->srz2BUMobile(m_byteBuffer);
+			}
+		}
+		else
+		{
+			(*iteVecBeginProp)->srz2BUMobile(m_byteBuffer);
+		}
 	}
 }
 

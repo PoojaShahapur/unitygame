@@ -9,7 +9,7 @@ BEGINNAMESPACE(NSExcelExport)
 
 // 定义除 string 之外的 CBO 
 template <class T>
-class PropertyIns : PropertyBase
+class PropertyIns : public PropertyBase
 {
 public:
 	T m_propData;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="GB2312">
 <config>
-	<table name="base" ExcelFile="test.xlsx" sheetname="测试表" idrange="1-100;130-500;7000-8000">
+	<table name="base_client" ExcelFile="test.xlsx" sheetname="测试表" idrange="1-100;130-500;7000-8000">
 		<fields>
 			<field name="id" type="int" size="4" />
 			<field name="字段2" type="int" size="8" />

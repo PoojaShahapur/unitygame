@@ -439,7 +439,7 @@ bool ExcelExport::exportExcelInternal(
 							memset(szMsg, 0, sizeof(szMsg));
 							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField);
 							strStructDef += szMsg;
-							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'
+							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'，长度不包括最后一个 '\0'
 							m_bytes[len] = 0;
 						}
 
@@ -457,7 +457,7 @@ bool ExcelExport::exportExcelInternal(
 						//	_rowData->getByteBuffer().writeMultiByte(&strValue[0], fieldSize);
 						//}
 						// bytes 可能很长，但是传入后，构造的时候使用 '\0' 截断
-						addProperty(_rowData, m_bytes, fieldSize);
+						addPropertyStr(_rowData, m_bytes, fieldSize);
 
 						if (bRecStructDef)
 						{
@@ -515,16 +515,20 @@ bool ExcelExport::exportExcelInternal(
 						{
 							long value = nValue;
 							//_rowData->getByteBuffer().writeInt32(value);
-							addProperty(_rowData, value);
-
-							if (bRecStructDef)
-							{
-								sprintf(szMsg, "\tDWORD\tdwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							}
 							// TODO: 如果是 id 字段  
 							if (strncmp(fieldName, _strId, strlen(_strId)) == 0)
 							{
 								_id = value;
+								addProperty(_rowData, value, true);
+							}
+							else
+							{
+								addProperty(_rowData, value);
+							}
+
+							if (bRecStructDef)
+							{
+								sprintf(szMsg, "\tDWORD\tdwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
 							}
 						}
 						break;
@@ -699,15 +703,16 @@ void ExcelExport::exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList,
 }
 
 /**
- *@brief |4个字节总共项数量|第一个数据距离文件头部偏移|第二个数据距离文件头部偏移| ... |第一个数据|第二个数据|
+ *@brief |4个字节总共项数量|第一个数据项ID|第一个数据项距离文件头部偏移|第二个数据项ID|第二个数据距离文件头部偏移| ... |第一个数据(这个数据项是没有 ID 内容的， ID 已经在头字段写进去了)|第二个数据|
  */
 void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, FILE* file)
 {
 	size_t dataOffset = 4;		// 偏移 4 个头字节
 	int count = 0;	// 数据表中总的行数 
+	unsigned int m_id;
 	count = _rowList.size();
 
-	dataOffset += count * sizeof(int);		// 每一个占用 4 个字节
+	dataOffset += 2 * count * sizeof(int);		// 每一个占用 4 个字节
 
 	// 移动优化
 	// (1) 写入每一个项在文件中或者字节数组中的偏移量，就是之前的字节数
@@ -718,8 +723,10 @@ void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList,
 	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
 	{
 		// 全部写到 ByteBuffer 
-		(*iteVecDataItem)->writeByteBuffer();
-		fwrite(&dataOffset, sizeof(dataOffset), 1, file);		// 注意是四个 sizeof(dataOffset) == 4
+		(*iteVecDataItem)->writeByteBuffer(true);
+		m_id = (*iteVecDataItem)->getID();
+		fwrite(&m_id, sizeof(int), 1, file);		// 写入 ID ，注意是四个 sizeof(dataOffset) == 4
+		fwrite(&dataOffset, sizeof(int), 1, file);		// 写入这一项内容在文件中的偏移，注意是四个 sizeof(dataOffset) == 4
 
 		dataOffset += (*iteVecDataItem)->getByteBuffer().size();
 	}

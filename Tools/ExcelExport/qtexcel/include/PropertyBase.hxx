@@ -9,6 +9,14 @@ BEGINNAMESPACE(NSExcelExport)
 class PropertyBase
 {
 public:
+	bool m_isIDField;			// 指明是否是 id 字段， 如果是 id 字段将可能特殊处理
+
+public:
+	PropertyBase()
+	{
+		m_isIDField = false;
+	}
+
 	virtual ~PropertyBase()
 	{
 

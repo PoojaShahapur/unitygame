@@ -15,7 +15,7 @@ BEGINNAMESPACE(NSExcelExport)
 class DataItem
 {
 protected:
-	unsigned long int m_id;		// 唯一 ID
+	unsigned int m_id;		// 唯一 ID
 	ByteBuffer m_byteBuffer;			// 字节缓冲区
 	std::vector<PropertyBase*> m_propVec;		// 属性向量
 
@@ -23,10 +23,10 @@ public:
 	DataItem();
 	~DataItem();
 
-	unsigned long int getID();
+	unsigned int getID();
 	void setID(unsigned long int id);
 	ByteBuffer& getByteBuffer();
-	void writeByteBuffer();
+	void writeByteBuffer(bool ignoreID);
 	void writeFileServer(FILE* file);
 	void writeFileDesktop(FILE* file);
 	void writeFileWeb(FILE* file);

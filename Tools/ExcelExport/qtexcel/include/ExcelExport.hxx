@@ -62,14 +62,15 @@ public:
 	void exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, FILE* file);
 
 	template <class T>
-	void addProperty(DataItem* row, T value)
+	void addProperty(DataItem* row, T value, bool isIDField = false)
 	{
 		PropertyIns<T>* propIns = new PropertyIns<T>();
 		propIns->m_propData = value;
+		propIns->m_isIDField = isIDField;
 		row->getPropVec().push_back((PropertyBase*)propIns);
 	}
 
-	void addProperty(DataItem* row, const char* value, size_t cfgLen)
+	void addPropertyStr(DataItem* row, const char* value, size_t cfgLen)
 	{
 		PropertyStr* propIns = new PropertyStr();
 		propIns->m_propData = value;
