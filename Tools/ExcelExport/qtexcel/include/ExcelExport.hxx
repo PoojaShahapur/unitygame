@@ -51,17 +51,17 @@ public:
 				);
 
 	// 导出 Property Vector 到文件
-	virtual void exportPropertyVec2File(std::vector<DataItem*>& rowList);
+	virtual void exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList);
 
 	template <class T>
 	void addProperty(DataItem* row, T value)
 	{
 		PropertyIns<T>* propIns = new PropertyIns<T>();
 		propIns->m_propData = value;
-		row->getPropVec().push_back(propIns);
+		row->getPropVec().push_back((PropertyBase*)propIns);
 	}
 
-	void addProperty(DataItem* row, std::string value, size_t cfgLen)
+	void addProperty(DataItem* row, const char* value, size_t cfgLen)
 	{
 		PropertyStr* propIns = new PropertyStr();
 		propIns->m_propData = value;

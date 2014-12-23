@@ -27,6 +27,17 @@ void DataItem::setID(unsigned long int id)
 
 void DataItem::writeFile(FILE* file)
 {
+	// 写 Property 到 ByteBuffer 
+	std::vector<PropertyBase*>::iterator iteVecBeginProp;
+	std::vector<PropertyBase*>::iterator iteVecEndProp;
+
+	iteVecBeginProp = m_propVec.begin();
+	iteVecEndProp = m_propVec.end();
+	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
+	{
+		(*iteVecBeginProp)->srz2BU(m_data);
+	}
+
 	m_data.writeFile(file);
 }
 

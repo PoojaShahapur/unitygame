@@ -272,10 +272,6 @@ bool ExcelExport::exportExcel2PropertyVec(
 			m_isClient = true;
 		}
 
-		FILE* file;
-		file = fopen(lpszOutputFile, "wb");
-		fwrite(&count, sizeof(count), 1, file);
-
 		// 这个作为一个中间值     
 		std::string strTmp = "";
 
@@ -350,7 +346,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 
 				if (fieldName && fieldType)
 				{
-					// 读取字段值到 string 中
+					// 读取 Excel 字段值到 string 中
 					strCurField = fieldName;
 					_variant_t fieldValue = m_pRecordset->GetCollect((_variant_t)fieldName);
 					if (fieldValue.vt == VT_BSTR)
@@ -394,6 +390,7 @@ bool ExcelExport::exportExcel2PropertyVec(
 						strTmp = defaultValue;
 					}
 
+					// 转化 Excel 中的数据到配置表中的数据
 					if (strTmp.length() > 1)
 					{
 						if (strTmp[0] == '\"')
@@ -443,19 +440,21 @@ bool ExcelExport::exportExcel2PropertyVec(
 							len = fieldSize - 1;
 						}
 
-						if (m_isClient == true)
-						{
-							unsigned short stLen = (unsigned short)len;
-							_rowData->getByteBuffer().writeUnsignedInt16(stLen);
-							_rowData->getByteBuffer().writeMultiByte(bytes, stLen);
-						}
-						else
-						{
-							memcpy(&strValue[0], bytes, len);
-							strValue[len] = 0;
-
-							_rowData->getByteBuffer().writeMultiByte(&strValue[0], fieldSize);
-						}
+						//if (m_isClient == true)
+						//{
+						//	unsigned short stLen = (unsigned short)len;
+						//	_rowData->getByteBuffer().writeUnsignedInt16(stLen);
+						//	_rowData->getByteBuffer().writeMultiByte(bytes, stLen);
+						//}
+						//else
+						//{
+						//	memcpy(&strValue[0], bytes, len);
+						//	strValue[len] = 0;
+						//
+						//	_rowData->getByteBuffer().writeMultiByte(&strValue[0], fieldSize);
+						//}
+						// bytes 可能很长，但是传入后，构造的时候使用 '\0' 截断
+						addProperty(_rowData, bytes, fieldSize);
 
 						if (bRecStructDef)
 						{
@@ -488,7 +487,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 						case 1:
 						{
 							char value = nValue;
-							_rowData->getByteBuffer().writeInt8(value);
+							//_rowData->getByteBuffer().writeInt8(value);
+							addProperty(_rowData, value);
 
 							if (bRecStructDef)
 							{
@@ -499,7 +499,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 						case 2:
 						{
 							short value = nValue;
-							_rowData->getByteBuffer().writeInt16(value);
+							//_rowData->getByteBuffer().writeInt16(value);
+							addProperty(_rowData, value);
 
 							if (bRecStructDef)
 							{
@@ -510,7 +511,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 						case 4:
 						{
 							long value = nValue;
-							_rowData->getByteBuffer().writeInt32(value);
+							//_rowData->getByteBuffer().writeInt32(value);
+							addProperty(_rowData, value);
 
 							if (bRecStructDef)
 							{
@@ -526,7 +528,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 						case 8:
 						{
 							__int64 value = nValue;
-							_rowData->getByteBuffer().writeInt64(value);
+							//_rowData->getByteBuffer().writeInt64(value);
+							addProperty(_rowData, value);
 
 							if (bRecStructDef)
 							{
@@ -553,7 +556,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 						case 4:
 						{
 							float fValue = dValue;
-							_rowData->getByteBuffer().writeFloat(fValue);
+							//_rowData->getByteBuffer().writeFloat(fValue);
+							addProperty(_rowData, fValue);
 
 							if (bRecStructDef)
 							{
@@ -564,7 +568,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 						case 8:
 						{
 							double fValue = dValue;
-							_rowData->getByteBuffer().writeDouble(fValue);
+							//_rowData->getByteBuffer().writeDouble(fValue);
+							addProperty(_rowData, fValue);
 
 							if (bRecStructDef)
 							{
@@ -591,21 +596,8 @@ bool ExcelExport::exportExcel2PropertyVec(
 			iCount++;
 		}
 
-		// (2) 排序向量列表   
-		lessCmp m_cmpFunc;
-		std::sort(_rowList.begin(), _rowList.end(), m_cmpFunc);
-
-		// (3) 将排序的向量列表写到文件中去    
-		std::vector<DataItem*>::iterator iteVecDataItem;
-		std::vector<DataItem*>::iterator iteVecEndDataItem;
-		iteVecDataItem = _rowList.begin();
-		iteVecEndDataItem = _rowList.end();
-		for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
-		{
-			(*iteVecDataItem)->writeFile(file);
-			delete (*iteVecDataItem);
-		}
-		_rowList.clear();
+		// 导出 Excel 到文件
+		exportPropertyVec2File(lpszOutputFile, _rowList);
 
 		// 关闭打开句柄    
 		// TODO: 关闭打开的内容 
@@ -614,9 +606,9 @@ bool ExcelExport::exportExcel2PropertyVec(
 		::CoUninitialize();
 
 		strStructDef += "};";
-		fseek(file, 0, SEEK_SET);
-		fwrite(&count, sizeof(count), 1, file);
-		fclose(file);
+		//fseek(file, 0, SEEK_SET);
+		//fwrite(&count, sizeof(count), 1, file);
+		//fclose(file);
 
 		memset(szMsg, 0, sizeof(szMsg));
 		sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", lpszTableName, count);
@@ -654,7 +646,30 @@ bool ExcelExport::exportExcel2PropertyVec(
 	}
 }
 
-void ExcelExport::exportPropertyVec2File(std::vector<DataItem*>& rowList)
+void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList)
 {
+	int count = 0;	// 数据表中总的行数 
+	count = _rowList.size();
+	FILE* file;
+	// (1) 打开文件
+	file = fopen(lpszOutputFile, "wb");
+	fwrite(&count, sizeof(count), 1, file);
 
+	// (2) 排序向量列表   
+	lessCmp m_cmpFunc;
+	std::sort(_rowList.begin(), _rowList.end(), m_cmpFunc);
+
+	// (3) 将排序的向量列表写到文件中去    
+	std::vector<DataItem*>::iterator iteVecDataItem;
+	std::vector<DataItem*>::iterator iteVecEndDataItem;
+	iteVecDataItem = _rowList.begin();
+	iteVecEndDataItem = _rowList.end();
+	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
+	{
+		(*iteVecDataItem)->writeFile(file);
+		delete (*iteVecDataItem);
+	}
+	_rowList.clear();
+
+	fclose(file);
 }
