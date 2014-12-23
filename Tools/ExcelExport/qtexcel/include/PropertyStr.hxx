@@ -1,16 +1,15 @@
 #ifndef _PROPERTYSTR_H
 #define _PROPERTYSTR_H
 
-#include "NSEEProperty.hxx"
+#include "PropertyIns.hxx"
 #include <string>
 
 #include "Platform.hxx"
 BEGINNAMESPACE(NSExcelExport)
 
-class PropertyStr : public NSEEProperty
+class PropertyStr : public PropertyIns<std::string>
 {
 public:
-	std::string m_propData;
 	size_t m_cfgLen;			// 配置表中的长度
 
 public:

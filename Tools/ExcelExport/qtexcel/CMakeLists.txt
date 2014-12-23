@@ -47,14 +47,7 @@ else(NOT Qt5Widgets_FOUND)
 		./src/ByteBuffer.cpp
 		./src/System.cpp
 		
-		./src/NSEEProperty.cpp
-		./src/PropertyBool.cpp
-		./src/PropertyInt8.cpp
-		./src/PropertyInt16.cpp
-		./src/PropertyInt32.cpp
-		./src/PropertyInt64.cpp
-		./src/PropertyFloat.cpp
-		./src/PropertyDouble.cpp
+		./src/PropertyBase.cpp
 		./src/PropertyStr.cpp
     )
 	
@@ -76,14 +69,8 @@ else(NOT Qt5Widgets_FOUND)
 		./include/Common.hxx
 		./include/Error.hxx
 		
-		./include/NSEEProperty.hxx
-		./include/PropertyBool.hxx
-		./include/PropertyInt8.hxx
-		./include/PropertyInt16.hxx
-		./include/PropertyInt32.hxx
-		./include/PropertyInt64.hxx
-		./include/PropertyFloat.hxx
-		./include/PropertyDouble.hxx
+		./include/PropertyBase.hxx
+		./include/PropertyIns.hxx
 		./include/PropertyStr.hxx
     )
 

@@ -1,12 +1,12 @@
-#ifndef _NSEEPROPERTY_H
-#define _NSEEPROPERTY_H
+#ifndef _PROPERTYBASE_H
+#define _PROPERTYBASE_H
 
 #include "ByteBuffer.hxx"
 #include "Platform.hxx"
 
 BEGINNAMESPACE(NSExcelExport)
 
-class NSEEProperty
+class PropertyBase
 {
 public:
 	virtual void srz2BU(ByteBuffer& byteBuffer);
@@ -14,4 +14,4 @@ public:
 
 ENDNAMESPACE(NSExcelExport)
 
-#endif	// _NSEEPROPERTY_H  
+#endif	// _PROPERTYBASE_H  

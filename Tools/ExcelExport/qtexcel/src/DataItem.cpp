@@ -30,7 +30,7 @@ void DataItem::writeFile(FILE* file)
 	m_data.writeFile(file);
 }
 
-std::vector<NSEEProperty*>& DataItem::getPropVec()
+std::vector<PropertyBase*>& DataItem::getPropVec()
 {
 	return m_propVec;
 }
