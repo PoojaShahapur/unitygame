@@ -42,6 +42,8 @@ class CSolution
 protected:
 	string m_name;		// solution name
 	string m_cmd;		// excute cmd, usually is a bat file
+	string m_xmlRootPath;		// Xml 文件根目录
+	string m_defaultOutput;		// 默认的输出目录
 	vector<CPackage*> m_lstPack;	// need pack list
 
 public:

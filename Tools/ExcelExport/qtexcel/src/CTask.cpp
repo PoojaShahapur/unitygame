@@ -86,12 +86,27 @@ void CSolution::initByXml(TiXmlElement* elem)
 	packageXml = elem->FirstChildElement("package");
 	m_name = elem->Attribute("name");
 	m_cmd = elem->Attribute("cmd");
+	m_xmlRootPath = elem->Attribute("xmlrootpath");
+	m_defaultOutput = elem->Attribute("defaultoutput");
 
 	while(packageXml)
 	{
 		ppackage = new CPackage();
 		m_lstPack.push_back(ppackage);
 		ppackage->initByXml(packageXml);
+
+		// 如果没有配置输出
+		//if (ppackage->getOutput() == nullptr || ppackage->getOutput().length == 0)
+		if (ppackage->getOutput().length() == 0)
+		{
+			ppackage->setOutput(m_defaultOutput);
+		}
+
+		if (ppackage->getXml().find(':') == -1)	// 如果是相对目录
+		{
+			ppackage->setXml(m_xmlRootPath + "/" + ppackage->getXml());
+		}
+
 		packageXml = packageXml->NextSiblingElement("package");
 	}
 }
