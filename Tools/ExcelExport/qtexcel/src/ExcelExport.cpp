@@ -658,8 +658,3 @@ void ExcelExport::exportPropertyVec2File(std::vector<DataItem*>& rowList)
 {
 
 }
-
-void ExcelExport::addPropertyInt8(DataItem* row)
-{
-	//row->
-}

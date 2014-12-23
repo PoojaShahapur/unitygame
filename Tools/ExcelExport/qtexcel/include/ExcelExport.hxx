@@ -11,11 +11,14 @@
 #include <tchar.h>		// _T
 #include "TabelAttr.hxx"
 #include <vector>
+#include "PropertyIns.hxx"
+#include "PropertyStr.hxx"
+#include "DataItem.hxx"
 
 #include "Platform.hxx"
 BEGINNAMESPACE(NSExcelExport)
 
-class DataItem;
+//class DataItem;
 
 class ExcelExport
 {
@@ -49,7 +52,22 @@ public:
 
 	// 导出 Property Vector 到文件
 	virtual void exportPropertyVec2File(std::vector<DataItem*>& rowList);
-	void addPropertyInt8(DataItem* row);
+
+	template <class T>
+	void addProperty(DataItem* row, T value)
+	{
+		PropertyIns<T>* propIns = new PropertyIns<T>();
+		propIns->m_propData = value;
+		row->getPropVec().push_back(propIns);
+	}
+
+	void addProperty(DataItem* row, std::string value, size_t cfgLen)
+	{
+		PropertyStr* propIns = new PropertyStr();
+		propIns->m_propData = value;
+		propIns->m_cfgLen = cfgLen;
+		row->getPropVec().push_back((PropertyBase*)propIns);
+	}
 };
 
 ENDNAMESPACE(NSExcelExport)
