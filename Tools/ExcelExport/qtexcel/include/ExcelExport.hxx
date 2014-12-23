@@ -57,9 +57,9 @@ public:
 
 	// 导出 Property Vector 到文件
 	virtual void exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient);
-	void exportPropertyVec2FileServer(std::vector<DataItem*>& _rowList, FILE* file);
-	void exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList, FILE* file);
-	void exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, FILE* file);
+	void exportPropertyVec2FileServer(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer);
+	void exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer);
+	void exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer);
 
 	template <class T>
 	void addProperty(DataItem* row, T value, bool isIDField = false)

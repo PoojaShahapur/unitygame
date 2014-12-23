@@ -34,7 +34,7 @@ void DataItem::setID(unsigned long int id)
 	m_id = id;
 }
 
-void DataItem::writeFileServer(FILE* file)
+void DataItem::writeFileServer(ByteBuffer& byteBuffer)
 {
 	// 写 Property 到 ByteBuffer 
 	std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -47,10 +47,10 @@ void DataItem::writeFileServer(FILE* file)
 		(*iteVecBeginProp)->srz2BUServer(m_byteBuffer);
 	}
 
-	m_byteBuffer.writeFile(file);
+	byteBuffer.append(m_byteBuffer);
 }
 
-void DataItem::writeFileDesktop(FILE* file)
+void DataItem::writeFileDesktop(ByteBuffer& byteBuffer)
 {
 	// 写 Property 到 ByteBuffer 
 	std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -63,10 +63,10 @@ void DataItem::writeFileDesktop(FILE* file)
 		(*iteVecBeginProp)->srz2BUDesktop(m_byteBuffer);
 	}
 
-	m_byteBuffer.writeFile(file);
+	byteBuffer.append(m_byteBuffer);
 }
 
-void DataItem::writeFileWeb(FILE* file)
+void DataItem::writeFileWeb(ByteBuffer& byteBuffer)
 {
 	// 写 Property 到 ByteBuffer 
 	std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -79,10 +79,10 @@ void DataItem::writeFileWeb(FILE* file)
 		(*iteVecBeginProp)->srz2BUWeb(m_byteBuffer);
 	}
 
-	m_byteBuffer.writeFile(file);
+	byteBuffer.append(m_byteBuffer);
 }
 
-void DataItem::writeFileMobile(FILE* file)
+void DataItem::writeFileMobile(ByteBuffer& byteBuffer)
 {
 	// 写 Property 到 ByteBuffer 
 	//std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -95,7 +95,7 @@ void DataItem::writeFileMobile(FILE* file)
 	//	(*iteVecBeginProp)->srz2BUMobile(m_data);
 	//}
 
-	m_byteBuffer.writeFile(file);
+	byteBuffer.append(m_byteBuffer);
 }
 
 // 将所有的内容添加到 ByteBuffer 中

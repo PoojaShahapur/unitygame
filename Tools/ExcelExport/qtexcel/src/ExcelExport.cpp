@@ -276,8 +276,6 @@ bool ExcelExport::exportExcelInternal(
 
 		// 这个作为一个中间值     
 		std::string strTmp = "";
-
-		//std::vector<char> strValue;
 		strStructDef = "struct  ";
 		strStructDef += lpszTableName;
 		strStructDef += "{\r\n";
@@ -293,11 +291,10 @@ bool ExcelExport::exportExcelInternal(
 		strcpy(_strId, "编号");				// 默认值
 
 		int iRecord = -1;	// 在读取记录过程中，表示当前记录是第几行，zero-based
-		int iCount = 0;		// 已经读取的数量   
 		for (; m_pRecordset->adoEOF != -1; m_pRecordset->MoveNext())
 		{
 			// 申请一行的空间     
-			iRecord++;
+			iRecord++;		// 记录当前访问的表中的行数
 			_rowData = new DataItem();
 			_rowList.push_back(_rowData);
 
@@ -328,6 +325,7 @@ bool ExcelExport::exportExcelInternal(
 				int fieldBase = 10;	// 进制是什么 
 				const char* defaultValue = "10";
 
+				// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
 				if (field->QueryIntAttribute("size", &fieldSize) != TIXML_SUCCESS)
 				{
 					fieldSize = 1;
@@ -397,8 +395,7 @@ bool ExcelExport::exportExcelInternal(
 					{
 						if (strTmp[0] == '\"')
 						{
-							// 去掉引号
-							strTmp.erase(0, 1);
+							strTmp.erase(0, 1);		// 去掉引号
 						}
 						if (strTmp[strTmp.length() - 1] == '\"')
 						{
@@ -407,8 +404,6 @@ bool ExcelExport::exportExcelInternal(
 					}
 					if (stricmp(fieldType, "string") == 0)
 					{
-						//WCHAR wBuf[2048] = { 0 };
-						//char bytes[4096] = { 0 };
 						int len = 0;
 
 						// 如果字符串是  "" 空就不转换了 
@@ -432,30 +427,16 @@ bool ExcelExport::exportExcelInternal(
 							fieldSize = 16;
 						}
 
-						//strValue.resize(fieldSize, 0);
-
+						// 判断长度
 						if (len + 1 > fieldSize)		// 最后一个字节填充 '\0'
 						{
 							memset(szMsg, 0, sizeof(szMsg));
-							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField);
+							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField.c_str());
 							strStructDef += szMsg;
 							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'，长度不包括最后一个 '\0'
-							m_bytes[len] = 0;
 						}
+						m_bytes[len] = 0;		// 设置结尾符号， m_bytes 这个缓冲不清零的
 
-						//if (m_isClient == true)
-						//{
-						//	unsigned short stLen = (unsigned short)len;
-						//	_rowData->getByteBuffer().writeUnsignedInt16(stLen);
-						//	_rowData->getByteBuffer().writeMultiByte(bytes, stLen);
-						//}
-						//else
-						//{
-						//	memcpy(&strValue[0], bytes, len);
-						//	strValue[len] = 0;
-						//
-						//	_rowData->getByteBuffer().writeMultiByte(&strValue[0], fieldSize);
-						//}
 						// bytes 可能很长，但是传入后，构造的时候使用 '\0' 截断
 						addPropertyStr(_rowData, m_bytes, fieldSize);
 
@@ -490,7 +471,6 @@ bool ExcelExport::exportExcelInternal(
 						case 1:
 						{
 							char value = nValue;
-							//_rowData->getByteBuffer().writeInt8(value);
 							addProperty(_rowData, value);
 
 							if (bRecStructDef)
@@ -502,7 +482,6 @@ bool ExcelExport::exportExcelInternal(
 						case 2:
 						{
 							short value = nValue;
-							//_rowData->getByteBuffer().writeInt16(value);
 							addProperty(_rowData, value);
 
 							if (bRecStructDef)
@@ -513,8 +492,7 @@ bool ExcelExport::exportExcelInternal(
 						break;
 						case 4:
 						{
-							long value = nValue;
-							//_rowData->getByteBuffer().writeInt32(value);
+							int value = nValue;
 							// TODO: 如果是 id 字段  
 							if (strncmp(fieldName, _strId, strlen(_strId)) == 0)
 							{
@@ -535,7 +513,6 @@ bool ExcelExport::exportExcelInternal(
 						case 8:
 						{
 							__int64 value = nValue;
-							//_rowData->getByteBuffer().writeInt64(value);
 							addProperty(_rowData, value);
 
 							if (bRecStructDef)
@@ -555,14 +532,14 @@ bool ExcelExport::exportExcelInternal(
 							fieldSize = 4;
 						}
 
-						double dValue = strtod(strTmp.c_str(), NULL);
+						//double dValue = strtod(strTmp.c_str(), NULL);
 						memset(szMsg, 0, sizeof(szMsg));
 
 						switch (fieldSize)
 						{
 						case 4:
 						{
-							float fValue = dValue;
+							float fValue = strtof(strTmp.c_str(), NULL);;
 							//_rowData->getByteBuffer().writeFloat(fValue);
 							addProperty(_rowData, fValue);
 
@@ -574,9 +551,9 @@ bool ExcelExport::exportExcelInternal(
 						break;
 						case 8:
 						{
-							double fValue = dValue;
+							double dValue = strtod(strTmp.c_str(), NULL);;
 							//_rowData->getByteBuffer().writeDouble(fValue);
-							addProperty(_rowData, fValue);
+							addProperty(_rowData, dValue);
 
 							if (bRecStructDef)
 							{
@@ -600,7 +577,6 @@ bool ExcelExport::exportExcelInternal(
 			}
 			// 一次之后就不在输出结构了
 			bRecStructDef = false;
-			iCount++;
 		}
 
 		delete []_strId;
@@ -634,7 +610,7 @@ bool ExcelExport::exportExcelInternal(
 		if (!strCurField.empty())
 		{
 			memset(szMsg, 0, sizeof(szMsg));
-			sprintf(szMsg, "%s,字段: %s", szError, strCurField);
+			sprintf(szMsg, "%s,字段: %s", szError, strCurField.c_str());
 			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(szMsg));
 		}
 		else
@@ -656,10 +632,9 @@ void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector
 {
 	int count = 0;	// 数据表中总的行数 
 	count = _rowList.size();
-	FILE* file;
-	// (1) 打开文件，写入总的行数
-	file = fopen(lpszOutputFile, "wb");
-	fwrite(&count, sizeof(count), 1, file);
+	ByteBuffer byteBuffer;
+	// (1) 写入总的行数
+	byteBuffer.writeInt32(count);
 
 	// (2) 排序向量列表   
 	lessCmp m_cmpFunc;
@@ -668,14 +643,19 @@ void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector
 	// (3) 将排序的向量列表写到文件中去    
 	if (isClient)
 	{
-		exportPropertyVec2FileClient(_rowList, file);
+		exportPropertyVec2FileClient(_rowList, byteBuffer);
 	}
 	else
 	{
-		exportPropertyVec2FileServer(_rowList, file);
+		exportPropertyVec2FileServer(_rowList, byteBuffer);
 	}
 
 	_rowList.clear();
+
+	FILE* file;
+	file = fopen(lpszOutputFile, "wb");
+	//fwrite(&count, sizeof(count), 1, file);
+	byteBuffer.writeFile(file);
 
 	fclose(file);
 }
@@ -683,7 +663,7 @@ void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector
 /**
 *@brief |4个字节总共项数量|第一个数据|第二个数据|
 */
-void ExcelExport::exportPropertyVec2FileServer(std::vector<DataItem*>& _rowList, FILE* file)
+void ExcelExport::exportPropertyVec2FileServer(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer)
 {
 	// 直接写入文件
 	std::vector<DataItem*>::iterator iteVecDataItem;
@@ -692,20 +672,20 @@ void ExcelExport::exportPropertyVec2FileServer(std::vector<DataItem*>& _rowList,
 	iteVecEndDataItem = _rowList.end();
 	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
 	{
-		(*iteVecDataItem)->writeFileServer(file);
+		(*iteVecDataItem)->writeFileServer(byteBuffer);
 		delete (*iteVecDataItem);
 	}
 }
 
-void ExcelExport::exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList, FILE* file)
+void ExcelExport::exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer)
 {
-	exportPropertyVec2FileMobile(_rowList, file);
+	exportPropertyVec2FileMobile(_rowList, byteBuffer);
 }
 
 /**
  *@brief |4个字节总共项数量|第一个数据项ID|第一个数据项距离文件头部偏移|第二个数据项ID|第二个数据距离文件头部偏移| ... |第一个数据(这个数据项是没有 ID 内容的， ID 已经在头字段写进去了)|第二个数据|
  */
-void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, FILE* file)
+void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer)
 {
 	size_t dataOffset = 4;		// 偏移 4 个头字节
 	int count = 0;	// 数据表中总的行数 
@@ -725,8 +705,10 @@ void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList,
 		// 全部写到 ByteBuffer 
 		(*iteVecDataItem)->writeByteBuffer(true);
 		m_id = (*iteVecDataItem)->getID();
-		fwrite(&m_id, sizeof(int), 1, file);		// 写入 ID ，注意是四个 sizeof(dataOffset) == 4
-		fwrite(&dataOffset, sizeof(int), 1, file);		// 写入这一项内容在文件中的偏移，注意是四个 sizeof(dataOffset) == 4
+		//fwrite(&m_id, sizeof(int), 1, file);		// 写入 ID ，注意是四个 sizeof(dataOffset) == 4
+		//fwrite(&dataOffset, sizeof(int), 1, file);		// 写入这一项内容在文件中的偏移，注意是四个 sizeof(dataOffset) == 4
+		byteBuffer.writeInt32(m_id);
+		byteBuffer.writeInt32(dataOffset);
 
 		dataOffset += (*iteVecDataItem)->getByteBuffer().size();
 	}
@@ -736,7 +718,7 @@ void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList,
 	iteVecEndDataItem = _rowList.end();
 	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
 	{
-		(*iteVecDataItem)->writeFileMobile(file);
+		(*iteVecDataItem)->writeFileMobile(byteBuffer);
 		delete (*iteVecDataItem);
 	}
 }

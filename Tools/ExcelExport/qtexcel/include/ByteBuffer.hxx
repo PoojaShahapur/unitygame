@@ -162,7 +162,7 @@ class ByteBuffer
             // append((uint8)0);
 			if (str)
 			{
-				size_t charLen = sizeof(str) / sizeof(char);
+				size_t charLen = strlen(str) / sizeof(char);
 				if (len > charLen)
 				{
 					append(str, charLen);
