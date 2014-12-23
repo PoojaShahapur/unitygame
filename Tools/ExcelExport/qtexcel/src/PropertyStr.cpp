@@ -9,12 +9,12 @@ void PropertyStr::srz2BUWeb(ByteBuffer& byteBuffer)
 {
 	if (m_cfgLen >= m_propData.size())
 	{
-		byteBuffer.writeUnsignedInt16(m_propData.size());	// 写入实际长度
+		byteBuffer.writeUnsignedInt16((uint16)m_propData.size());	// 写入实际长度
 		byteBuffer.writeMultiByte(m_propData.c_str(), m_propData.size());
 	}
 	else
 	{
-		byteBuffer.writeUnsignedInt16(m_cfgLen);	// 写入实际长度
+		byteBuffer.writeUnsignedInt16((uint16)m_cfgLen);	// 写入实际长度
 		byteBuffer.writeMultiByte(m_propData.c_str(), m_cfgLen);
 	}
 }

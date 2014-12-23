@@ -410,7 +410,7 @@ bool ExcelExport::exportExcelInternal(
 						if (!strTmp.empty())
 						{
 							const char* strSor = (const char*)strTmp.c_str();
-							len = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, strSor, strTmp.length(), m_wBuf, 2048);
+							len = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, strSor, (int)strTmp.length(), m_wBuf, 2048);
 							if (len == 0)
 							{
 								throw "从ANSI转换到UNICODE失败";
@@ -630,11 +630,11 @@ bool ExcelExport::exportExcelInternal(
 
 void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient)
 {
-	int count = 0;	// 数据表中总的行数 
+	size_t count = 0;	// 数据表中总的行数 
 	count = _rowList.size();
 	ByteBuffer byteBuffer;
 	// (1) 写入总的行数
-	byteBuffer.writeInt32(count);
+	byteBuffer.writeUnsignedInt32((uint32)count);
 
 	// (2) 排序向量列表   
 	lessCmp m_cmpFunc;
@@ -688,7 +688,7 @@ void ExcelExport::exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList,
 void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, ByteBuffer& byteBuffer)
 {
 	size_t dataOffset = 4;		// 偏移 4 个头字节
-	int count = 0;	// 数据表中总的行数 
+	size_t count = 0;	// 数据表中总的行数 
 	unsigned int m_id;
 	count = _rowList.size();
 
@@ -707,8 +707,8 @@ void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList,
 		m_id = (*iteVecDataItem)->getID();
 		//fwrite(&m_id, sizeof(int), 1, file);		// 写入 ID ，注意是四个 sizeof(dataOffset) == 4
 		//fwrite(&dataOffset, sizeof(int), 1, file);		// 写入这一项内容在文件中的偏移，注意是四个 sizeof(dataOffset) == 4
-		byteBuffer.writeInt32(m_id);
-		byteBuffer.writeInt32(dataOffset);
+		byteBuffer.writeUnsignedInt32(m_id);
+		byteBuffer.writeUnsignedInt32((uint32)dataOffset);
 
 		dataOffset += (*iteVecDataItem)->getByteBuffer().size();
 	}
