@@ -1,5 +1,0 @@
-<config>
-  <Terrain size="(2000.0, 600.0, 2000.0)" />
-  <go prefab="TargetGreen" pos="(13.3, -9.1, 0.8)" rotate="(0.0, 0.0, 0.0, 1.0)" scale="(2.0, 0.1, 2.0)" />
-  <go prefab="TargetBlue" pos="(-11.7, 0.1, -8.2)" rotate="(0.0, 0.0, 0.0, 1.0)" scale="(2.0, 0.1, 2.0)" />
-</config>
