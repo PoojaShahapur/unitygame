@@ -1,19 +1,20 @@
 using SDK.Common;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDK.Common
 {
-	public class TableSys
+    public class TableSys : ITableSys
 	{
 		//private Dictionary<TableID, TableBase<ItemBase> > m_dicTable;
         private Dictionary<TableID, TableBase> m_dicTable;
-		private IResItem m_res;
+		//private IResItem m_res;
 
 		public TableSys()
 		{
 			m_dicTable = new Dictionary<TableID, TableBase>();
-			m_dicTable[TableID.TABLE_OBJECT] = new TableBase("objectname", "objectname");
+            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("base_server", "base_server", "base_server");
 		}
 
         public List<ItemBase> getTable(TableID tableID)
@@ -36,32 +37,57 @@ namespace SDK.Common
 				table = m_dicTable[tableID];
 			}
 			ItemBase ret = TableSys.findDataItem(table, itemID);
+            if(!ret.m_bLoadAll)
+            {
+                loadOneTableOneItemAll(table, ret);
+            }
 			return ret;
 		}
 		
-		private void loadOneTable(TableID tableID)
+        // 加载一个表
+		public void loadOneTable(TableID tableID)
 		{			
 			TableBase table = m_dicTable[tableID];
-			
-			//ByteArray bytes = m_res.getExportedAsset(table.m_resName);
-            ByteArray bytes = null;
 
-            readTable(tableID, bytes);
+            //LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
+            //param.m_prefabName = table.m_prefabName;
+            //param.m_loaded = onloaded;
+            //Ctx.m_instance.m_resMgr.loadResources(param);
+            //TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
+
+            //if (textAsset != null)
+            //{
+            //    ByteArray byteArray = new ByteArray();
+            //    byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
+            //    readTable(TableID.TABLE_OBJECT, byteArray);
+            //}
+
+            string path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
+            byte[] bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalReadDir(), path + ".tbl");
+            IByteArray byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
+            byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
+            byteArray.setPos(0);
+            readTable(TableID.TABLE_OBJECT, byteArray);
 		}
-		
-		//与getItem不同的方面在于：如果找到对应的项，不报错
-		public ItemBase getItemEx(TableID tableID, uint itemID)
-		{
-			TableBase table = m_dicTable[tableID];
-			if (table == null)
-			{
-				loadOneTable(tableID);
-				table = m_dicTable[tableID];
-			}
-			
-			ItemBase ret = TableSys.findDataItem(table, itemID);
-			return ret;
-		}
+
+        //public void onloaded(IDispatchObject resEvt)
+        //{
+        //    IResItem res = resEvt as IResItem;                         // 类型转换
+        //    TextAsset textAsset = res.getObject("") as TextAsset;
+        //    if(textAsset != null)
+        //    {
+        //        ByteArray byteArray = new ByteArray();
+        //        byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
+        //        readTable(TableID.TABLE_OBJECT, byteArray);
+        //    }
+        //}
+
+        // 加载一个表中一项的所有内容
+		public void loadOneTableOneItemAll(TableBase table, ItemBase itemBase)
+        {
+            itemBase.parseBodyByteArray(table.m_byteArray);
+        }
 		
 		public string getTableName(TableID tableID)
 		{
@@ -73,10 +99,10 @@ namespace SDK.Common
 			return "";
 		}
 
-        private void readTable(TableID tableID, ByteArray bytes)
+        private void readTable(TableID tableID, IByteArray bytes)
         {
             TableBase table = m_dicTable[tableID];
-            bytes.endian = Endian.LITTLE_ENDIAN;
+            bytes.setEndian(Endian.LITTLE_ENDIAN);
             uint len = bytes.readUnsignedInt();
             uint i = 0;
             ItemBase item = new ItemBase();
@@ -87,7 +113,8 @@ namespace SDK.Common
                 {
                     item = new ObjectItem();
                 }
-                item.parseByteArray(bytes);
+                item.parseHeaderByteArray(bytes);
+                //item.parseByteArrayTestServer(bytes);
                 table.m_List.Add(item);
             }
         }

@@ -44,6 +44,9 @@ namespace SDK.Common
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
         public INetHandle m_netHandle;              // 网络处理器
         public IModuleSys m_moduleSys;              // 模块
+        public ITableSys m_tableSys;                // 表格
+        public ILocalFileSys m_localFileSys;        // 文件系统
+        public IFactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
 
         public Ctx()
         {

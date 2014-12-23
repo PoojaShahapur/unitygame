@@ -13,6 +13,8 @@ namespace Game.App
     {
         public void Awake(Transform transform)
         {
+            ByteUtil.checkEndian();     // 检查系统大端小端
+
             Ctx.m_instance = new Ctx();
             Ctx.m_instance.Awake();
             Ctx.m_instance.m_cfg = new Config();
@@ -44,6 +46,9 @@ namespace Game.App
             Ctx.m_instance.m_aiSystem = new AISystem();
             Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute();
             Ctx.m_instance.m_moduleSys = new ModuleSys();
+            Ctx.m_instance.m_tableSys = new TableSys();
+            Ctx.m_instance.m_localFileSys = new LocalFileSys();
+            Ctx.m_instance.m_factoryBuild = new FactoryBuild();
 
             PostInit();
         }
@@ -75,6 +80,8 @@ namespace Game.App
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_monsterMgr as ITickedObject);
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_fObjectMgr as ITickedObject);
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_npcMgr as ITickedObject);
+
+            Ctx.m_instance.m_tableSys.loadOneTable(TableID.TABLE_OBJECT);
         }
 
         public void setNoDestroyObject()

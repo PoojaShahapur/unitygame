@@ -13,6 +13,8 @@ namespace SDK.Common
         eBYTE = 1,
         eSHORT = 2,
         eINT = 4,
+        eFLOAT = 4,
+        eDOUBLE = 8,
         eLONG = 8,
     }
 
@@ -21,7 +23,7 @@ namespace SDK.Common
      */
     public class ByteArray : IByteArray
     {
-        static public Endian m_sEndian = Endian.NONE_ENDIAN;     // 当前机器的编码
+        static public Endian m_sEndian = Endian.LITTLE_ENDIAN;     // 当前机器的编码
 
         public byte[] m_intByte = new byte[(int)TypeBytes.eINT];
         public byte[] m_shortByte = new byte[(int)TypeBytes.eSHORT];
@@ -39,6 +41,9 @@ namespace SDK.Common
         protected ulong m_tmpUlong;
         protected bool m_tmpBool;
         protected byte m_tmpByte;
+
+        protected float m_tmpFloat;
+        protected double m_tmpDouble;
 
         public ByteArray()
         {
@@ -72,6 +77,11 @@ namespace SDK.Common
             {
                 m_endian = value;
             }
+        }
+
+        public void setEndian(Endian end)
+        {
+            m_endian = end;
         }
 
 		public uint length
@@ -263,6 +273,48 @@ namespace SDK.Common
             return m_tmpInt;
         }
 
+        public float readFloat()
+        {
+            m_tmpFloat = 0;
+            if (canRead((int)TypeBytes.eFLOAT))
+            {
+                if (m_endian == m_sEndian)
+                {
+                    m_tmpFloat = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
+                }
+                else
+                {
+                    Array.Copy(m_dynBuff.buff, (int)m_position, m_intByte, 0, (int)TypeBytes.eFLOAT);
+                    Array.Reverse(m_intByte);
+                    m_tmpFloat = System.BitConverter.ToInt32(m_intByte, 0);
+                }
+                advPos((int)TypeBytes.eFLOAT);
+            }
+
+            return m_tmpFloat;
+        }
+
+        public double readDouble()
+        {
+            m_tmpDouble = 0;
+            if (canRead((int)TypeBytes.eDOUBLE))
+            {
+                if (m_endian == m_sEndian)
+                {
+                    m_tmpDouble = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
+                }
+                else
+                {
+                    Array.Copy(m_dynBuff.buff, (int)m_position, m_intByte, 0, (int)TypeBytes.eDOUBLE);
+                    Array.Reverse(m_intByte);
+                    m_tmpDouble = System.BitConverter.ToInt32(m_intByte, 0);
+                }
+                advPos((int)TypeBytes.eDOUBLE);
+            }
+
+            return m_tmpDouble;
+        }
+
 		public uint readUnsignedInt ()
         {
             m_tmpUint = 0;
@@ -425,6 +477,7 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eLONG);
         }
 
+        // 写入字节
         public void writeBytes(byte[] value, uint start, uint length)
         {
             if (!canWrite(length))
@@ -435,6 +488,7 @@ namespace SDK.Common
             advPosAndLen(length);
         }
 
+        // 写入字符串
         public void writeMultiByte(string value, Encoding charSet, int len)
         {
             int num = 0;

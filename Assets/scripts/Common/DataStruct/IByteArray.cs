@@ -22,6 +22,9 @@ namespace SDK.Common
         ulong readUnsignedLong();
         string readMultiByte(uint length, Encoding charSet);
 
+        float readFloat();
+        double readDouble();
+
 		void writeByte(byte value);
         void writeShort(short value);
         void writeUnsignedShort(ushort value);
@@ -32,5 +35,6 @@ namespace SDK.Common
         void writeBytes(byte[] value, uint start, uint length);
 
         void setPos(uint pos);
+        void setEndian(Endian end);
     }
 }

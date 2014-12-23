@@ -7,6 +7,5 @@ namespace SDK.Common
     {
         BIG_ENDIAN,         // 小端
         LITTLE_ENDIAN,      // 大端
-        NONE_ENDIAN,        // 没有设置
     }
 }
