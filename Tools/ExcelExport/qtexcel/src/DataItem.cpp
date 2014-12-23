@@ -12,7 +12,7 @@ DataItem::~DataItem()
 
 ByteBuffer& DataItem::getByteBuffer()
 {
-	return m_data;
+	return m_byteBuffer;
 }
 
 unsigned long int DataItem::getID()
@@ -35,10 +35,10 @@ void DataItem::writeFileServer(FILE* file)
 	iteVecEndProp = m_propVec.end();
 	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
 	{
-		(*iteVecBeginProp)->srz2BUServer(m_data);
+		(*iteVecBeginProp)->srz2BUServer(m_byteBuffer);
 	}
 
-	m_data.writeFile(file);
+	m_byteBuffer.writeFile(file);
 }
 
 void DataItem::writeFileDesktop(FILE* file)
@@ -51,10 +51,10 @@ void DataItem::writeFileDesktop(FILE* file)
 	iteVecEndProp = m_propVec.end();
 	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
 	{
-		(*iteVecBeginProp)->srz2BUDesktop(m_data);
+		(*iteVecBeginProp)->srz2BUDesktop(m_byteBuffer);
 	}
 
-	m_data.writeFile(file);
+	m_byteBuffer.writeFile(file);
 }
 
 void DataItem::writeFileWeb(FILE* file)
@@ -67,13 +67,30 @@ void DataItem::writeFileWeb(FILE* file)
 	iteVecEndProp = m_propVec.end();
 	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
 	{
-		(*iteVecBeginProp)->srz2BUWeb(m_data);
+		(*iteVecBeginProp)->srz2BUWeb(m_byteBuffer);
 	}
 
-	m_data.writeFile(file);
+	m_byteBuffer.writeFile(file);
 }
 
 void DataItem::writeFileMobile(FILE* file)
+{
+	// 写 Property 到 ByteBuffer 
+	//std::vector<PropertyBase*>::iterator iteVecBeginProp;
+	//std::vector<PropertyBase*>::iterator iteVecEndProp;
+
+	//iteVecBeginProp = m_propVec.begin();
+	//iteVecEndProp = m_propVec.end();
+	//for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
+	//{
+	//	(*iteVecBeginProp)->srz2BUMobile(m_data);
+	//}
+
+	m_byteBuffer.writeFile(file);
+}
+
+// 将所有的内容添加到 ByteBuffer 中
+void DataItem::writeByteBuffer()
 {
 	// 写 Property 到 ByteBuffer 
 	std::vector<PropertyBase*>::iterator iteVecBeginProp;
@@ -83,10 +100,8 @@ void DataItem::writeFileMobile(FILE* file)
 	iteVecEndProp = m_propVec.end();
 	for (; iteVecBeginProp != iteVecEndProp; ++iteVecBeginProp)
 	{
-		(*iteVecBeginProp)->srz2BUMobile(m_data);
+		(*iteVecBeginProp)->srz2BUMobile(m_byteBuffer);
 	}
-
-	m_data.writeFile(file);
 }
 
 std::vector<PropertyBase*>& DataItem::getPropVec()

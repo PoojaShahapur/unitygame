@@ -16,7 +16,7 @@ class DataItem
 {
 protected:
 	unsigned long int m_id;		// 唯一 ID
-	ByteBuffer m_data;			// 字节缓冲区
+	ByteBuffer m_byteBuffer;			// 字节缓冲区
 	std::vector<PropertyBase*> m_propVec;		// 属性向量
 
 public:
@@ -26,6 +26,7 @@ public:
 	unsigned long int getID();
 	void setID(unsigned long int id);
 	ByteBuffer& getByteBuffer();
+	void writeByteBuffer();
 	void writeFileServer(FILE* file);
 	void writeFileDesktop(FILE* file);
 	void writeFileWeb(FILE* file);

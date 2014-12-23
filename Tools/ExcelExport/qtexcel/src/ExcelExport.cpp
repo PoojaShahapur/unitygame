@@ -652,7 +652,7 @@ void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector
 	int count = 0;	// 数据表中总的行数 
 	count = _rowList.size();
 	FILE* file;
-	// (1) 打开文件
+	// (1) 打开文件，写入总的行数
 	file = fopen(lpszOutputFile, "wb");
 	fwrite(&count, sizeof(count), 1, file);
 
@@ -661,23 +661,74 @@ void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector
 	std::sort(_rowList.begin(), _rowList.end(), m_cmpFunc);
 
 	// (3) 将排序的向量列表写到文件中去    
+	if (isClient)
+	{
+		exportPropertyVec2FileClient(_rowList, file);
+	}
+	else
+	{
+		exportPropertyVec2FileServer(_rowList, file);
+	}
+
+	_rowList.clear();
+
+	fclose(file);
+}
+
+/**
+*@brief |4个字节总共项数量|第一个数据|第二个数据|
+*/
+void ExcelExport::exportPropertyVec2FileServer(std::vector<DataItem*>& _rowList, FILE* file)
+{
+	// 直接写入文件
 	std::vector<DataItem*>::iterator iteVecDataItem;
 	std::vector<DataItem*>::iterator iteVecEndDataItem;
 	iteVecDataItem = _rowList.begin();
 	iteVecEndDataItem = _rowList.end();
 	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
 	{
-		if (isClient)
-		{
-			(*iteVecDataItem)->writeFileMobile(file);
-		}
-		else
-		{ 
-			(*iteVecDataItem)->writeFileServer(file);
-		}
+		(*iteVecDataItem)->writeFileServer(file);
 		delete (*iteVecDataItem);
 	}
-	_rowList.clear();
+}
 
-	fclose(file);
+void ExcelExport::exportPropertyVec2FileClient(std::vector<DataItem*>& _rowList, FILE* file)
+{
+	exportPropertyVec2FileMobile(_rowList, file);
+}
+
+/**
+ *@brief |4个字节总共项数量|第一个数据距离文件头部偏移|第二个数据距离文件头部偏移| ... |第一个数据|第二个数据|
+ */
+void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList, FILE* file)
+{
+	size_t dataOffset = 4;		// 偏移 4 个头字节
+	int count = 0;	// 数据表中总的行数 
+	count = _rowList.size();
+
+	dataOffset += count * sizeof(int);		// 每一个占用 4 个字节
+
+	// 移动优化
+	// (1) 写入每一个项在文件中或者字节数组中的偏移量，就是之前的字节数
+	std::vector<DataItem*>::iterator iteVecDataItem;
+	std::vector<DataItem*>::iterator iteVecEndDataItem;
+	iteVecDataItem = _rowList.begin();
+	iteVecEndDataItem = _rowList.end();
+	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
+	{
+		// 全部写到 ByteBuffer 
+		(*iteVecDataItem)->writeByteBuffer();
+		fwrite(&dataOffset, sizeof(dataOffset), 1, file);		// 注意是四个 sizeof(dataOffset) == 4
+
+		dataOffset += (*iteVecDataItem)->getByteBuffer().size();
+	}
+
+	// (2) 写入每一项的数据
+	iteVecDataItem = _rowList.begin();
+	iteVecEndDataItem = _rowList.end();
+	for (; iteVecDataItem != iteVecEndDataItem; ++iteVecDataItem)
+	{
+		(*iteVecDataItem)->writeFileMobile(file);
+		delete (*iteVecDataItem);
+	}
 }
