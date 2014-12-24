@@ -107,7 +107,8 @@ namespace EditorTool
                     {
                         //GameObject.DestroyImmediate(subMeshGo);
                         //GameObject.Destroy(subMeshGo);
-                        GameObject.DestroyImmediate(subMeshGo, true);
+                        //GameObject.DestroyImmediate(subMeshGo, true);
+                        UtilApi.DestroyImmediate(subMeshGo, true);
                     }
                 }
 

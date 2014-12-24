@@ -81,7 +81,18 @@ namespace Game.Login
                 }
                 case stNullUserCmd.SELECT_USERCMD:
                 {
-                    LoginSys.m_instance.m_loginFlowHandle.psstUserInfoUserCmd(msg);
+                    switch (byParam)
+                    {
+                        case stSelectUserCmd.USERINFO_SELECT_USERCMD_PARA:
+                            {
+                                LoginSys.m_instance.m_loginFlowHandle.psstUserInfoUserCmd(msg);
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
+                    }
                     break;
                 }
                 default:

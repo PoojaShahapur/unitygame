@@ -178,5 +178,11 @@ namespace SDK.Lib
                 Caching.CleanCache();
             }
         }
+
+        public void clearListener()
+        {
+            onLoaded = null;            // 清理事件监听器
+            onFailed = null;            // 清理事件监听器
+        }
     }
 }

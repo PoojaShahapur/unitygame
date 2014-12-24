@@ -149,7 +149,7 @@ namespace SDK.Lib
             clearListener();
         }
 
-        protected void clearListener()
+        public void clearListener()
         {
             onLoaded = null;            // 清理事件监听器
             onFailed = null;            // 清理事件监听器
@@ -163,6 +163,7 @@ namespace SDK.Lib
             m_isLoaded = false;
             m_isSucceed = false;
             m_refNum = 1;
+            clearListener();
         }
 
         virtual public void unload()
