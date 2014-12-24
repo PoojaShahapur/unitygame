@@ -13,5 +13,8 @@ public:
 };
 
 class RectItem : public DraggablePiece
+{
+
+};
 
 #endif // DRAGGABLEPIECE_H
