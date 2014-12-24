@@ -235,7 +235,7 @@ namespace SDK.Lib
         {
             if (m_socket.Connected)
             {
-                m_socket.Shutdown(SocketShutdown.Receive);
+                m_socket.Shutdown(SocketShutdown.Both);
                 m_socket.Close(timeout);
             }
             else

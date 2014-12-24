@@ -22,5 +22,8 @@ namespace Game.Login
         void receiveMsg8f(IByteArray msg);
         // 步骤 9 ，发送消息
         void sendMsg9f();
+
+        void psstServerReturnLoginFailedCmd(IByteArray msg);
+        void psstUserInfoUserCmd(IByteArray ba);
     }
 }

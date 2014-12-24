@@ -10,9 +10,9 @@ namespace SDK.Lib
         protected ResPackType m_resPackType;
         protected ResLoadType m_resLoadType;   // 资源加载类型
 
-        protected string m_path;
+        protected string m_path;                // 这个是相对目录，但是不包括扩展名字
         protected WWW m_w3File;
-        protected bool m_loadNeedCoroutine;    // 加载是否需要协同程序
+        protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
 
         protected AssetBundle m_assetBundle;
         protected ResLoadState m_ResLoadState = ResLoadState.eNotLoad;  // 资源加载状态

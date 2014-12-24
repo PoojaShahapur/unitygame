@@ -29,6 +29,7 @@ namespace SDK.Lib
 
         public IResItem getResource(string path)
         {
+            // 如果 path == null ，程序会宕机
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
                 return m_LoadData.m_path2Res[path];
@@ -49,7 +50,7 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
 
-            param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
+            //param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
 
             return load(param);
         }
@@ -62,7 +63,7 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
 
-            param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
+            //param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
 
             return load(param);
         }
@@ -100,6 +101,7 @@ namespace SDK.Lib
                 {
                     resitem = new LevelResItem();
                 }
+                (resitem as LevelResItem).levelName = param.m_lvlName;
             }
             else if (ResPackType.eBundleType == param.m_resPackType)
             {

@@ -145,6 +145,14 @@ namespace SDK.Lib
             {
                 onFailed(this);
             }
+
+            clearListener();
+        }
+
+        protected void clearListener()
+        {
+            onLoaded = null;            // 清理事件监听器
+            onFailed = null;            // 清理事件监听器
         }
 
         virtual public void reset()

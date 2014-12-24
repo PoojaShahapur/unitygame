@@ -69,6 +69,7 @@ namespace Game.Login
             Ctx.m_instance.m_log.log("发送登录服务器消息 stUserRequestLoginCmd");
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
             cmd.pstrName = "zhanghao01";
+            cmd.pstrPassword = "1";
             cmd.game = 10;
             cmd.zone = 30;
             UtilMsg.sendMsg(cmd);
@@ -157,6 +158,44 @@ namespace Game.Login
 
             // 加载游戏模块
             //Ctx.m_instance.m_moduleSys.loadModule(ModuleName.GAMEMN);
+        }
+
+        // 收到这条消息，就说明客户端没有创建角色，弹出创建角色界面
+        public void psstServerReturnLoginFailedCmd(IByteArray msg)
+        {
+            stServerReturnLoginFailedCmd cmd = new stServerReturnLoginFailedCmd();
+            cmd.derialize(msg);
+
+            // 关闭登陆界面
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
+
+            // 弹出创建角色界面
+            if((byte)ERetResult.LOGIN_RETURN_USERDATANOEXIST == cmd.byReturnCode)
+            {
+                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIHeroSelect);
+            }
+            else if((byte)ERetResult.LOGIN_RETURN_IDINUSE == cmd.byReturnCode)
+            {
+                Ctx.m_instance.m_log.log("上次与登陆服务器没有断开连接");
+            }
+            else if((byte)ERetResult.LOGIN_RETURN_CHARNAMEREPEAT == cmd.byReturnCode)
+            {
+                Ctx.m_instance.m_log.log("名字重复");
+            }
+        }
+
+        // 返回基本角色信息，终于登陆成功了
+        public void psstUserInfoUserCmd(IByteArray ba)
+        {
+            // 发送选择角色登陆进入游戏
+            stLoginSelectUserCmd cmd1f = new stLoginSelectUserCmd();
+            UtilMsg.sendMsg(cmd1f);
+
+            stUserInfoUserCmd cmd = new stUserInfoUserCmd();
+            cmd.derialize(ba);
+
+            // 进入场景
+            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
         }
     }
 }

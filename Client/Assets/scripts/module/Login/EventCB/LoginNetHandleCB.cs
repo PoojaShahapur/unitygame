@@ -30,6 +30,11 @@ namespace Game.Login
                             LoginSys.m_instance.m_loginFlowHandle.receiveMsg4f(msg);
                             break;
                         }
+                        case stLogonUserCmd.SERVER_RETURN_LOGIN_FAILED:         // 如果没有角色，服务器就会返回这条消息，弹出创建角色界面
+                        {
+                            LoginSys.m_instance.m_loginFlowHandle.psstServerReturnLoginFailedCmd(msg);
+                            break;
+                        }
                         default:
                         {
                             break;
@@ -72,6 +77,11 @@ namespace Game.Login
                             break;
                         }
                     }
+                    break;
+                }
+                case stNullUserCmd.SELECT_USERCMD:
+                {
+                    LoginSys.m_instance.m_loginFlowHandle.psstUserInfoUserCmd(msg);
                     break;
                 }
                 default:

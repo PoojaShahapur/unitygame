@@ -81,8 +81,10 @@ namespace SDK.Lib
             UnityEngine.Object prefabObj = Resources.Load(m_appURL);
             if (prefabObj)
             {
-                Object insObj = Instantiate(prefabObj);
-                insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+                GameObject appGo = Instantiate(prefabObj) as GameObject;
+                appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+                GameObject noDestroy = GameObject.Find("NoDestroy");
+                appGo.transform.parent = noDestroy.transform;
             }
         }
 
@@ -97,8 +99,10 @@ namespace SDK.Lib
                 // Object bt = assetBundle.LoadAsset(m_appName);
                 // Unity4
                 Object bt = assetBundle.Load(m_appName);
-                Object insObj = Instantiate(bt);
-                insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+                GameObject appGo = Instantiate(bt) as GameObject;
+                appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+                GameObject noDestroy = GameObject.Find("NoDestroy");
+                appGo.transform.parent = noDestroy.transform;
                 assetBundle.Unload(false);
             }
         }
@@ -116,8 +120,10 @@ namespace SDK.Lib
             // Object bt = bundle.LoadAsset(m_appName);
             // Unity4
             Object bt = bundle.Load(m_appName);
-            Object insObj = Instantiate(bt);
-            insObj.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+            GameObject appGo = Instantiate(bt) as GameObject;
+            appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
+            GameObject noDestroy = GameObject.Find("NoDestroy");
+            appGo.transform.parent = noDestroy.transform;
             bundle.Unload(false);
             yield return null;
         }

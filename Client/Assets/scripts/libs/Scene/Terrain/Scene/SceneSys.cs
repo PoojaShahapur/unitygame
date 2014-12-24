@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 同一时刻只能有一个场景存在
+     */
     public class SceneSys : ISceneSys
     {
         protected Action<IScene> onSceneLoaded;
@@ -32,14 +35,26 @@ namespace SDK.Lib
 
         public void loadScene(string filename, Action<IScene> func)
         {
+            // 卸载之前的场景
+            unloadScene();
+
+            // 加载新的场景
             m_scene = new Scene();
-            m_scene.file = filename;
+            m_scene.file = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
             if(func != null)
             {
                 onSceneLoaded += func;
             }
             //loadSceneCfg(filename);
             loadSceneRes(filename);
+        }
+
+        protected void unloadScene()
+        {
+            if(null != m_scene)
+            {
+                Ctx.m_instance.m_resMgr.unload(m_scene.file);
+            }
         }
 
         public void loadSceneCfg(string filename)
@@ -85,6 +100,8 @@ namespace SDK.Lib
             {
                 onSceneLoaded(m_scene);
             }
+
+            onSceneLoaded = null;           // 清除所有的监听器
         }
     }
 }

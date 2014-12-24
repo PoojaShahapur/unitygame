@@ -145,23 +145,35 @@ namespace SDK.Lib
                 return;
 
             _keyState[(int)keyCode] = true;
-            m_onKeyDown(keyCode);
+            if (null != m_onKeyDown)
+            {
+                m_onKeyDown(keyCode);
+            }
         }
 
         private void onKeyUp(KeyCode keyCode)
         {
 		    _keyState[(int)keyCode] = false;
-            m_onKeyUp(keyCode);
+            if (null != m_onKeyUp)
+            {
+                m_onKeyUp(keyCode);
+            }
         }
 
         private void onMouseDown()
         {
-            m_onMouseDown();
+            if (null != m_onMouseDown)
+            {
+                m_onMouseDown();
+            }
         }
 
         private void onMouseUp()
         {
-            m_onMouseUp();
+            if (null != m_onMouseUp)
+            {
+                m_onMouseUp();
+            }
         }
 
         public void addKeyListener(EventID evtID, Action<KeyCode> cb)

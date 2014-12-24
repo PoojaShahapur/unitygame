@@ -5,8 +5,9 @@ namespace SDK.Common
 	 */
 	public enum UIFormID
 	{
-		UIBackPack,
+		UIBackPack,         // 背包界面
         UILogin,            // 登陆界面
+        UIHeroSelect,            // 角色选择界面界面
 	}
 
     public enum UILayerID
