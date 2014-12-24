@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/AnimEditor.png</file>
+    </qresource>
+</RCC>
