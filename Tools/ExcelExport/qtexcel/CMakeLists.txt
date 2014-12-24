@@ -34,7 +34,7 @@ else(NOT Qt5Widgets_FOUND)
 
     file(GLOB UI_FILES *.ui)
 
-    set(SRCS
+    set(SRCS_FILES
         ./src/maindialog.cpp
         ./src/main.cpp
 		./src/ExcelExport.cpp
@@ -49,7 +49,7 @@ else(NOT Qt5Widgets_FOUND)
 		./src/PropertyStr.cpp
     )
 	
-	set(INCS
+	set(INCS_FILES
         ./include/maindialog.hxx
 		./include/ExcelExport.hxx
 		./include/Singleton.hxx
@@ -71,18 +71,26 @@ else(NOT Qt5Widgets_FOUND)
 		./include/PropertyStr.hxx
     )
 
-    SET(MOC_SRCS2
+	#these files need build moc files
+    SET(MOC_FILES
         ./include/maindialog.hxx
     )
-
-    #qt4_wrap_cpp(MOC_SRCS ${MOC_SRCS2})
+	
+	SET(QRC_FILES ./res/qtexcel.qrc)
+	
+    #qt4_wrap_cpp(MOC_SRCS ${MOC_FILES})
     #qt4_wrap_ui(UI_SRCS ${UI_FILES})
 	
-	qt5_wrap_cpp(MOC_SRCS ${MOC_SRCS2})
+	qt5_wrap_cpp(MOC_SRCS ${MOC_FILES})
     qt5_wrap_ui(UI_SRCS ${UI_FILES})
+	qt5_add_resources(QRC_SRCS ${QRC_FILES})
 
     source_group("Moc Files" FILES ${MOC_SRCS})
-    source_group("Ui Files" FILES ${UI_FILES})
+    source_group("Ui Files" FILES ${UI_SRCS})
+	source_group("Qrc Files" FILES ${QRC_SRCS})
+	
+	file(GLOB RC_FILES ./res/*.rc)
+	source_group("Rc Files" FILES ${RC_FILES})
 	
     #source_group("Source Files" FILES ${SRCS})
     #source_group("Include Files" FILES ${INCS})
@@ -96,8 +104,8 @@ else(NOT Qt5Widgets_FOUND)
 	link_directories(${QT_BINARY_DIR}/../lib)
 	
 	#ADD_DEFINITIONS(-D_AFXDLL)
-
-    set(SRCS ${SRCS} ${MOC_SRCS} ${UI_FILES} ${INCS})
+	
+    set(SRCS ${SRCS_FILES} ${MOC_SRCS} ${UI_SRCS} ${INCS_FILES} ${QRC_SRCS} ${RC_FILES})
 
     ADD_EXECUTABLE(qtExcel WIN32 ${SRCS})
 
