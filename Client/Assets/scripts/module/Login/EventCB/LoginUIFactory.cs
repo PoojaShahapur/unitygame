@@ -10,9 +10,20 @@ namespace Game.Login
     {
         public IForm CreateForm(UIFormID id)
         {
-            if (UIFormID.UILogin == id)
+            switch (id)
             {
-                return new UILogin();
+                case UIFormID.UILogin:
+                {
+                    return new UILogin();
+                }
+                case UIFormID.UIHeroSelect:
+                {
+                    return new UIHeroSelect();
+                }
+                default:
+                {
+                    break;
+                }
             }
 
             return null;

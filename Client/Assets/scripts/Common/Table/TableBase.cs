@@ -8,6 +8,7 @@ namespace SDK.Common
         public string m_resName;
         public string m_tableName;      // 表的名字
         public string m_prefabName;     // prefab 名字
+
         public List<ItemBase> m_List;
         public IByteArray m_byteArray;      // 整个表格所有的原始数据
 

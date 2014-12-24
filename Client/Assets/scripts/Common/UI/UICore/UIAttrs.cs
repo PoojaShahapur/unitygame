@@ -11,13 +11,18 @@ namespace SDK.Common
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
             m_dicAttr[UIFormID.UIBackPack] = new UIAttrItem();
             m_dicAttr[UIFormID.UIBackPack].m_LayerID = UILayerID.FirstLayer;
-            m_dicAttr[UIFormID.UIBackPack].m_widgetPrefabName = "UIScrollForm";
+            m_dicAttr[UIFormID.UIBackPack].m_widgetPrefabName = "UIBackPack";
             m_dicAttr[UIFormID.UIBackPack].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIBackPack].m_widgetPrefabName;
 
             m_dicAttr[UIFormID.UILogin] = new UIAttrItem();
             m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.FirstLayer;
             m_dicAttr[UIFormID.UILogin].m_widgetPrefabName = "UILogin";
             m_dicAttr[UIFormID.UILogin].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UILogin].m_widgetPrefabName;
+
+            m_dicAttr[UIFormID.UIHeroSelect] = new UIAttrItem();
+            m_dicAttr[UIFormID.UIHeroSelect].m_LayerID = UILayerID.FirstLayer;
+            m_dicAttr[UIFormID.UIHeroSelect].m_widgetPrefabName = "UIHeroSelect";
+            m_dicAttr[UIFormID.UIHeroSelect].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIHeroSelect].m_widgetPrefabName;
         }
 
         public string getPath(UIFormID id)

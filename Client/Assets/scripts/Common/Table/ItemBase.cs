@@ -2,32 +2,33 @@
 {
     public class ItemBase
     {
-        public uint m_uID;              // 唯一 ID
-        public uint m_offset;           // 这一项在文件中的偏移
-        public bool m_bLoadAll = false;        // 是否整个内容全部加载
+        public ItemHeader m_itemHeader;
+        public ItemBodyBase m_itemBody;
 
-        // 解析头部
         virtual public void parseHeaderByteArray(IByteArray bytes)
         {
-            m_uID = bytes.readUnsignedInt();
-            m_offset = bytes.readUnsignedInt();
-            UtilTable.m_prePos = (bytes as ByteArray).position;
+            if (null == m_itemHeader)
+            {
+                m_itemHeader = new ItemHeader();
+            }
+            m_itemHeader.parseHeaderByteArray(bytes);
         }
 
-        // 解析主要数据部分
-        virtual public void parseBodyByteArray(IByteArray bytes)
+        virtual public void parseBodyByteArray(IByteArray bytes, uint offset)
         {
             
         }
 
         virtual public void parseAllByteArray(IByteArray bytes)
         {
-
-        }
-
-        virtual public void parseByteArrayTestServer(IByteArray bytes)
-        {
-            m_uID = bytes.readUnsignedInt();
+            // 解析头
+            parseHeaderByteArray(bytes);
+            // 保存下一个 Item 的头位置
+            UtilTable.m_prePos = (bytes as ByteArray).position;
+            // 解析内容
+            parseBodyByteArray(bytes, m_itemHeader.m_offset);
+            // 移动到下一个 Item 头位置
+            bytes.setPos(UtilTable.m_prePos);
         }
     }
 }

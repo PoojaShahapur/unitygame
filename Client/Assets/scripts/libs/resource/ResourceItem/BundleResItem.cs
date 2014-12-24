@@ -55,6 +55,8 @@ namespace SDK.Lib
             {
                 onLoaded(this);
             }
+
+            clearListener();
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -75,6 +77,8 @@ namespace SDK.Lib
             {
                 onLoaded(this);
             }
+
+            clearListener();
 
             yield return null;
         }

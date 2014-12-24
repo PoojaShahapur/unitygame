@@ -14,6 +14,18 @@ namespace SDK.Lib
             
         }
 
+        public string levelName
+        {
+            get
+            {
+                return m_levelName;
+            }
+            set
+            {
+                m_levelName = value;
+            }
+        }
+
         override public void init(LoadItem item)
         {
             // 如果是打包成 AssetBundle ，然后放在本地磁盘，要加载的话，需要 WWW 打开，AssetBundle.CreateFromFile 是不行的
@@ -30,8 +42,6 @@ namespace SDK.Lib
             {
                 initAsset();
             }
-
-            initAsset();
         }
 
         override public void reset()
@@ -50,20 +60,33 @@ namespace SDK.Lib
             {
                 onLoaded(this);
             }
+
+            clearListener();
         }
 
         protected IEnumerator initAssetByCoroutine()
         {
             //string path = Application.dataPath + "/" + m_path;
-            string path = m_path;
-            AsyncOperation asyncOpt = Application.LoadLevelAsync(path);
+            AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
 
             yield return asyncOpt;
 
-            if (onLoaded != null)
+            if (null != asyncOpt)
             {
-                onLoaded(this);
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
             }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
+            }
+
+            clearListener();
         }
     }
 }

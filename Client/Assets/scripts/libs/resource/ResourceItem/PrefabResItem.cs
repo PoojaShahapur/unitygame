@@ -19,6 +19,8 @@ namespace SDK.Lib
             {
                 onLoaded(this);
             }
+
+            clearListener();
         }
 
         public UnityEngine.Object prefabObj()

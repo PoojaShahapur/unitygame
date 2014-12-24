@@ -4,8 +4,8 @@ namespace Game.Msg
 {
     public class stLogonUserCmd : stNullUserCmd
 	{
-
         public const byte USER_REQUEST_LOGIN_PARA = 2;
+        public const byte SERVER_RETURN_LOGIN_FAILED = 3;
         public const byte SERVER_RETURN_LOGIN_OK = 4;
         public const byte PASSWD_LOGON_USERCMD_PARA = 5;
         public const byte PASSWORD_LOGON_USERCMD_PARA = 9;

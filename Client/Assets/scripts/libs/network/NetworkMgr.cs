@@ -62,6 +62,7 @@ namespace SDK.Lib
             if (m_id2SocketDic.ContainsKey(key))
             {
                 m_visitMutex.WaitOne();
+                m_id2SocketDic[key].Disconnect(0);
                 m_id2SocketDic.Remove(key);
                 m_visitMutex.ReleaseMutex();
                 m_curSocket = null;

@@ -7,16 +7,19 @@ namespace SDK.Common
 {
     public class TableSys : ITableSys
 	{
-		//private Dictionary<TableID, TableBase<ItemBase> > m_dicTable;
         private Dictionary<TableID, TableBase> m_dicTable;
 		private IResItem m_res;
+        private IByteArray m_byteArray;
 
 		public TableSys()
 		{
+            m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
+
 			m_dicTable = new Dictionary<TableID, TableBase>();
-            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("base", "base", "base");
+            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("base_client", "base_client", "base_client");
 		}
 
+        // 返回一个表
         public List<ItemBase> getTable(TableID tableID)
 		{
 			TableBase table = m_dicTable[tableID];
@@ -28,6 +31,7 @@ namespace SDK.Common
 			return table.m_List;
 		}
 		
+        // 返回一个表中一项，返回的时候表中数据全部加载到 Item 中
 		public ItemBase getItem(TableID tableID, uint itemID)
 		{
             TableBase table = m_dicTable[tableID];
@@ -37,7 +41,7 @@ namespace SDK.Common
 				table = m_dicTable[tableID];
 			}
 			ItemBase ret = TableSys.findDataItem(table, itemID);
-            if(!ret.m_bLoadAll)
+            if(null == ret.m_itemBody)
             {
                 loadOneTableOneItemAll(table, ret);
             }
@@ -46,7 +50,7 @@ namespace SDK.Common
 		
         // 加载一个表
 		public void loadOneTable(TableID tableID)
-		{			
+		{
 			TableBase table = m_dicTable[tableID];
 
             LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
@@ -55,40 +59,42 @@ namespace SDK.Common
             param.m_loaded = onloaded;
             Ctx.m_instance.m_resMgr.loadResources(param);
             TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
-
-            if (textAsset != null)
-            {
-                ByteArray byteArray = new ByteArray();
-                byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
-                readTable(TableID.TABLE_OBJECT, byteArray);
-            }
-
-            //string path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
-            //byte[] bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalReadDir(), path + ".tbl");
-            //IByteArray byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
-            //byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
-            //byteArray.setPos(0);
-            //readTable(TableID.TABLE_OBJECT, byteArray);
 		}
 
+        // 加载一个表完成
         public void onloaded(IDispatchObject resEvt)
         {
             m_res = resEvt as IResItem;                         // 类型转换
             TextAsset textAsset = m_res.getObject("") as TextAsset;
-            if(textAsset != null)
+            if (textAsset != null)
             {
-                ByteArray byteArray = new ByteArray();
-                byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
-                readTable(TableID.TABLE_OBJECT, byteArray);
+                m_byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
+                m_byteArray.setPos(0);
+                readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
             }
+        }
+
+        // 根据路径查找表的 ID
+        protected TableID getTableIDByPath(string path)
+        {
+            foreach (KeyValuePair<TableID, TableBase> kv in m_dicTable)
+            {
+                if (Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + kv.Value.m_resName == path)
+                {
+                    return kv.Key;
+                }
+            }
+
+            return 0;
         }
 
         // 加载一个表中一项的所有内容
 		public void loadOneTableOneItemAll(TableBase table, ItemBase itemBase)
         {
-            itemBase.parseBodyByteArray(table.m_byteArray);
+            itemBase.parseBodyByteArray(table.m_byteArray, itemBase.m_itemHeader.m_offset);
         }
 		
+        // 获取一个表的名字
 		public string getTableName(TableID tableID)
 		{
 			TableBase table = m_dicTable[tableID];
@@ -99,26 +105,27 @@ namespace SDK.Common
 			return "";
 		}
 
+        // 读取一个表，仅仅读取表头
         private void readTable(TableID tableID, IByteArray bytes)
         {
             TableBase table = m_dicTable[tableID];
             bytes.setEndian(Endian.LITTLE_ENDIAN);
             uint len = bytes.readUnsignedInt();
             uint i = 0;
-            ItemBase item = new ItemBase();
-
+            ItemBase item = null;
             for (i = 0; i < len; i++)
             {
                 if (TableID.TABLE_OBJECT == tableID)
                 {
-                    item = new ObjectItem();
+                    item = new ItemObject();
                 }
                 item.parseHeaderByteArray(bytes);
-                //item.parseByteArrayTestServer(bytes);
+                //item.parseAllByteArray(bytes);
                 table.m_List.Add(item);
             }
         }
 
+        // 查找表中的一项
 		static public ItemBase findDataItem(TableBase table, uint id)
 		{
 			int size = table.m_List.Count;
@@ -130,7 +137,7 @@ namespace SDK.Common
 			while (low <= high)
 			{
 				middle = (low + high) / 2;
-                idCur = table.m_List[middle].m_uID;
+                idCur = table.m_List[middle].m_itemHeader.m_uID;
 				if (idCur == id)
 				{
 					break;
