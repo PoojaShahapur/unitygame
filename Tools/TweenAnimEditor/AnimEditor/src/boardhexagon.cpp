@@ -61,4 +61,3 @@ void BoardHexagon::dropEvent(QGraphicsSceneDragDropEvent*)
 {
     qDebug() << this->toolTip() << Q_FUNC_INFO;
 }
-

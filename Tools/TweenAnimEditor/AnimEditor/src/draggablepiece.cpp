@@ -9,9 +9,10 @@ DraggablePiece::DraggablePiece()
 void DraggablePiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QMimeData *data = new QMimeData;
-    //data->setColor(Qt::green);
+	QVariant variant = QVariant::fromValue((int)Qt::green);
+	data->setColorData(variant);
 
-    //QDrag *drag = new QDrag(event->widget());
-    //drag->setMimeData(data);
-    //drag->start();
+	QDrag *drag = new QDrag((QObject*)event->widget());
+    drag->setMimeData(data);
+    drag->start();
 }
