@@ -12,16 +12,21 @@ public class AppRoot : MonoBehaviour
 
     void Awake()
     {
-        m_AppSys = new AppSys();
-        m_AppSys.Awake(transform);
+        
     }
+
 	// Use this for initialization
 	void Start () 
     {
-        //DontDestroyOnLoad(transform.gameObject);    //设置该对象在加载其他level时不销毁
+        // 构造所有的数据
+        m_AppSys = new AppSys();
+        m_AppSys.constructAll(transform);
+
+        // 设置不释放 GameObject
         m_AppSys.setNoDestroyObject();
-        m_AppSys.Start();
-        //m_AppSys.loadModule(ModuleName.GAMEMN);
+        // 交叉引用的对象初始化
+        m_AppSys.PostInit();
+        // 加载登陆模块
         Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
 	}
 	
@@ -29,8 +34,13 @@ public class AppRoot : MonoBehaviour
 	void Update () 
     {
         //BugResolve();
-        m_AppSys.Update();
+        Ctx.m_instance.m_engineLoop.MainLoop();
 	}
+
+    void OnApplicationQuit()
+    {
+
+    }
 
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个
     private void BugResolve()

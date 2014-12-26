@@ -10,19 +10,24 @@ namespace SDK.Common
         {
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
             m_dicAttr[UIFormID.UIPack] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIPack].m_LayerID = UILayerID.FirstLayer;
+            m_dicAttr[UIFormID.UIPack].m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIPack].m_widgetPrefabName = "UIPack";
             m_dicAttr[UIFormID.UIPack].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIPack].m_widgetPrefabName;
 
             m_dicAttr[UIFormID.UILogin] = new UIAttrItem();
-            m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.FirstLayer;
+            m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UILogin].m_widgetPrefabName = "UILogin";
             m_dicAttr[UIFormID.UILogin].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UILogin].m_widgetPrefabName;
 
             m_dicAttr[UIFormID.UIHeroSelect] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIHeroSelect].m_LayerID = UILayerID.FirstLayer;
+            m_dicAttr[UIFormID.UIHeroSelect].m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIHeroSelect].m_widgetPrefabName = "UIHeroSelect";
             m_dicAttr[UIFormID.UIHeroSelect].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIHeroSelect].m_widgetPrefabName;
+
+            m_dicAttr[UIFormID.UIBlurBg] = new UIAttrItem();
+            m_dicAttr[UIFormID.UIBlurBg].m_LayerID = UILayerID.BtmLayer;
+            m_dicAttr[UIFormID.UIBlurBg].m_widgetPrefabName = "UIBlurBg";
+            m_dicAttr[UIFormID.UIBlurBg].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIBlurBg].m_widgetPrefabName;
         }
 
         public string getPath(UIFormID id)

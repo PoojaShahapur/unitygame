@@ -8,6 +8,11 @@ namespace Game.UI
     {
         protected bool m_bLogined = false;      // 是否登陆过
 
+        override public void onShow()
+        {
+
+        }
+
         // 初始化控件
         override public void onReady()
         {

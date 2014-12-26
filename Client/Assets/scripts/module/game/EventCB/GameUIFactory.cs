@@ -16,6 +16,10 @@ namespace Game.Game
                 {
                     return new UIPack();
                 }
+                case UIFormID.UIBlurBg:
+                {
+                    return new UIBlurBg();
+                }
                 default:
                 {
                     break;

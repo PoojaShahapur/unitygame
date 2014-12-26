@@ -15,8 +15,6 @@ namespace SDK.Common
 		public static int BOTTOM = 2; //居下
 
         public GUIWin m_GUIWin = new GUIWin();      // 控件数据
-
-        protected UIFormID m_id;
 		protected bool m_bReady = false;            // 是否准备就绪
 		protected bool m_draggable = true;
 
@@ -33,18 +31,6 @@ namespace SDK.Common
         public int m_height;
         public UILayer m_uiLayer;
         protected bool m_isResReady = false;            // 资源是否已经加载并初始化
-
-        public UIFormID id
-        {
-            get
-            {
-                return m_id;
-            }
-            set
-            {
-                m_id = value;
-            }
-        }
 
         public float x
         {

@@ -6,8 +6,8 @@ namespace SDK.Common
 	public interface IForm 
 	{
         void init();
-		void show();
-		void hide();
+        void show();
         void exit();
+        UIFormID getFormID();
 	}
 }

@@ -1,25 +1,18 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDK.Common
 {
 	public class UILayer 
 	{
-        private UILayerID m_layer;	//UIFormID.FirstLayer定义
-		private DeskTop m_deskTop;
-        private Dictionary<UIFormID, Form> m_winDic;
+        private UILayerID m_layer;	                        // UIFormID.FirstLayer定义
+        private Transform m_layerTrans;                     // 当前所在层根节点转换
+        private Dictionary<UIFormID, Form> m_winDic;        // 当前层所有的界面
 
         public UILayer(UILayerID layer) 
 		{
 			m_layer = layer;
-			m_deskTop = new DeskTop();
             m_winDic = new Dictionary<UIFormID, Form>();
-		}
-		public DeskTop deskTop
-		{
-            get
-            {
-			    return m_deskTop;
-            }
 		}
 
         public Dictionary<UIFormID, Form> winDic
@@ -29,6 +22,18 @@ namespace SDK.Common
 			    return m_winDic;
             }
 		}
+
+        public Transform layerTrans
+        {
+            get
+            {
+                return m_layerTrans;
+            }
+            set
+            {
+                m_layerTrans = value;
+            }
+        }
 		
 		public bool hasForm(Form form)
 		{

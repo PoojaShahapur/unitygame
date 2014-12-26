@@ -15,6 +15,11 @@ namespace Game.UI
     {
         protected bool m_bLogined = false;      // 是否登陆过
 
+        override public void onShow()
+        {
+
+        }
+
         // 初始化控件
         override public void onReady()
         {
@@ -45,8 +50,8 @@ namespace Game.UI
                 InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
                 InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
-                LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
-                //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+                //LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
+                Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
             }
         }
     }

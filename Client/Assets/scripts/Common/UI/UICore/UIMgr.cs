@@ -19,35 +19,66 @@ namespace SDK.Common
         private Dictionary<UIFormID, UILoadingItem> m_ID2CodeLoadingItemDic;         // 记录当前代码正在加载的项
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
 
+        private List<UIFormID> m_tmpList = new List<UIFormID>();
+
 		public UIMgr()
 		{
             m_vecLayer = new List<UILayer>();
+            m_vecLayer.Add(new UILayer(UILayerID.BtmLayer));
             m_vecLayer.Add(new UILayer(UILayerID.FirstLayer));
+            m_vecLayer.Add(new UILayer(UILayerID.SecondLayer));
+            m_vecLayer.Add(new UILayer(UILayerID.ThirdLayer));
+            m_vecLayer.Add(new UILayer(UILayerID.ForthLayer));
+            m_vecLayer.Add(new UILayer(UILayerID.TopLayer));
+
             m_ID2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
 		}
 
+        // 关联每一层的对象
+        public void getLayerGameObject()
+        {
+            m_vecLayer[(int)UILayerID.BtmLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIBtmLayer].transform;
+            m_vecLayer[(int)UILayerID.FirstLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer].transform;
+            m_vecLayer[(int)UILayerID.SecondLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISecondLayer].transform;
+            m_vecLayer[(int)UILayerID.ThirdLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIThirdLayer].transform;
+            m_vecLayer[(int)UILayerID.ForthLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIForthLayer].transform;
+            m_vecLayer[(int)UILayerID.TopLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer].transform;
+        }
+
         // 显示一个 UI
 		public void showForm(UIFormID ID)
 		{
-			Form win = getForm(ID);
-			if (win != null)
-			{
-				UILayer layer = win.uiLayer;
-				if (!win.bReady)
-				{
+            if (hasForm(ID))
+            {
+                showFormInternal(ID);
+            }
+            else
+            {
+                loadForm(ID);
+            }
+		}
+
+        public void showFormInternal(UIFormID ID)
+        {
+            Form win = getForm(ID);
+            if (win != null)
+            {
+                UILayer layer = win.uiLayer;
+                if (!win.bReady)
+                {
                     win.onReady();
-				}
+                }
                 if (!win.IsVisible())
                 {
                     UtilApi.SetActive(win.m_GUIWin.m_uiRoot, true);
                     win.onShow();
                 }
-			}
-		}
+            }
+        }
 		
         // 隐藏一个 UI
-		public void hideForm(UIFormID ID)
+        private void hideFormInternal(UIFormID ID)
 		{
 			Form win = getForm(ID);
 			if (win != null)
@@ -65,25 +96,42 @@ namespace SDK.Common
         public void exitForm(UIFormID ID)
 		{
 			Form win = getForm(ID);
-			
-			if (win != null)
+
+            if (win != null)
 			{
+                if(win.exitMode)
+                {
+                    exitFormInternal(ID);
+                }
+                else
+                {
+                    hideFormInternal(ID);
+                }
+			}
+		}
+
+        protected void exitFormInternal(UIFormID ID)
+        {
+            Form win = getForm(ID);
+
+            if (win != null)
+            {
                 // 清理列表
-				UILayer layer = win.uiLayer;
-				layer.winDic.Remove(ID);
+                UILayer layer = win.uiLayer;
+                layer.winDic.Remove(ID);
                 // 释放界面资源
                 win.onExit();
                 UtilApi.DestroyImmediate(win.m_GUIWin.m_uiRoot);
                 // 释放加载的资源
-				string path = m_UIAttrs.getPath(ID);
-				if (path != null)
-				{
-					Ctx.m_instance.m_resMgr.unload(path);
-				}
-				m_dicForm.Remove(ID);
-				win = null;
-			}
-		}
+                string path = m_UIAttrs.getPath(ID);
+                if (path != null)
+                {
+                    Ctx.m_instance.m_resMgr.unload(path);
+                }
+                m_dicForm.Remove(ID);
+                win = null;
+            }
+        }
 
         public void addForm(Form form)
         {
@@ -95,7 +143,7 @@ namespace SDK.Common
         {
             UILayer layer = null;
 
-            if (layerID >= UILayerID.FirstLayer && layerID <= UILayerID.MaxLayer)
+            if (layerID >= UILayerID.BtmLayer && layerID <= UILayerID.MaxLayer)
             {
                 layer = m_vecLayer[(int)layerID];
             }
@@ -109,6 +157,7 @@ namespace SDK.Common
             form.uiLayer = layer;
             layer.addForm(form);
             m_dicForm[form.id] = form;
+            form.init();        // 初始化
         }
 
         public Form getForm(UIFormID ID)
@@ -128,22 +177,11 @@ namespace SDK.Common
             return (m_dicForm.ContainsKey(ID));
         }
 
-        // 加载并且显示
-        public void LoadAndShowForm(UIFormID ID)
-        {
-            if (hasForm(ID))
-            {
-                showForm(ID);
-            }
-            else
-            {
-                loadForm(ID);
-            }
-        }
-
         // 这个事加载界面需要的代码
         public void loadForm(UIFormID ID)
         {
+            // exitAllWin();                       // 关闭所有的界面
+
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             Form window = getForm(ID);
 
@@ -153,7 +191,7 @@ namespace SDK.Common
                 {
                     if(null != Ctx.m_instance.m_cbUIEvent)
                     {
-                        Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(window);  // 资源加载完成
+                        Ctx.m_instance.m_cbUIEvent.onCodeFormLoaded(window);  // 资源加载完成
                     }
                 }
             }
@@ -172,6 +210,7 @@ namespace SDK.Common
                     }
                 }
 
+                // 这个地方应该抛出异常
                 if(null == form)    // 本地没有代码
                 {
                     m_ID2CodeLoadingItemDic[ID] = new UILoadingItem();
@@ -265,6 +304,7 @@ namespace SDK.Common
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
             m_ID2CodeLoadingItemDic.Remove(ID);
+            addFormNoReady(m_dicForm[ID]);
             onCodeLoadedByForm(m_dicForm[ID]);
         }
 
@@ -285,11 +325,20 @@ namespace SDK.Common
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_codePrefabName);
             // 设置位置
-            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer].transform;
+            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = m_vecLayer[(int)attrItem.m_LayerID].layerTrans;
             // 先设置再设置缩放，否则无效
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localPosition = Vector3.zero;
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localScale = Vector3.one;
-            UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);
+            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
+            UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件
+            //if (m_dicForm[ID].hideOnCreate)
+            //{
+            //    UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);
+            //}
+            if (!m_dicForm[ID].hideOnCreate)
+            {
+                showFormInternal(ID);
+            }
 
             if (null != Ctx.m_instance.m_cbUIEvent)
             {
@@ -310,6 +359,21 @@ namespace SDK.Common
             {
                 m_vecLayer[index].onStageReSize();
             }
+        }
+
+        // 关闭所有显示的窗口
+        public void exitAllWin()
+        {
+            foreach(UIFormID id in m_dicForm.Keys)
+            {
+                m_tmpList.Add(id);
+            }
+
+            foreach (UIFormID id in m_tmpList)
+            {
+                exitForm(id);
+            }
+            m_tmpList.Clear();
         }
 	}
 }

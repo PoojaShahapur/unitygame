@@ -34,6 +34,9 @@ namespace Game.Game
 
             //Ctx.m_instance.m_meshMgr.loadSkinInfo();
             //Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().loadBT();
+
+            // 立即加载 UIBlurBg 界面
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIBlurBg);
         }
 
         public void loadScene()
