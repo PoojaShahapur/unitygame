@@ -7,6 +7,8 @@ namespace Game.Game
 {
     public class GameSceneLogic : ISceneLogic
     {
+        protected const string SCENESHOPNAME = "shopbtn";
+
         public GameSceneLogic()
         {
             Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
@@ -24,7 +26,7 @@ namespace Game.Game
             }
             else if (Input.GetKeyDown(KeyCode.K))  // 加载 UI 资源
             {
-                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIBackPack);
+                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
             }
         }
 
@@ -47,10 +49,11 @@ namespace Game.Game
             if (Physics.Raycast(ray, out hit, 100))
             {
                 //判断碰撞物体是否为floor
-                if (hit.collider.gameObject.name == "floor")
+                if (hit.collider.gameObject.name == SCENESHOPNAME)
                 {
                     //打印出碰撞点的坐标
-                    Debug.Log(hit.point);
+                    //Debug.Log(hit.point);
+                    onShopClk();
                 }
             }
         }
@@ -72,7 +75,12 @@ namespace Game.Game
             //param.m_loadNeedCoroutine = true;
             //Ctx.m_instance.m_resMgr.load(param);
 
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIBackPack);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
+        }
+
+        protected void onShopClk()
+        {
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
         }
     }
 }

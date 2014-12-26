@@ -31,6 +31,18 @@ namespace SDK.Common
             return go.transform.Find(path).GetComponent<T>();
         }
 
+        // 设置 Label 的显示
+        static public void setLblStype(Text textWidget, TextStyleID styleID)
+        {
+
+        }
+
+        // 按钮点击统一处理
+        static public void onBtnClkHandle(BtnStyleID btnID)
+        {
+
+        }
+
         // 添加事件处理
         //public static void addEventHandle(GameObject go, string path, UIEventListener.VoidDelegate handle)
         //{
@@ -141,6 +153,12 @@ namespace SDK.Common
             }
 
             return ActState.ActIdle;
+        }
+
+        // 剔除字符串末尾的空格
+        public static void trimEndSpace(ref string str)
+        {
+            str.TrimEnd('\0');
         }
     }
 }

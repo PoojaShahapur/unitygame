@@ -13,6 +13,7 @@
         ePathBeingPath, // Being 目录
         ePathAIPath,    // AI 目录
         ePathTablePath, // Table 目录
+        ePathLangXml,   // 语言配置文件
 
         eTotal          // 总数
     }

@@ -9,10 +9,10 @@ namespace SDK.Common
         public UIAttrs()
         {
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
-            m_dicAttr[UIFormID.UIBackPack] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIBackPack].m_LayerID = UILayerID.FirstLayer;
-            m_dicAttr[UIFormID.UIBackPack].m_widgetPrefabName = "UIBackPack";
-            m_dicAttr[UIFormID.UIBackPack].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIBackPack].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIPack] = new UIAttrItem();
+            m_dicAttr[UIFormID.UIPack].m_LayerID = UILayerID.FirstLayer;
+            m_dicAttr[UIFormID.UIPack].m_widgetPrefabName = "UIPack";
+            m_dicAttr[UIFormID.UIPack].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIPack].m_widgetPrefabName;
 
             m_dicAttr[UIFormID.UILogin] = new UIAttrItem();
             m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.FirstLayer;
@@ -29,9 +29,9 @@ namespace SDK.Common
         {
             if (m_dicAttr.ContainsKey(id))
             {
-                string ret = m_dicAttr[id].m_widgetPath;
-                ret = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + ret;
-                return ret;
+                return m_dicAttr[id].m_widgetPath;
+                //ret = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + ret;
+                //return ret;
             }
 
             return null;

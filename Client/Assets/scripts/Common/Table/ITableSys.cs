@@ -2,6 +2,6 @@
 {
     public interface ITableSys
     {
-        ItemBase getItem(TableID tableID, uint itemID);
+        TableItemBase getItem(TableID tableID, uint itemID);
     }
 }

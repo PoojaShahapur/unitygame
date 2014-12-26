@@ -18,7 +18,17 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
+            getWidget();
             addEventHandle();
+        }
+
+        // 关联窗口
+        protected void getWidget()
+        {
+            InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+            lblName.text = "zhanghao01";      //zhanghao01---zhanghao09
+            InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+            lblPassWord.text = "1";
         }
 
         protected void addEventHandle()
@@ -32,10 +42,10 @@ namespace Game.UI
             if (!m_bLogined)
             {
                 m_bLogined = true;
-                Text lblName = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
-                Text lblPassWord = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+                InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+                InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
-                LoginSys.m_instance.m_loginFlowHandle.connectLoginServer();
+                LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
                 //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
             }
         }

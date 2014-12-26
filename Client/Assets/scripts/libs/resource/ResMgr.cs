@@ -27,6 +27,13 @@ namespace SDK.Lib
             }
         }
 
+        // 重置加载设置
+        protected void resetLoadParam()
+        {
+            m_loadParam.m_loadNeedCoroutine = true;
+            m_loadParam.m_resNeedCoroutine = true;
+        }
+
         public IResItem getResource(string path)
         {
             // 如果 path == null ，程序会宕机
@@ -47,8 +54,8 @@ namespace SDK.Lib
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
 
             // 资源尽量异步加载
-            param.m_resNeedCoroutine = true;
-            param.m_loadNeedCoroutine = true;
+            //param.m_resNeedCoroutine = true;
+            //param.m_loadNeedCoroutine = true;
 
             //param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
 
@@ -60,8 +67,8 @@ namespace SDK.Lib
         {
             param.m_resPackType = ResPackType.eLevelType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            param.m_resNeedCoroutine = true;
-            param.m_loadNeedCoroutine = true;
+            //param.m_resNeedCoroutine = true;
+            //param.m_loadNeedCoroutine = true;
 
             //param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
 
@@ -75,8 +82,8 @@ namespace SDK.Lib
             param.m_resLoadType = ResLoadType.eLoadResource;
 
             // 资源尽量异步加载
-            param.m_resNeedCoroutine = true;
-            param.m_loadNeedCoroutine = true;
+            //param.m_resNeedCoroutine = true;
+            //param.m_loadNeedCoroutine = true;
 
             return load(param);
         }
@@ -86,6 +93,7 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
+                resetLoadParam();
                 m_LoadData.m_path2Res[param.m_path].increaseRef();
                 if (param.m_loaded != null)
                 {
@@ -178,6 +186,8 @@ namespace SDK.Lib
             {
                 m_LoadData.m_willLDItem.Add(loaditem);
             }
+
+            resetLoadParam();
 
             // 可能同步加载， m_LoadData.m_path2LDItem[param.m_path].load() 就加载完了，直接删除了
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))

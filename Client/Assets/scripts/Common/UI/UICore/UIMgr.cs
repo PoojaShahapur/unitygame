@@ -27,6 +27,7 @@ namespace SDK.Common
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
 		}
 
+        // 显示一个 UI
 		public void showForm(UIFormID ID)
 		{
 			Form win = getForm(ID);
@@ -45,6 +46,7 @@ namespace SDK.Common
 			}
 		}
 		
+        // 隐藏一个 UI
 		public void hideForm(UIFormID ID)
 		{
 			Form win = getForm(ID);
@@ -59,6 +61,7 @@ namespace SDK.Common
 			}
 		}
 
+        // 退出一个 UI
         public void exitForm(UIFormID ID)
 		{
 			Form win = getForm(ID);
@@ -237,7 +240,9 @@ namespace SDK.Common
         // 代码资源加载失败
         private void onCodeFailed(IDispatchObject resEvt)
 		{
-
+            IResItem res = resEvt as IResItem;                         // 类型转换
+            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
+            m_ID2CodeLoadingItemDic.Remove(ID);
 		}
 
         // 窗口控件资源加载成功
@@ -250,13 +255,16 @@ namespace SDK.Common
         // 窗口控件资源加载失败
         private void onWidgetFailed(IDispatchObject resEvt)
         {
-
+            IResItem res = resEvt as IResItem;                         // 类型转换
+            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
+            m_ID2WidgetLoadingItemDic.Remove(ID);
         }
 
         // 代码资源加载完成处理
         public void onCodeloadedByRes(IResItem res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
+            m_ID2CodeLoadingItemDic.Remove(ID);
             onCodeLoadedByForm(m_dicForm[ID]);
         }
 
@@ -272,6 +280,7 @@ namespace SDK.Common
         public void onWidgetloadedByRes(IResItem res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
+            m_ID2WidgetLoadingItemDic.Remove(ID);
 
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_codePrefabName);

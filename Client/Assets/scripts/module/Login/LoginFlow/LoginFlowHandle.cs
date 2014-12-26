@@ -15,14 +15,21 @@ namespace Game.Login
         protected uint m_dwUserID;
         protected uint m_loginTempID;
 
+        protected string m_name;
+        protected string m_passwd;
+
         public LoginFlowHandle()
         {
             Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB += onLoginServerSocketOpened;
         }
 
-        public void connectLoginServer()
+        public void connectLoginServer(string name, string passwd)
         {
-            Ctx.m_instance.m_log.log("开始连接登陆服务器");
+            m_name = name;
+            m_passwd = passwd;
+
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog0f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             // 连接服务器
             Ctx.m_instance.m_netMgr.openSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
         }
@@ -30,7 +37,8 @@ namespace Game.Login
         // socket 打开
         protected void onLoginServerSocketOpened()
         {
-            Ctx.m_instance.m_log.log("连接登陆服务器成功");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog1f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB -= onLoginServerSocketOpened;
             sendMsg1f();
         }
@@ -39,7 +47,8 @@ namespace Game.Login
         // 步骤 1 ，发送登陆消息
         public void sendMsg1f()
         {
-            Ctx.m_instance.m_log.log("发送到登陆服务器第一条消息");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog2f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
 
             stUserVerifyVerCmd cmdVerify = new stUserVerifyVerCmd();
             UtilMsg.sendMsg(cmdVerify);
@@ -51,10 +60,14 @@ namespace Game.Login
         // 步骤 2 ，接收返回的消息
         public void receiveMsg2f(IByteArray msg)
         {
-            Ctx.m_instance.m_log.log("接收到登陆服务器发送回来的第一条消息");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog3f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             stReturnClientIP cmd = new stReturnClientIP();
             cmd.derialize(msg);
-            Ctx.m_instance.m_log.log(cmd.pstrIP);
+
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog15f);
+            string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, cmd.pstrIP);
+            Ctx.m_instance.m_log.log(str);
 
             sendMsg3f();
         }
@@ -66,10 +79,14 @@ namespace Game.Login
             //send.game = 10;
             //send.zone = 30;
             //zhanghao01---zhanghao09
-            Ctx.m_instance.m_log.log("发送登录服务器消息 stUserRequestLoginCmd");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog4f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
-            cmd.pstrName = "zhanghao01";
-            cmd.pstrPassword = "1";
+            //cmd.pstrName = "zhanghao01";
+            //cmd.pstrPassword = "1";
+            cmd.pstrName = m_name;
+            cmd.pstrPassword = m_passwd;
             cmd.game = 10;
             cmd.zone = 30;
             UtilMsg.sendMsg(cmd);
@@ -82,12 +99,14 @@ namespace Game.Login
             cmd.derialize(msg);
 
             m_gateIP = cmd.pstrIP;
+            m_gateIP = m_gateIP.TrimEnd('\0');     // 剔除结尾 '\0' 字符
             m_gatePort = cmd.wdPort;
 
             m_dwUserID = cmd.dwUserID;
             m_loginTempID = cmd.loginTempID;
 
-            string str = string.Format("网关信息:  网关IP: {0}, 网关端口: {1}, 用户ID: {2}, 用户临时 ID: {3}", m_gateIP, m_gatePort, m_dwUserID, m_loginTempID);
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog5f);
+            string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, m_gateIP, m_gatePort, m_dwUserID, m_loginTempID);
             Ctx.m_instance.m_log.log(str);
 
             Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);            // 关闭之前的 socket
@@ -97,14 +116,17 @@ namespace Game.Login
         // 登陆网关服务器
         public void connectGateServer()
         {
-            Ctx.m_instance.m_log.log("开始连接网关");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog6f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB += onGateServerSocketOpened;
             Ctx.m_instance.m_netMgr.openSocket(m_gateIP, m_gatePort);
         }
 
         protected void onGateServerSocketOpened()
         {
-            Ctx.m_instance.m_log.log("连接网关成功");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog7f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB -= onGateServerSocketOpened;
             sendMsg5f();
         }
@@ -113,7 +135,9 @@ namespace Game.Login
         // 步骤 5 ，发送消息
         public void sendMsg5f()
         {
-            Ctx.m_instance.m_log.log("发送到网关第一条消息");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog8f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             stUserVerifyVerCmd cmdVerify = new stUserVerifyVerCmd();
             UtilMsg.sendMsg(cmdVerify);
 
@@ -126,7 +150,9 @@ namespace Game.Login
         // 步骤 6 ，接收消息
         public void receiveMsg6f(IByteArray msg)
         {
-            Ctx.m_instance.m_log.log("接收到网关发送回来的第一条消息");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog9f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             stMergeVersionCheckUserCmd cmd = new stMergeVersionCheckUserCmd();
             cmd.derialize(msg);
         }
@@ -134,7 +160,9 @@ namespace Game.Login
         // 步骤 7 ，接收消息
         public void receiveMsg7f(IByteArray msg)
         {
-            Ctx.m_instance.m_log.log("接收消息 stGameTimeTimerUserCmd");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog10f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             stGameTimeTimerUserCmd cmd = new stGameTimeTimerUserCmd();
             cmd.derialize(msg);
         }
@@ -142,7 +170,9 @@ namespace Game.Login
         // 步骤 8 ，接收消息
         public void receiveMsg8f(IByteArray msg)
         {
-            Ctx.m_instance.m_log.log("接收消息 stRequestUserGameTimeTimerUserCmd");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog11f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             stRequestUserGameTimeTimerUserCmd cmd = new stRequestUserGameTimeTimerUserCmd();
             cmd.derialize(msg);
 
@@ -152,7 +182,9 @@ namespace Game.Login
         // 步骤 9 ，发送消息
         public void sendMsg9f()
         {
-            Ctx.m_instance.m_log.log("发送消息 stUserGameTimeTimerUserCmd");
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog12f);
+            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+
             stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
             UtilMsg.sendMsg(cmd);
 
@@ -176,15 +208,17 @@ namespace Game.Login
             }
             else if((byte)ERetResult.LOGIN_RETURN_IDINUSE == cmd.byReturnCode)
             {
-                Ctx.m_instance.m_log.log("上次与登陆服务器没有断开连接");
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog13f);
+                Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAMEREPEAT == cmd.byReturnCode)
             {
-                Ctx.m_instance.m_log.log("名字重复");
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog14f);
+                Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             }
         }
 
-        // 返回基本角色信息，终于登陆成功了
+        // 返回基本角色信息
         public void psstUserInfoUserCmd(IByteArray ba)
         {
             // 发送选择角色登陆进入游戏
@@ -192,6 +226,13 @@ namespace Game.Login
             UtilMsg.sendMsg(cmd1f);
 
             stUserInfoUserCmd cmd = new stUserInfoUserCmd();
+            cmd.derialize(ba);
+        }
+
+        // 终于登陆成功了
+        public void psstLoginSelectSuccessUserCmd(IByteArray ba)
+        {
+            stLoginSelectSuccessUserCmd cmd = new stLoginSelectSuccessUserCmd();
             cmd.derialize(ba);
 
             // 进入场景

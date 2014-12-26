@@ -39,15 +39,22 @@ namespace Game.App
         // 加载游戏模块
         public void loadModule(ModuleID moduleID)
         {
-            // 初始化完成，开始加载自己的游戏场景
-            LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + m_type2ItemDic[moduleID].m_moduleName;
-            //param.m_resPackType = ResPackType.eBundleType;
-            param.m_loaded = m_type2ItemDic[moduleID].m_loaded;
-            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            //Ctx.m_instance.m_resMgr.load(param);
-            //Ctx.m_instance.m_resMgr.loadBundle(param);
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            if (!m_type2ItemDic[moduleID].m_isLoaded)
+            {
+                // 初始化完成，开始加载自己的游戏场景
+                LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
+                param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + m_type2ItemDic[moduleID].m_moduleName;
+                //param.m_resPackType = ResPackType.eBundleType;
+                param.m_loaded = m_type2ItemDic[moduleID].m_loaded;
+                //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+                //Ctx.m_instance.m_resMgr.load(param);
+                //Ctx.m_instance.m_resMgr.loadBundle(param);
+                Ctx.m_instance.m_resMgr.loadResources(param);
+            }
+            else
+            {
+                Ctx.m_instance.m_log.log("模块重复加载");
+            }
         }
 
         public void unloadModule(ModuleID moduleID)

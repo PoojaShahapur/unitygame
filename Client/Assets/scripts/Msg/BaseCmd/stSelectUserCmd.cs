@@ -7,6 +7,7 @@ namespace Game.Msg
         public const byte USERINFO_SELECT_USERCMD_PARA = 1;
         public const byte CREATE_SELECT_USERCMD_PARA = 2;
         public const byte LOGIN_SELECT_USERCMD_PARA = 3;
+        public const byte LOGIN_SELECT_SUCCESS_USERCMD_PARA = 14;
 
         public stSelectUserCmd()
         {

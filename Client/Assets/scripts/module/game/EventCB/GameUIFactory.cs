@@ -10,9 +10,16 @@ namespace Game.Game
     {
         public IForm CreateForm(UIFormID id)
         {
-            if(UIFormID.UIBackPack == id)
+            switch(id)
             {
-                return new UIPack();
+                case UIFormID.UIPack:
+                {
+                    return new UIPack();
+                }
+                default:
+                {
+                    break;
+                }
             }
 
             return null;

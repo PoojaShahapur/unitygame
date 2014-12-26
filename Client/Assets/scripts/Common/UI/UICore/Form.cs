@@ -7,6 +7,7 @@ namespace SDK.Common
 	 */
 	public class Form : Window, IForm
 	{
+        protected bool m_exitMode = true;                      // 关闭退出模式
 		protected bool m_bHideOnCreate = false;         // 创建后是否隐藏
         protected bool m_bResLoaded = false;            // 资源加载进来
 		
@@ -59,7 +60,7 @@ namespace SDK.Common
         // 第一次显示之前会调用一次
         virtual public void onReady()
         {
-
+            addEventHandle();
         }
 
         // 每一次显示都会调用一次
@@ -79,6 +80,12 @@ namespace SDK.Common
 		{
 			
 		}
+
+        // 添加事件监听
+        protected virtual void addEventHandle()
+        {
+            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
+        }
 
         public bool isVisible()
         {
@@ -133,9 +140,17 @@ namespace SDK.Common
 			return ret;
 		}
 		
-		protected void onExitBtnClick(GameObject curTarget)
+        // 按钮点击关闭
+		protected void onExitBtnClick()
 		{
-			exit();
+            if (m_exitMode)
+            {
+                exit();
+            }
+            else
+            {
+                hide();
+            }
 		}
 
         public bool bReady

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- type 就是一个功能 item 就是真正的内容  -->
+<msg>
+    <t>
+        <i>开始连接登陆服务器</i>
+		<i>连接登陆服务器成功</i>
+		<i>发送到登陆服务器第一条消息</i>
+		<i>接收到登陆服务器发送回来的第一条消息</i>
+		<i>发送登录服务器消息 stUserRequestLoginCmd</i>
+		<i>网关信息:  网关IP: {0}, 网关端口: {1}, 用户ID: {2}, 用户临时 ID: {3}</i>
+		<i>开始连接网关</i>
+		<i>连接网关成功</i>
+		<i>发送到网关第一条消息</i>
+		<i>接收到网关发送回来的第一条消息</i>
+		
+		<i>接收消息 stGameTimeTimerUserCmd</i>
+		<i>接收消息 stRequestUserGameTimeTimerUserCmd</i>
+		<i>发送消息 stUserGameTimeTimerUserCmd</i>
+		<i>上次与登陆服务器没有断开连接</i>
+		<i>名字重复</i>
+		<i>客户端自己 IP: {0}</i>
+    </t>
+</msg>

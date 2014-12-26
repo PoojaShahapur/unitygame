@@ -4,7 +4,7 @@ namespace Game.Login
 {
     public interface ILoginFlowHandle
     {
-        void connectLoginServer();
+        void connectLoginServer(string name, string passwd);
         void sendMsg1f();
         // 步骤 2 ，接收返回的消息
         void receiveMsg2f(IByteArray msg);
@@ -25,5 +25,6 @@ namespace Game.Login
 
         void psstServerReturnLoginFailedCmd(IByteArray msg);
         void psstUserInfoUserCmd(IByteArray ba);
+        void psstLoginSelectSuccessUserCmd(IByteArray ba);
     }
 }

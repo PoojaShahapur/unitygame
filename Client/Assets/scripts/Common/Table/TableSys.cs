@@ -20,7 +20,7 @@ namespace SDK.Common
 		}
 
         // 返回一个表
-        public List<ItemBase> getTable(TableID tableID)
+        public List<TableItemBase> getTable(TableID tableID)
 		{
 			TableBase table = m_dicTable[tableID];
 			if (table == null)
@@ -32,7 +32,7 @@ namespace SDK.Common
 		}
 		
         // 返回一个表中一项，返回的时候表中数据全部加载到 Item 中
-		public ItemBase getItem(TableID tableID, uint itemID)
+        public TableItemBase getItem(TableID tableID, uint itemID)
 		{
             TableBase table = m_dicTable[tableID];
 			if (table == null)
@@ -40,7 +40,7 @@ namespace SDK.Common
 				loadOneTable(tableID);
 				table = m_dicTable[tableID];
 			}
-			ItemBase ret = TableSys.findDataItem(table, itemID);
+            TableItemBase ret = TableSys.findDataItem(table, itemID);
             if(null == ret.m_itemBody)
             {
                 loadOneTableOneItemAll(table, ret);
@@ -58,7 +58,7 @@ namespace SDK.Common
             param.m_prefabName = table.m_prefabName;
             param.m_loaded = onloaded;
             Ctx.m_instance.m_resMgr.loadResources(param);
-            TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
+            //TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
 		}
 
         // 加载一个表完成
@@ -89,7 +89,7 @@ namespace SDK.Common
         }
 
         // 加载一个表中一项的所有内容
-		public void loadOneTableOneItemAll(TableBase table, ItemBase itemBase)
+        public void loadOneTableOneItemAll(TableBase table, TableItemBase itemBase)
         {
             itemBase.parseBodyByteArray(table.m_byteArray, itemBase.m_itemHeader.m_offset);
         }
@@ -112,12 +112,12 @@ namespace SDK.Common
             bytes.setEndian(Endian.LITTLE_ENDIAN);
             uint len = bytes.readUnsignedInt();
             uint i = 0;
-            ItemBase item = null;
+            TableItemBase item = null;
             for (i = 0; i < len; i++)
             {
                 if (TableID.TABLE_OBJECT == tableID)
                 {
-                    item = new ItemObject();
+                    item = new TableItemObject();
                 }
                 item.parseHeaderByteArray(bytes);
                 //item.parseAllByteArray(bytes);
@@ -126,7 +126,7 @@ namespace SDK.Common
         }
 
         // 查找表中的一项
-		static public ItemBase findDataItem(TableBase table, uint id)
+        static public TableItemBase findDataItem(TableBase table, uint id)
 		{
 			int size = table.m_List.Count;
 			int low = 0;

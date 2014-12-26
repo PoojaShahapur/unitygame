@@ -233,10 +233,12 @@ namespace SDK.Lib
         // 关闭连接
         public void Disconnect(int timeout)
         {
+            // 关闭之后 m_socket.Connected 设置成 false
             if (m_socket.Connected)
             {
                 m_socket.Shutdown(SocketShutdown.Both);
-                m_socket.Close(timeout);
+                //m_socket.Close(timeout);  // timeout 不能是 0 ，是 0 含义未定义
+                m_socket.Close();
             }
             else
             {

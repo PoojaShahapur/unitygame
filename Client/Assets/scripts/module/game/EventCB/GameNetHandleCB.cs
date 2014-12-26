@@ -5,9 +5,9 @@ namespace Game.Game
     /**
      * @brief 游戏网络处理
      */
-    public class GameNetHandleCB : INetHandle
+    public class GameNetHandleCB : NetDispHandle
     {
-        public void handleMsg(IByteArray msg)
+        public override void handleMsg(IByteArray msg)
         {
 
         }

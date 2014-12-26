@@ -12,5 +12,6 @@ namespace Game.App
         public ModuleID m_moduleID;
         public string m_modulePath;
         public string m_moduleName;
+        public bool m_isLoaded;         // 指明模块是否加载过
     }
 }

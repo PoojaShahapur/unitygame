@@ -50,6 +50,7 @@ namespace Game.App
             Ctx.m_instance.m_moduleSys = new ModuleSys();
             Ctx.m_instance.m_tableSys = new TableSys();
             Ctx.m_instance.m_localFileSys = new LocalFileSys();
+            Ctx.m_instance.m_langMgr = new LangMgr();
 
             PostInit();
         }

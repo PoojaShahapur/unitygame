@@ -1,55 +1,88 @@
+using SDK.Common;
 using System.Collections.Generic;
 using System.Xml;
+using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class LangMgr
+    public class LangMgr : ILangMgr
     {
-        protected Dictionary<string, LangIdx> m_tag2ID = new Dictionary<string, LangIdx>();
-        protected Dictionary<LangIdx, string> m_ID2Tag = new Dictionary<LangIdx, string>();
+        protected LangID m_langID = LangID.zh_CN;           // 当前语言，默认简体中文
+        protected XmlNodeList m_nodeList = null;                   // 整个的 xml 中 <t> 列表
+        protected Dictionary<LangID, LangAttrItem> m_ID2FileName = new Dictionary<LangID, LangAttrItem>();  // 语言到文件名字的映射
+        protected XmlNodeList m_tmpEleList;         // 临时的元素列表
+        protected XmlElement m_tmpEle;              // 临时的元素
+        protected bool m_isLoaded = false;                  // 语言文件是否加载
+        protected bool m_hasItem = false;
 
-        protected LangItem[] m_arrArr = new LangItem[(int)LangIdx.eLIDTotal];
-        protected XmlNodeList m_nodeList;
-
-        public void RegisterTag()
+        public LangMgr()
         {
-            m_tag2ID[LangTag.LTgScene] = LangIdx.eLIDScene;
-            m_ID2Tag[LangIdx.eLIDScene] = LangTag.LTgScene;
+            m_ID2FileName[LangID.zh_CN] = new LangAttrItem();
+            m_ID2FileName[LangID.zh_CN].m_prefabName = "zh_CN";
+            m_ID2FileName[LangID.zh_CN].m_filePath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLangXml] + m_ID2FileName[LangID.zh_CN].m_prefabName;
+        }
+
+        public void getText(LangTypeId typeId, int itemIdx)
+        {
+            if (!m_isLoaded)
+            {
+                loadXml();
+            }
+
+            m_hasItem = false;
+
+            if(null != m_nodeList)
+            {
+                if ((int)typeId < m_nodeList.Count)
+                {
+                    m_tmpEleList = m_nodeList[(int)typeId].ChildNodes as XmlNodeList;
+                    if(itemIdx < m_tmpEleList.Count)
+                    {
+                        m_hasItem = true;
+                        m_tmpEle = m_tmpEleList[itemIdx] as XmlElement;
+                        Ctx.m_instance.m_shareMgr.m_retLangStr = m_tmpEle.InnerText;
+                    }
+                }
+            }
+
+            if (!m_hasItem)
+            {
+                Ctx.m_instance.m_shareMgr.m_retLangStr = "default string";
+            }
         }
 
         //<?xml version="1.0" encoding="utf-8"?>
+        //<!-- type 就是一个功能 item 就是一项，顺序千万不要乱，否则都乱了  -->
         //<msg>
-	    //    <a>
-		//        <0>数据结构</0>
-	    //    </a>
+        //    <t>
+        //        <i>数据结构</i>
+        //    </t>
         //</msg>
-        public void Load()
+        public void loadXml()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"..\..\aaa.xml");
-
-            //XmlElement xe;
-            XmlNode xn = xmlDoc.SelectSingleNode("msg");
-            XmlNodeList xnl = xn.ChildNodes;
-            m_nodeList = xnl;
-
-            //foreach (XmlNode xn1 in xnl)
-            //{
-            //    xe = (XmlElement)xn1;
-            //    m_arrArr[(int)m_tag2ID[xe.Name]] = new LangItem();
-            //    m_arrArr[(int)m_tag2ID[xe.Name]].Init(xe);
-            //}
+            m_isLoaded = true;
+            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            param.m_path = m_ID2FileName[m_langID].m_filePath;
+            param.m_prefabName = m_ID2FileName[m_langID].m_prefabName;
+            param.m_loaded = onloaded;
+            Ctx.m_instance.m_resMgr.loadResources(param);
         }
 
-        public void GetText(LangIdx idx, int secIdx)
+        // 加载一个表完成
+        public void onloaded(IDispatchObject resEvt)
         {
-            if(m_arrArr[(int)idx] == null)      // 如果没有初始化
+            IResItem res = resEvt as IResItem;                         // 类型转换
+            TextAsset textAsset = res.getObject(m_ID2FileName[m_langID].m_prefabName) as TextAsset;
+            if (textAsset != null)
             {
-                m_arrArr[(int)idx] = new LangItem();
-                m_arrArr[(int)idx].Init(m_nodeList.Item((int)idx) as XmlElement);
-            }
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(textAsset.text);
 
-            m_arrArr[(int)idx].GetText(secIdx);
+                XmlNode xn = xmlDoc.SelectSingleNode("msg");
+                m_nodeList = xn.ChildNodes;
+            }
         }
     }
 }

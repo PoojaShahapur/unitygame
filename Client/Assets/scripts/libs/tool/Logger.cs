@@ -10,6 +10,7 @@ namespace SDK.Lib
     {
         public Mutex m_visitMutex = new Mutex();    // 主要是添加和获取数据互斥
         public List<string> m_strList = new List<string>();              // 这个是多线程访问的
+        public string m_tmpStr;
 
         public void log(string message)
         {
@@ -53,9 +54,14 @@ namespace SDK.Lib
         public void updateLog()
         {
             m_visitMutex.WaitOne();
+            m_tmpStr = "";
             foreach (string str in m_strList)
             {
-                log(str);
+                m_tmpStr += str;
+            }
+            if (m_tmpStr != "")
+            {
+                log(m_tmpStr);
             }
             m_strList.Clear();
             m_visitMutex.ReleaseMutex();

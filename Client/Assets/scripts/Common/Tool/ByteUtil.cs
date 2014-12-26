@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SDK.Common
 {
@@ -36,6 +37,16 @@ namespace SDK.Common
             {
                 ByteArray.m_sEndian = Endian.BIG_ENDIAN;
             }
+        }
+
+        // 两种编码的 string 字符串之间转换
+        static public string convStr2Str(string srcStr, Encoding srcCharSet, Encoding destCharSet)
+        {
+            byte[] srcBytes = srcCharSet.GetBytes(srcStr);
+            byte[] destBytes = Encoding.Convert(srcCharSet, destCharSet, srcBytes);
+            string retStr;
+            retStr = destCharSet.GetString(destBytes, 0, destBytes.Length);
+            return retStr;
         }
     }
 }

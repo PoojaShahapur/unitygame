@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief ¸¨Öú Button
      */
-    public class AuxBtn : AuxWin
+    public class AuxBtn : AuxComponent
     {
         protected Action<GameObject> m_dispHandle;      // ·Ö·¢
 
