@@ -51,6 +51,8 @@ namespace Game.App
             Ctx.m_instance.m_tableSys = new TableSys();
             Ctx.m_instance.m_localFileSys = new LocalFileSys();
             Ctx.m_instance.m_langMgr = new LangMgr();
+
+            Ctx.m_instance.m_interActiveEntityMgr = new InterActiveEntityMgr();
         }
 
         public void PostInit()

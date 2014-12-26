@@ -49,6 +49,7 @@ namespace SDK.Common
         public IFactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
 
         public ILangMgr m_langMgr;                  // 语言管理器
+        public IInterActiveEntityMgr m_interActiveEntityMgr;
 
         public Ctx()
         {

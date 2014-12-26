@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using SDK.Common;
+using UnityEngine;
 
 /**
  * @brief LS 模拟 MonoBehaviour 中的 GameObject
  */
-public class LSBehaviour
+public class LSBehaviour : ISceneEntity
 {
     protected GameObject gameObject;           // 模拟 MonoBehaviour 中的行为
     protected Transform transform;             // 模拟 MonoBehaviour 中的行为
@@ -14,5 +15,15 @@ public class LSBehaviour
         gameObject = go;
         transform = gameObject.transform;
         animation = gameObject.animation;
+    }
+
+    public GameObject getGameObject()
+    {
+        return gameObject;
+    }
+
+    public virtual void OnMouseUp()
+    {
+
     }
 }

@@ -53,7 +53,8 @@ namespace Game.Game
                 {
                     //打印出碰撞点的坐标
                     //Debug.Log(hit.point);
-                    onShopClk();
+                    //onShopClk();
+                    onClkBtn(hit);
                 }
             }
         }
@@ -81,6 +82,11 @@ namespace Game.Game
         protected void onShopClk()
         {
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
+        }
+
+        protected void onClkBtn(RaycastHit hit)
+        {
+            Ctx.m_instance.m_interActiveEntityMgr.OnMouseUp(hit.collider.gameObject);
         }
     }
 }
