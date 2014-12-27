@@ -30,7 +30,7 @@ void CPackage::setOutput(string output)
 	m_output = output;
 }
 
-void CPackage::initByXml(TiXmlElement* elem)
+void CPackage::initByXml(tinyxml2::XMLElement* elem)
 {
 	m_xml = elem->Attribute("xml");
 	m_output = elem->Attribute("output");
@@ -78,9 +78,9 @@ vector<CPackage*>& CSolution::getPackLst()
 	return m_lstPack;
 }
 
-void CSolution::initByXml(TiXmlElement* elem)
+void CSolution::initByXml(tinyxml2::XMLElement* elem)
 {
-	TiXmlElement* packageXml = NULL;
+	tinyxml2::XMLElement* packageXml = NULL;
 	CPackage* ppackage;
 
 	packageXml = elem->FirstChildElement("package");
@@ -139,13 +139,13 @@ void CTask::destroy()
 
 void CTask::readXML()
 {
-	TiXmlDocument doc;
-	TiXmlElement* configXml = NULL;
-	TiXmlElement* solutionXml = NULL;
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* configXml = NULL;
+	tinyxml2::XMLElement* solutionXml = NULL;
 
 	CSolution soluton;
 	
-	if(!doc.LoadFile("config.xml"))
+	if (doc.LoadFile("config.xml") != tinyxml2::XML_SUCCESS)
 	{
 		throw "config.xml 加载失败!";
 	}

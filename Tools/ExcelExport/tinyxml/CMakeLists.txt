@@ -4,15 +4,11 @@ project(tinyxml)
 if(WIN32)
 	message(STATUS "TinyXml Project")
 	set(SRCS
-		./tinyxmlparser.cpp
-		./tinystr.cpp
-		./tinyxml.cpp
-		./tinyxmlerror.cpp
+		./tinyxml2.cpp
 	)
 
 	set(INCS
-		./tinystr.h
-		./tinyxml.h
+		./tinyxml2.h
 	)
 
 	source_group("Source Files" FILES ${SRCS})

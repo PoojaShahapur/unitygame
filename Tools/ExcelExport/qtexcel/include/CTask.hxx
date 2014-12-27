@@ -3,10 +3,11 @@
 
 #include<string>	// include string
 #include<vector>	// include vector
-#include "tinyxml.h"	// include xml
+#include "tinyxml2.h"	// include xml
 
 // import namespace
 using namespace std;
+//using namespace tinyxml2;
 
 #include "Platform.hxx"
 BEGINNAMESPACE(NSExcelExport)
@@ -29,7 +30,7 @@ public:
 
 	void setXml(string xml);
 	void setOutput(string output);
-	void initByXml(TiXmlElement* elem);
+	void initByXml(tinyxml2::XMLElement* elem);
 	void destroy();
 };
 
@@ -55,7 +56,7 @@ public:
 
 	void setName(string name);
 	void setCmd(string cmd);
-	void initByXml(TiXmlElement* elem);
+	void initByXml(tinyxml2::XMLElement* elem);
 	vector<CPackage*>& getPackLst();
 	void destroy();
 };

@@ -4,7 +4,7 @@
 //#include <Windows.h>
 //#include <AfxWin.h>
 //#include <afx.h>
-#include "tinyxml.h"
+#include "tinyxml2.h"
 #include <QtCore/QtCore>
 #include <cstring>		// std::string
 #include <cstdio>		// File
@@ -18,6 +18,9 @@
 #include <windows.h>			// WCHAR
 
 #include "Platform.hxx"
+
+//using namespace tinyxml2;
+
 BEGINNAMESPACE(NSExcelExport)
 
 //class DataItem;
@@ -43,7 +46,7 @@ public:
 
 	// 导出 Excel 到 Property Vector
 	virtual bool exportExcelInternal(
-					TiXmlElement* pXmlEmtFields,
+					tinyxml2::XMLElement* pXmlEmtFields,
 					const char* lpszExcelFile,
 					const char* lpszDB,
 					const char* lpszTable,

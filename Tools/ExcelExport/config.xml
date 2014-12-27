@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="GB2312">
+<?xml version="1.0" encoding="GB2312"?>
 <!-- 打包配置文件 -->
 <!-- solution 是一个方案 name 显示的方案的名字 cmd 打包完成后执行的配置文件 xmlrootpath 就是这个方案下的根目录 defaultoutput 就是当 package 没有指定 output ，就会使用这个-->
 <config>

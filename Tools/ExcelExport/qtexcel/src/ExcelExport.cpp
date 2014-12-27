@@ -57,9 +57,9 @@ bool ExcelExport::exportExcel()
 
 	try
 	{
-		TiXmlDocument doc;
-		TiXmlElement* config = NULL;
-		TiXmlElement* table = NULL;
+		tinyxml2::XMLDocument doc;
+		tinyxml2::XMLElement* config = NULL;
+		tinyxml2::XMLElement* table = NULL;
 
 		memset(filename, 0, sizeof(filename));
 		Tools::getSingletonPtr()->UNICODEStr2GBKChar(m_xmlPath, filename, sizeof(filename));
@@ -102,7 +102,7 @@ bool ExcelExport::exportExcel()
 		std::string strStructDef;
 		while(table)
 		{
-			TiXmlElement* field = table->FirstChildElement("fields");
+			tinyxml2::XMLElement* field = table->FirstChildElement("fields");
 			const char* tableName = table->Attribute("name");
 			const char* ExcelFile = table->Attribute("ExcelFile");
 			const char* lpszsheetname = table->Attribute("sheetname");	// 表单的名字
@@ -180,7 +180,7 @@ bool ExcelExport::exportExcel()
 * com 接口
 */
 bool ExcelExport::exportExcelInternal(
-	TiXmlElement* pXmlEmtFields,	//第一个字段
+	tinyxml2::XMLElement* pXmlEmtFields,	//第一个字段
 	const char* lpszExcelFile,		//Excel文件的全路径（包括文件名称）
 	const char* lpszDB,
 	const char* lpszTable,
@@ -298,7 +298,7 @@ bool ExcelExport::exportExcelInternal(
 			_rowData = new DataItem();
 			_rowList.push_back(_rowData);
 
-			TiXmlElement* field = pXmlEmtFields->FirstChildElement("field");
+			tinyxml2::XMLElement* field = pXmlEmtFields->FirstChildElement("field");
 			// id 段判断，第一个字段一定是 id 才行，否则会出现错误
 			if (field)
 			{
@@ -326,11 +326,11 @@ bool ExcelExport::exportExcelInternal(
 				const char* defaultValue = "10";
 
 				// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
-				if (field->QueryIntAttribute("size", &fieldSize) != TIXML_SUCCESS)
+				if (field->QueryIntAttribute("size", &fieldSize) != tinyxml2::XML_SUCCESS)
 				{
 					fieldSize = 1;
 				}
-				if (field->QueryIntAttribute("base", &fieldBase) != TIXML_SUCCESS)
+				if (field->QueryIntAttribute("base", &fieldBase) != tinyxml2::XML_SUCCESS)
 				{
 					fieldBase = 10;
 				}
