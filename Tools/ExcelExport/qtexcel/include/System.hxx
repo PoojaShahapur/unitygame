@@ -5,7 +5,7 @@
 #include "SystemEndian.hxx"
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class System : public Singleton < System >
 {
@@ -16,6 +16,6 @@ public:
 	bool isEndianDiffFromSys(SysEndian rhv);	// 检测与系统的大端小端是否相同
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif

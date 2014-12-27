@@ -10,7 +10,7 @@ using namespace std;
 //using namespace tinyxml2;
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 /**
  * @brief package a table
@@ -78,6 +78,6 @@ public:
 	void destroy();
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif

@@ -21,7 +21,7 @@
 
 //using namespace tinyxml2;
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 //class DataItem;
 
@@ -82,6 +82,6 @@ public:
 	}
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// EXCELTBL_H

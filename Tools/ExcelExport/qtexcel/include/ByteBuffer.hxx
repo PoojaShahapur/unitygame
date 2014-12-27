@@ -8,7 +8,7 @@
 #include "System.hxx"
 #include "Platform.hxx"
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class ByteBufferException
 {
@@ -559,6 +559,6 @@ inline void ByteBuffer::read_skip<std::string>()
     read_skip<char*>();
 }
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif

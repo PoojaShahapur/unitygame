@@ -15,7 +15,7 @@ namespace Ui
 	class Dialog;
 }
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class MainDialog : public QDialog
 {
@@ -42,6 +42,6 @@ protected:
 	void keyPressEvent(QKeyEvent *event);
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif // MAINDIALOG_H

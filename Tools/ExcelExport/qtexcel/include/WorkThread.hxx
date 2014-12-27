@@ -6,7 +6,7 @@
 //class ExcelTbl;
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class WorkThread : public QThread
 {
@@ -18,6 +18,6 @@ public:
 	virtual void run();
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// WORKTHREAD_H  

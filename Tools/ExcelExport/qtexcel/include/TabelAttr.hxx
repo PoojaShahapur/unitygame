@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class IDRange
 {
@@ -28,6 +28,6 @@ public:
 	bool bIdInRange(unsigned int id);
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif

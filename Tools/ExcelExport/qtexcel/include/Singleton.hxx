@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 template<class T>
 class Singleton
@@ -23,6 +23,6 @@ public:
 	}
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif				// SINGLETON_H

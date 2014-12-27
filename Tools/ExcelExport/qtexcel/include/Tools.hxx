@@ -13,7 +13,7 @@
 
 class QWidget;
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class Tools : public Singleton<Tools>
 {
@@ -59,6 +59,6 @@ public:
 	QString GBKChar2UNICODEStr(const char* inChar);
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// TOOL_H

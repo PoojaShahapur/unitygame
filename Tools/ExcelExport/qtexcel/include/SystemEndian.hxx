@@ -2,7 +2,7 @@
 #define _SYSENDIAN_H
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 /**
  * @brief 系统大小端定义
@@ -13,6 +13,6 @@ enum SysEndian
 	eSys_LITTLE_ENDIAN
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif

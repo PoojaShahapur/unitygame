@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class PropertyStr : public PropertyIns<std::string>
 {
@@ -22,6 +22,6 @@ public:
 	virtual void srz2BUMobile(ByteBuffer& byteBuffer);
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// _PROPERTYSTR_H  

@@ -7,7 +7,7 @@
 #include "Platform.hxx"
 #include <algorithm>
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 namespace ByteConverter
 {
@@ -28,7 +28,7 @@ namespace ByteConverter
 	}
 }
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 template<typename T> inline void EndianConvert(T& val) { ByteConverter::apply<T>(&val); }
 template<typename T> void EndianConvert(T*);         // will generate link error

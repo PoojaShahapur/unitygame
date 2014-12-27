@@ -5,7 +5,7 @@
 #include "ByteBuffer.hxx"
 #include "Platform.hxx"
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 // 定义除 string 之外的 CBO 
 template <class T>
@@ -46,6 +46,6 @@ public:
 	}
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// _PROPERTYINS_H 

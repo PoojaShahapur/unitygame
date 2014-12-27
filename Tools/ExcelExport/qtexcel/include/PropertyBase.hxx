@@ -4,7 +4,7 @@
 #include "ByteBuffer.hxx"
 #include "Platform.hxx"
 
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 class PropertyBase
 {
@@ -37,6 +37,6 @@ public:
 	virtual void srz2BUMobile(ByteBuffer& byteBuffer) = 0;
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// _PROPERTYBASE_H  

@@ -19,9 +19,18 @@ typedef int int32;
 typedef unsigned _int64 uint64;
 typedef _int64 int64;
 
-//#define BEGINNAMESPACE(name) namespace name {
-//#define ENDNAMESPACE(name) }
-#define BEGINNAMESPACE(name)
-#define ENDNAMESPACE(name)
+#define NO_NAMESPACE
+
+#ifndef NO_NAMESPACE
+	#define NAMESPACE_NAME QtExcel
+	#define BEGIN_NAMESPACE namespace NAMESPACE_NAME {
+	#define END_NAMESPACE }
+	#define USING_NAMESPACE using namespace NAMESPACE_NAME
+#else
+	#define NAMESPACE_NAME
+	#define BEGIN_NAMESPACE
+	#define END_NAMESPACE
+	#define USING_NAMESPACE
+#endif
 
 #endif		// PLATFORM_H    

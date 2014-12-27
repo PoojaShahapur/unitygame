@@ -6,7 +6,7 @@
 #include "PropertyBase.hxx"
 
 #include "Platform.hxx"
-BEGINNAMESPACE(NSExcelExport)
+BEGIN_NAMESPACE
 
 /**
  * @brief 数据的一行，存储字节流    
@@ -39,6 +39,6 @@ struct lessCmp
 	bool operator() (DataItem* a, DataItem* b);
 };
 
-ENDNAMESPACE(NSExcelExport)
+END_NAMESPACE
 
 #endif	// DATAITEM_H
