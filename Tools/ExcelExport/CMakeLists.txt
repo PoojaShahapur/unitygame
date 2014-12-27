@@ -9,6 +9,8 @@ message(STATUS "builder main start")
 
 set(CMAKE_DEBUG_POSTFIX "_d")
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR})
+
 if(MSVC11 OR MSVC12)
 	message(STATUS "Setting Visual Studio 2005+ option /MP to ${OGITOR_MSVC_ENABLE_MP}")
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -18,3 +20,7 @@ endif(MSVC11 OR MSVC12)
 
 add_subdirectory(tinyxml)
 add_subdirectory(qtexcel)
+
+install(FILES 
+	${CMAKE_SOURCE_DIR}/config.xml DESTINATION "${CMAKE_BINARY_DIR}/qtexcel"
+)
