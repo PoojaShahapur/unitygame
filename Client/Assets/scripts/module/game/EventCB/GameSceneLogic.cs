@@ -7,8 +7,6 @@ namespace Game.Game
 {
     public class GameSceneLogic : ISceneLogic
     {
-        protected const string SCENESHOPNAME = "shopbtn";
-
         public GameSceneLogic()
         {
             Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
@@ -48,12 +46,18 @@ namespace Game.Game
             //判断射线是否发生碰撞               
             if (Physics.Raycast(ray, out hit, 100))
             {
-                //判断碰撞物体是否为floor
-                if (hit.collider.gameObject.name == SCENESHOPNAME)
+                //判断碰撞物体是否为 Card
+                if (hit.collider.gameObject.name.Substring(0, 4) == SceneEntityName.CARD)
                 {
                     //打印出碰撞点的坐标
                     //Debug.Log(hit.point);
-                    //onShopClk();
+                }
+                if (hit.collider.gameObject.name.Substring(0, 6) == SceneEntityName.PLAYER)
+                {
+
+                }
+                else
+                {
                     onClkBtn(hit);
                 }
             }

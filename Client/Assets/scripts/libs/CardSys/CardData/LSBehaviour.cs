@@ -15,6 +15,19 @@ public class LSBehaviour : ISceneEntity
         gameObject = go;
         transform = gameObject.transform;
         animation = gameObject.animation;
+
+        Awake();
+        Start();
+    }
+
+    public virtual void Awake()
+    {
+
+    }
+
+    public virtual void Start()
+    {
+
     }
 
     public GameObject getGameObject()

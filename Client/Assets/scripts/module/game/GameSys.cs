@@ -55,6 +55,8 @@ namespace Game.Game
 
         public void onResLoadScene(IScene scene)
         {
+            getInteractiveEntity();
+
             Ctx.m_instance.m_log.log("场景加载成功");
             Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
 
@@ -62,6 +64,18 @@ namespace Game.Game
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIHeroSelect);
+        }
+
+        // 获取场景中可点击的对象
+        protected void getInteractiveEntity()
+        {
+            GameObject sceneRoot = UtilApi.GoFindChildByPObjAndName("mcam");
+            GameObject go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop");     // 获取商店
+
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShop);
+
+            go = UtilApi.GoFindChildByPObjAndName("shopbtn");   // 商店按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn);
         }
     }
 }

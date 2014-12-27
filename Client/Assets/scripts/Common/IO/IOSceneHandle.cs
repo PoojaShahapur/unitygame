@@ -18,7 +18,7 @@ namespace SDK.Common
 
         protected void registerHandle()
         {
-            m_str2HandleDic[SceneEntityName.BTN] = psBtnIO;
+            //m_str2HandleDic[SceneEntityName.BTN] = psBtnIO;
         }
 
         public void OnMouseUp(string name, GameObject go)
