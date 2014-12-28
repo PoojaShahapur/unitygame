@@ -1,16 +1,19 @@
 #include "MainWindow.h"
+#include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : 
-	QMainWindow(parent)
+	QMainWindow(parent, 0), m_uiMainWindow(new Ui::MainWindow)
 {
+	m_uiMainWindow->setupUi(this);
+
 	//设置主窗口标题
 	setWindowTitle(tr("QMainWindow"));
 	text = new QTextEdit(this);
 	setCentralWidget(text);
 
-	createActions();
-	createMenus();
-	createToolBars();
+	//createActions();
+	//createMenus();
+	//createToolBars();
 
 	m_aaa.sayHello();
 }

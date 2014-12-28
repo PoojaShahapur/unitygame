@@ -16,6 +16,11 @@
 
 #include "BTEditor.h"
 
+namespace Ui
+{
+	class MainWindow;
+}
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -54,7 +59,9 @@ private:
 
 	QTextEdit *text;
 
+private:
 	Aaa m_aaa;
+	Ui::MainWindow *m_uiMainWindow;
 };
 
 #endif // MAINWINDOW_H
