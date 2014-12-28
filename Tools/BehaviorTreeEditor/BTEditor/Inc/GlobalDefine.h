@@ -1,7 +1,7 @@
 #ifndef __GlobalDefine_H_
 #define __GlobalDefine_H_
 
-#define NO_NAMESPACE
+//#define NO_NAMESPACE
 
 #ifndef NO_NAMESPACE
 	#define NSMESPACE_NAME BTEditor

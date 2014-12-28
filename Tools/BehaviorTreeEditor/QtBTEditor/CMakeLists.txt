@@ -37,25 +37,27 @@ else(NOT Qt5Widgets_FOUND)
     )
 
 	#these files need build moc files
-    #SET(MOC_FILES
-    #    ./include/maindialog.hxx
-    #)
+    SET(MOC_FILES
+        ./Inc/MainWindow.h
+    )
 	
 	SET(QRC_FILES ./Res/QtBTEditor.qrc)
 	
-	#qt5_wrap_cpp(MOC_SRCS ${MOC_FILES})
+	qt5_wrap_cpp(MOC_SRCS ${MOC_FILES})
     #qt5_wrap_ui(UI_SRCS ${UI_FILES})
 	qt5_add_resources(QRC_SRCS ${QRC_FILES})
 
-    #source_group("Moc Files" FILES ${MOC_SRCS})
+    source_group("Moc Files" FILES ${MOC_SRCS})
     #source_group("Ui Files" FILES ${UI_SRCS})
-	source_group("Qrc Files" FILES ${QRC_SRCS})
+	source_group("Qrc Files" FILES ${QRC_SRCS} ${QRC_FILES})
 	
 	file(GLOB RC_FILES ./res/*.rc)
 	source_group("Rc Files" FILES ${RC_FILES})
 	
     source_group("Source Files" FILES ${SRCS_FILES})
     source_group("Include Files" FILES ${INCS_FILES})
+	
+	source_group("aaa" FILES ${MOC_FILES})
 
     # if we don't include this CMake will not include ui headers properly:
     include_directories(${CMAKE_CURRENT_BINARY_DIR})

@@ -5,7 +5,7 @@
 
 BEGIN_NAMESPACE
 
-class BTEDITOR_DLL_EXPORT Aaa
+class BTEDITOR_EXPORT Aaa
 {
 public:
 	void sayHello();
