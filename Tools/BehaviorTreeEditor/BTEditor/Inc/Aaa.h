@@ -3,7 +3,7 @@
 
 #include "BTEditor.h"
 
-BEGIN_NAMESPACE
+BEGIN_NAMESPACE_BTEDITOR
 
 class BTEDITOR_EXPORT Aaa
 {
@@ -11,6 +11,6 @@ public:
 	void sayHello();
 };
 
-END_NAMESPACE
+END_NAMESPACE_BTEDITOR
 
 #endif

@@ -1,10 +1,10 @@
 #include "Aaa.h"
 
-BEGIN_NAMESPACE
+BEGIN_NAMESPACE_BTEDITOR
 
 void Aaa::sayHello()
 {
 
 }
 
-END_NAMESPACE
+END_NAMESPACE_BTEDITOR

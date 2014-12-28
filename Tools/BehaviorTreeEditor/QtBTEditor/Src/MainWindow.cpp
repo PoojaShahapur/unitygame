@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : 
 	QMainWindow(parent)
@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	createActions();
 	createMenus();
 	createToolBars();
+
+	m_aaa.sayHello();
 }
   
 MainWindow::~MainWindow()

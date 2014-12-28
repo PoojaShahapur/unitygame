@@ -3,16 +3,16 @@
 
 //#define NO_NAMESPACE
 
-#ifndef NO_NAMESPACE
-	#define NSMESPACE_NAME BTEditor
-	#define BEGIN_NAMESPACE namespace BTEditor {
-	#define END_NAMESPACE }
-	#define USING_NAMESPACE using BTEditor;
+#ifndef NO_NAMESPACE_BTEDITOR
+	#define NSMESPACE_NAME_BTEDITOR BTEditor
+	#define BEGIN_NAMESPACE_BTEDITOR namespace BTEditor {
+	#define END_NAMESPACE_BTEDITOR }
+	#define USING_NAMESPACE_BTEDITOR using namespace BTEditor;
 #else
-	#define NSMESPACE_NAME
-	#define BEGIN_NAMESPACE
-	#define END_NAMESPACE
-	#define USING_NAMESPACE
+	#define NSMESPACE_NAME_BTEDITOR
+	#define BEGIN_NAMESPACE_BTEDITOR
+	#define END_NAMESPACE_BTEDITOR
+	#define USING_NAMESPACE_BTEDITOR
 #endif
 
 #endif

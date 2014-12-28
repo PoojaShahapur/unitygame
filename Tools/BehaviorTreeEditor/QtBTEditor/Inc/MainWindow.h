@@ -1,18 +1,20 @@
-#ifndef MAINWINDOW_H  
-#define MAINWINDOW_H  
-  
-#include <QMainWindow>  
-#include <QApplication>  
-#include <QAction>  
-#include <QMenu>  
-#include <QFileDialog>  
-#include <QFile>  
-#include <QTextStream>  
-#include <QToolBar>  
-#include <QTextEdit>  
-#include <QMainWindow>  
-#include <QString>  
-#include <QMenuBar>  
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QApplication>
+#include <QAction>
+#include <QMenu>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QToolBar>
+#include <QTextEdit>
+#include <QMainWindow>
+#include <QString>
+#include <QMenuBar>
+
+#include "BTEditor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -51,6 +53,8 @@ private:
 	QAction *aboutAction;
 
 	QTextEdit *text;
+
+	Aaa m_aaa;
 };
 
 #endif // MAINWINDOW_H

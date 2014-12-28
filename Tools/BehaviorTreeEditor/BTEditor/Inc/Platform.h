@@ -3,7 +3,7 @@
 
 #include "GlobalDefine.h"
 
-BEGIN_NAMESPACE
+BEGIN_NAMESPACE_BTEDITOR
 
 #if defined(WIN32)
 	#if !defined(BTEDITOR_DLL)
@@ -32,6 +32,6 @@ typedef signed char int8;
     typedef long long int64;
 #endif
 
-END_NAMESPACE
+END_NAMESPACE_BTEDITOR
 
 #endif

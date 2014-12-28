@@ -21,7 +21,3 @@ endif(MSVC11 OR MSVC12)
 
 add_subdirectory(BTEditor)
 add_subdirectory(QtBTEditor)
-
-install(FILES 
-	${CMAKE_SOURCE_DIR}/config.xml DESTINATION "${CMAKE_BINARY_DIR}/qtexcel"
-)
