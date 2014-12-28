@@ -1,4 +1,6 @@
 #include <QtWidgets/QApplication>
+#include <QTranslator>
+
 #include "MainWindow.h"
 
 #if _MSC_VER >= 1600
@@ -15,9 +17,12 @@ int main(int argc, char *argv[])
 		#endif  
 	#endif  
 
-	QApplication a(argc, argv);
-	MainWindow w;
-	w.show();
+	QApplication* pApp = new QApplication(argc, argv);
+	QTranslator translator(0);
+	translator.load("RunPath/languages/qt_zh.qm");
+	pApp->installTranslator(&translator);
+	MainWindow* pMainWindow = new MainWindow();
+	pMainWindow->show();
 
-	return a.exec();
+	return pApp->exec();
 }

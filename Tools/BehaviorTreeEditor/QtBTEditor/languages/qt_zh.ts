@@ -91,7 +91,7 @@
     <message>
         <location line="+1"/>
         <source>new file</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -146,7 +146,7 @@
     <message>
         <location line="+1"/>
         <source>paste clipboard to selection</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>
