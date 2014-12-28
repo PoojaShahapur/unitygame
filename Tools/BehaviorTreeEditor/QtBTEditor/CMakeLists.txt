@@ -25,7 +25,7 @@ if(NOT Qt5Widgets_FOUND)
 else(NOT Qt5Widgets_FOUND)
     set(CMAKE_PACKAGE_QTGUI TRUE)
 
-    file(GLOB UI_FILES *.ui)
+    #file(GLOB UI_FILES *.ui)
 
     set(SRCS_FILES
 	    ./src/Main.cpp
@@ -51,7 +51,7 @@ else(NOT Qt5Widgets_FOUND)
     #source_group("Ui Files" FILES ${UI_SRCS})
 	source_group("Qrc Files" FILES ${QRC_SRCS} ${QRC_FILES})
 	
-	file(GLOB RC_FILES ./res/*.rc)
+	file(GLOB RC_FILES ./Res/*.rc)
 	source_group("Rc Files" FILES ${RC_FILES})
 	
     source_group("Source Files" FILES ${SRCS_FILES})
@@ -68,7 +68,7 @@ else(NOT Qt5Widgets_FOUND)
 	ADD_DEFINITIONS(-DBTEDITOR_DLL)
 	
     #set(SRCS ${SRCS_FILES} ${MOC_SRCS} ${UI_SRCS} ${INCS_FILES} ${QRC_SRCS} ${RC_FILES})
-	set(ALLSRCS ${SRCS_FILES} ${INCS_FILES} ${QRC_SRCS} ${RC_FILES})
+	set(ALLSRCS ${SRCS_FILES} ${INCS_FILES} ${QRC_SRCS} ${RC_FILES} ${MOC_SRCS})
 
     ADD_EXECUTABLE(QtBTEditor WIN32 ${ALLSRCS})
 
