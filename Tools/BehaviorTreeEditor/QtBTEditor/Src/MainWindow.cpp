@@ -7,13 +7,15 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_uiMainWindow->setupUi(this);
 
 	//设置主窗口标题
-	setWindowTitle(tr("QMainWindow"));
-	text = new QTextEdit(this);
-	setCentralWidget(text);
+	setWindowTitle(QStringLiteral("行为树编辑器"));
+	//text = new QTextEdit(this);
+	//setCentralWidget(text);
 
 	//createActions();
 	//createMenus();
 	//createToolBars();
+
+	connectAction();
 
 	m_aaa.sayHello();
 }
@@ -133,4 +135,9 @@ void MainWindow::loadFile(QString fileName)
 		}
 		printf("end\n");
 	}
+}
+
+void MainWindow::connectAction()
+{
+	QObject::connect(m_uiMainWindow->actionOpen, SIGNAL(triggered()), this, SLOT(slotOpenFile()));
 }

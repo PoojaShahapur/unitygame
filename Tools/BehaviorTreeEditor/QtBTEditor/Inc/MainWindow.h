@@ -62,6 +62,9 @@ private:
 private:
 	Aaa m_aaa;
 	Ui::MainWindow *m_uiMainWindow;
+
+private:
+	void connectAction();
 };
 
 #endif // MAINWINDOW_H
