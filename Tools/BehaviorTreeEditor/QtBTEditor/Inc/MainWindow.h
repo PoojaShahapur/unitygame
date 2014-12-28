@@ -30,7 +30,7 @@ public:
 public slots:
 	void slotNewFile();
 	void slotOpenFile();
-	void slotSaveFile();
+	//void slotSaveFile();
 
 private:
 	QMenu *fileMenu;
