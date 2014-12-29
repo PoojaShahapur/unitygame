@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	m_aaa.sayHello();
 }
-  
+
 MainWindow::~MainWindow()
 {
 
