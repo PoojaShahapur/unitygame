@@ -16,6 +16,10 @@
 
 #include "BTEditor.h"
 
+class LogWidget;
+class ProjectWidget;
+class CenterTabWidget;
+
 namespace Ui
 {
 	class MainWindow;
@@ -61,10 +65,15 @@ private:
 
 private:
 	Aaa m_aaa;
-	Ui::MainWindow *m_uiMainWindow;
+	Ui::MainWindow *m_ui;
+
+	ProjectWidget* m_projectWidget;
+	CenterTabWidget* m_centerTabWidget;
+	LogWidget* m_logWidget;
 
 private:
 	void connectAction();
+	void createDockWidget();
 };
 
 #endif // MAINWINDOW_H

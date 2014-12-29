@@ -1,10 +1,16 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : 
-	QMainWindow(parent, 0), m_uiMainWindow(new Ui::MainWindow)
+#include "LogWidget.h"
+#include "ProjectWidget.h"
+#include "CenterTabWidget.h"
+
+#include <QtCore/qnamespace.h>
+
+MainWindow::MainWindow(QWidget *parent)
+	: QMainWindow(parent, 0), m_ui(new Ui::MainWindow)
 {
-	m_uiMainWindow->setupUi(this);
+	m_ui->setupUi(this);
 
 	//设置主窗口标题
 	setWindowTitle(QStringLiteral("行为树编辑器"));
@@ -16,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	//createToolBars();
 
 	connectAction();
+	createDockWidget();
 
 	m_aaa.sayHello();
 }
@@ -23,6 +30,18 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::createDockWidget()
+{
+	m_projectWidget = new ProjectWidget(this);
+	this->addDockWidget(Qt::LeftDockWidgetArea, m_projectWidget);
+
+	//m_centerTabWidget = new CenterTabWidget(this);
+	//this->addDockWidget(Qt::RightDockWidgetArea, m_centerTabWidget);
+
+	m_logWidget = new LogWidget(this);
+	this->addDockWidget(Qt::BottomDockWidgetArea, m_logWidget);
 }
 
 void MainWindow::createActions()
@@ -139,5 +158,5 @@ void MainWindow::loadFile(QString fileName)
 
 void MainWindow::connectAction()
 {
-	QObject::connect(m_uiMainWindow->actionOpen, SIGNAL(triggered()), this, SLOT(slotOpenFile()));
+	QObject::connect(m_ui->actionOpen, SIGNAL(triggered()), this, SLOT(slotOpenFile()));
 }

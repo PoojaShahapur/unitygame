@@ -30,15 +30,24 @@ else(NOT Qt5Widgets_FOUND)
     set(SRCS_FILES
 	    ./src/Main.cpp
         ./src/MainWindow.cpp
+		./src/LogWidget.cpp
+		./src/ProjectWidget.cpp
+		./src/CenterTabWidget.cpp
     )
 	
 	set(INCS_FILES
         ./Inc/MainWindow.h
+		./Inc/LogWidget.h
+		./Inc/ProjectWidget.h
+		./Inc/CenterTabWidget.h
     )
 
 	#these files need build moc files
     SET(MOC_FILES
         ./Inc/MainWindow.h
+		./Inc/LogWidget.h
+		./Inc/ProjectWidget.h
+		./Inc/CenterTabWidget.h
     )
 	
 	SET(QRC_FILES ./Res/QtBTEditor.qrc)
