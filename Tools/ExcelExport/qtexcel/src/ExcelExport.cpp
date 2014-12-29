@@ -321,14 +321,14 @@ bool ExcelExport::exportExcelInternal(
 				const char* fieldName = field->Attribute("name");
 				const char* fieldType = field->Attribute("type");
 
-				int fieldSize;
+				int fieldSize = -1;
 				int fieldBase = 10;	// 进制是什么 
 				const char* defaultValue = "10";
 
 				// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
 				if (field->QueryIntAttribute("size", &fieldSize) != tinyxml2::XML_SUCCESS)
 				{
-					fieldSize = 1;
+					fieldSize = -1;
 				}
 				if (field->QueryIntAttribute("base", &fieldBase) != tinyxml2::XML_SUCCESS)
 				{
