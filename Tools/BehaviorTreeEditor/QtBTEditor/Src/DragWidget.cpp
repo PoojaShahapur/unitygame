@@ -5,7 +5,8 @@
 #include <QGraphicsPolygonItem>
 #include <QPolygonF>
 #include <qmath.h>
-#include "boardhexagon.h"
+#include "BoardHexagon.h"
+#include "DraggableItemBase.h"
 
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent)
@@ -61,6 +62,8 @@ DragWidget::DragWidget(QWidget *parent)
     QGraphicsEllipseItem * ellipse = scene->addEllipse(-20, -20, 20, 20,QPen(), QBrush(QColor(Qt::green)));
     this->makeDraggable(ellipse);
 
+	DraggableItemBase* pDragItem = new DraggableItemBase();
+	this->makeDraggable(pDragItem);
 
     view->setRenderHint(QPainter::Antialiasing);
     view->setScene(scene);

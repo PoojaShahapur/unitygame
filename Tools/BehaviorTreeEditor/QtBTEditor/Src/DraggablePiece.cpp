@@ -1,4 +1,4 @@
-#include "draggablepiece.h"
+#include "DraggablePiece.h"
 #include <QDrag>
 #include <QMimeData>
 

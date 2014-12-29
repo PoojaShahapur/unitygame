@@ -1,4 +1,4 @@
-#include "boardhexagon.h"
+#include "BoardHexagon.h"
 #include <QDebug>
 #include <QBrush>
 

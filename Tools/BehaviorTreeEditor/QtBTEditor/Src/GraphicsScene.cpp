@@ -1,4 +1,4 @@
-#include "graphicsscene.h"
+#include "GraphicsScene.h"
 #include <QDebug>
 
 GraphicsScene::GraphicsScene(QObject *parent) :

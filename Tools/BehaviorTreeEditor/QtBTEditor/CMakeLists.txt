@@ -37,6 +37,8 @@ else(NOT Qt5Widgets_FOUND)
 		./src/DraggablePiece.cpp
 		./src/GraphicsScene.cpp
 		./src/BoardHexagon.cpp
+		./src/DraggableItemBase.cpp
+		./src/DraggableFrame.cpp
     )
 	
 	set(INCS_FILES
@@ -48,6 +50,8 @@ else(NOT Qt5Widgets_FOUND)
 		./Inc/DraggablePiece.h
 		./Inc/GraphicsScene.h
 		./Inc/BoardHexagon.h
+		./Inc/DraggableItemBase.h
+		./Inc/DraggableFrame.h
     )
 
 	#these files need build moc files
@@ -58,6 +62,7 @@ else(NOT Qt5Widgets_FOUND)
 		./Inc/CenterTabWidget.h
 		./Inc/DragWidget.h
 		./Inc/GraphicsScene.h
+		./Inc/DraggableFrame.h
     )
 	
 	SET(QRC_FILES ./Res/QtBTEditor.qrc)

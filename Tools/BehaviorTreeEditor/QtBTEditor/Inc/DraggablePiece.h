@@ -9,7 +9,7 @@ class DraggablePiece : public QGraphicsItem
 public:
     DraggablePiece();
     void mousePressEvent(QGraphicsSceneMouseEvent*);
-//    void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+	//void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
 };
 
 class RectItem : public DraggablePiece
