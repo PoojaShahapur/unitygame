@@ -7,9 +7,10 @@ namespace Game.Game
      */
     public class GameNetHandleCB : NetDispHandle
     {
-        public override void handleMsg(IByteArray msg)
+        public GameNetHandleCB()
         {
-
+            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new GameDataUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.PROPERTY_USERCMD] = new GamePropertyUserCmdHandle();
         }
     }
 }

@@ -10,11 +10,10 @@ namespace Game.Login
     {
         public LoginNetHandleCB()
         {
-            m_id2DispDic[stNullUserCmd.TIME_USERCMD] = new TimerUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new DataUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.SELECT_USERCMD] = new SelectUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new LogonUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.PROPERTY_USERCMD] = new PropertyUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.TIME_USERCMD] = new LoginTimerUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new LoginDataUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.SELECT_USERCMD] = new LoginSelectUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new LoginLogonUserCmdHandle();
         }
 
         // 如果要调试可以重载，方便调试

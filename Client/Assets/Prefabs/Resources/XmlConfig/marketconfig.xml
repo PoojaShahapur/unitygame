@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="MarketConfig">
+	<open flag="WORD"/>
+	<obj>
+	    <item index="DWORD" objid="DWORD" num="DWORD" price="DWORD" container_="map" key_="index"/>
+	</obj>
+    </xmlpg_>
+    <open flag="1" />
+    <obj>
+	<item index="1" objid="710" num="1" price="50" />
+	<item index="2" objid="710" num="3" price="120" />
+	<item index="3" objid="710" num="5" price="210" />
+    </obj>
+</config>

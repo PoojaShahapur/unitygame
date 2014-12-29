@@ -6,15 +6,17 @@ using UnityEngine;
  */
 public class LSBehaviour : ISceneEntity
 {
-    protected GameObject gameObject;           // 模拟 MonoBehaviour 中的行为
-    protected Transform transform;             // 模拟 MonoBehaviour 中的行为
+    protected GameObject gameObject;            // 模拟 MonoBehaviour 中的行为
+    protected Transform transform;              // 模拟 MonoBehaviour 中的行为
     protected Animation animation;
+    protected string name;                      // 名字
 
     public void setGameObject(GameObject go)
     {
         gameObject = go;
         transform = gameObject.transform;
         animation = gameObject.animation;
+        name = gameObject.name;
 
         Awake();
         Start();
@@ -35,7 +37,7 @@ public class LSBehaviour : ISceneEntity
         return gameObject;
     }
 
-    public virtual void OnMouseUp()
+    public virtual void OnMouseUpAsButton()
     {
 
     }

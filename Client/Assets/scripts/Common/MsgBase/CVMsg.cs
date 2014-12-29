@@ -8,8 +8,6 @@
         public const int MAX_PASSWORD = 16;
         public const ushort MAX_CHARINFO = 3;
         public const int MAX_NAMESIZE = 32;
-
-
     }
 
     public enum ERetResult

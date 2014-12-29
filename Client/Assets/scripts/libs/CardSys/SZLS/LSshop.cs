@@ -18,7 +18,7 @@ namespace SDK.Lib
             transform.localScale = new Vector3(0.00001f, 0.00001f, 0.00001f);
         }
 
-        void close()
+        public void close()
         {
             animation["showbuy"].speed = -1;
             animation["showbuy"].time = animation["showbuy"].length;
@@ -33,7 +33,7 @@ namespace SDK.Lib
 
         int nowpacknum;
         float nowmoney;
-        void showpack(int num)
+        public void showpack(int num)
         {
             if (pack1 == null)
             {
@@ -42,7 +42,7 @@ namespace SDK.Lib
                 pack7 = transform.FindChild("7pack");
                 pack15 = transform.FindChild("15pack");
                 pack40 = transform.FindChild("40pack");
-                rmb = transform.FindChild("buykuan").FindChild("text").FindChild("rmb").GetComponent<Text>();
+                //rmb = transform.FindChild("buykuan").FindChild("text").FindChild("rmb").GetComponent<Text>();
             }
 
             switch (num)
@@ -62,7 +62,7 @@ namespace SDK.Lib
                     pack7.gameObject.SetActive(false);
                     pack15.gameObject.SetActive(false);
                     pack40.gameObject.SetActive(false);
-                    rmb.text = "￥2.99";
+                    //rmb.text = "￥2.99";
                     nowmoney = 2.99f;
                     break;
                 case 7:
@@ -70,19 +70,19 @@ namespace SDK.Lib
                     pack7.gameObject.SetActive(true);
                     pack15.gameObject.SetActive(false);
                     pack40.gameObject.SetActive(false);
-                    rmb.text = "￥9.99";
+                    //rmb.text = "￥9.99";
                     nowmoney = 9.99f;
                     break;
                 case 15:
                     nowpacknum = 15;
                     pack15.gameObject.SetActive(true);
                     pack40.gameObject.SetActive(false);
-                    rmb.text = "￥19.99";
+                    //rmb.text = "￥19.99";
                     nowmoney = 19.99f;
                     break;
                 case 40: pack40.gameObject.SetActive(true);
                     nowpacknum = 40;
-                    rmb.text = "￥49.99";
+                    //rmb.text = "￥49.99";
                     nowmoney = 49.99f;
                     break;
             }

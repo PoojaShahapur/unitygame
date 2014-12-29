@@ -67,6 +67,9 @@ namespace Game.App
             Ctx.m_instance.m_uiMgr.getLayerGameObject();
 
             //Ctx.m_instance.m_tableSys.loadOneTable(TableID.TABLE_OBJECT);
+            //Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, 712);
+            //Ctx.m_instance.m_xmlCfgMgr.loadMarket();
+            //Ctx.m_instance.m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
         }
 
         public void setNoDestroyObject()

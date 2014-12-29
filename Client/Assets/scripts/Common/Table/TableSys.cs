@@ -16,7 +16,7 @@ namespace SDK.Common
             m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
 
 			m_dicTable = new Dictionary<TableID, TableBase>();
-            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("base_client", "base_client", "base_client");
+            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client", "ObjectBase_client", "ObjectBase_client");
 		}
 
         // 返回一个表
@@ -35,7 +35,7 @@ namespace SDK.Common
         public TableItemBase getItem(TableID tableID, uint itemID)
 		{
             TableBase table = m_dicTable[tableID];
-			if (table == null)
+            if (null == table.m_byteArray)
 			{
 				loadOneTable(tableID);
 				table = m_dicTable[tableID];
@@ -57,6 +57,8 @@ namespace SDK.Common
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
             param.m_prefabName = table.m_prefabName;
             param.m_loaded = onloaded;
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resMgr.loadResources(param);
             //TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
 		}
@@ -68,6 +70,7 @@ namespace SDK.Common
             TextAsset textAsset = m_res.getObject("") as TextAsset;
             if (textAsset != null)
             {
+                m_byteArray.clear();
                 m_byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
                 m_byteArray.setPos(0);
                 readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);

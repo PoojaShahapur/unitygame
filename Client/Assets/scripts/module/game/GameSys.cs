@@ -29,6 +29,8 @@ namespace Game.Game
             GameSys.m_instance.m_ctx.m_uiMgr.SetIUIFactory(new GameUIFactory());
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
+            Ctx.m_instance.m_netHandle = new GameNetHandleCB();
+            Ctx.m_instance.m_bStopNetHandle = false;     // 停止网络消息处理
             Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 
@@ -75,7 +77,54 @@ namespace Game.Game
             Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShop);
 
             go = UtilApi.GoFindChildByPObjAndName("shopbtn");   // 商店按钮
-            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn);
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETagShop);
+
+            // 商店中选择扩展包
+            go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/btn/btn1");     // 商店按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopSelectPack);
+
+            go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/btn/btn2");     // 商店按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopSelectPack);
+
+            go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/btn/btn7");     // 商店按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopSelectPack);
+
+            go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/btn/btn15");     // 商店按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopSelectPack);
+
+            go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/btn/btn40");     // 商店按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopSelectPack);
+
+            go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/close");     // 商店关闭按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopClose);
+
+
+
+
+            go = UtilApi.GoFindChildByPObjAndName("openbtn");   // 打开扩展背包按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETagExtPack);
+
+            go = UtilApi.GoFindChildByPObjAndName("open");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETOpen);
+
+            go = UtilApi.GoFindChildByPObjAndName("mcam");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETMcam);
+
+
+            go = UtilApi.GoFindChildByPObjAndName("open/3dbtn/btn");   // 打开扩展背包按钮
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETaggoback);
+
+            go = UtilApi.GoFindChildByPObjAndName("box/drawer/wdscbtn");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETagwdscbtn);
+
+            go = UtilApi.GoFindChildByPObjAndName("wdscjm");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETwdscjm);
+
+            go = UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETagdzmoshibtn);
+
+            go = UtilApi.GoFindChildByPObjAndName("moshijm");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETdzmoshibtn);
         }
     }
 }

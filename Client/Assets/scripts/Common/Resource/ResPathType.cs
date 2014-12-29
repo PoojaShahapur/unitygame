@@ -14,6 +14,7 @@
         ePathAIPath,    // AI 目录
         ePathTablePath, // Table 目录
         ePathLangXml,   // 语言配置文件
+        ePathXmlCfg,    // Xml 配置文件
 
         eTotal          // 总数
     }

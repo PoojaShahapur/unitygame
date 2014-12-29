@@ -32,6 +32,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathAIPath] = "AI/";
             m_pathLst[(int)ResPathType.ePathTablePath] = "Table/";
             m_pathLst[(int)ResPathType.ePathLangXml] = "Languages/";
+            m_pathLst[(int)ResPathType.ePathXmlCfg] = "XmlConfig/";
 
             m_dataPath = Application.dataPath;
         }

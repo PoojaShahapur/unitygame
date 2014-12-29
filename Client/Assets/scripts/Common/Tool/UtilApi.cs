@@ -31,6 +31,12 @@ namespace SDK.Common
             return go.transform.Find(path).GetComponent<T>();
         }
 
+        // 从 Parent 获取一个组件
+        static public T getComByP<T>(GameObject go) where T : Component
+        {
+            return go.GetComponent<T>();
+        }
+
         // 设置 Label 的显示
         static public void setLblStype(Text textWidget, TextStyleID styleID)
         {
@@ -81,6 +87,16 @@ namespace SDK.Common
             target.SetActive(bshow);
         }
 
+        public static Object Instantiate(Object original)
+        {
+            return Object.Instantiate(original);
+        }
+
+        public static Object Instantiate(Object original, Vector3 position, Quaternion rotation)
+        {
+            return Object.Instantiate(original, position, rotation);
+        }
+
         static public bool getXmlAttrBool(XmlAttribute attr)
         {
             if (attr != null)
@@ -106,6 +122,17 @@ namespace SDK.Common
             }
 
             return "";
+        }
+
+        static public uint getXmlAttrUInt(XmlAttribute attr)
+        {
+            uint ret = 0;
+            if (attr != null)
+            {
+                uint.TryParse(attr.Value, out ret);
+            }
+
+            return ret;
         }
 
         // 转换行为状态到生物状态

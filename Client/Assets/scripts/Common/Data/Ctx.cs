@@ -50,6 +50,11 @@ namespace SDK.Common
 
         public ILangMgr m_langMgr;                  // 语言管理器
         public IInterActiveEntityMgr m_interActiveEntityMgr;
+        public DataPlayer m_dataPlayer = new DataPlayer();
+        public XmlCfgMgr m_xmlCfgMgr = new XmlCfgMgr();
+
+
+        public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
 
         public Ctx()
         {

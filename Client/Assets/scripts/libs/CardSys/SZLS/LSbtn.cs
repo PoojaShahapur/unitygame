@@ -58,13 +58,33 @@ namespace SDK.Lib
 
         //向上一级发送
         public bool sendtoparent = false;
-        public override void OnMouseUp()
+        public override void OnMouseUpAsButton()
         {
             if (Disable)
             {
                 return;
             }
-            (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).show();
+
+            if (EntityTag.eETagShop == m_tag)
+            {
+                (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).show();
+            }
+            else if (EntityTag.eETagExtPack == m_tag)
+            {
+                (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("open") as open).show();
+            }
+            else if (EntityTag.eETaggoback == m_tag)
+            {
+                (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("open") as open).goback();
+            }
+            else if(EntityTag.eETagwdscbtn == m_tag)
+            {
+                (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("wdscjm") as wdscjm).show();
+            }
+            else if (EntityTag.eETagdzmoshibtn == m_tag)
+            {
+                (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
+            }
         }
 
         void OnClick()
