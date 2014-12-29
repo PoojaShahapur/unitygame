@@ -7,6 +7,7 @@
 #include "DragWidget.h"
 
 #include <QtCore/qnamespace.h>
+//#include "DraggableFrame.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent, 0), m_ui(new Ui::MainWindow)
@@ -47,6 +48,13 @@ void MainWindow::createDockWidget()
 
 	m_logWidget = new LogWidget(this);
 	this->addDockWidget(Qt::BottomDockWidgetArea, m_logWidget);
+
+	// 不停靠，直接显示框架窗口
+	//m_logWidget = new LogWidget();
+	//m_logWidget->show();
+
+	//DraggableFrame* m_draggableFrame = new DraggableFrame();
+	//m_draggableFrame->show();
 }
 
 void MainWindow::createActions()
