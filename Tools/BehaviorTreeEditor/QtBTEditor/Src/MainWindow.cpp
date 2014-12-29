@@ -4,6 +4,7 @@
 #include "LogWidget.h"
 #include "ProjectWidget.h"
 #include "CenterTabWidget.h"
+#include "DragWidget.h"
 
 #include <QtCore/qnamespace.h>
 
@@ -37,8 +38,12 @@ void MainWindow::createDockWidget()
 	m_projectWidget = new ProjectWidget(this);
 	this->addDockWidget(Qt::LeftDockWidgetArea, m_projectWidget);
 
-	//m_centerTabWidget = new CenterTabWidget(this);
+	m_centerTabWidget = new CenterTabWidget(this);
 	//this->addDockWidget(Qt::RightDockWidgetArea, m_centerTabWidget);
+	setCentralWidget(m_centerTabWidget);
+
+	m_dragWidget = new DragWidget();
+	m_centerTabWidget->addTab(m_dragWidget, QStringLiteral("DragWidget"));
 
 	m_logWidget = new LogWidget(this);
 	this->addDockWidget(Qt::BottomDockWidgetArea, m_logWidget);
