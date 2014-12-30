@@ -7,12 +7,14 @@
 #include <qmath.h>
 #include "BoardHexagon.h"
 #include "DraggableItemBase.h"
+#include "GraphicsView.h"
 
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent)
 {
     QHBoxLayout * hbox = new QHBoxLayout;
-    QGraphicsView * view = new QGraphicsView;
+    //QGraphicsView * view = new QGraphicsView;
+	GraphicsView * view = new GraphicsView;
     GraphicsScene * scene = new GraphicsScene;
 
     QPolygonF polygon;
@@ -63,6 +65,7 @@ DragWidget::DragWidget(QWidget *parent)
     this->makeDraggable(ellipse);
 
 	DraggableItemBase* pDragItem = new DraggableItemBase();
+	scene->addItem(pDragItem);
 	this->makeDraggable(pDragItem);
 
     view->setRenderHint(QPainter::Antialiasing);

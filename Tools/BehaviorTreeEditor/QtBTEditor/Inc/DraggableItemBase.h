@@ -4,12 +4,13 @@
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 
-class DraggableFrame;
+class DraggableItemWidget;
+class QWidget;
 
 class DraggableItemBase : public QGraphicsObject
 {
 protected:
-	DraggableFrame* m_draggableFrame;
+	DraggableItemWidget* m_draggableItemWidget;
 
 public:
 	DraggableItemBase();

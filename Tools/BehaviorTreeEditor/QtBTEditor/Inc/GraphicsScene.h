@@ -10,11 +10,13 @@ class GraphicsScene : public QGraphicsScene
 public:
     explicit GraphicsScene(QObject *parent = 0);
 
-signals:
+//signals:
 
-public slots:
+//public slots :
+protected:
+	void mousePressEvent(QGraphicsSceneMouseEvent *evt);
     void mouseMoveEvent(QGraphicsSceneMouseEvent * m);
-
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent *evt);
 };
 
 #endif // GRAPHICSSCENE_H
