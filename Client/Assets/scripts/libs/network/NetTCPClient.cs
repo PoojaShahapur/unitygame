@@ -93,8 +93,8 @@ namespace SDK.Lib
                 m_socket.EndConnect(ar);
                 m_isConnected = true;
                 // 设置timeout
-                //m_socket.SendTimeout = m_sendTimeout;
-                //m_socket.ReceiveTimeout = m_revTimeout;
+                m_socket.SendTimeout = m_sendTimeout;
+                m_socket.ReceiveTimeout = m_revTimeout;
 
                 #if !NETMULTHREAD
                 Receive();

@@ -7,5 +7,6 @@ namespace SDK.Common
         void addSceneEntity(GameObject go, EntityType type, EntityTag tag = 0);
         ISceneEntity getSceneEntity(string name);
         void OnMouseUp(GameObject go);
+        ISceneEntity getActiveEntity(string name);
     }
 }

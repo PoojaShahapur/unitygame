@@ -11,6 +11,23 @@ namespace SDK.Common
         public List<DataItemObjectBase> m_objList = new List<DataItemObjectBase>();             // 道具列表
         public Dictionary<uint, DataItemObjectBase> m_id2ObjDic = new Dictionary<uint, DataItemObjectBase>();       // 道具 thidid到 Obj 字典，加快查找
 
+        // 添加测试数据
+        public void postConstruct()
+        {
+            // test 数据
+            //addObjectByTableID(710);
+            //addObjectByTableID(712);
+        }
+
+        public void addObjectByTableID(uint tableid)
+        {
+            DataItemObjectBase item = new DataItemObjectBase();
+            m_objList.Add(item);
+            m_id2ObjDic[tableid] = item;
+
+            item.m_tableItemObject = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, tableid) as TableItemObject;
+        }
+
         // 添加道具列表
         public void psstAddMobileObjectListPropertyUserCmd(List<stObjectOperator> list)
         {
@@ -22,7 +39,7 @@ namespace SDK.Common
                 DataItemObjectBase item = new DataItemObjectBase();
                 item.m_srvItemObject = obj;
                 item.m_tableItemObject = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemObject;
-                m_id2ObjDic[item.m_srvItemObject.dwObjectID] = item;
+                m_id2ObjDic[item.m_srvItemObject.dwThisID] = item;
             }
         }
 
@@ -31,7 +48,7 @@ namespace SDK.Common
             DataItemObjectBase item = new DataItemObjectBase();
             item.m_srvItemObject = obj;
             item.m_tableItemObject = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, item.m_srvItemObject.dwObjectID) as TableItemObject;
-            m_id2ObjDic[item.m_srvItemObject.dwObjectID] = item;
+            m_id2ObjDic[item.m_srvItemObject.dwThisID] = item;
         }
 
         // 删除一个道具

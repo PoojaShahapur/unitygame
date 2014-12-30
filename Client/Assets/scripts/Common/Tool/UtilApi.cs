@@ -13,16 +13,16 @@ namespace SDK.Common
         public const string TRUE = "true";
         public const string FALSE = "false";
 
-        // 通过父对象和完整的目录查找 child 对象
-        static public GameObject TransFindChildByPObjAndPath(GameObject pObject, string path)
-        {
-            return pObject.transform.Find(path).gameObject;
-        }
-
         // 仅仅根据名字查找 GameObject ，注意如果 GameObject 设置 SetActive 为 false ，就会查找不到，如果有相同名字的 GameObject ，不保证查找到正确的。
         static public GameObject GoFindChildByPObjAndName(string name)
         {
             return GameObject.Find(name);
+        }
+
+        // 通过父对象和完整的目录查找 child 对象
+        static public GameObject TransFindChildByPObjAndPath(GameObject pObject, string path)
+        {
+            return pObject.transform.Find(path).gameObject;
         }
 
         // 从 Parent 获取一个组件
@@ -95,6 +95,13 @@ namespace SDK.Common
         public static Object Instantiate(Object original, Vector3 position, Quaternion rotation)
         {
             return Object.Instantiate(original, position, rotation);
+        }
+
+        public static void normalPosScale(Transform tran)
+        {
+            //tran.localPosition = Vector3.zero;
+            tran.localPosition = new Vector3(0, 0, 0);
+            tran.localScale = Vector3.one;
         }
 
         static public bool getXmlAttrBool(XmlAttribute attr)

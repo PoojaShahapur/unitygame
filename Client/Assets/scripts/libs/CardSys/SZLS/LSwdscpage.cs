@@ -30,10 +30,12 @@ namespace SDK.Lib
         string nowcost = "all";
 
         public Text pagename;
-        void Awake()
+
+        public override void Awake()
         {
 
         }
+
         /// <summary>
         /// 翻页
         /// 0初始 -1 上一页 1下一页
@@ -187,6 +189,7 @@ namespace SDK.Lib
 
             oncost(nowcost);
         }
+
         //对花费进行过滤
         void oncost(string mcost)
         {

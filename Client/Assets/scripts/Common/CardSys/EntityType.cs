@@ -19,5 +19,6 @@
         eETaggoback,            // 关闭扩展背包
         eETagwdscbtn,           // 打开我的收藏
         eETagdzmoshibtn,        // 点击对战模式
+        eETaggoldbuy,           // 商城购买
     }
 }

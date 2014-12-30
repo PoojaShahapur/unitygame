@@ -60,6 +60,7 @@ namespace Game.Msg
     //BYTE type;
     //};
 
+    // 请求使用道具，主要是开礼包
     public class stUseObjectPropertyUserCmd : stPropertyUserCmd
     {
         public uint qwThisID;
@@ -72,13 +73,13 @@ namespace Game.Msg
             byParam = USEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void serialize(IByteArray ba)
         {
-            base.derialize(ba);
-            qwThisID = ba.readUnsignedInt();
-            dwNumber = ba.readUnsignedInt();
-            useType = ba.readUnsignedByte();
-            flag = ba.readUnsignedByte();
+            base.serialize(ba);
+            ba.writeUnsignedInt(qwThisID);
+            ba.writeUnsignedInt(dwNumber);
+            ba.writeByte(useType);
+            ba.writeByte(flag);
         }
     }
 
@@ -193,10 +194,10 @@ namespace Game.Msg
             byParam = REQ_BUY_MARKET_MOBILE_OBJECT_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void serialize(IByteArray ba)
         {
-            base.derialize(ba);
-            index = ba.readUnsignedShort();
+            base.serialize(ba);
+            ba.writeUnsignedShort(index);
         }
     }
 
@@ -208,5 +209,83 @@ namespace Game.Msg
     //index = 0; 
     //}    
     //WORD index;
+    //};
+
+    public class stNotifyMarketAllObjectPropertyUserCmd : stPropertyUserCmd
+    {
+        public ushort count;
+        public List<ushort> id;
+
+        public stNotifyMarketAllObjectPropertyUserCmd()
+        {
+            byParam = NOFITY_MARKET_ALL_OBJECT_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+            count = ba.readUnsignedShort();
+            if(count > 0)
+            {
+                id = new List<ushort>(count);
+                int idx = 0;
+                while(idx < count)
+                {
+                    id.Add(ba.readUnsignedShort());
+                    ++idx;
+                }
+            }
+        }
+    }
+
+    //const BYTE NOFITY_MARKET_ALL_OBJECT_CMD = 45;
+    //struct stNotifyMarketAllObjectPropertyUserCmd : public stPropertyUserCmd
+    //{
+    //    stNotifyMarketAllObjectPropertyUserCmd()
+    //    {    
+    //        byParam = NOFITY_MARKET_ALL_OBJECT_CMD;
+    //        count = 0; 
+    //    }    
+    //    WORD count;
+    //    WORD id[0];    //商城售卖索引
+    //};
+
+    public class stReqMarketObjectInfoPropertyUserCmd : stPropertyUserCmd
+    {
+        public stReqMarketObjectInfoPropertyUserCmd()
+        {
+            byParam = REQ_MARKET_OBJECT_INFO_CMD;
+        }
+    }
+
+    //const BYTE REQ_MARKET_OBJECT_INFO_CMD = 46;
+    //struct stReqMarketObjectInfoPropertyUserCmd : public stPropertyUserCmd
+    //{
+    //    stReqMarketObjectInfoPropertyUserCmd()
+    //    {    
+    //        byParam = REQ_MARKET_OBJECT_INFO_CMD;
+    //    }    
+    //};
+
+    public class stReqUserBaseDataInfoPropertyUserCmd : stPropertyUserCmd
+    {
+        public stReqUserBaseDataInfoPropertyUserCmd()
+        {
+            byParam = REQ_USER_BASE_DATA_INFO_CMD;
+        }
+
+        public override void serialize(IByteArray ba)
+        {
+            base.serialize(ba);
+        }
+    }
+
+    //const BYTE REQ_USER_BASE_DATA_INFO_CMD = 47;
+    //struct stReqUserBaseDataInfoPropertyUserCmd : public stPropertyUserCmd
+    //{
+    //    stReqUserBaseDataInfoPropertyUserCmd()
+    //    {    
+    //        byParam = REQ_USER_BASE_DATA_INFO_CMD;
+    //    }    
     //};
 }

@@ -70,6 +70,7 @@ namespace Game.App
             //Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, 712);
             //Ctx.m_instance.m_xmlCfgMgr.loadMarket();
             //Ctx.m_instance.m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
+            Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();
         }
 
         public void setNoDestroyObject()

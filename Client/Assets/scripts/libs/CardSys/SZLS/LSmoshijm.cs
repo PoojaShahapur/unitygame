@@ -20,14 +20,14 @@ namespace SDK.Lib
     public class moshijm : InterActiveEntity
     {
         moshijmmethod nowMethod;
-        Text bt, tpm, name;
+        Text bt, tpm, nameText;
         Vector3 goodp = new Vector3(-0.6957181f, 2.428539f, 0.5254142f);
         // Use this for initialization
         public override void Start()
         {
             bt = transform.FindChild("bt").GetComponent<Text>();
             tpm = transform.FindChild("tpm").GetComponent<Text>();
-            name = transform.FindChild("name").GetComponent<Text>();
+            nameText = transform.FindChild("name").GetComponent<Text>();
 
             chooseclassname = UtilApi.getComByP<Text>(UtilApi.GoFindChildByPObjAndName("moshijm/xuanname"));
             classpic = UtilApi.TransFindChildByPObjAndPath(UtilApi.GoFindChildByPObjAndName("moshijm"), "yxkuan/classpic");
@@ -89,7 +89,7 @@ namespace SDK.Lib
             nochoose();
             bt.text = "选择英雄";
             tpm.text = "";
-            name.text = "新建套牌";
+            nameText.text = "新建套牌";
         }
 
         public void dzmoshi()
@@ -119,7 +119,7 @@ namespace SDK.Lib
             nochoose();
             bt.text = "选择套牌";
             tpm.text = "自定义套牌";
-            name.text = "练习模式";
+            nameText.text = "练习模式";
             getPlayerSet();
         }
 
@@ -152,7 +152,7 @@ namespace SDK.Lib
             nochoose();
             bt.text = "选择套牌";
             tpm.text = "自定义套牌";
-            name.text = "竞技模式";
+            nameText.text = "竞技模式";
         }
 
         void gotoback()

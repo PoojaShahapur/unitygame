@@ -29,7 +29,7 @@ namespace SDK.Common
         protected ByteArray m_retBA;        // 返回的字节数组
         protected ByteArray m_tmpBA;        // 临时数据
 
-        private Mutex m_visitMutex = new Mutex();   // 主要是添加和获取数据互斥
+        private Mutex m_visitMutex = new Mutex(false, "CirculeBufferMutex");   // 主要是添加和获取数据互斥
 
         public CirculeBuffer()
         {

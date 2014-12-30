@@ -66,6 +66,9 @@ namespace Game.Game
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIHeroSelect);
+
+            // 请求主角基本数据
+            Ctx.m_instance.m_dataPlayer.reqMainData();
         }
 
         // 获取场景中可点击的对象
@@ -125,6 +128,9 @@ namespace Game.Game
 
             go = UtilApi.GoFindChildByPObjAndName("moshijm");
             Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETdzmoshibtn);
+
+            go = UtilApi.GoFindChildByPObjAndName("mcam/shop/buykuan/goldbuy");
+            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETaggoldbuy);
         }
     }
 }

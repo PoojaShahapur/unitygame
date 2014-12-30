@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SDK.Common;
+using Game.Msg;
 
 namespace SDK.Lib
 {
@@ -67,6 +68,11 @@ namespace SDK.Lib
 
             if (EntityTag.eETagShop == m_tag)
             {
+                // 发送消息
+                stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
+                UtilMsg.sendMsg(cmd);
+
+                // 显示内容
                 (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).show();
             }
             else if (EntityTag.eETagExtPack == m_tag)
@@ -84,6 +90,12 @@ namespace SDK.Lib
             else if (EntityTag.eETagdzmoshibtn == m_tag)
             {
                 (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
+            }
+            else if(EntityTag.eETaggoldbuy == m_tag)
+            {
+                stReqBuyMobileObjectPropertyUserCmd cmd = new stReqBuyMobileObjectPropertyUserCmd();
+                cmd.index = 1;
+                UtilMsg.sendMsg(cmd);
             }
         }
 

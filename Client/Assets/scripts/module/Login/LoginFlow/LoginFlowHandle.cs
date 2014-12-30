@@ -223,6 +223,7 @@ namespace Game.Login
         {
             // 发送选择角色登陆进入游戏
             stLoginSelectUserCmd cmd1f = new stLoginSelectUserCmd();
+            cmd1f.charNo = 0;
             UtilMsg.sendMsg(cmd1f);
 
             stUserInfoUserCmd cmd = new stUserInfoUserCmd();

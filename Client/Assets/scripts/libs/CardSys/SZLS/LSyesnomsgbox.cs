@@ -15,7 +15,7 @@ namespace SDK.Lib
         public static string callbackeventname;
         Text t, bt;
 
-        void Start()
+        public override void Start()
         {
             transform.localScale = Vector3.one * 0.000001f;
             bt = transform.FindChild("bt").GetComponent<Text>();

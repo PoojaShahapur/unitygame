@@ -19,13 +19,13 @@ namespace SDK.Lib
         int[] costcount = new int[7];
         Transform del;
 
-        void Awake()
+        public override void Awake()
         {
             del = transform.FindChild("del");
 
         }
 
-        void OnMouseUpAsButton()
+        public override void OnMouseUpAsButton()
         {
             if (Editing)
             {

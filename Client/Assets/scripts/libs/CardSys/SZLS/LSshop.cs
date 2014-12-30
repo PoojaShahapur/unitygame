@@ -1,21 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using SDK.Common;
 
 namespace SDK.Lib
 {
+    // 显示的一项
+    public class ShopItem
+    {
+        // 商店中的内容，只显示两行
+        public Transform m_tran = null;                // 第一个位置
+        public GameObject m_go = null;                 // 显示的内容
+        public string m_prefab;                        // 预制名字
+        public string m_path;                          // 目录
+
+        public void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        {
+            IResItem res = resEvt as IResItem;
+            m_go = res.InstantiateObject(m_prefab);
+            m_go.transform.parent = m_tran;
+            UtilApi.normalPosScale(m_go.transform);
+        }
+
+        public void unload()
+        {
+            if(m_go != null)
+            {
+                UtilApi.Destroy(m_go);
+                m_go = null;
+                Ctx.m_instance.m_resMgr.unload(m_path);
+            }
+        }
+    };
+
     /// <summary>
     /// 商店控制
     /// </summary>
-    public class shop : InterActiveEntity
+    public class shop : InterActiveEntity, ILSshop
     {
+        protected const int TOTALITEM = 2;
+
         Transform pack1, pack2, pack7, pack15, pack40, buykuan;
         Text rmb;
+
+        ShopItem[] m_shopItemArray = new ShopItem[TOTALITEM];
 
         // Use this for initialization
         public override void Awake()
         {
             transform.localScale = new Vector3(0.00001f, 0.00001f, 0.00001f);
+        }
+
+        public override void Start()
+        {
+            int idx = 0;
+            while(idx < TOTALITEM)
+            {
+                m_shopItemArray[idx] = new ShopItem();
+                ++idx;
+            }
+            
+            m_shopItemArray[0].m_tran = UtilApi.GoFindChildByPObjAndName("mcam/shop/FirstItem").transform;
+            m_shopItemArray[1].m_tran = UtilApi.GoFindChildByPObjAndName("mcam/shop/SecondItem").transform;
         }
 
         public void close()
@@ -29,6 +75,8 @@ namespace SDK.Lib
         {
             animation["showbuy"].speed = 1;
             animation.Play("showbuy");
+
+            updateShopData();
         }
 
         int nowpacknum;
@@ -117,6 +165,40 @@ namespace SDK.Lib
         void goldbuy()
         {
             
+        }
+
+        // 更新数据
+        public void updateShopData()
+        {
+            int idx = 0;
+            while(idx < TOTALITEM)
+            {
+                if(null != m_shopItemArray[idx])
+                {
+                    m_shopItemArray[idx].unload();
+                }
+
+                ++idx;
+            }
+
+            idx = 0;
+            TableItemObject objitem;
+            DataItemShop shopItem;
+            LoadParam param;
+            while(idx < Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList.Count && idx < TOTALITEM)
+            {
+                shopItem = Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList[idx];
+                objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemObject;
+                m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
+                m_shopItemArray[idx].m_prefab = (objitem.m_itemBody as TableObjectItemBody).m_prefab;
+                param = Ctx.m_instance.m_resMgr.getLoadParam();
+                param.m_path = m_shopItemArray[idx].m_path;
+                param.m_prefabName = m_shopItemArray[idx].m_prefab;
+                param.m_loaded = m_shopItemArray[idx].onloaded;
+                Ctx.m_instance.m_resMgr.loadResources(param);
+
+                ++idx;
+            }
         }
     }
 }

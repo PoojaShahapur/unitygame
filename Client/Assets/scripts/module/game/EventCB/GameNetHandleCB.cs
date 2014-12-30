@@ -9,7 +9,7 @@ namespace Game.Game
     {
         public GameNetHandleCB()
         {
-            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new GameDataUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.DATA_USERCMD] = new GameDataUserCmdHandle();
             m_id2DispDic[stNullUserCmd.PROPERTY_USERCMD] = new GamePropertyUserCmdHandle();
         }
     }

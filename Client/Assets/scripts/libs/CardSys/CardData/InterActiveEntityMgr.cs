@@ -74,5 +74,15 @@ namespace SDK.Lib
             //    }
             //}
         }
+
+        public ISceneEntity getActiveEntity(string name)
+        {
+            if(m_name2EntityDic.ContainsKey(name))
+            {
+                return m_name2EntityDic[name];
+            }
+
+            return null;
+        }
     }
 }

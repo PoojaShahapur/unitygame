@@ -106,7 +106,8 @@ namespace Game.Game
                 "openbtn" == name ||
                 "btn" == name ||
                 "wdscbtn" == name ||
-                "dzmoshibtn" == name
+                "dzmoshibtn" == name ||
+                "goldbuy" == name
                 )
             {
                 return true;

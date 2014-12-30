@@ -13,7 +13,7 @@ namespace SDK.Lib
         GameObject mlight;
 
         // Use this for initialization
-        void Awake()
+        public override void Awake()
         {
             mlight = transform.FindChild("light").gameObject;
 

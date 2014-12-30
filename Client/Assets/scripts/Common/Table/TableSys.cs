@@ -41,7 +41,8 @@ namespace SDK.Common
 				table = m_dicTable[tableID];
 			}
             TableItemBase ret = TableSys.findDataItem(table, itemID);
-            if(null == ret.m_itemBody)
+
+            if (null != ret && null == ret.m_itemBody)
             {
                 loadOneTableOneItemAll(table, ret);
             }
@@ -112,6 +113,7 @@ namespace SDK.Common
         private void readTable(TableID tableID, IByteArray bytes)
         {
             TableBase table = m_dicTable[tableID];
+            table.m_byteArray = bytes;
             bytes.setEndian(Endian.LITTLE_ENDIAN);
             uint len = bytes.readUnsignedInt();
             uint i = 0;

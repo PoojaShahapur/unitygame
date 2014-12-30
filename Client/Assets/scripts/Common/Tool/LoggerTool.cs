@@ -3,7 +3,7 @@
 namespace SDK.Common
 {
     /**
-     * @brief 日志系统
+     * @brief 日志系统，只有工具在使用
      */
     public class LoggerTool
     {

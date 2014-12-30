@@ -10,7 +10,7 @@ namespace SDK.Lib
         public Transform cardsetpre;
         public static List<Transform> playersets = new List<Transform>();
 
-        void Start()
+        public override void Start()
         {
             //得到用户的卡组
             //List<set> playset = web.getSets();
@@ -22,7 +22,7 @@ namespace SDK.Lib
         }
 
         //选职业
-        void OnMouseUpAsButton()
+        public override void OnMouseUpAsButton()
         {
 
         }

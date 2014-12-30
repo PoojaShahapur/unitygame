@@ -33,6 +33,21 @@ namespace SDK.Common
         {
             parseXml<XmlItemMarket>(str);
         }
+
+        public XmlItemBase getXmlItem(int id)
+        {
+            int idx = 0;
+            while(idx < m_list.Count)
+            {
+                if ((m_list[idx] as XmlItemMarket).m_index == id)
+                {
+                    return m_list[idx];
+                }
+                ++idx;
+            }
+
+            return null;
+        }
     }
 
     public class XmlItemMarket : XmlItemBase

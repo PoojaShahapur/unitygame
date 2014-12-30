@@ -25,6 +25,7 @@ namespace SDK.Common
         public int m_maxNum;
         public int m_type;
         public int m_color;
+        public string m_prefab;
 
         override public void parseBodyByteArray(IByteArray bytes, uint offset)
         {
@@ -33,6 +34,15 @@ namespace SDK.Common
             m_maxNum = bytes.readInt();
             m_type = bytes.readInt();
             m_color = bytes.readInt();
+            m_prefab = UtilTable.readString(bytes as ByteArray);
+        }
+
+        public string path
+        {
+            get
+            {
+                return Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
+            }
         }
 	}
 }

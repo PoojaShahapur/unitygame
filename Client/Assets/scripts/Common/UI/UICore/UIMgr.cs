@@ -64,7 +64,7 @@ namespace SDK.Common
             Form win = getForm(ID);
             if (win != null)
             {
-                UILayer layer = win.uiLayer;
+                //UILayer layer = win.uiLayer;
                 if (!win.bReady)
                 {
                     win.onReady();
@@ -83,7 +83,7 @@ namespace SDK.Common
 			Form win = getForm(ID);
 			if (win != null)
 			{
-				UILayer layer = win.uiLayer;
+				//UILayer layer = win.uiLayer;
 				if (win.IsVisible())
 				{
                     UtilApi.SetActive(win.m_GUIWin.m_uiRoot, false);
