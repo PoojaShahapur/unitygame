@@ -1,4 +1,4 @@
-project(QtBTEditor)
+project(QtAIEditor)
 
 cmake_minimum_required(VERSION 2.8.10)
 #set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE)
@@ -70,7 +70,7 @@ else(NOT Qt5Widgets_FOUND)
 		./Inc/GraphicsView.h
     )
 	
-	SET(QRC_FILES ./Res/QtBTEditor.qrc)
+	SET(QRC_FILES ./Res/Qrc.qrc)
 	
 	qt5_wrap_cpp(MOC_SRCS ${MOC_FILES})
     qt5_wrap_ui(UI_SRCS ${UI_FILES})
@@ -89,7 +89,7 @@ else(NOT Qt5Widgets_FOUND)
     # if we don't include this CMake will not include ui headers properly:
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
     include_directories(./Inc)
-	include_directories(../BTEditor/Inc)
+	include_directories(../AIEditor/Inc)
 	include_directories(${QT_BINARY_DIR}/../include)
 	
 	link_directories(${QT_BINARY_DIR}/../lib)
@@ -98,12 +98,12 @@ else(NOT Qt5Widgets_FOUND)
 	
     set(ALLSRCS ${SRCS_FILES} ${MOC_SRCS} ${UI_SRCS} ${INCS_FILES} ${QRC_SRCS} ${RC_FILES})
 
-    ADD_EXECUTABLE(QtBTEditor WIN32 ${ALLSRCS})
+    ADD_EXECUTABLE(QtAIEditor WIN32 ${ALLSRCS})
 
-    set_target_properties(QtBTEditor PROPERTIES DEBUG_POSTFIX _d LINK_FLAGS "/ENTRY:\"mainCRTStartup\"")
+    set_target_properties(QtAIEditor PROPERTIES DEBUG_POSTFIX _d LINK_FLAGS "/ENTRY:\"mainCRTStartup\"")
 	
-	TARGET_LINK_LIBRARIES(QtBTEditor ${Qt5Widgets_LIBRARIES} BTEditor)
+	TARGET_LINK_LIBRARIES(QtAIEditor ${Qt5Widgets_LIBRARIES} AIEditor)
 	
-	add_dependencies(QtBTEditor BTEditor)
+	add_dependencies(QtAIEditor AIEditor)
 	
 endif(NOT Qt5Widgets_FOUND)

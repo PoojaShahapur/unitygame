@@ -2,7 +2,7 @@
 #define DRAGGABLEITEMWIDGET_H
 
 #include <QtWidgets/QWidget>
-#include "BTEditor.h"
+#include "AIEditor.h"
 
 namespace Ui
 {

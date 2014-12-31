@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0005 NEW)
 
-project(BTEditor)
+project(AIEditor)
 
 message(STATUS "builder main start")
 
@@ -19,5 +19,5 @@ if(MSVC11 OR MSVC12)
 	add_definitions(-DNOMINMAX)
 endif(MSVC11 OR MSVC12)
 
-add_subdirectory(BTEditor)
-add_subdirectory(QtBTEditor)
+add_subdirectory(AIEditor)
+add_subdirectory(QtAIEditor)

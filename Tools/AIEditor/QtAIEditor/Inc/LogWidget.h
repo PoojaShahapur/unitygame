@@ -2,7 +2,7 @@
 #define LOGWIDGET_H
 
 #include <QtWidgets/QDockWidget>
-#include "BTEditor.h"
+#include "AIEditor.h"
 
 namespace Ui
 {

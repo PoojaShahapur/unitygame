@@ -1,4 +1,4 @@
-project(BTEditor)
+project(AIEditor)
 
 cmake_minimum_required(VERSION 2.8.10)
 #set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS TRUE)
@@ -14,7 +14,7 @@ endif()
 set(INCS_FILES
 	./Inc/Platform.h
 	./Inc/Prerequisites.h
-	./Inc/BTEditor.h
+	./Inc/AIEditor.h
 	./Inc/GlobalDefine.h
 	./Inc/Aaa.h
 )
@@ -33,9 +33,9 @@ ADD_DEFINITIONS(-DBTEDITOR_DLL -DBTEDITOR_DLL_EXPORT)
 #set(ALL_SRCS ${SRCS_FILES} ${MOC_SRCS} ${UI_SRCS} ${INCS_FILES} ${QRC_SRCS} ${RC_FILES})
 set(ALL_SRCS ${SRCS_FILES} ${INCS_FILES})
 
-ADD_LIBRARY(BTEditor SHARED ${ALL_SRCS})
+ADD_LIBRARY(AIEditor SHARED ${ALL_SRCS})
 
-set_target_properties(BTEditor PROPERTIES DEBUG_POSTFIX _d)
+set_target_properties(AIEditor PROPERTIES DEBUG_POSTFIX _d)
 
 #set(INST_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}${DEBUG_POSTFIX})
 #set(INST_FILES ${LIBRARY_OUTPUT_DIR}/${PROJECT_NAME}${DEBUG_POSTFIX}.dll)

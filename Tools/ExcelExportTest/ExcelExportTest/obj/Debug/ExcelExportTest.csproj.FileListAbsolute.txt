@@ -1,0 +1,6 @@
+E:\Self\Self\unity\unitygame\Tools\ExcelExportTest\ExcelExportTest\bin\Debug\ExcelExportTest.exe.config
+E:\Self\Self\unity\unitygame\Tools\ExcelExportTest\ExcelExportTest\bin\Debug\ExcelExportTest.exe
+E:\Self\Self\unity\unitygame\Tools\ExcelExportTest\ExcelExportTest\bin\Debug\ExcelExportTest.pdb
+E:\Self\Self\unity\unitygame\Tools\ExcelExportTest\ExcelExportTest\obj\Debug\ExcelExportTest.csprojResolveAssemblyReference.cache
+E:\Self\Self\unity\unitygame\Tools\ExcelExportTest\ExcelExportTest\obj\Debug\ExcelExportTest.exe
+E:\Self\Self\unity\unitygame\Tools\ExcelExportTest\ExcelExportTest\obj\Debug\ExcelExportTest.pdb
