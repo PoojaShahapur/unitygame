@@ -22,7 +22,12 @@ namespace SDK.Common
                 dataItemShop.m_xmlItemMarket = marketCfg.getXmlItem(id) as XmlItemMarket;
             }
 
-            (Ctx.m_instance.m_interActiveEntityMgr.getActiveEntity("shop") as ILSshop).updateShopData();
+            //(Ctx.m_instance.m_interActiveEntityMgr.getActiveEntity("shop") as ILSshop).updateShopData();
+            IUISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneShop) as IUISceneShop;
+            if(uiShop != null)
+            {
+                uiShop.updateShopData();
+            }
         }
     }
 }

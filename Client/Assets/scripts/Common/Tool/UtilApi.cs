@@ -50,15 +50,20 @@ namespace SDK.Common
         }
 
         // 添加事件处理
-        //public static void addEventHandle(GameObject go, string path, UIEventListener.VoidDelegate handle)
-        //{
-        //    UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
-        //}
+        public static void addEventHandle(GameObject go, string path, UIEventListener.VoidDelegate handle)
+        {
+            UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
+        }
+
+        public static void addEventHandle(GameObject go, UIEventListener.VoidDelegate handle)
+        {
+            UIEventListener.Get(go).onClick = handle;
+        }
+
         public static void addEventHandle(GameObject go, string path, UnityAction handle)
         {
             go.transform.Find(path).GetComponent<Button>().onClick.AddListener(handle);
         }
-
 
         // 销毁对象
         public static void Destroy(Object obj)

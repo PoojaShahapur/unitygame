@@ -11,6 +11,7 @@ namespace Game.Game
         {
             m_id2DispDic[stNullUserCmd.DATA_USERCMD] = new GameDataUserCmdHandle();
             m_id2DispDic[stNullUserCmd.PROPERTY_USERCMD] = new GamePropertyUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.HERO_CARD_USERCMD] = new GameHeroCardCmdHandle();
         }
     }
 }

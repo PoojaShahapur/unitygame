@@ -66,6 +66,8 @@ namespace SDK.Lib
                 m_name2EntityDic[go.name].OnMouseUpAsButton();
             }
 
+            //go.SendMessage("OnClick", go);
+
             //foreach(GameObject key in m_go2EntityDic.Keys)
             //{
             //    if(go == key)

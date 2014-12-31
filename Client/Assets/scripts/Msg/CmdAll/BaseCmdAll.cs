@@ -27,4 +27,26 @@ namespace Game.Msg
     //        byCmd = PROPERTY_USERCMD;
     //    }
     //};
+
+    public class stHeroCardCmd : stNullUserCmd
+    {
+        public const byte NOFITY_ALL_CARD_TUJIAN_INFO_CMD = 1;
+        public const byte NOFITY_ONE_CARD_TUJIAN_INFO_CMD = 2;
+        public const byte RET_GIFTBAG_CARDS_DATA_CMD = 3;
+        public const byte REQ_ALL_CARD_TUJIAN_DATA_CMD = 4;
+
+        public stHeroCardCmd()
+        {
+            byCmd = HERO_CARD_USERCMD;
+        }
+    }
+
+    //const BYTE HERO_CARD_USERCMD    = 162;
+    //struct stHeroCardCmd : public stNullUserCmd
+    //{
+    //    stHeroCardCmd()
+    //    {
+    //        byCmd = HERO_CARD_USERCMD;
+    //    }
+    //};
 }

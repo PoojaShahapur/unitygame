@@ -14,19 +14,24 @@
             m_itemHeader.parseHeaderByteArray(bytes);
         }
 
-        virtual public void parseBodyByteArray(IByteArray bytes, uint offset)
+        virtual public void parseBodyByteArray<T>(IByteArray bytes, uint offset) where T : TableItemBodyBase, new()
         {
-            
+            if (null == m_itemBody)
+            {
+                m_itemBody = new T();
+            }
+
+            m_itemBody.parseBodyByteArray(bytes, offset);
         }
 
-        virtual public void parseAllByteArray(IByteArray bytes)
+        virtual public void parseAllByteArray<T>(IByteArray bytes) where T : TableItemBodyBase, new()
         {
             // 解析头
             parseHeaderByteArray(bytes);
             // 保存下一个 Item 的头位置
             UtilTable.m_prePos = (bytes as ByteArray).position;
             // 解析内容
-            parseBodyByteArray(bytes, m_itemHeader.m_offset);
+            parseBodyByteArray<T>(bytes, m_itemHeader.m_offset);
             // 移动到下一个 Item 头位置
             bytes.setPos(UtilTable.m_prePos);
         }

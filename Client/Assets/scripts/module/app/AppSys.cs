@@ -35,6 +35,7 @@ namespace Game.App
             Ctx.m_instance.m_layerMgr = new LayerMgr();
 
             Ctx.m_instance.m_uiMgr = new UIMgr();
+            Ctx.m_instance.m_uiSceneMgr = new UISceneMgr();
             Ctx.m_instance.m_engineLoop = new EngineLoop();
             Ctx.m_instance.m_resizeMgr = new ResizeMgr();
 

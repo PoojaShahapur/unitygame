@@ -2,6 +2,7 @@
 {
     public enum TableID
     {
-        TABLE_OBJECT = 0, //道具表
+        TABLE_OBJECT,
+        TABLE_CARD,
     }
 }

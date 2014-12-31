@@ -17,6 +17,7 @@ namespace SDK.Common
 
 			m_dicTable = new Dictionary<TableID, TableBase>();
             m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client", "ObjectBase_client", "ObjectBase_client");
+            m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client", "CardBase_client", "CardBase_client");
 		}
 
         // 返回一个表
@@ -44,7 +45,7 @@ namespace SDK.Common
 
             if (null != ret && null == ret.m_itemBody)
             {
-                loadOneTableOneItemAll(table, ret);
+                loadOneTableOneItemAll(tableID, table, ret);
             }
 			return ret;
 		}
@@ -93,9 +94,16 @@ namespace SDK.Common
         }
 
         // 加载一个表中一项的所有内容
-        public void loadOneTableOneItemAll(TableBase table, TableItemBase itemBase)
+        public void loadOneTableOneItemAll(TableID tableID, TableBase table, TableItemBase itemBase)
         {
-            itemBase.parseBodyByteArray(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+            if (TableID.TABLE_OBJECT == tableID)
+            {
+                itemBase.parseBodyByteArray<TableObjectItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+            }
+            else if (TableID.TABLE_CARD == tableID)
+            {
+                itemBase.parseBodyByteArray<TableCardItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+            }
         }
 		
         // 获取一个表的名字
@@ -120,12 +128,17 @@ namespace SDK.Common
             TableItemBase item = null;
             for (i = 0; i < len; i++)
             {
-                if (TableID.TABLE_OBJECT == tableID)
-                {
-                    item = new TableItemObject();
-                }
+                //if (TableID.TABLE_OBJECT == tableID)
+                //{
+                //    item = new TableItemObject();
+                //}
+                item = new TableItemBase();
                 item.parseHeaderByteArray(bytes);
-                //item.parseAllByteArray(bytes);
+
+                //if (TableID.TABLE_OBJECT == tableID)
+                //{
+                    //item.parseAllByteArray<TableObjectItemBody>(bytes);
+                //}
                 table.m_List.Add(item);
             }
         }

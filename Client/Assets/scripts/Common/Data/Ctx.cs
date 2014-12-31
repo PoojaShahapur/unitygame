@@ -22,6 +22,7 @@ namespace SDK.Common
 
         public ITimerMgr m_timerMgr;                // 定时器系统
         public IUIMgr m_uiMgr;                      // UI 管理器
+        public IUISceneMgr m_uiSceneMgr;                      // UIScene 管理器
         public IResizeMgr m_resizeMgr;              // 窗口大小修改管理器
         public IUIEvent m_cbUIEvent;                // UI 事件回调
         public ICoroutineMgr m_coroutineMgr;        // 协程管理器

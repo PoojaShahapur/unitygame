@@ -10,6 +10,7 @@ namespace SDK.Common
         public const byte PROPERTY_USERCMD = 4;
         public const byte SELECT_USERCMD = 24;
         public const byte LOGON_USERCMD = 104;
+        public const byte HERO_CARD_USERCMD = 162;
 
         public byte byCmd;
         public byte byParam;

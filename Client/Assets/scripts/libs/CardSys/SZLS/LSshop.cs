@@ -182,13 +182,13 @@ namespace SDK.Lib
             }
 
             idx = 0;
-            TableItemObject objitem;
+            TableItemBase objitem;
             DataItemShop shopItem;
             LoadParam param;
             while(idx < Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList.Count && idx < TOTALITEM)
             {
                 shopItem = Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList[idx];
-                objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemObject;
+                objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemBase;
                 m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
                 m_shopItemArray[idx].m_prefab = (objitem.m_itemBody as TableObjectItemBody).m_prefab;
                 param = Ctx.m_instance.m_resMgr.getLoadParam();

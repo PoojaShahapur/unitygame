@@ -44,35 +44,35 @@ namespace SDK.Lib
                     {
                         setbt("1包专家级扩展包");
                         //transform.parent.parent.SendMessage("showpack", 1);
-                        (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(1);
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(1);
                     }
                     break;
                 case "btn2":
                     {
                         setbt("2包专家级扩展包");
                         //transform.parent.parent.SendMessage("showpack", 2);
-                        (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(2);
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(2);
                     }
                     break;
                 case "btn7":
                     {
                         setbt("7包专家级扩展包");
                         //transform.parent.parent.SendMessage("showpack", 7);
-                        (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(7);
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(7);
                     }
                     break;
                 case "btn15":
                     {
                         setbt("15包专家级扩展包");
                         //transform.parent.parent.SendMessage("showpack", 15);
-                        (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(15);
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(15);
                     }
                     break;
                 case "btn40":
                     {
                         setbt("40包专家级扩展包");
                         //transform.parent.parent.SendMessage("showpack", 40);
-                        (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(40);
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).showpack(40);
                     }
                     break;
             }
