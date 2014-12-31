@@ -8,6 +8,7 @@
 #include "BoardHexagon.h"
 #include "DraggableItemBase.h"
 #include "GraphicsView.h"
+#include "BezierCurveItem.h"
 
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent)
@@ -67,6 +68,10 @@ DragWidget::DragWidget(QWidget *parent)
 	DraggableItemBase* pDragItem = new DraggableItemBase();
 	scene->addItem(pDragItem);
 	this->makeDraggable(pDragItem);
+
+	BezierCurveItem* pBezierCurveItem = new BezierCurveItem();
+	scene->addItem(pBezierCurveItem);
+	this->makeDraggable(pBezierCurveItem);
 
     view->setRenderHint(QPainter::Antialiasing);
     view->setScene(scene);
