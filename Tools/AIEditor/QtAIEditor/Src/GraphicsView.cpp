@@ -52,3 +52,20 @@ GraphicsView::GraphicsView(QWidget *parent)
 //	painter.drawPoint(start_pos);
 //	painter.drawPoint(end_pos);
 //}
+
+void GraphicsView::mouseMoveEvent(QMouseEvent * e)//鼠标移动事件响应
+{
+	QPoint coursePoint;
+	coursePoint = e->pos();//获取当前光标的位置
+	QPointF convPt = this->mapToScene(coursePoint);
+}
+
+void GraphicsView::mousePressEvent(QMouseEvent * e)//鼠标单击事件响应
+{
+
+}
+
+void GraphicsView::mouseReleaseEvent(QMouseEvent * e)//鼠标松开事件响应
+{
+
+}

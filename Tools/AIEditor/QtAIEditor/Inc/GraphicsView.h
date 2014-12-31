@@ -13,6 +13,9 @@ public:
 
 protected:
 	//void paintEvent(QPaintEvent *e);
+	void mouseMoveEvent(QMouseEvent * e);//鼠标移动事件响应
+	void mousePressEvent(QMouseEvent * e);//鼠标单击事件响应
+	void mouseReleaseEvent(QMouseEvent * e);//鼠标松开事件响应
 };
 
 #endif // GRAPHICSVIEW_H
