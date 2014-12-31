@@ -17,6 +17,7 @@ set(INCS_FILES
 	./Inc/AIEditor.h
 	./Inc/GlobalDefine.h
 	./Inc/Aaa.h
+	./Inc/Singleton.h
 )
 
 set(SRCS_FILES
