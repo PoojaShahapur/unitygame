@@ -1,9 +1,9 @@
-#ifndef __Platform_H_
-#define __Platform_H_
+#ifndef __PLATFORM_H_
+#define __PLATFORM_H_
 
 #include "GlobalDefine.h"
 
-BEGIN_NAMESPACE_BTEDITOR
+BEGIN_NAMESPACE_AIEDITOR
 
 #if defined(WIN32)
 	#if !defined(BTEDITOR_DLL)
@@ -32,6 +32,6 @@ typedef signed char int8;
     typedef long long int64;
 #endif
 
-END_NAMESPACE_BTEDITOR
+END_NAMESPACE_AIEDITOR
 
 #endif

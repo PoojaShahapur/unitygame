@@ -1,11 +1,11 @@
-#ifndef __BTEditor_H_
-#define __BTEditor_H_
+#ifndef __AIEDITOR_H_
+#define __AIEDITOR_H_
 
 #include "GlobalDefine.h"
 #include "Platform.h"
 #include "Prerequisites.h"
 #include "Aaa.h"
 
-USING_NAMESPACE_BTEDITOR
+USING_NAMESPACE_AIEDITOR
 
-#endif		// __BTEditor_H_
+#endif		// __AIEDITOR_H_
