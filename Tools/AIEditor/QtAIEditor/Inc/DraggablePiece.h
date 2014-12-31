@@ -1,5 +1,5 @@
-#ifndef DRAGGABLEPIECE_H
-#define DRAGGABLEPIECE_H
+#ifndef __DRAGGABLEPIECE_H
+#define __DRAGGABLEPIECE_H
 
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>

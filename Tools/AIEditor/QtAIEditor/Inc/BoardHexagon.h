@@ -1,5 +1,5 @@
-#ifndef BOARDHEXAGON_H
-#define BOARDHEXAGON_H
+#ifndef __BOARDHEXAGON_H
+#define __BOARDHEXAGON_H
 
 #include <QGraphicsPolygonItem>
 #include <QGraphicsSceneHoverEvent>

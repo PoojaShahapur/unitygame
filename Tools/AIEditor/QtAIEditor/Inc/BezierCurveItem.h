@@ -1,5 +1,5 @@
-#ifndef BEZIERCURVEITEM_H
-#define BEZIERCURVEITEM_H
+#ifndef __BEZIERCURVEITEM_H
+#define __BEZIERCURVEITEM_H
 
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>

@@ -1,5 +1,5 @@
-#ifndef DRAGGABLEITEMWIDGET_H
-#define DRAGGABLEITEMWIDGET_H
+#ifndef __DRAGGABLEITEMWIDGET_H
+#define __DRAGGABLEITEMWIDGET_H
 
 #include <QtWidgets/QWidget>
 #include "AIEditor.h"

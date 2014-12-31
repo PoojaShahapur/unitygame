@@ -1,5 +1,5 @@
-#ifndef PROJECTWIDGET_H
-#define PROJECTWIDGET_H
+#ifndef __PROJECTWIDGET_H
+#define __PROJECTWIDGET_H
 
 #include <QtWidgets/QDockWidget>
 #include "AIEditor.h"

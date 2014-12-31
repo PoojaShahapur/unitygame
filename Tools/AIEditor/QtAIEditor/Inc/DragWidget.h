@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef __DRAGWIDGET_H
+#define __DRAGWIDGET_H
 
 #include <QWidget>
 #include <QGraphicsItem>
@@ -14,4 +14,4 @@ public:
 	~DragWidget();
 };
 
-#endif // WIDGET_H
+#endif // __DRAGWIDGET_H

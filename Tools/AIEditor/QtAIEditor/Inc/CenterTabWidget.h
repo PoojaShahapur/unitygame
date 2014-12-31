@@ -1,5 +1,5 @@
-#ifndef CENTERTABWIDGET_H
-#define CENTERTABWIDGET_H
+#ifndef __CENTERTABWIDGET_H
+#define __CENTERTABWIDGET_H
 
 #include <QtWidgets/QTabWidget>
 #include "AIEditor.h"

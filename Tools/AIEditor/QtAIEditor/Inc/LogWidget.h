@@ -1,5 +1,5 @@
-#ifndef LOGWIDGET_H
-#define LOGWIDGET_H
+#ifndef __LOGWIDGET_H
+#define __LOGWIDGET_H
 
 #include <QtWidgets/QDockWidget>
 #include "AIEditor.h"

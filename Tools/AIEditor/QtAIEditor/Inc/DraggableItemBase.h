@@ -1,5 +1,5 @@
-#ifndef DRAGGABLEITEMBASE_H
-#define DRAGGABLEITEMBASE_H
+#ifndef __DRAGGABLEITEMBASE_H
+#define __DRAGGABLEITEMBASE_H
 
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>

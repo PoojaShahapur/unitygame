@@ -1,5 +1,5 @@
-#ifndef GRAPHICSVIEW_H
-#define GRAPHICSVIEW_H
+#ifndef __GRAPHICSVIEW_H
+#define __GRAPHICSVIEW_H
 
 #include <QGraphicsView>
 #include <QtGui/QtGui>
