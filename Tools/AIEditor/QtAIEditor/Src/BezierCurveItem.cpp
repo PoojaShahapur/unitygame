@@ -5,11 +5,26 @@
 
 BezierCurveItem::BezierCurveItem()
 {
+	m_offset = 200;
 	m_startPos.setX(300);
 	m_startPos.setY(50);
 
 	m_endPos.setX(100);
 	m_endPos.setY(200);
+
+	updateCtrlPos();
+}
+
+void BezierCurveItem::updateCtrlPos()
+{
+	m_midPos.setX((m_startPos + m_endPos).x() / 2);
+	m_midPos.setY((m_startPos + m_endPos).y() / 2);
+
+	m_midStartPos.setX(m_startPos.x() + m_offset);
+	m_midStartPos.setY((m_startPos + m_midPos).y() / 2);
+
+	m_midEndPos.setX(m_endPos.x() - m_offset);
+	m_midEndPos.setY((m_midPos + m_endPos).y() / 2);
 }
 
 QRectF BezierCurveItem::boundingRect() const
@@ -26,33 +41,15 @@ void BezierCurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 	pen.setStyle(Qt::DashDotLine);
 	painter->setPen(pen);
 	
-	//define startpos endpos
-	QPoint start_pos(300, 50);
-	QPoint end_pos(100, 200);
-	
 	//drawPath;
-	QPainterPath path(start_pos);
-	//QPoint c1((start_pos + end_pos).x() / 2, start_pos.y());
-	//QPoint c2((start_pos + end_pos).x() / 2, end_pos.y());
-	//QPoint c1(start_pos.x(), (start_pos + end_pos).y() / 2);
-	//QPoint c2(end_pos.x(), (start_pos + end_pos).y() / 2);
-	
-	//path.cubicTo(c1, c2, end_pos);
+	QPainterPath aPath(m_startPos);
+	aPath.quadTo(m_midStartPos, m_midPos);
+	painter->drawPath(aPath);
 
-	QPoint midPt((start_pos + end_pos).x() / 2, (start_pos + end_pos).y() / 2);
-
-	QPoint c1(start_pos.x() + 200, (start_pos + midPt).y() / 2);
-	QPoint c2(midPt.x(), midPt.y());
-	QPoint c3(end_pos.x() - 200, (midPt + end_pos).y() / 2);
-	path.quadTo(c1, c2);
-
-	painter->drawPath(path);
-
-	QPainterPath bPath(c2);
-	bPath.quadTo(c3, end_pos);
+	QPainterPath bPath(m_midPos);
+	bPath.quadTo(m_midEndPos, m_endPos);
 	painter->drawPath(bPath);
 
-	//
 	QPen penshaper;
 	penshaper.setStyle(Qt::SolidLine);
 	penshaper.setColor(Qt::darkRed);
@@ -60,8 +57,8 @@ void BezierCurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 	
 	//#define the rect size;
 	QSize rect_size(60, 60);
-	QRect rect_shape1(start_pos - QPoint(rect_size.height() / 2, rect_size.width() / 2), rect_size);
-	QRect rect_shape2(end_pos - QPoint(rect_size.height() / 2, rect_size.width() / 2), rect_size);
+	QRect rect_shape1(m_startPos - QPoint(rect_size.height() / 2, rect_size.width() / 2), rect_size);
+	QRect rect_shape2(m_endPos - QPoint(rect_size.height() / 2, rect_size.width() / 2), rect_size);
 	
 	QBrush brush(Qt::darkGray, Qt::CrossPattern);
 	painter->fillRect(rect_shape1, brush);
@@ -75,6 +72,6 @@ void BezierCurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 	
 	brush.setStyle(Qt::SolidPattern);
 	painter->setPen(dotpen);
-	painter->drawPoint(start_pos);
-	painter->drawPoint(end_pos);
+	painter->drawPoint(m_startPos);
+	painter->drawPoint(m_endPos);
 }
