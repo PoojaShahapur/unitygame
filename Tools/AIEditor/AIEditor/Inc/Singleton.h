@@ -8,7 +8,7 @@ BEGIN_NAMESPACE_AIEDITOR
 template<class T>
 class AIEDITOR_EXPORT Singleton
 {
-public:
+protected:
 	static T* m_sSingleton;
 
 public:

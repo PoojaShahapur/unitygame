@@ -5,6 +5,7 @@
 #include "Platform.h"
 #include "Prerequisites.h"
 #include "Aaa.h"
+#include "Singleton.h"
 
 USING_NAMESPACE_AIEDITOR
 
