@@ -1,7 +1,7 @@
 @echo off
 
 set CUR_DIR=%~dp0
-set OUT_PRO=%CUR_DIR%\QtBTEditor\languages\translate.pro
+set OUT_PRO=%CUR_DIR%\QtAIEditor\languages\translate.pro
 
 if exist %OUT_PRO% del %OUT_PRO%
 
