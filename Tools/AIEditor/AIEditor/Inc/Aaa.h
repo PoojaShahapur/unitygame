@@ -5,7 +5,7 @@
 
 BEGIN_NAMESPACE_AIEDITOR
 
-class BTEDITOR_EXPORT Aaa
+class AIEDITOR_EXPORT Aaa
 {
 public:
 	void sayHello();

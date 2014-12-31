@@ -1,7 +1,7 @@
 ﻿#ifndef __SINGLETON_H
 #define __SINGLETON_H
 
-#include "AIEditor.h"
+#include "GlobalDefine.h"
 
 BEGIN_NAMESPACE_AIEDITOR
 

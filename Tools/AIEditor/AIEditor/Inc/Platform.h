@@ -6,13 +6,13 @@
 BEGIN_NAMESPACE_AIEDITOR
 
 #if defined(WIN32)
-	#if !defined(BTEDITOR_DLL)
-	#    define BTEDITOR_EXPORT
+	#if !defined(AIEDITOR_DLL)
+	#    define AIEDITOR_EXPORT
 	#else
-	#    if defined( BTEDITOR_DLL_EXPORT )
-	#        define BTEDITOR_EXPORT __declspec( dllexport )
+	#    if defined( AIEDITOR_DLL_EXPORT )
+	#        define AIEDITOR_EXPORT __declspec( dllexport )
 	#    else
-	#        define BTEDITOR_EXPORT __declspec( dllimport )
+	#        define AIEDITOR_EXPORT __declspec( dllimport )
 	#    endif
 	#endif
 #endif
