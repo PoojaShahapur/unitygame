@@ -3,12 +3,21 @@
 
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QPoint>
 
 class DraggableItemWidget;
 class QWidget;
 
 class BezierCurveItem : public QGraphicsObject
 {
+protected:
+	int m_offset;		// ÖÐ¼äµãÆ«ÒÆ
+	QPoint m_startPos;
+	QPoint m_endPos;
+	QPoint m_midPos;
+	QPoint m_midStartPos;
+	QPoint m_midEndPos;
+
 public:
 	BezierCurveItem();
 
