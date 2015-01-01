@@ -2,12 +2,18 @@
 #define __QTAIEDITORSYS_H_
 
 #include "AIEditor.h"
-#include "DragDropSys.h"
+
+#include "IDragDropSys.h"
+#include "IBuildFactory.h"
 
 class QtAIEditorSys : public AIEditorSys
 {
 public:
-	DragDropSys m_dragDropSys;				// 拖放数据
+	IDragDropSys* m_pDragDropSys;				// 拖放数据
+	IBuildFactory* m_pBuildFactory;				// 工厂生成
+
+public:
+	QtAIEditorSys();
 
 	// 这里写是为了解决链接错误
 protected:

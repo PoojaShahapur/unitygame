@@ -18,5 +18,5 @@ DraggableItemWidget::~DraggableItemWidget()
 
 void DraggableItemWidget::onClkBtn()
 {
-	QtAIEditorSys::getSingletonPtr();
+	QtAIEditorSys::getSingletonPtr()->m_pDragDropSys->startDrag();
 }
