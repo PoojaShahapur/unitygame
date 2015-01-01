@@ -5,7 +5,7 @@
 
 class QGraphicsItem;
 
-class DragDropSys : public Singleton<DragDropSys>
+class DragDropSys
 {
 protected:
 	bool m_startDrag;

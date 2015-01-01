@@ -19,6 +19,9 @@ public:
 
 private:
 	Ui::DraggableItemWidget *m_ui;
+
+public Q_SLOTS:
+	void onClkBtn();
 };
 
 #endif // DRAGGABLEITEMWIDGET_H

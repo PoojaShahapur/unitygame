@@ -1,7 +1,5 @@
 #include "DragDropSys.h"
 
-//template<> DragDropSys* Singleton<DragDropSys>::m_sSingleton = 0;
-
 DragDropSys::DragDropSys()
 {
 	m_startDrag = false;

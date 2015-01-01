@@ -42,6 +42,7 @@ else(NOT Qt5Widgets_FOUND)
 		./src/GraphicsView.cpp
 		./src/BezierCurveItem.cpp
 		./src/DragDropSys.cpp
+		./src/QtAIEditorSys.cpp
     )
 	
 	set(INCS_FILES
@@ -58,6 +59,7 @@ else(NOT Qt5Widgets_FOUND)
 		./Inc/GraphicsView.h
 		./Inc/BezierCurveItem.h
 		./Inc/DragDropSys.h
+		./Inc/QtAIEditorSys.h
     )
 
 	#these files need build moc files

@@ -18,10 +18,12 @@ set(INCS_FILES
 	./Inc/GlobalDefine.h
 	./Inc/Aaa.h
 	./Inc/Singleton.h
+	./Inc/AIEditorSys.h
 )
 
 set(SRCS_FILES
 	./src/Aaa.cpp
+	./src/AIEditorSys.cpp
 )
 
 source_group("Source Files" FILES ${SRCS_FILES})
