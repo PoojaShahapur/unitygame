@@ -15,7 +15,7 @@ namespace SDK.Common
         public void postConstruct()
         {
             // test 数据
-            //addObjectByTableID(710);
+            addObjectByTableID(710);
             //addObjectByTableID(712);
         }
 

@@ -59,7 +59,8 @@ namespace Game.App
         public void PostInit()
         {
             Ctx.m_instance.m_resizeMgr.addResizeObject(Ctx.m_instance.m_uiMgr as IResizeObject);
-            Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_inputMgr as ITickedObject);
+            //Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_inputMgr as ITickedObject);
+            Ctx.m_instance.m_inputMgr.postInit();
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_playerMgr as ITickedObject);
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_monsterMgr as ITickedObject);
             Ctx.m_instance.m_tickMgr.AddTickObj(Ctx.m_instance.m_fObjectMgr as ITickedObject);

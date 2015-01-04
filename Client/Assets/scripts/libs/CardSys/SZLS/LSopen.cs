@@ -21,6 +21,11 @@ namespace SDK.Lib
             m_go = res.InstantiateObject(m_prefab);
             m_go.transform.parent = m_tran;
             UtilApi.normalPosScale(m_go.transform);
+
+            UIDragObject drag = m_go.AddComponent<UIDragObject>();
+            drag.target = m_go.transform;
+
+            WindowDragTilt title = m_go.AddComponent<WindowDragTilt>();
         }
 
         public void unload()

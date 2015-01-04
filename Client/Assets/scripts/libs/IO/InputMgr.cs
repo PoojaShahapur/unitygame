@@ -22,6 +22,12 @@ namespace SDK.Lib
         private bool[] _justPressed = new bool[256];  // An array of keys that were just pressed within the last tick.
         private bool[] _justReleased = new bool[256]; // An array of keys that were just released within the last tick.
 
+        public void postInit()
+        {
+            // 添加事件处理
+            UICamera uiCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+        }
+
         /**
          * @inheritDoc
          */

@@ -12,5 +12,7 @@ namespace SDK.Common
         void removeMouseListener(EventID evtID, Action cb);
         void addAxisListener(EventID evtID, Action cb);
         void removeAxisListener(EventID evtID, Action cb);
+
+        void postInit();
     }
 }

@@ -39,6 +39,12 @@ namespace Game.UI
 
             m_btnArr[(int)SceneMainBtnEnum.eBtnDuiZhan] = new btn();
             m_btnArr[(int)SceneMainBtnEnum.eBtnDuiZhan].setGameObject(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"));
+
+            m_btnArr[(int)SceneMainBtnEnum.eBtnLianXi] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnLianXi].setGameObject(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"));
+
+            m_btnArr[(int)SceneMainBtnEnum.eBtnJingJi] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnJingJi].setGameObject(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"));
         }
 
         // 添加事件监听
@@ -101,6 +107,16 @@ namespace Game.UI
         protected void onBtnClkDuiZhanMoShi(GameObject go)
         {
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
+        }
+
+        protected void onBtnClkLianXiMoShi(GameObject go)
+        {
+
+        }
+
+        protected void onBtnClkJingJiMoShi(GameObject go)
+        {
+
         }
     }
 }
