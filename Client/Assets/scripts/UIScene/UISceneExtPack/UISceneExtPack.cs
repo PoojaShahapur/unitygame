@@ -51,9 +51,10 @@ namespace Game.UI
             m_open.show();
         }
 
+        // 显示 5 张卡
         public void psstRetGiftBagCardsDataUserCmd(params uint[] idList)
         {
-
+            m_open.update5Card(idList);
         }
     }
 }

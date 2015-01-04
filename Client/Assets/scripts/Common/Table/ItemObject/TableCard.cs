@@ -5,7 +5,7 @@
      */
     public class TableCardItemBody : TableItemBodyBase
     {
-        public string m_name;           // 名称
+        public string m_name;        // 名称
         public int m_type;           // 类型
         public int m_career;         // 职业
         public int m_race;           // 种族
@@ -14,6 +14,7 @@
         public int m_attack;         // 攻击力
         public int m_hp;             // 血量
         public int m_Durable;        // 耐久
+        public string m_prefab;      // 预制
 
         override public void parseBodyByteArray(IByteArray bytes, uint offset)
         {
@@ -28,6 +29,15 @@
             m_attack = bytes.readInt();
             m_hp = bytes.readInt();
             m_Durable = bytes.readInt();
+            m_prefab = UtilTable.readString(bytes as ByteArray);
+        }
+
+        public string path
+        {
+            get
+            {
+                return Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
+            }
         }
     }
 }
