@@ -35,6 +35,16 @@ namespace Game.Msg
         public const byte RET_GIFTBAG_CARDS_DATA_CMD = 3;
         public const byte REQ_ALL_CARD_TUJIAN_DATA_CMD = 4;
 
+        public const byte REQ_CARD_GROUP_LIST_INFO_CMD = 5;
+        public const byte RET_CARD_GROUP_LIST_INFO_CMD = 6;
+        public const byte REQ_ONE_CARD_GROUP_INFO_CMD = 7;
+        public const byte RET_ONE_CARD_GROUP_INFO_CMD = 8;
+        public const byte REQ_CREATE_ONE_CARD_GROUP_CMD = 9;
+        public const byte REQ_SAVE_ONE_CARD_GROUP_CMD = 10;
+        public const byte RET_CREATE_ONE_CARD_GROUP_CMD = 11;
+        public const byte REQ_DELETE_ONE_CARD_GROUP_CMD = 12;
+        public const byte RET_DELETE_ONE_CARD_GROUP_CMD = 13;
+
         public stHeroCardCmd()
         {
             byCmd = HERO_CARD_USERCMD;

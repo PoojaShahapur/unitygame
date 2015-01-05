@@ -279,7 +279,6 @@ public class BezierPath
         return pointList;
     }
     
-    
     /**
         @returns the number of points added.
     */

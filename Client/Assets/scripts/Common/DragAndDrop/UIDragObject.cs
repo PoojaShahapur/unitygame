@@ -165,18 +165,19 @@ public class UIDragObject : MonoBehaviour
 					// Create the plane to drag along
 					Transform trans = UICamera.currentCamera.transform;
 					//mPlane = new Plane((panelRegion != null ? panelRegion.cachedTransform.rotation : trans.rotation) * Vector3.back, UICamera.lastWorldPosition);
-                    mPlane = new Plane(trans.rotation * Vector3.back, UICamera.lastWorldPosition);
+                    //mPlane = new Plane(trans.rotation * Vector3.back, UICamera.lastWorldPosition);
+                    mPlane = new Plane(Vector3.up, Vector3.zero);
 				}
 			}
 			else if (mPressed && mTouchID == UICamera.currentTouchID)
 			{
 				mPressed = false;
+                CancelMovement();
 
 				if (restrictWithinPanel && dragEffect == DragEffect.MomentumAndSpring)
 				{
 					//if (panelRegion.ConstrainTargetToBounds(target, ref mBounds, false))
-                    if(false)
-						CancelMovement();
+					//	CancelMovement();
 				}
 			}
 		}
@@ -209,9 +210,9 @@ public class UIDragObject : MonoBehaviour
 
 				if (offset.x != 0f || offset.z != 0f)
 				{
-					offset = target.InverseTransformDirection(offset);
+					//offset = target.InverseTransformDirection(offset);
 					offset.Scale(scale);
-					offset = target.TransformDirection(offset);
+					//offset = target.TransformDirection(offset);
 				}
 
 				// Adjust the momentum
@@ -229,8 +230,7 @@ public class UIDragObject : MonoBehaviour
 
 					// Constrain the UI to the bounds, and if done so, immediately eliminate the momentum
 					//if (dragEffect != DragEffect.MomentumAndSpring && panelRegion.ConstrainTargetToBounds(target, ref mBounds, true))
-                    if(false)
-						CancelMovement();
+					//	CancelMovement();
 				}
 			}
 		}
@@ -311,14 +311,14 @@ public class UIDragObject : MonoBehaviour
 
 	public void CancelMovement ()
 	{
-		if (target != null)
-		{
-			Vector3 pos = target.localPosition;
-			pos.x = Mathf.RoundToInt(pos.x);
-			pos.y = Mathf.RoundToInt(pos.y);
-			pos.z = Mathf.RoundToInt(pos.z);
-			target.localPosition = pos;
-		}
+        //if (target != null)
+        //{
+        //    Vector3 pos = target.localPosition;
+        //    pos.x = Mathf.RoundToInt(pos.x);
+        //    pos.y = Mathf.RoundToInt(pos.y);
+        //    pos.z = Mathf.RoundToInt(pos.z);
+        //    target.localPosition = pos;
+        //}
 		mTargetPos = (target != null) ? target.position : Vector3.zero;
 		mMomentum = Vector3.zero;
 		mScroll = Vector3.zero;

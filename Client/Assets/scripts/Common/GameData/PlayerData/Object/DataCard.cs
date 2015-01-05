@@ -8,10 +8,14 @@ namespace SDK.Common
      */
     public class DataCard
     {
-        public bool m_canReqData = true;
+        public bool m_canReqData = true;            // 请求所有的卡牌数据
+        public bool m_canReqCardGroup = true;       // 是否可以请求卡牌组列表
 
         public List<CardItemBase>[] m_cardListArr = new List<CardItemBase>[(int)EnPlayerCareer.ePCTotal];      // 每一个职业一个列表
         public Dictionary<uint, CardItemBase> m_id2CardDic = new Dictionary<uint, CardItemBase>();
+
+        public List<CardGroupItem> m_cardGroupListArr = new List<CardGroupItem>();      // 每一个职业一个列表
+        public Dictionary<uint, CardGroupItem> m_id2CardGroupDic = new Dictionary<uint, CardGroupItem>();
 
         public DataCard()
         {
@@ -20,6 +24,26 @@ namespace SDK.Common
             {
                 m_cardListArr[idx] = new List<CardItemBase>();
                 ++idx;
+            }
+        }
+
+        public void reqAllCard()
+        {
+            if (m_canReqData)
+            {
+                m_canReqData = false;
+                stReqAllCardTujianDataUserCmd cmd = new stReqAllCardTujianDataUserCmd();
+                UtilMsg.sendMsg(cmd);
+            }
+        }
+
+        public void reqCardGroup()
+        {
+            if (m_canReqCardGroup)
+            {
+                m_canReqCardGroup = false;
+                stReqCardGroupListInfoUserCmd cmd = new stReqCardGroupListInfoUserCmd();
+                UtilMsg.sendMsg(cmd);
             }
         }
 
@@ -57,14 +81,43 @@ namespace SDK.Common
             m_id2CardDic[id].m_tujian.num = num;
         }
 
-        public void reqAllCard()
+        public void psstRetCardGroupListInfoUserCmd(List<t_group_list> info)
         {
-            if (m_canReqData)
+            CardGroupItem item;
+            foreach (var itemlist in info)
             {
-                m_canReqData = false;
-                stReqAllCardTujianDataUserCmd cmd = new stReqAllCardTujianDataUserCmd();
-                UtilMsg.sendMsg(cmd);
+                item = new CardGroupItem();
+                item.m_cardGroup = itemlist;
+
+                m_cardGroupListArr.Add(item);
+                m_id2CardGroupDic[item.m_cardGroup.index] = item;
             }
+        }
+
+        public void psstRetOneCardGroupInfoUserCmd(stRetOneCardGroupInfoUserCmd msg)
+        {
+            if(m_id2CardGroupDic.ContainsKey(msg.index))
+            {
+                m_id2CardGroupDic[msg.index].m_cardList = msg.id;
+            }
+        }
+
+        public void psstRetCreateOneCardGroupUserCmd(stRetCreateOneCardGroupUserCmd msg)
+        {
+            CardGroupItem item = new CardGroupItem();
+            item.m_cardGroup = new t_group_list();
+            item.m_cardGroup.occupation = msg.occupation;
+            item.m_cardGroup.index = msg.index;
+            item.m_cardGroup.name = msg.name;
+
+            m_cardGroupListArr.Add(item);
+            m_id2CardGroupDic[item.m_cardGroup.index] = item;
+        }
+
+        public void psstRetDeleteOneCardGroupUserCmd(uint index)
+        {
+            m_cardGroupListArr.Remove(m_id2CardGroupDic[index]);
+            m_id2CardGroupDic.Remove(index);
         }
     }
 }

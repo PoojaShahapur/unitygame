@@ -10,18 +10,21 @@ namespace SDK.Common
         private Dictionary<UISceneFormID, SceneForm> m_dicForm = new Dictionary<UISceneFormID, SceneForm>(); //[id,form]
         public IUISceneFactory m_IUISceneFactory;
 
-        public void loadSceneForm(UISceneFormID ID)
+        public ISceneForm loadSceneForm(UISceneFormID ID)
         {
             if(!m_dicForm.ContainsKey(ID))
             {
                 if (m_IUISceneFactory != null)
                 {
                     m_dicForm[ID] = m_IUISceneFactory.CreateSceneForm(ID) as SceneForm;
+                    return m_dicForm[ID];
                 }
             }
+
+            return null;
         }
 
-        public void showSceneForm(UISceneFormID ID)
+        public ISceneForm showSceneForm(UISceneFormID ID)
         {
             SceneForm win = null;
             if(m_dicForm.ContainsKey(ID))
@@ -39,6 +42,8 @@ namespace SDK.Common
                     win.onShow();
                 }
             }
+
+            return win;
         }
 
         public ISceneForm getSceneUI(UISceneFormID ID)

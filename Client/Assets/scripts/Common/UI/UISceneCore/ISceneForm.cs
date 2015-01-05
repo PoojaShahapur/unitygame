@@ -2,5 +2,6 @@
 {
     public interface ISceneForm
     {
+        bool isVisible();
     }
 }

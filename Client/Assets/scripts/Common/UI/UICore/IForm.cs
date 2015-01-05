@@ -8,6 +8,7 @@ namespace SDK.Common
         void init();
         void show();
         void exit();
+        bool isVisible();
         UIFormID getFormID();
 	}
 }

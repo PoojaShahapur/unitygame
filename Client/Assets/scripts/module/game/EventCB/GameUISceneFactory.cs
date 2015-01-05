@@ -28,6 +28,10 @@ namespace Game.Game
                 {
                     return new UISceneWDSC();
                 }
+                case UISceneFormID.eUISceneMoShi:
+                {
+                    return new UISceneMoShi();
+                }
                 default:
                 {
                     break;

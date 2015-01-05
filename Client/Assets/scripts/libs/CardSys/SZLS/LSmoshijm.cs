@@ -38,17 +38,17 @@ namespace SDK.Lib
 
         #region 从英雄点击发送而来
         CardClass chooseClass;
-        void setclass(CardClass c)
+        public void setclass(CardClass c)
         {
             chooseClass = c;
         }
         public Text chooseclassname;
-        void setClassname(string n)
+        public void setClassname(string n)
         {
-            chooseclassname.text = n;
+            //chooseclassname.text = n;
         }
         public GameObject classpic;
-        void setclasspic(Material pic)
+        public void setclasspic(Material pic)
         {
             classpic.transform.parent.gameObject.SetActive(true);
             classpic.renderer.material = pic;
@@ -79,7 +79,7 @@ namespace SDK.Lib
 
         Vector3 jbtppostion = new Vector3(-1.037413f, -0.004264796f, 0.002689363f);
         public GameObject jbtpbtn, zdytpbtn;
-        void newset()
+        public void newset()
         {
             jbtpbtn.transform.Rotate(180, 0, 0);
             jbtpbtn.transform.Rotate(0, 0, 0);
@@ -87,9 +87,9 @@ namespace SDK.Lib
             iTween.MoveTo(gameObject, goodp, 1);
             nowMethod = moshijmmethod.knewset;
             nochoose();
-            bt.text = "选择英雄";
-            tpm.text = "";
-            nameText.text = "新建套牌";
+            //bt.text = "选择英雄";
+            //tpm.text = "";
+            //nameText.text = "新建套牌";
         }
 
         public void dzmoshi()
@@ -117,9 +117,9 @@ namespace SDK.Lib
             Camera.main.SendMessage("push");
 
             nochoose();
-            bt.text = "选择套牌";
-            tpm.text = "自定义套牌";
-            nameText.text = "练习模式";
+            //bt.text = "选择套牌";
+            //tpm.text = "自定义套牌";
+            //nameText.text = "练习模式";
             getPlayerSet();
         }
 
@@ -150,9 +150,9 @@ namespace SDK.Lib
         void jjmoshi()
         {
             nochoose();
-            bt.text = "选择套牌";
-            tpm.text = "自定义套牌";
-            nameText.text = "竞技模式";
+            //bt.text = "选择套牌";
+            //tpm.text = "自定义套牌";
+            //nameText.text = "竞技模式";
         }
 
         void gotoback()

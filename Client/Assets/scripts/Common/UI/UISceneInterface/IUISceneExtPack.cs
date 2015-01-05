@@ -3,7 +3,7 @@
     /**
      * @brief 场景商店
      */
-    public interface IUISceneExtPack
+    public interface IUISceneExtPack : ISceneForm
     {
         void showUI();
         void psstRetGiftBagCardsDataUserCmd(params uint[] idList);

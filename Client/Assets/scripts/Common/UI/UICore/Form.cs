@@ -11,7 +11,7 @@ namespace SDK.Common
 		protected bool m_bHideOnCreate = false;         // 创建后是否隐藏
         protected bool m_bResLoaded = false;            // 资源加载进来
         protected UIFormID m_id;
-        protected bool m_bLoadWidgetRes = true;                // 是否应该加载窗口资源
+        protected bool m_bLoadWidgetRes = false;                // 是否应该加载窗口资源
 
 		public Form()
             : base()
@@ -93,14 +93,14 @@ namespace SDK.Common
             Ctx.m_instance.m_uiMgr.exitForm(m_id);
         }
 
-        // 资源加载完成就调用
+        // 界面代码创建后就调用
         virtual public void onInit()
         {
-            if (m_bLoadWidgetRes)
-            {
+            //if (m_bLoadWidgetRes)
+            //{
                 // 默认会继续加载资源
                 Ctx.m_instance.m_uiMgr.loadWidgetRes(this.id);
-            }
+            //}
         }
         
         // 第一次显示之前会调用一次
@@ -130,7 +130,7 @@ namespace SDK.Common
 
         public bool isVisible()
         {
-            return m_GUIWin.m_uiRoot.activeSelf;
+            return m_GUIWin.m_uiRoot.activeSelf;        // 仅仅是自己是否可见
         }
 
         /*

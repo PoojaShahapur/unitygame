@@ -323,6 +323,7 @@ namespace SDK.Common
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            m_dicForm[ID].bLoadWidgetRes = true;
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_codePrefabName);
             // 设置位置
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = m_vecLayer[(int)attrItem.m_LayerID].layerTrans;

@@ -49,5 +49,10 @@
         {
             m_bVisible = true;
         }
+
+        public bool isVisible()
+        {
+            return m_bVisible;
+        }
     }
 }

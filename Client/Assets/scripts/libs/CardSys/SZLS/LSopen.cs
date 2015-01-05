@@ -5,84 +5,10 @@ using UnityEngine.UI;
 using SDK.Common;
 using Game.Msg;
 using System;
+using Game.UI;
 
 namespace SDK.Lib
 {
-    public class ShowItemBase
-    {
-        public Transform m_tran = null;                // 第一个位置
-        public GameObject m_go = null;                 // 显示的内容
-        public string m_prefab;                        // 预制名字
-        public string m_path;                          // 目录
-
-        public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
-        {
-            IResItem res = resEvt as IResItem;
-            m_go = res.InstantiateObject(m_prefab);
-            m_go.transform.parent = m_tran;
-            UtilApi.normalPosScale(m_go.transform);
-
-            UIDragObject drag = m_go.AddComponent<UIDragObject>();
-            drag.target = m_go.transform;
-
-            WindowDragTilt title = m_go.AddComponent<WindowDragTilt>();
-        }
-
-        public void unload()
-        {
-            if (m_go != null)
-            {
-                UtilApi.Destroy(m_go);
-                m_go = null;
-                Ctx.m_instance.m_resMgr.unload(m_path);
-            }
-        }
-
-        public void load()
-        {
-            LoadParam param;
-            param = Ctx.m_instance.m_resMgr.getLoadParam();
-            param.m_path = m_path;
-            param.m_prefabName = m_prefab;
-            param.m_loaded = onloaded;
-            Ctx.m_instance.m_resMgr.loadResources(param);
-        }
-    }
-
-    // 显示的一项
-    public class PackItem : ShowItemBase
-    {
-        // 包裹中的内容，只显示两行
-        public DataItemObjectBase bojBase;             // 道具类
-        public Action<PackItem> m_clkCB;
-
-        public override void onloaded(IDispatchObject resEvt)            // 资源加载成功
-        {
-            base.onloaded(resEvt);
-
-            addEventHandle();
-        }
-
-        // 添加事件监听
-        protected void addEventHandle()
-        {
-            UtilApi.addEventHandle(m_go, onBtnClkOpen);
-        }
-
-        // 点击开包按钮
-        protected void onBtnClkOpen(GameObject go)
-        {
-            // 点击放入中间的格子
-            m_clkCB(this);
-
-            // 发消息通知开
-            stUseObjectPropertyUserCmd cmd = new stUseObjectPropertyUserCmd();
-            cmd.qwThisID = bojBase.m_srvItemObject.dwThisID;
-            cmd.useType = 1;
-            UtilMsg.sendMsg(cmd);
-        }
-    };
-
     /// <summary>
     /// 开包控制
     /// </summary>
@@ -98,10 +24,10 @@ namespace SDK.Lib
         public Text goldtext;
         Transform mok;
 
-        PackItem m_packItem = new PackItem();
-        ShowItemBase m_midCard = new ShowItemBase();               // 中间卡牌
+        PackUICardItem m_packItem = new PackUICardItem();
+        ItemSceneBase m_midCard = new ItemSceneBase();                // 中间卡牌
         GameObject[] m_openedCardHolderArr = new GameObject[5];     // 中间卡牌占位
-        ShowItemBase[] m_openedCardArr = new ShowItemBase[5];           // 中间卡牌
+        ItemSceneBase[] m_openedCardArr = new ItemSceneBase[5];       // 中间卡牌
 
         // Use this for initialization
         public override void Start()
@@ -121,7 +47,7 @@ namespace SDK.Lib
             int idx = 0;
             while(idx < 5)
             {
-                m_openedCardArr[idx] = new ShowItemBase();
+                m_openedCardArr[idx] = new ItemSceneBase();
                 m_openedCardArr[idx].m_tran = UtilApi.GoFindChildByPObjAndName("open/GO" + idx).transform;
                 ++idx;
             }
@@ -253,8 +179,6 @@ namespace SDK.Lib
         // 更新数据
         public void updateData()
         {
-            m_packItem.unload();
-
             TableItemBase objitem;
             DataItemObjectBase bojBase;
 
@@ -271,25 +195,33 @@ namespace SDK.Lib
         }
 
         // 点击开一个包裹
-        protected void onBtnClkOpenCB(PackItem packItem)
-        {
+        protected void onBtnClkOpenCB(ItemSceneIOBase packItem)
+        { 
+            // 发消息通知开
+            stUseObjectPropertyUserCmd cmd = new stUseObjectPropertyUserCmd();
+            cmd.qwThisID = (packItem as PackUICardItem).bojBase.m_srvItemObject.dwThisID;
+            cmd.useType = 1;
+            UtilMsg.sendMsg(cmd);
+
             // 释放之前的资源
             m_midCard.m_prefab = packItem.m_prefab;
             m_midCard.m_path = packItem.m_path;
 
-            m_midCard.unload();
             m_midCard.load();
         }
 
         public void update5Card(params uint[] idList)
         {
             int idx = 0;
+            TableItemBase tableitem;
             while (idx < 5)
             {
-                m_openedCardArr[idx].unload();
-
-                m_openedCardArr[idx].m_prefab = (Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, idList[idx]).m_itemBody as TableCardItemBody).m_prefab;
-                m_openedCardArr[idx].m_path = (Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, idList[idx]).m_itemBody as TableCardItemBody).path;
+                tableitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, idList[idx]);
+                if(tableitem != null)
+                {
+                    m_openedCardArr[idx].m_prefab = (tableitem.m_itemBody as TableCardItemBody).m_prefab;
+                    m_openedCardArr[idx].m_path = (tableitem.m_itemBody as TableCardItemBody).path;
+                }
 
                 m_openedCardArr[idx].load();
 
