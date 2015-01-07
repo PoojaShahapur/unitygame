@@ -12,6 +12,13 @@
             occupation = ba.readUnsignedInt();
             name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
         }
+
+        public void copyFrom(t_group_list rhv)
+        {
+            index = rhv.index;
+            occupation = rhv.occupation;
+            name = rhv.name;
+        }
     }
 
     //struct t_group_list

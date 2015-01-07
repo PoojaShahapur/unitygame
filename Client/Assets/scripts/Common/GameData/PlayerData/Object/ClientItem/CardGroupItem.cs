@@ -1,4 +1,6 @@
 ﻿using Game.Msg;
+using Game.UI;
+using SDK.Lib;
 using System.Collections.Generic;
 
 namespace SDK.Common
@@ -9,6 +11,11 @@ namespace SDK.Common
         public t_group_list m_cardGroup;
         public List<uint> m_cardList;
 
+        public int id;
+        public string name;
+        public CardClass classs;
+        public string cards;
+
         public void reqCardList()
         {
             if (m_canReqCardPerGroup)
@@ -18,6 +25,31 @@ namespace SDK.Common
                 cmd.index = m_cardGroup.index;
                 UtilMsg.sendMsg(cmd);
             }
+        }
+
+        public void copyFrom(CardGroupItem rhv)
+        {
+            this.id = rhv.id;
+            this.name = rhv.name;
+            this.classs = rhv.classs;
+            this.cards = rhv.cards;
+
+            if(this.m_cardList == null)
+            {
+                this.m_cardList = new List<uint>();
+            }
+            this.m_cardList.Clear();
+            if (rhv.m_cardList != null)
+            {
+                this.m_cardList.AddRange(rhv.m_cardList);
+            }
+
+            //if(m_cardGroup != null)
+            //{
+            //    m_cardGroup = new t_group_list();
+            //}
+
+            m_cardGroup.copyFrom(rhv.m_cardGroup);
         }
     }
 }

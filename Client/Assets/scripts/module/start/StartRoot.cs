@@ -13,6 +13,11 @@ namespace SDK.Lib
         private string m_appName = "App";
         private int m_loadType;
 
+        void Awake()
+        {
+            //Application.targetFrameRate = 30;
+        }
+
         // Use this for initialization
         void Start()
         {

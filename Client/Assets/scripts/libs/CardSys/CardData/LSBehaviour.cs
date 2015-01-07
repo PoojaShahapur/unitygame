@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /**
- * @brief LS 模拟 MonoBehaviour 中的 GameObject
+ * @brief LS 模拟 MonoBehaviour 中的 GameObject，直接放在场景中的资源的基类
  */
 public class LSBehaviour : ISceneEntity
 {

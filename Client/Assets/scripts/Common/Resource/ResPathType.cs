@@ -16,6 +16,7 @@
         ePathLangXml,   // 语言配置文件
         ePathXmlCfg,    // Xml 配置文件
         ePathModel,       // 各种 Prefab
+        ePathMaterial,      // 材质目录
 
         eTotal          // 总数
     }

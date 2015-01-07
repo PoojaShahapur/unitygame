@@ -13,6 +13,7 @@ namespace SDK.Common
         public DataFriend m_dataFriend;                         // 好友数据
 
         public DataShop m_dataShop = new DataShop();            // 商城数据
+        public DataHero m_dataHero = new DataHero();            // hero 数据
 
         // 强求主角数据
         public void reqMainData()

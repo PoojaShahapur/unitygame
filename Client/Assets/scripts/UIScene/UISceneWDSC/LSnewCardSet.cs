@@ -1,0 +1,136 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using SDK.Common;
+using SDK.Lib;
+
+namespace Game.UI
+{
+    /**
+     * @brief 添加卡牌组按钮处理事件
+     */
+    public class newCardSet : InterActiveEntity
+    {
+        public Transform cardsetpre;
+        //public static List<Transform> playersets = new List<Transform>();       // 卡牌 Tranforms 以及最后的按钮
+        //public static List<cardset> m_taoPaiEntityList = new List<cardset>();
+
+        public override void Start()
+        {
+            // 加载资源
+            load();
+            //得到用户的卡组
+            //List<set> playset = web.getSets();
+            //foreach (set s in playset)
+            //{
+            //    addset(s);
+            //}
+            // 加入已经有的卡牌
+            foreach(CardGroupItem groupItem in Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr)
+            {
+                addset(groupItem);
+            }
+            // 加入最后的按钮
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(transform);
+        }
+
+        public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        {
+            IResItem res = resEvt as IResItem;
+            cardsetpre = (res.getObject("cardset") as GameObject).transform;
+        }
+
+        public void load()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_resMgr.getLoadParam();
+            param.m_prefabName = "cardset";
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + param.m_prefabName;
+            param.m_loaded = onloaded;
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            Ctx.m_instance.m_resMgr.loadResources(param);
+        }
+
+        //选职业
+        public override void OnMouseUpAsButton()
+        {
+
+        }
+
+        //拉取用户自定义时用来加入按钮的
+        //void addset(set s)
+        void addset(CardGroupItem s)
+        {
+            Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            g.parent = transform.parent;
+            //g.SendMessage("setinfo", s);
+            cardset taopai = new cardset();
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(taopai);
+            taopai.setGameObject(g.gameObject);
+            taopai.setinfo(s);
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(g);
+            transform.Translate(new Vector3(0, 0, -0.525f));
+        }
+
+        Vector3 lastpostion;
+        public void hide()
+        {
+            lastpostion = transform.localPosition;
+            transform.Translate(new Vector3(0, 0, -20f));
+        }
+
+        public void goback()
+        {
+            transform.localPosition = lastpostion;
+        }
+
+        // 新建卡牌
+        public void newcardset(CardClass c)
+        {
+            if ((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet == null)
+            {
+                Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+                trans.parent = transform.parent;
+
+                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();
+                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.setGameObject(trans.gameObject);
+                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.Editing = true;
+            }
+
+            Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            g.parent = transform.parent;
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, g);//插入到最后一位
+            transform.Translate(new Vector3(0, 0, -0.525f));
+            //set s = new set();
+            //s.id = -1;
+            //s.classs = c;
+
+            CardGroupItem s = new CardGroupItem();
+            s.id = -1;
+            s.classs = c;
+
+            cardset taopai = new cardset();
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(taopai);
+            taopai.setGameObject(g.gameObject);
+            taopai.Createnew(s);
+            //g.SendMessage("Createnew", s);
+        }
+
+        public void addOneCardSet(cardset one)
+        {
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, one.getGameObject().transform);//插入到最后一位
+            transform.Translate(new Vector3(0, 0, -0.525f));
+
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(one);
+        }
+
+        public void hideAllCard()
+        {
+            foreach (cardset item in (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList)
+            {
+                item.hide();
+            }
+        }
+    }
+}

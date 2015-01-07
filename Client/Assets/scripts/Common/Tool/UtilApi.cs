@@ -60,6 +60,11 @@ namespace SDK.Common
             UIEventListener.Get(go).onClick = handle;
         }
 
+        public static void addHoverHandle(GameObject go, UIEventListener.BoolDelegate handle)
+        {
+            UIEventListener.Get(go).onHover = handle;
+        }
+
         public static void addEventHandle(GameObject go, string path, UnityAction handle)
         {
             go.transform.Find(path).GetComponent<Button>().onClick.AddListener(handle);

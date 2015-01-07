@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace Game.UI
             base.onReady();
 
             getWidget();
+            addEventHandle();
         }
 
         protected void getWidget()
@@ -43,6 +45,27 @@ namespace Game.UI
             m_heroList[8].setGameObject(UtilApi.GoFindChildByPObjAndName("moshijm/jbtp/牧师"));
         }
 
+        // 添加事件监听
+        protected void addEventHandle()
+        {
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneMoshiPath.BtnReturn), onBtnClkReturn);   // 返回
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneMoshiPath.BtnSelect), onBtnClkSelect);   // 返回
+        }
+
+        protected void onBtnClkReturn(GameObject go)
+        {
+            m_moshijm.gotoback();
+        }
+
+        protected void onBtnClkSelect(GameObject go)
+        {
+            m_moshijm.chooseok();
+
+            stReqCreateOneCardGroupUserCmd cmd = new stReqCreateOneCardGroupUserCmd();
+            cmd.occupation = (uint)m_moshijm.getClass();
+            UtilMsg.sendMsg(cmd);
+        }
+
         public void AddNewTaoPai()
         {
             m_moshijm.newset();
@@ -61,6 +84,11 @@ namespace Game.UI
         public void setclasspic(Material pic)
         {
             m_moshijm.setclasspic(pic);
+        }
+
+        public CardClass getClass()
+        {
+            return m_moshijm.getClass();
         }
     }
 }

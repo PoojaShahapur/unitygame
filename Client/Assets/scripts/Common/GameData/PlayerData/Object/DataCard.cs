@@ -11,9 +11,11 @@ namespace SDK.Common
         public bool m_canReqData = true;            // 请求所有的卡牌数据
         public bool m_canReqCardGroup = true;       // 是否可以请求卡牌组列表
 
+        // 分职业卡牌
         public List<CardItemBase>[] m_cardListArr = new List<CardItemBase>[(int)EnPlayerCareer.ePCTotal];      // 每一个职业一个列表
         public Dictionary<uint, CardItemBase> m_id2CardDic = new Dictionary<uint, CardItemBase>();
 
+        // 每一个卡牌组
         public List<CardGroupItem> m_cardGroupListArr = new List<CardGroupItem>();      // 每一个职业一个列表
         public Dictionary<uint, CardGroupItem> m_id2CardGroupDic = new Dictionary<uint, CardGroupItem>();
 

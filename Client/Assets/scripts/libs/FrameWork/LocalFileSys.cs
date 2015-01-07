@@ -107,6 +107,12 @@ namespace SDK.Lib
               string filepath = Application.dataPath +"/Raw";
             #elif UNITY_ANDROID
               string filepath = "jar:file://" + Application.dataPath + "!/assets/";
+            #elif UNITY_STANDALONE_WIN
+            string filepath = Application.dataPath +"/StreamingAssets";
+            #elif UNITY_WEBPLAYER
+            string filepath = Application.dataPath +"/StreamingAssets";
+            #else
+            string filepath = Application.dataPath +"/StreamingAssets";
             #endif
 
             return filepath;

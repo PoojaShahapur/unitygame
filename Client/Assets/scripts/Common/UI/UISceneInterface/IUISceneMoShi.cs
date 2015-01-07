@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using Game.UI;
+using SDK.Lib;
 using UnityEngine;
 
 namespace SDK.Common
@@ -12,5 +13,7 @@ namespace SDK.Common
         void setclass(CardClass c);
         void setClassname(string n);
         void setclasspic(Material pic);
+
+        CardClass getClass();
     }
 }

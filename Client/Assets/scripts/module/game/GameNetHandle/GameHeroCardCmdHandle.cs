@@ -1,4 +1,5 @@
 ﻿using Game.Msg;
+using Game.UI;
 using SDK.Common;
 
 namespace Game.Game
@@ -14,6 +15,11 @@ namespace Game.Game
 
             m_id2HandleDic[stHeroCardCmd.RET_ONE_CARD_GROUP_INFO_CMD] = psstRetOneCardGroupInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_CREATE_ONE_CARD_GROUP_CMD] = psstRetCreateOneCardGroupUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_SAVE_ONE_CARD_GROUP_CMD] = psstRetSaveOneCardGroupUserCmd;
+
+            m_id2HandleDic[stHeroCardCmd.RET_ALL_HERO_INFO_CMD] = psstRetAllHeroInfoUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_ONE_HERO_INFO_CMD] = psstRetOneHeroInfoUserCmd;
+            
         }
 
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
@@ -105,7 +111,7 @@ namespace Game.Game
             }
         }
 
-        public void psstRetDeleteOneCardGroupUserCmd(IByteArray msg)
+        protected void psstRetDeleteOneCardGroupUserCmd(IByteArray msg)
         {
             stRetDeleteOneCardGroupUserCmd cmd = new stRetDeleteOneCardGroupUserCmd();
             cmd.derialize(msg);
@@ -121,6 +127,43 @@ namespace Game.Game
                     uiSC.psstRetDeleteOneCardGroupUserCmd(cmd.index);
                 }
             }
+        }
+
+        protected void psstRetSaveOneCardGroupUserCmd(IByteArray msg)
+        {
+            stRetSaveOneCardGroupUserCmd cmd = new stRetSaveOneCardGroupUserCmd();
+            cmd.derialize(msg);
+
+            if(cmd.success > 0)
+            {
+                IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+                if (uiSC != null && uiSC.isVisible())
+                {
+                    uiSC.psstRetSaveOneCardGroupUserCmd(cmd.index);
+                }
+            }
+        }
+
+        protected void psstRetAllHeroInfoUserCmd(IByteArray msg)
+        {
+            stRetAllHeroInfoUserCmd cmd = new stRetAllHeroInfoUserCmd();
+            cmd.derialize(msg);
+
+            Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetAllHeroInfoUserCmd(cmd.info);
+
+            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneHero) as UISceneHero;
+            if (uiSH != null && uiSH.isVisible())
+            {
+                uiSH.updateAllHero();
+            }
+        }
+
+        protected void psstRetOneHeroInfoUserCmd(IByteArray msg)
+        {
+            stRetOneHeroInfoUserCmd cmd = new stRetOneHeroInfoUserCmd();
+            cmd.derialize(msg);
+
+            Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetOneHeroInfoUserCmd(cmd.info);
         }
     }
 }

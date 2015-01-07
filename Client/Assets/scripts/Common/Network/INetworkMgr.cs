@@ -10,8 +10,6 @@ namespace SDK.Common
         IByteArray getMsg();
         IByteArray getSendBA();
         void send();
-
-        //void lockNetSocket();
-        //void unLockNetSocket();
+        void quipApp();
     }
 }

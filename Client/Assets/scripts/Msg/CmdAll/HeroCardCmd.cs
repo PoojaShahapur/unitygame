@@ -335,7 +335,7 @@ namespace Game.Msg
             base.derialize(ba);
             occupation = ba.readUnsignedInt();
             index = ba.readUnsignedInt();
-            name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.GB2312);
         }
     }
 
@@ -412,4 +412,123 @@ namespace Game.Msg
     //    DWORD index;    
     //    BYTE success;       //1成功 0失败
     //};  
+
+    public class stRetSaveOneCardGroupUserCmd : stHeroCardCmd
+    {
+        public uint index;
+        public byte success;
+
+        public stRetSaveOneCardGroupUserCmd()
+        {
+            byParam = RET_SAVE_ONE_CARD_GROUP_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            index = ba.readUnsignedInt();
+            success = ba.readUnsignedByte();
+        }
+    }
+
+    //const BYTE RET_SAVE_ONE_CARD_GROUP_CMD = 14; 
+    //struct stRetSaveOneCardGroupUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetSaveOneCardGroupUserCmd()
+    //    {   
+    //        byParam = RET_SAVE_ONE_CARD_GROUP_CMD;
+    //        index = 0;
+    //        success = 0;
+    //    }   
+    //    DWORD index;    
+    //    BYTE success;       //1成功 0失败
+    //};
+
+    public class stReqAllHeroInfoUserCmd : stHeroCardCmd
+    {
+        public stReqAllHeroInfoUserCmd()
+        {
+            byParam = REQ_ALL_HERO_INFO_CMD;
+        }
+    }
+    
+    //const BYTE REQ_ALL_HERO_INFO_CMD = 15; 
+    //struct stReqAllHeroInfoUserCmd : public stHeroCardCmd
+    //{   
+    //    stReqAllHeroInfoUserCmd()
+    //    {   
+    //        byParam = REQ_ALL_HERO_INFO_CMD;
+    //    }   
+    //};  
+
+    public class stRetAllHeroInfoUserCmd : stHeroCardCmd
+    {
+        public ushort count;
+        public List<t_hero> info;
+
+        public stRetAllHeroInfoUserCmd()
+        {
+            byParam = RET_ALL_HERO_INFO_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            count = ba.readUnsignedShort();
+            if(count > 0)
+            {
+                int idx = 0;
+                info = new List<t_hero>();
+                t_hero item;
+                while(idx < count)
+                {
+                    item = new t_hero();
+                    info.Add(item);
+                    item.derialize(ba);
+                    ++idx;
+                }
+            }
+        }
+    }
+
+    //const BYTE RET_ALL_HERO_INFO_CMD = 16; 
+    //struct stRetAllHeroInfoUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetAllHeroInfoUserCmd()
+    //    {   
+    //        byParam = RET_ALL_HERO_INFO_CMD;
+    //        count = 0;
+    //    }   
+    //    WORD count;
+    //    t_hero info[0];
+    //};
+
+    public class stRetOneHeroInfoUserCmd : stHeroCardCmd
+    {
+        public t_hero info;
+
+        public stRetOneHeroInfoUserCmd()
+        {
+            byParam = RET_ONE_HERO_INFO_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            info.derialize(ba);
+        }
+    }
+
+    //const BYTE RET_ONE_HERO_INFO_CMD = 17;
+    //struct stRetOneHeroInfoUserCmd : public stHeroCardCmd
+    //{
+    //    stRetOneHeroInfoUserCmd()
+    //    {
+    //        byParam = RET_ONE_HERO_INFO_CMD;
+    //    }
+    //    t_hero info;
+    //};
 }

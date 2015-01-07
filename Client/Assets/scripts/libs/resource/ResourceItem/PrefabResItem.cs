@@ -10,6 +10,7 @@ namespace SDK.Lib
     {
         protected UnityEngine.Object m_prefabObj;   // 加载完成的 Prefab 对象
         protected GameObject m_retGO;       // 方便调试的临时对象
+        protected string m_prefabName;      // 预制名字
 
         override public void init(LoadItem item)
         {
@@ -26,6 +27,23 @@ namespace SDK.Lib
         public UnityEngine.Object prefabObj()
         {
             return m_prefabObj;
+        }
+
+        public string prefabName
+        {
+            get
+            {
+                return m_prefabName;
+            }
+            set
+            {
+                m_prefabName = value;
+            }
+        }
+
+        public override string getPrefabName()         // 只有 Prefab 资源才实现这个函数
+        {
+            return m_prefabName;
         }
 
         override public void unload()

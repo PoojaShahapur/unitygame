@@ -7,5 +7,6 @@
         eUISceneShop,           // 场景商店
         eUISceneWDSC,           // 场景我的收藏
         eUISceneMoShi,          // 场景模式界面
+        eUISceneHero,           // 场景 Hero 界面
     }
 }

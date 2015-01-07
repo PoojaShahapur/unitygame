@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SDK.Common;
+using Game.UI;
 
 namespace SDK.Lib
 {

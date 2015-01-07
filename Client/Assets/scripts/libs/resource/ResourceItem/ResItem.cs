@@ -134,6 +134,11 @@ namespace SDK.Lib
             return m_isLoaded;
         }
 
+        public virtual string getPrefabName()         // 只有 Prefab 资源才实现这个函数
+        {
+            return "";
+        }
+
         virtual public void init(LoadItem item)
         {
 

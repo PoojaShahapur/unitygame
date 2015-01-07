@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 场景中需要显示，并且需要加载的内容的基类
+     */
     public class ItemSceneBase
     {
         public Transform m_tran = null;                // 第一个位置
@@ -63,6 +66,12 @@ namespace SDK.Lib
                     Ctx.m_instance.m_resMgr.loadResources(param);
                 }
             }
+        }
+
+        public void setDefaultRes()
+        {
+            m_prefab = "pack";
+            m_path = Ctx.m_instance.m_cfg.m_dataPath[(int)ResPathType.ePathModel] + m_prefab;
         }
     }
 }

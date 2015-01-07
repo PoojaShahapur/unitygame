@@ -52,7 +52,14 @@ namespace SDK.Lib
         public void start()
         {
             m_thread = new Thread(new ThreadStart(threadHandle));
+            m_thread.Priority = ThreadPriority.Lowest;
+            //m_thread.IsBackground = true;             // 继续作为前台线程
             m_thread.Start();
+        }
+
+        public void join()
+        {
+            m_thread.Join();
         }
 
         /**

@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using SDK.Common;
-using System.Threading;
 
 namespace SDK.Lib
 {
     public class Logger : ILogger
     {
-        public Mutex m_visitMutex = new Mutex(false, "LoggerMutex");    // 主要是添加和获取数据互斥
+        public MutexWrap m_visitMutex = new MutexWrap(false, "LoggerMutex");    // 主要是添加和获取数据互斥
         public List<string> m_strList = new List<string>();              // 这个是多线程访问的
         public string m_tmpStr;
 

@@ -126,6 +126,8 @@ namespace SDK.Lib
                 {
                     resitem = new PrefabResItem();
                 }
+
+                (resitem as PrefabResItem).prefabName = param.m_prefabName;
             }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;

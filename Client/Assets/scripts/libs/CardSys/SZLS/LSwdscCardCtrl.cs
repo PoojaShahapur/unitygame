@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Game.UI;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -46,7 +48,8 @@ namespace SDK.Lib
                     if (!suo.gameObject.activeSelf)//如果没有锁上
                     {
                         //向当前编辑set发送加一张牌
-                        cardset.nowEditingSet.SendMessage("addcard", info);
+                        //cardset.nowEditingSet.SendMessage("addcard", info);
+                        (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.addcard(info);
                     }
 
                     break;

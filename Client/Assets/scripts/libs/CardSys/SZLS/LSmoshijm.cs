@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using SDK.Common;
+using Game.UI;
 
 namespace SDK.Lib
 {
@@ -33,7 +34,7 @@ namespace SDK.Lib
             classpic = UtilApi.TransFindChildByPObjAndPath(UtilApi.GoFindChildByPObjAndName("moshijm"), "yxkuan/classpic");
             jbtpbtn = UtilApi.GoFindChildByPObjAndName("moshijm/jbtpbtn");
             zdytpbtn = UtilApi.GoFindChildByPObjAndName("moshijm/zdytpbtn");
-            newsetbtn = UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/newSetBtn");
+            //newsetbtn = UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/newSetBtn");
         }
 
         #region 从英雄点击发送而来
@@ -42,6 +43,12 @@ namespace SDK.Lib
         {
             chooseClass = c;
         }
+
+        public CardClass getClass()
+        {
+            return chooseClass;
+        }
+
         public Text chooseclassname;
         public void setClassname(string n)
         {
@@ -114,7 +121,8 @@ namespace SDK.Lib
             jbtpbtn.transform.Rotate(0, 0, 0);
             transform.position = goodp;
             nowMethod = moshijmmethod.lx;
-            Camera.main.SendMessage("push");
+            //Camera.main.SendMessage("push");
+            (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
 
             nochoose();
             //bt.text = "选择套牌";
@@ -155,7 +163,7 @@ namespace SDK.Lib
             //nameText.text = "竞技模式";
         }
 
-        void gotoback()
+        public void gotoback()
         {
             switch (nowMethod)
             {
@@ -165,22 +173,30 @@ namespace SDK.Lib
                     }
                     break;
                 default:
-                    Camera.main.SendMessage("back");
+                    //Camera.main.SendMessage("back");
                     //iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
+                    (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
+                    iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
                     break;
 
             }
         }
 
-        public GameObject newsetbtn;
-        void chooseok()
+        //public GameObject newsetbtn;
+        public void chooseok()
         {
             switch (nowMethod)
             {
                 case moshijmmethod.knewset:
                     {
                         iTween.MoveBy(gameObject, Vector3.left * 15f, 1);
-                        newsetbtn.SendMessage("newcardset", chooseClass);//向newsetbtn发送
+                        //newsetbtn.SendMessage("newcardset", chooseClass);//向newsetbtn发送
+                        // 等待服务器返回消息，才能建立
+                        //IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+                        //if(uiSC != null)
+                        //{
+                        //    uiSC.newcardset(chooseClass);
+                        //}
                     }
                     break;
                 case moshijmmethod.lx:

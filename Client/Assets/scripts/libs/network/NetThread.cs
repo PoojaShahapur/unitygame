@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System.Threading;
 namespace SDK.Lib
 {
     /**
@@ -37,6 +38,8 @@ namespace SDK.Lib
                     socket.Send();
                 }
                 m_networkMgr.m_visitMutex.ReleaseMutex();
+
+                Thread.Sleep(40);       // 24帧每秒
             }
         }
     }

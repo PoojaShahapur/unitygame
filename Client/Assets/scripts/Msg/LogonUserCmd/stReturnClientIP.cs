@@ -5,6 +5,7 @@ namespace Game.Msg
     public class stReturnClientIP : stLogonUserCmd
     {
         public string pstrIP;
+        public ushort port;
 
         public stReturnClientIP()
         {
@@ -15,6 +16,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
             pstrIP = ba.readMultiByte((int)CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
+            port = ba.readUnsignedShort();
         }
     }
 }

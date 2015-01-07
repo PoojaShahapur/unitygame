@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SDK.Common;
-using System.Threading;
+
 
 namespace SDK.Lib
 {
@@ -11,7 +11,7 @@ namespace SDK.Lib
         public Dictionary<string, NetTCPClient> m_id2SocketDic;
         protected NetThread m_netThread;
         protected NetTCPClient m_curSocket;
-        public Mutex m_visitMutex = new Mutex();   // 主要是添加和获取数据互斥
+        public MutexWrap m_visitMutex = new MutexWrap(false, "NetMutex");
 
         // 函数区域
         public NetworkMgr()
@@ -69,6 +69,31 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 关闭当前 socket
+         */
+        public void closeCurSocket()
+        {
+            if(m_curSocket != null)
+            {
+                string ip;
+                int port;
+
+                ip = m_curSocket.m_host;
+                port = m_curSocket.m_port;
+
+                string key = ip + "&" + port;
+                if (m_id2SocketDic.ContainsKey(key))
+                {
+                    m_visitMutex.WaitOne();
+                    m_id2SocketDic[key].Disconnect(0);
+                    m_id2SocketDic.Remove(key);
+                    m_visitMutex.ReleaseMutex();
+                    m_curSocket = null;
+                }
+            }
+        }
+
         public IByteArray getMsg()
         {
             if (m_curSocket != null)
@@ -100,14 +125,12 @@ namespace SDK.Lib
             #endif
         }
 
-        //public void lockNetSocket()
-        //{
-        //    m_visitMutex.WaitOne();
-        //}
-
-        //public void unLockNetSocket()
-        //{
-        //    m_visitMutex.ReleaseMutex();
-        //}
+        // 关闭 App ，需要等待子线程结束
+        public void quipApp()
+        {
+            closeCurSocket();
+            m_netThread.ExitFlag = true;        // 设置退出标志
+            m_netThread.join();                 // 等待线程结束
+        }
     }
 }

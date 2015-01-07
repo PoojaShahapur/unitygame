@@ -66,7 +66,8 @@ namespace Game.Login
             cmd.derialize(msg);
 
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog15f);
-            string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, cmd.pstrIP);
+            cmd.pstrIP = cmd.pstrIP.TrimEnd('\0');
+            string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, cmd.pstrIP, cmd.port);
             Ctx.m_instance.m_log.log(str);
 
             sendMsg3f();

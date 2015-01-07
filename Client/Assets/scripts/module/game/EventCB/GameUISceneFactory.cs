@@ -32,6 +32,10 @@ namespace Game.Game
                 {
                     return new UISceneMoShi();
                 }
+                case UISceneFormID.eUISceneHero:
+                {
+                    return new UISceneHero();
+                }
                 default:
                 {
                     break;

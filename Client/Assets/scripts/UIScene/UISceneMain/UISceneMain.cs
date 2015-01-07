@@ -53,7 +53,9 @@ namespace Game.UI
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("shopbtnTop"), onBtnClkShop);                   // 商店
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/drawer/openbtn"), onBtnClkOpen);        // 打开扩展
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/drawer/wdscbtn"), onBtnClkWDSC);        // 我的收藏
-            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"), onBtnClkDuiZhanMoShi);        // 我的收藏
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"), onBtnClkDuiZhanMoShi); // 我的收藏
+
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("mission"), onBtnClkHero); // 请求 hero 数据
         }
 
         protected void onBtnClkShop(GameObject go)
@@ -107,6 +109,19 @@ namespace Game.UI
         protected void onBtnClkDuiZhanMoShi(GameObject go)
         {
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
+        }
+
+        protected void onBtnClkHero(GameObject go)
+        {
+            Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
+
+
+            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneHero) as UISceneHero;
+            if (uiSH == null)
+            {
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneWDSC);
+            }
+            uiSH = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneHero) as UISceneHero;
         }
 
         protected void onBtnClkLianXiMoShi(GameObject go)

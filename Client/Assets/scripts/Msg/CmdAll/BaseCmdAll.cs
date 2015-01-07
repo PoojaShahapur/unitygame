@@ -44,6 +44,11 @@ namespace Game.Msg
         public const byte RET_CREATE_ONE_CARD_GROUP_CMD = 11;
         public const byte REQ_DELETE_ONE_CARD_GROUP_CMD = 12;
         public const byte RET_DELETE_ONE_CARD_GROUP_CMD = 13;
+        public const byte RET_SAVE_ONE_CARD_GROUP_CMD = 14;
+
+        public const byte REQ_ALL_HERO_INFO_CMD = 15;
+        public const byte RET_ALL_HERO_INFO_CMD = 16;
+        public const byte RET_ONE_HERO_INFO_CMD = 17;
 
         public stHeroCardCmd()
         {

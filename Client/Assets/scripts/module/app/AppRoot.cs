@@ -12,7 +12,7 @@ public class AppRoot : MonoBehaviour
 
     void Awake()
     {
-        
+        //Application.targetFrameRate = 30;
     }
 
 	// Use this for initialization
@@ -39,7 +39,7 @@ public class AppRoot : MonoBehaviour
 
     void OnApplicationQuit()
     {
-
+        Ctx.m_instance.m_netMgr.quipApp();
     }
 
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个
