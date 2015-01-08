@@ -1,6 +1,6 @@
 namespace SDK.Lib
 {
-    public class SkelAniMgr
+    public class SkelAniMgr : ResMgrBase
     {
         public SkelAniMgr()
         {

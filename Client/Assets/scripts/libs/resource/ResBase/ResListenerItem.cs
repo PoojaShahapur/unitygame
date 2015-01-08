@@ -12,5 +12,13 @@ namespace SDK.Lib
         public string m_path = "";               // 资源路径
         public Action<IDispatchObject> m_loaded;        // 加载成功回调函数
         public Action<IDispatchObject> m_failed;        // 加载失败回调函数
+
+        public void copyForm(LoadParam param)
+        {
+            m_prefabName = param.m_prefabName;
+            m_path = param.m_path;
+            m_loaded += param.m_loaded;
+            m_failed += param.m_failed;
+        }
     }
 }

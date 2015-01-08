@@ -200,6 +200,7 @@ namespace SDK.Lib
             return null;
         }
 
+        // 这个卸载有引用计数，如果有引用计数就卸载不了
         public void unload(string path)
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
@@ -207,13 +208,19 @@ namespace SDK.Lib
                 m_LoadData.m_path2Res[path].decreaseRef();
                 if (m_LoadData.m_path2Res[path].refNum == 0)
                 {
-                    m_LoadData.m_path2Res[path].unload();
-                    m_LoadData.m_path2Res[path].reset();
-                    m_LoadData.m_noUsedLDItem.Add(m_LoadData.m_path2Res[path]);
-
-                    m_LoadData.m_path2Res.Remove(path);
+                    unloadNoRef(path);
                 }
             }
+        }
+
+        // 不考虑引用计数，直接卸载
+        public void unloadNoRef(string path)
+        {
+            m_LoadData.m_path2Res[path].unload();
+            m_LoadData.m_path2Res[path].reset();
+            m_LoadData.m_noUsedLDItem.Add(m_LoadData.m_path2Res[path]);
+
+            m_LoadData.m_path2Res.Remove(path);
         }
 
         public void onLoaded(LoadItem item)

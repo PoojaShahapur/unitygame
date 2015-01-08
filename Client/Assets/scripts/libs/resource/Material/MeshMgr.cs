@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class MeshMgr : IMeshMgr
+    public class MeshMgr : ResMgrBase, IMeshMgr
     {
         // ¼ÇÂ¼ÃÉÆ¤ÐÅÏ¢
         protected Dictionary<string, Dictionary<string, string[]> > m_skinDic = new Dictionary<string,Dictionary<string,string[]>>();
@@ -29,11 +29,11 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList";
-            param.m_loaded = onloaded;
+            param.m_loaded = onSkinLoaded;
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
         }
 
-        public void onloaded(IDispatchObject resEvt)
+        public void onSkinLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
             TextAsset text = res.getObject("BoneList") as TextAsset;
