@@ -61,13 +61,13 @@ namespace SDK.Lib
         public void loadXml()
         {
             m_isLoaded = true;
-            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_path = m_ID2FileName[m_langID].m_filePath;
             param.m_prefabName = m_ID2FileName[m_langID].m_prefabName;
             param.m_loaded = onloaded;
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
 
         // 加载一个表完成

@@ -23,11 +23,11 @@ public class TestLoadLevel : MonoBehaviour
         {
             //开始游戏按钮被按下
             //GameObject.Destroy(this);//销毁这个脚本
-            LoadParam param = (Ctx.m_instance.m_resMgr as ResMgr).loadParam;
+            LoadParam param = (Ctx.m_instance.m_resLoadMgr as ResLoadMgr).loadParam;
             param.m_path = "Level1.unity3d";
             param.m_resPackType = ResPackType.eLevelType;
             param.m_lvlName = "Level1";
-            Ctx.m_instance.m_resMgr.load(param);
+            Ctx.m_instance.m_resLoadMgr.load(param);
         }
 	}
 }

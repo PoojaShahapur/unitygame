@@ -27,10 +27,10 @@ namespace SDK.Lib
 
         public void loadSkinInfo()
         {
-            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList";
             param.m_loaded = onloaded;
-            Ctx.m_instance.m_resMgr.loadBundle(param);
+            Ctx.m_instance.m_resLoadMgr.loadBundle(param);
         }
 
         public void onloaded(IDispatchObject resEvt)

@@ -129,8 +129,10 @@ namespace SDK.Lib
         public void quipApp()
         {
             closeCurSocket();
+            #if NETMULTHREAD
             m_netThread.ExitFlag = true;        // 设置退出标志
             m_netThread.join();                 // 等待线程结束
+            #endif
         }
     }
 }

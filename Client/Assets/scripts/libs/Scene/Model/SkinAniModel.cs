@@ -65,11 +65,11 @@ namespace SDK.Lib
 
         public void loadSkeleton()
         {
-            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_skeletonName;
             param.m_loaded = onSkeletonloaded;
-            //Ctx.m_instance.m_resMgr.loadBundle(param);
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
 
         // 资源加载成功，通过事件回调
@@ -80,7 +80,7 @@ namespace SDK.Lib
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
 
-            Ctx.m_instance.m_resMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
 
             int idx = 0;
             foreach (PartInfo partInfo in m_modelList)
@@ -91,7 +91,7 @@ namespace SDK.Lib
                     partInfo.m_partGo.transform.parent = m_rootGo.transform;
                     skinSubMesh(idx);
 
-                    Ctx.m_instance.m_resMgr.unload(partInfo.m_res.GetPath());
+                    Ctx.m_instance.m_resLoadMgr.unload(partInfo.m_res.GetPath());
                     partInfo.m_res = null;
                 }
 
@@ -106,11 +106,11 @@ namespace SDK.Lib
 
         public void loadPartModel(int modelDef)
         {
-            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[modelDef].m_bundleName;
             param.m_loaded = onPartModelloaded;
-            //Ctx.m_instance.m_resMgr.loadBundle(param);
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
 
         // 资源加载成功，通过事件回调

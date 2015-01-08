@@ -33,7 +33,7 @@ namespace SDK.Lib
             {
                 UtilApi.Destroy(m_go);
                 m_go = null;
-                Ctx.m_instance.m_resMgr.unload(m_path);
+                Ctx.m_instance.m_resLoadMgr.unload(m_path);
             }
         }
 
@@ -46,11 +46,11 @@ namespace SDK.Lib
                     unload();
 
                     LoadParam param;
-                    param = Ctx.m_instance.m_resMgr.getLoadParam();
+                    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    Ctx.m_instance.m_resMgr.loadResources(param);
+                    Ctx.m_instance.m_resLoadMgr.loadResources(param);
                     m_res = null;
                 }
             }
@@ -59,11 +59,11 @@ namespace SDK.Lib
                 if (!string.IsNullOrEmpty(m_prefab) && !string.IsNullOrEmpty(m_path))
                 {
                     LoadParam param;
-                    param = Ctx.m_instance.m_resMgr.getLoadParam();
+                    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    Ctx.m_instance.m_resMgr.loadResources(param);
+                    Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace SDK.Lib
         public void setDefaultRes()
         {
             m_prefab = "pack";
-            m_path = Ctx.m_instance.m_cfg.m_dataPath[(int)ResPathType.ePathModel] + m_prefab;
+            m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
         }
     }
 }

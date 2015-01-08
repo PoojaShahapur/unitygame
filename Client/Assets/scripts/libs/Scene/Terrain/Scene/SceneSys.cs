@@ -53,21 +53,21 @@ namespace SDK.Lib
         {
             if(null != m_scene)
             {
-                Ctx.m_instance.m_resMgr.unload(m_scene.file);
+                Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
             }
         }
 
         public void loadSceneCfg(string filename)
         {
-            LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
+            LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename;
             //param.m_resPackType = ResPackType.eBundleType;
             param.m_loaded = onSceneCfgLoadded;
             //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             //param.m_resNeedCoroutine = false;
             //param.m_loadNeedCoroutine = false;
-            //Ctx.m_instance.m_resMgr.load(param);
-            Ctx.m_instance.m_resMgr.loadBundle(param);
+            //Ctx.m_instance.m_resLoadMgr.load(param);
+            Ctx.m_instance.m_resLoadMgr.loadBundle(param);
         }
 
         protected void onSceneCfgLoadded(IDispatchObject resEvt)
@@ -81,7 +81,7 @@ namespace SDK.Lib
 
         public void loadSceneRes(string filename)
         {
-            LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
+            LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
             //param.m_resPackType = ResPackType.eLevelType;
             param.m_loaded = onSceneResLoadded;
@@ -89,8 +89,8 @@ namespace SDK.Lib
             //param.m_resNeedCoroutine = true;
             //param.m_loadNeedCoroutine = true;
             param.m_lvlName = filename;
-            //Ctx.m_instance.m_resMgr.load(param);
-            Ctx.m_instance.m_resMgr.loadLevel(param);
+            //Ctx.m_instance.m_resLoadMgr.load(param);
+            Ctx.m_instance.m_resLoadMgr.loadLevel(param);
         }
 
         public void onSceneResLoadded(IDispatchObject resEvt)

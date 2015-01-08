@@ -11,18 +11,21 @@ namespace Game.App
      */
     public class AppSys : Object
     {
+        public Ctx m_instance;
+
         public void constructAll(Transform transform)
         {
             ByteUtil.checkEndian();     // 检查系统大端小端
 
             Ctx.m_instance = new Ctx();
+            m_instance = Ctx.m_instance;
 
             Ctx.m_instance.m_cfg = new Config();
             Ctx.m_instance.m_factoryBuild = new FactoryBuild();
 
             Ctx.m_instance.m_netMgr = new NetworkMgr();
             Ctx.m_instance.m_log = new Logger();
-            Ctx.m_instance.m_resMgr = new ResMgr();
+            Ctx.m_instance.m_resLoadMgr = new ResLoadMgr();
             Ctx.m_instance.m_inputMgr = new InputMgr();
             Ctx.m_instance.m_dataTrans = transform;
 

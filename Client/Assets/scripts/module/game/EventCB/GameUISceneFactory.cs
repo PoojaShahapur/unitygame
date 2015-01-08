@@ -36,6 +36,14 @@ namespace Game.Game
                 {
                     return new UISceneHero();
                 }
+                case UISceneFormID.eUISceneBg:
+                {
+                    return new UISceneBg();
+                }
+                case UISceneFormID.eUISceneComDialog:
+                {
+                    return new UISceneComDialog();
+                }
                 default:
                 {
                     break;

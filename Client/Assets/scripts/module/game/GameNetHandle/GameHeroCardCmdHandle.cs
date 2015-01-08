@@ -19,7 +19,7 @@ namespace Game.Game
 
             m_id2HandleDic[stHeroCardCmd.RET_ALL_HERO_INFO_CMD] = psstRetAllHeroInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_ONE_HERO_INFO_CMD] = psstRetOneHeroInfoUserCmd;
-            
+            m_id2HandleDic[stHeroCardCmd.RET_HERO_FIGHT_MATCH_CMD] = psstRetHeroFightMatchUserCmd;
         }
 
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
@@ -164,6 +164,12 @@ namespace Game.Game
             cmd.derialize(msg);
 
             Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetOneHeroInfoUserCmd(cmd.info);
+        }
+
+        protected void psstRetHeroFightMatchUserCmd(IByteArray msg)
+        {
+            stRetHeroFightMatchUserCmd cmd = new stRetHeroFightMatchUserCmd();
+            cmd.derialize(msg);
         }
     }
 }

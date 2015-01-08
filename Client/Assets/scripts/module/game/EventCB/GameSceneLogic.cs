@@ -75,7 +75,7 @@ namespace Game.Game
 
         public void loadUI()
         {
-            //LoadParam param = (Ctx.m_instance.m_resMgr as IResMgr).getLoadParam();
+            //LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
             //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
             //param.m_type = ResPackType.eBundleType;
             //param.m_resLoadType = ResLoadType.eLoadDicWeb;
@@ -83,7 +83,7 @@ namespace Game.Game
             //param.m_loadedcb = onResLoad;
             //param.m_resNeedCoroutine = false;
             //param.m_loadNeedCoroutine = true;
-            //Ctx.m_instance.m_resMgr.load(param);
+            //Ctx.m_instance.m_resLoadMgr.load(param);
 
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
         }

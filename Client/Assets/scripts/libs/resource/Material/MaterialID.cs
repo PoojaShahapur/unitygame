@@ -9,4 +9,9 @@
         eMatIDOPlayer,              // 非主角的其它玩家
         eMatIDNPlayer               // 非玩家
     }
+
+    public class MaterialName
+    {
+
+    }
 }
