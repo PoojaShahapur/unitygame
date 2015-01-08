@@ -17,11 +17,29 @@ namespace SDK.Common
                 if (m_IUISceneFactory != null)
                 {
                     m_dicForm[ID] = m_IUISceneFactory.CreateSceneForm(ID) as SceneForm;
+                    m_dicForm[ID].id = ID;
                     return m_dicForm[ID];
                 }
             }
 
-            return null;
+            return m_dicForm[ID];
+        }
+
+        public void readySceneForm(UISceneFormID ID)
+        {
+            SceneForm win = null;
+            if (m_dicForm.ContainsKey(ID))
+            {
+                win = m_dicForm[ID];
+
+                if (win != null)
+                {
+                    if (!win.bReady)
+                    {
+                        win.onReady();
+                    }
+                }
+            }
         }
 
         public ISceneForm showSceneForm(UISceneFormID ID)
@@ -30,20 +48,44 @@ namespace SDK.Common
             if(m_dicForm.ContainsKey(ID))
             {
                 win = m_dicForm[ID];
-            }
-            if (win != null)
-            {
-                if (!win.bReady)
+
+                if (win != null)
                 {
-                    win.onReady();
-                }
-                if (!win.bVisible)
-                {
-                    win.onShow();
+                    if (!win.bReady)
+                    {
+                        win.onReady();
+                    }
+                    if (!win.bVisible)
+                    {
+                        win.onShow();
+                    }
                 }
             }
 
             return win;
+        }
+
+        public ISceneForm loadAndShowForm(UISceneFormID ID)
+        {
+            loadSceneForm(ID);
+            return showSceneForm(ID);
+        }
+
+        public void hideSceneForm(UISceneFormID ID)
+        {
+            SceneForm win = null;
+            if (m_dicForm.ContainsKey(ID))
+            {
+                win = m_dicForm[ID];
+
+                if (win != null)
+                {
+                    if (win.bVisible)
+                    {
+                        win.onHide();
+                    }
+                }
+            }
         }
 
         public ISceneForm getSceneUI(UISceneFormID ID)

@@ -29,7 +29,7 @@ namespace Game.UI
             {
                 UtilApi.Destroy(m_go);
                 m_go = null;
-                Ctx.m_instance.m_resMgr.unload(m_path);
+                Ctx.m_instance.m_resLoadMgr.unload(m_path);
             }
         }
     };
@@ -192,11 +192,11 @@ namespace Game.UI
                 objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemBase;
                 m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
                 m_shopItemArray[idx].m_prefab = (objitem.m_itemBody as TableObjectItemBody).m_prefab;
-                param = Ctx.m_instance.m_resMgr.getLoadParam();
+                param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
                 param.m_path = m_shopItemArray[idx].m_path;
                 param.m_prefabName = m_shopItemArray[idx].m_prefab;
                 param.m_loaded = m_shopItemArray[idx].onloaded;
-                Ctx.m_instance.m_resMgr.loadResources(param);
+                Ctx.m_instance.m_resLoadMgr.loadResources(param);
 
                 ++idx;
             }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SDK.Common
 {
-    public struct t_Object_mobile
+    public class t_Object_mobile
     {
         public uint dwThisID;
         public uint dwObjectID;

@@ -55,13 +55,13 @@ namespace SDK.Common
 		{
 			TableBase table = m_dicTable[tableID];
 
-            LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
             param.m_prefabName = table.m_prefabName;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
             //TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
 		}
 

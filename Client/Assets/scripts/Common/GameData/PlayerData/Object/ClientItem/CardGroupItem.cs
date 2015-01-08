@@ -49,7 +49,14 @@ namespace SDK.Common
             //    m_cardGroup = new t_group_list();
             //}
 
-            m_cardGroup.copyFrom(rhv.m_cardGroup);
+            if (rhv.m_cardGroup != null)
+            {
+                if (m_cardGroup == null)
+                {
+                    m_cardGroup = new t_group_list();
+                }
+                m_cardGroup.copyFrom(rhv.m_cardGroup);
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
     /**
      * @brief 服务器 hero
      */
-    public struct t_hero
+    public class t_hero
     {
         public ushort occupation;
         public ushort level;

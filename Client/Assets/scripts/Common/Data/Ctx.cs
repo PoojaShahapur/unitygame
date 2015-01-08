@@ -11,7 +11,7 @@ namespace SDK.Common
         public INetworkMgr m_netMgr;                // 网络通信
         public Config m_cfg;                        // 整体配置文件
         public ILogger m_log;                       // 日志系统
-        public IResMgr m_resMgr;                    // 资源管理器
+        public IResLoadMgr m_resLoadMgr;                    // 资源管理器
         public IInputMgr m_inputMgr;                // 输入管理器
         public Transform m_dataTrans;               // 整个系统使用的 GameObject
 

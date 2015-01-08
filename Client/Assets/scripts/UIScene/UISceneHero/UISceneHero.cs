@@ -26,13 +26,30 @@ namespace Game.UI
 
         public override void onShow()
         {
+            base.onShow();
+            // 显示背景
+            UISceneBg uiSB = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneBg) as UISceneBg;
+            if (uiSB == null)
+            {
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneBg);
+            }
+            Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneBg);
+
             m_sceneHeroData.m_goRoot.SetActive(true);
             updateAllHero();
+        }
+
+        public override void onHide()
+        {
+            base.onHide();
+
+            m_sceneHeroData.m_goRoot.SetActive(false);
         }
 
         protected void getWidget()
         {
             m_sceneHeroData.m_goRoot = UtilApi.GoFindChildByPObjAndName("HeroSceneUI");
+            m_sceneHeroData.m_goRoot.SetActive(false);         // 默认隐藏
         }
 
         // 添加事件监听

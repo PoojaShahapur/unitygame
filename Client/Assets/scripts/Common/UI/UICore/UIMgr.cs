@@ -126,7 +126,7 @@ namespace SDK.Common
                 string path = m_UIAttrs.getPath(ID);
                 if (path != null)
                 {
-                    Ctx.m_instance.m_resMgr.unload(path);
+                    Ctx.m_instance.m_resLoadMgr.unload(path);
                 }
                 m_dicForm.Remove(ID);
                 win = null;
@@ -238,7 +238,7 @@ namespace SDK.Common
         protected void loadFromFile(string reaPath, string prefabName, Action<IDispatchObject> onloaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
         {
             // 创建窗口资源
-            IResItem res = Ctx.m_instance.m_resMgr.getResource(reaPath);
+            IResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
             if (res != null)
             {
                 if (!res.HasLoaded())
@@ -254,7 +254,7 @@ namespace SDK.Common
             }
             else // 资源从来没有加载过
             {
-                LoadParam param = Ctx.m_instance.m_resMgr.getLoadParam();
+                LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
                 param.m_path = reaPath;
                 //param.m_resPackType = ResPackType.eBundleType;
                 //param.m_resLoadType = ResLoadType.eLoadDicWeb;
@@ -263,9 +263,9 @@ namespace SDK.Common
                 param.m_loaded = onloaded;
                 //param.m_resNeedCoroutine = false;
                 //param.m_loadNeedCoroutine = true;
-                //Ctx.m_instance.m_resMgr.load(param);
-                //Ctx.m_instance.m_resMgr.loadBundle(param);
-                Ctx.m_instance.m_resMgr.loadResources(param);
+                //Ctx.m_instance.m_resLoadMgr.load(param);
+                //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+                Ctx.m_instance.m_resLoadMgr.loadResources(param);
             }
         }
 		

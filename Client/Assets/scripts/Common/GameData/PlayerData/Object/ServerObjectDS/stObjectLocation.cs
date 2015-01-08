@@ -1,6 +1,6 @@
 ﻿namespace SDK.Common
 {
-    public struct stObjectLocation
+    public class stObjectLocation
     {
         public uint dwLocation;
         public uint dwTableID;

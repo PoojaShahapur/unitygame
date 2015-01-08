@@ -35,4 +35,27 @@
         LOGIN_RETURN_WAITACTIVE, /// 帐号待激活
         LOGIN_RETURN_NEWUSER_OLDZONE      ///新账号不允许登入旧的游戏区 
     }
+
+    public enum ChallengeGameType
+    {
+        CHALLENGE_GAME_RELAX_TYPE = 1,        //PVP 休闲对战
+        CHALLENGE_GAME_RANKING_TYPE = 2,        //PVP 排名对战
+        CHALLENGE_GAME_COMPETITIVE_TYPE = 3,        //PVP 竞技对战
+        CHALLENGE_GAME_FRIEND_TYPE = 4,        //PVP 好友对战
+        CHALLENGE_GAME_PRACTISE_TYPE = 5,        //PVE 普通练习
+        CHALLENGE_GAME_BOSS_TYPE = 6,        //PVE BOSS模式
+    };
+
+    /**  
+     * \brief   对战类型枚举
+     */
+    //enum ChallengeGameType
+    //{
+    //    CHALLENGE_GAME_RELAX_TYPE = 1,        //PVP 休闲对战
+    //    CHALLENGE_GAME_RANKING_TYPE = 2,        //PVP 排名对战
+    //    CHALLENGE_GAME_COMPETITIVE_TYPE = 3,        //PVP 竞技对战
+    //    CHALLENGE_GAME_FRIEND_TYPE = 4,        //PVP 好友对战
+    //    CHALLENGE_GAME_PRACTISE_TYPE = 5,        //PVE 普通练习
+    //    CHALLENGE_GAME_BOSS_TYPE = 6,        //PVE BOSS模式
+    //};
 }

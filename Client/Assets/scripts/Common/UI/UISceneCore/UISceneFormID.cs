@@ -8,5 +8,7 @@
         eUISceneWDSC,           // 场景我的收藏
         eUISceneMoShi,          // 场景模式界面
         eUISceneHero,           // 场景 Hero 界面
+        eUISceneBg,             // 场景背景
+        eUISceneComDialog,      // 通用对话框
     }
 }

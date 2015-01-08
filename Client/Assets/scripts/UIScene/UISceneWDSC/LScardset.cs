@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using SDK.Common;
 using Game.UI;
+using Game.Msg;
 
 namespace SDK.Lib
 {
@@ -12,7 +13,7 @@ namespace SDK.Lib
         //set info;
         public CardGroupItem info;             // 当前卡牌组对应的数据信息
         public Material zs, dz, dly, lr, ms, sq, sm, fs, ss;
-        public bool Editing = false;               // 当前卡牌组是否是中间编辑卡牌组
+        public bool Editing = false;
         //当前正在编辑的
         //public static GameObject nowEditingSet;     // 当前正在编辑的的卡牌组
 
@@ -20,6 +21,7 @@ namespace SDK.Lib
         Transform infokuan;
         int[] costcount = new int[7];
         Transform del;
+        cardsetdelshow m_delBtn = new cardsetdelshow();
 
         public override void Awake()
         {
@@ -44,18 +46,21 @@ namespace SDK.Lib
 
             UtilApi.addEventHandle(gameObject, OnMouseClick);
             UtilApi.addHoverHandle(gameObject, OnMouseHover);
+
+            UtilApi.addEventHandle(UtilApi.TransFindChildByPObjAndPath(gameObject, "del"), onDelBtnClk);       // 删除卡牌按钮
+            m_delBtn.setGameObject(del.gameObject);
         }
 
         public void load(string path, string prefabName)
         {
             LoadParam param;
-            param = Ctx.m_instance.m_resMgr.getLoadParam();
+            param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_prefabName = prefabName;
             param.m_path = path;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
 
         public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
@@ -110,6 +115,11 @@ namespace SDK.Lib
 
         public override void OnMouseUpAsButton()
         {
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
+        }
+
+        public void enterEditorMode()
+        {
             if (Editing)
             {
                 return;
@@ -117,7 +127,6 @@ namespace SDK.Lib
             goup();
 
             //nowEditingSet = gameObject;
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyFrom(this);
 
             edit();
             //transform.root.SendMessage("editset");
@@ -147,7 +156,6 @@ namespace SDK.Lib
             setname(s.name);
             switch (s.classs)
             {
-
                 case CardClass.kdruid:
                     setpic(dly);
                     break;
@@ -195,7 +203,20 @@ namespace SDK.Lib
         public void Createnew(CardGroupItem s)
         {
             setinfo(s);
-            OnMouseUpAsButton();
+            //OnMouseUpAsButton();      // 不在模拟点击
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
+        }
+
+        public void startEdit(cardset cardSet)
+        {
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyAndInitData(this);
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.enterEditorMode();
+        }
+
+        public void copyAndInitData(cardset cardSet)
+        {
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyFrom(cardSet);
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.setinfo((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.info);      // 设置卡牌的显示信息
         }
 
         void setname(string n)
@@ -217,16 +238,17 @@ namespace SDK.Lib
         {
             lastpostion = transform.localPosition;
             transform.position = uppostion;
-            //Editing = true;
+            Editing = true;
             infokuan = transform.root.FindChild("setinfo");
         }
 
         public void hide()
         {
-            //if (Editing)
-            //{
-            //    return;
-            //}
+            if (Editing)
+            {
+                //return;
+                Editing = false;
+            }
             lastpostion = transform.localPosition;
             transform.Translate(new Vector3(0, 0, -20f));
         }
@@ -250,7 +272,7 @@ namespace SDK.Lib
             }
             else
             {
-
+                OnMouseExit();
             }
         }
 
@@ -284,7 +306,9 @@ namespace SDK.Lib
             }
             else
             {
-                del.SendMessage("hide", SendMessageOptions.DontRequireReceiver);
+                // 确认对话框
+                //del.SendMessage("hide", SendMessageOptions.DontRequireReceiver);
+                Ctx.m_instance.m_coroutineMgr.StartCoroutine(m_delBtn.hide());
             }
         }
 
@@ -342,10 +366,12 @@ namespace SDK.Lib
         void ondel()
         {
             //填充数据
-            yesnomsgbox.callbackgameobject = gameObject;
-            yesnomsgbox.callbackeventname = "delyesorno";
+            //yesnomsgbox.callbackgameobject = gameObject;
+            //yesnomsgbox.callbackeventname = "delyesorno";
+            (Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneComDialog) as UISceneComDialog).m_yesnomsgbox.m_cb = delyesorno;
             //显示确认取消框
-            boxcam.ynmsgbox.SendMessage("show", "你确认删除嘛?这个操作不可逆!");
+            //boxcam.ynmsgbox.SendMessage("show", "你确认删除嘛?这个操作不可逆!");
+            (Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneComDialog) as UISceneComDialog).m_yesnomsgbox.show("你确认删除嘛?这个操作不可逆!");
         }
 
         void delyesorno(bool yorn)
@@ -353,14 +379,18 @@ namespace SDK.Lib
             if (yorn)
             {
                 //把别的向上移动
-                int p = (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.IndexOf(transform);
-                Debug.Log(p);
-                for (; p < (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count; p++)
-                {
-                    (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets[p].Translate(new Vector3(0, 0, 0.525f));
-                }
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Remove(transform);
-                UtilApi.Destroy(gameObject);
+                //int p = (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.IndexOf(transform);
+                //Debug.Log(p);
+                //for (; p < (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count; p++)
+                //{
+                //    (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets[p].Translate(new Vector3(0, 0, 0.525f));
+                //}
+                //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Remove(transform);
+                //UtilApi.Destroy(gameObject);
+
+                stReqDeleteOneCardGroupUserCmd cmd = new stReqDeleteOneCardGroupUserCmd();
+                cmd.index = info.m_cardGroup.index;
+                UtilMsg.sendMsg(cmd);
             }
             else
             {
@@ -592,9 +622,11 @@ namespace SDK.Lib
                 info = new CardGroupItem();
             }
             this.info.copyFrom(cards.info);
+        }
 
-            setinfo(info);      // 设置卡牌的显示信息
-            goup();             // 将卡牌放到顶端
+        public void onDelBtnClk(GameObject go)
+        {
+            ondel();
         }
     }
 }

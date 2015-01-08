@@ -6,7 +6,7 @@
     public class SceneForm : ISceneForm
     {
         protected bool m_bReady = false;            // 是否调用了 Ready
-        protected bool m_bVisible = true;            // 是否可见
+        protected bool m_bVisible = false;            // 是否可见
         protected UISceneFormID m_id;
 
         public bool bReady
@@ -33,10 +33,33 @@
             }
         }
 
+        public UISceneFormID id
+        {
+            get
+            {
+                return m_id;
+            }
+            set
+            {
+                m_id = value;
+            }
+        }
+
+        public void ready()
+        {
+            Ctx.m_instance.m_uiSceneMgr.readySceneForm(m_id);
+        }
+
         // 显示
         public void show()
         {
             Ctx.m_instance.m_uiSceneMgr.showSceneForm(m_id);
+        }
+
+        // 隐藏
+        public void hide()
+        {
+            Ctx.m_instance.m_uiSceneMgr.hideSceneForm(m_id);
         }
 
         // 主要是关联事件
@@ -48,6 +71,11 @@
         virtual public void onShow()
         {
             m_bVisible = true;
+        }
+
+        virtual public void onHide()
+        {
+            m_bVisible = false;
         }
 
         public bool isVisible()

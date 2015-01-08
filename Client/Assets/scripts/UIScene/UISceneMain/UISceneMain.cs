@@ -109,19 +109,19 @@ namespace Game.UI
         protected void onBtnClkDuiZhanMoShi(GameObject go)
         {
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
+            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneMoShi);
         }
 
         protected void onBtnClkHero(GameObject go)
         {
-            Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
-
-
             UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneHero) as UISceneHero;
             if (uiSH == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneWDSC);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneHero);
             }
-            uiSH = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneHero) as UISceneHero;
+            Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneHero);
+
+            Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
         }
 
         protected void onBtnClkLianXiMoShi(GameObject go)

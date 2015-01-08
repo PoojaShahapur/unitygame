@@ -531,4 +531,69 @@ namespace Game.Msg
     //    }
     //    t_hero info;
     //};
+
+    public class stReqHeroFightMatchUserCmd : stHeroCardCmd
+    {
+        public uint index;
+        public byte fightType;      // 当前使用 CHALLENGE_GAME_RELAX_TYPE
+
+        public stReqHeroFightMatchUserCmd()
+        {
+            byParam = REQ_HERO_FIGHT_MATCH_CMD;
+            fightType = (byte)ChallengeGameType.CHALLENGE_GAME_RELAX_TYPE;
+        }
+
+        public override void serialize(IByteArray ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt(index);
+            ba.writeByte(fightType);
+        }
+    }
+
+    //const BYTE REQ_HERO_FIGHT_MATCH_CMD = 18; 
+    //struct stReqHeroFightMatchUserCmd : public stHeroCardCmd
+    //{   
+    //    stReqHeroFightMatchUserCmd()
+    //    {   
+    //        byParam = REQ_HERO_FIGHT_MATCH_CMD;
+    //        index = 0;
+    //        fightType = 0;
+    //    }   
+    //    DWORD index;        //套牌索引
+    //    BYTE fightType;     //对战类型
+    //};
+
+    public class stRetHeroFightMatchUserCmd : stHeroCardCmd
+    {
+        public byte fightType;
+        public byte success;
+
+        public stRetHeroFightMatchUserCmd()
+        {
+            byParam = RET_HERO_FIGHT_MATCH_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            fightType = ba.readUnsignedByte();
+            success = ba.readUnsignedByte();
+        }
+    }
+
+    //const BYTE RET_HERO_FIGHT_MATCH_CMD = 19; 
+    //struct stRetHeroFightMatchUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetHeroFightMatchUserCmd()
+    //    {   
+    //        byParam = RET_HERO_FIGHT_MATCH_CMD;
+    //        fightType = 0;
+    //        success = 0;
+    //    }   
+    //    BYTE fightType;     //对战类型
+    //    BYTE success;           
+    //};
 }

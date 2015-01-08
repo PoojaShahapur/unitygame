@@ -49,6 +49,8 @@ namespace Game.Msg
         public const byte REQ_ALL_HERO_INFO_CMD = 15;
         public const byte RET_ALL_HERO_INFO_CMD = 16;
         public const byte RET_ONE_HERO_INFO_CMD = 17;
+        public const byte REQ_HERO_FIGHT_MATCH_CMD = 18;
+        public const byte RET_HERO_FIGHT_MATCH_CMD = 19;
 
         public stHeroCardCmd()
         {

@@ -43,13 +43,13 @@ namespace Game.UI
         public void load()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_resMgr.getLoadParam();
+            param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
             param.m_prefabName = "cardset";
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + param.m_prefabName;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resMgr.loadResources(param);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
 
         //选职业
@@ -88,16 +88,6 @@ namespace Game.UI
         // 新建卡牌
         public void newcardset(CardClass c)
         {
-            if ((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet == null)
-            {
-                Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-                trans.parent = transform.parent;
-
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.setGameObject(trans.gameObject);
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.Editing = true;
-            }
-
             Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
             g.parent = transform.parent;
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, g);//插入到最后一位
@@ -131,6 +121,17 @@ namespace Game.UI
             {
                 item.hide();
             }
+        }
+
+        public void insEditCardGroup()
+        {
+            Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            trans.parent = transform.parent;
+
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.setGameObject(trans.gameObject);
+            //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.Editing = true;
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.hide();
         }
     }
 }

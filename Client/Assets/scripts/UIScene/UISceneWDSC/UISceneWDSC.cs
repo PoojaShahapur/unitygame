@@ -46,6 +46,8 @@ namespace Game.UI
             m_wdscjm.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm"));
             m_newCardSet.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/newSetBtn"));
 
+            m_newCardSet.insEditCardGroup();
+
             m_btnArr[(int)SceneWDSCBtnEnum.eBtnBack] = new btn();
             m_btnArr[(int)SceneWDSCBtnEnum.eBtnBack].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/wdscfh/btn"));
 

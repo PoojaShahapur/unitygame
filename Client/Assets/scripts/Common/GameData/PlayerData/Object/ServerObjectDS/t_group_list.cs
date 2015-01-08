@@ -1,6 +1,6 @@
 ﻿namespace SDK.Common
 {
-    public struct t_group_list
+    public class t_group_list
     {
         public uint index;
         public uint occupation;
