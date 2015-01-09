@@ -53,7 +53,7 @@ namespace Game.UI
         }
 
         //选职业
-        public override void OnMouseUpAsButton()
+        public void OnMouseUpAsButton()
         {
 
         }
@@ -85,8 +85,8 @@ namespace Game.UI
             transform.localPosition = lastpostion;
         }
 
-        // 新建卡牌
-        public void newcardset(CardClass c)
+        // 新建卡牌组， bEnterEdit 是否立即进入编辑模式
+        public void newcardset(CardGroupItem s, bool bEnterEdit = true)
         {
             Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
             g.parent = transform.parent;
@@ -96,14 +96,14 @@ namespace Game.UI
             //s.id = -1;
             //s.classs = c;
 
-            CardGroupItem s = new CardGroupItem();
-            s.id = -1;
-            s.classs = c;
+            //CardGroupItem s = new CardGroupItem();
+            //s.id = -1;
+            //s.classs = c;
 
             cardset taopai = new cardset();
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(taopai);
             taopai.setGameObject(g.gameObject);
-            taopai.Createnew(s);
+            taopai.Createnew(s, bEnterEdit);
             //g.SendMessage("Createnew", s);
         }
 

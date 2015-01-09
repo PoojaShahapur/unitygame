@@ -40,13 +40,13 @@ namespace Game.UI
         }
 
         #region 从英雄点击发送而来
-        CardClass chooseClass;
-        public void setclass(CardClass c)
+        EnPlayerCareer chooseClass;
+        public void setclass(EnPlayerCareer c)
         {
             chooseClass = c;
         }
 
-        public CardClass getClass()
+        public EnPlayerCareer getClass()
         {
             return chooseClass;
         }
@@ -108,7 +108,8 @@ namespace Game.UI
             transform.position = goodp;
             nowMethod = moshijmmethod.lx;
             //Camera.main.SendMessage("push");
-            (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
+            //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
+            Ctx.m_instance.m_camSys.m_boxcam.push();
 
             nochoose();
             //bt.text = "选择套牌";
@@ -124,7 +125,8 @@ namespace Game.UI
             transform.position = goodp;
             nowMethod = moshijmmethod.lx;
             //Camera.main.SendMessage("push");
-            (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
+            //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
+            Ctx.m_instance.m_camSys.m_boxcam.push();
 
             nochoose();
             //bt.text = "选择套牌";
@@ -136,7 +138,7 @@ namespace Game.UI
         //List<set> sets = new List<set>();
         List<CardGroupItem> sets = null;
 
-        void getPlayerSet()
+        public void getPlayerSet()
         {
             //sets = web.getSets();
             sets = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr;
@@ -180,7 +182,8 @@ namespace Game.UI
                 default:
                     //Camera.main.SendMessage("back");
                     //iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
-                    (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
+                    //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
+                    Ctx.m_instance.m_camSys.m_boxcam.back();
                     iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
                     break;
 
@@ -206,6 +209,8 @@ namespace Game.UI
                     break;
                 case moshijmmethod.lx:
                     stReqHeroFightMatchUserCmd cmd = new stReqHeroFightMatchUserCmd();
+                    UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+                    cmd.index = uiMS.m_curSel.info.m_cardGroup.index;
                     UtilMsg.sendMsg(cmd);
                     break;
                 case moshijmmethod.dz:

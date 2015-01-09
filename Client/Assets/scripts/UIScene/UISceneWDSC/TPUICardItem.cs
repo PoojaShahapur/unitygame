@@ -11,17 +11,22 @@ namespace Game.UI
     {
         public CardGroupItem m_cardGroupItem; // 卡牌基本数据
 
+        public TPUICardItem()
+        {
+            m_bNorm = false;
+        }
+
         public CardGroupItem cardGroupItem
         {
             set
             {
                 m_cardGroupItem = value;
-                m_prefab = "pack";
+                m_prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupModelAttrItem.m_prefabName;
                 m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
             }
         }
 
-        protected virtual void onBtnClkOpen(GameObject go)
+        protected override void onBtnClkOpen(GameObject go)
         {
             if(m_cardGroupItem != null)
             {

@@ -10,10 +10,11 @@ namespace SDK.Common
     public interface IUISceneMoShi : ISceneForm
     {
         void AddNewTaoPai();
-        void setclass(CardClass c);
+        void setclass(EnPlayerCareer c);
         void setClassname(string n);
         void setclasspic(Material pic);
+        void setCardGroup(moshicardset value);
 
-        CardClass getClass();
+        EnPlayerCareer getClass();
     }
 }

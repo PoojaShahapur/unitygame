@@ -17,5 +17,11 @@ namespace SDK.Common
         public bool m_loadNeedCoroutine = true;    // 加载是否需要协同程序
 
         public string m_prefabName = "";         // 预设的名字
+
+        public void resetDefault()          // 将数据清空，有时候上一次调用的时候的参数 m_loaded 还在，结果被认为是这一次的回调了
+        {
+            m_loaded = null;
+            m_failed = null;
+        }
     }
 }

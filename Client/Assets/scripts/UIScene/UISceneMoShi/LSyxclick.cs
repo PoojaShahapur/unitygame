@@ -8,7 +8,7 @@ namespace Game.UI
 {
     public class yxclick : InterActiveEntity
     {
-        CardClass myclass;
+        EnPlayerCareer myclass;
         Material classpic;
         // Use this for initialization
         public override void Start()
@@ -16,25 +16,25 @@ namespace Game.UI
             classpic = transform.FindChild("pic").renderer.material;
             switch (name)
             {
-                case "圣骑士": myclass = CardClass.kpaladin;
+                case "圣骑士": myclass = EnPlayerCareer.HERO_OCCUPATION_1;
                     break;
-                case "德鲁伊": myclass = CardClass.kdruid;
+                case "德鲁伊": myclass = EnPlayerCareer.HERO_OCCUPATION_2;
                     break;
-                case "战士": myclass = CardClass.kwarrior;
+                case "战士": myclass = EnPlayerCareer.HERO_OCCUPATION_3;
                     break;
-                case "术士": myclass = CardClass.kwarlock;
-                    break;
+                //case "术士": myclass = EnPlayerCareer.kwarlock;
+                //    break;
 
-                case "法师": myclass = CardClass.kmage;
-                    break;
-                case "潜行者": myclass = CardClass.krogue;
-                    break;
-                case "牧师": myclass = CardClass.kpriest;
-                    break;
-                case "猎人": myclass = CardClass.khunter;
-                    break;
+                //case "法师": myclass = EnPlayerCareer.kmage;
+                //    break;
+                //case "潜行者": myclass = EnPlayerCareer.krogue;
+                //    break;
+                //case "牧师": myclass = EnPlayerCareer.kpriest;
+                //    break;
+                //case "猎人": myclass = EnPlayerCareer.khunter;
+                //    break;
 
-                case "萨满祭司": myclass = CardClass.kshama;
+                //case "萨满祭司": myclass = EnPlayerCareer.kshama;
                     break;
             }
 
@@ -46,7 +46,7 @@ namespace Game.UI
             OnMouseUpAsButton();
         }
 
-        public override void OnMouseUpAsButton()
+        public void OnMouseUpAsButton()
         {
             //transform.root.SendMessage("setclass", myclass);
             //transform.root.SendMessage("setclasspic", classpic);

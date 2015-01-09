@@ -12,22 +12,21 @@ namespace SDK.Lib
         public GameObject m_go = null;                 // 显示的内容
         public string m_prefab;                        // 预制名字
         public string m_path;                          // 目录
-        public IResItem m_res;
+        public ModelRes m_res;
+        public bool m_bNorm = true;
 
         public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
         {
-            m_res = resEvt as IResItem;
+            m_res = resEvt as ModelRes;
             m_go = m_res.InstantiateObject(m_prefab);
             m_go.transform.parent = m_tran;
-            UtilApi.normalPosScale(m_go.transform);
-
-            UIDragObject drag = m_go.AddComponent<UIDragObject>();
-            drag.target = m_go.transform;
-
-            WindowDragTilt title = m_go.AddComponent<WindowDragTilt>();
+            if (m_bNorm)
+            {
+                UtilApi.normalPosScale(m_go.transform);
+            }
         }
 
-        public void unload()
+        public virtual void unload()
         {
             if (m_go != null)
             {
@@ -37,7 +36,7 @@ namespace SDK.Lib
             }
         }
 
-        public void load()
+        public virtual void load()
         {
             if (m_res != null)
             {
@@ -50,7 +49,8 @@ namespace SDK.Lib
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                    //Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                    Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     m_res = null;
                 }
             }
@@ -63,7 +63,8 @@ namespace SDK.Lib
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                    //Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                    Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                 }
             }
         }

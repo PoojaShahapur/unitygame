@@ -34,7 +34,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathLangXml] = "Languages/";
             m_pathLst[(int)ResPathType.ePathXmlCfg] = "XmlConfig/";
             m_pathLst[(int)ResPathType.ePathModel] = "Model/";
-            m_pathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/skin/";
+            m_pathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/";
 
             m_dataPath = Application.dataPath;
         }

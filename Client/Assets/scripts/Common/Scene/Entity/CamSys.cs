@@ -1,7 +1,9 @@
-﻿namespace SDK.Common
+﻿using SDK.Lib;
+namespace SDK.Common
 {
     public class CamSys
     {
-        public CamEntity m_sceneCam = new CamEntity();
+        //public CamEntity m_sceneCam = new CamEntity();
+        public boxcam m_boxcam;
     }
 }

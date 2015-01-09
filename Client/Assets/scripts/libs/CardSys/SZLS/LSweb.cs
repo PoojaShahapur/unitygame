@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System;
 using Game.UI;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -11,7 +12,7 @@ namespace SDK.Lib
     {
         public int id;
         public string name;
-        public CardClass classs;
+        public EnPlayerCareer classs;
         public string cards;
     }
 

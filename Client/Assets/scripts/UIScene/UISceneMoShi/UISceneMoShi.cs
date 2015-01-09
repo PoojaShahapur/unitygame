@@ -12,7 +12,9 @@ namespace Game.UI
     {
         protected moshijm m_moshijm = new moshijm();
         protected yxclick[] m_heroList = new yxclick[9];                        // 9 个职业 hero
-        public moshicardset[] m_cardGroupList = new moshicardset[9];         // 9 个卡牌组
+        public moshicardset[] m_cardGroupList = new moshicardset[9];            // 9 个卡牌组
+
+        public moshicardset m_curSel;           // 当前选择的卡牌组
 
         public override void onReady()
         {
@@ -106,7 +108,7 @@ namespace Game.UI
             m_moshijm.newset();
         }
 
-        public void setclass(CardClass c)
+        public void setclass(EnPlayerCareer c)
         {
             m_moshijm.setclass(c);
         }
@@ -121,9 +123,19 @@ namespace Game.UI
             m_moshijm.setclasspic(pic);
         }
 
-        public CardClass getClass()
+        public EnPlayerCareer getClass()
         {
             return m_moshijm.getClass();
+        }
+
+        public void setCardGroup(moshicardset value)
+        {
+            m_curSel = value;
+        }
+
+        public void updateHeroList()
+        {
+            m_moshijm.getPlayerSet();
         }
     }
 }

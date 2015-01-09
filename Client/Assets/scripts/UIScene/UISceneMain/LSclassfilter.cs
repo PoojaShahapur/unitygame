@@ -13,8 +13,8 @@ namespace Game.UI
     {
         bool isup = false;
 
-        static CardClass nowclass;
-        CardClass myclass;
+        static EnPlayerCareer nowclass;
+        EnPlayerCareer myclass;
         Vector3 lastpostion = new Vector3();
 
         // Use this for initialization
@@ -22,24 +22,24 @@ namespace Game.UI
         {
             switch (name)
             {
-                case "sq": myclass = CardClass.kpaladin;
+                //case "sq": myclass = CardClass.kpaladin;
+                //    break;
+                //case "dly": myclass = CardClass.kdruid;
+                //    break;
+                case "zs": myclass = EnPlayerCareer.HERO_OCCUPATION_1;
                     break;
-                case "dly": myclass = CardClass.kdruid;
+                case "ss": myclass = EnPlayerCareer.HERO_OCCUPATION_2;
                     break;
-                case "zs": myclass = CardClass.kwarrior;
+                case "fs": myclass = EnPlayerCareer.HERO_OCCUPATION_3; OnMouseUpAsButton();//显示第1个
                     break;
-                case "ss": myclass = CardClass.kwarlock;
-                    break;
-                case "fs": myclass = CardClass.kmage; OnMouseUpAsButton();//显示第1个
-                    break;
-                case "dz": myclass = CardClass.krogue;
-                    break;
-                case "ms": myclass = CardClass.kpriest;
-                    break;
-                case "lr": myclass = CardClass.khunter;
-                    break;
-                case "sm": myclass = CardClass.kshama;
-                    break;
+                //case "dz": myclass = CardClass.krogue;
+                //    break;
+                //case "ms": myclass = CardClass.kpriest;
+                //    break;
+                //case "lr": myclass = CardClass.khunter;
+                //    break;
+                //case "sm": myclass = CardClass.kshama;
+                //    break;
             }
         }
 
@@ -48,7 +48,6 @@ namespace Game.UI
             if (nowclass == myclass && !isup)
             {
                 //up
-
                 iTween.MoveBy(gameObject, iTween.Hash("amount", Vector3.forward * 0.1f,
                                                        "space", Space.World,
                                                        "time", 0.1f));
@@ -90,7 +89,7 @@ namespace Game.UI
             isup = false;
         }
 
-        public void classfilterhide(CardClass c)
+        public void classfilterhide(EnPlayerCareer c)
         {
             lastpostion = transform.localPosition;
             if (lastpostion != transform.localPosition)
@@ -98,7 +97,7 @@ namespace Game.UI
                 Debug.Log(lastpostion);
             }
 
-            if (myclass == CardClass.kany)
+            if (myclass == EnPlayerCareer.HERO_OCCUPATION_1)
             {
                 gototwo();
                 return;

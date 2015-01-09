@@ -18,12 +18,12 @@ namespace Game.UI
         protected wdscpage m_wdscpage = new wdscpage();
 
         protected SCUICardItem[] m_SCUICardItemList = new SCUICardItem[(int)SCCardNumPerPage.eNum];     // 每一职业卡牌显示列表
-        protected TPUICardItem[] m_SCUITPItemList = new TPUICardItem[(int)SCTPNumPerPage.eNum];     // 套牌显示列表
+        //protected TPUICardItem[] m_SCUITPItemList = new TPUICardItem[(int)SCTPNumPerPage.eNum];       // 套牌显示列表
 
         protected int m_curPageIdx;     // 当前显示的 Page 索引
-        protected CurEditCardInfo m_curEditCardInfo = new CurEditCardInfo();        // 当前编辑的卡牌信息
+        //protected CurEditCardInfo m_curEditCardInfo = new CurEditCardInfo();        // 当前编辑的卡牌信息
 
-        public List<Transform> m_playersets = new List<Transform>();       // 卡牌 Tranforms 以及最后的按钮
+        public List<Transform> m_playersets = new List<Transform>();       // 卡牌组 Tranforms 以及最后的按钮
         public List<cardset> m_taoPaiEntityList = new List<cardset>();      // 当前已经有的卡牌
         public cardset m_curEditCardSet = null;            // 当前正在编辑的卡牌组
 
@@ -33,6 +33,8 @@ namespace Game.UI
 
             getWidget();
             addEventHandle();
+
+            psstNotifyAllCardTujianInfoCmd();
         }
 
         public override void onShow()
@@ -58,13 +60,13 @@ namespace Game.UI
                 m_SCUICardItemList[idx].m_tran = UtilApi.GoFindChildByPObjAndName("wdscjm/page/" + (idx + 1)).transform;
                 ++idx;
             }
-            idx = 0;
-            while (idx < (int)SCTPNumPerPage.eNum)
-            {
-                m_SCUITPItemList[idx] = new TPUICardItem();
-                m_SCUITPItemList[idx].m_tran = UtilApi.GoFindChildByPObjAndName("wdscjm/kuan/kong/kong" + idx).transform;
-                ++idx;
-            }
+            //idx = 0;
+            //while (idx < (int)SCTPNumPerPage.eNum)
+            //{
+            //    m_SCUITPItemList[idx] = new TPUICardItem();
+            //    m_SCUITPItemList[idx].m_tran = UtilApi.GoFindChildByPObjAndName("wdscjm/kuan/kong/kong" + idx).transform;
+            //    ++idx;
+            //}
 
             idx = 0;
             while(idx < 10)
@@ -127,6 +129,7 @@ namespace Game.UI
                 {
                     cardItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curPageIdx][idx];
                     m_SCUICardItemList[idx].cardItemBase = cardItem;
+                    m_SCUICardItemList[idx].m_clkCB = onClkCard;
                     m_SCUICardItemList[idx].load();
                     ++idx;
                 }
@@ -136,8 +139,10 @@ namespace Game.UI
         // 新增\数量改变,不包括删除, badd 指明是添加还是改变
         public void psstNotifyOneCardTujianInfoCmd(uint id, byte num, bool badd)
         {
-            releaseAllCard();
-            psstNotifyAllCardTujianInfoCmd();
+            if(badd)
+            {
+                newcardset(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[id]);
+            }
         }
 
         // 套牌列表
@@ -150,8 +155,10 @@ namespace Game.UI
                 while (idx < Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr.Count && idx < (int)SCTPNumPerPage.eNum)
                 {
                     cardItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr[idx];
-                    m_SCUITPItemList[idx].cardGroupItem = cardItem;
-                    m_SCUITPItemList[idx].load();
+                    //m_SCUITPItemList[idx].cardGroupItem = cardItem;
+                    //m_SCUITPItemList[idx].load();
+                    newcardset(cardItem, false);
+
                     ++idx;
                 }
             }
@@ -164,26 +171,37 @@ namespace Game.UI
         }
 
         // 新添加一个套牌
-        public void psstRetCreateOneCardGroupUserCmd(stRetCreateOneCardGroupUserCmd msg)
+        public void psstRetCreateOneCardGroupUserCmd(CardGroupItem cardGroup)
         {
             //releaseAllTaoPai();
             //psstRetCardGroupListInfoUserCmd();
 
-            m_curEditCardInfo.clear();
-            m_curEditCardInfo.index = msg.index;
+            //m_curEditCardInfo.clear();
+            //m_curEditCardInfo.index = cardGroup.m_cardGroup.index;
 
             IUISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as IUISceneMoShi;
             if (uiMS != null)
             {
-                newcardset(uiMS.getClass());
+                newcardset(cardGroup);
             }
         }
 
         // 删除一个套牌
         public void psstRetDeleteOneCardGroupUserCmd(uint index)
         {
-            releaseAllTaoPai();
-            psstRetCardGroupListInfoUserCmd();
+            //releaseAllTaoPai();
+            //psstRetCardGroupListInfoUserCmd();
+            int curIdx = 0;
+            foreach(CardGroupItem item in Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr)
+            {
+                if(item.m_cardGroup.index == index)
+                {
+                    break;
+                }
+
+                ++curIdx;
+            }
+            delOneCardGroup(curIdx);
         }
 
         protected void releaseAllCard()
@@ -201,14 +219,14 @@ namespace Game.UI
             int idx = 0;
             while (idx < (int)SCTPNumPerPage.eNum)
             {
-                m_SCUITPItemList[idx].unload();
+                //m_SCUITPItemList[idx].unload();
                 ++idx;
             }
         }
 
-        public void newcardset(CardClass c)
+        public void newcardset(CardGroupItem cardGroup, bool bEnterEdit = true)
         {
-            m_newCardSet.newcardset(c);
+            m_newCardSet.newcardset(cardGroup, bEnterEdit);
         }
 
         public void editset()
@@ -226,7 +244,7 @@ namespace Game.UI
             m_newCardSet.hideAllCard();
         }
 
-        public void classfilterhide(CardClass c)
+        public void classfilterhide(EnPlayerCareer c)
         {
             foreach(classfilter item in m_tabBtnList)
             {
@@ -234,7 +252,7 @@ namespace Game.UI
             }
         }
 
-        public void onclass(CardClass myclass)
+        public void onclass(EnPlayerCareer myclass)
         {
             m_wdscpage.onclass(myclass);
         }
@@ -264,8 +282,13 @@ namespace Game.UI
         public void reqSaveCard()
         {
             stReqSaveOneCardGroupUserCmd cmd = new stReqSaveOneCardGroupUserCmd();
-            cmd.index = m_curEditCardInfo.index;
-            cmd.id = m_curEditCardInfo.id;
+            //cmd.index = m_curEditCardInfo.index;
+            //cmd.id = m_curEditCardInfo.id;
+
+            cmd.index = m_curEditCardSet.info.m_cardGroup.index;
+            cmd.count = (ushort)m_curEditCardSet.info.m_cardList.Count;
+            cmd.id = m_curEditCardSet.info.m_cardList;
+
             UtilMsg.sendMsg(cmd);
         }
 
@@ -287,6 +310,35 @@ namespace Game.UI
             }
 
             return null;
+        }
+
+        public void delOneCardGroup(int p)
+        {
+            int curidx = p;
+            //把别的向上移动
+            for (; curidx < m_playersets.Count; curidx++)
+            {
+                m_playersets[curidx].Translate(new Vector3(0, 0, 0.525f));
+            }
+            UtilApi.Destroy(m_playersets[p].gameObject);
+            m_playersets.Remove(m_playersets[p]);
+            m_taoPaiEntityList.RemoveAt(p);
+        }
+
+        public void onClkCard(ItemSceneIOBase ioItem)
+        {
+            if (wdscjm.nowMod == wdscmMod.editset)
+            {
+                SCUICardItem item = ioItem as SCUICardItem;
+                if(m_curEditCardSet.info.m_cardList == null)
+                {
+                    m_curEditCardSet.info.m_cardList = new List<uint>();
+                }
+                if(m_curEditCardSet.info.m_cardList.IndexOf(item.m_cardItemBase.m_tujian.id) == -1)
+                {
+                    m_curEditCardSet.info.m_cardList.Add(item.m_cardItemBase.m_tujian.id);
+                }
+            }
         }
     }
 }

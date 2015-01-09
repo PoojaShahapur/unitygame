@@ -11,10 +11,10 @@ namespace SDK.Common
         public t_group_list m_cardGroup;
         public List<uint> m_cardList;
 
-        public int id;
-        public string name;
-        public CardClass classs;
-        public string cards;
+        //public int id;              // 卡牌组 ID -- m_cardGroup.index
+        //public string name;         // 卡牌组名字 -- m_cardGroup.name
+        //public CardClass classs = CardClass.kwarrior;    // 卡牌组类型 -- m_cardGroup.occupation
+        //public string cards;        // 自己携带的卡牌 -- m_cardList 这里面是 ID
 
         public void reqCardList()
         {
@@ -29,10 +29,10 @@ namespace SDK.Common
 
         public void copyFrom(CardGroupItem rhv)
         {
-            this.id = rhv.id;
-            this.name = rhv.name;
-            this.classs = rhv.classs;
-            this.cards = rhv.cards;
+            //this.id = rhv.id;
+            //this.name = rhv.name;
+            //this.classs = rhv.classs;
+            //this.cards = rhv.cards;
 
             if(this.m_cardList == null)
             {

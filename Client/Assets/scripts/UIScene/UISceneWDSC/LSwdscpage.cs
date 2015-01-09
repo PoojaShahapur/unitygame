@@ -153,7 +153,7 @@ namespace Game.UI
         }
 
         //对职业进行过滤
-        public void onclass(CardClass c)
+        public void onclass(EnPlayerCareer c)
         {
             //switch (c)
             //{

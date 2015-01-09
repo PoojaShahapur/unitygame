@@ -58,7 +58,9 @@ namespace Game.Game
 
         public void onResLoadScene(IScene scene)
         {
-            getInteractiveEntity();
+            //getInteractiveEntity();
+            Ctx.m_instance.m_camSys.m_boxcam = new SDK.Lib.boxcam();
+            Ctx.m_instance.m_camSys.m_boxcam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
             loadAllUIScene();
 
             Ctx.m_instance.m_log.log("场景加载成功");
@@ -74,8 +76,8 @@ namespace Game.Game
         }
 
         // 获取场景中可点击的对象
-        protected void getInteractiveEntity()
-        {
+        //protected void getInteractiveEntity()
+        //{
         //    GameObject sceneRoot = UtilApi.GoFindChildByPObjAndName("mcam");
         //    GameObject go = UtilApi.GoFindChildByPObjAndName("mcam/shop");     // 获取商店
 
@@ -111,9 +113,9 @@ namespace Game.Game
 
         //    go = UtilApi.GoFindChildByPObjAndName("open");
         //    Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETOpen);
-            GameObject go;
-            go = UtilApi.GoFindChildByPObjAndName("mcam");
-            Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETMcam);
+            //GameObject go;
+            //go = UtilApi.GoFindChildByPObjAndName("mcam");
+            //Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETMcam);
 
 
         //    go = UtilApi.GoFindChildByPObjAndName("open/3dbtn/btn");   // 打开扩展背包按钮
@@ -133,7 +135,7 @@ namespace Game.Game
 
         //    go = UtilApi.GoFindChildByPObjAndName("mcam/shop/buykuan/goldbuy");
         //    Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETBtn, EntityTag.eETaggoldbuy);
-        }
+        //}
 
         // 加载 Main Scene UI
         protected void loadAllUIScene()

@@ -2,9 +2,9 @@
 {
     public class t_group_list
     {
-        public uint index;
-        public uint occupation;
-        public string name;
+        public uint index;              // 卡牌唯一 ID
+        public uint occupation;         // 职业
+        public string name;             // 卡牌名字
 
         public void derialize(IByteArray ba)
         {

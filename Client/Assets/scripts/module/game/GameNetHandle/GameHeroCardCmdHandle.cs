@@ -20,6 +20,7 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.RET_ALL_HERO_INFO_CMD] = psstRetAllHeroInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_ONE_HERO_INFO_CMD] = psstRetOneHeroInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_HERO_FIGHT_MATCH_CMD] = psstRetHeroFightMatchUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_DELETE_ONE_CARD_GROUP_CMD] = psstRetDeleteOneCardGroupUserCmd;
         }
 
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
@@ -79,6 +80,12 @@ namespace Game.Game
             {
                 uiSC.psstRetCardGroupListInfoUserCmd();
             }
+
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            if (uiMS != null && uiMS.isVisible())
+            {
+                uiMS.updateHeroList();
+            }
         }
 
         protected void psstRetOneCardGroupInfoUserCmd(IByteArray msg)
@@ -107,7 +114,7 @@ namespace Game.Game
             IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
             if (uiSC != null && uiSC.isVisible())
             {
-                uiSC.psstRetCreateOneCardGroupUserCmd(cmd);
+                uiSC.psstRetCreateOneCardGroupUserCmd(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[cmd.index]);
             }
         }
 

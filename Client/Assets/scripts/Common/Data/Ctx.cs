@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using SDK.Lib;
 
 namespace SDK.Common
 {
@@ -40,7 +41,6 @@ namespace SDK.Common
         public CamSys m_camSys;
 
         public ISceneLogic m_sceneLogic;
-        public IMeshMgr m_meshMgr;
         public IAISystem m_aiSystem;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
         public NetDispHandle m_netHandle;           // 网络处理器
@@ -50,10 +50,11 @@ namespace SDK.Common
         public IFactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
 
         public ILangMgr m_langMgr;                  // 语言管理器
-        public IInterActiveEntityMgr m_interActiveEntityMgr;
+        //public IInterActiveEntityMgr m_interActiveEntityMgr;
         public DataPlayer m_dataPlayer = new DataPlayer();
         public XmlCfgMgr m_xmlCfgMgr = new XmlCfgMgr();
-
+        public MaterialMgr m_matMgr = new MaterialMgr();
+        public ModelMgr m_modelMgr = new ModelMgr();
 
         public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
 

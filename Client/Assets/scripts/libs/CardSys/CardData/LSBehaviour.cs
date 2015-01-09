@@ -36,9 +36,4 @@ public class LSBehaviour : ISceneEntity
     {
         return gameObject;
     }
-
-    public virtual void OnMouseUpAsButton()
-    {
-
-    }
 }

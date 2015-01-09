@@ -23,6 +23,11 @@ namespace Game.UI
         public override void onShow()
         {
             base.onShow();
+
+            // 请求所有卡牌
+            Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
+            // 请求所有的卡牌组
+            Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
         }
 
         // 获取控件
@@ -53,7 +58,7 @@ namespace Game.UI
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("shopbtnTop"), onBtnClkShop);                   // 商店
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/drawer/openbtn"), onBtnClkOpen);        // 打开扩展
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/drawer/wdscbtn"), onBtnClkWDSC);        // 我的收藏
-            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"), onBtnClkDuiZhanMoShi); // 我的收藏
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"), onBtnClkDuiZhanMoShi); // 对战模式
 
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName("mission"), onBtnClkHero); // 请求 hero 数据
         }
@@ -78,7 +83,7 @@ namespace Game.UI
 
         protected void onBtnClkOpen(GameObject go)
         {
-            Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
+            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
 
             IUISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneExtPack) as IUISceneExtPack;
             if (uiPack == null)
@@ -93,7 +98,7 @@ namespace Game.UI
 
         protected void onBtnClkWDSC(GameObject go)
         {
-            Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
+            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
 
             IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
             if (uiSC == null)
@@ -109,6 +114,7 @@ namespace Game.UI
         protected void onBtnClkDuiZhanMoShi(GameObject go)
         {
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
+            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneMoShi);
         }
 

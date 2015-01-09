@@ -15,10 +15,19 @@ namespace SDK.Lib
 
         public void copyForm(LoadParam param)
         {
-            m_prefabName = param.m_prefabName;
-            m_path = param.m_path;
-            m_loaded += param.m_loaded;
-            m_failed += param.m_failed;
+            if (m_path.Length == 0)
+            {
+                m_prefabName = param.m_prefabName;
+                m_path = param.m_path;
+            }
+            if (param.m_loaded != null)
+            {
+                m_loaded += param.m_loaded;
+            }
+            if (param.m_failed != null)
+            {
+                m_failed += param.m_failed;
+            }
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 
 namespace Game.UI
 {
     /**
      * @brief 收藏界面我的一个卡牌
      */
-    public class SCUICardItem : ItemSceneBase
+    public class SCUICardItem : ItemSceneIOBase
     {
         public CardItemBase m_cardItemBase; // 卡牌基本数据
 

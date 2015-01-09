@@ -10,7 +10,7 @@ namespace SDK.Lib
     /// </summary>
     public class SetCard : InterActiveEntity
     {
-        public override void OnMouseUpAsButton()
+        public void OnMouseUpAsButton()
         {
             subone();
         }

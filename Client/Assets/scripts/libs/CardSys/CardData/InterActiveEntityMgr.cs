@@ -62,10 +62,10 @@ namespace SDK.Lib
 
         public void OnMouseUp(GameObject go)
         {
-            if (m_name2EntityDic.ContainsKey(go.name))
-            {
-                m_name2EntityDic[go.name].OnMouseUpAsButton();
-            }
+            //if (m_name2EntityDic.ContainsKey(go.name))
+            //{
+            //    m_name2EntityDic[go.name].OnMouseUpAsButton();
+            //}
 
             //go.SendMessage("OnClick", go);
 

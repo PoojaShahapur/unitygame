@@ -1,4 +1,5 @@
 ﻿using Game.Msg;
+using Game.UI;
 using System.Collections.Generic;
 
 namespace SDK.Common
@@ -19,14 +20,77 @@ namespace SDK.Common
         public List<CardGroupItem> m_cardGroupListArr = new List<CardGroupItem>();      // 每一个职业一个列表
         public Dictionary<uint, CardGroupItem> m_id2CardGroupDic = new Dictionary<uint, CardGroupItem>();
 
+        public Dictionary<int, CardGroupAttrMatItem> m_id2CardGroupMatAttrDic = new Dictionary<int, CardGroupAttrMatItem>();        // 卡牌材质属性
+
+        public CardGroupModelAttrItem m_cardGroupModelAttrItem = new CardGroupModelAttrItem();
+
         public DataCard()
         {
+            //registerCardAttr();
+
             int idx = 0;
             while(idx < (int)EnPlayerCareer.ePCTotal)
             {
                 m_cardListArr[idx] = new List<CardItemBase>();
                 ++idx;
             }
+        }
+
+        public void registerCardAttr()
+        {
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1] = new CardGroupAttrMatItem();
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_1;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_prefabName = "classdly";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_prefabName;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPrefabName = "dly";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPrefabName;
+
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2] = new CardGroupAttrMatItem();
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_2;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName = "classlr";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPrefabName = "lr";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPrefabName;
+
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3] = new CardGroupAttrMatItem();
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_3;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName = "classfs";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPrefabName = "fs";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPrefabName;
+
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin] = new CardGroupAttrMatItem();
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_cardClass = CardClass.kpaladin;
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_prefabName = "classsq";
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kdruid].m_prefabName;
+
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest] = new CardGroupAttrMatItem();
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_cardClass = CardClass.kpriest;
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_prefabName = "classms";
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_prefabName;
+
+            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue] = new CardGroupAttrMatItem();
+            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue].m_cardClass = CardClass.krogue;
+            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue].m_prefabName = "classdz";
+            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kdruid].m_prefabName;
+
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama] = new CardGroupAttrMatItem();
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_cardClass = CardClass.kshama;
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_prefabName = "classsm";
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_prefabName;
+
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock] = new CardGroupAttrMatItem();
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_cardClass = CardClass.kwarlock;
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_prefabName = "classss";
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_prefabName;
+
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior] = new CardGroupAttrMatItem();
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_cardClass = CardClass.kwarrior;
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName = "classzs";
+            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName;
+
+            m_cardGroupModelAttrItem.m_prefabName = "setcard";
+            m_cardGroupModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_cardGroupModelAttrItem.m_prefabName;
         }
 
         public void reqAllCard()

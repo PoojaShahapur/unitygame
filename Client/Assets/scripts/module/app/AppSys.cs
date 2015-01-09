@@ -48,7 +48,6 @@ namespace Game.App
             Ctx.m_instance.m_npcMgr = new NpcMgr();
 
             Ctx.m_instance.m_camSys = new CamSys();
-            Ctx.m_instance.m_meshMgr = new MeshMgr();
             Ctx.m_instance.m_aiSystem = new AISystem();
             Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute();
             Ctx.m_instance.m_moduleSys = new ModuleSys();
@@ -56,7 +55,7 @@ namespace Game.App
             Ctx.m_instance.m_localFileSys = new LocalFileSys();
             Ctx.m_instance.m_langMgr = new LangMgr();
 
-            Ctx.m_instance.m_interActiveEntityMgr = new InterActiveEntityMgr();
+            //Ctx.m_instance.m_interActiveEntityMgr = new InterActiveEntityMgr();
         }
 
         public void PostInit()
@@ -76,6 +75,7 @@ namespace Game.App
             //Ctx.m_instance.m_xmlCfgMgr.loadMarket();
             //Ctx.m_instance.m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
             Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();
+            Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
         }
 
         public void setNoDestroyObject()

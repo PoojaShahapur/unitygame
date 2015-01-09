@@ -59,7 +59,7 @@ namespace SDK.Lib
 
         //向上一级发送
         public bool sendtoparent = false;
-        public override void OnMouseUpAsButton()
+        public void OnMouseUpAsButton()
         {
             if (Disable)
             {

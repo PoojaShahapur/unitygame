@@ -12,7 +12,7 @@ namespace SDK.Lib
     {
         //set info;
         public CardGroupItem info;             // 当前卡牌组对应的数据信息
-        public Material zs, dz, dly, lr, ms, sq, sm, fs, ss;
+        //public Material zs, dz, dly, lr, ms, sq, sm, fs, ss;
         public bool Editing = false;
         //当前正在编辑的
         //public static GameObject nowEditingSet;     // 当前正在编辑的的卡牌组
@@ -31,18 +31,18 @@ namespace SDK.Lib
         public override void Start()
         {
             // 加载资源
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + "setcard", "setcard");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classzs", "classzs");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classdz", "classdz");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classdly", "classdly");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + "setcard", "setcard");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classzs", "classzs");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classdz", "classdz");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classdly", "classdly");
 
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classlr", "classlr");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classms", "classms");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classsq", "classsq");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classlr", "classlr");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classms", "classms");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classsq", "classsq");
 
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classsm", "classsm");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classfs", "classfs");
-            load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classss", "classss");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classsm", "classsm");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classfs", "classfs");
+            //load(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "classss", "classss");
 
             UtilApi.addEventHandle(gameObject, OnMouseClick);
             UtilApi.addHoverHandle(gameObject, OnMouseHover);
@@ -51,69 +51,69 @@ namespace SDK.Lib
             m_delBtn.setGameObject(del.gameObject);
         }
 
-        public void load(string path, string prefabName)
-        {
-            LoadParam param;
-            param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
-            param.m_prefabName = prefabName;
-            param.m_path = path;
-            param.m_loaded = onloaded;
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resLoadMgr.loadResources(param);
-        }
+        //public void load(string prefabName, string path)
+        //{
+        //    LoadParam param;
+        //    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+        //    param.m_prefabName = prefabName;
+        //    param.m_path = path;
+        //    param.m_loaded = onloaded;
+        //    param.m_loadNeedCoroutine = false;
+        //    param.m_resNeedCoroutine = false;
+        //    Ctx.m_instance.m_resLoadMgr.loadResources(param);
+        //}
 
-        public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
-        {
-            IResItem res = resEvt as IResItem;
-            if (res.getPrefabName() == "setcard")
-            {
-                setcardmodel = (res.getObject(res.getPrefabName()) as GameObject).transform;
-            }
-            else if (res.getPrefabName() == "classzs")
-            {
-                zs = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classdz")
-            {
-                dz = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classdly")
-            {
-                dly = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classlr")
-            {
-                lr = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classms")
-            {
-                ms = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classsq")
-            {
-                sq = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classms")
-            {
-                ms = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classfs")
-            {
-                fs = res.getObject(res.getPrefabName()) as Material;
-            }
-            else if (res.getPrefabName() == "classss")
-            {
-                ss = res.getObject(res.getPrefabName()) as Material;
-            }
-        }
+        //public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        //{
+        //    IResItem res = resEvt as IResItem;
+        //    if (res.getPrefabName() == "setcard")
+        //    {
+        //        setcardmodel = (res.getObject(res.getPrefabName()) as GameObject).transform;
+        //    }
+        //    else if (res.getPrefabName() == "classzs")
+        //    {
+        //        zs = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classdz")
+        //    {
+        //        dz = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classdly")
+        //    {
+        //        dly = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classlr")
+        //    {
+        //        lr = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classms")
+        //    {
+        //        ms = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classsq")
+        //    {
+        //        sq = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classms")
+        //    {
+        //        ms = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classfs")
+        //    {
+        //        fs = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //    else if (res.getPrefabName() == "classss")
+        //    {
+        //        ss = res.getObject(res.getPrefabName()) as Material;
+        //    }
+        //}
 
         public void OnMouseClick(GameObject go)
         {
             OnMouseUpAsButton();
         }
 
-        public override void OnMouseUpAsButton()
+        public void OnMouseUpAsButton()
         {
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
         }
@@ -142,74 +142,78 @@ namespace SDK.Lib
             uiSC.hideAllCard();
 
             // classfilterhide
-            uiSC.classfilterhide(info.classs);
+            uiSC.classfilterhide((EnPlayerCareer)info.m_cardGroup.occupation);
         }
 
         //public void setinfo(set s)
         public void setinfo(CardGroupItem s)
         {
             info = s;
-            if (s.id == -1)
+            if (s.m_cardGroup.index == uint.MaxValue)
             {
-                s.name = "新建套牌";
+                s.m_cardGroup.name = "新建套牌";
             }
-            setname(s.name);
-            switch (s.classs)
-            {
-                case CardClass.kdruid:
-                    setpic(dly);
-                    break;
+            setname(s.m_cardGroup.name);
+            //switch (s.classs)
+            //{
+            //    case CardClass.kdruid:
+            //        setpic(dly);
+            //        break;
 
-                case CardClass.khunter:
-                    setpic(lr);
-                    break;
+            //    case CardClass.khunter:
+            //        setpic(lr);
+            //        break;
 
-                case CardClass.kmage:
-                    setpic(fs);
-                    break;
+            //    case CardClass.kmage:
+            //        setpic(fs);
+            //        break;
 
-                case CardClass.kpaladin:
-                    setpic(sq);
-                    break;
+            //    case CardClass.kpaladin:
+            //        setpic(sq);
+            //        break;
 
-                case CardClass.kpriest:
-                    setpic(ms);
-                    break;
+            //    case CardClass.kpriest:
+            //        setpic(ms);
+            //        break;
 
-                case CardClass.krogue:
-                    setpic(dz);
-                    break;
+            //    case CardClass.krogue:
+            //        setpic(dz);
+            //        break;
 
-                case CardClass.kshama:
-                    setpic(sm);
-                    break;
+            //    case CardClass.kshama:
+            //        setpic(sm);
+            //        break;
 
-                case CardClass.kwarlock:
-                    setpic(ss);
-                    break;
+            //    case CardClass.kwarlock:
+            //        setpic(ss);
+            //        break;
 
-                case CardClass.kwarrior:
-                    setpic(zs);
-                    break;
-            }
+            //    case CardClass.kwarrior:
+            //        setpic(zs);
+            //        break;
+            //}
+            setpic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)s.m_cardGroup.occupation).m_mat);
         }
 
-        void setclass(CardClass c)
+        void setclass(EnPlayerCareer c)
         {
-            info.classs = c;
+            info.m_cardGroup.occupation = (uint)c;
         }
 
         //public void Createnew(set s)
-        public void Createnew(CardGroupItem s)
+        public void Createnew(CardGroupItem s, bool bEnterEdit = true)
         {
             setinfo(s);
             //OnMouseUpAsButton();      // 不在模拟点击
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
+            if (bEnterEdit)
+            {
+                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
+            }
         }
 
         public void startEdit(cardset cardSet)
         {
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyAndInitData(this);
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyAndInitData(cardSet);
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.enterEditorMode();
         }
 
@@ -221,7 +225,7 @@ namespace SDK.Lib
 
         void setname(string n)
         {
-            info.name = n;
+            info.m_cardGroup.name = n;
             //transform.FindChild("name").FindChild("Label").GetComponent<Text>().text = n;
             name = n;
         }
@@ -314,29 +318,36 @@ namespace SDK.Lib
 
         void edit()
         {
-            if (info.cards == null)
+            if (info.m_cardList == null)
             {
                 return;
             }
 
             //拆箱
-            string[] cs = info.cards.Split('/');
-            foreach (string s in cs)
-            {
-                Debug.Log("将要拆箱的:" + s);
-                if (s != "")
-                {
-                    string[] idandnum = s.Split('*');
-                    card tc = wdscpage.getcardwithid(idandnum[0]);
-                    Debug.Log("拆箱后得到的结果:" + tc.cardid + "*" + tc.insetcount + "*" + tc.count);
+            //string[] cs = info.cards.Split('/');
+            //foreach (string s in cs)
+            //{
+            //    Debug.Log("将要拆箱的:" + s);
+            //    if (s != "")
+            //    {
+            //        string[] idandnum = s.Split('*');
+            //        card tc = wdscpage.getcardwithid(idandnum[0]);
+            //        Debug.Log("拆箱后得到的结果:" + tc.cardid + "*" + tc.insetcount + "*" + tc.count);
 
-                    for (int x = 0; x < int.Parse(idandnum[1]); x++)
-                    {
-                        addcard(tc);
-                        tc.insetcount++;
-                        tc.count--;
-                    }
-                }
+            //        for (int x = 0; x < int.Parse(idandnum[1]); x++)
+            //        {
+            //            addcard(tc);
+            //            tc.insetcount++;
+            //            tc.count--;
+            //        }
+            //    }
+            //}
+
+            foreach (uint id in info.m_cardList)
+            {
+                addcard(tc);
+                tc.insetcount++;
+                tc.count--;
             }
         }
 
@@ -352,10 +363,10 @@ namespace SDK.Lib
                 cardstext += c.cardid + "*" + c.insetcount + "/";//进行记录              
             }
 
-            if (cardstext != info.cards)
-            {
-                info.cards = cardstext;
-            }
+            //if (cardstext != info.cards)
+            //{
+            //    info.cards = cardstext;
+            //}
             //广播方法 setcardcls
             gameObject.BroadcastMessage("setcardcls", SendMessageOptions.DontRequireReceiver);
             setcards.Clear();
@@ -406,7 +417,7 @@ namespace SDK.Lib
         //卡组中的卡
         List<Transform> setcards = new List<Transform>();
         //卡组中卡的模型
-        public Transform setcardmodel;
+        //public Transform setcardmodel;
         Transform page;
         void updatecard(card c)
         {
@@ -464,18 +475,19 @@ namespace SDK.Lib
 
                 if (setcards.Count == 0)
                 {
-                    go = (Transform)UtilApi.Instantiate(setcardmodel, startpostion, transform.rotation);
+                    //go = (Transform)UtilApi.Instantiate(setcardmodel, startpostion, transform.rotation);
+                    go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), startpostion, transform.rotation);
                     go.parent = transform;
                     go.localPosition = startpostion;
                 }
                 else if (p == setcards.Count)
                 {
-                    go = (Transform)UtilApi.Instantiate(setcardmodel, setcards[p - 1].position, setcards[p - 1].rotation);
+                    go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), setcards[p - 1].position, setcards[p - 1].rotation);
                     go.Translate(Vector3.back * 0.15f * 1.290421f);
                 }
                 else
                 {
-                    go = (Transform)UtilApi.Instantiate(setcardmodel, setcards[p].position, setcards[p].rotation);
+                    go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), setcards[p].position, setcards[p].rotation);
                 }
 
                 go.parent = transform;

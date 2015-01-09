@@ -22,7 +22,7 @@ namespace Game.UI
         public CardSet set;
         public CardType type;
         public CardRace race;
-        public CardClass classs;
+        public EnPlayerCareer classs;
         public string attack;
         public string health;
         public string cost;
@@ -34,19 +34,19 @@ namespace Game.UI
     }
 
     //职业
-    public enum CardClass
-    {
-        kany,
-        kwarrior = 1, //ZZ
-        kpaladin = 2,//SQ
-        khunter = 3, //LR
-        krogue = 4,//SQ
-        kpriest = 5,//MS
-        kshama = 7,//SM
-        kmage = 8,//DZ
-        kwarlock = 9,//SS
-        kdruid = 11,//DLY
-    };
+    //public enum CardClass
+    //{
+    //    kany,
+    //    kwarrior = 1, //ZZ
+    //    kpaladin = 2,//SQ
+    //    khunter = 3, //LR
+    //    krogue = 4,//SQ
+    //    kpriest = 5,//MS
+    //    kshama = 7,//SM
+    //    kmage = 8,//DZ
+    //    kwarlock = 9,//SS
+    //    kdruid = 11,//DLY
+    //};
 
     public enum CardType
     {
@@ -129,12 +129,18 @@ namespace Game.UI
         {
             switch (nowMod)
             {
-                case wdscmMod.editset: endeditset();
+                case wdscmMod.editset:
+                    {
+                        endeditset();
+                    }
                     break;
                 case wdscmMod.look:
-                    //Camera.main.SendMessage("back");
-                    (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
-                    iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
+                    {
+                        //Camera.main.SendMessage("back");
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
+                        Ctx.m_instance.m_camSys.m_boxcam.back();
+                        iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
+                    }
                     break;
             }
         }
@@ -143,7 +149,8 @@ namespace Game.UI
         {
             transform.position = showpostion;
             //Camera.main.SendMessage("push");
-            (Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
+            //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
+            Ctx.m_instance.m_camSys.m_boxcam.push();
         }
     }
 }

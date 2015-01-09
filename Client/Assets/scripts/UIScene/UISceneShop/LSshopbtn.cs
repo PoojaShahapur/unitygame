@@ -37,7 +37,7 @@ namespace Game.UI
         }
 
         // Update is called once per frame
-        public override void OnMouseUpAsButton()
+        public void OnMouseUpAsButton()
         {
             switch (name)
             {

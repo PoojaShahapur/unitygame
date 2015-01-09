@@ -99,7 +99,14 @@ namespace SDK.Lib
                 {
                     param.m_loaded(m_LoadData.m_path2Res[param.m_path]);
                 }
-                return m_LoadData.m_path2Res[param.m_path];
+                if (m_LoadData.m_path2Res.ContainsKey(param.m_path))        // 有可能在回调的函数中这个资源被释放了
+                {
+                    return m_LoadData.m_path2Res[param.m_path];
+                }
+                else
+                {
+                    return null;
+                }
             }
 
             ResItem resitem = findResFormPool(param.m_resPackType);
@@ -299,6 +306,7 @@ namespace SDK.Lib
 
         public LoadParam getLoadParam()
         {
+            m_loadParam.resetDefault();
             return m_loadParam;
         }
     }
