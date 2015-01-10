@@ -10,7 +10,6 @@ using UnityEngine;
 /// Example usage: UIEventListener.Get(gameObject).onClick += MyClickFunction;
 /// </summary>
 
-[AddComponentMenu("NGUI/Internal/Event Listener")]
 public class UIEventListener : MonoBehaviour
 {
 	public delegate void VoidDelegate (GameObject go);

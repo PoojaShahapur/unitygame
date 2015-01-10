@@ -343,12 +343,12 @@ namespace SDK.Lib
             //    }
             //}
 
-            foreach (uint id in info.m_cardList)
-            {
-                addcard(tc);
-                tc.insetcount++;
-                tc.count--;
-            }
+            //foreach (uint id in info.m_cardList)
+            //{
+            //    addcard(tc);
+            //    tc.insetcount++;
+            //    tc.count--;
+            //}
         }
 
         //把卡清掉
