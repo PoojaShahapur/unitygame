@@ -27,6 +27,16 @@ namespace SDK.Common
             }
         }
 
+        public int getCardCount()
+        {
+            if(m_cardList == null)
+            {
+                return 0;
+            }
+
+            return m_cardList.Count;
+        }
+
         public void copyFrom(CardGroupItem rhv)
         {
             //this.id = rhv.id;

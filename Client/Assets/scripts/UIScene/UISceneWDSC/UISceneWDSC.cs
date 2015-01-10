@@ -26,6 +26,7 @@ namespace Game.UI
         public List<Transform> m_playersets = new List<Transform>();       // 卡牌组 Tranforms 以及最后的按钮
         public List<cardset> m_taoPaiEntityList = new List<cardset>();      // 当前已经有的卡牌
         public cardset m_curEditCardSet = null;            // 当前正在编辑的卡牌组
+        public UIGrid m_leftCardList = new UIGrid();
 
         public override void onReady()
         {
@@ -87,6 +88,8 @@ namespace Game.UI
             m_tabBtnList[9].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zl"));
 
             m_wdscpage.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/page"));
+
+            //m_leftCardList.setGameObject();
         }
 
         // 添加事件监听

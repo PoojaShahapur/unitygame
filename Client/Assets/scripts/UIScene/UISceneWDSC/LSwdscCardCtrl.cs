@@ -49,7 +49,7 @@ namespace Game.UI
                     {
                         //向当前编辑set发送加一张牌
                         //cardset.nowEditingSet.SendMessage("addcard", info);
-                        (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.addcard(info);
+                        //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.addcard(info);
                     }
 
                     break;

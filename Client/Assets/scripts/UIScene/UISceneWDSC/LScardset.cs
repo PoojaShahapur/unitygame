@@ -22,6 +22,7 @@ namespace SDK.Lib
         int[] costcount = new int[7];
         Transform del;
         cardsetdelshow m_delBtn = new cardsetdelshow();
+        protected List<SCCardListItem> m_cardList = new List<SCCardListItem>();
 
         public override void Awake()
         {
@@ -343,12 +344,13 @@ namespace SDK.Lib
             //    }
             //}
 
-            //foreach (uint id in info.m_cardList)
-            //{
-            //    addcard(tc);
-            //    tc.insetcount++;
-            //    tc.count--;
-            //}
+            foreach (uint id in info.m_cardList)
+            {
+                CardItemBase tc = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardDic[id];
+                addcard(tc);
+            }
+
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.Reposition();
         }
 
         //把卡清掉
@@ -452,54 +454,58 @@ namespace SDK.Lib
 
         Vector3 startpostion = new Vector3(-0.007081032f, -0.1669452f, -0.3663702f);
         //加一张卡
-        public void addcard(card c)
+        //public void addcard(card c)
+        public void addcard(CardItemBase c)
         {
-            //如果已经满了
-            if (getcardcount() == "30/30")
-            {
-                //不加,
-                return;
-            }
-            c.insetcount++;
-            c.count--;
-            if (isinset(c.cardid)) //有
-            {
-                transform.FindChild(c.cardid).SendMessage("addone", c);
-            }
-            else
-            {
-                //根据消费来定插入位置
-                int p = indexofset(int.Parse(c.cost));
-                //实例化一个
-                Transform go;
+            ////如果已经满了
+            //if (getcardcount() == 30)
+            //{
+            //    //不加,
+            //    return;
+            //}
+            //c.insetcount++;
+            //c.count--;
+            //if (isinset(c.cardid)) //有
+            //{
+            //    transform.FindChild(c.cardid).SendMessage("addone", c);
+            //}
+            //else
+            //{
+            //    //根据消费来定插入位置
+            //    int p = indexofset(int.Parse(c.cost));
+            //    //实例化一个
+            //    Transform go;
 
-                if (setcards.Count == 0)
-                {
-                    //go = (Transform)UtilApi.Instantiate(setcardmodel, startpostion, transform.rotation);
-                    go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), startpostion, transform.rotation);
-                    go.parent = transform;
-                    go.localPosition = startpostion;
-                }
-                else if (p == setcards.Count)
-                {
-                    go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), setcards[p - 1].position, setcards[p - 1].rotation);
-                    go.Translate(Vector3.back * 0.15f * 1.290421f);
-                }
-                else
-                {
-                    go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), setcards[p].position, setcards[p].rotation);
-                }
+            //    if (setcards.Count == 0)
+            //    {
+            //        //go = (Transform)UtilApi.Instantiate(setcardmodel, startpostion, transform.rotation);
+            //        go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), startpostion, transform.rotation);
+            //        go.parent = transform;
+            //        go.localPosition = startpostion;
+            //    }
+            //    else if (p == setcards.Count)
+            //    {
+            //        go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), setcards[p - 1].position, setcards[p - 1].rotation);
+            //        go.Translate(Vector3.back * 0.15f * 1.290421f);
+            //    }
+            //    else
+            //    {
+            //        go = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), setcards[p].position, setcards[p].rotation);
+            //    }
 
-                go.parent = transform;
+            //    go.parent = transform;
 
-                go.SendMessage("setinfo", c);
-                setcarddown(p);
-                setcards.Insert(p, go);
-            }
-            updatacardcount();
-            //向page更新这张卡的信息
-            updatecard(c);
-            //更新统计信息
+            //    go.SendMessage("setinfo", c);
+            //    setcarddown(p);
+            //    setcards.Insert(p, go);
+            ////}
+            //updatacardcount();
+            ////向page更新这张卡的信息
+            //updatecard(c);
+            ////更新统计信息
+
+            GameObject go = UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject()) as GameObject;
+            go.transform.parent = (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.getGameObject().transform;
         }
 
         //查找一张卡在不在卡组中
@@ -526,16 +532,18 @@ namespace SDK.Lib
             //cardcount.text = t;
         }
 
-        string getcardcount()
+        int getcardcount()
         {
-            if (cardcount == null)
-            {
-                return null;
-            }
-            else
-            {
-                return cardcount.text;
-            }
+            //if (cardcount == null)
+            //{
+            //    return null;
+            //}
+            //else
+            //{
+            //    return cardcount.text;
+            //}
+
+            return info.getCardCount();
         }
 
         void updatacardcount()

@@ -15,71 +15,25 @@ public class UIGrid : LSBehaviour
 {
 	public delegate void OnReposition ();
 
-	public enum Arrangement
-	{
-		Horizontal,
-		Vertical,
-		CellSnap,
-	}
+    /// <summary>
+    /// Maximum children per line.
+    /// If the arrangement is horizontal, this denotes the number of columns.
+    /// If the arrangement is vertical, this stands for the number of rows.
+    /// </summary>
 
-	public enum Sorting
-	{
-		None,
-		Alphabetic,
-		Horizontal,
-		Vertical,
-		Custom,
-	}
-
-	/// <summary>
-	/// Type of arrangement -- vertical, horizontal or cell snap.
-	/// </summary>
-
-	public Arrangement arrangement = Arrangement.Horizontal;
-
-	/// <summary>
-	/// How to sort the grid's elements.
-	/// </summary>
-
-	public Sorting sorting = Sorting.None;
-
-	/// <summary>
-	/// Maximum children per line.
-	/// If the arrangement is horizontal, this denotes the number of columns.
-	/// If the arrangement is vertical, this stands for the number of rows.
-	/// </summary>
-
-	public int maxPerLine = 0;
+    public int maxPerLine = 1;
 
 	/// <summary>
 	/// The width of each of the cells.
 	/// </summary>
 
-	public float cellWidth = 200f;
+	public float cellWidth = 1f;
 
 	/// <summary>
 	/// The height of each of the cells.
 	/// </summary>
 
-	public float cellHeight = 200f;
-
-	/// <summary>
-	/// Whether the grid will smoothly animate its children into the correct place.
-	/// </summary>
-
-	public bool animateSmoothly = false;
-
-	/// <summary>
-	/// Whether to ignore the disabled children or to treat them as being present.
-	/// </summary>
-
-	public bool hideInactive = false;
-
-	/// <summary>
-	/// Whether the parent container will be notified of the grid's changes.
-	/// </summary>
-
-	public bool keepWithinPanel = false;
+	public float cellHeight = 1f;
 
 	/// <summary>
 	/// Callback triggered when the grid repositions its contents.
@@ -87,17 +41,7 @@ public class UIGrid : LSBehaviour
 
 	public OnReposition onReposition;
 
-	/// <summary>
-	/// Custom sort delegate, used when the sorting method is set to 'custom'.
-	/// </summary>
-
-	public System.Comparison<Transform> onCustomSort;
-
-	// Use the 'sorting' property instead
-	[HideInInspector][SerializeField] bool sorted = false;
-
 	protected bool mReposition = false;
-	protected bool mInitDone = false;
 
 	/// <summary>
 	/// Reposition the children on the next Update().
@@ -117,19 +61,9 @@ public class UIGrid : LSBehaviour
 		for (int i = 0; i < myTrans.childCount; ++i)
 		{
 			Transform t = myTrans.GetChild(i);
-			if (!hideInactive || (t && NGUITools.GetActive(t.gameObject)))
-				list.Add(t);
+		    list.Add(t);
 		}
 
-		// Sort the list using the desired sorting logic
-		if (sorting != Sorting.None && arrangement != Arrangement.CellSnap)
-		{
-			if (sorting == Sorting.Alphabetic) list.Sort(SortByName);
-			else if (sorting == Sorting.Horizontal) list.Sort(SortHorizontal);
-			else if (sorting == Sorting.Vertical) list.Sort(SortVertical);
-			else if (onCustomSort != null) list.Sort(onCustomSort);
-			else Sort(list);
-		}
 		return list;
 	}
 
@@ -193,10 +127,7 @@ public class UIGrid : LSBehaviour
 
 	protected virtual void Start ()
 	{
-		bool smooth = animateSmoothly;
-		animateSmoothly = false;
 		Reposition();
-		animateSmoothly = smooth;
 	}
 
 	/// <summary>
@@ -232,14 +163,6 @@ public class UIGrid : LSBehaviour
 	[ContextMenu("Execute")]
 	public virtual void Reposition ()
 	{
-		// Legacy functionality
-		if (sorted)
-		{
-			sorted = false;
-			if (sorting == Sorting.None)
-				sorting = Sorting.Alphabetic;
-		}
-
 		// Get the list of children in their current order
 		List<Transform> list = GetChildList();
 
@@ -259,53 +182,23 @@ public class UIGrid : LSBehaviour
 	{
 		mReposition = false;
 
-		// Epic hack: Unparent all children so that we get to control the order in which they are re-added back in
-		// EDIT: Turns out this does nothing.
-		//for (int i = 0, imax = list.Count; i < imax; ++i)
-		//	list[i].parent = null;
-
 		int x = 0;
-		int y = 0;
-		int maxX = 0;
-		int maxY = 0;
+		int z = 0;
 		Transform myTrans = transform;
 
 		// Re-add the children in the same order we have them in and position them accordingly
 		for (int i = 0, imax = list.Count; i < imax; ++i)
 		{
 			Transform t = list[i];
-			// See above
-			//t.parent = myTrans;
 
 			Vector3 pos = t.localPosition;
-			float depth = pos.z;
+			float depth = pos.y;
+            x = i % maxPerLine;
+            z = i / maxPerLine;
+            // 放在一个格子的中间
+            pos = new Vector3(cellWidth * x + cellWidth / 2, depth, -cellHeight * z - cellHeight / 2);
 
-			if (arrangement == Arrangement.CellSnap)
-			{
-				if (cellWidth > 0) pos.x = Mathf.Round(pos.x / cellWidth) * cellWidth;
-				if (cellHeight > 0) pos.y = Mathf.Round(pos.y / cellHeight) * cellHeight;
-			}
-			else pos = (arrangement == Arrangement.Horizontal) ?
-				new Vector3(cellWidth * x, -cellHeight * y, depth) :
-				new Vector3(cellWidth * y, -cellHeight * x, depth);
-
-            //if (animateSmoothly && Application.isPlaying && Vector3.SqrMagnitude(t.localPosition - pos) >= 0.0001f)
-            //{
-            //    SpringPosition sp = SpringPosition.Begin(t.gameObject, pos, 15f);
-            //    sp.updateScrollView = true;
-            //    sp.ignoreTimeScale = true;
-            //}
-            //else t.localPosition = pos;
             t.localPosition = pos;
-
-			maxX = Mathf.Max(maxX, x);
-			maxY = Mathf.Max(maxY, y);
-
-			if (++x >= maxPerLine && maxPerLine > 0)
-			{
-				x = 0;
-				++y;
-			}
 		}
 	}
 }
