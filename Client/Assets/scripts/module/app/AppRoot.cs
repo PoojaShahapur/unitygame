@@ -8,7 +8,7 @@ using Game.App;
  */
 public class AppRoot : MonoBehaviour 
 {
-    private AppSys m_AppSys;
+    //private AppSys m_AppSys;
 
     void Awake()
     {
@@ -18,29 +18,30 @@ public class AppRoot : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+        Ctx.getCtx(gameObject);
         // 构造所有的数据
-        m_AppSys = new AppSys();
-        m_AppSys.constructAll(transform);
+        //m_AppSys = new AppSys();
+        //m_AppSys.constructAll(transform);
 
         // 设置不释放 GameObject
-        m_AppSys.setNoDestroyObject();
+        //m_AppSys.setNoDestroyObject();
         // 交叉引用的对象初始化
-        m_AppSys.PostInit();
+        //m_AppSys.PostInit();
         // 加载登陆模块
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
 	}
 	
 	// Update is called once per frame
-	void Update () 
-    {
-        //BugResolve();
-        Ctx.m_instance.m_engineLoop.MainLoop();
-	}
+    //void Update () 
+    //{
+    //    //BugResolve();
+    //    Ctx.m_instance.m_engineLoop.MainLoop();
+    //}
 
-    void OnApplicationQuit()
-    {
-        Ctx.m_instance.m_netMgr.quipApp();
-    }
+    //void OnApplicationQuit()
+    //{
+    //    Ctx.m_instance.m_netMgr.quipApp();
+    //}
 
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个
     private void BugResolve()

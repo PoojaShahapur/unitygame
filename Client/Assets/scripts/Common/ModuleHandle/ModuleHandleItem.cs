@@ -1,7 +1,6 @@
-﻿using SDK.Common;
-using System;
+﻿using System;
 
-namespace Game.App
+namespace SDK.Common
 {
     /**
      * @brief 单一模块处理 Item 

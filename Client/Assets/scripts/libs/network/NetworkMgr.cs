@@ -119,10 +119,17 @@ namespace SDK.Lib
         // 注意这个仅仅是放入缓冲区冲，真正发送在子线程中发送
         public void send()
         {
-            m_curSocket.dataBuffer.send();
-            #if !NETMULTHREAD
-            m_curSocket.Send();
-            #endif
+            if (m_curSocket != null)
+            {
+                m_curSocket.dataBuffer.send();
+                #if !NETMULTHREAD
+                m_curSocket.Send();
+                #endif
+            }
+            else
+            {
+                Ctx.m_instance.m_log.log("current socket null");
+            }
         }
 
         // 关闭 App ，需要等待子线程结束

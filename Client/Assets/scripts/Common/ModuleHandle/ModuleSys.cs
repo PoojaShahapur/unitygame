@@ -1,9 +1,8 @@
-﻿using SDK.Common;
-using SDK.Lib;
+﻿using SDK.Lib;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.App
+namespace SDK.Common
 {
     /**
      * @brief 主要是各个模块的管理

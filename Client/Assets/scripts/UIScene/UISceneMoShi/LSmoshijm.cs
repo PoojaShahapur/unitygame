@@ -200,11 +200,16 @@ namespace Game.UI
                         iTween.MoveBy(gameObject, Vector3.left * 15f, 1);
                         //newsetbtn.SendMessage("newcardset", chooseClass);//向newsetbtn发送
                         // 等待服务器返回消息，才能建立
-                        //IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
-                        //if(uiSC != null)
-                        //{
-                        //    uiSC.newcardset(chooseClass);
-                        //}
+                        CardGroupItem group = new CardGroupItem();
+                        group.m_cardGroup = new t_group_list();
+                        group.m_cardGroup.index = 1;
+                        group.m_cardGroup.occupation = 1;
+                        group.m_cardGroup.name = "nihao";
+                        IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+                        if (uiSC != null)
+                        {
+                            uiSC.newcardset(group);
+                        }
                     }
                     break;
                 case moshijmmethod.lx:

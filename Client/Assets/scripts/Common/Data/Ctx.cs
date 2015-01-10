@@ -2,10 +2,14 @@
 using System;
 using System.Collections.Generic;
 using SDK.Lib;
+using SDK.Common;
 
 namespace SDK.Common
 {
-    public class Ctx
+    /**
+     * @brief 挂载到不卸载的 GameObject，保证 Ctx 永远不被释放，否则过场景后，这里面的内容可能会被清空
+     */
+    public class Ctx : MonoBehaviour
     {
         static public Ctx m_instance;
 
@@ -63,9 +67,137 @@ namespace SDK.Common
 
         }
 
-        public void OnApplicationQuit()
+        public static Ctx getCtx(GameObject go)
         {
+            if (m_instance == null)
+            {
+                m_instance = go.AddComponent<Ctx>();
+            }
+            return m_instance;
+        }
 
+        void Awake()
+        {
+            
+        }
+
+        void Start()
+        {
+            // 构造所有的数据
+            constructAll();
+            // 设置不释放 GameObject
+            setNoDestroyObject();
+            // 交叉引用的对象初始化
+            PostInit();
+            // 加载登陆模块
+            m_moduleSys.loadModule(ModuleID.LOGINMN);
+        }
+
+        void Update()
+        {
+            m_engineLoop.MainLoop();
+        }
+
+        void OnApplicationQuit()
+        {
+            m_netMgr.quipApp();
+        }
+
+        public void constructAll()
+        {
+            ByteUtil.checkEndian();     // 检查系统大端小端
+
+            m_cfg = new Config();
+            m_factoryBuild = new FactoryBuild();
+
+            m_netMgr = new NetworkMgr();
+            m_log = new Logger();
+            m_resLoadMgr = new ResLoadMgr();
+            m_inputMgr = new InputMgr();
+            m_dataTrans = transform;
+
+            m_processSys = new ProcessSys();
+            m_tickMgr = new TickMgr();
+            m_timerMgr = new TimerMgr();
+            m_coroutineMgr = new CoroutineMgr();
+            m_shareMgr = new ShareMgr();
+            m_sceneSys = new SceneSys();
+            m_layerMgr = new LayerMgr();
+
+            m_uiMgr = new UIMgr();
+            m_uiSceneMgr = new UISceneMgr();
+            m_engineLoop = new EngineLoop();
+            m_resizeMgr = new ResizeMgr();
+
+            m_playerMgr = new PlayerMgr();
+            m_monsterMgr = new MonsterMgr();
+            m_fObjectMgr = new FObjectMgr();
+            m_npcMgr = new NpcMgr();
+
+            m_camSys = new CamSys();
+            m_aiSystem = new AISystem();
+            m_sysMsgRoute = new SysMsgRoute();
+            m_moduleSys = new ModuleSys();
+            m_tableSys = new TableSys();
+            m_localFileSys = new LocalFileSys();
+            m_langMgr = new LangMgr();
+        }
+
+        public void PostInit()
+        {
+            m_resizeMgr.addResizeObject(m_uiMgr as IResizeObject);
+            //m_tickMgr.AddTickObj(m_inputMgr as ITickedObject);
+            m_inputMgr.postInit();
+            m_tickMgr.AddTickObj(m_playerMgr as ITickedObject);
+            m_tickMgr.AddTickObj(m_monsterMgr as ITickedObject);
+            m_tickMgr.AddTickObj(m_fObjectMgr as ITickedObject);
+            m_tickMgr.AddTickObj(m_npcMgr as ITickedObject);
+
+            m_uiMgr.getLayerGameObject();
+
+            //m_tableSys.loadOneTable(TableID.TABLE_OBJECT);
+            //m_tableSys.getItem(TableID.TABLE_OBJECT, 712);
+            //m_xmlCfgMgr.loadMarket();
+            //m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
+            m_dataPlayer.m_dataPack.postConstruct();
+            m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
+        }
+
+        public void setNoDestroyObject()
+        {
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_Root);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_App);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Canvas] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_Canvas);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Canvas]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UICamera);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_EventSystem] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_EventSystem);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_EventSystem]);
+
+            // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIBtmLayer] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIBtmLayer);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIBtmLayer]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIFirstLayer);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISecondLayer] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UISecondLayer);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISecondLayer]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIThirdLayer] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIThirdLayer);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIThirdLayer]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIForthLayer] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIForthLayer);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIForthLayer]);
+
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UITopLayer);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer]);
         }
     }
 }

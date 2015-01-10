@@ -349,8 +349,10 @@ namespace SDK.Lib
                 CardItemBase tc = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardDic[id];
                 addcard(tc);
             }
-
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.Reposition();
+            if (info.m_cardList != null && info.m_cardList.Count > 0)
+            {
+                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.Reposition();
+            }
         }
 
         //把卡清掉
