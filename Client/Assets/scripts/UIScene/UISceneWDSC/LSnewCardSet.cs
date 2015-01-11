@@ -88,10 +88,16 @@ namespace Game.UI
         // 新建卡牌组， bEnterEdit 是否立即进入编辑模式
         public void newcardset(CardGroupItem s, bool bEnterEdit = true)
         {
+            //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            //g.parent = transform.parent;
+            //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, g);//插入到最后一位
+            //transform.Translate(new Vector3(0, 0, -0.525f));
+
             Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-            g.parent = transform.parent;
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, g);//插入到最后一位
-            transform.Translate(new Vector3(0, 0, -0.525f));
+            //g.localPosition = Vector3.zero;
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);//插入到最后一位
+            transform.localPosition = new Vector3(0, 0, -0.525f * (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.getChildCount());
+
             //set s = new set();
             //s.id = -1;
             //s.classs = c;

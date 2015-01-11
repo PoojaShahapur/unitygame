@@ -49,6 +49,11 @@ public class UIGrid : LSBehaviour
 
 	public bool repositionNow { set { if (value) { mReposition = true; } } }
 
+    // 最后一次位置
+    Vector3 m_lastpostion;
+    // 隐藏位置
+    public float m_hideZPos;
+
 	/// <summary>
 	/// Get the current list of the grid's children.
 	/// </summary>
@@ -66,6 +71,11 @@ public class UIGrid : LSBehaviour
 
 		return list;
 	}
+
+    public int getChildCount()
+    {
+        return transform.childCount;
+    }
 
 	/// <summary>
 	/// Convenience method: get the child at the specified index.
@@ -201,4 +211,17 @@ public class UIGrid : LSBehaviour
             t.localPosition = pos;
 		}
 	}
+
+    // 隐藏就是移动到很远
+    public void hide()
+    {
+        m_lastpostion = transform.localPosition;
+        transform.Translate(new Vector3(0, 0, m_hideZPos));
+    }
+
+    // 显示
+    public void show()
+    {
+        transform.localPosition = m_lastpostion;
+    }
 }

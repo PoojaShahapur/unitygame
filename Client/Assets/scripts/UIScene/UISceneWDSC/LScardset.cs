@@ -135,12 +135,14 @@ namespace SDK.Lib
             //transform.root.FindChild("classfilter").BroadcastMessage("classfilterhide", info.classs);
 
             IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+            // 设置编辑模式
             uiSC.editset();
 
-            // hide
+            // hide 新建卡牌按钮
             uiSC.hide();
             // 遍历所有的卡牌集合，进行隐藏
-            uiSC.hideAllCard();
+            //uiSC.hideAllCard();
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.hide();
 
             // classfilterhide
             uiSC.classfilterhide((EnPlayerCareer)info.m_cardGroup.occupation);
@@ -317,6 +319,7 @@ namespace SDK.Lib
             }
         }
 
+        // 显示卡牌组中的卡牌
         void edit()
         {
             if (info.m_cardList == null)

@@ -115,8 +115,9 @@ namespace Game.UI
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.hide();
 
             //cardset.nowEditingSet.transform.parent.BroadcastMessage("goback");
-            uiSC.newCardSet_goback();
-            uiSC.cardset_goback();
+            uiSC.newCardSet_goback();       // 新建卡牌按钮显示
+            //uiSC.cardset_goback();          // 显示所有卡牌
+            (uiSC as UISceneWDSC).m_leftCardGroupList.show();
             //职业标签 回来
             //transform.root.FindChild("classfilter").BroadcastMessage("gotoback");
             uiSC.classfilter_gotoback();

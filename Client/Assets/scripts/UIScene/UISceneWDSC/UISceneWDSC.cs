@@ -27,6 +27,7 @@ namespace Game.UI
         public List<cardset> m_taoPaiEntityList = new List<cardset>();      // 当前已经有的卡牌
         public cardset m_curEditCardSet = null;            // 当前正在编辑的卡牌组
         public UIGrid m_leftCardList = new UIGrid();
+        public UIGrid m_leftCardGroupList = new UIGrid();
 
         public override void onReady()
         {
@@ -90,6 +91,10 @@ namespace Game.UI
             m_wdscpage.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/page"));
 
             //m_leftCardList.setGameObject();
+            m_leftCardGroupList.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/CardGroupList"));
+            m_leftCardGroupList.cellWidth = 1.172f;
+            m_leftCardGroupList.cellHeight = 0.445f;
+            m_leftCardGroupList.m_hideZPos = -20f;
         }
 
         // 添加事件监听
