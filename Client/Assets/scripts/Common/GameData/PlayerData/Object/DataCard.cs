@@ -23,6 +23,7 @@ namespace SDK.Common
         public Dictionary<int, CardGroupAttrMatItem> m_id2CardGroupMatAttrDic = new Dictionary<int, CardGroupAttrMatItem>();        // 卡牌材质属性
 
         public CardGroupModelAttrItem m_cardGroupModelAttrItem = new CardGroupModelAttrItem();
+        public CardGroupModelAttrItem m_cardSetModelAttrItem = new CardGroupModelAttrItem();
 
         public DataCard()
         {
@@ -91,6 +92,9 @@ namespace SDK.Common
 
             m_cardGroupModelAttrItem.m_prefabName = "setcard";
             m_cardGroupModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_cardGroupModelAttrItem.m_prefabName;
+
+            m_cardSetModelAttrItem.m_prefabName = "cardset";
+            m_cardSetModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_cardSetModelAttrItem.m_prefabName;
         }
 
         public void reqAllCard()

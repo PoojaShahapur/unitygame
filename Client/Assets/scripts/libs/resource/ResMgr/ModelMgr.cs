@@ -76,6 +76,15 @@ namespace SDK.Lib
             return syncGet<ModelRes>(prefab, path) as ModelRes;
         }
 
+        // 获取卡牌组的模型
+        public ModelRes getcardSetModel()
+        {
+            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetModelAttrItem.m_prefabName;
+            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetModelAttrItem.m_path;
+
+            return syncGet<ModelRes>(prefab, path) as ModelRes;
+        }
+
         public override void onLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;

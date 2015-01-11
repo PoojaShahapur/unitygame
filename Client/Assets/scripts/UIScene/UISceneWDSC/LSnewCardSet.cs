@@ -11,14 +11,14 @@ namespace Game.UI
      */
     public class newCardSet : InterActiveEntity
     {
-        public Transform cardsetpre;
+        //public Transform cardsetpre;
         //public static List<Transform> playersets = new List<Transform>();       // 卡牌 Tranforms 以及最后的按钮
         //public static List<cardset> m_taoPaiEntityList = new List<cardset>();
 
         public override void Start()
         {
             // 加载资源
-            load();
+            //load();
             //得到用户的卡组
             //List<set> playset = web.getSets();
             //foreach (set s in playset)
@@ -34,23 +34,23 @@ namespace Game.UI
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(transform);
         }
 
-        public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
-        {
-            IResItem res = resEvt as IResItem;
-            cardsetpre = (res.getObject("cardset") as GameObject).transform;
-        }
+        //public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        //{
+        //    IResItem res = resEvt as IResItem;
+        //    cardsetpre = (res.getObject("cardset") as GameObject).transform;
+        //}
 
-        public void load()
-        {
-            LoadParam param;
-            param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
-            param.m_prefabName = "cardset";
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + param.m_prefabName;
-            param.m_loaded = onloaded;
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
-            Ctx.m_instance.m_resLoadMgr.loadResources(param);
-        }
+        //public void load()
+        //{
+        //    LoadParam param;
+        //    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+        //    param.m_prefabName = "cardset";
+        //    param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + param.m_prefabName;
+        //    param.m_loaded = onloaded;
+        //    param.m_loadNeedCoroutine = false;
+        //    param.m_resNeedCoroutine = false;
+        //    Ctx.m_instance.m_resLoadMgr.loadResources(param);
+        //}
 
         //选职业
         public void OnMouseUpAsButton()
@@ -62,7 +62,8 @@ namespace Game.UI
         //void addset(set s)
         void addset(CardGroupItem s)
         {
-            Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            Transform g = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject());
             g.parent = transform.parent;
             //g.SendMessage("setinfo", s);
             cardset taopai = new cardset();
@@ -93,7 +94,8 @@ namespace Game.UI
             //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, g);//插入到最后一位
             //transform.Translate(new Vector3(0, 0, -0.525f));
 
-            Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            Transform g = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation);
             //g.localPosition = Vector3.zero;
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);//插入到最后一位
             transform.localPosition = new Vector3(0, 0, -0.525f * (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.getChildCount());
@@ -131,7 +133,8 @@ namespace Game.UI
 
         public void insEditCardGroup()
         {
-            Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            //Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
+            Transform trans = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation);
             trans.parent = transform.parent;
 
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();
