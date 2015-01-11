@@ -2,14 +2,17 @@
 using System.Net;
 using System.Net.Sockets;
 using SDK.Common;
+using System;
 
 namespace SDK.Lib
 {
     public class NetTCPClient
     {
         // 发送和接收的超时时间
-        public int m_sendTimeout = 3;
-        public int m_revTimeout = 3;
+        public int m_connectTimeout = 5000;
+        // 超时值（以毫秒为单位）。如果将该属性设置为 1 到 499 之间的值，该值将被更改为 500。默认值为 0，指示超时期限无限大。指定 -1 还会指示超时期限无限大。
+        public int m_sendTimeout = 5000;
+        public int m_revTimeout = 5000;
 
         public string m_host = "localhost";
         public int m_port = 50000;
@@ -71,8 +74,29 @@ namespace SDK.Lib
                 // 创建socket
                 m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 // 开始连接
-                m_socket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), m_socket);
-                //break;
+                IAsyncResult result = m_socket.BeginConnect(ipe, new System.AsyncCallback(ConnectionCallback), m_socket);
+                // 这里做一个超时的监测，当连接超过5秒还没成功表示超时
+                bool success = result.AsyncWaitHandle.WaitOne(m_connectTimeout, true);
+                if (!success)
+                {
+                    //超时
+                    Disconnect(0);
+                    Ctx.m_instance.m_log.log("socket connect Time Out");
+                }
+                else
+                {
+                    // 设置建立链接标示
+                    m_isConnected = true;
+                    // 打印端口信息
+                    string ipPortStr;
+
+                    ipPortStr = string.Format("local IP: {0}, Port: {1}", ((IPEndPoint)m_socket.LocalEndPoint).Address.ToString(), ((IPEndPoint)m_socket.LocalEndPoint).Port.ToString());
+                    Ctx.m_instance.m_log.log(ipPortStr);
+
+                    ipPortStr = string.Format("Remote IP: {0}, Port: {1}", ((IPEndPoint)m_socket.RemoteEndPoint).Address.ToString(), ((IPEndPoint)m_socket.RemoteEndPoint).Port.ToString());
+                    Ctx.m_instance.m_log.log(ipPortStr);
+
+                }
             }
             catch (System.Exception e)
             {
@@ -92,9 +116,9 @@ namespace SDK.Lib
                 // 与服务器取得连接
                 m_socket.EndConnect(ar);
                 m_isConnected = true;
-                // 设置timeout
-                m_socket.SendTimeout = m_sendTimeout;
-                m_socket.ReceiveTimeout = m_revTimeout;
+                // 设置 timeout
+                //m_socket.SendTimeout = m_sendTimeout;
+                //m_socket.ReceiveTimeout = m_revTimeout;
 
                 #if !NETMULTHREAD
                 Receive();
@@ -135,7 +159,7 @@ namespace SDK.Lib
             // 只有 socket 连接的时候才继续接收数据
             if (m_socket.Connected)
             {
-                // 接收从服务器返回的头信息
+                // 接收从服务器返回的信息
                 m_socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
             }
         }
@@ -197,7 +221,12 @@ namespace SDK.Lib
             try
             {
                 m_dataBuffer.getSendData();
-                m_socket.BeginSend(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, 0, new System.AsyncCallback(SendCallback), 0);
+                IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, 0, new System.AsyncCallback(SendCallback), 0);
+                bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
+                if (!success)
+                {
+                    Ctx.m_instance.m_log.synclog(string.Format("SendMsg Timeout {0} ", m_sendTimeout));
+                }
             }
             catch (System.Exception e)
             {
@@ -231,19 +260,28 @@ namespace SDK.Lib
         }
 
         // 关闭连接
-        public void Disconnect(int timeout)
+        public void Disconnect(int timeout = 0)
         {
             // 关闭之后 m_socket.Connected 设置成 false
             if (m_socket.Connected)
             {
                 m_socket.Shutdown(SocketShutdown.Both);
                 //m_socket.Close(timeout);  // timeout 不能是 0 ，是 0 含义未定义
-                m_socket.Close();
+                if (timeout > 0)
+                {
+                    m_socket.Close(timeout);
+                }
+                else
+                {
+                    m_socket.Close();
+                }
             }
             else
             {
                 m_socket.Close();
             }
+
+            m_socket = null;
         }
         
         // 检查并且更新连接状态
