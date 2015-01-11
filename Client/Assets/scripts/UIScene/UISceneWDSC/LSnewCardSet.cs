@@ -95,7 +95,7 @@ namespace Game.UI
             //transform.Translate(new Vector3(0, 0, -0.525f));
 
             //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-            Transform g = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation);
+            Transform g = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             //g.localPosition = Vector3.zero;
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);//插入到最后一位
             transform.localPosition = new Vector3(0, 0, -0.525f * (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.getChildCount());
@@ -134,7 +134,7 @@ namespace Game.UI
         public void insEditCardGroup()
         {
             //Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-            Transform trans = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation);
+            Transform trans = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             trans.parent = transform.parent;
 
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();
