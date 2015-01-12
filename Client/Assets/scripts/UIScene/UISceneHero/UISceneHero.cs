@@ -16,11 +16,11 @@ namespace Game.UI
         public override void onReady()
         {
             base.onReady();
-
             m_sceneHeroData = new SceneHeroData();
-            m_sceneHeroCenteArear = new SceneHeroCenteArear(m_sceneHeroData);
 
             getWidget();
+            m_sceneHeroCenteArear = new SceneHeroCenteArear(m_sceneHeroData);
+
             addEventHandle();
         }
 

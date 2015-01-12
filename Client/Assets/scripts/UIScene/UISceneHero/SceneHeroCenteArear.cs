@@ -9,11 +9,15 @@ namespace Game.UI
     public class SceneHeroCenteArear : SceneHeroAreaBase
     {
         public List<SceneHeroItem> m_heroList = new List<SceneHeroItem>();
+        public UIGrid m_heroGrid = new UIGrid();
 
         public SceneHeroCenteArear(SceneHeroData data)
             : base(data)
         {
+            m_heroGrid.setGameObject(UtilApi.TransFindChildByPObjAndPath(m_sceneHeroData.m_goRoot, "HeroGrid"));
 
+            m_heroGrid.cellWidth = 0.388f;
+            m_heroGrid.cellHeight = 0.651f;
         }
 
         public void updateAllHero()
@@ -32,12 +36,15 @@ namespace Game.UI
 
                 item = new SceneHeroItem();
                 m_heroList.Add(item);
-                item.m_tran = m_sceneHeroData.m_goRoot.transform;
+                //item.m_tran = m_sceneHeroData.m_goRoot.transform;
+                item.m_grid = m_heroGrid;
                 item.setDefaultRes();
                 item.load();
 
                 ++idTotal;
             }
+
+            //m_heroGrid.Reposition();
         }
 
         public void releaseAll()

@@ -11,10 +11,10 @@ namespace Game.UI
 {
     enum moshijmmethod
     {
-        knewset,
-        dz,
-        lx,
-        jj
+        knewset,        // 建立卡牌模式
+        dz,             // 对战模式
+        lx,             // 冒险
+        jj              // 竞技
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ namespace Game.UI
             jbtpbtn.transform.Rotate(0, 0, 0);
             jbtpbtn.transform.Rotate(0, 0, 0);
             transform.position = goodp;
-            nowMethod = moshijmmethod.lx;
+            nowMethod = moshijmmethod.dz;
             //Camera.main.SendMessage("push");
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
             Ctx.m_instance.m_camSys.m_boxcam.push();
@@ -200,25 +200,27 @@ namespace Game.UI
                         iTween.MoveBy(gameObject, Vector3.left * 15f, 1);
                         //newsetbtn.SendMessage("newcardset", chooseClass);//向newsetbtn发送
                         // 等待服务器返回消息，才能建立
-                        CardGroupItem group = new CardGroupItem();
-                        group.m_cardGroup = new t_group_list();
-                        group.m_cardGroup.index = 1;
-                        group.m_cardGroup.occupation = 1;
-                        group.m_cardGroup.name = "nihao";
-                        IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
-                        if (uiSC != null)
-                        {
-                            uiSC.newcardset(group);
-                        }
+                        //CardGroupItem group = new CardGroupItem();
+                        //group.m_cardGroup = new t_group_list();
+                        //group.m_cardGroup.index = 1;
+                        //group.m_cardGroup.occupation = 1;
+                        //group.m_cardGroup.name = "nihao";
+                        //IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+                        //if (uiSC != null)
+                        //{
+                        //    uiSC.newcardset(group);
+                        //}
                     }
                     break;
                 case moshijmmethod.lx:
+                    break;
+                case moshijmmethod.dz:
                     stReqHeroFightMatchUserCmd cmd = new stReqHeroFightMatchUserCmd();
                     UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
                     cmd.index = uiMS.m_curSel.info.m_cardGroup.index;
                     UtilMsg.sendMsg(cmd);
-                    break;
-                case moshijmmethod.dz:
+
+                    uiMS.startmatch();
                     //开始查找
                     break;
             }

@@ -31,7 +31,8 @@ namespace Game.UI
                 addset(groupItem);
             }
             // 加入最后的按钮
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(transform);
+            //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(transform);
+            //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(transform);
         }
 
         //public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
@@ -63,14 +64,15 @@ namespace Game.UI
         void addset(CardGroupItem s)
         {
             //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-            Transform g = (Transform)UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject());
+            Transform g = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             g.parent = transform.parent;
             //g.SendMessage("setinfo", s);
             cardset taopai = new cardset();
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(taopai);
             taopai.setGameObject(g.gameObject);
             taopai.setinfo(s);
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(g);
+            //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(g);
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);
             transform.Translate(new Vector3(0, 0, -0.525f));
         }
 
@@ -95,10 +97,10 @@ namespace Game.UI
             //transform.Translate(new Vector3(0, 0, -0.525f));
 
             //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-            Transform g = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
+            Transform g = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             //g.localPosition = Vector3.zero;
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);//插入到最后一位
-            transform.localPosition = new Vector3(0, 0, -0.525f * (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.getChildCount());
+            updatePos();
 
             //set s = new set();
             //s.id = -1;
@@ -115,13 +117,19 @@ namespace Game.UI
             //g.SendMessage("Createnew", s);
         }
 
-        public void addOneCardSet(cardset one)
+        // 更新新建按钮位置
+        public void updatePos()
         {
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, one.getGameObject().transform);//插入到最后一位
-            transform.Translate(new Vector3(0, 0, -0.525f));
-
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(one);
+            transform.localPosition = new Vector3(0, 0, -0.525f * (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.getChildCount());
         }
+
+        //public void addOneCardSet(cardset one)
+        //{
+        //    (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Insert((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Count - 1, one.getGameObject().transform);//插入到最后一位
+        //    transform.Translate(new Vector3(0, 0, -0.525f));
+
+        //    (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(one);
+        //}
 
         public void hideAllCard()
         {
@@ -134,7 +142,7 @@ namespace Game.UI
         public void insEditCardGroup()
         {
             //Transform trans = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
-            Transform trans = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcardSetModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
+            Transform trans = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             trans.parent = transform.parent;
 
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();

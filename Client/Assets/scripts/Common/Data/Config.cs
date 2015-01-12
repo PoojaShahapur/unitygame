@@ -11,7 +11,7 @@ namespace SDK.Common
     {
         public const string StreamingAssets = "StreamingAssets/";
 
-        public string m_ip = "192.168.125.252";
+        public string m_ip = "192.168.125.254";
         public int m_port = 10002;
         //public string m_webIP = "http://127.0.0.1/";
         public string m_webIP = "";

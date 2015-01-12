@@ -80,7 +80,7 @@ namespace SDK.Lib
                 if (!success)
                 {
                     //超时
-                    Disconnect(0);
+                    //Disconnect(0);
                     Ctx.m_instance.m_log.log("socket connect Time Out");
                 }
                 else
@@ -254,7 +254,7 @@ namespace SDK.Lib
             catch (System.Exception e)
             {
                 // 输出日志
-                Ctx.m_instance.m_log.log(e.Message);
+                Ctx.m_instance.m_log.synclog(e.Message);
                 Disconnect(0);
             }
         }

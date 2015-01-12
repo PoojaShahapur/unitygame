@@ -2,6 +2,7 @@
 using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -15,6 +16,7 @@ namespace Game.UI
         public moshicardset[] m_cardGroupList = new moshicardset[9];            // 9 个卡牌组
 
         public moshicardset m_curSel;           // 当前选择的卡牌组
+        public Text m_lblTip;
 
         public override void onReady()
         {
@@ -33,6 +35,7 @@ namespace Game.UI
         public override void onHide()
         {
             base.onHide();
+            m_lblTip.text = "";
         }
 
         protected void getWidget()
@@ -77,6 +80,9 @@ namespace Game.UI
             m_cardGroupList[6].setGameObject(UtilApi.GoFindChildByPObjAndName("moshijm/7"));
             m_cardGroupList[7].setGameObject(UtilApi.GoFindChildByPObjAndName("moshijm/8"));
             m_cardGroupList[8].setGameObject(UtilApi.GoFindChildByPObjAndName("moshijm/9"));
+
+            m_lblTip = UtilApi.GoFindChildByPObjAndName("MatchResult/Canvas/Text").GetComponent<Text>();
+            //m_lblTip.text = "";
         }
 
         // 添加事件监听
@@ -136,6 +142,16 @@ namespace Game.UI
         public void updateHeroList()
         {
             m_moshijm.getPlayerSet();
+        }
+
+        public void psstRetHeroFightMatchUserCmd(stRetHeroFightMatchUserCmd cmd)
+        {
+            m_lblTip.text = "匹配成功了";
+        }
+
+        public void startmatch()
+        {
+            m_lblTip.text = "现在开始匹配了，注意了";
         }
     }
 }

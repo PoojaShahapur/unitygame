@@ -23,11 +23,12 @@ namespace Game.UI
         protected int m_curPageIdx;     // 当前显示的 Page 索引
         //protected CurEditCardInfo m_curEditCardInfo = new CurEditCardInfo();        // 当前编辑的卡牌信息
 
-        public List<Transform> m_playersets = new List<Transform>();       // 卡牌组 Tranforms 以及最后的按钮
-        public List<cardset> m_taoPaiEntityList = new List<cardset>();      // 当前已经有的卡牌
-        public cardset m_curEditCardSet = null;            // 当前正在编辑的卡牌组
-        public UIGrid m_leftCardList = new UIGrid();
-        public UIGrid m_leftCardGroupList = new UIGrid();
+        //public List<Transform> m_playersets = new List<Transform>();       // 卡牌组 Tranforms 以及最后的按钮
+        public List<cardset> m_taoPaiEntityList = new List<cardset>();      // 当前已经有的卡牌组
+        public List<SCCardListItem> m_cardList = new List<SCCardListItem>();// 当前在编辑的卡牌列表
+        public cardset m_curEditCardSet = null;                 // 当前正在编辑的卡牌组
+        public UIGrid m_leftCardList = new UIGrid();            // 左边的卡牌列表
+        public UIGrid m_leftCardGroupList = new UIGrid();       // 左边的卡牌组列表
 
         public override void onReady()
         {
@@ -47,6 +48,17 @@ namespace Game.UI
         // 获取控件
         protected void getWidget()
         {
+            m_leftCardList.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/LeftCardList"));
+            m_leftCardList.cellWidth = 1.172f;
+            m_leftCardList.cellHeight = 0.445f;
+            m_leftCardList.m_hideZPos = -20f;
+            m_leftCardList.hide();              // 默认隐藏
+
+            m_leftCardGroupList.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/CardGroupList"));
+            m_leftCardGroupList.cellWidth = 1.172f;
+            m_leftCardGroupList.cellHeight = 0.445f;
+            m_leftCardGroupList.m_hideZPos = -20f;
+
             m_wdscjm.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm"));
             m_newCardSet.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/newSetBtn"));
 
@@ -89,12 +101,6 @@ namespace Game.UI
             m_tabBtnList[9].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zl"));
 
             m_wdscpage.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/page"));
-
-            //m_leftCardList.setGameObject();
-            m_leftCardGroupList.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/setbtn/CardGroupList"));
-            m_leftCardGroupList.cellWidth = 1.172f;
-            m_leftCardGroupList.cellHeight = 0.445f;
-            m_leftCardGroupList.m_hideZPos = -20f;
         }
 
         // 添加事件监听
@@ -324,13 +330,16 @@ namespace Game.UI
         {
             int curidx = p;
             //把别的向上移动
-            for (; curidx < m_playersets.Count; curidx++)
-            {
-                m_playersets[curidx].Translate(new Vector3(0, 0, 0.525f));
-            }
-            UtilApi.Destroy(m_playersets[p].gameObject);
-            m_playersets.Remove(m_playersets[p]);
+            //for (; curidx < m_playersets.Count; curidx++)
+            //{
+            //    m_playersets[curidx].Translate(new Vector3(0, 0, 0.525f));
+            //}
+            //UtilApi.Destroy(m_playersets[p].gameObject);
+            //m_playersets.Remove(m_playersets[p]);
+            UtilApi.Destroy(m_taoPaiEntityList[p].getGameObject());
             m_taoPaiEntityList.RemoveAt(p);
+            m_leftCardGroupList.Reposition();
+            m_newCardSet.updatePos();
         }
 
         public void onClkCard(ItemSceneIOBase ioItem)
@@ -347,6 +356,40 @@ namespace Game.UI
                     m_curEditCardSet.info.m_cardList.Add(item.m_cardItemBase.m_tujian.id);
                 }
             }
+        }
+
+        public void updateLeftCardList()
+        {
+            releaseLeftCardList();
+            if(m_curEditCardSet != null && m_curEditCardSet.info.m_cardList != null)
+            {
+                int idx = 0;
+                while(idx < m_curEditCardSet.info.m_cardList.Count)
+                {
+                    m_cardList.Add(createCard(m_curEditCardSet.info.m_cardList[idx]));
+                    m_leftCardList.AddChild(m_cardList[idx].getGameObject().transform);
+                    ++idx;
+                }
+            }
+        }
+
+        protected SCCardListItem createCard(uint id)
+        {
+            SCCardListItem item = new SCCardListItem();
+            item.cardItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardDic[id];
+            item.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getGroupCardModel().getObject(), m_newCardSet.getGameObject().transform.position, m_newCardSet.getGameObject().transform.rotation) as GameObject);
+            return item;
+        }
+
+        protected void releaseLeftCardList()
+        {
+            int idx = 0;
+            while(idx < m_cardList.Count)
+            {
+                UtilApi.Destroy(m_cardList[idx].getGameObject());
+                ++idx;
+            }
+            m_cardList.Clear();
         }
     }
 }

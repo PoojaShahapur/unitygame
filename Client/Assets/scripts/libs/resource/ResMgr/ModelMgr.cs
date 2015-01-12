@@ -76,11 +76,11 @@ namespace SDK.Lib
             return syncGet<ModelRes>(prefab, path) as ModelRes;
         }
 
-        // 获取卡牌组的模型
-        public ModelRes getcardSetModel()
+        // 获取卡牌组中的卡牌的模型
+        public ModelRes getGroupCardModel()
         {
-            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetModelAttrItem.m_prefabName;
-            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetModelAttrItem.m_path;
+            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_groupCardModelAttrItem.m_prefabName;
+            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_groupCardModelAttrItem.m_path;
 
             return syncGet<ModelRes>(prefab, path) as ModelRes;
         }

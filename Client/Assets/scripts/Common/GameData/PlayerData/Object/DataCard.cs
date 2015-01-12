@@ -22,8 +22,10 @@ namespace SDK.Common
 
         public Dictionary<int, CardGroupAttrMatItem> m_id2CardGroupMatAttrDic = new Dictionary<int, CardGroupAttrMatItem>();        // 卡牌材质属性
 
+        // 卡牌组
         public CardGroupModelAttrItem m_cardGroupModelAttrItem = new CardGroupModelAttrItem();
-        public CardGroupModelAttrItem m_cardSetModelAttrItem = new CardGroupModelAttrItem();
+        // 卡牌组中的卡牌
+        public CardGroupModelAttrItem m_groupCardModelAttrItem = new CardGroupModelAttrItem();
 
         public DataCard()
         {
@@ -35,6 +37,11 @@ namespace SDK.Common
                 m_cardListArr[idx] = new List<CardItemBase>();
                 ++idx;
             }
+
+            // Test
+            m_id2CardDic[1] = new CardItemBase();
+            m_id2CardDic[2] = new CardItemBase();
+            m_id2CardDic[3] = new CardItemBase();
         }
 
         public void registerCardAttr()
@@ -90,11 +97,11 @@ namespace SDK.Common
             //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName = "classzs";
             //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName;
 
-            m_cardGroupModelAttrItem.m_prefabName = "setcard";
+            m_cardGroupModelAttrItem.m_prefabName = "cardset";
             m_cardGroupModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_cardGroupModelAttrItem.m_prefabName;
 
-            m_cardSetModelAttrItem.m_prefabName = "cardset";
-            m_cardSetModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_cardSetModelAttrItem.m_prefabName;
+            m_groupCardModelAttrItem.m_prefabName = "setcard";
+            m_groupCardModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_groupCardModelAttrItem.m_prefabName;
         }
 
         public void reqAllCard()

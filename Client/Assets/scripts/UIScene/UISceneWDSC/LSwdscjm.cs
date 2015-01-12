@@ -112,7 +112,8 @@ namespace Game.UI
             IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
             uiSC.reqSaveCard();
 
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.hide();
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.hide();        // 当前编辑的卡牌组隐藏
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.hide();          // 当前卡牌组的卡牌列表隐藏
 
             //cardset.nowEditingSet.transform.parent.BroadcastMessage("goback");
             uiSC.newCardSet_goback();       // 新建卡牌按钮显示

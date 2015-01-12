@@ -129,7 +129,7 @@ namespace SDK.Lib
 
             //nowEditingSet = gameObject;
 
-            edit();
+            //edit();
             //transform.root.SendMessage("editset");
             //transform.parent.BroadcastMessage("hide");
             //transform.root.FindChild("classfilter").BroadcastMessage("classfilterhide", info.classs);
@@ -216,8 +216,13 @@ namespace SDK.Lib
 
         public void startEdit(cardset cardSet)
         {
+            // 卡牌组处理
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyAndInitData(cardSet);
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.enterEditorMode();
+            // 当前编辑的卡牌列表处理
+
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.show();
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).updateLeftCardList();
         }
 
         public void copyAndInitData(cardset cardSet)
@@ -347,13 +352,14 @@ namespace SDK.Lib
             //    }
             //}
 
-            foreach (uint id in info.m_cardList)
-            {
-                CardItemBase tc = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardDic[id];
-                addcard(tc);
-            }
             if (info.m_cardList != null && info.m_cardList.Count > 0)
             {
+                foreach (uint id in info.m_cardList)
+                {
+                    CardItemBase tc = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardDic[id];
+                    addcard(tc);
+                }
+ 
                 (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.Reposition();
             }
         }
@@ -509,8 +515,9 @@ namespace SDK.Lib
             //updatecard(c);
             ////更新统计信息
 
-            GameObject go = UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject()) as GameObject;
-            go.transform.parent = (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.getGameObject().transform;
+            GameObject go = UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getGroupCardModel().getObject()) as GameObject;
+            //go.transform.parent = (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.getGameObject().transform;
+            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.AddChild(go.transform);
         }
 
         //查找一张卡在不在卡组中

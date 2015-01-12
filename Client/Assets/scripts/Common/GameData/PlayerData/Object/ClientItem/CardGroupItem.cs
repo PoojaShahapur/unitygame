@@ -53,6 +53,11 @@ namespace SDK.Common
             {
                 this.m_cardList.AddRange(rhv.m_cardList);
             }
+            
+            // Test
+            //this.m_cardList.Add(1);
+            //this.m_cardList.Add(2);
+            //this.m_cardList.Add(3);
 
             //if(m_cardGroup != null)
             //{

@@ -177,6 +177,13 @@ namespace Game.Game
         {
             stRetHeroFightMatchUserCmd cmd = new stRetHeroFightMatchUserCmd();
             cmd.derialize(msg);
+
+            // 显示匹配结果
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            if (uiMS != null && uiMS.isVisible())
+            {
+                uiMS.psstRetHeroFightMatchUserCmd(cmd);
+            }
         }
     }
 }

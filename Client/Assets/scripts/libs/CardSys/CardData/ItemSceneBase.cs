@@ -9,6 +9,7 @@ namespace SDK.Lib
     public class ItemSceneBase
     {
         public Transform m_tran = null;                // 第一个位置
+        public UIGrid m_grid;                          // 放在格子数据中
         public GameObject m_go = null;                 // 显示的内容
         public string m_prefab;                        // 预制名字
         public string m_path;                          // 目录
@@ -19,7 +20,14 @@ namespace SDK.Lib
         {
             m_res = resEvt as ModelRes;
             m_go = m_res.InstantiateObject(m_prefab);
-            m_go.transform.parent = m_tran;
+            if (m_tran != null)     // 很可能 UIGrid 处理位置了
+            {
+                m_go.transform.parent = m_tran;
+            }
+            else if(m_grid != null)
+            {
+                m_grid.AddChild(m_go.transform);
+            }
             if (m_bNorm)
             {
                 UtilApi.normalPosScale(m_go.transform);
