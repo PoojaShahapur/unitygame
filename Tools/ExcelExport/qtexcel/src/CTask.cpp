@@ -13,6 +13,7 @@ XmlField::XmlField()
 Table::Table()
 {
 	m_bExportTable = false;
+	m_bRecStructDef = true;
 }
 
 void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>& fieldsList)
@@ -45,6 +46,115 @@ void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>
 		}
 		field = field->NextSiblingElement("field");
 	}
+}
+
+bool Table::buildTableDefine(std::string& strStructDef, const char* lpszTableName, std::vector<XmlField*>& fieldsList, bool& bRecStructDef)
+{
+	strStructDef = "struct  ";
+	strStructDef += lpszTableName;
+	strStructDef += "{\r\n";
+
+	int iFieldNum = 0;
+	int iFieldIndex = 0;
+
+	while (iFieldIndex < fieldsList.size())
+	{
+		const char* fieldName = field->m_fieldName;
+		const char* fieldType = field->m_fieldType;
+
+		int fieldSize = -1;
+		int fieldBase = 10;	// 进制是什么 
+		const char* defaultValue = "10";
+
+		fieldSize = field->m_fieldSize;
+		fieldBase = field->m_fieldBase;
+
+		defaultValue = field->m_defaultValue;
+		// 默认的类型 
+		if (fieldType == NULL)
+		{
+			fieldType = "int";
+		}
+
+		if (fieldName && fieldType)
+		{
+			if (stricmp(fieldType, "string") == 0)
+			{
+				memset(szMsg, 0, sizeof(szMsg));
+				sprintf(szMsg, "\tchar\tstrField%d[%d];\t\t// %s\r\n", iFieldNum++, fieldSize, fieldName);
+				strStructDef += szMsg;
+			}
+			else if (stricmp(fieldType, "int") == 0)
+			{
+				if (fieldSize == -1)
+				{
+					fieldSize = 4;
+				}
+
+				memset(szMsg, 0, sizeof(szMsg));
+
+				switch (fieldSize)
+				{
+				case 1:
+				{
+					sprintf(szMsg, "\tBYTE\tbyField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+				}
+				break;
+				case 2:
+				{
+					sprintf(szMsg, "\tWORD\twdField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+				}
+				break;
+				case 4:
+				{
+					sprintf(szMsg, "\tDWORD\tdwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+				}
+				break;
+				case 8:
+				{
+					sprintf(szMsg, "\tQWORD\tqwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+				}
+				break;
+				}
+
+				if (bRecStructDef) strStructDef += szMsg;
+			}
+			else if (stricmp(fieldType, "float") == 0)
+			{
+				if (fieldSize == -1)
+				{
+					fieldSize = 4;
+				}
+
+				memset(szMsg, 0, sizeof(szMsg));
+
+				switch (fieldSize)
+				{
+				case 4:
+				{
+					sprintf(szMsg, "\tfloat\tfField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+				}
+				break;
+				case 8:
+				{
+					sprintf(szMsg, "\tdouble\tdField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+				}
+				break;
+				}
+
+				if (bRecStructDef) strStructDef += szMsg;
+			}
+		}
+		iFieldIndex++;
+	}
+	// 一次之后就不在输出结构了
+	bRecStructDef = false;
+
+	strStructDef += "};";
+
+	memset(szMsg, 0, sizeof(szMsg));
+	sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", lpszTableName, count);
+	strStructDef += szMsg;
 }
 
 CPackage::CPackage()

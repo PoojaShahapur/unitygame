@@ -52,12 +52,15 @@ public:
 
 	EnExcelType m_enExcelType;
 	bool m_bExportTable;			// 是否导出这个表
+	std::string m_strStructDef;		// 表的定义
+	bool m_bRecStructDef;	// 是否已经生成表的定义
 
 	std::vector<XmlField*> m_fieldsList;
 
 public:
 	Table();
 	static void parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>& fieldsList);
+	static bool buildTableDefine(std::string& strStructDef, const char* lpszTableName, std::vector<XmlField*>& fieldsList, bool& bRecStructDef);
 };
 
 /**
