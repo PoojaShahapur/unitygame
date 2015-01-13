@@ -37,11 +37,11 @@ ExcelExport* CAppData::getExcelTbl()
 // start Multi
 void CAppData::startMultiPack()
 {
-	std::vector<CSolution>::iterator ite;
+	std::vector<CSolution*>::iterator ite;
 	std::vector<CPackage*>::iterator itePack;
 	for (ite = m_task.getSolutionLst().begin(); ite != m_task.getSolutionLst().end(); ++ite)
 	{
-		if(strcmp(ite->getName().c_str(), m_xmlSolution.c_str()))
+		if(0 == strcmp((*ite)->getName().c_str(), m_xmlSolution.c_str()))
 		{
 			break;
 		}
@@ -50,7 +50,7 @@ void CAppData::startMultiPack()
 	if(ite !=  m_task.getSolutionLst().end())
 	{
 		// package table
-		for (itePack = ite->getPackLst().begin(); itePack != ite->getPackLst().end(); ++itePack)
+		for (itePack = (*ite)->getPackLst().begin(); itePack != (*ite)->getPackLst().end(); ++itePack)
 		{
 			m_excelExport->setXmlPath((*itePack)->getXml().c_str());
 			m_excelExport->setOutputPath((*itePack)->getOutput().c_str());
@@ -58,9 +58,9 @@ void CAppData::startMultiPack()
 		}
 
 		// execute external program
-		if(ite->getCmd().length())
+		if ((*ite)->getCmd().length())
 		{
-			QProcess::startDetached(ite->getCmd().c_str(), QStringList());
+			QProcess::startDetached((*ite)->getCmd().c_str(), QStringList());
 		}
 	}
 }
@@ -99,11 +99,11 @@ void CAppData::startThread()
 void CAppData::initCombo(QComboBox *comboBoxSolution)
 {
 	QString tmp;
-	std::vector<CSolution>::iterator ite;
+	std::vector<CSolution*>::iterator ite;
 	for (ite = m_task.getSolutionLst().begin(); ite != m_task.getSolutionLst().end(); ++ite)
 	{
 		//comboBoxSolution->addItem(QString::fromLocal8Bit((ite->getName().c_str())));
-		tmp = Tools::getSingletonPtr()->GBKChar2UNICODEStr(ite->getName().c_str());
+		tmp = Tools::getSingletonPtr()->GBKChar2UNICODEStr((*ite)->getName().c_str());
 		comboBoxSolution->addItem(tmp);
 	}
 }

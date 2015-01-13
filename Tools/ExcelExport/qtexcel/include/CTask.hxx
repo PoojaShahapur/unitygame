@@ -67,13 +67,13 @@ public:
 class CTask
 {
 protected:
-	vector<CSolution> m_lstSolution;
+	vector<CSolution*> m_lstSolution;
 
 public:
 	CTask();
 	~CTask();
 
-	vector<CSolution>& getSolutionLst();
+	vector<CSolution*>& getSolutionLst();
 	void readXML();		// read config.xml
 	void destroy();
 };

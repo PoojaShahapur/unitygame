@@ -132,7 +132,7 @@ CTask::~CTask()
 
 }
 
-vector<CSolution>& CTask::getSolutionLst()
+vector<CSolution*>& CTask::getSolutionLst()
 {
 	return m_lstSolution;
 }
@@ -148,7 +148,7 @@ void CTask::readXML()
 	tinyxml2::XMLElement* configXml = NULL;
 	tinyxml2::XMLElement* solutionXml = NULL;
 
-	CSolution soluton;
+	CSolution* soluton;
 	
 	if (doc.LoadFile("config.xml") != tinyxml2::XML_SUCCESS)
 	{
@@ -169,8 +169,9 @@ void CTask::readXML()
 
 	while(solutionXml)
 	{
-		soluton.initByXml(solutionXml);
+		soluton = new CSolution();
 		m_lstSolution.push_back(soluton);
+		soluton->initByXml(solutionXml);
 		solutionXml = solutionXml->NextSiblingElement("solution");
 	}
 }

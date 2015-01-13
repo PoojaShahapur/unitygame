@@ -61,6 +61,8 @@ public:
 	QString GBKChar2UNICODEStr(const char* inChar);
 	void convToAbsPath(std::string& srcPath);		// 将目录转换成绝对目录
 	std::string UTF8ToGBKStr(char * lpUTF8Str);
+	std::string& replace_all(std::string& str, const std::string& old_value, const std::string& new_value);
+	std::string& replace_all_distinct(std::string& str, const std::string& old_value, const std::string& new_value);
 };
 
 END_NAMESPACE
