@@ -3,21 +3,26 @@
 #include "tinyxml2.h"
 #include <direct.h>		// chdir
 
-Field::Field()
+XmlField::XmlField()
 {
 	m_fieldSize = -1;
 	m_fieldBase = 10;	// 进制是什么
 	m_defaultValue = "10";
 }
 
-void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields)
+Table::Table()
 {
-	Field* fieldItem;
+	m_bExportTable = false;
+}
+
+void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>& fieldsList)
+{
+	XmlField* fieldItem;
 	tinyxml2::XMLElement* field = pXmlEmtFields->FirstChildElement("field");
 	while (field)
 	{
-		fieldItem = new Field();
-		m_fieldsList.push_back(fieldItem);
+		fieldItem = new XmlField();
+		fieldsList.push_back(fieldItem);
 
 		fieldItem->m_fieldName = field->Attribute("name");
 		fieldItem->m_fieldType = field->Attribute("type");
@@ -173,7 +178,7 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 				Tools::getSingletonPtr()->informationMessage(tmpmsg);
 			}
 
-			tableItem->parseXML(field);
+			tableItem->parseXML(field, tableItem->m_fieldsList);
 
 			tableItem->m_strOutput += tableItem->m_strStructDef.c_str();
 			tableItem->m_strOutput += "\r\n";

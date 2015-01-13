@@ -17,7 +17,7 @@ BEGIN_NAMESPACE
 /**
 * @brief field 字段
 */
-class Field
+class XmlField
 {
 public:
 	const char* m_fieldName;
@@ -27,7 +27,7 @@ public:
 	const char* m_defaultValue;
 
 public:
-	Field();
+	XmlField();
 };
 
 /**
@@ -51,11 +51,13 @@ public:
 	std::string m_strExcelDirAndName;	// Excel 文件的目录和名字
 
 	EnExcelType m_enExcelType;
+	bool m_bExportTable;			// 是否导出这个表
 
-	std::vector<Field*> m_fieldsList;
+	std::vector<XmlField*> m_fieldsList;
 
 public:
-	void parseXML(tinyxml2::XMLElement* pXmlEmtFields);
+	Table();
+	static void parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>& fieldsList);
 };
 
 /**

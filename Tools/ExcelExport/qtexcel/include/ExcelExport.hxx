@@ -24,6 +24,8 @@
 BEGIN_NAMESPACE
 
 //class DataItem;
+class Table;
+class XmlField;
 
 class ExcelExport
 {
@@ -44,9 +46,12 @@ public:
 	bool exportExcel();
 	QString UTF82GBK(const QString &inStr);
 
+	void exportExcelByTable(Table* table);
+
 	// 导出 Excel 到 Property Vector
 	virtual bool exportExcelInternal(
-					tinyxml2::XMLElement* pXmlEmtFields,
+					//tinyxml2::XMLElement* pXmlEmtFields,
+					std::vector<XmlField*> fieldsList,			// 第一个字段
 					const char* lpszExcelFile,
 					const char* lpszDB,
 					const char* lpszTable,
@@ -80,6 +85,8 @@ public:
 		propIns->m_cfgLen = cfgLen;
 		row->getPropVec().push_back((PropertyBase*)propIns);
 	}
+
+	void deleteFieldsList(std::vector<XmlField*>& fieldsList);
 };
 
 END_NAMESPACE

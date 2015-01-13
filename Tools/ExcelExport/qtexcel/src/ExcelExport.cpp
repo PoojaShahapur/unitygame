@@ -5,6 +5,7 @@
 #include "Platform.hxx"
 #include "DataItem.hxx"
 #include <direct.h>		// chdir
+#include "CTask.hxx"
 
 #import "C:\Program Files\Common Files\System\ado\msado15.dll" \
 	no_namespace rename("EOF","adoEOF") \
@@ -53,18 +54,13 @@ bool ExcelExport::exportExcel()
 		iTmp = m_xmlPath.find_last_of('/');
 	}
 
-	char filename[256];
-	char outfilename[256];
-
 	try
 	{
 		tinyxml2::XMLDocument doc;
 		tinyxml2::XMLElement* config = NULL;
 		tinyxml2::XMLElement* table = NULL;
 
-		memset(filename, 0, sizeof(filename));
-		strncpy(filename, m_xmlPath.c_str(), strlen(m_xmlPath.c_str()));
-		if (doc.LoadFile(filename) != tinyxml2::XML_SUCCESS)
+		if (doc.LoadFile(m_xmlPath.c_str()) != tinyxml2::XML_SUCCESS)
 		{
 			throw "xml加载失败!";
 		}
@@ -101,10 +97,14 @@ bool ExcelExport::exportExcel()
 			m_tblPath = strExcelDir;
 		}
 
+		std::vector<XmlField*> fieldsList;
+		//XmlField* fieldItem;
+
 		m_strOutput = "";
 		std::string strStructDef;
 		while(table)
 		{
+			fieldsList.clear();
 			tinyxml2::XMLElement* field = table->FirstChildElement("fields");
 			const char* tableName = table->Attribute("name");
 			const char* ExcelFile = table->Attribute("ExcelFile");
@@ -120,10 +120,8 @@ bool ExcelExport::exportExcel()
 			}
 
 			char szMsg[256];
-			memset(filename, 0, sizeof(filename));
-			strncpy(filename, m_tblPath.c_str(), strlen(m_tblPath.c_str()));
 
-			sprintf(szMsg, "%s\\%s.tbl", filename, tableName);
+			sprintf(szMsg, "%s\\%s.tbl", m_tblPath.c_str(), tableName);
 			strOutputFile = szMsg;
 			m_strOutput += "//---------------------\r\n";
 			m_strOutput += "//";
@@ -134,19 +132,17 @@ bool ExcelExport::exportExcel()
 			strStructDef = "";
 
 			strExcelFile = ExcelFile;
-			memset(filename, 0, sizeof(filename));
-			strncpy(filename, (strExcelDir + "/" + strExcelFile).c_str(), strlen((strExcelDir + "/" + strExcelFile).c_str()));
-
-			memset(outfilename, 0, sizeof(outfilename));
-			strncpy(outfilename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
+			Table::parseXML(field, fieldsList);
 
 			if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
 			{
-				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
+				//exportExcelInternal(field, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
+				exportExcelInternal(fieldsList, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
 			}
 			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
 			{
-				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
+				//exportExcelInternal(field, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
+				exportExcelInternal(fieldsList, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
 			}
 			else
 			{
@@ -154,6 +150,8 @@ bool ExcelExport::exportExcel()
 				tmpmsg += strExcelFile.c_str();
 				Tools::getSingletonPtr()->informationMessage(tmpmsg);
 			}
+
+			deleteFieldsList(fieldsList);
 
 			m_strOutput += strStructDef.c_str();
 			m_strOutput += "\r\n";
@@ -178,16 +176,17 @@ bool ExcelExport::exportExcel()
 * com 接口
 */
 bool ExcelExport::exportExcelInternal(
-	tinyxml2::XMLElement* pXmlEmtFields,	//第一个字段
-	const char* lpszExcelFile,		//Excel文件的全路径（包括文件名称）
-	const char* lpszDB,
-	const char* lpszTable,
-	const char* lpszOutputFile,		//tbl文件的全路径（包括文件名称）
-	const char* lpszTableName,		//tbl文件名称本身
-	const char* lpszsheetname,		//excel 中表单的名字   
-	std::string& strStructDef,		// 最终结构体定义
-	const char* provider,		// 数据引擎提供者  
-	const char* extendedProperties		// 扩展属性    
+	//tinyxml2::XMLElement* pXmlEmtFields,	// 第一个字段
+	std::vector<XmlField*> fieldsList,			// 第一个字段
+	const char* lpszExcelFile,				// Excel文件的全路径（包括文件名称）
+	const char* lpszDB,						// 数据库
+	const char* lpszTable,					// 表的名字
+	const char* lpszOutputFile,				// tbl文件的全路径（包括文件名称）
+	const char* lpszTableName,				// tbl文件名称本身
+	const char* lpszsheetname,				// excel 中表单的名字   
+	std::string& strStructDef,				// 最终结构体定义
+	const char* provider,					// 数据引擎提供者  
+	const char* extendedProperties			// 扩展属性    
 	)
 {
 	// 前置检查    
@@ -296,11 +295,13 @@ bool ExcelExport::exportExcelInternal(
 			_rowData = new DataItem();
 			_rowList.push_back(_rowData);
 
-			tinyxml2::XMLElement* field = pXmlEmtFields->FirstChildElement("field");
+			//tinyxml2::XMLElement* field = pXmlEmtFields->FirstChildElement("field");
+			XmlField* field = fieldsList[0];
 			// id 段判断，第一个字段一定是 id 才行，否则会出现错误
 			if (field)
 			{
-				const char* pid = field->Attribute("name");
+				//const char* pid = field->Attribute("name");
+				const char* pid = field->m_fieldName;
 				if (pid)
 				{
 					_variant_t idfield = m_pRecordset->GetCollect((_variant_t)pid);
@@ -314,26 +315,32 @@ bool ExcelExport::exportExcelInternal(
 				}
 			}
 			int iFieldIndex = 0;
-			while (field)
+			//while (field)
+			while (iFieldIndex < fieldsList.size())
 			{
-				const char* fieldName = field->Attribute("name");
-				const char* fieldType = field->Attribute("type");
+				//const char* fieldName = field->Attribute("name");
+				//const char* fieldType = field->Attribute("type");
+				const char* fieldName = field->m_fieldName;
+				const char* fieldType = field->m_fieldType;
 
 				int fieldSize = -1;
 				int fieldBase = 10;	// 进制是什么 
 				const char* defaultValue = "10";
 
 				// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
-				if (field->QueryIntAttribute("size", &fieldSize) != tinyxml2::XML_SUCCESS)
-				{
-					fieldSize = -1;
-				}
-				if (field->QueryIntAttribute("base", &fieldBase) != tinyxml2::XML_SUCCESS)
-				{
-					fieldBase = 10;
-				}
+				//if (field->QueryIntAttribute("size", &fieldSize) != tinyxml2::XML_SUCCESS)
+				//{
+				//	fieldSize = -1;
+				//}
+				//if (field->QueryIntAttribute("base", &fieldBase) != tinyxml2::XML_SUCCESS)
+				//{
+				//	fieldBase = 10;
+				//}
+				fieldSize = field->m_fieldSize;
+				fieldBase = field->m_fieldBase;
 
-				defaultValue = field->Attribute("default");
+				//defaultValue = field->Attribute("default");
+				defaultValue = field->m_defaultValue;
 				// 默认的类型 
 				if (fieldType == NULL)
 				{
@@ -570,7 +577,7 @@ bool ExcelExport::exportExcelInternal(
 						_rowData->setID(_id);
 					}
 				}
-				field = field->NextSiblingElement("field");
+				//field = field->NextSiblingElement("field");
 				iFieldIndex++;
 			}
 			// 一次之后就不在输出结构了
@@ -624,6 +631,33 @@ bool ExcelExport::exportExcelInternal(
 		::CoUninitialize();
 		Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(error.what()));
 	}
+}
+
+void ExcelExport::exportExcelByTable(Table* table)
+{
+	const char* lpszExcelFile = table->m_strExcelDirAndName.c_str();
+	const char* lpszDB = table->m_lpszDB;
+	const char* lpszTable = table->m_tableName;
+	const char* lpszOutputFile = table->m_strOutputFile;
+	const char* lpszTableName = table->m_tableName;
+	const char* lpszsheetname = table->m_lpszsheetname;
+	std::string strStructDef = table->m_strStructDef;
+
+	const char* provider;
+	const char* extendedProperties;
+
+	if (eXLS == table->m_enExcelType)
+	{ 
+		provider = XLS_ENGINE_provider;
+		extendedProperties = XLS_ENGINE_extendedProperties;
+	}
+	else
+	{
+		provider = XLSX_ENGINE_provider;
+		extendedProperties = XLSX_ENGINE_extendedProperties;
+	}
+
+	exportExcelInternal(table->m_fieldsList, lpszExcelFile, lpszDB, lpszTable, lpszOutputFile, lpszTableName, lpszsheetname, strStructDef, provider, extendedProperties);
 }
 
 void ExcelExport::exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient)
@@ -718,5 +752,15 @@ void ExcelExport::exportPropertyVec2FileMobile(std::vector<DataItem*>& _rowList,
 	{
 		(*iteVecDataItem)->writeFileMobile(byteBuffer);
 		delete (*iteVecDataItem);
+	}
+}
+
+void ExcelExport::deleteFieldsList(std::vector<XmlField*>& fieldsList)
+{
+	std::vector<XmlField*>::iterator fieldIteVecBegin = fieldsList.begin();
+	std::vector<XmlField*>::iterator fieldIteVecEnd = fieldsList.end();
+	for (; fieldIteVecBegin != fieldIteVecEnd; ++fieldIteVecBegin)
+	{
+		delete (*fieldIteVecBegin);
 	}
 }

@@ -17,5 +17,5 @@ void TableListItem::setTable(Table* table)
 
 void TableListItem::onChkClk()
 {
-
+	m_table->m_bExportTable = (m_ui->checkBox->checkState() == Qt::PartiallyChecked);
 }

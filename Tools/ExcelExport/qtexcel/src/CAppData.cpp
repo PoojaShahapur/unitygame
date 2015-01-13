@@ -37,6 +37,7 @@ ExcelExport* CAppData::getExcelTbl()
 // start Multi
 void CAppData::startMultiPack()
 {
+	/*
 	std::vector<CSolution*>::iterator ite;
 	std::vector<CPackage*>::iterator itePack;
 	for (ite = m_task.getSolutionLst().begin(); ite != m_task.getSolutionLst().end(); ++ite)
@@ -61,6 +62,19 @@ void CAppData::startMultiPack()
 		if ((*ite)->getCmd().length())
 		{
 			QProcess::startDetached((*ite)->getCmd().c_str(), QStringList());
+		}
+	}
+	*/
+
+	std::vector<Table*>& tableList = CAppData::getSingletonPtr()->getTask().getTableList();
+
+	std::vector<Table*>::iterator tableIteVecBegin = tableList.begin();
+	std::vector<Table*>::iterator tableIteVecEnd = tableList.end();
+	for (; tableIteVecBegin != tableIteVecEnd; ++tableIteVecBegin)
+	{
+		if ((*tableIteVecBegin)->m_bExportTable)
+		{
+			m_excelExport->exportExcel();
 		}
 	}
 }
