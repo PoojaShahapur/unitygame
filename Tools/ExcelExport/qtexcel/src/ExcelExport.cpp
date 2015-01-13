@@ -47,7 +47,7 @@ QString ExcelExport::UTF82GBK(const QString &inStr)
 
 bool ExcelExport::exportExcel()
 {
-	int iTmp = m_xmlPath.find_last_of('\\');
+	std::string::size_type iTmp = m_xmlPath.find_last_of('\\');
 	if(iTmp == -1)
 	{
 		iTmp = m_xmlPath.find_last_of('/');
