@@ -29,6 +29,7 @@ private:
 	QVector<QString> m_msgInList;		// 警告对话框信息
 	QVector<QString> m_msgOutList;		// 警告对话框信息
 	QMutex	m_msgListMutex;		// 警告对话框
+	char* m_bytes;
 
 public:
 	Tools(); 
@@ -49,8 +50,8 @@ public:
 	void LogMsg(QString desc);
 	QVector<QString>& getLogMsg();
 
-	int GBKToUTF8(unsigned char * lpGBKStr, unsigned char * lpUTF8Str, int nUTF8StrLen);
-	int UTF8ToGBK(unsigned char * lpUTF8Str, unsigned char * lpGBKStr, int nGBKStrLen);
+	int GBKToUTF8(char * lpGBKStr, char * lpUTF8Str, int nUTF8StrLen);
+	int UTF8ToGBK(char * lpUTF8Str, char * lpGBKStr, int nGBKStrLen);
 
 	//QString GBK2UTF8(const QString &inStr);
 	QString UNICODEStr2GBKStr(const QString &inStr);
@@ -59,6 +60,7 @@ public:
 	//QString utf82gbk(const std::string &inStr);
 	QString GBKChar2UNICODEStr(const char* inChar);
 	void convToAbsPath(std::string& srcPath);		// 将目录转换成绝对目录
+	std::string UTF8ToGBKStr(char * lpUTF8Str);
 };
 
 END_NAMESPACE

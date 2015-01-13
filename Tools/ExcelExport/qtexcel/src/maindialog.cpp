@@ -123,7 +123,14 @@ void MainDialog::btnStart()
 	QString xmlFile = ui->comboBoxOutputXml->currentText();
 	QString xmlsolution = ui->comboBoxSolution->currentText();
 
-	CAppData::getSingletonPtr()->setXml(outPath.toLocal8Bit().data(), xmlFile.toLocal8Bit().data(), xmlsolution.toLocal8Bit().data());
+	//CAppData::getSingletonPtr()->setXml(outPath.toLocal8Bit().data(), xmlFile.toLocal8Bit().data(), xmlsolution.toLocal8Bit().data());
+	//CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UNICODEStr2GBKStr(outPath).toLocal8Bit().data(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlFile).toLocal8Bit().data(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlsolution).toLocal8Bit().data());
+	//CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UNICODEStr2GBKStr(outPath).toStdString(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlFile).toStdString(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlsolution).toStdString());
+	//CAppData::getSingletonPtr()->setXml(outPath.toStdString(), xmlFile.toStdString(), xmlsolution.toStdString());
+
+	//char aaa[256];
+	//Tools::getSingletonPtr()->UTF8ToGBK((unsigned char *)outPath.toUtf8().data(), (unsigned char *)aaa, 256);
+	CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UTF8ToGBKStr(outPath.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlFile.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlsolution.toUtf8().data()));
 
 	if((outPath.length() == 0 || xmlFile.length() == 0) && xmlsolution.length() == 0)
 	{

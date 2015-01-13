@@ -10,6 +10,7 @@ Tools::Tools()
 	m_parent = NULL;
 	m_running = false;
 	//m_outTextEdit = NULL;
+	m_bytes = new char[4096];
 }
 
 Tools::~Tools()
@@ -175,7 +176,7 @@ QVector<QString>& Tools::getLogMsg()
 
 // 全局函数，使用 windows 编码解码
 //GBK编码转换到UTF8编码
-int Tools::GBKToUTF8(unsigned char * lpGBKStr, unsigned char * lpUTF8Str, int nUTF8StrLen)
+int Tools::GBKToUTF8(char * lpGBKStr, char * lpUTF8Str, int nUTF8StrLen)
 {
 	wchar_t * lpUnicodeStr = NULL;
 	int nRetLen = 0;
@@ -214,7 +215,7 @@ int Tools::GBKToUTF8(unsigned char * lpGBKStr, unsigned char * lpUTF8Str, int nU
 }
 
 // UTF8编码转换到GBK编码
-int Tools::UTF8ToGBK(unsigned char * lpUTF8Str, unsigned char * lpGBKStr, int nGBKStrLen)
+int Tools::UTF8ToGBK(char * lpUTF8Str, char * lpGBKStr, int nGBKStrLen)
 {
 	wchar_t * lpUnicodeStr = NULL;
 	int nRetLen = 0;
@@ -222,9 +223,9 @@ int Tools::UTF8ToGBK(unsigned char * lpUTF8Str, unsigned char * lpGBKStr, int nG
 	if (!lpUTF8Str)  //如果UTF8字符串为NULL则出错退出
 		return 0;
 
-	nRetLen = ::MultiByteToWideChar(CP_UTF8, 0, (char *)lpUTF8Str, -1, NULL, NULL);  //获取转换到Unicode编码后所需要的字符空间长度
+	nRetLen = ::MultiByteToWideChar(CP_UTF8, 0, lpUTF8Str, -1, NULL, NULL);  //获取转换到Unicode编码后所需要的字符空间长度
 	lpUnicodeStr = new WCHAR[nRetLen + 1];  //为Unicode字符串空间
-	nRetLen = ::MultiByteToWideChar(CP_UTF8, 0, (char *)lpUTF8Str, -1, lpUnicodeStr, nRetLen);  //转换到Unicode编码
+	nRetLen = ::MultiByteToWideChar(CP_UTF8, 0, lpUTF8Str, -1, lpUnicodeStr, nRetLen);  //转换到Unicode编码
 	if (!nRetLen)  //转换失败则出错退出
 		return 0;
 
@@ -244,12 +245,21 @@ int Tools::UTF8ToGBK(unsigned char * lpUTF8Str, unsigned char * lpGBKStr, int nG
 		return 0;
 	}
 
-	nRetLen = ::WideCharToMultiByte(CP_ACP, 0, lpUnicodeStr, -1, (char *)lpGBKStr, nRetLen, NULL, NULL);  //转换到GBK编码
+	nRetLen = ::WideCharToMultiByte(CP_ACP, 0, lpUnicodeStr, -1, lpGBKStr, nRetLen, NULL, NULL);  //转换到GBK编码
 
 	if (lpUnicodeStr)
 		delete[]lpUnicodeStr;
 
 	return nRetLen;
+}
+
+std::string Tools::UTF8ToGBKStr(char * lpUTF8Str)
+{
+	memset(m_bytes, 0, sizeof(m_bytes));
+	UTF8ToGBK(lpUTF8Str, m_bytes, 4096);
+	std::string ret = m_bytes;
+
+	return ret;
 }
 
 //#include <QTextCodec>
@@ -267,10 +277,12 @@ int Tools::UTF8ToGBK(unsigned char * lpUTF8Str, unsigned char * lpGBKStr, int nG
 QString Tools::UNICODEStr2GBKStr(const QString &inStr)
 {
 	QTextCodec *gbk = QTextCodec::codecForName("GB18030");
+	//QTextCodec *gbk = QTextCodec::codecForName("GBK");
 	//QTextCodec *utf8 = QTextCodec::codecForName("UTF-8");
 
 	//QString utf2gbk = gbk->toUnicode(inStr.toLocal8Bit());
 	QByteArray byte = gbk->fromUnicode(inStr);	// 转换成 GBK 字节
+	char * pGbkChar = byte.data();
 	QString utf2gbk = byte;						// 转换成 QString
 	return utf2gbk;
 }
