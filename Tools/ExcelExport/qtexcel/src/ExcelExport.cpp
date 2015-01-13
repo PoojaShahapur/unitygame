@@ -63,7 +63,7 @@ bool ExcelExport::exportExcel()
 
 		memset(filename, 0, sizeof(filename));
 		Tools::getSingletonPtr()->UNICODEStr2GBKChar(m_xmlPath, filename, sizeof(filename));
-		if (!doc.LoadFile(filename))
+		if (doc.LoadFile(filename) != tinyxml2::XML_SUCCESS)
 		{
 			throw "xml加载失败!";
 		}
