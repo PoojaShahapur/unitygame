@@ -50,7 +50,7 @@ void CAppData::startMultiPack()
 	if(ite !=  m_task.getSolutionLst().end())
 	{
 		// package table
-		for (itePack = ite->getPackLst().begin(); itePack != ite->getPackLst().begin(); ++itePack)
+		for (itePack = ite->getPackLst().begin(); itePack != ite->getPackLst().end(); ++itePack)
 		{
 			m_excelExport->setXmlPath((*itePack)->getXml().c_str());
 			m_excelExport->setOutputPath((*itePack)->getOutput().c_str());
