@@ -125,6 +125,8 @@ public:
 	vector<CSolution*>& getSolutionLst();
 	void readXML();		// read config.xml
 	void destroy();
+
+	std::vector<Table*>& getTableList();
 };
 
 END_NAMESPACE

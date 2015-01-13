@@ -25,8 +25,10 @@ public:
 	MainDialog(QWidget *parent = 0);
 	~MainDialog();
 
+	void addListItem();
+
 private:
-	Ui::Dialog *ui;
+	Ui::Dialog *m_ui;
 	//ExcelTbl* m_excelTbl;
 	//WorkThread m_thread;
 	QTimer *m_timer;

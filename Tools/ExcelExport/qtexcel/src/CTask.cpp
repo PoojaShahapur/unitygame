@@ -342,3 +342,8 @@ void CTask::readXML()
 		solutionXml = solutionXml->NextSiblingElement("solution");
 	}
 }
+
+std::vector<Table*>& CTask::getTableList()
+{
+	return m_tablesList;
+}

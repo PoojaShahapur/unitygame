@@ -10,9 +10,9 @@
 #include "TableListItem.hxx"
 
 MainDialog::MainDialog(QWidget *parent)
-    : QDialog(parent, Qt::FramelessWindowHint), ui(new Ui::Dialog)
+	: QDialog(parent, Qt::FramelessWindowHint), m_ui(new Ui::Dialog)
 {
-	ui->setupUi(this);
+	m_ui->setupUi(this);
 
 	Qt::WindowFlags flags = 0;
 	flags |= Qt::WindowMinimizeButtonHint;
@@ -21,31 +21,31 @@ MainDialog::MainDialog(QWidget *parent)
 	this->setFixedSize(630, 700); // 禁止改变窗口大小。
 	this->setWindowIcon(QIcon(":/icons/icon.png"));	// 设置窗口图标
 
-	connect(ui->pushButtonOutput, SIGNAL(clicked()), this, SLOT(btnOutput()));
-	connect(ui->pushButtonOutputXml, SIGNAL(clicked()), this, SLOT(btnXml()));
-	connect(ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(btnStart()));
+	connect(m_ui->pushButtonOutput, SIGNAL(clicked()), this, SLOT(btnOutput()));
+	connect(m_ui->pushButtonOutputXml, SIGNAL(clicked()), this, SLOT(btnXml()));
+	connect(m_ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(btnStart()));
 	setWindowTitle(QStringLiteral("Excel打包工具"));
 	//this->setWindowFlags(Qt::WindowTitleHint);
 	//this->setWindowFlags(Qt::WindowCloseButtonHint);
 
 	// TODO: 设置控件属性 
-	ui->comboBoxOutput->setInsertPolicy(QComboBox::InsertAtTop);
-	ui->comboBoxOutput->setEditable(true);
+	m_ui->comboBoxOutput->setInsertPolicy(QComboBox::InsertAtTop);
+	m_ui->comboBoxOutput->setEditable(true);
 
-	ui->comboBoxOutputXml->setInsertPolicy(QComboBox::InsertAtTop);
-	ui->comboBoxOutputXml->setEditable(true);
+	m_ui->comboBoxOutputXml->setInsertPolicy(QComboBox::InsertAtTop);
+	m_ui->comboBoxOutputXml->setEditable(true);
 
-	//ui->comboBoxSolution->setEditText("");
-	ui->comboBoxSolution->setInsertPolicy(QComboBox::InsertAtTop);
-	ui->comboBoxSolution->setEditable(true);
+	//m_ui->comboBoxSolution->setEditText("");
+	m_ui->comboBoxSolution->setInsertPolicy(QComboBox::InsertAtTop);
+	m_ui->comboBoxSolution->setEditable(true);
 
 	// init appdata
 	CAppData::getSingletonPtr()->initData();
 	CAppData::getSingletonPtr()->initThread(new WorkThread());
 	// fill to comboBoxSolution
-	CAppData::getSingletonPtr()->initCombo(ui->comboBoxSolution);
+	CAppData::getSingletonPtr()->initCombo(m_ui->comboBoxSolution);
 	// clear select item,must after initCombo
-	ui->comboBoxSolution->setCurrentIndex(-1);
+	m_ui->comboBoxSolution->setCurrentIndex(-1);
 
 	// TODO: 打表功能测试   
 	//m_excelTbl = new ExcelTbl();
@@ -57,83 +57,7 @@ MainDialog::MainDialog(QWidget *parent)
 	// 检测大端小端
 	System::getSingletonPtr()->checkEndian();
 
-	// Test 
-	TableListItem *listItemUI = new TableListItem(this);
-	QListWidgetItem *listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	listItemUI = new TableListItem(this);
-	listItem = new QListWidgetItem();
-	listItem->setSizeHint(QSize(0, 50));
-
-	ui->TableListWidget->addItem(listItem);
-	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+	addListItem();
 
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));	// timeoutslot() 为自定义槽
@@ -146,16 +70,112 @@ MainDialog::~MainDialog()
 	delete m_timer;
 	//delete m_excelTbl;
 
-	delete ui;
+	delete m_ui;
+}
+
+void MainDialog::addListItem()
+{
+	// Test 
+	TableListItem *listItemUI;
+	QListWidgetItem *listItem;
+	std::vector<Table*>& tableList = CAppData::getSingletonPtr()->getTask().getTableList();
+
+	std::vector<Table*>::iterator tableIteVecBegin = tableList.begin();
+	std::vector<Table*>::iterator tableIteVecEnd = tableList.end();
+	for (; tableIteVecBegin != tableIteVecEnd; ++tableIteVecBegin)
+	{
+		listItemUI = new TableListItem(this);
+		listItem = new QListWidgetItem();
+		listItem->setSizeHint(QSize(0, 50));
+		listItemUI->setTable(*tableIteVecBegin);
+		m_ui->TableListWidget->addItem(listItem);
+		m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+	}
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	//listItemUI = new TableListItem(this);
+	//listItem = new QListWidgetItem();
+	//listItem->setSizeHint(QSize(0, 50));
+
+	//m_ui->TableListWidget->addItem(listItem);
+	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
 }
 
 void MainDialog::btnOutput()
 {
 	QString dir = "";
 	QString filter = "";
-	if(ui->comboBoxOutput->currentText().length())
+	if(m_ui->comboBoxOutput->currentText().length())
 	{
-		dir = ui->comboBoxOutput->currentText();
+		dir = m_ui->comboBoxOutput->currentText();
 	}
 	else
 	{
@@ -166,9 +186,9 @@ void MainDialog::btnOutput()
 
     if (!fileName.isEmpty()) 
 	{
-		if (ui->comboBoxOutput->findText(fileName) == -1)
-			ui->comboBoxOutput->addItem(fileName);
-		ui->comboBoxOutput->setCurrentIndex(ui->comboBoxOutput->findText(fileName));
+		if (m_ui->comboBoxOutput->findText(fileName) == -1)
+			m_ui->comboBoxOutput->addItem(fileName);
+		m_ui->comboBoxOutput->setCurrentIndex(m_ui->comboBoxOutput->findText(fileName));
 	}
 }
 
@@ -179,28 +199,28 @@ void MainDialog::btnXml()
 	// TODO: 默认过滤器    
 	// filter = "All Files (*);;Text Files (*.txt)";
 	filter = "All Files (*);;XML Files (*.xml)";
-	if(ui->comboBoxOutputXml->currentText().length())
+	if (m_ui->comboBoxOutputXml->currentText().length())
 	{
-		dir = ui->comboBoxOutputXml->currentText();
+		dir = m_ui->comboBoxOutputXml->currentText();
 	}
 
 	QString fileName = Tools::getSingletonPtr()->openFileDialog(dir, filter);
 
     if (!fileName.isEmpty()) 
 	{
-		if (ui->comboBoxOutputXml->findText(fileName) == -1)
+		if (m_ui->comboBoxOutputXml->findText(fileName) == -1)
 		{
-			ui->comboBoxOutputXml->addItem(fileName);
+			m_ui->comboBoxOutputXml->addItem(fileName);
 		}
-		ui->comboBoxOutputXml->setCurrentIndex(ui->comboBoxOutputXml->findText(fileName));
+		m_ui->comboBoxOutputXml->setCurrentIndex(m_ui->comboBoxOutputXml->findText(fileName));
 	}
 }
 
 void MainDialog::btnStart()
 {
-	QString outPath = ui->comboBoxOutput->currentText();
-	QString xmlFile = ui->comboBoxOutputXml->currentText();
-	QString xmlsolution = ui->comboBoxSolution->currentText();
+	QString outPath = m_ui->comboBoxOutput->currentText();
+	QString xmlFile = m_ui->comboBoxOutputXml->currentText();
+	QString xmlsolution = m_ui->comboBoxSolution->currentText();
 
 	//CAppData::getSingletonPtr()->setXml(outPath.toLocal8Bit().data(), xmlFile.toLocal8Bit().data(), xmlsolution.toLocal8Bit().data());
 	//CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UNICODEStr2GBKStr(outPath).toLocal8Bit().data(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlFile).toLocal8Bit().data(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlsolution).toLocal8Bit().data());
@@ -245,7 +265,7 @@ void MainDialog::update()
 	while(begin != list.end())
 	{
 		//ui->m_outTextEdit->setPlainText(*begin);
-		ui->m_outTextEdit->append(*begin);
+		m_ui->m_outTextEdit->append(*begin);
 		++begin;
 	}
 
