@@ -1,6 +1,7 @@
 ﻿#include "Tools.hxx"
 #include <QtGui/QtGui>
 #include <QtWidgets>
+#include <direct.h>		// getcwd
 
 template<> Tools* Singleton<Tools>::msSingleton = 0;
 
@@ -309,4 +310,14 @@ QString Tools::GBKChar2UNICODEStr(const char* inChar)
 
 	QString g2u = gbk->toUnicode(inChar);              // gbk  convert utf8  
 	return g2u;
+}
+
+void Tools::convToAbsPath(std::string& srcPath)
+{
+	if (-1 == srcPath.find(':'))		// 如果没有检查到分隔符，就是相对目录
+	{
+		char buf[256];
+		_getcwd(buf, sizeof(buf));
+		srcPath = std::string(buf) + '/' + srcPath;
+	}
 }

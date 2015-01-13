@@ -28,9 +28,9 @@ BEGIN_NAMESPACE
 class ExcelExport
 {
 protected:
-	QString m_xmlPath;	// 绝对路径的文件名字   
-	QString m_tblPath;	// tbl 输出路径  
-	QString m_strOutput;	// 字符串日志输出    
+	std::string m_xmlPath;	// 绝对路径的文件名字   
+	std::string m_tblPath;	// tbl 输出路径  
+	std::string m_strOutput;	// 字符串日志输出    
 	TableAttr m_tableAttr;	// 定义的表的属性
 	QMutex mutex;
 	WCHAR* m_wBuf;			// 临时数据
@@ -39,8 +39,8 @@ protected:
 public:
 	ExcelExport();
 	~ExcelExport();
-	void setXmlPath(QString file);
-	void setOutputPath(QString path);
+	void setXmlPath(std::string file);
+	void setOutputPath(std::string path);
 	bool exportExcel();
 	QString UTF82GBK(const QString &inStr);
 

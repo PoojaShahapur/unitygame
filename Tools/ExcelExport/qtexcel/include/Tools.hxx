@@ -4,6 +4,7 @@
 #include "Singleton.hxx"
 #include <QtCore/QtCore>
 #include <cstring>
+#include <string>	// include string
 #include <QtWidgets/QPlainTextEdit>
 #include <QtCore/QVector>
 
@@ -57,6 +58,7 @@ public:
 	//std::string gbk2utf8(const QString &inStr);
 	//QString utf82gbk(const std::string &inStr);
 	QString GBKChar2UNICODEStr(const char* inChar);
+	void convToAbsPath(std::string& srcPath);		// 将目录转换成绝对目录
 };
 
 END_NAMESPACE

@@ -1,4 +1,5 @@
 ﻿#include "CTask.hxx"
+#include "Tools.hxx"
 
 CPackage::CPackage()
 {
@@ -88,6 +89,10 @@ void CSolution::initByXml(tinyxml2::XMLElement* elem)
 	m_cmd = elem->Attribute("cmd");
 	m_xmlRootPath = elem->Attribute("xmlrootpath");
 	m_defaultOutput = elem->Attribute("defaultoutput");
+
+	// 转换目录到绝对目录
+	Tools::getSingletonPtr()->convToAbsPath(m_xmlRootPath);
+	Tools::getSingletonPtr()->convToAbsPath(m_defaultOutput);
 
 	while(packageXml)
 	{

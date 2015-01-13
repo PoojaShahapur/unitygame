@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 打包配置文件 -->
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 UTF-8 GB2312 -->
 <!-- solution 是一个方案 name 显示的方案的名字 cmd 打包完成后执行的配置文件 xmlrootpath 就是这个方案下的根目录 defaultoutput 就是当 package 没有指定 output ，就会使用这个-->
 <config>
-	<solution name="打包所有的内容" xmlrootpath="../../../../../../策划/游戏设置" defaultoutput="../../../../../../策划/游戏设置/输出" cmd="" >
+	<solution name="打包所有的内容" xmlrootpath="../../../../../../../Work/Client20141215/策划/游戏设置" defaultoutput="../../../../../../../Work/Client20141215/策划/游戏设置/输出" cmd="" >
 		<package xml="道具表设置/object_pack_client.xml" output="" />
 		<package xml="卡牌表设置/card_pack_client.xml" output="" />
 	</solution>
-	<solution name="Test1" xmlrootpath="E:/e/work/design-new-svn/版本配置/表格配置" defaultoutput="E:/e/work/design-new-svn/版本配置/client/table" cmd="E:/e/work/design-new-svn/版本配置/tbl打表工具/postbuild2server.bat" >
+	<solution name="所有打包-提交到服务器" xmlrootpath="E:/e/work/design-new-svn/版本配置/表格配置" defaultoutput="E:/e/work/design-new-svn/版本配置/client/table" cmd="E:/e/work/design-new-svn/版本配置/tbl打表工具/postbuild2server.bat" >
 		<package xml="道具表/equipenchance_client.xml" output="" />
 		<package xml="道具表/objbase_client.xml" output="E:/e/work/design-new-svn/版本配置/client/table" />
 	</solution>
-	<solution name="Test2" xmlrootpath="E:/e/work/design-new-svn/版本配置/表格配置" defaultoutput="E:/e/work/design-new-svn/版本配置/client/table" cmd="E:/e/work/design-new-svn/版本配置/tbl打表工具/postbuildnot2server.bat" >
+	<solution name="所有打包-不提交到服务器" xmlrootpath="E:/e/work/design-new-svn/版本配置/表格配置" defaultoutput="E:/e/work/design-new-svn/版本配置/client/table" cmd="E:/e/work/design-new-svn/版本配置/tbl打表工具/postbuildnot2server.bat" >
 		<package xml="战斗NPC表/battlenpc_client.xml" output="E:/e/work/design-new-svn/版本配置/client/table" />
 		<package xml="战斗NPC表/heroproperty_client.xml" output="" />
 	</solution>

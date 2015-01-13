@@ -4,6 +4,7 @@
 //#include <QtGui/QtGui>
 #include "Platform.hxx"
 #include "DataItem.hxx"
+#include <direct.h>		// chdir
 
 #import "C:\Program Files\Common Files\System\ado\msado15.dll" \
 	no_namespace rename("EOF","adoEOF") \
@@ -21,14 +22,14 @@ ExcelExport::~ExcelExport()
 	delete []m_bytes;
 }
 
-void ExcelExport::setXmlPath(QString file)
+void ExcelExport::setXmlPath(std::string file)
 {
 	mutex.lock();
 	m_xmlPath = file;
 	mutex.unlock();
 }
 
-void ExcelExport::setOutputPath(QString path)
+void ExcelExport::setOutputPath(std::string path)
 {
 	mutex.lock();
 	m_tblPath = path;
@@ -46,10 +47,10 @@ QString ExcelExport::UTF82GBK(const QString &inStr)
 
 bool ExcelExport::exportExcel()
 {
-	int iTmp = m_xmlPath.lastIndexOf('\\');
+	int iTmp = m_xmlPath.find_last_of('\\');
 	if(iTmp == -1)
 	{
-		iTmp = m_xmlPath.lastIndexOf('/');
+		iTmp = m_xmlPath.find_last_of('/');
 	}
 
 	char filename[256];
@@ -62,7 +63,8 @@ bool ExcelExport::exportExcel()
 		tinyxml2::XMLElement* table = NULL;
 
 		memset(filename, 0, sizeof(filename));
-		Tools::getSingletonPtr()->UNICODEStr2GBKChar(m_xmlPath, filename, sizeof(filename));
+		strncpy(filename, m_xmlPath.c_str(), strlen(m_xmlPath.c_str()));
+		//Tools::getSingletonPtr()->UNICODEStr2GBKChar(m_xmlPath, filename, sizeof(filename));
 		if (doc.LoadFile(filename) != tinyxml2::XML_SUCCESS)
 		{
 			throw "xml加载失败!";
@@ -79,21 +81,24 @@ bool ExcelExport::exportExcel()
 			throw "xml文件没有table标签";
 		}
 
-		QString strExcelDir = m_xmlPath.left(iTmp);
-		if(!QDir::setCurrent(strExcelDir))
+		std::string strExcelDir = m_xmlPath.substr(0, iTmp);
+		//if(!QDir::setCurrent(strExcelDir))
+		if (_chdir(strExcelDir.c_str()) == -1)
 		{
 			QString msg = "当前目录设置正确";
 			Tools::getSingletonPtr()->informationMessage(NULL, msg);
 		}
 		else
 		{
-			QString curPath = QDir::currentPath();
+			//QString curPath = QDir::currentPath();
+			//char buf[256];
+			//getcwd(buf, sizeof(buf));
 		}
 
-		QString strExcelFile;
-		QString strOutputFile;
+		std::string strExcelFile;
+		std::string strOutputFile;
 
-		if(m_tblPath.isEmpty())
+		if(m_tblPath.empty())
 		{
 			m_tblPath = strExcelDir;
 		}
@@ -118,42 +123,50 @@ bool ExcelExport::exportExcel()
 
 			char szMsg[256];
 			memset(filename, 0, sizeof(filename));
-			Tools::getSingletonPtr()->UNICODEStr2GBKChar(m_tblPath, filename, sizeof(filename));
+			strncpy(filename, m_tblPath.c_str(), strlen(m_tblPath.c_str()));
+			//Tools::getSingletonPtr()->UNICODEStr2GBKChar(m_tblPath, filename, sizeof(filename));
 			sprintf(szMsg, "%s\\%s.tbl", filename, tableName);
-			strOutputFile = Tools::getSingletonPtr()->GBKChar2UNICODEStr(szMsg);
+			//strOutputFile = Tools::getSingletonPtr()->GBKChar2UNICODEStr(szMsg);
+			strOutputFile = szMsg;
 			m_strOutput += "//---------------------\r\n";
 			m_strOutput += "//";
 
-			m_strOutput += Tools::getSingletonPtr()->GBKChar2UNICODEStr(tableName);
+			//m_strOutput += Tools::getSingletonPtr()->GBKChar2UNICODEStr(tableName);
+			m_strOutput += tableName;
 			m_strOutput += "\r\n";
 			m_strOutput += "//---------------------\r\n";
 			strStructDef = "";
 
-			strExcelFile = Tools::getSingletonPtr()->GBKChar2UNICODEStr(ExcelFile);
+			//strExcelFile = Tools::getSingletonPtr()->GBKChar2UNICODEStr(ExcelFile);
+			strExcelFile = ExcelFile;
 			if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
 			{
 				memset(filename, 0, sizeof(filename));
-				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strExcelDir + QStringLiteral("/") + strExcelFile, filename, sizeof(filename));
+				//Tools::getSingletonPtr()->UNICODEStr2GBKChar(strExcelDir + "/" + strExcelFile, filename, sizeof(filename));
+				strncpy(filename, (strExcelDir + "/" + strExcelFile).c_str(), strlen((strExcelDir + "/" + strExcelFile).c_str()));
 
 				memset(outfilename, 0, sizeof(outfilename));
-				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
+				//Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
+				strncpy(filename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
 
 				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
 			}
 			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
 			{
 				memset(filename, 0, sizeof(filename));
-				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strExcelDir + QStringLiteral("/") + strExcelFile, filename, sizeof(filename));
+				//Tools::getSingletonPtr()->UNICODEStr2GBKChar(strExcelDir + "/" + strExcelFile, filename, sizeof(filename));
+				strncpy(filename, (strExcelDir + "/" + strExcelFile).c_str(), strlen((strExcelDir + "/" + strExcelFile).c_str()));
 
 				memset(outfilename, 0, sizeof(outfilename));
-				Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
+				//Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
+				strncpy(filename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
 
 				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
 			}
 			else
 			{
 				QString tmpmsg = QStringLiteral("不能读取这个文件格式的表格, 文件 ");
-				tmpmsg += strExcelFile;
+				tmpmsg += strExcelFile.c_str();
 				Tools::getSingletonPtr()->informationMessage(tmpmsg);
 			}
 
@@ -164,7 +177,8 @@ bool ExcelExport::exportExcel()
 	}
 	catch (const char* p)
 	{
-		Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(p));
+		//Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(p));
+		Tools::getSingletonPtr()->informationMessage(Tools::getSingletonPtr()->GBKChar2UNICODEStr(p));
 		return false;
 	}
 	catch(...)
