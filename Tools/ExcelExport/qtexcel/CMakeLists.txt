@@ -71,6 +71,7 @@ else(NOT Qt5Widgets_FOUND)
 		./include/PropertyIns.hxx
 		./include/PropertyStr.hxx
 		./include/TableListItem.hxx
+		./include/EnValue.hxx
     )
 
 	#these files need build moc files

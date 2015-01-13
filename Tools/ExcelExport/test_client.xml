@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="GB2312">
+<?xml version="1.0" encoding="GB2312"?>
 <!-- string 类型中的 size 字段是包括最后一个 0 结尾符的长度 -->
 <config>
 	<table name="base_client" ExcelFile="test.xlsx" sheetname="测试表" idrange="1-100;130-500;7000-8000">
