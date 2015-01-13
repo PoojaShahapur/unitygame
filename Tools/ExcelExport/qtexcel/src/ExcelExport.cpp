@@ -147,7 +147,7 @@ bool ExcelExport::exportExcel()
 
 				memset(outfilename, 0, sizeof(outfilename));
 				//Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
-				strncpy(filename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
+				strncpy(outfilename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
 
 				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
 			}
@@ -159,7 +159,7 @@ bool ExcelExport::exportExcel()
 
 				memset(outfilename, 0, sizeof(outfilename));
 				//Tools::getSingletonPtr()->UNICODEStr2GBKChar(strOutputFile, outfilename, sizeof(outfilename));
-				strncpy(filename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
+				strncpy(outfilename, strOutputFile.c_str(), strlen(strOutputFile.c_str()));
 
 				exportExcelInternal(field, filename, lpszDB, lpszTable, outfilename, tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
 			}
