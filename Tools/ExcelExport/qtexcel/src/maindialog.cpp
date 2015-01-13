@@ -7,6 +7,7 @@
 #include "CAppData.hxx"	// inlcude app data
 #include "WorkThread.hxx"
 #include "System.hxx"
+#include "TableListItem.hxx"
 
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent, Qt::FramelessWindowHint), ui(new Ui::Dialog)
@@ -17,7 +18,7 @@ MainDialog::MainDialog(QWidget *parent)
 	flags |= Qt::WindowMinimizeButtonHint;
 	flags |= Qt::WindowCloseButtonHint;
 	this->setWindowFlags(flags); // 设置禁止最大化
-	this->setFixedSize(629, 400); // 禁止改变窗口大小。
+	this->setFixedSize(630, 700); // 禁止改变窗口大小。
 	this->setWindowIcon(QIcon(":/icons/icon.png"));	// 设置窗口图标
 
 	connect(ui->pushButtonOutput, SIGNAL(clicked()), this, SLOT(btnOutput()));
@@ -55,6 +56,84 @@ MainDialog::MainDialog(QWidget *parent)
 	//Tools::getSingletonPtr()->setTextEdit(ui->m_outTextEdit);
 	// 检测大端小端
 	System::getSingletonPtr()->checkEndian();
+
+	// Test 
+	TableListItem *listItemUI = new TableListItem(this);
+	QListWidgetItem *listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
+
+	listItemUI = new TableListItem(this);
+	listItem = new QListWidgetItem();
+	listItem->setSizeHint(QSize(0, 50));
+
+	ui->TableListWidget->addItem(listItem);
+	ui->TableListWidget->setItemWidget(listItem, listItemUI);
 
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));	// timeoutslot() 为自定义槽

@@ -47,6 +47,7 @@ else(NOT Qt5Widgets_FOUND)
 		./src/ByteBuffer.cpp
 		./src/System.cpp
 		./src/PropertyStr.cpp
+		./src/TableListItem.cpp
     )
 	
 	set(INCS_FILES
@@ -69,11 +70,13 @@ else(NOT Qt5Widgets_FOUND)
 		./include/PropertyBase.hxx
 		./include/PropertyIns.hxx
 		./include/PropertyStr.hxx
+		./include/TableListItem.hxx
     )
 
 	#these files need build moc files
     SET(MOC_FILES
         ./include/maindialog.hxx
+		./include/TableListItem.hxx
     )
 	
 	SET(QRC_FILES ./res/qtexcel.qrc)
