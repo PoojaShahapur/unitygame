@@ -6,10 +6,7 @@
 #include "DataItem.hxx"
 #include <direct.h>		// chdir
 #include "CTask.hxx"
-
-#import "C:\Program Files\Common Files\System\ado\msado15.dll" \
-	no_namespace rename("EOF","adoEOF") \
-	rename("BOF","adoBOF")
+#include "ADOWrap.hxx"
 
 ExcelExport::ExcelExport()
 {
@@ -48,131 +45,6 @@ QString ExcelExport::UTF82GBK(const QString &inStr)
 
 bool ExcelExport::exportExcel()
 {
-	//std::string::size_type iTmp = m_xmlPath.find_last_of('\\');
-	//if(iTmp == -1)
-	//{
-	//	iTmp = m_xmlPath.find_last_of('/');
-	//}
-
-	//try
-	//{
-	//	tinyxml2::XMLDocument doc;
-	//	tinyxml2::XMLElement* config = NULL;
-	//	tinyxml2::XMLElement* table = NULL;
-
-	//	Table* tableItem;
-
-	//	if (doc.LoadFile(m_xmlPath.c_str()) != tinyxml2::XML_SUCCESS)
-	//	{
-	//		throw "xml加载失败!";
-	//	}
-	//	config = doc.FirstChildElement("config");
-	//	if(!config)
-	//	{
-	//		throw "xml文件没有config标签";
-	//	}
-
-	//	table = config->FirstChildElement("table");
-	//	if(!table)
-	//	{
-	//		throw "xml文件没有table标签";
-	//	}
-
-	//	std::string strExcelDir = m_xmlPath.substr(0, iTmp);
-	//	if (_chdir(strExcelDir.c_str()) == -1)
-	//	{
-	//		QString msg = "当前目录设置正确";
-	//		Tools::getSingletonPtr()->informationMessage(NULL, msg);
-	//	}
-	//	//else
-	//	//{
-	//	//	//QString curPath = QDir::currentPath();
-	//	//	//char buf[256];
-	//	//	//getcwd(buf, sizeof(buf));
-	//	//}
-
-	//	std::string strExcelFile;
-	//	std::string strOutputFile;
-
-	//	if(m_tblPath.empty())
-	//	{
-	//		m_tblPath = strExcelDir;
-	//	}
-
-	//	std::vector<XmlField*> fieldsList;
-	//	//XmlField* fieldItem;
-
-	//	m_strOutput = "";
-	//	std::string strStructDef;
-	//	while(table)
-	//	{
-	//		fieldsList.clear();
-	//		tinyxml2::XMLElement* field = table->FirstChildElement("fields");
-	//		const char* tableName = table->Attribute("name");
-	//		const char* ExcelFile = table->Attribute("ExcelFile");
-	//		const char* lpszsheetname = table->Attribute("sheetname");	// 表单的名字
-	//		const char* lpszDB = table->Attribute("db");
-	//		const char* lpszTable = table->Attribute("table");
-
-	//		// 表中配置的 ID 范围
-	//		const char* lpId = table->Attribute("idrange");
-	//		if(lpId)
-	//		{
-	//			m_tableAttr.parseInRange(lpId);
-	//		}
-
-	//		char szMsg[256];
-
-	//		sprintf(szMsg, "%s\\%s.tbl", m_tblPath.c_str(), tableName);
-	//		strOutputFile = szMsg;
-	//		m_strOutput += "//---------------------\r\n";
-	//		m_strOutput += "//";
-
-	//		m_strOutput += tableName;
-	//		m_strOutput += "\r\n";
-	//		m_strOutput += "//---------------------\r\n";
-	//		strStructDef = "";
-
-	//		strExcelFile = ExcelFile;
-	//		Table::parseXML(field, fieldsList);
-
-	//		if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
-	//		{
-	//			//exportExcelInternal(field, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
-	//			exportExcelInternal(fieldsList, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.Jet.OLEDB.4.0;", "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';");
-	//		}
-	//		else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(ExcelFile).c_str()) == 0)
-	//		{
-	//			//exportExcelInternal(field, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
-	//			exportExcelInternal(fieldsList, (strExcelDir + "/" + strExcelFile).c_str(), lpszDB, lpszTable, strOutputFile.c_str(), tableName, lpszsheetname, strStructDef, "Provider=Microsoft.ACE.OLEDB.12.0;", "Extended Properties=\'Excel 12.0 Xml;HDR=YES;IMEX=1\';");
-	//		}
-	//		else
-	//		{
-	//			QString tmpmsg = QStringLiteral("不能读取这个文件格式的表格, 文件 ");
-	//			tmpmsg += strExcelFile.c_str();
-	//			Tools::getSingletonPtr()->informationMessage(tmpmsg);
-	//		}
-
-	//		deleteFieldsList(fieldsList);
-
-	//		m_strOutput += strStructDef.c_str();
-	//		m_strOutput += "\r\n";
-	//		table = table->NextSiblingElement("table");
-	//	}
-	//}
-	//catch (const char* p)
-	//{
-	//	Tools::getSingletonPtr()->informationMessage(Tools::getSingletonPtr()->GBKChar2UNICODEStr(p));
-	//	return false;
-	//}
-	//catch(...)
-	//{
-	//	Tools::getSingletonPtr()->informationMessage(QStringLiteral("意外异常"));
-	//	return false;
-	//}
-
-	//return true;
-
 	CPackage* packItem = new CPackage();
 	packItem->setXml(m_xmlPath);
 	packItem->setOutput(m_tblPath);
@@ -205,143 +77,64 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		Tools::getSingletonPtr()->informationMessage(QStringLiteral("配置表中 tablename 这个属性为空"));
 		return false;
 	}
-
-	const char* provider;					// 数据引擎提供者
-	const char* extendedProperties;			// 扩展属性
-
-	if (eXLS == tableItem->m_enExcelType)
+	if (tableItem->m_fieldsList.size() == 0)
 	{
-		provider = XLS_ENGINE_provider;
-		extendedProperties = XLS_ENGINE_extendedProperties;
-	}
-	else
-	{
-		provider = XLSX_ENGINE_provider;
-		extendedProperties = XLSX_ENGINE_extendedProperties;
+		Tools::getSingletonPtr()->informationMessage(QStringLiteral("配置表中需要导出的字段为空，没有需要导出的"));
+		return false;
 	}
 
 	// 打开数据库
 	char szMsg[512];
-	std::string strCurField;
-	// 添加一个指向Connection对象的指针
-	_ConnectionPtr m_pConnection;
-	// 添加一个指向Recordset 对象的指针
-	_RecordsetPtr m_pRecordset;
+	ADOWrap adoWrap;
+
+	// 这个作为一个中间值     
+	std::string strTmp = "";
+
+	int iFieldNum = 0;				// 相当于列号
+	int iRecord = -1;				// 在读取记录过程中，表示当前记录是第几行，zero-based，相当于行号
+	string warnOrErrorDesc;			// 一些警告或者错误
+
+	// (1) 排序的向量，将所有的内容输入到要排序的向量列表中去        
+	std::vector<DataItem*> _rowList;	// 行数据列表     
+	DataItem* _rowData = NULL;			// 一行的数据   
+	unsigned long int _id = 0;			// 一行唯一 ID 
+	std::string _strId;					// 唯一 id 字符串   
+	_strId = "编号";						// 默认值
+	int iFieldIndex = 0;				// 当前导出的字段索引
+
+	const char* fieldName;
+	const char* fieldType;
+	int fieldSize = -1;
+	int fieldBase = 10;	// 十进制、十六进制
+	const char* defaultValue = "10";
+
 	try
 	{
-		// com 接口初始化    
-		// 第一个表的名字     
-		_bstr_t _table_name;
-		// 打开数据库的字符串 
-		_bstr_t _strConnect;
-		// 打开表的字符串   
-		_bstr_t _bstrSQL;
-		// 总的记录行数    
-		int count = 0;	// 数据表中总的行数 
-
-		::CoInitialize(NULL);
-		_table_name = tableItem->m_lpszDBTableName.c_str();
-
-		// 打开数据库    
-		try
-		{
-			m_pConnection.CreateInstance("ADODB.Connection");
-			_strConnect += provider;
-			_strConnect += "Data Source=";
-			_strConnect += tableItem->m_lpszExcelFile.c_str();
-			_strConnect += ";";
-			_strConnect += extendedProperties;
-
-			m_pConnection->Open(_strConnect, "", "", adModeUnknown);
-		}
-		catch (_com_error e)		//捕捉异常		
-		{
-			::CoUninitialize();
-			Tools::getSingletonPtr()->informationMessage(QStringLiteral("打开数据库发生异常"));
-			return false;
-		}
-
-		// 打开第一个表   
-		try
-		{
-			m_pRecordset.CreateInstance(_uuidof(Recordset));
-
-			_bstrSQL += "SELECT * FROM ";
-			_bstrSQL += "[";
-			_bstrSQL += _table_name;
-			_bstrSQL += "$]";
-
-			// 保证 GetRecordCount 返回正确的结果  
-			m_pRecordset->CursorLocation = adUseClient;
-			m_pRecordset->Open(_bstrSQL, m_pConnection.GetInterfacePtr(), adOpenDynamic, adLockOptimistic, adCmdText);
-
-			// 获取记录集的数量 
-			count = m_pRecordset->GetRecordCount();
-		}
-		catch (_com_error e)
-		{
-			m_pConnection->Close();
-			::CoUninitialize();
-			Tools::getSingletonPtr()->informationMessage(QStringLiteral("打开数据库的第一个表发生异常"));
-
-			return false;
-		}
-
 		// 操作数据库
-		//判读是否是客户端表
-		bool m_isClient = false;
-		if (-1 != tableItem->m_lpszTableName.find("client"))
-		{
-			m_isClient = true;
-		}
+		adoWrap.opemDB(tableItem);
 
-		// 这个作为一个中间值     
-		std::string strTmp = "";
+		XmlField* field = tableItem->m_fieldsList[0];
+		_strId = field->m_fieldName;			// 第一个字段必然是 id
 
-		int iFieldNum = 0;
-		string warnOrErrorDesc;			// 一些警告或者错误
-
-		// (1) 排序的向量，将所有的内容输入到要排序的向量列表中去        
-		std::vector<DataItem*> _rowList;	// 行数据列表     
-		DataItem* _rowData = NULL;			// 一行的数据   
-		unsigned long int _id = 0;			// 一行唯一 ID 
-		std::string _strId;					// 唯一 id 字符串   
-		_strId = "编号";				// 默认值
-
-		int iRecord = -1;	// 在读取记录过程中，表示当前记录是第几行，zero-based
-		for (; m_pRecordset->adoEOF != -1; m_pRecordset->MoveNext())
+		while (!adoWrap.isAdoEOF())		// 如果没有结束
 		{
 			// 申请一行的空间     
 			iRecord++;		// 记录当前访问的表中的行数
 			_rowData = new DataItem();
 			_rowList.push_back(_rowData);
 
-			XmlField* field = tableItem->m_fieldsList[0];
 			// id 段判断，第一个字段一定是 id 才行，否则会出现错误
-			if (field)
+			if (!tableItem->m_tableAttr.bIdInRange(adoWrap.getCollectUInt(_strId)))
 			{
-				const char* pid = field->m_fieldName.c_str();
-				if (pid)
-				{
-					_variant_t idfield = m_pRecordset->GetCollect((_variant_t)pid);
-					if (!tableItem->m_tableAttr.bIdInRange(idfield.dblVal))
-					{
-						count--;
-						continue;
-					}
-
-					_strId = pid;	// 第一个字段是 id 段的名字
-				}
+				adoWrap.m_count--;
+				continue;
 			}
-			int iFieldIndex = 0;
+			
 			while (iFieldIndex < tableItem->m_fieldsList.size())
 			{
-				const char* fieldName = field->m_fieldName.c_str();
-				const char* fieldType = field->m_fieldType.c_str();
-
-				int fieldSize = -1;
-				int fieldBase = 10;	// 进制是什么 
-				const char* defaultValue = "10";
+				field = tableItem->m_fieldsList[iFieldIndex];
+				fieldName = field->m_fieldName.c_str();
+				fieldType = field->m_fieldType.c_str();
 
 				// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
 				fieldSize = field->m_fieldSize;
@@ -354,13 +147,10 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 					fieldType = "int";
 				}
 
-				std::string strFieldDef;
-
 				if (fieldName && fieldType)
 				{
 					// 读取 Excel 字段值到 string 中， Excel 中只读取字符串，4个字节数字，8个字节数字
-					strCurField = fieldName;
-					_variant_t fieldValue = m_pRecordset->GetCollect((_variant_t)fieldName);
+					_variant_t fieldValue = adoWrap.getCollect(fieldName);
 					if (fieldValue.vt == VT_BSTR)
 					{
 						strTmp = (TCHAR*)(_bstr_t)fieldValue.bstrVal;
@@ -374,7 +164,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 							memset(szMsg, 0, sizeof(szMsg));
 							sprintf(szMsg, "警告:第%d行的第一列(编号)没有值，这行就不做到tbl中!\r\n", iRecord);
 							warnOrErrorDesc += szMsg;
-							count--;
+							adoWrap.m_count--;
 							break;
 						}
 					}
@@ -443,7 +233,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						if (len + 1 > fieldSize)		// 最后一个字节填充 '\0'
 						{
 							memset(szMsg, 0, sizeof(szMsg));
-							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField.c_str());
+							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), fieldName);
 							warnOrErrorDesc += szMsg;
 							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'，长度不包括最后一个 '\0'
 						}
@@ -451,7 +241,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 
 						// bytes 可能很长，但是传入后，构造的时候使用 '\0' 截断
 						addPropertyStr(_rowData, m_bytes, fieldSize);
-
 					}
 					else if (stricmp(fieldType, "int") == 0)
 					{
@@ -543,19 +332,15 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 				}
 				iFieldIndex++;
 			}
+
+			adoWrap.moveNext();			// 移动到下一条数据
 		}
 
 		// 导出 Excel 到文件
-		exportPropertyVec2File(tableItem->m_lpszOutputFile.c_str(), _rowList, m_isClient);
-
-		// 关闭打开句柄    
-		// TODO: 关闭打开的内容 
-		m_pRecordset->Close();
-		m_pConnection->Close();
-		::CoUninitialize();
+		exportPropertyVec2File(tableItem->m_lpszOutputFile.c_str(), _rowList, tableItem->isExportClientTable());
 
 		memset(szMsg, 0, sizeof(szMsg));
-		sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", tableItem->m_lpszTableName, count);
+		sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", tableItem->m_lpszTableName, adoWrap.m_count);
 		warnOrErrorDesc += szMsg;
 		// 打表成功 
 		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(warnOrErrorDesc.c_str()));
@@ -564,15 +349,11 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	}
 	catch (_com_error e)
 	{
-		m_pRecordset->Close();
-		m_pConnection->Close();
-		::CoUninitialize();
-
 		LPCSTR szError = e.Description();
-		if (!strCurField.empty())
+		if (fieldName != nullptr)
 		{
 			memset(szMsg, 0, sizeof(szMsg));
-			sprintf(szMsg, "%s,字段: %s", szError, strCurField.c_str());
+			sprintf(szMsg, "%s,字段: %s", szError, fieldName);
 			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(szMsg));
 		}
 		else
@@ -583,9 +364,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	}
 	catch (std::bad_alloc& error)	// 分配内存失败   
 	{
-		m_pRecordset->Close();
-		m_pConnection->Close();
-		::CoUninitialize();
 		Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(error.what()));
 	}
 }

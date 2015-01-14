@@ -161,6 +161,17 @@ bool Table::buildTableDefine()
 	return true;
 }
 
+// 是否是导出客户端表
+bool Table::isExportClientTable()
+{
+	if (-1 != m_lpszTableName.find("client"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 CPackage::CPackage()
 {
 

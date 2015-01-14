@@ -61,6 +61,8 @@ public:
 	Table();
 	void parseXML(tinyxml2::XMLElement* pXmlEmtFields);
 	bool buildTableDefine();
+
+	bool isExportClientTable();		// 是否是导出客户端表
 };
 
 /**

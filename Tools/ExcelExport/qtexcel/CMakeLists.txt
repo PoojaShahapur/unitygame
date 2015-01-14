@@ -48,6 +48,7 @@ else(NOT Qt5Widgets_FOUND)
 		./src/System.cpp
 		./src/PropertyStr.cpp
 		./src/TableListItem.cpp
+		./src/ADOWrap.cpp
     )
 	
 	set(INCS_FILES
@@ -72,6 +73,7 @@ else(NOT Qt5Widgets_FOUND)
 		./include/PropertyStr.hxx
 		./include/TableListItem.hxx
 		./include/EnValue.hxx
+		./include/ADOWrap.hxx
     )
 
 	#these files need build moc files
