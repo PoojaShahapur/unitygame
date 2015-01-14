@@ -35,7 +35,6 @@ protected:
 	std::string m_strOutput;	// 字符串日志输出
 	TableAttr m_tableAttr;	// 定义的表的属性
 	QMutex mutex;
-	WCHAR* m_wBuf;			// 临时数据
 	char* m_bytes;
 
 public:

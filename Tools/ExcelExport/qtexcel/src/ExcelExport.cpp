@@ -10,13 +10,11 @@
 
 ExcelExport::ExcelExport()
 {
-	m_wBuf = new WCHAR[2048];
 	m_bytes = new char[4096];
 }
 
 ExcelExport::~ExcelExport()
 {
-	delete []m_wBuf;
 	delete []m_bytes;
 }
 
@@ -90,8 +88,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	std::vector<DataItem*> _rowList;	// 行数据列表     
 	DataItem* _rowData = NULL;			// 一行的数据   
 	unsigned long int _id = 0;			// 一行唯一 ID 
-	std::string _strId;					// 唯一 id 字符串   
-	_strId = "编号";						// 默认值
+	std::string _strId = "编号";			// 唯一 id 字符串   
 	int iFieldIndex = 0;				// 当前导出的字段索引
 
 	const char* fieldName;
@@ -100,7 +97,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	int fieldBase = 10;	// 十进制、十六进制
 	const char* defaultValue = "10";
 
-
 	try
 	{
 		// 操作数据库
@@ -108,6 +104,9 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 
 		XmlField* field = tableItem->m_fieldsList[0];
 		_strId = field->m_fieldName;			// 第一个字段必然是 id
+
+		// 输出表的定义
+		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(tableItem->m_strStructDef.c_str()));
 
 		while (!adoWrap.isAdoEOF())		// 如果没有结束
 		{
@@ -155,6 +154,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						{
 							// 如果第一个值是空的就不处理这行，同时将数量减少，反正最后要写到头文件
 							strStream.clear();
+							strStream.str("");
 							strStream << "警告:第 ";
 							strStream << iRecord;
 							strStream << " 行的第一列(编号)没有值，这行就不做到tbl中!\r\n";
@@ -167,6 +167,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 					else if (fieldValue.vt == VT_I4)
 					{
 						strStream.clear();
+						strStream.str("");
 						strStream << fieldValue.lVal;
 
 						strTmp = strStream.str();
@@ -174,6 +175,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 					else if (fieldValue.vt == VT_R8)
 					{
 						strStream.clear();
+						strStream.str("");
 						strStream << fieldValue.dblVal;
 
 						strTmp = strStream.str();
@@ -225,6 +227,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						if (len + 1 > fieldSize)		// 最后一个字节填充 '\0'
 						{
 							strStream.clear();
+							strStream.str("");
 							strStream << "警告:字段超出定义大小，大小 ";
 							strStream << strTmp.length();
 							strStream << " 字段，字段名: ";
@@ -333,12 +336,14 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		exportPropertyVec2File(tableItem->m_lpszOutputFile.c_str(), _rowList, tableItem->isExportClientTable());
 
 		strStream.clear();
+		strStream.str("");
 		strStream << "//导出 ";
 		strStream << tableItem->m_lpszTableName;
 		strStream << " 成功, 共 ";
 		strStream << adoWrap.m_count;
 		strStream << " 条记录\r\n";
 
+		// 输出各种警告错误和最终输出的条数
 		warnOrErrorDesc += strStream.str();
 		// 打表成功 
 		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(warnOrErrorDesc.c_str()));
@@ -351,6 +356,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		if (fieldName != nullptr)
 		{
 			strStream.clear();
+			strStream.str("");
 			strStream << szError;
 			strStream << " ,字段: ";
 			strStream << fieldName;
