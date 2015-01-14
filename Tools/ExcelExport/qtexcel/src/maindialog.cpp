@@ -36,16 +36,16 @@ MainDialog::MainDialog(QWidget *parent)
 	m_ui->comboBoxOutputXml->setEditable(true);
 
 	//m_ui->comboBoxSolution->setEditText("");
-	m_ui->comboBoxSolution->setInsertPolicy(QComboBox::InsertAtTop);
-	m_ui->comboBoxSolution->setEditable(true);
+	//m_ui->comboBoxSolution->setInsertPolicy(QComboBox::InsertAtTop);
+	//m_ui->comboBoxSolution->setEditable(true);
 
 	// init appdata
 	CAppData::getSingletonPtr()->initData();
 	CAppData::getSingletonPtr()->initThread(new WorkThread());
 	// fill to comboBoxSolution
-	CAppData::getSingletonPtr()->initCombo(m_ui->comboBoxSolution);
+	//CAppData::getSingletonPtr()->initCombo(m_ui->comboBoxSolution);
 	// clear select item,must after initCombo
-	m_ui->comboBoxSolution->setCurrentIndex(-1);
+	//m_ui->comboBoxSolution->setCurrentIndex(-1);
 
 	// TODO: 打表功能测试   
 	//m_excelTbl = new ExcelTbl();
@@ -220,7 +220,7 @@ void MainDialog::btnStart()
 {
 	QString outPath = m_ui->comboBoxOutput->currentText();
 	QString xmlFile = m_ui->comboBoxOutputXml->currentText();
-	QString xmlsolution = m_ui->comboBoxSolution->currentText();
+	//QString xmlsolution = m_ui->comboBoxSolution->currentText();
 
 	//CAppData::getSingletonPtr()->setXml(outPath.toLocal8Bit().data(), xmlFile.toLocal8Bit().data(), xmlsolution.toLocal8Bit().data());
 	//CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UNICODEStr2GBKStr(outPath).toLocal8Bit().data(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlFile).toLocal8Bit().data(), Tools::getSingletonPtr()->UNICODEStr2GBKStr(xmlsolution).toLocal8Bit().data());
@@ -229,7 +229,7 @@ void MainDialog::btnStart()
 
 	//char aaa[256];
 	//Tools::getSingletonPtr()->UTF8ToGBK((unsigned char *)outPath.toUtf8().data(), (unsigned char *)aaa, 256);
-	CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UTF8ToGBKStr(outPath.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlFile.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlsolution.toUtf8().data()));
+	CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UTF8ToGBKStr(outPath.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlFile.toUtf8().data()));
 
 	//if((outPath.length() == 0 || xmlFile.length() == 0) && xmlsolution.length() == 0)
 	//{

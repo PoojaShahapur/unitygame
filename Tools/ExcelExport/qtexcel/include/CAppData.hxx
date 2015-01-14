@@ -24,7 +24,6 @@ protected:
 
 	string m_outPath;
 	string m_xmlFile;
-	string m_xmlSolution;
 
 public:
 	CAppData();
@@ -36,7 +35,7 @@ public:
 	void startMultiPack();
 	void startSinglePack();
 
-	void setXml(string outpath, string xmlpath, string xmlsolution);
+	void setXml(string outpath, string xmlpath);
 	bool isSetSolution();
 	void initThread(QThread* pthread);
 	void startThread();

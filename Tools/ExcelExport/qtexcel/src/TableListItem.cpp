@@ -12,7 +12,8 @@ TableListItem::TableListItem(QWidget *parent)
 void TableListItem::setTable(Table* table)
 {
 	m_table = table;
-	m_ui->label->setText(m_table->m_strExcelDirAndName.c_str());
+	//m_ui->label->setText(m_table->m_strExcelDirAndName.c_str());
+	m_ui->label->setText(m_table->m_lpszTableName.c_str());
 }
 
 void TableListItem::onChkClk()

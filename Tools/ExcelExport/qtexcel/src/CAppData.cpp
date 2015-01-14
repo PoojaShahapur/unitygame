@@ -85,11 +85,10 @@ void CAppData::startSinglePack()
 	m_excelExport->exportExcel();
 }
 
-void CAppData::setXml(string outpath, string xmlpath, string xmlsolution)
+void CAppData::setXml(string outpath, string xmlpath)
 {
 	m_outPath = outpath;
 	m_xmlFile = xmlpath;
-	m_xmlSolution = xmlsolution;
 
 	m_excelExport->setXmlPath(m_xmlFile.c_str());
 	m_excelExport->setOutputPath(m_outPath.c_str());
@@ -97,8 +96,7 @@ void CAppData::setXml(string outpath, string xmlpath, string xmlsolution)
 
 bool CAppData::isSetSolution()
 {
-	//return m_xmlSolution.length();
-	return true;
+	return (0 == m_outPath.length() && 0 == m_xmlFile.length());
 }
 
 void CAppData::initThread(QThread* pthread)
