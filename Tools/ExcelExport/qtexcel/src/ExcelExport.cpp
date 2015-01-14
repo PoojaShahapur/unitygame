@@ -98,7 +98,10 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 	try
 	{
 		// 操作数据库
-		adoWrap.opemDB(tableItem);
+		if (!adoWrap.opemDB(tableItem))		// 如果不能打开数据库
+		{
+			return false;
+		}
 
 		XmlField* field = tableItem->m_fieldsList[0];
 		_strId = field->m_fieldName;			// 第一个字段必然是 id
@@ -120,6 +123,7 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 				continue;
 			}
 			
+			iFieldIndex = 0;	// 新的一行，属性从 0 开始
 			while (iFieldIndex < tableItem->m_fieldsList.size())
 			{
 				field = tableItem->m_fieldsList[iFieldIndex];
