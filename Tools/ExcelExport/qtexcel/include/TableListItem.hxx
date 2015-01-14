@@ -20,7 +20,8 @@ private:
 	Table* m_table;
 
 public slots:
-	void onChkClk();
+	void onChkBtnClk();
+	//void onListItemClk();
 
 public:
 	explicit TableListItem(QWidget *parent);

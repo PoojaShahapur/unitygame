@@ -14,6 +14,7 @@ namespace Ui
 {
 	class Dialog;
 }
+class QListWidgetItem;
 
 BEGIN_NAMESPACE
 
@@ -40,6 +41,7 @@ private slots:
 //	void exitApp ();
 	void update();
 	void onChkAllBtnClk();
+	void onListItemClk(QListWidgetItem *item);
 
 protected:
 	void keyPressEvent(QKeyEvent *event);

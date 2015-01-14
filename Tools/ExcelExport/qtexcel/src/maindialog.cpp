@@ -26,6 +26,8 @@ MainDialog::MainDialog(QWidget *parent)
 	connect(m_ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(btnStart()));
 	connect(m_ui->checkBox, SIGNAL(clicked()), this, SLOT(onChkAllBtnClk()));
 
+	connect(m_ui->TableListWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onListItemClk(QListWidgetItem*)));
+
 	setWindowTitle(QStringLiteral("Excel打包工具"));
 	//this->setWindowFlags(Qt::WindowTitleHint);
 	//this->setWindowFlags(Qt::WindowCloseButtonHint);
@@ -288,9 +290,17 @@ void MainDialog::onChkAllBtnClk()
 	{
 		listItemUI = (TableListItem *)m_ui->TableListWidget->itemWidget(m_ui->TableListWidget->item(idx));
 		listItemUI->m_ui->checkBox->setChecked(m_ui->checkBox->isChecked());
-		listItemUI->onChkClk();
+		listItemUI->onChkBtnClk();
 		++idx;
 	}
+}
+
+void MainDialog::onListItemClk(QListWidgetItem *item)
+{
+	TableListItem *listItemUI;
+	listItemUI = (TableListItem *)m_ui->TableListWidget->itemWidget(item);
+	listItemUI->m_ui->checkBox->setChecked(!listItemUI->m_ui->checkBox->isChecked());
+	listItemUI->onChkBtnClk();
 }
 
 void MainDialog::keyPressEvent(QKeyEvent *event)
