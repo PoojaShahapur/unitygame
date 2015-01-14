@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 		QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 	#endif    
 	#else
+		// 设置本地 Qt 认为的编码为 UTF-8，但是 VS 中文本地仍然是 GB2312 编码
 		QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));	// 执行编码需要 UTF-8，不要再设置别的编码
 	#endif
 

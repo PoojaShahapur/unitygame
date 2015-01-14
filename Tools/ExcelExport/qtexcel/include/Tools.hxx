@@ -31,6 +31,15 @@ private:
 	QMutex	m_msgListMutex;		// 警告对话框
 	char* m_bytes;
 
+private:
+	//QString GBK2UTF8(const QString &inStr);
+	QString UNICODEStr2GBKStr(const QString &inStr);
+	bool UNICODEStr2GBKChar(const QString &inStr, char* ret, int retlen);
+	//std::string gbk2utf8(const QString &inStr);
+	//QString utf82gbk(const std::string &inStr);
+	//QString UTF82GBK(const QString &inStr);
+	QString GBKChar2UNICODEStr(const char* inChar);
+
 public:
 	Tools(); 
 	~Tools();
@@ -53,18 +62,16 @@ public:
 	int GBKToUTF8(char * lpGBKStr, char * lpUTF8Str, int nUTF8StrLen);
 	int UTF8ToGBK(char * lpUTF8Str, char * lpGBKStr, int nGBKStrLen);
 
-	//QString GBK2UTF8(const QString &inStr);
-	QString UNICODEStr2GBKStr(const QString &inStr);
-	bool UNICODEStr2GBKChar(const QString &inStr, char* ret, int retlen);
-	//std::string gbk2utf8(const QString &inStr);
-	//QString utf82gbk(const std::string &inStr);
-	//QString UTF82GBK(const QString &inStr);
+	bool UNICODEStr2LocalChar(const QString &inStr, char* ret, int retlen);
+	QString LocalChar2UNICODEStr(const char* inChar);
 
-	QString GBKChar2UNICODEStr(const char* inChar);
 	void convToAbsPath(std::string& srcPath);		// 将目录转换成绝对目录
 	std::string UTF8ToGBKStr(char * lpUTF8Str);
 	std::string& replace_all(std::string& str, const std::string& old_value, const std::string& new_value);
 	std::string& replace_all_distinct(std::string& str, const std::string& old_value, const std::string& new_value);
+
+	void remove2Dot(std::string& srcPath);
+	void split(std::string& s, std::string& delim, std::vector< std::string >* ret);
 
 	// 拷贝一个字符串指针，深度拷贝
 	static const char* copyPChar2PChar(const char* pSrc);

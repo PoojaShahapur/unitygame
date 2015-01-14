@@ -3,6 +3,8 @@
 #include <QtWidgets>
 #include <direct.h>		// getcwd
 #include <mbstring.h>
+#include <deque>
+#include <sstream>
 
 template<> Tools* Singleton<Tools>::msSingleton = 0;
 
@@ -334,6 +336,19 @@ QString Tools::GBKChar2UNICODEStr(const char* inChar)
 	return g2u;
 }
 
+// 凡是 Qt 中的字符串要传给本地 string ，必须使用这个函数
+bool Tools::UNICODEStr2LocalChar(const QString &inStr, char* ret, int retlen)
+{
+	return UNICODEStr2GBKChar(inStr, ret, retlen);
+}
+
+// 这里的 Local 是指本地编码，不是 QTextCodec::setCodecForLocale 设置的 UTF-8 ，因为 VS Local 编码是 GB2312 编码 
+// 凡是本地字符串变量要传递给 Qt ，必须使用这个函数
+QString Tools::LocalChar2UNICODEStr(const char* inChar)
+{
+	return GBKChar2UNICODEStr(inChar);
+}
+
 void Tools::convToAbsPath(std::string& srcPath)
 {
 	if (-1 == srcPath.find(':'))		// 如果没有检查到分隔符，就是相对目录
@@ -342,6 +357,80 @@ void Tools::convToAbsPath(std::string& srcPath)
 		_getcwd(buf, sizeof(buf));
 		srcPath = std::string(buf) + '/' + srcPath;
 		replace_all(srcPath, "\\", "/");
+		remove2Dot(srcPath);
+	}
+}
+
+// 移除目录中的 .. 
+void Tools::remove2Dot(std::string& srcPath)
+{
+	std::vector<std::string> pathVec;
+	std::string delim = "/";
+	std::deque<std::string> pathStack;
+
+	split(srcPath, delim, &pathVec);
+
+	int idx = 0;
+	while (idx < pathVec.size())
+	{
+		if (-1 == pathVec[idx].find(".."))
+		{
+			pathStack.push_back(pathVec[idx]);
+		}
+		else
+		{
+			if (pathStack.size() > 1)		// 如果有目录，并且目录多于 1 的，因为根目录 E: 是不能出栈的
+			{
+				pathStack.pop_back();
+			}
+			else
+			{
+				Log(QStringLiteral("相对目录设置错误"));
+			}
+		}
+
+		++idx;
+	}
+
+	std::stringstream strStream;
+
+	idx = 0;
+	while (pathStack.size())
+	{
+		if (strStream.str().length())
+		{
+			strStream << "/";
+		}
+		
+		strStream << pathStack.front();
+		pathStack.pop_front();
+
+		++idx;
+	}
+
+	srcPath = strStream.str();
+
+	strStream.clear();
+	strStream.str("");
+	strStream << "当前配置文件目录: " << srcPath;
+
+	Log(GBKChar2UNICODEStr(strStream.str().c_str()));
+}
+
+// 注意：当字符串为空时，也会返回一个空字符串  
+void Tools::split(std::string& s, std::string& delim, std::vector< std::string >* ret)
+{
+	size_t last = 0;
+	size_t index = s.find_first_of(delim, last);
+	while (index != std::string::npos)
+	{
+		ret->push_back(s.substr(last, index - last));
+		last = index + 1;
+		index = s.find_first_of(delim, last);
+	}
+	if (index - last > 0)
+	{
+		ret->push_back(s.substr(last, index - last));
 	}
 }
 
@@ -361,6 +450,7 @@ std::string& Tools::replace_all(std::string& str, const std::string& old_value, 
 	}
 	return str;
 }
+
 std::string& Tools::replace_all_distinct(std::string& str, const std::string& old_value, const std::string& new_value)
 {
 	for (std::string::size_type pos(0); pos != std::string::npos; pos += new_value.length())   

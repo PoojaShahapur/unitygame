@@ -15,7 +15,7 @@ void ByteBuffer::print_storage() const
     for (size_t i = 0; i < size(); ++i)
         ss << uint32(read<uint8>(i)) << " - ";
 
-	Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(ss.str().c_str()));
+	Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->LocalChar2UNICODEStr(ss.str().c_str()));
 }
 
 void ByteBuffer::textlike() const
@@ -28,7 +28,7 @@ void ByteBuffer::textlike() const
     for (size_t i = 0; i < size(); ++i)
         ss << read<uint8>(i);
 
-	Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(ss.str().c_str()));
+	Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->LocalChar2UNICODEStr(ss.str().c_str()));
 }
 
 void ByteBuffer::hexlike() const
@@ -62,7 +62,7 @@ void ByteBuffer::hexlike() const
         ss << buf << " ";
     }
 
-	Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(ss.str().c_str()));
+	Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->LocalChar2UNICODEStr(ss.str().c_str()));
 }
 
 void ByteBuffer::writeFile(FILE* file)

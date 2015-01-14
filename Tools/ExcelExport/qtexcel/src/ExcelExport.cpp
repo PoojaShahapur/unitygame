@@ -54,10 +54,7 @@ bool ExcelExport::exportExcel()
 	return true;
 }
 
-/**
-* com 接口
-*/
-bool ExcelExport::exportExcelByTable(Table* tableItem)
+bool ExcelExport::checkAttr(Table* tableItem)
 {
 	// 前置检查    
 	if (0 == tableItem->m_lpszDBTableName.length())
@@ -68,6 +65,19 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 	if (tableItem->m_fieldsList.size() == 0)
 	{
 		Tools::getSingletonPtr()->informationMessage(QStringLiteral("配置表中需要导出的字段为空，没有需要导出的"));
+		return false;
+	}
+
+	return true;
+}
+
+/**
+* com 接口
+*/
+bool ExcelExport::exportExcelByTable(Table* tableItem)
+{
+	if (!checkAttr(tableItem))
+	{
 		return false;
 	}
 
@@ -95,6 +105,13 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 	int fieldBase = 10;	// 十进制、十六进制
 	const char* defaultValue = "10";
 
+	__int64 int64Value;
+	char int8Value;
+	short int16Value;
+	int int32Value;
+	float float32Value;
+	float float64Value;
+
 	try
 	{
 		// 操作数据库
@@ -107,14 +124,11 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 		_strId = field->m_fieldName;			// 第一个字段必然是 id
 
 		// 输出表的定义
-		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(tableItem->m_strOutput.c_str()));
+		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->LocalChar2UNICODEStr(tableItem->m_strOutput.c_str()));
 
 		while (!adoWrap.isAdoEOF())		// 如果没有结束
-		{
-			// 申请一行的空间     
+		{   
 			iRecord++;		// 记录当前访问的表中的行数
-			_rowData = new DataItem();
-			_rowList.push_back(_rowData);
 
 			// id 段判断，第一个字段一定是 id 才行，否则会出现错误
 			if (!tableItem->m_tableAttr.bIdInRange(adoWrap.getCollectUInt(_strId)))
@@ -122,6 +136,10 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 				adoWrap.m_count--;
 				continue;
 			}
+
+			// 申请一行的空间  
+			_rowData = new DataItem();
+			_rowList.push_back(_rowData);
 			
 			iFieldIndex = 0;	// 新的一行，属性从 0 开始
 			while (iFieldIndex < tableItem->m_fieldsList.size())
@@ -245,51 +263,49 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 							fieldSize = 4;
 						}
 
-						__int64 nValue;
 						if (strTmp == "")
 						{
-							nValue = 0;
+							int64Value = 0;
 						}
 						else
 						{
-							nValue = _strtoi64(strTmp.c_str(), NULL, fieldBase);
+							int64Value = _strtoi64(strTmp.c_str(), NULL, fieldBase);
 						}
 
 						switch (fieldSize)
 						{
-						case 1:
-						{
-							char value = nValue;
-							addProperty(_rowData, value);
-						}
-						break;
-						case 2:
-						{
-							short value = nValue;
-							addProperty(_rowData, value);
-						}
-						break;
-						case 4:
-						{
-							int value = nValue;
-							// TODO: 如果是 id 字段  
-							if (strncmp(fieldName, _strId.c_str(), strlen(_strId.c_str())) == 0)
+							case 1:
 							{
-								_id = value;
-								addProperty(_rowData, value, true);
+								int8Value = int64Value;
+								addProperty(_rowData, int8Value);
 							}
-							else
+							break;
+							case 2:
 							{
-								addProperty(_rowData, value);
+								int16Value = int64Value;
+								addProperty(_rowData, int16Value);
 							}
-						}
-						break;
-						case 8:
-						{
-							__int64 value = nValue;
-							addProperty(_rowData, value);
-						}
-						break;
+							break;
+							case 4:
+							{
+								int32Value = int64Value;
+								// TODO: 如果是 id 字段  
+								if (strncmp(fieldName, _strId.c_str(), strlen(_strId.c_str())) == 0)
+								{
+									_id = int32Value;
+									addProperty(_rowData, int32Value, true);
+								}
+								else
+								{
+									addProperty(_rowData, int32Value);
+								}
+							}
+							break;
+							case 8:
+							{
+								addProperty(_rowData, int64Value);
+							}
+							break;
 						}
 					}
 					else if (stricmp(fieldType, "float") == 0)
@@ -301,18 +317,18 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 
 						switch (fieldSize)
 						{
-						case 4:
-						{
-							float fValue = strtof(strTmp.c_str(), NULL);;
-							addProperty(_rowData, fValue);
-						}
-						break;
-						case 8:
-						{
-							double dValue = strtod(strTmp.c_str(), NULL);;
-							addProperty(_rowData, dValue);
-						}
-						break;
+							case 4:
+							{
+								float32Value = strtof(strTmp.c_str(), NULL);;
+								addProperty(_rowData, float32Value);
+							}
+							break;
+							case 8:
+							{
+								float64Value = strtod(strTmp.c_str(), NULL);;
+								addProperty(_rowData, float64Value);
+							}
+							break;
 						}
 					}
 
@@ -338,7 +354,7 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 		// 输出各种警告错误和最终输出的条数
 		warnOrErrorDesc += strStream.str();
 		// 打表成功 
-		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(warnOrErrorDesc.c_str()));
+		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->LocalChar2UNICODEStr(warnOrErrorDesc.c_str()));
 
 		return true;
 	}
