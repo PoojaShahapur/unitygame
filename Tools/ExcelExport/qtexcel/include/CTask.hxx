@@ -37,7 +37,7 @@ class Table
 {
 public:
 	// 这些数据一定要申请内存，然后拷贝过来的
-	std::string m_lpszTableName;		// tbl文件名称本身，输出的表的名字，没有扩展名字，没有路径
+	std::string m_lpszTableName;		// tbl文件名称本身，输出的表的名字，包括扩展名字，没有路径
 	std::string m_lpszExcelFile;		// Excel文件名字和扩展名字（不包括路径）
 	std::string m_lpszDB;				// 数据库
 	std::string m_lpszDBTableName;		// 数据库中表的名字

@@ -277,7 +277,7 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 				tableItem->m_tableAttr.parseInRange(tableItem->m_lpId);
 			}
 
-			tableItem->m_lpszOutputFile = m_output + "/" + tableItem->m_lpszTableName + ".tbl";
+			tableItem->m_lpszOutputFile = m_output + "/" + tableItem->m_lpszTableName;
 			tableItem->m_strOutput += "//---------------------\r\n";
 			tableItem->m_strOutput += "//";
 
