@@ -58,6 +58,8 @@ public:
 	bool UNICODEStr2GBKChar(const QString &inStr, char* ret, int retlen);
 	//std::string gbk2utf8(const QString &inStr);
 	//QString utf82gbk(const std::string &inStr);
+	//QString UTF82GBK(const QString &inStr);
+
 	QString GBKChar2UNICODEStr(const char* inChar);
 	void convToAbsPath(std::string& srcPath);		// 将目录转换成绝对目录
 	std::string UTF8ToGBKStr(char * lpUTF8Str);

@@ -185,9 +185,9 @@ int Tools::GBKToUTF8(char * lpGBKStr, char * lpUTF8Str, int nUTF8StrLen)
 	if (!lpGBKStr)  //如果GBK字符串为NULL则出错退出
 		return 0;
 
-	nRetLen = ::MultiByteToWideChar(CP_ACP, 0, (char *)lpGBKStr, -1, NULL, NULL);  //获取转换到Unicode编码后所需要的字符空间长度
+	nRetLen = ::MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, (char *)lpGBKStr, -1, NULL, NULL);  //获取转换到Unicode编码后所需要的字符空间长度
 	lpUnicodeStr = new WCHAR[nRetLen + 1];  //为Unicode字符串空间
-	nRetLen = ::MultiByteToWideChar(CP_ACP, 0, (char *)lpGBKStr, -1, lpUnicodeStr, nRetLen);  //转换到Unicode编码
+	nRetLen = ::MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, (char *)lpGBKStr, -1, lpUnicodeStr, nRetLen);  //转换到Unicode编码
 	if (!nRetLen)  //转换失败则出错退出
 		return 0;
 
@@ -315,6 +315,15 @@ bool Tools::UNICODEStr2GBKChar(const QString &inStr, char* ret, int retlen)
 //	QString str = QString::fromStdString(inStr);
 
 //	return UTF82GBK(str);
+//}
+
+//QString ExcelExport::UTF82GBK(const QString &inStr)
+//{
+//	QTextCodec *gbk = QTextCodec::codecForName("GB18030");
+//	QTextCodec *utf8 = QTextCodec::codecForName("UTF-8");
+//
+//	QString utf2gbk = gbk->toUnicode(inStr.toLocal8Bit());
+//	return utf2gbk;
 //}
 
 QString Tools::GBKChar2UNICODEStr(const char* inChar)

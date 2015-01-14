@@ -44,8 +44,6 @@ public:
 	void setXmlPath(std::string file);
 	void setOutputPath(std::string path);
 	bool exportExcel();
-	QString UTF82GBK(const QString &inStr);
-
 	void exportExcelByTable(Table* table);
 
 	// 导出 Excel 到 Property Vector

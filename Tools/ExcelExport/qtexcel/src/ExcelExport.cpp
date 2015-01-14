@@ -34,15 +34,6 @@ void ExcelExport::setOutputPath(std::string path)
 	mutex.unlock();
 }
 
-QString ExcelExport::UTF82GBK(const QString &inStr)
-{
-	QTextCodec *gbk = QTextCodec::codecForName("GB18030");
-	QTextCodec *utf8 = QTextCodec::codecForName("UTF-8");
-
-	QString utf2gbk = gbk->toUnicode(inStr.toLocal8Bit());
-	return utf2gbk;
-}
-
 bool ExcelExport::exportExcel()
 {
 	CPackage* packItem = new CPackage();
@@ -60,6 +51,7 @@ bool ExcelExport::exportExcel()
 	for (; tableBeginIte != tableEndIte; ++tableBeginIte)
 	{
 		(*tableBeginIte)->buildTableDefine();		// 生成表的定义
+
 		exportExcelInternal(*tableBeginIte);		// 导出表
 	}
 
@@ -84,7 +76,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	}
 
 	// 打开数据库
-	char szMsg[512];
+	std::stringstream strStream;
 	ADOWrap adoWrap;
 
 	// 这个作为一个中间值     
@@ -107,6 +99,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	int fieldSize = -1;
 	int fieldBase = 10;	// 十进制、十六进制
 	const char* defaultValue = "10";
+
 
 	try
 	{
@@ -161,24 +154,29 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						if (iFieldIndex == 0)
 						{
 							// 如果第一个值是空的就不处理这行，同时将数量减少，反正最后要写到头文件
-							memset(szMsg, 0, sizeof(szMsg));
-							sprintf(szMsg, "警告:第%d行的第一列(编号)没有值，这行就不做到tbl中!\r\n", iRecord);
-							warnOrErrorDesc += szMsg;
+							strStream.clear();
+							strStream << "警告:第 ";
+							strStream << iRecord;
+							strStream << " 行的第一列(编号)没有值，这行就不做到tbl中!\r\n";
+
+							warnOrErrorDesc += strStream.str();
 							adoWrap.m_count--;
 							break;
 						}
 					}
 					else if (fieldValue.vt == VT_I4)
 					{
-						memset(szMsg, 0, sizeof(szMsg));
-						sprintf(szMsg, _T("%d"), fieldValue.lVal);
-						strTmp = szMsg;
+						strStream.clear();
+						strStream << fieldValue.lVal;
+
+						strTmp = strStream.str();
 					}
 					else if (fieldValue.vt == VT_R8)
 					{
-						memset(szMsg, 0, sizeof(szMsg));
-						sprintf(szMsg, _T("%f"), fieldValue.dblVal);
-						strTmp = szMsg;
+						strStream.clear();
+						strStream << fieldValue.dblVal;
+
+						strTmp = strStream.str();
 					}
 					else
 					{
@@ -211,16 +209,10 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						// 如果字符串是  "" 空就不转换了 
 						if (!strTmp.empty())
 						{
-							const char* strSor = (const char*)strTmp.c_str();
-							len = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, strSor, (int)strTmp.length(), m_wBuf, 2048);
+							len = Tools::getSingletonPtr()->GBKToUTF8((char*)strTmp.c_str(), m_bytes, 4096);
 							if (len == 0)
 							{
-								throw "从ANSI转换到UNICODE失败";
-							}
-							len = WideCharToMultiByte(CP_UTF8, 0, m_wBuf, len, m_bytes, 4096, NULL, NULL);
-							if (len == 0)
-							{
-								throw "从UNICODE转换到UTF-8失败";
+								throw "转换到UTF-8失败";
 							}
 						}
 
@@ -232,9 +224,14 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						// 判断长度
 						if (len + 1 > fieldSize)		// 最后一个字节填充 '\0'
 						{
-							memset(szMsg, 0, sizeof(szMsg));
-							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), fieldName);
-							warnOrErrorDesc += szMsg;
+							strStream.clear();
+							strStream << "警告:字段超出定义大小，大小 ";
+							strStream << strTmp.length();
+							strStream << " 字段，字段名: ";
+							strStream << fieldName;
+							strStream << " !\r\n";
+
+							warnOrErrorDesc += strStream.str();
 							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'，长度不包括最后一个 '\0'
 						}
 						m_bytes[len] = 0;		// 设置结尾符号， m_bytes 这个缓冲不清零的
@@ -258,8 +255,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						{
 							nValue = _strtoi64(strTmp.c_str(), NULL, fieldBase);
 						}
-
-						memset(szMsg, 0, sizeof(szMsg));
 
 						switch (fieldSize)
 						{
@@ -305,8 +300,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 							fieldSize = 4;
 						}
 
-						memset(szMsg, 0, sizeof(szMsg));
-
 						switch (fieldSize)
 						{
 						case 4:
@@ -339,9 +332,14 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		// 导出 Excel 到文件
 		exportPropertyVec2File(tableItem->m_lpszOutputFile.c_str(), _rowList, tableItem->isExportClientTable());
 
-		memset(szMsg, 0, sizeof(szMsg));
-		sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", tableItem->m_lpszTableName, adoWrap.m_count);
-		warnOrErrorDesc += szMsg;
+		strStream.clear();
+		strStream << "//导出 ";
+		strStream << tableItem->m_lpszTableName;
+		strStream << " 成功, 共 ";
+		strStream << adoWrap.m_count;
+		strStream << " 条记录\r\n";
+
+		warnOrErrorDesc += strStream.str();
 		// 打表成功 
 		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(warnOrErrorDesc.c_str()));
 
@@ -352,9 +350,12 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		LPCSTR szError = e.Description();
 		if (fieldName != nullptr)
 		{
-			memset(szMsg, 0, sizeof(szMsg));
-			sprintf(szMsg, "%s,字段: %s", szError, fieldName);
-			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(szMsg));
+			strStream.clear();
+			strStream << szError;
+			strStream << " ,字段: ";
+			strStream << fieldName;
+
+			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(strStream.str().c_str()));
 		}
 		else
 		{
