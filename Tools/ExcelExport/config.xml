@@ -2,7 +2,7 @@
 <!-- 打包配置文件 UTF-8 GB2312 -->
 <!-- solution 是一个方案 name 显示的方案的名字 cmd 打包完成后执行的配置文件 xmlrootpath 就是这个方案下的根目录 defaultoutput 就是当 package 没有指定 output ，就会使用这个  xmlrootpath="../../../../../../../Work/Client20141215/策划/游戏设置" defaultoutput="../../../../../../../Work/Client20141215/策划/游戏设置/输出" -->
 <config>
-	<solution name="打包所有的内容" xmlrootpath="../../ExcelExport" defaultoutput="../../ExcelExport/output" cmd="" >
+	<solution name="打包所有的内容" xmlrootpath="../../../../../../../Work/Client20141215/策划/游戏设置" defaultoutput="../../../../../../../Work/Client20141215/策划/游戏设置/输出" cmd="" >
 		<package xml="test_client.xml" output="" />
 		<package xml="test_server.xml" output="" />
 	</solution>
