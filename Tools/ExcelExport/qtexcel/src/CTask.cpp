@@ -252,7 +252,8 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 				m_output = tableItem->m_strExcelDir;
 			}
 
-			tinyxml2::XMLElement* field = table->FirstChildElement("fields");
+			tinyxml2::XMLElement* field;
+
 			tableItem->m_lpszTableName = table->Attribute("name");
 			tableItem->m_lpszExcelFile = table->Attribute("ExcelFile");
 			tableItem->m_lpszDBTableName = table->Attribute("sheetname");	// 表单的名字
@@ -292,6 +293,7 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 				Tools::getSingletonPtr()->informationMessage(tmpmsg);
 			}
 
+			field = table->FirstChildElement("fields");
 			tableItem->parseXML(field);
 
 			tableItem->m_strOutput += tableItem->m_strStructDef.c_str();
