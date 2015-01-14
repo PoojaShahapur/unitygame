@@ -51,6 +51,7 @@ namespace Game.UI
                 InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
                 LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
+                // Test
                 //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
             }
         }

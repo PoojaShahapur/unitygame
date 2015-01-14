@@ -21,6 +21,9 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.RET_ONE_HERO_INFO_CMD] = psstRetOneHeroInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_HERO_FIGHT_MATCH_CMD] = psstRetHeroFightMatchUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_DELETE_ONE_CARD_GROUP_CMD] = psstRetDeleteOneCardGroupUserCmd;
+
+            m_id2HandleDic[stHeroCardCmd.RET_LEFT_CARDLIB_NUM_CMD] = psstRetLeftCardLibNumUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_MAGIC_POINT_INFO_CMD] = psstRetMagicPointInfoUserCmd;
         }
 
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
@@ -184,6 +187,20 @@ namespace Game.Game
             {
                 uiMS.psstRetHeroFightMatchUserCmd(cmd);
             }
+
+            Ctx.m_instance.m_loadDZScene();
+        }
+
+        protected void psstRetLeftCardLibNumUserCmd(IByteArray msg)
+        {
+            stRetLeftCardLibNumUserCmd cmd = new stRetLeftCardLibNumUserCmd();
+            cmd.derialize(msg);
+        }
+
+        protected void psstRetMagicPointInfoUserCmd(IByteArray msg)
+        {
+            stRetMagicPointInfoUserCmd cmd = new stRetMagicPointInfoUserCmd();
+            cmd.derialize(msg);
         }
     }
 }

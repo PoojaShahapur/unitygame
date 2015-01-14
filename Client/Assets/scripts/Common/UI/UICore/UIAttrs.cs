@@ -28,6 +28,11 @@ namespace SDK.Common
             m_dicAttr[UIFormID.UIBlurBg].m_LayerID = UILayerID.BtmLayer;
             m_dicAttr[UIFormID.UIBlurBg].m_widgetPrefabName = "UIBlurBg";
             m_dicAttr[UIFormID.UIBlurBg].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIBlurBg].m_widgetPrefabName;
+
+            m_dicAttr[UIFormID.UITest] = new UIAttrItem();
+            m_dicAttr[UIFormID.UITest].m_LayerID = UILayerID.TopLayer;
+            m_dicAttr[UIFormID.UITest].m_widgetPrefabName = "UITest";
+            m_dicAttr[UIFormID.UITest].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UITest].m_widgetPrefabName;
         }
 
         public string getPath(UIFormID id)

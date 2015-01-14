@@ -134,7 +134,8 @@ namespace SDK.Common
                 //}
                 item = new TableItemBase();
                 item.parseHeaderByteArray(bytes);
-
+                // 加载完整数据
+                //loadOneTableOneItemAll(tableID, table, item);
                 //if (TableID.TABLE_OBJECT == tableID)
                 //{
                     //item.parseAllByteArray<TableObjectItemBody>(bytes);

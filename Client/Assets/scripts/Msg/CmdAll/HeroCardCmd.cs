@@ -596,4 +596,112 @@ namespace Game.Msg
     //    BYTE fightType;     //对战类型
     //    BYTE success;           
     //};
+
+    public class stRetLeftCardLibNumUserCmd : stHeroCardCmd
+    {
+        public uint selfNum;	    //自己剩余	
+        public uint otherNum;	    //对方剩余
+
+        public stRetLeftCardLibNumUserCmd()
+        {
+            byParam = RET_LEFT_CARDLIB_NUM_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            selfNum = ba.readUnsignedInt();
+            otherNum = ba.readUnsignedInt();
+        }
+    }
+
+    //const BYTE RET_LEFT_CARDLIB_NUM_CMD = 20;
+    //struct stRetLeftCardLibNumUserCmd : public stHeroCardCmd 
+    //{
+    //stRetLeftCardLibNumUserCmd()
+    //{
+    //    byParam = RET_LEFT_CARDLIB_NUM_CMD;
+    //    selfNum = 0;
+    //    otherNum = 0;
+    //}
+    //DWORD selfNum;	    //自己剩余	
+    //DWORD otherNum;	    //对方剩余
+    //};
+
+    public class t_MagicPoint
+    {
+        uint mp;
+        uint maxmp;
+        uint forbid;
+
+        public void derialize(IByteArray ba)
+        {
+            mp = ba.readUnsignedInt();
+            maxmp = ba.readUnsignedInt();
+            forbid = ba.readUnsignedInt();
+        }
+    }
+
+    //struct t_MagicPoint
+    //{
+    //DWORD mp;
+    //DWORD maxmp;
+    //DWORD forbid;
+    //t_MagicPoint()
+    //{
+    //    mp = 0;
+    //    maxmp = 0;
+    //    forbid = 0;
+    //}
+    //};
+
+    public class stRetMagicPointInfoUserCmd : stHeroCardCmd
+    {
+        public t_MagicPoint self;
+        public t_MagicPoint other;
+
+        public stRetMagicPointInfoUserCmd()
+        {
+            byParam = RET_MAGIC_POINT_INFO_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            self = new t_MagicPoint();
+            self.derialize(ba);
+            other = new t_MagicPoint();
+            other.derialize(ba);
+        }
+    }
+
+    //const BYTE RET_MAGIC_POINT_INFO_CMD = 21;
+    //struct stRetMagicPointInfoUserCmd : public stHeroCardCmd
+    //{
+    //stRetMagicPointInfoUserCmd()
+    //{
+    //    byParam = RET_MAGIC_POINT_INFO_CMD;
+    //}
+    //t_MagicPoint self;
+    //t_MagicPoint other;
+    //};
+
+    public class stReqEndMyRoundUserCmd : stHeroCardCmd
+    {
+        public stReqEndMyRoundUserCmd()
+        {
+            byParam = REQ_END_MY_ROUND_CMD;
+        }
+    }
+
+    //const BYTE REQ_END_MY_ROUND_CMD = 22; 
+    //struct stReqEndMyRoundUserCmd : public stHeroCardCmd
+    //{   
+    //    stReqEndMyRoundUserCmd()
+    //    {   
+    //        byParam = REQ_END_MY_ROUND_CMD;
+    //    }   
+    //};  
 }

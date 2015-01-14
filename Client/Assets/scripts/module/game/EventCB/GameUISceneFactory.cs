@@ -44,6 +44,10 @@ namespace Game.Game
                 {
                     return new UISceneComDialog();
                 }
+                case UISceneFormID.eUISceneDZ:
+                {
+                    return new UISceneDZ();
+                }
                 default:
                 {
                     break;

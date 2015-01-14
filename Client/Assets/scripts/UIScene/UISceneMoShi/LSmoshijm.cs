@@ -215,13 +215,18 @@ namespace Game.UI
                 case moshijmmethod.lx:
                     break;
                 case moshijmmethod.dz:
-                    stReqHeroFightMatchUserCmd cmd = new stReqHeroFightMatchUserCmd();
                     UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
-                    cmd.index = uiMS.m_curSel.info.m_cardGroup.index;
-                    UtilMsg.sendMsg(cmd);
+                    if (uiMS.m_curSel != null)      // 如果有选中
+                    {
+                        stReqHeroFightMatchUserCmd cmd = new stReqHeroFightMatchUserCmd();
+                        cmd.index = uiMS.m_curSel.info.m_cardGroup.index;
+                        UtilMsg.sendMsg(cmd);
 
+                        uiMS.startmatch();
+
+                        //开始查找
+                    }
                     uiMS.startmatch();
-                    //开始查找
                     break;
             }
         }

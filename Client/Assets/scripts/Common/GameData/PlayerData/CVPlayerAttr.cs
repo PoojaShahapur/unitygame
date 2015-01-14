@@ -16,4 +16,12 @@
         //ePCOne,
         ePCTotal
     }
+
+    public enum EnSceneCardType
+    {
+        eScene_minion, 
+        eScene_ability, 
+        eScene_weapon,
+        eScene_Total
+    }
 }

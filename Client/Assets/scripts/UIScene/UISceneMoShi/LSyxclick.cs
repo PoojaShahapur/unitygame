@@ -35,7 +35,7 @@ namespace Game.UI
                 //    break;
 
                 //case "萨满祭司": myclass = EnPlayerCareer.kshama;
-                    break;
+                //    break;
             }
 
             UtilApi.addEventHandle(gameObject, onMouseUp);

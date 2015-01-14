@@ -61,6 +61,7 @@ namespace SDK.Common
         public ModelMgr m_modelMgr = new ModelMgr();
 
         public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
+        public Action m_loadDZScene;
 
         public Ctx()
         {

@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using SDK.Common;
 using Game.UI;
+using SDK.Lib;
 
 namespace Game.Game
 {
@@ -34,6 +35,7 @@ namespace Game.Game
             Ctx.m_instance.m_bStopNetHandle = false;     // 停止网络消息处理
             Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
+            Ctx.m_instance.m_loadDZScene = loadDZScene;
 
             //Ctx.m_instance.m_meshMgr.loadSkinInfo();
             //Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().loadBT();
@@ -48,6 +50,11 @@ namespace Game.Game
             Ctx.m_instance.m_sceneSys.loadScene("game", onResLoadScene);
         }
 
+        public void loadDZScene()
+        {
+            Ctx.m_instance.m_sceneSys.loadScene("dz", onDZResLoadScene);
+        }
+
         //public void onResLoad(EventDisp resEvt)
         //{
         //    IRes res = resEvt.m_param as IRes;                         // 类型转换
@@ -56,6 +63,7 @@ namespace Game.Game
         //    go.transform.parent = nodestroy.transform;
         //}
 
+        // 这个是操作场景资源加载完成回调
         public void onResLoadScene(IScene scene)
         {
             //getInteractiveEntity();
@@ -73,6 +81,16 @@ namespace Game.Game
 
             // 请求主角基本数据
             Ctx.m_instance.m_dataPlayer.reqMainData();
+        }
+
+        // 这个是对战场景资源加载完成回调
+        public void onDZResLoadScene(IScene scene)
+        {
+            Ctx.m_instance.m_camSys.m_dzcam = new dzcam();
+            Ctx.m_instance.m_camSys.m_dzcam.setGameObject(UtilApi.GoFindChildByPObjAndName("Main Camera"));
+
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UITest);
+            Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneDZ);
         }
 
         // 获取场景中可点击的对象
@@ -104,8 +122,6 @@ namespace Game.Game
 
         //    go = UtilApi.TransFindChildByPObjAndPath(sceneRoot, "shop/close");     // 商店关闭按钮
         //    Ctx.m_instance.m_interActiveEntityMgr.addSceneEntity(go, EntityType.eETShopClose);
-
-
 
 
         //    go = UtilApi.GoFindChildByPObjAndName("openbtn");   // 打开扩展背包按钮

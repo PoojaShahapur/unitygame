@@ -10,5 +10,6 @@
         eUISceneHero,           // 场景 Hero 界面
         eUISceneBg,             // 场景背景
         eUISceneComDialog,      // 通用对话框
+        eUISceneDZ,             // 对战
     }
 }

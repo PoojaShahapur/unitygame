@@ -85,6 +85,42 @@ namespace SDK.Lib
             return syncGet<ModelRes>(prefab, path) as ModelRes;
         }
 
+        // 获取 cost 模型
+        public ModelRes getcostModel()
+        {
+            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_costModelAttrItem.m_prefabName;
+            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_costModelAttrItem.m_path;
+
+            return syncGet<ModelRes>(prefab, path) as ModelRes;
+        }
+
+        // 获取 minion 模型
+        public ModelRes getMinionModel()
+        {
+            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_minionModelAttrItem.m_prefabName;
+            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_minionModelAttrItem.m_path;
+
+            return syncGet<ModelRes>(prefab, path) as ModelRes;
+        }
+
+        // 获取 enemyCard 模型
+        public ModelRes getEnemyCardModel()
+        {
+            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_enemyCardModelAttrItem.m_prefabName;
+            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_enemyCardModelAttrItem.m_path;
+
+            return syncGet<ModelRes>(prefab, path) as ModelRes;
+        }
+
+        // 获取 SceneCard 模型
+        public ModelRes getSceneCardModel(EnSceneCardType type)
+        {
+            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_prefabName;
+            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_path;
+
+            return syncGet<ModelRes>(prefab, path) as ModelRes;
+        }
+
         public override void onLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;

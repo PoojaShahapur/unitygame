@@ -8,7 +8,8 @@ namespace SDK.Common
 		UIPack,             // 背包界面
         UILogin,            // 登陆界面
         UIHeroSelect,       // 角色选择界面界面
-        UIBlurBg,       // 模糊背景界面
+        UIBlurBg,           // 模糊背景界面
+        UITest,             // 测试界面
 	}
 
     public enum UILayerID

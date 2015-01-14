@@ -26,6 +26,12 @@ namespace SDK.Common
         public CardGroupModelAttrItem m_cardGroupModelAttrItem = new CardGroupModelAttrItem();
         // 卡牌组中的卡牌
         public CardGroupModelAttrItem m_groupCardModelAttrItem = new CardGroupModelAttrItem();
+        // 场景中的卡牌
+        public CardGroupModelAttrItem[] m_sceneCardModelAttrItemList = new CardGroupModelAttrItem[(int)EnSceneCardType.eScene_Total];
+        // cost 模型
+        public CardGroupModelAttrItem m_costModelAttrItem = new CardGroupModelAttrItem();
+        public CardGroupModelAttrItem m_enemyCardModelAttrItem = new CardGroupModelAttrItem();
+        public CardGroupModelAttrItem m_minionModelAttrItem = new CardGroupModelAttrItem();
 
         public DataCard()
         {
@@ -55,14 +61,14 @@ namespace SDK.Common
 
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2] = new CardGroupAttrMatItem();
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_2;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName = "classlr";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName = "classlr_1";
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName;
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPrefabName = "lr";
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPrefabName;
 
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3] = new CardGroupAttrMatItem();
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_3;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName = "classfs";
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName = "classfs_1";
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName;
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPrefabName = "fs";
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPrefabName;
@@ -102,6 +108,29 @@ namespace SDK.Common
 
             m_groupCardModelAttrItem.m_prefabName = "setcard";
             m_groupCardModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_groupCardModelAttrItem.m_prefabName;
+
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion].m_prefabName = "minioncard";
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion].m_prefabName;
+
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability].m_prefabName = "abilitycard";
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability].m_prefabName;
+
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon].m_prefabName = "weaponcard";
+            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon].m_prefabName;
+
+
+            m_costModelAttrItem.m_prefabName = "cost";
+            m_costModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_costModelAttrItem.m_prefabName;
+
+            m_enemyCardModelAttrItem.m_prefabName = "enemycard";
+            m_enemyCardModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_enemyCardModelAttrItem.m_prefabName;
+
+
+            m_minionModelAttrItem.m_prefabName = "minion";
+            m_minionModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_minionModelAttrItem.m_prefabName;
         }
 
         public void reqAllCard()

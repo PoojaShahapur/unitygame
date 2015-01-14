@@ -20,6 +20,10 @@ namespace Game.Game
                 {
                     return new UIBlurBg();
                 }
+                case UIFormID.UITest:
+                {
+                    return new UITest();
+                }
                 default:
                 {
                     break;

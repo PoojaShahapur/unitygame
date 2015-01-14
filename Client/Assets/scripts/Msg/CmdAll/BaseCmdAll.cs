@@ -7,6 +7,7 @@ namespace Game.Msg
         public const byte REMOVEUSEROBJECT_PROPERTY_USERCMD_PARAMETER = 2;
         public const byte REFCOUNTOBJECT_PROPERTY_USERCMD_PARAMETER = 6;
         public const byte USEUSEROBJECT_PROPERTY_USERCMD_PARAMETER = 7;
+
         public const byte ADDUSER_MOBJECT_LIST_PROPERTY_USERCMD_PARAMETER = 42;
         public const byte ADDUSER_MOBJECT_PROPERTY_USERCMD_PARAMETER = 43;
         public const byte REQ_BUY_MARKET_MOBILE_OBJECT_CMD = 44;
@@ -51,6 +52,10 @@ namespace Game.Msg
         public const byte RET_ONE_HERO_INFO_CMD = 17;
         public const byte REQ_HERO_FIGHT_MATCH_CMD = 18;
         public const byte RET_HERO_FIGHT_MATCH_CMD = 19;
+
+        public const byte RET_LEFT_CARDLIB_NUM_CMD = 20;
+        public const byte RET_MAGIC_POINT_INFO_CMD = 21;
+        public const byte REQ_END_MY_ROUND_CMD = 22;
 
         public stHeroCardCmd()
         {
