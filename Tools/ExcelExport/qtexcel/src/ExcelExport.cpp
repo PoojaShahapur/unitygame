@@ -199,7 +199,7 @@ bool ExcelExport::exportExcel()
 bool ExcelExport::exportExcelInternal(Table* tableItem)
 {
 	// 前置检查    
-	if (!tableItem->m_lpszDBTableName)
+	if (0 == tableItem->m_lpszDBTableName.length())
 	{
 		Tools::getSingletonPtr()->informationMessage(QStringLiteral("配置表中 tablename 这个属性为空"));
 		return false;
@@ -239,7 +239,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		int count = 0;	// 数据表中总的行数 
 
 		::CoInitialize(NULL);
-		_table_name = tableItem->m_lpszDBTableName;
+		_table_name = tableItem->m_lpszDBTableName.c_str();
 
 		// 打开数据库    
 		try
@@ -247,7 +247,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 			m_pConnection.CreateInstance("ADODB.Connection");
 			_strConnect += provider;
 			_strConnect += "Data Source=";
-			_strConnect += tableItem->m_lpszExcelFile;
+			_strConnect += tableItem->m_lpszExcelFile.c_str();
 			_strConnect += ";";
 			_strConnect += extendedProperties;
 
@@ -289,7 +289,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		// 操作数据库
 		//判读是否是客户端表
 		bool m_isClient = false;
-		if (strstr(tableItem->m_lpszTableName, "client"))
+		if (-1 != tableItem->m_lpszTableName.find("client"))
 		{
 			m_isClient = true;
 		}
@@ -325,7 +325,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 			if (field)
 			{
 				//const char* pid = field->Attribute("name");
-				const char* pid = field->m_fieldName;
+				const char* pid = field->m_fieldName.c_str();
 				if (pid)
 				{
 					_variant_t idfield = m_pRecordset->GetCollect((_variant_t)pid);
@@ -344,8 +344,8 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 			{
 				//const char* fieldName = field->Attribute("name");
 				//const char* fieldType = field->Attribute("type");
-				const char* fieldName = field->m_fieldName;
-				const char* fieldType = field->m_fieldType;
+				const char* fieldName = field->m_fieldName.c_str();
+				const char* fieldType = field->m_fieldType.c_str();
 
 				int fieldSize = -1;
 				int fieldBase = 10;	// 进制是什么 
@@ -364,7 +364,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 				fieldBase = field->m_fieldBase;
 
 				//defaultValue = field->Attribute("default");
-				defaultValue = field->m_defaultValue;
+				defaultValue = field->m_defaultValue.c_str();
 				// 默认的类型 
 				if (fieldType == NULL)
 				{
@@ -613,7 +613,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		delete []_strId;
 
 		// 导出 Excel 到文件
-		exportPropertyVec2File(tableItem->m_lpszOutputFile, _rowList, m_isClient);
+		exportPropertyVec2File(tableItem->m_lpszOutputFile.c_str(), _rowList, m_isClient);
 
 		// 关闭打开句柄    
 		// TODO: 关闭打开的内容 

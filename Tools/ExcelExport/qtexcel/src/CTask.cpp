@@ -27,8 +27,8 @@ void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields)
 		fieldItem = new XmlField();
 		m_fieldsList.push_back(fieldItem);
 
-		fieldItem->m_fieldName = field->Attribute("name");
-		fieldItem->m_fieldType = field->Attribute("type");
+		fieldItem->m_fieldName = Tools::copyPChar2Str(field->Attribute("name"));
+		fieldItem->m_fieldType = Tools::copyPChar2Str(field->Attribute("type"));
 
 		// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
 		if (field->QueryIntAttribute("size", &fieldItem->m_fieldSize) != tinyxml2::XML_SUCCESS)
@@ -40,9 +40,9 @@ void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields)
 			fieldItem->m_fieldBase = 10;
 		}
 
-		fieldItem->m_defaultValue = field->Attribute("default");
+		fieldItem->m_defaultValue = Tools::copyPChar2Str(field->Attribute("default"));
 		// 默认的类型 
-		if (fieldItem->m_fieldType == NULL)
+		if (0 == fieldItem->m_fieldType.length())
 		{
 			fieldItem->m_fieldType = "int";
 		}
@@ -65,8 +65,8 @@ bool Table::buildTableDefine()
 	while (iFieldIndex < m_fieldsList.size())
 	{
 		field = m_fieldsList[iFieldIndex];
-		const char* fieldName = field->m_fieldName;
-		const char* fieldType = field->m_fieldType;
+		const char* fieldName = field->m_fieldName.c_str();
+		const char* fieldType = field->m_fieldType.c_str();
 
 		int fieldSize = -1;
 		int fieldBase = 10;	// 进制是什么 
@@ -75,7 +75,7 @@ bool Table::buildTableDefine()
 		fieldSize = field->m_fieldSize;
 		fieldBase = field->m_fieldBase;
 
-		defaultValue = field->m_defaultValue;
+		defaultValue = field->m_defaultValue.c_str();
 		// 默认的类型 
 		if (fieldType == NULL)
 		{
@@ -254,21 +254,19 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 
 			tinyxml2::XMLElement* field;
 
-			tableItem->m_lpszTableName = Tools::getSingletonPtr()->copyStr(table->Attribute("name"));
-			tableItem->m_lpszExcelFile = Tools::getSingletonPtr()->copyStr(table->Attribute("ExcelFile"));
-			tableItem->m_lpszDB = Tools::getSingletonPtr()->copyStr(table->Attribute("db"));
-			tableItem->m_lpszDBTableName = Tools::getSingletonPtr()->copyStr(table->Attribute("tablename"));	// 表单的名字
+			tableItem->m_lpszTableName = Tools::copyPChar2Str(table->Attribute("name"));
+			tableItem->m_lpszExcelFile = Tools::copyPChar2Str(table->Attribute("ExcelFile"));
+			tableItem->m_lpszDB = Tools::copyPChar2Str(table->Attribute("db"));
+			tableItem->m_lpszDBTableName = Tools::copyPChar2Str(table->Attribute("tablename"));	// 表单的名字
 
 			// 表中配置的 ID 范围
-			tableItem->m_lpId = Tools::getSingletonPtr()->copyStr(table->Attribute("idrange"));
-			if (tableItem->m_lpId)
+			tableItem->m_lpId = Tools::copyPChar2Str(table->Attribute("idrange"));
+			if (tableItem->m_lpId.c_str())
 			{
 				tableItem->m_tableAttr.parseInRange(tableItem->m_lpId);
 			}
 
-			char szMsg[256];
-			sprintf(szMsg, "%s\\%s.tbl", m_output, tableItem->m_lpszTableName);
-			tableItem->m_lpszOutputFile = szMsg;
+			tableItem->m_lpszOutputFile = m_output + "/" + tableItem->m_lpszTableName + ".tbl";
 			tableItem->m_strOutput += "//---------------------\r\n";
 			tableItem->m_strOutput += "//";
 
@@ -277,18 +275,18 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 			tableItem->m_strOutput += "//---------------------\r\n";
 			tableItem->m_strStructDef = "";
 			tableItem->m_strExcelDirAndName = tableItem->m_strExcelDir + "/" + tableItem->m_lpszExcelFile;
-			if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_lpszExcelFile).c_str()) == 0)
+			if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_lpszExcelFile.c_str()).c_str()) == 0)
 			{
 				tableItem->m_enExcelType = eXLS;
 			}
-			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_lpszExcelFile).c_str()) == 0)
+			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_lpszExcelFile.c_str()).c_str()) == 0)
 			{
 				tableItem->m_enExcelType = eXLSX;
 			}
 			else
 			{
 				QString tmpmsg = QStringLiteral("不能读取这个文件格式的表格, 文件 ");
-				tmpmsg += tableItem->m_lpszExcelFile;
+				tmpmsg += tableItem->m_lpszExcelFile.c_str();
 				Tools::getSingletonPtr()->informationMessage(tmpmsg);
 			}
 

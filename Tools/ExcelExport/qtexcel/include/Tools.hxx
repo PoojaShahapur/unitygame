@@ -65,7 +65,8 @@ public:
 	std::string& replace_all_distinct(std::string& str, const std::string& old_value, const std::string& new_value);
 
 	// 拷贝一个字符串指针，深度拷贝
-	const char* copyStr(const char* pSrc);
+	static const char* copyPChar2PChar(const char* pSrc);
+	static const char* copyPChar2Str(const char* pSrc);
 };
 
 END_NAMESPACE

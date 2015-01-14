@@ -20,11 +20,11 @@ BEGIN_NAMESPACE
 class XmlField
 {
 public:
-	const char* m_fieldName;
-	const char* m_fieldType;
+	std::string m_fieldName;
+	std::string m_fieldType;
 	int m_fieldSize;
 	int m_fieldBase;
-	const char* m_defaultValue;
+	std::string m_defaultValue;
 
 public:
 	XmlField();
@@ -37,12 +37,12 @@ class Table
 {
 public:
 	// 这些数据一定要申请内存，然后拷贝过来的
-	const char* m_lpszTableName;		// tbl文件名称本身，输出的表的名字，没有扩展名字，没有路径
-	const char* m_lpszExcelFile;		// Excel文件的全路径（包括文件名称）
-	const char* m_lpszDB;				// 数据库
-	const char* m_lpszDBTableName;		// 数据库中表的名字
-	const char* m_lpszOutputFile;		// tbl文件的全路径（包括文件名称）
-	const char* m_lpId;			// id 过滤字段
+	std::string m_lpszTableName;		// tbl文件名称本身，输出的表的名字，没有扩展名字，没有路径
+	std::string m_lpszExcelFile;		// Excel文件的全路径（包括文件名称）
+	std::string m_lpszDB;				// 数据库
+	std::string m_lpszDBTableName;		// 数据库中表的名字
+	std::string m_lpszOutputFile;		// tbl文件的全路径（包括文件名称）
+	std::string m_lpId;			// id 过滤字段
 
 	string m_strOutput;			// 临时的表的描述输出字段
 	TableAttr m_tableAttr;		// 定义的表的属性

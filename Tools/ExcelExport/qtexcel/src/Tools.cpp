@@ -368,7 +368,7 @@ std::string& Tools::replace_all_distinct(std::string& str, const std::string& ol
 	return str;
 }
 
-const char* Tools::copyStr(const char* pSrc)
+const char* Tools::copyPChar2PChar(const char* pSrc)
 {
 	const char* lpszTmp = nullptr;
 	size_t strLen;
@@ -381,4 +381,14 @@ const char* Tools::copyStr(const char* pSrc)
 	}
 
 	return lpszTmp;
+}
+
+const char* Tools::copyPChar2Str(const char* pSrc)
+{
+	if (pSrc != nullptr)
+	{
+		return pSrc;
+	}
+
+	return "";
 }
