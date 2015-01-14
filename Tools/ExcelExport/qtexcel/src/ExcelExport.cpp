@@ -155,9 +155,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 							// 如果第一个值是空的就不处理这行，同时将数量减少，反正最后要写到头文件
 							strStream.clear();
 							strStream.str("");
-							strStream << "警告:第 ";
-							strStream << iRecord;
-							strStream << " 行的第一列(编号)没有值，这行就不做到tbl中!\r\n";
+							strStream << "警告:第 " << iRecord << " 行的第一列(编号)没有值，这行就不做到tbl中!\r\n";
 
 							warnOrErrorDesc += strStream.str();
 							adoWrap.m_count--;
@@ -228,11 +226,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						{
 							strStream.clear();
 							strStream.str("");
-							strStream << "警告:字段超出定义大小，大小 ";
-							strStream << strTmp.length();
-							strStream << " 字段，字段名: ";
-							strStream << fieldName;
-							strStream << " !\r\n";
+							strStream << "警告:字段超出定义大小，大小 " << strTmp.length() << " 字段，字段名: " << fieldName << " !\r\n";
 
 							warnOrErrorDesc += strStream.str();
 							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'，长度不包括最后一个 '\0'
@@ -337,11 +331,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 
 		strStream.clear();
 		strStream.str("");
-		strStream << "//导出 ";
-		strStream << tableItem->m_lpszTableName;
-		strStream << " 成功, 共 ";
-		strStream << adoWrap.m_count;
-		strStream << " 条记录\r\n";
+		strStream << "//导出 " << tableItem->m_lpszTableName << " 成功, 共 " << adoWrap.m_count << " 条记录\r\n";
 
 		// 输出各种警告错误和最终输出的条数
 		warnOrErrorDesc += strStream.str();
@@ -357,9 +347,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		{
 			strStream.clear();
 			strStream.str("");
-			strStream << szError;
-			strStream << " ,字段: ";
-			strStream << fieldName;
+			strStream << szError << " ,字段: " << fieldName;
 
 			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(strStream.str().c_str()));
 		}
