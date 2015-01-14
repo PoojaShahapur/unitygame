@@ -18,7 +18,7 @@ BEGIN_NAMESPACE
 class CAppData : public Singleton<CAppData>
 {
 protected:
-	CTask m_task;			// main thread task, but only one thread
+	CTask* m_task;			// main thread task, but only one thread
 	ExcelExport* m_excelExport;
 	QThread* m_pthread;
 
@@ -29,7 +29,7 @@ public:
 	CAppData();
 	~CAppData();
 
-	CTask& getTask();
+	CTask* getTask();
 	void initData();
 	ExcelExport* getExcelTbl();
 	void startMultiPack();

@@ -122,14 +122,14 @@ public:
 class CTask
 {
 protected:
-	vector<CSolution*> m_lstSolution;
+	CSolution* m_pSolution;
 	std::vector<Table*> m_tablesList;
 
 public:
 	CTask();
 	~CTask();
 
-	vector<CSolution*>& getSolutionLst();
+	CSolution* getSolution();
 	void readXML();		// read config.xml
 	void destroy();
 

@@ -428,9 +428,9 @@ CTask::~CTask()
 
 }
 
-vector<CSolution*>& CTask::getSolutionLst()
+CSolution* CTask::getSolution()
 {
-	return m_lstSolution;
+	return m_pSolution;
 }
 
 void CTask::destroy()
@@ -443,8 +443,6 @@ void CTask::readXML()
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* configXml = NULL;
 	tinyxml2::XMLElement* solutionXml = NULL;
-
-	CSolution* soluton;
 	
 	if (doc.LoadFile("config.xml") != tinyxml2::XML_SUCCESS)
 	{
@@ -463,13 +461,13 @@ void CTask::readXML()
 		throw "xml文件没有solution标签";
 	}
 
-	while(solutionXml)
+	if(solutionXml)
 	{
-		soluton = new CSolution();
-		m_lstSolution.push_back(soluton);
-		soluton->initByXml(solutionXml);
-		soluton->loadTableXml(m_tablesList);
-		solutionXml = solutionXml->NextSiblingElement("solution");
+		m_pSolution = new CSolution();
+		//m_lstSolution.push_back(soluton);
+		m_pSolution->initByXml(solutionXml);
+		m_pSolution->loadTableXml(m_tablesList);
+		//solutionXml = solutionXml->NextSiblingElement("solution");
 	}
 }
 

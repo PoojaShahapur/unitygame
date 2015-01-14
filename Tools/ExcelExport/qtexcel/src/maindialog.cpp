@@ -82,7 +82,7 @@ void MainDialog::addListItem()
 	// Test 
 	TableListItem *listItemUI;
 	QListWidgetItem *listItem;
-	std::vector<Table*>& tableList = CAppData::getSingletonPtr()->getTask().getTableList();
+	std::vector<Table*>& tableList = CAppData::getSingletonPtr()->getTask()->getTableList();
 
 	std::vector<Table*>::iterator tableIteVecBegin = tableList.begin();
 	std::vector<Table*>::iterator tableIteVecEnd = tableList.end();
