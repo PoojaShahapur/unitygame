@@ -254,14 +254,13 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 
 			tinyxml2::XMLElement* field;
 
-			tableItem->m_lpszTableName = table->Attribute("name");
-			tableItem->m_lpszExcelFile = table->Attribute("ExcelFile");
-			tableItem->m_lpszDBTableName = table->Attribute("sheetname");	// 表单的名字
-			tableItem->m_lpszDB = table->Attribute("db");
-			tableItem->m_lpszDBTableName = table->Attribute("table");
+			tableItem->m_lpszTableName = Tools::getSingletonPtr()->copyStr(table->Attribute("name"));
+			tableItem->m_lpszExcelFile = Tools::getSingletonPtr()->copyStr(table->Attribute("ExcelFile"));
+			tableItem->m_lpszDB = Tools::getSingletonPtr()->copyStr(table->Attribute("db"));
+			tableItem->m_lpszDBTableName = Tools::getSingletonPtr()->copyStr(table->Attribute("tablename"));	// 表单的名字
 
 			// 表中配置的 ID 范围
-			tableItem->m_lpId = table->Attribute("idrange");
+			tableItem->m_lpId = Tools::getSingletonPtr()->copyStr(table->Attribute("idrange"));
 			if (tableItem->m_lpId)
 			{
 				tableItem->m_tableAttr.parseInRange(tableItem->m_lpId);

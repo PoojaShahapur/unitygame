@@ -201,7 +201,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 	// 前置检查    
 	if (!tableItem->m_lpszDBTableName)
 	{
-		Tools::getSingletonPtr()->informationMessage(QStringLiteral("配置表中 sheetname 这个属性为空"));
+		Tools::getSingletonPtr()->informationMessage(QStringLiteral("配置表中 tablename 这个属性为空"));
 		return false;
 	}
 

@@ -2,6 +2,7 @@
 #include <QtGui/QtGui>
 #include <QtWidgets>
 #include <direct.h>		// getcwd
+#include <mbstring.h>
 
 template<> Tools* Singleton<Tools>::msSingleton = 0;
 
@@ -365,4 +366,19 @@ std::string& Tools::replace_all_distinct(std::string& str, const std::string& ol
 		}
 	}
 	return str;
+}
+
+const char* Tools::copyStr(const char* pSrc)
+{
+	const char* lpszTmp = nullptr;
+	size_t strLen;
+
+	if (pSrc != nullptr)
+	{
+		strLen = strlen(pSrc);
+		lpszTmp = new char[strLen + 1];
+		_mbscpy((unsigned char*)lpszTmp, (const unsigned char*)pSrc);
+	}
+
+	return lpszTmp;
 }
