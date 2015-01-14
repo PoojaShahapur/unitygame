@@ -79,7 +79,6 @@ MainDialog::~MainDialog()
 
 void MainDialog::addListItem()
 {
-	// Test 
 	TableListItem *listItemUI;
 	QListWidgetItem *listItem;
 	std::vector<Table*>& tableList = CAppData::getSingletonPtr()->getTask()->getTableList();
@@ -95,82 +94,6 @@ void MainDialog::addListItem()
 		m_ui->TableListWidget->addItem(listItem);
 		m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
 	}
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
-
-	//listItemUI = new TableListItem(this);
-	//listItem = new QListWidgetItem();
-	//listItem->setSizeHint(QSize(0, 50));
-
-	//m_ui->TableListWidget->addItem(listItem);
-	//m_ui->TableListWidget->setItemWidget(listItem, listItemUI);
 }
 
 void MainDialog::btnOutput()
