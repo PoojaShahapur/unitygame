@@ -2,6 +2,8 @@
 #include "Tools.hxx"
 #include "tinyxml2.h"
 #include <direct.h>		// chdir
+#include <string.h>
+#include <stdio.h>
 
 XmlField::XmlField()
 {
@@ -16,14 +18,14 @@ Table::Table()
 	m_bRecStructDef = true;
 }
 
-void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>& fieldsList)
+void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields)
 {
 	XmlField* fieldItem;
 	tinyxml2::XMLElement* field = pXmlEmtFields->FirstChildElement("field");
 	while (field)
 	{
 		fieldItem = new XmlField();
-		fieldsList.push_back(fieldItem);
+		m_fieldsList.push_back(fieldItem);
 
 		fieldItem->m_fieldName = field->Attribute("name");
 		fieldItem->m_fieldType = field->Attribute("type");
@@ -48,17 +50,21 @@ void Table::parseXML(tinyxml2::XMLElement* pXmlEmtFields, std::vector<XmlField*>
 	}
 }
 
-bool Table::buildTableDefine(std::string& strStructDef, const char* lpszTableName, std::vector<XmlField*>& fieldsList, bool& bRecStructDef)
+bool Table::buildTableDefine()
 {
-	strStructDef = "struct  ";
-	strStructDef += lpszTableName;
-	strStructDef += "{\r\n";
+	m_strStructDef = "struct  ";
+	m_strStructDef += m_lpszTableName;
+	m_strStructDef += "{\r\n";
 
 	int iFieldNum = 0;
 	int iFieldIndex = 0;
 
-	while (iFieldIndex < fieldsList.size())
+	XmlField* field;
+	char szMsg[256];
+
+	while (iFieldIndex < m_fieldsList.size())
 	{
+		field = m_fieldsList[iFieldIndex];
 		const char* fieldName = field->m_fieldName;
 		const char* fieldType = field->m_fieldType;
 
@@ -82,7 +88,7 @@ bool Table::buildTableDefine(std::string& strStructDef, const char* lpszTableNam
 			{
 				memset(szMsg, 0, sizeof(szMsg));
 				sprintf(szMsg, "\tchar\tstrField%d[%d];\t\t// %s\r\n", iFieldNum++, fieldSize, fieldName);
-				strStructDef += szMsg;
+				m_strStructDef += szMsg;
 			}
 			else if (stricmp(fieldType, "int") == 0)
 			{
@@ -95,29 +101,29 @@ bool Table::buildTableDefine(std::string& strStructDef, const char* lpszTableNam
 
 				switch (fieldSize)
 				{
-				case 1:
-				{
-					sprintf(szMsg, "\tBYTE\tbyField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-				}
-				break;
-				case 2:
-				{
-					sprintf(szMsg, "\tWORD\twdField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-				}
-				break;
-				case 4:
-				{
-					sprintf(szMsg, "\tDWORD\tdwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-				}
-				break;
-				case 8:
-				{
-					sprintf(szMsg, "\tQWORD\tqwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-				}
-				break;
+					case 1:
+					{
+						sprintf(szMsg, "\tBYTE\tbyField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+					}
+					break;
+					case 2:
+					{
+						sprintf(szMsg, "\tWORD\twdField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+					}
+					break;
+					case 4:
+					{
+						sprintf(szMsg, "\tDWORD\tdwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+					}
+					break;
+					case 8:
+					{
+						sprintf(szMsg, "\tQWORD\tqwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
+					}
+					break;
 				}
 
-				if (bRecStructDef) strStructDef += szMsg;
+				m_strStructDef += szMsg;
 			}
 			else if (stricmp(fieldType, "float") == 0)
 			{
@@ -142,19 +148,17 @@ bool Table::buildTableDefine(std::string& strStructDef, const char* lpszTableNam
 				break;
 				}
 
-				if (bRecStructDef) strStructDef += szMsg;
+				m_strStructDef += szMsg;
 			}
 		}
 		iFieldIndex++;
 	}
 	// 一次之后就不在输出结构了
-	bRecStructDef = false;
+	m_bRecStructDef = false;
 
-	strStructDef += "};";
+	m_strStructDef += "};";
 
-	memset(szMsg, 0, sizeof(szMsg));
-	sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", lpszTableName, count);
-	strStructDef += szMsg;
+	return true;
 }
 
 CPackage::CPackage()
@@ -249,11 +253,11 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 			}
 
 			tinyxml2::XMLElement* field = table->FirstChildElement("fields");
-			tableItem->m_tableName = table->Attribute("name");
-			tableItem->m_ExcelFile = table->Attribute("ExcelFile");
-			tableItem->m_lpszsheetname = table->Attribute("sheetname");	// 表单的名字
+			tableItem->m_lpszTableName = table->Attribute("name");
+			tableItem->m_lpszExcelFile = table->Attribute("ExcelFile");
+			tableItem->m_lpszDBTableName = table->Attribute("sheetname");	// 表单的名字
 			tableItem->m_lpszDB = table->Attribute("db");
-			tableItem->m_lpszTable = table->Attribute("table");
+			tableItem->m_lpszDBTableName = table->Attribute("table");
 
 			// 表中配置的 ID 范围
 			tableItem->m_lpId = table->Attribute("idrange");
@@ -263,32 +267,32 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 			}
 
 			char szMsg[256];
-			sprintf(szMsg, "%s\\%s.tbl", m_output, tableItem->m_tableName);
-			tableItem->m_strOutputFile = szMsg;
+			sprintf(szMsg, "%s\\%s.tbl", m_output, tableItem->m_lpszTableName);
+			tableItem->m_lpszOutputFile = szMsg;
 			tableItem->m_strOutput += "//---------------------\r\n";
 			tableItem->m_strOutput += "//";
 
-			tableItem->m_strOutput += tableItem->m_tableName;
+			tableItem->m_strOutput += tableItem->m_lpszTableName;
 			tableItem->m_strOutput += "\r\n";
 			tableItem->m_strOutput += "//---------------------\r\n";
 			tableItem->m_strStructDef = "";
-			tableItem->m_strExcelDirAndName = tableItem->m_strExcelDir + "/" + tableItem->m_ExcelFile;
-			if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_ExcelFile).c_str()) == 0)
+			tableItem->m_strExcelDirAndName = tableItem->m_strExcelDir + "/" + tableItem->m_lpszExcelFile;
+			if (stricmp("xls", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_lpszExcelFile).c_str()) == 0)
 			{
 				tableItem->m_enExcelType = eXLS;
 			}
-			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_ExcelFile).c_str()) == 0)
+			else if (stricmp("xlsx", Tools::getSingletonPtr()->GetFileNameExt(tableItem->m_lpszExcelFile).c_str()) == 0)
 			{
 				tableItem->m_enExcelType = eXLSX;
 			}
 			else
 			{
 				QString tmpmsg = QStringLiteral("不能读取这个文件格式的表格, 文件 ");
-				tmpmsg += tableItem->m_ExcelFile;
+				tmpmsg += tableItem->m_lpszExcelFile;
 				Tools::getSingletonPtr()->informationMessage(tmpmsg);
 			}
 
-			tableItem->parseXML(field, tableItem->m_fieldsList);
+			tableItem->parseXML(field);
 
 			tableItem->m_strOutput += tableItem->m_strStructDef.c_str();
 			tableItem->m_strOutput += "\r\n";

@@ -49,19 +49,7 @@ public:
 	void exportExcelByTable(Table* table);
 
 	// 导出 Excel 到 Property Vector
-	virtual bool exportExcelInternal(
-					//tinyxml2::XMLElement* pXmlEmtFields,
-					std::vector<XmlField*> fieldsList,			// 第一个字段
-					const char* lpszExcelFile,
-					const char* lpszDB,
-					const char* lpszTable,
-					const char* lpszOutputFile,
-					const char* lpszTableName,
-					const char* lpszsheetname,		//excel 中表单的名字   
-					std::string& strStructDef,
-					const char* provider = "Provider=Microsoft.Jet.OLEDB.4.0;",		// 数据引擎提供者  
-					const char* extendedProperties = "Extended Properties=\'Excel 8.0;HDR=Yes;IMEX=1\';"		// 扩展属性   
-				);
+	virtual bool exportExcelInternal(Table* tableItem);
 
 	// 导出 Property Vector 到文件
 	virtual void exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient);
