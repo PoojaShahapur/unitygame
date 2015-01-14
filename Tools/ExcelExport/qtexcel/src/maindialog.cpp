@@ -156,7 +156,7 @@ void MainDialog::btnStart()
 
 	//char aaa[256];
 	//Tools::getSingletonPtr()->UTF8ToGBK((unsigned char *)outPath.toUtf8().data(), (unsigned char *)aaa, 256);
-	CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UTF8ToGBKStr(outPath.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlFile.toUtf8().data()));
+	CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UNICODEStr2LocalChar(outPath), Tools::getSingletonPtr()->UNICODEStr2LocalChar(xmlFile));
 
 	//if((outPath.length() == 0 || xmlFile.length() == 0) && xmlsolution.length() == 0)
 	//{

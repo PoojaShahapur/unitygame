@@ -39,6 +39,7 @@ private:
 	//QString utf82gbk(const std::string &inStr);
 	//QString UTF82GBK(const QString &inStr);
 	QString GBKChar2UNICODEStr(const char* inChar);
+	std::string UTF8ToGBKStr(char * lpUTF8Str);
 
 public:
 	Tools(); 
@@ -62,11 +63,10 @@ public:
 	int GBKToUTF8(char * lpGBKStr, char * lpUTF8Str, int nUTF8StrLen);
 	int UTF8ToGBK(char * lpUTF8Str, char * lpGBKStr, int nGBKStrLen);
 
-	bool UNICODEStr2LocalChar(const QString &inStr, char* ret, int retlen);
+	std::string UNICODEStr2LocalChar(const QString &inStr);
 	QString LocalChar2UNICODEStr(const char* inChar);
 
 	void convToAbsPath(std::string& srcPath);		// 将目录转换成绝对目录
-	std::string UTF8ToGBKStr(char * lpUTF8Str);
 	std::string& replace_all(std::string& str, const std::string& old_value, const std::string& new_value);
 	std::string& replace_all_distinct(std::string& str, const std::string& old_value, const std::string& new_value);
 

@@ -337,9 +337,9 @@ QString Tools::GBKChar2UNICODEStr(const char* inChar)
 }
 
 // 凡是 Qt 中的字符串要传给本地 string ，必须使用这个函数
-bool Tools::UNICODEStr2LocalChar(const QString &inStr, char* ret, int retlen)
+std::string Tools::UNICODEStr2LocalChar(const QString &inStr)
 {
-	return UNICODEStr2GBKChar(inStr, ret, retlen);
+	return UTF8ToGBKStr(inStr.toUtf8().data());
 }
 
 // 这里的 Local 是指本地编码，不是 QTextCodec::setCodecForLocale 设置的 UTF-8 ，因为 VS Local 编码是 GB2312 编码 
