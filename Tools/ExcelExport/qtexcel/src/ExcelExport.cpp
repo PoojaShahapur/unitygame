@@ -187,7 +187,8 @@ bool ExcelExport::exportExcel()
 
 	for (; tableBeginIte != tableEndIte; ++tableBeginIte)
 	{
-		exportExcelInternal(*tableBeginIte);
+		(*tableBeginIte)->buildTableDefine();		// 生成表的定义
+		exportExcelInternal(*tableBeginIte);		// 导出表
 	}
 
 	return true;
@@ -296,20 +297,16 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 
 		// 这个作为一个中间值     
 		std::string strTmp = "";
-		//strStructDef = "struct  ";
-		//strStructDef += lpszTableName;
-		//strStructDef += "{\r\n";
 
 		int iFieldNum = 0;
-		//bool bRecStructDef = true;
 		string warnOrErrorDesc;			// 一些警告或者错误
 
 		// (1) 排序的向量，将所有的内容输入到要排序的向量列表中去        
 		std::vector<DataItem*> _rowList;	// 行数据列表     
 		DataItem* _rowData = NULL;			// 一行的数据   
 		unsigned long int _id = 0;			// 一行唯一 ID 
-		char* _strId = new char[64];		// 唯一 id 字符串   
-		strcpy(_strId, "编号");				// 默认值
+		std::string _strId;					// 唯一 id 字符串   
+		_strId = "编号";				// 默认值
 
 		int iRecord = -1;	// 在读取记录过程中，表示当前记录是第几行，zero-based
 		for (; m_pRecordset->adoEOF != -1; m_pRecordset->MoveNext())
@@ -319,12 +316,10 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 			_rowData = new DataItem();
 			_rowList.push_back(_rowData);
 
-			//tinyxml2::XMLElement* field = pXmlEmtFields->FirstChildElement("field");
 			XmlField* field = tableItem->m_fieldsList[0];
 			// id 段判断，第一个字段一定是 id 才行，否则会出现错误
 			if (field)
 			{
-				//const char* pid = field->Attribute("name");
 				const char* pid = field->m_fieldName.c_str();
 				if (pid)
 				{
@@ -335,15 +330,12 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						continue;
 					}
 
-					strcpy(_strId, pid);	// 第一个字段是 id 段的名字
+					_strId = pid;	// 第一个字段是 id 段的名字
 				}
 			}
 			int iFieldIndex = 0;
-			//while (field)
 			while (iFieldIndex < tableItem->m_fieldsList.size())
 			{
-				//const char* fieldName = field->Attribute("name");
-				//const char* fieldType = field->Attribute("type");
 				const char* fieldName = field->m_fieldName.c_str();
 				const char* fieldType = field->m_fieldType.c_str();
 
@@ -352,18 +344,9 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 				const char* defaultValue = "10";
 
 				// 如果 field 是 string 类型，size 配置长度包括结尾符 0 
-				//if (field->QueryIntAttribute("size", &fieldSize) != tinyxml2::XML_SUCCESS)
-				//{
-				//	fieldSize = -1;
-				//}
-				//if (field->QueryIntAttribute("base", &fieldBase) != tinyxml2::XML_SUCCESS)
-				//{
-				//	fieldBase = 10;
-				//}
 				fieldSize = field->m_fieldSize;
 				fieldBase = field->m_fieldBase;
 
-				//defaultValue = field->Attribute("default");
 				defaultValue = field->m_defaultValue.c_str();
 				// 默认的类型 
 				if (fieldType == NULL)
@@ -390,7 +373,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 							// 如果第一个值是空的就不处理这行，同时将数量减少，反正最后要写到头文件
 							memset(szMsg, 0, sizeof(szMsg));
 							sprintf(szMsg, "警告:第%d行的第一列(编号)没有值，这行就不做到tbl中!\r\n", iRecord);
-							//strStructDef += szMsg;
 							warnOrErrorDesc += szMsg;
 							count--;
 							break;
@@ -462,7 +444,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						{
 							memset(szMsg, 0, sizeof(szMsg));
 							sprintf(szMsg, "警告:字段超出定义大小，大小 %u 字段，字段名: %s!\r\n", strTmp.length(), strCurField.c_str());
-							//strStructDef += szMsg;
 							warnOrErrorDesc += szMsg;
 							len = fieldSize - 1;		// 只能放 fieldSize - 1 个，最后一个写入 '\0'，长度不包括最后一个 '\0'
 						}
@@ -471,12 +452,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						// bytes 可能很长，但是传入后，构造的时候使用 '\0' 截断
 						addPropertyStr(_rowData, m_bytes, fieldSize);
 
-						//if (bRecStructDef)
-						//{
-						//	memset(szMsg, 0, sizeof(szMsg));
-						//	sprintf(szMsg, "\tchar\tstrField%d[%d];\t\t// %s\r\n", iFieldNum++, fieldSize, fieldName);
-						//	strStructDef += szMsg;
-						//}
 					}
 					else if (stricmp(fieldType, "int") == 0)
 					{
@@ -503,29 +478,19 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						{
 							char value = nValue;
 							addProperty(_rowData, value);
-
-							//if (bRecStructDef)
-							//{
-							//	sprintf(szMsg, "\tBYTE\tbyField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							//}
 						}
 						break;
 						case 2:
 						{
 							short value = nValue;
 							addProperty(_rowData, value);
-
-							//if (bRecStructDef)
-							//{
-							//	sprintf(szMsg, "\tWORD\twdField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							//}
 						}
 						break;
 						case 4:
 						{
 							int value = nValue;
 							// TODO: 如果是 id 字段  
-							if (strncmp(fieldName, _strId, strlen(_strId)) == 0)
+							if (strncmp(fieldName, _strId.c_str(), strlen(_strId.c_str())) == 0)
 							{
 								_id = value;
 								addProperty(_rowData, value, true);
@@ -534,27 +499,15 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 							{
 								addProperty(_rowData, value);
 							}
-
-							//if (bRecStructDef)
-							//{
-							//	sprintf(szMsg, "\tDWORD\tdwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							//}
 						}
 						break;
 						case 8:
 						{
 							__int64 value = nValue;
 							addProperty(_rowData, value);
-
-							//if (bRecStructDef)
-							//{
-							//	sprintf(szMsg, "\tQWORD\tqwField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							//}
 						}
 						break;
 						}
-
-						//if (bRecStructDef) strStructDef += szMsg;
 					}
 					else if (stricmp(fieldType, "float") == 0)
 					{
@@ -563,7 +516,6 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 							fieldSize = 4;
 						}
 
-						//double dValue = strtod(strTmp.c_str(), NULL);
 						memset(szMsg, 0, sizeof(szMsg));
 
 						switch (fieldSize)
@@ -571,46 +523,27 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 						case 4:
 						{
 							float fValue = strtof(strTmp.c_str(), NULL);;
-							//_rowData->getByteBuffer().writeFloat(fValue);
 							addProperty(_rowData, fValue);
-
-							//if (bRecStructDef)
-							//{
-							//	sprintf(szMsg, "\tfloat\tfField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							//}
 						}
 						break;
 						case 8:
 						{
 							double dValue = strtod(strTmp.c_str(), NULL);;
-							//_rowData->getByteBuffer().writeDouble(fValue);
 							addProperty(_rowData, dValue);
-
-							//if (bRecStructDef)
-							//{
-							//	sprintf(szMsg, "\tdouble\tdField%d;\t\t// %s\r\n", iFieldNum++, fieldName);
-							//}
 						}
 						break;
 						}
-
-						//if (bRecStructDef) strStructDef += szMsg;
 					}
 
-					// (4) 处理 id 字段   
-					if (strncmp(fieldName, _strId, strlen(_strId)) == 0)
+					// (4) 处理 id 字段
+					if (strncmp(fieldName, _strId.c_str(), strlen(_strId.c_str())) == 0)
 					{
 						_rowData->setID(_id);
 					}
 				}
-				//field = field->NextSiblingElement("field");
 				iFieldIndex++;
 			}
-			// 一次之后就不在输出结构了
-			//bRecStructDef = false;
 		}
-
-		delete []_strId;
 
 		// 导出 Excel 到文件
 		exportPropertyVec2File(tableItem->m_lpszOutputFile.c_str(), _rowList, m_isClient);
@@ -621,14 +554,10 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		m_pConnection->Close();
 		::CoUninitialize();
 
-		//strStructDef += "};";
-
 		memset(szMsg, 0, sizeof(szMsg));
 		sprintf(szMsg, "//导出 %s 成功, 共 %u 条记录\r\n", tableItem->m_lpszTableName, count);
-		//strStructDef += szMsg;
 		warnOrErrorDesc += szMsg;
 		// 打表成功 
-		//Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(strStructDef.c_str()));
 		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(warnOrErrorDesc.c_str()));
 
 		return true;
