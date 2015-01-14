@@ -48,9 +48,7 @@ bool ExcelExport::exportExcel()
 
 	for (; tableBeginIte != tableEndIte; ++tableBeginIte)
 	{
-		(*tableBeginIte)->buildTableDefine();		// 生成表的定义
-
-		exportExcelInternal(*tableBeginIte);		// 导出表
+		exportExcelByTable(*tableBeginIte);		// 导出表
 	}
 
 	return true;
@@ -59,7 +57,7 @@ bool ExcelExport::exportExcel()
 /**
 * com 接口
 */
-bool ExcelExport::exportExcelInternal(Table* tableItem)
+bool ExcelExport::exportExcelByTable(Table* tableItem)
 {
 	// 前置检查    
 	if (0 == tableItem->m_lpszDBTableName.length())
@@ -106,7 +104,7 @@ bool ExcelExport::exportExcelInternal(Table* tableItem)
 		_strId = field->m_fieldName;			// 第一个字段必然是 id
 
 		// 输出表的定义
-		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(tableItem->m_strStructDef.c_str()));
+		Tools::getSingletonPtr()->Log(Tools::getSingletonPtr()->GBKChar2UNICODEStr(tableItem->m_strOutput.c_str()));
 
 		while (!adoWrap.isAdoEOF())		// 如果没有结束
 		{

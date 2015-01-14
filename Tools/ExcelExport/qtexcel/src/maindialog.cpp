@@ -231,13 +231,13 @@ void MainDialog::btnStart()
 	//Tools::getSingletonPtr()->UTF8ToGBK((unsigned char *)outPath.toUtf8().data(), (unsigned char *)aaa, 256);
 	CAppData::getSingletonPtr()->setXml(Tools::getSingletonPtr()->UTF8ToGBKStr(outPath.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlFile.toUtf8().data()), Tools::getSingletonPtr()->UTF8ToGBKStr(xmlsolution.toUtf8().data()));
 
-	if((outPath.length() == 0 || xmlFile.length() == 0) && xmlsolution.length() == 0)
-	{
-		QString msg = tr("path is empty");
-		Tools::getSingletonPtr()->informationMessage(msg);
-	}
-	else
-	{
+	//if((outPath.length() == 0 || xmlFile.length() == 0) && xmlsolution.length() == 0)
+	//{
+	//	QString msg = tr("path is empty");
+	//	Tools::getSingletonPtr()->informationMessage(msg);
+	//}
+	//else
+	//{
 		//pushButtonStart.enable = false;
 
 		//QMessageBox::information(this, tr("QMessageBox::information()"), tr("asdasdf"));
@@ -255,7 +255,7 @@ void MainDialog::btnStart()
 			//Tools::getSingletonPtr()->informationMessage(tr("正在打表"));
 			Tools::getSingletonPtr()->informationMessage(QStringLiteral("正在打表"));
 		}
-	}
+	//}
 }
 
 void MainDialog::update()

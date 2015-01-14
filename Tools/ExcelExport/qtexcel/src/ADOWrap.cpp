@@ -45,7 +45,7 @@ bool ADOWrap::opemDB(Table* tableItem)
 		m_pConnection.CreateInstance("ADODB.Connection");
 		_strConnect += provider;
 		_strConnect += "Data Source=";
-		_strConnect += tableItem->m_lpszExcelFile.c_str();
+		_strConnect += tableItem->m_strExcelDirAndName.c_str();
 		_strConnect += ";";
 		_strConnect += extendedProperties;
 

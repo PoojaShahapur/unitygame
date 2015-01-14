@@ -42,11 +42,9 @@ public:
 	~ExcelExport();
 	void setXmlPath(std::string file);
 	void setOutputPath(std::string path);
-	bool exportExcel();
-	void exportExcelByTable(Table* table);
 
-	// 导出 Excel 到 Property Vector
-	virtual bool exportExcelInternal(Table* tableItem);
+	bool exportExcel();
+	bool exportExcelByTable(Table* table);		// 导出 Excel 到 Property Vector
 
 	// 导出 Property Vector 到文件
 	virtual void exportPropertyVec2File(const char* lpszOutputFile, std::vector<DataItem*>& _rowList, bool isClient);

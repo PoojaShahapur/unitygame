@@ -74,7 +74,7 @@ void CAppData::startMultiPack()
 	{
 		if ((*tableIteVecBegin)->m_bExportTable)
 		{
-			m_excelExport->exportExcel();
+			m_excelExport->exportExcelByTable((*tableIteVecBegin));
 		}
 	}
 }
@@ -97,7 +97,8 @@ void CAppData::setXml(string outpath, string xmlpath, string xmlsolution)
 
 bool CAppData::isSetSolution()
 {
-	return m_xmlSolution.length();
+	//return m_xmlSolution.length();
+	return true;
 }
 
 void CAppData::initThread(QThread* pthread)

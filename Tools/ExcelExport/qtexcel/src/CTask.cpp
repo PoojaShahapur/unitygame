@@ -252,7 +252,7 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 			tablesList.push_back(tableItem);
 
 			tableItem->m_strExcelDir = m_xml.substr(0, iTmp);
-			if (_chdir(tableItem->m_strExcelDir.c_str()) == -1)
+			if (_chdir(tableItem->m_strExcelDir.c_str()) == -1)			// 检查当前目录是否存在
 			{
 				QString msg = "当前目录设置正确";
 				Tools::getSingletonPtr()->informationMessage(NULL, msg);
@@ -302,7 +302,8 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 			}
 
 			field = table->FirstChildElement("fields");
-			tableItem->parseXML(field);
+			tableItem->parseXML(field);			// 读取表的属性
+			tableItem->buildTableDefine();		// 生成表的定义
 
 			tableItem->m_strOutput += tableItem->m_strStructDef.c_str();
 			tableItem->m_strOutput += "\r\n";
