@@ -24,6 +24,8 @@ MainDialog::MainDialog(QWidget *parent)
 	connect(m_ui->pushButtonOutput, SIGNAL(clicked()), this, SLOT(btnOutput()));
 	connect(m_ui->pushButtonOutputXml, SIGNAL(clicked()), this, SLOT(btnXml()));
 	connect(m_ui->pushButtonStart, SIGNAL(clicked()), this, SLOT(btnStart()));
+	connect(m_ui->checkBox, SIGNAL(clicked()), this, SLOT(onChkAllBtnClk()));
+
 	setWindowTitle(QStringLiteral("Excel打包工具"));
 	//this->setWindowFlags(Qt::WindowTitleHint);
 	//this->setWindowFlags(Qt::WindowCloseButtonHint);
@@ -275,6 +277,19 @@ void MainDialog::update()
 	if(begin != list.end())
 	{
 		Tools::getSingletonPtr()->informationMessageUI(*begin);
+	}
+}
+
+void MainDialog::onChkAllBtnClk()
+{
+	int idx = 0;
+	TableListItem *listItemUI;
+	while (idx < m_ui->TableListWidget->count())
+	{
+		listItemUI = (TableListItem *)m_ui->TableListWidget->itemWidget(m_ui->TableListWidget->item(idx));
+		listItemUI->m_ui->checkBox->setChecked(m_ui->checkBox->isChecked());
+		listItemUI->onChkClk();
+		++idx;
 	}
 }
 

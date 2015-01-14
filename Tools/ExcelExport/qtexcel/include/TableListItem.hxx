@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "CTask.hxx"
+#include "ui_TableListItem.h"
 
 namespace Ui
 {
@@ -12,11 +13,13 @@ namespace Ui
 class TableListItem : public QWidget
 {
 	Q_OBJECT
-private:
+public:
 	Ui::TableListItem *m_ui;
+
+private:
 	Table* m_table;
 
-private slots:
+public slots:
 	void onChkClk();
 
 public:

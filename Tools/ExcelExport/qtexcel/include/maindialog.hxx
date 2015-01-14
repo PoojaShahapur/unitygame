@@ -39,6 +39,7 @@ private slots:
 	void btnStart();
 //	void exitApp ();
 	void update();
+	void onChkAllBtnClk();
 
 protected:
 	void keyPressEvent(QKeyEvent *event);
