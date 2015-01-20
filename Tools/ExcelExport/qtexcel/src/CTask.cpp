@@ -312,7 +312,7 @@ bool CPackage::loadTableXml(std::vector<Table*>& tablesList)
 	}
 	catch (const char* p)
 	{
-		Tools::getSingletonPtr()->informationMessage(Tools::getSingletonPtr()->GBKChar2UNICODEStr(p));
+		Tools::getSingletonPtr()->informationMessage(Tools::getSingletonPtr()->LocalChar2UNICODEStr(p));
 		return false;
 	}
 	catch (...)

@@ -43,6 +43,7 @@ public:
 	void setXmlPath(std::string file);
 	void setOutputPath(std::string path);
 
+	bool checkAttr(Table* tableItem);
 	bool exportExcel();
 	bool exportExcelByTable(Table* table);		// 导出 Excel 到 Property Vector
 
