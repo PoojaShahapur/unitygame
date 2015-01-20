@@ -33,6 +33,11 @@ namespace SDK.Common
             m_dicAttr[UIFormID.UITest].m_LayerID = UILayerID.TopLayer;
             m_dicAttr[UIFormID.UITest].m_widgetPrefabName = "UITest";
             m_dicAttr[UIFormID.UITest].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UITest].m_widgetPrefabName;
+
+            m_dicAttr[UIFormID.UIDZ] = new UIAttrItem();
+            m_dicAttr[UIFormID.UIDZ].m_LayerID = UILayerID.SecondLayer;
+            m_dicAttr[UIFormID.UIDZ].m_widgetPrefabName = "UIDZ";
+            m_dicAttr[UIFormID.UIDZ].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIDZ].m_widgetPrefabName;
         }
 
         public string getPath(UIFormID id)

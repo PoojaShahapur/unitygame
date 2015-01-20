@@ -56,6 +56,18 @@ namespace Game.Msg
         public const byte RET_LEFT_CARDLIB_NUM_CMD = 20;
         public const byte RET_MAGIC_POINT_INFO_CMD = 21;
         public const byte REQ_END_MY_ROUND_CMD = 22;
+        public const byte RET_REFRESH_BATTLE_STATE_CMD = 23;
+
+        public const byte RET_REFRESH_BATTLE_PRIVILEGE_CMD = 24;
+        public const byte REQ_GIVEUP_ONE_BATTLE_CMD = 25;
+        public const byte ADD_BATTLE_CARD_PROPERTY_CMD = 26;
+        public const byte NOTIFY_FIGHT_ENEMY_INFO_CMD = 27;
+        public const byte REQ_FIGHT_PREPARE_OVER_CMD = 28;
+        public const byte MOVE_CARD_USERCMD_PARAMETER = 29;
+        public const byte RET_FIRST_HAND_CARD_CMD = 30;
+
+        public const byte RET_MOVE_CARD_USERCMD_PARAMETER = 31;
+        public const byte RET_NOTIFY_HAND_IS_FULL_CMD = 32;
 
         public stHeroCardCmd()
         {

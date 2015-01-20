@@ -14,6 +14,14 @@
             x = ba.readUnsignedShort();
             y = ba.readUnsignedShort();
         }
+
+        public void serialize(IByteArray ba)
+        {
+            ba.writeUnsignedInt(dwLocation);
+            ba.writeUnsignedInt(dwTableID);
+            ba.writeUnsignedShort(x);
+            ba.writeUnsignedShort(y);
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using Game.Msg;
+
 namespace SDK.Common
 {
     /**
@@ -14,6 +15,8 @@ namespace SDK.Common
 
         public DataShop m_dataShop = new DataShop();            // 商城数据
         public DataHero m_dataHero = new DataHero();            // hero 数据
+
+        public DZData m_dzData = new DZData();
 
         // 强求主角数据
         public void reqMainData()

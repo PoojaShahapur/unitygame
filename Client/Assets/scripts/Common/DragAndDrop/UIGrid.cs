@@ -135,7 +135,7 @@ public class UIGrid : LSBehaviour
 	/// Cache everything and reset the initial position of all children.
 	/// </summary>
 
-	protected virtual void Start ()
+	public override void Start ()
 	{
 		Reposition();
 	}

@@ -1,5 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace Game.UI
@@ -46,7 +47,46 @@ namespace Game.UI
 
         protected void onBtnClkTest()
         {
+            testSceneCard();
+            addOneCard();
+        }
+
+        protected void testDZCam()
+        {
             Ctx.m_instance.m_camSys.m_dzcam.draw();
+        }
+
+        protected void testGetWidget()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiDZ != null)
+            {
+                uiDZ.getWidget();
+            }
+        }
+
+        protected void testSceneCard()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList = new uint[4];
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[0] = 1;
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[1] = 1;
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[2] = 1;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[3] = 1;
+            uiDZ.psstRetFirstHandCardUserCmd(null);
+        }
+
+        protected void addOneCard()
+        {
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList = new List<SceneCardItem>();
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
+
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            uiDZ.psstAddBattleCardPropertyUserCmd(null, null);
         }
     }
 }

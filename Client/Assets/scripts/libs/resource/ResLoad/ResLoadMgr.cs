@@ -62,7 +62,7 @@ namespace SDK.Lib
             return load(param);
         }
 
-        // eLevelType 打包类型资源加载
+        // eLevelType 打包类型资源加载，都用协程加载
         public IResItem loadLevel(LoadParam param)
         {
             param.m_resPackType = ResPackType.eLevelType;

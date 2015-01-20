@@ -55,7 +55,7 @@ namespace SDK.Lib
             ResourceRequest req = Resources.LoadAsync<GameObject>(m_path);
             yield return req;
 
-            if (req.asset != null)
+            if (req.asset != null && req.isDone)
             {
                 if (onLoaded != null)
                 {

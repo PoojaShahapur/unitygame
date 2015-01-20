@@ -10,6 +10,7 @@ namespace SDK.Common
         UIHeroSelect,       // 角色选择界面界面
         UIBlurBg,           // 模糊背景界面
         UITest,             // 测试界面
+        UIDZ,               // 对战界面
 	}
 
     public enum UILayerID

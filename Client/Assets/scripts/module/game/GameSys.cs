@@ -86,11 +86,13 @@ namespace Game.Game
         // 这个是对战场景资源加载完成回调
         public void onDZResLoadScene(IScene scene)
         {
+            Ctx.m_instance.m_dataPlayer.m_dzData.clear();
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;         // 进入对战就设置这个标示位为可以继续战斗
             Ctx.m_instance.m_camSys.m_dzcam = new dzcam();
-            Ctx.m_instance.m_camSys.m_dzcam.setGameObject(UtilApi.GoFindChildByPObjAndName("Main Camera"));
 
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UITest);
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneDZ);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIDZ);      // 显示对战场景界面
+            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
         }
 
         // 获取场景中可点击的对象

@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// Allows dragging of the specified target object by mouse or touch, optionally limiting it to be within the UIPanel's clipped rectangle.
@@ -84,6 +85,9 @@ public class UIDragObject : MonoBehaviour
 	int mTouchID = 0;
 	bool mStarted = false;
 	bool mPressed = false;
+
+    // 拖动结束回调
+    public Action m_dropEndDisp;
 
 	/// <summary>
 	/// Auto-upgrade the legacy data.
@@ -179,6 +183,11 @@ public class UIDragObject : MonoBehaviour
 					//if (panelRegion.ConstrainTargetToBounds(target, ref mBounds, false))
 					//	CancelMovement();
 				}
+
+                if(m_dropEndDisp != null)
+                {
+                    m_dropEndDisp();
+                }
 			}
 		}
 	}

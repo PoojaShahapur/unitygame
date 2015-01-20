@@ -35,6 +35,7 @@ namespace SDK.Lib
 
         public void loadScene(string filename, Action<IScene> func)
         {
+            
             // 卸载之前的场景
             unloadScene();
 
@@ -81,13 +82,15 @@ namespace SDK.Lib
 
         public void loadSceneRes(string filename)
         {
+            Ctx.m_instance.m_bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
+
             LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
             //param.m_resPackType = ResPackType.eLevelType;
             param.m_loaded = onSceneResLoadded;
             //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            //param.m_resNeedCoroutine = true;
-            //param.m_loadNeedCoroutine = true;
+            param.m_resNeedCoroutine = true;
+            param.m_loadNeedCoroutine = true;
             param.m_lvlName = filename;
             //Ctx.m_instance.m_resLoadMgr.load(param);
             Ctx.m_instance.m_resLoadMgr.loadLevel(param);
@@ -102,6 +105,8 @@ namespace SDK.Lib
             }
 
             onSceneLoaded = null;           // 清除所有的监听器
+
+            Ctx.m_instance.m_bStopNetHandle = false;        // 加载场景完成需要处理处理消息
         }
     }
 }

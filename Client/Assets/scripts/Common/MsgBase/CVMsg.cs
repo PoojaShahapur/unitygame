@@ -58,4 +58,43 @@
     //    CHALLENGE_GAME_PRACTISE_TYPE = 5,        //PVE 普通练习
     //    CHALLENGE_GAME_BOSS_TYPE = 6,        //PVE BOSS模式
     //};
+
+    public enum ChallengeState
+    {
+        CHALLENGE_STATE_NONE = 0,	//游戏刚刚创建(还未填充双方数据)
+        CHALLENGE_STATE_PREPARE = 1,	//准备阶段(此时可以替换第一把的手牌)
+        CHALLENGE_STATE_BATTLE = 2,	//战斗中
+        CHALLENGE_STATE_END = 3,	//游戏结束
+        CHALLENGE_STATE_CANCLEAR = 4,	//可以卸载状态
+    }
+
+    //enum ChallengeState
+    //{
+    //    CHALLENGE_STATE_NONE	= 0,	//游戏刚刚创建(还未填充双方数据)
+    //    CHALLENGE_STATE_PREPARE	= 1,	//准备阶段(此时可以替换第一把的手牌)
+    //    CHALLENGE_STATE_BATTLE	= 2,	//战斗中
+    //    CHALLENGE_STATE_END		= 3,	//游戏结束
+    //    CHALLENGE_STATE_CANCLEAR	= 4,	//可以卸载状态
+    //};
+
+    public enum CardArea
+    {
+        CARDCELLTYPE_NONE,
+        CARDCELLTYPE_COMMON,	    //׷սӡ
+        CARDCELLTYPE_HAND,	    //˖Ɔλ׃
+        CARDCELLTYPE_EQUIP,	    //ϤǷӛλ׃
+        CARDCELLTYPE_SKILL,	    //ܼŜӛλ׃
+        CARDCELLTYPE_HERO,	    //Ӣћӛλ׃
+    }
+
+    // 这个是卡牌区域位置
+    //enum CardArea
+    //{
+    //  CARDCELLTYPE_NONE,/// 不是格子，用于丢弃或捡到物品
+    //  CARDCELLTYPE_COMMON,	    //׷սӡ
+    //  CARDCELLTYPE_HAND,	    //˖Ɔλ׃
+    //  CARDCELLTYPE_EQUIP,	    //ϤǷӛλ׃
+    //  CARDCELLTYPE_SKILL,	    //ܼŜӛλ׃
+    //  CARDCELLTYPE_HERO,	    //Ӣћӛλ׃
+    //};
 }

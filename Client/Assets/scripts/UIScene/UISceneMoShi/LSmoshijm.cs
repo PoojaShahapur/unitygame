@@ -180,11 +180,13 @@ namespace Game.UI
                     }
                     break;
                 default:
-                    //Camera.main.SendMessage("back");
-                    //iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
-                    //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
-                    Ctx.m_instance.m_camSys.m_boxcam.back();
-                    iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
+                    {
+                        //Camera.main.SendMessage("back");
+                        //iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
+                        //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
+                        Ctx.m_instance.m_camSys.m_boxcam.back();
+                        iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
+                    }
                     break;
 
             }
@@ -210,6 +212,9 @@ namespace Game.UI
                         //{
                         //    uiSC.newcardset(group);
                         //}
+                        stReqCreateOneCardGroupUserCmd cmd = new stReqCreateOneCardGroupUserCmd();
+                        cmd.occupation = (uint)getClass();
+                        UtilMsg.sendMsg(cmd);
                     }
                     break;
                 case moshijmmethod.lx:
@@ -218,15 +223,21 @@ namespace Game.UI
                     UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
                     if (uiMS.m_curSel != null)      // 如果有选中
                     {
-                        stReqHeroFightMatchUserCmd cmd = new stReqHeroFightMatchUserCmd();
-                        cmd.index = uiMS.m_curSel.info.m_cardGroup.index;
-                        UtilMsg.sendMsg(cmd);
+                        if (Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ)
+                        {
+                            Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = false;
+                            Ctx.m_instance.m_dataPlayer.m_dzData.setSelfHeroInfo(uiMS.m_curSel.info);
 
-                        uiMS.startmatch();
+                            stReqHeroFightMatchUserCmd cmd = new stReqHeroFightMatchUserCmd();
+                            cmd.index = uiMS.m_curSel.info.m_cardGroup.index;
+                            UtilMsg.sendMsg(cmd);
 
-                        //开始查找
+                            //开始查找
+                            uiMS.startmatch();
+                        }
                     }
-                    uiMS.startmatch();
+                    // test
+                    //uiMS.startmatch();
                     break;
             }
         }

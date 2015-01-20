@@ -24,6 +24,10 @@ namespace Game.Game
                 {
                     return new UITest();
                 }
+                case UIFormID.UIDZ:
+                {
+                    return new UIDZ();
+                }
                 default:
                 {
                     break;

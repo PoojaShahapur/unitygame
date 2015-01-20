@@ -41,6 +41,7 @@ namespace SDK.Lib
             else
             {
                 initAsset();
+                //Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetNextFrame());
             }
         }
 
@@ -64,14 +65,29 @@ namespace SDK.Lib
             clearListener();
         }
 
+        // 奇怪，Level 加载完成后立马获取里面的 GameObject ，有的时候可以，有的时候获取不到，因此间隔一帧后再获取
+        protected IEnumerator initAssetNextFrame()
+        {
+            Application.LoadLevel(m_levelName);
+
+            yield return new WaitForEndOfFrame();
+
+            if (onLoaded != null)
+            {
+                onLoaded(this);
+            }
+
+            clearListener();
+        }
+
         protected IEnumerator initAssetByCoroutine()
         {
             //string path = Application.dataPath + "/" + m_path;
             AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
 
             yield return asyncOpt;
-
-            if (null != asyncOpt)
+            // asyncOpt.progress == 1.0f
+            if (null != asyncOpt && asyncOpt.isDone)
             {
                 if (onLoaded != null)
                 {

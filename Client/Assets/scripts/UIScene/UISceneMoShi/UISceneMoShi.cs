@@ -103,10 +103,6 @@ namespace Game.UI
         {
             m_moshijm.chooseok();
             this.bVisible = false;
-
-            stReqCreateOneCardGroupUserCmd cmd = new stReqCreateOneCardGroupUserCmd();
-            cmd.occupation = (uint)m_moshijm.getClass();
-            UtilMsg.sendMsg(cmd);
         }
 
         public void AddNewTaoPai()
