@@ -1,4 +1,9 @@
-﻿//#define _CRTDBG_MAP_ALLOC
+﻿#define ENABLE_VLD
+#if defined ENABLE_VLD
+	#include "vld.h"
+#endif
+
+//#define _CRTDBG_MAP_ALLOC
 //#include <stdlib.h>
 //#include <crtdbg.h>
 
@@ -35,10 +40,12 @@ void EnableMemLeakCheck()
 
 int main(int argc, char *argv[])
 {
-	#ifdef _DEBUG
+	#if defined ENABLE_CRT_MEM_LEAK
+	#if defined _DEBUG
 	// 内存检测
 	EnableMemLeakCheck();
 	_CrtSetBreakAlloc(78314);
+	#endif
 	#endif
 	//QTextCodec *gbk = QTextCodec::codecForName("gb18030");
 	//QTextCodec *gbk = QTextCodec::codecForName("GB2312");

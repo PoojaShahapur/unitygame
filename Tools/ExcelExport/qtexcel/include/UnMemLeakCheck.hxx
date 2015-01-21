@@ -1,10 +1,12 @@
 #ifndef __UNMEMLEAKCHECK_H
 #define __UNMEMLEAKCHECK_H
 
-#if defined _DEBUG
-	#if defined new
-		#undef new
-		#pragma pop_macro("new")
+#if defined ENABLE_CRT_MEM_LEAK
+	#if defined _DEBUG
+		#if defined new
+			#undef new
+			#pragma pop_macro("new")
+		#endif
 	#endif
 #endif
 

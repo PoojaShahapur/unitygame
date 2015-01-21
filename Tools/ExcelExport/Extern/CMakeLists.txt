@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0005 NEW)
 
-project(ExcelMake)
+project(Extern)
 
 message(STATUS "builder main start")
 
@@ -18,10 +18,4 @@ if(MSVC11 OR MSVC12)
 	add_definitions(-DNOMINMAX)
 endif(MSVC11 OR MSVC12)
 
-add_subdirectory(tinyxml)
-add_subdirectory(qtexcel)
-#add_subdirectory(Extern)
-
-install(FILES 
-	${CMAKE_SOURCE_DIR}/config.xml DESTINATION "${CMAKE_BINARY_DIR}/qtexcel"
-)
+add_subdirectory("Visual Leak Detector")

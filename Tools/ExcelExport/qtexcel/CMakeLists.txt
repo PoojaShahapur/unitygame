@@ -108,8 +108,10 @@ else(NOT Qt5Widgets_FOUND)
     include_directories(./include)
 	include_directories(../tinyxml)
 	include_directories(${QT_BINARY_DIR}/../include)
+	include_directories("../Extern/Visual Leak Detector/include")
 	
 	link_directories(${QT_BINARY_DIR}/../lib)
+	link_directories("../Extern/Visual Leak Detector/lib")
 	
 	#ADD_DEFINITIONS(-D_AFXDLL)
 	
@@ -119,6 +121,6 @@ else(NOT Qt5Widgets_FOUND)
 
     set_target_properties(qtExcel PROPERTIES DEBUG_POSTFIX _d LINK_FLAGS "/ENTRY:\"mainCRTStartup\"")
 	#TARGET_LINK_LIBRARIES(qtExcel QtCore4 QtGui4 tinyxml)
-	TARGET_LINK_LIBRARIES(qtExcel ${Qt5Widgets_LIBRARIES} tinyxml)
+	TARGET_LINK_LIBRARIES(qtExcel ${Qt5Widgets_LIBRARIES} tinyxml vld)
 	add_dependencies(qtExcel tinyxml)
 endif(NOT Qt5Widgets_FOUND)
