@@ -1,5 +1,4 @@
-﻿#define ENABLE_VLD
-#if defined ENABLE_VLD
+﻿#if defined ENABLE_VLD
 	#include "vld.h"
 #endif
 
