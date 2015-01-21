@@ -2,7 +2,7 @@
 #include <QtWidgets/QWidget>
 #include "Tools.hxx"
 
-//#include "MemLeakCheck.hxx"
+#include "MemLeakCheck.hxx"
 
 TableListItem::TableListItem(QWidget *parent)
 	: QWidget(parent), m_ui(new Ui::TableListItem)

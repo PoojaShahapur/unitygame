@@ -9,7 +9,7 @@
 #include "System.hxx"
 #include "TableListItem.hxx"
 
-//#include "MemLeakCheck.hxx"
+#include "MemLeakCheck.hxx"
 
 MainDialog::MainDialog(QWidget *parent)
 	: QDialog(parent, Qt::FramelessWindowHint), m_ui(new Ui::Dialog)

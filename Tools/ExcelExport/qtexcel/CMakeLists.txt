@@ -75,6 +75,7 @@ else(NOT Qt5Widgets_FOUND)
 		./include/EnValue.hxx
 		./include/ADOWrap.hxx
 		./include/MemLeakCheck.hxx
+		./include/UnMemLeakCheck.hxx
     )
 
 	#these files need build moc files

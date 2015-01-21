@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-//#include "MemLeakCheck.hxx"
+#include "MemLeakCheck.hxx"
 
 XmlField::XmlField()
 {

@@ -27,4 +27,6 @@ public:
 
 END_NAMESPACE
 
+//#include "UnMemLeakCheck.hxx"
+
 #endif				// SINGLETON_H

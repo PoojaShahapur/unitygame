@@ -16,9 +16,11 @@
 //#include <stdlib.h>
 //#include <crtdbg.h>
 
-#ifdef _DEBUG
-	#include <crtdbg.h>
-#endif
+//#ifdef _DEBUG
+//	#include <crtdbg.h>
+//#endif
+
+#include "MemLeakCheck.hxx"
 
 //定义函数：  
 void EnableMemLeakCheck()
@@ -36,8 +38,8 @@ int main(int argc, char *argv[])
 	#ifdef _DEBUG
 	// 内存检测
 	EnableMemLeakCheck();
+	//_CrtSetBreakAlloc(74987);
 	#endif
-	//_CrtSetBreakAlloc(52);
 	//QTextCodec *gbk = QTextCodec::codecForName("gb18030");
 	//QTextCodec *gbk = QTextCodec::codecForName("GB2312");
 	//QTextCodec *gbk = QTextCodec::codecForName("system");

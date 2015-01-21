@@ -1,10 +1,13 @@
 #ifndef __MEMLEAKCHECK_H
 #define __MEMLEAKCHECK_H
 
-#ifdef _DEBUG
+#if defined _DEBUG
+	#pragma push_macro("new")
+	#undef new
 	#define DEBUG_NORMALBLOCK new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
 	#define _CRTDBG_MAP_ALLOC
+	#include <stdlib.h>
 	#include <crtdbg.h>
 	#define new DEBUG_NORMALBLOCK
 #else

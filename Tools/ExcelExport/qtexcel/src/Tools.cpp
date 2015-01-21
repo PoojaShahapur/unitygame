@@ -6,7 +6,7 @@
 #include <deque>
 #include <sstream>
 
-//#include "MemLeakCheck.hxx"
+#include "MemLeakCheck.hxx"
 
 template<> Tools* Singleton<Tools>::msSingleton = 0;
 
