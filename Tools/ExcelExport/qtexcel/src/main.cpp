@@ -1,6 +1,6 @@
-﻿#define CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
+﻿//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
 
 #include <QtWidgets/QApplication>
 //#include <corelib/codecs/qtextcodec.h>
@@ -12,20 +12,31 @@
 	#pragma execution_character_set("utf-8")
 #endif
 
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+
+#ifdef _DEBUG
+	#include <crtdbg.h>
+#endif
+
 //定义函数：  
 void EnableMemLeakCheck()
 {
-	_CrtSetDbgFlag(_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG) | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetDbgFlag(_CRTDBG_REPORT_FLAG | _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
 
-#ifdef _DEBUG
-#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#endif
+//#ifdef _DEBUG
+//#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+//#endif
 
 int main(int argc, char *argv[])
 {
+	#ifdef _DEBUG
 	// 内存检测
 	EnableMemLeakCheck();
+	#endif
 	//_CrtSetBreakAlloc(52);
 	//QTextCodec *gbk = QTextCodec::codecForName("gb18030");
 	//QTextCodec *gbk = QTextCodec::codecForName("GB2312");

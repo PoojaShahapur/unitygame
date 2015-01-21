@@ -74,6 +74,7 @@ else(NOT Qt5Widgets_FOUND)
 		./include/TableListItem.hxx
 		./include/EnValue.hxx
 		./include/ADOWrap.hxx
+		./include/MemLeakCheck.hxx
     )
 
 	#these files need build moc files

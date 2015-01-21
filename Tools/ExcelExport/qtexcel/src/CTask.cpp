@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 
+//#include "MemLeakCheck.hxx"
+
 XmlField::XmlField()
 {
 	m_fieldSize = -1;

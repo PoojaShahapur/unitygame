@@ -6,6 +6,8 @@
 #include <QtWidgets>
 #include "Tools.hxx"
 
+#include "MemLeakCheck.hxx"
+
 template<> CAppData* Singleton<CAppData>::msSingleton = 0;
 
 CAppData::CAppData()

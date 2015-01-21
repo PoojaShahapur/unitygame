@@ -17,6 +17,8 @@
 #include <cwchar>				// wchat_t
 #include <windows.h>			// WCHAR
 
+#include "MemLeakCheck.hxx"
+
 #include "Platform.hxx"
 
 //using namespace tinyxml2;
