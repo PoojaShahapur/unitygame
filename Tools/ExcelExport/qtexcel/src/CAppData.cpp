@@ -1,10 +1,10 @@
-﻿#include "CAppData.hxx"
-#include "ExcelExport.hxx"
-#include "CTask.hxx"
-#include <cstring>
+﻿#include <cstring>
 #include <QtGui/QtGui>
 #include <QtWidgets>
+#include "ExcelExport.hxx"
+#include "CTask.hxx"
 #include "Tools.hxx"
+#include "CAppData.hxx"
 
 #include "MemLeakCheck.hxx"
 

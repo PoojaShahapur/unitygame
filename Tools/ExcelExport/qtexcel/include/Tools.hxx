@@ -1,7 +1,6 @@
 ﻿#ifndef _TOOLS_H
 #define _TOOLS_H
 
-#include "Singleton.hxx"
 #include <QtCore/QtCore>
 #include <cstring>
 #include <string>	// include string
@@ -10,6 +9,9 @@
 
 #include <stdio.h>
 #include <windows.h>
+
+#include "Singleton.hxx"
+
 #include "Platform.hxx"
 
 class QWidget;

@@ -5,8 +5,8 @@
 #include "ByteConverter.hxx"
 #include "Error.hxx"
 #include "SystemEndian.hxx"
-#include "System.hxx"
 #include "Platform.hxx"
+#include "System.hxx"
 
 BEGIN_NAMESPACE
 

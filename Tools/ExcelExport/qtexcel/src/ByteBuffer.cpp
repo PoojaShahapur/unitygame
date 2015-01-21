@@ -1,5 +1,5 @@
-#include "ByteBuffer.hxx"
 #include "Tools.hxx"
+#include "ByteBuffer.hxx"
 
 void ByteBufferException::PrintPosError() const
 {

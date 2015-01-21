@@ -1,8 +1,8 @@
 ﻿#ifndef _CAPPDATA_H
 #define _CAPPDATA_H
 
-#include "Singleton.hxx"
 #include "CTask.hxx"
+#include "Singleton.hxx"
 #include <string>
 
 class QThread;

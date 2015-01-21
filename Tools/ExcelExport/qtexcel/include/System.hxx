@@ -1,8 +1,8 @@
 #ifndef _SYSTEM_H
 #define _SYSTEM_H
 
-#include "Singleton.hxx"
 #include "SystemEndian.hxx"
+#include "Singleton.hxx"
 
 #include "Platform.hxx"
 BEGIN_NAMESPACE

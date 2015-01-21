@@ -1,11 +1,11 @@
-﻿#include "Tools.hxx"
-#include <QtGui/QtGui>
+﻿#include <QtGui/QtGui>
 #include <QtWidgets>
 #include <direct.h>		// getcwd
 #include <mbstring.h>
 #include <deque>
 #include <sstream>
 
+#include "Tools.hxx"
 #include "MemLeakCheck.hxx"
 
 template<> Tools* Singleton<Tools>::msSingleton = 0;

@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-//#include "MemLeakCheck.hxx"
+#include "MemLeakCheck.hxx"
 
 #include "Platform.hxx"
 BEGIN_NAMESPACE

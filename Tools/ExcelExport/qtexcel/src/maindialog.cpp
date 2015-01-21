@@ -47,7 +47,8 @@ MainDialog::MainDialog(QWidget *parent)
 
 	// init appdata
 	CAppData::getSingletonPtr()->initData();
-	CAppData::getSingletonPtr()->initThread(new WorkThread());
+	QThread* pthread = new WorkThread();
+	CAppData::getSingletonPtr()->initThread(pthread);
 	// fill to comboBoxSolution
 	//CAppData::getSingletonPtr()->initCombo(m_ui->comboBoxSolution);
 	// clear select item,must after initCombo
