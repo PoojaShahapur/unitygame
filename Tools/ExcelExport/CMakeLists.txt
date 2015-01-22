@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0005 NEW)
 
-project(ExcelMake)
+project(ExcelExport)
 
 message(STATUS "builder main start")
 

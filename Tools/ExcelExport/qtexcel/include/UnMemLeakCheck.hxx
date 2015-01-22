@@ -3,6 +3,7 @@
 
 #if defined ENABLE_CRT_MEM_LEAK
 	#if defined _DEBUG
+		#undef _CRTDBG_MAP_ALLOC
 		#if defined new
 			#undef new
 			#pragma pop_macro("new")
