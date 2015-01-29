@@ -59,31 +59,31 @@ namespace Game.UI
             Transform ret = null;
             switch (a.type)
             {
-                case CardType.kability:
+                case CardType.CARDTYPE_MAGIC:
                     {
                         ret = (Transform)UtilApi.Instantiate(abilitypre.transform);
                     }
                     break;
 
-                case CardType.kminion:
+                case CardType.CARDTYPE_ATTEND:
                     {
                         ret = (Transform)UtilApi.Instantiate(minionpre.transform);
                     }
                     break;
 
-                case CardType.kweapon:
+                case CardType.CARDTYPE_EQUIP:
                     {
                         ret = (Transform)UtilApi.Instantiate(weaponpre.transform);
                     }
                     break;
 
-                case CardType.khero:
+                case CardType.CARDTYPE_HERO:
                     {
                         ret = (Transform)UtilApi.Instantiate(minionpre.transform);
                     }
                     break;
 
-                case CardType.kheroPower:
+                case CardType.CARDTYPE_SKILL:
                     {
                         Debug.LogError("出现了英雄技能卡");
                     }

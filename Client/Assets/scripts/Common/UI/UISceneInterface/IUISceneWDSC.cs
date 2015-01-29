@@ -21,7 +21,7 @@ namespace SDK.Common
 
         void newcardset(CardGroupItem cardGroup, bool bEnterEdit = true);
         void editset();
-        void hide();
+        void hidenewCardSet();
         void hideAllCard();
         void classfilterhide(EnPlayerCareer c);
         void onclass(EnPlayerCareer myclass);

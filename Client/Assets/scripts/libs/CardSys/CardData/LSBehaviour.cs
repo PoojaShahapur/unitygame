@@ -7,9 +7,9 @@ using UnityEngine;
 public class LSBehaviour : ISceneEntity
 {
     protected GameObject gameObject;            // 模拟 MonoBehaviour 中的行为
-    protected Transform transform;              // 模拟 MonoBehaviour 中的行为
-    protected Animation animation;
-    protected string name;                      // 名字
+    public Transform transform;              // 模拟 MonoBehaviour 中的行为
+    public Animation animation;
+    public string name;                      // 名字
 
     public void setGameObject(GameObject go)
     {

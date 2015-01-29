@@ -31,9 +31,20 @@ namespace Game.UI
         protected void getWidget()
         {
             InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
-            lblName.text = "zhanghao01";      //zhanghao01---zhanghao09
+            lblName.text = "zhanghao06";      //zhanghao01---zhanghao09
+
+            if(Ctx.m_instance.m_systemSetting.getString(SystemSetting.USERNAME) != default(string))
+            {
+                lblName.text = Ctx.m_instance.m_systemSetting.getString(SystemSetting.USERNAME);
+            }
+
             InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
             lblPassWord.text = "1";
+
+            if (Ctx.m_instance.m_systemSetting.getString(SystemSetting.PASSWORD) != default(string))
+            {
+                lblPassWord.text = Ctx.m_instance.m_systemSetting.getString(SystemSetting.PASSWORD);
+            }
         }
 
         protected void addEventHandle()
@@ -50,9 +61,17 @@ namespace Game.UI
                 InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
                 InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
-                LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
-                // Test
-                //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+                Ctx.m_instance.m_systemSetting.setString(SystemSetting.USERNAME, lblName.text);
+                Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
+
+                if (Ctx.m_instance.m_cfg.m_bNeedNet)
+                {
+                    LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
+                }
+                else
+                {
+                    Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+                }
             }
         }
     }

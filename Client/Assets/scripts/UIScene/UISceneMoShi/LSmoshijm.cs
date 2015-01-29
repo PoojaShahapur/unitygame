@@ -237,7 +237,10 @@ namespace Game.UI
                         }
                     }
                     // test
-                    //uiMS.startmatch();
+                    if (!Ctx.m_instance.m_cfg.m_bNeedNet)
+                    {
+                        uiMS.startmatch();
+                    }
                     break;
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Game.Msg;
+using System.Collections.Generic;
 
 namespace SDK.Common
 {
@@ -42,6 +43,38 @@ namespace SDK.Common
             }
 
             return 0;
+        }
+
+        public bool updateCardInfo(stRetMoveGameCardUserCmd cmd)
+        {
+            foreach(SceneCardItem item in m_sceneCardList)
+            {
+                if(item.m_svrCard.qwThisID == cmd.qwThisID)
+                {
+                    item.curSlot = (byte)cmd.dst.dwLocation;
+                    item.m_svrCard.pos.copyFrom(cmd.dst);
+                    cmd.m_sceneCardItem = item;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public SceneCardItem updateCardInfoByCardItem(t_Card card)
+        {
+            foreach (SceneCardItem item in m_sceneCardList)
+            {
+                if (item.m_svrCard.qwThisID == card.qwThisID)
+                {
+                    // item.m_svrCard = card;   // 不能直接赋值，因为很多都是保存的引用，这样就会有问题
+                    item.m_svrCard.copyFrom(card);
+
+                    return item;
+                }
+            }
+
+            return null;
         }
     }
 }

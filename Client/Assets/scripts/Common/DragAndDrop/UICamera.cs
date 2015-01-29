@@ -672,7 +672,7 @@ public class UICamera : MonoBehaviour
 		public GameObject go;
 	}
 
-	static DepthEntry mHit = new DepthEntry();
+	//static DepthEntry mHit = new DepthEntry();
 	static BetterList<DepthEntry> mHits = new BetterList<DepthEntry>();
 
 	/// <summary>
@@ -686,9 +686,9 @@ public class UICamera : MonoBehaviour
 		{
 			//if (trans.GetComponent<UIPanel>() != null) return null;
             return null;
-			Rigidbody rb = trans.rigidbody;
-			if (rb != null) return rb;
-			trans = trans.parent;
+            //Rigidbody rb = trans.rigidbody;
+            //if (rb != null) return rb;
+            //trans = trans.parent;
 		}
 		return null;
 	}
@@ -703,9 +703,9 @@ public class UICamera : MonoBehaviour
 		{
 			//if (trans.GetComponent<UIPanel>() != null) return null;
             return null;
-			Rigidbody2D rb = trans.rigidbody2D;
-			if (rb != null) return rb;
-			trans = trans.parent;
+            //Rigidbody2D rb = trans.rigidbody2D;
+            //if (rb != null) return rb;
+            //trans = trans.parent;
 		}
 		return null;
 	}
@@ -1675,6 +1675,14 @@ public class UICamera : MonoBehaviour
 		Notify(mTooltip, "OnTooltip", val);
 		if (!val) mTooltip = null;
 	}
+
+    // 模拟停止拖放
+    static public void simuStopDrag()
+    {
+        currentTouch.dragStarted = false;
+		currentTouch.pressed = null;
+		currentTouch.dragged = null;
+    }
 
 #if !UNITY_EDITOR
 	/// <summary>

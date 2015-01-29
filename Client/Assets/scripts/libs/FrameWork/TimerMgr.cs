@@ -6,38 +6,68 @@ using System.Collections.Generic;
  */
 namespace SDK.Lib
 {
-    public class TimerMgr : ITimerMgr
+    public class TimerMgr : DelayHandleMgrBase, ITimerMgr
     {
-        protected Dictionary<TimerType, TimerList> m_id2TimerLstDic;
+        protected List<TimerItemBase> m_timerLists = new List<TimerItemBase>();     // 当前所有的定时器列表
+        protected List<TimerItemBase> m_delLists = new List<TimerItemBase>();       // 当前需要删除的定时器
 
         public TimerMgr()
         {
-            m_id2TimerLstDic = new Dictionary<TimerType, TimerList>();
-            RegisterTimer();
+            
         }
 
-        // 注册定时器
-        protected void RegisterTimer()
+        public override void addObject(IDelayHandleItem delayObject, float priority)
         {
-            m_id2TimerLstDic[TimerType.eTickTimer] = new TimerList();
-            m_id2TimerLstDic[TimerType.eTickTimer].m_Delta = 0;
-            m_id2TimerLstDic[TimerType.eTickTimer].m_CVDelta = 0;
-
-            m_id2TimerLstDic[TimerType.eOneSecTimer] = new TimerList();
-            m_id2TimerLstDic[TimerType.eOneSecTimer].m_Delta = 1;
-            m_id2TimerLstDic[TimerType.eOneSecTimer].m_CVDelta = 1;
-
-            m_id2TimerLstDic[TimerType.eFiveSecTimer] = new TimerList();
-            m_id2TimerLstDic[TimerType.eFiveSecTimer].m_Delta = 5;
-            m_id2TimerLstDic[TimerType.eFiveSecTimer].m_CVDelta = 5;
-        }
-
-        public void Advance(float delta)
-        {
-            foreach(TimerList tmLst in m_id2TimerLstDic.Values)
+            if (m_duringAdvance)
             {
-                tmLst.OnTimer(delta);
+                base.addObject(delayObject, priority);
             }
+            else
+            {
+                m_timerLists.Add(delayObject as TimerItemBase);
+            }
+        }
+
+        public override void delObject(IDelayHandleItem delayObject)
+        {
+            (delayObject as TimerItemBase).m_disposed = true;
+            if (m_duringAdvance)
+            {
+                base.addObject(delayObject);
+            }
+            else
+            {
+                foreach (TimerItemBase item in m_timerLists)
+                {
+                    if (item == delayObject)
+                    {
+                        m_timerLists.Remove(item);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public override void Advance(float delta)
+        {
+            base.Advance(delta);
+
+            foreach (TimerItemBase timerItem in m_timerLists)
+            {
+                if(timerItem.OnTimer(delta))        // 如果已经结束
+                {
+                    m_delLists.Add(timerItem);
+                }
+            }
+
+            foreach (TimerItemBase timerItem in m_delLists)
+            {
+                m_timerLists.Remove(timerItem);
+            }
+
+            m_delLists.Clear();
+
+            m_duringAdvance = false;
         }
     }
 }

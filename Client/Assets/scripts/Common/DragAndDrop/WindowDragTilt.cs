@@ -24,15 +24,33 @@ public class WindowDragTilt : MonoBehaviour
 
 	void Update ()
 	{
-		Vector3 deltaPos = mTrans.position - mLastPos;
-		mLastPos = mTrans.position;
+        if(canUpdate())
+        {
+            titleUpdate();
+        }
+	}
 
-		mAngleY += deltaPos.x * degrees;
-		mAngleY = NGUIMath.SpringLerp(mAngleY, 0f, 20f, Time.deltaTime);
+    protected void titleUpdate()
+    {
+        Vector3 deltaPos = mTrans.position - mLastPos;
+        mLastPos = mTrans.position;
+
+        mAngleY += deltaPos.x * degrees;
+        mAngleY = NGUIMath.SpringLerp(mAngleY, 0f, 20f, Time.deltaTime);
 
         mAngleZ += deltaPos.x * degrees;
         mAngleZ = NGUIMath.SpringLerp(mAngleZ, 0f, 20f, Time.deltaTime);
 
-        mTrans.localRotation = Quaternion.Euler(0f, mAngleY, -mAngleZ);
-	}
+        mTrans.localRotation = Quaternion.Euler(0f, mAngleY, -mAngleZ);    
+    }
+
+    protected bool canUpdate()
+    {
+        // 只有在按下拖放的时候才起多用
+        if (gameObject.GetComponent<UIDragObject>() != null)
+        {
+            return gameObject.GetComponent<UIDragObject>().isDrag();
+        }
+        return false;
+    }
 }

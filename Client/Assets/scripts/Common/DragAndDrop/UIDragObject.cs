@@ -86,6 +86,10 @@ public class UIDragObject : MonoBehaviour
 	bool mStarted = false;
 	bool mPressed = false;
 
+    // 开始拖动的事件
+    public Action m_startDragDisp;
+    // 拖动中分发
+    public Action m_moveDisp;
     // 拖动结束回调
     public Action m_dropEndDisp;
 
@@ -215,6 +219,10 @@ public class UIDragObject : MonoBehaviour
 				{
 					mStarted = true;
 					offset = Vector3.zero;
+                    if(m_startDragDisp != null)
+                    {
+                        m_startDragDisp();
+                    }
 				}
 
 				if (offset.x != 0f || offset.z != 0f)
@@ -267,6 +275,11 @@ public class UIDragObject : MonoBehaviour
 		//else target.position += worldDelta;
         worldDelta.y = 0;           // 不计算 y 值
         target.position += worldDelta;
+
+        if(m_moveDisp != null)
+        {
+            m_moveDisp();
+        }
 	}
 
 	/// <summary>
@@ -352,4 +365,19 @@ public class UIDragObject : MonoBehaviour
 		if (enabled && NGUITools.GetActive(gameObject))
 			mScroll -= scrollMomentum * (delta * 0.05f);
 	}
+
+    // 是否是拖动的，有时候可能移动时补间动画
+    public bool isDrag()
+    {
+        return mPressed;
+    }
+
+    // 重置数据
+    public void reset()
+    {
+        mTouchID = 0;
+        mPressed = false;
+        mStarted = false;
+        CancelMovement();
+    }
 }

@@ -17,6 +17,7 @@
         ePCTotal
     }
 
+    // 场景卡牌类型，主要是显示资源基本数据
     public enum EnSceneCardType
     {
         eScene_minion, 

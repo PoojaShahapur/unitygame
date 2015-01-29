@@ -2,9 +2,9 @@
 {
     public class t_MagicPoint
     {
-        uint mp;
-        uint maxmp;
-        uint forbid;
+        public uint mp;
+        public uint maxmp;
+        public uint forbid;
 
         public void derialize(IByteArray ba)
         {

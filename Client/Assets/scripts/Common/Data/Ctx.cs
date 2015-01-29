@@ -60,6 +60,9 @@ namespace SDK.Common
         public MaterialMgr m_matMgr = new MaterialMgr();
         public ModelMgr m_modelMgr = new ModelMgr();
 
+        public SystemSetting m_systemSetting = new SystemSetting();
+        public CoordConv m_coordConv = new CoordConv();
+
         public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
         public Action m_loadDZScene;
 
@@ -149,15 +152,15 @@ namespace SDK.Common
             m_resizeMgr.addResizeObject(m_uiMgr as IResizeObject);
             //m_tickMgr.AddTickObj(m_inputMgr as ITickedObject);
             m_inputMgr.postInit();
-            m_tickMgr.AddTickObj(m_playerMgr as ITickedObject);
-            m_tickMgr.AddTickObj(m_monsterMgr as ITickedObject);
-            m_tickMgr.AddTickObj(m_fObjectMgr as ITickedObject);
-            m_tickMgr.AddTickObj(m_npcMgr as ITickedObject);
+            m_tickMgr.addObject(m_playerMgr as ITickedObject);
+            m_tickMgr.addObject(m_monsterMgr as ITickedObject);
+            m_tickMgr.addObject(m_fObjectMgr as ITickedObject);
+            m_tickMgr.addObject(m_npcMgr as ITickedObject);
 
             m_uiMgr.getLayerGameObject();
 
-            //m_tableSys.loadOneTable(TableID.TABLE_OBJECT);
-            //m_tableSys.getItem(TableID.TABLE_OBJECT, 712);
+            //m_tableSys.loadOneTable(TableID.TABLE_SKILL);
+            //m_tableSys.getItem(TableID.TABLE_SKILL, 2);
             //m_xmlCfgMgr.loadMarket();
             //m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
             m_dataPlayer.m_dataPack.postConstruct();

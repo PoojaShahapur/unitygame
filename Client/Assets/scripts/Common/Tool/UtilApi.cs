@@ -119,6 +119,11 @@ namespace SDK.Common
             tran.localScale = Vector3.one;
         }
 
+        public static void normalPos(Transform tran)
+        {
+            tran.localPosition = new Vector3(0, 0, 0);
+        }
+
         static public bool getXmlAttrBool(XmlAttribute attr)
         {
             if (attr != null)

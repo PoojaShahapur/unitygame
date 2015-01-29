@@ -4,7 +4,7 @@ namespace BehaviorLibrary.Components.Composites
 {
     public class IndexSelector : MulBranchComponent
     {
-        private Func<int> _Index;
+        private Func<int> _Index = null;
 
         /// <summary>
         /// The selector for the root node of the behavior tree

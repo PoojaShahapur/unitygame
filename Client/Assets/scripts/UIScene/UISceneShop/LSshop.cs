@@ -42,7 +42,7 @@ namespace Game.UI
         protected const int TOTALITEM = 2;
 
         Transform pack1, pack2, pack7, pack15, pack40, buykuan;
-        Text rmb;
+        //Text rmb;
 
         ShopItem[] m_shopItemArray = new ShopItem[TOTALITEM];
 

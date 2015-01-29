@@ -11,123 +11,202 @@ namespace Game.UI
      */
     public class SceneDZArea
     {
-        public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
         public SceneDZData m_sceneDZData;
-        public float m_internal = 1.171349f;            // 卡牌间隔
-        public float m_zOff = -3.0f;                    // 卡牌 Z 值偏移
-        
-        public List<SceneDragCard> m_outSceneCardList = new List<SceneDragCard>(); // 已经出的牌，在场景中心
-        public List<SceneDragCard> m_inSceneCardList = new List<SceneDragCard>();   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
+        public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
+
+        public OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
+        public InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
         public hero m_hero = new hero();                                            // 主角自己的 hero 
-        public SceneDragCard m_sceneSkillCard = new SceneDragCard();                // skill
-        public SceneDragCard m_sceneEquipCard = new SceneDragCard();                // equip
+        public SceneDragCard m_sceneSkillCard;                // skill
+        public SceneDragCard m_sceneEquipCard;                // equip
 
-        // 对战开始显示的卡牌
-        public void addInitCard()
+        public SceneDZArea(SceneDZData sceneDZData, EnDZPlayer playerFlag)
         {
-            int idx = 0;
-            while(idx < 4)
-            {
-                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx] > 0)
-                {
-                    SceneDragCard cardItem = new SceneDragCard();
-                    m_inSceneCardList.Add(cardItem);
-                    cardItem.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject()) as GameObject);
-                    cardItem.getGameObject().transform.parent = m_sceneDZData.m_centerGO.transform;
-                    cardItem.getGameObject().transform.Translate(idx * m_internal, 0, 0);
-                    //go.transform.Rotate(-90f, -90f, 0);
-                }
+            m_sceneDZData = sceneDZData;
+            m_playerFlag = playerFlag;
 
-                ++idx;
-            }
+            m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
 
-        public void startDZ()
-        {
-            int idx = 0;
-            Transform child;
-            while(idx < m_sceneDZData.m_centerGO.transform.childCount)
-            {
-                child = m_sceneDZData.m_centerGO.transform.GetChild(idx);
-                child.Translate(0, 0, m_zOff);
-
-                ++idx;
-            }
-        }
-
-        public void addOneCommonCard(uint objid)
-        {
-            SceneDragCard cardItem = new SceneDragCard();
-            m_inSceneCardList.Add(cardItem);
-            cardItem.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject()) as GameObject);
-            cardItem.getGameObject().transform.parent = m_sceneDZData.m_centerGO.transform;
-
-            cardItem.getGameObject().transform.Translate(m_inSceneCardList.Count - 1 * m_internal, 0, m_zOff);
-        }
-
-        public void addOneSkillCard(uint objid)
-        {
-            m_sceneSkillCard.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject()) as GameObject);
-            m_sceneSkillCard.getGameObject().transform.parent = m_sceneDZData.m_centerGO.transform;
-
-            m_sceneSkillCard.getGameObject().transform.Translate(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_sceneCardList.Count - 1 * m_internal, 0, m_zOff);
-        }
-
-        public void addOneEquipCard(uint objid)
-        {
-            m_sceneEquipCard.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject()) as GameObject);
-            m_sceneEquipCard.getGameObject().transform.parent = m_sceneDZData.m_centerGO.transform;
-
-            m_sceneEquipCard.getGameObject().transform.Translate(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_sceneCardList.Count - 1 * m_internal, 0, m_zOff);
-        }
-
-        public void addOneOutCard(uint objid)
-        {
-            SceneDragCard cardItem = new SceneDragCard();
-            m_outSceneCardList.Add(cardItem);
-            cardItem.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject()) as GameObject);
-            cardItem.getGameObject().transform.parent = m_sceneDZData.m_centerGO.transform;
-
-            cardItem.getGameObject().transform.Translate(m_outSceneCardList.Count - 1 * m_internal, 0, m_zOff);
-        }
-
-        // 计算最后一张卡牌的位置和旋转
-        protected void calcLastCardPosAndRotate()
-        {
-
-        }
-
+        // 添加卡牌不包括 CardArea.CARDCELLTYPE_COMMON 区域， enemy 对方出牌也是这个消息
         public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
         {
-            if((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
+            if (msg.byActionType == 1)
             {
-                m_hero.setCardData(sceneItem);
-            }
-            else if((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
-            {
-                addOneSkillCard(msg.mobject.dwObjectID);
-                m_sceneSkillCard.setCardData(sceneItem);
-            }
-            else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
-            {
-                addOneEquipCard(msg.mobject.dwObjectID);
-                m_sceneEquipCard.setCardData(sceneItem);
-            }
-            else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)
-            {
-                addOneOutCard(msg.mobject.dwObjectID);
-            }
-            else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
-            {
-                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
+                if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
-                    addOneCommonCard(msg.mobject.dwObjectID);
-                    m_inSceneCardList[m_inSceneCardList.Count - 1].setCardData(sceneItem);
+                    m_hero.sceneCardItem = sceneItem;      // 这个动画已经有了
                 }
-                else
+                else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
-                    m_inSceneCardList[Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum].setCardData(sceneItem);
-                    ++Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum;
+                    m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
+                    m_sceneSkillCard.sceneCardItem = sceneItem;
+                    m_sceneSkillCard.moveToDest();
+                }
+                else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
+                {
+                    if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
+                    {
+                        m_inSceneCardList.addSceneCard(msg.mobject.dwObjectID, sceneItem);
+                    }
+                    else
+                    {
+                        m_inSceneCardList.setCardDataByIdx(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum, sceneItem);
+                        ++Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum;
+                    }
+                }
+                else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
+                {
+                    SceneDragCard srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
+                    srcCard.sceneCardItem = sceneItem;
+                    m_outSceneCardList.addCard(srcCard);
+                    m_outSceneCardList.updateSceneCardPos();
+                }
+            }
+            else        // 更新卡牌数据
+            {
+                if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
+                {
+                    m_hero.updateCardDataChange();      // 这个动画已经有了
+                }
+                else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
+                {
+                    m_sceneSkillCard.updateCardDataChange();
+                }
+                else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
+                {
+                    m_sceneEquipCard.updateCardDataChange();
+                }
+                else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
+                {
+                    m_inSceneCardList.updateCardData(sceneItem);
+                }
+                else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
+                {
+                    m_outSceneCardList.updateCardData(sceneItem);
+                }
+            }
+        }
+
+        // 移动卡牌，从一个位置到另外一个位置，CardArea.CARDCELLTYPE_COMMON 区域增加是从这个消息过来的，目前只处理移动到 CardArea.CARDCELLTYPE_COMMON 区域
+        public void changeSceneCard(stRetMoveGameCardUserCmd msg)
+        {
+            SceneDragCard srcCard = null;
+
+            // 移动手里的牌的位置
+            srcCard = m_inSceneCardList.getSceneCardByThisID(msg.qwThisID);
+            if (srcCard != null)
+            {
+                m_inSceneCardList.removeCard(srcCard);
+            }
+
+            m_inSceneCardList.updateSceneCardPos();
+
+            // 更新移动后的牌的位置
+            if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.m_svrCard.pos.dwLocation)        // 如果出的是装备
+            {
+                m_sceneEquipCard = srcCard;
+                m_sceneEquipCard.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
+                m_sceneEquipCard.moveToDest();
+            }
+            else        // 出的是随从
+            {
+                m_outSceneCardList.removeWhiteCard();
+                m_outSceneCardList.addCard(srcCard, msg.dst.y);
+                m_outSceneCardList.updateSceneCardPos();
+            }
+        }
+
+        // 将当前拖放的对象移动会原始位置
+        public void moveDragBack()
+        {
+            if(m_sceneDZData.m_curDragItem != null)
+            {
+                m_sceneDZData.m_curDragItem.moveToDest();
+            }
+        }
+
+        // test 移动卡牌
+        public void moveCard()
+        {
+            m_outSceneCardList.removeWhiteCard();
+            m_inSceneCardList.removeCard(m_sceneDZData.m_curDragItem);
+            m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.m_curWhiteIdx);
+            m_inSceneCardList.updateSceneCardPos();
+            m_outSceneCardList.updateSceneCardPos();
+        }
+
+        public void psstAddEnemyHandCardPropertyUserCmd()
+        {
+            m_inSceneCardList.addSceneCard(uint.MaxValue, null);
+        }
+
+        public void delOneCard(SceneCardItem sceneItem)
+        {
+            if ((int)CardArea.CARDCELLTYPE_SKILL == sceneItem.m_svrCard.pos.dwLocation)
+            {
+                m_sceneSkillCard.destroy();
+                m_sceneSkillCard = null;
+            }
+            else if ((int)CardArea.CARDCELLTYPE_EQUIP == sceneItem.m_svrCard.pos.dwLocation)
+            {
+                m_sceneEquipCard.destroy();
+                m_sceneEquipCard = null;
+            }
+            else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.m_svrCard.pos.dwLocation)
+            {
+                m_outSceneCardList.removeCard(sceneItem);
+            }
+        }
+
+        public void updateMp()
+        {
+            // 更新 MP 数据显示
+            m_sceneDZData.m_textArr[(int)m_playerFlag].text = string.Format("{0}/{1}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp, Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp);
+
+            int idx = 0;
+            // 更新 MP 模型显示
+            if(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].transform.childCount < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp)  // 如果 maxmp 多了
+            {
+                idx = m_sceneDZData.m_mpGridArr[(int)m_playerFlag].transform.childCount;
+                while(idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp)
+                {
+                    m_sceneDZData.m_mpGridArr[(int)m_playerFlag].AddChild((UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcostModel().getObject()) as GameObject).transform);
+                    ++idx;
+                }
+            }
+
+            GameObject go = null;
+
+            // 更新哪些是可以使用的 mp
+            idx = 0;
+            while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp - Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp)
+            {
+                go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(idx).gameObject, "light");
+                go.SetActive(false);
+
+                ++idx;
+            }
+
+            while(idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp)
+            {
+                go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(idx).gameObject, "light");
+                go.SetActive(true);
+
+                ++idx;
+            }
+
+            // 继续更新可用的 Mp 也可能是锁住的
+            if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.forbid > 0)
+            {
+                // 显示一把锁
+                idx = 0;
+                int endidx = (int)(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp - 1);
+                while(idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.forbid)
+                {
+                    go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(endidx - idx).gameObject, "light");
+
+                    // 改成一把锁
                 }
             }
         }

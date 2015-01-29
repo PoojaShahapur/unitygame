@@ -68,6 +68,15 @@ namespace Game.Msg
 
         public const byte RET_MOVE_CARD_USERCMD_PARAMETER = 31;
         public const byte RET_NOTIFY_HAND_IS_FULL_CMD = 32;
+        public const byte ADD_ENEMY_HAND_CARD_PROPERTY_CMD = 33;
+        public const byte RET_NOTIFY_UNFINISHED_GAME_CMD = 34;
+        public const byte REQ_ENTER_UNFINISHED_GAME_CMD = 35;
+        public const byte ADD_BATTLE_CARD_LIST_PROPERTY_CMD = 36;
+        public const byte RET_ENEMY_HAND_CARD_NUM_CMD = 37;
+        public const byte REQ_CARD_MAGIC_USERCMD_PARA = 38;
+
+        public const byte RET_REMOVE_BATTLE_CARD_USERCMD = 39;
+        public const byte DEL_ENEMY_HAND_CARD_PROPERTY_CMD = 40;
 
         public stHeroCardCmd()
         {

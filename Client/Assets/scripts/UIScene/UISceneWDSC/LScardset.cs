@@ -139,7 +139,7 @@ namespace SDK.Lib
             uiSC.editset();
 
             // hide 新建卡牌按钮
-            uiSC.hide();
+            uiSC.hidenewCardSet();
             // 遍历所有的卡牌集合，进行隐藏
             //uiSC.hideAllCard();
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.hide();

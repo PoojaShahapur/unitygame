@@ -1,7 +1,7 @@
 ﻿namespace SDK.Common
 {
     /**
-    * @brief 掉落物表   
+    * @brief 道具基本表   
     */
     //public class TableItemObject : TableItemBase
     //{

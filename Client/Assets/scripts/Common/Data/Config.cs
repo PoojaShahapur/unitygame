@@ -19,6 +19,7 @@ namespace SDK.Common
         public string[] m_pathLst;
         public ResLoadType m_resLoadType;   // 资源加载类型
         public string m_dataPath;
+        public bool m_bNeedNet = true;                     // 是否需要网络
 
         public Config()
         {

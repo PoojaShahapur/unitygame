@@ -750,11 +750,18 @@ namespace Game.Msg
     //}
     //};
 
+    //public enum EnAddCardActionType
+    //{
+    //    CARD_DATA_NONE,
+    //    CARD_DATA_ADD	= 1,	//添加
+    //    CARD_DATA_REFRESH	= 2,	//刷新
+    //};
+
     public class stAddBattleCardPropertyUserCmd : stHeroCardCmd
     {
         public byte slot;	    //哪个槽
         public byte who;	    //1,自己 2,对方
-        public byte byActionType;  //
+        public byte byActionType;  // 1 添加 2 刷新，定义见 EnAddCardActionType
         public t_Card mobject;	
 
         public stAddBattleCardPropertyUserCmd()
@@ -869,8 +876,11 @@ namespace Game.Msg
     public class stRetMoveGameCardUserCmd : stHeroCardCmd
     {
         public uint qwThisID;		    //卡牌thisID
-        public stObjectLocation dst;	    //目标位置信息
+        public stObjectLocation dst;	//目标位置信息
         public byte success;		    //1,成功 0,失败
+
+        public int side;               // 1 自己 2 enemy， 客户端自己使用
+        public SceneCardItem m_sceneCardItem;       // 客户端自己使用
 
         public stRetMoveGameCardUserCmd()
         {
@@ -936,6 +946,7 @@ namespace Game.Msg
     //    DWORD id[4];
     //};
 
+    // 通知自己手里的牌满了
     public class stRetNotifyHandIsFullUserCmd : stHeroCardCmd
     {
         public uint id;
@@ -967,4 +978,227 @@ namespace Game.Msg
     //DWORD id;   // 鍗＄墝琛╥d
     //BYTE who;   // 1,鑷繁 2,瀵规柟
     //};
+
+    // enemy 手里添加一张牌
+    public class stAddEnemyHandCardPropertyUserCmd : stHeroCardCmd
+    {
+        public stAddEnemyHandCardPropertyUserCmd()
+        {
+            byParam = ADD_ENEMY_HAND_CARD_PROPERTY_CMD;
+        }
+    }
+
+    //const BYTE ADD_ENEMY_HAND_CARD_PROPERTY_CMD = 33; 
+    //struct stAddEnemyHandCardPropertyUserCmd : public stHeroCardCmd
+    //{   
+    //    stAddEnemyHandCardPropertyUserCmd()
+    //    {   
+    //        byParam = ADD_ENEMY_HAND_CARD_PROPERTY_CMD;
+    //    }   
+    //}; 
+
+    // enemy 手里删除一张牌
+    public class stDelEnemyHandCardPropertyUserCmd : stHeroCardCmd
+    {
+        public stDelEnemyHandCardPropertyUserCmd()
+        {
+            byParam = DEL_ENEMY_HAND_CARD_PROPERTY_CMD;
+        }
+    }
+
+    //const BYTE DEL_ENEMY_HAND_CARD_PROPERTY_CMD = 40; 
+    //struct stDelEnemyHandCardPropertyUserCmd : public stHeroCardCmd
+    //{   
+    //    stDelEnemyHandCardPropertyUserCmd()
+    //    {   
+    //        byParam = DEL_ENEMY_HAND_CARD_PROPERTY_CMD;
+    //    }   
+    //}; 
+
+    // 通知客户端最后一场战斗没有结束
+    public class stRetNotifyUnfinishedGameUserCmd : stHeroCardCmd
+    {
+        public stRetNotifyUnfinishedGameUserCmd()
+        {
+            byParam = RET_NOTIFY_UNFINISHED_GAME_CMD;
+        }
+    }
+
+    //const BYTE RET_NOTIFY_UNFINISHED_GAME_CMD = 34; 
+    //struct stRetNotifyUnfinishedGameUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetNotifyUnfinishedGameUserCmd()
+    //    {   
+    //        byParam = RET_NOTIFY_UNFINISHED_GAME_CMD;
+    //    }   
+    //};  
+
+    public class stReqEnterUnfinishedGameUserCmd : stHeroCardCmd
+    {
+        public stReqEnterUnfinishedGameUserCmd()
+        {
+            byParam = REQ_ENTER_UNFINISHED_GAME_CMD;
+        }
+    }
+
+    //const BYTE REQ_ENTER_UNFINISHED_GAME_CMD = 35; 
+    //struct stReqEnterUnfinishedGameUserCmd : public stHeroCardCmd
+    //{   
+    //    stReqEnterUnfinishedGameUserCmd()
+    //    {   
+    //        byParam = REQ_ENTER_UNFINISHED_GAME_CMD;
+    //    }   
+    //}; 
+
+    public class CardListItem
+    {
+        public byte who;
+        public t_Card mobject;
+
+        public void derialize(IByteArray ba)
+        {
+            who = ba.readUnsignedByte();
+            mobject = new t_Card();
+            mobject.derialize(ba);
+        }
+    }
+
+    //    struct CardListItem
+    //    {   
+    //        BYTE who;
+    //        t_Card object;
+    //    };
+
+    public class stAddBattleCardListPropertyUserCmd : stHeroCardCmd
+    {
+        public ushort count;
+        public List<CardListItem> list;
+
+        public stAddBattleCardListPropertyUserCmd()
+        {
+            byParam = ADD_BATTLE_CARD_LIST_PROPERTY_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+ 	        base.derialize(ba);
+
+            count = ba.readUnsignedShort();
+            list = new List<CardListItem>();
+            CardListItem item;
+            int idx = 0;
+            while(idx < count)
+            {
+                item = new CardListItem();
+                list.Add(item);
+                item.derialize(ba);
+                ++idx;
+            }
+        }
+    }
+
+    //const BYTE ADD_BATTLE_CARD_LIST_PROPERTY_CMD = 36; 
+    //struct stAddBattleCardListPropertyUserCmd : public stHeroCardCmd
+    //{   
+    //    stAddBattleCardListPropertyUserCmd()
+    //    {   
+    //        byParam = ADD_BATTLE_CARD_LIST_PROPERTY_CMD;
+    //        count = 0;
+    //    }   
+    //    WORD count;
+    //    struct 
+    //    {   
+    //        BYTE who;
+    //        t_Card object;
+    //    }list[0];
+    //}; 
+
+    public class stRetEnemyHandCardNumUserCmd : stHeroCardCmd
+    {
+        public ushort count;
+
+        public stRetEnemyHandCardNumUserCmd()
+        {
+            byParam = RET_ENEMY_HAND_CARD_NUM_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            count = ba.readUnsignedShort();
+        }
+    }
+
+    //const BYTE RET_ENEMY_HAND_CARD_NUM_CMD = 37; 
+    //struct stRetEnemyHandCardNumUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetEnemyHandCardNumUserCmd()
+    //    {   
+    //        byParam = RET_ENEMY_HAND_CARD_NUM_CMD;
+    //        count = 0;
+    //    }   
+    //    WORD count;
+    //};
+
+    public class stCardAttackMagicUserCmd : stHeroCardCmd
+    {
+        public uint dwAttThisID;
+        public uint dwDefThisID; 
+
+        public stCardAttackMagicUserCmd()
+        {
+            byParam = REQ_CARD_MAGIC_USERCMD_PARA;
+        }
+
+        public override void serialize(IByteArray ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt(dwAttThisID);
+            ba.writeUnsignedInt(dwDefThisID);
+        }
+    }
+
+    //const BYTE REQ_CARD_MAGIC_USERCMD_PARA = 38; 
+    //struct stCardAttackMagicUserCmd : public stHeroCardCmd
+    //{   
+    //    stCardAttackMagicUserCmd()
+    //    {   
+    //        byParam = REQ_CARD_MAGIC_USERCMD_PARA;
+    //        dwAttThisID = 0;
+    //        dwDefThisID = 0;
+    //    }   
+
+    //    DWORD dwAttThisID;    
+    //    DWORD dwDefThisID;    
+    //};  
+
+    public class stRetRemoveBattleCardUserCmd : stHeroCardCmd
+    {
+        public uint dwThisID;
+
+        public stRetRemoveBattleCardUserCmd()
+        {
+            byParam = RET_REMOVE_BATTLE_CARD_USERCMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            dwThisID = ba.readUnsignedInt();
+        }
+    }
+
+    //const BYTE RET_REMOVE_BATTLE_CARD_USERCMD = 39; 
+    //struct stRetRemoveBattleCardUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetRemoveBattleCardUserCmd()
+    //    {   
+    //        byParam = RET_REMOVE_BATTLE_CARD_USERCMD;
+    //        dwThisID = 0;
+    //    }   
+    //    DWORD dwThisID;
+    //}; 
 }
