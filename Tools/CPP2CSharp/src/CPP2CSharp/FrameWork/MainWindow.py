@@ -14,6 +14,7 @@ from CPP2CSharp.Core import Config, AppData
 from CPP2CSharp.Core.Logger import Logger
 
 from CPP2CSharp.Core.IAppData import IAppData
+from CPP2CSharp.Core import CodeConv
 
 class MainWindow(QtGui.QMainWindow):
     
@@ -46,6 +47,7 @@ class MainWindow(QtGui.QMainWindow):
         # 实例化,共享数据
         IAppData.pInstance = AppData.AppData()
         Logger.instance()
+        CodeConv.CodeConv.instance()
         
         self.m_qttimer = QtCore.QTimer()
         QtCore.QObject.connect(self.m_qttimer, QtCore.SIGNAL("timeout()"), self.onTimer)

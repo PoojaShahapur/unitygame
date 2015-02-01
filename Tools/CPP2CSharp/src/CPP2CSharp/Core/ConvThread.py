@@ -5,31 +5,28 @@ Created on 2015-2-1
 @author: Administrator
 '''
 
-import os
 
 from CPP2CSharp.Core.ThreadWrap import ThreadWrap
 from CPP2CSharp.Core.AppData import AppData
 
 from CPP2CSharp.Core.Config import Config
 from CPP2CSharp.Core.Logger import Logger
+from CPP2CSharp.Core.Utils import Utils
 
 class ConvThread(ThreadWrap):
     
-    def __init__(self, threadName, func):
-        super(ConvThread, self).__init__(name = threadName)  # must add
-        self.m_runF = func
+    def __init__(self, threadName):
+        super(ConvThread, self).__init__(threadName = threadName)
 
     def run(self):
         AppData.instance().m_bConvOver = False
         Logger.instance().info("File Conv Start")
         
-        # 检查目录
-        if not os.path.exists(os.path.join(Config.instance().destrootpath,  Config.instance().tmpDir)):
-            os.makedirs(os.path.join(Config.instance().destrootpath,  Config.instance().tmpDir))
+        Utils.makeDir(Config.instance().m_tmpCodePath)
+        Utils.makeDir(Config.instance().m_destCodePath)
         
-        if not os.path.exists(os.path.join(Config.instance().destrootpath,  Config.instance().outDir)):
-            os.makedirs(os.path.join(Config.instance().destrootpath,  Config.instance().outDir))
-        
+        Utils.traverseDirs(Config.instance().m_srcCodePath)
+
         Logger.instance().info("File Conv End")
         AppData.instance().m_bConvOver = True
 

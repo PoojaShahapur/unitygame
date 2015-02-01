@@ -39,7 +39,7 @@ class LeftFnWin(QtGui.QDockWidget):
     def onBtnClkConv(self):
         #直接启动线程
         if AppData.instance().m_bConvOver:
-            AppData.instance().m_convThread = ConvThread("VerThread");
+            AppData.instance().m_convThread = ConvThread("ConvThread");
             AppData.instance().m_convThread.start()
         else:
             Logger.instance().info('Convthread is runing')
