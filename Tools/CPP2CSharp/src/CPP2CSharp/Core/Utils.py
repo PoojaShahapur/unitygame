@@ -53,7 +53,7 @@ class Utils(object):
         for fname in filesInDirectory:
             fpath = os.path.join(directoryName, fname)
             if not os.path.isdir(fpath):
-                CodeConv.pInstance.convCpp2CSharp(directoryName, fname)
+                CodeConv.pInstance.convCpp2CSharp(fpath)
     
     
     @staticmethod

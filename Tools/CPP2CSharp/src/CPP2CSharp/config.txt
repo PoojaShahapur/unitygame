@@ -1,4 +1,4 @@
-m_srcCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\CPP2CSharp\src\CPP2CSharp
+m_srcCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\AIEditor
 m_fileNameList=aaa.h,bbb.h
-m_tmpCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\CPP2CSharp\src\CPP2CSharp
-m_destCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\CPP2CSharp\src\CPP2CSharp
+m_tmpCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\aaa
+m_destCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\aaa
