@@ -8,7 +8,7 @@ Created on 2015-2-1
 
 from PyQt4 import QtCore, QtGui
 
-import CPP2CSharp.ui.ui_mainwindow
+import CPP2CSharp.UI.ui_mainwindow
 from CPP2CSharp.FrameWork import LoggerWin, LeftFnWin
 from CPP2CSharp.Core import Config, AppData
 from CPP2CSharp.Core.Logger import Logger
@@ -28,7 +28,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.app = app
         
-        self.ui = CPP2CSharp.ui.ui_mainwindow.Ui_MainWindow()
+        self.ui = CPP2CSharp.UI.ui_mainwindow.Ui_MainWindow()
         self.ui.setupUi(self)
         
         # 可停靠的窗口

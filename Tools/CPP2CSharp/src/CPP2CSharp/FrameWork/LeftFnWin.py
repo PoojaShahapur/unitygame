@@ -7,7 +7,7 @@ Created on 2015-2-1
 
 from PyQt4 import QtCore, QtGui
 
-import CPP2CSharp.ui.ui_leftfnwin
+import CPP2CSharp.UI.ui_leftfnwin
 from CPP2CSharp.Core.AppData import AppData
 #from CPP2CSharp.Core.fileversioninfo import BuildFileVersion
 from CPP2CSharp.Core.ConvThread import ConvThread
@@ -17,7 +17,7 @@ class LeftFnWin(QtGui.QDockWidget):
     def __init__(self):
         super(LeftFnWin, self).__init__()
 
-        self.ui = CPP2CSharp.ui.ui_leftfnwin.Ui_LeftFnWin()
+        self.ui = CPP2CSharp.UI.ui_leftfnwin.Ui_LeftFnWin()
         self.ui.setupUi(self)
         
         # 注册事件处理函数

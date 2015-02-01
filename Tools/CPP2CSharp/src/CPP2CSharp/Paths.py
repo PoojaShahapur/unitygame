@@ -17,7 +17,7 @@ if PACKAGE_DIR.endswith(os.path.join("library.zip", "CPP2CSharp")):
     FROZEN = True
     PACKAGE_DIR = os.path.dirname(PACKAGE_DIR)
 
-UI_DIR = os.path.join(PACKAGE_DIR, "ui")
+UI_DIR = os.path.join(PACKAGE_DIR, "UI")
 
 if not FROZEN:
     assert(os.path.exists(PACKAGE_DIR))
