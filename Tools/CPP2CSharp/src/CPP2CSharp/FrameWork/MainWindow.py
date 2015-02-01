@@ -12,7 +12,6 @@ import CPP2CSharp.ui.ui_mainwindow
 from CPP2CSharp.FrameWork import LoggerWin, LeftFnWin
 from CPP2CSharp.Core import Config, AppData
 from CPP2CSharp.Core.Logger import Logger
-from CPP2CSharp.Core.Utils import ParamInfo
 
 from CPP2CSharp.Core.IAppData import IAppData
 
@@ -47,7 +46,6 @@ class MainWindow(QtGui.QMainWindow):
         # 实例化,共享数据
         IAppData.pInstance = AppData.AppData()
         Logger.instance()
-        ParamInfo.instance()
         
         self.m_qttimer = QtCore.QTimer()
         QtCore.QObject.connect(self.m_qttimer, QtCore.SIGNAL("timeout()"), self.onTimer)
@@ -58,17 +56,5 @@ class MainWindow(QtGui.QMainWindow):
         Logger.instance().getlogger(listdata)
         for dataitem in listdata:
             self.m_LoggerWin.ui.textEdit.appendPlainText(dataitem)
-
-
-
-
-
-
-
-
-
-
-
-
 
 

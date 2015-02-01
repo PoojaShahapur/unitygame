@@ -13,6 +13,8 @@ from CPP2CSharp.Core.IAppData import IAppData
 # global data
 class AppData(IAppData):
     def __init__(self):
+        self.m_bConvOver = False
+        self.m_convThread = None
         pass
 
 

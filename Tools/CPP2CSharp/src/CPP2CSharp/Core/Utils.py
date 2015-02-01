@@ -11,23 +11,6 @@ import traceback
 import os
 import shutil
 from CPP2CSharp.Core.Logger import Logger
-
-'''
-parameter info
-'''
-class ParamInfo(object):
-    
-    pInstance = None
-    
-    @staticmethod
-    def instance():
-        if ParamInfo.pInstance is None:
-            ParamInfo.pInstance = ParamInfo()
-        return ParamInfo.pInstance
-    
-    def __init__(self):
-        self.m_swiftFullXmlFile = ''
-        self.m_swiftFullSwcFile = ''
     
 
 class FileOperate(object):
