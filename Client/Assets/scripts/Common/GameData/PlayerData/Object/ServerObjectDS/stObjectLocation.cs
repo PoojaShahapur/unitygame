@@ -1,5 +1,8 @@
 ﻿namespace SDK.Common
 {
+    /**
+     * @brief 场景卡牌移动的时候， dwLocation 表示区域， y 表示位置， x 和 dwTableID 没有使用
+     */
     public class stObjectLocation
     {
         public uint dwLocation;
@@ -21,6 +24,14 @@
             ba.writeUnsignedInt(dwTableID);
             ba.writeUnsignedShort(x);
             ba.writeUnsignedShort(y);
+        }
+
+        public void copyFrom(stObjectLocation rhv)
+        {
+            dwLocation = rhv.dwLocation;
+            dwTableID = rhv.dwTableID;
+            x = rhv.x;
+            y = rhv.y;
         }
     }
 }

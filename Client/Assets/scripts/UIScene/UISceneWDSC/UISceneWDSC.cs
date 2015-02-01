@@ -248,7 +248,7 @@ namespace Game.UI
             m_wdscjm.editset();
         }
 
-        public void hide()
+        public void hidenewCardSet()
         {
             m_newCardSet.hide();
         }

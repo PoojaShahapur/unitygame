@@ -29,7 +29,7 @@ namespace SDK.Lib
             enemyHeroPower = UtilApi.GoFindChildByPObjAndName("enemyheropower").transform;
             myHero = UtilApi.GoFindChildByPObjAndName("hero").transform;
             myHeroPower = UtilApi.GoFindChildByPObjAndName("myheropower").transform;
-            youturntip = UtilApi.GoFindChildByPObjAndName("youturntip");
+            //youturntip = UtilApi.GoFindChildByPObjAndName("youturntip");
 
             enemycarddeap = UtilApi.GoFindChildByPObjAndName("dz/di/enemycarddeap").transform;
             enemyHand = UtilApi.GoFindChildByPObjAndName("enemyhand").transform;
@@ -172,7 +172,6 @@ namespace SDK.Lib
                 t.animation["cardxuanzhuan"].speed = -1;
                 t.animation["cardxuanzhuan"].time = 1;
 
-
                 t.animation.Play("cardxuanzhuan");
                 //混合播
                 t.animation.Blend("back", 60);
@@ -281,10 +280,10 @@ namespace SDK.Lib
             //把ban改为手牌
             dzban.name = "hand";
             //把英雄设为英雄类型
-            myHero.SendMessage("setType", CardType.khero);
+            myHero.SendMessage("setType", CardType.CARDTYPE_HERO);
 
             //把英雄设为英雄类型
-            enemyHero.SendMessage("setType", CardType.khero);
+            enemyHero.SendMessage("setType", CardType.CARDTYPE_HERO);
         }
 
         Transform dzban;
@@ -344,19 +343,17 @@ namespace SDK.Lib
         }
 
         public static bool ismyturn = false;
-        public GameObject youturntip;
+        //public GameObject youturntip;
         [RPC]
         void turnBegin()
         {
-
             //出现你的回合
-            iTween.ScaleTo(youturntip, Vector3.one, 0.5f);
-            iTween.ScaleTo(youturntip, iTween.Hash(
-                "scale", Vector3.one * 0.00001f,
-                "time", 0.5f,
-                "delay", 1f
-                ));
-
+            //iTween.ScaleTo(youturntip, Vector3.one, 0.5f);
+            //iTween.ScaleTo(youturntip, iTween.Hash(
+            //    "scale", Vector3.one * 0.00001f,
+            //    "time", 0.5f,
+            //    "delay", 1f
+            //    ));
 
             //结束回合向上
             GameObject.Find("dz").transform.FindChild("turn").SendMessage("myturn");
@@ -386,7 +383,6 @@ namespace SDK.Lib
                 Vector3 p = new Vector3(start + x * interval, 0, 0);
                 p = enemyHand.TransformPoint(p);
                 iTween.MoveTo(t.gameObject, p, 0.5f);
-
 
                 x++;
             }
@@ -565,7 +561,7 @@ namespace SDK.Lib
             BroadcastCanattack();
             //向对面发送开始
             //networkView.RPC("turnBegin", RPCMode.Others);
-            ismyturn = false;
+            //ismyturn = false;
         }
 
         public void attack()

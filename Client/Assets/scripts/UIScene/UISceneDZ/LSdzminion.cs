@@ -101,7 +101,7 @@ namespace Game.UI
             }
         }
 
-        GameObject willdeathpic;
+        //GameObject willdeathpic;
         void OnMouseExit()
         {
             if (attacker == null) //没有在攻击,什么都不做
@@ -116,7 +116,7 @@ namespace Game.UI
 
         void hidewilldeath()
         {
-            if (type != CardType.khero && type != CardType.kheroPower)
+            if (type != CardType.CARDTYPE_HERO && type != CardType.CARDTYPE_SKILL)
             {
                 transform.FindChild("willdeath").gameObject.SetActive(false);
             }
@@ -124,7 +124,7 @@ namespace Game.UI
 
         void showwilldeath()
         {
-            if (type != CardType.khero && type != CardType.kheroPower)
+            if (type != CardType.CARDTYPE_HERO && type != CardType.CARDTYPE_SKILL)
             {
                 transform.FindChild("willdeath").gameObject.SetActive(true);
             }
@@ -228,7 +228,7 @@ namespace Game.UI
 
             if (getHealth() <= 0) //如果为0 GG
             {
-                if (type == CardType.khero)
+                if (type == CardType.CARDTYPE_HERO)
                 {
                     if (name == "hero")
                     {
@@ -267,7 +267,7 @@ namespace Game.UI
             }
         }
 
-        CardType type = CardType.kminion;
+        CardType type = CardType.CARDTYPE_ATTEND;
         void setType(CardType t)
         {
             type = t;

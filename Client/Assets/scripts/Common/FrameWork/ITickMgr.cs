@@ -1,8 +1,7 @@
 ﻿namespace SDK.Common
 {
-    public interface ITickMgr
+    public interface ITickMgr : IDelayHandleMgrBase
     {
         void Advance(float delta);
-        void AddTickObj(ITickedObject obj, float priority = 0.0f);
     }
 }

@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	#if defined _DEBUG
 	// 内存检测
 	EnableMemLeakCheck();
-	_CrtSetBreakAlloc(78314);
+	//_CrtSetBreakAlloc(78314);
 	#endif
 	#endif
 	//QTextCodec *gbk = QTextCodec::codecForName("gb18030");

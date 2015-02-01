@@ -85,6 +85,11 @@ namespace Game.UI
             //}
             //播放动画,
             animation.Play();
+            // 启动定时器
+            TimerItemBase timer = new TimerItemBase();
+            timer.m_internal = 1;
+            timer.m_timerDisp = hidevs;
+            Ctx.m_instance.m_timerMgr.addObject(timer);
         }
 
         public void setpic(Material m)
@@ -107,7 +112,7 @@ namespace Game.UI
             Ctx.m_instance.m_camSys.m_dzcam.firstdarw();
         }
 
-        public void hidevs()
+        public void hidevs(TimerItemBase timer)
         {
             Camera.main.transform.FindChild("vs").gameObject.SetActive(false);
         }

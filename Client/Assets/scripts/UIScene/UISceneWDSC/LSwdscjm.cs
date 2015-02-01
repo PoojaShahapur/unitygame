@@ -48,14 +48,14 @@ namespace Game.UI
     //    kdruid = 11,//DLY
     //};
 
-    public enum CardType
-    {
-        kability = 5,//法术卡
-        khero = 3,//英雄卡
-        kheroPower = 10,//英雄技能卡
-        kminion = 4,//仆从卡
-        kweapon = 7//武器卡
-    };
+    //public enum CardType
+    //{
+    //    kability = 5,//法术卡
+    //    khero = 3,//英雄卡
+    //    kheroPower = 10,//英雄技能卡
+    //    kminion = 4,//仆从卡
+    //    kweapon = 7//武器卡
+    //};
 
     public enum CardRace
     {

@@ -100,19 +100,19 @@ namespace Game.UI
 
                 switch (a.type)
                 {
-                    case CardType.kability:
+                    case CardType.CARDTYPE_MAGIC:
                         {
                             go = (Transform)UtilApi.Instantiate(abilitypre.transform, l, abilitypre.transform.rotation);
                         }
                         break;
 
-                    case CardType.kminion:
+                    case CardType.CARDTYPE_ATTEND:
                         {
                             go = (Transform)UtilApi.Instantiate(minionpre.transform, l, minionpre.transform.rotation);
                         }
                         break;
 
-                    case CardType.kweapon:
+                    case CardType.CARDTYPE_EQUIP:
                         {
                             go = (Transform)UtilApi.Instantiate(weaponpre.transform, l, weaponpre.transform.rotation);
                         }

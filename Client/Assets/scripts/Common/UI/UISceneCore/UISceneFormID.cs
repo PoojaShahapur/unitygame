@@ -11,5 +11,6 @@
         eUISceneBg,             // 场景背景
         eUISceneComDialog,      // 通用对话框
         eUISceneDZ,             // 对战
+        eUISceneTips,             // 场景提示
     }
 }

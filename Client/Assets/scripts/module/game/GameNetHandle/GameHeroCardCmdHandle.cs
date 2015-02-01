@@ -33,6 +33,12 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.RET_MOVE_CARD_USERCMD_PARAMETER] = psstRetMoveGameCardUserCmd;
 
             m_id2HandleDic[stHeroCardCmd.RET_NOTIFY_HAND_IS_FULL_CMD] = psstRetNotifyHandIsFullUserCmd;
+            m_id2HandleDic[stHeroCardCmd.ADD_ENEMY_HAND_CARD_PROPERTY_CMD] = psstAddEnemyHandCardPropertyUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_ENEMY_HAND_CARD_NUM_CMD] = psstRetEnemyHandCardNumUserCmd;
+            m_id2HandleDic[stHeroCardCmd.DEL_ENEMY_HAND_CARD_PROPERTY_CMD] = psstDelEnemyHandCardPropertyUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_REMOVE_BATTLE_CARD_USERCMD] = psstRetRemoveBattleCardUserCmd;
+
+            m_id2HandleDic[stHeroCardCmd.RET_NOTIFY_UNFINISHED_GAME_CMD] = psstRetNotifyUnfinishedGameUserCmd;
         }
 
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
@@ -244,8 +250,12 @@ namespace Game.Game
             }
         }
 
+        // 返回当前谁出牌
         protected void psstRetRefreshBattlePrivilegeUserCmd(IByteArray ba)
         {
+            // 增加当前出牌次数
+            ++Ctx.m_instance.m_dataPlayer.m_dzData.curPlayCardCount;
+
             stRetRefreshBattlePrivilegeUserCmd cmd = new stRetRefreshBattlePrivilegeUserCmd();
             cmd.derialize(ba);
 
@@ -264,16 +274,30 @@ namespace Game.Game
             stAddBattleCardPropertyUserCmd cmd = new stAddBattleCardPropertyUserCmd();
             cmd.derialize(ba);
 
-            SceneCardItem sceneItem = new SceneCardItem();
-            sceneItem.m_svrCard = cmd.mobject;
-            sceneItem.m_slot = cmd.slot;
-            // 填充数据
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].m_sceneCardList.Add(sceneItem);       // 添加数据
-
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
-            if (uiDZ != null && uiDZ.isVisible())
+            SceneCardItem sceneItem = null;
+            if (cmd.byActionType == 1)
             {
-                uiDZ.psstAddBattleCardPropertyUserCmd(cmd, sceneItem);
+                sceneItem = new SceneCardItem();
+                sceneItem.m_svrCard = cmd.mobject;
+                sceneItem.curSlot = cmd.slot;
+                sceneItem.m_cardArea = (CardArea)cmd.slot;
+                sceneItem.m_playerFlag = (EnDZPlayer)(cmd.who - 1);
+                sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.m_svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+                // 填充数据
+                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].m_sceneCardList.Add(sceneItem);       // 添加数据
+            }
+            else
+            {
+                sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].updateCardInfoByCardItem(cmd.mobject);
+            }
+
+            if (sceneItem != null)      // 更新或者添加都需要这个数据必须存在
+            {
+                UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+                if (uiDZ != null && uiDZ.isVisible())
+                {
+                    uiDZ.psstAddBattleCardPropertyUserCmd(cmd, sceneItem);
+                }
             }
         }
 
@@ -318,6 +342,12 @@ namespace Game.Game
             stRetMoveGameCardUserCmd cmd = new stRetMoveGameCardUserCmd();
             cmd.derialize(ba);
 
+            if (cmd.success == 1)
+            {
+                // 更新数据
+                cmd.side = Ctx.m_instance.m_dataPlayer.m_dzData.updateCardInfo(cmd);
+            }
+
             UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
@@ -329,6 +359,68 @@ namespace Game.Game
         {
             stRetNotifyHandIsFullUserCmd cmd = new stRetNotifyHandIsFullUserCmd();
             cmd.derialize(ba);
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstRetNotifyHandIsFullUserCmd(cmd);
+            }
+        }
+
+        // enemy 增加一个卡牌
+        protected void psstAddEnemyHandCardPropertyUserCmd(IByteArray ba)
+        {
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstAddEnemyHandCardPropertyUserCmd();
+            }
+        }
+
+        protected void psstRetEnemyHandCardNumUserCmd(IByteArray ba)
+        {
+            stRetEnemyHandCardNumUserCmd cmd = new stRetEnemyHandCardNumUserCmd();
+            cmd.derialize(ba);
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstRetEnemyHandCardNumUserCmd(cmd);
+            }
+        }
+
+        protected void psstDelEnemyHandCardPropertyUserCmd(IByteArray ba)
+        {
+            stDelEnemyHandCardPropertyUserCmd cmd = new stDelEnemyHandCardPropertyUserCmd();
+            cmd.derialize(ba);
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstDelEnemyHandCardPropertyUserCmd(cmd);
+            }
+        }
+
+        // 从已经出牌区域删除一个卡牌
+        protected void psstRetRemoveBattleCardUserCmd(IByteArray ba)
+        {
+            stRetRemoveBattleCardUserCmd cmd = new stRetRemoveBattleCardUserCmd();
+            cmd.derialize(ba);
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstRetRemoveBattleCardUserCmd(cmd);
+            }
+        }
+
+        // 通知客户端上一场战斗还没有结束
+        protected void psstRetNotifyUnfinishedGameUserCmd(IByteArray ba)
+        {
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_bLastEnd = false;
+            // 可能要请求一些数据
+            stReqEnterUnfinishedGameUserCmd cmd = new stReqEnterUnfinishedGameUserCmd();
+            UtilMsg.sendMsg(cmd);
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_bLastEnd = true;
         }
     }
 }

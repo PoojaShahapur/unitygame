@@ -1,8 +1,10 @@
-﻿namespace SDK.Lib
+﻿using SDK.Common;
+
+namespace SDK.Lib
 {
     public class ProcessObject
     {
-		public object m_listener = null;
+        public IDelayHandleItem m_listener = null;
 		public float m_priority = 0.0f;
     }
 }

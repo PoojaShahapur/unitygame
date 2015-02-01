@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace SDK.Common
 {
+    /**
+     * @brief 添加一个表的步骤总共分 4 步
+     * // 添加一个表的步骤一
+     * // 添加一个表的步骤二
+     * // 添加一个表的步骤三
+     * // 添加一个表的步骤四
+     */
     public class TableSys : ITableSys
 	{
         private Dictionary<TableID, TableBase> m_dicTable;
@@ -18,6 +25,7 @@ namespace SDK.Common
 			m_dicTable = new Dictionary<TableID, TableBase>();
             m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client", "ObjectBase_client", "ObjectBase_client");
             m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client", "CardBase_client", "CardBase_client");
+            m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client", "SkillBase_client", "SkillBase_client");    // 添加一个表的步骤三
 		}
 
         // 返回一个表
@@ -103,6 +111,10 @@ namespace SDK.Common
             else if (TableID.TABLE_CARD == tableID)
             {
                 itemBase.parseBodyByteArray<TableCardItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+            }
+            else if (TableID.TABLE_SKILL == tableID)  // 添加一个表的步骤四
+            {
+                itemBase.parseBodyByteArray<TableSkillItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
         }
 		

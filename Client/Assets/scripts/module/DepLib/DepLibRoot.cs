@@ -8,5 +8,5 @@ using Game.DepLib;
  */
 public class DepLibRoot : MonoBehaviour 
 {
-    private DepLibSys m_DepLibSys;
+    //private DepLibSys m_DepLibSys;
 }

@@ -79,12 +79,13 @@
 
     public enum CardArea
     {
-        CARDCELLTYPE_NONE,
-        CARDCELLTYPE_COMMON,	    //׷սӡ
-        CARDCELLTYPE_HAND,	    //˖Ɔλ׃
-        CARDCELLTYPE_EQUIP,	    //ϤǷӛλ׃
-        CARDCELLTYPE_SKILL,	    //ܼŜӛλ׃
-        CARDCELLTYPE_HERO,	    //Ӣћӛλ׃
+        CARDCELLTYPE_NONE,      // 客户端使用这个作为开始发牌位置
+        CARDCELLTYPE_COMMON,	// 出牌区域
+        CARDCELLTYPE_HAND,	    // 自己手里牌区域
+        CARDCELLTYPE_EQUIP,	    // 装备区域
+        CARDCELLTYPE_SKILL,	    // 技能区域
+        CARDCELLTYPE_HERO,	    // hero 区域
+
     }
 
     // 这个是卡牌区域位置
@@ -96,5 +97,26 @@
     //  CARDCELLTYPE_EQUIP,	    //ϤǷӛλ׃
     //  CARDCELLTYPE_SKILL,	    //ܼŜӛλ׃
     //  CARDCELLTYPE_HERO,	    //Ӣћӛλ׃
+    //};
+
+    public enum CardType
+    {
+        CARDTYPE_NONE,
+        CARDTYPE_ATTEND,	//随从 -- kminion = 4,//仆从卡
+        CARDTYPE_SECRET,	//奥秘卡
+        CARDTYPE_MAGIC,	//法术卡 -- kability = 5,//法术卡
+        CARDTYPE_EQUIP,	//武器卡 -- kweapon = 7//武器卡
+        CARDTYPE_HERO,	//英雄卡 -- khero = 3,//英雄卡
+        CARDTYPE_SKILL,	//英雄技能卡 -- kheroPower = 10
+    }
+
+    //enum{
+    //CARDTYPE_NONE,
+    //CARDTYPE_ATTEND,	//随从
+    //CARDTYPE_SECRET,	//奥秘卡
+    //CARDTYPE_MAGIC,	//法术卡
+    //CARDTYPE_EQUIP,	//武器卡
+    //CARDTYPE_HERO,	//英雄卡
+    //CARDTYPE_SKILL,	//英雄技能卡
     //};
 }

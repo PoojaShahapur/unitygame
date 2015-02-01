@@ -1,6 +1,6 @@
 ﻿namespace SDK.Common
 {
-    public interface ITimerMgr
+    public interface ITimerMgr : IDelayHandleMgrBase
     {
         void Advance(float delta);
     }

@@ -6,7 +6,8 @@ namespace SDK.Lib
 {
     public class DeferredMethod
     {
-        public Action<ITickedObject, float> m_method = null;
+        public Action<IDelayHandleItem, float> m_addMethod = null;
+        public Action<IDelayHandleItem> m_delMethod = null;
 		public ArrayList m_args = null;
     }
 }

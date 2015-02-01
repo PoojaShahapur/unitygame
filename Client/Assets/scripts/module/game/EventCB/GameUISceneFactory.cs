@@ -48,6 +48,10 @@ namespace Game.Game
                 {
                     return new UISceneDZ();
                 }
+                case UISceneFormID.eUISceneTips:
+                {
+                    return new UISceneTips();
+                }
                 default:
                 {
                     break;
