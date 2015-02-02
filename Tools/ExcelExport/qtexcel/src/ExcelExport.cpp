@@ -360,18 +360,24 @@ bool ExcelExport::exportExcelByTable(Table* tableItem)
 	}
 	catch (_com_error e)
 	{
-		LPCSTR szError = e.Description();
+		//LPCSTR szError = e.Description();
+		//_bstr_t szError = e.Description();
+		_bstr_t bstr = e.Description();
+		wchar_t* wchar = bstr;
+		char* szError = Tools::getSingletonPtr()->UnicodeToAnsi(wchar);
+
 		if (fieldName != nullptr)
 		{
 			strStream.clear();
 			strStream.str("");
-			strStream << szError << " ,字段: " << fieldName;
+			strStream << szError << "表中没有查找到这个字段字段: " << fieldName;
 
-			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(strStream.str().c_str()));
+			//Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(strStream.str().c_str()));
+			Tools::getSingletonPtr()->informationMessage(Tools::getSingletonPtr()->LocalChar2UNICODEStr(strStream.str().c_str()));
 		}
 		else
 		{
-			Tools::getSingletonPtr()->informationMessage(QString::fromLocal8Bit(szError));
+			Tools::getSingletonPtr()->informationMessage(Tools::getSingletonPtr()->LocalChar2UNICODEStr(szError));
 		}
 		return false;
 	}

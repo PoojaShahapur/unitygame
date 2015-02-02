@@ -32,6 +32,7 @@ private:
 	QVector<QString> m_msgOutList;		// 警告对话框信息
 	QMutex	m_msgListMutex;		// 警告对话框
 	char* m_bytes;
+	wchar_t* m_wcsbytes;
 
 private:
 	//QString GBK2UTF8(const QString &inStr);
@@ -78,6 +79,9 @@ public:
 	// 拷贝一个字符串指针，深度拷贝
 	static const char* copyPChar2PChar(const char* pSrc);
 	static const char* copyPChar2Str(const char* pSrc);
+
+	wchar_t* AnsiToUnicode(const char* szStr);
+	char* UnicodeToAnsi(const wchar_t* szStr);
 };
 
 END_NAMESPACE

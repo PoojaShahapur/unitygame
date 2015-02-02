@@ -16,6 +16,7 @@ Tools::Tools()
 	m_running = false;
 	//m_outTextEdit = NULL;
 	m_bytes = new char[4096];
+	m_wcsbytes = new wchar_t[4096];
 }
 
 Tools::~Tools()
@@ -260,7 +261,7 @@ int Tools::UTF8ToGBK(char * lpUTF8Str, char * lpGBKStr, int nGBKStrLen)
 
 std::string Tools::UTF8ToGBKStr(char * lpUTF8Str)
 {
-	memset(m_bytes, 0, sizeof(m_bytes));
+	memset(m_bytes, 0, 4096);
 	UTF8ToGBK(lpUTF8Str, m_bytes, 4096);
 	std::string ret = m_bytes;
 
@@ -492,4 +493,26 @@ const char* Tools::copyPChar2Str(const char* pSrc)
 	}
 
 	return "";
+}
+
+wchar_t* Tools::AnsiToUnicode(const char* szStr)
+{
+	int nLen = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szStr, -1, NULL, 0);
+	if (nLen == 0)
+		return NULL;
+
+	memset(m_wcsbytes, 0, 8192);
+	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szStr, -1, m_wcsbytes, nLen);
+	return m_wcsbytes;
+}
+
+char* Tools::UnicodeToAnsi(const wchar_t* szStr)
+{
+	int nLen = WideCharToMultiByte(CP_ACP, 0, szStr, -1, NULL, 0, NULL, NULL);
+	if (nLen == 0)
+		return NULL;
+
+	memset(m_bytes, 0, 4096);
+	WideCharToMultiByte(CP_ACP, 0, szStr, -1, m_bytes, nLen, NULL, NULL);
+	return m_bytes;
 }
