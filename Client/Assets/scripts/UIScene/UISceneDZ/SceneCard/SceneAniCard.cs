@@ -195,31 +195,9 @@ namespace Game.UI
         {
             enableDrag();
 
-            RSTAni rstAni = new RSTAni();
+            SimpleCurveAni rstAni = new SimpleCurveAni();
             m_numAniSeq.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
-            rstAni.destPos = new Vector3(transform.localPosition.x, 1.0f, transform.localPosition.z);
-            rstAni.destScale = SceneCardEntityBase.BIGFACT;
-            rstAni.destRot = transform.localRotation.eulerAngles;
-
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destScale = (Vector3)m_pathStack.Pop();
-            m_pathStack.Pop();
-            rstAni.destRot = Vector3.one;
-            rstAni.destPos = (Vector3)m_pathStack.Pop();
-
-            m_destScale = (Vector3)m_pathStack.Pop();
-            m_destRot = (Vector3)m_pathStack.Pop();
-            m_destPos = (Vector3)m_pathStack.Pop();
-
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destScale = m_destScale;
-            rstAni.destRot = m_destRot;
-            rstAni.destPos = m_destPos;
 
             m_numAniSeq.play();
         }

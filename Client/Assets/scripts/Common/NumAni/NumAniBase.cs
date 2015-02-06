@@ -9,7 +9,7 @@ namespace SDK.Common
      */
     public abstract class NumAniBase
     {
-        protected static float m_time = 0.5f;      // 动画时间
+        protected float m_time = 0.5f;      // 动画时间
 
         protected GameObject m_go;
         protected Action<NumAniBase> m_aniEndDisp;  // 外部回调逻辑
@@ -55,6 +55,11 @@ namespace SDK.Common
         public void setMethodName(string str)
         {
             m_methodName = str;
+        }
+
+        public void setTime(float value)
+        {
+            m_time = value;
         }
 
         public virtual void play()
