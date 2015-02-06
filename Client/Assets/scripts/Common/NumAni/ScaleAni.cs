@@ -8,6 +8,11 @@ namespace SDK.Common
         // 目标信息
         protected Vector3 m_destScale;     // 最终缩放
 
+        public ScaleAni()
+        {
+
+        }
+
         public Vector3 destScale
         {
             set
@@ -37,7 +42,6 @@ namespace SDK.Common
         {
             base.buildAniParam(args);
 
-            args = new Hashtable();
             args["scale"] = m_destScale;
             args["time"] = m_time;
             args["easetype"] = m_easeType;

@@ -68,7 +68,6 @@ namespace SDK.Common
             m_numAniList.Add(ani);
             ani.setDispGo(m_go);
             ani.setMethodName("onAniEnd");
-            //ani.setAniEndDisp(onAniEndDisp);  // 这个地方设置就成为死循环了
         }
 
         public void setAniSeqEndDisp(Action<NumAniSeq> disp)
@@ -102,8 +101,11 @@ namespace SDK.Common
         {
             if(m_numAniList.Count > 0)
             {
-                m_numAniList[0].play();
-                return true;
+                if (!m_numAniList[0].isPlaying())
+                {
+                    m_numAniList[0].play();
+                    return true;
+                }
             }
 
             return false;

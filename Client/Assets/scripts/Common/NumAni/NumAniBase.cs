@@ -22,6 +22,11 @@ namespace SDK.Common
 
         protected bool m_bPlaying = false;
 
+        public NumAniBase()
+        {
+
+        }
+
         public void setGO(GameObject go)
         {
             m_go = go;
@@ -57,8 +62,20 @@ namespace SDK.Common
             m_bPlaying = true;
         }
 
-        public abstract void stop();
-        public abstract void pause();
+        public bool isPlaying()
+        {
+            return m_bPlaying;
+        }
+
+        public virtual void stop()
+        {
+
+        }
+
+        public virtual void pause()
+        {
+
+        }
 
         protected virtual void buildAniParam(Hashtable args)
         {

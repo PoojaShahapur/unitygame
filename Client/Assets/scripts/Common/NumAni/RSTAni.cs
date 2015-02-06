@@ -13,6 +13,11 @@ namespace SDK.Common
         protected Vector3 m_destRot;       // 最终旋转
         protected Vector3 m_destScale;     // 最终缩放
 
+        public RSTAni()
+        {
+
+        }
+
         public Vector3 destPos
         {
             get

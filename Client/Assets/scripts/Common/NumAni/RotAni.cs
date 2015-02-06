@@ -8,6 +8,11 @@ namespace SDK.Common
         // 目标信息
         protected Vector3 m_destRot;       // 最终旋转
 
+        public RotAni()
+        {
+
+        }
+
         public Vector3 destRot
         {
             set
@@ -37,7 +42,6 @@ namespace SDK.Common
         {
             base.buildAniParam(args);
 
-            args = new Hashtable();
             args["rotation"] = m_destRot;
             args["time"] = m_time;
             args["islocal"] = true;
