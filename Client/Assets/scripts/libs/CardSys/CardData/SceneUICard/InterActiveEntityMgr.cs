@@ -48,7 +48,7 @@ namespace SDK.Lib
                 entity = new moshijm();
             }
 
-            entity.m_tag = tag;
+            //entity.m_tag = tag;
 
             entity.setGameObject(go);
 

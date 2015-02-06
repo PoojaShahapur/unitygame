@@ -7,6 +7,8 @@ namespace SDK.Common
      */
     public class SysMsgRoute
     {
+        // 主线程中调用这个函数
+        public bool m_bSocketOpened;
         // socket 连接成功，暂时无参数
         public Action m_socketOpenedCB;
         // socket 断开连接

@@ -1,4 +1,20 @@
 fileFormatVersion: 2
 guid: b06d7c7912415f64e81db1d174602584
+labels:
+- Water
+- Wall
+- Vegetation
+- Road
+- Prop
+- Audio
+- Ground
+- Terrain
+- Sky
+- Vehicle
+- Weapon
+- Effect
+- Concrete
+- Character
+- Architecture
 DefaultImporter:
   userData: 

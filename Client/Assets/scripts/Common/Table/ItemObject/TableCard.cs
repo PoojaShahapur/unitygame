@@ -49,11 +49,13 @@
         public int m_zhanHou;       // 战吼
         public int m_wangYu;        // 亡语
         public int m_jiNu;          // 激怒
+        public byte m_bNeedFaShuTarget;     // 是否需要法术目标
 
         override public void parseBodyByteArray(IByteArray bytes, uint offset)
         {
             (bytes as ByteArray).position = offset;
             m_name = UtilTable.readString(bytes as ByteArray);
+
             m_type = bytes.readInt();
             m_career = bytes.readInt();
             m_race = bytes.readInt();
@@ -76,6 +78,7 @@
             m_zhanHou = bytes.readInt();
             m_wangYu = bytes.readInt();
             m_jiNu = bytes.readInt();
+            m_bNeedFaShuTarget = bytes.readByte();
         }
 
         public string path

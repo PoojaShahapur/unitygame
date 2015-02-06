@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 场景对战区域
      */
-    public class SceneDZArea
+    public class SceneDZArea : ISceneDZArea
     {
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
@@ -207,7 +207,58 @@ namespace Game.UI
                     go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(endidx - idx).gameObject, "light");
 
                     // 改成一把锁
+
+                    ++idx;
                 }
+            }
+        }
+
+        public SceneCardEntityBase getUnderSceneCard(GameObject underGo)
+        {
+            SceneCardEntityBase cardBase;
+            cardBase = m_outSceneCardList.getUnderSceneCard(underGo);
+            if(cardBase != null)
+            {
+                return cardBase;
+            }
+            cardBase = m_inSceneCardList.getUnderSceneCard(underGo);
+            if(cardBase != null)
+            {
+                return cardBase;
+            }
+
+            if (m_sceneSkillCard != null)
+            {
+                if (UtilApi.isAddressEqual(m_sceneSkillCard.getGameObject(), underGo))
+                {
+                    return m_sceneSkillCard;
+                }
+            }
+
+            if (m_sceneEquipCard != null)
+            {
+                if (UtilApi.isAddressEqual(m_sceneEquipCard.getGameObject(), underGo))
+                {
+                    return m_sceneEquipCard;
+                }
+            }
+
+            return null;
+        }
+
+        public void addCardToOutList(SceneDragCard card, int idx = 0)
+        {
+            m_outSceneCardList.addCard(card);
+            m_outSceneCardList.updateSceneCardPos();
+        }
+
+        // 将 Out 区域中的第一个牌退回到 handle 中
+        public void putHandFromOut()
+        {
+            SceneDragCard card = m_outSceneCardList.removeNoDestroyAndRet() as SceneDragCard;
+            if(card != null)
+            {
+                card.retFormOutAreaToHandleArea();
             }
         }
     }

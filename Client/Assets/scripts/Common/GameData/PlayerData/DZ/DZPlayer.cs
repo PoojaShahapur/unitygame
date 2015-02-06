@@ -10,7 +10,7 @@ namespace SDK.Common
     {
         public string m_heroName;               // 自己的 Hero 名字
         public uint m_heroOccupation;           // 自己的 Hero 的职业
-        public uint[] m_startCardList;          // 第一次自己 Hero 得到的 Card，仅仅有 ID
+        public uint[] m_startCardList;          // 第一次自己 Hero 得到的 Card，仅仅有 ID ，注意仅仅第一次报名进入的时候才有，如果是中途下线，然后再上线，这个时候再次进入上一次没有结束的战斗，这个值是没有的
         public List<SceneCardItem> m_sceneCardList = new List<SceneCardItem>();     // 完成的卡牌数据
 
         public int m_recStartCardNum;                   // 接收到的开始卡牌的数量，因为启动的时候，仅仅发送过来卡牌 ID，真正的数据后来才发送过来
@@ -22,11 +22,20 @@ namespace SDK.Common
         public void clear()
         {
             m_recStartCardNum = 0;
+            if(m_sceneCardList != null)
+            {
+                m_sceneCardList.Clear();
+            }
+        }
+
+        public bool bHaveStartCard()
+        {
+            return (m_startCardList != null && m_startCardList.Length > 0);
         }
 
         public int getStartCardNum()
         {
-            if(m_sceneCardList != null)
+            if (m_startCardList != null)
             {
                 int len = 0;
                 int idx = 0;

@@ -92,6 +92,8 @@ public class UIDragObject : MonoBehaviour
     public Action m_moveDisp;
     // 拖动结束回调
     public Action m_dropEndDisp;
+    // 是否可以移动
+    public Func<bool> m_canMoveDisp;
 
 	/// <summary>
 	/// Auto-upgrade the legacy data.
@@ -171,7 +173,7 @@ public class UIDragObject : MonoBehaviour
 					CancelSpring();
 
 					// Create the plane to drag along
-					Transform trans = UICamera.currentCamera.transform;
+					//Transform trans = UICamera.currentCamera.transform;
 					//mPlane = new Plane((panelRegion != null ? panelRegion.cachedTransform.rotation : trans.rotation) * Vector3.back, UICamera.lastWorldPosition);
                     //mPlane = new Plane(trans.rotation * Vector3.back, UICamera.lastWorldPosition);
                     mPlane = new Plane(Vector3.up, Vector3.zero);
@@ -273,12 +275,15 @@ public class UIDragObject : MonoBehaviour
         //    if (ds != null) ds.UpdateScrollbars(true);
         //}
 		//else target.position += worldDelta;
-        worldDelta.y = 0;           // 不计算 y 值
-        target.position += worldDelta;
-
-        if(m_moveDisp != null)
+        if ((m_canMoveDisp != null && m_canMoveDisp()) || m_canMoveDisp == null)
         {
-            m_moveDisp();
+            worldDelta.y = 0;           // 不计算 y 值
+            target.position += worldDelta;
+
+            if (m_moveDisp != null)
+            {
+                m_moveDisp();
+            }
         }
 	}
 

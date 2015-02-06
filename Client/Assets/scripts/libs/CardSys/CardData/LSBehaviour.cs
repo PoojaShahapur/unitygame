@@ -11,7 +11,7 @@ public class LSBehaviour : ISceneEntity
     public Animation animation;
     public string name;                      // 名字
 
-    public void setGameObject(GameObject go)
+    public virtual void setGameObject(GameObject go)
     {
         gameObject = go;
         transform = gameObject.transform;

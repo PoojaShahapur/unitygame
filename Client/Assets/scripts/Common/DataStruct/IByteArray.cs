@@ -21,6 +21,7 @@ namespace SDK.Common
 		uint readUnsignedInt();
         ulong readUnsignedLong();
         string readMultiByte(uint length, Encoding charSet);
+        byte[] readBytes(uint len);
 
         float readFloat();
         double readDouble();

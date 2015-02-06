@@ -27,7 +27,7 @@ namespace SDK.Common
         // 卡牌组中的卡牌
         public CardGroupModelAttrItem m_groupCardModelAttrItem = new CardGroupModelAttrItem();
         // 场景中的卡牌
-        public CardGroupModelAttrItem[] m_sceneCardModelAttrItemList = new CardGroupModelAttrItem[(int)EnSceneCardType.eScene_Total];
+        public CardGroupModelAttrItem[] m_sceneCardModelAttrItemList = new CardGroupModelAttrItem[(int)CardType.eCARDTYPE_Total];
         // cost 模型
         public CardGroupModelAttrItem m_costModelAttrItem = new CardGroupModelAttrItem();
         public CardGroupModelAttrItem m_enemyCardModelAttrItem = new CardGroupModelAttrItem();
@@ -109,18 +109,25 @@ namespace SDK.Common
             m_groupCardModelAttrItem.m_prefabName = "setcard";
             m_groupCardModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_groupCardModelAttrItem.m_prefabName;
 
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion].m_prefabName = "minioncard";
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_minion].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_prefabName = "minioncard";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_prefabName;
 
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability].m_prefabName = "abilitycard";
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_ability].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_prefabName = "abilitycard";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_prefabName;
 
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon].m_prefabName = "weaponcard";
-            m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)EnSceneCardType.eScene_weapon].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_prefabName = "abilitycard";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_prefabName;
 
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_prefabName = "weaponcard";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_prefabName;
+
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_prefabName = "abilitycard";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_prefabName;
 
             m_costModelAttrItem.m_prefabName = "cost";
             m_costModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_costModelAttrItem.m_prefabName;
@@ -161,9 +168,9 @@ namespace SDK.Common
             {
                 item = new CardItemBase();
                 item.m_tujian = list[idx];
-                item.m_tableItemCard = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, item.m_tujian.id);
+                item.m_tableItemCard = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, item.m_tujian.id).m_itemBody as TableCardItemBody;
 
-                m_cardListArr[(item.m_tableItemCard.m_itemBody as TableCardItemBody).m_career].Add(item);
+                m_cardListArr[item.m_tableItemCard.m_career].Add(item);
                 m_id2CardDic[list[idx].id] = item;
 
                 ++idx;
@@ -179,9 +186,9 @@ namespace SDK.Common
                 item.m_tujian = new t_Tujian();
                 item.m_tujian.id = id;
                 item.m_tujian.num = num;
-                item.m_tableItemCard = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, item.m_tujian.id);
+                item.m_tableItemCard = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, item.m_tujian.id).m_itemBody as TableCardItemBody;
 
-                m_cardListArr[(item.m_tableItemCard.m_itemBody as TableCardItemBody).m_career].Add(item);
+                m_cardListArr[item.m_tableItemCard.m_career].Add(item);
                 m_id2CardDic[id] = item;
             }
             m_id2CardDic[id].m_tujian.num = num;

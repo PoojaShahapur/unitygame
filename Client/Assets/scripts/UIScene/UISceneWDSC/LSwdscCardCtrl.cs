@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Game.UI;
 using SDK.Common;
+using SDK.Lib;
 
 namespace Game.UI
 {
@@ -15,13 +16,13 @@ namespace Game.UI
         editset
     }
 
-    public class wdscCardCtrl : MonoBehaviour
+    public class wdscCardCtrl : InterActiveEntity
     {
-        card info;
+        CardItemBase info;
         Text num, suotxt;
         Transform suo;
 
-        void Awake()
+        public override void Awake()
         {
             suo = transform.FindChild("suo");
             //suotxt = suo.FindChild("name").GetComponent<UILabel>();
@@ -29,7 +30,7 @@ namespace Game.UI
         }
 
         // Update is called once per frame
-        void setinfo(card i)
+        public void setinfo(CardItemBase i)
         {
             info = i;
             //更新数量
@@ -58,8 +59,8 @@ namespace Game.UI
 
         void updateNumtext()
         {
-            num.text = "x" + info.count;
-            if (info.count == 0)
+            num.text = "x" + info.m_tujian.num;
+            if (info.m_tujian.num == 0)
             {
                 suo.gameObject.SetActive(true);
                 suotxt.text = "用完了";
@@ -67,13 +68,13 @@ namespace Game.UI
             }
             else
             {
-                if (info.insetcount == 2)
-                {
-                    suo.gameObject.SetActive(true);
-                    suotxt.text = "套牌限制";
-                    num.gameObject.SetActive(false);
-                }
-                else
+                //if (info.insetcount == 2)
+                //{
+                //    suo.gameObject.SetActive(true);
+                //    suotxt.text = "套牌限制";
+                //    num.gameObject.SetActive(false);
+                //}
+                //else
                 {
                     suo.gameObject.SetActive(false);
                     num.gameObject.SetActive(true);
@@ -81,7 +82,7 @@ namespace Game.UI
             }
         }
 
-        void upinfo(card c)
+        void upinfo(CardItemBase c)
         {
             info = c;
             updateNumtext();

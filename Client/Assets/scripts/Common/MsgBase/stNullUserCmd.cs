@@ -8,6 +8,7 @@ namespace SDK.Common
         public const byte TIME_USERCMD = 2;
         public const byte DATA_USERCMD = 3;
         public const byte PROPERTY_USERCMD = 4;
+        public const byte CHAT_USERCMD = 14;
         public const byte SELECT_USERCMD = 24;
         public const byte LOGON_USERCMD = 104;
         public const byte HERO_CARD_USERCMD = 162;

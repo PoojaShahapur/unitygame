@@ -25,7 +25,8 @@ namespace SDK.Lib
         public void postInit()
         {
             // 添加事件处理
-            UICamera uiCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+            //UICamera uiCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
         }
 
         /**
@@ -91,7 +92,7 @@ namespace SDK.Lib
         {
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
-            if (vertical != 0.0f || vertical != 0.0f)
+            if (horizontal != 0.0f || vertical != 0.0f)
             {
                 if (m_onAxisDown != null)
                 {

@@ -7,6 +7,18 @@ namespace SDK.Lib
      */
     public class InterActiveEntity : LSBehaviour
     {
-        public EntityTag m_tag;           // 实力 tag
+        protected int m_tag;                 // 唯一 ID
+
+        public int tag
+        {
+            get
+            {
+                return m_tag;
+            }
+            set
+            {
+                m_tag = value;
+            }
+        }
     }
 }

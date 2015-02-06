@@ -8,6 +8,7 @@
         public const int MAX_PASSWORD = 16;
         public const ushort MAX_CHARINFO = 3;
         public const int MAX_NAMESIZE = 32;
+        public const int MAX_CHATINFO = 256;
     }
 
     public enum ERetResult
@@ -108,6 +109,8 @@
         CARDTYPE_EQUIP,	//武器卡 -- kweapon = 7//武器卡
         CARDTYPE_HERO,	//英雄卡 -- khero = 3,//英雄卡
         CARDTYPE_SKILL,	//英雄技能卡 -- kheroPower = 10
+
+        eCARDTYPE_Total
     }
 
     //enum{
@@ -118,5 +121,54 @@
     //CARDTYPE_EQUIP,	//武器卡
     //CARDTYPE_HERO,	//英雄卡
     //CARDTYPE_SKILL,	//英雄技能卡
+    //};
+
+    public enum StateID
+    {
+        CARD_STATE_NONE = 0,
+        CARD_STATE_TAUNT    = 1,    //嘲讽
+        CARD_STATE_CHARGE   = 2,    //冲锋
+        CARD_STATE_WINDFURY = 3,    //风怒
+        CARD_STATE_SNEAK    = 4,    //隐形
+        CARD_STATE_SHIED    = 5,    //圣盾
+        CARD_STATE_SLEEP    = 6,    //冷却
+        CARD_STATE_FREEZE   = 7,    //冻结
+
+        CARD_STATE_MAX,
+    }
+
+    //enum
+    //{
+    //    CARD_STATE_TAUNT    = 1,    //嘲讽
+    //    CARD_STATE_CHARGE   = 2,    //冲锋
+    //    CARD_STATE_WINDFURY = 3,    //风怒
+    //    CARD_STATE_SNEAK    = 4,    //隐形
+    //    CARD_STATE_SHIED    = 5,    //圣盾
+    //    CARD_STATE_SLEEP    = 6,    //冷却
+    //    CARD_STATE_FREEZE   = 7,    //冻结
+
+    //    CARD_STATE_MAX,
+    //};
+
+    public enum AttackTarget
+    {
+        ATTACK_TARGET_NONE,
+        ATTACK_TARGET_EHERO = 1,	//敌方英雄
+        ATTACK_TARGET_EATTEND = 2,	//敌方随从
+        ATTACK_TARGET_SHERO = 4,	//己方英雄
+        ATTACK_TARGET_SATTEND = 8,	//己方随从
+        ATTACK_TARGET_EEQUIP = 16,	//敌方武器
+        ATTACK_TARGET_SEQUIP = 32,	//己方武器
+    }
+
+    //enum
+    //{
+    //    ATTACK_TARGET_NONE,
+    //    ATTACK_TARGET_EHERO	    =   1,	//敌方英雄
+    //    ATTACK_TARGET_EATTEND   =	2,	//敌方随从
+    //    ATTACK_TARGET_SHERO	    =   4,	//己方英雄
+    //    ATTACK_TARGET_SATTEND   =	8,	//己方随从
+    //    ATTACK_TARGET_EEQUIP    =	16,	//敌方武器
+    //    ATTACK_TARGET_SEQUIP    =	32,	//己方武器
     //};
 }

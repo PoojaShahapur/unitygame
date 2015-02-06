@@ -12,9 +12,8 @@ namespace Game.UI
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
 
-        public float m_internal = 1.171349f;            // 卡牌间隔
-        public float m_zOff = -3.0f;                    // 卡牌 Z 值偏移
-        public float m_radius = 1.5f;                    // 半径
+        public float m_internal = 0.5f;            // 卡牌间隔
+        public float m_radius = 0.5f;                    // 半径
 
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
@@ -45,6 +44,7 @@ namespace Game.UI
                 cardItem = m_sceneCardList[idx];
                 cardItem.destPos = m_posList[idx];
                 cardItem.destRot = m_rotList[idx].eulerAngles;
+                cardItem.destScale = SceneCardEntityBase.SMALLFACT;
                 cardItem.moveToDest();
 
                 ++idx;
@@ -79,6 +79,31 @@ namespace Game.UI
                     break;
                 }
             }
+        }
+
+        public SceneCardEntityBase getUnderSceneCard(GameObject underGo)
+        {
+            foreach(SceneDragCard item in m_sceneCardList)
+            {
+                if (UtilApi.isAddressEqual(item.getGameObject(), underGo))
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        public SceneCardEntityBase removeNoDestroyAndRet(int idx = 0)
+        {
+            SceneCardEntityBase card = null;
+            if(idx < m_sceneCardList.Count)
+            {
+                card = m_sceneCardList[idx];
+                m_sceneCardList.RemoveAt(idx);
+            }
+
+            return card;
         }
     }
 }

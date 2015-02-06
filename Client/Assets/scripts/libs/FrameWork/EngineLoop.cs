@@ -9,6 +9,17 @@ namespace SDK.Lib
     {
         public void MainLoop()
         {
+            // 处理一些回调
+            if(Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened)
+            {
+                if (Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB != null)
+                {
+                    Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB();
+                }
+
+                Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = false;
+            }
+
             // 处理网络
             ByteArray ret = Ctx.m_instance.m_netMgr.getMsg() as ByteArray;
             if (null != ret && null != Ctx.m_instance.m_netHandle && false == Ctx.m_instance.m_bStopNetHandle)

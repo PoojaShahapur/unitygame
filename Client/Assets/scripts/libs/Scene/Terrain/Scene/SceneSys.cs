@@ -35,7 +35,6 @@ namespace SDK.Lib
 
         public void loadScene(string filename, Action<IScene> func)
         {
-            
             // 卸载之前的场景
             unloadScene();
 
@@ -98,7 +97,7 @@ namespace SDK.Lib
 
         public void onSceneResLoadded(IDispatchObject resEvt)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            //IResItem res = resEvt as IResItem;                         // 类型转换
             if(onSceneLoaded != null)
             {
                 onSceneLoaded(m_scene);

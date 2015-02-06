@@ -1144,7 +1144,8 @@ namespace Game.Msg
     public class stCardAttackMagicUserCmd : stHeroCardCmd
     {
         public uint dwAttThisID;
-        public uint dwDefThisID; 
+        public uint dwDefThisID;
+        public uint dwMagicType;	//技能ID
 
         public stCardAttackMagicUserCmd()
         {
@@ -1157,6 +1158,7 @@ namespace Game.Msg
 
             ba.writeUnsignedInt(dwAttThisID);
             ba.writeUnsignedInt(dwDefThisID);
+            ba.writeUnsignedInt(dwMagicType);
         }
     }
 
@@ -1172,6 +1174,7 @@ namespace Game.Msg
 
     //    DWORD dwAttThisID;    
     //    DWORD dwDefThisID;    
+    //    DWORD dwMagicType;	//技能ID
     //};  
 
     public class stRetRemoveBattleCardUserCmd : stHeroCardCmd
@@ -1201,4 +1204,212 @@ namespace Game.Msg
     //    }   
     //    DWORD dwThisID;
     //}; 
+
+    public class stRetRefreshCardAllStateUserCmd: stHeroCardCmd
+    {
+        public uint dwThisID;
+        public byte who;	//1,自己 2,对方
+        public byte[] state;
+
+        public stRetRefreshCardAllStateUserCmd()
+        {
+            byParam = RET_REFRESH_CARD_ALL_STATE_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            dwThisID = ba.readUnsignedInt();
+            who = ba.readUnsignedByte();
+            state = ba.readBytes((((int)StateID.CARD_STATE_MAX + 7) / 8));
+        }
+    }
+
+    //const BYTE RET_REFRESH_CARD_ALL_STATE_CMD = 41;
+    //struct stRetRefreshCardAllStateUserCmd: public stHeroCardCmd
+    //{
+    //stRetRefreshCardAllStateUserCmd()
+    //{
+    //    byParam = RET_REFRESH_CARD_ALL_STATE_CMD;
+    //    dwThisID = 0;
+    //    who = 0;
+    //    bzero(state, sizeof(state));
+    //}
+    //DWORD dwThisID;
+    //BYTE who;	//1,自己 2,对方
+    //BYTE state[(CARD_STATE_MAX + 7) / 8];
+    //};
+
+    public class stRetClearCardOneStateUserCmd : stHeroCardCmd
+    {
+        public uint dwThisID;
+        public byte who;   //1,自己 2,对方
+        public byte stateNum;	    //状态的枚举
+
+        public stRetClearCardOneStateUserCmd()
+        {
+            byParam = RET_CLEAR_CARD_ONE_STATE_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            dwThisID = ba.readUnsignedInt();
+            who = ba.readUnsignedByte();
+            stateNum = ba.readUnsignedByte();
+        }
+    }
+
+    //const BYTE RET_CLEAR_CARD_ONE_STATE_CMD = 42;
+    //struct stRetClearCardOneStateUserCmd : public stHeroCardCmd
+    //{
+    //stRetClearCardOneStateUserCmd()
+    //{
+    //    byParam = RET_CLEAR_CARD_ONE_STATE_CMD;
+    //    dwThisID  = 0;
+    //    who = 0;
+    //    stateNum = 0;
+    //}
+    //DWORD dwThisID;
+    //BYTE who;   //1,自己 2,对方
+    //BYTE stateNum;	    //状态的枚举
+    //};
+
+    public class stRetSetCardOneStateUserCmd : stHeroCardCmd
+    {
+        public uint dwThisID;
+        public byte who;   //1,自己 2,对方
+        public byte stateNum;	    //状态的枚举
+
+        public stRetSetCardOneStateUserCmd()
+        {
+            byParam = RET_SET_CARD_ONE_STATE_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            dwThisID = ba.readUnsignedInt();
+            who = ba.readUnsignedByte();
+            stateNum = ba.readUnsignedByte();
+        }
+    }
+
+    //const BYTE RET_SET_CARD_ONE_STATE_CMD = 43;
+    //struct stRetSetCardOneStateUserCmd : public stHeroCardCmd
+    //{
+    //stRetSetCardOneStateUserCmd()
+    //{
+    //    byParam = RET_SET_CARD_ONE_STATE_CMD;
+    //    dwThisID  = 0;
+    //    who = 0;
+    //    stateNum = 0;
+    //}
+    //DWORD dwThisID;
+    //BYTE who;   //1,自己 2,对方
+    //BYTE stateNum;	    //状态的枚举
+    //};
+
+
+
+    //const BYTE RET_BATTLE_GAME_RESULT_CMD = 44;
+    //struct stRetBattleGameResultUserCmd : public stHeroCardCmd
+    //{
+    //stRetBattleGameResultUserCmd()
+    //{
+    //    byParam = RET_BATTLE_GAME_RESULT_CMD;
+    //    win = 0;
+    //}
+    //BYTE win;	    //1赢, 0输
+    //};
+
+    public class stRetHeroIntoBattleSceneUserCmd : stHeroCardCmd
+    {
+        public stRetHeroIntoBattleSceneUserCmd()
+        {
+            byParam = RET_HERO_INTO_BATTLE_SCENE_CMD;
+        } 
+    }
+
+    //const BYTE RET_HERO_INTO_BATTLE_SCENE_CMD = 45; 
+    //struct stRetHeroIntoBattleSceneUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetHeroIntoBattleSceneUserCmd()
+    //    {   
+    //        byParam = RET_HERO_INTO_BATTLE_SCENE_CMD;
+    //    }   
+    //}; 
+
+    public class stRetCardAttackFailUserCmd : stHeroCardCmd
+    {
+        public uint dwAttThisID;
+
+        public stRetCardAttackFailUserCmd()
+        {
+            byParam = RET_CARD_ATTACK_FAIL_USERCMD_PARA;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            dwAttThisID = ba.readUnsignedInt();
+        }
+    }
+
+    //const BYTE RET_CARD_ATTACK_FAIL_USERCMD_PARA = 46; 
+    //struct stRetCardAttackFailUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetCardAttackFailUserCmd()
+    //    {   
+    //        byParam = RET_CARD_ATTACK_FAIL_USERCMD_PARA;
+    //        dwAttThisID = 0;
+    //    }   
+    //    DWORD dwAttThisID;    
+    //};
+
+    public class stCardMoveAndAttackMagicUserCmd : stHeroCardCmd
+    {
+        public uint dwAttThisID;
+        public uint dwDefThisID;
+        public uint dwMagicType;	//技能ID
+        public stObjectLocation  dst;	    //移动目标位置信息
+
+        public stCardMoveAndAttackMagicUserCmd()
+        {
+            byParam = REQ_CARD_MOVE_AND_MAGIC_USERCMD_PARA;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            dwAttThisID = ba.readUnsignedInt();
+            dwDefThisID = ba.readUnsignedInt();
+            dwMagicType = ba.readUnsignedInt();
+
+            dst = new stObjectLocation();
+            dst.derialize(ba);
+        }
+    }
+
+    //const BYTE REQ_CARD_MOVE_AND_MAGIC_USERCMD_PARA = 47;
+    //struct stCardMoveAndAttackMagicUserCmd : public stHeroCardCmd
+    //{
+    //stCardMoveAndAttackMagicUserCmd()
+    //{
+    //    byParam = REQ_CARD_MOVE_AND_MAGIC_USERCMD_PARA;
+    //    dwAttThisID = 0;
+    //    dwDefThisID = 0;
+    //    dwMagicType = 0;
+    //}
+
+    //DWORD dwAttThisID;      
+    //DWORD dwDefThisID;   
+    //DWORD dwMagicType;	//技能ID
+    //stObjectLocation  dst;	    //移动目标位置信息
+    //};
 }

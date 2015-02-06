@@ -17,6 +17,7 @@ namespace SDK.Common
         public DataHero m_dataHero = new DataHero();            // hero 数据
 
         public DZData m_dzData = new DZData();
+        public ChatData m_chatData = new ChatData();
 
         // 强求主角数据
         public void reqMainData()

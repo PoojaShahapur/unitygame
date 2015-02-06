@@ -54,42 +54,42 @@ namespace Game.UI
             }
         }
 
-        Transform CreateCard(card a)
+        Transform CreateCard(CardItemBase a)
         {
             Transform ret = null;
-            switch (a.type)
+            switch (a.m_tableItemCard.m_type)
             {
-                case CardType.CARDTYPE_MAGIC:
+                case (int)CardType.CARDTYPE_MAGIC:
                     {
                         ret = (Transform)UtilApi.Instantiate(abilitypre.transform);
                     }
                     break;
 
-                case CardType.CARDTYPE_ATTEND:
+                case (int)CardType.CARDTYPE_ATTEND:
                     {
                         ret = (Transform)UtilApi.Instantiate(minionpre.transform);
                     }
                     break;
 
-                case CardType.CARDTYPE_EQUIP:
+                case (int)CardType.CARDTYPE_EQUIP:
                     {
                         ret = (Transform)UtilApi.Instantiate(weaponpre.transform);
                     }
                     break;
 
-                case CardType.CARDTYPE_HERO:
+                case (int)CardType.CARDTYPE_HERO:
                     {
                         ret = (Transform)UtilApi.Instantiate(minionpre.transform);
                     }
                     break;
 
-                case CardType.CARDTYPE_SKILL:
+                case (int)CardType.CARDTYPE_SKILL:
                     {
                         Debug.LogError("出现了英雄技能卡");
                     }
                     break;
             }
-            ret.name = a.cardid;
+            //ret.name = a.cardid;
 
             ret.SendMessage("setinfo", a);
             return ret;
@@ -104,10 +104,10 @@ namespace Game.UI
 
             //open
             //List<card> cards = web.openPack();
-            List<card> cards = null;
+            List<CardItemBase> cards = null;
             //实例化
             int p = 0;
-            foreach (card c in cards)
+            foreach (CardItemBase c in cards)
             {
                 Transform a = CreateCard(c);
                 opendcard[p] = a;

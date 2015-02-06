@@ -48,14 +48,7 @@ namespace SDK.Common
         {
             if (splitCnt > 3)        // 只有大于 3 个的时候才分割
             {
-                //if (up == 0)
-                //{
-                    upHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
-                //}
-                //else
-                //{
-                //    downHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
-                //}
+                upHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
             }
             else
             {
@@ -74,7 +67,6 @@ namespace SDK.Common
             int listIdx = 0;
             while(listIdx < splitCnt)
             {
-                pos = new Vector3();
                 pos.x = trans.localPosition.x + startPos + inter * listIdx;
                 pos.y = trans.localPosition.y;
                 pos.z = trans.localPosition.z;
@@ -87,6 +79,7 @@ namespace SDK.Common
             }
         }
 
+        // 180 - 360 度区间
         static public void upHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
             float radianSector = 0;         // 每一个弧形的弧度
@@ -97,76 +90,88 @@ namespace SDK.Common
             float startRadian = 0;          // 开始的弧度
             float startDeg = 0;             // 开始的角度
 
+            float yDelta = 0.1f;
+
             Vector3 pos;
             Quaternion rot;
 
-            radianSector = (Mathf.PI / 2) / (splitCnt + 1);           // 这个地方需要加 1 
-            degSector = 180 / (splitCnt + 1);
+            // 总共 10 张牌
+            radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
+            degSector = 180 / 11;
 
-            startRadian = (float)(-radianSector * (splitCnt / 2 - 1 + 0.5));
-            startDeg = (float)(-degSector * (splitCnt / 2 - 1 + 0.5));
+            startRadian = Mathf.PI + radianSector;
+            startDeg = 180 + degSector;               // 起始都偏移 90 度，这样就可以认为是 0 度了
+
+            Vector3 orign = new Vector3(radius, 0, 0);
 
             int listIdx = 0;
             while (listIdx < splitCnt)
             {
-                curRadian = startRadian + radianSector * listIdx + (- Mathf.PI / 4);
+                curRadian = startRadian + radianSector * listIdx;
                 curDeg = startDeg + degSector * listIdx;
 
                 pos = new Vector3();
-                pos.x = trans.localPosition.x + radius * Mathf.Cos(curRadian);
-                pos.y = trans.localPosition.y + radius * Mathf.Sin(curRadian);
-                pos.z = trans.localPosition.z;
+                pos = Quaternion.AngleAxis(curDeg, Vector3.up) * orign;
+                pos += trans.localPosition;
+                pos.y += listIdx * yDelta;
+
                 posList.Add(pos);
 
-                rot = Quaternion.Euler(0, curDeg + trans.eulerAngles.y, 0);
+                rot = Quaternion.Euler(0, curDeg + trans.eulerAngles.y + 90, 0);
                 rotList.Add(rot);
 
                 ++listIdx;
             }
         }
 
-        //// 下半球分割
-        //static public void downHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
-        //{
-        //    float radianSector = 0;         // 每一个弧形的弧度
-        //    float degSector = 0;            // 度
-        //    float curRadian = 0;
-        //    float curDeg = 0;
-
-        //    float startRadian = 0;          // 开始的弧度
-        //    float startDeg = 0;             // 开始的角度
-
-        //    Vector3 pos;
-        //    Quaternion rot;
-
-        //    radianSector = (Mathf.PI / 2) / (splitCnt + 1);           // 这个地方需要加 1 
-        //    degSector = 180 / (splitCnt + 1);
-
-        //    startRadian = (float)(-radianSector * (splitCnt / 2 - 1 + 0.5));
-        //    startDeg = (float)(-degSector * (splitCnt / 2 - 1 + 0.5));
-
-        //    int listIdx = 0;
-        //    while (listIdx < splitCnt)
-        //    {
-        //        curRadian = startRadian + radianSector * listIdx + (-Mathf.PI / 4);
-        //        curDeg = startDeg + degSector * listIdx;
-
-        //        pos = new Vector3();
-        //        pos.x = trans.localPosition.x + radius * Mathf.Cos(curRadian);
-        //        pos.y = trans.localPosition.y + radius * Mathf.Sin(curRadian);
-        //        pos.z = trans.localPosition.z;
-        //        posList.Add(pos);
-
-        //        rot = Quaternion.Euler(0, curDeg + 180, 0);
-        //        rotList.Add(rot);
-
-        //        ++listIdx;
-        //    }
-        //}
-
         static public float xzDis(Vector3 aPos, Vector3 bPos)
         {
             return Mathf.Sqrt((aPos.x - bPos.x) * (aPos.x - bPos.x) + (aPos.z - bPos.z) * (aPos.z - bPos.z));
+        }
+
+        // 设置状态为
+        static public void setState(StateID stateID, params byte[] stateBytes)
+        {
+            if((int)stateID/8 < stateBytes.Length)
+            {
+                stateBytes[(int)stateID/8] |= ((byte)(1 << ((int)stateID % 8)));
+            }
+        }
+
+        static public void clearState(StateID stateID, params byte[] stateBytes)
+        {
+            if ((int)stateID/8 < stateBytes.Length)
+            {
+                stateBytes[(int)stateID / 8] &= (byte)(~((byte)(1 << ((int)stateID % 8))));
+            }
+        }
+
+        static public bool checkState(StateID stateID, params byte[] stateBytes)
+        {
+            if((int)stateID/8 < stateBytes.Length)
+            {
+                return ((stateBytes[(int)stateID / 8] & ((byte)(1 << ((int)stateID % 8)))) > 0);
+            }
+
+            return false;
+        }
+
+        static public void clearState(AttackTarget stateID, uint state)
+        {
+            if ((uint)stateID < uint.MaxValue)
+            {
+                state &= (byte)(~((byte)(1 << ((int)stateID % 8))));
+            }
+        }
+
+        static public bool checkAttackState(AttackTarget stateID, uint state)
+        {
+            if ((uint)stateID < uint.MaxValue)
+            {
+                return ((state & (uint)stateID) > 0);
+            }
+
+            return false;
         }
     }
 }

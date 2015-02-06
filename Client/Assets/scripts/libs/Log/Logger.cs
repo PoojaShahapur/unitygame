@@ -23,7 +23,7 @@ namespace SDK.Lib
         }
 
         // 多线程日志
-        public void synclog(string message)
+        public void asynclog(string message)
         {
             m_visitMutex.WaitOne();
             m_strList.Add(message);
@@ -42,6 +42,8 @@ namespace SDK.Lib
 
         public void logout(string message, LogColor type = LogColor.LOG)
         {
+            ThreadWrap.needMainThread();
+
             if (type == LogColor.LOG)
             {
                 Debug.Log(message);
@@ -91,9 +93,9 @@ namespace SDK.Lib
                 return;
             }
 
-            Ctx.m_instance.m_log.synclog("onDebugLogCallbackThreadHandler ---- Error");
-            Ctx.m_instance.m_log.synclog(name);
-            Ctx.m_instance.m_log.synclog(stack);
+            Ctx.m_instance.m_log.asynclog("onDebugLogCallbackThreadHandler ---- Error");
+            Ctx.m_instance.m_log.asynclog(name);
+            Ctx.m_instance.m_log.asynclog(stack);
         }
     }
 }

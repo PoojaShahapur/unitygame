@@ -11,7 +11,7 @@ namespace SDK.Lib
             UIDragObject drag = m_go.AddComponent<UIDragObject>();
             drag.target = m_go.transform;
 
-            WindowDragTilt title = m_go.AddComponent<WindowDragTilt>();
+            m_go.AddComponent<WindowDragTilt>();
         }
     }
 }

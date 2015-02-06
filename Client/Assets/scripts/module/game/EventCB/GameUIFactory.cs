@@ -28,6 +28,14 @@ namespace Game.Game
                 {
                     return new UIDZ();
                 }
+                case UIFormID.UIExtraOp:
+                {
+                    return new UIExtraOp();
+                }
+                case UIFormID.UIChat:
+                {
+                    return new UIChat();
+                }
                 default:
                 {
                     break;

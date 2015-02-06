@@ -79,7 +79,7 @@ namespace SDK.Lib
 
         }
 
-        public void synclog(string message)
+        public void asynclog(string message)
         {
 
         }

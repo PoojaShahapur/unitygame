@@ -4,8 +4,8 @@ namespace SDK.Common
 {
     public enum EnDZPlayer
     {
-        ePlayerSelf,            // 自己
-        ePlayerEnemy,           // 敌人
+        ePlayerSelf = 0,            // 自己
+        ePlayerEnemy = 1,           // 敌人
         ePlayerTotal            // 总共数量
     }
 
@@ -117,6 +117,19 @@ namespace SDK.Common
                 }
 
                 ++idx;
+            }
+
+            return null;
+        }
+
+        public SceneCardItem getCardItemByThisIDAndSide(uint thisID, byte side)
+        {
+            foreach (SceneCardItem item in m_playerArr[side].m_sceneCardList)
+            {
+                if (item.m_svrCard.qwThisID == thisID)
+                {
+                    return item;
+                }
             }
 
             return null;

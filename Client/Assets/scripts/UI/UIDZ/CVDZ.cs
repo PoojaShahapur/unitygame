@@ -6,7 +6,7 @@
         public const string SelfName = "LblSelfName";
         public const string EnemyName = "LblEnemyName";
 
-        public const string BtnFangQi = "FangQiBtn";
+        public const string BtnOp = "OpBtn";
     };
 
     public enum EnDZLbl

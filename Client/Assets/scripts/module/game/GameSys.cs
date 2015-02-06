@@ -78,6 +78,7 @@ namespace Game.Game
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIHeroSelect);
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIChat);      // 退出聊天
 
             // 请求主角基本数据
             Ctx.m_instance.m_dataPlayer.reqMainData();
@@ -92,6 +93,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UITest);
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIDZ);      // 显示对战场景界面
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIChat);      // 显示聊天
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
         }
 
@@ -162,9 +164,9 @@ namespace Game.Game
             Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneMain);
 
             Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneHero);
-            //Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneHero);
+            Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneHero);
             Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneBg);
-            //Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneBg);
+            Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneBg);
         }
     }
 }

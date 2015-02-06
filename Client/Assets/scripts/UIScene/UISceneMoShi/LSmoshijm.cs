@@ -86,10 +86,13 @@ namespace Game.UI
             classpic.transform.parent.gameObject.SetActive(false);
         }
 
+        // 新建立一张卡牌
         Vector3 jbtppostion = new Vector3(-1.037413f, -0.004264796f, 0.002689363f);
         public GameObject jbtpbtn, zdytpbtn;
         public void newset()
         {
+            transform.FindChild("jbtp").gameObject.SetActive(true);
+
             jbtpbtn.transform.Rotate(180, 0, 0);
             jbtpbtn.transform.Rotate(0, 0, 0);
             transform.FindChild("jbtp").localPosition = jbtppostion;
@@ -103,8 +106,10 @@ namespace Game.UI
 
         public void dzmoshi()
         {
+            transform.FindChild("jbtp").gameObject.SetActive(false);
+
             jbtpbtn.transform.Rotate(0, 0, 0);
-            jbtpbtn.transform.Rotate(0, 0, 0);
+            //jbtpbtn.transform.Rotate(0, 0, 0);
             transform.position = goodp;
             nowMethod = moshijmmethod.dz;
             //Camera.main.SendMessage("push");
@@ -120,8 +125,10 @@ namespace Game.UI
 
         void lxmoshi()
         {
+            transform.FindChild("jbtp").gameObject.SetActive(false);
+
             jbtpbtn.transform.Rotate(0, 0, 0);
-            jbtpbtn.transform.Rotate(0, 0, 0);
+            //jbtpbtn.transform.Rotate(0, 0, 0);
             transform.position = goodp;
             nowMethod = moshijmmethod.lx;
             //Camera.main.SendMessage("push");
@@ -237,10 +244,9 @@ namespace Game.UI
                         }
                     }
                     // test
-                    if (!Ctx.m_instance.m_cfg.m_bNeedNet)
-                    {
-                        uiMS.startmatch();
-                    }
+                #if DEBUG_NOTNET
+                    uiMS.startmatch();
+                #endif
                     break;
             }
         }

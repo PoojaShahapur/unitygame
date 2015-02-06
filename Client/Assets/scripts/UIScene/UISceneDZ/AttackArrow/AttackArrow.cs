@@ -13,9 +13,6 @@ namespace Game.UI
         protected List<ArrowItem> m_arrowList = new List<ArrowItem>();          // 当前显示的箭头
         protected List<ArrowItem> m_buffList = new List<ArrowItem>();           // 缓冲箭头
 
-        protected Plane mPlane;
-        protected bool m_initPanel;
-
         protected Vector3 m_lastMousePos;
         protected Vector3 m_curMousePos;
 
@@ -55,18 +52,7 @@ namespace Game.UI
 
         protected void getCurMouseScenePos()
         {
-            if (!m_initPanel)
-            {
-                m_initPanel = true;
-                mPlane = new Plane(Vector3.up, Vector3.zero);
-            }
-
-            m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (mPlane.Raycast(m_ray, out m_dist))
-            {
-                m_currentPos = m_ray.GetPoint(m_dist);
-            }
+            m_currentPos = Ctx.m_instance.m_coordConv.getCurMouseScenePos();
         }
 
         protected void updatePos()

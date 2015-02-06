@@ -149,10 +149,9 @@ namespace Game.UI
         {
             m_lblTip.text = "现在开始匹配了，注意了";
             // test 进入战场
-            if (!Ctx.m_instance.m_cfg.m_bNeedNet)
-            {
-                Ctx.m_instance.m_loadDZScene();
-            }
+        #if DEBUG_NOTNET
+            Ctx.m_instance.m_loadDZScene();
+        #endif
         }
     }
 }

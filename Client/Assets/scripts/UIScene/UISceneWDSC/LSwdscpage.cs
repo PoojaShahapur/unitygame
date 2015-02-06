@@ -12,24 +12,9 @@ namespace Game.UI
     /// </summary>
     public class wdscpage : InterActiveEntity
     {
-        //8张卡的位置
-        public Transform[] card8postion;
-        //3种卡预制
-        public GameObject abilitypre, minionpre, weaponpre;
-
-        //当前页
-        int nowpage = 0;
-        //用户的卡
-        static List<card> playerscard = new List<card>();
-        //当前显示的8张卡
-        List<Transform> card8 = new List<Transform>();
-        //职业过滤后的卡
-        List<card> classcard = new List<card>();
-        //花费过滤后的卡
-        List<card> costcard = new List<card>();
-        //当前的花费过滤
-        string nowcost = "all";
-
+        public SceneWDSCData m_sceneWDSCData = new SceneWDSCData();
+        public UIGrid m_CardList = new UIGrid();            // 收藏卡牌数据
+        public List<SCUICardItem> m_SCUICardItemList = new List<SCUICardItem>();
         public Text pagename;
 
         public override void Awake()
@@ -37,106 +22,15 @@ namespace Game.UI
 
         }
 
-        /// <summary>
-        /// 翻页
-        /// 0初始 -1 上一页 1下一页
-        /// </summary>
-        /// <param name="pageflag"></param>
-        void nextpage(int pageflag)
+        public override void Start()
         {
-            switch (pageflag)
-            {
-                case 0:
-                    {//初始显示
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneSCPath.BtnPrePage), onPreBtnClk);       // 前一页
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneSCPath.BtnNextPage), onNextBtnClk);       // 后一页
 
-                    }
-                    break;
-                case -1:
-                    {//上一页
-                        if (nowpage == 1)  //第1页,不能向上
-                        {
-                            return;
-                        }
-                    }
-                    break;
-                case 1:
-                    {//下一页
-                        if (costcard.Count / 8.0 <= nowpage)  //最后1页,不能向下
-                        {
-                            return;
-                        }
-                    }
-                    break;
-            }
-
-
-            nowpage += pageflag;
-
-            int strat = (nowpage - 1) * 8;
-
-            if (strat < 0)
-            {
-                strat = 0;
-            }
-
-            int end = strat + 8;
-            //transform.FindChild("pagenum").GetComponent<Text>().text = "第" + nowpage + "页";
-
-            if (end > costcard.Count) //对end的范围进行确认
-            {
-                end = costcard.Count;
-            }
-
-            DestroyCrad();
-
-            for (int x = 0; strat < end; strat++, x++)
-            {
-                card a = costcard[strat];
-
-                //取出点
-                Vector3 l = card8postion[x].position;
-                //实例化卡
-                Transform go = transform;
-
-                switch (a.type)
-                {
-                    case CardType.CARDTYPE_MAGIC:
-                        {
-                            go = (Transform)UtilApi.Instantiate(abilitypre.transform, l, abilitypre.transform.rotation);
-                        }
-                        break;
-
-                    case CardType.CARDTYPE_ATTEND:
-                        {
-                            go = (Transform)UtilApi.Instantiate(minionpre.transform, l, minionpre.transform.rotation);
-                        }
-                        break;
-
-                    case CardType.CARDTYPE_EQUIP:
-                        {
-                            go = (Transform)UtilApi.Instantiate(weaponpre.transform, l, weaponpre.transform.rotation);
-                        }
-                        break;
-
-                }
-                card8.Add(go);
-                go.parent = transform;
-                //发送信息给它
-                go.SendMessage("setinfo", a);
-            }
-        }
-
-        public static card getcardwithid(string id)
-        {
-            foreach (card c in playerscard)
-            {
-                if (c.cardid == id)
-                {
-                    return c;
-                }
-            }
-
-            return new card();
+            m_CardList.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/page/CardList"));
+            m_CardList.cellWidth = 0.00473f;
+            m_CardList.cellHeight = 0.00663f;
+            m_CardList.maxPerLine = 4;
         }
 
         /// <summary>
@@ -144,133 +38,98 @@ namespace Game.UI
         /// </summary>
         void DestroyCrad()
         {
-            foreach (Transform t in card8)
+            GameObject go;
+            for (int i = m_CardList.getChildCount() - 1; i >= 0; i--)
             {
-                UtilApi.Destroy(t.gameObject);
+                go = m_CardList.GetChild(i).gameObject;
+                go.transform.parent = null;
+                UtilApi.Destroy(go);
             }
 
-            card8.Clear();
+            m_SCUICardItemList.Clear();
         }
 
         //对职业进行过滤
         public void onclass(EnPlayerCareer c)
         {
-            //switch (c)
-            //{
-            //    case CardClass.kwarrior: pagename.text = "战士";
-            //        break;
-            //    case CardClass.khunter: pagename.text = "猎人";
-            //        break;
-            //    case CardClass.kpaladin: pagename.text = "圣骑士";
-            //        break;
-            //    case CardClass.kdruid: pagename.text = "德鲁伊";
-            //        break;
-            //    case CardClass.krogue: pagename.text = "潜行者";
-            //        break;
-            //    case CardClass.kmage: pagename.text = "法师";
-            //        break;
-            //    case CardClass.kpriest: pagename.text = "牧师";
-            //        break;
-            //    case CardClass.kshama: pagename.text = "祭司萨满";
-            //        break;
-            //    case CardClass.kwarlock: pagename.text = "术士";
-            //        break;
-            //    case CardClass.kany: pagename.text = "中立";
-            //        break;
-            //}
-            classcard.Clear();
+            DestroyCrad();
 
-            foreach (card cin in playerscard)
+            m_sceneWDSCData.m_curTabPageIdx = (int)c;
+            List<CardItemBase> list = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[(int)c];
+            GameObject tmpGO;
+            GameObject go;
+
+            if (Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_sceneWDSCData.m_curTabPageIdx].Count > 0)
             {
-                if (cin.classs == c)
+                int idx = 0;
+                CardItemBase cardItem;
+                SCUICardItem uicardItem;
+                while (m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx * (int)SCCardNumPerPage.eNum + idx < Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_sceneWDSCData.m_curTabPageIdx].Count && idx < (int)SCCardNumPerPage.eNum)
                 {
-                    classcard.Add(cin);
+                    cardItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_sceneWDSCData.m_curTabPageIdx][m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx * (int)SCCardNumPerPage.eNum + idx];
+
+                    tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)cardItem.m_tableItemCard.m_type).getObject() as GameObject;
+                    if (tmpGO != null)
+                    {
+                        //go = UtilApi.Instantiate(tmpGO, Vector3.zero, tmpGO.transform.rotation) as GameObject;
+                        go = UtilApi.Instantiate(tmpGO) as GameObject;
+                        m_CardList.AddChild(go.transform);
+                        UtilApi.normalPos(go.transform);
+                        uicardItem = new SCUICardItem();
+                        uicardItem.setGameObject(go);
+                        uicardItem.cardItemBase = cardItem;
+                        m_SCUICardItemList.Add(uicardItem);
+                        m_SCUICardItemList[m_SCUICardItemList.Count - 1].m_clkCB = m_sceneWDSCData.m_onClkCard;
+
+                        UtilApi.updateCardDataNoChange(cardItem.m_tableItemCard, uicardItem.getGameObject());
+                        UtilApi.updateCardDataChange(cardItem.m_tableItemCard, uicardItem.getGameObject());
+                    }
+                    ++idx;
                 }
+
+                m_CardList.Reposition();
             }
 
-            oncost(nowcost);
+            m_sceneWDSCData.m_textPageNum.text = string.Format("第{0}页", m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx + 1);
         }
 
-        //对花费进行过滤
-        void oncost(string mcost)
+        // 收藏中前一页
+        public void onPreBtnClk()
         {
-            nowcost = mcost;
-            costcard.Clear();
-
-            if (mcost == "all")//如果是all 
+            if (canMovePre())
             {
-                foreach (card cin in classcard)
-                {
-                    costcard.Add(cin);
-                }
+                --m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx;
+                updatePageUI();
             }
-            else
-            {
-                int intmcost = int.Parse(mcost);
-
-                foreach (card cin in classcard)
-                {
-                    int cardcost = int.Parse(cin.cost);
-
-                    if (intmcost == 7)
-                    {
-                        if (cardcost >= intmcost)
-                        {
-                            costcard.Add(cin);
-                        }
-                    }
-                    else
-                    {
-                        if (cardcost == intmcost)
-                        {
-                            costcard.Add(cin);
-                        }
-                    }
-                }
-            }
-
-            if (costcard.Count == 0)
-            {
-               // transform.FindChild("nojg").GetComponent<Text>().text = "没有查找结果";
-            }
-            else
-            {
-                //transform.FindChild("nojg").GetComponent<Text>().text = "";
-            }
-
-            nowpage = 1;
-            nextpage(0);
         }
 
-        //////////////////////////////////////////////////////////////////////////
-        //在更新卡的信息
-        void updatecard(card c)
+        // 收藏中后一页
+        public void onNextBtnClk()
         {
-            //对显示的卡进行数量
-            //在page中找到这张卡
-            Transform inpagecard = transform.FindChild(c.cardid);
-
-            if (inpagecard != null)
+            if (canMoveNext())
             {
-                inpagecard.SendMessage("upinfo", c);
+                ++m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx;
+                updatePageUI();
             }
+        }
 
-            //对总卡进行更新
-            for (int x = 0; x < playerscard.Count; x++)
-            {
-                if (playerscard[x].cardid == c.cardid)
-                {
-                    playerscard[x] = c;
-                }
-            }
+        // 判断当前 TabPage 是否可以向前翻页
+        public bool canMovePre()
+        {
+            return m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx > 0;
+        }
 
-            //对过滤后的卡进行更新
-            for (int x = 0; x < costcard.Count; x++)
+        // 判断当前的 TabPage 是否可以向后翻页
+        public bool canMoveNext()
+        {
+            return ((m_sceneWDSCData.m_pageArr[m_sceneWDSCData.m_curTabPageIdx].m_curPageIdx + 1) * (int)SCCardNumPerPage.eNum < Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_sceneWDSCData.m_curTabPageIdx].Count);
+        }
+
+        public void updatePageUI()
+        {
+            if (m_sceneWDSCData.m_curTabPageIdx >= 0)
             {
-                if (costcard[x].cardid == c.cardid)
-                {
-                    costcard[x] = c;
-                }
+                onclass((EnPlayerCareer)m_sceneWDSCData.m_curTabPageIdx);
             }
         }
     }

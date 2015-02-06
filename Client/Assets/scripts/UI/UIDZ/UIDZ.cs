@@ -30,13 +30,12 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, DZComPath.BtnFangQi, onFangQiBtnClk);
+            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, DZComPath.BtnOp, onOpBtnClk);
         }
 
-        protected void onFangQiBtnClk()
+        protected void onOpBtnClk()
         {
-            stReqGiveUpOneBattleUserCmd cmd = new stReqGiveUpOneBattleUserCmd();
-            UtilMsg.sendMsg(cmd);
+            Ctx.m_instance.m_uiMgr.showForm(UIFormID.UIExtraOp);
         }
 
         // self 和 enemy hero 的名字显示

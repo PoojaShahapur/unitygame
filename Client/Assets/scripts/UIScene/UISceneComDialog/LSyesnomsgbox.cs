@@ -38,7 +38,7 @@ namespace Game.UI
             }
             else
             {//分解显示,标题与内容
-                string[] ttt = str.Split('/');
+                //string[] ttt = str.Split('/');
                 //bt.text = ttt[0];
                 //t.text = ttt[1];
             }

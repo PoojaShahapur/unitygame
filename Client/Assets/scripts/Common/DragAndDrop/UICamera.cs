@@ -673,7 +673,7 @@ public class UICamera : MonoBehaviour
 	}
 
 	//static DepthEntry mHit = new DepthEntry();
-	static BetterList<DepthEntry> mHits = new BetterList<DepthEntry>();
+	//static BetterList<DepthEntry> mHits = new BetterList<DepthEntry>();
 
 	/// <summary>
 	/// Find the rigidbody on the parent, but return 'null' if a UIPanel is found instead.
@@ -758,7 +758,7 @@ public class UICamera : MonoBehaviour
 		return false;
 	}
 
-	static Plane m2DPlane = new Plane(Vector3.back, 0f);
+	//static Plane m2DPlane = new Plane(Vector3.back, 0f);
 
 	/// <summary>
 	/// Helper function to check if the specified hit is visible by the panel.

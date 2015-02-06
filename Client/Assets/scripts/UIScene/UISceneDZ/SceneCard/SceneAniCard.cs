@@ -1,34 +1,31 @@
-﻿using System.Collections;
+﻿using SDK.Common;
+using System.Collections;
 using UnityEngine;
 
 namespace Game.UI
 {
     public class SceneAniCard : SceneCardEntityBase
     {
-        // 做动画使用
-        // 原始信息
-        protected Vector3 m_origPos;
-        protected Vector3 m_origRot;
-        protected Vector3 m_origScale;
-
+        // 仅仅是在做移动动画的时候才会使用，人为拖动不会改变这两个值
         // 开始信息
-        protected Vector3 m_startPos;       // 最终位置
-        protected Vector3 m_startRot;       // 最终选择
-        protected Vector3 m_startScale;       // 最终选择
+        protected Vector3 m_startPos;       // 最终位置之前的一个位置
+        protected Vector3 m_startRot;       // 最终旋转之前的一个旋转
+        protected Vector3 m_startScale;     // 最终缩放之前的一个缩放
 
         // 目标信息
         protected Vector3 m_destPos;       // 最终位置
-        protected Vector3 m_destRot;       // 最终选择
-        protected Vector3 m_destScale;       // 最终选择
+        protected Vector3 m_destRot;       // 最终旋转
+        protected Vector3 m_destScale;     // 最终缩放
 
-        protected float m_time = 0.5f;      // 动画时间
+        // 路径堆栈
+        protected Stack m_pathStack = new Stack();              // 路径堆栈，记录路径信息
+        protected const float m_time = 0.5f;      // 动画时间
+        protected NumAniSeq m_numAniSeq = new NumAniSeq();       // 回退的时候，这个单独的动画序列
+        protected const float m_height = 1.0f;
 
         public override void Start()
         {
-            //初始化都是最初的
-            m_origPos = transform.localPosition;
-            m_origRot = transform.localRotation.eulerAngles;
-            m_origScale = transform.localScale;
+            base.Start();
 
             m_startPos = transform.localPosition;
             m_startRot = transform.localRotation.eulerAngles;
@@ -97,38 +94,134 @@ namespace Game.UI
         // 到目标位置
         public void moveToDest()
         {
+            saveCurRSTToStart();
+
+            RSTAni rstAni = new RSTAni();
+            m_numAniSeq.addOneNumAni(rstAni);
+            rstAni.setGO(gameObject);
+            rstAni.destPos = m_destPos;
+            rstAni.destRot = m_destRot;
+            rstAni.destScale = m_destScale;
+
+            m_numAniSeq.play();
+        }
+
+        // 开始拖动自动动画
+        public void startDragAni()
+        {
+            // 一定要先保存信息
+            //saveCurRSTToStart();      // 移动后，位置信息都已经改变后，才调用拖动的动画
+            saveDestToStart();
+
+            // 缩放
+            destScale = SceneCardEntityBase.BIGFACT;
+            // 缩放直接到达位置
+            m_destPos.y = m_height;
+            transform.localPosition = m_destPos;
+
+            moveScaleToDest();
+
+            pushStartAndEndToStack();
+        }
+
+        // 结束拖动动画
+        public void endDragAni()
+        {
+            // 缩放
+            destScale = SceneCardEntityBase.SMALLFACT;
+        }
+
+        // 保存当前的信息
+        protected void saveCurRSTToStart()
+        {
             m_startPos = transform.localPosition;
             m_startRot = transform.localRotation.eulerAngles;
             m_startScale = transform.localScale;
+        }
 
-            // 非动画
-            //transform.localPosition = m_destPos;
-            //transform.localRotation = Quaternion.Euler(m_destRot);
-            //transform.localScale = m_destScale;
+        // 保存
+        protected void saveStartToDest()
+        {
+            m_destPos = m_startPos;
+            m_destRot = m_startRot;
+            m_destScale = m_startScale;
+        }
 
-            // 动画
-            //iTween.MoveTo(gameObject, m_destPos, m_time);
-            //iTween.RotateTo(gameObject, m_destRot, m_time);
-            //iTween.ScaleTo(gameObject, m_destScale, m_time);
+        //保存
+        protected void saveDestToStart()
+        {
+            m_startPos = m_destPos;
+            m_startRot = m_destRot;
+            m_startScale = m_destScale;
+        }
 
-            Hashtable args;
+        //// 缩放
+        protected void moveScaleToDest()
+        {
+            m_startScale = transform.localScale;
 
-            args = new Hashtable();
-            args["position"] = m_destPos;
-            args["time"] = m_time;
-            args["islocal"] = true;
-            iTween.MoveTo(gameObject, args);
+            ScaleAni rstAni = new ScaleAni();
+            m_numAniSeq.addOneNumAni(rstAni);
+            rstAni.setGO(gameObject);
+            rstAni.destScale = m_destScale;
+            m_numAniSeq.play();
+        }
 
-            args = new Hashtable();
-            args["rotation"] = m_destRot;
-            args["time"] = m_time;
-            args["islocal"] = true;
-            iTween.RotateTo(gameObject, args);
+        // 移动到之前的位置
+        public void moveBackToPre()
+        {
+            // 将堆栈清空
+            m_pathStack.Clear();
 
-            args = new Hashtable();
-            args["scale"] = m_destScale;
-            args["time"] = m_time;
-            iTween.ScaleTo(gameObject, args);
+            saveStartToDest();
+            moveToDest();
+        }
+
+        // 保存开始点和结束点到堆栈
+        protected void pushStartAndEndToStack()
+        {
+            // 顺序是 T R S
+            m_pathStack.Push(m_startPos);
+            m_pathStack.Push(m_startRot);
+            m_pathStack.Push(m_startScale);
+
+            m_pathStack.Push(m_destPos);
+            m_pathStack.Push(m_destRot);
+            m_pathStack.Push(m_destScale);
+        }
+
+        // 卡牌从已经出牌区域返回到手里的卡牌位置
+        public void retFormOutAreaToHandleArea()
+        {
+            enableDrag();
+
+            RSTAni rstAni = new RSTAni();
+            m_numAniSeq.addOneNumAni(rstAni);
+            rstAni.setGO(gameObject);
+            rstAni.destPos = new Vector3(transform.localPosition.x, 1.0f, transform.localPosition.z);
+            rstAni.destScale = SceneCardEntityBase.BIGFACT;
+            rstAni.destRot = transform.localRotation.eulerAngles;
+
+            rstAni = new RSTAni();
+            m_numAniSeq.addOneNumAni(rstAni);
+            rstAni.setGO(gameObject);
+            rstAni.destScale = (Vector3)m_pathStack.Pop();
+            m_pathStack.Pop();
+            rstAni.destRot = Vector3.one;
+            rstAni.destPos = (Vector3)m_pathStack.Pop();
+
+            m_destScale = (Vector3)m_pathStack.Pop();
+            m_destRot = (Vector3)m_pathStack.Pop();
+            m_destPos = (Vector3)m_pathStack.Pop();
+
+            rstAni = new RSTAni();
+            m_numAniSeq.addOneNumAni(rstAni);
+            rstAni.setGO(gameObject);
+            rstAni.destScale = m_destScale;
+            rstAni.destRot = m_destRot;
+            rstAni.destPos = m_destPos;
+
+            m_numAniSeq.play();
         }
     }
 }

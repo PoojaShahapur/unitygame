@@ -3,6 +3,7 @@ using SDK.Common;
 using SDK.Lib;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -11,19 +12,13 @@ namespace Game.UI
      */
     public class UISceneWDSC : SceneForm, IUISceneWDSC
     {
+        protected SceneWDSCData m_sceneWDSCData = new SceneWDSCData();
+
         protected wdscjm m_wdscjm = new wdscjm();
         protected newCardSet m_newCardSet = new newCardSet();
         protected btn[] m_btnArr = new btn[(int)SceneWDSCBtnEnum.eBtnTotal];
-        protected classfilter[] m_tabBtnList = new classfilter[10];
         protected wdscpage m_wdscpage = new wdscpage();
 
-        protected SCUICardItem[] m_SCUICardItemList = new SCUICardItem[(int)SCCardNumPerPage.eNum];     // 每一职业卡牌显示列表
-        //protected TPUICardItem[] m_SCUITPItemList = new TPUICardItem[(int)SCTPNumPerPage.eNum];       // 套牌显示列表
-
-        protected int m_curPageIdx;     // 当前显示的 Page 索引
-        //protected CurEditCardInfo m_curEditCardInfo = new CurEditCardInfo();        // 当前编辑的卡牌信息
-
-        //public List<Transform> m_playersets = new List<Transform>();       // 卡牌组 Tranforms 以及最后的按钮
         public List<cardset> m_taoPaiEntityList = new List<cardset>();      // 当前已经有的卡牌组
         public List<SCCardListItem> m_cardList = new List<SCCardListItem>();// 当前在编辑的卡牌列表
         public cardset m_curEditCardSet = null;                 // 当前正在编辑的卡牌组
@@ -34,6 +29,8 @@ namespace Game.UI
         {
             base.onReady();
 
+            m_sceneWDSCData.m_onClkCard = onClkCard;
+
             getWidget();
             addEventHandle();
 
@@ -43,6 +40,7 @@ namespace Game.UI
         public override void onShow()
         {
             base.onShow();
+            onclass(EnPlayerCareer.HERO_OCCUPATION_1);      // 切换到第一个职业
         }
 
         // 获取控件
@@ -68,39 +66,71 @@ namespace Game.UI
             m_btnArr[(int)SceneWDSCBtnEnum.eBtnBack].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/wdscfh/btn"));
 
             int idx = 0;
-            while(idx < (int)SCCardNumPerPage.eNum)
-            {
-                m_SCUICardItemList[idx] = new SCUICardItem();
-                m_SCUICardItemList[idx].m_tran = UtilApi.GoFindChildByPObjAndName("wdscjm/page/" + (idx + 1)).transform;
-                ++idx;
-            }
-            //idx = 0;
-            //while (idx < (int)SCTPNumPerPage.eNum)
-            //{
-            //    m_SCUITPItemList[idx] = new TPUICardItem();
-            //    m_SCUITPItemList[idx].m_tran = UtilApi.GoFindChildByPObjAndName("wdscjm/kuan/kong/kong" + idx).transform;
-            //    ++idx;
-            //}
 
             idx = 0;
-            while(idx < 10)
+            while (idx < 10)
             {
-                m_tabBtnList[idx] = new classfilter();
+                m_sceneWDSCData.m_tabBtnList[idx] = new classfilter();
                 ++idx;
             }
 
-            m_tabBtnList[0].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/fs"));
-            m_tabBtnList[1].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sq"));
-            m_tabBtnList[2].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ms"));
-            m_tabBtnList[3].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dz"));
-            m_tabBtnList[4].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sm"));
-            m_tabBtnList[5].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ss"));
-            m_tabBtnList[6].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zs"));
-            m_tabBtnList[7].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/lr"));
-            m_tabBtnList[8].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dly"));
-            m_tabBtnList[9].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zl"));
+            m_sceneWDSCData.m_tabBtnList[0].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/fs"));
+            m_sceneWDSCData.m_tabBtnList[0].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[0].tag = 0;
+            m_sceneWDSCData.m_tabBtnList[0].myclass = (EnPlayerCareer)1;
 
+            m_sceneWDSCData.m_tabBtnList[1].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sq"));
+            m_sceneWDSCData.m_tabBtnList[1].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[1].tag = 1;
+            m_sceneWDSCData.m_tabBtnList[1].myclass = (EnPlayerCareer)2;
+
+            m_sceneWDSCData.m_tabBtnList[2].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ms"));
+            m_sceneWDSCData.m_tabBtnList[2].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[2].tag = 2;
+            m_sceneWDSCData.m_tabBtnList[2].myclass = (EnPlayerCareer)3;
+
+            m_sceneWDSCData.m_tabBtnList[3].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dz"));
+            m_sceneWDSCData.m_tabBtnList[3].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[3].tag = 3;
+            m_sceneWDSCData.m_tabBtnList[3].myclass = (EnPlayerCareer)4;
+
+            m_sceneWDSCData.m_tabBtnList[4].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sm"));
+            m_sceneWDSCData.m_tabBtnList[4].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[4].tag = 4;
+            m_sceneWDSCData.m_tabBtnList[4].myclass = (EnPlayerCareer)5;
+
+            m_sceneWDSCData.m_tabBtnList[5].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ss"));
+            m_sceneWDSCData.m_tabBtnList[5].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[5].tag = 5;
+            m_sceneWDSCData.m_tabBtnList[5].myclass = (EnPlayerCareer)6;
+
+            m_sceneWDSCData.m_tabBtnList[6].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zs"));
+            m_sceneWDSCData.m_tabBtnList[6].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[6].tag = 6;
+            m_sceneWDSCData.m_tabBtnList[6].myclass = (EnPlayerCareer)7;
+
+            m_sceneWDSCData.m_tabBtnList[7].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/lr"));
+            m_sceneWDSCData.m_tabBtnList[7].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[7].tag = 7;
+            m_sceneWDSCData.m_tabBtnList[7].myclass = (EnPlayerCareer)8;
+
+            m_sceneWDSCData.m_tabBtnList[8].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dly"));
+            m_sceneWDSCData.m_tabBtnList[8].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[8].tag = 8;
+            m_sceneWDSCData.m_tabBtnList[8].myclass = (EnPlayerCareer)9;
+
+            m_sceneWDSCData.m_tabBtnList[9].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zl"));
+            m_sceneWDSCData.m_tabBtnList[9].sceneWDSCData = m_sceneWDSCData;
+            m_sceneWDSCData.m_tabBtnList[9].tag = 9;
+            m_sceneWDSCData.m_tabBtnList[9].myclass = (EnPlayerCareer)0;
+
+            // 默认选择第一个
+            m_sceneWDSCData.onBtnClk(0);
+
+            m_wdscpage.m_sceneWDSCData = m_sceneWDSCData;
             m_wdscpage.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/page"));
+
+            m_sceneWDSCData.m_textPageNum = UtilApi.getComByP<Text>(SceneSCPath.TextPageNum);
         }
 
         // 添加事件监听
@@ -135,19 +165,21 @@ namespace Game.UI
         // 所有卡牌
         public void psstNotifyAllCardTujianInfoCmd()
         {
-            if(Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curPageIdx].Count > 0)
-            {
-                int idx = 0;
-                CardItemBase cardItem;
-                while(idx < Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curPageIdx].Count && idx < (int)SCCardNumPerPage.eNum)
-                {
-                    cardItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curPageIdx][idx];
-                    m_SCUICardItemList[idx].cardItemBase = cardItem;
-                    m_SCUICardItemList[idx].m_clkCB = onClkCard;
-                    m_SCUICardItemList[idx].load();
-                    ++idx;
-                }
-            }
+            //if (Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curTabPageIdx].Count > 0)
+            //{
+            //    int idx = 0;
+            //    CardItemBase cardItem;
+            //    while (idx < Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curTabPageIdx].Count && idx < (int)SCCardNumPerPage.eNum)
+            //    {
+            //        cardItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[m_curTabPageIdx][idx];
+            //        m_SCUICardItemList[idx].cardItemBase = cardItem;
+            //        m_SCUICardItemList[idx].m_clkCB = onClkCard;
+            //        m_SCUICardItemList[idx].load();
+            //        ++idx;
+            //    }
+            //}
+
+            m_wdscpage.updatePageUI();
         }
 
         // 新增\数量改变,不包括删除, badd 指明是添加还是改变
@@ -155,7 +187,9 @@ namespace Game.UI
         {
             if(badd)
             {
-                newcardset(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[id]);
+                //newcardset(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[id]);
+                // 增加一张卡牌
+                m_wdscpage.updatePageUI();
             }
         }
 
@@ -218,16 +252,6 @@ namespace Game.UI
             delOneCardGroup(curIdx);
         }
 
-        protected void releaseAllCard()
-        {
-            int idx = 0;
-            while (idx < (int)SCCardNumPerPage.eNum)
-            {
-                m_SCUICardItemList[idx].unload();
-                ++idx;
-            }
-        }
-
         protected void releaseAllTaoPai()
         {
             int idx = 0;
@@ -260,20 +284,23 @@ namespace Game.UI
 
         public void classfilterhide(EnPlayerCareer c)
         {
-            foreach(classfilter item in m_tabBtnList)
+            foreach (classfilter item in m_sceneWDSCData.m_tabBtnList)
             {
                 item.classfilterhide(c);
             }
         }
 
+        // 切换某个职业
         public void onclass(EnPlayerCareer myclass)
         {
+            // 做动画，设置当前的也签
+            m_sceneWDSCData.onBtnClk((int)myclass - 1);
             m_wdscpage.onclass(myclass);
         }
 
         public void classfilter_gotoback()
         {
-            foreach (classfilter item in m_tabBtnList)
+            foreach (classfilter item in m_sceneWDSCData.m_tabBtnList)
             {
                 item.gotoback();
             }
@@ -328,7 +355,7 @@ namespace Game.UI
 
         public void delOneCardGroup(int p)
         {
-            int curidx = p;
+            //int curidx = p;
             //把别的向上移动
             //for (; curidx < m_playersets.Count; curidx++)
             //{
@@ -342,18 +369,23 @@ namespace Game.UI
             m_newCardSet.updatePos();
         }
 
-        public void onClkCard(ItemSceneIOBase ioItem)
+        public void onClkCard(SCUICardItem ioItem)
         {
             if (wdscjm.nowMod == wdscmMod.editset)
             {
-                SCUICardItem item = ioItem as SCUICardItem;
                 if(m_curEditCardSet.info.m_cardList == null)
                 {
                     m_curEditCardSet.info.m_cardList = new List<uint>();
                 }
-                if(m_curEditCardSet.info.m_cardList.IndexOf(item.m_cardItemBase.m_tujian.id) == -1)
+                if (m_curEditCardSet.info.m_cardList.IndexOf(ioItem.m_cardItemBase.m_tujian.id) == -1)
                 {
-                    m_curEditCardSet.info.m_cardList.Add(item.m_cardItemBase.m_tujian.id);
+                    if (m_curEditCardSet.info.m_cardList.Count < 30)
+                    {
+                        m_curEditCardSet.info.m_cardList.Add(ioItem.m_cardItemBase.m_tujian.id);
+                        // 继续添加显示
+                        m_cardList.Add(createCard(ioItem.m_cardItemBase.m_tujian.id));
+                        m_leftCardList.AddChild(m_cardList[m_cardList.Count - 1].getGameObject().transform);
+                    }
                 }
             }
         }
@@ -384,8 +416,9 @@ namespace Game.UI
         protected void releaseLeftCardList()
         {
             int idx = 0;
-            while(idx < m_cardList.Count)
+            while (idx < m_cardList.Count)
             {
+                m_cardList[idx].getGameObject().transform.parent = null;
                 UtilApi.Destroy(m_cardList[idx].getGameObject());
                 ++idx;
             }

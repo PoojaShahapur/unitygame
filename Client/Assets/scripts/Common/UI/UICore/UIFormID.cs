@@ -11,6 +11,8 @@ namespace SDK.Common
         UIBlurBg,           // 模糊背景界面
         UITest,             // 测试界面
         UIDZ,               // 对战界面
+        UIExtraOp,          // 操作界面
+        UIChat,             // 聊天窗口
 	}
 
     public enum UILayerID

@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +10,18 @@ namespace Game.UI
      */
     public class SceneCardEntityBase : LSBehaviour
     {
-        protected SceneCardItem m_sceneCardItem;
+        public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
+        public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
 
-        //public void setCardData(SceneCardItem dataitem)
-        //{
-        //    m_sceneCardItem = dataitem;
-        //    updateCardData();
-        //}
+        protected SceneCardItem m_sceneCardItem;
+        public SceneDZData m_sceneDZData = new SceneDZData();
+
+        public override void Start()
+        {
+            base.Start();
+
+            UtilApi.addEventHandle(gameObject, onClk);
+        }
 
         public SceneCardItem sceneCardItem
         {
@@ -26,8 +32,19 @@ namespace Game.UI
             set
             {
                 m_sceneCardItem = value;
+
                 if (m_sceneCardItem != null)
                 {
+                    if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
+                    {
+                        disableDrag();
+                    }
+                    // 如果是放在技能的位置，是不允许拖放的
+                    else if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_SKILL)
+                    {
+                        disableDrag();
+                    }
+
                     updateCardDataChange();
                     updateCardDataNoChange();
                 }
@@ -65,142 +82,78 @@ namespace Game.UI
             {
                 if (m_sceneCardItem.m_cardArea != CardArea.CARDCELLTYPE_HERO)
                 {
-                    Text text;
-                    text = UtilApi.getComByP<Text>(gameObject, "name/Canvas/Text");         // 名字
-                    text.text = m_sceneCardItem.m_cardTableItem.m_name;
+                    UtilApi.updateCardDataNoChange(m_sceneCardItem.m_cardTableItem, gameObject);
+                }
+            }
+        }
 
-                    text = UtilApi.getComByP<Text>(gameObject, "description/Canvas/Text");  // 描述
-                    string desc = "";
-                    if (m_sceneCardItem.m_cardTableItem.m_chaoFeng == 1)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.ChaoFeng;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_chongFeng == 1)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.ChongFeng;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_fengNu == 1)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.FengNu;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_qianXing == 1)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.QianXing;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_shengDun == 1)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.ShengDun;
-                    }
+        // 关闭拖放功能
+        public virtual void disableDrag()
+        {
 
-                    if (m_sceneCardItem.m_cardTableItem.m_magicConsume > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.MoFaXiaoHao;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_attack > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.GongJiLi;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_hp > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.Xueliang;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_Durable > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.NaiJiu;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_mpAdded > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.FaShuShangHai;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_guoZai > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        desc += TableCardAttrName.GuoZai;
-                    }
+        }
 
-                    TableSkillItemBody tableSkillItem;
-                    // 技能
-                    if (m_sceneCardItem.m_cardTableItem.m_faShu > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)m_sceneCardItem.m_cardTableItem.m_faShu).m_itemBody as TableSkillItemBody;
-                        desc += tableSkillItem.m_desc;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_zhanHou > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)m_sceneCardItem.m_cardTableItem.m_zhanHou).m_itemBody as TableSkillItemBody;
-                        desc += tableSkillItem.m_desc;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_wangYu > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)m_sceneCardItem.m_cardTableItem.m_wangYu).m_itemBody as TableSkillItemBody;
-                        desc += tableSkillItem.m_desc;
-                    }
-                    if (m_sceneCardItem.m_cardTableItem.m_jiNu > 0)
-                    {
-                        if (desc.Length > 0)
-                        {
-                            desc += "\n";
-                        }
-                        tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)m_sceneCardItem.m_cardTableItem.m_jiNu).m_itemBody as TableSkillItemBody;
-                        desc += tableSkillItem.m_desc;
-                    }
+        // 开启拖动
+        public virtual void  enableDrag()
+        {
 
-                    text.text = desc;
+        }
+
+        public void onClk(GameObject go)
+        {
+            if (this.m_sceneCardItem != null)
+            {
+                if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpAttack))
+                {
+                    if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpAttack))
+                    {
+                        // 发送攻击指令
+                        stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
+                        cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
+                        cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
+                        UtilMsg.sendMsg(cmd);
+
+                        m_sceneDZData.m_gameOpState.quitAttackOp();
+                    }
+                    else
+                    {
+                        if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+                        {
+                            // 只有点击自己的时候，才启动攻击
+                            if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                            {
+                                m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                            }
+                        }
+                    }
+                }
+                if ((m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpFaShu)))        // 法术攻击
+                {
+                    if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpFaShu))
+                    {
+                        // 必然是有目标的法术攻击
+                        // 发送法术攻击消息
+                        stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
+                        cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
+                        cmd.dwMagicType = (uint)m_sceneCardItem.m_cardTableItem.m_faShu;
+                        cmd.dwDefThisID = this.sceneCardItem.m_svrCard.qwThisID;
+                        UtilMsg.sendMsg(cmd);
+                    }
+                    else if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)        // 如果点击自己出过的牌，再次进入普通攻击
+                    {
+                        m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                    }
+                }
+                else
+                {
+                    if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+                    {
+                        // 只有点击自己的时候，才启动攻击
+                        if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                        {
+                            m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                        }
+                    }
                 }
             }
         }

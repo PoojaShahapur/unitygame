@@ -21,5 +21,8 @@
     {
         public const string BtnClose = "wdscjm/wdscfh/btn";                         // 关闭按钮
         public const string BtnAddTaoPai = "wdscjm/setbtn/newSetBtn";               // 新增套牌
+        public const string BtnPrePage = "wdscjm/SceneUI/Canvas/PrePageBtn";               // 前一页
+        public const string BtnNextPage = "wdscjm/SceneUI/Canvas/NextPageBtn";               // 后一页
+        public const string TextPageNum = "wdscjm/page/pagenum";               // 第一页
     }
 }

@@ -77,6 +77,14 @@ namespace Game.Msg
 
         public const byte RET_REMOVE_BATTLE_CARD_USERCMD = 39;
         public const byte DEL_ENEMY_HAND_CARD_PROPERTY_CMD = 40;
+        public const byte RET_REFRESH_CARD_ALL_STATE_CMD = 41;
+        public const byte RET_CLEAR_CARD_ONE_STATE_CMD = 42;
+        public const byte RET_SET_CARD_ONE_STATE_CMD = 43;
+
+        public const byte RET_BATTLE_GAME_RESULT_CMD = 44;
+        public const byte RET_HERO_INTO_BATTLE_SCENE_CMD = 45;
+        public const byte RET_CARD_ATTACK_FAIL_USERCMD_PARA = 46;
+        public const byte REQ_CARD_MOVE_AND_MAGIC_USERCMD_PARA = 47;
 
         public stHeroCardCmd()
         {
@@ -92,4 +100,23 @@ namespace Game.Msg
     //        byCmd = HERO_CARD_USERCMD;
     //    }
     //};
+
+    public class stChatUserCmd : stNullUserCmd
+    {
+        public const byte CHAT_USERCMD_PARAMETER = 2;
+
+        public stChatUserCmd()
+        {
+            byCmd = CHAT_USERCMD;
+        }
+    }
+
+    //const BYTE CHAT_USERCMD      = 14;
+    //struct stChatUserCmd : public stNullUserCmd
+    //{       
+    //  stChatUserCmd()
+    //  { 
+    //    byCmd = CHAT_USERCMD;
+    //  } 
+    //}; 
 }

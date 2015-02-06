@@ -161,10 +161,14 @@ namespace SDK.Common
 
             //m_tableSys.loadOneTable(TableID.TABLE_SKILL);
             //m_tableSys.getItem(TableID.TABLE_SKILL, 2);
+            //m_tableSys.getItem(TableID.TABLE_CARD, 11014);
             //m_xmlCfgMgr.loadMarket();
             //m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
             m_dataPlayer.m_dataPack.postConstruct();
             m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
+
+            // Test 
+            ThreadWrap.getMainThreadID();
         }
 
         public void setNoDestroyObject()

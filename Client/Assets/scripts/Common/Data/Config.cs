@@ -5,6 +5,11 @@ using UnityEngine;
 namespace SDK.Common
 {
     /**
+     * @brief 宏定义说明区域
+     * @def DEBUG_NOTNET 没有网络处理
+     */
+
+    /**
      * @brief 基本的配置
      */
     public class Config
@@ -19,7 +24,7 @@ namespace SDK.Common
         public string[] m_pathLst;
         public ResLoadType m_resLoadType;   // 资源加载类型
         public string m_dataPath;
-        public bool m_bNeedNet = true;                     // 是否需要网络
+        //public bool m_bNeedNet = false;                     // 是否需要网络
 
         public Config()
         {

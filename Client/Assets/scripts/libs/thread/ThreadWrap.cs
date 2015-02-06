@@ -9,6 +9,8 @@ namespace SDK.Lib
      */
     public class ThreadWrap
     {
+        protected static int m_sMainThreadID;           // 主线程 id
+
         // 数据区域
         protected Thread m_thread;
         protected Action<object> m_cb;
@@ -70,6 +72,24 @@ namespace SDK.Lib
             if(m_cb != null)
             {
                 m_cb(m_param);
+            }
+        }
+
+        static public void getMainThreadID()
+        {
+            m_sMainThreadID = Thread.CurrentThread.ManagedThreadId;
+        }
+
+        static public bool isMainThread()
+        {
+            return (m_sMainThreadID == Thread.CurrentThread.ManagedThreadId);
+        }
+
+        static public void needMainThread()
+        {
+            if (!isMainThread())
+            {
+                throw new Exception("cannot call function in thread");
             }
         }
     }

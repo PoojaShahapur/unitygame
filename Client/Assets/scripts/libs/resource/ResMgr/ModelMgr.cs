@@ -113,12 +113,18 @@ namespace SDK.Lib
         }
 
         // 获取 SceneCard 模型
-        public ModelRes getSceneCardModel(EnSceneCardType type)
+        public ModelRes getSceneCardModel(CardType type)
         {
-            string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_prefabName;
-            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_path;
+            if (Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type] != null)
+            {
+                string prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_prefabName;
+                string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_path;
 
-            return syncGet<ModelRes>(prefab, path) as ModelRes;
+                return syncGet<ModelRes>(prefab, path) as ModelRes;
+            }
+
+
+            return null;
         }
 
         public override void onLoaded(IDispatchObject resEvt)

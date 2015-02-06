@@ -11,7 +11,7 @@ namespace Game.UI
         public OutSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
             : base(data, playerFlag)
         {
-            m_whiteCard = m_sceneDZData.createOneCard(1000, playerFlag, CardArea.CARDCELLTYPE_HAND);
+            m_whiteCard = m_sceneDZData.createOneCard(SceneDragCard.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND);
             m_whiteCard.getGameObject().SetActive(false);
         }
 
@@ -24,12 +24,11 @@ namespace Game.UI
 
         public void addCard(SceneDragCard card, int idx = 0)
         {
+            #if !DEBUG_NOTNET
             card.sceneCardItem.m_cardArea = CardArea.CARDCELLTYPE_COMMON;
+            #endif
             // 添加进来的卡牌是不能移动的
-            WindowDragTilt title = card.getGameObject().AddComponent<WindowDragTilt>();
-            UtilApi.Destroy(title);
-            UIDragObject drag = card.getGameObject().GetComponent<UIDragObject>();
-            UtilApi.Destroy(drag);
+            card.disableDrag();
 
             //m_sceneCardList.Add(card);
             m_sceneCardList.Insert(idx, card);
@@ -98,16 +97,6 @@ namespace Game.UI
         public void removeWhiteCard()
         {
             m_sceneCardList.Remove(m_whiteCard);
-        }
-
-        public void clearCool()
-        {
-            int idx = 0;
-            while (idx < m_sceneCardList.Count)
-            {
-                m_sceneCardList[idx].sceneCardItem.m_svrCard.awake = 1;
-                ++idx;
-            }
         }
     }
 }

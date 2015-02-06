@@ -130,7 +130,7 @@ namespace SDK.Lib
         //实例出一张
         Transform newcard()
         {
-            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject(), new Vector3(10, 10, 10), transform.rotation) as GameObject).transform;
+            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), new Vector3(10, 10, 10), transform.rotation) as GameObject).transform;
 
             c.parent = dzban;
             return c;
@@ -270,7 +270,7 @@ namespace SDK.Lib
                 myHero.SendMessage("setGameID", 2);
                 enemyHero.SendMessage("setGameID", 1);
                 //Todo实例一张幸运币卡
-                Transform lucky = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject(), l.position, Quaternion.identity)as GameObject).transform;
+                Transform lucky = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), l.position, Quaternion.identity) as GameObject).transform;
                 lucky.parent = mHand;
                 lucky.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             }
@@ -412,7 +412,7 @@ namespace SDK.Lib
 
             // cardskin.isdrag = true;
 
-            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
+            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
             c.parent = mHand;
             c.Rotate(-90f, -90f, 0);
             clearUpHand();
@@ -566,7 +566,7 @@ namespace SDK.Lib
 
         public void attack()
         {
-            int attackid = getTransformId(dzminion.attacker.transform);
+            //int attackid = getTransformId(dzminion.attacker.transform);
             int underatkid = getTransformId(dzminion.underattacker.transform);
             dzminion.attacker = null;
             //networkView.RPC("underattack", RPCMode.Others, attackid, underatkid);

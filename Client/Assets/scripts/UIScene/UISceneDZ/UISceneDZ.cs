@@ -26,6 +26,10 @@ namespace Game.UI
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf] = new SelfDZArea(m_sceneDZData, EnDZPlayer.ePlayerSelf);
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy] = new EnemyDZArea(m_sceneDZData, EnDZPlayer.ePlayerEnemy);
 
+            m_sceneDZData.m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf] = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf];
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy] = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy];
+
             m_historyArea.m_sceneDZData = m_sceneDZData;
             m_sceneDZData.m_attackArrow = new AttackArrow(m_sceneDZData);
             m_sceneDZData.m_gameOpState = new GameOpState(m_sceneDZData);
@@ -157,7 +161,7 @@ namespace Game.UI
             // ChallengeState.CHALLENGE_STATE_BATTLE 状态或者是刚开始，或者是中间掉线，然后重新上线
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_state == (int)ChallengeState.CHALLENGE_STATE_BATTLE)
             {
-                if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList.Length > 0)    // 如果自己有初始化的牌
+                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].bHaveStartCard())    // 如果自己有初始化的牌
                 {
                     m_sceneDZData.m_startGO.SetActive(false);
                     m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_inSceneCardList.startCardMoveTo();      // 一定初始化卡牌到卡牌列表
@@ -177,10 +181,6 @@ namespace Game.UI
             {
                 m_sceneDZData.m_dzturn.enemyTurn();
             }
-
-            // 刷新已经出的牌的冷却时间
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.clearCool();
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_outSceneCardList.clearCool();
         }
 
         public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
@@ -205,22 +205,27 @@ namespace Game.UI
             {
                 Ctx.m_instance.m_log.log(msg.side.ToString());
             }
-            m_sceneDZAreaArr[msg.side - 1].m_outSceneCardList.removeWhiteCard();       // 将占位的牌移除
 
-            if(msg.success == 1)     // 如果成功，就放进出牌位置
+            // 只有有效值的时候才处理
+            if (msg.side == 1 || msg.side == 2)
             {
-                m_sceneDZAreaArr[msg.side - 1].changeSceneCard(msg);
+                m_sceneDZAreaArr[msg.side - 1].m_outSceneCardList.removeWhiteCard();       // 将占位的牌移除
 
-                if ((msg.side - 1) == (int)EnDZPlayer.ePlayerSelf)
+                if (msg.success == 1)     // 如果成功，就放进出牌位置
                 {
+                    m_sceneDZAreaArr[msg.side - 1].changeSceneCard(msg);
+
+                    if ((msg.side - 1) == (int)EnDZPlayer.ePlayerSelf)
+                    {
+                        m_sceneDZData.m_curDragItem = null;
+                    }
+                }
+                else                    // 退回到原来的位置
+                {
+                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].moveDragBack();
+
                     m_sceneDZData.m_curDragItem = null;
                 }
-            }
-            else                    // 退回到原来的位置
-            {
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].moveDragBack();
-
-                m_sceneDZData.m_curDragItem = null;
             }
         }
 

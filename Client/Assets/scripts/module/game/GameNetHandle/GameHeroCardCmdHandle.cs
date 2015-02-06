@@ -39,6 +39,12 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.RET_REMOVE_BATTLE_CARD_USERCMD] = psstRetRemoveBattleCardUserCmd;
 
             m_id2HandleDic[stHeroCardCmd.RET_NOTIFY_UNFINISHED_GAME_CMD] = psstRetNotifyUnfinishedGameUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_REFRESH_CARD_ALL_STATE_CMD] = psstRetRefreshCardAllStateUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_CLEAR_CARD_ONE_STATE_CMD] = psstRetClearCardOneStateUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_SET_CARD_ONE_STATE_CMD] = psstRetSetCardOneStateUserCmd;
+
+            m_id2HandleDic[stHeroCardCmd.RET_HERO_INTO_BATTLE_SCENE_CMD] = psstRetHeroIntoBattleSceneUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_CARD_ATTACK_FAIL_USERCMD_PARA] = psstRetCardAttackFailUserCmd;
         }
 
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
@@ -202,7 +208,10 @@ namespace Game.Game
             {
                 uiMS.psstRetHeroFightMatchUserCmd(cmd);
             }
+        }
 
+        protected void psstRetHeroIntoBattleSceneUserCmd(IByteArray msg)
+        {
             Ctx.m_instance.m_loadDZScene();
         }
 
@@ -421,6 +430,48 @@ namespace Game.Game
             stReqEnterUnfinishedGameUserCmd cmd = new stReqEnterUnfinishedGameUserCmd();
             UtilMsg.sendMsg(cmd);
             Ctx.m_instance.m_dataPlayer.m_dzData.m_bLastEnd = true;
+        }
+
+        // 某一局开始后，刷新这一局的所有的状态
+        protected void psstRetRefreshCardAllStateUserCmd(IByteArray ba)
+        {
+            stRetRefreshCardAllStateUserCmd cmd = new stRetRefreshCardAllStateUserCmd();
+            cmd.derialize(ba);
+
+            SceneCardItem cardItem = Ctx.m_instance.m_dataPlayer.m_dzData.getCardItemByThisIDAndSide(cmd.dwThisID, (byte)(cmd.who - 1));
+            if (cardItem != null)
+            {
+                cardItem.m_svrCard.state = cmd.state;
+            }
+        }
+
+        // 清除某一个状态
+        protected void psstRetClearCardOneStateUserCmd(IByteArray ba)
+        {
+            stRetClearCardOneStateUserCmd cmd = new stRetClearCardOneStateUserCmd();
+            cmd.derialize(ba);
+
+            SceneCardItem cardItem = Ctx.m_instance.m_dataPlayer.m_dzData.getCardItemByThisIDAndSide(cmd.dwThisID, cmd.who);
+            UtilMath.clearState((StateID)cmd.stateNum, cardItem.m_svrCard.state);
+        }
+
+        // 设置某一个状态
+        protected void psstRetSetCardOneStateUserCmd(IByteArray ba)
+        {
+            stRetSetCardOneStateUserCmd cmd = new stRetSetCardOneStateUserCmd();
+            cmd.derialize(ba);
+
+            SceneCardItem cardItem = Ctx.m_instance.m_dataPlayer.m_dzData.getCardItemByThisIDAndSide(cmd.dwThisID, (byte)(cmd.who - 1));
+            UtilMath.setState((StateID)cmd.stateNum, cardItem.m_svrCard.state);
+        }
+
+        // 攻击失败
+        protected void psstRetCardAttackFailUserCmd(IByteArray ba)
+        {
+            stRetCardAttackFailUserCmd cmd = new stRetCardAttackFailUserCmd();
+            cmd.derialize(ba);
+            // 
+            Ctx.m_instance.m_log.log("card attack failed");
         }
     }
 }

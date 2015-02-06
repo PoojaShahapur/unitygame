@@ -7,10 +7,10 @@ namespace Game.UI
      */
     public interface IGameOpState
     {
-        void enterAttackOp(EnGameOp op, SceneDragCard card);
+        void enterAttackOp(EnGameOp op, SceneCardEntityBase card);
         void quitAttackOp();
         bool bInOp(EnGameOp op);
-        bool canAttackOp(SceneDragCard card);
+        bool canAttackOp(SceneCardEntityBase card, EnGameOp gameOp);
         uint getOpCardID();
     }
 }

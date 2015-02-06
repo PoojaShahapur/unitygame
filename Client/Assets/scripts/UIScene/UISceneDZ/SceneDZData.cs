@@ -32,6 +32,8 @@ namespace Game.UI
         public IAttackArrow m_attackArrow;
         public IGameOpState m_gameOpState;
 
+        public ISceneDZArea[] m_sceneDZAreaArr;
+
         public int m_curWhiteIdx = -1;
 
         public SceneDragCard createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area)
@@ -43,12 +45,16 @@ namespace Game.UI
             }
             else
             {
-                cardItem.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(EnSceneCardType.eScene_minion).getObject()) as GameObject);
+                TableCardItemBody tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, objid).m_itemBody as TableCardItemBody;
+                GameObject tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)tableBody.m_type).getObject();
+                if (tmpGO == null)
+                {
+                    tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_MAGIC).getObject();
+                }
+                cardItem.setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
             }
             cardItem.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
             cardItem.getGameObject().transform.parent = m_centerGO.transform;
-            //cardItem.sceneCardItem.m_cardArea = area;
-            //cardItem.sceneCardItem.m_playerFlag = m_playerFlag;
             // 设置出事位置为发牌位置
             cardItem.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
             cardItem.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
@@ -62,6 +68,28 @@ namespace Game.UI
             card.destPos = destPos.localPosition;
 
             card.moveToDest();
+        }
+
+        public SceneCardEntityBase getUnderSceneCard()
+        {
+            SceneCardEntityBase cardBase;
+            GameObject underGo = Ctx.m_instance.m_coordConv.getUnderGameObject();
+            if(underGo != null)
+            {
+                cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].getUnderSceneCard(underGo);
+                if(cardBase != null)
+                {
+                    return cardBase;
+                }
+
+                cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].getUnderSceneCard(underGo);
+                if (cardBase != null)
+                {
+                    return cardBase;
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -42,6 +42,12 @@ namespace SDK.Common
             return go.GetComponent<T>();
         }
 
+        // 从 Parent 获取一个组件
+        static public T getComByP<T>(string path) where T : Component
+        {
+            return GameObject.Find(path).GetComponent<T>();
+        }
+
         // 设置 Label 的显示
         static public void setLblStype(Text textWidget, TextStyleID styleID)
         {
@@ -73,6 +79,11 @@ namespace SDK.Common
         public static void addEventHandle(GameObject go, string path, UnityAction handle)
         {
             go.transform.Find(path).GetComponent<Button>().onClick.AddListener(handle);
+        }
+
+        public static void addEventHandle(GameObject go, UnityAction handle)
+        {
+            go.GetComponent<Button>().onClick.AddListener(handle);
         }
 
         // 销毁对象
@@ -213,6 +224,164 @@ namespace SDK.Common
         public static void trimEndSpace(ref string str)
         {
             str.TrimEnd('\0');
+        }
+
+        // 判断两个 GameObject 地址是否相等
+        public static bool isAddressEqual(GameObject a, GameObject b)
+        {
+            return a == b;
+        }
+
+        // 赋值卡牌显示
+        public static void updateCardDataNoChange(TableCardItemBody cardTableItem, GameObject gameObject)
+        {
+            Text text;
+            text = UtilApi.getComByP<Text>(gameObject, "name/Canvas/Text");         // 名字
+            text.text = cardTableItem.m_name;
+
+            text = UtilApi.getComByP<Text>(gameObject, "description/Canvas/Text");  // 描述
+            string desc = "";
+            if (cardTableItem.m_chaoFeng == 1)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.ChaoFeng;
+            }
+            if (cardTableItem.m_chongFeng == 1)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.ChongFeng;
+            }
+            if (cardTableItem.m_fengNu == 1)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.FengNu;
+            }
+            if (cardTableItem.m_qianXing == 1)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.QianXing;
+            }
+            if (cardTableItem.m_shengDun == 1)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.ShengDun;
+            }
+
+            if (cardTableItem.m_magicConsume > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.MoFaXiaoHao;
+            }
+            if (cardTableItem.m_attack > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.GongJiLi;
+            }
+            if (cardTableItem.m_hp > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.Xueliang;
+            }
+            if (cardTableItem.m_Durable > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.NaiJiu;
+            }
+            if (cardTableItem.m_mpAdded > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.FaShuShangHai;
+            }
+            if (cardTableItem.m_guoZai > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                desc += TableCardAttrName.GuoZai;
+            }
+
+            TableSkillItemBody tableSkillItem;
+            // 技能
+            if (cardTableItem.m_faShu > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_faShu).m_itemBody as TableSkillItemBody;
+                desc += tableSkillItem.m_desc;
+            }
+            if (cardTableItem.m_zhanHou > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_zhanHou).m_itemBody as TableSkillItemBody;
+                desc += tableSkillItem.m_desc;
+            }
+            if (cardTableItem.m_wangYu > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_wangYu).m_itemBody as TableSkillItemBody;
+                desc += tableSkillItem.m_desc;
+            }
+            if (cardTableItem.m_jiNu > 0)
+            {
+                if (desc.Length > 0)
+                {
+                    desc += "\n";
+                }
+                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_jiNu).m_itemBody as TableSkillItemBody;
+                desc += tableSkillItem.m_desc;
+            }
+
+            text.text = desc;
+        }
+
+        public static void updateCardDataChange(TableCardItemBody cardTableItem, GameObject gameObject)
+        {
+            Text text;
+            text = UtilApi.getComByP<Text>(gameObject, "attack/Canvas/Text");       // 攻击
+            text.text = cardTableItem.m_attack.ToString();
+            text = UtilApi.getComByP<Text>(gameObject, "cost/Canvas/Text");         // Magic
+            text.text = cardTableItem.m_magicConsume.ToString();
+            text = UtilApi.getComByP<Text>(gameObject, "health/Canvas/Text");       // HP
+            text.text = cardTableItem.m_hp.ToString();
         }
     }
 }

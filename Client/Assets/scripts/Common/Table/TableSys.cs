@@ -20,8 +20,6 @@ namespace SDK.Common
 
 		public TableSys()
 		{
-            m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
-
 			m_dicTable = new Dictionary<TableID, TableBase>();
             m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client", "ObjectBase_client", "ObjectBase_client");
             m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client", "CardBase_client", "CardBase_client");
@@ -55,6 +53,12 @@ namespace SDK.Common
             {
                 loadOneTableOneItemAll(tableID, table, ret);
             }
+
+            if (ret == null)
+            {
+                Ctx.m_instance.m_log.log(string.Format("table name: {0}, table Item {1}", (int)tableID, itemID));
+            }
+
 			return ret;
 		}
 		
@@ -80,6 +84,7 @@ namespace SDK.Common
             TextAsset textAsset = m_res.getObject("") as TextAsset;
             if (textAsset != null)
             {
+                m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
                 m_byteArray.clear();
                 m_byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
                 m_byteArray.setPos(0);
@@ -134,6 +139,7 @@ namespace SDK.Common
         {
             TableBase table = m_dicTable[tableID];
             table.m_byteArray = bytes;
+
             bytes.setEndian(Endian.LITTLE_ENDIAN);
             uint len = bytes.readUnsignedInt();
             uint i = 0;

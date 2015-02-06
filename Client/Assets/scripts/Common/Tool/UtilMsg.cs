@@ -22,5 +22,13 @@
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_tmpStr);
             Ctx.m_instance.m_netMgr.send();
         }
+
+        public static void checkStr(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                Ctx.m_instance.m_log.log("str is null");
+            }
+        }
     }
 }

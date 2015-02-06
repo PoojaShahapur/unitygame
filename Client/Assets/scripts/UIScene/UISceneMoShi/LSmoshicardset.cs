@@ -201,8 +201,8 @@ namespace Game.UI
 
         protected void onMouseUp(GameObject go)
         {
-            Transform clogo = transform.FindChild("classlogo");
-            Transform cpic = transform.FindChild("cardsetdaiqi").FindChild("pic");
+            //Transform clogo = transform.FindChild("classlogo");
+            //Transform cpic = transform.FindChild("cardsetdaiqi").FindChild("pic");
             OnMouseUpAsButton();
         }
 

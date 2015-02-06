@@ -371,9 +371,9 @@ namespace SDK.Lib
             foreach (Transform t in setcards)
             {
                 //card c = t.GetComponent<SetCard>().info;
-                card c = new card();
+                CardItemBase c = new CardItemBase();
                 //装箱
-                cardstext += c.cardid + "*" + c.insetcount + "/";//进行记录              
+                //cardstext += c.cardid + "*" + c.insetcount + "/";//进行记录              
             }
 
             //if (cardstext != info.cards)
@@ -432,7 +432,7 @@ namespace SDK.Lib
         //卡组中卡的模型
         //public Transform setcardmodel;
         Transform page;
-        void updatecard(card c)
+        void updatecard(CardItemBase c)
         {
             if (page == null)
             {
@@ -442,22 +442,22 @@ namespace SDK.Lib
         }
 
         //减去一张卡
-        void subcard(card c)
+        void subcard(CardItemBase c)
         {
-            if (c.insetcount <= 0)//删除
-            {
-                foreach (Transform t in setcards)
-                {
-                    if (t.name == c.cardid)
-                    {
-                        int p = setcards.IndexOf(t);
-                        setcardup(p);
-                        setcards.Remove(t);
-                        UtilApi.Destroy(t.gameObject);
-                        break;
-                    }
-                }
-            }
+            //if (c.insetcount <= 0)//删除
+            //{
+            //    foreach (Transform t in setcards)
+            //    {
+            //        if (t.name == c.cardid)
+            //        {
+            //            int p = setcards.IndexOf(t);
+            //            setcardup(p);
+            //            setcards.Remove(t);
+            //            UtilApi.Destroy(t.gameObject);
+            //            break;
+            //        }
+            //    }
+            //}
             //向page更新这张卡的信息
             updatecard(c);
             updatacardcount();
@@ -566,18 +566,18 @@ namespace SDK.Lib
             foreach (Transform t in setcards)
             {
                 //card c = t.GetComponent<SetCard>().info;
-                card c = new card();
-                count = count + c.insetcount;
-                //更新统计信息
-                int cost = int.Parse(c.cost);
-                if (cost <= 7)
-                {
-                    costcount[cost] += c.insetcount;
-                }
-                else
-                {
-                    costcount[7] += c.insetcount;
-                }
+                CardItemBase c = new CardItemBase();
+                //count = count + c.insetcount;
+                ////更新统计信息
+                //int cost = int.Parse(c.cost);
+                //if (cost <= 7)
+                //{
+                //    costcount[cost] += c.insetcount;
+                //}
+                //else
+                //{
+                //    costcount[7] += c.insetcount;
+                //}
             }
 
             updatacardcount(count + "/30");

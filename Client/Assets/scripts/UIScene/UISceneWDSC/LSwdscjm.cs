@@ -10,28 +10,28 @@ namespace Game.UI
     /// <summary>
     /// 卡牌的结构体
     /// </summary>
-    public struct card
-    {
-        public Material image;
-        public string cardid;
-        public string cnname;
-        public string name;
-        public string cndescription;
-        public string description;
-        public CardQuality quality;
-        public CardSet set;
-        public CardType type;
-        public CardRace race;
-        public EnPlayerCareer classs;
-        public string attack;
-        public string health;
-        public string cost;
-        /// <summary>
-        /// 有几张
-        /// </summary>
-        public int count;
-        public int insetcount;
-    }
+    //public struct card
+    //{
+    //    public Material image;
+    //    public string cardid;
+    //    public string cnname;
+    //    public string name;
+    //    public string cndescription;
+    //    public string description;
+    //    public CardQuality quality;
+    //    public CardSet set;
+    //    public CardType type;
+    //    public CardRace race;
+    //    public EnPlayerCareer classs;
+    //    public string attack;
+    //    public string health;
+    //    public string cost;
+    //    /// <summary>
+    //    /// 有几张
+    //    /// </summary>
+    //    public int count;
+    //    public int insetcount;
+    //}
 
     //职业
     //public enum CardClass

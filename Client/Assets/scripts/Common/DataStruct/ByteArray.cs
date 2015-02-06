@@ -45,6 +45,8 @@ namespace SDK.Common
         protected float m_tmpFloat;
         protected double m_tmpDouble;
 
+        protected byte[] m_tmpBytes;
+
         public ByteArray()
         {
             m_endian = m_sEndian;
@@ -219,7 +221,7 @@ namespace SDK.Common
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_shortByte, 0, (int)TypeBytes.eSHORT);
-                    Array.Reverse(m_intByte);
+                    Array.Reverse(m_shortByte);
                     m_tmpShort = System.BitConverter.ToInt16(m_shortByte, 0);
                 }
 
@@ -242,7 +244,7 @@ namespace SDK.Common
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_shortByte, 0, (int)TypeBytes.eSHORT);
-                    Array.Reverse(m_intByte);
+                    Array.Reverse(m_shortByte);
                     m_tmpUshort = System.BitConverter.ToUInt16(m_shortByte, 0);
                 }
 
@@ -305,9 +307,9 @@ namespace SDK.Common
                 }
                 else
                 {
-                    Array.Copy(m_dynBuff.buff, (int)m_position, m_intByte, 0, (int)TypeBytes.eDOUBLE);
-                    Array.Reverse(m_intByte);
-                    m_tmpDouble = System.BitConverter.ToInt32(m_intByte, 0);
+                    Array.Copy(m_dynBuff.buff, (int)m_position, m_longByte, 0, (int)TypeBytes.eDOUBLE);
+                    Array.Reverse(m_longByte);
+                    m_tmpDouble = System.BitConverter.ToInt32(m_longByte, 0);
                 }
                 advPos((int)TypeBytes.eDOUBLE);
             }
@@ -350,9 +352,9 @@ namespace SDK.Common
                 }
                 else
                 {
-                    Array.Copy(m_dynBuff.buff, (int)m_position, m_shortByte, 0, (int)TypeBytes.eLONG);
-                    Array.Reverse(m_intByte);
-                    m_tmpUlong = System.BitConverter.ToUInt64(m_shortByte, 0);
+                    Array.Copy(m_dynBuff.buff, (int)m_position, m_longByte, 0, (int)TypeBytes.eLONG);
+                    Array.Reverse(m_longByte);
+                    m_tmpUlong = System.BitConverter.ToUInt64(m_longByte, 0);
                 }
 
                 advPos((int)TypeBytes.eLONG);
@@ -380,6 +382,20 @@ namespace SDK.Common
             }
 
             return m_tmpStr;
+        }
+
+        // 这个是字节读取，没有大小端的区别
+        public byte[] readBytes(uint len)
+        {
+            m_tmpBytes = new byte[len];
+
+            if (canRead(len))
+            {
+                Array.Copy(m_dynBuff.buff, (int)m_position, m_tmpBytes, 0, (int)len);
+                advPos(len);
+            }
+
+            return m_tmpBytes;
         }
 
 		public void writeByte (byte value)

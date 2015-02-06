@@ -64,14 +64,11 @@ namespace Game.UI
                 Ctx.m_instance.m_systemSetting.setString(SystemSetting.USERNAME, lblName.text);
                 Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
 
-                if (Ctx.m_instance.m_cfg.m_bNeedNet)
-                {
-                    LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
-                }
-                else
-                {
-                    Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
-                }
+            #if !DEBUG_NOTNET
+                LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
+            #else
+                Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+            #endif
             }
         }
     }
