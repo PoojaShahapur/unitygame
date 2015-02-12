@@ -49,5 +49,10 @@ namespace Game.UI
                 Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
             }
         }
+
+        public void normalRot()
+        {
+            UtilApi.normalRot(m_go.transform);
+        }
     }
 }

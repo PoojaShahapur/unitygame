@@ -49,8 +49,7 @@ namespace SDK.Common
         public override void play()
         {
             base.play();
-            Hashtable args = new Hashtable();
-            buildAniParam(args);
+            buildAniParam();
         }
 
         public override void stop()
@@ -63,9 +62,11 @@ namespace SDK.Common
 
         }
 
-        protected override void buildAniParam(Hashtable args)
+        protected void buildAniParam()
         {
-            base.buildAniParam(args);
+            Hashtable args;
+            args = new Hashtable();
+            base.buildAniBasicParam(args);
 
             args["position"] = m_destPos;
             args["time"] = m_time;
@@ -75,21 +76,26 @@ namespace SDK.Common
             args["looptype"] = m_loopType;
             //args["method"] = "to";
             //args["type"] = "color";
+            incItweenCount();
             iTween.MoveTo(m_go, args);
 
             args = new Hashtable();
+            base.buildAniBasicParam(args);
             args["rotation"] = m_destRot;
             args["time"] = m_time;
             args["islocal"] = true;
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
+            incItweenCount();
             iTween.RotateTo(m_go, args);
 
             args = new Hashtable();
+            base.buildAniBasicParam(args);
             args["scale"] = m_destScale;
             args["time"] = m_time;
             args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
+            incItweenCount();
             iTween.ScaleTo(m_go, args);
         }
     }

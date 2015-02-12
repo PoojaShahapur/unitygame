@@ -20,16 +20,12 @@ namespace SDK.Common
         protected uint m_size;              // 存储在当前环形缓冲区中的数量
         protected byte[] m_buff;            // 当前环形缓冲区
 
-        protected uint m_begin;             // 存储空间的第一个索引
-        protected uint m_end;               // 存储空间的最后一个索引
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引
 
         protected ByteArray m_headerBA;     // 主要是用来分析头的大小
         protected ByteArray m_retBA;        // 返回的字节数组
         protected ByteArray m_tmpBA;        // 临时数据
-
-        private Mutex m_visitMutex = new Mutex(false, "CirculeBufferMutex");   // 主要是添加和获取数据互斥
 
         public CirculeBuffer()
         {
@@ -38,8 +34,6 @@ namespace SDK.Common
             m_size = 0;
             m_buff = new byte[m_iCapacity];
 
-            m_begin = 0;
-            m_end = m_iCapacity - 1;
             m_first = 0;
             m_last = 0;
 
@@ -50,7 +44,7 @@ namespace SDK.Common
 
         public bool isLinearized()
         {
-            return m_first < m_last || m_last == m_begin;
+            return m_first < m_last;
         }
 
         public byte[] buff
@@ -129,7 +123,7 @@ namespace SDK.Common
             {
                 return;
             }
-            if (m_first < m_last || m_last == m_begin)      // 数据已经是在一块连续的内存空间
+            if (isLinearized())      // 数据已经是在一块连续的内存空间
             {
                 return;
             }
@@ -147,7 +141,6 @@ namespace SDK.Common
          */
         protected void setCapacity(uint newCapacity) 
         {
-            m_visitMutex.WaitOne();
             if (newCapacity == capacity())
             {
                 return;
@@ -170,7 +163,6 @@ namespace SDK.Common
             m_first = 0;
             m_last = m_size;
             m_iCapacity = newCapacity;
-            m_visitMutex.ReleaseMutex();
         }
 
         /**
@@ -178,7 +170,6 @@ namespace SDK.Common
          */
         public void pushBackArr(byte[] items, uint start, uint len)
         {
-            m_visitMutex.WaitOne();
             if (!canAddData(len)) // 存储空间必须要比实际数据至少多 1
             {
                 uint closeSize = UtilMath.getCloseSize(len + this.m_size, m_iCapacity, m_iMaxCapacity);
@@ -206,15 +197,12 @@ namespace SDK.Common
             m_last %= m_iCapacity;
 
             m_size += len;
-            m_visitMutex.ReleaseMutex();
         }
 
         public void pushBackBA(ByteArray ba)
         {
-            m_visitMutex.WaitOne();
             //pushBack(ba.dynBuff.buff, ba.position, ba.bytesAvailable);
             pushBackArr(ba.dynBuff.buff, 0, ba.length);
-            m_visitMutex.ReleaseMutex();
         }
 
         /**
@@ -222,7 +210,6 @@ namespace SDK.Common
          */
         protected void pushFrontArr(byte[] items)
         {
-            m_visitMutex.WaitOne();
             if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
             {
                 uint closeSize = UtilMath.getCloseSize((uint)items.Length + this.m_size, m_iCapacity, m_iMaxCapacity);
@@ -255,7 +242,6 @@ namespace SDK.Common
                 m_first = m_iCapacity - ((uint)items.Length - m_first);
             }
             m_size += (uint)items.Length;
-            m_visitMutex.ReleaseMutex();
         }
 
         /**
@@ -272,69 +258,77 @@ namespace SDK.Common
         }
 
         /**
-         * @brief 从 CB 中读取内容
-         * @param movefirst 是否将数据移除 CB
+         * @brief 从 CB 中读取内容，并且将数据删除
          */
-        protected void readByteToByteArray(ByteArray bytearray, uint len, bool movefirst)
+        protected void popFrontBA(ByteArray bytearray, uint len)
         {
-            m_visitMutex.WaitOne();
+            //bytearray.clear();          // 设置数据为初始值
+            //if (m_size >= len)          // 头部占据 4 个字节
+            //{
+            //    if(isLinearized())      // 在一段连续的内存
+            //    {
+            //        bytearray.writeBytes(m_buff, m_first, len);
+            //        if (movefirst)
+            //        {
+            //            m_first += len;
+            //            m_size -= len;
+            //        }
+            //    }
+            //    else if (m_iCapacity - m_first >= len)
+            //    {
+            //        bytearray.writeBytes(m_buff, m_first, len);
+            //        if (movefirst)
+            //        {
+            //            m_first += len;
+            //            m_size -= len;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        bytearray.writeBytes(m_buff, m_first, m_iCapacity - m_first);
+            //        bytearray.writeBytes(m_buff, 0, len - (m_iCapacity - m_first));
+            //        if (movefirst)
+            //        {
+            //            m_first = len - (m_iCapacity - m_first);
+            //            m_size -= len;
+            //        }
+            //    }
+            //}
+
+            //bytearray.position = 0;        // 设置数据读取起始位置
+
+            frontBA(bytearray, len);
+            popFrontLen(len);
+        }
+
+        // 仅仅是获取数据，并不删除
+        protected void frontBA(ByteArray bytearray, uint len)
+        {
             bytearray.clear();          // 设置数据为初始值
             if (m_size >= len)          // 头部占据 4 个字节
             {
-                if(isLinearized())      // 在一段连续的内存
+                if (isLinearized())      // 在一段连续的内存
                 {
                     bytearray.writeBytes(m_buff, m_first, len);
-                    if (movefirst)
-                    {
-                        m_first += len;
-                        m_size -= len;
-                    }
                 }
                 else if (m_iCapacity - m_first >= len)
                 {
                     bytearray.writeBytes(m_buff, m_first, len);
-                    if (movefirst)
-                    {
-                        m_first += len;
-                        m_size -= len;
-                    }
                 }
                 else
                 {
                     bytearray.writeBytes(m_buff, m_first, m_iCapacity - m_first);
                     bytearray.writeBytes(m_buff, 0, len - (m_iCapacity - m_first));
-                    if (movefirst)
-                    {
-                        m_first = len - (m_iCapacity - m_first);
-                        m_size -= len;
-                    }
                 }
             }
 
             bytearray.position = 0;        // 设置数据读取起始位置
-            m_visitMutex.ReleaseMutex();
-        }
-
-        /**
-         * @brief 检查 CB 中是否有一个完整的消息
-         */
-        protected bool checkHasMsg()
-        {
-            readByteToByteArray(m_headerBA, m_sHeaderSize, false);  // 将数据读取到 m_headerBA
-            if (m_headerBA.readUnsignedInt() <= m_size - m_sHeaderSize)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /**
          * @brief 从 CB 头部删除数据
          */
-        protected void removeByLen(uint len)
+        protected void popFrontLen(uint len)
         {
             if (isLinearized())  // 在一段连续的内存
             {
@@ -357,17 +351,16 @@ namespace SDK.Common
          */
         public bool popFront()
         {
-            m_visitMutex.WaitOne();
             bool ret = false;
             if (m_size > m_sHeaderSize)         // 至少要是 m_sHeaderSize 大小加 1 ，如果正好是 m_sHeaderSize ，那只能说是只有大小字段，没有内容
             {
-                readByteToByteArray(m_headerBA, m_sHeaderSize, false);  // 如果不够整个消息的长度，还是不能去掉消息头的
+                frontBA(m_headerBA, m_sHeaderSize);  // 如果不够整个消息的长度，还是不能去掉消息头的
                 uint msglen = m_headerBA.readUnsignedInt();
 
                 if (msglen <= m_size - m_sHeaderSize)
                 {
-                    removeByLen(m_sHeaderSize);
-                    readByteToByteArray(m_retBA, msglen, true);
+                    popFrontLen(m_sHeaderSize);
+                    popFrontBA(m_retBA, msglen);
                     ret = true;
                 }
             }
@@ -377,8 +370,23 @@ namespace SDK.Common
                 clear();
             }
 
-            m_visitMutex.ReleaseMutex();
             return ret;
+        }
+
+        /**
+         * @brief 检查 CB 中是否有一个完整的消息
+         */
+        protected bool checkHasMsg()
+        {
+            frontBA(m_headerBA, m_sHeaderSize);  // 将数据读取到 m_headerBA
+            if (m_headerBA.readUnsignedInt() <= m_size - m_sHeaderSize)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /**
@@ -400,7 +408,6 @@ namespace SDK.Common
         // 向自己尾部添加一个 CirculeBuffer 
         public void pushBackCB(CirculeBuffer rhv)
         {
-            m_visitMutex.WaitOne();
             if(this.m_iCapacity - this.m_size < rhv.size)
             {
                 uint closeSize = UtilMath.getCloseSize(rhv.size + this.m_size, m_iCapacity, m_iMaxCapacity);
@@ -410,7 +417,7 @@ namespace SDK.Common
             //this.m_last = this.m_size;
 
             //m_tmpBA.clear();
-            rhv.readByteToByteArray(m_tmpBA, rhv.size, false);
+            rhv.frontBA(m_tmpBA, rhv.size);
             pushBackBA(m_tmpBA);
 
             //if (rhv.isLinearized()) // 如果是在一段内存空间
@@ -423,17 +430,14 @@ namespace SDK.Common
             //    Array.Copy(m_buff, 0, m_buff, rhv.capacity() - rhv.first, rhv.last);
             //}
             //rhv.clear();
-            m_visitMutex.ReleaseMutex();
         }
 
         // 清空缓冲区
         public void clear()
         {
-            m_visitMutex.WaitOne();
             m_size = 0;
             m_first = 0;
             m_last = 0;
-            m_visitMutex.ReleaseMutex();
         }
     }
 }

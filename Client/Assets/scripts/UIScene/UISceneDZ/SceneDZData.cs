@@ -53,11 +53,45 @@ namespace Game.UI
                 }
                 cardItem.setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
             }
+
             cardItem.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-            cardItem.getGameObject().transform.parent = m_centerGO.transform;
+            //cardItem.getGameObject().transform.parent = m_centerGO.transform;
+            cardItem.getGameObject().transform.SetParent(m_centerGO.transform);
             // 设置出事位置为发牌位置
             cardItem.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
             cardItem.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+
+            // 设置是否可以动画
+            if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
+            {
+                cardItem.disableDrag();
+                if(area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
+                {
+                    cardItem.destScale = SceneCardEntityBase.SMALLFACT;
+                }
+            }
+            // 如果是放在技能或者装备的位置，是不允许拖放的
+            else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
+            {
+                cardItem.destScale = SceneCardEntityBase.SMALLFACT;
+                cardItem.disableDrag();
+            }
+
+            // 更新边框
+            if (EnDZPlayer.ePlayerSelf == m_playerFlag)
+            {
+                if(CardArea.CARDCELLTYPE_HAND == area)
+                {
+                    if(Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+                    {
+                        cardItem.updateCardGreenFrame(true);
+                    }
+                    else
+                    {
+                        cardItem.updateCardGreenFrame(false);
+                    }
+                }
+            }
 
             return cardItem;
         }
@@ -87,6 +121,24 @@ namespace Game.UI
                 {
                     return cardBase;
                 }
+            }
+
+            return null;
+        }
+
+        public SceneCardEntityBase getSceneCardByThisID(uint thisID)
+        {
+            SceneCardEntityBase cardBase;
+            cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].getSceneCardByThisID(thisID);
+            if(cardBase != null)
+            {
+                return cardBase;
+            }
+
+            cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].getSceneCardByThisID(thisID);
+            if (cardBase != null)
+            {
+                return cardBase;
             }
 
             return null;

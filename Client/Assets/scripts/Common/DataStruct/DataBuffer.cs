@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using SDK.Lib;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -19,6 +20,9 @@ namespace SDK.Common
         protected ByteArray m_unCompressHeaderBA;  // 存放解压后的头的长度
         protected ByteArray m_sendData;            // 存放将要发送的数据，将要放到 m_sendBuffer 中去
         protected ByteArray m_tmpData;             // 临时需要转换的数据放在这里
+
+        private MMutex m_readMutex = new MMutex(false, "ReadMutex");   // 读互斥
+        private MMutex m_writeMutex = new MMutex(false, "WriteMutex");   // 写互斥
 
         public DataBuffer()
         {
@@ -78,8 +82,13 @@ namespace SDK.Common
                 m_unCompressHeaderBA.clear();
                 m_unCompressHeaderBA.writeUnsignedInt(m_rawBuffer.retBA.length);
                 m_unCompressHeaderBA.position = 0;
+
+                MLock mlock = new MLock(m_readMutex);
+
                 m_msgBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
                 m_msgBuffer.pushBackBA(m_rawBuffer.retBA);      // 保存消息大小字段
+
+                mlock.unlock();
             }
 
             //m_rawBuffer.clear();
@@ -87,39 +96,44 @@ namespace SDK.Common
 
         public void send()
         {
-            //m_sendData.position = 0;;
-            //m_sendBuffer.pushBackBA(m_sendData);
-            //m_tmpData.position = 0;
             m_tmpData.clear();
             m_tmpData.writeUnsignedInt(m_sendData.length);      // 填充长度
+
+            MLock mlock = new MLock(m_writeMutex);
+
             m_sendTmpBuffer.pushBackBA(m_tmpData);
             m_sendTmpBuffer.pushBackBA(m_sendData);
+
+            mlock.unlock();
         }
 
         public ByteArray getMsg()
         {
+            MLock mlock = new MLock(m_readMutex);
+
             if(m_msgBuffer.popFront())
             {
+                mlock.unlock();
+
                 return m_msgBuffer.retBA;
             }
+
+            mlock.unlock();
 
             return null;
         }
 
-        //public void getByte2Stream(NetworkStream ns, System.AsyncCallback cb)
-        //{
-        //    m_sendBuffer.copy(m_sendTmpBuffer);
-        //    m_sendBuffer.getByte2Stream(ns, cb);
-        //}
-
         // 获取数据，然后压缩加密
         public void getSendData()
         {
-            //m_tmpData.clear();
-            //m_tmpData.writeUnsignedInt(m_sendTmpBuffer.size);       // 写总长度
             m_sendBuffer.clear();           // 清理之前的缓冲区
+
+            MLock mlock = new MLock(m_writeMutex);
+
             m_sendBuffer.pushBackCB(m_sendTmpBuffer);
             m_sendTmpBuffer.clear();
+
+            mlock.unlock();
         }
     }
 }

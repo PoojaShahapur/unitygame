@@ -122,7 +122,7 @@ namespace Game.UI
             if(state)
             {
                 UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneTips) as UISceneTips;
-                tips.showTips(Ctx.m_instance.m_coordConv.getCurMouseScenePos(), string.Format("当前剩余{0}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_leftCardNum));
+                tips.showTips(Ctx.m_instance.m_coordConv.getCurTouchScenePos(), string.Format("当前剩余{0}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_leftCardNum));
             }
             else
             {
@@ -135,7 +135,7 @@ namespace Game.UI
             if (state)
             {
                 UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneTips) as UISceneTips;
-                tips.showTips(Ctx.m_instance.m_coordConv.getCurMouseScenePos(), string.Format("当前剩余{0}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_leftCardNum));
+                tips.showTips(Ctx.m_instance.m_coordConv.getCurTouchScenePos(), string.Format("当前剩余{0}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_leftCardNum));
             }
             else
             {
@@ -176,16 +176,61 @@ namespace Game.UI
             {
                 m_sceneDZData.m_selfTurnTip.turnBegin();
                 m_sceneDZData.m_dzturn.myturn();
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCardGreenFrame(true);
             }
             else 
             {
                 m_sceneDZData.m_dzturn.enemyTurn();
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCardGreenFrame(false);
+                m_sceneDZData.m_gameOpState.quitAttackOp();
             }
         }
 
         public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
         {
+            // 判断攻击处理
+            if (msg.byActionType == 2)
+            {
+                attackHandle(msg);
+            }
+
             m_sceneDZAreaArr[msg.who - 1].psstAddBattleCardPropertyUserCmd(msg, sceneItem);
+        }
+
+        protected void attackHandle(stAddBattleCardPropertyUserCmd msg)
+        {
+            SceneCardEntityBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID);
+            SceneCardEntityBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID);
+            int num = 0;
+
+            if (att != null && def != null)
+            {
+                if ((int)EnAttackType.ATTACK_TYPE_NORMAL == msg.attackType || (int)EnAttackType.ATTACK_TYPE_S_MAGIC == msg.attackType)  // 只有单攻才会有移动的动画
+                {
+                    if (msg.pDefThisID == att.sceneCardItem.m_svrCard.qwThisID)        // 只有发送给被击者的信息的时候，做一次动画，发送给攻击者的时候就不用了
+                    {
+                        att.playAttackAni(def.transform.localPosition);     // 播放动画
+                    }
+                }
+
+                // 播放 Fly 数字
+                if (msg.pAttThisID == att.sceneCardItem.m_svrCard.qwThisID)      // 如果是攻击者的信息
+                {
+                    num = (int)(att.sceneCardItem.m_svrCard.hp - msg.mobject.hp);
+                    if (num > 0)
+                    {
+                        att.playFlyNum(num);
+                    }
+                }
+                else        // 发送给受伤者的信息
+                {
+                    num = (int)(def.sceneCardItem.m_svrCard.hp - msg.mobject.hp);
+                    if (num > 0)
+                    {
+                        att.playFlyNum(num);
+                    }
+                }
+            }
         }
 
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)
@@ -282,6 +327,11 @@ namespace Game.UI
         public void endSelfFullTip(TimerItemBase timer)
         {
             m_sceneDZData.m_selfCardFullTip.getGameObject().SetActive(false);
+        }
+
+        public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
+        {
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].psstRetCardAttackFailUserCmd(cmd);
         }
     }
 }

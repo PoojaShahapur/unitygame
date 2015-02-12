@@ -99,7 +99,7 @@ public class UICamera : MonoBehaviour
 			get
 			{
 				//return current != null && current != fallThrough && NGUITools.FindInParents<UIRoot>(current) != null;
-                return false;
+                return current != null && current != fallThrough;
 			}
 		}
 	}
@@ -685,10 +685,9 @@ public class UICamera : MonoBehaviour
 		while (trans != null)
 		{
 			//if (trans.GetComponent<UIPanel>() != null) return null;
-            return null;
-            //Rigidbody rb = trans.rigidbody;
-            //if (rb != null) return rb;
-            //trans = trans.parent;
+            Rigidbody rb = trans.rigidbody;
+            if (rb != null) return rb;
+            trans = trans.parent;
 		}
 		return null;
 	}
@@ -702,10 +701,9 @@ public class UICamera : MonoBehaviour
 		while (trans != null)
 		{
 			//if (trans.GetComponent<UIPanel>() != null) return null;
-            return null;
-            //Rigidbody2D rb = trans.rigidbody2D;
-            //if (rb != null) return rb;
-            //trans = trans.parent;
+            Rigidbody2D rb = trans.rigidbody2D;
+            if (rb != null) return rb;
+            trans = trans.parent;
 		}
 		return null;
 	}
@@ -1679,9 +1677,12 @@ public class UICamera : MonoBehaviour
     // 模拟停止拖放
     static public void simuStopDrag()
     {
-        currentTouch.dragStarted = false;
-		currentTouch.pressed = null;
-		currentTouch.dragged = null;
+        if (currentTouch != null)
+        {
+            currentTouch.dragStarted = false;
+            currentTouch.pressed = null;
+            currentTouch.dragged = null;
+        }
     }
 
 #if !UNITY_EDITOR

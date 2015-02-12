@@ -12,30 +12,41 @@ namespace SDK.Common
 
         public SimpleCurveAni()
         {
-            m_plotPtList = new Vector3[3];
-            m_plotPtList[0] = new Vector3(1, 1, 1);
-            m_plotPtList[1] = new Vector3(2, 2, 2);
-            m_plotPtList[2] = new Vector3(3, 3, 3);
+            //m_plotPtList = new Vector3[3];
+            //m_plotPtList[0] = new Vector3(1, 1, 1);
+            //m_plotPtList[1] = new Vector3(2, 2, 2);
+            //m_plotPtList[2] = new Vector3(3, 3, 3);
+        }
+
+        public void setPlotCount(int cnt)
+        {
+            m_plotPtList = new Vector3[cnt];
+        }
+
+        public void addPlotPt(int idx, Vector3 pt)
+        {
+            m_plotPtList[idx] = pt;
         }
 
         public override void play()
         {
             base.play();
-
-            Hashtable args = new Hashtable();
-            buildAniParam(args);
+            buildAniParam();
         }
 
-        protected override void buildAniParam(Hashtable args)
+        protected void buildAniParam()
         {
-            base.buildAniParam(args);
+            Hashtable args;
+            args = new Hashtable();
+            base.buildAniBasicParam(args);
 
             args["path"] = m_plotPtList;
-            args["time"] = 5;
+            args["time"] = m_time;
             args["islocal"] = true;
 
-            //args["easetype"] = m_easeType;
+            args["easetype"] = m_easeType;
             args["looptype"] = m_loopType;
+            incItweenCount();
             iTween.MoveTo(m_go, args);
         }
     }

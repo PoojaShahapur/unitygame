@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +60,12 @@ namespace Game.UI
 
         protected void onSendBtnClk()
         {
+            stKokChatUserCmd cmd = new stKokChatUserCmd();
+            cmd.dwType = 2;
+            cmd.pstrName = Ctx.m_instance.m_dataPlayer.m_dataMain.m_name;
+            cmd.pstrChat = m_chatData.m_inputField.text;
+            UtilMsg.sendMsg(cmd);
+
             outMsg(m_chatData.m_inputField.text);
             m_chatData.m_inputField.text = "";              // 清空内容
         }

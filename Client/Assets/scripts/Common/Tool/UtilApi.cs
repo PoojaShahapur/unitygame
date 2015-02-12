@@ -132,7 +132,12 @@ namespace SDK.Common
 
         public static void normalPos(Transform tran)
         {
-            tran.localPosition = new Vector3(0, 0, 0);
+            tran.localPosition = Vector3.zero;
+        }
+
+        public static void normalRot(Transform tran)
+        {
+            tran.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
         static public bool getXmlAttrBool(XmlAttribute attr)
@@ -236,10 +241,10 @@ namespace SDK.Common
         public static void updateCardDataNoChange(TableCardItemBody cardTableItem, GameObject gameObject)
         {
             Text text;
-            text = UtilApi.getComByP<Text>(gameObject, "name/Canvas/Text");         // 名字
+            text = UtilApi.getComByP<Text>(gameObject, "name/Text");         // 名字
             text.text = cardTableItem.m_name;
 
-            text = UtilApi.getComByP<Text>(gameObject, "description/Canvas/Text");  // 描述
+            text = UtilApi.getComByP<Text>(gameObject, "description/Text");  // 描述
             string desc = "";
             if (cardTableItem.m_chaoFeng == 1)
             {
@@ -376,12 +381,23 @@ namespace SDK.Common
         public static void updateCardDataChange(TableCardItemBody cardTableItem, GameObject gameObject)
         {
             Text text;
-            text = UtilApi.getComByP<Text>(gameObject, "attack/Canvas/Text");       // 攻击
+            text = UtilApi.getComByP<Text>(gameObject, "attack/Text");       // 攻击
             text.text = cardTableItem.m_attack.ToString();
-            text = UtilApi.getComByP<Text>(gameObject, "cost/Canvas/Text");         // Magic
+            text = UtilApi.getComByP<Text>(gameObject, "cost/Text");         // Magic
             text.text = cardTableItem.m_magicConsume.ToString();
-            text = UtilApi.getComByP<Text>(gameObject, "health/Canvas/Text");       // HP
+            text = UtilApi.getComByP<Text>(gameObject, "health/Text");       // HP
             text.text = cardTableItem.m_hp.ToString();
+        }
+
+        static long scurTime;
+        static System.TimeSpan ts;
+
+        // 返回 UTC 秒
+        public static uint getUTCSec()
+        {
+            scurTime = System.DateTime.Now.Ticks;
+            ts = new System.TimeSpan(scurTime);
+            return (uint)(ts.TotalSeconds);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace SDK.Common
         protected iTween.LoopType m_loopType = iTween.LoopType.none;
 
         protected bool m_bPlaying = false;
+        protected int m_itweenCount = 0;        // 一个动画启动的 Itween 的个数
 
         public NumAniBase()
         {
@@ -82,7 +83,7 @@ namespace SDK.Common
 
         }
 
-        protected virtual void buildAniParam(Hashtable args)
+        protected void buildAniBasicParam(Hashtable args)
         {
             args["oncompletetarget"] = m_dispGo;
             args["oncomplete"] = m_methodName;
@@ -97,6 +98,17 @@ namespace SDK.Common
         public void setLoopType(iTween.LoopType value)
         {
             m_loopType = value;
+        }
+
+        // 递增补间动画数量
+        public void incItweenCount()
+        {
+            ++m_itweenCount;
+        }
+
+        public int decItweenCount()
+        {
+            return --m_itweenCount;
         }
     }
 }

@@ -43,6 +43,12 @@ namespace Game.UI
                     m_sceneSkillCard.sceneCardItem = sceneItem;
                     m_sceneSkillCard.moveToDest();
                 }
+                else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
+                {
+                    m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
+                    m_sceneEquipCard.sceneCardItem = sceneItem;
+                    m_sceneEquipCard.moveToDest();
+                }
                 else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
                 {
                     if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
@@ -61,6 +67,7 @@ namespace Game.UI
                     srcCard.sceneCardItem = sceneItem;
                     m_outSceneCardList.addCard(srcCard);
                     m_outSceneCardList.updateSceneCardPos();
+                    m_outSceneCardList.updateCardIndex();
                 }
             }
             else        // 更新卡牌数据
@@ -100,6 +107,7 @@ namespace Game.UI
                 m_inSceneCardList.removeCard(srcCard);
             }
 
+            m_inSceneCardList.updateCardIndex();
             m_inSceneCardList.updateSceneCardPos();
 
             // 更新移动后的牌的位置
@@ -114,6 +122,18 @@ namespace Game.UI
                 m_outSceneCardList.removeWhiteCard();
                 m_outSceneCardList.addCard(srcCard, msg.dst.y);
                 m_outSceneCardList.updateSceneCardPos();
+                m_outSceneCardList.updateCardIndex();
+            }
+
+            // 修改 mp 
+            if (msg.side == 1)      // 如果是自己
+            {
+                // 更新 mp 显示
+                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp >= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume)
+                {
+                    Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp -= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume;
+                }
+                updateMp();
             }
         }
 
@@ -134,6 +154,8 @@ namespace Game.UI
             m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.m_curWhiteIdx);
             m_inSceneCardList.updateSceneCardPos();
             m_outSceneCardList.updateSceneCardPos();
+            m_inSceneCardList.updateCardIndex();
+            m_outSceneCardList.updateCardIndex();
         }
 
         public void psstAddEnemyHandCardPropertyUserCmd()
@@ -156,6 +178,8 @@ namespace Game.UI
             else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.m_svrCard.pos.dwLocation)
             {
                 m_outSceneCardList.removeCard(sceneItem);
+                m_outSceneCardList.updateSceneCardPos();
+                m_outSceneCardList.updateCardIndex();
             }
         }
 
@@ -250,6 +274,7 @@ namespace Game.UI
         {
             m_outSceneCardList.addCard(card);
             m_outSceneCardList.updateSceneCardPos();
+            m_outSceneCardList.updateCardIndex();
         }
 
         // 将 Out 区域中的第一个牌退回到 handle 中
@@ -260,6 +285,53 @@ namespace Game.UI
             {
                 card.retFormOutAreaToHandleArea();
             }
+        }
+
+        public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
+        {
+            if (m_sceneDZData.m_curDragItem != null && m_sceneDZData.m_curDragItem.sceneCardItem.m_svrCard.qwThisID == cmd.dwAttThisID)
+            {
+                m_sceneDZData.m_curDragItem.backCard2Orig();
+            }
+        }
+
+        // 更新卡牌绿色边框，说明可以出牌
+        public void updateCardGreenFrame(bool benable)
+        {
+            m_inSceneCardList.updateCardGreenFrame(benable);
+        }
+
+        public SceneCardEntityBase getSceneCardByThisID(uint thisID)
+        {
+            SceneCardEntityBase cardBase;
+            cardBase = m_outSceneCardList.getSceneCardByThisID(thisID);
+            if (cardBase != null)
+            {
+                return cardBase;
+            }
+            cardBase = m_inSceneCardList.getSceneCardByThisID(thisID);
+            if (cardBase != null)
+            {
+                return cardBase;
+            }
+
+            if (m_sceneSkillCard != null)
+            {
+                if (m_sceneSkillCard.sceneCardItem.m_svrCard.qwThisID == thisID)
+                {
+                    return m_sceneSkillCard;
+                }
+            }
+
+            if (m_sceneEquipCard != null)
+            {
+                if (m_sceneEquipCard.sceneCardItem.m_svrCard.qwThisID == thisID)
+                {
+                    return m_sceneEquipCard;
+                }
+            }
+
+            return null;
         }
     }
 }

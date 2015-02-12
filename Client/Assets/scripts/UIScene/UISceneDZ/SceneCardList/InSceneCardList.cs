@@ -28,7 +28,7 @@ namespace Game.UI
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_internal, m_radius, m_sceneCardList.Count, ref m_posList, ref m_rotList);
+            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_smallInternal, m_radius, m_sceneCardList.Count, ref m_posList, ref m_rotList);
         }
 
         public virtual void addCard(SceneDragCard card)
@@ -50,6 +50,7 @@ namespace Game.UI
             tmpcard.sceneCardItem = sceneItem;
             addCard(tmpcard);
             updateSceneCardPos();
+            updateCardIndex();
         }
     }
 }

@@ -52,14 +52,14 @@ namespace Game.UI
 
         protected void getCurMouseScenePos()
         {
-            m_currentPos = Ctx.m_instance.m_coordConv.getCurMouseScenePos();
+            m_currentPos = Ctx.m_instance.m_coordConv.getCurTouchScenePos();
         }
 
         protected void updatePos()
         {
             // 计算位置
             getCurMouseScenePos();
-            m_sceneDZData.m_attackArrowGO.transform.localPosition = m_currentPos;
+            m_sceneDZData.m_attackArrowGO.transform.localPosition = new Vector3(m_currentPos.x, 1, m_currentPos.z);
         }
 
         protected void updateRot()
@@ -113,6 +113,8 @@ namespace Game.UI
                 m_tmpRet.m_parentTran = m_sceneDZData.m_arrowListGO.transform;
                 m_tmpRet.load();        // 立即加载
             }
+
+            m_tmpRet.normalRot();
         }
 
         protected bool needUpdate()

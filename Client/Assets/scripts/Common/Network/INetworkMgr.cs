@@ -11,5 +11,6 @@ namespace SDK.Common
         IByteArray getSendBA();
         void send();
         void quipApp();
+        void sendAndRecData();
     }
 }

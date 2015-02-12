@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 
 namespace Game.UI
 {
@@ -7,6 +8,7 @@ namespace Game.UI
         eOpNone,        // 没进行任何操作
         eOpAttack,      // 攻击操作
         eOpFaShu,       // 法术操作
+        eOpZhanHouAttack,   // 战吼攻击
         eOpTotal
     }
 
@@ -29,10 +31,28 @@ namespace Game.UI
         // 进入攻击操作
         public void enterAttackOp(EnGameOp op, SceneCardEntityBase card)
         {
+            // 如果不是自己的回合，直接返回
+            if (!Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+            {
+                return;
+            }
+            // 进入某一个状态的时候，要查看之前的状态是否需要需要处理
+            checkPreAttackOp(op, m_opCard);
+
             m_curOp = op;
             m_opCard = card;
             // 开始拖动箭头
             m_sceneDZData.m_attackArrow.startArrow();
+        }
+
+        // 检查之前的攻击状态
+        public void checkPreAttackOp(EnGameOp op, SceneCardEntityBase card)
+        {
+            if(EnGameOp.eOpZhanHouAttack == m_curOp)
+            {
+                // 需要将其回退回去
+                (m_opCard as SceneDragCard).retFormOutAreaToHandleArea();
+            }
         }
 
         // 退出攻击操作
@@ -64,6 +84,10 @@ namespace Game.UI
                     {
                         ret = canFaShuAttack(card, gameOp);
                     }
+                    else if (gameOp == EnGameOp.eOpZhanHouAttack)  // 当前处于战吼牌攻击
+                    {
+                        ret = canZhanHouAttack(card, gameOp);
+                    }
                 }
             }
 
@@ -72,55 +96,90 @@ namespace Game.UI
 
         protected bool canNormalAttack(SceneCardEntityBase card, EnGameOp gameOp)
         {
-            if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
+            //if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
+            //{
+            //    return true;
+            //}
+
+            //return false;
+            bool ret = false;
+            stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
+            cmd.dwAttThisID = m_opCard.sceneCardItem.m_svrCard.qwThisID;
+            cmd.dwDefThisID = card.sceneCardItem.m_svrCard.qwThisID;
+            cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
+            ret = Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd);
+
+            if(ret)
             {
-                return true;
+                (Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat).outMsg("Client 普通攻击验证通过");
+            }
+
+            return ret;
+        }
+
+        protected bool canFaShuAttack(SceneCardEntityBase card, EnGameOp gameOp)
+        {
+            stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
+            cmd.dwAttThisID = m_opCard.sceneCardItem.m_svrCard.qwThisID;
+            cmd.dwDefThisID = card.sceneCardItem.m_svrCard.qwThisID;
+            cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
+
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd))
+            {
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SHERO, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                {
+                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
+                    {
+                        if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.m_cardArea)     // 如果是主角
+                        {
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
+                            return true;
+                        }
+                    }
+                }
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SATTEND, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                {
+                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
+                    {
+                        if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.m_cardArea)     // 如果是出牌区
+                        {
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
+                            return true;
+                        }
+                    }
+                }
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EHERO, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                {
+                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
+                    {
+                        if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.m_cardArea)     // 如果是主角
+                        {
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
+                            return true;
+                        }
+                    }
+                }
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EATTEND, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                {
+                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
+                    {
+                        if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.m_cardArea)     // 如果是出牌区
+                        {
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
+                            return true;
+                        }
+                    }
+                }
             }
 
             return false;
         }
 
-        protected bool canFaShuAttack(SceneCardEntityBase card, EnGameOp gameOp)
+        protected bool canZhanHouAttack(SceneCardEntityBase card, EnGameOp gameOp)
         {
-            if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SHERO, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+            if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
             {
-                if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
-                {
-                    if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.m_cardArea)     // 如果是主角
-                    {
-                        return true;
-                    }
-                }
-            }
-            if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SATTEND, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
-            {
-                if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
-                {
-                    if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.m_cardArea)     // 如果是出牌区
-                    {
-                        return true;
-                    }
-                }
-            }
-            if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EHERO, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
-            {
-                if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
-                {
-                    if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.m_cardArea)     // 如果是主角
-                    {
-                        return true;
-                    }
-                }
-            }
-            if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EATTEND, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
-            {
-                if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
-                {
-                    if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.m_cardArea)     // 如果是出牌区
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
 
             return false;
@@ -131,6 +190,16 @@ namespace Game.UI
             if(m_opCard != null)
             {
                 return m_opCard.sceneCardItem.m_svrCard.qwThisID;
+            }
+
+            return 0;
+        }
+
+        public int getOpCardFaShu()
+        {
+            if (m_opCard != null)
+            {
+                return m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
             }
 
             return 0;

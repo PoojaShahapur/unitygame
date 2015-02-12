@@ -109,7 +109,8 @@ public class UIGrid : LSBehaviour
 	{
 		if (trans != null)
 		{
-			trans.parent = transform;
+			//trans.parent = transform;
+            trans.SetParent(transform, true);
 			ResetPosition(GetChildList());
 		}
 	}

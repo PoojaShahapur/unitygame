@@ -9,5 +9,6 @@ namespace Game.UI
     {
         SceneCardEntityBase getUnderSceneCard(GameObject underGo);
         void addCardToOutList(SceneDragCard card, int idx = 0);
+        SceneCardEntityBase getSceneCardByThisID(uint thisID);
     }
 }

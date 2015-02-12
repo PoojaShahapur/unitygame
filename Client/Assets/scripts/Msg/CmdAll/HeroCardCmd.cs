@@ -762,7 +762,12 @@ namespace Game.Msg
         public byte slot;	    //哪个槽
         public byte who;	    //1,自己 2,对方
         public byte byActionType;  // 1 添加 2 刷新，定义见 EnAddCardActionType
-        public t_Card mobject;	
+        public t_Card mobject;
+
+        public byte attackType;    //攻击类型
+        // 只有攻击刷新属性的时候
+        public uint pAttThisID;   //攻击者
+        public uint pDefThisID;   //防御者
 
         public stAddBattleCardPropertyUserCmd()
         {
@@ -778,6 +783,10 @@ namespace Game.Msg
             byActionType = ba.readUnsignedByte();
             mobject = new t_Card();
             mobject.derialize(ba);
+
+            attackType = ba.readUnsignedByte();
+            pAttThisID = ba.readUnsignedInt();
+            pDefThisID = ba.readUnsignedInt();
         }
     }
 

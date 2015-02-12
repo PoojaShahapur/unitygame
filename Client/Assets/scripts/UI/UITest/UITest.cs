@@ -66,7 +66,9 @@ namespace Game.UI
 
         protected void onBtnClkTest1f()
         {
-            testStart();
+            //testStart();
+            //testAttackAni();
+            testFlyNum();
         }
 
         protected void onBtnClkTest2f()
@@ -102,25 +104,25 @@ namespace Game.UI
 
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList = new uint[10];
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[0] = 10001;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[1] = 10002;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[2] = 10003;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[3] = 10004;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[4] = 10004;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[5] = 10004;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[6] = 10004;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[7] = 10004;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[8] = 10004;
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[9] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[1] = 10002;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[2] = 10003;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[3] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[4] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[5] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[6] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[7] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[8] = 10004;
+            //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[9] = 10004;
             uiDZ.psstRetFirstHandCardUserCmd(null);
         }
 
         protected void addOneCard()
         {
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList = new List<SceneCardItem>();
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].sceneCardList = new List<SceneCardItem>();
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].sceneCardList.Add(new SceneCardItem());
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].sceneCardList.Add(new SceneCardItem());
 
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             uiDZ.psstAddBattleCardPropertyUserCmd(null, null);
@@ -148,6 +150,18 @@ namespace Game.UI
 
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateMp();
+        }
+
+        protected void testAttackAni()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.getCardByIdx(0).playAttackAni(uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_outSceneCardList.getCardByIdx(0).transform.localPosition);
+        }
+
+        protected void testFlyNum()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.getCardByIdx(0).playFlyNum(123);
         }
     }
 }

@@ -65,6 +65,9 @@ namespace SDK.Common
 
         public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
         public Action m_loadDZScene;
+        public FlyNumMgr m_pFlyNumMgr = new FlyNumMgr();              // Header Num
+
+        public TimerMsgHandle m_pTimerMsgHandle = new TimerMsgHandle();
 
         public Ctx()
         {
@@ -99,12 +102,18 @@ namespace SDK.Common
 
         void Update()
         {
-            m_engineLoop.MainLoop();
+            if (m_engineLoop != null)
+            {
+                m_engineLoop.MainLoop();
+            }
         }
 
         void OnApplicationQuit()
         {
-            m_netMgr.quipApp();
+            if (m_netMgr != null)
+            {
+                m_netMgr.quipApp();
+            }
         }
 
         public void constructAll()

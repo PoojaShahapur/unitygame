@@ -12,5 +12,6 @@ namespace Game.UI
         bool bInOp(EnGameOp op);
         bool canAttackOp(SceneCardEntityBase card, EnGameOp gameOp);
         uint getOpCardID();
+        int getOpCardFaShu();
     }
 }

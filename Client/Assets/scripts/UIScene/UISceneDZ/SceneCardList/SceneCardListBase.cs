@@ -12,8 +12,9 @@ namespace Game.UI
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
 
-        public float m_internal = 0.5f;            // 卡牌间隔
-        public float m_radius = 0.5f;                    // 半径
+        public float m_bigInternal = 1.171349f;            // 大卡牌间隔
+        public float m_smallInternal = 0.5f;                 // 小卡牌间隔
+        public float m_radius = 0.5f;                   // 半径
 
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
@@ -104,6 +105,37 @@ namespace Game.UI
             }
 
             return card;
+        }
+
+        public SceneCardEntityBase getCardByIdx(int idx = 0)
+        {
+            SceneCardEntityBase card = null;
+            if (idx < m_sceneCardList.Count)
+            {
+                card = m_sceneCardList[idx];
+            }
+
+            return card;
+        }
+
+        // 更新卡牌索引
+        public void updateCardIndex()
+        {
+            ushort idx = 0;
+            foreach (SceneDragCard item in m_sceneCardList)
+            {
+                item.m_index = idx;
+
+                ++idx;
+            }
+        }
+
+        public void updateCardGreenFrame(bool benable)
+        {
+            foreach (SceneDragCard cardItem in m_sceneCardList)
+            {
+                cardItem.updateCardGreenFrame(benable);
+            }
         }
     }
 }

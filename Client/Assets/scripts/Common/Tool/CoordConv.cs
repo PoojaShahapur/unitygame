@@ -14,7 +14,7 @@ namespace SDK.Common
         protected RaycastHit m_hit;
 
         // 获取鼠标当前位置
-        public Vector3 getCurMouseScenePos()
+        public Vector3 getCurTouchScenePos()
         {
             if (!m_initPanel)
             {
@@ -22,7 +22,9 @@ namespace SDK.Common
                 mPlane = new Plane(Vector3.up, Vector3.zero);
             }
 
+            // 这个地方时能获取鼠标每时每刻的位置，触碰是不能获取到的
             m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //m_ray = UICamera.currentRay;
 
             if (mPlane.Raycast(m_ray, out m_dist))
             {
@@ -35,12 +37,21 @@ namespace SDK.Common
         // 获取当前鼠标下的 GameObject
         public GameObject getUnderGameObject()
         {
+            /*
             //定义一条从主相机射向鼠标位置的一条射向
             m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //判断射线是否发生碰撞               
             if (Physics.Raycast(m_ray, out m_hit, 100))
             {
                 return m_hit.collider.gameObject;
+            }
+
+            return null;
+            */
+
+            if(UICamera.isOverUI)
+            {
+                return UICamera.hoveredObject;
             }
 
             return null;

@@ -51,6 +51,10 @@ namespace Game.UI
                         }
                     }
                 }
+                else
+                {
+                    m_sceneDZData.m_gameOpState.quitAttackOp();
+                }
             }
         }
 
@@ -140,7 +144,7 @@ namespace Game.UI
             {
                 // 拖动结束直接退回去
                 // 开始缩放
-                m_sceneDZData.m_curDragItem.destScale = SceneCardEntityBase.SMALLFACT;
+                destScale = SceneCardEntityBase.SMALLFACT;
                 backCard2Orig();
             }
             else
@@ -165,8 +169,8 @@ namespace Game.UI
                                         // 发送法术攻击消息
                                         stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
                                         cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                                        cmd.dwMagicType = (uint)m_sceneCardItem.m_cardTableItem.m_faShu;
-                                        cmd.dwDefThisID = this.sceneCardItem.m_svrCard.qwThisID;
+                                        cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
+                                        cmd.dwDefThisID = sceneCard.sceneCardItem.m_svrCard.qwThisID;
                                         UtilMsg.sendMsg(cmd);
                                     }
                                 }
@@ -179,6 +183,12 @@ namespace Game.UI
                                 cmd.dwMagicType = (uint)m_sceneCardItem.m_cardTableItem.m_faShu;
                                 UtilMsg.sendMsg(cmd);
                             }
+                        }
+                        else if(m_sceneCardItem.m_cardTableItem.m_zhanHou > 0)           // 如果有战吼
+                        {
+                            // 直接放下去，然后选择攻击目标
+                            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(this, m_sceneDZData.m_curWhiteIdx);
+                            m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, this);
                         }
                         else        // 如果是普通移动牌，就发送移动消息
                         {
@@ -222,7 +232,7 @@ namespace Game.UI
         }
 
         // 回退卡牌到原始位置
-        protected void backCard2Orig()
+        public void backCard2Orig()
         {
             UICamera.simuStopDrag();
             m_sceneDZData.m_curDragItem = null;

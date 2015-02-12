@@ -21,6 +21,7 @@ namespace SDK.Common
         {
             ba.writeByte(byCmd);
             ba.writeByte(byParam);
+            dwTimestamp = UtilApi.getUTCSec();
             ba.writeUnsignedInt(dwTimestamp);
         }
 

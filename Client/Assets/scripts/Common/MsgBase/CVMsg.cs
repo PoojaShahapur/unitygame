@@ -171,4 +171,21 @@
     //    ATTACK_TARGET_EEQUIP    =	16,	//敌方武器
     //    ATTACK_TARGET_SEQUIP    =	32,	//己方武器
     //};
+
+    // 攻击类型
+    public enum EnAttackType
+    {
+        ATTACK_TYPE_NONE,
+        ATTACK_TYPE_NORMAL = 1,	//普通攻击
+        ATTACK_TYPE_S_MAGIC = 2,	//法术单攻
+        ATTACK_TYPE_G_MAGIC = 3,	//法术群攻
+    }
+
+    //enum
+    //{
+    //    ATTACK_TYPE_NONE,
+    //    ATTACK_TYPE_NORMAL	= 1,	//普通攻击
+    //    ATTACK_TYPE_S_MAGIC	= 2,	//法术单攻
+    //    ATTACK_TYPE_G_MAGIC	= 3,	//法术群攻
+    //};
 }

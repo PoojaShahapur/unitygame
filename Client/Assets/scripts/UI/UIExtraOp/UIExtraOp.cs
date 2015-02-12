@@ -1,5 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.UI
@@ -35,6 +36,11 @@ namespace Game.UI
         {
             stReqGiveUpOneBattleUserCmd cmd = new stReqGiveUpOneBattleUserCmd();
             UtilMsg.sendMsg(cmd);
+
+            Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
         }
     }
 }

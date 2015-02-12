@@ -8,15 +8,21 @@ namespace SDK.Common
      */
     public class DZPlayer
     {
+        public EnDZPlayer m_side;               // 玩家属于哪一边的
         public string m_heroName;               // 自己的 Hero 名字
         public uint m_heroOccupation;           // 自己的 Hero 的职业
         public uint[] m_startCardList;          // 第一次自己 Hero 得到的 Card，仅仅有 ID ，注意仅仅第一次报名进入的时候才有，如果是中途下线，然后再上线，这个时候再次进入上一次没有结束的战斗，这个值是没有的
-        public List<SceneCardItem> m_sceneCardList = new List<SceneCardItem>();     // 完成的卡牌数据
+        protected List<SceneCardItem> m_sceneCardList = new List<SceneCardItem>();     // 完成的卡牌数据
 
         public int m_recStartCardNum;                   // 接收到的开始卡牌的数量，因为启动的时候，仅仅发送过来卡牌 ID，真正的数据后来才发送过来
 
         public t_MagicPoint m_heroMagicPoint;           // 英雄的魔法点
         public uint m_leftCardNum;	                    // 玩家剩余卡牌的数量
+
+        public DZPlayer(EnDZPlayer size)
+        {
+            m_side = size;
+        }
 
         // 清理一些基本的数据，因为每一次进场景的时候都会重新记录一些数据
         public void clear()
@@ -26,6 +32,42 @@ namespace SDK.Common
             {
                 m_sceneCardList.Clear();
             }
+        }
+
+        public List<SceneCardItem> sceneCardList
+        {
+            get
+            {
+                return m_sceneCardList;
+            }
+            set
+            {
+                m_sceneCardList = value;
+            }
+        }
+
+        public void addOneSceneCard(SceneCardItem card)
+        {
+            m_sceneCardList.Add(card);
+        }
+
+        public void removeOneSceneCard(SceneCardItem card)
+        {
+            m_sceneCardList.Remove(card);
+        }
+
+        public bool removeOneSceneCardByThisID(uint thisid)
+        {
+            foreach(SceneCardItem card in m_sceneCardList)
+            {
+                if(card.m_svrCard.qwThisID == thisid)
+                {
+                    m_sceneCardList.Remove(card);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool bHaveStartCard()
@@ -84,6 +126,23 @@ namespace SDK.Common
             }
 
             return null;
+        }
+
+        public bool checkTaunt()
+        {
+            foreach(SceneCardItem item in m_sceneCardList)
+            {
+                if(item.hasTaunt() && !item.isSneak())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool checkMp(int mpcost)
+        {
+            return m_heroMagicPoint.mp >= mpcost;
         }
     }
 }

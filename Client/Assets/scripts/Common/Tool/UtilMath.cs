@@ -48,7 +48,14 @@ namespace SDK.Common
         {
             if (splitCnt > 3)        // 只有大于 3 个的时候才分割
             {
-                upHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
+                if (up == 0)
+                {
+                    upHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
+                }
+                else
+                {
+                    downHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
+                }
             }
             else
             {
@@ -100,7 +107,7 @@ namespace SDK.Common
             degSector = 180 / 11;
 
             startRadian = Mathf.PI + radianSector;
-            startDeg = 180 + degSector;               // 起始都偏移 90 度，这样就可以认为是 0 度了
+            startDeg = 180 + degSector;
 
             Vector3 orign = new Vector3(radius, 0, 0);
 
@@ -117,7 +124,52 @@ namespace SDK.Common
 
                 posList.Add(pos);
 
-                rot = Quaternion.Euler(0, curDeg + trans.eulerAngles.y + 90, 0);
+                rot = Quaternion.Euler(0, curDeg + trans.eulerAngles.y + 90, 0);            // +90 就是为了是竖直的变成水平的，起始都偏移 90 度，这样就可以认为是 0 度了
+                rotList.Add(rot);
+
+                ++listIdx;
+            }
+        }
+
+        // 0 - 180 度区间
+        static public void downHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
+        {
+            float radianSector = 0;         // 每一个弧形的弧度
+            float degSector = 0;            // 度
+            float curRadian = 0;
+            float curDeg = 0;
+
+            float startRadian = 0;          // 开始的弧度
+            float startDeg = 0;             // 开始的角度
+
+            float yDelta = 0.1f;
+
+            Vector3 pos;
+            Quaternion rot;
+
+            // 总共 10 张牌
+            radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
+            degSector = 180 / 11;
+
+            startRadian = Mathf.PI - radianSector;
+            startDeg = 180 - degSector;
+
+            Vector3 orign = new Vector3(radius, 0, 0);
+
+            int listIdx = 0;
+            while (listIdx < splitCnt)
+            {
+                curRadian = startRadian - radianSector * listIdx;
+                curDeg = startDeg - degSector * listIdx;
+
+                pos = new Vector3();
+                pos = Quaternion.AngleAxis(curDeg, Vector3.up) * orign;
+                pos += trans.localPosition;
+                pos.y += listIdx * yDelta;
+
+                posList.Add(pos);
+
+                rot = Quaternion.Euler(0, curDeg, 0);            // +90 就是为了是竖直的变成水平的，起始都偏移 90 度，这样就可以认为是 0 度了
                 rotList.Add(rot);
 
                 ++listIdx;

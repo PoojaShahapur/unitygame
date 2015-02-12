@@ -27,6 +27,18 @@ namespace Game.Msg
             dwFromID = ba.readUnsignedInt();
             dwChannelID = ba.readUnsignedInt();
         }
+
+        public override void serialize(SDK.Common.IByteArray ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt(dwType);
+            ba.writeUnsignedInt(dwSysInfoType);
+            ba.writeMultiByte(pstrName, GkEncode.UTF8, CVMsg.MAX_NAMESIZE);
+            ba.writeMultiByte(pstrChat, GkEncode.UTF8, CVMsg.MAX_CHATINFO);
+            ba.writeUnsignedInt(dwFromID);
+            ba.writeUnsignedInt(dwChannelID);
+        }
     }
     //const BYTE  CHAT_USERCMD_PARAMETER = 2;
     //struct stKokChatUserCmd : public stChatUserCmd

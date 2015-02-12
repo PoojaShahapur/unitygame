@@ -19,7 +19,7 @@ namespace Game.UI
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_internal, m_sceneCardList.Count, ref m_posList, ref m_rotList);
+            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_smallInternal, m_sceneCardList.Count, ref m_posList, ref m_rotList);
         }
 
         public void addCard(SceneDragCard card, int idx = 0)
