@@ -5,10 +5,10 @@ Created on 2015-2-1
 @author: Administrator
 '''
 
-from PyQt4 import QtGui
+from PyQt5 import QtWidgets
 import CPP2CSharp.UI.ui_loggerwin
 
-class LoggerWin(QtGui.QDockWidget):    
+class LoggerWin(QtWidgets.QDockWidget):    
     def __init__(self):
         super(LoggerWin, self).__init__()
 

@@ -6,7 +6,7 @@ Created on 2015-2-1
 @brief 自己的程序框架
 '''
 
-from PyQt4.QtGui import QApplication
+from PyQt5.QtWidgets import QApplication
 import sys
 
 class AppFrame(QApplication):

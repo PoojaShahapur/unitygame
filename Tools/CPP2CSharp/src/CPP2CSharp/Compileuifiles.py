@@ -6,7 +6,7 @@ Created on 2015-2-1
 '''
 
 import os
-from PyQt4.uic import compileUi
+from PyQt5.uic import compileUi
 
 def compileUIFiles(uiDir):
     for name in os.listdir(uiDir):

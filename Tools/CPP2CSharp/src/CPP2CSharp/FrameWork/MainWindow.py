@@ -6,7 +6,8 @@ Created on 2015-2-1
 @brief mainwindow
 '''
 
-from PyQt4 import QtCore, QtGui
+#from PyQt5 import  QtWidgets, QtCore, QtGui
+from PyQt5 import  QtWidgets, QtCore
 
 import CPP2CSharp.UI.ui_mainwindow
 from CPP2CSharp.FrameWork import LoggerWin, LeftFnWin
@@ -16,7 +17,7 @@ from CPP2CSharp.Core.Logger import Logger
 from CPP2CSharp.Core.IAppData import IAppData
 from CPP2CSharp.Core import CodeConv
 
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QtWidgets.QMainWindow):
     
     instance = None
     
@@ -50,7 +51,7 @@ class MainWindow(QtGui.QMainWindow):
         CodeConv.CodeConv.instance()
         
         self.m_qttimer = QtCore.QTimer()
-        QtCore.QObject.connect(self.m_qttimer, QtCore.SIGNAL("timeout()"), self.onTimer)
+        self.m_qttimer.timeout.connect(self.onTimer)
         self.m_qttimer.start( 1000 )
 
     def onTimer(self):

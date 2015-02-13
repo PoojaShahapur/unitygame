@@ -5,7 +5,7 @@ Created on 2015-2-1
 @author: Administrator
 '''
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtWidgets
 
 import CPP2CSharp.UI.ui_leftfnwin
 from CPP2CSharp.Core.AppData import AppData
@@ -13,7 +13,7 @@ from CPP2CSharp.Core.AppData import AppData
 from CPP2CSharp.Core.ConvThread import ConvThread
 from CPP2CSharp.Core.Logger import Logger
 
-class LeftFnWin(QtGui.QDockWidget):    
+class LeftFnWin(QtWidgets.QDockWidget):    
     def __init__(self):
         super(LeftFnWin, self).__init__()
 
@@ -21,10 +21,10 @@ class LeftFnWin(QtGui.QDockWidget):
         self.ui.setupUi(self)
         
         # 注册事件处理函数
-        QtCore.QObject.connect(self.ui.m_btnCheck, QtCore.SIGNAL("clicked()"), self.onBtnClkTest)
-        QtCore.QObject.connect(self.ui.m_btnVersion, QtCore.SIGNAL("clicked()"), self.onBtnClkCopy)
+        self.ui.m_btnCheck.clicked.connect(self.onBtnClkTest)
+        self.ui.m_btnVersion.clicked.connect(self.onBtnClkCopy)
         
-        QtCore.QObject.connect(self.ui.m_btnVerSwf, QtCore.SIGNAL("clicked()"), self.onBtnClkConv)
+        self.ui.m_btnVerSwf.clicked.connect(self.onBtnClkConv)
 
 
     def onBtnClkTest(self):
