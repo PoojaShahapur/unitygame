@@ -4,6 +4,8 @@ Created on 2015年2月13日
 @author: Administrator
 '''
 
+from CPP2CSharp.Core.Utils import Utils
+
 class CppItemBase(object):
     '''
     classdocs
@@ -21,7 +23,7 @@ class CppItemBase(object):
 
 
     def parseCppElem(self, strParam):
-        strParam.lstrip(' \n')          # 删除左边的空格
+        Utils.skipSpaceAndBr(strParam)          # 删除左边的空格
         pass;
     
     

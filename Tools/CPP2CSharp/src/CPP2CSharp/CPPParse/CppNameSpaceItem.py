@@ -6,7 +6,7 @@ Created on 2015年2月13日
 
 from CPP2CSharp.CPPParse import CppItemBase
 
-class CppNSItem(CppItemBase):
+class CppNameSpaceItem(CppItemBase):
     '''
     classdocs
     '''
@@ -16,4 +16,4 @@ class CppNSItem(CppItemBase):
         '''
         Constructor
         '''
-        super(CppNSItem, self).__init__(CppItemBase.CppItemBase.eCppNSItem)
+        super(CppNameSpaceItem, self).__init__(CppItemBase.CppItemBase.eCppNSItem)
