@@ -67,14 +67,31 @@ class Utils(object):
             os.makedirs(path)
 
 
+    # 从字符串的左边获取一个符号，并且删除这个符号
+    @staticmethod
+    def getToken(strParam):
+        idx = 0;
+        ret = ''
+        while idx < len(strParam):
+            ret.append(strParam[idx])
+            idx += 1
+            
+        if len(ret):
+            del strParam[0:len(ret)]         # 删除内容
+            
+        return ret
+        
 
+    # 跳过当前行
+    @staticmethod
+    def skipCurLine(strParam):
+        idx = 0;
+        while idx < len(strParam):
+            if strParam[idx] == '\n':
+                break;
+            idx += 1
 
-
-
-
-
-
-
+        del strParam[0:idx + 1]         # 删除内容
 
 
 

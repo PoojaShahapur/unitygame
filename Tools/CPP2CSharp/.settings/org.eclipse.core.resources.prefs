@@ -6,6 +6,7 @@ encoding//src/CPP2CSharp/Core/ConvThread.py=utf-8
 encoding//src/CPP2CSharp/Core/Logger.py=utf-8
 encoding//src/CPP2CSharp/Core/ThreadWrap.py=utf-8
 encoding//src/CPP2CSharp/Core/Utils.py=utf-8
+encoding//src/CPP2CSharp/DataStruct/MQueue.py=UTF-8
 encoding//src/CPP2CSharp/Fake.py=utf-8
 encoding//src/CPP2CSharp/FrameWork/AppFrame.py=utf-8
 encoding//src/CPP2CSharp/FrameWork/LeftFnWin.py=utf-8

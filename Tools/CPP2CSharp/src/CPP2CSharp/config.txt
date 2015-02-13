@@ -1,4 +1,4 @@
-m_srcCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\AIEditor
-m_fileNameList=aaa.h,bbb.h
-m_tmpCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\aaa
-m_destCodePath=D:\file\opensource\unity-game-git\unitygame\unitygame\Tools\aaa
+m_srcCodePath=E:\Work\Client20141215\server\base
+m_fileNameList=Command.h
+m_tmpCodePath=E:\dump
+m_destCodePath=E:\dump
