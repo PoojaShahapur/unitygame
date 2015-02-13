@@ -9,8 +9,8 @@ class CppItemBase(object):
     classdocs
     '''
     eCppClassItem = 0,
-    CppNSItem = 1,
-    eCppClassItem = 0,
+    eCppNSItem = 1,
+    eCppStructItem = 2,
     
 
     def __init__(self, cppelemtype):

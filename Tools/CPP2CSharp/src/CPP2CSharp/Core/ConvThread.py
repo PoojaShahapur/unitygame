@@ -12,6 +12,7 @@ from CPP2CSharp.Core.AppData import AppData
 from CPP2CSharp.Core.Config import Config
 from CPP2CSharp.Core.Logger import Logger
 from CPP2CSharp.Core.Utils import Utils
+from CPP2CSharp.Core.CodeConv import CodeConv
 
 class ConvThread(ThreadWrap):
     
@@ -25,7 +26,7 @@ class ConvThread(ThreadWrap):
         Utils.makeDir(Config.instance().m_tmpCodePath)
         Utils.makeDir(Config.instance().m_destCodePath)
         
-        Utils.traverseDirs(Config.instance().m_srcCodePath)
+        Utils.traverseDirs(Config.instance().m_srcCodePath, CodeConv.pInstance.convCpp2CSharp)
 
         Logger.instance().info("File Conv End")
         AppData.instance().m_bConvOver = True

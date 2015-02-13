@@ -11,7 +11,6 @@ import traceback
 import os
 import shutil
 from CPP2CSharp.Core.Logger import Logger
-from CPP2CSharp.Core.CodeConv import CodeConv
 
 
 class Utils(object):
@@ -26,7 +25,7 @@ class Utils(object):
                 Logger.instance().info("copy file error: " + srcfilename)
                 typeerr, value, tb = sys.exc_info()
                 errstr = traceback.format_exception(typeerr, value, tb)
-                Logger.instance().info(errstr)
+                Logger.instance().info(''.join(errstr))
 
         else:
             Logger.instance().info("cannot find file: " + srcfilename)
@@ -40,20 +39,21 @@ class Utils(object):
 
     # 遍历目录
     @staticmethod
-    def traverseDirs(rootDir):
+    def traverseDirs(rootDir, handleDisp):
         for root, dirs, files in os.walk(rootDir):
             Logger.instance().info(''.join(dirs))
-            Utils.traverseOneDirs(root, files)
+            Utils.traverseOneDirs(root, files, handleDisp)
     
     
     #一个目录的 md5 码
     @staticmethod
-    def traverseOneDirs(directoryName, filesInDirectory):
+    def traverseOneDirs(directoryName, filesInDirectory, handleDisp):
         Logger.instance().info(directoryName)
         for fname in filesInDirectory:
             fpath = os.path.join(directoryName, fname)
             if not os.path.isdir(fpath):
-                CodeConv.pInstance.convCpp2CSharp(fpath)
+                if handleDisp is not None:
+                    handleDisp(fname, fpath)
     
     
     @staticmethod
@@ -65,20 +65,33 @@ class Utils(object):
         # 检查目录
         if not os.path.exists(path):
             os.makedirs(path)
+            
+    
+    @staticmethod        
+    def logStackInfo():
+        typeerr, value, tb = sys.exc_info()
+        errstr = traceback.format_exception(typeerr, value, tb)
+        Logger.instance().info(''.join(errstr))
 
 
     # 从字符串的左边获取一个符号，并且删除这个符号
     @staticmethod
     def getToken(strParam):
+        Utils.skipSpaceAndBr(strParam)
+        
         idx = 0;
         ret = ''
-        while idx < len(strParam):
-            ret.append(strParam[idx])
+        while idx < len(strParam.m_fileStr):
+            if strParam.m_fileStr[idx] == ' ' or strParam.m_fileStr[idx] == '\n' or strParam.m_fileStr[idx] == '\t':       # 如果遇到空格或者换行符，就算是一个符号
+                break 
+            ret += strParam.m_fileStr[idx]
             idx += 1
             
         if len(ret):
-            del strParam[0:len(ret)]         # 删除内容
+            strParam.m_fileStr = strParam.m_fileStr[idx:]         # 删除内容
             
+        Utils.skipSpaceAndBr(strParam)
+        
         return ret
         
 
@@ -86,18 +99,22 @@ class Utils(object):
     @staticmethod
     def skipCurLine(strParam):
         idx = 0;
-        while idx < len(strParam):
-            if strParam[idx] == '\n':
+        while idx < len(strParam.m_fileStr):
+            if strParam.m_fileStr[idx] == '\n':
                 break;
             idx += 1
 
-        del strParam[0:idx + 1]         # 删除内容
+        strParam.m_fileStr = strParam.m_fileStr[idx:]         # 删除内容
+        
 
+    # 跳过空格和换行
+    @staticmethod
+    def skipSpaceAndBr(strParam):
+        idx = 0;
+        while idx < len(strParam.m_fileStr):
+            if strParam.m_fileStr[idx] != ' ' and strParam.m_fileStr[idx] != '\n' and strParam.m_fileStr[idx] != '\t':       # 如果遇到空格或者换行符，就算是一个符号
+                break;
+            idx += 1
 
-
-
-
-
-
-
+        strParam.m_fileStr = strParam.m_fileStr[idx:]         # 删除内容
 

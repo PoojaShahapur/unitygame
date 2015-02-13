@@ -32,6 +32,7 @@ class Config(object):
 
         #读取初始化数据
     def readInit(self, filename):
+        # gbk , gk2312
         with open(filename, 'r', encoding = 'utf8') as fHandle:
             cont = fHandle.read()
             strlist = cont.split('\n')
@@ -48,7 +49,6 @@ class Config(object):
                             while idxList < len(fileList):
                                 self.m_fileNameList.append(fileList[idxList])
                                 idxList += 1
-                            self.__dict__[substrList[0]] = True
                     else:    
                         self.__dict__[substrList[0]] = substrList[1]
                 idx += 1

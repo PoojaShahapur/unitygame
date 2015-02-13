@@ -17,3 +17,8 @@ class CppClassItem(CppItemBase.CppItemBase):
         Constructor
         '''
         super(CppClassItem, self).__init__(CppItemBase.CppItemBase.eCppClassItem)
+        
+        
+        
+        
+        

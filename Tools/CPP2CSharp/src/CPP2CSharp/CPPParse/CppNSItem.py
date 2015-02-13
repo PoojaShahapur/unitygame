@@ -16,4 +16,4 @@ class CppNSItem(CppItemBase):
         '''
         Constructor
         '''
-        super(CppNSItem, self).__init__(CppItemBase.CppItemBase.CppNSItem)
+        super(CppNSItem, self).__init__(CppItemBase.CppItemBase.eCppNSItem)
