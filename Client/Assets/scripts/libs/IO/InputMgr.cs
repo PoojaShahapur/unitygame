@@ -25,8 +25,7 @@ namespace SDK.Lib
         public void postInit()
         {
             // 添加事件处理
-            //UICamera uiCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
-            Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+            Ctx.m_instance.m_camSys.m_uiCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
         }
 
         /**

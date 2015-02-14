@@ -294,7 +294,7 @@ namespace SDK.Lib
         // 检查并且更新连接状态
         protected bool checkAndUpdateConnect()
         {
-            if (!m_socket.Connected)
+            if (m_socket != null && !m_socket.Connected)
             {
                 m_isConnected = false;
 

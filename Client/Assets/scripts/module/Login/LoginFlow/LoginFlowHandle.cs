@@ -13,7 +13,6 @@ namespace Game.Login
         protected ushort m_gatePort;
 
         protected uint m_dwUserID;
-        protected uint m_loginTempID;
 
         protected string m_name;
         protected string m_passwd;
@@ -104,10 +103,10 @@ namespace Game.Login
             m_gatePort = cmd.wdPort;
 
             m_dwUserID = cmd.dwUserID;
-            m_loginTempID = cmd.loginTempID;
+            Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID = cmd.loginTempID;
 
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog5f);
-            string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, m_gateIP, m_gatePort, m_dwUserID, m_loginTempID);
+            string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, m_gateIP, m_gatePort, m_dwUserID, Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID);
             Ctx.m_instance.m_log.log(str);
 
             Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);            // 关闭之前的 socket
@@ -144,7 +143,7 @@ namespace Game.Login
 
             stPasswdLogonUserCmd cmd = new stPasswdLogonUserCmd();
             cmd.dwUserID = m_dwUserID;
-            cmd.loginTempID = m_loginTempID;
+            cmd.loginTempID = Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID;
             UtilMsg.sendMsg(cmd);
         }
 
@@ -156,41 +155,6 @@ namespace Game.Login
 
             stMergeVersionCheckUserCmd cmd = new stMergeVersionCheckUserCmd();
             cmd.derialize(msg);
-        }
-
-        // 步骤 7 ，接收消息
-        public void receiveMsg7f(IByteArray msg)
-        {
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog10f);
-            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
-
-            stGameTimeTimerUserCmd cmd = new stGameTimeTimerUserCmd();
-            cmd.derialize(msg);
-        }
-
-        // 步骤 8 ，接收消息
-        public void receiveMsg8f(IByteArray msg)
-        {
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog11f);
-            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
-
-            stRequestUserGameTimeTimerUserCmd cmd = new stRequestUserGameTimeTimerUserCmd();
-            cmd.derialize(msg);
-
-            sendMsg9f();
-        }
-
-        // 步骤 9 ，发送消息
-        public void sendMsg9f()
-        {
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog12f);
-            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
-
-            stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
-            UtilMsg.sendMsg(cmd);
-
-            // 加载游戏模块
-            //Ctx.m_instance.m_moduleSys.loadModule(ModuleName.GAMEMN);
         }
 
         // 收到这条消息，就说明客户端没有创建角色，弹出创建角色界面

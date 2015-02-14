@@ -17,11 +17,11 @@ namespace Game.Login
         // 步骤 6 ，接收消息
         void receiveMsg6f(IByteArray msg);
         // 步骤 7 ，接收消息
-        void receiveMsg7f(IByteArray msg);
+        //void receiveMsg7f(IByteArray msg);
         // 步骤 8 ，接收消息
-        void receiveMsg8f(IByteArray msg);
+        //void receiveMsg8f(IByteArray msg);
         // 步骤 9 ，发送消息
-        void sendMsg9f();
+        //void sendMsg9f();
 
         void psstServerReturnLoginFailedCmd(IByteArray msg);
         void psstUserInfoUserCmd(IByteArray ba);

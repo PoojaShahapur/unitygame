@@ -60,6 +60,8 @@ namespace SDK.Lib
 
         public void updateLog()
         {
+            ThreadWrap.needMainThread();
+
             m_visitMutex.WaitOne();
             m_tmpStr = "";
             foreach (string str in m_strList)

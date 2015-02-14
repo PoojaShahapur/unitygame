@@ -1,9 +1,0 @@
- 
-TRANSLATIONS = \ 
- 
-FORMS = \ 
- 
-SOURCES = \ 
- 
-HEADERS = \ 
- 

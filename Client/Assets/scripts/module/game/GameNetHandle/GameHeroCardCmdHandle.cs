@@ -293,7 +293,7 @@ namespace Game.Game
                 sceneItem.m_playerFlag = (EnDZPlayer)(cmd.who - 1);
                 sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.m_svrCard.dwObjectID).m_itemBody as TableCardItemBody;
                 // 填充数据
-                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].m_sceneCardList.Add(sceneItem);       // 添加数据
+                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].addOneSceneCard(sceneItem);       // 添加数据
             }
             else
             {
@@ -415,6 +415,10 @@ namespace Game.Game
         {
             stRetRemoveBattleCardUserCmd cmd = new stRetRemoveBattleCardUserCmd();
             cmd.derialize(ba);
+            if(!Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[0].removeOneSceneCardByThisID(cmd.dwThisID))
+            {
+                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[1].removeOneSceneCardByThisID(cmd.dwThisID);
+            }
             UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
@@ -465,13 +469,17 @@ namespace Game.Game
             UtilMath.setState((StateID)cmd.stateNum, cardItem.m_svrCard.state);
         }
 
-        // 攻击失败
+        // 法术攻击失败
         protected void psstRetCardAttackFailUserCmd(IByteArray ba)
         {
             stRetCardAttackFailUserCmd cmd = new stRetCardAttackFailUserCmd();
             cmd.derialize(ba);
-            // 
-            Ctx.m_instance.m_log.log("card attack failed");
+            // 将不能使用的法术牌退回去
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstRetCardAttackFailUserCmd(cmd);
+            }
         }
     }
 }

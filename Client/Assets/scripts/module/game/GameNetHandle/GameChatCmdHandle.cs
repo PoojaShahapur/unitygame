@@ -18,6 +18,7 @@ namespace Game.Game
             IUIChat uiChat = Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat;
             if(uiChat != null)
             {
+                cmd.pstrChat = cmd.pstrChat.TrimEnd('\0');
                 uiChat.outMsg(cmd.pstrChat);
             }
             else
