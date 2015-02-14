@@ -1,4 +1,0 @@
-m_srcCodePath=E:\Work\Client20141215\server\base
-m_fileNameList=Command.h
-m_tmpCodePath=E:\dump
-m_destCodePath=E:\dump
