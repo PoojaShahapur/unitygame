@@ -68,7 +68,8 @@ namespace Game.UI
         {
             //testStart();
             //testAttackAni();
-            testFlyNum();
+            //testFlyNum();
+            testSendToSelf();
         }
 
         protected void onBtnClkTest2f()
@@ -162,6 +163,12 @@ namespace Game.UI
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.getCardByIdx(0).playFlyNum(123);
+        }
+
+        protected void testSendToSelf()
+        {
+            stRetCardAttackFailUserCmd cmd = new stRetCardAttackFailUserCmd();
+            UtilMsg.sendMsg(cmd, false);
         }
     }
 }

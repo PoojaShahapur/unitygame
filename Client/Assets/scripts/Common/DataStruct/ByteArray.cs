@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDK.Lib;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -47,10 +48,15 @@ namespace SDK.Common
 
         protected byte[] m_tmpBytes;
 
-        public ByteArray()
+        protected string m_encryptKey;
+        protected string m_decryptKey;
+
+        public ByteArray(uint initSize = DynamicBuffer.INIT_CAPACITY)
         {
             m_endian = m_sEndian;
-            m_dynBuff = new DynamicBuffer();
+            m_dynBuff = new DynamicBuffer(initSize);
+            m_encryptKey = "aaaaaaaa";
+            m_decryptKey = "aaaaaaaa";
         }
 
         public DynamicBuffer dynBuff
@@ -103,6 +109,11 @@ namespace SDK.Common
             m_position = pos;
         }
 
+        public uint getPos()
+        {
+            return m_position;
+        }
+
 		public uint position
         {
             get
@@ -112,6 +123,22 @@ namespace SDK.Common
             set
             {
                 m_position = value;
+            }
+        }
+
+        public string encryptKey
+        {
+            set
+            {
+                m_encryptKey = value;
+            }
+        }
+
+        public string decryptKey
+        {
+            set
+            {
+                m_decryptKey = value;
             }
         }
 
@@ -145,7 +172,7 @@ namespace SDK.Common
 
         protected void extendDeltaCapicity(uint delta)
         {
-            m_dynBuff.capacity = UtilMath.getCloseSize(m_dynBuff.size + delta, m_dynBuff.capacity, m_dynBuff.maxCapacity);
+            m_dynBuff.extendDeltaCapicity(delta);
         }
 
         protected void advPos(uint num)
@@ -159,14 +186,65 @@ namespace SDK.Common
             length = m_position;
         }
 
+        // 压缩
         public void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {
+            byte[] retByte = null;
+            uint retSize = 0;
+            Compress.CompressData(m_dynBuff.buff, length, ref retByte, ref retSize, algorithm);
 
+            clear();
+            writeBytes(retByte, 0, retSize);
         }
 
-        public void uncompress ()
+        // 解压
+        public void uncompress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {
-    
+            byte[] retByte = null;
+            uint retSize = 0;
+            Compress.DecompressData(m_dynBuff.buff, length, ref retByte, ref retSize, algorithm);
+
+            clear();
+            writeBytes(retByte, 0, retSize);
+        }
+
+        // 加密，使用 des 对称数字加密算法
+        public void encrypt()
+        {
+            byte[] retByte = null;
+            // 只有 8 个字节的时候才加密
+            uint leftCnt = length % 8;  // 剩余的数量
+            if (leftCnt > 0)
+            {
+                EncryptDecrypt.symmetry_Encode_Byte(m_dynBuff.buff, length - leftCnt, ref retByte, m_encryptKey);
+            }
+
+            clear();
+            writeBytes(retByte, 0, (uint)retByte.Length);
+
+            if(leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
+            {
+                length += leftCnt;
+            }
+        }
+
+        // 解密
+        public void decrypt()
+        {
+            byte[] retByte = null;
+            uint leftCnt = length % 8;  // 剩余的数量
+            if (leftCnt > 0)
+            {
+                EncryptDecrypt.symmetry_Decode_Byte(m_dynBuff.buff, length - leftCnt, ref retByte, m_decryptKey);
+            }
+
+            clear();
+            writeBytes(retByte, 0, (uint)retByte.Length);
+
+            if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
+            {
+                length += leftCnt;
+            }
         }
 
 		public bool readBoolean ()
@@ -398,6 +476,17 @@ namespace SDK.Common
             return m_tmpBytes;
         }
 
+        public void readBytes(byte[] outBytes, uint len)
+        {
+            m_tmpBytes = outBytes;
+
+            if (canRead(len))
+            {
+                Array.Copy(m_dynBuff.buff, (int)m_position, m_tmpBytes, 0, (int)len);
+                advPos(len);
+            }
+        }
+
 		public void writeByte (byte value)
         {
             if (!canWrite((int)TypeBytes.eBYTE))
@@ -494,14 +583,14 @@ namespace SDK.Common
         }
 
         // 写入字节
-        public void writeBytes(byte[] value, uint start, uint length)
+        public void writeBytes(byte[] value, uint start, uint len)
         {
-            if (!canWrite(length))
+            if (!canWrite(len))
             {
-                extendDeltaCapicity(length);
+                extendDeltaCapicity(len);
             }
-            Array.Copy(value, start, m_dynBuff.buff, m_position, length);
-            advPosAndLen(length);
+            Array.Copy(value, start, m_dynBuff.buff, m_position, len);
+            advPosAndLen(len);
         }
 
         // 写入字符串

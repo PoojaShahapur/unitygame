@@ -61,6 +61,7 @@ namespace SDK.Lib
 
         public void join()
         {
+            m_thread.Interrupt();           // 直接线程终止
             m_thread.Join();
         }
 
@@ -89,6 +90,7 @@ namespace SDK.Lib
         {
             if (!isMainThread())
             {
+                Ctx.m_instance.m_log.asynclog("error: log 输出在另外一个线程");
                 throw new Exception("cannot call function in thread");
             }
         }

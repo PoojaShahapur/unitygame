@@ -12,8 +12,6 @@ namespace SDK.Common
     // 必须是线程安全的，否则很多地方都需要加锁
     public class CirculeBuffer
     {
-        static public uint m_sHeaderSize = 4;   // 包长度占据几个字节
-
         // 这里面的 byte[] 会频繁操作，就直接写在这里
         protected uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
         protected uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
@@ -262,41 +260,6 @@ namespace SDK.Common
          */
         protected void popFrontBA(ByteArray bytearray, uint len)
         {
-            //bytearray.clear();          // 设置数据为初始值
-            //if (m_size >= len)          // 头部占据 4 个字节
-            //{
-            //    if(isLinearized())      // 在一段连续的内存
-            //    {
-            //        bytearray.writeBytes(m_buff, m_first, len);
-            //        if (movefirst)
-            //        {
-            //            m_first += len;
-            //            m_size -= len;
-            //        }
-            //    }
-            //    else if (m_iCapacity - m_first >= len)
-            //    {
-            //        bytearray.writeBytes(m_buff, m_first, len);
-            //        if (movefirst)
-            //        {
-            //            m_first += len;
-            //            m_size -= len;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        bytearray.writeBytes(m_buff, m_first, m_iCapacity - m_first);
-            //        bytearray.writeBytes(m_buff, 0, len - (m_iCapacity - m_first));
-            //        if (movefirst)
-            //        {
-            //            m_first = len - (m_iCapacity - m_first);
-            //            m_size -= len;
-            //        }
-            //    }
-            //}
-
-            //bytearray.position = 0;        // 设置数据读取起始位置
-
             frontBA(bytearray, len);
             popFrontLen(len);
         }
@@ -352,14 +315,20 @@ namespace SDK.Common
         public bool popFront()
         {
             bool ret = false;
-            if (m_size > m_sHeaderSize)         // 至少要是 m_sHeaderSize 大小加 1 ，如果正好是 m_sHeaderSize ，那只能说是只有大小字段，没有内容
+            if (m_size > DataCV.HEADER_SIZE)         // 至少要是 DataCV.HEADER_SIZE 大小加 1 ，如果正好是 DataCV.HEADER_SIZE ，那只能说是只有大小字段，没有内容
             {
-                frontBA(m_headerBA, m_sHeaderSize);  // 如果不够整个消息的长度，还是不能去掉消息头的
+                frontBA(m_headerBA, DataCV.HEADER_SIZE);  // 如果不够整个消息的长度，还是不能去掉消息头的
                 uint msglen = m_headerBA.readUnsignedInt();
-
-                if (msglen <= m_size - m_sHeaderSize)
+#if MSG_COMPRESS
+                if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
                 {
-                    popFrontLen(m_sHeaderSize);
+                    msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
+                }
+#endif
+
+                if (msglen <= m_size - DataCV.HEADER_SIZE)
+                {
+                    popFrontLen(DataCV.HEADER_SIZE);
                     popFrontBA(m_retBA, msglen);
                     ret = true;
                 }
@@ -367,7 +336,7 @@ namespace SDK.Common
 
             if(empty())     // 如果已经清空，就直接重置
             {
-                clear();
+                clear();    // 读写指针从头开始，方式写入需要写入两部分
             }
 
             return ret;
@@ -378,8 +347,15 @@ namespace SDK.Common
          */
         protected bool checkHasMsg()
         {
-            frontBA(m_headerBA, m_sHeaderSize);  // 将数据读取到 m_headerBA
-            if (m_headerBA.readUnsignedInt() <= m_size - m_sHeaderSize)
+            frontBA(m_headerBA, DataCV.HEADER_SIZE);  // 将数据读取到 m_headerBA
+            uint msglen = m_headerBA.readUnsignedInt();
+#if MSG_COMPRESS
+            if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
+            {
+                msglen |= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
+            }
+#endif
+            if (msglen <= m_size - DataCV.HEADER_SIZE)
             {
                 return true;
             }
@@ -388,22 +364,6 @@ namespace SDK.Common
                 return false;
             }
         }
-
-        /**
-         *@brief 数据放到流中
-         */
-        //public void getByte2Stream(NetworkStream ns, System.AsyncCallback cb)
-        //{
-        //    m_visitMutex.WaitOne();
-        //    linearize();
-        //    ns.BeginWrite(m_buff, (int)m_first, (int)m_size, cb, ns);
-
-        //    // 清空数据
-        //    m_first = 0;
-        //    m_size = 0;
-        //    m_last = 0;
-        //    m_visitMutex.ReleaseMutex();
-        //}
 
         // 向自己尾部添加一个 CirculeBuffer 
         public void pushBackCB(CirculeBuffer rhv)

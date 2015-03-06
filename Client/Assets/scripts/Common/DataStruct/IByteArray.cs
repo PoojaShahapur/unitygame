@@ -10,8 +10,8 @@ namespace SDK.Common
     public interface IByteArray
     {
         void clear();
-        void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB);
-        void uncompress();
+        void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.LZMA);
+        void uncompress(CompressionAlgorithm algorithm = CompressionAlgorithm.LZMA);
 		bool readBoolean();
 		byte readByte();
         byte readUnsignedByte();
@@ -36,6 +36,7 @@ namespace SDK.Common
         void writeBytes(byte[] value, uint start, uint length);
 
         void setPos(uint pos);
+        uint getPos();
         void setEndian(Endian end);
     }
 }

@@ -18,13 +18,14 @@ namespace SDK.Common
 
         public string m_ip = "192.168.125.254";
         public int m_port = 10002;
-        //public string m_webIP = "http://127.0.0.1/";
-        public string m_webIP = "";
+        public string m_webIP = "192.168.125.49";               // web 服务器
+        public int m_webPort = 80;
 
         public string[] m_pathLst;
         public ResLoadType m_resLoadType;   // 资源加载类型
         public string m_dataPath;
-        //public bool m_bNeedNet = false;                     // 是否需要网络
+        //public bool m_bNeedNet = false;                       // 是否需要网络
+        public string m_netLogPhp = "/netlog/NetLog.php";       // Php 处理文件
 
         public Config()
         {

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using SDK.Lib;
 using SDK.Common;
 
+#if UNIT_TEST_SRC
+using UnitTestSrc;
+#endif
+
 namespace SDK.Common
 {
     /**
@@ -68,6 +72,7 @@ namespace SDK.Common
         public FlyNumMgr m_pFlyNumMgr = new FlyNumMgr();              // Header Num
 
         public TimerMsgHandle m_pTimerMsgHandle = new TimerMsgHandle();
+        public WebSocketMgr m_pWebSocketMgr;
 
         public Ctx()
         {
@@ -98,6 +103,12 @@ namespace SDK.Common
             PostInit();
             // 加载登陆模块
             m_moduleSys.loadModule(ModuleID.LOGINMN);
+
+            // 运行单元测试
+#if UNIT_TEST_SRC
+            UnitTestMain pUnitTestMain = new UnitTestMain();
+            pUnitTestMain.run();
+#endif
         }
 
         void Update()
@@ -154,6 +165,7 @@ namespace SDK.Common
             m_tableSys = new TableSys();
             m_localFileSys = new LocalFileSys();
             m_langMgr = new LangMgr();
+            //m_pWebSocketMgr = new WebSocketMgr();
         }
 
         public void PostInit()

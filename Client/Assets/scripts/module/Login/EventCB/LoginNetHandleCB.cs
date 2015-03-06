@@ -11,7 +11,7 @@ namespace Game.Login
         public LoginNetHandleCB()
         {
             m_id2DispDic[stNullUserCmd.TIME_USERCMD] = new LoginTimerUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new LoginDataUserCmdHandle();
+            m_id2DispDic[stNullUserCmd.DATA_USERCMD] = new LoginDataUserCmdHandle();
             m_id2DispDic[stNullUserCmd.SELECT_USERCMD] = new LoginSelectUserCmdHandle();
             m_id2DispDic[stNullUserCmd.LOGON_USERCMD] = new LoginLogonUserCmdHandle();
         }

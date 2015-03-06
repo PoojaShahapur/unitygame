@@ -29,7 +29,9 @@ namespace Game.Login
 
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog0f);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
-            // 连接服务器
+            // 连接 web 服务器
+            //Ctx.m_instance.m_pWebSocketMgr.openSocket(Ctx.m_instance.m_cfg.m_webIP, Ctx.m_instance.m_cfg.m_webPort);
+            // 连接游戏服务器
             Ctx.m_instance.m_netMgr.openSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
         }
 
@@ -104,6 +106,7 @@ namespace Game.Login
 
             m_dwUserID = cmd.dwUserID;
             Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID = cmd.loginTempID;
+            Ctx.m_instance.m_dataPlayer.m_dataMain.m_dwUserTempID = cmd.loginTempID;
 
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog5f);
             string str = string.Format(Ctx.m_instance.m_shareMgr.m_retLangStr, m_gateIP, m_gatePort, m_dwUserID, Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID);
@@ -180,6 +183,10 @@ namespace Game.Login
             {
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog14f);
                 Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
+            }
+            else
+            {
+                Ctx.m_instance.m_log.log("Login Exception Error");
             }
         }
 

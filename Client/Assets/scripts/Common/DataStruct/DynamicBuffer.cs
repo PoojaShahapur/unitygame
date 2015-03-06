@@ -8,16 +8,19 @@ namespace SDK.Common
      */
     public class DynamicBuffer : Object
     {
+        public const uint INIT_CAPACITY = 1 * 1024;               // 默认分配 1 K
+        public const uint MAX_CAPACITY = 8 * 1024 * 1024;      // 最大允许分配 8 M
+
         protected uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
         protected uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
         protected uint m_size;              // 存储在当前缓冲区中的数量
 
         protected byte[] m_buff;            // 当前环形缓冲区
 
-        public DynamicBuffer()
+        public DynamicBuffer(uint initSize = INIT_CAPACITY)
         {
-            m_iMaxCapacity = 8 * 1024 * 1024;      // 最大允许分配 8 M
-            m_iCapacity = 1 * 1024;               // 默认分配 1 K
+            m_iMaxCapacity = MAX_CAPACITY;
+            m_iCapacity = initSize;
             m_size = 0;
             m_buff = new byte[m_iCapacity];
         }
@@ -27,6 +30,11 @@ namespace SDK.Common
             get
             {
                 return m_buff;
+            }
+            set
+            {
+                m_buff = value;
+                m_iCapacity = (uint)m_buff.Length;
             }
         }
 
@@ -69,8 +77,17 @@ namespace SDK.Common
             }
             set
             {
+                if (value > capacity)
+                {
+                    extendDeltaCapicity(value - capacity);
+                }
                 m_size = value;
             }
+        }
+
+        public void extendDeltaCapicity(uint delta)
+        {
+            capacity = UtilMath.getCloseSize(size + delta, capacity, maxCapacity);
         }
     }
 }

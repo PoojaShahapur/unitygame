@@ -7,14 +7,40 @@ namespace SDK.Lib
 {
     public class Logger : ILogger
     {
-        public MutexWrap m_visitMutex = new MutexWrap(false, "LoggerMutex");    // 主要是添加和获取数据互斥
+        public MMutex m_visitMutex = new MMutex(false, "LoggerMutex");    // 主要是添加和获取数据互斥
         public List<string> m_strList = new List<string>();              // 这个是多线程访问的
         public string m_tmpStr;
+        public bool m_bOutLog = true;          // 是否输出日志
+
+        protected List<LogDeviceBase> m_logDeviceList = new List<LogDeviceBase>();
 
         public Logger()
         {
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
+
+            registerDevice();
+        }
+
+        protected void registerDevice()
+        {
+            LogDeviceBase logDevice = null;
+
+#if ENABLE_WINLOG
+            logDevice = new WinLogDevice();
+            logDevice.initDevice();
+            m_logDeviceList.Add(logDevice);
+#endif
+
+#if ENABLE_NETLOG
+            logDevice = new NetLogDevice();
+            logDevice.initDevice();
+            m_logDeviceList.Add(logDevice);
+#endif
+
+            //logDevice = new FileLogDevice();
+            //logDevice.initDevice();
+            //m_logDeviceList.Add(logDevice);
         }
 
         public void log(string message)
@@ -25,9 +51,10 @@ namespace SDK.Lib
         // 多线程日志
         public void asynclog(string message)
         {
-            m_visitMutex.WaitOne();
-            m_strList.Add(message);
-            m_visitMutex.ReleaseMutex();
+            using (MLock mlock = new MLock(m_visitMutex))
+            {
+                m_strList.Add(message);
+            }
         }
 
         public void warn(string message)
@@ -42,38 +69,38 @@ namespace SDK.Lib
 
         public void logout(string message, LogColor type = LogColor.LOG)
         {
+        #if THREAD_CALLCHECK
             ThreadWrap.needMainThread();
+        #endif
 
-            if (type == LogColor.LOG)
+            if (m_bOutLog)
             {
-                Debug.Log(message);
-            }
-            else if (type == LogColor.WARN)
-            {
-                Debug.LogWarning(message);
-            }
-            else if (type == LogColor.ERROR)
-            {
-                Debug.LogError(message);
+                foreach (LogDeviceBase logDevice in m_logDeviceList)
+                {
+                    logDevice.logout(message, type);
+                }
             }
         }
 
         public void updateLog()
         {
+        #if THREAD_CALLCHECK
             ThreadWrap.needMainThread();
+        #endif
 
-            m_visitMutex.WaitOne();
-            m_tmpStr = "";
-            foreach (string str in m_strList)
+            using (MLock mlock = new MLock(m_visitMutex))
             {
-                m_tmpStr += str;
+                m_tmpStr = "";
+                foreach (string str in m_strList)
+                {
+                    m_tmpStr += str;
+                }
+                if (m_tmpStr != "")
+                {
+                    log(m_tmpStr);
+                }
+                m_strList.Clear();
             }
-            if (m_tmpStr != "")
-            {
-                log(m_tmpStr);
-            }
-            m_strList.Clear();
-            m_visitMutex.ReleaseMutex();
         }
 
         static private void onDebugLogCallbackHandler(string name, string stack, LogType type) 

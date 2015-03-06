@@ -9,7 +9,7 @@ namespace SDK.Common
         void closeSocket(string ip, int port);
         IByteArray getMsg();
         IByteArray getSendBA();
-        void send();
+        void send(bool bnet = true);
         void quipApp();
         void sendAndRecData();
     }

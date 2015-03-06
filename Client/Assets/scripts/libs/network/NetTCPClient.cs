@@ -81,7 +81,7 @@ namespace SDK.Lib
                 {
                     //超时
                     //Disconnect(0);
-                    Ctx.m_instance.m_log.log("socket connect Time Out");
+                    Ctx.m_instance.m_log.asynclog("socket connect Time Out");
                 }
                 else
                 {
@@ -91,16 +91,16 @@ namespace SDK.Lib
                     string ipPortStr;
 
                     ipPortStr = string.Format("local IP: {0}, Port: {1}", ((IPEndPoint)m_socket.LocalEndPoint).Address.ToString(), ((IPEndPoint)m_socket.LocalEndPoint).Port.ToString());
-                    Ctx.m_instance.m_log.log(ipPortStr);
+                    Ctx.m_instance.m_log.asynclog(ipPortStr);
 
                     ipPortStr = string.Format("Remote IP: {0}, Port: {1}", ((IPEndPoint)m_socket.RemoteEndPoint).Address.ToString(), ((IPEndPoint)m_socket.RemoteEndPoint).Port.ToString());
-                    Ctx.m_instance.m_log.log(ipPortStr);
+                    Ctx.m_instance.m_log.asynclog(ipPortStr);
                 }
             }
             catch (System.Exception e)
             {
                 // 连接失败
-                Ctx.m_instance.m_log.log(e.Message);
+                Ctx.m_instance.m_log.asynclog(e.Message);
                 return false;
             }
 
@@ -119,7 +119,7 @@ namespace SDK.Lib
                 //m_socket.SendTimeout = m_sendTimeout;
                 //m_socket.ReceiveTimeout = m_revTimeout;
 
-                #if !NETMULTHREAD
+                #if !NET_MULTHREAD
                 Receive();
                 #endif
 
@@ -139,18 +139,18 @@ namespace SDK.Lib
                     if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused)
                     {
                         // 输出日志
-                        Ctx.m_instance.m_log.log(e.Message);
+                        Ctx.m_instance.m_log.asynclog(e.Message);
                     }
                     else
                     {
                         // 输出日志
-                        Ctx.m_instance.m_log.log(e.Message);
+                        Ctx.m_instance.m_log.asynclog(e.Message);
                     }
                 }
                 else
                 {
                     // 输出日志
-                    Ctx.m_instance.m_log.log(e.Message);
+                    Ctx.m_instance.m_log.asynclog(e.Message);
                 }
 
                 //Disconnect();
@@ -187,7 +187,7 @@ namespace SDK.Lib
 
                     m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
                     m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
-                    #if !NETMULTHREAD
+                    #if !NET_MULTHREAD
                     m_dataBuffer.moveRaw2Msg();
                     #endif
 
@@ -215,7 +215,7 @@ namespace SDK.Lib
                 return;
             }
 
-            if (0 == m_dataBuffer.sendTmpBuffer.size)
+            if (0 == m_dataBuffer.sendTmpBA.length)
             {
                 return;
             }
@@ -225,7 +225,7 @@ namespace SDK.Lib
             try
             {
                 m_dataBuffer.getSendData();
-                IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.buff, 0, (int)m_dataBuffer.sendBuffer.size, 0, new System.AsyncCallback(SendCallback), 0);
+                IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.dynBuff.buff, 0, (int)m_dataBuffer.sendBuffer.length, 0, new System.AsyncCallback(SendCallback), 0);
                 bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
                 if (!success)
                 {

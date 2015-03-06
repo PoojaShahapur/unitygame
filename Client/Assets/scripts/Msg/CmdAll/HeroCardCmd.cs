@@ -1367,6 +1367,13 @@ namespace Game.Msg
 
             dwAttThisID = ba.readUnsignedInt();
         }
+
+        public override void serialize(IByteArray ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt(dwAttThisID);
+        }
     }
 
     //const BYTE RET_CARD_ATTACK_FAIL_USERCMD_PARA = 46; 

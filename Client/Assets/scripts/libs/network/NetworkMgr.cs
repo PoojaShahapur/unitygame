@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using SDK.Common;
 
-
 namespace SDK.Lib
 {
     public class NetworkMgr : INetworkMgr
@@ -11,13 +10,13 @@ namespace SDK.Lib
         public Dictionary<string, NetTCPClient> m_id2SocketDic;
         protected NetThread m_netThread;
         protected NetTCPClient m_curSocket;
-        public MutexWrap m_visitMutex = new MutexWrap(false, "NetMutex");
+        public MMutex m_visitMutex = new MMutex(false, "NetMutex");
 
         // 函数区域
         public NetworkMgr()
         {
             m_id2SocketDic = new Dictionary<string, NetTCPClient>();
-            #if NETMULTHREAD
+            #if NET_MULTHREAD
             startThread();
             #endif
         }
@@ -41,9 +40,10 @@ namespace SDK.Lib
             {
                 m_curSocket = new NetTCPClient(ip, port);
                 m_curSocket.Connect(ip, port);
-                m_visitMutex.WaitOne();
-                m_id2SocketDic.Add(key, m_curSocket);
-                m_visitMutex.ReleaseMutex();
+                using (MLock mlock = new MLock(m_visitMutex))
+                {
+                    m_id2SocketDic.Add(key, m_curSocket);
+                }
             }
             else
             {
@@ -61,10 +61,11 @@ namespace SDK.Lib
             string key = ip + "&" + port;
             if (m_id2SocketDic.ContainsKey(key))
             {
-                m_visitMutex.WaitOne();
-                m_id2SocketDic[key].Disconnect(0);
-                m_id2SocketDic.Remove(key);
-                m_visitMutex.ReleaseMutex();
+                using (MLock mlock = new MLock(m_visitMutex))
+                {
+                    m_id2SocketDic[key].Disconnect(0);
+                    m_id2SocketDic.Remove(key);
+                }
                 m_curSocket = null;
             }
         }
@@ -85,10 +86,11 @@ namespace SDK.Lib
                 string key = ip + "&" + port;
                 if (m_id2SocketDic.ContainsKey(key))
                 {
-                    m_visitMutex.WaitOne();
-                    m_id2SocketDic[key].Disconnect(0);
-                    m_id2SocketDic.Remove(key);
-                    m_visitMutex.ReleaseMutex();
+                    using (MLock mlock = new MLock(m_visitMutex))
+                    {
+                        m_id2SocketDic[key].Disconnect(0);
+                        m_id2SocketDic.Remove(key);
+                    }
                     m_curSocket = null;
                 }
             }
@@ -117,12 +119,12 @@ namespace SDK.Lib
         }
 
         // 注意这个仅仅是放入缓冲区冲，真正发送在子线程中发送
-        public void send()
+        public void send(bool bnet = true)
         {
             if (m_curSocket != null)
             {
-                m_curSocket.dataBuffer.send();
-                #if !NETMULTHREAD
+                m_curSocket.dataBuffer.send(bnet);
+                #if !NET_MULTHREAD
                 m_curSocket.Send();
                 #endif
             }
@@ -136,7 +138,7 @@ namespace SDK.Lib
         public void quipApp()
         {
             closeCurSocket();
-            #if NETMULTHREAD
+            #if NET_MULTHREAD
             m_netThread.ExitFlag = true;        // 设置退出标志
             m_netThread.join();                 // 等待线程结束
             #endif
@@ -144,22 +146,23 @@ namespace SDK.Lib
 
         public void sendAndRecData()
         {
-            m_visitMutex.WaitOne();
-            // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
-            foreach (NetTCPClient socket in m_id2SocketDic.Values)
+            using (MLock mlock = new MLock(m_visitMutex))
             {
-                if (!socket.brecvThreadStart && socket.isConnected)
+                // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
+                foreach (NetTCPClient socket in m_id2SocketDic.Values)
                 {
-                    socket.brecvThreadStart = true;
-                    socket.Receive();
-                }
+                    if (!socket.brecvThreadStart && socket.isConnected)
+                    {
+                        socket.brecvThreadStart = true;
+                        socket.Receive();
+                    }
 
-                // 处理接收到的数据
-                socket.dataBuffer.moveRaw2Msg();
-                // 处理发送数据
-                socket.Send();
+                    // 处理接收到的数据
+                    socket.dataBuffer.moveRaw2Msg();
+                    // 处理发送数据
+                    socket.Send();
+                }
             }
-            m_visitMutex.ReleaseMutex();
         }
     }
 }
