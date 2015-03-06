@@ -7,8 +7,10 @@ namespace Game.Msg
         public uint loginTempID;
         public string pstrIP;
         public ushort wdPort;
-        public string key;
+        public ByteArray keyAux;
         public uint state;
+
+        public byte[] key;  // 客户端自己使用
 
         public stServerReturnLoginSuccessCmd()
         {
@@ -22,7 +24,9 @@ namespace Game.Msg
             loginTempID = ba.readUnsignedInt();
             pstrIP = ba.readMultiByte(CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
             wdPort = ba.readUnsignedShort();
-            key = ba.readMultiByte(256, GkEncode.UTF8);
+            keyAux.writeBytes(ba.readBytes(256), 0, 256);
+            keyAux.position = 58;
+            key = keyAux.readBytes(8);
             state = ba.readUnsignedInt();
         }
     }

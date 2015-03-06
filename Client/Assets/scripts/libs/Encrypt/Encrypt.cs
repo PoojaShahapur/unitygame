@@ -64,11 +64,11 @@ namespace SDK.Lib
         }
 
         // DES 压缩后大小不会变化的
-        static public bool symmetry_Encode_Byte(byte[] encryptByte, uint inLen, ref byte[] outBytes, string encryptKey)
+        static public bool symmetry_Encode_Byte(byte[] encryptByte, uint inLen, ref byte[] outBytes, byte[] rgbKey)
         {
             try
             {
-                byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, 8));
+                //byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, 8));
                 byte[] rgbIV = Keys;
                 byte[] inputByteArray = encryptByte;
                 DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
@@ -87,11 +87,11 @@ namespace SDK.Lib
             }
         }
 
-        static public bool symmetry_Decode_Byte(byte[] decryptByte, uint inLen, ref byte[] outBytes, string decryptKey)
+        static public bool symmetry_Decode_Byte(byte[] decryptByte, uint inLen, ref byte[] outBytes, byte[] rgbKey)
         {
             try
             {
-                byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
+                //byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
                 byte[] rgbIV = Keys;
                 byte[] inputByteArray = decryptByte;
                 DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
