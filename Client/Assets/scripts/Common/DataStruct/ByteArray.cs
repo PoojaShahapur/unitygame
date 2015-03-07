@@ -48,15 +48,15 @@ namespace SDK.Common
 
         protected byte[] m_tmpBytes;
 
-        protected string m_encryptKey;
-        protected string m_decryptKey;
+        protected byte[] m_encryptKey;
+        protected byte[] m_decryptKey;
 
         public ByteArray(uint initSize = DynamicBuffer.INIT_CAPACITY)
         {
             m_endian = m_sEndian;
             m_dynBuff = new DynamicBuffer(initSize);
-            m_encryptKey = "aaaaaaaa";
-            m_decryptKey = "aaaaaaaa";
+            m_encryptKey = Encoding.UTF8.GetBytes("aaaaaaaa");
+            m_decryptKey = Encoding.UTF8.GetBytes("aaaaaaaa");
         }
 
         public DynamicBuffer dynBuff
@@ -126,7 +126,7 @@ namespace SDK.Common
             }
         }
 
-        public string encryptKey
+        public byte[] encryptKey
         {
             set
             {
@@ -134,7 +134,7 @@ namespace SDK.Common
             }
         }
 
-        public string decryptKey
+        public byte[] decryptKey
         {
             set
             {
