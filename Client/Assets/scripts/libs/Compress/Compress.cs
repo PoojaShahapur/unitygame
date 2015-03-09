@@ -15,28 +15,28 @@ namespace SDK.Lib
     public class Compress
     {
         // 压缩
-        public static void CompressData(byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        public static void CompressData(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {
             if(CompressionAlgorithm.ZLIB == algorithm)
             {
-                CompressByteZipNet(inBytes, inLen, ref outBytes, ref outLen);
+                CompressByteZipNet(inBytes, startPos, inLen, ref outBytes, ref outLen);
             }
             else
             {
-                CompressStrLZMA(inBytes, inLen, ref outBytes, ref outLen);
+                CompressStrLZMA(inBytes, startPos, inLen, ref outBytes, ref outLen);
             }
         }
 
         // 解压缩
-        public static void DecompressData(byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        public static void DecompressData(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {
             if (CompressionAlgorithm.ZLIB == algorithm)
             {
-                DecompressByteZipNet(inBytes, inLen, ref outBytes, ref outLen);
+                DecompressByteZipNet(inBytes, startPos, inLen, ref outBytes, ref outLen);
             }
             else
             {
-                DecompressStrLZMA(inBytes, inLen, ref outBytes, ref outLen);
+                DecompressStrLZMA(inBytes, startPos, inLen, ref outBytes, ref outLen);
             }
         }
 
@@ -94,7 +94,7 @@ namespace SDK.Lib
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        static public void CompressByteZip(byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen)
+        static public void CompressByteZip(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
         {
             MemoryStream ms = new MemoryStream();
             ZipOutputStream zipStream = new ZipOutputStream(ms);
@@ -125,7 +125,7 @@ namespace SDK.Lib
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        static public void DecompressByteZip(byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen)
+        static public void DecompressByteZip(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
         {
             byte[] writeData = new byte[4096];
 
@@ -167,14 +167,14 @@ namespace SDK.Lib
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        static public void CompressByteZipNet(byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen)
+        static public void CompressByteZipNet(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
         {
             MemoryStream ms = new MemoryStream();
             ZOutputStream zipStream = new ZOutputStream(ms, 9);
 
             try
             {
-                zipStream.Write(inBytes, 0, (int)inLen);
+                zipStream.Write(inBytes, (int)startPos, (int)inLen);
 
                 zipStream.Flush();
                 zipStream.Close();      // 一定要先 Close ZipOutputStream ，然后再获取 ToArray ，如果不关闭， ToArray 将不能返回正确的值
@@ -192,12 +192,12 @@ namespace SDK.Lib
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        static public void DecompressByteZipNet(byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen)
+        static public void DecompressByteZipNet(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
         {
             MemoryStream outStream = new MemoryStream();
-            MemoryStream outms = new MemoryStream(inBytes);
-            //outms.Write(inBytes, 0, (int)inLen);
-            //outms.Position = 0;
+            MemoryStream outms = new MemoryStream();
+            outms.Write(inBytes, (int)startPos, (int)inLen);
+            outms.Position = 0;
             ZInputStream outzipStream = new ZInputStream(outms);
 
             byte[] writeData = new byte[1024];
@@ -277,11 +277,11 @@ namespace SDK.Lib
 			input.Close ();
 		}
 
-		public static void CompressStrLZMA (byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen)
+        public static void CompressStrLZMA(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
 		{
 			SevenZip.Compression.LZMA.Encoder coder = new SevenZip.Compression.LZMA.Encoder ();
 			MemoryStream inStream = new MemoryStream ();
-            inStream.Write(inBytes, 0, (int)inLen);
+            inStream.Write(inBytes, (int)startPos, (int)inLen);
             inStream.Position = 0;
 
 			int saveinsize = (int)inLen;
@@ -305,11 +305,11 @@ namespace SDK.Lib
             outLen = (uint)saveoutsize;
 		}
 
-		public static void DecompressStrLZMA (byte[] inBytes, uint inLen, ref byte[] outBytes, ref uint outLen)
+        public static void DecompressStrLZMA(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
 		{
 			SevenZip.Compression.LZMA.Decoder coder = new SevenZip.Compression.LZMA.Decoder ();
 			MemoryStream inStream = new MemoryStream();
-            inStream.Write(inBytes, 0, (int)inLen);
+            inStream.Write(inBytes, (int)startPos, (int)inLen);
             inStream.Position = 0;      // 放到 0 位置
 
 			uint saveinsize = inLen;

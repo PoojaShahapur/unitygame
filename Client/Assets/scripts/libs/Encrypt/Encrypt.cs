@@ -64,19 +64,19 @@ namespace SDK.Lib
         }
 
         // DES 压缩后大小不会变化的
-        static public bool symmetry_Encode_Byte(byte[] encryptByte, uint inLen, ref byte[] outBytes, byte[] rgbKey)
+        static public bool symmetry_Encode_Byte(byte[] encryptByte, uint startPos, uint inLen, ref byte[] outBytes, byte[] rgbKey)
         {
             try
             {
                 //byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, 8));
                 byte[] rgbIV = Keys;
-                byte[] inputByteArray = encryptByte;
+                //byte[] inputByteArray = encryptByte;
                 DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
                 dCSP.Mode = CipherMode.ECB;
                 dCSP.Padding = PaddingMode.Zeros;
                 MemoryStream mStream = new MemoryStream();
                 CryptoStream cStream = new CryptoStream(mStream, dCSP.CreateEncryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
-                cStream.Write(inputByteArray, 0, (int)inLen);
+                cStream.Write(encryptByte, (int)startPos, (int)inLen);
                 cStream.FlushFinalBlock();
                 outBytes = mStream.ToArray();
                 return true;
@@ -87,19 +87,19 @@ namespace SDK.Lib
             }
         }
 
-        static public bool symmetry_Decode_Byte(byte[] decryptByte, uint inLen, ref byte[] outBytes, byte[] rgbKey)
+        static public bool symmetry_Decode_Byte(byte[] decryptByte, uint startPos, uint inLen, ref byte[] outBytes, byte[] rgbKey)
         {
             try
             {
                 //byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
                 byte[] rgbIV = Keys;
-                byte[] inputByteArray = decryptByte;
+                //byte[] inputByteArray = decryptByte;
                 DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
                 DCSP.Mode = CipherMode.ECB;
                 DCSP.Padding = PaddingMode.Zeros;
                 MemoryStream mStream = new MemoryStream();
                 CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
-                cStream.Write(inputByteArray, 0, (int)inLen);
+                cStream.Write(decryptByte, (int)startPos, (int)inLen);
                 cStream.FlushFinalBlock();
                 outBytes = mStream.ToArray();
                 return true;

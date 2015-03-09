@@ -10,8 +10,8 @@ namespace SDK.Common
     public interface IByteArray
     {
         void clear();
-        void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.LZMA);
-        void uncompress(CompressionAlgorithm algorithm = CompressionAlgorithm.LZMA);
+        uint compress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.LZMA);
+        uint uncompress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.LZMA);
 		bool readBoolean();
 		byte readByte();
         byte readUnsignedByte();

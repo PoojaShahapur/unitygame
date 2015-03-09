@@ -23,11 +23,11 @@ namespace UnitTestSrc
             uint inSize = 0;
             uint outSize = 0;
 
-            Compress.CompressData(inBytes, (uint)inBytes.Length, ref outBytes, ref outSize);
+            Compress.CompressData(inBytes, 0, (uint)inBytes.Length, ref outBytes, ref outSize);
 
             writeFile("e:\\log.zip", outBytes);
 
-            Compress.DecompressData(outBytes, outSize, ref inBytes, ref inSize);
+            Compress.DecompressData(outBytes, 0, outSize, ref inBytes, ref inSize);
 
             string str = System.Text.Encoding.UTF8.GetString(inBytes);
 
@@ -42,7 +42,7 @@ namespace UnitTestSrc
             ByteArray ba = new ByteArray();
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
             cmd.serialize(ba);
-            Compress.CompressByteZip(ba.dynBuff.buff, (uint)ba.length, ref outBytes, ref outSize);
+            Compress.CompressByteZip(ba.dynBuff.buff, 0, (uint)ba.length, ref outBytes, ref outSize);
 
             writeFile("e:\\log.zip", outBytes);
         }
@@ -70,8 +70,8 @@ namespace UnitTestSrc
             pByteArray.clear();
             pUnitTestCmd.serialize(pByteArray);
 
-            Compress.CompressData(pByteArray.dynBuff.buff, pByteArray.length, ref outBytes, ref outSize);
-            Compress.DecompressData(outBytes, outSize, ref inBytes, ref inSize);
+            Compress.CompressData(pByteArray.dynBuff.buff, 0, pByteArray.length, ref outBytes, ref outSize);
+            Compress.DecompressData(outBytes, 0, outSize, ref inBytes, ref inSize);
 
             pByteArray.clear();
             pByteArray.writeBytes(inBytes, 0, inSize);

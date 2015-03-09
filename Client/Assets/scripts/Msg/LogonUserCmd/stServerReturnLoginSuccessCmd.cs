@@ -24,6 +24,7 @@ namespace Game.Msg
             loginTempID = ba.readUnsignedInt();
             pstrIP = ba.readMultiByte(CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
             wdPort = ba.readUnsignedShort();
+            keyAux = new ByteArray();
             keyAux.writeBytes(ba.readBytes(256), 0, 256);
             keyAux.position = 58;
             key = keyAux.readBytes(8);

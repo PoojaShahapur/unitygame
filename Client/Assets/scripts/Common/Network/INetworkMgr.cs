@@ -12,5 +12,8 @@ namespace SDK.Common
         void send(bool bnet = true);
         void quipApp();
         void sendAndRecData();
+#if MSG_ENCRIPT
+        void setCryptKey(byte[] cryptKey);
+#endif
     }
 }

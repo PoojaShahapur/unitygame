@@ -48,15 +48,10 @@ namespace SDK.Common
 
         protected byte[] m_tmpBytes;
 
-        protected string m_encryptKey;
-        protected string m_decryptKey;
-
         public ByteArray(uint initSize = DynamicBuffer.INIT_CAPACITY)
         {
             m_endian = m_sEndian;
             m_dynBuff = new DynamicBuffer(initSize);
-            m_encryptKey = "aaaaaaaa";
-            m_decryptKey = "aaaaaaaa";
         }
 
         public DynamicBuffer dynBuff
@@ -126,22 +121,6 @@ namespace SDK.Common
             }
         }
 
-        public string encryptKey
-        {
-            set
-            {
-                m_encryptKey = value;
-            }
-        }
-
-        public string decryptKey
-        {
-            set
-            {
-                m_decryptKey = value;
-            }
-        }
-
 		public void clear ()
         {
             m_position = 0;
@@ -187,63 +166,73 @@ namespace SDK.Common
         }
 
         // 压缩
-        public void compress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        public uint compress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {
+            len_ = (len_ == 0 ? length : len_);
+
             byte[] retByte = null;
             uint retSize = 0;
-            Compress.CompressData(m_dynBuff.buff, length, ref retByte, ref retSize, algorithm);
+            Compress.CompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
 
-            clear();
-            writeBytes(retByte, 0, retSize);
+            replace(retByte, 0, retSize, position, len_);
+
+            return retSize;
         }
 
         // 解压
-        public void uncompress(CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        public uint uncompress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {
+            len_ = (len_ == 0 ? length : len_);
+
             byte[] retByte = null;
             uint retSize = 0;
-            Compress.DecompressData(m_dynBuff.buff, length, ref retByte, ref retSize, algorithm);
+            Compress.DecompressData(m_dynBuff.buff, position, length, ref retByte, ref retSize, algorithm);
 
-            clear();
-            writeBytes(retByte, 0, retSize);
+            replace(retByte, 0, retSize, position, len_);
+
+            return retSize;
         }
 
-        // 加密，使用 des 对称数字加密算法
-        public void encrypt()
+        // 加密，使用 des 对称数字加密算法，加密8字节补齐，可能会导致变长
+        public uint encrypt(byte[] cryptKey, uint len_ = 0)
         {
+            len_ = (len_ == 0 ? length : len_);
+
             byte[] retByte = null;
             // 只有 8 个字节的时候才加密
-            uint leftCnt = length % 8;  // 剩余的数量
-            if (leftCnt > 0)
+            uint leftCnt = len_ % 8;  // 剩余的数量
+            if (len_ >= 8)
             {
-                EncryptDecrypt.symmetry_Encode_Byte(m_dynBuff.buff, length - leftCnt, ref retByte, m_encryptKey);
+                EncryptDecrypt.symmetry_Encode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
-            clear();
             writeBytes(retByte, 0, (uint)retByte.Length);
 
             if(leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
             {
-                length += leftCnt;
+                position += leftCnt;
             }
+
+            return (uint)(retByte.Length + leftCnt);
         }
 
         // 解密
-        public void decrypt()
+        public void decrypt(byte[] cryptKey, uint len_ = 0)
         {
+            len_ = (len_ == 0 ? length : len_);
+
             byte[] retByte = null;
-            uint leftCnt = length % 8;  // 剩余的数量
-            if (leftCnt > 0)
+            uint leftCnt = len_ % 8;  // 剩余的数量
+            if (len_ >= 8)
             {
-                EncryptDecrypt.symmetry_Decode_Byte(m_dynBuff.buff, length - leftCnt, ref retByte, m_decryptKey);
+                EncryptDecrypt.symmetry_Decode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
-            clear();
             writeBytes(retByte, 0, (uint)retByte.Length);
 
             if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
             {
-                length += leftCnt;
+                position += leftCnt;
             }
         }
 
@@ -585,12 +574,15 @@ namespace SDK.Common
         // 写入字节
         public void writeBytes(byte[] value, uint start, uint len)
         {
-            if (!canWrite(len))
+            if (len > 0)            // 如果有长度才写入
             {
-                extendDeltaCapicity(len);
+                if (!canWrite(len))
+                {
+                    extendDeltaCapicity(len);
+                }
+                Array.Copy(value, start, m_dynBuff.buff, m_position, len);
+                advPosAndLen(len);
             }
-            Array.Copy(value, start, m_dynBuff.buff, m_position, len);
-            advPosAndLen(len);
         }
 
         // 写入字符串
@@ -632,6 +624,30 @@ namespace SDK.Common
 
                 advPosAndLen((uint)len);
             }
+        }
+
+        // 替换已经有的一段数据
+        protected void replace(byte[] srcBytes, uint srcStartPos = 0, uint srclen_ = 0, uint destStartPos = 0, uint destlen_ = 0)
+        {
+            uint curPos = position;     // 保存当前位置
+
+            uint lastLeft = length - destStartPos - destlen_;        // 最后一段的长度
+            length = destStartPos + srclen_ + lastLeft;      // 设置大小，保证足够大小空间
+
+            position = destStartPos + srclen_;
+            writeBytes(m_dynBuff.buff, destStartPos + destlen_, lastLeft);          // 这个地方自己区域覆盖自己区域，函数是不是能保证覆盖拷贝，经测试可以保证自己不覆盖自己区域
+
+            position = destStartPos;
+            writeBytes(srcBytes, srcStartPos, srclen_);
+
+            length = destStartPos + srclen_ + lastLeft;      // 设置大小，保证足够大小空间
+            position = curPos + srclen_;
+        }
+
+        public void insertUnsignedInt32(uint value)
+        {
+            length += sizeof(int);       // 扩大长度
+            writeUnsignedInt(value);     // 写入
         }
     }
 }

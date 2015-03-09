@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using System.Text;
 
 namespace UnitTestSrc
 {
@@ -15,11 +16,11 @@ namespace UnitTestSrc
             byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(testStr);
             byte[] outBytes = null;
             uint inSize = (uint)inBytes.Length;
-            uint outSize = 0;
+            //uint outSize = 0;
 
-            string encryptKey = "aaaaaaaa";
+            byte[] encryptKey = Encoding.UTF8.GetBytes("aaaaaaaa");
 
-            EncryptDecrypt.symmetry_Encode_Byte(inBytes, inSize, ref outBytes, encryptKey);
+            EncryptDecrypt.symmetry_Encode_Byte(inBytes, 0, inSize, ref outBytes, encryptKey);
         }
     }
 }

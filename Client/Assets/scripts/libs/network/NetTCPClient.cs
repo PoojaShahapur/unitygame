@@ -19,7 +19,7 @@ namespace SDK.Lib
 
         protected Socket m_socket = null;
         protected DataBuffer m_dataBuffer;
-        protected bool m_canSend = true;                // 是否可以发送数据
+        //protected bool m_canSend = true;                // 是否可以发送数据
         protected bool m_brecvThreadStart = false;      // 接收线程是否启动
         protected bool m_isConnected = false;
 
@@ -210,22 +210,36 @@ namespace SDK.Lib
                 return;
             }
 
-            if (!m_canSend)
+            //if (!m_canSend)
+            //{
+            //    return;
+            //}
+
+            if(m_dataBuffer.sendBuffer.bytesAvailable == 0)     // 如果发送缓冲区没有要发送的数据
             {
-                return;
+                if (m_dataBuffer.sendTmpBA.length > 0)      // 如果发送临时缓冲区有数据要发
+                {
+                    m_dataBuffer.getSendData();
+                }
+
+                if (m_dataBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
+                {
+                    return;
+                }
             }
 
-            if (0 == m_dataBuffer.sendTmpBA.length)
-            {
-                return;
-            }
+            //if (0 == m_dataBuffer.sendTmpBA.length)
+            //{
+            //    return;
+            //}
 
-            m_canSend = false;
+            //m_canSend = false;
 
             try
             {
-                m_dataBuffer.getSendData();
-                IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.dynBuff.buff, 0, (int)m_dataBuffer.sendBuffer.length, 0, new System.AsyncCallback(SendCallback), 0);
+                //m_dataBuffer.getSendData();
+                //IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.dynBuff.buff, 0, (int)m_dataBuffer.sendBuffer.length, 0, new System.AsyncCallback(SendCallback), 0);
+                IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.dynBuff.buff, (int)m_dataBuffer.sendBuffer.position, (int)m_dataBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
                 bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
                 if (!success)
                 {
@@ -250,8 +264,9 @@ namespace SDK.Lib
 
             try
             {
-                m_canSend = true;
+                //m_canSend = true;
                 int bytesSent = m_socket.EndSend(ar);
+                m_dataBuffer.sendBuffer.setPos(m_dataBuffer.sendBuffer.position + (uint)bytesSent);
                 Ctx.m_instance.m_log.asynclog("发送数据 " + bytesSent.ToString());
                 Send();                 // 继续发送数据
             }

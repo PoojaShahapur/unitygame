@@ -16,6 +16,7 @@ namespace Game.Login
 
         protected string m_name;
         protected string m_passwd;
+        protected byte[] m_cryptKey;
 
         public LoginFlowHandle()
         {
@@ -100,6 +101,9 @@ namespace Game.Login
             stServerReturnLoginSuccessCmd cmd = new stServerReturnLoginSuccessCmd();
             cmd.derialize(msg);
 
+            // 登陆成功开始加密解密数据包，在后面的消息里面设置
+            m_cryptKey = cmd.key;
+
             m_gateIP = cmd.pstrIP;
             m_gateIP = m_gateIP.TrimEnd('\0');     // 剔除结尾 '\0' 字符
             m_gatePort = cmd.wdPort;
@@ -128,6 +132,10 @@ namespace Game.Login
 
         protected void onGateServerSocketOpened()
         {
+            // 登陆成功开始加密解密数据包
+#if MSG_ENCRIPT
+            Ctx.m_instance.m_netMgr.setCryptKey(m_cryptKey);
+#endif
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog7f);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
             Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB -= onGateServerSocketOpened;

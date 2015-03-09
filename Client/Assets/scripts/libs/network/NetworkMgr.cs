@@ -164,5 +164,12 @@ namespace SDK.Lib
                 }
             }
         }
+
+#if MSG_ENCRIPT
+        public void setCryptKey(byte[] encrypt)
+        {
+            m_curSocket.dataBuffer.setCryptKey(encrypt);
+        }
+#endif
     }
 }
