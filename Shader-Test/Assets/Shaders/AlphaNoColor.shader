@@ -7,12 +7,11 @@ Shader "Custom/AlphaNoColor" {
 		Tags { "RenderType"="Opaque"}
 		Lighting Off
 		ZWrite Off
-		//ColorMask A
+		ColorMask A
 		
 		LOD 200
 
 		CGPROGRAM
-		//#pragma surface surf Lambert alpha
 		#pragma surface surf Lambert
   
 		sampler2D _MainTex;  
@@ -22,10 +21,9 @@ Shader "Custom/AlphaNoColor" {
         };
   
 		void surf (Input IN, inout SurfaceOutput o) {
-			half4 c = tex2D (_MainTex, IN.uv_MainTex);
-            o.Albedo = c.rgb;
+			//half4 c = tex2D (_MainTex, IN.uv_MainTex);
+            //o.Albedo = c.rgb;
 			//o.Alpha = c.a;
-			//o.Alpha = 0.1f;
 			o.Alpha = 0.0f;
 		}
 		ENDCG

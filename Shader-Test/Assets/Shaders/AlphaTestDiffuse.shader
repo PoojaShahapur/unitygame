@@ -2,11 +2,9 @@
     Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		//_Cutoff ("Alpha cutoff", Range (0,1)) = 2
 	}
     SubShader {
-        Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
-		//AlphaTest Equal [_Cutoff]
+        Tags { "RenderType"="Opaque" }
 		Lighting Off
 		Blend OneMinusDstAlpha DstAlpha
         LOD 200
@@ -23,9 +21,7 @@
         void surf (Input IN, inout SurfaceOutput o) {
             half4 c = tex2D (_MainTex, IN.uv_MainTex);
             o.Albedo = c.rgb;
-            //o.Alpha = c.a;
-			o.Alpha = 1.0f;
-			//clip (o.Alpha - _Cutoff);
+            o.Alpha = c.a;
         }
         ENDCG
     }
