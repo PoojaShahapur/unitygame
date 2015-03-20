@@ -15,7 +15,7 @@ public class LSBehaviour : ISceneEntity
     {
         gameObject = go;
         transform = gameObject.transform;
-        animation = gameObject.animation;
+        animation = gameObject.GetComponent<Animation>();
         name = gameObject.name;
 
         Awake();

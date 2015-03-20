@@ -63,10 +63,13 @@ namespace SDK.Lib
         {
             if (!string.IsNullOrEmpty(m_prefabName))
             {
+#if UNITY_5
                 // Unity5
-                //AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+#elif UNITY_4
                 // Unity4
                 AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
+#endif
                 yield return req;
 
                 //GameObject.Instantiate(req.asset);
@@ -99,23 +102,32 @@ namespace SDK.Lib
             GameObject insObj = null;
             if (m_bundle.Contains(resname))
             {
+#if UNITY_5
                 // Unity5
-                //UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+                UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+#elif UNITY_4
                 // Unity4
                 UnityEngine.Object assets = m_bundle.Load(resname);
+#endif
                 if (assets != null)
                 {
+#if UNITY_5
                     // Unity5
                     //insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+#elif UNITY_4
                     // Unity4
                     insObj = GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
+#endif
                 }
                 else
                 {
                     // Unity5
+#if UNITY_5
                     //assets = m_bundle.LoadAsset("DefaultAvatar");
+#elif UNITY_4
                     // Unity4
                     assets = m_bundle.Load("DefaultAvatar");
+#endif
                 }
             }
             return insObj;
@@ -130,10 +142,13 @@ namespace SDK.Lib
             UnityEngine.Object assets = null;
             if (m_bundle.Contains(resname))
             {
+#if UNITY_5
                 // Unty5
-                //assets = m_bundle.LoadAsset(resname);
+                assets = m_bundle.LoadAsset(resname);
+#elif UNITY_4
                 // Unity4
                 assets = m_bundle.Load(resname);
+#endif
             }
             return assets;
         }

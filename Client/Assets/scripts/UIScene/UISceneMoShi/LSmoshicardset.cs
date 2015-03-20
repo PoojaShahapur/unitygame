@@ -195,8 +195,8 @@ namespace Game.UI
             //    //    break;
             //}
 
-            cpic.renderer.material = Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)info.m_cardGroup.occupation).m_mat;
-            clogo.renderer.material = Ctx.m_instance.m_matMgr.getCardGroupLOGOMatByOccup((EnPlayerCareer)info.m_cardGroup.occupation).m_mat;
+            cpic.GetComponent<Renderer>().material = Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)info.m_cardGroup.occupation).m_mat;
+            clogo.GetComponent<Renderer>().material = Ctx.m_instance.m_matMgr.getCardGroupLOGOMatByOccup((EnPlayerCareer)info.m_cardGroup.occupation).m_mat;
         }
 
         protected void onMouseUp(GameObject go)
@@ -210,7 +210,7 @@ namespace Game.UI
         public static CardGroupItem nowchoose;
         public void OnMouseUpAsButton()
         {
-            Material classpic = transform.FindChild("cardsetdaiqi").FindChild("pic").renderer.material;
+            Material classpic = transform.FindChild("cardsetdaiqi").FindChild("pic").GetComponent<Renderer>().material;
             //transform.root.SendMessage("setclass", info.classs);
             //transform.root.SendMessage("setclasspic", classpic);
             //transform.root.SendMessage("setClassname", info.name);

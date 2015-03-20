@@ -240,7 +240,7 @@ namespace SDK.Lib
 
         void setpic(Material m)
         {
-            transform.FindChild("pic").renderer.material = m;
+            transform.FindChild("pic").GetComponent<Renderer>().material = m;
         }
 
         Vector3 lastpostion;

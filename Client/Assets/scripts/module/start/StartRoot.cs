@@ -100,10 +100,13 @@ namespace SDK.Lib
             AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
             if (assetBundle != null)
             {
+#if UNITY_5
                 // Unity5
-                // Object bt = assetBundle.LoadAsset(m_appName);
+                Object bt = assetBundle.LoadAsset(m_appName);
+#elif UNITY_4
                 // Unity4
                 Object bt = assetBundle.Load(m_appName);
+#endif
                 GameObject appGo = Instantiate(bt) as GameObject;
                 appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
                 GameObject noDestroy = GameObject.Find("NoDestroy");
@@ -121,10 +124,13 @@ namespace SDK.Lib
 
             // 使用预设加载
             AssetBundle bundle = app3w.assetBundle;
+#if UNITY_5
             // Unity5
-            // Object bt = bundle.LoadAsset(m_appName);
+            Object bt = bundle.LoadAsset(m_appName);
+#elif UNITY_4
             // Unity4
             Object bt = bundle.Load(m_appName);
+#endif
             GameObject appGo = Instantiate(bt) as GameObject;
             appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
             GameObject noDestroy = GameObject.Find("NoDestroy");

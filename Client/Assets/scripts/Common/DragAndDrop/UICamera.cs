@@ -685,7 +685,7 @@ public class UICamera : MonoBehaviour
 		while (trans != null)
 		{
 			//if (trans.GetComponent<UIPanel>() != null) return null;
-            Rigidbody rb = trans.rigidbody;
+            Rigidbody rb = trans.GetComponent<Rigidbody>();
             if (rb != null) return rb;
             trans = trans.parent;
 		}
@@ -701,7 +701,7 @@ public class UICamera : MonoBehaviour
 		while (trans != null)
 		{
 			//if (trans.GetComponent<UIPanel>() != null) return null;
-            Rigidbody2D rb = trans.rigidbody2D;
+            Rigidbody2D rb = trans.GetComponent<Rigidbody2D>();
             if (rb != null) return rb;
             trans = trans.parent;
 		}

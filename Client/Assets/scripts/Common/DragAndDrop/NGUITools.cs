@@ -107,7 +107,7 @@ static public class NGUITools
 
 			if (mListener != null && mListener.enabled && NGUITools.GetActive(mListener.gameObject))
 			{
-				AudioSource source = mListener.audio;
+				AudioSource source = mListener.GetComponent<AudioSource>();
 				if (source == null) source = mListener.gameObject.AddComponent<AudioSource>();
 				source.priority = 50;
 				source.pitch = pitch;
@@ -848,7 +848,7 @@ static public class NGUITools
 
 	static public Vector3[] GetSides (this Camera cam, float depth, Transform relativeTo)
 	{
-		if (cam.isOrthoGraphic)
+		if (cam.orthographic)
 		{
 			float os = cam.orthographicSize;
 			float x0 = -os;
@@ -923,7 +923,7 @@ static public class NGUITools
 
 	static public Vector3[] GetWorldCorners (this Camera cam, float depth, Transform relativeTo)
 	{
-		if (cam.isOrthoGraphic)
+		if (cam.orthographic)
 		{
 			float os = cam.orthographicSize;
 			float x0 = -os;

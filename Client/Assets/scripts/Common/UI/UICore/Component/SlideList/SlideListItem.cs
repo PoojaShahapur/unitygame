@@ -101,7 +101,7 @@ namespace SDK.Common
         {
             m_texRes = resEvt as TextureRes;
             GameObject go_ = UtilApi.TransFindChildByPObjAndPath(m_selfGo, "25e9d638.obj");
-            go_.renderer.material.mainTexture = m_texRes.getTexture();
+            go_.GetComponent<Renderer>().material.mainTexture = m_texRes.getTexture();
         }
 
         public void loadTex()

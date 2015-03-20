@@ -69,32 +69,76 @@ namespace SDK.Lib
         {
             startIdx += (int)n;
             l1=l2=0;
-            switch (n) 
+
+            if (8 == n)
             {
-                case 8: l2 = ((ulong)(c[--startIdx])) << 24;
-                case 7: l2 |= ((ulong)(c[--startIdx])) << 16;
-                case 6: l2 |= ((ulong)(c[--startIdx])) << 8;
-                case 5: l2 |= ((ulong)(c[--startIdx]));
-                case 4: l1 = ((ulong)(c[--startIdx])) << 24;
-                case 3: l1 |= ((ulong)(c[--startIdx])) << 16;
-                case 2: l1 |= ((ulong)(c[--startIdx])) << 8;
-                case 1: l1 |= ((ulong)(c[--startIdx]));
+                l2 = ((ulong)(c[--startIdx])) << 24;
+            }
+            if (8 == n || 7 == n)
+            {
+                l2 |= ((ulong)(c[--startIdx])) << 16;
+            }
+            if (8 == n || 7 == n || 6 == n)
+            {
+                l2 |= ((ulong)(c[--startIdx])) << 8;
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n)
+            {
+                l2 |= ((ulong)(c[--startIdx]));
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n)
+            {
+                l1 = ((ulong)(c[--startIdx])) << 24;
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n || 3 == n)
+            {
+                l1 |= ((ulong)(c[--startIdx])) << 16;
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n || 3 == n || 2 == n)
+            {
+                l1 |= ((ulong)(c[--startIdx])) << 8;
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n || 3 == n || 2 == n || 1 == n)
+            {
+                l1 |= ((ulong)(c[--startIdx]));
             }
         }
 
         void l2cn(ulong l1, ulong l2, byte[] c, long n, ref int startIdx)
         {
             startIdx += (int)n;
-            switch (n) 
+
+            if (8 == n)
             {
-                case 8: c[--startIdx] = (byte)(((l2) >> 24) & 0xff);
-                case 7: c[--startIdx] = (byte)(((l2) >> 16) & 0xff);
-                case 6: c[--startIdx] = (byte)(((l2) >> 8) & 0xff);
-                case 5: c[--startIdx] = (byte)(((l2)) & 0xff);
-                case 4: c[--startIdx] = (byte)(((l1) >> 24) & 0xff);
-                case 3: c[--startIdx] = (byte)(((l1) >> 16) & 0xff);
-                case 2: c[--startIdx] = (byte)(((l1) >> 8) & 0xff);
-                case 1: c[--startIdx] = (byte)(((l1)) & 0xff);
+                c[--startIdx] = (byte)(((l2) >> 24) & 0xff);
+            }
+            if (8 == n || 7 == n)
+            {
+                c[--startIdx] = (byte)(((l2) >> 16) & 0xff);
+            }
+            if (8 == n || 7 == n || 6 == n)
+            {
+                c[--startIdx] = (byte)(((l2) >> 8) & 0xff);
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n)
+            {
+                c[--startIdx] = (byte)(((l2)) & 0xff);
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n)
+            {
+                c[--startIdx] = (byte)(((l1) >> 24) & 0xff);
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n || 3 == n)
+            {
+                c[--startIdx] = (byte)(((l1) >> 16) & 0xff);
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n || 3 == n || 2 == n)
+            {
+                c[--startIdx] = (byte)(((l1) >> 8) & 0xff);
+            }
+            if (8 == n || 7 == n || 6 == n || 5 == n || 4 == n || 3 == n || 2 == n || 1 == n)
+            {
+                c[--startIdx] = (byte)(((l1)) & 0xff);
             }
         }
 

@@ -132,9 +132,9 @@ namespace Game.UI
 
         void OnCollisionEnter()
         {
-            if (transform.rigidbody != null)
+            if (transform.GetComponent<Rigidbody>() != null)
             {
-                UtilApi.Destroy(transform.rigidbody);
+                UtilApi.Destroy(transform.GetComponent<Rigidbody>());
             }
         }
 
@@ -149,7 +149,7 @@ namespace Game.UI
                 return;
             }
 
-            ParticleSystem p = transform.FindChild("lz").particleSystem;
+            ParticleSystem p = transform.FindChild("lz").GetComponent<ParticleSystem>();
             UtilApi.Destroy(p);
         }
 
