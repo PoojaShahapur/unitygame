@@ -26,10 +26,11 @@ namespace BehaviorLibrary
 
         public void loadBT()
         {
-            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath] + "AI";
             param.m_loaded = onloaded;
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         public void onloaded(IDispatchObject resEvt)

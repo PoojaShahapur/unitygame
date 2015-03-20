@@ -187,7 +187,7 @@ namespace Game.UI
                         else if(m_sceneCardItem.m_cardTableItem.m_zhanHou > 0)           // 如果有战吼
                         {
                             // 直接放下去，然后选择攻击目标
-                            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(this, m_sceneDZData.m_curWhiteIdx);
+                            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(this, m_sceneDZData.curWhiteIdx);
                             m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, this);
                         }
                         else        // 如果是普通移动牌，就发送移动消息
@@ -208,7 +208,7 @@ namespace Game.UI
                                 else
                                 {
                                     cmd.dst.dwLocation = (int)CardArea.CARDCELLTYPE_COMMON;
-                                    cmd.dst.y = (byte)m_sceneDZData.m_curWhiteIdx;
+                                    cmd.dst.y = (byte)m_sceneDZData.curWhiteIdx;
                                 }
                                 UtilMsg.sendMsg(cmd);
                             }

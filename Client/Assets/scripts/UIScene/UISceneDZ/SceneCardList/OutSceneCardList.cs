@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 namespace Game.UI
 {
     /**
@@ -34,63 +35,88 @@ namespace Game.UI
             m_sceneCardList.Insert(idx, card);
         }
 
-        public void removeCard(SceneCardItem sceneCardItem)
-        {
-            int idx = 0;
-            while (idx < m_sceneCardList.Count)
-            {
-                if (m_sceneCardList[idx].sceneCardItem.m_svrCard.qwThisID == sceneCardItem.m_svrCard.qwThisID)
-                {
-                    m_sceneCardList[idx].destroy();
-                    m_sceneCardList.RemoveAt(idx);
-                    break;
-                }
-                ++idx;
-            }
-        }
-
         // 自己手里的牌移动，需要更新已经出的牌的位置
         public void onMove()
         {
             if(m_sceneDZData.m_curDragItem == null)
             {
-                Ctx.m_instance.m_log.log("aaa");
+                Ctx.m_instance.m_log.log("error: move update position error");
                 return;
             }
             // 检查插入的位置
-            int idx = 0;
-            while (idx < m_sceneCardList.Count)
+            if (m_sceneCardList.Count > 0)      // 如果有卡牌才需要进行如下处理
             {
-                if (m_sceneDZData.m_curDragItem.transform.localPosition.x < m_sceneCardList[idx].transform.localPosition.x)
+                int idx = 0;
+                while (idx < m_sceneCardList.Count)
                 {
-                    break;
-                }
-                ++idx;
-            }
-
-            if (idx != m_sceneDZData.m_curWhiteIdx)    // 如果两次位置不一样
-            {
-                m_sceneDZData.m_curWhiteIdx = idx;
-                if (m_sceneDZData.m_curWhiteIdx < m_sceneCardList.Count)
-                {
-                    m_sceneCardList.Remove(m_whiteCard);
-                    m_sceneCardList.Insert(m_sceneDZData.m_curWhiteIdx, m_whiteCard);
-                }
-                else if (m_sceneDZData.m_curWhiteIdx == m_sceneCardList.Count)        // 如果已经
-                {
-                    if(m_sceneCardList.IndexOf(m_whiteCard) == -1)      // 如果 m_whiteCard 还没有加进入
+                    if (m_sceneDZData.m_curDragItem.transform.localPosition.x < m_sceneCardList[idx].transform.localPosition.x)
                     {
-                        m_sceneCardList.Insert(m_sceneDZData.m_curWhiteIdx, m_whiteCard);
+                        break;
                     }
-                    else 
+                    ++idx;
+                }
+
+                //if (idx != m_sceneDZData.curWhiteIdx)    // 如果两次位置不一样
+                //{
+                //    m_sceneDZData.curWhiteIdx = idx;
+
+                //    if (m_sceneCardList.IndexOf(m_whiteCard) == -1)      // 如果之前没有具体位置插入
+                //    {
+                //        m_sceneCardList.Insert(m_sceneDZData.curWhiteIdx, m_whiteCard);
+                //        updateSceneCardPos();       // 整个都更新，只更新位置
+                //    }
+                //    else                // 如果之前已经有具体位置，这个是新的位置
+                //    {
+                //        if (m_sceneDZData.curWhiteIdx != m_sceneCardList.Count)     // 如果移动位置不是 m_sceneCardList.Count ，如果移动位置是 m_sceneCardList.Count ，说明已经移动到最右边了，因为移动位置 m_sceneCardList.Count - 1 就已经到达正确位置了
+                //        {
+                //            // 只更新需要移动的一个
+                //            try
+                //            {
+                //                if (m_sceneDZData.preWhiteIdx != m_sceneCardList.Count)     // 如果前一个位置不是 m_sceneCardList.count 彩移动
+                //                {
+                //                    m_sceneCardList[m_sceneDZData.curWhiteIdx].destPos = m_sceneCardList[m_sceneDZData.preWhiteIdx].destPos;
+                //                    m_sceneCardList[m_sceneDZData.curWhiteIdx].moveToDestT();
+                //                }
+                //            }
+                //            catch (Exception e)
+                //            {
+                //                Ctx.m_instance.m_log.log("aaa");
+                //            }
+
+                //            m_sceneCardList.Remove(m_whiteCard);
+                //            m_sceneCardList.Insert(m_sceneDZData.curWhiteIdx, m_whiteCard);
+                //        }
+                //    }
+                //}
+
+                if (idx != m_sceneDZData.curWhiteIdx)    // 如果两次位置不一样
+                {
+                    m_sceneDZData.curWhiteIdx = idx;
+                    if (m_sceneDZData.curWhiteIdx < m_sceneCardList.Count)
                     {
-                        m_sceneDZData.m_curWhiteIdx -= 1;
                         m_sceneCardList.Remove(m_whiteCard);
-                        m_sceneCardList.Insert(m_sceneDZData.m_curWhiteIdx, m_whiteCard);
+                        m_sceneCardList.Insert(m_sceneDZData.curWhiteIdx, m_whiteCard);
                     }
-                }
+                    else if (m_sceneDZData.curWhiteIdx == m_sceneCardList.Count)        // 如果已经是超出范围了
+                    {
+                        if (m_sceneCardList.IndexOf(m_whiteCard) == -1)      // 如果 m_whiteCard 还没有加进入
+                        {
+                            m_sceneCardList.Insert(m_sceneDZData.curWhiteIdx, m_whiteCard);
+                        }
+                        else
+                        {
+                            m_sceneDZData.curWhiteIdx -= 1;
+                            m_sceneCardList.Remove(m_whiteCard);
+                            m_sceneCardList.Insert(m_sceneDZData.curWhiteIdx, m_whiteCard);
+                        }
+                    }
 
-                updateSceneCardPos();
+                    updateSceneCardPos();
+                }
+            }
+            else
+            {
+                m_sceneDZData.curWhiteIdx = 0;
             }
         }
 

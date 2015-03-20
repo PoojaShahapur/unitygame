@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Game.Msg;
+using SDK.Common;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.UI
 {
@@ -8,6 +11,22 @@ namespace Game.UI
     public class HistoryArea
     {
         public SceneDZData m_sceneDZData;
-        public List<SceneDragCard> m_historySceneCardList = new List<SceneDragCard>(); // 已经出过的牌的列表
+        protected SlideList m_historyList;
+
+        public HistoryArea(GameObject go_)
+        {
+            m_historyList = new SlideList(go_);
+        }
+
+        public void psstRetBattleHistoryInfoUserCmd(stRetBattleHistoryInfoUserCmd cmd)
+        {
+            SlideListItem item = new SlideListItem();
+            item.data = cmd;
+            item.prefab = "log";
+            item.path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + item.prefab;
+            item.texPrefab = "pig";
+            item.texPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage] + item.texPrefab;
+            m_historyList.addItem(item);
+        }
     }
 }

@@ -17,6 +17,7 @@
         ePathXmlCfg,    // Xml 配置文件
         ePathModel,       // 各种 Prefab
         ePathMaterial,      // 材质目录
+        ePathImage,      // 图片目录
 
         eTotal          // 总数
     }

@@ -15,8 +15,8 @@ namespace SDK.Common
             FlyNumItem item = new FlyNumItem();
             m_numList.Add(item);
             item.setNum(num);
-            item.setPos(pos);
             item.setParent(parentGo);
+            item.setPos(pos);
             item.setDisp(onEndFlyNum);
             item.play();
         }

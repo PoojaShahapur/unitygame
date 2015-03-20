@@ -59,7 +59,7 @@ namespace SDK.Lib
 
         public void loadSceneCfg(string filename)
         {
-            LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename;
             //param.m_resPackType = ResPackType.eBundleType;
             param.m_loaded = onSceneCfgLoadded;
@@ -68,6 +68,7 @@ namespace SDK.Lib
             //param.m_loadNeedCoroutine = false;
             //Ctx.m_instance.m_resLoadMgr.load(param);
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         protected void onSceneCfgLoadded(IDispatchObject resEvt)
@@ -83,7 +84,7 @@ namespace SDK.Lib
         {
             Ctx.m_instance.m_bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
-            LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
             //param.m_resPackType = ResPackType.eLevelType;
             param.m_loaded = onSceneResLoadded;
@@ -93,6 +94,7 @@ namespace SDK.Lib
             param.m_lvlName = filename;
             //Ctx.m_instance.m_resLoadMgr.load(param);
             Ctx.m_instance.m_resLoadMgr.loadLevel(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         public void onSceneResLoadded(IDispatchObject resEvt)

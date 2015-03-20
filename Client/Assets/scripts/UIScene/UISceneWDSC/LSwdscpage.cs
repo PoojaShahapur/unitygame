@@ -42,7 +42,7 @@ namespace Game.UI
             for (int i = m_CardList.getChildCount() - 1; i >= 0; i--)
             {
                 go = m_CardList.GetChild(i).gameObject;
-                go.transform.parent = null;
+                go.transform.SetParent(null);
                 UtilApi.Destroy(go);
             }
 

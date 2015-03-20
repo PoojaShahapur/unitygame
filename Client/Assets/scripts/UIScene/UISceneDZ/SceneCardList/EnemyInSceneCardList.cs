@@ -31,7 +31,7 @@ namespace Game.UI
 
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount > 0)
             {
-                updateSceneCardPos();
+                updateSceneCardRST();
                 updateCardIndex();
             }
         }
@@ -39,7 +39,11 @@ namespace Game.UI
         public void removeEmptyCard()
         {
             // 移除最后一张
-            m_sceneCardList.RemoveAt(m_sceneCardList.Count - 1);
+            if(m_sceneCardList.Count > 0)
+            {
+                UtilApi.Destroy(m_sceneCardList[m_sceneCardList.Count - 1].getGameObject());
+                m_sceneCardList.RemoveAt(m_sceneCardList.Count - 1);                        // 移除数据
+            }
         }
     }
 }

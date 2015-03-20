@@ -83,7 +83,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyInformationalVersionAttribute("0.86.0")]
 
 
-[assembly: CLSCompliant(true)]
+//[assembly: CLSCompliant(true)]
 
 #if (!NETCF)
 //

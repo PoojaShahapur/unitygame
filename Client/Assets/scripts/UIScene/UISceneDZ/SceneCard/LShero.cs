@@ -17,6 +17,7 @@ namespace Game.UI
 
         public override void Start()
         {
+            base.Start();
             m_dzminion.setGameObject(gameObject);
 
             classs = transform.FindChild("classs").GetComponent<Text>();

@@ -57,19 +57,23 @@ namespace Game.UI
 
         protected void onBtnClkTest()
         {
-            testSceneCard();
+            //testSceneCard();
             //addOneCard();
 
             //testEnemyCard();
             //testMp();
+
+            //testDelEnemyHandleCard();
+            //addHistoryItem();
+            testQuipDZScene();
         }
 
         protected void onBtnClkTest1f()
         {
-            //testStart();
+            testStart();
             //testAttackAni();
             //testFlyNum();
-            testSendToSelf();
+            //testSendToSelf();
         }
 
         protected void onBtnClkTest2f()
@@ -103,7 +107,7 @@ namespace Game.UI
             Ctx.m_instance.m_dataPlayer.m_dzData.m_priv = 1;
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
 
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList = new uint[10];
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList = new uint[1];
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[0] = 10001;
             //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[1] = 10002;
             //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[2] = 10003;
@@ -133,14 +137,14 @@ namespace Game.UI
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             uiDZ.m_sceneDZData.m_startGO.SetActive(false);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_inSceneCardList.startCardMoveTo();
+            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();
         }
 
         protected void testEnemyCard()
         {
             Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount = 5;
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_inSceneCardList.addInitCard();
+            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList.addInitCard();
         }
 
         protected void testMp()
@@ -156,19 +160,42 @@ namespace Game.UI
         protected void testAttackAni()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.getCardByIdx(0).playAttackAni(uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_outSceneCardList.getCardByIdx(0).transform.localPosition);
+            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.getCardByIdx(0).playAttackAni(uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.getCardByIdx(0).transform.localPosition);
         }
 
         protected void testFlyNum()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.getCardByIdx(0).playFlyNum(123);
+            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.getCardByIdx(0).playFlyNum(123);
         }
 
         protected void testSendToSelf()
         {
             stRetCardAttackFailUserCmd cmd = new stRetCardAttackFailUserCmd();
             UtilMsg.sendMsg(cmd, false);
+        }
+
+        // 测试删除对方手里一张卡牌
+        protected void testDelEnemyHandleCard()
+        {
+            stDelEnemyHandCardPropertyUserCmd cmd = new stDelEnemyHandCardPropertyUserCmd();
+            UtilMsg.sendMsg(cmd, false);
+        }
+
+        protected void addHistoryItem()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            stRetBattleHistoryInfoUserCmd cmd = new stRetBattleHistoryInfoUserCmd();
+            cmd.maincard = new t_Card();
+            cmd.maincard.dwObjectID = 10001;
+            uiDZ.m_historyArea.psstRetBattleHistoryInfoUserCmd(cmd);
+        }
+
+        protected void testQuipDZScene()
+        {
+            //stRetBattleGameResultUserCmd cmd = new stRetBattleGameResultUserCmd();
+            //UtilMsg.sendMsg(cmd, false);
+            Ctx.m_instance.m_gameSys.loadGameScene();        // 加载游戏场景
         }
     }
 }

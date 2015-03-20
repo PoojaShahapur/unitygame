@@ -19,7 +19,7 @@ namespace Game.UI
     public class wdscCardCtrl : InterActiveEntity
     {
         CardItemBase info;
-        Text num, suotxt;
+        Text num = null, suotxt = null;
         Transform suo;
 
         public override void Awake()

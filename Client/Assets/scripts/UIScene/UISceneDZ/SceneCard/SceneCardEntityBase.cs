@@ -187,23 +187,26 @@ namespace Game.UI
             GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
             if (go != null)
             {
-                if (benable)
+                if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
                 {
-                    if (sceneCardItem != null)
+                    if (benable)
                     {
-                        if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                        if (sceneCardItem != null)
                         {
-                            UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-                        }
-                        else
-                        {
-                            UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                            if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                            {
+                                UtilApi.getComByP<MeshRenderer>(go).enabled = true;
+                            }
+                            else
+                            {
+                                UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                    else
+                    {
+                        UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                    }
                 }
             }
         }

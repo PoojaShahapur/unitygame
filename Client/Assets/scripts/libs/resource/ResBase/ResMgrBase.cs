@@ -15,7 +15,7 @@ namespace SDK.Lib
         public InsResBase syncGet<T>(string prefabName, string path) where T : InsResBase, new()
         {
             LoadParam param;
-            param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_prefabName = prefabName;
             param.m_path = path;
             //param.m_loaded = onLoaded;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环
@@ -23,7 +23,7 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             load<T>(param);
-
+            Ctx.m_instance.m_poolSys.deleteObj(param);
             return m_path2ResDic[path];
         }
 

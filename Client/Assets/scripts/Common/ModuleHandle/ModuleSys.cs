@@ -41,7 +41,7 @@ namespace SDK.Common
             if (!m_type2ItemDic[moduleID].m_isLoaded)
             {
                 // 初始化完成，开始加载自己的游戏场景
-                LoadParam param = (Ctx.m_instance.m_resLoadMgr as ResLoadMgr).loadParam;
+                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + m_type2ItemDic[moduleID].m_moduleName;
                 //param.m_resPackType = ResPackType.eBundleType;
                 param.m_loaded = m_type2ItemDic[moduleID].m_loaded;
@@ -49,6 +49,7 @@ namespace SDK.Common
                 //Ctx.m_instance.m_resLoadMgr.load(param);
                 //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                Ctx.m_instance.m_poolSys.deleteObj(param);
             }
             else
             {

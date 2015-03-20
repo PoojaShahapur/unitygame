@@ -88,6 +88,24 @@ namespace SDK.Common
             }
         }
 
+        public void exitSceneForm(UISceneFormID ID, bool bremoved = true)
+        {
+            SceneForm win = null;
+            if (m_dicForm.ContainsKey(ID))
+            {
+                win = m_dicForm[ID];
+
+                if (win != null)
+                {
+                    win.onExit();
+                    if (bremoved)
+                    {
+                        m_dicForm.Remove(ID);
+                    }
+                }
+            }
+        }
+
         public ISceneForm getSceneUI(UISceneFormID ID)
         {
             if (m_dicForm.ContainsKey(ID))
@@ -101,6 +119,16 @@ namespace SDK.Common
         public void SetIUISceneFactory(IUISceneFactory value)
         {
             m_IUISceneFactory = value;
+        }
+
+        public void unloadAll()
+        {
+            foreach (UISceneFormID key in m_dicForm.Keys)
+            {
+                exitSceneForm(key, false);
+            }
+
+            m_dicForm.Clear();
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Game.UI
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
 
-        public OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
-        public InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
-        public hero m_hero = new hero();                                            // 主角自己的 hero 
-        public SceneDragCard m_sceneSkillCard;                // skill
-        public SceneDragCard m_sceneEquipCard;                // equip
+        protected OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
+        protected InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
+        protected hero m_centerHero = new hero();                                            // 主角自己的 hero 
+        protected SceneDragCard m_sceneSkillCard;                // skill
+        protected SceneDragCard m_sceneEquipCard;                // equip
 
         public SceneDZArea(SceneDZData sceneDZData, EnDZPlayer playerFlag)
         {
@@ -28,6 +28,42 @@ namespace Game.UI
             m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
 
+        public OutSceneCardList outSceneCardList
+        {
+            get
+            {
+                return m_outSceneCardList;
+            }
+            set
+            {
+                m_outSceneCardList = value;
+            }
+        }
+
+        public InSceneCardList inSceneCardList
+        {
+            get
+            {
+                return m_inSceneCardList;
+            }
+            set
+            {
+                InSceneCardList m_inSceneCardList = value;
+            }
+        }
+
+        public hero centerHero
+        {
+            get
+            {
+                return m_centerHero;
+            }
+            set
+            {
+                m_centerHero = value;
+            }
+        }
+
         // 添加卡牌不包括 CardArea.CARDCELLTYPE_COMMON 区域， enemy 对方出牌也是这个消息
         public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
         {
@@ -35,19 +71,19 @@ namespace Game.UI
             {
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
-                    m_hero.sceneCardItem = sceneItem;      // 这个动画已经有了
+                    m_centerHero.sceneCardItem = sceneItem;      // 这个动画已经有了
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
                     m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
                     m_sceneSkillCard.sceneCardItem = sceneItem;
-                    m_sceneSkillCard.moveToDest();
+                    m_sceneSkillCard.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
                 {
                     m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
                     m_sceneEquipCard.sceneCardItem = sceneItem;
-                    m_sceneEquipCard.moveToDest();
+                    m_sceneEquipCard.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
                 {
@@ -66,7 +102,7 @@ namespace Game.UI
                     SceneDragCard srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
                     srcCard.sceneCardItem = sceneItem;
                     m_outSceneCardList.addCard(srcCard);
-                    m_outSceneCardList.updateSceneCardPos();
+                    m_outSceneCardList.updateSceneCardRST();
                     m_outSceneCardList.updateCardIndex();
                 }
             }
@@ -74,7 +110,7 @@ namespace Game.UI
             {
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
-                    m_hero.updateCardDataChange();      // 这个动画已经有了
+                    m_centerHero.updateCardDataChange();      // 这个动画已经有了
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
@@ -108,33 +144,33 @@ namespace Game.UI
             }
 
             m_inSceneCardList.updateCardIndex();
-            m_inSceneCardList.updateSceneCardPos();
+            m_inSceneCardList.updateSceneCardRST();
 
             // 更新移动后的牌的位置
             if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.m_svrCard.pos.dwLocation)        // 如果出的是装备
             {
                 m_sceneEquipCard = srcCard;
                 m_sceneEquipCard.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
-                m_sceneEquipCard.moveToDest();
+                m_sceneEquipCard.moveToDestRST();
             }
             else        // 出的是随从
             {
                 m_outSceneCardList.removeWhiteCard();
                 m_outSceneCardList.addCard(srcCard, msg.dst.y);
-                m_outSceneCardList.updateSceneCardPos();
+                m_outSceneCardList.updateSceneCardRST();
                 m_outSceneCardList.updateCardIndex();
             }
 
             // 修改 mp 
-            if (msg.side == 1)      // 如果是自己
-            {
-                // 更新 mp 显示
-                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp >= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume)
-                {
-                    Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp -= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume;
-                }
-                updateMp();
-            }
+            //if (msg.side == 1)      // 如果是自己
+            //{
+            //    // 更新 mp 显示
+            //    if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp >= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume)
+            //    {
+            //        Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp -= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume;
+            //    }
+            //    updateMp();
+            //}
         }
 
         // 将当前拖放的对象移动会原始位置
@@ -142,7 +178,7 @@ namespace Game.UI
         {
             if(m_sceneDZData.m_curDragItem != null)
             {
-                m_sceneDZData.m_curDragItem.moveToDest();
+                m_sceneDZData.m_curDragItem.moveToDestRST();
             }
         }
 
@@ -151,9 +187,9 @@ namespace Game.UI
         {
             m_outSceneCardList.removeWhiteCard();
             m_inSceneCardList.removeCard(m_sceneDZData.m_curDragItem);
-            m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.m_curWhiteIdx);
-            m_inSceneCardList.updateSceneCardPos();
-            m_outSceneCardList.updateSceneCardPos();
+            m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.curWhiteIdx);
+            m_inSceneCardList.updateSceneCardRST();
+            m_outSceneCardList.updateSceneCardRST();
             m_inSceneCardList.updateCardIndex();
             m_outSceneCardList.updateCardIndex();
         }
@@ -178,8 +214,14 @@ namespace Game.UI
             else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.m_svrCard.pos.dwLocation)
             {
                 m_outSceneCardList.removeCard(sceneItem);
-                m_outSceneCardList.updateSceneCardPos();
+                m_outSceneCardList.updateSceneCardRST();
                 m_outSceneCardList.updateCardIndex();
+            }
+            else if ((int)CardArea.CARDCELLTYPE_HAND == sceneItem.m_svrCard.pos.dwLocation)
+            {
+                m_inSceneCardList.removeCard(sceneItem);
+                m_inSceneCardList.updateSceneCardRST();
+                m_inSceneCardList.updateCardIndex();
             }
         }
 
@@ -273,7 +315,7 @@ namespace Game.UI
         public void addCardToOutList(SceneDragCard card, int idx = 0)
         {
             m_outSceneCardList.addCard(card);
-            m_outSceneCardList.updateSceneCardPos();
+            m_outSceneCardList.updateSceneCardRST();
             m_outSceneCardList.updateCardIndex();
         }
 
@@ -296,9 +338,15 @@ namespace Game.UI
         }
 
         // 更新卡牌绿色边框，说明可以出牌
-        public void updateCardGreenFrame(bool benable)
+        public void updateInCardGreenFrame(bool benable)
         {
             m_inSceneCardList.updateCardGreenFrame(benable);
+        }
+
+        // 更新卡牌绿色边框，说明可以出牌
+        public void updateOutCardGreenFrame(bool benable)
+        {
+            m_outSceneCardList.updateCardGreenFrame(benable);
         }
 
         public SceneCardEntityBase getSceneCardByThisID(uint thisID)

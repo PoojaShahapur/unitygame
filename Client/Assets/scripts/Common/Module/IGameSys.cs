@@ -6,6 +6,7 @@ namespace SDK.Common
     public interface IGameSys
     {
         void Start();
-        void Update();
+        void loadGameScene();
+        void loadDZScene();
     }
 }

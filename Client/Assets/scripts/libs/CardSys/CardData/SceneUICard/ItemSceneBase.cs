@@ -53,12 +53,13 @@ namespace SDK.Lib
                     unload();
 
                     LoadParam param;
-                    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+                    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
                     //Ctx.m_instance.m_resLoadMgr.loadResources(param);
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
+                    Ctx.m_instance.m_poolSys.deleteObj(param);
                     m_res = null;
                 }
             }
@@ -67,12 +68,13 @@ namespace SDK.Lib
                 if (!string.IsNullOrEmpty(m_prefab) && !string.IsNullOrEmpty(m_path))
                 {
                     LoadParam param;
-                    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+                    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
                     //Ctx.m_instance.m_resLoadMgr.loadResources(param);
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
+                    Ctx.m_instance.m_poolSys.deleteObj(param);
                 }
             }
         }

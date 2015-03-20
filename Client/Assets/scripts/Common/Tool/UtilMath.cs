@@ -91,7 +91,7 @@ namespace SDK.Common
         {
             float radianSector = 0;         // 每一个弧形的弧度
             float degSector = 0;            // 度
-            float curRadian = 0;
+            //float curRadian = 0;
             float curDeg = 0;
 
             float startRadian = 0;          // 开始的弧度
@@ -114,7 +114,7 @@ namespace SDK.Common
             int listIdx = 0;
             while (listIdx < splitCnt)
             {
-                curRadian = startRadian + radianSector * listIdx;
+                //curRadian = startRadian + radianSector * listIdx;
                 curDeg = startDeg + degSector * listIdx;
 
                 pos = new Vector3();
@@ -136,7 +136,7 @@ namespace SDK.Common
         {
             float radianSector = 0;         // 每一个弧形的弧度
             float degSector = 0;            // 度
-            float curRadian = 0;
+            //float curRadian = 0;
             float curDeg = 0;
 
             float startRadian = 0;          // 开始的弧度
@@ -159,7 +159,7 @@ namespace SDK.Common
             int listIdx = 0;
             while (listIdx < splitCnt)
             {
-                curRadian = startRadian - radianSector * listIdx;
+                //curRadian = startRadian - radianSector * listIdx;
                 curDeg = startDeg - degSector * listIdx;
 
                 pos = new Vector3();

@@ -1,5 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using System.Collections.Generic;
 
 namespace Game.UI
 {
@@ -43,6 +44,8 @@ namespace Game.UI
             m_opCard = card;
             // 开始拖动箭头
             m_sceneDZData.m_attackArrow.startArrow();
+
+            addAttackTargetFlags();
         }
 
         // 检查之前的攻击状态
@@ -61,6 +64,7 @@ namespace Game.UI
             m_curOp = EnGameOp.eOpNone;
             m_opCard = null;
             m_sceneDZData.m_attackArrow.stopArrow();
+            clearAttackTargetFlags();
         }
 
         // 判断是否在某个操作中
@@ -203,6 +207,35 @@ namespace Game.UI
             }
 
             return 0;
+        }
+
+        // 可以攻击的目标显示效果，发送攻击消息的时候去掉显示
+        protected void addAttackTargetFlags()
+        {
+            // 遍历所有的 enemy 对象
+            List<SceneDragCard> cardList;
+            cardList = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.sceneCardList;
+            
+            foreach(SceneCardEntityBase cardItem in cardList)
+            {
+                if(canFaShuAttack(cardItem, m_curOp))
+                {
+                    cardItem.updateCardGreenFrame(true);
+                }
+            }
+        }
+
+        // 清除可攻击的标识
+        protected void clearAttackTargetFlags()
+        {
+            // 遍历所有的 enemy 对象
+            List<SceneDragCard> cardList;
+            cardList = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.sceneCardList;
+
+            foreach (SceneCardEntityBase cardItem in cardList)
+            {
+                cardItem.updateCardGreenFrame(false);
+            }
         }
     }
 }

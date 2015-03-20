@@ -26,16 +26,6 @@ namespace SDK.Common
             buildAniParam();
         }
 
-        public override void stop()
-        {
-
-        }
-
-        public override void pause()
-        {
-
-        }
-
         protected void buildAniParam()
         {
             Hashtable args;

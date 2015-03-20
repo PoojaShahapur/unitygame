@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SDK.Common
 {
     /**
-     * @brief 数字
+     * @brief 数字动画，移动、旋转、缩放
      */
     public class RSTAni : NumAniBase
     {
@@ -50,16 +50,6 @@ namespace SDK.Common
         {
             base.play();
             buildAniParam();
-        }
-
-        public override void stop()
-        {
-
-        }
-
-        public override void pause()
-        {
-
         }
 
         protected void buildAniParam()

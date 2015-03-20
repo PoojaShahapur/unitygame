@@ -56,12 +56,13 @@ namespace SDK.Common
             m_sceneCardList.Remove(card);
         }
 
-        public bool removeOneSceneCardByThisID(uint thisid)
+        public bool removeOneSceneCardByThisID(uint thisid, ref SceneCardItem sceneItem)
         {
             foreach(SceneCardItem card in m_sceneCardList)
             {
                 if(card.m_svrCard.qwThisID == thisid)
                 {
+                    sceneItem = card;
                     m_sceneCardList.Remove(card);
                     return true;
                 }

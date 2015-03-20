@@ -53,6 +53,7 @@ namespace Game.Login
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
 
             stUserVerifyVerCmd cmdVerify = new stUserVerifyVerCmd();
+            //cmdVerify.version = 2015031201;
             UtilMsg.sendMsg(cmdVerify);
 
             stRequestClientIP cmdReqIP = new stRequestClientIP();
@@ -92,6 +93,7 @@ namespace Game.Login
             cmd.pstrPassword = m_passwd;
             cmd.game = 10;
             cmd.zone = 30;
+            //cmd.zone = 31;
             UtilMsg.sendMsg(cmd);
         }
 

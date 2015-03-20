@@ -21,7 +21,7 @@ namespace Game.UI
 
         public void startCardMoveTo()
         {
-            updateSceneCardPos();
+            updateSceneCardRST();
         }
 
         protected override void getCardPos()
@@ -49,7 +49,7 @@ namespace Game.UI
             tmpcard = m_sceneDZData.createOneCard(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND);
             tmpcard.sceneCardItem = sceneItem;
             addCard(tmpcard);
-            updateSceneCardPos();
+            updateSceneCardRST();
             updateCardIndex();
         }
     }

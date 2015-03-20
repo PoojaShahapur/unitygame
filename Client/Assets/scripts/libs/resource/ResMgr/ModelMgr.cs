@@ -27,10 +27,11 @@ namespace SDK.Lib
 
         public void loadSkinInfo()
         {
-            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + "BonesList";
             param.m_loaded = onSkinLoaded;
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         public void onSkinLoaded(IDispatchObject resEvt)
@@ -122,7 +123,6 @@ namespace SDK.Lib
 
                 return syncGet<ModelRes>(prefab, path) as ModelRes;
             }
-
 
             return null;
         }

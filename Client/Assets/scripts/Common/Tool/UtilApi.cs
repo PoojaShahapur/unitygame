@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using SDK.Lib;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -89,17 +90,29 @@ namespace SDK.Common
         // 销毁对象
         public static void Destroy(Object obj)
         {
+            if (obj as GameObject)
+            {
+                (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+            }
             GameObject.Destroy(obj);
         }
 
         // 立即销毁对象
         public static void DestroyImmediate(Object obj)
         {
+            if (obj as GameObject)
+            {
+                (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+            }
             GameObject.DestroyImmediate(obj);
         }
 
         public static void DestroyImmediate(Object obj, bool allowDestroyingAssets)
         {
+            if (obj as GameObject)
+            {
+                (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+            }
             GameObject.DestroyImmediate(obj, allowDestroyingAssets);
         }
 
@@ -138,6 +151,12 @@ namespace SDK.Common
         public static void normalRot(Transform tran)
         {
             tran.localRotation = Quaternion.Euler(Vector3.zero);
+        }
+
+        // 从场景图中移除,  worldPositionStays 是否在两个 local 中移动保持 world 信息不变，如果要保持 local 信息不变，就设置成 false ，通常 UI 需要设置成  false
+        public static void removeFromSceneGraph(Transform trans, bool worldPositionStays = true)
+        {
+            trans.SetParent(null);      // 这个仅仅是移除场景中
         }
 
         static public bool getXmlAttrBool(XmlAttribute attr)
@@ -398,6 +417,36 @@ namespace SDK.Common
             scurTime = System.DateTime.Now.Ticks;
             ts = new System.TimeSpan(scurTime);
             return (uint)(ts.TotalSeconds);
+        }
+
+        public static void loadRes<T>(string prefab, string path, System.Action<IDispatchObject> onload, System.Action unload, InsResBase res)
+        {
+            bool needLoad = true;
+
+            if (res != null)
+            {
+                if (res.GetPath() != path)
+                {
+                    unload();
+                }
+                else
+                {
+                    needLoad = false;
+                }
+            }
+            if (needLoad)
+            {
+                if (!string.IsNullOrEmpty(prefab) && !string.IsNullOrEmpty(path))
+                {
+                    LoadParam param;
+                    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+                    param.m_path = path;
+                    param.m_prefabName = prefab;
+                    param.m_loaded = onload;
+                    Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
+                    Ctx.m_instance.m_poolSys.deleteObj(param);
+                }
+            }
         }
     }
 }

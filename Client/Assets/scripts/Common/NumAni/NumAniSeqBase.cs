@@ -48,6 +48,7 @@ namespace SDK.Common
             {
                 ani.getAniEndDisp()(ani);
             }
+            ani.stop();                 // 停止动画
             m_numAniList.Remove(ani);
         }
     }

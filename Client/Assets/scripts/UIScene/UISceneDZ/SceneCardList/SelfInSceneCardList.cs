@@ -31,7 +31,7 @@ namespace Game.UI
                     cardItem.destRot = new Vector3(0, 0, 0);
 
                     cardItem.moveToStart();        // 放到开始位置
-                    cardItem.moveToDest();          // 播放动画
+                    cardItem.moveToDestRST();          // 播放动画
                 }
 
                 ++idx;
@@ -47,7 +47,7 @@ namespace Game.UI
 
             // 需要监听卡牌的拖动
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
-            card.m_moveDisp = uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_outSceneCardList.onMove;
+            card.m_moveDisp = uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
         }
     }
 };

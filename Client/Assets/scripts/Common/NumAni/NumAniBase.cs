@@ -75,12 +75,12 @@ namespace SDK.Common
 
         public virtual void stop()
         {
-
+            m_bPlaying = false;
         }
 
         public virtual void pause()
         {
-
+            m_bPlaying = false;
         }
 
         protected void buildAniBasicParam(Hashtable args)

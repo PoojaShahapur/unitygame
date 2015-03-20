@@ -44,7 +44,7 @@ namespace Game.UI
         //public void load()
         //{
         //    LoadParam param;
-        //    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+        //    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
         //    param.m_prefabName = "cardset";
         //    param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + param.m_prefabName;
         //    param.m_loaded = onloaded;

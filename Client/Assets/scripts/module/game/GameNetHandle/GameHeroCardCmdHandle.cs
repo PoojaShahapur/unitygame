@@ -45,8 +45,11 @@ namespace Game.Game
 
             m_id2HandleDic[stHeroCardCmd.RET_HERO_INTO_BATTLE_SCENE_CMD] = psstRetHeroIntoBattleSceneUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_CARD_ATTACK_FAIL_USERCMD_PARA] = psstRetCardAttackFailUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_BATTLE_HISTORY_INFO_CMD] = psstRetBattleHistoryInfoUserCmd;
+            m_id2HandleDic[stHeroCardCmd.RET_BATTLE_GAME_RESULT_CMD] = psstRetBattleGameResultUserCmd;
         }
 
+        // 卡牌图鉴中显示的所有数据
         protected void psstNotifyAllCardTujianInfoCmd(IByteArray msg)
         {
             stNotifyAllCardTujianInfoCmd cmd = new stNotifyAllCardTujianInfoCmd();
@@ -62,6 +65,7 @@ namespace Game.Game
             }
         }
 
+        // 一个卡牌图鉴信息
         protected void psstNotifyOneCardTujianInfoCmd(IByteArray msg)
         {
             stNotifyOneCardTujianInfoCmd cmd = new stNotifyOneCardTujianInfoCmd();
@@ -189,6 +193,7 @@ namespace Game.Game
             }
         }
 
+        // 返回一个 hero 信息
         protected void psstRetOneHeroInfoUserCmd(IByteArray msg)
         {
             stRetOneHeroInfoUserCmd cmd = new stRetOneHeroInfoUserCmd();
@@ -197,6 +202,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetOneHeroInfoUserCmd(cmd.info);
         }
 
+        // 返回匹配结果
         protected void psstRetHeroFightMatchUserCmd(IByteArray msg)
         {
             stRetHeroFightMatchUserCmd cmd = new stRetHeroFightMatchUserCmd();
@@ -210,11 +216,13 @@ namespace Game.Game
             }
         }
 
+        // 返回进入战斗场景消息
         protected void psstRetHeroIntoBattleSceneUserCmd(IByteArray msg)
         {
-            Ctx.m_instance.m_loadDZScene();
+            Ctx.m_instance.m_gameSys.loadDZScene();
         }
 
+        // 回归剩余卡牌数量
         protected void psstRetLeftCardLibNumUserCmd(IByteArray msg)
         {
             stRetLeftCardLibNumUserCmd cmd = new stRetLeftCardLibNumUserCmd();
@@ -230,6 +238,7 @@ namespace Game.Game
             }
         }
 
+        // 返回 magic 点的数量
         protected void psstRetMagicPointInfoUserCmd(IByteArray ba)
         {
             stRetMagicPointInfoUserCmd cmd = new stRetMagicPointInfoUserCmd();
@@ -245,6 +254,7 @@ namespace Game.Game
             }
         }
 
+        // 刷新战斗状态
         protected void psstRetRefreshBattleStateUserCmd(IByteArray ba)
         {
             stRetRefreshBattleStateUserCmd cmd = new stRetRefreshBattleStateUserCmd();
@@ -283,6 +293,8 @@ namespace Game.Game
             stAddBattleCardPropertyUserCmd cmd = new stAddBattleCardPropertyUserCmd();
             cmd.derialize(ba);
 
+            Ctx.m_instance.m_log.log(string.Format("添加一个卡牌 thisid: {0}", cmd.mobject.qwThisID));
+
             SceneCardItem sceneItem = null;
             if (cmd.byActionType == 1)
             {
@@ -310,6 +322,7 @@ namespace Game.Game
             }
         }
 
+        // 对方信息
         protected void psstNotifyFightEnemyInfoUserCmd(IByteArray ba)
         {
             stNotifyFightEnemyInfoUserCmd cmd = new stNotifyFightEnemyInfoUserCmd();
@@ -346,6 +359,7 @@ namespace Game.Game
             }
         }
 
+        // 卡牌移动
         protected void psstRetMoveGameCardUserCmd(IByteArray ba)
         {
             stRetMoveGameCardUserCmd cmd = new stRetMoveGameCardUserCmd();
@@ -364,6 +378,7 @@ namespace Game.Game
             }
         }
 
+        // 通知手里卡牌已经满
         protected void psstRetNotifyHandIsFullUserCmd(IByteArray ba)
         {
             stRetNotifyHandIsFullUserCmd cmd = new stRetNotifyHandIsFullUserCmd();
@@ -386,6 +401,7 @@ namespace Game.Game
             }
         }
 
+        // 返回对方手里的卡牌数量，对方卡牌只有数量
         protected void psstRetEnemyHandCardNumUserCmd(IByteArray ba)
         {
             stRetEnemyHandCardNumUserCmd cmd = new stRetEnemyHandCardNumUserCmd();
@@ -398,6 +414,7 @@ namespace Game.Game
             }
         }
 
+        // 删除对方手里一张卡牌
         protected void psstDelEnemyHandCardPropertyUserCmd(IByteArray ba)
         {
             stDelEnemyHandCardPropertyUserCmd cmd = new stDelEnemyHandCardPropertyUserCmd();
@@ -415,14 +432,23 @@ namespace Game.Game
         {
             stRetRemoveBattleCardUserCmd cmd = new stRetRemoveBattleCardUserCmd();
             cmd.derialize(ba);
-            if(!Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[0].removeOneSceneCardByThisID(cmd.dwThisID))
+
+            Ctx.m_instance.m_log.log(string.Format("删除一个卡牌 thisid: {0}", cmd.dwThisID));
+
+            int side = 0;
+            SceneCardItem sceneItem = null;
+            if (!Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[0].removeOneSceneCardByThisID(cmd.dwThisID, ref sceneItem))
             {
-                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[1].removeOneSceneCardByThisID(cmd.dwThisID);
+                side = 1;
+                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[1].removeOneSceneCardByThisID(cmd.dwThisID, ref sceneItem);
             }
             UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
-                uiSceneDZ.psstRetRemoveBattleCardUserCmd(cmd);
+                if (sceneItem != null)
+                {
+                    uiSceneDZ.psstRetRemoveBattleCardUserCmd(cmd, side, sceneItem);
+                }
             }
         }
 
@@ -479,6 +505,29 @@ namespace Game.Game
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetCardAttackFailUserCmd(cmd);
+            }
+        }
+
+        protected void psstRetBattleHistoryInfoUserCmd(IByteArray ba)
+        {
+            stRetBattleHistoryInfoUserCmd cmd = new stRetBattleHistoryInfoUserCmd();
+            cmd.derialize(ba);
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstRetBattleHistoryInfoUserCmd(cmd);
+            }
+        }
+
+        protected void psstRetBattleGameResultUserCmd(IByteArray ba)
+        {
+            stRetBattleGameResultUserCmd cmd = new stRetBattleGameResultUserCmd();
+            cmd.derialize(ba);
+
+            if (cmd.win == 1 || cmd.win == 0)        // 赢了输了
+            {
+                Ctx.m_instance.m_gameSys.loadGameScene();        // 加载游戏场景
             }
         }
     }

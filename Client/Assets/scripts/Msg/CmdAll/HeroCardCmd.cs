@@ -1322,7 +1322,22 @@ namespace Game.Msg
     //BYTE stateNum;	    //状态的枚举
     //};
 
+    public class stRetBattleGameResultUserCmd : stHeroCardCmd
+    {
+        public byte win;
 
+        public stRetBattleGameResultUserCmd()
+        {
+            byParam = RET_BATTLE_GAME_RESULT_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            win = ba.readUnsignedByte();
+        }
+    }
 
     //const BYTE RET_BATTLE_GAME_RESULT_CMD = 44;
     //struct stRetBattleGameResultUserCmd : public stHeroCardCmd
@@ -1427,5 +1442,54 @@ namespace Game.Msg
     //DWORD dwDefThisID;   
     //DWORD dwMagicType;	//技能ID
     //stObjectLocation  dst;	    //移动目标位置信息
+    //};
+
+    public class stRetBattleHistoryInfoUserCmd : stHeroCardCmd
+    {
+        public t_Card maincard;
+        public byte opType;
+        public ushort count;
+        public t_Card[] othercard;
+
+        public stRetBattleHistoryInfoUserCmd()
+        {
+            byParam = RET_BATTLE_HISTORY_INFO_CMD;
+        }
+
+        public override void derialize(IByteArray ba)
+        {
+            base.derialize(ba);
+
+            maincard = new t_Card();
+            maincard.derialize(ba);
+
+            opType = ba.readUnsignedByte();
+            count = ba.readUnsignedShort();
+
+            int idx = 0;
+            othercard = new t_Card[count];
+            t_Card cardItem;
+            for(; idx < count; ++idx)
+            {
+                cardItem = new t_Card();
+                cardItem.derialize(ba);
+                othercard[idx] = cardItem;
+            }
+        }
+    }
+
+    //const BYTE RET_BATTLE_HISTORY_INFO_CMD = 48; 
+    //struct stRetBattleHistoryInfoUserCmd : public stHeroCardCmd
+    //{   
+    //    stRetBattleHistoryInfoUserCmd()
+    //    {   
+    //        byParam = RET_BATTLE_HISTORY_INFO_CMD;
+    //        count = 0;
+    //        opType = 0;
+    //    }   
+    //    t_Card maincard;
+    //    BYTE opType;
+    //    WORD count;
+    //    t_Card othercard[0];
     //};
 }

@@ -14,7 +14,7 @@ namespace Game.UI
     {
         public SceneDZData m_sceneDZData = new SceneDZData();
         public SceneDZArea[] m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
-        public HistoryArea m_historyArea = new HistoryArea();
+        public HistoryArea m_historyArea;
 
         public override void onReady()
         {
@@ -30,6 +30,7 @@ namespace Game.UI
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf] = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf];
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy] = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy];
 
+            m_historyArea = new HistoryArea(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.HistoryGo));
             m_historyArea.m_sceneDZData = m_sceneDZData;
             m_sceneDZData.m_attackArrow = new AttackArrow(m_sceneDZData);
             m_sceneDZData.m_gameOpState = new GameOpState(m_sceneDZData);
@@ -164,7 +165,7 @@ namespace Game.UI
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].bHaveStartCard())    // 如果自己有初始化的牌
                 {
                     m_sceneDZData.m_startGO.SetActive(false);
-                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_inSceneCardList.startCardMoveTo();      // 一定初始化卡牌到卡牌列表
+                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();      // 一定初始化卡牌到卡牌列表
                 }
             }
         }
@@ -176,12 +177,12 @@ namespace Game.UI
             {
                 m_sceneDZData.m_selfTurnTip.turnBegin();
                 m_sceneDZData.m_dzturn.myturn();
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCardGreenFrame(true);
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
             }
             else 
             {
                 m_sceneDZData.m_dzturn.enemyTurn();
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCardGreenFrame(false);
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(false);
                 m_sceneDZData.m_gameOpState.quitAttackOp();
             }
         }
@@ -235,13 +236,13 @@ namespace Game.UI
 
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)
         {
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_hero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_hero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
         }
 
         public void psstRetFirstHandCardUserCmd(stRetFirstHandCardUserCmd cmd)
         {
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].m_inSceneCardList.addInitCard();
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.addInitCard();
         }
 
         public void psstRetMoveGameCardUserCmd(stRetMoveGameCardUserCmd msg)
@@ -254,7 +255,7 @@ namespace Game.UI
             // 只有有效值的时候才处理
             if (msg.side == 1 || msg.side == 2)
             {
-                m_sceneDZAreaArr[msg.side - 1].m_outSceneCardList.removeWhiteCard();       // 将占位的牌移除
+                m_sceneDZAreaArr[msg.side - 1].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
 
                 if (msg.success == 1)     // 如果成功，就放进出牌位置
                 {
@@ -283,25 +284,18 @@ namespace Game.UI
         public void psstRetEnemyHandCardNumUserCmd(stRetEnemyHandCardNumUserCmd msg)
         {
             Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount = msg.count;
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_inSceneCardList.addInitCard();
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList.addInitCard();
         }
 
         public void psstDelEnemyHandCardPropertyUserCmd(stDelEnemyHandCardPropertyUserCmd msg)
         {
-            (m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].m_inSceneCardList as EnemyInSceneCardList).removeEmptyCard();
+            (m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList as EnemyInSceneCardList).removeEmptyCard();
         }
 
-        public void psstRetRemoveBattleCardUserCmd(stRetRemoveBattleCardUserCmd cmd)
+        // side 删除的某一方的一个卡牌
+        public void psstRetRemoveBattleCardUserCmd(stRetRemoveBattleCardUserCmd cmd, int side, SceneCardItem sceneItem)
         {
-            // 获取卡牌属于哪一方的
-            int side = 0;
-            SceneCardItem sceneItem = null;
-            Ctx.m_instance.m_dataPlayer.m_dzData.getCardSideAndItemByThisID(cmd.dwThisID, ref side, ref sceneItem);
-
-            if(side != 2)   // 如果查找到
-            {
-                m_sceneDZAreaArr[side].delOneCard(sceneItem);
-            }
+            m_sceneDZAreaArr[side].delOneCard(sceneItem);
         }
 
         public void psstRetNotifyHandIsFullUserCmd(stRetNotifyHandIsFullUserCmd msg)
@@ -332,6 +326,11 @@ namespace Game.UI
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
         {
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].psstRetCardAttackFailUserCmd(cmd);
+        }
+
+        public void psstRetBattleHistoryInfoUserCmd(stRetBattleHistoryInfoUserCmd cmd)
+        {
+            m_historyArea.psstRetBattleHistoryInfoUserCmd(cmd);
         }
     }
 }

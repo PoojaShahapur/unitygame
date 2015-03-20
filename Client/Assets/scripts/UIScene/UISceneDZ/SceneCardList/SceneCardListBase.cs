@@ -27,13 +27,25 @@ namespace Game.UI
             m_playerFlag = playerFlag;
         }
 
+        public List<SceneDragCard> sceneCardList
+        {
+            get
+            {
+                return m_sceneCardList;
+            }
+            set
+            {
+                m_sceneCardList = value;
+            }
+        }
+
         protected virtual void getCardPos()
         {
 
         }
 
         // 更新场景卡牌位置
-        public virtual void updateSceneCardPos()
+        public virtual void updateSceneCardRST()
         {
             int idx = 0;
             SceneDragCard cardItem;
@@ -46,7 +58,24 @@ namespace Game.UI
                 cardItem.destPos = m_posList[idx];
                 cardItem.destRot = m_rotList[idx].eulerAngles;
                 cardItem.destScale = SceneCardEntityBase.SMALLFACT;
-                cardItem.moveToDest();
+                cardItem.moveToDestRST();
+
+                ++idx;
+            }
+        }
+
+        public virtual void updateSceneCardPos()
+        {
+            int idx = 0;
+            SceneDragCard cardItem;
+
+            getCardPos();
+
+            while (idx < m_sceneCardList.Count)
+            {
+                cardItem = m_sceneCardList[idx];
+                cardItem.destPos = m_posList[idx];
+                cardItem.moveToDestT();
 
                 ++idx;
             }
@@ -135,6 +164,21 @@ namespace Game.UI
             foreach (SceneDragCard cardItem in m_sceneCardList)
             {
                 cardItem.updateCardGreenFrame(benable);
+            }
+        }
+
+        public void removeCard(SceneCardItem sceneCardItem)
+        {
+            int idx = 0;
+            while (idx < m_sceneCardList.Count)
+            {
+                if (m_sceneCardList[idx].sceneCardItem.m_svrCard.qwThisID == sceneCardItem.m_svrCard.qwThisID)
+                {
+                    m_sceneCardList[idx].destroy();
+                    m_sceneCardList.RemoveAt(idx);
+                    break;
+                }
+                ++idx;
             }
         }
     }

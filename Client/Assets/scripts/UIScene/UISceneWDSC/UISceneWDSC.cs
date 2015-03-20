@@ -76,56 +76,56 @@ namespace Game.UI
 
             m_sceneWDSCData.m_tabBtnList[0].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/fs"));
             m_sceneWDSCData.m_tabBtnList[0].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[0].tag = 0;
+            m_sceneWDSCData.m_tabBtnList[0].tag = 1;
             m_sceneWDSCData.m_tabBtnList[0].myclass = (EnPlayerCareer)1;
 
             m_sceneWDSCData.m_tabBtnList[1].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sq"));
             m_sceneWDSCData.m_tabBtnList[1].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[1].tag = 1;
+            m_sceneWDSCData.m_tabBtnList[1].tag = 2;
             m_sceneWDSCData.m_tabBtnList[1].myclass = (EnPlayerCareer)2;
 
             m_sceneWDSCData.m_tabBtnList[2].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ms"));
             m_sceneWDSCData.m_tabBtnList[2].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[2].tag = 2;
+            m_sceneWDSCData.m_tabBtnList[2].tag = 3;
             m_sceneWDSCData.m_tabBtnList[2].myclass = (EnPlayerCareer)3;
 
             m_sceneWDSCData.m_tabBtnList[3].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dz"));
             m_sceneWDSCData.m_tabBtnList[3].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[3].tag = 3;
+            m_sceneWDSCData.m_tabBtnList[3].tag = 4;
             m_sceneWDSCData.m_tabBtnList[3].myclass = (EnPlayerCareer)4;
 
             m_sceneWDSCData.m_tabBtnList[4].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sm"));
             m_sceneWDSCData.m_tabBtnList[4].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[4].tag = 4;
+            m_sceneWDSCData.m_tabBtnList[4].tag = 5;
             m_sceneWDSCData.m_tabBtnList[4].myclass = (EnPlayerCareer)5;
 
             m_sceneWDSCData.m_tabBtnList[5].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ss"));
             m_sceneWDSCData.m_tabBtnList[5].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[5].tag = 5;
+            m_sceneWDSCData.m_tabBtnList[5].tag = 6;
             m_sceneWDSCData.m_tabBtnList[5].myclass = (EnPlayerCareer)6;
 
             m_sceneWDSCData.m_tabBtnList[6].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zs"));
             m_sceneWDSCData.m_tabBtnList[6].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[6].tag = 6;
+            m_sceneWDSCData.m_tabBtnList[6].tag = 7;
             m_sceneWDSCData.m_tabBtnList[6].myclass = (EnPlayerCareer)7;
 
             m_sceneWDSCData.m_tabBtnList[7].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/lr"));
             m_sceneWDSCData.m_tabBtnList[7].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[7].tag = 7;
+            m_sceneWDSCData.m_tabBtnList[7].tag = 8;
             m_sceneWDSCData.m_tabBtnList[7].myclass = (EnPlayerCareer)8;
 
             m_sceneWDSCData.m_tabBtnList[8].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dly"));
             m_sceneWDSCData.m_tabBtnList[8].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[8].tag = 8;
+            m_sceneWDSCData.m_tabBtnList[8].tag = 9;
             m_sceneWDSCData.m_tabBtnList[8].myclass = (EnPlayerCareer)9;
 
             m_sceneWDSCData.m_tabBtnList[9].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zl"));
             m_sceneWDSCData.m_tabBtnList[9].sceneWDSCData = m_sceneWDSCData;
-            m_sceneWDSCData.m_tabBtnList[9].tag = 9;
+            m_sceneWDSCData.m_tabBtnList[9].tag = 0;
             m_sceneWDSCData.m_tabBtnList[9].myclass = (EnPlayerCareer)0;
 
-            // 默认选择第一个
-            m_sceneWDSCData.onBtnClk(0);
+            // 默认选择第一个，是 1 不是 0
+            m_sceneWDSCData.onBtnClk(1);
 
             m_wdscpage.m_sceneWDSCData = m_sceneWDSCData;
             m_wdscpage.setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/page"));
@@ -294,7 +294,7 @@ namespace Game.UI
         public void onclass(EnPlayerCareer myclass)
         {
             // 做动画，设置当前的也签
-            m_sceneWDSCData.onBtnClk((int)myclass - 1);
+            m_sceneWDSCData.onBtnClk((int)myclass);
             m_wdscpage.onclass(myclass);
         }
 

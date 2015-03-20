@@ -16,8 +16,11 @@ namespace SDK.Common
     {
         public const string StreamingAssets = "StreamingAssets/";
 
+        //public string m_ip = "222.73.30.21";
+        //public int m_port = 7000;
         public string m_ip = "192.168.125.254";
         public int m_port = 10002;
+
         public string m_webIP = "192.168.125.49";               // web 服务器
         public int m_webPort = 80;
 
@@ -42,6 +45,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathXmlCfg] = "XmlConfig/";
             m_pathLst[(int)ResPathType.ePathModel] = "Model/";
             m_pathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/";
+            m_pathLst[(int)ResPathType.ePathImage] = "Image/";
 
             m_dataPath = Application.dataPath;
         }

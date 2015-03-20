@@ -55,7 +55,7 @@ namespace SDK.Lib
         //public void load(string prefabName, string path)
         //{
         //    LoadParam param;
-        //    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+        //    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
         //    param.m_prefabName = prefabName;
         //    param.m_path = path;
         //    param.m_loaded = onloaded;

@@ -203,7 +203,7 @@ namespace SDK.Common
             uint leftCnt = len_ % 8;  // 剩余的数量
             if (len_ >= 8)
             {
-                EncryptDecrypt.symmetry_Encode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                Crypt.DES_ECB_Symmetry_Encode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
             writeBytes(retByte, 0, (uint)retByte.Length);
@@ -225,7 +225,7 @@ namespace SDK.Common
             uint leftCnt = len_ % 8;  // 剩余的数量
             if (len_ >= 8)
             {
-                EncryptDecrypt.symmetry_Decode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                Crypt.DES_ECB_Symmetry_Decode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
             writeBytes(retByte, 0, (uint)retByte.Length);
@@ -648,6 +648,12 @@ namespace SDK.Common
         {
             length += sizeof(int);       // 扩大长度
             writeUnsignedInt(value);     // 写入
+        }
+
+        public ulong readUnsignedLongByOffset(uint offset)
+        {
+            position = offset;
+            return readUnsignedLong();
         }
     }
 }

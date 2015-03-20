@@ -37,7 +37,7 @@ namespace Game.UI
             if (!string.IsNullOrEmpty(m_prefab) && !string.IsNullOrEmpty(m_path))
             {
                 LoadParam param;
-                param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+                param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = m_path;
                 param.m_prefabName = m_prefab;
                 param.m_loaded = onloaded;
@@ -47,6 +47,7 @@ namespace Game.UI
                 param.m_resNeedCoroutine = false;
 
                 Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
+                Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }
 

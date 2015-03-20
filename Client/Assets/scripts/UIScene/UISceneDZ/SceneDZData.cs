@@ -32,9 +32,35 @@ namespace Game.UI
         public IAttackArrow m_attackArrow;
         public IGameOpState m_gameOpState;
 
-        public ISceneDZArea[] m_sceneDZAreaArr;
+        public SceneDZArea[] m_sceneDZAreaArr;
 
-        public int m_curWhiteIdx = -1;
+        protected int m_preWhiteIdx = -1;      // 之前白色卡牌位置
+        protected int m_curWhiteIdx = -1;      // 当前卡牌位置
+
+        public int preWhiteIdx
+        {
+            get
+            {
+                return m_preWhiteIdx;
+            }
+            set
+            {
+                m_preWhiteIdx = value;
+            }
+        }
+
+        public int curWhiteIdx
+        {
+            get
+            {
+                return m_curWhiteIdx;
+            }
+            set
+            {
+                m_preWhiteIdx = m_curWhiteIdx;
+                m_curWhiteIdx = value;
+            }
+        }
 
         public SceneDragCard createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area)
         {
@@ -101,7 +127,7 @@ namespace Game.UI
             card.startPos = startPos.localPosition;
             card.destPos = destPos.localPosition;
 
-            card.moveToDest();
+            card.moveToDestRST();
         }
 
         public SceneCardEntityBase getUnderSceneCard()

@@ -10,28 +10,18 @@ namespace SDK.Lib
     {
         protected uint m_maxParral = 8;                             // 最多同时加载的内容
         protected uint m_curNum = 0;                                // 当前加载的数量
-        protected LoadParam m_loadParam;
         protected ResLoadData m_LoadData;
 
         public ResLoadMgr()
         {
-            m_loadParam = new LoadParam();
             m_LoadData = new ResLoadData();
         }
 
-        public LoadParam loadParam
-        {
-            get
-            {
-                return m_loadParam;
-            }
-        }
-
         // 重置加载设置
-        protected void resetLoadParam()
+        protected void resetLoadParam(LoadParam loadParam)
         {
-            m_loadParam.m_loadNeedCoroutine = true;
-            m_loadParam.m_resNeedCoroutine = true;
+            loadParam.m_loadNeedCoroutine = true;
+            loadParam.m_resNeedCoroutine = true;
         }
 
         public IResItem getResource(string path)
@@ -93,7 +83,7 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                resetLoadParam();
+                resetLoadParam(param);
                 m_LoadData.m_path2Res[param.m_path].increaseRef();
                 if (param.m_loaded != null)
                 {
@@ -196,7 +186,7 @@ namespace SDK.Lib
                 m_LoadData.m_willLDItem.Add(loaditem);
             }
 
-            resetLoadParam();
+            resetLoadParam(param);
 
             // 可能同步加载， m_LoadData.m_path2LDItem[param.m_path].load() 就加载完了，直接删除了
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
@@ -302,12 +292,6 @@ namespace SDK.Lib
             }
 
             return null;
-        }
-
-        public LoadParam getLoadParam()
-        {
-            m_loadParam.resetDefault();
-            return m_loadParam;
         }
     }
 }

@@ -81,7 +81,7 @@ namespace Game.UI
         }
 
         int nowpacknum;
-        float nowmoney;
+        float nowmoney = 0;
         public void showpack(int num)
         {
             if (pack1 == null)
@@ -192,11 +192,12 @@ namespace Game.UI
                 objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemBase;
                 m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
                 m_shopItemArray[idx].m_prefab = (objitem.m_itemBody as TableObjectItemBody).m_prefab;
-                param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+                param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = m_shopItemArray[idx].m_path;
                 param.m_prefabName = m_shopItemArray[idx].m_prefab;
                 param.m_loaded = m_shopItemArray[idx].onloaded;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                Ctx.m_instance.m_poolSys.deleteObj(param);
 
                 ++idx;
             }

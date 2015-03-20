@@ -63,16 +63,17 @@ namespace SDK.Common
         public XmlCfgMgr m_xmlCfgMgr = new XmlCfgMgr();
         public MaterialMgr m_matMgr = new MaterialMgr();
         public ModelMgr m_modelMgr = new ModelMgr();
+        public TextureMgr m_texMgr = new TextureMgr();
 
         public SystemSetting m_systemSetting = new SystemSetting();
         public CoordConv m_coordConv = new CoordConv();
 
         public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
-        public Action m_loadDZScene;
         public FlyNumMgr m_pFlyNumMgr = new FlyNumMgr();              // Header Num
 
         public TimerMsgHandle m_pTimerMsgHandle = new TimerMsgHandle();
         public WebSocketMgr m_pWebSocketMgr;
+        public PoolSys m_poolSys = new PoolSys();
 
         public Ctx()
         {

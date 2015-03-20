@@ -1,6 +1,6 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -9,37 +9,59 @@ namespace Game.UI
      */
     public class UISceneTips : SceneForm
     {
-        protected GameObject m_goRoot;
-        protected Text m_desc;
+        protected SceneTipsData m_sceneTipsData;
+        protected TextTips m_textTips;
+        protected HistoryTips m_historyTips;
+
+        protected TipsItemBase m_curTips;
+
+        public UISceneTips()
+        {
+            m_sceneTipsData = new SceneTipsData();
+        }
 
         public override void onReady()
         {
             base.onReady();
-            m_goRoot = UtilApi.GoFindChildByPObjAndName("SceneTipsUI");
-            m_desc = UtilApi.getComByP<Text>(m_goRoot, "Canvas/Text");
-
-            m_goRoot.SetActive(false);         // 默认隐藏
+            m_sceneTipsData.m_goRoot = UtilApi.GoFindChildByPObjAndName("SceneTipsUI");
+            m_sceneTipsData.m_goRoot.SetActive(false);         // 默认隐藏
         }
 
         public override void onShow()
         {
             base.onShow();
 
-            m_goRoot.SetActive(true);
+            m_sceneTipsData.m_goRoot.SetActive(true);
         }
 
         public override void onHide()
         {
             base.onHide();
             // 关闭界面和显示的界面
-            m_goRoot.SetActive(false);
+            m_sceneTipsData.m_goRoot.SetActive(false);
+            m_curTips.hide();
         }
 
         public void showTips(Vector3 pos, string desc)
         {
-            m_desc.text = desc;
-            m_goRoot.transform.localPosition = pos;
-            m_goRoot.SetActive(true);
+            if (m_textTips == null)
+            {
+                m_textTips = new TextTips(m_sceneTipsData);
+                m_textTips.initWidget();
+            }
+            m_curTips = m_textTips;
+            m_textTips.showTips(pos, desc);
+        }
+
+        public void showTips(Vector3 pos, stRetBattleHistoryInfoUserCmd data)
+        {
+            if (m_historyTips == null)
+            {
+                m_historyTips = new HistoryTips(m_sceneTipsData);
+                m_historyTips.initWidget();
+            }
+            m_curTips = m_historyTips;
+            m_historyTips.showTips(pos, data);
         }
     }
 }

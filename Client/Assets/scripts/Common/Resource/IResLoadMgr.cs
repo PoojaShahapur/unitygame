@@ -12,6 +12,5 @@ namespace SDK.Common
         void unload(string path);
         void unloadNoRef(string path);
         IResItem getResource(string path);
-        LoadParam getLoadParam();
     }
 }

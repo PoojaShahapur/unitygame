@@ -7,6 +7,9 @@
 // Debug 自己使用的定义
 //NET_MULTHREAD;MSG_ENCRIPT;MSG_COMPRESS;THREAD_CALLCHECK;ENABLE_WINLOG;ENABLE_NETLOG;UNIT_TEST_SRC
 
+// 调试不需要网络
+// #define DEBUG_NOTNET
+
 // 网络处理多线程，主要是调试的时候使用单线程，方便调试，运行的时候使用多线程
 //#define NET_MULTHREAD
 

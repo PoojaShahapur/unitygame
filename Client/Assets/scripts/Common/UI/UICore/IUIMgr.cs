@@ -3,7 +3,7 @@
     public interface IUIMgr
     {
         void showForm(UIFormID ID);
-        void exitForm(UIFormID ID);
+        void exitForm(UIFormID ID, bool bForce = false);
         void loadForm(UIFormID ID);
         Form getForm(UIFormID ID);
         void SetIUIFactory(IUIFactory value);

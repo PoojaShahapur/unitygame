@@ -35,6 +35,7 @@
         public const string EnemyMpText = "dz/UIGo/Canvas/EnemyMPText";
         public const string SelfMpList = "dz/SelfGo/MpListGo";
         public const string EnemyMpList = "dz/EnemyGo/MpListGo";
+        public const string HistoryGo = "HistoryGo";
     }
 
     public enum EnSceneDZText

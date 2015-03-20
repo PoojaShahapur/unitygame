@@ -62,6 +62,11 @@
             Ctx.m_instance.m_uiSceneMgr.hideSceneForm(m_id);
         }
 
+        public void exit()
+        {
+            Ctx.m_instance.m_uiSceneMgr.exitSceneForm(m_id);
+        }
+
         // 主要是关联事件
         virtual public void onReady()
         {
@@ -74,6 +79,11 @@
         }
 
         virtual public void onHide()
+        {
+            m_bVisible = false;
+        }
+
+        virtual public void onExit()
         {
             m_bVisible = false;
         }

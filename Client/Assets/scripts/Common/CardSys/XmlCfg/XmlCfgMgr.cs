@@ -14,13 +14,14 @@ namespace SDK.Common
             T item = new T();
             m_id2CfgDic[id] = item;
 
-            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = item.m_path;
             param.m_prefabName = item.m_prefabName;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 加载一个表完成

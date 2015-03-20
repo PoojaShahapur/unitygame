@@ -75,7 +75,7 @@ namespace Game.Game
 
         public void loadUI()
         {
-            //LoadParam param = (Ctx.m_instance.m_resLoadMgr as IResLoadMgr).getLoadParam();
+            //LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             //param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + "UIScrollForm.unity3d";
             //param.m_type = ResPackType.eBundleType;
             //param.m_resLoadType = ResLoadType.eLoadDicWeb;

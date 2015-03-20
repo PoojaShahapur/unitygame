@@ -86,15 +86,15 @@ namespace SDK.Common
             return m_parentGo;
         }
 
-        public void setParent(GameObject parentGo)
+        public void setParent(GameObject pntGo)
         {
-            m_parentGo.transform.SetParent(parentGo.transform, true);
+            m_parentGo.transform.SetParent(pntGo.transform, true);
         }
 
         public ModelRes load(string path, string prefab)
         {
             LoadParam param;
-            param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = path;
             param.m_prefabName = prefab;
 
@@ -103,6 +103,7 @@ namespace SDK.Common
             param.m_resNeedCoroutine = false;
 
             ModelRes res = Ctx.m_instance.m_modelMgr.load<ModelRes>(param) as ModelRes;
+            Ctx.m_instance.m_poolSys.deleteObj(param);
             return res;
         }
     }

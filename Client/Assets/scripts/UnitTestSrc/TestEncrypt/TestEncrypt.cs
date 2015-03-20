@@ -20,7 +20,7 @@ namespace UnitTestSrc
 
             byte[] encryptKey = Encoding.UTF8.GetBytes("aaaaaaaa");
 
-            EncryptDecrypt.symmetry_Encode_Byte(inBytes, 0, inSize, ref outBytes, encryptKey);
+            Crypt.DES_ECB_Symmetry_Encode_Byte(inBytes, 0, inSize, ref outBytes, encryptKey);
         }
     }
 }

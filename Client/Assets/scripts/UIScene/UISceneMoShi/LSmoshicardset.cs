@@ -52,7 +52,7 @@ namespace Game.UI
         //public void load(string path, string prefabName)
         //{
         //    LoadParam param;
-        //    param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+        //    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
         //    param.m_prefabName = prefabName;
         //    param.m_path = path;
         //    param.m_loaded = onloaded;

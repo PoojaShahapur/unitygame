@@ -93,13 +93,13 @@ namespace SDK.Common
 		}
 
         // 退出一个 UI
-        public void exitForm(UIFormID ID)
+        public void exitForm(UIFormID ID, bool bForce = false)
 		{
 			Form win = getForm(ID);
 
             if (win != null)
 			{
-                if(win.exitMode)
+                if (win.exitMode || bForce)
                 {
                     exitFormInternal(ID);
                 }
@@ -254,7 +254,7 @@ namespace SDK.Common
             }
             else // 资源从来没有加载过
             {
-                LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = reaPath;
                 //param.m_resPackType = ResPackType.eBundleType;
                 //param.m_resLoadType = ResLoadType.eLoadDicWeb;
@@ -266,6 +266,7 @@ namespace SDK.Common
                 //Ctx.m_instance.m_resLoadMgr.load(param);
                 //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }
 		

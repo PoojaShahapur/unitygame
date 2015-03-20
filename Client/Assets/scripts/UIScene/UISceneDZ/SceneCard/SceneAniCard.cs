@@ -20,7 +20,7 @@ namespace Game.UI
         // 路径堆栈
         protected Stack m_pathStack = new Stack();              // 路径堆栈，记录路径信息
         protected const float m_time = 0.5f;      // 动画时间
-        protected NumAniParallel m_numAniSeq = new NumAniParallel();       // 回退的时候，这个单独的动画序列
+        protected NumAniParallel m_numAniParal = new NumAniParallel();       // 回退的时候，这个单独的动画序列
         protected const float m_height = 1.0f;
 
         public override void Start()
@@ -62,6 +62,10 @@ namespace Game.UI
 
         public Vector3 destPos
         {
+            get
+            {
+                return m_destPos;
+            }
             set
             {
                 m_destPos = value;
@@ -91,59 +95,49 @@ namespace Game.UI
             transform.localScale = m_startScale;
         }
 
-        // 到目标位置
-        public void moveToDest()
+        // 到目标位置，移动、旋转、缩放
+        public void moveToDestRST()
         {
             saveCurRSTToStart();
 
             RSTAni rstAni;
             rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
+            m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
             rstAni.destPos = m_destPos;
             rstAni.destRot = m_destRot;
             rstAni.destScale = m_destScale;
 
-            m_numAniSeq.play();
+            m_numAniParal.play();
+        }
 
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destPos = m_destPos;
-            rstAni.destRot = m_destRot;
-            rstAni.destScale = m_destScale;
+        // 到目标位置，移动、旋转
+        public void moveToDestRT()
+        {
+            saveCurRSTToStart();
 
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destPos = m_destPos;
-            rstAni.destRot = m_destRot;
-            rstAni.destScale = m_destScale;
+            RTAni rtAni;
+            rtAni = new RTAni();
+            m_numAniParal.addOneNumAni(rtAni);
+            rtAni.setGO(gameObject);
+            rtAni.destPos = m_destPos;
+            rtAni.destRot = m_destRot;
 
-            m_numAniSeq.play();
+            m_numAniParal.play();
+        }
 
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destPos = m_destPos;
-            rstAni.destRot = m_destRot;
-            rstAni.destScale = m_destScale;
+        // 移动动画
+        public void moveToDestT()
+        {
+            saveCurRSTToStart();
 
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destPos = m_destPos;
-            rstAni.destRot = m_destRot;
-            rstAni.destScale = m_destScale;
+            PosAni posAni;
+            posAni = new PosAni();
+            m_numAniParal.addOneNumAni(posAni);
+            posAni.setGO(gameObject);
+            posAni.destPos = m_destPos;
 
-            rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
-            rstAni.setGO(gameObject);
-            rstAni.destPos = m_destPos;
-            rstAni.destRot = m_destRot;
-            rstAni.destScale = m_destScale;
-
-            m_numAniSeq.play();
+            m_numAniParal.play();
         }
 
         // 开始拖动自动动画
@@ -201,10 +195,10 @@ namespace Game.UI
             m_startScale = transform.localScale;
 
             ScaleAni rstAni = new ScaleAni();
-            m_numAniSeq.addOneNumAni(rstAni);
+            m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
             rstAni.destScale = m_destScale;
-            m_numAniSeq.play();
+            m_numAniParal.play();
         }
 
         // 移动到之前的位置
@@ -214,7 +208,7 @@ namespace Game.UI
             m_pathStack.Clear();
 
             saveStartToDest();
-            moveToDest();
+            moveToDestRST();
         }
 
         // 保存开始点和结束点到堆栈
@@ -236,14 +230,14 @@ namespace Game.UI
             enableDrag();
 
             RSTAni rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
+            m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
             rstAni.destPos = new Vector3(transform.localPosition.x, 1.0f, transform.localPosition.z);
             rstAni.destScale = SceneCardEntityBase.BIGFACT;
             rstAni.destRot = transform.localRotation.eulerAngles;
 
             rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
+            m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
             rstAni.destScale = (Vector3)m_pathStack.Pop();
             m_pathStack.Pop();
@@ -255,13 +249,13 @@ namespace Game.UI
             m_destPos = (Vector3)m_pathStack.Pop();
 
             rstAni = new RSTAni();
-            m_numAniSeq.addOneNumAni(rstAni);
+            m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
             rstAni.destScale = m_destScale;
             rstAni.destRot = m_destRot;
             rstAni.destPos = m_destPos;
 
-            m_numAniSeq.play();
+            m_numAniParal.play();
         }
     }
 }

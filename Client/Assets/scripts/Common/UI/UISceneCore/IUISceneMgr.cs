@@ -9,5 +9,7 @@
         void SetIUISceneFactory(IUISceneFactory value);
         void readySceneForm(UISceneFormID ID);
         ISceneForm loadAndShowForm(UISceneFormID ID);
+        void exitSceneForm(UISceneFormID ID, bool bremoved = true);
+        void unloadAll();
     }
 }

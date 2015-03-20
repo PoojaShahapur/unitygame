@@ -65,11 +65,12 @@ namespace SDK.Lib
 
         public void loadSkeleton()
         {
-            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_skeletonName;
             param.m_loaded = onSkeletonloaded;
             //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 资源加载成功，通过事件回调
@@ -106,11 +107,12 @@ namespace SDK.Lib
 
         public void loadPartModel(int modelDef)
         {
-            LoadParam param = Ctx.m_instance.m_resLoadMgr.getLoadParam();
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[modelDef].m_bundleName;
             param.m_loaded = onPartModelloaded;
             //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 资源加载成功，通过事件回调

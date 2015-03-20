@@ -86,7 +86,6 @@
         CARDCELLTYPE_EQUIP,	    // 装备区域
         CARDCELLTYPE_SKILL,	    // 技能区域
         CARDCELLTYPE_HERO,	    // hero 区域
-
     }
 
     // 这个是卡牌区域位置
