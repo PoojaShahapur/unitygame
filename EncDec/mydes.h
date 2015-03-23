@@ -28,17 +28,12 @@ extern const DES_LONG(*sp)[8][64];
 
 #define LOAD_DATA(R,S,u,t,E0,E1,tmp) \
 u=R^s[S  ]; \
-	t=R^s[S+1];\
-	printf("R = %d    ", R);\
-	printf("s[S  ] = %d    ", s[S  ]);\
-	printf("s[S+1] = %d    ", s[S+1]);\
-	printf("t = %d    ", t);
+	t=R^s[S+1];
 #define LOAD_DATA_tmp(a,b,c,d,e,f) LOAD_DATA(a,b,c,d,e,f,g)
 
 #define D_ENCRYPT(LL,R,S) {\
 	LOAD_DATA_tmp(R,S,u,t,E0,E1); \
 		t=ROTATE(t,4); \
-		printf("t = %d    ", t);\
 		LL^=\
 		MyDES_SPtrans[0][(u>> 2L)&0x3f]^ \
 		MyDES_SPtrans[2][(u>>10L)&0x3f]^ \

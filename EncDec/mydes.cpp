@@ -377,10 +377,46 @@ void DES_encrypt1(DES_LONG *data,DES_key_schedule *ks1,int enc){
 	{
 		for (i=0; i<32; i+=8)
 		{
-			D_ENCRYPT(l,r,i+0); /*  1 */
-			D_ENCRYPT(r,l,i+2); /*  2 */
-			D_ENCRYPT(l,r,i+4); /*  3 */
-			D_ENCRYPT(r,l,i+6); /*  4 */
+			{ 
+				u = r^s[i + 0]; 
+				t = r^s[i + 0 + 1];
+				long aaa = ((t) >> (int)(4));
+				long bbb = ((t) << (32 - (int)(4)));
+				// t = (((t) >> (int)(4)) | ((t) << (32 - (int)(4)))); 
+				t = (aaa | bbb);
+				unsigned int ccc1 = MyDES_SPtrans[0][(u >> 2L) & 0x3f];
+				unsigned int ccc2 = MyDES_SPtrans[2][(u >> 10L) & 0x3f];
+				unsigned int ccc3 = MyDES_SPtrans[4][(u >> 18L) & 0x3f];
+				unsigned int ccc4 = MyDES_SPtrans[5][(u >> 26L) & 0x3f];
+				unsigned int ccc5 = MyDES_SPtrans[1][(u >> 2L) & 0x3f];
+				unsigned int ccc6 = MyDES_SPtrans[3][(u >> 10L) & 0x3f];
+				unsigned int ccc7 = MyDES_SPtrans[5][(u >> 18L) & 0x3f];
+				unsigned int ccc8 = MyDES_SPtrans[7][(u >> 26L) & 0x3f];
+
+				unsigned int ccc = MyDES_SPtrans[0][(u >> 2L) & 0x3f] ^ MyDES_SPtrans[2][(u >> 10L) & 0x3f] ^ MyDES_SPtrans[4][(u >> 18L) & 0x3f] ^ MyDES_SPtrans[6][(u >> 26L) & 0x3f] ^ MyDES_SPtrans[1][(t >> 2L) & 0x3f] ^ MyDES_SPtrans[3][(t >> 10L) & 0x3f] ^ MyDES_SPtrans[5][(t >> 18L) & 0x3f] ^ MyDES_SPtrans[7][(t >> 26L) & 0x3f];
+				//l ^= MyDES_SPtrans[0][(u >> 2L) & 0x3f] ^ MyDES_SPtrans[2][(u >> 10L) & 0x3f] ^ MyDES_SPtrans[4][(u >> 18L) & 0x3f] ^ MyDES_SPtrans[6][(u >> 26L) & 0x3f] ^ MyDES_SPtrans[1][(t >> 2L) & 0x3f] ^ MyDES_SPtrans[3][(t >> 10L) & 0x3f] ^ MyDES_SPtrans[5][(t >> 18L) & 0x3f] ^ MyDES_SPtrans[7][(t >> 26L) & 0x3f]; 
+				l ^= ccc;
+			};
+			{ 
+				u = l^s[i + 2]; 
+				t = l^s[i + 2 + 1]; 
+				t = (((t) >> (int)(4)) | ((t) << (32 - (int)(4)))); 
+				unsigned int aaa = MyDES_SPtrans[0][(u >> 2L) & 0x3f] ^ MyDES_SPtrans[2][(u >> 10L) & 0x3f] ^ MyDES_SPtrans[4][(u >> 18L) & 0x3f] ^ MyDES_SPtrans[6][(u >> 26L) & 0x3f] ^ MyDES_SPtrans[1][(t >> 2L) & 0x3f] ^ MyDES_SPtrans[3][(t >> 10L) & 0x3f] ^ MyDES_SPtrans[5][(t >> 18L) & 0x3f] ^ MyDES_SPtrans[7][(t >> 26L) & 0x3f];
+				//r ^= MyDES_SPtrans[0][(u >> 2L) & 0x3f] ^ MyDES_SPtrans[2][(u >> 10L) & 0x3f] ^ MyDES_SPtrans[4][(u >> 18L) & 0x3f] ^ MyDES_SPtrans[6][(u >> 26L) & 0x3f] ^ MyDES_SPtrans[1][(t >> 2L) & 0x3f] ^ MyDES_SPtrans[3][(t >> 10L) & 0x3f] ^ MyDES_SPtrans[5][(t >> 18L) & 0x3f] ^ MyDES_SPtrans[7][(t >> 26L) & 0x3f]; 
+				r ^= aaa;
+			};
+			{ 
+				u = r^s[i + 4]; 
+				t = r^s[i + 4 + 1]; 
+				t = (((t) >> (int)(4)) | ((t) << (32 - (int)(4)))); 
+				l ^= MyDES_SPtrans[0][(u >> 2L) & 0x3f] ^ MyDES_SPtrans[2][(u >> 10L) & 0x3f] ^ MyDES_SPtrans[4][(u >> 18L) & 0x3f] ^ MyDES_SPtrans[6][(u >> 26L) & 0x3f] ^ MyDES_SPtrans[1][(t >> 2L) & 0x3f] ^ MyDES_SPtrans[3][(t >> 10L) & 0x3f] ^ MyDES_SPtrans[5][(t >> 18L) & 0x3f] ^ MyDES_SPtrans[7][(t >> 26L) & 0x3f]; 
+			};
+			{ 
+				u = l^s[i + 6]; 
+				t = l^s[i + 6 + 1];
+				t = (((t) >> (int)(4)) | ((t) << (32 - (int)(4)))); 
+				r ^= MyDES_SPtrans[0][(u >> 2L) & 0x3f] ^ MyDES_SPtrans[2][(u >> 10L) & 0x3f] ^ MyDES_SPtrans[4][(u >> 18L) & 0x3f] ^ MyDES_SPtrans[6][(u >> 26L) & 0x3f] ^ MyDES_SPtrans[1][(t >> 2L) & 0x3f] ^ MyDES_SPtrans[3][(t >> 10L) & 0x3f] ^ MyDES_SPtrans[5][(t >> 18L) & 0x3f] ^ MyDES_SPtrans[7][(t >> 26L) & 0x3f]; 
+			};
 		}
 	}
 	else
