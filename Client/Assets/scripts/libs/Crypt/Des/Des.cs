@@ -356,26 +356,39 @@ namespace SDK.Lib
         {
             u = R ^ s[S % 2];
             t = R ^ s[S % 2 + 1];
-            Debug.Log(string.Format("R = {0}    ", R));
-            Debug.Log(string.Format("s[S  ] = {0}     ", s[S]));
-            Debug.Log(string.Format("s[S+1] = {0}    ", s[S + 1]));
-            Debug.Log(string.Format("t = {0}    ", t));
         }
 
         public static void D_ENCRYPT(ref ulong LL, ulong R, int S, ulong[] s, ref ulong u, ref ulong t) 
         {
             LOAD_DATA_tmp(R, S, s, ref u, ref t);
             t = CryptUtil.ROTATE(t, 4);
-            Debug.Log(string.Format("t = {0}    ", t));
-            LL^=
-                DES_SPtrans[0, (u >> (int)2L)&0x3f]^
+            ulong ccc1 = DES_SPtrans[0, (u >> (int)2L) & 0x3f];
+            ulong ccc2 = DES_SPtrans[2, (u >> (int)10L) & 0x3f];
+            ulong ccc3 = DES_SPtrans[4, (u >> (int)18L) & 0x3f];
+            ulong ccc4 = DES_SPtrans[5, (u >> (int)26L) & 0x3f];
+            ulong ccc5 = DES_SPtrans[1, (u >> (int)2L) & 0x3f];
+            ulong ccc6 = DES_SPtrans[3, (u >> (int)10L) & 0x3f];
+            ulong ccc7 = DES_SPtrans[5, (u >> (int)18L) & 0x3f];
+            ulong ccc8 = DES_SPtrans[7, (u >> (int)26L) & 0x3f];
+            ulong aaa = DES_SPtrans[0, (u >> (int)2L) & 0x3f] ^
                 DES_SPtrans[2, (u >> (int)10L) & 0x3f] ^
                 DES_SPtrans[4, (u >> (int)18L) & 0x3f] ^
                 DES_SPtrans[6, (u >> (int)26L) & 0x3f] ^
                 DES_SPtrans[1, (t >> (int)2L) & 0x3f] ^
                 DES_SPtrans[3, (t >> (int)10L) & 0x3f] ^
                 DES_SPtrans[5, (t >> (int)18L) & 0x3f] ^
-                DES_SPtrans[7, (t >> (int)26L) & 0x3f]; 
+                DES_SPtrans[7, (t >> (int)26L) & 0x3f];
+            //LL^=
+            //    DES_SPtrans[0, (u >> (int)2L)&0x3f]^
+            //    DES_SPtrans[2, (u >> (int)10L) & 0x3f] ^
+            //    DES_SPtrans[4, (u >> (int)18L) & 0x3f] ^
+            //    DES_SPtrans[6, (u >> (int)26L) & 0x3f] ^
+            //    DES_SPtrans[1, (t >> (int)2L) & 0x3f] ^
+            //    DES_SPtrans[3, (t >> (int)10L) & 0x3f] ^
+            //    DES_SPtrans[5, (t >> (int)18L) & 0x3f] ^
+            //    DES_SPtrans[7, (t >> (int)26L) & 0x3f]; 
+
+            LL ^= aaa;
         }
 
         public static void DES_set_key_unchecked(byte[] key, DES_key_schedule schedule)

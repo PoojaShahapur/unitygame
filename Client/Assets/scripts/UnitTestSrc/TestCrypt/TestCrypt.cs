@@ -56,7 +56,7 @@ namespace UnitTestSrc
             Dec.DES_set_key_unchecked(key, des5Key);
 
             Crypt.encryptData(inBytes, 0, 8, ref outBytes, des5Key, CryptAlgorithm.DES);
-            Crypt.decryptData(outBytes, 0, 8, ref inBytes, des5Key, CryptAlgorithm.DES);
+            //Crypt.decryptData(outBytes, 0, 8, ref inBytes, des5Key, CryptAlgorithm.DES);
             testStr = System.Text.Encoding.Default.GetString(inBytes);
         }
     }
