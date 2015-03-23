@@ -13,7 +13,11 @@ namespace Game.UI
         // Use this for initialization
         public override void Start()
         {
-            classpic = transform.FindChild("pic").GetComponent<Renderer>().material;
+#if UNITY_5
+            classpic = transform.FindChild("pic").GetComponent<Renderer>().GetComponent<Material>();
+#elif UNITY_4_6
+            classpic = transform.FindChild("pic").renderer.material;
+#endif
             switch (name)
             {
                 case "圣骑士": myclass = EnPlayerCareer.HERO_OCCUPATION_1;

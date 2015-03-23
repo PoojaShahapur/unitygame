@@ -45,8 +45,13 @@ namespace SDK.Lib
         {
             animation["boxcampush"].speed = 1;
             animation.Play("boxcampush");
-            box.GetComponent<Animation>()["boxopendoor"].speed = 1;
+#if UNITY_5
+		    box.GetComponent<Animation>()["boxopendoor"].speed = 1;
             box.GetComponent<Animation>().Play("boxopendoor");
+#elif UNITY_4_6
+            box.animation["boxopendoor"].speed = 1;
+            box.animation.Play("boxopendoor");
+#endif
         }
 
         public void back()
@@ -56,9 +61,15 @@ namespace SDK.Lib
             animation["boxcampush"].time = animation["boxcampush"].length;
             animation.Play("boxcampush");
 
+#if UNITY_5
             box.GetComponent<Animation>()["boxopendoor"].speed = -1;
             box.GetComponent<Animation>()["boxopendoor"].time = box.GetComponent<Animation>()["boxopendoor"].length;
             box.GetComponent<Animation>().Play("boxopendoor");
+#elif UNITY_4_6
+            box.animation["boxopendoor"].speed = -1;
+            box.animation["boxopendoor"].time = box.animation["boxopendoor"].length;
+            box.animation.Play("boxopendoor");
+#endif
         }
 
         void noopen()

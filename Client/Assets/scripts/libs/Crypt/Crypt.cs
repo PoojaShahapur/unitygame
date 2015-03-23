@@ -1,3 +1,4 @@
+using SDK.Common;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -8,7 +9,32 @@ namespace SDK.Lib
     public class Crypt
     {
         //默认密钥向量
-        private static byte[] rgbIV = { 0x3f, 0x79, 0xd5, 0xe2, 0x4a, 0x8c, 0xb6, 0xc1, 0xaf, 0x31, 0x5e, 0xc7, 0xeb, 0x9d, 0x6e, 0xcb };
+        public static byte[] rgbIV = { 0x3f, 0x79, 0xd5, 0xe2, 0x4a, 0x8c, 0xb6, 0xc1, 0xaf, 0x31, 0x5e, 0xc7, 0xeb, 0x9d, 0x6e, 0xcb };
+        public static byte[] RC5_KEY = { 0x3f, 0x79, 0xd5, 0xe2, 0x4a, 0x8c, 0xb6, 0xc1, 0xaf, 0x31, 0x5e, 0xc7, 0xeb, 0x9d, 0x6e, 0xcb };
+
+        public static void encryptData(byte[] encryptByte, uint startPos, uint inLen, ref byte[] outBytes, CryptKeyBase rgbKey, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
+        {
+            if(CryptAlgorithm.RC5 == algorithm)
+            {
+                Crypt.RC5_ECB_Symmetry_Encode_Byte(encryptByte, startPos, inLen, ref outBytes, rgbKey as RC5_32_KEY);
+            }
+            else
+            {
+                Crypt.DES_ECB_Symmetry_Encode_OpenSSL(encryptByte, startPos, inLen, ref outBytes, rgbKey as DES_key_schedule);
+            }
+        }
+
+        public static void decryptData(byte[] decryptByte, uint startPos, uint inLen, ref byte[] outBytes, CryptKeyBase rgbKey, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
+        {
+            if (CryptAlgorithm.RC5 == algorithm)
+            {
+                Crypt.RC5_ECB_Symmetry_Decode_Byte(decryptByte, startPos, inLen, ref outBytes, rgbKey as RC5_32_KEY);
+            }
+            else
+            {
+                Crypt.DES_ECB_Symmetry_Decode_OpenSSL(decryptByte, startPos, inLen, ref outBytes, rgbKey as DES_key_schedule);
+            }
+        }
 
         /// <summary>
         /// 对称加密法加密函数
@@ -118,7 +144,35 @@ namespace SDK.Lib
         }
 
         // rc5 加密后大小不会变化的
-        static public bool RC5_CBC_Symmetry_Encode_Byte(byte[] encryptByte, uint startPos, uint inLen, ref byte[] outBytes, byte[] rgbKey)
+        static public bool DES_ECB_Symmetry_Encode_OpenSSL(byte[] encryptByte, uint startPos, uint inLen, ref byte[] outBytes, DES_key_schedule rgbKey)
+        {
+            try
+            {
+                Dec.DES_ecb_encrypt_one(encryptByte, startPos, inLen, ref outBytes, rgbKey, RC5.RC5_ENCRYPT);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        static public bool DES_ECB_Symmetry_Decode_OpenSSL(byte[] decryptByte, uint startPos, uint inLen, ref byte[] outBytes, DES_key_schedule rgbKey)
+        {
+            try
+            {
+                Dec.DES_ecb_encrypt_one(decryptByte, startPos, inLen, ref outBytes, rgbKey, RC5.RC5_DECRYPT);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // rc2 加密后大小不会变化的
+        static public bool RC2_CBC_Symmetry_Encode_Byte(byte[] encryptByte, uint startPos, uint inLen, ref byte[] outBytes, byte[] rgbKey)
         {
             try
             {
@@ -142,7 +196,7 @@ namespace SDK.Lib
             }
         }
 
-        static public bool RC5_CBC_Symmetry_Decode_Byte(byte[] decryptByte, uint startPos, uint inLen, ref byte[] outBytes, byte[] rgbKey)
+        static public bool RC2_CBC_Symmetry_Decode_Byte(byte[] decryptByte, uint startPos, uint inLen, ref byte[] outBytes, byte[] rgbKey)
         {
             try
             {
@@ -158,6 +212,34 @@ namespace SDK.Lib
 
                 m_cstream.Close(); 
                 m_cstream.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // rc5 加密后大小不会变化的
+        static public bool RC5_ECB_Symmetry_Encode_Byte(byte[] encryptByte, uint startPos, uint inLen, ref byte[] outBytes, RC5_32_KEY rgbKey)
+        {
+            try
+            {
+                RC5.RC5_32_ecb_encrypt_one(encryptByte, startPos, inLen, ref outBytes, rgbKey, RC5.RC5_ENCRYPT);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        static public bool RC5_ECB_Symmetry_Decode_Byte(byte[] decryptByte, uint startPos, uint inLen, ref byte[] outBytes, RC5_32_KEY rgbKey)
+        {
+            try
+            {
+                RC5.RC5_32_ecb_encrypt_one(decryptByte, startPos, inLen, ref outBytes, rgbKey, RC5.RC5_DECRYPT);
 
                 return true;
             }

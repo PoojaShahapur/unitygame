@@ -15,7 +15,11 @@ public class LSBehaviour : ISceneEntity
     {
         gameObject = go;
         transform = gameObject.transform;
-        animation = gameObject.GetComponent<Animation>();
+#if UNITY_5
+		animation = gameObject.GetComponent<Animation>();
+#elif UNITY_4_6
+        animation = gameObject.animation;
+#endif
         name = gameObject.name;
 
         Awake();

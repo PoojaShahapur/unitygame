@@ -60,7 +60,11 @@ namespace Game.UI
         public void setclasspic(Material pic)
         {
             classpic.transform.parent.gameObject.SetActive(true);
+#if UNITY_5
             classpic.GetComponent<Renderer>().material = pic;
+#elif UNITY_4_6
+            classpic.renderer.material = pic;
+#endif
         }
         #endregion
 
@@ -68,16 +72,28 @@ namespace Game.UI
         {
             tpm.GetComponent<Text>().text = "基本套牌";
 
+#if UNITY_5
             transform.GetComponent<Animation>()["jbtpshow"].speed = 1;
             transform.GetComponent<Animation>().Play("jbtpshow");
+#elif UNITY_4_6
+            transform.animation["jbtpshow"].speed = 1;
+            transform.animation.Play("jbtpshow");
+#endif
         }
 
         void Onzdytp()
         {
             tpm.GetComponent<Text>().text = "自定义套牌";
+
+#if UNITY_5
             transform.GetComponent<Animation>()["jbtpshow"].speed = -1;
             transform.GetComponent<Animation>()["jbtpshow"].time = transform.GetComponent<Animation>()["jbtpshow"].length;
             transform.GetComponent<Animation>().Play("jbtpshow");
+#elif UNITY_4_6
+            transform.animation["jbtpshow"].speed = -1;
+            transform.animation["jbtpshow"].time = transform.animation["jbtpshow"].length;
+            transform.animation.Play("jbtpshow");
+#endif
         }
 
         void nochoose()

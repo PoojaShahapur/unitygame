@@ -66,7 +66,7 @@ namespace SDK.Lib
 #if UNITY_5
                 // Unity5
                 AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
-#elif UNITY_4
+#elif UNITY_4_6
                 // Unity4
                 AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
 #endif
@@ -105,7 +105,7 @@ namespace SDK.Lib
 #if UNITY_5
                 // Unity5
                 UnityEngine.Object assets = m_bundle.LoadAsset(resname);
-#elif UNITY_4
+#elif UNITY_4_6
                 // Unity4
                 UnityEngine.Object assets = m_bundle.Load(resname);
 #endif
@@ -114,7 +114,7 @@ namespace SDK.Lib
 #if UNITY_5
                     // Unity5
                     //insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
-#elif UNITY_4
+#elif UNITY_4_6
                     // Unity4
                     insObj = GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
 #endif
@@ -124,7 +124,7 @@ namespace SDK.Lib
                     // Unity5
 #if UNITY_5
                     //assets = m_bundle.LoadAsset("DefaultAvatar");
-#elif UNITY_4
+#elif UNITY_4_6
                     // Unity4
                     assets = m_bundle.Load("DefaultAvatar");
 #endif
@@ -145,7 +145,7 @@ namespace SDK.Lib
 #if UNITY_5
                 // Unty5
                 assets = m_bundle.LoadAsset(resname);
-#elif UNITY_4
+#elif UNITY_4_6
                 // Unity4
                 assets = m_bundle.Load(resname);
 #endif

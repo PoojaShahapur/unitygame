@@ -194,7 +194,7 @@ namespace SDK.Common
         }
 
         // 加密，使用 des 对称数字加密算法，加密8字节补齐，可能会导致变长
-        public uint encrypt(byte[] cryptKey, uint len_ = 0)
+        public uint encrypt(CryptKeyBase cryptKey, uint len_ = 0, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
         {
             len_ = (len_ == 0 ? length : len_);
 
@@ -203,7 +203,7 @@ namespace SDK.Common
             uint leftCnt = len_ % 8;  // 剩余的数量
             if (len_ >= 8)
             {
-                Crypt.DES_ECB_Symmetry_Encode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                Crypt.encryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
             writeBytes(retByte, 0, (uint)retByte.Length);
@@ -217,7 +217,7 @@ namespace SDK.Common
         }
 
         // 解密
-        public void decrypt(byte[] cryptKey, uint len_ = 0)
+        public void decrypt(CryptKeyBase cryptKey, uint len_ = 0, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
         {
             len_ = (len_ == 0 ? length : len_);
 
@@ -225,7 +225,7 @@ namespace SDK.Common
             uint leftCnt = len_ % 8;  // 剩余的数量
             if (len_ >= 8)
             {
-                Crypt.DES_ECB_Symmetry_Decode_Byte(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                Crypt.decryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
             writeBytes(retByte, 0, (uint)retByte.Length);

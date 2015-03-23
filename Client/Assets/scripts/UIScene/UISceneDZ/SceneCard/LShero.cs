@@ -95,7 +95,11 @@ namespace Game.UI
 
         public void setpic(Material m)
         {
+#if UNITY_5
             transform.FindChild("pic").GetComponent<Renderer>().material = m;
+#elif UNITY_4_6
+            transform.FindChild("pic").renderer.material = m;
+#endif
         }
 
         public void banpick()

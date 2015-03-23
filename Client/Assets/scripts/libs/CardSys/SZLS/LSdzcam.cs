@@ -78,9 +78,16 @@ namespace SDK.Lib
             for (int x = 0; x < 3; x++)
             {
                 Transform c = newcard();
+#if UNITY_5
                 c.GetComponent<Animation>().AddClip(moveto(mycarddeap.position, fpoint[x]), "come");
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
                 c.GetComponent<Animation>().Blend("come", 60);
+#elif UNITY_4_6
+                c.animation.AddClip(moveto(mycarddeap.position, fpoint[x]), "come");
+                c.animation.Play("cardxuanzhuan");
+                c.animation.Blend("come", 60);
+#endif
+
                 yield return new WaitForSeconds(0.5f);
                 //加入到数组中
                 cs.Add(c);
@@ -107,9 +114,15 @@ namespace SDK.Lib
                 //再抽一张
                 //实例第4张
                 Transform c = newcard();
+#if UNITY_5
                 c.GetComponent<Animation>().AddClip(moveto(mycarddeap.position, fpoint[3]), "come");
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
                 c.GetComponent<Animation>().Blend("come", 60);
+#elif UNITY_4_6
+                c.animation.AddClip(moveto(mycarddeap.position, fpoint[3]), "come");
+                c.animation.Play("cardxuanzhuan");
+                c.animation.Blend("come", 60);
+#endif
                 yield return new WaitForSeconds(0.5f);
             }
             else
@@ -166,6 +179,7 @@ namespace SDK.Lib
                 Vector3 now = t.localPosition;
 
                 AnimationClip back = moveto(now, mycarddeap.position);
+#if UNITY_5
                 t.GetComponent<Animation>().AddClip(back, "back");
 
                 //让转倒播
@@ -175,6 +189,17 @@ namespace SDK.Lib
                 t.GetComponent<Animation>().Play("cardxuanzhuan");
                 //混合播
                 t.GetComponent<Animation>().Blend("back", 60);
+#elif UNITY_4_6
+                t.animation.AddClip(back, "back");
+
+                //让转倒播
+                t.animation["cardxuanzhuan"].speed = -1;
+                t.animation["cardxuanzhuan"].time = 1;
+
+                t.animation.Play("cardxuanzhuan");
+                //混合播
+                t.animation.Blend("back", 60);
+#endif
 
                 yield return new WaitForSeconds(0.5f);
 
@@ -182,10 +207,17 @@ namespace SDK.Lib
                 //实例一张
                 Transform c = newcard();
                 c.parent = dzban;
+#if UNITY_5
                 c.GetComponent<Animation>().AddClip(come, "come");
                 //倒播
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
                 c.GetComponent<Animation>().Blend("come", 60);
+#elif UNITY_4_6
+                c.animation.AddClip(come, "come");
+                //倒播
+                c.animation.Play("cardxuanzhuan");
+                c.animation.Blend("come", 60);
+#endif
                 yield return new WaitForSeconds(0.5f);
                 UtilApi.Destroy(t.gameObject);
             }

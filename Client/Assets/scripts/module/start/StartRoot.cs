@@ -103,7 +103,7 @@ namespace SDK.Lib
 #if UNITY_5
                 // Unity5
                 Object bt = assetBundle.LoadAsset(m_appName);
-#elif UNITY_4
+#elif UNITY_4_6
                 // Unity4
                 Object bt = assetBundle.Load(m_appName);
 #endif
@@ -127,7 +127,7 @@ namespace SDK.Lib
 #if UNITY_5
             // Unity5
             Object bt = bundle.LoadAsset(m_appName);
-#elif UNITY_4
+#elif UNITY_4_6
             // Unity4
             Object bt = bundle.Load(m_appName);
 #endif

@@ -25,8 +25,10 @@ namespace SDK.Common
         private MMutex m_writeMutex = new MMutex(false, "WriteMutex");   // 写互斥
 
 #if MSG_ENCRIPT
-        protected bool m_bStartCrypt = false;      // 当前是否需要加密解密
+        protected CryptAlgorithm m_cryptAlgorithm = CryptAlgorithm.RC5;      // 当前是否需要加密解密
         protected byte[] m_cryptKey;            // 秘钥
+
+        protected CryptKeyBase[] m_cryptKeyArr = new CryptKeyBase[(int)CryptAlgorithm.eTotal];
 #endif
 
         public DataBuffer()
@@ -40,6 +42,12 @@ namespace SDK.Common
             m_unCompressHeaderBA = new ByteArray();
             m_sendData = new ByteArray();
             m_tmpData = new ByteArray();
+
+#if MSG_ENCRIPT
+            m_cryptKeyArr[(int)CryptAlgorithm.RC5] = new RC5_32_KEY();
+            m_cryptKeyArr[(int)CryptAlgorithm.DES] = new DES_key_schedule();
+            RC5.RC5_32_set_key(m_cryptKeyArr[(int)CryptAlgorithm.RC5] as RC5_32_KEY, 16, Crypt.RC5_KEY, RC5.RC5_16_ROUNDS);     // 生成秘钥
+#endif
         }
 
         public DynamicBuffer dynBuff
@@ -75,18 +83,19 @@ namespace SDK.Common
         }
 
 #if MSG_ENCRIPT
-        public bool bStartCrypt
+        public CryptAlgorithm cryptAlgorithm
         {
             set
             {
-                m_bStartCrypt = value;
+                m_cryptAlgorithm = value;
             }
         }
 
         public void setCryptKey(byte[] encrypt)
         {
-            bStartCrypt = true;
+            cryptAlgorithm = CryptAlgorithm.DES;
             m_cryptKey = encrypt;
+            Dec.DES_set_key_unchecked(m_cryptKey, m_cryptKeyArr[(int)CryptAlgorithm.DES] as DES_key_schedule);
         }
 #endif
 
@@ -198,16 +207,13 @@ namespace SDK.Common
                 }
 #endif
 #if MSG_ENCRIPT
-                if (m_bStartCrypt)
+                m_socketSendBA.position -= compressMsgLen;      // 移动加密指针位置
+                cryptLen = m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], compressMsgLen, m_cryptAlgorithm);
+                if (compressMsgLen != cryptLen)
                 {
-                    m_socketSendBA.position -= compressMsgLen;      // 移动加密指针位置
-                    cryptLen = m_socketSendBA.encrypt(m_cryptKey, compressMsgLen);
-                    if (compressMsgLen != cryptLen)
-                    {
-                        bHeaderChange = true;
-                    }
-                    compressMsgLen = cryptLen;
+                    bHeaderChange = true;
                 }
+                compressMsgLen = cryptLen;
 #endif
 
                 // 加密如果系统补齐字节，长度可能会变成 8 字节的证书倍，因此需要等加密完成后再写入长度
@@ -248,11 +254,9 @@ namespace SDK.Common
                 compressMsgLen = origMsgLen;
                 m_socketSendBA.position += origMsgLen;
             }
-            if (m_bStartCrypt)
-            {
-                m_socketSendBA.position -= compressMsgLen;
-                compressMsgLen = m_socketSendBA.encrypt(m_cryptKey);
-            }
+
+            m_socketSendBA.position -= compressMsgLen;
+            compressMsgLen = m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
 #endif
 
 #if MSG_COMPRESS || MSG_ENCRIPT             // 如果压缩或者加密，需要再次添加压缩或者加密后的头长度
@@ -274,10 +278,7 @@ namespace SDK.Common
         protected void UnCompressAndDecryptEveryOne()
         {
 #if MSG_ENCRIPT
-            if (m_bStartCrypt)
-            {
-                m_rawBuffer.retBA.decrypt(m_cryptKey);
-            }
+            m_rawBuffer.retBA.decrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
 #endif
 #if MSG_COMPRESS
             m_rawBuffer.headerBA.setPos(0);
@@ -302,10 +303,7 @@ namespace SDK.Common
         protected void UnCompressAndDecryptAllInOne()
         {
 #if MSG_ENCRIPT
-            if (m_bStartCrypt)
-            {
-                m_rawBuffer.retBA.decrypt(m_cryptKey);
-            }
+            m_rawBuffer.retBA.decrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
 #endif
 #if MSG_COMPRESS
             m_rawBuffer.headerBA.setPos(0);
