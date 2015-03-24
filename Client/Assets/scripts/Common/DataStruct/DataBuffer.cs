@@ -162,12 +162,10 @@ namespace SDK.Common
         {
             m_socketSendBA.clear();
 
-            // 这个操作不改变 m_sendTmpBA 内部数据，因此不用加锁
-            m_socketSendBA.writeBytes(m_sendTmpBA.dynBuff.buff, 0, (uint)m_sendTmpBA.length);
-
             // 获取完数据，就解锁
             using (MLock mlock = new MLock(m_writeMutex))
             {
+                m_socketSendBA.writeBytes(m_sendTmpBA.dynBuff.buff, 0, (uint)m_sendTmpBA.length);
                 m_sendTmpBA.clear();
             }
 
@@ -227,11 +225,9 @@ namespace SDK.Common
 #endif
                 if(bHeaderChange)
                 {
-                    totalLen = m_socketSendBA.length;                       // 保存长度
                     m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
-                    m_socketSendBA.writeUnsignedInt(origMsgLen);            // 写入压缩或者加密后的消息长度
+                    m_socketSendBA.writeUnsignedInt(origMsgLen, false);            // 写入压缩或者加密后的消息长度
                     m_socketSendBA.position += compressMsgLen;              // 移动到下一个位置
-                    m_socketSendBA.length = totalLen;                       // 回复长度
                 }
             }
         }
@@ -282,6 +278,7 @@ namespace SDK.Common
 #endif
 #if MSG_COMPRESS
             m_rawBuffer.headerBA.setPos(0);
+            m_rawBuffer.retBA.setPos(0);
             uint msglen = m_rawBuffer.headerBA.readUnsignedInt();
             if ((msglen & DataCV.PACKET_ZIP) > 0)
             {

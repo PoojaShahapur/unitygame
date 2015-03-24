@@ -30,10 +30,10 @@ namespace SDK.Common
         void writeShort(short value);
         void writeUnsignedShort(ushort value);
 		void writeInt(int value);
-        void writeUnsignedInt(uint value);
+        void writeUnsignedInt(uint value, bool bchangeLen = true);
         void writeUnsignedLong(ulong value);
         void writeMultiByte(string value, Encoding charSet, int len);
-        void writeBytes(byte[] value, uint start, uint length);
+        void writeBytes(byte[] value, uint start, uint length, bool bchangeLen = true);
 
         void setPos(uint pos);
         uint getPos();

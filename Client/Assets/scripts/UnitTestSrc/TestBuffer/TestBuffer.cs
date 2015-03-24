@@ -1,4 +1,4 @@
-using SDK.Common;
+ï»¿using SDK.Common;
 using SDK.Lib;
 
 namespace UnitTestSrc
@@ -7,36 +7,53 @@ namespace UnitTestSrc
     {
         public void run()
         {
+            testMsgBuffer();
+            //testBA();
+        }
+
+        protected void testMsgBuffer()
+        {
             DataBuffer pDataBuffer = new DataBuffer();
             UnitTestCmd pUnitTestCmd = new UnitTestCmd();
 
-            // ·¢ËÍµÚÒ»¸öÊı¾İ°ü
-            pUnitTestCmd.testStr = "²âÊÔÊı¾İ";
+            // å‘é€ç¬¬ä¸€ä¸ªæ•°æ®åŒ…
+            pUnitTestCmd.testStr = "æµ‹è¯•æ•°æ®";
             pDataBuffer.sendData.clear();
             pUnitTestCmd.serialize(pDataBuffer.sendData);
+            //pDataBuffer.sendData.position = 0;
+            //pUnitTestCmd.derialize(pDataBuffer.sendData);
             pDataBuffer.send();
 
-            // ·¢ËÍµÚ¶ş¸öÊı¾İ°ü
-            pUnitTestCmd.testStr = "³É¹¦·µ»Ø";
+            // å‘é€ç¬¬äºŒä¸ªæ•°æ®åŒ…
+            pUnitTestCmd.testStr = "æˆåŠŸè¿”å›";
             pDataBuffer.sendData.clear();
             pUnitTestCmd.serialize(pDataBuffer.sendData);
             pDataBuffer.send();
 
             pDataBuffer.getSendData();
 
-            pDataBuffer.rawBuffer.pushBackBA(pDataBuffer.sendBuffer);         // Ö±½Ó·Åµ½½ÓÊÕÔ­Ê¼ÏûÏ¢»º³åÇø
+            pDataBuffer.rawBuffer.pushBackBA(pDataBuffer.sendBuffer);         // ç›´æ¥æ”¾åˆ°æ¥æ”¶åŸå§‹æ¶ˆæ¯ç¼“å†²åŒº
             pDataBuffer.moveRaw2Msg();
 
             ByteArray ba;
             ba = pDataBuffer.getMsg();
             UAssert.DebugAssert(ba != null);
             pUnitTestCmd.derialize(ba);
-            UAssert.DebugAssert(pUnitTestCmd.testStr != "²âÊÔÊı¾İ");
+            UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "æµ‹è¯•æ•°æ®");
 
             ba = pDataBuffer.getMsg();
             UAssert.DebugAssert(ba != null);
             pUnitTestCmd.derialize(ba);
-            UAssert.DebugAssert(pUnitTestCmd.testStr != "³É¹¦·µ»Ø");
+            UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "æˆåŠŸè¿”å›");
+        }
+
+        protected void testBA()
+        {
+            string str = "æµ‹è¯•æ•°æ®";
+            ByteArray ba = new ByteArray();
+            ba.writeMultiByte(str, GkEncode.UTF8, 24);
+            ba.position = 0;
+            string ret = ba.readMultiByte(24, GkEncode.UTF8);
         }
     }
 }

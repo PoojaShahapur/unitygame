@@ -206,7 +206,7 @@ namespace SDK.Common
                 Crypt.encryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
-            writeBytes(retByte, 0, (uint)retByte.Length);
+            writeBytes(retByte, 0, (uint)retByte.Length, false);
 
             if(leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
             {
@@ -228,7 +228,7 @@ namespace SDK.Common
                 Crypt.decryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
             }
 
-            writeBytes(retByte, 0, (uint)retByte.Length);
+            writeBytes(retByte, 0, (uint)retByte.Length, false);
 
             if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
             {
@@ -537,7 +537,7 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eINT);
         }
 
-		public void writeUnsignedInt (uint value)
+		public void writeUnsignedInt (uint value, bool bchangeLen = true)
         {
             if (!canWrite((int)TypeBytes.eINT))
             {
@@ -551,7 +551,14 @@ namespace SDK.Common
             }
             Array.Copy(m_intByte, 0, m_dynBuff.buff, m_position, (int)TypeBytes.eINT);
 
-            advPosAndLen((int)TypeBytes.eINT);
+            if (bchangeLen)
+            {
+                advPosAndLen((int)TypeBytes.eINT);
+            }
+            else
+            {
+                advPos((int)TypeBytes.eINT);
+            }
         }
 
         public void writeUnsignedLong(ulong value)
@@ -571,8 +578,8 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eLONG);
         }
 
-        // 写入字节
-        public void writeBytes(byte[] value, uint start, uint len)
+        // 写入字节， bchangeLen 是否改变长度
+        public void writeBytes(byte[] value, uint start, uint len, bool bchangeLen = true)
         {
             if (len > 0)            // 如果有长度才写入
             {
@@ -581,7 +588,14 @@ namespace SDK.Common
                     extendDeltaCapicity(len);
                 }
                 Array.Copy(value, start, m_dynBuff.buff, m_position, len);
-                advPosAndLen(len);
+                if (bchangeLen)
+                {
+                    advPosAndLen(len);
+                }
+                else
+                {
+                    advPos(len);
+                }
             }
         }
 
@@ -592,8 +606,8 @@ namespace SDK.Common
 
             if (null != value)
             {
-                char[] charPtr = value.ToCharArray();
-                num = charSet.GetByteCount(charPtr);
+                //char[] charPtr = value.ToCharArray();
+                num = charSet.GetByteCount(value);
 
                 if (0 == len)
                 {
@@ -607,11 +621,11 @@ namespace SDK.Common
 
                 if (num <= len)
                 {
-                    Array.Copy(charSet.GetBytes(charPtr), 0, m_dynBuff.buff, m_position, num);
+                    Array.Copy(charSet.GetBytes(value), 0, m_dynBuff.buff, m_position, num);
                 }
                 else
                 {
-                    Array.Copy(charSet.GetBytes(charPtr), 0, m_dynBuff.buff, m_position, len);
+                    Array.Copy(charSet.GetBytes(value), 0, m_dynBuff.buff, m_position, len);
                 }
                 advPosAndLen((uint)len);
             }
@@ -635,7 +649,7 @@ namespace SDK.Common
             length = destStartPos + srclen_ + lastLeft;      // 设置大小，保证足够大小空间
 
             position = destStartPos + srclen_;
-            writeBytes(m_dynBuff.buff, destStartPos + destlen_, lastLeft);          // 这个地方自己区域覆盖自己区域，函数是不是能保证覆盖拷贝，经测试可以保证自己不覆盖自己区域
+            writeBytes(m_dynBuff.buff, destStartPos + destlen_, lastLeft);          // 这个地方自己区域覆盖自己区域，可以保证自己不覆盖自己区域
 
             position = destStartPos;
             writeBytes(srcBytes, srcStartPos, srclen_);
