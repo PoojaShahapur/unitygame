@@ -1,8 +1,6 @@
 #ifndef _MY_DES_H
 #define _MY_DES_H
 
-#include "stdio.h"
-
 #include <stdlib.h>
 #define DES_ENCRYPT 1
 #define DES_DECRYPT 0
@@ -21,14 +19,14 @@ typedef struct DES_ks
 		DES_LONG deslong[2];
 	} ks[16];
 } DES_key_schedule;
-extern const DES_LONG(*sp)[8][64];
+extern const DES_LONG (*sp)[8][64];
 
 #define	ROTATE(a,n)	(((a)>>(int)(n))|((a)<<(32-(int)(n))))
 #define DES_KEY_SZ 	(sizeof(DES_cblock))
 
 #define LOAD_DATA(R,S,u,t,E0,E1,tmp) \
 u=R^s[S  ]; \
-	t=R^s[S+1];
+	t=R^s[S+1]
 #define LOAD_DATA_tmp(a,b,c,d,e,f) LOAD_DATA(a,b,c,d,e,f,g)
 
 #define D_ENCRYPT(LL,R,S) {\
