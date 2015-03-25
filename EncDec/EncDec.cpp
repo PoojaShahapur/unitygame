@@ -3,8 +3,8 @@
 
 CEncrypt::CEncrypt()
 {
-  bzero(&key_des,sizeof(key_des));
-  bzero(&key_rc5,sizeof(key_rc5));
+  memset(&key_des, 0, sizeof(key_des));
+  memset(&key_rc5, 0, sizeof(key_rc5));
   haveKey_des = false;
   haveKey_rc5 = false;
   method = ENCDEC_NONE;
