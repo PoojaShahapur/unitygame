@@ -20,23 +20,18 @@ namespace SDK.Common
 
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引
-
-        protected ByteArray m_headerBA;     // 主要是用来分析头的大小
-        protected ByteArray m_retBA;        // 返回的字节数组
         protected ByteArray m_tmpBA;        // 临时数据
 
-        public CirculeBuffer()
+        public CirculeBuffer(uint initCapacity = 1 * 1024, uint maxCapacity = 8 * 1024 * 1024)
         {
-            m_iMaxCapacity = 8 * 1024 * 1024;      // 最大允许分配 8 M
-            m_iCapacity = 1 * 1024;               // 默认分配 1 K
+            m_iMaxCapacity = maxCapacity;       // 最大允许分配 8 M
+            m_iCapacity = initCapacity;                 // 默认分配 1 K
             m_size = 0;
             m_buff = new byte[m_iCapacity];
 
             m_first = 0;
             m_last = 0;
 
-            m_headerBA = new ByteArray();
-            m_retBA = new ByteArray();
             m_tmpBA = new ByteArray();
         }
 
@@ -78,22 +73,6 @@ namespace SDK.Common
         public bool full()
         { 
             return capacity() == size;
-        }
-
-        public ByteArray headerBA
-        {
-            get
-            {
-                return m_headerBA;
-            }
-        }
-
-        public ByteArray retBA
-        {
-            get
-            {
-                return m_retBA;
-            }
         }
 
         public uint first
@@ -258,14 +237,14 @@ namespace SDK.Common
         /**
          * @brief 从 CB 中读取内容，并且将数据删除
          */
-        protected void popFrontBA(ByteArray bytearray, uint len)
+        public void popFrontBA(ByteArray bytearray, uint len)
         {
             frontBA(bytearray, len);
             popFrontLen(len);
         }
 
         // 仅仅是获取数据，并不删除
-        protected void frontBA(ByteArray bytearray, uint len)
+        public void frontBA(ByteArray bytearray, uint len)
         {
             bytearray.clear();          // 设置数据为初始值
             if (m_size >= len)          // 头部占据 4 个字节
@@ -291,7 +270,7 @@ namespace SDK.Common
         /**
          * @brief 从 CB 头部删除数据
          */
-        protected void popFrontLen(uint len)
+        public void popFrontLen(uint len)
         {
             if (isLinearized())  // 在一段连续的内存
             {
@@ -307,62 +286,6 @@ namespace SDK.Common
             }
 
             m_size -= len;
-        }
-
-        /**
-         *@brief 获取前面的第一个完整的消息数据块
-         */
-        public bool popFront()
-        {
-            bool ret = false;
-            if (m_size > DataCV.HEADER_SIZE)         // 至少要是 DataCV.HEADER_SIZE 大小加 1 ，如果正好是 DataCV.HEADER_SIZE ，那只能说是只有大小字段，没有内容
-            {
-                frontBA(m_headerBA, DataCV.HEADER_SIZE);  // 如果不够整个消息的长度，还是不能去掉消息头的
-                uint msglen = m_headerBA.readUnsignedInt();
-#if MSG_COMPRESS
-                if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
-                {
-                    msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
-                }
-#endif
-
-                if (msglen <= m_size - DataCV.HEADER_SIZE)
-                {
-                    popFrontLen(DataCV.HEADER_SIZE);
-                    popFrontBA(m_retBA, msglen);
-                    ret = true;
-                }
-            }
-
-            if(empty())     // 如果已经清空，就直接重置
-            {
-                clear();    // 读写指针从头开始，方式写入需要写入两部分
-            }
-
-            return ret;
-        }
-
-        /**
-         * @brief 检查 CB 中是否有一个完整的消息
-         */
-        protected bool checkHasMsg()
-        {
-            frontBA(m_headerBA, DataCV.HEADER_SIZE);  // 将数据读取到 m_headerBA
-            uint msglen = m_headerBA.readUnsignedInt();
-#if MSG_COMPRESS
-            if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
-            {
-                msglen |= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
-            }
-#endif
-            if (msglen <= m_size - DataCV.HEADER_SIZE)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         // 向自己尾部添加一个 CirculeBuffer 

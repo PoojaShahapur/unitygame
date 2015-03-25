@@ -8,7 +8,7 @@ namespace UnitTestSrc
 
         public void run()
         {
-            m_pUnitTestBuffer.run();
+            //m_pUnitTestBuffer.run();
             m_pTestZip.run();
             m_pTestEncrypt.run();
         }

@@ -30,3 +30,6 @@
 
 // 单元测试
 //#define UNIT_TEST_SRC
+
+// 外网测试
+//#define KOKSERVER_TEST

@@ -196,24 +196,46 @@ namespace SDK.Common
         // 加密，使用 des 对称数字加密算法，加密8字节补齐，可能会导致变长
         public uint encrypt(CryptKeyBase cryptKey, uint len_ = 0, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
         {
+#if OBSOLETE
             len_ = (len_ == 0 ? length : len_);
 
             byte[] retByte = null;
             // 只有 8 个字节的时候才加密
             uint leftCnt = len_ % 8;  // 剩余的数量
+            uint cryptCnt = leftCnt;
+
             if (len_ >= 8)
             {
                 Crypt.encryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                writeBytes(retByte, 0, (uint)retByte.Length, false);
+                cryptCnt += (uint)retByte.Length;
             }
 
-            writeBytes(retByte, 0, (uint)retByte.Length, false);
-
-            if(leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
+            if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
             {
                 position += leftCnt;
             }
 
-            return (uint)(retByte.Length + leftCnt);
+            return cryptCnt;
+#endif
+            len_ = (len_ == 0 ? length : len_);
+            uint alignLen_ = ((len_ + 7) / 8) * 8; // 补齐 8 个字节，因为加密是 8 个字节一次加密，只要是 8 个字节的整数倍，无论多少个都可以任意解压
+            if (len_ == 0)      // 修正之后还等于 0 
+            {
+                return 0;
+            }
+
+            if (alignLen_ > m_dynBuff.capacity)   // 如果最后加密(由于补齐)的长度大于原始长度
+            {
+                length = alignLen_;
+            }
+
+            byte[] retByte = null;
+
+            Crypt.encryptData(m_dynBuff.buff, position, alignLen_, ref retByte, cryptKey);  // 注意补齐不一定是 0 
+            replace(retByte, 0, alignLen_, position, len_);
+
+            return alignLen_;
         }
 
         // 解密
@@ -223,12 +245,12 @@ namespace SDK.Common
 
             byte[] retByte = null;
             uint leftCnt = len_ % 8;  // 剩余的数量
+
             if (len_ >= 8)
             {
                 Crypt.decryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                writeBytes(retByte, 0, (uint)retByte.Length, false);
             }
-
-            writeBytes(retByte, 0, (uint)retByte.Length, false);
 
             if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
             {
@@ -649,12 +671,14 @@ namespace SDK.Common
             length = destStartPos + srclen_ + lastLeft;      // 设置大小，保证足够大小空间
 
             position = destStartPos + srclen_;
-            writeBytes(m_dynBuff.buff, destStartPos + destlen_, lastLeft);          // 这个地方自己区域覆盖自己区域，可以保证自己不覆盖自己区域
+            if (lastLeft > 0)
+            {
+                writeBytes(m_dynBuff.buff, destStartPos + destlen_, lastLeft, false);          // 这个地方自己区域覆盖自己区域，可以保证自己不覆盖自己区域
+            }
 
             position = destStartPos;
             writeBytes(srcBytes, srcStartPos, srclen_);
 
-            length = destStartPos + srclen_ + lastLeft;      // 设置大小，保证足够大小空间
             position = curPos + srclen_;
         }
 

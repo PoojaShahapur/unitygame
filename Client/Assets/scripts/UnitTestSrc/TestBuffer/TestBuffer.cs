@@ -32,7 +32,7 @@ namespace UnitTestSrc
 
             pDataBuffer.getSendData();
 
-            pDataBuffer.rawBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
             pDataBuffer.moveRaw2Msg();
 
             ByteArray ba;
@@ -40,6 +40,11 @@ namespace UnitTestSrc
             UAssert.DebugAssert(ba != null);
             pUnitTestCmd.derialize(ba);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "测试数据");
+
+            pDataBuffer.getSendData();
+
+            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+            pDataBuffer.moveRaw2Msg();
 
             ba = pDataBuffer.getMsg();
             UAssert.DebugAssert(ba != null);

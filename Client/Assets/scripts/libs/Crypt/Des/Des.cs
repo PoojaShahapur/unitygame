@@ -1,11 +1,8 @@
 ﻿using System;
 using UnityEngine;
+
 namespace SDK.Lib
 {
-    // typedef unsigned char DES_cblock[8];
-    // typedef /* const */ unsigned char const_DES_cblock[8];
-    // #define DES_LONG unsigned long
-
     public class UnionCls
     {
         public ulong[] deslong;         //  2

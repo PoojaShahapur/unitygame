@@ -53,7 +53,9 @@ namespace Game.Login
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
 
             stUserVerifyVerCmd cmdVerify = new stUserVerifyVerCmd();
-            //cmdVerify.version = 2015031201;
+#if KOKSERVER_TEST
+            cmdVerify.version = 2015031801;
+#endif
             UtilMsg.sendMsg(cmdVerify);
 
             stRequestClientIP cmdReqIP = new stRequestClientIP();
@@ -91,9 +93,16 @@ namespace Game.Login
             //cmd.pstrPassword = "1";
             cmd.pstrName = m_name;
             cmd.pstrPassword = m_passwd;
+#if KOKSERVER_TEST
+            cmd.pstrName = "fayatudou615";
+            cmd.pstrPassword = "mjw0505";
+#endif
             cmd.game = 10;
+#if !KOKSERVER_TEST
             cmd.zone = 30;
-            //cmd.zone = 31;
+#else
+            cmd.zone = 31;
+#endif
             UtilMsg.sendMsg(cmd);
         }
 
