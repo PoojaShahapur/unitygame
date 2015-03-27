@@ -8,7 +8,7 @@ namespace Game.Login
     /**
      * @brief 登陆流程处理
      */
-    public class LoginFlowHandle : ILoginFlowHandle
+    public class LoginFlowHandle
     {
         protected string m_gateIP;
         protected ushort m_gatePort;

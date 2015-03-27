@@ -11,7 +11,7 @@ namespace Game.Login
     {
         static public LoginSys m_instance;
         public Ctx m_ctx;
-        public ILoginFlowHandle m_loginFlowHandle;       // 整个登陆流程处理
+        public LoginFlowHandle m_loginFlowHandle;       // 整个登陆流程处理
 
         public void Start()
         {
