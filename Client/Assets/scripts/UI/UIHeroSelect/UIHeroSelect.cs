@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    public class UIHeroSelect : Form, IUIHeroSelect
+    public class UIHeroSelect : Form
     {
         protected bool m_bLogined = false;      // 是否登陆过
 

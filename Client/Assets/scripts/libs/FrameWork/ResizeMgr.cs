@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    public class ResizeMgr : IResizeMgr
+    public class ResizeMgr
     {
         protected List<IResizeObject> m_ResizeLst = new List<IResizeObject>();
 

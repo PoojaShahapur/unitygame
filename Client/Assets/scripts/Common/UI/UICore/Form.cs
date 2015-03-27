@@ -5,7 +5,7 @@ namespace SDK.Common
 	/**
 	 * @brief 支持拖动，支持深度排序
 	 */
-	public class Form : Window, IForm
+	public class Form : Window
 	{
         protected bool m_exitMode = true;               // 关闭退出模式
 		protected bool m_bHideOnCreate = false;         // 创建后是否隐藏

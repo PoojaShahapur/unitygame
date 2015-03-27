@@ -88,7 +88,7 @@ namespace SDK.Common
         {
             if (state)
             {
-                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneTips) as UISceneTips;
+                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneTips>(UISceneFormID.eUISceneTips) as UISceneTips;
                 tips.showTips(Ctx.m_instance.m_coordConv.getCurTouchScenePos(), m_data);
             }
             else

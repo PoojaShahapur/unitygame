@@ -12,11 +12,11 @@ namespace SDK.Common
      * // 添加一个表的步骤三
      * // 添加一个表的步骤四
      */
-    public class TableSys : ITableSys
+    public class TableSys
 	{
         private Dictionary<TableID, TableBase> m_dicTable;
 		private IResItem m_res;
-        private IByteArray m_byteArray;
+        private ByteArray m_byteArray;
 
 		public TableSys()
 		{
@@ -136,7 +136,7 @@ namespace SDK.Common
 		}
 
         // 读取一个表，仅仅读取表头
-        private void readTable(TableID tableID, IByteArray bytes)
+        private void readTable(TableID tableID, ByteArray bytes)
         {
             TableBase table = m_dicTable[tableID];
             table.m_byteArray = bytes;

@@ -10,7 +10,7 @@
         public string m_effect;             // 效果
         public string m_desc;               // 说明
 
-        override public void parseBodyByteArray(IByteArray bytes, uint offset)
+        override public void parseBodyByteArray(ByteArray bytes, uint offset)
         {
             (bytes as ByteArray).position = offset;
             m_name = UtilTable.readString(bytes as ByteArray);

@@ -119,6 +119,12 @@ namespace SDK.Lib
 			return (((a) >> (int)(n)) | (((uint)a) << (32 - (int)(n))));
 		}
 
+        //public static ulong ROTATE_LEFT(ulong x, int n) 
+        public static uint ROTATE_LEFT(uint x, int n)
+        {
+            return (((x) << (int)(n)) | (((uint)x) >> (32 - (int)(n))));
+        }
+
         public static void IP(ref ulong l, ref ulong r)
         {
 	        ulong tt = 0;

@@ -18,7 +18,7 @@ namespace BehaviorLibrary
     /// <summary>
     /// @brief 行为树只处理结构，没有实例数据，共享同一个行为树
     /// </summary>
-    public class BehaviorTree : IBehaviorTree
+    public class BehaviorTree
     {
 		private BehaviorComponent _Root;
         private BehaviorReturnCode _ReturnCode;

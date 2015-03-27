@@ -11,7 +11,7 @@ namespace Game.UI
     /**
      * @brief 登陆界面
      */
-    public class UILogin : Form, IUILogin
+    public class UILogin : Form
     {
         protected bool m_bLogined = false;      // 是否登陆过
 

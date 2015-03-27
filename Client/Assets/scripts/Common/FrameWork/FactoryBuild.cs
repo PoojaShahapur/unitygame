@@ -1,8 +1,8 @@
 ﻿namespace SDK.Common
 {
-    public class FactoryBuild : IFactoryBuild
+    public class FactoryBuild
     {
-        public IByteArray buildByteArray()
+        public ByteArray buildByteArray()
         {
             return new ByteArray();
         }

@@ -10,7 +10,7 @@
         public ushort x;
         public ushort y;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             dwLocation = ba.readUnsignedInt();
             dwTableID = ba.readUnsignedInt();
@@ -18,7 +18,7 @@
             y = ba.readUnsignedShort();
         }
 
-        public void serialize(IByteArray ba)
+        public void serialize(ByteArray ba)
         {
             ba.writeUnsignedInt(dwLocation);
             ba.writeUnsignedInt(dwTableID);

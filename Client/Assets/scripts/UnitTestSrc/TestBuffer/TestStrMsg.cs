@@ -1,13 +1,16 @@
 using SDK.Common;
+using Game.Msg;
 
-namespace Game.Msg
+namespace UnitTestSrc
 {
-    public class stUserVerifyVerCmd : stLogonUserCmd
-	{
+    public class UnitTestStrCmd : stLogonUserCmd
+    {
         public uint reserve;
         public uint version;
 
-        public stUserVerifyVerCmd()
+        public string testStr = "Õâ¸öÊÇ²âÊÔÊı¾İ°ü¼ÓÃÜºÍ½âÃÜÊ¹ÓÃµÄ¹¤¾ß";
+
+        public UnitTestStrCmd()
         {
             byParam = USER_VERIFY_VER_PARA;
             version = (int)CVMsg.GAME_VERSION;
@@ -19,6 +22,8 @@ namespace Game.Msg
             base.serialize(ba);
             ba.writeUnsignedInt(reserve);
             ba.writeUnsignedInt(version);
+
+            ba.writeMultiByte(testStr, GkEncode.UTF8, 100);
         }
 
         public override void derialize(ByteArray ba)
@@ -26,21 +31,8 @@ namespace Game.Msg
             base.derialize(ba);
             reserve = ba.readUnsignedInt();
             version = ba.readUnsignedInt();
-        }
-	}
-}
 
-/// å®¢æˆ·ç«¯éªŒè¯ç‰ˆæœ¬
-//const BYTE USER_VERIFY_VER_PARA = 120;
-//const DWORD GAME_VERSION = 1999;
-//struct stUserVerifyVerCmd  : public stLogonUserCmd
-//{
-//    stUserVerifyVerCmd()
-//    {
-//        byParam = USER_VERIFY_VER_PARA;
-//        version = GAME_VERSION;
-//        reserve = 0;
-//    }
-//    DWORD reserve;
-//    DWORD version;
-//};
+            testStr = ba.readMultiByte(100, GkEncode.UTF8);
+        }
+    }
+}

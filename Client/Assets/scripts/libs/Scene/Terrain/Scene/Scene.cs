@@ -3,7 +3,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class Scene : IScene
+    public class Scene
     {
         protected SceneCfg m_sceneCfg;
         protected string m_file;

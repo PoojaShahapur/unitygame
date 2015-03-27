@@ -11,12 +11,12 @@ namespace Game.Game
         }
 
         // 如果要调试，可以重载，方便调试
-        //public override void handleMsg(IByteArray ba, byte byCmd, byte byParam)
+        //public override void handleMsg(ByteArray ba, byte byCmd, byte byParam)
         //{
         //
         //}
 
-        protected void psstMainUserDataUserCmd(IByteArray msg)
+        protected void psstMainUserDataUserCmd(ByteArray msg)
         {
             stMainUserDataUserCmd cmd = new stMainUserDataUserCmd();
             cmd.derialize(msg);

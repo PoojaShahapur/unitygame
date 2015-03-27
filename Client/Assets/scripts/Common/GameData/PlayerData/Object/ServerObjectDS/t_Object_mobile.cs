@@ -12,7 +12,7 @@ namespace SDK.Common
         public stObjectLocation pos;
         public uint dwNum;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             dwThisID = ba.readUnsignedInt();
             dwObjectID = ba.readUnsignedInt();

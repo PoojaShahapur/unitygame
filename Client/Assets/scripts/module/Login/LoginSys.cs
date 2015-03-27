@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using SDK.Common;
 using Game.UI;
+using SDK.Lib;
 
 namespace Game.Login
 {
@@ -25,8 +26,6 @@ namespace Game.Login
             AppRoot approot = nodestroy.GetComponent<AppRoot>();
             LoginSys.m_instance.m_ctx = approot.getCtx();
 
-            // 场景逻辑处理逻辑
-            LoginSys.m_instance.m_ctx.m_uiMgr.SetIUIFactory(new LoginUIFactory());
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new LoginUIEventCB();
             Ctx.m_instance.m_netHandle = new LoginNetHandleCB();
@@ -38,11 +37,11 @@ namespace Game.Login
             Ctx.m_instance.m_sceneSys.loadScene("login", onResLoadScene);
         }
 
-        public void onResLoadScene(IScene scene)
+        public void onResLoadScene(Scene scene)
         {
             Ctx.m_instance.m_log.log("加载场景");
             // 加载登陆界面
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UILogin);
+            Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.UILogin);
         }
     }
 }

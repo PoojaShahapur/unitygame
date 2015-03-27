@@ -10,7 +10,7 @@ namespace Game.UI
     /**
      * @brief 扩展包
      */
-    public class UISceneWDSC : SceneForm, IUISceneWDSC
+    public class UISceneWDSC : SceneForm
     {
         protected SceneWDSCData m_sceneWDSCData = new SceneWDSCData();
 
@@ -148,12 +148,12 @@ namespace Game.UI
 
         protected void onBtnClkAddTaoPai(GameObject go)
         {
-            IUISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as IUISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
             if (uiMS == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneMoShi);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
             }
-            uiMS = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneMoShi) as IUISceneMoShi;
+            uiMS = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
             uiMS.AddNewTaoPai();
         }
 
@@ -227,7 +227,7 @@ namespace Game.UI
             //m_curEditCardInfo.clear();
             //m_curEditCardInfo.index = cardGroup.m_cardGroup.index;
 
-            IUISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as IUISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
             if (uiMS != null)
             {
                 newcardset(cardGroup);

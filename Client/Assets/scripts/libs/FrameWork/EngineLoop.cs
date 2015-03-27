@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 主循环
      */
-    public class EngineLoop : IEngineLoop
+    public class EngineLoop
     {
         public void MainLoop()
         {

@@ -122,7 +122,7 @@ namespace Game.UI
         {
             if(state)
             {
-                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneTips) as UISceneTips;
+                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneTips>(UISceneFormID.eUISceneTips) as UISceneTips;
                 tips.showTips(Ctx.m_instance.m_coordConv.getCurTouchScenePos(), string.Format("当前剩余{0}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_leftCardNum));
             }
             else
@@ -135,7 +135,7 @@ namespace Game.UI
         {
             if (state)
             {
-                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneTips) as UISceneTips;
+                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneTips>(UISceneFormID.eUISceneTips) as UISceneTips;
                 tips.showTips(Ctx.m_instance.m_coordConv.getCurTouchScenePos(), string.Format("当前剩余{0}", Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_leftCardNum));
             }
             else

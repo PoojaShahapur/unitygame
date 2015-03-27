@@ -5,9 +5,9 @@ namespace SDK.Common
 {
     public class NetCmdHandleBase
     {
-        public Dictionary<int, Action<IByteArray>> m_id2HandleDic = new Dictionary<int, Action<IByteArray>>();
+        public Dictionary<int, Action<ByteArray>> m_id2HandleDic = new Dictionary<int, Action<ByteArray>>();
 
-        public virtual void handleMsg(IByteArray ba, byte byCmd, byte byParam)
+        public virtual void handleMsg(ByteArray ba, byte byCmd, byte byParam)
         {
             if(m_id2HandleDic.ContainsKey(byParam))
             {

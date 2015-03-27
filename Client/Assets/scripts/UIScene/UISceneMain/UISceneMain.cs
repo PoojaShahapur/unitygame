@@ -69,12 +69,12 @@ namespace Game.UI
             stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
             UtilMsg.sendMsg(cmd);
 
-            IUISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneShop) as IUISceneShop;
+            UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneShop) as UISceneShop;
             if (uiShop == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneShop);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneShop>(UISceneFormID.eUISceneShop);
             }
-            uiShop = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneShop) as IUISceneShop;
+            uiShop = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneShop) as UISceneShop;
 
             // 显示内容
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("shop") as shop).show();
@@ -85,12 +85,12 @@ namespace Game.UI
         {
             //Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
 
-            IUISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneExtPack) as IUISceneExtPack;
+            UISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneExtPack) as UISceneExtPack;
             if (uiPack == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneExtPack);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneExtPack>(UISceneFormID.eUISceneExtPack);
             }
-            uiPack = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneExtPack) as IUISceneExtPack;
+            uiPack = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneExtPack) as UISceneExtPack;
 
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("open") as open).show();
             uiPack.showUI();
@@ -100,12 +100,12 @@ namespace Game.UI
         {
             //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
 
-            IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
             if (uiSC == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneWDSC);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             }
-            uiSC = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+            uiSC = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
 
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("wdscjm") as wdscjm).show();
             uiSC.showUI();
@@ -115,7 +115,7 @@ namespace Game.UI
         {
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
             //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
-            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneMoShi);
+            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
         }
 
         protected void onBtnClkHero(GameObject go)
@@ -123,7 +123,7 @@ namespace Game.UI
             UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneHero) as UISceneHero;
             if (uiSH == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneHero);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneHero>(UISceneFormID.eUISceneHero);
             }
             Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneHero);
 

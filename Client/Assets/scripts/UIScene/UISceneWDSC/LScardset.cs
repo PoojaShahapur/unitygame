@@ -134,7 +134,7 @@ namespace SDK.Lib
             //transform.parent.BroadcastMessage("hide");
             //transform.root.FindChild("classfilter").BroadcastMessage("classfilterhide", info.classs);
 
-            IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
             // 设置编辑模式
             uiSC.editset();
 
@@ -396,10 +396,10 @@ namespace SDK.Lib
             //填充数据
             //yesnomsgbox.callbackgameobject = gameObject;
             //yesnomsgbox.callbackeventname = "delyesorno";
-            (Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneComDialog) as UISceneComDialog).m_yesnomsgbox.m_cb = delyesorno;
+            (Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneComDialog>(UISceneFormID.eUISceneComDialog) as UISceneComDialog).m_yesnomsgbox.m_cb = delyesorno;
             //显示确认取消框
             //boxcam.ynmsgbox.SendMessage("show", "你确认删除嘛?这个操作不可逆!");
-            (Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneComDialog) as UISceneComDialog).m_yesnomsgbox.show("你确认删除嘛?这个操作不可逆!");
+            (Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneComDialog>(UISceneFormID.eUISceneComDialog) as UISceneComDialog).m_yesnomsgbox.show("你确认删除嘛?这个操作不可逆!");
         }
 
         void delyesorno(bool yorn)

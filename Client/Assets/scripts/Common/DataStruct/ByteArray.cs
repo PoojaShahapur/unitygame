@@ -22,10 +22,8 @@ namespace SDK.Common
     /**
      *@brief ByteArray 功能
      */
-    public class ByteArray : IByteArray
+    public class ByteArray
     {
-        static public Endian m_sEndian = Endian.LITTLE_ENDIAN;     // 当前机器的编码
-
         public byte[] m_intByte = new byte[(int)TypeBytes.eINT];
         public byte[] m_shortByte = new byte[(int)TypeBytes.eSHORT];
         public byte[] m_longByte = new byte[(int)TypeBytes.eLONG];
@@ -47,10 +45,11 @@ namespace SDK.Common
         protected double m_tmpDouble;
 
         protected byte[] m_tmpBytes;
+        protected byte[] m_padBytes;
 
-        public ByteArray(uint initSize = DynamicBuffer.INIT_CAPACITY)
+        public ByteArray(uint initSize = DynamicBuffer.INIT_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
-            m_endian = m_sEndian;
+            m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
             m_dynBuff = new DynamicBuffer(initSize);
         }
 
@@ -194,7 +193,7 @@ namespace SDK.Common
         }
 
         // 加密，使用 des 对称数字加密算法，加密8字节补齐，可能会导致变长
-        public uint encrypt(CryptKeyBase cryptKey, uint len_ = 0, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
+        public uint encrypt(CryptContext cryptContext, uint len_ = 0)
         {
 #if OBSOLETE
             len_ = (len_ == 0 ? length : len_);
@@ -220,6 +219,19 @@ namespace SDK.Common
 #endif
             len_ = (len_ == 0 ? length : len_);
             uint alignLen_ = ((len_ + 7) / 8) * 8; // 补齐 8 个字节，因为加密是 8 个字节一次加密，只要是 8 个字节的整数倍，无论多少个都可以任意解压
+            uint leftLen_ = alignLen_ - len_;
+            if(leftLen_ > 0)
+            {
+                if(m_padBytes == null)
+                {
+                    m_padBytes = new byte[8];
+                }
+
+                // 保存数据，然后补 0
+                Array.Copy(m_dynBuff.buff, position + len_, m_padBytes, 0, leftLen_);
+                Array.Clear(m_dynBuff.buff, (int)(position + len_), (int)leftLen_);
+            }
+
             if (len_ == 0)      // 修正之后还等于 0 
             {
                 return 0;
@@ -232,30 +244,27 @@ namespace SDK.Common
 
             byte[] retByte = null;
 
-            Crypt.encryptData(m_dynBuff.buff, position, alignLen_, ref retByte, cryptKey);  // 注意补齐不一定是 0 
+            Crypt.encryptData(m_dynBuff.buff, position, alignLen_, ref retByte, cryptContext);  // 注意补齐不一定是 0 
+            Array.Copy(m_padBytes, 0, m_dynBuff.buff, position + len_, leftLen_);       // 拷贝回去
             replace(retByte, 0, alignLen_, position, len_);
 
             return alignLen_;
         }
 
-        // 解密
-        public void decrypt(CryptKeyBase cryptKey, uint len_ = 0, CryptAlgorithm algorithm = CryptAlgorithm.RC5)
+        // 解密，现在必须 8 字节对齐解密
+        public void decrypt(CryptContext cryptContext, uint len_ = 0)
         {
             len_ = (len_ == 0 ? length : len_);
 
             byte[] retByte = null;
-            uint leftCnt = len_ % 8;  // 剩余的数量
 
-            if (len_ >= 8)
+            if (0 == len_)
             {
-                Crypt.decryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
-                writeBytes(retByte, 0, (uint)retByte.Length, false);
+                return;
             }
 
-            if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
-            {
-                position += leftCnt;
-            }
+            Crypt.decryptData(m_dynBuff.buff, position, len_, ref retByte, cryptContext);
+            writeBytes(retByte, 0, (uint)retByte.Length, false);
         }
 
 		public bool readBoolean ()
@@ -303,7 +312,7 @@ namespace SDK.Common
 
             if (canRead((int)TypeBytes.eSHORT))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpShort = System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_position);
                 }
@@ -326,7 +335,7 @@ namespace SDK.Common
 
             if (canRead((int)TypeBytes.eSHORT))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpUshort = System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_position);
                 }
@@ -348,7 +357,7 @@ namespace SDK.Common
             m_tmpInt = 0;
             if (canRead((int)TypeBytes.eINT))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpInt = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
                 }
@@ -369,7 +378,7 @@ namespace SDK.Common
             m_tmpFloat = 0;
             if (canRead((int)TypeBytes.eFLOAT))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpFloat = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
                 }
@@ -390,7 +399,7 @@ namespace SDK.Common
             m_tmpDouble = 0;
             if (canRead((int)TypeBytes.eDOUBLE))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpDouble = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
                 }
@@ -412,7 +421,7 @@ namespace SDK.Common
 
             if (canRead((int)TypeBytes.eINT))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpUint = System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_position);
                 }
@@ -435,7 +444,7 @@ namespace SDK.Common
 
             if (canRead((int)TypeBytes.eLONG))
             {
-                if (m_endian == m_sEndian)
+                if (m_endian == SystemEndian.m_sEndian)
                 {
                     m_tmpUlong = System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_position);
                 }
@@ -516,7 +525,7 @@ namespace SDK.Common
             }
 
             m_shortByte = System.BitConverter.GetBytes(value);
-            if (m_endian != m_sEndian)
+            if (m_endian != SystemEndian.m_sEndian)
             {
                 Array.Reverse(m_shortByte);
             }
@@ -533,7 +542,7 @@ namespace SDK.Common
             }
 
             m_shortByte = System.BitConverter.GetBytes(value);
-            if (m_endian != m_sEndian)
+            if (m_endian != SystemEndian.m_sEndian)
             {
                 Array.Reverse(m_shortByte);
             }
@@ -550,7 +559,7 @@ namespace SDK.Common
             }
 
             m_intByte = System.BitConverter.GetBytes(value);
-            if (m_endian != m_sEndian)
+            if (m_endian != SystemEndian.m_sEndian)
             {
                 Array.Reverse(m_intByte);
             }
@@ -567,7 +576,7 @@ namespace SDK.Common
             }
 
             m_intByte = System.BitConverter.GetBytes(value);
-            if (m_endian != m_sEndian)
+            if (m_endian != SystemEndian.m_sEndian)
             {
                 Array.Reverse(m_intByte);
             }
@@ -591,7 +600,7 @@ namespace SDK.Common
             }
 
             m_longByte = System.BitConverter.GetBytes(value);
-            if (m_endian != m_sEndian)
+            if (m_endian != SystemEndian.m_sEndian)
             {
                 Array.Reverse(m_longByte);
             }
@@ -677,9 +686,7 @@ namespace SDK.Common
             }
 
             position = destStartPos;
-            writeBytes(srcBytes, srcStartPos, srclen_);
-
-            position = curPos + srclen_;
+            writeBytes(srcBytes, srcStartPos, srclen_, false);
         }
 
         public void insertUnsignedInt32(uint value)

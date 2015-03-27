@@ -11,7 +11,7 @@
         public byte isActive;
         public byte isGold;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             occupation = ba.readUnsignedShort();
             level = ba.readUnsignedShort();

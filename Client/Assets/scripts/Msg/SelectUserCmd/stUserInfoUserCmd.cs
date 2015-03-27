@@ -12,7 +12,7 @@ namespace Game.Msg
             byParam = USERINFO_SELECT_USERCMD_PARA;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 

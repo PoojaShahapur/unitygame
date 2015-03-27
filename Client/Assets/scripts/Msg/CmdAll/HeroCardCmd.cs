@@ -13,7 +13,7 @@ namespace Game.Msg
             byParam = NOFITY_ALL_CARD_TUJIAN_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             count = ba.readUnsignedShort();
@@ -53,7 +53,7 @@ namespace Game.Msg
             byParam = NOFITY_ONE_CARD_TUJIAN_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -84,7 +84,7 @@ namespace Game.Msg
             byParam = RET_GIFTBAG_CARDS_DATA_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -152,7 +152,7 @@ namespace Game.Msg
             byParam = RET_CARD_GROUP_LIST_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             count = ba.readUnsignedShort();
@@ -191,7 +191,7 @@ namespace Game.Msg
             byParam = REQ_ONE_CARD_GROUP_INFO_CMD;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
 
@@ -220,7 +220,7 @@ namespace Game.Msg
             byParam = RET_ONE_CARD_GROUP_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             index = ba.readUnsignedInt();
@@ -258,7 +258,7 @@ namespace Game.Msg
             byParam = REQ_CREATE_ONE_CARD_GROUP_CMD;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedInt(occupation);
@@ -287,7 +287,7 @@ namespace Game.Msg
             byParam = REQ_SAVE_ONE_CARD_GROUP_CMD;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedInt(index);
@@ -330,7 +330,7 @@ namespace Game.Msg
             byParam = RET_CREATE_ONE_CARD_GROUP_CMD;
         }
 
-         public override void derialize(IByteArray ba)
+         public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             occupation = ba.readUnsignedInt();
@@ -363,7 +363,7 @@ namespace Game.Msg
             byParam = REQ_DELETE_ONE_CARD_GROUP_CMD;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedInt(index);
@@ -391,7 +391,7 @@ namespace Game.Msg
             byParam = RET_DELETE_ONE_CARD_GROUP_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -423,7 +423,7 @@ namespace Game.Msg
             byParam = RET_SAVE_ONE_CARD_GROUP_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -472,7 +472,7 @@ namespace Game.Msg
             byParam = RET_ALL_HERO_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -514,7 +514,7 @@ namespace Game.Msg
             byParam = RET_ONE_HERO_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -543,7 +543,7 @@ namespace Game.Msg
             fightType = (byte)ChallengeGameType.CHALLENGE_GAME_RELAX_TYPE;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
 
@@ -575,7 +575,7 @@ namespace Game.Msg
             byParam = RET_HERO_FIGHT_MATCH_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -607,7 +607,7 @@ namespace Game.Msg
             byParam = RET_LEFT_CARDLIB_NUM_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -639,7 +639,7 @@ namespace Game.Msg
             byParam = RET_MAGIC_POINT_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -687,7 +687,7 @@ namespace Game.Msg
             byParam = RET_REFRESH_BATTLE_STATE_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             state = ba.readUnsignedByte();
@@ -714,7 +714,7 @@ namespace Game.Msg
             byParam = RET_REFRESH_BATTLE_PRIVILEGE_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -774,7 +774,7 @@ namespace Game.Msg
             byParam = ADD_BATTLE_CARD_PROPERTY_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -816,7 +816,7 @@ namespace Game.Msg
             byParam = NOTIFY_FIGHT_ENEMY_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -863,7 +863,7 @@ namespace Game.Msg
 	        byParam = MOVE_CARD_USERCMD_PARAMETER;
 	    }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedInt(qwThisID);
@@ -896,7 +896,7 @@ namespace Game.Msg
             byParam = RET_MOVE_CARD_USERCMD_PARAMETER;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -929,7 +929,7 @@ namespace Game.Msg
             byParam = RET_FIRST_HAND_CARD_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             upperHand = ba.readUnsignedByte();
@@ -966,7 +966,7 @@ namespace Game.Msg
             byParam = RET_NOTIFY_HAND_IS_FULL_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1064,7 +1064,7 @@ namespace Game.Msg
         public byte who;
         public t_Card mobject;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             who = ba.readUnsignedByte();
             mobject = new t_Card();
@@ -1088,7 +1088,7 @@ namespace Game.Msg
             byParam = ADD_BATTLE_CARD_LIST_PROPERTY_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
  	        base.derialize(ba);
 
@@ -1131,7 +1131,7 @@ namespace Game.Msg
             byParam = RET_ENEMY_HAND_CARD_NUM_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1161,7 +1161,7 @@ namespace Game.Msg
             byParam = REQ_CARD_MAGIC_USERCMD_PARA;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
 
@@ -1195,7 +1195,7 @@ namespace Game.Msg
             byParam = RET_REMOVE_BATTLE_CARD_USERCMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1225,7 +1225,7 @@ namespace Game.Msg
             byParam = RET_REFRESH_CARD_ALL_STATE_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1261,7 +1261,7 @@ namespace Game.Msg
             byParam = RET_CLEAR_CARD_ONE_STATE_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1297,7 +1297,7 @@ namespace Game.Msg
             byParam = RET_SET_CARD_ONE_STATE_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1331,7 +1331,7 @@ namespace Game.Msg
             byParam = RET_BATTLE_GAME_RESULT_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1376,14 +1376,14 @@ namespace Game.Msg
             byParam = RET_CARD_ATTACK_FAIL_USERCMD_PARA;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
             dwAttThisID = ba.readUnsignedInt();
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
 
@@ -1414,7 +1414,7 @@ namespace Game.Msg
             byParam = REQ_CARD_MOVE_AND_MAGIC_USERCMD_PARA;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 
@@ -1456,7 +1456,7 @@ namespace Game.Msg
             byParam = RET_BATTLE_HISTORY_INFO_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
 

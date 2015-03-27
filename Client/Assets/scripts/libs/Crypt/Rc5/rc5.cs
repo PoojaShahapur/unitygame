@@ -222,7 +222,7 @@ namespace SDK.Lib
         }
 
         public static void RC5_32_ecb_encrypt_one(byte[] inBytesTotal, uint startPos, uint inLen, ref byte[] outBytesTotal,
-                        RC5_32_KEY ks, int encrypt)
+                        RC5_32_KEY ks, int encrypt, CryptContext cryptContext)
         {
             int len_ = (((int)inLen + 7) / 8) * 8;
             outBytesTotal = new byte[len_];
@@ -231,17 +231,17 @@ namespace SDK.Lib
             byte[] outBytes = new byte[8];
 
             int idx = 0;
-            for (idx = 0; idx < inLen; idx += 8)
+            for (idx = 0; idx <= inLen - 8; idx += 8)
             {
                 // 保证 8 个字节
                 CryptUtil.get8Byte(inBytesTotal, (int)startPos + idx, inBytes);
-                RC5_32_ecb_encrypt(inBytes, outBytes, ks, encrypt);
+                RC5_32_ecb_encrypt(inBytes, outBytes, ks, encrypt, cryptContext);
                 Array.Copy(outBytes, 0, outBytesTotal, idx, 8);
             }
         }
 
         public static void RC5_32_ecb_encrypt(byte[] inBytes, byte[] outBytes,
-                        RC5_32_KEY ks, int encrypt)
+                        RC5_32_KEY ks, int encrypt, CryptContext cryptContext)
         {
             ulong l = 0;
             ulong[] d = new ulong[2];

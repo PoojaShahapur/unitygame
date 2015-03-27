@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class LangMgr : ILangMgr
+    public class LangMgr
     {
         protected LangID m_langID = LangID.zh_CN;           // 当前语言，默认简体中文
         protected XmlNodeList m_nodeList = null;                   // 整个的 xml 中 <t> 列表

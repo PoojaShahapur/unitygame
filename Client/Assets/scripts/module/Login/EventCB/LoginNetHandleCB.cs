@@ -17,7 +17,7 @@ namespace Game.Login
         }
 
         // 如果要调试可以重载，方便调试
-        //public override void handleMsg(IByteArray msg)
+        //public override void handleMsg(ByteArray msg)
         //{
 
         //}

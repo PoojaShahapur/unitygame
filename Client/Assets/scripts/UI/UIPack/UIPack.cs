@@ -6,7 +6,7 @@ namespace Game.UI
     /**
      * @brief °ü¹ü
      */
-    public class UIPack : Form, IUIPack
+    public class UIPack : Form
     {
         public UIPack()
         {

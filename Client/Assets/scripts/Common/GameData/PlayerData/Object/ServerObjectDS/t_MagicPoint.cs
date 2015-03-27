@@ -6,7 +6,7 @@
         public uint maxmp;
         public uint forbid;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             mp = ba.readUnsignedInt();
             maxmp = ba.readUnsignedInt();

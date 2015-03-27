@@ -3,7 +3,7 @@
     /**
      * @brief 场景作为 UI 的Form 基类
      */
-    public class SceneForm : ISceneForm
+    public class SceneForm
     {
         protected bool m_bReady = false;            // 是否调用了 Ready
         protected bool m_bVisible = false;            // 是否可见

@@ -11,7 +11,7 @@ namespace Game.Msg
             byParam = LOGIN_SELECT_USERCMD_PARA;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             charNo = 0;

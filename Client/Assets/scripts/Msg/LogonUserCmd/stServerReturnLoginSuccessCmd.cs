@@ -17,7 +17,7 @@ namespace Game.Msg
             byParam = SERVER_RETURN_LOGIN_OK;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             dwUserID = ba.readUnsignedInt();
@@ -27,6 +27,7 @@ namespace Game.Msg
             keyAux = new ByteArray();
             keyAux.writeBytes(ba.readBytes(256), 0, 256);
             keyAux.position = 58;
+            keyAux.position = (uint)(keyAux.readByte());
             key = keyAux.readBytes(8);
             state = ba.readUnsignedInt();
         }

@@ -9,12 +9,11 @@ namespace SDK.Common
 	 * 1. 对于新创建的Form对象，其所属的层是由其ID决定的
      * 2. UI 设计原则，主要界面是资源创建完成才运行逻辑，小的共享界面是逻辑和资源同时运行，因为 MVC 结构实在是要写很多代码，因此主要界面不适用 MVC 结构
 	 */
-	public class UIMgr : IUIMgr, IResizeObject
+	public class UIMgr : IResizeObject
 	{
 		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
 		private List<UILayer> m_vecLayer;
         public UIAttrs m_UIAttrs = new UIAttrs();
-        public IUIFactory m_IUIFactory;
 
         private Dictionary<UIFormID, UILoadingItem> m_ID2CodeLoadingItemDic;         // 记录当前代码正在加载的项
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
@@ -46,16 +45,24 @@ namespace SDK.Common
             m_vecLayer[(int)UILayerID.TopLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer].transform;
         }
 
-        // 显示一个 UI
-		public void showForm(UIFormID ID)
-		{
+        public void loadAndShow<T>(UIFormID ID) where T : Form, new()
+        {
             if (hasForm(ID))
             {
                 showFormInternal(ID);
             }
             else
             {
-                loadForm(ID);
+                loadForm<T>(ID);
+            }
+        }
+
+        // 显示一个 UI
+        public void showForm(UIFormID ID)
+		{
+            if (hasForm(ID))
+            {
+                showFormInternal(ID);
             }
 		}
 
@@ -178,7 +185,7 @@ namespace SDK.Common
         }
 
         // 这个事加载界面需要的代码
-        public void loadForm(UIFormID ID)
+        public void loadForm<T>(UIFormID ID) where T : Form, new()
         {
             // exitAllWin();                       // 关闭所有的界面
 
@@ -198,16 +205,13 @@ namespace SDK.Common
             else if (!m_ID2CodeLoadingItemDic.ContainsKey(ID))                       // 如果什么都没有创建，第一次加载
             {
                 // 创建窗口
-                IForm form = null;
-                if (m_IUIFactory != null)                   // 如果本地有代码，就直接创建
+                Form form = null;
+                form = new T();
+                if (form != null)                   // 如果代码已经在本地
                 {
-                    form = m_IUIFactory.CreateForm(ID);
-                    if (form != null)                   // 如果代码已经在本地
-                    {
-                        (form as Form).id = ID;
-                        addFormNoReady(form as Form);           // 仅仅是创建数据，资源还没有加载完成
-                        onCodeLoadedByForm(form as Form);
-                    }
+                    (form as Form).id = ID;
+                    addFormNoReady(form);           // 仅仅是创建数据，资源还没有加载完成
+                    onCodeLoadedByForm(form);
                 }
 
                 // 这个地方应该抛出异常
@@ -346,11 +350,6 @@ namespace SDK.Common
             {
                 Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_dicForm[ID]);  // 资源加载完成
             }
-        }
-
-        public void SetIUIFactory(IUIFactory value)
-        {
-            m_IUIFactory = value;
         }
 
         // 大小发生变化后，调用此函数

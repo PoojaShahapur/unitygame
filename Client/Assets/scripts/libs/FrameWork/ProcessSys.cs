@@ -6,7 +6,7 @@ using System;
  */
 namespace SDK.Lib
 {
-    class ProcessSys : IProcessSys
+    public class ProcessSys
     {
         protected long m_preTime = 0;         // 上一次更新时的秒数
         protected long m_curTime = 0;          // 正在获取的时间

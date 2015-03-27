@@ -11,7 +11,7 @@ namespace Game.Msg
             byParam = SERVER_RETURN_LOGIN_FAILED;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             byReturnCode = ba.readUnsignedByte();

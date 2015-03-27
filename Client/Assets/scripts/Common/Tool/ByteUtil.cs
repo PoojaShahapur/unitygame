@@ -31,11 +31,11 @@ namespace SDK.Common
             // 方法二
             if(System.BitConverter.IsLittleEndian)
             {
-                ByteArray.m_sEndian = Endian.LITTLE_ENDIAN;
+                SystemEndian.m_sEndian = Endian.LITTLE_ENDIAN;
             }
             else
             {
-                ByteArray.m_sEndian = Endian.BIG_ENDIAN;
+                SystemEndian.m_sEndian = Endian.BIG_ENDIAN;
             }
         }
 

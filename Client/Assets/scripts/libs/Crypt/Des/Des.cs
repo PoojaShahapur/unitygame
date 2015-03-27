@@ -549,7 +549,7 @@ namespace SDK.Lib
         }
 
         public static void DES_ecb_encrypt_one(byte[] inBytesTotal, uint startPos, uint inLen, ref byte[] outBytesTotal,
-                     DES_key_schedule ks, int enc)
+                     DES_key_schedule ks, int enc, CryptContext cryptContext)
         {
             int len_ = (((int)inLen + 7) / 8) * 8;
             outBytesTotal = new byte[len_];
@@ -558,12 +558,19 @@ namespace SDK.Lib
             byte[] outBytes = new byte[8];
 
             int idx = 0;
-            for (idx = 0; idx < inLen; idx += 8)
+            for (idx = 0; idx <= inLen - 8; idx += 8)
             {
-                // 保证 8 个字节
-                CryptUtil.get8Byte(inBytesTotal, (int)startPos + idx, inBytes);
-                DES_ecb_encrypt(inBytes, outBytes, ks, enc);
-                Array.Copy(outBytes, 0, outBytesTotal, idx, 8);
+                if (idx % 16 == 0)  // 如果是 16 的整数倍
+                {
+                    // 保证 8 个字节
+                    CryptUtil.get8Byte(inBytesTotal, (int)startPos + idx, inBytes);
+                    DES_ecb_encrypt(inBytes, outBytes, ks, enc);
+                    Array.Copy(outBytes, 0, outBytesTotal, idx, 8);
+                }
+                else
+                {
+                    Array.Copy(inBytesTotal, idx, outBytesTotal, idx, 8);
+                }
             }
         }
     }

@@ -7,9 +7,9 @@ namespace SDK.Lib
      */
     public class NetThread : ThreadWrap
     {
-        protected INetworkMgr m_networkMgr;
+        protected NetworkMgr m_networkMgr;
 
-        public NetThread(INetworkMgr netMgr)
+        public NetThread(NetworkMgr netMgr)
             : base(null, null)
         {
             m_networkMgr = netMgr;

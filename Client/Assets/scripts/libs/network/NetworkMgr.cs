@@ -4,7 +4,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class NetworkMgr : INetworkMgr
+    public class NetworkMgr
     {
         // 此处使用 Dictionary ，不适用 Hashable
         public Dictionary<string, NetTCPClient> m_id2SocketDic;
@@ -96,7 +96,7 @@ namespace SDK.Lib
             }
         }
 
-        public IByteArray getMsg()
+        public ByteArray getMsg()
         {
             if (m_curSocket != null)
             {
@@ -107,7 +107,7 @@ namespace SDK.Lib
         }
 
         // 获取发送消息缓冲区
-        public IByteArray getSendBA()
+        public ByteArray getSendBA()
         {
             if (m_curSocket != null)
             {

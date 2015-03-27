@@ -12,14 +12,14 @@ namespace Game.Msg
             byParam = USERGAMETIME_TIMER_USERCMD_PARA;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedLong(dwUserTempID);
             ba.writeUnsignedLong(qwGameTime);
         }
 
-        //public override void derialize(IByteArray ba)
+        //public override void derialize(ByteArray ba)
         //{
         //    base.derialize(ba);
         //    dwUserTempID = ba.readULong();

@@ -47,7 +47,7 @@ namespace Game.Msg
         byte weight;
         ushort picbindloginclearnum;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             id = ba.readUnsignedInt();
             name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);

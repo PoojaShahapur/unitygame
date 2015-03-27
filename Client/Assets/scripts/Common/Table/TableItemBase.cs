@@ -5,7 +5,7 @@
         public TableItemHeader m_itemHeader;
         public TableItemBodyBase m_itemBody;
 
-        virtual public void parseHeaderByteArray(IByteArray bytes)
+        virtual public void parseHeaderByteArray(ByteArray bytes)
         {
             if (null == m_itemHeader)
             {
@@ -14,7 +14,7 @@
             m_itemHeader.parseHeaderByteArray(bytes);
         }
 
-        virtual public void parseBodyByteArray<T>(IByteArray bytes, uint offset) where T : TableItemBodyBase, new()
+        virtual public void parseBodyByteArray<T>(ByteArray bytes, uint offset) where T : TableItemBodyBase, new()
         {
             if (null == m_itemBody)
             {
@@ -24,7 +24,7 @@
             m_itemBody.parseBodyByteArray(bytes, offset);
         }
 
-        virtual public void parseAllByteArray<T>(IByteArray bytes) where T : TableItemBodyBase, new()
+        virtual public void parseAllByteArray<T>(ByteArray bytes) where T : TableItemBodyBase, new()
         {
             // 解析头
             parseHeaderByteArray(bytes);

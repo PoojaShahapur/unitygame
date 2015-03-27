@@ -5,7 +5,7 @@
         public uint id;
         public byte num;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             id = ba.readUnsignedInt();
             num = ba.readUnsignedByte();

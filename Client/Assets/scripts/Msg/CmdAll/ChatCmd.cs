@@ -16,7 +16,7 @@ namespace Game.Msg
             byParam = CHAT_USERCMD_PARAMETER;
         }
 
-        public override void derialize(SDK.Common.IByteArray ba)
+        public override void derialize(SDK.Common.ByteArray ba)
         {
             base.derialize(ba);
 
@@ -28,7 +28,7 @@ namespace Game.Msg
             dwChannelID = ba.readUnsignedInt();
         }
 
-        public override void serialize(SDK.Common.IByteArray ba)
+        public override void serialize(SDK.Common.ByteArray ba)
         {
             base.serialize(ba);
 

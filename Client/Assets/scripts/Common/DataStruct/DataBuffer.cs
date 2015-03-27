@@ -27,10 +27,7 @@ namespace SDK.Common
         private MMutex m_writeMutex = new MMutex(false, "WriteMutex");   // 写互斥
 
 #if MSG_ENCRIPT
-        protected CryptAlgorithm m_cryptAlgorithm = CryptAlgorithm.RC5;      // 当前是否需要加密解密
-        protected byte[] m_cryptKey;            // 秘钥
-
-        protected CryptKeyBase[] m_cryptKeyArr = new CryptKeyBase[(int)CryptAlgorithm.eTotal];
+        protected CryptContext m_cryptContext;
 #endif
 
         public DataBuffer()
@@ -48,9 +45,7 @@ namespace SDK.Common
             m_tmp1fData = new ByteArray(4);
 
 #if MSG_ENCRIPT
-            m_cryptKeyArr[(int)CryptAlgorithm.RC5] = new RC5_32_KEY();
-            m_cryptKeyArr[(int)CryptAlgorithm.DES] = new DES_key_schedule();
-            RC5.RC5_32_set_key(m_cryptKeyArr[(int)CryptAlgorithm.RC5] as RC5_32_KEY, 16, Crypt.RC5_KEY, RC5.RC5_12_ROUNDS);     // 生成秘钥
+            m_cryptContext = new CryptContext();
 #endif
         }
 
@@ -95,19 +90,11 @@ namespace SDK.Common
         }
 
 #if MSG_ENCRIPT
-        public CryptAlgorithm cryptAlgorithm
-        {
-            set
-            {
-                m_cryptAlgorithm = value;
-            }
-        }
-
         public void setCryptKey(byte[] encrypt)
         {
-            cryptAlgorithm = CryptAlgorithm.DES;
-            m_cryptKey = encrypt;
-            Dec.DES_set_key_unchecked(m_cryptKey, m_cryptKeyArr[(int)CryptAlgorithm.DES] as DES_key_schedule);
+            //m_cryptContext.cryptAlgorithm = CryptAlgorithm.DES;
+            m_cryptContext.m_cryptKey = encrypt;
+            Dec.DES_set_key_unchecked(m_cryptContext.m_cryptKey, m_cryptContext.m_cryptKeyArr[(int)CryptAlgorithm.DES] as DES_key_schedule);
         }
 #endif
 
@@ -119,8 +106,17 @@ namespace SDK.Common
             }
         }
 
+        public void checkDES()
+        {
+            if (m_cryptContext.m_cryptKey != null && m_cryptContext.m_cryptAlgorithm != CryptAlgorithm.DES)
+            {
+                m_cryptContext.m_cryptAlgorithm = CryptAlgorithm.DES;
+            }
+        }
+
         public void moveDyn2Raw()
         {
+            checkDES();
             // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，服务器是这么发送的，只能这么处理，自己写入包的长度
             m_tmp1fData.clear();
             m_tmp1fData.writeUnsignedInt(m_dynBuff.size);      // 填充长度
@@ -191,14 +187,14 @@ namespace SDK.Common
                 //m_socketSendBA.writeBytes(m_sendTmpBA.dynBuff.buff, 0, (uint)m_sendTmpBA.length);
                 //m_sendTmpBA.clear();
                 // 一次全部取出来发送出去
-                m_socketSendBA.writeBytes(m_sendTmpBuffer.circuleBuffer.buff, 0, (uint)m_sendTmpBuffer.circuleBuffer.size);
-                m_sendTmpBuffer.circuleBuffer.clear();
-                // 一次仅仅获取一个消息发送出去
-                //if (m_sendTmpBuffer.popFront())     // 弹出一个消息，如果只有一个消息，内部会重置变量
-                //{
-                //    m_socketSendBA.writeBytes(m_sendTmpBuffer.headerBA.dynBuff.buff, 0, m_sendTmpBuffer.headerBA.length);       // 写入头
-                //    m_socketSendBA.writeBytes(m_sendTmpBuffer.msgBodyBA.dynBuff.buff, 0, m_sendTmpBuffer.msgBodyBA.length);             // 写入消息体
-                //}
+                //m_socketSendBA.writeBytes(m_sendTmpBuffer.circuleBuffer.buff, 0, (uint)m_sendTmpBuffer.circuleBuffer.size);
+                //m_sendTmpBuffer.circuleBuffer.clear();
+                // 一次仅仅获取一个消息发送出去，因为每一个消息的长度要填写加密补位后的长度
+                if (m_sendTmpBuffer.popFront())     // 弹出一个消息，如果只有一个消息，内部会重置变量
+                {
+                    m_socketSendBA.writeBytes(m_sendTmpBuffer.headerBA.dynBuff.buff, 0, m_sendTmpBuffer.headerBA.length);       // 写入头
+                    m_socketSendBA.writeBytes(m_sendTmpBuffer.msgBodyBA.dynBuff.buff, 0, m_sendTmpBuffer.msgBodyBA.length);             // 写入消息体
+                }
             }
 
 #if MSG_COMPRESS || MSG_ENCRIPT
@@ -214,13 +210,17 @@ namespace SDK.Common
         {
             uint origMsgLen = 0;    // 原始的消息长度，后面判断头部是否添加压缩标志
             uint compressMsgLen = 0;
-//#if MSG_ENCRIPT
-            //uint cryptLen = 0;
-//#endif
+#if MSG_ENCRIPT
+            uint cryptLen = 0;
+#endif
+#if MSG_COMPRESS && !MSG_ENCRIPT
             bool bHeaderChange = false; // 消息内容最前面的四个字节中消息的长度是否需要最后修正
+#endif
             while (m_socketSendBA.bytesAvailable > 0)
             {
+#if MSG_COMPRESS && !MSG_ENCRIPT
                 bHeaderChange = false;
+#endif
 
                 origMsgLen = m_socketSendBA.readUnsignedInt();    // 读取一个消息包头
 
@@ -247,7 +247,7 @@ namespace SDK.Common
 //#endif
 
                 // 加密如果系统补齐字节，长度可能会变成 8 字节的证书倍，因此需要等加密完成后再写入长度
-#if MSG_COMPRESS
+#if MSG_COMPRESS && !MSG_ENCRIPT
                 if (origMsgLen > DataCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
                 {
                     bHeaderChange = true;
@@ -255,25 +255,41 @@ namespace SDK.Common
                     origMsgLen |= DataCV.PACKET_ZIP;            // 添加
                 }
 #endif
+#if !MSG_ENCRIPT
                 if(bHeaderChange)
                 {
                     m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
                     m_socketSendBA.writeUnsignedInt(origMsgLen, false);     // 写入压缩或者加密后的消息长度
                     m_socketSendBA.position += compressMsgLen;              // 移动到下一个位置
                 }
+#endif
 
                 // 整个消息压缩后，包括 4 个字节头的长度，然后整个加密
-//#if MSG_ENCRIPT
-                //m_socketSendBA.position -= (compressMsgLen + 4);      // 移动到头部
-                //cryptLen = m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
-//#endif
+#if MSG_ENCRIPT
+                cryptLen = ((compressMsgLen + 4 + 7) / 8) * 8 - 4;      // 计算加密后，不包括 4 个头长度的 body 长度
+                if (origMsgLen > DataCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
+                {
+                    origMsgLen = cryptLen;                // 压缩后的长度
+                    origMsgLen |= DataCV.PACKET_ZIP;            // 添加
+                }
+                else
+                {
+                    origMsgLen = cryptLen;                // 压缩后的长度
+                }
+
+                m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
+                m_socketSendBA.writeUnsignedInt(origMsgLen, false);     // 写入压缩或者加密后的消息长度
+
+                m_socketSendBA.position -= 4;      // 移动到头部
+                m_socketSendBA.encrypt(m_cryptContext, 0);  // 加密
+#endif
             }
 
             // 整个消息压缩后，包括 4 个字节头的长度，然后整个加密
-#if MSG_ENCRIPT
-            m_socketSendBA.position = 0;      // 移动到头部
-            m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
-#endif
+//#if MSG_ENCRIPT
+            //m_socketSendBA.position = 0;      // 移动到头部
+            //m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
+//#endif
         }
 
         // 压缩解密作为一个包
@@ -296,7 +312,7 @@ namespace SDK.Common
             }
 
             m_socketSendBA.position -= compressMsgLen;
-            compressMsgLen = m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
+            compressMsgLen = m_socketSendBA.encrypt(m_cryptContext, 0);
 #endif
 
 #if MSG_COMPRESS || MSG_ENCRIPT             // 如果压缩或者加密，需要再次添加压缩或者加密后的头长度
@@ -315,36 +331,60 @@ namespace SDK.Common
 #endif
         }
 
+        // 消息格式
+        // |------------- 压缩的整个消息  -------------------------------------|
+        // |----4 Header----|-压缩的 body----|----4 Header----|-压缩的 body----|
+        // |                |                |                |                |
         protected void UnCompressAndDecryptEveryOne()
         {
 #if MSG_ENCRIPT
-            m_rawBuffer.msgBodyBA.decrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
+            m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
 #endif
-#if MSG_COMPRESS
-            m_rawBuffer.headerBA.setPos(0);
+//#if MSG_COMPRESS
+            //m_rawBuffer.headerBA.setPos(0); // 这个头目前没有用，是客户端自己添加的，服务器发送一个包，就认为是一个完整的包
+            //m_rawBuffer.msgBodyBA.setPos(0);
+            //uint msglen = m_rawBuffer.headerBA.readUnsignedInt();
+            //if ((msglen & DataCV.PACKET_ZIP) > 0)
+            //{
+            //    m_rawBuffer.msgBodyBA.uncompress();
+            //}
+//#endif
             m_rawBuffer.msgBodyBA.setPos(0);
-            uint msglen = m_rawBuffer.headerBA.readUnsignedInt();
-            if ((msglen & DataCV.PACKET_ZIP) > 0)
+            uint msglen = 0;
+            while (m_rawBuffer.msgBodyBA.bytesAvailable >= 4)
             {
-                m_rawBuffer.msgBodyBA.uncompress();
-            }
+                msglen = m_rawBuffer.msgBodyBA.readUnsignedInt();    // 读取一个消息包头
+                if (msglen == 0)     // 如果是 0 ，就说明最后是由于加密补齐的数据
+                {
+                    break;
+                }
+#if MSG_COMPRESS
+                if ((msglen & DataCV.PACKET_ZIP) > 0)
+                {
+                    msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
+                    msglen = m_rawBuffer.msgBodyBA.uncompress(msglen);
+                }
+                else
 #endif
+                {
+                    m_rawBuffer.msgBodyBA.position += msglen;
+                }
+                m_unCompressHeaderBA.clear();
+                m_unCompressHeaderBA.writeUnsignedInt(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
+                m_unCompressHeaderBA.position = 0;
 
-            m_unCompressHeaderBA.clear();
-            m_unCompressHeaderBA.writeUnsignedInt(m_rawBuffer.msgBodyBA.length);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
-            m_unCompressHeaderBA.position = 0;
-
-            using (MLock mlock = new MLock(m_readMutex))
-            {
-                m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
-                m_msgBuffer.circuleBuffer.pushBackBA(m_rawBuffer.msgBodyBA);      // 保存消息大小字段
+                using (MLock mlock = new MLock(m_readMutex))
+                {
+                    m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
+                    m_msgBuffer.circuleBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
+                }
             }
         }
 
         protected void UnCompressAndDecryptAllInOne()
         {
 #if MSG_ENCRIPT
-            m_rawBuffer.msgBodyBA.decrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], 0, m_cryptAlgorithm);
+            m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
 #endif
 #if MSG_COMPRESS
             m_rawBuffer.headerBA.setPos(0);

@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 扩展包
      */
-    public class UISceneExtPack : SceneForm, IUISceneExtPack
+    public class UISceneExtPack : SceneForm
     {
         protected btn[] m_btnArr = new btn[(int)SceneExtPackBtnEnum.eBtnTotal];
         protected open m_open = new open();

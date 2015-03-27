@@ -19,7 +19,7 @@ namespace Game.Msg
             byParam = USER_REQUEST_LOGIN_PARA;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
 
@@ -34,7 +34,7 @@ namespace Game.Msg
             ba.writeMultiByte(passpodPwd, GkEncode.UTF8, 9);
         }
 
-        //public override void derialize(IByteArray ba)
+        //public override void derialize(ByteArray ba)
         //{
         //    base.derialize(ba);
 

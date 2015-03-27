@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 模式界面
      */
-    public class UISceneMoShi : SceneForm, IUISceneMoShi
+    public class UISceneMoShi : SceneForm
     {
         protected moshijm m_moshijm = new moshijm();
         protected yxclick[] m_heroList = new yxclick[9];                        // 9 个职业 hero

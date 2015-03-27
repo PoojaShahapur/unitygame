@@ -5,7 +5,7 @@
     */
     //public class TableItemObject : TableItemBase
     //{
-    //    override public void parseBodyByteArray(IByteArray bytes, uint offset)
+    //    override public void parseBodyByteArray(ByteArray bytes, uint offset)
     //    {
     //        if (null == m_itemBody)
     //        {
@@ -22,7 +22,7 @@
         //public float m_field3;
         //public string m_field4;
 
-        //override public void parseBodyByteArray(IByteArray bytes, uint offset)
+        //override public void parseBodyByteArray(ByteArray bytes, uint offset)
         //{
         //    // 移动 pos 到内容开始处
         //    (bytes as ByteArray).position = offset;  // 从偏移处继续读取真正的内容
@@ -40,7 +40,7 @@
         public int m_color;
         public string m_prefab;
 
-        override public void parseBodyByteArray(IByteArray bytes, uint offset)
+        override public void parseBodyByteArray(ByteArray bytes, uint offset)
         {
             (bytes as ByteArray).position = offset;  // 从偏移处继续读取真正的内容
             m_name = UtilTable.readString(bytes as ByteArray);

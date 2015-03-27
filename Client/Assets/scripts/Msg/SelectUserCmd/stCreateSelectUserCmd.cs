@@ -19,7 +19,7 @@ namespace Game.Msg
             byParam = CREATE_SELECT_USERCMD_PARA;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeMultiByte(strUserName, GkEncode.UTF8, CVMsg.MAX_NAMESIZE + 1);

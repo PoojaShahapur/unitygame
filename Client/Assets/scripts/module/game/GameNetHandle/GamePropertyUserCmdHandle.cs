@@ -14,7 +14,7 @@ namespace Game.Game
             m_id2HandleDic[stPropertyUserCmd.NOFITY_MARKET_ALL_OBJECT_CMD] = psstNotifyMarketAllObjectPropertyUserCmd;
         }
 
-        protected void psstRemoveObjectPropertyUserCmd(IByteArray msg)
+        protected void psstRemoveObjectPropertyUserCmd(ByteArray msg)
         {
             stRemoveObjectPropertyUserCmd cmd = new stRemoveObjectPropertyUserCmd();
             cmd.derialize(msg);
@@ -22,7 +22,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstRemoveObjectPropertyUserCmd(cmd.qwThisID);
         }
 
-        protected void psstRefCountObjectPropertyUserCmd(IByteArray msg)
+        protected void psstRefCountObjectPropertyUserCmd(ByteArray msg)
         {
             stRefCountObjectPropertyUserCmd cmd = new stRefCountObjectPropertyUserCmd();
             cmd.derialize(msg);
@@ -30,7 +30,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstRefCountObjectPropertyUserCmd(cmd.qwThisID, cmd.dwNum, cmd.type);
         }
 
-        protected void psstAddMobileObjectListPropertyUserCmd(IByteArray msg)
+        protected void psstAddMobileObjectListPropertyUserCmd(ByteArray msg)
         {
             stAddMobileObjectListPropertyUserCmd cmd = new stAddMobileObjectListPropertyUserCmd();
             cmd.derialize(msg);
@@ -38,7 +38,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstAddMobileObjectListPropertyUserCmd(cmd.list);
         }
 
-        protected void psstAddMobileObjectPropertyUserCmd(IByteArray msg)
+        protected void psstAddMobileObjectPropertyUserCmd(ByteArray msg)
         {
             stAddMobileObjectPropertyUserCmd cmd = new stAddMobileObjectPropertyUserCmd();
             cmd.derialize(msg);
@@ -47,7 +47,7 @@ namespace Game.Game
         }
 
         // 服务器返回商城消息
-        protected void psstNotifyMarketAllObjectPropertyUserCmd(IByteArray msg)
+        protected void psstNotifyMarketAllObjectPropertyUserCmd(ByteArray msg)
         {
             stNotifyMarketAllObjectPropertyUserCmd cmd = new stNotifyMarketAllObjectPropertyUserCmd();
             cmd.derialize(msg);

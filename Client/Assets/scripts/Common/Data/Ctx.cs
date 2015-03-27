@@ -17,26 +17,26 @@ namespace SDK.Common
     {
         static public Ctx m_instance;
 
-        public INetworkMgr m_netMgr;                // 网络通信
+        public NetworkMgr m_netMgr;                // 网络通信
         public Config m_cfg;                        // 整体配置文件
-        public ILogger m_log;                       // 日志系统
-        public IResLoadMgr m_resLoadMgr;                    // 资源管理器
-        public IInputMgr m_inputMgr;                // 输入管理器
+        public Logger m_log;                       // 日志系统
+        public ResLoadMgr m_resLoadMgr;                    // 资源管理器
+        public InputMgr m_inputMgr;                // 输入管理器
         public Transform m_dataTrans;               // 整个系统使用的 GameObject
 
         public IGameSys m_gameSys;                  // 游戏系统
-        public ISceneSys m_sceneSys;                // 场景系统
+        public SceneSys m_sceneSys;                // 场景系统
         public ITickMgr m_tickMgr;                  // 心跳管理器
-        public IProcessSys m_processSys;            // 游戏处理系统
+        public ProcessSys m_processSys;            // 游戏处理系统
 
         public ITimerMgr m_timerMgr;                // 定时器系统
-        public IUIMgr m_uiMgr;                      // UI 管理器
-        public IUISceneMgr m_uiSceneMgr;                      // UIScene 管理器
-        public IResizeMgr m_resizeMgr;              // 窗口大小修改管理器
+        public UIMgr m_uiMgr;                      // UI 管理器
+        public UISceneMgr m_uiSceneMgr;                      // UIScene 管理器
+        public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器
         public IUIEvent m_cbUIEvent;                // UI 事件回调
-        public ICoroutineMgr m_coroutineMgr;        // 协程管理器
+        public CoroutineMgr m_coroutineMgr;        // 协程管理器
 
-        public IEngineLoop m_engineLoop;            // 引擎循环
+        public EngineLoop m_engineLoop;            // 引擎循环
         public GameAttr m_gameAttr;                 // 游戏属性
         public IFObjectMgr m_fObjectMgr;            // 掉落物管理器
         public INpcMgr m_npcMgr;                    // Npc管理器
@@ -49,15 +49,15 @@ namespace SDK.Common
         public CamSys m_camSys;
 
         public ISceneLogic m_sceneLogic;
-        public IAISystem m_aiSystem;
+        public AISystem m_aiSystem;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
         public NetDispHandle m_netHandle;           // 网络处理器
         public IModuleSys m_moduleSys;              // 模块
-        public ITableSys m_tableSys;                // 表格
-        public ILocalFileSys m_localFileSys;        // 文件系统
-        public IFactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
+        public TableSys m_tableSys;                // 表格
+        public LocalFileSys m_localFileSys;        // 文件系统
+        public FactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
 
-        public ILangMgr m_langMgr;                  // 语言管理器
+        public LangMgr m_langMgr;                  // 语言管理器
         //public IInterActiveEntityMgr m_interActiveEntityMgr;
         public DataPlayer m_dataPlayer = new DataPlayer();
         public XmlCfgMgr m_xmlCfgMgr = new XmlCfgMgr();

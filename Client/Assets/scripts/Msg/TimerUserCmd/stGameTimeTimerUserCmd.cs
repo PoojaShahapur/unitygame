@@ -11,7 +11,7 @@ namespace Game.Msg
             byParam = GAMETIME_TIMER_USERCMD_PARA;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             qwGameTime = ba.readUnsignedLong();

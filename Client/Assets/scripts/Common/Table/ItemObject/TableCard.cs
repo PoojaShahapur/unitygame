@@ -51,7 +51,7 @@
         public int m_jiNu;          // 激怒
         public byte m_bNeedFaShuTarget;     // 是否需要法术目标
 
-        override public void parseBodyByteArray(IByteArray bytes, uint offset)
+        override public void parseBodyByteArray(ByteArray bytes, uint offset)
         {
             (bytes as ByteArray).position = offset;
             m_name = UtilTable.readString(bytes as ByteArray);

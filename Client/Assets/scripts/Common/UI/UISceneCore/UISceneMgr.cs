@@ -5,21 +5,17 @@ namespace SDK.Common
     /**
      * @brief UI 场景管理器，场景中的 UI 都是和场景放在一起的，没有额外的资源加载，不卸载，和场景同在
      */
-    public class UISceneMgr : IUISceneMgr
+    public class UISceneMgr
     {
         private Dictionary<UISceneFormID, SceneForm> m_dicForm = new Dictionary<UISceneFormID, SceneForm>(); //[id,form]
-        public IUISceneFactory m_IUISceneFactory;
 
-        public ISceneForm loadSceneForm(UISceneFormID ID)
+        public SceneForm loadSceneForm<T>(UISceneFormID ID) where T : SceneForm, new()
         {
             if(!m_dicForm.ContainsKey(ID))
             {
-                if (m_IUISceneFactory != null)
-                {
-                    m_dicForm[ID] = m_IUISceneFactory.CreateSceneForm(ID) as SceneForm;
-                    m_dicForm[ID].id = ID;
-                    return m_dicForm[ID];
-                }
+                m_dicForm[ID] = new T();
+                m_dicForm[ID].id = ID;
+                return m_dicForm[ID];
             }
 
             return m_dicForm[ID];
@@ -42,7 +38,7 @@ namespace SDK.Common
             }
         }
 
-        public ISceneForm showSceneForm(UISceneFormID ID)
+        public SceneForm showSceneForm(UISceneFormID ID)
         {
             SceneForm win = null;
             if(m_dicForm.ContainsKey(ID))
@@ -65,9 +61,9 @@ namespace SDK.Common
             return win;
         }
 
-        public ISceneForm loadAndShowForm(UISceneFormID ID)
+        public SceneForm loadAndShowForm<T>(UISceneFormID ID) where T : SceneForm, new()
         {
-            loadSceneForm(ID);
+            loadSceneForm<T>(ID);
             return showSceneForm(ID);
         }
 
@@ -106,7 +102,7 @@ namespace SDK.Common
             }
         }
 
-        public ISceneForm getSceneUI(UISceneFormID ID)
+        public SceneForm getSceneUI(UISceneFormID ID)
         {
             if (m_dicForm.ContainsKey(ID))
             {
@@ -114,11 +110,6 @@ namespace SDK.Common
             }
 
             return null;
-        }
-
-        public void SetIUISceneFactory(IUISceneFactory value)
-        {
-            m_IUISceneFactory = value;
         }
 
         public void unloadAll()

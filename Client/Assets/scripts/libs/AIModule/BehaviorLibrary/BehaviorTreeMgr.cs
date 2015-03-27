@@ -9,12 +9,12 @@ namespace BehaviorLibrary
     /**
      * @brief 行为树管理器，存放所有的行为树
      */
-    public class BehaviorTreeMgr : IBehaviorTreeMgr
+    public class BehaviorTreeMgr
     {
         protected BTFactory m_BTFactory = new BTFactory();
         protected Dictionary<string, BehaviorTree> m_id2BTDic = new Dictionary<string,BehaviorTree>();
 
-        public IBehaviorTree getBTByID(string id)
+        public BehaviorTree getBTByID(string id)
         {
             if(m_id2BTDic.ContainsKey(id))
             {

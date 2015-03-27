@@ -25,9 +25,6 @@ namespace Game.Game
             //GameObject nodestroy = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
             //AppRoot approot = nodestroy.GetComponent<AppRoot>();
 
-            // 场景逻辑处理逻辑
-            Ctx.m_instance.m_uiMgr.SetIUIFactory(new GameUIFactory());
-            Ctx.m_instance.m_uiSceneMgr.SetIUISceneFactory(new GameUISceneFactory());
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
             Ctx.m_instance.m_netHandle = new GameNetHandleCB();
@@ -39,7 +36,7 @@ namespace Game.Game
             //Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().loadBT();
 
             // 立即加载 UIBlurBg 界面
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIBlurBg);
+            Ctx.m_instance.m_uiMgr.loadForm<UIBlurBg>(UIFormID.UIBlurBg);
         }
 
         public void loadGameScene()
@@ -61,7 +58,7 @@ namespace Game.Game
         }
 
         // 这个是操作场景资源加载完成回调
-        public void onGameResLoadScene(IScene scene)
+        public void onGameResLoadScene(Scene scene)
         {
             if (m_firstLoad)
             {
@@ -86,7 +83,7 @@ namespace Game.Game
         }
 
         // 这个是对战场景资源加载完成回调
-        public void onDZResLoadScene(IScene scene)
+        public void onDZResLoadScene(Scene scene)
         {
             Ctx.m_instance.m_dataPlayer.m_dzData.clear();
             Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;         // 进入对战就设置这个标示位为可以继续战斗
@@ -98,21 +95,21 @@ namespace Game.Game
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneMain);
+            Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneMain>(UISceneFormID.eUISceneMain);
             Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneMain);
 
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneHero);
+            Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneHero>(UISceneFormID.eUISceneHero);
             Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneHero);
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneBg);
+            Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneBg>(UISceneFormID.eUISceneBg);
             Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneBg);
         }
 
         protected void loadAllDZUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UITest);
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIDZ);      // 显示对战场景界面
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIChat);      // 显示聊天
-            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
+            Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.UITest);
+            Ctx.m_instance.m_uiMgr.loadForm<UIDZ>(UIFormID.UIDZ);      // 显示对战场景界面
+            Ctx.m_instance.m_uiMgr.loadForm<UIChat>(UIFormID.UIChat);      // 显示聊天
+            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
         }
 
         protected void unloadDZAllUIScene()

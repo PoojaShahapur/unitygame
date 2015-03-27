@@ -6,7 +6,7 @@
         public uint occupation;         // 职业
         public string name;             // 卡牌名字
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             index = ba.readUnsignedInt();
             occupation = ba.readUnsignedInt();

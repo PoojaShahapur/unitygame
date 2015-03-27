@@ -22,7 +22,7 @@ namespace SDK.Common
 
         public byte[] state;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             
             qwThisID = ba.readUnsignedInt();

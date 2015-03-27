@@ -14,7 +14,8 @@ namespace UnitTestSrc
         protected void testMsgBuffer()
         {
             DataBuffer pDataBuffer = new DataBuffer();
-            UnitTestCmd pUnitTestCmd = new UnitTestCmd();
+            UnitTestStrCmd pUnitTestCmd = new UnitTestStrCmd();
+            UnitTestNumCmd pUnitTesNumtCmd = new UnitTestNumCmd();
 
             // 发送第一个数据包
             pUnitTestCmd.testStr = "测试数据";
@@ -30,8 +31,17 @@ namespace UnitTestSrc
             pUnitTestCmd.serialize(pDataBuffer.sendData);
             pDataBuffer.send();
 
-            pDataBuffer.getSendData();
+            // 发送第三个数据包
+            pUnitTesNumtCmd = new UnitTestNumCmd();
+            pUnitTesNumtCmd.num = 2001;
+            pDataBuffer.sendData.clear();
+            pUnitTesNumtCmd.serialize(pDataBuffer.sendData);
+            pDataBuffer.send();
 
+            pDataBuffer.getSendData();
+            ByteArray cryptLenBA = new ByteArray();
+            cryptLenBA.writeUnsignedInt(pDataBuffer.sendBuffer.length);
+            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
             pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
             pDataBuffer.moveRaw2Msg();
 
@@ -42,14 +52,34 @@ namespace UnitTestSrc
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "测试数据");
 
             pDataBuffer.getSendData();
-
-            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
-            pDataBuffer.moveRaw2Msg();
+            if (pDataBuffer.sendBuffer.length > 0)
+            {
+                cryptLenBA.clear();
+                cryptLenBA.writeUnsignedInt(pDataBuffer.sendBuffer.length);
+                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
+                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+                pDataBuffer.moveRaw2Msg();
+            }
 
             ba = pDataBuffer.getMsg();
             UAssert.DebugAssert(ba != null);
             pUnitTestCmd.derialize(ba);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "成功返回");
+
+            pDataBuffer.getSendData();
+            if (pDataBuffer.sendBuffer.length > 0)
+            {
+                cryptLenBA.clear();
+                cryptLenBA.writeUnsignedInt(pDataBuffer.sendBuffer.length);
+                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
+                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+                pDataBuffer.moveRaw2Msg();
+            }
+
+            ba = pDataBuffer.getMsg();
+            UAssert.DebugAssert(ba != null);
+            pUnitTesNumtCmd.derialize(ba);
+            UAssert.DebugAssert(pUnitTesNumtCmd.num == 2001);
         }
 
         protected void testBA()

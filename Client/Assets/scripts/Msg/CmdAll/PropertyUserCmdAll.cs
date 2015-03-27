@@ -12,7 +12,7 @@ namespace Game.Msg
             byParam = REMOVEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             qwThisID = ba.readUnsignedInt();
@@ -39,7 +39,7 @@ namespace Game.Msg
             byParam = REFCOUNTOBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             qwThisID = ba.readUnsignedInt();
@@ -73,7 +73,7 @@ namespace Game.Msg
             byParam = USEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedInt(qwThisID);
@@ -104,7 +104,7 @@ namespace Game.Msg
         public byte byActionType;
         public t_Object_mobile mobject;
 
-        public void derialize(IByteArray ba)
+        public void derialize(ByteArray ba)
         {
             byActionType = ba.readUnsignedByte();
             mobject = new t_Object_mobile();
@@ -122,7 +122,7 @@ namespace Game.Msg
             byParam = ADDUSER_MOBJECT_LIST_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             num = ba.readUnsignedShort();
@@ -165,7 +165,7 @@ namespace Game.Msg
             byParam = ADDUSER_MOBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             byActionType = ba.readUnsignedByte();
@@ -194,7 +194,7 @@ namespace Game.Msg
             byParam = REQ_BUY_MARKET_MOBILE_OBJECT_CMD;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
             ba.writeUnsignedShort(index);
@@ -221,7 +221,7 @@ namespace Game.Msg
             byParam = NOFITY_MARKET_ALL_OBJECT_CMD;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             count = ba.readUnsignedShort();
@@ -274,7 +274,7 @@ namespace Game.Msg
             byParam = REQ_USER_BASE_DATA_INFO_CMD;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
         }

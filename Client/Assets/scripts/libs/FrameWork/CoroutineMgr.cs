@@ -12,7 +12,7 @@ namespace SDK.Lib
 
     }
 
-    public class CoroutineMgr : ICoroutineMgr
+    public class CoroutineMgr
     {
         protected CoroutineComponent m_CoroutineCmnt;
 

@@ -8,7 +8,7 @@ namespace Game.UI
     /**
      * @brief 额外操作
      */
-    public class UIExtraOp : Form, IUIExtraOp
+    public class UIExtraOp : Form
     {
         protected ExtraOpData m_dzData = new ExtraOpData();
 

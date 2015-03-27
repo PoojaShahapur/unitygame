@@ -109,7 +109,7 @@ namespace Game.UI
         void endeditset()
         {
             // 先保存，然后退回
-            IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
             uiSC.reqSaveCard();
 
             (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.hide();        // 当前编辑的卡牌组隐藏

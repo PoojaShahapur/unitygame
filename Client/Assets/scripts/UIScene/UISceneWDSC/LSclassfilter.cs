@@ -126,7 +126,7 @@ namespace Game.UI
                 {
                     //nowclass = myclass;
                     //transform.root.FindChild("page").SendMessage("onclass", myclass);
-                    IUISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as IUISceneWDSC;
+                    UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
                     uiSC.onclass(myclass);
                 }
             }

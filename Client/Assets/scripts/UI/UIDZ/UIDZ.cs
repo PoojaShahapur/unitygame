@@ -35,7 +35,7 @@ namespace Game.UI
 
         protected void onOpBtnClk()
         {
-            Ctx.m_instance.m_uiMgr.showForm(UIFormID.UIExtraOp);
+            Ctx.m_instance.m_uiMgr.loadAndShow<UIExtraOp>(UIFormID.UIExtraOp);
         }
 
         // self 和 enemy hero 的名字显示

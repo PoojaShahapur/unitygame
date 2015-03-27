@@ -6,7 +6,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class ResLoadMgr : IResLoadMgr
+    public class ResLoadMgr
     {
         protected uint m_maxParral = 8;                             // 最多同时加载的内容
         protected uint m_curNum = 0;                                // 当前加载的数量

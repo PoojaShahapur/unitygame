@@ -8,7 +8,7 @@ namespace Game.UI
     /**
      * @brief 扩展包
      */
-    public class UISceneShop : SceneForm, IUISceneShop 
+    public class UISceneShop : SceneForm 
     {
         protected shop m_shop = new shop();
         protected btn[] m_btnArr = new btn[(int)SceneShopBtnEnum.eBtnTotal];

@@ -37,7 +37,7 @@ namespace Game.UI
     /// <summary>
     /// 商店控制
     /// </summary>
-    public class shop : InterActiveEntity, ILSshop
+    public class shop : InterActiveEntity
     {
         protected const int TOTALITEM = 2;
 

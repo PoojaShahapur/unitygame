@@ -17,7 +17,7 @@ namespace SDK.Common
         public byte byParam;
         public uint dwTimestamp;
 
-        public virtual void serialize(IByteArray ba)
+        public virtual void serialize(ByteArray ba)
         {
             ba.writeByte(byCmd);
             ba.writeByte(byParam);
@@ -25,7 +25,7 @@ namespace SDK.Common
             ba.writeUnsignedInt(dwTimestamp);
         }
 
-        public virtual void derialize(IByteArray ba)
+        public virtual void derialize(ByteArray ba)
         {
             byCmd = ba.readByte();
             byParam = ba.readByte();

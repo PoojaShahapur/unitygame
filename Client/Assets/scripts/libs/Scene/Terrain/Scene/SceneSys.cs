@@ -9,9 +9,9 @@ namespace SDK.Lib
     /**
      * @brief 同一时刻只能有一个场景存在
      */
-    public class SceneSys : ISceneSys
+    public class SceneSys
     {
-        protected Action<IScene> onSceneLoaded;
+        protected Action<Scene> onSceneLoaded;
 
         protected SceneParse m_sceneParse;
         protected Scene m_scene;
@@ -33,7 +33,7 @@ namespace SDK.Lib
             }
         }
 
-        public void loadScene(string filename, Action<IScene> func)
+        public void loadScene(string filename, Action<Scene> func)
         {
             // 卸载之前的场景
             unloadScene();

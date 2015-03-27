@@ -31,7 +31,7 @@ namespace Game.UI
             UISceneBg uiSB = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneBg) as UISceneBg;
             if (uiSB == null)
             {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm(UISceneFormID.eUISceneBg);
+                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneBg>(UISceneFormID.eUISceneBg);
             }
             Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneBg);
 

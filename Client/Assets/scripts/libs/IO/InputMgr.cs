@@ -8,7 +8,7 @@ namespace SDK.Lib
     /**
      * @brief 主要是场景消息处理， UI 消息单独走
      */
-    class InputMgr : IInputMgr, ITickedObject
+    public class InputMgr : ITickedObject
     {
         Action<KeyCode> m_onKeyUp = null;
         Action<KeyCode> m_onKeyDown = null;

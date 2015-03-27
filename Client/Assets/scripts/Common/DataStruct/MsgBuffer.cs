@@ -48,7 +48,7 @@
 #if MSG_COMPRESS
             if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
             {
-                msglen |= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
+                msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
             }
 #endif
             if (msglen <= m_circuleBuffer.size - DataCV.HEADER_SIZE)

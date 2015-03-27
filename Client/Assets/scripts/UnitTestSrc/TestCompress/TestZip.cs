@@ -63,7 +63,7 @@ namespace UnitTestSrc
             uint inSize = 0;
 
             ByteArray pByteArray = new ByteArray();
-            UnitTestCmd pUnitTestCmd = new UnitTestCmd();
+            UnitTestStrCmd pUnitTestCmd = new UnitTestStrCmd();
 
             // 发送第一个数据包
             pUnitTestCmd.testStr = "测试数据";

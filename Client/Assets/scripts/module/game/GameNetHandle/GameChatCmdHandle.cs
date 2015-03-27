@@ -1,4 +1,5 @@
 ﻿using Game.Msg;
+using Game.UI;
 using SDK.Common;
 
 namespace Game.Game
@@ -10,12 +11,12 @@ namespace Game.Game
             m_id2HandleDic[stChatUserCmd.CHAT_USERCMD_PARAMETER] = psstKokChatUserCmd;
         }
 
-        public void psstKokChatUserCmd(IByteArray msg)
+        public void psstKokChatUserCmd(ByteArray msg)
         {
             stKokChatUserCmd cmd = new stKokChatUserCmd();
             cmd.derialize(msg);
 
-            IUIChat uiChat = Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as IUIChat;
+            UIChat uiChat = Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as UIChat;
             if(uiChat != null)
             {
                 cmd.pstrChat = cmd.pstrChat.TrimEnd('\0');

@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.UI;
+using SDK.Common;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace Game.Game
             }
             else if (Input.GetKeyDown(KeyCode.K))  // 加载 UI 资源
             {
-                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
+                Ctx.m_instance.m_uiMgr.loadForm<UIPack>(UIFormID.UIPack);
             }
         }
 
@@ -85,12 +86,12 @@ namespace Game.Game
             //param.m_loadNeedCoroutine = true;
             //Ctx.m_instance.m_resLoadMgr.load(param);
 
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
+            Ctx.m_instance.m_uiMgr.loadForm<UIPack>(UIFormID.UIPack);
         }
 
         protected void onShopClk()
         {
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.UIPack);
+            Ctx.m_instance.m_uiMgr.loadForm<UIPack>(UIFormID.UIPack);
         }
 
         //protected void onClkBtn(RaycastHit hit)

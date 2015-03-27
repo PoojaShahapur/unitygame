@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Game.UI;
+using System.Collections.Generic;
 
 namespace SDK.Common
 {
@@ -23,7 +24,7 @@ namespace SDK.Common
             }
 
             //(Ctx.m_instance.m_interActiveEntityMgr.getActiveEntity("shop") as ILSshop).updateShopData();
-            IUISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneShop) as IUISceneShop;
+            UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneShop) as UISceneShop;
             if(uiShop != null)
             {
                 uiShop.updateShopData();

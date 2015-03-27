@@ -9,7 +9,7 @@ namespace SDK.Common
     {
         public string m_tmpStr = "";
         public string m_retLangStr = "";     // 返回的语言描述
-        public IByteArray m_tmpBA;
+        public ByteArray m_tmpBA;
 
         public ShareMgr()
         {

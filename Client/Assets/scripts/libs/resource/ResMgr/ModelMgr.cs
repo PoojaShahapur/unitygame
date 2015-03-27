@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class ModelMgr : ResMgrBase, IModelMgr
+    public class ModelMgr : ResMgrBase
     {
         // ¼ÇÂ¼ÃÉÆ¤ÐÅÏ¢
         protected Dictionary<string, Dictionary<string, string[]> > m_skinDic = new Dictionary<string,Dictionary<string,string[]>>();

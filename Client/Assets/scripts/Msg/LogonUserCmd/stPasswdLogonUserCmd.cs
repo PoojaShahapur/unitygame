@@ -14,7 +14,7 @@ namespace Game.Msg
             byParam = PASSWD_LOGON_USERCMD_PARA;
         }
 
-        public override void serialize(IByteArray ba)
+        public override void serialize(ByteArray ba)
         {
             base.serialize(ba);
 

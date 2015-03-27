@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class Logger : ILogger
+    public class Logger
     {
         public MMutex m_visitMutex = new MMutex(false, "LoggerMutex");    // 主要是添加和获取数据互斥
         public List<string> m_strList = new List<string>();              // 这个是多线程访问的
@@ -16,8 +16,13 @@ namespace SDK.Lib
 
         public Logger()
         {
+#if UNITY_5
+            Application.logMessageReceived += onDebugLogCallbackHandler;
+            Application.logMessageReceivedThreaded += onDebugLogCallbackThreadHandler;
+#elif UNITY_4_6
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
+#endif
 
             registerDevice();
         }

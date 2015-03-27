@@ -6,11 +6,11 @@ namespace SDK.Lib
     /**
      * @brief AI 所有数据结构都存放在这里
      */
-    public class AISystem : IAISystem
+    public class AISystem
     {
-        protected IBehaviorTreeMgr m_behaviorTreeMgr = new BehaviorTreeMgr();
+        protected BehaviorTreeMgr m_behaviorTreeMgr = new BehaviorTreeMgr();
 
-        public IBehaviorTreeMgr getBehaviorTreeMgr()
+        public BehaviorTreeMgr getBehaviorTreeMgr()
         {
             return m_behaviorTreeMgr;
         }

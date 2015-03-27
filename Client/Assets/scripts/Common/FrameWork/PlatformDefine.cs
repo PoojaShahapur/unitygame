@@ -33,3 +33,6 @@
 
 // 外网测试
 //#define KOKSERVER_TEST
+
+// 不使用的代码
+// #define DEPRECATE_CODE

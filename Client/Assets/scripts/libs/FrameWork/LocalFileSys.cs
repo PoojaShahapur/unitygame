@@ -9,7 +9,7 @@ namespace SDK.Lib
     /**
      * @brief 本地文件系统，参考 http://www.xuanyusong.com/archives/1069
      */
-    public class LocalFileSys : ILocalFileSys
+    public class LocalFileSys
     {
         /**
         * @param path：文件创建目录

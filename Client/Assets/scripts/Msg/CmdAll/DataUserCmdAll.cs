@@ -11,7 +11,7 @@ namespace Game.Msg
             byParam = MAIN_USER_DATA_USERCMD_PARA;
         }
 
-        public override void derialize(IByteArray ba)
+        public override void derialize(ByteArray ba)
         {
             base.derialize(ba);
             data = new t_MainUserData();
