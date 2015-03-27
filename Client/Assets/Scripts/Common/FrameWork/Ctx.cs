@@ -11,9 +11,9 @@ using UnitTestSrc;
 namespace SDK.Common
 {
     /**
-     * @brief 挂载到不卸载的 GameObject，保证 Ctx 永远不被释放，否则过场景后，这里面的内容可能会被清空
+     * @brief 全局数据区
      */
-    public class Ctx : MonoBehaviour
+    public class Ctx
     {
         static public Ctx m_instance;
 
@@ -22,7 +22,6 @@ namespace SDK.Common
         public Logger m_log;                       // 日志系统
         public ResLoadMgr m_resLoadMgr;                    // 资源管理器
         public InputMgr m_inputMgr;                // 输入管理器
-        public Transform m_dataTrans;               // 整个系统使用的 GameObject
 
         public IGameSys m_gameSys;                  // 游戏系统
         public SceneSys m_sceneSys;                // 场景系统
@@ -58,7 +57,6 @@ namespace SDK.Common
         public FactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
 
         public LangMgr m_langMgr;                  // 语言管理器
-        //public IInterActiveEntityMgr m_interActiveEntityMgr;
         public DataPlayer m_dataPlayer = new DataPlayer();
         public XmlCfgMgr m_xmlCfgMgr = new XmlCfgMgr();
         public MaterialMgr m_matMgr = new MaterialMgr();
@@ -72,7 +70,7 @@ namespace SDK.Common
         public FlyNumMgr m_pFlyNumMgr = new FlyNumMgr();              // Header Num
 
         public TimerMsgHandle m_pTimerMsgHandle = new TimerMsgHandle();
-        public WebSocketMgr m_pWebSocketMgr;
+        //public WebSocketMgr m_pWebSocketMgr;
         public PoolSys m_poolSys = new PoolSys();
 
         public Ctx()
@@ -80,21 +78,16 @@ namespace SDK.Common
 
         }
 
-        public static Ctx getCtx(GameObject go)
+        public static Ctx instance()
         {
             if (m_instance == null)
             {
-                m_instance = go.AddComponent<Ctx>();
+                m_instance = new Ctx();
             }
             return m_instance;
         }
 
-        void Awake()
-        {
-            
-        }
-
-        void Start()
+        public void init()
         {
             // 构造所有的数据
             constructAll();
@@ -112,22 +105,6 @@ namespace SDK.Common
 #endif
         }
 
-        void Update()
-        {
-            if (m_engineLoop != null)
-            {
-                m_engineLoop.MainLoop();
-            }
-        }
-
-        void OnApplicationQuit()
-        {
-            if (m_netMgr != null)
-            {
-                m_netMgr.quipApp();
-            }
-        }
-
         public void constructAll()
         {
             ByteUtil.checkEndian();     // 检查系统大端小端
@@ -139,7 +116,6 @@ namespace SDK.Common
             m_log = new Logger();
             m_resLoadMgr = new ResLoadMgr();
             m_inputMgr = new InputMgr();
-            m_dataTrans = transform;
 
             m_processSys = new ProcessSys();
             m_tickMgr = new TickMgr();

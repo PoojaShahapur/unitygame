@@ -42,7 +42,7 @@ namespace UnitTestSrc
             ByteArray ba = new ByteArray();
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
             cmd.serialize(ba);
-            Compress.CompressByteZip(ba.dynBuff.buff, 0, (uint)ba.length, ref outBytes, ref outSize);
+            //Compress.CompressByteZip(ba.dynBuff.buff, 0, (uint)ba.length, ref outBytes, ref outSize);
 
             writeFile("e:\\log.zip", outBytes);
         }

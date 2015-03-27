@@ -371,7 +371,7 @@ namespace SDK.Lib
         //把卡清掉
         void cls()
         {
-            string cardstext = "";
+            //string cardstext = "";
             foreach (Transform t in setcards)
             {
                 //card c = t.GetComponent<SetCard>().info;

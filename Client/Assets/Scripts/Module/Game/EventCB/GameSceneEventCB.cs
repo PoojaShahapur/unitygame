@@ -22,7 +22,7 @@ namespace Game.Game
 
         public void createHero()
         {
-            IPlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
+            PlayerMain playerMain = Ctx.m_instance.m_playerMgr.createHero();
             Ctx.m_instance.m_playerMgr.addHero(playerMain);
             //playerMain.setSkeleton("DefaultAvatar_Unity_Body_Mesh");
             playerMain.setSkeleton("DefaultAvatar");
@@ -38,7 +38,7 @@ namespace Game.Game
 
         public void createMonster(Vector3 pos)
         {
-            IMonster monster = Ctx.m_instance.m_monsterMgr.createMonster();
+            Monster monster = Ctx.m_instance.m_monsterMgr.createMonster();
             Ctx.m_instance.m_monsterMgr.add(monster);
             monster.setSkeleton("DefaultAvatar");
             monster.setLocalPos(pos);

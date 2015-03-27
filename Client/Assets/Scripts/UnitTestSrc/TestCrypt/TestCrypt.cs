@@ -18,7 +18,7 @@ namespace UnitTestSrc
         {
             string testStr = "asdfasdf";
             byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(testStr);
-            byte[] outBytes = null;
+            //byte[] outBytes = null;
             uint inSize = (uint)inBytes.Length;
             //uint outSize = 0;
 
@@ -47,7 +47,7 @@ namespace UnitTestSrc
 
         protected void testDes()
         {
-            string testStr = "asdfasdf5";
+            //string testStr = "asdfasdf5";
             //byte[] inBytes = System.Text.Encoding.UTF8.GetBytes(testStr);
             //byte[] key = { 0x65, 0xC1, 0x78, 0xB2, 0x84, 0xD1, 0x97, 0xCC };
             byte[] key = { 26, 32, 127, 193, 251, 239, 174, 97 };

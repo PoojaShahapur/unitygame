@@ -1,5 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using SDK.Lib;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +23,6 @@ namespace Game.UI
 
         public override void hide()
         {
-            return;
             base.hide();
             UtilApi.Destroy(m_cardItem.getGameObject());
 
@@ -50,7 +50,11 @@ namespace Game.UI
                 m_cardItem.setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
                 m_cardItem.transform.SetParent(m_tipsItemRoot.transform, false);
                 m_cardItem.transform.localPosition = new Vector3(-2.12f, 0, 0);
+#if UNITY_5
+                m_cardItem.transform.localRotation = Quaternion.Euler(270, 0, 0);
+#elif UNITY_4_6
                 m_cardItem.transform.localRotation = Quaternion.EulerRotation(270, 0, 0);
+#endif
             }
 
             int idx = 0;
@@ -69,7 +73,11 @@ namespace Game.UI
                     m_list[idx].setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
                     m_list[idx].transform.SetParent(m_tipsItemRoot.transform, false);
                     m_cardItem.transform.localPosition = new Vector3(-2.12f + 1.5f * (1 + idx), 0, 0);
+#if UNITY_5
+                    m_list[idx].transform.localRotation = Quaternion.Euler(270, 0, 0);
+#elif UNITY_4_6
                     m_list[idx].transform.localRotation = Quaternion.EulerRotation(270, 0, 0);
+#endif
                 }
             }
         }
