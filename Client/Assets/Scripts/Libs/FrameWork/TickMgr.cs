@@ -8,7 +8,7 @@ using System.Collections.Generic;
  */
 namespace SDK.Lib
 {
-    class TickMgr : DelayHandleMgrBase, ITickMgr
+    public class TickMgr : DelayHandleMgrBase
     {
         protected List<ProcessObject> m_tickLst = new List<ProcessObject>();
 
@@ -17,7 +17,7 @@ namespace SDK.Lib
             
         }
 
-        public override void addObject(IDelayHandleItem delayObject, float priority)
+        public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (m_duringAdvance)
             {

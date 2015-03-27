@@ -22,7 +22,7 @@ namespace SDK.Lib
             }
         }
 
-        public void add(IBeingEntity being)
+        public void add(BeingEntity being)
         {
             m_list.Add(being as BeingEntity);
         }

@@ -40,6 +40,7 @@ namespace SDK.Lib
             }
         }
 
+#if DEPRECATE_CODE
         /// <summary>
         /// 压缩
         /// </summary>
@@ -162,80 +163,9 @@ namespace SDK.Lib
             }
         }
 
-        /// <summary>
-        /// 压缩
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        static public void CompressByteZipNet(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
-        {
-            MemoryStream ms = new MemoryStream();
-            ZOutputStream zipStream = new ZOutputStream(ms, 9);
-
-            try
-            {
-                zipStream.Write(inBytes, (int)startPos, (int)inLen);
-
-                zipStream.Flush();
-                zipStream.Close();      // 一定要先 Close ZipOutputStream ，然后再获取 ToArray ，如果不关闭， ToArray 将不能返回正确的值
-
-                outBytes = ms.ToArray();
-                outLen = (uint)outBytes.Length;
-            }
-            finally
-            {
-                ms.Close();
-            }
-        }
-        /// <summary>
-        /// 解压
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        static public void DecompressByteZipNet(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
-        {
-            MemoryStream outStream = new MemoryStream();
-            MemoryStream outms = new MemoryStream();
-            outms.Write(inBytes, (int)startPos, (int)inLen);
-            outms.Position = 0;
-            ZInputStream outzipStream = new ZInputStream(outms);
-
-            byte[] writeData = new byte[1024];
-
-            try
-            {
-                int size = 0;
-
-                while ((size = outzipStream.read(writeData, 0, writeData.Length)) > 0)
-                {
-                    if (size > 0)
-                    {
-                        outStream.Write(writeData, 0, size);
-                    }
-                    else
-                    {
-                        Ctx.m_instance.m_log.log("ZipNet Decompress Error");
-                    }
-                }
-
-                outzipStream.Close();  // 一定要先 Close ZipOutputStream ，然后再获取 ToArray ，如果不关闭， ToArray 将不能返回正确的值
-
-                outBytes = outStream.ToArray();
-                outLen = (uint)outBytes.Length;
-
-                outStream.Close();
-            }
-            finally
-            {
-                outms.Close();
-            }
-        }
-
         /**
          * @brief LZMA 压缩处理
          */
-        public const uint LZMA_HEADER_LEN = 13;
-
 		public static void CompressFileLZMA (string inFile, string outFile)
 		{
 			SevenZip.Compression.LZMA.Encoder coder = new SevenZip.Compression.LZMA.Encoder ();
@@ -276,64 +206,138 @@ namespace SDK.Lib
 			output.Close ();
 			input.Close ();
 		}
+#endif
+
+        public const uint LZMA_HEADER_LEN = 13;
 
         public static void CompressStrLZMA(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
-		{
-			SevenZip.Compression.LZMA.Encoder coder = new SevenZip.Compression.LZMA.Encoder ();
-			MemoryStream inStream = new MemoryStream ();
+        {
+            SevenZip.Compression.LZMA.Encoder coder = new SevenZip.Compression.LZMA.Encoder();
+            MemoryStream inStream = new MemoryStream();
             inStream.Write(inBytes, (int)startPos, (int)inLen);
             inStream.Position = 0;
 
-			int saveinsize = (int)inLen;
-			int saveoutsize = (int)(saveinsize * 1.1 + 1026 * 16 + LZMA_HEADER_LEN);
+            int saveinsize = (int)inLen;
+            int saveoutsize = (int)(saveinsize * 1.1 + 1026 * 16 + LZMA_HEADER_LEN);
 
-			outBytes = new byte[saveoutsize];
-			MemoryStream outStream = new MemoryStream (outBytes);
+            outBytes = new byte[saveoutsize];
+            MemoryStream outStream = new MemoryStream(outBytes);
 
-			// Write the encoder properties
-			coder.WriteCoderProperties (outStream);
-			// Write the decompressed file size.
-			outStream.Write (BitConverter.GetBytes (inStream.Length), 0, 8);
+            // Write the encoder properties
+            coder.WriteCoderProperties(outStream);
+            // Write the decompressed file size.
+            outStream.Write(BitConverter.GetBytes(inStream.Length), 0, 8);
 
-			// Encode the file.
-			coder.Code (inStream, outStream, inStream.Length, -1, null);
+            // Encode the file.
+            coder.Code(inStream, outStream, inStream.Length, -1, null);
             saveoutsize = (int)outStream.Position;
-			outStream.Flush ();
-			outStream.Close ();
-			inStream.Close ();
+            outStream.Flush();
+            outStream.Close();
+            inStream.Close();
 
             outLen = (uint)saveoutsize;
-		}
+        }
 
         public static void DecompressStrLZMA(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
-		{
-			SevenZip.Compression.LZMA.Decoder coder = new SevenZip.Compression.LZMA.Decoder ();
-			MemoryStream inStream = new MemoryStream();
+        {
+            SevenZip.Compression.LZMA.Decoder coder = new SevenZip.Compression.LZMA.Decoder();
+            MemoryStream inStream = new MemoryStream();
             inStream.Write(inBytes, (int)startPos, (int)inLen);
             inStream.Position = 0;      // 放到 0 位置
 
-			uint saveinsize = inLen;
-			uint saveoutsize = (uint)(saveinsize * 1.1 + 1026 * 16);
-			outBytes = new byte[saveoutsize];
-			MemoryStream outStream = new MemoryStream (outBytes);
+            uint saveinsize = inLen;
+            uint saveoutsize = (uint)(saveinsize * 1.1 + 1026 * 16);
+            outBytes = new byte[saveoutsize];
+            MemoryStream outStream = new MemoryStream(outBytes);
 
-			// Read the decoder properties
-			byte[ ] properties = new byte [ 5 ];
-			inStream.Read (properties, 0, 5);
+            // Read the decoder properties
+            byte[] properties = new byte[5];
+            inStream.Read(properties, 0, 5);
 
-			// Read in the decompress file size.
-			byte[ ] fileLengthBytes = new byte [ 8 ];
-			inStream.Read (fileLengthBytes, 0, 8);				// 仅仅是读取出来就行了，这个目前用不着
-			long fileLength = BitConverter.ToInt64 (fileLengthBytes, 0);
+            // Read in the decompress file size.
+            byte[] fileLengthBytes = new byte[8];
+            inStream.Read(fileLengthBytes, 0, 8);				// 仅仅是读取出来就行了，这个目前用不着
+            long fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 
-			// Decompress the file.
-			coder.SetDecoderProperties (properties);
-			coder.Code (inStream, outStream, inStream.Length, fileLength, null);		// 输入长度是 inStream.Length ，不是 inStream.Length - LZMA_HEADER_LEN, outSize 要填未压缩后的字符串的长度，inSize，outSize 这两个参数都要填写，否则会报错
-			outStream.Flush ();
-			outStream.Close ();
-			inStream.Close ();
+            // Decompress the file.
+            coder.SetDecoderProperties(properties);
+            coder.Code(inStream, outStream, inStream.Length, fileLength, null);		// 输入长度是 inStream.Length ，不是 inStream.Length - LZMA_HEADER_LEN, outSize 要填未压缩后的字符串的长度，inSize，outSize 这两个参数都要填写，否则会报错
+            outStream.Flush();
+            outStream.Close();
+            inStream.Close();
 
-			outLen = (uint)fileLength;		// 返回解压后的长度，就是压缩的时候保存的数据长度
-		}
+            outLen = (uint)fileLength;		// 返回解压后的长度，就是压缩的时候保存的数据长度
+        }
+
+        /// <summary>
+        /// 压缩
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        static public void CompressByteZipNet(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
+        {
+            MemoryStream ms = new MemoryStream();
+            ZOutputStream zipStream = new ZOutputStream(ms, 9);
+
+            try
+            {
+                zipStream.Write(inBytes, (int)startPos, (int)inLen);
+
+                zipStream.Flush();
+                zipStream.Close();      // 一定要先 Close ZipOutputStream ，然后再获取 ToArray ，如果不关闭， ToArray 将不能返回正确的值
+
+                outBytes = ms.ToArray();
+                outLen = (uint)outBytes.Length;
+                ms.Close();
+            }
+            catch
+            {
+                Ctx.m_instance.m_log.asynclog("CompressByteZipNet error");
+            }
+        }
+        /// <summary>
+        /// 解压
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        static public void DecompressByteZipNet(byte[] inBytes, uint startPos, uint inLen, ref byte[] outBytes, ref uint outLen)
+        {
+            MemoryStream outStream = new MemoryStream();
+            MemoryStream outms = new MemoryStream();
+            outms.Write(inBytes, (int)startPos, (int)inLen);
+            outms.Position = 0;
+            ZInputStream outzipStream = new ZInputStream(outms);
+
+            byte[] writeData = new byte[1024];
+
+            try
+            {
+                int size = 0;
+
+                while ((size = outzipStream.read(writeData, 0, writeData.Length)) > 0)
+                {
+                    if (size > 0)
+                    {
+                        outStream.Write(writeData, 0, size);
+                    }
+                    else
+                    {
+                        Ctx.m_instance.m_log.asynclog("ZipNet Decompress Error");
+                    }
+                }
+
+                outzipStream.Close();  // 一定要先 Close ZipOutputStream ，然后再获取 ToArray ，如果不关闭， ToArray 将不能返回正确的值
+
+                outBytes = outStream.ToArray();
+                outLen = (uint)outBytes.Length;
+
+                outStream.Close();
+                outms.Close();
+            }
+            catch
+            {
+                Ctx.m_instance.m_log.log("DecompressByteZipNet error");
+            }
+        }
     }
 }

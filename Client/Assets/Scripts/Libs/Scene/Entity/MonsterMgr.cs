@@ -4,11 +4,11 @@ using UnitySteer.Behaviors;
 
 namespace SDK.Lib
 {
-    public class MonsterMgr : BeingMgr, IMonsterMgr
+    public class MonsterMgr : BeingMgr
     {
         //protected Dictionary<int, List<Vehicle>> m_group2RadarDic = new Dictionary<int, List<Vehicle>>();
 
-        public IMonster createMonster()
+        public Monster createMonster()
         {
             return new Monster();
         }

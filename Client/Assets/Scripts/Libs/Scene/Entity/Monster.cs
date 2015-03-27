@@ -4,7 +4,7 @@ using UnitySteer.Behaviors;
 
 namespace SDK.Lib
 {
-    public class Monster : BeingEntity, IMonster
+    public class Monster : BeingEntity
     {
         protected int m_groupID = 0;        // 组 id 
 

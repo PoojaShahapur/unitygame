@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Lib;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace SDK.Common

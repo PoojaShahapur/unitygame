@@ -6,7 +6,7 @@ namespace SDK.Lib
 	/**
 	 * @brief 玩家管理器
 	 */
-    public class PlayerMgr : BeingMgr, IPlayerMgr
+    public class PlayerMgr : BeingMgr
 	{
         protected PlayerMain m_hero;
 
@@ -15,18 +15,18 @@ namespace SDK.Lib
 
 		}
 
-        public IPlayerMain createHero()
+        public PlayerMain createHero()
         {
             return new PlayerMain();
         }
 
-        public void addHero(IPlayerMain hero)
+        public void addHero(PlayerMain hero)
         {
             m_hero = hero as PlayerMain;
             add(m_hero);
         }
 
-        public IPlayerMain getHero()
+        public PlayerMain getHero()
         {
             return m_hero;
         }

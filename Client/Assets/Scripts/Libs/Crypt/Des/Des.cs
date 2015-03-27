@@ -560,17 +560,17 @@ namespace SDK.Lib
             int idx = 0;
             for (idx = 0; idx <= inLen - 8; idx += 8)
             {
-                if (idx % 16 == 0)  // 如果是 16 的整数倍
-                {
+                //if (idx % 16 == 0)  // 如果是 16 的整数倍
+                //{
                     // 保证 8 个字节
                     CryptUtil.get8Byte(inBytesTotal, (int)startPos + idx, inBytes);
                     DES_ecb_encrypt(inBytes, outBytes, ks, enc);
                     Array.Copy(outBytes, 0, outBytesTotal, idx, 8);
-                }
-                else
-                {
-                    Array.Copy(inBytesTotal, idx, outBytesTotal, idx, 8);
-                }
+                //}
+                //else
+                //{
+                //    Array.Copy(inBytesTotal, idx, outBytesTotal, idx, 8);
+                //}
             }
         }
     }

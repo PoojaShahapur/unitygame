@@ -26,10 +26,10 @@ namespace SDK.Common
 
         public IGameSys m_gameSys;                  // 游戏系统
         public SceneSys m_sceneSys;                // 场景系统
-        public ITickMgr m_tickMgr;                  // 心跳管理器
+        public TickMgr m_tickMgr;                  // 心跳管理器
         public ProcessSys m_processSys;            // 游戏处理系统
 
-        public ITimerMgr m_timerMgr;                // 定时器系统
+        public TimerMgr m_timerMgr;                // 定时器系统
         public UIMgr m_uiMgr;                      // UI 管理器
         public UISceneMgr m_uiSceneMgr;                      // UIScene 管理器
         public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器
@@ -38,10 +38,10 @@ namespace SDK.Common
 
         public EngineLoop m_engineLoop;            // 引擎循环
         public GameAttr m_gameAttr;                 // 游戏属性
-        public IFObjectMgr m_fObjectMgr;            // 掉落物管理器
-        public INpcMgr m_npcMgr;                    // Npc管理器
-        public IPlayerMgr m_playerMgr;              // Player管理器
-        public IMonsterMgr m_monsterMgr;            // Monster 管理器
+        public FObjectMgr m_fObjectMgr;            // 掉落物管理器
+        public NpcMgr m_npcMgr;                    // Npc管理器
+        public PlayerMgr m_playerMgr;              // Player管理器
+        public MonsterMgr m_monsterMgr;            // Monster 管理器
 
         public ShareMgr m_shareMgr;                 // 共享数据系统
         public LayerMgr m_layerMgr;                 // 层管理器

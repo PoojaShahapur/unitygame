@@ -6,7 +6,7 @@ using System.Collections.Generic;
  */
 namespace SDK.Lib
 {
-    public class TimerMgr : DelayHandleMgrBase, ITimerMgr
+    public class TimerMgr : DelayHandleMgrBase
     {
         protected List<TimerItemBase> m_timerLists = new List<TimerItemBase>();     // 当前所有的定时器列表
         protected List<TimerItemBase> m_delLists = new List<TimerItemBase>();       // 当前需要删除的定时器
@@ -16,7 +16,7 @@ namespace SDK.Lib
             
         }
 
-        public override void addObject(IDelayHandleItem delayObject, float priority)
+        public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (m_duringAdvance)
             {

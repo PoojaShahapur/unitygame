@@ -1,4 +1,5 @@
-﻿namespace SDK.Common
+﻿using SDK.Lib;
+namespace SDK.Common
 {
     /**
      * @brief 卡表中的属性名字
