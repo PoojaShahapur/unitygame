@@ -29,8 +29,8 @@ namespace Game.UI
         public GameObject m_attackArrowGO;                      // 攻击箭头开始位置
         public GameObject m_arrowListGO;                        // 攻击箭头列表
 
-        public IAttackArrow m_attackArrow;
-        public IGameOpState m_gameOpState;
+        public AttackArrow m_attackArrow;
+        public GameOpState m_gameOpState;
 
         public SceneDZArea[] m_sceneDZAreaArr;
 

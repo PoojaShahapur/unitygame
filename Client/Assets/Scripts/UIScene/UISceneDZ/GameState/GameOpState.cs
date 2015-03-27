@@ -17,7 +17,7 @@ namespace Game.UI
     /**
      * @brief 游戏当前操作状态，仅处理场景中交互的内容，如果触摸到不交互的场景的内容，不打断场景逻辑
      */
-    public class GameOpState : IGameOpState
+    public class GameOpState
     {
         protected SceneDZData m_sceneDZData;
 

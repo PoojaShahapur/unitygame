@@ -15,7 +15,7 @@ namespace Game.UI
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
 
         protected SceneCardItem m_sceneCardItem;
-        public SceneDZData m_sceneDZData = new SceneDZData();
+        public SceneDZData m_sceneDZData;
         public ushort m_index = 0;             // 在牌中的索引，主要是手里的牌和打出去的牌
 
         protected NumAniSequence m_numAniSeq = new NumAniSequence();       // 攻击动画序列，这个所有的都有

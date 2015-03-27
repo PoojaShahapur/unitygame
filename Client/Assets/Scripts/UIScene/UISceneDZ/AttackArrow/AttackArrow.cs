@@ -8,7 +8,7 @@ namespace Game.UI
     /**
      * @brief 攻击箭头
      */
-    public class AttackArrow : IAttackArrow, ITickedObject
+    public class AttackArrow : ITickedObject
     {
         public SceneDZData m_sceneDZData;
         protected List<ArrowItem> m_arrowList = new List<ArrowItem>();          // 当前显示的箭头
