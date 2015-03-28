@@ -23,26 +23,26 @@ namespace SDK.Common
 
         public byte[] state;
 
-        public void derialize(ByteArray ba)
+        public void derialize(ByteBuffer ba)
         {
             
-            qwThisID = ba.readUnsignedInt();
-            dwObjectID = ba.readUnsignedInt();
+            qwThisID = ba.readUnsignedInt32();
+            dwObjectID = ba.readUnsignedInt32();
 	        pos = new stObjectLocation();
             pos.derialize(ba);
 
-            dwNum = ba.readUnsignedInt();
+            dwNum = ba.readUnsignedInt32();
             strName = ba.readMultiByte(CVMsg.MAX_NAMESIZE, GkEncode.UTF8);
-            mpcost = ba.readUnsignedInt();
-            damage = ba.readUnsignedInt();
-            hp = ba.readUnsignedInt();
-            maxhp = ba.readUnsignedInt();
-            dur = ba.readUnsignedInt();
-            maxdur = ba.readUnsignedInt();
+            mpcost = ba.readUnsignedInt32();
+            damage = ba.readUnsignedInt32();
+            hp = ba.readUnsignedInt32();
+            maxhp = ba.readUnsignedInt32();
+            dur = ba.readUnsignedInt32();
+            maxdur = ba.readUnsignedInt32();
 
-            magicDamAdd = ba.readUnsignedByte();
-            overload = ba.readUnsignedByte();
-            armor = ba.readUnsignedInt();
+            magicDamAdd = ba.readUnsignedInt8();
+            overload = ba.readUnsignedInt8();
+            armor = ba.readUnsignedInt32();
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = ba.readBytes(len);

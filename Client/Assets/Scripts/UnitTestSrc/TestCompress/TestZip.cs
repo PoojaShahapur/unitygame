@@ -37,9 +37,9 @@ namespace UnitTestSrc
         protected void testCompressMsg()
         {
             byte[] outBytes = null;
-            uint outSize = 0;
+            //uint outSize = 0;
 
-            ByteArray ba = new ByteArray();
+            ByteBuffer ba = new ByteBuffer();
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
             cmd.serialize(ba);
             //Compress.CompressByteZip(ba.dynBuff.buff, 0, (uint)ba.length, ref outBytes, ref outSize);
@@ -62,21 +62,21 @@ namespace UnitTestSrc
             byte[] inBytes = null;
             uint inSize = 0;
 
-            ByteArray pByteArray = new ByteArray();
+            ByteBuffer pByteBuffer = new ByteBuffer();
             UnitTestStrCmd pUnitTestCmd = new UnitTestStrCmd();
 
             // 发送第一个数据包
             pUnitTestCmd.testStr = "测试数据";
-            pByteArray.clear();
-            pUnitTestCmd.serialize(pByteArray);
+            pByteBuffer.clear();
+            pUnitTestCmd.serialize(pByteBuffer);
 
-            Compress.CompressData(pByteArray.dynBuff.buff, 0, pByteArray.length, ref outBytes, ref outSize);
+            Compress.CompressData(pByteBuffer.dynBuff.buff, 0, pByteBuffer.length, ref outBytes, ref outSize);
             Compress.DecompressData(outBytes, 0, outSize, ref inBytes, ref inSize);
 
-            pByteArray.clear();
-            pByteArray.writeBytes(inBytes, 0, inSize);
-            pByteArray.position = 0;
-            pUnitTestCmd.derialize(pByteArray);
+            pByteBuffer.clear();
+            pByteBuffer.writeBytes(inBytes, 0, inSize);
+            pByteBuffer.position = 0;
+            pUnitTestCmd.derialize(pByteBuffer);
 
             UAssert.DebugAssert(pUnitTestCmd.testStr != "测试数据");
         }

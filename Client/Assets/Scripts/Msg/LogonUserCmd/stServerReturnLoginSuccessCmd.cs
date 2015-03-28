@@ -8,7 +8,7 @@ namespace Game.Msg
         public uint loginTempID;
         public string pstrIP;
         public ushort wdPort;
-        public ByteArray keyAux;
+        public ByteBuffer keyAux;
         public uint state;
 
         public byte[] key;  // 客户端自己使用
@@ -18,19 +18,19 @@ namespace Game.Msg
             byParam = SERVER_RETURN_LOGIN_OK;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            dwUserID = ba.readUnsignedInt();
-            loginTempID = ba.readUnsignedInt();
+            dwUserID = ba.readUnsignedInt32();
+            loginTempID = ba.readUnsignedInt32();
             pstrIP = ba.readMultiByte(CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
-            wdPort = ba.readUnsignedShort();
-            keyAux = new ByteArray();
+            wdPort = ba.readUnsignedInt16();
+            keyAux = new ByteBuffer();
             keyAux.writeBytes(ba.readBytes(256), 0, 256);
             keyAux.position = 58;
-            keyAux.position = (uint)(keyAux.readByte());
+            keyAux.position = (uint)(keyAux.readUnsignedInt8());
             key = keyAux.readBytes(8);
-            state = ba.readUnsignedInt();
+            state = ba.readUnsignedInt32();
         }
     }
 }

@@ -18,20 +18,20 @@ namespace UnitTestSrc
             reserve = 0;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
-            ba.writeUnsignedInt(reserve);
-            ba.writeUnsignedInt(version);
+            ba.writeUnsignedInt32(reserve);
+            ba.writeUnsignedInt32(version);
 
             ba.writeMultiByte(testStr, GkEncode.UTF8, 100);
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            reserve = ba.readUnsignedInt();
-            version = ba.readUnsignedInt();
+            reserve = ba.readUnsignedInt32();
+            version = ba.readUnsignedInt32();
 
             testStr = ba.readMultiByte(100, GkEncode.UTF8);
         }

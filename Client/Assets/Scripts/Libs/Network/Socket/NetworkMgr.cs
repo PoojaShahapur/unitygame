@@ -96,7 +96,7 @@ namespace SDK.Lib
             }
         }
 
-        public ByteArray getMsg()
+        public ByteBuffer getMsg()
         {
             if (m_curSocket != null)
             {
@@ -107,7 +107,7 @@ namespace SDK.Lib
         }
 
         // 获取发送消息缓冲区
-        public ByteArray getSendBA()
+        public ByteBuffer getSendBA()
         {
             if (m_curSocket != null)
             {

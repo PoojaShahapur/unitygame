@@ -64,7 +64,7 @@ namespace Game.Login
         }
 
         // 步骤 2 ，接收返回的消息
-        public void receiveMsg2f(ByteArray msg)
+        public void receiveMsg2f(ByteBuffer msg)
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog3f);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
@@ -108,7 +108,7 @@ namespace Game.Login
         }
 
         // 步骤 4 ，服务器返回消息
-        public void receiveMsg4f(ByteArray msg)
+        public void receiveMsg4f(ByteBuffer msg)
         {
             stServerReturnLoginSuccessCmd cmd = new stServerReturnLoginSuccessCmd();
             cmd.derialize(msg);
@@ -172,7 +172,7 @@ namespace Game.Login
         }
 
         // 步骤 6 ，接收消息
-        public void receiveMsg6f(ByteArray msg)
+        public void receiveMsg6f(ByteBuffer msg)
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog9f);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
@@ -182,7 +182,7 @@ namespace Game.Login
         }
 
         // 收到这条消息，就说明客户端没有创建角色，弹出创建角色界面
-        public void psstServerReturnLoginFailedCmd(ByteArray msg)
+        public void psstServerReturnLoginFailedCmd(ByteBuffer msg)
         {
             stServerReturnLoginFailedCmd cmd = new stServerReturnLoginFailedCmd();
             cmd.derialize(msg);
@@ -212,7 +212,7 @@ namespace Game.Login
         }
 
         // 返回基本角色信息
-        public void psstUserInfoUserCmd(ByteArray ba)
+        public void psstUserInfoUserCmd(ByteBuffer ba)
         {
             // 发送选择角色登陆进入游戏
             stLoginSelectUserCmd cmd1f = new stLoginSelectUserCmd();
@@ -224,7 +224,7 @@ namespace Game.Login
         }
 
         // 终于登陆成功了
-        public void psstLoginSelectSuccessUserCmd(ByteArray ba)
+        public void psstLoginSelectSuccessUserCmd(ByteBuffer ba)
         {
             stLoginSelectSuccessUserCmd cmd = new stLoginSelectSuccessUserCmd();
             cmd.derialize(ba);

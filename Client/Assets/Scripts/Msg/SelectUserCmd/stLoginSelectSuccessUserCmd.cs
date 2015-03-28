@@ -11,10 +11,10 @@ namespace Game.Msg
             byParam = LOGIN_SELECT_SUCCESS_USERCMD_PARA;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            dwServerTimestamp = ba.readUnsignedInt();
+            dwServerTimestamp = ba.readUnsignedInt32();
         }
     }
 }

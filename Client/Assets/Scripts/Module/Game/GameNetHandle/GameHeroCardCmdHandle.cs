@@ -51,7 +51,7 @@ namespace Game.Game
         }
 
         // 卡牌图鉴中显示的所有数据
-        protected void psstNotifyAllCardTujianInfoCmd(ByteArray msg)
+        protected void psstNotifyAllCardTujianInfoCmd(ByteBuffer msg)
         {
             stNotifyAllCardTujianInfoCmd cmd = new stNotifyAllCardTujianInfoCmd();
             cmd.derialize(msg);
@@ -67,7 +67,7 @@ namespace Game.Game
         }
 
         // 一个卡牌图鉴信息
-        protected void psstNotifyOneCardTujianInfoCmd(ByteArray msg)
+        protected void psstNotifyOneCardTujianInfoCmd(ByteBuffer msg)
         {
             stNotifyOneCardTujianInfoCmd cmd = new stNotifyOneCardTujianInfoCmd();
             cmd.derialize(msg);
@@ -84,7 +84,7 @@ namespace Game.Game
         }
 
         // 返回开包显示的 5 张牌
-        protected void psstRetGiftBagCardsDataUserCmd(ByteArray msg)
+        protected void psstRetGiftBagCardsDataUserCmd(ByteBuffer msg)
         {
             stRetGiftBagCardsDataUserCmd cmd = new stRetGiftBagCardsDataUserCmd();
             cmd.derialize(msg);
@@ -96,7 +96,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetCardGroupListInfoUserCmd(ByteArray msg)
+        protected void psstRetCardGroupListInfoUserCmd(ByteBuffer msg)
         {
             stRetCardGroupListInfoUserCmd cmd = new stRetCardGroupListInfoUserCmd();
             cmd.derialize(msg);
@@ -117,7 +117,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetOneCardGroupInfoUserCmd(ByteArray msg)
+        protected void psstRetOneCardGroupInfoUserCmd(ByteBuffer msg)
         {
             stRetOneCardGroupInfoUserCmd cmd = new stRetOneCardGroupInfoUserCmd();
             cmd.derialize(msg);
@@ -132,7 +132,7 @@ namespace Game.Game
         }
 
         // 创建一个套牌
-        protected void psstRetCreateOneCardGroupUserCmd(ByteArray msg)
+        protected void psstRetCreateOneCardGroupUserCmd(ByteBuffer msg)
         {
             stRetCreateOneCardGroupUserCmd cmd = new stRetCreateOneCardGroupUserCmd();
             cmd.derialize(msg);
@@ -147,7 +147,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetDeleteOneCardGroupUserCmd(ByteArray msg)
+        protected void psstRetDeleteOneCardGroupUserCmd(ByteBuffer msg)
         {
             stRetDeleteOneCardGroupUserCmd cmd = new stRetDeleteOneCardGroupUserCmd();
             cmd.derialize(msg);
@@ -165,7 +165,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetSaveOneCardGroupUserCmd(ByteArray msg)
+        protected void psstRetSaveOneCardGroupUserCmd(ByteBuffer msg)
         {
             stRetSaveOneCardGroupUserCmd cmd = new stRetSaveOneCardGroupUserCmd();
             cmd.derialize(msg);
@@ -180,7 +180,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetAllHeroInfoUserCmd(ByteArray msg)
+        protected void psstRetAllHeroInfoUserCmd(ByteBuffer msg)
         {
             stRetAllHeroInfoUserCmd cmd = new stRetAllHeroInfoUserCmd();
             cmd.derialize(msg);
@@ -195,7 +195,7 @@ namespace Game.Game
         }
 
         // 返回一个 hero 信息
-        protected void psstRetOneHeroInfoUserCmd(ByteArray msg)
+        protected void psstRetOneHeroInfoUserCmd(ByteBuffer msg)
         {
             stRetOneHeroInfoUserCmd cmd = new stRetOneHeroInfoUserCmd();
             cmd.derialize(msg);
@@ -204,7 +204,7 @@ namespace Game.Game
         }
 
         // 返回匹配结果
-        protected void psstRetHeroFightMatchUserCmd(ByteArray msg)
+        protected void psstRetHeroFightMatchUserCmd(ByteBuffer msg)
         {
             stRetHeroFightMatchUserCmd cmd = new stRetHeroFightMatchUserCmd();
             cmd.derialize(msg);
@@ -218,13 +218,13 @@ namespace Game.Game
         }
 
         // 返回进入战斗场景消息
-        protected void psstRetHeroIntoBattleSceneUserCmd(ByteArray msg)
+        protected void psstRetHeroIntoBattleSceneUserCmd(ByteBuffer msg)
         {
             Ctx.m_instance.m_gameSys.loadDZScene();
         }
 
         // 回归剩余卡牌数量
-        protected void psstRetLeftCardLibNumUserCmd(ByteArray msg)
+        protected void psstRetLeftCardLibNumUserCmd(ByteBuffer msg)
         {
             stRetLeftCardLibNumUserCmd cmd = new stRetLeftCardLibNumUserCmd();
             cmd.derialize(msg);
@@ -240,7 +240,7 @@ namespace Game.Game
         }
 
         // 返回 magic 点的数量
-        protected void psstRetMagicPointInfoUserCmd(ByteArray ba)
+        protected void psstRetMagicPointInfoUserCmd(ByteBuffer ba)
         {
             stRetMagicPointInfoUserCmd cmd = new stRetMagicPointInfoUserCmd();
             cmd.derialize(ba);
@@ -256,7 +256,7 @@ namespace Game.Game
         }
 
         // 刷新战斗状态
-        protected void psstRetRefreshBattleStateUserCmd(ByteArray ba)
+        protected void psstRetRefreshBattleStateUserCmd(ByteBuffer ba)
         {
             stRetRefreshBattleStateUserCmd cmd = new stRetRefreshBattleStateUserCmd();
             cmd.derialize(ba);
@@ -271,7 +271,7 @@ namespace Game.Game
         }
 
         // 返回当前谁出牌
-        protected void psstRetRefreshBattlePrivilegeUserCmd(ByteArray ba)
+        protected void psstRetRefreshBattlePrivilegeUserCmd(ByteBuffer ba)
         {
             // 增加当前出牌次数
             ++Ctx.m_instance.m_dataPlayer.m_dzData.curPlayCardCount;
@@ -289,7 +289,7 @@ namespace Game.Game
         }
 
         // 添加一个卡牌
-        protected void psstAddBattleCardPropertyUserCmd(ByteArray ba)
+        protected void psstAddBattleCardPropertyUserCmd(ByteBuffer ba)
         {
             stAddBattleCardPropertyUserCmd cmd = new stAddBattleCardPropertyUserCmd();
             cmd.derialize(ba);
@@ -324,7 +324,7 @@ namespace Game.Game
         }
 
         // 对方信息
-        protected void psstNotifyFightEnemyInfoUserCmd(ByteArray ba)
+        protected void psstNotifyFightEnemyInfoUserCmd(ByteBuffer ba)
         {
             stNotifyFightEnemyInfoUserCmd cmd = new stNotifyFightEnemyInfoUserCmd();
             cmd.derialize(ba);
@@ -346,7 +346,7 @@ namespace Game.Game
         }
 
         // 第一次几张牌
-        protected void psstRetFirstHandCardUserCmd(ByteArray ba)
+        protected void psstRetFirstHandCardUserCmd(ByteBuffer ba)
         {
             stRetFirstHandCardUserCmd cmd = new stRetFirstHandCardUserCmd();
             cmd.derialize(ba);
@@ -361,7 +361,7 @@ namespace Game.Game
         }
 
         // 卡牌移动
-        protected void psstRetMoveGameCardUserCmd(ByteArray ba)
+        protected void psstRetMoveGameCardUserCmd(ByteBuffer ba)
         {
             stRetMoveGameCardUserCmd cmd = new stRetMoveGameCardUserCmd();
             cmd.derialize(ba);
@@ -380,7 +380,7 @@ namespace Game.Game
         }
 
         // 通知手里卡牌已经满
-        protected void psstRetNotifyHandIsFullUserCmd(ByteArray ba)
+        protected void psstRetNotifyHandIsFullUserCmd(ByteBuffer ba)
         {
             stRetNotifyHandIsFullUserCmd cmd = new stRetNotifyHandIsFullUserCmd();
             cmd.derialize(ba);
@@ -393,7 +393,7 @@ namespace Game.Game
         }
 
         // enemy 增加一个卡牌
-        protected void psstAddEnemyHandCardPropertyUserCmd(ByteArray ba)
+        protected void psstAddEnemyHandCardPropertyUserCmd(ByteBuffer ba)
         {
             UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
@@ -403,7 +403,7 @@ namespace Game.Game
         }
 
         // 返回对方手里的卡牌数量，对方卡牌只有数量
-        protected void psstRetEnemyHandCardNumUserCmd(ByteArray ba)
+        protected void psstRetEnemyHandCardNumUserCmd(ByteBuffer ba)
         {
             stRetEnemyHandCardNumUserCmd cmd = new stRetEnemyHandCardNumUserCmd();
             cmd.derialize(ba);
@@ -416,7 +416,7 @@ namespace Game.Game
         }
 
         // 删除对方手里一张卡牌
-        protected void psstDelEnemyHandCardPropertyUserCmd(ByteArray ba)
+        protected void psstDelEnemyHandCardPropertyUserCmd(ByteBuffer ba)
         {
             stDelEnemyHandCardPropertyUserCmd cmd = new stDelEnemyHandCardPropertyUserCmd();
             cmd.derialize(ba);
@@ -429,7 +429,7 @@ namespace Game.Game
         }
 
         // 从已经出牌区域删除一个卡牌
-        protected void psstRetRemoveBattleCardUserCmd(ByteArray ba)
+        protected void psstRetRemoveBattleCardUserCmd(ByteBuffer ba)
         {
             stRetRemoveBattleCardUserCmd cmd = new stRetRemoveBattleCardUserCmd();
             cmd.derialize(ba);
@@ -454,7 +454,7 @@ namespace Game.Game
         }
 
         // 通知客户端上一场战斗还没有结束
-        protected void psstRetNotifyUnfinishedGameUserCmd(ByteArray ba)
+        protected void psstRetNotifyUnfinishedGameUserCmd(ByteBuffer ba)
         {
             Ctx.m_instance.m_dataPlayer.m_dzData.m_bLastEnd = false;
             // 可能要请求一些数据
@@ -464,7 +464,7 @@ namespace Game.Game
         }
 
         // 某一局开始后，刷新这一局的所有的状态
-        protected void psstRetRefreshCardAllStateUserCmd(ByteArray ba)
+        protected void psstRetRefreshCardAllStateUserCmd(ByteBuffer ba)
         {
             stRetRefreshCardAllStateUserCmd cmd = new stRetRefreshCardAllStateUserCmd();
             cmd.derialize(ba);
@@ -477,7 +477,7 @@ namespace Game.Game
         }
 
         // 清除某一个状态
-        protected void psstRetClearCardOneStateUserCmd(ByteArray ba)
+        protected void psstRetClearCardOneStateUserCmd(ByteBuffer ba)
         {
             stRetClearCardOneStateUserCmd cmd = new stRetClearCardOneStateUserCmd();
             cmd.derialize(ba);
@@ -487,7 +487,7 @@ namespace Game.Game
         }
 
         // 设置某一个状态
-        protected void psstRetSetCardOneStateUserCmd(ByteArray ba)
+        protected void psstRetSetCardOneStateUserCmd(ByteBuffer ba)
         {
             stRetSetCardOneStateUserCmd cmd = new stRetSetCardOneStateUserCmd();
             cmd.derialize(ba);
@@ -497,7 +497,7 @@ namespace Game.Game
         }
 
         // 法术攻击失败
-        protected void psstRetCardAttackFailUserCmd(ByteArray ba)
+        protected void psstRetCardAttackFailUserCmd(ByteBuffer ba)
         {
             stRetCardAttackFailUserCmd cmd = new stRetCardAttackFailUserCmd();
             cmd.derialize(ba);
@@ -509,7 +509,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetBattleHistoryInfoUserCmd(ByteArray ba)
+        protected void psstRetBattleHistoryInfoUserCmd(ByteBuffer ba)
         {
             stRetBattleHistoryInfoUserCmd cmd = new stRetBattleHistoryInfoUserCmd();
             cmd.derialize(ba);
@@ -521,7 +521,7 @@ namespace Game.Game
             }
         }
 
-        protected void psstRetBattleGameResultUserCmd(ByteArray ba)
+        protected void psstRetBattleGameResultUserCmd(ByteBuffer ba)
         {
             stRetBattleGameResultUserCmd cmd = new stRetBattleGameResultUserCmd();
             cmd.derialize(ba);

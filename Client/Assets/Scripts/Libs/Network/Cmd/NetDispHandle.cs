@@ -8,10 +8,10 @@ namespace SDK.Lib
     {
         public Dictionary<int, NetCmdHandleBase> m_id2DispDic = new Dictionary<int, NetCmdHandleBase>();
 
-        public virtual void handleMsg(ByteArray msg)
+        public virtual void handleMsg(ByteBuffer msg)
         {
-            byte byCmd = msg.readByte();
-            byte byParam = msg.readByte();
+            byte byCmd = msg.readUnsignedInt8();
+            byte byParam = msg.readUnsignedInt8();
             msg.setPos(0);
 
             if(m_id2DispDic.ContainsKey(byCmd))

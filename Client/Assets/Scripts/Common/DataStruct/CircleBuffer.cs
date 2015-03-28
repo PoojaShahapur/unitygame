@@ -20,7 +20,7 @@ namespace SDK.Common
 
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引
-        protected ByteArray m_tmpBA;        // 临时数据
+        protected ByteBuffer m_tmpBA;        // 临时数据
 
         public CirculeBuffer(uint initCapacity = 1 * 1024, uint maxCapacity = 8 * 1024 * 1024)
         {
@@ -32,7 +32,7 @@ namespace SDK.Common
             m_first = 0;
             m_last = 0;
 
-            m_tmpBA = new ByteArray();
+            m_tmpBA = new ByteBuffer();
         }
 
         public bool isLinearized()
@@ -176,7 +176,7 @@ namespace SDK.Common
             m_size += len;
         }
 
-        public void pushBackBA(ByteArray ba)
+        public void pushBackBA(ByteBuffer ba)
         {
             //pushBack(ba.dynBuff.buff, ba.position, ba.bytesAvailable);
             pushBackArr(ba.dynBuff.buff, 0, ba.length);
@@ -237,14 +237,14 @@ namespace SDK.Common
         /**
          * @brief 从 CB 中读取内容，并且将数据删除
          */
-        public void popFrontBA(ByteArray bytearray, uint len)
+        public void popFrontBA(ByteBuffer bytearray, uint len)
         {
             frontBA(bytearray, len);
             popFrontLen(len);
         }
 
         // 仅仅是获取数据，并不删除
-        public void frontBA(ByteArray bytearray, uint len)
+        public void frontBA(ByteBuffer bytearray, uint len)
         {
             bytearray.clear();          // 设置数据为初始值
             if (m_size >= len)          // 头部占据 4 个字节

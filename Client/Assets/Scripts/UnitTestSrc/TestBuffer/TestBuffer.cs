@@ -39,13 +39,13 @@ namespace UnitTestSrc
             pDataBuffer.send();
 
             pDataBuffer.getSendData();
-            ByteArray cryptLenBA = new ByteArray();
-            cryptLenBA.writeUnsignedInt(pDataBuffer.sendBuffer.length);
+            ByteBuffer cryptLenBA = new ByteBuffer();
+            cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
             pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
             pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
             pDataBuffer.moveRaw2Msg();
 
-            ByteArray ba;
+            ByteBuffer ba;
             ba = pDataBuffer.getMsg();
             UAssert.DebugAssert(ba != null);
             pUnitTestCmd.derialize(ba);
@@ -55,7 +55,7 @@ namespace UnitTestSrc
             if (pDataBuffer.sendBuffer.length > 0)
             {
                 cryptLenBA.clear();
-                cryptLenBA.writeUnsignedInt(pDataBuffer.sendBuffer.length);
+                cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
                 pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
                 pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
                 pDataBuffer.moveRaw2Msg();
@@ -70,7 +70,7 @@ namespace UnitTestSrc
             if (pDataBuffer.sendBuffer.length > 0)
             {
                 cryptLenBA.clear();
-                cryptLenBA.writeUnsignedInt(pDataBuffer.sendBuffer.length);
+                cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
                 pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
                 pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
                 pDataBuffer.moveRaw2Msg();
@@ -85,7 +85,7 @@ namespace UnitTestSrc
         protected void testBA()
         {
             string str = "测试数据";
-            ByteArray ba = new ByteArray();
+            ByteBuffer ba = new ByteBuffer();
             ba.writeMultiByte(str, GkEncode.UTF8, 24);
             ba.position = 0;
             string ret = ba.readMultiByte(24, GkEncode.UTF8);

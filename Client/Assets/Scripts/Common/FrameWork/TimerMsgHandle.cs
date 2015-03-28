@@ -8,7 +8,7 @@ namespace SDK.Common
         public ulong qwGameTime;
 
         // 步骤 7 ，接收消息
-        public void receiveMsg7f(ByteArray msg)
+        public void receiveMsg7f(ByteBuffer msg)
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog10f);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);
@@ -19,7 +19,7 @@ namespace SDK.Common
         }
 
         // 步骤 8 ，接收消息
-        public void receiveMsg8f(ByteArray msg)
+        public void receiveMsg8f(ByteBuffer msg)
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eLLog11f);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareMgr.m_retLangStr);

@@ -12,10 +12,10 @@ namespace Game.Msg
             byParam = REMOVEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            qwThisID = ba.readUnsignedInt();
+            qwThisID = ba.readUnsignedInt32();
         }
     }
 
@@ -39,12 +39,12 @@ namespace Game.Msg
             byParam = REFCOUNTOBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            qwThisID = ba.readUnsignedInt();
-            dwNum = ba.readUnsignedInt();
-            type = ba.readUnsignedByte();
+            qwThisID = ba.readUnsignedInt32();
+            dwNum = ba.readUnsignedInt32();
+            type = ba.readUnsignedInt8();
         }
     }
 
@@ -73,13 +73,13 @@ namespace Game.Msg
             byParam = USEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
-            ba.writeUnsignedInt(qwThisID);
-            ba.writeUnsignedInt(dwNumber);
-            ba.writeByte(useType);
-            ba.writeByte(flag);
+            ba.writeUnsignedInt32(qwThisID);
+            ba.writeUnsignedInt32(dwNumber);
+            ba.writeUnsignedInt8(useType);
+            ba.writeUnsignedInt8(flag);
         }
     }
 
@@ -104,9 +104,9 @@ namespace Game.Msg
         public byte byActionType;
         public t_Object_mobile mobject;
 
-        public void derialize(ByteArray ba)
+        public void derialize(ByteBuffer ba)
         {
-            byActionType = ba.readUnsignedByte();
+            byActionType = ba.readUnsignedInt8();
             mobject = new t_Object_mobile();
             mobject.derialize(ba);
         }
@@ -122,10 +122,10 @@ namespace Game.Msg
             byParam = ADDUSER_MOBJECT_LIST_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            num = ba.readUnsignedShort();
+            num = ba.readUnsignedInt16();
 
             list = new List<stObjectOperator>();
             stObjectOperator item;
@@ -165,10 +165,10 @@ namespace Game.Msg
             byParam = ADDUSER_MOBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            byActionType = ba.readUnsignedByte();
+            byActionType = ba.readUnsignedInt8();
             mobject = new t_Object_mobile();
             mobject.derialize(ba);
         }
@@ -194,10 +194,10 @@ namespace Game.Msg
             byParam = REQ_BUY_MARKET_MOBILE_OBJECT_CMD;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
-            ba.writeUnsignedShort(index);
+            ba.writeUnsignedInt16(index);
         }
     }
 
@@ -221,17 +221,17 @@ namespace Game.Msg
             byParam = NOFITY_MARKET_ALL_OBJECT_CMD;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            count = ba.readUnsignedShort();
+            count = ba.readUnsignedInt16();
             if(count > 0)
             {
                 id = new List<ushort>(count);
                 int idx = 0;
                 while(idx < count)
                 {
-                    id.Add(ba.readUnsignedShort());
+                    id.Add(ba.readUnsignedInt16());
                     ++idx;
                 }
             }
@@ -274,7 +274,7 @@ namespace Game.Msg
             byParam = REQ_USER_BASE_DATA_INFO_CMD;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
         }

@@ -5,33 +5,33 @@
         public TableItemHeader m_itemHeader;
         public TableItemBodyBase m_itemBody;
 
-        virtual public void parseHeaderByteArray(ByteArray bytes)
+        virtual public void parseHeaderByteBuffer(ByteBuffer bytes)
         {
             if (null == m_itemHeader)
             {
                 m_itemHeader = new TableItemHeader();
             }
-            m_itemHeader.parseHeaderByteArray(bytes);
+            m_itemHeader.parseHeaderByteBuffer(bytes);
         }
 
-        virtual public void parseBodyByteArray<T>(ByteArray bytes, uint offset) where T : TableItemBodyBase, new()
+        virtual public void parseBodyByteBuffer<T>(ByteBuffer bytes, uint offset) where T : TableItemBodyBase, new()
         {
             if (null == m_itemBody)
             {
                 m_itemBody = new T();
             }
 
-            m_itemBody.parseBodyByteArray(bytes, offset);
+            m_itemBody.parseBodyByteBuffer(bytes, offset);
         }
 
-        virtual public void parseAllByteArray<T>(ByteArray bytes) where T : TableItemBodyBase, new()
+        virtual public void parseAllByteBuffer<T>(ByteBuffer bytes) where T : TableItemBodyBase, new()
         {
             // 解析头
-            parseHeaderByteArray(bytes);
+            parseHeaderByteBuffer(bytes);
             // 保存下一个 Item 的头位置
-            UtilTable.m_prePos = (bytes as ByteArray).position;
+            UtilTable.m_prePos = (bytes as ByteBuffer).position;
             // 解析内容
-            parseBodyByteArray<T>(bytes, m_itemHeader.m_offset);
+            parseBodyByteBuffer<T>(bytes, m_itemHeader.m_offset);
             // 移动到下一个 Item 头位置
             bytes.setPos(UtilTable.m_prePos);
         }

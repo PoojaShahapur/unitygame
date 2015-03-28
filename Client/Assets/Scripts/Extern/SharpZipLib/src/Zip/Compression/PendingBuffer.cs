@@ -283,7 +283,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		/// <returns>
 		/// The internal buffer contents converted to a byte array.
 		/// </returns>
-		public byte[] ToByteArray()
+		public byte[] ToByteBuffer()
 		{
 			byte[] result = new byte[end - start];
 			System.Array.Copy(buffer_, start, result, 0, result.Length);

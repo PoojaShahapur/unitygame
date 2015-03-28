@@ -52,34 +52,34 @@ namespace SDK.Common
         public int m_jiNu;          // 激怒
         public byte m_bNeedFaShuTarget;     // 是否需要法术目标
 
-        override public void parseBodyByteArray(ByteArray bytes, uint offset)
+        override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            (bytes as ByteArray).position = offset;
-            m_name = UtilTable.readString(bytes as ByteArray);
+            (bytes as ByteBuffer).position = offset;
+            m_name = UtilTable.readString(bytes as ByteBuffer);
 
-            m_type = bytes.readInt();
-            m_career = bytes.readInt();
-            m_race = bytes.readInt();
-            m_quality = bytes.readInt();
-            m_magicConsume = bytes.readInt();
+            m_type = bytes.readInt32();
+            m_career = bytes.readInt32();
+            m_race = bytes.readInt32();
+            m_quality = bytes.readInt32();
+            m_magicConsume = bytes.readInt32();
 
-            m_attack = bytes.readInt();
-            m_hp = bytes.readInt();
-            m_Durable = bytes.readInt();
-            m_prefab = UtilTable.readString(bytes as ByteArray);
+            m_attack = bytes.readInt32();
+            m_hp = bytes.readInt32();
+            m_Durable = bytes.readInt32();
+            m_prefab = UtilTable.readString(bytes as ByteBuffer);
 
-            m_chaoFeng = bytes.readInt();
-            m_chongFeng = bytes.readInt();
-            m_fengNu = bytes.readInt();
-            m_qianXing = bytes.readInt();
-            m_shengDun = bytes.readInt();
-            m_mpAdded = bytes.readInt();
-            m_guoZai = bytes.readInt();
-            m_faShu = bytes.readInt();
-            m_zhanHou = bytes.readInt();
-            m_wangYu = bytes.readInt();
-            m_jiNu = bytes.readInt();
-            m_bNeedFaShuTarget = bytes.readByte();
+            m_chaoFeng = bytes.readInt32();
+            m_chongFeng = bytes.readInt32();
+            m_fengNu = bytes.readInt32();
+            m_qianXing = bytes.readInt32();
+            m_shengDun = bytes.readInt32();
+            m_mpAdded = bytes.readInt32();
+            m_guoZai = bytes.readInt32();
+            m_faShu = bytes.readInt32();
+            m_zhanHou = bytes.readInt32();
+            m_wangYu = bytes.readInt32();
+            m_jiNu = bytes.readInt32();
+            m_bNeedFaShuTarget = bytes.readUnsignedInt8();
         }
 
         public string path

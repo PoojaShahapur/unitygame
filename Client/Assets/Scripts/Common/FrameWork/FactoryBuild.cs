@@ -2,9 +2,9 @@
 {
     public class FactoryBuild
     {
-        public ByteArray buildByteArray()
+        public ByteBuffer buildByteBuffer()
         {
-            return new ByteArray();
+            return new ByteBuffer();
         }
     }
 }

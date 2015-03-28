@@ -13,16 +13,16 @@ namespace UnitTestSrc
             num = 2001;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
-            ba.writeUnsignedInt(num);
+            ba.writeUnsignedInt32(num);
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            num = ba.readUnsignedInt();
+            num = ba.readUnsignedInt32();
         }
     }
 }

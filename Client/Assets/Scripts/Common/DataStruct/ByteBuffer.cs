@@ -20,9 +20,9 @@ namespace SDK.Common
     }
 
     /**
-     *@brief ByteArray 功能
+     *@brief ByteBuffer 功能
      */
-    public class ByteArray
+    public class ByteBuffer
     {
         public byte[] m_intByte = new byte[(int)TypeBytes.eINT];
         public byte[] m_shortByte = new byte[(int)TypeBytes.eSHORT];
@@ -47,7 +47,7 @@ namespace SDK.Common
         protected byte[] m_tmpBytes;
         protected byte[] m_padBytes;
 
-        public ByteArray(uint initSize = DynamicBuffer.INIT_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
+        public ByteBuffer(uint initSize = DynamicBuffer.INIT_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
             m_dynBuff = new DynamicBuffer(initSize);
@@ -280,7 +280,7 @@ namespace SDK.Common
             return m_tmpBool;
         }
 
-		public byte readByte ()
+		public byte readInt8 ()
         {
             m_tmpByte = 0;
 
@@ -293,7 +293,7 @@ namespace SDK.Common
             return m_tmpByte;
         }
 
-        public byte readUnsignedByte()
+        public byte readUnsignedInt8()
         {
             m_tmpByte = 0;
 
@@ -306,7 +306,7 @@ namespace SDK.Common
             return m_tmpByte;
         }
 
-		public short readShort ()
+		public short readInt16 ()
         {
             m_tmpShort = 0;
 
@@ -329,7 +329,7 @@ namespace SDK.Common
             return m_tmpShort;
         }
 
-        public ushort readUnsignedShort()
+        public ushort readUnsignedInt16()
         {
             m_tmpUshort = 0;
 
@@ -352,7 +352,7 @@ namespace SDK.Common
             return m_tmpUshort;
         }
 
-        public int readInt()
+        public int readInt32()
         {
             m_tmpInt = 0;
             if (canRead((int)TypeBytes.eINT))
@@ -415,7 +415,7 @@ namespace SDK.Common
             return m_tmpDouble;
         }
 
-		public uint readUnsignedInt ()
+		public uint readUnsignedInt32 ()
         {
             m_tmpUint = 0;
 
@@ -507,7 +507,7 @@ namespace SDK.Common
             }
         }
 
-		public void writeByte (byte value)
+        public void writeUnsignedInt8(byte value)
         {
             if (!canWrite((int)TypeBytes.eBYTE))
             {
@@ -517,7 +517,7 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eBYTE);
         }
 
-		public void writeShort (short value)
+		public void writeInt16 (short value)
         {
             if (!canWrite((int)TypeBytes.eSHORT))
             {
@@ -534,7 +534,7 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eSHORT);
         }
 
-        public void writeUnsignedShort(ushort value)
+        public void writeUnsignedInt16(ushort value)
         {
             if (!canWrite((int)TypeBytes.eSHORT))
             {
@@ -551,7 +551,7 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eSHORT);
         }
 
-        public void writeInt(int value)
+        public void writeInt32(int value)
         {
             if (!canWrite((int)TypeBytes.eINT))
             {
@@ -568,7 +568,7 @@ namespace SDK.Common
             advPosAndLen((int)TypeBytes.eINT);
         }
 
-		public void writeUnsignedInt (uint value, bool bchangeLen = true)
+		public void writeUnsignedInt32 (uint value, bool bchangeLen = true)
         {
             if (!canWrite((int)TypeBytes.eINT))
             {
@@ -692,7 +692,7 @@ namespace SDK.Common
         public void insertUnsignedInt32(uint value)
         {
             length += sizeof(int);       // 扩大长度
-            writeUnsignedInt(value);     // 写入
+            writeUnsignedInt32(value);     // 写入
         }
 
         public ulong readUnsignedLongByOffset(uint offset)

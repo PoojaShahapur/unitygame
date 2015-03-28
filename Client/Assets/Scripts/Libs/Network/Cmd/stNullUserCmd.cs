@@ -18,19 +18,19 @@ namespace SDK.Lib
         public byte byParam;
         public uint dwTimestamp;
 
-        public virtual void serialize(ByteArray ba)
+        public virtual void serialize(ByteBuffer ba)
         {
-            ba.writeByte(byCmd);
-            ba.writeByte(byParam);
+            ba.writeUnsignedInt8(byCmd);
+            ba.writeUnsignedInt8(byParam);
             dwTimestamp = UtilApi.getUTCSec();
-            ba.writeUnsignedInt(dwTimestamp);
+            ba.writeUnsignedInt32(dwTimestamp);
         }
 
-        public virtual void derialize(ByteArray ba)
+        public virtual void derialize(ByteBuffer ba)
         {
-            byCmd = ba.readByte();
-            byParam = ba.readByte();
-            dwTimestamp = ba.readUnsignedInt();
+            byCmd = ba.readUnsignedInt8();
+            byParam = ba.readUnsignedInt8();
+            dwTimestamp = ba.readUnsignedInt32();
         }
     }
 }

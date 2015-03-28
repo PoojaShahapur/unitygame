@@ -10,12 +10,12 @@
         public string m_effect;             // 效果
         public string m_desc;               // 说明
 
-        override public void parseBodyByteArray(ByteArray bytes, uint offset)
+        override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            (bytes as ByteArray).position = offset;
-            m_name = UtilTable.readString(bytes as ByteArray);
-            m_effect = UtilTable.readString(bytes as ByteArray);
-            m_desc = UtilTable.readString(bytes as ByteArray);
+            (bytes as ByteBuffer).position = offset;
+            m_name = UtilTable.readString(bytes as ByteBuffer);
+            m_effect = UtilTable.readString(bytes as ByteBuffer);
+            m_desc = UtilTable.readString(bytes as ByteBuffer);
         }
     }
 }

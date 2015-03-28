@@ -12,7 +12,7 @@ namespace Game.Game
             m_id2HandleDic[stChatUserCmd.CHAT_USERCMD_PARAMETER] = psstKokChatUserCmd;
         }
 
-        public void psstKokChatUserCmd(ByteArray msg)
+        public void psstKokChatUserCmd(ByteBuffer msg)
         {
             stKokChatUserCmd cmd = new stKokChatUserCmd();
             cmd.derialize(msg);

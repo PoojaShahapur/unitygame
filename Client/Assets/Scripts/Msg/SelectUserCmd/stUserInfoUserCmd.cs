@@ -13,7 +13,7 @@ namespace Game.Msg
             byParam = USERINFO_SELECT_USERCMD_PARA;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
 
@@ -25,7 +25,7 @@ namespace Game.Msg
                 ++idx;
             }
 
-            size = ba.readUnsignedShort();
+            size = ba.readUnsignedInt16();
             if(size > 0)
             {
                 data = ba.readMultiByte(size, GkEncode.UTF8);

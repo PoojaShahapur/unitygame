@@ -13,11 +13,11 @@ namespace Game.Msg
             byParam = RETURN_CLIENT_IP_PARA;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
             pstrIP = ba.readMultiByte((int)CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
-            port = ba.readUnsignedShort();
+            port = ba.readUnsignedInt16();
         }
     }
 }

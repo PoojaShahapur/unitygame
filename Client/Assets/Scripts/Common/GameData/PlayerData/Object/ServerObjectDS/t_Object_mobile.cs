@@ -12,13 +12,13 @@ namespace SDK.Common
         public stObjectLocation pos;
         public uint dwNum;
 
-        public void derialize(ByteArray ba)
+        public void derialize(ByteBuffer ba)
         {
-            dwThisID = ba.readUnsignedInt();
-            dwObjectID = ba.readUnsignedInt();
+            dwThisID = ba.readUnsignedInt32();
+            dwObjectID = ba.readUnsignedInt32();
             pos = new stObjectLocation();
             pos.derialize(ba);
-            dwNum = ba.readUnsignedInt();
+            dwNum = ba.readUnsignedInt32();
         }
     }
 }

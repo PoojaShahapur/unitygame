@@ -151,7 +151,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		/// </summary>
 		/// <param name="sourceString">The string to be converted</param>
 		/// <returns>The new array of bytes</returns>
-		public static byte[] ToByteArray(System.String sourceString)
+		public static byte[] ToByteBuffer(System.String sourceString)
 		{
 			return System.Text.UTF8Encoding.UTF8.GetBytes(sourceString);
 		}

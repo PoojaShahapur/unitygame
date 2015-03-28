@@ -132,11 +132,11 @@ namespace SDK.Lib
             {
                 byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, 8));
                 //byte[] rgbIV = Keys;
-                byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+                byte[] inputByteBuffer = Encoding.UTF8.GetBytes(encryptString);
                 DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
                 MemoryStream mStream = new MemoryStream();
                 CryptoStream cStream = new CryptoStream(mStream, dCSP.CreateEncryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
-                cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                cStream.Write(inputByteBuffer, 0, inputByteBuffer.Length);
                 cStream.FlushFinalBlock();
                 return Convert.ToBase64String(mStream.ToArray());
             }
@@ -158,11 +158,11 @@ namespace SDK.Lib
             {
                 byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
                 //byte[] rgbIV = Keys;
-                byte[] inputByteArray = Convert.FromBase64String(decryptString);
+                byte[] inputByteBuffer = Convert.FromBase64String(decryptString);
                 DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
                 MemoryStream mStream = new MemoryStream();
                 CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
-                cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                cStream.Write(inputByteBuffer, 0, inputByteBuffer.Length);
                 cStream.FlushFinalBlock();
                 return Encoding.UTF8.GetString(mStream.ToArray());
             }
@@ -179,7 +179,7 @@ namespace SDK.Lib
             {
                 //byte[] rgbKey = Encoding.UTF8.GetBytes(encryptKey.Substring(0, 8));
                 //byte[] rgbIV = Keys;
-                //byte[] inputByteArray = encryptByte;
+                //byte[] inputByteBuffer = encryptByte;
                 DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
                 dCSP.Mode = CipherMode.ECB;
                 dCSP.Padding = PaddingMode.Zeros;
@@ -206,7 +206,7 @@ namespace SDK.Lib
             {
                 //byte[] rgbKey = Encoding.UTF8.GetBytes(decryptKey);
                 //byte[] rgbIV = Keys;
-                //byte[] inputByteArray = decryptByte;
+                //byte[] inputByteBuffer = decryptByte;
                 DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
                 DCSP.Mode = CipherMode.ECB;
                 DCSP.Padding = PaddingMode.Zeros;

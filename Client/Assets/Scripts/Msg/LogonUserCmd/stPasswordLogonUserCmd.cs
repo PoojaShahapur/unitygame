@@ -14,7 +14,7 @@ namespace Game.Msg
             byParam = PASSWORD_LOGON_USERCMD_PARA;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
             ba.writeMultiByte(strName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
@@ -22,7 +22,7 @@ namespace Game.Msg
             ba.writeMultiByte(strNewPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
         }
 
-        //public override void derialize(ByteArray ba)
+        //public override void derialize(ByteBuffer ba)
         //{
         //    base.derialize(ba);
         //    strName = ba.readMultiByte(CVMsg.MAX_ACCNAMESIZE, GkEncode.UTF8);

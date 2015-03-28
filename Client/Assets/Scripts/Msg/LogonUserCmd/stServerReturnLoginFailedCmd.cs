@@ -11,10 +11,10 @@ namespace Game.Msg
             byParam = SERVER_RETURN_LOGIN_FAILED;
         }
 
-        public override void derialize(ByteArray ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            byReturnCode = ba.readUnsignedByte();
+            byReturnCode = ba.readUnsignedInt8();
         }
     }
 }

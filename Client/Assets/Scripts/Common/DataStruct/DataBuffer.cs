@@ -13,15 +13,15 @@ namespace SDK.Common
     {
         protected MsgBuffer m_rawBuffer;      // 直接从服务器接收到的原始的数据，可能压缩和加密过
         protected MsgBuffer m_msgBuffer;      // 可以使用的缓冲区
-        //protected ByteArray m_sendTmpBA;  // 发送临时缓冲区，发送的数据都暂时放在这里
+        //protected ByteBuffer m_sendTmpBA;  // 发送临时缓冲区，发送的数据都暂时放在这里
         protected MsgBuffer m_sendTmpBuffer;  // 发送临时缓冲区，发送的数据都暂时放在这里
-        protected ByteArray m_socketSendBA;       // 真正发送缓冲区
+        protected ByteBuffer m_socketSendBA;       // 真正发送缓冲区
 
         protected DynamicBuffer m_dynBuff;         // 接收到的临时数据，将要放到 m_rawBuffer 中去
-        protected ByteArray m_unCompressHeaderBA;  // 存放解压后的头的长度
-        protected ByteArray m_sendData;            // 存放将要发送的数据，将要放到 m_sendBuffer 中去
-        protected ByteArray m_tmpData;             // 临时需要转换的数据放在这里
-        protected ByteArray m_tmp1fData;           // 临时需要转换的数据放在这里
+        protected ByteBuffer m_unCompressHeaderBA;  // 存放解压后的头的长度
+        protected ByteBuffer m_sendData;            // 存放将要发送的数据，将要放到 m_sendBuffer 中去
+        protected ByteBuffer m_tmpData;             // 临时需要转换的数据放在这里
+        protected ByteBuffer m_tmp1fData;           // 临时需要转换的数据放在这里
 
         private MMutex m_readMutex = new MMutex(false, "ReadMutex");   // 读互斥
         private MMutex m_writeMutex = new MMutex(false, "WriteMutex");   // 写互斥
@@ -34,15 +34,15 @@ namespace SDK.Common
         {
             m_rawBuffer = new MsgBuffer();
             m_msgBuffer = new MsgBuffer();
-            //m_sendTmpBA = new ByteArray();
+            //m_sendTmpBA = new ByteBuffer();
             m_sendTmpBuffer = new MsgBuffer();
-            m_socketSendBA = new ByteArray();
+            m_socketSendBA = new ByteBuffer();
 
             m_dynBuff = new DynamicBuffer();
-            m_unCompressHeaderBA = new ByteArray();
-            m_sendData = new ByteArray();
-            m_tmpData = new ByteArray(4);
-            m_tmp1fData = new ByteArray(4);
+            m_unCompressHeaderBA = new ByteBuffer();
+            m_sendData = new ByteBuffer();
+            m_tmpData = new ByteBuffer(4);
+            m_tmp1fData = new ByteBuffer(4);
 
 #if MSG_ENCRIPT
             m_cryptContext = new CryptContext();
@@ -57,7 +57,7 @@ namespace SDK.Common
             }
         }
 
-        //public ByteArray sendTmpBA
+        //public ByteBuffer sendTmpBA
         //{
         //    get
         //    {
@@ -73,7 +73,7 @@ namespace SDK.Common
             }
         }
 
-        public ByteArray sendBuffer
+        public ByteBuffer sendBuffer
         {
             get
             {
@@ -81,7 +81,7 @@ namespace SDK.Common
             }
         }
 
-        public ByteArray sendData
+        public ByteBuffer sendData
         {
             get
             {
@@ -119,7 +119,7 @@ namespace SDK.Common
             checkDES();
             // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，服务器是这么发送的，只能这么处理，自己写入包的长度
             m_tmp1fData.clear();
-            m_tmp1fData.writeUnsignedInt(m_dynBuff.size);      // 填充长度
+            m_tmp1fData.writeUnsignedInt32(m_dynBuff.size);      // 填充长度
             m_rawBuffer.circuleBuffer.pushBackBA(m_tmp1fData);
             // 写入包的数据
             m_rawBuffer.circuleBuffer.pushBackArr(m_dynBuff.buff, 0, m_dynBuff.size);
@@ -137,7 +137,7 @@ namespace SDK.Common
         public void send(bool bnet = true)
         {
             m_tmpData.clear();
-            m_tmpData.writeUnsignedInt(m_sendData.length);      // 填充长度
+            m_tmpData.writeUnsignedInt32(m_sendData.length);      // 填充长度
 
             if (bnet)       // 从 socket 发送出去
             {
@@ -163,7 +163,7 @@ namespace SDK.Common
             }
         }
 
-        public ByteArray getMsg()
+        public ByteBuffer getMsg()
         {
             using (MLock mlock = new MLock(m_readMutex))
             {
@@ -222,7 +222,7 @@ namespace SDK.Common
                 bHeaderChange = false;
 #endif
 
-                origMsgLen = m_socketSendBA.readUnsignedInt();    // 读取一个消息包头
+                origMsgLen = m_socketSendBA.readUnsignedInt32();    // 读取一个消息包头
 
 #if MSG_COMPRESS
                 if (origMsgLen > DataCV.PACKET_ZIP_MIN)
@@ -278,7 +278,7 @@ namespace SDK.Common
                 }
 
                 m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
-                m_socketSendBA.writeUnsignedInt(origMsgLen, false);     // 写入压缩或者加密后的消息长度
+                m_socketSendBA.writeUnsignedInt32(origMsgLen, false);     // 写入压缩或者加密后的消息长度
 
                 m_socketSendBA.position -= 4;      // 移动到头部
                 m_socketSendBA.encrypt(m_cryptContext, 0);  // 加密
@@ -353,7 +353,7 @@ namespace SDK.Common
             uint msglen = 0;
             while (m_rawBuffer.msgBodyBA.bytesAvailable >= 4)
             {
-                msglen = m_rawBuffer.msgBodyBA.readUnsignedInt();    // 读取一个消息包头
+                msglen = m_rawBuffer.msgBodyBA.readUnsignedInt32();    // 读取一个消息包头
                 if (msglen == 0)     // 如果是 0 ，就说明最后是由于加密补齐的数据
                 {
                     break;
@@ -370,7 +370,7 @@ namespace SDK.Common
                     m_rawBuffer.msgBodyBA.position += msglen;
                 }
                 m_unCompressHeaderBA.clear();
-                m_unCompressHeaderBA.writeUnsignedInt(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
+                m_unCompressHeaderBA.writeUnsignedInt32(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
                 m_unCompressHeaderBA.position = 0;
 
                 using (MLock mlock = new MLock(m_readMutex))
@@ -388,7 +388,7 @@ namespace SDK.Common
 #endif
 #if MSG_COMPRESS
             m_rawBuffer.headerBA.setPos(0);
-            uint msglen = m_rawBuffer.headerBA.readUnsignedInt();
+            uint msglen = m_rawBuffer.headerBA.readUnsignedInt32();
             if ((msglen & DataCV.PACKET_ZIP) > 0)
             {
                 m_rawBuffer.msgBodyBA.uncompress();

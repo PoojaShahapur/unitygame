@@ -20,22 +20,22 @@ namespace Game.Msg
             byParam = USER_REQUEST_LOGIN_PARA;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
 
             ba.writeMultiByte(pstrName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
             ba.writeMultiByte(pstrPassword, GkEncode.UTF8, 33);
-            ba.writeUnsignedShort(game);
-            ba.writeUnsignedShort(zone);
+            ba.writeUnsignedInt16(game);
+            ba.writeUnsignedInt16(zone);
             ba.writeMultiByte(jpegPassport, GkEncode.UTF8, 7);
             ba.writeMultiByte(mac_addr, GkEncode.UTF8, 13);
             ba.writeMultiByte(uuid, GkEncode.UTF8, 25);
-            ba.writeUnsignedShort(wdNetType);
+            ba.writeUnsignedInt16(wdNetType);
             ba.writeMultiByte(passpodPwd, GkEncode.UTF8, 9);
         }
 
-        //public override void derialize(ByteArray ba)
+        //public override void derialize(ByteBuffer ba)
         //{
         //    base.derialize(ba);
 

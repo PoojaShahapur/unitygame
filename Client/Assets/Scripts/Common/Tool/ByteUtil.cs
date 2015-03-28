@@ -16,16 +16,16 @@ namespace SDK.Common
         {
             // 检测默认编码
             // 方法一
-            //if (ByteArray.m_sEndian == Endian.NONE_ENDIAN)
+            //if (ByteBuffer.m_sEndian == Endian.NONE_ENDIAN)
             //{
             //    byte[] bt = System.BitConverter.GetBytes(1);
             //    if (bt[0] == 1)  // 数据的低位保存在内存的低地址中
             //    {
-            //        ByteArray.m_sEndian = Endian.LITTLE_ENDIAN;
+            //        ByteBuffer.m_sEndian = Endian.LITTLE_ENDIAN;
             //    }
             //    else
             //   {
-            //        ByteArray.m_sEndian = Endian.BIG_ENDIAN;
+            //        ByteBuffer.m_sEndian = Endian.BIG_ENDIAN;
             //    }
             //}
             // 方法二

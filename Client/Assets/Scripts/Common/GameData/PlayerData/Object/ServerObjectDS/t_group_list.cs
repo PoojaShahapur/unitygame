@@ -7,10 +7,10 @@ namespace SDK.Common
         public uint occupation;         // 职业
         public string name;             // 卡牌名字
 
-        public void derialize(ByteArray ba)
+        public void derialize(ByteBuffer ba)
         {
-            index = ba.readUnsignedInt();
-            occupation = ba.readUnsignedInt();
+            index = ba.readUnsignedInt32();
+            occupation = ba.readUnsignedInt32();
             name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
         }
 

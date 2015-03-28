@@ -17,7 +17,7 @@ namespace SDK.Common
 	{
         private Dictionary<TableID, TableBase> m_dicTable;
 		private IResItem m_res;
-        private ByteArray m_byteArray;
+        private ByteBuffer m_byteArray;
 
 		public TableSys()
 		{
@@ -86,7 +86,7 @@ namespace SDK.Common
             TextAsset textAsset = m_res.getObject("") as TextAsset;
             if (textAsset != null)
             {
-                m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteArray();
+                m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteBuffer();
                 m_byteArray.clear();
                 m_byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
                 m_byteArray.setPos(0);
@@ -113,15 +113,15 @@ namespace SDK.Common
         {
             if (TableID.TABLE_OBJECT == tableID)
             {
-                itemBase.parseBodyByteArray<TableObjectItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableObjectItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_CARD == tableID)
             {
-                itemBase.parseBodyByteArray<TableCardItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableCardItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_SKILL == tableID)  // 添加一个表的步骤四
             {
-                itemBase.parseBodyByteArray<TableSkillItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableSkillItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
         }
 		
@@ -137,13 +137,13 @@ namespace SDK.Common
 		}
 
         // 读取一个表，仅仅读取表头
-        private void readTable(TableID tableID, ByteArray bytes)
+        private void readTable(TableID tableID, ByteBuffer bytes)
         {
             TableBase table = m_dicTable[tableID];
             table.m_byteArray = bytes;
 
             bytes.setEndian(Endian.LITTLE_ENDIAN);
-            uint len = bytes.readUnsignedInt();
+            uint len = bytes.readUnsignedInt32();
             uint i = 0;
             TableItemBase item = null;
             for (i = 0; i < len; i++)
@@ -153,12 +153,12 @@ namespace SDK.Common
                 //    item = new TableItemObject();
                 //}
                 item = new TableItemBase();
-                item.parseHeaderByteArray(bytes);
+                item.parseHeaderByteBuffer(bytes);
                 // 加载完整数据
                 //loadOneTableOneItemAll(tableID, table, item);
                 //if (TableID.TABLE_OBJECT == tableID)
                 //{
-                    //item.parseAllByteArray<TableObjectItemBody>(bytes);
+                    //item.parseAllByteBuffer<TableObjectItemBody>(bytes);
                 //}
                 table.m_List.Add(item);
             }

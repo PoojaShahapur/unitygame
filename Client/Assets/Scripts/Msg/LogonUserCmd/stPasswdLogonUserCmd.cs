@@ -15,12 +15,12 @@ namespace Game.Msg
             byParam = PASSWD_LOGON_USERCMD_PARA;
         }
 
-        public override void serialize(ByteArray ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
 
-            ba.writeUnsignedInt(loginTempID);
-            ba.writeUnsignedInt(dwUserID);
+            ba.writeUnsignedInt32(loginTempID);
+            ba.writeUnsignedInt32(dwUserID);
             ba.writeMultiByte(pstrName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
             ba.writeMultiByte(pstrPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
         }
