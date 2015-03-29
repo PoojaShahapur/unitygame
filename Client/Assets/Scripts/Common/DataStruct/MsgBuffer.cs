@@ -7,7 +7,7 @@
         protected ByteBuffer m_headerBA;     // 主要是用来分析头的大小
         protected ByteBuffer m_msgBodyBA;        // 返回的字节数组
 
-        public MsgBuffer(uint initCapacity = 1 * 1024, uint maxCapacity = 8 * 1024 * 1024)
+        public MsgBuffer(uint initCapacity = DynamicBuffer.INIT_CAPACITY, uint maxCapacity = DynamicBuffer.MAX_CAPACITY)
         {
             m_circuleBuffer = new CirculeBuffer(initCapacity, maxCapacity);
             m_headerBA = new ByteBuffer();
