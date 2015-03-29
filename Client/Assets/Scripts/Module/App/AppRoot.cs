@@ -28,7 +28,14 @@ public class AppRoot : MonoBehaviour
     void Update () 
     {
         //BugResolve();
-        Ctx.m_instance.m_engineLoop.MainLoop();
+        try
+        {
+            Ctx.m_instance.m_engineLoop.MainLoop();
+        }
+        catch
+        {
+            Ctx.m_instance.m_log.log("Main Loop Error");
+        }
     }
 
     void OnApplicationQuit()
