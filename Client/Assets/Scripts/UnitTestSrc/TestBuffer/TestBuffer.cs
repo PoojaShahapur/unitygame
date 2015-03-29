@@ -88,7 +88,8 @@ namespace UnitTestSrc
             ByteBuffer ba = new ByteBuffer();
             ba.writeMultiByte(str, GkEncode.UTF8, 24);
             ba.position = 0;
-            string ret = ba.readMultiByte(24, GkEncode.UTF8);
+            string ret = "";
+            ba.readMultiByte(ref ret, 24, GkEncode.UTF8);
         }
     }
 }

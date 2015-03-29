@@ -30,10 +30,10 @@ namespace UnitTestSrc
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            reserve = ba.readUnsignedInt32();
-            version = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref reserve);
+            ba.readUnsignedInt32(ref version);
 
-            testStr = ba.readMultiByte(100, GkEncode.UTF8);
+            ba.readMultiByte(ref testStr, 100, GkEncode.UTF8);
         }
     }
 }

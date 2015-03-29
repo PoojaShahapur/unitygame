@@ -22,7 +22,7 @@ namespace UnitTestSrc
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            num = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref num);
         }
     }
 }

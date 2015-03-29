@@ -7,8 +7,8 @@
 
         public void derialize(ByteBuffer ba)
         {
-            id = ba.readUnsignedInt32();
-            num = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref id);
+            ba.readUnsignedInt8(ref num);
         }
     }
 

@@ -14,11 +14,11 @@ namespace SDK.Common
 
         public void derialize(ByteBuffer ba)
         {
-            dwThisID = ba.readUnsignedInt32();
-            dwObjectID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwThisID);
+            ba.readUnsignedInt32(ref dwObjectID);
             pos = new stObjectLocation();
             pos.derialize(ba);
-            dwNum = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwNum);
         }
     }
 }

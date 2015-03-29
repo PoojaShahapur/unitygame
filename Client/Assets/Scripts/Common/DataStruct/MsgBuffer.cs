@@ -44,7 +44,8 @@
         protected bool checkHasMsg()
         {
             m_circuleBuffer.frontBA(m_headerBA, DataCV.HEADER_SIZE);  // 将数据读取到 m_headerBA
-            uint msglen = m_headerBA.readUnsignedInt32();
+            uint msglen = 0;
+            m_headerBA.readUnsignedInt32(ref msglen);
 #if MSG_COMPRESS
             if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
             {
@@ -70,7 +71,8 @@
             if (m_circuleBuffer.size > DataCV.HEADER_SIZE)         // 至少要是 DataCV.HEADER_SIZE 大小加 1 ，如果正好是 DataCV.HEADER_SIZE ，那只能说是只有大小字段，没有内容
             {
                 m_circuleBuffer.frontBA(m_headerBA, DataCV.HEADER_SIZE);  // 如果不够整个消息的长度，还是不能去掉消息头的
-                uint msglen = m_headerBA.readUnsignedInt32();
+                uint msglen = 0;
+                m_headerBA.readUnsignedInt32(ref msglen);
 #if MSG_COMPRESS
                 if ((msglen & DataCV.PACKET_ZIP) > 0)         // 如果有压缩标志
                 {

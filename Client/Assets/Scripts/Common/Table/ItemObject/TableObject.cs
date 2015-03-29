@@ -44,11 +44,11 @@ namespace SDK.Common
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.position = offset;  // 从偏移处继续读取真正的内容
-            m_name = UtilTable.readString(bytes);
-            m_maxNum = bytes.readInt32();
-            m_type = bytes.readInt32();
-            m_color = bytes.readInt32();
-            m_prefab = UtilTable.readString(bytes);
+            UtilTable.readString(bytes, ref m_name);
+            bytes.readInt32(ref m_maxNum);
+            bytes.readInt32(ref m_type);
+            bytes.readInt32(ref m_color);
+            UtilTable.readString(bytes, ref m_prefab);
         }
 
         public string path

@@ -21,16 +21,21 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            dwUserID = ba.readUnsignedInt32();
-            loginTempID = ba.readUnsignedInt32();
-            pstrIP = ba.readMultiByte(CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
-            wdPort = ba.readUnsignedInt16();
+            ba.readUnsignedInt32(ref dwUserID);
+            ba.readUnsignedInt32(ref loginTempID);
+            ba.readMultiByte(ref pstrIP, CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
+            ba.readUnsignedInt16(ref wdPort);
             keyAux = new ByteBuffer();
-            keyAux.writeBytes(ba.readBytes(256), 0, 256);
+            byte[] ret = new byte[256];
+            ba.readBytes(ref ret, 256);
+            keyAux.writeBytes(ret, 0, 256);
             keyAux.position = 58;
-            keyAux.position = (uint)(keyAux.readUnsignedInt8());
-            key = keyAux.readBytes(8);
-            state = ba.readUnsignedInt32();
+            byte index = 0;
+            keyAux.readUnsignedInt8(ref index);
+            keyAux.position = index;
+            key = new byte[8];
+            keyAux.readBytes(ref key, 8);
+            ba.readUnsignedInt32(ref state);
         }
     }
 }

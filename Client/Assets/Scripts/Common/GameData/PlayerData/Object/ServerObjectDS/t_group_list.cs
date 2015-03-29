@@ -9,9 +9,9 @@ namespace SDK.Common
 
         public void derialize(ByteBuffer ba)
         {
-            index = ba.readUnsignedInt32();
-            occupation = ba.readUnsignedInt32();
-            name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            ba.readUnsignedInt32(ref index);
+            ba.readUnsignedInt32(ref occupation);
+            ba.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
         }
 
         public void copyFrom(t_group_list rhv)

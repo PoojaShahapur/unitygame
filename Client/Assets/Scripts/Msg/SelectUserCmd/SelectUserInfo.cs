@@ -50,48 +50,48 @@ namespace Game.Msg
 
         public void derialize(ByteBuffer ba)
         {
-            id = ba.readUnsignedInt32();
-            name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            type = ba.readUnsignedInt16();
-            level = ba.readUnsignedInt16();
-            mapid = ba.readUnsignedInt32();
-            mapName = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            country = ba.readUnsignedInt16();
+            ba.readUnsignedInt32(ref id);
+            ba.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            ba.readUnsignedInt16(ref type);
+            ba.readUnsignedInt16(ref level);
+            ba.readUnsignedInt32(ref mapid);
+            ba.readMultiByte(ref mapName, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            ba.readUnsignedInt16(ref country);
 
-            countryName = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            bitmask = ba.readUnsignedInt32();
-            zone_state = ba.readUnsignedInt32();
-            target_zone = ba.readUnsignedInt32();
-            model1 = ba.readUnsignedInt32();
-            model2 = ba.readUnsignedInt32();
-            model3 = ba.readUnsignedInt32();
-            model4 = ba.readUnsignedInt32();
-            model5 = ba.readUnsignedInt32();
-            model6 = ba.readUnsignedInt32();
-            model7 = ba.readUnsignedInt32();
-            model8 = ba.readUnsignedInt32();
-            model9 = ba.readUnsignedInt32();
-            model10 = ba.readUnsignedInt32();
-            model11 = ba.readUnsignedInt32();
-            model12 = ba.readUnsignedInt32();
-            model13 = ba.readUnsignedInt32();
-            model14 = ba.readUnsignedInt32();
-            model15 = ba.readUnsignedInt32();
-            model16 = ba.readUnsignedInt32();
+            ba.readMultiByte(ref countryName, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            ba.readUnsignedInt32(ref bitmask);
+            ba.readUnsignedInt32(ref zone_state);
+            ba.readUnsignedInt32(ref target_zone);
+            ba.readUnsignedInt32(ref model1);
+            ba.readUnsignedInt32(ref model2);
+            ba.readUnsignedInt32(ref model3);
+            ba.readUnsignedInt32(ref model4);
+            ba.readUnsignedInt32(ref model5);
+            ba.readUnsignedInt32(ref model6);
+            ba.readUnsignedInt32(ref model7);
+            ba.readUnsignedInt32(ref model8);
+            ba.readUnsignedInt32(ref model9);
+            ba.readUnsignedInt32(ref model10);
+            ba.readUnsignedInt32(ref model11);
+            ba.readUnsignedInt32(ref model12);
+            ba.readUnsignedInt32(ref model13);
+            ba.readUnsignedInt32(ref model14);
+            ba.readUnsignedInt32(ref model15);
+            ba.readUnsignedInt32(ref model16);
 
-            effect11 = ba.readUnsignedInt8();
-            effect12 = ba.readUnsignedInt8();
-            effect13 = ba.readUnsignedInt8();
-            effect14 = ba.readUnsignedInt8();
-            effect15 = ba.readUnsignedInt8();
-            effect16 = ba.readUnsignedInt8();
-            effect17 = ba.readUnsignedInt8();
-            effect18 = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref effect11);
+            ba.readUnsignedInt8(ref effect12);
+            ba.readUnsignedInt8(ref effect13);
+            ba.readUnsignedInt8(ref effect14);
+            ba.readUnsignedInt8(ref effect15);
+            ba.readUnsignedInt8(ref effect16);
+            ba.readUnsignedInt8(ref effect17);
+            ba.readUnsignedInt8(ref effect18);
 
-            job = ba.readUnsignedInt16();
-            height = ba.readUnsignedInt8();
-            weight = ba.readUnsignedInt8();
-            picbindloginclearnum = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref job);
+            ba.readUnsignedInt8(ref height);
+            ba.readUnsignedInt8(ref weight);
+            ba.readUnsignedInt16(ref picbindloginclearnum);
         }
     }
 }

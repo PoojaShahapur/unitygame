@@ -17,7 +17,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref count);
 
             info = new List<t_Tujian>();
             t_Tujian item;
@@ -58,8 +58,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            id = ba.readUnsignedInt32();
-            num = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref id);
+            ba.readUnsignedInt8(ref num);
         }
     }
 
@@ -93,7 +93,7 @@ namespace Game.Msg
             int idx = 0;
             while(idx < 5)
             {
-                id[idx] = ba.readUnsignedInt32();
+                ba.readUnsignedInt32(ref id[idx]);
                 ++idx;
             }
         }
@@ -156,7 +156,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref count);
 
             info = new List<t_group_list>();
             t_group_list item;
@@ -224,14 +224,16 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            index = ba.readUnsignedInt32();
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt32(ref index);
+            ba.readUnsignedInt16(ref count);
 
             id = new List<uint>();
             int idx = 0;
+            uint ret = 0;
             while (idx < count)
             {
-                id.Add(ba.readUnsignedInt32());
+                ba.readUnsignedInt32(ref ret);
+                id.Add(ret);
                 ++idx;
             }
         }
@@ -334,9 +336,9 @@ namespace Game.Msg
          public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            occupation = ba.readUnsignedInt32();
-            index = ba.readUnsignedInt32();
-            name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.GB2312);
+            ba.readUnsignedInt32(ref occupation);
+            ba.readUnsignedInt32(ref index);
+            ba.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.GB2312);
         }
     }
 
@@ -396,8 +398,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            index = ba.readUnsignedInt32();
-            success = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref index);
+            ba.readUnsignedInt8(ref success);
         }
     }
 
@@ -428,8 +430,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            index = ba.readUnsignedInt32();
-            success = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref index);
+            ba.readUnsignedInt8(ref success);
         }
     }
 
@@ -477,7 +479,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref count);
             if(count > 0)
             {
                 int idx = 0;
@@ -580,8 +582,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            fightType = ba.readUnsignedInt8();
-            success = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref fightType);
+            ba.readUnsignedInt8(ref success);
         }
     }
 
@@ -612,8 +614,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            selfNum = ba.readUnsignedInt32();
-            otherNum = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref selfNum);
+            ba.readUnsignedInt32(ref otherNum);
         }
     }
 
@@ -691,7 +693,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            state = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref state);
         }
     }
 
@@ -719,7 +721,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            priv = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref priv);
         }
     }
 
@@ -779,15 +781,15 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            slot = ba.readUnsignedInt8();
-            who = ba.readUnsignedInt8();
-            byActionType = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref slot);
+            ba.readUnsignedInt8(ref who);
+            ba.readUnsignedInt8(ref byActionType);
             mobject = new t_Card();
             mobject.derialize(ba);
 
-            attackType = ba.readUnsignedInt8();
-            pAttThisID = ba.readUnsignedInt32();
-            pDefThisID = ba.readUnsignedInt32();
+            ba.readUnsignedInt8(ref attackType);
+            ba.readUnsignedInt32(ref pAttThisID);
+            ba.readUnsignedInt32(ref pDefThisID);
         }
     }
 
@@ -821,8 +823,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            occupation = ba.readUnsignedInt32();
-            name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            ba.readUnsignedInt32(ref occupation);
+            ba.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
         }
     }
 
@@ -901,10 +903,10 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            qwThisID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref qwThisID);
             dst = new stObjectLocation();
             dst.derialize(ba);
-            success = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref success);
         }
     }
 
@@ -933,13 +935,15 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            upperHand = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref upperHand);
 
             id = new uint[4];
             int idx = 0;
+            uint ret = 0;
             while (idx < 4)
             {
-                id[idx] = ba.readUnsignedInt32();
+                ba.readUnsignedInt32(ref ret);
+                id[idx] = ret;
 
                 ++idx;
             }
@@ -971,8 +975,8 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            id = ba.readUnsignedInt32();
-            who = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref id);
+            ba.readUnsignedInt8(ref who);
         }
     }
 
@@ -1067,7 +1071,7 @@ namespace Game.Msg
 
         public void derialize(ByteBuffer ba)
         {
-            who = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref who);
             mobject = new t_Card();
             mobject.derialize(ba);
         }
@@ -1093,7 +1097,7 @@ namespace Game.Msg
         {
  	        base.derialize(ba);
 
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref count);
             list = new List<CardListItem>();
             CardListItem item;
             int idx = 0;
@@ -1136,7 +1140,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref count);
         }
     }
 
@@ -1200,7 +1204,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwThisID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwThisID);
         }
     }
 
@@ -1230,9 +1234,10 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwThisID = ba.readUnsignedInt32();
-            who = ba.readUnsignedInt8();
-            state = ba.readBytes((((int)StateID.CARD_STATE_MAX + 7) / 8));
+            ba.readUnsignedInt32(ref dwThisID);
+            ba.readUnsignedInt8(ref who);
+            state = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
+            ba.readBytes(ref state, ((int)StateID.CARD_STATE_MAX + 7) / 8);
         }
     }
 
@@ -1266,9 +1271,9 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwThisID = ba.readUnsignedInt32();
-            who = ba.readUnsignedInt8();
-            stateNum = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref dwThisID);
+            ba.readUnsignedInt8(ref who);
+            ba.readUnsignedInt8(ref stateNum);
         }
     }
 
@@ -1302,9 +1307,9 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwThisID = ba.readUnsignedInt32();
-            who = ba.readUnsignedInt8();
-            stateNum = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref dwThisID);
+            ba.readUnsignedInt8(ref who);
+            ba.readUnsignedInt8(ref stateNum);
         }
     }
 
@@ -1336,7 +1341,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            win = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref win);
         }
     }
 
@@ -1381,7 +1386,7 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwAttThisID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwAttThisID);
         }
 
         public override void serialize(ByteBuffer ba)
@@ -1419,9 +1424,9 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwAttThisID = ba.readUnsignedInt32();
-            dwDefThisID = ba.readUnsignedInt32();
-            dwMagicType = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwAttThisID);
+            ba.readUnsignedInt32(ref dwDefThisID);
+            ba.readUnsignedInt32(ref dwMagicType);
 
             dst = new stObjectLocation();
             dst.derialize(ba);
@@ -1464,8 +1469,8 @@ namespace Game.Msg
             maincard = new t_Card();
             maincard.derialize(ba);
 
-            opType = ba.readUnsignedInt8();
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt8(ref opType);
+            ba.readUnsignedInt16(ref count);
 
             int idx = 0;
             othercard = new t_Card[count];

@@ -21,12 +21,12 @@ namespace Game.Msg
         {
             base.derialize(ba);
 
-            dwType = ba.readUnsignedInt32();
-            dwSysInfoType = ba.readUnsignedInt32();
-            pstrName = ba.readMultiByte(CVMsg.MAX_NAMESIZE, GkEncode.UTF8);
-            pstrChat = ba.readMultiByte(CVMsg.MAX_CHATINFO, GkEncode.UTF8);
-            dwFromID = ba.readUnsignedInt32();
-            dwChannelID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwType);
+            ba.readUnsignedInt32(ref dwSysInfoType);
+            ba.readMultiByte(ref pstrName, CVMsg.MAX_NAMESIZE, GkEncode.UTF8);
+            ba.readMultiByte(ref pstrChat, CVMsg.MAX_CHATINFO, GkEncode.UTF8);
+            ba.readUnsignedInt32(ref dwFromID);
+            ba.readUnsignedInt32(ref dwChannelID);
         }
 
         public override void serialize(SDK.Common.ByteBuffer ba)

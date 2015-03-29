@@ -12,10 +12,10 @@
 
         public void derialize(ByteBuffer ba)
         {
-            dwLocation = ba.readUnsignedInt32();
-            dwTableID = ba.readUnsignedInt32();
-            x = ba.readUnsignedInt16();
-            y = ba.readUnsignedInt16();
+            ba.readUnsignedInt32(ref dwLocation);
+            ba.readUnsignedInt32(ref dwTableID);
+            ba.readUnsignedInt16(ref x);
+            ba.readUnsignedInt16(ref y);
         }
 
         public void serialize(ByteBuffer ba)

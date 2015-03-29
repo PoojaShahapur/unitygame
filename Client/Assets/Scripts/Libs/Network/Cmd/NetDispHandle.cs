@@ -10,8 +10,10 @@ namespace SDK.Lib
 
         public virtual void handleMsg(ByteBuffer msg)
         {
-            byte byCmd = msg.readUnsignedInt8();
-            byte byParam = msg.readUnsignedInt8();
+            byte byCmd = 0;
+            msg.readUnsignedInt8(ref byCmd);
+            byte byParam = 0;
+            msg.readUnsignedInt8(ref byParam);
             msg.setPos(0);
 
             if(m_id2DispDic.ContainsKey(byCmd))

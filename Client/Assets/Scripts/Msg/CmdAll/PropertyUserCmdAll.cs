@@ -15,7 +15,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            qwThisID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref qwThisID);
         }
     }
 
@@ -42,9 +42,9 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            qwThisID = ba.readUnsignedInt32();
-            dwNum = ba.readUnsignedInt32();
-            type = ba.readUnsignedInt8();
+            ba.readUnsignedInt32(ref qwThisID);
+            ba.readUnsignedInt32(ref dwNum);
+            ba.readUnsignedInt8(ref type);
         }
     }
 
@@ -106,7 +106,7 @@ namespace Game.Msg
 
         public void derialize(ByteBuffer ba)
         {
-            byActionType = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref byActionType);
             mobject = new t_Object_mobile();
             mobject.derialize(ba);
         }
@@ -125,7 +125,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            num = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref num);
 
             list = new List<stObjectOperator>();
             stObjectOperator item;
@@ -168,7 +168,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            byActionType = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref byActionType);
             mobject = new t_Object_mobile();
             mobject.derialize(ba);
         }
@@ -224,14 +224,16 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            count = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref count);
             if(count > 0)
             {
                 id = new List<ushort>(count);
                 int idx = 0;
+                ushort ret = 0;
                 while(idx < count)
                 {
-                    id.Add(ba.readUnsignedInt16());
+                    ba.readUnsignedInt16(ref ret);
+                    id.Add(ret);
                     ++idx;
                 }
             }

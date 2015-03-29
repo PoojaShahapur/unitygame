@@ -25,10 +25,10 @@ namespace Game.Msg
                 ++idx;
             }
 
-            size = ba.readUnsignedInt16();
+            ba.readUnsignedInt16(ref size);
             if(size > 0)
             {
-                data = ba.readMultiByte(size, GkEncode.UTF8);
+                ba.readMultiByte(ref data, size, GkEncode.UTF8);
             }
         }
     }

@@ -25,8 +25,8 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            reserve = ba.readUnsignedInt32();
-            version = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref reserve);
+            ba.readUnsignedInt32(ref version);
         }
 	}
 }

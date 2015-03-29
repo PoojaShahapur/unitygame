@@ -25,27 +25,27 @@ namespace SDK.Common
 
         public void derialize(ByteBuffer ba)
         {
-            
-            qwThisID = ba.readUnsignedInt32();
-            dwObjectID = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref qwThisID);
+            ba.readUnsignedInt32(ref dwObjectID);
 	        pos = new stObjectLocation();
             pos.derialize(ba);
 
-            dwNum = ba.readUnsignedInt32();
-            strName = ba.readMultiByte(CVMsg.MAX_NAMESIZE, GkEncode.UTF8);
-            mpcost = ba.readUnsignedInt32();
-            damage = ba.readUnsignedInt32();
-            hp = ba.readUnsignedInt32();
-            maxhp = ba.readUnsignedInt32();
-            dur = ba.readUnsignedInt32();
-            maxdur = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwNum);
+            ba.readMultiByte(ref strName, CVMsg.MAX_NAMESIZE, GkEncode.UTF8);
+            ba.readUnsignedInt32(ref mpcost);
+            ba.readUnsignedInt32(ref damage);
+            ba.readUnsignedInt32(ref hp);
+            ba.readUnsignedInt32(ref maxhp);
+            ba.readUnsignedInt32(ref dur);
+            ba.readUnsignedInt32(ref maxdur);
 
-            magicDamAdd = ba.readUnsignedInt8();
-            overload = ba.readUnsignedInt8();
-            armor = ba.readUnsignedInt32();
+            ba.readUnsignedInt8(ref magicDamAdd);
+            ba.readUnsignedInt8(ref overload);
+            ba.readUnsignedInt32(ref armor);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
-            state = ba.readBytes(len);
+            state = new byte[len];
+            ba.readBytes(ref state, len);
         }
 
         public void copyFrom(t_Card rhv)

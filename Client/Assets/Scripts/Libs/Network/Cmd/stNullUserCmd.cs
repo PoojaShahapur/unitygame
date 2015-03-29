@@ -28,9 +28,9 @@ namespace SDK.Lib
 
         public virtual void derialize(ByteBuffer ba)
         {
-            byCmd = ba.readUnsignedInt8();
-            byParam = ba.readUnsignedInt8();
-            dwTimestamp = ba.readUnsignedInt32();
+            ba.readUnsignedInt8(ref byCmd);
+            ba.readUnsignedInt8(ref byParam);
+            ba.readUnsignedInt32(ref dwTimestamp);
         }
     }
 }

@@ -8,9 +8,9 @@
 
         public void derialize(ByteBuffer ba)
         {
-            mp = ba.readUnsignedInt32();
-            maxmp = ba.readUnsignedInt32();
-            forbid = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref mp);
+            ba.readUnsignedInt32(ref maxmp);
+            ba.readUnsignedInt32(ref forbid);
         }
     }
 

@@ -222,7 +222,7 @@ namespace SDK.Common
                 bHeaderChange = false;
 #endif
 
-                origMsgLen = m_socketSendBA.readUnsignedInt32();    // 读取一个消息包头
+                m_socketSendBA.readUnsignedInt32(ref origMsgLen);    // 读取一个消息包头
 
 #if MSG_COMPRESS
                 if (origMsgLen > DataCV.PACKET_ZIP_MIN)
@@ -353,7 +353,7 @@ namespace SDK.Common
             uint msglen = 0;
             while (m_rawBuffer.msgBodyBA.bytesAvailable >= 4)
             {
-                msglen = m_rawBuffer.msgBodyBA.readUnsignedInt32();    // 读取一个消息包头
+                m_rawBuffer.msgBodyBA.readUnsignedInt32(ref msglen);    // 读取一个消息包头
                 if (msglen == 0)     // 如果是 0 ，就说明最后是由于加密补齐的数据
                 {
                     break;
@@ -388,7 +388,8 @@ namespace SDK.Common
 #endif
 #if MSG_COMPRESS
             m_rawBuffer.headerBA.setPos(0);
-            uint msglen = m_rawBuffer.headerBA.readUnsignedInt32();
+            uint msglen = 0;
+            m_rawBuffer.headerBA.readUnsignedInt32(ref msglen);
             if ((msglen & DataCV.PACKET_ZIP) > 0)
             {
                 m_rawBuffer.msgBodyBA.uncompress();

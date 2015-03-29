@@ -13,11 +13,11 @@
 
         public void derialize(ByteBuffer ba)
         {
-            occupation = ba.readUnsignedInt16();
-            level = ba.readUnsignedInt16();
-            exp = ba.readUnsignedLong();
-            isActive = ba.readUnsignedInt8();
-            isGold = ba.readUnsignedInt8();
+            ba.readUnsignedInt16(ref occupation);
+            ba.readUnsignedInt16(ref level);
+            ba.readUnsignedLong(ref exp);
+            ba.readUnsignedInt8(ref isActive);
+            ba.readUnsignedInt8(ref isGold);
         }
 
         public void copyFrom(t_hero rhv)

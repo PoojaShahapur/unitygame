@@ -8,8 +8,8 @@
         // 解析头部
         virtual public void parseHeaderByteBuffer(ByteBuffer bytes)
         {
-            m_uID = bytes.readUnsignedInt32();
-            m_offset = bytes.readUnsignedInt32();
+            bytes.readUnsignedInt32(ref m_uID);
+            bytes.readUnsignedInt32(ref m_offset);
         }
     }
 }

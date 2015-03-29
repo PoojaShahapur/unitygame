@@ -14,7 +14,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            byReturnCode = ba.readUnsignedInt8();
+            ba.readUnsignedInt8(ref byReturnCode);
         }
     }
 }

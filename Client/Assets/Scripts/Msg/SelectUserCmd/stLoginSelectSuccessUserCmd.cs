@@ -14,7 +14,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            dwServerTimestamp = ba.readUnsignedInt32();
+            ba.readUnsignedInt32(ref dwServerTimestamp);
         }
     }
 }

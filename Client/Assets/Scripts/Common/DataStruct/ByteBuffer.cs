@@ -18,19 +18,6 @@ namespace SDK.Common
         protected uint m_position;          // 当前可以读取的位置索引
         protected Endian m_endian;          // 大端小端
 
-        protected string m_tmpStr;
-        protected int m_tmpInt;
-        protected uint m_tmpUint;
-        protected ushort m_tmpUshort;
-        protected short m_tmpShort;
-        protected ulong m_tmpUlong;
-        protected bool m_tmpBool;
-        protected byte m_tmpByte;
-
-        protected float m_tmpFloat;
-        protected double m_tmpDouble;
-
-        protected byte[] m_tmpBytes;
         protected byte[] m_padBytes;
 
         public ByteBuffer(uint initCapacity = DynamicBuffer.INIT_CAPACITY, uint maxCapacity = DynamicBuffer.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
@@ -253,203 +240,185 @@ namespace SDK.Common
             writeBytes(retByte, 0, (uint)retByte.Length, false);
         }
 
-		public bool readBoolean ()
+        public ByteBuffer readBoolean(ref bool tmpBool)
         {
-            m_tmpBool = false;
-
             if (canRead(sizeof(bool)))
             {
-                m_tmpBool = System.BitConverter.ToBoolean(m_dynBuff.buff, (int)m_position);
+                tmpBool = System.BitConverter.ToBoolean(m_dynBuff.buff, (int)m_position);
                 advPos(sizeof(bool));
             }
 
-            return m_tmpBool;
+            return this;
         }
 
-		public byte readInt8 ()
+        public ByteBuffer readInt8(ref byte tmpByte)
         {
-            m_tmpByte = 0;
-
             if (canRead(sizeof(char)))
             {
-                m_tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_position);
+                tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_position);
                 advPos(sizeof(char));
             }
 
-            return m_tmpByte;
+            return this;
         }
 
-        public byte readUnsignedInt8()
+        public ByteBuffer readUnsignedInt8(ref byte tmpByte)
         {
-            m_tmpByte = 0;
-
             if (canRead(sizeof(byte)))
             {
-                m_tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_position);
+                tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_position);
                 advPos(sizeof(byte));
             }
 
-            return m_tmpByte;
+            return this;
         }
 
-		public short readInt16 ()
+        public ByteBuffer readInt16(ref short tmpShort)
         {
-            m_tmpShort = 0;
-
             if (canRead(sizeof(short)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpShort = System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_position);
+                    tmpShort = System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_shortByte, 0, sizeof(short));
                     Array.Reverse(m_shortByte);
-                    m_tmpShort = System.BitConverter.ToInt16(m_shortByte, 0);
+                    tmpShort = System.BitConverter.ToInt16(m_shortByte, 0);
                 }
 
                 advPos(sizeof(short));
             }
 
-            return m_tmpShort;
+            return this;
         }
 
-        public ushort readUnsignedInt16()
+        public ByteBuffer readUnsignedInt16(ref ushort tmpUshort)
         {
-            m_tmpUshort = 0;
-
             if (canRead(sizeof(ushort)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpUshort = System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_position);
+                    tmpUshort = System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_shortByte, 0, sizeof(ushort));
                     Array.Reverse(m_shortByte);
-                    m_tmpUshort = System.BitConverter.ToUInt16(m_shortByte, 0);
+                    tmpUshort = System.BitConverter.ToUInt16(m_shortByte, 0);
                 }
 
                 advPos(sizeof(ushort));
             }
 
-            return m_tmpUshort;
+            return this;
         }
 
-        public int readInt32()
+        public ByteBuffer readInt32(ref int tmpInt)
         {
-            m_tmpInt = 0;
             if (canRead(sizeof(int)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpInt = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
+                    tmpInt = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_intByte, 0, sizeof(int));
                     Array.Reverse(m_intByte);
-                    m_tmpInt = System.BitConverter.ToInt32(m_intByte, 0);
+                    tmpInt = System.BitConverter.ToInt32(m_intByte, 0);
                 }
                 advPos(sizeof(int));
             }
 
-            return m_tmpInt;
+            return this;
         }
 
-        public float readFloat()
+        public ByteBuffer readFloat(ref float tmpFloat)
         {
-            m_tmpFloat = 0;
             if (canRead(sizeof(float)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpFloat = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
+                    tmpFloat = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_intByte, 0, sizeof(float));
                     Array.Reverse(m_intByte);
-                    m_tmpFloat = System.BitConverter.ToInt32(m_intByte, 0);
+                    tmpFloat = System.BitConverter.ToInt32(m_intByte, 0);
                 }
                 advPos(sizeof(float));
             }
 
-            return m_tmpFloat;
+            return this;
         }
 
-        public double readDouble()
+        public ByteBuffer readDouble(ref double tmpDouble)
         {
-            m_tmpDouble = 0;
             if (canRead(sizeof(double)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpDouble = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
+                    tmpDouble = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_longByte, 0, sizeof(double));
                     Array.Reverse(m_longByte);
-                    m_tmpDouble = System.BitConverter.ToInt32(m_longByte, 0);
+                    tmpDouble = System.BitConverter.ToInt32(m_longByte, 0);
                 }
                 advPos(sizeof(double));
             }
 
-            return m_tmpDouble;
+            return this;
         }
 
-		public uint readUnsignedInt32 ()
+        public ByteBuffer readUnsignedInt32(ref uint tmpUint)
         {
-            m_tmpUint = 0;
-
             if (canRead(sizeof(uint)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpUint = System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_position);
+                    tmpUint = System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_intByte, 0, sizeof(uint));
                     Array.Reverse(m_intByte);
-                    m_tmpUint = System.BitConverter.ToUInt32(m_intByte, 0);
+                    tmpUint = System.BitConverter.ToUInt32(m_intByte, 0);
                 }
 
                 advPos(sizeof(uint));
             }
 
-            return m_tmpUint;
+            return this;
         }
 
-        public ulong readUnsignedLong()
+        public ByteBuffer readUnsignedLong(ref ulong tmpUlong)
         {
-            m_tmpUlong = 0;
-
             if (canRead(sizeof(ulong)))
             {
                 if (m_endian == SystemEndian.m_sEndian)
                 {
-                    m_tmpUlong = System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_position);
+                    tmpUlong = System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_position);
                 }
                 else
                 {
                     Array.Copy(m_dynBuff.buff, (int)m_position, m_longByte, 0, sizeof(ulong));
                     Array.Reverse(m_longByte);
-                    m_tmpUlong = System.BitConverter.ToUInt64(m_longByte, 0);
+                    tmpUlong = System.BitConverter.ToUInt64(m_longByte, 0);
                 }
 
                 advPos(sizeof(ulong));
             }
 
-            return m_tmpUlong;
+            return this;
         }
 
-        public string readMultiByte(uint len, Encoding charSet)
+        public ByteBuffer readMultiByte(ref string tmpStr, uint len, Encoding charSet)
         {
-            m_tmpStr = "";
             // http://blog.sina.com.cn/s/blog_6e51df7f0100tj9z.html
             // gbk和utf-8都是以单个字节表示数字的，所以不存在字节序问题，在多个不同系统架构都用。对于utf-16，则是以双字节表示一个整数，所以为会有字节序问题，分大小端unicode
             // http://msdn.microsoft.com/zh-cn/library/system.text.encoding.bigendianunicode%28v=vs.80%29.aspx
@@ -461,36 +430,23 @@ namespace SDK.Common
             // 如果是 unicode ，需要大小端判断
             if (canRead(len))
             {
-                m_tmpStr = charSet.GetString(m_dynBuff.buff, (int)m_position, (int)len);
+                tmpStr = charSet.GetString(m_dynBuff.buff, (int)m_position, (int)len);
                 advPos(len);
             }
 
-            return m_tmpStr;
+            return this;
         }
 
         // 这个是字节读取，没有大小端的区别
-        public byte[] readBytes(uint len)
+        public ByteBuffer readBytes(ref byte[] tmpBytes, uint len)
         {
-            m_tmpBytes = new byte[len];
-
             if (canRead(len))
             {
-                Array.Copy(m_dynBuff.buff, (int)m_position, m_tmpBytes, 0, (int)len);
+                Array.Copy(m_dynBuff.buff, (int)m_position, tmpBytes, 0, (int)len);
                 advPos(len);
             }
 
-            return m_tmpBytes;
-        }
-
-        public void readBytes(byte[] outBytes, uint len)
-        {
-            m_tmpBytes = outBytes;
-
-            if (canRead(len))
-            {
-                Array.Copy(m_dynBuff.buff, (int)m_position, m_tmpBytes, 0, (int)len);
-                advPos(len);
-            }
+            return this;
         }
 
         public void writeUnsignedInt8(byte value)
@@ -681,10 +637,12 @@ namespace SDK.Common
             writeUnsignedInt32(value);     // 写入
         }
 
-        public ulong readUnsignedLongByOffset(uint offset)
+        public ByteBuffer readUnsignedLongByOffset(ref ulong tmpUlong, uint offset)
         {
             position = offset;
-            return readUnsignedLong();
+            readUnsignedLong(ref tmpUlong);
+
+            return this;
         }
     }
 }

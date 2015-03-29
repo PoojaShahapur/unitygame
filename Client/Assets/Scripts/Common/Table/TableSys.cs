@@ -143,7 +143,8 @@ namespace SDK.Common
             table.m_byteArray = bytes;
 
             bytes.setEndian(Endian.LITTLE_ENDIAN);
-            uint len = bytes.readUnsignedInt32();
+            uint len = 0;
+            bytes.readUnsignedInt32(ref len);
             uint i = 0;
             TableItemBase item = null;
             for (i = 0; i < len; i++)

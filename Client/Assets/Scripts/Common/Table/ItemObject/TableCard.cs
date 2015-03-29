@@ -55,31 +55,31 @@ namespace SDK.Common
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.position = offset;
-            m_name = UtilTable.readString(bytes);
+            UtilTable.readString(bytes, ref m_name);
 
-            m_type = bytes.readInt32();
-            m_career = bytes.readInt32();
-            m_race = bytes.readInt32();
-            m_quality = bytes.readInt32();
-            m_magicConsume = bytes.readInt32();
+            bytes.readInt32(ref m_type);
+            bytes.readInt32(ref m_career);
+            bytes.readInt32(ref m_race);
+            bytes.readInt32(ref m_quality);
+            bytes.readInt32(ref m_magicConsume);
 
-            m_attack = bytes.readInt32();
-            m_hp = bytes.readInt32();
-            m_Durable = bytes.readInt32();
-            m_prefab = UtilTable.readString(bytes);
+            bytes.readInt32(ref m_attack);
+            bytes.readInt32(ref m_hp);
+            bytes.readInt32(ref m_Durable);
+            UtilTable.readString(bytes, ref m_prefab);
 
-            m_chaoFeng = bytes.readInt32();
-            m_chongFeng = bytes.readInt32();
-            m_fengNu = bytes.readInt32();
-            m_qianXing = bytes.readInt32();
-            m_shengDun = bytes.readInt32();
-            m_mpAdded = bytes.readInt32();
-            m_guoZai = bytes.readInt32();
-            m_faShu = bytes.readInt32();
-            m_zhanHou = bytes.readInt32();
-            m_wangYu = bytes.readInt32();
-            m_jiNu = bytes.readInt32();
-            m_bNeedFaShuTarget = bytes.readUnsignedInt8();
+            bytes.readInt32(ref m_chaoFeng);
+            bytes.readInt32(ref m_chongFeng);
+            bytes.readInt32(ref m_fengNu);
+            bytes.readInt32(ref m_qianXing);
+            bytes.readInt32(ref m_shengDun);
+            bytes.readInt32(ref m_mpAdded);
+            bytes.readInt32(ref m_guoZai);
+            bytes.readInt32(ref m_faShu);
+            bytes.readInt32(ref m_zhanHou);
+            bytes.readInt32(ref m_wangYu);
+            bytes.readInt32(ref m_jiNu);
+            bytes.readUnsignedInt8(ref m_bNeedFaShuTarget);
         }
 
         public string path

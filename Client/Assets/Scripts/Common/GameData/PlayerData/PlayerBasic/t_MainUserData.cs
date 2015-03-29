@@ -9,8 +9,8 @@ namespace SDK.Common
 
         public void derialize(ByteBuffer ba)
         {
-            m_name = ba.readMultiByte(CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            m_gold = ba.readUnsignedInt32();
+            ba.readMultiByte(ref m_name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            ba.readUnsignedInt32(ref m_gold);
         }
     }
 }
