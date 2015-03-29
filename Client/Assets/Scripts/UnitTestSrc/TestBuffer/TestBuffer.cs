@@ -13,7 +13,7 @@ namespace UnitTestSrc
 
         protected void testMsgBuffer()
         {
-            DataBuffer pDataBuffer = new DataBuffer();
+            ClientBuffer pDataBuffer = new ClientBuffer();
             UnitTestStrCmd pUnitTestCmd = new UnitTestStrCmd();
             UnitTestNumCmd pUnitTesNumtCmd = new UnitTestNumCmd();
 

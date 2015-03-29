@@ -9,7 +9,7 @@ namespace SDK.Common
     /**
      *@brief 网络数据缓冲区
      */
-    public class DataBuffer
+    public class ClientBuffer
     {
         protected MsgBuffer m_rawBuffer;      // 直接从服务器接收到的原始的数据，可能压缩和加密过
         protected MsgBuffer m_msgBuffer;      // 可以使用的缓冲区
@@ -30,7 +30,7 @@ namespace SDK.Common
         protected CryptContext m_cryptContext;
 #endif
 
-        public DataBuffer()
+        public ClientBuffer()
         {
             m_rawBuffer = new MsgBuffer();
             m_msgBuffer = new MsgBuffer();

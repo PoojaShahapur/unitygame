@@ -18,7 +18,7 @@ namespace SDK.Lib
         public int m_port = 50000;
 
         protected Socket m_socket = null;
-        protected DataBuffer m_dataBuffer;
+        protected ClientBuffer m_dataBuffer;
         protected bool m_brecvThreadStart = false;      // 接收线程是否启动
         protected bool m_isConnected = false;
 
@@ -27,10 +27,10 @@ namespace SDK.Lib
             m_host = ip;
             m_port = port;
 
-            m_dataBuffer = new DataBuffer();
+            m_dataBuffer = new ClientBuffer();
         }
 
-        public DataBuffer dataBuffer
+        public ClientBuffer dataBuffer
         {
             get
             {
