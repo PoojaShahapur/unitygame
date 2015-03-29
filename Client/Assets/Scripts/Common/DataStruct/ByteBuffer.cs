@@ -47,10 +47,10 @@ namespace SDK.Common
         protected byte[] m_tmpBytes;
         protected byte[] m_padBytes;
 
-        public ByteBuffer(uint initSize = DynamicBuffer.INIT_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
+        public ByteBuffer(uint initCapacity = DynamicBuffer.INIT_CAPACITY, uint maxCapacity = DynamicBuffer.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
-            m_dynBuff = new DynamicBuffer(initSize);
+            m_dynBuff = new DynamicBuffer(initCapacity, maxCapacity);
         }
 
         public DynamicBuffer dynBuff
