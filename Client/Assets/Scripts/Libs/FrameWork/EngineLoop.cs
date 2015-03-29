@@ -21,7 +21,7 @@ namespace SDK.Lib
             }
 
             // 处理网络
-            ByteBuffer ret = Ctx.m_instance.m_netMgr.getMsg() as ByteBuffer;
+            ByteBuffer ret = Ctx.m_instance.m_netMgr.getMsg();
             if (null != ret && null != Ctx.m_instance.m_netHandle && false == Ctx.m_instance.m_bStopNetHandle)
             {
                 Ctx.m_instance.m_netHandle.handleMsg(ret);

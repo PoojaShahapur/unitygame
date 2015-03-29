@@ -12,10 +12,10 @@
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            (bytes as ByteBuffer).position = offset;
-            m_name = UtilTable.readString(bytes as ByteBuffer);
-            m_effect = UtilTable.readString(bytes as ByteBuffer);
-            m_desc = UtilTable.readString(bytes as ByteBuffer);
+            bytes.position = offset;
+            m_name = UtilTable.readString(bytes);
+            m_effect = UtilTable.readString(bytes);
+            m_desc = UtilTable.readString(bytes);
         }
     }
 }

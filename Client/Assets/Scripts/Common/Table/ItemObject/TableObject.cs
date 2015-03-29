@@ -26,13 +26,13 @@ namespace SDK.Common
         //override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         //{
         //    // 移动 pos 到内容开始处
-        //    (bytes as ByteBuffer).position = offset;  // 从偏移处继续读取真正的内容
+        //    bytes.position = offset;  // 从偏移处继续读取真正的内容
 
         //    // 读取内容
         //    m_field2 = bytes.readUnsignedLong();
         //    m_field3 = bytes.readFloat();
         //    // 客户端读取字符串方法
-        //    m_field4 = UtilTable.readString(bytes as ByteBuffer);
+        //    m_field4 = UtilTable.readString(bytes);
         //}
 
         public string m_name;
@@ -43,12 +43,12 @@ namespace SDK.Common
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            (bytes as ByteBuffer).position = offset;  // 从偏移处继续读取真正的内容
-            m_name = UtilTable.readString(bytes as ByteBuffer);
+            bytes.position = offset;  // 从偏移处继续读取真正的内容
+            m_name = UtilTable.readString(bytes);
             m_maxNum = bytes.readInt32();
             m_type = bytes.readInt32();
             m_color = bytes.readInt32();
-            m_prefab = UtilTable.readString(bytes as ByteBuffer);
+            m_prefab = UtilTable.readString(bytes);
         }
 
         public string path

@@ -29,7 +29,7 @@
             // 解析头
             parseHeaderByteBuffer(bytes);
             // 保存下一个 Item 的头位置
-            UtilTable.m_prePos = (bytes as ByteBuffer).position;
+            UtilTable.m_prePos = bytes.position;
             // 解析内容
             parseBodyByteBuffer<T>(bytes, m_itemHeader.m_offset);
             // 移动到下一个 Item 头位置

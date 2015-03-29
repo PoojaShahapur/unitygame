@@ -54,8 +54,8 @@ namespace SDK.Common
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            (bytes as ByteBuffer).position = offset;
-            m_name = UtilTable.readString(bytes as ByteBuffer);
+            bytes.position = offset;
+            m_name = UtilTable.readString(bytes);
 
             m_type = bytes.readInt32();
             m_career = bytes.readInt32();
@@ -66,7 +66,7 @@ namespace SDK.Common
             m_attack = bytes.readInt32();
             m_hp = bytes.readInt32();
             m_Durable = bytes.readInt32();
-            m_prefab = UtilTable.readString(bytes as ByteBuffer);
+            m_prefab = UtilTable.readString(bytes);
 
             m_chaoFeng = bytes.readInt32();
             m_chongFeng = bytes.readInt32();
