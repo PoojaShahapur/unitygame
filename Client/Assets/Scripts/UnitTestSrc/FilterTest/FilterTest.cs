@@ -11,7 +11,7 @@ namespace UnitTestSrc
         public void testFilter()
         {
             string testStr = "aasbbsccsddd";
-            Ctx.m_instance.m_wordFilterManager.doRegexFilter(ref testStr);
+            Ctx.m_instance.m_wordFilterManager.doFilter(ref testStr);
         }
     }
 }
