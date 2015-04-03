@@ -10,7 +10,7 @@ namespace UnitTestSrc
 
         public void testFilter()
         {
-            string testStr = "aasbbsccsddd";
+            string testStr = "aasbbsccsdddasbbsccs";
             Ctx.m_instance.m_wordFilterManager.doFilter(ref testStr);
         }
     }
