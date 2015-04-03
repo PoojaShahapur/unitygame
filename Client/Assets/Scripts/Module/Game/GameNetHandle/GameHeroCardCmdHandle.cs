@@ -338,7 +338,7 @@ namespace Game.Game
                 uiSceneDZ.psstNotifyFightEnemyInfoUserCmd(cmd);
             }
 
-            UIDZ uiDZ = Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIDZ) as UIDZ;
+            UIDZ uiDZ = Ctx.m_instance.m_uiMgr.getForm<UIDZ>(UIFormID.UIDZ);
             if (uiDZ != null)
             {
                 uiDZ.psstNotifyFightEnemyInfoUserCmd();

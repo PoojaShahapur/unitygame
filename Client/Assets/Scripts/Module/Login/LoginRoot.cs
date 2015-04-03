@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Game.Login;
+using SDK.Common;
 
 public class LoginRoot : MonoBehaviour 
 {
 	// Use this for initialization
 	void Start () 
     {
-        LoginSys.m_instance = new LoginSys();
-        LoginSys.m_instance.m_loginFlowHandle = new LoginFlowHandle();
-        LoginSys.m_instance.Start();
+        Ctx.m_instance.m_loginSys = new LoginSys();
+        ((Ctx.m_instance.m_loginSys) as LoginSys).m_loginFlowHandle = new LoginFlowHandle();
+        ((Ctx.m_instance.m_loginSys) as LoginSys).Start();
 	}
 
     //void OnGUI()

@@ -17,7 +17,7 @@ namespace Game.Game
             stKokChatUserCmd cmd = new stKokChatUserCmd();
             cmd.derialize(msg);
 
-            UIChat uiChat = Ctx.m_instance.m_uiMgr.getForm(UIFormID.UIChat) as UIChat;
+            UIChat uiChat = Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat);
             if(uiChat != null)
             {
                 cmd.pstrChat = cmd.pstrChat.TrimEnd('\0');

@@ -70,6 +70,8 @@ public class AppRoot : MonoBehaviour
         PostInit();
         // 加载登陆模块
         Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+        // Unity 编辑器设置的基本数据
+        initBasicCfg();
 
         // 运行单元测试
 #if UNIT_TEST_SRC
@@ -94,7 +96,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_tickMgr = new TickMgr();
         Ctx.m_instance.m_timerMgr = new TimerMgr();
         Ctx.m_instance.m_coroutineMgr = new CoroutineMgr();
-        Ctx.m_instance.m_shareMgr = new ShareMgr();
+        Ctx.m_instance.m_shareData = new ShareData();
         Ctx.m_instance.m_sceneSys = new SceneSys();
         Ctx.m_instance.m_layerMgr = new LayerMgr();
 
@@ -145,7 +147,7 @@ public class AppRoot : MonoBehaviour
     public void setNoDestroyObject()
     {
         Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_Root);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
+        //UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
 
         Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_App);
         UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
@@ -177,5 +179,12 @@ public class AppRoot : MonoBehaviour
 
         Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UITopLayer);
         UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer]);
+    }
+
+    protected void initBasicCfg()
+    {
+        BasicConfig basicCfg = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
+        //Ctx.m_instance.m_cfg.m_ip = basicCfg.getIp();
+        Ctx.m_instance.m_cfg.m_zone = basicCfg.getPort();
     }
 }

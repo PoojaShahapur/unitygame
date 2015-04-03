@@ -130,7 +130,8 @@ namespace SDK.Lib
                 //    Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB();
                 //}
                 // 这个在主线程中调用
-                Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = true;
+                //Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = true;
+                Ctx.m_instance.m_sysMsgRoute.pushMsg(new SocketOpenedMR());
             }
             catch (System.Exception e)
             {
@@ -300,10 +301,12 @@ namespace SDK.Lib
             {
                 m_isConnected = false;
 
-                if (null != Ctx.m_instance.m_sysMsgRoute.m_socketClosedCB)
-                {    
-                    Ctx.m_instance.m_sysMsgRoute.m_socketClosedCB();
-                }
+                //if (null != Ctx.m_instance.m_sysMsgRoute.m_socketClosedCB)
+                //{    
+                //    Ctx.m_instance.m_sysMsgRoute.m_socketClosedCB();
+                //}
+
+                Ctx.m_instance.m_sysMsgRoute.pushMsg(new SocketCloseedMR());
             }
 
             return m_isConnected;

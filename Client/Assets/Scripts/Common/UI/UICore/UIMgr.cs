@@ -69,7 +69,7 @@ namespace SDK.Common
 
         public void showFormInternal(UIFormID ID)
         {
-            Form win = getForm(ID);
+            Form win = getForm<Form>(ID);
             if (win != null)
             {
                 //UILayer layer = win.uiLayer;
@@ -88,7 +88,7 @@ namespace SDK.Common
         // 隐藏一个 UI
         private void hideFormInternal(UIFormID ID)
 		{
-			Form win = getForm(ID);
+			Form win = getForm<Form>(ID);
 			if (win != null)
 			{
 				//UILayer layer = win.uiLayer;
@@ -103,7 +103,7 @@ namespace SDK.Common
         // 退出一个 UI
         public void exitForm(UIFormID ID, bool bForce = false)
 		{
-			Form win = getForm(ID);
+			Form win = getForm<Form>(ID);
 
             if (win != null)
 			{
@@ -120,7 +120,7 @@ namespace SDK.Common
 
         protected void exitFormInternal(UIFormID ID)
         {
-            Form win = getForm(ID);
+            Form win = getForm<Form>(ID);
 
             if (win != null)
             {
@@ -168,11 +168,11 @@ namespace SDK.Common
             form.init();        // 初始化
         }
 
-        public Form getForm(UIFormID ID)
+        public T getForm<T>(UIFormID ID) where T : Form
         {
             if (m_dicForm.ContainsKey(ID))
             {
-                return m_dicForm[ID];
+                return m_dicForm[ID] as T;
             }
             else
             {
@@ -191,7 +191,7 @@ namespace SDK.Common
             // exitAllWin();                       // 关闭所有的界面
 
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
-            Form window = getForm(ID);
+            Form window = getForm<Form>(ID);
 
             if (window != null)     // 本地已经创建了这个窗口，
             {
@@ -332,10 +332,11 @@ namespace SDK.Common
             m_dicForm[ID].bLoadWidgetRes = true;
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_codePrefabName);
             // 设置位置
-            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = m_vecLayer[(int)attrItem.m_LayerID].layerTrans;
+            //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = m_vecLayer[(int)attrItem.m_LayerID].layerTrans;
+            UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_vecLayer[(int)attrItem.m_LayerID].layerTrans, false);
             // 先设置再设置缩放，否则无效
-            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localPosition = Vector3.zero;
-            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localScale = Vector3.one;
+            //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localPosition = Vector3.zero;
+            //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localScale = Vector3.one;
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
             UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件
             //if (m_dicForm[ID].hideOnCreate)

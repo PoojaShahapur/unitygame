@@ -12,6 +12,9 @@ namespace Game.Game
         public bool m_firstLoad = true;     // 是否是第一次加载游戏场景
         public bool m_bInDZScene = false;   // 是否在对战场景
 
+        public GameRouteCB m_gameRouteCB;
+        public GameNetHandleCB m_gameNetHandleCB;
+
         public void Start()
         {
             initGVar();
@@ -27,7 +30,10 @@ namespace Game.Game
 
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
-            Ctx.m_instance.m_netHandle = new GameNetHandleCB();
+            m_gameNetHandleCB = new GameNetHandleCB();
+            Ctx.m_instance.m_netDispList.addOneDisp(m_gameNetHandleCB);
+            m_gameRouteCB = new GameRouteCB();
+            Ctx.m_instance.m_msgRouteList.addOneDisp(m_gameRouteCB);
             Ctx.m_instance.m_bStopNetHandle = false;     // 停止网络消息处理
             Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();

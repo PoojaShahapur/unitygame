@@ -40,14 +40,14 @@ namespace SDK.Lib
                     {
                         m_hasItem = true;
                         m_tmpEle = m_tmpEleList[itemIdx] as XmlElement;
-                        Ctx.m_instance.m_shareMgr.m_retLangStr = m_tmpEle.InnerText;
+                        Ctx.m_instance.m_shareData.m_retLangStr = m_tmpEle.InnerText;
                     }
                 }
             }
 
             if (!m_hasItem)
             {
-                Ctx.m_instance.m_shareMgr.m_retLangStr = "default string";
+                Ctx.m_instance.m_shareData.m_retLangStr = "default string";
             }
         }
 

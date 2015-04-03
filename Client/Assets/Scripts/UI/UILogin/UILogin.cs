@@ -13,8 +13,6 @@ namespace Game.UI
      */
     public class UILogin : Form
     {
-        protected bool m_bLogined = false;      // 是否登陆过
-
         override public void onShow()
         {
 
@@ -45,6 +43,9 @@ namespace Game.UI
             {
                 lblPassWord.text = Ctx.m_instance.m_systemSetting.getString(SystemSetting.PASSWORD);
             }
+
+            // 或略鼠标事件
+            UtilApi.getComByP<Image>(m_GUIWin.m_uiRoot, "ImageName").maskable = false;
         }
 
         protected void addEventHandle()
@@ -55,9 +56,8 @@ namespace Game.UI
         // 点击登陆处理
         protected void onBtnClkLogin()
         {
-            if (!m_bLogined)
+            if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginingLoginServer && Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginingGateServer)    // 如果没有正在登陆登陆服务器和网关服务器
             {
-                m_bLogined = true;
                 InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
                 InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
@@ -65,7 +65,11 @@ namespace Game.UI
                 Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
 
             #if !DEBUG_NOTNET
-                LoginSys.m_instance.m_loginFlowHandle.connectLoginServer(lblName.text, lblPassWord.text);
+                if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                {
+                    Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
+                }
+                Ctx.m_instance.m_loginSys.connectLoginServer(lblName.text, lblPassWord.text);
             #else
                 Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
             #endif

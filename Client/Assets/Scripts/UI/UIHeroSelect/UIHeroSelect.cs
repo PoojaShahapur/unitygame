@@ -1,13 +1,12 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.UI
 {
     public class UIHeroSelect : Form
     {
-        protected bool m_bLogined = false;      // 是否登陆过
-
         override public void onShow()
         {
 
@@ -21,15 +20,15 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, LoginComPath.PathBtnLogin, onBtnClkLogin);
+            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, HeroSelectComPath.PathBtnLogin, onBtnClkLogin);
+            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, HeroSelectComPath.PathBtnRanName, onBtnClkRan);
         }
 
         // 点击登陆处理
         protected void onBtnClkLogin()
         {
-            if (!m_bLogined)
+            if (Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginSuccessGateServer || Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginNewCharError)    // 网关登陆成功或者建立角色错误
             {
-                m_bLogined = true;
                 InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
 
                 stCreateSelectUserCmd cmd = new stCreateSelectUserCmd();
@@ -37,6 +36,13 @@ namespace Game.UI
                 cmd.country = 1;
                 UtilMsg.sendMsg(cmd);
             }
+        }
+
+        // 点击随机
+        protected void onBtnClkRan()
+        {
+            Random.seed = (int)UtilApi.getUTCSec();
+            int aaa = Random.Range(1, 200);
         }
     }
 }

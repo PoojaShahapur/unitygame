@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace SDK.Lib
+namespace Game.Start
 {
     /**
      * @brief 这个模块主要是加载代码基础模块，然后加载游戏功能模块，然后加载资源
@@ -12,6 +12,7 @@ namespace SDK.Lib
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
         private string m_appName = "App";
         private int m_loadType;
+
 
         void Awake()
         {
@@ -89,6 +90,7 @@ namespace SDK.Lib
                 GameObject appGo = Instantiate(prefabObj) as GameObject;
                 appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
                 GameObject noDestroy = GameObject.Find("NoDestroy");
+                Object.DontDestroyOnLoad(noDestroy);
                 appGo.transform.parent = noDestroy.transform;
             }
         }
@@ -110,6 +112,7 @@ namespace SDK.Lib
                 GameObject appGo = Instantiate(bt) as GameObject;
                 appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
                 GameObject noDestroy = GameObject.Find("NoDestroy");
+                Object.DontDestroyOnLoad(noDestroy);
                 appGo.transform.parent = noDestroy.transform;
                 assetBundle.Unload(false);
             }
@@ -134,6 +137,7 @@ namespace SDK.Lib
             GameObject appGo = Instantiate(bt) as GameObject;
             appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
             GameObject noDestroy = GameObject.Find("NoDestroy");
+            Object.DontDestroyOnLoad(noDestroy);
             appGo.transform.parent = noDestroy.transform;
             bundle.Unload(false);
             yield return null;

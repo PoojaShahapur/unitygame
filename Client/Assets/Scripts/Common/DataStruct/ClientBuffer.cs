@@ -96,6 +96,14 @@ namespace SDK.Common
             m_cryptContext.m_cryptKey = encrypt;
             Dec.DES_set_key_unchecked(m_cryptContext.m_cryptKey, m_cryptContext.m_cryptKeyArr[(int)CryptAlgorithm.DES] as DES_key_schedule);
         }
+
+        public void checkDES()
+        {
+            if (m_cryptContext.m_cryptKey != null && m_cryptContext.m_cryptAlgorithm != CryptAlgorithm.DES)
+            {
+                m_cryptContext.m_cryptAlgorithm = CryptAlgorithm.DES;
+            }
+        }
 #endif
 
         public MsgBuffer rawBuffer
@@ -106,17 +114,11 @@ namespace SDK.Common
             }
         }
 
-        public void checkDES()
-        {
-            if (m_cryptContext.m_cryptKey != null && m_cryptContext.m_cryptAlgorithm != CryptAlgorithm.DES)
-            {
-                m_cryptContext.m_cryptAlgorithm = CryptAlgorithm.DES;
-            }
-        }
-
         public void moveDyn2Raw()
         {
+#if MSG_ENCRIPT
             checkDES();
+#endif
             // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，服务器是这么发送的，只能这么处理，自己写入包的长度
             m_tmp1fData.clear();
             m_tmp1fData.writeUnsignedInt32(m_dynBuff.size);      // 填充长度

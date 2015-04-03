@@ -159,6 +159,11 @@ namespace SDK.Common
             trans.SetParent(null);      // 这个仅仅是移除场景中
         }
 
+        public static void SetParent(Transform child, Transform parent, bool worldPositionStays = true)
+        {
+            child.SetParent(parent, worldPositionStays);
+        }
+
         static public bool getXmlAttrBool(XmlAttribute attr)
         {
             if (attr != null)

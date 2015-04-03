@@ -9,23 +9,33 @@ namespace SDK.Lib
     {
         public void MainLoop()
         {
-            // 处理一些回调
-            if(Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened)
-            {
-                if (Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB != null)
-                {
-                    Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB();
-                }
+            // 处理客户端自己的消息机制
+            //if(Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened)
+            //{
+            //    if (Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB != null)
+            //    {
+            //        Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB();
+            //    }
 
-                Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = false;
+            //    Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = false;
+            //}
+
+            MsgRouteBase routeMsg = null;
+            while ((routeMsg = Ctx.m_instance.m_sysMsgRoute.popMsg()) != null)
+            {
+                Ctx.m_instance.m_msgRouteList.handleMsg(routeMsg);
             }
 
             // 处理网络
-            ByteBuffer ret = Ctx.m_instance.m_netMgr.getMsg();
-            if (null != ret && null != Ctx.m_instance.m_netHandle && false == Ctx.m_instance.m_bStopNetHandle)
+            ByteBuffer ret = null;
+            while((ret = Ctx.m_instance.m_netMgr.getMsg()) != null)
             {
-                Ctx.m_instance.m_netHandle.handleMsg(ret);
+                if (null != Ctx.m_instance.m_netDispList && false == Ctx.m_instance.m_bStopNetHandle)
+                {
+                    Ctx.m_instance.m_netDispList.handleMsg(ret);
+                }
             }
+
             // 处理 input
             //Ctx.m_instance.m_inputMgr.handleKeyBoard();
             // 游戏循环处理

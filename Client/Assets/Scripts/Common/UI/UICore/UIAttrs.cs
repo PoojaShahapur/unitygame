@@ -49,6 +49,16 @@ namespace SDK.Common
             m_dicAttr[UIFormID.UIChat].m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIChat].m_widgetPrefabName = "UIChat";
             m_dicAttr[UIFormID.UIChat].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIChat].m_widgetPrefabName;
+
+            m_dicAttr[UIFormID.UIInfo] = new UIAttrItem();
+            m_dicAttr[UIFormID.UIInfo].m_LayerID = UILayerID.ForthLayer;
+            m_dicAttr[UIFormID.UIInfo].m_widgetPrefabName = "UIInfo";
+            m_dicAttr[UIFormID.UIInfo].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIInfo].m_widgetPrefabName;
+
+            m_dicAttr[UIFormID.UILogicTest] = new UIAttrItem();
+            m_dicAttr[UIFormID.UILogicTest].m_LayerID = UILayerID.TopLayer;
+            m_dicAttr[UIFormID.UILogicTest].m_widgetPrefabName = "UILogicTest";
+            m_dicAttr[UIFormID.UILogicTest].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UILogicTest].m_widgetPrefabName;
         }
 
         public string getPath(UIFormID id)

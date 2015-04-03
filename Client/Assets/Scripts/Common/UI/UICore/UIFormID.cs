@@ -13,6 +13,8 @@ namespace SDK.Common
         UIDZ,               // 对战界面
         UIExtraOp,          // 操作界面
         UIChat,             // 聊天窗口
+        UIInfo,             // 信息窗口
+        UILogicTest,        // 逻辑测试窗口
 	}
 
     public enum UILayerID
@@ -20,8 +22,8 @@ namespace SDK.Common
         BtmLayer,                   // 最低层啊，一般不放东西，以备不时之需，目前放模糊的界面
         FirstLayer,                 // 第一层，聊天之类的主界面窗口
         SecondLayer,                // 第二层，主要是功能性的界面，弹出需要关闭的界面
-        ThirdLayer,                 // 第三层，提示窗口层
-        ForthLayer,                 // 第四层，新手引导层
+        ThirdLayer,                 // 第三层，新手引导层
+        ForthLayer,                 // 第四层，提示窗口层
         TopLayer,                   // 最顶层，一般不放东西，以备不时之需
 
 		MaxLayer

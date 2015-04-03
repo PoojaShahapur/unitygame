@@ -34,7 +34,8 @@
         LOGIN_RETURN_JPEG_PASSPORT, /// 图形验证码输入错误
         LOGIN_RETURN_LOCK,         /// 帐号被锁定
         LOGIN_RETURN_WAITACTIVE, /// 帐号待激活
-        LOGIN_RETURN_NEWUSER_OLDZONE      ///新账号不允许登入旧的游戏区 
+        LOGIN_RETURN_NEWUSER_OLDZONE,      ///新账号不允许登入旧的游戏区 
+        LOGIN_RETURN_CHARNAME_FORBID = 36,
     }
 
     public enum ChallengeGameType

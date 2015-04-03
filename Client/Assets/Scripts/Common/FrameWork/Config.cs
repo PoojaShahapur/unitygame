@@ -23,6 +23,7 @@ namespace SDK.Common
 #else
         public string m_ip = "192.168.125.254";
         public int m_port = 10002;
+        public ushort m_zone = 30;
 #endif
 
         public string m_webIP = "192.168.125.49";               // web 服务器

@@ -59,6 +59,10 @@ namespace SDK.Common
 
         public void unloadModule(ModuleID moduleID)
         {
+            if (ModuleID.LOGINMN == moduleID)
+            {
+                Ctx.m_instance.m_loginSys.unload();
+            }
             UtilApi.Destroy(Ctx.m_instance.m_layerMgr.m_path2Go[m_type2ItemDic[moduleID].m_modulePath]);
             Ctx.m_instance.m_layerMgr.m_path2Go.Remove(m_type2ItemDic[moduleID].m_modulePath);
         }

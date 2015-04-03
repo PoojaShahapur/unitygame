@@ -30,7 +30,7 @@ namespace SDK.Common
 
         public TimerMgr m_timerMgr;                // 定时器系统
         public UIMgr m_uiMgr;                      // UI 管理器
-        public UISceneMgr m_uiSceneMgr;                      // UIScene 管理器
+        public UISceneMgr m_uiSceneMgr;            // UIScene 管理器
         public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器
         public IUIEvent m_cbUIEvent;                // UI 事件回调
         public CoroutineMgr m_coroutineMgr;        // 协程管理器
@@ -42,7 +42,7 @@ namespace SDK.Common
         public PlayerMgr m_playerMgr;              // Player管理器
         public MonsterMgr m_monsterMgr;            // Monster 管理器
 
-        public ShareMgr m_shareMgr;                 // 共享数据系统
+        public ShareData m_shareData;                 // 共享数据系统
         public LayerMgr m_layerMgr;                 // 层管理器
         public ISceneEventCB m_sceneEventCB;        // 场景加载事件
         public CamSys m_camSys;
@@ -50,7 +50,8 @@ namespace SDK.Common
         public ISceneLogic m_sceneLogic;
         public AISystem m_aiSystem;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
-        public NetDispHandle m_netHandle;           // 网络处理器
+        public NetDispList m_netDispList = new NetDispList();           // 网络处理器
+        public MsgRouteDispList m_msgRouteList = new MsgRouteDispList();           // RouteMsg 客户端自己消息流程
         public IModuleSys m_moduleSys;              // 模块
         public TableSys m_tableSys;                // 表格
         public LocalFileSys m_localFileSys;        // 文件系统
@@ -72,6 +73,8 @@ namespace SDK.Common
         public TimerMsgHandle m_pTimerMsgHandle = new TimerMsgHandle();
         //public WebSocketMgr m_pWebSocketMgr;
         public PoolSys m_poolSys = new PoolSys();
+        public ILoginSys m_loginSys;
+        public WordFilterManager m_wordFilterManager = new WordFilterManager();
 
         public Ctx()
         {
