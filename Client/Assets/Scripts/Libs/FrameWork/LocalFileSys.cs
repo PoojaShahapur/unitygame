@@ -43,7 +43,7 @@ namespace SDK.Lib
          * @param path：读取文件的路径
          * @param name：读取文件的名称
          */
-        ArrayList LoadFile(string path, string name)
+        public ArrayList LoadFile(string path, string name)
         {
             //使用流的形式读取
             StreamReader sr = null;
@@ -73,6 +73,30 @@ namespace SDK.Lib
             return arrlist;
         }
 
+        public string LoadFileText(string path, string name)
+        {
+            //使用流的形式读取
+            StreamReader sr = null;
+            try
+            {
+                sr = File.OpenText(path + "//" + name);
+            }
+            catch (Exception e)
+            {
+                //路径与名称未找到文件则直接返回空
+                Ctx.m_instance.m_log.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+                return null;
+            }
+            string text = sr.ReadToEnd();
+            
+            //关闭流
+            sr.Close();
+            //销毁流
+            sr.Dispose();
+            //将数组链表容器返回
+            return text;
+        }
+
         // 加载文件，返回 byte
         public byte[] LoadFileByte(string path, string name)
         {
@@ -98,6 +122,12 @@ namespace SDK.Lib
         public void DeleteFile(string path, string name)
         {
             File.Delete(path + "//" + name);
+        }
+
+        // 文件是否存在
+        public bool isFileExist(string path)
+        {
+            return File.Exists(path);
         }
 
         // 获取本地可以读取的目录，但是不能写

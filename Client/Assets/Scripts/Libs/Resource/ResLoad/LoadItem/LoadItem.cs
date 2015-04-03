@@ -119,7 +119,7 @@ namespace SDK.Lib
             m_loadNeedCoroutine = false;
         }
 
-        protected IEnumerator downloadAsset()
+        virtual protected IEnumerator downloadAsset()
         {
             string path = "";
             if (m_resLoadType == ResLoadType.eLoadDicWeb)
@@ -150,7 +150,7 @@ namespace SDK.Lib
         }
 
         // 加载完成回调处理
-        protected void onWWWEnd()
+        virtual protected void onWWWEnd()
         {
             if (isLoadedSuccess(m_w3File))
             {

@@ -42,7 +42,7 @@ namespace SDK.Common
                 while (lineIdx < lineList.Length)
                 {
                     tabList = lineList[lineIdx].Split(tabSplitStr, StringSplitOptions.RemoveEmptyEntries);
-                    m_filterArr[lineIdx] = tabList[2];
+                    m_filterArr[lineIdx] = tabList[1];
                     ++lineIdx;
                 }
             }

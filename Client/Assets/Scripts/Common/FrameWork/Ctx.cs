@@ -75,6 +75,7 @@ namespace SDK.Common
         public PoolSys m_poolSys = new PoolSys();
         public ILoginSys m_loginSys;
         public WordFilterManager m_wordFilterManager = new WordFilterManager();
+        public VersionSys m_versionSys = new VersionSys();
 
         public Ctx()
         {

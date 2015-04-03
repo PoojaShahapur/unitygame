@@ -37,6 +37,14 @@ namespace SDK.Lib
             }
         }
 
+        public IResItem loadData(LoadParam param)
+        {
+            param.m_resPackType = ResPackType.eDataType;
+            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+
+            return load(param);
+        }
+
         // eBundleType 打包类型资源加载
         public IResItem loadBundle(LoadParam param)
         {
@@ -126,6 +134,13 @@ namespace SDK.Lib
 
                 (resitem as PrefabResItem).prefabName = param.m_prefabName;
             }
+            else if (ResPackType.eDataType == param.m_resPackType)
+            {
+                if (resitem == null)
+                {
+                    resitem = new DataResItem();
+                }
+            }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;
             resitem.resPackType = param.m_resPackType;
@@ -167,6 +182,13 @@ namespace SDK.Lib
                 }
 
                 (loaditem as LevelLoadItem).levelName = param.m_lvlName;
+            }
+            else if (ResPackType.eDataType == param.m_resPackType)
+            {
+                if (loaditem == null)
+                {
+                    loaditem = new DataLoadItem();
+                }
             }
 
             loaditem.resPackType = param.m_resPackType;
