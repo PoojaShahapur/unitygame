@@ -124,7 +124,7 @@ namespace SDK.Lib
         }
 
         // 下载
-        IEnumerator webDown()
+        protected IEnumerator webDown()
         {
             string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
 
