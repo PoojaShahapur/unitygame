@@ -1,6 +1,9 @@
 ﻿using SDK.Common;
 using System;
 using System.Collections;
+using System.IO;
+using System.Net;
+using System.Text;
 using UnityEngine;
 namespace SDK.Lib
 {
@@ -30,7 +33,8 @@ namespace SDK.Lib
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
+                //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
+                Ctx.m_instance.m_coroutineMgr.StartCoroutine(webDown());
             }
         }
 
@@ -117,6 +121,30 @@ namespace SDK.Lib
                     onFailed(this);
                 }
             }
+        }
+
+        // 下载
+        IEnumerator webDown()
+        {
+            string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
+
+            //打开网络连接 
+            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+            System.Net.HttpWebRequest requestGetCount = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+            long countLength = requestGetCount.GetResponse().ContentLength;
+
+            //向服务器请求，获得服务器回应数据流 
+            System.IO.Stream ns = request.GetResponse().GetResponseStream();
+
+            byte[] nbytes = new byte[countLength];
+            int nReadSize = 0;
+            nReadSize = ns.Read(nbytes, 0, (int)countLength);
+            if (nReadSize != request.GetResponse().ContentLength)
+            {
+                // 发生错误
+            }
+            ns.Close();
+            yield return null;
         }
     }
 }
