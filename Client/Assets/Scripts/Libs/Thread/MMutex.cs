@@ -7,7 +7,9 @@ namespace SDK.Lib
      */
     public class MMutex
     {
+        #if NET_MULTHREAD
         private Mutex m_mutex;   // 读互斥
+        #endif
 
         public MMutex(bool initiallyOwned, string name)
         {

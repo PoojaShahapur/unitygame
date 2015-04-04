@@ -256,12 +256,12 @@ namespace SDK.Common
                     origMsgLen = compressMsgLen;                // 压缩后的长度
                     origMsgLen |= DataCV.PACKET_ZIP;            // 添加
                 }
-#endif
-#if !MSG_ENCRIPT
+//#endif
+//#if !MSG_ENCRIPT
                 if(bHeaderChange)
                 {
                     m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
-                    m_socketSendBA.writeUnsignedInt(origMsgLen, false);     // 写入压缩或者加密后的消息长度
+                    m_socketSendBA.writeUnsignedInt32(origMsgLen, false);     // 写入压缩或者加密后的消息长度
                     m_socketSendBA.position += compressMsgLen;              // 移动到下一个位置
                 }
 #endif
@@ -334,7 +334,7 @@ namespace SDK.Common
         }
 
         // 消息格式
-        // |------------- 压缩的整个消息  -------------------------------------|
+        // |------------- 加密的整个消息  -------------------------------------|
         // |----4 Header----|-压缩的 body----|----4 Header----|-压缩的 body----|
         // |                |                |                |                |
         protected void UnCompressAndDecryptEveryOne()
@@ -400,7 +400,7 @@ namespace SDK.Common
 
 #if !MSG_COMPRESS && !MSG_ENCRIPT
             m_unCompressHeaderBA.clear();
-            m_unCompressHeaderBA.writeUnsignedInt(m_rawBuffer.retBA.length);
+            m_unCompressHeaderBA.writeUnsignedInt32(m_rawBuffer.msgBodyBA.length);
             m_unCompressHeaderBA.position = 0;
 #endif
 

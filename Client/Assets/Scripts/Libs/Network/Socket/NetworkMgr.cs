@@ -61,6 +61,10 @@ namespace SDK.Lib
             string key = ip + "&" + port;
             if (m_id2SocketDic.ContainsKey(key))
             {
+                // 关闭 socket 之前要等待所有的数据都发送完成
+                m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
+                m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
+
                 using (MLock mlock = new MLock(m_visitMutex))
                 {
                     m_id2SocketDic[key].Disconnect(0);

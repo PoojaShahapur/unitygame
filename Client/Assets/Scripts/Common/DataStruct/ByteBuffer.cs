@@ -616,8 +616,6 @@ namespace SDK.Common
         // 替换已经有的一段数据
         protected void replace(byte[] srcBytes, uint srcStartPos = 0, uint srclen_ = 0, uint destStartPos = 0, uint destlen_ = 0)
         {
-            uint curPos = position;     // 保存当前位置
-
             uint lastLeft = length - destStartPos - destlen_;        // 最后一段的长度
             length = destStartPos + srclen_ + lastLeft;      // 设置大小，保证足够大小空间
 

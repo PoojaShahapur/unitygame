@@ -22,6 +22,8 @@ namespace SDK.Lib
         protected bool m_brecvThreadStart = false;      // 接收线程是否启动
         protected bool m_isConnected = false;
 
+        protected MEvent m_msgSendEndEvent = new MEvent(false);       // 当前所有的消息都发送出去了，通知等待线程
+
         public NetTCPClient(string ip, int port)
         {
             m_host = ip;
@@ -57,6 +59,19 @@ namespace SDK.Lib
                 return m_isConnected;
             }
         }
+
+        public MEvent msgSendEndEvent
+        {
+            get
+            {
+                return m_msgSendEndEvent;
+            }
+            set
+            {
+                m_msgSendEndEvent = value;
+            }
+        }
+
 
         // 连接服务器
         public bool Connect(string address, int remotePort)
@@ -222,6 +237,7 @@ namespace SDK.Lib
 
                 if (m_dataBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
                 {
+                    m_msgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
                     return;
                 }
             }
@@ -237,6 +253,7 @@ namespace SDK.Lib
             }
             catch (System.Exception e)
             {
+                m_msgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
                 // 输出日志
                 Ctx.m_instance.m_log.asynclog(e.Message);
                 Disconnect(0);
