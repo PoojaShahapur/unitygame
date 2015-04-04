@@ -89,12 +89,12 @@ namespace SDK.Common
         // 180 - 360 度区间
         static public void upHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
-            float radianSector = 0;         // 每一个弧形的弧度
+            //float radianSector = 0;         // 每一个弧形的弧度
             float degSector = 0;            // 度
             //float curRadian = 0;
             float curDeg = 0;
 
-            float startRadian = 0;          // 开始的弧度
+            //float startRadian = 0;          // 开始的弧度
             float startDeg = 0;             // 开始的角度
 
             float yDelta = 0.1f;
@@ -103,10 +103,10 @@ namespace SDK.Common
             Quaternion rot;
 
             // 总共 10 张牌
-            radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
+            //radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
             degSector = 180 / 11;
 
-            startRadian = Mathf.PI + radianSector;
+            //startRadian = Mathf.PI + radianSector;
             startDeg = 180 + degSector;
 
             Vector3 orign = new Vector3(radius, 0, 0);
@@ -134,12 +134,12 @@ namespace SDK.Common
         // 0 - 180 度区间
         static public void downHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
-            float radianSector = 0;         // 每一个弧形的弧度
+            //float radianSector = 0;         // 每一个弧形的弧度
             float degSector = 0;            // 度
             //float curRadian = 0;
             float curDeg = 0;
 
-            float startRadian = 0;          // 开始的弧度
+            //float startRadian = 0;          // 开始的弧度
             float startDeg = 0;             // 开始的角度
 
             float yDelta = 0.1f;
@@ -148,10 +148,10 @@ namespace SDK.Common
             Quaternion rot;
 
             // 总共 10 张牌
-            radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
+            //radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
             degSector = 180 / 11;
 
-            startRadian = Mathf.PI - radianSector;
+            //startRadian = Mathf.PI - radianSector;
             startDeg = 180 - degSector;
 
             Vector3 orign = new Vector3(radius, 0, 0);

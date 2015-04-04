@@ -128,22 +128,43 @@ namespace SDK.Lib
         {
             string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
 
-            //打开网络连接 
-            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
-            System.Net.HttpWebRequest requestGetCount = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
-            long countLength = requestGetCount.GetResponse().ContentLength;
-
-            //向服务器请求，获得服务器回应数据流 
-            System.IO.Stream ns = request.GetResponse().GetResponseStream();
-
-            byte[] nbytes = new byte[countLength];
-            int nReadSize = 0;
-            nReadSize = ns.Read(nbytes, 0, (int)countLength);
-            if (nReadSize != request.GetResponse().ContentLength)
+            try
             {
-                // 发生错误
+                //打开网络连接 
+                System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+                System.Net.HttpWebRequest requestGetCount = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+                long countLength = requestGetCount.GetResponse().ContentLength;
+
+                //向服务器请求，获得服务器回应数据流 
+                System.IO.Stream ns = request.GetResponse().GetResponseStream();
+
+                m_bytes = new byte[countLength];
+                int nReadSize = 0;
+                nReadSize = ns.Read(m_bytes, 0, (int)countLength);
+                ns.Close();
+                if (nReadSize != request.GetResponse().ContentLength)
+                {
+                    if (onFailed != null)
+                    {
+                        onFailed(this);
+                    }
+                }
+                else
+                {
+                    if (onLoaded != null)
+                    {
+                        onLoaded(this);
+                    }
+                }
             }
-            ns.Close();
+            catch (System.Exception e)
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
+            }
+
             yield return null;
         }
     }
