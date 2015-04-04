@@ -11,12 +11,22 @@ namespace SDK.Lib
     {
         public byte[] m_bytes;
 
+        override public void reset()
+        {
+            base.reset();
+            m_bytes = null;
+        }
+
         override public void load()
         {
             base.load();
-            if (ResLoadType.eLoadDisc == m_resLoadType)
+            if (ResLoadType.eStreamingAssets == m_resLoadType)
             {
-                loadFromDisc();
+                loadFromStreamingAssets();
+            }
+            else if (ResLoadType.ePersistentData == m_resLoadType)
+            {
+                loadFromPersistentData();
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
@@ -24,15 +34,34 @@ namespace SDK.Lib
             }
         }
 
-        protected void loadFromDisc()
+        protected void loadFromStreamingAssets()
+        {
+            if (Ctx.m_instance.m_localFileSys.isFileExist(string.Format("{0}/{1}", Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path)))
+            {
+                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path);
+            }
+
+            if (m_bytes != null)
+            {
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+            }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
+            }
+        }
+
+        protected void loadFromPersistentData()
         {
             if (Ctx.m_instance.m_localFileSys.isFileExist(string.Format("{0}/{1}", Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path)))
             {
                 m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
-            }
-            else if (Ctx.m_instance.m_localFileSys.isFileExist(string.Format("{0}/{1}", Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path)))
-            {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path);
             }
 
             if (m_bytes != null)

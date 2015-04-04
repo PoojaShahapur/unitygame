@@ -40,8 +40,6 @@ namespace SDK.Lib
         public IResItem loadData(LoadParam param)
         {
             param.m_resPackType = ResPackType.eDataType;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-
             return load(param);
         }
 
@@ -237,7 +235,7 @@ namespace SDK.Lib
         {
             m_LoadData.m_path2Res[path].unload();
             m_LoadData.m_path2Res[path].reset();
-            m_LoadData.m_noUsedLDItem.Add(m_LoadData.m_path2Res[path]);
+            m_LoadData.m_noUsedResItem.Add(m_LoadData.m_path2Res[path]);
 
             m_LoadData.m_path2Res.Remove(path);
         }
@@ -245,7 +243,7 @@ namespace SDK.Lib
         public void onLoaded(LoadItem item)
         {
             item.onLoaded -= onLoaded;
-            if (m_LoadData.m_path2Res[item.path] != null)
+            if (m_LoadData.m_path2Res.ContainsKey(item.path))
             {
                 m_LoadData.m_path2Res[item.path].init(m_LoadData.m_path2LDItem[item.path]);
             }
@@ -259,7 +257,7 @@ namespace SDK.Lib
         {
             string path = item.path;
             item.onFailed -= onFailed;
-            if (m_LoadData.m_path2Res[path] != null)
+            if (m_LoadData.m_path2Res.ContainsKey(path))
             {
                 m_LoadData.m_path2Res[path].failed(m_LoadData.m_path2LDItem[path]);
             }

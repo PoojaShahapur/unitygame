@@ -41,8 +41,7 @@ namespace Game.UI
         // 点击随机
         protected void onBtnClkRan()
         {
-            Random.seed = (int)UtilApi.getUTCSec();
-            int aaa = Random.Range(1, 200);
+            int aaa = UtilApi.Range(1, 200);
         }
     }
 }

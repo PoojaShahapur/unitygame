@@ -453,5 +453,11 @@ namespace SDK.Common
                 }
             }
         }
+
+        public static int Range(int min, int max)
+        {
+            Random.seed = (int)UtilApi.getUTCSec();
+            return Random.Range(1, 200);
+        }
     }
 }

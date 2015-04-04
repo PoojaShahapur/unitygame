@@ -26,7 +26,7 @@ namespace SDK.Common
         public ushort m_zone = 30;
 #endif
 
-        public string m_webIP = "127.0.0.1/UnityServer";               // web 服务器
+        public string m_webIP = "127.0.0.1/UnityServer/";               // web 服务器
         public int m_webPort = 80;
 
         public string[] m_pathLst;

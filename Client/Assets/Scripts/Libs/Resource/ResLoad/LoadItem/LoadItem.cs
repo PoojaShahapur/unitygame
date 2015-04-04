@@ -110,13 +110,15 @@ namespace SDK.Lib
             m_ResLoadState = ResLoadState.eLoading;
         }
 
-        public void reset()
+        virtual public void reset()
         {
             //m_type = ResType.eNoneType;
             m_path = "";
             //m_loadNeedCoroutine = false;
             m_w3File = null;
             m_loadNeedCoroutine = false;
+
+            clearListener();
         }
 
         virtual protected IEnumerator downloadAsset()

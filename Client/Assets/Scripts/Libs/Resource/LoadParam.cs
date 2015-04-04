@@ -6,8 +6,8 @@ namespace SDK.Lib
 {
     public class LoadParam
     {
-        public ResPackType m_resPackType;          // 加载资源的类型
-        public ResLoadType m_resLoadType;   // 资源加载类型
+        public ResPackType m_resPackType;           // 加载资源的类型
+        public ResLoadType m_resLoadType;           // 资源加载类型
 
         public string m_path = "";               // 资源路径
         public string m_lvlName = "";            // 关卡名字
