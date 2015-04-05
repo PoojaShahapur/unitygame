@@ -6,7 +6,7 @@ namespace Game.Game
     {
         public GameRouteCB()
         {
-            m_id2DispDic[(int)MsgRouteID.eMRIDSocketOpened] = new GameRouteHandle();
+            m_id2DispDic[(int)MsgRouteID.eMRIDLoadedWebRes] = new GameRouteHandle();
         }
     }
 }

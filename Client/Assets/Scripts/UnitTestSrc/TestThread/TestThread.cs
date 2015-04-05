@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Game;
+using SDK.Common;
 using SDK.Lib;
 namespace UnitTestSrc
 {
@@ -19,7 +20,8 @@ namespace UnitTestSrc
 
         protected void testThreadTask()
         {
-
+            GameRouteCB m_gameRouteCB = new GameRouteCB();
+            Ctx.m_instance.m_msgRouteList.addOneDisp(m_gameRouteCB);
         }
     }
 }

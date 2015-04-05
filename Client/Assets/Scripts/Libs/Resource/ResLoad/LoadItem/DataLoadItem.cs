@@ -23,23 +23,23 @@ namespace SDK.Lib
             m_bytes = null;
         }
 
-        protected void parsePath()
-        {
-            string[] pathSplit = { "?" };
-            string[] pathList = m_path.Split(pathSplit, StringSplitOptions.RemoveEmptyEntries);
-            m_path = pathList[0];
+        //protected void parsePath()
+        //{
+        //    string[] pathSplit = { "?" };
+        //    string[] pathList = m_path.Split(pathSplit, StringSplitOptions.RemoveEmptyEntries);
+        //    m_path = pathList[0];
 
-            if (pathList.Length > 1)
-            {
-                string[] equalSplit = { "=" };
-                string[] equalList = pathList[1].Split(equalSplit, StringSplitOptions.RemoveEmptyEntries);
-                m_version = equalList[1];
-            }
-        }
+        //    if (pathList.Length > 1)
+        //    {
+        //        string[] equalSplit = { "=" };
+        //        string[] equalList = pathList[1].Split(equalSplit, StringSplitOptions.RemoveEmptyEntries);
+        //        m_version = equalList[1];
+        //    }
+        //}
 
         override public void load()
         {
-            parsePath();
+            //parsePath();
             base.load();
             if (ResLoadType.eStreamingAssets == m_resLoadType)
             {
@@ -238,6 +238,7 @@ namespace SDK.Lib
                     if (contentLength - lStartPos <= 0)     // 文件已经完成
                     {
                         fs.Close();
+                        onRunTaskEnd();
                         return;
                     }
                     fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
@@ -277,11 +278,19 @@ namespace SDK.Lib
                 {
                     m_isRunSuccess = false;
                 }
+                onRunTaskEnd();
             }
             catch (Exception)
             {
                 m_isRunSuccess = false;
             }
+        }
+
+        protected void onRunTaskEnd()
+        {
+            LoadedWebResMR pRoute = Ctx.m_instance.m_poolSys.newObject<LoadedWebResMR>();
+            pRoute.m_task = this;
+            Ctx.m_instance.m_sysMsgRoute.push(pRoute);
         }
 
         public void handleResult()

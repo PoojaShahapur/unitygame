@@ -45,8 +45,7 @@ namespace SDK.Lib
             else if (FilesVerType.eWebVer == m_type)
             {
                 param.m_resLoadType = ResLoadType.eLoadWeb;
-                param.m_path += "?ver=";
-                param.m_path += UtilApi.Range(int.MinValue, int.MaxValue);
+                param.m_version = UtilApi.Range(int.MinValue, int.MaxValue).ToString();
             }
 
             param.m_loaded = onLoadedMini;

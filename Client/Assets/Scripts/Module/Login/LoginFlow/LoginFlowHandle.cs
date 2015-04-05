@@ -36,7 +36,6 @@ namespace Game.Login
             // 连接 web 服务器
             //Ctx.m_instance.m_pWebSocketMgr.openSocket(Ctx.m_instance.m_cfg.m_webIP, Ctx.m_instance.m_cfg.m_webPort);
             // 连接游戏服务器
-            //Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB += onLoginServerSocketOpened;
             Ctx.m_instance.m_netMgr.openSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
         }
 
@@ -47,7 +46,6 @@ namespace Game.Login
 
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem1);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
-            //Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB -= onLoginServerSocketOpened;
             sendMsg1f();
         }
 
@@ -146,7 +144,6 @@ namespace Game.Login
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem6);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
 
-            //Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB += onGateServerSocketOpened;
             Ctx.m_instance.m_netMgr.openSocket(m_gateIP, m_gatePort);
         }
 
@@ -160,7 +157,6 @@ namespace Game.Login
 #endif
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem7);
             Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
-            //Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB -= onGateServerSocketOpened;
             sendMsg5f();
         }
         

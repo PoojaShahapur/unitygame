@@ -11,12 +11,12 @@ namespace UnitTestSrc
 
         public void run()
         {
+            m_pThreadTest.run();
             m_pUnitTestBuffer.run();
             m_pTestZip.run();
             m_pTestEncrypt.run();
             m_filterTest.run();
             m_testVersion.run();
-            m_pThreadTest.run();
         }
     }
 }

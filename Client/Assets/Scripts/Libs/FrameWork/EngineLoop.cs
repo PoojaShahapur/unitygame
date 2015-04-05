@@ -10,16 +10,6 @@ namespace SDK.Lib
         public void MainLoop()
         {
             // 处理客户端自己的消息机制
-            //if(Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened)
-            //{
-            //    if (Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB != null)
-            //    {
-            //        Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB();
-            //    }
-
-            //    Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = false;
-            //}
-
             MsgRouteBase routeMsg = null;
             while ((routeMsg = Ctx.m_instance.m_sysMsgRoute.pop()) != null)
             {

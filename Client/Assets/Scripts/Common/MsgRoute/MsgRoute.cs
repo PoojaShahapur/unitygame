@@ -1,4 +1,5 @@
-﻿namespace SDK.Common
+﻿using SDK.Lib;
+namespace SDK.Common
 {
     public class SocketOpenedMR : MsgRouteBase
     {
@@ -15,6 +16,22 @@
             : base(MsgRouteID.eMRIDSocketClosed)
         {
 
+        }
+    }
+
+    public class LoadedWebResMR : MsgRouteBase
+    {
+        public ITask m_task;
+
+        public LoadedWebResMR()
+            : base(MsgRouteID.eMRIDLoadedWebRes)
+        {
+
+        }
+
+        override public void resetDefault()
+        {
+            m_task = null;
         }
     }
 }

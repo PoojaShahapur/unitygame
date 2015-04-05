@@ -8,9 +8,10 @@ namespace SDK.Common
      */
     public class PoolSys
     {
-        protected List<object> m_poolList = new List<object>();
+        //protected List<object> m_poolList = new List<object>();
+        protected List<IRecycle> m_poolList = new List<IRecycle>();
 
-        public T newObject<T>() where T : new()
+        public T newObject<T>() where T : IRecycle, new()
         {
             T retObj = default(T);
             // 查找
@@ -34,9 +35,9 @@ namespace SDK.Common
             return retObj;
         }
 
-        public void deleteObj(object obj)
+        public void deleteObj(IRecycle obj)
         {
-            foreach (object item in m_poolList)
+            foreach (IRecycle item in m_poolList)
             {
                 if(item.Equals(obj))        // 如果已经加入
                 {

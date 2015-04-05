@@ -6,12 +6,12 @@ namespace Game.Game
     {
         public GameRouteHandle()
         {
-            m_id2HandleDic[(int)MsgRouteID.eMRIDSocketOpened] = handleSocketOpened;
+            m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = loadedWebRes;
         }
 
-        protected void handleSocketOpened(MsgRouteBase msg)
+        protected void loadedWebRes(MsgRouteBase msg)
         {
-            
+            (msg as LoadedWebResMR).m_task.handleResult();
         }
     }
 }

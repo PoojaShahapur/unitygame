@@ -140,12 +140,7 @@ namespace SDK.Lib
                 #endif
 
                 // 连接成功，通知
-                //if (Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB != null)
-                //{
-                //    Ctx.m_instance.m_sysMsgRoute.m_socketOpenedCB();
-                //}
                 // 这个在主线程中调用
-                //Ctx.m_instance.m_sysMsgRoute.m_bSocketOpened = true;
                 Ctx.m_instance.m_sysMsgRoute.push(new SocketOpenedMR());
             }
             catch (System.Exception e)
