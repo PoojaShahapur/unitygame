@@ -220,6 +220,7 @@ namespace SDK.Lib
         {
             string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
             string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
+            saveFile = UtilApi.versionPath(saveFile, m_version);
 
             try
             {

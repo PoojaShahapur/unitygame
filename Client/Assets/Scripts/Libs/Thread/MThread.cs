@@ -5,7 +5,7 @@ using System.Threading;
 namespace SDK.Lib
 {
     /**
-     *@brief 基本的线程 wrap
+     *@brief 基本的线程
      */
     public class MThread
     {

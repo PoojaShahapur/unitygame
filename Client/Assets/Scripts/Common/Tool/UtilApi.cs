@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using System.IO;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.Events;
@@ -458,6 +459,63 @@ namespace SDK.Common
         {
             Random.seed = (int)UtilApi.getUTCSec();
             return Random.Range(1, 200);
+        }
+
+        // 递归创建子目录
+        public static void recureCreateSubDir(string rootPath, string subPath, bool includeLast = false)
+        {
+            normalPath(ref subPath);
+            if(!includeLast)
+            {
+                if(subPath.IndexOf('/') == -1)
+                {
+                    return;
+                }
+                subPath = subPath.Substring(0, subPath.LastIndexOf('/'));
+            }
+
+            if(Directory.Exists(Path.Combine(rootPath, subPath)))
+            {
+                return;
+            }
+
+            int startIdx = 0;
+            int splitIdx = 0;
+            while((splitIdx  = subPath.IndexOf('/', startIdx)) != -1)
+            {
+                if (!Directory.Exists(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx))))
+                {
+                    Directory.CreateDirectory(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx)));
+                }
+
+                startIdx += splitIdx;
+                startIdx += 1;
+            }
+
+            Directory.CreateDirectory(Path.Combine(rootPath, subPath));
+        }
+
+        public static void normalPath(ref string path)
+        {
+            path = path.Replace('\\', '/');
+        }
+
+        // 添加版本的文件名
+        public static string versionPath(string path, string version)
+        {
+            return string.Format("{0}_{1}{2}", path.Substring(0, path.IndexOf('.')), version, path.Substring(path.IndexOf('.')));
+        }
+
+        // 删除所有除去版本号外相同的文件
+        public static void delFileNoVer(string path)
+        {
+            normalPath(ref path);
+            DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
+            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*{1}", path.Substring(0, path.IndexOf('.')), path.Substring(path.IndexOf('.'))));
+            foreach (var item in allFiles)
+            {
+                item.Delete();
+            }
         }
     }
 }

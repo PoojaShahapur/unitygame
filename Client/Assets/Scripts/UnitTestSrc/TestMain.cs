@@ -8,9 +8,11 @@ namespace UnitTestSrc
         protected FilterTest m_filterTest = new FilterTest();
         protected TestVersion m_testVersion = new TestVersion();
         protected ThreadTest m_pThreadTest = new ThreadTest();
+        protected TestFile m_pTestFile = new TestFile();
 
         public void run()
         {
+            m_pTestFile.run();
             m_pThreadTest.run();
             m_pUnitTestBuffer.run();
             m_pTestZip.run();
