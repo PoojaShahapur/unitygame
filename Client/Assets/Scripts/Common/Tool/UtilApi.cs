@@ -517,5 +517,14 @@ namespace SDK.Common
                 item.Delete();
             }
         }
+
+        public static bool fileExistNoVer(string path)
+        {
+            normalPath(ref path);
+            DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
+            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*{1}", path.Substring(0, path.IndexOf('.')), path.Substring(path.IndexOf('.'))));
+
+            return allFiles.Length > 0;
+        }
     }
 }

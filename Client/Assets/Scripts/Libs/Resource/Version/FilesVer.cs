@@ -24,10 +24,16 @@ namespace SDK.Lib
         public const string FILENAME = "Version.txt";
         public const string FILENAMENOEXT = "Version";
 
-        protected Dictionary<string, FileVerInfo> m_miniPath2HashDic = new Dictionary<string, FileVerInfo>();
-        protected Dictionary<string, FileVerInfo> m_path2HashDic = new Dictionary<string, FileVerInfo>();
+        public Dictionary<string, FileVerInfo> m_miniPath2HashDic = new Dictionary<string, FileVerInfo>();
+        public Dictionary<string, FileVerInfo> m_path2HashDic = new Dictionary<string, FileVerInfo>();
 
         public FilesVerType m_type;
+
+        public Action m_miniLoadedDisp;
+        public Action m_miniFailedDisp;
+
+        public Action m_LoadedDisp;
+        public Action m_FailedDisp;
 
         virtual public void loadMiniVerFile()
         {
@@ -67,12 +73,15 @@ namespace SDK.Lib
 
             // 卸载
             Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
+
+            m_miniLoadedDisp();
         }
 
         protected void onFailedMini(IDispatchObject resEvt)
         {
             // 卸载
             Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
+            m_miniFailedDisp();
         }
 
         // 加载版本文件
