@@ -21,7 +21,7 @@ namespace SDK.Lib
             //}
 
             MsgRouteBase routeMsg = null;
-            while ((routeMsg = Ctx.m_instance.m_sysMsgRoute.popMsg()) != null)
+            while ((routeMsg = Ctx.m_instance.m_sysMsgRoute.pop()) != null)
             {
                 Ctx.m_instance.m_msgRouteList.handleMsg(routeMsg);
             }

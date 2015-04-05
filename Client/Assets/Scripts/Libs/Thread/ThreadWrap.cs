@@ -61,7 +61,7 @@ namespace SDK.Lib
 
         public void join()
         {
-            m_thread.Interrupt();           // 直接线程终止
+            //m_thread.Interrupt();           // 直接线程终止
             m_thread.Join();
         }
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using UnityEngine;
+
 namespace SDK.Lib
 {
     /**
@@ -13,6 +14,7 @@ namespace SDK.Lib
     public class DataLoadItem : LoadItem
     {
         public byte[] m_bytes;
+        public string m_version;
 
         override public void reset()
         {
@@ -20,8 +22,23 @@ namespace SDK.Lib
             m_bytes = null;
         }
 
+        protected void parsePath()
+        {
+            string[] pathSplit = { "?" };
+            string[] pathList = m_path.Split(pathSplit, StringSplitOptions.RemoveEmptyEntries);
+            m_path = pathList[0];
+
+            if (pathList.Length > 1)
+            {
+                string[] equalSplit = { "=" };
+                string[] equalList = pathList[1].Split(equalSplit, StringSplitOptions.RemoveEmptyEntries);
+                m_version = equalList[1];
+            }
+        }
+
         override public void load()
         {
+            parsePath();
             base.load();
             if (ResLoadType.eStreamingAssets == m_resLoadType)
             {
@@ -63,7 +80,7 @@ namespace SDK.Lib
 
         protected void loadFromPersistentData()
         {
-            if (Ctx.m_instance.m_localFileSys.isFileExist(string.Format("{0}/{1}", Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path)))
+            if (Ctx.m_instance.m_localFileSys.isFileExist(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path)))
             {
                 m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
             }
@@ -88,15 +105,9 @@ namespace SDK.Lib
         override protected IEnumerator downloadAsset()
         {
             string path = "";
-            string[] pathSplit = { "?" };
-            string[] pathList = m_path.Split(pathSplit, StringSplitOptions.RemoveEmptyEntries);
-
-            string[] equalSplit = { "=" };
-            string[] equalList = pathList[1].Split(equalSplit, StringSplitOptions.RemoveEmptyEntries);
-
-            path = Ctx.m_instance.m_cfg.m_webIP + pathList[0];
+            path = Ctx.m_instance.m_cfg.m_webIP + m_path;
             deleteFromCache(path);
-            m_w3File = WWW.LoadFromCacheOrDownload(path, Int32.Parse(equalList[1]));
+            m_w3File = WWW.LoadFromCacheOrDownload(path, Int32.Parse(m_version));
             yield return m_w3File;
 
             onWWWEnd();
@@ -127,45 +138,79 @@ namespace SDK.Lib
         protected IEnumerator webDown()
         {
             string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
+            string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
 
-            try
+            //try
             {
                 //打开网络连接 
-                System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
-                System.Net.HttpWebRequest requestGetCount = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
-                long countLength = requestGetCount.GetResponse().ContentLength;
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                long contentLength = response.ContentLength;
+                long readedLength = 0;
 
-                //向服务器请求，获得服务器回应数据流 
-                System.IO.Stream ns = request.GetResponse().GetResponseStream();
-
-                m_bytes = new byte[countLength];
-                int nReadSize = 0;
-                nReadSize = ns.Read(m_bytes, 0, (int)countLength);
-                ns.Close();
-                if (nReadSize != request.GetResponse().ContentLength)
+                long lStartPos = 0;
+                FileStream fs;
+                if (File.Exists(saveFile))
                 {
-                    if (onFailed != null)
+                    fs = System.IO.File.OpenWrite(saveFile);
+                    lStartPos = fs.Length;
+                    if (contentLength - lStartPos <= 0)     // 文件已经完成
                     {
-                        onFailed(this);
+                        fs.Close();
+                        yield break;
                     }
+                    fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
                 }
                 else
+                {
+                    fs = new FileStream(saveFile, System.IO.FileMode.Create);
+                }
+
+                if (lStartPos > 0)
+                {
+                    request.AddRange((int)lStartPos); //设置Range值
+                    contentLength -= lStartPos;
+                }
+
+                //向服务器请求，获得服务器回应数据流 
+                System.IO.Stream ns = response.GetResponseStream();
+                int len = 1024 * 8;
+                m_bytes = new byte[len];
+                int nReadSize = 0;
+                string logStr;
+                while(readedLength != contentLength)
+                {
+                    nReadSize = ns.Read(m_bytes, 0, len);
+                    fs.Write(m_bytes, 0, nReadSize);
+                    readedLength += nReadSize;
+                    logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
+                    Ctx.m_instance.m_log.log(logStr);
+                    yield return false;
+                }
+                ns.Close();
+                fs.Close();
+                if (readedLength == contentLength)
                 {
                     if (onLoaded != null)
                     {
                         onLoaded(this);
                     }
                 }
-            }
-            catch (System.Exception e)
-            {
-                if (onFailed != null)
+                else
                 {
-                    onFailed(this);
+                    if (onFailed != null)
+                    {
+                        onFailed(this);
+                    }
                 }
             }
-
-            yield return null;
+            //catch (Exception)
+            //{
+            //    if (onFailed != null)
+            //    {
+            //        onFailed(this);
+            //    }
+            //}
         }
     }
 }

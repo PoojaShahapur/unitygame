@@ -13,7 +13,9 @@ namespace SDK.Lib
 
         public MEvent(bool initialState)
         {
+#if NET_MULTHREAD
             m_event = new ManualResetEvent(initialState);
+#endif
         }
 
         public void WaitOne()

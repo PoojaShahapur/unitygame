@@ -112,7 +112,7 @@ public class AppRoot : MonoBehaviour
 
         Ctx.m_instance.m_camSys = new CamSys();
         Ctx.m_instance.m_aiSystem = new AISystem();
-        Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute();
+        Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute("SysMsgRoute");
         Ctx.m_instance.m_moduleSys = new ModuleSys();
         Ctx.m_instance.m_tableSys = new TableSys();
         Ctx.m_instance.m_localFileSys = new LocalFileSys();
