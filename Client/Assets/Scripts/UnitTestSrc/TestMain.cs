@@ -9,6 +9,7 @@ namespace UnitTestSrc
         protected TestVersion m_testVersion = new TestVersion();
         protected ThreadTest m_pThreadTest = new ThreadTest();
         protected TestFile m_pTestFile = new TestFile();
+        protected TestAutoUpdate m_pTestAutoUpdate = new TestAutoUpdate();
 
         public void run()
         {
@@ -18,7 +19,8 @@ namespace UnitTestSrc
             m_pTestZip.run();
             m_pTestEncrypt.run();
             m_filterTest.run();
-            m_testVersion.run();
+            //m_testVersion.run();
+            m_pTestAutoUpdate.run();
         }
     }
 }

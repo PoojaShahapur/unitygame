@@ -105,12 +105,12 @@ namespace SDK.Lib
         }
 
         // 加载文件，返回 byte
-        public byte[] LoadFileByte(string path, string name)
+        public byte[] LoadFileByte(string path)
         {
             byte[] bytes= null;
             try
             {
-                bytes = File.ReadAllBytes(path + "//" + name);
+                bytes = File.ReadAllBytes(path);
             }
             catch (Exception e)
             {

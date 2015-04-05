@@ -11,6 +11,11 @@ namespace SDK.Lib
         public List<string> m_loadedPath = new List<string>();
         public List<string> m_failedPath = new List<string>();
 
+        public void startUpdate()
+        {
+            loadMiniVersion();
+        }
+
         public void loadMiniVersion()
         {
             Ctx.m_instance.m_versionSys.m_miniLoadResultDisp = miniVerLoadResult;

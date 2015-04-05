@@ -76,6 +76,7 @@ namespace SDK.Common
         public ILoginSys m_loginSys;
         public WordFilterManager m_wordFilterManager = new WordFilterManager();
         public VersionSys m_versionSys = new VersionSys();
+        public AutoUpdateSys m_pAutoUpdateSys = new AutoUpdateSys();
 
         public TaskQueue m_TaskQueue = new TaskQueue("TaskQueue");
         public TaskThreadPool m_TaskThreadPool = new TaskThreadPool();

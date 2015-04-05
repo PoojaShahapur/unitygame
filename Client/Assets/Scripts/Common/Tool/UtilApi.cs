@@ -503,7 +503,14 @@ namespace SDK.Common
         // 添加版本的文件名
         public static string versionPath(string path, string version)
         {
-            return string.Format("{0}_{1}{2}", path.Substring(0, path.IndexOf('.')), version, path.Substring(path.IndexOf('.')));
+            if (!string.IsNullOrEmpty(version))
+            {
+                return string.Format("{0}_{1}{2}", path.Substring(0, path.IndexOf('.')), version, path.Substring(path.IndexOf('.')));
+            }
+            else
+            {
+                return path;
+            }
         }
 
         // 删除所有除去版本号外相同的文件

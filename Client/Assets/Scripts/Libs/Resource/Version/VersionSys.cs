@@ -17,7 +17,7 @@ namespace SDK.Lib
 
         public VersionSys()
         {
-            
+            m_webVer.m_type = FilesVerType.eWebVer;
         }
 
         public void loadMiniVerFile()
@@ -32,12 +32,8 @@ namespace SDK.Lib
             }
 
             m_localVer.m_miniLoadedDisp = onLocalMiniLoaded;
-            m_localVer.m_miniLoadedDisp = onLocalMiniFailed;
+            m_localVer.m_miniFailedDisp = onLocalMiniFailed;
             m_localVer.loadMiniVerFile();
-
-            m_webVer.m_miniLoadedDisp = onWebMiniLoaded;
-            m_webVer.m_miniLoadedDisp = onWebMiniFailed;
-            m_webVer.loadMiniVerFile();
         }
 
         public void loadVerFile()
@@ -54,23 +50,20 @@ namespace SDK.Lib
             m_localVer.m_LoadedDisp = onVerLoaded;
             m_localVer.m_FailedDisp = onVerFailed;
             m_localVer.loadVerFile();
-
-            if (m_needUpdateVer)
-            {
-                m_webVer.m_LoadedDisp = onWebVerLoaded;
-                m_webVer.m_FailedDisp = onWebVerFailed;
-                m_webVer.loadVerFile();
-            }
         }
 
         public void onLocalMiniLoaded()
         {
-
+            m_webVer.m_miniLoadedDisp = onWebMiniLoaded;
+            m_webVer.m_miniFailedDisp = onWebMiniFailed;
+            m_webVer.loadMiniVerFile();
         }
 
         public void onLocalMiniFailed()
         {
-
+            m_webVer.m_miniLoadedDisp = onWebMiniLoaded;
+            m_webVer.m_miniFailedDisp = onWebMiniFailed;
+            m_webVer.loadMiniVerFile();
         }
 
         public void onWebMiniLoaded()
@@ -86,12 +79,22 @@ namespace SDK.Lib
 
         public void onVerLoaded()
         {
-
+            if (m_needUpdateVer)
+            {
+                m_webVer.m_LoadedDisp = onWebVerLoaded;
+                m_webVer.m_FailedDisp = onWebVerFailed;
+                m_webVer.loadVerFile();
+            }
         }
 
         public void onVerFailed()
         {
-
+            if (m_needUpdateVer)
+            {
+                m_webVer.m_LoadedDisp = onWebVerLoaded;
+                m_webVer.m_FailedDisp = onWebVerFailed;
+                m_webVer.loadVerFile();
+            }
         }
 
         public void onWebVerLoaded()

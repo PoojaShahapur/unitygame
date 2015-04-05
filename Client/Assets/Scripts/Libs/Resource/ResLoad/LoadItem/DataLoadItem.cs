@@ -14,7 +14,8 @@ namespace SDK.Lib
     public class DataLoadItem : LoadItem, ITask
     {
         public byte[] m_bytes;
-        public string m_version;
+        public string m_rootPath;
+        public string m_version = "";
         public bool m_isRunSuccess = true;
 
         override public void reset()
@@ -43,14 +44,17 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eStreamingAssets == m_resLoadType)
             {
+                m_rootPath = Ctx.m_instance.m_localFileSys.getLocalReadDir();
                 loadFromStreamingAssets();
             }
             else if (ResLoadType.ePersistentData == m_resLoadType)
             {
+                m_rootPath = Ctx.m_instance.m_localFileSys.getLocalWriteDir();
                 loadFromPersistentData();
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
+                m_rootPath = Ctx.m_instance.m_localFileSys.getLocalWriteDir();
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
                 Ctx.m_instance.m_TaskQueue.push(this);
@@ -61,7 +65,7 @@ namespace SDK.Lib
         {
             if (Ctx.m_instance.m_localFileSys.isFileExist(string.Format("{0}/{1}", Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path)))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path);
+                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path));
             }
 
             if (m_bytes != null)
@@ -84,7 +88,7 @@ namespace SDK.Lib
         {
             if (Ctx.m_instance.m_localFileSys.isFileExist(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path)))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
+                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path));
             }
 
             if (m_bytes != null)
@@ -220,7 +224,15 @@ namespace SDK.Lib
         {
             string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
             string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
-            saveFile = UtilApi.versionPath(saveFile, m_version);
+
+            try
+            {
+                saveFile = UtilApi.versionPath(saveFile, m_version);
+            }
+            catch (Exception err)
+            {
+                Ctx.m_instance.m_log.asynclog(err.Message);
+            }
 
             try
             {
@@ -262,6 +274,7 @@ namespace SDK.Lib
                 m_bytes = new byte[len];
                 int nReadSize = 0;
                 string logStr;
+                bool isBytesValid = true;        // m_bytes 中数据是否有效
                 while (readedLength != contentLength)
                 {
                     nReadSize = ns.Read(m_bytes, 0, len);
@@ -270,9 +283,24 @@ namespace SDK.Lib
                     //logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
                     logStr = "已下载: " + fs.Length + "b / " + contentLength + "b";
                     Ctx.m_instance.m_log.asynclog(logStr);
+
+                    if (isBytesValid)
+                    {
+                        if(readedLength != contentLength)
+                        {
+                            isBytesValid = false;
+                        }
+                    }
                 }
+
                 ns.Close();
                 fs.Close();
+
+                if (!isBytesValid)
+                {
+                    m_bytes = null;
+                }
+
                 if (readedLength == contentLength)
                 {
                     m_isRunSuccess = true;

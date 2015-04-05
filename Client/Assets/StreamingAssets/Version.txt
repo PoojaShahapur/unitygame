@@ -1,2 +1,2 @@
-aaa=10
-bbbbb=15
+aaa=10=123
+bbbbb=15=456

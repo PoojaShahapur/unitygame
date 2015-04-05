@@ -122,12 +122,14 @@ namespace SDK.Lib
 
             // 卸载
             Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
+            m_LoadedDisp();
         }
 
         protected void onFailed(IDispatchObject resEvt)
         {
             // 卸载
             Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
+            m_FailedDisp();
         }
 
         protected void loadFormText(string text, Dictionary<string, FileVerInfo> dic)

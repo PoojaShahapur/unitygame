@@ -186,8 +186,9 @@ namespace SDK.Lib
                 if (loaditem == null)
                 {
                     loaditem = new DataLoadItem();
-                    (loaditem as DataLoadItem).m_version = param.m_version;
                 }
+
+                (loaditem as DataLoadItem).m_version = param.m_version;
             }
 
             loaditem.resPackType = param.m_resPackType;
