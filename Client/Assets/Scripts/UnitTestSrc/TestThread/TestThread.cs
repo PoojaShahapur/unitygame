@@ -7,13 +7,19 @@ namespace UnitTestSrc
         public void run()
         {
             //testEvent();
+            testThreadTask();
         }
 
-        public void testEvent()
+        protected void testEvent()
         {
             MEvent pMEvent = new MEvent(false);
             pMEvent.WaitOne();
             Ctx.m_instance.m_log.log("aaaaa");
+        }
+
+        protected void testThreadTask()
+        {
+
         }
     }
 }

@@ -11,10 +11,11 @@ namespace SDK.Lib
     /**
      * @brief 从本地磁盘或者网络加载纯数据
      */
-    public class DataLoadItem : LoadItem
+    public class DataLoadItem : LoadItem, ITask
     {
         public byte[] m_bytes;
         public string m_version;
+        public bool m_isRunSuccess = true;
 
         override public void reset()
         {
@@ -51,7 +52,8 @@ namespace SDK.Lib
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(webDown());
+                //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
+                Ctx.m_instance.m_TaskQueue.push(this);
             }
         }
 
@@ -134,8 +136,8 @@ namespace SDK.Lib
             }
         }
 
-        // 下载
-        protected IEnumerator webDown()
+        // 协程下载
+        protected IEnumerator coroutWebDown()
         {
             string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
             string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
@@ -211,6 +213,93 @@ namespace SDK.Lib
             //        onFailed(this);
             //    }
             //}
+        }
+
+        // 线程下载
+        public void runTask()
+        {
+            string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
+            string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
+
+            try
+            {
+                //打开网络连接 
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                long contentLength = response.ContentLength;
+                long readedLength = 0;
+
+                long lStartPos = 0;
+                FileStream fs;
+                if (File.Exists(saveFile))
+                {
+                    fs = System.IO.File.OpenWrite(saveFile);
+                    lStartPos = fs.Length;
+                    if (contentLength - lStartPos <= 0)     // 文件已经完成
+                    {
+                        fs.Close();
+                        return;
+                    }
+                    fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
+                }
+                else
+                {
+                    fs = new FileStream(saveFile, System.IO.FileMode.Create);
+                }
+
+                if (lStartPos > 0)
+                {
+                    request.AddRange((int)lStartPos); //设置Range值
+                    contentLength -= lStartPos;
+                }
+
+                //向服务器请求，获得服务器回应数据流 
+                System.IO.Stream ns = response.GetResponseStream();
+                int len = 1024 * 8;
+                m_bytes = new byte[len];
+                int nReadSize = 0;
+                string logStr;
+                while (readedLength != contentLength)
+                {
+                    nReadSize = ns.Read(m_bytes, 0, len);
+                    fs.Write(m_bytes, 0, nReadSize);
+                    readedLength += nReadSize;
+                    logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
+                    Ctx.m_instance.m_log.asynclog(logStr);
+                }
+                ns.Close();
+                fs.Close();
+                if (readedLength == contentLength)
+                {
+                    m_isRunSuccess = true;
+                }
+                else
+                {
+                    m_isRunSuccess = false;
+                }
+            }
+            catch (Exception)
+            {
+                m_isRunSuccess = false;
+            }
+        }
+
+        public void handleResult()
+        {
+            if (m_isRunSuccess)
+            {
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+            }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
+            }
         }
     }
 }

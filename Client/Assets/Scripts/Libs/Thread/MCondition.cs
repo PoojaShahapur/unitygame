@@ -31,6 +31,7 @@
                 if (m_canEnterWait)
                 {
                     m_pMEvent.WaitOne();
+                    m_pMEvent.Reset();      // 重置信号
                 }
                 else
                 {
@@ -46,7 +47,7 @@
                 if (m_canEnterWait) // 如果 m_canEnterWait == false，必然不能进入等待
                 {
                     m_canEnterWait = false;
-                    m_pMEvent.Set();
+                    m_pMEvent.Set();        // 唤醒线程
                 }
             }
         }

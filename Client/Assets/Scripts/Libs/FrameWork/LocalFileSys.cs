@@ -11,6 +11,13 @@ namespace SDK.Lib
      */
     public class LocalFileSys
     {
+        protected string m_persistentDataPath;
+
+        public LocalFileSys()
+        {
+            m_persistentDataPath = Application.persistentDataPath;
+        }
+
         /**
         * @param path：文件创建目录
         * @param name：文件的名称
@@ -153,7 +160,9 @@ namespace SDK.Lib
         // 获取本地可以写的目录
         public string getLocalWriteDir()
         {
-            return Application.persistentDataPath;      // 这个目录是可读写的
+            // get_persistentDataPath can only be called from the main thread
+            //return Application.persistentDataPath;      // 这个目录是可读写的
+            return m_persistentDataPath;
         }
     }
 }
