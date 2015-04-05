@@ -7,7 +7,7 @@ namespace SDK.Lib
     /**
      *@brief 基本的线程 wrap
      */
-    public class ThreadWrap
+    public class MThread
     {
         protected static int m_sMainThreadID;           // 主线程 id
 
@@ -17,7 +17,7 @@ namespace SDK.Lib
         protected object m_param;           // 参数数据
         protected bool m_ExitFlag;           // 退出标志
 
-        public ThreadWrap(Action<object> func, object param)
+        public MThread(Action<object> func, object param)
         {
             m_cb = func;
             m_param = param;

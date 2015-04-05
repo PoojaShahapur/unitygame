@@ -141,7 +141,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
 
         // Test 
-        ThreadWrap.getMainThreadID();
+        MThread.getMainThreadID();
     }
 
     public void setNoDestroyObject()

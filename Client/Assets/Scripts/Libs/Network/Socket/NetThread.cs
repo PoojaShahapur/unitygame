@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 网络线程
      */
-    public class NetThread : ThreadWrap
+    public class NetThread : MThread
     {
         protected NetworkMgr m_networkMgr;
 

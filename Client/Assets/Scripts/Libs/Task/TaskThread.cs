@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 网络线程
      */
-    public class TaskThread : ThreadWrap
+    public class TaskThread : MThread
     {
         protected TaskQueue m_taskQueue;
         protected MCondition m_condition;

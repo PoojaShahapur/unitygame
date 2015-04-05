@@ -75,7 +75,7 @@ namespace SDK.Lib
         public void logout(string message, LogColor type = LogColor.LOG)
         {
         #if THREAD_CALLCHECK
-            ThreadWrap.needMainThread();
+            MThread.needMainThread();
         #endif
 
             if (m_bOutLog)
@@ -90,7 +90,7 @@ namespace SDK.Lib
         public void updateLog()
         {
         #if THREAD_CALLCHECK
-            ThreadWrap.needMainThread();
+            MThread.needMainThread();
         #endif
 
             using (MLock mlock = new MLock(m_visitMutex))

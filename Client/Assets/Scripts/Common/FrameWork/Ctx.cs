@@ -77,9 +77,13 @@ namespace SDK.Common
         public WordFilterManager m_wordFilterManager = new WordFilterManager();
         public VersionSys m_versionSys = new VersionSys();
 
+        public TaskQueue m_TaskQueue = new TaskQueue("TaskQueue");
+        public TaskThreadPool m_TaskThreadPool = new TaskThreadPool();
+
         public Ctx()
         {
-
+            m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
+            m_TaskThreadPool.initThreadPool(1, m_TaskQueue);
         }
 
         public static Ctx instance()

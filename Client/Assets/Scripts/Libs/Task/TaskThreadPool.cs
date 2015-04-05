@@ -6,13 +6,18 @@ namespace SDK.Lib
     {
         protected List<TaskThread> m_list;
 
-        public TaskThreadPool(int numThread, TaskQueue taskQueue)
+        public TaskThreadPool()
+        {
+
+        }
+
+        public void initThreadPool(int numThread, TaskQueue taskQueue)
         {
             m_list = new List<TaskThread>(numThread);
             int idx = 0;
             for(idx = 0; idx < numThread; ++idx)
             {
-                m_list[idx] = new TaskThread(string.Format("TaskThread{0}", idx), taskQueue);
+                m_list.Add(new TaskThread(string.Format("TaskThread{0}", idx), taskQueue));
                 m_list[idx].start();
             }
         }
