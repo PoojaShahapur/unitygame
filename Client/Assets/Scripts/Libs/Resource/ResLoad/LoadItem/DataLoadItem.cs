@@ -239,6 +239,7 @@ namespace SDK.Lib
                     {
                         fs.Close();
                         onRunTaskEnd();
+                        Ctx.m_instance.m_log.asynclog("之前文件已经下载完成，不用重新下载");
                         return;
                     }
                     fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
@@ -265,7 +266,8 @@ namespace SDK.Lib
                     nReadSize = ns.Read(m_bytes, 0, len);
                     fs.Write(m_bytes, 0, nReadSize);
                     readedLength += nReadSize;
-                    logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
+                    //logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
+                    logStr = "已下载: " + fs.Length + "b / " + contentLength + "b";
                     Ctx.m_instance.m_log.asynclog(logStr);
                 }
                 ns.Close();
