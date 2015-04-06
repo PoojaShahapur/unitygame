@@ -248,7 +248,7 @@ namespace SDK.Lib
                 request.Proxy = null;
                 request.Timeout = 5000;
 
-                System.Net.ServicePointManager.DefaultConnectionLimit = 50;
+                ServicePointManager.DefaultConnectionLimit = 50;
 
                 // GetRequestStream 总是出错，因此只能使用 GET 方式
                 //StreamWriter requestWriter = null;
@@ -271,7 +271,7 @@ namespace SDK.Lib
                 FileStream fs = null;
                 if (File.Exists(saveFile))
                 {
-                    fs = System.IO.File.OpenWrite(saveFile);
+                    fs = File.OpenWrite(saveFile);
                     lStartPos = fs.Length;
                     if (contentLength - lStartPos <= 0)     // 文件已经完成
                     {
