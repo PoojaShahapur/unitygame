@@ -238,6 +238,8 @@ namespace SDK.Lib
                 request.KeepAlive = false;
                 request.Proxy = null;
 
+                System.Net.ServicePointManager.DefaultConnectionLimit = 50;
+
                 StreamWriter requestWriter = null;
                 Stream webStream = request.GetRequestStream();
                 requestWriter = new StreamWriter(webStream);
