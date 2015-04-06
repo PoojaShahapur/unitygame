@@ -14,7 +14,6 @@ namespace SDK.Lib
     public class DataLoadItem : LoadItem, ITask
     {
         public byte[] m_bytes;
-        public string m_rootPath;
         public string m_version = "";
         public bool m_isRunSuccess = true;
 
@@ -44,17 +43,14 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eStreamingAssets == m_resLoadType)
             {
-                m_rootPath = Ctx.m_instance.m_localFileSys.getLocalReadDir();
                 loadFromStreamingAssets();
             }
             else if (ResLoadType.ePersistentData == m_resLoadType)
             {
-                m_rootPath = Ctx.m_instance.m_localFileSys.getLocalWriteDir();
                 loadFromPersistentData();
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
-                m_rootPath = Ctx.m_instance.m_localFileSys.getLocalWriteDir();
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
                 Ctx.m_instance.m_TaskQueue.push(this);
@@ -63,9 +59,9 @@ namespace SDK.Lib
 
         protected void loadFromStreamingAssets()
         {
-            if (Ctx.m_instance.m_localFileSys.isFileExist(string.Format("{0}/{1}", Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path)))
+            if (Ctx.m_instance.m_localFileSys.isFileExist(m_path))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path));
+                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(m_path);
             }
 
             if (m_bytes != null)
@@ -86,9 +82,9 @@ namespace SDK.Lib
 
         protected void loadFromPersistentData()
         {
-            if (Ctx.m_instance.m_localFileSys.isFileExist(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path)))
+            if (Ctx.m_instance.m_localFileSys.isFileExist(m_path))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path));
+                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(m_path);
             }
 
             if (m_bytes != null)
@@ -110,10 +106,8 @@ namespace SDK.Lib
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100
         override protected IEnumerator downloadAsset()
         {
-            string path = "";
-            path = Ctx.m_instance.m_cfg.m_webIP + m_path;
-            deleteFromCache(path);
-            m_w3File = WWW.LoadFromCacheOrDownload(path, Int32.Parse(m_version));
+            deleteFromCache(m_path);
+            m_w3File = WWW.LoadFromCacheOrDownload(m_path, Int32.Parse(m_version));
             yield return m_w3File;
 
             onWWWEnd();
@@ -222,22 +216,12 @@ namespace SDK.Lib
         // 线程下载
         public void runTask()
         {
-            string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
-            string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
-
-            try
-            {
-                saveFile = UtilApi.versionPath(saveFile, m_version);
-            }
-            catch (Exception err)
-            {
-                Ctx.m_instance.m_log.asynclog(err.Message);
-            }
+            string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.getRelPath(m_path));
 
             try
             {
                 //打开网络连接 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(m_path);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 long contentLength = response.ContentLength;
                 long readedLength = 0;

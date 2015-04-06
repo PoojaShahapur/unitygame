@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using SDK.Common;
+using System.IO;
 
 namespace SDK.Lib
 {
@@ -40,6 +41,23 @@ namespace SDK.Lib
         public IResItem loadData(LoadParam param)
         {
             param.m_resPackType = ResPackType.eDataType;
+            
+            if (ResLoadType.eStreamingAssets == param.m_resLoadType)
+            {
+                param.m_path = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), param.m_path);
+            }
+            else if (ResLoadType.ePersistentData == param.m_resLoadType)
+            {
+                param.m_path = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), param.m_path);
+            }
+            else if (ResLoadType.eLoadWeb == param.m_resLoadType)
+            {
+                param.m_path = Path.Combine(Ctx.m_instance.m_cfg.m_webIP, param.m_path);
+            }
+            if (!string.IsNullOrEmpty(param.m_version))
+            {
+                param.m_path = string.Format("{0}?v={1}", param.m_path, param.m_version);
+            }
             return load(param);
         }
 

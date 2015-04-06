@@ -500,12 +500,12 @@ namespace SDK.Common
             path = path.Replace('\\', '/');
         }
 
-        // 添加版本的文件名
+        // 添加版本的文件名，例如 E:/aaa/bbb/ccc.txt?v=1024
         public static string versionPath(string path, string version)
         {
             if (!string.IsNullOrEmpty(version))
             {
-                return string.Format("{0}_{1}{2}", path.Substring(0, path.IndexOf('.')), version, path.Substring(path.IndexOf('.')));
+                return string.Format("{0}?v={1}", path, version);
             }
             else
             {
@@ -513,12 +513,12 @@ namespace SDK.Common
             }
         }
 
-        // 删除所有除去版本号外相同的文件
+        // 删除所有除去版本号外相同的文件，例如 E:/aaa/bbb/ccc.txt?v=1024 ，只要 E:/aaa/bbb/ccc.txt 一样就删除，参数就是 E:/aaa/bbb/ccc.txt ，没有版本号的文件
         public static void delFileNoVer(string path)
         {
             normalPath(ref path);
             DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
-            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*{1}", path.Substring(0, path.IndexOf('.')), path.Substring(path.IndexOf('.'))));
+            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
             foreach (var item in allFiles)
             {
                 item.Delete();
@@ -529,9 +529,19 @@ namespace SDK.Common
         {
             normalPath(ref path);
             DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
-            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*{1}", path.Substring(0, path.IndexOf('.')), path.Substring(path.IndexOf('.'))));
+            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
 
             return allFiles.Length > 0;
+        }
+
+        public static string getRelPath(string path)
+        {
+            if(path.IndexOf(Ctx.m_instance.m_cfg.m_webIP) != -1)
+            {
+                return path.Substring(Ctx.m_instance.m_cfg.m_webIP.Length);
+            }
+
+            return path;
         }
     }
 }
