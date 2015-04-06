@@ -231,27 +231,38 @@ namespace SDK.Lib
             try
             {
                 //打开网络连接
-                string webPath = UtilApi.getPathNoVer(m_path);
+                string webPath;
+                if (!string.IsNullOrEmpty(m_version))
+                {
+                    webPath = string.Format("{0}?v={1}", m_path, m_version);
+                }
+                else
+                {
+                    webPath = m_path;
+                }
+
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(webPath);
                 request.Method = "GET";
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.KeepAlive = false;
                 request.Proxy = null;
+                request.Timeout = 5000;
 
                 System.Net.ServicePointManager.DefaultConnectionLimit = 50;
 
-                StreamWriter requestWriter = null;
-                Stream webStream = request.GetRequestStream();
-                requestWriter = new StreamWriter(webStream);
-                try
-                {
-                    string postString = string.Format("v={0}", m_version);
-                    requestWriter.Write(postString);
-                }
-                catch (Exception ex2)
-                {
-                    Ctx.m_instance.m_log.asynclog("error");
-                }
+                // GetRequestStream 总是出错，因此只能使用 GET 方式
+                //StreamWriter requestWriter = null;
+                //Stream webStream = request.GetRequestStream();
+                //requestWriter = new StreamWriter(webStream);
+                //try
+                //{
+                //    string postString = string.Format("v={0}", m_version);
+                //    requestWriter.Write(postString);
+                //}
+                //catch (Exception ex2)
+                //{
+                //    Ctx.m_instance.m_log.asynclog("error");
+                //}
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 long contentLength = response.ContentLength;
                 long readedLength = 0;
@@ -315,7 +326,9 @@ namespace SDK.Lib
                 }
 
                 request.Abort();
+                request = null;
                 response.Close();
+                response = null;
 
                 ns.Close();
                 fs.Close();
