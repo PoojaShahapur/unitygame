@@ -16,6 +16,7 @@ namespace SDK.Lib
         public byte[] m_bytes;
         public string m_version = "";
         public bool m_isRunSuccess = true;
+        public string m_localPath;
 
         override public void reset()
         {
@@ -53,6 +54,11 @@ namespace SDK.Lib
             {
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
+                m_localPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.getRelPath(m_path));
+                if (!string.IsNullOrEmpty(m_version))
+                {
+                    m_localPath = string.Format("{0}_v={1}", m_localPath, m_version);
+                }
                 Ctx.m_instance.m_TaskQueue.push(this);
             }
         }
@@ -217,17 +223,39 @@ namespace SDK.Lib
         public void runTask()
         {
             string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.getRelPath(m_path));
+            if (!string.IsNullOrEmpty(m_version))
+            {
+                saveFile = string.Format("{0}_v={1}", saveFile, m_version);
+            }
 
             try
             {
-                //打开网络连接 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(m_path);
+                //打开网络连接
+                string webPath = UtilApi.getPathNoVer(m_path);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(webPath);
+                request.Method = "GET";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.KeepAlive = false;
+                request.Proxy = null;
+
+                StreamWriter requestWriter = null;
+                Stream webStream = request.GetRequestStream();
+                requestWriter = new StreamWriter(webStream);
+                try
+                {
+                    string postString = string.Format("v={0}", m_version);
+                    requestWriter.Write(postString);
+                }
+                catch (Exception ex2)
+                {
+                    Ctx.m_instance.m_log.asynclog("error");
+                }
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 long contentLength = response.ContentLength;
                 long readedLength = 0;
 
                 long lStartPos = 0;
-                FileStream fs;
+                FileStream fs = null;
                 if (File.Exists(saveFile))
                 {
                     fs = System.IO.File.OpenWrite(saveFile);
@@ -243,7 +271,14 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    fs = new FileStream(saveFile, System.IO.FileMode.Create);
+                    try
+                    {
+                        fs = new FileStream(saveFile, System.IO.FileMode.Create);
+                    }
+                    catch (Exception ex2)
+                    {
+                        Ctx.m_instance.m_log.asynclog("error");
+                    }
                 }
 
                 if (lStartPos > 0)
@@ -277,6 +312,9 @@ namespace SDK.Lib
                     }
                 }
 
+                request.Abort();
+                response.Close();
+
                 ns.Close();
                 fs.Close();
 
@@ -295,9 +333,10 @@ namespace SDK.Lib
                 }
                 onRunTaskEnd();
             }
-            catch (Exception)
+            catch (Exception err)
             {
                 m_isRunSuccess = false;
+                onRunTaskEnd();
             }
         }
 

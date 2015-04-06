@@ -12,6 +12,8 @@ namespace SDK.Lib
         protected uint m_maxParral = 8;                             // 最多同时加载的内容
         protected uint m_curNum = 0;                                // 当前加载的数量
         protected ResLoadData m_LoadData;
+        protected LoadItem m_retLoadItem;
+        protected ResItem m_retResItem;
 
         public ResLoadMgr()
         {
@@ -54,10 +56,10 @@ namespace SDK.Lib
             {
                 param.m_path = Path.Combine(Ctx.m_instance.m_cfg.m_webIP, param.m_path);
             }
-            if (!string.IsNullOrEmpty(param.m_version))
-            {
-                param.m_path = string.Format("{0}?v={1}", param.m_path, param.m_version);
-            }
+            //if (!string.IsNullOrEmpty(param.m_version))
+            //{
+            //    param.m_path = string.Format("{0}?v={1}", param.m_path, param.m_version);
+            //}
             return load(param);
         }
 
@@ -310,28 +312,34 @@ namespace SDK.Lib
 
         protected ResItem findResFormPool(ResPackType type)
         {
+            m_retResItem = null;
             foreach (ResItem item in m_LoadData.m_noUsedResItem)
             {
                 if (item.resPackType == type)
                 {
-                    return item;
+                    m_retResItem = item;
+                    m_LoadData.m_noUsedResItem.Remove(m_retResItem);
+                    break;
                 }
             }
 
-            return null;
+            return m_retResItem;
         }
 
         protected LoadItem findLoadItemFormPool(ResPackType type)
         {
+            m_retLoadItem = null;
             foreach (LoadItem item in m_LoadData.m_noUsedLDItem)
             {
                 if (item.resPackType == type)
                 {
-                    return item;
+                    m_retLoadItem = item;
+                    m_LoadData.m_noUsedLDItem.Remove(m_retLoadItem);
+                    break;
                 }
             }
 
-            return null;
+            return m_retLoadItem;
         }
     }
 }

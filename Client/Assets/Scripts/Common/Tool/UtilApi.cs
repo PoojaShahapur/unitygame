@@ -543,5 +543,15 @@ namespace SDK.Common
 
             return path;
         }
+
+        public static string getPathNoVer(string path)
+        {
+            if (path.IndexOf('?') != -1)
+            {
+                return path.Substring(0, path.IndexOf('?'));
+            }
+
+            return path;
+        }
     }
 }
