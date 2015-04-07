@@ -39,7 +39,7 @@ namespace EditorTool
         public void parseResourceXml()
         {
             ResourceCfgParse resourceCfgParse = new ResourceCfgParse();
-            resourceCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackNoCfg.xml"), m_resourceList);
+            resourceCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackResourceCfg.xml"), m_resourceList);
         }
 
         public void pack()

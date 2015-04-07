@@ -3,5 +3,5 @@
 	resourcespath 指明一个 Resources 目录，然后将里面的 prefab 打包成 unity3d，然后拷贝到目标目录
 -->
 <Root>
-	<resourcespath srcroot="Prefabs/Resources" />
+	<resourcespath srcroot="Assets/Prefabs/Resources" />
 </Root>

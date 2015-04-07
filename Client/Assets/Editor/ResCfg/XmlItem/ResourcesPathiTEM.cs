@@ -34,21 +34,23 @@ namespace EditorTool
         // 遍历一个文件的时候处理
         public void handleFile(string fullFileName)
         {
-            if (ExportUtil.getFileExt(fullFileName) == ExportUtil.DOTPREFAB)
+            if (ExportUtil.getFileExt(fullFileName) != ExportUtil.METAEXT)
             {
                 string fineNameNoExt = ExportUtil.getFileNameNoExt(fullFileName);
                 string assetPath = fullFileName.Substring(fullFileName.IndexOf(ExportUtil.ASSETS));
                 string destPath = fullFileName.Substring(m_srcFullPath.Length, fullFileName.IndexOf('.') - m_srcFullPath.Length);
                 destPath = Path.Combine(m_destFullPath, destPath);
 
-                AssetBundleParam bundleParam = new AssetBundleParam();
+                if (ExportUtil.getFileExt(fullFileName) == ExportUtil.PREFAB)
+                {
+                    AssetBundleParam bundleParam = new AssetBundleParam();
 #if UNITY_5
-                bundleParam.m_buildList = new AssetBundleBuild[1];
-                bundleParam.m_buildList[0].assetBundleName = fineNameNoExt;
-                bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
-                bundleParam.m_buildList[0].assetNames = new string[1];
-                bundleParam.m_buildList[0].assetNames[0] = assetPath;
-                bundleParam.m_pathName = destPath;
+                    bundleParam.m_buildList = new AssetBundleBuild[1];
+                    bundleParam.m_buildList[0].assetBundleName = fineNameNoExt;
+                    bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+                    bundleParam.m_buildList[0].assetNames = new string[1];
+                    bundleParam.m_buildList[0].assetNames[0] = assetPath;
+                    bundleParam.m_pathName = destPath;
 #elif UNITY_4_6
                 bundleParam.m_assets = objList.ToArray();
                 pathList.Clear();
@@ -56,7 +58,12 @@ namespace EditorTool
                 pathList.Add(skelNoExt + ".unity3d");
                 bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
 #endif
-                ExportUtil.BuildAssetBundle(bundleParam);
+                    ExportUtil.BuildAssetBundle(bundleParam);
+                }
+            }
+            else        // 直接拷贝过去
+            {
+                File.Copy(fullFileName, destPath);
             }
         }
 

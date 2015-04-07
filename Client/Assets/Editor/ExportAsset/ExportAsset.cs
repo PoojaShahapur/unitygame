@@ -11,8 +11,8 @@ namespace EditorTool
         static void ExportByResourcesCfg()
         {
             ResCfgData resCfgData = new ResCfgData();
-            resCfgData.parseXml();
-            resCfgData.pack();
+            resCfgData.parseResourceXml();
+            resCfgData.packResourceList();
         }
 
         // 根据配置文件导出资源打包

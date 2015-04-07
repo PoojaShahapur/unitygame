@@ -21,6 +21,7 @@ namespace EditorTool
 
         public const string ASSET_BUNDLES_OUTPUT_PATH = "AssetBundles";
         public const string ASSETS = "Assets";
+        public const string METAEXT = "meta";
 
         static public void BuildAssetBundle(AssetBundleParam param)
         {

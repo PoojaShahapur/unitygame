@@ -27,8 +27,24 @@ public class ExportAssetBundlesAndScene
 			//打包  
             //BuildPipeline.BuildAssetBundle(Selection.activeObject, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets, BuildTarget.StandaloneWindows);
 
-            BuildPipeline.BuildAssetBundle(null, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows);
+#if UNITY_5
+            List<string> assetNameList = new List<string>();
+            string nameStr;
+            foreach (Object item in selection)
+            {
+                nameStr = AssetDatabase.GetAssetPath(item);
+                nameStr = nameStr.Substring(nameStr.IndexOf("Assets"), nameStr.Length - nameStr.IndexOf("Assets"));
+                assetNameList.Add(nameStr);
+            }
 
+            AssetBundleBuild[] buildList = new AssetBundleBuild[1];
+            buildList[0].assetBundleName = "SavePrefab";
+            buildList[0].assetBundleVariant = "unity3d";
+            buildList[0].assetNames = assetNameList.ToArray();
+            BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
+#elif UNITY_4_6
+            BuildPipeline.BuildAssetBundle(null, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows);
+#endif
             Selection.objects = selection;
             //FileStream fs = File.Open(path + ".log", FileMode.OpenOrCreate);
             //StreamWriter sw = new StreamWriter(fs);
@@ -58,7 +74,24 @@ public class ExportAssetBundlesAndScene
         if (path.Length != 0)
         {
             // Build the resource file from the active selection.
+#if UNITY_5
+            List<string> assetNameList = new List<string>();
+            string nameStr;
+            foreach (Object item in Selection.objects)
+            {
+                nameStr = AssetDatabase.GetAssetPath(item);
+                nameStr = nameStr.Substring(nameStr.IndexOf("Assets"), nameStr.Length - nameStr.IndexOf("Assets"));
+                assetNameList.Add(nameStr);
+            }
+
+            AssetBundleBuild[] buildList = new AssetBundleBuild[1];
+            buildList[0].assetBundleName = "save";
+            buildList[0].assetBundleVariant = "unity3d";
+            buildList[0].assetNames = assetNameList.ToArray();
+            BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
+#elif UNITY_4_6
             BuildPipeline.BuildAssetBundle(Selection.activeObject, Selection.objects, path, 0, BuildTarget.StandaloneWindows);
+#endif
             //BuildPipeline.BuildAssetBundle(null, Selection.objects, path, 0, BuildTarget.StandaloneWindows);
 
             //FileStream fs = File.Open(path + ".log", FileMode.OpenOrCreate);
@@ -154,7 +187,15 @@ public class ExportAssetBundlesAndScene
                     //destFileNoExt = sourcePath.Substring(splashidx + 1, dotidx - splashidx - 1);
                     //destfilename = destfilename + destFileNoExt + destext;
                     //打包
+#if UNITY_5
+                    AssetBundleBuild[] buildList = new AssetBundleBuild[1];
+                    buildList[0].assetBundleName = "Save";
+                    buildList[0].assetBundleVariant = "unity3d";
+                    buildList[0].assetNames = levels;
+                    BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
+#elif UNITY_4_6
                     BuildPipeline.BuildStreamedSceneAssetBundle(levels, path, BuildTarget.StandaloneWindows);
+#endif
                 }
             }
         }
@@ -199,7 +240,12 @@ public class ExportAssetBundlesAndScene
                 levels[0] = fileEntries[idx];
                 //打包
 #if UNITY_5
-                BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
+                AssetBundleBuild[] buildList = new AssetBundleBuild[1];
+                buildList[0].assetBundleName = destFileNoExt;
+                buildList[0].assetBundleVariant = "unity3d";
+                buildList[0].assetNames = new string[1];
+                buildList[0].assetNames[0] = levels[0];
+                BuildPipeline.BuildAssetBundles(destpath, buildList, 0, BuildTarget.StandaloneWindows);
 #elif UNITY_4_6
                 BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
 #endif
