@@ -458,7 +458,7 @@ namespace SDK.Common
         public static int Range(int min, int max)
         {
             Random.seed = (int)UtilApi.getUTCSec();
-            return Random.Range(1, 200);
+            return Random.Range(min, max);
         }
 
         // 递归创建子目录
@@ -552,6 +552,62 @@ namespace SDK.Common
             }
 
             return path;
+        }
+
+        // 判断一个 unicode 字符是不是汉字
+        public static bool IsChineseLetter(string input, int index)
+        {
+            int code = 0;
+            int chfrom = System.Convert.ToInt32("4e00", 16); //范围（0x4e00～0x9fff）转换成int（chfrom～chend）
+            int chend = System.Convert.ToInt32("9fff", 16);
+            if (input != "")
+            {
+                code = System.Char.ConvertToUtf32(input, index); //获得字符串input中指定索引index处字符unicode编码
+
+                if (code >= chfrom && code <= chend)
+                {
+                    return true; //当code在中文范围内返回true
+                }
+                else
+                {
+                    return false; //当code不在中文范围内返回false
+                }
+            }
+            return false;
+        }
+
+        public static bool IsIncludeChinese(string input)
+        {
+            int idx = 0;
+            for(idx = 0; idx < input.Length; ++idx)
+            {
+                if(IsChineseLetter(input, idx))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // 判断 unicode 字符个数，只判断字母和中文吗，中文算 2 个字节
+        public static int CalcCharCount(string str)
+        {
+            int charCount = 0;
+            int idx = 0;
+            for(idx = 0; idx < str.Length; ++idx)
+            {
+                if(IsChineseLetter(str, idx))
+                {
+                    charCount += 2;
+                }
+                else
+                {
+                    charCount += 1;
+                }
+            }
+
+            return charCount;
         }
     }
 }

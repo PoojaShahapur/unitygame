@@ -73,6 +73,7 @@ namespace EditorTool
         protected void packOneBundlePack()
         {
             string resPath = "";
+            List<string> assetNamesList = new List<string>();
             List<Object> objList = new List<Object>();
             UnityEngine.Object go;
 
@@ -80,29 +81,42 @@ namespace EditorTool
             List<string> filesList = ExportUtil.GetAll(ExportUtil.getDataPath(m_packParam.m_inPath));
             string ext = "";
             string nameNoExt = "";
+#if UNITY_4_6
             string tmpStr = "";
+#endif
             AssetBundleParam bundleParam = new AssetBundleParam();
 
             foreach (string filePath in filesList)
             {
                 objList.Clear();
+                assetNamesList.Clear();
                 ext = ExportUtil.getFileExt(filePath);
                 nameNoExt = ExportUtil.getFileNameNoExt(filePath);
                 if (ExportUtil.isArrContainElem(ext, m_packParam.m_extArr))
                 {
                     resPath = ExportUtil.convFullPath2AssetsPath(filePath);
+                    assetNamesList.Add(resPath);
                     go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(ExportUtil.convExt2ResStr(ext)));
                     if (go)
                     {
                         objList.Add(go);
                         
+#if UNITY_5
+                        bundleParam.m_buildList = new AssetBundleBuild[1];
+                        bundleParam.m_buildList[0].assetBundleName = nameNoExt;
+                        bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+                        bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
+                        pathList.Clear();
+                        pathList.Add(m_packParam.m_outPath);
+                        bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+#elif UNITY_4_6
                         bundleParam.m_assets = objList.ToArray();
                         pathList.Clear();
                         pathList.Add(m_packParam.m_outPath);
                         tmpStr = string.Format("{0}{1}", nameNoExt, ExportUtil.DOTUNITY3D);
                         pathList.Add(tmpStr);
                         bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
-
+#endif
                         ExportUtil.BuildAssetBundle(bundleParam);
                     }
                     else

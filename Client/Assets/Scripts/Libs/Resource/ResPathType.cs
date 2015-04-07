@@ -18,6 +18,7 @@
         ePathModel,       // 各种 Prefab
         ePathMaterial,      // 材质目录
         ePathImage,      // 图片目录
+        ePathWord,      // 过滤字、随机名字
 
         eTotal          // 总数
     }

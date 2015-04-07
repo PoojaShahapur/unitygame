@@ -51,6 +51,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathModel] = "Model/";
             m_pathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/";
             m_pathLst[(int)ResPathType.ePathImage] = "Image/";
+            m_pathLst[(int)ResPathType.ePathWord] = "Word/";
 
             m_dataPath = Application.dataPath;
         }

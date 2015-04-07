@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
-     * @brief 支持从本地和 Web 服务器加载场景和场景 Bundle 资源
+     * @brief 支持从本地和 Web 服务器加载场景和场景 Bundle 资源 ，采用 WWW 下载
      */
     public class LevelLoadItem : LoadItem
     {

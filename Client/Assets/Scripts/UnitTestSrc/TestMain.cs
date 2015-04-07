@@ -11,6 +11,8 @@ namespace UnitTestSrc
         protected TestFile m_pTestFile = new TestFile();
         protected TestAutoUpdate m_pTestAutoUpdate = new TestAutoUpdate();
 
+        protected TestAssetBundles m_pTestAssetBundles = new TestAssetBundles();
+
         public void run()
         {
             m_pTestFile.run();
@@ -21,6 +23,7 @@ namespace UnitTestSrc
             m_filterTest.run();
             //m_testVersion.run();
             m_pTestAutoUpdate.run();
+            m_pTestAssetBundles.run();
         }
     }
 }

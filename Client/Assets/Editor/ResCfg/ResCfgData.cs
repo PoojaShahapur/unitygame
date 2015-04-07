@@ -13,6 +13,8 @@ namespace EditorTool
         public List<Mesh> m_skelSubMeshList = new List<Mesh>();
         public RootParam m_rootParam = new RootParam();
 
+        public List<ResourcesPathItem> m_resourceList = new List<ResourcesPathItem>();
+
         public void parseXml()
         {
             ResCfgParse resCfgParse = new ResCfgParse();
@@ -32,6 +34,12 @@ namespace EditorTool
             skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Config/Tool/SkelSubMeshPackCfg.xml"), m_skelSubMeshList);
             m_rootParam.m_outPath = skelSubMeshPackParse.m_outPath;
             m_rootParam.m_tmpPath = skelSubMeshPackParse.m_tmpPath;
+        }
+
+        public void parseResourceXml()
+        {
+            ResourceCfgParse resourceCfgParse = new ResourceCfgParse();
+            resourceCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackNoCfg.xml"), m_resourceList);
         }
 
         public void pack()
@@ -87,6 +95,14 @@ namespace EditorTool
             foreach (Mesh mesh in m_skelSubMeshList)
             {
                 mesh.packSkelSubMesh(m_rootParam);
+            }
+        }
+
+        public void packResourceList()
+        {
+            foreach (var item in m_resourceList)
+            {
+                item.packPack();
             }
         }
     }

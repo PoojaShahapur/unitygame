@@ -198,7 +198,11 @@ public class ExportAssetBundlesAndScene
                 destfilename = destpath + destFileNoExt + destext;
                 levels[0] = fileEntries[idx];
                 //打包
+#if UNITY_5
                 BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
+#elif UNITY_4_6
+                BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
+#endif
             }
             ++idx;
         }

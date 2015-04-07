@@ -841,9 +841,18 @@ namespace Game.Msg
 
     public class stReqFightPrepareOverUserCmd : stHeroCardCmd
     {
+        public byte change;
+
         public stReqFightPrepareOverUserCmd()
         {
             byParam = REQ_FIGHT_PREPARE_OVER_CMD;
+        }
+
+        public override void serialize(ByteBuffer ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt8(change);
         }
     }
 
@@ -853,7 +862,9 @@ namespace Game.Msg
     //stReqFightPrepareOverUserCmd()
     //{
     //    byParam = REQ_FIGHT_PREPARE_OVER_CMD;
+    //    change = 0;
     //}
+    //BYTE change;	//从低位到高位,1表示替换该位置的牌
     //};
 
     public class stMoveGameCardUserCmd : stHeroCardCmd

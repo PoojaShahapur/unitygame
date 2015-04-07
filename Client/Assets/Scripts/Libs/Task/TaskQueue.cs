@@ -12,7 +12,7 @@ namespace SDK.Lib
 
         }
 
-        public void push(ITask item)
+        public new void push(ITask item)
         {
             base.push(item);
 

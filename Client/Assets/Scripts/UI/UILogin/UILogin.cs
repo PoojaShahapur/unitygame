@@ -61,19 +61,54 @@ namespace Game.UI
                 InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
                 InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
-                Ctx.m_instance.m_systemSetting.setString(SystemSetting.USERNAME, lblName.text);
-                Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
-
-            #if !DEBUG_NOTNET
-                if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                if (validStr(lblName.text, lblPassWord.text))
                 {
-                    Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
+                    Ctx.m_instance.m_systemSetting.setString(SystemSetting.USERNAME, lblName.text);
+                    Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
+
+#if !DEBUG_NOTNET
+                    if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                    {
+                        Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
+                    }
+                    Ctx.m_instance.m_loginSys.connectLoginServer(lblName.text, lblPassWord.text);
+#else
+                    Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+#endif
                 }
-                Ctx.m_instance.m_loginSys.connectLoginServer(lblName.text, lblPassWord.text);
-            #else
-                Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
-            #endif
             }
+        }
+
+        // 验证字符串
+        protected bool validStr(string name, string passwd)
+        {
+            if(name.Length == 0)
+            {
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem2);
+                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                return false;
+            }
+            else if (UtilApi.IsIncludeChinese(name))
+            {
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem0);
+                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                return false;
+            }
+
+            if (name.Length == 0)
+            {
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem3);
+                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                return false;
+            }
+            else if (UtilApi.IsIncludeChinese(passwd))
+            {
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem1);
+                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                return false;
+            }
+
+            return true;
         }
     }
 }

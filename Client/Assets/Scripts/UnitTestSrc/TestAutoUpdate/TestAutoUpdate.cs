@@ -10,7 +10,7 @@ namespace UnitTestSrc
 
         protected void testAutoUpdate()
         {
-            Ctx.m_instance.m_pAutoUpdateSys.startUpdate();
+            //Ctx.m_instance.m_pAutoUpdateSys.startUpdate();
         }
     }
 }

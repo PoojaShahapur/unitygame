@@ -9,6 +9,8 @@ namespace SDK.Lib
     {
         eLTLog,                 // 所有的日志信息
         eMsgRoute,              // 客户端自己的消息 Route
+        eSelectHero,            // 角色选择
+        eLogin,                 // 登陆
         eLTTotal
     }
 
@@ -43,5 +45,19 @@ namespace SDK.Lib
     {
         eItem0,
         eItem1,
+    }
+
+    public enum LangSelectHero
+    {
+        eItem0,
+        eItem1,
+    }
+
+    public enum LangLogin
+    {
+        eItem0,
+        eItem1,
+        eItem2,
+        eItem3,
     }
 }

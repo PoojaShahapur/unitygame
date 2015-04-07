@@ -1,11 +1,12 @@
 ﻿using SDK.Common;
+
 namespace UnitTestSrc
 {
     public class TestFile
     {
         public void run()
         {
-            testApi();
+            //testApi();
         }
 
         protected void testApi()

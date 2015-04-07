@@ -14,7 +14,7 @@ namespace SDK.Common
         {
             string name = "forbidWords";
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + name;
+            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord] + name;
             param.m_prefabName = name;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
@@ -75,6 +75,24 @@ namespace SDK.Common
                 str = Regex.Replace(str, item, "*", RegexOptions.IgnoreCase);
             }
             return true;
+        }
+
+        // 判断是否有过滤文字
+        public bool IsMatch(string str)
+        {
+            if (m_filterArr == null)
+            {
+                loadFile();
+            }
+
+            foreach (string item in m_filterArr)
+            {
+                if(Regex.IsMatch(str, item, RegexOptions.IgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

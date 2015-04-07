@@ -47,7 +47,7 @@ namespace Game.Login
         {
             Ctx.m_instance.m_log.log("加载场景");
             // 加载登陆界面
-            //Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.UILogin);
+            Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.UILogin);
         }
 
         public void connectLoginServer(string name, string passwd)

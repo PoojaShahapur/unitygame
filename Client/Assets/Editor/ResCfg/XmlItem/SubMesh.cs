@@ -93,6 +93,7 @@ namespace EditorTool
             string subMeshName = "";
             string tmpPrefabPath = "";
             List<Object> objList = new List<Object>();
+            List<string> assetNamesList = new List<string>();
 
             if (go != null)
             {
@@ -108,6 +109,7 @@ namespace EditorTool
                     pathList.Add(subMeshName + ".prefab");
 
                     tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+                    assetNamesList.Add(tmpPrefabPath);
                     //AssetDatabase.CreateAsset(insSubMeshGo, tmpPrefabPath);
                     //PrefabUtility.CreatePrefab(tmpPrefabPath, insSubMeshGo);
                     PrefabUtility.CreatePrefab(tmpPrefabPath, subMeshGo);
@@ -115,11 +117,21 @@ namespace EditorTool
                     objList.Add(subMeshGo);
 
                     AssetBundleParam bundleParam = new AssetBundleParam();
+#if UNITY_5
+                    bundleParam.m_buildList = new AssetBundleBuild[1];
+                    bundleParam.m_buildList[0].assetBundleName = subMeshName;
+                    bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+                    bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
+                    pathList.Clear();
+                    pathList.Add(param.m_outPath);
+                    bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+#elif UNITY_4_6
                     bundleParam.m_assets = objList.ToArray();
                     pathList.Clear();
                     pathList.Add(param.m_outPath);
                     pathList.Add(subMeshName + ".unity3d");
                     bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+#endif
 
                     ExportUtil.BuildAssetBundle(bundleParam);
                 }

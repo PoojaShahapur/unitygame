@@ -81,6 +81,8 @@ namespace SDK.Common
         public TaskQueue m_TaskQueue = new TaskQueue("TaskQueue");
         public TaskThreadPool m_TaskThreadPool = new TaskThreadPool();
 
+        public RandName m_pRandName = new RandName();
+
         public Ctx()
         {
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;

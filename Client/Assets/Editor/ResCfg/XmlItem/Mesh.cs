@@ -88,12 +88,14 @@ namespace EditorTool
             string skelNoExt = ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name);
             string tmpPrefabPath = "";
             List<Object> objList = new List<Object>();
+            List<string> assetNamesList = new List<string>();
 
             pathList.Clear();
             pathList.Add(rootParam.m_tmpPath);
             pathList.Add(skelNoExt + ".prefab");
 
             tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            assetNamesList.Add(tmpPrefabPath);
             PrefabUtility.CreatePrefab(tmpPrefabPath, go);
 
             go = AssetDatabase.LoadAssetAtPath(tmpPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
@@ -117,11 +119,21 @@ namespace EditorTool
                 objList.Add(go);
 
                 AssetBundleParam bundleParam = new AssetBundleParam();
+#if UNITY_5
+                bundleParam.m_buildList = new AssetBundleBuild[1];
+                bundleParam.m_buildList[0].assetBundleName = skelNoExt;
+                bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+                bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
+                pathList.Clear();
+                pathList.Add(m_skelMeshParam.m_outPath);
+                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+#elif UNITY_4_6
                 bundleParam.m_assets = objList.ToArray();
                 pathList.Clear();
                 pathList.Add(m_skelMeshParam.m_outPath);
                 pathList.Add(skelNoExt + ".unity3d");
                 bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+#endif
 
                 ExportUtil.BuildAssetBundle(bundleParam);
             }

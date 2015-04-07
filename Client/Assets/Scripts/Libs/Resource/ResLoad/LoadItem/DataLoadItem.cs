@@ -288,7 +288,7 @@ namespace SDK.Lib
                     {
                         fs = new FileStream(saveFile, System.IO.FileMode.Create);
                     }
-                    catch (Exception ex2)
+                    catch (Exception /*ex2*/)
                     {
                         Ctx.m_instance.m_log.asynclog("error");
                     }
@@ -348,7 +348,7 @@ namespace SDK.Lib
                 }
                 onRunTaskEnd();
             }
-            catch (Exception err)
+            catch (Exception /*err*/)
             {
                 m_isRunSuccess = false;
                 onRunTaskEnd();
