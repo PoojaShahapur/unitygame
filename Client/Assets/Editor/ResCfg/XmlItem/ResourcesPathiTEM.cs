@@ -39,6 +39,10 @@ namespace EditorTool
 
         public void packPack()
         {
+            if (!string.IsNullOrEmpty(m_destRoot))
+            {
+                ExportUtil.CreateDirectory(Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
+            }
             ExportUtil.recrueDirs(m_srcFullPath, handleFile, handleDir);
         }
 
@@ -59,7 +63,15 @@ namespace EditorTool
                     {
                         destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.LastIndexOf('/') - (m_srcFullPath.Length + 1));
                     }
-                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                    if (!string.IsNullOrEmpty(m_destRoot))
+                    {
+                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
+                        destPath = Path.Combine(destPath, destPath);
+                    }
+                    else
+                    {
+                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                    }
 
                     AssetBundleParam bundleParam = new AssetBundleParam();
 #if UNITY_5
@@ -81,12 +93,20 @@ namespace EditorTool
                 }
                 else        // 直接拷贝过去
                 {
-                    if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length + 1)
+                    if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length)
                     {
                         destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.Length - (m_srcFullPath.Length + 1));
                     }
-                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
-                    File.Copy(fullFileName, destPath);
+                    if (!string.IsNullOrEmpty(m_destRoot))
+                    {
+                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
+                        destPath = Path.Combine(destPath, destPath);
+                    }
+                    else
+                    {
+                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                        File.Copy(fullFileName, destPath);
+                    }
                 }
             }
         }
@@ -97,8 +117,16 @@ namespace EditorTool
             if (m_srcFullPath != fullDirName)
             {
                 string destPath = fullDirName.Substring(m_srcFullPath.Length + 1, fullDirName.Length - (m_srcFullPath.Length + 1));
-                destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
-                ExportUtil.CreateDirectory(destPath);
+                if (!string.IsNullOrEmpty(m_destRoot))
+                {
+                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
+                    destPath = Path.Combine(destPath, destPath);
+                }
+                else
+                {
+                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                    ExportUtil.CreateDirectory(destPath);
+                }
             }
             else
             {
