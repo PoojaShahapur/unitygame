@@ -55,7 +55,7 @@ namespace EditorTool
 
                 if (m_unity3dExtNameList.IndexOf(ExportUtil.getFileExt(fullFileName)) != -1)
                 {
-                    if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length + 1)
+                    if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length)
                     {
                         destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.LastIndexOf('/') - (m_srcFullPath.Length + 1));
                     }

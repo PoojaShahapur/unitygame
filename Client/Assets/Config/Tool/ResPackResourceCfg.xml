@@ -4,6 +4,5 @@
 	destroot 指定目标目录
 -->
 <Root>
-	<resourcespath srcroot="Assets/Prefabs/Resources" destroot="" unity3dextname="prefab" ignoreext="meta" />
 	<resourcespath srcroot="Assets/Scenes" destroot="Scenes" unity3dextname="unity" ignoreext="meta,xml,exr" />
 </Root>
