@@ -21,6 +21,7 @@ namespace EditorTool
     public class ResourcesPathItem
     {
         public string m_srcRoot;
+        public string m_destRoot;
         public List<string> m_unity3dExtNameList;
         public List<string> m_ignoreExtList;
         public string m_srcFullPath;
@@ -28,10 +29,12 @@ namespace EditorTool
         public void parseXml(XmlElement elem)
         {
             m_srcRoot = UtilApi.getXmlAttrStr(elem.Attributes["srcroot"]);
+            m_destRoot = UtilApi.getXmlAttrStr(elem.Attributes["destroot"]);
             char[] splitChar = new char[1]{','};
             m_unity3dExtNameList = UtilApi.getXmlAttrStr(elem.Attributes["unity3dextname"]).Split(splitChar).ToList<string>();
             m_ignoreExtList = UtilApi.getXmlAttrStr(elem.Attributes["ignoreext"]).Split(splitChar).ToList<string>();
             m_srcFullPath = Path.Combine(System.Environment.CurrentDirectory, m_srcRoot);
+            m_srcFullPath = ExportUtil.normalPath(m_srcFullPath);
         }
 
         public void packPack()
@@ -43,15 +46,19 @@ namespace EditorTool
         public void handleFile(string fullFileName)
         {
             fullFileName = ExportUtil.normalPath(fullFileName);
+            fullFileName = ExportUtil.normalPath(fullFileName);
             if (m_ignoreExtList.IndexOf(ExportUtil.getFileExt(fullFileName)) == -1)
             {
                 string fineNameNoExt = ExportUtil.getFileNameNoExt(fullFileName);
                 string assetPath = fullFileName.Substring(fullFileName.IndexOf(ExportUtil.ASSETS));
-                string destPath;
+                string destPath = "";
 
                 if (m_unity3dExtNameList.IndexOf(ExportUtil.getFileExt(fullFileName)) != -1)
                 {
-                    destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.LastIndexOf('/') - (m_srcFullPath.Length + 1));
+                    if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length + 1)
+                    {
+                        destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.LastIndexOf('/') - (m_srcFullPath.Length + 1));
+                    }
                     destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
 
                     AssetBundleParam bundleParam = new AssetBundleParam();
@@ -74,7 +81,10 @@ namespace EditorTool
                 }
                 else        // 直接拷贝过去
                 {
-                    destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.Length - (m_srcFullPath.Length + 1));
+                    if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length + 1)
+                    {
+                        destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.Length - (m_srcFullPath.Length + 1));
+                    }
                     destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
                     File.Copy(fullFileName, destPath);
                 }
@@ -86,7 +96,6 @@ namespace EditorTool
         {
             if (m_srcFullPath != fullDirName)
             {
-                string assetPath = fullDirName.Substring(fullDirName.IndexOf(ExportUtil.ASSETS));
                 string destPath = fullDirName.Substring(m_srcFullPath.Length + 1, fullDirName.Length - (m_srcFullPath.Length + 1));
                 destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
                 ExportUtil.CreateDirectory(destPath);

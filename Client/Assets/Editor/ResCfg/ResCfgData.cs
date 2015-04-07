@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -9,7 +10,7 @@ namespace EditorTool
 {
     class ResCfgData
     {
-        public static ResCfgData m_ins = new ResCfgData();
+        public static ResCfgData m_ins = null;
 
         public List<PackType> m_packList = new List<PackType>();
         public List<Mesh> m_meshList = new List<Mesh>();
@@ -19,8 +20,17 @@ namespace EditorTool
 
         public ResourcesCfgPackData m_pResourcesCfgPackData = new ResourcesCfgPackData();
 
-        public ResCfgData()
+        public static void Instance()
         {
+            if (m_ins == null)
+            {
+                m_ins = new ResCfgData();
+            }
+        }
+
+        protected ResCfgData()
+        {
+            
             m_targetPlatform = BuildTarget.StandaloneWindows;
         }
 
@@ -110,6 +120,7 @@ namespace EditorTool
         public void packResourceList()
         {
             m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
+            m_pResourcesCfgPackData.m_destFullPath = ExportUtil.normalPath(m_pResourcesCfgPackData.m_destFullPath);
             ExportUtil.DeleteDirectory(m_pResourcesCfgPackData.m_destFullPath);
             ExportUtil.CreateDirectory(m_pResourcesCfgPackData.m_destFullPath);
             foreach (var item in m_pResourcesCfgPackData.m_resourceList)

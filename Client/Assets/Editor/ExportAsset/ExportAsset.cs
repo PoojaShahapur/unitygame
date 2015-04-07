@@ -10,28 +10,28 @@ namespace EditorTool
         [MenuItem("Assets/SelfAssetBundles/ExportByResourcesCfg")]
         static void ExportByResourcesCfg()
         {
+            ResCfgData.Instance();
             ResCfgData.m_ins.m_targetPlatform = BuildTarget.StandaloneWindows;
-            ResCfgData resCfgData = new ResCfgData();
-            resCfgData.parseResourceXml();
-            resCfgData.packResourceList();
+            ResCfgData.m_ins.parseResourceXml();
+            ResCfgData.m_ins.packResourceList();
         }
 
         // 根据配置文件导出资源打包
         [MenuItem("Assets/SelfAssetBundles/ExportByCfg")]
         static void ExportByCfg()
         {
-            ResCfgData resCfgData = new ResCfgData();
-            resCfgData.parseXml();
-            resCfgData.pack();
+            ResCfgData.Instance();
+            ResCfgData.m_ins.parseXml();
+            ResCfgData.m_ins.pack();
         }
 
         // 导出骨骼动画的蒙皮
         [MenuItem("Assets/SelfAssetBundles/ExportSkinsCfg")]
         static void ExportSkinsCfg()
         {
-            ResCfgData resCfgData = new ResCfgData();
-            resCfgData.parseSkinsXml();
-            resCfgData.exportSkinsFile();
+            ResCfgData.Instance();
+            ResCfgData.m_ins.parseSkinsXml();
+            ResCfgData.m_ins.exportSkinsFile();
         }
 
         // 导出骨骼和子网格
@@ -45,9 +45,9 @@ namespace EditorTool
             //
             //}
 
-            ResCfgData resCfgData = new ResCfgData();
-            resCfgData.parseSkelSubMeshPackXml();
-            resCfgData.skelSubMeshPackFile();
+            ResCfgData.Instance();
+            ResCfgData.m_ins.parseSkelSubMeshPackXml();
+            ResCfgData.m_ins.skelSubMeshPackFile();
         }
     }
 }
