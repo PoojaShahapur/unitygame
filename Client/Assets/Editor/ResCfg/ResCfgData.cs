@@ -2,18 +2,27 @@
 using System.IO;
 using System.Text;
 using System.Xml;
+using UnityEditor;
 using UnityEngine;
 
 namespace EditorTool
 {
     class ResCfgData
     {
+        public static ResCfgData m_ins = new ResCfgData();
+
         public List<PackType> m_packList = new List<PackType>();
         public List<Mesh> m_meshList = new List<Mesh>();
         public List<Mesh> m_skelSubMeshList = new List<Mesh>();
         public RootParam m_rootParam = new RootParam();
+        public BuildTarget m_targetPlatform;
 
-        public List<ResourcesPathItem> m_resourceList = new List<ResourcesPathItem>();
+        public ResourcesCfgPackData m_pResourcesCfgPackData = new ResourcesCfgPackData();
+
+        public ResCfgData()
+        {
+            m_targetPlatform = BuildTarget.StandaloneWindows;
+        }
 
         public void parseXml()
         {
@@ -39,7 +48,7 @@ namespace EditorTool
         public void parseResourceXml()
         {
             ResourceCfgParse resourceCfgParse = new ResourceCfgParse();
-            resourceCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackResourceCfg.xml"), m_resourceList);
+            resourceCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackResourceCfg.xml"), m_pResourcesCfgPackData.m_resourceList);
         }
 
         public void pack()
@@ -100,7 +109,10 @@ namespace EditorTool
 
         public void packResourceList()
         {
-            foreach (var item in m_resourceList)
+            m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
+            ExportUtil.DeleteDirectory(m_pResourcesCfgPackData.m_destFullPath);
+            ExportUtil.CreateDirectory(m_pResourcesCfgPackData.m_destFullPath);
+            foreach (var item in m_pResourcesCfgPackData.m_resourceList)
             {
                 item.packPack();
             }

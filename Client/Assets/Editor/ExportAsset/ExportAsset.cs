@@ -10,6 +10,7 @@ namespace EditorTool
         [MenuItem("Assets/SelfAssetBundles/ExportByResourcesCfg")]
         static void ExportByResourcesCfg()
         {
+            ResCfgData.m_ins.m_targetPlatform = BuildTarget.StandaloneWindows;
             ResCfgData resCfgData = new ResCfgData();
             resCfgData.parseResourceXml();
             resCfgData.packResourceList();

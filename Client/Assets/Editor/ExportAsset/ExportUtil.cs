@@ -94,6 +94,14 @@ namespace EditorTool
             }
         }
 
+        static public void DeleteDirectory(string path, bool recursive = true)
+        {
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, recursive);
+            }
+        }
+
         static public void RecurCreateDirectory(string pathAndName)
         {
             string curpath = "";
@@ -228,6 +236,7 @@ namespace EditorTool
 
         static public string getFileNameNoExt(string path)
         {
+            path = normalPath(path);
             int dotIdx = path.LastIndexOf('.');
             int slashIdx = path.LastIndexOf('/');
             if (-1 != dotIdx)
@@ -367,21 +376,23 @@ namespace EditorTool
         }
 
         // 递归深度优先遍历目录
-        public static void recrueDirs(string rootPath, Action<string> disp)
+        public static void recrueDirs(string rootPath, Action<string> dispFile, Action<string> dispDir)
         {
+            // 遍历目录回调
+            dispDir(rootPath);
             // 遍历所有文件
-            traverseFilesInOneDir(rootPath, disp);
+            traverseFilesInOneDir(rootPath, dispFile);
             // 遍历当前目录下的所有的文件夹
             DirectoryInfo theFolder = new DirectoryInfo(rootPath);
             DirectoryInfo[] dirInfo = theFolder.GetDirectories();
             foreach (DirectoryInfo NextFolder in dirInfo)
             {
-                recrueDirs(NextFolder.FullName, disp);
+                recrueDirs(NextFolder.FullName, dispFile, dispDir);
             }
         }
 
         // 处理当前目录下的所有文件
-        public static void traverseFilesInOneDir(string dirPath, Action<string> disp)
+        public static void traverseFilesInOneDir(string dirPath, Action<string> dispFile)
         {
             DirectoryInfo theFolder = new DirectoryInfo(dirPath);
 
@@ -389,9 +400,9 @@ namespace EditorTool
             FileInfo[] fileInfo = theFolder.GetFiles();
             foreach (FileInfo NextFile in fileInfo)  //遍历文件
             {
-                if (disp != null)
+                if (dispFile != null)
                 {
-                    disp(NextFile.FullName);
+                    dispFile(NextFile.FullName);
                 }
             }
         }

@@ -9,40 +9,51 @@ using UnityEditor;
 
 namespace EditorTool
 {
+    public class ResourcesCfgPackData
+    {
+        public List<ResourcesPathItem> m_resourceList = new List<ResourcesPathItem>();
+        public string m_destFullPath;
+    }
+
     /**
      * @brief 一项 resourcespath 
      */
     public class ResourcesPathItem
     {
         public string m_srcRoot;
+        public List<string> m_unity3dExtNameList;
+        public List<string> m_ignoreExtList;
         public string m_srcFullPath;
-        public string m_destFullPath;
 
         public void parseXml(XmlElement elem)
         {
             m_srcRoot = UtilApi.getXmlAttrStr(elem.Attributes["srcroot"]);
+            char[] splitChar = new char[1]{','};
+            m_unity3dExtNameList = UtilApi.getXmlAttrStr(elem.Attributes["unity3dextname"]).Split(splitChar).ToList<string>();
+            m_ignoreExtList = UtilApi.getXmlAttrStr(elem.Attributes["ignoreext"]).Split(splitChar).ToList<string>();
             m_srcFullPath = Path.Combine(System.Environment.CurrentDirectory, m_srcRoot);
-            m_destFullPath = ExportUtil.getStreamingDataPath("");
         }
 
         public void packPack()
         {
-            ExportUtil.CreateDirectory(m_destFullPath);
-            ExportUtil.recrueDirs(m_srcFullPath, handleFile);
+            ExportUtil.recrueDirs(m_srcFullPath, handleFile, handleDir);
         }
 
         // 遍历一个文件的时候处理
         public void handleFile(string fullFileName)
         {
-            if (ExportUtil.getFileExt(fullFileName) != ExportUtil.METAEXT)
+            fullFileName = ExportUtil.normalPath(fullFileName);
+            if (m_ignoreExtList.IndexOf(ExportUtil.getFileExt(fullFileName)) == -1)
             {
                 string fineNameNoExt = ExportUtil.getFileNameNoExt(fullFileName);
                 string assetPath = fullFileName.Substring(fullFileName.IndexOf(ExportUtil.ASSETS));
-                string destPath = fullFileName.Substring(m_srcFullPath.Length, fullFileName.IndexOf('.') - m_srcFullPath.Length);
-                destPath = Path.Combine(m_destFullPath, destPath);
+                string destPath;
 
-                if (ExportUtil.getFileExt(fullFileName) == ExportUtil.PREFAB)
+                if (m_unity3dExtNameList.IndexOf(ExportUtil.getFileExt(fullFileName)) != -1)
                 {
+                    destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.LastIndexOf('/') - (m_srcFullPath.Length + 1));
+                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+
                     AssetBundleParam bundleParam = new AssetBundleParam();
 #if UNITY_5
                     bundleParam.m_buildList = new AssetBundleBuild[1];
@@ -50,6 +61,7 @@ namespace EditorTool
                     bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
                     bundleParam.m_buildList[0].assetNames = new string[1];
                     bundleParam.m_buildList[0].assetNames[0] = assetPath;
+                    bundleParam.m_targetPlatform = ResCfgData.m_ins.m_targetPlatform;
                     bundleParam.m_pathName = destPath;
 #elif UNITY_4_6
                 bundleParam.m_assets = objList.ToArray();
@@ -60,17 +72,29 @@ namespace EditorTool
 #endif
                     ExportUtil.BuildAssetBundle(bundleParam);
                 }
-            }
-            else        // 直接拷贝过去
-            {
-                File.Copy(fullFileName, destPath);
+                else        // 直接拷贝过去
+                {
+                    destPath = fullFileName.Substring(m_srcFullPath.Length + 1, fullFileName.Length - (m_srcFullPath.Length + 1));
+                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                    File.Copy(fullFileName, destPath);
+                }
             }
         }
 
         // 遍历一个文件夹的时候处理
-        public void handleDir(string fullFileName)
+        public void handleDir(string fullDirName)
         {
-
+            if (m_srcFullPath != fullDirName)
+            {
+                string assetPath = fullDirName.Substring(fullDirName.IndexOf(ExportUtil.ASSETS));
+                string destPath = fullDirName.Substring(m_srcFullPath.Length + 1, fullDirName.Length - (m_srcFullPath.Length + 1));
+                destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                ExportUtil.CreateDirectory(destPath);
+            }
+            else
+            {
+                ExportUtil.CreateDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
+            }
         }
     }
 }
