@@ -119,10 +119,6 @@ namespace EditorTool
 
         public void packResourceList()
         {
-            m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
-            m_pResourcesCfgPackData.m_destFullPath = ExportUtil.normalPath(m_pResourcesCfgPackData.m_destFullPath);
-            ExportUtil.DeleteDirectory(m_pResourcesCfgPackData.m_destFullPath);
-            ExportUtil.CreateDirectory(m_pResourcesCfgPackData.m_destFullPath);
             foreach (var item in m_pResourcesCfgPackData.m_resourceList)
             {
                 item.packPack();

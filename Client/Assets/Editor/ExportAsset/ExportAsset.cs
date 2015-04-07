@@ -12,8 +12,16 @@ namespace EditorTool
         {
             ResCfgData.Instance();
             ResCfgData.m_ins.m_targetPlatform = BuildTarget.StandaloneWindows;
+
+            ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
+            ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.normalPath(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
+            //ExportUtil.DeleteDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
+            //ExportUtil.CreateDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
+
             ResCfgData.m_ins.parseResourceXml();
-            ResCfgData.m_ins.packResourceList();
+            //ResCfgData.m_ins.packResourceList();
+
+            ExportUtil.CopyAssetBundlesTo(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, ResCfgData.m_ins.m_targetPlatform);
         }
 
         // 根据配置文件导出资源打包
