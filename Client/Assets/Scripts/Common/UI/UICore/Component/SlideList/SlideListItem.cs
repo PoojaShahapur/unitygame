@@ -132,6 +132,7 @@ namespace SDK.Common
                     param.m_path = m_texPath;
                     param.m_prefabName = m_texPrefab;
                     param.m_loaded = onTexLoaded;
+                    param.m_extName = "png";
                     Ctx.m_instance.m_texMgr.load<TextureRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

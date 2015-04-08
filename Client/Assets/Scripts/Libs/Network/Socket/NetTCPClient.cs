@@ -311,14 +311,11 @@ namespace SDK.Lib
         {
             if (m_socket != null && !m_socket.Connected)
             {
+                if (m_isConnected)
+                {
+                    Ctx.m_instance.m_sysMsgRoute.push(new SocketCloseedMR());
+                }
                 m_isConnected = false;
-
-                //if (null != Ctx.m_instance.m_sysMsgRoute.m_socketClosedCB)
-                //{    
-                //    Ctx.m_instance.m_sysMsgRoute.m_socketClosedCB();
-                //}
-
-                Ctx.m_instance.m_sysMsgRoute.push(new SocketCloseedMR());
             }
 
             return m_isConnected;

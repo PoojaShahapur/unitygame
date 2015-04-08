@@ -22,6 +22,7 @@ namespace SDK.Lib
             //param.m_failed = onFailed;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
+            param.m_extName = "prefab";
             load<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
             return m_path2ResDic[path];

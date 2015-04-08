@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
-     * @brief 预设资源，通常就一个资源
+     * @brief 预设资源，通常就一个资源，主要是 Resources 目录下的资源加载
      */
     public class PrefabResItem : ResItem
     {
@@ -76,6 +76,26 @@ namespace SDK.Lib
         override public UnityEngine.Object getObject(string resname)
         {
             return m_prefabObj;
+        }
+
+        override public byte[] getBytes(string resname)            // 获取字节数据
+        {
+            if(m_prefabObj != null && (m_prefabObj as TextAsset) != null)
+            {
+                return (m_prefabObj as TextAsset).bytes;
+            }
+
+            return null;
+        }
+
+        override public string getText(string resname)
+        {
+            if (m_prefabObj != null && (m_prefabObj as TextAsset) != null)
+            {
+                return (m_prefabObj as TextAsset).text;
+            }
+
+            return null;
         }
     }
 }

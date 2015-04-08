@@ -101,7 +101,7 @@ namespace SDK.Common
             // 这个需要立即加载
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-
+            param.m_extName = "prefab";
             ModelRes res = Ctx.m_instance.m_modelMgr.load<ModelRes>(param) as ModelRes;
             Ctx.m_instance.m_poolSys.deleteObj(param);
             return res;

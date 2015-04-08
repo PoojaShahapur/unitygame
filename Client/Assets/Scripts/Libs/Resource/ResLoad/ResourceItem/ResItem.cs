@@ -209,5 +209,15 @@ namespace SDK.Lib
         {
             return null;
         }
+
+        virtual public byte[] getBytes(string resname)            // 获取字节数据
+        {
+            return null;
+        }
+
+        virtual public string getText(string resname)
+        {
+            return null;
+        }
     }
 }

@@ -449,6 +449,7 @@ namespace SDK.Common
                     param.m_path = path;
                     param.m_prefabName = prefab;
                     param.m_loaded = onload;
+                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }
@@ -608,6 +609,11 @@ namespace SDK.Common
             }
 
             return charCount;
+        }
+
+        public static string getPakPathAndExt(string path, string extName)
+        {
+            return string.Format("{0}.{1}", path, extName);
         }
     }
 }

@@ -37,9 +37,9 @@ namespace Game.UI
             mok = transform.FindChild("openok");
             mok.gameObject.SetActive(false);
 
-            abilitypre = Resources.Load("Card/opena") as GameObject;
-            minionpre = Resources.Load("Card/openm") as GameObject;
-            weaponpre = Resources.Load("Card/openw") as GameObject;
+            abilitypre = Resources.Load("Model/opena") as GameObject;
+            minionpre = Resources.Load("Model/openm") as GameObject;
+            weaponpre = Resources.Load("Model/openw") as GameObject;
 
             m_packItem.m_tran = UtilApi.GoFindChildByPObjAndName("open/openpack").transform;
 

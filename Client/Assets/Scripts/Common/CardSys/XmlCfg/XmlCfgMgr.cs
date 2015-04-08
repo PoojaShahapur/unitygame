@@ -21,6 +21,7 @@ namespace SDK.Common
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
+            param.m_extName = "xml";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -29,10 +30,10 @@ namespace SDK.Common
         public void onloaded(IDispatchObject resEvt)
         {
             m_res = resEvt as IResItem;                         // 类型转换
-            TextAsset textAsset = m_res.getObject("") as TextAsset;
-            if (textAsset != null)
+            string text = m_res.getText("");
+            if (text != null)
             {
-                m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(textAsset.text);
+                m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(text);
             }
         }
 

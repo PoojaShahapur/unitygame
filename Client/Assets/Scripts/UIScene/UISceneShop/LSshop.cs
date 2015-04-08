@@ -196,6 +196,7 @@ namespace Game.UI
                 param.m_path = m_shopItemArray[idx].m_path;
                 param.m_prefabName = m_shopItemArray[idx].m_prefab;
                 param.m_loaded = m_shopItemArray[idx].onloaded;
+                param.m_extName = "prefab";
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
 

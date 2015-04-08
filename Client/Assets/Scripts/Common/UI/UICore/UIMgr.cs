@@ -261,15 +261,9 @@ namespace SDK.Common
             {
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = reaPath;
-                //param.m_resPackType = ResPackType.eBundleType;
-                //param.m_resLoadType = ResLoadType.eLoadDicWeb;
-                //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
                 param.m_prefabName = prefabName;
                 param.m_loaded = onloaded;
-                //param.m_resNeedCoroutine = false;
-                //param.m_loadNeedCoroutine = true;
-                //Ctx.m_instance.m_resLoadMgr.load(param);
-                //Ctx.m_instance.m_resLoadMgr.loadBundle(param);
+                param.m_extName = "prefab";
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }

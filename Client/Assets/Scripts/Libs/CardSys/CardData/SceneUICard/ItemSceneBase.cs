@@ -57,7 +57,7 @@ namespace SDK.Lib
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    //Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                     m_res = null;
@@ -72,7 +72,7 @@ namespace SDK.Lib
                     param.m_path = m_path;
                     param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    //Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

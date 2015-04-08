@@ -19,6 +19,7 @@ namespace SDK.Common
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
+            param.m_extName = "txt";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -27,13 +28,13 @@ namespace SDK.Common
         public void onloaded(IDispatchObject resEvt)
         {
             IResItem m_res = resEvt as IResItem;                         // 类型转换
-            TextAsset textAsset = m_res.getObject("") as TextAsset;
+            string text = m_res.getText("");
             
-            if (textAsset != null)
+            if (text != null)
             {
                 string[] lineSplitStr = {"\r\n"};
                 string[] tabSplitStr = { "\t" };
-                string[] lineList = textAsset.text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
+                string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
                 int lineIdx = 0;
                 string[] tabList = null;
 

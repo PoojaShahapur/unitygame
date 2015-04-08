@@ -67,6 +67,7 @@ namespace SDK.Lib
             param.m_path = m_ID2FileName[m_langID].m_filePath;
             param.m_prefabName = m_ID2FileName[m_langID].m_prefabName;
             param.m_loaded = onloaded;
+            param.m_extName = "xml";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -75,11 +76,11 @@ namespace SDK.Lib
         public void onloaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;                         // ÀàÐÍ×ª»»
-            TextAsset textAsset = res.getObject(m_ID2FileName[m_langID].m_prefabName) as TextAsset;
-            if (textAsset != null)
+            string text = res.getText(m_ID2FileName[m_langID].m_prefabName);
+            if (text != null)
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(textAsset.text);
+                xmlDoc.LoadXml(text);
 
                 XmlNode xn = xmlDoc.SelectSingleNode("msg");
                 m_nodeList = xn.ChildNodes;

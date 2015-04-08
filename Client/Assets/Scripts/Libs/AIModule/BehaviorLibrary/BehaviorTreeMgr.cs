@@ -37,10 +37,10 @@ namespace BehaviorLibrary
         public void onloaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            TextAsset text = res.getObject("TestAi") as TextAsset;
-            parseXml(text.text);
-            text = res.getObject("Test2Ai") as TextAsset;
-            parseXml(text.text);
+            string text = res.getText("TestAi");
+            parseXml(text);
+            text = res.getText("Test2Ai");
+            parseXml(text);
         }
 
         protected void parseXml(string xmlStr)

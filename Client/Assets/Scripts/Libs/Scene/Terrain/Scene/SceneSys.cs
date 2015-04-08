@@ -93,6 +93,7 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = true;
             param.m_lvlName = filename;
             //Ctx.m_instance.m_resLoadMgr.load(param);
+            param.m_extName = "unity";
             Ctx.m_instance.m_resLoadMgr.loadLevel(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }

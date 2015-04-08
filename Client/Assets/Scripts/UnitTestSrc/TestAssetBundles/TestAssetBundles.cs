@@ -25,7 +25,8 @@ namespace UnitTestSrc
             string[] nameList = bundles.GetAllAssetNames();
             Ctx.m_instance.m_log.log("TestExportPrefab");
 
-            GameObject go = bundles.LoadAsset<GameObject>("Assets/TestAssets/TestPrefab.prefab");
+            GameObject go = bundles.LoadAsset<GameObject>("Assets/Prefabs/Resources/Module/Login.prefab");
+            //UtilApi.Instantiate(go);
             Ctx.m_instance.m_log.log("TestPrefabUnity3d");
         }
 

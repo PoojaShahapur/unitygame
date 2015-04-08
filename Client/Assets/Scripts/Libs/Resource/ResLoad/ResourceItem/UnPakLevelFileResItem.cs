@@ -8,17 +8,26 @@ namespace SDK.Lib
     /**
      * @brief 没有打包的系统，在没有打包之前使用这个加载系统
      */
-    public class UnPakFileResItem : FileResItem
+    public class UnPakLevelFileResItem : FileResItem
     {
+        public const string SCENE_PRE_PATH = "Assets/Scenes";
         public byte[] m_bytes;
         protected AssetBundle m_bundle;
-        protected Object m_object;
-        protected GameObject m_retGO;       // 方便调试的临时对象
+        protected string m_levelName;
+
+        public string levelName
+        {
+            set
+            {
+                m_levelName = value;
+            }
+        }
 
         override public void init(LoadItem item)
         {
             m_bytes = (item as UnPakLoadItem).m_bytes;
-            m_bundlePath = Path.Combine(PRE_PATH, m_path);
+
+            m_bundlePath = Path.Combine(SCENE_PRE_PATH, m_path);
             m_bundlePath = string.Format("{0}.{1}", m_bundlePath, m_extName);
 
             // 检查是否资源打包成 unity3d 
@@ -50,7 +59,8 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                m_object = m_bundle.LoadAsset<Object>(m_bundlePath);
+                m_bundle.LoadAsset<GameObject>(m_bundlePath);
+                Application.LoadLevel(m_levelName);
                 if (onLoaded != null)
                 {
                     onLoaded(this);
@@ -91,10 +101,11 @@ namespace SDK.Lib
                 // m_bundle.Unload(true);      // 真正卸载的时候全部卸载
             }
 
-            if (req != null && req.asset != null)
-            {
-                m_object = req.asset;
+            AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
+            yield return asyncOpt;
 
+            if (null != asyncOpt && asyncOpt.isDone)
+            {
                 if (onLoaded != null)
                 {
                     onLoaded(this);
@@ -111,57 +122,6 @@ namespace SDK.Lib
             clearListener();
 
             yield return null;
-        }
-
-        override public GameObject InstantiateObject(string resname)
-        {
-            // 一定不能直接返回 bundle 中直接加载的对象，否则虽然能挂在到场景中，但是会丢失上面所有的脚本
-            //if((m_object as GameObject) != null)
-            //{
-            //    return m_object as GameObject;
-            //}
-            m_retGO = null;
-
-            if (m_object != null)
-            {
-                m_retGO = GameObject.Instantiate(m_object) as GameObject;
-                if (null == m_retGO)
-                {
-                    Ctx.m_instance.m_log.log("不能实例化数据");
-                }
-            }
-
-            return m_retGO;
-        }
-
-        override public UnityEngine.Object getObject(string resname)
-        {
-            if(m_object != null)
-            {
-                return m_object;
-            }
-
-            return null;
-        }
-
-        override public byte[] getBytes(string resname)            // 获取字节数据
-        {
-            if (m_bytes != null)
-            {
-                return m_bytes;
-            }
-
-            return null;
-        }
-
-        override public string getText(string resname)
-        {
-            if (m_bytes != null)
-            {
-                return System.Text.Encoding.UTF8.GetString(m_bytes);
-            }
-
-            return null;
         }
     }
 }

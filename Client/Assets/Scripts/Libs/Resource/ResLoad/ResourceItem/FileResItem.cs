@@ -1,11 +1,15 @@
-﻿using System.IO;
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 本地文件系统，直接从本地加载
      */
     public class FileResItem : ResItem
     {
-        public FileStream m_fs = null;      // 文件句柄
+        // 加载的资源目录的前缀目录，打包后的资源 name 需要加这个前缀才能找到
+        public const string PRE_PATH = "Assets/Prefabs/Resources";
+        public const string UNITY3D_EXT = "unity3d";
+
+        public string m_bundlePath;
+        public string m_extName;        // 加载资源的扩展名字
     }
 }

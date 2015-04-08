@@ -83,12 +83,13 @@ namespace SDK.Lib
         {
             param.m_resPackType = ResPackType.eLevelType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            //param.m_resNeedCoroutine = true;
-            //param.m_loadNeedCoroutine = true;
-
-            //param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
 
             return load(param);
+
+            //param.m_resPackType = ResPackType.eUnPakLevelType;
+            //param.m_resLoadType = ResLoadType.eStreamingAssets;
+
+            //return load(param);
         }
 
         // eResourcesType 打包类型资源加载
@@ -97,11 +98,13 @@ namespace SDK.Lib
             param.m_resPackType = ResPackType.eResourcesType;
             param.m_resLoadType = ResLoadType.eLoadResource;
 
-            // 资源尽量异步加载
-            //param.m_resNeedCoroutine = true;
-            //param.m_loadNeedCoroutine = true;
-
             return load(param);
+
+            // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
+            //param.m_resPackType = ResPackType.eUnPakType;
+            //param.m_resLoadType = ResLoadType.eStreamingAssets;
+
+            //return load(param);
         }
 
         // 通用类型，需要自己设置很多参数
@@ -159,6 +162,24 @@ namespace SDK.Lib
                     resitem = new DataResItem();
                 }
             }
+            else if (ResPackType.eUnPakType == param.m_resPackType)
+            {
+                if (resitem == null)
+                {
+                    resitem = new UnPakFileResItem();
+                }
+
+                (resitem as FileResItem).m_extName = param.m_extName;
+            }
+            else if (ResPackType.eUnPakLevelType == param.m_resPackType)
+            {
+                if (resitem == null)
+                {
+                    resitem = new UnPakLevelFileResItem();
+                }
+                (resitem as UnPakLevelFileResItem).levelName = param.m_lvlName;
+                (resitem as UnPakLevelFileResItem).m_extName = param.m_extName;
+            }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;
             resitem.resPackType = param.m_resPackType;
@@ -209,6 +230,15 @@ namespace SDK.Lib
                 }
 
                 (loaditem as DataLoadItem).m_version = param.m_version;
+            }
+            else if (ResPackType.eUnPakType == param.m_resPackType || ResPackType.eUnPakLevelType == param.m_resPackType)
+            {
+                if (loaditem == null)
+                {
+                    loaditem = new UnPakLoadItem();
+                }
+
+                (loaditem as UnPakLoadItem).m_extName = param.m_extName;
             }
 
             loaditem.resPackType = param.m_resPackType;

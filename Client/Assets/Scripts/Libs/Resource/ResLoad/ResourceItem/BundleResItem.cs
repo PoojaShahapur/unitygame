@@ -113,7 +113,7 @@ namespace SDK.Lib
                 {
 #if UNITY_5
                     // Unity5
-                    //insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+                    insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
 #elif UNITY_4_6
                     // Unity4
                     insObj = GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;

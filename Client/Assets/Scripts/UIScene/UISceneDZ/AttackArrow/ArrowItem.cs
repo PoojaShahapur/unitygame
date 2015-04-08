@@ -45,7 +45,7 @@ namespace Game.UI
                 // 这个需要立即加载
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
-
+                param.m_extName = "prefab";
                 Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }

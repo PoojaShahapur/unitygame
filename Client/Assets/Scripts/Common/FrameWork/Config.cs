@@ -34,13 +34,14 @@ namespace SDK.Common
         public string m_dataPath;
         //public bool m_bNeedNet = false;                       // 是否需要网络
         public string m_netLogPhp = "/netlog/NetLog.php";       // Php 处理文件
+        public List<string> m_pakExtNameList = new List<string>();       // 打包的扩展名字列表
 
         public Config()
         {
             m_resLoadType = ResLoadType.eLoadDisc;
             m_pathLst = new string[(int)ResPathType.eTotal];
-            m_pathLst[(int)ResPathType.ePathScene] = "Scene/";
-            m_pathLst[(int)ResPathType.ePathSceneXml] = "Scene/Xml/";
+            m_pathLst[(int)ResPathType.ePathScene] = "Scenes/";
+            m_pathLst[(int)ResPathType.ePathSceneXml] = "Scenes/Xml/";
             m_pathLst[(int)ResPathType.ePathModule] = "Module/";
             m_pathLst[(int)ResPathType.ePathComUI] = "UI/";
             m_pathLst[(int)ResPathType.ePathBeingPath] = "Being/";
@@ -54,6 +55,11 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathWord] = "Word/";
 
             m_dataPath = Application.dataPath;
+
+            m_pakExtNameList.Add("prefab");
+            m_pakExtNameList.Add("png");
+            m_pakExtNameList.Add("shader");
+            m_pakExtNameList.Add("unity");
         }
     }
 }

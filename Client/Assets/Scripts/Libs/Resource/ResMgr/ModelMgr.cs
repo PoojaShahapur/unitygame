@@ -37,9 +37,9 @@ namespace SDK.Lib
         public void onSkinLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            TextAsset text = res.getObject("BoneList") as TextAsset;
+            string text = res.getText("BoneList");
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(text.text);
+            xmlDoc.LoadXml(text);
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
             XmlNodeList itemMeshList = rootNode.ChildNodes;

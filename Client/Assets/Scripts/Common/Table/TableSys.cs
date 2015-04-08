@@ -74,8 +74,8 @@ namespace SDK.Common
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
+            param.m_extName = "txt";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
-            //TextAsset textAsset = Resources.Load(param.m_path, typeof(TextAsset)) as TextAsset;
             Ctx.m_instance.m_poolSys.deleteObj(param);
 		}
 
@@ -83,12 +83,12 @@ namespace SDK.Common
         public void onloaded(IDispatchObject resEvt)
         {
             m_res = resEvt as IResItem;                         // 类型转换
-            TextAsset textAsset = m_res.getObject("") as TextAsset;
-            if (textAsset != null)
+            byte[] bytes = m_res.getBytes("");
+            if (bytes != null)
             {
                 m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteBuffer();
                 m_byteArray.clear();
-                m_byteArray.writeBytes(textAsset.bytes, 0, (uint)textAsset.bytes.Length);
+                m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
                 m_byteArray.setPos(0);
                 readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
             }
