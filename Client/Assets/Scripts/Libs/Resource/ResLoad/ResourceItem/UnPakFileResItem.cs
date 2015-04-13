@@ -19,7 +19,6 @@ namespace SDK.Lib
         {
             m_bytes = (item as UnPakLoadItem).m_bytes;
             m_bundlePath = Path.Combine(PRE_PATH, m_path);
-            m_bundlePath = string.Format("{0}.{1}", m_bundlePath, m_extName);
 
             // 检查是否资源打包成 unity3d 
             if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)
@@ -50,7 +49,6 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                m_object = m_bundle.LoadAsset<Object>(m_bundlePath);
                 if (onLoaded != null)
                 {
                     onLoaded(this);
@@ -74,6 +72,53 @@ namespace SDK.Lib
 
             m_bundle = createReq.assetBundle;
 
+            if (m_bundle != null)
+            {
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+            }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
+            }
+
+            clearListener();
+
+            yield return null;
+        }
+
+        protected GameObject loadBundle(string resname)
+        {
+            // 目前只能同步加载
+            //if (m_resNeedCoroutine)
+            //{
+                return loadBundleAsync(resname);
+            //}
+            //else
+            //{
+            //    loadBundleSync(resname);
+            //}
+        }
+
+        protected GameObject loadBundleSync(string resname)
+        {
+            m_object = m_bundle.LoadAsset<Object>(m_bundlePath);
+            return m_object as GameObject;
+        }
+
+        protected GameObject loadBundleAsync(string resname)
+        {
+            Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
+            return null;
+        }
+
+        protected IEnumerator loadBundleByCoroutine()
+        {
             AssetBundleRequest req = null;
 
             if (m_bundle != null)
@@ -107,10 +152,6 @@ namespace SDK.Lib
                     onFailed(this);
                 }
             }
-
-            clearListener();
-
-            yield return null;
         }
 
         override public GameObject InstantiateObject(string resname)
@@ -120,6 +161,8 @@ namespace SDK.Lib
             //{
             //    return m_object as GameObject;
             //}
+            m_bundlePath = Path.Combine(PRE_PATH, resname);
+            loadBundle(m_bundlePath);
             m_retGO = null;
 
             if (m_object != null)

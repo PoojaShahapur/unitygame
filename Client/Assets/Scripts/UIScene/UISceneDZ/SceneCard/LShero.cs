@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using SDK.Common;
 using SDK.Lib;
+using System;
 
 namespace Game.UI
 {
@@ -11,9 +12,22 @@ namespace Game.UI
      */
     public class hero : SceneCardEntityBase
     {
-        dzminion m_dzminion = new dzminion();
+        protected dzminion m_dzminion = new dzminion();
         //public Material zs, dz, dly, lr, ms, sq, sm, fs, ss;
-        Text classs, heroname;
+        protected Text classs, heroname;
+        protected Action m_heroAniEndDisp;         // hero 动画结束后，分发一个消息
+
+        public Action heroAniEndDisp
+        {
+            get
+            {
+                return m_heroAniEndDisp;
+            }
+            set
+            {
+                m_heroAniEndDisp = value;
+            }
+        }
 
         public override void Start()
         {
@@ -88,7 +102,8 @@ namespace Game.UI
             animation.Play();
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
-            timer.m_internal = 1;
+            timer.m_internal = 3;           // 3 秒动画播放完成
+            timer.m_totalCount = 3;
             timer.m_timerDisp = hidevs;
             Ctx.m_instance.m_timerMgr.addObject(timer);
         }
@@ -117,9 +132,16 @@ namespace Game.UI
             Ctx.m_instance.m_camSys.m_dzcam.firstdarw();
         }
 
+        // 隐藏 VS 图标
         public void hidevs(TimerItemBase timer)
         {
             Camera.main.transform.FindChild("vs").gameObject.SetActive(false);
+            // 这个之后才开始显示播放自己第一次牌
+            if(m_heroAniEndDisp != null)
+            {
+                m_heroAniEndDisp();
+                m_heroAniEndDisp = null;
+            }
         }
     }
 }

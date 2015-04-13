@@ -37,10 +37,11 @@ namespace Game.UI
             stReqGiveUpOneBattleUserCmd cmd = new stReqGiveUpOneBattleUserCmd();
             UtilMsg.sendMsg(cmd);
 
-            Application.Quit();
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#else
+		    Application.Quit();
+#endif
         }
     }
 }

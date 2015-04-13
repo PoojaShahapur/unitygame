@@ -24,14 +24,12 @@ namespace SDK.Common
         
         protected void loadRandNameTable()
         {
-            string name = "RandName";
+            string name = "RandName.txt";
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord] + name;
-            param.m_prefabName = name;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            param.m_extName = "txt";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }

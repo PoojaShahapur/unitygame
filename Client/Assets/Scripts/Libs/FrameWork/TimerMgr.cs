@@ -18,13 +18,17 @@ namespace SDK.Lib
 
         public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (m_duringAdvance)
+            // 检查当前是否已经在队列中
+            if (m_timerLists.IndexOf(delayObject as TimerItemBase) == -1)
             {
-                base.addObject(delayObject, priority);
-            }
-            else
-            {
-                m_timerLists.Add(delayObject as TimerItemBase);
+                if (m_duringAdvance)
+                {
+                    base.addObject(delayObject, priority);
+                }
+                else
+                {
+                    m_timerLists.Add(delayObject as TimerItemBase);
+                }
             }
         }
 

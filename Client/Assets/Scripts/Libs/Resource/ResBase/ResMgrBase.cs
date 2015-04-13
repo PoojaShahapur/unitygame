@@ -12,17 +12,15 @@ namespace SDK.Lib
         public Dictionary<string, InsResBase> m_path2ResDic = new Dictionary<string, InsResBase>();
 
         // 同步加载，立马加载完成，并且返回加载的资源
-        public InsResBase syncGet<T>(string prefabName, string path) where T : InsResBase, new()
+        public InsResBase syncGet<T>(string path) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_prefabName = prefabName;
             param.m_path = path;
             //param.m_loaded = onLoaded;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环
             //param.m_failed = onFailed;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            param.m_extName = "prefab";
             load<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
             return m_path2ResDic[path];
@@ -46,7 +44,6 @@ namespace SDK.Lib
             {
                 m_path2ResDic[param.m_path] = new T();
                 m_path2ResDic[param.m_path].increaseRef();
-                m_path2ResDic[param.m_path].m_prefabName = param.m_prefabName;
                 m_path2ResDic[param.m_path].m_path = param.m_path;
             }
 

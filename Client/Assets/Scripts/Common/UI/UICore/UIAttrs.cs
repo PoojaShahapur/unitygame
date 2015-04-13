@@ -12,53 +12,43 @@ namespace SDK.Common
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
             m_dicAttr[UIFormID.UIPack] = new UIAttrItem();
             m_dicAttr[UIFormID.UIPack].m_LayerID = UILayerID.SecondLayer;
-            m_dicAttr[UIFormID.UIPack].m_widgetPrefabName = "UIPack";
-            m_dicAttr[UIFormID.UIPack].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIPack].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIPack].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIPack", ".prefab");
 
             m_dicAttr[UIFormID.UILogin] = new UIAttrItem();
             m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.SecondLayer;
-            m_dicAttr[UIFormID.UILogin].m_widgetPrefabName = "UILogin";
-            m_dicAttr[UIFormID.UILogin].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UILogin].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UILogin].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UILogin", ".prefab");
 
             m_dicAttr[UIFormID.UIHeroSelect] = new UIAttrItem();
             m_dicAttr[UIFormID.UIHeroSelect].m_LayerID = UILayerID.SecondLayer;
-            m_dicAttr[UIFormID.UIHeroSelect].m_widgetPrefabName = "UIHeroSelect";
-            m_dicAttr[UIFormID.UIHeroSelect].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIHeroSelect].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIHeroSelect].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIHeroSelect", ".prefab");
 
             m_dicAttr[UIFormID.UIBlurBg] = new UIAttrItem();
             m_dicAttr[UIFormID.UIBlurBg].m_LayerID = UILayerID.BtmLayer;
-            m_dicAttr[UIFormID.UIBlurBg].m_widgetPrefabName = "UIBlurBg";
-            m_dicAttr[UIFormID.UIBlurBg].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIBlurBg].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIBlurBg].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIBlurBg", ".prefab");
 
             m_dicAttr[UIFormID.UITest] = new UIAttrItem();
             m_dicAttr[UIFormID.UITest].m_LayerID = UILayerID.TopLayer;
-            m_dicAttr[UIFormID.UITest].m_widgetPrefabName = "UITest";
-            m_dicAttr[UIFormID.UITest].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UITest].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UITest].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITest", ".prefab");
 
             m_dicAttr[UIFormID.UIDZ] = new UIAttrItem();
             m_dicAttr[UIFormID.UIDZ].m_LayerID = UILayerID.SecondLayer;
-            m_dicAttr[UIFormID.UIDZ].m_widgetPrefabName = "UIDZ";
-            m_dicAttr[UIFormID.UIDZ].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIDZ].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIDZ].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIDZ", ".prefab");
 
             m_dicAttr[UIFormID.UIExtraOp] = new UIAttrItem();
             m_dicAttr[UIFormID.UIExtraOp].m_LayerID = UILayerID.SecondLayer;
-            m_dicAttr[UIFormID.UIExtraOp].m_widgetPrefabName = "UIExtraOp";
-            m_dicAttr[UIFormID.UIExtraOp].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIExtraOp].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIExtraOp].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIExtraOp", ".prefab");
 
             m_dicAttr[UIFormID.UIChat] = new UIAttrItem();
             m_dicAttr[UIFormID.UIChat].m_LayerID = UILayerID.SecondLayer;
-            m_dicAttr[UIFormID.UIChat].m_widgetPrefabName = "UIChat";
-            m_dicAttr[UIFormID.UIChat].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIChat].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIChat].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIChat", ".prefab");
 
             m_dicAttr[UIFormID.UIInfo] = new UIAttrItem();
             m_dicAttr[UIFormID.UIInfo].m_LayerID = UILayerID.ForthLayer;
-            m_dicAttr[UIFormID.UIInfo].m_widgetPrefabName = "UIInfo";
-            m_dicAttr[UIFormID.UIInfo].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UIInfo].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UIInfo].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIInfo", ".prefab");
 
             m_dicAttr[UIFormID.UILogicTest] = new UIAttrItem();
             m_dicAttr[UIFormID.UILogicTest].m_LayerID = UILayerID.TopLayer;
-            m_dicAttr[UIFormID.UILogicTest].m_widgetPrefabName = "UILogicTest";
-            m_dicAttr[UIFormID.UILogicTest].m_widgetPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI] + m_dicAttr[UIFormID.UILogicTest].m_widgetPrefabName;
+            m_dicAttr[UIFormID.UILogicTest].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UILogicTest", ".prefab");
         }
 
         public string getPath(UIFormID id)

@@ -39,7 +39,7 @@ namespace SDK.Common
         public int m_maxNum;
         public int m_type;
         public int m_color;
-        public string m_prefab;
+        protected string m_prefab;
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -55,7 +55,7 @@ namespace SDK.Common
         {
             get
             {
-                return Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
+                return string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], m_prefab, ".prefab");
             }
         }
     }

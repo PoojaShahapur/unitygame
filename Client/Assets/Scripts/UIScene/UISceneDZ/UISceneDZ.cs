@@ -15,10 +15,20 @@ namespace Game.UI
         public SceneDZData m_sceneDZData = new SceneDZData();
         public SceneDZArea[] m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
         public HistoryArea m_historyArea;
+        public TimerItemBase m_timer;   // 回合开始的时候开始回合倒计时，进入对战，每一回合倒计时
+
+        public bool m_bNeedTipsInfo = true;     // 是否需要弹出提示框
+        public int m_clkTipsCnt = 0;               // 点击提示框次数
 
         public override void onReady()
         {
             base.onReady();
+            // 加载xml配置文件
+            m_sceneDZData.m_DZDaoJiShiXmlLimit = Ctx.m_instance.m_xmlCfgMgr.getXmlCfg<DZDaoJiShiXml>(XmlCfgID.eXmlDZCfg).m_list[0] as DZDaoJiShiXmlLimit;
+            startInitCardTimer();           // 启动定时器
+
+            m_sceneDZData.m_gameRunState = new GameRunState(m_sceneDZData);
+
             //Ctx.m_instance.m_camSys.m_dzcam.setGameObject(UtilApi.GoFindChildByPObjAndName("Main Camera"));
             getWidget();
             addEventHandle();
@@ -34,6 +44,9 @@ namespace Game.UI
             m_historyArea.m_sceneDZData = m_sceneDZData;
             m_sceneDZData.m_attackArrow = new AttackArrow(m_sceneDZData);
             m_sceneDZData.m_gameOpState = new GameOpState(m_sceneDZData);
+
+            // 设置 hero 动画结束后的处理
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.heroAniEndDisp = heroAniEndDisp;
         }
 
         public override void onShow()
@@ -54,6 +67,7 @@ namespace Game.UI
 
             m_sceneDZData.m_centerGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CenterGO);
             m_sceneDZData.m_startGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.StartGO);
+            UtilApi.SetActive(m_sceneDZData.m_startGO, false);      // 默认是隐藏的
 
             m_sceneDZData.m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfStartCardCenterGO);
             m_sceneDZData.m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyStartCardCenterGO);
@@ -72,6 +86,7 @@ namespace Game.UI
 
             m_sceneDZData.m_attackArrowGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowStartPosGO);
             m_sceneDZData.m_arrowListGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowListGO);
+            m_sceneDZData.m_timerGo = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TimerGo);
 
             m_sceneDZData.m_textArr[(int)EnSceneDZText.eSelfMp] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpText).GetComponent<Text>();
             m_sceneDZData.m_textArr[(int)EnSceneDZText.eEnemyMp] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpText).GetComponent<Text>();
@@ -104,14 +119,82 @@ namespace Game.UI
             // 只有是自己出牌的时候才能结束
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                stReqEndMyRoundUserCmd cmd = new stReqEndMyRoundUserCmd();
-                UtilMsg.sendMsg(cmd);
+                stReqEndMyRoundUserCmd cmd;
+                if (!m_bNeedTipsInfo)
+                {
+                    cmd = new stReqEndMyRoundUserCmd();
+                    UtilMsg.sendMsg(cmd);
+                }
+                else
+                {
+                    ++m_clkTipsCnt;
+                    if (m_clkTipsCnt == 1)
+                    {
+                        if (!hasLeftMagicPtCanUse())
+                        {
+                            cmd = new stReqEndMyRoundUserCmd();
+                            UtilMsg.sendMsg(cmd);
+                        }
+                        else    // 你还有可操作的随从
+                        {
+                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ, (int)LangLogID.eItem0);
+                            InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                            param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                            param.m_btnClkDisp = onInfoBoxBtnClk;
+                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ, (int)LangLogID.eItem1);
+                            param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                            param.m_formID = UIFormID.UIInfo_1;     // 这里提示使用这个 id
+                            UIInfo.showMsg(param);
+                        }
+                    }
+                    else
+                    {
+                        m_clkTipsCnt = 0;
+                        cmd = new stReqEndMyRoundUserCmd();
+                        UtilMsg.sendMsg(cmd);
+                    }
+                }
             }
+        }
+
+        public void onInfoBoxBtnClk(InfoBoxBtnType type)
+        {
+            if(type == InfoBoxBtnType.eBTN_OK)
+            {
+                m_bNeedTipsInfo = false;
+            }
+        }
+
+        // 检查是否还有剩余的点数，如果还有，给出提示
+        protected bool hasLeftMagicPtCanUse()
+        {
+            return m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.hasLeftMagicPtCanUse();
         }
 
         protected void onStartBtnClk(GameObject go)
         {
+            stopTimer();        // 停止定时器
+            // 点击后直接隐藏按钮
+            m_sceneDZData.m_startGO.SetActive(false);
+
+            // 卸载可能加载的叉号资源
+            string resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
+            Ctx.m_instance.m_modelMgr.unload(resPath);
+
             stReqFightPrepareOverUserCmd cmd = new stReqFightPrepareOverUserCmd();
+
+            int idx = 0;
+            // 设置需要交换的卡牌
+            foreach (uint cardid in Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList)
+            {
+                if (m_sceneDZData.m_changeCardList.IndexOf(cardid) != -1)
+                {
+                    cmd.change |= (byte)(1 << idx);
+                }
+
+                ++idx;
+            }
+
             UtilMsg.sendMsg(cmd);
 
             //m_sceneDZData.m_startGO.SetActive(false);
@@ -162,6 +245,13 @@ namespace Game.UI
             // ChallengeState.CHALLENGE_STATE_BATTLE 状态或者是刚开始，或者是中间掉线，然后重新上线
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_state == (int)ChallengeState.CHALLENGE_STATE_BATTLE)
             {
+                // 停止各种倒计时
+                stopTimer();
+                if (m_sceneDZData.m_DJSTimer != null)
+                {
+                    m_sceneDZData.m_DJSTimer.stopTimer();
+                }
+
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].bHaveStartCard())    // 如果自己有初始化的牌
                 {
                     m_sceneDZData.m_startGO.SetActive(false);
@@ -184,6 +274,18 @@ namespace Game.UI
                 m_sceneDZData.m_dzturn.enemyTurn();
                 m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(false);
                 m_sceneDZData.m_gameOpState.quitAttackOp();
+            }
+
+            // 解释倒计时定时器
+            m_sceneDZData.m_DJSTimer.stopTimer();
+            // 开始定时器
+            if (m_timer == null)        // 如果定时器没有
+            {
+                startDZTimer();
+            }
+            else
+            {
+                changeTimer();
             }
         }
 
@@ -240,9 +342,22 @@ namespace Game.UI
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
         }
 
+        // 自己第一次获得的卡牌的处理，如果换牌，还是会再次发送这个消息
         public void psstRetFirstHandCardUserCmd(stRetFirstHandCardUserCmd cmd)
         {
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.addInitCard();
+            if (m_sceneDZData.bAddselfCard)     // 如果是换牌后发送过来的数据
+            {
+                // 直接替换掉卡牌就行了
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.replaceInitCard();
+            }
+            else        // 第一次发送过来的卡牌数据
+            {
+                m_sceneDZData.bAddselfCard = true;
+                if (m_sceneDZData.bHeroAniEnd)       // 如果 hero 动画已经结束
+                {
+                    addSelfFirstCard();
+                }
+            }
         }
 
         public void psstRetMoveGameCardUserCmd(stRetMoveGameCardUserCmd msg)
@@ -331,6 +446,108 @@ namespace Game.UI
         public void psstRetBattleHistoryInfoUserCmd(stRetBattleHistoryInfoUserCmd cmd)
         {
             m_historyArea.psstRetBattleHistoryInfoUserCmd(cmd);
+        }
+
+        public void heroAniEndDisp()
+        {
+            m_sceneDZData.bHeroAniEnd = true;
+            UtilApi.SetActive(m_sceneDZData.m_startGO, true);      // 主角动画完成，需要显示开始按钮
+            if (m_sceneDZData.bAddselfCard)
+            {
+                addSelfFirstCard();
+            }
+        }
+
+        protected void addSelfFirstCard()
+        {
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.addInitCard();
+        }
+
+        // 启动定时器
+        public void startInitCardTimer()
+        {
+            if (m_timer == null)
+            {
+                m_timer = new TimerItemBase();
+                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_preparetime - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastpreparetime;
+                m_timer.m_totalCount = m_timer.m_internal;
+                m_timer.m_timerDisp = onTimerInitCardHandle;
+
+                Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            }
+            else
+            {
+                m_timer.reset();
+            }
+        }
+
+        // 开始对战定时器
+        public void startDZTimer()
+        {
+            if (m_timer == null)
+            {
+                m_timer = new TimerItemBase();
+                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundTimes - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
+                m_timer.m_totalCount = m_timer.m_internal;
+                m_timer.m_timerDisp = onTimerDZHandle;
+
+                Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            }
+            else
+            {
+                m_timer.reset();
+            }
+        }
+
+        // 改变定时器参数
+        protected void changeTimer()
+        {
+            if (m_timer != null)
+            {
+                m_timer.reset();
+                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundTimes - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
+                m_timer.m_totalCount = m_timer.m_internal;
+                m_timer.m_timerDisp = onTimerDZHandle;
+
+                Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            }
+        }
+
+        // 重置定时器
+        protected void resetTimer()
+        {
+            m_timer.reset();
+        }
+
+        // 停止定时器
+        public void stopTimer()
+        {
+            if (m_timer != null)
+            {
+                Ctx.m_instance.m_timerMgr.delObject(m_timer);
+            }
+        }
+
+        public void onTimerInitCardHandle(TimerItemBase timer)
+        {
+            // 开始显示倒计时数据
+            if(m_sceneDZData.m_DJSTimer == null)
+            {
+                m_sceneDZData.m_DJSTimer = new DJSTimer(m_sceneDZData.m_timerGo);
+            }
+
+            m_sceneDZData.m_DJSTimer.startTimer();
+        }
+
+        public void onTimerDZHandle(TimerItemBase timer)
+        {
+            // 开始显示倒计时数据
+            if (m_sceneDZData.m_DJSTimer == null)
+            {
+                m_sceneDZData.m_DJSTimer = new DJSTimer(m_sceneDZData.m_timerGo);
+            }
+
+            m_sceneDZData.m_DJSTimer.startTimer();
         }
     }
 }

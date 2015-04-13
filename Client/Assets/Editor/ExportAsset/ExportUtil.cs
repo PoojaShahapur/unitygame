@@ -464,6 +464,7 @@ namespace EditorTool
             // Clear streaming assets folder.
             DeleteDirectory(Application.streamingAssetsPath);
             CreateDirectory(Application.streamingAssetsPath);
+            // 放入平台单独的目录下
             //CreateDirectory(Path.Combine(Application.streamingAssetsPath, platForm));
             //copyDirectory(srcPath, Path.Combine(Application.streamingAssetsPath, platForm));
             copyDirectory(srcPath, Application.streamingAssetsPath);

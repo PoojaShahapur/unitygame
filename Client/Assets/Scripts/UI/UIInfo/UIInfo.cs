@@ -6,6 +6,7 @@ namespace Game.UI
     public class UIInfo : Form
     {
         protected Text m_textDesc;
+        protected InfoBoxParam m_infoParam;
 
         override public void onShow()
         {
@@ -19,6 +20,15 @@ namespace Game.UI
             addEventHandle();
         }
 
+        override public void onExit()
+        {
+            if (m_infoParam != null)
+            {
+                Ctx.m_instance.m_poolSys.deleteObj(m_infoParam);
+            }
+            base.onExit();
+        }
+
         // 关联窗口
         protected void getWidget()
         {
@@ -28,6 +38,20 @@ namespace Game.UI
         protected void addEventHandle()
         {
             UtilApi.addEventHandle(m_GUIWin.m_uiRoot, InfoComPath.PathBtnOk, onBtnClkOk);
+        }
+
+        public void setParam(InfoBoxParam infoParam)
+        {
+            if (m_infoParam != null)
+            {
+                Ctx.m_instance.m_poolSys.deleteObj(m_infoParam);
+            }
+            m_infoParam = infoParam;
+        }
+
+        protected void updateParam()
+        {
+            m_textDesc.text = m_infoParam.m_midDesc;
         }
 
         // 点击登陆处理
@@ -48,10 +72,10 @@ namespace Game.UI
             }
         }
 
-        public static void showMsg(string str)
+        public static void showMsg(InfoBoxParam param)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIInfo>(UIFormID.UIInfo);
-            Ctx.m_instance.m_uiMgr.getForm<UIInfo>(UIFormID.UIInfo).m_textDesc.text = str;
+            Ctx.m_instance.m_uiMgr.loadAndShow<UIInfo>(param.m_formID);
+            Ctx.m_instance.m_uiMgr.getForm<UIInfo>(param.m_formID).setParam(param);
         }
     }
 }

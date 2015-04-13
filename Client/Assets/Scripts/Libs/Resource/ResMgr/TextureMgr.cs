@@ -12,10 +12,9 @@ namespace SDK.Lib
 
         public TextureRes getTexByCardID(int cardId)
         {
-            string prefab = "pig";
-            string path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage] + prefab;
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], "pig.prefab");
 
-            return syncGet<TextureRes>(prefab, path) as TextureRes;
+            return syncGet<TextureRes>(path) as TextureRes;
         }
 
         public override void onLoaded(IDispatchObject resEvt)

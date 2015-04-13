@@ -36,3 +36,6 @@
 
 // 不使用的代码
 // #define DEPRECATE_CODE
+
+// 使用打包模式加载资源
+// #define PKG_RES_LOAD

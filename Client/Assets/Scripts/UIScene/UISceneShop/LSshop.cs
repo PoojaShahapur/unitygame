@@ -12,13 +12,12 @@ namespace Game.UI
         // 商店中的内容，只显示两行
         public Transform m_tran = null;                // 第一个位置
         public GameObject m_go = null;                 // 显示的内容
-        public string m_prefab;                        // 预制名字
         public string m_path;                          // 目录
 
         public void onloaded(IDispatchObject resEvt)            // 资源加载成功
         {
             IResItem res = resEvt as IResItem;
-            m_go = res.InstantiateObject(m_prefab);
+            m_go = res.InstantiateObject(m_path);
             m_go.transform.parent = m_tran;
             UtilApi.normalPosScale(m_go.transform);
         }
@@ -191,12 +190,9 @@ namespace Game.UI
                 shopItem = Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList[idx];
                 objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemBase;
                 m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
-                m_shopItemArray[idx].m_prefab = (objitem.m_itemBody as TableObjectItemBody).m_prefab;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = m_shopItemArray[idx].m_path;
-                param.m_prefabName = m_shopItemArray[idx].m_prefab;
                 param.m_loaded = m_shopItemArray[idx].onloaded;
-                param.m_extName = "prefab";
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
 

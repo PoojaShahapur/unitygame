@@ -10,6 +10,5 @@
         public const string UNITY3D_EXT = "unity3d";
 
         public string m_bundlePath;
-        public string m_extName;        // 加载资源的扩展名字
     }
 }

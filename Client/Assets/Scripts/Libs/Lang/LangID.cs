@@ -11,6 +11,7 @@ namespace SDK.Lib
         eMsgRoute,              // 客户端自己的消息 Route
         eSelectHero,            // 角色选择
         eLogin,                 // 登陆
+        eDZ,                    // 对战场景提示
         eLTTotal
     }
 
@@ -37,6 +38,9 @@ namespace SDK.Lib
         eItem17,
         eItem18,
         eItem19,
+        eItem20,
+        eItem21,
+        eItem22,
 
         eLLogTotal
     }
@@ -54,6 +58,14 @@ namespace SDK.Lib
     }
 
     public enum LangLogin
+    {
+        eItem0,
+        eItem1,
+        eItem2,
+        eItem3,
+    }
+
+    public enum LangDZ
     {
         eItem0,
         eItem1,

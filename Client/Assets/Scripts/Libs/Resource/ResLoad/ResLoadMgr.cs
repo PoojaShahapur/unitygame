@@ -69,42 +69,40 @@ namespace SDK.Lib
             param.m_resPackType = ResPackType.eBundleType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
 
-            // 资源尽量异步加载
-            //param.m_resNeedCoroutine = true;
-            //param.m_loadNeedCoroutine = true;
-
-            //param.m_path = Config.StreamingAssets + param.m_path + ".unity3d";
-
             return load(param);
         }
 
         // eLevelType 打包类型资源加载，都用协程加载
         public IResItem loadLevel(LoadParam param)
         {
+            param.resolvePath();
+
+#if !PKG_RES_LOAD
             param.m_resPackType = ResPackType.eLevelType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-
             return load(param);
-
-            //param.m_resPackType = ResPackType.eUnPakLevelType;
-            //param.m_resLoadType = ResLoadType.eStreamingAssets;
-
-            //return load(param);
+#else
+            param.m_resPackType = ResPackType.eUnPakLevelType;
+            param.m_resLoadType = ResLoadType.eStreamingAssets;
+            return load(param);
+#endif
         }
 
         // eResourcesType 打包类型资源加载
         public IResItem loadResources(LoadParam param)
         {
+            param.resolvePath();
+
+#if !PKG_RES_LOAD
             param.m_resPackType = ResPackType.eResourcesType;
             param.m_resLoadType = ResLoadType.eLoadResource;
-
             return load(param);
-
+#else
             // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
-            //param.m_resPackType = ResPackType.eUnPakType;
-            //param.m_resLoadType = ResLoadType.eStreamingAssets;
-
-            //return load(param);
+            param.m_resPackType = ResPackType.eUnPakType;
+            param.m_resLoadType = ResLoadType.eStreamingAssets;
+            return load(param);
+#endif
         }
 
         // 通用类型，需要自己设置很多参数
@@ -143,8 +141,6 @@ namespace SDK.Lib
                 {
                     resitem = new BundleResItem();
                 }
-
-                (resitem as BundleResItem).prefabName = param.m_prefabName;
             }
             else if (ResPackType.eResourcesType == param.m_resPackType)
             {
@@ -153,7 +149,7 @@ namespace SDK.Lib
                     resitem = new PrefabResItem();
                 }
 
-                (resitem as PrefabResItem).prefabName = param.m_prefabName;
+                (resitem as PrefabResItem).prefabName = param.prefabName;
             }
             else if (ResPackType.eDataType == param.m_resPackType)
             {
@@ -168,8 +164,6 @@ namespace SDK.Lib
                 {
                     resitem = new UnPakFileResItem();
                 }
-
-                (resitem as FileResItem).m_extName = param.m_extName;
             }
             else if (ResPackType.eUnPakLevelType == param.m_resPackType)
             {
@@ -178,13 +172,14 @@ namespace SDK.Lib
                     resitem = new UnPakLevelFileResItem();
                 }
                 (resitem as UnPakLevelFileResItem).levelName = param.m_lvlName;
-                (resitem as UnPakLevelFileResItem).m_extName = param.m_extName;
             }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;
             resitem.resPackType = param.m_resPackType;
             resitem.resLoadType = param.m_resLoadType;
             resitem.path = param.m_path;
+            resitem.pathNoExt = param.m_pathNoExt;
+            resitem.extName = param.extName;
 
             m_LoadData.m_path2Res[param.m_path] = resitem;
 
@@ -237,13 +232,13 @@ namespace SDK.Lib
                 {
                     loaditem = new UnPakLoadItem();
                 }
-
-                (loaditem as UnPakLoadItem).m_extName = param.m_extName;
             }
 
             loaditem.resPackType = param.m_resPackType;
             loaditem.resLoadType = param.m_resLoadType;
             loaditem.path = param.m_path;
+            loaditem.pathNoExt = param.m_pathNoExt;
+            loaditem.extName = param.extName;
             loaditem.onLoaded += onLoaded;
             loaditem.onFailed += onFailed;
 

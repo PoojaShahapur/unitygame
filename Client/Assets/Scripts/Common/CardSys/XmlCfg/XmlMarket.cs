@@ -11,8 +11,7 @@ namespace SDK.Common
     {
         public XmlMarketCfg()
         {
-            m_prefabName = "marketconfig";
-            m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathXmlCfg] + "marketconfig";
+            m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathXmlCfg], "marketconfig.xml");
         }
 
         //public override XmlElement parseXml(string str)
@@ -32,7 +31,7 @@ namespace SDK.Common
 
         public override void parseXml(string str)
         {
-            parseXml<XmlItemMarket>(str);
+            parseXml<XmlItemMarket>(str, "obj");
         }
 
         public XmlItemBase getXmlItem(int id)

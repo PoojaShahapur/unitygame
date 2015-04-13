@@ -35,7 +35,7 @@ namespace SDK.Common
         public int m_attack;         // 攻击力
         public int m_hp;             // 血量
         public int m_Durable;        // 耐久
-        public string m_prefab;      // 预制
+        protected string m_prefab;      // 预制
 
         public int m_chaoFeng;      // 嘲讽
         public int m_chongFeng;     // 冲锋
@@ -86,7 +86,7 @@ namespace SDK.Common
         {
             get
             {
-                return Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
+                return string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], m_prefab, ".prefab");
             }
         }
     }

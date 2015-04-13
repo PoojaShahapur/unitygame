@@ -11,7 +11,6 @@ namespace SDK.Lib
         public Transform m_tran = null;                // 第一个位置
         public UIGrid m_grid;                          // 放在格子数据中
         public GameObject m_go = null;                 // 显示的内容
-        public string m_prefab;                        // 预制名字
         public string m_path;                          // 目录
         public ModelRes m_res;
         public bool m_bNorm = true;
@@ -19,7 +18,7 @@ namespace SDK.Lib
         public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
-            m_go = m_res.InstantiateObject(m_prefab);
+            m_go = m_res.InstantiateObject(m_path);
             if (m_tran != null)     // 很可能 UIGrid 处理位置了
             {
                 m_go.transform.parent = m_tran;
@@ -55,9 +54,7 @@ namespace SDK.Lib
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                     m_res = null;
@@ -65,14 +62,12 @@ namespace SDK.Lib
             }
             else
             {
-                if (!string.IsNullOrEmpty(m_prefab) && !string.IsNullOrEmpty(m_path))
+                if (!string.IsNullOrEmpty(m_path))
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }
@@ -81,8 +76,7 @@ namespace SDK.Lib
 
         public void setDefaultRes()
         {
-            m_prefab = "pack";
-            m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
+            m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + "pack.prefab";
         }
     }
 }

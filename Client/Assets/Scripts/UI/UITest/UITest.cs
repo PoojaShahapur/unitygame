@@ -65,7 +65,8 @@ namespace Game.UI
 
             //testDelEnemyHandleCard();
             //addHistoryItem();
-            testQuipDZScene();
+            //testQuipDZScene();
+            testPrepareTime();
         }
 
         protected void onBtnClkTest1f()
@@ -118,6 +119,8 @@ namespace Game.UI
             //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[7] = 10004;
             //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[8] = 10004;
             //Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[9] = 10004;
+
+            uiDZ.m_sceneDZData.bHeroAniEnd = true;
             uiDZ.psstRetFirstHandCardUserCmd(null);
         }
 
@@ -196,6 +199,12 @@ namespace Game.UI
             //stRetBattleGameResultUserCmd cmd = new stRetBattleGameResultUserCmd();
             //UtilMsg.sendMsg(cmd, false);
             Ctx.m_instance.m_gameSys.loadGameScene();        // 加载游戏场景
+        }
+
+        protected void testPrepareTime()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            uiDZ.startInitCardTimer();
         }
     }
 }

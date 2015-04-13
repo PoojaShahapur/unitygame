@@ -18,6 +18,9 @@ namespace Game.UI
         // 对战开始显示的卡牌
         public override void addInitCard()
         {
+            // 释放之前的所有的卡牌
+            clearSceneCardList();
+
             // enemy 开拍直接进列表，就不在展示区域展示
             // 先创建手里的背面卡牌
             int idx = 0;

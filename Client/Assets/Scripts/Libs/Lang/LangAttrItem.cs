@@ -6,6 +6,5 @@
     public class LangAttrItem
     {
         public string m_filePath;           // 文件路径，不包括扩展名
-        public string m_prefabName;         // Prefab 的名字
     }
 }

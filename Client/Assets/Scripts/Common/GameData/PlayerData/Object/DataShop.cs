@@ -14,7 +14,7 @@ namespace SDK.Common
         public void updateShop(List<ushort> list)
         {
             m_objList.Clear();
-            XmlMarketCfg marketCfg = Ctx.m_instance.m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg) as XmlMarketCfg;
+            XmlMarketCfg marketCfg = Ctx.m_instance.m_xmlCfgMgr.getXmlCfg<XmlMarketCfg>(XmlCfgID.eXmlMarketCfg);
             DataItemShop dataItemShop;
             foreach(ushort id in list)
             {

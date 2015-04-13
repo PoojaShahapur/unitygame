@@ -20,7 +20,13 @@ namespace Game.UI
 
         }
 
-        public void startCardMoveTo()
+        // 替换初始卡牌
+        public virtual void replaceInitCard()
+        {
+
+        }
+
+        public virtual void startCardMoveTo()
         {
             updateSceneCardRST();
         }
@@ -52,6 +58,31 @@ namespace Game.UI
             addCard(tmpcard);
             updateSceneCardRST();
             updateCardIndex();
+        }
+
+        // 清空卡牌列表
+        public void clearSceneCardList()
+        {
+            foreach(SceneDragCard card in m_sceneCardList)
+            {
+                UtilApi.Destroy(card.getGameObject());
+            }
+
+            m_sceneCardList.Clear();
+        }
+
+        // 是否还有剩余的点数可以使用
+        public bool hasLeftMagicPtCanUse()
+        {
+            foreach (SceneDragCard card in m_sceneCardList)
+            {
+                if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp >= card.sceneCardItem.m_svrCard.mpcost)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

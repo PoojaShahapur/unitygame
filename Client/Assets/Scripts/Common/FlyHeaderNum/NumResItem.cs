@@ -19,26 +19,23 @@ namespace SDK.Common
         public void dispose()
         {
             m_parentGo.transform.parent = null;
-
-            foreach (GameObject child in m_childList)
-            {
-                UtilApi.Destroy(child);
-            }
-
+            disposeNum();
             UtilApi.Destroy(m_parentGo);
         }
 
-        public int num
+        public void setNum(int value)
         {
-            set
+            if (m_num != value)
             {
+                disposeNum();
+
                 m_num = value;
 
                 int left = m_num;
                 int mod = 0;
                 List<int> numList = new List<int>();
 
-                while(left > 0)
+                while (left > 0)
                 {
                     mod = left % 10;
                     numList.Add(mod);
@@ -48,26 +45,32 @@ namespace SDK.Common
                 mod = 0;
                 ModelRes res;
                 string path;
-                string prefab;
                 GameObject go;
                 int idx = 0;
                 int curNum = 0;
                 while (idx < numList.Count)
                 {
                     curNum = numList[numList.Count - 1 - idx];
-                    path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + curNum.ToString();
-                    prefab = curNum.ToString();
-                    res = load(path, prefab);
-                    if(res != null)
+                    path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                    res = load(path);
+                    if (res != null)
                     {
-                        go = res.InstantiateObject(prefab);
+                        go = res.InstantiateObject(path);
                         go.transform.SetParent(m_parentGo.transform, true);
                         go.transform.localPosition = new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0);
                         m_childList.Add(go);
                     }
-                
+
                     ++idx;
                 }
+            }
+        }
+
+        public void disposeNum()
+        {
+            foreach (GameObject child in m_childList)
+            {
+                UtilApi.Destroy(child);
             }
         }
 
@@ -91,17 +94,16 @@ namespace SDK.Common
             m_parentGo.transform.SetParent(pntGo.transform, true);
         }
 
-        public ModelRes load(string path, string prefab)
+        public ModelRes load(string path)
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = path;
-            param.m_prefabName = prefab;
 
             // 这个需要立即加载
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            param.m_extName = "prefab";
+
             ModelRes res = Ctx.m_instance.m_modelMgr.load<ModelRes>(param) as ModelRes;
             Ctx.m_instance.m_poolSys.deleteObj(param);
             return res;

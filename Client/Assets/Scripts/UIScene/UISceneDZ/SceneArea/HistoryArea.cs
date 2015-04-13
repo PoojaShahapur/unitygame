@@ -23,10 +23,8 @@ namespace Game.UI
         {
             SlideListItem item = new SlideListItem();
             item.data = cmd;
-            item.prefab = "log";
-            item.path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + item.prefab;
-            item.texPrefab = "pig";
-            item.texPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage] + item.texPrefab;
+            item.path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "log.prefab");
+            item.texPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], "pig.png");
             m_historyList.addItem(item);
         }
     }

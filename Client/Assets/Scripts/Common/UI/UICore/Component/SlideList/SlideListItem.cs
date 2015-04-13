@@ -15,7 +15,6 @@ namespace SDK.Common
 
         protected stRetBattleHistoryInfoUserCmd m_data;
 
-        protected string m_texPrefab;                        // 预制名字
         protected string m_texPath;                          // 目录
         protected TextureRes m_texRes;
 
@@ -40,18 +39,6 @@ namespace SDK.Common
             set
             {
                 m_height = value;
-            }
-        }
-
-        public string texPrefab
-        {
-            get
-            {
-                return m_texPrefab;
-            }
-            set
-            {
-                m_texPrefab = value;
             }
         }
 
@@ -125,14 +112,12 @@ namespace SDK.Common
             }
             if (needLoad)
             {
-                if (!string.IsNullOrEmpty(m_texPrefab) && !string.IsNullOrEmpty(m_texPath))
+                if (!string.IsNullOrEmpty(m_texPath))
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_texPath;
-                    param.m_prefabName = m_texPrefab;
                     param.m_loaded = onTexLoaded;
-                    param.m_extName = "png";
                     Ctx.m_instance.m_texMgr.load<TextureRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

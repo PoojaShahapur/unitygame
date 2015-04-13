@@ -17,6 +17,8 @@ namespace Game.UI
         protected SceneCardItem m_sceneCardItem;
         public SceneDZData m_sceneDZData;
         public ushort m_index = 0;             // 在牌中的索引，主要是手里的牌和打出去的牌
+        protected GameObject m_chaHaoGo;
+        public uint m_startCardID;
 
         protected NumAniSequence m_numAniSeq = new NumAniSequence();       // 攻击动画序列，这个所有的都有
 
@@ -42,6 +44,18 @@ namespace Game.UI
                     updateCardDataChange();
                     updateCardDataNoChange();
                 }
+            }
+        }
+
+        public GameObject chaHaoGo
+        {
+            get
+            {
+                return m_chaHaoGo;
+            }
+            set
+            {
+                m_chaHaoGo = value;
             }
         }
 
@@ -95,63 +109,41 @@ namespace Game.UI
 
         public void onClk(GameObject go)
         {
-            if (this.m_sceneCardItem != null)
+            if (m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
             {
-                if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpAttack))
+                string resPath = "";
+                // 这个时候还没有服务器的数据 m_sceneCardItem
+                int idx = 0;
+                idx = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.sceneCardList.IndexOf(this as SceneDragCard);
+                // 显示换牌标志
+                if (m_sceneDZData.m_changeCardList.IndexOf(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]) != -1)      // 如果已经选中
                 {
-                    if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpAttack))
-                    {
-                        // 发送攻击指令
-                        stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-                        cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                        cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
-                        UtilMsg.sendMsg(cmd);
-
-                        m_sceneDZData.m_gameOpState.quitAttackOp();
-                    }
-                    else
-                    {
-                        if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
-                        {
-                            // 只有点击自己的时候，才启动攻击
-                            if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
-                            {
-                                m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
-                            }
-                        }
-                    }
+                    m_sceneDZData.m_changeCardList.Remove(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
+                    // 去掉叉号
+                    UtilApi.Destroy(m_chaHaoGo);        // 释放资源
                 }
-                else if ((m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpFaShu)))        // 法术攻击
+                else  // 选中
                 {
-                    if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpFaShu))
-                    {
-                        // 必然是有目标的法术攻击
-                        // 发送法术攻击消息
-                        stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-                        cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                        cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                        cmd.dwDefThisID = this.sceneCardItem.m_svrCard.qwThisID;
-                        m_sceneDZData.m_gameOpState.quitAttackOp();
-                        UtilMsg.sendMsg(cmd);
-                    }
-                    else if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)        // 如果点击自己出过的牌，再次进入普通攻击
-                    {
-                        m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
-                    }
+                    m_sceneDZData.m_changeCardList.Add(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
+                    // 添加叉号
+                    resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
+                    ModelRes model = Ctx.m_instance.m_modelMgr.syncGet<ModelRes>(resPath) as ModelRes;
+                    m_chaHaoGo = model.InstantiateObject(resPath) as GameObject;
+                    UtilApi.SetParent(m_chaHaoGo.transform, gameObject.transform, false);
                 }
-                else if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpZhanHouAttack))      // 战吼攻击
+            }
+            else        // 如果在对战阶段
+            {
+                if (this.m_sceneCardItem != null)
                 {
-                    if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpZhanHouAttack))
+                    if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpAttack))
                     {
                         if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpAttack))
                         {
                             // 发送攻击指令
-                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
+                            stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
                             cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                            cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
                             cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
-                            cmd.dst.dwLocation = (uint)this.m_sceneCardItem.m_cardArea;
-                            cmd.dst.y = this.m_index;
                             UtilMsg.sendMsg(cmd);
 
                             m_sceneDZData.m_gameOpState.quitAttackOp();
@@ -168,15 +160,63 @@ namespace Game.UI
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+                    else if ((m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpFaShu)))        // 法术攻击
                     {
-                        // 只有点击自己的时候，才启动攻击
-                        if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpFaShu))
+                        {
+                            // 必然是有目标的法术攻击
+                            // 发送法术攻击消息
+                            stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
+                            cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
+                            cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
+                            cmd.dwDefThisID = this.sceneCardItem.m_svrCard.qwThisID;
+                            m_sceneDZData.m_gameOpState.quitAttackOp();
+                            UtilMsg.sendMsg(cmd);
+                        }
+                        else if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)        // 如果点击自己出过的牌，再次进入普通攻击
                         {
                             m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                        }
+                    }
+                    else if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpZhanHouAttack))      // 战吼攻击
+                    {
+                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpZhanHouAttack))
+                        {
+                            if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpAttack))
+                            {
+                                // 发送攻击指令
+                                stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
+                                cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
+                                cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
+                                cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
+                                cmd.dst.dwLocation = (uint)this.m_sceneCardItem.m_cardArea;
+                                cmd.dst.y = this.m_index;
+                                UtilMsg.sendMsg(cmd);
+
+                                m_sceneDZData.m_gameOpState.quitAttackOp();
+                            }
+                            else
+                            {
+                                if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+                                {
+                                    // 只有点击自己的时候，才启动攻击
+                                    if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                                    {
+                                        m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+                        {
+                            // 只有点击自己的时候，才启动攻击
+                            if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                            {
+                                m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                            }
                         }
                     }
                 }

@@ -61,12 +61,7 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename;
-            //param.m_resPackType = ResPackType.eBundleType;
             param.m_loaded = onSceneCfgLoadded;
-            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            //param.m_resNeedCoroutine = false;
-            //param.m_loadNeedCoroutine = false;
-            //Ctx.m_instance.m_resLoadMgr.load(param);
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -85,15 +80,11 @@ namespace SDK.Lib
             Ctx.m_instance.m_bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
-            //param.m_resPackType = ResPackType.eLevelType;
+            param.m_path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename, ".unity");
             param.m_loaded = onSceneResLoadded;
-            //param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
             param.m_lvlName = filename;
-            //Ctx.m_instance.m_resLoadMgr.load(param);
-            param.m_extName = "unity";
             Ctx.m_instance.m_resLoadMgr.loadLevel(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }

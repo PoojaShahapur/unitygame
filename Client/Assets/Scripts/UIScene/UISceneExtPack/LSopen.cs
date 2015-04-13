@@ -191,7 +191,6 @@ namespace Game.UI
                 objitem = bojBase.m_tableItemObject;
                 m_packItem.bojBase = bojBase;
                 m_packItem.m_path = (objitem.m_itemBody as TableObjectItemBody).path;
-                m_packItem.m_prefab = (objitem.m_itemBody as TableObjectItemBody).m_prefab;
                 m_packItem.m_clkCB += onBtnClkOpenCB;
                 m_packItem.load();
             }
@@ -207,7 +206,6 @@ namespace Game.UI
             UtilMsg.sendMsg(cmd);
 
             // 释放之前的资源
-            m_midCard.m_prefab = packItem.m_prefab;
             m_midCard.m_path = packItem.m_path;
 
             m_midCard.load();
@@ -222,7 +220,6 @@ namespace Game.UI
                 tableitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, idList[idx]);
                 if(tableitem != null)
                 {
-                    m_openedCardArr[idx].m_prefab = (tableitem.m_itemBody as TableCardItemBody).m_prefab;
                     m_openedCardArr[idx].m_path = (tableitem.m_itemBody as TableCardItemBody).path;
                 }
 

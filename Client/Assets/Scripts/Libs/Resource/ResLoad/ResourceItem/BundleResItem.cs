@@ -8,23 +8,10 @@ namespace SDK.Lib
     public class BundleResItem : ResItem
     {
         protected AssetBundle m_bundle;
-        protected string m_prefabName;
 
         public BundleResItem()
         {
 
-        }
-
-        public string prefabName
-        {
-            get
-            {
-                return m_prefabName;
-            }
-            set
-            {
-                m_prefabName = value;
-            }
         }
 
         override public void init(LoadItem item)
@@ -42,7 +29,7 @@ namespace SDK.Lib
 
         protected void initAsset()
         {
-            if (!string.IsNullOrEmpty(m_prefabName))
+            if (!string.IsNullOrEmpty(m_path))
             {
                 // Unity5
                 //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
@@ -61,11 +48,11 @@ namespace SDK.Lib
 
         protected IEnumerator initAssetByCoroutine()
         {
-            if (!string.IsNullOrEmpty(m_prefabName))
+            if (!string.IsNullOrEmpty(m_path))
             {
 #if UNITY_5
                 // Unity5
-                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_path);
 #elif UNITY_4_6
                 // Unity4
                 AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));

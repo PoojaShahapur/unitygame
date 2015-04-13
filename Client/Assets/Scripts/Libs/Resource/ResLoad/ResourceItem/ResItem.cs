@@ -10,7 +10,10 @@ namespace SDK.Lib
         protected ResPackType m_resPackType;    // 资源打包类型
         protected ResLoadType m_resLoadType;    // 资源加载类型
 
-        protected string m_path;
+        protected string m_path;                // 完整的目录
+        protected string m_pathNoExt;           // 不包括扩展名字的路径
+        protected string m_extName;             // 扩展名字
+
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
 
         protected bool m_isLoaded;              // 资源是否加载完成
@@ -51,6 +54,30 @@ namespace SDK.Lib
             set
             {
                 m_path = value;
+            }
+        }
+
+        public string pathNoExt
+        {
+            get
+            {
+                return m_pathNoExt;
+            }
+            set
+            {
+                m_pathNoExt = value;
+            }
+        }
+
+        public string extName
+        {
+            get
+            {
+                return m_extName;
+            }
+            set
+            {
+                m_extName = value;
             }
         }
 

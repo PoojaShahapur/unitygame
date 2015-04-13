@@ -15,7 +15,7 @@ namespace SDK.Common
         public void setNum(int num)
         {
             m_num = new NumResItem();
-            m_num.num = num;
+            m_num.setNum(num);
         }
 
         public void setPos(Vector3 pos)
@@ -46,6 +46,7 @@ namespace SDK.Common
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 5;
+            timer.m_totalCount = 5;
             timer.m_timerDisp = endTimer;
             Ctx.m_instance.m_timerMgr.addObject(timer);
         }

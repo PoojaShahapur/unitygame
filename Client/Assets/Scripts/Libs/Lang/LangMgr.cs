@@ -18,8 +18,7 @@ namespace SDK.Lib
         public LangMgr()
         {
             m_ID2FileName[LangID.zh_CN] = new LangAttrItem();
-            m_ID2FileName[LangID.zh_CN].m_prefabName = "zh_CN";
-            m_ID2FileName[LangID.zh_CN].m_filePath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLangXml] + m_ID2FileName[LangID.zh_CN].m_prefabName;
+            m_ID2FileName[LangID.zh_CN].m_filePath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLangXml] + "zh_CN.xml";
         }
 
         public void getText(LangTypeId typeId, int itemIdx)
@@ -65,9 +64,7 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_path = m_ID2FileName[m_langID].m_filePath;
-            param.m_prefabName = m_ID2FileName[m_langID].m_prefabName;
             param.m_loaded = onloaded;
-            param.m_extName = "xml";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -76,7 +73,7 @@ namespace SDK.Lib
         public void onloaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;                         // ÀàÐÍ×ª»»
-            string text = res.getText(m_ID2FileName[m_langID].m_prefabName);
+            string text = res.getText(m_ID2FileName[m_langID].m_filePath);
             if (text != null)
             {
                 XmlDocument xmlDoc = new XmlDocument();

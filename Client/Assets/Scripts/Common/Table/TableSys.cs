@@ -22,9 +22,9 @@ namespace SDK.Common
 		public TableSys()
 		{
 			m_dicTable = new Dictionary<TableID, TableBase>();
-            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client", "ObjectBase_client", "ObjectBase_client");
-            m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client", "CardBase_client", "CardBase_client");
-            m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client", "SkillBase_client", "SkillBase_client");    // 添加一个表的步骤三
+            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client.txt", "ObjectBase_client");
+            m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client.txt", "CardBase_client");
+            m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.txt", "SkillBase_client");    // 添加一个表的步骤三
 		}
 
         // 返回一个表
@@ -70,11 +70,9 @@ namespace SDK.Common
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
-            param.m_prefabName = table.m_prefabName;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            param.m_extName = "txt";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 		}

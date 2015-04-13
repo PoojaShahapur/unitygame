@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using SDK.Lib;
 using UnityEngine.UI;
 namespace Game.UI
 {
@@ -35,7 +36,11 @@ namespace Game.UI
 
         protected void testUIInfo()
         {
-            UIInfo.showMsg("aaaaaa");
+            InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+            param.m_midDesc = "aaaaaa";
+            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+            param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+            UIInfo.showMsg(param);
         }
     }
 }

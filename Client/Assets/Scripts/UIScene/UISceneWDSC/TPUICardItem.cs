@@ -21,8 +21,7 @@ namespace Game.UI
             set
             {
                 m_cardGroupItem = value;
-                m_prefab = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupModelAttrItem.m_prefabName;
-                m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_prefab;
+                m_path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupModelAttrItem.m_path;
             }
         }
 

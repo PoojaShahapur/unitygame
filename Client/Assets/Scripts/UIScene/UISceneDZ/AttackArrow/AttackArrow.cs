@@ -109,8 +109,7 @@ namespace Game.UI
             else
             {
                 m_tmpRet = new ArrowItem();
-                m_tmpRet.m_prefab = "ArrowItem";
-                m_tmpRet.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + "ArrowItem";
+                m_tmpRet.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + "ArrowItem.prefab";
                 m_tmpRet.m_parentTran = m_sceneDZData.m_arrowListGO.transform;
                 m_tmpRet.load();        // 立即加载
             }

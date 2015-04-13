@@ -55,24 +55,18 @@ namespace SDK.Common
         {
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1] = new CardGroupAttrMatItem();
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_1;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_prefabName = "classdly_1";
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_prefabName;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPrefabName = "dly";
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPrefabName;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "skin/", "classdly_1");
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_1].m_logoPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "dly");
 
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2] = new CardGroupAttrMatItem();
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_2;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName = "classlr_1";
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_prefabName;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPrefabName = "lr";
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPrefabName;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "skin/", "classlr_1");
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_2].m_logoPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "lr");
 
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3] = new CardGroupAttrMatItem();
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_3;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName = "classfs_1";
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_prefabName;
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPrefabName = "fs";
-            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPrefabName;
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "skin/", "classfs_1");
+            m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "fs");
 
             //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin] = new CardGroupAttrMatItem();
             //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_cardClass = CardClass.kpaladin;
@@ -104,41 +98,27 @@ namespace SDK.Common
             //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName = "classzs";
             //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName;
 
-            m_cardGroupModelAttrItem.m_prefabName = "cardset";
-            m_cardGroupModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_cardGroupModelAttrItem.m_prefabName;
-
-            m_groupCardModelAttrItem.m_prefabName = "setcard";
-            m_groupCardModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_groupCardModelAttrItem.m_prefabName;
+            m_cardGroupModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cardset.prefab");
+            m_groupCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "setcard.prefab");
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_prefabName = "minioncard";
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "minioncard.prefab");
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_prefabName = "abilitycard";
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_prefabName = "abilitycard";
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_prefabName = "weaponcard";
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "weaponcard.prefab");
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_prefabName = "abilitycard";
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_prefabName;
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
 
-            m_costModelAttrItem.m_prefabName = "cost";
-            m_costModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_costModelAttrItem.m_prefabName;
-
-            m_enemyCardModelAttrItem.m_prefabName = "enemycard";
-            m_enemyCardModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_enemyCardModelAttrItem.m_prefabName;
-
-
-            m_minionModelAttrItem.m_prefabName = "minion";
-            m_minionModelAttrItem.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + m_minionModelAttrItem.m_prefabName;
+            m_costModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cost.prefab");
+            m_enemyCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "enemycard.prefab");
+            m_minionModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "minion.prefab");
         }
 
         public void reqAllCard()

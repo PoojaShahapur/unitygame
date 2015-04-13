@@ -27,7 +27,10 @@ namespace Game.UI
         {
             base.Start();
 
-            enableDrag();
+            if (!m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))     // 初始化卡牌阶段是不能拖动的
+            {
+                enableDrag();
+            }
         }
 
         protected void onStartDrag()
@@ -91,6 +94,11 @@ namespace Game.UI
         // 指明当前是否可以改变位置
         protected bool canMove()
         {
+            if (m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
+            {
+                return false;
+            }
+
             if (m_sceneCardItem != null)
             {
                 if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_HAND && m_sceneCardItem.m_cardTableItem.m_type == (int)CardType.CARDTYPE_MAGIC && m_sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0)       // 如果是法术牌，并且有攻击目标，暂时不做效果，直接不能拖动
@@ -99,6 +107,7 @@ namespace Game.UI
                 }
                 return true;
             }
+
             return true;
         }
 

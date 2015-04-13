@@ -10,7 +10,6 @@ namespace SDK.Common
     {
         protected GameObject m_selfLocalGo;
         protected GameObject m_selfGo;
-        protected string m_prefab;                        // 预制名字
         protected string m_path;                          // 目录
         protected ModelRes m_res;
 
@@ -44,18 +43,6 @@ namespace SDK.Common
             }
         }
 
-        public string prefab
-        {
-            get
-            {
-                return m_prefab;
-            }
-            set
-            {
-                m_prefab = value;
-            }
-        }
-
         public string path
         {
             get
@@ -77,7 +64,7 @@ namespace SDK.Common
         public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
-            m_selfGo = m_res.InstantiateObject(m_prefab);
+            m_selfGo = m_res.InstantiateObject(m_path);
             m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
         }
 
@@ -109,14 +96,12 @@ namespace SDK.Common
             }
             if (needLoad)
             {
-                if (!string.IsNullOrEmpty(m_prefab) && !string.IsNullOrEmpty(m_path))
+                if (!string.IsNullOrEmpty(m_path))
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_prefabName = m_prefab;
                     param.m_loaded = onloaded;
-                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

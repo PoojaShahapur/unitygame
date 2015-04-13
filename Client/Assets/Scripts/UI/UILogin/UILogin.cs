@@ -85,26 +85,42 @@ namespace Game.UI
             if(name.Length == 0)
             {
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem2);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
                 return false;
             }
             else if (UtilApi.IsIncludeChinese(name))
             {
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem0);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
                 return false;
             }
 
             if (name.Length == 0)
             {
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem3);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
                 return false;
             }
             else if (UtilApi.IsIncludeChinese(passwd))
             {
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem1);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
                 return false;
             }
 

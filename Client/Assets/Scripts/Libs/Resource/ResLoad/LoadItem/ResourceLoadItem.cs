@@ -40,7 +40,7 @@ namespace SDK.Lib
         protected void loadFromDefaultAssetBundle()
         {
             //string path = Application.dataPath + "/" + m_path;
-            m_prefabObj = Resources.Load(m_path);
+            m_prefabObj = Resources.Load(m_pathNoExt);
             // Resources.LoadAsync unity5.0 中暂时不支持
             //ResourceRequest req = Resources.LoadAsync<GameObject>(path);
             
@@ -52,7 +52,7 @@ namespace SDK.Lib
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
         {
-            ResourceRequest req = Resources.LoadAsync<GameObject>(m_path);
+            ResourceRequest req = Resources.LoadAsync<GameObject>(m_pathNoExt);
             yield return req;
 
             if (req.asset != null && req.isDone)

@@ -36,13 +36,19 @@ namespace Game.UI
                 {
                     // 给出一个提示
                     Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero, (int)LangLogID.eItem1);
-                    UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                    InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                    param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                    param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                    UIInfo.showMsg(param);
                 }
                 else if (Ctx.m_instance.m_wordFilterManager.IsMatch(lblName.text))       // 如果包含非法字符
                 {
                     // 给出一个提示
                     Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero, (int)LangLogID.eItem2);
-                    UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                    InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                    param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                    UIInfo.showMsg(param);
                 }
                 else
                 {
@@ -58,7 +64,11 @@ namespace Game.UI
                     {
                         // 给出一个提示
                         Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero, (int)LangLogID.eItem0);
-                        UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                        InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                        param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                        param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                        UIInfo.showMsg(param);
                     }
                 }
             }

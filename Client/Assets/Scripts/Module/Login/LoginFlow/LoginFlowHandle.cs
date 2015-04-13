@@ -210,26 +210,62 @@ namespace Game.Login
             {
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginInfoError);
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem16);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_VERSIONERROR == cmd.byReturnCode)        // 版本错误，重新登陆
             {
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginInfoError);
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem17);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_CHARNAMEREPEAT == cmd.byReturnCode)       // 建立角色名字重复
             {
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginNewCharError);
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem14);
                 Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 用户名字不符合要求
             {
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginNewCharError);
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem19);
-                UIInfo.showMsg(Ctx.m_instance.m_shareData.m_retLangStr);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
+            }
+            else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 用户满，从登陆服务器开始登陆
+            {
+                Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginFailedGateServer);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem20);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
+            }
+            else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 网关未开，这个不用登了，服务器就没有启动
+            {
+                Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginFailedGateServer);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem21);
+                InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
+                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                UIInfo.showMsg(param);
             }
             else
             {

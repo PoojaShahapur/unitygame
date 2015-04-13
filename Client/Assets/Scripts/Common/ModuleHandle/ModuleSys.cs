@@ -42,9 +42,8 @@ namespace SDK.Common
             {
                 // 初始化完成，开始加载自己的游戏场景
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule] + m_type2ItemDic[moduleID].m_moduleName;
+                param.m_path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModule], m_type2ItemDic[moduleID].m_moduleName, ".prefab");
                 param.m_loaded = m_type2ItemDic[moduleID].m_loaded;
-                param.m_extName = "prefab";
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }

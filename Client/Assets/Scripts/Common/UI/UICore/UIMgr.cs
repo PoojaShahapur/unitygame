@@ -221,7 +221,7 @@ namespace SDK.Common
                     m_ID2CodeLoadingItemDic[ID] = new UILoadingItem();
                     m_ID2CodeLoadingItemDic[ID].m_ID = ID;
 
-                    loadFromFile(attrItem.m_codePath, attrItem.m_codePrefabName, onCodeloaded, onCodeFailed, onCodeloadedByRes);
+                    loadFromFile(attrItem.m_codePath, onCodeloaded, onCodeFailed, onCodeloadedByRes);
                 }
             }
         }
@@ -235,12 +235,12 @@ namespace SDK.Common
                 m_ID2WidgetLoadingItemDic[ID] = new UILoadingItem();
                 m_ID2WidgetLoadingItemDic[ID].m_ID = ID;
 
-                loadFromFile(attrItem.m_widgetPath, attrItem.m_widgetPrefabName, onWidgetloaded, onWidgetFailed, onWidgetloadedByRes);
+                loadFromFile(attrItem.m_widgetPath, onWidgetloaded, onWidgetFailed, onWidgetloadedByRes);
             }
         }
 
         // 从本地磁盘或者网络加载资源
-        protected void loadFromFile(string reaPath, string prefabName, Action<IDispatchObject> onloaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
+        protected void loadFromFile(string reaPath, Action<IDispatchObject> onloaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
         {
             // 创建窗口资源
             IResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
@@ -261,9 +261,7 @@ namespace SDK.Common
             {
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = reaPath;
-                param.m_prefabName = prefabName;
                 param.m_loaded = onloaded;
-                param.m_extName = "prefab";
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
@@ -324,7 +322,7 @@ namespace SDK.Common
 
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             m_dicForm[ID].bLoadWidgetRes = true;
-            m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_codePrefabName);
+            m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
             // 设置位置
             //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = m_vecLayer[(int)attrItem.m_LayerID].layerTrans;
             UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_vecLayer[(int)attrItem.m_LayerID].layerTrans, false);

@@ -1,5 +1,6 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,11 +32,44 @@ namespace Game.UI
 
         public AttackArrow m_attackArrow;
         public GameOpState m_gameOpState;
+        public GameRunState m_gameRunState;             // 游戏运行状态
 
         public SceneDZArea[] m_sceneDZAreaArr;
 
         protected int m_preWhiteIdx = -1;      // 之前白色卡牌位置
         protected int m_curWhiteIdx = -1;      // 当前卡牌位置
+
+        protected bool m_bHeroAniEnd = false;   // hero 动画是否结束
+        protected bool m_bAddselfCard = false;  // 是否有自己的初始卡牌
+
+        public GameObject m_timerGo;            // 定时器节点
+        public DJSTimer m_DJSTimer;             // 定时器
+        public List<uint> m_changeCardList = new List<uint>();     // 在初始阶段，选中的需要交换卡牌
+        public DZDaoJiShiXmlLimit m_DZDaoJiShiXmlLimit;
+
+        public bool bHeroAniEnd
+        {
+            get
+            {
+                return m_bHeroAniEnd;
+            }
+            set
+            {
+                m_bHeroAniEnd = value;
+            }
+        }
+
+        public bool bAddselfCard
+        {
+            get
+            {
+                return m_bAddselfCard;
+            }
+            set
+            {
+                m_bAddselfCard = value;
+            }
+        }
 
         public int preWhiteIdx
         {

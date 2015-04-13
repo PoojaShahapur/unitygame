@@ -14,6 +14,7 @@ namespace SDK.Common
         UIExtraOp,          // 操作界面
         UIChat,             // 聊天窗口
         UIInfo,             // 信息窗口
+        UIInfo_1,           // 对战中提示点数有剩余的提示
         UILogicTest,        // 逻辑测试窗口
 	}
 

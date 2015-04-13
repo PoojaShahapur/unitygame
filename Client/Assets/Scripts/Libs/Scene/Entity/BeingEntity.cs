@@ -132,7 +132,7 @@ namespace SDK.Lib
 
         public void setPartModel(int modelDef, string assetBundleName, string partName)
         {
-            m_skinAniModel.m_modelList[modelDef].m_bundleName = assetBundleName;
+            m_skinAniModel.m_modelList[modelDef].m_bundleName = string.Format("{0}{1}", assetBundleName, ".prefab");
             m_skinAniModel.m_modelList[modelDef].m_partName = partName;
             m_skinAniModel.loadPartModel(modelDef);
         }

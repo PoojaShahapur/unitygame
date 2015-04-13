@@ -17,11 +17,9 @@ namespace SDK.Common
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = item.m_path;
-            param.m_prefabName = item.m_prefabName;
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
-            param.m_extName = "xml";
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -50,17 +48,14 @@ namespace SDK.Common
             return 0;
         }
 
-        public XmlCfgBase getXmlCfg(XmlCfgID id)
+        public T getXmlCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
-            if(XmlCfgID.eXmlMarketCfg == id)
+            if (!m_id2CfgDic.ContainsKey(id))
             {
-                if (!m_id2CfgDic.ContainsKey(id))
-                {
-                    loadCfg<XmlMarketCfg>(id);
-                }
+                loadCfg<T>(id);
             }
 
-            return m_id2CfgDic[id];
+            return m_id2CfgDic[id] as T;
         }
     }
 }

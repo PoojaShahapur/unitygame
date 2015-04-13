@@ -7,7 +7,6 @@ namespace SDK.Lib
     public class UnPakLoadItem : LoadItem
     {
         public byte[] m_bytes;
-        public string m_extName;    // 扩展名字
 
         override public void reset()
         {
@@ -26,19 +25,26 @@ namespace SDK.Lib
             {
                 curExt = FileResItem.UNITY3D_EXT;
             }
+            else if(string.IsNullOrEmpty(m_extName))        // 材质 mat 源文件是没有扩展名字的，因为 3dmax 材质扩展名字也是 mat ，可能 unity 怕识别错误了吧
+            {
+                curExt = FileResItem.UNITY3D_EXT;
+            }
             else
             {
                 curExt = m_extName;
             }
 
             string curPath;
-            curPath = Path.Combine(Application.streamingAssetsPath, m_path);
+            curPath = Path.Combine(Application.streamingAssetsPath, m_pathNoExt);
             curPath = UtilApi.getPakPathAndExt(curPath, curExt);
-
 
             if (Ctx.m_instance.m_localFileSys.isFileExist(curPath))
             {
                 m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(curPath);
+            }
+            else
+            {
+                throw new System.Exception("error");
             }
 
             if (m_bytes != null)

@@ -96,6 +96,7 @@ namespace SDK.Common
                 (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
             }
             GameObject.Destroy(obj);
+            obj = null;
         }
 
         // 立即销毁对象
@@ -425,7 +426,7 @@ namespace SDK.Common
             return (uint)(ts.TotalSeconds);
         }
 
-        public static void loadRes<T>(string prefab, string path, System.Action<IDispatchObject> onload, System.Action unload, InsResBase res)
+        public static void loadRes<T>(string path, System.Action<IDispatchObject> onload, System.Action unload, InsResBase res)
         {
             bool needLoad = true;
 
@@ -442,14 +443,12 @@ namespace SDK.Common
             }
             if (needLoad)
             {
-                if (!string.IsNullOrEmpty(prefab) && !string.IsNullOrEmpty(path))
+                if (!string.IsNullOrEmpty(path))
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = path;
-                    param.m_prefabName = prefab;
                     param.m_loaded = onload;
-                    param.m_extName = "prefab";
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }
