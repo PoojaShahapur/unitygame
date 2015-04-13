@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
-     * @brief 没有打包的系统，在没有打包之前使用这个加载系统
+     * @brief 没有打包的系统，在没有打包之前使用这个加载系统，每一个 ResItem 只有一个资源，打包的资源也是每一个 item 只有一个资源包
      */
     public class UnPakFileResItem : FileResItem
     {
@@ -87,9 +87,7 @@ namespace SDK.Lib
                 }
             }
 
-            clearListener();
-
-            yield return null;
+            clearInstanceListener();
         }
 
         protected GameObject loadBundle(string resname)
@@ -97,11 +95,11 @@ namespace SDK.Lib
             // 目前只能同步加载
             //if (m_resNeedCoroutine)
             //{
-                return loadBundleAsync(resname);
+            //    return loadBundleAsync(resname);
             //}
             //else
             //{
-            //    loadBundleSync(resname);
+                return loadBundleSync(resname);
             //}
         }
 
@@ -113,7 +111,7 @@ namespace SDK.Lib
 
         protected GameObject loadBundleAsync(string resname)
         {
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
+            Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadBundleByCoroutine());
             return null;
         }
 
@@ -131,12 +129,9 @@ namespace SDK.Lib
                 req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
 #endif
                 yield return req;
-
-                //m_bundle.Unload(false);     // 卸载自身资源
-                // m_bundle.Unload(true);      // 真正卸载的时候全部卸载
             }
 
-            if (req != null && req.asset != null)
+            if (req != null && req.isDone)
             {
                 m_object = req.asset;
 
@@ -156,11 +151,7 @@ namespace SDK.Lib
 
         override public GameObject InstantiateObject(string resname)
         {
-            // 一定不能直接返回 bundle 中直接加载的对象，否则虽然能挂在到场景中，但是会丢失上面所有的脚本
-            //if((m_object as GameObject) != null)
-            //{
-            //    return m_object as GameObject;
-            //}
+            // 不能直接将 LoadAsync 加载出来的 GameObject 添加到场景中去
             m_bundlePath = Path.Combine(PRE_PATH, resname);
             loadBundle(m_bundlePath);
             m_retGO = null;
@@ -205,6 +196,21 @@ namespace SDK.Lib
             }
 
             return null;
+        }
+
+        override public void unload()
+        {
+            //UtilApi.Destroy(m_object);      // LoadAssetAsync 加载出来的 GameObject 是不能 Destroy 的，只能有 Unload(true) 或者 Resources.UnloadUnusedAssets 卸载
+            m_bytes = null;
+            m_retGO = null;
+            //m_bundle.Unload(true);
+            m_bundle.Unload(false);
+        }
+
+        // 清理实例化事件监听器
+        protected void clearInstanceListener()
+        {
+
         }
     }
 }

@@ -97,5 +97,18 @@ namespace SDK.Common
             }
             return m_instance;
         }
+
+        // 卸载所有的资源
+        public void unloadAll()
+        {
+            // 卸载所有的模型
+            m_modelMgr.unloadAll();
+            // 卸载所有的材质
+            m_matMgr.unloadAll();
+            // 卸载所有的纹理
+            m_texMgr.unloadAll();
+            // 场景卸载
+            m_sceneSys.unloadAll();
+        }
     }
 }

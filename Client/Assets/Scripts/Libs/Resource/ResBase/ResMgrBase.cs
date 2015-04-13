@@ -74,6 +74,10 @@ namespace SDK.Lib
                 {
                     m_path2ResDic[path].unload();
                     m_path2ResDic.Remove(path);
+
+                    // 卸载加载的原始资源
+                    //Ctx.m_instance.m_resLoadMgr.unloadNoRef(path);
+                    UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
                 }
             }
         }
@@ -92,7 +96,7 @@ namespace SDK.Lib
             //    m_path2ListenItemDic[path].m_loaded(resEvt);
             //}
 
-            // 彻底卸载
+            // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unloadNoRef(path);
         }
 
@@ -117,6 +121,24 @@ namespace SDK.Lib
         public object getRes(string path)
         {
             return m_path2ResDic[path];
+        }
+
+        // 卸载所有的资源
+        public void unloadAll()
+        {
+            // 卸载资源的时候保存的路径列表
+            List<string> pathList = new List<string>();
+            foreach (KeyValuePair<string, InsResBase> kv in m_path2ResDic)
+            {
+                pathList.Add(kv.Key);
+            }
+
+            foreach(string path in pathList)
+            {
+                unload(path);
+            }
+
+            pathList.Clear();
         }
     }
 }

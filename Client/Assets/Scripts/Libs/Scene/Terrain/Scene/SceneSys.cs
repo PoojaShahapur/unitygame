@@ -53,7 +53,8 @@ namespace SDK.Lib
         {
             if(null != m_scene)
             {
-                Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
+                //Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
+                UtilApi.UnloadUnusedAssets();           // 卸载共享资源
             }
         }
 
@@ -100,6 +101,14 @@ namespace SDK.Lib
             onSceneLoaded = null;           // 清除所有的监听器
 
             Ctx.m_instance.m_bStopNetHandle = false;        // 加载场景完成需要处理处理消息
+
+            Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
+        }
+
+        // 卸载多有的场景
+        public void unloadAll()
+        {
+            unloadScene();
         }
     }
 }

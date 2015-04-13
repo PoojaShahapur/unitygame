@@ -48,9 +48,9 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            //Resources.UnloadAsset(m_prefabObj);
+            //Resources.UnloadAsset(m_prefabObj);   // 这个是同步卸载
             m_prefabObj = null;
-            Resources.UnloadUnusedAssets();
+            //Resources.UnloadUnusedAssets();         // 这个事异步卸载
             //GC.Collect();
         }
 

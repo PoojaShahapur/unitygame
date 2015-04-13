@@ -155,6 +155,18 @@ namespace SDK.Common
             tran.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
+        // 卸载内部 Resources 管理的共享的那块资源，注意这个是异步事件
+        public static AsyncOperation UnloadUnusedAssets()
+        {
+            AsyncOperation opt = Resources.UnloadUnusedAssets();
+            return opt;
+        }
+
+        public static void UnloadAsset(Object assetToUnload)
+        {
+            Resources.UnloadAsset(assetToUnload);
+        }
+
         // 从场景图中移除,  worldPositionStays 是否在两个 local 中移动保持 world 信息不变，如果要保持 local 信息不变，就设置成 false ，通常 UI 需要设置成  false
         public static void removeFromSceneGraph(Transform trans, bool worldPositionStays = true)
         {

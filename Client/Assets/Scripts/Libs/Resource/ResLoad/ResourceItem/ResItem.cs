@@ -198,6 +198,7 @@ namespace SDK.Lib
             clearListener();
         }
 
+        // 卸载
         virtual public void unload()
         {
 

@@ -31,5 +31,11 @@ namespace SDK.Lib
         {
             return m_go;
         }
+
+        public override void unload()
+        {
+            m_go = null;
+            m_retGO = null;
+        }
     }
 }

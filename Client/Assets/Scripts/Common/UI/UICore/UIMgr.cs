@@ -5,12 +5,14 @@ using UnityEngine;
 
 namespace SDK.Common
 {
-	/**
-	 * @brief 所有 UI 管理
-	 * 1. 对于新创建的Form对象，其所属的层是由其ID决定的
+    /**
+     * @brief 所有 UI 管理
+     * 1. 对于新创建的Form对象，其所属的层是由其ID决定的
      * 2. UI 设计原则，主要界面是资源创建完成才运行逻辑，小的共享界面是逻辑和资源同时运行，因为 MVC 结构实在是要写很多代码，因此主要界面不适用 MVC 结构
-	 */
-	public class UIMgr : IResizeObject
+     * 
+     * UIMgr 中并没在某个地方缓存 AssetBundle.LoadAsset 加载的 Object ，如果要重复使用 AssetBundle.LoadAsset 加载的 Object ，不要重复使用 ResLoadMgr.load ，要自己找到对应的 Form ，然后获取 Object ，然后再次实例化，因为这种情况使用很少，目前暂时这样使用，如果需要大量重复实例化共享对象，再修改
+     */
+    public class UIMgr : IResizeObject
 	{
 		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
 		private List<UILayer> m_vecLayer;
@@ -129,13 +131,14 @@ namespace SDK.Common
                 layer.winDic.Remove(ID);
                 // 释放界面资源
                 win.onExit();
-                UtilApi.DestroyImmediate(win.m_GUIWin.m_uiRoot);
+                UtilApi.Destroy(win.m_GUIWin.m_uiRoot);
                 // 释放加载的资源
-                string path = m_UIAttrs.getPath(ID);
-                if (path != null)
-                {
-                    Ctx.m_instance.m_resLoadMgr.unload(path);
-                }
+                //string path = m_UIAttrs.getPath(ID);
+                //if (path != null)
+                //{
+                //    Ctx.m_instance.m_resLoadMgr.unload(path);
+                //}
+                UtilApi.UnloadUnusedAssets();       // 异步卸载共用资源
                 m_dicForm.Remove(ID);
                 win = null;
             }
@@ -317,7 +320,8 @@ namespace SDK.Common
         // 窗口控件资源加载完成处理
         public void onWidgetloadedByRes(IResItem res)
         {
-            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
+            string path = res.GetPath();
+            UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
@@ -344,6 +348,9 @@ namespace SDK.Common
             {
                 Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_dicForm[ID]);  // 资源加载完成
             }
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(path);
         }
 
         // 大小发生变化后，调用此函数

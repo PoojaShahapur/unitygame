@@ -96,9 +96,6 @@ namespace SDK.Lib
                 req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
 #endif
                 yield return req;
-
-                //m_bundle.Unload(false);     // 卸载自身资源
-                // m_bundle.Unload(true);      // 真正卸载的时候全部卸载
             }
 
             AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
@@ -122,6 +119,13 @@ namespace SDK.Lib
             clearListener();
 
             yield return null;
+        }
+
+        override public void unload()
+        {
+            m_bytes = null;
+            m_bundle.Unload(false);
+            m_bundle = null;
         }
     }
 }

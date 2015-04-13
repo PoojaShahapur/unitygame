@@ -1,6 +1,7 @@
 ﻿using SDK.Lib;
 using UnityEngine;
 using System.Collections;
+using System.IO;
 
 namespace Game.Start
 {
@@ -11,8 +12,8 @@ namespace Game.Start
     {
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
         private string m_appName = "App";
+        private string m_appPath = "Assets/Prefabs/Resources/Module/App.prefab";
         private int m_loadType;
-
 
         void Awake()
         {
@@ -22,27 +23,17 @@ namespace Game.Start
         // Use this for initialization
         void Start()
         {
+#if !PKG_RES_LOAD
             m_loadType = 0;
-
-            if (0 == m_loadType)
-            {
-                m_appURL = "Module/App";
-            }
-            else if(m_loadType == 2)
-            {
-                m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
-            }
-            else
-            {
-                //m_appURL = Application.dataPath + "/StreamingAssets/Module/App.unity3d";
-                m_appURL = "file://" + Application.dataPath + "/StreamingAssets/Module/App.unity3d";
-            }
+#else
+            m_loadType = 1;
+#endif
 
             if (m_loadType == 0)
             {
                 loadFromDefaultAssetBundle();
             }
-            else if (m_loadType == 1)
+            else if (m_loadType == 1)   // 直接动本地文件加载
             {
                 loadFromAssetBundle();
             }
@@ -53,10 +44,10 @@ namespace Game.Start
         }
 
         // Update is called once per frame
-        void Update()
-        {
+        //void Update()
+        //{
 
-        }
+        //}
 
         //void OnGUI()
         //{
@@ -84,6 +75,8 @@ namespace Game.Start
 
         protected void loadFromDefaultAssetBundle()
         {
+            m_appURL = "Module/App";
+
             UnityEngine.Object prefabObj = Resources.Load(m_appURL);
             if (prefabObj)
             {
@@ -99,15 +92,21 @@ namespace Game.Start
         // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
         protected void loadFromAssetBundle()
         {
-            AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
+            m_appURL = Path.Combine(StartUtil.getLocalReadDir(), "Module/App.unity3d");
+
+            //AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
+            byte[] bytes = StartUtil.LoadFileByte(m_appURL);
+            AssetBundle assetBundle = AssetBundle.CreateFromMemoryImmediate(bytes);
+
             if (assetBundle != null)
             {
+                //string[] nameList = assetBundle.GetAllAssetNames();
 #if UNITY_5
                 // Unity5
-                Object bt = assetBundle.LoadAsset(m_appName);
+                Object bt = assetBundle.LoadAsset(m_appPath);
 #elif UNITY_4_6
                 // Unity4
-                Object bt = assetBundle.Load(m_appName);
+                Object bt = assetBundle.Load(m_appPath);
 #endif
                 GameObject appGo = Instantiate(bt) as GameObject;
                 appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
@@ -121,6 +120,8 @@ namespace Game.Start
         // 下载 app 模块
         IEnumerator DownloadAppAsset()
         {
+            m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
+
             //下载场景，加载场景
             WWW app3w = WWW.LoadFromCacheOrDownload(m_appURL, 15);
             yield return app3w;

@@ -20,6 +20,7 @@ namespace EditorTool
         public const string UNITY3D = "unity3d";
 
         public const string ASSET_BUNDLES_OUTPUT_PATH = "AssetBundles";
+        public const string IMAGE_PATH = "Image";
         public const string ASSETS = "Assets";
         public const string METAEXT = "meta";
 
@@ -55,12 +56,37 @@ namespace EditorTool
 #endif
         }
 
+        // 获取 Data 目录
         static public string getDataPath(string path)
         {
-            return Application.dataPath + "/" + path;
+            return Path.Combine(Application.dataPath, path);
+        }
+
+        // 获取当前目录
+        public static string getWorkPath(string path)
+        {
+            return Path.Combine(System.Environment.CurrentDirectory, path);
         }
 
         const BuildTarget defaultValue = (BuildTarget)Int32.MaxValue;
+        // 获取镜像目录
+        public static string getImagePath(string path, BuildTarget buildTarget = defaultValue)
+        {
+            if (defaultValue == buildTarget)
+            {
+                buildTarget = EditorUserBuildSettings.activeBuildTarget;
+            }
+
+            string outputPath;
+            outputPath = Path.Combine(getWorkPath(""), ExportUtil.IMAGE_PATH);
+            outputPath = Path.Combine(outputPath, ExportUtil.GetPlatformFolderForAssetBundles(buildTarget));
+            if (string.IsNullOrEmpty(path))
+            {
+                outputPath = Path.Combine(outputPath, path);
+            }
+            return outputPath;
+        }
+
         static public string getStreamingDataPath(string path, BuildTarget buildTarget = defaultValue)
         {
             if (defaultValue == buildTarget)
@@ -83,7 +109,7 @@ namespace EditorTool
 
         static public string getRelDataPath(string path)
         {
-            return "Assets/" + path;
+            return Path.Combine("Assets/", path);
         }
 
         static public void CreateDirectory(string path)

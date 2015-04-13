@@ -5,6 +5,9 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief AssetBundle 都是最后全部卸载掉
+     */
     public class BundleResItem : ResItem
     {
         protected AssetBundle m_bundle;
@@ -142,9 +145,11 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            m_bundle.Unload(true);
+            // 如果是用了 Unload(true) ，就不用 Resources.UnloadUnusedAssets() ，如果使用了 Unload(false) ，就需要使用 Resources.UnloadUnusedAssets()
+            //m_bundle.Unload(true);
             //Resources.UnloadUnusedAssets();
             //GC.Collect();
+            m_bundle.Unload(false);
         }
     }
 }

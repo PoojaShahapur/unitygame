@@ -10,5 +10,10 @@ namespace SDK.Lib
         {
             return m_texture;
         }
+
+        public override void unload()
+        {
+            m_texture = null;
+        }
     }
 }

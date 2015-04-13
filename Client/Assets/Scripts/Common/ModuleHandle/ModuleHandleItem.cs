@@ -9,8 +9,8 @@ namespace SDK.Common
     {
         public Action<IDispatchObject> m_loaded;
         public ModuleID m_moduleID;
-        public string m_modulePath;
-        public string m_moduleName;
+        public string m_moduleLayerPath;            // 所在的 Layer 的目录
+        public string m_path;                       // 资源所在的目录
         public bool m_isLoaded;         // 指明模块是否加载过
     }
 }
