@@ -8,11 +8,9 @@ namespace SDK.Lib
     /**
      * @brief 没有打包的系统，在没有打包之前使用这个加载系统
      */
-    public class UnPakLevelFileResItem : FileResItem
+    public class ABUnPakLevelFileResItem : ABUnPakFileResItemBase
     {
         public const string SCENE_PRE_PATH = "Assets/Scenes";
-        public byte[] m_bytes;
-        protected AssetBundle m_bundle;
         protected string m_levelName;
 
         public string levelName
@@ -25,7 +23,7 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
-            m_bytes = (item as UnPakLoadItem).m_bytes;
+            m_bytes = (item as ABUnPakLoadItem).m_bytes;
 
             m_bundlePath = Path.Combine(SCENE_PRE_PATH, m_path);
             m_bundlePath = string.Format("{0}.{1}", m_bundlePath, m_extName);
@@ -119,13 +117,6 @@ namespace SDK.Lib
             clearListener();
 
             yield return null;
-        }
-
-        override public void unload()
-        {
-            m_bytes = null;
-            m_bundle.Unload(false);
-            m_bundle = null;
         }
     }
 }

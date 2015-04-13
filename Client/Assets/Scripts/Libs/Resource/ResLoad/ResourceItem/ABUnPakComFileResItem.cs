@@ -8,16 +8,14 @@ namespace SDK.Lib
     /**
      * @brief 没有打包的系统，在没有打包之前使用这个加载系统，每一个 ResItem 只有一个资源，打包的资源也是每一个 item 只有一个资源包
      */
-    public class UnPakFileResItem : FileResItem
+    public class ABUnPakComFileResItem : ABUnPakFileResItemBase
     {
-        public byte[] m_bytes;
-        protected AssetBundle m_bundle;
         protected Object m_object;
         protected GameObject m_retGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
-            m_bytes = (item as UnPakLoadItem).m_bytes;
+            m_bytes = (item as ABUnPakLoadItem).m_bytes;
             m_bundlePath = Path.Combine(PRE_PATH, m_path);
 
             // 检查是否资源打包成 unity3d 
@@ -201,10 +199,13 @@ namespace SDK.Lib
         override public void unload()
         {
             //UtilApi.Destroy(m_object);      // LoadAssetAsync 加载出来的 GameObject 是不能 Destroy 的，只能有 Unload(true) 或者 Resources.UnloadUnusedAssets 卸载
-            m_bytes = null;
-            m_retGO = null;
+            //m_bytes = null;
+            //m_retGO = null;
             //m_bundle.Unload(true);
-            m_bundle.Unload(false);
+            //m_bundle.Unload(false);
+
+            base.unload();
+            m_retGO = null;
         }
 
         // 清理实例化事件监听器

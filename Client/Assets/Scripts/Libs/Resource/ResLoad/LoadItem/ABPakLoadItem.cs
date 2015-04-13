@@ -4,14 +4,16 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class UnPakLoadItem : LoadItem
+    /**
+     * @brief 自定义打包文件加载
+     */
+    public class ABPakLoadItem : LoadItem
     {
-        public byte[] m_bytes;
+        public FileStream m_fs = null;      // 文件句柄
 
         override public void reset()
         {
             base.reset();
-            m_bytes = null;
         }
 
         override public void load()
@@ -47,7 +49,7 @@ namespace SDK.Lib
                 throw new System.Exception("error");
             }
 
-            if (m_bytes != null)
+            if (m_fs != null)
             {
                 if (onLoaded != null)
                 {

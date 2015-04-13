@@ -162,16 +162,16 @@ namespace SDK.Lib
             {
                 if (resitem == null)
                 {
-                    resitem = new UnPakFileResItem();
+                    resitem = new ABUnPakComFileResItem();
                 }
             }
             else if (ResPackType.eUnPakLevelType == param.m_resPackType)
             {
                 if (resitem == null)
                 {
-                    resitem = new UnPakLevelFileResItem();
+                    resitem = new ABUnPakLevelFileResItem();
                 }
-                (resitem as UnPakLevelFileResItem).levelName = param.m_lvlName;
+                (resitem as ABUnPakLevelFileResItem).levelName = param.m_lvlName;
             }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;
@@ -230,7 +230,7 @@ namespace SDK.Lib
             {
                 if (loaditem == null)
                 {
-                    loaditem = new UnPakLoadItem();
+                    loaditem = new ABUnPakLoadItem();
                 }
             }
 
