@@ -2,6 +2,7 @@
 using System.Collections;
 using SDK.Lib;
 using SDK.Common;
+using System;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;
@@ -28,14 +29,14 @@ public class AppRoot : MonoBehaviour
     void Update () 
     {
         //BugResolve();
-        try
-        {
+        //try
+        //{
             Ctx.m_instance.m_engineLoop.MainLoop();
-        }
-        catch
-        {
-            Ctx.m_instance.m_log.log("Main Loop Error");
-        }
+        //}
+        //catch(Exception err)
+        //{
+        //    Ctx.m_instance.m_log.log("Main Loop Error");
+        //}
     }
 
     void OnApplicationQuit()

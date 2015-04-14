@@ -1,5 +1,6 @@
 ﻿using SDK.Lib;
 using System;
+using System.IO;
 using UnityEngine;
 
 namespace SDK.Common
@@ -26,7 +27,7 @@ namespace SDK.Common
         {
             string name = "RandName.txt";
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord] + name;
+            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name));
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;

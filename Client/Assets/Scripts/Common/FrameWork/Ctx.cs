@@ -82,6 +82,7 @@ namespace SDK.Common
         public TaskThreadPool m_TaskThreadPool = new TaskThreadPool();
 
         public RandName m_pRandName = new RandName();
+        public PakSys m_pPakSys = new PakSys();
 
         public Ctx()
         {

@@ -35,24 +35,6 @@ namespace Game.UI
             //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(transform);
         }
 
-        //public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
-        //{
-        //    IResItem res = resEvt as IResItem;
-        //    cardsetpre = (res.getObject("cardset") as GameObject).transform;
-        //}
-
-        //public void load()
-        //{
-        //    LoadParam param;
-        //    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-        //    param.m_prefabName = "cardset";
-        //    param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + param.m_prefabName;
-        //    param.m_loaded = onloaded;
-        //    param.m_loadNeedCoroutine = false;
-        //    param.m_resNeedCoroutine = false;
-        //    Ctx.m_instance.m_resLoadMgr.loadResources(param);
-        //}
-
         //选职业
         public void OnMouseUpAsButton()
         {

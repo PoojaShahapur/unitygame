@@ -52,63 +52,6 @@ namespace SDK.Lib
             m_delBtn.setGameObject(del.gameObject);
         }
 
-        //public void load(string prefabName, string path)
-        //{
-        //    LoadParam param;
-        //    param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-        //    param.m_prefabName = prefabName;
-        //    param.m_path = path;
-        //    param.m_loaded = onloaded;
-        //    param.m_loadNeedCoroutine = false;
-        //    param.m_resNeedCoroutine = false;
-        //    Ctx.m_instance.m_resLoadMgr.loadResources(param);
-        //}
-
-        //public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
-        //{
-        //    IResItem res = resEvt as IResItem;
-        //    if (res.getPrefabName() == "setcard")
-        //    {
-        //        setcardmodel = (res.getObject(res.getPrefabName()) as GameObject).transform;
-        //    }
-        //    else if (res.getPrefabName() == "classzs")
-        //    {
-        //        zs = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classdz")
-        //    {
-        //        dz = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classdly")
-        //    {
-        //        dly = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classlr")
-        //    {
-        //        lr = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classms")
-        //    {
-        //        ms = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classsq")
-        //    {
-        //        sq = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classms")
-        //    {
-        //        ms = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classfs")
-        //    {
-        //        fs = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //    else if (res.getPrefabName() == "classss")
-        //    {
-        //        ss = res.getObject(res.getPrefabName()) as Material;
-        //    }
-        //}
-
         public void OnMouseClick(GameObject go)
         {
             OnMouseUpAsButton();

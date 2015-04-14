@@ -16,7 +16,7 @@ namespace SDK.Common
             m_id2CfgDic[id] = item;
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = item.m_path;
+            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(item.m_path);
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;

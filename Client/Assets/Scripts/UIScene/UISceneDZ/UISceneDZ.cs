@@ -276,8 +276,11 @@ namespace Game.UI
                 m_sceneDZData.m_gameOpState.quitAttackOp();
             }
 
-            // 解释倒计时定时器
-            m_sceneDZData.m_DJSTimer.stopTimer();
+            // 停止倒计时定时器
+            if (m_sceneDZData.m_DJSTimer != null)
+            {
+                m_sceneDZData.m_DJSTimer.stopTimer();
+            }
             // 开始定时器
             if (m_timer == null)        // 如果定时器没有
             {

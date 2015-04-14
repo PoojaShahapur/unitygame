@@ -592,9 +592,11 @@ namespace SDK.Common
                     extendDeltaCapicity((uint)len);
                 }
 
-                if (num <= len)
+                if (num < len)
                 {
                     Array.Copy(charSet.GetBytes(value), 0, m_dynBuff.buff, m_position, num);
+                    // 后面补齐 0 
+                    Array.Clear(m_dynBuff.buff, (int)(m_position + num), len - num);
                 }
                 else
                 {

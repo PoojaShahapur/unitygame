@@ -47,6 +47,8 @@ namespace Game.UI
                 Ctx.m_instance.m_poolSys.deleteObj(m_infoParam);
             }
             m_infoParam = infoParam;
+
+            updateParam();
         }
 
         protected void updateParam()

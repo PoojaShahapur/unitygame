@@ -7,6 +7,14 @@ namespace EditorTool
      */
     public class PublishProductUtil
     {
+        public static void createPublishProductOutputPath()
+        {
+            // 删除输出目录
+            ExportUtil.DeleteDirectory(ExportUtil.getPkgOutPath());
+            // 创建输出目录
+            ExportUtil.CreateDirectory(ExportUtil.getPkgOutPath());
+        }
+
         public static void pkgResources()
         {
             ResCfgData.m_ins.m_targetPlatform = BuildTarget.StandaloneWindows;
@@ -28,14 +36,14 @@ namespace EditorTool
         public static void delResources()
         {
             string delPath = ExportUtil.getDataPath("Prefabs");
-            string bakPath = ExportUtil.getWorkPath("Prefabs");
+            string bakPath = ExportUtil.getPkgWorkPath("Prefabs");
             ExportUtil.DeleteDirectory(bakPath);
             ExportUtil.CreateDirectory(bakPath);
             ExportUtil.copyDirectory(delPath, bakPath);
             ExportUtil.DeleteDirectory(delPath);
         }
 
-        public static void buildImage()
+        public static void buildImage(BuildOptions option = BuildOptions.None)
         {
             string outputImagePath = ExportUtil.getImagePath("", ResCfgData.m_ins.m_targetPlatform);
             ExportUtil.DeleteDirectory(outputImagePath);
@@ -49,8 +57,7 @@ namespace EditorTool
                 return;
 
             // Build and copy AssetBundles.
-            BuildOptions option = 0;
-            option = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
+            //option = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
 
             PlayerParam param = new PlayerParam();
             param.m_levels = levelsPath;
@@ -64,7 +71,7 @@ namespace EditorTool
         public static void restoreResources()
         {
             string restorePath = ExportUtil.getDataPath("Prefabs");
-            string bakPath = ExportUtil.getWorkPath("Prefabs");
+            string bakPath = ExportUtil.getPkgWorkPath("Prefabs");
             ExportUtil.CreateDirectory(restorePath);
             ExportUtil.copyDirectory(bakPath, restorePath);
             ExportUtil.DeleteDirectory(bakPath);

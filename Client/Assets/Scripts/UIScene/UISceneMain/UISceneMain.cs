@@ -34,10 +34,10 @@ namespace Game.UI
         protected void getWidget()
         {
             m_btnArr[(int)SceneMainBtnEnum.eBtnShop] = new btn();
-            m_btnArr[(int)SceneMainBtnEnum.eBtnShop].setGameObject(UtilApi.GoFindChildByPObjAndName("shopbtn"));
+            //m_btnArr[(int)SceneMainBtnEnum.eBtnShop].setGameObject(UtilApi.GoFindChildByPObjAndName("open/shopbtn"));
 
             m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack] = new btn();
-            m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack].setGameObject(UtilApi.GoFindChildByPObjAndName("openbtn"));
+            m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack].setGameObject(UtilApi.GoFindChildByPObjAndName("box/drawer/openbtn"));
 
             m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack] = new btn();
             m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack].setGameObject(UtilApi.GoFindChildByPObjAndName("box/drawer/wdscbtn"));

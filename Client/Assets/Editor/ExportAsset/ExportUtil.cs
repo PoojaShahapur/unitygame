@@ -23,6 +23,7 @@ namespace EditorTool
         public const string IMAGE_PATH = "Image";
         public const string ASSETS = "Assets";
         public const string METAEXT = "meta";
+        public const string PKG_OUTPATH = "PkgOutput";
 
         static public void BuildAssetBundle(AssetBundleParam param)
         {
@@ -63,9 +64,15 @@ namespace EditorTool
         }
 
         // 获取当前目录
-        public static string getWorkPath(string path)
+        protected static string getWorkPath(string path)
         {
             return Path.Combine(System.Environment.CurrentDirectory, path);
+        }
+
+        // 获取 pkg 打包工作目录
+        public static string getPkgWorkPath(string path)
+        {
+            return Path.Combine(getPkgOutPath(), path);
         }
 
         const BuildTarget defaultValue = (BuildTarget)Int32.MaxValue;
@@ -78,7 +85,7 @@ namespace EditorTool
             }
 
             string outputPath;
-            outputPath = Path.Combine(getWorkPath(""), ExportUtil.IMAGE_PATH);
+            outputPath = Path.Combine(getPkgOutPath(), ExportUtil.IMAGE_PATH);
             outputPath = Path.Combine(outputPath, ExportUtil.GetPlatformFolderForAssetBundles(buildTarget));
             if (string.IsNullOrEmpty(path))
             {
@@ -96,7 +103,8 @@ namespace EditorTool
             //return Application.streamingAssetsPath + "/" + path;
             //string outputPath = Application.dataPath.Substring(0, Application.dataPath.IndexOf("Assets"));
             string outputPath;
-            outputPath = Path.Combine(System.Environment.CurrentDirectory, ExportUtil.ASSET_BUNDLES_OUTPUT_PATH);
+            //outputPath = Path.Combine(System.Environment.CurrentDirectory, ExportUtil.ASSET_BUNDLES_OUTPUT_PATH);
+            outputPath = Path.Combine(getPkgOutPath(), ExportUtil.ASSET_BUNDLES_OUTPUT_PATH);
             outputPath = Path.Combine(outputPath, ExportUtil.GetPlatformFolderForAssetBundles(buildTarget));
             //outputPath = Path.Combine(outputPath, "StreamingAssets");
             //outputPath = Path.Combine(outputPath, Application.streamingAssetsPath);
@@ -105,6 +113,11 @@ namespace EditorTool
                 outputPath = Path.Combine(outputPath, path);
             }
             return outputPath;
+        }
+
+        public static string getPkgOutPath()
+        {
+            return Path.Combine(System.Environment.CurrentDirectory, ExportUtil.PKG_OUTPATH);
         }
 
         static public string getRelDataPath(string path)
@@ -116,15 +129,30 @@ namespace EditorTool
         {
             if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(path);
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch(Exception err)
+                {
+                    Debug.Log(string.Format("{0}{1}", "CreateDirectory Error: ", err.Message));
+                }
             }
         }
 
+        // 删除目录的时候，一定要关闭这个文件夹，否则删除文件夹可能出错
         static public void DeleteDirectory(string path, bool recursive = true)
         {
             if (Directory.Exists(path))
             {
-                Directory.Delete(path, recursive);
+                try
+                {
+                    Directory.Delete(path, recursive);
+                }
+                catch(Exception err)
+                {
+                    Debug.Log(string.Format("{0}{1}", "DeleteDirectory Error: ", err.Message));
+                }
             }
         }
 

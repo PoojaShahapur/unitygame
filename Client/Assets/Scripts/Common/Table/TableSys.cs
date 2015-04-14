@@ -2,6 +2,7 @@ using SDK.Common;
 using SDK.Lib;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace SDK.Common
@@ -69,7 +70,7 @@ namespace SDK.Common
 			TableBase table = m_dicTable[tableID];
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath] + table.m_resName;
+            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], table.m_resName));
             param.m_loaded = onloaded;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;

@@ -11,10 +11,6 @@ namespace SDK.Common
         public string m_tmpStr = "";
         public string m_retLangStr = "";     // 返回的语言描述
         public ByteBuffer m_tmpBA;
-
-        public ShareData()
-        {
-            
-        }
+        public string m_resInPakPath = null;            // 返回的资源所在的包的目录
     }
 }

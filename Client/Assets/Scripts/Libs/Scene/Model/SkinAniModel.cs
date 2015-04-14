@@ -1,5 +1,6 @@
 ﻿using SDK.Common;
 using System;
+using System.IO;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -66,7 +67,7 @@ namespace SDK.Lib
         public void loadSkeleton()
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_skeletonName;
+            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath], m_skeletonName));
             param.m_loaded = onSkeletonloaded;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -107,7 +108,7 @@ namespace SDK.Lib
         public void loadPartModel(int modelDef)
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + m_modelList[modelDef].m_bundleName;
+            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath], m_modelList[modelDef].m_bundleName));
             param.m_loaded = onPartModelloaded;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);

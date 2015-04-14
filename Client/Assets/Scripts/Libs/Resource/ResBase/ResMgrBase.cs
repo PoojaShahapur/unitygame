@@ -50,9 +50,7 @@ namespace SDK.Lib
             if (!m_path2ListenItemDic.ContainsKey(param.m_path))
             {
                 m_path2ListenItemDic[param.m_path] = new ResListenerItem();
-
                 m_path2ListenItemDic[param.m_path].copyForm(param);
-
                 param.m_failed = onFailed;
                 param.m_loaded = onLoaded;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);

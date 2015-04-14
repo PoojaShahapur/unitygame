@@ -84,8 +84,16 @@ namespace SDK.Lib
         {
             //string path = Application.dataPath + "/" + m_path;
             AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
-
             yield return asyncOpt;
+
+            // 确保场景资源都创建出来
+            bool bEmptyCreated = false;
+            while ((bEmptyCreated = (GameObject.Find("EmptyObject") != null)) == false)
+            {
+                //yield return new WaitForSeconds(2);
+                yield return 1;
+            }
+
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {

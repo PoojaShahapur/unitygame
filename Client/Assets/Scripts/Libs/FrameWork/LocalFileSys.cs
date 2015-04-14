@@ -164,5 +164,26 @@ namespace SDK.Lib
             //return Application.persistentDataPath;      // 这个目录是可读写的
             return m_persistentDataPath;
         }
+
+        public FileStream openFile(string path)
+        {
+            // 判断文件是否存在
+            if(File.Exists(path))
+            {
+                FileStream fs = null;
+                //fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                try
+                {
+                    fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);//读取文件设定
+                }
+                catch(Exception /*ex*/)
+                {
+                    return null;
+                }
+                return fs;
+            }
+
+            return null;
+        }
     }
 }

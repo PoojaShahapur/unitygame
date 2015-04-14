@@ -8,5 +8,10 @@ namespace SDK.Lib
     public class ABPakComFileResItem : FileResItem
     {
         public FileStream m_fs = null;      // 文件句柄
+
+        override public void init(LoadItem item)
+        {
+            base.init(item);
+        }
     }
 }
