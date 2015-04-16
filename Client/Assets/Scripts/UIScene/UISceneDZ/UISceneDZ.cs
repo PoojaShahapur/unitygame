@@ -137,11 +137,11 @@ namespace Game.UI
                         }
                         else    // 你还有可操作的随从
                         {
-                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ, (int)LangLogID.eItem0);
+                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, (int)LangItemID.eItem0);
                             InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                             param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
                             param.m_btnClkDisp = onInfoBoxBtnClk;
-                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ, (int)LangLogID.eItem1);
+                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, (int)LangItemID.eItem1);
                             param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                             param.m_formID = UIFormID.UIInfo_1;     // 这里提示使用这个 id
                             UIInfo.showMsg(param);

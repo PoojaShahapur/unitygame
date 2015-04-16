@@ -81,11 +81,10 @@ namespace SDK.Lib
             Ctx.m_instance.m_bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(string.Format("{0}{1}", Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename), ".unity"));
+            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename));
             param.m_loaded = onSceneResLoadded;
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
-            param.m_lvlName = filename;
             Ctx.m_instance.m_resLoadMgr.loadLevel(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -99,9 +98,7 @@ namespace SDK.Lib
             }
 
             onSceneLoaded = null;           // 清除所有的监听器
-
             Ctx.m_instance.m_bStopNetHandle = false;        // 加载场景完成需要处理处理消息
-
             Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
         }
 

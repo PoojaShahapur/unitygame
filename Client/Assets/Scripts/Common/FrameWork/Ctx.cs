@@ -83,6 +83,8 @@ namespace SDK.Common
 
         public RandName m_pRandName = new RandName();
         public PakSys m_pPakSys = new PakSys();
+        public GameRunStage m_gameRunStage = new GameRunStage();
+        public SoundMgr m_soundMgr = new SoundMgr();
 
         public Ctx()
         {
@@ -108,6 +110,8 @@ namespace SDK.Common
             m_matMgr.unloadAll();
             // 卸载所有的纹理
             m_texMgr.unloadAll();
+            // 卸载音乐
+            m_soundMgr.unloadAll();
             // 场景卸载
             m_sceneSys.unloadAll();
         }

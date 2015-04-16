@@ -15,7 +15,7 @@ namespace SDK.Lib
         protected string m_extName = "prefab";      // 加载的资源的扩展名字
 
         public string m_version = "";               // 加载的资源的版本号
-        public string m_lvlName = "";               // 关卡名字
+        protected string m_lvlName = "";               // 关卡名字
         public Action<IDispatchObject> m_loaded;    // 加载成功回调函数
         public Action<IDispatchObject> m_failed;    // 加载失败回调函数
 
@@ -35,6 +35,14 @@ namespace SDK.Lib
             get
             {
                 return m_extName;
+            }
+        }
+
+        public string lvlName
+        {
+            get
+            {
+                return m_lvlName;
             }
         }
 
@@ -79,6 +87,21 @@ namespace SDK.Lib
                 {
                     m_prefabName = m_path.Substring(slashIdx + 1, dotIdx - slashIdx - 1);
                 }
+            }
+        }
+
+        public void resolveLevel()
+        {
+            resolvePath();
+
+            int slashIdx = m_pathNoExt.LastIndexOf("/");
+            if(slashIdx != -1)
+            {
+                m_lvlName = m_pathNoExt.Substring(slashIdx + 1);
+            }
+            else
+            {
+                m_lvlName = m_pathNoExt;
             }
         }
     }

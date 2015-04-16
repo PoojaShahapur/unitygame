@@ -16,7 +16,7 @@ namespace SDK.Common
             }
             else
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eMsgRoute, (int)LangMsgRouteID.eItem1);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eMsgRoute1, (int)LangItemID.eItem1);
                 Ctx.m_instance.m_log.log(string.Format(Ctx.m_instance.m_shareData.m_retLangStr, (int)msg.m_msgID));
             }
         }

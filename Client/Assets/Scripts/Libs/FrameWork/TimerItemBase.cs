@@ -20,20 +20,29 @@ namespace SDK.Lib
 
         public virtual bool OnTimer(float delta)
         {
+            if (m_disposed)
+            {
+                return true;
+            }
+
             if (m_bInfineLoop)
             {
-                if (m_timerDisp != null)
+                if (m_curLeftTimer + delta >= m_internal)
                 {
-                    m_timerDisp(this);
+                    m_curLeftTimer = m_curLeftTimer + delta - m_internal;
+
+                    if (m_timerDisp != null)
+                    {
+                        m_timerDisp(this);
+                    }
+                }
+                else
+                {
+                    m_curLeftTimer += delta;
                 }
             }
             else
             {
-                if (m_disposed)
-                {
-                    return true;
-                }
-
                 if (m_curLeftTimer + delta >= m_internal)
                 {
                     m_curLeftTimer = m_curLeftTimer + delta - m_internal;

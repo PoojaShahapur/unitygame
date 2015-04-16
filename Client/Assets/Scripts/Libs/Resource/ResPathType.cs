@@ -19,6 +19,7 @@
         ePathMaterial,      // 材质目录
         ePathImage,      // 图片目录
         ePathWord,      // 过滤字、随机名字
+        ePathAudio,      // 音频
 
         eTotal          // 总数
     }

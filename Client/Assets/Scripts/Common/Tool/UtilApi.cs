@@ -162,6 +162,7 @@ namespace SDK.Common
             return opt;
         }
 
+        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题
         public static void UnloadAsset(Object assetToUnload)
         {
             Resources.UnloadAsset(assetToUnload);

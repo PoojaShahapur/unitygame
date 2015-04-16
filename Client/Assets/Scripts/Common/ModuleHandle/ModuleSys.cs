@@ -61,6 +61,7 @@ namespace SDK.Common
             }
             UtilApi.Destroy(Ctx.m_instance.m_layerMgr.m_path2Go[m_type2ItemDic[moduleID].m_moduleLayerPath]);
             Ctx.m_instance.m_layerMgr.m_path2Go.Remove(m_type2ItemDic[moduleID].m_moduleLayerPath);
+            UtilApi.UnloadUnusedAssets();
         }
 
         public void onLoginLoaded(IDispatchObject resEvt)
@@ -69,6 +70,9 @@ namespace SDK.Common
             Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.LOGINMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.LOGINMN].m_path);
             Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.LOGINMN].name = ModuleName.LOGINMN;
             Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.LOGINMN].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].transform;
+
+            // 立马卸载这个资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.LOGINMN].m_path);
         }
 
         public void onGameLoaded(IDispatchObject resEvt)
@@ -80,6 +84,9 @@ namespace SDK.Common
 
             // 游戏模块也不释放
             UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game]);
+
+            // 立马卸载这个资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.GAMEMN].m_path);
         }
     }
 }

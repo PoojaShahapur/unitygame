@@ -46,6 +46,9 @@ namespace SDK.Common
                     ++lineIdx;
                 }
             }
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
         }
 
         public bool doFilter(ref string str)

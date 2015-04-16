@@ -84,20 +84,20 @@ namespace Game.UI
         {
             if(name.Length == 0)
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem2);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem2);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
                 param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                 UIInfo.showMsg(param);
                 return false;
             }
             else if (UtilApi.IsIncludeChinese(name))
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem0);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem0);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
                 param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                 UIInfo.showMsg(param);
                 return false;
@@ -105,20 +105,20 @@ namespace Game.UI
 
             if (name.Length == 0)
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem3);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem3);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
                 param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                 UIInfo.showMsg(param);
                 return false;
             }
             else if (UtilApi.IsIncludeChinese(passwd))
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin, (int)LangLogID.eItem1);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem1);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
                 param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                 UIInfo.showMsg(param);
                 return false;

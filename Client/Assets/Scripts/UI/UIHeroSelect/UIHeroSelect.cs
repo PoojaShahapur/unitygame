@@ -35,17 +35,17 @@ namespace Game.UI
                 if (lblName.text.Length == 0)       // 如果没有输入名字
                 {
                     // 给出一个提示
-                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero, (int)LangLogID.eItem1);
+                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, (int)LangItemID.eItem1);
                     InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                     param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
                     param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                     UIInfo.showMsg(param);
                 }
                 else if (Ctx.m_instance.m_wordFilterManager.IsMatch(lblName.text))       // 如果包含非法字符
                 {
                     // 给出一个提示
-                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero, (int)LangLogID.eItem2);
+                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, (int)LangItemID.eItem2);
                     InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                     param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
                     UIInfo.showMsg(param);
@@ -63,10 +63,10 @@ namespace Game.UI
                     else
                     {
                         // 给出一个提示
-                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero, (int)LangLogID.eItem0);
+                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, (int)LangItemID.eItem0);
                         InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                         param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog, (int)LangLogID.eItem22);
+                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
                         param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
                         UIInfo.showMsg(param);
                     }

@@ -75,7 +75,7 @@ namespace SDK.Lib
         // eLevelType 打包类型资源加载，都用协程加载
         public IResItem loadLevel(LoadParam param)
         {
-            param.resolvePath();
+            param.resolveLevel();
 
 #if !PKG_RES_LOAD
             param.m_resPackType = ResPackType.eLevelType;
@@ -133,7 +133,7 @@ namespace SDK.Lib
                 {
                     resitem = new LevelResItem();
                 }
-                (resitem as LevelResItem).levelName = param.m_lvlName;
+                (resitem as LevelResItem).levelName = param.lvlName;
             }
             else if (ResPackType.eBundleType == param.m_resPackType)
             {
@@ -171,7 +171,7 @@ namespace SDK.Lib
                 {
                     resitem = new ABUnPakLevelFileResItem();
                 }
-                (resitem as ABUnPakLevelFileResItem).levelName = param.m_lvlName;
+                (resitem as ABUnPakLevelFileResItem).levelName = param.lvlName;
             }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;
@@ -215,7 +215,7 @@ namespace SDK.Lib
                     loaditem = new LevelLoadItem();
                 }
 
-                (loaditem as LevelLoadItem).levelName = param.m_lvlName;
+                (loaditem as LevelLoadItem).levelName = param.lvlName;
             }
             else if (ResPackType.eDataType == param.m_resPackType)
             {

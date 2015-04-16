@@ -34,17 +34,18 @@ namespace Game.Login
             m_loginRouteCB = new LoginRouteCB();
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_loginRouteCB);
             // 加载测试界面
-            //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
+            Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
         }
 
         // 加载登陆常见
         public void loadScene()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("login", onResLoadScene);
+            Ctx.m_instance.m_sceneSys.loadScene("login.unity", onResLoadScene);
         }
 
         public void onResLoadScene(Scene scene)
         {
+            Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Login);
             Ctx.m_instance.m_log.log("加载场景");
             // 加载登陆界面
             Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.UILogin);
