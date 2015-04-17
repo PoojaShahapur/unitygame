@@ -1,0 +1,366 @@
+local xml loaded
+资源 Word/forbidWords.txt : 加载成功
+加载场景
+开始连接登陆服务器
+RouteMsg 处理: RouteMsgType = 0
+RouteMsg 没有处理: RouteMsgID = 0
+RouteMsg 处理: RouteMsgType = 0
+连接登陆服务器成功
+发送到登陆服务器第一条消息
+发送消息: byCmd = 104, byParam = 120
+发送消息: byCmd = 104, byParam = 15
+local IP: 192.168.125.49, Port: 51370
+Remote IP: 192.168.125.254, Port: 10002
+发送数据 24
+发送数据 16
+处理消息: byCmd = 104,  byParam = 16
+接收到登陆服务器发送回来的第一条消息
+客户端自己 IP: 192.168.125.49 , 端口: 51370
+发送登录服务器消息 stUserRequestLoginCmd
+发送消息: byCmd = 104, byParam = 2
+接收到数据 32
+发送数据 48
+处理消息: byCmd = 104,  byParam = 4
+crypt key: 227, 19, 164, 62, 161, 59, 179, 81
+网关信息:  网关IP: 192.168.125.254, 网关端口: 20007, 用户ID: 10000031, 用户临时 ID: 27
+开始连接网关
+接收到数据 312
+local IP: 192.168.125.49, Port: 51372
+Remote IP: 192.168.125.254, Port: 20007
+RouteMsg 处理: RouteMsgType = 0
+RouteMsg 没有处理: RouteMsgID = 0
+RouteMsg 处理: RouteMsgType = 0
+连接网关成功
+发送到网关第一条消息
+发送消息: byCmd = 104, byParam = 120
+发送消息: byCmd = 104, byParam = 5
+发送数据 24
+发送数据 32
+处理消息: byCmd = 3,  byParam = 53
+接收到网关发送回来的第一条消息
+接收到数据 16
+处理消息: byCmd = 2,  byParam = 1
+接收消息 stGameTimeTimerUserCmd
+处理消息: byCmd = 2,  byParam = 2
+接收消息 stRequestUserGameTimeTimerUserCmd
+发送消息 stUserGameTimeTimerUserCmd
+发送消息: byCmd = 2, byParam = 3
+处理消息: byCmd = 24,  byParam = 1
+发送消息: byCmd = 24, byParam = 3
+接收到数据 104
+发送数据 32
+发送数据 16
+处理消息: byCmd = 24,  byParam = 14
+接收到数据 16
+onDebugLogCallbackHandler ---- Warning
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 218
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+onDebugLogCallbackThreadHandler ---- Warning
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 234
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 219
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+UnityEngine.Debug:LogWarning(Object)
+SDK.Lib.WinLogDevice:logout(String, LogColor) (at Assets/Scripts/Libs/Log/WinLogDevice.cs:19)
+SDK.Lib.Logger:logout(String, LogColor) (at Assets/Scripts/Libs/Log/Logger.cs:163)
+SDK.Lib.Logger:updateLog() (at Assets/Scripts/Libs/Log/Logger.cs:195)
+SDK.Lib.EngineLoop:MainLoop() (at Assets/Scripts/Libs/FrameWork/EngineLoop.cs:33)
+AppRoot:Update() (at Assets/Scripts/Module/App/AppRoot.cs:34)
+
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 220
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+onDebugLogCallbackThreadHandler ---- Warning
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 234
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+onDebugLogCallbackHandler ---- Warning
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 218
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+The referenced script on this Behaviour is missing!
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 235
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 219
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+UnityEngine.Debug:LogWarning(Object)
+SDK.Lib.WinLogDevice:logout(String, LogColor) (at Assets/Scripts/Libs/Log/WinLogDevice.cs:19)
+SDK.Lib.Logger:logout(String, LogColor) (at Assets/Scripts/Libs/Log/Logger.cs:163)
+SDK.Lib.Logger:updateLog() (at Assets/Scripts/Libs/Log/Logger.cs:195)
+SDK.Lib.EngineLoop:MainLoop() (at Assets/Scripts/Libs/FrameWork/EngineLoop.cs:33)
+AppRoot:Update() (at Assets/Scripts/Module/App/AppRoot.cs:34)
+
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 220
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+The referenced script on this Behaviour is missing!
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 235
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+onDebugLogCallbackHandler ---- Warning
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 218
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 236
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 219
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+UnityEngine.Debug:LogWarning(Object)
+SDK.Lib.WinLogDevice:logout(String, LogColor) (at Assets/Scripts/Libs/Log/WinLogDevice.cs:19)
+SDK.Lib.Logger:logout(String, LogColor) (at Assets/Scripts/Libs/Log/Logger.cs:163)
+SDK.Lib.Logger:updateLog() (at Assets/Scripts/Libs/Log/Logger.cs:195)
+SDK.Lib.EngineLoop:MainLoop() (at Assets/Scripts/Libs/FrameWork/EngineLoop.cs:33)
+AppRoot:Update() (at Assets/Scripts/Module/App/AppRoot.cs:34)
+
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 220
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 236
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+onDebugLogCallbackHandler ---- Warning
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 218
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+onDebugLogCallbackThreadHandler ---- Warning
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 234
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 219
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+UnityEngine.Debug:LogWarning(Object)
+SDK.Lib.WinLogDevice:logout(String, LogColor) (at Assets/Scripts/Libs/Log/WinLogDevice.cs:19)
+SDK.Lib.Logger:logout(String, LogColor) (at Assets/Scripts/Libs/Log/Logger.cs:163)
+SDK.Lib.Logger:updateLog() (at Assets/Scripts/Libs/Log/Logger.cs:195)
+SDK.Lib.EngineLoop:MainLoop() (at Assets/Scripts/Libs/FrameWork/EngineLoop.cs:33)
+AppRoot:Update() (at Assets/Scripts/Module/App/AppRoot.cs:34)
+
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 220
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+onDebugLogCallbackThreadHandler ---- Warning
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 234
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+onDebugLogCallbackHandler ---- Warning
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 218
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+The referenced script on this Behaviour is missing!
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 235
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 219
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+UnityEngine.Debug:LogWarning(Object)
+SDK.Lib.WinLogDevice:logout(String, LogColor) (at Assets/Scripts/Libs/Log/WinLogDevice.cs:19)
+SDK.Lib.Logger:logout(String, LogColor) (at Assets/Scripts/Libs/Log/Logger.cs:163)
+SDK.Lib.Logger:updateLog() (at Assets/Scripts/Libs/Log/Logger.cs:195)
+SDK.Lib.EngineLoop:MainLoop() (at Assets/Scripts/Libs/FrameWork/EngineLoop.cs:33)
+AppRoot:Update() (at Assets/Scripts/Module/App/AppRoot.cs:34)
+
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 220
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+The referenced script on this Behaviour is missing!
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 235
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+onDebugLogCallbackHandler ---- Warning
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 218
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 236
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 219
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+UnityEngine.Debug:LogWarning(Object)
+SDK.Lib.WinLogDevice:logout(String, LogColor) (at Assets/Scripts/Libs/Log/WinLogDevice.cs:19)
+SDK.Lib.Logger:logout(String, LogColor) (at Assets/Scripts/Libs/Log/Logger.cs:163)
+SDK.Lib.Logger:updateLog() (at Assets/Scripts/Libs/Log/Logger.cs:195)
+SDK.Lib.EngineLoop:MainLoop() (at Assets/Scripts/Libs/FrameWork/EngineLoop.cs:33)
+AppRoot:Update() (at Assets/Scripts/Module/App/AppRoot.cs:34)
+
+   at SDK.Lib.Logger.warn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 90
+   at SDK.Lib.Logger.onDebugLogCallbackHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 220
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 510
+   at UnityEngine.Debug.Internal_Log(Int32 , System.String , UnityEngine.Object )
+   at UnityEngine.Debug.LogWarning(System.Object message) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineDebug.gen.cs:line 152
+   at SDK.Lib.WinLogDevice.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\WinLogDevice.cs:line 19
+   at SDK.Lib.Logger.logout(System.String message, LogColor type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 163
+   at SDK.Lib.Logger.updateLog() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 195
+   at SDK.Lib.EngineLoop.MainLoop() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\FrameWork\EngineLoop.cs:line 33
+   at AppRoot.Update() in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Module\App\AppRoot.cs:line 34
+
+   at SDK.Lib.Logger.asyncWarn(System.String message) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 124
+   at SDK.Lib.Logger.onDebugLogCallbackThreadHandler(System.String name, System.String stack, LogType type) in E:\Work\Code20150402\client\trunk\Client\Assets\Scripts\Libs\Log\Logger.cs:line 236
+   at UnityEngine.Application.CallLogCallback(System.String logString, System.String stackTrace, LogType type, Boolean invokedOnMainThread) in C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineApplication.gen.cs:line 517
+接收到数据 16
+接收到数据 64
+发送消息: byCmd = 4, byParam = 47
+场景加载成功
+发送消息: byCmd = 162, byParam = 4
+发送消息: byCmd = 162, byParam = 5
+发送数据 16
+发送数据 16
+发送数据 16
+处理消息: byCmd = 3,  byParam = 2
+处理消息: byCmd = 4,  byParam = 42
+资源 Table/ObjectBase_client.txt : 加载成功
+处理消息: byCmd = 162,  byParam = 1
+资源 Table/CardBase_client.txt : 加载成功
+处理消息: byCmd = 162,  byParam = 6
+接收到数据 256
+消息没有处理: byCmd = 35,  byParam = 12
+接收到数据 16
+发送消息: byCmd = 162, byParam = 18
+发送数据 16
+处理消息: byCmd = 162,  byParam = 19
+处理消息: byCmd = 162,  byParam = 45
+资源 XmlConfig/battleconfig.xml : 加载成功
+接收到数据 32
+接收到数据 72
+接收到数据 88
+发送消息: byCmd = 14, byParam = 2
+发送数据 40
+处理消息: byCmd = 14,  byParam = 2
+接收到数据 40
+处理消息: byCmd = 14,  byParam = 2
+接收到数据 48
+消息没有处理: byCmd = 25,  byParam = 3
+处理消息: byCmd = 14,  byParam = 2
+消息没有处理: byCmd = 5,  byParam = 11
+接收到数据 160

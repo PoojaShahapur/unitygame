@@ -116,6 +116,12 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardGroupModelAttrItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
 
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+
             m_costModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cost.prefab");
             m_enemyCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "enemycard.prefab");
             m_minionModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "minion.prefab");

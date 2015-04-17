@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 using SDK.Common;
+using System.Diagnostics;
 
 namespace SDK.Lib
 {
     public class Logger
     {
-        public MMutex m_visitMutex = new MMutex(false, "LoggerMutex");    // 主要是添加和获取数据互斥
-        public List<string> m_strList = new List<string>();              // 这个是多线程访问的
+        public LockList<string> m_asyncLogList = new LockList<string>("Logger_asyncLogList");              // 这个是多线程访问的
+        public LockList<string> m_asyncWarnList = new LockList<string>("Logger_asyncWarnList");            // 这个是多线程访问的
+        public LockList<string> m_asyncErrorList = new LockList<string>("Logger_asyncErrorList");          // 这个是多线程访问的
+
         public string m_tmpStr;
         public bool m_bOutLog = true;          // 是否输出日志
 
@@ -43,9 +46,11 @@ namespace SDK.Lib
             m_logDeviceList.Add(logDevice);
 #endif
 
-            //logDevice = new FileLogDevice();
-            //logDevice.initDevice();
-            //m_logDeviceList.Add(logDevice);
+#if ENABLE_FILELOG
+            logDevice = new FileLogDevice();
+            logDevice.initDevice();
+            m_logDeviceList.Add(logDevice);
+#endif
         }
 
         // 需要一个参数的
@@ -72,26 +77,67 @@ namespace SDK.Lib
 
         public void log(string message)
         {
-            logout(message, LogColor.LOG);
-        }
+            //StackTrace stackTrace = new StackTrace(true);
+            //string traceStr = stackTrace.ToString();
+            //message = string.Format("{0}\n{1}", message, traceStr);
 
-        // 多线程日志
-        public void asynclog(string message)
-        {
-            using (MLock mlock = new MLock(m_visitMutex))
-            {
-                m_strList.Add(message);
-            }
+            logout(message, LogColor.LOG);
         }
 
         public void warn(string message)
         {
+            StackTrace stackTrace = new StackTrace(true);
+            string traceStr = stackTrace.ToString();
+            message = string.Format("{0}\n{1}", message, traceStr);
+
 			logout(message, LogColor.WARN);
         }
         
         public void error(string message)
         {
+            StackTrace stackTrace = new StackTrace(true);
+            string traceStr = stackTrace.ToString();
+            message = string.Format("{0}\n{1}", message, traceStr);
+
 			logout(message, LogColor.ERROR);
+        }
+
+        // 多线程日志
+        public void asyncLog(string message)
+        {
+            m_asyncLogList.Add(message);
+
+            //ThreadLogMR threadLog = new ThreadLogMR();
+            //threadLog.m_log = message;
+            //Ctx.m_instance.m_sysMsgRoute.push(threadLog);
+        }
+
+        // 多线程日志
+        public void asyncWarn(string message)
+        {
+            StackTrace stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
+            string traceStr = stackTrace.ToString();
+            message = string.Format("{0}\n{1}", message, traceStr);
+
+            m_asyncWarnList.Add(message);
+
+            //ThreadLogMR threadLog = new ThreadLogMR();
+            //threadLog.m_log = message;
+            //Ctx.m_instance.m_sysMsgRoute.push(threadLog);
+        }
+
+        // 多线程日志
+        public void asyncError(string message)
+        {
+            StackTrace stackTrace = new StackTrace(true);        // 这个在 new 的地方生成当时堆栈数据，需要的时候再 new ，否则是旧的堆栈数据
+            string traceStr = stackTrace.ToString();
+            message = string.Format("{0}\n{1}", message, traceStr);
+
+            m_asyncErrorList.Add(message);
+
+            //ThreadLogMR threadLog = new ThreadLogMR();
+            //threadLog.m_log = message;
+            //Ctx.m_instance.m_sysMsgRoute.push(threadLog);
         }
 
         public void logout(string message, LogColor type = LogColor.LOG)
@@ -115,43 +161,61 @@ namespace SDK.Lib
             MThread.needMainThread();
         #endif
 
-            using (MLock mlock = new MLock(m_visitMutex))
+            while ((m_tmpStr = m_asyncLogList.RemoveAt(0)) != default(string))
             {
-                m_tmpStr = "";
-                foreach (string str in m_strList)
-                {
-                    m_tmpStr += str;
-                }
-                if (m_tmpStr != "")
-                {
-                    log(m_tmpStr);
-                }
-                m_strList.Clear();
+                logout(m_tmpStr, LogColor.LOG);
+            }
+
+            while ((m_tmpStr = m_asyncWarnList.RemoveAt(0)) != default(string))
+            {
+                logout(m_tmpStr, LogColor.LOG);
+            }
+
+            while ((m_tmpStr = m_asyncErrorList.RemoveAt(0)) != default(string))
+            {
+                logout(m_tmpStr, LogColor.LOG);
             }
         }
 
         static private void onDebugLogCallbackHandler(string name, string stack, LogType type) 
         { 
-            if (LogType.Error != type && LogType.Exception != type)
-            { 
-                return; 
+            // LogType.Log 日志直接自己输出
+            if (LogType.Error == type || LogType.Exception == type)
+            {
+                Ctx.m_instance.m_log.error("onDebugLogCallbackHandler ---- Error");
+                Ctx.m_instance.m_log.error(name);
+                Ctx.m_instance.m_log.error(stack);
             }
-
-            Ctx.m_instance.m_log.log("onDebugLogCallbackHandler ---- Error");
-            Ctx.m_instance.m_log.log(name);
-            Ctx.m_instance.m_log.log(stack);
+            else if(LogType.Assert == type || LogType.Warning == type)
+            {
+                Ctx.m_instance.m_log.warn("onDebugLogCallbackHandler ---- Warning");
+                Ctx.m_instance.m_log.warn(name);
+                Ctx.m_instance.m_log.warn(stack);
+            }
         }
 
         static private void onDebugLogCallbackThreadHandler(string name, string stack, LogType type)
         {
-            if (LogType.Error != type && LogType.Exception != type)
+            if (LogType.Error == type || LogType.Exception == type)
             {
-                return;
+                Ctx.m_instance.m_log.asyncError("onDebugLogCallbackThreadHandler ---- Error");
+                Ctx.m_instance.m_log.asyncError(name);
+                Ctx.m_instance.m_log.asyncError(stack);
             }
+            else if (LogType.Assert == type || LogType.Warning == type)
+            {
+                Ctx.m_instance.m_log.asyncWarn("onDebugLogCallbackThreadHandler ---- Warning");
+                Ctx.m_instance.m_log.asyncWarn(name);
+                Ctx.m_instance.m_log.asyncWarn(stack);
+            }
+        }
 
-            Ctx.m_instance.m_log.asynclog("onDebugLogCallbackThreadHandler ---- Error");
-            Ctx.m_instance.m_log.asynclog(name);
-            Ctx.m_instance.m_log.asynclog(stack);
+        public void closeDevice()
+        {
+            foreach (LogDeviceBase logDevice in m_logDeviceList)
+            {
+                logDevice.closeDevice();
+            }
         }
     }
 }

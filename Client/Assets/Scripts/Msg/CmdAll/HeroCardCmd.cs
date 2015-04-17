@@ -587,17 +587,18 @@ namespace Game.Msg
         }
     }
 
-    //const BYTE RET_HERO_FIGHT_MATCH_CMD = 19; 
+    //const BYTE RET_HERO_FIGHT_MATCH_CMD = 19;
     //struct stRetHeroFightMatchUserCmd : public stHeroCardCmd
-    //{   
-    //    stRetHeroFightMatchUserCmd()
-    //    {   
-    //        byParam = RET_HERO_FIGHT_MATCH_CMD;
-    //        fightType = 0;
-    //        success = 0;
-    //    }   
-    //    BYTE fightType;     //对战类型
-    //    BYTE success;           
+    //{
+    //stRetHeroFightMatchUserCmd()
+    //{
+    //    byParam = RET_HERO_FIGHT_MATCH_CMD;
+    //    fightType = 0;
+    //    success = 0;
+    //    sceneNumber = 0;
+    //}
+    //BYTE fightType;	    //对战类型
+    //BYTE success;	   
     //};
 
     public class stRetLeftCardLibNumUserCmd : stHeroCardCmd
@@ -1369,10 +1370,18 @@ namespace Game.Msg
 
     public class stRetHeroIntoBattleSceneUserCmd : stHeroCardCmd
     {
+        public uint sceneNumber;  //场景编号
+
         public stRetHeroIntoBattleSceneUserCmd()
         {
             byParam = RET_HERO_INTO_BATTLE_SCENE_CMD;
-        } 
+        }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+            ba.readUnsignedInt32(ref sceneNumber);
+        }
     }
 
     //const BYTE RET_HERO_INTO_BATTLE_SCENE_CMD = 45; 
@@ -1382,6 +1391,7 @@ namespace Game.Msg
     //    {   
     //        byParam = RET_HERO_INTO_BATTLE_SCENE_CMD;
     //    }   
+    //    DWORD sceneNumber;  //场景编号
     //}; 
 
     public class stRetCardAttackFailUserCmd : stHeroCardCmd

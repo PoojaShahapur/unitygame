@@ -7,6 +7,6 @@ namespace SDK.Common
     {
         void Start();
         void loadGameScene();
-        void loadDZScene();
+        void loadDZScene(uint sceneNumber);
     }
 }

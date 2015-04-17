@@ -116,7 +116,7 @@ namespace SDK.Common
         {
             foreach (UISceneFormID key in m_dicForm.Keys)
             {
-                exitSceneForm(key, false);
+                exitSceneForm(key, false);      // 不能在循环内部删除
             }
 
             m_dicForm.Clear();

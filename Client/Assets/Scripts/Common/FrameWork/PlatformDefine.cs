@@ -28,6 +28,9 @@
 // 开启网络日志
 //#define ENABLE_NETLOG
 
+// 开启文件日志
+//#define ENABLE_FILELOG
+
 // 单元测试
 //#define UNIT_TEST_SRC
 

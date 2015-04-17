@@ -4,9 +4,9 @@ namespace SDK.Lib
 {
     public class ItemSceneDraggableIOBase : ItemSceneIOBase
     {
-        public override void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        public override void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
-            base.onloaded(resEvt);
+            base.onLoaded(resEvt);
 
             UIDragObject drag = m_go.AddComponent<UIDragObject>();
             drag.target = m_go.transform;

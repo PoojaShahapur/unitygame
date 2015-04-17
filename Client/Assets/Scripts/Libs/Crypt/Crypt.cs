@@ -69,7 +69,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_log.asynclog("RC5_ECB_Symmetry_Encode_Byte error");
+                Ctx.m_instance.m_log.asyncError("RC5_ECB_Symmetry_Encode_Byte error");
                 return false;
             }
         }
@@ -84,7 +84,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_log.asynclog("RC5_ECB_Symmetry_Decode_Byte error");
+                Ctx.m_instance.m_log.asyncError("RC5_ECB_Symmetry_Decode_Byte error");
                 return false;
             }
         }
@@ -99,7 +99,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_log.asynclog("DES_ECB_Symmetry_Encode_OpenSSL error");
+                Ctx.m_instance.m_log.asyncError("DES_ECB_Symmetry_Encode_OpenSSL error");
                 return false;
             }
         }
@@ -114,7 +114,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Ctx.m_instance.m_log.asynclog("DES_ecb_encrypt_one error");
+                Ctx.m_instance.m_log.asyncError("DES_ecb_encrypt_one error");
                 return false;
             }
         }

@@ -7,25 +7,23 @@ namespace SDK.Common
     {
         eXmlMarketCfg,
         eXmlDZCfg,
+        eXmlMapCfg,
     }
 
     public class XmlCfgBase
     {
         public string m_path;
-
+        public XmlDocument m_xmlDoc = new XmlDocument();
         public List<XmlItemBase> m_list = new List<XmlItemBase>();
 
         public virtual void parseXml(string str)
         {
-
+            m_xmlDoc.LoadXml(str);
         }
 
         protected void parseXml<T>(string str, string itemNode) where T : XmlItemBase, new()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(str);
-
-            XmlNode config = xmlDoc.SelectSingleNode("config");
+            XmlNode config = m_xmlDoc.SelectSingleNode("config");
             XmlNodeList itemNodeList = getXmlNodeList(config, itemNode);
 
             XmlItemBase item;
@@ -42,6 +40,11 @@ namespace SDK.Common
             XmlElement objElem = config.SelectSingleNode(itemNode) as XmlElement;
             XmlNodeList itemNodeList = objElem.ChildNodes;
             return itemNodeList;
+        }
+
+        public void unload()
+        {
+            
         }
     }
 

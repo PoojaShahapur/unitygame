@@ -2,9 +2,15 @@
 <config>
     <xmlpg_ node_="BattleConfig">
 	<limit preparetime="DWORD" roundtime="DWORD" peaceNum="DWORD" luckyCoin="DWORD" tiredCard="DWORD"/>
+	<scenesPVP>
+	    <item id="DWORD" container_="vector" />
+	</scenesPVP>
     </xmlpg_>
     <!--preparetime:准备时间 roundtime:一个回合时间 单位:(秒) 
 	peaceNum:强制平局的回合数 
 	luckyCoin:幸运币的卡牌ID tiredCard:疲劳卡的ID lastpreparetime:准备阶段倒计时 lastroundtime：回合倒计时-->
-    <limit preparetime="60" roundtime="60" peaceNum="120" luckyCoin="31" tiredCard="20" lastpreparetime="15" lastroundtime="15"/>
+	<limit preparetime="60" roundtime="60" peaceNum="120" luckyCoin="1001" tiredCard="1000" lastpreparetime="15" lastroundtime="15"/>
+	<scenesPVP>
+	    <item id="1" name="火焰之城" res="dz.unity"/>
+	</scenesPVP>
 </config>

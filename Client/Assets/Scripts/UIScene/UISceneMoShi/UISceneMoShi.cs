@@ -150,7 +150,7 @@ namespace Game.UI
             m_lblTip.text = "现在开始匹配了，注意了";
             // test 进入战场
         #if DEBUG_NOTNET
-            Ctx.m_instance.m_gameSys.loadDZScene();
+            Ctx.m_instance.m_gameSys.loadDZScene(1000);
         #endif
         }
     }

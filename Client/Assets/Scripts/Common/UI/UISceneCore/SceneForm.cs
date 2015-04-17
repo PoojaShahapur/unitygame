@@ -86,6 +86,7 @@
         virtual public void onExit()
         {
             m_bVisible = false;
+            m_bReady = false;
         }
 
         public bool isVisible()

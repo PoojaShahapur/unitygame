@@ -12,9 +12,9 @@ namespace SDK.Lib
     {
         public Action<ItemSceneIOBase> m_clkCB;
 
-        public override void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        public override void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
-            base.onloaded(resEvt);
+            base.onLoaded(resEvt);
             addEventHandle();
         }
 

@@ -85,6 +85,7 @@ namespace SDK.Common
         public PakSys m_pPakSys = new PakSys();
         public GameRunStage m_gameRunStage = new GameRunStage();
         public SoundMgr m_soundMgr = new SoundMgr();
+        public MapCfg m_mapCfg = new MapCfg();
 
         public Ctx()
         {

@@ -24,7 +24,7 @@ namespace Game.UI
         {
             base.onReady();
             // 加载xml配置文件
-            m_sceneDZData.m_DZDaoJiShiXmlLimit = Ctx.m_instance.m_xmlCfgMgr.getXmlCfg<DZDaoJiShiXml>(XmlCfgID.eXmlDZCfg).m_list[0] as DZDaoJiShiXmlLimit;
+            m_sceneDZData.m_DZDaoJiShiXmlLimit = Ctx.m_instance.m_mapCfg.m_mapXml.m_list[0] as DZDaoJiShiXmlLimit;
             startInitCardTimer();           // 启动定时器
 
             m_sceneDZData.m_gameRunState = new GameRunState(m_sceneDZData);
@@ -52,6 +52,15 @@ namespace Game.UI
         public override void onShow()
         {
             base.onShow();
+        }
+
+        public override void onExit()
+        {
+            base.onExit();
+
+            // 释放自己的资源
+            // 移除定时器
+            stopTimer();
         }
 
         // 获取控件
@@ -257,6 +266,8 @@ namespace Game.UI
                     m_sceneDZData.m_startGO.SetActive(false);
                     m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();      // 一定初始化卡牌到卡牌列表
                 }
+
+                m_sceneDZData.m_gameRunState.enterState(GameRunState.STARTDZ);      // 进入对战状态
             }
         }
 

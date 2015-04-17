@@ -114,6 +114,8 @@ namespace SDK.Lib
         protected void onLoaded(IDispatchObject resEvt)
         {
             IResItem m_res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
             byte[] textAsset = (m_res as DataResItem).getBytes();
             if (textAsset != null)
             {
@@ -127,6 +129,8 @@ namespace SDK.Lib
 
         protected void onFailed(IDispatchObject resEvt)
         {
+            IResItem m_res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
             // 卸载
             Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
             m_FailedDisp();

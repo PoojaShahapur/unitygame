@@ -61,9 +61,9 @@ namespace SDK.Common
             load();
         }
 
-        public override void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        public override void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
-            base.onloaded(resEvt);
+            base.onLoaded(resEvt);
             UtilApi.addHoverHandle(m_selfGo, OnMouseHover);
 
             // 加载贴图，换贴图

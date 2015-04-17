@@ -15,9 +15,11 @@ namespace SDK.Lib
         public ModelRes m_res;
         public bool m_bNorm = true;
 
-        public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        public virtual void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
             m_go = m_res.InstantiateObject(m_path);
             if (m_tran != null)     // 很可能 UIGrid 处理位置了
             {
@@ -54,7 +56,7 @@ namespace SDK.Lib
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_loaded = onloaded;
+                    param.m_loaded = onLoaded;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                     m_res = null;
@@ -67,7 +69,7 @@ namespace SDK.Lib
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_loaded = onloaded;
+                    param.m_loaded = onLoaded;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

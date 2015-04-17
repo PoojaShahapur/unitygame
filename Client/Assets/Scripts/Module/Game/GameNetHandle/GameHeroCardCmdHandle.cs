@@ -220,7 +220,9 @@ namespace Game.Game
         // 返回进入战斗场景消息
         protected void psstRetHeroIntoBattleSceneUserCmd(ByteBuffer msg)
         {
-            Ctx.m_instance.m_gameSys.loadDZScene();
+            stRetHeroIntoBattleSceneUserCmd cmd = new stRetHeroIntoBattleSceneUserCmd();
+            cmd.derialize(msg);
+            Ctx.m_instance.m_gameSys.loadDZScene(cmd.sceneNumber);
         }
 
         // 回归剩余卡牌数量

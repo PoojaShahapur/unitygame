@@ -22,19 +22,15 @@ namespace Game.Login
 
         public void initGVar()
         {
-            // 获取全局变量
-            //GameObject nodestroy = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
-            //AppRoot approot = nodestroy.GetComponent<AppRoot>();
-            //LoginSys.m_instance.m_ctx = approot.getCtx();
-
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new LoginUIEventCB();
             m_loginNetHandleCB = new LoginNetHandleCB();
             Ctx.m_instance.m_netDispList.addOneDisp(m_loginNetHandleCB);
             m_loginRouteCB = new LoginRouteCB();
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_loginRouteCB);
+
             // 加载测试界面
-            Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
+            //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
         }
 
         // 加载登陆常见

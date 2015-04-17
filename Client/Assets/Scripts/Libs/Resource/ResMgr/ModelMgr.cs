@@ -111,11 +111,18 @@ namespace SDK.Lib
         // 获取 SceneCard 模型
         public ModelRes getSceneCardModel(CardType type)
         {
-            if (Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type] != null)
+            if (type < CardType.eCARDTYPE_Total)
             {
-                string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_path;
+                if (Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type] != null)
+                {
+                    string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_path;
 
-                return syncGet<ModelRes>(path) as ModelRes;
+                    return syncGet<ModelRes>(path) as ModelRes;
+                }
+            }
+            else
+            {
+                Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem2, type.ToString());
             }
 
             return null;

@@ -34,4 +34,16 @@ namespace SDK.Common
             m_task = null;
         }
     }
+
+    // 线程日志
+    public class ThreadLogMR : MsgRouteBase
+    {
+        public string m_log;
+
+        public ThreadLogMR()
+            : base(MsgRouteID.eMRIDThreadLog)
+        {
+
+        }
+    }
 }

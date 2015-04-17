@@ -17,7 +17,8 @@ namespace SDK.Common
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(item.m_path);
-            param.m_loaded = onloaded;
+            param.m_loaded = onLoaded;
+            param.m_failed = onFailed;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
@@ -25,14 +26,26 @@ namespace SDK.Common
         }
 
         // 加载一个表完成
-        public void onloaded(IDispatchObject resEvt)
+        public void onLoaded(IDispatchObject resEvt)
         {
             m_res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
             string text = m_res.getText("");
             if (text != null)
             {
                 m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(text);
             }
+
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+        }
+
+        public void onFailed(IDispatchObject resEvt)
+        {
+            m_res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
         }
 
         protected XmlCfgID getXmlCfgIDByPath(string path)

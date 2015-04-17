@@ -38,6 +38,10 @@ namespace SDK.Common
         {
             get
             {
+                if (m_dynBuff.size < m_position)
+                {
+                    Ctx.m_instance.m_log.log("aaa");
+                }
                 return (m_dynBuff.size - m_position);
             }
         }

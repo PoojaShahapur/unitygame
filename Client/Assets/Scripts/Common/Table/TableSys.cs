@@ -71,7 +71,8 @@ namespace SDK.Common
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], table.m_resName));
-            param.m_loaded = onloaded;
+            param.m_loaded = onLoaded;
+            param.m_failed = onFailed;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
@@ -79,9 +80,11 @@ namespace SDK.Common
 		}
 
         // 加载一个表完成
-        public void onloaded(IDispatchObject resEvt)
+        public void onLoaded(IDispatchObject resEvt)
         {
             m_res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
             byte[] bytes = m_res.getBytes("");
             if (bytes != null)
             {
@@ -91,6 +94,18 @@ namespace SDK.Common
                 m_byteArray.setPos(0);
                 readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
             }
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+        }
+
+        public void onFailed(IDispatchObject resEvt)
+        {
+            IResItem m_res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
         }
 
         // 根据路径查找表的 ID

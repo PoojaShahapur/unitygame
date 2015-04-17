@@ -14,7 +14,7 @@ namespace Game.UI
         public GameObject m_go = null;                 // 显示的内容
         public string m_path;                          // 目录
 
-        public void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        public void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
             IResItem res = resEvt as IResItem;
             m_go = res.InstantiateObject(m_path);
@@ -192,7 +192,7 @@ namespace Game.UI
                 m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(m_shopItemArray[idx].m_path);
-                param.m_loaded = m_shopItemArray[idx].onloaded;
+                param.m_loaded = m_shopItemArray[idx].onLoaded;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
 

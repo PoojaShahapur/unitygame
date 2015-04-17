@@ -27,12 +27,22 @@ namespace Game.Game
             }
         }
 
-        public void loadDZScene()
+        public void loadDZScene(uint sceneNumber)
         {
-            if (!Ctx.m_instance.m_gameRunStage.isCurInStage(EGameStage.eStage_DZ))
+            // 查找场景配置文件
+            MapXmlItem xmlItem = Ctx.m_instance.m_mapCfg.getXmlItem(sceneNumber);
+
+            if (xmlItem != null)
             {
-                Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_DZ);
-                Ctx.m_instance.m_sceneSys.loadScene("dz.unity", onDZResLoadScene);
+                if (!Ctx.m_instance.m_gameRunStage.isCurInStage(EGameStage.eStage_DZ))
+                {
+                    Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_DZ);
+                    Ctx.m_instance.m_sceneSys.loadScene(xmlItem.m_levelName, onDZResLoadScene);
+                }
+            }
+            else
+            {
+                Ctx.m_instance.m_log.log(string.Format("xml 中没有匹配的场景 id {0} ", sceneNumber));
             }
         }
 
@@ -77,6 +87,7 @@ namespace Game.Game
             Ctx.m_instance.m_uiSceneMgr.unloadAll();
         }
 
+        // 进入场景，但是场景还没有加载完成
         public void enteringStageHandle(EGameStage eGameStage)
         {
             if (EGameStage.eStage_Game == eGameStage)
@@ -89,13 +100,14 @@ namespace Game.Game
             }
         }
 
+        // 进入场景，场景资源加载成功
         public void enteredStageHandle(EGameStage eGameStage)
         {
             // 播放音乐
-            SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
-            param.m_path = "ZuiZhenDeMeng.mp3";
-            Ctx.m_instance.m_soundMgr.play(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            //SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
+            //param.m_path = "ZuiZhenDeMeng.mp3";
+            //Ctx.m_instance.m_soundMgr.play(param);
+            //Ctx.m_instance.m_poolSys.deleteObj(param);
 
             if (EGameStage.eStage_Game == eGameStage)
             {
@@ -130,9 +142,10 @@ namespace Game.Game
             }
         }
 
+        // 退出场景
         public void quitStageHandle(EGameStage eGameStage)
         {
-            Ctx.m_instance.m_soundMgr.unloadAll();          // 卸载所有的音频
+            //Ctx.m_instance.m_soundMgr.unloadAll();          // 卸载所有的音频
 
             if (EGameStage.eStage_Game == eGameStage)
             {

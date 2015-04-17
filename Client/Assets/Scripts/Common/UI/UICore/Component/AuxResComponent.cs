@@ -61,11 +61,25 @@ namespace SDK.Common
             m_selfLocalGo.transform.SetParent(pntGo.transform, false);
         }
 
-        public virtual void onloaded(IDispatchObject resEvt)            // 资源加载成功
+        public virtual void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
             m_selfGo = m_res.InstantiateObject(m_path);
             m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+        }
+
+        public virtual void onFailed(IDispatchObject resEvt)            // 资源加载成功
+        {
+            m_res = resEvt as ModelRes;
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
         }
 
         public virtual void unload()
@@ -101,7 +115,8 @@ namespace SDK.Common
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_loaded = onloaded;
+                    param.m_loaded = onLoaded;
+                    param.m_failed = onFailed;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

@@ -243,7 +243,7 @@ namespace SDK.Common
         }
 
         // 从本地磁盘或者网络加载资源
-        protected void loadFromFile(string reaPath, Action<IDispatchObject> onloaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
+        protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
         {
             // 创建窗口资源
             IResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
@@ -252,7 +252,7 @@ namespace SDK.Common
                 if (!res.HasLoaded())
                 {
                     // 添加事件监听,不用增加引用计数
-                    res.addEventListener(EventID.LOADED_EVENT, onloaded);
+                    res.addEventListener(EventID.LOADED_EVENT, onLoaded);
                     res.addEventListener(EventID.FAILED_EVENT, onFailed);
                 }
                 else // 已经加载完成
@@ -264,7 +264,7 @@ namespace SDK.Common
             {
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(reaPath);
-                param.m_loaded = onloaded;
+                param.m_loaded = onLoaded;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }

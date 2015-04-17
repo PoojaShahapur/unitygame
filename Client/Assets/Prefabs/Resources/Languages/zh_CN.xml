@@ -28,8 +28,10 @@
 		<i23>用户满</i23>
     </t0>
 	<t1>
-        <i0>RouteMsg 处理: RouteMsg = {0}</i0>
-		<i1>RouteMsg 没有处理: RouteMsg = {0}</i1>
+        <i0>RouteMsg 处理: RouteMsgID = {0}</i0>
+		<i1>RouteMsg 没有处理: RouteMsgID = {0}</i1>
+		<i2>RouteMsg 处理: RouteMsgType = {0}</i2>
+		<i3>RouteMsg 没有处理: RouteMsgType = {0}</i3>
     </t1>
 	<t2>
         <i0>名字过长</i0>
@@ -49,7 +51,8 @@
 		<i3>请输入用户名!</i3>
 	</t4>
 	<t5>
-		<i0>资源 {0}: 加载成功</i0>
-		<i1>资源 {0}: 加载失败</i1>
+		<i0>资源 {0} : 加载成功</i0>
+		<i1>资源 {0} : 加载失败</i1>
+		<i2>索引 {0} 超越数组上限</i2>
 	</t5>
 </msg>

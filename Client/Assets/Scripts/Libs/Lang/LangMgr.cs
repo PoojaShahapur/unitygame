@@ -64,15 +64,19 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(m_ID2FileName[m_langID].m_filePath);
-            param.m_loaded = onloaded;
+            param.m_loaded = onLoaded;
+            param.m_failed = onFailed;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 加载一个表完成
-        public void onloaded(IDispatchObject resEvt)
+        public void onLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;                         // 类型转换
+            //Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
+            Ctx.m_instance.m_log.log("local xml loaded");
+
             string text = res.getText(m_ID2FileName[m_langID].m_filePath);
             if (text != null)
             {
@@ -82,6 +86,18 @@ namespace SDK.Lib
                 XmlNode xn = xmlDoc.SelectSingleNode("msg");
                 m_nodeList = xn.ChildNodes;
             }
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+        }
+
+        public void onFailed(IDispatchObject resEvt)
+        {
+            IResItem res = resEvt as IResItem;
+            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, res.GetPath());
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
         }
     }
 }

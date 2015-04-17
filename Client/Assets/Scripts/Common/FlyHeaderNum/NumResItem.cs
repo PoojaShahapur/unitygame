@@ -56,9 +56,16 @@ namespace SDK.Common
                     if (res != null)
                     {
                         go = res.InstantiateObject(path);
-                        go.transform.SetParent(m_parentGo.transform, true);
-                        go.transform.localPosition = new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0);
-                        m_childList.Add(go);
+                        if (go != null)
+                        {
+                            go.transform.SetParent(m_parentGo.transform, true);
+                            go.transform.localPosition = new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0);
+                            m_childList.Add(go);
+                        }
+                        else
+                        {
+                            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, path);
+                        }
                     }
 
                     ++idx;

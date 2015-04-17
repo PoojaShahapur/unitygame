@@ -45,6 +45,8 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_netMgr.quipApp();
         // 卸载所有的资源
         Ctx.m_instance.unloadAll();
+        // 关闭日志设备
+        Ctx.m_instance.m_log.closeDevice();
     }
 
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个

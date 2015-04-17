@@ -21,11 +21,6 @@ namespace Game.Game
 
         public void initGVar()
         {
-            // 获取全局变量
-            //GameObject nodestroy = GameObject.FindGameObjectWithTag("App");
-            //GameObject nodestroy = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_App);
-            //AppRoot approot = nodestroy.GetComponent<AppRoot>();
-
             m_gotoScene = new GotoScene();
 
             // 游戏逻辑处理
@@ -52,9 +47,9 @@ namespace Game.Game
             m_gotoScene.loadGameScene();
         }
 
-        public void loadDZScene()
+        public void loadDZScene(uint sceneNumber)
         {
-            m_gotoScene.loadDZScene();
+            m_gotoScene.loadDZScene(sceneNumber);
         }
     }
 }

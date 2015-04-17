@@ -15,7 +15,7 @@ namespace SDK.Lib
         }
 
         // 卸载
-        public virtual void unload()
+        public override void unload()
         {
             if (bInCurState(SoundPlayState.eSS_Play))
             {

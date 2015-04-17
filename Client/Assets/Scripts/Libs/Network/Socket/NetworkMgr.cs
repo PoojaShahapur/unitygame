@@ -61,9 +61,9 @@ namespace SDK.Lib
             string key = ip + "&" + port;
             if (m_id2SocketDic.ContainsKey(key))
             {
-                // 关闭 socket 之前要等待所有的数据都发送完成
-                m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
-                m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
+                // 关闭 socket 之前要等待所有的数据都发送完成，如果发送一直超时，可能就卡在这很长时间
+                //m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
+                //m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
 
                 using (MLock mlock = new MLock(m_visitMutex))
                 {
@@ -88,6 +88,11 @@ namespace SDK.Lib
                 port = m_curSocket.m_port;
 
                 string key = ip + "&" + port;
+
+                // 关闭 socket 之前要等待所有的数据都发送完成
+                //m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
+                //m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
+
                 if (m_id2SocketDic.ContainsKey(key))
                 {
                     using (MLock mlock = new MLock(m_visitMutex))

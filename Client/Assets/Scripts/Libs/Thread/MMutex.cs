@@ -13,30 +13,30 @@ namespace SDK.Lib
 
         public MMutex(bool initiallyOwned, string name)
         {
-            #if NET_MULTHREAD
+#if NET_MULTHREAD
             m_mutex = new Mutex(initiallyOwned, name);
-            #endif
+#endif
         }
 
         public void WaitOne()
         {
-            #if NETMULTHREAD
+#if NET_MULTHREAD
             m_mutex.WaitOne();
-            #endif
+#endif
         }
 
         public void ReleaseMutex()
         {
-            #if NETMULTHREAD
+#if NET_MULTHREAD
             m_mutex.ReleaseMutex();
-            #endif
+#endif
         }
 
         public void close()
         {
-            #if NETMULTHREAD
+#if NET_MULTHREAD
             m_mutex.Close();
-            #endif
+#endif
         }
     }
 }

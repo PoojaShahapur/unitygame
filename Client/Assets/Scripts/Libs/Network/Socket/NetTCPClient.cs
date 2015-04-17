@@ -11,8 +11,8 @@ namespace SDK.Lib
         // 发送和接收的超时时间
         public int m_connectTimeout = 5000;
         // 超时值（以毫秒为单位）。如果将该属性设置为 1 到 499 之间的值，该值将被更改为 500。默认值为 0，指示超时期限无限大。指定 -1 还会指示超时期限无限大。
-        public int m_sendTimeout = 5000;
-        public int m_revTimeout = 5000;
+        //public int m_sendTimeout = 5000;
+        //public int m_revTimeout = 0;
 
         public string m_host = "localhost";
         public int m_port = 50000;
@@ -95,7 +95,7 @@ namespace SDK.Lib
                 {
                     //超时
                     //Disconnect(0);
-                    Ctx.m_instance.m_log.asynclog("socket connect Time Out");
+                    Ctx.m_instance.m_log.asyncLog("socket connect Time Out");
                 }
                 else
                 {
@@ -105,16 +105,16 @@ namespace SDK.Lib
                     string ipPortStr;
 
                     ipPortStr = string.Format("local IP: {0}, Port: {1}", ((IPEndPoint)m_socket.LocalEndPoint).Address.ToString(), ((IPEndPoint)m_socket.LocalEndPoint).Port.ToString());
-                    Ctx.m_instance.m_log.asynclog(ipPortStr);
+                    Ctx.m_instance.m_log.asyncLog(ipPortStr);
 
                     ipPortStr = string.Format("Remote IP: {0}, Port: {1}", ((IPEndPoint)m_socket.RemoteEndPoint).Address.ToString(), ((IPEndPoint)m_socket.RemoteEndPoint).Port.ToString());
-                    Ctx.m_instance.m_log.asynclog(ipPortStr);
+                    Ctx.m_instance.m_log.asyncLog(ipPortStr);
                 }
             }
             catch (System.Exception e)
             {
                 // 连接失败
-                Ctx.m_instance.m_log.asynclog(e.Message);
+                Ctx.m_instance.m_log.asyncError(e.Message);
                 return false;
             }
 
@@ -151,18 +151,18 @@ namespace SDK.Lib
                     if (((SocketException)e).SocketErrorCode == SocketError.ConnectionRefused)
                     {
                         // 输出日志
-                        Ctx.m_instance.m_log.asynclog(e.Message);
+                        Ctx.m_instance.m_log.asyncLog(e.Message);
                     }
                     else
                     {
                         // 输出日志
-                        Ctx.m_instance.m_log.asynclog(e.Message);
+                        Ctx.m_instance.m_log.asyncLog(e.Message);
                     }
                 }
                 else
                 {
                     // 输出日志
-                    Ctx.m_instance.m_log.asynclog(e.Message);
+                    Ctx.m_instance.m_log.asyncError(e.Message);
                 }
 
                 //Disconnect();
@@ -176,7 +176,13 @@ namespace SDK.Lib
             if (m_socket.Connected)
             {
                 // 接收从服务器返回的信息
-                m_socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
+                IAsyncResult asyncSend = m_socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
+
+                //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_revTimeout, true);
+                //if (!success)
+                //{
+                //    Ctx.m_instance.m_log.asyncLog(string.Format("RecvMsg Timeout {0} ", m_revTimeout));
+                //}
             }
         }
 
@@ -188,6 +194,11 @@ namespace SDK.Lib
                 return;
             }
 
+            if (m_socket == null)        // SocketShutdown.Both 这样关闭，只有还会收到数据，因此判断一下
+            {
+                return;
+            }
+
             int read = 0;
             try
             {
@@ -195,22 +206,64 @@ namespace SDK.Lib
 
                 if (read > 0)
                 {
-                    Ctx.m_instance.m_log.asynclog("接收到数据 " + read.ToString());
+                    try
+                    {
+                        Ctx.m_instance.m_log.asyncLog("接收到数据 " + read.ToString());
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_log.asyncError(e.Message);
+                    }
 
-                    m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
-                    m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
-                    m_dataBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
+                    try
+                    {
+                        m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_log.asyncError(e.Message);
+                    }
+
+                    try
+                    {
+                        m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_log.asyncError(e.Message);
+                    }
+
+                    try
+                    {
+                        m_dataBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_log.asyncError(e.Message);
+                    }
                     //#if !NET_MULTHREAD
                     //m_dataBuffer.moveRaw2Msg();
                     //#endif
 
-                    Receive();                  // 继续接收
+                    try
+                    {
+                        Receive();                  // 继续接收
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_log.asyncError(e.Message);
+                    }
                 }
             }
             catch (System.Exception e)
             {
                 // 输出日志
-                Ctx.m_instance.m_log.asynclog(e.Message);
+                Ctx.m_instance.m_log.asyncError(e.Message);
                 Disconnect(0);
             }
         }
@@ -219,6 +272,11 @@ namespace SDK.Lib
         public void Send()
         {
             if (!checkAndUpdateConnect())
+            {
+                return;
+            }
+
+            if (m_socket == null)
             {
                 return;
             }
@@ -240,17 +298,17 @@ namespace SDK.Lib
             try
             {
                 IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.dynBuff.buff, (int)m_dataBuffer.sendBuffer.position, (int)m_dataBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
-                bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
-                if (!success)
-                {
-                    Ctx.m_instance.m_log.asynclog(string.Format("SendMsg Timeout {0} ", m_sendTimeout));
-                }
+                //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
+                //if (!success)
+                //{
+                //    Ctx.m_instance.m_log.asyncLog(string.Format("SendMsg Timeout {0} ", m_sendTimeout));
+                //}
             }
             catch (System.Exception e)
             {
                 m_msgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
                 // 输出日志
-                Ctx.m_instance.m_log.asynclog(e.Message);
+                Ctx.m_instance.m_log.asyncError(e.Message);
                 Disconnect(0);
             }
         }
@@ -267,13 +325,13 @@ namespace SDK.Lib
             {
                 int bytesSent = m_socket.EndSend(ar);
                 m_dataBuffer.sendBuffer.setPos(m_dataBuffer.sendBuffer.position + (uint)bytesSent);
-                Ctx.m_instance.m_log.asynclog("发送数据 " + bytesSent.ToString());
+                Ctx.m_instance.m_log.asyncLog("发送数据 " + bytesSent.ToString());
                 Send();                 // 继续发送数据
             }
             catch (System.Exception e)
             {
                 // 输出日志
-                Ctx.m_instance.m_log.asynclog(e.Message);
+                Ctx.m_instance.m_log.asyncError(e.Message);
                 Disconnect(0);
             }
         }

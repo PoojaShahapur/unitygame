@@ -31,6 +31,7 @@ namespace SDK.Common
 
         public override void parseXml(string str)
         {
+            base.parseXml(str);
             parseXml<XmlItemMarket>(str, "obj");
         }
 
