@@ -13,7 +13,7 @@ namespace SDK.Common
         protected MMutex m_visitMutex;
         protected T m_retItem;
 
-        public LockList(string name, int sizePerElement, uint initCapacity = 1, uint maxCapacity = 2)
+        public LockList(string name, int sizePerElement, uint initCapacity = 32/*DataCV.INIT_ELEM_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)
         {
             m_dynamicBuffer = new DynamicBuffer<T>(sizePerElement, initCapacity, maxCapacity);
             m_visitMutex = new MMutex(false, name);

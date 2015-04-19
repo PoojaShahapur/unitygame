@@ -16,7 +16,7 @@ namespace SDK.Common
 
         public T[] m_buff;            // 当前环形缓冲区
 
-        public DynamicBuffer(int sizePerElement, uint initCapacity = 1, uint maxCapacity = 2)
+        public DynamicBuffer(int sizePerElement, uint initCapacity = 1 * 1024/*DataCV.INIT_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)      // mono 模板类中使用常亮报错， vs 可以
         {
             m_sizePerElement = sizePerElement;
             m_iMaxCapacity = maxCapacity;
