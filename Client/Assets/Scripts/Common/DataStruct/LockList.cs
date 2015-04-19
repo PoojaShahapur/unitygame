@@ -80,11 +80,12 @@ namespace SDK.Common
                     if(item.Equals(elem))       // 地址比较
                     {
                         this.RemoveAt(idx);
+                        return true;
                     }
 
                     ++idx;
                 }
-                return true;
+                return false;
             }
         }
 
@@ -98,15 +99,13 @@ namespace SDK.Common
 
                     if (index < m_dynamicBuffer.m_size)
                     {
-                        if (index == m_dynamicBuffer.m_size - 1 || 1 == m_dynamicBuffer.m_size) // 如果删除最后一个元素或者总共就一个元素
-                        {
-                            --m_dynamicBuffer.m_size;
-                        }
-                        else
+                        if (index != m_dynamicBuffer.m_size - 1 && 1 != m_dynamicBuffer.m_size) // 如果删除不是最后一个元素或者总共就大于一个元素
                         {
                             Array.Copy(m_dynamicBuffer.m_buff, (index + 1) * m_dynamicBuffer.m_size, m_dynamicBuffer.m_buff, index * m_dynamicBuffer.m_size, (m_dynamicBuffer.m_size - 1 - index) * m_dynamicBuffer.m_sizePerElement);
                             --m_dynamicBuffer.m_size;
                         }
+
+                        --m_dynamicBuffer.m_size;
                     }
                 }
                 else
