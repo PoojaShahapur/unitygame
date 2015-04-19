@@ -13,15 +13,15 @@ namespace SDK.Common
     public class CirculeBuffer
     {
         // 这里面的 byte[] 会频繁操作，就直接写在这里
-        protected DynamicBuffer m_dynamicBuffer;
+        protected DynamicBuffer<byte> m_dynamicBuffer;
 
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引
         protected ByteBuffer m_tmpBA;        // 临时数据
 
-        public CirculeBuffer(uint initCapacity = DynamicBuffer.INIT_CAPACITY, uint maxCapacity = DynamicBuffer.MAX_CAPACITY)
+        public CirculeBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY)
         {
-            m_dynamicBuffer = new DynamicBuffer(initCapacity, maxCapacity);
+            m_dynamicBuffer = new DynamicBuffer<byte>(sizeof(byte), initCapacity, maxCapacity);
 
             m_first = 0;
             m_last = 0;

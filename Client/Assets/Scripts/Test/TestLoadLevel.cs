@@ -26,7 +26,6 @@ public class TestLoadLevel : MonoBehaviour
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = "Level1.unity3d";
             param.m_resPackType = ResPackType.eLevelType;
-            param.m_lvlName = "Level1";
             Ctx.m_instance.m_resLoadMgr.load(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }

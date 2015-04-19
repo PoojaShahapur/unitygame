@@ -4,9 +4,9 @@
     {
         protected LockList<T> m_list;
 
-        public LockQueue(string name)
+        public LockQueue(string name, int sizePerElement)
         {
-            m_list = new LockList<T>("name");
+            m_list = new LockList<T>("name", sizePerElement);
         }
 
         public void push(T item)

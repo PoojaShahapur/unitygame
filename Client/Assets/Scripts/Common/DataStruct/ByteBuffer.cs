@@ -14,19 +14,19 @@ namespace SDK.Common
         public byte[] m_shortByte = new byte[sizeof(short)];
         public byte[] m_longByte = new byte[sizeof(long)];
 
-        protected DynamicBuffer m_dynBuff;
+        protected DynamicBuffer<byte> m_dynBuff;
         protected uint m_position;          // 当前可以读取的位置索引
         protected Endian m_endian;          // 大端小端
 
         protected byte[] m_padBytes;
 
-        public ByteBuffer(uint initCapacity = DynamicBuffer.INIT_CAPACITY, uint maxCapacity = DynamicBuffer.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
+        public ByteBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
-            m_dynBuff = new DynamicBuffer(initCapacity, maxCapacity);
+            m_dynBuff = new DynamicBuffer<byte>(sizeof(byte), initCapacity, maxCapacity);
         }
 
-        public DynamicBuffer dynBuff
+        public DynamicBuffer<byte> dynBuff
         {
             get
             {

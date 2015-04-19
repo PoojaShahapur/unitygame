@@ -17,7 +17,7 @@ namespace SDK.Common
         protected MsgBuffer m_sendTmpBuffer;  // 发送临时缓冲区，发送的数据都暂时放在这里
         protected ByteBuffer m_socketSendBA;       // 真正发送缓冲区
 
-        protected DynamicBuffer m_dynBuff;         // 接收到的临时数据，将要放到 m_rawBuffer 中去
+        protected DynamicBuffer<byte> m_dynBuff;         // 接收到的临时数据，将要放到 m_rawBuffer 中去
         protected ByteBuffer m_unCompressHeaderBA;  // 存放解压后的头的长度
         protected ByteBuffer m_sendData;            // 存放将要发送的数据，将要放到 m_sendBuffer 中去
         protected ByteBuffer m_tmpData;             // 临时需要转换的数据放在这里
@@ -38,7 +38,7 @@ namespace SDK.Common
             m_sendTmpBuffer = new MsgBuffer();
             m_socketSendBA = new ByteBuffer();
 
-            m_dynBuff = new DynamicBuffer();
+            m_dynBuff = new DynamicBuffer<byte>(sizeof(byte));
             m_unCompressHeaderBA = new ByteBuffer();
             m_sendData = new ByteBuffer();
             m_tmpData = new ByteBuffer(4);
@@ -49,7 +49,7 @@ namespace SDK.Common
 #endif
         }
 
-        public DynamicBuffer dynBuff
+        public DynamicBuffer<byte> dynBuff
         {
             get
             {

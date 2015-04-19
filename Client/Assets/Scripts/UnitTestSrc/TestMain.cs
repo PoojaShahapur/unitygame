@@ -12,6 +12,7 @@ namespace UnitTestSrc
         protected TestAutoUpdate m_pTestAutoUpdate = new TestAutoUpdate();
 
         protected TestAssetBundles m_pTestAssetBundles = new TestAssetBundles();
+        protected TestDataStruct m_pTestDataStruct = new TestDataStruct();
 
         public void run()
         {
@@ -24,6 +25,8 @@ namespace UnitTestSrc
             //m_testVersion.run();
             m_pTestAutoUpdate.run();
             m_pTestAssetBundles.run();
+
+            m_pTestDataStruct.run();
         }
     }
 }

@@ -8,9 +8,9 @@ namespace SDK.Lib
 {
     public class Logger
     {
-        public LockList<string> m_asyncLogList = new LockList<string>("Logger_asyncLogList");              // 这个是多线程访问的
-        public LockList<string> m_asyncWarnList = new LockList<string>("Logger_asyncWarnList");            // 这个是多线程访问的
-        public LockList<string> m_asyncErrorList = new LockList<string>("Logger_asyncErrorList");          // 这个是多线程访问的
+        public LockList<string> m_asyncLogList = new LockList<string>("Logger_asyncLogList", 4);              // 这个是多线程访问的
+        public LockList<string> m_asyncWarnList = new LockList<string>("Logger_asyncWarnList", 4);            // 这个是多线程访问的
+        public LockList<string> m_asyncErrorList = new LockList<string>("Logger_asyncErrorList", 4);          // 这个是多线程访问的
 
         public string m_tmpStr;
         public bool m_bOutLog = true;          // 是否输出日志
