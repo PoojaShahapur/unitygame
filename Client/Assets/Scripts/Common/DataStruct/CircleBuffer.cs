@@ -5,23 +5,20 @@ using System.Net.Sockets;
 using System.Threading;
 
 /**
- *@brief 环形缓冲区，支持多线程写操作
+ *@brief 环形缓冲区，不支持多线程写操作
  */
 namespace SDK.Common
 {
-    // 必须是线程安全的，否则很多地方都需要加锁
     public class CirculeBuffer
     {
-        // 这里面的 byte[] 会频繁操作，就直接写在这里
         protected DynamicBuffer<byte> m_dynamicBuffer;
-
         protected uint m_first;             // 当前缓冲区数据的第一个索引
-        protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引
+        protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引，浪费一个字节
         protected ByteBuffer m_tmpBA;        // 临时数据
 
         public CirculeBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY)
         {
-            m_dynamicBuffer = new DynamicBuffer<byte>(sizeof(byte), initCapacity, maxCapacity);
+            m_dynamicBuffer = new DynamicBuffer<byte>(initCapacity, maxCapacity);
 
             m_first = 0;
             m_last = 0;
@@ -31,6 +28,11 @@ namespace SDK.Common
 
         public bool isLinearized()
         {
+            if (size == 0)
+            {
+                return true;
+            }
+
             return m_first < m_last;
         }
 
@@ -123,7 +125,7 @@ namespace SDK.Common
             byte[] tmpbuff = new byte[newCapacity];   // 分配新的空间
             if (isLinearized()) // 如果是在一段内存空间
             {
-                Array.Copy(m_dynamicBuffer.m_buff, 0, tmpbuff, 0, m_dynamicBuffer.m_size);
+                Array.Copy(m_dynamicBuffer.m_buff, m_first, tmpbuff, 0, m_dynamicBuffer.m_size);
             }
             else    // 如果在两端内存空间
             {
@@ -134,6 +136,7 @@ namespace SDK.Common
             m_first = 0;
             m_last = m_dynamicBuffer.m_size;
             m_dynamicBuffer.m_iCapacity = newCapacity;
+            m_dynamicBuffer.m_buff = tmpbuff;
         }
 
         /**
@@ -220,7 +223,7 @@ namespace SDK.Common
          */
         protected bool canAddData(uint num)
         {
-            if (m_dynamicBuffer.m_iCapacity - m_dynamicBuffer.m_size > num)
+            if (m_dynamicBuffer.m_iCapacity - m_dynamicBuffer.m_size > num) // 浪费一个字节，不用 >= ，使用 > 
             {
                 return true;
             }

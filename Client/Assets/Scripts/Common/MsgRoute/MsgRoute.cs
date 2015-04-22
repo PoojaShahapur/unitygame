@@ -38,7 +38,7 @@ namespace SDK.Common
     // 线程日志
     public class ThreadLogMR : MsgRouteBase
     {
-        public string m_log;
+        public string m_logSys;
 
         public ThreadLogMR()
             : base(MsgRouteID.eMRIDThreadLog)

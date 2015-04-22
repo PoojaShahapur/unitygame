@@ -49,7 +49,7 @@ namespace SDK.Common
             }
             else
             {
-                Ctx.m_instance.m_log.log("模块重复加载");
+                Ctx.m_instance.m_logSys.log("模块重复加载");
             }
         }
 

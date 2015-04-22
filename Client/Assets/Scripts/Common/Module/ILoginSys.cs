@@ -9,5 +9,6 @@
         void set_LoginState(LoginState state);
         void connectLoginServer(string name, string passwd);
         void unload();
+        uint getUserID();
     }
 }

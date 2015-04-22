@@ -38,7 +38,7 @@ namespace BehaviorLibrary
         public void onLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
             string text = res.getText("TestAi");
             parseXml(text);
@@ -52,7 +52,7 @@ namespace BehaviorLibrary
         public void onFailed(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());

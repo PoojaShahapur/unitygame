@@ -58,7 +58,7 @@ namespace SDK.Common
 
             if (ret == null)
             {
-                Ctx.m_instance.m_log.log(string.Format("table name: {0}, table Item {1}", (int)tableID, itemID));
+                Ctx.m_instance.m_logSys.log(string.Format("table name: {0}, table Item {1} 加载失败", (int)tableID, itemID));
             }
 
 			return ret;
@@ -83,7 +83,7 @@ namespace SDK.Common
         public void onLoaded(IDispatchObject resEvt)
         {
             m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
             byte[] bytes = m_res.getBytes("");
             if (bytes != null)
@@ -102,7 +102,7 @@ namespace SDK.Common
         public void onFailed(IDispatchObject resEvt)
         {
             IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());

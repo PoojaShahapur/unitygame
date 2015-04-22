@@ -10,6 +10,9 @@ namespace SDK.Common
      */
     public class ByteBuffer
     {
+        //public int m_id;        // 测试使用
+        //public bool m_startTest;        // 开始测试使用
+
         public byte[] m_intByte = new byte[sizeof(int)];
         public byte[] m_shortByte = new byte[sizeof(short)];
         public byte[] m_longByte = new byte[sizeof(long)];
@@ -23,7 +26,7 @@ namespace SDK.Common
         public ByteBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
-            m_dynBuff = new DynamicBuffer<byte>(sizeof(byte), initCapacity, maxCapacity);
+            m_dynBuff = new DynamicBuffer<byte>(initCapacity, maxCapacity);
         }
 
         public DynamicBuffer<byte> dynBuff
@@ -38,10 +41,7 @@ namespace SDK.Common
         {
             get
             {
-                if (m_dynBuff.size < m_position)
-                {
-                    Ctx.m_instance.m_log.log("aaa");
-                }
+                //check();
                 return (m_dynBuff.size - m_position);
             }
         }
@@ -72,12 +72,16 @@ namespace SDK.Common
             set
             {
                 m_dynBuff.size = value;
+
+                //check();
             }
         }
 
         public void setPos(uint pos)
         {
             m_position = pos;
+
+            //check();
         }
 
         public uint getPos()
@@ -94,11 +98,15 @@ namespace SDK.Common
             set
             {
                 m_position = value;
+
+                //check();
             }
         }
 
 		public void clear ()
         {
+            //check();
+
             m_position = 0;
             m_dynBuff.size = 0;
         }
@@ -108,8 +116,12 @@ namespace SDK.Common
         {
             if(m_dynBuff.size + delta > m_dynBuff.capacity)
             {
+                //check();
+
                 return false;
             }
+
+            //check();
 
             return true;
         }
@@ -119,8 +131,12 @@ namespace SDK.Common
         {
             if (m_position + delta > m_dynBuff.size)
             {
+                //check();
+
                 return false;
             }
+
+            //check();
 
             return true;
         }
@@ -128,17 +144,23 @@ namespace SDK.Common
         protected void extendDeltaCapicity(uint delta)
         {
             m_dynBuff.extendDeltaCapicity(delta);
+
+            //check();
         }
 
         protected void advPos(uint num)
         {
             m_position += num;
+
+            //check();
         }
 
         protected void advPosAndLen(uint num)
         {
             m_position += num;
             length = m_position;
+
+            //check();
         }
 
         // 压缩
@@ -151,6 +173,8 @@ namespace SDK.Common
             Compress.CompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
 
             replace(retByte, 0, retSize, position, len_);
+
+            //check();
 
             return retSize;
         }
@@ -165,6 +189,8 @@ namespace SDK.Common
             Compress.DecompressData(m_dynBuff.buff, position, length, ref retByte, ref retSize, algorithm);
 
             replace(retByte, 0, retSize, position, len_);
+
+            //check();
 
             return retSize;
         }
@@ -225,6 +251,8 @@ namespace SDK.Common
             Array.Copy(m_padBytes, 0, m_dynBuff.buff, position + len_, leftLen_);       // 拷贝回去
             replace(retByte, 0, alignLen_, position, len_);
 
+            //check();
+
             return alignLen_;
         }
 
@@ -242,6 +270,8 @@ namespace SDK.Common
 
             Crypt.decryptData(m_dynBuff.buff, position, len_, ref retByte, cryptContext);
             writeBytes(retByte, 0, (uint)retByte.Length, false);
+
+            //check();
         }
 
         public ByteBuffer readBoolean(ref bool tmpBool)
@@ -251,6 +281,8 @@ namespace SDK.Common
                 tmpBool = System.BitConverter.ToBoolean(m_dynBuff.buff, (int)m_position);
                 advPos(sizeof(bool));
             }
+
+            //check();
 
             return this;
         }
@@ -263,6 +295,8 @@ namespace SDK.Common
                 advPos(sizeof(char));
             }
 
+            //check();
+
             return this;
         }
 
@@ -273,6 +307,8 @@ namespace SDK.Common
                 tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_position);
                 advPos(sizeof(byte));
             }
+
+            //check();
 
             return this;
         }
@@ -295,6 +331,8 @@ namespace SDK.Common
                 advPos(sizeof(short));
             }
 
+            //check();
+
             return this;
         }
 
@@ -316,6 +354,8 @@ namespace SDK.Common
                 advPos(sizeof(ushort));
             }
 
+            //check();
+
             return this;
         }
 
@@ -335,6 +375,8 @@ namespace SDK.Common
                 }
                 advPos(sizeof(int));
             }
+
+            //check();
 
             return this;
         }
@@ -356,6 +398,8 @@ namespace SDK.Common
                 advPos(sizeof(float));
             }
 
+            //check();
+
             return this;
         }
 
@@ -375,6 +419,8 @@ namespace SDK.Common
                 }
                 advPos(sizeof(double));
             }
+
+            //check();
 
             return this;
         }
@@ -397,6 +443,8 @@ namespace SDK.Common
                 advPos(sizeof(uint));
             }
 
+            //check();
+
             return this;
         }
 
@@ -418,25 +466,21 @@ namespace SDK.Common
                 advPos(sizeof(ulong));
             }
 
+            //check();
+
             return this;
         }
 
         public ByteBuffer readMultiByte(ref string tmpStr, uint len, Encoding charSet)
         {
-            // http://blog.sina.com.cn/s/blog_6e51df7f0100tj9z.html
-            // gbk和utf-8都是以单个字节表示数字的，所以不存在字节序问题，在多个不同系统架构都用。对于utf-16，则是以双字节表示一个整数，所以为会有字节序问题，分大小端unicode
-            // http://msdn.microsoft.com/zh-cn/library/system.text.encoding.bigendianunicode%28v=vs.80%29.aspx
-            // Encoding  u7    = Encoding.UTF7;
-            // Encoding  u8    = Encoding.UTF8;
-            // Encoding  u16LE = Encoding.Unicode;
-            // Encoding  u16BE = Encoding.BigEndianUnicode;
-            // Encoding  u32   = Encoding.UTF32;
             // 如果是 unicode ，需要大小端判断
             if (canRead(len))
             {
                 tmpStr = charSet.GetString(m_dynBuff.buff, (int)m_position, (int)len);
                 advPos(len);
             }
+
+            //check();
 
             return this;
         }
@@ -450,6 +494,8 @@ namespace SDK.Common
                 advPos(len);
             }
 
+            //check();
+
             return this;
         }
 
@@ -461,6 +507,8 @@ namespace SDK.Common
             }
             m_dynBuff.buff[m_position] = value;
             advPosAndLen(sizeof(byte));
+
+            //check();
         }
 
 		public void writeInt16 (short value)
@@ -478,6 +526,8 @@ namespace SDK.Common
             Array.Copy(m_shortByte, 0, m_dynBuff.buff, m_position, sizeof(short));
 
             advPosAndLen(sizeof(short));
+
+            //check();
         }
 
         public void writeUnsignedInt16(ushort value)
@@ -495,6 +545,8 @@ namespace SDK.Common
             Array.Copy(m_shortByte, 0, m_dynBuff.buff, m_position, sizeof(ushort));
 
             advPosAndLen(sizeof(ushort));
+
+            //check();
         }
 
         public void writeInt32(int value)
@@ -512,6 +564,8 @@ namespace SDK.Common
             Array.Copy(m_intByte, 0, m_dynBuff.buff, m_position, sizeof(int));
 
             advPosAndLen(sizeof(int));
+
+            //check();
         }
 
 		public void writeUnsignedInt32 (uint value, bool bchangeLen = true)
@@ -536,6 +590,8 @@ namespace SDK.Common
             {
                 advPos(sizeof(uint));
             }
+
+            //check();
         }
 
         public void writeUnsignedLong(ulong value)
@@ -553,6 +609,8 @@ namespace SDK.Common
             Array.Copy(m_longByte, 0, m_dynBuff.buff, m_position, sizeof(long));
 
             advPosAndLen(sizeof(long));
+
+            //check();
         }
 
         // 写入字节， bchangeLen 是否改变长度
@@ -574,6 +632,8 @@ namespace SDK.Common
                     advPos(len);
                 }
             }
+
+            //check();
         }
 
         // 写入字符串
@@ -617,6 +677,8 @@ namespace SDK.Common
 
                 advPosAndLen((uint)len);
             }
+
+            //check();
         }
 
         // 替换已经有的一段数据
@@ -633,20 +695,43 @@ namespace SDK.Common
 
             position = destStartPos;
             writeBytes(srcBytes, srcStartPos, srclen_, false);
+            //check();
         }
 
         public void insertUnsignedInt32(uint value)
         {
             length += sizeof(int);       // 扩大长度
             writeUnsignedInt32(value);     // 写入
+            //check();
         }
 
         public ByteBuffer readUnsignedLongByOffset(ref ulong tmpUlong, uint offset)
         {
             position = offset;
             readUnsignedLong(ref tmpUlong);
-
+            //check();
             return this;
         }
+
+        //public bool check()
+        //{
+        //    if (m_startTest && m_id == 1000)
+        //    {
+        //        if (m_position == 32 || m_position == 16)
+        //        {
+        //            if (length == 32 || length == 16)
+        //            {
+        //                return false;
+        //            }
+        //        }
+        //    }
+
+        //    if (m_dynBuff.size < m_position)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
     }
 }

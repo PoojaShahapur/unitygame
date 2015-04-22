@@ -64,7 +64,7 @@ namespace SDK.Common
                         }
                         else
                         {
-                            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, path);
+                            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, path);
                         }
                     }
 

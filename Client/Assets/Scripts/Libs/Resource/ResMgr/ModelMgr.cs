@@ -122,7 +122,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem2, type.ToString());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem2, type.ToString());
             }
 
             return null;

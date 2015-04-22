@@ -24,7 +24,7 @@ namespace Game.Login
 
         protected void threadLog(MsgRouteBase msg)
         {
-            Ctx.m_instance.m_log.log((msg as ThreadLogMR).m_log);
+            Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).m_logSys);
         }
     }
 }

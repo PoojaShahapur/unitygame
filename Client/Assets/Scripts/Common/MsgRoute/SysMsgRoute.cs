@@ -10,7 +10,7 @@ namespace SDK.Common
     public class SysMsgRoute : LockQueue<MsgRouteBase>
     {
         public SysMsgRoute(string name)
-            : base(name, 4)
+            : base(name)
         {
 
         }

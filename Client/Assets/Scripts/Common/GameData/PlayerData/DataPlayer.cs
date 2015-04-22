@@ -11,6 +11,7 @@ namespace SDK.Common
         public DataPack m_dataPack = new DataPack();            // 包裹数据
         public DataCard m_dataCard = new DataCard();            // 卡牌数据
         public t_MainUserData m_dataMain = new t_MainUserData();// 主角自己数据
+        public AccountData m_accountData = new AccountData();   // 主角账号数据
         public DataFriend m_dataFriend;                         // 好友数据
 
         public DataShop m_dataShop = new DataShop();            // 商城数据

@@ -190,7 +190,7 @@ namespace SDK.Lib
                     fs.Write(m_bytes, 0, nReadSize);
                     readedLength += nReadSize;
                     logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
-                    Ctx.m_instance.m_log.log(logStr);
+                    Ctx.m_instance.m_logSys.log(logStr);
                     yield return false;
                 }
                 ns.Close();
@@ -261,7 +261,7 @@ namespace SDK.Lib
                 //}
                 //catch (Exception ex2)
                 //{
-                //    Ctx.m_instance.m_log.asynclog("error");
+                //    Ctx.m_instance.m_logSys.asynclog("error");
                 //}
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 long contentLength = response.ContentLength;
@@ -277,7 +277,7 @@ namespace SDK.Lib
                     {
                         fs.Close();
                         onRunTaskEnd();
-                        Ctx.m_instance.m_log.asyncLog("之前文件已经下载完成，不用重新下载");
+                        Ctx.m_instance.m_logSys.log("之前文件已经下载完成，不用重新下载");
                         return;
                     }
                     fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
@@ -290,7 +290,7 @@ namespace SDK.Lib
                     }
                     catch (Exception /*ex2*/)
                     {
-                        Ctx.m_instance.m_log.asyncError("error");
+                        Ctx.m_instance.m_logSys.error("error");
                     }
                 }
 
@@ -314,7 +314,7 @@ namespace SDK.Lib
                     readedLength += nReadSize;
                     //logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
                     logStr = "已下载: " + fs.Length + "b / " + contentLength + "b";
-                    Ctx.m_instance.m_log.asyncLog(logStr);
+                    Ctx.m_instance.m_logSys.log(logStr);
 
                     if (isBytesValid)
                     {

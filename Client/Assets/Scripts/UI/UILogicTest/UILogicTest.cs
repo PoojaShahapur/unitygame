@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using SDK.Lib;
 using System.IO;
 using UnityEngine.UI;
@@ -40,7 +41,8 @@ namespace Game.UI
 
         protected void onBtnClkOk2()
         {
-            testClostAudio();
+            //testClostAudio();
+            sendMsg();
         }
 
         protected void testUIInfo()
@@ -71,6 +73,14 @@ namespace Game.UI
         protected void testLoadMapCfg()
         {
             Ctx.m_instance.m_mapCfg.getXmlItem(1);
+        }
+
+        protected void sendMsg()
+        {
+            stPasswdLogonUserCmd cmd = new stPasswdLogonUserCmd();
+            cmd.dwUserID = Ctx.m_instance.m_loginSys.getUserID();
+            cmd.loginTempID = Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID;
+            UtilMsg.sendMsg(cmd);
         }
     }
 }

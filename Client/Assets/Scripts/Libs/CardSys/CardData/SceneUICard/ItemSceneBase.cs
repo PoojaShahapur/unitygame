@@ -18,7 +18,7 @@ namespace SDK.Lib
         public virtual void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
             m_go = m_res.InstantiateObject(m_path);
             if (m_tran != null)     // 很可能 UIGrid 处理位置了

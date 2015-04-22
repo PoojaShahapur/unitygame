@@ -234,6 +234,8 @@ namespace Game.UI
                     {
                         if (sceneCardItem != null)
                         {
+                            try
+                            {
                             if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
                             {
                                 UtilApi.getComByP<MeshRenderer>(go).enabled = true;
@@ -241,6 +243,12 @@ namespace Game.UI
                             else
                             {
                                 UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                            }
+                            }
+                            catch (System.Exception e)
+                            {
+                                // 输出日志
+                                Ctx.m_instance.m_logSys.error(e.Message);
                             }
                         }
                     }

@@ -19,7 +19,7 @@ namespace SDK.Common
 
         public NetworkMgr m_netMgr;                // 网络通信
         public Config m_cfg;                        // 整体配置文件
-        public Logger m_log;                       // 日志系统
+        public LogSys m_logSys;                       // 日志系统
         public ResLoadMgr m_resLoadMgr;                    // 资源管理器
         public InputMgr m_inputMgr;                // 输入管理器
 

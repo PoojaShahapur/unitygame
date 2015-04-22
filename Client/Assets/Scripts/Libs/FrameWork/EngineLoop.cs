@@ -30,7 +30,7 @@ namespace SDK.Lib
             //Ctx.m_instance.m_inputMgr.handleKeyBoard();
             // 游戏循环处理
             Ctx.m_instance.m_processSys.ProcessNextFrame();
-            Ctx.m_instance.m_log.updateLog();
+            Ctx.m_instance.m_logSys.updateLog();
         }
     }
 }

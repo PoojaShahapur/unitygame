@@ -280,11 +280,18 @@ namespace SDK.Lib
         // 不考虑引用计数，直接卸载
         public void unloadNoRef(string path)
         {
-            m_LoadData.m_path2Res[path].unload();
-            m_LoadData.m_path2Res[path].reset();
-            m_LoadData.m_noUsedResItem.Add(m_LoadData.m_path2Res[path]);
+            if (m_LoadData.m_path2Res.ContainsKey(path))
+            {
+                m_LoadData.m_path2Res[path].unload();
+                m_LoadData.m_path2Res[path].reset();
+                m_LoadData.m_noUsedResItem.Add(m_LoadData.m_path2Res[path]);
 
-            m_LoadData.m_path2Res.Remove(path);
+                m_LoadData.m_path2Res.Remove(path);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+            }
         }
 
         public void onLoaded(LoadItem item)

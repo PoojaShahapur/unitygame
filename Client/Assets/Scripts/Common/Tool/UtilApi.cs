@@ -439,6 +439,12 @@ namespace SDK.Common
             return (uint)(ts.TotalSeconds);
         }
 
+        // 获取当前时间的文本可读形式
+        public static string getUTCFormatText()
+        {
+            return System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        }
+
         public static void loadRes<T>(string path, System.Action<IDispatchObject> onload, System.Action unload, InsResBase res)
         {
             bool needLoad = true;

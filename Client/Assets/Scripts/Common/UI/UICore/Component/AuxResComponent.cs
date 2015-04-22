@@ -64,7 +64,7 @@ namespace SDK.Common
         public virtual void onLoaded(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
             m_selfGo = m_res.InstantiateObject(m_path);
             m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
@@ -76,7 +76,7 @@ namespace SDK.Common
         public virtual void onFailed(IDispatchObject resEvt)            // 资源加载成功
         {
             m_res = resEvt as ModelRes;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());

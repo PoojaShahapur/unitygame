@@ -23,8 +23,10 @@ namespace SDK.Common
         protected ByteBuffer m_tmpData;             // 临时需要转换的数据放在这里
         protected ByteBuffer m_tmp1fData;           // 临时需要转换的数据放在这里
 
+#if NET_MULTHREAD
         private MMutex m_readMutex = new MMutex(false, "ReadMutex");   // 读互斥
         private MMutex m_writeMutex = new MMutex(false, "WriteMutex");   // 写互斥
+#endif
 
 #if MSG_ENCRIPT
         protected CryptContext m_cryptContext;
@@ -37,8 +39,9 @@ namespace SDK.Common
             //m_sendTmpBA = new ByteBuffer();
             m_sendTmpBuffer = new MsgBuffer();
             m_socketSendBA = new ByteBuffer();
+            //m_socketSendBA.m_id = 1000;
 
-            m_dynBuff = new DynamicBuffer<byte>(sizeof(byte));
+            m_dynBuff = new DynamicBuffer<byte>();
             m_unCompressHeaderBA = new ByteBuffer();
             m_sendData = new ByteBuffer();
             m_tmpData = new ByteBuffer(4);
@@ -143,7 +146,9 @@ namespace SDK.Common
 
             if (bnet)       // 从 socket 发送出去
             {
+                #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_writeMutex))
+                #endif
                 {
                     //m_sendTmpBA.writeUnsignedInt(m_sendData.length);                            // 写入头部长度
                     //m_sendTmpBA.writeBytes(m_sendData.dynBuff.buff, 0, m_sendData.length);      // 写入内容
@@ -154,7 +159,9 @@ namespace SDK.Common
             }
             else        // 直接放入接收消息缓冲区
             {
+                #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_readMutex))
+                #endif
                 {
                     //m_tmpData.clear();
                     //m_tmpData.writeUnsignedInt(m_sendData.length);      // 填充长度
@@ -167,7 +174,9 @@ namespace SDK.Common
 
         public ByteBuffer getMsg()
         {
+            #if NET_MULTHREAD
             using (MLock mlock = new MLock(m_readMutex))
+            #endif
             {
                 if (m_msgBuffer.popFront())
                 {
@@ -181,10 +190,14 @@ namespace SDK.Common
         // 获取数据，然后压缩加密
         public void getSendData()
         {
+            //m_socketSendBA.m_startTest = false;
+
             m_socketSendBA.clear();
 
             // 获取完数据，就解锁
+            #if NET_MULTHREAD
             using (MLock mlock = new MLock(m_writeMutex))
+            #endif
             {
                 //m_socketSendBA.writeBytes(m_sendTmpBA.dynBuff.buff, 0, (uint)m_sendTmpBA.length);
                 //m_sendTmpBA.clear();
@@ -205,6 +218,8 @@ namespace SDK.Common
             // CompressAndEncryptAllInOne();
 #endif
             m_socketSendBA.position = 0;        // 设置指针 pos
+
+            //m_socketSendBA.m_startTest = true;
         }
 
         // 压缩加密每一个包
@@ -340,7 +355,15 @@ namespace SDK.Common
         protected void UnCompressAndDecryptEveryOne()
         {
 #if MSG_ENCRIPT
-            m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
+            try
+            {
+                m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
+            }
+            catch (System.Exception e)
+            {
+                // 输出日志
+                Ctx.m_instance.m_logSys.error(e.Message);
+            }
 #endif
 //#if MSG_COMPRESS
             //m_rawBuffer.headerBA.setPos(0); // 这个头目前没有用，是客户端自己添加的，服务器发送一个包，就认为是一个完整的包
@@ -351,10 +374,21 @@ namespace SDK.Common
             //    m_rawBuffer.msgBodyBA.uncompress();
             //}
 //#endif
+            try
+            {
             m_rawBuffer.msgBodyBA.setPos(0);
+            }
+            catch (System.Exception e)
+            {
+                // 输出日志
+                Ctx.m_instance.m_logSys.error(e.Message);
+            }
+
             uint msglen = 0;
             while (m_rawBuffer.msgBodyBA.bytesAvailable >= 4)
             {
+                try
+                {
                 m_rawBuffer.msgBodyBA.readUnsignedInt32(ref msglen);    // 读取一个消息包头
                 if (msglen == 0)     // 如果是 0 ，就说明最后是由于加密补齐的数据
                 {
@@ -371,14 +405,46 @@ namespace SDK.Common
                 {
                     m_rawBuffer.msgBodyBA.position += msglen;
                 }
+                }
+                catch (System.Exception e)
+                {
+                    // 输出日志
+                    Ctx.m_instance.m_logSys.error(e.Message);
+                }
+                try
+                {
                 m_unCompressHeaderBA.clear();
                 m_unCompressHeaderBA.writeUnsignedInt32(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
                 m_unCompressHeaderBA.position = 0;
-
-                using (MLock mlock = new MLock(m_readMutex))
+                }
+                catch (System.Exception e)
                 {
+                    // 输出日志
+                    Ctx.m_instance.m_logSys.error(e.Message);
+                }
+
+                #if NET_MULTHREAD
+                using (MLock mlock = new MLock(m_readMutex))
+                #endif
+                {
+                    try
+                    {
                     m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_logSys.error(e.Message);
+                    }
+                    try
+                    {
                     m_msgBuffer.circuleBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
+                    }
+                    catch (System.Exception e)
+                    {
+                        // 输出日志
+                        Ctx.m_instance.m_logSys.error(e.Message);
+                    }
                 }
             }
         }
@@ -403,8 +469,9 @@ namespace SDK.Common
             m_unCompressHeaderBA.writeUnsignedInt32(m_rawBuffer.msgBodyBA.length);
             m_unCompressHeaderBA.position = 0;
 #endif
-
+            #if NET_MULTHREAD
             using (MLock mlock = new MLock(m_readMutex))
+            #endif
             {
 #if !MSG_COMPRESS && !MSG_ENCRIPT
                 m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段

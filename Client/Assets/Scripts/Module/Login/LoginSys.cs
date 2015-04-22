@@ -42,7 +42,7 @@ namespace Game.Login
         public void onResLoadScene(Scene scene)
         {
             Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Login);
-            Ctx.m_instance.m_log.log("加载场景");
+            Ctx.m_instance.m_logSys.log("加载场景");
             // 加载登陆界面
             Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.UILogin);
         }
@@ -67,6 +67,11 @@ namespace Game.Login
         {
             Ctx.m_instance.m_netDispList.removeOneDisp(m_loginNetHandleCB);
             Ctx.m_instance.m_msgRouteList.removeOneDisp(m_loginRouteCB);
+        }
+
+        public uint getUserID()
+        {
+            return m_loginFlowHandle.getDwUserID();
         }
     }
 }

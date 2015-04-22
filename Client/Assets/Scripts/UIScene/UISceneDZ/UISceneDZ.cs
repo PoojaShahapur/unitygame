@@ -378,7 +378,7 @@ namespace Game.UI
         {
             if (msg.side != 1 && msg.side != 2 && msg.success == 1)
             {
-                Ctx.m_instance.m_log.log(msg.side.ToString());
+                Ctx.m_instance.m_logSys.log(msg.side.ToString());
             }
 
             // 只有有效值的时候才处理

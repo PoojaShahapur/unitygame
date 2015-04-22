@@ -86,8 +86,15 @@ namespace SDK.Lib
             string path = res.GetPath();
             m_path2ListenItemDic.Remove(path);
 
-            m_path2ResDic[path].m_isLoaded = true;
-            m_path2ResDic[path].m_isSucceed = true;
+            if (m_path2ResDic.ContainsKey(path))
+            {
+                m_path2ResDic[path].m_isLoaded = true;
+                m_path2ResDic[path].m_isSucceed = true;
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+            }
 
             //if (m_path2ListenItemDic.ContainsKey(path))
             //{

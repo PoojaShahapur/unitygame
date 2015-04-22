@@ -74,8 +74,8 @@ namespace SDK.Lib
         public void onLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;                         // 类型转换
-            //Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
-            Ctx.m_instance.m_log.log("local xml loaded");
+            //Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
+            Ctx.m_instance.m_logSys.log("local xml loaded");
 
             string text = res.getText(m_ID2FileName[m_langID].m_filePath);
             if (text != null)
@@ -94,7 +94,7 @@ namespace SDK.Lib
         public void onFailed(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());

@@ -28,7 +28,7 @@ namespace SDK.Common
         public void onLoaded(IDispatchObject resEvt)
         {
             IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
             string text = m_res.getText("");
             
             if (text != null)
@@ -56,7 +56,7 @@ namespace SDK.Common
         public void onFailed(IDispatchObject resEvt)
         {
             IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());

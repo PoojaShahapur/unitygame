@@ -7,12 +7,14 @@ namespace Game.Msg
 	{
         public uint reserve;
         public uint version;
+        public stPasswdLogonUserCmd cmd;
 
         public stUserVerifyVerCmd()
         {
             byParam = USER_VERIFY_VER_PARA;
             version = (int)CVMsg.GAME_VERSION;
             reserve = 0;
+            cmd = new stPasswdLogonUserCmd();
         }
 
         public override void serialize(ByteBuffer ba)
@@ -20,6 +22,8 @@ namespace Game.Msg
             base.serialize(ba);
             ba.writeUnsignedInt32(reserve);
             ba.writeUnsignedInt32(version);
+
+            cmd.serialize(ba);
         }
 
         public override void derialize(ByteBuffer ba)
@@ -27,6 +31,8 @@ namespace Game.Msg
             base.derialize(ba);
             ba.readUnsignedInt32(ref reserve);
             ba.readUnsignedInt32(ref version);
+
+            cmd.derialize(ba);
         }
 	}
 }

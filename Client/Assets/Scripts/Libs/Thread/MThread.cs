@@ -10,6 +10,7 @@ namespace SDK.Lib
     public class MThread
     {
         protected static int m_sMainThreadID;           // 主线程 id
+        protected int m_curThreadID;                    // 当前线程的 id
 
         // 数据区域
         protected Thread m_thread;
@@ -70,10 +71,22 @@ namespace SDK.Lib
          */
         virtual public void threadHandle()
         {
+            getCurThreadID();
+
             if(m_cb != null)
             {
                 m_cb(m_param);
             }
+        }
+
+        protected void getCurThreadID()
+        {
+            m_curThreadID = Thread.CurrentThread.ManagedThreadId;       // 当前线程的 ID
+        }
+
+        public bool isCurThread(int threadID)
+        {
+            return (m_curThreadID == threadID);
         }
 
         static public void getMainThreadID()
@@ -90,7 +103,7 @@ namespace SDK.Lib
         {
             if (!isMainThread())
             {
-                Ctx.m_instance.m_log.asyncError("error: log 输出在另外一个线程");
+                Ctx.m_instance.m_logSys.error("error: log 输出在另外一个线程");
                 throw new Exception("cannot call function in thread");
             }
         }

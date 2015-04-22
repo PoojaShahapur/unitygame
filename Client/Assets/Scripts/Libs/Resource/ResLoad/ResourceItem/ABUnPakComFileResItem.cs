@@ -159,7 +159,7 @@ namespace SDK.Lib
                 m_retGO = GameObject.Instantiate(m_object) as GameObject;
                 if (null == m_retGO)
                 {
-                    Ctx.m_instance.m_log.log("不能实例化数据");
+                    Ctx.m_instance.m_logSys.log("不能实例化数据");
                 }
             }
 

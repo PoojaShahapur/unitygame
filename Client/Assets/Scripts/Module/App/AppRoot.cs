@@ -35,7 +35,7 @@ public class AppRoot : MonoBehaviour
         //}
         //catch(Exception err)
         //{
-        //    Ctx.m_instance.m_log.log("Main Loop Error");
+        //    Ctx.m_instance.m_logSys.log("Main Loop Error");
         //}
     }
 
@@ -46,7 +46,7 @@ public class AppRoot : MonoBehaviour
         // 卸载所有的资源
         Ctx.m_instance.unloadAll();
         // 关闭日志设备
-        Ctx.m_instance.m_log.closeDevice();
+        Ctx.m_instance.m_logSys.closeDevice();
     }
 
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个
@@ -94,7 +94,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_factoryBuild = new FactoryBuild();
 
         Ctx.m_instance.m_netMgr = new NetworkMgr();
-        Ctx.m_instance.m_log = new Logger();
+        Ctx.m_instance.m_logSys = new LogSys();
         Ctx.m_instance.m_resLoadMgr = new ResLoadMgr();
         Ctx.m_instance.m_inputMgr = new InputMgr();
 

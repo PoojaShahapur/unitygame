@@ -41,7 +41,7 @@ namespace Game.UI
         {
             if(m_sceneDZData.m_curDragItem == null)
             {
-                Ctx.m_instance.m_log.log("error: move update position error");
+                Ctx.m_instance.m_logSys.log("error: move update position error");
                 return;
             }
             // 检查插入的位置
@@ -81,7 +81,7 @@ namespace Game.UI
                 //            }
                 //            catch (Exception e)
                 //            {
-                //                Ctx.m_instance.m_log.log("aaa");
+                //                Ctx.m_instance.m_logSys.log("aaa");
                 //            }
 
                 //            m_sceneCardList.Remove(m_whiteCard);

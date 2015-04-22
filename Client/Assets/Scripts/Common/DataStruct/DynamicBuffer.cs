@@ -12,13 +12,10 @@ namespace SDK.Common
         public uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
         public uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
         public uint m_size;              // 存储在当前缓冲区中的数量
-        public int m_sizePerElement;     // 每个元素占用的字节数
-
         public T[] m_buff;            // 当前环形缓冲区
 
-        public DynamicBuffer(int sizePerElement, uint initCapacity = 1 * 1024/*DataCV.INIT_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)      // mono 模板类中使用常亮报错， vs 可以
+        public DynamicBuffer(uint initCapacity = 1 * 1024/*DataCV.INIT_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)      // mono 模板类中使用常亮报错， vs 可以
         {
-            m_sizePerElement = sizePerElement;
             m_iMaxCapacity = maxCapacity;
             m_iCapacity = initCapacity;
             m_size = 0;
@@ -63,7 +60,7 @@ namespace SDK.Common
                     return;
                 }
                 T[] tmpbuff = new T[value];   // 分配新的空间
-                Array.Copy(m_buff, 0, tmpbuff, 0, m_size * m_sizePerElement);
+                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);
                 m_buff = tmpbuff;
                 m_iCapacity = value;
             }

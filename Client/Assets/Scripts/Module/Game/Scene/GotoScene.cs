@@ -42,7 +42,7 @@ namespace Game.Game
             }
             else
             {
-                Ctx.m_instance.m_log.log(string.Format("xml 中没有匹配的场景 id {0} ", sceneNumber));
+                Ctx.m_instance.m_logSys.log(string.Format("xml 中没有匹配的场景 id {0} ", sceneNumber));
             }
         }
 
@@ -125,7 +125,7 @@ namespace Game.Game
                     Ctx.m_instance.m_dataPlayer.reqMainData();
                 }
 
-                Ctx.m_instance.m_log.log("场景加载成功");
+                Ctx.m_instance.m_logSys.log("场景加载成功");
                 loadAllUIScene();
                 Ctx.m_instance.m_camSys.m_boxcam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
                 Ctx.m_instance.m_sceneEventCB.onLevelLoaded();

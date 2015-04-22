@@ -60,14 +60,14 @@ namespace SDK.Lib
 
             if (null == m_prefabObj)
             {
-                Ctx.m_instance.m_log.log("prefab 为 null");
+                Ctx.m_instance.m_logSys.log("prefab 为 null");
             }
             else
             {
                 m_retGO = GameObject.Instantiate(m_prefabObj) as GameObject;
                 if (null == m_retGO)
                 {
-                    Ctx.m_instance.m_log.log("不能实例化数据");
+                    Ctx.m_instance.m_logSys.log("不能实例化数据");
                 }
             }
             return m_retGO;

@@ -11,7 +11,7 @@ namespace SDK.Common
         public void receiveMsg7f(ByteBuffer msg)
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem10);
-            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_retLangStr);
 
             stGameTimeTimerUserCmd cmd = new stGameTimeTimerUserCmd();
             cmd.derialize(msg);
@@ -22,7 +22,7 @@ namespace SDK.Common
         public void receiveMsg8f(ByteBuffer msg)
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem11);
-            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_retLangStr);
 
             stRequestUserGameTimeTimerUserCmd cmd = new stRequestUserGameTimeTimerUserCmd();
             cmd.derialize(msg);
@@ -34,7 +34,7 @@ namespace SDK.Common
         public void sendMsg9f()
         {
             Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem12);
-            Ctx.m_instance.m_log.log(Ctx.m_instance.m_shareData.m_retLangStr);
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_retLangStr);
 
             stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
             cmd.qwGameTime = UtilApi.getUTCSec() + qwGameTime;

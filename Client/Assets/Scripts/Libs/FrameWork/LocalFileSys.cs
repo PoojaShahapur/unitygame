@@ -61,7 +61,7 @@ namespace SDK.Lib
             catch (Exception e)
             {
                 //路径与名称未找到文件则直接返回空
-                Ctx.m_instance.m_log.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
                 return null;
             }
             string line;
@@ -91,7 +91,7 @@ namespace SDK.Lib
             catch (Exception e)
             {
                 //路径与名称未找到文件则直接返回空
-                Ctx.m_instance.m_log.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
                 return null;
             }
             string text = sr.ReadToEnd();
@@ -114,7 +114,7 @@ namespace SDK.Lib
             }
             catch (Exception e)
             {
-                Ctx.m_instance.m_log.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
                 //路径与名称未找到文件则直接返回空
                 return null;
             }

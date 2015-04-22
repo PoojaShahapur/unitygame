@@ -16,7 +16,7 @@ namespace SDK.Lib
             }
             else
             {
-                Ctx.m_instance.m_log.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", byCmd, byParam));
+                Ctx.m_instance.m_logSys.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", byCmd, byParam));
             }
         }
     }

@@ -20,6 +20,8 @@ namespace SDK.Lib
          */
         override public void threadHandle()
         {
+            base.threadHandle();
+
             while (!m_ExitFlag)
             {
                 m_networkMgr.sendAndRecData();

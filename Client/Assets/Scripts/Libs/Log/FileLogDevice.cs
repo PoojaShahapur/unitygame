@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
@@ -10,19 +11,43 @@ namespace SDK.Lib
      */
     public class FileLogDevice : LogDeviceBase
     {
+        protected string m_fileSuffix;     // 文件后缀。例如 log_suffix.txt ，suffix 就是后缀
         protected FileStream m_fileStream;
         protected StreamWriter m_streamWriter;
         //protected StackTrace m_stackTrace;
         //protected string m_traceStr;
 
+        public string fileSuffix
+        {
+            get
+            {
+                return m_fileSuffix;
+            }
+            set
+            {
+                m_fileSuffix = value;
+            }
+        }
+
         public override void initDevice()
         {
 #if UNITY_EDITOR
-            string path = Application.dataPath + "/Debug";
+            string path = string.Format("{0}{1}", Application.dataPath, "/Debug");
 #else
-            string path = Application.persistentDataPath + "/Debug";
+            string path = string.Format("{0}{1}", Application.persistentDataPath,"/Debug");
 #endif
-            string file = path + "/log.txt";
+            checkDirSize(path); // 检查目录大小
+
+            string file;
+            if(string.IsNullOrEmpty(m_fileSuffix))
+            {
+                file = string.Format("{0}{1}{2}{3}", path, "/log_", UtilApi.getUTCFormatText(), ".txt");
+            }
+            else
+            {
+                file = string.Format("{0}{1}{2}{3}{4}{5}", path, "/log_", m_fileSuffix, "_", UtilApi.getUTCFormatText(), ".txt");
+            }
+            
             if (!Directory.Exists(path))                    // 判断是否存在
             {
                 Directory.CreateDirectory(path);            // 创建新路径
@@ -74,6 +99,56 @@ namespace SDK.Lib
                 //    m_streamWriter.Write("\n");
                 //}
                 m_streamWriter.Flush();             // 立马输出
+            }
+        }
+
+        // 检测日志目录大小，如果太大，就删除
+        protected void checkDirSize(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                long Size = 0;
+                // 所有文件大小.
+                FileInfo[] fis = dirInfo.GetFiles();
+                foreach (FileInfo fi in fis)
+                {
+                    Size += fi.Length;
+                }
+
+                // 如果超过限制就删除
+                if (Size > 10 * 1024 * 1024)
+                {
+                    foreach (FileInfo fi in fis)
+                    {
+                        try
+                        {
+                            fi.Delete();
+                        }
+                        catch (Exception err)
+                        {
+                            Ctx.m_instance.m_logSys.log(string.Format("删除文件 {0} 出错", fi.FullName));
+                        }
+                    }
+                }
+
+                //{
+                //    string[] strFiles = Directory.GetFiles(path);
+
+                //    foreach (string strFile in strFiles)
+                //    {
+                //        FileInfo fileInfo = new FileInfo(strFile);
+                //        Size += fileInfo.Length;
+                //    }
+
+                //    if (Size > 10 * 1024 * 1024)
+                //    {
+                //        foreach (string strFile in strFiles)
+                //        {
+                //            File.Delete(strFile);
+                //        }
+                //    }
+                //}
             }
         }
     }

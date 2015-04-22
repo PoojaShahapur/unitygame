@@ -81,7 +81,7 @@ namespace SDK.Lib
         public void onLoaded(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
             if (m_path2SoundDic.ContainsKey(res.GetPath()))      // 如果有，说明还没被停止
             {
@@ -103,7 +103,7 @@ namespace SDK.Lib
         public void onFailed(IDispatchObject resEvt)
         {
             IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_log.debugLog_1(LangItemID.eItem0, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
             delSoundItem(m_path2SoundDic[res.GetPath()]);
         }

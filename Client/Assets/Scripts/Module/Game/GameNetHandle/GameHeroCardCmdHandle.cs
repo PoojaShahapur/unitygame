@@ -296,7 +296,7 @@ namespace Game.Game
             stAddBattleCardPropertyUserCmd cmd = new stAddBattleCardPropertyUserCmd();
             cmd.derialize(ba);
 
-            Ctx.m_instance.m_log.log(string.Format("添加一个卡牌 thisid: {0}", cmd.mobject.qwThisID));
+            Ctx.m_instance.m_logSys.log(string.Format("添加一个卡牌 thisid: {0}", cmd.mobject.qwThisID));
 
             SceneCardItem sceneItem = null;
             if (cmd.byActionType == 1)
@@ -436,7 +436,7 @@ namespace Game.Game
             stRetRemoveBattleCardUserCmd cmd = new stRetRemoveBattleCardUserCmd();
             cmd.derialize(ba);
 
-            Ctx.m_instance.m_log.log(string.Format("删除一个卡牌 thisid: {0}", cmd.dwThisID));
+            Ctx.m_instance.m_logSys.log(string.Format("删除一个卡牌 thisid: {0}", cmd.dwThisID));
 
             int side = 0;
             SceneCardItem sceneItem = null;

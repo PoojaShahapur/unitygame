@@ -7,7 +7,7 @@ namespace SDK.Lib
         public TaskThreadPool m_pTaskThreadPool;
 
         public TaskQueue(string name)
-            : base(name, 4)
+            : base(name)
         {
 
         }

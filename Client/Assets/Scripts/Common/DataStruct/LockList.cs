@@ -13,9 +13,9 @@ namespace SDK.Common
         protected MMutex m_visitMutex;
         protected T m_retItem;
 
-        public LockList(string name, int sizePerElement, uint initCapacity = 32/*DataCV.INIT_ELEM_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)
+        public LockList(string name, uint initCapacity = 32/*DataCV.INIT_ELEM_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)
         {
-            m_dynamicBuffer = new DynamicBuffer<T>(sizePerElement, initCapacity, maxCapacity);
+            m_dynamicBuffer = new DynamicBuffer<T>(initCapacity, maxCapacity);
             m_visitMutex = new MMutex(false, name);
         }
 
@@ -101,8 +101,7 @@ namespace SDK.Common
                     {
                         if (index != m_dynamicBuffer.m_size - 1 && 1 != m_dynamicBuffer.m_size) // 如果删除不是最后一个元素或者总共就大于一个元素
                         {
-                            Array.Copy(m_dynamicBuffer.m_buff, (index + 1) * m_dynamicBuffer.m_size, m_dynamicBuffer.m_buff, index * m_dynamicBuffer.m_size, (m_dynamicBuffer.m_size - 1 - index) * m_dynamicBuffer.m_sizePerElement);
-                            --m_dynamicBuffer.m_size;
+                            Array.Copy(m_dynamicBuffer.m_buff, index + 1, m_dynamicBuffer.m_buff, index, m_dynamicBuffer.m_size - 1 - index);
                         }
 
                         --m_dynamicBuffer.m_size;

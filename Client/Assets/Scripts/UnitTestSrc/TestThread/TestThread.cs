@@ -16,7 +16,7 @@ namespace UnitTestSrc
         {
             MEvent pMEvent = new MEvent(false);
             pMEvent.WaitOne();
-            Ctx.m_instance.m_log.log("aaaaa");
+            Ctx.m_instance.m_logSys.log("aaaaa");
         }
 
         protected void testThreadTask()
