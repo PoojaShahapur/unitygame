@@ -43,10 +43,20 @@ namespace SDK.Lib
             m_prefabObj = Resources.Load(m_pathNoExt);
             // Resources.LoadAsync unity5.0 中暂时不支持
             //ResourceRequest req = Resources.LoadAsync<GameObject>(path);
-            
-            if (onLoaded != null)
+
+            if (m_prefabObj != null)
             {
-                onLoaded(this);
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+            }
+            else
+            {
+                if (onFailed != null)
+                {
+                    onFailed(this);
+                }
             }
         }
 

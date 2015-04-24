@@ -28,6 +28,7 @@ namespace Game.UI
         // 点击登陆处理
         protected void onBtnClkLogin()
         {
+            string textStr = "";
             if (Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginSuccessGateServer || Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginNewCharError)    // 网关登陆成功或者建立角色错误
             {
                 InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
@@ -35,19 +36,19 @@ namespace Game.UI
                 if (lblName.text.Length == 0)       // 如果没有输入名字
                 {
                     // 给出一个提示
-                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, (int)LangItemID.eItem1);
+                    textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, LangItemID.eItem1);
                     InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                    param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-                    param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                    param.m_midDesc = textStr;
+                    textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
+                    param.m_btnOkCap = textStr;
                     UIInfo.showMsg(param);
                 }
                 else if (Ctx.m_instance.m_wordFilterManager.IsMatch(lblName.text))       // 如果包含非法字符
                 {
                     // 给出一个提示
-                    Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, (int)LangItemID.eItem2);
+                    textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, LangItemID.eItem2);
                     InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                    param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                    param.m_midDesc = textStr;
                     UIInfo.showMsg(param);
                 }
                 else
@@ -63,11 +64,11 @@ namespace Game.UI
                     else
                     {
                         // 给出一个提示
-                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, (int)LangItemID.eItem0);
+                        textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, LangItemID.eItem0);
                         InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                        param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                        Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-                        param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                        param.m_midDesc = textStr;
+                        textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
+                        param.m_btnOkCap = textStr;
                         UIInfo.showMsg(param);
                     }
                 }

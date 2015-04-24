@@ -20,7 +20,7 @@ namespace SDK.Lib
             ByteBuffer ret = null;
             while((ret = Ctx.m_instance.m_netMgr.getMsg()) != null)
             {
-                if (null != Ctx.m_instance.m_netDispList && false == Ctx.m_instance.m_bStopNetHandle)
+                if (null != Ctx.m_instance.m_netDispList)
                 {
                     Ctx.m_instance.m_netDispList.handleMsg(ret);
                 }

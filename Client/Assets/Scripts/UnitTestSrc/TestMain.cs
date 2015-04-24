@@ -13,6 +13,10 @@ namespace UnitTestSrc
 
         protected TestAssetBundles m_pTestAssetBundles = new TestAssetBundles();
         protected TestDataStruct m_pTestDataStruct = new TestDataStruct();
+        protected TestTable m_pTestTable = new TestTable();
+        protected TestXml m_pTestXml = new TestXml();
+        protected TestResources m_pTestResources = new TestResources();
+        protected TestLoad m_pTestLoad = new TestLoad();
 
         public void run()
         {
@@ -27,6 +31,10 @@ namespace UnitTestSrc
             m_pTestAssetBundles.run();
 
             m_pTestDataStruct.run();
+            m_pTestTable.run();
+            m_pTestXml.run();
+            m_pTestResources.run();
+            m_pTestLoad.run();
         }
     }
 }

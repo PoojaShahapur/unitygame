@@ -66,8 +66,6 @@ namespace SDK.Common
 
         public SystemSetting m_systemSetting = new SystemSetting();
         public CoordConv m_coordConv = new CoordConv();
-
-        public bool m_bStopNetHandle = false;       // 是否停止网络消息处理
         public FlyNumMgr m_pFlyNumMgr = new FlyNumMgr();              // Header Num
 
         public TimerMsgHandle m_pTimerMsgHandle = new TimerMsgHandle();

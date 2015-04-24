@@ -122,6 +122,26 @@ namespace SDK.Lib
             return bytes;
         }
 
+        // 写二进制文件
+        public void writeFileByte(string path, params byte[] bytes)
+        {
+            FileStream fileStream;
+            try
+            {
+                if (File.Exists(@path))                  // 如果文件存在
+                {
+                    File.Delete(@path);
+                }
+
+                fileStream = new FileStream(path, FileMode.Create);
+                fileStream.Write(bytes, 0, bytes.Length);
+            }
+            catch (Exception e)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+            }
+        }
+
         /**
          * @param path：删除文件的路径
          * @param name：删除文件的名称
@@ -135,6 +155,12 @@ namespace SDK.Lib
         public bool isFileExist(string path)
         {
             return File.Exists(path);
+        }
+
+        // 获取本地 Data 目录
+        public string getLocalDataDir()
+        {
+            return Application.dataPath;
         }
 
         // 获取本地可以读取的目录，但是不能写

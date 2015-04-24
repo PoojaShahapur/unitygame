@@ -792,6 +792,21 @@ namespace Game.Msg
             ba.readUnsignedInt32(ref pAttThisID);
             ba.readUnsignedInt32(ref pDefThisID);
         }
+
+        public override void serialize(ByteBuffer ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt8(slot);
+            ba.writeUnsignedInt8(who);
+            ba.writeUnsignedInt8(byActionType);
+            mobject = new t_Card();
+            mobject.serialize(ba);
+
+            ba.writeUnsignedInt8(attackType);
+            ba.writeUnsignedInt32(pAttThisID);
+            ba.writeUnsignedInt32(pDefThisID);
+        }
     }
 
     //const BYTE ADD_BATTLE_CARD_PROPERTY_CMD = 26;

@@ -49,8 +49,7 @@ namespace Game.UI
         {
             InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
             param.m_midDesc = "aaaaaa";
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-            param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+            param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
             UIInfo.showMsg(param);
         }
 

@@ -84,42 +84,35 @@ namespace Game.UI
         {
             if(name.Length == 0)
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem2);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem2); ;
+                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
+                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem2); ;
                 UIInfo.showMsg(param);
                 return false;
             }
             else if (UtilApi.IsIncludeChinese(name))
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem0);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem0);
+                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
                 return false;
             }
 
             if (name.Length == 0)
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem3);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem3);
+                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
                 return false;
             }
             else if (UtilApi.IsIncludeChinese(passwd))
             {
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, (int)LangItemID.eItem1);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
-                Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem22);
-                param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem1);
+                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
                 return false;
             }

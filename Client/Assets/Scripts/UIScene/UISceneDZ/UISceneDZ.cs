@@ -19,6 +19,7 @@ namespace Game.UI
 
         public bool m_bNeedTipsInfo = true;     // 是否需要弹出提示框
         public int m_clkTipsCnt = 0;               // 点击提示框次数
+        public bool m_bStartRound = false;                  // 起始牌都落下，才算开始回合
 
         public override void onReady()
         {
@@ -146,12 +147,10 @@ namespace Game.UI
                         }
                         else    // 你还有可操作的随从
                         {
-                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, (int)LangItemID.eItem0);
                             InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                            param.m_midDesc = Ctx.m_instance.m_shareData.m_retLangStr;
+                            param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem0);
                             param.m_btnClkDisp = onInfoBoxBtnClk;
-                            Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, (int)LangItemID.eItem1);
-                            param.m_btnOkCap = Ctx.m_instance.m_shareData.m_retLangStr;
+                            param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem1);
                             param.m_formID = UIFormID.UIInfo_1;     // 这里提示使用这个 id
                             UIInfo.showMsg(param);
                         }
@@ -254,11 +253,25 @@ namespace Game.UI
             // ChallengeState.CHALLENGE_STATE_BATTLE 状态或者是刚开始，或者是中间掉线，然后重新上线
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_state == (int)ChallengeState.CHALLENGE_STATE_BATTLE)
             {
+                m_bStartRound = true;
                 // 停止各种倒计时
                 stopTimer();
                 if (m_sceneDZData.m_DJSTimer != null)
                 {
                     m_sceneDZData.m_DJSTimer.stopTimer();
+                }
+
+                if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+                {
+                    // 开始定时器
+                    if (m_timer == null)        // 如果定时器没有
+                    {
+                        startDZTimer();
+                    }
+                    else
+                    {
+                        changeTimer();
+                    }
                 }
 
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].bHaveStartCard())    // 如果自己有初始化的牌
@@ -273,33 +286,38 @@ namespace Game.UI
 
         public void psstRetRefreshBattlePrivilegeUserCmd(stRetRefreshBattlePrivilegeUserCmd msg)
         {
+            // 停止倒计时定时器
+            stopTimer();
+            if (m_sceneDZData.m_DJSTimer != null)
+            {
+                m_sceneDZData.m_DJSTimer.stopTimer();
+            }
+
             // 显示各种提示和动画
             if(Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                m_sceneDZData.m_selfTurnTip.turnBegin();
-                m_sceneDZData.m_dzturn.myturn();
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
+                if (m_bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息已进入对战就发送过来了
+                {
+                    m_sceneDZData.m_selfTurnTip.turnBegin();
+                    m_sceneDZData.m_dzturn.myturn();
+                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
+
+                    // 开始定时器
+                    if (m_timer == null)        // 如果定时器没有
+                    {
+                        startDZTimer();
+                    }
+                    else
+                    {
+                        changeTimer();
+                    }
+                }
             }
             else 
             {
                 m_sceneDZData.m_dzturn.enemyTurn();
                 m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(false);
                 m_sceneDZData.m_gameOpState.quitAttackOp();
-            }
-
-            // 停止倒计时定时器
-            if (m_sceneDZData.m_DJSTimer != null)
-            {
-                m_sceneDZData.m_DJSTimer.stopTimer();
-            }
-            // 开始定时器
-            if (m_timer == null)        // 如果定时器没有
-            {
-                startDZTimer();
-            }
-            else
-            {
-                changeTimer();
             }
         }
 
@@ -480,6 +498,8 @@ namespace Game.UI
         // 启动定时器
         public void startInitCardTimer()
         {
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem4));
+
             if (m_timer == null)
             {
                 m_timer = new TimerItemBase();
@@ -498,10 +518,12 @@ namespace Game.UI
         // 开始对战定时器
         public void startDZTimer()
         {
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem5));
+
             if (m_timer == null)
             {
                 m_timer = new TimerItemBase();
-                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundTimes - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
+                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundtime - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
                 m_timer.m_totalCount = m_timer.m_internal;
                 m_timer.m_timerDisp = onTimerDZHandle;
 
@@ -509,17 +531,19 @@ namespace Game.UI
             }
             else
             {
-                m_timer.reset();
+                m_timer.reset();    // 重置参数
             }
         }
 
-        // 改变定时器参数
+        // 改变定时器参数为回合倒计时定时器参数
         protected void changeTimer()
         {
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem6));
+
             if (m_timer != null)
             {
                 m_timer.reset();
-                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundTimes - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
+                m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundtime - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
                 m_timer.m_totalCount = m_timer.m_internal;
                 m_timer.m_timerDisp = onTimerDZHandle;
 
@@ -536,14 +560,19 @@ namespace Game.UI
         // 停止定时器
         public void stopTimer()
         {
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem7));
+
             if (m_timer != null)
             {
                 Ctx.m_instance.m_timerMgr.delObject(m_timer);
             }
         }
 
+        // 开始卡牌倒计时
         public void onTimerInitCardHandle(TimerItemBase timer)
         {
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem8));
+
             // 开始显示倒计时数据
             if(m_sceneDZData.m_DJSTimer == null)
             {
@@ -553,8 +582,11 @@ namespace Game.UI
             m_sceneDZData.m_DJSTimer.startTimer();
         }
 
+        // 每一回合倒计时
         public void onTimerDZHandle(TimerItemBase timer)
         {
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem9));
+
             // 开始显示倒计时数据
             if (m_sceneDZData.m_DJSTimer == null)
             {

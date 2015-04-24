@@ -44,6 +44,10 @@ namespace Game.UI
                     updateCardDataChange();
                     updateCardDataNoChange();
                 }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log("error");
+                }
             }
         }
 
@@ -114,7 +118,7 @@ namespace Game.UI
                 string resPath = "";
                 // 这个时候还没有服务器的数据 m_sceneCardItem
                 int idx = 0;
-                idx = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.sceneCardList.IndexOf(this as SceneDragCard);
+                idx = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.findCardIdx(this);
                 // 显示换牌标志
                 if (m_sceneDZData.m_changeCardList.IndexOf(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]) != -1)      // 如果已经选中
                 {
@@ -234,22 +238,23 @@ namespace Game.UI
                     {
                         if (sceneCardItem != null)
                         {
-                            try
-                            {
-                            if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
-                            {
-                                UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-                            }
-                            else
-                            {
-                                UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-                            }
-                            }
-                            catch (System.Exception e)
-                            {
-                                // 输出日志
-                                Ctx.m_instance.m_logSys.error(e.Message);
-                            }
+                            //try
+                            //{
+                                if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                                {
+                                    UtilApi.getComByP<MeshRenderer>(go).enabled = true;
+                                }
+                                else
+                                {
+                                    UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                                }
+                            //}
+                            //catch (System.Exception e)
+                            //{
+                            //    // 输出日志
+                            //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
+                            //    Ctx.m_instance.m_logSys.error(e.Message);
+                            //}
                         }
                     }
                     else

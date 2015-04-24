@@ -186,7 +186,7 @@ namespace SDK.Common
 
             byte[] retByte = null;
             uint retSize = 0;
-            Compress.DecompressData(m_dynBuff.buff, position, length, ref retByte, ref retSize, algorithm);
+            Compress.DecompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
 
             replace(retByte, 0, retSize, position, len_);
 

@@ -219,57 +219,18 @@ namespace SDK.Lib
 
                 if (read > 0)
                 {
-                    try
-                    {
-                        Ctx.m_instance.m_logSys.log("接收到数据 " + read.ToString());
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
-                    try
-                    {
-                        m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
-                    try
-                    {
-                        m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
-                    try
-                    {
-                        m_dataBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
-                    try
-                    {
-                        Receive();                  // 继续接收
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
+                    Ctx.m_instance.m_logSys.log("接收到数据 " + read.ToString());
+                    m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
+                    m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
+                    m_dataBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
+                    Receive();                  // 继续接收
                 }
             }
             catch (System.Exception e)
             {
                 // 输出日志
                 Ctx.m_instance.m_logSys.error(e.Message);
+                Ctx.m_instance.m_logSys.error("接收数据出错");
                 //Disconnect(0);
             }
         }
@@ -356,7 +317,6 @@ namespace SDK.Lib
                     {
                         m_dataBuffer.sendBuffer.setPos(m_dataBuffer.sendBuffer.position + (uint)bytesSent);
                     }
-                    Ctx.m_instance.m_logSys.log("发送数据 " + bytesSent.ToString());
 
                     if (m_dataBuffer.sendBuffer.bytesAvailable > 0)     // 如果上一次发送的数据还没发送完成，继续发送
                     {

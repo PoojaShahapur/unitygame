@@ -48,6 +48,31 @@ namespace SDK.Common
             ba.readBytes(ref state, len);
         }
 
+        public void serialize(ByteBuffer ba)
+        {
+            ba.writeUnsignedInt32(qwThisID);
+            ba.writeUnsignedInt32(dwObjectID);
+            pos = new stObjectLocation();
+            pos.serialize(ba);
+
+            ba.writeUnsignedInt32(dwNum);
+            ba.writeMultiByte(strName, GkEncode.UTF8, CVMsg.MAX_NAMESIZE);
+            ba.writeUnsignedInt32(mpcost);
+            ba.writeUnsignedInt32(damage);
+            ba.writeUnsignedInt32(hp);
+            ba.writeUnsignedInt32(maxhp);
+            ba.writeUnsignedInt32(dur);
+            ba.writeUnsignedInt32(maxdur);
+
+            ba.writeUnsignedInt8(magicDamAdd);
+            ba.writeUnsignedInt8(overload);
+            ba.writeUnsignedInt32(armor);
+
+            uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
+            state = new byte[len];
+            ba.writeBytes(state, 0, len);
+        }
+
         public void copyFrom(t_Card rhv)
         {
             qwThisID = rhv.qwThisID;

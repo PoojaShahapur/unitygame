@@ -10,8 +10,7 @@ namespace SDK.Common
         // 步骤 7 ，接收消息
         public void receiveMsg7f(ByteBuffer msg)
         {
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem10);
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_retLangStr);
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem10));
 
             stGameTimeTimerUserCmd cmd = new stGameTimeTimerUserCmd();
             cmd.derialize(msg);
@@ -21,8 +20,7 @@ namespace SDK.Common
         // 步骤 8 ，接收消息
         public void receiveMsg8f(ByteBuffer msg)
         {
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem11);
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_retLangStr);
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem11));
 
             stRequestUserGameTimeTimerUserCmd cmd = new stRequestUserGameTimeTimerUserCmd();
             cmd.derialize(msg);
@@ -33,8 +31,7 @@ namespace SDK.Common
         // 步骤 9 ，发送消息
         public void sendMsg9f()
         {
-            Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, (int)LangItemID.eItem12);
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_shareData.m_retLangStr);
+            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem12));
 
             stUserGameTimeTimerUserCmd cmd = new stUserGameTimeTimerUserCmd();
             cmd.qwGameTime = UtilApi.getUTCSec() + qwGameTime;

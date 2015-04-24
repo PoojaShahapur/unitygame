@@ -119,6 +119,8 @@ namespace SDK.Common
 
         public void moveDyn2Raw()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", m_dynBuff.size));
+
 #if MSG_ENCRIPT
             checkDES();
 #endif
@@ -160,7 +162,7 @@ namespace SDK.Common
             else        // 直接放入接收消息缓冲区
             {
                 #if NET_MULTHREAD
-                using (MLock mlock = new MLock(m_readMutex))
+                 
                 #endif
                 {
                     //m_tmpData.clear();
@@ -355,15 +357,7 @@ namespace SDK.Common
         protected void UnCompressAndDecryptEveryOne()
         {
 #if MSG_ENCRIPT
-            try
-            {
-                m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
-            }
-            catch (System.Exception e)
-            {
-                // 输出日志
-                Ctx.m_instance.m_logSys.error(e.Message);
-            }
+            m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
 #endif
 //#if MSG_COMPRESS
             //m_rawBuffer.headerBA.setPos(0); // 这个头目前没有用，是客户端自己添加的，服务器发送一个包，就认为是一个完整的包
@@ -374,21 +368,12 @@ namespace SDK.Common
             //    m_rawBuffer.msgBodyBA.uncompress();
             //}
 //#endif
-            try
-            {
+
             m_rawBuffer.msgBodyBA.setPos(0);
-            }
-            catch (System.Exception e)
-            {
-                // 输出日志
-                Ctx.m_instance.m_logSys.error(e.Message);
-            }
 
             uint msglen = 0;
             while (m_rawBuffer.msgBodyBA.bytesAvailable >= 4)
             {
-                try
-                {
                 m_rawBuffer.msgBodyBA.readUnsignedInt32(ref msglen);    // 读取一个消息包头
                 if (msglen == 0)     // 如果是 0 ，就说明最后是由于加密补齐的数据
                 {
@@ -405,46 +390,19 @@ namespace SDK.Common
                 {
                     m_rawBuffer.msgBodyBA.position += msglen;
                 }
-                }
-                catch (System.Exception e)
-                {
-                    // 输出日志
-                    Ctx.m_instance.m_logSys.error(e.Message);
-                }
-                try
-                {
+
+                Ctx.m_instance.m_logSys.log(string.Format("解压解密后消息长度　{0}", msglen));
+
                 m_unCompressHeaderBA.clear();
                 m_unCompressHeaderBA.writeUnsignedInt32(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
                 m_unCompressHeaderBA.position = 0;
-                }
-                catch (System.Exception e)
-                {
-                    // 输出日志
-                    Ctx.m_instance.m_logSys.error(e.Message);
-                }
 
                 #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_readMutex))
                 #endif
                 {
-                    try
-                    {
                     m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
-                    try
-                    {
                     m_msgBuffer.circuleBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
-                    }
-                    catch (System.Exception e)
-                    {
-                        // 输出日志
-                        Ctx.m_instance.m_logSys.error(e.Message);
-                    }
                 }
             }
         }

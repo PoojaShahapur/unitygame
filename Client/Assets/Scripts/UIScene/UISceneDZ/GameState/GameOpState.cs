@@ -214,29 +214,14 @@ namespace Game.UI
         protected void addAttackTargetFlags()
         {
             // 遍历所有的 enemy 对象
-            List<SceneDragCard> cardList;
-            cardList = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.sceneCardList;
-            
-            foreach(SceneCardEntityBase cardItem in cardList)
-            {
-                if(canFaShuAttack(cardItem, m_curOp))
-                {
-                    cardItem.updateCardGreenFrame(true);
-                }
-            }
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.updateCardGreenFrameByCond(m_curOp, canFaShuAttack);
         }
 
         // 清除可攻击的标识
         protected void clearAttackTargetFlags()
         {
             // 遍历所有的 enemy 对象
-            List<SceneDragCard> cardList;
-            cardList = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.sceneCardList;
-
-            foreach (SceneCardEntityBase cardItem in cardList)
-            {
-                cardItem.updateCardGreenFrame(false);
-            }
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.updateCardGreenFrame(false);
         }
     }
 }

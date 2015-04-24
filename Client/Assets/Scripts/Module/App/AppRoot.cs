@@ -137,12 +137,6 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_npcMgr as ITickedObject);
 
         Ctx.m_instance.m_uiMgr.getLayerGameObject();
-
-        //Ctx.m_instance.m_tableSys.loadOneTable(TableID.TABLE_SKILL);
-        //Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, 2);
-        //Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, 11014);
-        //Ctx.m_instance.m_xmlCfgMgr.loadMarket();
-        //Ctx.m_instance.m_xmlCfgMgr.getXmlCfg(XmlCfgID.eXmlMarketCfg);
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();
         Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
 

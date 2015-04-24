@@ -34,7 +34,7 @@ namespace SDK.Common
 
                 if(ret < needSize)      // 分配失败
                 {
-                    Ctx.m_instance.m_logSys.log(string.Format("分配字节缓冲区失败，不能分配 {0} 自己的缓冲区", needSize));
+                    Ctx.m_instance.m_logSys.error(string.Format("分配字节缓冲区失败，不能分配 {0} 自己的缓冲区", needSize));
                 }
             }
 

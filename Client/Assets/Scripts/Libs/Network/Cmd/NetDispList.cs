@@ -6,6 +6,19 @@ namespace SDK.Lib
     public class NetDispList
     {
         protected List<NetDispHandle> m_netDispList = new List<NetDispHandle>();
+        protected bool m_bStopNetHandle = false;       // 是否停止网络消息处理
+
+        public bool bStopNetHandle
+        {
+            get
+            {
+                return m_bStopNetHandle;
+            }
+            set
+            {
+                m_bStopNetHandle = value;
+            }
+        }
 
         public void addOneDisp(NetDispHandle disp)
         {
@@ -25,9 +38,12 @@ namespace SDK.Lib
 
         public void handleMsg(ByteBuffer msg)
         {
-            foreach (var item in m_netDispList)
+            if (false == m_bStopNetHandle)  // 如果没有停止网络处理
             {
-                item.handleMsg(msg);
+                foreach (var item in m_netDispList)
+                {
+                    item.handleMsg(msg);
+                }
             }
         }
     }

@@ -38,7 +38,6 @@ namespace SDK.Lib
         public uint m_tiredCard;
         public uint m_lastpreparetime;
         public uint m_lastroundtime;
-        public uint m_roundTimes = 90;           // 回合时间
 
         public override void parseXml(XmlElement xmlelem)
         {

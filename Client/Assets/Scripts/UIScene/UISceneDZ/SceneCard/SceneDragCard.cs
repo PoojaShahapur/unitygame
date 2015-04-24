@@ -122,6 +122,13 @@ namespace Game.UI
 
                     if (!Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())        // 不是自己回合
                     {
+                        Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem10));
+                        backCard2Orig();
+                        m_isCalc = false;
+                    }
+                    else if (m_sceneCardItem.m_svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)   // Mp 不够
+                    {
+                        Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem11));
                         backCard2Orig();
                         m_isCalc = false;
                     }

@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,17 +28,17 @@ namespace Game.UI
             m_playerFlag = playerFlag;
         }
 
-        public List<SceneDragCard> sceneCardList
-        {
-            get
-            {
-                return m_sceneCardList;
-            }
-            set
-            {
-                m_sceneCardList = value;
-            }
-        }
+        //public List<SceneDragCard> sceneCardList
+        //{
+        //    get
+        //    {
+        //        return m_sceneCardList;
+        //    }
+        //    set
+        //    {
+        //        m_sceneCardList = value;
+        //    }
+        //}
 
         protected virtual void getCardPos()
         {
@@ -90,9 +91,16 @@ namespace Game.UI
         {
             foreach (SceneDragCard item in m_sceneCardList)
             {
-                if (item.sceneCardItem.m_svrCard.qwThisID == thisid)
+                if (item.sceneCardItem != null)
                 {
-                    return item;
+                    if (item.sceneCardItem.m_svrCard.qwThisID == thisid)
+                    {
+                        return item;
+                    }
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log("error");
                 }
             }
 
@@ -167,6 +175,17 @@ namespace Game.UI
             }
         }
 
+        public void updateCardGreenFrameByCond(EnGameOp gameOpt, Func<SceneCardEntityBase, EnGameOp, bool> func)
+        {
+            foreach (SceneCardEntityBase cardItem in m_sceneCardList)
+            {
+                if (func(cardItem, gameOpt))
+                {
+                    cardItem.updateCardGreenFrame(true);
+                }
+            }
+        }
+
         public void removeCard(SceneCardItem sceneCardItem)
         {
             int idx = 0;
@@ -180,6 +199,11 @@ namespace Game.UI
                 }
                 ++idx;
             }
+        }
+
+        public int findCardIdx(SceneCardEntityBase card)
+        {
+            return m_sceneCardList.IndexOf(card as SceneDragCard);
         }
     }
 }

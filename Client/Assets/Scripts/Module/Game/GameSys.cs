@@ -29,7 +29,7 @@ namespace Game.Game
             Ctx.m_instance.m_netDispList.addOneDisp(m_gameNetHandleCB);
             m_gameRouteCB = new GameRouteCB();
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_gameRouteCB);
-            Ctx.m_instance.m_bStopNetHandle = false;     // 停止网络消息处理
+            Ctx.m_instance.m_netDispList.bStopNetHandle = false;     // 停止网络消息处理
             Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 

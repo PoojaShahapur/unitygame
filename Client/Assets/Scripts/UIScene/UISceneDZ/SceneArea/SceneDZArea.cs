@@ -353,18 +353,25 @@ namespace Game.UI
 
         public SceneCardEntityBase getSceneCardByThisID(uint thisID)
         {
+            // 出牌列表
             SceneCardEntityBase cardBase;
             cardBase = m_outSceneCardList.getSceneCardByThisID(thisID);
             if (cardBase != null)
             {
                 return cardBase;
             }
-            cardBase = m_inSceneCardList.getSceneCardByThisID(thisID);
-            if (cardBase != null)
+
+            // 对手区域手牌是不检查的
+            if (EnDZPlayer.ePlayerSelf == m_playerFlag)
             {
-                return cardBase;
+                cardBase = m_inSceneCardList.getSceneCardByThisID(thisID);
+                if (cardBase != null)
+                {
+                    return cardBase;
+                }
             }
 
+            // 技能区
             if (m_sceneSkillCard != null)
             {
                 if (m_sceneSkillCard.sceneCardItem.m_svrCard.qwThisID == thisID)
@@ -373,6 +380,7 @@ namespace Game.UI
                 }
             }
 
+            // 装备区
             if (m_sceneEquipCard != null)
             {
                 if (m_sceneEquipCard.sceneCardItem.m_svrCard.qwThisID == thisID)

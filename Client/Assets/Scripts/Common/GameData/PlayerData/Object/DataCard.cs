@@ -167,18 +167,27 @@ namespace SDK.Common
         // 新增\数量改变,不包括删除
         public void psstNotifyOneCardTujianInfoCmd(uint id, byte num)
         {
-            if (!m_id2CardDic.ContainsKey(id))
-            {
-                CardItemBase item = new CardItemBase();
-                item.m_tujian = new t_Tujian();
-                item.m_tujian.id = id;
-                item.m_tujian.num = num;
-                item.m_tableItemCard = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, item.m_tujian.id).m_itemBody as TableCardItemBody;
+            TableItemBase tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, id);
 
-                m_cardListArr[item.m_tableItemCard.m_career].Add(item);
-                m_id2CardDic[id] = item;
+            if (tableItem != null)
+            {
+                if (!m_id2CardDic.ContainsKey(id))
+                {
+                    CardItemBase item = new CardItemBase();
+                    item.m_tujian = new t_Tujian();
+                    item.m_tujian.id = id;
+                    item.m_tujian.num = num;
+                    item.m_tableItemCard = tableItem.m_itemBody as TableCardItemBody;
+
+                    m_cardListArr[item.m_tableItemCard.m_career].Add(item);
+                    m_id2CardDic[id] = item;
+                }
+                m_id2CardDic[id].m_tujian.num = num;
             }
-            m_id2CardDic[id].m_tujian.num = num;
+            else
+            {
+                Ctx.m_instance.m_logSys.error("psstNotifyOneCardTujianInfoCmd 不能查找到卡牌 Item");
+            }
         }
 
         public void psstRetCardGroupListInfoUserCmd(List<t_group_list> info)
