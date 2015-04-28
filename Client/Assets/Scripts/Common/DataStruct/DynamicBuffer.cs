@@ -76,7 +76,7 @@ namespace SDK.Common
             {
                 if (value > this.capacity)
                 {
-                    extendDeltaCapicity(value - capacity);
+                    extendDeltaCapicity(value - size);
                 }
                 m_size = value;
             }

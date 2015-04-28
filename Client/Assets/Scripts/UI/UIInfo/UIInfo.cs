@@ -59,6 +59,10 @@ namespace Game.UI
         // 点击登陆处理
         protected void onBtnClkOk()
         {
+            if (m_infoParam.m_btnClkDisp != null)
+            {
+                m_infoParam.m_btnClkDisp(InfoBoxBtnType.eBTN_OK);
+            }
             exit();
         }
 

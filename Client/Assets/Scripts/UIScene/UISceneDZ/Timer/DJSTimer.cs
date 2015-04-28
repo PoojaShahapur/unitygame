@@ -53,6 +53,11 @@ namespace Game.UI
         // 停止定时器
         public void stopTimer()
         {
+            if (m_numObj != null)
+            {
+                m_numObj.disposeNum();
+            }
+
             if (m_timer != null)
             {
                 Ctx.m_instance.m_timerMgr.delObject(m_timer);

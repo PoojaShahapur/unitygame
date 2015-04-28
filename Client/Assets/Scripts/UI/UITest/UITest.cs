@@ -66,7 +66,8 @@ namespace Game.UI
             //testDelEnemyHandleCard();
             //addHistoryItem();
             //testQuipDZScene();
-            testPrepareTime();
+            //testPrepareTime();
+            testMsg();
         }
 
         protected void onBtnClkTest1f()
@@ -205,6 +206,15 @@ namespace Game.UI
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
             uiDZ.startInitCardTimer();
+        }
+
+        protected void testMsg()
+        {
+            stAddBattleCardPropertyUserCmd cmd = new stAddBattleCardPropertyUserCmd();
+            cmd.attackType = 2;
+            cmd.pAttThisID = 0;
+            cmd.pDefThisID = 0;
+            UtilMsg.sendMsg(cmd);
         }
     }
 }

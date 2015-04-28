@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+
 namespace UnitTestSrc
 {
     public class TestAutoUpdate

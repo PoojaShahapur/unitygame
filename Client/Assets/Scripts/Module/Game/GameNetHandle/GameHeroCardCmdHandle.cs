@@ -101,6 +101,8 @@ namespace Game.Game
             stRetCardGroupListInfoUserCmd cmd = new stRetCardGroupListInfoUserCmd();
             cmd.derialize(msg);
 
+            Ctx.m_instance.m_logSys.log(string.Format("对战模式界面收到卡组列表信息，数量 {0}", cmd.info));
+
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCardGroupListInfoUserCmd(cmd.info);
             // 更新界面
@@ -328,6 +330,8 @@ namespace Game.Game
         // 对方信息
         protected void psstNotifyFightEnemyInfoUserCmd(ByteBuffer ba)
         {
+            Ctx.m_instance.m_logSys.log("开始客户端初始动画播放");
+
             stNotifyFightEnemyInfoUserCmd cmd = new stNotifyFightEnemyInfoUserCmd();
             cmd.derialize(ba);
 
@@ -350,6 +354,8 @@ namespace Game.Game
         // 第一次几张牌
         protected void psstRetFirstHandCardUserCmd(ByteBuffer ba)
         {
+            Ctx.m_instance.m_logSys.log("收到初始卡片列白");
+
             stRetFirstHandCardUserCmd cmd = new stRetFirstHandCardUserCmd();
             cmd.derialize(ba);
 

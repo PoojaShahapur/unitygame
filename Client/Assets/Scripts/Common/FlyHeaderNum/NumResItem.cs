@@ -79,6 +79,8 @@ namespace SDK.Common
             {
                 UtilApi.Destroy(child);
             }
+
+            m_childList.Clear();
         }
 
         public void setPos(Vector3 pos)

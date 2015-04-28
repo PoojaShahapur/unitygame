@@ -165,6 +165,7 @@ namespace Game.UI
         {
             //sets = web.getSets();
             sets = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr;
+            Ctx.m_instance.m_logSys.log(string.Format("对战模式界面显示卡组列表信息，数量 {0}", sets.Count));
             //先让卡组不显示
             for (int x = 1; x < 10; x++)
             {

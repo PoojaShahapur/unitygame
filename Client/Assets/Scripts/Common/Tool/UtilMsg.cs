@@ -35,5 +35,28 @@ namespace SDK.Common
                 Ctx.m_instance.m_logSys.log("str is null");
             }
         }
+
+        // 格式化消息数据到数组形式
+        public static void formatBytes2Array(byte[] bytes, uint len)
+        {
+            string str = "{ ";
+            bool isFirst = true;
+            for (int idx = 0; idx < len; ++idx)
+            {
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    str += ", ";
+                }
+                str += bytes[idx];
+            }
+
+            str += " }";
+
+            Ctx.m_instance.m_logSys.log(str);
+        }
     }
 }

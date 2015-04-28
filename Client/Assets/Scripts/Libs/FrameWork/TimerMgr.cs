@@ -34,19 +34,23 @@ namespace SDK.Lib
 
         public override void delObject(IDelayHandleItem delayObject)
         {
-            (delayObject as TimerItemBase).m_disposed = true;
-            if (m_duringAdvance)
+            // 检查当前是否在队列中
+            if (m_timerLists.IndexOf(delayObject as TimerItemBase) != -1)
             {
-                base.addObject(delayObject);
-            }
-            else
-            {
-                foreach (TimerItemBase item in m_timerLists)
+                (delayObject as TimerItemBase).m_disposed = true;
+                if (m_duringAdvance)
                 {
-                    if (item == delayObject)
+                    base.addObject(delayObject);
+                }
+                else
+                {
+                    foreach (TimerItemBase item in m_timerLists)
                     {
-                        m_timerLists.Remove(item);
-                        break;
+                        if (item == delayObject)
+                        {
+                            m_timerLists.Remove(item);
+                            break;
+                        }
                     }
                 }
             }

@@ -120,6 +120,7 @@ namespace SDK.Common
         public void moveDyn2Raw()
         {
             Ctx.m_instance.m_logSys.log(string.Format("移动动态数据消息数据到原始数据队列，消息长度　{0}", m_dynBuff.size));
+            UtilMsg.formatBytes2Array(m_dynBuff.buff, m_dynBuff.size);
 
 #if MSG_ENCRIPT
             checkDES();
@@ -383,15 +384,16 @@ namespace SDK.Common
                 if ((msglen & DataCV.PACKET_ZIP) > 0)
                 {
                     msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
+                    Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息未解压长度　{0}", msglen));
                     msglen = m_rawBuffer.msgBodyBA.uncompress(msglen);
+                    Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息解压后长度　{0}", msglen));
                 }
                 else
 #endif
                 {
+                    Ctx.m_instance.m_logSys.log(string.Format("消息不需要解压缩，消息原始长度　{0}", msglen));
                     m_rawBuffer.msgBodyBA.position += msglen;
                 }
-
-                Ctx.m_instance.m_logSys.log(string.Format("解压解密后消息长度　{0}", msglen));
 
                 m_unCompressHeaderBA.clear();
                 m_unCompressHeaderBA.writeUnsignedInt32(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
@@ -404,6 +406,15 @@ namespace SDK.Common
                     m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
                     m_msgBuffer.circuleBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
                 }
+
+                Ctx.m_instance.m_logSys.log(string.Format("解压解密后消息起始索引 {0}, 消息长度　{1}, 消息 position 位置 {2}, 消息 size {3}", m_rawBuffer.msgBodyBA.position - msglen, msglen, m_rawBuffer.msgBodyBA.position, m_rawBuffer.msgBodyBA.length));
+                Ctx.m_instance.m_netDispList.addOneRevMsg();
+
+                // Test 读取消息头
+                // ByteBuffer buff = getMsg();
+                // stNullUserCmd cmd = new stNullUserCmd();
+                // cmd.derialize(buff);
+                // Ctx.m_instance.m_logSys.log(string.Format("测试打印消息: byCmd = {0}, byParam = {1}", cmd.byCmd, cmd.byParam));
             }
         }
 

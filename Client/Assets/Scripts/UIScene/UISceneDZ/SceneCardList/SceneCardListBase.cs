@@ -84,7 +84,14 @@ namespace Game.UI
 
         public void setCardDataByIdx(int idx, SceneCardItem sceneItem)
         {
-            m_sceneCardList[idx].sceneCardItem = sceneItem;
+            if (idx < m_sceneCardList.Count)       // 这个地方有时候会超出范围
+            {
+                m_sceneCardList[idx].sceneCardItem = sceneItem;
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.error("列表超出范围");
+            }
         }
 
         public SceneDragCard getSceneCardByThisID(uint thisid)

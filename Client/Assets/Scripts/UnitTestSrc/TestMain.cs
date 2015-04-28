@@ -17,6 +17,7 @@ namespace UnitTestSrc
         protected TestXml m_pTestXml = new TestXml();
         protected TestResources m_pTestResources = new TestResources();
         protected TestLoad m_pTestLoad = new TestLoad();
+        protected TestNet m_pTestNet = new TestNet();
 
         public void run()
         {
@@ -35,6 +36,7 @@ namespace UnitTestSrc
             m_pTestXml.run();
             m_pTestResources.run();
             m_pTestLoad.run();
+            m_pTestNet.run();
         }
     }
 }

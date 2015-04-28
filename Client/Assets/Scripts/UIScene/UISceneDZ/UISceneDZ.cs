@@ -16,9 +16,6 @@ namespace Game.UI
         public SceneDZArea[] m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
         public HistoryArea m_historyArea;
         public TimerItemBase m_timer;   // 回合开始的时候开始回合倒计时，进入对战，每一回合倒计时
-
-        public bool m_bNeedTipsInfo = true;     // 是否需要弹出提示框
-        public int m_clkTipsCnt = 0;               // 点击提示框次数
         public bool m_bStartRound = false;                  // 起始牌都落下，才算开始回合
 
         public override void onReady()
@@ -69,6 +66,7 @@ namespace Game.UI
         {
             //GameObject[] goList = UtilApi.FindGameObjectsWithTag("aaaa");
             m_sceneDZData.m_dzturn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));
+            m_sceneDZData.m_dzturn.m_sceneDZData = m_sceneDZData;
             m_sceneDZData.m_luckycoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
             m_sceneDZData.m_selfTurnTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
             m_sceneDZData.m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
@@ -116,67 +114,21 @@ namespace Game.UI
         // 添加事件监听
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin), onBtnTurnClk);       // 结束本回合
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin), onLuckyCoinBtnClk);       // 点击幸运币
             UtilApi.addEventHandle(m_sceneDZData.m_startGO, onStartBtnClk);       // 开始游戏
 
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardDeap), onEnemyStartHover);
         }
 
-        // 结束回合
-        protected void onBtnTurnClk(GameObject go)
+        // 幸运币点击
+        protected void onLuckyCoinBtnClk(GameObject go)
         {
             // 只有是自己出牌的时候才能结束
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                stReqEndMyRoundUserCmd cmd;
-                if (!m_bNeedTipsInfo)
-                {
-                    cmd = new stReqEndMyRoundUserCmd();
-                    UtilMsg.sendMsg(cmd);
-                }
-                else
-                {
-                    ++m_clkTipsCnt;
-                    if (m_clkTipsCnt == 1)
-                    {
-                        if (!hasLeftMagicPtCanUse())
-                        {
-                            cmd = new stReqEndMyRoundUserCmd();
-                            UtilMsg.sendMsg(cmd);
-                        }
-                        else    // 你还有可操作的随从
-                        {
-                            InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-                            param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem0);
-                            param.m_btnClkDisp = onInfoBoxBtnClk;
-                            param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem1);
-                            param.m_formID = UIFormID.UIInfo_1;     // 这里提示使用这个 id
-                            UIInfo.showMsg(param);
-                        }
-                    }
-                    else
-                    {
-                        m_clkTipsCnt = 0;
-                        cmd = new stReqEndMyRoundUserCmd();
-                        UtilMsg.sendMsg(cmd);
-                    }
-                }
+                
             }
-        }
-
-        public void onInfoBoxBtnClk(InfoBoxBtnType type)
-        {
-            if(type == InfoBoxBtnType.eBTN_OK)
-            {
-                m_bNeedTipsInfo = false;
-            }
-        }
-
-        // 检查是否还有剩余的点数，如果还有，给出提示
-        protected bool hasLeftMagicPtCanUse()
-        {
-            return m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.hasLeftMagicPtCanUse();
         }
 
         protected void onStartBtnClk(GameObject go)
@@ -371,7 +323,7 @@ namespace Game.UI
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)
         {
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroOccupation);   // 设置职业
         }
 
         // 自己第一次获得的卡牌的处理，如果换牌，还是会再次发送这个消息

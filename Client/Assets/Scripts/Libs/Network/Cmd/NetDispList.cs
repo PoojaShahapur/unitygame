@@ -5,6 +5,9 @@ namespace SDK.Lib
 {
     public class NetDispList
     {
+        protected int m_revMsgCnt = 0;      // 接收到消息的数量
+        protected int m_handleMsgCnt = 0;   // 处理的消息的数量
+
         protected List<NetDispHandle> m_netDispList = new List<NetDispHandle>();
         protected bool m_bStopNetHandle = false;       // 是否停止网络消息处理
 
@@ -45,6 +48,32 @@ namespace SDK.Lib
                     item.handleMsg(msg);
                 }
             }
+        }
+
+        public void addOneRevMsg()
+        {
+            ++m_revMsgCnt;
+
+            Ctx.m_instance.m_logSys.log(string.Format("接收到消息数量 {0}", m_revMsgCnt));
+        }
+
+        public void addOneHandleMsg()
+        {
+            ++m_handleMsgCnt;
+
+            Ctx.m_instance.m_logSys.log(string.Format("处理消息数量 {0}", m_handleMsgCnt));
+        }
+
+        public void clearOneRevMsg()
+        {
+            m_revMsgCnt = 0;
+            Ctx.m_instance.m_logSys.log("清理接收消息数量");
+        }
+
+        public void clearOneHandleMsg()
+        {
+            m_handleMsgCnt = 0;
+            Ctx.m_instance.m_logSys.log("清理处理消息数量");
         }
     }
 }

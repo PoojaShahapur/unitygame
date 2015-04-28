@@ -22,6 +22,7 @@ namespace SDK.Lib
             {
                 if (null != Ctx.m_instance.m_netDispList)
                 {
+                    Ctx.m_instance.m_netDispList.addOneHandleMsg();
                     Ctx.m_instance.m_netDispList.handleMsg(ret);
                 }
             }
