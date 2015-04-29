@@ -44,11 +44,12 @@ namespace UnitTestSrc
             pUnitTesNumtCmd.serialize(pDataBuffer.sendData);
             pDataBuffer.send();
 
+            // 压缩解密
             pDataBuffer.getSendData();
-            ByteBuffer cryptLenBA = new ByteBuffer();
-            cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
-            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
-            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+            // 解密解压
+            pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
+            Array.Copy(pDataBuffer.sendBuffer.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
+            pDataBuffer.moveDyn2Raw();
             pDataBuffer.moveRaw2Msg();
 
             ByteBuffer ba;
@@ -60,10 +61,9 @@ namespace UnitTestSrc
             pDataBuffer.getSendData();
             if (pDataBuffer.sendBuffer.length > 0)
             {
-                cryptLenBA.clear();
-                cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+                pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
+                Array.Copy(pDataBuffer.sendBuffer.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
+                pDataBuffer.moveDyn2Raw();
                 pDataBuffer.moveRaw2Msg();
             }
 
@@ -75,10 +75,9 @@ namespace UnitTestSrc
             pDataBuffer.getSendData();
             if (pDataBuffer.sendBuffer.length > 0)
             {
-                cryptLenBA.clear();
-                cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+                pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
+                Array.Copy(pDataBuffer.sendBuffer.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
+                pDataBuffer.moveDyn2Raw();
                 pDataBuffer.moveRaw2Msg();
             }
 

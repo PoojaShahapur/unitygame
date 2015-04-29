@@ -19,7 +19,10 @@ namespace SDK.Common
             m_iMaxCapacity = maxCapacity;
             m_iCapacity = initCapacity;
             m_size = 0;
-            m_buff = new T[m_iCapacity];
+            if (m_iCapacity > 0)
+            {
+                m_buff = new T[m_iCapacity];
+            }
         }
 
         public T[] buff
@@ -64,6 +67,12 @@ namespace SDK.Common
                 m_buff = tmpbuff;
                 m_iCapacity = value;
             }
+        }
+
+        // 设置容量，但是不重新分配 byte[] 这个
+        public void setCapacityNoRellocBuff(uint newCapacity)
+        {
+            m_iCapacity = newCapacity;
         }
 
         public uint size

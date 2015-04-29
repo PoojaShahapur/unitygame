@@ -220,7 +220,6 @@ namespace SDK.Lib
                 if (read > 0)
                 {
                     Ctx.m_instance.m_logSys.log("接收到数据 " + read.ToString());
-                    return;
                     m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
                     m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
                     m_dataBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区

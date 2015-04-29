@@ -45,7 +45,7 @@ namespace SDK.Common
             m_unCompressHeaderBA = new ByteBuffer();
             m_sendData = new ByteBuffer();
             m_tmpData = new ByteBuffer(4);
-            m_tmp1fData = new ByteBuffer(4);
+            m_tmp1fData = new ByteBuffer(0);
 
 #if MSG_ENCRIPT
             m_cryptContext = new CryptContext();
@@ -102,7 +102,7 @@ namespace SDK.Common
 
         public void checkDES()
         {
-            if (m_cryptContext.m_cryptKey != null && m_cryptContext.m_cryptAlgorithm != CryptAlgorithm.DES)
+            if (m_cryptContext.m_cryptKey != null && m_cryptContext.m_cryptAlgorithm != CryptAlgorithm.DES)     // 只有使用 DES 解密解密的时候，m_cryptKey 才会设置，使用 RC5 的时候 m_cryptKey 不会设置
             {
                 m_cryptContext.m_cryptAlgorithm = CryptAlgorithm.DES;
             }
@@ -125,12 +125,14 @@ namespace SDK.Common
 #if MSG_ENCRIPT
             checkDES();
 #endif
-            // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，服务器是这么发送的，只能这么处理，自己写入包的长度
-            m_tmp1fData.clear();
-            m_tmp1fData.writeUnsignedInt32(m_dynBuff.size);      // 填充长度
-            m_rawBuffer.circuleBuffer.pushBackBA(m_tmp1fData);
+            // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，但是，只要接收到的数据是 8 字节的整数倍，就不会有问题，因为加密是 8 字节加密的，这个时候只要解密就是没有加密的数据，然后粘包拆解
+            m_tmp1fData.initByDynamicBuffer(m_dynBuff); // 赋值 byte[] 进行解密
+#if MSG_ENCRIPT
+            m_tmp1fData.decrypt(m_cryptContext, 0);     // 对原始数据进行解密
+#endif
+            m_tmp1fData.position = 0;                   // 设置起始位置
             // 写入包的数据
-            m_rawBuffer.circuleBuffer.pushBackArr(m_dynBuff.buff, 0, m_dynBuff.size);
+            m_rawBuffer.circuleBuffer.pushBackBA(m_tmp1fData);
         }
 
         public void moveRaw2Msg()
@@ -163,7 +165,7 @@ namespace SDK.Common
             else        // 直接放入接收消息缓冲区
             {
                 #if NET_MULTHREAD
-                 
+                using (MLock mlock = new MLock(m_readMutex))
                 #endif
                 {
                     //m_tmpData.clear();
@@ -266,7 +268,7 @@ namespace SDK.Common
 //                compressMsgLen = cryptLen;
 //#endif
 
-                // 加密如果系统补齐字节，长度可能会变成 8 字节的证书倍，因此需要等加密完成后再写入长度
+                // 加密如果系统补齐字节，长度可能会变成 8 字节的整数倍，因此需要等加密完成后再写入长度
 #if MSG_COMPRESS && !MSG_ENCRIPT
                 if (origMsgLen > DataCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
                 {
@@ -357,65 +359,15 @@ namespace SDK.Common
         // |                |                |                |                |
         protected void UnCompressAndDecryptEveryOne()
         {
-#if MSG_ENCRIPT
-            m_rawBuffer.msgBodyBA.decrypt(m_cryptContext, 0);
+#if NET_MULTHREAD
+            using (MLock mlock = new MLock(m_readMutex))
 #endif
-//#if MSG_COMPRESS
-            //m_rawBuffer.headerBA.setPos(0); // 这个头目前没有用，是客户端自己添加的，服务器发送一个包，就认为是一个完整的包
-            //m_rawBuffer.msgBodyBA.setPos(0);
-            //uint msglen = m_rawBuffer.headerBA.readUnsignedInt();
-            //if ((msglen & DataCV.PACKET_ZIP) > 0)
-            //{
-            //    m_rawBuffer.msgBodyBA.uncompress();
-            //}
-//#endif
-
-            m_rawBuffer.msgBodyBA.setPos(0);
-
-            uint msglen = 0;
-            while (m_rawBuffer.msgBodyBA.bytesAvailable >= 4)
             {
-                m_rawBuffer.msgBodyBA.readUnsignedInt32(ref msglen);    // 读取一个消息包头
-                if (msglen == 0)     // 如果是 0 ，就说明最后是由于加密补齐的数据
-                {
-                    break;
-                }
-#if MSG_COMPRESS
-                if ((msglen & DataCV.PACKET_ZIP) > 0)
-                {
-                    msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
-                    Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息未解压长度　{0}", msglen));
-                    msglen = m_rawBuffer.msgBodyBA.uncompress(msglen);
-                    Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息解压后长度　{0}", msglen));
-                }
-                else
-#endif
-                {
-                    Ctx.m_instance.m_logSys.log(string.Format("消息不需要解压缩，消息原始长度　{0}", msglen));
-                    m_rawBuffer.msgBodyBA.position += msglen;
-                }
-
-                m_unCompressHeaderBA.clear();
-                m_unCompressHeaderBA.writeUnsignedInt32(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
-                m_unCompressHeaderBA.position = 0;
-
-                #if NET_MULTHREAD
-                using (MLock mlock = new MLock(m_readMutex))
-                #endif
-                {
-                    m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
-                    m_msgBuffer.circuleBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
-                }
-
-                Ctx.m_instance.m_logSys.log(string.Format("解压解密后消息起始索引 {0}, 消息长度　{1}, 消息 position 位置 {2}, 消息 size {3}", m_rawBuffer.msgBodyBA.position - msglen, msglen, m_rawBuffer.msgBodyBA.position, m_rawBuffer.msgBodyBA.length));
-                Ctx.m_instance.m_netDispList.addOneRevMsg();
-
-                // Test 读取消息头
-                // ByteBuffer buff = getMsg();
-                // stNullUserCmd cmd = new stNullUserCmd();
-                // cmd.derialize(buff);
-                // Ctx.m_instance.m_logSys.log(string.Format("测试打印消息: byCmd = {0}, byParam = {1}", cmd.byCmd, cmd.byParam));
+                m_msgBuffer.circuleBuffer.pushBackBA(m_rawBuffer.headerBA);       // 保存消息大小字段
+                m_msgBuffer.circuleBuffer.pushBackBA(m_rawBuffer.msgBodyBA);      // 保存消息内容字段
             }
+
+            Ctx.m_instance.m_netDispList.addOneRevMsg();
         }
 
         protected void UnCompressAndDecryptAllInOne()
