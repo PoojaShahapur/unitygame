@@ -7,6 +7,7 @@
         // 当前获取的完整消息
         protected ByteBuffer m_headerBA;     // 主要是用来分析头的大小
         protected ByteBuffer m_msgBodyBA;    // 返回的字节数组
+        protected ByteBuffer m_CryptoPadBU;           // 加密填充
         protected bool m_bMsgCompress = false;      // 当前消息是否压缩
         protected uint m_msgLen = 0;                // 消息的原始长度，没有标志位
 
@@ -15,6 +16,7 @@
             m_circuleBuffer = new CirculeBuffer(initCapacity, maxCapacity);
             m_headerBA = new ByteBuffer(4);
             m_msgBodyBA = new ByteBuffer(initCapacity);
+            m_CryptoPadBU = new ByteBuffer(1);
         }
 
         public ByteBuffer headerBA
@@ -115,6 +117,8 @@
                 m_msgBodyBA.setPos(0);      // 设置消息起始位置
                 ret = true;
 
+                removeCryptoPad();      // 查看是否有加密填充内容需要移除
+
                 if (m_circuleBuffer.empty())     // 如果已经清空，就直接重置
                 {
                     m_circuleBuffer.clear();    // 读写指针从头开始，方式写入需要写入两部分
@@ -122,6 +126,25 @@
             }
 
             return ret;
+        }
+
+        // 清理加密填充内容
+        public void removeCryptoPad()
+        {
+            byte pad = 0;
+            while(m_circuleBuffer.size > 0)
+            {
+                m_circuleBuffer.frontBA(m_CryptoPadBU, 1);
+                m_CryptoPadBU.readInt8(ref pad);
+                if(pad == 0)
+                {
+                    m_circuleBuffer.popFrontLen(1);
+                }
+                else        // 如果不是 0 ，就不再移除
+                {
+                    break;
+                }
+            }
         }
     }
 }
