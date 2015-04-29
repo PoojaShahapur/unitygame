@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using Mono.Xml;
+using System.Collections;
+using System.Collections.Generic;
+using System.Security;
 
 namespace SDK.Common
 {
@@ -13,7 +15,7 @@ namespace SDK.Common
     public class XmlCfgBase
     {
         public string m_path;
-        public XmlDocument m_xmlDoc = new XmlDocument();
+        internal SecurityParser m_xmlDoc = new SecurityParser();
         public List<XmlItemBase> m_list = new List<XmlItemBase>();
 
         public virtual void parseXml(string str)
@@ -23,22 +25,23 @@ namespace SDK.Common
 
         protected void parseXml<T>(string str, string itemNode) where T : XmlItemBase, new()
         {
-            XmlNode config = m_xmlDoc.SelectSingleNode("config");
-            XmlNodeList itemNodeList = getXmlNodeList(config, itemNode);
+            SecurityElement config = m_xmlDoc.ToXml();
+            ArrayList itemNodeList = getXmlNodeList(config, itemNode);
 
             XmlItemBase item;
-            foreach (XmlNode itemElem in itemNodeList)
+            foreach (SecurityElement itemElem in itemNodeList)
             {
                 item = new T();
-                item.parseXml(itemElem as XmlElement);
+                item.parseXml(itemElem);
                 m_list.Add(item);
             }
         }
 
-        public virtual XmlNodeList getXmlNodeList(XmlNode config, string itemNode)
+        public virtual ArrayList getXmlNodeList(SecurityElement config, string itemNode)
         {
-            XmlElement objElem = config.SelectSingleNode(itemNode) as XmlElement;
-            XmlNodeList itemNodeList = objElem.ChildNodes;
+            SecurityElement objElem = null;
+            UtilApi.getXmlChild(config, itemNode, ref objElem);
+            ArrayList itemNodeList = objElem.Children;
             return itemNodeList;
         }
 
@@ -50,7 +53,7 @@ namespace SDK.Common
 
     public class XmlItemBase
     {
-        public virtual void parseXml(XmlElement xmlelem)
+        public virtual void parseXml(SecurityElement xmlelem)
         {
 
         }

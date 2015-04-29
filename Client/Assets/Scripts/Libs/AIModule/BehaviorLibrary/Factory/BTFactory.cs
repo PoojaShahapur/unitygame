@@ -5,8 +5,9 @@ using BehaviorLibrary.Components.Conditionals;
 using BehaviorLibrary.Components.Decorators;
 using SDK.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
+using System.Security;
 
 namespace BehaviorLibrary
 {
@@ -16,7 +17,7 @@ namespace BehaviorLibrary
     public class BTFactory
     {
         protected Dictionary<string, Func<BehaviorComponent>> m_id2CreateDic = new Dictionary<string, Func<BehaviorComponent>>();
-        protected Dictionary<string, Action<BehaviorComponent, XmlNode>> m_id2BuildDic = new Dictionary<string, Action<BehaviorComponent, XmlNode>>();
+        protected Dictionary<string, Action<BehaviorComponent, SecurityElement>> m_id2BuildDic = new Dictionary<string, Action<BehaviorComponent, SecurityElement>>();
 
         public BTFactory()
         {
@@ -87,29 +88,29 @@ namespace BehaviorLibrary
             m_id2BuildDic["BehaviorActionFollow"] = buildBehaviorActionFollow;
         }
 
-        public void parseXml(BehaviorTree btree, XmlNode btNode)
+        public void parseXml(BehaviorTree btree, SecurityElement btNode)
         {
-            buildBT(btree, btNode as XmlElement);
+            buildBT(btree, btNode);
             Stack<BehaviorComponent> stack = new Stack<BehaviorComponent>();
             depthTraverse(stack, btree.root, btNode);
         }
 
-        protected void depthTraverse(Stack<BehaviorComponent> stack, BehaviorComponent parentNode, XmlNode btNode)
+        protected void depthTraverse(Stack<BehaviorComponent> stack, BehaviorComponent parentNode, SecurityElement btNode)
         {
-            XmlNodeList btCmtNodeList = btNode.ChildNodes;
+            ArrayList btCmtNodeList = btNode.Children;
             BehaviorComponent btCmt;
 
             stack.Push(parentNode);
-            foreach (XmlNode node in btCmtNodeList)
+            foreach (SecurityElement node in btCmtNodeList)
             {
-                if (m_id2CreateDic.ContainsKey(node.Name))
+                if (m_id2CreateDic.ContainsKey(node.Tag))
                 {
-                    btCmt = m_id2CreateDic[node.Name].Invoke();
+                    btCmt = m_id2CreateDic[node.Tag].Invoke();
                     btCmt.behaviorTree = parentNode.behaviorTree;
                     parentNode.addChild(btCmt);
-                    if (m_id2BuildDic.ContainsKey(node.Name))
+                    if (m_id2BuildDic.ContainsKey(node.Tag))
                     {
-                        m_id2BuildDic[node.Name].Invoke(btCmt, node);
+                        m_id2BuildDic[node.Tag].Invoke(btCmt, node);
                     }
                     depthTraverse(stack, btCmt, node);
                 }
@@ -117,9 +118,9 @@ namespace BehaviorLibrary
             stack.Pop();
         }
 
-        protected void buildBT(BehaviorTree btree, XmlElement btNode)
+        protected void buildBT(BehaviorTree btree, SecurityElement btNode)
         {
-            btree.name = UtilApi.getXmlAttrStr(btNode.Attributes["name"]);
+            btree.name = UtilApi.getXmlAttrStr(btNode, "name");
         }
 
         public BehaviorComponent createIndexSelector()
@@ -128,7 +129,7 @@ namespace BehaviorLibrary
             return indexSelector;
         }
 
-        public void buildIndexSelector(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildIndexSelector(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -139,7 +140,7 @@ namespace BehaviorLibrary
             return partialSelector;
         }
 
-        public void buildPartialSelector(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildPartialSelector(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -150,7 +151,7 @@ namespace BehaviorLibrary
             return partialSequence;
         }
 
-        public void buildPartialSequence(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildPartialSequence(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -161,7 +162,7 @@ namespace BehaviorLibrary
             return randomSelector;
         }
 
-        public void buildRandomSelector(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildRandomSelector(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -172,7 +173,7 @@ namespace BehaviorLibrary
             return selector;
         }
 
-        public void buildSelector(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildSelector(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -183,7 +184,7 @@ namespace BehaviorLibrary
             return sequence;
         }
 
-        public void buildSequence(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildSequence(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -194,7 +195,7 @@ namespace BehaviorLibrary
             return statefulSelector;
         }
 
-        public void buildStatefulSelector(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildStatefulSelector(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -205,7 +206,7 @@ namespace BehaviorLibrary
             return statefulSequence;
         }
 
-        public void buildStatefulSequence(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildStatefulSequence(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -216,7 +217,7 @@ namespace BehaviorLibrary
             return condition;
         }
 
-        public void buildCondition(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildCondition(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -227,7 +228,7 @@ namespace BehaviorLibrary
             return conditionIdle;
         }
 
-        public void buildConditionIdle(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildConditionIdle(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -239,7 +240,7 @@ namespace BehaviorLibrary
             return counter;
         }
 
-        public void buildCounter(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildCounter(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -250,7 +251,7 @@ namespace BehaviorLibrary
             return inverter;
         }
 
-        public void buildInverter(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildInverter(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -261,7 +262,7 @@ namespace BehaviorLibrary
             return randomDecorator;
         }
 
-        public void buildRandomDecorator(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildRandomDecorator(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -272,7 +273,7 @@ namespace BehaviorLibrary
             return repeater;
         }
 
-        public void buildRepeater(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildRepeater(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -283,7 +284,7 @@ namespace BehaviorLibrary
             return repeatUntilFail;
         }
 
-        public void buildRepeatUntilFail(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildRepeatUntilFail(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -294,7 +295,7 @@ namespace BehaviorLibrary
             return selector;
         }
 
-        public void buildSucceeder(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildSucceeder(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -305,7 +306,7 @@ namespace BehaviorLibrary
             return timer;
         }
 
-        public void buildTimer(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildTimer(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -316,7 +317,7 @@ namespace BehaviorLibrary
             return behaviorActionWander;
         }
 
-        public void buildBehaviorActionWander(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildBehaviorActionWander(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }
@@ -327,7 +328,7 @@ namespace BehaviorLibrary
             return behaviorActionFollow;
         }
 
-        public void buildBehaviorActionFollow(BehaviorComponent btCmt, XmlNode btNode)
+        public void buildBehaviorActionFollow(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }

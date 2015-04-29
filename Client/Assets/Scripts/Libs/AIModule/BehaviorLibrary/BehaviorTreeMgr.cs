@@ -1,8 +1,10 @@
 ﻿using BehaviorLibrary.Components;
+using Mono.Xml;
 using SDK.Common;
 using SDK.Lib;
+using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
+using System.Security;
 using UnityEngine;
 
 namespace BehaviorLibrary
@@ -60,25 +62,25 @@ namespace BehaviorLibrary
 
         protected void parseXml(string xmlStr)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            SecurityParser xmlDoc = new SecurityParser();
             xmlDoc.LoadXml(xmlStr);
 
-            XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
-            XmlNodeList behaviorTemplateNode = rootNode.ChildNodes;
-            XmlNodeList behaviorTreeXmlList = null;
-            XmlElement xmlElemTpl;
-            XmlElement xmlElemBT;
+            SecurityElement rootNode = xmlDoc.ToXml();
+            ArrayList behaviorTemplateNode = rootNode.Children;
+            ArrayList behaviorTreeXmlList = null;
+            SecurityElement xmlElemTpl;
+            SecurityElement xmlElemBT;
 
-            foreach (XmlNode node in behaviorTemplateNode)  // 树列表，包括树和其它信息
+            foreach (SecurityElement node in behaviorTemplateNode)  // 树列表，包括树和其它信息
             {
-                xmlElemTpl = (XmlElement)node;
+                xmlElemTpl = node;
                 //xmlElemBT = xmlElemTpl.SelectSingleNode("BehaviorTree") as XmlElement;
-                behaviorTreeXmlList = xmlElemTpl.ChildNodes;
-                foreach (XmlNode nodetree in behaviorTreeXmlList)
+                behaviorTreeXmlList = xmlElemTpl.Children;
+                foreach (SecurityElement nodetree in behaviorTreeXmlList)
                 {
-                    xmlElemBT = nodetree as XmlElement;
-                    m_id2BTDic[xmlElemBT.GetAttribute("name")] = new BehaviorTree(new BTRoot());
-                    m_BTFactory.parseXml(m_id2BTDic[xmlElemBT.GetAttribute("name")], xmlElemBT);
+                    xmlElemBT = nodetree;
+                    m_id2BTDic[UtilApi.getXmlAttrStr(xmlElemBT, "name")] = new BehaviorTree(new BTRoot());
+                    m_BTFactory.parseXml(m_id2BTDic[UtilApi.getXmlAttrStr(xmlElemBT, "name")], xmlElemBT);
                 }
             }
         }

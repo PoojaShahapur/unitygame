@@ -196,7 +196,13 @@ namespace Game.UI
         {
             // 更新 MP 显示
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateMp();
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].updateMp();            
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].updateMp();
+
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+            {
+                // 显示那张牌可以出
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
+            }
         }
 
         // 刷新状态
@@ -252,7 +258,7 @@ namespace Game.UI
                 {
                     m_sceneDZData.m_selfTurnTip.turnBegin();
                     m_sceneDZData.m_dzturn.myturn();
-                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
+                    //m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
 
                     // 开始定时器
                     if (m_timer == null)        // 如果定时器没有

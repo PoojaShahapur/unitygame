@@ -44,7 +44,7 @@ namespace SDK.Lib
             }
             else
             {
-                throw new System.Exception("error");
+                Ctx.m_instance.m_logSys.log(string.Format("{0} 文件不存在", curPath));
             }
 
             if (m_bytes != null)

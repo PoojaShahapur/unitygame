@@ -1,6 +1,7 @@
 ﻿using SDK.Common;
 using SDK.Lib;
-using System.Xml;
+using System.Collections;
+using System.Security;
 
 namespace Game.UI
 {
@@ -20,9 +21,11 @@ namespace Game.UI
             parseXml<DZDaoJiShiXmlLimit>(str, "limit");
         }
 
-        public override XmlNodeList getXmlNodeList(XmlNode config, string itemNode)
+        public override ArrayList getXmlNodeList(SecurityElement config, string itemNode)
         {
-            XmlNodeList itemNodeList = config.SelectNodes(itemNode);
+            ArrayList itemNodeList = new ArrayList();
+            UtilApi.getXmlChildList(config, itemNode, ref itemNodeList);
+
             return itemNodeList;
         }
     }
@@ -39,16 +42,16 @@ namespace Game.UI
         public uint m_lastroundtime;
         public uint m_roundTimes = 90;           // 回合时间
 
-        public override void parseXml(XmlElement xmlelem)
+        public override void parseXml(SecurityElement xmlelem)
         {
-            m_preparetime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["preparetime"]);
-            m_roundtime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["roundtime"]);
-            m_peaceNum = UtilApi.getXmlAttrUInt(xmlelem.Attributes["peaceNum"]);
-            m_luckyCoin = UtilApi.getXmlAttrUInt(xmlelem.Attributes["luckyCoin"]);
+            m_preparetime = UtilApi.getXmlAttrUInt(xmlelem, "preparetime");
+            m_roundtime = UtilApi.getXmlAttrUInt(xmlelem, "roundtime");
+            m_peaceNum = UtilApi.getXmlAttrUInt(xmlelem, "peaceNum");
+            m_luckyCoin = UtilApi.getXmlAttrUInt(xmlelem, "luckyCoin");
 
-            m_tiredCard = UtilApi.getXmlAttrUInt(xmlelem.Attributes["tiredCard"]);
-            m_lastpreparetime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["lastpreparetime"]);
-            m_lastroundtime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["lastroundtime"]);
+            m_tiredCard = UtilApi.getXmlAttrUInt(xmlelem, "tiredCard");
+            m_lastpreparetime = UtilApi.getXmlAttrUInt(xmlelem, "lastpreparetime");
+            m_lastroundtime = UtilApi.getXmlAttrUInt(xmlelem, "lastroundtime");
         }
     }
 }

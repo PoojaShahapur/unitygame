@@ -290,7 +290,7 @@ namespace SDK.Lib
                     }
                     catch (Exception /*ex2*/)
                     {
-                        Ctx.m_instance.m_logSys.error("error");
+                        Ctx.m_instance.m_logSys.error(string.Format("{0} 文件创建失败", saveFile));
                     }
                 }
 

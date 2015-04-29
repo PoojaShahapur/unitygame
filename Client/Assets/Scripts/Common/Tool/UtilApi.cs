@@ -1,6 +1,7 @@
 ﻿using SDK.Lib;
+using System.Collections;
 using System.IO;
-using System.Xml;
+using System.Security;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -179,15 +180,15 @@ namespace SDK.Common
             child.SetParent(parent, worldPositionStays);
         }
 
-        static public bool getXmlAttrBool(XmlAttribute attr)
+        static public bool getXmlAttrBool(SecurityElement attr, string name)
         {
             if (attr != null)
             {
-                if (TRUE == attr.Value)
+                if (TRUE == attr.Attribute(name))
                 {
                     return true;
                 }
-                else if (FALSE == attr.Value)
+                else if (FALSE == attr.Attribute(name))
                 {
                     return false;
                 }
@@ -196,25 +197,52 @@ namespace SDK.Common
             return false;
         }
 
-        static public string getXmlAttrStr(XmlAttribute attr)
+        static public string getXmlAttrStr(SecurityElement attr, string name)
         {
             if (attr != null)
             {
-                return attr.Value;
+                return attr.Attribute(name);
             }
 
             return "";
         }
 
-        static public uint getXmlAttrUInt(XmlAttribute attr)
+        static public uint getXmlAttrUInt(SecurityElement attr, string name)
         {
             uint ret = 0;
             if (attr != null)
             {
-                uint.TryParse(attr.Value, out ret);
+                uint.TryParse(attr.Attribute(name), out ret);
             }
 
             return ret;
+        }
+
+        // 获取一个孩子节点列表
+        static public void getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
+        {
+            foreach (SecurityElement child in elem.Children)
+            {
+                //比对下是否使自己所需要得节点
+                if (child.Tag == name)
+                {
+                    list.Add(child);
+                }
+            }
+        }
+
+        // 获取一个孩子节点
+        static public void getXmlChild(SecurityElement elem, string name, ref SecurityElement childNode)
+        {
+            foreach (SecurityElement child in elem.Children)
+            {
+                //比对下是否使自己所需要得节点
+                if (child.Tag == name)
+                {
+                    childNode = child;
+                    break;
+                }
+            }
         }
 
         // 转换行为状态到生物状态

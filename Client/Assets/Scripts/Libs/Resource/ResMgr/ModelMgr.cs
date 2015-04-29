@@ -1,6 +1,8 @@
+using Mono.Xml;
 using SDK.Common;
+using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
+using System.Security;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -38,31 +40,31 @@ namespace SDK.Lib
         {
             IResItem res = resEvt as IResItem;
             string text = res.getText("BoneList");
-            XmlDocument xmlDoc = new XmlDocument();
+            SecurityParser xmlDoc = new SecurityParser();
             xmlDoc.LoadXml(text);
 
-            XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
-            XmlNodeList itemMeshList = rootNode.ChildNodes;
-            XmlElement itemMesh;
+            SecurityElement rootNode = xmlDoc.ToXml();
+            ArrayList itemMeshList = rootNode.Children;
+            SecurityElement itemMesh;
 
-            XmlNodeList itemSubMeshList;
-            XmlElement itemSubMesh;
+            ArrayList itemSubMeshList;
+            SecurityElement itemSubMesh;
             string meshName = "";
             string subMeshName = "";
             string bonesList = "";
 
-            foreach (XmlNode itemNode1f in itemMeshList)
+            foreach (SecurityElement itemNode1f in itemMeshList)
             {
-                itemMesh = (XmlElement)itemNode1f;
-                meshName = itemMesh.Attributes["name"].Value;
+                itemMesh = itemNode1f;
+                meshName = UtilApi.getXmlAttrStr(itemMesh, "name");
                 m_skinDic[meshName] = new Dictionary<string, string[]>();
 
-                itemSubMeshList = itemMesh.ChildNodes;
-                foreach (XmlNode itemNode2f in itemSubMeshList)
+                itemSubMeshList = itemMesh.Children;
+                foreach (SecurityElement itemNode2f in itemSubMeshList)
                 {
-                    itemSubMesh = (XmlElement)itemNode2f;
-                    subMeshName = itemSubMesh.Attributes["name"].Value;
-                    bonesList = itemSubMesh.Attributes["bonelist"].Value;
+                    itemSubMesh = itemNode2f;
+                    subMeshName = UtilApi.getXmlAttrStr(itemSubMesh, "name");
+                    bonesList = UtilApi.getXmlAttrStr(itemSubMesh, "bonelist");
                     m_skinDic[meshName][subMeshName] = bonesList.Split(',');
                 }
             }

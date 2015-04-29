@@ -143,6 +143,7 @@ namespace Game.UI
             if (srcCard != null)
             {
                 m_inSceneCardList.removeCard(srcCard);
+                srcCard.updateCardGreenFrame(false);        // 当前卡牌可能处于绿色高亮，因此去掉
             }
 
             m_inSceneCardList.updateCardIndex();

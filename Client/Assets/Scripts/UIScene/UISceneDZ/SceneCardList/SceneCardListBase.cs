@@ -107,7 +107,7 @@ namespace Game.UI
                 }
                 else
                 {
-                    Ctx.m_instance.m_logSys.log("error");
+                    Ctx.m_instance.m_logSys.log("根据 thisid 获取对应的卡牌出错");
                 }
             }
 

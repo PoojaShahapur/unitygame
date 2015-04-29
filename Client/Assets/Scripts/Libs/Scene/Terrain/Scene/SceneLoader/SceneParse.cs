@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Mono.Xml;
+using SDK.Common;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
+using System.Security;
 
 namespace SDK.Lib
 {
@@ -21,17 +24,18 @@ namespace SDK.Lib
             }
         }
 
-        public void parse(Stream file)
+        public void parse(string xmlstr)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(file);
-            XmlNodeList xnl = xmlDoc.SelectSingleNode("config").ChildNodes;
+            SecurityParser xmlDoc = new SecurityParser();
+            xmlDoc.LoadXml(xmlstr);
+            SecurityElement SE = xmlDoc.ToXml();
+            ArrayList xnl = SE.Children;
             SceneNodeCfg node;
-            foreach (XmlNode xn in xnl)
+            foreach (SecurityElement xn in xnl)
             {
-                XmlElement xe = (XmlElement)xn;
+                SecurityElement xe = (SecurityElement)xn;
 
-                if (xe.Name == "Terrain")
+                if (xe.Tag == "Terrain")
                 {
                     m_sceneCfg.terrainCfg.parse(xe);
                 }

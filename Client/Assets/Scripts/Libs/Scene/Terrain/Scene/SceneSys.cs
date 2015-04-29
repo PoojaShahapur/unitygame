@@ -71,9 +71,8 @@ namespace SDK.Lib
         {
             IResItem res = resEvt as IResItem;                         // 类型转换
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
-            byte[] bytes = (res.getObject(m_scene.file) as TextAsset).bytes;
-            Stream stream = new MemoryStream(bytes);
-            m_sceneParse.parse(stream);
+            string text = res.getText(m_scene.file);
+            m_sceneParse.parse(text);
         }
 
         public void loadSceneRes(string filename)

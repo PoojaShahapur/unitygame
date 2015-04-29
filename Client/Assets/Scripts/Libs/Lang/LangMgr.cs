@@ -1,6 +1,8 @@
+using Mono.Xml;
 using SDK.Common;
+using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
+using System.Security;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -8,10 +10,10 @@ namespace SDK.Lib
     public class LangMgr
     {
         protected LangID m_langID = LangID.zh_CN;           // 当前语言，默认简体中文
-        protected XmlNodeList m_nodeList = null;                   // 整个的 xml 中 <t> 列表
+        protected ArrayList m_nodeList = null;                   // 整个的 xml 中 <t> 列表
         protected Dictionary<LangID, LangAttrItem> m_ID2FileName = new Dictionary<LangID, LangAttrItem>();  // 语言到文件名字的映射
-        protected XmlNodeList m_tmpEleList;         // 临时的元素列表
-        protected XmlElement m_tmpEle;              // 临时的元素
+        protected ArrayList m_tmpEleList;         // 临时的元素列表
+        protected SecurityElement m_tmpEle;              // 临时的元素
         protected bool m_isLoaded = false;                  // 语言文件是否加载
         protected bool m_hasItem = false;
 
@@ -42,13 +44,13 @@ namespace SDK.Lib
             {
                 if ((int)typeId < m_nodeList.Count)
                 {
-                    m_tmpEleList = m_nodeList[(int)typeId].ChildNodes as XmlNodeList;
+                    m_tmpEleList = (m_nodeList[(int)typeId] as SecurityElement).Children;
                     if((int)itemIdx < m_tmpEleList.Count)
                     {
                         m_hasItem = true;
-                        m_tmpEle = m_tmpEleList[(int)itemIdx] as XmlElement;
+                        m_tmpEle = m_tmpEleList[(int)itemIdx] as SecurityElement;
                         //Ctx.m_instance.m_shareData.m_retLangStr = m_tmpEle.InnerText;
-                        textStr = m_tmpEle.InnerText;
+                        textStr = m_tmpEle.Text;
                     }
                 }
             }
@@ -95,11 +97,10 @@ namespace SDK.Lib
             string text = res.getText(m_ID2FileName[m_langID].m_filePath);
             if (text != null)
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(text);
-
-                XmlNode xn = xmlDoc.SelectSingleNode("msg");
-                m_nodeList = xn.ChildNodes;
+                SecurityParser SP = new SecurityParser();
+                SP.LoadXml(text);
+                SecurityElement SE = SP.ToXml();
+                m_nodeList = SE.Children;
             }
 
             // 卸载资源

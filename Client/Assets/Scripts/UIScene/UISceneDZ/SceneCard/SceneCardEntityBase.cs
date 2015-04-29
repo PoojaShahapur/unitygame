@@ -46,7 +46,7 @@ namespace Game.UI
                 }
                 else
                 {
-                    Ctx.m_instance.m_logSys.log("error");
+                    Ctx.m_instance.m_logSys.log("服务器卡牌数据为空");
                 }
             }
         }

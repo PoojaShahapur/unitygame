@@ -29,13 +29,6 @@ namespace SDK.Common
             m_dynBuff = new DynamicBuffer<byte>(initCapacity, maxCapacity);
         }
 
-        public void initByDynamicBuffer(DynamicBuffer<byte> dyBuff_)
-        {
-            clear();                // 清除数据
-            buff = dyBuff_.buff;
-            length = dyBuff_.size;
-        }
-
         public DynamicBuffer<byte> dynBuff
         {
             get
@@ -84,18 +77,6 @@ namespace SDK.Common
             }
         }
 
-        public uint capacity
-        {
-            get
-            {
-                return m_dynBuff.capacity;
-            }
-            set
-            {
-                m_dynBuff.capacity = value;
-            }
-        }
-
         public void setPos(uint pos)
         {
             m_position = pos;
@@ -119,19 +100,6 @@ namespace SDK.Common
                 m_position = value;
 
                 //check();
-            }
-        }
-
-        // 尽量不要直接设置 byte[] ，除非你要对已经有的 byte[] 处理
-        public byte[] buff
-        {
-            get
-            {
-                return m_dynBuff.buff;
-            }
-            set
-            {
-                m_dynBuff.buff = value;
             }
         }
 

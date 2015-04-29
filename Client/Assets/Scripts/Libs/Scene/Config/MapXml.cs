@@ -1,6 +1,7 @@
 ﻿using SDK.Common;
 using SDK.Lib;
-using System.Xml;
+using System.Collections;
+using System.Security;
 
 namespace SDK.Lib
 {
@@ -21,9 +22,10 @@ namespace SDK.Lib
             parseXml<MapXmlItem>(str, "scenesPVP");
         }
 
-        public override XmlNodeList getXmlNodeList(XmlNode config, string itemNode)
+        public override ArrayList getXmlNodeList(SecurityElement config, string itemNode)
         {
-            XmlNodeList itemNodeList = config.SelectNodes(itemNode);
+            ArrayList itemNodeList = new ArrayList();
+            UtilApi.getXmlChildList(config, itemNode, ref itemNodeList);
             return itemNodeList;
         }
     }
@@ -39,16 +41,16 @@ namespace SDK.Lib
         public uint m_lastpreparetime;
         public uint m_lastroundtime;
 
-        public override void parseXml(XmlElement xmlelem)
+        public override void parseXml(SecurityElement xmlelem)
         {
-            m_preparetime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["preparetime"]);
-            m_roundtime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["roundtime"]);
-            m_peaceNum = UtilApi.getXmlAttrUInt(xmlelem.Attributes["peaceNum"]);
-            m_luckyCoin = UtilApi.getXmlAttrUInt(xmlelem.Attributes["luckyCoin"]);
+            m_preparetime = UtilApi.getXmlAttrUInt(xmlelem, "preparetime");
+            m_roundtime = UtilApi.getXmlAttrUInt(xmlelem, "roundtime");
+            m_peaceNum = UtilApi.getXmlAttrUInt(xmlelem, "peaceNum");
+            m_luckyCoin = UtilApi.getXmlAttrUInt(xmlelem, "luckyCoin");
 
-            m_tiredCard = UtilApi.getXmlAttrUInt(xmlelem.Attributes["tiredCard"]);
-            m_lastpreparetime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["lastpreparetime"]);
-            m_lastroundtime = UtilApi.getXmlAttrUInt(xmlelem.Attributes["lastroundtime"]);
+            m_tiredCard = UtilApi.getXmlAttrUInt(xmlelem, "tiredCard");
+            m_lastpreparetime = UtilApi.getXmlAttrUInt(xmlelem, "lastpreparetime");
+            m_lastroundtime = UtilApi.getXmlAttrUInt(xmlelem, "lastroundtime");
         }
     }
 
@@ -58,12 +60,13 @@ namespace SDK.Lib
         public string m_sceneName;
         public string m_levelName;
 
-        public override void parseXml(XmlElement xmlelem)
+        public override void parseXml(SecurityElement xmlelem)
         {
-            XmlElement itemXml = xmlelem.SelectSingleNode("item") as XmlElement;
-            m_sceneId = UtilApi.getXmlAttrUInt(itemXml.Attributes["id"]);
-            m_sceneName = UtilApi.getXmlAttrStr(itemXml.Attributes["name"]);
-            m_levelName = UtilApi.getXmlAttrStr(itemXml.Attributes["res"]);
+            SecurityElement itemXml = null;
+            UtilApi.getXmlChild(xmlelem, "item", ref itemXml);
+            m_sceneId = UtilApi.getXmlAttrUInt(itemXml, "id");
+            m_sceneName = UtilApi.getXmlAttrStr(itemXml, "name");
+            m_levelName = UtilApi.getXmlAttrStr(itemXml, "res");
         }
     }
 }

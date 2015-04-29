@@ -82,6 +82,13 @@ namespace SDK.Lib
             return (m_dataBuffer.sendBuffer.bytesAvailable == 0);
         }
 
+        // 设置接收缓冲区大小，和征途服务器对接，这个一定要和服务器大小一致，并且一定要是 8 的整数倍，否则在消息比较多，并且一个包发送过来的时候，会出错
+        public void SetRevBufferSize(int size)
+        {
+            m_socket.ReceiveBufferSize = size;      // ReceiveBufferSize 默认 8096 字节
+            m_dataBuffer.SetRevBufferSize(size);
+        }
+
         // 连接服务器
         public bool Connect(string address, int remotePort)
         {
@@ -140,6 +147,7 @@ namespace SDK.Lib
                 m_isConnected = true;
                 // 设置选项
                 m_socket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+                SetRevBufferSize(8096);
                 // 设置 timeout
                 //m_socket.SendTimeout = m_sendTimeout;
                 //m_socket.ReceiveTimeout = m_revTimeout;

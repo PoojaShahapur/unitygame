@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 using System;
 using Game.UI;
 using SDK.Common;

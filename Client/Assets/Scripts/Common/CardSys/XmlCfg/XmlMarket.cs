@@ -1,6 +1,6 @@
 ﻿using SDK.Lib;
 using System.Collections.Generic;
-using System.Xml;
+using System.Security;
 
 namespace SDK.Common
 {
@@ -58,12 +58,12 @@ namespace SDK.Common
         public uint m_num;
         public uint m_price;
 
-        public override void parseXml(XmlElement xmlelem)
+        public override void parseXml(SecurityElement xmlelem)
         {
-            m_index = UtilApi.getXmlAttrUInt(xmlelem.Attributes["index"]);
-            m_objid = UtilApi.getXmlAttrUInt(xmlelem.Attributes["objid"]);
-            m_num = UtilApi.getXmlAttrUInt(xmlelem.Attributes["num"]);
-            m_price = UtilApi.getXmlAttrUInt(xmlelem.Attributes["price"]);
+            m_index = UtilApi.getXmlAttrUInt(xmlelem, "index");
+            m_objid = UtilApi.getXmlAttrUInt(xmlelem, "objid");
+            m_num = UtilApi.getXmlAttrUInt(xmlelem, "num");
+            m_price = UtilApi.getXmlAttrUInt(xmlelem, "price");
         }
     }
 }

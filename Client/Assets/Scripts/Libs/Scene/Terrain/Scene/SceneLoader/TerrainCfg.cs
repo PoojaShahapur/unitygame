@@ -1,5 +1,5 @@
-﻿using System.Xml;
-
+﻿using SDK.Common;
+using System.Security;
 namespace SDK.Lib
 {
     public class TerrainCfg
@@ -23,9 +23,9 @@ namespace SDK.Lib
             }
         }
 
-        public void parse(XmlElement xe)
+        public void parse(SecurityElement xe)
         {
-            string attr = xe.GetAttribute("size");
+            string attr = UtilApi.getXmlAttrStr(xe, "size");
             attr = attr.Substring(1, attr.Length - 2);
             char[] split = new char[1];
             split[0] = ',';

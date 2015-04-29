@@ -7,7 +7,7 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
-     * @brief 本地文件系统，参考 http://www.xuanyusong.com/archives/1069
+     * @brief 本地文件系统
      */
     public class LocalFileSys
     {
@@ -189,6 +189,12 @@ namespace SDK.Lib
             // get_persistentDataPath can only be called from the main thread
             //return Application.persistentDataPath;      // 这个目录是可读写的
             return m_persistentDataPath;
+        }
+
+        // 获取编辑器工作目录
+        public string getWorkPath()
+        {
+            return System.Environment.CurrentDirectory;
         }
 
         public FileStream openFile(string path)
