@@ -29,22 +29,27 @@ namespace SDK.Lib
 
         public void miniVerLoadResult()
         {
-            if (Ctx.m_instance.m_versionSys.m_needUpdateVer)
-            {
+            //if (Ctx.m_instance.m_versionSys.m_needUpdateVerFile)
+            //{
+                // 本地文件版本必须要加载
                 Ctx.m_instance.m_versionSys.loadVerFile();
-            }
-            else
-            {
-                onUpdateEnd();          // 更新结束
-            }
+            //}
+            //else
+            //{
+            //    onUpdateEnd();          // 更新结束
+            //}
         }
 
         public void verLoadResult()
         {
-            if(Ctx.m_instance.m_versionSys.m_needUpdateVer) // 如果需要更新
+            if (Ctx.m_instance.m_versionSys.m_needUpdateVerFile) // 如果需要更新
             {
                 // 开始正式加载文件
                 loadAllUpdateFile();
+            }
+            else
+            {
+                onUpdateEnd();          // 更新结束
             }
         }
 

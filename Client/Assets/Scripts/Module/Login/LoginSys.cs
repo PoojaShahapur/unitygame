@@ -18,6 +18,7 @@ namespace Game.Login
         {
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.AUTOUPDATEMN);
             initGVar();
+            loadPakCfg();
             loadScene();
         }
 
@@ -32,6 +33,12 @@ namespace Game.Login
 
             // 加载测试界面
             //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
+        }
+
+        protected void loadPakCfg()
+        {
+            //Ctx.m_instance.m_pPakSys.m_pakCfgLoadDisp = loadScene;
+            Ctx.m_instance.m_pPakSys.loadFile();
         }
 
         // 加载登陆常见

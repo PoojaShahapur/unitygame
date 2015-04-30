@@ -217,5 +217,34 @@ namespace SDK.Lib
 
             return null;
         }
+
+        public string getAbsPathByRelPath(string relPath, ref ResLoadType loadType)
+        {
+            // 获取版本
+            string version = Ctx.m_instance.m_versionSys.getFileVer(relPath);
+            string absPath = "";
+            if(!string.IsNullOrEmpty(version))
+            {
+                absPath = UtilApi.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), relPath), version);
+                if (!File.Exists(absPath))
+                {
+                    absPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), relPath);
+                    if (!File.Exists(absPath))
+                    {
+                        absPath = "";
+                    }
+                    else
+                    {
+                        loadType = ResLoadType.eStreamingAssets;
+                    }
+                }
+                else
+                {
+                    loadType = ResLoadType.ePersistentData;
+                }
+            }
+
+            return absPath;
+        }
     }
 }
