@@ -54,7 +54,7 @@ namespace SDK.Lib
             {
                 if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(kv.Key))
                 {
-                    //if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
+                    if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
                     {
                         loadOneUpdateFile(kv.Key, kv.Value);
                     }

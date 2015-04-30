@@ -79,7 +79,7 @@ namespace SDK.Lib
             UtilApi.renameFile(UtilApi.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME), m_miniVer), Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME));
 
             m_needUpdateVer = (m_localVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5 != m_webVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5);      // 如果版本不一致，需要重新加载
-            m_needUpdateVer = true;         // 测试强制更新
+            //m_needUpdateVer = true;         // 测试强制更新
             m_miniLoadResultDisp();
         }
 

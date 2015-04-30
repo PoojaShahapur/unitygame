@@ -75,8 +75,8 @@ public class AppRoot : MonoBehaviour
         // 交叉引用的对象初始化
         PostInit();
         // 加载登陆模块
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
-        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
+        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
         // Unity 编辑器设置的基本数据
         initBasicCfg();
 
