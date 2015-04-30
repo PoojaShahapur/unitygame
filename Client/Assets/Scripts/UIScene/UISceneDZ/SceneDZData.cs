@@ -144,11 +144,11 @@ namespace Game.UI
                 {
                     if(Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
                     {
-                        cardItem.updateCardGreenFrame(true);
+                        cardItem.updateCardOutState(true);
                     }
                     else
                     {
-                        cardItem.updateCardGreenFrame(false);
+                        cardItem.updateCardOutState(false);
                     }
                 }
             }

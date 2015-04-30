@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using System;
 using System.Collections;
 using System.IO;
 using System.Security;
@@ -90,18 +91,25 @@ namespace SDK.Common
         }
 
         // 销毁对象
-        public static void Destroy(Object obj)
+        public static void Destroy(UnityEngine.Object obj)
         {
-            if (obj as GameObject)
+            if (obj != null)
             {
-                (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+                if (obj as GameObject)
+                {
+                    (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+                }
+                GameObject.Destroy(obj);
+                obj = null;
             }
-            GameObject.Destroy(obj);
-            obj = null;
+            else
+            {
+                Ctx.m_instance.m_logSys.log("Destroy Object is null");
+            }
         }
 
         // 立即销毁对象
-        public static void DestroyImmediate(Object obj)
+        public static void DestroyImmediate(UnityEngine.Object obj)
         {
             if (obj as GameObject)
             {
@@ -110,7 +118,7 @@ namespace SDK.Common
             GameObject.DestroyImmediate(obj);
         }
 
-        public static void DestroyImmediate(Object obj, bool allowDestroyingAssets)
+        public static void DestroyImmediate(UnityEngine.Object obj, bool allowDestroyingAssets)
         {
             if (obj as GameObject)
             {
@@ -119,9 +127,9 @@ namespace SDK.Common
             GameObject.DestroyImmediate(obj, allowDestroyingAssets);
         }
 
-        public static void DontDestroyOnLoad(Object target)
+        public static void DontDestroyOnLoad(UnityEngine.Object target)
         {
-            Object.DontDestroyOnLoad(target);
+            UnityEngine.Object.DontDestroyOnLoad(target);
         }
 
         public static void SetActive(GameObject target, bool bshow)
@@ -129,14 +137,14 @@ namespace SDK.Common
             target.SetActive(bshow);
         }
 
-        public static Object Instantiate(Object original)
+        public static UnityEngine.Object Instantiate(UnityEngine.Object original)
         {
-            return Object.Instantiate(original);
+            return UnityEngine.Object.Instantiate(original);
         }
 
-        public static Object Instantiate(Object original, Vector3 position, Quaternion rotation)
+        public static UnityEngine.Object Instantiate(UnityEngine.Object original, Vector3 position, Quaternion rotation)
         {
-            return Object.Instantiate(original, position, rotation);
+            return UnityEngine.Object.Instantiate(original, position, rotation);
         }
 
         public static void normalPosScale(Transform tran)
@@ -164,7 +172,7 @@ namespace SDK.Common
         }
 
         // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题
-        public static void UnloadAsset(Object assetToUnload)
+        public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
             Resources.UnloadAsset(assetToUnload);
         }
@@ -504,8 +512,8 @@ namespace SDK.Common
 
         public static int Range(int min, int max)
         {
-            Random.seed = (int)UtilApi.getUTCSec();
-            return Random.Range(min, max);
+            UnityEngine.Random.seed = (int)UtilApi.getUTCSec();
+            return UnityEngine.Random.Range(min, max);
         }
 
         // 递归创建子目录
@@ -579,6 +587,41 @@ namespace SDK.Common
             FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
 
             return allFiles.Length > 0;
+        }
+
+        public static bool delFile(string path)
+        {
+            if(File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            return true;
+        }
+
+        public static string combineVerPath(string path, string ver)
+        {
+            return string.Format("{0}_v={1}", path, ver);
+        }
+
+        public static void renameFile(string srcPath, string destPath)
+        {
+            if (File.Exists(srcPath))
+            {
+                try
+                {
+                    File.Move(srcPath, destPath);
+                }
+                catch (Exception /*err*/)
+                {
+                    Ctx.m_instance.m_logSys.error(string.Format("修改文件名字 {0} 改成 {1} 失败", srcPath, destPath));
+                }
+            }
+        }
+
+        public static string webFullPath(string path)
+        {
+            return string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_webIP, path);
         }
 
         public static string getRelPath(string path)

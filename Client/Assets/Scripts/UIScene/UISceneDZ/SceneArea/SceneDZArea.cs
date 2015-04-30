@@ -1,6 +1,7 @@
 ﻿using Game.Msg;
 using SDK.Common;
 using SDK.Lib;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -143,7 +144,7 @@ namespace Game.UI
             if (srcCard != null)
             {
                 m_inSceneCardList.removeCard(srcCard);
-                srcCard.updateCardGreenFrame(false);        // 当前卡牌可能处于绿色高亮，因此去掉
+                srcCard.updateCardOutState(false);        // 当前卡牌可能处于绿色高亮，因此去掉
             }
 
             m_inSceneCardList.updateCardIndex();
@@ -341,15 +342,15 @@ namespace Game.UI
         }
 
         // 更新卡牌绿色边框，说明可以出牌
-        public void updateInCardGreenFrame(bool benable)
+        public void updateInCardOutState(bool benable)
         {
-            m_inSceneCardList.updateCardGreenFrame(benable);
+            m_inSceneCardList.updateCardOutState(benable);
         }
 
         // 更新卡牌绿色边框，说明可以出牌
-        public void updateOutCardGreenFrame(bool benable)
+        public void updateOutCardOutState(bool benable)
         {
-            m_outSceneCardList.updateCardGreenFrame(benable);
+            m_outSceneCardList.updateCardOutState(benable);
         }
 
         public SceneCardEntityBase getSceneCardByThisID(uint thisID)
@@ -391,6 +392,16 @@ namespace Game.UI
             }
 
             return null;
+        }
+
+        virtual public void updateCardAttackedState(GameOpState opt)
+        {
+
+        }
+
+        virtual public void clearCardAttackedState()
+        {
+
         }
     }
 }

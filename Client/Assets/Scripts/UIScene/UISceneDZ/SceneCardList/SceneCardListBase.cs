@@ -174,21 +174,21 @@ namespace Game.UI
             }
         }
 
-        public void updateCardGreenFrame(bool benable)
+        public void updateCardOutState(bool benable)
         {
             foreach (SceneDragCard cardItem in m_sceneCardList)
             {
-                cardItem.updateCardGreenFrame(benable);
+                cardItem.updateCardOutState(benable);
             }
         }
 
-        public void updateCardGreenFrameByCond(EnGameOp gameOpt, Func<SceneCardEntityBase, EnGameOp, bool> func)
+        public void updateCardAttackedState(GameOpState opt)
         {
             foreach (SceneCardEntityBase cardItem in m_sceneCardList)
             {
-                if (func(cardItem, gameOpt))
+                if (opt.canAttackOp(cardItem, opt.curOp))
                 {
-                    cardItem.updateCardGreenFrame(true);
+                    cardItem.updateCardAttackedState(true);
                 }
             }
         }

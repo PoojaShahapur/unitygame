@@ -26,18 +26,21 @@
 
         public void wait()
         {
-            using (MLock mlock = new MLock(m_pMMutex))
-            {
+            //using (MLock mlock = new MLock(m_pMMutex))
+            //{
+                m_pMMutex.WaitOne();
                 if (m_canEnterWait)
                 {
+                    m_pMMutex.ReleaseMutex();   // 这个地方需要释放锁，否则 notifyAll 进不来
                     m_pMEvent.WaitOne();
                     m_pMEvent.Reset();      // 重置信号
                 }
                 else
                 {
                     m_canEnterWait = true;
+                    m_pMMutex.ReleaseMutex();
                 }
-            }
+            //}
         }
 
         public void notifyAll()

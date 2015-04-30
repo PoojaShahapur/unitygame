@@ -201,7 +201,7 @@ namespace Game.UI
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
                 // 显示那张牌可以出
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);
             }
         }
 
@@ -274,7 +274,7 @@ namespace Game.UI
             else 
             {
                 m_sceneDZData.m_dzturn.enemyTurn();
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(false);
+                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
                 m_sceneDZData.m_gameOpState.quitAttackOp();
             }
         }

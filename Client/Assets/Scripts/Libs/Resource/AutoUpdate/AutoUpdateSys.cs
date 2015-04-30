@@ -1,5 +1,8 @@
 ﻿using SDK.Common;
+using System;
 using System.Collections.Generic;
+using System.IO;
+
 namespace SDK.Lib
 {
     /**
@@ -10,6 +13,7 @@ namespace SDK.Lib
         public List<string> m_loadingPath = new List<string>();
         public List<string> m_loadedPath = new List<string>();
         public List<string> m_failedPath = new List<string>();
+        public Action m_onUpdateEndDisp;
 
         public void startUpdate()
         {
@@ -23,9 +27,16 @@ namespace SDK.Lib
             Ctx.m_instance.m_versionSys.loadMiniVerFile();
         }
 
-        public void miniVerLoadResult(bool needUpdate)
+        public void miniVerLoadResult()
         {
-            Ctx.m_instance.m_versionSys.loadVerFile();
+            if (Ctx.m_instance.m_versionSys.m_needUpdateVer)
+            {
+                Ctx.m_instance.m_versionSys.loadVerFile();
+            }
+            else
+            {
+                onUpdateEnd();          // 更新结束
+            }
         }
 
         public void verLoadResult()
@@ -43,18 +54,28 @@ namespace SDK.Lib
             {
                 if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(kv.Key))
                 {
-                    if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
+                    //if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
                     {
                         loadOneUpdateFile(kv.Key, kv.Value);
                     }
+                }
+                else
+                {
+                    loadOneUpdateFile(kv.Key, kv.Value);
                 }
             }
         }
 
         public void loadOneUpdateFile(string path, FileVerInfo fileInfo)
         {
-            m_loadingPath.Add(path);
-            UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
+            //string loadPath = UtilApi.combineVerPath(path, fileInfo.m_fileMd5);
+            //m_loadingPath.Add(loadPath);
+            m_loadingPath.Add(UtilApi.webFullPath(path));
+            if (Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(path))
+            {
+                UtilApi.delFile(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
+            }
+            //UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = path;
@@ -71,6 +92,8 @@ namespace SDK.Lib
 
         protected void onLoaded(IDispatchObject resEvt)
         {
+            Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (resEvt as DataResItem).path));
+
             m_loadedPath.Add((resEvt as DataResItem).path);
             m_loadingPath.Remove((resEvt as DataResItem).path);
 
@@ -82,6 +105,8 @@ namespace SDK.Lib
 
         protected void onFailed(IDispatchObject resEvt)
         {
+            Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (resEvt as DataResItem).path));
+
             m_failedPath.Add((resEvt as DataResItem).path);
             m_loadingPath.Remove((resEvt as DataResItem).path);
 
@@ -94,6 +119,10 @@ namespace SDK.Lib
         protected void onUpdateEnd()
         {
             // 进入游戏
+            if(m_onUpdateEndDisp != null)
+            {
+                m_onUpdateEndDisp();
+            }
         }
     }
 }

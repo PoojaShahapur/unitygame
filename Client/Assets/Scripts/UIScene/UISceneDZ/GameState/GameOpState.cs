@@ -1,6 +1,7 @@
 ﻿using Game.Msg;
 using SDK.Common;
 using SDK.Lib;
+using System;
 using System.Collections.Generic;
 
 namespace Game.UI
@@ -28,6 +29,14 @@ namespace Game.UI
         {
             m_curOp = EnGameOp.eOpNone;
             m_sceneDZData = sceneDZData;
+        }
+
+        public EnGameOp curOp
+        {
+            get
+            {
+                return m_curOp;
+            }
         }
 
         // 进入攻击操作
@@ -214,14 +223,14 @@ namespace Game.UI
         protected void addAttackTargetFlags()
         {
             // 遍历所有的 enemy 对象
-            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.updateCardGreenFrameByCond(m_curOp, canFaShuAttack);
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].updateCardAttackedState(this);
         }
 
         // 清除可攻击的标识
         protected void clearAttackTargetFlags()
         {
             // 遍历所有的 enemy 对象
-            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.updateCardGreenFrame(false);
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].clearCardAttackedState();
         }
     }
 }

@@ -76,6 +76,7 @@ public class AppRoot : MonoBehaviour
         PostInit();
         // 加载登陆模块
         Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
         // Unity 编辑器设置的基本数据
         initBasicCfg();
 
@@ -139,6 +140,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_uiMgr.getLayerGameObject();
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();
         Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
+        Ctx.m_instance.m_resLoadMgr.postInit();
 
         // Test 
         MThread.getMainThreadID();

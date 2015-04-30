@@ -57,8 +57,10 @@ namespace SDK.Lib
                 m_localPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.getRelPath(m_path));
                 if (!string.IsNullOrEmpty(m_version))
                 {
-                    m_localPath = string.Format("{0}_v={1}", m_localPath, m_version);
+                    m_localPath = UtilApi.combineVerPath(m_localPath, m_version);
                 }
+
+                Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", m_path));
                 Ctx.m_instance.m_TaskQueue.push(this);
             }
         }
@@ -88,9 +90,14 @@ namespace SDK.Lib
 
         protected void loadFromPersistentData()
         {
-            if (Ctx.m_instance.m_localFileSys.isFileExist(m_path))
+            string verPath = m_path;
+            if(!string.IsNullOrEmpty(m_version))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(m_path);
+                verPath = UtilApi.combineVerPath(m_path, m_version);
+            }
+            if (Ctx.m_instance.m_localFileSys.isFileExist(verPath))
+            {
+                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(verPath);
             }
 
             if (m_bytes != null)
@@ -143,7 +150,7 @@ namespace SDK.Lib
         // 协程下载
         protected IEnumerator coroutWebDown()
         {
-            string uri = Ctx.m_instance.m_cfg.m_webIP + m_path;
+            string uri = UtilApi.webFullPath(m_path);
             string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
 
             //try
@@ -155,21 +162,21 @@ namespace SDK.Lib
                 long readedLength = 0;
 
                 long lStartPos = 0;
-                FileStream fs;
+                FileStream fileStream;
                 if (File.Exists(saveFile))
                 {
-                    fs = System.IO.File.OpenWrite(saveFile);
-                    lStartPos = fs.Length;
+                    fileStream = System.IO.File.OpenWrite(saveFile);
+                    lStartPos = fileStream.Length;
                     if (contentLength - lStartPos <= 0)     // 文件已经完成
                     {
-                        fs.Close();
+                        fileStream.Close();
                         yield break;
                     }
-                    fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
+                    fileStream.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
                 }
                 else
                 {
-                    fs = new FileStream(saveFile, System.IO.FileMode.Create);
+                    fileStream = new FileStream(saveFile, System.IO.FileMode.Create);
                 }
 
                 if (lStartPos > 0)
@@ -179,22 +186,22 @@ namespace SDK.Lib
                 }
 
                 //向服务器请求，获得服务器回应数据流 
-                System.IO.Stream ns = response.GetResponseStream();
+                System.IO.Stream retStream = response.GetResponseStream();
                 int len = 1024 * 8;
                 m_bytes = new byte[len];
                 int nReadSize = 0;
                 string logStr;
                 while(readedLength != contentLength)
                 {
-                    nReadSize = ns.Read(m_bytes, 0, len);
-                    fs.Write(m_bytes, 0, nReadSize);
+                    nReadSize = retStream.Read(m_bytes, 0, len);
+                    fileStream.Write(m_bytes, 0, nReadSize);
                     readedLength += nReadSize;
-                    logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
+                    logStr = "已下载:" + fileStream.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
                     Ctx.m_instance.m_logSys.log(logStr);
                     yield return false;
                 }
-                ns.Close();
-                fs.Close();
+                retStream.Close();
+                fileStream.Close();
                 if (readedLength == contentLength)
                 {
                     if (onLoaded != null)
@@ -222,10 +229,14 @@ namespace SDK.Lib
         // 线程下载
         public void runTask()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("线程开始下载下载任务 {0}", m_path));
+
             string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.getRelPath(m_path));
+            string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
+            bool bNeedReName = false;
             if (!string.IsNullOrEmpty(m_version))
             {
-                saveFile = string.Format("{0}_v={1}", saveFile, m_version);
+                saveFile = UtilApi.combineVerPath(saveFile, m_version);
             }
 
             try
@@ -268,25 +279,26 @@ namespace SDK.Lib
                 long readedLength = 0;
 
                 long lStartPos = 0;
-                FileStream fs = null;
+                FileStream fileStream = null;
                 if (File.Exists(saveFile))
                 {
-                    fs = File.OpenWrite(saveFile);
-                    lStartPos = fs.Length;
+                    fileStream = File.OpenWrite(saveFile);
+                    lStartPos = fileStream.Length;
                     if (contentLength - lStartPos <= 0)     // 文件已经完成
                     {
-                        fs.Close();
+                        fileStream.Close();
                         onRunTaskEnd();
                         Ctx.m_instance.m_logSys.log("之前文件已经下载完成，不用重新下载");
                         return;
                     }
-                    fs.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
+                    fileStream.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
                 }
                 else
                 {
+                    bNeedReName = true;
                     try
                     {
-                        fs = new FileStream(saveFile, System.IO.FileMode.Create);
+                        fileStream = new FileStream(origFile, System.IO.FileMode.Create);
                     }
                     catch (Exception /*ex2*/)
                     {
@@ -301,7 +313,7 @@ namespace SDK.Lib
                 }
 
                 //向服务器请求，获得服务器回应数据流 
-                System.IO.Stream ns = response.GetResponseStream();
+                System.IO.Stream retStream = response.GetResponseStream();
                 int len = 1024 * 8;
                 m_bytes = new byte[len];
                 int nReadSize = 0;
@@ -309,11 +321,11 @@ namespace SDK.Lib
                 bool isBytesValid = true;        // m_bytes 中数据是否有效
                 while (readedLength != contentLength)
                 {
-                    nReadSize = ns.Read(m_bytes, 0, len);
-                    fs.Write(m_bytes, 0, nReadSize);
+                    nReadSize = retStream.Read(m_bytes, 0, len);
+                    fileStream.Write(m_bytes, 0, nReadSize);
                     readedLength += nReadSize;
                     //logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
-                    logStr = "已下载: " + fs.Length + "b / " + contentLength + "b";
+                    logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", m_path, fileStream.Length, contentLength);
                     Ctx.m_instance.m_logSys.log(logStr);
 
                     if (isBytesValid)
@@ -325,13 +337,20 @@ namespace SDK.Lib
                     }
                 }
 
+                // 释放资源
                 request.Abort();
                 request = null;
                 response.Close();
                 response = null;
 
-                ns.Close();
-                fs.Close();
+                retStream.Close();
+                fileStream.Close();
+
+                // 修改文件名字
+                if (bNeedReName)
+                {
+                    UtilApi.renameFile(origFile, saveFile);
+                }
 
                 if (!isBytesValid)
                 {
@@ -357,8 +376,13 @@ namespace SDK.Lib
 
         protected void onRunTaskEnd()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("线程结束下载下载任务 {0}", m_path));
+
             LoadedWebResMR pRoute = Ctx.m_instance.m_poolSys.newObject<LoadedWebResMR>();
             pRoute.m_task = this;
+
+            Ctx.m_instance.m_logSys.log(string.Format("线程下载结果推动给主线程 {0}", m_path));
+
             Ctx.m_instance.m_sysMsgRoute.push(pRoute);
         }
 

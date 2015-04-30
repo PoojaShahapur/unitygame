@@ -31,7 +31,7 @@ namespace Game.UI
 
                     // 记录开始卡牌的 id ，后面好判断更新
                     cardItem.m_startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx];
-                    cardItem.updateCardGreenFrame(true);
+                    cardItem.updateCardOutState(true);
                     cardItem.startRot = new Vector3(-90f, -90f, 0);       // 将卡牌竖起来
                     cardItem.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
                     cardItem.destPos = m_posList[idx];

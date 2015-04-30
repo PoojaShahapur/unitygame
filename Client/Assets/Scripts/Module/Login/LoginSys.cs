@@ -16,6 +16,7 @@ namespace Game.Login
 
         public void Start()
         {
+            Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.AUTOUPDATEMN);
             initGVar();
             loadScene();
         }

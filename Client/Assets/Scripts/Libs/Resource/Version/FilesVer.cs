@@ -18,11 +18,11 @@ namespace SDK.Lib
     public class FilesVer
     {
         // MiniVersion 必须每一次从服务器上下载
-        public const string MINIFILENAME = "MiniVersion.txt";
-        public const string MINIFILENAMENOEXT = "MiniVersion";
+        public const string MINIFILENAME = "VerMini.bytes";
+        public const string MINIFILENAMENOEXT = "VerMini";
 
-        public const string FILENAME = "Version.txt";
-        public const string FILENAMENOEXT = "Version";
+        public const string FILENAME = "VerFile.bytes";
+        public const string FILENAMENOEXT = "VerFile";
 
         public Dictionary<string, FileVerInfo> m_miniPath2HashDic = new Dictionary<string, FileVerInfo>();
         public Dictionary<string, FileVerInfo> m_path2HashDic = new Dictionary<string, FileVerInfo>();
@@ -35,7 +35,7 @@ namespace SDK.Lib
         public Action m_LoadedDisp;
         public Action m_FailedDisp;
 
-        virtual public void loadMiniVerFile()
+        virtual public void loadMiniVerFile(string ver = "")
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = MINIFILENAME;
@@ -47,11 +47,13 @@ namespace SDK.Lib
             else if (FilesVerType.ePersistentDataVer == m_type)
             {
                 param.m_resLoadType = ResLoadType.ePersistentData;
+                param.m_version = ver;
             }
             else if (FilesVerType.eWebVer == m_type)
             {
                 param.m_resLoadType = ResLoadType.eLoadWeb;
-                param.m_version = UtilApi.Range(int.MinValue, int.MaxValue).ToString();
+                //param.m_version = UtilApi.Range(int.MinValue, int.MaxValue).ToString();
+                param.m_version = ver;
             }
 
             param.m_loaded = onLoadedMini;
@@ -68,6 +70,10 @@ namespace SDK.Lib
             byte[] textAsset = (m_res as DataResItem).getBytes();
             if (textAsset != null)
             {
+                // Lzma 解压缩
+                //byte[] outBytes = null;
+                //uint outLen = 0;
+                //MLzma.DecompressStrLZMA(textAsset, (uint)textAsset.Length, ref outBytes, ref outLen);
                 loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_miniPath2HashDic);
             }
 
@@ -85,7 +91,7 @@ namespace SDK.Lib
         }
 
         // 加载版本文件
-        public void loadVerFile()
+        public void loadVerFile(string ver = "")
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = FILENAME;
@@ -97,10 +103,12 @@ namespace SDK.Lib
             else if (FilesVerType.ePersistentDataVer == m_type)
             {
                 param.m_resLoadType = ResLoadType.ePersistentData;
+                param.m_version = ver;
             }
             else if (FilesVerType.eWebVer == m_type)
             {
                 param.m_resLoadType = ResLoadType.eLoadWeb;
+                param.m_version = ver;
             }
 
             param.m_loaded = onLoaded;

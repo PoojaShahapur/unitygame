@@ -115,5 +115,24 @@ namespace SDK.Common
                 return m_retItem;
             }
         }
+
+        public int IndexOf(T item)
+        {
+            using (MLock mlock = new MLock(m_visitMutex))
+            {
+                int idx = 0;
+                foreach (var elem in m_dynamicBuffer.m_buff)
+                {
+                    if (item.Equals(elem))       // 地址比较
+                    {
+                        this.RemoveAt(idx);
+                        return idx;
+                    }
+
+                    ++idx;
+                }
+                return -1;
+            }
+        }
     }
 }

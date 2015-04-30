@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace SDK.Common
 {
@@ -9,7 +8,7 @@ namespace SDK.Common
     public class PoolSys
     {
         //protected List<object> m_poolList = new List<object>();
-        protected List<IRecycle> m_poolList = new List<IRecycle>();
+        protected LockList<IRecycle> m_poolList = new LockList<IRecycle>("PoolSys_List");
 
         public T newObject<T>() where T : IRecycle, new()
         {
@@ -37,14 +36,10 @@ namespace SDK.Common
 
         public void deleteObj(IRecycle obj)
         {
-            foreach (IRecycle item in m_poolList)
+            if (m_poolList.IndexOf(obj) == -1)
             {
-                if(item.Equals(obj))        // 如果已经加入
-                {
-                    return;
-                }
+                m_poolList.Add(obj);
             }
-            m_poolList.Add(obj);
         }
     }
 }

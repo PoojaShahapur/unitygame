@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 
 namespace Game.UI
 {
@@ -12,9 +13,14 @@ namespace Game.UI
         }
 
         // 给 enemy 可攻击的对象添加可攻击标识
-        public void addAttackTargetFlags(EnGameOp gameOp)
+        override public void updateCardAttackedState(GameOpState opt)
         {
+            outSceneCardList.updateCardAttackedState(opt);
+        }
 
+        override public void clearCardAttackedState()
+        {
+            outSceneCardList.updateCardOutState(false);
         }
     }
 }

@@ -7,17 +7,26 @@ using System.IO;
 
 namespace SDK.Lib
 {
-    public class ResLoadMgr
+    public class ResLoadMgr : MsgRouteHandleBase
     {
         protected uint m_maxParral = 8;                             // 最多同时加载的内容
         protected uint m_curNum = 0;                                // 当前加载的数量
         protected ResLoadData m_LoadData;
         protected LoadItem m_retLoadItem;
         protected ResItem m_retResItem;
+        protected ResMsgRouteCB m_resMsgRouteCB;
 
         public ResLoadMgr()
         {
             m_LoadData = new ResLoadData();
+            m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = onMsgRouteResLoad;
+        }
+
+        public void postInit()
+        {
+            // 游戏逻辑处理
+            m_resMsgRouteCB = new ResMsgRouteCB();
+            Ctx.m_instance.m_msgRouteList.addOneDisp(m_resMsgRouteCB);
         }
 
         // 重置加载设置
@@ -334,8 +343,10 @@ namespace SDK.Lib
             {
                 if (m_LoadData.m_willLDItem.Count > 0)
                 {
-                    m_LoadData.m_path2LDItem[(m_LoadData.m_willLDItem[0] as LoadItem).path] = m_LoadData.m_willLDItem[0] as LoadItem;
+                    string path = (m_LoadData.m_willLDItem[0] as LoadItem).path;
+                    m_LoadData.m_path2LDItem[path] = m_LoadData.m_willLDItem[0] as LoadItem;
                     m_LoadData.m_willLDItem.RemoveAt(0);
+                    m_LoadData.m_path2LDItem[path].load();
 
                     ++m_curNum;
                 }
@@ -372,6 +383,13 @@ namespace SDK.Lib
             }
 
             return m_retLoadItem;
+        }
+
+        // 资源加载完成，触发下一次加载
+        protected void onMsgRouteResLoad(MsgRouteBase msg)
+        {
+            DataLoadItem loadItem = (msg as LoadedWebResMR).m_task as DataLoadItem;
+            loadItem.handleResult();
         }
     }
 }

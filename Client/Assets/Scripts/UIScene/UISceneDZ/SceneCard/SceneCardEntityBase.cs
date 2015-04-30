@@ -227,7 +227,8 @@ namespace Game.UI
             }
         }
 
-        public void updateCardGreenFrame(bool benable)
+        // 更新卡牌是否可以出牌
+        public void updateCardOutState(bool benable)
         {
             GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
             if (go != null)
@@ -255,6 +256,29 @@ namespace Game.UI
                             //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
                             //    Ctx.m_instance.m_logSys.error(e.Message);
                             //}
+                        }
+                    }
+                    else
+                    {
+                        UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+                    }
+                }
+            }
+        }
+
+        // 更新卡牌是否可以被击
+        public void updateCardAttackedState(bool benable)
+        {
+            GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
+            if (go != null)
+            {
+                if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
+                {
+                    if (benable)
+                    {
+                        if (sceneCardItem != null)
+                        {
+                            UtilApi.getComByP<MeshRenderer>(go).enabled = true;
                         }
                     }
                     else

@@ -85,10 +85,13 @@ namespace SDK.Common
         public SoundMgr m_soundMgr = new SoundMgr();
         public MapCfg m_mapCfg = new MapCfg();
 
+        public IAutoUpdate m_autoUpdate;
+
         public Ctx()
         {
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
-            m_TaskThreadPool.initThreadPool(1, m_TaskQueue);
+            //m_TaskThreadPool.initThreadPool(1, m_TaskQueue);
+            m_TaskThreadPool.initThreadPool(8, m_TaskQueue);
         }
 
         public static Ctx instance()
