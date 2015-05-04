@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDK.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -522,6 +523,65 @@ namespace EditorTool
             //CreateDirectory(Path.Combine(Application.streamingAssetsPath, platForm));
             //copyDirectory(srcPath, Path.Combine(Application.streamingAssetsPath, platForm));
             copyDirectory(srcPath, Application.streamingAssetsPath);
+        }
+
+        static public bool getXmlAttrBool(XmlAttribute attr)
+        {
+            if (attr != null)
+            {
+                if (UtilApi.TRUE == attr.Value)
+                {
+                    return true;
+                }
+                else if (UtilApi.FALSE == attr.Value)
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        static public string getXmlAttrStr(XmlAttribute attr)
+        {
+            if (attr != null)
+            {
+                return attr.Value;
+            }
+
+            return "";
+        }
+
+        static public uint getXmlAttrUInt(XmlAttribute attr)
+        {
+            uint ret = 0;
+            if (attr != null)
+            {
+                uint.TryParse(attr.Value, out ret);
+            }
+
+            return ret;
+        }
+
+        static public string rightSubStr(string origStr, string subStr)
+        {
+            int idx = origStr.IndexOf(subStr);
+            if(idx != -1)
+            {
+                if(origStr.Length > idx + subStr.Length)
+                {
+                    if (subStr[subStr.Length - 1] != '/' && subStr[subStr.Length - 1] != '\\')
+                    {
+                        return origStr.Substring(idx + subStr.Length + 1);
+                    }
+                    else
+                    {
+                        return origStr.Substring(idx + subStr.Length);
+                    }
+                }
+            }
+
+            return "";
         }
     }
 }

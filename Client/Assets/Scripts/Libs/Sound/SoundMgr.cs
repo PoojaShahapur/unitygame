@@ -28,7 +28,7 @@ namespace SDK.Lib
                 addTimer();
             }
 
-            soundParam.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], soundParam.m_path));
+            soundParam.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], soundParam.m_path), null);
 
             if (m_path2SoundDic.ContainsKey(soundParam.m_path))      // 如果已经有了直接返回
             {
@@ -74,7 +74,7 @@ namespace SDK.Lib
 
         public void stop(string path)
         {
-            path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], path));
+            path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], path), null);
             unload(path);
         }
 

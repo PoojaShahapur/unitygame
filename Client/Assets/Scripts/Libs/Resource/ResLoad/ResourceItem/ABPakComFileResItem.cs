@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief Asset Bundles 打包的普通文件资源
      */
-    public class ABPakComFileResItem : FileResItem
+    public class ABPakComFileResItem : ABPakFileResItemBase
     {
         public FileStream m_fs = null;      // 文件句柄
 

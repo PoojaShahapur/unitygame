@@ -15,7 +15,7 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_name = UtilApi.getXmlAttrStr(elem.Attributes["name"]);
+            m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;
@@ -71,7 +71,7 @@ namespace EditorTool
                 }
                 else
                 {
-                    LoggerTool.error("error");
+                    LoggerTool.error(string.Format("AssetDatabase.LoadAssetAtPath 不能加载资源 {0}", resPath));
                 }
             }
 

@@ -13,6 +13,7 @@ namespace EditorTool
     {
         public List<ResourcesPathItem> m_resourceList = new List<ResourcesPathItem>();
         public string m_destFullPath;
+        public string m_resListOutpath;
     }
 
     /**
@@ -28,11 +29,35 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_srcRoot = UtilApi.getXmlAttrStr(elem.Attributes["srcroot"]);
-            m_destRoot = UtilApi.getXmlAttrStr(elem.Attributes["destroot"]);
+            m_srcRoot = ExportUtil.getXmlAttrStr(elem.Attributes["srcroot"]);
+            m_destRoot = ExportUtil.getXmlAttrStr(elem.Attributes["destroot"]);
             char[] splitChar = new char[1]{','};
-            m_unity3dExtNameList = UtilApi.getXmlAttrStr(elem.Attributes["unity3dextname"]).Split(splitChar).ToList<string>();
-            m_ignoreExtList = UtilApi.getXmlAttrStr(elem.Attributes["ignoreext"]).Split(splitChar).ToList<string>();
+            m_unity3dExtNameList = ExportUtil.getXmlAttrStr(elem.Attributes["unity3dextname"]).Split(splitChar).ToList<string>();
+            m_ignoreExtList = ExportUtil.getXmlAttrStr(elem.Attributes["ignoreext"]).Split(splitChar).ToList<string>();
+
+            int idx = 0;
+            if (m_unity3dExtNameList.IndexOf("null") != -1)         // 如果扩展名字有 null ，就说明包括没有扩展名字
+            {
+                for (idx = 0; idx < m_unity3dExtNameList.Count; ++idx)
+                {
+                    if(m_unity3dExtNameList[idx] == "null")
+                    {
+                        m_unity3dExtNameList[idx] = "";
+                    }
+                }
+            }
+
+            if (m_ignoreExtList.IndexOf("null") != -1)         // 如果扩展名字有 null ，就说明包括没有扩展名字
+            {
+                for (idx = 0; idx < m_ignoreExtList.Count; ++idx)
+                {
+                    if (m_ignoreExtList[idx] == "null")
+                    {
+                        m_ignoreExtList[idx] = "";
+                    }
+                }
+            }
+
             m_srcFullPath = Path.Combine(System.Environment.CurrentDirectory, m_srcRoot);
             m_srcFullPath = ExportUtil.normalPath(m_srcFullPath);
         }
@@ -49,7 +74,6 @@ namespace EditorTool
         // 遍历一个文件的时候处理
         public void handleFile(string fullFileName)
         {
-            fullFileName = ExportUtil.normalPath(fullFileName);
             fullFileName = ExportUtil.normalPath(fullFileName);
             if (m_ignoreExtList.IndexOf(ExportUtil.getFileExt(fullFileName)) == -1)
             {
@@ -108,6 +132,8 @@ namespace EditorTool
                         File.Copy(fullFileName, destPath);
                     }
                 }
+
+                addResListItem(fullFileName, destPath);
             }
         }
 
@@ -132,6 +158,28 @@ namespace EditorTool
             {
                 ExportUtil.CreateDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
             }
+        }
+
+        protected void addResListItem(string srcFullPath, string destFullPath)
+        {
+            ResListItem item = new ResListItem();
+
+            item.m_srcName = ExportUtil.rightSubStr(srcFullPath, m_srcRoot);
+            if (m_unity3dExtNameList.IndexOf(ExportUtil.getFileExt(srcFullPath)) != -1)     // 如果需要打包成 unity3d
+            {
+                item.m_destName = string.Format("{0}{1}", item.m_srcName.Substring(0, item.m_srcName.IndexOf('.')), ExportUtil.DOTUNITY3D);
+            }
+            else
+            {
+                item.m_destName = item.m_srcName;
+            }
+
+            if (m_destRoot.Length > 0)
+            {
+                item.m_destName = string.Format("{0}/{1}", m_destRoot, item.m_destName);
+            }
+
+            ResCfgData.m_ins.m_exportResList.addItem(item);
         }
     }
 }

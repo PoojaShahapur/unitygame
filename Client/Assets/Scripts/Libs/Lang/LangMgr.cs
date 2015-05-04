@@ -79,7 +79,7 @@ namespace SDK.Lib
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
-                param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(m_ID2FileName[m_langID].m_filePath);
+                LocalFileSys.modifyLoadParam(m_ID2FileName[m_langID].m_filePath, param);
                 param.m_loaded = onLoaded;
                 param.m_failed = onFailed;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);

@@ -15,7 +15,7 @@ namespace SDK.Common
         {
             string name = "forbidWords.txt";
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name));
+            LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name), param);
             param.m_loaded = onLoaded;
             param.m_failed = onFailed;
             param.m_loadNeedCoroutine = false;

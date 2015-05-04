@@ -20,6 +20,8 @@ namespace EditorTool
 
         public ResourcesCfgPackData m_pResourcesCfgPackData = new ResourcesCfgPackData();
 
+        public ExportResList m_exportResList = new ExportResList();
+
         public static void Instance()
         {
             if (m_ins == null)

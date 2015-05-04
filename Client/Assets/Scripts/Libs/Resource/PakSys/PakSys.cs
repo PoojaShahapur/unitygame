@@ -1,6 +1,7 @@
 ﻿using SDK.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SDK.Lib
 {
@@ -9,14 +10,23 @@ namespace SDK.Lib
      */
     public class PakSys
     {
+        public const string PAK_EXT = ".abc";       // 打包的文件扩展名字
+
         protected Dictionary<string, string> m_path2PakDic = new Dictionary<string, string>();
         public Action m_pakCfgLoadDisp;
+
+        public Dictionary<string, string> path2PakDic
+        {
+            get
+            {
+                return m_path2PakDic;
+            }
+        }
 
         virtual public void loadFile()
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Ctx.m_instance.m_localFileSys.getAbsPathByRelPath("File2Dir.bytes", ref param.m_resLoadType);
-
+            LocalFileSys.modifyLoadParam("File2Dir.bytes", param);
             param.m_loaded = onLoaded;
             param.m_failed = onFailed;
 
@@ -74,17 +84,45 @@ namespace SDK.Lib
         }
 
         // 获取当前资源所在的包文件名字
-        public string getCurResPakPathByResPath(string resPath)
+        public string getCurResPakPathByResPath(string resPath, LoadParam param)
         {
             //Ctx.m_instance.m_shareData.m_resInPakPath = resPath;
             //return Ctx.m_instance.m_shareData.m_resInPakPath;
+#if PKG_RES_LOAD
+            string retPath = resPath;
 
-            if(m_path2PakDic.ContainsKey(resPath))
+            if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
             {
-                return m_path2PakDic[resPath];
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
             }
+            else
+            {
+                // 获取包的名字
+                if (m_path2PakDic.ContainsKey(resPath))
+                {
+                    retPath = m_path2PakDic[resPath];
+                }
 
+                if(param != null)
+                {
+                    retPath = Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                }
+                else
+                {
+                    ResLoadType tmp = ResLoadType.eStreamingAssets;
+                    retPath = Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                }
+            }
+            return retPath;
+#elif UnPKG_RES_LOAD
+            if (param != null)
+            {
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
+            }
             return resPath;
+#else
+            return resPath;
+#endif
         }
     }
 }

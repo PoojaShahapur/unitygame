@@ -86,13 +86,16 @@ namespace SDK.Lib
         {
             param.resolveLevel();
 
-#if !PKG_RES_LOAD
-            param.m_resPackType = ResPackType.eLevelType;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+#if PKG_RES_LOAD
+            param.m_resPackType = ResPackType.ePakLevelType;
             return load(param);
-#else
+#elif UnPKG_RES_LOAD
             param.m_resPackType = ResPackType.eUnPakLevelType;
             param.m_resLoadType = ResLoadType.eStreamingAssets;
+            return load(param);
+#else
+            param.m_resPackType = ResPackType.eLevelType;
+            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
             return load(param);
 #endif
         }
@@ -102,14 +105,24 @@ namespace SDK.Lib
         {
             param.resolvePath();
 
-#if !PKG_RES_LOAD
-            param.m_resPackType = ResPackType.eResourcesType;
-            param.m_resLoadType = ResLoadType.eLoadResource;
+#if PKG_RES_LOAD
+            if (param.m_path.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
+            {
+                param.m_resPackType = ResPackType.ePakType;
+            }
+            else        // 加载的是非打包文件
+            {
+                param.m_resPackType = ResPackType.eUnPakType;
+            }
             return load(param);
-#else
+#elif UnPKG_RES_LOAD
             // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
             param.m_resPackType = ResPackType.eUnPakType;
             param.m_resLoadType = ResLoadType.eStreamingAssets;
+            return load(param);
+#else
+            param.m_resPackType = ResPackType.eResourcesType;
+            param.m_resLoadType = ResLoadType.eLoadResource;
             return load(param);
 #endif
         }
@@ -182,6 +195,21 @@ namespace SDK.Lib
                 }
                 (resitem as ABUnPakLevelFileResItem).levelName = param.lvlName;
             }
+            else if (ResPackType.ePakType == param.m_resPackType)
+            {
+                if (resitem == null)
+                {
+                    resitem = new ABPakComFileResItem();
+                }
+            }
+            else if (ResPackType.ePakLevelType == param.m_resPackType)
+            {
+                if (resitem == null)
+                {
+                    resitem = new ABPakLevelFileResItem();
+                }
+                (resitem as ABPakLevelFileResItem).levelName = param.lvlName;
+            }
 
             resitem.resNeedCoroutine = param.m_resNeedCoroutine;
             resitem.resPackType = param.m_resPackType;
@@ -240,6 +268,13 @@ namespace SDK.Lib
                 if (loaditem == null)
                 {
                     loaditem = new ABUnPakLoadItem();
+                }
+            }
+            else if (ResPackType.ePakType == param.m_resPackType || ResPackType.ePakLevelType == param.m_resPackType)
+            {
+                if (loaditem == null)
+                {
+                    loaditem = new ABPakLoadItem();
                 }
             }
 

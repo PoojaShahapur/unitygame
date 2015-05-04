@@ -151,14 +151,23 @@ namespace SDK.Common
         {
             CardItemBase item = null;
             int idx = 0;
+            TableItemBase tableItem = null;
             while(idx < list.Count)
             {
-                item = new CardItemBase();
-                item.m_tujian = list[idx];
-                item.m_tableItemCard = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, item.m_tujian.id).m_itemBody as TableCardItemBody;
+                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, list[idx].id);
+                if (tableItem != null)
+                {
+                    item = new CardItemBase();
+                    item.m_tujian = list[idx];
+                    item.m_tableItemCard = tableItem.m_itemBody as TableCardItemBody;
 
-                m_cardListArr[item.m_tableItemCard.m_career].Add(item);
-                m_id2CardDic[list[idx].id] = item;
+                    m_cardListArr[item.m_tableItemCard.m_career].Add(item);
+                    m_id2CardDic[list[idx].id] = item;
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log("表格读取失败");
+                }
 
                 ++idx;
             }

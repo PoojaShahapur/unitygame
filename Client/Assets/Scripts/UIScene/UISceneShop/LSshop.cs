@@ -191,7 +191,7 @@ namespace Game.UI
                 objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemBase;
                 m_shopItemArray[idx].m_path = (objitem.m_itemBody as TableObjectItemBody).path;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(m_shopItemArray[idx].m_path);
+                LocalFileSys.modifyLoadParam(m_shopItemArray[idx].m_path, param);
                 param.m_loaded = m_shopItemArray[idx].onLoaded;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);

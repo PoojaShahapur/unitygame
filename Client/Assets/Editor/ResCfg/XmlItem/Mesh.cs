@@ -14,11 +14,11 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_skelMeshParam.m_name = UtilApi.getXmlAttrStr(elem.Attributes["name"]);
-            m_skelMeshParam.m_inPath = UtilApi.getXmlAttrStr(elem.Attributes["inpath"]);
-            m_skelMeshParam.m_outPath = UtilApi.getXmlAttrStr(elem.Attributes["outpath"]);
-            m_skelMeshParam.m_resType = UtilApi.getXmlAttrStr(elem.Attributes["restype"]);
-            m_skelMeshParam.m_packSkel = UtilApi.getXmlAttrBool(elem.Attributes["packskel"]);
+            m_skelMeshParam.m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
+            m_skelMeshParam.m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);
+            m_skelMeshParam.m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
+            m_skelMeshParam.m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
+            m_skelMeshParam.m_packSkel = ExportUtil.getXmlAttrBool(elem.Attributes["packskel"]);
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;

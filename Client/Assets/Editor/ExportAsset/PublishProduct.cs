@@ -30,6 +30,8 @@ namespace EditorTool
             ResCfgData.Instance();
             // 打包生成 unity3d 资源
             PublishProductUtil.pkgResources();
+            // 导出资源列表
+            ResCfgData.m_ins.m_exportResList.exportResList();
             // 拷贝资源到输出目录
             PublishProductUtil.copyRes2Dest();
             // 删除 Resources 目录，防止资源被重复打包进输出镜像

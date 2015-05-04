@@ -218,11 +218,11 @@ namespace SDK.Lib
             return null;
         }
 
-        public string getAbsPathByRelPath(string relPath, ref ResLoadType loadType)
+        public string getAbsPathByRelPath(ref string relPath, ref ResLoadType loadType)
         {
             // 获取版本
             string version = Ctx.m_instance.m_versionSys.getFileVer(relPath);
-            string absPath = "";
+            string absPath = relPath;
             if(!string.IsNullOrEmpty(version))
             {
                 absPath = UtilApi.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), relPath), version);
@@ -240,11 +240,51 @@ namespace SDK.Lib
                 }
                 else
                 {
+                    relPath = UtilApi.combineVerPath(relPath, version);         // 在可写目录下，文件名字是有版本号的
                     loadType = ResLoadType.ePersistentData;
                 }
             }
 
             return absPath;
+        }
+
+        public static void modifyLoadParam(string resPath, LoadParam param)
+        {
+#if PKG_RES_LOAD
+            string retPath = resPath;
+
+            if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
+            {
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
+            }
+            else
+            {
+                // 获取包的名字
+                if (Ctx.m_instance.m_pPakSys.path2PakDic.ContainsKey(resPath))
+                {
+                    retPath = Ctx.m_instance.m_pPakSys.path2PakDic[resPath];
+                }
+
+                if(param != null)
+                {
+                    Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                }
+                else
+                {
+                    ResLoadType tmp = ResLoadType.eStreamingAssets;
+                    Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                }
+            }
+            param.m_path = retPath;
+#elif UnPKG_RES_LOAD
+            if (param != null)
+            {
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
+            }
+            param.m_path = resPath;
+#else
+            param.m_path = resPath;
+#endif
         }
     }
 }

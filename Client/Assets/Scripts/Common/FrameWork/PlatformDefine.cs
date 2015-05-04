@@ -42,3 +42,6 @@
 
 // 使用打包模式加载资源
 // #define PKG_RES_LOAD
+
+// 非打包文件系统资源加载
+// #define UnPKG_RES_LOAD

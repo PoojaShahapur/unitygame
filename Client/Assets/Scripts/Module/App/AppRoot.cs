@@ -74,16 +74,20 @@ public class AppRoot : MonoBehaviour
         setNoDestroyObject();
         // 交叉引用的对象初始化
         PostInit();
-        // 加载登陆模块
-        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
         // Unity 编辑器设置的基本数据
         initBasicCfg();
+
+        // 加载模块
+#if PKG_RES_LOAD
+        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
+#else
+        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+#endif
 
         // 运行单元测试
 #if UNIT_TEST_SRC
         UnitTestMain pUnitTestMain = new UnitTestMain();
-        pUnitTestMain.run();
+        //pUnitTestMain.run();
 #endif
     }
 

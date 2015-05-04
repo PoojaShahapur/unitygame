@@ -15,12 +15,12 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            m_packParam.m_type = UtilApi.getXmlAttrStr(elem.Attributes["type"]);
-            m_packParam.m_inPath = UtilApi.getXmlAttrStr(elem.Attributes["inpath"]);
-            m_packParam.m_outPath = UtilApi.getXmlAttrStr(elem.Attributes["outpath"]);
+            m_packParam.m_type = ExportUtil.getXmlAttrStr(elem.Attributes["type"]);
+            m_packParam.m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);
+            m_packParam.m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
 
-            m_packParam.m_packAllFiles = UtilApi.getXmlAttrBool(elem.Attributes["packallfiles"]);
-            m_packParam.m_extArr = UtilApi.getXmlAttrStr(elem.Attributes["infileext"]).Split(',');
+            m_packParam.m_packAllFiles = ExportUtil.getXmlAttrBool(elem.Attributes["packallfiles"]);
+            m_packParam.m_extArr = ExportUtil.getXmlAttrStr(elem.Attributes["infileext"]).Split(',');
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;
@@ -121,7 +121,7 @@ namespace EditorTool
                     }
                     else
                     {
-                        LoggerTool.error("error");
+                        LoggerTool.error(string.Format("AssetDatabase.LoadAssetAtPath 不能加载资源 {0}", filePath));
                     }
                 }
             }

@@ -14,7 +14,7 @@ namespace EditorTool
             xmlDoc.Load(path);
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
-            m_outPath = UtilApi.getXmlAttrStr(rootNode.Attributes["outpath"]);
+            m_outPath = ExportUtil.getXmlAttrStr(rootNode.Attributes["outpath"]);
             XmlNodeList packNodeList = rootNode.ChildNodes;
             XmlElement packElem;
             Mesh mesh;

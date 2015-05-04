@@ -23,10 +23,10 @@ namespace Game.Start
         // Use this for initialization
         void Start()
         {
-#if !PKG_RES_LOAD
-            m_loadType = 0;
-#else
+#if PKG_RES_LOAD
             m_loadType = 1;
+#else
+            m_loadType = 0;
 #endif
 
             if (m_loadType == 0)
@@ -114,6 +114,10 @@ namespace Game.Start
                 Object.DontDestroyOnLoad(noDestroy);
                 appGo.transform.parent = noDestroy.transform;
                 assetBundle.Unload(false);
+            }
+            else
+            {
+                Debug.Log("Module/App.unity3d 加载失败");
             }
         }
 

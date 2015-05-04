@@ -263,7 +263,7 @@ namespace SDK.Common
             else // 资源从来没有加载过
             {
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.m_path = Ctx.m_instance.m_pPakSys.getCurResPakPathByResPath(reaPath);
+                LocalFileSys.modifyLoadParam(reaPath, param);
                 param.m_loaded = onLoaded;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);

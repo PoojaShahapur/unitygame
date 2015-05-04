@@ -12,6 +12,9 @@
         eUnPakType,     // 没有打包的 unity3d 数据
         eUnPakLevelType,// 没有打包的 Level unity3d 数据
 
+        ePakType,     // 没有打包的 unity3d 数据
+        ePakLevelType,// 没有打包的 Level unity3d 数据
+
         eNoneType       // 默认类型
     }
 }
