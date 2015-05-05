@@ -16,6 +16,13 @@ namespace SDK.Lib
             m_pakItem = new PakItem();
             m_pakItem.m_fs = (item as ABPakLoadItem).m_fs;
             m_pakItem.readArchiveFileHeader();      // 获取打包头部信息
+
+            if (onLoaded != null)
+            {
+                onLoaded(this);
+            }
+
+            clearListener();
         }
 
         public override byte[] getBytes(string resname)

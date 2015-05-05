@@ -6,16 +6,28 @@ using System.IO;
 namespace SDK.Lib
 {
     /**
+     * @brief 打包资源项
+     */
+    public class ResListItem
+    {
+        public string m_origName;       // 原始的资源名字
+        public string m_unity3dName;       // unity3d 文件名字
+        public string m_pakName;       // Pak 文件名字
+    }
+
+
+    /**
      * @brief 打包系统
      */
     public class PakSys
     {
         public const string PAK_EXT = ".abc";       // 打包的文件扩展名字
+        public const string FILE_LIST = "FileList.bytes";   // 文件列表文件名字
 
-        protected Dictionary<string, string> m_path2PakDic = new Dictionary<string, string>();
+        protected Dictionary<string, ResListItem> m_path2PakDic = new Dictionary<string, ResListItem>();
         public Action m_pakCfgLoadDisp;
 
-        public Dictionary<string, string> path2PakDic
+        public Dictionary<string, ResListItem> path2PakDic
         {
             get
             {
@@ -26,7 +38,7 @@ namespace SDK.Lib
         virtual public void loadFile()
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam("File2Dir.bytes", param);
+            LocalFileSys.modifyLoadParam(FILE_LIST, param);
             param.m_loaded = onLoaded;
             param.m_failed = onFailed;
 
@@ -67,18 +79,23 @@ namespace SDK.Lib
             }
         }
 
-        protected void loadFormText(string text, Dictionary<string, string> dic)
+        protected void loadFormText(string text, Dictionary<string, ResListItem> dic)
         {
-            string[] lineSplitStr = { "\n" };
+            string[] lineSplitStr = { "\r\n" };
             string[] equalSplitStr = { "=" };
             string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
             int lineIdx = 0;
             string[] equalList = null;
 
+            ResListItem item;
             while (lineIdx < lineList.Length)
             {
                 equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
-                dic[equalList[0]] = equalList[1];
+                item = new ResListItem();
+                item.m_origName = equalList[0];
+                item.m_unity3dName = equalList[1];
+                item.m_pakName = equalList[2];
+                dic[equalList[0]] = item;
                 ++lineIdx;
             }
         }
@@ -100,7 +117,7 @@ namespace SDK.Lib
                 // 获取包的名字
                 if (m_path2PakDic.ContainsKey(resPath))
                 {
-                    retPath = m_path2PakDic[resPath];
+                    retPath = m_path2PakDic[resPath].m_pakName;
                 }
 
                 if(param != null)

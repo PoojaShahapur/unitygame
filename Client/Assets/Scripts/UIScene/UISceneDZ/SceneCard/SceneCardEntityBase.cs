@@ -154,14 +154,7 @@ namespace Game.UI
                         }
                         else
                         {
-                            if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
-                            {
-                                // 只有点击自己的时候，才启动攻击
-                                if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
-                                {
-                                    m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
-                                }
-                            }
+                            enterAttack();
                         }
                     }
                     else if ((m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpFaShu)))        // 法术攻击
@@ -170,59 +163,56 @@ namespace Game.UI
                         {
                             // 必然是有目标的法术攻击
                             // 发送法术攻击消息
-                            stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
+                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
                             cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
                             cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
                             cmd.dwDefThisID = this.sceneCardItem.m_svrCard.qwThisID;
                             m_sceneDZData.m_gameOpState.quitAttackOp();
                             UtilMsg.sendMsg(cmd);
                         }
-                        else if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)        // 如果点击自己出过的牌，再次进入普通攻击
+                        else
                         {
-                            m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                            enterAttack();
                         }
                     }
                     else if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpZhanHouAttack))      // 战吼攻击
                     {
                         if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpZhanHouAttack))
                         {
-                            if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpAttack))
-                            {
-                                // 发送攻击指令
-                                stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
-                                cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                                cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                                cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
-                                cmd.dst.dwLocation = (uint)this.m_sceneCardItem.m_cardArea;
-                                cmd.dst.y = this.m_index;
-                                UtilMsg.sendMsg(cmd);
+                            // 发送攻击指令
+                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
+                            cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
+                            cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
+                            cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
+                            cmd.dst = new stObjectLocation();
+                            cmd.dst.dwLocation = (uint)this.m_sceneCardItem.m_cardArea;
+                            cmd.dst.y = this.m_index;
+                            UtilMsg.sendMsg(cmd);
 
-                                m_sceneDZData.m_gameOpState.quitAttackOp();
-                            }
-                            else
-                            {
-                                if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
-                                {
-                                    // 只有点击自己的时候，才启动攻击
-                                    if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
-                                    {
-                                        m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
-                                    }
-                                }
-                            }
+                            m_sceneDZData.m_gameOpState.quitAttackOp();
+                        }
+                        else
+                        {
+                            enterAttack();
                         }
                     }
                     else
                     {
-                        if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
-                        {
-                            // 只有点击自己的时候，才启动攻击
-                            if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
-                            {
-                                m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
-                            }
-                        }
+                        enterAttack();
                     }
+                }
+            }
+        }
+
+        // 进入普通攻击状态
+        protected void enterAttack()
+        {
+            if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+            {
+                // 只有点击自己的时候，才启动攻击
+                if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                {
+                    m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
                 }
             }
         }
@@ -233,32 +223,38 @@ namespace Game.UI
             GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
             if (go != null)
             {
-                if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
+                if (benable)
                 {
-                    if (benable)
+                    if (sceneCardItem != null)
                     {
-                        if (sceneCardItem != null)
-                        {
-                            //try
-                            //{
-                                if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                        //try
+                        //{
+                            if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                            {
+                                if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
                                 {
                                     UtilApi.getComByP<MeshRenderer>(go).enabled = true;
                                 }
-                                else
+                            }
+                            else
+                            {
+                                if (UtilApi.getComByP<MeshRenderer>(go).enabled != false)
                                 {
                                     UtilApi.getComByP<MeshRenderer>(go).enabled = false;
                                 }
-                            //}
-                            //catch (System.Exception e)
-                            //{
-                            //    // 输出日志
-                            //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
-                            //    Ctx.m_instance.m_logSys.error(e.Message);
-                            //}
-                        }
+                            }
+                        //}
+                        //catch (System.Exception e)
+                        //{
+                        //    // 输出日志
+                        //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
+                        //    Ctx.m_instance.m_logSys.error(e.Message);
+                        //}
                     }
-                    else
+                }
+                else
+                {
+                    if(UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
                     {
                         UtilApi.getComByP<MeshRenderer>(go).enabled = false;
                     }

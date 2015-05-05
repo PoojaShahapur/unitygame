@@ -107,13 +107,15 @@ namespace EditorTool
                     bundleParam.m_targetPlatform = ResCfgData.m_ins.m_targetPlatform;
                     bundleParam.m_pathName = destPath;
 #elif UNITY_4_6
-                bundleParam.m_assets = objList.ToArray();
-                pathList.Clear();
-                pathList.Add(m_skelMeshParam.m_outPath);
-                pathList.Add(skelNoExt + ".unity3d");
-                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+                    bundleParam.m_assets = objList.ToArray();
+                    pathList.Clear();
+                    pathList.Add(m_skelMeshParam.m_outPath);
+                    pathList.Add(skelNoExt + ".unity3d");
+                    bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
 #endif
                     ExportUtil.BuildAssetBundle(bundleParam);
+                    // 打包成 unity3d 后文件名字会变成小写，这里修改一下
+                    ExportUtil.modifyFileName(destPath, fineNameNoExt);
                 }
                 else        // 直接拷贝过去
                 {

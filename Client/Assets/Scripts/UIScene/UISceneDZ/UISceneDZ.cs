@@ -119,6 +119,8 @@ namespace Game.UI
 
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardDeap), onEnemyStartHover);
+
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CollideBG), onClkBg);   // 监听点击背景事件
         }
 
         // 幸运币点击
@@ -552,6 +554,15 @@ namespace Game.UI
             }
 
             m_sceneDZData.m_DJSTimer.startTimer();
+        }
+
+        // 点击背景处理
+        public void onClkBg(GameObject go)
+        {
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+            {
+                m_sceneDZData.m_gameOpState.quitAttackOp();
+            }
         }
     }
 }

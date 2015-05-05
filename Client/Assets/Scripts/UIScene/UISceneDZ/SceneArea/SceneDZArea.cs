@@ -318,7 +318,7 @@ namespace Game.UI
 
         public void addCardToOutList(SceneDragCard card, int idx = 0)
         {
-            m_outSceneCardList.addCard(card);
+            m_outSceneCardList.addCard(card, idx);
             m_outSceneCardList.updateSceneCardRST();
             m_outSceneCardList.updateCardIndex();
         }
@@ -330,7 +330,17 @@ namespace Game.UI
             if(card != null)
             {
                 card.retFormOutAreaToHandleArea();
+                m_outSceneCardList.updateSceneCardRST();
+                m_outSceneCardList.updateCardIndex();
             }
+        }
+
+        public void putHandFromOutByCard(SceneCardEntityBase card)
+        {
+            m_outSceneCardList.removeCardNoDestroy(card);
+            (card as SceneDragCard).retFormOutAreaToHandleArea();
+            m_outSceneCardList.updateSceneCardRST();
+            m_outSceneCardList.updateCardIndex();
         }
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)

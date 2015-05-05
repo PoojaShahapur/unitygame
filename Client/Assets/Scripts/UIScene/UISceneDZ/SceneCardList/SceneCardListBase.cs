@@ -151,6 +151,11 @@ namespace Game.UI
             return card;
         }
 
+        public void removeCardNoDestroy(SceneCardEntityBase card)
+        {
+            m_sceneCardList.Remove(card as SceneDragCard);
+        }
+
         public SceneCardEntityBase getCardByIdx(int idx = 0)
         {
             SceneCardEntityBase card = null;

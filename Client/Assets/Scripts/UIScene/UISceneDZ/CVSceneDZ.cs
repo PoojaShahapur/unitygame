@@ -37,6 +37,8 @@
         public const string EnemyMpList = "dz/EnemyGo/MpListGo";
         public const string HistoryGo = "HistoryGo";
         public const string TimerGo = "TimerGo";
+
+        public const string CollideBG = "dz/di/di";
     }
 
     public enum EnSceneDZText

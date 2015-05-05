@@ -39,6 +39,14 @@ namespace Game.UI
             }
         }
 
+        public SceneCardEntityBase curCard
+        {
+            get
+            {
+                return m_opCard;
+            }
+        }
+
         // 进入攻击操作
         public void enterAttackOp(EnGameOp op, SceneCardEntityBase card)
         {
@@ -64,13 +72,14 @@ namespace Game.UI
             if(EnGameOp.eOpZhanHouAttack == m_curOp)
             {
                 // 需要将其回退回去
-                (m_opCard as SceneDragCard).retFormOutAreaToHandleArea();
+                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOutByCard(m_opCard);
             }
         }
 
         // 退出攻击操作
         public void quitAttackOp()
         {
+            checkPreAttackOp(m_curOp, m_opCard);
             m_curOp = EnGameOp.eOpNone;
             m_opCard = null;
             m_sceneDZData.m_attackArrow.stopArrow();
@@ -133,6 +142,16 @@ namespace Game.UI
 
         protected bool canFaShuAttack(SceneCardEntityBase card, EnGameOp gameOp)
         {
+            return canSkillAttack(card, gameOp, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget);
+        }
+
+        protected bool canZhanHouAttack(SceneCardEntityBase card, EnGameOp gameOp)
+        {
+            return canSkillAttack(card, gameOp, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedZhanHouTarget);
+        }
+
+        protected bool canSkillAttack(SceneCardEntityBase card, EnGameOp gameOp, int attackTarget)
+        {
             stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
             cmd.dwAttThisID = m_opCard.sceneCardItem.m_svrCard.qwThisID;
             cmd.dwDefThisID = card.sceneCardItem.m_svrCard.qwThisID;
@@ -140,7 +159,7 @@ namespace Game.UI
 
             if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd))
             {
-                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SHERO, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SHERO, (uint)attackTarget))
                 {
                     if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
                     {
@@ -151,7 +170,7 @@ namespace Game.UI
                         }
                     }
                 }
-                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SATTEND, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SATTEND, (uint)attackTarget))
                 {
                     if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
                     {
@@ -162,7 +181,7 @@ namespace Game.UI
                         }
                     }
                 }
-                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EHERO, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EHERO, (uint)attackTarget))
                 {
                     if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
                     {
@@ -173,7 +192,7 @@ namespace Game.UI
                         }
                     }
                 }
-                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EATTEND, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget))
+                if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EATTEND, (uint)attackTarget))
                 {
                     if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
                     {
@@ -184,16 +203,6 @@ namespace Game.UI
                         }
                     }
                 }
-            }
-
-            return false;
-        }
-
-        protected bool canZhanHouAttack(SceneCardEntityBase card, EnGameOp gameOp)
-        {
-            if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
-            {
-                return true;
             }
 
             return false;

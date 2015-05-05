@@ -883,23 +883,23 @@ namespace Game.Msg
     //BYTE change;	//从低位到高位,1表示替换该位置的牌
     //};
 
-    public class stMoveGameCardUserCmd : stHeroCardCmd
-    {
-        public uint qwThisID;		    //卡牌thisID
-	    public stObjectLocation dst;	    //目标位置信息
+    //public class stMoveGameCardUserCmd : stHeroCardCmd
+    //{
+    //    public uint qwThisID;		    //卡牌thisID
+    //    public stObjectLocation dst;	    //目标位置信息
 
-        public stMoveGameCardUserCmd()
-	    {
-	        byParam = MOVE_CARD_USERCMD_PARAMETER;
-	    }
+    //    public stMoveGameCardUserCmd()
+    //    {
+    //        byParam = MOVE_CARD_USERCMD_PARAMETER;
+    //    }
 
-        public override void serialize(ByteBuffer ba)
-        {
-            base.serialize(ba);
-            ba.writeUnsignedInt32(qwThisID);
-            dst.serialize(ba);
-        }
-    }
+    //    public override void serialize(ByteBuffer ba)
+    //    {
+    //        base.serialize(ba);
+    //        ba.writeUnsignedInt32(qwThisID);
+    //        dst.serialize(ba);
+    //    }
+    //}
 
     //const BYTE MOVE_CARD_USERCMD_PARAMETER = 29;
     //struct stMoveGameCardUserCmd : public stHeroCardCmd
@@ -1466,6 +1466,21 @@ namespace Game.Msg
 
             dst = new stObjectLocation();
             dst.derialize(ba);
+        }
+
+        public override void serialize(ByteBuffer ba)
+        {
+            base.serialize(ba);
+
+            ba.writeUnsignedInt32(dwAttThisID);
+            ba.writeUnsignedInt32(dwDefThisID);
+            ba.writeUnsignedInt32(dwMagicType);
+
+            if (dst == null)
+            {
+                dst = new stObjectLocation();
+            }
+            dst.serialize(ba);
         }
     }
 

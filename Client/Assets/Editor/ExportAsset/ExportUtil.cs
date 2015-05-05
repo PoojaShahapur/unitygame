@@ -583,5 +583,33 @@ namespace EditorTool
 
             return "";
         }
+
+        // 打包成 unity3d 后文件名字会变成小写，这里修改一下
+        static public void modifyFileName(string path, string fileNameNoExt)
+        {
+            string srcFullPath = string.Format("{0}/{1}.{2}", path, fileNameNoExt.ToLower(), ExportUtil.UNITY3D);
+            string destFullPath = string.Format("{0}/{1}.{2}", path, fileNameNoExt, ExportUtil.UNITY3D);
+
+            if (File.Exists(srcFullPath))
+            {
+                File.Move(srcFullPath, destFullPath);
+            }
+            else
+            {
+                Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
+            }
+
+            srcFullPath = string.Format("{0}/{1}.{2}.manifest", path, fileNameNoExt.ToLower(), ExportUtil.UNITY3D);
+            destFullPath = string.Format("{0}/{1}.{2}.manifest", path, fileNameNoExt, ExportUtil.UNITY3D);
+
+            if (File.Exists(srcFullPath))
+            {
+                File.Move(srcFullPath, destFullPath);
+            }
+            else
+            {
+                Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
+            }
+        }
     }
 }

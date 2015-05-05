@@ -42,6 +42,9 @@ public class BuildScriptTest
         param.m_assetBundleOptions = 0;
         param.m_targetPlatform = EditorUserBuildSettings.activeBuildTarget;
         ExportUtil.BuildAssetBundle(param);
+
+        // 打包成 unity3d 后文件名字会变成小写，这里修改一下
+        ExportUtil.modifyFileName(outputPath, "TestExportPrefab");
 	}
 
     public static void BuildStreamedSceneAssetBundles()

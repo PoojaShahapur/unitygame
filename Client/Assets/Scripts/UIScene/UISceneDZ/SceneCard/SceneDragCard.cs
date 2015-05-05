@@ -201,21 +201,22 @@ namespace Game.UI
                                 UtilMsg.sendMsg(cmd);
                             }
                         }
-                        else if(m_sceneCardItem.m_cardTableItem.m_zhanHou > 0)           // 如果有战吼
+                        else if (m_sceneCardItem.m_cardTableItem.m_zhanHou > 0 && m_sceneCardItem.m_cardTableItem.m_bNeedZhanHouTarget > 0)           // 如果有战吼，并且需要攻击目标
                         {
                             // 直接放下去，然后选择攻击目标
+                            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
                             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(this, m_sceneDZData.curWhiteIdx);
                             m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, this);
                         }
                         else        // 如果是普通移动牌，就发送移动消息
                         {
-                            stMoveGameCardUserCmd cmd = new stMoveGameCardUserCmd();
+                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
                             cmd.dst = new stObjectLocation();
                             if (m_sceneCardItem.m_cardTableItem != null)
                             {
                                 cmd.dst.dwTableID = 0;
                                 cmd.dst.x = 0;
-                                cmd.qwThisID = m_sceneCardItem.m_svrCard.qwThisID;
+                                cmd.dwAttThisID = m_sceneCardItem.m_svrCard.qwThisID;
 
                                 if (m_sceneCardItem.m_cardTableItem.m_type == (int)CardType.CARDTYPE_EQUIP)
                                 {

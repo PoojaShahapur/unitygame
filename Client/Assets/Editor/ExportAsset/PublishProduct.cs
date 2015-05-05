@@ -33,13 +33,13 @@ namespace EditorTool
             // 导出资源列表
             ResCfgData.m_ins.m_exportResList.exportResList();
             // 拷贝资源到输出目录
-            PublishProductUtil.copyRes2Dest();
+            //PublishProductUtil.copyRes2Dest();
             // 删除 Resources 目录，防止资源被重复打包进输出镜像
-            PublishProductUtil.delResources();
+            //PublishProductUtil.delResources();
             // 生成镜像
-            PublishProductUtil.buildImage(option);
+            //PublishProductUtil.buildImage(option);
             // 恢复 Resources 目录资源
-            PublishProductUtil.restoreResources();
+            //PublishProductUtil.restoreResources();
         }
     }
 }

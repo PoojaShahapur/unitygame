@@ -245,6 +245,7 @@ namespace SDK.Lib
                 }
             }
 
+            loadType = ResLoadType.eStreamingAssets;
             return absPath;
         }
 
@@ -262,7 +263,7 @@ namespace SDK.Lib
                 // 获取包的名字
                 if (Ctx.m_instance.m_pPakSys.path2PakDic.ContainsKey(resPath))
                 {
-                    retPath = Ctx.m_instance.m_pPakSys.path2PakDic[resPath];
+                    retPath = Ctx.m_instance.m_pPakSys.path2PakDic[resPath].m_pakName;
                 }
 
                 if(param != null)

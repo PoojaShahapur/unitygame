@@ -52,7 +52,7 @@ namespace EditorTool
             string[] levelsPath = new string[1];    // 打包第一个启动场景目录
             levelsPath[0] = "Assets/Scenes/Start.unity";
 
-            string targetName = ExportUtil.GetBuildTargetName(EditorUserBuildSettings.activeBuildTarget);
+            string targetName = ExportUtil.GetBuildTargetName(ResCfgData.m_ins.m_targetPlatform/*EditorUserBuildSettings.activeBuildTarget*/);
             if (targetName == null)
                 return;
 

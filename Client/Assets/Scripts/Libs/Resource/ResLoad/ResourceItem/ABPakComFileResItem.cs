@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -12,6 +13,12 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
+        }
+
+        override public GameObject InstantiateObject(string resname)
+        {
+            byte[] bytes = getBytes(resname);
+            return null;
         }
     }
 }
