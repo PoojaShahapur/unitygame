@@ -19,6 +19,8 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
+            base.init(item);
+
             m_bundle = item.assetBundle;
             if (m_resNeedCoroutine)
             {

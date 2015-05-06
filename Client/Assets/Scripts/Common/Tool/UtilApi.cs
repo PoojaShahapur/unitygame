@@ -431,24 +431,24 @@ namespace SDK.Common
                 tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_zhanHou).m_itemBody as TableSkillItemBody;
                 desc += tableSkillItem.m_desc;
             }
-            if (cardTableItem.m_wangYu > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_wangYu).m_itemBody as TableSkillItemBody;
-                desc += tableSkillItem.m_desc;
-            }
-            if (cardTableItem.m_jiNu > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_jiNu).m_itemBody as TableSkillItemBody;
-                desc += tableSkillItem.m_desc;
-            }
+            //if (cardTableItem.m_wangYu > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_wangYu).m_itemBody as TableSkillItemBody;
+            //    desc += tableSkillItem.m_desc;
+            //}
+            //if (cardTableItem.m_jiNu > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_jiNu).m_itemBody as TableSkillItemBody;
+            //    desc += tableSkillItem.m_desc;
+            //}
 
             text.text = desc;
         }
@@ -703,6 +703,30 @@ namespace SDK.Common
         public static string getPakPathAndExt(string path, string extName)
         {
             return string.Format("{0}.{1}", path, extName);
+        }
+
+        public static string convScenePath2LevelName(string path)
+        {
+            int slashIdx = path.LastIndexOf("/");
+            int dotIdx = path.IndexOf(".");
+            string retLevelName = "";
+            if (slashIdx != -1)
+            {
+                if (dotIdx != -1)
+                {
+                    retLevelName = path.Substring(slashIdx + 1, dotIdx - slashIdx - 1);
+                }
+                else
+                {
+                    retLevelName = path.Substring(slashIdx + 1);
+                }
+            }
+            else
+            {
+                retLevelName = path;
+            }
+
+            return retLevelName;
         }
     }
 }

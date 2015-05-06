@@ -23,9 +23,9 @@ namespace SDK.Common
 		public TableSys()
 		{
 			m_dicTable = new Dictionary<TableID, TableBase>();
-            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client.txt", "ObjectBase_client");
-            m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client.txt", "CardBase_client");
-            m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.txt", "SkillBase_client");    // 添加一个表的步骤三
+            m_dicTable[TableID.TABLE_OBJECT] = new TableBase("ObjectBase_client.bytes", "ObjectBase_client");
+            m_dicTable[TableID.TABLE_CARD] = new TableBase("CardBase_client.bytes", "CardBase_client");
+            m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.bytes", "SkillBase_client");    // 添加一个表的步骤三
 		}
 
         // 返回一个表

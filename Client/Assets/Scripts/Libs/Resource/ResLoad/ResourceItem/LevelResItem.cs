@@ -28,6 +28,8 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
+            base.init(item);
+
             // 如果是打包成 AssetBundle ，然后放在本地磁盘，要加载的话，需要 WWW 打开，AssetBundle.CreateFromFile 是不行的
             //string path;
             //path = Application.dataPath + "/" + m_path;

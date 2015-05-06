@@ -101,7 +101,7 @@ namespace Game.Game
             stRetCardGroupListInfoUserCmd cmd = new stRetCardGroupListInfoUserCmd();
             cmd.derialize(msg);
 
-            Ctx.m_instance.m_logSys.log(string.Format("对战模式界面收到卡组列表信息，数量 {0}", cmd.info));
+            Ctx.m_instance.m_logSys.log(string.Format("对战模式界面收到卡组列表信息，数量 {0}", cmd.info.Count));
 
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCardGroupListInfoUserCmd(cmd.info);

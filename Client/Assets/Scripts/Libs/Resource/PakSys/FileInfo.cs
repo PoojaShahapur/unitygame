@@ -8,7 +8,7 @@ namespace SDK.Lib
 	public class FileHeader
 	{
 		protected byte m_pathLen;					// 目录长度，不包括 '\0'
-		protected string m_pFullPath;
+		protected string m_pFullPath;               // 这个字段暂时没有使用
 		protected string m_fileNamePath;			// 文件路径名字
 		protected uint m_fileOffset;				// 文件在整个 Archive 中的偏移
 		protected uint m_fileSize;					// 文件大小
@@ -28,6 +28,14 @@ namespace SDK.Lib
             set
             {
                 m_pFullPath = value;
+            }
+        }
+
+        public string fileNamePath
+        {
+            get
+            {
+                return m_fileNamePath;
             }
         }
 
@@ -71,5 +79,11 @@ namespace SDK.Lib
 				}
 			}
 		}
+
+        // 当前文件是否被压缩
+        public bool bCompress()
+        {
+            return UtilPak.checkFlags(FileHeaderFlag.eFHF_CPS, ref m_flags);
+        }
 	}
 }

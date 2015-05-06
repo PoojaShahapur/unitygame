@@ -47,6 +47,29 @@ public class BuildScriptTest
         ExportUtil.modifyFileName(outputPath, "TestExportPrefab");
 	}
 
+    // 打包自己在 Project 窗口中选择的资源
+    public static void BuildSelectAssetBundles()
+    {
+        string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "unity3d");
+        if (path.Length != 0)
+        {
+            List<string> assetNameList = new List<string>();
+            string nameStr;
+            foreach (Object item in Selection.objects)
+            {
+                nameStr = AssetDatabase.GetAssetPath(item);
+                nameStr = nameStr.Substring(nameStr.IndexOf("Assets"), nameStr.Length - nameStr.IndexOf("Assets"));
+                assetNameList.Add(nameStr);
+            }
+
+            AssetBundleBuild[] buildList = new AssetBundleBuild[1];
+            buildList[0].assetBundleName = "Start";
+            buildList[0].assetBundleVariant = "unity3d";
+            buildList[0].assetNames = assetNameList.ToArray();
+            BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
+        }
+    }
+
     public static void BuildStreamedSceneAssetBundles()
     {
         // Choose the output path according to the build target.

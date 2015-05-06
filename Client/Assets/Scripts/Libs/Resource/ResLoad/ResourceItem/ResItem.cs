@@ -168,11 +168,15 @@ namespace SDK.Lib
 
         virtual public void init(LoadItem item)
         {
-
+            m_isLoaded = true;
+            m_isSucceed = true;
         }
 
         virtual public void failed(LoadItem item)
         {
+            m_isLoaded = true;
+            m_isSucceed = false;
+
             if(onFailed != null)
             {
                 onFailed(this);
@@ -246,6 +250,21 @@ namespace SDK.Lib
         virtual public string getText(string resname)
         {
             return null;
+        }
+
+        public void copyFrom(ResItem rhv)
+        {
+            m_resPackType = rhv.m_resPackType;
+            m_resLoadType = rhv.m_resLoadType;
+            m_path = rhv.m_path;
+            m_pathNoExt = rhv.m_pathNoExt;
+            m_extName = rhv.m_extName;
+            m_resNeedCoroutine = rhv.m_resNeedCoroutine;
+            m_isLoaded = rhv.m_isLoaded;
+            m_isSucceed = rhv.m_isSucceed;
+            m_refNum = rhv.m_refNum;
+            onLoaded = rhv.onLoaded;
+            onFailed = rhv.onFailed;
         }
     }
 }

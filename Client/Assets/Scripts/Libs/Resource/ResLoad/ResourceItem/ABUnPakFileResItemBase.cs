@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System.Collections;
 using System.IO;
 using UnityEngine;
 
@@ -9,8 +10,46 @@ namespace SDK.Lib
      */
     public class ABUnPakFileResItemBase : FileResItem
     {
-        public byte[] m_bytes;
-        protected AssetBundle m_bundle;
+        public byte[] m_bytes = null;
+        protected AssetBundle m_bundle = null;
+
+        public void initByBytes(byte[] bytes, string prefixPath)
+        {
+            m_bytes = bytes;
+            m_bundlePath = Path.Combine(prefixPath, m_path);
+
+            // 检查是否资源打包成 unity3d 
+            if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)
+            {
+                if (m_resNeedCoroutine)
+                {
+                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
+                }
+                else
+                {
+                    initAsset();
+                }
+            }
+            else
+            {
+                if (onLoaded != null)
+                {
+                    onLoaded(this);
+                }
+
+                clearListener();
+            }
+        }
+
+        virtual protected void initAsset()
+        {
+            m_bundle = AssetBundle.CreateFromMemoryImmediate(m_bytes);
+        }
+
+        virtual protected IEnumerator initAssetByCoroutine()
+        {
+            return null;
+        }
 
         override public void unload()
         {

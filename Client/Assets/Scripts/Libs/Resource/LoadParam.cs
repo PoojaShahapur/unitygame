@@ -22,6 +22,9 @@ namespace SDK.Lib
         public bool m_resNeedCoroutine = true;      // 资源是否需要协同程序
         public bool m_loadNeedCoroutine = true;     // 加载是否需要协同程序
 
+        public string m_origPath = "";                   // 原始资源加载目录，主要是打包的时候使用
+        public string m_pakPath = "";                   // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
+
         public string prefabName
         {
             get
@@ -52,6 +55,7 @@ namespace SDK.Lib
             m_failed = null;
             m_version = "";
             m_extName = "prefab";
+            m_origPath = "";
         }
 
         // 解析目录
@@ -94,14 +98,22 @@ namespace SDK.Lib
         {
             resolvePath();
 
-            int slashIdx = m_pathNoExt.LastIndexOf("/");
-            if(slashIdx != -1)
+            int slashIdx = 0;
+            if (string.IsNullOrEmpty(m_origPath))
             {
-                m_lvlName = m_pathNoExt.Substring(slashIdx + 1);
+                slashIdx = m_pathNoExt.LastIndexOf("/");
+                if (slashIdx != -1)
+                {
+                    m_lvlName = m_pathNoExt.Substring(slashIdx + 1);
+                }
+                else
+                {
+                    m_lvlName = m_pathNoExt;
+                }
             }
-            else
+            else        // 如果是打包，需要从原始加载目录获取关卡名字
             {
-                m_lvlName = m_pathNoExt;
+                m_lvlName = UtilApi.convScenePath2LevelName(m_origPath);
             }
         }
     }

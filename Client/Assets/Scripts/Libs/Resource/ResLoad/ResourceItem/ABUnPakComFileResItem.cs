@@ -8,42 +8,20 @@ namespace SDK.Lib
     /**
      * @brief 没有打包的系统，在没有打包之前使用这个加载系统，每一个 ResItem 只有一个资源，打包的资源也是每一个 item 只有一个资源包
      */
-    public class ABUnPakComFileResItem : ABUnPakFileResItemBase
+    public class ABUnPakComFileResItem : ABMemUnPakFileResItemBase
     {
         protected Object m_object;
         protected GameObject m_retGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
-            m_bytes = (item as ABUnPakLoadItem).m_bytes;
-            m_bundlePath = Path.Combine(PRE_PATH, m_path);
-
-            // 检查是否资源打包成 unity3d 
-            if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)
-            {
-                if (m_resNeedCoroutine)
-                {
-                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
-                }
-                else
-                {
-                    initAsset();
-                }
-            }
-            else
-            {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
-
-                clearListener();
-            }
+            base.init(item);
+            initByBytes((item as ABUnPakLoadItem).m_bytes, PRE_PATH);
         }
 
-        protected void initAsset()
+        override protected void initAsset()
         {
-            m_bundle = AssetBundle.CreateFromMemoryImmediate(m_bytes);
+            base.initAsset();
 
             if (m_bundle != null)
             {
@@ -63,7 +41,7 @@ namespace SDK.Lib
             clearListener();
         }
 
-        protected IEnumerator initAssetByCoroutine()
+        override protected IEnumerator initAssetByCoroutine()
         {
             AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(m_bytes);
             yield return createReq;

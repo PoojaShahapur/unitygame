@@ -16,6 +16,12 @@ namespace EditorTool
             BuildScriptTest.BuildCustomAssetBundles();
         }
 
+        [MenuItem("Assets/SelfAssetBundlesTest/Build Select AssetBundles")]
+        static public void BuildSelectAssetBundles()
+        {
+            BuildScriptTest.BuildSelectAssetBundles();
+        }
+
         [MenuItem("Assets/SelfAssetBundlesTest/Build Streamed Scene")]
         static public void BuildStreamedSceneAssetBundles()
         {

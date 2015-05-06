@@ -223,7 +223,7 @@ namespace SDK.Lib
             // 获取版本
             string version = Ctx.m_instance.m_versionSys.getFileVer(relPath);
             string absPath = relPath;
-            if(!string.IsNullOrEmpty(version))
+            if (!string.IsNullOrEmpty(version))
             {
                 absPath = UtilApi.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), relPath), version);
                 if (!File.Exists(absPath))
@@ -244,14 +244,19 @@ namespace SDK.Lib
                     loadType = ResLoadType.ePersistentData;
                 }
             }
+            else
+            {
+                loadType = ResLoadType.eStreamingAssets;
+            }
 
-            loadType = ResLoadType.eStreamingAssets;
             return absPath;
         }
 
         public static void modifyLoadParam(string resPath, LoadParam param)
         {
 #if PKG_RES_LOAD
+            param.m_origPath = resPath;             // 记录原始的资源名字
+
             string retPath = resPath;
 
             if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
@@ -277,6 +282,7 @@ namespace SDK.Lib
                 }
             }
             param.m_path = retPath;
+            param.m_pakPath = param.m_path;
 #elif UnPKG_RES_LOAD
             if (param != null)
             {

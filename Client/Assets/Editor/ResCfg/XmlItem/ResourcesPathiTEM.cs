@@ -181,6 +181,11 @@ namespace EditorTool
                 item.m_destName = string.Format("{0}/{1}", m_destRoot, item.m_destName);
             }
 
+            // 如果是 unity 扩展名字的场景文件，需要在原始文件名字前面添加 Scenes 子目录
+            if (ExportUtil.getFileExt(item.m_srcName) == "unity")
+            {
+                item.m_srcName = string.Format("Scenes/{0}", item.m_srcName);
+            }
             ResCfgData.m_ins.m_exportResList.addItem(item);
         }
     }

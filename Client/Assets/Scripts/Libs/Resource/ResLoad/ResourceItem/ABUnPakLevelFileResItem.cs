@@ -8,9 +8,8 @@ namespace SDK.Lib
     /**
      * @brief 没有打包的系统，在没有打包之前使用这个加载系统
      */
-    public class ABUnPakLevelFileResItem : ABUnPakFileResItemBase
+    public class ABUnPakLevelFileResItem : ABMemUnPakFileResItemBase
     {
-        public const string SCENE_PRE_PATH = "Assets/Scenes";
         protected string m_levelName;
 
         public string levelName
@@ -23,37 +22,12 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
-            m_bytes = (item as ABUnPakLoadItem).m_bytes;
-
-            m_bundlePath = Path.Combine(SCENE_PRE_PATH, m_path);
-            m_bundlePath = string.Format("{0}.{1}", m_bundlePath, m_extName);
-
-            // 检查是否资源打包成 unity3d 
-            if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)
-            {
-                if (m_resNeedCoroutine)
-                {
-                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
-                }
-                else
-                {
-                    initAsset();
-                }
-            }
-            else
-            {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
-
-                clearListener();
-            }
+            initByBytes((item as ABUnPakLoadItem).m_bytes, SCENE_PRE_PATH);
         }
 
-        protected void initAsset()
+        override protected void initAsset()
         {
-            m_bundle = AssetBundle.CreateFromMemoryImmediate(m_bytes);
+            base.initAsset();
 
             if (m_bundle != null)
             {
@@ -75,7 +49,7 @@ namespace SDK.Lib
             clearListener();
         }
 
-        protected IEnumerator initAssetByCoroutine()
+        override protected IEnumerator initAssetByCoroutine()
         {
             AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(m_bytes);
             yield return createReq;

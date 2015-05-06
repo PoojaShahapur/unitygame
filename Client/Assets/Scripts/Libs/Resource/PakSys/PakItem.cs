@@ -50,7 +50,7 @@ namespace SDK.Lib
         {
             foreach(FileHeader item in m_pFileVec)
             {
-                if (item.pFullPath == path)
+                if (item.fileNamePath == path)
                 {
                     return item;
                 }

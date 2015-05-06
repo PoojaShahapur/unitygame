@@ -86,10 +86,12 @@ namespace SDK.Lib
 			SevenZip.Compression.LZMA.Decoder coder = new SevenZip.Compression.LZMA.Decoder ();
 			MemoryStream inStream = new MemoryStream(inBytes);
 
-			uint saveinsize = inLen;
-			uint saveoutsize = (uint)(saveinsize * 1.1 + 1026 * 16);
-			outBytes = new byte[saveoutsize];
-			MemoryStream outStream = new MemoryStream (outBytes);
+			//uint saveinsize = inLen;
+			//uint saveoutsize = (uint)(saveinsize * 1.1 + 1026 * 16);
+			//outBytes = new byte[saveoutsize];
+			//MemoryStream outStream = new MemoryStream (outBytes);
+            uint saveoutsize = 0;
+            MemoryStream outStream = null;
 
 			// Read the decoder properties
 			byte[ ] properties = new byte [ 5 ];
@@ -99,6 +101,11 @@ namespace SDK.Lib
 			byte[ ] fileLengthBytes = new byte [ 8 ];
 			inStream.Read (fileLengthBytes, 0, 8);				// 仅仅是读取出来就行了，这个目前用不着
 			long fileLength = BitConverter.ToInt64 (fileLengthBytes, 0);
+
+            // 分配解压缓冲区
+            saveoutsize = (uint)(fileLength * 1.1 + 1026 * 16);
+            outBytes = new byte[saveoutsize];
+            outStream = new MemoryStream (outBytes);
 
 			// Decompress the file.
 			coder.SetDecoderProperties (properties);

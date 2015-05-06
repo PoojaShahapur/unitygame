@@ -1,5 +1,6 @@
 ﻿using SDK.Common;
 using System.IO;
+
 namespace SDK.Lib
 {
     public class DataResItem : ResItem
@@ -9,6 +10,8 @@ namespace SDK.Lib
 
         override public void init(LoadItem item)
         {
+            base.init(item);
+
             m_bytes = (item as DataLoadItem).m_bytes;
             m_localPath = (item as DataLoadItem).m_localPath;
 

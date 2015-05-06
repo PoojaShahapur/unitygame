@@ -109,14 +109,28 @@ namespace SDK.Lib
         {
             IResItem res = resEvt as IResItem;
             string path = res.GetPath();
-            m_path2ListenItemDic.Remove(path);
 
-            m_path2ResDic[path].m_isLoaded = true;
-            m_path2ResDic[path].m_isSucceed = false;
-
-            if (m_path2ListenItemDic[path].m_failed != null)
+            if (m_path2ResDic.ContainsKey(path))
             {
-                m_path2ListenItemDic[path].m_failed(resEvt);
+                m_path2ResDic[path].m_isLoaded = true;
+                m_path2ResDic[path].m_isSucceed = false;
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+            }
+
+            if (m_path2ListenItemDic.ContainsKey(path))
+            {
+                if (m_path2ListenItemDic[path].m_failed != null)
+                {
+                    m_path2ListenItemDic[path].m_failed(resEvt);
+                }
+                m_path2ListenItemDic.Remove(path);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
             }
 
             // 彻底卸载
