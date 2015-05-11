@@ -9,9 +9,10 @@ namespace Game.UI
     public enum EnGameOp
     {
         eOpNone,        // 没进行任何操作
-        eOpAttack,      // 攻击操作
-        eOpFaShu,       // 法术操作
-        eOpZhanHouAttack,   // 战吼攻击
+        eOpNormalAttack,    // 攻击操作
+        eOpFaShu,           // 法术操作，这个操作是指法术牌，并且有攻击目标，如果没有攻击目标，就直接作为普通出牌操作了
+        eOpZhanHouAttack,   // 战吼攻击，这个操作是指战吼牌，并且有攻击目标，如果没有攻击目标，就直接作为普通出牌操作了
+        eOpMoveIn2Out,      // 移动卡牌从手牌区域到卡牌区域
         eOpTotal
     }
 
@@ -50,6 +51,9 @@ namespace Game.UI
         // 进入攻击操作
         public void enterAttackOp(EnGameOp op, SceneCardEntityBase card)
         {
+            // 进入操作后，需要禁止手牌区域卡牌拖动操作
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneDragCard);
+
             // 如果不是自己的回合，直接返回
             if (!Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
@@ -69,21 +73,27 @@ namespace Game.UI
         // 检查之前的攻击状态
         public void checkPreAttackOp(EnGameOp op, SceneCardEntityBase card)
         {
-            if(EnGameOp.eOpZhanHouAttack == m_curOp)
+            if (EnGameOp.eOpZhanHouAttack == m_curOp || EnGameOp.eOpFaShu == m_curOp)
             {
                 // 需要将其回退回去
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOutByCard(m_opCard);
             }
         }
 
-        // 退出攻击操作
-        public void quitAttackOp()
+        // 退出攻击操作， bCheckPreState 如果要检查之前的状态，就需要清理之前的状态数据，主要用于客户端自己取消某些操作
+        public void quitAttackOp(bool bCheckPreState = true)
         {
-            checkPreAttackOp(m_curOp, m_opCard);
+            if (bCheckPreState)
+            {
+                checkPreAttackOp(m_curOp, m_opCard);
+            }
             m_curOp = EnGameOp.eOpNone;
             m_opCard = null;
             m_sceneDZData.m_attackArrow.stopArrow();
             clearAttackTargetFlags();
+
+            // 退出操作后，需要开启手牌区域卡牌拖动操作
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].enableAllInCardDragExceptOne(null);
         }
 
         // 判断是否在某个操作中
@@ -99,7 +109,7 @@ namespace Game.UI
             {
                 if (gameOp == m_curOp)  // 如果当前处于这个操作状态
                 {
-                    if (gameOp == EnGameOp.eOpAttack)  // 如果当前处于攻击
+                    if (gameOp == EnGameOp.eOpNormalAttack)  // 如果当前处于攻击
                     {
                         ret = canNormalAttack(card, gameOp);
                     }
@@ -117,6 +127,24 @@ namespace Game.UI
             return ret;
         }
 
+        public void enterMoveOp(SceneCardEntityBase card)
+        {
+            // 进入操作后，需要禁止手牌区域卡牌拖动操作
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneDragCard);
+
+            m_curOp = EnGameOp.eOpMoveIn2Out;
+            m_opCard = card;
+        }
+
+        public void quitMoveOp()
+        {
+            m_curOp = EnGameOp.eOpNone;
+            m_opCard = null;
+
+            // 退出操作后，需要开启手牌区域卡牌拖动操作
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].enableAllInCardDragExceptOne(null);
+        }
+
         protected bool canNormalAttack(SceneCardEntityBase card, EnGameOp gameOp)
         {
             //if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
@@ -127,8 +155,8 @@ namespace Game.UI
             //return false;
             bool ret = false;
             stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-            cmd.dwAttThisID = m_opCard.sceneCardItem.m_svrCard.qwThisID;
-            cmd.dwDefThisID = card.sceneCardItem.m_svrCard.qwThisID;
+            cmd.dwAttThisID = m_opCard.sceneCardItem.svrCard.qwThisID;
+            cmd.dwDefThisID = card.sceneCardItem.svrCard.qwThisID;
             cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
             ret = Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd);
 
@@ -153,8 +181,8 @@ namespace Game.UI
         protected bool canSkillAttack(SceneCardEntityBase card, EnGameOp gameOp, int attackTarget)
         {
             stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-            cmd.dwAttThisID = m_opCard.sceneCardItem.m_svrCard.qwThisID;
-            cmd.dwDefThisID = card.sceneCardItem.m_svrCard.qwThisID;
+            cmd.dwAttThisID = m_opCard.sceneCardItem.svrCard.qwThisID;
+            cmd.dwDefThisID = card.sceneCardItem.svrCard.qwThisID;
             cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
 
             if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd))
@@ -163,7 +191,7 @@ namespace Game.UI
                 {
                     if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
                     {
-                        if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.m_cardArea)     // 如果是主角
+                        if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
                             Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
                             return true;
@@ -174,7 +202,7 @@ namespace Game.UI
                 {
                     if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
                     {
-                        if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.m_cardArea)     // 如果是出牌区
+                        if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
                             Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
                             return true;
@@ -185,7 +213,7 @@ namespace Game.UI
                 {
                     if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
                     {
-                        if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.m_cardArea)     // 如果是主角
+                        if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
                             Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
                             return true;
@@ -196,7 +224,7 @@ namespace Game.UI
                 {
                     if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
                     {
-                        if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.m_cardArea)     // 如果是出牌区
+                        if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
                             Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
                             return true;
@@ -212,7 +240,7 @@ namespace Game.UI
         {
             if(m_opCard != null)
             {
-                return m_opCard.sceneCardItem.m_svrCard.qwThisID;
+                return m_opCard.sceneCardItem.svrCard.qwThisID;
             }
 
             return 0;

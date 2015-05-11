@@ -36,18 +36,18 @@ namespace SDK.Lib
             clearListener();
         }
 
-        //public void loadLevel(string resname)
+        //public void loadLevel(string resName)
         //{
         //    // 获取打包后的 unity3d 资源名字
-        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resname].m_unity3dName;
+        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resName].m_unity3dName;
         //    if (!m_path2UnPakRes.ContainsKey(unity3dName))
         //    {
         //        m_path2UnPakRes[unity3dName] = new ABUnPakLevelFileResItem();
         //        m_path2UnPakRes[unity3dName].copyFrom(this);
         //        // 资源转换成，每一个单独的资源目录信息
-        //        m_path2UnPakRes[unity3dName].path = resname;
-        //        m_path2UnPakRes[unity3dName].extName = resname.Substring(resname.IndexOf('.') + 1);
-        //        (m_path2UnPakRes[unity3dName] as ABUnPakLevelFileResItem).levelName = UtilApi.convScenePath2LevelName(resname);
+        //        m_path2UnPakRes[unity3dName].path = resName;
+        //        m_path2UnPakRes[unity3dName].extName = resName.Substring(resName.IndexOf('.') + 1);
+        //        (m_path2UnPakRes[unity3dName] as ABUnPakLevelFileResItem).levelName = UtilApi.convScenePath2LevelName(resName);
         //        // 暂时不支持异步实例化
         //        m_path2UnPakRes[unity3dName].clearListener();
         //        m_path2UnPakRes[unity3dName].resNeedCoroutine = false;

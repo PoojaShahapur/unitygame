@@ -50,11 +50,11 @@ namespace Game.UI
             g.parent = transform.parent;
             //g.SendMessage("setinfo", s);
             cardset taopai = new cardset();
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(taopai);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_taoPaiEntityList.Add(taopai);
             taopai.setGameObject(g.gameObject);
             taopai.setinfo(s);
             //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_playersets.Add(g);
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardGroupList.AddChild(g);
             transform.Translate(new Vector3(0, 0, -0.525f));
         }
 
@@ -81,7 +81,7 @@ namespace Game.UI
             //Transform g = (Transform)UtilApi.Instantiate(cardsetpre, transform.position, transform.rotation);
             Transform g = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             //g.localPosition = Vector3.zero;
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.AddChild(g);//插入到最后一位
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardGroupList.AddChild(g);//插入到最后一位
             updatePos();
 
             //set s = new set();
@@ -93,7 +93,7 @@ namespace Game.UI
             //s.classs = c;
 
             cardset taopai = new cardset();
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList.Add(taopai);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_taoPaiEntityList.Add(taopai);
             taopai.setGameObject(g.gameObject);
             taopai.Createnew(s, bEnterEdit);
             //g.SendMessage("Createnew", s);
@@ -102,7 +102,7 @@ namespace Game.UI
         // 更新新建按钮位置
         public void updatePos()
         {
-            transform.localPosition = new Vector3(0, 0, -0.525f * (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.getChildCount());
+            transform.localPosition = new Vector3(0, 0, -0.525f * Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardGroupList.getChildCount());
         }
 
         //public void addOneCardSet(cardset one)
@@ -115,7 +115,7 @@ namespace Game.UI
 
         public void hideAllCard()
         {
-            foreach (cardset item in (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList)
+            foreach (cardset item in Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_taoPaiEntityList)
             {
                 item.hide();
             }
@@ -127,10 +127,10 @@ namespace Game.UI
             Transform trans = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getCardGroupModel().getObject(), transform.position, transform.rotation) as GameObject).transform;
             trans.parent = transform.parent;
 
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet = new cardset();
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.setGameObject(trans.gameObject);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet = new cardset();
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.setGameObject(trans.gameObject);
             //(Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.Editing = true;
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.hide();
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.hide();
         }
     }
 }

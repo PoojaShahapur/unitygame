@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Game.UI
 {
+    /**
+     * @brief 卡牌各种移动动画
+     */
     public class SceneAniCard : SceneCardEntityBase
     {
         // 仅仅是在做移动动画的时候才会使用，人为拖动不会改变这两个值

@@ -84,31 +84,31 @@ namespace SDK.Lib
             m_bundle = null;
         }
 
-        override public GameObject InstantiateObject(string resname)
+        override public GameObject InstantiateObject(string resName)
         {
             // Test 查看包内部资源
             //UnityEngine.Object[] test = m_bundle.LoadAllAssets();
             // Unity5
             //string[] allName = m_bundle.AllAssetNames();
-            //return GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
+            //return GameObject.Instantiate(m_bundle.Load(resName)) as GameObject;
             GameObject insObj = null;
-            if (m_bundle.Contains(resname))
+            if (m_bundle.Contains(resName))
             {
 #if UNITY_5
                 // Unity5
-                UnityEngine.Object assets = m_bundle.LoadAsset(resname);
+                UnityEngine.Object assets = m_bundle.LoadAsset(resName);
 #elif UNITY_4_6
                 // Unity4
-                UnityEngine.Object assets = m_bundle.Load(resname);
+                UnityEngine.Object assets = m_bundle.Load(resName);
 #endif
                 if (assets != null)
                 {
 #if UNITY_5
                     // Unity5
-                    insObj = GameObject.Instantiate(m_bundle.LoadAsset(resname)) as GameObject;
+                    insObj = GameObject.Instantiate(m_bundle.LoadAsset(resName)) as GameObject;
 #elif UNITY_4_6
                     // Unity4
-                    insObj = GameObject.Instantiate(m_bundle.Load(resname)) as GameObject;
+                    insObj = GameObject.Instantiate(m_bundle.Load(resName)) as GameObject;
 #endif
                 }
                 else
@@ -125,21 +125,21 @@ namespace SDK.Lib
             return insObj;
         }
 
-        override public UnityEngine.Object getObject(string resname)
+        override public UnityEngine.Object getObject(string resName)
         {
             // Unity5
             //string[] allName = m_bundle.AllAssetNames();
 
-            //return m_bundle.Load(resname);
+            //return m_bundle.Load(resName);
             UnityEngine.Object assets = null;
-            if (m_bundle.Contains(resname))
+            if (m_bundle.Contains(resName))
             {
 #if UNITY_5
                 // Unty5
-                assets = m_bundle.LoadAsset(resname);
+                assets = m_bundle.LoadAsset(resName);
 #elif UNITY_4_6
                 // Unity4
-                assets = m_bundle.Load(resname);
+                assets = m_bundle.Load(resName);
 #endif
             }
             return assets;

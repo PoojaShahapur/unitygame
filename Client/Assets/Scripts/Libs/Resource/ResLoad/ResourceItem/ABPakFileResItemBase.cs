@@ -22,29 +22,29 @@ namespace SDK.Lib
             m_pakItem.readArchiveFileHeader();      // 获取打包头部信息
         }
 
-        //public override byte[] getBytes(string resname)
+        //public override byte[] getBytes(string resName)
         //{
         //    byte[] bytes = null;
-        //    if (m_path2UnPakRes.ContainsKey(resname))
+        //    if (m_path2UnPakRes.ContainsKey(resName))
         //    {
-        //        if(m_path2UnPakRes[resname].m_bytes != null)
+        //        if(m_path2UnPakRes[resName].m_bytes != null)
         //        {
-        //            bytes = m_path2UnPakRes[resname].m_bytes;
+        //            bytes = m_path2UnPakRes[resName].m_bytes;
         //        }
         //        else
         //        {
-        //            FileHeader fileHeader = m_pakItem.getFileHeader(resname);
+        //            FileHeader fileHeader = m_pakItem.getFileHeader(resName);
         //            bytes = new byte[fileHeader.fileSize];
         //            m_pakItem.readArchiveFile2Bytes(fileHeader, ref bytes);
         //            if(fileHeader.bCompress())
         //            {
-        //                m_path2UnPakRes[resname].m_bytes = new byte[fileHeader.fileSize];
-        //                Array.Copy(bytes, 0, m_path2UnPakRes[resname].m_bytes, 0, fileHeader.fileSize);
-        //                bytes = m_path2UnPakRes[resname].m_bytes;
+        //                m_path2UnPakRes[resName].m_bytes = new byte[fileHeader.fileSize];
+        //                Array.Copy(bytes, 0, m_path2UnPakRes[resName].m_bytes, 0, fileHeader.fileSize);
+        //                bytes = m_path2UnPakRes[resName].m_bytes;
         //            }
         //            else
         //            {
-        //                m_path2UnPakRes[resname].m_bytes = bytes;
+        //                m_path2UnPakRes[resName].m_bytes = bytes;
         //            }
         //        }
         //    }
@@ -52,7 +52,7 @@ namespace SDK.Lib
         //    return bytes;
         //}
 
-        //public virtual ABUnPakFileResItemBase loadRes(string resname)
+        //public virtual ABUnPakFileResItemBase loadRes(string resName)
         //{
         //    return null;
         //}
@@ -64,9 +64,9 @@ namespace SDK.Lib
         //    m_pakItem.dispose();
         //}
 
-        public override byte[] getBytes(string resname)
+        public override byte[] getBytes(string resName)
         {
-            string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resname].m_unity3dName;
+            string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resName].m_unity3dName;
 
             byte[] bytes = null;
 

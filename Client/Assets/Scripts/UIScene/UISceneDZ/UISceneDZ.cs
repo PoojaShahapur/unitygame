@@ -203,7 +203,15 @@ namespace Game.UI
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
                 // 显示那张牌可以出
-                m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);
+                // 如果出牌区域已经有 7 张牌，就不能再出了
+                if (m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].bOutAreaCardFull())
+                {
+                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
+                }
+                else
+                {
+                    m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);
+                }
             }
         }
 
@@ -283,49 +291,68 @@ namespace Game.UI
 
         public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
         {
-            // 判断攻击处理
-            if (msg.byActionType == 2)
-            {
-                attackHandle(msg);
-            }
-
             m_sceneDZAreaArr[msg.who - 1].psstAddBattleCardPropertyUserCmd(msg, sceneItem);
         }
 
-        protected void attackHandle(stAddBattleCardPropertyUserCmd msg)
+        public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)
         {
-            SceneCardEntityBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID);
-            SceneCardEntityBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID);
+            // 更新动画
+            EnDZPlayer attSide = EnDZPlayer.ePlayerTotal;
+            EnDZPlayer defSide = EnDZPlayer.ePlayerTotal;
+
+            CardArea attSlot = CardArea.CARDCELLTYPE_NONE;
+            CardArea defSlot = CardArea.CARDCELLTYPE_NONE;
+
+            SceneCardEntityBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID, ref attSide, ref attSlot);
+            SceneCardEntityBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID, ref defSide, ref defSlot);
             int num = 0;
+
+            if (attSide == EnDZPlayer.ePlayerTotal ||
+                defSide == EnDZPlayer.ePlayerTotal ||
+                attSlot == CardArea.CARDCELLTYPE_NONE ||
+                defSlot == CardArea.CARDCELLTYPE_NONE)
+            {
+                Ctx.m_instance.m_logSys.log("攻击失败");
+            }
 
             if (att != null && def != null)
             {
                 if ((int)EnAttackType.ATTACK_TYPE_NORMAL == msg.attackType || (int)EnAttackType.ATTACK_TYPE_S_MAGIC == msg.attackType)  // 只有单攻才会有移动的动画
                 {
-                    if (msg.pDefThisID == att.sceneCardItem.m_svrCard.qwThisID)        // 只有发送给被击者的信息的时候，做一次动画，发送给攻击者的时候就不用了
+                    if (msg.pDefThisID == att.sceneCardItem.svrCard.qwThisID)        // 只有发送给被击者的信息的时候，做一次动画，发送给攻击者的时候就不用了
                     {
                         att.playAttackAni(def.transform.localPosition);     // 播放动画
                     }
                 }
 
-                // 播放 Fly 数字
-                if (msg.pAttThisID == att.sceneCardItem.m_svrCard.qwThisID)      // 如果是攻击者的信息
+                // 播放 Fly 数字,，攻击者和被击者都有可能伤血，播放掉血数字
+                // 攻击者掉血
+                num = (int)def.sceneCardItem.svrCard.damage;
+                if (num > 0)        // 攻击力可能为 0 
                 {
-                    num = (int)(att.sceneCardItem.m_svrCard.hp - msg.mobject.hp);
-                    if (num > 0)
-                    {
-                        att.playFlyNum(num);
-                    }
+                    att.playFlyNum(num);
                 }
-                else        // 发送给受伤者的信息
+                num = (int)att.sceneCardItem.svrCard.damage;
+                if (num > 0)
                 {
-                    num = (int)(def.sceneCardItem.m_svrCard.hp - msg.mobject.hp);
-                    if (num > 0)
-                    {
-                        att.playFlyNum(num);
-                    }
+                    def.playFlyNum(num);
                 }
             }
+
+            // 继续更新属性
+            stAddBattleCardPropertyUserCmd stUpdate = new stAddBattleCardPropertyUserCmd();
+
+            stUpdate.slot = (byte)attSlot;
+            stUpdate.who = (byte)((int)attSide + 1);
+            stUpdate.byActionType = 2;
+            stUpdate.mobject = msg.A_object;
+            m_sceneDZAreaArr[(int)attSide].psstAddBattleCardPropertyUserCmd(stUpdate, att.sceneCardItem);
+
+            stUpdate.slot = (byte)defSlot;
+            stUpdate.who = (byte)((int)defSide + 1);
+            stUpdate.byActionType = 2;
+            stUpdate.mobject = msg.D_object;
+            m_sceneDZAreaArr[(int)defSide].psstAddBattleCardPropertyUserCmd(stUpdate, def.sceneCardItem);
         }
 
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)

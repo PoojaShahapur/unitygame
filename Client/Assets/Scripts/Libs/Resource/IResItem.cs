@@ -9,10 +9,10 @@ namespace SDK.Lib
     {
         bool HasLoaded();
         string GetPath();
-        GameObject InstantiateObject(string resname);
-        UnityEngine.Object getObject(string resname);
+        GameObject InstantiateObject(string resName);
+        UnityEngine.Object getObject(string resName);
         string getPrefabName();         // 只有 Prefab 资源才实现这个函数
-        byte[] getBytes(string resname);            // 获取字节数据
-        string getText(string resname);             // 获取文本数据
+        byte[] getBytes(string resName);            // 获取字节数据
+        string getText(string resName);             // 获取文本数据
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace Game.UI
 {
     public class DZHistoryOpList

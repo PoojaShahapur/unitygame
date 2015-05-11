@@ -48,6 +48,7 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.RET_CARD_ATTACK_FAIL_USERCMD_PARA] = psstRetCardAttackFailUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_BATTLE_HISTORY_INFO_CMD] = psstRetBattleHistoryInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_BATTLE_GAME_RESULT_CMD] = psstRetBattleGameResultUserCmd;
+            m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_CARD_PROPERTY_CMD] = psstNotifyBattleCardPropertyUserCmd;
         }
 
         // 卡牌图鉴中显示的所有数据
@@ -59,7 +60,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstNotifyAllCardTujianInfoCmd(cmd.info);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstNotifyAllCardTujianInfoCmd();
@@ -76,7 +77,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstNotifyOneCardTujianInfoCmd(cmd.id, cmd.num);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstNotifyOneCardTujianInfoCmd(cmd.id, cmd.num, !bhas);
@@ -89,7 +90,7 @@ namespace Game.Game
             stRetGiftBagCardsDataUserCmd cmd = new stRetGiftBagCardsDataUserCmd();
             cmd.derialize(msg);
 
-            UISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneExtPack) as UISceneExtPack;
+            UISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneExtPack>(UISceneFormID.eUISceneExtPack);
             if(uiPack != null)
             {
                 uiPack.psstRetGiftBagCardsDataUserCmd(cmd.id);
@@ -106,13 +107,13 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCardGroupListInfoUserCmd(cmd.info);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             if(uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetCardGroupListInfoUserCmd();
             }
 
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
             if (uiMS != null && uiMS.isVisible())
             {
                 uiMS.updateHeroList();
@@ -126,7 +127,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetOneCardGroupInfoUserCmd(cmd);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             if(uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetOneCardGroupInfoUserCmd(cmd.index, cmd.id);
@@ -142,7 +143,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCreateOneCardGroupUserCmd(cmd);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetCreateOneCardGroupUserCmd(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[cmd.index]);
@@ -159,7 +160,7 @@ namespace Game.Game
                 // 更新数据
                 Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetDeleteOneCardGroupUserCmd(cmd.index);
                 // 更新界面
-                UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+                UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
                 if (uiSC != null && uiSC.isVisible())
                 {
                     uiSC.psstRetDeleteOneCardGroupUserCmd(cmd.index);
@@ -174,7 +175,7 @@ namespace Game.Game
 
             if(cmd.success > 0)
             {
-                UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+                UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
                 if (uiSC != null && uiSC.isVisible())
                 {
                     uiSC.psstRetSaveOneCardGroupUserCmd(cmd.index);
@@ -189,7 +190,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetAllHeroInfoUserCmd(cmd.info);
 
-            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneHero) as UISceneHero;
+            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneHero>(UISceneFormID.eUISceneHero);
             if (uiSH != null && uiSH.isVisible())
             {
                 uiSH.updateAllHero();
@@ -212,7 +213,7 @@ namespace Game.Game
             cmd.derialize(msg);
 
             // 显示匹配结果
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
             if (uiMS != null && uiMS.isVisible())
             {
                 uiMS.psstRetHeroFightMatchUserCmd(cmd);
@@ -236,7 +237,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_leftCardNum = cmd.selfNum;
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_leftCardNum = cmd.otherNum;
 
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiDZ != null && uiDZ.isVisible())
             {
                 uiDZ.psstRetLeftCardLibNumUserCmd(cmd);
@@ -252,7 +253,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroMagicPoint = cmd.self;
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroMagicPoint = cmd.other;
 
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiDZ != null && uiDZ.isVisible())
             {
                 uiDZ.psstRetMagicPointInfoUserCmd(cmd);
@@ -267,7 +268,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dzData.m_state = cmd.state;
 
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiDZ != null && uiDZ.isVisible())
             {
                 uiDZ.psstRetRefreshBattleStateUserCmd(cmd);
@@ -285,7 +286,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dzData.m_priv = cmd.priv;
 
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiDZ != null && uiDZ.isVisible())
             {
                 uiDZ.psstRetRefreshBattlePrivilegeUserCmd(cmd);
@@ -304,11 +305,11 @@ namespace Game.Game
             if (cmd.byActionType == 1)
             {
                 sceneItem = new SceneCardItem();
-                sceneItem.m_svrCard = cmd.mobject;
-                sceneItem.curSlot = cmd.slot;
-                sceneItem.m_cardArea = (CardArea)cmd.slot;
+                sceneItem.svrCard = cmd.mobject;
+                //sceneItem.curSlot = cmd.slot;
+                sceneItem.cardArea = (CardArea)cmd.slot;
                 sceneItem.m_playerFlag = (EnDZPlayer)(cmd.who - 1);
-                sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.m_svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+                sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
                 // 填充数据
                 Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].addOneSceneCard(sceneItem);       // 添加数据
             }
@@ -319,7 +320,7 @@ namespace Game.Game
 
             if (sceneItem != null)      // 更新或者添加都需要这个数据必须存在
             {
-                UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+                UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
                 if (uiDZ != null && uiDZ.isVisible())
                 {
                     uiDZ.psstAddBattleCardPropertyUserCmd(cmd, sceneItem);
@@ -338,7 +339,7 @@ namespace Game.Game
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroName = cmd.name;
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroOccupation = cmd.occupation;
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstNotifyFightEnemyInfoUserCmd(cmd);
@@ -361,7 +362,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList = cmd.id;
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetFirstHandCardUserCmd(cmd);
@@ -380,7 +381,7 @@ namespace Game.Game
                 cmd.side = Ctx.m_instance.m_dataPlayer.m_dzData.updateCardInfo(cmd);
             }
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetMoveGameCardUserCmd(cmd);
@@ -393,7 +394,7 @@ namespace Game.Game
             stRetNotifyHandIsFullUserCmd cmd = new stRetNotifyHandIsFullUserCmd();
             cmd.derialize(ba);
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetNotifyHandIsFullUserCmd(cmd);
@@ -403,7 +404,7 @@ namespace Game.Game
         // enemy 增加一个卡牌
         protected void psstAddEnemyHandCardPropertyUserCmd(ByteBuffer ba)
         {
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstAddEnemyHandCardPropertyUserCmd();
@@ -416,7 +417,7 @@ namespace Game.Game
             stRetEnemyHandCardNumUserCmd cmd = new stRetEnemyHandCardNumUserCmd();
             cmd.derialize(ba);
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetEnemyHandCardNumUserCmd(cmd);
@@ -429,7 +430,7 @@ namespace Game.Game
             stDelEnemyHandCardPropertyUserCmd cmd = new stDelEnemyHandCardPropertyUserCmd();
             cmd.derialize(ba);
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstDelEnemyHandCardPropertyUserCmd(cmd);
@@ -451,7 +452,7 @@ namespace Game.Game
                 side = 1;
                 Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[1].removeOneSceneCardByThisID(cmd.dwThisID, ref sceneItem);
             }
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 if (sceneItem != null)
@@ -480,7 +481,7 @@ namespace Game.Game
             SceneCardItem cardItem = Ctx.m_instance.m_dataPlayer.m_dzData.getCardItemByThisIDAndSide(cmd.dwThisID, (byte)(cmd.who - 1));
             if (cardItem != null)
             {
-                cardItem.m_svrCard.state = cmd.state;
+                cardItem.svrCard.state = cmd.state;
             }
         }
 
@@ -491,7 +492,7 @@ namespace Game.Game
             cmd.derialize(ba);
 
             SceneCardItem cardItem = Ctx.m_instance.m_dataPlayer.m_dzData.getCardItemByThisIDAndSide(cmd.dwThisID, cmd.who);
-            UtilMath.clearState((StateID)cmd.stateNum, cardItem.m_svrCard.state);
+            UtilMath.clearState((StateID)cmd.stateNum, cardItem.svrCard.state);
         }
 
         // 设置某一个状态
@@ -501,7 +502,7 @@ namespace Game.Game
             cmd.derialize(ba);
 
             SceneCardItem cardItem = Ctx.m_instance.m_dataPlayer.m_dzData.getCardItemByThisIDAndSide(cmd.dwThisID, (byte)(cmd.who - 1));
-            UtilMath.setState((StateID)cmd.stateNum, cardItem.m_svrCard.state);
+            UtilMath.setState((StateID)cmd.stateNum, cardItem.svrCard.state);
         }
 
         // 法术攻击失败
@@ -510,7 +511,7 @@ namespace Game.Game
             stRetCardAttackFailUserCmd cmd = new stRetCardAttackFailUserCmd();
             cmd.derialize(ba);
             // 将不能使用的法术牌退回去
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetCardAttackFailUserCmd(cmd);
@@ -522,7 +523,7 @@ namespace Game.Game
             stRetBattleHistoryInfoUserCmd cmd = new stRetBattleHistoryInfoUserCmd();
             cmd.derialize(ba);
 
-            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstRetBattleHistoryInfoUserCmd(cmd);
@@ -537,6 +538,19 @@ namespace Game.Game
             if (cmd.win == 1 || cmd.win == 0)        // 赢了输了
             {
                 Ctx.m_instance.m_gameSys.loadGameScene();        // 加载游戏场景
+            }
+        }
+
+        // 攻击返回
+        protected void psstNotifyBattleCardPropertyUserCmd(ByteBuffer ba)
+        {
+            stNotifyBattleCardPropertyUserCmd cmd = new stNotifyBattleCardPropertyUserCmd();
+            cmd.derialize(ba);
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstNotifyBattleCardPropertyUserCmd(cmd);
             }
         }
     }

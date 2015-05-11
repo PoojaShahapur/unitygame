@@ -45,6 +45,12 @@ namespace Game.UI
 
         }
 
+        // 这个返回的可能会有一张白色占位卡牌，可能不准确
+        virtual public int getCardCount()
+        {
+            return m_sceneCardList.Count;
+        }
+
         // 更新场景卡牌位置
         public virtual void updateSceneCardRST()
         {
@@ -100,7 +106,7 @@ namespace Game.UI
             {
                 if (item.sceneCardItem != null)
                 {
-                    if (item.sceneCardItem.m_svrCard.qwThisID == thisid)
+                    if (item.sceneCardItem.svrCard.qwThisID == thisid)
                     {
                         return item;
                     }
@@ -118,7 +124,7 @@ namespace Game.UI
         {
             foreach (SceneDragCard item in m_sceneCardList)
             {
-                if (item.sceneCardItem.m_svrCard.qwThisID == sceneItem.m_svrCard.qwThisID)
+                if (item.sceneCardItem.svrCard.qwThisID == sceneItem.svrCard.qwThisID)
                 {
                     item.updateCardDataChange();
                     break;
@@ -171,10 +177,10 @@ namespace Game.UI
         public void updateCardIndex()
         {
             ushort idx = 0;
+
             foreach (SceneDragCard item in m_sceneCardList)
             {
-                item.m_index = idx;
-
+                item.curIndex = idx;
                 ++idx;
             }
         }
@@ -198,24 +204,84 @@ namespace Game.UI
             }
         }
 
-        public void removeCard(SceneCardItem sceneCardItem)
+        public bool removeCard(SceneCardItem sceneCardItem)
         {
+            bool bRet = false;
             int idx = 0;
             while (idx < m_sceneCardList.Count)
             {
-                if (m_sceneCardList[idx].sceneCardItem.m_svrCard.qwThisID == sceneCardItem.m_svrCard.qwThisID)
+                if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
                     m_sceneCardList[idx].destroy();
+                    m_sceneCardList.RemoveAt(idx);
+                    bRet = true;
+                    break;
+                }
+                ++idx;
+            }
+
+            return bRet;
+        }
+
+        public SceneCardEntityBase removeAndRetCardByItemNoDestroy(SceneCardItem sceneCardItem)
+        {
+            SceneCardEntityBase retCard = null;
+            int idx = 0;
+            while (idx < m_sceneCardList.Count)
+            {
+                if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
+                {
+                    retCard = m_sceneCardList[idx];
                     m_sceneCardList.RemoveAt(idx);
                     break;
                 }
                 ++idx;
             }
+
+            return retCard;
         }
 
         public int findCardIdx(SceneCardEntityBase card)
         {
             return m_sceneCardList.IndexOf(card as SceneDragCard);
+        }
+
+        // 根据服务器索引添加一个卡牌，不是根据卡牌列表索引
+        public void addCardByServerPos(SceneCardEntityBase card)
+        {
+            int idx = 0;
+            // 检查是否是最后一个
+            if (0 == m_sceneCardList.Count)         // 如果列表中没有，直接加入
+            {
+                m_sceneCardList.Add(card as SceneDragCard);
+            }
+            else if(m_sceneCardList[m_sceneCardList.Count - 1].curIndex < card.curIndex)    // 如果是最后一个
+            {
+                m_sceneCardList.Add(card as SceneDragCard);
+            }
+            else
+            {
+                foreach (var cardItem in m_sceneCardList)
+                {
+                    if (cardItem.curIndex > card.curIndex)
+                    {
+                        m_sceneCardList.Insert(idx, card as SceneDragCard);
+                        break;
+                    }
+
+                    ++idx;
+                }
+            }
+        }
+
+        virtual public void disableAllCardDragExceptOne(SceneDragCard card)
+        {
+
+        }
+
+        virtual public void enableAllCardDragExceptOne(SceneDragCard card)
+        {
+
         }
     }
 }

@@ -23,23 +23,23 @@ namespace SDK.Lib
             clearListener();
         }
 
-        //override public GameObject InstantiateObject(string resname)
+        //override public GameObject InstantiateObject(string resName)
         //{
-        //    ABUnPakFileResItemBase unPakRes = loadRes(resname);
-        //    return unPakRes.InstantiateObject(resname);
+        //    ABUnPakFileResItemBase unPakRes = loadRes(resName);
+        //    return unPakRes.InstantiateObject(resName);
         //}
 
-        //public override ABUnPakFileResItemBase loadRes(string resname)
+        //public override ABUnPakFileResItemBase loadRes(string resName)
         //{
         //    // 获取打包后的 unity3d 资源名字
-        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resname].m_unity3dName;
+        //    string unity3dName = Ctx.m_instance.m_pPakSys.path2PakDic[resName].m_unity3dName;
         //    if (!m_path2UnPakRes.ContainsKey(unity3dName))
         //    {
         //        m_path2UnPakRes[unity3dName] = new ABUnPakComFileResItem();
         //        //m_path2UnPakRes[unity3dName].copyFrom(this);
         //        // 资源转换成，每一个单独的资源目录信息
-        //        m_path2UnPakRes[unity3dName].path = resname;
-        //        m_path2UnPakRes[unity3dName].extName = resname.Substring(resname.IndexOf('.') + 1);
+        //        m_path2UnPakRes[unity3dName].path = resName;
+        //        m_path2UnPakRes[unity3dName].extName = resName.Substring(resName.IndexOf('.') + 1);
         //        // 暂时不支持异步实例化
         //        m_path2UnPakRes[unity3dName].clearListener();
         //        m_path2UnPakRes[unity3dName].resNeedCoroutine = false;

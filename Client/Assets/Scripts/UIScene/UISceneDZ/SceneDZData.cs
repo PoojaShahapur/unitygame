@@ -186,18 +186,20 @@ namespace Game.UI
             return null;
         }
 
-        public SceneCardEntityBase getSceneCardByThisID(uint thisID)
+        public SceneCardEntityBase getSceneCardByThisID(uint thisID, ref EnDZPlayer side, ref CardArea slot)
         {
             SceneCardEntityBase cardBase;
-            cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].getSceneCardByThisID(thisID);
+            cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].getSceneCardByThisID(thisID, ref slot);
             if(cardBase != null)
             {
+                side = EnDZPlayer.ePlayerSelf;
                 return cardBase;
             }
 
-            cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].getSceneCardByThisID(thisID);
+            cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].getSceneCardByThisID(thisID, ref slot);
             if (cardBase != null)
             {
+                side = EnDZPlayer.ePlayerEnemy;
                 return cardBase;
             }
 

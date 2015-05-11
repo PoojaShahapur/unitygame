@@ -28,7 +28,7 @@ namespace Game.UI
         {
             base.onShow();
             // 显示背景
-            UISceneBg uiSB = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneBg) as UISceneBg;
+            UISceneBg uiSB = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneBg>(UISceneFormID.eUISceneBg);
             if (uiSB == null)
             {
                 Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneBg>(UISceneFormID.eUISceneBg);

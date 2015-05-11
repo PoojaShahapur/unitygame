@@ -71,7 +71,7 @@ namespace SDK.Common
             {
                 foreach (SceneCardItem item in m_playerArr[idx].sceneCardList)
                 {
-                    if (item.m_svrCard.qwThisID == thisID)
+                    if (item.svrCard.qwThisID == thisID)
                     {
                         return idx;
                     }
@@ -90,7 +90,7 @@ namespace SDK.Common
             {
                 foreach (SceneCardItem item in m_playerArr[idx].sceneCardList)
                 {
-                    if (item.m_svrCard.qwThisID == thisID)
+                    if (item.svrCard.qwThisID == thisID)
                     {
                         retItem = item;
                         side = idx;
@@ -111,7 +111,7 @@ namespace SDK.Common
             {
                 foreach (SceneCardItem item in m_playerArr[idx].sceneCardList)
                 {
-                    if (item.m_svrCard.qwThisID == thisID)
+                    if (item.svrCard.qwThisID == thisID)
                     {
                         return item;
                     }
@@ -127,7 +127,7 @@ namespace SDK.Common
         {
             foreach (SceneCardItem item in m_playerArr[side].sceneCardList)
             {
-                if (item.m_svrCard.qwThisID == thisID)
+                if (item.svrCard.qwThisID == thisID)
                 {
                     return item;
                 }

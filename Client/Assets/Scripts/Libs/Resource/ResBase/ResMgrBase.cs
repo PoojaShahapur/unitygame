@@ -12,7 +12,7 @@ namespace SDK.Lib
         public Dictionary<string, InsResBase> m_path2ResDic = new Dictionary<string, InsResBase>();
 
         // 同步加载，立马加载完成，并且返回加载的资源
-        public InsResBase syncGet<T>(string path) where T : InsResBase, new()
+        public T syncGet<T>(string path) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -23,7 +23,7 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = false;
             load<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
-            return m_path2ResDic[path];
+            return m_path2ResDic[path] as T;
         }
 
         public virtual InsResBase load<T>(LoadParam param) where T : InsResBase, new()

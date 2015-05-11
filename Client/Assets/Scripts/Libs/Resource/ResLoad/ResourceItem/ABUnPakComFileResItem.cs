@@ -66,26 +66,26 @@ namespace SDK.Lib
             clearInstanceListener();
         }
 
-        protected GameObject loadBundle(string resname)
+        protected GameObject loadBundle(string resName)
         {
             // 目前只能同步加载
             //if (m_resNeedCoroutine)
             //{
-            //    return loadBundleAsync(resname);
+            //    return loadBundleAsync(resName);
             //}
             //else
             //{
-                return loadBundleSync(resname);
+                return loadBundleSync(resName);
             //}
         }
 
-        protected GameObject loadBundleSync(string resname)
+        protected GameObject loadBundleSync(string resName)
         {
             m_object = m_bundle.LoadAsset<Object>(m_bundlePath);
             return m_object as GameObject;
         }
 
-        protected GameObject loadBundleAsync(string resname)
+        protected GameObject loadBundleAsync(string resName)
         {
             Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadBundleByCoroutine());
             return null;
@@ -125,10 +125,10 @@ namespace SDK.Lib
             }
         }
 
-        override public GameObject InstantiateObject(string resname)
+        override public GameObject InstantiateObject(string resName)
         {
             // 不能直接将 LoadAsync 加载出来的 GameObject 添加到场景中去
-            m_bundlePath = Path.Combine(PRE_PATH, resname);
+            m_bundlePath = Path.Combine(PRE_PATH, resName);
             loadBundle(m_bundlePath);
             m_retGO = null;
 
@@ -144,7 +144,7 @@ namespace SDK.Lib
             return m_retGO;
         }
 
-        override public UnityEngine.Object getObject(string resname)
+        override public UnityEngine.Object getObject(string resName)
         {
             if(m_object != null)
             {
@@ -154,7 +154,7 @@ namespace SDK.Lib
             return null;
         }
 
-        override public byte[] getBytes(string resname)            // 获取字节数据
+        override public byte[] getBytes(string resName)            // 获取字节数据
         {
             if (m_bytes != null)
             {
@@ -164,7 +164,7 @@ namespace SDK.Lib
             return null;
         }
 
-        override public string getText(string resname)
+        override public string getText(string resName)
         {
             if (m_bytes != null)
             {

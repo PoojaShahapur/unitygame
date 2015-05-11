@@ -39,6 +39,8 @@ namespace Game.UI
 
                     cardItem.moveToStart();        // 放到开始位置
                     cardItem.moveToDestRST();          // 播放动画
+
+                    cardItem.updateCardDataByTable();          // 这个时候还没有服务器的数据，只能更新客户端表中的数据
                 }
 
                 ++idx;
@@ -83,7 +85,7 @@ namespace Game.UI
             base.addCard(card);
 
             // 需要监听卡牌的拖动
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneDZ) as UISceneDZ;
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             card.m_moveDisp = uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
         }
 
@@ -107,6 +109,28 @@ namespace Game.UI
             }
 
             base.startCardMoveTo();
+        }
+
+        override public void disableAllCardDragExceptOne(SceneDragCard card)
+        {
+            foreach (SceneDragCard cardItem in m_sceneCardList)
+            {
+                if(!cardItem.Equals(card))       // 如果内存地址相等
+                {
+                    cardItem.disableDrag();
+                }
+            }
+        }
+
+        override public void enableAllCardDragExceptOne(SceneDragCard card)
+        {
+            foreach (SceneDragCard cardItem in m_sceneCardList)
+            {
+                if (!cardItem.Equals(card))       // 如果内存地址相等
+                {
+                    cardItem.enableDrag();
+                }
+            }
         }
     }
 };

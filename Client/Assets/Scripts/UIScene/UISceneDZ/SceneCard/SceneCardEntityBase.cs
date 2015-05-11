@@ -16,7 +16,10 @@ namespace Game.UI
 
         protected SceneCardItem m_sceneCardItem;
         public SceneDZData m_sceneDZData;
-        public ushort m_index = 0;             // 在牌中的索引，主要是手里的牌和打出去的牌
+
+        protected ushort m_curIndex = 0;// 当前索引，因为可能初始卡牌的时候 m_sceneCardItem 
+        protected ushort m_preIndex = 0;// 在牌中的索引，主要是手里的牌和打出去的牌，这个是客户端设置的索引，服务器的索引在 t_Card 类型里面
+
         protected GameObject m_chaHaoGo;
         public uint m_startCardID;
 
@@ -63,6 +66,42 @@ namespace Game.UI
             }
         }
 
+        public ushort curIndex
+        {
+            get
+            {
+                if (m_sceneCardItem != null)
+                {
+                    return m_sceneCardItem.svrCard.pos.y;
+                }
+                else
+                {
+                    return m_curIndex;
+                }
+            }
+            set
+            {
+                if (m_sceneCardItem != null)
+                {
+                    m_preIndex = m_sceneCardItem.svrCard.pos.y;
+                    m_sceneCardItem.svrCard.pos.y = value;
+                }
+                else
+                {
+                    m_preIndex = m_curIndex;
+                    m_curIndex = value;
+                }
+            }
+        }
+
+        public ushort preIndex
+        {
+            get
+            {
+                return m_preIndex;
+            }
+        }
+
         public void destroy()
         {
             UtilApi.Destroy(gameObject);
@@ -74,15 +113,15 @@ namespace Game.UI
         {
             if (m_sceneCardItem != null)
             {
-                if (m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_HAND)
+                if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
                 {
                     Text text;
                     text = UtilApi.getComByP<Text>(gameObject, "attack/Text");       // 攻击
-                    text.text = m_sceneCardItem.m_svrCard.damage.ToString();
+                    text.text = m_sceneCardItem.svrCard.damage.ToString();
                     text = UtilApi.getComByP<Text>(gameObject, "cost/Text");         // Magic
-                    text.text = m_sceneCardItem.m_svrCard.mpcost.ToString();
+                    text.text = m_sceneCardItem.svrCard.mpcost.ToString();
                     text = UtilApi.getComByP<Text>(gameObject, "health/Text");       // HP
-                    text.text = m_sceneCardItem.m_svrCard.hp.ToString();
+                    text.text = m_sceneCardItem.svrCard.hp.ToString();
                 }
             }
         }
@@ -92,10 +131,25 @@ namespace Game.UI
         {
             if (m_sceneCardItem != null)
             {
-                if (m_sceneCardItem.m_cardArea != CardArea.CARDCELLTYPE_HERO)
+                if (m_sceneCardItem.cardArea != CardArea.CARDCELLTYPE_HERO)
                 {
                     UtilApi.updateCardDataNoChange(m_sceneCardItem.m_cardTableItem, gameObject);
                 }
+            }
+        }
+
+        // 根据表更新卡牌数据，这个主要是用于初始卡牌更新
+        public void updateCardDataByTable()
+        {
+            TableItemBase tableBase = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, m_startCardID);
+            if(tableBase != null)
+            {
+                TableCardItemBody cardTableData = tableBase.m_itemBody as TableCardItemBody;
+                UtilApi.updateCardDataNoChange(cardTableData, gameObject);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("卡表查找失败， ID = {0}", m_startCardID));
             }
         }
 
@@ -111,6 +165,7 @@ namespace Game.UI
 
         }
 
+        // 所有的卡牌都可以点击，包括主角、装备、技能、手里卡牌、出的卡牌
         public void onClk(GameObject go)
         {
             if (m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
@@ -140,17 +195,17 @@ namespace Game.UI
             {
                 if (this.m_sceneCardItem != null)
                 {
-                    if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpAttack))
+                    if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpNormalAttack))
                     {
-                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpAttack))
+                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpNormalAttack))
                         {
                             // 发送攻击指令
                             stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
                             cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                            cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
+                            cmd.dwDefThisID = this.m_sceneCardItem.svrCard.qwThisID;
                             UtilMsg.sendMsg(cmd);
 
-                            m_sceneDZData.m_gameOpState.quitAttackOp();
+                            //m_sceneDZData.m_gameOpState.quitAttackOp(false);
                         }
                         else
                         {
@@ -166,8 +221,8 @@ namespace Game.UI
                             stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
                             cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
                             cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                            cmd.dwDefThisID = this.sceneCardItem.m_svrCard.qwThisID;
-                            m_sceneDZData.m_gameOpState.quitAttackOp();
+                            cmd.dwDefThisID = this.sceneCardItem.svrCard.qwThisID;
+                            //m_sceneDZData.m_gameOpState.quitAttackOp(false);
                             UtilMsg.sendMsg(cmd);
                         }
                         else
@@ -183,20 +238,20 @@ namespace Game.UI
                             stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
                             cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
                             cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                            cmd.dwDefThisID = this.m_sceneCardItem.m_svrCard.qwThisID;
+                            cmd.dwDefThisID = this.m_sceneCardItem.svrCard.qwThisID;
                             cmd.dst = new stObjectLocation();
-                            cmd.dst.dwLocation = (uint)this.m_sceneCardItem.m_cardArea;
-                            cmd.dst.y = this.m_index;
+                            cmd.dst.dwLocation = (uint)this.m_sceneCardItem.cardArea;
+                            cmd.dst.y = this.curIndex;
                             UtilMsg.sendMsg(cmd);
 
-                            m_sceneDZData.m_gameOpState.quitAttackOp();
+                            //m_sceneDZData.m_gameOpState.quitAttackOp();
                         }
                         else
                         {
                             enterAttack();
                         }
                     }
-                    else
+                    else        // 默认点击处理都走这里
                     {
                         enterAttack();
                     }
@@ -207,12 +262,12 @@ namespace Game.UI
         // 进入普通攻击状态
         protected void enterAttack()
         {
-            if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_COMMON)
+            if (this.m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)
             {
                 // 只有点击自己的时候，才启动攻击
                 if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
                 {
-                    m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpAttack, this);
+                    m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpNormalAttack, this);
                 }
             }
         }
@@ -229,7 +284,7 @@ namespace Game.UI
                     {
                         //try
                         //{
-                            if (sceneCardItem.m_svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                            if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
                             {
                                 if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
                                 {
@@ -320,6 +375,17 @@ namespace Game.UI
         public void playFlyNum(int num)
         {
             Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, gameObject.transform.localPosition, m_sceneDZData.m_centerGO);
+        }
+
+        // 是否是客户端先从手牌区域移动到出牌区域，然后再发动攻击的卡牌
+        public bool canClientMove2OutArea()
+        {
+            if ((m_sceneCardItem.m_cardTableItem.m_type == (int)CardType.CARDTYPE_MAGIC && m_sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0) || (m_sceneCardItem.m_cardTableItem.m_zhanHou > 0 && m_sceneCardItem.m_cardTableItem.m_bNeedZhanHouTarget > 0))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace SDK.Lib
 
         public void OnMouseUpAsButton()
         {
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.startEdit(this);
         }
 
         public void enterEditorMode()
@@ -77,7 +77,7 @@ namespace SDK.Lib
             //transform.parent.BroadcastMessage("hide");
             //transform.root.FindChild("classfilter").BroadcastMessage("classfilterhide", info.classs);
 
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             // 设置编辑模式
             uiSC.editset();
 
@@ -85,7 +85,7 @@ namespace SDK.Lib
             uiSC.hidenewCardSet();
             // 遍历所有的卡牌集合，进行隐藏
             //uiSC.hideAllCard();
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardGroupList.hide();
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardGroupList.hide();
 
             // classfilterhide
             uiSC.classfilterhide((EnPlayerCareer)info.m_cardGroup.occupation);
@@ -153,25 +153,25 @@ namespace SDK.Lib
             //OnMouseUpAsButton();      // 不在模拟点击
             if (bEnterEdit)
             {
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.startEdit(this);
+                Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.startEdit(this);
             }
         }
 
         public void startEdit(cardset cardSet)
         {
             // 卡牌组处理
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyAndInitData(cardSet);
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.enterEditorMode();
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.copyAndInitData(cardSet);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.enterEditorMode();
             // 当前编辑的卡牌列表处理
 
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.show();
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).updateLeftCardList();
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardList.show();
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).updateLeftCardList();
         }
 
         public void copyAndInitData(cardset cardSet)
         {
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.copyFrom(cardSet);
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.setinfo((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.info);      // 设置卡牌的显示信息
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.copyFrom(cardSet);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.setinfo(Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.info);      // 设置卡牌的显示信息
         }
 
         void setname(string n)
@@ -217,7 +217,7 @@ namespace SDK.Lib
             transform.localPosition = lastpostion;
             //Editing = false;
             //if (nowEditingSet == gameObject)
-            if ((Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_curEditCardSet.getGameObject() == gameObject)
+            if (Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_curEditCardSet.getGameObject() == gameObject)
             {
                 cls();
             }
@@ -306,8 +306,8 @@ namespace SDK.Lib
                     CardItemBase tc = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardDic[id];
                     addcard(tc);
                 }
- 
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.Reposition();
+
+                Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardList.Reposition();
             }
         }
 
@@ -464,7 +464,7 @@ namespace SDK.Lib
 
             GameObject go = UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getGroupCardModel().getObject()) as GameObject;
             //go.transform.parent = (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.getGameObject().transform;
-            (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_leftCardList.AddChild(go.transform);
+            Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_leftCardList.AddChild(go.transform);
         }
 
         //查找一张卡在不在卡组中

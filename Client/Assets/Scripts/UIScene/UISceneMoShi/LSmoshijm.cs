@@ -181,7 +181,7 @@ namespace Game.UI
                 Transform t = transform.FindChild(p.ToString());
                 t.gameObject.SetActive(true);
                 //t.SendMessage("setinfo", s);
-                (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi).m_cardGroupList[p - 1].setinfo(s);
+                Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi).m_cardGroupList[p - 1].setinfo(s);
                 p++;
             }
         }
@@ -244,7 +244,7 @@ namespace Game.UI
                 case moshijmmethod.lx:
                     break;
                 case moshijmmethod.dz:
-                    UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+                    UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
                     if (uiMS.m_curSel != null)      // 如果有选中
                     {
                         if (Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ)

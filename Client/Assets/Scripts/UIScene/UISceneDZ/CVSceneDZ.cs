@@ -48,4 +48,9 @@
 
         eTotal
     }
+
+    public class SceneDZCV
+    {
+        public const int OUT_CARD_TOTAL = 7;        // 出牌区域最多牌的数量
+    }
 }

@@ -75,6 +75,7 @@ namespace Game.UI
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
                     m_centerHero.sceneCardItem = sceneItem;      // 这个动画已经有了
+                    m_centerHero.updateHp();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
@@ -114,6 +115,7 @@ namespace Game.UI
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
                     m_centerHero.updateCardDataChange();      // 这个动画已经有了
+                    m_centerHero.updateHp();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
@@ -145,13 +147,28 @@ namespace Game.UI
             {
                 m_inSceneCardList.removeCard(srcCard);
                 srcCard.updateCardOutState(false);        // 当前卡牌可能处于绿色高亮，因此去掉
+                m_sceneDZData.m_gameOpState.quitMoveOp();      // 退出移动操作
+            }
+            else            // 如果手牌没有，可能是战吼或者法术有攻击目标的卡牌，客户端已经将卡牌移动到出牌区域
+            {
+                srcCard = m_outSceneCardList.getSceneCardByThisID(msg.qwThisID);
+                if (srcCard.canClientMove2OutArea())
+                {
+                    // 更新手牌索引
+                    m_inSceneCardList.updateCardIndex();
+                    m_sceneDZData.m_gameOpState.quitAttackOp(false);    // 强制退出战斗操作
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log("这个牌客户端已经移动到出牌区域");
+                }
             }
 
             m_inSceneCardList.updateCardIndex();
             m_inSceneCardList.updateSceneCardRST();
 
             // 更新移动后的牌的位置
-            if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.m_svrCard.pos.dwLocation)        // 如果出的是装备
+            if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.svrCard.pos.dwLocation)        // 如果出的是装备
             {
                 m_sceneEquipCard = srcCard;
                 m_sceneEquipCard.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
@@ -159,10 +176,13 @@ namespace Game.UI
             }
             else        // 出的是随从
             {
-                m_outSceneCardList.removeWhiteCard();
-                m_outSceneCardList.addCard(srcCard, msg.dst.y);
-                m_outSceneCardList.updateSceneCardRST();
-                m_outSceneCardList.updateCardIndex();
+                if (srcCard != null && !srcCard.canClientMove2OutArea())         // 如果不是战吼或者法术有攻击目标的牌
+                {
+                    m_outSceneCardList.removeWhiteCard();
+                    m_outSceneCardList.addCard(srcCard, msg.dst.y);
+                    m_outSceneCardList.updateSceneCardRST();
+                    m_outSceneCardList.updateCardIndex();
+                }
             }
 
             // 修改 mp 
@@ -205,28 +225,44 @@ namespace Game.UI
 
         public void delOneCard(SceneCardItem sceneItem)
         {
-            if ((int)CardArea.CARDCELLTYPE_SKILL == sceneItem.m_svrCard.pos.dwLocation)
+            if ((int)CardArea.CARDCELLTYPE_SKILL == sceneItem.svrCard.pos.dwLocation)
             {
                 m_sceneSkillCard.destroy();
                 m_sceneSkillCard = null;
             }
-            else if ((int)CardArea.CARDCELLTYPE_EQUIP == sceneItem.m_svrCard.pos.dwLocation)
+            else if ((int)CardArea.CARDCELLTYPE_EQUIP == sceneItem.svrCard.pos.dwLocation)
             {
                 m_sceneEquipCard.destroy();
                 m_sceneEquipCard = null;
             }
-            else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.m_svrCard.pos.dwLocation)
+            else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.svrCard.pos.dwLocation)
             {
                 m_outSceneCardList.removeCard(sceneItem);
                 m_outSceneCardList.updateSceneCardRST();
                 m_outSceneCardList.updateCardIndex();
             }
-            else if ((int)CardArea.CARDCELLTYPE_HAND == sceneItem.m_svrCard.pos.dwLocation)
+            else if ((int)CardArea.CARDCELLTYPE_HAND == sceneItem.svrCard.pos.dwLocation)
             {
-                m_inSceneCardList.removeCard(sceneItem);
-                m_inSceneCardList.updateSceneCardRST();
-                m_inSceneCardList.updateCardIndex();
+                if (m_inSceneCardList.removeCard(sceneItem))
+                {
+                    m_inSceneCardList.updateSceneCardRST();
+                    m_inSceneCardList.updateCardIndex();
+                }
+                else        // 可能是战吼或者法术有攻击目标的
+                {
+                    SceneCardEntityBase srcCard = m_outSceneCardList.removeAndRetCardByItemNoDestroy(sceneItem);
+                    // 如果是法术或者战吼有攻击目标的卡牌，虽然在出牌区，但是是客户端自己移动过去的
+                    if (srcCard != null && srcCard.canClientMove2OutArea())
+                    {
+                        // 更新手牌索引
+                        m_inSceneCardList.updateCardIndex();
+                    }
+
+                    srcCard.destroy();      // 释放这个卡牌
+                }
             }
+
+            m_sceneDZData.m_gameOpState.quitAttackOp(false);        // 强制退出战斗操作
         }
 
         public void updateMp()
@@ -316,11 +352,19 @@ namespace Game.UI
             return null;
         }
 
+        // 从输入卡牌列表到输出卡牌列表
         public void addCardToOutList(SceneDragCard card, int idx = 0)
         {
-            m_outSceneCardList.addCard(card, idx);
-            m_outSceneCardList.updateSceneCardRST();
-            m_outSceneCardList.updateCardIndex();
+            card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;     // 更新卡牌区域信息
+            m_outSceneCardList.addCard(card, idx);                          // 更新卡牌列表
+            m_outSceneCardList.updateSceneCardRST();                        // 更新位置信息
+            m_outSceneCardList.updateCardIndex();                           // 更新卡牌索引信息
+        }
+
+        // 从手牌区域移除一个卡牌
+        public void removeFormInList(SceneDragCard card)
+        {
+            inSceneCardList.removeCard(card);
         }
 
         // 将 Out 区域中的第一个牌退回到 handle 中
@@ -337,15 +381,23 @@ namespace Game.UI
 
         public void putHandFromOutByCard(SceneCardEntityBase card)
         {
+            // 从出牌区域移除
             m_outSceneCardList.removeCardNoDestroy(card);
-            (card as SceneDragCard).retFormOutAreaToHandleArea();
+            //(card as SceneDragCard).retFormOutAreaToHandleArea();
             m_outSceneCardList.updateSceneCardRST();
             m_outSceneCardList.updateCardIndex();
+
+            // 放入手牌区域
+            card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_HAND;       // 更新卡牌区域信息
+            card.curIndex = card.preIndex;                                  // 更新索引信息
+            card.enableDrag();                                              // 开启拖放
+            m_inSceneCardList.addCardByServerPos(card);                     // 添加到手牌位置
+            m_inSceneCardList.updateSceneCardRST();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
         }
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
         {
-            if (m_sceneDZData.m_curDragItem != null && m_sceneDZData.m_curDragItem.sceneCardItem.m_svrCard.qwThisID == cmd.dwAttThisID)
+            if (m_sceneDZData.m_curDragItem != null && m_sceneDZData.m_curDragItem.sceneCardItem.svrCard.qwThisID == cmd.dwAttThisID)
             {
                 m_sceneDZData.m_curDragItem.backCard2Orig();
             }
@@ -363,13 +415,14 @@ namespace Game.UI
             m_outSceneCardList.updateCardOutState(benable);
         }
 
-        public SceneCardEntityBase getSceneCardByThisID(uint thisID)
+        public SceneCardEntityBase getSceneCardByThisID(uint thisID, ref CardArea slot)
         {
             // 出牌列表
             SceneCardEntityBase cardBase;
             cardBase = m_outSceneCardList.getSceneCardByThisID(thisID);
             if (cardBase != null)
             {
+                slot = CardArea.CARDCELLTYPE_COMMON;
                 return cardBase;
             }
 
@@ -379,6 +432,7 @@ namespace Game.UI
                 cardBase = m_inSceneCardList.getSceneCardByThisID(thisID);
                 if (cardBase != null)
                 {
+                    slot = CardArea.CARDCELLTYPE_HAND;
                     return cardBase;
                 }
             }
@@ -386,8 +440,9 @@ namespace Game.UI
             // 技能区
             if (m_sceneSkillCard != null)
             {
-                if (m_sceneSkillCard.sceneCardItem.m_svrCard.qwThisID == thisID)
+                if (m_sceneSkillCard.sceneCardItem.svrCard.qwThisID == thisID)
                 {
+                    slot = CardArea.CARDCELLTYPE_SKILL;
                     return m_sceneSkillCard;
                 }
             }
@@ -395,8 +450,9 @@ namespace Game.UI
             // 装备区
             if (m_sceneEquipCard != null)
             {
-                if (m_sceneEquipCard.sceneCardItem.m_svrCard.qwThisID == thisID)
+                if (m_sceneEquipCard.sceneCardItem.svrCard.qwThisID == thisID)
                 {
+                    slot = CardArea.CARDCELLTYPE_EQUIP;
                     return m_sceneEquipCard;
                 }
             }
@@ -410,6 +466,23 @@ namespace Game.UI
         }
 
         virtual public void clearCardAttackedState()
+        {
+
+        }
+
+        // 出牌区域卡牌是否满了
+        public bool bOutAreaCardFull()
+        {
+            return m_outSceneCardList.bAreaCardFull();
+        }
+
+        // 除了 card 禁止所有手牌区域卡牌拖动
+        virtual public void disableAllInCardDragExceptOne(SceneDragCard card)
+        {
+
+        }
+
+        virtual public void enableAllInCardDragExceptOne(SceneDragCard card)
         {
 
         }

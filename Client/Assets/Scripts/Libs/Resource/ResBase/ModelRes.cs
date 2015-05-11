@@ -8,7 +8,7 @@ namespace SDK.Lib
         public GameObject m_go;
         public GameObject m_retGO;
 
-        public GameObject InstantiateObject(string resname)
+        public GameObject InstantiateObject(string resName)
         {
             m_retGO = null;
 

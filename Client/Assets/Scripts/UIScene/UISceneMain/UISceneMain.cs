@@ -69,7 +69,7 @@ namespace Game.UI
             stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
             UtilMsg.sendMsg(cmd);
 
-            UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneShop) as UISceneShop;
+            UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneShop>(UISceneFormID.eUISceneShop);
             if (uiShop == null)
             {
                 Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneShop>(UISceneFormID.eUISceneShop);
@@ -85,7 +85,7 @@ namespace Game.UI
         {
             //Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
 
-            UISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneExtPack) as UISceneExtPack;
+            UISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneExtPack>(UISceneFormID.eUISceneExtPack);
             if (uiPack == null)
             {
                 Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneExtPack>(UISceneFormID.eUISceneExtPack);
@@ -100,7 +100,7 @@ namespace Game.UI
         {
             //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
 
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
+            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
             if (uiSC == null)
             {
                 Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
@@ -120,7 +120,7 @@ namespace Game.UI
 
         protected void onBtnClkHero(GameObject go)
         {
-            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneHero) as UISceneHero;
+            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneHero>(UISceneFormID.eUISceneHero);
             if (uiSH == null)
             {
                 Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneHero>(UISceneFormID.eUISceneHero);

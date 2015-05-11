@@ -1,4 +1,5 @@
 ﻿using Game.Msg;
+using SDK.Lib;
 using System.Collections.Generic;
 
 namespace SDK.Common
@@ -60,7 +61,7 @@ namespace SDK.Common
         {
             foreach(SceneCardItem card in m_sceneCardList)
             {
-                if(card.m_svrCard.qwThisID == thisid)
+                if(card.svrCard.qwThisID == thisid)
                 {
                     sceneItem = card;
                     m_sceneCardList.Remove(card);
@@ -101,10 +102,10 @@ namespace SDK.Common
         {
             foreach(SceneCardItem item in m_sceneCardList)
             {
-                if(item.m_svrCard.qwThisID == cmd.qwThisID)
+                if(item.svrCard.qwThisID == cmd.qwThisID)
                 {
-                    item.curSlot = (byte)cmd.dst.dwLocation;
-                    item.m_svrCard.pos.copyFrom(cmd.dst);
+                    item.cardArea = (CardArea)cmd.dst.dwLocation;
+                    item.svrCard.pos.copyFrom(cmd.dst);
                     cmd.m_sceneCardItem = item;
                     return true;
                 }
@@ -117,10 +118,10 @@ namespace SDK.Common
         {
             foreach (SceneCardItem item in m_sceneCardList)
             {
-                if (item.m_svrCard.qwThisID == card.qwThisID)
+                if (item.svrCard.qwThisID == card.qwThisID)
                 {
                     // item.m_svrCard = card;   // 不能直接赋值，因为很多都是保存的引用，这样就会有问题
-                    item.m_svrCard.copyFrom(card);
+                    item.svrCard.copyFrom(card);
 
                     return item;
                 }

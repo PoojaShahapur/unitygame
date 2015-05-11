@@ -56,7 +56,7 @@ namespace SDK.Lib
             //GC.Collect();
         }
 
-        override public GameObject InstantiateObject(string resname)
+        override public GameObject InstantiateObject(string resName)
         {
             m_retGO = null;
 
@@ -75,12 +75,12 @@ namespace SDK.Lib
             return m_retGO;
         }
 
-        override public UnityEngine.Object getObject(string resname)
+        override public UnityEngine.Object getObject(string resName)
         {
             return m_prefabObj;
         }
 
-        override public byte[] getBytes(string resname)            // 获取字节数据
+        override public byte[] getBytes(string resName)            // 获取字节数据
         {
             if(m_prefabObj != null && (m_prefabObj as TextAsset) != null)
             {
@@ -90,7 +90,7 @@ namespace SDK.Lib
             return null;
         }
 
-        override public string getText(string resname)
+        override public string getText(string resName)
         {
             if (m_prefabObj != null && (m_prefabObj as TextAsset) != null)
             {

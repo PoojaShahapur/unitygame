@@ -6,7 +6,7 @@ namespace Game.UI
 {
     public class SceneWDSCData
     {
-        public classfilter[] m_tabBtnList = new classfilter[10];
+        public ClassFilterBtn[] m_tabBtnList = new ClassFilterBtn[10];
         public int m_tabBtnIdx = -1;         // 当前点击的 Tab Btn 索引
         public PageInfo[] m_pageArr = new PageInfo[(int)EnPlayerCareer.ePCTotal];
         public int m_curTabPageIdx = -1;     // 当前显示的 TabPage 索引
@@ -31,7 +31,7 @@ namespace Game.UI
             if (btnidx != m_tabBtnIdx)
             {
                 m_tabBtnIdx = btnidx;
-                foreach (classfilter item in m_tabBtnList)
+                foreach (ClassFilterBtn item in m_tabBtnList)
                 {
                     if (item.tag == m_tabBtnIdx)
                     {

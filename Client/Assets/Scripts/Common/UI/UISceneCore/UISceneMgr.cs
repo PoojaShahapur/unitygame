@@ -102,11 +102,11 @@ namespace SDK.Common
             }
         }
 
-        public SceneForm getSceneUI(UISceneFormID ID)
+        public T getSceneUI<T>(UISceneFormID ID) where T : SceneForm
         {
             if (m_dicForm.ContainsKey(ID))
             {
-                return m_dicForm[ID];
+                return m_dicForm[ID] as T;
             }
 
             return null;

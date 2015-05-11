@@ -16,7 +16,8 @@ namespace Game.UI
     public class open : InterActiveEntity
     {
         //3种卡的预制
-        public GameObject abilitypre, minionpre, weaponpre;
+        //public GameObject abilitypre, minionpre, weaponpre;
+        public ModelRes abilitypre, minionpre, weaponpre;
         //出来卡的5个点
         public Transform[] cardpostions;
         //开出来的卡
@@ -37,12 +38,15 @@ namespace Game.UI
             mok = transform.FindChild("openok");
             mok.gameObject.SetActive(false);
 
-            abilitypre = Resources.Load("Model/opena") as GameObject;
-            minionpre = Resources.Load("Model/openm") as GameObject;
-            weaponpre = Resources.Load("Model/openw") as GameObject;
+            //abilitypre = Resources.Load("Model/opena") as GameObject;
+            //minionpre = Resources.Load("Model/openm") as GameObject;
+            //weaponpre = Resources.Load("Model/openw") as GameObject;
 
+            abilitypre = Ctx.m_instance.m_modelMgr.syncGet<ModelRes>("Model/opena.prefab");
+            minionpre = Ctx.m_instance.m_modelMgr.syncGet<ModelRes>("Model/openm.prefab");
+            weaponpre = Ctx.m_instance.m_modelMgr.syncGet<ModelRes>("Model/openw.prefab");
+            
             m_packItem.m_tran = UtilApi.GoFindChildByPObjAndName("open/openpack").transform;
-
             m_midCard.m_tran = UtilApi.GoFindChildByPObjAndName("open/cards").transform;
 
             int idx = 0;
@@ -61,25 +65,25 @@ namespace Game.UI
             {
                 case (int)CardType.CARDTYPE_MAGIC:
                     {
-                        ret = (Transform)UtilApi.Instantiate(abilitypre.transform);
+                        ret = abilitypre.InstantiateObject("Model/opena.prefab").transform;
                     }
                     break;
 
                 case (int)CardType.CARDTYPE_ATTEND:
                     {
-                        ret = (Transform)UtilApi.Instantiate(minionpre.transform);
+                        ret = minionpre.InstantiateObject("Model/openm.prefab").transform;
                     }
                     break;
 
                 case (int)CardType.CARDTYPE_EQUIP:
                     {
-                        ret = (Transform)UtilApi.Instantiate(weaponpre.transform);
+                        ret = weaponpre.InstantiateObject("Model/openm.prefab").transform;
                     }
                     break;
 
                 case (int)CardType.CARDTYPE_HERO:
                     {
-                        ret = (Transform)UtilApi.Instantiate(minionpre.transform);
+                        ret = minionpre.InstantiateObject("Model/openm.prefab").transform;
                     }
                     break;
 

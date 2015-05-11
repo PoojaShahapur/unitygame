@@ -27,7 +27,7 @@ namespace Game.UI
         public void addCard(SceneDragCard card, int idx = 0)
         {
             #if !DEBUG_NOTNET
-            card.sceneCardItem.m_cardArea = CardArea.CARDCELLTYPE_COMMON;
+            card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;
             #endif
             // 添加进来的卡牌是不能移动的
             card.disableDrag();
@@ -124,6 +124,31 @@ namespace Game.UI
         public void removeWhiteCard()
         {
             m_sceneCardList.Remove(m_whiteCard);
+        }
+
+        // 当前卡牌区域是否已经满了
+        public bool bAreaCardFull()
+        {
+            if(getCardCount() == SceneDZCV.OUT_CARD_TOTAL)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        override public int getCardCount()
+        {
+            int total = 0;
+            foreach(var cardItem in m_sceneCardList)
+            {
+                if(!cardItem.Equals(m_whiteCard))
+                {
+                    ++total;
+                }
+            }
+
+            return total;
         }
     }
 }

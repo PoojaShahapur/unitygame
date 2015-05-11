@@ -113,6 +113,9 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardGroupModelAttrItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "weaponcard.prefab");
 
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO] = new CardGroupModelAttrItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardGroupModelAttrItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
 

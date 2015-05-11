@@ -70,59 +70,60 @@ namespace Game.UI
             idx = 0;
             while (idx < 10)
             {
-                m_sceneWDSCData.m_tabBtnList[idx] = new classfilter();
+                m_sceneWDSCData.m_tabBtnList[idx] = new ClassFilterBtn();
+                m_sceneWDSCData.m_tabBtnList[idx].sceneWDSCData = m_sceneWDSCData;
                 ++idx;
             }
 
             m_sceneWDSCData.m_tabBtnList[0].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/fs"));
             m_sceneWDSCData.m_tabBtnList[0].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[0].tag = 1;
-            m_sceneWDSCData.m_tabBtnList[0].myclass = (EnPlayerCareer)1;
+            m_sceneWDSCData.m_tabBtnList[0].myClass = (EnPlayerCareer)1;
 
             m_sceneWDSCData.m_tabBtnList[1].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sq"));
             m_sceneWDSCData.m_tabBtnList[1].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[1].tag = 2;
-            m_sceneWDSCData.m_tabBtnList[1].myclass = (EnPlayerCareer)2;
+            m_sceneWDSCData.m_tabBtnList[1].myClass = (EnPlayerCareer)2;
 
             m_sceneWDSCData.m_tabBtnList[2].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ms"));
             m_sceneWDSCData.m_tabBtnList[2].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[2].tag = 3;
-            m_sceneWDSCData.m_tabBtnList[2].myclass = (EnPlayerCareer)3;
+            m_sceneWDSCData.m_tabBtnList[2].myClass = (EnPlayerCareer)3;
 
             m_sceneWDSCData.m_tabBtnList[3].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dz"));
             m_sceneWDSCData.m_tabBtnList[3].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[3].tag = 4;
-            m_sceneWDSCData.m_tabBtnList[3].myclass = (EnPlayerCareer)4;
+            m_sceneWDSCData.m_tabBtnList[3].myClass = (EnPlayerCareer)4;
 
             m_sceneWDSCData.m_tabBtnList[4].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/sm"));
             m_sceneWDSCData.m_tabBtnList[4].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[4].tag = 5;
-            m_sceneWDSCData.m_tabBtnList[4].myclass = (EnPlayerCareer)5;
+            m_sceneWDSCData.m_tabBtnList[4].myClass = (EnPlayerCareer)5;
 
             m_sceneWDSCData.m_tabBtnList[5].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/ss"));
             m_sceneWDSCData.m_tabBtnList[5].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[5].tag = 6;
-            m_sceneWDSCData.m_tabBtnList[5].myclass = (EnPlayerCareer)6;
+            m_sceneWDSCData.m_tabBtnList[5].myClass = (EnPlayerCareer)6;
 
             m_sceneWDSCData.m_tabBtnList[6].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zs"));
             m_sceneWDSCData.m_tabBtnList[6].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[6].tag = 7;
-            m_sceneWDSCData.m_tabBtnList[6].myclass = (EnPlayerCareer)7;
+            m_sceneWDSCData.m_tabBtnList[6].myClass = (EnPlayerCareer)7;
 
             m_sceneWDSCData.m_tabBtnList[7].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/lr"));
             m_sceneWDSCData.m_tabBtnList[7].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[7].tag = 8;
-            m_sceneWDSCData.m_tabBtnList[7].myclass = (EnPlayerCareer)8;
+            m_sceneWDSCData.m_tabBtnList[7].myClass = (EnPlayerCareer)8;
 
             m_sceneWDSCData.m_tabBtnList[8].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/dly"));
             m_sceneWDSCData.m_tabBtnList[8].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[8].tag = 9;
-            m_sceneWDSCData.m_tabBtnList[8].myclass = (EnPlayerCareer)9;
+            m_sceneWDSCData.m_tabBtnList[8].myClass = (EnPlayerCareer)9;
 
             m_sceneWDSCData.m_tabBtnList[9].setGameObject(UtilApi.GoFindChildByPObjAndName("wdscjm/classfilter/zl"));
             m_sceneWDSCData.m_tabBtnList[9].sceneWDSCData = m_sceneWDSCData;
             m_sceneWDSCData.m_tabBtnList[9].tag = 0;
-            m_sceneWDSCData.m_tabBtnList[9].myclass = (EnPlayerCareer)0;
+            m_sceneWDSCData.m_tabBtnList[9].myClass = (EnPlayerCareer)0;
 
             // 默认选择第一个，是 1 不是 0
             m_sceneWDSCData.onBtnClk(1);
@@ -148,7 +149,7 @@ namespace Game.UI
 
         protected void onBtnClkAddTaoPai(GameObject go)
         {
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
             if (uiMS == null)
             {
                 Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
@@ -227,7 +228,7 @@ namespace Game.UI
             //m_curEditCardInfo.clear();
             //m_curEditCardInfo.index = cardGroup.m_cardGroup.index;
 
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
             if (uiMS != null)
             {
                 newcardset(cardGroup);
@@ -284,9 +285,9 @@ namespace Game.UI
 
         public void classfilterhide(EnPlayerCareer c)
         {
-            foreach (classfilter item in m_sceneWDSCData.m_tabBtnList)
+            foreach (ClassFilterBtn item in m_sceneWDSCData.m_tabBtnList)
             {
-                item.classfilterhide(c);
+                item.classFilterHide(c);
             }
         }
 
@@ -300,9 +301,9 @@ namespace Game.UI
 
         public void classfilter_gotoback()
         {
-            foreach (classfilter item in m_sceneWDSCData.m_tabBtnList)
+            foreach (ClassFilterBtn item in m_sceneWDSCData.m_tabBtnList)
             {
-                item.gotoback();
+                item.gotoBack();
             }
         }
 
@@ -313,7 +314,7 @@ namespace Game.UI
 
         public void cardset_goback()
         {
-            foreach (cardset taoPai in (Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneWDSC) as UISceneWDSC).m_taoPaiEntityList)
+            foreach (cardset taoPai in Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC).m_taoPaiEntityList)
             {
                 taoPai.goback();
             }

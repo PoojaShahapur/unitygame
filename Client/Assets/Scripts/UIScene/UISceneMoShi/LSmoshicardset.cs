@@ -135,7 +135,7 @@ namespace Game.UI
             //transform.root.SendMessage("setclasspic", classpic);
             //transform.root.SendMessage("setClassname", info.name);
 
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI(UISceneFormID.eUISceneMoShi) as UISceneMoShi;
+            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
             if (uiMS != null)
             {
                 uiMS.setclass((EnPlayerCareer)info.m_cardGroup.occupation);

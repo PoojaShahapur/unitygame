@@ -14,7 +14,8 @@ namespace Game.UI
     {
         protected dzminion m_dzminion = new dzminion();
         //public Material zs, dz, dly, lr, ms, sq, sm, fs, ss;
-        protected Text classs, heroname;
+        protected Text m_classs, m_heroname;
+        protected Text m_hpText;        // 血
         protected Action m_heroAniEndDisp;         // hero 动画结束后，分发一个消息
 
         public Action heroAniEndDisp
@@ -34,8 +35,14 @@ namespace Game.UI
             base.Start();
             m_dzminion.setGameObject(gameObject);
 
-            classs = transform.FindChild("classs").GetComponent<Text>();
-            heroname = transform.FindChild("name").GetComponent<Text>();
+            m_classs = transform.FindChild("classs").GetComponent<Text>();
+            m_heroname = transform.FindChild("name").GetComponent<Text>();
+            m_hpText = transform.FindChild("healthdi/TextHp").GetComponent<Text>();
+        }
+
+        public void updateHp()
+        {
+            m_hpText.text = m_sceneCardItem.svrCard.hp.ToString();
         }
 
         public void setclasss(EnPlayerCareer c)

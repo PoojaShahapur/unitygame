@@ -46,7 +46,8 @@ namespace Game.UI
         public void removeCard(SceneDragCard card)
         {
             // 移除监听器
-            card.m_moveDisp = null;
+            // card.m_moveDisp = null;
+            card.disableDrag();
             m_sceneCardList.Remove(m_sceneDZData.m_curDragItem);
         }
 
@@ -76,7 +77,7 @@ namespace Game.UI
         {
             foreach (SceneDragCard card in m_sceneCardList)
             {
-                if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp >= card.sceneCardItem.m_svrCard.mpcost)
+                if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp >= card.sceneCardItem.svrCard.mpcost)
                 {
                     return true;
                 }

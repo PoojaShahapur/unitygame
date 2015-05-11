@@ -87,7 +87,7 @@ public class AppRoot : MonoBehaviour
         // 运行单元测试
 #if UNIT_TEST_SRC
         UnitTestMain pUnitTestMain = new UnitTestMain();
-        //pUnitTestMain.run();
+        pUnitTestMain.run();
 #endif
     }
 
@@ -146,7 +146,10 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
         Ctx.m_instance.m_resLoadMgr.postInit();
 
-        // Test 
+        Ctx.m_instance.m_TaskQueue.m_pTaskThreadPool = Ctx.m_instance.m_TaskThreadPool;
+        Ctx.m_instance.m_TaskThreadPool.initThreadPool(2, Ctx.m_instance.m_TaskQueue);
+
+        // 获取主线程 ID
         MThread.getMainThreadID();
     }
 

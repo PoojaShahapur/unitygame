@@ -768,10 +768,10 @@ namespace Game.Msg
         public byte byActionType;  // 1 添加 2 刷新，定义见 EnAddCardActionType
         public t_Card mobject;
 
-        public byte attackType;    //攻击类型
+        //public byte attackType;    //攻击类型
         // 只有攻击刷新属性的时候
-        public uint pAttThisID;   //攻击者
-        public uint pDefThisID;   //防御者
+        //public uint pAttThisID;   //攻击者
+        //public uint pDefThisID;   //防御者
 
         public stAddBattleCardPropertyUserCmd()
         {
@@ -788,9 +788,9 @@ namespace Game.Msg
             mobject = new t_Card();
             mobject.derialize(ba);
 
-            ba.readUnsignedInt8(ref attackType);
-            ba.readUnsignedInt32(ref pAttThisID);
-            ba.readUnsignedInt32(ref pDefThisID);
+            //ba.readUnsignedInt8(ref attackType);
+            //ba.readUnsignedInt32(ref pAttThisID);
+            //ba.readUnsignedInt32(ref pDefThisID);
         }
 
         public override void serialize(ByteBuffer ba)
@@ -803,9 +803,9 @@ namespace Game.Msg
             mobject = new t_Card();
             mobject.serialize(ba);
 
-            ba.writeUnsignedInt8(attackType);
-            ba.writeUnsignedInt32(pAttThisID);
-            ba.writeUnsignedInt32(pDefThisID);
+            //ba.writeUnsignedInt8(attackType);
+            //ba.writeUnsignedInt32(pAttThisID);
+            //ba.writeUnsignedInt32(pDefThisID);
         }
     }
 
@@ -1549,4 +1549,45 @@ namespace Game.Msg
     //    WORD count;
     //    t_Card othercard[0];
     //};
+
+    public class stNotifyBattleCardPropertyUserCmd : stHeroCardCmd
+    {
+        public t_Card A_object;
+        public t_Card D_object;
+        public byte attackType;    //攻击类型
+        public uint pAttThisID;   //攻击者
+        public uint pDefThisID;   //防御者
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+
+            A_object = new t_Card();
+            A_object.derialize(ba);
+
+            D_object = new t_Card();
+            D_object.derialize(ba);
+
+            ba.readUnsignedInt8(ref attackType);
+            ba.readUnsignedInt32(ref pAttThisID);
+            ba.readUnsignedInt32(ref pDefThisID);
+        }
+    }
+
+    //const BYTE NOTIFY_BATTLE_CARD_PROPERTY_CMD = 49; 
+    //struct stNotifyBattleCardPropertyUserCmd : public stHeroCardCmd
+    //{   
+    //    stNotifyBattleCardPropertyUserCmd()
+    //    {   
+    //        byParam = NOTIFY_BATTLE_CARD_PROPERTY_CMD;
+    //        attackType = 0;
+    //        pAttThisID = 0;
+    //        pDefThisID = 0;
+    //    }   
+    //    t_Card A_object;    
+    //    t_Card D_object;    
+    //    BYTE attackType;    //攻击类型
+    //    DWORD pAttThisID;   //攻击者
+    //    DWORD pDefThisID;   //防御者
+    //};  
 }

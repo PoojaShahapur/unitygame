@@ -232,22 +232,22 @@ namespace SDK.Lib
             }
         }
 
-        virtual public GameObject InstantiateObject(string resname)
+        virtual public GameObject InstantiateObject(string resName)
         {
             return null;
         }
 
-        virtual public UnityEngine.Object getObject(string resname)
+        virtual public UnityEngine.Object getObject(string resName)
         {
             return null;
         }
 
-        virtual public byte[] getBytes(string resname)            // 获取字节数据
+        virtual public byte[] getBytes(string resName)            // 获取字节数据
         {
             return null;
         }
 
-        virtual public string getText(string resname)
+        virtual public string getText(string resName)
         {
             return null;
         }

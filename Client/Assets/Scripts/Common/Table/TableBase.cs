@@ -11,9 +11,9 @@ namespace SDK.Common
         public List<TableItemBase> m_List;
         public ByteBuffer m_byteArray;      // 整个表格所有的原始数据
 
-        public TableBase(string resname, string tablename)
+        public TableBase(string resName, string tablename)
         {
-            m_resName = resname;
+            m_resName = resName;
             m_tableName = tablename;
 
             m_List = new List<TableItemBase>();

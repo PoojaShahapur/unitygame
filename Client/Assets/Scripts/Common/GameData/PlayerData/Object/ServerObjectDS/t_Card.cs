@@ -20,6 +20,7 @@ namespace SDK.Common
         public byte magicDamAdd;	//法术伤害增加(X)
         public byte overload;		//过载(num)
         public uint armor;          //护甲值
+        public byte attackTimes;    // 每一局已经攻击次数，判断每一局是否能继续攻击，如果有 CARD_STATE_WINDFURY 这个状态就是每一局能攻击 2 次，其它的都只能攻击一次
 
         public byte[] state;
 
@@ -42,6 +43,7 @@ namespace SDK.Common
             ba.readUnsignedInt8(ref magicDamAdd);
             ba.readUnsignedInt8(ref overload);
             ba.readUnsignedInt32(ref armor);
+            ba.readUnsignedInt8(ref attackTimes);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -67,6 +69,7 @@ namespace SDK.Common
             ba.writeUnsignedInt8(magicDamAdd);
             ba.writeUnsignedInt8(overload);
             ba.writeUnsignedInt32(armor);
+            ba.writeUnsignedInt8(attackTimes);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];

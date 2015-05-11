@@ -10,7 +10,8 @@
         LOD 200
 
         CGPROGRAM
-        #pragma surface surf Lambert
+        //#pragma surface surf Lambert
+        #pragma surface surf Lambert alpha:blend
 
         sampler2D _MainTex;
 

@@ -265,6 +265,7 @@ namespace SDK.Common
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 LocalFileSys.modifyLoadParam(reaPath, param);
                 param.m_loaded = onLoaded;
+                param.m_failed = onFailed;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
