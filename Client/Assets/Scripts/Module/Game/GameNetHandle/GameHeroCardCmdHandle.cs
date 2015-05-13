@@ -51,6 +51,12 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_CARD_PROPERTY_CMD] = psstNotifyBattleCardPropertyUserCmd;
         }
 
+        // 重载方便调试
+        public override void handleMsg(ByteBuffer ba, byte byCmd, byte byParam)
+        {
+            base.handleMsg(ba, byCmd, byParam);
+        }
+
         // 卡牌图鉴中显示的所有数据
         protected void psstNotifyAllCardTujianInfoCmd(ByteBuffer msg)
         {

@@ -13,7 +13,7 @@ namespace Game.UI
         public override void onReady()
         {
             base.onReady();
-            m_goRoot = UtilApi.GoFindChildByPObjAndName("BgSceneUI");
+            m_goRoot = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_uiMgr.m_sceneUIRootGo, "BgSceneUI");
             m_goRoot.SetActive(false);         // 默认隐藏
             UtilApi.addEventHandle(m_goRoot, onPnlClk);
         }

@@ -9,6 +9,7 @@
         ePathSceneXml,  // 场景路径
         ePathModule,    // Module 路径
         ePathComUI,     // UI 控件路径
+        ePathComUIScene,     // Scene UI 控件路径
         ePathCodePath,  // UI 代码目录
         ePathBeingPath, // Being 目录
         ePathAIPath,    // AI 目录

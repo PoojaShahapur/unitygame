@@ -167,7 +167,7 @@ namespace Game.UI
 
                 //Camera.main.SendMessage("back");
                 //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
-                Ctx.m_instance.m_camSys.m_boxcam.back();
+                Ctx.m_instance.m_camSys.m_boxCam.back();
             }
         }
 
@@ -180,7 +180,7 @@ namespace Game.UI
             animation.Play("openup");
             //Camera.main.SendMessage("push");
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
-            Ctx.m_instance.m_camSys.m_boxcam.push();
+            Ctx.m_instance.m_camSys.m_boxCam.push();
         }
 
         // 更新数据

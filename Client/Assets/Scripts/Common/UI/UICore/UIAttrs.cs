@@ -5,50 +5,53 @@ namespace SDK.Common
 {
     public class UIAttrs
     {
-        public Dictionary<UIFormID, UIAttrItem> m_dicAttr = new Dictionary<UIFormID,UIAttrItem>();
+        public Dictionary<UIFormID, UIAttrItemBase> m_dicAttr = new Dictionary<UIFormID, UIAttrItemBase>();
 
         public UIAttrs()
         {
-            m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
+            m_dicAttr = new Dictionary<UIFormID, UIAttrItemBase>();
             m_dicAttr[UIFormID.UIPack] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIPack].m_LayerID = UILayerID.SecondLayer;
+            (m_dicAttr[UIFormID.UIPack] as UIAttrItem).m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIPack].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIPack", ".prefab");
 
             m_dicAttr[UIFormID.UILogin] = new UIAttrItem();
-            m_dicAttr[UIFormID.UILogin].m_LayerID = UILayerID.SecondLayer;
+            (m_dicAttr[UIFormID.UILogin] as UIAttrItem).m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UILogin].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UILogin", ".prefab");
 
             m_dicAttr[UIFormID.UIHeroSelect] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIHeroSelect].m_LayerID = UILayerID.SecondLayer;
+            (m_dicAttr[UIFormID.UIHeroSelect] as UIAttrItem).m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIHeroSelect].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIHeroSelect", ".prefab");
 
             m_dicAttr[UIFormID.UIBlurBg] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIBlurBg].m_LayerID = UILayerID.BtmLayer;
+            (m_dicAttr[UIFormID.UIBlurBg] as UIAttrItem).m_LayerID = UILayerID.BtmLayer;
             m_dicAttr[UIFormID.UIBlurBg].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIBlurBg", ".prefab");
 
             m_dicAttr[UIFormID.UITest] = new UIAttrItem();
-            m_dicAttr[UIFormID.UITest].m_LayerID = UILayerID.TopLayer;
+            (m_dicAttr[UIFormID.UITest] as UIAttrItem).m_LayerID = UILayerID.TopLayer;
             m_dicAttr[UIFormID.UITest].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITest", ".prefab");
 
             m_dicAttr[UIFormID.UIDZ] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIDZ].m_LayerID = UILayerID.SecondLayer;
+            (m_dicAttr[UIFormID.UIDZ] as UIAttrItem).m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIDZ].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIDZ", ".prefab");
 
             m_dicAttr[UIFormID.UIExtraOp] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIExtraOp].m_LayerID = UILayerID.SecondLayer;
+            (m_dicAttr[UIFormID.UIExtraOp] as UIAttrItem).m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIExtraOp].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIExtraOp", ".prefab");
 
             m_dicAttr[UIFormID.UIChat] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIChat].m_LayerID = UILayerID.SecondLayer;
+            (m_dicAttr[UIFormID.UIChat] as UIAttrItem).m_LayerID = UILayerID.SecondLayer;
             m_dicAttr[UIFormID.UIChat].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIChat", ".prefab");
 
             m_dicAttr[UIFormID.UIInfo] = new UIAttrItem();
-            m_dicAttr[UIFormID.UIInfo].m_LayerID = UILayerID.ForthLayer;
+            (m_dicAttr[UIFormID.UIInfo] as UIAttrItem).m_LayerID = UILayerID.ForthLayer;
             m_dicAttr[UIFormID.UIInfo].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIInfo", ".prefab");
 
             m_dicAttr[UIFormID.UILogicTest] = new UIAttrItem();
-            m_dicAttr[UIFormID.UILogicTest].m_LayerID = UILayerID.TopLayer;
+            (m_dicAttr[UIFormID.UILogicTest] as UIAttrItem).m_LayerID = UILayerID.TopLayer;
             m_dicAttr[UIFormID.UILogicTest].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UILogicTest", ".prefab");
+
+            m_dicAttr[UIFormID.UIJobSelect] = new UISceneAttrItem();
+            m_dicAttr[UIFormID.UIJobSelect].m_widgetPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIJobSelect", ".prefab");
         }
 
         public string getPath(UIFormID id)

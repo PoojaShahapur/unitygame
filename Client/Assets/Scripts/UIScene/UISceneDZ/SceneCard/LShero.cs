@@ -126,17 +126,14 @@ namespace Game.UI
 
         public void banpick()
         {
-            //Camera.main.SendMessage("banpick");
-            Ctx.m_instance.m_camSys.m_dzcam.banpick();
+            Ctx.m_instance.m_camSys.m_dzCam.banpick();
         }
 
         //第一次抽,向主摄像发送消息
         public void firstdarw()
         {
-            //transform.SendMessage("setMine");
-            //Camera.main.SendMessage("firstdarw");
             m_dzminion.setMine();
-            Ctx.m_instance.m_camSys.m_dzcam.firstdarw();
+            Ctx.m_instance.m_camSys.m_dzCam.firstdarw();
         }
 
         // 隐藏 VS 图标

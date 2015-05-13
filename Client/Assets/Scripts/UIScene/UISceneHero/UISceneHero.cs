@@ -18,7 +18,7 @@ namespace Game.UI
             base.onReady();
             m_sceneHeroData = new SceneHeroData();
 
-            getWidget();
+            findWidget();
             m_sceneHeroCenteArear = new SceneHeroCenteArear(m_sceneHeroData);
 
             addEventHandle();
@@ -46,9 +46,9 @@ namespace Game.UI
             m_sceneHeroData.m_goRoot.SetActive(false);
         }
 
-        protected void getWidget()
+        protected void findWidget()
         {
-            m_sceneHeroData.m_goRoot = UtilApi.GoFindChildByPObjAndName("HeroSceneUI");
+            m_sceneHeroData.m_goRoot = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_uiMgr.m_sceneUIRootGo, "HeroSceneUI");
             m_sceneHeroData.m_goRoot.SetActive(false);         // 默认隐藏
         }
 

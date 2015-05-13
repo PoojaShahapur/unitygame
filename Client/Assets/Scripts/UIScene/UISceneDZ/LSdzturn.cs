@@ -97,7 +97,7 @@ namespace Game.UI
             animation["dzturn"].speed = -1;
             animation["dzturn"].time = 1;
             animation.Play("dzturn");
-            dzcam.ismyturn = true;
+            DzCam.ismyturn = true;
         }
 
         // 显示[对方回合]

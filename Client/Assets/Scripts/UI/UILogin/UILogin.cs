@@ -21,12 +21,12 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
         // 关联窗口
-        protected void getWidget()
+        protected void findWidget()
         {
             InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
             lblName.text = "zhanghao06";      //zhanghao01---zhanghao09

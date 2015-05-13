@@ -1,10 +1,7 @@
 ﻿namespace SDK.Common
 {
-    public class UIAttrItem
+    public class UIAttrItem : UIAttrItemBase
     {
-        public UILayerID m_LayerID;
-
-        public string m_codePath;          // 逻辑代码 path 
-        public string m_widgetPath;            // 拖放的控件 path 
+        public UILayerID m_LayerID;             // 所在的 Layer
     }
 }

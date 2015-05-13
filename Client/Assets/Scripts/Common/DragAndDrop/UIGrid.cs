@@ -110,7 +110,7 @@ public class UIGrid : LSBehaviour
 		if (trans != null)
 		{
 			//trans.parent = transform;
-            trans.SetParent(transform, true);
+            trans.SetParent(transform, false);
 			ResetPosition(GetChildList());
 		}
 	}
@@ -214,14 +214,14 @@ public class UIGrid : LSBehaviour
 	}
 
     // 隐藏就是移动到很远
-    public void hide()
+    public void hideGrid()
     {
         m_lastpostion = transform.localPosition;
         transform.Translate(new Vector3(0, 0, m_hideZPos));
     }
 
     // 显示
-    public void show()
+    public void showGrid()
     {
         transform.localPosition = m_lastpostion;
     }

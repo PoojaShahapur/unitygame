@@ -31,7 +31,7 @@ namespace Game.Login
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_loginRouteCB);
 
             // 加载测试界面
-            //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
+            Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
         }
 
         // 加载登陆常见

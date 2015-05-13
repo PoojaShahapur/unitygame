@@ -19,11 +19,11 @@ namespace Game.UI
 
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
-        protected void getWidget()
+        protected void findWidget()
         {
         }
 

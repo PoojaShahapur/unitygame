@@ -16,7 +16,7 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
@@ -30,7 +30,7 @@ namespace Game.UI
         }
 
         // 关联窗口
-        protected void getWidget()
+        protected void findWidget()
         {
             m_textDesc = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, InfoComPath.PathTextDesc);
         }

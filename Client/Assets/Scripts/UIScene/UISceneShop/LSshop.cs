@@ -39,11 +39,15 @@ namespace Game.UI
     public class shop : InterActiveEntity
     {
         protected const int TOTALITEM = 2;
+        protected const int TOTALPACK = 4;
 
         Transform pack1, pack2, pack7, pack15, pack40, buykuan;
         //Text rmb;
 
-        ShopItem[] m_shopItemArray = new ShopItem[TOTALITEM];
+        //ShopItem[] m_shopItemArray = new ShopItem[TOTALITEM];
+
+        Text[] m_shopPriceText = new Text[TOTALPACK];
+        Text m_shopGoldNum;
 
         // Use this for initialization
         public override void Awake()
@@ -53,15 +57,22 @@ namespace Game.UI
 
         public override void Start()
         {
-            int idx = 0;
-            while(idx < TOTALITEM)
-            {
-                m_shopItemArray[idx] = new ShopItem();
-                ++idx;
-            }
+            //int idx = 0;
+            //while(idx < TOTALITEM)
+            //{
+            //    m_shopItemArray[idx] = new ShopItem();
+            //    ++idx;
+            //}
             
-            m_shopItemArray[0].m_tran = UtilApi.GoFindChildByPObjAndName("mcam/shop/FirstItem").transform;
-            m_shopItemArray[1].m_tran = UtilApi.GoFindChildByPObjAndName("mcam/shop/SecondItem").transform;
+            //m_shopItemArray[0].m_tran = UtilApi.GoFindChildByPObjAndName("mcam/shop/FirstItem").transform;
+            //m_shopItemArray[1].m_tran = UtilApi.GoFindChildByPObjAndName("mcam/shop/SecondItem").transform;
+
+            for (int i = 0; i < TOTALPACK; i++)
+            {
+                string textName = string.Format("mcam/shop/background/packprice{0}", i + 1);
+                m_shopPriceText[i] = UtilApi.getComByP<Text>(textName);
+            }
+            m_shopGoldNum = UtilApi.getComByP<Text>("mcam/shop/background/goldnum");
         }
 
         public void close()
@@ -170,7 +181,7 @@ namespace Game.UI
         // 更新数据
         public void updateShopData()
         {
-            int idx = 0;
+            /*int idx = 0;
             while(idx < TOTALITEM)
             {
                 if(null != m_shopItemArray[idx])
@@ -185,7 +196,7 @@ namespace Game.UI
             TableItemBase objitem;
             DataItemShop shopItem;
             LoadParam param;
-            while(idx < Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList.Count && idx < TOTALITEM)
+            while(idx <  Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList.Count && idx < TOTALITEM)
             {
                 shopItem = Ctx.m_instance.m_dataPlayer.m_dataShop.m_objList[idx];
                 objitem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_OBJECT, shopItem.m_xmlItemMarket.m_objid) as TableItemBase;
@@ -197,7 +208,16 @@ namespace Game.UI
                 Ctx.m_instance.m_poolSys.deleteObj(param);
 
                 ++idx;
+            }*/
+
+            XmlMarketCfg marketCfg = Ctx.m_instance.m_xmlCfgMgr.getXmlCfg<XmlMarketCfg>(XmlCfgID.eXmlMarketCfg);
+            for (int i = 0; i < TOTALPACK; i++)
+            {
+                XmlItemMarket itemMarket = marketCfg.getXmlItem(i+1) as XmlItemMarket;
+                m_shopPriceText[i].text = string.Format("{0}", itemMarket.m_price);
             }
+
+            m_shopGoldNum.text = string.Format("{0}", Ctx.m_instance.m_dataPlayer.m_dataMain.m_gold);
         }
     }
 }

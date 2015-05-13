@@ -22,6 +22,7 @@ namespace SDK.Common
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
 
         private List<UIFormID> m_tmpList = new List<UIFormID>();
+        public GameObject m_sceneUIRootGo;           // 每一个场景都会有一个这样的节点，专门放一些 Scene 中 UI 的一些信息
 
 		public UIMgr()
 		{
@@ -164,9 +165,12 @@ namespace SDK.Common
         // 内部接口
         private void addFormNoReady(Form form)
         {
-            UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_LayerID);
-            form.uiLayer = layer;
-            layer.addForm(form);
+            if (m_UIAttrs.m_dicAttr[form.id] is UIAttrItem)
+            {
+                UILayer layer = getLayer((m_UIAttrs.m_dicAttr[form.id] as UIAttrItem).m_LayerID);
+                form.uiLayer = layer;
+                layer.addForm(form);
+            }
             m_dicForm[form.id] = form;
             form.init();        // 初始化
         }
@@ -193,7 +197,7 @@ namespace SDK.Common
         {
             // exitAllWin();                       // 关闭所有的界面
 
-            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItemBase attrItem = m_UIAttrs.m_dicAttr[ID];
             Form window = getForm<Form>(ID);
 
             if (window != null)     // 本地已经创建了这个窗口，
@@ -232,7 +236,7 @@ namespace SDK.Common
         // 加载窗口控件资源，窗口资源都是从文件加载
         public void loadWidgetRes(UIFormID ID)
         {
-            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItemBase attrItem = m_UIAttrs.m_dicAttr[ID];
             if (!m_ID2WidgetLoadingItemDic.ContainsKey(ID))                       // 如果什么都没有创建，第一次加载
             {
                 m_ID2WidgetLoadingItemDic[ID] = new UILoadingItem();
@@ -325,15 +329,19 @@ namespace SDK.Common
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
-            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItemBase attrItem = m_UIAttrs.m_dicAttr[ID];
             m_dicForm[ID].bLoadWidgetRes = true;
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
             // 设置位置
-            //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.parent = m_vecLayer[(int)attrItem.m_LayerID].layerTrans;
-            UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_vecLayer[(int)attrItem.m_LayerID].layerTrans, false);
+            if (attrItem is UIAttrItem)
+            {
+                UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_vecLayer[(int)(attrItem as UIAttrItem).m_LayerID].layerTrans, false);
+            }
+            else
+            {
+                UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISceneCanvas].transform, false);
+            }
             // 先设置再设置缩放，否则无效
-            //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localPosition = Vector3.zero;
-            //m_dicForm[ID].m_GUIWin.m_uiRoot.transform.localScale = Vector3.one;
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
             UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件
             //if (m_dicForm[ID].hideOnCreate)
@@ -377,6 +385,11 @@ namespace SDK.Common
                 exitForm(id);
             }
             m_tmpList.Clear();
+        }
+
+        public void findSceneUIRootGo()
+        {
+            m_sceneUIRootGo = UtilApi.GoFindChildByPObjAndName("SceneUIRootGo");
         }
 	}
 }

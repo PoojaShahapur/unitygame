@@ -90,6 +90,11 @@ namespace SDK.Common
             go.GetComponent<Button>().onClick.AddListener(handle);
         }
 
+        public static void addEventHandle(Button btn, UnityAction handle)
+        {
+            btn.onClick.AddListener(handle);
+        }
+
         // 销毁对象
         public static void Destroy(UnityEngine.Object obj)
         {
@@ -171,13 +176,13 @@ namespace SDK.Common
             return opt;
         }
 
-        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题
+        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的指导释放哪个资源
         public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
             Resources.UnloadAsset(assetToUnload);
         }
 
-        // 从场景图中移除,  worldPositionStays 是否在两个 local 中移动保持 world 信息不变，如果要保持 local 信息不变，就设置成 false ，通常 UI 需要设置成  false
+        // 从场景图中移除,  worldPositionStays 是否在两个 local 中移动保持 world 信息不变，如果要保持 local 信息不变，就设置成 false ，通常 UI 需要设置成  false ，如果 worldPositionStays 为 true ，就是从当前局部空间变换到另外一个局部空间变换，父节点的变换会应用到对象上， worldPositionStays 为 false ，就是局部变换直接移动到另外一个局部空间，直接应用目的局部空间父变换
         public static void removeFromSceneGraph(Transform trans, bool worldPositionStays = true)
         {
             trans.SetParent(null);      // 这个仅仅是移除场景中
@@ -186,6 +191,11 @@ namespace SDK.Common
         public static void SetParent(Transform child, Transform parent, bool worldPositionStays = true)
         {
             child.SetParent(parent, worldPositionStays);
+        }
+
+        public static void SetParent(GameObject child, GameObject parent, bool worldPositionStays = true)
+        {
+            child.transform.SetParent(parent.transform, worldPositionStays);
         }
 
         static public bool getXmlAttrBool(SecurityElement attr, string name)
@@ -727,6 +737,38 @@ namespace SDK.Common
             }
 
             return retLevelName;
+        }
+
+        // 加载一个表完成
+        public static void onLoaded(IDispatchObject resEvt)
+        {
+            IResItem res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+        }
+
+        public static void onFailed(IDispatchObject resEvt)
+        {
+            IResItem res = resEvt as IResItem;                         // 类型转换
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+
+            // 卸载资源
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+        }
+
+        // 通过下划线获取最后的数字，例如 asdf_23 获取 23
+        public static int findIdxByUnderline(string name)
+        {
+            int idx = name.LastIndexOf("_");
+            int ret = 0;
+            if(-1 != idx)
+            {
+                bool bSuccess = Int32.TryParse(name.Substring(idx + 1, name.Length - 1 - idx), out ret);
+            }
+
+            return ret;
         }
     }
 }

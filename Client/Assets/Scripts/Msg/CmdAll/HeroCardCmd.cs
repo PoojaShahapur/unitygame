@@ -1187,6 +1187,7 @@ namespace Game.Msg
         public uint dwAttThisID;
         public uint dwDefThisID;
         public uint dwMagicType;	//技能ID
+        public byte flag;      //1,手动释放;0,触发的效果
 
         public stCardAttackMagicUserCmd()
         {
@@ -1200,6 +1201,7 @@ namespace Game.Msg
             ba.writeUnsignedInt32(dwAttThisID);
             ba.writeUnsignedInt32(dwDefThisID);
             ba.writeUnsignedInt32(dwMagicType);
+            ba.writeUnsignedInt8(flag);
         }
     }
 

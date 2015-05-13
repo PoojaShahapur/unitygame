@@ -15,12 +15,12 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
         // 关联窗口
-        protected void getWidget()
+        protected void findWidget()
         {
             
         }
@@ -42,7 +42,8 @@ namespace Game.UI
         protected void onBtnClkOk2()
         {
             //testClostAudio();
-            sendMsg();
+            //sendMsg();
+            testLoadSceneUI();
         }
 
         protected void testUIInfo()
@@ -72,6 +73,11 @@ namespace Game.UI
         protected void testLoadMapCfg()
         {
             Ctx.m_instance.m_mapCfg.getXmlItem(1);
+        }
+
+        protected void testLoadSceneUI()
+        {
+            Ctx.m_instance.m_uiMgr.loadForm<UIJobSelect>(UIFormID.UIJobSelect);
         }
 
         protected void sendMsg()

@@ -10,13 +10,13 @@ namespace Game.UI
      */
     public class UISceneMain : SceneForm
     {
-        protected btn[] m_btnArr = new btn[(int)SceneMainBtnEnum.eBtnTotal];
+        protected SceneBtnBase[] m_btnArr = new SceneBtnBase[(int)SceneMainBtnEnum.eBtnTotal];
 
         public override void onReady()
         {
             base.onReady();
 
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
@@ -31,24 +31,24 @@ namespace Game.UI
         }
 
         // 获取控件
-        protected void getWidget()
+        protected void findWidget()
         {
-            m_btnArr[(int)SceneMainBtnEnum.eBtnShop] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnShop] = new SceneBtnBase();
             //m_btnArr[(int)SceneMainBtnEnum.eBtnShop].setGameObject(UtilApi.GoFindChildByPObjAndName("open/shopbtn"));
 
-            m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack] = new SceneBtnBase();
             m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack].setGameObject(UtilApi.GoFindChildByPObjAndName("box/drawer/openbtn"));
 
-            m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack] = new SceneBtnBase();
             m_btnArr[(int)SceneMainBtnEnum.eBtnExtPack].setGameObject(UtilApi.GoFindChildByPObjAndName("box/drawer/wdscbtn"));
 
-            m_btnArr[(int)SceneMainBtnEnum.eBtnDuiZhan] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnDuiZhan] = new SceneBtnBase();
             m_btnArr[(int)SceneMainBtnEnum.eBtnDuiZhan].setGameObject(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"));
 
-            m_btnArr[(int)SceneMainBtnEnum.eBtnLianXi] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnLianXi] = new SceneBtnBase();
             m_btnArr[(int)SceneMainBtnEnum.eBtnLianXi].setGameObject(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"));
 
-            m_btnArr[(int)SceneMainBtnEnum.eBtnJingJi] = new btn();
+            m_btnArr[(int)SceneMainBtnEnum.eBtnJingJi] = new SceneBtnBase();
             m_btnArr[(int)SceneMainBtnEnum.eBtnJingJi].setGameObject(UtilApi.GoFindChildByPObjAndName("box/rightdoor/yuanpan/dzmoshibtn"));
         }
 

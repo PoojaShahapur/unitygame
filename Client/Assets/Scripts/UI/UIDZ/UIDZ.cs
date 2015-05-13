@@ -18,11 +18,11 @@ namespace Game.UI
 
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
-        protected void getWidget()
+        protected void findWidget()
         {
             m_dzData.m_lblArr[(int)EnDZLbl.eLblSelfName] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, DZComPath.SelfName);
             m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, DZComPath.EnemyName);

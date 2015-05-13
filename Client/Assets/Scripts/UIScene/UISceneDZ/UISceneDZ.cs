@@ -28,7 +28,7 @@ namespace Game.UI
             m_sceneDZData.m_gameRunState = new GameRunState(m_sceneDZData);
 
             //Ctx.m_instance.m_camSys.m_dzcam.setGameObject(UtilApi.GoFindChildByPObjAndName("Main Camera"));
-            getWidget();
+            findWidget();
             addEventHandle();
 
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf] = new SelfDZArea(m_sceneDZData, EnDZPlayer.ePlayerSelf);
@@ -62,7 +62,7 @@ namespace Game.UI
         }
 
         // 获取控件
-        public void getWidget()
+        public void findWidget()
         {
             //GameObject[] goList = UtilApi.FindGameObjectsWithTag("aaaa");
             m_sceneDZData.m_dzturn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));

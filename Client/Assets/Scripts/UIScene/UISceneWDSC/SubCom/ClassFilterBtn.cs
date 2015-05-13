@@ -12,8 +12,6 @@ namespace Game.UI
     public class ClassFilterBtn : InterActiveEntity
     {
         protected SceneWDSCData m_sceneWDSCData;
-        protected bool m_isUp = false;          // 当前是否在 Up 状态
-        protected EnPlayerCareer m_myClass;     // 当前表示的职业
         protected Vector3 m_lastPostion = new Vector3();    // 保存上一次的位置
 
         public SceneWDSCData sceneWDSCData
@@ -28,52 +26,32 @@ namespace Game.UI
             }
         }
 
-        public EnPlayerCareer myClass
-        {
-            get
-            {
-                return m_myClass;
-            }
-            set
-            {
-                m_myClass = value;
-            }
-        }
-
         // Use this for initialization
         public override void Start()
         {
-            UtilApi.addEventHandle(gameObject, onBtnClk);
+            //UtilApi.addEventHandle(gameObject, onBtnClk);
         }
 
         // 按钮起的动画
         public void btnUpAni()
         {
-            if (m_sceneWDSCData.m_tabBtnIdx == m_tag && !m_isUp)
-            {
-                //up
-                iTween.MoveBy(gameObject, iTween.Hash("amount", Vector3.forward * 0.1f,
-                                                       "space", Space.World,
-                                                       "time", 0.1f));
-                //变大
-                iTween.ScaleBy(gameObject, Vector3.one * 1.2f, 0.1f);
-                m_isUp = true;
-            }
+            //up
+            iTween.MoveBy(gameObject, iTween.Hash("amount", Vector3.forward * 0.1f,
+                                                    "space", Space.World,
+                                                    "time", 0.1f));
+            //变大
+            iTween.ScaleBy(gameObject, Vector3.one * 1.2f, 0.1f);
         }
 
         // 按钮按下的动画
         public void btnDownAni()
         {
-            if (m_sceneWDSCData.m_tabBtnIdx != m_tag && m_isUp)
-            {
-                //down
-                iTween.MoveBy(gameObject, iTween.Hash("amount", Vector3.forward * -0.1f,
-                                                       "space", Space.World,
-                                                       "time", 0.1f));
-                //变 小
-                iTween.ScaleTo(gameObject, Vector3.one * 0.0254f, 0.1f);
-                m_isUp = false;
-            }
+            //down
+            iTween.MoveBy(gameObject, iTween.Hash("amount", Vector3.forward * -0.1f,
+                                                    "space", Space.World,
+                                                    "time", 0.1f));
+            //变 小
+            iTween.ScaleTo(gameObject, Vector3.one * 0.0254f, 0.1f);
         }
 
         protected void onBtnClk(GameObject go)
@@ -83,12 +61,11 @@ namespace Game.UI
 
         protected void OnMouseUpAsButton()
         {
-            if (!m_isUp)
+            if (!m_sceneWDSCData.m_pClassFilterPnl.bCurUpBtn(m_tag))            // 如果已经点击按钮，不要再点击了
             {
-                if (m_myClass < EnPlayerCareer.ePCTotal)
+                if ((EnPlayerCareer)this.tag < EnPlayerCareer.ePCTotal)
                 {
-                    UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
-                    uiSC.onclass(m_myClass);
+                    m_sceneWDSCData.m_pClassFilterPnl.updateByCareer((EnPlayerCareer)this.tag, true);
                 }
             }
         }
@@ -100,29 +77,30 @@ namespace Game.UI
                 return;
             }
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0.05055332f);
-            m_isUp = false;
         }
 
-        public void classFilterHide(EnPlayerCareer c)
+        public void hideClassFilterBtnExceptThis(EnPlayerCareer c)
         {
             m_lastPostion = transform.localPosition;
 
-            if (m_myClass == EnPlayerCareer.HERO_OCCUPATION_NONE)     // 这个是中性职业，必然显示
+            if ((EnPlayerCareer)this.tag == EnPlayerCareer.HERO_OCCUPATION_NONE)     // 这个是中性职业，必然显示
             {
                 gotoTwo();
-                return;
-            }
-            if (m_myClass != c)
-            {
-                cHide();
             }
             else
             {
-                gotoOne();
+                if ((EnPlayerCareer)this.tag != c)      // 如果这个要隐藏
+                {
+                    hideSelf();
+                }
+                else
+                {
+                    gotoOne();
+                }
             }
         }
 
-        protected void cHide()
+        protected void hideSelf()
         {
             transform.Translate(Vector3.forward * 10, Space.World);
         }
@@ -142,9 +120,8 @@ namespace Game.UI
         {
             transform.localPosition = new Vector3(m_lastPostion.x, 0.07995506f, 0.05055332f);
 
-            if (m_sceneWDSCData.m_tabBtnIdx == m_tag)
+            if (m_sceneWDSCData.m_pClassFilterPnl.bCurUpBtn(m_tag))
             {
-                m_isUp = false;
                 OnMouseUpAsButton();
             }
         }

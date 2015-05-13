@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace Game.UI
 {
     /**
-     * @brief 模糊的背景
+     * @brief 测试界面
      */
     public class UITest : Form
     {
@@ -27,7 +27,7 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
@@ -43,7 +43,7 @@ namespace Game.UI
 
         }
 
-        protected void getWidget()
+        protected void findWidget()
         {
             m_logText = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, "LogText");
         }
@@ -92,7 +92,7 @@ namespace Game.UI
 
         protected void testDZCam()
         {
-            Ctx.m_instance.m_camSys.m_dzcam.draw();
+            Ctx.m_instance.m_camSys.m_dzCam.draw();
         }
 
         protected void testGetWidget()
@@ -100,7 +100,7 @@ namespace Game.UI
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             if (uiDZ != null)
             {
-                uiDZ.getWidget();
+                uiDZ.findWidget();
             }
         }
 

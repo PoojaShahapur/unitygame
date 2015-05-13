@@ -1,4 +1,4 @@
-﻿using SDK.Lib;
+using SDK.Lib;
 using System.Collections.Generic;
 using System.Security;
 
@@ -57,6 +57,7 @@ namespace SDK.Common
         public uint m_objid;
         public uint m_num;
         public uint m_price;
+		public uint m_type;
 
         public override void parseXml(SecurityElement xmlelem)
         {
@@ -64,6 +65,7 @@ namespace SDK.Common
             m_objid = UtilApi.getXmlAttrUInt(xmlelem, "objid");
             m_num = UtilApi.getXmlAttrUInt(xmlelem, "num");
             m_price = UtilApi.getXmlAttrUInt(xmlelem, "price");
+			m_type = UtilApi.getXmlAttrUInt(xmlelem,"type");
         }
     }
 }

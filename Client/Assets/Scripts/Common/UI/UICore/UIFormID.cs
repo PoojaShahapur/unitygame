@@ -15,6 +15,7 @@ namespace SDK.Common
         UIChat,             // 聊天窗口
         UIInfo,             // 信息窗口
         UILogicTest,        // 逻辑测试窗口
+        UIJobSelect,        // 职业选择界面
 	}
 
     public enum UILayerID

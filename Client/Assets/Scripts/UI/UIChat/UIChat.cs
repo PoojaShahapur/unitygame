@@ -30,7 +30,7 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
@@ -46,7 +46,7 @@ namespace Game.UI
 
         }
 
-        protected void getWidget()
+        protected void findWidget()
         {
             m_chatData.m_logText = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, CVChat.TextOutput);
             m_chatData.m_inputField = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, CVChat.Input);

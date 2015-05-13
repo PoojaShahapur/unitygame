@@ -90,6 +90,8 @@ namespace SDK.Lib
 
         public void onSceneResLoadded(IDispatchObject resEvt)
         {
+            Ctx.m_instance.m_uiMgr.findSceneUIRootGo();                 // 场景 UI 根节点
+
             //IResItem res = resEvt as IResItem;                         // 类型转换
             if(onSceneLoaded != null)
             {
@@ -98,6 +100,7 @@ namespace SDK.Lib
 
             onSceneLoaded = null;           // 清除所有的监听器
             Ctx.m_instance.m_netDispList.bStopNetHandle = false;        // 加载场景完成需要处理处理消息
+
             Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
         }
 

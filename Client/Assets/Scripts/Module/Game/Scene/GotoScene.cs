@@ -113,7 +113,7 @@ namespace Game.Game
             {
                 if (m_isFirstEnterGame)
                 {
-                    Ctx.m_instance.m_camSys.m_boxcam = new SDK.Lib.boxcam();
+                    Ctx.m_instance.m_camSys.m_boxCam = new SDK.Lib.BoxCam();
 
                     // 卸载登陆模块，关闭登陆界面
                     Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
@@ -127,7 +127,7 @@ namespace Game.Game
 
                 Ctx.m_instance.m_logSys.log("场景加载成功");
                 loadAllUIScene();
-                Ctx.m_instance.m_camSys.m_boxcam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
+                Ctx.m_instance.m_camSys.m_boxCam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
                 Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
 
                 m_isFirstEnterGame = false;
@@ -136,7 +136,7 @@ namespace Game.Game
             {
                 Ctx.m_instance.m_dataPlayer.m_dzData.clear();
                 Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;         // 进入对战就设置这个标示位为可以继续战斗
-                Ctx.m_instance.m_camSys.m_dzcam = new dzcam();
+                Ctx.m_instance.m_camSys.m_dzCam = new DzCam();
 
                 loadAllDZUIScene();
             }

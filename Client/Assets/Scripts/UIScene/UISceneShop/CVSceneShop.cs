@@ -18,4 +18,10 @@
 
         eBtnTotal
     }
+
+	public enum SceneShopCardClassEnum
+	{
+		eBtnClassic,
+		eBtnTotal
+	}
 }

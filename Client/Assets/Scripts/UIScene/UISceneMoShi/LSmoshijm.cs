@@ -130,7 +130,7 @@ namespace Game.UI
             nowMethod = moshijmmethod.dz;
             //Camera.main.SendMessage("push");
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
-            Ctx.m_instance.m_camSys.m_boxcam.push();
+            Ctx.m_instance.m_camSys.m_boxCam.push();
 
             nochoose();
             //bt.text = "选择套牌";
@@ -149,7 +149,7 @@ namespace Game.UI
             nowMethod = moshijmmethod.lx;
             //Camera.main.SendMessage("push");
             //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).push();
-            Ctx.m_instance.m_camSys.m_boxcam.push();
+            Ctx.m_instance.m_camSys.m_boxCam.push();
 
             nochoose();
             //bt.text = "选择套牌";
@@ -208,7 +208,7 @@ namespace Game.UI
                         //Camera.main.SendMessage("back");
                         //iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
                         //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("mcam") as boxcam).back();
-                        Ctx.m_instance.m_camSys.m_boxcam.back();
+                        Ctx.m_instance.m_camSys.m_boxCam.back();
                         iTween.MoveBy(gameObject, iTween.Hash(iT.MoveBy.amount, Vector3.down * 10, iT.MoveBy.time, 0.1f, iT.MoveBy.delay, 1));
                     }
                     break;

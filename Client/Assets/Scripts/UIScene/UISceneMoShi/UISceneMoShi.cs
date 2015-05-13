@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Game.UI
 {
     /**
-     * @brief 模式界面
+     * @brief 模式界面，对战模式界面，职业选择不在这个界面了，在单独的界面 ， m_cardGroupList 这个应该没有用了，这个是职业选择是用的
      */
     public class UISceneMoShi : SceneForm
     {
@@ -22,7 +22,7 @@ namespace Game.UI
         {
             base.onReady();
 
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
@@ -38,7 +38,7 @@ namespace Game.UI
             m_lblTip.text = "";
         }
 
-        protected void getWidget()
+        protected void findWidget()
         {
             m_moshijm.setGameObject(UtilApi.GoFindChildByPObjAndName("moshijm"));
             int idx = 0;
@@ -89,7 +89,7 @@ namespace Game.UI
         protected void addEventHandle()
         {
             UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneMoshiPath.BtnReturn), onBtnClkReturn);   // 返回
-            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneMoshiPath.BtnSelect), onBtnClkSelect);   // 返回
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(SceneMoshiPath.BtnSelect), onBtnClkSelect);   // 选择
         }
 
         protected void onBtnClkReturn(GameObject go)
@@ -105,7 +105,7 @@ namespace Game.UI
             this.bVisible = false;
         }
 
-        public void AddNewTaoPai()
+        public void AddNewCardSet()
         {
             m_moshijm.newset();
         }

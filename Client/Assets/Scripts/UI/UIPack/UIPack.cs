@@ -18,12 +18,12 @@ namespace Game.UI
         {
             base.onReady();
 
-            getWidget();
+            findWidget();
             addEventHandle();
         }
 
         // ¹ØÁª´°¿Ú
-        protected void getWidget()
+        protected void findWidget()
         {
 
         }

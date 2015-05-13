@@ -135,6 +135,11 @@
         CARD_STATE_SHIED    = 5,    //圣盾
         CARD_STATE_SLEEP    = 6,    //冷却
         CARD_STATE_FREEZE   = 7,    //冻结
+        CARD_STATE_A1H11,
+        CARD_STATE_A1H12,
+        CARD_STATE_A1H13,
+        CARD_STATE_A1H14,
+        CARD_STATE_A1H15,
 
         CARD_STATE_MAX,
     }

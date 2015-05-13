@@ -30,7 +30,7 @@ namespace Game.UI
         Vector3 originaLposition;
         void OnMouseDown()
         {
-            if (!ismine && !dzcam.ismyturn) //不是我的,和不是我的回合
+            if (!ismine && !DzCam.ismyturn) //不是我的,和不是我的回合
             {
                 return;
             }
@@ -59,7 +59,7 @@ namespace Game.UI
 
         void OnMouseUp()
         {
-            if (!iscanattack && !dzcam.ismyturn)
+            if (!iscanattack && !DzCam.ismyturn)
             {
                 //不能攻击
                 return;
@@ -80,8 +80,7 @@ namespace Game.UI
                 CanNotAttack();
                 Attack();
                 //让对方计算
-                //Camera.main.SendMessage("attack");
-                Ctx.m_instance.m_camSys.m_dzcam.attack();
+                Ctx.m_instance.m_camSys.m_dzCam.attack();
             }
         }
 
@@ -244,14 +243,12 @@ namespace Game.UI
                     if (name == "hero")
                     {
                         //失败
-                        //Camera.main.SendMessage("defeat");
-                        Ctx.m_instance.m_camSys.m_dzcam.defeat();
+                        Ctx.m_instance.m_camSys.m_dzCam.defeat();
                     }
                     else
                     {
                         //胜利
-                        //Camera.main.SendMessage("victory");
-                        Ctx.m_instance.m_camSys.m_dzcam.victory();
+                        Ctx.m_instance.m_camSys.m_dzCam.victory();
                     }
                 }
                 UtilApi.Destroy(gameObject);
@@ -286,8 +283,8 @@ namespace Game.UI
 
         void getGameID()
         {
-            gameID = dzcam.GameIdcount;
-            dzcam.GameIdcount++;
+            gameID = DzCam.GameIdcount;
+            DzCam.GameIdcount++;
         }
 
         void setGameID(int id)
