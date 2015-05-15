@@ -883,6 +883,38 @@ namespace Game.Msg
     //BYTE change;	//从低位到高位,1表示替换该位置的牌
     //};
 
+    public class stRenameCardGroupUserCmd : stHeroCardCmd
+    {
+        public uint index;
+        public string name;
+
+        public stRenameCardGroupUserCmd()
+        {
+            byParam = RENAME_CARD_GROUP_USERCMD_PARAMETER;
+        }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+
+            ba.readUnsignedInt32(ref index);
+            ba.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+        }
+    }
+
+    //const BYTE RENAME_CARD_GROUP_USERCMD_PARAMETER = 29; 
+    //struct stRenameCardGroupUserCmd : public stHeroCardCmd
+    //{   
+    //    stRenameCardGroupUserCmd()
+    //    {   
+    //        byParam = RENAME_CARD_GROUP_USERCMD_PARAMETER;
+    //        index = 0;
+    //        memset(name, 0, (MAX_NAMESIZE+1)*sizeof(char));
+    //    }   
+    //    DWORD index;
+    //    char name[MAX_NAMESIZE+1];
+    //};  
+
     //public class stMoveGameCardUserCmd : stHeroCardCmd
     //{
     //    public uint qwThisID;		    //卡牌thisID

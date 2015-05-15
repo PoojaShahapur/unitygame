@@ -36,8 +36,6 @@ namespace SDK.Common
 
         public DataCard()
         {
-            //registerCardAttr();
-
             int idx = 0;
             while(idx < (int)EnPlayerCareer.ePCTotal)
             {
@@ -67,36 +65,6 @@ namespace SDK.Common
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_cardClass = EnPlayerCareer.HERO_OCCUPATION_3;
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_path = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "skin/", "classfs_1");
             m_id2CardGroupMatAttrDic[(int)EnPlayerCareer.HERO_OCCUPATION_3].m_logoPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial], "fs");
-
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin] = new CardGroupAttrMatItem();
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_cardClass = CardClass.kpaladin;
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_prefabName = "classsq";
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpaladin].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kdruid].m_prefabName;
-
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest] = new CardGroupAttrMatItem();
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_cardClass = CardClass.kpriest;
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_prefabName = "classms";
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kpriest].m_prefabName;
-
-            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue] = new CardGroupAttrMatItem();
-            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue].m_cardClass = CardClass.krogue;
-            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue].m_prefabName = "classdz";
-            //m_id2CardGroupMatAttrDic[(int)CardClass.krogue].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kdruid].m_prefabName;
-
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama] = new CardGroupAttrMatItem();
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_cardClass = CardClass.kshama;
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_prefabName = "classsm";
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kshama].m_prefabName;
-
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock] = new CardGroupAttrMatItem();
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_cardClass = CardClass.kwarlock;
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_prefabName = "classss";
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kwarlock].m_prefabName;
-
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior] = new CardGroupAttrMatItem();
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_cardClass = CardClass.kwarrior;
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName = "classzs";
-            //m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathMaterial] + "skin/" + m_id2CardGroupMatAttrDic[(int)CardClass.kwarrior].m_prefabName;
 
             m_cardGroupModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cardset.prefab");
             m_groupCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "setcard.prefab");
@@ -205,13 +173,18 @@ namespace SDK.Common
         public void psstRetCardGroupListInfoUserCmd(List<t_group_list> info)
         {
             CardGroupItem item;
+            TableItemBase tableItem;
             foreach (var itemlist in info)
             {
-                item = new CardGroupItem();
-                item.m_cardGroup = itemlist;
-
-                m_cardGroupListArr.Add(item);
-                m_id2CardGroupDic[item.m_cardGroup.index] = item;
+                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, itemlist.index);
+                if(tableItem != null)
+                {
+                    item = new CardGroupItem();
+                    item.m_cardGroup = itemlist;
+                    item.m_tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
+                    m_cardGroupListArr.Add(item);
+                    m_id2CardGroupDic[item.m_cardGroup.index] = item;
+                }
             }
         }
 
@@ -225,14 +198,19 @@ namespace SDK.Common
 
         public void psstRetCreateOneCardGroupUserCmd(stRetCreateOneCardGroupUserCmd msg)
         {
-            CardGroupItem item = new CardGroupItem();
-            item.m_cardGroup = new t_group_list();
-            item.m_cardGroup.occupation = msg.occupation;
-            item.m_cardGroup.index = msg.index;
-            item.m_cardGroup.name = msg.name;
-
-            m_cardGroupListArr.Add(item);
-            m_id2CardGroupDic[item.m_cardGroup.index] = item;
+            TableItemBase tableItem;
+            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, msg.index);
+            if (tableItem != null)
+            {
+                CardGroupItem item = new CardGroupItem();
+                item.m_cardGroup = new t_group_list();
+                item.m_cardGroup.occupation = msg.occupation;
+                item.m_cardGroup.index = msg.index;
+                item.m_cardGroup.name = msg.name;
+                item.m_tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
+                m_cardGroupListArr.Add(item);
+                m_id2CardGroupDic[item.m_cardGroup.index] = item;
+            }
         }
 
         public void psstRetDeleteOneCardGroupUserCmd(uint index)

@@ -63,7 +63,7 @@ namespace Game.UI
                             param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem0);
                             param.m_btnClkDisp = onInfoBoxBtnClk;
                             param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem1);
-                            param.m_formID = UIFormID.UIInfo;     // 这里提示使用这个 id
+                            param.m_formID = UIFormID.eUIInfo;     // 这里提示使用这个 id
                             UIInfo.showMsg(param);
                         }
                     }

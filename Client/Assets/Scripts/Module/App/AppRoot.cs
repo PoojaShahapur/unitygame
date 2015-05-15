@@ -164,9 +164,6 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICanvas] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UICanvas);
         UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICanvas]);
 
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISceneCanvas] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UISceneCanvas);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISceneCanvas]);
-
         Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UICamera);
         UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera]);
 

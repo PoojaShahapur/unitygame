@@ -198,6 +198,13 @@ namespace SDK.Common
             child.transform.SetParent(parent.transform, worldPositionStays);
         }
 
+        public static void copyTransform(Transform src, Transform dest)
+        {
+            dest.localPosition = src.localPosition;
+            dest.localRotation = src.localRotation;
+            dest.localScale = src.localScale;
+        }
+
         static public bool getXmlAttrBool(SecurityElement attr, string name)
         {
             if (attr != null)

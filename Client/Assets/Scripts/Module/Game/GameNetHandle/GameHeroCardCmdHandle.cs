@@ -66,7 +66,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstNotifyAllCardTujianInfoCmd(cmd.info);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstNotifyAllCardTujianInfoCmd();
@@ -83,7 +83,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstNotifyOneCardTujianInfoCmd(cmd.id, cmd.num);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstNotifyOneCardTujianInfoCmd(cmd.id, cmd.num, !bhas);
@@ -113,7 +113,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCardGroupListInfoUserCmd(cmd.info);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if(uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetCardGroupListInfoUserCmd();
@@ -133,7 +133,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetOneCardGroupInfoUserCmd(cmd);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if(uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetOneCardGroupInfoUserCmd(cmd.index, cmd.id);
@@ -149,7 +149,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCreateOneCardGroupUserCmd(cmd);
             // 更新界面
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetCreateOneCardGroupUserCmd(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[cmd.index]);
@@ -166,7 +166,7 @@ namespace Game.Game
                 // 更新数据
                 Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetDeleteOneCardGroupUserCmd(cmd.index);
                 // 更新界面
-                UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+                UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
                 if (uiSC != null && uiSC.isVisible())
                 {
                     uiSC.psstRetDeleteOneCardGroupUserCmd(cmd.index);
@@ -181,7 +181,7 @@ namespace Game.Game
 
             if(cmd.success > 0)
             {
-                UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
+                UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
                 if (uiSC != null && uiSC.isVisible())
                 {
                     uiSC.psstRetSaveOneCardGroupUserCmd(cmd.index);
@@ -351,7 +351,7 @@ namespace Game.Game
                 uiSceneDZ.psstNotifyFightEnemyInfoUserCmd(cmd);
             }
 
-            UIDZ uiDZ = Ctx.m_instance.m_uiMgr.getForm<UIDZ>(UIFormID.UIDZ);
+            UIDZ uiDZ = Ctx.m_instance.m_uiMgr.getForm<UIDZ>(UIFormID.eUIDZ);
             if (uiDZ != null)
             {
                 uiDZ.psstNotifyFightEnemyInfoUserCmd();

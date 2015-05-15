@@ -128,8 +128,11 @@ namespace SDK.Common
             if (win != null)
             {
                 // 清理列表
-                UILayer layer = win.uiLayer;
-                layer.winDic.Remove(ID);
+                if (m_UIAttrs.m_dicAttr[ID] is UIAttrItem)
+                {
+                    UILayer layer = win.uiLayer;
+                    layer.winDic.Remove(ID);
+                }
                 // 释放界面资源
                 win.onExit();
                 UtilApi.Destroy(win.m_GUIWin.m_uiRoot);
@@ -337,10 +340,7 @@ namespace SDK.Common
             {
                 UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_vecLayer[(int)(attrItem as UIAttrItem).m_LayerID].layerTrans, false);
             }
-            else
-            {
-                UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISceneCanvas].transform, false);
-            }
+
             // 先设置再设置缩放，否则无效
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
             UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件

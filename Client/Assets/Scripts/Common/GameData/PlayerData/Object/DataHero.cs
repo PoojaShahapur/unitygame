@@ -51,5 +51,18 @@ namespace SDK.Common
                 m_id2HeroDic[info.occupation].m_svrHero.copyFrom(info);
             }
         }
+
+        public HeroItem getJobInfo(int id)
+        {
+            foreach (var item in m_heroList)
+            {
+                if(item.m_svrHero.occupation == id)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
     }
 }

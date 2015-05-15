@@ -1,6 +1,6 @@
 ﻿namespace Game.UI
 {
-    public class HistoryTipsCard : LSBehaviour
+    public class HistoryTipsCard : SceneComponent
     {
     }
 }

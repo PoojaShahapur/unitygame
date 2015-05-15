@@ -63,6 +63,7 @@ namespace SDK.Common
         public MaterialMgr m_matMgr = new MaterialMgr();
         public ModelMgr m_modelMgr = new ModelMgr();
         public TextureMgr m_texMgr = new TextureMgr();
+        public UIPrefabMgr m_uiPrefabMgr = new UIPrefabMgr();
 
         public SystemSetting m_systemSetting = new SystemSetting();
         public CoordConv m_coordConv = new CoordConv();

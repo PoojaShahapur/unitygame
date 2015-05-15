@@ -5,17 +5,24 @@ namespace SDK.Common
 	 */
 	public enum UIFormID
 	{
-		UIPack,             // 背包界面
-        UILogin,            // 登陆界面
-        UIHeroSelect,       // 角色选择界面界面
-        UIBlurBg,           // 模糊背景界面
-        UITest,             // 测试界面
-        UIDZ,               // 对战界面
-        UIExtraOp,          // 操作界面
-        UIChat,             // 聊天窗口
-        UIInfo,             // 信息窗口
-        UILogicTest,        // 逻辑测试窗口
-        UIJobSelect,        // 职业选择界面
+        // 第二层
+		eUIPack,             // 背包界面
+        eUILogin,            // 登陆界面
+        eUIHeroSelect,       // 角色选择界面界面
+        eUIBlurBg,           // 模糊背景界面
+        eUITest,             // 测试界面
+        eUIDZ,               // 对战界面
+        eUIExtraOp,          // 操作界面
+        eUIChat,             // 聊天窗口
+        
+        eUIJobSelect,        // 职业选择界面
+        eUITuJian,           // 图鉴选择界面
+
+        // 第四层
+        eUIInfo,             // 信息窗口
+
+        // 顶层
+        eUILogicTest,        // 逻辑测试窗口
 	}
 
     public enum UILayerID

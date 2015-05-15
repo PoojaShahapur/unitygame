@@ -49,7 +49,8 @@ namespace SDK.Common
         public int m_faShu;         // 法术
         public int m_zhanHou;       // 战吼
         public byte m_bNeedFaShuTarget;     // 是否需要法术目标
-        public int m_bNeedZhanHouTarget;     // 战吼需要目标
+        public int m_bNeedZhanHouTarget;    // 战吼需要目标
+        public string m_cardDesc;           // 卡牌描述
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -78,6 +79,7 @@ namespace SDK.Common
             bytes.readInt32(ref m_zhanHou);
             bytes.readUnsignedInt8(ref m_bNeedFaShuTarget);
             bytes.readInt32(ref m_bNeedZhanHouTarget);
+            UtilTable.readString(bytes, ref m_cardDesc);
         }
 
         public string path

@@ -5,7 +5,7 @@ namespace Game.UI
     /**
      * @brief 自己回合提示界面
      */
-    public class SelfTurnTip : LSBehaviour
+    public class SelfTurnTip : SceneComponent
     {
         // 显示自己回合提示
         public void turnBegin()

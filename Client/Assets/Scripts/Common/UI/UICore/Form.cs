@@ -112,20 +112,20 @@ namespace SDK.Common
         // 每一次显示都会调用一次
         virtual public void onShow()
 		{
-            Ctx.m_instance.m_uiMgr.showForm(UIFormID.UIBlurBg);        // 显示模糊背景界面
+            Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
 		    //adjustPosWithAlign();
 		}
 
         // 每一次隐藏都会调用一次
         virtual public void onHide()
 		{
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIBlurBg);
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
 		}
 
         // 每一次关闭都会调用一次
         virtual public void onExit()
 		{
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIBlurBg);
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
 		}
 
         public bool isVisible()

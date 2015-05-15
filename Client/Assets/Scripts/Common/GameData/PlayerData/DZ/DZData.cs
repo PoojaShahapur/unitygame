@@ -164,7 +164,7 @@ namespace SDK.Common
         {
             if (!isHavePrivilege(user.m_side))
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Tips: [PK] 不是你的回合 你点个毛线");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Tips: [PK] 不是你的回合 你点个毛线");
                 return false;
             }
 
@@ -192,44 +192,44 @@ namespace SDK.Common
             }
             if (pAtt == pDef)
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  怎么能自己打自己");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  怎么能自己打自己");
                 return false;
             }
             if (pAtt.m_playerFlag == pDef.m_playerFlag)
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  普通攻击不能攻击自己的牌");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  普通攻击不能攻击自己的牌");
                 return false;
             }
             if (pAtt.isFreeze())
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  你自己处于冻结中无法攻击");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  你自己处于冻结中无法攻击");
                 return false;
             }
             if (!pDef.isHero() && !pDef.isAttend())
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  你所攻击的对象既不是英雄也不是随从");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  你所攻击的对象既不是英雄也不是随从");
                 return false;
             }
             if (!pDef.preAttackMe(pAtt, rev))
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  攻击验证失败");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  攻击验证失败");
                 return false;
             }
             if (!pAtt.hasDamage())
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  你都没有攻击力 不能发起攻击");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  你都没有攻击力 不能发起攻击");
                 return false;
             }
             if (pDef.isSneak())
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  普通攻击不能打到潜行单位");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  普通攻击不能打到潜行单位");
                 return false;
             }
             if (!pDef.isSneak()) //被攻击者隐形情况下,嘲讽无效
             {
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].checkTaunt() && !pDef.hasTaunt())
                 {
-                    Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("普通攻击失败  你得攻击一个具有嘲讽的随从才行");
+                    Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  你得攻击一个具有嘲讽的随从才行");
                     return false;
                 }
             }
@@ -247,22 +247,22 @@ namespace SDK.Common
             }
             if (!pAtt.isMagicCard() && !pAtt.isHeroMagicCard())
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("释放技能失败  技能拥有者既不是法术 也不是英雄能力");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("释放技能失败  技能拥有者既不是法术 也不是英雄能力");
                 return false;
             }
             if (!user.checkMp(pAtt.m_cardTableItem.m_magicConsume))
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg(string.Format("释放技能失败  这个技能需要你有{0}个法力水晶才可以", pAtt.m_cardTableItem.m_magicConsume));
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg(string.Format("释放技能失败  这个技能需要你有{0}个法力水晶才可以", pAtt.m_cardTableItem.m_magicConsume));
                 return false;
             }
             if (pAtt.m_cardTableItem.m_bNeedFaShuTarget > 0 && (rev.dwDefThisID == 0))
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("释放技能失败  这个技能需要你手动选择一个目标");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("释放技能失败  这个技能需要你手动选择一个目标");
                 return false;
             }
             if (pAtt.isHeroMagicCard() && pAtt.checkAttackTimes())
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("释放技能失败  英雄能力每回合只能使用一次");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("释放技能失败  英雄能力每回合只能使用一次");
                 return false;
             }
 

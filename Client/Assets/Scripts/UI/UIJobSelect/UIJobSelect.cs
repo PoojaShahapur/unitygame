@@ -10,25 +10,32 @@ namespace Game.UI
      */
     public class UIJobSelect : Form
     {
-        public Text m_logText;
+        protected JobSelectData m_jobSelectData;
+
+        protected Text m_logText;
 
         public override void onInit()
         {
-            exitMode = false;         // 直接隐藏
+            //exitMode = false;         // 直接隐藏
             //hideOnCreate = true;
             base.onInit();
-        }
-
-        override public void onShow()
-        {
-
         }
         
         // 初始化控件
         override public void onReady()
         {
+            m_jobSelectData = new JobSelectData();      // 最先初始化全局数据
+            m_jobSelectData.m_form = this;
+
             findWidget();
             addEventHandle();
+
+            m_jobSelectData.init();
+        }
+
+        override public void onShow()
+        {
+
         }
 
         // 每一次隐藏都会调用一次
@@ -45,12 +52,12 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            //m_logText = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, "LogText");
+            m_jobSelectData.findWidget();
         }
 
         protected void addEventHandle()
         {
-            //UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnTest", onBtnClkTest);
+            m_jobSelectData.addEventHandle();
         }
 
         protected void onBtnClkTest()

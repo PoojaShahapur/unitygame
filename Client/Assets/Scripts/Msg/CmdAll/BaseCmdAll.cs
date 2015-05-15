@@ -64,7 +64,7 @@ namespace Game.Msg
         public const byte ADD_BATTLE_CARD_PROPERTY_CMD = 26;
         public const byte NOTIFY_FIGHT_ENEMY_INFO_CMD = 27;
         public const byte REQ_FIGHT_PREPARE_OVER_CMD = 28;
-        //public const byte MOVE_CARD_USERCMD_PARAMETER = 29;
+        public const byte RENAME_CARD_GROUP_USERCMD_PARAMETER = 29;
         public const byte RET_FIRST_HAND_CARD_CMD = 30;
 
         public const byte RET_MOVE_CARD_USERCMD_PARAMETER = 31;

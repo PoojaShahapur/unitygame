@@ -31,7 +31,7 @@ namespace Game.Login
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_loginRouteCB);
 
             // 加载测试界面
-            Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
+            //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
         }
 
         // 加载登陆常见
@@ -45,7 +45,7 @@ namespace Game.Login
             Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Login);
             Ctx.m_instance.m_logSys.log("加载场景");
             // 加载登陆界面
-            Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.UILogin);
+            Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.eUILogin);
         }
 
         public void connectLoginServer(string name, string passwd)

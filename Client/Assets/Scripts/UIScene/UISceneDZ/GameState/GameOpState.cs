@@ -162,7 +162,7 @@ namespace Game.UI
 
             if(ret)
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 普通攻击验证通过");
+                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 普通攻击验证通过");
             }
 
             return ret;
@@ -193,7 +193,7 @@ namespace Game.UI
                     {
                         if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
+                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }
@@ -204,7 +204,7 @@ namespace Game.UI
                     {
                         if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
+                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }
@@ -215,7 +215,7 @@ namespace Game.UI
                     {
                         if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
+                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }
@@ -226,7 +226,7 @@ namespace Game.UI
                     {
                         if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.UIChat).outMsg("Client 法术攻击验证通过");
+                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }

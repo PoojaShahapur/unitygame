@@ -77,7 +77,7 @@ namespace Game.UI
 
         protected void testLoadSceneUI()
         {
-            Ctx.m_instance.m_uiMgr.loadForm<UIJobSelect>(UIFormID.UIJobSelect);
+            Ctx.m_instance.m_uiMgr.loadForm<UIJobSelect>(UIFormID.eUIJobSelect);
         }
 
         protected void sendMsg()

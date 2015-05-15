@@ -14,14 +14,14 @@ namespace SDK.Common
      */
     public class InfoBoxParam : IRecycle
     {
-        public UIFormID m_formID = UIFormID.UIInfo;       // form 的 id
+        public UIFormID m_formID = UIFormID.eUIInfo;       // form 的 id
         public string m_midDesc;        // 中间提示信息
         public string m_btnOkCap;       // OK 按钮标题
         public Action<InfoBoxBtnType> m_btnClkDisp;     // 按钮点击回调
 
         public void resetDefault()
         {
-            m_formID = UIFormID.UIInfo;
+            m_formID = UIFormID.eUIInfo;
             m_midDesc = "";
             m_btnOkCap = "";
             m_btnClkDisp = null;

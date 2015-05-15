@@ -72,18 +72,18 @@ namespace Game.Game
 
         protected void loadAllDZUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.UITest);
-            Ctx.m_instance.m_uiMgr.loadForm<UIDZ>(UIFormID.UIDZ);      // 显示对战场景界面
-            Ctx.m_instance.m_uiMgr.loadForm<UIChat>(UIFormID.UIChat);      // 显示聊天
+            Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.eUITest);
+            Ctx.m_instance.m_uiMgr.loadForm<UIDZ>(UIFormID.eUIDZ);      // 显示对战场景界面
+            Ctx.m_instance.m_uiMgr.loadForm<UIChat>(UIFormID.eUIChat);      // 显示聊天
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
         }
 
         protected void unloadDZAllUIScene()
         {
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UITest, true);
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIDZ, true);           // 退出对战场景界面
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIChat, true);         // 退出聊天
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIExtraOp, true);      // 退出选项
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUITest, true);
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIDZ, true);           // 退出对战场景界面
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat, true);         // 退出聊天
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIExtraOp, true);      // 退出选项
             Ctx.m_instance.m_uiSceneMgr.unloadAll();
         }
 
@@ -117,9 +117,9 @@ namespace Game.Game
 
                     // 卸载登陆模块，关闭登陆界面
                     Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
-                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
-                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIHeroSelect);
-                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UIChat);      // 退出聊天
+                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUILogin);
+                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIHeroSelect);
+                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat);      // 退出聊天
 
                     // 请求主角基本数据
                     Ctx.m_instance.m_dataPlayer.reqMainData();

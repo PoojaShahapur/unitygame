@@ -11,8 +11,7 @@
         public const string ND_CV_Game = "Game";
 
         public const string ND_CV_UICanvas = "UICanvas";            // 这个是 UI ，需要屏幕自适应的
-        public const string ND_CV_UISceneCanvas = "UISceneCanvas";  // 这个是场景中的 UI，不进行屏幕自适应，统一缩放 0.00035 ，将屏幕 px 映射到场景空间
-        public const string ND_CV_UICamera = "UICanvas/UICamera";
+        public const string ND_CV_UICamera = "UICamera";
 
         // 界面层，层越小越在最后面显示
         public const string ND_CV_UIBtmLayer = "UICanvas/UIBtmLayer";         // 界面最底层

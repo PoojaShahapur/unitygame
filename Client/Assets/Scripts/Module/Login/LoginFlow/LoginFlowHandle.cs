@@ -189,8 +189,8 @@ namespace Game.Login
             if((byte)ERetResult.LOGIN_RETURN_USERDATANOEXIST == cmd.byReturnCode)           // 没有角色也是从这里建立角色的，其实这个不是个错误
             {
                 // 关闭登陆界面
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.UILogin);
-                Ctx.m_instance.m_uiMgr.loadForm<UIHeroSelect>(UIFormID.UIHeroSelect);
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUILogin);
+                Ctx.m_instance.m_uiMgr.loadForm<UIHeroSelect>(UIFormID.eUIHeroSelect);
             }
             else if((byte)ERetResult.LOGIN_RETURN_IDINUSE == cmd.byReturnCode)              // 账号在使用
             {

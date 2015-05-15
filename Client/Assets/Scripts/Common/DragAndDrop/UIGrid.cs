@@ -11,7 +11,7 @@ using System.Collections.Generic;
 /// If you want the cells to automatically set their scale based on the dimensions of their content, take a look at UITable.
 /// </summary>
 
-public class UIGrid : LSBehaviour
+public class UIGrid : SceneComponent
 {
 	public delegate void OnReposition ();
 

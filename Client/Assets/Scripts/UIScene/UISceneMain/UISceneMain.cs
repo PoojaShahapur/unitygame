@@ -98,23 +98,13 @@ namespace Game.UI
 
         protected void onBtnClkWDSC(GameObject go)
         {
-            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
-
-            UISceneWDSC uiSC = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
-            if (uiSC == null)
-            {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneWDSC>(UISceneFormID.eUISceneWDSC);
-            }
-            uiSC = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneWDSC) as UISceneWDSC;
-
-            //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("wdscjm") as wdscjm).show();
+            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJian>(UIFormID.eUITuJian);
+            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             uiSC.showUI();
         }
 
         protected void onBtnClkDuiZhanMoShi(GameObject go)
         {
-            //(Ctx.m_instance.m_interActiveEntityMgr.getSceneEntity("moshijm") as moshijm).dzmoshi();
-            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
         }
 

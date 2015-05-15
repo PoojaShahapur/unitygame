@@ -7,8 +7,9 @@ namespace SDK.Common
 {
     public class CardGroupItem
     {
-        public bool m_canReqCardPerGroup = true;       // 是否可以请求每一组中卡牌列表
+        public bool m_canReqCardPerGroup = true;        // 是否可以请求每一组中卡牌列表
         public t_group_list m_cardGroup;
+        public TableJobItemBody m_tableJobItemBody;     // 表中的数据
         public List<uint> m_cardList;
 
         public void reqCardList()

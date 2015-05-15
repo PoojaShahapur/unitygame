@@ -15,6 +15,10 @@ namespace SDK.Common
             {
                 return m_pntGo;
             }
+            set
+            {
+                m_pntGo = value;
+            }
         }
 
         public virtual void setPntGo(GameObject go)
