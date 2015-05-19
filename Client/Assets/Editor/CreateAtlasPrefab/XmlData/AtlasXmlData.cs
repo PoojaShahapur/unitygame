@@ -22,7 +22,7 @@ namespace AtlasPrefabSys
             foreach(AtlasXmlPath xmlPath in m_pathList)
             {
                 xmlPath.createDirData();
-
+                xmlPath.createPrefab();
             }
         }
     }

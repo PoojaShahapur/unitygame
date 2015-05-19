@@ -13,8 +13,8 @@ namespace AtlasPrefabSys
 
         public DirData(string path)
         {
-            m_fullDirPath = ExportUtil.getDataPath(m_dirPath);
             m_dirPath = path;
+            m_fullDirPath = ExportUtil.getDataPath(m_dirPath);
             m_filesList = new List<FileData>();
         }
 
