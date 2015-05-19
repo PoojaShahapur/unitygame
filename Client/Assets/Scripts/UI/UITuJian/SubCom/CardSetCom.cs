@@ -49,12 +49,13 @@ namespace Game.UI
             return cardPath;
         }
 
-        public void OnMouseClick(GameObject go)
+        public void OnMouseClick()
         {
-            OnMouseUpAsButton();
+            m_tuJianData.m_wdscCardSetPnl.m_curCardSet = this;
+            m_tuJianData.m_cardSetEditPnl.showCardSetEdit();
         }
 
-        public void OnMouseUpAsButton()
+        public void reqCardListAndStartEdit()
         {
             m_cardGroupItem.reqCardList();
             m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.startEdit(this);
@@ -144,6 +145,13 @@ namespace Game.UI
                 m_cardGroupItem = new CardGroupItem();
             }
             this.m_cardGroupItem.copyFrom(cards.m_cardGroupItem);
+        }
+
+        public void delCardSet()
+        {
+            stReqDeleteOneCardGroupUserCmd cmd = new stReqDeleteOneCardGroupUserCmd();
+            cmd.index = m_cardGroupItem.m_cardGroup.index;
+            UtilMsg.sendMsg(cmd);
         }
     }
 }

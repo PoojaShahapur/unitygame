@@ -15,7 +15,8 @@ namespace Game.UI
     {
         override public void onShow()
         {
-
+            // 加载测试界面
+            //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.eUILogicTest);
         }
 
         // 初始化控件
@@ -87,7 +88,6 @@ namespace Game.UI
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem2); ;
                 Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem2); ;
                 UIInfo.showMsg(param);
                 return false;
             }
@@ -95,7 +95,6 @@ namespace Game.UI
             {
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem0);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
                 return false;
             }
@@ -104,7 +103,6 @@ namespace Game.UI
             {
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem3);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
                 return false;
             }
@@ -112,7 +110,6 @@ namespace Game.UI
             {
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem1);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
                 return false;
             }

@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+	<path inpath="Res/Image/UI/Common" outpath="Prefabs/Resources/Atlas/Common.prefab" />
+</Root>

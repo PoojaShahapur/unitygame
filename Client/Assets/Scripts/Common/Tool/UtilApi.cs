@@ -1,6 +1,7 @@
 ﻿using SDK.Lib;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using UnityEngine;
@@ -169,6 +170,21 @@ namespace SDK.Common
             tran.localRotation = Quaternion.Euler(Vector3.zero);
         }
 
+        public static void setRot(Transform tran, Vector3 rot)
+        {
+            tran.localEulerAngles = rot;
+        }
+
+        public static void setScale(Transform tran, Vector3 scale)
+        {
+            tran.localScale = scale;
+        }
+
+        public static void setPos(Transform tran, Vector3 pos)
+        {
+            tran.localPosition = pos;
+        }
+
         // 卸载内部 Resources 管理的共享的那块资源，注意这个是异步事件
         public static AsyncOperation UnloadUnusedAssets()
         {
@@ -203,6 +219,38 @@ namespace SDK.Common
             dest.localPosition = src.localPosition;
             dest.localRotation = src.localRotation;
             dest.localScale = src.localScale;
+        }
+
+        // 是否包括 child 
+        public static void setLayer(GameObject go_, string layerName, bool bIncludeChild = true)
+        {
+            // 深度优先设置
+            // 设置自己
+            go_.layer = LayerMask.NameToLayer(layerName);
+
+            int childCount = go_.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                childTrans = go_.transform.GetChild(idx);
+                UtilApi.setLayer(childTrans.gameObject, layerName, bIncludeChild);
+            }
+        }
+
+        public static void setGOName(GameObject go_, string name)
+        {
+            go_.name = name;
+        }
+
+        public static void SetNativeSize(Image image)
+        {
+            image.SetNativeSize();
+        }
+
+        public static void setImageType(Image image, Image.Type type)
+        {
+            image.type = type;
         }
 
         static public bool getXmlAttrBool(SecurityElement attr, string name)
@@ -333,151 +381,133 @@ namespace SDK.Common
         public static void updateCardDataNoChange(TableCardItemBody cardTableItem, GameObject gameObject)
         {
             Text text;
-            text = UtilApi.getComByP<Text>(gameObject, "name/Text");         // 名字
+            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/NameText");         // 名字
             text.text = cardTableItem.m_name;
 
-            text = UtilApi.getComByP<Text>(gameObject, "description/Text");  // 描述
-            string desc = "";
-            if (cardTableItem.m_chaoFeng == 1)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.ChaoFeng;
-            }
-            if (cardTableItem.m_chongFeng == 1)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.ChongFeng;
-            }
-            if (cardTableItem.m_fengNu == 1)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.FengNu;
-            }
-            if (cardTableItem.m_qianXing == 1)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.QianXing;
-            }
-            if (cardTableItem.m_shengDun == 1)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.ShengDun;
-            }
-
-            if (cardTableItem.m_magicConsume > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.MoFaXiaoHao;
-            }
-            if (cardTableItem.m_attack > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.GongJiLi;
-            }
-            if (cardTableItem.m_hp > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.Xueliang;
-            }
-            if (cardTableItem.m_Durable > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.NaiJiu;
-            }
-            if (cardTableItem.m_mpAdded > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.FaShuShangHai;
-            }
-            if (cardTableItem.m_guoZai > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                desc += TableCardAttrName.GuoZai;
-            }
-
-            TableSkillItemBody tableSkillItem;
-            // 技能
-            if (cardTableItem.m_faShu > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_faShu).m_itemBody as TableSkillItemBody;
-                desc += tableSkillItem.m_desc;
-            }
-            if (cardTableItem.m_zhanHou > 0)
-            {
-                if (desc.Length > 0)
-                {
-                    desc += "\n";
-                }
-                tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_zhanHou).m_itemBody as TableSkillItemBody;
-                desc += tableSkillItem.m_desc;
-            }
-            //if (cardTableItem.m_wangYu > 0)
+            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/DescText");  // 描述
+            //string desc = "";
+            //if (cardTableItem.m_chaoFeng == 1)
             //{
             //    if (desc.Length > 0)
             //    {
             //        desc += "\n";
             //    }
-            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_wangYu).m_itemBody as TableSkillItemBody;
-            //    desc += tableSkillItem.m_desc;
+            //    desc += TableCardAttrName.ChaoFeng;
             //}
-            //if (cardTableItem.m_jiNu > 0)
+            //if (cardTableItem.m_chongFeng == 1)
             //{
             //    if (desc.Length > 0)
             //    {
             //        desc += "\n";
             //    }
-            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_jiNu).m_itemBody as TableSkillItemBody;
+            //    desc += TableCardAttrName.ChongFeng;
+            //}
+            //if (cardTableItem.m_fengNu == 1)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.FengNu;
+            //}
+            //if (cardTableItem.m_qianXing == 1)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.QianXing;
+            //}
+            //if (cardTableItem.m_shengDun == 1)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.ShengDun;
+            //}
+
+            //if (cardTableItem.m_magicConsume > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.MoFaXiaoHao;
+            //}
+            //if (cardTableItem.m_attack > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.GongJiLi;
+            //}
+            //if (cardTableItem.m_hp > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.Xueliang;
+            //}
+            //if (cardTableItem.m_Durable > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.NaiJiu;
+            //}
+            //if (cardTableItem.m_mpAdded > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.FaShuShangHai;
+            //}
+            //if (cardTableItem.m_guoZai > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    desc += TableCardAttrName.GuoZai;
+            //}
+
+            //TableSkillItemBody tableSkillItem;
+            //// 技能
+            //if (cardTableItem.m_faShu > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_faShu).m_itemBody as TableSkillItemBody;
+            //    desc += tableSkillItem.m_desc;
+            //}
+            //if (cardTableItem.m_zhanHou > 0)
+            //{
+            //    if (desc.Length > 0)
+            //    {
+            //        desc += "\n";
+            //    }
+            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_zhanHou).m_itemBody as TableSkillItemBody;
             //    desc += tableSkillItem.m_desc;
             //}
 
-            text.text = desc;
+            text.text = cardTableItem.m_cardDesc;
         }
 
         public static void updateCardDataChange(TableCardItemBody cardTableItem, GameObject gameObject)
         {
             Text text;
-            text = UtilApi.getComByP<Text>(gameObject, "attack/Text");       // 攻击
+            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/AttText");       // 攻击
             text.text = cardTableItem.m_attack.ToString();
-            text = UtilApi.getComByP<Text>(gameObject, "cost/Text");         // Magic
+            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/MpText");         // Magic
             text.text = cardTableItem.m_magicConsume.ToString();
-            text = UtilApi.getComByP<Text>(gameObject, "health/Text");       // HP
+            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/HpText");       // HP
             text.text = cardTableItem.m_hp.ToString();
         }
 
@@ -776,6 +806,11 @@ namespace SDK.Common
             }
 
             return ret;
+        }
+
+        public static string getImageByPinZhi(int pinzhi)
+        {
+            return "ccc";
         }
     }
 }

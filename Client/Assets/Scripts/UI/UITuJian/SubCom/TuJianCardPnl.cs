@@ -29,6 +29,8 @@ namespace Game.UI
         public int m_filterMp = 8;          // 过滤的 Mp 值
         public Text m_textPageNum;
 
+        protected GameObject m_cardGo;
+
         protected Button[] m_btnArr = new Button[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
 
         public TuJianCardPnl(TuJianData data) :
@@ -45,6 +47,12 @@ namespace Game.UI
             {
                 m_filterCardListArr[idx] = new List<CardItemBase>();
             }
+
+            m_cardGo = new GameObject();
+            UtilApi.SetParent(m_cardGo, Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel], false);
+            UtilApi.setGOName(m_cardGo, "CardListGo");
+            UtilApi.setPos(m_cardGo.transform, new Vector3(0.64f, -1, 89.71f));
+            UtilApi.setRot(m_cardGo.transform, new Vector3(90, 180, 0));
         }
 
         public int filterMp
@@ -61,6 +69,12 @@ namespace Game.UI
             }
         }
 
+        public void dispose()
+        {
+            destroyCrad();
+            UtilApi.Destroy(m_cardGo);
+        }
+
         public new void findWidget()
         {
             m_tuJianData.m_onClkCard = onClkCard;
@@ -68,9 +82,9 @@ namespace Game.UI
             m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnPrePage);
             m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
 
-            m_CardList.setGameObject(UtilApi.GoFindChildByPObjAndName(TuJianPath.MidCardListGo));
-            m_CardList.cellWidth = 1.2f;
-            m_CardList.cellHeight = 1.7f;
+            m_CardList.setGameObject(m_cardGo);
+            m_CardList.cellWidth = 0.6f;
+            m_CardList.cellHeight = 1.0f;
             m_CardList.maxPerLine = (int)TuJianCardNumPerPage.eCol;
 
             // 当前页号
@@ -88,11 +102,16 @@ namespace Game.UI
         /// </summary>
         protected void destroyCrad()
         {
-            GameObject go;
-            for (int i = m_CardList.getChildCount() - 1; i >= 0; i--)
+            //GameObject go;
+            //for (int i = m_CardList.getChildCount() - 1; i >= 0; i--)
+            //{
+            //    go = m_CardList.GetChild(i).gameObject;
+            //    UtilApi.Destroy(go);
+            //}
+
+            foreach (var card in m_SCUICardItemList)
             {
-                go = m_CardList.GetChild(i).gameObject;
-                UtilApi.Destroy(go);
+                card.dispose();
             }
 
             m_SCUICardItemList.Clear();
@@ -108,9 +127,6 @@ namespace Game.UI
 
         protected void updateCardList()
         {
-            GameObject tmpGO;
-            GameObject go;
-
             if (m_filterCardListArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].Count > 0)
             {
                 int idx = 0;
@@ -120,21 +136,12 @@ namespace Game.UI
                 {
                     cardItem = m_filterCardListArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx][m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].m_curPageIdx * (int)TuJianCardNumPerPage.eNum + idx];
 
-                    tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)cardItem.m_tableItemCard.m_type).getObject() as GameObject;
-                    if (tmpGO != null)
-                    {
-                        go = UtilApi.Instantiate(tmpGO) as GameObject;
-                        m_CardList.AddChild(go.transform);
-                        UtilApi.normalPos(go.transform);
-                        uicardItem = new TuJianCardItemCom();
-                        uicardItem.setGameObject(go);
-                        uicardItem.cardItemBase = cardItem;
-                        m_SCUICardItemList.Add(uicardItem);
-                        m_SCUICardItemList[m_SCUICardItemList.Count - 1].m_clkCB = m_tuJianData.m_onClkCard;
+                    uicardItem = new TuJianCardItemCom();
+                    uicardItem.createCard(cardItem);
+                    m_CardList.AddChild(uicardItem.rootGo.transform);
+                    m_SCUICardItemList.Add(uicardItem);
+                    m_SCUICardItemList[m_SCUICardItemList.Count - 1].m_clkCB = m_tuJianData.m_onClkCard;
 
-                        UtilApi.updateCardDataNoChange(cardItem.m_tableItemCard, uicardItem.getGameObject());
-                        UtilApi.updateCardDataChange(cardItem.m_tableItemCard, uicardItem.getGameObject());
-                    }
                     ++idx;
                 }
 

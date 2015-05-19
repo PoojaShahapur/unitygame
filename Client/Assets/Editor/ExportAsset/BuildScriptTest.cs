@@ -51,6 +51,21 @@ public class BuildScriptTest
     public static void BuildSelectAssetBundles()
     {
         string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "unity3d");
+        string fileName = "";
+        string extName = "";
+
+        path = ExportUtil.normalPath(path);
+
+        int lastSlashIdx = 0;
+        int dotIdx = 0;
+
+        lastSlashIdx = path.LastIndexOf("/");
+        dotIdx = path.LastIndexOf(".");
+
+        fileName = path.Substring(lastSlashIdx + 1, dotIdx - lastSlashIdx - 1);
+        extName = path.Substring(dotIdx + 1, path.Length - dotIdx - 1);
+        path = path.Substring(0, lastSlashIdx);
+
         if (path.Length != 0)
         {
             List<string> assetNameList = new List<string>();
@@ -63,8 +78,8 @@ public class BuildScriptTest
             }
 
             AssetBundleBuild[] buildList = new AssetBundleBuild[1];
-            buildList[0].assetBundleName = "Start";
-            buildList[0].assetBundleVariant = "unity3d";
+            buildList[0].assetBundleName = fileName;
+            buildList[0].assetBundleVariant = extName;
             buildList[0].assetNames = assetNameList.ToArray();
             BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
         }

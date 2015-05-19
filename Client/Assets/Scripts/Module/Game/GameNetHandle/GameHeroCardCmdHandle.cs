@@ -96,7 +96,7 @@ namespace Game.Game
             stRetGiftBagCardsDataUserCmd cmd = new stRetGiftBagCardsDataUserCmd();
             cmd.derialize(msg);
 
-            UISceneExtPack uiPack = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneExtPack>(UISceneFormID.eUISceneExtPack);
+            UIOpenPack uiPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
             if(uiPack != null)
             {
                 uiPack.psstRetGiftBagCardsDataUserCmd(cmd.id);
@@ -196,7 +196,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetAllHeroInfoUserCmd(cmd.info);
 
-            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneHero>(UISceneFormID.eUISceneHero);
+            UIHero uiSH = Ctx.m_instance.m_uiMgr.getForm<UIHero>(UIFormID.eUIHero);
             if (uiSH != null && uiSH.isVisible())
             {
                 uiSH.updateAllHero();

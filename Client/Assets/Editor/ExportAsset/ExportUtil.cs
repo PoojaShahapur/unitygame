@@ -434,9 +434,14 @@ namespace EditorTool
         public static void recrueDirs(string rootPath, Action<string> dispFile, Action<string> dispDir)
         {
             // 遍历目录回调
-            dispDir(rootPath);
+            if (dispDir != null)
+            {
+                dispDir(rootPath);
+            }
+
             // 遍历所有文件
             traverseFilesInOneDir(rootPath, dispFile);
+
             // 遍历当前目录下的所有的文件夹
             DirectoryInfo theFolder = new DirectoryInfo(rootPath);
             DirectoryInfo[] dirInfo = theFolder.GetDirectories();

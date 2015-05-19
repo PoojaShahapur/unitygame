@@ -16,6 +16,7 @@ namespace SDK.Common
     public class Config
     {
         public const string StreamingAssets = "StreamingAssets/";
+        public const string UIModelLayer = "UIModel";
 
 #if KOKSERVER_TEST
         public string m_ip = "222.73.30.21";

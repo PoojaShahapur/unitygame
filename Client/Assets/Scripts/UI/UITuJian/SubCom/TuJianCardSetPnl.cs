@@ -35,7 +35,6 @@ namespace Game.UI
         public List<CardSetCom> m_cardSetEntityList = new List<CardSetCom>();      // 当前已经有的卡牌组
 
         public UIGrid m_leftCardList = new UIGrid();            // 左边的卡牌列表
-        //public UIGrid m_leftCardGroupList = new UIGrid();       // 左边的卡牌组列表
         public AuxLayoutH m_cardSetLayoutH;
 
         public WdscmTaoPaiMod m_curTaoPaiMod;          // 当前套牌模式
@@ -44,6 +43,7 @@ namespace Game.UI
         protected Text m_cardSetCardCntText;        // 卡组中卡牌的数量
 
         public GameObject m_topEditCardPosGo;
+        public CardSetCom m_curCardSet;                  // 当前操作的卡组 ID
 
         public TuJianCardSetPnl(TuJianData data) :
             base(data)
@@ -60,11 +60,6 @@ namespace Game.UI
             m_leftCardList.cellHeight = 0.445f;
             m_leftCardList.m_hideZPos = -20f;
             m_leftCardList.hideGrid();              // 默认隐藏
-
-            //m_leftCardGroupList.setGameObject(UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnAddCardSetList));
-            //m_leftCardGroupList.cellWidth = 1.172f;
-            //m_leftCardGroupList.cellHeight = 0.445f;
-            //m_leftCardGroupList.m_hideZPos = -20f;
 
             m_cardSetLayoutH = new AuxLayoutH();
             m_cardSetLayoutH.elemWidth = 285;
@@ -111,7 +106,6 @@ namespace Game.UI
             //可加入卡牌
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Editset;
             UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, false);
-            //m_leftCardGroupList.hideGrid();     // 遍历所有的卡牌集合，进行隐藏\
             m_cardSetLayoutH.hideLayout();
         }
 
@@ -123,7 +117,6 @@ namespace Game.UI
             m_leftCardList.hideGrid();          // 当前卡牌组的卡牌列表隐藏
 
             UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, true);
-            //m_leftCardGroupList.showGrid();     // 显示所有卡牌
             m_cardSetLayoutH.showLayout();
 
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Look;        // 修改卡牌组编辑模式为不可加入卡牌
@@ -273,7 +266,6 @@ namespace Game.UI
         public void newCardSet(CardGroupItem cardSet, bool bEnterEdit = true)
         {
             GameObject go = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(TuJianPath.CardSetPrefabPath).InstantiateObject(TuJianPath.CardSetPrefabPath);
-            //m_leftCardGroupList.AddChild(go.transform);//插入到最后一位
             m_cardSetLayoutH.addElem(go, true);
 
             CardSetCom taopai = new CardSetCom(m_tuJianData);
@@ -291,6 +283,17 @@ namespace Game.UI
             m_curEditCardSet = new CardSetCom(m_tuJianData);
             m_curEditCardSet.setGameObject(go);
             m_curEditCardSet.hideCardSet();
+        }
+
+        // 编辑当前卡牌
+        public void editCurCardSet()
+        {
+            m_curCardSet.reqCardListAndStartEdit();
+        }
+
+        public void delCardSet()
+        {
+            m_curCardSet.delCardSet();
         }
     }
 }

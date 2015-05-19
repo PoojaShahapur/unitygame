@@ -28,7 +28,7 @@ namespace SDK.Common
         // 卡牌组中的卡牌
         public CardGroupModelAttrItem m_groupCardModelAttrItem = new CardGroupModelAttrItem();
         // 场景中的卡牌
-        public CardGroupModelAttrItem[] m_sceneCardModelAttrItemList = new CardGroupModelAttrItem[(int)CardType.eCARDTYPE_Total];
+        public CardModelItem[] m_sceneCardModelAttrItemList = new CardModelItem[(int)CardType.eCARDTYPE_Total];
         // cost 模型
         public CardGroupModelAttrItem m_costModelAttrItem = new CardGroupModelAttrItem();
         public CardGroupModelAttrItem m_enemyCardModelAttrItem = new CardGroupModelAttrItem();
@@ -69,29 +69,61 @@ namespace SDK.Common
             m_cardGroupModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cardset.prefab");
             m_groupCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "setcard.prefab");
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "minioncard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "weaponcard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_pinZhiSubModel = "pinzhi_kapai";
 
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1] = new CardGroupModelAttrItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "abilitycard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1] = new CardModelItem();
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_headerSubModel = "gaibangzhutu_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_frameSubModel = "paidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_yaoDaiSubModel = "mingzidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_pinZhiSubModel = "pinzhi_kapai";
 
             m_costModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cost.prefab");
             m_enemyCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "enemycard.prefab");
@@ -176,7 +208,7 @@ namespace SDK.Common
             TableItemBase tableItem;
             foreach (var itemlist in info)
             {
-                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, itemlist.index);
+                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, itemlist.occupation);
                 if(tableItem != null)
                 {
                     item = new CardGroupItem();
@@ -199,7 +231,7 @@ namespace SDK.Common
         public void psstRetCreateOneCardGroupUserCmd(stRetCreateOneCardGroupUserCmd msg)
         {
             TableItemBase tableItem;
-            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, msg.index);
+            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, msg.occupation);
             if (tableItem != null)
             {
                 CardGroupItem item = new CardGroupItem();

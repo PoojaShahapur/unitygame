@@ -13,6 +13,7 @@ namespace SDK.Lib
         eLogin3,                 // 登陆
         eDZ4,                    // 对战场景提示
         eDebug5,                 // 调试信息
+        eTuJian6,                 // 图鉴
         eLTTotal
     }
 

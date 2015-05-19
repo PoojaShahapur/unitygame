@@ -8,10 +8,21 @@ namespace Game.UI
     /**
      * @brief 收藏界面我的一个卡牌，和卡牌组不同
      */
-    public class TuJianCardItemCom : SceneComponent
+    public class TuJianCardItemCom : SceneCardRes
     {
         public CardItemBase m_cardItemBase; // 卡牌基本数据
         public Action<TuJianCardItemCom> m_clkCB;
+
+        override public void createCard(CardItemBase cardItem)
+        {
+            base.createCard(cardItem);
+
+            UtilApi.setLayer(gameObject, Config.UIModelLayer);
+            UtilApi.setScale(gameObject.transform, new Vector3(0.24f, 1, 0.24f));
+
+            setGameObject(gameObject);
+            this.cardItemBase = cardItem;
+        }
 
         public override void Start()
         {

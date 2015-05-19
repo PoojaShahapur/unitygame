@@ -35,8 +35,8 @@ namespace Game.UI
 
         public void onPnlClk(GameObject go)
         {
-            UISceneHero uiSH = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneHero>(UISceneFormID.eUISceneHero);
-            uiSH.hide();
+            UIHero uiSH = Ctx.m_instance.m_uiMgr.getForm<UIHero>(UIFormID.eUIHero);
+            uiSH.exit();
             hide();
         }
     }

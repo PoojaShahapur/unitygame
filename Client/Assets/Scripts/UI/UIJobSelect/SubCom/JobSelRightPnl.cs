@@ -63,7 +63,6 @@ namespace Game.UI
 
             m_skillName.text = tableJobItemBody.m_skillName;
             m_skillDesc.text = tableJobItemBody.m_skillDesc;
-
         }
     }
 }

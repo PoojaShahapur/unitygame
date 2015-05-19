@@ -2,6 +2,7 @@
 using SDK.Common;
 using SDK.Lib;
 using System.IO;
+using UnityEngine;
 using UnityEngine.UI;
 namespace Game.UI
 {
@@ -36,7 +37,8 @@ namespace Game.UI
         {
             //testUIInfo();
             //testAudio();
-            testLoadMapCfg();
+            //testLoadMapCfg();
+            shareSpriteAtlas();
         }
 
         protected void onBtnClkOk2()
@@ -50,7 +52,6 @@ namespace Game.UI
         {
             InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
             param.m_midDesc = "aaaaaa";
-            param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
             UIInfo.showMsg(param);
         }
 
@@ -86,6 +87,38 @@ namespace Game.UI
             cmd.dwUserID = Ctx.m_instance.m_loginSys.getUserID();
             cmd.loginTempID = Ctx.m_instance.m_pTimerMsgHandle.m_loginTempID;
             UtilMsg.sendMsg(cmd);
+        }
+
+        protected void shareSprite()
+        {
+            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "ShopBtn");
+            GameObject destBtnGo_1 = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "Button_1");
+            GameObject destBtnGo_2 = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "Button_2");
+
+            Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
+            Image destImage_1 = UtilApi.getComByP<Image>(destBtnGo_1);
+            Image destImage_2 = UtilApi.getComByP<Image>(destBtnGo_2);
+
+            destImage_1.sprite = srcImage.sprite;
+            //destImage_1.fillMethod = Image.FillMethod.Horizontal;
+            destImage_1.type = Image.Type.Simple;
+            destImage_1.SetNativeSize();
+
+            destImage_2.sprite = srcImage.sprite;
+            destImage_2.type = Image.Type.Simple;
+            destImage_2.SetNativeSize();
+        }
+
+        protected void shareSpriteAtlas()
+        {
+            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnTest1");
+            Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
+
+            ImageItem image = Ctx.m_instance.m_atlasMgr.getImage("Atlas/Common.prefab", "Common/denglu_srk");
+            srcImage.sprite = image.image.sprite;
+
+            UtilApi.setImageType(srcImage, Image.Type.Simple);
+            UtilApi.SetNativeSize(srcImage);
         }
     }
 }

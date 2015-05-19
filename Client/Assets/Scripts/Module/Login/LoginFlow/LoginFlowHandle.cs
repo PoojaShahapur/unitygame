@@ -203,7 +203,6 @@ namespace Game.Login
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginInfoError);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem16);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_VERSIONERROR == cmd.byReturnCode)        // 版本错误，重新登陆
@@ -211,7 +210,6 @@ namespace Game.Login
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginInfoError);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem17);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else if ((byte)ERetResult.LOGIN_RETURN_CHARNAMEREPEAT == cmd.byReturnCode)       // 建立角色名字重复
@@ -220,7 +218,6 @@ namespace Game.Login
                 Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem14));
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem14);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 用户名字不符合要求
@@ -228,7 +225,6 @@ namespace Game.Login
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginNewCharError);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem19);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 用户满，从登陆服务器开始登陆
@@ -236,7 +232,6 @@ namespace Game.Login
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginFailedGateServer);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem20);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else if((byte)ERetResult.LOGIN_RETURN_CHARNAME_FORBID == cmd.byReturnCode)  // 网关未开，这个不用登了，服务器就没有启动
@@ -244,7 +239,6 @@ namespace Game.Login
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginFailedGateServer);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem21);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else if((byte)ERetResult.LOGIN_RETURN_USERMAX == cmd.byReturnCode)
@@ -252,7 +246,6 @@ namespace Game.Login
                 Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginFailedGateServer);
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem23);
-                param.m_btnOkCap = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
                 UIInfo.showMsg(param);
             }
             else

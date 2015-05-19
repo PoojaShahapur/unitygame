@@ -40,5 +40,11 @@ namespace SDK.Lib
             m_go = null;
             m_retGO = null;
         }
+
+        public T getComByP<T>(string path) where T : Component
+        {
+            T ret = UtilApi.getComByP<T>(m_go);
+            return ret;
+        }
     }
 }

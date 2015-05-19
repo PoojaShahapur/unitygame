@@ -22,5 +22,8 @@
         public const string ND_CV_UITopLayer = "UICanvas/UITopLayer";         // 界面最顶层
 
         public const string ND_CV_EventSystem = "EventSystem";
+
+        public const string ND_CV_UIModel = "UIModel";
+        public const string ND_CV_UILight = "UIModel/DirectionalLight";
     }
 }

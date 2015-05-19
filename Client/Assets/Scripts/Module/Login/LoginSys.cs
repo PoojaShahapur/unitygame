@@ -18,7 +18,8 @@ namespace Game.Login
         {
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.AUTOUPDATEMN);
             initGVar();
-            loadScene();
+            //loadScene();
+            onResLoadScene(null);
         }
 
         public void initGVar()
@@ -29,9 +30,6 @@ namespace Game.Login
             Ctx.m_instance.m_netDispList.addOneDisp(m_loginNetHandleCB);
             m_loginRouteCB = new LoginRouteCB();
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_loginRouteCB);
-
-            // 加载测试界面
-            //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.UILogicTest);
         }
 
         // 加载登陆常见

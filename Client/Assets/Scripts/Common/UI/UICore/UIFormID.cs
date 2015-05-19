@@ -17,6 +17,9 @@ namespace SDK.Common
         
         eUIJobSelect,        // 职业选择界面
         eUITuJian,           // 图鉴选择界面
+        eUIMain,             // 主界面
+        eUIHero,             // 英雄
+        eUIOpenPack,         // 开包
 
         // 第四层
         eUIInfo,             // 信息窗口

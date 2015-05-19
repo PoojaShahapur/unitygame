@@ -1,0 +1,112 @@
+fileFormatVersion: 2
+guid: 9dfe1311495f9c040949104a9baceb32
+timeCreated: 1431943825
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: gaibangzhutu_kapai
+    100004: gongji_kapai
+    100006: menpaidi_kapai
+    100008: miaoshudi_kapai
+    100010: mingzidi_kapai
+    100012: paidi_kapai
+    100014: pinzhi_kapai
+    100016: xue_kapai
+    100018: yun_kapai
+    400000: //RootNode
+    400002: gaibangzhutu_kapai
+    400004: gongji_kapai
+    400006: menpaidi_kapai
+    400008: miaoshudi_kapai
+    400010: mingzidi_kapai
+    400012: paidi_kapai
+    400014: pinzhi_kapai
+    400016: xue_kapai
+    400018: yun_kapai
+    2300000: gaibangzhutu_kapai
+    2300002: gongji_kapai
+    2300004: menpaidi_kapai
+    2300006: miaoshudi_kapai
+    2300008: mingzidi_kapai
+    2300010: paidi_kapai
+    2300012: pinzhi_kapai
+    2300014: xue_kapai
+    2300016: yun_kapai
+    3300000: gaibangzhutu_kapai
+    3300002: gongji_kapai
+    3300004: menpaidi_kapai
+    3300006: miaoshudi_kapai
+    3300008: mingzidi_kapai
+    3300010: paidi_kapai
+    3300012: pinzhi_kapai
+    3300014: xue_kapai
+    3300016: yun_kapai
+    4300000: paidi_kapai
+    4300002: pinzhi_kapai
+    4300004: mingzidi_kapai
+    4300006: miaoshudi_kapai
+    4300008: yun_kapai
+    4300010: gongji_kapai
+    4300012: xue_kapai
+    4300014: gaibangzhutu_kapai
+    4300016: menpaidi_kapai
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

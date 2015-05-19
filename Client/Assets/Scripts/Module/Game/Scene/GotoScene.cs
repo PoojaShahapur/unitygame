@@ -23,7 +23,7 @@ namespace Game.Game
             if (!Ctx.m_instance.m_gameRunStage.isCurInStage(EGameStage.eStage_Game))
             {
                 Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Game);
-                Ctx.m_instance.m_sceneSys.loadScene("game.unity", onGameResLoadScene);
+                Ctx.m_instance.m_sceneSys.loadScene("Game.unity", onGameResLoadScene);
             }
         }
 
@@ -61,11 +61,8 @@ namespace Game.Game
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneMain>(UISceneFormID.eUISceneMain);
-            Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneMain);
+            Ctx.m_instance.m_uiMgr.loadAndShow<UIMain>(UIFormID.eUIMain);
 
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneHero>(UISceneFormID.eUISceneHero);
-            Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneHero);
             Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneBg>(UISceneFormID.eUISceneBg);
             Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneBg);
         }
@@ -80,10 +77,10 @@ namespace Game.Game
 
         protected void unloadDZAllUIScene()
         {
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUITest, true);
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIDZ, true);           // 退出对战场景界面
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat, true);         // 退出聊天
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIExtraOp, true);      // 退出选项
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUITest, true);        // 退出测试
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIDZ, true);          // 退出对战场景界面
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat, true);        // 退出聊天
+            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIExtraOp, true);     // 退出选项
             Ctx.m_instance.m_uiSceneMgr.unloadAll();
         }
 
@@ -150,6 +147,7 @@ namespace Game.Game
             if (EGameStage.eStage_Game == eGameStage)
             {
                 Ctx.m_instance.m_uiSceneMgr.unloadAll();
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIMain, true);        // 退出主界面
             }
             else if (EGameStage.eStage_DZ == eGameStage)
             {

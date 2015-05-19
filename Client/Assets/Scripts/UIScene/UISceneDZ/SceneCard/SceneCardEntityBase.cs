@@ -116,11 +116,11 @@ namespace Game.UI
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
                 {
                     Text text;
-                    text = UtilApi.getComByP<Text>(gameObject, "attack/Text");       // 攻击
+                    text = UtilApi.getComByP<Text>(gameObject, "UIRoot/AttText");       // 攻击
                     text.text = m_sceneCardItem.svrCard.damage.ToString();
-                    text = UtilApi.getComByP<Text>(gameObject, "cost/Text");         // Magic
+                    text = UtilApi.getComByP<Text>(gameObject, "UIRoot/MpText");         // Magic
                     text.text = m_sceneCardItem.svrCard.mpcost.ToString();
-                    text = UtilApi.getComByP<Text>(gameObject, "health/Text");       // HP
+                    text = UtilApi.getComByP<Text>(gameObject, "UIRoot/HpText");       // HP
                     text.text = m_sceneCardItem.svrCard.hp.ToString();
                 }
             }
@@ -275,6 +275,7 @@ namespace Game.UI
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
+            return;
             GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
             if (go != null)
             {
@@ -320,6 +321,7 @@ namespace Game.UI
         // 更新卡牌是否可以被击
         public void updateCardAttackedState(bool benable)
         {
+            return;
             GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
             if (go != null)
             {

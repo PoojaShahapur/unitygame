@@ -39,8 +39,6 @@ namespace Game.UI
                     textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, LangItemID.eItem1);
                     InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                     param.m_midDesc = textStr;
-                    textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
-                    param.m_btnOkCap = textStr;
                     UIInfo.showMsg(param);
                 }
                 else if (Ctx.m_instance.m_wordFilterManager.IsMatch(lblName.text))       // 如果包含非法字符
@@ -67,8 +65,6 @@ namespace Game.UI
                         textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eSelectHero2, LangItemID.eItem0);
                         InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                         param.m_midDesc = textStr;
-                        textStr = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem22);
-                        param.m_btnOkCap = textStr;
                         UIInfo.showMsg(param);
                     }
                 }
