@@ -141,7 +141,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_fObjectMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_npcMgr as ITickedObject);
 
-        Ctx.m_instance.m_uiMgr.getLayerGameObject();
+        Ctx.m_instance.m_uiMgr.findCanvasGO();
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();
         Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
         Ctx.m_instance.m_resLoadMgr.postInit();
@@ -158,42 +158,34 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_Root);
         //UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
 
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_App);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICanvas] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UICanvas);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICanvas]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UICamera);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UICamera]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_EventSystem] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_EventSystem);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_EventSystem]);
-
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_50, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_100, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICamera, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_EventSystem, NotDestroyPath.ND_CV_Root);
         // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIBtmLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIBtmLayer);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIBtmLayer]);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
 
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIFirstLayer);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer]);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
 
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISecondLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UISecondLayer);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISecondLayer]);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIModel, NotDestroyPath.ND_CV_Root);
+        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UILight, NotDestroyPath.ND_CV_Root);
+    }
 
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIThirdLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIThirdLayer);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIThirdLayer]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIForthLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIForthLayer);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIForthLayer]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UITopLayer);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UIModel);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel]);
-
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILight] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root], NotDestroyPath.ND_CV_UILight);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UILight]);
+    protected void setNoDestroyObject_impl(string child, string parent)
+    {
+        Ctx.m_instance.m_layerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[parent], child);
+        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[child]);
     }
 
     protected void initBasicCfg()

@@ -1,4 +1,5 @@
 ﻿using EditorTool;
+using SDK.Lib;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -9,12 +10,16 @@ namespace AtlasPrefabSys
     {
         protected string m_fullDirPath;
         protected string m_dirPath;
+        protected AtlasXmlPath m_xmlPath;
+
         protected List<FileData> m_filesList;
 
-        public DirData(string path)
+        public DirData(string path, AtlasXmlPath xmlPath)
         {
             m_dirPath = path;
+            m_xmlPath = xmlPath;
             m_fullDirPath = ExportUtil.getDataPath(m_dirPath);
+            m_fullDirPath = ExportUtil.normalPath(m_fullDirPath);
             m_filesList = new List<FileData>();
         }
 
@@ -34,6 +39,14 @@ namespace AtlasPrefabSys
             }
         }
 
+        public AtlasXmlPath xmlPath
+        {
+            get
+            {
+                return m_xmlPath;
+            }
+        }
+
         public void findAllFiles()
         {
             ExportUtil.recrueDirs(m_fullDirPath, onFindFile, onFindDir);
@@ -41,9 +54,14 @@ namespace AtlasPrefabSys
 
         protected void onFindFile(string path)
         {
-            FileData file = new FileData(path, this);
-            m_filesList.Add(file);
-            file.buildData();
+            path = ExportUtil.normalPath(path);
+            string extName = ExportUtil.getFileExt(path);
+            if (m_xmlPath.ignoreExtList.IndexOf(extName) == -1)         // 如果没有在或略的扩展名列表中
+            {
+                FileData file = new FileData(path, this);
+                m_filesList.Add(file);
+                file.buildData();
+            }
         }
 
         protected void onFindDir(string path)
@@ -63,6 +81,17 @@ namespace AtlasPrefabSys
             }
 
             return _go;
+        }
+
+        public SOSpriteList createScriptSprite()
+        {
+            SOSpriteList retSOSprite = ScriptableObject.CreateInstance<SOSpriteList>();
+            foreach (FileData file in m_filesList)
+            {
+                file.addSprite2SO(retSOSprite);
+            }
+
+            return retSOSprite;
         }
     }
 }

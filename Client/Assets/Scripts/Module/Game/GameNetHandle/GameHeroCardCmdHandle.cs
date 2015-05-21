@@ -119,7 +119,7 @@ namespace Game.Game
                 uiSC.psstRetCardGroupListInfoUserCmd();
             }
 
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
+            UIJobSelect uiMS = Ctx.m_instance.m_uiMgr.getForm<UIJobSelect>(UIFormID.eUIJobSelect);
             if (uiMS != null && uiMS.isVisible())
             {
                 uiMS.updateHeroList();
@@ -164,12 +164,12 @@ namespace Game.Game
             if(cmd.success > 0)
             {
                 // 更新数据
-                Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetDeleteOneCardGroupUserCmd(cmd.index);
+                int curIdx = Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetDeleteOneCardGroupUserCmd(cmd.index);
                 // 更新界面
                 UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
                 if (uiSC != null && uiSC.isVisible())
                 {
-                    uiSC.psstRetDeleteOneCardGroupUserCmd(cmd.index);
+                    uiSC.psstRetDeleteOneCardGroupUserCmd(curIdx);
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace Game.Game
             cmd.derialize(msg);
 
             // 显示匹配结果
-            UISceneMoShi uiMS = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
+            UIJobSelect uiMS = Ctx.m_instance.m_uiMgr.getForm<UIJobSelect>(UIFormID.eUIJobSelect);
             if (uiMS != null && uiMS.isVisible())
             {
                 uiMS.psstRetHeroFightMatchUserCmd(cmd);

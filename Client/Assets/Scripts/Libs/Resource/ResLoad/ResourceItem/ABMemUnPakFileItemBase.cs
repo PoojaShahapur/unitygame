@@ -15,7 +15,7 @@ namespace SDK.Lib
         public void setPakRes(ABPakFileResItemBase resItem)
         {
             m_resItem = resItem;
-            m_resItem.increaseRef();
+            m_resItem.incRef();
 
             if (m_resItem.HasLoaded())   // 如果已经加载
             {
@@ -41,7 +41,7 @@ namespace SDK.Lib
 
             if (m_resItem != null)
             {
-                m_resItem.decreaseRef();
+                m_resItem.decRef();
             }
         }
 

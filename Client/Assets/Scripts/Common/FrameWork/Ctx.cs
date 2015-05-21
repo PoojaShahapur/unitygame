@@ -89,6 +89,7 @@ namespace SDK.Common
         public IAutoUpdate m_autoUpdate;
         public CardFactory m_cardFactory = new CardFactory();
         public AtlasMgr m_atlasMgr = new AtlasMgr();
+        public AuxUIHelp m_auxUIHelp = new AuxUIHelp();
 
         public Ctx()
         {

@@ -17,9 +17,12 @@ namespace SDK.Common
         
         eUIJobSelect,        // 职业选择界面
         eUITuJian,           // 图鉴选择界面
+        eUITuJianCardSetMenu,// 图鉴选择点击卡组处理菜单界面
+        eUITuJianCardMenu,   // 图鉴选择点击卡牌操作
         eUIMain,             // 主界面
         eUIHero,             // 英雄
         eUIOpenPack,         // 开包
+        eUIShop,         //商店
 
         // 第四层
         eUIInfo,             // 信息窗口
@@ -27,18 +30,6 @@ namespace SDK.Common
         // 顶层
         eUILogicTest,        // 逻辑测试窗口
 	}
-
-    public enum UILayerID
-    {
-        BtmLayer,                   // 最低层啊，一般不放东西，以备不时之需，目前放模糊的界面
-        FirstLayer,                 // 第一层，聊天之类的主界面窗口
-        SecondLayer,                // 第二层，主要是功能性的界面，弹出需要关闭的界面
-        ThirdLayer,                 // 第三层，新手引导层
-        ForthLayer,                 // 第四层，提示窗口层
-        TopLayer,                   // 最顶层，一般不放东西，以备不时之需
-
-		MaxLayer
-    }
 
     public enum WinIDCnt
     {

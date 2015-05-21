@@ -40,7 +40,7 @@ namespace SDK.Common
                 UtilApi.updateCardDataNoChange(cardItem.m_tableItemCard, gameObject);
                 UtilApi.updateCardDataChange(cardItem.m_tableItemCard, gameObject);
 
-                modifyTex(gameObject, cardItem);
+                //modifyTex(gameObject, cardItem);
             }
         }
 

@@ -107,19 +107,9 @@ namespace Game.UI
         }
 
         // 删除一个套牌
-        public void psstRetDeleteOneCardGroupUserCmd(uint index)
+        public void psstRetDeleteOneCardGroupUserCmd(int index)
         {
-            int curIdx = 0;
-            foreach(CardGroupItem item in Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr)
-            {
-                if(item.m_cardGroup.index == index)
-                {
-                    break;
-                }
-
-                ++curIdx;
-            }
-            delOneCardGroup(curIdx);
+            delOneCardGroup(index);
         }
 
         protected void releaseAllTaoPai()
@@ -143,9 +133,24 @@ namespace Game.UI
             m_tuJianData.m_wdscCardSetPnl.psstRetSaveOneCardGroupUserCmd(index);
         }
 
-        public void delOneCardGroup(int p)
+        public void delOneCardGroup(int idx)
         {
-            m_tuJianData.m_wdscCardSetPnl.delOneCardGroup(p);
+            m_tuJianData.m_wdscCardSetPnl.delOneCardGroup(idx);
+        }
+
+        public void toggleCardVisible(bool bShow)
+        {
+            m_tuJianData.m_wdscCardPnl.toggleCardVisible(bShow);
+        }
+
+        public void editCurCardSet()
+        {
+            m_tuJianData.m_wdscCardSetPnl.editCurCardSet();
+        }
+
+        public void delCardSet()
+        {
+            m_tuJianData.m_wdscCardSetPnl.delCardSet();
         }
     }
 }

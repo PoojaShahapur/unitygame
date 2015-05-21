@@ -18,7 +18,7 @@ namespace Game.UI
             base.createCard(cardItem);
 
             UtilApi.setLayer(gameObject, Config.UIModelLayer);
-            UtilApi.setScale(gameObject.transform, new Vector3(0.24f, 1, 0.24f));
+            //UtilApi.setScale(gameObject.transform, new Vector3(0.24f, 1, 0.24f));
 
             setGameObject(gameObject);
             this.cardItemBase = cardItem;

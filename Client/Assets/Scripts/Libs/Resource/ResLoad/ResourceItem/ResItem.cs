@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class ResItem : IResItem
+    public class ResItem : RefCount, IResItem
     {
         protected ResPackType m_resPackType;    // 资源打包类型
         protected ResLoadType m_resLoadType;    // 资源加载类型
@@ -19,13 +19,12 @@ namespace SDK.Lib
         protected bool m_isLoaded;              // 资源是否加载完成
         protected bool m_isSucceed;             // 资源是否加载成功
 
-        protected uint m_refNum;                // 引用计数
         protected Action<IDispatchObject> onLoaded;        // 加载成功回调
         protected Action<IDispatchObject> onFailed;        // 加载失败回调
 
         public ResItem()
         {
-            m_refNum = 1;
+            
         }
 
         public ResPackType GetResPackType()
@@ -122,28 +121,6 @@ namespace SDK.Lib
             }
         }
 
-        public uint refNum
-        {
-            get
-            {
-                return m_refNum;
-            }
-            set
-            {
-                m_refNum = value;
-            }
-        }
-
-        public void increaseRef()
-        {
-            ++m_refNum;
-        }
-
-        public void decreaseRef()
-        {
-            --m_refNum;
-        }
-
         public ResLoadType resLoadType
         {
             get
@@ -198,7 +175,7 @@ namespace SDK.Lib
             //m_resNeedCoroutine = false;
             m_isLoaded = false;
             m_isSucceed = false;
-            m_refNum = 1;
+            m_refNum = 0;
             clearListener();
         }
 

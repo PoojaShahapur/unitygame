@@ -21,6 +21,7 @@
         ePathImage,      // 图片目录
         ePathWord,      // 过滤字、随机名字
         ePathAudio,      // 音频
+        ePathAtlas,     // 地图集
 
         eTotal          // 总数
     }

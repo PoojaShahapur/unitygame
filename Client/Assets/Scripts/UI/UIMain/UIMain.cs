@@ -43,34 +43,36 @@ namespace Game.UI
 
             m_btnArr[(int)MainBtnEnum.eBtnDuiZhan] = UtilApi.getComByP<Button>(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnDuiZhanMode);
             m_btnArr[(int)MainBtnEnum.eBtnLianXi] = UtilApi.getComByP<Button>(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnLianXI);
-            m_btnArr[(int)MainBtnEnum.eBtnJingJi] = UtilApi.getComByP<Button>(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnJingJi);
         }
 
         // 添加事件监听
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnShop], onBtnClkShop);                   // 商店
-            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnHero], onBtnClkHero); // 请求 hero 数据
-            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnExtPack], onBtnClkOpenPack);        // 打开扩展
-            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnTuJian], onBtnClkTuJian);        // 我的收藏
-            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnDuiZhan], onBtnClkDuiZhanMoShi); // 对战模式
+            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnShop], onBtnClkShop);              // 商店
+            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnHero], onBtnClkHero);              // 请求 hero 数据
+            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnExtPack], onBtnClkOpenPack);       // 打开扩展
+            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnTuJian], onBtnClkTuJian);          // 我的收藏
+            UtilApi.addEventHandle(m_btnArr[(int)MainBtnEnum.eBtnDuiZhan], onBtnClkDuiZhanMoShi);   // 对战模式
         }
 
         protected void onBtnClkShop()
         {
+            Ctx.m_instance.m_uiMgr.loadAndShow<UIShop>(UIFormID.eUIShop);
+            UIShop shop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
+            shop.m_GUIWin.m_uiRoot.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             // 发送消息
             stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
             UtilMsg.sendMsg(cmd);
 
-            UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneShop>(UISceneFormID.eUISceneShop);
-            if (uiShop == null)
-            {
-                Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneShop>(UISceneFormID.eUISceneShop);
-            }
-            uiShop = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneShop) as UISceneShop;
+            //UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneShop>(UISceneFormID.eUISceneShop);
+            //if (uiShop == null)
+            //{
+            //    Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneShop>(UISceneFormID.eUISceneShop);
+            //}
+            //uiShop = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneShop) as UISceneShop;
 
-            // 显示内容
-            uiShop.showUI();
+            //// 显示内容
+            //uiShop.showUI();
         }
 
         protected void onBtnClkHero()
@@ -93,7 +95,8 @@ namespace Game.UI
 
         protected void onBtnClkDuiZhanMoShi()
         {
-            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneMoShi>(UISceneFormID.eUISceneMoShi);
+            Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.enterDZMode();
+            Ctx.m_instance.m_uiMgr.loadAndShow<UIJobSelect>(UIFormID.eUIJobSelect);
         }
 
         protected void onBtnClkLianXiMoShi()

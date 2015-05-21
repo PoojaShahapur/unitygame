@@ -11,6 +11,7 @@
 
         public const string ProgMaskImage = "UIRootNode/MidLayer/ProgPnlNode/ProgPnl";
         public const string ProgText = "UIRootNode/MidLayer/ProgPnlNode/Text";
+        public const string ScrollContParent = "UIRootNode/MidLayer/JobCardListGo";
         public const string ScrollCont = "UIRootNode/MidLayer/JobCardListGo/ScrollRect/Content";
         public const string TextJobDesc = "UIRootNode/MidLayer/JobDescText";
 

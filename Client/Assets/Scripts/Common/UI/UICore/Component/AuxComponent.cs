@@ -25,5 +25,10 @@ namespace SDK.Common
         {
             m_pntGo = go;
         }
+
+        virtual public void dispose()
+        {
+
+        }
     }
 }

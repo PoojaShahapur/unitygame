@@ -20,10 +20,7 @@
 
     public class TuJianPath
     {
-        public const string SceneGo = "SceneRootNode";
-        public const string BtnAddCardList = "SceneRootNode/LeftCardList";                    // 左边卡牌列表
-        public const string GoTopEditCardPos = "SceneRootNode/TopEditCardPosGo";
-
+        public const string GoTopEditCardPos = "UIRootNode/MidLay/TopEditCardPosGo";
         public const string BtnPrePage = "UIRootNode/TopLay/PrePageBtn";               // 前一页
         public const string BtnNextPage = "UIRootNode/TopLay/NextPageBtn";               // 后一页
         public const string TextPageNum = "UIRootNode/TopLay/PageBgImage/pagenum";               // 第一页
@@ -57,12 +54,12 @@
         public const string BtnRet = "UIRootNode/MidLay/RightPnl/RetBtn";
         public const string TextCardSetCardCnt = "UIRootNode/MidLay/RightPnl/CardSetCardCntText";
 
+        public const string CardSetListParent = "UIRootNode/MidLay/RightPnl/CardSetListGo";
         public const string CardSetListCont = "UIRootNode/MidLay/RightPnl/CardSetListGo/ScrollRect/Content";
-        public const string CardSetEditGo = "UIRootNode/MidLay/CardSetEditGo";
-        public const string CardSetEdit_BtnDel = "UIRootNode/MidLay/CardSetEditGo/BtnDel";
-        public const string CardSetEdit_BtnRename = "UIRootNode/MidLay/CardSetEditGo/BtnRename";
-        public const string CardSetEdit_BtnEdit = "UIRootNode/MidLay/CardSetEditGo/BtnEdit";
+        public const string CardSetCardListParent = "UIRootNode/MidLay/RightPnl/CardSetCardListGo";
+        public const string CardSetCardListCon = "UIRootNode/MidLay/RightPnl/CardSetCardListGo/ScrollRect/Content";
 
         public const string CardSetPrefabPath = "UI/UITuJian/CardSet.prefab";
+        public const string CardSetCardPrefabPath = "UI/UITuJian/CardSetCard.prefab";
     }
 }

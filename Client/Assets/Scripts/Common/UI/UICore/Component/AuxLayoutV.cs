@@ -38,12 +38,18 @@ namespace SDK.Common
             base.removeAndDestroyElem(go_, recalc);
         }
 
+        override public void removeElem(GameObject go_, bool recalc = false)
+        {
+            --m_rowCount;
+            base.removeElem(go_, recalc);
+        }
+
         // 重新计算位置信息
         override public void reposition()
         {
             // 计算容器的大小
-            RectTransform trans = pntGo.GetComponent<RectTransform>();
-            VerticalLayoutGroup layout = pntGo.GetComponent<VerticalLayoutGroup>();
+            RectTransform trans = m_contentGo.GetComponent<RectTransform>();
+            VerticalLayoutGroup layout = m_contentGo.GetComponent<VerticalLayoutGroup>();
             trans.sizeDelta = new Vector2(elemWidth + layout.padding.left + layout.padding.right, m_rowCount * elemHeight + layout.spacing * (m_rowCount - 1) + layout.padding.top + layout.padding.bottom);
         }
     }

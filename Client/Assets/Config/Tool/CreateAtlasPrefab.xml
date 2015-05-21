@@ -1,4 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Root>
-	<path inpath="Res/Image/UI/Common" outpath="Prefabs/Resources/Atlas/Common.prefab" />
+	<path inpath="Res/Image/UI/Common" outpath="Prefabs/Resources/Atlas/Common.asset" ignoreext="meta" />
+	<path inpath="Res/Image/UI/ShopDyn" outpath="Prefabs/Resources/Atlas/ShopDyn.asset" ignoreext="meta" />
+	<path inpath="Res/Image/UI/TuJianDyn" outpath="Prefabs/Resources/Atlas/TuJianDyn.asset" ignoreext="meta" />
+	<path inpath="Res/Image/UI/JobSelectDyn" outpath="Prefabs/Resources/Atlas/JobSelectDyn.asset" ignoreext="meta" />
 </Root>

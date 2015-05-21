@@ -56,6 +56,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathImage] = "Image/";
             m_pathLst[(int)ResPathType.ePathWord] = "Word/";
             m_pathLst[(int)ResPathType.ePathAudio] = "Sound/";
+            m_pathLst[(int)ResPathType.ePathAtlas] = "Atlas/";
 
             m_dataPath = Application.dataPath;
 

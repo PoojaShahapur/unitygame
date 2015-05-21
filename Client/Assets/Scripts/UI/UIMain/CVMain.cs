@@ -3,9 +3,9 @@
     public enum MainBtnEnum
     {
         eBtnShop,           // 商店
-        eBtnHero,           // 英雄
+        eBtnHero,           // 英雄，任务界面
         eBtnExtPack,        // 扩展背包
-        eBtnTuJian,           // 我的收藏
+        eBtnTuJian,         // 我的收藏
         eBtnDuiZhan,        // 对战按钮
         eBtnLianXi,         // 练习按钮
         eBtnJingJi,         // 竞技按钮
@@ -22,6 +22,5 @@
 
         public const string BtnDuiZhanMode = "BtnDuiZhanMode";
         public const string BtnLianXI = "BtnLianXI";
-        public const string BtnJingJi = "BtnJingJi";
     }
 }

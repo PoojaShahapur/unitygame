@@ -13,6 +13,11 @@
         eBtnBack,           // 返回
 		eBtnShop,           //商店
 
+        eBtnTotal
+    }
+
+    public enum CardBtnEnum
+    {
         ePackBtn_0,
         ePackBtn_1,
         ePackBtn_2,
@@ -23,7 +28,7 @@
         eOpenedPackBtn_3,
         eOpenedPackBtn_4,
 
-        eBtnTotal
+        eCardBtnTotal
     }
 
     public class OpenPackPath

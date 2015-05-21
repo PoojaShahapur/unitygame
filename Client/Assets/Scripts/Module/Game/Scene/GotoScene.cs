@@ -127,10 +127,14 @@ namespace Game.Game
                 Ctx.m_instance.m_camSys.m_boxCam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
                 Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
 
+                Ctx.m_instance.m_camSys.setSceneCamera2UICamera();
+
                 m_isFirstEnterGame = false;
             }
             else if (EGameStage.eStage_DZ == eGameStage)
             {
+                Ctx.m_instance.m_camSys.setSceneCamera2MainCamera();
+
                 Ctx.m_instance.m_dataPlayer.m_dzData.clear();
                 Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;         // 进入对战就设置这个标示位为可以继续战斗
                 Ctx.m_instance.m_camSys.m_dzCam = new DzCam();

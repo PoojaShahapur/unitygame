@@ -1,12 +1,15 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
+
 namespace UnitTestSrc
 {
     public class TestLoad
     {
         public void run()
         {
-            testModelLoad();
+            //testModelLoad();
+            testLoad();
         }
 
         protected void testModelLoad()
@@ -28,6 +31,11 @@ namespace UnitTestSrc
         public virtual void onFailed(IDispatchObject resEvt)            // 资源加载成功
         {
 
+        }
+
+        protected void testLoad()
+        {
+            UnityEngine.Object obj = Resources.Load("UI/UITuJian/CardSet");
         }
     }
 }

@@ -143,7 +143,7 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                m_LoadData.m_path2Res[param.m_path].increaseRef();
+                m_LoadData.m_path2Res[param.m_path].incRef();
                 if (m_LoadData.m_path2Res[param.m_path].isLoaded)
                 {
                     if (m_LoadData.m_path2Res[param.m_path].isSucceed)
@@ -255,6 +255,7 @@ namespace SDK.Lib
                     (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
                 }
 
+                resitem.incRef();
                 resitem.resNeedCoroutine = param.m_resNeedCoroutine;
                 resitem.resPackType = param.m_resPackType;
                 resitem.resLoadType = param.m_resLoadType;
@@ -367,7 +368,7 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
-                m_LoadData.m_path2Res[path].decreaseRef();
+                m_LoadData.m_path2Res[path].decRef();
                 if (m_LoadData.m_path2Res[path].refNum == 0)
                 {
                     unloadNoRef(path);

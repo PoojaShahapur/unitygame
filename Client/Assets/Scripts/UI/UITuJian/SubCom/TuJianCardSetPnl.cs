@@ -31,11 +31,11 @@ namespace Game.UI
     public class TuJianCardSetPnl : TuJianPnlBase
     {
         public CardSetCom m_curEditCardSet = null;                 // 当前正在编辑的卡牌组，注意这个不是指向编辑的指针，而是拷贝的数据
-        public List<TuJianCardListItem> m_cardList = new List<TuJianCardListItem>();// 当前在编辑的卡组中的卡牌列表
+        public List<TuJianCardSetCardItemCom> m_cardList = new List<TuJianCardSetCardItemCom>();// 当前在编辑的卡组中的卡牌列表
         public List<CardSetCom> m_cardSetEntityList = new List<CardSetCom>();      // 当前已经有的卡牌组
 
-        public UIGrid m_leftCardList = new UIGrid();            // 左边的卡牌列表
-        public AuxLayoutH m_cardSetLayoutH;
+        public AuxLayoutV m_cardSetCardLayoutV;            // 左边的卡牌列表
+        public AuxLayoutV m_cardSetLayoutV;
 
         public WdscmTaoPaiMod m_curTaoPaiMod;          // 当前套牌模式
 
@@ -55,19 +55,20 @@ namespace Game.UI
         {
             m_topEditCardPosGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.GoTopEditCardPos);
 
-            m_leftCardList.setGameObject(UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnAddCardList));
-            m_leftCardList.cellWidth = 1.172f;
-            m_leftCardList.cellHeight = 0.445f;
-            m_leftCardList.m_hideZPos = -20f;
-            m_leftCardList.hideGrid();              // 默认隐藏
+            m_cardSetCardLayoutV = new AuxLayoutV();
+            m_cardSetCardLayoutV.elemWidth = 285;
+            m_cardSetCardLayoutV.elemHeight = 78;
+            m_cardSetCardLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListParent);
+            m_cardSetCardLayoutV.contentGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListCon);
+            m_cardSetCardLayoutV.hideLayout();
 
-            m_cardSetLayoutH = new AuxLayoutH();
-            m_cardSetLayoutH.elemWidth = 285;
-            m_cardSetLayoutH.elemHeight = 78;
-            m_cardSetLayoutH.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
+            m_cardSetLayoutV = new AuxLayoutV();
+            m_cardSetLayoutV.elemWidth = 285;
+            m_cardSetLayoutV.elemHeight = 78;
+            m_cardSetLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListParent);
+            m_cardSetLayoutV.contentGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
 
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
-            UtilApi.addEventHandle(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet], onBtnClkAddTaoPai);       // 新增套牌
 
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
             m_cardSetCardCntText = UtilApi.getComByP<Text>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
@@ -75,6 +76,7 @@ namespace Game.UI
 
         public new void addEventHandle()
         {
+            UtilApi.addEventHandle(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet], onBtnClkAddTaoPai);       // 新增套牌
             UtilApi.addEventHandle(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet], onBtnClkRet);       // 新增套牌
         }
 
@@ -91,11 +93,13 @@ namespace Game.UI
 
         protected void onBtnClkRet()
         {
-            m_tuJianData.m_wdscCardSetPnl.back();
+            back();
         }
 
         protected void onBtnClkAddTaoPai()
         {
+            m_tuJianData.m_wdscCardPnl.toggleCardVisible(false);
+            Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.enterJobSelectMode();
             Ctx.m_instance.m_uiMgr.loadAndShow<UIJobSelect>(UIFormID.eUIJobSelect);
         }
 
@@ -106,7 +110,7 @@ namespace Game.UI
             //可加入卡牌
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Editset;
             UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, false);
-            m_cardSetLayoutH.hideLayout();
+            m_cardSetLayoutV.hideLayout();
         }
 
         void endEditCardSetMode()
@@ -114,10 +118,10 @@ namespace Game.UI
             reqSaveCard();  // 请求保存
 
             m_curEditCardSet.hideCardSet();        // 当前编辑的卡牌组隐藏
-            m_leftCardList.hideGrid();          // 当前卡牌组的卡牌列表隐藏
+            m_cardSetLayoutV.hideLayout();          // 当前卡牌组的卡牌列表隐藏
 
             UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, true);
-            m_cardSetLayoutH.showLayout();
+            m_cardSetLayoutV.showLayout();
 
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Look;        // 修改卡牌组编辑模式为不可加入卡牌
         }
@@ -153,7 +157,14 @@ namespace Game.UI
             stReqSaveOneCardGroupUserCmd cmd = new stReqSaveOneCardGroupUserCmd();
 
             cmd.index = m_curEditCardSet.m_cardGroupItem.m_cardGroup.index;
-            cmd.count = (ushort)m_curEditCardSet.m_cardGroupItem.m_cardList.Count;
+            if (m_curEditCardSet.m_cardGroupItem.m_cardList == null)
+            {
+                cmd.count = 0;
+            }
+            else
+            {
+                cmd.count = (ushort)m_curEditCardSet.m_cardGroupItem.m_cardList.Count;
+            }
             cmd.id = m_curEditCardSet.m_cardGroupItem.m_cardList;
 
             UtilMsg.sendMsg(cmd);
@@ -179,10 +190,11 @@ namespace Game.UI
             return null;
         }
 
-        public void delOneCardGroup(int p)
+        public void delOneCardGroup(int idx)
         {
-            m_cardSetEntityList.RemoveAt(p);
-            m_cardSetLayoutH.removeAndDestroyElem(m_cardSetEntityList[p].getGameObject(), true);
+            m_cardSetLayoutV.removeElem(m_cardSetEntityList[idx].getGameObject(), true);
+            m_cardSetEntityList[idx].dispose();
+            m_cardSetEntityList.RemoveAt(idx);
         }
 
         public void updateLeftCardList()
@@ -193,8 +205,7 @@ namespace Game.UI
                 int idx = 0;
                 while (idx < m_curEditCardSet.m_cardGroupItem.m_cardList.Count)
                 {
-                    m_cardList.Add(m_tuJianData.createCard(m_curEditCardSet.m_cardGroupItem.m_cardList[idx]));
-                    m_leftCardList.AddChild(m_cardList[idx].getGameObject().transform);
+                    createCardSetCard(m_curEditCardSet.m_cardGroupItem.m_cardList[idx]);
                     ++idx;
                 }
             }
@@ -207,8 +218,9 @@ namespace Game.UI
             int idx = 0;
             while (idx < m_cardList.Count)
             {
-                m_cardList[idx].getGameObject().transform.parent = null;
-                UtilApi.Destroy(m_cardList[idx].getGameObject());
+                m_cardSetCardLayoutV.removeElem(m_cardList[idx].sceneGo, true);
+                m_cardList[idx].dispose();
+                
                 ++idx;
             }
             m_cardList.Clear();
@@ -254,34 +266,44 @@ namespace Game.UI
                 {
                     m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardList.Add(cardID);
                     // 继续添加显示
-                    m_tuJianData.m_wdscCardSetPnl.m_cardList.Add(m_tuJianData.createCard(cardID));
-                    m_tuJianData.m_wdscCardSetPnl.m_leftCardList.AddChild(m_tuJianData.m_wdscCardSetPnl.m_cardList[m_tuJianData.m_wdscCardSetPnl.m_cardList.Count - 1].getGameObject().transform);
+                    createCardSetCard(cardID);
                 }
             }
 
             updateCardSetCardCntText();
         }
 
+        // 创建一个卡牌组中的卡牌
+        public void createCardSetCard(uint cardID)
+        {
+            TableCardItemBody cardItem;
+            TableItemBase tableItem;
+            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, cardID);
+            cardItem = tableItem.m_itemBody as TableCardItemBody;
+
+            TuJianCardSetCardItemCom cardCom = new TuJianCardSetCardItemCom();
+            m_cardList.Add(cardCom);
+            cardCom.cardItem = cardItem;
+            cardCom.createSceneGo();
+            cardCom.updateImage();
+            cardCom.add2Layout(m_cardSetCardLayoutV);
+        }
+
         // 新建卡牌组， bEnterEdit 是否立即进入编辑模式
         public void newCardSet(CardGroupItem cardSet, bool bEnterEdit = true)
         {
-            GameObject go = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(TuJianPath.CardSetPrefabPath).InstantiateObject(TuJianPath.CardSetPrefabPath);
-            m_cardSetLayoutH.addElem(go, true);
-
             CardSetCom taopai = new CardSetCom(m_tuJianData);
             m_cardSetEntityList.Add(taopai);
-            taopai.setGameObject(go);
             taopai.createNew(cardSet, bEnterEdit);
+            taopai.add2Layout(m_cardSetLayoutV);
         }
 
         // 创建一个编辑的卡牌组
         public void insEditCardGroup()
         {
-            GameObject go = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(TuJianPath.CardSetPrefabPath).InstantiateObject(TuJianPath.CardSetPrefabPath);
-            UtilApi.SetParent(go, m_tuJianData.m_sceneGo);
-
             m_curEditCardSet = new CardSetCom(m_tuJianData);
-            m_curEditCardSet.setGameObject(go);
+            m_curEditCardSet.createSceneGo();
+            m_curEditCardSet.add2Node(m_topEditCardPosGo);
             m_curEditCardSet.hideCardSet();
         }
 

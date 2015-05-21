@@ -15,7 +15,7 @@ namespace SDK.Common
     public class UIMgr : IResizeObject
 	{
 		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
-		private List<UILayer> m_vecLayer;
+        private List<UICanvas> m_canvasList;
         public UIAttrs m_UIAttrs = new UIAttrs();
 
         private Dictionary<UIFormID, UILoadingItem> m_ID2CodeLoadingItemDic;         // 记录当前代码正在加载的项
@@ -26,27 +26,33 @@ namespace SDK.Common
 
 		public UIMgr()
 		{
-            m_vecLayer = new List<UILayer>();
-            m_vecLayer.Add(new UILayer(UILayerID.BtmLayer));
-            m_vecLayer.Add(new UILayer(UILayerID.FirstLayer));
-            m_vecLayer.Add(new UILayer(UILayerID.SecondLayer));
-            m_vecLayer.Add(new UILayer(UILayerID.ThirdLayer));
-            m_vecLayer.Add(new UILayer(UILayerID.ForthLayer));
-            m_vecLayer.Add(new UILayer(UILayerID.TopLayer));
-
             m_ID2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
+
+            createCanvas();
 		}
 
-        // 关联每一层的对象
-        public void getLayerGameObject()
+        protected void createCanvas()
         {
-            m_vecLayer[(int)UILayerID.BtmLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIBtmLayer].transform;
-            m_vecLayer[(int)UILayerID.FirstLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIFirstLayer].transform;
-            m_vecLayer[(int)UILayerID.SecondLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UISecondLayer].transform;
-            m_vecLayer[(int)UILayerID.ThirdLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIThirdLayer].transform;
-            m_vecLayer[(int)UILayerID.ForthLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIForthLayer].transform;
-            m_vecLayer[(int)UILayerID.TopLayer].layerTrans = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UITopLayer].transform;
+            m_canvasList = new List<UICanvas>();
+            int idx = 0;
+            for (idx = 0; idx < (int)UICanvasID.eeCanvas_Total; ++idx)
+            {
+                m_canvasList.Add(new UICanvas((UICanvasID)idx));
+            }
+
+            m_canvasList[(int)UICanvasID.eCanvas_50].goName = NotDestroyPath.ND_CV_UICanvas_50;
+            m_canvasList[(int)UICanvasID.eCanvas_100].goName = NotDestroyPath.ND_CV_UICanvas_100;
+        }
+
+        // 关联每一层的对象
+        public void findCanvasGO()
+        {
+            int idx = 0;
+            for (idx = 0; idx < (int)UICanvasID.eeCanvas_Total; ++idx)
+            {
+                m_canvasList[idx].findCanvasGO();
+            }
         }
 
         public void loadAndShow<T>(UIFormID ID) where T : Form, new()
@@ -154,14 +160,18 @@ namespace SDK.Common
             form.onInit();
         }
 
-        public UILayer getLayer(UILayerID layerID)
+        public UILayer getLayer(UICanvasID canvasID, UILayerID layerID)
         {
             UILayer layer = null;
 
-            if (layerID >= UILayerID.BtmLayer && layerID <= UILayerID.MaxLayer)
+            if (UICanvasID.eCanvas_50 <= canvasID && canvasID <= UICanvasID.eCanvas_100)
             {
-                layer = m_vecLayer[(int)layerID];
+                if (UILayerID.eBtmLayer <= layerID && layerID <= UILayerID.eTopLayer)
+                {
+                    layer = m_canvasList[(int)canvasID].layerList[(int)layerID];
+                }
             }
+
             return layer;
         }
 
@@ -170,7 +180,7 @@ namespace SDK.Common
         {
             if (m_UIAttrs.m_dicAttr[form.id] is UIAttrItem)
             {
-                UILayer layer = getLayer((m_UIAttrs.m_dicAttr[form.id] as UIAttrItem).m_LayerID);
+                UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_canvasID, m_UIAttrs.m_dicAttr[form.id].m_LayerID);
                 form.uiLayer = layer;
                 layer.addForm(form);
             }
@@ -200,7 +210,7 @@ namespace SDK.Common
         {
             // exitAllWin();                       // 关闭所有的界面
 
-            UIAttrItemBase attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             Form window = getForm<Form>(ID);
 
             if (window != null)     // 本地已经创建了这个窗口，
@@ -239,7 +249,7 @@ namespace SDK.Common
         // 加载窗口控件资源，窗口资源都是从文件加载
         public void loadWidgetRes(UIFormID ID)
         {
-            UIAttrItemBase attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             if (!m_ID2WidgetLoadingItemDic.ContainsKey(ID))                       // 如果什么都没有创建，第一次加载
             {
                 m_ID2WidgetLoadingItemDic[ID] = new UILoadingItem();
@@ -332,14 +342,11 @@ namespace SDK.Common
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
-            UIAttrItemBase attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             m_dicForm[ID].bLoadWidgetRes = true;
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
             // 设置位置
-            if (attrItem is UIAttrItem)
-            {
-                UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_vecLayer[(int)(attrItem as UIAttrItem).m_LayerID].layerTrans, false);
-            }
+            UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
 
             // 先设置再设置缩放，否则无效
             m_dicForm[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
@@ -365,10 +372,14 @@ namespace SDK.Common
         // 大小发生变化后，调用此函数
         public void onResize(int viewWidth, int viewHeight)
         {
-            int index;
-            for (index = 0; index <= (int)UILayerID.MaxLayer; index++)
+            int canvasIdx = 0;
+            int layerIdx = 0;
+            for(canvasIdx = 0; canvasIdx < (int)UICanvasID.eeCanvas_Total; ++canvasIdx)
             {
-                m_vecLayer[index].onStageReSize();
+                for (layerIdx = 0; layerIdx <= (int)UILayerID.eMaxLayer; ++layerIdx)
+                {
+                    m_canvasList[canvasIdx].layerList[layerIdx].onStageReSize();
+                }
             }
         }
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace Game.UI
 {
     /**
-     * @brief 职业选择界面
+     * @brief 职业选择界面和模式选择界面是一个界面
      */
     public class UIJobSelect : Form
     {
@@ -47,7 +47,13 @@ namespace Game.UI
         // 每一次关闭都会调用一次
         override public void onExit()
         {
+            UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            if(tujian != null)
+            {
+                tujian.toggleCardVisible(true);
+            }
 
+            m_jobSelectData.dispose();
         }
 
         protected void findWidget()
@@ -63,6 +69,17 @@ namespace Game.UI
         protected void onBtnClkTest()
         {
 
+        }
+
+        public void psstRetHeroFightMatchUserCmd(stRetHeroFightMatchUserCmd cmd)
+        {
+            //m_lblTip.text = "匹配成功了";
+        }
+
+        // 更新 hero 显示
+        public void updateHeroList()
+        {
+            
         }
     }
 }

@@ -38,7 +38,8 @@ namespace Game.UI
             //testUIInfo();
             //testAudio();
             //testLoadMapCfg();
-            shareSpriteAtlas();
+            testShareSpriteAtlas();
+            //testScriptSprite();
         }
 
         protected void onBtnClkOk2()
@@ -109,13 +110,26 @@ namespace Game.UI
             destImage_2.SetNativeSize();
         }
 
-        protected void shareSpriteAtlas()
+        protected void testShareSpriteAtlas()
         {
             GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnTest1");
             Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
 
-            ImageItem image = Ctx.m_instance.m_atlasMgr.getImage("Atlas/Common.prefab", "Common/denglu_srk");
-            srcImage.sprite = image.image.sprite;
+            ImageItem imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/Common.asset", "denglu_srk");
+            srcImage.sprite = imageItem.image;
+
+            UtilApi.setImageType(srcImage, Image.Type.Simple);
+            UtilApi.SetNativeSize(srcImage);
+        }
+
+        protected void testScriptSprite()
+        {
+            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnTest1");
+            Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
+
+            SOSpriteList spriteList = Resources.Load<SOSpriteList>("Atlas/TuJian");
+            //srcImage.sprite = sprite.m_path2SpriteDic["aaa"].m_sprite;
+            srcImage.sprite = spriteList.m_objList[0].m_sprite;
 
             UtilApi.setImageType(srcImage, Image.Type.Simple);
             UtilApi.SetNativeSize(srcImage);

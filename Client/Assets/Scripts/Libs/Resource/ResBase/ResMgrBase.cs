@@ -30,7 +30,7 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
-                m_path2ResDic[param.m_path].increaseRef();
+                m_path2ResDic[param.m_path].incRef();
                 if (m_path2ResDic[param.m_path].m_isLoaded && m_path2ResDic[param.m_path].m_isSucceed)
                 {
                     if (param.m_loaded != null)
@@ -43,7 +43,7 @@ namespace SDK.Lib
             else
             {
                 m_path2ResDic[param.m_path] = new T();
-                m_path2ResDic[param.m_path].increaseRef();
+                m_path2ResDic[param.m_path].incRef();
                 m_path2ResDic[param.m_path].m_path = param.m_path;
             }
 
@@ -63,11 +63,11 @@ namespace SDK.Lib
             return m_path2ResDic[param.m_path];
         }
 
-        public void unload(string path)
+        virtual public void unload(string path)
         {
             if (m_path2ResDic.ContainsKey(path))
             {
-                m_path2ResDic[path].decreaseRef();
+                m_path2ResDic[path].decRef();
                 if (m_path2ResDic[path].refNum == 0)
                 {
                     m_path2ResDic[path].unload();

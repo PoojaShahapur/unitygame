@@ -36,5 +36,10 @@ namespace AtlasPrefabSys
         {
             m_atlasXmlData.exportPrefab();
         }
+
+        public void exportAsset()
+        {
+            m_atlasXmlData.exportAsset();
+        }
     }
 }

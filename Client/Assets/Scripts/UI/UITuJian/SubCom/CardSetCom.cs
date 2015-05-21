@@ -14,8 +14,10 @@ namespace Game.UI
     public class CardSetCom : TuJianPnlBase
     {
         public CardGroupItem m_cardGroupItem;             // 当前卡牌组对应的数据信息
-        public int m_cardID;                // 卡组 ID
-        public GameObject m_cardSetGo;
+        public GameObject m_sceneGo;
+
+        protected ImageItem m_imageItem;
+        protected UIPrefabRes m_uiPrefabRes;
 
         public CardSetCom(TuJianData data):
            base(data)
@@ -23,9 +25,16 @@ namespace Game.UI
 
         }
 
+        public void dispose()
+        {
+            Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath());
+            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
+            UtilApi.Destroy(m_sceneGo);
+        }
+
         public new void findWidget()
         {
-            m_cardSetGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, getPath());
+            m_sceneGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, getPath());
         }
 
         public new void addEventHandle()
@@ -35,24 +44,25 @@ namespace Game.UI
 
         public GameObject getGameObject()
         {
-            return m_cardSetGo;
-        }
-
-        public void setGameObject(GameObject go_)
-        {
-            m_cardSetGo = go_;
+            return m_sceneGo;
         }
 
         public string getPath()
         {
-            string cardPath = string.Format("{0}/CardSet_Copy_{1}", TuJianPath.CardSetListCont, m_cardID);
+            string cardPath = string.Format("{0}/CardSet_{1}", TuJianPath.CardSetListCont, m_cardGroupItem.m_cardGroup.index);
             return cardPath;
+        }
+
+        public string getName()
+        {
+            string cardName = string.Format("CardSet_{0}", m_cardGroupItem.m_cardGroup.index);
+            return cardName;
         }
 
         public void OnMouseClick()
         {
             m_tuJianData.m_wdscCardSetPnl.m_curCardSet = this;
-            m_tuJianData.m_cardSetEditPnl.showCardSetEdit();
+            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianCardSetMenu>(UIFormID.eUITuJianCardSetMenu);
         }
 
         public void reqCardListAndStartEdit()
@@ -63,7 +73,7 @@ namespace Game.UI
 
         public void enterEditorMode()
         {
-            moveSelf2Top();     // 移动自己到顶端
+            showCardSet();
             m_tuJianData.m_wdscCardSetPnl.startEditCardSetMode();        // 卡牌组面板进入编辑模式
         }
 
@@ -75,6 +85,7 @@ namespace Game.UI
                 cardSet.m_cardGroup.name = "新建套牌";
             }
             setName(cardSet.m_cardGroup.name);
+            updateImage();
         }
 
         protected void setClass(EnPlayerCareer c)
@@ -82,9 +93,12 @@ namespace Game.UI
             m_cardGroupItem.m_cardGroup.occupation = (uint)c;
         }
 
-        public void createNew(CardGroupItem s, bool bEnterEdit = true)
+        public void createNew(CardGroupItem cardSet, bool bEnterEdit = true)
         {
-            setInfo(s);
+            createSceneGo();
+            setInfo(cardSet);
+            UtilApi.setGOName(m_sceneGo, getName());
+
             if (bEnterEdit)
             {
                 m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.startEdit(this);
@@ -97,14 +111,14 @@ namespace Game.UI
             copyAndInitData(cardSet);
             enterEditorMode();
             // 当前编辑的卡牌列表处理
-            m_tuJianData.m_wdscCardSetPnl.m_leftCardList.showGrid();
+            m_tuJianData.m_wdscCardSetPnl.m_cardSetCardLayoutV.showLayout();
             m_tuJianData.m_wdscCardSetPnl.updateLeftCardList();
         }
 
         public void copyAndInitData(CardSetCom cardSet)
         {
             m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.copyFrom(cardSet);
-            m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.setInfo(m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem);      // 设置卡牌的显示信息
+            m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.setInfo(cardSet.m_cardGroupItem);      // 设置卡牌的显示信息
         }
 
         protected void setName(string n)
@@ -115,27 +129,20 @@ namespace Game.UI
         protected void setPic(Material m)
         {
 #if UNITY_5
-            m_cardSetGo.transform.FindChild("pic").GetComponent<Renderer>().material = m;
+            m_sceneGo.transform.FindChild("pic").GetComponent<Renderer>().material = m;
 #elif UNITY_4_6
-            m_cardSetGo.transform.FindChild("pic").renderer.material = m;
+            m_sceneGo.transform.FindChild("pic").renderer.material = m;
 #endif
-        }
-
-        // 将编辑的卡牌放到顶端
-        protected void moveSelf2Top()
-        {
-            m_cardSetGo.transform.localPosition = m_tuJianData.m_wdscCardSetPnl.m_topEditCardPosGo.transform.localPosition;
-            showCardSet();
         }
 
         public void hideCardSet()
         {
-            UtilApi.SetActive(m_cardSetGo, false);
+            UtilApi.SetActive(m_sceneGo, false);
         }
 
         public void showCardSet()
         {
-            UtilApi.SetActive(m_cardSetGo, true);
+            UtilApi.SetActive(m_sceneGo, true);
         }
 
         public void copyFrom(CardSetCom cards)
@@ -152,6 +159,35 @@ namespace Game.UI
             stReqDeleteOneCardGroupUserCmd cmd = new stReqDeleteOneCardGroupUserCmd();
             cmd.index = m_cardGroupItem.m_cardGroup.index;
             UtilMsg.sendMsg(cmd);
+        }
+
+        public void add2Layout(AuxLayoutV cardLayoutV)
+        {
+            cardLayoutV.addElem(m_sceneGo, true);
+
+            this.findWidget();
+            this.addEventHandle();
+        }
+
+        public void add2Node(GameObject go_)
+        {
+            UtilApi.SetParent(m_sceneGo, go_, false);
+        }
+
+        public void createSceneGo()
+        {
+            m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(TuJianPath.CardSetPrefabPath);
+            m_sceneGo = m_uiPrefabRes.InstantiateObject(TuJianPath.CardSetPrefabPath);
+        }
+
+        public void updateImage()
+        {
+            if (string.IsNullOrEmpty(m_cardGroupItem.m_tableJobItemBody.m_cardSetRes))
+            {
+                m_cardGroupItem.m_tableJobItemBody.m_cardSetRes = "emei_taopai";
+            }
+            m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/TuJianDyn.asset", m_cardGroupItem.m_tableJobItemBody.m_cardSetRes);
+            m_imageItem.setGoImage(m_sceneGo);
         }
     }
 }

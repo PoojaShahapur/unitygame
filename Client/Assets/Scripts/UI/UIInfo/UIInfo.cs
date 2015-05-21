@@ -119,7 +119,7 @@ namespace Game.UI
 
                 m_infoMode_1.updateParam(m_infoParam);
             }
-            else if (InfoBoxModeType.eMode_1 == m_infoParam.m_infoBoxModeType)
+            else if (InfoBoxModeType.eMode_2 == m_infoParam.m_infoBoxModeType)
             {
                 UtilApi.SetActive(m_infoMode_1.m_root, false);
                 UtilApi.SetActive(m_infoMode_2.m_root, true);

@@ -51,7 +51,7 @@ namespace Game.UI
             m_cardGo = new GameObject();
             UtilApi.SetParent(m_cardGo, Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel], false);
             UtilApi.setGOName(m_cardGo, "CardListGo");
-            UtilApi.setPos(m_cardGo.transform, new Vector3(0.64f, -1, 89.71f));
+            UtilApi.setPos(m_cardGo.transform, new Vector3(3.0f, -4.0f, 0.0f));
             UtilApi.setRot(m_cardGo.transform, new Vector3(90, 180, 0));
         }
 
@@ -83,8 +83,8 @@ namespace Game.UI
             m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
 
             m_CardList.setGameObject(m_cardGo);
-            m_CardList.cellWidth = 0.6f;
-            m_CardList.cellHeight = 1.0f;
+            m_CardList.cellWidth = 3.0f;
+            m_CardList.cellHeight = 4.0f;
             m_CardList.maxPerLine = (int)TuJianCardNumPerPage.eCol;
 
             // 当前页号
@@ -374,6 +374,11 @@ namespace Game.UI
             }
 
             return ret;
+        }
+
+        public void toggleCardVisible(bool bShow)
+        {
+            UtilApi.SetActive(m_cardGo, bShow);
         }
     }
 }

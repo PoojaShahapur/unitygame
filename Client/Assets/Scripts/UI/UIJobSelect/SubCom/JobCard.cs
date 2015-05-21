@@ -1,6 +1,7 @@
 ﻿using SDK.Common;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
 namespace Game.UI
 {
     /**
@@ -10,8 +11,8 @@ namespace Game.UI
     {
         protected int m_tag;        // 索引
         protected EnPlayerCareer m_career;  // 职业
-        protected Image m_jobImage;
-        protected Image m_skillImage;
+        
+        protected CardGroupItem m_cardGroupItem;
 
         public JobCard(JobSelectData data, int tag_, EnPlayerCareer ccc):
             base(data)
@@ -32,15 +33,21 @@ namespace Game.UI
             }
         }
 
+        public CardGroupItem cardGroupItem
+        {
+            get
+            {
+                return m_cardGroupItem;
+            }
+            set
+            {
+                m_cardGroupItem = value;
+            }
+        }
+
         public new void findWidget()
         {
-            string objName = string.Format("{0}_{1}", JobSelectPath.ImageJobName, (int)m_career);
-            m_jobImage = UtilApi.getComByP<Image>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, objName);
-
-            objName = string.Format("{0}_{1}", JobSelectPath.ImageSkillIcon, (int)m_career);
-            m_skillImage = UtilApi.getComByP<Image>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, objName);
-
-            toggleCardNameImage(false);
+            
         }
 
         public new void addEventHandle()
@@ -52,21 +59,15 @@ namespace Game.UI
         public void onJobSelBtnClk()
         {
             int idx = 0;
-            if (m_jobSelectData.m_midPnl.curSelCareer != EnPlayerCareer.HERO_OCCUPATION_NONE)
+            if (m_jobSelectData.m_midPnl.curSelJobCard != null)
             {
-                idx = m_jobSelectData.m_midPnl.getIdxByCareerID(m_jobSelectData.m_midPnl.curSelCareer);
+                idx = m_jobSelectData.m_midPnl.getIdxByCareerID(m_jobSelectData.m_midPnl.curSelJobCard.career);
                 m_jobSelectData.m_midPnl.toggleJob(idx, false);
             }
-            m_jobSelectData.m_midPnl.curSelCareer = (EnPlayerCareer)UtilApi.findIdxByUnderline(EventSystem.current.currentSelectedGameObject.name);
+            m_jobSelectData.m_midPnl.curSelJobCard = this;
             m_jobSelectData.m_midPnl.toggleJob(m_tag, true);
 
             m_jobSelectData.m_rightPnl.m_jobSelProg.update();
-        }
-
-        public void toggleCardNameImage(bool bShow)
-        {
-            UtilApi.SetActive(m_jobImage.gameObject, bShow);
-            UtilApi.SetActive(m_skillImage.gameObject, bShow);
         }
     }
 }

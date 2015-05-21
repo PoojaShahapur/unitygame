@@ -32,7 +32,7 @@ namespace Game.UI
 
         public void update()
         {
-            int cnt = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[(int)(m_jobSelectData.m_midPnl.curSelCareer)].Count;
+            int cnt = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardListArr[(int)(m_jobSelectData.m_midPnl.curSelJobCard.career)].Count;
             m_progText.text = string.Format("{0}/30", cnt);
 
             int wid = (int)(((float)cnt / 30) * 260);

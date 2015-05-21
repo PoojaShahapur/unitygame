@@ -245,10 +245,23 @@ namespace SDK.Common
             }
         }
 
-        public void psstRetDeleteOneCardGroupUserCmd(uint index)
+        public int psstRetDeleteOneCardGroupUserCmd(uint index)
         {
+            int curIdx = 0;
+            foreach (CardGroupItem item in m_cardGroupListArr)
+            {
+                if (item.m_cardGroup.index == index)
+                {
+                    break;
+                }
+
+                ++curIdx;
+            }
+
             m_cardGroupListArr.Remove(m_id2CardGroupDic[index]);
             m_id2CardGroupDic.Remove(index);
+
+            return curIdx;
         }
     }
 }

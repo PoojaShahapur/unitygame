@@ -38,5 +38,12 @@ namespace Game.UI
             m_midPnl.init();
             m_rightPnl.init();
         }
+
+        public void dispose()
+        {
+            m_leftPnl.dispose();
+            m_midPnl.dispose();
+            m_rightPnl.dispose();
+        }
     }
 }
