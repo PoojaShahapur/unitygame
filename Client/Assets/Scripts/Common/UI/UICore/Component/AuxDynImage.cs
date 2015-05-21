@@ -67,7 +67,7 @@ namespace SDK.Common
 
         }
 
-        // 更新图像
+        // 资源改变更新图像
         public void updateImage()
         {
             if (m_bNeedUpdateImage)
@@ -82,6 +82,24 @@ namespace SDK.Common
             }
 
             m_bNeedUpdateImage = false;
+        }
+
+        // 对象 GameObject 释放后，重新创建 GameObject 更新资源
+        public void updateImageAfterReCreateGO()
+        {
+             if (m_bNeedUpdateImage)
+             {
+                 if (m_imageItem == null)
+                 {
+                     updateImage();
+                 }
+                 else
+                 {
+                     m_imageItem.setImageImage(m_image);
+                 }
+             }
+
+             m_bNeedUpdateImage = true;
         }
 
         override public void dispose()

@@ -64,19 +64,10 @@ namespace Game.UI
             // 获取 GO ， initJobRes 里面要用到
             m_auxLayoutH.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollContParent);
             m_auxLayoutH.contentGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollCont);
-            if (JobSelectMode.eNewCardSet == Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.jobSelectMode)
-            {
-                // 将职业选择的卡牌添加进去
-                initJobRes();
-            }
-            else if (JobSelectMode.eDz == Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.jobSelectMode)
-            {
-                // 将职业选择的卡牌添加进去
-                initCardSet();
-            }
 
             for (int idx = 0; idx < m_cardCount; ++idx)
             {
+                m_jobCardList[idx].initJobCard();
                 m_jobCardList[idx].findWidget();
             }
 
@@ -110,41 +101,6 @@ namespace Game.UI
             if (m_jobImage != null)
             {
                 m_jobImage.dispose();
-            }
-        }
-
-        protected void initJobRes()
-        {
-            // 添加职业，从 1 开始
-            for (int idx = 0; idx < m_cardCount; ++idx)
-            {
-                addOndCard((uint)m_jobCardList[idx].career);
-            }
-        }
-
-        protected void initCardSet()
-        {
-            foreach(CardGroupItem item in Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr)
-            {
-                addOndCard(item.m_cardGroup.occupation);
-            }
-        }
-
-        protected void addOndCard(uint career)
-        {
-            TableItemBase tableItem = null;
-            TableJobItemBody tableJobItemBody = null;
-            string jobPath = "";
-            GameObject _go = null;
-
-            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, career);
-            if (tableItem != null)
-            {
-                tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
-                jobPath = string.Format("{0}UIJobSelect/JobSelCard_{1}.prefab", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], 3);
-                _go = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(jobPath).InstantiateObject(jobPath);
-                _go.name = string.Format("JobSelCard_{0}", career);
-                m_auxLayoutH.addElem(_go);
             }
         }
 

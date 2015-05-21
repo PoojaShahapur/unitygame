@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using SDK.Lib;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -13,12 +14,14 @@ namespace Game.UI
         protected EnPlayerCareer m_career;  // 职业
         
         protected CardGroupItem m_cardGroupItem;
+        protected AuxDynImageDynGO m_jobCardBtn;
 
         public JobCard(JobSelectData data, int tag_, EnPlayerCareer ccc):
             base(data)
         {
             m_tag = tag_;
             m_career = ccc;
+            m_jobCardBtn = new AuxDynImageDynGO();
         }
 
         public EnPlayerCareer career
@@ -45,6 +48,31 @@ namespace Game.UI
             }
         }
 
+        public void initJobCard()
+        {
+            TableItemBase tableItem = null;
+            TableJobItemBody tableJobItemBody = null;
+            string jobPath = "";
+
+            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)m_career);
+            if (tableItem != null)
+            {
+                tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
+                jobPath = string.Format("{0}UIJobSelect/JobSelCard.prefab", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI]);
+                m_jobCardBtn.setImageInfo("Atlas/JobSelectDyn.asset", "emei_zhiyepai");
+                m_jobCardBtn.prefabPath = jobPath;
+                m_jobCardBtn.loadPrefab();
+                m_jobCardBtn.updateImage();
+
+                m_jobCardBtn.selfGo.name = string.Format("JobSelCard_{0}", career);
+            }
+        }
+
+        public void add2LayoutH(AuxLayoutH layout)
+        {
+            layout.addElem(m_jobCardBtn.selfGo);
+        }
+
         public new void findWidget()
         {
             
@@ -52,8 +80,7 @@ namespace Game.UI
 
         public new void addEventHandle()
         {
-            string objName = string.Format("{0}/JobSelCard_{1}", JobSelectPath.ScrollCont, (int)m_career);
-            UtilApi.addEventHandle(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, objName, onJobSelBtnClk);
+            UtilApi.addEventHandle(m_jobCardBtn.selfGo, onJobSelBtnClk);
         }
 
         public void onJobSelBtnClk()
