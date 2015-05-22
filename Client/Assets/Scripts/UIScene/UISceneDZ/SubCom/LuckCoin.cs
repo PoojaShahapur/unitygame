@@ -16,19 +16,18 @@ namespace Game.UI
         }
 
         // Update is called once per frame
-        void Update()
+        public void Update()
         {
 
         }
 
-        void first()
+        public void first()
         {
-
             transform.Rotate(Vector3.left, 20);
             gameObject.AddComponent<Rigidbody>();
         }
 
-        void cost()
+        public void cost()
         {
             transform.Rotate(Vector3.left, -20);
             gameObject.AddComponent<Rigidbody>();

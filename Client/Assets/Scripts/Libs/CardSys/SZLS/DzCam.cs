@@ -9,47 +9,15 @@ namespace SDK.Lib
 {
     public class DzCam : InterActiveEntity
     {
+        protected Transform mycarddeap;
+        List<Transform> cs = new List<Transform>();
+
         // Use this for initialization
         public override void Start()
         {
-            dzban = GameObject.Find("dzban").transform;
-            mHand = dzban;
-            mycosttext = GameObject.Find("mycosttext").GetComponent<Text>();
-            enemycosttext = GameObject.Find("enemycosttext").GetComponent<Text>();
-            //mycosttext.text = "0/0";
-            //enemycosttext.text = "0/0";
 
-            mycarddeap = UtilApi.GoFindChildByPObjAndName("dz/di/mycarddeap").transform;
-            enemyHero = UtilApi.GoFindChildByPObjAndName("enemyhero").transform;
-            enemyHeroPower = UtilApi.GoFindChildByPObjAndName("enemyheropower").transform;
-            myHero = UtilApi.GoFindChildByPObjAndName("hero").transform;
-            myHeroPower = UtilApi.GoFindChildByPObjAndName("myheropower").transform;
-            //youturntip = UtilApi.GoFindChildByPObjAndName("youturntip");
-
-            enemycarddeap = UtilApi.GoFindChildByPObjAndName("dz/di/enemycarddeap").transform;
-            enemyHand = UtilApi.GoFindChildByPObjAndName("enemyhand").transform;
-            enemyHandtarget = UtilApi.GoFindChildByPObjAndName("enemyhandt").transform;
-            mybattlefield = UtilApi.GoFindChildByPObjAndName("mybattlefield").transform;
-            enemybattlefield = UtilApi.GoFindChildByPObjAndName("enemybattlefield").transform;
         }
 
-        public void banpick()
-        {
-            //
-        }
-
-        bool isfirst = false;
-        /// <summary>
-        /// 如果自己是服务器且是先手,是由dzclient sendmsg过来
-        /// 如果自己是客户端且是后手,是由rpc用
-        /// </summary>
-        [RPC]
-        void youfirst()
-        {
-            isfirst = true;
-        }
-
-        List<Transform> cs = new List<Transform>();
         AnimationClip moveto(Vector3 s, Vector3 e)
         {
             AnimationClip ret = new AnimationClip();
@@ -71,7 +39,7 @@ namespace SDK.Lib
             //不管怎么样都抽3张
             for (int x = 0; x < 3; x++)
             {
-                Transform c = newcard();
+                Transform c = null;
 #if UNITY_5
                 c.GetComponent<Animation>().AddClip(moveto(mycarddeap.position, fpoint[x]), "come");
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
@@ -89,25 +57,13 @@ namespace SDK.Lib
                 //networkView.RPC("enemydraw", RPCMode.Others);
             }
 
-            //把硬币动画做出来
-            if (isfirst)
-            {
-                GameObject.Find("luckycoin").SendMessage("first");
-            }
-            else
-            {
-                GameObject.Find("luckycoin").SendMessage("cost");
-            }
-
             yield return new WaitForSeconds(2.5f);//等动画完成
 
-            if (!isfirst)
+            if (true)
             {
-                //向对面发送
-                //networkView.RPC("enemydraw", RPCMode.Others);
                 //再抽一张
                 //实例第4张
-                Transform c = newcard();
+                Transform c = null;
 #if UNITY_5
                 c.GetComponent<Animation>().AddClip(moveto(mycarddeap.position, fpoint[3]), "come");
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
@@ -134,39 +90,12 @@ namespace SDK.Lib
             //出现标题与替换
             transform.FindChild("btandbtn").gameObject.SetActive(true);
         }
-        //实例出一张
-        Transform newcard()
-        {
-            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), new Vector3(10, 10, 10), transform.rotation) as GameObject).transform;
-
-            c.parent = dzban;
-            return c;
-        }
-
-        List<Transform> willban = new List<Transform>();
-        void addban(Transform t)
-        {
-            if (!myradey)
-            {
-                willban.Add(t);
-            }
-        }
-
-        void subban(Transform t)
-        {
-            if (!myradey)
-            {
-                willban.Remove(t);
-            }
-        }
-        public Transform mycarddeap;
 
         public IEnumerator replace()
         {
-
-            for (int x = 0; x < willban.Count; x++)
+            for (int x = 0; x < 3; x++)
             {
-                Transform t = willban[x];
+                Transform t = null;
                 Vector3 now = t.localPosition;
 
                 AnimationClip back = moveto(now, mycarddeap.position);
@@ -196,7 +125,7 @@ namespace SDK.Lib
 
                 AnimationClip come = moveto(mycarddeap.position, now);
                 //实例一张
-                Transform c = newcard();
+                Transform c = null;
                 c.parent = dzban;
 #if UNITY_5
                 c.GetComponent<Animation>().AddClip(come, "come");
@@ -213,27 +142,12 @@ namespace SDK.Lib
                 UtilApi.Destroy(t.gameObject);
             }
 
-            //向对手发送已经ok
-            myradey = true;
-            //networkView.RPC("banok", RPCMode.Others);
-
-            if (myradey && enemyradey)
-            {
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
-            }
+            Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
         }
 
-        bool myradey = false;
-        bool enemyradey = false;
-        [RPC]
         void banok()
         {
-            enemyradey = true;
-
-            if (myradey && enemyradey)
-            {
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
-            }
+            Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
         }
 
         /// <summary>
@@ -241,9 +155,6 @@ namespace SDK.Lib
         /// </summary>
         IEnumerator bancardgohand()
         {
-            Debug.Log("bancardgohand");
-            //不管你是先完成还是先完成replace的,都会到这里
-
             //让手牌到手牌区
             iTween.MoveTo(dzban.gameObject, new Vector3(0, 0, -2.66f), 0.5f);
 
@@ -277,7 +188,7 @@ namespace SDK.Lib
             //幸运币消失,
             Transform l = GameObject.Find("luckycoin").transform;
 
-            if (isfirst)
+            if (true)
             {
                 //先手
                 myHero.SendMessage("setGameID", 1);
@@ -286,25 +197,9 @@ namespace SDK.Lib
                 //回合开始
                 turnBegin();
             }
-            else
-            {//后手
-                myHero.SendMessage("setGameID", 2);
-                enemyHero.SendMessage("setGameID", 1);
-                //Todo实例一张幸运币卡
-                Transform lucky = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), l.position, Quaternion.identity) as GameObject).transform;
-                lucky.parent = mHand;
-                lucky.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-            }
 
             UtilApi.Destroy(l.gameObject);
             clearUpHand();
-            //把ban改为手牌
-            dzban.name = "hand";
-            //把英雄设为英雄类型
-            myHero.SendMessage("setType", CardType.CARDTYPE_HERO);
-
-            //把英雄设为英雄类型
-            enemyHero.SendMessage("setType", CardType.CARDTYPE_HERO);
         }
 
         Transform dzban;
@@ -315,7 +210,6 @@ namespace SDK.Lib
         /// </summary>
         void clearUpHand()
         {
-            // cardskin.isdrag = true;
             //一共共2个单位 分给所有人
             int x = 1;
             //间隔值
@@ -338,7 +232,6 @@ namespace SDK.Lib
 
                 x++;
             }
-            //cardskin.isdrag = false;
         }
 
         public Transform enemyHero;
@@ -346,50 +239,19 @@ namespace SDK.Lib
 
         public Transform myHero;
         public Transform myHeroPower;
-        void BroadcastCanattack()
-        {
-            //我方战场
-            mybattlefield.BroadcastMessage("CanAttack", SendMessageOptions.DontRequireReceiver);
-            //我方英雄
-            myHero.SendMessage("CanAttack");
-            //我方技能
-            // myHeroPower.SendMessage("CanAttack");
 
-            //对方战场
-            enemybattlefield.BroadcastMessage("CanAttack", SendMessageOptions.DontRequireReceiver);
-            //对方英雄
-            // enemybattlefield.SendMessage("CanAttack");
-            //对方技能
-            // myHeroPower.SendMessage("CanAttack");
-        }
-
-        public static bool ismyturn = false;
-        //public GameObject youturntip;
-        [RPC]
         void turnBegin()
         {
-            //出现你的回合
-            //iTween.ScaleTo(youturntip, Vector3.one, 0.5f);
-            //iTween.ScaleTo(youturntip, iTween.Hash(
-            //    "scale", Vector3.one * 0.00001f,
-            //    "time", 0.5f,
-            //    "delay", 1f
-            //    ));
-
             //结束回合向上
             GameObject.Find("dz").transform.FindChild("turn").SendMessage("myturn");
 
-            ismyturn = true;
             draw();
-            addCostMax();
-            restoreCost();
         }
-        //public Transform enemycard;
+
         public Transform enemycarddeap;
         public Transform enemyHand;
         public Transform enemyHandtarget;
 
-        [RPC]
         void enemydraw()
         {
             int x = 1;
@@ -428,11 +290,6 @@ namespace SDK.Lib
         /// </summary>
         public void draw()
         {
-            //向对面发送
-            //networkView.RPC("enemydraw", RPCMode.Others);
-
-            // cardskin.isdrag = true;
-
             Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
             c.parent = mHand;
             c.Rotate(-90f, -90f, 0);
@@ -440,11 +297,6 @@ namespace SDK.Lib
         }
 
         List<Transform> cost = new List<Transform>();
-        int costMax;
-        void restoreCost()
-        {
-            restoreCost(costMax - cost.Count);
-        }
 
         void restoreCost(int num)
         {
@@ -460,35 +312,8 @@ namespace SDK.Lib
                 iTween.ShakeScale(c.gameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f);
                 cost.Add(c);
             }
-            //更新文本
-            updataMyCostText();
         }
 
-        void addCostMax()
-        {
-            if (costMax != 10)
-            {
-                costMax++;
-                updataMyCostText();
-            }
-        }
-
-        //UILabel mycosttext, enemycosttext;
-        Text mycosttext, enemycosttext;
-        void updataMyCostText()
-        {
-            mycosttext.text = cost.Count + "/" + costMax;
-            //向对面发送
-            //networkView.RPC("costtext", RPCMode.Others, mycosttext.text);
-        }
-
-        [RPC]
-        void costtext(string text)
-        {
-            enemycosttext.text = text;
-        }
-
-        //public Transform minionmoder;
         public Transform mybattlefield;
         void playCard(Transform t)
         {
@@ -520,8 +345,6 @@ namespace SDK.Lib
                 "oncompleteparams", t,
                 "oncompletetarget", gameObject)
                 );
-            //向对方通告,
-            //networkView.RPC("enemypaly", RPCMode.Others, "id123");
         }
 
         public Transform enemybattlefield;
@@ -557,22 +380,6 @@ namespace SDK.Lib
                 "oncompleteparams", t,
                 "oncompletetarget", gameObject)
                 );
-        }
-
-        /// <summary>
-        /// 新建一个仆从的模型.
-        /// </summary>
-        /// <param name="t"></param>
-        void create(Transform t)
-        {
-            Transform mt = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getMinionModel().getObject(), t.position, mybattlefield.rotation) as GameObject).transform;
-            mt.parent = t.parent;
-            if (mt.parent == mybattlefield)
-            {
-                mt.SendMessage("setMine");
-            }
-            UtilApi.Destroy(t.gameObject);
-            clearUpHand();
         }
     }
 }

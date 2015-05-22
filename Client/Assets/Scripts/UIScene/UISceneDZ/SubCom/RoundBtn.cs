@@ -11,9 +11,6 @@ namespace Game.UI
      */
     public class RoundBtn : InterActiveEntity
     {
-        //bool ismyturn = false;
-        // Use this for initialization
-
         public SceneDZData m_sceneDZData;
         public bool m_bNeedTipsInfo = true;     // 是否需要弹出提示框
         public int m_clkTipsCnt = 0;               // 点击提示框次数
@@ -25,13 +22,13 @@ namespace Game.UI
         }
 
         // Update is called once per frame
-        void Update()
+        public void Update()
         {
+
         }
 
-        void OnBtnClk(GameObject go)
+        protected void OnBtnClk(GameObject go)
         {
-            //if (dzcam.ismyturn)
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
                 //animation["dzturn"].speed = 1;
@@ -91,12 +88,11 @@ namespace Game.UI
         }
 
         // 显示[结束回合]
-        public void myturn()
+        public void myTurn()
         {
             animation["dzturn"].speed = -1;
             animation["dzturn"].time = 1;
             animation.Play("dzturn");
-            DzCam.ismyturn = true;
         }
 
         // 显示[对方回合]

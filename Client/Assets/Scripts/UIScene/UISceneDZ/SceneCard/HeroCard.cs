@@ -41,9 +41,9 @@ namespace Game.UI
             m_hpText.text = m_sceneCardItem.svrCard.hp.ToString();
         }
 
-        public void setclasss(EnPlayerCareer c)
+        public void setClasss(EnPlayerCareer c)
         {
-            setpic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)c).m_mat);
+            setPic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)c).m_mat);
 
             //播放动画,
             animation.Play();
@@ -51,11 +51,11 @@ namespace Game.UI
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 3;           // 3 秒动画播放完成
             timer.m_totalCount = 3;
-            timer.m_timerDisp = hidevs;
+            timer.m_timerDisp = hideVS;
             Ctx.m_instance.m_timerMgr.addObject(timer);
         }
 
-        public void setpic(Material m)
+        public void setPic(Material m)
         {
 #if UNITY_5
             transform.FindChild("pic").GetComponent<Renderer>().material = m;
@@ -64,19 +64,8 @@ namespace Game.UI
 #endif
         }
 
-        public void banpick()
-        {
-            Ctx.m_instance.m_camSys.m_dzCam.banpick();
-        }
-
-        //第一次抽,向主摄像发送消息
-        public void firstdarw()
-        {
-            Ctx.m_instance.m_camSys.m_dzCam.firstdarw();
-        }
-
         // 隐藏 VS 图标
-        public void hidevs(TimerItemBase timer)
+        public void hideVS(TimerItemBase timer)
         {
             Camera.main.transform.FindChild("vs").gameObject.SetActive(false);
             // 这个之后才开始显示播放自己第一次牌

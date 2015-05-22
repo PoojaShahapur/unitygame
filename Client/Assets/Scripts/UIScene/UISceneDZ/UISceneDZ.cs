@@ -267,7 +267,7 @@ namespace Game.UI
                 if (m_bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息已进入对战就发送过来了
                 {
                     m_sceneDZData.m_selfTurnTip.turnBegin();
-                    m_sceneDZData.m_roundBtn.myturn();
+                    m_sceneDZData.m_roundBtn.myTurn();
                     //m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
 
                     // 开始定时器
@@ -357,8 +357,8 @@ namespace Game.UI
 
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)
         {
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setclasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroOccupation);   // 设置职业
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroOccupation);   // 设置职业
         }
 
         // 自己第一次获得的卡牌的处理，如果换牌，还是会再次发送这个消息

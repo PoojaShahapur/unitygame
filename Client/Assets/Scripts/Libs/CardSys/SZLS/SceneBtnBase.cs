@@ -10,8 +10,8 @@ namespace SDK.Lib
     /// </summary>
     public class SceneBtnBase : InterActiveEntity
     {
-        public bool Disable = false;
-        GameObject mlight;
+        public bool m_bDisable = false;
+        GameObject m_light;
 
         // Use this for initialization
         public override void Start()
@@ -19,24 +19,24 @@ namespace SDK.Lib
             Transform t = transform.FindChild("light");
             if (t != null)
             {
-                mlight = t.gameObject;
+                m_light = t.gameObject;
             }
 
-            if (Disable)
+            if (m_bDisable)
             {
                 return;
             }
         }
 
-        void OnMouseEnter()
+        public void OnMouseEnter()
         {
-            if (Disable)
+            if (m_bDisable)
             {
                 return;
             }
-            if (mlight != null)
+            if (m_light != null)
             {
-                mlight.SetActive(true);
+                m_light.SetActive(true);
             }
 
             if (animation != null)
@@ -45,31 +45,16 @@ namespace SDK.Lib
             }
         }
 
-        void OnMouseExit()
+        public void OnMouseExit()
         {
-            if (Disable)
+            if (m_bDisable)
             {
                 return;
             }
-            if (mlight != null)
+            if (m_light != null)
             {
-                mlight.SetActive(false);
+                m_light.SetActive(false);
             }
-        }
-
-        //向上一级发送
-        public bool sendtoparent = false;
-        public void OnMouseUpAsButton()
-        {
-            if (Disable)
-            {
-                return;
-            }
-        }
-
-        void OnClick()
-        {
-            Debug.Log("空按钮函数");
         }
     }
 }
