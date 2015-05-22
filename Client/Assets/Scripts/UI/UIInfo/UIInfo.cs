@@ -61,9 +61,17 @@ namespace Game.UI
 
         protected InfoBoxParam m_infoParam;
 
+        public override void onInit()
+        {
+            exitMode = false;
+
+            base.onInit();
+        }
+
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             m_infoData = new InfoData(this);
             m_infoMode_1 = new InfoMode_1(m_infoData);
             m_infoMode_2 = new InfoMode_2(m_infoData);
@@ -74,7 +82,7 @@ namespace Game.UI
 
         override public void onShow()
         {
-            exitMode = false;
+            base.onShow();
         }
 
         override public void onExit()

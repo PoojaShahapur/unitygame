@@ -38,10 +38,13 @@ namespace Game.UI
         // 点击开包按钮
         protected virtual void onBtnClkOpen(GameObject go)
         {
-            // 点击放入中间的格子
-            if (m_clkCB != null)
+            if (!UtilApi.IsPointerOverGameObject())
             {
-                m_clkCB(this);
+                // 点击放入中间的格子
+                if (m_clkCB != null)
+                {
+                    m_clkCB(this);
+                }
             }
         }
 

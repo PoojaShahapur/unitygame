@@ -16,43 +16,48 @@ namespace SDK.Common
     {
         protected EGameStage m_ePreGameStage = EGameStage.eStage_None;          // 之前游戏状体
         protected EGameStage m_eCurGameStage = EGameStage.eStage_None;             // 当前游戏状态
-        protected Action<EGameStage> m_quitStageDisp;           // 退出状态分发
-        protected Action<EGameStage> m_enteringStageDisp;       // 正在进入状态分发
-        protected Action<EGameStage> m_enteredStageDisp;        // 进入状态分发
+        protected Action<EGameStage, EGameStage> m_quitingAndEnteringStageDisp;       // 退出并且正在进入状态分发
+        protected Action<EGameStage, EGameStage> m_quitedAndEnteredStageDisp;               // 退出后进入状态分发
+
+        public EGameStage ePreGameStage
+        {
+            get
+            {
+                return m_ePreGameStage;
+            }
+        }
+
+        public EGameStage eCurGameStage
+        {
+            get
+            {
+                return m_eCurGameStage ;
+            }
+        }
 
         public void toggleGameStage(EGameStage newStage)
         {
             if (newStage != m_eCurGameStage)
             {
-                quitCurStage();
                 m_ePreGameStage = m_eCurGameStage;
                 m_eCurGameStage = newStage;
-                enteringCurStage();
+                quitingAndEnteringCurStage();
             }
         }
 
-        // 退出当前 stage
-        protected void quitCurStage()
+        protected void quitingAndEnteringCurStage()
         {
-            if(m_quitStageDisp != null)
+            if (m_quitingAndEnteringStageDisp != null)
             {
-                m_quitStageDisp(m_eCurGameStage);
+                m_quitingAndEnteringStageDisp(m_ePreGameStage, m_eCurGameStage);
             }
         }
 
-        protected void enteringCurStage()
+        public void quitedAndEnteredCurStage()
         {
-            if (m_enteringStageDisp != null)
+            if (m_quitedAndEnteredStageDisp != null)
             {
-                m_enteringStageDisp(m_eCurGameStage);
-            }
-        }
-
-        public void enteredCurStage()
-        {
-            if (m_enteredStageDisp != null)
-            {
-                m_enteredStageDisp(m_eCurGameStage);
+                m_quitedAndEnteredStageDisp(m_ePreGameStage, m_eCurGameStage);
             }
         }
 
@@ -66,34 +71,24 @@ namespace SDK.Common
             return m_eCurGameStage == eGameStage;
         }
 
-        public void addQuitDisp(Action<EGameStage> handle)
+        public void addQuitingAndEnteringDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_quitStageDisp += handle;
+            m_quitingAndEnteringStageDisp += handle;
         }
 
-        public void removeQuitDisp(Action<EGameStage> handle)
+        public void removeQuitingAndEnteringDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_quitStageDisp -= handle;
+            m_quitingAndEnteringStageDisp -= handle;
         }
 
-        public void addEnteringDisp(Action<EGameStage> handle)
+        public void addQuitedAndEnteredDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_enteringStageDisp += handle;
+            m_quitedAndEnteredStageDisp += handle;
         }
 
-        public void removeEnteringDisp(Action<EGameStage> handle)
+        public void removeQuitedAndEnteredDisp(Action<EGameStage, EGameStage> handle)
         {
-            m_enteringStageDisp -= handle;
-        }
-
-        public void addEnteredDisp(Action<EGameStage> handle)
-        {
-            m_enteredStageDisp += handle;
-        }
-
-        public void removeEnteredDisp(Action<EGameStage> handle)
-        {
-            m_enteredStageDisp -= handle;
+            m_quitedAndEnteredStageDisp -= handle;
         }
     }
 }

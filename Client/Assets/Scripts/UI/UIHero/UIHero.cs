@@ -15,6 +15,8 @@ namespace Game.UI
 
         public override void onReady()
         {
+            base.onReady();
+
             m_heroData = new HeroData();
 
             findWidget();
@@ -25,6 +27,7 @@ namespace Game.UI
 
         public override void onShow()
         {
+            base.onShow();
             // 显示背景
             UISceneBg uiSB = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneBg>(UISceneFormID.eUISceneBg);
             if (uiSB == null)

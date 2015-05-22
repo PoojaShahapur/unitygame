@@ -48,10 +48,6 @@ namespace SDK.Common
         protected void modifyTex(GameObject go_, CardItemBase cardItem)
         {
             // 头像是每一个卡牌一个配置
-            if(string.IsNullOrEmpty(cardItem.m_tableItemCard.m_cardHeader))
-            {
-                cardItem.m_tableItemCard.m_cardHeader = "aaa";
-            }
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], cardItem.m_tableItemCard.m_cardHeader);
             m_headerTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
 
@@ -61,10 +57,6 @@ namespace SDK.Common
             TableJobItemBody jobTable;
             // 边框
             jobTable = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)(cardItem.m_tableItemCard.m_career)).m_itemBody as TableJobItemBody;
-            if (string.IsNullOrEmpty(jobTable.m_frameImage))
-            {
-                jobTable.m_frameImage = "bbb";
-            }
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], jobTable.m_frameImage);
             m_frameTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
 
@@ -72,10 +64,6 @@ namespace SDK.Common
             mat.mainTexture = m_frameTex.getTexture();
 
             // 腰带
-            if (string.IsNullOrEmpty(jobTable.m_yaoDaiImage))
-            {
-                jobTable.m_yaoDaiImage = "bbb";
-            }
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], jobTable.m_yaoDaiImage);
             m_yaoDaiTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
 

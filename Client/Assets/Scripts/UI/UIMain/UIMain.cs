@@ -18,6 +18,7 @@ namespace Game.UI
 
         public override void onReady()
         {
+            base.onReady();
             m_mainData = new MainData(this);
 
             m_btnArr = new Button[(int)MainBtnEnum.eBtnTotal];
@@ -27,6 +28,8 @@ namespace Game.UI
 
         public override void onShow()
         {
+            base.onShow();
+            Ctx.m_instance.m_logSys.log("请求卡组数据");
             // 请求所有卡牌
             Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
             // 请求所有的卡牌组
@@ -63,16 +66,6 @@ namespace Game.UI
             // 发送消息
             stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
             UtilMsg.sendMsg(cmd);
-
-            //UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneShop>(UISceneFormID.eUISceneShop);
-            //if (uiShop == null)
-            //{
-            //    Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneShop>(UISceneFormID.eUISceneShop);
-            //}
-            //uiShop = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneShop) as UISceneShop;
-
-            //// 显示内容
-            //uiShop.showUI();
         }
 
         protected void onBtnClkHero()

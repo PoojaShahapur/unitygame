@@ -17,6 +17,7 @@ namespace Game.UI
 
         public override void onReady()
         {
+            base.onReady();
             int idx = 0;
             for (idx = 0; idx < (int)CardBtnEnum.eCardBtnTotal; ++idx)
             {
@@ -34,11 +35,13 @@ namespace Game.UI
 
         public override void onShow()
         {
+            base.onShow();
             updateData();
         }
 
         public override void onExit()
         {
+            base.onExit();
             int idx = 0;
             for (idx = 0; idx < (int)CardBtnEnum.eCardBtnTotal; ++idx)
             {

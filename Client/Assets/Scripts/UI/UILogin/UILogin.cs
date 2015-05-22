@@ -15,6 +15,7 @@ namespace Game.UI
     {
         override public void onShow()
         {
+            base.onShow();
             // 加载测试界面
             //Ctx.m_instance.m_uiMgr.loadForm<UILogicTest>(UIFormID.eUILogicTest);
         }
@@ -22,6 +23,7 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             findWidget();
             addEventHandle();
         }

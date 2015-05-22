@@ -20,7 +20,7 @@ namespace Game.UI
 
         override public void onShow()
         {
-            //base.onShow();
+            base.onShow();
             if(Ctx.m_instance.m_dataPlayer.m_chatData.getStr().Length > 0)
             {
                 outMsg(Ctx.m_instance.m_dataPlayer.m_chatData.getStr());
@@ -30,6 +30,7 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             findWidget();
             addEventHandle();
         }
@@ -37,13 +38,13 @@ namespace Game.UI
         // 每一次隐藏都会调用一次
         override public void onHide()
 		{
-             
+            base.onHide();
 		}
 
         // 每一次关闭都会调用一次
         override public void onExit()
         {
-
+            base.onExit();
         }
 
         protected void findWidget()

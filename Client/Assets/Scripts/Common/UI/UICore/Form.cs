@@ -9,9 +9,13 @@ namespace SDK.Common
 	{
         protected bool m_exitMode = true;               // 关闭退出模式
 		protected bool m_bHideOnCreate = false;         // 创建后是否隐藏
-        protected bool m_bResLoaded = false;            // 资源加载进来
+        //protected bool m_bResLoaded = false;            // 资源加载进来
         protected UIFormID m_id;
         protected bool m_bLoadWidgetRes = false;                // 是否应该加载窗口资源
+        protected bool m_bReady = false;            // 是否准备就绪
+
+        protected bool m_bBlurBg = false;       // 是否模糊背景
+        protected bool m_bHandleExitBtn = false;       // 是否关联关闭按钮
 
 		public Form()
             : base()
@@ -73,6 +77,14 @@ namespace SDK.Common
             }
         }
 
+        public bool bReady
+        {
+            get
+            {
+                return m_bReady;
+            }
+        }
+
         public void init()
         {
             onInit();
@@ -106,26 +118,39 @@ namespace SDK.Common
         // 第一次显示之前会调用一次
         virtual public void onReady()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
+            m_bReady = true;
+            if (m_bHandleExitBtn)
+            {
+                UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
+            }
         }
 
         // 每一次显示都会调用一次
         virtual public void onShow()
 		{
-            Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
+            if (m_bBlurBg)
+            {
+                Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
+            }
 		    //adjustPosWithAlign();
 		}
 
         // 每一次隐藏都会调用一次
         virtual public void onHide()
 		{
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+            if (m_bBlurBg)
+            {
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+            }
 		}
 
         // 每一次关闭都会调用一次
         virtual public void onExit()
 		{
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+            if (m_bBlurBg)
+            {
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+            }
 		}
 
         public bool isVisible()
@@ -186,13 +211,5 @@ namespace SDK.Common
 		{
             exit();
 		}
-
-        public bool bReady
-		{
-            get
-            {
-                return m_bReady;
-            } 
-		}	
 	}
 }

@@ -26,13 +26,13 @@ namespace SDK.Common
             }
         }
 
-        public void addElem(GameObject go_, bool recalc = false)
+        override public void addElem(GameObject go_, bool recalc = false)
         {
             ++m_colCount;
             base.addElem(go_, recalc);
         }
 
-        public void removeAndDestroyElem(GameObject go_, bool recalc = false)
+        override public void removeAndDestroyElem(GameObject go_, bool recalc = false)
         {
             --m_colCount;
             base.removeAndDestroyElem(go_, recalc);

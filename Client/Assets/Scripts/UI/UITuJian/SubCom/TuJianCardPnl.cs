@@ -32,6 +32,7 @@ namespace Game.UI
         protected GameObject m_cardGo;
 
         protected Button[] m_btnArr = new Button[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
+        public TuJianCardItemCom m_curClkTuJianCardItemCom;     // 当前点击的卡牌
 
         public TuJianCardPnl(TuJianData data) :
             base(data)
@@ -51,8 +52,8 @@ namespace Game.UI
             m_cardGo = new GameObject();
             UtilApi.SetParent(m_cardGo, Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel], false);
             UtilApi.setGOName(m_cardGo, "CardListGo");
-            UtilApi.setPos(m_cardGo.transform, new Vector3(3.0f, -4.0f, 0.0f));
-            UtilApi.setRot(m_cardGo.transform, new Vector3(90, 180, 0));
+            UtilApi.setPos(m_cardGo.transform, new Vector3(-5.8f, 3.7f, 0.0f));
+            UtilApi.setRot(m_cardGo.transform, new Vector3(270, 0, 0));
         }
 
         public int filterMp
@@ -301,9 +302,15 @@ namespace Game.UI
         // 点击收藏界面中卡牌面板中的一张卡牌
         public void onClkCard(TuJianCardItemCom ioItem)
         {
+            m_curClkTuJianCardItemCom = ioItem;
+            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianCardMenu>(UIFormID.eUITuJianCardMenu);
+        }
+
+        public void addCurCard2CardSet()
+        {
             if (m_tuJianData.m_wdscCardSetPnl.m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Editset)
             {
-                m_tuJianData.m_wdscCardSetPnl.addCard2EditCardSet(ioItem.m_cardItemBase.m_tujian.id);
+                m_tuJianData.m_wdscCardSetPnl.addCard2EditCardSet(m_curClkTuJianCardItemCom.m_cardItemBase.m_tujian.id);
             }
         }
 

@@ -182,10 +182,6 @@ namespace Game.UI
 
         public void updateImage()
         {
-            if (string.IsNullOrEmpty(m_cardGroupItem.m_tableJobItemBody.m_cardSetRes))
-            {
-                m_cardGroupItem.m_tableJobItemBody.m_cardSetRes = "emei_taopai";
-            }
             m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/TuJianDyn.asset", m_cardGroupItem.m_tableJobItemBody.m_cardSetRes);
             m_imageItem.setGoImage(m_sceneGo);
         }

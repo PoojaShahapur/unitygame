@@ -118,7 +118,7 @@ namespace Game.UI
             reqSaveCard();  // 请求保存
 
             m_curEditCardSet.hideCardSet();        // 当前编辑的卡牌组隐藏
-            m_cardSetLayoutV.hideLayout();          // 当前卡牌组的卡牌列表隐藏
+            m_cardSetCardLayoutV.hideLayout();          // 当前卡牌组的卡牌列表隐藏
 
             UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, true);
             m_cardSetLayoutV.showLayout();

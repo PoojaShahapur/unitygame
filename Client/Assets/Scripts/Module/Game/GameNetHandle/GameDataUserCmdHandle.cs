@@ -1,4 +1,5 @@
 ﻿using Game.Msg;
+using Game.UI;
 using SDK.Common;
 using SDK.Lib;
 
@@ -22,6 +23,19 @@ namespace Game.Game
             stMainUserDataUserCmd cmd = new stMainUserDataUserCmd();
             cmd.derialize(msg);
             Ctx.m_instance.m_dataPlayer.m_dataMain = cmd.data;
+
+            if (!Ctx.m_instance.m_uiMgr.hasForm(UIFormID.eUIShop))
+            {
+                Ctx.m_instance.m_uiMgr.loadForm<UIShop>(UIFormID.eUIShop);
+            }
+
+            UIShop shop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
+            if (shop != null)
+            {
+                shop.UpdateGoldNum(cmd.data.m_gold);
+            }
+
+            Ctx.m_instance.m_logSys.log(string.Format("接收到主数据，money = {0}", cmd.data.m_gold));
         }
     }
 }

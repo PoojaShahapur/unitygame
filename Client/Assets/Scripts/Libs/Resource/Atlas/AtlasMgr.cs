@@ -26,7 +26,7 @@ namespace SDK.Lib
 
             // 获取资源单独保存
             //(m_path2ResDic[path] as AtlasGoRes).m_go = res.getObject(res.getPrefabName()) as GameObject;
-            (m_path2ResDic[path] as AtlasScriptRes).soSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;
+            (m_path2ResDic[path] as AtlasScriptRes).init(res);
             if (m_path2ListenItemDic[path].m_loaded != null)
             {
                 m_path2ListenItemDic[path].m_loaded(m_path2ResDic[path]);

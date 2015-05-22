@@ -17,6 +17,7 @@ namespace Game.UI
 
         public override void onReady()
         {
+            base.onReady();
             m_tuJianData = new TuJianData(this);
 
             findWidget();
@@ -30,6 +31,7 @@ namespace Game.UI
 
         public override void onShow()
         {
+            base.onShow();
             m_tuJianData.m_wdscCardPnl.buildFilterList();        // 生成过滤列表
             m_tuJianData.m_leftBtnPnl.updateByCareer((int)EnPlayerCareer.HERO_OCCUPATION_1);      // 切换到第一个职业
         }
@@ -151,6 +153,11 @@ namespace Game.UI
         public void delCardSet()
         {
             m_tuJianData.m_wdscCardSetPnl.delCardSet();
+        }
+
+        public void addCurCard2CardSet()
+        {
+            m_tuJianData.m_wdscCardPnl.addCurCard2CardSet();
         }
     }
 }

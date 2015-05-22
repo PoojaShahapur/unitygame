@@ -251,6 +251,12 @@ namespace Game.UI
                             enterAttack();
                         }
                     }
+                    else if(CardArea.CARDCELLTYPE_SKILL == m_sceneCardItem.cardArea)     // 如果是技能卡牌
+                    {
+                        stCardMoveAndAttackMagicUserCmd skillCmd = new stCardMoveAndAttackMagicUserCmd();
+                        skillCmd.dwAttThisID = this.m_sceneCardItem.svrCard.qwThisID;
+                        UtilMsg.sendMsg(skillCmd);
+                    }
                     else        // 默认点击处理都走这里
                     {
                         enterAttack();

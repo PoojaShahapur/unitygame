@@ -50,6 +50,8 @@ namespace Game.UI
 
         public void initJobCard()
         {
+            m_jobCardBtn.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollCont);
+
             TableItemBase tableItem = null;
             TableJobItemBody tableJobItemBody = null;
             string jobPath = "";
@@ -59,7 +61,7 @@ namespace Game.UI
             {
                 tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
                 jobPath = string.Format("{0}UIJobSelect/JobSelCard.prefab", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI]);
-                m_jobCardBtn.setImageInfo("Atlas/JobSelectDyn.asset", "emei_zhiyepai");
+                m_jobCardBtn.setImageInfo("Atlas/JobSelectDyn.asset", tableJobItemBody.m_jobRes);
                 m_jobCardBtn.prefabPath = jobPath;
                 m_jobCardBtn.loadPrefab();
                 m_jobCardBtn.updateImage();

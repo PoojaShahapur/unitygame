@@ -230,5 +230,31 @@ namespace SDK.Common
 
             return false;
         }
+
+        static public void setState(int idx, ref byte stateData)
+        {
+            if (idx < sizeof(byte) * 8)
+            {
+                stateData |= ((byte)(1 << idx));
+            }
+        }
+
+        static public void clearState(int idx, ref byte stateData)
+        {
+            if (idx < sizeof(byte) * 8)
+            {
+                stateData &= ((byte)(~(1 << idx)));
+            }
+        }
+
+        static public bool checkState(int idx, byte stateData)
+        {
+            if (idx < sizeof(byte) * 8)
+            {
+                return ((stateData & (1 << idx)) > 0);
+            }
+
+            return false;
+        }
     }
 }

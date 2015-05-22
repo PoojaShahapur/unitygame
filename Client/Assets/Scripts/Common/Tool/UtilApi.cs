@@ -6,6 +6,7 @@ using System.IO;
 using System.Security;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace SDK.Common
@@ -206,12 +207,18 @@ namespace SDK.Common
 
         public static void SetParent(Transform child, Transform parent, bool worldPositionStays = true)
         {
-            child.SetParent(parent, worldPositionStays);
+            if (child.transform.parent != parent.transform)
+            {
+                child.SetParent(parent, worldPositionStays);
+            }
         }
 
         public static void SetParent(GameObject child, GameObject parent, bool worldPositionStays = true)
         {
-            child.transform.SetParent(parent.transform, worldPositionStays);
+            if (child.transform.parent != parent.transform)
+            {
+                child.transform.SetParent(parent.transform, worldPositionStays);
+            }
         }
 
         public static void copyTransform(Transform src, Transform dest)
@@ -251,6 +258,25 @@ namespace SDK.Common
         public static void setImageType(Image image, Image.Type type)
         {
             image.type = type;
+        }
+
+        // 当前是否在与 UI 元素交互
+        public static bool IsPointerOverGameObject()
+        {
+            bool ret = false;
+            if (Input.touchCount > 0)
+            {
+                if(Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    ret = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+                }
+            }
+            else
+            {
+                ret = EventSystem.current.IsPointerOverGameObject();
+            }
+
+            return ret;
         }
 
         static public bool getXmlAttrBool(SecurityElement attr, string name)

@@ -16,27 +16,28 @@ namespace Game.UI
             base.onInit();
         }
 
-        override public void onShow()
-        {
-
-        }
-        
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             addEventHandle();
+        }
+
+        override public void onShow()
+        {
+            base.onShow();
         }
 
         // 每一次隐藏都会调用一次
         override public void onHide()
 		{
-             
+            base.onHide();
 		}
 
         // 每一次关闭都会调用一次
         override public void onExit()
         {
-
+            base.onExit();
         }
 
         protected void addEventHandle()

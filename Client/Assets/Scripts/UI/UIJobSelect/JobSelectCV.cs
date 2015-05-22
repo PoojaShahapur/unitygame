@@ -20,5 +20,6 @@
         public const string TextSkillDesc = "UIRootNode/MidLayer/SkillDescText";
         public const string ImageSkillIcon = "UIRootNode/MidLayer/SkillIconImage";
         public const string ImageJobName = "UIRootNode/MidLayer/JobNameImage";
+        public const string DzStartDescText = "UIRootNode/MidLayer/DzStartDescText";
     }
 }

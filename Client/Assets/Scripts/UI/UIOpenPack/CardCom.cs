@@ -50,13 +50,27 @@ namespace Game.UI
                 m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/ShopDyn.asset", "pdxt_kbd");
             }
 
-            Image srcImage = UtilApi.getComByP<Image>(m_uiCardBtn.gameObject);
-            srcImage.sprite = imageItem.image;
+            m_imageItem.setGoImage(m_uiCardBtn.gameObject);
         }
 
         public void dispose()
         {
             Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
+        }
+
+        public void loadShop()
+        {
+            if (m_tag < 4)
+            {
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/ShopDyn.asset", string.Format("pdxt_kb{0}", m_tag+1));
+            }
+            else
+            {
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/ShopDyn.asset", "pdxt_kbd");
+            }
+
+            Image srcImage = UtilApi.getComByP<Image>(m_uiCardBtn.gameObject);
+            srcImage.sprite = imageItem.image;
         }
     }
 }

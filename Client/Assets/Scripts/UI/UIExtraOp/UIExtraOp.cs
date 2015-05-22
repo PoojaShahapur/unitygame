@@ -14,11 +14,12 @@ namespace Game.UI
 
         override public void onShow()
         {
-
+            base.onShow();
         }
 
         override public void onReady()
         {
+            base.onReady();
             findWidget();
             addEventHandle();
         }

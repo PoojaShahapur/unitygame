@@ -15,7 +15,6 @@ namespace SDK.Common
 		public static int BOTTOM = 2; //居下
 
         public GUIWin m_GUIWin = new GUIWin();      // 控件数据
-		protected bool m_bReady = false;            // 是否准备就绪
 		protected bool m_draggable = true;
 
 		protected int m_hitYMax = 30;	// 可点击范围 Y 的最大值

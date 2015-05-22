@@ -24,6 +24,7 @@ namespace Game.UI
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             m_jobSelectData = new JobSelectData();      // 最先初始化全局数据
             m_jobSelectData.m_form = this;
 
@@ -35,18 +36,19 @@ namespace Game.UI
 
         override public void onShow()
         {
-
+            base.onShow();
         }
 
         // 每一次隐藏都会调用一次
         override public void onHide()
 		{
-             
+            base.onHide();
 		}
 
         // 每一次关闭都会调用一次
         override public void onExit()
         {
+            base.onExit();
             UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if(tujian != null)
             {
@@ -73,13 +75,13 @@ namespace Game.UI
 
         public void psstRetHeroFightMatchUserCmd(stRetHeroFightMatchUserCmd cmd)
         {
-            //m_lblTip.text = "匹配成功了";
+            m_jobSelectData.m_midPnl.matchSuccess();
         }
 
         // 更新 hero 显示
         public void updateHeroList()
         {
-            
+            m_jobSelectData.m_midPnl.updateHeroList();
         }
     }
 }

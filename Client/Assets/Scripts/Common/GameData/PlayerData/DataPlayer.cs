@@ -28,6 +28,7 @@ namespace SDK.Common
                 m_canReqMaidData = false;
                 stReqUserBaseDataInfoPropertyUserCmd cmd = new stReqUserBaseDataInfoPropertyUserCmd();
                 UtilMsg.sendMsg(cmd);
+                Ctx.m_instance.m_logSys.log("请求主数据");
             }
         }
     }

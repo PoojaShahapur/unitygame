@@ -10,12 +10,13 @@ namespace Game.UI
     {
         override public void onShow()
         {
-
+            base.onShow();
         }
 
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             addEventHandle();
         }
 

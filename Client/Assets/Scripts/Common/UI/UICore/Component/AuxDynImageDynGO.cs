@@ -8,8 +8,14 @@ namespace SDK.Common
     {
         protected GameObject m_selfGo;      // 动态加载的 Prefab 实例化后的 GameObject
         protected string m_prefabPath;      // Prefab 目录
-        protected UIPrefabRes m_prefabRes;// Prefab 资源
+        protected UIPrefabRes m_prefabRes;  // Prefab 资源
         protected bool m_bNeedReload = false;
+        protected bool m_bNeedPlaceHolderGo;    // 是否需要占位 GameObject
+
+        public AuxDynImageDynGO(bool bNeedPlaceHolderGo = false)
+        {
+            m_bNeedPlaceHolderGo = bNeedPlaceHolderGo;
+        }
 
         public string prefabPath
         {
@@ -62,7 +68,14 @@ namespace SDK.Common
                 m_prefabRes = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(m_prefabPath);
                 m_selfGo = m_prefabRes.InstantiateObject(m_prefabPath);
 
-                UtilApi.SetParent(m_selfGo, m_pntGo, false);
+                if (m_bNeedPlaceHolderGo)
+                {
+                    UtilApi.SetParent(m_selfGo, m_placeHolderGo, false);
+                }
+                else
+                {
+                    UtilApi.SetParent(m_selfGo, m_pntGo, false);
+                }
 
                 findWidget();
                 m_bNeedUpdateImage = true;      // 设置重新更新图像

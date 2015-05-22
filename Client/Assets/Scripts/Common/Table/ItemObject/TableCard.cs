@@ -82,6 +82,8 @@ namespace SDK.Common
             bytes.readInt32(ref m_bNeedZhanHouTarget);
             UtilTable.readString(bytes, ref m_cardDesc);
             UtilTable.readString(bytes, ref m_cardHeader);
+
+            initDefaultValue();
         }
 
         public string path
@@ -89,6 +91,14 @@ namespace SDK.Common
             get
             {
                 return string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], m_prefab, ".prefab");
+            }
+        }
+
+        protected void initDefaultValue()
+        {
+            if (string.IsNullOrEmpty(m_cardHeader))
+            {
+                m_cardHeader = "aaa";
             }
         }
     }

@@ -134,11 +134,8 @@ namespace SDK.Common
             if (win != null)
             {
                 // 清理列表
-                if (m_UIAttrs.m_dicAttr[ID] is UIAttrItem)
-                {
-                    UILayer layer = win.uiLayer;
-                    layer.winDic.Remove(ID);
-                }
+                UILayer layer = win.uiLayer;
+                layer.winDic.Remove(ID);
                 // 释放界面资源
                 win.onExit();
                 UtilApi.Destroy(win.m_GUIWin.m_uiRoot);
@@ -178,12 +175,10 @@ namespace SDK.Common
         // 内部接口
         private void addFormNoReady(Form form)
         {
-            if (m_UIAttrs.m_dicAttr[form.id] is UIAttrItem)
-            {
-                UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_canvasID, m_UIAttrs.m_dicAttr[form.id].m_LayerID);
-                form.uiLayer = layer;
-                layer.addForm(form);
-            }
+            UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_canvasID, m_UIAttrs.m_dicAttr[form.id].m_LayerID);
+            form.uiLayer = layer;
+            layer.addForm(form);
+
             m_dicForm[form.id] = form;
             form.init();        // 初始化
         }
@@ -401,6 +396,24 @@ namespace SDK.Common
         public void findSceneUIRootGo()
         {
             m_sceneUIRootGo = UtilApi.GoFindChildByPObjAndName("SceneUIRootGo");
+        }
+
+        // 根据场景类型卸载 UI，强制卸载
+        public void unloadUIBySceneType(UISceneType unloadSceneType, UISceneType loadSceneTpe)
+        {
+            foreach (UIFormID id in m_dicForm.Keys)
+            {
+                if (m_UIAttrs.m_dicAttr[id].canUnloadUIBySceneType(unloadSceneType, loadSceneTpe))
+                {
+                    m_tmpList.Add(id);
+                }
+            }
+
+            foreach (UIFormID id in m_tmpList)
+            {
+                exitForm(id, true);
+            }
+            m_tmpList.Clear();
         }
 	}
 }

@@ -31,13 +31,38 @@
             UtilTable.readString(bytes, ref m_skillDesc);
             UtilTable.readString(bytes, ref m_skillRes);
 
-            if(string.IsNullOrEmpty(m_jobRes))
+            initDefaultValue();
+        }
+
+        protected void initDefaultValue()
+        {
+            if (string.IsNullOrEmpty(m_frameImage))
+            {
+                m_frameImage = "bbb";
+            }
+            if (string.IsNullOrEmpty(m_yaoDaiImage))
+            {
+                m_yaoDaiImage = "bbb";
+            }
+            if (string.IsNullOrEmpty(m_cardSetRes))
+            {
+                m_cardSetRes = "emei_taopai";
+            }
+            if (string.IsNullOrEmpty(m_skillRes))
+            {
+                m_skillRes = "emeibiao_zhiye";
+            }
+            if (string.IsNullOrEmpty(m_jobRes))
             {
                 m_jobNameRes = "emei_zhiye";
             }
             else
             {
                 m_jobNameRes = string.Format("{0}_name", m_jobRes);
+            }
+            if (string.IsNullOrEmpty(m_jobRes))
+            {
+                m_jobRes = "emei_zhiyepai";
             }
         }
     }

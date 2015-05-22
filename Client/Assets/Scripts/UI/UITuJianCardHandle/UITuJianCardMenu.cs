@@ -9,16 +9,17 @@ namespace Game.UI
 {
     public class UITuJianCardMenu : Form
     {
-        override public void onShow()
-        {
-
-        }
-
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             findWidget();
             addEventHandle();
+        }
+
+        override public void onShow()
+        {
+            base.onShow();
         }
 
         public void findWidget()
@@ -28,39 +29,22 @@ namespace Game.UI
 
         public void addEventHandle()
         {
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnDel), onDelBtnClk);
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnRename), onRenameBtnClk);
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnEdit), onEditBtnClk);
+            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.CardSetEdit_BtnAdd), onAddBtnClk);
+            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit), onExitBtnClk);
         }
 
-        protected void onDelBtnClk()
+        protected void onAddBtnClk()
         {
-            InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
-            param.m_btnClkDisp = delRet;
-            param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eTuJian6, LangItemID.eItem0);
-            UIInfo.showMsg(param);
-        }
-
-        protected void onRenameBtnClk()
-        {
-            exit();
-        }
-
-        protected void onEditBtnClk()
-        {
-            UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
-            tujian.editCurCardSet();
-            exit();
-        }
-
-        protected void delRet(InfoBoxBtnType type)
-        {
-            if (InfoBoxBtnType.eBTN_OK == type)
+            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            if (uiTuJian != null)
             {
-                UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
-                tujian.delCardSet();
+                uiTuJian.addCurCard2CardSet();
             }
+            exit();
+        }
 
+        public void onExitBtnClk()
+        {
             exit();
         }
     }

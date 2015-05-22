@@ -105,7 +105,7 @@ namespace Game.UI
             m_skillName.text = tableJobItemBody.m_skillName;
             m_skillDesc.text = tableJobItemBody.m_skillDesc;
 
-            m_skillImage.setImageInfo("Atlas/JobSelectDyn.asset", tableJobItemBody.m_jobRes);
+            m_skillImage.setImageInfo("Atlas/JobSelectDyn.asset", tableJobItemBody.m_skillRes);
             m_skillImage.updateImage();
         }
     }

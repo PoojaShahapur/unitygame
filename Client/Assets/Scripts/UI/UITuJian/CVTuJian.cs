@@ -29,15 +29,15 @@
         public const string BtnJob1f = "UIRootNode/MidLay/LeftBtnList/JobBtn_1";           // 职业
         public const string BtnJob2f = "UIRootNode/MidLay/LeftBtnList/JobBtn_2";           // 职业
         public const string BtnJob3f = "UIRootNode/MidLay/LeftBtnList/JobBtn_3";           // 职业
-        public const string BtnJob4f = "UIRootNode/MidLay/LeftBtnList/JobBtn_4";           // 职业
+
         public const string BtnFilter = "UIRootNode/MidLay/LeftBtnList/FilterBtn";        // 过滤
         public const string BtnShouCang = "UIRootNode/MidLay/LeftBtnList/ShouCangBtn";      // 收藏
 
         public const string PnlJob = "UIRootNode/MidLay/TopJobList";      // 职业面板
+        public const string Job0f = "UIRootNode/MidLay/TopJobList/JobBtn_0";
         public const string Job1f = "UIRootNode/MidLay/TopJobList/JobBtn_1";
         public const string Job2f = "UIRootNode/MidLay/TopJobList/JobBtn_2";
         public const string Job3f = "UIRootNode/MidLay/TopJobList/JobBtn_3";
-        public const string Job4f = "UIRootNode/MidLay/TopJobList/JobBtn_4";
 
         public const string PnlFilter = "UIRootNode/MidLay/FilterPnl";      // 过滤面板
         public const string Filter0f = "UIRootNode/MidLay/FilterPnl/Btn_0";

@@ -1,18 +1,23 @@
 ﻿namespace Game.UI
 {
-    public enum ShopBtnNum
+    public enum PackBtnNum
     {
-        eBtnBack,//返回
-        eBtnBuy,//购买
         eBtnPack1,//卡包1
         eBtnPack5,//卡包5
         eBtnPack10,//卡包10
         eBtnPack20,//卡包20
+
+        ePackBtnTotal
+    }
+    public enum ShopBtnNum
+    {
         eBtnPack1XZ,//卡包1选中
         eBtnPack5XZ,//卡包5选中
         eBtnPack10XZ,//卡包10选中
         eBtnPack20XZ,//卡包20选中
 
+        eBtnBack,//返回
+        eBtnBuy,//购买
         eBtnOk,//确定充值
         eBtnCancel,//取消充值
 

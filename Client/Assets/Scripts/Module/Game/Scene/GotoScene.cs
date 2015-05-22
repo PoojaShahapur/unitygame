@@ -9,13 +9,10 @@ namespace Game.Game
      */
     public class GotoScene
     {
-        protected bool m_isFirstEnterGame = true;           // 是否是第一次进入场景
-
         public void addSceneHandle()
         {
-            Ctx.m_instance.m_gameRunStage.addEnteringDisp(enteringStageHandle);
-            Ctx.m_instance.m_gameRunStage.addEnteredDisp(enteredStageHandle);
-            Ctx.m_instance.m_gameRunStage.addQuitDisp(quitStageHandle);
+            Ctx.m_instance.m_gameRunStage.addQuitingAndEnteringDisp(quitingAndEnteringStageHandle);
+            Ctx.m_instance.m_gameRunStage.addQuitedAndEnteredDisp(quitedAndEnteredStageHandle);
         }
 
         public void loadGameScene()
@@ -49,22 +46,19 @@ namespace Game.Game
         // 这个是操作场景资源加载完成回调
         public void onGameResLoadScene(Scene scene)
         {
-            Ctx.m_instance.m_gameRunStage.enteredCurStage();
+            Ctx.m_instance.m_gameRunStage.quitedAndEnteredCurStage();
         }
 
         // 这个是对战场景资源加载完成回调
         public void onDZResLoadScene(Scene scene)
         {
-            Ctx.m_instance.m_gameRunStage.enteredCurStage();
+            Ctx.m_instance.m_gameRunStage.quitedAndEnteredCurStage();
         }
 
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
             Ctx.m_instance.m_uiMgr.loadAndShow<UIMain>(UIFormID.eUIMain);
-
-            Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneBg>(UISceneFormID.eUISceneBg);
-            Ctx.m_instance.m_uiSceneMgr.readySceneForm(UISceneFormID.eUISceneBg);
         }
 
         protected void loadAllDZUIScene()
@@ -75,30 +69,43 @@ namespace Game.Game
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
         }
 
-        protected void unloadDZAllUIScene()
+        // 第一次进入游戏场景初始化
+        protected void initOnFirstEnterGameScene()
         {
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUITest, true);        // 退出测试
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIDZ, true);          // 退出对战场景界面
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat, true);        // 退出聊天
-            Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIExtraOp, true);     // 退出选项
-            Ctx.m_instance.m_uiSceneMgr.unloadAll();
+            if (Ctx.m_instance.m_gameRunStage.ePreGameStage == EGameStage.eStage_Login)
+            {
+                Ctx.m_instance.m_camSys.m_boxCam = new SDK.Lib.BoxCam();
+
+                // 卸载登陆模块，关闭登陆界面
+                Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUILogin);
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIHeroSelect);
+                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat);      // 退出聊天
+
+                // 请求主角基本数据
+                Ctx.m_instance.m_dataPlayer.reqMainData();
+            }
         }
 
         // 进入场景，但是场景还没有加载完成
-        public void enteringStageHandle(EGameStage eGameStage)
+        public void quitingAndEnteringStageHandle(EGameStage srcGameState, EGameStage destGameState)
         {
-            if (EGameStage.eStage_Game == eGameStage)
-            {
+            //Ctx.m_instance.m_soundMgr.unloadAll();          // 卸载所有的音频
 
+            if (EGameStage.eStage_Game == srcGameState)
+            {
+                // 必然是从游戏场景进入战斗场景
+                Ctx.m_instance.m_uiMgr.unloadUIBySceneType(UISceneType.eUIScene_Game, UISceneType.eUIScene_DZ);
             }
-            else if (EGameStage.eStage_DZ == eGameStage)
+            else if (EGameStage.eStage_DZ == srcGameState)
             {
-
+                Ctx.m_instance.m_uiMgr.unloadUIBySceneType(UISceneType.eUIScene_DZ, UISceneType.eUIScene_Game);        // 退出测试
+                Ctx.m_instance.m_uiSceneMgr.unloadAll();
             }
         }
 
         // 进入场景，场景资源加载成功
-        public void enteredStageHandle(EGameStage eGameStage)
+        public void quitedAndEnteredStageHandle(EGameStage srcGameState, EGameStage destGameState)
         {
             // 播放音乐
             //SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
@@ -106,56 +113,27 @@ namespace Game.Game
             //Ctx.m_instance.m_soundMgr.play(param);
             //Ctx.m_instance.m_poolSys.deleteObj(param);
 
-            if (EGameStage.eStage_Game == eGameStage)
+            if (EGameStage.eStage_Login == srcGameState)
             {
-                if (m_isFirstEnterGame)
-                {
-                    Ctx.m_instance.m_camSys.m_boxCam = new SDK.Lib.BoxCam();
+                initOnFirstEnterGameScene();
+            }
 
-                    // 卸载登陆模块，关闭登陆界面
-                    Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
-                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUILogin);
-                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIHeroSelect);
-                    Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat);      // 退出聊天
-
-                    // 请求主角基本数据
-                    Ctx.m_instance.m_dataPlayer.reqMainData();
-                }
-
+            if (EGameStage.eStage_Game == destGameState)
+            {
                 Ctx.m_instance.m_logSys.log("场景加载成功");
                 loadAllUIScene();
                 Ctx.m_instance.m_camSys.m_boxCam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
                 Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
-
                 Ctx.m_instance.m_camSys.setSceneCamera2UICamera();
-
-                m_isFirstEnterGame = false;
             }
-            else if (EGameStage.eStage_DZ == eGameStage)
+            else if (EGameStage.eStage_DZ == destGameState)
             {
                 Ctx.m_instance.m_camSys.setSceneCamera2MainCamera();
 
                 Ctx.m_instance.m_dataPlayer.m_dzData.clear();
                 Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;         // 进入对战就设置这个标示位为可以继续战斗
                 Ctx.m_instance.m_camSys.m_dzCam = new DzCam();
-
                 loadAllDZUIScene();
-            }
-        }
-
-        // 退出场景
-        public void quitStageHandle(EGameStage eGameStage)
-        {
-            //Ctx.m_instance.m_soundMgr.unloadAll();          // 卸载所有的音频
-
-            if (EGameStage.eStage_Game == eGameStage)
-            {
-                Ctx.m_instance.m_uiSceneMgr.unloadAll();
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIMain, true);        // 退出主界面
-            }
-            else if (EGameStage.eStage_DZ == eGameStage)
-            {
-                unloadDZAllUIScene();
             }
         }
     }

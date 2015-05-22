@@ -2,6 +2,7 @@
 using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game.UI
@@ -13,6 +14,7 @@ namespace Game.UI
         protected Text m_textGoldNum;
         protected Text[] m_txtPrice;
         protected Component m_NoGoldTip;
+        protected CardCom[] m_packBtnArr = new CardCom[(int)PackBtnNum.ePackBtnTotal];
 
         public override void onInit()
         {
@@ -24,26 +26,49 @@ namespace Game.UI
         // Use this for initialization
         public override void onReady()
         {
+            base.onReady();
+            int idx = 0;
+            for (idx = 0; idx < (int)PackBtnNum.ePackBtnTotal; ++idx)
+            {
+                m_packBtnArr[idx] = new CardCom(idx);
+            }
             m_btnArr = new Button[(int)ShopBtnNum.eBtnTotal];
             m_txtPrice = new Text[(int)ShopTxtPriceNum.eTxtTotal];
             findWidget();
             addEventHandle();
+
+            for (idx = 0; idx < (int)PackBtnNum.ePackBtnTotal; ++idx)
+            {
+                m_packBtnArr[idx].loadShop();
+            }
         }
 
         public override void onShow()
         {
+            base.onShow();
             UpdatePackPrice();
+        }
+
+        public override void onExit()
+        {
+            base.onExit();
+            int idx = 0;
+            for (idx = 0; idx < (int)PackBtnNum.ePackBtnTotal; ++idx)
+            {
+                m_packBtnArr[idx].dispose();
+            }
         }
 
         // 获取控件
         protected void findWidget()
         {
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
+
             m_btnArr[(int)ShopBtnNum.eBtnBack] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
             m_btnArr[(int)ShopBtnNum.eBtnBuy] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
-            m_btnArr[(int)ShopBtnNum.eBtnPack1] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
-            m_btnArr[(int)ShopBtnNum.eBtnPack5] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
-            m_btnArr[(int)ShopBtnNum.eBtnPack10] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
-            m_btnArr[(int)ShopBtnNum.eBtnPack20] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
             m_btnArr[(int)ShopBtnNum.eBtnPack1XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1XZ);
             m_btnArr[(int)ShopBtnNum.eBtnPack5XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5XZ);
             m_btnArr[(int)ShopBtnNum.eBtnPack10XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10XZ);
@@ -64,12 +89,13 @@ namespace Game.UI
         // 添加事件监听
         protected void addEventHandle()
         {
+            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn, onBtnClkPack1);
+            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn, onBtnClkPack5);
+            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn, onBtnClkPack10);
+            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn, onBtnClkPack20);
+
             UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnBack], onBtnClkBack);
             UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnBuy], onBtnClkBuy);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack1], onBtnClkPack1);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack5], onBtnClkPack5);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack10], onBtnClkPack10);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack20], onBtnClkPack20);
             UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ], onBtnClkPack1XZ);
             UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack5XZ], onBtnClkPack5XZ);
             UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack10XZ], onBtnClkPack10XZ);
@@ -93,8 +119,8 @@ namespace Game.UI
         protected void onBtnClkPack1XZ()
         {
             BuyIndex = 0;
-            m_btnArr[(int)ShopBtnNum.eBtnPack1].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_btnArr[(int)ShopBtnNum.eBtnPack1XZ].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn.gameObject, true);
+            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ].gameObject, false);
         }
 
         protected void onBtnClkPack5()
@@ -105,8 +131,8 @@ namespace Game.UI
         protected void onBtnClkPack5XZ()
         {
             BuyIndex = 2;
-            m_btnArr[(int)ShopBtnNum.eBtnPack5].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn.gameObject, true);
+            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack5XZ].gameObject, false);
         }
 
         protected void onBtnClkPack10()
@@ -117,8 +143,8 @@ namespace Game.UI
         protected void onBtnClkPack10XZ()
         {
             BuyIndex = 0;
-            m_btnArr[(int)ShopBtnNum.eBtnPack10].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn.gameObject, true);
+            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack10XZ].gameObject, false);
         }
 
         protected void onBtnClkPack20()
@@ -129,8 +155,8 @@ namespace Game.UI
         protected void onBtnClkPack20XZ()
         {
             BuyIndex = 0;
-            m_btnArr[(int)ShopBtnNum.eBtnPack20].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn.gameObject, true);
+            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack20XZ].gameObject, false);
         }
 
         protected void SelectPack(int index)
@@ -141,8 +167,8 @@ namespace Game.UI
             {
                 for(int i=0; i<4; i++)
                 {
-                    m_btnArr[(int)ShopBtnNum.eBtnPack1 + i].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    m_btnArr[(int)ShopBtnNum.eBtnPack1XZ + i].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+                    UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.gameObject, true);
+                    UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].gameObject, false);
                 }
                 return;
             }
@@ -152,13 +178,13 @@ namespace Game.UI
             {
                 if(i != index)
                 {
-                    m_btnArr[(int)ShopBtnNum.eBtnPack1 + i].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    m_btnArr[(int)ShopBtnNum.eBtnPack1XZ + i].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+                    UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.gameObject, true);
+                    UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].gameObject, false);
                 }
                 else
                 {
-                    m_btnArr[(int)ShopBtnNum.eBtnPack1 + i].transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
-                    m_btnArr[(int)ShopBtnNum.eBtnPack1XZ + i].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.gameObject, false);
+                    UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].gameObject, true);
                 }
             }
         }
@@ -180,6 +206,7 @@ namespace Game.UI
 
         protected void onBtnClkBuy()
         {
+            GameObject _go = EventSystem.current.currentSelectedGameObject;
             if (0 == BuyIndex)
                 return;
 
@@ -187,7 +214,7 @@ namespace Game.UI
             XmlItemMarket itemMarket = marketCfg.getXmlItem(BuyIndex) as XmlItemMarket;
             if (Ctx.m_instance.m_dataPlayer.m_dataMain.m_gold < itemMarket.m_price)
             {
-                m_NoGoldTip.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                UtilApi.SetActive(m_NoGoldTip.gameObject, true);
             }
             else
             {
@@ -199,12 +226,12 @@ namespace Game.UI
 
         protected void onBtnClkOk()
         {
-            m_NoGoldTip.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+            UtilApi.SetActive(m_NoGoldTip.gameObject, false);
         }
 
         protected void onBtnCancel()
         {
-            m_NoGoldTip.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
+            UtilApi.SetActive(m_NoGoldTip.gameObject, false);
         }
     }
 }

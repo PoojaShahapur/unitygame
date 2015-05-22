@@ -9,16 +9,17 @@ namespace Game.UI
 {
     public class UITuJianCardSetMenu : Form
     {
-        override public void onShow()
-        {
-
-        }
-
         // 初始化控件
         override public void onReady()
         {
+            base.onReady();
             findWidget();
             addEventHandle();
+        }
+
+        override public void onShow()
+        {
+            base.onShow();
         }
 
         public void findWidget()
@@ -31,6 +32,7 @@ namespace Game.UI
             UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnDel), onDelBtnClk);
             UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnRename), onRenameBtnClk);
             UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnEdit), onEditBtnClk);
+            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit), onExitBtnClk);
         }
 
         protected void onDelBtnClk()
@@ -61,6 +63,11 @@ namespace Game.UI
                 tujian.delCardSet();
             }
 
+            exit();
+        }
+
+        public void onExitBtnClk()
+        {
             exit();
         }
     }

@@ -15,7 +15,6 @@ namespace Game.UI
         eBtnJob1f,
         eBtnJob2f,
         eBtnJob3f,
-        eBtnJob4f,
 
         eBtnJobTotal,
     }
@@ -48,7 +47,6 @@ namespace Game.UI
             m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob1f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f);
             m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob2f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob2f);
             m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob3f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob3f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob4f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob4f);
 
             toggleJobPnl(false);
             toggleFilterPnl(false);
@@ -60,15 +58,14 @@ namespace Game.UI
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f, onJobBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob2f, onJobBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob3f, onJobBtnClk);
-            UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob4f, onJobBtnClk);
 
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnFilter, onFilterBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnShouCang, onShouCangBtnClk);
 
+            UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Job0f, onJobTypeBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Job1f, onJobTypeBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Job2f, onJobTypeBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Job3f, onJobTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Job4f, onJobTypeBtnClk);
 
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Filter0f, onFilterTypeBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.Filter1f, onFilterTypeBtnClk);

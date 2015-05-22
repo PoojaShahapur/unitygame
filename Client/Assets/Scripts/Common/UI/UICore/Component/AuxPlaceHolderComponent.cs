@@ -23,7 +23,11 @@ namespace SDK.Common
 
         public void linkPlaceHolder2Parent()
         {
-            UtilApi.SetParent(m_placeHolderGo, m_pntGo);
+            if (m_placeHolderGo == null)
+            {
+                m_placeHolderGo = new GameObject();
+            }
+            UtilApi.SetParent(m_placeHolderGo, m_pntGo, false);
         }
     }
 }
