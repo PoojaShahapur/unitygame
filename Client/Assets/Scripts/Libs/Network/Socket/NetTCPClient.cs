@@ -64,6 +64,7 @@ namespace SDK.Lib
             }
         }
 
+#if NET_MULTHREAD
         public MEvent msgSendEndEvent
         {
             get
@@ -75,6 +76,7 @@ namespace SDK.Lib
                 m_msgSendEndEvent = value;
             }
         }
+#endif
 
         // 是否可以发送新的数据，上一次发送的数据是否发送完成，只有上次发送的数据全部发送完成，才能发送新的数据
         public bool canSendNewData()
@@ -271,7 +273,9 @@ namespace SDK.Lib
 
                     if (m_dataBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
                     {
+#if NET_MULTHREAD
                         m_msgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
+#endif
                         return;
                     }
                 }
@@ -289,7 +293,9 @@ namespace SDK.Lib
                 }
                 catch (System.Exception e)
                 {
+#if NET_MULTHREAD
                     m_msgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
+#endif
                     // 输出日志
                     Ctx.m_instance.m_logSys.error(e.Message);
                     //Disconnect(0);

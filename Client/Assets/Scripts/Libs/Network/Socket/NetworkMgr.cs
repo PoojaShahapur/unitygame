@@ -200,7 +200,11 @@ namespace SDK.Lib
 
         public bool isNetThread(int threadID)
         {
+#if NET_MULTHREAD
             return m_netThread.isCurThread(threadID);
+#else
+            return true;
+#endif
         }
     }
 }
