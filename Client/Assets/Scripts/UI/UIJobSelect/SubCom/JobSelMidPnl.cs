@@ -128,7 +128,7 @@ namespace Game.UI
                     m_jobText.text = tableJobItemBody.m_jobDesc;
 
                     m_jobSelectData.m_rightPnl.toggleJob((int)(m_jobCardList[idx].career), tableJobItemBody);
-                    m_jobNameImage.setImageInfo("Atlas/JobSelectDyn.asset", tableJobItemBody.m_jobNameRes);
+                    m_jobNameImage.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_jobNameRes);
                     m_jobNameImage.updateImage();
                 }
             }

@@ -61,7 +61,7 @@ namespace Game.UI
             {
                 tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
                 jobPath = string.Format("{0}UIJobSelect/JobSelCard.prefab", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI]);
-                m_jobCardBtn.setImageInfo("Atlas/JobSelectDyn.asset", tableJobItemBody.m_jobRes);
+                m_jobCardBtn.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_jobRes);
                 m_jobCardBtn.prefabPath = jobPath;
                 m_jobCardBtn.loadPrefab();
                 m_jobCardBtn.updateImage();

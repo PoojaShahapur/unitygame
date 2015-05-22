@@ -54,7 +54,7 @@ namespace Game.UI
             {
                 m_cardItem.m_cardHeader = "emei_taopai";
             }
-            m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage("Atlas/TuJianDyn.asset", m_cardItem.m_cardHeader);
+            m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.TuJianDyn, m_cardItem.m_cardHeader);
             m_imageItem.setGoImage(m_sceneGo);
         }
 
