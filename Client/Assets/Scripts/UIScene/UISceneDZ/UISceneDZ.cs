@@ -65,9 +65,9 @@ namespace Game.UI
         public void findWidget()
         {
             //GameObject[] goList = UtilApi.FindGameObjectsWithTag("aaaa");
-            m_sceneDZData.m_dzturn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));
-            m_sceneDZData.m_dzturn.m_sceneDZData = m_sceneDZData;
-            m_sceneDZData.m_luckycoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
+            m_sceneDZData.m_roundBtn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));
+            m_sceneDZData.m_roundBtn.m_sceneDZData = m_sceneDZData;
+            m_sceneDZData.m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
             m_sceneDZData.m_selfTurnTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
             m_sceneDZData.m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
             m_sceneDZData.m_selfCardFullTip.m_desc = UtilApi.getComByP<Text>(m_sceneDZData.m_selfCardFullTip.getGameObject(), CVSceneDZPath.SelfCardFullTipText);
@@ -267,7 +267,7 @@ namespace Game.UI
                 if (m_bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息已进入对战就发送过来了
                 {
                     m_sceneDZData.m_selfTurnTip.turnBegin();
-                    m_sceneDZData.m_dzturn.myturn();
+                    m_sceneDZData.m_roundBtn.myturn();
                     //m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
 
                     // 开始定时器
@@ -283,7 +283,7 @@ namespace Game.UI
             }
             else 
             {
-                m_sceneDZData.m_dzturn.enemyTurn();
+                m_sceneDZData.m_roundBtn.enemyTurn();
                 m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
                 m_sceneDZData.m_gameOpState.quitAttackOp();
             }

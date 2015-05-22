@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 对战场景中的幸运币
      */
-    public class luckycoin : InterActiveEntity
+    public class LuckCoin : InterActiveEntity
     {
         // Use this for initialization
         public override void Start()

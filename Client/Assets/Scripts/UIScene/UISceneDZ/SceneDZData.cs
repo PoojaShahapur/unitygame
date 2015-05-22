@@ -8,8 +8,8 @@ namespace Game.UI
 {
     public class SceneDZData
     {
-        public dzturn m_dzturn = new dzturn();          // 翻转按钮，结束当前一局
-        public luckycoin m_luckycoin = new luckycoin(); // 对战场景中的幸运币
+        public RoundBtn m_roundBtn = new RoundBtn();          // 翻转按钮，结束当前一局
+        public LuckCoin m_luckCoin = new LuckCoin(); // 对战场景中的幸运币
         public SelfTurnTip m_selfTurnTip = new SelfTurnTip();               // 自己回合提示
         public SelfCardFullTip m_selfCardFullTip = new SelfCardFullTip();   // 自己卡牌满
 

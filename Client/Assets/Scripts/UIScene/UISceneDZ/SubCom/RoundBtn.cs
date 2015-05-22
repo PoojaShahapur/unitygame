@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 点击结束当前一局
      */
-    public class dzturn : InterActiveEntity
+    public class RoundBtn : InterActiveEntity
     {
         //bool ismyturn = false;
         // Use this for initialization

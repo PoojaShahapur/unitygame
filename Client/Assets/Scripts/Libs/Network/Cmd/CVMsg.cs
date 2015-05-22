@@ -103,12 +103,12 @@
     public enum CardType
     {
         CARDTYPE_NONE,
-        CARDTYPE_ATTEND,	// 随从 -- kminion = 4,//仆从卡
+        CARDTYPE_ATTEND,	// 随从
         CARDTYPE_SECRET,	// 奥秘卡
-        CARDTYPE_MAGIC,	    // 法术卡 -- kability = 5,//法术卡
-        CARDTYPE_EQUIP,	    // 武器卡 -- kweapon = 7//武器卡
-        CARDTYPE_HERO,	    // 英雄卡 -- khero = 3,//英雄卡
-        CARDTYPE_SKILL,	    // 英雄技能卡 -- kheroPower = 10
+        CARDTYPE_MAGIC,	    // 法术卡
+        CARDTYPE_EQUIP,	    // 武器卡
+        CARDTYPE_HERO,	    // 英雄卡
+        CARDTYPE_SKILL,	    // 英雄技能卡
         CARDTYPE_LUCK_COINS,	    // 幸运币 
         CARDTYPE_NEW1,	    // 
 

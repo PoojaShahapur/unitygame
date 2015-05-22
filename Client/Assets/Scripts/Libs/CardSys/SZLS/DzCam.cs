@@ -9,12 +9,9 @@ namespace SDK.Lib
 {
     public class DzCam : InterActiveEntity
     {
-        protected dzclient client = null;
-
         // Use this for initialization
         public override void Start()
         {
-            //client = transform.GetComponent<dzclient>();
             dzban = GameObject.Find("dzban").transform;
             mHand = dzban;
             mycosttext = GameObject.Find("mycosttext").GetComponent<Text>();
@@ -50,7 +47,6 @@ namespace SDK.Lib
         void youfirst()
         {
             isfirst = true;
-            client.Log("自己是先手!");
         }
 
         List<Transform> cs = new List<Transform>();
@@ -153,7 +149,6 @@ namespace SDK.Lib
             if (!myradey)
             {
                 willban.Add(t);
-                client.Log("ban了一个牌");
             }
         }
 
@@ -162,14 +157,12 @@ namespace SDK.Lib
             if (!myradey)
             {
                 willban.Remove(t);
-                client.Log("取消了一个牌");
             }
         }
         public Transform mycarddeap;
 
         public IEnumerator replace()
         {
-            client.Log("替换");
 
             for (int x = 0; x < willban.Count; x++)
             {
@@ -226,7 +219,6 @@ namespace SDK.Lib
 
             if (myradey && enemyradey)
             {
-                client.Log("双方都已经完成!");
                 Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
             }
         }
@@ -240,7 +232,6 @@ namespace SDK.Lib
 
             if (myradey && enemyradey)
             {
-                client.Log("双方都已经完成!");
                 Ctx.m_instance.m_coroutineMgr.StartCoroutine(bancardgohand());
             }
         }
@@ -457,7 +448,6 @@ namespace SDK.Lib
 
         void restoreCost(int num)
         {
-            client.Log("回复水晶:" + num);
             //让所有向右移动0.182498
             foreach (Transform t in cost)
             {
@@ -583,98 +573,6 @@ namespace SDK.Lib
             }
             UtilApi.Destroy(t.gameObject);
             clearUpHand();
-        }
-
-        public void endturn()
-        {
-            //广播可以行动
-            BroadcastCanattack();
-            //向对面发送开始
-            //networkView.RPC("turnBegin", RPCMode.Others);
-            //ismyturn = false;
-        }
-
-        public void attack()
-        {
-            //int attackid = getTransformId(dzminion.attacker.transform);
-            int underatkid = getTransformId(dzminion.underattacker.transform);
-            dzminion.attacker = null;
-            //networkView.RPC("underattack", RPCMode.Others, attackid, underatkid);
-        }
-
-        [RPC]
-        void underattack(int attackid, int underatkid)
-        {
-            //填充2个值
-            dzminion.attacker = getIdTransform(attackid).gameObject;
-            dzminion.underattacker = getIdTransform(underatkid).gameObject;
-            //调用攻击者的showain
-            dzminion.attacker.SendMessage("showanim");
-        }
-
-        int getTransformId(Transform t)
-        {
-            //return t.GetComponent<dzminion>().gameID;
-            return 0;
-        }
-
-        Transform getIdTransform(int id)
-        {
-            //已方战场
-            foreach (Transform t in mybattlefield)
-            {
-                if (getTransformId(t) == id)
-                {
-                    return t;
-                }
-            }
-
-            //对方战场
-            foreach (Transform t in enemybattlefield)
-            {
-                if (getTransformId(t) == id)
-                {
-                    return t;
-                }
-            }
-            //已方英雄
-            if (getTransformId(myHero) == id)
-            {
-                return myHero;
-            }
-            //对方英雄
-            if (getTransformId(enemyHero) == id)
-            {
-                return enemyHero;
-            }
-            //已方技能
-            if (getTransformId(myHeroPower) == id)
-            {
-                return myHeroPower;
-            }
-            //对方技能
-            if (getTransformId(enemyHeroPower) == id)
-            {
-                return enemyHeroPower;
-            }
-            return null;
-        }
-
-        public static int GameIdcount = 1;
-
-        public void victory()
-        {
-            //出现胜利
-        }
-
-        public void defeat()
-        {
-            //服务失败
-        }
-
-        void gotomenu()
-        {
-
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Game.UI
 
         protected OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
         protected InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
-        protected hero m_centerHero;                                            // 主角自己的 hero 
+        protected HeroCard m_centerHero;                                            // 主角自己的 hero 
         protected SceneDragCard m_sceneSkillCard;                // skill
         protected SceneDragCard m_sceneEquipCard;                // equip
 
@@ -26,7 +26,7 @@ namespace Game.UI
             m_sceneDZData = sceneDZData;
             m_playerFlag = playerFlag;
 
-            m_centerHero = new hero();
+            m_centerHero = new HeroCard();
             m_centerHero.m_sceneDZData = m_sceneDZData;
             m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
@@ -55,7 +55,7 @@ namespace Game.UI
             }
         }
 
-        public hero centerHero
+        public HeroCard centerHero
         {
             get
             {
