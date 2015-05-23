@@ -4,13 +4,12 @@ namespace SDK.Lib
 {
     public class InsResBase : IDispatchObject
     {
-        protected ResLoadState m_resLoadState;  // 资源加载状态
-        protected RefCount m_refCount;
+        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
         public string m_path;
 
         public InsResBase()
         {
-            m_resLoadState = new ResLoadState();
+            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
         public string GetPath()
@@ -28,27 +27,15 @@ namespace SDK.Lib
 
         }
 
-        public RefCount refCount
+        public RefCountResLoadResultNotify refCountResLoadResultNotify
         {
             get
             {
-                return m_refCount;
+                return m_refCountResLoadResultNotify;
             }
             set
             {
-                m_refCount = value;
-            }
-        }
-
-        public ResLoadState resLoadState
-        {
-            get
-            {
-                return m_resLoadState;
-            }
-            set
-            {
-                m_resLoadState = value;
+                m_refCountResLoadResultNotify = value;
             }
         }
     }

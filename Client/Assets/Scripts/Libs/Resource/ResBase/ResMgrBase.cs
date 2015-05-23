@@ -30,8 +30,8 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
-                m_path2ResDic[param.m_path].refCount.incRef();
-                if (m_path2ResDic[param.m_path].resLoadState.hasSuccessLoaded())
+                m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
+                if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
                 {
                     if (param.m_loadEventHandle != null)
                     {
@@ -43,7 +43,7 @@ namespace SDK.Lib
             else
             {
                 m_path2ResDic[param.m_path] = new T();
-                m_path2ResDic[param.m_path].refCount.incRef();
+                m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
                 m_path2ResDic[param.m_path].m_path = param.m_path;
             }
 
@@ -66,8 +66,8 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(path))
             {
-                m_path2ResDic[path].refCount.decRef();
-                if (m_path2ResDic[path].refCount.refNum == 0)
+                m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
+                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.refNum == 0)
                 {
                     m_path2ResDic[path].unload();
                     m_path2ResDic.Remove(path);
@@ -89,7 +89,7 @@ namespace SDK.Lib
 
                 if (m_path2ResDic.ContainsKey(path))
                 {
-                    m_path2ResDic[path].resLoadState.setSuccessLoaded();
+                    m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace SDK.Lib
             {
                 if (m_path2ResDic.ContainsKey(path))
                 {
-                    m_path2ResDic[path].resLoadState.setFailed();
+                    m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.setFailed();
                 }
                 else
                 {
