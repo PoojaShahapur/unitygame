@@ -25,11 +25,11 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                setSuccessLoaded();
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                setFailed();
+                m_resLoadState.setFailed();
             }
             m_loadEventDispatch.dispatchEvent(this);
 
@@ -45,11 +45,11 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                setSuccessLoaded();
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                setFailed();
+                m_resLoadState.setFailed();
             }
 
             m_loadEventDispatch.dispatchEvent(this);
@@ -102,11 +102,11 @@ namespace SDK.Lib
             {
                 m_object = req.asset;
 
-                setSuccessLoaded();
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                setFailed();
+                m_resLoadState.setFailed();
             }
 
             m_loadEventDispatch.dispatchEvent(this);

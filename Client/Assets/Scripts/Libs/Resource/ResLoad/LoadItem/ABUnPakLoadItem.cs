@@ -49,18 +49,14 @@ namespace SDK.Lib
 
             if (m_bytes != null)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+
+            m_loadEventDispatch.dispatchEvent(this);
         }
     }
 }

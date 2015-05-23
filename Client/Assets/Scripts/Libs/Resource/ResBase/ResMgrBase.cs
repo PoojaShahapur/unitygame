@@ -31,7 +31,7 @@ namespace SDK.Lib
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
                 m_path2ResDic[param.m_path].refCount.incRef();
-                if (m_path2ResDic[param.m_path].hasSuccessLoaded())
+                if (m_path2ResDic[param.m_path].resLoadState.hasSuccessLoaded())
                 {
                     if (param.m_loadEventHandle != null)
                     {
@@ -83,13 +83,13 @@ namespace SDK.Lib
         {
             ResItem res = dispObj as ResItem;
             string path = res.GetPath();
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 m_path2ListenItemDic.Remove(path);
 
                 if (m_path2ResDic.ContainsKey(path))
                 {
-                    m_path2ResDic[path].setSuccessLoaded();
+                    m_path2ResDic[path].resLoadState.setSuccessLoaded();
                 }
                 else
                 {
@@ -101,11 +101,11 @@ namespace SDK.Lib
                 //    m_path2ListenItemDic[path].m_loaded(dispObj);
                 //}
             }
-            else if (res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
                 if (m_path2ResDic.ContainsKey(path))
                 {
-                    m_path2ResDic[path].setFailed();
+                    m_path2ResDic[path].resLoadState.setFailed();
                 }
                 else
                 {

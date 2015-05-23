@@ -48,7 +48,7 @@ namespace SDK.Lib
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
@@ -66,7 +66,7 @@ namespace SDK.Lib
                     m_pakCfgLoadDisp();
                 }
             }
-            else if(res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
                 // 卸载

@@ -21,7 +21,7 @@ namespace SDK.Lib
 
         public ResItem()
         {
-            m_resLoadState = ResLoadState.eNotLoad;
+            m_resLoadState = new ResLoadState();
             m_loadEventDispatch = new EventDispatch();
             m_refCount = new RefCount();
         }
@@ -144,38 +144,6 @@ namespace SDK.Lib
             }
         }
 
-        // 是否加载完成，可能成功可能失败
-        public bool hasLoaded()
-        {
-            return m_resLoadState == ResLoadState.eFailed || m_resLoadState == ResLoadState.eLoaded;
-        }
-
-        public bool hasSuccessLoaded()
-        {
-            return m_resLoadState == ResLoadState.eLoaded;
-        }
-
-        public bool hasFailed()
-        {
-            return m_resLoadState == ResLoadState.eFailed;
-        }
-
-        public void setSuccessLoaded()
-        {
-            m_resLoadState = ResLoadState.eLoaded;
-        }
-
-        public void setFailed()
-        {
-            m_resLoadState = ResLoadState.eFailed;
-        }
-
-        // 正在加载中
-        public bool hasLoading()
-        {
-            return m_resLoadState == ResLoadState.eLoading;
-        }
-
         public virtual string getPrefabName()         // 只有 Prefab 资源才实现这个函数
         {
             return "";
@@ -183,12 +151,12 @@ namespace SDK.Lib
 
         virtual public void init(LoadItem item)
         {
-            m_resLoadState = ResLoadState.eLoaded;
+            m_resLoadState.setSuccessLoaded();
         }
 
         virtual public void failed(LoadItem item)
         {
-            m_resLoadState = ResLoadState.eFailed;
+            m_resLoadState.setFailed();
             m_loadEventDispatch.dispatchEvent(this);
             clearListener();
         }
@@ -201,7 +169,7 @@ namespace SDK.Lib
         virtual public void reset()
         {
             m_path = "";
-            m_resLoadState = ResLoadState.eNotLoad;
+            m_resLoadState.reset();
             m_refCount.refNum = 0;
             clearListener();
         }

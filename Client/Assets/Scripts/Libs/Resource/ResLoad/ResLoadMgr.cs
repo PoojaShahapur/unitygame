@@ -144,7 +144,7 @@ namespace SDK.Lib
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
                 m_LoadData.m_path2Res[param.m_path].refCount.incRef();
-                if (m_LoadData.m_path2Res[param.m_path].hasLoaded())
+                if (m_LoadData.m_path2Res[param.m_path].resLoadState.hasLoaded())
                 {
                     if (param.m_loadEventHandle != null)
                     {
@@ -318,8 +318,7 @@ namespace SDK.Lib
                     loaditem.path = param.m_path;
                     loaditem.pathNoExt = param.m_pathNoExt;
                     loaditem.extName = param.extName;
-                    loaditem.onLoaded += onLoaded;
-                    loaditem.onFailed += onFailed;
+                    loaditem.loadEventDispatch.addEventHandle(onLoadEventHandle);
 
                     if (m_curNum < m_maxParral)
                     {
@@ -375,9 +374,22 @@ namespace SDK.Lib
             }
         }
 
+        public void onLoadEventHandle(IDispatchObject dispObj)
+        {
+            LoadItem item = dispObj as LoadItem;
+            item.loadEventDispatch.removeEventHandle(onLoadEventHandle);
+            if (item.ResLoadState.hasSuccessLoaded())
+            {
+                onLoaded(item);
+            }
+            else if (item.ResLoadState.hasFailed())
+            {
+                onFailed(item);
+            }
+        }
+
         public void onLoaded(LoadItem item)
         {
-            item.onLoaded -= onLoaded;
             if (m_LoadData.m_path2Res.ContainsKey(item.path))
             {
                 m_LoadData.m_path2Res[item.path].init(m_LoadData.m_path2LDItem[item.path]);
@@ -391,7 +403,6 @@ namespace SDK.Lib
         public void onFailed(LoadItem item)
         {
             string path = item.path;
-            item.onFailed -= onFailed;
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
                 m_LoadData.m_path2Res[path].failed(m_LoadData.m_path2LDItem[path]);

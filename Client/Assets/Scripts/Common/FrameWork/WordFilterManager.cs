@@ -27,7 +27,7 @@ namespace SDK.Common
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
                 string text = res.getText("");
@@ -50,7 +50,7 @@ namespace SDK.Common
                     }
                 }
             }
-            else if (res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
             }

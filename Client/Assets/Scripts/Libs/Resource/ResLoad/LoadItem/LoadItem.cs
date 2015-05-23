@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class LoadItem
+    public class LoadItem : IDispatchObject
     {
         protected ResPackType m_resPackType;
         protected ResLoadType m_resLoadType;   // 资源加载类型
@@ -18,14 +18,13 @@ namespace SDK.Lib
         protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
 
         protected AssetBundle m_assetBundle;
-        protected ResLoadState m_resLoadState = ResLoadState.eNotLoad;  // 资源加载状态
+        protected ResLoadState m_resLoadState;  // 资源加载状态
 
-        public Action<LoadItem> onLoaded;
-        public Action<LoadItem> onFailed;
+        protected EventDispatch m_loadEventDispatch;
 
         public LoadItem()
         {
-            
+            m_resLoadState = new ResLoadState();
         }
 
         public ResPackType resPackType
@@ -132,9 +131,21 @@ namespace SDK.Lib
             }
         }
 
+        public EventDispatch loadEventDispatch
+        {
+            get
+            {
+                return m_loadEventDispatch;
+            }
+            set
+            {
+                m_loadEventDispatch = value;
+            }
+        }
+
         virtual public void load()
         {
-            m_resLoadState = ResLoadState.eLoading;
+            m_resLoadState.setLoading();
         }
 
         virtual public void reset()
@@ -185,18 +196,14 @@ namespace SDK.Lib
             {
                 m_assetBundle = m_w3File.assetBundle;
 
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+
+            m_loadEventDispatch.dispatchEvent(this);
         }
 
         protected void deleteFromCache(string path)
@@ -210,8 +217,7 @@ namespace SDK.Lib
 
         public void clearListener()
         {
-            onLoaded = null;            // 清理事件监听器
-            onFailed = null;            // 清理事件监听器
+            m_loadEventDispatch.clearEventHandle();
         }
     }
 }

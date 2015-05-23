@@ -66,7 +66,7 @@ namespace SDK.Lib
         protected void onMiniLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 byte[] textAsset = (res as DataResItem).getBytes();
                 if (textAsset != null)
@@ -83,7 +83,7 @@ namespace SDK.Lib
 
                 m_miniLoadedDisp();
             }
-            else if(res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
                 // 卸载
                 Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
@@ -122,7 +122,7 @@ namespace SDK.Lib
         protected void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
@@ -136,7 +136,7 @@ namespace SDK.Lib
                 Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
                 m_LoadedDisp();
             }
-            else if(res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
                 // 卸载

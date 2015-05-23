@@ -32,7 +32,7 @@ namespace SDK.Lib
             }
             else
             {
-                setSuccessLoaded();
+                m_resLoadState.setSuccessLoaded();
                 m_loadEventDispatch.dispatchEvent(this);
 
                 clearListener();

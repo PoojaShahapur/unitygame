@@ -26,11 +26,11 @@ namespace UnitTestSrc
         protected void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 res.InstantiateObject("Anim/boxcampush");
             }
-            else if (res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
 
             }

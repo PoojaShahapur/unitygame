@@ -33,11 +33,11 @@ namespace SDK.Lib
             {
                 m_bundle.LoadAsset<GameObject>(m_bundlePath);
                 Application.LoadLevel(m_levelName);
-                setSuccessLoaded();
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                setFailed();
+                m_resLoadState.setFailed();
             }
 
             m_loadEventDispatch.dispatchEvent(this);
@@ -71,11 +71,11 @@ namespace SDK.Lib
 
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                setSuccessLoaded();
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                setFailed();
+                m_resLoadState.setFailed();
             }
             m_loadEventDispatch.dispatchEvent(this);
 

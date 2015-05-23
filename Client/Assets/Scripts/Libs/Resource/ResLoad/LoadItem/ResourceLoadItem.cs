@@ -46,18 +46,13 @@ namespace SDK.Lib
 
             if (m_prefabObj != null)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+            m_loadEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
@@ -67,18 +62,14 @@ namespace SDK.Lib
 
             if (req.asset != null && req.isDone)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+
+            m_loadEventDispatch.dispatchEvent(this);
         }
     }
 }

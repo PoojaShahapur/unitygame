@@ -28,10 +28,8 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eLoadDisc == m_resLoadType)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
+                m_loadEventDispatch.dispatchEvent(this);
             }
             else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
             {

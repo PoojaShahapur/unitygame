@@ -8,6 +8,11 @@ namespace SDK.Lib
         protected RefCount m_refCount;
         public string m_path;
 
+        public InsResBase()
+        {
+            m_resLoadState = new ResLoadState();
+        }
+
         public string GetPath()
         {
             return m_path;
@@ -35,31 +40,16 @@ namespace SDK.Lib
             }
         }
 
-        // 是否加载完成，可能成功可能失败
-        public bool hasLoaded()
+        public ResLoadState resLoadState
         {
-            return m_resLoadState == ResLoadState.eFailed || m_resLoadState == ResLoadState.eLoaded;
+            get
+            {
+                return m_resLoadState;
+            }
+            set
+            {
+                m_resLoadState = value;
+            }
         }
-
-        public bool hasSuccessLoaded()
-        {
-            return m_resLoadState == ResLoadState.eLoaded;
-        }
-
-        public bool hasFailed()
-        {
-            return m_resLoadState == ResLoadState.eFailed;
-        }
-
-        public void setSuccessLoaded()
-        {
-            m_resLoadState = ResLoadState.eLoaded;
-        }
-
-        public void setFailed()
-        {
-            m_resLoadState = ResLoadState.eFailed;
-        }
-
     }
 }

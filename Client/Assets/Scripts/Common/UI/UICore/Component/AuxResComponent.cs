@@ -64,7 +64,7 @@ namespace SDK.Common
         public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
             m_res = dispObj as ModelRes;
-            if (m_res.hasSuccessLoaded())
+            if (m_res.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
@@ -75,7 +75,7 @@ namespace SDK.Common
                 // 卸载资源
                 //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
             }
-            else if (m_res.hasFailed())
+            else if (m_res.resLoadState.hasFailed())
             {
                 m_res = dispObj as ModelRes;
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());

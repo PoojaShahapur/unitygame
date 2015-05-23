@@ -17,7 +17,7 @@ namespace SDK.Lib
             m_resItem = resItem;
             m_resItem.refCount.incRef();
 
-            if (m_resItem.hasLoaded())   // 如果已经加载
+            if (m_resItem.resLoadState.hasLoaded())   // 如果已经加载
             {
                 onPakResLoadEventHandle(null);
             }
@@ -45,11 +45,11 @@ namespace SDK.Lib
         protected void onPakResLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.hasSuccessLoaded())
+            if (res.resLoadState.hasSuccessLoaded())
             {
                 initByPakRes();
             }
-            else if(res.hasFailed())
+            else if (res.resLoadState.hasFailed())
             {
                 m_loadEventDispatch.dispatchEvent(this);
                 clearListener();

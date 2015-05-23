@@ -74,17 +74,11 @@ namespace SDK.Lib
 
             if (m_bytes != null)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
         }
 
@@ -102,18 +96,13 @@ namespace SDK.Lib
 
             if (m_bytes != null)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+            m_loadEventDispatch.dispatchEvent(this);
         }
 
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100
@@ -133,18 +122,13 @@ namespace SDK.Lib
             {
                 m_bytes = m_w3File.bytes;
 
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+            m_loadEventDispatch.dispatchEvent(this);
         }
 
         // 协程下载
@@ -204,18 +188,13 @@ namespace SDK.Lib
                 fileStream.Close();
                 if (readedLength == contentLength)
                 {
-                    if (onLoaded != null)
-                    {
-                        onLoaded(this);
-                    }
+                    m_resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    if (onFailed != null)
-                    {
-                        onFailed(this);
-                    }
+                    m_resLoadState.setFailed();
                 }
+                m_loadEventDispatch.dispatchEvent(this);
             }
             //catch (Exception)
             //{
@@ -390,18 +369,13 @@ namespace SDK.Lib
         {
             if (m_isRunSuccess)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                m_resLoadState.setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                m_resLoadState.setFailed();
             }
+            m_loadEventDispatch.dispatchEvent(this);
         }
     }
 }
