@@ -30,12 +30,12 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
-                m_path2ResDic[param.m_path].incRef();
-                if (m_path2ResDic[param.m_path].m_isLoaded && m_path2ResDic[param.m_path].m_isSucceed)
+                m_path2ResDic[param.m_path].refCount.incRef();
+                if (m_path2ResDic[param.m_path].hasSuccessLoaded())
                 {
-                    if (param.m_loaded != null)
+                    if (param.m_loadEventHandle != null)
                     {
-                        param.m_loaded(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
+                        param.m_loadEventHandle(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
                     }
                     return m_path2ResDic[param.m_path];
                 }
@@ -43,7 +43,7 @@ namespace SDK.Lib
             else
             {
                 m_path2ResDic[param.m_path] = new T();
-                m_path2ResDic[param.m_path].incRef();
+                m_path2ResDic[param.m_path].refCount.incRef();
                 m_path2ResDic[param.m_path].m_path = param.m_path;
             }
 
@@ -51,8 +51,7 @@ namespace SDK.Lib
             {
                 m_path2ListenItemDic[param.m_path] = new ResListenerItem();
                 m_path2ListenItemDic[param.m_path].copyForm(param);
-                param.m_failed = onFailed;
-                param.m_loaded = onLoaded;
+                param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
             }
             else
@@ -67,8 +66,8 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(path))
             {
-                m_path2ResDic[path].decRef();
-                if (m_path2ResDic[path].refNum == 0)
+                m_path2ResDic[path].refCount.decRef();
+                if (m_path2ResDic[path].refCount.refNum == 0)
                 {
                     m_path2ResDic[path].unload();
                     m_path2ResDic.Remove(path);
@@ -80,60 +79,54 @@ namespace SDK.Lib
             }
         }
 
-        public virtual void onLoaded(IDispatchObject resEvt)
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;
+            ResItem res = dispObj as ResItem;
             string path = res.GetPath();
-            m_path2ListenItemDic.Remove(path);
-
-            if (m_path2ResDic.ContainsKey(path))
+            if (res.hasSuccessLoaded())
             {
-                m_path2ResDic[path].m_isLoaded = true;
-                m_path2ResDic[path].m_isSucceed = true;
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-            }
+                m_path2ListenItemDic.Remove(path);
 
-            //if (m_path2ListenItemDic.ContainsKey(path))
-            //{
-            //    m_path2ListenItemDic[path].m_loaded(resEvt);
-            //}
+                if (m_path2ResDic.ContainsKey(path))
+                {
+                    m_path2ResDic[path].setSuccessLoaded();
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+                }
+
+                //if (m_path2ListenItemDic.ContainsKey(path))
+                //{
+                //    m_path2ListenItemDic[path].m_loaded(dispObj);
+                //}
+            }
+            else if (res.hasFailed())
+            {
+                if (m_path2ResDic.ContainsKey(path))
+                {
+                    m_path2ResDic[path].setFailed();
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+                }
+
+                if (m_path2ListenItemDic.ContainsKey(path))
+                {
+                    if (m_path2ListenItemDic[path].m_failed != null)
+                    {
+                        m_path2ListenItemDic[path].m_failed(dispObj);
+                    }
+                    m_path2ListenItemDic.Remove(path);
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+                }
+            }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unloadNoRef(path);
-        }
-
-        public virtual void onFailed(IDispatchObject resEvt)
-        {
-            IResItem res = resEvt as IResItem;
-            string path = res.GetPath();
-
-            if (m_path2ResDic.ContainsKey(path))
-            {
-                m_path2ResDic[path].m_isLoaded = true;
-                m_path2ResDic[path].m_isSucceed = false;
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-            }
-
-            if (m_path2ListenItemDic.ContainsKey(path))
-            {
-                if (m_path2ListenItemDic[path].m_failed != null)
-                {
-                    m_path2ListenItemDic[path].m_failed(resEvt);
-                }
-                m_path2ListenItemDic.Remove(path);
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-            }
-
-            // 彻底卸载
             Ctx.m_instance.m_resLoadMgr.unloadNoRef(path);
         }
 

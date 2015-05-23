@@ -18,13 +18,9 @@ namespace SDK.Lib
             {
                 m_path = param.m_path;
             }
-            if (param.m_loaded != null)
+            if (param.m_loadEventHandle != null)
             {
-                m_loaded += param.m_loaded;
-            }
-            if (param.m_failed != null)
-            {
-                m_failed += param.m_failed;
+                m_loaded += param.m_loadEventHandle;
             }
         }
     }

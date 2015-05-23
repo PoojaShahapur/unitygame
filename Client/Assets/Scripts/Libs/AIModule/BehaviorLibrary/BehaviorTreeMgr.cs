@@ -31,30 +31,27 @@ namespace BehaviorLibrary
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath] + "AI";
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
-            string text = res.getText("TestAi");
-            parseXml(text);
-            text = res.getText("Test2Ai");
-            parseXml(text);
-
-            // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
-        }
-
-        public void onFailed(IDispatchObject resEvt)
-        {
-            IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+                string text = res.getText("TestAi");
+                parseXml(text);
+                text = res.getText("Test2Ai");
+                parseXml(text);
+            }
+            else if (res.hasFailed())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+            }
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());

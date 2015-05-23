@@ -16,8 +16,7 @@ namespace SDK.Common
             string name = "forbidWords.txt";
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name), param);
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
@@ -25,41 +24,39 @@ namespace SDK.Common
         }
 
         // 加载一个表完成
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
-            string text = m_res.getText("");
-            
-            if (text != null)
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
             {
-                string[] lineSplitStr = {"\r\n"};
-                string[] tabSplitStr = { "\t" };
-                string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
-                int lineIdx = 0;
-                string[] tabList = null;
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+                string text = res.getText("");
 
-                m_filterArr = new string[lineList.Length];
-
-                while (lineIdx < lineList.Length)
+                if (text != null)
                 {
-                    tabList = lineList[lineIdx].Split(tabSplitStr, StringSplitOptions.RemoveEmptyEntries);
-                    m_filterArr[lineIdx] = tabList[1];
-                    ++lineIdx;
+                    string[] lineSplitStr = { "\r\n" };
+                    string[] tabSplitStr = { "\t" };
+                    string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
+                    int lineIdx = 0;
+                    string[] tabList = null;
+
+                    m_filterArr = new string[lineList.Length];
+
+                    while (lineIdx < lineList.Length)
+                    {
+                        tabList = lineList[lineIdx].Split(tabSplitStr, StringSplitOptions.RemoveEmptyEntries);
+                        m_filterArr[lineIdx] = tabList[1];
+                        ++lineIdx;
+                    }
                 }
+            }
+            else if (res.hasFailed())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
-        }
-
-        public void onFailed(IDispatchObject resEvt)
-        {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
-
-            // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
         }
 
         public bool doFilter(ref string str)

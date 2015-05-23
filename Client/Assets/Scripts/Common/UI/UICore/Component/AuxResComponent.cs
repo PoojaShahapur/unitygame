@@ -61,26 +61,28 @@ namespace SDK.Common
             m_selfLocalGo.transform.SetParent(pntGo.transform, false);
         }
 
-        public virtual void onLoaded(IDispatchObject resEvt)            // 资源加载成功
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
-            m_res = resEvt as ModelRes;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+            m_res = dispObj as ModelRes;
+            if (m_res.hasSuccessLoaded())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
-            m_selfGo = m_res.InstantiateObject(m_path);
-            m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
+                m_selfGo = m_res.InstantiateObject(m_path);
+                m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
 
-            // 不是使用 m_resLoadMgr.load 接口加载的资源，不要使用 m_resLoadMgr.unload 去卸载资源
-            // 卸载资源
-            //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
-        }
+                // 不是使用 m_resLoadMgr.load 接口加载的资源，不要使用 m_resLoadMgr.unload 去卸载资源
+                // 卸载资源
+                //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+            }
+            else if (m_res.hasFailed())
+            {
+                m_res = dispObj as ModelRes;
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
 
-        public virtual void onFailed(IDispatchObject resEvt)            // 资源加载成功
-        {
-            m_res = resEvt as ModelRes;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
-
-            // 卸载资源
-            //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+                // 卸载资源
+                //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+            }
         }
 
         public virtual void unload()
@@ -116,8 +118,7 @@ namespace SDK.Common
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_path;
-                    param.m_loaded = onLoaded;
-                    param.m_failed = onFailed;
+                    param.m_loadEventHandle = onLoadEventHandle;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

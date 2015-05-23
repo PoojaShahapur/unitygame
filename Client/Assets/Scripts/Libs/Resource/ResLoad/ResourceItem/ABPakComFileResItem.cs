@@ -15,10 +15,7 @@ namespace SDK.Lib
         {
             base.init(item);
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

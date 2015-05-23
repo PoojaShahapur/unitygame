@@ -34,7 +34,7 @@ namespace SDK.Lib
             }
         }
 
-        public void init(IResItem res)
+        public void init(ResItem res)
         {
             m_atlasPath = res.GetPath();
             m_soSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;

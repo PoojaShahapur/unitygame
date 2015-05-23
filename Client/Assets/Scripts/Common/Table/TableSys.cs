@@ -17,7 +17,7 @@ namespace SDK.Common
     public class TableSys
 	{
         private Dictionary<TableID, TableBase> m_dicTable;
-		private IResItem m_res;
+		private ResItem m_res;
         private ByteBuffer m_byteArray;
 
 		public TableSys()
@@ -72,8 +72,7 @@ namespace SDK.Common
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], table.m_resName), param);
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
@@ -81,29 +80,27 @@ namespace SDK.Common
 		}
 
         // 加载一个表完成
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
-
-            byte[] bytes = m_res.getBytes("");
-            if (bytes != null)
+            m_res = dispObj as ResItem;
+            if (m_res.hasSuccessLoaded())
             {
-                m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteBuffer();
-                m_byteArray.clear();
-                m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
-                m_byteArray.setPos(0);
-                readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
+                byte[] bytes = m_res.getBytes("");
+                if (bytes != null)
+                {
+                    m_byteArray = Ctx.m_instance.m_factoryBuild.buildByteBuffer();
+                    m_byteArray.clear();
+                    m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
+                    m_byteArray.setPos(0);
+                    readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
+                }
             }
-
-            // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
-        }
-
-        public void onFailed(IDispatchObject resEvt)
-        {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            else if (m_res.hasFailed())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            }
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());

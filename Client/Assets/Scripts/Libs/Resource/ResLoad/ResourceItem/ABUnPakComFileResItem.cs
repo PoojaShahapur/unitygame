@@ -25,18 +25,13 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                setFailed();
             }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -50,18 +45,14 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                setFailed();
             }
+
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearInstanceListener();
         }
@@ -111,18 +102,14 @@ namespace SDK.Lib
             {
                 m_object = req.asset;
 
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                setFailed();
             }
+
+            m_loadEventDispatch.dispatchEvent(this);
         }
 
         override public GameObject InstantiateObject(string resName)

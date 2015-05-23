@@ -68,15 +68,15 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath], m_skeletonName), param);
-            param.m_loaded = onSkeletonloaded;
+            param.m_loadEventHandle = onSkeletonLoadEventHandle;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 资源加载成功，通过事件回调
-        public void onSkeletonloaded(IDispatchObject resEvt)
+        public void onSkeletonLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            ResItem res = dispObj as ResItem;
             m_rootGo = res.InstantiateObject(m_skeletonName);
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
@@ -109,15 +109,15 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath], m_modelList[modelDef].m_bundleName), param);
-            param.m_loaded = onPartModelloaded;
+            param.m_loadEventHandle = onPartModelloaded;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 资源加载成功，通过事件回调
-        public void onPartModelloaded(IDispatchObject resEvt)
+        public void onPartModelloaded(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            ResItem res = dispObj as ResItem;
             int idx = getModelIdx(res.GetPath());
             
             if (m_rootGo != null)

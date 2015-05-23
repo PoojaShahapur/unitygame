@@ -55,8 +55,7 @@ namespace SDK.Lib
 
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = soundParam.m_path;
-                param.m_loaded = onLoaded;
-                param.m_failed = onFailed;
+                param.m_loadEventHandle = onLoadEventHandle;
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
@@ -78,34 +77,34 @@ namespace SDK.Lib
             unload(path);
         }
 
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
-
-            if (m_path2SoundDic.ContainsKey(res.GetPath()))      // 如果有，说明还没被停止
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
             {
-                if (m_path2SoundDic[res.GetPath()].m_soundResType == SoundResType.eSRT_Prefab)
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+
+                if (m_path2SoundDic.ContainsKey(res.GetPath()))      // 如果有，说明还没被停止
                 {
-                    m_path2SoundDic[res.GetPath()].setResObj(res.InstantiateObject(res.GetPath()));
+                    if (m_path2SoundDic[res.GetPath()].m_soundResType == SoundResType.eSRT_Prefab)
+                    {
+                        m_path2SoundDic[res.GetPath()].setResObj(res.InstantiateObject(res.GetPath()));
+                    }
+                    else
+                    {
+                        m_path2SoundDic[res.GetPath()].setResObj(res.getObject(res.GetPath()));
+                    }
                 }
-                else
-                {
-                    m_path2SoundDic[res.GetPath()].setResObj(res.getObject(res.GetPath()));
-                }
+                // 播放音乐
+                play(res.GetPath());
             }
-            // 播放音乐
-            play(res.GetPath());
+            else if (res.hasFailed())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+                delSoundItem(m_path2SoundDic[res.GetPath()]);
+            }
             // 卸载数据
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
-        }
-
-        public void onFailed(IDispatchObject resEvt)
-        {
-            IResItem res = resEvt as IResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
-            delSoundItem(m_path2SoundDic[res.GetPath()]);
         }
 
         protected void unload(string path)

@@ -33,18 +33,14 @@ namespace SDK.Lib
             {
                 m_bundle.LoadAsset<GameObject>(m_bundlePath);
                 Application.LoadLevel(m_levelName);
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                setFailed();
             }
+
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -75,18 +71,13 @@ namespace SDK.Lib
 
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                setSuccessLoaded();
             }
             else
             {
-                if (onFailed != null)
-                {
-                    onFailed(this);
-                }
+                setFailed();
             }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
 

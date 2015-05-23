@@ -5,7 +5,7 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class ResItem : RefCount, IResItem
+    public class ResItem : IDispatchObject
     {
         protected ResPackType m_resPackType;    // 资源打包类型
         protected ResLoadType m_resLoadType;    // 资源加载类型
@@ -15,16 +15,15 @@ namespace SDK.Lib
         protected string m_extName;             // 扩展名字
 
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
-
-        protected bool m_isLoaded;              // 资源是否加载完成
-        protected bool m_isSucceed;             // 资源是否加载成功
-
-        protected Action<IDispatchObject> onLoaded;        // 加载成功回调
-        protected Action<IDispatchObject> onFailed;        // 加载失败回调
+        protected ResLoadState m_resLoadState;  // 资源加载状态
+        protected EventDispatch m_loadEventDispatch;
+        protected RefCount m_refCount;
 
         public ResItem()
         {
-            
+            m_resLoadState = ResLoadState.eNotLoad;
+            m_loadEventDispatch = new EventDispatch();
+            m_refCount = new RefCount();
         }
 
         public ResPackType GetResPackType()
@@ -97,27 +96,15 @@ namespace SDK.Lib
             }
         }
 
-        public bool isLoaded
+        public ResLoadState resLoadState
         {
             get
             {
-                return m_isLoaded;
+                return m_resLoadState;
             }
             set
             {
-                m_isLoaded = value;
-            }
-        }
-
-        public bool isSucceed
-        {
-            get
-            {
-                return m_isSucceed;
-            }
-            set
-            {
-                m_isSucceed = value;
+                m_resLoadState = value;
             }
         }
 
@@ -133,9 +120,60 @@ namespace SDK.Lib
             }
         }
 
-        public bool HasLoaded()
+        public EventDispatch loadEventDispatch
         {
-            return m_isLoaded;
+            get
+            {
+                return m_loadEventDispatch;
+            }
+            set
+            {
+                m_loadEventDispatch = value;
+            }
+        }
+
+        public RefCount refCount
+        {
+            get
+            {
+                return m_refCount;
+            }
+            set
+            {
+                m_refCount = value;
+            }
+        }
+
+        // 是否加载完成，可能成功可能失败
+        public bool hasLoaded()
+        {
+            return m_resLoadState == ResLoadState.eFailed || m_resLoadState == ResLoadState.eLoaded;
+        }
+
+        public bool hasSuccessLoaded()
+        {
+            return m_resLoadState == ResLoadState.eLoaded;
+        }
+
+        public bool hasFailed()
+        {
+            return m_resLoadState == ResLoadState.eFailed;
+        }
+
+        public void setSuccessLoaded()
+        {
+            m_resLoadState = ResLoadState.eLoaded;
+        }
+
+        public void setFailed()
+        {
+            m_resLoadState = ResLoadState.eFailed;
+        }
+
+        // 正在加载中
+        public bool hasLoading()
+        {
+            return m_resLoadState == ResLoadState.eLoading;
         }
 
         public virtual string getPrefabName()         // 只有 Prefab 资源才实现这个函数
@@ -145,37 +183,26 @@ namespace SDK.Lib
 
         virtual public void init(LoadItem item)
         {
-            m_isLoaded = true;
-            m_isSucceed = true;
+            m_resLoadState = ResLoadState.eLoaded;
         }
 
         virtual public void failed(LoadItem item)
         {
-            m_isLoaded = true;
-            m_isSucceed = false;
-
-            if(onFailed != null)
-            {
-                onFailed(this);
-            }
-
+            m_resLoadState = ResLoadState.eFailed;
+            m_loadEventDispatch.dispatchEvent(this);
             clearListener();
         }
 
         public void clearListener()
         {
-            onLoaded = null;            // 清理事件监听器
-            onFailed = null;            // 清理事件监听器
+            m_loadEventDispatch.clearEventHandle();
         }
 
         virtual public void reset()
         {
-            //m_type = ResType.eNoneType;
             m_path = "";
-            //m_resNeedCoroutine = false;
-            m_isLoaded = false;
-            m_isSucceed = false;
-            m_refNum = 0;
+            m_resLoadState = ResLoadState.eNotLoad;
+            m_refCount.refNum = 0;
             clearListener();
         }
 
@@ -183,30 +210,6 @@ namespace SDK.Lib
         virtual public void unload()
         {
 
-        }
-
-        public void addEventListener(EventID evtID, Action<IDispatchObject> cb)
-        {
-            if(EventID.LOADED_EVENT == evtID)       // 加载成功事件
-            {
-                onLoaded += cb;
-            }
-            else if (EventID.FAILED_EVENT == evtID)
-            {
-                onFailed += cb;
-            }
-        }
-
-        public void removeEventListener(EventID evtID, Action<IDispatchObject> cb)
-        {
-            if (EventID.LOADED_EVENT == evtID)       // 加载成功事件
-            {
-                onLoaded -= cb;
-            }
-            else if (EventID.FAILED_EVENT == evtID)
-            {
-                onFailed -= cb;
-            }
         }
 
         virtual public GameObject InstantiateObject(string resName)
@@ -237,11 +240,9 @@ namespace SDK.Lib
             m_pathNoExt = rhv.m_pathNoExt;
             m_extName = rhv.m_extName;
             m_resNeedCoroutine = rhv.m_resNeedCoroutine;
-            m_isLoaded = rhv.m_isLoaded;
-            m_isSucceed = rhv.m_isSucceed;
-            m_refNum = rhv.m_refNum;
-            onLoaded = rhv.onLoaded;
-            onFailed = rhv.onFailed;
+            m_resLoadState = rhv.resLoadState;
+            m_refCount.refNum = rhv.refCount.refNum;
+            m_loadEventDispatch = rhv.loadEventDispatch;
         }
     }
 }

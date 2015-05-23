@@ -8,9 +8,9 @@ namespace SDK.Lib
      */
     public class UIPrefabMgr : ResMgrBase
     {
-        public override void onLoaded(IDispatchObject resEvt)
+        public override void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;
+            ResItem res = dispObj as ResItem;
             string path = res.GetPath();
 
             // 获取资源单独保存
@@ -20,7 +20,7 @@ namespace SDK.Lib
                 m_path2ListenItemDic[path].m_loaded(m_path2ResDic[path]);
             }
 
-            base.onLoaded(resEvt);
+            base.onLoadEventHandle(dispObj);
         }
     }
 }

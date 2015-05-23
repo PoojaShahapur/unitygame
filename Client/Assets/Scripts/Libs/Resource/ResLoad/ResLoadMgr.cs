@@ -36,7 +36,7 @@ namespace SDK.Lib
             loadParam.m_resNeedCoroutine = true;
         }
 
-        public IResItem getResource(string path)
+        public ResItem getResource(string path)
         {
             // 如果 path == null ，程序会宕机
             if (m_LoadData.m_path2Res.ContainsKey(path))
@@ -49,7 +49,7 @@ namespace SDK.Lib
             }
         }
 
-        public IResItem loadData(LoadParam param)
+        public ResItem loadData(LoadParam param)
         {
             param.m_resPackType = ResPackType.eDataType;
             
@@ -73,7 +73,7 @@ namespace SDK.Lib
         }
 
         // eBundleType 打包类型资源加载
-        public IResItem loadBundle(LoadParam param)
+        public ResItem loadBundle(LoadParam param)
         {
             param.m_resPackType = ResPackType.eBundleType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
@@ -82,7 +82,7 @@ namespace SDK.Lib
         }
 
         // eLevelType 打包类型资源加载，都用协程加载
-        public IResItem loadLevel(LoadParam param)
+        public ResItem loadLevel(LoadParam param)
         {
             param.resolveLevel();
 
@@ -106,7 +106,7 @@ namespace SDK.Lib
         }
 
         // eResourcesType 打包类型资源加载
-        public IResItem loadResources(LoadParam param)
+        public ResItem loadResources(LoadParam param)
         {
             param.resolvePath();
 
@@ -139,37 +139,23 @@ namespace SDK.Lib
         }
 
         // 通用类型，需要自己设置很多参数
-        public IResItem load(LoadParam param)
+        public ResItem load(LoadParam param)
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                m_LoadData.m_path2Res[param.m_path].incRef();
-                if (m_LoadData.m_path2Res[param.m_path].isLoaded)
+                m_LoadData.m_path2Res[param.m_path].refCount.incRef();
+                if (m_LoadData.m_path2Res[param.m_path].hasLoaded())
                 {
-                    if (m_LoadData.m_path2Res[param.m_path].isSucceed)
+                    if (param.m_loadEventHandle != null)
                     {
-                        if (param.m_loaded != null)
-                        {
-                            param.m_loaded(m_LoadData.m_path2Res[param.m_path]);
-                        }
-                    }
-                    else
-                    {
-                        if (param.m_failed != null)
-                        {
-                            param.m_failed(m_LoadData.m_path2Res[param.m_path]);
-                        }
+                        param.m_loadEventHandle(m_LoadData.m_path2Res[param.m_path]);
                     }
                 }
                 else
                 {
-                    if (param.m_loaded != null)
+                    if (param.m_loadEventHandle != null)
                     {
-                        m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loaded);
-                    }
-                    if (param.m_failed != null)
-                    {
-                        m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.FAILED_EVENT, param.m_failed);
+                        m_LoadData.m_path2Res[param.m_path].loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                     }
                 }
             }
@@ -255,7 +241,7 @@ namespace SDK.Lib
                     (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
                 }
 
-                resitem.incRef();
+                resitem.refCount.incRef();
                 resitem.resNeedCoroutine = param.m_resNeedCoroutine;
                 resitem.resPackType = param.m_resPackType;
                 resitem.resLoadType = param.m_resLoadType;
@@ -265,13 +251,9 @@ namespace SDK.Lib
 
                 m_LoadData.m_path2Res[param.m_path] = resitem;
 
-                if (param.m_loaded != null)
+                if (param.m_loadEventHandle != null)
                 {
-                    m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.LOADED_EVENT, param.m_loaded);
-                }
-                if (param.m_failed != null)
-                {
-                    m_LoadData.m_path2Res[param.m_path].addEventListener(EventID.FAILED_EVENT, param.m_failed);
+                    m_LoadData.m_path2Res[param.m_path].loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
 
                 // 特殊处理
@@ -368,8 +350,8 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
-                m_LoadData.m_path2Res[path].decRef();
-                if (m_LoadData.m_path2Res[path].refNum == 0)
+                m_LoadData.m_path2Res[path].refCount.decRef();
+                if (m_LoadData.m_path2Res[path].refCount.refNum == 0)
                 {
                     unloadNoRef(path);
                 }

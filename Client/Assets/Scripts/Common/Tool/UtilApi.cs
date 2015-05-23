@@ -576,7 +576,7 @@ namespace SDK.Common
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = path;
-                    param.m_loaded = onload;
+                    param.m_loadEventHandle = onload;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }
@@ -803,18 +803,18 @@ namespace SDK.Common
         }
 
         // 加载一个表完成
-        public static void onLoaded(IDispatchObject resEvt)
+        public static void onLoaded(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            ResItem res = dispObj as ResItem;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
             // 卸载资源
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
         }
 
-        public static void onFailed(IDispatchObject resEvt)
+        public static void onFailed(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            ResItem res = dispObj as ResItem;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
 
             // 卸载资源

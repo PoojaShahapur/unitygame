@@ -18,7 +18,7 @@ namespace SDK.Lib
         protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
 
         protected AssetBundle m_assetBundle;
-        protected ResLoadState m_ResLoadState = ResLoadState.eNotLoad;  // 资源加载状态
+        protected ResLoadState m_resLoadState = ResLoadState.eNotLoad;  // 资源加载状态
 
         public Action<LoadItem> onLoaded;
         public Action<LoadItem> onFailed;
@@ -124,17 +124,17 @@ namespace SDK.Lib
         {
             get
             {
-                return m_ResLoadState;
+                return m_resLoadState;
             }
             set
             {
-                m_ResLoadState = value;
+                m_resLoadState = value;
             }
         }
 
         virtual public void load()
         {
-            m_ResLoadState = ResLoadState.eLoading;
+            m_resLoadState = ResLoadState.eLoading;
         }
 
         virtual public void reset()

@@ -13,9 +13,9 @@ namespace Game.UI
         public GameObject m_go = null;                 // 显示的内容
         public string m_path;                          // 目录
 
-        public virtual void onLoaded(IDispatchObject resEvt)            // 资源加载成功
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
-            ModelRes res = resEvt as ModelRes;
+            ModelRes res = dispObj as ModelRes;
             m_go = res.InstantiateObject(m_path);
             m_go.transform.parent = m_parentTran;
             UtilApi.normalPos(m_go.transform);
@@ -38,7 +38,7 @@ namespace Game.UI
                 LoadParam param;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = m_path;
-                param.m_loaded = onLoaded;
+                param.m_loadEventHandle = onLoadEventHandle;
 
                 // 这个需要立即加载
                 param.m_loadNeedCoroutine = false;

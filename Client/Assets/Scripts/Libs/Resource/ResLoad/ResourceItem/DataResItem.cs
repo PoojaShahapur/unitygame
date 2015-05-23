@@ -15,10 +15,7 @@ namespace SDK.Lib
             m_bytes = (item as DataLoadItem).m_bytes;
             m_localPath = (item as DataLoadItem).m_localPath;
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

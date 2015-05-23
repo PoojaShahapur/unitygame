@@ -18,22 +18,23 @@ namespace UnitTestSrc
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             string resPath = "Anim/boxcampush";
             LocalFileSys.modifyLoadParam(resPath, param);
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        protected void onLoaded(IDispatchObject resEvt)
+        protected void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;
-            res.InstantiateObject("Anim/boxcampush");
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
+            {
+                res.InstantiateObject("Anim/boxcampush");
+            }
+            else if (res.hasFailed())
+            {
 
-            Ctx.m_instance.m_resLoadMgr.unload("Anim/boxcampush");
-        }
+            }
 
-        protected void onFailed(IDispatchObject resEvt)
-        {
             Ctx.m_instance.m_resLoadMgr.unload("Anim/boxcampush");
         }
     }

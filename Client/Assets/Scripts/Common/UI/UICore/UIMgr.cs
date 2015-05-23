@@ -236,7 +236,7 @@ namespace SDK.Common
                     m_ID2CodeLoadingItemDic[ID] = new UILoadingItem();
                     m_ID2CodeLoadingItemDic[ID].m_ID = ID;
 
-                    loadFromFile(attrItem.m_codePath, onCodeloaded, onCodeFailed, onCodeloadedByRes);
+                    loadFromFile(attrItem.m_codePath, onCodeLoadEventHandle, onCodeloadedByRes);
                 }
             }
         }
@@ -250,22 +250,21 @@ namespace SDK.Common
                 m_ID2WidgetLoadingItemDic[ID] = new UILoadingItem();
                 m_ID2WidgetLoadingItemDic[ID].m_ID = ID;
 
-                loadFromFile(attrItem.m_widgetPath, onWidgetloaded, onWidgetFailed, onWidgetloadedByRes);
+                loadFromFile(attrItem.m_widgetPath, onWidgetLoadEventHandle, onWidgetloadedByRes);
             }
         }
 
         // 从本地磁盘或者网络加载资源
-        protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoaded, Action<IDispatchObject> onFailed, Action<IResItem> onloadedAndInit)
+        protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoadEventHandle, Action<ResItem> onloadedAndInit)
         {
             // 创建窗口资源
-            IResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
+            ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
             if (res != null)
             {
-                if (!res.HasLoaded())
+                if (!res.hasLoaded())
                 {
                     // 添加事件监听,不用增加引用计数
-                    res.addEventListener(EventID.LOADED_EVENT, onLoaded);
-                    res.addEventListener(EventID.FAILED_EVENT, onFailed);
+                    res.loadEventDispatch.addEventHandle(onLoadEventHandle);
                 }
                 else // 已经加载完成
                 {
@@ -276,45 +275,44 @@ namespace SDK.Common
             {
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 LocalFileSys.modifyLoadParam(reaPath, param);
-                param.m_loaded = onLoaded;
-                param.m_failed = onFailed;
+                param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }
 		
-		// 代码资源加载成功
-        public void onCodeloaded(IDispatchObject resEvt)
+		// 代码资源加载处理
+        public void onCodeLoadEventHandle(IDispatchObject dispObj)
 		{
-            IResItem res = resEvt as IResItem;                         // 类型转换
-            onCodeloadedByRes(res);
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
+            {
+                onCodeloadedByRes(res);
+            }
+            else if (res.hasFailed())
+            {
+                UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
+                m_ID2CodeLoadingItemDic.Remove(ID);
+            }
 		}
 
-        // 代码资源加载失败
-        private void onCodeFailed(IDispatchObject resEvt)
-		{
-            IResItem res = resEvt as IResItem;                         // 类型转换
-            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
-            m_ID2CodeLoadingItemDic.Remove(ID);
-		}
-
-        // 窗口控件资源加载成功
-        public void onWidgetloaded(IDispatchObject resEvt)
+        // 窗口控件资源加载处理
+        public void onWidgetLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
-            onWidgetloadedByRes(res);
-        }
-
-        // 窗口控件资源加载失败
-        private void onWidgetFailed(IDispatchObject resEvt)
-        {
-            IResItem res = resEvt as IResItem;                         // 类型转换
-            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
-            m_ID2WidgetLoadingItemDic.Remove(ID);
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
+            {
+                onWidgetloadedByRes(res);
+            }
+            else if(res.hasFailed())
+            {
+                UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
+                m_ID2WidgetLoadingItemDic.Remove(ID);
+            }
         }
 
         // 代码资源加载完成处理
-        public void onCodeloadedByRes(IResItem res)
+        public void onCodeloadedByRes(ResItem res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
             m_ID2CodeLoadingItemDic.Remove(ID);
@@ -331,7 +329,7 @@ namespace SDK.Common
         }
 
         // 窗口控件资源加载完成处理
-        public void onWidgetloadedByRes(IResItem res)
+        public void onWidgetloadedByRes(ResItem res)
         {
             string path = res.GetPath();
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID

@@ -88,36 +88,38 @@ namespace SDK.Lib
             param.m_resLoadType = ResLoadType.eLoadWeb;
             param.m_version = fileInfo.m_fileMd5;
 
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
 
             Ctx.m_instance.m_resLoadMgr.loadData(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        protected void onLoaded(IDispatchObject resEvt)
+        protected void onLoadEventHandle(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (resEvt as DataResItem).path));
-
-            m_loadedPath.Add((resEvt as DataResItem).path);
-            m_loadingPath.Remove((resEvt as DataResItem).path);
-
-            if(m_loadingPath.Count == 0)
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
             {
-                onUpdateEnd();
+                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (dispObj as DataResItem).path));
+
+                m_loadedPath.Add((dispObj as DataResItem).path);
+                m_loadingPath.Remove((dispObj as DataResItem).path);
+
+                if (m_loadingPath.Count == 0)
+                {
+                    onUpdateEnd();
+                }
             }
-        }
-
-        protected void onFailed(IDispatchObject resEvt)
-        {
-            Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (resEvt as DataResItem).path));
-
-            m_failedPath.Add((resEvt as DataResItem).path);
-            m_loadingPath.Remove((resEvt as DataResItem).path);
-
-            if (m_loadingPath.Count == 0)
+            else if(res.hasFailed())
             {
-                onUpdateEnd();
+                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (dispObj as DataResItem).path));
+
+                m_failedPath.Add((dispObj as DataResItem).path);
+                m_loadingPath.Remove((dispObj as DataResItem).path);
+
+                if (m_loadingPath.Count == 0)
+                {
+                    onUpdateEnd();
+                }
             }
         }
 

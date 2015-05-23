@@ -7,7 +7,7 @@ namespace SDK.Common
     public class XmlCfgMgr
     {
         public Dictionary<XmlCfgID, XmlCfgBase> m_id2CfgDic = new Dictionary<XmlCfgID,XmlCfgBase>();        // 商城
-        private IResItem m_res;
+        private ResItem m_res;
 
         protected void loadCfg<T>(XmlCfgID id) where T : XmlCfgBase, new()
         {
@@ -16,8 +16,7 @@ namespace SDK.Common
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(item.m_path, param);
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
@@ -25,24 +24,23 @@ namespace SDK.Common
         }
 
         // 加载一个表完成
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
-
-            string text = m_res.getText("");
-            if (text != null)
+            m_res = dispObj as ResItem;
+            if (m_res.hasSuccessLoaded())
             {
-                m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(text);
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+
+                string text = m_res.getText("");
+                if (text != null)
+                {
+                    m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(text);
+                }
             }
-
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
-        }
-
-        public void onFailed(IDispatchObject resEvt)
-        {
-            m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            else if (m_res.hasFailed())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+            }
 
             Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
         }

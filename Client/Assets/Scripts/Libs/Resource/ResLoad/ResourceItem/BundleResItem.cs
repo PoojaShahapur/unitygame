@@ -43,10 +43,7 @@ namespace SDK.Lib
                 //m_bundle.Unload(false);
             }
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -68,10 +65,7 @@ namespace SDK.Lib
                 //m_bundle.Unload(false);
             }
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
 

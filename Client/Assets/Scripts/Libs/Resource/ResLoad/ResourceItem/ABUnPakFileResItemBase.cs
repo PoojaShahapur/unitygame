@@ -32,10 +32,8 @@ namespace SDK.Lib
             }
             else
             {
-                if (onLoaded != null)
-                {
-                    onLoaded(this);
-                }
+                setSuccessLoaded();
+                m_loadEventDispatch.dispatchEvent(this);
 
                 clearListener();
             }

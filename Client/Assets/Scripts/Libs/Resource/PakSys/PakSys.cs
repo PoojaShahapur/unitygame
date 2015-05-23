@@ -39,43 +39,43 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(FILE_LIST, param);
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
 
             Ctx.m_instance.m_resLoadMgr.loadData(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
-
-            byte[] textAsset = (m_res as DataResItem).getBytes();
-            if (textAsset != null)
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
             {
-                loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2PakDic);
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+
+                byte[] textAsset = (res as DataResItem).getBytes();
+                if (textAsset != null)
+                {
+                    loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2PakDic);
+                }
+
+                // 卸载
+                Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+
+                if (m_pakCfgLoadDisp != null)
+                {
+                    m_pakCfgLoadDisp();
+                }
             }
-
-            // 卸载
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
-
-            if(m_pakCfgLoadDisp != null)
+            else if(res.hasFailed())
             {
-                m_pakCfgLoadDisp();
-            }
-        }
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+                // 卸载
+                Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
 
-        public void onFailed(IDispatchObject resEvt)
-        {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
-            // 卸载
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
-
-            if (m_pakCfgLoadDisp != null)
-            {
-                m_pakCfgLoadDisp();
+                if (m_pakCfgLoadDisp != null)
+                {
+                    m_pakCfgLoadDisp();
+                }
             }
         }
 

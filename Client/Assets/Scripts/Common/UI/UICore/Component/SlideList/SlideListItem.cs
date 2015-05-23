@@ -61,9 +61,9 @@ namespace SDK.Common
             load();
         }
 
-        public override void onLoaded(IDispatchObject resEvt)            // 资源加载成功
+        public override void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
-            base.onLoaded(resEvt);
+            base.onLoadEventHandle(dispObj);
             UtilApi.addHoverHandle(m_selfGo, OnMouseHover);
 
             // 加载贴图，换贴图
@@ -84,9 +84,9 @@ namespace SDK.Common
             }
         }
 
-        public void onTexLoaded(IDispatchObject resEvt)            // 资源加载成功
+        public void onTexLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
-            m_texRes = resEvt as TextureRes;
+            m_texRes = dispObj as TextureRes;
             GameObject go_ = UtilApi.TransFindChildByPObjAndPath(m_selfGo, "25e9d638.obj");
 #if UNITY_5
 		    go_.GetComponent<Renderer>().material.mainTexture = m_texRes.getTexture();
@@ -117,7 +117,7 @@ namespace SDK.Common
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                     param.m_path = m_texPath;
-                    param.m_loaded = onTexLoaded;
+                    param.m_loadEventHandle = onTexLoadEventHandle;
                     Ctx.m_instance.m_texMgr.load<TextureRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 }

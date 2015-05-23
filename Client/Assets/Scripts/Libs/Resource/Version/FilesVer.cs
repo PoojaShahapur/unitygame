@@ -56,38 +56,39 @@ namespace SDK.Lib
                 param.m_version = ver;
             }
 
-            param.m_loaded = onLoadedMini;
-            param.m_failed = onFailedMini;
+            param.m_loadEventHandle = onMiniLoadEventHandle;
 
             Ctx.m_instance.m_resLoadMgr.loadData(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 加载一个表完成
-        protected void onLoadedMini(IDispatchObject resEvt)
+        protected void onMiniLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            byte[] textAsset = (m_res as DataResItem).getBytes();
-            if (textAsset != null)
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
             {
-                // Lzma 解压缩
-                //byte[] outBytes = null;
-                //uint outLen = 0;
-                //MLzma.DecompressStrLZMA(textAsset, (uint)textAsset.Length, ref outBytes, ref outLen);
-                loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_miniPath2HashDic);
+                byte[] textAsset = (res as DataResItem).getBytes();
+                if (textAsset != null)
+                {
+                    // Lzma 解压缩
+                    //byte[] outBytes = null;
+                    //uint outLen = 0;
+                    //MLzma.DecompressStrLZMA(textAsset, (uint)textAsset.Length, ref outBytes, ref outLen);
+                    loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_miniPath2HashDic);
+                }
+
+                // 卸载
+                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
+
+                m_miniLoadedDisp();
             }
-
-            // 卸载
-            Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
-
-            m_miniLoadedDisp();
-        }
-
-        protected void onFailedMini(IDispatchObject resEvt)
-        {
-            // 卸载
-            Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
-            m_miniFailedDisp();
+            else if(res.hasFailed())
+            {
+                // 卸载
+                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
+                m_miniFailedDisp();
+            }
         }
 
         // 加载版本文件
@@ -111,37 +112,37 @@ namespace SDK.Lib
                 param.m_version = ver;
             }
 
-            param.m_loaded = onLoaded;
-            param.m_failed = onFailed;
+            param.m_loadEventHandle = onLoadEventHandle;
 
             Ctx.m_instance.m_resLoadMgr.loadData(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
         // 加载一个表完成
-        protected void onLoaded(IDispatchObject resEvt)
+        protected void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
-
-            byte[] textAsset = (m_res as DataResItem).getBytes();
-            if (textAsset != null)
+            ResItem res = dispObj as ResItem;
+            if (res.hasSuccessLoaded())
             {
-                loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2HashDic);
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+
+                byte[] textAsset = (res as DataResItem).getBytes();
+                if (textAsset != null)
+                {
+                    loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2HashDic);
+                }
+
+                // 卸载
+                Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
+                m_LoadedDisp();
             }
-
-            // 卸载
-            Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
-            m_LoadedDisp();
-        }
-
-        protected void onFailed(IDispatchObject resEvt)
-        {
-            IResItem m_res = resEvt as IResItem;                         // 类型转换
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
-            // 卸载
-            Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
-            m_FailedDisp();
+            else if(res.hasFailed())
+            {
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+                // 卸载
+                Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
+                m_FailedDisp();
+            }
         }
 
         protected void loadFormText(string text, Dictionary<string, FileVerInfo> dic)

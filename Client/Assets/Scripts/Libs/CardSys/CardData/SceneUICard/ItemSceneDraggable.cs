@@ -7,9 +7,9 @@ namespace SDK.Lib
      */
     public class ItemSceneDraggable : ItemSceneBase
     {
-        public override void onLoaded(IDispatchObject resEvt)            // 资源加载成功
+        public override void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
-            base.onLoaded(resEvt);
+            base.onLoadEventHandle(dispObj);
 
             UIDragObject drag = m_go.AddComponent<UIDragObject>();
             drag.target = m_go.transform;

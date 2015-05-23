@@ -28,10 +28,7 @@ namespace SDK.Lib
             // 继续加载当前的关卡
             //loadLevel(m_origPath);
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

@@ -80,17 +80,16 @@ namespace SDK.Lib
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
                 LocalFileSys.modifyLoadParam(m_ID2FileName[m_langID].m_filePath, param);
-                param.m_loaded = onLoaded;
-                param.m_failed = onFailed;
+                param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }
 
         // 加载一个表完成
-        public void onLoaded(IDispatchObject resEvt)
+        public void onLoadEventHandle(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            ResItem res = dispObj as ResItem;
             //Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());    // 这行执行的时候 m_isLoaded 设置加载标志，但是 m_nodeList 还没有初始化
             Ctx.m_instance.m_logSys.log("local xml loaded");
 
@@ -107,9 +106,9 @@ namespace SDK.Lib
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
         }
 
-        public void onFailed(IDispatchObject resEvt)
+        public void onFailed(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;
+            ResItem res = dispObj as ResItem;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
 
             // 卸载资源

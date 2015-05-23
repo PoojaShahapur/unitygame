@@ -62,14 +62,14 @@ namespace SDK.Lib
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneXml] + filename;
-            param.m_loaded = onSceneCfgLoadded;
+            param.m_loadEventHandle = onSceneCfgLoadded;
             Ctx.m_instance.m_resLoadMgr.loadBundle(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        protected void onSceneCfgLoadded(IDispatchObject resEvt)
+        protected void onSceneCfgLoadded(IDispatchObject dispObj)
         {
-            IResItem res = resEvt as IResItem;                         // 类型转换
+            ResItem res = dispObj as ResItem;
             m_sceneParse.sceneCfg = m_scene.sceneCfg;
             string text = res.getText(m_scene.file);
             m_sceneParse.parse(text);
@@ -81,18 +81,18 @@ namespace SDK.Lib
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             LocalFileSys.modifyLoadParam(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename), param);
-            param.m_loaded = onSceneResLoadded;
+            param.m_loadEventHandle = onSceneResLoadded;
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;
             Ctx.m_instance.m_resLoadMgr.loadLevel(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        public void onSceneResLoadded(IDispatchObject resEvt)
+        public void onSceneResLoadded(IDispatchObject dispObj)
         {
             Ctx.m_instance.m_uiMgr.findSceneUIRootGo();                 // 场景 UI 根节点
 
-            //IResItem res = resEvt as IResItem;                         // 类型转换
+            //ResItem res = dispObj as ResItem;
             if(onSceneLoaded != null)
             {
                 onSceneLoaded(m_scene);

@@ -18,10 +18,7 @@ namespace SDK.Lib
 
             m_prefabObj = (item as ResourceLoadItem).prefabObj;
 
-            if (onLoaded != null)
-            {
-                onLoaded(this);
-            }
+            m_loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
