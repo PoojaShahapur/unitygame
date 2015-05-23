@@ -8,7 +8,6 @@ namespace SDK.Lib
      */
     public class ResMgrBase
     {
-        protected Dictionary<string, ResListenerItem> m_path2ListenItemDic = new Dictionary<string, ResListenerItem>(); // 这里面记录的是外部回调，千万不要把 onLoaded 这个函数加入进入
         public Dictionary<string, InsResBase> m_path2ResDic = new Dictionary<string, InsResBase>();
 
         // 同步加载，立马加载完成，并且返回加载的资源
@@ -17,8 +16,7 @@ namespace SDK.Lib
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = path;
-            //param.m_loaded = onLoaded;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环
-            //param.m_failed = onFailed;
+            //param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             load<T>(param);
@@ -31,13 +29,19 @@ namespace SDK.Lib
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
                 m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-                if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+                if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
                 {
                     if (param.m_loadEventHandle != null)
                     {
                         param.m_loadEventHandle(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
                     }
-                    return m_path2ResDic[param.m_path];
+                }
+                else
+                {
+                    if (param.m_loadEventHandle != null)
+                    {
+                        m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    }
                 }
             }
             else
@@ -45,18 +49,11 @@ namespace SDK.Lib
                 m_path2ResDic[param.m_path] = new T();
                 m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
                 m_path2ResDic[param.m_path].m_path = param.m_path;
-            }
 
-            if (!m_path2ListenItemDic.ContainsKey(param.m_path))
-            {
-                m_path2ListenItemDic[param.m_path] = new ResListenerItem();
-                m_path2ListenItemDic[param.m_path].copyForm(param);
+                m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+
                 param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
-            }
-            else
-            {
-                m_path2ListenItemDic[param.m_path].copyForm(param);
             }
 
             return m_path2ResDic[param.m_path];
@@ -83,47 +80,15 @@ namespace SDK.Lib
         {
             ResItem res = dispObj as ResItem;
             string path = res.GetPath();
-            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+
+            if (m_path2ResDic.ContainsKey(path))
             {
-                m_path2ListenItemDic.Remove(path);
-
-                if (m_path2ResDic.ContainsKey(path))
-                {
-                    m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                }
-                else
-                {
-                    Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-                }
-
-                //if (m_path2ListenItemDic.ContainsKey(path))
-                //{
-                //    m_path2ListenItemDic[path].m_loaded(dispObj);
-                //}
+                m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.copyFrom(res.refCountResLoadResultNotify.resLoadState);
+                m_path2ResDic[path].refCountResLoadResultNotify.onLoadEventHandle(m_path2ResDic[path]);
             }
-            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else
             {
-                if (m_path2ResDic.ContainsKey(path))
-                {
-                    m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.setFailed();
-                }
-                else
-                {
-                    Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-                }
-
-                if (m_path2ListenItemDic.ContainsKey(path))
-                {
-                    if (m_path2ListenItemDic[path].m_failed != null)
-                    {
-                        m_path2ListenItemDic[path].m_failed(dispObj);
-                    }
-                    m_path2ListenItemDic.Remove(path);
-                }
-                else
-                {
-                    Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-                }
+                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
             }
 
             // 卸载资源

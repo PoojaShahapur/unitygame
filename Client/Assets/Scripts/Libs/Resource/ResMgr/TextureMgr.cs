@@ -24,11 +24,7 @@ namespace SDK.Lib
 
             // 获取资源单独保存
             (m_path2ResDic[path] as TextureRes).m_texture = res.getObject(res.getPrefabName()) as Texture;
-
-            if (m_path2ListenItemDic[path].m_loaded != null)
-            {
-                m_path2ListenItemDic[path].m_loaded(m_path2ResDic[path]);
-            }
+            m_path2ResDic[path].refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(m_path2ResDic[path]);
 
             base.onLoadEventHandle(dispObj);
         }
