@@ -7,6 +7,11 @@
     {
         protected RefCount m_refCount;                  // 引用计数
 
+        public RefCountResLoadResultNotify()
+        {
+            m_refCount = new RefCount();
+        }
+
         public RefCount refCount
         {
             get

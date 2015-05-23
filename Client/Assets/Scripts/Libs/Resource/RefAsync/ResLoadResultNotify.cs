@@ -8,6 +8,12 @@
         protected ResLoadState m_resLoadState;          // 资源加载状态
         protected EventDispatch m_loadEventDispatch;    // 事件分发器
 
+        public ResLoadResultNotify()
+        {
+            m_resLoadState = new ResLoadState();
+            m_loadEventDispatch = new EventDispatch();
+        }
+
         public ResLoadState resLoadState
         {
             get

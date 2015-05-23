@@ -10,6 +10,12 @@ namespace SDK.Lib
     public class EventDispatch
     {
         protected List<Action<IDispatchObject>> m_handleList = new List<Action<IDispatchObject>>();
+        protected bool m_bInLoop;       // 是否是在循环遍历中
+
+        public EventDispatch()
+        {
+            m_bInLoop = false;
+        }
 
         protected List<Action<IDispatchObject>> handleList
         {
@@ -33,23 +39,31 @@ namespace SDK.Lib
 
         public void removeEventHandle(Action<IDispatchObject> handle)
         {
-            if (!m_handleList.Remove(handle))
+            if (!m_bInLoop)
             {
-                Ctx.m_instance.m_logSys.log("Event Handle not exist");
+                if (!m_handleList.Remove(handle))
+                {
+                    Ctx.m_instance.m_logSys.log("Event Handle not exist");
+                }
             }
         }
 
         public void dispatchEvent(IDispatchObject dispatchObject)
         {
+            m_bInLoop = true;
             foreach(var handle in m_handleList)
             {
                 handle(dispatchObject);
             }
+            m_bInLoop = false;
         }
 
         public void clearEventHandle()
         {
-            m_handleList.Clear();
+            if (!m_bInLoop)
+            {
+                m_handleList.Clear();
+            }
         }
 
         public void copyFrom(EventDispatch rhv)
