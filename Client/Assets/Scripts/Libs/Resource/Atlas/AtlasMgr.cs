@@ -20,6 +20,16 @@ namespace SDK.Lib
 
         }
 
+        public ImageItem loadImage(LoadParam param)
+        {
+            if(!m_path2ResDic.ContainsKey(param.m_path))
+            {
+                load<AtlasScriptRes>(param);
+            }
+
+            return (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
+        }
+
         public override void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;

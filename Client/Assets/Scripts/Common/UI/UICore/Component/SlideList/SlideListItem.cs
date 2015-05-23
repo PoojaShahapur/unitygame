@@ -61,7 +61,7 @@ namespace SDK.Common
             load();
         }
 
-        public override void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public override void onLoadEventHandle(IDispatchObject dispObj)
         {
             base.onLoadEventHandle(dispObj);
             UtilApi.addHoverHandle(m_selfGo, OnMouseHover);
@@ -84,7 +84,7 @@ namespace SDK.Common
             }
         }
 
-        public void onTexLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public void onTexLoadEventHandle(IDispatchObject dispObj)
         {
             m_texRes = dispObj as TextureRes;
             GameObject go_ = UtilApi.TransFindChildByPObjAndPath(m_selfGo, "25e9d638.obj");

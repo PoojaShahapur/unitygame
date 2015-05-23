@@ -7,9 +7,17 @@ namespace SDK.Lib
     /**
      * @brief 一项地图项
      */
-    public class ImageItem : RefCount
+    public class ImageItem : IDispatchObject
     {
         protected Sprite m_image;
+        protected AtlasScriptRes m_atlasScriptRes;
+        protected string m_spriteName;
+        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+
+        public ImageItem()
+        {
+            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+        }
 
         public Sprite image
         {
@@ -20,6 +28,42 @@ namespace SDK.Lib
             set
             {
                 m_image = value;
+            }
+        }
+
+        public AtlasScriptRes atlasScriptRes
+        {
+            get
+            {
+                return m_atlasScriptRes;
+            }
+            set
+            {
+                m_atlasScriptRes = value;
+            }
+        }
+
+        public string spriteName
+        {
+            get
+            {
+                return m_spriteName;
+            }
+            set
+            {
+                m_spriteName = value;
+            }
+        }
+
+        public RefCountResLoadResultNotify refCountResLoadResultNotify
+        {
+            get
+            {
+                return m_refCountResLoadResultNotify;
+            }
+            set
+            {
+                m_refCountResLoadResultNotify = value;
             }
         }
 

@@ -14,9 +14,9 @@ namespace SDK.Common
      */
     public class UIMgr : IResizeObject
 	{
-		private Dictionary<UIFormID, Form> m_dicForm = new Dictionary<UIFormID,Form>(); //[id,form]
+		private Dictionary<UIFormID, Form> m_dicForm; //[id,form]
         private List<UICanvas> m_canvasList;
-        public UIAttrs m_UIAttrs = new UIAttrs();
+        public UIAttrs m_UIAttrs;
 
         private Dictionary<UIFormID, UILoadingItem> m_ID2CodeLoadingItemDic;         // 记录当前代码正在加载的项
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
@@ -26,6 +26,8 @@ namespace SDK.Common
 
 		public UIMgr()
 		{
+            m_dicForm = new Dictionary<UIFormID, Form>();
+            m_UIAttrs = new UIAttrs();
             m_ID2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
 
@@ -81,7 +83,6 @@ namespace SDK.Common
             Form win = getForm<Form>(ID);
             if (win != null)
             {
-                //UILayer layer = win.uiLayer;
                 if (!win.bReady)
                 {
                     win.onReady();
@@ -100,7 +101,6 @@ namespace SDK.Common
 			Form win = getForm<Form>(ID);
 			if (win != null)
 			{
-				//UILayer layer = win.uiLayer;
 				if (win.IsVisible())
 				{
                     UtilApi.SetActive(win.m_GUIWin.m_uiRoot, false);
@@ -203,8 +203,6 @@ namespace SDK.Common
         // 这个事加载界面需要的代码
         public void loadForm<T>(UIFormID ID) where T : Form, new()
         {
-            // exitAllWin();                       // 关闭所有的界面
-
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             Form window = getForm<Form>(ID);
 

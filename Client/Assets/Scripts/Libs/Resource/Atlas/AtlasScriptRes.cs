@@ -14,6 +14,11 @@ namespace SDK.Lib
         protected SOSpriteList m_soSpriteList;
         protected Dictionary<string, ImageItem> m_path2Image;
 
+        public AtlasScriptRes()
+        {
+            m_path2Image = new Dictionary<string, ImageItem>();
+        }
+
         public string atlasPath
         {
             set
@@ -40,20 +45,39 @@ namespace SDK.Lib
             m_soSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;
         }
 
+        public ImageItem loadImage(LoadParam param)
+        {
+            if (refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            {
+                return getImage(param.m_subPath);
+            }
+            else
+            {
+                createImage(param.m_subPath, refCountResLoadResultNotify.resLoadState);
+                if (param.m_loadEventHandle != null)
+                {
+                    refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                }
+            }
+
+            return m_path2Image[param.m_subPath];
+        }
+
         public override void unload()
         {
             
         }
 
+        // 必然加载完成
         public ImageItem getImage(string spriteName)
         {
-            if (m_path2Image == null)
+            if (!m_path2Image.ContainsKey(spriteName))
             {
-                buildDic();
+                addImage2Dic(spriteName);
             }
             if (m_path2Image.ContainsKey(spriteName))
             {
-                m_path2Image[spriteName].incRef();
+                m_path2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
                 return m_path2Image[spriteName];
             }
             else
@@ -68,17 +92,25 @@ namespace SDK.Lib
             }
         }
 
-        protected void buildDic()
+        protected void addImage2Dic(string spriteName)
         {
-            m_path2Image = new Dictionary<string, ImageItem>();
             foreach(SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
             {
-                m_path2Image[obj.m_path] = new ImageItem();
-                m_path2Image[obj.m_path].image = obj.m_sprite;
+                if (obj.m_path == spriteName)
+                {
+                    createImage(spriteName, refCountResLoadResultNotify.resLoadState);
+                    m_path2Image[obj.m_path].image = obj.m_sprite;
+                    break;
+                }
             }
+        }
 
-            m_soSpriteList.m_objList.Clear();
-            m_soSpriteList = null;
+        protected void createImage(string spriteName, ResLoadState resLoadState)
+        {
+            m_path2Image[spriteName] = new ImageItem();
+            m_path2Image[spriteName].atlasScriptRes = this;
+            m_path2Image[spriteName].spriteName = spriteName;
+            m_path2Image[spriteName].refCountResLoadResultNotify.resLoadState.copyFrom(resLoadState);
         }
     }
 }

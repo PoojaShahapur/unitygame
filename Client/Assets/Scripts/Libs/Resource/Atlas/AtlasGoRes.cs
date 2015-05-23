@@ -32,7 +32,7 @@ namespace SDK.Lib
             }
             else
             {
-                m_path2Image[spriteName].incRef();
+                m_path2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
             }
 
             return m_path2Image[spriteName];

@@ -61,7 +61,7 @@ namespace SDK.Common
             m_selfLocalGo.transform.SetParent(pntGo.transform, false);
         }
 
-        public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
             m_res = dispObj as ModelRes;
             if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())

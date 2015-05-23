@@ -13,7 +13,7 @@ namespace Game.UI
         public GameObject m_go = null;                 // 显示的内容
         public string m_path;                          // 目录
 
-        public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
             ModelRes res = dispObj as ModelRes;
             m_go = res.InstantiateObject(m_path);

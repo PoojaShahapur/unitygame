@@ -15,7 +15,7 @@ namespace SDK.Lib
         public ModelRes m_res;
         public bool m_bNorm = true;
 
-        public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
             m_res = dispObj as ModelRes;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());

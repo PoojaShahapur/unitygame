@@ -9,7 +9,8 @@ namespace UnitTestSrc
         public void run()
         {
             //testModelLoad();
-            testLoad();
+            //testLoad();
+            testAsyncLoadImage();
         }
 
         protected void testModelLoad()
@@ -22,7 +23,7 @@ namespace UnitTestSrc
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
-        public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
@@ -38,6 +39,22 @@ namespace UnitTestSrc
         protected void testLoad()
         {
             UnityEngine.Object obj = Resources.Load("UI/UITuJian/CardSet");
+        }
+
+        protected void testAsyncLoadImage()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            param.m_path = CVAtlasName.TuJianDyn;
+            param.m_subPath = "ka1_paizu";
+            param.m_loadEventHandle = onImageLoadEventHandle;
+            Ctx.m_instance.m_atlasMgr.loadImage(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+        }
+
+        public virtual void onImageLoadEventHandle(IDispatchObject dispObj)
+        {
+            ImageItem image = dispObj as ImageItem;
         }
     }
 }

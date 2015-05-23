@@ -4,7 +4,7 @@ namespace SDK.Lib
 {
     public class ItemSceneDraggableIOBase : ItemSceneIOBase
     {
-        public override void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
+        public override void onLoadEventHandle(IDispatchObject dispObj)
         {
             base.onLoadEventHandle(dispObj);
 
