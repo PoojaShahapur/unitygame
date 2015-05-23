@@ -18,7 +18,7 @@ namespace SDK.Lib
 
             m_prefabObj = (item as ResourceLoadItem).prefabObj;
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

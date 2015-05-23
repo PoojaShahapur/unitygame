@@ -83,7 +83,7 @@ namespace SDK.Lib
         {
             ResItem res = dispObj as ResItem;
             string path = res.GetPath();
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 m_path2ListenItemDic.Remove(path);
 
@@ -101,7 +101,7 @@ namespace SDK.Lib
                 //    m_path2ListenItemDic[path].m_loaded(dispObj);
                 //}
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 if (m_path2ResDic.ContainsKey(path))
                 {

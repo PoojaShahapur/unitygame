@@ -25,13 +25,13 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                m_resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -45,14 +45,14 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                m_resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearInstanceListener();
         }
@@ -102,14 +102,14 @@ namespace SDK.Lib
             {
                 m_object = req.asset;
 
-                m_resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
 
         override public GameObject InstantiateObject(string resName)

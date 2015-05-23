@@ -36,7 +36,7 @@ namespace Game.UI
             
         }
 
-        public void findWidget()
+        public new void findWidget()
         {
             m_jobPnlGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.PnlJob);
             m_filterPnlGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.PnlFilter);
@@ -52,7 +52,7 @@ namespace Game.UI
             toggleFilterPnl(false);
         }
 
-        public void  addEventHandle()
+        public new void addEventHandle()
         {
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f, onJobBtnClk);
             UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f, onJobBtnClk);

@@ -18,13 +18,12 @@ namespace SDK.Lib
         protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
 
         protected AssetBundle m_assetBundle;
-        protected ResLoadState m_resLoadState;  // 资源加载状态
 
-        protected EventDispatch m_loadEventDispatch;
+        protected NonRefCountResLoadResultNotify m_nonRefCountResLoadResultNotify;
 
         public LoadItem()
         {
-            m_resLoadState = new ResLoadState();
+            m_nonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
         }
 
         public ResPackType resPackType
@@ -119,33 +118,21 @@ namespace SDK.Lib
             }
         }
 
-        public ResLoadState ResLoadState
+        public NonRefCountResLoadResultNotify nonRefCountResLoadResultNotify
         {
             get
             {
-                return m_resLoadState;
+                return m_nonRefCountResLoadResultNotify;
             }
             set
             {
-                m_resLoadState = value;
-            }
-        }
-
-        public EventDispatch loadEventDispatch
-        {
-            get
-            {
-                return m_loadEventDispatch;
-            }
-            set
-            {
-                m_loadEventDispatch = value;
+                m_nonRefCountResLoadResultNotify = value;
             }
         }
 
         virtual public void load()
         {
-            m_resLoadState.setLoading();
+            nonRefCountResLoadResultNotify.resLoadState.setLoading();
         }
 
         virtual public void reset()
@@ -196,14 +183,14 @@ namespace SDK.Lib
             {
                 m_assetBundle = m_w3File.assetBundle;
 
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
 
         protected void deleteFromCache(string path)
@@ -217,7 +204,7 @@ namespace SDK.Lib
 
         public void clearListener()
         {
-            m_loadEventDispatch.clearEventHandle();
+            nonRefCountResLoadResultNotify.loadEventDispatch.clearEventHandle();
         }
     }
 }

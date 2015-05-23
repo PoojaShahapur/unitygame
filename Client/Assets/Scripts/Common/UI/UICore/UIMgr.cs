@@ -261,10 +261,10 @@ namespace SDK.Common
             ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
             if (res != null)
             {
-                if (!res.resLoadState.hasLoaded())
+                if (!res.refCountResLoadResultNotify.resLoadState.hasLoaded())
                 {
                     // 添加事件监听,不用增加引用计数
-                    res.loadEventDispatch.addEventHandle(onLoadEventHandle);
+                    res.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(onLoadEventHandle);
                 }
                 else // 已经加载完成
                 {
@@ -285,11 +285,11 @@ namespace SDK.Common
         public void onCodeLoadEventHandle(IDispatchObject dispObj)
 		{
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onCodeloadedByRes(res);
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
                 m_ID2CodeLoadingItemDic.Remove(ID);
@@ -300,11 +300,11 @@ namespace SDK.Common
         public void onWidgetLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onWidgetloadedByRes(res);
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
                 m_ID2WidgetLoadingItemDic.Remove(ID);

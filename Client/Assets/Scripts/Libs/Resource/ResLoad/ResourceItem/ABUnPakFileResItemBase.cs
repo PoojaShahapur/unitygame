@@ -32,8 +32,8 @@ namespace SDK.Lib
             }
             else
             {
-                m_resLoadState.setSuccessLoaded();
-                m_loadEventDispatch.dispatchEvent(this);
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
                 clearListener();
             }

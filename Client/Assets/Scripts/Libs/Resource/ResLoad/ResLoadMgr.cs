@@ -143,8 +143,8 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
-                m_LoadData.m_path2Res[param.m_path].refCount.incRef();
-                if (m_LoadData.m_path2Res[param.m_path].resLoadState.hasLoaded())
+                m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.refCount.incRef();
+                if (m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
                 {
                     if (param.m_loadEventHandle != null)
                     {
@@ -155,7 +155,7 @@ namespace SDK.Lib
                 {
                     if (param.m_loadEventHandle != null)
                     {
-                        m_LoadData.m_path2Res[param.m_path].loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                        m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                     }
                 }
             }
@@ -241,7 +241,7 @@ namespace SDK.Lib
                     (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
                 }
 
-                resitem.refCount.incRef();
+                resitem.refCountResLoadResultNotify.refCount.incRef();
                 resitem.resNeedCoroutine = param.m_resNeedCoroutine;
                 resitem.resPackType = param.m_resPackType;
                 resitem.resLoadType = param.m_resLoadType;
@@ -253,7 +253,7 @@ namespace SDK.Lib
 
                 if (param.m_loadEventHandle != null)
                 {
-                    m_LoadData.m_path2Res[param.m_path].loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
 
                 // 特殊处理
@@ -318,7 +318,7 @@ namespace SDK.Lib
                     loaditem.path = param.m_path;
                     loaditem.pathNoExt = param.m_pathNoExt;
                     loaditem.extName = param.extName;
-                    loaditem.loadEventDispatch.addEventHandle(onLoadEventHandle);
+                    loaditem.nonRefCountResLoadResultNotify.loadEventDispatch.addEventHandle(onLoadEventHandle);
 
                     if (m_curNum < m_maxParral)
                     {
@@ -349,8 +349,8 @@ namespace SDK.Lib
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
-                m_LoadData.m_path2Res[path].refCount.decRef();
-                if (m_LoadData.m_path2Res[path].refCount.refNum == 0)
+                m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.decRef();
+                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.refNum == 0)
                 {
                     unloadNoRef(path);
                 }
@@ -377,12 +377,12 @@ namespace SDK.Lib
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             LoadItem item = dispObj as LoadItem;
-            item.loadEventDispatch.removeEventHandle(onLoadEventHandle);
-            if (item.ResLoadState.hasSuccessLoaded())
+            item.nonRefCountResLoadResultNotify.loadEventDispatch.removeEventHandle(onLoadEventHandle);
+            if (item.nonRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onLoaded(item);
             }
-            else if (item.ResLoadState.hasFailed())
+            else if (item.nonRefCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 onFailed(item);
             }

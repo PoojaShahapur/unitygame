@@ -15,7 +15,7 @@ namespace SDK.Lib
         {
             base.init(item);
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

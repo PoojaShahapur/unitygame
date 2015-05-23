@@ -15,15 +15,11 @@ namespace SDK.Lib
         protected string m_extName;             // 扩展名字
 
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
-        protected ResLoadState m_resLoadState;  // 资源加载状态
-        protected EventDispatch m_loadEventDispatch;
-        protected RefCount m_refCount;
+        protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
 
         public ResItem()
         {
-            m_resLoadState = new ResLoadState();
-            m_loadEventDispatch = new EventDispatch();
-            m_refCount = new RefCount();
+            m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
         public ResPackType GetResPackType()
@@ -96,18 +92,6 @@ namespace SDK.Lib
             }
         }
 
-        public ResLoadState resLoadState
-        {
-            get
-            {
-                return m_resLoadState;
-            }
-            set
-            {
-                m_resLoadState = value;
-            }
-        }
-
         public ResLoadType resLoadType
         {
             get
@@ -120,27 +104,15 @@ namespace SDK.Lib
             }
         }
 
-        public EventDispatch loadEventDispatch
+        public RefCountResLoadResultNotify refCountResLoadResultNotify
         {
             get
             {
-                return m_loadEventDispatch;
+                return m_refCountResLoadResultNotify;
             }
             set
             {
-                m_loadEventDispatch = value;
-            }
-        }
-
-        public RefCount refCount
-        {
-            get
-            {
-                return m_refCount;
-            }
-            set
-            {
-                m_refCount = value;
+                m_refCountResLoadResultNotify = value;
             }
         }
 
@@ -151,26 +123,26 @@ namespace SDK.Lib
 
         virtual public void init(LoadItem item)
         {
-            m_resLoadState.setSuccessLoaded();
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
         }
 
         virtual public void failed(LoadItem item)
         {
-            m_resLoadState.setFailed();
-            m_loadEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.resLoadState.setFailed();
+            m_refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
             clearListener();
         }
 
         public void clearListener()
         {
-            m_loadEventDispatch.clearEventHandle();
+            m_refCountResLoadResultNotify.loadEventDispatch.clearEventHandle();
         }
 
         virtual public void reset()
         {
             m_path = "";
-            m_resLoadState.reset();
-            m_refCount.refNum = 0;
+            m_refCountResLoadResultNotify.resLoadState.reset();
+            m_refCountResLoadResultNotify.refCount.refNum = 0;
             clearListener();
         }
 
@@ -208,9 +180,7 @@ namespace SDK.Lib
             m_pathNoExt = rhv.m_pathNoExt;
             m_extName = rhv.m_extName;
             m_resNeedCoroutine = rhv.m_resNeedCoroutine;
-            m_resLoadState = rhv.resLoadState;
-            m_refCount.refNum = rhv.refCount.refNum;
-            m_loadEventDispatch = rhv.loadEventDispatch;
+            m_refCountResLoadResultNotify.copyFrom(rhv.refCountResLoadResultNotify);
         }
     }
 }

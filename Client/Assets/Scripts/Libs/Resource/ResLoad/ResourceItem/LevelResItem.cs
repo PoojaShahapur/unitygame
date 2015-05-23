@@ -59,8 +59,8 @@ namespace SDK.Lib
             //string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
             Application.LoadLevel(m_levelName);
 
-            m_resLoadState.setSuccessLoaded();
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -71,8 +71,8 @@ namespace SDK.Lib
             Application.LoadLevel(m_levelName);
 
             yield return new WaitForEndOfFrame();
-            m_resLoadState.setSuccessLoaded();
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -94,14 +94,14 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                m_resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

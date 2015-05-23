@@ -91,7 +91,7 @@ namespace SDK.Common
         public void onLoginLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.LOGINMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.LOGINMN].m_path);
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.LOGINMN].name = ModuleName.LOGINMN;
@@ -100,7 +100,7 @@ namespace SDK.Common
                 // 立马卸载这个资源
                 Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.LOGINMN].m_path);
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 onModuleFailed(dispObj);
             }
@@ -109,7 +109,7 @@ namespace SDK.Common
         public void onGameLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.GAMEMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.GAMEMN].m_path);
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.GAMEMN].name = ModuleName.GAMEMN;
@@ -121,7 +121,7 @@ namespace SDK.Common
                 // 立马卸载这个资源
                 Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.GAMEMN].m_path);
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 onModuleFailed(dispObj);
             }
@@ -130,7 +130,7 @@ namespace SDK.Common
         public void onAutoUpdateLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
 
@@ -141,7 +141,7 @@ namespace SDK.Common
                 // 立马卸载这个资源
                 Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.AUTOUPDATEMN].m_path);
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 onModuleFailed(dispObj);
             }

@@ -97,7 +97,7 @@ namespace SDK.Lib
         protected void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (dispObj as DataResItem).path));
 
@@ -109,7 +109,7 @@ namespace SDK.Lib
                     onUpdateEnd();
                 }
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (dispObj as DataResItem).path));
 

@@ -33,14 +33,14 @@ namespace SDK.Lib
             {
                 m_bundle.LoadAsset<GameObject>(m_bundlePath);
                 Application.LoadLevel(m_levelName);
-                m_resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -71,13 +71,13 @@ namespace SDK.Lib
 
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                m_resLoadState.setSuccessLoaded();
+                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
 

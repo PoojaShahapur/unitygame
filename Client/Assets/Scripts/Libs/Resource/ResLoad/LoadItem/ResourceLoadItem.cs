@@ -46,13 +46,13 @@ namespace SDK.Lib
 
             if (m_prefabObj != null)
             {
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
@@ -62,14 +62,14 @@ namespace SDK.Lib
 
             if (req.asset != null && req.isDone)
             {
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
     }
 }

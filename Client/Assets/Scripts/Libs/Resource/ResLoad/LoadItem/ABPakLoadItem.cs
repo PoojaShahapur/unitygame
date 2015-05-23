@@ -33,14 +33,14 @@ namespace SDK.Lib
 
             if (m_fs != null)
             {
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
     }
 }

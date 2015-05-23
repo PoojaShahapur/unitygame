@@ -30,5 +30,10 @@
         {
             --m_refNum;
         }
+
+        public void copyFrom(RefCount rhv)
+        {
+            m_refNum = rhv.refNum;
+        }
     }
 }

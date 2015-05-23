@@ -43,7 +43,7 @@ namespace SDK.Lib
                 //m_bundle.Unload(false);
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }
@@ -65,7 +65,7 @@ namespace SDK.Lib
                 //m_bundle.Unload(false);
             }
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
 

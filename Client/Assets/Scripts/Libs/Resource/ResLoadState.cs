@@ -1,5 +1,13 @@
 ﻿namespace SDK.Lib
 {
+    public enum CVResLoadState
+    {
+        eNotLoad,       // 没有加载
+        eLoading,       // 正在加载
+        eLoaded,        // 加载成功
+        eFailed         // 加载失败
+    }
+
     public class ResLoadState
     {
         protected CVResLoadState m_resLoadState;
@@ -7,6 +15,18 @@
         public ResLoadState()
         {
             m_resLoadState = CVResLoadState.eNotLoad;
+        }
+
+        public CVResLoadState resLoadState
+        {
+            get
+            {
+                return m_resLoadState;
+            }
+            set
+            {
+                m_resLoadState = value;
+            }
         }
 
         public void reset()
@@ -50,13 +70,10 @@
         {
             m_resLoadState = CVResLoadState.eLoading;
         }
-    }
 
-    public enum CVResLoadState
-    {
-        eNotLoad,       // 没有加载
-        eLoading,       // 正在加载
-        eLoaded,        // 加载成功
-        eFailed         // 加载失败
+        public void copyFrom(ResLoadState rhv)
+        {
+            m_resLoadState = rhv.resLoadState;
+        }
     }
 }

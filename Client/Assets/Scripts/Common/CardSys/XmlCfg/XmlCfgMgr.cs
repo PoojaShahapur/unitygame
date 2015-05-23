@@ -27,7 +27,7 @@ namespace SDK.Common
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             m_res = dispObj as ResItem;
-            if (m_res.resLoadState.hasSuccessLoaded())
+            if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
@@ -37,7 +37,7 @@ namespace SDK.Common
                     m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(text);
                 }
             }
-            else if (m_res.resLoadState.hasFailed())
+            else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
             }

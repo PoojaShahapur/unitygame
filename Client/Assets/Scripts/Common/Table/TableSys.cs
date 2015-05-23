@@ -83,7 +83,7 @@ namespace SDK.Common
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             m_res = dispObj as ResItem;
-            if (m_res.resLoadState.hasSuccessLoaded())
+            if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
 
@@ -97,7 +97,7 @@ namespace SDK.Common
                     readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
                 }
             }
-            else if (m_res.resLoadState.hasFailed())
+            else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
             }

@@ -74,11 +74,11 @@ namespace SDK.Lib
 
             if (m_bytes != null)
             {
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
         }
 
@@ -96,13 +96,13 @@ namespace SDK.Lib
 
             if (m_bytes != null)
             {
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
 
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100
@@ -122,13 +122,13 @@ namespace SDK.Lib
             {
                 m_bytes = m_w3File.bytes;
 
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
 
         // 协程下载
@@ -188,13 +188,13 @@ namespace SDK.Lib
                 fileStream.Close();
                 if (readedLength == contentLength)
                 {
-                    m_resLoadState.setSuccessLoaded();
+                    nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    m_resLoadState.setFailed();
+                    nonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
-                m_loadEventDispatch.dispatchEvent(this);
+                nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
             }
             //catch (Exception)
             //{
@@ -369,13 +369,13 @@ namespace SDK.Lib
         {
             if (m_isRunSuccess)
             {
-                m_resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_resLoadState.setFailed();
+                nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
         }
     }
 }

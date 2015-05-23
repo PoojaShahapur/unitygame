@@ -25,11 +25,11 @@ namespace UnitTestSrc
         public virtual void onLoadEventHandle(IDispatchObject dispObj)            // 资源加载成功
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 
             }

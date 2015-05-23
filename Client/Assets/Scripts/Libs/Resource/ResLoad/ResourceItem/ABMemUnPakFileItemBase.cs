@@ -15,15 +15,15 @@ namespace SDK.Lib
         public void setPakRes(ABPakFileResItemBase resItem)
         {
             m_resItem = resItem;
-            m_resItem.refCount.incRef();
+            m_resItem.refCountResLoadResultNotify.refCount.incRef();
 
-            if (m_resItem.resLoadState.hasLoaded())   // 如果已经加载
+            if (m_resItem.refCountResLoadResultNotify.resLoadState.hasLoaded())   // 如果已经加载
             {
                 onPakResLoadEventHandle(null);
             }
             else
             {
-                resItem.loadEventDispatch.addEventHandle(onPakResLoadEventHandle);
+                resItem.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(onPakResLoadEventHandle);
             }
         }
 
@@ -33,7 +33,7 @@ namespace SDK.Lib
 
             if (m_resItem != null)
             {
-                m_resItem.refCount.decRef();
+                m_resItem.refCountResLoadResultNotify.refCount.decRef();
             }
         }
 
@@ -45,13 +45,13 @@ namespace SDK.Lib
         protected void onPakResLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            if (res.resLoadState.hasSuccessLoaded())
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 initByPakRes();
             }
-            else if (res.resLoadState.hasFailed())
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                m_loadEventDispatch.dispatchEvent(this);
+                refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
                 clearListener();
             }
         }

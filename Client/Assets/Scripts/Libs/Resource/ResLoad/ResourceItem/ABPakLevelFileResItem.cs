@@ -28,7 +28,7 @@ namespace SDK.Lib
             // 继续加载当前的关卡
             //loadLevel(m_origPath);
 
-            m_loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
 
             clearListener();
         }

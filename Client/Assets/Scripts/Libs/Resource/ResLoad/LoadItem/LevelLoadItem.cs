@@ -28,8 +28,8 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eLoadDisc == m_resLoadType)
             {
-                m_resLoadState.setSuccessLoaded();
-                m_loadEventDispatch.dispatchEvent(this);
+                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
             }
             else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
             {
