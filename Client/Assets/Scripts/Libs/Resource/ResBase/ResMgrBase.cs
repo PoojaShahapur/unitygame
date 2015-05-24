@@ -92,7 +92,7 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unloadNoRef(path);
+            Ctx.m_instance.m_resLoadMgr.unload(path);
         }
 
         public object getRes(string path)

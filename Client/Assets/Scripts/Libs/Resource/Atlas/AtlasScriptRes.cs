@@ -47,20 +47,28 @@ namespace SDK.Lib
 
         public ImageItem loadImage(LoadParam param)
         {
-            if (refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            ImageItem retImage = getImage(param.m_subPath);
+            if (retImage == null)
             {
-                return getImage(param.m_subPath);
+                retImage = createImage(param.m_subPath, refCountResLoadResultNotify.resLoadState);
             }
-            else
+
+            if (refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                createImage(param.m_subPath, refCountResLoadResultNotify.resLoadState);
+                if (param.m_loadEventHandle != null)
+                {
+                    param.m_loadEventHandle(retImage);
+                }
+            }
+            else if (refCountResLoadResultNotify.resLoadState.hasLoading())
+            {
                 if (param.m_loadEventHandle != null)
                 {
                     refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
             }
 
-            return m_path2Image[param.m_subPath];
+            return retImage;
         }
 
         public override void unload()
@@ -105,12 +113,13 @@ namespace SDK.Lib
             }
         }
 
-        protected void createImage(string spriteName, ResLoadState resLoadState)
+        protected ImageItem createImage(string spriteName, ResLoadState resLoadState)
         {
             m_path2Image[spriteName] = new ImageItem();
             m_path2Image[spriteName].atlasScriptRes = this;
             m_path2Image[spriteName].spriteName = spriteName;
             m_path2Image[spriteName].refCountResLoadResultNotify.resLoadState.copyFrom(resLoadState);
+            return m_path2Image[spriteName];
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +25,14 @@ namespace SDK.Lib
         {
             if(!m_path2ResDic.ContainsKey(param.m_path))
             {
+                // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
+                Action<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
+                param.m_loadEventHandle = null;
+
                 load<AtlasScriptRes>(param);
+
+                param.m_loadEventHandle = tmpLoadEventHandle;
+                tmpLoadEventHandle = null;
             }
 
             return (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);

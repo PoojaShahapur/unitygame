@@ -27,13 +27,20 @@ namespace SDK.Lib
 
         public void addEventHandle(Action<IDispatchObject> handle)
         {
-            if(m_handleList.IndexOf(handle) == -1)
+            if (handle != null)
             {
-                m_handleList.Add(handle);
+                if (m_handleList.IndexOf(handle) == -1)
+                {
+                    m_handleList.Add(handle);
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log("Event Handle already exist");
+                }
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("Event Handle already exist");
+                Ctx.m_instance.m_logSys.log("Event Handle is null");
             }
         }
 

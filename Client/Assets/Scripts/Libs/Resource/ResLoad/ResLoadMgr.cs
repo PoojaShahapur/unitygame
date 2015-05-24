@@ -15,11 +15,13 @@ namespace SDK.Lib
         protected LoadItem m_retLoadItem;
         protected ResItem m_retResItem;
         protected ResMsgRouteCB m_resMsgRouteCB;
+        protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
 
         public ResLoadMgr()
         {
             m_LoadData = new ResLoadData();
             m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = onMsgRouteResLoad;
+            m_zeroRefResIDList = new List<string>();
         }
 
         public void postInit()
@@ -357,8 +359,27 @@ namespace SDK.Lib
             }
         }
 
+        // 添加无引用资源到 List
+        protected void addNoRefResID2List(string path)
+        {
+            m_zeroRefResIDList.Add(path);
+        }
+
+        // 卸载没有引用的资源列表中的资源
+        protected void unloadNoRefResFromList()
+        {
+            foreach(string path in m_zeroRefResIDList)
+            {
+                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.refNum == 0)
+                {
+                    unloadNoRef(path);
+                }
+            }
+            m_zeroRefResIDList.Clear();
+        }
+
         // 不考虑引用计数，直接卸载
-        public void unloadNoRef(string path)
+        protected void unloadNoRef(string path)
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
