@@ -91,7 +91,7 @@ namespace SDK.Common
             {
                 UtilApi.Destroy(m_selfGo);
                 m_selfGo = null;
-                Ctx.m_instance.m_modelMgr.unload(m_path);
+                Ctx.m_instance.m_modelMgr.unload(m_path, null);
                 m_res = null;
             }
         }

@@ -81,7 +81,7 @@ namespace SDK.Lib
             m_transform = m_rootGo.transform;
             m_animSys.animator = m_rootGo.GetComponent<Animator>();
 
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onSkeletonLoadEventHandle);
 
             int idx = 0;
             foreach (PartInfo partInfo in m_modelList)
@@ -92,7 +92,7 @@ namespace SDK.Lib
                     partInfo.m_partGo.transform.parent = m_rootGo.transform;
                     skinSubMesh(idx);
 
-                    Ctx.m_instance.m_resLoadMgr.unload(partInfo.m_res.GetPath());
+                    Ctx.m_instance.m_resLoadMgr.unload(partInfo.m_res.GetPath(), onSkeletonLoadEventHandle);
                     partInfo.m_res = null;
                 }
 

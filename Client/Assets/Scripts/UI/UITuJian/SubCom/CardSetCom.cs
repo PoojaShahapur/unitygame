@@ -27,7 +27,7 @@ namespace Game.UI
 
         public void dispose()
         {
-            Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath());
+            Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath(), null);
             Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
             UtilApi.Destroy(m_sceneGo);
         }

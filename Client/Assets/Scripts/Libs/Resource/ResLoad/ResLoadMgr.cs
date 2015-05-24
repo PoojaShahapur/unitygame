@@ -347,10 +347,11 @@ namespace SDK.Lib
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
-        public void unload(string path)
+        public void unload(string path, Action<IDispatchObject> loadEventHandle)
         {
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
+                m_LoadData.m_path2Res[path].refCountResLoadResultNotify.loadEventDispatch.removeEventHandle(loadEventHandle);
                 m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.decRef();
                 if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.refNum == 0)
                 {
@@ -407,6 +408,10 @@ namespace SDK.Lib
             {
                 onFailed(item);
             }
+
+            releaseLoadItem(item);
+            --m_curNum;
+            loadNextItem();
         }
 
         public void onLoaded(LoadItem item)
@@ -415,10 +420,10 @@ namespace SDK.Lib
             {
                 m_LoadData.m_path2Res[item.path].init(m_LoadData.m_path2LDItem[item.path]);
             }
-
-            releaseLoadItem(item);
-            --m_curNum;
-            loadNextItem();
+            else        // 如果资源已经没有使用的地方了
+            {
+                item.unload();          // 直接卸载掉
+            }
         }
 
         public void onFailed(LoadItem item)
@@ -428,10 +433,6 @@ namespace SDK.Lib
             {
                 m_LoadData.m_path2Res[path].failed(m_LoadData.m_path2LDItem[path]);
             }
-
-            releaseLoadItem(item);
-            --m_curNum;
-            loadNextItem();
         }
 
         protected void releaseLoadItem(LoadItem item)

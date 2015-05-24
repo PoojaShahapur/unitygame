@@ -141,7 +141,7 @@ namespace Game.UI
 
             // 卸载可能加载的叉号资源
             string resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
-            Ctx.m_instance.m_modelMgr.unload(resPath);
+            Ctx.m_instance.m_modelMgr.unload(resPath, null);
 
             stReqFightPrepareOverUserCmd cmd = new stReqFightPrepareOverUserCmd();
 

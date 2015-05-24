@@ -54,7 +54,7 @@ namespace BehaviorLibrary
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
 
         protected void parseXml(string xmlStr)

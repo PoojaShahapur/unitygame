@@ -135,6 +135,12 @@ namespace SDK.Lib
             nonRefCountResLoadResultNotify.resLoadState.setLoading();
         }
 
+        // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
+        virtual public void unload()
+        {
+
+        }
+
         virtual public void reset()
         {
             //m_type = ResType.eNoneType;

@@ -82,23 +82,23 @@ namespace SDK.Common
         {
             if (m_modelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath());
+                Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), null);
             }
             if (m_headerTex != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_headerTex.GetPath());
+                Ctx.m_instance.m_texMgr.unload(m_headerTex.GetPath(), null);
             }
             if (m_frameTex != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_frameTex.GetPath());
+                Ctx.m_instance.m_texMgr.unload(m_frameTex.GetPath(), null);
             }
             if (m_yaoDaiTex != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_yaoDaiTex.GetPath());
+                Ctx.m_instance.m_texMgr.unload(m_yaoDaiTex.GetPath(), null);
             }
             if (m_pinZhiTex != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_pinZhiTex.GetPath());
+                Ctx.m_instance.m_texMgr.unload(m_pinZhiTex.GetPath(), null);
             }
 
             UtilApi.Destroy(m_rootGo);

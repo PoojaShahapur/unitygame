@@ -98,7 +98,7 @@ namespace SDK.Common
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.LOGINMN].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 立马卸载这个资源
-                Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.LOGINMN].m_path);
+                Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.LOGINMN].m_path, onLoginLoadEventHandle);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
@@ -119,7 +119,7 @@ namespace SDK.Common
                 UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Game]);
 
                 // 立马卸载这个资源
-                Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.GAMEMN].m_path);
+                Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.GAMEMN].m_path, onGameLoadEventHandle);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
@@ -139,7 +139,7 @@ namespace SDK.Common
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.AUTOUPDATEMN].transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].transform;
 
                 // 立马卸载这个资源
-                Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.AUTOUPDATEMN].m_path);
+                Ctx.m_instance.m_resLoadMgr.unload(m_type2ItemDic[ModuleID.AUTOUPDATEMN].m_path, onAutoUpdateLoadEventHandle);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
@@ -152,7 +152,7 @@ namespace SDK.Common
             ResItem res = dispObj as ResItem;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
 
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoginLoadEventHandle);
         }
     }
 }

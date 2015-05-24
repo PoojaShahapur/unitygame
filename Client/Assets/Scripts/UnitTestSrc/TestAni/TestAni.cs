@@ -35,7 +35,7 @@ namespace UnitTestSrc
 
             }
 
-            Ctx.m_instance.m_resLoadMgr.unload("Anim/boxcampush");
+            Ctx.m_instance.m_resLoadMgr.unload("Anim/boxcampush", onLoadEventHandle);
         }
     }
 }

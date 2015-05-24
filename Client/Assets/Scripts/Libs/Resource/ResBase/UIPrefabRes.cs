@@ -11,6 +11,11 @@ namespace SDK.Lib
         public GameObject m_go;
         public GameObject m_retGO;
 
+        public UIPrefabRes()
+        {
+
+        }
+
         public GameObject InstantiateObject(string resName)
         {
             m_retGO = null;

@@ -103,7 +103,7 @@ namespace SDK.Common
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath(), onLoadEventHandle);
         }
 
         // 根据路径查找表的 ID

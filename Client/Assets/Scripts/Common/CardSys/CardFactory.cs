@@ -34,7 +34,7 @@ namespace SDK.Common
 
         public void destroyCard(CardItemBase cardItem)
         {
-            Ctx.m_instance.m_modelMgr.unload("");
+            Ctx.m_instance.m_modelMgr.unload("", null);
         }
     }
 }

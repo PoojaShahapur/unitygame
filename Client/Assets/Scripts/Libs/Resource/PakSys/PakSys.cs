@@ -59,7 +59,7 @@ namespace SDK.Lib
                 }
 
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+                Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
 
                 if (m_pakCfgLoadDisp != null)
                 {
@@ -70,7 +70,7 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+                Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
 
                 if (m_pakCfgLoadDisp != null)
                 {

@@ -79,14 +79,14 @@ namespace SDK.Lib
                 }
 
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
+                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME, onMiniLoadEventHandle);
 
                 m_miniLoadedDisp();
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME);
+                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME, onMiniLoadEventHandle);
                 m_miniFailedDisp();
             }
         }
@@ -133,14 +133,14 @@ namespace SDK.Lib
                 }
 
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
+                Ctx.m_instance.m_resLoadMgr.unload(FILENAME, onLoadEventHandle);
                 m_LoadedDisp();
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
                 // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(FILENAME);
+                Ctx.m_instance.m_resLoadMgr.unload(FILENAME, onLoadEventHandle);
                 m_FailedDisp();
             }
         }

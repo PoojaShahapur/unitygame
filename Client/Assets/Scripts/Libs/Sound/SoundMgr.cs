@@ -104,7 +104,7 @@ namespace SDK.Lib
                 delSoundItem(m_path2SoundDic[res.GetPath()]);
             }
             // 卸载数据
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
 
         protected void unload(string path)

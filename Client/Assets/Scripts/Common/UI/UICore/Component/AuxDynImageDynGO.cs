@@ -62,7 +62,7 @@ namespace SDK.Common
                 }
                 if (m_prefabRes != null)
                 {
-                    Ctx.m_instance.m_uiPrefabMgr.unload(m_prefabRes.GetPath());
+                    Ctx.m_instance.m_uiPrefabMgr.unload(m_prefabRes.GetPath(), null);
                     m_prefabRes = null;
                 }
                 m_prefabRes = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(m_prefabPath);

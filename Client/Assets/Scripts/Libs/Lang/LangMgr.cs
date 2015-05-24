@@ -103,7 +103,7 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
 
         public void onFailed(IDispatchObject dispObj)
@@ -112,7 +112,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
     }
 }

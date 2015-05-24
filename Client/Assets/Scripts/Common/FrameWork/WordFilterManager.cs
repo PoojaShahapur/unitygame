@@ -56,7 +56,7 @@ namespace SDK.Common
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
 
         public bool doFilter(ref string str)

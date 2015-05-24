@@ -357,7 +357,7 @@ namespace SDK.Common
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(path);
+            Ctx.m_instance.m_resLoadMgr.unload(path, onWidgetLoadEventHandle);
         }
 
         // 大小发生变化后，调用此函数

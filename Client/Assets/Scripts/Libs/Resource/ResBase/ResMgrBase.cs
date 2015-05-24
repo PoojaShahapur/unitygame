@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 using System.Collections.Generic;
 
 namespace SDK.Lib
@@ -59,10 +60,11 @@ namespace SDK.Lib
             return m_path2ResDic[param.m_path];
         }
 
-        virtual public void unload(string path)
+        virtual public void unload(string path, Action<IDispatchObject> loadEventHandle)
         {
             if (m_path2ResDic.ContainsKey(path))
             {
+                m_path2ResDic[path].refCountResLoadResultNotify.loadEventDispatch.removeEventHandle(loadEventHandle);
                 m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
                 if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.refNum == 0)
                 {
@@ -70,7 +72,10 @@ namespace SDK.Lib
                     m_path2ResDic.Remove(path);
 
                     // 卸载加载的原始资源
-                    //Ctx.m_instance.m_resLoadMgr.unloadNoRef(path);
+                    if (!m_path2ResDic[path].bOrigResNeedImmeUnload)
+                    {
+                        Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                    }
                     UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
                 }
             }
@@ -80,9 +85,11 @@ namespace SDK.Lib
         {
             ResItem res = dispObj as ResItem;
             string path = res.GetPath();
+            bool bOrigResNeedImmeUnload = true;
 
             if (m_path2ResDic.ContainsKey(path))
             {
+                bOrigResNeedImmeUnload = m_path2ResDic[path].bOrigResNeedImmeUnload;
                 m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.copyFrom(res.refCountResLoadResultNotify.resLoadState);
                 m_path2ResDic[path].refCountResLoadResultNotify.onLoadEventHandle(m_path2ResDic[path]);
             }
@@ -91,8 +98,11 @@ namespace SDK.Lib
                 Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
             }
 
-            // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(path);
+            if (bOrigResNeedImmeUnload)
+            {
+                // 卸载资源
+                Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+            }
         }
 
         public object getRes(string path)
@@ -107,12 +117,13 @@ namespace SDK.Lib
             List<string> pathList = new List<string>();
             foreach (KeyValuePair<string, InsResBase> kv in m_path2ResDic)
             {
+                kv.Value.refCountResLoadResultNotify.loadEventDispatch.clearEventHandle();
                 pathList.Add(kv.Key);
             }
 
             foreach(string path in pathList)
             {
-                unload(path);
+                unload(path, onLoadEventHandle);
             }
 
             pathList.Clear();

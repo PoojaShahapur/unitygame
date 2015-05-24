@@ -15,6 +15,11 @@ namespace SDK.Lib
 
         protected Dictionary<string, ImageItem> m_path2Image = new Dictionary<string,ImageItem>();
 
+        public AtlasGoRes()
+        {
+
+        }
+
         public override void unload()
         {
             m_go = null;

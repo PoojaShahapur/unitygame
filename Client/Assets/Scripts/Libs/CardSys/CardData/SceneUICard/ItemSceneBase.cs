@@ -41,7 +41,7 @@ namespace SDK.Lib
             {
                 UtilApi.Destroy(m_go);
                 m_go = null;
-                Ctx.m_instance.m_resLoadMgr.unload(m_path);
+                Ctx.m_instance.m_resLoadMgr.unload(m_path, onLoadEventHandle);
             }
         }
 

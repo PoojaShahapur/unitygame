@@ -42,7 +42,7 @@ namespace SDK.Common
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
             }
 
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath(), onLoadEventHandle);
         }
 
         protected XmlCfgID getXmlCfgIDByPath(string path)

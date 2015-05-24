@@ -128,7 +128,7 @@ namespace SDK.Common
         {
             if (m_selfGo != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texPath);
+                Ctx.m_instance.m_texMgr.unload(m_texPath, onTexLoadEventHandle);
                 m_texRes = null;
             }
         }

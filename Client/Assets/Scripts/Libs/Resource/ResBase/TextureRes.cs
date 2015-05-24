@@ -6,6 +6,11 @@ namespace SDK.Lib
     {
         public Texture m_texture;
 
+        public TextureRes()
+        {
+
+        }
+
         public Texture getTexture()
         {
             return m_texture;

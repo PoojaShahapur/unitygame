@@ -6,10 +6,24 @@ namespace SDK.Lib
     {
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
         public string m_path;
+        protected bool m_bOrigResNeedImmeUnload;        // 原始资源是否需要立刻卸载
 
         public InsResBase()
         {
+            m_bOrigResNeedImmeUnload = true;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+        }
+
+        public bool bOrigResNeedImmeUnload
+        {
+            get
+            {
+                return m_bOrigResNeedImmeUnload;
+            }
+            set
+            {
+                m_bOrigResNeedImmeUnload = value;
+            }
         }
 
         public string GetPath()
