@@ -113,7 +113,9 @@ namespace SDK.Common
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
 
-            ModelRes res = Ctx.m_instance.m_modelMgr.load<ModelRes>(param) as ModelRes;
+            ModelRes res = Ctx.m_instance.m_modelMgr.createResItem<ModelRes>(param);
+            param.m_loadInsRes = res;
+            Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
             return res;
         }

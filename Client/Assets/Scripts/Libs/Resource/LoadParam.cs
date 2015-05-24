@@ -25,6 +25,9 @@ namespace SDK.Lib
         public string m_origPath = "";                   // 原始资源加载目录，主要是打包的时候使用
         public string m_pakPath = "";                   // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
 
+        public ResItem m_loadRes = null;
+        public InsResBase m_loadInsRes = null;
+
         public string prefabName
         {
             get
@@ -55,6 +58,9 @@ namespace SDK.Lib
             m_version = "";
             m_extName = "prefab";
             m_origPath = "";
+
+            m_loadRes = null;
+            m_loadInsRes = null;
         }
 
         // 解析目录

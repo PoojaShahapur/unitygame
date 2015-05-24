@@ -116,7 +116,7 @@ namespace Game.UI
             GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnTest1");
             Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
 
-            ImageItem imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.Common, "denglu_srk");
+            ImageItem imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.Common, "denglu_srk");
             srcImage.sprite = imageItem.image;
 
             UtilApi.setImageType(srcImage, Image.Type.Simple);

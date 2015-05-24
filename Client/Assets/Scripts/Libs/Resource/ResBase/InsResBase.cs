@@ -10,7 +10,11 @@ namespace SDK.Lib
 
         public InsResBase()
         {
+#if PKG_RES_LOAD
+            m_bOrigResNeedImmeUnload = false;
+#else
             m_bOrigResNeedImmeUnload = true;
+#endif
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 

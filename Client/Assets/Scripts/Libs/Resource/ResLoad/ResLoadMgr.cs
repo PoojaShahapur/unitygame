@@ -16,12 +16,14 @@ namespace SDK.Lib
         protected ResItem m_retResItem;
         protected ResMsgRouteCB m_resMsgRouteCB;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
+        protected bool m_bLoading;      // 是否正在加载中
 
         public ResLoadMgr()
         {
             m_LoadData = new ResLoadData();
             m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = onMsgRouteResLoad;
             m_zeroRefResIDList = new List<string>();
+            m_bLoading = false;
         }
 
         public void postInit()
@@ -230,7 +232,7 @@ namespace SDK.Lib
             return resItem;
         }
 
-        public LoadItem createLoadItem(LoadParam param)
+        protected LoadItem createLoadItem(LoadParam param)
         {
             LoadItem loadItem = findLoadItemFormPool(param.m_resPackType);
 
@@ -292,7 +294,7 @@ namespace SDK.Lib
         }
 
         // 资源创建并且正在被加载
-        public void loadWithResCreatedAndLoad(LoadParam param, ResItem resItem)
+        protected void loadWithResCreatedAndLoad(LoadParam param, ResItem resItem)
         {
             resItem.refCountResLoadResultNotify.refCount.incRef();
             if (resItem.refCountResLoadResultNotify.resLoadState.hasLoaded())
@@ -313,7 +315,7 @@ namespace SDK.Lib
             resetLoadParam(param);
         }
 
-        public void loadWithResCreatedAndNotLoad(LoadParam param, ResItem resItem)
+        protected void loadWithResCreatedAndNotLoad(LoadParam param, ResItem resItem)
         {
             LoadItem loadItem = createLoadItem(param);
 
@@ -331,7 +333,7 @@ namespace SDK.Lib
             resetLoadParam(param);
         }
 
-        public void loadWithNotResCreatedAndNotLoad(LoadParam param)
+        protected void loadWithNotResCreatedAndNotLoad(LoadParam param)
         {
             ResItem resItem = createResItem(param);
             loadWithResCreatedAndNotLoad(param, resItem);
@@ -340,14 +342,28 @@ namespace SDK.Lib
         // 通用类型，需要自己设置很多参数
         public void load(LoadParam param)
         {
+            m_bLoading = true;
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
                 loadWithResCreatedAndLoad(param, m_LoadData.m_path2Res[param.m_path]);
+            }
+            else if(param.m_loadRes != null)
+            {
+                loadWithResCreatedAndNotLoad(param, m_LoadData.m_path2Res[param.m_path]);
             }
             else
             {
                 loadWithNotResCreatedAndNotLoad(param);
             }
+            m_bLoading = false;
+
+            unloadNoRefResFromList();
+        }
+
+        public ResItem getAndLoad(LoadParam param)
+        {
+            load(param);
+            return getResource(param.m_path);
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
@@ -359,7 +375,14 @@ namespace SDK.Lib
                 m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.decRef();
                 if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.refNum == 0)
                 {
-                    unloadNoRef(path);
+                    if (m_bLoading)
+                    {
+                        addNoRefResID2List(path);
+                    }
+                    else
+                    {
+                        unloadNoRef(path);
+                    }
                 }
             }
         }

@@ -69,13 +69,19 @@ namespace SDK.Lib
             }
         }
 
-        public ImageItem loadImage(LoadParam param)
+        public void loadImage(LoadParam param)
         {
-            ImageItem retImage = getImage(param.m_subPath);
-            if (retImage == null)
+            ImageItem retImage = null;
+            if (!m_path2Image.ContainsKey(param.m_subPath))
             {
                 retImage = createImage(param.m_subPath, refCountResLoadResultNotify.resLoadState);
+                retImage.image = getSprite(param.m_subPath);
             }
+            else
+            {
+                retImage = m_path2Image[param.m_subPath];
+            }
+            retImage.refCountResLoadResultNotify.refCount.incRef();
 
             if (refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
@@ -84,15 +90,13 @@ namespace SDK.Lib
                     param.m_loadEventHandle(retImage);
                 }
             }
-            //else if (refCountResLoadResultNotify.resLoadState.hasLoading())
-            //{
-            //    if (param.m_loadEventHandle != null)
-            //    {
-            //        refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
-            //    }
-            //}
-
-            return retImage;
+            else if (refCountResLoadResultNotify.resLoadState.hasLoading())
+            {
+                if (param.m_loadEventHandle != null)
+                {
+                    retImage.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                }
+            }
         }
 
         public override void unload()
@@ -109,7 +113,8 @@ namespace SDK.Lib
             }
             if (m_path2Image.ContainsKey(spriteName))
             {
-                m_path2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
+                // 获取资源接口不增加引用计数
+                //m_path2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
                 return m_path2Image[spriteName];
             }
             else
@@ -126,13 +131,16 @@ namespace SDK.Lib
 
         protected void addImage2Dic(string spriteName)
         {
-            foreach(SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
+            if (m_soSpriteList != null)
             {
-                if (obj.m_path == spriteName)
+                foreach (SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
                 {
-                    createImage(spriteName, refCountResLoadResultNotify.resLoadState);
-                    m_path2Image[obj.m_path].image = obj.m_sprite;
-                    break;
+                    if (obj.m_path == spriteName)
+                    {
+                        createImage(spriteName, refCountResLoadResultNotify.resLoadState);
+                        m_path2Image[obj.m_path].image = obj.m_sprite;
+                        break;
+                    }
                 }
             }
         }
@@ -148,11 +156,14 @@ namespace SDK.Lib
 
         public Sprite getSprite(string spriteName)
         {
-            foreach (SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
+            if (m_soSpriteList != null)
             {
-                if (obj.m_path == spriteName)
+                foreach (SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
                 {
-                    return obj.m_sprite;
+                    if (obj.m_path == spriteName)
+                    {
+                        return obj.m_sprite;
+                    }
                 }
             }
 

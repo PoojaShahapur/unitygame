@@ -43,11 +43,11 @@ namespace Game.UI
         {
             if (m_tag < 3)
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kb1");
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kb1");
             }
             else
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
             }
 
             m_imageItem.setGoImage(m_uiCardBtn.gameObject);
@@ -62,11 +62,11 @@ namespace Game.UI
         {
             if (m_tag < 4)
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.ShopDyn, string.Format("pdxt_kb{0}", m_tag + 1));
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, string.Format("pdxt_kb{0}", m_tag + 1));
             }
             else
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
             }
 
             Image srcImage = UtilApi.getComByP<Image>(m_uiCardBtn.gameObject);

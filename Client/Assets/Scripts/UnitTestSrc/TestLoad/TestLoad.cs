@@ -48,7 +48,7 @@ namespace UnitTestSrc
             param.m_path = CVAtlasName.TuJianDyn;
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
-            Ctx.m_instance.m_atlasMgr.loadImage(param);
+            Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 

@@ -9,7 +9,16 @@ namespace SDK.Lib
      */
     public class ResMgrBase
     {
-        public Dictionary<string, InsResBase> m_path2ResDic = new Dictionary<string, InsResBase>();
+        public Dictionary<string, InsResBase> m_path2ResDic;
+        protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
+        protected bool m_bLoading;      // 是否正在加载中
+
+        public ResMgrBase()
+        {
+            m_path2ResDic = new Dictionary<string, InsResBase>();
+            m_zeroRefResIDList = new List<string>();
+            m_bLoading = false;
+        }
 
         // 同步加载，立马加载完成，并且返回加载的资源
         public T syncGet<T>(string path) where T : InsResBase, new()
@@ -25,39 +34,64 @@ namespace SDK.Lib
             return m_path2ResDic[path] as T;
         }
 
-        public virtual InsResBase load<T>(LoadParam param) where T : InsResBase, new()
+        public T createResItem<T>(LoadParam param) where T : InsResBase, new()
         {
-            if (m_path2ResDic.ContainsKey(param.m_path))
+            m_path2ResDic[param.m_path] = new T();
+            m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
+            m_path2ResDic[param.m_path].m_path = param.m_path;
+
+            m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+
+            return m_path2ResDic[param.m_path] as T;
+        }
+
+        protected void loadWithResCreatedAndLoad<T>(LoadParam param, T resItem) where T : InsResBase, new()
+        {
+            m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
+            if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
-                m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-                if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
+                if (param.m_loadEventHandle != null)
                 {
-                    if (param.m_loadEventHandle != null)
-                    {
-                        param.m_loadEventHandle(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
-                    }
-                }
-                else
-                {
-                    if (param.m_loadEventHandle != null)
-                    {
-                        m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
-                    }
+                    param.m_loadEventHandle(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
                 }
             }
             else
             {
-                m_path2ResDic[param.m_path] = new T();
-                m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-                m_path2ResDic[param.m_path].m_path = param.m_path;
-
-                m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
-
-                param.m_loadEventHandle = onLoadEventHandle;
-                Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                if (param.m_loadEventHandle != null)
+                {
+                    m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                }
             }
+        }
 
-            return m_path2ResDic[param.m_path];
+        protected void loadWithResCreatedAndNotLoad<T>(LoadParam param, T resItem) where T : InsResBase, new()
+        {
+            param.m_loadEventHandle = onLoadEventHandle;
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
+        }
+
+        protected void loadWithNotResCreatedAndNotLoad<T>(LoadParam param) where T : InsResBase, new()
+        {
+            createResItem<T>(param);
+            loadWithResCreatedAndNotLoad<T>(param, m_path2ResDic[param.m_path] as T);
+        }
+
+        public virtual void load<T>(LoadParam param) where T : InsResBase, new()
+        {
+            m_bLoading = true;
+            if (m_path2ResDic.ContainsKey(param.m_path))
+            {
+                loadWithResCreatedAndLoad(param, m_path2ResDic[param.m_path] as T);
+            }
+            else if(param.m_loadInsRes != null)
+            {
+                loadWithResCreatedAndNotLoad<T>(param, m_path2ResDic[param.m_path] as T);
+            }
+            else
+            {
+                loadWithNotResCreatedAndNotLoad<T>(param);
+            }
+            m_bLoading = false;
         }
 
         virtual public void unload(string path, Action<IDispatchObject> loadEventHandle)
@@ -68,17 +102,48 @@ namespace SDK.Lib
                 m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
                 if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.refNum == 0)
                 {
-                    m_path2ResDic[path].unload();
-                    m_path2ResDic.Remove(path);
-
-                    // 卸载加载的原始资源
-                    if (!m_path2ResDic[path].bOrigResNeedImmeUnload)
+                    if (m_bLoading)
                     {
-                        Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                        addNoRefResID2List(path);
                     }
-                    UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
+                    else
+                    {
+                        unloadNoRef(path);
+                    }
                 }
             }
+        }
+
+        // 添加无引用资源到 List
+        protected void addNoRefResID2List(string path)
+        {
+            m_zeroRefResIDList.Add(path);
+        }
+
+        // 卸载没有引用的资源列表中的资源
+        protected void unloadNoRefResFromList()
+        {
+            foreach (string path in m_zeroRefResIDList)
+            {
+                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.refNum == 0)
+                {
+                    unloadNoRef(path);
+                }
+            }
+            m_zeroRefResIDList.Clear();
+        }
+
+        protected void unloadNoRef(string path)
+        {
+            m_path2ResDic[path].unload();
+            m_path2ResDic.Remove(path);
+
+            // 卸载加载的原始资源
+            if (!m_path2ResDic[path].bOrigResNeedImmeUnload)
+            {
+                Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+            }
+            UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
         }
 
         public virtual void onLoadEventHandle(IDispatchObject dispObj)

@@ -21,10 +21,11 @@ namespace SDK.Lib
 
         }
 
-        public ImageItem loadImage(LoadParam param)
+        public ImageItem getAndLoadImage(LoadParam param)
         {
             if(!m_path2ResDic.ContainsKey(param.m_path))
             {
+
                 // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
                 Action<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
                 param.m_loadEventHandle = null;
@@ -34,12 +35,18 @@ namespace SDK.Lib
                 param.m_loadEventHandle = tmpLoadEventHandle;
                 tmpLoadEventHandle = null;
             }
+            else
+            {
 
-            return (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
+            }
+
+            (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
+
+            return getImage(param.m_path, param.m_subPath);
         }
 
         // 目前只实现同步加载，异步加载没有实现
-        public ImageItem getAndAsyncLoadImage(string atlasName, string spriteName)
+        public ImageItem getAndSyncLoadImage(string atlasName, string spriteName)
         {
             if(!m_path2ResDic.ContainsKey(atlasName))
             {

@@ -182,7 +182,7 @@ namespace Game.UI
 
         public void updateImage()
         {
-            m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(CVAtlasName.TuJianDyn, m_cardGroupItem.m_tableJobItemBody.m_cardSetRes);
+            m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.TuJianDyn, m_cardGroupItem.m_tableJobItemBody.m_cardSetRes);
             m_imageItem.setGoImage(m_sceneGo);
         }
     }

@@ -77,7 +77,7 @@ namespace SDK.Common
                     Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
                     m_imageItem = null;
                 }
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndAsyncLoadImage(m_atlasName, m_imageName);
+                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(m_atlasName, m_imageName);
                 m_imageItem.setImageImage(m_image);
             }
 
