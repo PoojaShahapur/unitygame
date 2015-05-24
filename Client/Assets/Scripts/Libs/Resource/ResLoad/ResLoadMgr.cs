@@ -90,10 +90,6 @@ namespace SDK.Lib
 
 #if PKG_RES_LOAD
             param.m_resPackType = ResPackType.ePakLevelType;
-            loadPakRes(param);
-
-            param.m_resPackType = ResPackType.ePakMemLevelType;
-            param.m_path = param.m_origPath;        // 恢复加载原始资源
             param.resolvePath();
             return load(param);
 #elif UnPKG_RES_LOAD
@@ -116,15 +112,9 @@ namespace SDK.Lib
             if (param.m_path.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
             {
                 param.m_resPackType = ResPackType.ePakType;
-                loadPakRes(param);
-
-                param.m_resPackType = ResPackType.ePakMemType;
-                param.m_path = param.m_origPath;        // 恢复加载原始资源
-                param.resolvePath();
             }
             else        // 加载的是非打包文件
             {
-                param.resolvePath();
                 param.m_resPackType = ResPackType.eUnPakType;
             }
             return load(param);
@@ -226,22 +216,22 @@ namespace SDK.Lib
                     (resitem as ABPakLevelFileResItem).levelName = param.lvlName;
                     (resitem as ABPakLevelFileResItem).m_origPath = param.m_origPath;
                 }
-                else if (ResPackType.ePakMemType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new ABMemUnPakComFileResItem();
-                    }
-                }
-                else if (ResPackType.ePakMemLevelType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new ABMemUnPakLevelFileResItem();
-                    }
+                //else if (ResPackType.ePakMemType == param.m_resPackType)
+                //{
+                //    if (resitem == null)
+                //    {
+                //        resitem = new ABMemUnPakComFileResItem();
+                //    }
+                //}
+                //else if (ResPackType.ePakMemLevelType == param.m_resPackType)
+                //{
+                //    if (resitem == null)
+                //    {
+                //        resitem = new ABMemUnPakLevelFileResItem();
+                //    }
 
-                    (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
-                }
+                //    (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
+                //}
 
                 resitem.refCountResLoadResultNotify.refCount.incRef();
                 resitem.resNeedCoroutine = param.m_resNeedCoroutine;
@@ -258,14 +248,14 @@ namespace SDK.Lib
                     m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
 
-                // 特殊处理
-                if (ResPackType.ePakMemType == param.m_resPackType || ResPackType.ePakMemLevelType == param.m_resPackType)  // 如果是内存加载打包数据，如果包已经加载完成
-                {
-                    // 这个必须等待参数都设置完成后再调用
-                    (resitem as ABMemUnPakFileResItemBase).setPakRes(getResource(param.m_pakPath) as ABPakFileResItemBase);
-                }
-                else
-                {
+                //// 特殊处理
+                //if (ResPackType.ePakMemType == param.m_resPackType || ResPackType.ePakMemLevelType == param.m_resPackType)  // 如果是内存加载打包数据，如果包已经加载完成
+                //{
+                //    // 这个必须等待参数都设置完成后再调用
+                //    (resitem as ABMemUnPakFileResItemBase).setPakRes(getResource(param.m_pakPath) as ABPakFileResItemBase);
+                //}
+                //else
+                //{
                     LoadItem loaditem = findLoadItemFormPool(param.m_resPackType);
 
                     if (ResPackType.eResourcesType == param.m_resPackType)        // 默认 Bundle 中资源
@@ -332,7 +322,7 @@ namespace SDK.Lib
                     {
                         m_LoadData.m_willLDItem.Add(loaditem);
                     }
-                }
+                //}
             }
 
             resetLoadParam(param);
@@ -495,17 +485,6 @@ namespace SDK.Lib
         {
             DataLoadItem loadItem = (msg as LoadedWebResMR).m_task as DataLoadItem;
             loadItem.handleResult();
-        }
-
-        protected void loadPakRes(LoadParam param)
-        {
-            // 打包文件先加载打包，然后单独加载每一个资源
-            LoadParam pakParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            pakParam.m_resPackType = param.m_resPackType;
-            pakParam.m_resLoadType = param.m_resLoadType;
-            pakParam.m_path = param.m_path;
-            load(pakParam);                     // 确保打包资源必定加载
-            Ctx.m_instance.m_poolSys.deleteObj(pakParam);
         }
     }
 }

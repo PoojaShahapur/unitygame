@@ -39,10 +39,34 @@ namespace SDK.Lib
             }
         }
 
-        public void init(ResItem res)
+        override public void init(ResItem res)
         {
             m_atlasPath = res.GetPath();
             m_soSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;
+
+            initImage();
+        }
+
+        override public void failed(ResItem res)
+        {
+            failedImage();
+            unload();
+        }
+
+        protected void initImage()
+        {
+            foreach (ImageItem imageItem in m_path2Image.Values)
+            {
+                imageItem.init(this);
+            }
+        }
+
+        protected void failedImage()
+        {
+            foreach (ImageItem imageItem in m_path2Image.Values)
+            {
+                imageItem.failed(this);
+            }
         }
 
         public ImageItem loadImage(LoadParam param)
@@ -60,13 +84,13 @@ namespace SDK.Lib
                     param.m_loadEventHandle(retImage);
                 }
             }
-            else if (refCountResLoadResultNotify.resLoadState.hasLoading())
-            {
-                if (param.m_loadEventHandle != null)
-                {
-                    refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
-                }
-            }
+            //else if (refCountResLoadResultNotify.resLoadState.hasLoading())
+            //{
+            //    if (param.m_loadEventHandle != null)
+            //    {
+            //        refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+            //    }
+            //}
 
             return retImage;
         }
@@ -120,6 +144,19 @@ namespace SDK.Lib
             m_path2Image[spriteName].spriteName = spriteName;
             m_path2Image[spriteName].refCountResLoadResultNotify.resLoadState.copyFrom(resLoadState);
             return m_path2Image[spriteName];
+        }
+
+        public Sprite getSprite(string spriteName)
+        {
+            foreach (SOSpriteList.SerialObject obj in m_soSpriteList.m_objList)
+            {
+                if (obj.m_path == spriteName)
+                {
+                    return obj.m_sprite;
+                }
+            }
+
+            return null;
         }
     }
 }

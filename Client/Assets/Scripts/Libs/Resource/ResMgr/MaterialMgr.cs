@@ -29,17 +29,5 @@ namespace SDK.Lib
 
             return syncGet<MatRes>(path) as MatRes;
         }
-
-        public override void onLoadEventHandle(IDispatchObject dispObj)
-        {
-            ResItem res = dispObj as ResItem;
-            string path = res.GetPath();
-
-            // 获取资源单独保存
-            (m_path2ResDic[path] as MatRes).m_mat = res.getObject(res.getPrefabName()) as Material;
-            m_path2ResDic[path].refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(m_path2ResDic[path]);
-
-            base.onLoadEventHandle(dispObj);
-        }
     }
 }

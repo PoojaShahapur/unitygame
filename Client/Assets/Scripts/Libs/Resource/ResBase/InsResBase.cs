@@ -36,6 +36,17 @@ namespace SDK.Lib
             return "";
         }
 
+        virtual public void init(ResItem res)
+        {
+            refCountResLoadResultNotify.onLoadEventHandle(this);
+        }
+
+        virtual public void failed(ResItem res)
+        {
+            unload();
+            refCountResLoadResultNotify.onLoadEventHandle(this);
+        }
+
         public virtual void unload()
         {
 

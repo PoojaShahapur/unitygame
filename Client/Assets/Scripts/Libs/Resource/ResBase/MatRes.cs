@@ -11,6 +11,13 @@ namespace SDK.Lib
 
         }
 
+        override public void init(ResItem res)
+        {
+            // 获取资源单独保存
+            m_mat = res.getObject(res.getPrefabName()) as Material;
+            base.init(res);
+        }
+
         public override void unload()
         {
             m_mat = null;

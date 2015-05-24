@@ -16,6 +16,12 @@ namespace SDK.Lib
             return m_texture;
         }
 
+        override public void init(ResItem res)
+        {
+            m_texture = res.getObject(res.getPrefabName()) as Texture;
+            base.init(res);
+        }
+
         public override void unload()
         {
             m_texture = null;

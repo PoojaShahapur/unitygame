@@ -38,19 +38,6 @@ namespace SDK.Lib
             return (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
         }
 
-        public override void onLoadEventHandle(IDispatchObject dispObj)
-        {
-            ResItem res = dispObj as ResItem;
-            string path = res.GetPath();
-
-            // 获取资源单独保存
-            //(m_path2ResDic[path] as AtlasGoRes).m_go = res.getObject(res.getPrefabName()) as GameObject;
-            (m_path2ResDic[path] as AtlasScriptRes).init(res);
-            m_path2ResDic[path].refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(m_path2ResDic[path]);
-
-            base.onLoadEventHandle(dispObj);
-        }
-
         // 目前只实现同步加载，异步加载没有实现
         public ImageItem getAndAsyncLoadImage(string atlasName, string spriteName)
         {

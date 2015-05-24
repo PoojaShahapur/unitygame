@@ -85,22 +85,28 @@ namespace SDK.Lib
         {
             ResItem res = dispObj as ResItem;
             string path = res.GetPath();
-            bool bOrigResNeedImmeUnload = true;
 
             if (m_path2ResDic.ContainsKey(path))
             {
-                bOrigResNeedImmeUnload = m_path2ResDic[path].bOrigResNeedImmeUnload;
                 m_path2ResDic[path].refCountResLoadResultNotify.resLoadState.copyFrom(res.refCountResLoadResultNotify.resLoadState);
-                m_path2ResDic[path].refCountResLoadResultNotify.onLoadEventHandle(m_path2ResDic[path]);
+                if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+                {
+                    m_path2ResDic[path].init(res);
+                    if (m_path2ResDic[path].bOrigResNeedImmeUnload)
+                    {
+                        // 卸载资源
+                        Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                    }
+                }
+                else
+                {
+                    m_path2ResDic[path].failed(res);
+                    Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+                }
             }
             else
             {
                 Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
-            }
-
-            if (bOrigResNeedImmeUnload)
-            {
-                // 卸载资源
                 Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
             }
         }
