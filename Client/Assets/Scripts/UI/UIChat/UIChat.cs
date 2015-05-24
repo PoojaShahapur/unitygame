@@ -1,7 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -50,8 +49,8 @@ namespace Game.UI
         protected void findWidget()
         {
             m_chatData.m_logText = new AuxLabel(m_GUIWin.m_uiRoot, CVChat.TextOutput);
-            m_chatData.m_inputField = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, CVChat.Input);
-            m_chatData.m_scrollbar = UtilApi.getComByP<Scrollbar>(m_GUIWin.m_uiRoot, CVChat.Scrollbar);
+            m_chatData.m_inputField = new AuxInputField(m_GUIWin.m_uiRoot, CVChat.Input);
+            m_chatData.m_scrollbar = new AuxScrollbar(m_GUIWin.m_uiRoot, CVChat.Scrollbar);
         }
 
         protected void addEventHandle()

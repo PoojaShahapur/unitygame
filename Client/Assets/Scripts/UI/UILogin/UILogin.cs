@@ -31,7 +31,7 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+            AuxInputField lblName = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
             lblName.text = "zhanghao06";      //zhanghao01---zhanghao09
 
             if(Ctx.m_instance.m_systemSetting.getString(SystemSetting.USERNAME) != default(string))
@@ -39,7 +39,7 @@ namespace Game.UI
                 lblName.text = Ctx.m_instance.m_systemSetting.getString(SystemSetting.USERNAME);
             }
 
-            InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+            AuxInputField lblPassWord = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
             lblPassWord.text = "1";
 
             if (Ctx.m_instance.m_systemSetting.getString(SystemSetting.PASSWORD) != default(string))
@@ -47,7 +47,7 @@ namespace Game.UI
                 lblPassWord.text = Ctx.m_instance.m_systemSetting.getString(SystemSetting.PASSWORD);
             }
 
-            // 或略鼠标事件
+            // 忽略鼠标事件
             UtilApi.getComByP<Image>(m_GUIWin.m_uiRoot, "ImageName").maskable = false;
         }
 
@@ -61,8 +61,8 @@ namespace Game.UI
         {
             if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginingLoginServer && Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginingGateServer)    // 如果没有正在登陆登陆服务器和网关服务器
             {
-                InputField lblName = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
-                InputField lblPassWord = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+                AuxInputField lblName = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+                AuxInputField lblPassWord = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
                 if (validStr(lblName.text, lblPassWord.text))
                 {

@@ -3,7 +3,6 @@ using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Game.UI
 {

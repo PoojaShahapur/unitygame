@@ -1,6 +1,5 @@
 ﻿using SDK.Common;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {

@@ -1,6 +1,5 @@
 ﻿using SDK.Common;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -9,7 +8,7 @@ namespace Game.UI
         public InfoData m_infoData;
         public GameObject m_root;
 
-        public InputField m_input;            // 输入
+        public AuxInputField m_input;            // 输入
 
         public InfoMode_1(InfoData data)
         {
@@ -19,7 +18,7 @@ namespace Game.UI
         public void findWidget()
         {
             m_root = UtilApi.TransFindChildByPObjAndPath(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.ModeGo_1);
-            m_input = UtilApi.getComByP<InputField>(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.InputField);
+            m_input = new AuxInputField(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.InputField);
         }
 
         public void updateParam(InfoBoxParam infoParam)

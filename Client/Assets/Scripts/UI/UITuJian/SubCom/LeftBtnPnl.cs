@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -27,7 +26,7 @@ namespace Game.UI
         protected GameObject m_jobPnlGo;
         protected GameObject m_filterPnlGo;
 
-        protected Image m_jobBtnImage;
+        protected AuxImage m_jobBtnImage;
         protected AuxButton[] m_btnArr = new AuxButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
 
         public LeftBtnPnl(TuJianData data) :
@@ -41,7 +40,7 @@ namespace Game.UI
             m_jobPnlGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.PnlJob);
             m_filterPnlGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.PnlFilter);
 
-            m_jobBtnImage = UtilApi.getComByP<Image>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
+            m_jobBtnImage = new AuxImage(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
 
             m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob0f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
             m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob1f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f);

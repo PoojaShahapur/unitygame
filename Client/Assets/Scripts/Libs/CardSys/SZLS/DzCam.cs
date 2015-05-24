@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using SDK.Common;
 using Game.UI;
-using UnityEngine.UI;
 
 namespace SDK.Lib
 {

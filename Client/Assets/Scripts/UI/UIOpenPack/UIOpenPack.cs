@@ -2,7 +2,6 @@
 using SDK.Lib;
 using UnityEngine;
 using Game.Msg;
-using UnityEngine.UI;
 
 namespace Game.UI
 {

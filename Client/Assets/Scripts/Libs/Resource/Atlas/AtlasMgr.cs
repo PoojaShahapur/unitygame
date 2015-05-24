@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SDK.Lib
 {

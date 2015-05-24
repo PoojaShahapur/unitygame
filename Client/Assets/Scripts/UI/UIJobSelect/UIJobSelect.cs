@@ -1,7 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
 using System.Collections.Generic;
-using UnityEngine.UI;
 
 namespace Game.UI
 {

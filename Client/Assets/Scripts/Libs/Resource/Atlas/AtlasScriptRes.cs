@@ -1,7 +1,6 @@
 ﻿using SDK.Common;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SDK.Lib
 {
