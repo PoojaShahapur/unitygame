@@ -51,7 +51,7 @@ namespace SDK.Lib
             }
         }
 
-        public ResItem loadData(LoadParam param)
+        public void loadData(LoadParam param)
         {
             param.m_resPackType = ResPackType.eDataType;
             
@@ -71,40 +71,40 @@ namespace SDK.Lib
             //{
             //    param.m_path = string.Format("{0}?v={1}", param.m_path, param.m_version);
             //}
-            return load(param);
+            load(param);
         }
 
         // eBundleType 打包类型资源加载
-        public ResItem loadBundle(LoadParam param)
+        public void loadBundle(LoadParam param)
         {
             param.m_resPackType = ResPackType.eBundleType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
 
-            return load(param);
+            load(param);
         }
 
         // eLevelType 打包类型资源加载，都用协程加载
-        public ResItem loadLevel(LoadParam param)
+        public void loadLevel(LoadParam param)
         {
             param.resolveLevel();
 
 #if PKG_RES_LOAD
             param.m_resPackType = ResPackType.ePakLevelType;
             param.resolvePath();
-            return load(param);
+            load(param);
 #elif UnPKG_RES_LOAD
             param.m_resPackType = ResPackType.eUnPakLevelType;
             param.m_resLoadType = ResLoadType.eStreamingAssets;
-            return load(param);
+            load(param);
 #else
             param.m_resPackType = ResPackType.eLevelType;
             param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            return load(param);
+            load(param);
 #endif
         }
 
         // eResourcesType 打包类型资源加载
-        public ResItem loadResources(LoadParam param)
+        public void loadResources(LoadParam param)
         {
             param.resolvePath();
 
@@ -117,7 +117,7 @@ namespace SDK.Lib
             {
                 param.m_resPackType = ResPackType.eUnPakType;
             }
-            return load(param);
+            load(param);
 #elif UnPKG_RES_LOAD
             // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
             param.m_resPackType = ResPackType.eUnPakType;
@@ -126,214 +126,228 @@ namespace SDK.Lib
 #else
             param.m_resPackType = ResPackType.eResourcesType;
             param.m_resLoadType = ResLoadType.eLoadResource;
-            return load(param);
+            load(param);
 #endif
         }
 
-        // 通用类型，需要自己设置很多参数
-        public ResItem load(LoadParam param)
+        public ResItem createResItem(LoadParam param)
         {
-            if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
+            ResItem resItem = findResFormPool(param.m_resPackType);
+            if (ResPackType.eLevelType == param.m_resPackType)
             {
-                m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-                if (m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
+                if (resItem == null)
                 {
-                    if (param.m_loadEventHandle != null)
-                    {
-                        param.m_loadEventHandle(m_LoadData.m_path2Res[param.m_path]);
-                    }
+                    resItem = new LevelResItem();
                 }
-                else
+                (resItem as LevelResItem).levelName = param.lvlName;
+            }
+            else if (ResPackType.eBundleType == param.m_resPackType)
+            {
+                if (resItem == null)
                 {
-                    if (param.m_loadEventHandle != null)
-                    {
-                        m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
-                    }
+                    resItem = new BundleResItem();
+                }
+            }
+            else if (ResPackType.eResourcesType == param.m_resPackType)
+            {
+                if (resItem == null)
+                {
+                    resItem = new PrefabResItem();
+                }
+
+                (resItem as PrefabResItem).prefabName = param.prefabName;
+            }
+            else if (ResPackType.eDataType == param.m_resPackType)
+            {
+                if (resItem == null)
+                {
+                    resItem = new DataResItem();
+                }
+            }
+            else if (ResPackType.eUnPakType == param.m_resPackType)
+            {
+                if (resItem == null)
+                {
+                    resItem = new ABUnPakComFileResItem();
+                }
+            }
+            else if (ResPackType.eUnPakLevelType == param.m_resPackType)
+            {
+                if (resItem == null)
+                {
+                    resItem = new ABUnPakLevelFileResItem();
+                }
+                (resItem as ABUnPakLevelFileResItem).levelName = param.lvlName;
+            }
+            else if (ResPackType.ePakType == param.m_resPackType)
+            {
+                if (resItem == null)
+                {
+                    resItem = new ABPakComFileResItem();
+                }
+            }
+            else if (ResPackType.ePakLevelType == param.m_resPackType)
+            {
+                if (resItem == null)
+                {
+                    resItem = new ABPakLevelFileResItem();
+                }
+                (resItem as ABPakLevelFileResItem).levelName = param.lvlName;
+                (resItem as ABPakLevelFileResItem).m_origPath = param.m_origPath;
+            }
+            //else if (ResPackType.ePakMemType == param.m_resPackType)
+            //{
+            //    if (resitem == null)
+            //    {
+            //        resitem = new ABMemUnPakComFileResItem();
+            //    }
+            //}
+            //else if (ResPackType.ePakMemLevelType == param.m_resPackType)
+            //{
+            //    if (resitem == null)
+            //    {
+            //        resitem = new ABMemUnPakLevelFileResItem();
+            //    }
+
+            //    (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
+            //}
+
+            resItem.refCountResLoadResultNotify.refCount.incRef();
+            resItem.resNeedCoroutine = param.m_resNeedCoroutine;
+            resItem.resPackType = param.m_resPackType;
+            resItem.resLoadType = param.m_resLoadType;
+            resItem.path = param.m_path;
+            resItem.pathNoExt = param.m_pathNoExt;
+            resItem.extName = param.extName;
+
+            m_LoadData.m_path2Res[param.m_path] = resItem;
+
+            if (param.m_loadEventHandle != null)
+            {
+                m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+            }
+
+            return resItem;
+        }
+
+        public LoadItem createLoadItem(LoadParam param)
+        {
+            LoadItem loadItem = findLoadItemFormPool(param.m_resPackType);
+
+            if (ResPackType.eResourcesType == param.m_resPackType)        // 默认 Bundle 中资源
+            {
+                if (loadItem == null)
+                {
+                    loadItem = new ResourceLoadItem();
+                }
+            }
+            else if (ResPackType.eBundleType == param.m_resPackType)        // Bundle 打包模式
+            {
+                if (loadItem == null)
+                {
+                    loadItem = new BundleLoadItem();
+                }
+            }
+            else if (ResPackType.eLevelType == param.m_resPackType)
+            {
+                if (loadItem == null)
+                {
+                    loadItem = new LevelLoadItem();
+                }
+
+                (loadItem as LevelLoadItem).levelName = param.lvlName;
+            }
+            else if (ResPackType.eDataType == param.m_resPackType)
+            {
+                if (loadItem == null)
+                {
+                    loadItem = new DataLoadItem();
+                }
+
+                (loadItem as DataLoadItem).m_version = param.m_version;
+            }
+            else if (ResPackType.eUnPakType == param.m_resPackType || ResPackType.eUnPakLevelType == param.m_resPackType)
+            {
+                if (loadItem == null)
+                {
+                    loadItem = new ABUnPakLoadItem();
+                }
+            }
+            else if (ResPackType.ePakType == param.m_resPackType || ResPackType.ePakLevelType == param.m_resPackType)
+            {
+                if (loadItem == null)
+                {
+                    loadItem = new ABPakLoadItem();
+                }
+            }
+
+            loadItem.resPackType = param.m_resPackType;
+            loadItem.resLoadType = param.m_resLoadType;
+            loadItem.path = param.m_path;
+            loadItem.pathNoExt = param.m_pathNoExt;
+            loadItem.extName = param.extName;
+            loadItem.nonRefCountResLoadResultNotify.loadEventDispatch.addEventHandle(onLoadEventHandle);
+
+            return loadItem;
+        }
+
+        // 资源创建并且正在被加载
+        public void loadWithResCreatedAndLoad(LoadParam param, ResItem resItem)
+        {
+            resItem.refCountResLoadResultNotify.refCount.incRef();
+            if (resItem.refCountResLoadResultNotify.resLoadState.hasLoaded())
+            {
+                if (param.m_loadEventHandle != null)
+                {
+                    param.m_loadEventHandle(resItem);
                 }
             }
             else
             {
-                ResItem resitem = findResFormPool(param.m_resPackType);
-                if (ResPackType.eLevelType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new LevelResItem();
-                    }
-                    (resitem as LevelResItem).levelName = param.lvlName;
-                }
-                else if (ResPackType.eBundleType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new BundleResItem();
-                    }
-                }
-                else if (ResPackType.eResourcesType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new PrefabResItem();
-                    }
-
-                    (resitem as PrefabResItem).prefabName = param.prefabName;
-                }
-                else if (ResPackType.eDataType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new DataResItem();
-                    }
-                }
-                else if (ResPackType.eUnPakType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new ABUnPakComFileResItem();
-                    }
-                }
-                else if (ResPackType.eUnPakLevelType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new ABUnPakLevelFileResItem();
-                    }
-                    (resitem as ABUnPakLevelFileResItem).levelName = param.lvlName;
-                }
-                else if (ResPackType.ePakType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new ABPakComFileResItem();
-                    }
-                }
-                else if (ResPackType.ePakLevelType == param.m_resPackType)
-                {
-                    if (resitem == null)
-                    {
-                        resitem = new ABPakLevelFileResItem();
-                    }
-                    (resitem as ABPakLevelFileResItem).levelName = param.lvlName;
-                    (resitem as ABPakLevelFileResItem).m_origPath = param.m_origPath;
-                }
-                //else if (ResPackType.ePakMemType == param.m_resPackType)
-                //{
-                //    if (resitem == null)
-                //    {
-                //        resitem = new ABMemUnPakComFileResItem();
-                //    }
-                //}
-                //else if (ResPackType.ePakMemLevelType == param.m_resPackType)
-                //{
-                //    if (resitem == null)
-                //    {
-                //        resitem = new ABMemUnPakLevelFileResItem();
-                //    }
-
-                //    (resitem as ABMemUnPakLevelFileResItem).levelName = param.lvlName;
-                //}
-
-                resitem.refCountResLoadResultNotify.refCount.incRef();
-                resitem.resNeedCoroutine = param.m_resNeedCoroutine;
-                resitem.resPackType = param.m_resPackType;
-                resitem.resLoadType = param.m_resLoadType;
-                resitem.path = param.m_path;
-                resitem.pathNoExt = param.m_pathNoExt;
-                resitem.extName = param.extName;
-
-                m_LoadData.m_path2Res[param.m_path] = resitem;
-
                 if (param.m_loadEventHandle != null)
                 {
-                    m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    resItem.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
-
-                //// 特殊处理
-                //if (ResPackType.ePakMemType == param.m_resPackType || ResPackType.ePakMemLevelType == param.m_resPackType)  // 如果是内存加载打包数据，如果包已经加载完成
-                //{
-                //    // 这个必须等待参数都设置完成后再调用
-                //    (resitem as ABMemUnPakFileResItemBase).setPakRes(getResource(param.m_pakPath) as ABPakFileResItemBase);
-                //}
-                //else
-                //{
-                    LoadItem loaditem = findLoadItemFormPool(param.m_resPackType);
-
-                    if (ResPackType.eResourcesType == param.m_resPackType)        // 默认 Bundle 中资源
-                    {
-                        if (loaditem == null)
-                        {
-                            loaditem = new ResourceLoadItem();
-                        }
-                    }
-                    else if (ResPackType.eBundleType == param.m_resPackType)        // Bundle 打包模式
-                    {
-                        if (loaditem == null)
-                        {
-                            loaditem = new BundleLoadItem();
-                        }
-                    }
-                    else if (ResPackType.eLevelType == param.m_resPackType)
-                    {
-                        if (loaditem == null)
-                        {
-                            loaditem = new LevelLoadItem();
-                        }
-
-                        (loaditem as LevelLoadItem).levelName = param.lvlName;
-                    }
-                    else if (ResPackType.eDataType == param.m_resPackType)
-                    {
-                        if (loaditem == null)
-                        {
-                            loaditem = new DataLoadItem();
-                        }
-
-                        (loaditem as DataLoadItem).m_version = param.m_version;
-                    }
-                    else if (ResPackType.eUnPakType == param.m_resPackType || ResPackType.eUnPakLevelType == param.m_resPackType)
-                    {
-                        if (loaditem == null)
-                        {
-                            loaditem = new ABUnPakLoadItem();
-                        }
-                    }
-                    else if (ResPackType.ePakType == param.m_resPackType || ResPackType.ePakLevelType == param.m_resPackType)
-                    {
-                        if (loaditem == null)
-                        {
-                            loaditem = new ABPakLoadItem();
-                        }
-                    }
-
-                    loaditem.resPackType = param.m_resPackType;
-                    loaditem.resLoadType = param.m_resLoadType;
-                    loaditem.path = param.m_path;
-                    loaditem.pathNoExt = param.m_pathNoExt;
-                    loaditem.extName = param.extName;
-                    loaditem.nonRefCountResLoadResultNotify.loadEventDispatch.addEventHandle(onLoadEventHandle);
-
-                    if (m_curNum < m_maxParral)
-                    {
-                        m_LoadData.m_path2LDItem[param.m_path] = loaditem;
-                        m_LoadData.m_path2LDItem[param.m_path].load();
-                        ++m_curNum;
-                    }
-                    else
-                    {
-                        m_LoadData.m_willLDItem.Add(loaditem);
-                    }
-                //}
             }
 
             resetLoadParam(param);
+        }
 
-            // 可能同步加载， m_LoadData.m_path2LDItem[param.m_path].load() 就加载完了，直接删除了
-            if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
+        public void loadWithResCreatedAndNotLoad(LoadParam param, ResItem resItem)
+        {
+            LoadItem loadItem = createLoadItem(param);
+
+            if (m_curNum < m_maxParral)
             {
-                return m_LoadData.m_path2Res[param.m_path];
+                m_LoadData.m_path2LDItem[param.m_path] = loadItem;
+                m_LoadData.m_path2LDItem[param.m_path].load();
+                ++m_curNum;
+            }
+            else
+            {
+                m_LoadData.m_willLDItem.Add(loadItem);
             }
 
-            return null;
+            resetLoadParam(param);
+        }
+
+        public void loadWithNotResCreatedAndNotLoad(LoadParam param)
+        {
+            ResItem resItem = createResItem(param);
+            loadWithResCreatedAndNotLoad(param, resItem);
+        }
+
+        // 通用类型，需要自己设置很多参数
+        public void load(LoadParam param)
+        {
+            if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
+            {
+                loadWithResCreatedAndLoad(param, m_LoadData.m_path2Res[param.m_path]);
+            }
+            else
+            {
+                loadWithNotResCreatedAndNotLoad(param);
+            }
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
