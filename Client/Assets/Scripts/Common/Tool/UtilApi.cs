@@ -55,7 +55,7 @@ namespace SDK.Common
         }
 
         // 设置 Label 的显示
-        static public void setLblStype(Text textWidget, TextStyleID styleID)
+        static public void setLblStype(Text textWidget, LabelStyleID styleID)
         {
 
         }

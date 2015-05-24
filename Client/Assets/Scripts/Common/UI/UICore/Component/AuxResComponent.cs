@@ -6,10 +6,9 @@ namespace SDK.Common
     /**
      * @brief 自己拥有资源 
      */
-    public class AuxResComponent : AuxComponent
+    public class AuxResComponent : AuxParentComponent
     {
         protected GameObject m_selfLocalGo;
-        protected GameObject m_selfGo;
         protected string m_path;                          // 目录
         protected ModelRes m_res;
 
@@ -28,18 +27,6 @@ namespace SDK.Common
             set
             {
                 m_selfLocalGo = value;
-            }
-        }
-
-        public GameObject selfGo
-        {
-            get
-            {
-                return m_selfGo;
-            }
-            set
-            {
-                m_selfGo = value;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+
 namespace SDK.Common
 {
     /**
@@ -48,8 +49,8 @@ namespace SDK.Common
         override public void reposition()
         {
             // 计算容器的大小
-            RectTransform trans = m_contentGo.GetComponent<RectTransform>();
-            HorizontalLayoutGroup layout = m_contentGo.GetComponent<HorizontalLayoutGroup>();
+            RectTransform trans = m_selfGo.GetComponent<RectTransform>();
+            HorizontalLayoutGroup layout = m_selfGo.GetComponent<HorizontalLayoutGroup>();
             trans.sizeDelta = new Vector2(m_colCount * elemWidth + layout.spacing * (m_colCount - 1) + layout.padding.left + layout.padding.right, elemHeight + layout.padding.top + layout.padding.bottom);
         }
     }

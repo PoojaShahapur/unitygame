@@ -59,14 +59,14 @@ namespace Game.UI
             m_cardSetCardLayoutV.elemWidth = 285;
             m_cardSetCardLayoutV.elemHeight = 78;
             m_cardSetCardLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListParent);
-            m_cardSetCardLayoutV.contentGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListCon);
+            m_cardSetCardLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListCon);
             m_cardSetCardLayoutV.hideLayout();
 
             m_cardSetLayoutV = new AuxLayoutV();
             m_cardSetLayoutV.elemWidth = 285;
             m_cardSetLayoutV.elemHeight = 78;
             m_cardSetLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListParent);
-            m_cardSetLayoutV.contentGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
+            m_cardSetLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
 
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
 

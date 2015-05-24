@@ -1,29 +1,25 @@
-﻿using UnityEngine;
+﻿using SDK.Lib;
+using UnityEngine;
 
 namespace SDK.Common
 {
     /**
-     * @brief 辅助基类，场景中的必然要有 parent
+     * @brief 辅助基类
      */
-    public class AuxComponent
+    public class AuxComponent : IDispatchObject
     {
-        protected GameObject m_pntGo;       // 指向父节点
+        protected GameObject m_selfGo;      // 自己节点
 
-        public GameObject pntGo
+        public GameObject selfGo
         {
             get
             {
-                return m_pntGo;
+                return m_selfGo;
             }
             set
             {
-                m_pntGo = value;
+                m_selfGo = value;
             }
-        }
-
-        public virtual void setPntGo(GameObject go)
-        {
-            m_pntGo = go;
         }
 
         virtual public void dispose()

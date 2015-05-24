@@ -5,7 +5,7 @@ namespace SDK.Common
     /**
      * @brief 自己有占位资源 m_placeHolderGo
      */
-    public class AuxPlaceHolderComponent : AuxComponent
+    public class AuxPlaceHolderComponent : AuxParentComponent
     {
         protected GameObject m_placeHolderGo;      // 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
 

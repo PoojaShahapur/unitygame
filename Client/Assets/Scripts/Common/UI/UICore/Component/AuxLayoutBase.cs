@@ -2,11 +2,10 @@
 
 namespace SDK.Common
 {
-    public class AuxLayoutBase : AuxComponent
+    public class AuxLayoutBase : AuxParentComponent
     {
         protected int m_elemWidth;          // 元素宽度
         protected int m_elemHeight;         // 元素高度
-        protected GameObject m_contentGo;   // 放 Layout 中内容的 GameObject
 
         public int elemWidth
         {
@@ -32,18 +31,6 @@ namespace SDK.Common
             }
         }
 
-        public GameObject contentGo
-        {
-            get
-            {
-                return m_contentGo;
-            }
-            set
-            {
-                m_contentGo = value;
-            }
-        }
-
         public void hideLayout()
         {
             UtilApi.SetActive(pntGo, false);
@@ -56,7 +43,7 @@ namespace SDK.Common
 
         virtual public void addElem(GameObject go_, bool recalc = false)
         {
-            UtilApi.SetParent(go_, m_contentGo, false);
+            UtilApi.SetParent(go_, m_selfGo, false);
 
             if (recalc)
             {

@@ -2,7 +2,7 @@
 {
     public enum BtnStyleID
     {
-        eBSIDNone,      // 默认行为
-        eBSIDTotal
+        eBSID_None,      // 默认行为
+        eTotal
     }
 }

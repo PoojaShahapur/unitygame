@@ -6,7 +6,6 @@ namespace SDK.Common
 {
     public class AuxDynImageDynGO : AuxDynImage
     {
-        protected GameObject m_selfGo;      // 动态加载的 Prefab 实例化后的 GameObject
         protected string m_prefabPath;      // Prefab 目录
         protected UIPrefabRes m_prefabRes;  // Prefab 资源
         protected bool m_bNeedReload = false;
@@ -26,14 +25,6 @@ namespace SDK.Common
                     m_bNeedReload = true;
                 }
                 m_prefabPath = value;
-            }
-        }
-
-        public GameObject selfGo
-        {
-            get
-            {
-                return m_selfGo;
             }
         }
 

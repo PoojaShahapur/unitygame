@@ -90,6 +90,7 @@ namespace SDK.Common
         public CardFactory m_cardFactory = new CardFactory();
         public AtlasMgr m_atlasMgr = new AtlasMgr();
         public AuxUIHelp m_auxUIHelp = new AuxUIHelp();
+        public WidgetStyleMgr m_widgetStyleMgr = new WidgetStyleMgr();
 
         public Ctx()
         {

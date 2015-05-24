@@ -68,7 +68,7 @@ namespace Game.UI
         {
             // 获取 GO ， initJobRes 里面要用到
             m_auxLayoutH.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollContParent);
-            m_auxLayoutH.contentGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollCont);
+            m_auxLayoutH.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollCont);
 
             Ctx.m_instance.m_logSys.log(string.Format("添加 {0} 卡组数据", m_cardCount));
 
