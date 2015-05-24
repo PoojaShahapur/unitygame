@@ -34,8 +34,6 @@ namespace SDK.Lib
             {
                 refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-                clearListener();
             }
         }
 

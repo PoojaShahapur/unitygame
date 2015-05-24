@@ -28,7 +28,6 @@ namespace SDK.Lib
         override protected void initAsset()
         {
             base.initAsset();
-
             if (m_bundle != null)
             {
                 m_bundle.LoadAsset<GameObject>(m_bundlePath);
@@ -39,10 +38,7 @@ namespace SDK.Lib
             {
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
-
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
         }
 
         override protected IEnumerator initAssetByCoroutine()
@@ -78,9 +74,6 @@ namespace SDK.Lib
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
-
             yield return null;
         }
     }

@@ -46,6 +46,10 @@ namespace SDK.Lib
                     Ctx.m_instance.m_logSys.log("Event Handle not exist");
                 }
             }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("looping cannot delete element");
+            }
         }
 
         public void dispatchEvent(IDispatchObject dispatchObject)
@@ -56,6 +60,8 @@ namespace SDK.Lib
                 handle(dispatchObject);
             }
             m_bInLoop = false;
+
+            clearEventHandle();
         }
 
         public void clearEventHandle()
@@ -63,6 +69,10 @@ namespace SDK.Lib
             if (!m_bInLoop)
             {
                 m_handleList.Clear();
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("looping cannot delete element");
             }
         }
 

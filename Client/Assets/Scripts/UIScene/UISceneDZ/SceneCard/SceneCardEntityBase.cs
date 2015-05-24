@@ -282,70 +282,70 @@ namespace Game.UI
         public void updateCardOutState(bool benable)
         {
             return;
-            GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
-            if (go != null)
-            {
-                if (benable)
-                {
-                    if (sceneCardItem != null)
-                    {
-                        //try
-                        //{
-                            if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
-                            {
-                                if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
-                                {
-                                    UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-                                }
-                            }
-                            else
-                            {
-                                if (UtilApi.getComByP<MeshRenderer>(go).enabled != false)
-                                {
-                                    UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-                                }
-                            }
-                        //}
-                        //catch (System.Exception e)
-                        //{
-                        //    // 输出日志
-                        //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
-                        //    Ctx.m_instance.m_logSys.error(e.Message);
-                        //}
-                    }
-                }
-                else
-                {
-                    if(UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
-                    {
-                        UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-                    }
-                }
-            }
+            //GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
+            //if (go != null)
+            //{
+            //    if (benable)
+            //    {
+            //        if (sceneCardItem != null)
+            //        {
+            //            //try
+            //            //{
+            //                if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+            //                {
+            //                    if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
+            //                    {
+            //                        UtilApi.getComByP<MeshRenderer>(go).enabled = true;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    if (UtilApi.getComByP<MeshRenderer>(go).enabled != false)
+            //                    {
+            //                        UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+            //                    }
+            //                }
+            //            //}
+            //            //catch (System.Exception e)
+            //            //{
+            //            //    // 输出日志
+            //            //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
+            //            //    Ctx.m_instance.m_logSys.error(e.Message);
+            //            //}
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if(UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
+            //        {
+            //            UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+            //        }
+            //    }
+            //}
         }
 
         // 更新卡牌是否可以被击
         public void updateCardAttackedState(bool benable)
         {
             return;
-            GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
-            if (go != null)
-            {
-                if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
-                {
-                    if (benable)
-                    {
-                        if (sceneCardItem != null)
-                        {
-                            UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-                        }
-                    }
-                    else
-                    {
-                        UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-                    }
-                }
-            }
+            //GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
+            //if (go != null)
+            //{
+            //    if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
+            //    {
+            //        if (benable)
+            //        {
+            //            if (sceneCardItem != null)
+            //            {
+            //                UtilApi.getComByP<MeshRenderer>(go).enabled = true;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            UtilApi.getComByP<MeshRenderer>(go).enabled = false;
+            //        }
+            //    }
+            //}
         }
 
         // 播放攻击动画，就是移动过去砸一下

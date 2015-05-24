@@ -75,17 +75,17 @@ namespace SDK.Lib
 #endif
                 yield return new WaitForSeconds(0.5f);
             }
-            else
-            {
-                //应用itween
-                //卡牌分开..mininum
-                int x = 1;
-                foreach (Transform t in cs)
-                {
-                    iTween.MoveBy(t.gameObject, Vector3.right * 0.3f * x, 1);
-                    x++;
-                }
-            }
+            //else
+            //{
+            //    //应用itween
+            //    //卡牌分开..mininum
+            //    int x = 1;
+            //    foreach (Transform t in cs)
+            //    {
+            //        iTween.MoveBy(t.gameObject, Vector3.right * 0.3f * x, 1);
+            //        x++;
+            //    }
+            //}
 
             //出现标题与替换
             transform.FindChild("btandbtn").gameObject.SetActive(true);
@@ -202,9 +202,9 @@ namespace SDK.Lib
             clearUpHand();
         }
 
-        Transform dzban;
-        Transform mHand;
-        Transform mHnadTarget;
+        Transform dzban = null;
+        Transform mHand = null;
+        Transform mHnadTarget = null;
         /// <summary>
         /// 整理手牌,
         /// </summary>

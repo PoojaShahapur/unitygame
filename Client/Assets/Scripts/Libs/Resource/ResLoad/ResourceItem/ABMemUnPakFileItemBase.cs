@@ -52,7 +52,6 @@ namespace SDK.Lib
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-                clearListener();
             }
         }
     }

@@ -126,7 +126,7 @@ namespace SDK.Lib
                         {
                             fi.Delete();
                         }
-                        catch (Exception err)
+                        catch (Exception /*err*/)
                         {
                             Ctx.m_instance.m_logSys.log(string.Format("删除文件 {0} 出错", fi.FullName));
                         }

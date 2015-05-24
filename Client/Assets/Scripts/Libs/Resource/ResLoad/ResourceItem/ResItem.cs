@@ -130,12 +130,6 @@ namespace SDK.Lib
         {
             m_refCountResLoadResultNotify.resLoadState.setFailed();
             m_refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-            clearListener();
-        }
-
-        public void clearListener()
-        {
-            m_refCountResLoadResultNotify.loadEventDispatch.clearEventHandle();
         }
 
         virtual public void reset()
@@ -143,7 +137,6 @@ namespace SDK.Lib
             m_path = "";
             m_refCountResLoadResultNotify.resLoadState.reset();
             m_refCountResLoadResultNotify.refCount.refNum = 0;
-            clearListener();
         }
 
         // 卸载

@@ -142,8 +142,6 @@ namespace SDK.Lib
             //m_loadNeedCoroutine = false;
             m_w3File = null;
             m_loadNeedCoroutine = false;
-
-            clearListener();
         }
 
         virtual protected IEnumerator downloadAsset()
@@ -200,11 +198,6 @@ namespace SDK.Lib
                 //Caching.DeleteFromCache(path);
                 Caching.CleanCache();
             }
-        }
-
-        public void clearListener()
-        {
-            nonRefCountResLoadResultNotify.loadEventDispatch.clearEventHandle();
         }
     }
 }

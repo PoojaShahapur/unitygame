@@ -44,8 +44,6 @@ namespace SDK.Lib
             }
 
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -64,10 +62,7 @@ namespace SDK.Lib
                 //GameObject.Instantiate(req.asset);
                 //m_bundle.Unload(false);
             }
-
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
 
             yield return null;
         }

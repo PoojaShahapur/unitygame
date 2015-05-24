@@ -19,8 +19,6 @@ namespace SDK.Lib
             m_prefabObj = (item as ResourceLoadItem).prefabObj;
 
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
         }
 
         public UnityEngine.Object prefabObj()

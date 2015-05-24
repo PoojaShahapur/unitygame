@@ -32,8 +32,6 @@ namespace SDK.Lib
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
         }
 
         override protected IEnumerator initAssetByCoroutine()

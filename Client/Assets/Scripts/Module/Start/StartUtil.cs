@@ -37,7 +37,7 @@ namespace Game.Start
             {
                 bytes = File.ReadAllBytes(path);
             }
-            catch (Exception e)
+            catch (Exception /*e*/)
             {
                 //路径与名称未找到文件则直接返回空
                 return null;

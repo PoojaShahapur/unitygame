@@ -16,8 +16,6 @@ namespace SDK.Lib
             m_localPath = (item as DataLoadItem).m_localPath;
 
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
         }
 
         public byte[] getBytes()

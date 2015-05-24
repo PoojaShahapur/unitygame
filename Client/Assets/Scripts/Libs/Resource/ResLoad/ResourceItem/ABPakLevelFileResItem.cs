@@ -24,13 +24,9 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
-
             // 继续加载当前的关卡
             //loadLevel(m_origPath);
-
             refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
-
-            clearListener();
         }
 
         //public void loadLevel(string resName)
