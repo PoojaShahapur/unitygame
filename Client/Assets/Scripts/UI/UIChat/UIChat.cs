@@ -49,7 +49,7 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_chatData.m_logText = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, CVChat.TextOutput);
+            m_chatData.m_logText = new AuxLabel(m_GUIWin.m_uiRoot, CVChat.TextOutput);
             m_chatData.m_inputField = UtilApi.getComByP<InputField>(m_GUIWin.m_uiRoot, CVChat.Input);
             m_chatData.m_scrollbar = UtilApi.getComByP<Scrollbar>(m_GUIWin.m_uiRoot, CVChat.Scrollbar);
         }
@@ -77,7 +77,8 @@ namespace Game.UI
             m_chatData.m_logText.text += "\n";
 
             // 改变大小
-            m_chatData.m_logText.rectTransform.sizeDelta = new Vector2(m_chatData.m_logText.rectTransform.sizeDelta.x, m_chatData.m_logText.preferredHeight);
+            //m_chatData.m_logText.rectTransform.sizeDelta = new Vector2(m_chatData.m_logText.rectTransform.sizeDelta.x, m_chatData.m_logText.preferredHeight);
+            m_chatData.m_logText.changeSize();
 
             // 滚动条滚动到底部
             m_chatData.m_scrollbar.value = 0;

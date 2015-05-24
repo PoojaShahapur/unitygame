@@ -11,12 +11,12 @@ namespace Game.UI
         protected List<JobCard> m_jobCardList;
         protected JobSelProg m_jobSelProg;
         protected AuxLayoutH m_auxLayoutH;              // 中间滚动条
-        protected Text m_jobText;       // 职业描述
+        protected AuxLabel m_jobText;       // 职业描述
         protected JobCard m_curSelJobCard;        // 点击的卡牌
 
         protected int m_cardCount;              // 中间选择职业的数量
         protected AuxDynImageStaticGO m_jobNameImage;
-        protected Text m_dzStartDescText;
+        protected AuxLabel m_dzStartDescText;
 
         public JobSelMidPnl(JobSelectData data) :
             base(data)
@@ -80,13 +80,13 @@ namespace Game.UI
             }
 
             m_jobSelProg.findWidget();
-            m_jobText = UtilApi.getComByP<Text>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobDesc);
+            m_jobText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobDesc);
 
             m_jobNameImage.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageJobName);
             m_jobNameImage.findWidget();
 
-            m_dzStartDescText = UtilApi.getComByP<Text>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartDescText);
-            UtilApi.SetActive(m_dzStartDescText.gameObject, false);     // 默认隐藏
+            m_dzStartDescText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartDescText);
+            m_dzStartDescText.hide();     // 默认隐藏
         }
 
         public new void addEventHandle()
@@ -150,7 +150,7 @@ namespace Game.UI
         public void startmatch()
         {
             m_dzStartDescText.text = "开始匹配中";
-            UtilApi.SetActive(m_dzStartDescText.gameObject, true);     // 默认隐藏
+            m_dzStartDescText.show();     // 默认隐藏
             // test 进入战场
 #if DEBUG_NOTNET
             Ctx.m_instance.m_gameSys.loadDZScene(1000);

@@ -12,7 +12,7 @@ namespace Game.UI
     {
         protected JobSelectData m_jobSelectData;
 
-        protected Text m_logText;
+        protected AuxLabel m_logText;
 
         public override void onInit()
         {

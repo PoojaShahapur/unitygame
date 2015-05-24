@@ -9,6 +9,8 @@ namespace Game.UI
 {
     public class UITuJianCardSetMenu : Form
     {
+        protected AuxButton[] m_btnArr = new AuxButton[4];
+
         // 初始化控件
         override public void onReady()
         {
@@ -24,18 +26,21 @@ namespace Game.UI
 
         public void findWidget()
         {
-            
+            m_btnArr[0] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnDel);
+            m_btnArr[1] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnRename);
+            m_btnArr[2] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnEdit);
+            m_btnArr[3] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.BtnExit);
         }
 
         public void addEventHandle()
         {
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnDel), onDelBtnClk);
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnRename), onRenameBtnClk);
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardSetMenuComPath.CardSetEdit_BtnEdit), onEditBtnClk);
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit), onExitBtnClk);
+            m_btnArr[0].addEventHandle(onDelBtnClk);
+            m_btnArr[1].addEventHandle(onRenameBtnClk);
+            m_btnArr[2].addEventHandle(onEditBtnClk);
+            m_btnArr[3].addEventHandle(onExitBtnClk);
         }
 
-        protected void onDelBtnClk()
+        protected void onDelBtnClk(IDispatchObject dispObj)
         {
             InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
             param.m_btnClkDisp = delRet;
@@ -43,12 +48,12 @@ namespace Game.UI
             UIInfo.showMsg(param);
         }
 
-        protected void onRenameBtnClk()
+        protected void onRenameBtnClk(IDispatchObject dispObj)
         {
             exit();
         }
 
-        protected void onEditBtnClk()
+        protected void onEditBtnClk(IDispatchObject dispObj)
         {
             UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             tujian.editCurCardSet();
@@ -66,7 +71,7 @@ namespace Game.UI
             exit();
         }
 
-        public void onExitBtnClk()
+        public void onExitBtnClk(IDispatchObject dispObj)
         {
             exit();
         }

@@ -7,7 +7,7 @@ namespace Game.UI
     public class CardCom
     {
         protected int m_tag;
-        protected Button m_uiCardBtn;
+        protected AuxButton m_uiCardBtn;
         protected ImageItem m_imageItem;
 
         public CardCom(int idx)
@@ -15,7 +15,7 @@ namespace Game.UI
             m_tag = idx;
         }
 
-        public Button uiCardBtn
+        public AuxButton uiCardBtn
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Game.UI
                 m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
             }
 
-            m_imageItem.setGoImage(m_uiCardBtn.gameObject);
+            m_imageItem.setGoImage(m_uiCardBtn.selfGo);
         }
 
         public void dispose()
@@ -69,8 +69,7 @@ namespace Game.UI
                 m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
             }
 
-            Image srcImage = UtilApi.getComByP<Image>(m_uiCardBtn.gameObject);
-            srcImage.sprite = imageItem.image;
+            imageItem.setGoImage(m_uiCardBtn.selfGo);
         }
     }
 }

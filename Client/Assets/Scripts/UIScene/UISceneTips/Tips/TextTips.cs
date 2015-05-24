@@ -9,7 +9,7 @@ namespace Game.UI
      */
     public class TextTips : TipsItemBase
     {
-        protected Text m_desc;
+        protected AuxLabel m_desc;
 
         public TextTips(SceneTipsData data)
             : base(data)
@@ -20,7 +20,7 @@ namespace Game.UI
         public void initWidget()
         {
             m_tipsItemRoot = UtilApi.TransFindChildByPObjAndPath(m_sceneTipsData.m_goRoot, "TextTips");
-            m_desc = UtilApi.getComByP<Text>(m_sceneTipsData.m_goRoot, "TextTips/Text");
+            m_desc = new AuxLabel(m_sceneTipsData.m_goRoot, "TextTips/Text");
         }
 
         public void showTips(Vector3 pos, string desc)

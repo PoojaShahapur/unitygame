@@ -24,7 +24,17 @@ namespace SDK.Common
 
         virtual public void dispose()
         {
+            
+        }
 
+        public void show()
+        {
+            UtilApi.SetActive(m_selfGo, true);
+        }
+
+        public void hide()
+        {
+            UtilApi.SetActive(m_selfGo, false);
         }
     }
 }

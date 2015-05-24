@@ -28,7 +28,7 @@ namespace Game.UI
         protected GameObject m_filterPnlGo;
 
         protected Image m_jobBtnImage;
-        protected Button[] m_btnArr = new Button[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
+        protected AuxButton[] m_btnArr = new AuxButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
 
         public LeftBtnPnl(TuJianData data) :
             base(data)
@@ -43,10 +43,10 @@ namespace Game.UI
 
             m_jobBtnImage = UtilApi.getComByP<Image>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
 
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob0f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob1f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob2f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob2f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob3f] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob3f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob0f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob1f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob2f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob2f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob3f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob3f);
 
             toggleJobPnl(false);
             toggleFilterPnl(false);
@@ -82,7 +82,7 @@ namespace Game.UI
         {
             for(int idx = 0; idx < (int)LeftBtnPnl_BtnIndex.eBtnJobTotal; ++idx)
             {
-                m_btnArr[idx].gameObject.SetActive(false);
+                m_btnArr[idx].hide();
             }
         }
 
@@ -130,14 +130,14 @@ namespace Game.UI
             {
                 if (m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx < (int)LeftBtnPnl_BtnIndex.eBtnJobTotal)
                 {
-                    m_btnArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].gameObject.SetActive(false);
+                    m_btnArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].hide();
                 }
                 else
                 {
                     Debug.Log("数组越界");
                 }
             }
-            m_btnArr[idx].gameObject.SetActive(true);
+            m_btnArr[idx].show();
         }
 
         protected void onFilterTypeBtnClk()

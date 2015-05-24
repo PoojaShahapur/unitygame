@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using SDK.Common;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -7,7 +8,7 @@ namespace Game.UI
      */
     public class ChatData
     {
-        public Text m_logText;              // 聊天输出
+        public AuxLabel m_logText;              // 聊天输出
         public InputField m_inputField;     // 输入
         public Scrollbar m_scrollbar;       // 滚动条
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using SDK.Common;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -7,6 +8,6 @@ namespace Game.UI
      */
     public class SelfCardFullTip : SceneComponent
     {
-        public Text m_desc;
+        public AuxLabel m_desc;
     }
 }

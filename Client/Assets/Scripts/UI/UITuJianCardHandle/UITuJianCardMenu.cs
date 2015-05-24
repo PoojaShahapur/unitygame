@@ -9,6 +9,8 @@ namespace Game.UI
 {
     public class UITuJianCardMenu : Form
     {
+        protected AuxButton[] m_btnArr = new AuxButton[2];
+
         // 初始化控件
         override public void onReady()
         {
@@ -24,16 +26,17 @@ namespace Game.UI
 
         public void findWidget()
         {
-
+            m_btnArr[0] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.CardSetEdit_BtnAdd);
+            m_btnArr[1] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit);
         }
 
         public void addEventHandle()
         {
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.CardSetEdit_BtnAdd), onAddBtnClk);
-            UtilApi.addEventHandle(UtilApi.getComByP<Button>(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit), onExitBtnClk);
+            m_btnArr[0].addEventHandle(onAddBtnClk);
+            m_btnArr[1].addEventHandle(onExitBtnClk);
         }
 
-        protected void onAddBtnClk()
+        protected void onAddBtnClk(IDispatchObject dispObj)
         {
             UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
             if (uiTuJian != null)
@@ -43,7 +46,7 @@ namespace Game.UI
             exit();
         }
 
-        public void onExitBtnClk()
+        public void onExitBtnClk(IDispatchObject dispObj)
         {
             exit();
         }

@@ -8,9 +8,9 @@ namespace Game.UI
     public class JobSelRightPnl : JobSelPnlBase
     {
         public JobSelProg m_jobSelProg;
-        protected Text m_jobLvl;
-        protected Text m_skillName;
-        protected Text m_skillDesc;
+        protected AuxLabel m_jobLvl;
+        protected AuxLabel m_skillName;
+        protected AuxLabel m_skillDesc;
         protected AuxDynImageStaticGO m_skillImage;
 
         public JobSelRightPnl(JobSelectData data) :
@@ -25,9 +25,9 @@ namespace Game.UI
         {
             m_jobSelProg.findWidget();
 
-            m_jobLvl = UtilApi.getComByP<Text>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobLvl);
-            m_skillName = UtilApi.getComByP<Text>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillName);
-            m_skillDesc = UtilApi.getComByP<Text>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillDesc);
+            m_jobLvl = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobLvl);
+            m_skillName = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillName);
+            m_skillDesc = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillDesc);
 
             m_skillImage.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageSkillIcon);
             m_skillImage.findWidget();

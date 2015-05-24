@@ -12,8 +12,8 @@ namespace Game.UI
      */
     public class HeroCard : SceneCardEntityBase
     {
-        protected Text m_classs, m_heroname;
-        protected Text m_hpText;        // 血
+        protected AuxLabel m_classs, m_heroname;
+        protected AuxLabel m_hpText;        // 血
         protected Action m_heroAniEndDisp;         // hero 动画结束后，分发一个消息
 
         public Action heroAniEndDisp
@@ -31,9 +31,9 @@ namespace Game.UI
         public override void Start()
         {
             base.Start();
-            m_classs = transform.FindChild("classs").GetComponent<Text>();
-            m_heroname = transform.FindChild("name").GetComponent<Text>();
-            m_hpText = transform.FindChild("healthdi/TextHp").GetComponent<Text>();
+            m_classs = new AuxLabel(transform.FindChild("classs").gameObject);
+            m_heroname = new AuxLabel(transform.FindChild("name").gameObject);
+            m_hpText = new AuxLabel(transform.FindChild("healthdi/TextHp").gameObject);
         }
 
         public void updateHp()

@@ -115,12 +115,12 @@ namespace Game.UI
             {
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
                 {
-                    Text text;
-                    text = UtilApi.getComByP<Text>(gameObject, "UIRoot/AttText");       // 攻击
+                    AuxLabel text = new AuxLabel();
+                    text.setSelfGo(gameObject, "UIRoot/AttText");       // 攻击
                     text.text = m_sceneCardItem.svrCard.damage.ToString();
-                    text = UtilApi.getComByP<Text>(gameObject, "UIRoot/MpText");         // Magic
+                    text.setSelfGo(gameObject, "UIRoot/MpText");         // Magic
                     text.text = m_sceneCardItem.svrCard.mpcost.ToString();
-                    text = UtilApi.getComByP<Text>(gameObject, "UIRoot/HpText");       // HP
+                    text.setSelfGo(gameObject, "UIRoot/HpText");       // HP
                     text.text = m_sceneCardItem.svrCard.hp.ToString();
                 }
             }

@@ -25,8 +25,8 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_dzData.m_lblArr[(int)EnDZLbl.eLblSelfName] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, DZComPath.SelfName);
-            m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, DZComPath.EnemyName);
+            m_dzData.m_lblArr[(int)EnDZLbl.eLblSelfName] = new AuxLabel(m_GUIWin.m_uiRoot, DZComPath.SelfName);
+            m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName] = new AuxLabel(m_GUIWin.m_uiRoot, DZComPath.EnemyName);
         }
 
         protected void addEventHandle()

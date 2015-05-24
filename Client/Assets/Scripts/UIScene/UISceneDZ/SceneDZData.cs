@@ -13,7 +13,7 @@ namespace Game.UI
         public SelfTurnTip m_selfTurnTip = new SelfTurnTip();               // 自己回合提示
         public SelfCardFullTip m_selfCardFullTip = new SelfCardFullTip();   // 自己卡牌满
 
-        public Text[] m_textArr = new Text[(int)EnSceneDZText.eTotal];
+        public AuxLabel[] m_textArr = new AuxLabel[(int)EnSceneDZText.eTotal];
         public UIGrid[] m_mpGridArr = new UIGrid[(int)EnSceneDZText.eTotal];
 
         public GameObject m_centerGO;                   // 中心 GO ，所有场景中的牌都放在这个上面

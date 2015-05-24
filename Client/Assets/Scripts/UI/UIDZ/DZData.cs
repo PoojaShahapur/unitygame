@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using SDK.Common;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -7,6 +8,6 @@ namespace Game.UI
      */
     public class DZData
     {
-        public Text[] m_lblArr = new Text[(int)EnDZLbl.eLblTotal];
+        public AuxLabel[] m_lblArr = new AuxLabel[(int)EnDZLbl.eLblTotal];
     };
 }

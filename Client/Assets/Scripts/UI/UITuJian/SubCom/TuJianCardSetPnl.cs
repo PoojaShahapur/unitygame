@@ -39,8 +39,8 @@ namespace Game.UI
 
         public WdscmTaoPaiMod m_curTaoPaiMod;          // 当前套牌模式
 
-        protected Button[] m_btnArr = new Button[(int)WdscCardSetPnl_BtnIndex.eBtnTotal];
-        protected Text m_cardSetCardCntText;        // 卡组中卡牌的数量
+        protected AuxButton[] m_btnArr = new AuxButton[(int)WdscCardSetPnl_BtnIndex.eBtnTotal];
+        protected AuxLabel m_cardSetCardCntText;        // 卡组中卡牌的数量
 
         public GameObject m_topEditCardPosGo;
         public CardSetCom m_curCardSet;                  // 当前操作的卡组 ID
@@ -68,16 +68,16 @@ namespace Game.UI
             m_cardSetLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListParent);
             m_cardSetLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
-            m_cardSetCardCntText = UtilApi.getComByP<Text>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
+            m_cardSetCardCntText = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
         }
 
         public new void addEventHandle()
         {
-            UtilApi.addEventHandle(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet], onBtnClkAddTaoPai);       // 新增套牌
-            UtilApi.addEventHandle(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet], onBtnClkRet);       // 新增套牌
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].addEventHandle(onBtnClkAddTaoPai);       // 新增套牌
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet].addEventHandle(onBtnClkRet);       // 新增套牌
         }
 
         public new void init()
@@ -91,12 +91,12 @@ namespace Game.UI
             }
         }
 
-        protected void onBtnClkRet()
+        protected void onBtnClkRet(IDispatchObject dispObj)
         {
             back();
         }
 
-        protected void onBtnClkAddTaoPai()
+        protected void onBtnClkAddTaoPai(IDispatchObject dispObj)
         {
             m_tuJianData.m_wdscCardPnl.toggleCardVisible(false);
             Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.enterJobSelectMode();
@@ -109,7 +109,7 @@ namespace Game.UI
             //让返回变完成
             //可加入卡牌
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Editset;
-            UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, false);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].hide();
             m_cardSetLayoutV.hideLayout();
         }
 
@@ -120,7 +120,7 @@ namespace Game.UI
             m_curEditCardSet.hideCardSet();        // 当前编辑的卡牌组隐藏
             m_cardSetCardLayoutV.hideLayout();          // 当前卡牌组的卡牌列表隐藏
 
-            UtilApi.SetActive(m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].gameObject, true);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].show();
             m_cardSetLayoutV.showLayout();
 
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Look;        // 修改卡牌组编辑模式为不可加入卡牌

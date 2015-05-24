@@ -9,10 +9,10 @@ namespace Game.UI
 {
     public class UIShop : Form
     {
-        protected Button[] m_btnArr;
+        protected AuxButton[] m_btnArr;
         protected ushort BuyIndex;
-        protected Text m_textGoldNum;
-        protected Text[] m_txtPrice;
+        protected AuxLabel m_textGoldNum;
+        protected AuxLabel[] m_txtPrice;
         protected Component m_NoGoldTip;
         protected CardCom[] m_packBtnArr = new CardCom[(int)PackBtnNum.ePackBtnTotal];
 
@@ -32,8 +32,8 @@ namespace Game.UI
             {
                 m_packBtnArr[idx] = new CardCom(idx);
             }
-            m_btnArr = new Button[(int)ShopBtnNum.eBtnTotal];
-            m_txtPrice = new Text[(int)ShopTxtPriceNum.eTxtTotal];
+            m_btnArr = new AuxButton[(int)ShopBtnNum.eBtnTotal];
+            m_txtPrice = new AuxLabel[(int)ShopTxtPriceNum.eTxtTotal];
             findWidget();
             addEventHandle();
 
@@ -62,26 +62,26 @@ namespace Game.UI
         // 获取控件
         protected void findWidget()
         {
-            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
 
-            m_btnArr[(int)ShopBtnNum.eBtnBack] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
-            m_btnArr[(int)ShopBtnNum.eBtnBuy] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
-            m_btnArr[(int)ShopBtnNum.eBtnPack1XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnOk] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnOk);
-            m_btnArr[(int)ShopBtnNum.eBtnCancel] = UtilApi.getComByP<Button>(m_GUIWin.m_uiRoot, ShopComPath.BtnCancel);
+            m_btnArr[(int)ShopBtnNum.eBtnBack] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
+            m_btnArr[(int)ShopBtnNum.eBtnBuy] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
+            m_btnArr[(int)ShopBtnNum.eBtnPack1XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnOk] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnOk);
+            m_btnArr[(int)ShopBtnNum.eBtnCancel] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnCancel);
 
-            m_textGoldNum = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, ShopComPath.TextGoldNum);
+            m_textGoldNum = new AuxLabel(m_GUIWin.m_uiRoot, ShopComPath.TextGoldNum);
 
-            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice1] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice1);
-            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice5] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice5);
-            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice10] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice10);
-            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice20] = UtilApi.getComByP<Text>(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice20);
+            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice1] = new AuxLabel(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice1);
+            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice5] = new AuxLabel(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice5);
+            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice10] = new AuxLabel(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice10);
+            m_txtPrice[(int)ShopTxtPriceNum.eTxtPrice20] = new AuxLabel(m_GUIWin.m_uiRoot, ShopComPath.TxtPrice20);
 
             m_NoGoldTip = UtilApi.getComByP<Component>(m_GUIWin.m_uiRoot, "NoGoldTip");
         }
@@ -89,74 +89,74 @@ namespace Game.UI
         // 添加事件监听
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn, onBtnClkPack1);
-            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn, onBtnClkPack5);
-            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn, onBtnClkPack10);
-            UtilApi.addEventHandle(m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn, onBtnClkPack20);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn.addEventHandle(onBtnClkPack1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn.addEventHandle(onBtnClkPack5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn.addEventHandle(onBtnClkPack10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn.addEventHandle(onBtnClkPack20);
 
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnBack], onBtnClkBack);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnBuy], onBtnClkBuy);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ], onBtnClkPack1XZ);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack5XZ], onBtnClkPack5XZ);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack10XZ], onBtnClkPack10XZ);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnPack20XZ], onBtnClkPack20XZ);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnOk], onBtnClkOk);
-            UtilApi.addEventHandle(m_btnArr[(int)ShopBtnNum.eBtnCancel], onBtnCancel);
+            m_btnArr[(int)ShopBtnNum.eBtnBack].addEventHandle(onBtnClkBack);
+            m_btnArr[(int)ShopBtnNum.eBtnBuy].addEventHandle(onBtnClkBuy);
+            m_btnArr[(int)ShopBtnNum.eBtnPack1XZ].addEventHandle(onBtnClkPack1XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ].addEventHandle(onBtnClkPack5XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ].addEventHandle(onBtnClkPack10XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ].addEventHandle(onBtnClkPack20XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnOk].addEventHandle(onBtnClkOk);
+            m_btnArr[(int)ShopBtnNum.eBtnCancel].addEventHandle(onBtnCancel);
         }
 
-        protected void onBtnClkBack()
+        protected void onBtnClkBack(IDispatchObject dispObj)
         {
             //exit();
             Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIShop);
             SelectPack(-1);
         }
 
-        protected void onBtnClkPack1()
+        protected void onBtnClkPack1(IDispatchObject dispObj)
         {
             SelectPack(0);
         }
 
-        protected void onBtnClkPack1XZ()
+        protected void onBtnClkPack1XZ(IDispatchObject dispObj)
         {
             BuyIndex = 0;
-            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn.gameObject, true);
-            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ].gameObject, false);
+            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn.selfGo, true);
+            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ].selfGo, false);
         }
 
-        protected void onBtnClkPack5()
+        protected void onBtnClkPack5(IDispatchObject dispObj)
         {
             SelectPack(1);
         }
 
-        protected void onBtnClkPack5XZ()
+        protected void onBtnClkPack5XZ(IDispatchObject dispObj)
         {
             BuyIndex = 2;
-            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn.gameObject, true);
-            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack5XZ].gameObject, false);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn.show();
+            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ].hide();
         }
 
-        protected void onBtnClkPack10()
+        protected void onBtnClkPack10(IDispatchObject dispObj)
         {
             SelectPack(2);
         }
 
-        protected void onBtnClkPack10XZ()
+        protected void onBtnClkPack10XZ(IDispatchObject dispObj)
         {
             BuyIndex = 0;
-            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn.gameObject, true);
-            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack10XZ].gameObject, false);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn.show();
+            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ].hide();
         }
 
-        protected void onBtnClkPack20()
+        protected void onBtnClkPack20(IDispatchObject dispObj)
         {
             SelectPack(3);
         }
 
-        protected void onBtnClkPack20XZ()
+        protected void onBtnClkPack20XZ(IDispatchObject dispObj)
         {
             BuyIndex = 0;
-            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn.gameObject, true);
-            UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack20XZ].gameObject, false);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn.show();
+            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ].hide();
         }
 
         protected void SelectPack(int index)
@@ -167,8 +167,8 @@ namespace Game.UI
             {
                 for(int i=0; i<4; i++)
                 {
-                    UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.gameObject, true);
-                    UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].gameObject, false);
+                    m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.show();
+                    m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].hide();
                 }
                 return;
             }
@@ -178,13 +178,13 @@ namespace Game.UI
             {
                 if(i != index)
                 {
-                    UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.gameObject, true);
-                    UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].gameObject, false);
+                    m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.show();
+                    m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].hide();
                 }
                 else
                 {
-                    UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.gameObject, false);
-                    UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].gameObject, true);
+                    m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.hide();
+                    m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].show();
                 }
             }
         }
@@ -204,7 +204,7 @@ namespace Game.UI
             }
         }
 
-        protected void onBtnClkBuy()
+        protected void onBtnClkBuy(IDispatchObject dispObj)
         {
             GameObject _go = EventSystem.current.currentSelectedGameObject;
             if (0 == BuyIndex)
@@ -224,12 +224,12 @@ namespace Game.UI
             }
         }
 
-        protected void onBtnClkOk()
+        protected void onBtnClkOk(IDispatchObject dispObj)
         {
             UtilApi.SetActive(m_NoGoldTip.gameObject, false);
         }
 
-        protected void onBtnCancel()
+        protected void onBtnCancel(IDispatchObject dispObj)
         {
             UtilApi.SetActive(m_NoGoldTip.gameObject, false);
         }

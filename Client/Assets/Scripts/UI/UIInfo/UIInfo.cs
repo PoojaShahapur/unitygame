@@ -33,7 +33,7 @@ namespace Game.UI
         public InfoData m_infoData;
         public GameObject m_root;
 
-        public Text m_textDesc;            // 描述
+        public AuxLabel m_textDesc;            // 描述
 
         public InfoMode_2(InfoData data)
         {
@@ -43,7 +43,7 @@ namespace Game.UI
         public void findWidget()
         {
             m_root = UtilApi.TransFindChildByPObjAndPath(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.ModeGo_2);
-            m_textDesc = UtilApi.getComByP<Text>(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.PathTextDesc);
+            m_textDesc = new AuxLabel(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.PathTextDesc);
         }
 
         public void updateParam(InfoBoxParam infoParam)

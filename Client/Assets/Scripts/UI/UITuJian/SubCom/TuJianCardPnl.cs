@@ -27,11 +27,11 @@ namespace Game.UI
 
         public List<CardItemBase>[] m_filterCardListArr = new List<CardItemBase>[(int)EnPlayerCareer.ePCTotal];      // 每一个职业一个列表，过滤后的数据，主要用来显示
         public int m_filterMp = 8;          // 过滤的 Mp 值
-        public Text m_textPageNum;
+        public AuxLabel m_textPageNum;
 
         protected GameObject m_cardGo;
 
-        protected Button[] m_btnArr = new Button[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
+        protected AuxButton[] m_btnArr = new AuxButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
         public TuJianCardItemCom m_curClkTuJianCardItemCom;     // 当前点击的卡牌
 
         public TuJianCardPnl(TuJianData data) :
@@ -80,8 +80,8 @@ namespace Game.UI
         {
             m_tuJianData.m_onClkCard = onClkCard;
 
-            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnPrePage);
-            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = UtilApi.getComByP<Button>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnPrePage);
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
 
             m_CardList.setGameObject(m_cardGo);
             m_CardList.cellWidth = 3.0f;
@@ -89,13 +89,13 @@ namespace Game.UI
             m_CardList.maxPerLine = (int)TuJianCardNumPerPage.eCol;
 
             // 当前页号
-            m_textPageNum = UtilApi.getComByP<Text>(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextPageNum);
+            m_textPageNum = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextPageNum);
         }
 
         public new void addEventHandle()
         {
-            UtilApi.addEventHandle(m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre], onPreBtnClk);       // 前一页
-            UtilApi.addEventHandle(m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext], onNextBtnClk);       // 后一页
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre].addEventHandle(onPreBtnClk);       // 前一页
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext].addEventHandle(onNextBtnClk);       // 后一页
         }
 
         /// <summary>
@@ -154,20 +154,20 @@ namespace Game.UI
         {
             if(canMovePre())
             {
-                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre].interactable = true;
+                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre].enable();
             }
             else
             {
-                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre].interactable = false;
+                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre].disable();
             }
 
             if (canMoveNext())
             {
-                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext].interactable = true;
+                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext].enable();
             }
             else
             {
-                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext].interactable = false;
+                m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext].disable();
             }
         }
 
@@ -177,7 +177,7 @@ namespace Game.UI
         }
 
         // 收藏中前一页
-        public void onPreBtnClk()
+        public void onPreBtnClk(IDispatchObject dispObj)
         {
             if (m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].canMovePreInCurTagPage())      // 如果当前 TabPage 没有到开始
             {
@@ -197,7 +197,7 @@ namespace Game.UI
         }
 
         // 收藏中后一页
-        public void onNextBtnClk()
+        public void onNextBtnClk(IDispatchObject dispObj)
         {
             if (m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].canMoveNextInCurTagPage())
             {

@@ -70,7 +70,7 @@ namespace Game.UI
             m_sceneDZData.m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
             m_sceneDZData.m_selfTurnTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
             m_sceneDZData.m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
-            m_sceneDZData.m_selfCardFullTip.m_desc = UtilApi.getComByP<Text>(m_sceneDZData.m_selfCardFullTip.getGameObject(), CVSceneDZPath.SelfCardFullTipText);
+            m_sceneDZData.m_selfCardFullTip.m_desc = new AuxLabel(m_sceneDZData.m_selfCardFullTip.getGameObject(), CVSceneDZPath.SelfCardFullTipText);
             m_sceneDZData.m_selfCardFullTip.getGameObject().SetActive(false);
 
             m_sceneDZData.m_centerGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CenterGO);
@@ -96,8 +96,8 @@ namespace Game.UI
             m_sceneDZData.m_arrowListGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowListGO);
             m_sceneDZData.m_timerGo = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TimerGo);
 
-            m_sceneDZData.m_textArr[(int)EnSceneDZText.eSelfMp] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpText).GetComponent<Text>();
-            m_sceneDZData.m_textArr[(int)EnSceneDZText.eEnemyMp] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpText).GetComponent<Text>();
+            m_sceneDZData.m_textArr[(int)EnSceneDZText.eSelfMp] = new AuxLabel(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpText));
+            m_sceneDZData.m_textArr[(int)EnSceneDZText.eEnemyMp] = new AuxLabel(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpText));
 
             m_sceneDZData.m_mpGridArr[(int)EnDZPlayer.ePlayerSelf] = new UIGrid();
             m_sceneDZData.m_mpGridArr[(int)EnDZPlayer.ePlayerSelf].setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpList));

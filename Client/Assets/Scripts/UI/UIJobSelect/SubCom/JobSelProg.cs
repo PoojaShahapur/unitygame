@@ -8,7 +8,7 @@ namespace Game.UI
      */
     public class JobSelProg : JobSelPnlBase
     {
-        protected Text m_progText;
+        protected AuxLabel m_progText;
         protected Image m_maskImage;
         protected RectTransform m_trans;
 
@@ -22,7 +22,7 @@ namespace Game.UI
         {
             m_maskImage = UtilApi.getComByP<Image>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgMaskImage);
             m_trans = UtilApi.getComByP<RectTransform>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgMaskImage);
-            m_progText = UtilApi.getComByP<Text>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgText);
+            m_progText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgText);
         }
 
         public new void init()
