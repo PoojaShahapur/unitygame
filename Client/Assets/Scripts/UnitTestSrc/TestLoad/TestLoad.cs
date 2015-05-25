@@ -41,7 +41,7 @@ namespace UnitTestSrc
 
         protected void testUILoad()
         {
-            UnityEngine.Object obj = Resources.Load("UI/UITuJian/UITuJian");
+            UnityEngine.Object obj = Resources.Load("UI/UITuJian/CardSetCard");
         }
 
         protected void testAsyncLoadImage()
