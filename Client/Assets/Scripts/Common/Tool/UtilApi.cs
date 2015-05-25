@@ -97,6 +97,11 @@ namespace SDK.Common
             btn.onClick.AddListener(handle);
         }
 
+        public static void RemoveListener(Button btn, UnityAction handle)
+        {
+            btn.onClick.RemoveListener(handle);
+        }
+
         // 销毁对象
         public static void Destroy(UnityEngine.Object obj)
         {

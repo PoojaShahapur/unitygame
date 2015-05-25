@@ -61,10 +61,10 @@ namespace Game.UI
         // 获取控件
         protected void findWidget()
         {
-            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
 
             m_btnArr[(int)ShopBtnNum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
             m_btnArr[(int)ShopBtnNum.eBtnBuy] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
@@ -88,10 +88,10 @@ namespace Game.UI
         // 添加事件监听
         protected void addEventHandle()
         {
-            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn.addEventHandle(onBtnClkPack1);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn.addEventHandle(onBtnClkPack5);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn.addEventHandle(onBtnClkPack10);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn.addEventHandle(onBtnClkPack20);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].auxDynImageStaticGoButton.addEventHandle(onBtnClkPack1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].auxDynImageStaticGoButton.addEventHandle(onBtnClkPack5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].auxDynImageStaticGoButton.addEventHandle(onBtnClkPack10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].auxDynImageStaticGoButton.addEventHandle(onBtnClkPack20);
 
             m_btnArr[(int)ShopBtnNum.eBtnBack].addEventHandle(onBtnClkBack);
             m_btnArr[(int)ShopBtnNum.eBtnBuy].addEventHandle(onBtnClkBuy);
@@ -118,7 +118,7 @@ namespace Game.UI
         protected void onBtnClkPack1XZ(IDispatchObject dispObj)
         {
             BuyIndex = 0;
-            UtilApi.SetActive(m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn.selfGo, true);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].auxDynImageStaticGoButton.show();
             UtilApi.SetActive(m_btnArr[(int)ShopBtnNum.eBtnPack1XZ].selfGo, false);
         }
 
@@ -130,7 +130,7 @@ namespace Game.UI
         protected void onBtnClkPack5XZ(IDispatchObject dispObj)
         {
             BuyIndex = 2;
-            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn.show();
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].auxDynImageStaticGoButton.show();
             m_btnArr[(int)ShopBtnNum.eBtnPack5XZ].hide();
         }
 
@@ -142,7 +142,7 @@ namespace Game.UI
         protected void onBtnClkPack10XZ(IDispatchObject dispObj)
         {
             BuyIndex = 0;
-            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn.show();
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].auxDynImageStaticGoButton.show();
             m_btnArr[(int)ShopBtnNum.eBtnPack10XZ].hide();
         }
 
@@ -154,7 +154,7 @@ namespace Game.UI
         protected void onBtnClkPack20XZ(IDispatchObject dispObj)
         {
             BuyIndex = 0;
-            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn.show();
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].auxDynImageStaticGoButton.show();
             m_btnArr[(int)ShopBtnNum.eBtnPack20XZ].hide();
         }
 
@@ -166,7 +166,7 @@ namespace Game.UI
             {
                 for(int i=0; i<4; i++)
                 {
-                    m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.show();
+                    m_packBtnArr[(int)PackBtnNum.eBtnPack1 + i].auxDynImageStaticGoButton.show();
                     m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].hide();
                 }
                 return;
@@ -177,12 +177,12 @@ namespace Game.UI
             {
                 if(i != index)
                 {
-                    m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.show();
+                    m_packBtnArr[(int)PackBtnNum.eBtnPack1 + i].auxDynImageStaticGoButton.show();
                     m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].hide();
                 }
                 else
                 {
-                    m_packBtnArr[(int)PackBtnNum.eBtnPack1+i].uiCardBtn.hide();
+                    m_packBtnArr[(int)PackBtnNum.eBtnPack1 + i].auxDynImageStaticGoButton.hide();
                     m_btnArr[(int)ShopBtnNum.eBtnPack1XZ+i].show();
                 }
             }

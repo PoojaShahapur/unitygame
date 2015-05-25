@@ -1,74 +1,67 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 
 namespace Game.UI
 {
     public class CardCom
     {
         protected int m_tag;
-        protected AuxBasicButton m_uiCardBtn;
-        protected ImageItem m_imageItem;
+        protected AuxDynImageStaticGoButton m_auxDynImageStaticGoButton;
 
         public CardCom(int idx)
         {
             m_tag = idx;
         }
 
-        public AuxBasicButton uiCardBtn
+        public AuxDynImageStaticGoButton auxDynImageStaticGoButton
         {
             get
             {
-                return m_uiCardBtn;
+                return m_auxDynImageStaticGoButton;
             }
             set
             {
-                m_uiCardBtn = value;
+                m_auxDynImageStaticGoButton = value;
             }
         }
 
-        public ImageItem imageItem
+        public void createBtn(GameObject btnRoot, string btnPath)
         {
-            get
-            {
-                return m_imageItem;
-            }
-            set
-            {
-                m_imageItem = value;
-            }
+            m_auxDynImageStaticGoButton = new AuxDynImageStaticGoButton(btnRoot, btnPath);
         }
 
         public void load()
         {
             if (m_tag < 3)
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kb1");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, "pdxt_kb1");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.syncUpdateCom();
             }
             else
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.syncUpdateCom();
             }
-
-            m_imageItem.setGoImage(m_uiCardBtn.selfGo);
         }
 
         public void dispose()
         {
-            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
+            m_auxDynImageStaticGoButton.dispose();
         }
 
         public void loadShop()
         {
             if (m_tag < 4)
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, string.Format("pdxt_kb{0}", m_tag + 1));
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, string.Format("pdxt_kb{0}", m_tag + 1));
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.syncUpdateCom();
             }
             else
             {
-                m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.syncUpdateCom();
             }
-
-            imageItem.setGoImage(m_uiCardBtn.selfGo);
         }
     }
 }

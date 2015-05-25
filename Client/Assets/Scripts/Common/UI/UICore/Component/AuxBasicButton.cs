@@ -20,6 +20,15 @@ namespace SDK.Common
             }
         }
 
+        override public void dispose()
+        {
+            if (m_eventDisp != null)
+            {
+                UtilApi.RemoveListener(m_btn, onBtnClk);
+            }
+            base.dispose();
+        }
+
         virtual protected void updateBtnCom(IDispatchObject dispObj)
         {
             m_btn = UtilApi.getComByP<Button>(m_selfGo);
