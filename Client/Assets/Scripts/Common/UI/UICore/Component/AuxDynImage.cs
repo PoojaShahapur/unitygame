@@ -115,7 +115,6 @@ namespace SDK.Common
             Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
         }
 
-
         // 同步更新显示
         virtual public void syncUpdateCom()
         {
