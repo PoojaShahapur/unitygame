@@ -86,6 +86,7 @@ namespace SDK.Lib
             {
                 retImage = m_path2Image[param.m_subPath];
             }
+            retImage.refCountResLoadResultNotify.resLoadState.setLoading();
             retImage.refCountResLoadResultNotify.refCount.incRef();
 
             if (refCountResLoadResultNotify.resLoadState.hasLoaded())

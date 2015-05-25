@@ -36,6 +36,17 @@ namespace SDK.Lib
             }
         }
 
+        // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
+        override public void unload()
+        {
+            if (m_prefabObj != null)
+            {
+                UtilApi.DestroyImmediate(m_prefabObj, true);
+                m_prefabObj = null;
+            }
+            base.unload();
+        }
+
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         protected void loadFromDefaultAssetBundle()
         {

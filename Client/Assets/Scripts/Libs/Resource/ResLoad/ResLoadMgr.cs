@@ -317,6 +317,7 @@ namespace SDK.Lib
         protected void loadWithResCreatedAndNotLoad(LoadParam param, ResItem resItem)
         {
             m_LoadData.m_path2Res[param.m_path] = resItem;
+            m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.resLoadState.setLoading();
             LoadItem loadItem = createLoadItem(param);
 
             if (m_curNum < m_maxParral)

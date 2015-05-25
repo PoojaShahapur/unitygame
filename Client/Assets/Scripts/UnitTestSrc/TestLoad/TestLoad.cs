@@ -75,16 +75,20 @@ namespace UnitTestSrc
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            LocalFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
             UIPrefabRes aaa = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
+            Ctx.m_instance.m_uiPrefabMgr.unload(aaa.GetPath(), onUIPrefabLoadEventHandle);
+
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            LocalFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
-            UIPrefabRes bbb = Ctx.m_instance.m_atlasMgr.getAndLoad<UIPrefabRes>(param);
+            UIPrefabRes bbb = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            Ctx.m_instance.m_uiPrefabMgr.unload(bbb.GetPath(), onUIPrefabLoadEventHandle);
         }
 
         public void testAsyncLoadAtlasRefCount()

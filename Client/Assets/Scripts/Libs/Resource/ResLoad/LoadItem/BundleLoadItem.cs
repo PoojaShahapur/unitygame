@@ -22,6 +22,17 @@ namespace SDK.Lib
             }
         }
 
+        // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
+        override public void unload()
+        {
+            if (m_assetBundle != null)
+            {
+                m_assetBundle.Unload(true);
+                m_assetBundle = null;
+            }
+            base.unload();
+        }
+
         // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
         // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
         protected void loadFromAssetBundle()
