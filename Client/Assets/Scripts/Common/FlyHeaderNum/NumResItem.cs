@@ -43,7 +43,6 @@ namespace SDK.Common
                 }
 
                 mod = 0;
-                string path;
                 ModelItem modelItem;
                 int idx = 0;
                 int curNum = 0;
