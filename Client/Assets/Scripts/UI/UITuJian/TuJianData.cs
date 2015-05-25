@@ -28,6 +28,7 @@ namespace Game.UI
         public void dispose()
         {
             m_wdscCardPnl.dispose();
+            m_wdscCardSetPnl.dispose();
         }
 
         public void findWidget()

@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief 加入一个新的内容，其它的内容都向下滑动
      */
-    public class SlideList : AuxParentComponent
+    public class SlideList : AuxComponent
     {
         protected GameObject m_localGo;   // 局部的 GameObject
 

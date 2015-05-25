@@ -25,5 +25,10 @@ namespace Game.UI
         {
 
         }
+
+        public void dispose()
+        {
+
+        }
     }
 }

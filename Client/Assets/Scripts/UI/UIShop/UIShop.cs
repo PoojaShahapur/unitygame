@@ -8,7 +8,7 @@ namespace Game.UI
 {
     public class UIShop : Form
     {
-        protected AuxButton[] m_btnArr;
+        protected AuxBasicButton[] m_btnArr;
         protected ushort BuyIndex;
         protected AuxLabel m_textGoldNum;
         protected AuxLabel[] m_txtPrice;
@@ -31,7 +31,7 @@ namespace Game.UI
             {
                 m_packBtnArr[idx] = new CardCom(idx);
             }
-            m_btnArr = new AuxButton[(int)ShopBtnNum.eBtnTotal];
+            m_btnArr = new AuxBasicButton[(int)ShopBtnNum.eBtnTotal];
             m_txtPrice = new AuxLabel[(int)ShopTxtPriceNum.eTxtTotal];
             findWidget();
             addEventHandle();
@@ -61,19 +61,19 @@ namespace Game.UI
         // 获取控件
         protected void findWidget()
         {
-            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
-            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack1].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack5].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack10].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPack20].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
 
-            m_btnArr[(int)ShopBtnNum.eBtnBack] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
-            m_btnArr[(int)ShopBtnNum.eBtnBuy] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
-            m_btnArr[(int)ShopBtnNum.eBtnPack1XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20XZ);
-            m_btnArr[(int)ShopBtnNum.eBtnOk] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnOk);
-            m_btnArr[(int)ShopBtnNum.eBtnCancel] = new AuxButton(m_GUIWin.m_uiRoot, ShopComPath.BtnCancel);
+            m_btnArr[(int)ShopBtnNum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
+            m_btnArr[(int)ShopBtnNum.eBtnBuy] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
+            m_btnArr[(int)ShopBtnNum.eBtnPack1XZ] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack5XZ] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack5XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack10XZ] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnPack20XZ] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20XZ);
+            m_btnArr[(int)ShopBtnNum.eBtnOk] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnOk);
+            m_btnArr[(int)ShopBtnNum.eBtnCancel] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnCancel);
 
             m_textGoldNum = new AuxLabel(m_GUIWin.m_uiRoot, ShopComPath.TextGoldNum);
 

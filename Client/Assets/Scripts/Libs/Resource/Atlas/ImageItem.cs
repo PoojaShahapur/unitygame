@@ -71,13 +71,18 @@ namespace SDK.Lib
         {
             m_image = atlasScriptRes.getSprite(m_spriteName);
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            m_refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public void failed(AtlasScriptRes atlasScriptRes)
         {
             m_refCountResLoadResultNotify.resLoadState.setFailed();
-            m_refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+        }
+
+        public void unloadImage()
+        {
+            
         }
 
         public void setGoImage(GameObject go_)

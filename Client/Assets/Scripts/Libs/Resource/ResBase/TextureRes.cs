@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SDK.Common;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -24,6 +25,7 @@ namespace SDK.Lib
 
         public override void unload()
         {
+            UtilApi.Destroy(m_texture);
             m_texture = null;
         }
     }

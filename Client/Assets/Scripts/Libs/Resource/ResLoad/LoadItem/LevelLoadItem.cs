@@ -29,7 +29,7 @@ namespace SDK.Lib
             if (ResLoadType.eLoadDisc == m_resLoadType)
             {
                 nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+                nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
             else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
             {

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace SDK.Common
 {
-    public class AuxDynImage : AuxPlaceHolderComponent
+    public class AuxDynImage : AuxComponent
     {
         protected string m_goName;          // 场景中有 Image 的 GameObject 的名字
         protected Image m_image;            // 图像
@@ -12,6 +12,14 @@ namespace SDK.Common
         protected string m_atlasName;       // 图集名字
         protected string m_imageName;       // 图集中图片的名字
         protected bool m_bNeedUpdateImage = false;  // 是否需要更新图像
+        protected bool m_bImageGoChange = false;    // Image 组件所在的 GameObject 改变
+
+        protected EventDispatch m_imageLoadedDisp;  // 图像加载完成事件分发，改变 GameObject 或者 Image 图像内容都会分发
+
+        public AuxDynImage()
+        {
+            m_imageLoadedDisp = new EventDispatch();
+        }
 
         public string goName
         {
@@ -45,6 +53,14 @@ namespace SDK.Common
             }
         }
 
+        public EventDispatch imageLoadedDisp
+        {
+            get
+            {
+                return m_imageLoadedDisp;
+            }
+        }
+
         // 设置图像信息
         public void setImageInfo(string atlasName, string imageName)
         {
@@ -68,44 +84,43 @@ namespace SDK.Common
         }
 
         // 资源改变更新图像
-        public void updateImage()
+        protected void updateImage()
         {
             if (m_bNeedUpdateImage)
             {
                 if (m_imageItem != null)
                 {
-                    Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
+                    Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
                     m_imageItem = null;
                 }
                 m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(m_atlasName, m_imageName);
                 m_imageItem.setImageImage(m_image);
             }
+            else if (m_bImageGoChange)
+            {
+                if (m_imageItem == null)
+                {
+                    m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(m_atlasName, m_imageName);
+                }
+                m_imageItem.setImageImage(m_image);
+            }
 
+            m_bImageGoChange = false;
             m_bNeedUpdateImage = false;
-        }
-
-        // 对象 GameObject 释放后，重新创建 GameObject 更新资源
-        public void updateImageAfterReCreateGO()
-        {
-             if (m_bNeedUpdateImage)
-             {
-                 if (m_imageItem == null)
-                 {
-                     updateImage();
-                 }
-                 else
-                 {
-                     m_imageItem.setImageImage(m_image);
-                 }
-             }
-
-             m_bNeedUpdateImage = true;
         }
 
         override public void dispose()
         {
             base.dispose();
-            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
+            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
+        }
+
+
+        // 同步更新显示
+        virtual public void syncUpdateCom()
+        {
+            updateImage();
+            m_imageLoadedDisp.dispatchEvent(this);
         }
     }
 }

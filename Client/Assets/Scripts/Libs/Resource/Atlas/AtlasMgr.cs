@@ -20,38 +20,56 @@ namespace SDK.Lib
 
         }
 
-        public ImageItem getAndLoadImage(LoadParam param)
+        // 加载图像
+        public void loadImage(LoadParam param)
         {
-            if(!m_path2ResDic.ContainsKey(param.m_path))
+            if (!m_path2ResDic.ContainsKey(param.m_path))
             {
-
                 // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
                 Action<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
                 param.m_loadEventHandle = null;
 
-                load<AtlasScriptRes>(param);
+                AtlasScriptRes atlasRes = createResItem<AtlasScriptRes>(param);
 
                 param.m_loadEventHandle = tmpLoadEventHandle;
                 tmpLoadEventHandle = null;
+
+                atlasRes.loadImage(param);
+
+                tmpLoadEventHandle = param.m_loadEventHandle;
+                param.m_loadEventHandle = null;
+
+                param.m_loadInsRes = atlasRes;
+                load<AtlasScriptRes>(param);
             }
             else
             {
-
+                (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
             }
+        }
 
-            (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
-
+        public ImageItem getAndLoadImage(LoadParam param)
+        {
+            loadImage(param);
             return getImage(param.m_path, param.m_subPath);
         }
 
-        // 目前只实现同步加载，异步加载没有实现
+        public void syncLoadImage(string atlasName, string spriteName)
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(atlasName, param);
+            param.m_subPath = spriteName;
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            loadImage(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+        }
+
+        // 目前只实现同步加载，异步加载没有实现。syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
         public ImageItem getAndSyncLoadImage(string atlasName, string spriteName)
         {
-            if(!m_path2ResDic.ContainsKey(atlasName))
-            {
-                AtlasScriptRes res = syncGet<AtlasScriptRes>(atlasName);
-            }
-
+            syncLoadImage(atlasName, spriteName);
             return getImage(atlasName, spriteName);
         }
 
@@ -66,15 +84,26 @@ namespace SDK.Lib
         }
 
         // 暂时没有实现
-        public void unloadImage(string atlasName, string spriteName)
+        public void unloadImage(string atlasName, string spriteName, Action<IDispatchObject> loadEventHandle)
         {
-            
+            if(m_path2ResDic.ContainsKey(atlasName))
+            {
+                (m_path2ResDic[atlasName] as AtlasScriptRes).unloadImage(spriteName, loadEventHandle);
+                if (!(m_path2ResDic[atlasName] as AtlasScriptRes).bHasRefImageItem())        // 如果没有引用的 Image
+                {
+                    unload(atlasName, loadEventHandle);            // 卸载对应的资源
+                }
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("Unload Atlas {0} failed", atlasName));
+            }
         }
 
         // 暂时没有实现
-        public void unloadImage(ImageItem imageItem)
+        public void unloadImage(ImageItem imageItem, Action<IDispatchObject> loadEventHandle)
         {
-
+            unloadImage(imageItem.atlasScriptRes.GetPath(), imageItem.spriteName, loadEventHandle);
         }
     }
 }

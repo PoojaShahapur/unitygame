@@ -185,7 +185,7 @@ namespace Game.UI
                     m_sceneDZData.m_changeCardList.Add(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
                     // 添加叉号
                     resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
-                    ModelRes model = Ctx.m_instance.m_modelMgr.syncGet<ModelRes>(resPath) as ModelRes;
+                    ModelRes model = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(resPath) as ModelRes;
                     m_chaHaoGo = model.InstantiateObject(resPath) as GameObject;
                     UtilApi.SetParent(m_chaHaoGo.transform, gameObject.transform, false);
                 }

@@ -6,7 +6,7 @@ namespace Game.UI
     public class CardCom
     {
         protected int m_tag;
-        protected AuxButton m_uiCardBtn;
+        protected AuxBasicButton m_uiCardBtn;
         protected ImageItem m_imageItem;
 
         public CardCom(int idx)
@@ -14,7 +14,7 @@ namespace Game.UI
             m_tag = idx;
         }
 
-        public AuxButton uiCardBtn
+        public AuxBasicButton uiCardBtn
         {
             get
             {
@@ -54,7 +54,7 @@ namespace Game.UI
 
         public void dispose()
         {
-            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
+            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
         }
 
         public void loadShop()

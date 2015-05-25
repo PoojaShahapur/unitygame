@@ -8,7 +8,7 @@ namespace Game.UI
 {
     public class UITuJianCardMenu : Form
     {
-        protected AuxButton[] m_btnArr = new AuxButton[2];
+        protected AuxBasicButton[] m_btnArr = new AuxBasicButton[2];
 
         // 初始化控件
         override public void onReady()
@@ -25,8 +25,8 @@ namespace Game.UI
 
         public void findWidget()
         {
-            m_btnArr[0] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.CardSetEdit_BtnAdd);
-            m_btnArr[1] = new AuxButton(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit);
+            m_btnArr[0] = new AuxBasicButton(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.CardSetEdit_BtnAdd);
+            m_btnArr[1] = new AuxBasicButton(this.m_GUIWin.m_uiRoot, TuJianCardMenuComPath.BtnExit);
         }
 
         public void addEventHandle()

@@ -9,8 +9,11 @@ namespace UnitTestSrc
         public void run()
         {
             //testModelLoad();
-            //testLoad();
-            testAsyncLoadImage();
+            //testUILoad();
+            //testAsyncLoadImage();
+            //testSyncLoadRefCount();
+            //testAsyncLoadAtlasRefCount();
+            testAsyncLoadUIPrefabRefCount();
         }
 
         protected void testModelLoad()
@@ -36,16 +39,16 @@ namespace UnitTestSrc
             }
         }
 
-        protected void testLoad()
+        protected void testUILoad()
         {
-            UnityEngine.Object obj = Resources.Load("UI/UITuJian/CardSet");
+            UnityEngine.Object obj = Resources.Load("UI/UITuJian/UITuJian");
         }
 
         protected void testAsyncLoadImage()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = CVAtlasName.TuJianDyn;
+            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
@@ -55,6 +58,54 @@ namespace UnitTestSrc
         public virtual void onImageLoadEventHandle(IDispatchObject dispObj)
         {
             ImageItem image = dispObj as ImageItem;
+        }
+
+        public virtual void onUIPrefabLoadEventHandle(IDispatchObject dispObj)
+        {
+            UIPrefabRes uiPrefab = dispObj as UIPrefabRes;
+        }
+
+        public void testSyncLoadRefCount()
+        {
+            UIPrefabRes aaa = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>("UI/UIChat/UIChat.prefab");
+            UIPrefabRes bbb = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>("UI/UIChat/UIChat.prefab");
+        }
+
+        public void testAsyncLoadUIPrefabRefCount()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.m_loadEventHandle = onUIPrefabLoadEventHandle;
+            UIPrefabRes aaa = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.m_loadEventHandle = onUIPrefabLoadEventHandle;
+            UIPrefabRes bbb = Ctx.m_instance.m_atlasMgr.getAndLoad<UIPrefabRes>(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+        }
+
+        public void testAsyncLoadAtlasRefCount()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.m_subPath = "ka1_paizu";
+            param.m_loadEventHandle = onImageLoadEventHandle;
+            ImageItem aaa = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.m_subPath = "ka1_paizu";
+            param.m_loadEventHandle = onImageLoadEventHandle;
+            ImageItem bbb = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            Ctx.m_instance.m_atlasMgr.unloadImage(aaa, onImageLoadEventHandle);
+            Ctx.m_instance.m_atlasMgr.unloadImage(bbb, onImageLoadEventHandle);
         }
     }
 }

@@ -31,6 +31,11 @@
             --m_refNum;
         }
 
+        public bool bNoRef()
+        {
+            return m_refNum == 0;
+        }
+
         public void copyFrom(RefCount rhv)
         {
             m_refNum = rhv.refNum;

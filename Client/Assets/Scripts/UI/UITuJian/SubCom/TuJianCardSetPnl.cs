@@ -38,7 +38,7 @@ namespace Game.UI
 
         public WdscmTaoPaiMod m_curTaoPaiMod;          // 当前套牌模式
 
-        protected AuxButton[] m_btnArr = new AuxButton[(int)WdscCardSetPnl_BtnIndex.eBtnTotal];
+        protected AuxBasicButton[] m_btnArr = new AuxBasicButton[(int)WdscCardSetPnl_BtnIndex.eBtnTotal];
         protected AuxLabel m_cardSetCardCntText;        // 卡组中卡牌的数量
 
         public GameObject m_topEditCardPosGo;
@@ -67,9 +67,9 @@ namespace Game.UI
             m_cardSetLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListParent);
             m_cardSetLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
             m_cardSetCardCntText = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
         }
 
@@ -81,13 +81,20 @@ namespace Game.UI
 
         public new void init()
         {
-            insEditCardGroup();
+            // 创建编辑卡牌
+            m_curEditCardSet = new CardSetCom(m_tuJianData);
 
             // 加入已经有的卡牌
             foreach (CardGroupItem groupItem in Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr)
             {
                 newCardSet(groupItem, false);
             }
+        }
+
+        public new void dispose()
+        {
+            delAllCardGroup();
+            releaseLeftCardList();
         }
 
         protected void onBtnClkRet(IDispatchObject dispObj)
@@ -116,8 +123,8 @@ namespace Game.UI
         {
             reqSaveCard();  // 请求保存
 
-            m_curEditCardSet.hideCardSet();        // 当前编辑的卡牌组隐藏
-            m_cardSetCardLayoutV.hideLayout();          // 当前卡牌组的卡牌列表隐藏
+            m_curEditCardSet.auxDynImageDynGoButton.hide();        // 当前编辑的卡牌组隐藏
+            m_cardSetCardLayoutV.hideLayout();     // 当前卡牌组的卡牌列表隐藏
 
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].show();
             m_cardSetLayoutV.showLayout();
@@ -189,9 +196,17 @@ namespace Game.UI
             return null;
         }
 
+        protected void delAllCardGroup()
+        {
+            while(m_cardSetEntityList.Count > 0)
+            {
+                delOneCardGroup(0);
+            }
+        }
+
         public void delOneCardGroup(int idx)
         {
-            m_cardSetLayoutV.removeElem(m_cardSetEntityList[idx].getGameObject(), true);
+            m_cardSetEntityList[idx].removeFromLayout(m_cardSetLayoutV);
             m_cardSetEntityList[idx].dispose();
             m_cardSetEntityList.RemoveAt(idx);
         }
@@ -217,7 +232,7 @@ namespace Game.UI
             int idx = 0;
             while (idx < m_cardList.Count)
             {
-                m_cardSetCardLayoutV.removeElem(m_cardList[idx].sceneGo, true);
+                m_cardList[idx].removeFromLayout(m_cardSetCardLayoutV);
                 m_cardList[idx].dispose();
                 
                 ++idx;
@@ -235,7 +250,7 @@ namespace Game.UI
         {
             foreach (CardSetCom taoPai in m_tuJianData.m_wdscCardSetPnl.m_cardSetEntityList)
             {
-                taoPai.showCardSet();
+                taoPai.auxDynImageDynGoButton.show();
             }
         }
 
@@ -243,7 +258,7 @@ namespace Game.UI
         {
             foreach (CardSetCom item in m_tuJianData.m_wdscCardSetPnl.m_cardSetEntityList)
             {
-                item.hideCardSet();
+                item.auxDynImageDynGoButton.hide();
             }
         }
 
@@ -283,8 +298,6 @@ namespace Game.UI
             TuJianCardSetCardItemCom cardCom = new TuJianCardSetCardItemCom();
             m_cardList.Add(cardCom);
             cardCom.cardItem = cardItem;
-            cardCom.createSceneGo();
-            cardCom.updateImage();
             cardCom.add2Layout(m_cardSetCardLayoutV);
         }
 
@@ -293,17 +306,12 @@ namespace Game.UI
         {
             CardSetCom taopai = new CardSetCom(m_tuJianData);
             m_cardSetEntityList.Add(taopai);
-            taopai.createNew(cardSet, bEnterEdit);
+            taopai.initByData(cardSet);
             taopai.add2Layout(m_cardSetLayoutV);
-        }
-
-        // 创建一个编辑的卡牌组
-        public void insEditCardGroup()
-        {
-            m_curEditCardSet = new CardSetCom(m_tuJianData);
-            m_curEditCardSet.createSceneGo();
-            m_curEditCardSet.add2Node(m_topEditCardPosGo);
-            m_curEditCardSet.hideCardSet();
+            if (bEnterEdit)
+            {
+                m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.startEdit(taopai);
+            }
         }
 
         // 编辑当前卡牌

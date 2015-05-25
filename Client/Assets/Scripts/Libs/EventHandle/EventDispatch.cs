@@ -25,18 +25,20 @@ namespace SDK.Lib
             }
         }
 
-        public void addEventHandle(Action<IDispatchObject> handle)
+        // 相同的函数只能增加一次
+        virtual public void addEventHandle(Action<IDispatchObject> handle)
         {
             if (handle != null)
             {
-                if (m_handleList.IndexOf(handle) == -1)     // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-                {
+                // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
+                //if (m_handleList.IndexOf(handle) == -1)
+                //{
                     m_handleList.Add(handle);
-                }
-                else
-                {
-                    Ctx.m_instance.m_logSys.log("Event Handle already exist");
-                }
+                //}
+                //else
+                //{
+                //    Ctx.m_instance.m_logSys.log("Event Handle already exist");
+                //}
             }
             else
             {
@@ -59,7 +61,7 @@ namespace SDK.Lib
             }
         }
 
-        public void dispatchEvent(IDispatchObject dispatchObject)
+        virtual public void dispatchEvent(IDispatchObject dispatchObject)
         {
             m_bInLoop = true;
             foreach(var handle in m_handleList)
@@ -67,8 +69,6 @@ namespace SDK.Lib
                 handle(dispatchObject);
             }
             m_bInLoop = false;
-
-            clearEventHandle();
         }
 
         public void clearEventHandle()
@@ -83,7 +83,13 @@ namespace SDK.Lib
             }
         }
 
-        public void copyFrom(EventDispatch rhv)
+        // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
+        public bool existEventHandle(Action<IDispatchObject> handle)
+        {
+            return m_handleList.IndexOf(handle) != -1;
+        }
+
+        public void copyFrom(ResEventDispatch rhv)
         {
             foreach(var handle in rhv.handleList)
             {

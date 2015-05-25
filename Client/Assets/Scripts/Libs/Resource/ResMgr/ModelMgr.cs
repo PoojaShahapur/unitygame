@@ -75,7 +75,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupModelAttrItem.m_path;
 
-            return syncGet<ModelRes>(path) as ModelRes;
+            return getAndSyncLoad<ModelRes>(path);
         }
 
         // 获取卡牌组中的卡牌的模型
@@ -83,7 +83,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_groupCardModelAttrItem.m_path;
 
-            return syncGet<ModelRes>(path) as ModelRes;
+            return getAndSyncLoad<ModelRes>(path);
         }
 
         // 获取 cost 模型
@@ -91,7 +91,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_costModelAttrItem.m_path;
 
-            return syncGet<ModelRes>(path) as ModelRes;
+            return getAndSyncLoad<ModelRes>(path);
         }
 
         // 获取 minion 模型
@@ -99,7 +99,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_minionModelAttrItem.m_path;
 
-            return syncGet<ModelRes>(path) as ModelRes;
+            return getAndSyncLoad<ModelRes>(path);
         }
 
         // 获取 enemyCard 模型
@@ -107,7 +107,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_enemyCardModelAttrItem.m_path;
 
-            return syncGet<ModelRes>(path) as ModelRes;
+            return getAndSyncLoad<ModelRes>(path);
         }
 
         // 获取 SceneCard 模型
@@ -119,7 +119,7 @@ namespace SDK.Lib
                 {
                     string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[(int)type].m_path;
 
-                    return syncGet<ModelRes>(path) as ModelRes;
+                    return getAndSyncLoad<ModelRes>(path);
                 }
             }
             else

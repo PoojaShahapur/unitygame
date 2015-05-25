@@ -37,11 +37,18 @@ namespace SDK.Common
         {
             get
             {
-                return m_text.text;
+                if (m_text != null)
+                {
+                    return m_text.text;
+                }
+                return "";
             }
             set
             {
-                m_text.text = value;
+                if (m_text != null)
+                {
+                    m_text.text = value;
+                }
             }
         }
 

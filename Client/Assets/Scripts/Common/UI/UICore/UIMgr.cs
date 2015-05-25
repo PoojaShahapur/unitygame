@@ -262,7 +262,7 @@ namespace SDK.Common
                 if (!res.refCountResLoadResultNotify.resLoadState.hasLoaded())
                 {
                     // 添加事件监听,不用增加引用计数
-                    res.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(onLoadEventHandle);
+                    res.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onLoadEventHandle);
                 }
                 else // 已经加载完成
                 {
@@ -273,6 +273,8 @@ namespace SDK.Common
             {
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 LocalFileSys.modifyLoadParam(reaPath, param);
+                param.m_loadNeedCoroutine = false;
+                param.m_resNeedCoroutine = false;
                 param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);

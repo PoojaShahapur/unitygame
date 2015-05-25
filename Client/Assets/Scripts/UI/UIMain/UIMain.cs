@@ -13,14 +13,14 @@ namespace Game.UI
     {
         protected MainData m_mainData;
 
-        protected AuxButton[] m_btnArr;
+        protected AuxBasicButton[] m_btnArr;
 
         public override void onReady()
         {
             base.onReady();
             m_mainData = new MainData(this);
 
-            m_btnArr = new AuxButton[(int)MainBtnEnum.eBtnTotal];
+            m_btnArr = new AuxBasicButton[(int)MainBtnEnum.eBtnTotal];
             findWidget();
             addEventHandle();
         }
@@ -38,13 +38,13 @@ namespace Game.UI
         // 获取控件
         protected void findWidget()
         {
-            m_btnArr[(int)MainBtnEnum.eBtnShop] = new AuxButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnShop);
-            m_btnArr[(int)MainBtnEnum.eBtnHero] = new AuxButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnHero);
-            m_btnArr[(int)MainBtnEnum.eBtnExtPack] = new AuxButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnExtPack);
-            m_btnArr[(int)MainBtnEnum.eBtnTuJian] = new AuxButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnTuJian);
+            m_btnArr[(int)MainBtnEnum.eBtnShop] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnShop);
+            m_btnArr[(int)MainBtnEnum.eBtnHero] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnHero);
+            m_btnArr[(int)MainBtnEnum.eBtnExtPack] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnExtPack);
+            m_btnArr[(int)MainBtnEnum.eBtnTuJian] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnTuJian);
 
-            m_btnArr[(int)MainBtnEnum.eBtnDuiZhan] = new AuxButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnDuiZhanMode);
-            m_btnArr[(int)MainBtnEnum.eBtnLianXi] = new AuxButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnLianXI);
+            m_btnArr[(int)MainBtnEnum.eBtnDuiZhan] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnDuiZhanMode);
+            m_btnArr[(int)MainBtnEnum.eBtnLianXi] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnLianXI);
         }
 
         // 添加事件监听

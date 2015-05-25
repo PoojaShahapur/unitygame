@@ -4,23 +4,27 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    public class EventDispatchGroup
+    public class ResEventDispatchGroup
     {
-        protected Dictionary<int, EventDispatch> m_groupID2DispatchDic = new Dictionary<int,EventDispatch>();
+        protected Dictionary<int, EventDispatch> m_groupID2DispatchDic = new Dictionary<int, EventDispatch>();
         protected bool m_bInLoop;       // 是否是在循环遍历中
 
-        public EventDispatchGroup()
+        public ResEventDispatchGroup()
         {
             m_bInLoop = false;
         }
 
-        public void addEventHandle(int groupID, Action<IDispatchObject> handle)
+        // 添加分发器
+        public void addResEventDispatch(int groupID, EventDispatch disp)
         {
             if (!m_groupID2DispatchDic.ContainsKey(groupID))
             {
-                m_groupID2DispatchDic[groupID] = new EventDispatch();
+                m_groupID2DispatchDic[groupID] = disp;
             }
+        }
 
+        public void addEventHandle(int groupID, Action<IDispatchObject> handle)
+        {
             m_groupID2DispatchDic[groupID].addEventHandle(handle);
         }
 

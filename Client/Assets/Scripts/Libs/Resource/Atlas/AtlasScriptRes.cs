@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,6 +53,11 @@ namespace SDK.Lib
             unload();
         }
 
+        override public void unload()
+        {
+            base.unload();
+        }
+
         protected void initImage()
         {
             foreach (ImageItem imageItem in m_path2Image.Values)
@@ -89,31 +95,35 @@ namespace SDK.Lib
                     param.m_loadEventHandle(retImage);
                 }
             }
-            else if (refCountResLoadResultNotify.resLoadState.hasLoading())
+            else if (refCountResLoadResultNotify.resLoadState.hasNotLoadOrLoading())
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    retImage.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    retImage.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
             }
         }
 
-        public override void unload()
+        // 卸载一个 Image
+        public void unloadImage(string spriteName, Action<IDispatchObject> loadEventHandle)
         {
-            
+            if(m_path2Image.ContainsKey(spriteName))
+            {
+                m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
+                m_path2Image[spriteName].refCountResLoadResultNotify.refCount.decRef();
+                if(m_path2Image[spriteName].refCountResLoadResultNotify.refCount.bNoRef())
+                {
+                    m_path2Image[spriteName].unloadImage();
+                    m_path2Image.Remove(spriteName);
+                }
+            }
         }
 
         // 必然加载完成
         public ImageItem getImage(string spriteName)
         {
-            if (!m_path2Image.ContainsKey(spriteName))
-            {
-                addImage2Dic(spriteName);
-            }
             if (m_path2Image.ContainsKey(spriteName))
             {
-                // 获取资源接口不增加引用计数
-                //m_path2Image[spriteName].refCountResLoadResultNotify.refCount.incRef();
                 return m_path2Image[spriteName];
             }
             else
@@ -167,6 +177,11 @@ namespace SDK.Lib
             }
 
             return null;
+        }
+
+        public bool bHasRefImageItem()
+        {
+            return m_path2Image.Keys.Count > 0;
         }
     }
 }

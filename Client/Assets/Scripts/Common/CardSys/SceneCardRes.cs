@@ -49,7 +49,7 @@ namespace SDK.Common
         {
             // 头像是每一个卡牌一个配置
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], cardItem.m_tableItemCard.m_cardHeader);
-            m_headerTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
+            m_headerTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             Material mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_headerSubModel).GetComponent<Renderer>().material;
             mat.mainTexture = m_headerTex.getTexture();
@@ -58,21 +58,21 @@ namespace SDK.Common
             // 边框
             jobTable = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)(cardItem.m_tableItemCard.m_career)).m_itemBody as TableJobItemBody;
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], jobTable.m_frameImage);
-            m_frameTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
+            m_frameTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_frameSubModel).GetComponent<Renderer>().material;
             mat.mainTexture = m_frameTex.getTexture();
 
             // 腰带
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], jobTable.m_yaoDaiImage);
-            m_yaoDaiTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
+            m_yaoDaiTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_yaoDaiSubModel).GetComponent<Renderer>().material;
             mat.mainTexture = m_yaoDaiTex.getTexture();
 
             // 品质
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], UtilApi.getImageByPinZhi(cardItem.m_tableItemCard.m_quality));
-            m_pinZhiTex = Ctx.m_instance.m_texMgr.syncGet<TextureRes>(path);
+            m_pinZhiTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_pinZhiSubModel).GetComponent<Renderer>().material;
             mat.mainTexture = m_pinZhiTex.getTexture();

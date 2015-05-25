@@ -50,10 +50,10 @@
             return m_resLoadState == CVResLoadState.eFailed;
         }
 
-        // 正在加载中
-        public bool hasLoading()
+        // 没有加载或者正在加载中
+        public bool hasNotLoadOrLoading()
         {
-            return m_resLoadState == CVResLoadState.eLoading;
+            return (m_resLoadState == CVResLoadState.eLoading || m_resLoadState == CVResLoadState.eNotLoad);
         }
 
         public void setSuccessLoaded()

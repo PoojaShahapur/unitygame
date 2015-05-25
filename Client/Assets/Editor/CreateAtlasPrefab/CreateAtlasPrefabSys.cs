@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AtlasPrefabSys
 {

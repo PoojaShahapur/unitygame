@@ -9,10 +9,8 @@ namespace Game.UI
      */
     public class TuJianCardSetCardItemCom
     {
-        protected GameObject m_sceneGo;
         protected TableCardItemBody m_cardItem; // 卡牌基本数据
-        protected ImageItem m_imageItem;
-        protected UIPrefabRes m_uiPrefabRes;
+        protected AuxDynImageDynGoButton m_auxDynImageDynGoButton;
 
         public TuJianCardSetCardItemCom()
         {
@@ -24,43 +22,44 @@ namespace Game.UI
             set
             {
                 m_cardItem = value;
-            }
-        }
-
-        public GameObject sceneGo
-        {
-            get
-            {
-                return m_sceneGo;
+                createSceneGo();
             }
         }
 
         public void dispose()
         {
-            Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath(), null);
-            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem);
-            UtilApi.Destroy(m_sceneGo);
+            if (m_auxDynImageDynGoButton != null)
+            {
+                m_auxDynImageDynGoButton.dispose();
+            }
         }
 
         public void createSceneGo()
         {
-            m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.syncGet<UIPrefabRes>(TuJianPath.CardSetCardPrefabPath);
-            m_sceneGo = m_uiPrefabRes.InstantiateObject(TuJianPath.CardSetCardPrefabPath);
-        }
-
-        public void updateImage()
-        {
-            if (string.IsNullOrEmpty(m_cardItem.m_cardHeader))
+            if (m_auxDynImageDynGoButton == null)
             {
-                m_cardItem.m_cardHeader = "emei_taopai";
+                m_auxDynImageDynGoButton = new AuxDynImageDynGoButton();
             }
-            m_imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.TuJianDyn, m_cardItem.m_cardHeader);
-            m_imageItem.setGoImage(m_sceneGo);
+
+            m_auxDynImageDynGoButton.auxDynImageDynGOImage.prefabPath = TuJianPath.CardSetCardPrefabPath;
+            m_auxDynImageDynGoButton.auxDynImageDynGOImage.setImageInfo(CVAtlasName.TuJianDyn, m_cardItem.m_cardHeader);
+            m_auxDynImageDynGoButton.auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(onImageLoaded);
+            m_auxDynImageDynGoButton.auxDynImageDynGOImage.syncUpdateCom();
         }
 
         public void add2Layout(AuxLayoutV cardLayoutV)
         {
-            cardLayoutV.addElem(m_sceneGo, true);
+            cardLayoutV.addElem(m_auxDynImageDynGoButton.selfGo, true);
+        }
+
+        public void removeFromLayout(AuxLayoutV cardLayoutV)
+        {
+            cardLayoutV.removeElem(m_auxDynImageDynGoButton.selfGo, true);
+        }
+
+        protected void onImageLoaded(IDispatchObject dispObj)
+        {
+
         }
     }
 }

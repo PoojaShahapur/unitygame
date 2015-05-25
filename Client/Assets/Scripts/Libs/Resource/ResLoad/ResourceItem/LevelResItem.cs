@@ -60,7 +60,7 @@ namespace SDK.Lib
             Application.LoadLevel(m_levelName);
 
             refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         // 奇怪，Level 加载完成后立马获取里面的 GameObject ，有的时候可以，有的时候获取不到，因此间隔一帧后再获取
@@ -70,7 +70,7 @@ namespace SDK.Lib
 
             yield return new WaitForEndOfFrame();
             refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -97,7 +97,7 @@ namespace SDK.Lib
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

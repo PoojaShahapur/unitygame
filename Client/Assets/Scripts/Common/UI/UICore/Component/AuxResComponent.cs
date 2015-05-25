@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief 自己拥有资源 
      */
-    public class AuxResComponent : AuxParentComponent
+    public class AuxResComponent : AuxComponent
     {
         protected GameObject m_selfLocalGo;
         protected string m_path;                          // 目录

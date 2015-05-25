@@ -33,7 +33,7 @@ namespace SDK.Lib
             else
             {
                 refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+                refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
         }
 

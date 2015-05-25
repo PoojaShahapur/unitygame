@@ -9,7 +9,7 @@ namespace UnitTestSrc
     {
         public void run()
         {
-            testAnim();
+            //testAnim();
         }
 
         // 测试 .anim 动画

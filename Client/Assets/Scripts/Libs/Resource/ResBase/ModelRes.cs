@@ -45,7 +45,12 @@ namespace SDK.Lib
 
         public override void unload()
         {
-            m_go = null;
+            if (m_go != null)
+            {
+                //UtilApi.UnloadAsset(m_go);      // 强制卸载资源数据
+                UtilApi.DestroyImmediate(m_go, true);
+                m_go = null;
+            }
             m_retGO = null;
         }
     }

@@ -129,7 +129,7 @@ namespace SDK.Lib
         virtual public void failed(LoadItem item)
         {
             m_refCountResLoadResultNotify.resLoadState.setFailed();
-            m_refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         virtual public void reset()

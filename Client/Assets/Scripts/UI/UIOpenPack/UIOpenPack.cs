@@ -10,7 +10,7 @@ namespace Game.UI
      */
     public class UIOpenPack : Form
     {
-        protected AuxButton[] m_btnArr = new AuxButton[(int)OpenPackBtnEnum.eBtnTotal];
+        protected AuxBasicButton[] m_btnArr = new AuxBasicButton[(int)OpenPackBtnEnum.eBtnTotal];
         protected GameObject[] m_goArr = new GameObject[(int)OpenPackGo.eTotal];
         protected CardCom[] m_cardBtnArr = new CardCom[(int)CardBtnEnum.eCardBtnTotal];
 
@@ -54,18 +54,18 @@ namespace Game.UI
             m_goArr[(int)OpenPackGo.eCardPackLayer] = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.CardPackLayer);
             m_goArr[(int)OpenPackGo.eOpenPackLayer] = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenPackLayer);
 
-            m_btnArr[(int)OpenPackBtnEnum.eBtnBack] = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.RetBtn);
-            m_btnArr[(int)OpenPackBtnEnum.eBtnShop] = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.ShopBtn);
+            m_btnArr[(int)OpenPackBtnEnum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.RetBtn);
+            m_btnArr[(int)OpenPackBtnEnum.eBtnShop] = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.ShopBtn);
 
-            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_0);
-            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_1);
-            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_2);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_0);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_1);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_2);
 
-            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_0].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_0);
-            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_1].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_1);
-            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_2].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_2);
-            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_3].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_3);
-            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_4].uiCardBtn = new AuxButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_4);
+            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_0].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_0);
+            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_1].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_1);
+            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_2].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_2);
+            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_3].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_3);
+            m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_4].uiCardBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_4);
         }
 
         // 添加事件监听

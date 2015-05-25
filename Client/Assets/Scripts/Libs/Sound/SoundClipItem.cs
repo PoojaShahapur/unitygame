@@ -41,7 +41,7 @@ namespace SDK.Lib
             {
                 //m_clip.UnloadAudioData();
                 UtilApi.Destroy(m_go);
-                UtilApi.UnloadUnusedAssets();
+                //UtilApi.UnloadUnusedAssets();
             }
         }
     }

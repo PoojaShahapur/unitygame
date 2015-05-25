@@ -28,7 +28,7 @@ namespace SDK.Lib
             base.load();
             if (m_loadNeedCoroutine)
             {
-                loadFromDefaultAssetBundleByCoroutine();
+                Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadFromDefaultAssetBundleByCoroutine());
             }
             else
             {
@@ -39,10 +39,7 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         protected void loadFromDefaultAssetBundle()
         {
-            //string path = Application.dataPath + "/" + m_path;
-            m_prefabObj = Resources.Load(m_pathNoExt);
-            // Resources.LoadAsync unity5.0 中暂时不支持
-            //ResourceRequest req = Resources.LoadAsync<GameObject>(path);
+            m_prefabObj = Resources.Load<Object>(m_pathNoExt);
 
             if (m_prefabObj != null)
             {
@@ -52,16 +49,17 @@ namespace SDK.Lib
             {
                 nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
         {
-            ResourceRequest req = Resources.LoadAsync<GameObject>(m_pathNoExt);
+            ResourceRequest req = Resources.LoadAsync<Object>(m_pathNoExt);
             yield return req;
 
             if (req.asset != null && req.isDone)
             {
+                m_prefabObj = req.asset;
                 nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
@@ -69,7 +67,7 @@ namespace SDK.Lib
                 nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

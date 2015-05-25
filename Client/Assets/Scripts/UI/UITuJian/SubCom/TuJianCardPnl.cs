@@ -30,7 +30,7 @@ namespace Game.UI
 
         protected GameObject m_cardGo;
 
-        protected AuxButton[] m_btnArr = new AuxButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
+        protected AuxBasicButton[] m_btnArr = new AuxBasicButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
         public TuJianCardItemCom m_curClkTuJianCardItemCom;     // 当前点击的卡牌
 
         public TuJianCardPnl(TuJianData data) :
@@ -69,7 +69,7 @@ namespace Game.UI
             }
         }
 
-        public void dispose()
+        public new void dispose()
         {
             destroyCrad();
             UtilApi.Destroy(m_cardGo);
@@ -79,8 +79,8 @@ namespace Game.UI
         {
             m_tuJianData.m_onClkCard = onClkCard;
 
-            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnPrePage);
-            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnPrePage);
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
 
             m_CardList.setGameObject(m_cardGo);
             m_CardList.cellWidth = 3.0f;

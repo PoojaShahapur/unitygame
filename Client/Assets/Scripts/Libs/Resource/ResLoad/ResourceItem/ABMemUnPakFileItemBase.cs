@@ -23,7 +23,7 @@ namespace SDK.Lib
             }
             else
             {
-                resItem.refCountResLoadResultNotify.loadEventDispatch.addEventHandle(onPakResLoadEventHandle);
+                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onPakResLoadEventHandle);
             }
         }
 
@@ -51,7 +51,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+                refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
         }
     }

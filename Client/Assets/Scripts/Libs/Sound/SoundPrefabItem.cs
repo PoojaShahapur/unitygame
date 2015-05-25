@@ -25,7 +25,7 @@ namespace SDK.Lib
             if (m_go != null)
             {
                 UtilApi.Destroy(m_go);
-                UtilApi.UnloadUnusedAssets();
+                //UtilApi.UnloadUnusedAssets();
             }
         }
     }

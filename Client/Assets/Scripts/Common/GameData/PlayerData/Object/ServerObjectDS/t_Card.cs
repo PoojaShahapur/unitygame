@@ -21,6 +21,7 @@ namespace SDK.Common
         public byte overload;		//过载(num)
         public uint armor;          //护甲值
         public byte attackTimes;    // 每一局已经攻击次数，判断每一局是否能继续攻击，如果有 CARD_STATE_WINDFURY 这个状态就是每一局能攻击 2 次，其它的都只能攻击一次
+        public byte equipOpen;      //武器状态(1开启,0关闭)
 
         public byte[] state;
 
@@ -44,6 +45,7 @@ namespace SDK.Common
             ba.readUnsignedInt8(ref overload);
             ba.readUnsignedInt32(ref armor);
             ba.readUnsignedInt8(ref attackTimes);
+            ba.readUnsignedInt8(ref equipOpen);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -70,6 +72,7 @@ namespace SDK.Common
             ba.writeUnsignedInt8(overload);
             ba.writeUnsignedInt32(armor);
             ba.writeUnsignedInt8(attackTimes);
+            ba.writeUnsignedInt8(equipOpen);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -94,6 +97,8 @@ namespace SDK.Common
             magicDamAdd = rhv.magicDamAdd;
             overload = rhv.overload;
             armor = rhv.armor;
+            attackTimes = rhv.attackTimes;
+            equipOpen = rhv.equipOpen;
 
             if(rhv.state == null || rhv.state.Length != state.Length)
             {

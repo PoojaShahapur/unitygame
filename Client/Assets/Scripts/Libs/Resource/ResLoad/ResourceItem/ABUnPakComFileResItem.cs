@@ -31,7 +31,7 @@ namespace SDK.Lib
             {
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override protected IEnumerator initAssetByCoroutine()
@@ -50,7 +50,7 @@ namespace SDK.Lib
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             clearInstanceListener();
         }
@@ -107,7 +107,7 @@ namespace SDK.Lib
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override public GameObject InstantiateObject(string resName)

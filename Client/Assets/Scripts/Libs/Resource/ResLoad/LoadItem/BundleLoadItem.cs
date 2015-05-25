@@ -39,7 +39,7 @@ namespace SDK.Lib
                 nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

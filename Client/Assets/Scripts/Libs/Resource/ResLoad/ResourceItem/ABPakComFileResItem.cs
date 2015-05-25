@@ -14,7 +14,7 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         //override public GameObject InstantiateObject(string resName)
@@ -51,7 +51,7 @@ namespace SDK.Lib
         //    if (m_path2UnPakRes.ContainsKey(unity3dName))
         //    {
         //        m_path2UnPakRes[unity3dName].decreaseRef();
-        //        if (m_path2UnPakRes[unity3dName].refNum == 0)
+        //        if (m_path2UnPakRes[unity3dName].bNoRef())
         //        {
         //            unloadNoRef(unity3dName);
         //        }

@@ -106,7 +106,7 @@ namespace SDK.Common
                 {
                     (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
                 }
-                GameObject.Destroy(obj);
+                UnityEngine.Object.Destroy(obj);
                 obj = null;
             }
             else
@@ -122,7 +122,7 @@ namespace SDK.Common
             {
                 (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
             }
-            GameObject.DestroyImmediate(obj);
+            UnityEngine.Object.DestroyImmediate(obj);
         }
 
         public static void DestroyImmediate(UnityEngine.Object obj, bool allowDestroyingAssets)

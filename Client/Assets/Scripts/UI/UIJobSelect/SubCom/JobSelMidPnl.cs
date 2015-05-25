@@ -14,7 +14,7 @@ namespace Game.UI
         protected JobCard m_curSelJobCard;        // 点击的卡牌
 
         protected int m_cardCount;              // 中间选择职业的数量
-        protected AuxDynImageStaticGO m_jobNameImage;
+        protected AuxDynImageStaticGOImage m_jobNameImage;
         protected AuxLabel m_dzStartDescText;
 
         public JobSelMidPnl(JobSelectData data) :
@@ -48,7 +48,7 @@ namespace Game.UI
             m_auxLayoutH.elemWidth = 445;
             m_auxLayoutH.elemHeight = 500;
 
-            m_jobNameImage = new AuxDynImageStaticGO();
+            m_jobNameImage = new AuxDynImageStaticGOImage();
         }
 
         public JobCard curSelJobCard
@@ -128,7 +128,7 @@ namespace Game.UI
 
                     m_jobSelectData.m_rightPnl.toggleJob((int)(m_jobCardList[idx].career), tableJobItemBody);
                     m_jobNameImage.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_jobNameRes);
-                    m_jobNameImage.updateImage();
+                    m_jobNameImage.syncUpdateCom();
                 }
             }
         }

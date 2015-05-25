@@ -43,7 +43,7 @@ namespace SDK.Lib
                 //m_bundle.Unload(false);
             }
 
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -62,7 +62,7 @@ namespace SDK.Lib
                 //GameObject.Instantiate(req.asset);
                 //m_bundle.Unload(false);
             }
-            refCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             yield return null;
         }

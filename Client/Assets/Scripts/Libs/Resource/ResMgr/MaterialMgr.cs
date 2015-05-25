@@ -19,7 +19,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupMatAttrDic[(int)Occup].m_path;
 
-            return syncGet<MatRes>(path) as MatRes;
+            return getAndSyncLoad<MatRes>(path);
         }
 
         // 通过职业获取卡牌组LOGO的材质
@@ -27,7 +27,7 @@ namespace SDK.Lib
         {
             string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupMatAttrDic[(int)Occup].m_logoPath;
 
-            return syncGet<MatRes>(path) as MatRes;
+            return getAndSyncLoad<MatRes>(path);
         }
     }
 }

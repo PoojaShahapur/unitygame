@@ -10,14 +10,14 @@ namespace Game.UI
         protected AuxLabel m_jobLvl;
         protected AuxLabel m_skillName;
         protected AuxLabel m_skillDesc;
-        protected AuxDynImageStaticGO m_skillImage;
+        protected AuxDynImageStaticGOImage m_skillImage;
 
         public JobSelRightPnl(JobSelectData data) :
             base(data)
         {
             m_jobSelProg = new JobSelProg(m_jobSelectData);
 
-            m_skillImage = new AuxDynImageStaticGO();
+            m_skillImage = new AuxDynImageStaticGOImage();
         }
 
         public new void findWidget()
@@ -106,7 +106,7 @@ namespace Game.UI
             m_skillDesc.text = tableJobItemBody.m_skillDesc;
 
             m_skillImage.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_skillRes);
-            m_skillImage.updateImage();
+            m_skillImage.syncUpdateCom();
         }
     }
 }

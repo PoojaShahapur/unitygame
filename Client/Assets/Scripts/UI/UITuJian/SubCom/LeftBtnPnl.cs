@@ -26,8 +26,8 @@ namespace Game.UI
         protected GameObject m_jobPnlGo;
         protected GameObject m_filterPnlGo;
 
-        protected AuxImage m_jobBtnImage;
-        protected AuxButton[] m_btnArr = new AuxButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
+        protected AuxStaticImageStaticGoImage m_jobBtnImage;
+        protected AuxBasicButton[] m_btnArr = new AuxBasicButton[(int)LeftBtnPnl_BtnIndex.eBtnJobTotal];
 
         public LeftBtnPnl(TuJianData data) :
             base(data)
@@ -40,12 +40,12 @@ namespace Game.UI
             m_jobPnlGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.PnlJob);
             m_filterPnlGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.PnlFilter);
 
-            m_jobBtnImage = new AuxImage(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
+            m_jobBtnImage = new AuxStaticImageStaticGoImage(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
 
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob0f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob1f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob2f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob2f);
-            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob3f] = new AuxButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob3f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob0f] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob0f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob1f] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob1f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob2f] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob2f);
+            m_btnArr[(int)LeftBtnPnl_BtnIndex.eBtnJob3f] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob3f);
 
             toggleJobPnl(false);
             toggleFilterPnl(false);

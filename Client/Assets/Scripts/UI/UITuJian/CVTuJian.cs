@@ -59,6 +59,8 @@
         public const string CardSetCardListParent = "UIRootNode/MidLay/RightPnl/CardSetCardListGo";
         public const string CardSetCardListCon = "UIRootNode/MidLay/RightPnl/CardSetCardListGo/ScrollRect/Content";
 
+        public const string CardSetNameText = "NameText";
+
         public const string CardSetPrefabPath = "UI/UITuJian/CardSet.prefab";
         public const string CardSetCardPrefabPath = "UI/UITuJian/CardSetCard.prefab";
     }

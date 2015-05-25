@@ -102,7 +102,7 @@ namespace SDK.Lib
             {
                 nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100
@@ -128,7 +128,7 @@ namespace SDK.Lib
             {
                 nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         // 协程下载
@@ -194,7 +194,7 @@ namespace SDK.Lib
                 {
                     nonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
-                nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+                nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
             //catch (Exception)
             //{
@@ -375,7 +375,7 @@ namespace SDK.Lib
             {
                 nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            nonRefCountResLoadResultNotify.loadEventDispatch.dispatchEvent(this);
+            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

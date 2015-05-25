@@ -13,14 +13,14 @@ namespace Game.UI
         protected EnPlayerCareer m_career;  // 职业
         
         protected CardGroupItem m_cardGroupItem;
-        protected AuxDynImageDynGO m_jobCardBtn;
+        protected AuxDynImageDynGOImage m_jobCardBtn;
 
         public JobCard(JobSelectData data, int tag_, EnPlayerCareer ccc):
             base(data)
         {
             m_tag = tag_;
             m_career = ccc;
-            m_jobCardBtn = new AuxDynImageDynGO();
+            m_jobCardBtn = new AuxDynImageDynGOImage();
         }
 
         public EnPlayerCareer career
@@ -62,8 +62,7 @@ namespace Game.UI
                 jobPath = string.Format("{0}UIJobSelect/JobSelCard.prefab", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI]);
                 m_jobCardBtn.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_jobRes);
                 m_jobCardBtn.prefabPath = jobPath;
-                m_jobCardBtn.loadPrefab();
-                m_jobCardBtn.updateImage();
+                m_jobCardBtn.syncUpdateCom();
 
                 m_jobCardBtn.selfGo.name = string.Format("JobSelCard_{0}", career);
             }

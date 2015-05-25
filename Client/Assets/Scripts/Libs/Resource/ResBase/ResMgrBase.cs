@@ -20,32 +20,43 @@ namespace SDK.Lib
             m_bLoading = false;
         }
 
-        // 同步加载，立马加载完成，并且返回加载的资源
-        public T syncGet<T>(string path) where T : InsResBase, new()
+        public T getAndSyncLoad<T>(string path) where T : InsResBase, new()
+        {
+            syncLoad<T>(path);
+            return getRes(path) as T;
+        }
+
+        public T getAndLoad<T>(LoadParam param) where T : InsResBase, new()
+        {
+            load<T>(param);
+            return getRes(param.m_path) as T;
+        }
+
+        // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
+        public void syncLoad<T>(string path) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = path;
-            //param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环
+            // param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.m_loadEventHandle = onLoadEventHandle ，内部会自动调用
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             load<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
-            return m_path2ResDic[path] as T;
         }
 
         public T createResItem<T>(LoadParam param) where T : InsResBase, new()
         {
-            m_path2ResDic[param.m_path] = new T();
-            m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-            m_path2ResDic[param.m_path].m_path = param.m_path;
+            T ret = new T();
+            ret.refCountResLoadResultNotify.refCount.incRef();
+            ret.m_path = param.m_path;
 
-            m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
 
-            return m_path2ResDic[param.m_path] as T;
+            return ret;
         }
 
-        protected void loadWithResCreatedAndLoad<T>(LoadParam param, T resItem) where T : InsResBase, new()
+        protected void loadWithResCreatedAndLoad(LoadParam param)
         {
             m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
             if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
@@ -59,21 +70,22 @@ namespace SDK.Lib
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
             }
         }
 
         protected void loadWithResCreatedAndNotLoad<T>(LoadParam param, T resItem) where T : InsResBase, new()
         {
+            m_path2ResDic[param.m_path] = resItem;
             param.m_loadEventHandle = onLoadEventHandle;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
 
         protected void loadWithNotResCreatedAndNotLoad<T>(LoadParam param) where T : InsResBase, new()
         {
-            createResItem<T>(param);
-            loadWithResCreatedAndNotLoad<T>(param, m_path2ResDic[param.m_path] as T);
+            T resItem = createResItem<T>(param);
+            loadWithResCreatedAndNotLoad<T>(param, resItem);
         }
 
         public virtual void load<T>(LoadParam param) where T : InsResBase, new()
@@ -81,11 +93,11 @@ namespace SDK.Lib
             m_bLoading = true;
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
-                loadWithResCreatedAndLoad(param, m_path2ResDic[param.m_path] as T);
+                loadWithResCreatedAndLoad(param);
             }
             else if(param.m_loadInsRes != null)
             {
-                loadWithResCreatedAndNotLoad<T>(param, m_path2ResDic[param.m_path] as T);
+                loadWithResCreatedAndNotLoad<T>(param, param.m_loadInsRes as T);
             }
             else
             {
@@ -98,9 +110,9 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(path))
             {
-                m_path2ResDic[path].refCountResLoadResultNotify.loadEventDispatch.removeEventHandle(loadEventHandle);
+                m_path2ResDic[path].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
                 m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
-                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.refNum == 0)
+                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.bNoRef())
                 {
                     if (m_bLoading)
                     {
@@ -125,7 +137,7 @@ namespace SDK.Lib
         {
             foreach (string path in m_zeroRefResIDList)
             {
-                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.refNum == 0)
+                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.bNoRef())
                 {
                     unloadNoRef(path);
                 }
@@ -136,14 +148,10 @@ namespace SDK.Lib
         protected void unloadNoRef(string path)
         {
             m_path2ResDic[path].unload();
-            m_path2ResDic.Remove(path);
-
             // 卸载加载的原始资源
-            if (!m_path2ResDic[path].bOrigResNeedImmeUnload)
-            {
-                Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
-            }
-            UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
+            Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
+            m_path2ResDic.Remove(path);
+            //UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
         }
 
         public virtual void onLoadEventHandle(IDispatchObject dispObj)
@@ -188,7 +196,7 @@ namespace SDK.Lib
             List<string> pathList = new List<string>();
             foreach (KeyValuePair<string, InsResBase> kv in m_path2ResDic)
             {
-                kv.Value.refCountResLoadResultNotify.loadEventDispatch.clearEventHandle();
+                kv.Value.refCountResLoadResultNotify.loadResEventDispatch.clearEventHandle();
                 pathList.Add(kv.Key);
             }
 
