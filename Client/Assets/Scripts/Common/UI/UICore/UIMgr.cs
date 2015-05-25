@@ -234,7 +234,7 @@ namespace SDK.Common
                     m_ID2CodeLoadingItemDic[ID] = new UILoadingItem();
                     m_ID2CodeLoadingItemDic[ID].m_ID = ID;
 
-                    loadFromFile(attrItem.m_codePath, onCodeLoadEventHandle, onCodeloadedByRes);
+                    loadFromFile(attrItem.m_codePath, onCodeLoadEventHandle);
                 }
             }
         }
@@ -248,43 +248,26 @@ namespace SDK.Common
                 m_ID2WidgetLoadingItemDic[ID] = new UILoadingItem();
                 m_ID2WidgetLoadingItemDic[ID].m_ID = ID;
 
-                loadFromFile(attrItem.m_widgetPath, onWidgetLoadEventHandle, onWidgetloadedByRes);
+                loadFromFile(attrItem.m_widgetPath, onWidgetLoadEventHandle);
             }
         }
 
         // 从本地磁盘或者网络加载资源
-        protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoadEventHandle, Action<ResItem> onloadedAndInit)
+        protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoadEventHandle)
         {
-            // 创建窗口资源
-            ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(reaPath);
-            if (res != null)
-            {
-                if (!res.refCountResLoadResultNotify.resLoadState.hasLoaded())
-                {
-                    // 添加事件监听,不用增加引用计数
-                    res.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onLoadEventHandle);
-                }
-                else // 已经加载完成
-                {
-                    onloadedAndInit(res);
-                }
-            }
-            else // 资源从来没有加载过
-            {
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                LocalFileSys.modifyLoadParam(reaPath, param);
-                param.m_loadNeedCoroutine = false;
-                param.m_resNeedCoroutine = false;
-                param.m_loadEventHandle = onLoadEventHandle;
-                Ctx.m_instance.m_resLoadMgr.loadResources(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
-            }
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(reaPath, param);
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            param.m_loadEventHandle = onLoadEventHandle;
+            Ctx.m_instance.m_uiPrefabMgr.load<UIPrefabRes>(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 		
 		// 代码资源加载处理
         public void onCodeLoadEventHandle(IDispatchObject dispObj)
 		{
-            ResItem res = dispObj as ResItem;
+            UIPrefabRes res = dispObj as UIPrefabRes;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onCodeloadedByRes(res);
@@ -299,7 +282,7 @@ namespace SDK.Common
         // 窗口控件资源加载处理
         public void onWidgetLoadEventHandle(IDispatchObject dispObj)
         {
-            ResItem res = dispObj as ResItem;
+            UIPrefabRes res = dispObj as UIPrefabRes;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onWidgetloadedByRes(res);
@@ -312,7 +295,7 @@ namespace SDK.Common
         }
 
         // 代码资源加载完成处理
-        public void onCodeloadedByRes(ResItem res)
+        public void onCodeloadedByRes(UIPrefabRes res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
             m_ID2CodeLoadingItemDic.Remove(ID);
@@ -329,7 +312,7 @@ namespace SDK.Common
         }
 
         // 窗口控件资源加载完成处理
-        public void onWidgetloadedByRes(ResItem res)
+        public void onWidgetloadedByRes(UIPrefabRes res)
         {
             string path = res.GetPath();
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
@@ -359,7 +342,7 @@ namespace SDK.Common
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(path, onWidgetLoadEventHandle);
+            Ctx.m_instance.m_uiPrefabMgr.unload(path, onWidgetLoadEventHandle);
         }
 
         // 大小发生变化后，调用此函数
