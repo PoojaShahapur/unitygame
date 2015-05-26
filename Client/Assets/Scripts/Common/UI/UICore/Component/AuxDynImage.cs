@@ -112,7 +112,11 @@ namespace SDK.Common
         override public void dispose()
         {
             base.dispose();
-            Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
+            if (m_imageItem != null)
+            {
+                Ctx.m_instance.m_atlasMgr.unloadImage(m_imageItem, null);
+                m_imageItem = null;
+            }
         }
 
         // 同步更新显示

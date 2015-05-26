@@ -14,17 +14,12 @@ namespace SDK.Common
             // ****************** Canvas_50 开始**********************
 
             // ****************** 第二层开始 ***********************
-            m_dicAttr[UIFormID.eUITuJianCardSetMenu] = new UIAttrItem();
-            m_dicAttr[UIFormID.eUITuJianCardSetMenu].m_canvasID = UICanvasID.eCanvas_50;
-            m_dicAttr[UIFormID.eUITuJianCardSetMenu].m_LayerID = UILayerID.eSecondLayer;
-            m_dicAttr[UIFormID.eUITuJianCardSetMenu].addUISceneType(UISceneType.eUIScene_Game);
-            m_dicAttr[UIFormID.eUITuJianCardSetMenu].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITuJian", "UITuJianCardSetMenu", ".prefab");
+            m_dicAttr[UIFormID.eUITuJianTop] = new UIAttrItem();
+            m_dicAttr[UIFormID.eUITuJianTop].m_canvasID = UICanvasID.eCanvas_50;
+            m_dicAttr[UIFormID.eUITuJianTop].m_LayerID = UILayerID.eSecondLayer;
+            m_dicAttr[UIFormID.eUITuJianTop].addUISceneType(UISceneType.eUIScene_Game);
+            m_dicAttr[UIFormID.eUITuJianTop].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITuJian", "UITuJianTop", ".prefab");
 
-            m_dicAttr[UIFormID.eUITuJianCardMenu] = new UIAttrItem();
-            m_dicAttr[UIFormID.eUITuJianCardMenu].m_canvasID = UICanvasID.eCanvas_50;
-            m_dicAttr[UIFormID.eUITuJianCardMenu].m_LayerID = UILayerID.eSecondLayer;
-            m_dicAttr[UIFormID.eUITuJianCardMenu].addUISceneType(UISceneType.eUIScene_Game);
-            m_dicAttr[UIFormID.eUITuJianCardMenu].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITuJian", "UITuJianCardMenu", ".prefab");
             // ****************** 第二层结束 ***********************
 
             // ****************** 第四层开始 ***********************

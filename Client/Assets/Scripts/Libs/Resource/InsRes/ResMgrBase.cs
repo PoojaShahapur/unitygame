@@ -11,13 +11,13 @@ namespace SDK.Lib
     {
         public Dictionary<string, InsResBase> m_path2ResDic;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
-        protected bool m_bLoading;      // 是否正在加载中
+        protected int m_loadingDepth;          // 加载深度
 
         public ResMgrBase()
         {
             m_path2ResDic = new Dictionary<string, InsResBase>();
             m_zeroRefResIDList = new List<string>();
-            m_bLoading = false;
+            m_loadingDepth = 0;
         }
 
         public T getAndSyncLoad<T>(string path) where T : InsResBase, new()
@@ -91,7 +91,7 @@ namespace SDK.Lib
 
         public virtual void load<T>(LoadParam param) where T : InsResBase, new()
         {
-            m_bLoading = true;
+            ++m_loadingDepth;
             if (m_path2ResDic.ContainsKey(param.m_path))
             {
                 loadWithResCreatedAndLoad(param);
@@ -104,7 +104,12 @@ namespace SDK.Lib
             {
                 loadWithNotResCreatedAndNotLoad<T>(param);
             }
-            m_bLoading = false;
+            --m_loadingDepth;
+
+            if (m_loadingDepth == 0)
+            {
+                unloadNoRefResFromList();
+            }
         }
 
         virtual public void unload(string path, Action<IDispatchObject> loadEventHandle)
@@ -115,7 +120,7 @@ namespace SDK.Lib
                 m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
                 if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.bNoRef())
                 {
-                    if (m_bLoading)
+                    if (m_loadingDepth != 0)       // 如果加载深度不是 0 的，说明正在加载，不能卸载对象
                     {
                         addNoRefResID2List(path);
                     }

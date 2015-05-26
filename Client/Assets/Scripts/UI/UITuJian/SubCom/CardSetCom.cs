@@ -51,7 +51,8 @@ namespace Game.UI
         public void OnMouseClick(IDispatchObject dispObj)
         {
             m_tuJianData.m_wdscCardSetPnl.m_curCardSet = this;
-            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianCardSetMenu>(UIFormID.eUITuJianCardSetMenu);
+            Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu = ETuJianMenu.eCardSet;
+            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianTop>(UIFormID.eUITuJianTop);
         }
 
         public void reqCardListAndStartEdit()
@@ -82,17 +83,16 @@ namespace Game.UI
         public void startEdit(CardSetCom cardSet)
         {
             // 卡牌组处理
-            copyAndInitData(cardSet);
+            copyData(cardSet);
             enterEditorMode();
             // 当前编辑的卡牌列表处理
             m_tuJianData.m_wdscCardSetPnl.m_cardSetCardLayoutV.showLayout();
             m_tuJianData.m_wdscCardSetPnl.updateLeftCardList();
         }
 
-        public void copyAndInitData(CardSetCom cardSet)
+        public void copyData(CardSetCom cardSet)
         {
             m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.copyFrom(cardSet);
-            m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.initByData(cardSet.m_cardGroupItem);      // 设置卡牌的显示信息
             m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.add2Node(m_tuJianData.m_wdscCardSetPnl.m_topEditCardPosGo);
         }
 
@@ -103,6 +103,8 @@ namespace Game.UI
                 m_cardGroupItem = new CardGroupItem();
             }
             this.m_cardGroupItem.copyFrom(cards.m_cardGroupItem);
+            createSceneGo();
+            updateInfo();
         }
 
         public void delCardSet()

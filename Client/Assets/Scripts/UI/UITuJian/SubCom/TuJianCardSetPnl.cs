@@ -248,7 +248,7 @@ namespace Game.UI
         // 所有卡牌组回到列表显示状态
         public void goback()
         {
-            foreach (CardSetCom taoPai in m_tuJianData.m_wdscCardSetPnl.m_cardSetEntityList)
+            foreach (CardSetCom taoPai in m_cardSetEntityList)
             {
                 taoPai.auxDynImageDynGoButton.show();
             }
@@ -256,7 +256,7 @@ namespace Game.UI
 
         public void hideAllCardSet()
         {
-            foreach (CardSetCom item in m_tuJianData.m_wdscCardSetPnl.m_cardSetEntityList)
+            foreach (CardSetCom item in m_cardSetEntityList)
             {
                 item.auxDynImageDynGoButton.hide();
             }
@@ -270,15 +270,15 @@ namespace Game.UI
         // 添加一张卡牌到编辑的卡组
         public void addCard2EditCardSet(uint cardID)
         {
-            if (m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardList == null)
+            if (m_curEditCardSet.m_cardGroupItem.m_cardList == null)
             {
-                m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardList = new List<uint>();
+                m_curEditCardSet.m_cardGroupItem.m_cardList = new List<uint>();
             }
-            if (m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardList.IndexOf(cardID) == -1)
+            if (m_curEditCardSet.m_cardGroupItem.m_cardList.IndexOf(cardID) == -1)
             {
-                if (m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardList.Count < 30)
+                if (m_curEditCardSet.m_cardGroupItem.m_cardList.Count < 30)
                 {
-                    m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardList.Add(cardID);
+                    m_curEditCardSet.m_cardGroupItem.m_cardList.Add(cardID);
                     // 继续添加显示
                     createCardSetCard(cardID);
                 }
@@ -310,7 +310,7 @@ namespace Game.UI
             taopai.add2Layout(m_cardSetLayoutV);
             if (bEnterEdit)
             {
-                m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.startEdit(taopai);
+                m_curEditCardSet.startEdit(taopai);
             }
         }
 
@@ -323,6 +323,29 @@ namespace Game.UI
         public void delCardSet()
         {
             m_curCardSet.delCardSet();
+        }
+
+        // 一个套牌的卡牌列表，index 指明是哪个套牌的
+        public void psstRetOneCardGroupInfoUserCmd(uint index, List<uint> list)
+        {
+            if(m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Editset)   // 如果在编辑模式
+            {
+                if(m_curEditCardSet.m_cardGroupItem.m_cardGroup.index == index)       // 如果当前正在编辑这个套牌
+                {
+                    CardSetCom findSet = null;
+                    foreach(CardSetCom cardSet in m_cardSetEntityList)
+                    {
+                        if(cardSet.m_cardGroupItem.m_cardGroup.index == index)
+                        {
+                            break;
+                        }
+                    }
+                    if (findSet != null)
+                    {
+                        m_curEditCardSet.startEdit(findSet);
+                    }
+                }
+            }
         }
     }
 }

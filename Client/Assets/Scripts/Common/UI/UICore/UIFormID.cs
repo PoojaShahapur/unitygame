@@ -17,8 +17,7 @@ namespace SDK.Common
         
         eUIJobSelect,        // 职业选择界面
         eUITuJian,           // 图鉴选择界面
-        eUITuJianCardSetMenu,// 图鉴选择点击卡组处理菜单界面
-        eUITuJianCardMenu,   // 图鉴选择点击卡牌操作
+        eUITuJianTop,        // 图鉴上层
         eUIMain,             // 主界面
         eUIHero,             // 英雄
         eUIOpenPack,         // 开包

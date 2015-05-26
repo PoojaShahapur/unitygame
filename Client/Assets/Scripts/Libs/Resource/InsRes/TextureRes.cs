@@ -25,8 +25,9 @@ namespace SDK.Lib
 
         public override void unload()
         {
-            UtilApi.Destroy(m_texture);
+            UtilApi.UnloadAsset(m_texture);
             m_texture = null;
+            base.unload();
         }
     }
 }

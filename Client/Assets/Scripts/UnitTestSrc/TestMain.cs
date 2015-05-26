@@ -19,6 +19,7 @@ namespace UnitTestSrc
         protected TestLoad m_pTestLoad = new TestLoad();
         protected TestNet m_pTestNet = new TestNet();
         protected TestAni m_pTestAni = new TestAni();
+        protected TestLogic m_pTestLogic = new TestLogic();
 
         public void run()
         {
@@ -39,6 +40,8 @@ namespace UnitTestSrc
             m_pTestLoad.run();
             m_pTestNet.run();
             m_pTestAni.run();
+
+            m_pTestLogic.run();
         }
     }
 }

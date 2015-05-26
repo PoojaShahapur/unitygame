@@ -51,10 +51,11 @@ namespace SDK.Lib
             if (m_go != null)
             {
                 //UtilApi.UnloadAsset(m_go);      // 强制卸载资源数据
-                UtilApi.DestroyImmediate(m_go, true);
+                //UtilApi.DestroyImmediate(m_go, true);
                 m_go = null;
             }
             m_retGO = null;
+            base.unload();
         }
     }
 }

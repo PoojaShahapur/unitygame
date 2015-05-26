@@ -81,8 +81,7 @@ namespace Game.UI
             m_jobSelProg.findWidget();
             m_jobText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobDesc);
 
-            m_jobNameImage.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageJobName);
-            m_jobNameImage.findWidget();
+            m_jobNameImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageJobName);
 
             m_dzStartDescText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartDescText);
             m_dzStartDescText.hide();     // 默认隐藏

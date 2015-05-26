@@ -28,8 +28,7 @@ namespace Game.UI
             m_skillName = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillName);
             m_skillDesc = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillDesc);
 
-            m_skillImage.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageSkillIcon);
-            m_skillImage.findWidget();
+            m_skillImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageSkillIcon);
         }
 
         public new void addEventHandle()

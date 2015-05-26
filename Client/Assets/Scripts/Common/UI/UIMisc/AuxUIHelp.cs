@@ -6,10 +6,12 @@
     public class AuxUIHelp
     {
         public AuxJobSelectData m_auxJobSelectData;
+        public AuxTuJian m_auxTuJian;
 
         public AuxUIHelp()
         {
             m_auxJobSelectData = new AuxJobSelectData();
+            m_auxTuJian = new AuxTuJian();
         }
     }
 }

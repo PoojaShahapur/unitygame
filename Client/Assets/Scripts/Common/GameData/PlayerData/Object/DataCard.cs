@@ -174,6 +174,13 @@ namespace SDK.Common
 
                 ++idx;
             }
+
+            // 更新卡牌图鉴中的显示
+            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            if(uiTuJian != null)
+            {
+                uiTuJian.updateMidCardModel();
+            }
         }
 
         // 新增\数量改变,不包括删除
@@ -199,6 +206,13 @@ namespace SDK.Common
             else
             {
                 Ctx.m_instance.m_logSys.error("psstNotifyOneCardTujianInfoCmd 不能查找到卡牌 Item");
+            }
+
+            // 更新卡牌图鉴中的显示
+            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            if (uiTuJian != null)
+            {
+                uiTuJian.updateMidCardModel();
             }
         }
 

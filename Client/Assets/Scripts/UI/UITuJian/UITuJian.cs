@@ -98,7 +98,7 @@ namespace Game.UI
         // 一个套牌的卡牌列表，index 指明是哪个套牌的
         public void psstRetOneCardGroupInfoUserCmd(uint index, List<uint> list)
         {
-
+            m_tuJianData.m_wdscCardSetPnl.psstRetOneCardGroupInfoUserCmd(index, list);
         }
 
         // 新添加一个套牌
@@ -157,6 +157,12 @@ namespace Game.UI
         public void addCurCard2CardSet()
         {
             m_tuJianData.m_wdscCardPnl.addCurCard2CardSet();
+        }
+
+        public void updateMidCardModel()
+        {
+            m_tuJianData.m_wdscCardPnl.buildFilterList();        // 生成过滤列表
+            m_tuJianData.m_wdscCardPnl.destroyAndUpdateCardList();
         }
     }
 }

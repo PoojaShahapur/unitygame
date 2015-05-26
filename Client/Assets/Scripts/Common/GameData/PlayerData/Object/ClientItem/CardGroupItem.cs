@@ -35,16 +35,6 @@ namespace SDK.Common
 
         public void copyFrom(CardGroupItem rhv)
         {
-            if(this.m_cardList == null)
-            {
-                this.m_cardList = new List<uint>();
-            }
-            this.m_cardList.Clear();
-            if (rhv.m_cardList != null)
-            {
-                this.m_cardList.AddRange(rhv.m_cardList);
-            }
-
             if (rhv.m_cardGroup != null)
             {
                 if (m_cardGroup == null)
@@ -52,6 +42,18 @@ namespace SDK.Common
                     m_cardGroup = new t_group_list();
                 }
                 m_cardGroup.copyFrom(rhv.m_cardGroup);
+            }
+
+            this.m_tableJobItemBody = rhv.m_tableJobItemBody;
+
+            if (this.m_cardList == null)
+            {
+                this.m_cardList = new List<uint>();
+            }
+            this.m_cardList.Clear();
+            if (rhv.m_cardList != null)
+            {
+                this.m_cardList.AddRange(rhv.m_cardList);
             }
         }
     }

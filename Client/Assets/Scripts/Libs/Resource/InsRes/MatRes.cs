@@ -21,8 +21,12 @@ namespace SDK.Lib
 
         public override void unload()
         {
-            UtilApi.Destroy(m_mat);
-            m_mat = null;
+            if (m_mat != null)
+            {
+                UtilApi.UnloadAsset(m_mat);
+                m_mat = null;
+            }
+            base.unload();
         }
     }
 }

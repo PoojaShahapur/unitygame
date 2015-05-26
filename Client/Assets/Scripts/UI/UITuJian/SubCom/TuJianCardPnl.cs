@@ -302,7 +302,8 @@ namespace Game.UI
         public void onClkCard(TuJianCardItemCom ioItem)
         {
             m_curClkTuJianCardItemCom = ioItem;
-            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianCardMenu>(UIFormID.eUITuJianCardMenu);
+            Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu = ETuJianMenu.eCard;
+            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianTop>(UIFormID.eUITuJianTop);
         }
 
         public void addCurCard2CardSet()

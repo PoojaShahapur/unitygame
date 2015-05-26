@@ -103,7 +103,14 @@ namespace SDK.Lib
         // 暂时没有实现
         public void unloadImage(ImageItem imageItem, Action<IDispatchObject> loadEventHandle)
         {
-            unloadImage(imageItem.atlasScriptRes.GetPath(), imageItem.spriteName, loadEventHandle);
+            if (imageItem != null && imageItem.atlasScriptRes != null)
+            {
+                unloadImage(imageItem.atlasScriptRes.GetPath(), imageItem.spriteName, loadEventHandle);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("Unload Null ImageItem");
+            }
         }
     }
 }

@@ -7,15 +7,12 @@ namespace SDK.Common
         public uint qwThisID;		    //物品唯一id
 	    public uint dwObjectID;		    //物品表中的编号
 	    public stObjectLocation pos;	// 位置
-	
-	    public uint dwNum;		//这个属性需要删除
-	    public string strName; //名称
+
         public uint mpcost;		    //蓝耗
         public uint damage;		    //攻击力
         public uint hp;		        //血量
         public uint maxhp;		    //血量上限
         public uint dur;		    //耐久度
-        public uint maxdur;		    //耐久度上限
 
         public byte magicDamAdd;	//法术伤害增加(X)
         public byte overload;		//过载(num)
@@ -32,14 +29,11 @@ namespace SDK.Common
 	        pos = new stObjectLocation();
             pos.derialize(ba);
 
-            ba.readUnsignedInt32(ref dwNum);
-            ba.readMultiByte(ref strName, CVMsg.MAX_NAMESIZE, GkEncode.UTF8);
             ba.readUnsignedInt32(ref mpcost);
             ba.readUnsignedInt32(ref damage);
             ba.readUnsignedInt32(ref hp);
             ba.readUnsignedInt32(ref maxhp);
             ba.readUnsignedInt32(ref dur);
-            ba.readUnsignedInt32(ref maxdur);
 
             ba.readUnsignedInt8(ref magicDamAdd);
             ba.readUnsignedInt8(ref overload);
@@ -59,14 +53,11 @@ namespace SDK.Common
             pos = new stObjectLocation();
             pos.serialize(ba);
 
-            ba.writeUnsignedInt32(dwNum);
-            ba.writeMultiByte(strName, GkEncode.UTF8, CVMsg.MAX_NAMESIZE);
             ba.writeUnsignedInt32(mpcost);
             ba.writeUnsignedInt32(damage);
             ba.writeUnsignedInt32(hp);
             ba.writeUnsignedInt32(maxhp);
             ba.writeUnsignedInt32(dur);
-            ba.writeUnsignedInt32(maxdur);
 
             ba.writeUnsignedInt8(magicDamAdd);
             ba.writeUnsignedInt8(overload);
@@ -84,15 +75,12 @@ namespace SDK.Common
             qwThisID = rhv.qwThisID;
 	        dwObjectID = rhv.dwObjectID;
 	        pos.copyFrom(rhv.pos);
-	
-	        dwNum = rhv.dwNum;
-	        strName = rhv.strName;
+
             mpcost = rhv.mpcost;
             damage = rhv.damage;
             hp = rhv.hp;
             maxhp = rhv.maxhp;
             dur = rhv.dur;
-            maxdur = rhv.maxdur;
 
             magicDamAdd = rhv.magicDamAdd;
             overload = rhv.overload;

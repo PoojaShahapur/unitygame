@@ -8,7 +8,8 @@ namespace UnitTestSrc
     {
         public void run()
         {
-            //testResLoad();
+           //testResLoad();
+           //testDestroyImmediate();
         }
 
         protected void testResLoad()
@@ -25,6 +26,15 @@ namespace UnitTestSrc
                 path = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalDataDir(), "Prefabs/Resources/Table/CardBase_client_bak.txt");
                 Ctx.m_instance.m_localFileSys.writeFileByte(path, bytes);
             }
+        }
+
+        protected void testDestroyImmediate()
+        {
+            GameObject m_prefabObj = Resources.Load<GameObject>("Model/CardModel");
+            //UnityEngine.Object.DestroyImmediate(m_prefabObj, true);   // Destroy 磁盘上的 Assets 资源
+            UnityEngine.Object.DestroyObject(m_prefabObj);
+
+            Debug.Log("Test Result");
         }
     }
 }

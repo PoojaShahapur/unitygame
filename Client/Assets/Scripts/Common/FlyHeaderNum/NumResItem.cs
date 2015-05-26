@@ -52,9 +52,9 @@ namespace SDK.Common
                     modelItem = new ModelItem();
                     modelItem.pntGo = m_parentGo;
                     modelItem.resPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
-
+                    modelItem.updateModel();
                     modelItem.selfGo.transform.localPosition = new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0);
-                            m_childList.Add(modelItem);
+                    m_childList.Add(modelItem);
 
                     ++idx;
                 }

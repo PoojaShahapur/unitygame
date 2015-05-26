@@ -16,14 +16,14 @@ namespace SDK.Lib
         protected ResItem m_retResItem;
         protected ResMsgRouteCB m_resMsgRouteCB;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
-        protected bool m_bLoading;      // 是否正在加载中
+        protected int m_loadingDepth;      // 加载深度
 
         public ResLoadMgr()
         {
             m_LoadData = new ResLoadData();
             m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = onMsgRouteResLoad;
             m_zeroRefResIDList = new List<string>();
-            m_bLoading = false;
+            m_loadingDepth = 0;
         }
 
         public void postInit()
@@ -343,7 +343,7 @@ namespace SDK.Lib
         // 通用类型，需要自己设置很多参数
         public void load(LoadParam param)
         {
-            m_bLoading = true;
+            ++m_loadingDepth;
             if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
             {
                 loadWithResCreatedAndLoad(param);
@@ -356,9 +356,12 @@ namespace SDK.Lib
             {
                 loadWithNotResCreatedAndNotLoad(param);
             }
-            m_bLoading = false;
+            --m_loadingDepth;
 
-            unloadNoRefResFromList();
+            if (m_loadingDepth == 0)
+            {
+                unloadNoRefResFromList();
+            }
         }
 
         public ResItem getAndLoad(LoadParam param)
@@ -376,7 +379,7 @@ namespace SDK.Lib
                 m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.decRef();
                 if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.bNoRef())
                 {
-                    if (m_bLoading)
+                    if (m_loadingDepth != 0)
                     {
                         addNoRefResID2List(path);
                     }
