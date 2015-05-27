@@ -26,7 +26,12 @@ namespace SDK.Common
             }
             set
             {
+                bool bPntChange = bChange(m_selfGo, value);
                 m_selfGo = value;
+                if (bPntChange)
+                {
+                    onSelfChanged();
+                }
             }
         }
 
@@ -38,14 +43,8 @@ namespace SDK.Common
             }
             set
             {
-                bool bPntChange = false;
-                if (m_pntGo == null || !m_pntGo.Equals(m_pntGo))
-                {
-                    bPntChange = true;
-                }
-
+                bool bPntChange = bChange(m_pntGo, value);
                 m_pntGo = value;
-
                 if (bPntChange)
                 {
                     onPntChanged();
@@ -90,8 +89,24 @@ namespace SDK.Common
             }
         }
 
+        protected bool bChange(GameObject srcGO, GameObject destGO)
+        {
+            if (srcGO == null || !srcGO.Equals(destGO))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         // 父节点发生改变
         virtual protected void onPntChanged()
+        {
+
+        }
+
+        // 自己发生改变
+        virtual protected void onSelfChanged()
         {
 
         }

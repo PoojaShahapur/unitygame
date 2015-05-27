@@ -81,7 +81,7 @@ namespace Game.UI
         protected void onBtnClkTest2f()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOut();
+            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOut();
         }
 
         public void logOut(string str)
@@ -141,14 +141,14 @@ namespace Game.UI
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             uiDZ.m_sceneDZData.m_startGO.SetActive(false);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();
+            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();
         }
 
         protected void testEnemyCard()
         {
             Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount = 5;
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList.addInitCard();
+            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList.addInitCard();
         }
 
         protected void testMp()
@@ -158,19 +158,19 @@ namespace Game.UI
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroMagicPoint.maxmp = 9;
 
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateMp();
+            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateMp();
         }
 
         protected void testAttackAni()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.getCardByIdx(0).playAttackAni(uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.getCardByIdx(0).transform.localPosition);
+            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.getCardByIdx(0).playAttackAni(uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.getCardByIdx(0).transform.localPosition);
         }
 
         protected void testFlyNum()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.getCardByIdx(0).playFlyNum(123);
+            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.getCardByIdx(0).playFlyNum(123);
         }
 
         protected void testSendToSelf()
@@ -192,7 +192,7 @@ namespace Game.UI
             stRetBattleHistoryInfoUserCmd cmd = new stRetBattleHistoryInfoUserCmd();
             cmd.maincard = new t_Card();
             cmd.maincard.dwObjectID = 10001;
-            uiDZ.m_historyArea.psstRetBattleHistoryInfoUserCmd(cmd);
+            uiDZ.m_sceneDZData.m_historyArea.psstRetBattleHistoryInfoUserCmd(cmd);
         }
 
         protected void testQuipDZScene()
@@ -205,7 +205,7 @@ namespace Game.UI
         protected void testPrepareTime()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.startInitCardTimer();
+            uiDZ.m_sceneDZData.startInitCardTimer();
         }
 
         protected void testMsg()

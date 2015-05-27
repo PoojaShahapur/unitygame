@@ -42,7 +42,7 @@ namespace Game.UI
         public void psstNotifyFightEnemyInfoUserCmd()
         {
             m_dzData.m_lblArr[(int)EnDZLbl.eLblSelfName].text = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroName;
-            m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName].text = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroName;
+            m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName].text = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroName;
         }
     }
 }

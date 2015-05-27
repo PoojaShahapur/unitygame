@@ -18,10 +18,12 @@
         ePathXmlCfg,    // Xml 配置文件
         ePathModel,       // 各种 Prefab
         ePathMaterial,      // 材质目录
-        ePathImage,      // 图片目录
+        ePathBuildImage,      // 图片目录
+        ePathCardImage,      // 图片目录
         ePathWord,      // 过滤字、随机名字
         ePathAudio,      // 音频
         ePathAtlas,     // 地图集
+        ePathSpriteAni,  // 精灵动画
 
         eTotal          // 总数
     }

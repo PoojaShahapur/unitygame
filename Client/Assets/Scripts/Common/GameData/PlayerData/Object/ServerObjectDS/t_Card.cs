@@ -1,5 +1,6 @@
 ﻿using SDK.Lib;
 using System;
+
 namespace SDK.Common
 {
     public class t_Card

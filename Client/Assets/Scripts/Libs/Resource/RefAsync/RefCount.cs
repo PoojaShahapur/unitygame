@@ -21,6 +21,11 @@
             }
         }
 
+        public void reset()
+        {
+            m_refNum = 0;
+        }
+
         public void incRef()
         {
             ++m_refNum;

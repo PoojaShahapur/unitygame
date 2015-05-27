@@ -32,7 +32,7 @@ namespace SDK.Common
 
         public void setSelfHeroInfo(CardGroupItem cardGroup)
         {
-            m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroName = cardGroup.m_cardGroup.name;
+            m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroName = Ctx.m_instance.m_dataPlayer.m_dataMain.m_name;
             m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation = cardGroup.m_cardGroup.occupation;
         }
 

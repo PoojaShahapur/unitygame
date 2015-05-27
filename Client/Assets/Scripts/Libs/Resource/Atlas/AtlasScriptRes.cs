@@ -55,6 +55,20 @@ namespace SDK.Lib
 
         override public void unload()
         {
+            // 卸载所有图像
+            foreach (string spriteName in m_path2Image.Keys)
+            {
+                if(m_path2Image.ContainsKey(spriteName))
+                {
+                    m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.clearEventHandle();
+                    m_path2Image[spriteName].refCountResLoadResultNotify.refCount.reset();
+                    m_path2Image[spriteName].unloadImage();
+                }
+            }
+
+            m_path2Image.Clear();
+            m_soSpriteList.unload();
+
             base.unload();
         }
 
@@ -137,6 +151,16 @@ namespace SDK.Lib
                 }
                 return null;
             }
+        }
+
+        // 通过索引获取图像
+        public ImageItem getImage(int idx)
+        {
+            if (!m_path2Image.ContainsKey(m_soSpriteList.m_objList[idx].m_path))
+            {
+                addImage2Dic(m_soSpriteList.m_objList[idx].m_path);
+            }
+            return getImage(m_soSpriteList.m_objList[idx].m_path);
         }
 
         protected void addImage2Dic(string spriteName)

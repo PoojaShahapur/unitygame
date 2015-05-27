@@ -45,7 +45,7 @@ namespace Game.UI
         override public void dispose()
         {
             base.dispose();
-
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;
             if(m_skillImage != null)
             {
                 m_skillImage.dispose();

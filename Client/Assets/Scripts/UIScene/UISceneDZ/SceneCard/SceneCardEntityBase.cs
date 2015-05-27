@@ -23,6 +23,7 @@ namespace Game.UI
         public uint m_startCardID;
 
         protected NumAniSequence m_numAniSeq = new NumAniSequence();       // 攻击动画序列，这个所有的都有
+        protected SpriteAni m_spriteAni;
 
         public override void Start()
         {
@@ -101,8 +102,13 @@ namespace Game.UI
             }
         }
 
-        public void destroy()
+        virtual public void dispose()
         {
+            if (m_spriteAni != null)
+            {
+                m_spriteAni.dispose();
+                m_spriteAni = null;
+            }
             UtilApi.Destroy(gameObject);
             m_sceneCardItem = null;
         }
@@ -280,8 +286,33 @@ namespace Game.UI
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
-            return;
-            //GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
+            if(m_spriteAni == null)
+            {
+                m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
+                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "FrameSprite");
+                m_spriteAni.bLoop = true;
+                m_spriteAni.tableID = 4;
+            }
+
+            if (benable)
+            {
+                if (sceneCardItem != null)
+                {
+                    if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+                    {
+                        m_spriteAni.play();
+                    }
+                    else
+                    {
+                        m_spriteAni.stop();
+                    }
+                }
+            }
+            else
+            {
+                m_spriteAni.stop();
+            }
+
             //if (go != null)
             //{
             //    if (benable)
@@ -290,20 +321,20 @@ namespace Game.UI
             //        {
             //            //try
             //            //{
-            //                if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+            //            if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
+            //            {
+            //                if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
             //                {
-            //                    if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
-            //                    {
-            //                        UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-            //                    }
+            //                    UtilApi.getComByP<MeshRenderer>(go).enabled = true;
             //                }
-            //                else
+            //            }
+            //            else
+            //            {
+            //                if (UtilApi.getComByP<MeshRenderer>(go).enabled != false)
             //                {
-            //                    if (UtilApi.getComByP<MeshRenderer>(go).enabled != false)
-            //                    {
-            //                        UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-            //                    }
+            //                    UtilApi.getComByP<MeshRenderer>(go).enabled = false;
             //                }
+            //            }
             //            //}
             //            //catch (System.Exception e)
             //            //{
@@ -315,7 +346,7 @@ namespace Game.UI
             //    }
             //    else
             //    {
-            //        if(UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
+            //        if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
             //        {
             //            UtilApi.getComByP<MeshRenderer>(go).enabled = false;
             //        }
@@ -326,7 +357,26 @@ namespace Game.UI
         // 更新卡牌是否可以被击
         public void updateCardAttackedState(bool benable)
         {
-            return;
+            if (m_spriteAni == null)
+            {
+                m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
+                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "FrameSprite");
+                m_spriteAni.bLoop = true;
+                m_spriteAni.tableID = 4;
+            }
+
+            if (benable)
+            {
+                if (sceneCardItem != null)
+                {
+                    m_spriteAni.play();
+                }
+            }
+            else
+            {
+                m_spriteAni.stop();
+            }
+
             //GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
             //if (go != null)
             //{

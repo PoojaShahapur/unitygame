@@ -53,10 +53,12 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathXmlCfg] = "XmlConfig/";
             m_pathLst[(int)ResPathType.ePathModel] = "Model/";
             m_pathLst[(int)ResPathType.ePathMaterial] = "Model/Materials/";
-            m_pathLst[(int)ResPathType.ePathImage] = "Image/";
+            m_pathLst[(int)ResPathType.ePathBuildImage] = "Image/Build/";
+            m_pathLst[(int)ResPathType.ePathCardImage] = "Image/Card/";
             m_pathLst[(int)ResPathType.ePathWord] = "Word/";
             m_pathLst[(int)ResPathType.ePathAudio] = "Sound/";
             m_pathLst[(int)ResPathType.ePathAtlas] = "Atlas/";
+            m_pathLst[(int)ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
 
             m_dataPath = Application.dataPath;
 

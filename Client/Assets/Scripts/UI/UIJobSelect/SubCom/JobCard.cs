@@ -70,7 +70,7 @@ namespace Game.UI
 
         public void add2LayoutH(AuxLayoutH layout)
         {
-            layout.addElem(m_jobCardBtn.selfGo);
+            layout.addElem(m_jobCardBtn.selfGo, true);
         }
 
         public new void findWidget()

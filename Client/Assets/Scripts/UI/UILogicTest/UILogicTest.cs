@@ -9,6 +9,10 @@ namespace Game.UI
 {
     public class UILogicTest : Form
     {
+        protected GameObject m_spriteGo;
+        protected GameObject m_imageGo;
+        protected SpriteAni m_spriteAni;
+
         override public void onShow()
         {
             base.onShow();
@@ -25,7 +29,8 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            
+            m_spriteGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, LogicTestComPath.PathSprite);
+            m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, LogicTestComPath.PathImage);
         }
 
         protected void addEventHandle()
@@ -48,7 +53,9 @@ namespace Game.UI
         {
             //testClostAudio();
             //sendMsg();
-            testLoadSceneUI();
+            //testLoadSceneUI();
+            testSpriteEffect();
+            testImageEffect();
         }
 
         protected void testUIInfo()
@@ -135,6 +142,24 @@ namespace Game.UI
 
             UtilApi.setImageType(srcImage, Image.Type.Simple);
             UtilApi.SetNativeSize(srcImage);
+        }
+
+        protected void testSpriteEffect()
+        {
+            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
+            m_spriteAni.selfGo = m_spriteGo;
+            m_spriteAni.tableID = 1;
+            m_spriteAni.bLoop = true;
+            m_spriteAni.play();
+        }
+
+        protected void testImageEffect()
+        {
+            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eImage);
+            m_spriteAni.selfGo = m_imageGo;
+            m_spriteAni.tableID = 1;
+            m_spriteAni.bLoop = true;
+            m_spriteAni.play();
         }
     }
 }

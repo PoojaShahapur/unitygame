@@ -1,5 +1,6 @@
 ﻿using SDK.Lib;
 using UnityEngine;
+
 namespace SDK.Common
 {
     /**
@@ -40,7 +41,7 @@ namespace SDK.Common
                 UtilApi.updateCardDataNoChange(cardItem.m_tableItemCard, gameObject);
                 UtilApi.updateCardDataChange(cardItem.m_tableItemCard, gameObject);
 
-                //modifyTex(gameObject, cardItem);
+                modifyTex(gameObject, cardItem);
             }
         }
 
@@ -48,7 +49,7 @@ namespace SDK.Common
         protected void modifyTex(GameObject go_, CardItemBase cardItem)
         {
             // 头像是每一个卡牌一个配置
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], cardItem.m_tableItemCard.m_cardHeader);
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], cardItem.m_tableItemCard.m_cardHeader);
             m_headerTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             Material mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_headerSubModel).GetComponent<Renderer>().material;
@@ -57,21 +58,21 @@ namespace SDK.Common
             TableJobItemBody jobTable;
             // 边框
             jobTable = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)(cardItem.m_tableItemCard.m_career)).m_itemBody as TableJobItemBody;
-            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], jobTable.m_frameImage);
+            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], jobTable.m_frameImage);
             m_frameTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_frameSubModel).GetComponent<Renderer>().material;
             mat.mainTexture = m_frameTex.getTexture();
 
             // 腰带
-            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], jobTable.m_yaoDaiImage);
+            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], jobTable.m_yaoDaiImage);
             m_yaoDaiTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_yaoDaiSubModel).GetComponent<Renderer>().material;
             mat.mainTexture = m_yaoDaiTex.getTexture();
 
             // 品质
-            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], UtilApi.getImageByPinZhi(cardItem.m_tableItemCard.m_quality));
+            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], UtilApi.getImageByPinZhi(cardItem.m_tableItemCard.m_quality));
             m_pinZhiTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path);
 
             mat = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_pinZhiSubModel).GetComponent<Renderer>().material;

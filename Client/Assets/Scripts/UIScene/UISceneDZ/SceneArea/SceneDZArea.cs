@@ -31,6 +31,15 @@ namespace Game.UI
             m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
 
+        virtual public void dispose()
+        {
+            m_outSceneCardList.dispose();
+            m_inSceneCardList.dispose();
+            m_centerHero.dispose();
+            m_sceneSkillCard.dispose();
+            m_sceneEquipCard.dispose();
+        }
+
         public OutSceneCardList outSceneCardList
         {
             get
@@ -227,12 +236,12 @@ namespace Game.UI
         {
             if ((int)CardArea.CARDCELLTYPE_SKILL == sceneItem.svrCard.pos.dwLocation)
             {
-                m_sceneSkillCard.destroy();
+                m_sceneSkillCard.dispose();
                 m_sceneSkillCard = null;
             }
             else if ((int)CardArea.CARDCELLTYPE_EQUIP == sceneItem.svrCard.pos.dwLocation)
             {
-                m_sceneEquipCard.destroy();
+                m_sceneEquipCard.dispose();
                 m_sceneEquipCard = null;
             }
             else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.svrCard.pos.dwLocation)
@@ -258,7 +267,7 @@ namespace Game.UI
                         m_inSceneCardList.updateCardIndex();
                     }
 
-                    srcCard.destroy();      // 释放这个卡牌
+                    srcCard.dispose();      // 释放这个卡牌
                 }
             }
 

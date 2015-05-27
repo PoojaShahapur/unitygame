@@ -41,6 +41,7 @@ namespace SDK.Common
         public NpcMgr m_npcMgr;                    // Npc管理器
         public PlayerMgr m_playerMgr;              // Player管理器
         public MonsterMgr m_monsterMgr;            // Monster 管理器
+        public SpriteAniMgr m_spriteAniMgr;
 
         public ShareData m_shareData;                 // 共享数据系统
         public LayerMgr m_layerMgr;                 // 层管理器

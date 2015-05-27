@@ -24,7 +24,7 @@ namespace Game.UI
             SlideListItem item = new SlideListItem();
             item.data = cmd;
             item.path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "log.prefab");
-            item.texPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], "pig.png");
+            item.texPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBuildImage], "pig.png");
             m_historyList.addItem(item);
         }
     }

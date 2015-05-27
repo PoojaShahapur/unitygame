@@ -16,6 +16,7 @@
         public string m_skillRes;               // 技能图标资源
 
         public string m_jobNameRes;             // 这个字段表中没有配置
+        public string m_jobBtnRes;              // 职业按钮资源
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -38,11 +39,11 @@
         {
             if (string.IsNullOrEmpty(m_frameImage))
             {
-                m_frameImage = "bbb";
+                m_frameImage = "paidi_kapai";
             }
             if (string.IsNullOrEmpty(m_yaoDaiImage))
             {
-                m_yaoDaiImage = "bbb";
+                m_yaoDaiImage = "mingzidi_kapai";
             }
             if (string.IsNullOrEmpty(m_cardSetRes))
             {
@@ -55,10 +56,12 @@
             if (string.IsNullOrEmpty(m_jobRes))
             {
                 m_jobNameRes = "emei_zhiye";
+                m_jobBtnRes = "gaibang_paizu";
             }
             else
             {
                 m_jobNameRes = string.Format("{0}_name", m_jobRes);
+                m_jobBtnRes = string.Format("{0}_btn", m_jobRes);
             }
             if (string.IsNullOrEmpty(m_jobRes))
             {

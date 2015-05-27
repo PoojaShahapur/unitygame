@@ -9,12 +9,5 @@ namespace SDK.Lib
         {
 
         }
-
-        public TextureRes getTexByCardID(int cardId)
-        {
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathImage], "pig.prefab");
-
-            return getAndSyncLoad<TextureRes>(path);
-        }
     }
 }

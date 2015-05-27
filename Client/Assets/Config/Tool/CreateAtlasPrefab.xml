@@ -4,4 +4,10 @@
 	<path inpath="Res/Image/UI/ShopDyn" outpath="Prefabs/Resources/Atlas/ShopDyn.asset" ignoreext="meta" />
 	<path inpath="Res/Image/UI/TuJianDyn" outpath="Prefabs/Resources/Atlas/TuJianDyn.asset" ignoreext="meta" />
 	<path inpath="Res/Image/UI/JobSelectDyn" outpath="Prefabs/Resources/Atlas/JobSelectDyn.asset" ignoreext="meta" />
+	<path inpath="Res/Image/Effect/SpriteEffect/changpai" outpath="Prefabs/Resources/Effect/SpriteEffect/changpai.asset" ignoreext="meta" />
+	<path inpath="Res/Image/Effect/SpriteEffect/jieshu" outpath="Prefabs/Resources/Effect/SpriteEffect/jieshu.asset" ignoreext="meta" />
+	<path inpath="Res/Image/Effect/SpriteEffect/jineng" outpath="Prefabs/Resources/Effect/SpriteEffect/jineng.asset" ignoreext="meta" />
+	<path inpath="Res/Image/Effect/SpriteEffect/kapai" outpath="Prefabs/Resources/Effect/SpriteEffect/kapai.asset" ignoreext="meta" />
+	<path inpath="Res/Image/Effect/SpriteEffect/wuqi" outpath="Prefabs/Resources/Effect/SpriteEffect/wuqi.asset" ignoreext="meta" />
+	<path inpath="Res/Image/Effect/SpriteEffect/yingxiong" outpath="Prefabs/Resources/Effect/SpriteEffect/yingxiong.asset" ignoreext="meta" />
 </Root>

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using SDK.Common;
 
 namespace SDK.Lib
 {
@@ -20,6 +21,14 @@ namespace SDK.Lib
             obj.m_sprite = sprite;
             obj.m_path = path;
             m_objList.Add(obj);
+        }
+
+        public void unload()
+        {
+            foreach (SerialObject sprite in m_objList)
+            {
+                UtilApi.UnloadAsset(sprite.m_sprite.texture);
+            }
         }
     }
 }

@@ -4,6 +4,8 @@
     {
         eCardSet,
         eCard,
+        eJobSel,
+        eFilter,
     }
 
     public class AuxTuJian

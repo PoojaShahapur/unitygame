@@ -28,6 +28,11 @@ namespace Game.UI
             m_playerFlag = playerFlag;
         }
 
+        virtual public void dispose()
+        {
+
+        }
+
         //public List<SceneDragCard> sceneCardList
         //{
         //    get
@@ -212,7 +217,7 @@ namespace Game.UI
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
-                    m_sceneCardList[idx].destroy();
+                    m_sceneCardList[idx].dispose();
                     m_sceneCardList.RemoveAt(idx);
                     bRet = true;
                     break;

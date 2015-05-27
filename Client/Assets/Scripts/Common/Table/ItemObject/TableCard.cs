@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+
 namespace SDK.Common
 {
     /**
@@ -98,7 +99,7 @@ namespace SDK.Common
         {
             if (string.IsNullOrEmpty(m_cardHeader))
             {
-                m_cardHeader = "aaa";
+                m_cardHeader = "gaibangzhutu_kapai";
             }
         }
     }

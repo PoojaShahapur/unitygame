@@ -841,7 +841,23 @@ namespace SDK.Common
 
         public static string getImageByPinZhi(int pinzhi)
         {
-            return "ccc";
+            return string.Format("pinzhi_kapai_{0}", pinzhi);
+        }
+
+        // 从数字获取 5 位字符串
+        public static string get5StrFromDigit(int digit)
+        {
+            string ret = "";
+            if(digit < 10)
+            {
+                ret = string.Format("{0}{1}", "0000", digit.ToString());
+            }
+            else if(digit < 100)
+            {
+                ret = string.Format("{0}{1}", "000", digit.ToString());
+            }
+
+            return ret;
         }
     }
 }

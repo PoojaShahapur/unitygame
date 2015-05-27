@@ -86,7 +86,7 @@ namespace Game.UI
 
             // 需要监听卡牌的拖动
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            card.m_moveDisp = uiDZ.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
+            card.m_moveDisp = uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
         }
 
         // 更新场景卡牌位置

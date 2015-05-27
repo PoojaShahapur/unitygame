@@ -120,6 +120,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_monsterMgr = new MonsterMgr();
         Ctx.m_instance.m_fObjectMgr = new FObjectMgr();
         Ctx.m_instance.m_npcMgr = new NpcMgr();
+        Ctx.m_instance.m_spriteAniMgr = new SpriteAniMgr();
 
         Ctx.m_instance.m_camSys = new CamSys();
         Ctx.m_instance.m_aiSystem = new AISystem();
@@ -140,6 +141,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_monsterMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_fObjectMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_npcMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
 
         Ctx.m_instance.m_uiMgr.findCanvasGO();
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();

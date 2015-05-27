@@ -23,8 +23,6 @@ namespace Game.UI
             addEventHandle();
 
             m_tuJianData.init();
-
-            m_tuJianData.m_leftBtnPnl.hideAllJobBtn();
             psstNotifyAllCardTujianInfoCmd();
         }
 
@@ -163,6 +161,16 @@ namespace Game.UI
         {
             m_tuJianData.m_wdscCardPnl.buildFilterList();        // 生成过滤列表
             m_tuJianData.m_wdscCardPnl.destroyAndUpdateCardList();
+        }
+
+        public void updateByCareer(int idx)
+        {
+            m_tuJianData.m_leftBtnPnl.updateByCareer(idx);      // 切换到第一个职业
+        }
+
+        public void updateFilter(int idx)
+        {
+            m_tuJianData.m_wdscCardPnl.filterMp = idx;
         }
     }
 }
