@@ -138,7 +138,9 @@ namespace SDK.Common
                 layer.winDic.Remove(ID);
                 // 释放界面资源
                 win.onExit();
+                //UtilApi.removeSpriteImage(win.m_GUIWin.m_uiRoot);
                 UtilApi.Destroy(win.m_GUIWin.m_uiRoot);
+                win.m_GUIWin.m_uiRoot = null;
                 // 释放加载的资源
                 //string path = m_UIAttrs.getPath(ID);
                 //if (path != null)

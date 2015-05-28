@@ -102,6 +102,26 @@ namespace SDK.Common
             btn.onClick.RemoveListener(handle);
         }
 
+        // 深度遍历移除 Sprite Image
+        public static void removeSpriteImage(GameObject go_)
+        {
+            // 每一个 GameObject 只能有一个 Image 组件
+            Image image = go_.GetComponent<Image>();
+            if(image != null)
+            {
+                image.sprite = null;
+            }
+
+            int childCount = go_.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                childTrans = go_.transform.GetChild(idx);
+                UtilApi.removeSpriteImage(childTrans.gameObject);
+            }
+        }
+
         // 销毁对象
         public static void Destroy(UnityEngine.Object obj)
         {
