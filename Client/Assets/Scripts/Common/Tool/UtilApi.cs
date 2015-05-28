@@ -103,12 +103,16 @@ namespace SDK.Common
         }
 
         // 深度遍历移除 Sprite Image
-        public static void removeSpriteImage(GameObject go_)
+        public static void DestroyComponent(GameObject go_)
         {
             // 每一个 GameObject 只能有一个 Image 组件
             Image image = go_.GetComponent<Image>();
-            if(image != null)
+            if (image != null && image.sprite != null)
             {
+                if (image.sprite.texture != null)
+                {
+
+                }
                 image.sprite = null;
             }
 
@@ -118,7 +122,7 @@ namespace SDK.Common
             for (idx = 0; idx < childCount; ++idx)
             {
                 childTrans = go_.transform.GetChild(idx);
-                UtilApi.removeSpriteImage(childTrans.gameObject);
+                UtilApi.DestroyComponent(childTrans.gameObject);
             }
         }
 
@@ -129,6 +133,7 @@ namespace SDK.Common
             {
                 if (obj as GameObject)
                 {
+                    UtilApi.DestroyComponent(obj as GameObject);
                     (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
                 }
                 UnityEngine.Object.Destroy(obj);
@@ -215,6 +220,7 @@ namespace SDK.Common
         public static AsyncOperation UnloadUnusedAssets()
         {
             AsyncOperation opt = Resources.UnloadUnusedAssets();
+            GC.Collect();
             return opt;
         }
 
