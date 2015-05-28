@@ -20,6 +20,7 @@ namespace SDK.Common
         // 每一个卡牌组
         public List<CardGroupItem> m_cardGroupListArr = new List<CardGroupItem>();      // 每一个职业一个列表
         public Dictionary<uint, CardGroupItem> m_id2CardGroupDic = new Dictionary<uint, CardGroupItem>();
+        public EventDispatch m_cardSetChangedDisp;  // 卡组改变事件分发
 
         public Dictionary<int, CardGroupAttrMatItem> m_id2CardGroupMatAttrDic = new Dictionary<int, CardGroupAttrMatItem>();        // 卡牌材质属性
 
@@ -43,10 +44,7 @@ namespace SDK.Common
                 ++idx;
             }
 
-            // Test
-            m_id2CardDic[1] = new CardItemBase();
-            m_id2CardDic[2] = new CardItemBase();
-            m_id2CardDic[3] = new CardItemBase();
+            m_cardSetChangedDisp = new AddOnceEventDispatch();
         }
 
         public void registerCardAttr()
@@ -75,6 +73,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -82,6 +81,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -89,6 +89,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -96,6 +97,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -103,6 +105,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -110,6 +113,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -117,6 +121,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_LUCK_COINS].m_raceSubModel = "menpaidi_kapai";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1] = new CardModelItem();
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "CardModel.prefab");
@@ -124,6 +129,7 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_pinZhiSubModel = "pinzhi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_NEW1].m_raceSubModel = "menpaidi_kapai";
 
             m_costModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "cost.prefab");
             m_enemyCardModelAttrItem.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "enemycard.prefab");
@@ -232,6 +238,8 @@ namespace SDK.Common
                     m_id2CardGroupDic[item.m_cardGroup.index] = item;
                 }
             }
+
+            m_cardSetChangedDisp.dispatchEvent(null);
         }
 
         public void psstRetOneCardGroupInfoUserCmd(stRetOneCardGroupInfoUserCmd msg)
@@ -257,6 +265,8 @@ namespace SDK.Common
                 m_cardGroupListArr.Add(item);
                 m_id2CardGroupDic[item.m_cardGroup.index] = item;
             }
+
+            m_cardSetChangedDisp.dispatchEvent(null);
         }
 
         public int psstRetDeleteOneCardGroupUserCmd(uint index)

@@ -30,7 +30,7 @@ namespace SDK.Common
             return GameObject.Find(name);
         }
 
-        // 通过父对象和完整的目录查找 child 对象
+        // 通过父对象和完整的目录查找 child 对象，如果 path=""，返回的是自己，如果 path = null ，宕机
         static public GameObject TransFindChildByPObjAndPath(GameObject pObject, string path)
         {
             return pObject.transform.Find(path).gameObject;
@@ -411,134 +411,21 @@ namespace SDK.Common
         // 赋值卡牌显示
         public static void updateCardDataNoChange(TableCardItemBody cardTableItem, GameObject gameObject)
         {
-            Text text;
-            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/NameText");         // 名字
+            AuxLabel text;
+            text = new AuxLabel(gameObject, "UIRoot/NameText");         // 名字
             text.text = cardTableItem.m_name;
-
-            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/DescText");  // 描述
-            //string desc = "";
-            //if (cardTableItem.m_chaoFeng == 1)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.ChaoFeng;
-            //}
-            //if (cardTableItem.m_chongFeng == 1)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.ChongFeng;
-            //}
-            //if (cardTableItem.m_fengNu == 1)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.FengNu;
-            //}
-            //if (cardTableItem.m_qianXing == 1)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.QianXing;
-            //}
-            //if (cardTableItem.m_shengDun == 1)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.ShengDun;
-            //}
-
-            //if (cardTableItem.m_magicConsume > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.MoFaXiaoHao;
-            //}
-            //if (cardTableItem.m_attack > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.GongJiLi;
-            //}
-            //if (cardTableItem.m_hp > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.Xueliang;
-            //}
-            //if (cardTableItem.m_Durable > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.NaiJiu;
-            //}
-            //if (cardTableItem.m_mpAdded > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.FaShuShangHai;
-            //}
-            //if (cardTableItem.m_guoZai > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    desc += TableCardAttrName.GuoZai;
-            //}
-
-            //TableSkillItemBody tableSkillItem;
-            //// 技能
-            //if (cardTableItem.m_faShu > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_faShu).m_itemBody as TableSkillItemBody;
-            //    desc += tableSkillItem.m_desc;
-            //}
-            //if (cardTableItem.m_zhanHou > 0)
-            //{
-            //    if (desc.Length > 0)
-            //    {
-            //        desc += "\n";
-            //    }
-            //    tableSkillItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (uint)cardTableItem.m_zhanHou).m_itemBody as TableSkillItemBody;
-            //    desc += tableSkillItem.m_desc;
-            //}
-
+            text.setSelfGo(gameObject, "UIRoot/DescText");  // 描述
             text.text = cardTableItem.m_cardDesc;
         }
 
         public static void updateCardDataChange(TableCardItemBody cardTableItem, GameObject gameObject)
         {
-            Text text;
-            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/AttText");       // 攻击
+            AuxLabel text;
+            text = new AuxLabel(gameObject, "UIRoot/AttText");       // 攻击
             text.text = cardTableItem.m_attack.ToString();
-            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/MpText");         // Magic
+            text.setSelfGo(gameObject, "UIRoot/MpText");         // Magic
             text.text = cardTableItem.m_magicConsume.ToString();
-            text = UtilApi.getComByP<Text>(gameObject, "UIRoot/HpText");       // HP
+            text.setSelfGo(gameObject, "UIRoot/HpText");       // HP
             text.text = cardTableItem.m_hp.ToString();
         }
 

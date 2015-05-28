@@ -28,6 +28,7 @@ namespace SDK.Common
             m_dicTable[TableID.TABLE_SKILL] = new TableBase("SkillBase_client.bytes", "SkillBase_client");    // 添加一个表的步骤三
             m_dicTable[TableID.TABLE_JOB] = new TableBase("proBase_client.bytes", "proBase_client");
             m_dicTable[TableID.TABLE_SPRITEANI] = new TableBase("FrameAni_client.bytes", "FrameAni_client");
+            m_dicTable[TableID.TABLE_RACE] = new TableBase("RaceBase_client.bytes", "RaceBase_client");
 		}
 
         // 返回一个表
@@ -143,6 +144,10 @@ namespace SDK.Common
             else if (TableID.TABLE_SPRITEANI == tableID)
             {
                 itemBase.parseBodyByteBuffer<TableSpriteAniItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+            }
+            else if (TableID.TABLE_RACE == tableID)
+            {
+                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
         }
 		

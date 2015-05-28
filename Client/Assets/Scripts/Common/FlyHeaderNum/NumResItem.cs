@@ -11,7 +11,7 @@ namespace SDK.Common
     {
         protected int m_num;        // 数字
         protected GameObject m_parentGo = new GameObject();        // 父节点
-        protected List<ModelItem> m_childList = new List<ModelItem>();
+        protected List<AuxDynModel> m_childList = new List<AuxDynModel>();
 
         protected float m_modelWidth = 0.5f;
         protected float m_modelHeight = 0.5f;
@@ -43,16 +43,16 @@ namespace SDK.Common
                 }
 
                 mod = 0;
-                ModelItem modelItem;
+                AuxDynModel modelItem;
                 int idx = 0;
                 int curNum = 0;
                 while (idx < numList.Count)
                 {
                     curNum = numList[numList.Count - 1 - idx];
-                    modelItem = new ModelItem();
+                    modelItem = new AuxDynModel();
                     modelItem.pntGo = m_parentGo;
-                    modelItem.resPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
-                    modelItem.updateModel();
+                    modelItem.modelResPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                    modelItem.syncUpdateModel();
                     modelItem.selfGo.transform.localPosition = new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0);
                     m_childList.Add(modelItem);
 
@@ -63,7 +63,7 @@ namespace SDK.Common
 
         public void disposeNum()
         {
-            foreach (ModelItem child in m_childList)
+            foreach (AuxDynModel child in m_childList)
             {
                 child.dispose();
             }

@@ -23,7 +23,7 @@ namespace Game.UI
             m_jobCardList = new List<JobCard>();
             if (JobSelectMode.eNewCardSet == Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.jobSelectMode)
             {
-                m_cardCount = (int)EnPlayerCareer.ePCTotal - 1;
+                m_cardCount = (int)EnPlayerCareer.ePCTotal - 1;     // 没有中立
             }
             else if (JobSelectMode.eDz == Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.jobSelectMode)
             {
@@ -101,6 +101,8 @@ namespace Game.UI
             {
                 m_jobCardList[idx].init();
             }
+
+            setDefaultCard();
         }
 
         override public void dispose()
@@ -113,22 +115,20 @@ namespace Game.UI
             }
         }
 
-        public void toggleJob(int idx, bool bShow)
+        public void toggleJob(int idx)
         {
             TableItemBase tableItem;
             TableJobItemBody tableJobItemBody = null;
-            if(bShow)
-            {
-                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)m_jobCardList[idx].career);
-                if (tableItem != null)
-                {
-                    tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
-                    m_jobText.text = tableJobItemBody.m_jobDesc;
 
-                    m_jobSelectData.m_rightPnl.toggleJob((int)(m_jobCardList[idx].career), tableJobItemBody);
-                    m_jobNameImage.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_jobNameRes);
-                    m_jobNameImage.syncUpdateCom();
-                }
+            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)m_jobCardList[idx].career);
+            if (tableItem != null)
+            {
+                tableJobItemBody = tableItem.m_itemBody as TableJobItemBody;
+                m_jobText.text = tableJobItemBody.m_jobDesc;
+
+                m_jobSelectData.m_rightPnl.toggleJob((int)(m_jobCardList[idx].career), tableJobItemBody);
+                m_jobNameImage.setImageInfo(CVAtlasName.JobSelectDyn, tableJobItemBody.m_jobNameRes);
+                m_jobNameImage.syncUpdateCom();
             }
         }
 
@@ -180,6 +180,17 @@ namespace Game.UI
                 m_jobCardList[idx].findWidget();
 
                 m_jobCardList[idx].addEventHandle();
+            }
+
+            setDefaultCard();
+        }
+
+        protected void setDefaultCard()
+        {
+            // 默认选择一个
+            if (m_jobCardList.Count > 0)
+            {
+                m_jobCardList[0].onJobSelBtnClk();
             }
         }
     }

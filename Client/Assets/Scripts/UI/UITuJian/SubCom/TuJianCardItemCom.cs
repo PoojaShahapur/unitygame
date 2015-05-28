@@ -8,31 +8,25 @@ namespace Game.UI
     /**
      * @brief 收藏界面我的一个卡牌，和卡牌组不同
      */
-    public class TuJianCardItemCom : SceneCardRes
+    public class TuJianCardItemCom : SceneCardModel
     {
         public CardItemBase m_cardItemBase; // 卡牌基本数据
         public Action<TuJianCardItemCom> m_clkCB;
 
-        override public void createCard(CardItemBase cardItem)
+        override public void createCard(CardItemBase cardItem, GameObject pntGo_)
         {
-            base.createCard(cardItem);
+            base.createCard(cardItem, pntGo_);
 
-            UtilApi.setLayer(gameObject, Config.UIModelLayer);
+            UtilApi.setLayer(m_model.selfGo, Config.UIModelLayer);
             //UtilApi.setScale(gameObject.transform, new Vector3(0.24f, 1, 0.24f));
-
-            setGameObject(gameObject);
             this.cardItemBase = cardItem;
-        }
-
-        public override void Start()
-        {
             addEventHandle();
         }
 
         // 添加事件监听
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(gameObject, onBtnClkOpen);
+            UtilApi.addEventHandle(m_model.selfGo, onBtnClkOpen);
         }
 
         // 点击开包按钮

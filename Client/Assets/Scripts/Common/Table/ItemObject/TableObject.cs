@@ -39,7 +39,7 @@ namespace SDK.Common
         public int m_maxNum;
         public int m_type;
         public int m_color;
-        protected string m_prefab;
+        public string m_objResName;
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -48,15 +48,7 @@ namespace SDK.Common
             bytes.readInt32(ref m_maxNum);
             bytes.readInt32(ref m_type);
             bytes.readInt32(ref m_color);
-            UtilTable.readString(bytes, ref m_prefab);
-        }
-
-        public string path
-        {
-            get
-            {
-                return string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], m_prefab, ".prefab");
-            }
+            UtilTable.readString(bytes, ref m_objResName);
         }
     }
 }

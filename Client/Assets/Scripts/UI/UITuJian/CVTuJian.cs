@@ -47,5 +47,9 @@
 
         public const string CardSetPrefabPath = "UI/UITuJian/CardSet.prefab";
         public const string CardSetCardPrefabPath = "UI/UITuJian/CardSetCard.prefab";
+
+        public const string NumImage = "NumImage";
+        public const string MpNumText = "MpNumText";
+        public const string NameText = "NameText";
     }
 }

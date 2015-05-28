@@ -49,6 +49,7 @@ namespace SDK.Lib
             {
                 //UtilApi.UnloadAsset(m_go);
                 //UtilApi.DestroyImmediate(m_go, true);
+                UtilApi.UnloadUnusedAssets();
                 m_go = null;
             }
             m_retGO = null;

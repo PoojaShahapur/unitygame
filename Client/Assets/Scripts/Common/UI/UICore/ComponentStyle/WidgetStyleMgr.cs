@@ -9,6 +9,7 @@ namespace SDK.Common
         public WidgetStyleMgr()
         {
             m_style2Dic = new Dictionary<WidgetStyleID, Dictionary<int, WidgetStyle>>();
+            registerStype();
         }
 
         public void addWidgetStype(WidgetStyleID widgetId, int comId, WidgetStyle style)
@@ -23,6 +24,15 @@ namespace SDK.Common
         public T GetWidgetStyle<T>(WidgetStyleID widgetId, int comId) where T : WidgetStyle
         {
             return m_style2Dic[widgetId][comId] as T;
+        }
+
+        protected void registerStype()
+        {
+            LabelStyleBase lblStyle = new LabelStyleBase();
+            addWidgetStype(WidgetStyleID.eWSID_Text, (int)LabelStyleID.eLSID_None, lblStyle);
+
+            ButtonStyleBase btnStyle = new ButtonStyleBase();
+            addWidgetStype(WidgetStyleID.eWSID_Button, (int)BtnStyleID.eBSID_None, btnStyle);
         }
     }
 }

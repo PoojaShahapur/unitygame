@@ -103,6 +103,7 @@ namespace Game.UI
         public void psstRetCreateOneCardGroupUserCmd(CardGroupItem cardGroup)
         {
             newCardSet(cardGroup);
+            m_tuJianData.m_leftBtnPnl.updateByCareer((int)cardGroup.m_cardGroup.occupation);    // 切换到这个套牌的职业
         }
 
         // 删除一个套牌
@@ -171,6 +172,18 @@ namespace Game.UI
         public void updateFilter(int idx)
         {
             m_tuJianData.m_wdscCardPnl.filterMp = idx;
+        }
+
+        // 返回是否在编辑模式
+        public bool bInEditMode()
+        {
+            return m_tuJianData.m_wdscCardSetPnl.m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Editset;
+        }
+
+        // 返回编辑的套牌
+        public uint getEditCareerID()
+        {
+            return m_tuJianData.m_wdscCardSetPnl.m_curEditCardSet.m_cardGroupItem.m_cardGroup.occupation;
         }
     }
 }

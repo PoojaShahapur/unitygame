@@ -31,6 +31,7 @@ namespace Game.UI
     {
         public CardSetCom m_curEditCardSet = null;                 // 当前正在编辑的卡牌组，注意这个不是指向编辑的指针，而是拷贝的数据
         public List<TuJianCardSetCardItemCom> m_cardList = new List<TuJianCardSetCardItemCom>();// 当前在编辑的卡组中的卡牌列表
+        public Dictionary<uint, TuJianCardSetCardItemCom> m_id2CardComDic = new Dictionary<uint,TuJianCardSetCardItemCom>();
         public List<CardSetCom> m_cardSetEntityList = new List<CardSetCom>();      // 当前已经有的卡牌组
 
         public AuxLayoutV m_cardSetCardLayoutV;            // 左边的卡牌列表
@@ -69,14 +70,15 @@ namespace Game.UI
 
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxDynImageStaticGoButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
+            updateRetBtnImage(true);
             m_cardSetCardCntText = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
         }
 
         public new void addEventHandle()
         {
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].addEventHandle(onBtnClkAddTaoPai);       // 新增套牌
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet].addEventHandle(onBtnClkRet);       // 新增套牌
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet].addEventHandle(onBtnClkRet);       // 完成和返回
         }
 
         public new void init()
@@ -89,12 +91,30 @@ namespace Game.UI
             {
                 newCardSet(groupItem, false);
             }
+
+            Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetChangedDisp.addEventHandle(updateCardSetCardCntText);
+            updateCardSetCardCntText();
         }
 
         public new void dispose()
         {
             delAllCardGroup();
             releaseLeftCardList();
+            Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetChangedDisp.removeEventHandle(updateCardSetCardCntText);
+        }
+
+        protected void updateRetBtnImage(bool bRet)
+        {
+            if (bRet)
+            {
+                (m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] as AuxDynImageStaticGoButton).auxDynImageStaticGOImage.setImageInfo(CVAtlasName.TuJianDyn, "fanhui_tujian");
+                (m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] as AuxDynImageStaticGoButton).auxDynImageStaticGOImage.syncUpdateCom();
+            }
+            else
+            {
+                (m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] as AuxDynImageStaticGoButton).auxDynImageStaticGOImage.setImageInfo(CVAtlasName.TuJianDyn, "wancheng_anniu");
+                (m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] as AuxDynImageStaticGoButton).auxDynImageStaticGOImage.syncUpdateCom();
+            }
         }
 
         protected void onBtnClkRet(IDispatchObject dispObj)
@@ -117,9 +137,10 @@ namespace Game.UI
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Editset;
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].hide();
             m_cardSetLayoutV.hideLayout();
+            updateRetBtnImage(false);
         }
 
-        void endEditCardSetMode()
+        protected void endEditCardSetMode()
         {
             reqSaveCard();  // 请求保存
 
@@ -128,8 +149,9 @@ namespace Game.UI
 
             m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet].show();
             m_cardSetLayoutV.showLayout();
-
             m_curTaoPaiMod = WdscmTaoPaiMod.eTaoPaiMod_Look;        // 修改卡牌组编辑模式为不可加入卡牌
+            updateCardSetCardCntText();
+            updateRetBtnImage(true);
         }
 
         // 向后退回
@@ -163,7 +185,7 @@ namespace Game.UI
             stReqSaveOneCardGroupUserCmd cmd = new stReqSaveOneCardGroupUserCmd();
 
             cmd.index = m_curEditCardSet.m_cardGroupItem.m_cardGroup.index;
-            if (m_curEditCardSet.m_cardGroupItem.m_cardList == null)
+            if (m_curEditCardSet.m_cardGroupItem.m_cardList != null)
             {
                 cmd.count = 0;
             }
@@ -238,6 +260,7 @@ namespace Game.UI
                 ++idx;
             }
             m_cardList.Clear();
+            m_id2CardComDic.Clear();
         }
 
         public bool bCurEditCardSet(CardSetCom cardSet)
@@ -262,9 +285,16 @@ namespace Game.UI
             }
         }
 
-        protected void updateCardSetCardCntText()
+        protected void updateCardSetCardCntText(IDispatchObject dispObj = null)
         {
-            m_cardSetCardCntText.text = string.Format("{0}/{1}\n卡牌", m_cardList.Count, 30);
+            if (m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Look)
+            {
+                m_cardSetCardCntText.text = string.Format("{0}/{1}", Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr.Count, 9);   // 设置显示套牌数量
+            }
+            else
+            {
+                m_cardSetCardCntText.text = string.Format("{0}/{1}\n卡牌", m_cardList.Count, 30);
+            }
         }
 
         // 添加一张卡牌到编辑的卡组
@@ -274,13 +304,16 @@ namespace Game.UI
             {
                 m_curEditCardSet.m_cardGroupItem.m_cardList = new List<uint>();
             }
-            if (m_curEditCardSet.m_cardGroupItem.m_cardList.IndexOf(cardID) == -1)
+            if (!bNameNumEqualTwo(cardID))
             {
-                if (m_curEditCardSet.m_cardGroupItem.m_cardList.Count < 30)
+                if (m_curEditCardSet.m_cardGroupItem.m_cardList.IndexOf(cardID) == -1)
                 {
-                    m_curEditCardSet.m_cardGroupItem.m_cardList.Add(cardID);
-                    // 继续添加显示
-                    createCardSetCard(cardID);
+                    if (m_curEditCardSet.m_cardGroupItem.m_cardList.Count < 30)
+                    {
+                        m_curEditCardSet.m_cardGroupItem.m_cardList.Add(cardID);
+                        // 继续添加显示
+                        createCardSetCard(cardID);
+                    }
                 }
             }
 
@@ -290,15 +323,23 @@ namespace Game.UI
         // 创建一个卡牌组中的卡牌
         public void createCardSetCard(uint cardID)
         {
-            TableCardItemBody cardItem;
-            TableItemBase tableItem;
-            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, cardID);
-            cardItem = tableItem.m_itemBody as TableCardItemBody;
+            if (!m_id2CardComDic.ContainsKey(cardID))
+            {
+                TableCardItemBody cardItem;
+                TableItemBase tableItem;
+                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, cardID);
+                cardItem = tableItem.m_itemBody as TableCardItemBody;
 
-            TuJianCardSetCardItemCom cardCom = new TuJianCardSetCardItemCom();
-            m_cardList.Add(cardCom);
-            cardCom.cardItem = cardItem;
-            cardCom.add2Layout(m_cardSetCardLayoutV);
+                TuJianCardSetCardItemCom cardCom = new TuJianCardSetCardItemCom();
+                m_cardList.Add(cardCom);
+                m_id2CardComDic[cardID] = cardCom;
+                cardCom.cardItem = cardItem;
+                cardCom.add2Layout(m_cardSetCardLayoutV);
+            }
+            else
+            {
+                m_id2CardComDic[cardID].numImage.show();
+            }
         }
 
         // 新建卡牌组， bEnterEdit 是否立即进入编辑模式
@@ -337,6 +378,7 @@ namespace Game.UI
                     {
                         if(cardSet.m_cardGroupItem.m_cardGroup.index == index)
                         {
+                            findSet = cardSet;
                             break;
                         }
                     }
@@ -346,6 +388,30 @@ namespace Game.UI
                     }
                 }
             }
+        }
+
+        // 已经添加的名字的数量是否是两个
+        protected bool bNameNumEqualTwo(uint cardID)
+        {
+            TableCardItemBody cardItem;
+            TableCardItemBody cardListItem;
+            TableItemBase tableItem;
+            tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, cardID);
+            cardItem = tableItem.m_itemBody as TableCardItemBody;
+
+            int cardNum = 0;
+
+            foreach(uint cardidx in m_curEditCardSet.m_cardGroupItem.m_cardList)
+            {
+                tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, cardidx);
+                cardListItem = tableItem.m_itemBody as TableCardItemBody;
+                if(cardListItem.m_name == cardItem.m_name)
+                {
+                    ++cardNum;
+                }
+            }
+
+            return cardNum == 2;
         }
     }
 }

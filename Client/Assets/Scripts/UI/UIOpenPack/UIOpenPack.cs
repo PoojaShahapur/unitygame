@@ -95,16 +95,6 @@ namespace Game.UI
 			// 发送消息
 			stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
 			UtilMsg.sendMsg(cmd);
-
-            //UISceneShop uiShop = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneShop>(UISceneFormID.eUISceneShop);
-            //if (uiShop == null)
-            //{
-            //    Ctx.m_instance.m_uiSceneMgr.loadSceneForm<UISceneShop>(UISceneFormID.eUISceneShop);
-            //}
-            //uiShop = Ctx.m_instance.m_uiSceneMgr.showSceneForm(UISceneFormID.eUISceneShop) as UISceneShop;
-			
-            //// 显示
-            //uiShop.showUI();
 		}
 
         protected void onBtnClkBack(IDispatchObject dispObj)
@@ -191,10 +181,12 @@ namespace Game.UI
                 objitem = bojBase.m_tableItemObject;
 
                 m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].auxDynImageStaticGoButton.show();
+                m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
 
                 if (Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList.Count > 1)
                 {
                     m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].auxDynImageStaticGoButton.show();
+                    m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[1];
                 }
                 else
                 {

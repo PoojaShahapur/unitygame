@@ -11,5 +11,6 @@
         public string m_frameSubModel = "";        // 边框子模型名字，由卡的职业决定
         public string m_yaoDaiSubModel = "";       // 腰带子模型名字，由卡的职业决定
         public string m_pinZhiSubModel = "";       // 品质子模型名字，根据品质决定，但是这个不配置，就几种，代码写死
+        public string m_raceSubModel = "";       // 种族子模型名字
     }
 }

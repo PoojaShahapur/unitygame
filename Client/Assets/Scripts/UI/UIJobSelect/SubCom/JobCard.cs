@@ -14,6 +14,7 @@ namespace Game.UI
         
         protected CardGroupItem m_cardGroupItem;
         protected AuxDynImageDynGOImage m_jobCardBtn;
+        protected AuxLabel m_cardSetCardNumText;
 
         public JobCard(JobSelectData data, int tag_, EnPlayerCareer ccc):
             base(data)
@@ -65,6 +66,8 @@ namespace Game.UI
                 m_jobCardBtn.syncUpdateCom();
 
                 m_jobCardBtn.selfGo.name = string.Format("JobSelCard_{0}", career);
+                m_cardSetCardNumText = new AuxLabel(m_jobCardBtn.selfGo, JobSelectPath.CardSetCardNumText);
+                m_cardSetCardNumText.text = string.Format("{0}/30", m_cardGroupItem.m_cardGroup.cardNum);
             }
         }
 
@@ -85,16 +88,13 @@ namespace Game.UI
 
         public void onJobSelBtnClk()
         {
-            int idx = 0;
-            if (m_jobSelectData.m_midPnl.curSelJobCard != null)
+            if (m_jobSelectData.m_midPnl.curSelJobCard == null || !m_jobSelectData.m_midPnl.curSelJobCard.Equals(this))
             {
-                idx = m_jobSelectData.m_midPnl.getIdxByCareerID(m_jobSelectData.m_midPnl.curSelJobCard.career);
-                m_jobSelectData.m_midPnl.toggleJob(idx, false);
-            }
-            m_jobSelectData.m_midPnl.curSelJobCard = this;
-            m_jobSelectData.m_midPnl.toggleJob(m_tag, true);
+                m_jobSelectData.m_midPnl.curSelJobCard = this;
+                m_jobSelectData.m_midPnl.toggleJob(m_tag);
 
-            m_jobSelectData.m_rightPnl.m_jobSelProg.update();
+                m_jobSelectData.m_rightPnl.m_jobSelProg.update();
+            }
         }
     }
 }

@@ -21,5 +21,7 @@
         public const string ImageSkillIcon = "UIRootNode/MidLayer/SkillIconImage";
         public const string ImageJobName = "UIRootNode/MidLayer/JobNameImage";
         public const string DzStartDescText = "UIRootNode/MidLayer/DzStartDescText";
+
+        public const string CardSetCardNumText = "CardSetCardNumText";
     }
 }

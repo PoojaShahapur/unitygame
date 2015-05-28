@@ -52,6 +52,7 @@ namespace SDK.Lib
             {
                 //UtilApi.UnloadAsset(m_go);      // 强制卸载资源数据
                 //UtilApi.DestroyImmediate(m_go, true);
+                UtilApi.UnloadUnusedAssets();
                 m_go = null;
             }
             m_retGO = null;

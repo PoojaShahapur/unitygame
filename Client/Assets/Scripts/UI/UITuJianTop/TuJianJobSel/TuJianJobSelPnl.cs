@@ -17,7 +17,23 @@ namespace Game.UI
 
         override public void findWidget()
         {
-            
+            m_btnArr[(int)Job_BtnIndex.eBtnJob0f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job0f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob1f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job1f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob2f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job2f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob3f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job3f);
+
+            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            if(uiTuJian != null)
+            {
+                if(uiTuJian.bInEditMode())
+                {
+                    m_btnArr[(int)Job_BtnIndex.eBtnJob1f].hide();
+                    m_btnArr[(int)Job_BtnIndex.eBtnJob2f].hide();
+                    m_btnArr[(int)Job_BtnIndex.eBtnJob3f].hide();
+
+                    m_btnArr[(int)uiTuJian.getEditCareerID()].show();
+                }
+            }
         }
 
         override public void addEventHandle()

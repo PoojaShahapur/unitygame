@@ -104,7 +104,7 @@ namespace Game.UI
             }
             else if (Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu == ETuJianMenu.eFilter)
             {
-                m_tuJianCardSetMenuPnl.m_go = UtilApi.TransFindChildByPObjAndPath(m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter_Root);
+                m_tuJianFilterMenuPnl.m_go = UtilApi.TransFindChildByPObjAndPath(m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter_Root);
                 m_tuJianFilterMenuPnl.init();
             }
         }
