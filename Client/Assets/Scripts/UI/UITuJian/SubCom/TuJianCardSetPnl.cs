@@ -185,17 +185,12 @@ namespace Game.UI
             stReqSaveOneCardGroupUserCmd cmd = new stReqSaveOneCardGroupUserCmd();
 
             cmd.index = m_curEditCardSet.m_cardGroupItem.m_cardGroup.index;
-            if (m_curEditCardSet.m_cardGroupItem.m_cardList != null)
-            {
-                cmd.count = 0;
-            }
-            else
+            if (m_curEditCardSet.bDiffForm(m_curCardSet))   // 如果发生改变
             {
                 cmd.count = (ushort)m_curEditCardSet.m_cardGroupItem.m_cardList.Count;
+                cmd.id = m_curEditCardSet.m_cardGroupItem.m_cardList;
+                UtilMsg.sendMsg(cmd);
             }
-            cmd.id = m_curEditCardSet.m_cardGroupItem.m_cardList;
-
-            UtilMsg.sendMsg(cmd);
         }
 
         // 保存卡牌成功

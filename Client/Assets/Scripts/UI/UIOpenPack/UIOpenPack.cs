@@ -26,7 +26,7 @@ namespace Game.UI
             findWidget();
             addEventHandle();
 
-            for (idx = 0; idx < (int)CardBtnEnum.eCardBtnTotal; ++idx)
+            for (idx = 3; idx < (int)CardBtnEnum.eCardBtnTotal; ++idx)
             {
                 m_cardBtnArr[idx].load();
             }
@@ -104,6 +104,9 @@ namespace Game.UI
 
         protected void onPackBtnClk_0(IDispatchObject dispObj)
         {
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].load();
+
             DataItemObjectBase bojBase;
 
             bojBase = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
@@ -122,6 +125,9 @@ namespace Game.UI
 
         protected void onPackBtnClk_1(IDispatchObject dispObj)
         {
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[1];
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].load();
+
             DataItemObjectBase bojBase;
 
             bojBase = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[1];
@@ -182,11 +188,13 @@ namespace Game.UI
 
                 m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].auxDynImageStaticGoButton.show();
                 m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
+                m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].load();
 
                 if (Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList.Count > 1)
                 {
                     m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].auxDynImageStaticGoButton.show();
                     m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[1];
+                    m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].load();
                 }
                 else
                 {

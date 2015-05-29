@@ -25,9 +25,13 @@ namespace SDK.Lib
 
         public void unload()
         {
-            foreach (SerialObject sprite in m_objList)
+            if (m_objList != null)
             {
-                UtilApi.UnloadAsset(sprite.m_sprite.texture);
+                foreach (SerialObject sprite in m_objList)
+                {
+                    UtilApi.UnloadAsset(sprite.m_sprite.texture);
+                }
+                m_objList = null;
             }
         }
     }

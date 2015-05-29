@@ -68,7 +68,7 @@ namespace EditorTool
             {
                 ExportUtil.CreateDirectory(Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
             }
-            ExportUtil.recrueDirs(m_srcFullPath, handleFile, handleDir);
+            ExportUtil.recursiveTraversalDir(m_srcFullPath, handleFile, handleDir);
         }
 
         // 遍历一个文件的时候处理

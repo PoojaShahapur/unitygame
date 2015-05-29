@@ -48,7 +48,7 @@ namespace Game.UI
         {
             if (m_tag < 3)
             {
-                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, (m_objData.m_tableItemObject.m_itemBody as TableObjectItemBody).m_objResName);
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.OpenPackDyn, (m_objData.m_tableItemObject.m_itemBody as TableObjectItemBody).m_objResName);
                 m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.syncUpdateCom();
             }
             else

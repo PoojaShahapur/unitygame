@@ -150,5 +150,10 @@ namespace Game.UI
             AuxComponent imageCom = dispObj as AuxComponent;
             m_nameLbl = new AuxLabel(imageCom.selfGo, TuJianPath.CardSetNameText);
         }
+
+        public bool bDiffForm(CardSetCom rhv)
+        {
+            return m_cardGroupItem.bDiffForm(rhv.m_cardGroupItem);
+        }
     }
 }

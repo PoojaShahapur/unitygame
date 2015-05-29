@@ -15,6 +15,7 @@ namespace AtlasPrefabSys
         public static void spriteGoPack()
         {
             CreateAtlasPrefabSys.instance();
+            CreateAtlasPrefabSys.m_instance.clear();
             //AtlasPrefabUtil.createPrefab("aaaa");
             CreateAtlasPrefabSys.m_instance.parseXml();
             CreateAtlasPrefabSys.m_instance.exportPrefab();
@@ -23,6 +24,7 @@ namespace AtlasPrefabSys
         public static void spriteScriptPack()
         {
             CreateAtlasPrefabSys.instance();
+            CreateAtlasPrefabSys.m_instance.clear();
             CreateAtlasPrefabSys.m_instance.parseXml();
             CreateAtlasPrefabSys.m_instance.exportAsset();
         }

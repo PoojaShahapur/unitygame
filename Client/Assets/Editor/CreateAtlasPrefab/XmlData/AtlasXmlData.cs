@@ -1,6 +1,8 @@
 ﻿using EditorTool;
+using SDK.Common;
 using SDK.Lib;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +12,11 @@ namespace AtlasPrefabSys
     public class AtlasXmlData
     {
         public List<AtlasXmlPath> m_pathList = new List<AtlasXmlPath>();
+
+        public void clear()
+        {
+            m_pathList.Clear();
+        }
 
         public void parseXml()
         {
@@ -65,6 +72,18 @@ namespace AtlasPrefabSys
             m_ignoreExtList = new List<string>(strArr);
         }
 
+        public void setPathParam(string inpath, string outpath, string ignoreExtStr)
+        {
+            m_inPath = inpath;
+            m_outPath = outpath;
+
+            string ignoreext = ignoreExtStr;
+            char[] separator = new char[1];
+            separator[0] = ',';
+            string[] strArr = ignoreext.Split(separator);
+            m_ignoreExtList = new List<string>(strArr);
+        }
+
         public void createDirData()
         {
             m_dirData = new DirData(m_inPath, this);
@@ -95,6 +114,44 @@ namespace AtlasPrefabSys
         }
     }
 
+    public class AtlasXmlParentPath
+    {
+        protected string m_inPath;
+        protected string m_outPath;
+        protected string m_ignoreExtStr;
+        protected string m_fullDirPath;
+        protected AtlasXmlData m_data;
+
+        public void parseXml(XmlElement packElem, AtlasXmlData data)
+        {
+            m_data = data;
+            m_inPath = ExportUtil.getXmlAttrStr(packElem.Attributes["inpath"]);
+            m_outPath = ExportUtil.getXmlAttrStr(packElem.Attributes["outpath"]);
+            m_ignoreExtStr = ExportUtil.getXmlAttrStr(packElem.Attributes["ignoreext"]);
+
+            m_fullDirPath = ExportUtil.getDataPath(m_inPath);
+            m_fullDirPath = ExportUtil.normalPath(m_fullDirPath);
+
+            findAllFiles();
+        }
+
+        public void findAllFiles()
+        {
+            ExportUtil.traverseSubDirInOneDir(m_fullDirPath, onFindDir);
+        }
+
+        protected void onFindDir(DirectoryInfo dirInfo)
+        {
+            AtlasXmlPath xmlPath = new AtlasXmlPath();
+            m_data.m_pathList.Add(xmlPath);
+            
+            string inpath = string.Format("{0}/{1}", m_inPath, dirInfo.Name);
+            string outpath = string.Format("{0}/{1}.asset", m_outPath, dirInfo.Name);
+
+            xmlPath.setPathParam(inpath, outpath, m_ignoreExtStr);
+        }
+    }
+
     public class AtlasXmlParse
     {
         public void parseXml(string path, AtlasXmlData data)
@@ -107,12 +164,25 @@ namespace AtlasPrefabSys
             XmlElement packElem;
             AtlasXmlPath xmlPath;
 
+            AtlasXmlParentPath atlasXmlParentPath = null;
+
             foreach (XmlNode packNode in packNodeList)
             {
                 packElem = (XmlElement)packNode;
-                xmlPath = new AtlasXmlPath();
-                data.m_pathList.Add(xmlPath);
-                xmlPath.parseXml(packElem);
+                if (ExportUtil.getXmlAttrStr(packElem.Attributes["parentpath"]) == UtilApi.TRUE)
+                {
+                    if(atlasXmlParentPath == null)
+                    {
+                        atlasXmlParentPath = new AtlasXmlParentPath();
+                    }
+                    atlasXmlParentPath.parseXml(packElem, data);
+                }
+                else
+                {
+                    xmlPath = new AtlasXmlPath();
+                    data.m_pathList.Add(xmlPath);
+                    xmlPath.parseXml(packElem);
+                }
             }
         }
     }
