@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Root>
+    <BehaviorTemplate name="1001" >
+        <BehaviorTree name="1001">
+            <Sequence>
+				<Condition type="Idle" >
+					<BehaviorAction type="Wander" />
+				</Condition>
+            </Sequence>
+        </BehaviorTree>
+    </BehaviorTemplate>
+	<BehaviorTemplate name="1002" >
+        <BehaviorTree name="1002">
+            <Sequence>
+				<Condition type="Idle" >
+					<BehaviorAction type="Follow" />
+				</Condition>
+            </Sequence>
+        </BehaviorTree>
+    </BehaviorTemplate>
+</Root>

@@ -53,7 +53,7 @@ namespace Game.UI
             }
             else
             {
-                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, "pdxt_kbd");
+                m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.setImageInfo(CVAtlasName.ShopDyn, "beimian_kapai");
                 m_auxDynImageStaticGoButton.auxDynImageStaticGOImage.syncUpdateCom();
             }
         }

@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using BehaviorLibrary;
+using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace Game.Game
             monster.setSkeleton("DefaultAvatar");
             monster.setLocalPos(pos);
             monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
-            monster.addAiByID("1002");
+            monster.addAiByID(BTID.e1000);
         }
     }
 }

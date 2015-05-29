@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 点击结束当前一局
      */
-    public class RoundBtn : InterActiveEntity
+    public class RoundBtn : SceneComponent
     {
         public SceneDZData m_sceneDZData;
         public bool m_bNeedTipsInfo = true;     // 是否需要弹出提示框

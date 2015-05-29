@@ -43,6 +43,8 @@
         public const string PackBtn_1 = "CardPackLayer/PackBtn_1";
         public const string PackBtn_2 = "CardPackLayer/PackBtn_2";
 
+        public const string OpenEffImg = "CardPackLayer/openEffImg";
+
         public const string OpenedPackBtn_0 = "OpenPackLayer/OpenedPackBtn_0";
         public const string OpenedPackBtn_1 = "OpenPackLayer/OpenedPackBtn_1";
         public const string OpenedPackBtn_2 = "OpenPackLayer/OpenedPackBtn_2";

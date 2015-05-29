@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using BehaviorLibrary;
+using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ namespace UnitTestSrc
             //testAsyncLoadImage();
             //testSyncLoadRefCount();
             //testAsyncLoadAtlasRefCount();
-            testAsyncLoadUIPrefabRefCount();
+            //testAsyncLoadUIPrefabRefCount();
+            testLoadBT();
         }
 
         protected void testModelLoad()
@@ -110,6 +112,11 @@ namespace UnitTestSrc
 
             Ctx.m_instance.m_atlasMgr.unloadImage(aaa, onImageLoadEventHandle);
             Ctx.m_instance.m_atlasMgr.unloadImage(bbb, onImageLoadEventHandle);
+        }
+
+        public void testLoadBT()
+        {
+            BehaviorTreeRes bt = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndSyncLoadBT(BTID.e1000);
         }
     }
 }

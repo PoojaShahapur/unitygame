@@ -344,6 +344,7 @@ namespace Game.UI
             m_cardSetEntityList.Add(taopai);
             taopai.initByData(cardSet);
             taopai.add2Layout(m_cardSetLayoutV);
+            m_curCardSet = taopai;
             if (bEnterEdit)
             {
                 m_curEditCardSet.startEdit(taopai);

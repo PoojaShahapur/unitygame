@@ -14,6 +14,9 @@ namespace Game.UI
         protected GameObject[] m_goArr = new GameObject[(int)OpenPackGo.eTotal];
         protected CardCom[] m_cardBtnArr = new CardCom[(int)CardBtnEnum.eCardBtnTotal];
 
+        protected GameObject m_openEffImg;
+        protected SpriteAni m_spriteAni;
+
         public override void onReady()
         {
             base.onReady();
@@ -66,6 +69,8 @@ namespace Game.UI
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_2].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_2);
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_3].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_3);
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_4].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_4);
+
+            m_openEffImg = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
         }
 
         // 添加事件监听
@@ -99,6 +104,11 @@ namespace Game.UI
 
         protected void onBtnClkBack(IDispatchObject dispObj)
         {
+            if (m_spriteAni != null)
+            {
+                m_spriteAni.dispose();
+                m_spriteAni = null;
+            }
             exit();
         }
 
@@ -117,10 +127,13 @@ namespace Game.UI
             cmd.useType = 1;
             UtilMsg.sendMsg(cmd);
 
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], false);
+            //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], false);
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], true);
 
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].auxDynImageStaticGoButton.show();
+
+            m_openEffImg.SetActive(true);
+            showOpenEff();
         }
 
         protected void onPackBtnClk_1(IDispatchObject dispObj)
@@ -146,31 +159,31 @@ namespace Game.UI
 
         protected void onOpenedPackBtn_0(IDispatchObject dispObj)
         {
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
+            //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], false);
         }
 
         protected void onOpenedPackBtn_1(IDispatchObject dispObj)
         {
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
+           // UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], false);
         }
 
         protected void onOpenedPackBtn_2(IDispatchObject dispObj)
         {
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
+            //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], false);
         }
 
         protected void onOpenedPackBtn_3(IDispatchObject dispObj)
         {
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
+            //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], false);
         }
 
         protected void onOpenedPackBtn_4(IDispatchObject dispObj)
         {
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
+            //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], true);
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], false);
         }
 
@@ -212,6 +225,15 @@ namespace Game.UI
         public void psstRetGiftBagCardsDataUserCmd(params uint[] idList)
         {
             
+        }
+
+        protected void showOpenEff()
+        {
+            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eImage);
+            m_spriteAni.selfGo = m_openEffImg;
+            m_spriteAni.tableID = 6;
+            m_spriteAni.bLoop = true;
+            m_spriteAni.play();
         }
     }
 }

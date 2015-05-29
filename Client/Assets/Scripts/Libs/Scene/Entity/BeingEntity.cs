@@ -15,7 +15,7 @@ namespace SDK.Lib
         protected AnimFSM m_animFSM;                // 动画状态机
         protected AILocalState m_aiLocalState;
 
-        protected string m_btID;
+        protected BTID m_btID;
 
         protected float speed = 0;
         protected float direction = 0;
@@ -84,18 +84,18 @@ namespace SDK.Lib
         }
 
         // 添加 AI
-        virtual public void addAiByID(string id)
+        virtual public void addAiByID(BTID id)
         {
             m_btID = id;
             initAi(m_btID);
         }
 
-        protected void initAi(string id)
+        protected void initAi(BTID id)
         {
-            if (!string.IsNullOrEmpty(id) && m_behaviorTree == null && m_skinAniModel.rootGo != null)
+            if (m_behaviorTree == null && m_skinAniModel.rootGo != null)
             {
                 // 生成行为树
-                BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().getBTByID(id) as BehaviorTree;
+                BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getBT(id) as BehaviorTree;
                 m_behaviorTree = behaviorTree;
                 // 生成 ai 控制器
                 if (m_aiController == null)

@@ -2,4 +2,6 @@
 <!-- parentpath 说明这个是父目录，获取子目录，否则就是当前目录 -->
 <Root>
 	<path inpath="Res/Image/UI/DynImage" outpath="Prefabs/Resources/Atlas" ignoreext="meta,mat" parentpath="true" />
+	<path inpath="Res/Image/UI/StaticImage/Info" outpath="Prefabs/Resources/Atlas/Info.asset" ignoreext="meta,mat" />
+	<path inpath="Res/Image/Effect/SpriteEffect" outpath="Prefabs/Resources/Effect/SpriteEffect" ignoreext="meta,mat" parentpath="true" />
 </Root>
