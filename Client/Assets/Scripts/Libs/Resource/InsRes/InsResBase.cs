@@ -51,7 +51,7 @@ namespace SDK.Lib
             refCountResLoadResultNotify.onLoadEventHandle(this);
         }
 
-        public virtual void unload()
+        virtual public void unload()
         {
 
         }

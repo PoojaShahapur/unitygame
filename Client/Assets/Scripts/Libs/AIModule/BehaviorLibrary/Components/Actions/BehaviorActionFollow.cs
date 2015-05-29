@@ -14,7 +14,6 @@ namespace BehaviorLibrary.Components.Actions
         protected BehaviorReturnCode onExecAction()
         {
             toggleBehavior(BehaviorState.BSFollow);
-            //m_behaviorTree.inputParam.beingEntity.aiController.vehicle.Update();
             return BehaviorReturnCode.Success;
         }
     }

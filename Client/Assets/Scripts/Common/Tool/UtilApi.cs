@@ -135,6 +135,7 @@ namespace SDK.Common
                 {
                     UtilApi.DestroyComponent(obj as GameObject);
                     (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+                    UtilApi.DestroyTexMat(obj as GameObject);
                 }
                 UnityEngine.Object.Destroy(obj);
                 obj = null;
@@ -151,6 +152,7 @@ namespace SDK.Common
             if (obj as GameObject)
             {
                 (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+                UtilApi.DestroyTexMat(obj as GameObject);
             }
             UnityEngine.Object.DestroyImmediate(obj);
         }
@@ -160,6 +162,7 @@ namespace SDK.Common
             if (obj as GameObject)
             {
                 (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+                UtilApi.DestroyTexMat(obj as GameObject);
             }
             GameObject.DestroyImmediate(obj, allowDestroyingAssets);
         }
@@ -167,6 +170,47 @@ namespace SDK.Common
         public static void DontDestroyOnLoad(UnityEngine.Object target)
         {
             UnityEngine.Object.DontDestroyOnLoad(target);
+        }
+
+        // 纹理材质都是实例化，都对资源有引用计数，深度遍历释放资源
+        public static void DestroyTexMat(UnityEngine.GameObject go_)
+        {
+            Material mat = go_.GetComponent<Material>();
+            if(mat != null)
+            {
+                if (mat.mainTexture != null)
+                {
+                    UtilApi.UnloadAsset(mat.mainTexture);
+                    mat.mainTexture = null;
+                }
+                UtilApi.UnloadAsset(mat);
+                mat = null;
+            }
+
+            Image image = go_.GetComponent<Image>();
+            if(image != null)
+            {
+                if(image.sprite != null)
+                {
+                    if(image.sprite.texture != null)
+                    {
+                        UtilApi.UnloadAsset(image.sprite.texture);
+                    }
+
+                    image.sprite = null;
+                }
+
+                image = null;
+            }
+
+            int childCount = go_.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                childTrans = go_.transform.GetChild(idx);
+                UtilApi.DestroyTexMat(childTrans.gameObject);
+            }
         }
 
         public static void SetActive(GameObject target, bool bshow)

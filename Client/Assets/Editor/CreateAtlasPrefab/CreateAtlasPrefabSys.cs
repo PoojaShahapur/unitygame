@@ -27,6 +27,11 @@ namespace AtlasPrefabSys
             m_atlasXmlData = new AtlasXmlData();
         }
 
+        public void clear()
+        {
+            m_atlasXmlData.clear();
+        }
+
         public void parseXml()
         {
             m_atlasXmlData.parseXml();

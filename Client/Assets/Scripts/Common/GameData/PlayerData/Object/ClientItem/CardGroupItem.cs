@@ -56,5 +56,52 @@ namespace SDK.Common
                 this.m_cardList.AddRange(rhv.m_cardList);
             }
         }
+
+        public bool bDiffForm(CardGroupItem rhv)
+        {
+            int lhvNum = 0;
+            int rhvNum = 0;
+            int idx = 0;
+
+            if(m_cardList == null)
+            {
+                lhvNum = 0;
+            }
+            else
+            {
+                lhvNum = m_cardList.Count;
+            }
+
+            if (rhv.m_cardList == null)
+            {
+                rhvNum = 0;
+            }
+            else
+            {
+                rhvNum = rhv.m_cardList.Count;
+            }
+
+            if(lhvNum == 0 && rhvNum == 0)
+            {
+                return false;
+            }
+            else if (lhvNum != rhvNum)
+            {
+                return true;
+            }
+            else
+            {
+                foreach(int lhv in m_cardList)
+                {
+                    idx = rhv.m_cardList.IndexOf((uint)lhv);
+                    if(idx == -1)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
     }
 }

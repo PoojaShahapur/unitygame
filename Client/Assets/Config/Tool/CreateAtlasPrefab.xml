@@ -1,13 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
+<!-- parentpath 说明这个是父目录，获取子目录，否则就是当前目录 -->
 <Root>
-	<path inpath="Res/Image/UI/Common" outpath="Prefabs/Resources/Atlas/Common.asset" ignoreext="meta" />
-	<path inpath="Res/Image/UI/ShopDyn" outpath="Prefabs/Resources/Atlas/ShopDyn.asset" ignoreext="meta" />
-	<path inpath="Res/Image/UI/TuJianDyn" outpath="Prefabs/Resources/Atlas/TuJianDyn.asset" ignoreext="meta" />
-	<path inpath="Res/Image/UI/JobSelectDyn" outpath="Prefabs/Resources/Atlas/JobSelectDyn.asset" ignoreext="meta" />
-	<path inpath="Res/Image/Effect/SpriteEffect/changpai" outpath="Prefabs/Resources/Effect/SpriteEffect/changpai.asset" ignoreext="meta" />
-	<path inpath="Res/Image/Effect/SpriteEffect/jieshu" outpath="Prefabs/Resources/Effect/SpriteEffect/jieshu.asset" ignoreext="meta" />
-	<path inpath="Res/Image/Effect/SpriteEffect/jineng" outpath="Prefabs/Resources/Effect/SpriteEffect/jineng.asset" ignoreext="meta" />
-	<path inpath="Res/Image/Effect/SpriteEffect/kapai" outpath="Prefabs/Resources/Effect/SpriteEffect/kapai.asset" ignoreext="meta" />
-	<path inpath="Res/Image/Effect/SpriteEffect/wuqi" outpath="Prefabs/Resources/Effect/SpriteEffect/wuqi.asset" ignoreext="meta" />
-	<path inpath="Res/Image/Effect/SpriteEffect/yingxiong" outpath="Prefabs/Resources/Effect/SpriteEffect/yingxiong.asset" ignoreext="meta" />
+	<path inpath="Res/Image/UI/DynImage" outpath="Prefabs/Resources/Atlas" ignoreext="meta,mat" parentpath="true" />
+	<path inpath="Res/Image/UI/StaticImage/Info" outpath="Prefabs/Resources/Atlas/Info.asset" ignoreext="meta,mat" />
+	<path inpath="Res/Image/Effect/SpriteEffect" outpath="Prefabs/Resources/Effect/SpriteEffect" ignoreext="meta,mat" parentpath="true" />
 </Root>

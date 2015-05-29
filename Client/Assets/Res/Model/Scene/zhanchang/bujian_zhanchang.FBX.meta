@@ -14,6 +14,10 @@ ModelImporter:
     100012: wuqi_zhanchang
     100014: yingxiong_zhanchang
     100016: yun_kapai
+    100018: jineng_zhanchang001
+    100020: wuqi_zhanchang001
+    100022: yingxiong_zhanchang001
+    100024: yun_kapai001
     400000: //RootNode
     400002: jieshu_zhanchang
     400004: jineng_zhanchang
@@ -23,6 +27,10 @@ ModelImporter:
     400012: wuqi_zhanchang
     400014: yingxiong_zhanchang
     400016: yun_kapai
+    400018: jineng_zhanchang001
+    400020: wuqi_zhanchang001
+    400022: yingxiong_zhanchang001
+    400024: yun_kapai001
     2300000: jieshu_zhanchang
     2300002: jineng_zhanchang
     2300004: landi_zhanchang
@@ -31,6 +39,10 @@ ModelImporter:
     2300010: wuqi_zhanchang
     2300012: yingxiong_zhanchang
     2300014: yun_kapai
+    2300016: jineng_zhanchang001
+    2300018: wuqi_zhanchang001
+    2300020: yingxiong_zhanchang001
+    2300022: yun_kapai001
     3300000: jieshu_zhanchang
     3300002: jineng_zhanchang
     3300004: landi_zhanchang
@@ -39,6 +51,10 @@ ModelImporter:
     3300010: wuqi_zhanchang
     3300012: yingxiong_zhanchang
     3300014: yun_kapai
+    3300016: jineng_zhanchang001
+    3300018: wuqi_zhanchang001
+    3300020: yingxiong_zhanchang001
+    3300022: yun_kapai001
     4300000: Plane001
     4300002: paizu_zhanchang
     4300004: landi_zhanchang
@@ -47,6 +63,10 @@ ModelImporter:
     4300010: yingxiong_zhanchang
     4300012: jieshu_zhanchang
     4300014: yun_kapai
+    4300016: wuqi_zhanchang001
+    4300018: jineng_zhanchang001
+    4300020: yingxiong_zhanchang001
+    4300022: yun_kapai001
   materials:
     importMaterials: 1
     materialName: 0

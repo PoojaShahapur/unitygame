@@ -8,11 +8,19 @@ namespace SDK.Lib
      */
     public class AISystem
     {
-        protected BehaviorTreeMgr m_behaviorTreeMgr = new BehaviorTreeMgr();
+        protected BehaviorTreeMgr m_behaviorTreeMgr;
 
-        public BehaviorTreeMgr getBehaviorTreeMgr()
+        public AISystem()
         {
-            return m_behaviorTreeMgr;
+            m_behaviorTreeMgr = new BehaviorTreeMgr();
+        }
+
+        public BehaviorTreeMgr behaviorTreeMgr
+        {
+            get
+            {
+                return m_behaviorTreeMgr;
+            }
         }
     }
 }

@@ -67,7 +67,10 @@ namespace Game.UI
 
                 m_jobCardBtn.selfGo.name = string.Format("JobSelCard_{0}", career);
                 m_cardSetCardNumText = new AuxLabel(m_jobCardBtn.selfGo, JobSelectPath.CardSetCardNumText);
-                m_cardSetCardNumText.text = string.Format("{0}/30", m_cardGroupItem.m_cardGroup.cardNum);
+                if (m_cardGroupItem != null)        // 如果是对战中选择套牌才会有数量显示
+                {
+                    m_cardSetCardNumText.text = string.Format("{0}/30", m_cardGroupItem.m_cardGroup.cardNum);
+                }
             }
         }
 

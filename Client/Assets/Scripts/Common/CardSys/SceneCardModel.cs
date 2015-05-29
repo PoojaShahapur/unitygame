@@ -11,18 +11,18 @@ namespace SDK.Common
         protected CardModelItem m_cardModelItem;        // 异步加载的时候，使用 path 字段
         // 这些是为了卸载资源使用
         protected AuxDynModel m_model;          // 模型资源
-        protected StaticModelSynTex m_headerModelTex;       // 头像资源
-        protected StaticModelSynTex m_frameModelTex;        // 边框资源
-        protected StaticModelSynTex m_yaoDaiModelTex;       // 腰带资源
-        protected StaticModelSynTex m_pinZhiModelTex;       // 品质资源
+        protected StaticModelDynTex m_headerModelTex;       // 头像资源
+        protected StaticModelDynTex m_frameModelTex;        // 边框资源
+        protected StaticModelDynTex m_yaoDaiModelTex;       // 腰带资源
+        protected StaticModelDynTex m_pinZhiModelTex;       // 品质资源
 
         public SceneCardModel()
         {
             m_model = new AuxDynModel();
-            m_headerModelTex = new StaticModelSynTex();
-            m_frameModelTex = new StaticModelSynTex();
-            m_yaoDaiModelTex = new StaticModelSynTex();
-            m_pinZhiModelTex = new StaticModelSynTex();
+            m_headerModelTex = new StaticModelDynTex();
+            m_frameModelTex = new StaticModelDynTex();
+            m_yaoDaiModelTex = new StaticModelDynTex();
+            m_pinZhiModelTex = new StaticModelDynTex();
         }
 
         public AuxDynModel model
@@ -88,11 +88,18 @@ namespace SDK.Common
             m_yaoDaiModelTex.texPath = path;
             m_yaoDaiModelTex.syncUpdateTex();
 
-            // 品质
-            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], UtilApi.getImageByPinZhi(cardItem.m_tableItemCard.m_quality));
             m_pinZhiModelTex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_pinZhiSubModel);
-            m_pinZhiModelTex.texPath = path;
-            m_pinZhiModelTex.syncUpdateTex();
+            // 品质
+            if (cardItem.m_tableItemCard.m_quality == 0)        // 品质 0 ，不显示
+            {
+                UtilApi.SetActive(m_pinZhiModelTex.selfGo, false);
+            }
+            else
+            {
+                path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], UtilApi.getImageByPinZhi(cardItem.m_tableItemCard.m_quality));
+                m_pinZhiModelTex.texPath = path;
+                m_pinZhiModelTex.syncUpdateTex();
+            }
         }
 
         public void dispose()

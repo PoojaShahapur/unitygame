@@ -431,7 +431,7 @@ namespace EditorTool
         }
 
         // 递归深度优先遍历目录
-        public static void recrueDirs(string rootPath, Action<string> dispFile, Action<string> dispDir)
+        public static void recursiveTraversalDir(string rootPath, Action<string> dispFile, Action<string> dispDir)
         {
             // 遍历目录回调
             if (dispDir != null)
@@ -447,7 +447,7 @@ namespace EditorTool
             DirectoryInfo[] dirInfo = theFolder.GetDirectories();
             foreach (DirectoryInfo NextFolder in dirInfo)
             {
-                recrueDirs(NextFolder.FullName, dispFile, dispDir);
+                recursiveTraversalDir(NextFolder.FullName, dispFile, dispDir);
             }
         }
 
@@ -463,6 +463,21 @@ namespace EditorTool
                 if (dispFile != null)
                 {
                     dispFile(NextFile.FullName);
+                }
+            }
+        }
+
+        // 遍历一个目录下的直属子目录
+        public static void traverseSubDirInOneDir(string dirPath, Action<DirectoryInfo> dispDir)
+        {
+            // 遍历当前目录下的所有的所有子文件夹
+            DirectoryInfo theFolder = new DirectoryInfo(dirPath);
+            DirectoryInfo[] dirInfo = theFolder.GetDirectories();
+            foreach (DirectoryInfo NextFolder in dirInfo)
+            {
+                if (dispDir != null)
+                {
+                    dispDir(NextFolder);
                 }
             }
         }

@@ -49,7 +49,7 @@ namespace AtlasPrefabSys
 
         public void findAllFiles()
         {
-            ExportUtil.recrueDirs(m_fullDirPath, onFindFile, onFindDir);
+            ExportUtil.recursiveTraversalDir(m_fullDirPath, onFindFile, onFindDir);
         }
 
         protected void onFindFile(string path)

@@ -36,9 +36,6 @@ namespace Game.UI
 
                 item = new HeroItemCom();
                 m_heroList.Add(item);
-                item.m_grid = m_heroGrid;
-                item.setDefaultRes();
-                item.load();
 
                 ++idTotal;
             }
@@ -50,7 +47,7 @@ namespace Game.UI
             {
                 if(item != null)
                 {
-                    item.unload();
+                    
                 }
             }
 
