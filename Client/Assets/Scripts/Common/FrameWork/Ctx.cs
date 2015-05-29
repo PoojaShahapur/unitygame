@@ -88,7 +88,6 @@ namespace SDK.Common
         public MapCfg m_mapCfg = new MapCfg();
 
         public IAutoUpdate m_autoUpdate;
-        public CardFactory m_cardFactory = new CardFactory();
         public AtlasMgr m_atlasMgr = new AtlasMgr();
         public AuxUIHelp m_auxUIHelp = new AuxUIHelp();
         public WidgetStyleMgr m_widgetStyleMgr = new WidgetStyleMgr();
