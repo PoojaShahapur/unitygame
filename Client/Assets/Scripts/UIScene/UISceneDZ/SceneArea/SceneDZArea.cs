@@ -88,13 +88,13 @@ namespace Game.UI
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
-                    m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
+                    m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_SKILL) as SceneDragCard;
                     m_sceneSkillCard.sceneCardItem = sceneItem;
                     m_sceneSkillCard.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
                 {
-                    m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
+                    m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_EQUIP) as SceneDragCard;
                     m_sceneEquipCard.sceneCardItem = sceneItem;
                     m_sceneEquipCard.moveToDestRST();
                 }
@@ -112,7 +112,7 @@ namespace Game.UI
                 }
                 else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
                 {
-                    SceneDragCard srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot);
+                    SceneDragCard srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_ATTEND) as SceneDragCard;
                     srcCard.sceneCardItem = sceneItem;
                     m_outSceneCardList.addCard(srcCard);
                     m_outSceneCardList.updateSceneCardRST();
@@ -259,7 +259,7 @@ namespace Game.UI
                 }
                 else        // 可能是战吼或者法术有攻击目标的
                 {
-                    SceneCardEntityBase srcCard = m_outSceneCardList.removeAndRetCardByItemNoDestroy(sceneItem);
+                    SceneCardBase srcCard = m_outSceneCardList.removeAndRetCardByItemNoDestroy(sceneItem);
                     // 如果是法术或者战吼有攻击目标的卡牌，虽然在出牌区，但是是客户端自己移动过去的
                     if (srcCard != null && srcCard.canClientMove2OutArea())
                     {
@@ -328,9 +328,9 @@ namespace Game.UI
             }
         }
 
-        public SceneCardEntityBase getUnderSceneCard(GameObject underGo)
+        public SceneCardBase getUnderSceneCard(GameObject underGo)
         {
-            SceneCardEntityBase cardBase;
+            SceneCardBase cardBase;
             cardBase = m_outSceneCardList.getUnderSceneCard(underGo);
             if(cardBase != null)
             {
@@ -388,7 +388,7 @@ namespace Game.UI
             }
         }
 
-        public void putHandFromOutByCard(SceneCardEntityBase card)
+        public void putHandFromOutByCard(SceneCardBase card)
         {
             // 从出牌区域移除
             m_outSceneCardList.removeCardNoDestroy(card);
@@ -424,10 +424,10 @@ namespace Game.UI
             m_outSceneCardList.updateCardOutState(benable);
         }
 
-        public SceneCardEntityBase getSceneCardByThisID(uint thisID, ref CardArea slot)
+        public SceneCardBase getSceneCardByThisID(uint thisID, ref CardArea slot)
         {
             // 出牌列表
-            SceneCardEntityBase cardBase;
+            SceneCardBase cardBase;
             cardBase = m_outSceneCardList.getSceneCardByThisID(thisID);
             if (cardBase != null)
             {

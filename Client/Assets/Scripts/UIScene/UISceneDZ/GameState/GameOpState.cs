@@ -24,7 +24,7 @@ namespace Game.UI
         protected SceneDZData m_sceneDZData;
 
         protected EnGameOp m_curOp;         // 当前操作
-        protected SceneCardEntityBase m_opCard;      // 当前操作的卡牌
+        protected SceneCardBase m_opCard;      // 当前操作的卡牌
 
         public GameOpState(SceneDZData sceneDZData)
         {
@@ -40,7 +40,7 @@ namespace Game.UI
             }
         }
 
-        public SceneCardEntityBase curCard
+        public SceneCardBase curCard
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Game.UI
         }
 
         // 进入攻击操作
-        public void enterAttackOp(EnGameOp op, SceneCardEntityBase card)
+        public void enterAttackOp(EnGameOp op, SceneCardBase card)
         {
             // 进入操作后，需要禁止手牌区域卡牌拖动操作
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneDragCard);
@@ -71,7 +71,7 @@ namespace Game.UI
         }
 
         // 检查之前的攻击状态
-        public void checkPreAttackOp(EnGameOp op, SceneCardEntityBase card)
+        public void checkPreAttackOp(EnGameOp op, SceneCardBase card)
         {
             if (EnGameOp.eOpZhanHouAttack == m_curOp || EnGameOp.eOpFaShu == m_curOp)
             {
@@ -102,7 +102,7 @@ namespace Game.UI
             return op == m_curOp;
         }
 
-        public bool canAttackOp(SceneCardEntityBase card, EnGameOp gameOp)
+        public bool canAttackOp(SceneCardBase card, EnGameOp gameOp)
         {
             bool ret = false;
             if (m_opCard != null)
@@ -127,7 +127,7 @@ namespace Game.UI
             return ret;
         }
 
-        public void enterMoveOp(SceneCardEntityBase card)
+        public void enterMoveOp(SceneCardBase card)
         {
             // 进入操作后，需要禁止手牌区域卡牌拖动操作
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneDragCard);
@@ -145,7 +145,7 @@ namespace Game.UI
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].enableAllInCardDragExceptOne(null);
         }
 
-        protected bool canNormalAttack(SceneCardEntityBase card, EnGameOp gameOp)
+        protected bool canNormalAttack(SceneCardBase card, EnGameOp gameOp)
         {
             //if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
             //{
@@ -168,17 +168,17 @@ namespace Game.UI
             return ret;
         }
 
-        protected bool canFaShuAttack(SceneCardEntityBase card, EnGameOp gameOp)
+        protected bool canFaShuAttack(SceneCardBase card, EnGameOp gameOp)
         {
             return canSkillAttack(card, gameOp, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget);
         }
 
-        protected bool canZhanHouAttack(SceneCardEntityBase card, EnGameOp gameOp)
+        protected bool canZhanHouAttack(SceneCardBase card, EnGameOp gameOp)
         {
             return canSkillAttack(card, gameOp, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedZhanHouTarget);
         }
 
-        protected bool canSkillAttack(SceneCardEntityBase card, EnGameOp gameOp, int attackTarget)
+        protected bool canSkillAttack(SceneCardBase card, EnGameOp gameOp, int attackTarget)
         {
             stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
             cmd.dwAttThisID = m_opCard.sceneCardItem.svrCard.qwThisID;

@@ -54,7 +54,7 @@ namespace Game.UI
         public void addSceneCard(uint objid, SceneCardItem sceneItem)
         {
             SceneDragCard tmpcard;
-            tmpcard = m_sceneDZData.createOneCard(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND);
+            tmpcard = m_sceneDZData.createOneCard(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneDragCard;
             tmpcard.sceneCardItem = sceneItem;
             addCard(tmpcard);
             updateSceneCardRST();

@@ -27,7 +27,7 @@ namespace Game.UI
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount)
             {
                 // 暂时硬编码卡牌 ID 1000
-                SceneDragCard cardItem = m_sceneDZData.createOneCard(uint.MaxValue, m_playerFlag, CardArea.CARDCELLTYPE_HAND);
+                SceneDragCard cardItem = m_sceneDZData.createOneCard(uint.MaxValue, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneDragCard;
                 addCard(cardItem);
 
                 ++idx;

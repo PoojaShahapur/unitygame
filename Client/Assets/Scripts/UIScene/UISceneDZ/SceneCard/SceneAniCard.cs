@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 卡牌各种移动动画
      */
-    public class SceneAniCard : SceneCardEntityBase
+    public class SceneAniCard : SceneCardBase
     {
         // 仅仅是在做移动动画的时候才会使用，人为拖动不会改变这两个值
         // 开始信息
@@ -151,7 +151,7 @@ namespace Game.UI
             saveDestToStart();
 
             // 缩放
-            destScale = SceneCardEntityBase.BIGFACT;
+            destScale = SceneCardBase.BIGFACT;
             // 缩放直接到达位置
             m_destPos.y = m_height;
             transform.localPosition = m_destPos;
@@ -165,7 +165,7 @@ namespace Game.UI
         public void endDragAni()
         {
             // 缩放
-            destScale = SceneCardEntityBase.SMALLFACT;
+            destScale = SceneCardBase.SMALLFACT;
         }
 
         // 保存当前的信息
@@ -236,7 +236,7 @@ namespace Game.UI
             m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(gameObject);
             rstAni.destPos = new Vector3(transform.localPosition.x, 1.0f, transform.localPosition.z);
-            rstAni.destScale = SceneCardEntityBase.BIGFACT;
+            rstAni.destScale = SceneCardBase.BIGFACT;
             rstAni.destRot = transform.localRotation.eulerAngles;
 
             rstAni = new RSTAni();

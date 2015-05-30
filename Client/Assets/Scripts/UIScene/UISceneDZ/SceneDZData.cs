@@ -13,7 +13,7 @@ namespace Game.UI
         public bool m_bStartRound = false;                  // 起始牌都落下，才算开始回合
 
         public RoundBtn m_roundBtn;          // 翻转按钮，结束当前一局
-        public LuckCoin m_luckCoin; // 对战场景中的幸运币
+        public LuckCoinCard m_luckCoin; // 对战场景中的幸运币
         public SelfTurnTip m_selfTurnTip;               // 自己回合提示
         public SelfCardFullTip m_selfCardFullTip;   // 自己卡牌满
 
@@ -54,7 +54,7 @@ namespace Game.UI
             m_gameRunState = new GameRunState(this);
             m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
             m_roundBtn = new RoundBtn();
-            m_luckCoin = new LuckCoin();
+            m_luckCoin = new LuckCoinCard();
             m_selfTurnTip = new SelfTurnTip();
             m_selfCardFullTip = new SelfCardFullTip();
             m_textArr = new AuxLabel[(int)EnSceneDZText.eTotal];
@@ -188,63 +188,62 @@ namespace Game.UI
             }
         }
 
-        public SceneDragCard createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area)
+        public SceneCardBase createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
-            SceneDragCard cardItem = new SceneDragCard(this);
-            if (uint.MaxValue == objid)
+            SceneCardBase cardBase = Ctx.m_instance.m_sceneCardMgr.createCard(cardType, this);
+            SceneDragCard cardItem = cardBase as SceneDragCard;
+            if (cardItem != null)   // 如果不是 hero 
             {
-                cardItem.gameObject = UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getEnemyCardModel().getObject()) as GameObject;
-            }
-            else
-            {
-                TableCardItemBody tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, objid).m_itemBody as TableCardItemBody;
-                GameObject tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)tableBody.m_type).getObject();
-                if (tmpGO == null)
+                if (uint.MaxValue == objid)
                 {
-                    tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_MAGIC).getObject();
+                    cardItem.gameObject = Ctx.m_instance.m_modelMgr.getEnemyCardModel().InstantiateObject("");
                 }
-                cardItem.gameObject = UtilApi.Instantiate(tmpGO) as GameObject;
-            }
-
-            cardItem.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-            cardItem.gameObject.transform.SetParent(m_centerGO.transform);
-            // 设置出事位置为发牌位置
-            cardItem.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-            cardItem.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-
-            // 设置是否可以动画
-            if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
-            {
-                cardItem.disableDrag();
-                if(area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
+                else
                 {
-                    cardItem.destScale = SceneCardEntityBase.SMALLFACT;
+                    TableCardItemBody tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, objid).m_itemBody as TableCardItemBody;
+                    cardItem.gameObject = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)tableBody.m_type).InstantiateObject("");
                 }
-            }
-            // 如果是放在技能或者装备的位置，是不允许拖放的
-            else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
-            {
-                cardItem.destScale = SceneCardEntityBase.SMALLFACT;
-                cardItem.disableDrag();
-            }
 
-            // 更新边框
-            if (EnDZPlayer.ePlayerSelf == m_playerFlag)
-            {
-                if(CardArea.CARDCELLTYPE_HAND == area)
+                cardItem.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+                cardItem.gameObject.transform.SetParent(m_centerGO.transform);
+                // 设置初始位置为发牌位置
+                cardItem.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
+                cardItem.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+
+                // 设置是否可以动画
+                if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
                 {
-                    if(Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+                    cardItem.disableDrag();
+                    if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
                     {
-                        cardItem.updateCardOutState(true);
-                    }
-                    else
-                    {
-                        cardItem.updateCardOutState(false);
+                        cardItem.destScale = SceneCardBase.SMALLFACT;
                     }
                 }
+                // 如果是放在技能或者装备的位置，是不允许拖放的
+                else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
+                {
+                    cardItem.destScale = SceneCardBase.SMALLFACT;
+                    cardItem.disableDrag();
+                }
+
+                // 更新边框
+                if (EnDZPlayer.ePlayerSelf == m_playerFlag)
+                {
+                    if (CardArea.CARDCELLTYPE_HAND == area)
+                    {
+                        if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+                        {
+                            cardItem.updateCardOutState(true);
+                        }
+                        else
+                        {
+                            cardItem.updateCardOutState(false);
+                        }
+                    }
+                }
             }
 
-            return cardItem;
+            return cardBase;
         }
 
         public void createMovePath(SceneDragCard card, Transform startPos, Transform destPos)
@@ -255,9 +254,9 @@ namespace Game.UI
             card.moveToDestRST();
         }
 
-        public SceneCardEntityBase getUnderSceneCard()
+        public SceneCardBase getUnderSceneCard()
         {
-            SceneCardEntityBase cardBase;
+            SceneCardBase cardBase;
             GameObject underGo = Ctx.m_instance.m_coordConv.getUnderGameObject();
             if(underGo != null)
             {
@@ -277,9 +276,9 @@ namespace Game.UI
             return null;
         }
 
-        public SceneCardEntityBase getSceneCardByThisID(uint thisID, ref EnDZPlayer side, ref CardArea slot)
+        public SceneCardBase getSceneCardByThisID(uint thisID, ref EnDZPlayer side, ref CardArea slot)
         {
-            SceneCardEntityBase cardBase;
+            SceneCardBase cardBase;
             cardBase = m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].getSceneCardByThisID(thisID, ref slot);
             if(cardBase != null)
             {

@@ -69,7 +69,7 @@ namespace Game.UI
                 cardItem = m_sceneCardList[idx];
                 cardItem.destPos = m_posList[idx];
                 cardItem.destRot = m_rotList[idx].eulerAngles;
-                cardItem.destScale = SceneCardEntityBase.SMALLFACT;
+                cardItem.destScale = SceneCardBase.SMALLFACT;
                 cardItem.moveToDestRST();
 
                 ++idx;
@@ -137,7 +137,7 @@ namespace Game.UI
             }
         }
 
-        public SceneCardEntityBase getUnderSceneCard(GameObject underGo)
+        public SceneCardBase getUnderSceneCard(GameObject underGo)
         {
             foreach(SceneDragCard item in m_sceneCardList)
             {
@@ -150,9 +150,9 @@ namespace Game.UI
             return null;
         }
 
-        public SceneCardEntityBase removeNoDestroyAndRet(int idx = 0)
+        public SceneCardBase removeNoDestroyAndRet(int idx = 0)
         {
-            SceneCardEntityBase card = null;
+            SceneCardBase card = null;
             if(idx < m_sceneCardList.Count)
             {
                 card = m_sceneCardList[idx];
@@ -162,14 +162,14 @@ namespace Game.UI
             return card;
         }
 
-        public void removeCardNoDestroy(SceneCardEntityBase card)
+        public void removeCardNoDestroy(SceneCardBase card)
         {
             m_sceneCardList.Remove(card as SceneDragCard);
         }
 
-        public SceneCardEntityBase getCardByIdx(int idx = 0)
+        public SceneCardBase getCardByIdx(int idx = 0)
         {
-            SceneCardEntityBase card = null;
+            SceneCardBase card = null;
             if (idx < m_sceneCardList.Count)
             {
                 card = m_sceneCardList[idx];
@@ -200,7 +200,7 @@ namespace Game.UI
 
         public void updateCardAttackedState(GameOpState opt)
         {
-            foreach (SceneCardEntityBase cardItem in m_sceneCardList)
+            foreach (SceneCardBase cardItem in m_sceneCardList)
             {
                 if (opt.canAttackOp(cardItem, opt.curOp))
                 {
@@ -228,9 +228,9 @@ namespace Game.UI
             return bRet;
         }
 
-        public SceneCardEntityBase removeAndRetCardByItemNoDestroy(SceneCardItem sceneCardItem)
+        public SceneCardBase removeAndRetCardByItemNoDestroy(SceneCardItem sceneCardItem)
         {
-            SceneCardEntityBase retCard = null;
+            SceneCardBase retCard = null;
             int idx = 0;
             while (idx < m_sceneCardList.Count)
             {
@@ -246,13 +246,13 @@ namespace Game.UI
             return retCard;
         }
 
-        public int findCardIdx(SceneCardEntityBase card)
+        public int findCardIdx(SceneCardBase card)
         {
             return m_sceneCardList.IndexOf(card as SceneDragCard);
         }
 
         // 根据服务器索引添加一个卡牌，不是根据卡牌列表索引
-        public void addCardByServerPos(SceneCardEntityBase card)
+        public void addCardByServerPos(SceneCardBase card)
         {
             int idx = 0;
             // 检查是否是最后一个

@@ -6,6 +6,8 @@ using System;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;
+using BehaviorLibrary;
+using Game.UI;
 #endif
 
 /**

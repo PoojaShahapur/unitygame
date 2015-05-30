@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 英雄卡
      */
-    public class HeroCard : SceneCardEntityBase
+    public class HeroCard : SceneCardBase
     {
         protected AuxLabel m_classs, m_heroname;
         protected AuxLabel m_hpText;        // 血

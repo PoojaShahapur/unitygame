@@ -69,7 +69,7 @@ namespace SDK.Lib
             // 更新一些 ai
             if (m_aiController != null)
             {
-                m_aiController.OnTick(delta);
+                m_aiController.onTick(delta);
             }
             // 更新行为
             if (m_behaviorTree != null)

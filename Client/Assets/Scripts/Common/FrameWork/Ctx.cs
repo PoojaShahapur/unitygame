@@ -6,6 +6,8 @@ using SDK.Common;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;
+using BehaviorLibrary;
+using Game.UI;
 #endif
 
 namespace SDK.Common

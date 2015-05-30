@@ -1,11 +1,13 @@
-﻿namespace SDK.Lib
+﻿using SDK.Lib;
+
+namespace BehaviorLibrary
 {
     /**
      * @brief AIController 管理器
      */
     public class AIControllerMgr : EntityMgrBase
     {
-        virtual protected void onTickExec(float delta)
+        override protected void onTickExec(float delta)
         {
             foreach (ISceneEntity entity in m_sceneEntityList)
             {

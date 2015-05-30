@@ -13,7 +13,7 @@ namespace Game.UI
         public OutSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
             : base(data, playerFlag)
         {
-            m_whiteCard = m_sceneDZData.createOneCard(SceneDragCard.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND);
+            m_whiteCard = m_sceneDZData.createOneCard(SceneDragCard.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneDragCard;
             m_whiteCard.gameObject.SetActive(false);
         }
 

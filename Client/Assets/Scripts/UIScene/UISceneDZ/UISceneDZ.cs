@@ -229,8 +229,8 @@ namespace Game.UI
             CardArea attSlot = CardArea.CARDCELLTYPE_NONE;
             CardArea defSlot = CardArea.CARDCELLTYPE_NONE;
 
-            SceneCardEntityBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID, ref attSide, ref attSlot);
-            SceneCardEntityBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID, ref defSide, ref defSlot);
+            SceneCardBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID, ref attSide, ref attSlot);
+            SceneCardBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID, ref defSide, ref defSlot);
             int num = 0;
 
             if (attSide == EnDZPlayer.ePlayerTotal ||

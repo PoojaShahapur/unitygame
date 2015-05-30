@@ -173,7 +173,7 @@ namespace Game.UI
             {
                 // 拖动结束直接退回去
                 // 开始缩放
-                destScale = SceneCardEntityBase.SMALLFACT;
+                destScale = SceneCardBase.SMALLFACT;
                 backCard2Orig();
             }
             else
@@ -191,7 +191,7 @@ namespace Game.UI
                             if (m_sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0)         // 如果有攻击目标
                             {
                                 // 之前是法术牌不能拖动，鼠标放下去的时候，放到攻击目标上，就是选择攻击目标
-                                //SceneCardEntityBase sceneCard = m_sceneDZData.getUnderSceneCard();
+                                //SceneCardBase sceneCard = m_sceneDZData.getUnderSceneCard();
                                 //if (sceneCard != null)
                                 //{
                                 //    if (m_sceneDZData.m_gameOpState.canAttackOp(sceneCard, EnGameOp.eOpFaShu))     // 判断法术攻击是否可以攻击

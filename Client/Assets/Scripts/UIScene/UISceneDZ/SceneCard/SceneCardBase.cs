@@ -8,7 +8,7 @@ namespace Game.UI
     /**
      * @brief 场景中卡牌基类
      */
-    public class SceneCardEntityBase : SceneCardModel
+    public class SceneCardBase : SceneCardModel
     {
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子

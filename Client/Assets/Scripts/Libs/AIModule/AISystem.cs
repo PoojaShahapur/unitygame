@@ -1,7 +1,7 @@
 ﻿using BehaviorLibrary;
 using SDK.Common;
 
-namespace SDK.Lib
+namespace BehaviorLibrary
 {
     /**
      * @brief AI 所有数据结构都存放在这里
