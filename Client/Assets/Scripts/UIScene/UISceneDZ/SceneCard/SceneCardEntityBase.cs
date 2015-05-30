@@ -8,7 +8,7 @@ namespace Game.UI
     /**
      * @brief 场景中卡牌基类
      */
-    public class SceneCardEntityBase : SceneComponent
+    public class SceneCardEntityBase : SceneCardModel
     {
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
@@ -25,11 +25,9 @@ namespace Game.UI
         protected NumAniSequence m_numAniSeq = new NumAniSequence();       // 攻击动画序列，这个所有的都有
         protected SpriteAni m_spriteAni;
 
-        public override void Start()
+        virtual public void init()
         {
-            base.Start();
-
-            UtilApi.addEventHandle(gameObject, onClk);
+            this.clkDisp.addEventHandle(onClk);
         }
 
         public SceneCardItem sceneCardItem
@@ -171,7 +169,7 @@ namespace Game.UI
         }
 
         // 所有的卡牌都可以点击，包括主角、装备、技能、手里卡牌、出的卡牌
-        public void onClk(GameObject go)
+        public void onClk(IDispatchObject dispObj)
         {
             if (m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
             {
@@ -289,7 +287,7 @@ namespace Game.UI
             if(m_spriteAni == null)
             {
                 m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
-                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "FrameSprite");
+                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(this.gameObject, "FrameSprite");
                 m_spriteAni.bLoop = true;
                 m_spriteAni.tableID = 4;
             }
@@ -360,7 +358,7 @@ namespace Game.UI
             if (m_spriteAni == null)
             {
                 m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
-                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "FrameSprite");
+                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(this.gameObject, "FrameSprite");
                 m_spriteAni.bLoop = true;
                 m_spriteAni.tableID = 4;
             }

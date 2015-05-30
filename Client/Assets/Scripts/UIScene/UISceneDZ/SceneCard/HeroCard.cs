@@ -27,12 +27,12 @@ namespace Game.UI
             }
         }
 
-        public override void Start()
+        public override void init()
         {
-            base.Start();
-            m_classs = new AuxLabel(transform.FindChild("classs").gameObject);
-            m_heroname = new AuxLabel(transform.FindChild("name").gameObject);
-            m_hpText = new AuxLabel(transform.FindChild("healthdi/TextHp").gameObject);
+            base.init();
+            m_classs = new AuxLabel(this.transform.FindChild("classs").gameObject);
+            m_heroname = new AuxLabel(this.transform.FindChild("name").gameObject);
+            m_hpText = new AuxLabel(this.transform.FindChild("healthdi/TextHp").gameObject);
         }
 
         public void updateHp()
@@ -45,7 +45,7 @@ namespace Game.UI
             setPic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)c).m_mat);
 
             //播放动画,
-            animation.Play();
+            //animation.Play();
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 3;           // 3 秒动画播放完成

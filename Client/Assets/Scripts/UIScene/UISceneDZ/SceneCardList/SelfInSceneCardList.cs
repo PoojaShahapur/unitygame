@@ -63,14 +63,14 @@ namespace Game.UI
                 cardItem = m_sceneCardList[idx];
                 if (cardItem.m_startCardID != Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx])
                 {
-                    curPos = cardItem.getGameObject().transform.localPosition;
-                    curRot = cardItem.getGameObject().transform.localRotation;
-                    UtilApi.Destroy(cardItem.getGameObject());      // 释放之前的资源
+                    curPos = cardItem.gameObject.transform.localPosition;
+                    curRot = cardItem.gameObject.transform.localRotation;
+                    UtilApi.Destroy(cardItem.gameObject);      // 释放之前的资源
 
                     // 创建新的资源
                     cardItem = m_sceneDZData.createOneCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND);
-                    cardItem.getGameObject().transform.localPosition = curPos;
-                    cardItem.getGameObject().transform.localRotation = curRot;
+                    cardItem.gameObject.transform.localPosition = curPos;
+                    cardItem.gameObject.transform.localRotation = curRot;
 
                     cardItem.enableDrag();      // 开启拖动
                 }

@@ -141,7 +141,7 @@ namespace Game.UI
         {
             foreach(SceneDragCard item in m_sceneCardList)
             {
-                if (UtilApi.isAddressEqual(item.getGameObject(), underGo))
+                if (UtilApi.isAddressEqual(item.gameObject, underGo))
                 {
                     return item;
                 }

@@ -193,7 +193,7 @@ namespace Game.UI
             SceneDragCard cardItem = new SceneDragCard(this);
             if (uint.MaxValue == objid)
             {
-                cardItem.setGameObject(UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getEnemyCardModel().getObject()) as GameObject);
+                cardItem.gameObject = UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getEnemyCardModel().getObject()) as GameObject;
             }
             else
             {
@@ -203,11 +203,11 @@ namespace Game.UI
                 {
                     tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_MAGIC).getObject();
                 }
-                cardItem.setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
+                cardItem.gameObject = UtilApi.Instantiate(tmpGO) as GameObject;
             }
 
             cardItem.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-            cardItem.getGameObject().transform.SetParent(m_centerGO.transform);
+            cardItem.gameObject.transform.SetParent(m_centerGO.transform);
             // 设置出事位置为发牌位置
             cardItem.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
             cardItem.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;

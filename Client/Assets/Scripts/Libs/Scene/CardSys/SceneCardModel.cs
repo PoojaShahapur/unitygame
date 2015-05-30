@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief 场景卡牌资源，主要是显示卡牌使用的各种资源
      */
-    public class SceneCardModel
+    public class SceneCardModel : IDispatchObject
     {
         protected CardModelItem m_cardModelItem;        // 异步加载的时候，使用 path 字段
         // 这些是为了卸载资源使用
@@ -16,6 +16,8 @@ namespace SDK.Common
         protected StaticModelDynTex m_yaoDaiModelTex;       // 腰带资源
         protected StaticModelDynTex m_pinZhiModelTex;       // 品质资源
 
+        protected EventDispatch m_clkDisp;  // 点击事件分发
+
         public SceneCardModel()
         {
             m_model = new AuxDynModel();
@@ -23,6 +25,27 @@ namespace SDK.Common
             m_frameModelTex = new StaticModelDynTex();
             m_yaoDaiModelTex = new StaticModelDynTex();
             m_pinZhiModelTex = new StaticModelDynTex();
+            m_clkDisp = new EventDispatch();
+        }
+
+        public GameObject gameObject
+        {
+            get
+            {
+                return m_model.selfGo;
+            }
+            set
+            {
+                m_model.selfGo = value;
+            }
+        }
+
+        public Transform transform
+        {
+            get
+            {
+                return m_model.selfGo.transform;
+            }
         }
 
         public AuxDynModel model
@@ -30,6 +53,14 @@ namespace SDK.Common
             get
             {
                 return m_model;
+            }
+        }
+
+        public EventDispatch clkDisp
+        {
+            get
+            {
+                return m_clkDisp;
             }
         }
 
@@ -63,6 +94,13 @@ namespace SDK.Common
             }
 
             modifyTex(m_model.selfGo, cardItem);
+
+            UtilApi.addEventHandle(gameObject, onClk);
+        }
+
+        public void onClk(GameObject go)
+        {
+            m_clkDisp.dispatchEvent(this);
         }
 
         // 修改卡牌纹理
@@ -129,6 +167,8 @@ namespace SDK.Common
                 m_pinZhiModelTex.dispose();
                 m_pinZhiModelTex = null;
             }
+
+            m_clkDisp.clearEventHandle();
         }
     }
 }

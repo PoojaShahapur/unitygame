@@ -26,17 +26,17 @@ namespace Game.UI
         protected NumAniParallel m_numAniParal = new NumAniParallel();       // 回退的时候，这个单独的动画序列
         protected const float m_height = 1.0f;
 
-        public override void Start()
+        public override void init()
         {
-            base.Start();
+            base.init();
 
-            m_startPos = transform.localPosition;
-            m_startRot = transform.localRotation.eulerAngles;
-            m_startScale = transform.localScale;
+            m_startPos = this.transform.localPosition;
+            m_startRot = this.transform.localRotation.eulerAngles;
+            m_startScale = this.transform.localScale;
 
-            m_destPos = transform.localPosition;
-            m_destRot = transform.localRotation.eulerAngles;
-            m_destScale = transform.localScale;
+            m_destPos = this.transform.localPosition;
+            m_destRot = this.transform.localRotation.eulerAngles;
+            m_destScale = this.transform.localScale;
         }
 
         public Vector3 startPos

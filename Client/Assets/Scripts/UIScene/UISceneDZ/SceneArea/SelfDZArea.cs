@@ -7,7 +7,7 @@ namespace Game.UI
         public SelfDZArea(SceneDZData sceneDZData, EnDZPlayer playerFlag)
             : base(sceneDZData, playerFlag)
         {
-            m_centerHero.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfHero));
+            m_centerHero.gameObject = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfHero);
             m_inSceneCardList = new SelfInSceneCardList(m_sceneDZData, m_playerFlag);
         }
 

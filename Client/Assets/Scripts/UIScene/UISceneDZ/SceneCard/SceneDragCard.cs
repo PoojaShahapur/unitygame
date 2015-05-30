@@ -23,9 +23,9 @@ namespace Game.UI
             m_sceneDZData = sceneDZData;
         }
 
-        public override void Start()
+        public override void init()
         {
-            base.Start();
+            base.init();
 
             if (!m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))     // 初始化卡牌阶段是不能拖动的
             {

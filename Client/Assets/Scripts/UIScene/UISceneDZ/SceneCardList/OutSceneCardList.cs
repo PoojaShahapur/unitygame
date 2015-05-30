@@ -14,7 +14,7 @@ namespace Game.UI
             : base(data, playerFlag)
         {
             m_whiteCard = m_sceneDZData.createOneCard(SceneDragCard.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND);
-            m_whiteCard.getGameObject().SetActive(false);
+            m_whiteCard.gameObject.SetActive(false);
         }
 
         protected override void getCardPos()

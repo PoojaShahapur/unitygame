@@ -66,7 +66,7 @@ namespace Game.UI
         {
             foreach(SceneDragCard card in m_sceneCardList)
             {
-                UtilApi.Destroy(card.getGameObject());
+                UtilApi.Destroy(card.gameObject);
             }
 
             m_sceneCardList.Clear();

@@ -344,7 +344,7 @@ namespace Game.UI
 
             if (m_sceneSkillCard != null)
             {
-                if (UtilApi.isAddressEqual(m_sceneSkillCard.getGameObject(), underGo))
+                if (UtilApi.isAddressEqual(m_sceneSkillCard.gameObject, underGo))
                 {
                     return m_sceneSkillCard;
                 }
@@ -352,7 +352,7 @@ namespace Game.UI
 
             if (m_sceneEquipCard != null)
             {
-                if (UtilApi.isAddressEqual(m_sceneEquipCard.getGameObject(), underGo))
+                if (UtilApi.isAddressEqual(m_sceneEquipCard.gameObject, underGo))
                 {
                     return m_sceneEquipCard;
                 }
