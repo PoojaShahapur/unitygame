@@ -26,7 +26,7 @@ namespace Game.UI
             m_sceneDZData = sceneDZData;
             m_playerFlag = playerFlag;
 
-            m_centerHero = new HeroCard();
+            m_centerHero = m_sceneDZData.createOneCard(0, m_playerFlag, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO) as HeroCard;
             m_centerHero.m_sceneDZData = m_sceneDZData;
             m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
