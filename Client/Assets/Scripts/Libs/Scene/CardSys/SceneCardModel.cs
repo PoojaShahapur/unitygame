@@ -1,7 +1,8 @@
-﻿using SDK.Lib;
+﻿using SDK.Common;
+using SDK.Lib;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 场景卡牌资源，主要是显示卡牌使用的各种资源

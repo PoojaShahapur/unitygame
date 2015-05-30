@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 凡是 BehaviorTree 之外的 AI 逻辑都写在这里
      */
-    public class AIController
+    public class AIController : ISceneEntity
     {
         protected Biped m_vehicle;
         protected Radar m_radar;                // 每一个人身上有一个雷达

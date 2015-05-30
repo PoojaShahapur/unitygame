@@ -91,6 +91,7 @@ namespace SDK.Common
         public AtlasMgr m_atlasMgr = new AtlasMgr();
         public AuxUIHelp m_auxUIHelp = new AuxUIHelp();
         public WidgetStyleMgr m_widgetStyleMgr = new WidgetStyleMgr();
+        public SceneCardMgr m_sceneCardMgr;
 
         public Ctx()
         {

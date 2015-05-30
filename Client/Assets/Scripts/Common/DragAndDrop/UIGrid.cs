@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using SDK.Lib;
 
 /// <summary>
 /// All children added to the game object with this script will be repositioned to be on a grid of specified dimensions.
