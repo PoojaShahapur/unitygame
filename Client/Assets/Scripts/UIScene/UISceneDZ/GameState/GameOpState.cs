@@ -52,7 +52,7 @@ namespace Game.UI
         public void enterAttackOp(EnGameOp op, SceneCardBase card)
         {
             // 进入操作后，需要禁止手牌区域卡牌拖动操作
-            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneDragCard);
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneCardBase);
 
             // 如果不是自己的回合，直接返回
             if (!Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
@@ -130,7 +130,7 @@ namespace Game.UI
         public void enterMoveOp(SceneCardBase card)
         {
             // 进入操作后，需要禁止手牌区域卡牌拖动操作
-            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneDragCard);
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].disableAllInCardDragExceptOne(card as SceneCardBase);
 
             m_curOp = EnGameOp.eOpMoveIn2Out;
             m_opCard = card;

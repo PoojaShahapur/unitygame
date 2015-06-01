@@ -14,6 +14,7 @@ namespace Game.UI
     {
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
+        public const uint WHITECARDID = 1000;
 
         protected SceneCardItem m_sceneCardItem;
         public SceneDZData m_sceneDZData;
@@ -30,9 +31,13 @@ namespace Game.UI
 
         protected AIController m_aiController;
         protected BehaviorControl m_behaviorControl;
+        protected ClickControl m_clickControl;
+        protected AniControl m_aniControl;
+        protected DragControl m_dragControl;
 
-        public SceneCardBase()
+        public SceneCardBase(SceneDZData data)
         {
+            m_sceneDZData = data;
             m_fightData = new FightData();
             m_animFSM = new AnimFSM();
             m_animFSM.card = this;
@@ -40,14 +45,13 @@ namespace Game.UI
 
             m_aiController = new AIController();
             m_aiController.possess(this);
-
-            m_behaviorControl = new BehaviorControl();
-            m_behaviorControl.card = this;
         }
 
         virtual public void init()
         {
-            this.clkDisp.addEventHandle(onClk);
+            m_clickControl.init();
+            m_aniControl.init();
+            m_dragControl.init();
         }
 
         public SceneCardItem sceneCardItem
@@ -152,13 +156,49 @@ namespace Game.UI
             }
         }
 
+        public ClickControl clickControl
+        {
+            get
+            {
+                return m_clickControl;
+            }
+            set
+            {
+                m_clickControl = value;
+            }
+        }
+
+        public AniControl aniControl
+        {
+            get
+            {
+                return m_aniControl;
+            }
+            set
+            {
+                m_aniControl = value;
+            }
+        }
+
+        public DragControl dragControl
+        {
+            get
+            {
+                return m_dragControl;
+            }
+            set
+            {
+                m_dragControl = value;
+            }
+        }
+
         virtual public void onTick(float delta)
         {
             m_animFSM.Update();                 // 更新状态机
             m_fightData.onTime(delta);          // 更新战斗数据
         }
 
-        virtual public void dispose()
+        override public void dispose()
         {
             if (m_spriteAni != null)
             {
@@ -214,120 +254,20 @@ namespace Game.UI
             }
         }
 
-        // 关闭拖放功能
-        public virtual void disableDrag()
-        {
+        //// 关闭拖放功能
+        //public virtual void disableDrag()
+        //{
 
-        }
+        //}
 
-        // 开启拖动
-        public virtual void  enableDrag()
-        {
+        //// 开启拖动
+        //public virtual void  enableDrag()
+        //{
 
-        }
-
-        // 所有的卡牌都可以点击，包括主角、装备、技能、手里卡牌、出的卡牌
-        public void onClk(IDispatchObject dispObj)
-        {
-            if (m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
-            {
-                string resPath = "";
-                // 这个时候还没有服务器的数据 m_sceneCardItem
-                int idx = 0;
-                idx = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.findCardIdx(this);
-                // 显示换牌标志
-                if (m_sceneDZData.m_changeCardList.IndexOf(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]) != -1)      // 如果已经选中
-                {
-                    m_sceneDZData.m_changeCardList.Remove(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
-                    // 去掉叉号
-                    UtilApi.Destroy(m_chaHaoGo);        // 释放资源
-                }
-                else  // 选中
-                {
-                    m_sceneDZData.m_changeCardList.Add(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
-                    // 添加叉号
-                    resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
-                    ModelRes model = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(resPath) as ModelRes;
-                    m_chaHaoGo = model.InstantiateObject(resPath) as GameObject;
-                    UtilApi.SetParent(m_chaHaoGo.transform, gameObject.transform, false);
-                }
-            }
-            else        // 如果在对战阶段
-            {
-                if (this.m_sceneCardItem != null)
-                {
-                    if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpNormalAttack))
-                    {
-                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpNormalAttack))
-                        {
-                            // 发送攻击指令
-                            stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-                            cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                            cmd.dwDefThisID = this.m_sceneCardItem.svrCard.qwThisID;
-                            UtilMsg.sendMsg(cmd);
-
-                            //m_sceneDZData.m_gameOpState.quitAttackOp(false);
-                        }
-                        else
-                        {
-                            enterAttack();
-                        }
-                    }
-                    else if ((m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpFaShu)))        // 法术攻击
-                    {
-                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpFaShu))
-                        {
-                            // 必然是有目标的法术攻击
-                            // 发送法术攻击消息
-                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
-                            cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                            cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                            cmd.dwDefThisID = this.sceneCardItem.svrCard.qwThisID;
-                            //m_sceneDZData.m_gameOpState.quitAttackOp(false);
-                            UtilMsg.sendMsg(cmd);
-                        }
-                        else
-                        {
-                            enterAttack();
-                        }
-                    }
-                    else if (m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpZhanHouAttack))      // 战吼攻击
-                    {
-                        if (m_sceneDZData.m_gameOpState.canAttackOp(this, EnGameOp.eOpZhanHouAttack))
-                        {
-                            // 发送攻击指令
-                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
-                            cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                            cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                            cmd.dwDefThisID = this.m_sceneCardItem.svrCard.qwThisID;
-                            cmd.dst = new stObjectLocation();
-                            cmd.dst.dwLocation = (uint)this.m_sceneCardItem.cardArea;
-                            cmd.dst.y = this.curIndex;
-                            UtilMsg.sendMsg(cmd);
-
-                            //m_sceneDZData.m_gameOpState.quitAttackOp();
-                        }
-                        else
-                        {
-                            enterAttack();
-                        }
-                    }
-                    else if(CardArea.CARDCELLTYPE_SKILL == m_sceneCardItem.cardArea)     // 如果是技能卡牌
-                    {
-                        stCardMoveAndAttackMagicUserCmd skillCmd = new stCardMoveAndAttackMagicUserCmd();
-                        skillCmd.dwAttThisID = this.m_sceneCardItem.svrCard.qwThisID;
-                        UtilMsg.sendMsg(skillCmd);
-                    }
-                    else        // 默认点击处理都走这里
-                    {
-                        enterAttack();
-                    }
-                }
-            }
-        }
+        //}
 
         // 进入普通攻击状态
-        protected void enterAttack()
+        public void enterAttack()
         {
             if (this.m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)
             {

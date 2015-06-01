@@ -18,8 +18,8 @@ namespace Game.UI
         protected OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
         protected InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
         protected HeroCard m_centerHero;                                            // 主角自己的 hero 
-        protected SceneDragCard m_sceneSkillCard;                // skill
-        protected SceneDragCard m_sceneEquipCard;                // equip
+        protected SceneCardBase m_sceneSkillCard;                // skill
+        protected SceneCardBase m_sceneEquipCard;                // equip
 
         public SceneDZArea(SceneDZData sceneDZData, EnDZPlayer playerFlag)
         {
@@ -88,15 +88,15 @@ namespace Game.UI
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
-                    m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_SKILL) as SceneDragCard;
+                    m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_SKILL) as SceneCardBase;
                     m_sceneSkillCard.sceneCardItem = sceneItem;
-                    m_sceneSkillCard.moveToDestRST();
+                    m_sceneSkillCard.aniControl.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
                 {
-                    m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_EQUIP) as SceneDragCard;
+                    m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_EQUIP) as SceneCardBase;
                     m_sceneEquipCard.sceneCardItem = sceneItem;
-                    m_sceneEquipCard.moveToDestRST();
+                    m_sceneEquipCard.aniControl.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
                 {
@@ -112,7 +112,7 @@ namespace Game.UI
                 }
                 else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
                 {
-                    SceneDragCard srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_ATTEND) as SceneDragCard;
+                    SceneCardBase srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_ATTEND) as SceneCardBase;
                     srcCard.sceneCardItem = sceneItem;
                     m_outSceneCardList.addCard(srcCard);
                     m_outSceneCardList.updateSceneCardRST();
@@ -148,7 +148,7 @@ namespace Game.UI
         // 移动卡牌，从一个位置到另外一个位置，CardArea.CARDCELLTYPE_COMMON 区域增加是从这个消息过来的，目前只处理移动到 CardArea.CARDCELLTYPE_COMMON 区域
         public void changeSceneCard(stRetMoveGameCardUserCmd msg)
         {
-            SceneDragCard srcCard = null;
+            SceneCardBase srcCard = null;
 
             // 移动手里的牌的位置
             srcCard = m_inSceneCardList.getSceneCardByThisID(msg.qwThisID);
@@ -180,8 +180,8 @@ namespace Game.UI
             if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.svrCard.pos.dwLocation)        // 如果出的是装备
             {
                 m_sceneEquipCard = srcCard;
-                m_sceneEquipCard.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
-                m_sceneEquipCard.moveToDestRST();
+                m_sceneEquipCard.aniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
+                m_sceneEquipCard.aniControl.moveToDestRST();
             }
             else        // 出的是随从
             {
@@ -211,7 +211,7 @@ namespace Game.UI
         {
             if(m_sceneDZData.m_curDragItem != null)
             {
-                m_sceneDZData.m_curDragItem.moveToDestRST();
+                m_sceneDZData.m_curDragItem.aniControl.moveToDestRST();
             }
         }
 
@@ -362,7 +362,7 @@ namespace Game.UI
         }
 
         // 从输入卡牌列表到输出卡牌列表
-        public void addCardToOutList(SceneDragCard card, int idx = 0)
+        public void addCardToOutList(SceneCardBase card, int idx = 0)
         {
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;     // 更新卡牌区域信息
             m_outSceneCardList.addCard(card, idx);                          // 更新卡牌列表
@@ -371,7 +371,7 @@ namespace Game.UI
         }
 
         // 从手牌区域移除一个卡牌
-        public void removeFormInList(SceneDragCard card)
+        public void removeFormInList(SceneCardBase card)
         {
             inSceneCardList.removeCard(card);
         }
@@ -379,10 +379,10 @@ namespace Game.UI
         // 将 Out 区域中的第一个牌退回到 handle 中
         public void putHandFromOut()
         {
-            SceneDragCard card = m_outSceneCardList.removeNoDestroyAndRet() as SceneDragCard;
+            SceneCardBase card = m_outSceneCardList.removeNoDestroyAndRet() as SceneCardBase;
             if(card != null)
             {
-                card.retFormOutAreaToHandleArea();
+                card.aniControl.retFormOutAreaToHandleArea();
                 m_outSceneCardList.updateSceneCardRST();
                 m_outSceneCardList.updateCardIndex();
             }
@@ -392,14 +392,14 @@ namespace Game.UI
         {
             // 从出牌区域移除
             m_outSceneCardList.removeCardNoDestroy(card);
-            //(card as SceneDragCard).retFormOutAreaToHandleArea();
+            //(card as SceneCardBase).retFormOutAreaToHandleArea();
             m_outSceneCardList.updateSceneCardRST();
             m_outSceneCardList.updateCardIndex();
 
             // 放入手牌区域
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_HAND;       // 更新卡牌区域信息
             card.curIndex = card.preIndex;                                  // 更新索引信息
-            card.enableDrag();                                              // 开启拖放
+            card.dragControl.enableDrag();                                              // 开启拖放
             m_inSceneCardList.addCardByServerPos(card);                     // 添加到手牌位置
             m_inSceneCardList.updateSceneCardRST();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
         }
@@ -408,7 +408,7 @@ namespace Game.UI
         {
             if (m_sceneDZData.m_curDragItem != null && m_sceneDZData.m_curDragItem.sceneCardItem.svrCard.qwThisID == cmd.dwAttThisID)
             {
-                m_sceneDZData.m_curDragItem.backCard2Orig();
+                m_sceneDZData.m_curDragItem.dragControl.backCard2Orig();
             }
         }
 
@@ -486,12 +486,12 @@ namespace Game.UI
         }
 
         // 除了 card 禁止所有手牌区域卡牌拖动
-        virtual public void disableAllInCardDragExceptOne(SceneDragCard card)
+        virtual public void disableAllInCardDragExceptOne(SceneCardBase card)
         {
 
         }
 
-        virtual public void enableAllInCardDragExceptOne(SceneDragCard card)
+        virtual public void enableAllInCardDragExceptOne(SceneCardBase card)
         {
 
         }

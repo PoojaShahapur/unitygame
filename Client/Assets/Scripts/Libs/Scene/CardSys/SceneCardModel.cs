@@ -138,7 +138,7 @@ namespace SDK.Lib
             }
         }
 
-        public void dispose()
+        virtual public void dispose()
         {
             if (m_model != null)
             {

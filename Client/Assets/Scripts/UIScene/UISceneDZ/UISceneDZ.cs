@@ -247,7 +247,7 @@ namespace Game.UI
                 {
                     if (msg.pDefThisID == att.sceneCardItem.svrCard.qwThisID)        // 只有发送给被击者的信息的时候，做一次动画，发送给攻击者的时候就不用了
                     {
-                        att.behaviorControl.playAttackAni(def.transform.localPosition, null);     // 播放动画
+                        att.behaviorControl.playAttackAni(att.transform.localPosition, def.transform.localPosition, null);     // 播放动画
                     }
                 }
 

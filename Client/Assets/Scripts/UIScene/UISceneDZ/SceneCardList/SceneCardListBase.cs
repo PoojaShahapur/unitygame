@@ -20,7 +20,7 @@ namespace Game.UI
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
 
-        protected List<SceneDragCard> m_sceneCardList = new List<SceneDragCard>();
+        protected List<SceneCardBase> m_sceneCardList = new List<SceneCardBase>();
 
         public SceneCardListBase(SceneDZData data, EnDZPlayer playerFlag)
         {
@@ -33,7 +33,7 @@ namespace Game.UI
 
         }
 
-        //public List<SceneDragCard> sceneCardList
+        //public List<SceneCardBase> sceneCardList
         //{
         //    get
         //    {
@@ -60,17 +60,17 @@ namespace Game.UI
         public virtual void updateSceneCardRST()
         {
             int idx = 0;
-            SceneDragCard cardItem;
+            SceneCardBase cardItem;
 
             getCardPos();
 
             while (idx < m_sceneCardList.Count)
             {
                 cardItem = m_sceneCardList[idx];
-                cardItem.destPos = m_posList[idx];
-                cardItem.destRot = m_rotList[idx].eulerAngles;
-                cardItem.destScale = SceneCardBase.SMALLFACT;
-                cardItem.moveToDestRST();
+                cardItem.aniControl.destPos = m_posList[idx];
+                cardItem.aniControl.destRot = m_rotList[idx].eulerAngles;
+                cardItem.aniControl.destScale = SceneCardBase.SMALLFACT;
+                cardItem.aniControl.moveToDestRST();
 
                 ++idx;
             }
@@ -79,15 +79,15 @@ namespace Game.UI
         public virtual void updateSceneCardPos()
         {
             int idx = 0;
-            SceneDragCard cardItem;
+            SceneCardBase cardItem;
 
             getCardPos();
 
             while (idx < m_sceneCardList.Count)
             {
                 cardItem = m_sceneCardList[idx];
-                cardItem.destPos = m_posList[idx];
-                cardItem.moveToDestT();
+                cardItem.aniControl.destPos = m_posList[idx];
+                cardItem.aniControl.moveToDestT();
 
                 ++idx;
             }
@@ -105,9 +105,9 @@ namespace Game.UI
             }
         }
 
-        public SceneDragCard getSceneCardByThisID(uint thisid)
+        public SceneCardBase getSceneCardByThisID(uint thisid)
         {
-            foreach (SceneDragCard item in m_sceneCardList)
+            foreach (SceneCardBase item in m_sceneCardList)
             {
                 if (item.sceneCardItem != null)
                 {
@@ -127,7 +127,7 @@ namespace Game.UI
 
         public void updateCardData(SceneCardItem sceneItem)
         {
-            foreach (SceneDragCard item in m_sceneCardList)
+            foreach (SceneCardBase item in m_sceneCardList)
             {
                 if (item.sceneCardItem.svrCard.qwThisID == sceneItem.svrCard.qwThisID)
                 {
@@ -139,7 +139,7 @@ namespace Game.UI
 
         public SceneCardBase getUnderSceneCard(GameObject underGo)
         {
-            foreach(SceneDragCard item in m_sceneCardList)
+            foreach(SceneCardBase item in m_sceneCardList)
             {
                 if (UtilApi.isAddressEqual(item.gameObject, underGo))
                 {
@@ -164,7 +164,7 @@ namespace Game.UI
 
         public void removeCardNoDestroy(SceneCardBase card)
         {
-            m_sceneCardList.Remove(card as SceneDragCard);
+            m_sceneCardList.Remove(card as SceneCardBase);
         }
 
         public SceneCardBase getCardByIdx(int idx = 0)
@@ -183,7 +183,7 @@ namespace Game.UI
         {
             ushort idx = 0;
 
-            foreach (SceneDragCard item in m_sceneCardList)
+            foreach (SceneCardBase item in m_sceneCardList)
             {
                 item.curIndex = idx;
                 ++idx;
@@ -192,7 +192,7 @@ namespace Game.UI
 
         public void updateCardOutState(bool benable)
         {
-            foreach (SceneDragCard cardItem in m_sceneCardList)
+            foreach (SceneCardBase cardItem in m_sceneCardList)
             {
                 cardItem.updateCardOutState(benable);
             }
@@ -248,7 +248,7 @@ namespace Game.UI
 
         public int findCardIdx(SceneCardBase card)
         {
-            return m_sceneCardList.IndexOf(card as SceneDragCard);
+            return m_sceneCardList.IndexOf(card as SceneCardBase);
         }
 
         // 根据服务器索引添加一个卡牌，不是根据卡牌列表索引
@@ -258,11 +258,11 @@ namespace Game.UI
             // 检查是否是最后一个
             if (0 == m_sceneCardList.Count)         // 如果列表中没有，直接加入
             {
-                m_sceneCardList.Add(card as SceneDragCard);
+                m_sceneCardList.Add(card as SceneCardBase);
             }
             else if(m_sceneCardList[m_sceneCardList.Count - 1].curIndex < card.curIndex)    // 如果是最后一个
             {
-                m_sceneCardList.Add(card as SceneDragCard);
+                m_sceneCardList.Add(card as SceneCardBase);
             }
             else
             {
@@ -270,7 +270,7 @@ namespace Game.UI
                 {
                     if (cardItem.curIndex > card.curIndex)
                     {
-                        m_sceneCardList.Insert(idx, card as SceneDragCard);
+                        m_sceneCardList.Insert(idx, card as SceneCardBase);
                         break;
                     }
 
@@ -279,12 +279,12 @@ namespace Game.UI
             }
         }
 
-        virtual public void disableAllCardDragExceptOne(SceneDragCard card)
+        virtual public void disableAllCardDragExceptOne(SceneCardBase card)
         {
 
         }
 
-        virtual public void enableAllCardDragExceptOne(SceneDragCard card)
+        virtual public void enableAllCardDragExceptOne(SceneCardBase card)
         {
 
         }

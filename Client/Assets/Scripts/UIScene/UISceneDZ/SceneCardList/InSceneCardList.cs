@@ -38,23 +38,23 @@ namespace Game.UI
             UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_smallInternal, m_radius, m_sceneCardList.Count, ref m_posList, ref m_rotList);
         }
 
-        public virtual void addCard(SceneDragCard card)
+        public virtual void addCard(SceneCardBase card)
         {
             m_sceneCardList.Add(card);
         }
 
-        public void removeCard(SceneDragCard card)
+        public void removeCard(SceneCardBase card)
         {
             // 移除监听器
             // card.m_moveDisp = null;
-            card.disableDrag();
+            card.dragControl.disableDrag();
             m_sceneCardList.Remove(m_sceneDZData.m_curDragItem);
         }
 
         public void addSceneCard(uint objid, SceneCardItem sceneItem)
         {
-            SceneDragCard tmpcard;
-            tmpcard = m_sceneDZData.createOneCard(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneDragCard;
+            SceneCardBase tmpcard;
+            tmpcard = m_sceneDZData.createOneCard(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
             tmpcard.sceneCardItem = sceneItem;
             addCard(tmpcard);
             updateSceneCardRST();
@@ -64,7 +64,7 @@ namespace Game.UI
         // 清空卡牌列表
         public void clearSceneCardList()
         {
-            foreach(SceneDragCard card in m_sceneCardList)
+            foreach(SceneCardBase card in m_sceneCardList)
             {
                 UtilApi.Destroy(card.gameObject);
             }
@@ -75,7 +75,7 @@ namespace Game.UI
         // 是否还有剩余的点数可以使用
         public bool hasLeftMagicPtCanUse()
         {
-            foreach (SceneDragCard card in m_sceneCardList)
+            foreach (SceneCardBase card in m_sceneCardList)
             {
                 if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp >= card.sceneCardItem.svrCard.mpcost)
                 {

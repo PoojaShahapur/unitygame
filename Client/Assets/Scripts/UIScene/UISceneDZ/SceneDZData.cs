@@ -23,7 +23,7 @@ namespace Game.UI
         public GameObject m_centerGO;                   // 中心 GO ，所有场景中的牌都放在这个上面
         public GameObject m_startGO;                    // 开始按钮
 
-        public SceneDragCard m_curDragItem;             // 当前正在拖放的 item
+        public SceneCardBase m_curDragItem;             // 当前正在拖放的 item
 
         public GameObject[,] m_cardCenterGOArr;    // 保存所有占位的位置信息
 
@@ -191,7 +191,7 @@ namespace Game.UI
         public SceneCardBase createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
             SceneCardBase cardBase = Ctx.m_instance.m_sceneCardMgr.createCard(cardType, this);
-            SceneDragCard cardItem = cardBase as SceneDragCard;
+            SceneCardBase cardItem = cardBase as SceneCardBase;
             if (cardItem != null)   // 如果不是 hero 
             {
                 if (uint.MaxValue == objid)
@@ -204,26 +204,26 @@ namespace Game.UI
                     cardItem.gameObject = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)tableBody.m_type).InstantiateObject("");
                 }
 
-                cardItem.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+                cardItem.dragControl.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
                 cardItem.gameObject.transform.SetParent(m_centerGO.transform);
                 // 设置初始位置为发牌位置
-                cardItem.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-                cardItem.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+                cardItem.aniControl.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
+                cardItem.aniControl.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
 
                 // 设置是否可以动画
                 if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
                 {
-                    cardItem.disableDrag();
+                    cardItem.dragControl.disableDrag();
                     if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
                     {
-                        cardItem.destScale = SceneCardBase.SMALLFACT;
+                        cardItem.aniControl.destScale = SceneCardBase.SMALLFACT;
                     }
                 }
                 // 如果是放在技能或者装备的位置，是不允许拖放的
                 else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
                 {
-                    cardItem.destScale = SceneCardBase.SMALLFACT;
-                    cardItem.disableDrag();
+                    cardItem.aniControl.destScale = SceneCardBase.SMALLFACT;
+                    cardItem.dragControl.disableDrag();
                 }
 
                 // 更新边框
@@ -246,12 +246,12 @@ namespace Game.UI
             return cardBase;
         }
 
-        public void createMovePath(SceneDragCard card, Transform startPos, Transform destPos)
+        public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)
         {
-            card.startPos = startPos.localPosition;
-            card.destPos = destPos.localPosition;
+            card.aniControl.startPos = startPos.localPosition;
+            card.aniControl.destPos = destPos.localPosition;
 
-            card.moveToDestRST();
+            card.aniControl.moveToDestRST();
         }
 
         public SceneCardBase getUnderSceneCard()

@@ -8,12 +8,12 @@ namespace Game.UI
      */
     public class OutSceneCardList : SceneCardListBase
     {
-        protected SceneDragCard m_whiteCard;            // 这个卡牌就是当要出手的时候，就加入列表中，好计算位置
+        protected SceneCardBase m_whiteCard;            // 这个卡牌就是当要出手的时候，就加入列表中，好计算位置
 
         public OutSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
             : base(data, playerFlag)
         {
-            m_whiteCard = m_sceneDZData.createOneCard(SceneDragCard.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneDragCard;
+            m_whiteCard = m_sceneDZData.createOneCard(SceneCardBase.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
             m_whiteCard.gameObject.SetActive(false);
         }
 
@@ -24,13 +24,13 @@ namespace Game.UI
             UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_smallInternal, m_sceneCardList.Count, ref m_posList, ref m_rotList);
         }
 
-        public void addCard(SceneDragCard card, int idx = 0)
+        public void addCard(SceneCardBase card, int idx = 0)
         {
             #if !DEBUG_NOTNET
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;
             #endif
             // 添加进来的卡牌是不能移动的
-            card.disableDrag();
+            card.dragControl.disableDrag();
 
             //m_sceneCardList.Add(card);
             m_sceneCardList.Insert(idx, card);

@@ -12,12 +12,12 @@ namespace Game.UI
         }
 
         // 除了 card 禁止所有手牌区域卡牌拖动，目前只有自己区域才能做这个功能
-        override public void disableAllInCardDragExceptOne(SceneDragCard card)
+        override public void disableAllInCardDragExceptOne(SceneCardBase card)
         {
             m_inSceneCardList.disableAllCardDragExceptOne(card);
         }
 
-        override public void enableAllInCardDragExceptOne(SceneDragCard card)
+        override public void enableAllInCardDragExceptOne(SceneCardBase card)
         {
             m_inSceneCardList.enableAllCardDragExceptOne(card);
         }

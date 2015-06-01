@@ -15,6 +15,14 @@ namespace Game.UI
         protected AuxLabel m_hpText;        // 血
         protected Action m_heroAniEndDisp;         // hero 动画结束后，分发一个消息
 
+        public HeroCard(SceneDZData sceneDZData) :
+            base(sceneDZData)
+        {
+            m_clickControl = new HeroClickControl(this);
+            m_aniControl = new HeroAniControl(this);
+            m_behaviorControl = new HeroBehaviorControl(this);
+        }
+
         public Action heroAniEndDisp
         {
             get

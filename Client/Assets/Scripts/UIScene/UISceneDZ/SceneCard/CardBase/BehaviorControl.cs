@@ -7,31 +7,19 @@ namespace Game.UI
     /**
      * @brief 主要处理行为相关的操作
      */
-    public class BehaviorControl
+    public class BehaviorControl : ControlBase
     {
-        protected SceneCardBase m_card;
         protected CardSceneState m_cardPreSceneState;
         protected CardSceneState m_cardSceneState;
         protected NumAniSequence m_numAniSeq;       // 攻击动画序列，这个所有的都有
         protected Vector3 m_srcPos;                 // 保存最初的位置
 
-        public BehaviorControl()
+        public BehaviorControl(SceneCardBase rhv) : 
+            base(rhv)
         {
             m_cardPreSceneState = CardSceneState.eInplace;         // 默认原地状态
             m_cardSceneState = CardSceneState.eInplace;         // 默认原地状态
             m_numAniSeq = new NumAniSequence();
-        }
-
-        public SceneCardBase card
-        {
-            get
-            {
-                return m_card;
-            }
-            set
-            {
-                m_card = value;
-            }
         }
 
         public CardSceneState cardSceneState

@@ -42,7 +42,7 @@ namespace Game.UI
             }
             else if (CardType.CARDTYPE_HERO == cardType)
             {
-                ret = new HeroCard();
+                ret = new HeroCard(sceneDZData);
             }
             else if (CardType.CARDTYPE_SKILL == cardType)
             {
