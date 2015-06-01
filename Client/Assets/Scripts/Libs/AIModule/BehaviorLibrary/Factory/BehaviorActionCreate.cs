@@ -1,6 +1,4 @@
-﻿using BehaviorLibrary.Components;
-using BehaviorLibrary.Components.Actions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security;
 
@@ -28,7 +26,7 @@ namespace BehaviorLibrary
 
         public BehaviorComponent createBehaviorActionWander()
         {
-            BehaviorActionWander behaviorActionWander = new BehaviorActionWander();
+            ActionWander behaviorActionWander = new ActionWander();
             return behaviorActionWander;
         }
 
@@ -39,7 +37,7 @@ namespace BehaviorLibrary
 
         public BehaviorComponent createBehaviorActionFollow()
         {
-            BehaviorActionFollow behaviorActionFollow = new BehaviorActionFollow();
+            ActionFollow behaviorActionFollow = new ActionFollow();
             return behaviorActionFollow;
         }
 

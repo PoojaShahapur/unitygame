@@ -1,6 +1,6 @@
 ﻿using SDK.Common;
 
-namespace BehaviorLibrary.Components.Conditionals
+namespace BehaviorLibrary
 {
     /**
      * @brief 空闲条件

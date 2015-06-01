@@ -10,7 +10,7 @@ namespace Game.UI
     public class TuJianCardSetCardItemCom
     {
         protected TableCardItemBody m_cardItem; // 卡牌基本数据
-        protected AuxDynImageDynGoButton m_auxDynImageDynGoButton;
+        protected AuxDynTexDynGOButton m_auxDynTexDynGOButton;
         protected AuxLabel m_mpNumText;
         protected AuxLabel m_nameText;
         protected AuxStaticImage m_numImage;
@@ -39,27 +39,27 @@ namespace Game.UI
 
         public void dispose()
         {
-            if (m_auxDynImageDynGoButton != null)
+            if (m_auxDynTexDynGOButton != null)
             {
-                m_auxDynImageDynGoButton.dispose();
+                m_auxDynTexDynGOButton.dispose();
             }
         }
 
         public void createSceneGo()
         {
-            if (m_auxDynImageDynGoButton == null)
+            if (m_auxDynTexDynGOButton == null)
             {
-                m_auxDynImageDynGoButton = new AuxDynImageDynGoButton();
+                m_auxDynTexDynGOButton = new AuxDynTexDynGOButton();
             }
 
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.prefabPath = TuJianPath.CardSetCardPrefabPath;
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.setImageInfo(CVAtlasName.TuJianDyn, m_cardItem.m_cardHeader);
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(onImageLoaded);
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.syncUpdateCom();
+            m_auxDynTexDynGOButton.prefabPath = TuJianPath.CardSetCardPrefabPath;
+            m_auxDynTexDynGOButton.texPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], m_cardItem.m_cardSetCardHeader);
+            m_auxDynTexDynGOButton.addEventHandle(onImageLoaded);
+            m_auxDynTexDynGOButton.syncUpdateCom();
 
-            m_mpNumText = new AuxLabel(m_auxDynImageDynGoButton.selfGo, TuJianPath.MpNumText);
-            m_nameText = new AuxLabel(m_auxDynImageDynGoButton.selfGo, TuJianPath.NameText);
-            m_numImage = new AuxStaticImage(m_auxDynImageDynGoButton.selfGo, TuJianPath.NumImage);
+            m_mpNumText = new AuxLabel(m_auxDynTexDynGOButton.selfGo, TuJianPath.MpNumText);
+            m_nameText = new AuxLabel(m_auxDynTexDynGOButton.selfGo, TuJianPath.NameText);
+            m_numImage = new AuxStaticImage(m_auxDynTexDynGOButton.selfGo, TuJianPath.NumImage);
 
             m_mpNumText.text = m_cardItem.m_magicConsume.ToString();
             m_nameText.text = m_cardItem.m_name;
@@ -68,12 +68,12 @@ namespace Game.UI
 
         public void add2Layout(AuxLayoutV cardLayoutV)
         {
-            cardLayoutV.addElem(m_auxDynImageDynGoButton.selfGo, true);
+            cardLayoutV.addElem(m_auxDynTexDynGOButton.selfGo, true);
         }
 
         public void removeFromLayout(AuxLayoutV cardLayoutV)
         {
-            cardLayoutV.removeElem(m_auxDynImageDynGoButton.selfGo, true);
+            cardLayoutV.removeElem(m_auxDynTexDynGOButton.selfGo, true);
         }
 
         protected void onImageLoaded(IDispatchObject dispObj)

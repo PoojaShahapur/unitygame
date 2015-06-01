@@ -12,20 +12,17 @@ namespace SDK.Lib
         protected CardModelItem m_cardModelItem;        // 异步加载的时候，使用 path 字段
         // 这些是为了卸载资源使用
         protected AuxDynModel m_model;          // 模型资源
-        protected StaticModelDynTex m_headerModelTex;       // 头像资源
-        protected StaticModelDynTex m_frameModelTex;        // 边框资源
-        protected StaticModelDynTex m_yaoDaiModelTex;       // 腰带资源
-        protected StaticModelDynTex m_pinZhiModelTex;       // 品质资源
-
+        protected CardSubPart[] m_subTex;       // 子模型
         protected EventDispatch m_clkDisp;  // 点击事件分发
 
         public SceneCardModel()
         {
             m_model = new AuxDynModel();
-            m_headerModelTex = new StaticModelDynTex();
-            m_frameModelTex = new StaticModelDynTex();
-            m_yaoDaiModelTex = new StaticModelDynTex();
-            m_pinZhiModelTex = new StaticModelDynTex();
+            m_subTex = new CardSubPart[(int)CardSubPartType.eTotal];
+            for (int idx = 0; idx < (int)CardSubPartType.eTotal; ++idx)
+            {
+                m_subTex[idx] = new CardSubPart();
+            }
             m_clkDisp = new EventDispatch();
         }
 
@@ -109,35 +106,35 @@ namespace SDK.Lib
         {
             // 头像是每一个卡牌一个配置
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], cardItem.m_tableItemCard.m_cardHeader);
-            m_headerModelTex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_headerSubModel);
-            m_headerModelTex.texPath = path;
-            m_headerModelTex.syncUpdateTex();
+            m_subTex[(int)CardSubPartType.eHeader].tex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_headerSubModel);
+            m_subTex[(int)CardSubPartType.eHeader].tex.texPath = path;
+            m_subTex[(int)CardSubPartType.eHeader].tex.syncUpdateTex();
 
             TableJobItemBody jobTable;
             // 边框
             jobTable = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_JOB, (uint)(cardItem.m_tableItemCard.m_career)).m_itemBody as TableJobItemBody;
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], jobTable.m_frameImage);
-            m_frameModelTex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_frameSubModel);
-            m_frameModelTex.texPath = path;
-            m_headerModelTex.syncUpdateTex();
+            m_subTex[(int)CardSubPartType.eFrame].tex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_frameSubModel);
+            m_subTex[(int)CardSubPartType.eFrame].tex.texPath = path;
+            m_subTex[(int)CardSubPartType.eFrame].tex.syncUpdateTex();
 
             // 腰带
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], jobTable.m_yaoDaiImage);
-            m_yaoDaiModelTex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_yaoDaiSubModel);
-            m_yaoDaiModelTex.texPath = path;
-            m_yaoDaiModelTex.syncUpdateTex();
+            m_subTex[(int)CardSubPartType.eBelt].tex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_yaoDaiSubModel);
+            m_subTex[(int)CardSubPartType.eBelt].tex.texPath = path;
+            m_subTex[(int)CardSubPartType.eBelt].tex.syncUpdateTex();
 
-            m_pinZhiModelTex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_pinZhiSubModel);
             // 品质
+            m_subTex[(int)CardSubPartType.EQuality].tex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_pinZhiSubModel);
             if (cardItem.m_tableItemCard.m_quality == 0)        // 品质 0 ，不显示
             {
-                UtilApi.SetActive(m_pinZhiModelTex.selfGo, false);
+                UtilApi.SetActive(m_subTex[(int)CardSubPartType.EQuality].tex.selfGo, false);
             }
             else
             {
                 path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], UtilApi.getImageByPinZhi(cardItem.m_tableItemCard.m_quality));
-                m_pinZhiModelTex.texPath = path;
-                m_pinZhiModelTex.syncUpdateTex();
+                m_subTex[(int)CardSubPartType.EQuality].tex.texPath = path;
+                m_subTex[(int)CardSubPartType.EQuality].tex.syncUpdateTex();
             }
         }
 
@@ -148,25 +145,10 @@ namespace SDK.Lib
                 m_model.dispose();
                 m_model = null;
             }
-            if (m_headerModelTex != null)
+
+            for (int idx = 0; idx < (int)CardSubPartType.eTotal; ++idx)
             {
-                m_headerModelTex.dispose();
-                m_headerModelTex = null;
-            }
-            if (m_frameModelTex != null)
-            {
-                m_frameModelTex.dispose();
-                m_frameModelTex = null;
-            }
-            if (m_yaoDaiModelTex != null)
-            {
-                m_yaoDaiModelTex.dispose();
-                m_yaoDaiModelTex = null;
-            }
-            if (m_pinZhiModelTex != null)
-            {
-                m_pinZhiModelTex.dispose();
-                m_pinZhiModelTex = null;
+                m_subTex[idx].dispose();
             }
 
             m_clkDisp.clearEventHandle();

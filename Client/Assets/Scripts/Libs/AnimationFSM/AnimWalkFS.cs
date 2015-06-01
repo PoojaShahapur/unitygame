@@ -1,33 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
-using AIEngine;
 using SDK.Lib;
+using Game.UI;
 
-public class AnimWalkFS : FSMState 
+namespace FSM
 {
-    public AnimWalkFS(FSM fsm, BeingEntity beingEntity)
-        : base(fsm, beingEntity)
+    public class AnimWalkFS : FSMState
     {
-        
-    }
+        //public AnimWalkFS(FSM fsm, BeingEntity beingEntity)
+        //    : base(fsm, beingEntity)
+        //{
 
-    override public void OnStateEnter()
-    {
-        base.OnStateEnter();
-    }
+        //}
 
-    override public void OnStateExit()
-    {
-        
-    }
+        public AnimWalkFS(FSM fsm, SceneCardBase card)
+            : base(fsm, card)
+        {
 
-    override public void Update()
-    {
-        base.Update();
-    }
+        }
 
-    public override void OnDrawGizmos()
-    {
-        //Gizmos.DrawLine(m_sceneGo.transform.position, m_sceneGo.transform.forward * maxChaseDistance);
+        override public void OnStateEnter()
+        {
+            base.OnStateEnter();
+        }
+
+        override public void OnStateExit()
+        {
+
+        }
+
+        override public void Update()
+        {
+            base.Update();
+        }
+
+        public override void OnDrawGizmos()
+        {
+            //Gizmos.DrawLine(m_sceneGo.transform.position, m_sceneGo.transform.forward * maxChaseDistance);
+        }
     }
 }

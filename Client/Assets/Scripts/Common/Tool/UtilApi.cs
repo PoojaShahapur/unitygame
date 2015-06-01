@@ -335,6 +335,11 @@ namespace SDK.Common
             image.type = type;
         }
 
+        public static Sprite Create(Texture2D texture, Rect rect, Vector2 pivot)
+        {
+            return Sprite.Create(texture, rect, pivot);
+        }
+
         // 当前是否在与 UI 元素交互
         public static bool IsPointerOverGameObject()
         {

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using BehaviorLibrary.Components;
-using BehaviorLibrary.Components.Composites;
 using SDK.Common;
 
 namespace BehaviorLibrary
@@ -29,8 +27,14 @@ namespace BehaviorLibrary
 
         public BehaviorReturnCode ReturnCode
         {
-            get { return _ReturnCode; }
-            set { _ReturnCode = value; }
+            get 
+            { 
+                return _ReturnCode; 
+            }
+            set 
+            { 
+                _ReturnCode = value; 
+            }
         }
 
         /// <summary>
@@ -83,6 +87,18 @@ namespace BehaviorLibrary
             }
         }
 
+        public UBlackboardData blackboardData
+        {
+            get
+            {
+                return m_blackboardData;
+            }
+            set
+            {
+                m_blackboardData = value;
+            }
+        }
+
         /// <summary>
         /// perform the behavior
         /// </summary>
@@ -93,17 +109,25 @@ namespace BehaviorLibrary
                 switch (_Root.Behave())
                 {
                     case BehaviorReturnCode.Failure:
+                    {
                         ReturnCode = BehaviorReturnCode.Failure;
                         return ReturnCode;
+                    }
                     case BehaviorReturnCode.Success:
+                    {
                         ReturnCode = BehaviorReturnCode.Success;
                         return ReturnCode;
+                    }
                     case BehaviorReturnCode.Running:
+                    {
                         ReturnCode = BehaviorReturnCode.Running;
                         return ReturnCode;
+                    }
                     default:
+                    {
                         ReturnCode = BehaviorReturnCode.Running;
                         return ReturnCode;
+                    }
                 }
             }
             catch (Exception e)

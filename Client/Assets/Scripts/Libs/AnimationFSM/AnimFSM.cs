@@ -1,59 +1,84 @@
 ﻿using UnityEngine;
 using System.Collections;
-using AIEngine;
 using SDK.Lib;
+using Game.UI;
 
-public class AnimFSM : FSM 
+namespace FSM
 {
-    private BeingEntity m_beingEntity;
-
-    public BeingEntity beingEntity
+    public class AnimFSM : FSM
     {
-        get
+        //private BeingEntity m_beingEntity;
+        protected SceneCardBase m_card;
+
+        //public BeingEntity beingEntity
+        //{
+        //    get
+        //    {
+        //        return m_beingEntity;
+        //    }
+        //    set
+        //    {
+        //        m_beingEntity = value;
+        //    }
+        //}
+
+        public SceneCardBase card
         {
-            return m_beingEntity;
+            get
+            {
+                return m_card;
+            }
+            set
+            {
+                m_card = value;
+            }
         }
-        set
+
+        public override void InitFSM()
         {
-            m_beingEntity = value;
+            base.InitFSM();
         }
-    }
 
-    public override void InitFSM()
-    {
-        base.InitFSM();
-    }
-
-    public override void UpdateFSM()
-    {
-        base.UpdateFSM();
-    }
-
-    protected override FSMState CreateState(StateId state)
-    {
-        switch (state.GetId())
+        public override void UpdateFSM()
         {
-            case "ASIDLE":
-                return new AnimIdleFS(this, m_beingEntity);
-            case "ASIWALK":
-                return new AnimWalkFS(this, m_beingEntity);
-            case "ASRUN":
-                return new AnimRunFS(this, m_beingEntity);
-            default:
-                return null;
+            base.UpdateFSM();
         }
-    }
 
-    public override void StopFSM()
-    {
-        base.StopFSM();
-    }
-
-    void OnDrawGizmos()
-    {
-        if(currentState != null)
+        protected override FSMState CreateState(StateId state)
         {
-            currentState.OnDrawGizmos();
+            switch (state.GetId())
+            {
+                case CVAnimState.IdleStr:
+                {
+                    //return new AnimIdleFS(this, m_beingEntity);
+                    return new AnimIdleFS(this, m_card);
+                }
+                case CVAnimState.WalkStr:
+                {
+                    //return new AnimWalkFS(this, m_beingEntity);
+                    return new AnimWalkFS(this, m_card);
+                }
+                case CVAnimState.RunStr:
+                {
+                    //return new AnimRunFS(this, m_beingEntity);
+                    return new AnimRunFS(this, m_card);
+                }
+                default:
+                    return null;
+            }
+        }
+
+        public override void StopFSM()
+        {
+            base.StopFSM();
+        }
+
+        void OnDrawGizmos()
+        {
+            if (currentState != null)
+            {
+                currentState.OnDrawGizmos();
+            }
         }
     }
 }

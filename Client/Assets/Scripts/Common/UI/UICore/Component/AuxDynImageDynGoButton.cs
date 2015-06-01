@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using System;
 namespace SDK.Common
 {
     public class AuxDynImageDynGoButton : AuxBasicButton
@@ -11,16 +12,22 @@ namespace SDK.Common
             m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(updateBtnCom);
         }
 
-        public AuxDynImageDynGOImage auxDynImageDynGOImage
+        public string prefabPath
         {
-            get
-            {
-                return m_auxDynImageDynGOImage;
-            }
             set
             {
-                m_auxDynImageDynGOImage = value;
+                m_auxDynImageDynGOImage.prefabPath = value;
             }
+        }
+
+        public void setImageInfo(string atlasName, string imageName)
+        {
+            m_auxDynImageDynGOImage.setImageInfo(atlasName, imageName);
+        }
+
+        public void addImageLoadedHandle(Action<IDispatchObject> imageLoadedHandle)
+        {
+            m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(imageLoadedHandle);
         }
 
         override protected void updateBtnCom(IDispatchObject dispObj)
@@ -47,6 +54,12 @@ namespace SDK.Common
             base.dispose();
             m_auxDynImageDynGOImage.imageLoadedDisp.removeEventHandle(updateBtnCom);
             m_auxDynImageDynGOImage.dispose();
+        }
+
+        override public void syncUpdateCom()
+        {
+            m_auxDynImageDynGOImage.syncUpdateCom();
+            base.syncUpdateCom();
         }
     }
 }

@@ -14,11 +14,14 @@ namespace BehaviorLibrary
         protected Radar m_radar;                // 每一个人身上有一个雷达
 
         protected ISceneEntity m_entity;        // 控制的场景 Entity
-        protected BTID m_btID;       // 行为树 ID 
+        protected BTID m_btID;          // 行为树 ID 
+        protected BehaviorTreeRes m_btRes;        // 行为树资源
+        protected BehaviorTree m_bt;              // 行为树
+        protected bool m_bNeedReloadBT;
 
         public AIController()
         {
-            
+            m_bNeedReloadBT = false;
         }
 
         public Biped vehicle
@@ -70,7 +73,26 @@ namespace BehaviorLibrary
             }
             set
             {
+                if (m_btID != value)
+                {
+                    m_bNeedReloadBT = true;
+                }
                 m_btID = value;
+                syncUpdateBT();
+            }
+        }
+
+        public void dispose()
+        {
+            if(m_btRes != null)
+            {
+                Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(m_btRes.GetPath(), null);
+                m_btRes = null;
+            }
+
+            if(m_bt != null)
+            {
+                m_bt = null;
             }
         }
 
@@ -82,19 +104,26 @@ namespace BehaviorLibrary
             //}
 
             // 初始化黑盒数据
+            m_bt.blackboardData.AddData(BlackboardKey.PSCARD, m_entity);
             // 真正运行行为树
-            runBT();
+            m_bt.Behave();
         }
 
+        // 设置 AI 控制器操作的场景对象
         public void possess(ISceneEntity entity)
         {
             m_entity = entity;
         }
 
-        protected void runBT()
+        public void syncUpdateBT()
         {
-            BehaviorTreeRes btRes = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndLoadBT(m_btID);
-            btRes.behaviorTree.Behave();
+            if (m_bNeedReloadBT)
+            {
+                m_btRes = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndLoadBT(m_btID);
+                m_bt = m_btRes.behaviorTree;
+            }
+
+            m_bNeedReloadBT = false;
         }
     }
 }

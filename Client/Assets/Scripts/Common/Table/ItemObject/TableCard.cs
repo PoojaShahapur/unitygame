@@ -36,7 +36,6 @@ namespace SDK.Common
         public int m_attack;         // 攻击力
         public int m_hp;             // 血量
         public int m_Durable;        // 耐久
-        protected string m_prefab;      // 预制
 
         public int m_chaoFeng;      // 嘲讽
         public int m_chongFeng;     // 冲锋
@@ -52,7 +51,10 @@ namespace SDK.Common
         public byte m_bNeedFaShuTarget;     // 是否需要法术目标
         public int m_bNeedZhanHouTarget;    // 战吼需要目标
         public string m_cardDesc;           // 卡牌描述
-        public string m_cardHeader;         // 卡牌头像贴图路径
+        public string m_cardHeader;         // 卡牌头像贴图路径，卡牌模型中头像
+
+        public string m_cardSetCardHeader;    // 卡牌头像贴图路径，卡组中卡牌资源
+        public string m_dzCardHeader;         // 卡牌头像贴图路径，对战中卡牌图像
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -68,7 +70,6 @@ namespace SDK.Common
             bytes.readInt32(ref m_attack);
             bytes.readInt32(ref m_hp);
             bytes.readInt32(ref m_Durable);
-            UtilTable.readString(bytes, ref m_prefab);
 
             bytes.readInt32(ref m_chaoFeng);
             bytes.readInt32(ref m_chongFeng);
@@ -87,20 +88,16 @@ namespace SDK.Common
             initDefaultValue();
         }
 
-        public string path
-        {
-            get
-            {
-                return string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], m_prefab, ".prefab");
-            }
-        }
-
         protected void initDefaultValue()
         {
             if (string.IsNullOrEmpty(m_cardHeader))
             {
                 m_cardHeader = "gaibangzhutu_kapai";
             }
+
+            m_cardSetCardHeader = string.Format("{0}_2", m_cardHeader);
+            m_dzCardHeader = string.Format("{0}_3", m_cardHeader);
+            m_cardHeader = string.Format("{0}_1", m_cardHeader);
         }
     }
 }

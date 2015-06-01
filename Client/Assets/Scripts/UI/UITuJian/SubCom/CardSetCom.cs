@@ -22,7 +22,7 @@ namespace Game.UI
             
         }
 
-        public void dispose()
+        new public void dispose()
         {
             if(m_auxDynImageDynGoButton != null)
             {
@@ -139,10 +139,10 @@ namespace Game.UI
                 m_auxDynImageDynGoButton = new AuxDynImageDynGoButton();
             }
 
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.prefabPath = TuJianPath.CardSetPrefabPath;
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.setImageInfo(CVAtlasName.TuJianDyn, m_cardGroupItem.m_tableJobItemBody.m_cardSetRes);
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(onImageLoaded);
-            m_auxDynImageDynGoButton.auxDynImageDynGOImage.syncUpdateCom();
+            m_auxDynImageDynGoButton.prefabPath = TuJianPath.CardSetPrefabPath;
+            m_auxDynImageDynGoButton.setImageInfo(CVAtlasName.TuJianDyn, m_cardGroupItem.m_tableJobItemBody.m_cardSetRes);
+            m_auxDynImageDynGoButton.addImageLoadedHandle(onImageLoaded);
+            m_auxDynImageDynGoButton.syncUpdateCom();
         }
 
         protected void onImageLoaded(IDispatchObject dispObj)

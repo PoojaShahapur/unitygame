@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SDK.Common
 {
-    public class AuxDynImageDynGOImage : AuxDynImage
+    public class AuxDynImageDynGOImage : AuxDynAtlasImage
     {
         protected string m_prefabPath;      // Prefab 目录
         protected UIPrefabRes m_prefabRes;  // Prefab 资源

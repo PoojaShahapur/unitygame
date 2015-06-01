@@ -5,7 +5,7 @@ namespace SDK.Common
     /**
      * @brief 动态加载的 Image，但是 GameObject 是静态的
      */
-    public class AuxDynImageStaticGOImage : AuxDynImage
+    public class AuxDynImageStaticGOImage : AuxDynAtlasImage
     {
         // 查找 UI 组件
         override public void findWidget()

@@ -1,4 +1,5 @@
 using BehaviorLibrary;
+using FSM;
 using SDK.Common;
 using UnityEngine;
 
@@ -115,7 +116,7 @@ namespace SDK.Lib
             if (m_animFSM == null)
             {
                 m_animFSM = new AnimFSM();
-                m_animFSM.beingEntity = this;
+                //m_animFSM.beingEntity = this;
                 m_animFSM.InitFSM();
             }
         }

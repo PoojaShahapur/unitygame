@@ -1,36 +1,38 @@
-﻿using AIEngine;
-using SDK.Common;
+﻿using SDK.Common;
 using SDK.Lib;
 
-public class AnimStateId : StateId
+namespace FSM
 {
-    public static readonly AnimStateId ASIDLE = new AnimStateId("ASIDLE");
-    public static readonly AnimStateId ASIWALK = new AnimStateId("ASIWALK");
-    public static readonly AnimStateId ASRUN = new AnimStateId("ASRUN");
-
-    public AnimStateId(string id)
-        : base(id)
+    public class AnimStateId : StateId
     {
-    }
+        public static readonly AnimStateId ASIDLE = new AnimStateId("ASIDLE");
+        public static readonly AnimStateId ASIWALK = new AnimStateId("ASIWALK");
+        public static readonly AnimStateId ASRUN = new AnimStateId("ASRUN");
 
-    static public StateId getStateIdByBeingState(BeingState beingState)
-    {
-        switch (beingState)
+        public AnimStateId(string id)
+            : base(id)
         {
-            case BeingState.BSIdle:
-                {
-                    return ASIDLE;
-                }
-            case BeingState.BSWalk:
-                {
-                    return ASIWALK;
-                }
-            case BeingState.BSRun:
-                {
-                    return ASRUN;
-                }
         }
 
-        return ASIDLE;
+        static public StateId getStateIdByBeingState(BeingState beingState)
+        {
+            switch (beingState)
+            {
+                case BeingState.BSIdle:
+                    {
+                        return ASIDLE;
+                    }
+                case BeingState.BSWalk:
+                    {
+                        return ASIWALK;
+                    }
+                case BeingState.BSRun:
+                    {
+                        return ASRUN;
+                    }
+            }
+
+            return ASIDLE;
+        }
     }
 }

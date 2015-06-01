@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace AIEngine
+namespace FSM
 {
     /**
      * Extend this class to define your own state machine.
@@ -15,12 +15,12 @@ namespace AIEngine
 
         protected FSMState currentState;
 
-        void Start()
+        public void Start()
         {
             InitFSM();
         }
 
-        void Update()
+        public void Update()
         {
             UpdateFSM();
         }

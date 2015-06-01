@@ -1,13 +1,6 @@
 using System;
-using BehaviorLibrary;
-using BehaviorLibrary.Components;
-using BehaviorLibrary.Components.Composites;
-using BehaviorLibrary.Components.Actions;
-using BehaviorLibrary.Components.Conditionals;
-using BehaviorLibrary.Components.Decorators;
-using BehaviorLibrary.Components.Utility;
 
-namespace BehaviorLibrary.Components.Decorators
+namespace BehaviorLibrary
 {
     public class RepeatUntilFail : SingleBranchComponent
     {

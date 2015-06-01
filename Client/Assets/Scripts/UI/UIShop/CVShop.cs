@@ -7,6 +7,11 @@
         eBtnPack10,//卡包10
         eBtnPack20,//卡包20
 
+        eBtnPackBackImg1,
+        eBtnPackBackImg5,
+        eBtnPackBackImg10,
+        eBtnPackBackImg20,
+
         ePackBtnTotal
     }
     public enum ShopBtnNum
@@ -53,5 +58,9 @@
         public const string TxtPrice20 = "PriceText/Price20";
         public const string BtnOk = "NoGoldTip/BtnOk";
         public const string BtnCancel = "NoGoldTip/BtnCancel";
+        public const string BtnPackBackImg1 = "packBackImg/BtnBackImg1";
+        public const string BtnPackBackImg5 = "packBackImg/BtnBackImg5";
+        public const string BtnPackBackImg10 = "packBackImg/BtnBackImg10";
+        public const string BtnPackBackImg20 = "packBackImg/BtnBackImg20";
     }
 }

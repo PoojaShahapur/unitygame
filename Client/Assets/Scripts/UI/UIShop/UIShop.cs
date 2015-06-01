@@ -66,6 +66,11 @@ namespace Game.UI
             m_packBtnArr[(int)PackBtnNum.eBtnPack10].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPack10);
             m_packBtnArr[(int)PackBtnNum.eBtnPack20].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPack20);
 
+            m_packBtnArr[(int)PackBtnNum.eBtnPackBackImg1].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPackBackImg1);
+            m_packBtnArr[(int)PackBtnNum.eBtnPackBackImg5].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPackBackImg5);
+            m_packBtnArr[(int)PackBtnNum.eBtnPackBackImg10].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPackBackImg10);
+            m_packBtnArr[(int)PackBtnNum.eBtnPackBackImg20].createBtn(m_GUIWin.m_uiRoot, ShopComPath.BtnPackBackImg20);
+
             m_btnArr[(int)ShopBtnNum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBack);
             m_btnArr[(int)ShopBtnNum.eBtnBuy] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnBuy);
             m_btnArr[(int)ShopBtnNum.eBtnPack1XZ] = new AuxBasicButton(m_GUIWin.m_uiRoot, ShopComPath.BtnPack1XZ);

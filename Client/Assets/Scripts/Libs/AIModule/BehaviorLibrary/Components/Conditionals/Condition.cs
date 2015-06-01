@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviorLibrary.Components.Conditionals
+namespace BehaviorLibrary
 {
     public class Condition : MulBranchComponent
     {
@@ -40,16 +40,22 @@ namespace BehaviorLibrary.Components.Conditionals
                 switch (_Bool.Invoke())
                 {
                     case true:
+                    {
                         // 执行所有的代码
                         execAllChild();
                         ReturnCode = BehaviorReturnCode.Success;
                         return ReturnCode;
+                    }
                     case false:
+                    {
                         ReturnCode = BehaviorReturnCode.Failure;
                         return ReturnCode;
+                    }
                     default:
+                    {
                         ReturnCode = BehaviorReturnCode.Failure;
                         return ReturnCode;
+                    }
                 }
             }
             catch (Exception e)

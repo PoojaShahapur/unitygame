@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BehaviorLibrary.Components
+namespace BehaviorLibrary
 {
     public class MulBranchComponent : BehaviorComponent
     {

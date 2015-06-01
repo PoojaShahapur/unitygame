@@ -1,4 +1,6 @@
-﻿using Game.Msg;
+﻿using BehaviorLibrary;
+using FSM;
+using Game.Msg;
 using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
@@ -8,7 +10,7 @@ namespace Game.UI
     /**
      * @brief 场景中卡牌基类
      */
-    public class SceneCardBase : SceneCardModel
+    public class SceneCardBase : SceneCardModel, ISceneEntity
     {
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
@@ -22,8 +24,26 @@ namespace Game.UI
         protected GameObject m_chaHaoGo;
         public uint m_startCardID;
 
-        protected NumAniSequence m_numAniSeq = new NumAniSequence();       // 攻击动画序列，这个所有的都有
-        protected SpriteAni m_spriteAni;
+        protected SpriteAni m_spriteAni;            // 边框高亮状态
+        protected FightData m_fightData;            // 战斗数据
+        protected AnimFSM m_animFSM;                // 动画状态机
+
+        protected AIController m_aiController;
+        protected BehaviorControl m_behaviorControl;
+
+        public SceneCardBase()
+        {
+            m_fightData = new FightData();
+            m_animFSM = new AnimFSM();
+            m_animFSM.card = this;
+            m_animFSM.Start();
+
+            m_aiController = new AIController();
+            m_aiController.possess(this);
+
+            m_behaviorControl = new BehaviorControl();
+            m_behaviorControl.card = this;
+        }
 
         virtual public void init()
         {
@@ -98,6 +118,44 @@ namespace Game.UI
             {
                 return m_preIndex;
             }
+        }
+
+        public FightData fightData
+        {
+            get
+            {
+                return m_fightData;
+            }
+        }
+
+        public AIController aiController
+        {
+            get
+            {
+                return m_aiController;
+            }
+            set
+            {
+                m_aiController = value;
+            }
+        }
+
+        public BehaviorControl behaviorControl
+        {
+            get
+            {
+                return m_behaviorControl;
+            }
+            set
+            {
+                m_behaviorControl = value;
+            }
+        }
+
+        virtual public void onTick(float delta)
+        {
+            m_animFSM.Update();                 // 更新状态机
+            m_fightData.onTime(delta);          // 更新战斗数据
         }
 
         virtual public void dispose()
@@ -393,38 +451,6 @@ namespace Game.UI
             //        }
             //    }
             //}
-        }
-
-        // 播放攻击动画，就是移动过去砸一下
-        public void playAttackAni(Vector3 destPos)
-        {
-            Vector3 midPt;      // 中间点
-            midPt = (gameObject.transform.localPosition + destPos) / 2;
-            midPt.y = 2;
-
-            SimpleCurveAni curveAni = new SimpleCurveAni();
-            m_numAniSeq.addOneNumAni(curveAni);
-            curveAni.setGO(gameObject);
-            curveAni.setTime(0.3f);
-            curveAni.setPlotCount(3);
-            curveAni.addPlotPt(0, gameObject.transform.localPosition);
-            curveAni.addPlotPt(1, midPt);
-            curveAni.addPlotPt(2, destPos);
-
-            curveAni.setEaseType(iTween.EaseType.easeInExpo);
-
-            curveAni = new SimpleCurveAni();
-            m_numAniSeq.addOneNumAni(curveAni);
-            curveAni.setGO(gameObject);
-            curveAni.setTime(0.3f);
-            curveAni.setPlotCount(3);
-            curveAni.addPlotPt(0, destPos);
-            curveAni.addPlotPt(1, midPt);
-            curveAni.addPlotPt(2, gameObject.transform.localPosition);
-
-            curveAni.setEaseType(iTween.EaseType.easeInExpo);
-
-            m_numAniSeq.play();
         }
 
         public void playFlyNum(int num)

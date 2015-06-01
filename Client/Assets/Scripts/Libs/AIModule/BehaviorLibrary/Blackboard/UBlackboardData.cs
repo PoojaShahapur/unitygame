@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 namespace BehaviorLibrary
 {
     /**
@@ -24,7 +25,9 @@ namespace BehaviorLibrary
         public T GetData<T>(string name)
         {
             if (!datasStore.ContainsKey(name))
+            {
                 return default(T);
+            }
             return (T)datasStore[name];
         }
 
@@ -37,7 +40,9 @@ namespace BehaviorLibrary
         public object RemoveData(string name)
         {
             if (!datasStore.ContainsKey(name))
+            {
                 return null;
+            }
             object result = datasStore[name];
             datasStore.Remove(name);
             return result;
@@ -46,7 +51,9 @@ namespace BehaviorLibrary
         public void UpdateData(string name)
         {
             if (!datasStore.ContainsKey(name))
+            {
                 return;
+            }
         }
     }
 }

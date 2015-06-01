@@ -1,7 +1,7 @@
 ﻿using SDK.Common;
 using SDK.Lib;
 
-namespace BehaviorLibrary.Components
+namespace BehaviorLibrary
 {
     public class BehaviorComponent
     {

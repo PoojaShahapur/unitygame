@@ -1,4 +1,4 @@
-﻿namespace AIEngine
+﻿namespace FSM
 {
     /**
      * Extend this class to define different states for your own state machine.

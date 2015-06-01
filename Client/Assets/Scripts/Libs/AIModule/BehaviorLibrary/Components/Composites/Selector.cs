@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviorLibrary.Components.Composites
+namespace BehaviorLibrary
 {
     public class Selector : MulBranchComponent
     {

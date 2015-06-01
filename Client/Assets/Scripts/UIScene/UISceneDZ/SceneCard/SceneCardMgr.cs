@@ -23,34 +23,52 @@ namespace Game.UI
 
         public SceneCardBase createCard(CardType cardType, SceneDZData sceneDZData)
         {
+            SceneCardBase ret = null;
             if (CardType.CARDTYPE_ATTEND == cardType)
             {
-                return new AttendCard(sceneDZData);
+                ret = new AttendCard(sceneDZData);
             }
             else if (CardType.CARDTYPE_SECRET == cardType)
             {
-                return new SecretCard(sceneDZData);
+                ret = new SecretCard(sceneDZData);
             }
             else if (CardType.CARDTYPE_MAGIC == cardType)
             {
-                return new MagicCard(sceneDZData);
+                ret = new MagicCard(sceneDZData);
             }
             else if (CardType.CARDTYPE_EQUIP == cardType)
             {
-                return new EquipCard(sceneDZData);
+                ret = new EquipCard(sceneDZData);
             }
             else if (CardType.CARDTYPE_HERO == cardType)
             {
-                return new HeroCard();
+                ret = new HeroCard();
             }
             else if (CardType.CARDTYPE_SKILL == cardType)
             {
-                return new SkillCard(sceneDZData);
+                ret = new SkillCard(sceneDZData);
             }
             //else if (CardType.CARDTYPE_LUCK_COINS == cardType)
             //{
             //    return new LuckCoinCard(sceneDZData);
             //}
+            this.add2List(ret);
+
+            Ctx.m_instance.m_aiSystem.aiControllerMgr.add2List(ret.aiController);       // 添加到控制器中
+
+            return ret;
+        }
+
+        public SceneCardBase getCard(uint thidId)
+        {
+            foreach(var card in m_sceneEntityList)
+            {
+                if(((card as SceneCardBase)).sceneCardItem.svrCard.qwThisID == thidId)
+                {
+                    return card as SceneCardBase;
+                }
+            }
+
             return null;
         }
     }

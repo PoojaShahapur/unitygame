@@ -55,5 +55,10 @@ namespace SDK.Common
         {
             m_eventDisp.addEventHandle(btnClk);
         }
+
+        virtual public void syncUpdateCom()
+        {
+
+        }
     }
 }

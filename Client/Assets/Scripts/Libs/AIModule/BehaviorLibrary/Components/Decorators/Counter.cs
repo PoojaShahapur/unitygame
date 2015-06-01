@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviorLibrary.Components.Decorators
+namespace BehaviorLibrary
 {
     public class Counter : SingleBranchComponent
     {
