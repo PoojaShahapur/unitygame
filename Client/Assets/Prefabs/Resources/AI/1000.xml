@@ -1,20 +1,14 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Root>
-    <BehaviorTemplate name="1001" >
-        <BehaviorTree name="1001">
+    <BehaviorTemplate name="1000" >
+		<!-- 根节点 -->
+        <BehaviorTree name="1000">
+			<!-- 各个模块顺序执行 -->
             <Sequence>
-				<Condition type="Idle" >
-					<BehaviorAction type="Wander" />
-				</Condition>
-            </Sequence>
-        </BehaviorTree>
-    </BehaviorTemplate>
-	<BehaviorTemplate name="1002" >
-        <BehaviorTree name="1002">
-            <Sequence>
-				<Condition type="Idle" >
-					<BehaviorAction type="Follow" />
-				</Condition>
+				<!-- 攻击模块，暂时全部写在这里面 -->
+				<Sequence>
+					<Action type="AttackAll" />
+				</Sequence>
             </Sequence>
         </BehaviorTree>
     </BehaviorTemplate>
