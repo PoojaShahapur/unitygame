@@ -1,5 +1,6 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 
 namespace Game.UI
 {
@@ -15,13 +16,13 @@ namespace Game.UI
 
         override protected void onTickExec(float delta)
         {
-            foreach(ISceneEntity entity in m_sceneEntityList)
+            foreach (SceneEntityBase entity in m_sceneEntityList)
             {
                 entity.onTick(delta);
             }
         }
 
-        public SceneCardBase createCard(CardType cardType, SceneDZData sceneDZData)
+        public SceneCardBase createCard(uint objid, CardType cardType, SceneDZData sceneDZData, GameObject pntGO_)
         {
             SceneCardBase ret = null;
             if (CardType.CARDTYPE_ATTEND == cardType)
@@ -52,8 +53,10 @@ namespace Game.UI
             //{
             //    return new LuckCoinCard(sceneDZData);
             //}
-            this.add2List(ret);
 
+            ret.setIdAndPnt(objid, pntGO_);
+
+            this.add2List(ret);
             Ctx.m_instance.m_aiSystem.aiControllerMgr.add2List(ret.aiController);       // 添加到控制器中
 
             return ret;

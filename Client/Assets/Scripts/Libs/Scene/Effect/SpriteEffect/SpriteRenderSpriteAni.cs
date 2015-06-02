@@ -3,9 +3,21 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 这个是完整的显示流程，场景中不能直接使用这个，需要使用 Effect 对象
+     */
     public class SpriteRenderSpriteAni : SpriteAni
     {
         protected SpriteRenderer m_spriteRender;    // 精灵渲染器
+
+        public override void dispose()
+        {
+            if(m_selfGo != null)        // 场景中的特效需要直接释放这个 GameObject
+            {
+                UtilApi.Destroy(m_selfGo);
+            }
+            base.dispose();
+        }
 
         override public void stop()
         {

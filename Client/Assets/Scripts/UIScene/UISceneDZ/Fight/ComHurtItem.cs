@@ -20,5 +20,11 @@
                 m_hurtEffectId = value;
             }
         }
+
+        // 执行当前的受伤操作
+        override public void execHurt(SceneCardBase card)
+        {
+
+        }
     }
 }

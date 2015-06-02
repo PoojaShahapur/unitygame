@@ -35,7 +35,7 @@ namespace Game.UI
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_smallInternal, m_radius, m_sceneCardList.Count, ref m_posList, ref m_rotList);
+            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_smallInternal, m_radius, m_sceneCardList.Count(), ref m_posList, ref m_rotList);
         }
 
         public virtual void addCard(SceneCardBase card)
@@ -64,9 +64,9 @@ namespace Game.UI
         // 清空卡牌列表
         public void clearSceneCardList()
         {
-            foreach(SceneCardBase card in m_sceneCardList)
+            foreach(SceneCardBase card in m_sceneCardList.list)
             {
-                UtilApi.Destroy(card.gameObject);
+                UtilApi.Destroy(card.gameObject());
             }
 
             m_sceneCardList.Clear();
@@ -75,7 +75,7 @@ namespace Game.UI
         // 是否还有剩余的点数可以使用
         public bool hasLeftMagicPtCanUse()
         {
-            foreach (SceneCardBase card in m_sceneCardList)
+            foreach (SceneCardBase card in m_sceneCardList.list)
             {
                 if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp >= card.sceneCardItem.svrCard.mpcost)
                 {

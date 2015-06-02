@@ -1,4 +1,5 @@
-﻿namespace Game.UI
+﻿using SDK.Lib;
+namespace Game.UI
 {
     public class HurtItemBase : FightItemBase
     {
@@ -41,6 +42,16 @@
             {
                 base.onTime(delta);
             }
+        }
+
+        public void onAttackItemEnd(IDispatchObject dispObj)
+        {
+            m_state = EHurtItemState.eEnable;
+        }
+
+        virtual public void execHurt(SceneCardBase card)
+        {
+
         }
     }
 }

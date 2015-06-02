@@ -67,7 +67,7 @@ namespace SDK.Lib
             }
 
             m_path2Image.Clear();
-            m_soSpriteList.unload();
+            //m_soSpriteList.unload();
 
             base.unload();
         }

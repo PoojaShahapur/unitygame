@@ -1,4 +1,6 @@
-﻿namespace Game.UI
+﻿using SDK.Lib;
+
+namespace Game.UI
 {
     /**
      * @brief 武器卡
@@ -12,6 +14,9 @@
             m_aniControl = new EquipAniControl(this);
             m_dragControl = new EquipDragControl(this);
             m_behaviorControl = new EquipBehaviorControl(this);
+
+            m_render = new SceneCardPlayerRender();
+            m_effectControl = new EffectControl(this);
         }
     }
 }

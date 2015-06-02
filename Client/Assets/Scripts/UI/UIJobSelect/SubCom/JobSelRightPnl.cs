@@ -82,9 +82,9 @@ namespace Game.UI
                         m_jobSelectData.m_midPnl.startmatch();
                     }
                 }
-                // test
 #if DEBUG_NOTNET
-                uiMS.startmatch();
+                // test
+                m_jobSelectData.m_midPnl.startmatch();
 #endif
             }
         }

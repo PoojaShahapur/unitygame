@@ -67,10 +67,10 @@ namespace Game.UI
         // 关闭拖放功能
         virtual public void disableDrag()
         {
-            UIDragObject drag = m_card.gameObject.GetComponent<UIDragObject>();
+            UIDragObject drag = m_card.gameObject().GetComponent<UIDragObject>();
             //drag.enabled = false;
             UtilApi.Destroy(drag);
-            WindowDragTilt dragTitle = m_card.gameObject.GetComponent<WindowDragTilt>();
+            WindowDragTilt dragTitle = m_card.gameObject().GetComponent<WindowDragTilt>();
             //dragTitle.enabled = false;
             UtilApi.Destroy(dragTitle);
         }
@@ -78,18 +78,18 @@ namespace Game.UI
         // 开启拖动
         virtual public void enableDrag()
         {
-            if (m_card.gameObject.GetComponent<UIDragObject>() == null)
+            if (m_card.gameObject().GetComponent<UIDragObject>() == null)
             {
-                UIDragObject drag = m_card.gameObject.AddComponent<UIDragObject>();
-                drag.target = m_card.gameObject.transform;
+                UIDragObject drag = m_card.gameObject().AddComponent<UIDragObject>();
+                drag.target = m_card.gameObject().transform;
                 drag.m_startDragDisp = onStartDrag;
                 drag.m_moveDisp = onMove;
                 drag.m_dropEndDisp = onDrogEnd;
                 drag.m_canMoveDisp = canMove;
             }
-            if (m_card.gameObject.GetComponent<WindowDragTilt>() == null)
+            if (m_card.gameObject().GetComponent<WindowDragTilt>() == null)
             {
-                m_card.gameObject.AddComponent<WindowDragTilt>();
+                m_card.gameObject().AddComponent<WindowDragTilt>();
             }
         }
 
@@ -180,8 +180,8 @@ namespace Game.UI
             else
             {
             #if DEBUG_NOTNET
-                endDragAni();       // 结束动画
-                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(this);        // 放入输出列表
+                m_card.aniControl.endDragAni();       // 结束动画
+                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card);        // 放入输出列表
             #endif
                 if (m_card.sceneCardItem != null)
                 {
@@ -266,7 +266,7 @@ namespace Game.UI
         // 如果在范围内，就不发生交互
         protected bool bInSafeTyArea()
         {
-            if (UtilMath.xzDis(m_centerPos, m_card.transform.localPosition) <= m_radius)
+            if (UtilMath.xzDis(m_centerPos, m_card.transform().localPosition) <= m_radius)
             {
                 return true;
             }
@@ -281,7 +281,7 @@ namespace Game.UI
         {
             UICamera.simuStopDrag();
             m_card.m_sceneDZData.m_curDragItem = null;
-            UIDragObject drag = m_card.gameObject.GetComponent<UIDragObject>();
+            UIDragObject drag = m_card.gameObject().GetComponent<UIDragObject>();
             drag.reset();
             m_card.aniControl.moveBackToPre();      // 退回去
         }

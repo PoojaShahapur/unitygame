@@ -133,6 +133,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_langMgr = new LangMgr();
         //Ctx.m_instance.m_pWebSocketMgr = new WebSocketMgr();
         Ctx.m_instance.m_sceneCardMgr = new SceneCardMgr();
+        Ctx.m_instance.m_sceneEffectMgr = new SceneEffectMgr();
     }
 
     public void PostInit()
@@ -145,7 +146,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_fObjectMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_npcMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
-        Ctx.m_instance.m_sceneCardMgr.addObject(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_sceneEffectMgr as ITickedObject);
 
         Ctx.m_instance.m_uiMgr.findCanvasGO();
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();

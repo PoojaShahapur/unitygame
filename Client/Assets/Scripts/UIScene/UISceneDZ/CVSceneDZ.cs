@@ -3,8 +3,8 @@
     public class CVSceneDZPath
     {
         public const string TurnBtn = "dz/turn";
-        public const string SelfHero = "hero";
-        public const string EnemyHero = "enemyhero";
+        public const string SelfHero = "ZhanChang/yingxiong_zhanchang";
+        public const string EnemyHero = "ZhanChang/yingxiong_zhanchang001";
         public const string LuckyCoin = "luckycoin";
         public const string SelfTurnTip = "youturntip";
         public const string SelfCardFullTip = "SelfCardFullTip";

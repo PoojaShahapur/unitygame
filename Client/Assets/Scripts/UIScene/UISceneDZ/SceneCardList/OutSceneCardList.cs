@@ -14,14 +14,14 @@ namespace Game.UI
             : base(data, playerFlag)
         {
             m_whiteCard = m_sceneDZData.createOneCard(SceneCardBase.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
-            m_whiteCard.gameObject.SetActive(false);
+            m_whiteCard.gameObject().SetActive(false);
         }
 
         protected override void getCardPos()
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_smallInternal, m_sceneCardList.Count, ref m_posList, ref m_rotList);
+            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_smallInternal, m_sceneCardList.Count(), ref m_posList, ref m_rotList);
         }
 
         public void addCard(SceneCardBase card, int idx = 0)
@@ -45,12 +45,12 @@ namespace Game.UI
                 return;
             }
             // 检查插入的位置
-            if (m_sceneCardList.Count > 0)      // 如果有卡牌才需要进行如下处理
+            if (m_sceneCardList.Count() > 0)      // 如果有卡牌才需要进行如下处理
             {
                 int idx = 0;
-                while (idx < m_sceneCardList.Count)
+                while (idx < m_sceneCardList.Count())
                 {
-                    if (m_sceneDZData.m_curDragItem.transform.localPosition.x < m_sceneCardList[idx].transform.localPosition.x)
+                    if (m_sceneDZData.m_curDragItem.transform().localPosition.x < m_sceneCardList[idx].transform().localPosition.x)
                     {
                         break;
                     }
@@ -93,12 +93,12 @@ namespace Game.UI
                 if (idx != m_sceneDZData.curWhiteIdx)    // 如果两次位置不一样
                 {
                     m_sceneDZData.curWhiteIdx = idx;
-                    if (m_sceneDZData.curWhiteIdx < m_sceneCardList.Count)
+                    if (m_sceneDZData.curWhiteIdx < m_sceneCardList.Count())
                     {
                         m_sceneCardList.Remove(m_whiteCard);
                         m_sceneCardList.Insert(m_sceneDZData.curWhiteIdx, m_whiteCard);
                     }
-                    else if (m_sceneDZData.curWhiteIdx == m_sceneCardList.Count)        // 如果已经是超出范围了
+                    else if (m_sceneDZData.curWhiteIdx == m_sceneCardList.Count())        // 如果已经是超出范围了
                     {
                         if (m_sceneCardList.IndexOf(m_whiteCard) == -1)      // 如果 m_whiteCard 还没有加进入
                         {
@@ -140,7 +140,7 @@ namespace Game.UI
         override public int getCardCount()
         {
             int total = 0;
-            foreach(var cardItem in m_sceneCardList)
+            foreach(var cardItem in m_sceneCardList.list)
             {
                 if(!cardItem.Equals(m_whiteCard))
                 {

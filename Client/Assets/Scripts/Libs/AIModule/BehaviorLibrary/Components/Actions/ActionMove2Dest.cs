@@ -17,7 +17,6 @@ namespace BehaviorLibrary
         protected BehaviorReturnCode onExecAction()
         {
             SceneCardBase attackCard = behaviorTree.blackboardData.GetData(BlackboardKey.PSCARD) as SceneCardBase;
-            attackCard.behaviorControl.setInplace2Desting();
 
             return BehaviorReturnCode.Success;
         }

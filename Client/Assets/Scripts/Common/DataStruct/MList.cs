@@ -48,5 +48,25 @@ namespace SDK.Common
         {
             m_list.Clear();
         }
+
+        public int Count()
+        {
+            return m_list.Count;
+        }
+
+        public void RemoveAt(int index)
+        {
+            m_list.RemoveAt(index);
+        }
+
+        public int IndexOf(T item)
+        {
+            return m_list.IndexOf(item);
+        }
+
+        public void Insert(int index, T item)
+        {
+
+        }
     }
 }

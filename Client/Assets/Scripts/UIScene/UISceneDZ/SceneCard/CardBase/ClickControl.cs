@@ -15,7 +15,7 @@ namespace Game.UI
 
         override public void init()
         {
-            this.m_card.clkDisp.addEventHandle(onCardClick);
+            this.m_card.clickEntityDisp.addEventHandle(onCardClick);
         }
 
         // 所有的卡牌都可以点击，包括主角、装备、技能、手里卡牌、出的卡牌
@@ -41,7 +41,7 @@ namespace Game.UI
                     resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
                     ModelRes model = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(resPath) as ModelRes;
                     m_card.chaHaoGo = model.InstantiateObject(resPath) as GameObject;
-                    UtilApi.SetParent(m_card.chaHaoGo.transform, m_card.gameObject.transform, false);
+                    UtilApi.SetParent(m_card.chaHaoGo.transform, m_card.transform(), false);
                 }
             }
             else        // 如果在对战阶段

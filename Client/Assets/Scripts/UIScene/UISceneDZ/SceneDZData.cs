@@ -190,22 +190,15 @@ namespace Game.UI
 
         public SceneCardBase createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
-            SceneCardBase cardBase = Ctx.m_instance.m_sceneCardMgr.createCard(cardType, this);
-            SceneCardBase cardItem = cardBase as SceneCardBase;
-            if (cardItem != null)   // 如果不是 hero 
+            SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(objid, cardType, this, m_centerGO);
+            if (!(cardItem is HeroCard))   // 如果不是 hero 
             {
                 if (uint.MaxValue == objid)
                 {
-                    cardItem.gameObject = Ctx.m_instance.m_modelMgr.getEnemyCardModel().InstantiateObject("");
-                }
-                else
-                {
-                    TableCardItemBody tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, objid).m_itemBody as TableCardItemBody;
-                    cardItem.gameObject = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)tableBody.m_type).InstantiateObject("");
+                    cardItem.setGameObject(Ctx.m_instance.m_modelMgr.getEnemyCardModel().InstantiateObject(""));
                 }
 
                 cardItem.dragControl.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-                cardItem.gameObject.transform.SetParent(m_centerGO.transform);
                 // 设置初始位置为发牌位置
                 cardItem.aniControl.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
                 cardItem.aniControl.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
@@ -241,9 +234,11 @@ namespace Game.UI
                         }
                     }
                 }
+
+                cardItem.init();        // 非主角初始化，主角需要等到设置 GameObject 后再初始化
             }
 
-            return cardBase;
+            return cardItem;
         }
 
         public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)

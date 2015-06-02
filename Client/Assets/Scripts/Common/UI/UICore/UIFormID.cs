@@ -28,6 +28,7 @@ namespace SDK.Common
 
         // 顶层
         eUILogicTest,        // 逻辑测试窗口
+        eUIGM,    //发送GM指令
 	}
 
     public enum WinIDCnt

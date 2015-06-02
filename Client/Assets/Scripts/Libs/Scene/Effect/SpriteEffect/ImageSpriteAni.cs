@@ -3,9 +3,18 @@ using UnityEngine.UI;
 
 namespace SDK.Lib
 {
-    public class ImageSpriteAni : SpriteAni
+    /**
+     * @brief UI 直接使用这个精灵动画，不用使用具体 Effect 对象
+     */
+    public class ImageSpriteAni : SpriteAni, IDelayHandleItem
     {
         protected Image m_image;    // 精灵渲染器
+
+        public override void dispose()
+        {
+            Ctx.m_instance.m_spriteAniMgr.removeFromeList(this);
+            base.dispose();
+        }
 
         override public void stop()
         {

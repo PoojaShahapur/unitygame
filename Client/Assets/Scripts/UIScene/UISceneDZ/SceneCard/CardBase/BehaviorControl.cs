@@ -1,4 +1,6 @@
-﻿using SDK.Common;
+﻿using FSM;
+using SDK.Common;
+using SDK.Lib;
 using System;
 using UnityEngine;
 
@@ -9,112 +11,69 @@ namespace Game.UI
      */
     public class BehaviorControl : ControlBase
     {
-        protected CardSceneState m_cardPreSceneState;
-        protected CardSceneState m_cardSceneState;
         protected NumAniSequence m_numAniSeq;       // 攻击动画序列，这个所有的都有
         protected Vector3 m_srcPos;                 // 保存最初的位置
+        protected SceneStateFSM m_sceneStateFSM;
 
         public BehaviorControl(SceneCardBase rhv) : 
             base(rhv)
         {
-            m_cardPreSceneState = CardSceneState.eInplace;         // 默认原地状态
-            m_cardSceneState = CardSceneState.eInplace;         // 默认原地状态
             m_numAniSeq = new NumAniSequence();
+            m_sceneStateFSM = new SceneStateFSM();
+            m_sceneStateFSM.card = m_card;
+            m_sceneStateFSM.Start();
         }
 
-        public CardSceneState cardSceneState
+        public Vector3 srcPos
         {
             get
             {
-                return m_cardSceneState;
+                return m_srcPos;
             }
             set
             {
-                m_cardPreSceneState = m_cardSceneState;
-                m_cardSceneState = value;
+                m_srcPos = value;
             }
         }
 
-        public void setInplace()
+        // 是否在攻击中，攻击定义是，从开始移动，到返回来，才算是攻击结束
+        public bool bInAttack()
         {
-            cardSceneState = CardSceneState.eInplace;
+            return (!m_sceneStateFSM.equalCurState(SceneStateId.SSInplace) && 
+                    m_card.fightData.attackData.curAttackItem != null);
         }
 
-        public void setInplace2DestStart()
+        // 是否在受伤中
+        public bool bInHurt()
         {
-            cardSceneState = CardSceneState.eInplace2DestStart;
-            m_srcPos = m_card.transform.localPosition;
-            // 获取一项攻击数值
-            m_card.fightData.attackData.getFirstItem();
+            return (!m_sceneStateFSM.equalCurState(SceneStateId.SSInplace) &&
+                    m_card.fightData.hurtData.curHurtItem != null);
         }
 
-        public void setInplace2Desting()
+        // 更新攻击
+        public void updateAttack()
         {
-            cardSceneState = CardSceneState.eInplace2Desting;
-            SceneCardBase hurtCard = Ctx.m_instance.m_sceneCardMgr.getCard(m_card.fightData.attackData.curAttackItem.getHurterId());
-            playAttackAni(m_srcPos, hurtCard.transform.localPosition, onMove2DestEnd);
+            if(!bInAttack())
+            {
+                // 如果当前有攻击数据
+                if (m_card.fightData.attackData.attackList.Count() > 0)
+                {
+                    m_sceneStateFSM.MoveToState(SceneStateId.SSInplace2DestStart);         // 开始攻击
+                }
+            }
         }
 
-        public void setInplace2Dested()
+        // 更新受伤
+        public void updateHurt()
         {
-            cardSceneState = CardSceneState.eInplace2Dested;
-            // 如果没有延时，直接进入下个状态
-            setAttackStart();
-        }
-
-        public void setAttackStart()
-        {
-            cardSceneState = CardSceneState.eAttackStart;
-            m_card.fightData.attackData.execCurItem();
-            setAttacking();
-        }
-
-        public void setAttacking()
-        {
-            cardSceneState = CardSceneState.eAttacking;
-            setAttacked();
-        }
-
-        public void setAttacked()
-        {
-            cardSceneState = CardSceneState.eAttacked;
-            setDest2InplaceStart();
-        }
-
-        public void setDest2InplaceStart()
-        {
-            cardSceneState = CardSceneState.eDest2InplaceStart;
-            setDest2Inplaceing();
-        }
-
-        public void setDest2Inplaceing()
-        {
-            cardSceneState = CardSceneState.eDest2Inplaceing;
-            playAttackAni(m_card.transform.localPosition, m_srcPos, onMove2InplaceEnd);
-        }
-
-        public void setDest2InplaceEnd()
-        {
-            cardSceneState = CardSceneState.eDest2Inplaced;
-            setInplace();
-        }
-
-        public void setHurtStart()
-        {
-            cardSceneState = CardSceneState.eHurtStart;
-            setHurting();
-        }
-
-        public void setHurting()
-        {
-            cardSceneState = CardSceneState.eHurting;
-            // 播放受伤动画和特效
-        }
-
-        public void setHurted()
-        {
-            cardSceneState = CardSceneState.eHurted;
-            setInplace();
+            if (!bInHurt())
+            {
+                // 如果当前有攻击数据
+                if (m_card.fightData.hurtData.hurtList.Count() > 0)
+                {
+                    m_sceneStateFSM.MoveToState(SceneStateId.SSHurtStart);     // 开始受伤
+                }
+            }
         }
 
         // 播放攻击动画，就是移动过去砸一下
@@ -126,7 +85,7 @@ namespace Game.UI
 
             SimpleCurveAni curveAni = new SimpleCurveAni();
             m_numAniSeq.addOneNumAni(curveAni);
-            curveAni.setGO(m_card.gameObject);
+            curveAni.setGO(m_card.gameObject());
             curveAni.setTime(0.3f);
             curveAni.setPlotCount(3);
             curveAni.addPlotPt(0, srcPos);
@@ -142,14 +101,53 @@ namespace Game.UI
             m_numAniSeq.play();
         }
 
-        protected void onMove2DestEnd(NumAniBase ani)
+        public void onMove2DestEnd(NumAniBase ani)
         {
-            setInplace2Dested();
+            m_sceneStateFSM.MoveToState(SceneStateId.SSInplace2Dested);
         }
 
-        protected void onMove2InplaceEnd(NumAniBase ani)
+        public void onMove2InplaceEnd(NumAniBase ani)
         {
-            setDest2InplaceEnd();
+            m_sceneStateFSM.MoveToState(SceneStateId.SSDest2Inplaced);
+        }
+
+        // 受伤动画和特效播放完成
+        protected void onHurtEnd(IDispatchObject dispObj)
+        {
+            m_sceneStateFSM.MoveToState(SceneStateId.SSHurted);
+        }
+
+        // 执行普通攻击
+        public void execAttack(ComAttackItem item)
+        {
+            // 播放攻击动作
+            // 播放伤害数字
+            if (item.damage > 0)
+            {
+                m_card.playFlyNum((int)item.damage);
+            }
+
+            // 更新自己的属性显示
+            m_card.updateCardDataChange();
+        }
+
+        // 执行普通受伤
+        public void execHurt(ComHurtItem item)
+        {
+            if(item.hurtEffectId > 0)       // 如果有特效需要播放
+            {
+                LinkEffect effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);
+                effect.addEffectPlayEndHandle(onHurtEnd);
+            }
+
+            // 播放伤害数字
+            if (item.damage > 0)
+            {
+                m_card.playFlyNum((int)item.damage);
+            }
+
+            // 更新自己的属性显示
+            m_card.updateCardDataChange();
         }
     }
 }

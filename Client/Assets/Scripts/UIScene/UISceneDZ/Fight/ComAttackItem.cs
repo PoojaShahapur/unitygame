@@ -38,5 +38,10 @@
         {
             return m_hurterId;
         }
+
+        override public void execAttack(SceneCardBase card)
+        {
+            card.behaviorControl.execAttack(this);
+        }
     }
 }

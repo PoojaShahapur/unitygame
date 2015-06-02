@@ -28,6 +28,17 @@ namespace Game.UI
 
             m_centerHero = m_sceneDZData.createOneCard(0, m_playerFlag, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO) as HeroCard;
             m_centerHero.m_sceneDZData = m_sceneDZData;
+
+            if (EnDZPlayer.ePlayerSelf == playerFlag)
+            {
+                m_centerHero.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfHero));
+            }
+            else
+            {
+                m_centerHero.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyHero));
+            }
+            m_centerHero.init();
+
             m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
 
@@ -124,7 +135,6 @@ namespace Game.UI
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
                     m_centerHero.updateCardDataChange();      // 这个动画已经有了
-                    m_centerHero.updateHp();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
@@ -344,7 +354,7 @@ namespace Game.UI
 
             if (m_sceneSkillCard != null)
             {
-                if (UtilApi.isAddressEqual(m_sceneSkillCard.gameObject, underGo))
+                if (UtilApi.isAddressEqual(m_sceneSkillCard.gameObject(), underGo))
                 {
                     return m_sceneSkillCard;
                 }
@@ -352,7 +362,7 @@ namespace Game.UI
 
             if (m_sceneEquipCard != null)
             {
-                if (UtilApi.isAddressEqual(m_sceneEquipCard.gameObject, underGo))
+                if (UtilApi.isAddressEqual(m_sceneEquipCard.gameObject(), underGo))
                 {
                     return m_sceneEquipCard;
                 }

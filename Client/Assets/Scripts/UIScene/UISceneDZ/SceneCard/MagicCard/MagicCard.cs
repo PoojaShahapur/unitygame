@@ -1,4 +1,6 @@
-﻿namespace Game.UI
+﻿using SDK.Lib;
+
+namespace Game.UI
 {
     /**
      * @brief 法术卡
@@ -12,6 +14,9 @@
             m_aniControl = new MagicAniControl(this);
             m_dragControl = new MagicDragControl(this);
             m_behaviorControl = new MagicBehaviorControl(this);
+
+            m_render = new SceneCardPlayerRender();
+            m_effectControl = new EffectControl(this);
         }
     }
 }

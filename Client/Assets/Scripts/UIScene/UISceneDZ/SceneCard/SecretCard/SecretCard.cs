@@ -1,4 +1,6 @@
-﻿namespace Game.UI
+﻿using SDK.Lib;
+
+namespace Game.UI
 {
     public class SecretCard : SceneCardBase
     {
@@ -9,6 +11,9 @@
             m_aniControl = new SecretAniControl(this);
             m_dragControl = new SecretDragControl(this);
             m_behaviorControl = new SecretBehaviorControl(this);
+
+            m_render = new SceneCardPlayerRender();
+            m_effectControl = new EffectControl(this);
         }
     }
 }

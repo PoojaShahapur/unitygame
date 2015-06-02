@@ -25,5 +25,10 @@
         {
 
         }
+
+        virtual public void dispose()
+        {
+
+        }
     }
 }

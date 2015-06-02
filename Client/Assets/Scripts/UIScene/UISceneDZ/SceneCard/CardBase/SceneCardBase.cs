@@ -10,7 +10,7 @@ namespace Game.UI
     /**
      * @brief 场景中卡牌基类
      */
-    public class SceneCardBase : SceneCardModel, ISceneEntity
+    public class SceneCardBase : SceneEntity
     {
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
@@ -23,9 +23,8 @@ namespace Game.UI
         protected ushort m_preIndex = 0;// 在牌中的索引，主要是手里的牌和打出去的牌，这个是客户端设置的索引，服务器的索引在 t_Card 类型里面
 
         protected GameObject m_chaHaoGo;
-        public uint m_startCardID;
+        protected uint m_startCardID;
 
-        protected SpriteAni m_spriteAni;            // 边框高亮状态
         protected FightData m_fightData;            // 战斗数据
         protected AnimFSM m_animFSM;                // 动画状态机
 
@@ -34,6 +33,7 @@ namespace Game.UI
         protected ClickControl m_clickControl;
         protected AniControl m_aniControl;
         protected DragControl m_dragControl;
+        protected EffectControl m_effectControl;
 
         public SceneCardBase(SceneDZData data)
         {
@@ -49,9 +49,22 @@ namespace Game.UI
 
         virtual public void init()
         {
-            m_clickControl.init();
-            m_aniControl.init();
-            m_dragControl.init();
+            if (m_clickControl != null)
+            {
+                m_clickControl.init();
+            }
+            if (m_aniControl != null)
+            {
+                m_aniControl.init();
+            }
+            if (m_dragControl != null)
+            {
+                m_dragControl.init();
+            }
+            if (m_effectControl != null)
+            {
+                m_effectControl.init();
+            }
         }
 
         public SceneCardItem sceneCardItem
@@ -191,8 +204,39 @@ namespace Game.UI
                 m_dragControl = value;
             }
         }
+        public EffectControl effectControl
+        {
+            get
+            {
+                return m_effectControl;
+            }
+            set
+            {
+                m_effectControl = value;
+            }
+        }
 
-        virtual public void onTick(float delta)
+        public EventDispatch clickEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).clickEntityDisp;
+            }
+        }
+
+        public uint startCardID
+        {
+            get
+            {
+                return m_startCardID;
+            }
+            set
+            {
+                m_startCardID = value;
+            }
+        }
+
+        override public void onTick(float delta)
         {
             m_animFSM.Update();                 // 更新状态机
             m_fightData.onTime(delta);          // 更新战斗数据
@@ -200,12 +244,12 @@ namespace Game.UI
 
         override public void dispose()
         {
-            if (m_spriteAni != null)
-            {
-                m_spriteAni.dispose();
-                m_spriteAni = null;
-            }
-            UtilApi.Destroy(gameObject);
+            m_clickControl.dispose();
+            m_aniControl.dispose();
+            m_dragControl.dispose();
+            m_effectControl.dispose();
+
+            UtilApi.Destroy(m_render.gameObject());
             m_sceneCardItem = null;
         }
 
@@ -217,11 +261,11 @@ namespace Game.UI
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
                 {
                     AuxLabel text = new AuxLabel();
-                    text.setSelfGo(gameObject, "UIRoot/AttText");       // 攻击
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");       // 攻击
                     text.text = m_sceneCardItem.svrCard.damage.ToString();
-                    text.setSelfGo(gameObject, "UIRoot/MpText");         // Magic
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/MpText");         // Magic
                     text.text = m_sceneCardItem.svrCard.mpcost.ToString();
-                    text.setSelfGo(gameObject, "UIRoot/HpText");       // HP
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");       // HP
                     text.text = m_sceneCardItem.svrCard.hp.ToString();
                 }
             }
@@ -234,7 +278,7 @@ namespace Game.UI
             {
                 if (m_sceneCardItem.cardArea != CardArea.CARDCELLTYPE_HERO)
                 {
-                    UtilApi.updateCardDataNoChange(m_sceneCardItem.m_cardTableItem, gameObject);
+                    UtilApi.updateCardDataNoChange(m_sceneCardItem.m_cardTableItem, m_render.gameObject());
                 }
             }
         }
@@ -246,7 +290,7 @@ namespace Game.UI
             if(tableBase != null)
             {
                 TableCardItemBody cardTableData = tableBase.m_itemBody as TableCardItemBody;
-                UtilApi.updateCardDataNoChange(cardTableData, gameObject);
+                UtilApi.updateCardDataNoChange(cardTableData, m_render.gameObject());
             }
             else
             {
@@ -282,120 +326,18 @@ namespace Game.UI
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
-            if(m_spriteAni == null)
-            {
-                m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
-                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(this.gameObject, "FrameSprite");
-                m_spriteAni.bLoop = true;
-                m_spriteAni.tableID = 4;
-            }
-
-            if (benable)
-            {
-                if (sceneCardItem != null)
-                {
-                    if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
-                    {
-                        m_spriteAni.play();
-                    }
-                    else
-                    {
-                        m_spriteAni.stop();
-                    }
-                }
-            }
-            else
-            {
-                m_spriteAni.stop();
-            }
-
-            //if (go != null)
-            //{
-            //    if (benable)
-            //    {
-            //        if (sceneCardItem != null)
-            //        {
-            //            //try
-            //            //{
-            //            if (sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
-            //            {
-            //                if (UtilApi.getComByP<MeshRenderer>(go).enabled != true)
-            //                {
-            //                    UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if (UtilApi.getComByP<MeshRenderer>(go).enabled != false)
-            //                {
-            //                    UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-            //                }
-            //            }
-            //            //}
-            //            //catch (System.Exception e)
-            //            //{
-            //            //    // 输出日志
-            //            //    Ctx.m_instance.m_logSys.error("updateCardGreenFrame 异常");
-            //            //    Ctx.m_instance.m_logSys.error(e.Message);
-            //            //}
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
-            //        {
-            //            UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-            //        }
-            //    }
-            //}
+            m_effectControl.updateCardOutState(benable);
         }
 
         // 更新卡牌是否可以被击
         public void updateCardAttackedState(bool benable)
         {
-            if (m_spriteAni == null)
-            {
-                m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
-                m_spriteAni.selfGo = UtilApi.TransFindChildByPObjAndPath(this.gameObject, "FrameSprite");
-                m_spriteAni.bLoop = true;
-                m_spriteAni.tableID = 4;
-            }
-
-            if (benable)
-            {
-                if (sceneCardItem != null)
-                {
-                    m_spriteAni.play();
-                }
-            }
-            else
-            {
-                m_spriteAni.stop();
-            }
-
-            //GameObject go = UtilApi.TransFindChildByPObjAndPath(getGameObject(), "bailight");
-            //if (go != null)
-            //{
-            //    if (UtilApi.getComByP<MeshRenderer>(go).enabled != benable)
-            //    {
-            //        if (benable)
-            //        {
-            //            if (sceneCardItem != null)
-            //            {
-            //                UtilApi.getComByP<MeshRenderer>(go).enabled = true;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            UtilApi.getComByP<MeshRenderer>(go).enabled = false;
-            //        }
-            //    }
-            //}
+            m_effectControl.updateCardAttackedState(benable);
         }
 
         public void playFlyNum(int num)
         {
-            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, gameObject.transform.localPosition, m_sceneDZData.m_centerGO);
+            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition, m_sceneDZData.m_centerGO);
         }
 
         // 是否是客户端先从手牌区域移动到出牌区域，然后再发动攻击的卡牌
@@ -407,6 +349,11 @@ namespace Game.UI
             }
 
             return false;
+        }
+
+        virtual public void setIdAndPnt(uint objId, GameObject pntGo_)
+        {
+            (m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
         }
     }
 }

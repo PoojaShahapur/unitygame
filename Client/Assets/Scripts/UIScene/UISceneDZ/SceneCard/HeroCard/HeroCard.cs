@@ -21,6 +21,9 @@ namespace Game.UI
             m_clickControl = new HeroClickControl(this);
             m_aniControl = new HeroAniControl(this);
             m_behaviorControl = new HeroBehaviorControl(this);
+
+            m_render = new HeroRender();
+            m_effectControl = new EffectControl(this);
         }
 
         public Action heroAniEndDisp
@@ -38,34 +41,41 @@ namespace Game.UI
         public override void init()
         {
             base.init();
-            m_classs = new AuxLabel(this.transform.FindChild("classs").gameObject);
-            m_heroname = new AuxLabel(this.transform.FindChild("name").gameObject);
-            m_hpText = new AuxLabel(this.transform.FindChild("healthdi/TextHp").gameObject);
+            //m_classs = new AuxLabel(m_render.transform().FindChild("classs").gameObject);
+            //m_heroname = new AuxLabel(m_render.transform().FindChild("name").gameObject);
+            //m_hpText = new AuxLabel(m_render.transform().FindChild("healthdi/TextHp").gameObject);
         }
 
         public void updateHp()
         {
-            m_hpText.text = m_sceneCardItem.svrCard.hp.ToString();
+            //m_hpText.text = m_sceneCardItem.svrCard.hp.ToString();
         }
 
         public void setClasss(EnPlayerCareer c)
         {
-            setPic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)c).m_mat);
+            //setPic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)c).m_mat);
 
-            //播放动画,
-            //animation.Play();
-            // 启动定时器
-            TimerItemBase timer = new TimerItemBase();
-            timer.m_internal = 3;           // 3 秒动画播放完成
-            timer.m_totalCount = 3;
-            timer.m_timerDisp = hideVS;
-            Ctx.m_instance.m_timerMgr.addObject(timer);
+            ////播放动画,
+            ////animation.Play();
+            //// 启动定时器
+            //TimerItemBase timer = new TimerItemBase();
+            //timer.m_internal = 3;           // 3 秒动画播放完成
+            //timer.m_totalCount = 3;
+            //timer.m_timerDisp = hideVS;
+            //Ctx.m_instance.m_timerMgr.addObject(timer);
+
+            // 这个之后才开始显示播放自己第一次牌
+            if (m_heroAniEndDisp != null)
+            {
+                m_heroAniEndDisp();
+                m_heroAniEndDisp = null;
+            }
         }
 
         public void setPic(Material m)
         {
 #if UNITY_5
-            transform.FindChild("pic").GetComponent<Renderer>().material = m;
+            m_render.transform().FindChild("pic").GetComponent<Renderer>().material = m;
 #elif UNITY_4_6
             transform.FindChild("pic").renderer.material = m;
 #endif
@@ -81,6 +91,17 @@ namespace Game.UI
                 m_heroAniEndDisp();
                 m_heroAniEndDisp = null;
             }
+        }
+
+        override public void updateCardDataChange()
+        {
+            base.updateCardDataChange();
+            updateHp();
+        }
+
+        override public void setIdAndPnt(uint objId, GameObject pntGo_)
+        {
+
         }
     }
 }

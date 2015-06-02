@@ -94,6 +94,7 @@ namespace SDK.Common
         public AuxUIHelp m_auxUIHelp = new AuxUIHelp();
         public WidgetStyleMgr m_widgetStyleMgr = new WidgetStyleMgr();
         public SceneCardMgr m_sceneCardMgr;
+        public SceneEffectMgr m_sceneEffectMgr;
 
         public Ctx()
         {

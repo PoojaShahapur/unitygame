@@ -33,13 +33,13 @@ namespace Game.UI
         {
             base.init();
 
-            m_startPos = m_card.transform.localPosition;
-            m_startRot = m_card.transform.localRotation.eulerAngles;
-            m_startScale = m_card.transform.localScale;
+            m_startPos = m_card.transform().localPosition;
+            m_startRot = m_card.transform().localRotation.eulerAngles;
+            m_startScale = m_card.transform().localScale;
 
-            m_destPos = m_card.transform.localPosition;
-            m_destRot = m_card.transform.localRotation.eulerAngles;
-            m_destScale = m_card.transform.localScale;
+            m_destPos = m_card.transform().localPosition;
+            m_destRot = m_card.transform().localRotation.eulerAngles;
+            m_destScale = m_card.transform().localScale;
         }
 
         public Vector3 startPos
@@ -96,9 +96,9 @@ namespace Game.UI
 
         public void moveToStart()
         {
-            m_card.transform.localPosition = m_startPos;
-            m_card.transform.localRotation = Quaternion.Euler(m_startRot);
-            m_card.transform.localScale = m_startScale;
+            m_card.transform().localPosition = m_startPos;
+            m_card.transform().localRotation = Quaternion.Euler(m_startRot);
+            m_card.transform().localScale = m_startScale;
         }
 
         // 到目标位置，移动、旋转、缩放
@@ -109,7 +109,7 @@ namespace Game.UI
             RSTAni rstAni;
             rstAni = new RSTAni();
             m_numAniParal.addOneNumAni(rstAni);
-            rstAni.setGO(m_card.gameObject);
+            rstAni.setGO(m_card.gameObject());
             rstAni.destPos = m_destPos;
             rstAni.destRot = m_destRot;
             rstAni.destScale = m_destScale;
@@ -125,7 +125,7 @@ namespace Game.UI
             RTAni rtAni;
             rtAni = new RTAni();
             m_numAniParal.addOneNumAni(rtAni);
-            rtAni.setGO(m_card.gameObject);
+            rtAni.setGO(m_card.gameObject());
             rtAni.destPos = m_destPos;
             rtAni.destRot = m_destRot;
 
@@ -140,7 +140,7 @@ namespace Game.UI
             PosAni posAni;
             posAni = new PosAni();
             m_numAniParal.addOneNumAni(posAni);
-            posAni.setGO(m_card.gameObject);
+            posAni.setGO(m_card.gameObject());
             posAni.destPos = m_destPos;
 
             m_numAniParal.play();
@@ -157,7 +157,7 @@ namespace Game.UI
             destScale = SceneCardBase.BIGFACT;
             // 缩放直接到达位置
             m_destPos.y = m_height;
-            m_card.transform.localPosition = m_destPos;
+            m_card.transform().localPosition = m_destPos;
 
             moveScaleToDest();
 
@@ -174,9 +174,9 @@ namespace Game.UI
         // 保存当前的信息
         protected void saveCurRSTToStart()
         {
-            m_startPos = m_card.transform.localPosition;
-            m_startRot = m_card.transform.localRotation.eulerAngles;
-            m_startScale = m_card.transform.localScale;
+            m_startPos = m_card.transform().localPosition;
+            m_startRot = m_card.transform().localRotation.eulerAngles;
+            m_startScale = m_card.transform().localScale;
         }
 
         // 保存
@@ -198,11 +198,11 @@ namespace Game.UI
         //// 缩放
         protected void moveScaleToDest()
         {
-            m_startScale = m_card.transform.localScale;
+            m_startScale = m_card.transform().localScale;
 
             ScaleAni rstAni = new ScaleAni();
             m_numAniParal.addOneNumAni(rstAni);
-            rstAni.setGO(m_card.gameObject);
+            rstAni.setGO(m_card.gameObject());
             rstAni.destScale = m_destScale;
             m_numAniParal.play();
         }
@@ -237,14 +237,14 @@ namespace Game.UI
 
             RSTAni rstAni = new RSTAni();
             m_numAniParal.addOneNumAni(rstAni);
-            rstAni.setGO(m_card.gameObject);
-            rstAni.destPos = new Vector3(m_card.transform.localPosition.x, 1.0f, m_card.transform.localPosition.z);
+            rstAni.setGO(m_card.gameObject());
+            rstAni.destPos = new Vector3(m_card.transform().localPosition.x, 1.0f, m_card.transform().localPosition.z);
             rstAni.destScale = SceneCardBase.BIGFACT;
-            rstAni.destRot = m_card.transform.localRotation.eulerAngles;
+            rstAni.destRot = m_card.transform().localRotation.eulerAngles;
 
             rstAni = new RSTAni();
             m_numAniParal.addOneNumAni(rstAni);
-            rstAni.setGO(m_card.gameObject);
+            rstAni.setGO(m_card.gameObject());
             rstAni.destScale = (Vector3)m_pathStack.Pop();
             m_pathStack.Pop();
             rstAni.destRot = Vector3.one;
@@ -256,7 +256,7 @@ namespace Game.UI
 
             rstAni = new RSTAni();
             m_numAniParal.addOneNumAni(rstAni);
-            rstAni.setGO(m_card.gameObject);
+            rstAni.setGO(m_card.gameObject());
             rstAni.destScale = m_destScale;
             rstAni.destRot = m_destRot;
             rstAni.destPos = m_destPos;

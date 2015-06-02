@@ -41,19 +41,23 @@ namespace Game.UI
         }
 
         // 执行队列中的一个 Item
-        public void getFirstItem()
+        public void getNextItem()
         {
-            m_curAttackItem = m_attackList[0];
+            if (m_curAttackItem == null && m_attackList.Count() > 0)
+            {
+                m_curAttackItem = m_attackList[0];
+            }
         }
 
-        public void execCurItem()
+        public void execCurItem(SceneCardBase card)
         {
-            m_curAttackItem.setEnableHurt();
+            m_curAttackItem.execAttack(card);
         }
 
         // 执行队列中的一个 Item
         public void endCurItem()
         {
+            m_curAttackItem.attackEndPlayDisp.dispatchEvent(m_curAttackItem);
             removeItem(m_curAttackItem);
             m_curAttackItem = null;
         }

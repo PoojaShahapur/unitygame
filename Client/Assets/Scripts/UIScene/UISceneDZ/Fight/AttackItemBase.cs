@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using SDK.Lib;
 
 namespace Game.UI
 {
@@ -6,11 +7,11 @@ namespace Game.UI
     {
         protected EAttackType m_attackType;
         protected EAttackRangeType m_attackRangeType;
-        protected MList<HurtItemBase> m_hurtList;
+        protected EventDispatch m_attackEndPlayDisp;      // 攻击结束播放分发
 
         public AttackItemBase()
         {
-            m_hurtList = new MList<HurtItemBase>();
+            m_attackEndPlayDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         public EAttackType attackType
@@ -37,19 +38,29 @@ namespace Game.UI
             }
         }
 
+        public EventDispatch attackEndPlayDisp
+        {
+            get
+            {
+                return m_attackEndPlayDisp;
+            }
+        }
+
+        override public void dispose()
+        {
+            m_attackEndPlayDisp.clearEventHandle();
+            m_attackEndPlayDisp = null;
+            base.dispose();
+        }
+
         virtual public uint getHurterId()
         {
             return 0;
         }
 
-        public void setEnableHurt()
+        virtual public void execAttack(SceneCardBase card)
         {
-            foreach(HurtItemBase item in m_hurtList.list)
-            {
-                item.state = EHurtItemState.eEnable;
-            }
-
-            m_hurtList.Clear();
+            
         }
     }
 }

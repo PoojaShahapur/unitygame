@@ -8,7 +8,7 @@ namespace Game.UI
     /**
      * @brief 收藏界面我的一个卡牌，和卡牌组不同
      */
-    public class TuJianCardItemCom : SceneCardModel
+    public class TuJianCardItemCom : TuJianCardRender
     {
         public CardItemBase m_cardItemBase; // 卡牌基本数据
         public Action<TuJianCardItemCom> m_clkCB;

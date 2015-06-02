@@ -40,6 +40,27 @@ namespace Game.UI
             m_hurtList.Add(item);
         }
 
+        // 执行队列中的一个 Item
+        public void getNextItem()
+        {
+            if (m_curHurtItem == null && m_hurtList.Count() > 0)
+            {
+                m_curHurtItem = m_hurtList[0];
+            }
+        }
+
+        public void execCurItem(SceneCardBase card)
+        {
+            m_curHurtItem.execHurt(card);
+        }
+
+        // 执行队列中的一个 Item
+        public void endCurItem()
+        {
+            removeItem(m_curHurtItem);
+            m_curHurtItem = null;
+        }
+
         public void removeItem(HurtItemBase item)
         {
             m_hurtList.Remove(item);

@@ -20,7 +20,7 @@ namespace Game.UI
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
 
-        protected List<SceneCardBase> m_sceneCardList = new List<SceneCardBase>();
+        protected MList<SceneCardBase> m_sceneCardList = new MList<SceneCardBase>();
 
         public SceneCardListBase(SceneDZData data, EnDZPlayer playerFlag)
         {
@@ -33,18 +33,6 @@ namespace Game.UI
 
         }
 
-        //public List<SceneCardBase> sceneCardList
-        //{
-        //    get
-        //    {
-        //        return m_sceneCardList;
-        //    }
-        //    set
-        //    {
-        //        m_sceneCardList = value;
-        //    }
-        //}
-
         protected virtual void getCardPos()
         {
 
@@ -53,7 +41,7 @@ namespace Game.UI
         // 这个返回的可能会有一张白色占位卡牌，可能不准确
         virtual public int getCardCount()
         {
-            return m_sceneCardList.Count;
+            return m_sceneCardList.Count();
         }
 
         // 更新场景卡牌位置
@@ -64,7 +52,7 @@ namespace Game.UI
 
             getCardPos();
 
-            while (idx < m_sceneCardList.Count)
+            while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
                 cardItem.aniControl.destPos = m_posList[idx];
@@ -83,7 +71,7 @@ namespace Game.UI
 
             getCardPos();
 
-            while (idx < m_sceneCardList.Count)
+            while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
                 cardItem.aniControl.destPos = m_posList[idx];
@@ -95,7 +83,7 @@ namespace Game.UI
 
         public void setCardDataByIdx(int idx, SceneCardItem sceneItem)
         {
-            if (idx < m_sceneCardList.Count)       // 这个地方有时候会超出范围
+            if (idx < m_sceneCardList.Count())       // 这个地方有时候会超出范围
             {
                 m_sceneCardList[idx].sceneCardItem = sceneItem;
             }
@@ -107,7 +95,7 @@ namespace Game.UI
 
         public SceneCardBase getSceneCardByThisID(uint thisid)
         {
-            foreach (SceneCardBase item in m_sceneCardList)
+            foreach (SceneCardBase item in m_sceneCardList.list)
             {
                 if (item.sceneCardItem != null)
                 {
@@ -127,7 +115,7 @@ namespace Game.UI
 
         public void updateCardData(SceneCardItem sceneItem)
         {
-            foreach (SceneCardBase item in m_sceneCardList)
+            foreach (SceneCardBase item in m_sceneCardList.list)
             {
                 if (item.sceneCardItem.svrCard.qwThisID == sceneItem.svrCard.qwThisID)
                 {
@@ -139,9 +127,9 @@ namespace Game.UI
 
         public SceneCardBase getUnderSceneCard(GameObject underGo)
         {
-            foreach(SceneCardBase item in m_sceneCardList)
+            foreach(SceneCardBase item in m_sceneCardList.list)
             {
-                if (UtilApi.isAddressEqual(item.gameObject, underGo))
+                if (UtilApi.isAddressEqual(item.gameObject(), underGo))
                 {
                     return item;
                 }
@@ -153,7 +141,7 @@ namespace Game.UI
         public SceneCardBase removeNoDestroyAndRet(int idx = 0)
         {
             SceneCardBase card = null;
-            if(idx < m_sceneCardList.Count)
+            if(idx < m_sceneCardList.Count())
             {
                 card = m_sceneCardList[idx];
                 m_sceneCardList.RemoveAt(idx);
@@ -170,7 +158,7 @@ namespace Game.UI
         public SceneCardBase getCardByIdx(int idx = 0)
         {
             SceneCardBase card = null;
-            if (idx < m_sceneCardList.Count)
+            if (idx < m_sceneCardList.Count())
             {
                 card = m_sceneCardList[idx];
             }
@@ -183,7 +171,7 @@ namespace Game.UI
         {
             ushort idx = 0;
 
-            foreach (SceneCardBase item in m_sceneCardList)
+            foreach (SceneCardBase item in m_sceneCardList.list)
             {
                 item.curIndex = idx;
                 ++idx;
@@ -192,7 +180,7 @@ namespace Game.UI
 
         public void updateCardOutState(bool benable)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list)
             {
                 cardItem.updateCardOutState(benable);
             }
@@ -200,7 +188,7 @@ namespace Game.UI
 
         public void updateCardAttackedState(GameOpState opt)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list)
             {
                 if (opt.canAttackOp(cardItem, opt.curOp))
                 {
@@ -213,7 +201,7 @@ namespace Game.UI
         {
             bool bRet = false;
             int idx = 0;
-            while (idx < m_sceneCardList.Count)
+            while (idx < m_sceneCardList.Count())
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
@@ -232,7 +220,7 @@ namespace Game.UI
         {
             SceneCardBase retCard = null;
             int idx = 0;
-            while (idx < m_sceneCardList.Count)
+            while (idx < m_sceneCardList.Count())
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
@@ -256,17 +244,17 @@ namespace Game.UI
         {
             int idx = 0;
             // 检查是否是最后一个
-            if (0 == m_sceneCardList.Count)         // 如果列表中没有，直接加入
+            if (0 == m_sceneCardList.Count())         // 如果列表中没有，直接加入
             {
                 m_sceneCardList.Add(card as SceneCardBase);
             }
-            else if(m_sceneCardList[m_sceneCardList.Count - 1].curIndex < card.curIndex)    // 如果是最后一个
+            else if(m_sceneCardList[m_sceneCardList.Count() - 1].curIndex < card.curIndex)    // 如果是最后一个
             {
                 m_sceneCardList.Add(card as SceneCardBase);
             }
             else
             {
-                foreach (var cardItem in m_sceneCardList)
+                foreach (var cardItem in m_sceneCardList.list)
                 {
                     if (cardItem.curIndex > card.curIndex)
                     {

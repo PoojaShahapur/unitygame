@@ -129,6 +129,12 @@ namespace SDK.Common
             m_dicAttr[UIFormID.eUILogicTest].m_LayerID = UILayerID.eTopLayer;
             m_dicAttr[UIFormID.eUILogicTest].addUISceneType(UISceneType.eUIScene_Game);
             m_dicAttr[UIFormID.eUILogicTest].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UILogicTest", "UILogicTest", ".prefab");
+
+            m_dicAttr[UIFormID.eUIGM] = new UIAttrItem();
+            m_dicAttr[UIFormID.eUIGM].m_canvasID = UICanvasID.eCanvas_100;
+            m_dicAttr[UIFormID.eUIGM].m_LayerID = UILayerID.eTopLayer;
+            m_dicAttr[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_Game);
+            m_dicAttr[UIFormID.eUIGM].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIGM", "UIGM", ".prefab");
             // ****************** 顶层结束 ***********************
             // ****************** Canvas_100 结束 **********************
         }

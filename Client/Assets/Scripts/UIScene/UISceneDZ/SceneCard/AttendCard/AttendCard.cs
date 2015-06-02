@@ -1,4 +1,6 @@
-﻿namespace Game.UI
+﻿using SDK.Lib;
+
+namespace Game.UI
 {
     /**
      * @brief 随从卡
@@ -12,6 +14,9 @@
             m_aniControl = new AttendAniControl(this);
             m_dragControl = new AttendDragControl(this);
             m_behaviorControl = new AttendBehaviorControl(this);
+
+            m_render = new SceneCardPlayerRender();
+            m_effectControl = new EffectControl(this);
         }
     }
 }

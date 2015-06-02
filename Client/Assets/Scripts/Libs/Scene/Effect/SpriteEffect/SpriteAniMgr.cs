@@ -1,36 +1,75 @@
 ﻿using SDK.Common;
+using System.Collections.Generic;
+
 namespace SDK.Lib
 {
     /**
-     * @brief 帧动画管理器
+     * @brief UI 帧动画管理器，仅仅是存放 ImageSpriteAni 渲染器
      */
-    public class SpriteAniMgr : EntityMgrBase
+    public class SpriteAniMgr : DelayHandleMgrBase, ITickedObject
     {
-        override public void OnTick(float delta)
+        protected List<ImageSpriteAni> m_sceneEntityList;
+
+        public SpriteAniMgr()
         {
-            foreach(ISceneEntity entity in m_sceneEntityList)
+            m_sceneEntityList = new List<ImageSpriteAni>();
+        }
+
+        public void add2List(ImageSpriteAni entity)
+        {
+            if (m_duringAdvance)
             {
-                (entity as SpriteAni).onTick(delta);
+                addObject(entity);
+            }
+            else
+            {
+                m_sceneEntityList.Add(entity);
             }
         }
 
-        public SpriteAni createAndAdd(SpriteComType type)
+        public void removeFromeList(ImageSpriteAni entity)
         {
-            SpriteAni ani = null;
-            if (SpriteComType.eSpriteRenderer == type)
+            if (m_duringAdvance)
             {
-                ani = new SpriteRenderSpriteAni();
+                delObject(entity);
             }
-            if (SpriteComType.eImage == type)
+            else
             {
-                ani = new ImageSpriteAni();
+                m_sceneEntityList.Remove(entity);
             }
+        }
+
+        virtual public void OnTick(float delta)
+        {
+            m_duringAdvance = true;
+            onTickExec(delta);
+            m_duringAdvance = false;
+            onTickEnd();
+        }
+
+        virtual protected void onTickExec(float delta)
+        {
+            foreach (ImageSpriteAni entity in m_sceneEntityList)
+            {
+                (entity as ImageSpriteAni).onTick(delta);
+            }
+        }
+
+        virtual protected void onTickEnd()
+        {
+            processScheduledObjects();
+        }
+
+        public SpriteAni createAndAdd()
+        {
+            ImageSpriteAni ani = null;
+            ani = new ImageSpriteAni();
 
             Ctx.m_instance.m_spriteAniMgr.add2List(ani);
             return ani;
         }
 
-        public void removeAndDestroy(SpriteAni ani)
+        public void removeAndDestroy(ImageSpriteAni ani)
         {
             this.removeFromeList(ani);
             ani.dispose();

@@ -340,6 +340,15 @@ namespace SDK.Common
             return Sprite.Create(texture, rect, pivot);
         }
 
+        // 创建一个精灵 GameObject ，播放场景特效
+        public static GameObject createSpriteGameObject()
+        {
+            Type[] comArr = new Type[1];
+            comArr[0] = typeof(SpriteRenderer);
+            GameObject _go = new GameObject("SpriteGO", comArr);
+            return _go;
+        }
+
         // 当前是否在与 UI 元素交互
         public static bool IsPointerOverGameObject()
         {

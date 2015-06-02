@@ -11,16 +11,10 @@ namespace SDK.Lib
         eStop,
     }
 
-    public enum SpriteComType
-    {
-        eSpriteRenderer,    // SpriteRenderer 组件
-        eImage,     // Image UI 组件
-    }
-
     /**
-     * @brief 精灵动画
+     * @brief 精灵动画，因为这个可以作为独立的渲染器存在是，因此继承 AuxComponent ，UI 直接使用这个渲染器就行了，不用使用具体的 Effect
      */
-    public class SpriteAni : AuxComponent, IDispatchObject, ISceneEntity
+    public class SpriteAni : AuxComponent, IDispatchObject
     {
         protected float m_leftTime;     // 播放完成一帧后还剩余的时间
         protected int m_curFrame;       // 当前播放到第几帧
@@ -32,7 +26,7 @@ namespace SDK.Lib
         protected bool m_bNeedReloadRes;    // 是否需要重新加载资源
         protected TableSpriteAniItemBody m_tableBody;
         protected AtlasScriptRes m_atlasScriptRes;
-        protected EventDispatch m_endEventDispatch;
+        protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
 
         public SpriteAni()
         {
@@ -41,7 +35,7 @@ namespace SDK.Lib
             m_bLoop = false;
             m_bNeedReloadRes = false;
             m_playState = SpritePlayState.eNone;
-            m_endEventDispatch = new AddOnceEventDispatch();
+            m_playEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
         }
 
         public bool bLoop
@@ -90,15 +84,15 @@ namespace SDK.Lib
             }
         }
 
-        public EventDispatch endEventDispatch
+        public EventDispatch playEndEventDispatch
         {
             get
             {
-                return m_endEventDispatch;
+                return m_playEndEventDispatch;
             }
             set
             {
-                m_endEventDispatch = value;
+                m_playEndEventDispatch = value;
             }
         }
 
@@ -109,8 +103,7 @@ namespace SDK.Lib
                 Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.GetPath(), null);
                 m_atlasScriptRes = null;
             }
-            m_endEventDispatch.clearEventHandle();
-            Ctx.m_instance.m_spriteAniMgr.removeFromeList(this);
+            m_playEndEventDispatch.clearEventHandle();
             base.dispose();
         }
 
@@ -190,8 +183,8 @@ namespace SDK.Lib
                         if (!m_bLoop)
                         {
                             stop();
+                            m_playEndEventDispatch.dispatchEvent(this);
                         }
-                        m_endEventDispatch.dispatchEvent(this);
                     }
                 }
             }

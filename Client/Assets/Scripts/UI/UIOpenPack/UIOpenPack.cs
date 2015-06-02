@@ -229,7 +229,7 @@ namespace Game.UI
 
         protected void showOpenEff()
         {
-            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eImage);
+            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
             m_spriteAni.selfGo = m_openEffImg;
             m_spriteAni.tableID = 6;
             m_spriteAni.bLoop = true;

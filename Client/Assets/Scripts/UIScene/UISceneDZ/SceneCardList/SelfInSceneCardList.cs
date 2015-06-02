@@ -30,7 +30,7 @@ namespace Game.UI
                     addCard(cardItem);
 
                     // 记录开始卡牌的 id ，后面好判断更新
-                    cardItem.m_startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx];
+                    cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx];
                     cardItem.updateCardOutState(true);
                     cardItem.aniControl.startRot = new Vector3(-90f, -90f, 0);       // 将卡牌竖起来
                     cardItem.aniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
@@ -58,19 +58,19 @@ namespace Game.UI
             Quaternion curRot;
 
             // 释放之前的叉号
-            while (idx < m_sceneCardList.Count)
+            while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                if (cardItem.m_startCardID != Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx])
+                if (cardItem.startCardID != Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx])
                 {
-                    curPos = cardItem.gameObject.transform.localPosition;
-                    curRot = cardItem.gameObject.transform.localRotation;
-                    UtilApi.Destroy(cardItem.gameObject);      // 释放之前的资源
+                    curPos = cardItem.gameObject().transform.localPosition;
+                    curRot = cardItem.gameObject().transform.localRotation;
+                    UtilApi.Destroy(cardItem.gameObject());      // 释放之前的资源
 
                     // 创建新的资源
                     cardItem = m_sceneDZData.createOneCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
-                    cardItem.gameObject.transform.localPosition = curPos;
-                    cardItem.gameObject.transform.localRotation = curRot;
+                    cardItem.transform().localPosition = curPos;
+                    cardItem.transform().localRotation = curRot;
 
                     cardItem.dragControl.enableDrag();      // 开启拖动
                 }
@@ -96,7 +96,7 @@ namespace Game.UI
             SceneCardBase cardItem;
 
             // 释放之前的叉号
-            while (idx < m_sceneCardList.Count)
+            while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
                 if (cardItem.chaHaoGo != null)        // 如果之前添加的资源交换卡牌叉号
@@ -113,7 +113,7 @@ namespace Game.UI
 
         override public void disableAllCardDragExceptOne(SceneCardBase card)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list)
             {
                 if(!cardItem.Equals(card))       // 如果内存地址相等
                 {
@@ -124,7 +124,7 @@ namespace Game.UI
 
         override public void enableAllCardDragExceptOne(SceneCardBase card)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list)
             {
                 if (!cardItem.Equals(card))       // 如果内存地址相等
                 {

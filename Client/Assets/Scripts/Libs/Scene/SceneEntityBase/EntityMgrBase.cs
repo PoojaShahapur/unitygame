@@ -5,14 +5,14 @@ namespace SDK.Lib
 {
     public class EntityMgrBase : DelayHandleMgrBase, ITickedObject
     {
-        protected List<ISceneEntity> m_sceneEntityList;
+        protected List<SceneEntityBase> m_sceneEntityList;
 
         public EntityMgrBase()
         {
-            m_sceneEntityList = new List<ISceneEntity>();
+            m_sceneEntityList = new List<SceneEntityBase>();
         }
 
-        public void add2List(ISceneEntity entity)
+        public void add2List(SceneEntityBase entity)
         {
             if (m_duringAdvance)
             {
@@ -24,7 +24,7 @@ namespace SDK.Lib
             }
         }
 
-        public void removeFromeList(ISceneEntity entity)
+        public void removeFromeList(SceneEntityBase entity)
         {
             if (m_duringAdvance)
             {

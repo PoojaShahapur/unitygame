@@ -12,6 +12,7 @@ namespace Game.UI
         protected GameObject m_spriteGo;
         protected GameObject m_imageGo;
         protected SpriteAni m_spriteAni;
+        protected LinkEffect m_linkEffect;
 
         override public void onShow()
         {
@@ -55,7 +56,7 @@ namespace Game.UI
             //sendMsg();
             //testLoadSceneUI();
             testSpriteEffect();
-            testImageEffect();
+            //testImageEffect();
         }
 
         protected void testUIInfo()
@@ -146,16 +147,16 @@ namespace Game.UI
 
         protected void testSpriteEffect()
         {
-            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eSpriteRenderer);
-            m_spriteAni.selfGo = m_spriteGo;
-            m_spriteAni.tableID = 1;
-            m_spriteAni.bLoop = true;
-            m_spriteAni.play();
+            m_linkEffect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eLinkEffect) as LinkEffect;
+            m_linkEffect.setGameObject(m_spriteGo);
+            m_linkEffect.setTableID(1);
+            m_linkEffect.setLoop(true);
+            m_linkEffect.play();
         }
 
         protected void testImageEffect()
         {
-            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd(SpriteComType.eImage);
+            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
             m_spriteAni.selfGo = m_imageGo;
             m_spriteAni.tableID = 1;
             m_spriteAni.bLoop = true;

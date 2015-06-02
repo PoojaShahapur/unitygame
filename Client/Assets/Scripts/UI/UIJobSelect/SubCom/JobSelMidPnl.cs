@@ -151,7 +151,7 @@ namespace Game.UI
             m_dzStartDescText.show();     // 默认隐藏
             // test 进入战场
 #if DEBUG_NOTNET
-            Ctx.m_instance.m_gameSys.loadDZScene(1000);
+            Ctx.m_instance.m_gameSys.loadDZScene(1);
 #endif
         }
 
