@@ -25,9 +25,6 @@ namespace Game.UI
         {
             m_sceneDZData = sceneDZData;
             m_playerFlag = playerFlag;
-
-            m_centerHero = m_sceneDZData.createOneCard(0, m_playerFlag, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO) as HeroCard;
-
             m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
         }
 
@@ -83,7 +80,10 @@ namespace Game.UI
             {
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
+                    m_centerHero = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_HERO) as HeroCard;
                     m_centerHero.sceneCardItem = sceneItem;      // 这个动画已经有了
+                    // 设置 hero 动画结束后的处理
+                    m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
                     m_centerHero.updateHp();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)

@@ -125,9 +125,6 @@ namespace Game.UI
             m_historyArea.m_sceneDZData = this;
             m_attackArrow = new AttackArrow(this);
             m_gameOpState = new GameOpState(this);
-
-            // 设置 hero 动画结束后的处理
-            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.heroAniEndDisp = heroAniEndDisp;
         }
 
         public void dispose()
@@ -191,6 +188,8 @@ namespace Game.UI
         public SceneCardBase createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
             SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(objid, cardType, this, m_centerGO);
+            cardItem.init();        // 非主角初始化，主角需要等到设置 GameObject 后再初始化
+
             if (objid != SceneCardBase.BLACK_CARD_ID || CardType.CARDTYPE_HERO != cardType)   // 如果不是 hero 和 BlackCard
             {
                 cardItem.dragControl.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
@@ -230,7 +229,6 @@ namespace Game.UI
                     }
                 }
             }
-            cardItem.init();        // 非主角初始化，主角需要等到设置 GameObject 后再初始化
 
             return cardItem;
         }
