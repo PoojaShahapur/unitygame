@@ -25,7 +25,12 @@ namespace Game.UI
         public SceneCardBase createCard(uint objid, CardType cardType, SceneDZData sceneDZData, GameObject pntGO_)
         {
             SceneCardBase ret = null;
-            if (CardType.CARDTYPE_ATTEND == cardType)
+
+            if (SceneCardBase.BLACK_CARD_ID == objid)       // 背面牌
+            {
+                ret = new BlackCard(sceneDZData);
+            }
+            else if (CardType.CARDTYPE_ATTEND == cardType)
             {
                 ret = new AttendCard(sceneDZData);
             }

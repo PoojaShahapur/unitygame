@@ -191,13 +191,8 @@ namespace Game.UI
         public SceneCardBase createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
             SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(objid, cardType, this, m_centerGO);
-            if (!(cardItem is HeroCard))   // 如果不是 hero 
+            if (objid != SceneCardBase.BLACK_CARD_ID || CardType.CARDTYPE_HERO != cardType)   // 如果不是 hero 和 BlackCard
             {
-                if (uint.MaxValue == objid)
-                {
-                    cardItem.setGameObject(Ctx.m_instance.m_modelMgr.getEnemyCardModel().InstantiateObject(""));
-                }
-
                 cardItem.dragControl.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
                 // 设置初始位置为发牌位置
                 cardItem.aniControl.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
@@ -234,9 +229,8 @@ namespace Game.UI
                         }
                     }
                 }
-
-                cardItem.init();        // 非主角初始化，主角需要等到设置 GameObject 后再初始化
             }
+            cardItem.init();        // 非主角初始化，主角需要等到设置 GameObject 后再初始化
 
             return cardItem;
         }

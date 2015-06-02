@@ -9,8 +9,8 @@
         public const string SelfTurnTip = "youturntip";
         public const string SelfCardFullTip = "SelfCardFullTip";
         public const string SelfCardFullTipText = "Canvas/Text";
-        public const string MyCardDeap = "dz/di/mycarddeap";
-        public const string EnemyCardDeap = "dz/di/enemycarddeap";
+        public const string MyCardDeap = "ZhanChang/paizu_zhanchang";
+        public const string EnemyCardDeap = "ZhanChang/paizu_zhanchang";
 
         public const string CenterGO = "dzban";         // 中心位置，所有的牌的相对位置都是相对这个位置
 

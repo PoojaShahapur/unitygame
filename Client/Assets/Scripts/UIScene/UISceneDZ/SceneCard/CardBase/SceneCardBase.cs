@@ -15,55 +15,47 @@ namespace Game.UI
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
         public const uint WHITECARDID = 1000;
+        public const uint BLACK_CARD_ID = uint.MaxValue;        // 敌人背面卡 ID
 
         protected SceneCardItem m_sceneCardItem;
         public SceneDZData m_sceneDZData;
 
-        protected ushort m_curIndex = 0;// 当前索引，因为可能初始卡牌的时候 m_sceneCardItem 
-        protected ushort m_preIndex = 0;// 在牌中的索引，主要是手里的牌和打出去的牌，这个是客户端设置的索引，服务器的索引在 t_Card 类型里面
-
-        protected GameObject m_chaHaoGo;
-        protected uint m_startCardID;
-
-        protected FightData m_fightData;            // 战斗数据
-        protected AnimFSM m_animFSM;                // 动画状态机
-
-        protected AIController m_aiController;
-        protected BehaviorControl m_behaviorControl;
-        protected ClickControl m_clickControl;
-        protected AniControl m_aniControl;
-        protected DragControl m_dragControl;
-        protected EffectControl m_effectControl;
+        protected SceneCardBaseData m_sceneCardBaseData;
 
         public SceneCardBase(SceneDZData data)
         {
             m_sceneDZData = data;
-            m_fightData = new FightData();
-            m_animFSM = new AnimFSM();
-            m_animFSM.card = this;
-            m_animFSM.Start();
-
-            m_aiController = new AIController();
-            m_aiController.possess(this);
         }
 
         virtual public void init()
         {
-            if (m_clickControl != null)
+            if (m_sceneCardBaseData.m_clickControl != null)
             {
-                m_clickControl.init();
+                m_sceneCardBaseData.m_clickControl.init();
             }
-            if (m_aniControl != null)
+            if (m_sceneCardBaseData.m_aniControl != null)
             {
-                m_aniControl.init();
+                m_sceneCardBaseData.m_aniControl.init();
             }
-            if (m_dragControl != null)
+            if (m_sceneCardBaseData.m_dragControl != null)
             {
-                m_dragControl.init();
+                m_sceneCardBaseData.m_dragControl.init();
             }
-            if (m_effectControl != null)
+            if (m_sceneCardBaseData.m_effectControl != null)
             {
-                m_effectControl.init();
+                m_sceneCardBaseData.m_effectControl.init();
+            }
+        }
+
+        public SceneCardBaseData sceneCardBaseData
+        {
+            get
+            {
+                return m_sceneCardBaseData;
+            }
+            set
+            {
+                m_sceneCardBaseData = value;
             }
         }
 
@@ -93,11 +85,11 @@ namespace Game.UI
         {
             get
             {
-                return m_chaHaoGo;
+                return m_sceneCardBaseData.m_chaHaoGo;
             }
             set
             {
-                m_chaHaoGo = value;
+                m_sceneCardBaseData.m_chaHaoGo = value;
             }
         }
 
@@ -111,20 +103,20 @@ namespace Game.UI
                 }
                 else
                 {
-                    return m_curIndex;
+                    return m_sceneCardBaseData.m_curIndex;
                 }
             }
             set
             {
                 if (m_sceneCardItem != null)
                 {
-                    m_preIndex = m_sceneCardItem.svrCard.pos.y;
+                    m_sceneCardBaseData.m_preIndex = m_sceneCardItem.svrCard.pos.y;
                     m_sceneCardItem.svrCard.pos.y = value;
                 }
                 else
                 {
-                    m_preIndex = m_curIndex;
-                    m_curIndex = value;
+                    m_sceneCardBaseData.m_preIndex = m_sceneCardBaseData.m_curIndex;
+                    m_sceneCardBaseData.m_curIndex = value;
                 }
             }
         }
@@ -133,7 +125,7 @@ namespace Game.UI
         {
             get
             {
-                return m_preIndex;
+                return m_sceneCardBaseData.m_preIndex;
             }
         }
 
@@ -141,7 +133,7 @@ namespace Game.UI
         {
             get
             {
-                return m_fightData;
+                return m_sceneCardBaseData.m_fightData;
             }
         }
 
@@ -149,11 +141,11 @@ namespace Game.UI
         {
             get
             {
-                return m_aiController;
+                return m_sceneCardBaseData.m_aiController;
             }
             set
             {
-                m_aiController = value;
+                m_sceneCardBaseData.m_aiController = value;
             }
         }
 
@@ -161,11 +153,11 @@ namespace Game.UI
         {
             get
             {
-                return m_behaviorControl;
+                return m_sceneCardBaseData.m_behaviorControl;
             }
             set
             {
-                m_behaviorControl = value;
+                m_sceneCardBaseData.m_behaviorControl = value;
             }
         }
 
@@ -173,11 +165,11 @@ namespace Game.UI
         {
             get
             {
-                return m_clickControl;
+                return m_sceneCardBaseData.m_clickControl;
             }
             set
             {
-                m_clickControl = value;
+                m_sceneCardBaseData.m_clickControl = value;
             }
         }
 
@@ -185,11 +177,11 @@ namespace Game.UI
         {
             get
             {
-                return m_aniControl;
+                return m_sceneCardBaseData.m_aniControl;
             }
             set
             {
-                m_aniControl = value;
+                m_sceneCardBaseData.m_aniControl = value;
             }
         }
 
@@ -197,22 +189,22 @@ namespace Game.UI
         {
             get
             {
-                return m_dragControl;
+                return m_sceneCardBaseData.m_dragControl;
             }
             set
             {
-                m_dragControl = value;
+                m_sceneCardBaseData.m_dragControl = value;
             }
         }
         public EffectControl effectControl
         {
             get
             {
-                return m_effectControl;
+                return m_sceneCardBaseData.m_effectControl;
             }
             set
             {
-                m_effectControl = value;
+                m_sceneCardBaseData.m_effectControl = value;
             }
         }
 
@@ -228,26 +220,26 @@ namespace Game.UI
         {
             get
             {
-                return m_startCardID;
+                return m_sceneCardBaseData.m_startCardID;
             }
             set
             {
-                m_startCardID = value;
+                m_sceneCardBaseData.m_startCardID = value;
             }
         }
 
         override public void onTick(float delta)
         {
-            m_animFSM.Update();                 // 更新状态机
-            m_fightData.onTime(delta);          // 更新战斗数据
+            m_sceneCardBaseData.m_animFSM.Update();                 // 更新状态机
+            m_sceneCardBaseData.m_fightData.onTime(delta);          // 更新战斗数据
         }
 
         override public void dispose()
         {
-            m_clickControl.dispose();
-            m_aniControl.dispose();
-            m_dragControl.dispose();
-            m_effectControl.dispose();
+            m_sceneCardBaseData.m_clickControl.dispose();
+            m_sceneCardBaseData.m_aniControl.dispose();
+            m_sceneCardBaseData.m_dragControl.dispose();
+            m_sceneCardBaseData.m_effectControl.dispose();
 
             UtilApi.Destroy(m_render.gameObject());
             m_sceneCardItem = null;
@@ -286,7 +278,7 @@ namespace Game.UI
         // 根据表更新卡牌数据，这个主要是用于初始卡牌更新
         public void updateCardDataByTable()
         {
-            TableItemBase tableBase = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, m_startCardID);
+            TableItemBase tableBase = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, m_sceneCardBaseData.m_startCardID);
             if(tableBase != null)
             {
                 TableCardItemBody cardTableData = tableBase.m_itemBody as TableCardItemBody;
@@ -294,7 +286,7 @@ namespace Game.UI
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("卡表查找失败， ID = {0}", m_startCardID));
+                Ctx.m_instance.m_logSys.log(string.Format("卡表查找失败， ID = {0}", m_sceneCardBaseData.m_startCardID));
             }
         }
 
@@ -326,13 +318,13 @@ namespace Game.UI
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
-            m_effectControl.updateCardOutState(benable);
+            m_sceneCardBaseData.m_effectControl.updateCardOutState(benable);
         }
 
         // 更新卡牌是否可以被击
         public void updateCardAttackedState(bool benable)
         {
-            m_effectControl.updateCardAttackedState(benable);
+            m_sceneCardBaseData.m_effectControl.updateCardAttackedState(benable);
         }
 
         public void playFlyNum(int num)

@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 英雄卡
      */
-    public class HeroCard : SceneCardBase
+    public class HeroCard : SceneCard
     {
         protected AuxLabel m_classs, m_heroname;
         protected AuxLabel m_hpText;        // 血
@@ -18,12 +18,12 @@ namespace Game.UI
         public HeroCard(SceneDZData sceneDZData) :
             base(sceneDZData)
         {
-            m_clickControl = new HeroClickControl(this);
-            m_aniControl = new HeroAniControl(this);
-            m_behaviorControl = new HeroBehaviorControl(this);
+            m_sceneCardBaseData.m_clickControl = new HeroClickControl(this);
+            m_sceneCardBaseData.m_aniControl = new HeroAniControl(this);
+            m_sceneCardBaseData.m_behaviorControl = new HeroBehaviorControl(this);
 
             m_render = new HeroRender();
-            m_effectControl = new EffectControl(this);
+            m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 
         public Action heroAniEndDisp
