@@ -13,7 +13,7 @@ namespace Game.UI
     {
         protected NumAniSequence m_numAniSeq;       // 攻击动画序列，这个所有的都有
         protected Vector3 m_srcPos;                 // 保存最初的位置
-        protected SceneStateFSM m_sceneStateFSM;
+        protected SceneStateFSM m_sceneStateFSM;    // 状态的转换以动作结束为标准
 
         public BehaviorControl(SceneCardBase rhv) : 
             base(rhv)
@@ -140,6 +140,10 @@ namespace Game.UI
             {
                 LinkEffect effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);
                 effect.addEffectPlayEndHandle(item.onHuerExecEnd);
+            }
+            else    // 一动作为标准，动作结束就算受伤结束
+            {
+
             }
 
             // 播放伤害数字

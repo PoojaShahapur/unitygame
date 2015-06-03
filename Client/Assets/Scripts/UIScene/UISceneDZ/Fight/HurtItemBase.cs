@@ -1,6 +1,9 @@
 ﻿using SDK.Lib;
 namespace Game.UI
 {
+    /**
+     * @brief 每一个 Hurt 以特效为结束标准，如果没有特效，就以动作为标准
+     */
     public class HurtItemBase : FightItemBase
     {
         protected EHurtType m_hurtType;

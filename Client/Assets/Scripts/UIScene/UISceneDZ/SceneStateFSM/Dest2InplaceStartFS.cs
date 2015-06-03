@@ -16,6 +16,7 @@ namespace FSM
         override public void OnStateEnter()
         {
             base.OnStateEnter();
+            mFSM.MoveToState(SceneStateId.SSDest2Inplaceing);
         }
 
         override public void OnStateExit()
