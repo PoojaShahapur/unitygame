@@ -13,7 +13,7 @@ namespace SDK.Lib
         public override void setResObj(UnityEngine.Object go_)
         {
             m_clip = go_ as AudioClip;
-            m_go = new GameObject();
+            m_go = UtilApi.createGameObject("SoundGO");
 
             if (m_clip == null)
             {

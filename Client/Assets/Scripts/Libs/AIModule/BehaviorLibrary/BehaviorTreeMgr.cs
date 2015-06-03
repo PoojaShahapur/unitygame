@@ -15,11 +15,13 @@ namespace BehaviorLibrary
     {
         protected BTAttrSys m_btAttrSys;
         protected BTFactory m_BTFactory;
+        protected Dictionary<BTID, BehaviorTree> m_id2BTDic;
 
         public BehaviorTreeMgr()
         {
             m_btAttrSys = new BTAttrSys();
             m_BTFactory = new BTFactory();
+            m_id2BTDic = new Dictionary<BTID, BehaviorTree>();
 
             regAttrItem();
         }
@@ -28,18 +30,21 @@ namespace BehaviorLibrary
         {
             BTAttrItem item = null;
             item = new BTAttrItem();
-            item.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath], "Test2Ai.xml");
+            item.m_id = BTID.e1000;
+            item.m_name = "1000";
+            item.m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAIPath], "1000.xml");
             m_btAttrSys.m_id2ItemDic[BTID.e1000] = item;
         }
 
         public BehaviorTree getBT(BTID id)
         {
-            if (m_path2ResDic.ContainsKey(m_btAttrSys.m_id2ItemDic[id].m_path))
+            if (!m_id2BTDic.ContainsKey(id))
             {
-                return (m_path2ResDic[m_btAttrSys.m_id2ItemDic[id].m_path] as BehaviorTreeRes).behaviorTree;
+                BehaviorTreeRes res = getAndSyncLoadBT(id);
+                this.unload(res.GetPath(), null);
             }
 
-            return null;
+            return m_id2BTDic[id];
         }
 
         // 同步加载
@@ -75,7 +80,7 @@ namespace BehaviorLibrary
             return ret;
         }
 
-        public void parseXml(string xmlStr, BehaviorTree behaviorTree)
+        public void parseXml(string xmlStr)
         {
             SecurityParser xmlDoc = new SecurityParser();
             xmlDoc.LoadXml(xmlStr);
@@ -85,11 +90,20 @@ namespace BehaviorLibrary
             ArrayList behaviorTreeXmlList = null;
             SecurityElement xmlElemTpl;
             SecurityElement xmlElemBT;
+            BehaviorTree behaviorTree = null;
+            string strId = "";
+            BTID id = BTID.eNone;
 
             foreach (SecurityElement node in behaviorTemplateNode)  // 树列表，包括树和其它信息
             {
                 xmlElemTpl = node;
                 behaviorTreeXmlList = xmlElemTpl.Children;
+                behaviorTree = new BehaviorTree(new BTRoot());
+
+                strId = UtilApi.getXmlAttrStr(node, "name");
+                id = m_btAttrSys.getBTIDByName(strId);
+                m_id2BTDic[id] = behaviorTree;
+
                 foreach (SecurityElement nodetree in behaviorTreeXmlList)
                 {
                     xmlElemBT = nodetree;

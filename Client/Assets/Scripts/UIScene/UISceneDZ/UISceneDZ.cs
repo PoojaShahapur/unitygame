@@ -43,7 +43,7 @@ namespace Game.UI
         // 添加事件监听
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin), onLuckyCoinBtnClk);       // 点击幸运币
+            //UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin), onLuckyCoinBtnClk);       // 点击幸运币
             UtilApi.addEventHandle(m_sceneDZData.m_startGO, onStartBtnClk);       // 开始游戏
 
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
@@ -337,7 +337,7 @@ namespace Game.UI
                     hurtItem.damage = (uint)num;
                 }
 
-                att.fightData.hurtData.addItem(hurtItem);
+                def.fightData.hurtData.addItem(hurtItem);
             }
         }
 

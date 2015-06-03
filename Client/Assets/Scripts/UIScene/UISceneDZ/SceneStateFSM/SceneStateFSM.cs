@@ -23,6 +23,7 @@ namespace FSM
 
         public override void InitFSM()
         {
+            m_curStateId = SceneStateId.SSInplace;
             currentState = CreateState(SceneStateId.SSInplace);
         }
 

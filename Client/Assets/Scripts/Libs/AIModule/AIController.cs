@@ -119,8 +119,7 @@ namespace BehaviorLibrary
         {
             if (m_bNeedReloadBT)
             {
-                m_btRes = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndLoadBT(m_btID);
-                m_bt = m_btRes.behaviorTree;
+                m_bt = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getBT(m_btID);
             }
 
             m_bNeedReloadBT = false;

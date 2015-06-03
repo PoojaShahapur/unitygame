@@ -26,7 +26,7 @@ namespace Game.UI
             {
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx] > 0)
                 {
-                    SceneCardBase cardItem = m_sceneDZData.createOneCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
+                    SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     addCard(cardItem);
 
                     // 记录开始卡牌的 id ，后面好判断更新
@@ -68,7 +68,7 @@ namespace Game.UI
                     UtilApi.Destroy(cardItem.gameObject());      // 释放之前的资源
 
                     // 创建新的资源
-                    cardItem = m_sceneDZData.createOneCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
+                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     cardItem.transform().localPosition = curPos;
                     cardItem.transform().localRotation = curRot;
 

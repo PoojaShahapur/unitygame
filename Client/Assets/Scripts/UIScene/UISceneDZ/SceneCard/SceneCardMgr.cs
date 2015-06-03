@@ -22,11 +22,15 @@ namespace Game.UI
             }
         }
 
-        public SceneCardBase createCard(uint objid, CardType cardType, SceneDZData sceneDZData, GameObject pntGO_)
+        public SceneCardBase createCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType, SceneDZData sceneDZData)
         {
             SceneCardBase ret = null;
 
-            if (SceneCardBase.BLACK_CARD_ID == objid)       // 背面牌
+            if (SceneCardBase.WHITECARDID == objid)       // 白色占位卡牌
+            {
+                ret = new WhiteCard(sceneDZData);
+            }
+            else if (SceneCardBase.BLACK_CARD_ID == objid)       // 背面牌
             {
                 ret = new BlackCard(sceneDZData);
             }
@@ -59,10 +63,16 @@ namespace Game.UI
             //    return new LuckCoinCard(sceneDZData);
             //}
 
-            ret.setIdAndPnt(objid, pntGO_);
-
+            ret.setIdAndPnt(objid, sceneDZData.m_centerGO);
+            ret.init();
+            ret.setBaseInfo(m_playerFlag, area, cardType);
+            
             this.add2List(ret);
-            Ctx.m_instance.m_aiSystem.aiControllerMgr.add2List(ret.aiController);       // 添加到控制器中
+            if (SceneCardBase.WHITECARDID != objid &&
+                SceneCardBase.BLACK_CARD_ID != objid)       // 这两个没有 AI 
+            {
+                Ctx.m_instance.m_aiSystem.aiControllerMgr.add2List(ret.aiController);       // 添加到控制器中
+            }
 
             return ret;
         }

@@ -53,6 +53,7 @@ namespace Game.UI
         // 更新攻击
         public void updateAttack()
         {
+            // 攻击需要整个攻击完成才能进入下一次攻击，不能打断
             if(!bInAttack())
             {
                 // 如果当前有攻击数据
@@ -66,14 +67,15 @@ namespace Game.UI
         // 更新受伤
         public void updateHurt()
         {
-            if (!bInHurt())
-            {
+            // 只要有受伤就需要处理
+            //if (!bInHurt())
+            //{
                 // 如果当前有攻击数据
-                if (m_card.fightData.hurtData.hurtList.Count() > 0)
+                if (m_card.fightData.hurtData.hasEnableItem())
                 {
                     m_sceneStateFSM.MoveToState(SceneStateId.SSHurtStart);     // 开始受伤
                 }
-            }
+            //}
         }
 
         // 播放攻击动画，就是移动过去砸一下
@@ -111,11 +113,11 @@ namespace Game.UI
             m_sceneStateFSM.MoveToState(SceneStateId.SSDest2Inplaced);
         }
 
-        // 受伤动画和特效播放完成
-        protected void onHurtEnd(IDispatchObject dispObj)
-        {
-            m_sceneStateFSM.MoveToState(SceneStateId.SSHurted);
-        }
+        //// 受伤动画和特效播放完成
+        //protected void onHurtEnd(IDispatchObject dispObj)
+        //{
+        //    m_sceneStateFSM.MoveToState(SceneStateId.SSHurted);
+        //}
 
         // 执行普通攻击
         public void execAttack(ComAttackItem item)
@@ -137,7 +139,7 @@ namespace Game.UI
             if(item.hurtEffectId > 0)       // 如果有特效需要播放
             {
                 LinkEffect effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);
-                effect.addEffectPlayEndHandle(onHurtEnd);
+                effect.addEffectPlayEndHandle(item.onHuerExecEnd);
             }
 
             // 播放伤害数字

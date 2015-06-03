@@ -22,6 +22,9 @@ namespace BehaviorLibrary
 
             m_id2CreateDic["Follow"] = createActionFollow;
             m_id2BuildDic["Follow"] = buildActionFollow;
+
+            m_id2CreateDic["AttackAll"] = createActionAttackAll;
+            m_id2BuildDic["AttackAll"] = buildActionAttackAll;
         }
 
         public BehaviorComponent createActionWander()
@@ -42,6 +45,17 @@ namespace BehaviorLibrary
         }
 
         public void buildActionFollow(BehaviorComponent btCmt, SecurityElement btNode)
+        {
+
+        }
+
+        public BehaviorComponent createActionAttackAll()
+        {
+            ActionAttackAll actionAttackAll = new ActionAttackAll();
+            return actionAttackAll;
+        }
+
+        public void buildActionAttackAll(BehaviorComponent btCmt, SecurityElement btNode)
         {
 
         }

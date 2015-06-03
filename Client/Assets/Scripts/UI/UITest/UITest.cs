@@ -1,5 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using SDK.Lib;
 using System.Collections.Generic;
 
 namespace Game.UI
@@ -67,7 +68,9 @@ namespace Game.UI
             //addHistoryItem();
             //testQuipDZScene();
             //testPrepareTime();
-            testMsg();
+            //testMsg();
+            //testAddCard();
+            testFight();
         }
 
         protected void onBtnClkTest1f()
@@ -215,6 +218,66 @@ namespace Game.UI
             //cmd.pAttThisID = 0;
             //cmd.pDefThisID = 0;
             UtilMsg.sendMsg(cmd);
+        }
+
+        protected void testAddCard()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            SceneCardBase testCard = null;
+            // 测试[随从卡]
+            testCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            // 测试[武器卡]
+            //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(240000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_EQUIP, CardType.CARDTYPE_EQUIP, uiDZ.m_sceneDZData);
+            // 测试[英雄卡]
+            //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(250000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO, uiDZ.m_sceneDZData);
+            // 测试[英雄技能卡]
+            //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(260000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_SKILL, CardType.CARDTYPE_SKILL, uiDZ.m_sceneDZData);
+        }
+
+        protected void testFight()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            SceneCardBase selfCard = null;
+            SceneCardBase enemyCard = null;
+            // 测试[随从卡]
+            selfCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            selfCard.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
+            SceneCardItem sceneCardItem = null;
+            sceneCardItem = new SceneCardItem();
+            sceneCardItem.svrCard = new t_Card();
+            sceneCardItem.svrCard.qwThisID = 0;
+            sceneCardItem.svrCard.dwObjectID = 230000;
+            sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+            selfCard.sceneCardItem = sceneCardItem;
+
+            enemyCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            enemyCard.transform().localPosition = new UnityEngine.Vector3(4, 0, 0);
+            sceneCardItem = new SceneCardItem();
+            sceneCardItem.svrCard = new t_Card();
+            sceneCardItem.svrCard.qwThisID = 1;
+            sceneCardItem.svrCard.dwObjectID = 230000;
+            sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+            enemyCard.sceneCardItem = sceneCardItem;
+
+            AttackItemBase attItem = null;
+            attItem = new ComAttackItem();
+            (attItem as ComAttackItem).hurterId = 1;
+            (attItem as ComAttackItem).attackEffectId = 4;
+
+            attItem.damage = 10;
+
+            selfCard.fightData.attackData.addItem(attItem);
+
+            // 受伤
+            HurtItemBase hurtItem = null;
+            hurtItem = new ComHurtItem();
+            (hurtItem as ComHurtItem).hurtEffectId = 4;
+
+            hurtItem.damage = 20;
+
+            enemyCard.fightData.hurtData.addItem(hurtItem);
+
+            attItem.attackEndPlayDisp.addEventHandle(hurtItem.onAttackItemEnd);
         }
     }
 }

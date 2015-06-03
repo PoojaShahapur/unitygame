@@ -11,7 +11,7 @@ namespace SDK.Common
     {
         public NumAniParallel()
         {
-            m_go = new GameObject("NumAniSeq");
+            m_go = UtilApi.createGameObject("NumAniSeq");
             m_go.transform.parent = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].transform;
             NumAniSeqBehaviour seqBeh = m_go.AddComponent<NumAniSeqBehaviour>();
             seqBeh.onAniEndDisp = onAniEndDisp;

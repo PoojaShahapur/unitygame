@@ -14,12 +14,12 @@ namespace Game.UI
     {
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
-        public const uint WHITECARDID = 1000;
+        public const uint WHITECARDID = uint.MaxValue - 1;      // 白色的占位卡牌 ID
         public const uint BLACK_CARD_ID = uint.MaxValue;        // 敌人背面卡 ID
 
-        protected SceneCardItem m_sceneCardItem;
         public SceneDZData m_sceneDZData;
 
+        protected SceneCardItem m_sceneCardItem;
         protected SceneCardBaseData m_sceneCardBaseData;
 
         public SceneCardBase(SceneDZData data)
@@ -228,10 +228,14 @@ namespace Game.UI
             }
         }
 
+        virtual public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
+        {
+
+        }
+
         override public void onTick(float delta)
         {
-            m_sceneCardBaseData.m_animFSM.Update();                 // 更新状态机
-            m_sceneCardBaseData.m_fightData.onTime(delta);          // 更新战斗数据
+
         }
 
         override public void dispose()

@@ -26,7 +26,7 @@ namespace Game.UI
             int idx = 0;
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount)
             {
-                SceneCardBase cardItem = m_sceneDZData.createOneCard(SceneCardBase.BLACK_CARD_ID, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
+                SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(SceneCardBase.BLACK_CARD_ID, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                 addCard(cardItem);
 
                 ++idx;

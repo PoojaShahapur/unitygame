@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System.Collections.Generic;
 
 namespace Game.UI
 {
@@ -40,12 +41,20 @@ namespace Game.UI
             m_hurtList.Add(item);
         }
 
-        // 执行队列中的一个 Item
+        // 执行队列中的一个 Item，这个必须是有效的
         public void getNextItem()
         {
             if (m_curHurtItem == null && m_hurtList.Count() > 0)
             {
-                m_curHurtItem = m_hurtList[0];
+                foreach (var item in m_hurtList.list)
+                {
+                    if (item.delayTime <= 0 && item.state == EHurtItemState.eEnable && item.execState== EHurtExecState.eNone)
+                    {
+                        m_curHurtItem = item;
+                        m_curHurtItem.execState = EHurtExecState.eExec;
+                        return;
+                    }
+                }
             }
         }
 
@@ -57,7 +66,7 @@ namespace Game.UI
         // 执行队列中的一个 Item
         public void endCurItem()
         {
-            removeItem(m_curHurtItem);
+            //removeItem(m_curHurtItem);
             m_curHurtItem = null;
         }
 
@@ -66,12 +75,38 @@ namespace Game.UI
             m_hurtList.Remove(item);
         }
 
+        // 获取是否有有效的被击 Item
+        public bool hasEnableItem()
+        {
+            foreach (var item in m_hurtList.list)
+            {
+                if (item.delayTime <= 0 && item.state == EHurtItemState.eEnable && item.execState == EHurtExecState.eNone)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void onTime(float delta)
         {
+            List<HurtItemBase> list = new List<HurtItemBase>();
             foreach(var item in m_hurtList.list)
             {
                 item.onTime(delta);
+                if(item.execState == EHurtExecState.eEnd)
+                {
+                    list.Add(item);
+                }
             }
+
+            foreach (var item in list)
+            {
+                m_hurtList.Remove(item);
+            }
+
+            list.Clear();
         }
     }
 }

@@ -21,6 +21,9 @@ namespace BehaviorLibrary
         protected void registerBuild()
         {
             // Composites ×é¼þ×¢²á
+            m_id2CreateDic[BTKey.Acrion] = new ActionCreate();
+            m_id2CreateDic[BTKey.Inverter] = new InverterCreate();
+            
             m_id2CreateDic[BTKey.IndexSelector] = new IndexSelectorCreate();
             m_id2CreateDic[BTKey.PartialSelector] = new PartialSelectorCreate();
             m_id2CreateDic[BTKey.PartialSequence] = new PartialSequenceCreate();

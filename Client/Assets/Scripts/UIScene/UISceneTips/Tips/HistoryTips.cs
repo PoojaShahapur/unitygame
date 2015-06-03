@@ -44,7 +44,8 @@ namespace Game.UI
             // 显示卡牌历史提示
             TableCardItemBody cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, data.maincard.dwObjectID).m_itemBody as TableCardItemBody;
 
-            GameObject tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)cardTableItem.m_type).getObject();
+            GameObject tmpGO = null;
+            //tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)cardTableItem.m_type).getObject();
             if (tmpGO != null)
             {
                 m_cardItem.setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
@@ -62,7 +63,7 @@ namespace Game.UI
             {
                 cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, data.othercard[idx].dwObjectID).m_itemBody as TableCardItemBody;
 
-                tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)cardTableItem.m_type).getObject();
+                //tmpGO = Ctx.m_instance.m_modelMgr.getSceneCardModel((CardType)cardTableItem.m_type).getObject();
                 if (tmpGO != null)
                 {
                     if (idx >= m_list.Count)

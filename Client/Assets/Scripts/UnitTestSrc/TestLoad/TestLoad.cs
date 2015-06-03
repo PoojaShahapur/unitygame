@@ -117,6 +117,7 @@ namespace UnitTestSrc
         public void testLoadBT()
         {
             BehaviorTreeRes bt = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndSyncLoadBT(BTID.e1000);
+            Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(bt.GetPath(), null);
         }
     }
 }

@@ -76,6 +76,7 @@ namespace BehaviorLibrary
         {
 			_Root = root;
             _Root.behaviorTree = this;
+            m_blackboardData = new UBlackboardData();
             m_inputParam = new InsParam();
 		}
 

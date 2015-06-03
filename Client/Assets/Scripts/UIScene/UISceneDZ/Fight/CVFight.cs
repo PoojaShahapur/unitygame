@@ -23,7 +23,14 @@
 
     public enum EHurtItemState
     {
-        eEnable,            // 处于这个状态的才能计算
         eDisable,
+        eEnable,            // 处于这个状态的才能计算
+    }
+
+    public enum EHurtExecState
+    {
+        eNone,              // 没有执行
+        eExec,              // 这个在执行中
+        eEnd,               // 执行结束
     }
 }

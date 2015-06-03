@@ -48,6 +48,7 @@ namespace FSM
 
         public virtual void InitFSM()
         {
+            m_curStateId = AnimStateId.ASIDLE;
             currentState = CreateState(AnimStateId.ASIDLE);
         }
 

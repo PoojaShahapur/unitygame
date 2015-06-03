@@ -5,7 +5,7 @@
         public const string TurnBtn = "dz/turn";
         public const string SelfHero = "ZhanChang/yingxiong_zhanchang";
         public const string EnemyHero = "ZhanChang/yingxiong_zhanchang001";
-        public const string LuckyCoin = "luckycoin";
+        //public const string LuckyCoin = "luckycoin";
         public const string SelfTurnTip = "youturntip";
         public const string SelfCardFullTip = "SelfCardFullTip";
         public const string SelfCardFullTipText = "Canvas/Text";
@@ -14,16 +14,18 @@
 
         public const string CenterGO = "dzban";         // 中心位置，所有的牌的相对位置都是相对这个位置
 
-        public const string SelfStartCardCenterGO = "dzban/SelfStartCard";
-        public const string EnemyStartCardCenterGO = "dzban/EnemyStartCard";
-        public const string SelfOutCardCenterGO = "dzban/SelfOutCardCenter";
-        public const string EnemyOutCardCenterGO = "dzban/EnemyOutCardCenter";
-        public const string SelfCardCenterGO = "dzban/SelfCardCenter";
-        public const string EnemyCardCenterGO = "dzban/EnemyCardCenter";
-        public const string SelfEquipGO = "dzban/SelfEquip";
-        public const string EnemyEquipGO = "dzban/EnemyEquip";
-        public const string SelfSkillGO = "dzban/SelfSkill";
-        public const string EnemySkillGO = "dzban/EnemySkill";
+        public const string SelfStartCardCenterGO = "PlaceHolder/SelfStartCard";
+        public const string EnemyStartCardCenterGO = "PlaceHolder/EnemyStartCard";
+        public const string SelfOutCardCenterGO = "PlaceHolder/SelfOutCardCenter";
+        public const string EnemyOutCardCenterGO = "PlaceHolder/EnemyOutCardCenter";
+        public const string SelfCardCenterGO = "PlaceHolder/SelfCardCenter";
+        public const string EnemyCardCenterGO = "PlaceHolder/EnemyCardCenter";
+        public const string SelfEquipGO = "PlaceHolder/SelfEquip";
+        public const string EnemyEquipGO = "PlaceHolder/EnemyEquip";
+        public const string SelfSkillGO = "PlaceHolder/SelfSkill";
+        public const string EnemySkillGO = "PlaceHolder/EnemySkill";
+        public const string SelfHeroGO = "PlaceHolder/SelfHero";
+        public const string EnemyHeroGO = "PlaceHolder/EnemyHero";
 
         public const string ArrowStartPosGO = "dzban/ArrowStartPos";
         public const string ArrowListGO = "dzban/ArrowStartPos/ArrowList";

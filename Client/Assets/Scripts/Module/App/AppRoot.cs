@@ -147,6 +147,8 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_npcMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_sceneEffectMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_sceneCardMgr as ITickedObject);
+        //Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_aiSystem.aiControllerMgr as ITickedObject);
 
         Ctx.m_instance.m_uiMgr.findCanvasGO();
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();

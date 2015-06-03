@@ -13,7 +13,8 @@ namespace Game.UI
         public OutSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
             : base(data, playerFlag)
         {
-            m_whiteCard = m_sceneDZData.createOneCard(SceneCardBase.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND) as SceneCardBase;
+            m_whiteCard = Ctx.m_instance.m_sceneCardMgr.createCard(SceneCardBase.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+            Ctx.m_instance.m_sceneCardMgr.removeFromeList(m_whiteCard);         // 白色卡牌就不加入列表中了
             m_whiteCard.gameObject().SetActive(false);
         }
 

@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using SDK.Common;
+using SDK.Lib;
 
 namespace Game.UI
 {
@@ -15,8 +16,13 @@ namespace Game.UI
             m_sceneCardBaseData.m_dragControl = new EquipDragControl(this);
             m_sceneCardBaseData.m_behaviorControl = new EquipBehaviorControl(this);
 
-            m_render = new SceneCardPlayerRender();
+            m_render = new EquipSkillRender();
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
+        }
+
+        override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
+        {
+            this.transform().localPosition = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
         }
     }
 }

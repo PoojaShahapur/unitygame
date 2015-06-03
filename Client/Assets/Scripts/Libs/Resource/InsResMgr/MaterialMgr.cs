@@ -13,21 +13,5 @@ namespace SDK.Lib
         {
 
         }
-
-        // 通过职业获取卡牌组的材质
-        public MatRes getCardGroupMatByOccup(EnPlayerCareer Occup)
-        {
-            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupMatAttrDic[(int)Occup].m_path;
-
-            return getAndSyncLoad<MatRes>(path);
-        }
-
-        // 通过职业获取卡牌组LOGO的材质
-        public MatRes getCardGroupLOGOMatByOccup(EnPlayerCareer Occup)
-        {
-            string path = Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupMatAttrDic[(int)Occup].m_logoPath;
-
-            return getAndSyncLoad<MatRes>(path);
-        }
     }
 }

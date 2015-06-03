@@ -22,7 +22,6 @@ namespace Game.UI
         public override void init()
         {
             base.init();
-            m_effectRootGO = UtilApi.TransFindChildByPObjAndPath(m_card.gameObject(), "FrameSprite");
         }
 
         public override void dispose()
@@ -38,6 +37,15 @@ namespace Game.UI
             base.dispose();
         }
 
+        protected void addFrameSpriteGO()
+        {
+            if (m_effectRootGO == null)
+            {
+                m_effectRootGO = UtilApi.createGameObject("FrameSprite");
+                UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
+            }
+        }
+
         // 特效播放解释回调
         public void onEffectEnd(IDispatchObject dispObj)
         {
@@ -48,6 +56,8 @@ namespace Game.UI
         // 添加连接特效，固定不动
         public LinkEffect addLinkEffect(int id, bool bLoop = false, bool bPlay = true)
         {
+            addFrameSpriteGO();
+
             GameObject _go = UtilApi.createSpriteGameObject();
             LinkEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eLinkEffect) as LinkEffect;
             m_effectList.Add(effect);
@@ -69,6 +79,8 @@ namespace Game.UI
         // 添加移动特效
         public void addMoveEffect(int id)
         {
+            addFrameSpriteGO();
+
             GameObject _go = UtilApi.createSpriteGameObject();
             MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eMoveEffect) as MoveEffect;
             m_effectList.Add(effect);

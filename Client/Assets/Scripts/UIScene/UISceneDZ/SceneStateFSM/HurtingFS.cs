@@ -19,6 +19,7 @@ namespace FSM
 
             // 播放受伤动画和特效
             m_card.fightData.hurtData.execCurItem(m_card);
+            mFSM.MoveToState(SceneStateId.SSHurted);
         }
 
         override public void OnStateExit()

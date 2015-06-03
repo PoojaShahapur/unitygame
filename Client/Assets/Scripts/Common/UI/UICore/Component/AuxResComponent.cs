@@ -14,7 +14,7 @@ namespace SDK.Common
 
         public AuxResComponent()
         {
-            m_selfLocalGo = new GameObject();
+            m_selfLocalGo = UtilApi.createGameObject("ResLocalGO");
             m_selfLocalGo.name = "m_selfLocalGo";
         }
 

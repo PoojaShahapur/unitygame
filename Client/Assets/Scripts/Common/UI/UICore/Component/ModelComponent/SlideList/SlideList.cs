@@ -26,7 +26,7 @@ namespace SDK.Common
             m_waitlist = new List<SlideListItem>();
             m_addedList = new List<SlideListItem>();
             setPntGo(pnt);
-            m_localGo = new GameObject();
+            m_localGo = UtilApi.createGameObject("SlideList");
             m_localGo.name = "m_localGo";
             m_localGo.transform.SetParent(pntGo.transform, false);
 

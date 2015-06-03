@@ -349,6 +349,11 @@ namespace SDK.Common
             return _go;
         }
 
+        public static GameObject createGameObject(string name = "PlaceHolder")
+        {
+            return new GameObject(name);
+        }
+
         // 当前是否在与 UI 元素交互
         public static bool IsPointerOverGameObject()
         {

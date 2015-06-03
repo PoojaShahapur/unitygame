@@ -67,7 +67,7 @@ namespace Game.UI
         {
             m_roundBtn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));
             m_roundBtn.m_sceneDZData = this;
-            m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
+            //m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
             m_selfTurnTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
             m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
             m_selfCardFullTip.m_desc = new AuxLabel(m_selfCardFullTip.getGameObject(), CVSceneDZPath.SelfCardFullTipText);
@@ -91,6 +91,9 @@ namespace Game.UI
 
             m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_SKILL] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfSkillGO);
             m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_SKILL] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemySkillGO);
+
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfHeroGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyHeroGO);
 
             m_attackArrowGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowStartPosGO);
             m_arrowListGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowListGO);
@@ -183,54 +186,6 @@ namespace Game.UI
                 m_preWhiteIdx = m_curWhiteIdx;
                 m_curWhiteIdx = value;
             }
-        }
-
-        public SceneCardBase createOneCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
-        {
-            SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(objid, cardType, this, m_centerGO);
-            cardItem.init();        // 非主角初始化，主角需要等到设置 GameObject 后再初始化
-
-            if (objid != SceneCardBase.BLACK_CARD_ID || CardType.CARDTYPE_HERO != cardType)   // 如果不是 hero 和 BlackCard
-            {
-                cardItem.dragControl.m_centerPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-                // 设置初始位置为发牌位置
-                cardItem.aniControl.startPos = m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-                cardItem.aniControl.destPos = m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-
-                // 设置是否可以动画
-                if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
-                {
-                    cardItem.dragControl.disableDrag();
-                    if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
-                    {
-                        cardItem.aniControl.destScale = SceneCardBase.SMALLFACT;
-                    }
-                }
-                // 如果是放在技能或者装备的位置，是不允许拖放的
-                else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
-                {
-                    cardItem.aniControl.destScale = SceneCardBase.SMALLFACT;
-                    cardItem.dragControl.disableDrag();
-                }
-
-                // 更新边框
-                if (EnDZPlayer.ePlayerSelf == m_playerFlag)
-                {
-                    if (CardArea.CARDCELLTYPE_HAND == area)
-                    {
-                        if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
-                        {
-                            cardItem.updateCardOutState(true);
-                        }
-                        else
-                        {
-                            cardItem.updateCardOutState(false);
-                        }
-                    }
-                }
-            }
-
-            return cardItem;
         }
 
         public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)

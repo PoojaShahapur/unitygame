@@ -270,7 +270,8 @@ namespace SDK.Lib
             }
 
             //实例一张敌人卡
-            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getEnemyCardModel().getObject(), enemycarddeap.position, transform.rotation) as GameObject).transform;
+            Transform c = null;
+            //c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getEnemyCardModel().getObject(), enemycarddeap.position, transform.rotation) as GameObject).transform;
             c.Rotate(-90f, -90f, 0);
 
             Vector3 pp = new Vector3(start + x * interval, 0, 0);
@@ -289,7 +290,8 @@ namespace SDK.Lib
         /// </summary>
         public void draw()
         {
-            Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
+            Transform c = null;
+            //Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getSceneCardModel(CardType.CARDTYPE_ATTEND).getObject(), mycarddeap.position, transform.rotation) as GameObject).transform;
             c.parent = mHand;
             c.Rotate(-90f, -90f, 0);
             clearUpHand();
@@ -307,7 +309,8 @@ namespace SDK.Lib
             //实例水晶
             for (int x = 0; x < num; x++)
             {
-                Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcostModel().getObject()) as GameObject).transform;
+                Transform c = null;
+                //Transform c = (UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcostModel().getObject()) as GameObject).transform;
                 iTween.ShakeScale(c.gameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f);
                 cost.Add(c);
             }

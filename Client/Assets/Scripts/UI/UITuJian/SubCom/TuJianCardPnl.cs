@@ -48,7 +48,7 @@ namespace Game.UI
                 m_filterCardListArr[idx] = new List<CardItemBase>();
             }
 
-            m_cardGo = new GameObject();
+            m_cardGo = UtilApi.createGameObject("TuJianCardGO");
             UtilApi.SetParent(m_cardGo, Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel], false);
             UtilApi.setGOName(m_cardGo, "CardListGo");
             UtilApi.setPos(m_cardGo.transform, new Vector3(-5.8f, 3.7f, 0.0f));

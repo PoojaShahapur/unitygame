@@ -10,7 +10,7 @@ namespace SDK.Common
     public class NumResItem
     {
         protected int m_num;        // 数字
-        protected GameObject m_parentGo = new GameObject();        // 父节点
+        protected GameObject m_parentGo = UtilApi.createGameObject("NumResParentGO");        // 父节点
         protected List<AuxDynModel> m_childList = new List<AuxDynModel>();
 
         protected float m_modelWidth = 0.5f;

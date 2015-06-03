@@ -80,7 +80,7 @@ namespace Game.UI
             {
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
-                    m_centerHero = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_HERO) as HeroCard;
+                    m_centerHero = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_HERO, m_sceneDZData) as HeroCard;
                     m_centerHero.sceneCardItem = sceneItem;      // 这个动画已经有了
                     // 设置 hero 动画结束后的处理
                     m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
@@ -88,13 +88,13 @@ namespace Game.UI
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
-                    m_sceneSkillCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_SKILL) as SceneCardBase;
+                    m_sceneSkillCard = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_SKILL, m_sceneDZData);
                     m_sceneSkillCard.sceneCardItem = sceneItem;
                     m_sceneSkillCard.aniControl.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
                 {
-                    m_sceneEquipCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_EQUIP) as SceneCardBase;
+                    m_sceneEquipCard = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_EQUIP, m_sceneDZData);
                     m_sceneEquipCard.sceneCardItem = sceneItem;
                     m_sceneEquipCard.aniControl.moveToDestRST();
                 }
@@ -112,7 +112,7 @@ namespace Game.UI
                 }
                 else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
                 {
-                    SceneCardBase srcCard = m_sceneDZData.createOneCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_ATTEND) as SceneCardBase;
+                    SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     srcCard.sceneCardItem = sceneItem;
                     m_outSceneCardList.addCard(srcCard);
                     m_outSceneCardList.updateSceneCardRST();
@@ -285,7 +285,7 @@ namespace Game.UI
                 idx = m_sceneDZData.m_mpGridArr[(int)m_playerFlag].transform.childCount;
                 while(idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp)
                 {
-                    m_sceneDZData.m_mpGridArr[(int)m_playerFlag].AddChild((UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcostModel().getObject()) as GameObject).transform);
+                    //m_sceneDZData.m_mpGridArr[(int)m_playerFlag].AddChild((UtilApi.Instantiate(Ctx.m_instance.m_modelMgr.getcostModel().getObject()) as GameObject).transform);
                     ++idx;
                 }
             }

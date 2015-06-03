@@ -2,6 +2,9 @@
 {
     public class BTKey
     {
+        public const string Acrion = "Action";
+        public const string Inverter = "Inverter";
+
         public const string IndexSelector = "IndexSelector";
         public const string PartialSelector = "PartialSelector";
         public const string PartialSequence = "PartialSequence";

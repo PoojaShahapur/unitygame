@@ -115,7 +115,7 @@ namespace SDK.Common
         {
             if (m_placeHolderGo == null)
             {
-                m_placeHolderGo = new GameObject();
+                m_placeHolderGo = UtilApi.createGameObject("PlaceHolderGO");
             }
             UtilApi.SetParent(m_placeHolderGo, m_pntGo, false);
         }
