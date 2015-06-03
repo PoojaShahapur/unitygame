@@ -68,7 +68,7 @@ namespace SDK.Lib
             {
                 for (int j = 0; j < m_deferredDelMethodQueue.Count; j++)
                 {
-                    DeferredMethod curDM = m_deferredAddMethodQueue[j];
+                    DeferredMethod curDM = m_deferredDelMethodQueue[j];
                     curDM.m_delMethod.Invoke(curDM.m_args[0] as IDelayHandleItem);
                 }
 

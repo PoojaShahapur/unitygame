@@ -38,7 +38,7 @@ namespace SDK.Lib
 
         override public void dispose()
         {
-            Ctx.m_instance.m_sceneEffectMgr.removeAndDestroy(this);
+            Ctx.m_instance.m_sceneEffectMgr.delObject(this);
             base.dispose();
         }
 

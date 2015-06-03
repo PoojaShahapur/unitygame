@@ -12,27 +12,27 @@ namespace SDK.Lib
             m_sceneEntityList = new List<SceneEntityBase>();
         }
 
-        public void add2List(SceneEntityBase entity)
+        override public void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
             if (m_duringAdvance)
             {
-                addObject(entity);
+                base.addObject(entity);
             }
             else
             {
-                m_sceneEntityList.Add(entity);
+                m_sceneEntityList.Add(entity as SceneEntityBase);
             }
         }
 
-        public void removeFromeList(SceneEntityBase entity)
+        override public void delObject(IDelayHandleItem entity)
         {
             if (m_duringAdvance)
             {
-                delObject(entity);
+                base.delObject(entity);
             }
             else
             {
-                m_sceneEntityList.Remove(entity);
+                m_sceneEntityList.Remove(entity as SceneEntityBase);
             }
         }
 

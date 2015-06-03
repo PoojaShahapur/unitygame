@@ -37,12 +37,27 @@ namespace Game.UI
             base.dispose();
         }
 
+        public LinkEffect linkEffect
+        {
+            get
+            {
+                return m_linkEffect;
+            }
+            set
+            {
+                m_linkEffect = value;
+            }
+        }
+
         protected void addFrameSpriteGO()
         {
             if (m_effectRootGO == null)
             {
                 m_effectRootGO = UtilApi.createGameObject("FrameSprite");
                 UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
+                UtilApi.setPos(m_effectRootGO.transform, new Vector3(-0.01f, 0, 0.46f));
+                UtilApi.setRot(m_effectRootGO.transform, new Vector3(90, 0, 0));
+                UtilApi.setScale(m_effectRootGO.transform, new Vector3(0.5f, 0.48f, 1.0f));
             }
         }
 

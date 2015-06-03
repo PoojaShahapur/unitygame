@@ -27,14 +27,14 @@ namespace SDK.Lib
             {
                 effect = new MoveEffect();
             }
-            Ctx.m_instance.m_sceneEffectMgr.add2List(effect);
+            Ctx.m_instance.m_sceneEffectMgr.addObject(effect);
 
             return effect;
         }
 
         public void removeAndDestroy(EffectBase effect)
         {
-            this.removeFromeList(effect);
+            this.delObject(effect);
             effect.dispose();
         }
     }

@@ -233,7 +233,9 @@ namespace Game.UI
             //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(250000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO, uiDZ.m_sceneDZData);
             // 测试[英雄技能卡]
             //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(260000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_SKILL, CardType.CARDTYPE_SKILL, uiDZ.m_sceneDZData);
-            testCard.behaviorControl.playAttackAni(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), testCard.behaviorControl.onMove2DestEnd);
+            //testCard.behaviorControl.playAttackAni(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), testCard.behaviorControl.onMove2DestEnd);
+            testCard.updateCardOutState(true);
+            testCard.effectControl.linkEffect.play();
         }
 
         protected void testFight()

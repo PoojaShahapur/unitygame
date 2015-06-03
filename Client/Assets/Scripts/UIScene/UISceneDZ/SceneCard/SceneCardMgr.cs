@@ -66,12 +66,12 @@ namespace Game.UI
             ret.setIdAndPnt(objid, sceneDZData.m_centerGO);
             ret.init();
             ret.setBaseInfo(m_playerFlag, area, cardType);
-            
-            this.add2List(ret);
+
+            this.addObject(ret);
             if (SceneCardBase.WHITECARDID != objid &&
                 SceneCardBase.BLACK_CARD_ID != objid)       // 这两个没有 AI 
             {
-                Ctx.m_instance.m_aiSystem.aiControllerMgr.add2List(ret.aiController);       // 添加到控制器中
+                Ctx.m_instance.m_aiSystem.aiControllerMgr.addObject(ret.aiController);       // 添加到控制器中
             }
 
             return ret;

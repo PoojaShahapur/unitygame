@@ -14,7 +14,7 @@ namespace Game.UI
             : base(data, playerFlag)
         {
             m_whiteCard = Ctx.m_instance.m_sceneCardMgr.createCard(SceneCardBase.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
-            Ctx.m_instance.m_sceneCardMgr.removeFromeList(m_whiteCard);         // 白色卡牌就不加入列表中了
+            Ctx.m_instance.m_sceneCardMgr.delObject(m_whiteCard);         // 白色卡牌就不加入列表中了
             m_whiteCard.gameObject().SetActive(false);
         }
 
