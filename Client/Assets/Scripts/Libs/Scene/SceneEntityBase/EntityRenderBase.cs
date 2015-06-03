@@ -7,6 +7,13 @@ namespace SDK.Lib
      */
     public class EntityRenderBase
     {
+        protected SceneEntityBase m_entity;
+
+        public EntityRenderBase(SceneEntityBase entity_)
+        {
+            m_entity = entity_;
+        }
+
         virtual public GameObject gameObject()
         {
             return null;

@@ -183,11 +183,16 @@ namespace SDK.Lib
                         if (!m_bLoop)
                         {
                             stop();
-                            m_playEndEventDispatch.dispatchEvent(this);
+                            dispEndEvent();
                         }
                     }
                 }
             }
+        }
+
+        virtual protected void dispEndEvent()
+        {
+            m_playEndEventDispatch.dispatchEvent(this);
         }
 
         virtual protected void updateImage()

@@ -8,7 +8,13 @@ namespace SDK.Lib
      */
     public class SpriteRenderSpriteAni : SpriteAni
     {
+        protected SceneEntityBase m_entity;
         protected SpriteRenderer m_spriteRender;    // 精灵渲染器
+
+        public SpriteRenderSpriteAni(SceneEntityBase entity_)
+        {
+            m_entity = entity_;
+        }
 
         public override void dispose()
         {
@@ -44,6 +50,11 @@ namespace SDK.Lib
         override protected void updateImage()
         {
             m_spriteRender.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+        }
+
+        override protected void dispEndEvent()
+        {
+            m_playEndEventDispatch.dispatchEvent(m_entity);
         }
     }
 }

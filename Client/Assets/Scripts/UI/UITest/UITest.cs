@@ -70,8 +70,8 @@ namespace Game.UI
             //testQuipDZScene();
             //testPrepareTime();
             //testMsg();
-            testAddCard();
-            //testFight();
+            //testAddCard();
+            testFight();
         }
 
         protected void onBtnClkTest1f()

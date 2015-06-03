@@ -10,7 +10,8 @@ namespace SDK.Lib
     {
         protected AuxDynModel m_model;          // 模型资源
 
-        public BlackCardRender()
+        public BlackCardRender(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_model = new AuxDynModel();
         }

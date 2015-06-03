@@ -12,7 +12,7 @@ namespace Game.UI
             m_sceneCardBaseData.m_dragControl = new SecretDragControl(this);
             m_sceneCardBaseData.m_behaviorControl = new SecretBehaviorControl(this);
 
-            m_render = new SceneCardPlayerRender();
+            m_render = new SceneCardPlayerRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
     }

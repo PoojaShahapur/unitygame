@@ -13,6 +13,12 @@ namespace Game.UI
         public CardItemBase m_cardItemBase; // 卡牌基本数据
         public Action<TuJianCardItemCom> m_clkCB;
 
+        public TuJianCardItemCom(SceneEntityBase entity_) :
+            base(entity_)
+        {
+
+        }
+
         public void createCard(CardItemBase cardItem, GameObject pntGo_)
         {
             base.createCard(cardItem, pntGo_);

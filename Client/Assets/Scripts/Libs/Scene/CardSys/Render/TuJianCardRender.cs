@@ -8,6 +8,11 @@ namespace SDK.Lib
      */
     public class TuJianCardRender : CommonCardRender
     {
+        public TuJianCardRender(SceneEntityBase entity_) :
+            base(entity_)
+        {
+
+        }
         // 这个是界面中卡牌创建流程
         public void createCard(CardItemBase cardItem, GameObject pntGo_)
         {

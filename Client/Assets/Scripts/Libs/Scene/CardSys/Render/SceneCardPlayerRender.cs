@@ -7,6 +7,12 @@ namespace SDK.Lib
      */
     public class SceneCardPlayerRender : CommonCardRender
     {
+        public SceneCardPlayerRender(SceneEntityBase entity_) :
+            base(entity_)
+        {
+
+        }
+
         override public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             base.setIdAndPnt(objId, pntGo_);

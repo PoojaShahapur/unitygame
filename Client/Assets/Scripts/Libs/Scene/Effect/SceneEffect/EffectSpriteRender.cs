@@ -6,9 +6,10 @@ namespace SDK.Lib
     {
         protected SpriteRenderSpriteAni m_spriteRender;
 
-        public EffectSpriteRender()
+        public EffectSpriteRender(SceneEntityBase entity_) :
+            base(entity_)
         {
-            m_spriteRender = new SpriteRenderSpriteAni();
+            m_spriteRender = new SpriteRenderSpriteAni(m_entity);
         }
 
         public SpriteRenderSpriteAni spriteRender

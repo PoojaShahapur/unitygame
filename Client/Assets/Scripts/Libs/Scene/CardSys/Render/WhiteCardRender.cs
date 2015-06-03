@@ -10,7 +10,8 @@ namespace SDK.Lib
     {
         protected GameObject m_model;          // 模型资源
 
-        public WhiteCardRender()
+        public WhiteCardRender(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_model = UtilApi.createGameObject("WhiteCard");
         }

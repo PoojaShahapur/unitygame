@@ -8,7 +8,8 @@ namespace SDK.Lib
      */
     public class HeroRender : CardPlayerRender
     {
-        public HeroRender()
+        public HeroRender(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_subTex = new CardSubPart[1];
             m_subTex[0] = new CardSubPart();

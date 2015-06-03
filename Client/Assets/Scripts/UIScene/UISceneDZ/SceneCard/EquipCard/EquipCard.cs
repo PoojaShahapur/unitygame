@@ -16,7 +16,7 @@ namespace Game.UI
             m_sceneCardBaseData.m_dragControl = new EquipDragControl(this);
             m_sceneCardBaseData.m_behaviorControl = new EquipBehaviorControl(this);
 
-            m_render = new EquipSkillRender();
+            m_render = new EquipSkillRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 

@@ -8,7 +8,7 @@ namespace SDK.Lib
     {
         public EffectBase()
         {
-            m_render = new EffectSpriteRender();
+            m_render = new EffectSpriteRender(this);
         }
 
         virtual public void setSelfGo(GameObject go_)

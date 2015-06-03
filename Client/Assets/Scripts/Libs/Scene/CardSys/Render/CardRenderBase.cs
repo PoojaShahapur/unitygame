@@ -7,7 +7,8 @@
     {
         protected EventDispatch m_clickEntityDisp;  // 点击事件分发
 
-        public CardRenderBase()
+        public CardRenderBase(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_clickEntityDisp = new EventDispatch();
         }

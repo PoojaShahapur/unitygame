@@ -15,7 +15,7 @@ namespace Game.UI
             m_sceneCardBaseData.m_dragControl = new MagicDragControl(this);
             m_sceneCardBaseData.m_behaviorControl = new MagicBehaviorControl(this);
 
-            m_render = new SceneCardPlayerRender();
+            m_render = new SceneCardPlayerRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
     }

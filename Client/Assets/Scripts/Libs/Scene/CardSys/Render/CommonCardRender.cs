@@ -10,7 +10,8 @@ namespace SDK.Lib
         protected UIPrefabRes m_uiPrefabRes;        // 这个是 UI 资源
         protected ModelRes m_boxModel;              // 这个是碰撞盒子模型
 
-        public CommonCardRender()
+        public CommonCardRender(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_subTex = new CardSubPart[(int)CardSubPartType.eTotal];
             for (int idx = 0; idx < (int)CardSubPartType.eTotal; ++idx)

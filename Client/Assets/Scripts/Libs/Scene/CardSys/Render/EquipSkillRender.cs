@@ -8,7 +8,8 @@ namespace SDK.Lib
      */
     public class EquipSkillRender : CardPlayerRender
     {
-        public EquipSkillRender()
+        public EquipSkillRender(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_subTex = new CardSubPart[1];
             m_subTex[0] = new CardSubPart();

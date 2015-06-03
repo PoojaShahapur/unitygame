@@ -129,7 +129,7 @@ namespace Game.UI
                 {
                     cardItem = m_filterCardListArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx][m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].m_curPageIdx * (int)TuJianCardNumPerPage.eNum + idx];
 
-                    uicardItem = new TuJianCardItemCom();
+                    uicardItem = new TuJianCardItemCom(null);
                     uicardItem.createCard(cardItem, m_cardGrid.getGameObject());
                     m_SCUICardItemList.Add(uicardItem);
                     m_SCUICardItemList[m_SCUICardItemList.Count - 1].m_clkCB = m_tuJianData.m_onClkCard;

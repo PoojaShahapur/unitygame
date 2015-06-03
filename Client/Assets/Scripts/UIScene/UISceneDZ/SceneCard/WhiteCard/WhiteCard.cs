@@ -12,7 +12,7 @@ namespace Game.UI
         public WhiteCard(SceneDZData sceneDZData) :
             base(sceneDZData)
         {
-            m_render = new WhiteCardRender();
+            m_render = new WhiteCardRender(this);
         }
 
         override public void setIdAndPnt(uint objId, GameObject pntGo_)

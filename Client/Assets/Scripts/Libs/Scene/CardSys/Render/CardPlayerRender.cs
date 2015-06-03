@@ -14,7 +14,8 @@ namespace SDK.Lib
         protected AuxDynModel m_model;          // 模型资源
         protected CardSubPart[] m_subTex;       // 子模型
 
-        public CardPlayerRender()
+        public CardPlayerRender(SceneEntityBase entity_) :
+            base(entity_)
         {
             m_model = new AuxDynModel();
         }

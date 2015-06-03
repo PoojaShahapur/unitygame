@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 场景中的实体，没有什么功能，就是基本循环
      */
-    public class SceneEntityBase : IDelayHandleItem
+    public class SceneEntityBase : IDelayHandleItem, IDispatchObject
     {
         protected EntityRenderBase m_render;
 

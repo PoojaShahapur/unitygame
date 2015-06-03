@@ -22,7 +22,7 @@ namespace Game.UI
             m_sceneCardBaseData.m_aniControl = new HeroAniControl(this);
             m_sceneCardBaseData.m_behaviorControl = new HeroBehaviorControl(this);
 
-            m_render = new HeroRender();
+            m_render = new HeroRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 
