@@ -93,7 +93,7 @@ namespace Game.UI
             }
         }
 
-        override public void updateCardDataChange()
+        override public void updateCardDataChange(t_Card svrCard_ = null)
         {
             base.updateCardDataChange();
             updateHp();

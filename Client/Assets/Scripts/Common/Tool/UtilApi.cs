@@ -213,6 +213,38 @@ namespace SDK.Common
             }
         }
 
+        public static void CleanTex(UnityEngine.GameObject go_)
+        {
+            if (go_ == null)
+                return;
+            Image image = go_.GetComponent<Image>();
+            if (image != null)
+            {
+                if (image.sprite != null)
+                {
+                    ImageItem imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.ShopDyn, image.sprite.name);
+                    if (imageItem != null && imageItem.image != null)
+                    {
+                        if (image.sprite.texture != null)
+                        {
+                            UtilApi.UnloadAsset(image.sprite.texture);
+                        }
+                        image.sprite = null;
+                        image = null;
+                    }          
+                }
+            }
+
+            int childCount = go_.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                childTrans = go_.transform.GetChild(idx);
+                UtilApi.CleanTex(childTrans.gameObject);
+            }
+        }
+
         public static void SetActive(GameObject target, bool bshow)
         {
             target.SetActive(bshow);

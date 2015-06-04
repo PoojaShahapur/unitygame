@@ -55,6 +55,7 @@ namespace SDK.Common
 
         public string m_cardSetCardHeader;    // 卡牌头像贴图路径，卡组中卡牌资源
         public string m_dzCardHeader;         // 卡牌头像贴图路径，对战中卡牌图像
+        public uint m_skillPrepareEffect;   // 技能攻击准备特效
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -84,6 +85,7 @@ namespace SDK.Common
             bytes.readInt32(ref m_bNeedZhanHouTarget);
             UtilTable.readString(bytes, ref m_cardDesc);
             UtilTable.readString(bytes, ref m_cardHeader);
+            bytes.readUnsignedInt32(ref m_skillPrepareEffect);
 
             initDefaultValue();
         }
@@ -98,6 +100,11 @@ namespace SDK.Common
             m_cardSetCardHeader = string.Format("{0}_2", m_cardHeader);
             m_dzCardHeader = string.Format("{0}_3", m_cardHeader);
             m_cardHeader = string.Format("{0}_1", m_cardHeader);
+
+            if (m_skillPrepareEffect == 0)
+            {
+                m_skillPrepareEffect = 4;
+            }
         }
     }
 }

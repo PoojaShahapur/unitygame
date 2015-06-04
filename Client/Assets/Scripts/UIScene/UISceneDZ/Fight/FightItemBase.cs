@@ -1,4 +1,6 @@
-﻿using SDK.Lib;
+﻿using Game.Msg;
+using SDK.Common;
+using SDK.Lib;
 
 namespace Game.UI
 {
@@ -9,10 +11,23 @@ namespace Game.UI
     {
         protected float m_delayTime;            // 延迟处理的时间
         protected uint m_damage;                // 造成的伤害，需要显示伤害数字
+        protected t_Card m_svrCard;
 
         public FightItemBase()
         {
             m_delayTime = 0;
+        }
+
+        public t_Card svrCard
+        {
+            get
+            {
+                return m_svrCard;
+            }
+            set
+            {
+                m_svrCard = value;
+            }
         }
 
         public float delayTime
@@ -56,6 +71,12 @@ namespace Game.UI
         public bool canHandle()
         {
             return m_delayTime <= 0;
+        }
+
+        // 初始化数据
+        virtual public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
+        {
+
         }
     }
 }

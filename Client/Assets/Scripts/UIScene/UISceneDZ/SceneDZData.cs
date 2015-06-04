@@ -45,6 +45,8 @@ namespace Game.UI
         public List<uint> m_changeCardList;     // 在初始阶段，选中的需要交换卡牌
         public DZDaoJiShiXmlLimit m_DZDaoJiShiXmlLimit;
 
+        public FightMsgMgr m_fightMsgMgr;
+
         public SceneDZData()
         {
             // 加载xml配置文件
@@ -61,6 +63,8 @@ namespace Game.UI
             m_mpGridArr = new UIGrid[(int)EnSceneDZText.eTotal];
             m_cardCenterGOArr = new GameObject[2, 6];
             m_changeCardList = new List<uint>();
+
+            m_fightMsgMgr = new FightMsgMgr(this);
         }
 
         public void findWidget()

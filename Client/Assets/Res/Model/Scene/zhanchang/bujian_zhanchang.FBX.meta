@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 45ec224aa158a2c4f9381711094463b9
-timeCreated: 1432632605
+timeCreated: 1433410260
 licenseType: Pro
 ModelImporter:
   serializedVersion: 18
@@ -43,6 +43,7 @@ ModelImporter:
     2300018: wuqi_zhanchang001
     2300020: yingxiong_zhanchang001
     2300022: yun_kapai001
+    2300024: //RootNode
     3300000: jieshu_zhanchang
     3300002: jineng_zhanchang
     3300004: landi_zhanchang
@@ -55,6 +56,7 @@ ModelImporter:
     3300018: wuqi_zhanchang001
     3300020: yingxiong_zhanchang001
     3300022: yun_kapai001
+    3300024: //RootNode
     4300000: Plane001
     4300002: paizu_zhanchang
     4300004: landi_zhanchang

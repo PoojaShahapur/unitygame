@@ -46,6 +46,7 @@ namespace Game.UI
         {
             base.onShow();
             UpdatePackPrice();
+            UpdateGoldNum(Ctx.m_instance.m_dataPlayer.m_dataMain.m_gold);
         }
 
         public override void onExit()

@@ -1,4 +1,5 @@
-﻿namespace Game.UI
+﻿using Game.Msg;
+namespace Game.UI
 {
     public class ComAttackItem : AttackItemBase
     {
@@ -42,6 +43,14 @@
         override public void execAttack(SceneCardBase card)
         {
             card.behaviorControl.execAttack(this);
+        }
+
+        override public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
+        {
+            base.initItemData(att, def, msg);
+
+            m_hurterId = def.sceneCardItem.svrCard.qwThisID;
+            m_attackEffectId = 0; // 普通攻击没有攻击特效
         }
     }
 }

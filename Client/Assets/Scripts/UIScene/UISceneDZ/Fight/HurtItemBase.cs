@@ -1,4 +1,6 @@
-﻿using SDK.Lib;
+﻿using Game.Msg;
+using SDK.Lib;
+
 namespace Game.UI
 {
     /**
@@ -6,15 +8,17 @@ namespace Game.UI
      */
     public class HurtItemBase : FightItemBase
     {
+        public const int DAMAGE_EFFECTID = 7;
+
         protected EHurtType m_hurtType;
-        protected EHurtItemState m_state;
         protected EHurtExecState m_execState;
+        protected EventDispatch m_hurtExecEndDisp;  // Hurt Item 执行结束事件分发
 
         public HurtItemBase()
         {
             m_hurtType = EHurtType.eCommon;
-            m_state = EHurtItemState.eDisable;
             m_execState = EHurtExecState.eNone;
+            m_hurtExecEndDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         public EHurtType hurtType
@@ -26,18 +30,6 @@ namespace Game.UI
             set
             {
                 m_hurtType = value;
-            }
-        }
-
-        public EHurtItemState state
-        {
-            get
-            {
-                return m_state;
-            }
-            set
-            {
-                m_state = value;
             }
         }
 
@@ -53,17 +45,21 @@ namespace Game.UI
             }
         }
 
-        public override void onTime(float delta)
+        public EventDispatch hurtExecEndDisp
         {
-            if (EHurtItemState.eEnable == state)
+            get
             {
-                base.onTime(delta);
+                return m_hurtExecEndDisp;
+            }
+            set
+            {
+                m_hurtExecEndDisp = value;
             }
         }
 
-        public void onAttackItemEnd(IDispatchObject dispObj)
+        public override void onTime(float delta)
         {
-            m_state = EHurtItemState.eEnable;
+            base.onTime(delta);
         }
 
         virtual public void execHurt(SceneCardBase card)
@@ -72,9 +68,22 @@ namespace Game.UI
         }
 
         // 这个是整个受伤执行结束
-        public void onHuerExecEnd(IDispatchObject dispObj)
+        public void onHurtExecEnd(IDispatchObject dispObj)
         {
             m_execState = EHurtExecState.eEnd;
+            m_hurtExecEndDisp.dispatchEvent(this);
+        }
+
+        override public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
+        {
+            base.initItemData(att, def, msg);
+
+            m_svrCard = def.sceneCardItem.svrCard;  // 保存这次被击的属性，可能这个会被后面的给改掉
+
+            if (att.sceneCardItem.svrCard.damage > 0)
+            {
+                m_damage = att.sceneCardItem.svrCard.damage;
+            }
         }
     }
 }

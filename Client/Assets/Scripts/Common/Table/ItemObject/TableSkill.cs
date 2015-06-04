@@ -8,14 +8,24 @@
     {
         public string m_name;               // 名称
         public string m_effect;             // 效果
-        public string m_desc;               // 说明
+        public uint m_skillAttackEffect;      // 技能攻击特效
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
             bytes.position = offset;
             UtilTable.readString(bytes, ref m_name);
             UtilTable.readString(bytes, ref m_effect);
-            UtilTable.readString(bytes, ref m_desc);
+            bytes.readUnsignedInt32(ref m_skillAttackEffect);
+
+            initDefaultValue();
+        }
+
+        protected void initDefaultValue()
+        {
+            if (m_skillAttackEffect == 0)
+            {
+                m_skillAttackEffect = 4;
+            }
         }
     }
 }

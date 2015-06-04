@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using SDK.Lib;
 
 namespace Game.UI
@@ -53,14 +54,28 @@ namespace Game.UI
             base.dispose();
         }
 
+        virtual public void execAttack(SceneCardBase card)
+        {
+
+        }
+
         virtual public uint getHurterId()
         {
             return 0;
         }
 
-        virtual public void execAttack(SceneCardBase card)
+        override public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
         {
-            
+            base.initItemData(att, def, msg);
+
+            m_svrCard = att.sceneCardItem.svrCard;  // 保存这次攻击的属性，可能这个会被后面的给改掉
+
+            // 播放 Fly 数字，攻击者和被击者都有可能伤血，播放掉血数字
+            // 攻击者掉血
+            if (def.sceneCardItem.svrCard.damage > 0)        // 攻击力可能为 0 
+            {
+                m_damage = def.sceneCardItem.svrCard.damage;
+            }
         }
     }
 }

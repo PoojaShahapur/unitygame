@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class MoveEffect : EffectBase
     {
-        protected EventDispatch m_moveDestEventDispatch;         // 移动到目标事件分发
+        protected EventDispatch m_moveDestEventDispatch;         // 移动到目标事件分发，注意不是
 
         public MoveEffect()
         {

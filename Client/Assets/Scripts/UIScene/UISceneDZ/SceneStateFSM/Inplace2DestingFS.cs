@@ -19,7 +19,7 @@ namespace FSM
             base.OnStateEnter();
 
             SceneCardBase hurtCard = Ctx.m_instance.m_sceneCardMgr.getCard(m_card.fightData.attackData.curAttackItem.getHurterId());
-            m_card.behaviorControl.playAttackAni(m_card.behaviorControl.srcPos, hurtCard.transform().localPosition, m_card.behaviorControl.onMove2DestEnd);
+            m_card.behaviorControl.moveToDest(m_card.behaviorControl.srcPos, hurtCard.transform().localPosition, m_card.behaviorControl.onMove2DestEnd);
         }
 
         override public void OnStateExit()

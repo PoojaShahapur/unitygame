@@ -250,19 +250,24 @@ namespace Game.UI
         }
 
         // 更新卡牌属性，这个主要更改卡牌经常改变的属性
-        public virtual void updateCardDataChange()
+        public virtual void updateCardDataChange(t_Card svrCard_ = null)
         {
+            if (svrCard_ == null)
+            {
+                svrCard_ = m_sceneCardItem.svrCard;
+            }
+
             if (m_sceneCardItem != null)
             {
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
                 {
                     AuxLabel text = new AuxLabel();
                     text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");       // 攻击
-                    text.text = m_sceneCardItem.svrCard.damage.ToString();
+                    text.text = svrCard_.damage.ToString();
                     text.setSelfGo(m_render.gameObject(), "UIRoot/MpText");         // Magic
-                    text.text = m_sceneCardItem.svrCard.mpcost.ToString();
+                    text.text = svrCard_.mpcost.ToString();
                     text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");       // HP
-                    text.text = m_sceneCardItem.svrCard.hp.ToString();
+                    text.text = svrCard_.hp.ToString();
                 }
             }
         }

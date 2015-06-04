@@ -2,6 +2,7 @@
 using SDK.Lib;
 using UnityEngine;
 using Game.Msg;
+using System.Collections.Generic;
 
 namespace Game.UI
 {
@@ -14,8 +15,10 @@ namespace Game.UI
         protected GameObject[] m_goArr = new GameObject[(int)OpenPackGo.eTotal];
         protected CardCom[] m_cardBtnArr = new CardCom[(int)CardBtnEnum.eCardBtnTotal];
 
-        protected GameObject m_openEffImg;
         protected SpriteAni m_spriteAni;
+        protected AuxLabel m_textPackNum;
+
+        protected AuxDynImageStaticGOImage m_auxDynImageStaticGOImage; 
 
         public override void onReady()
         {
@@ -39,6 +42,7 @@ namespace Game.UI
         {
             base.onShow();
             updateData();
+            updatePackNum();
         }
 
         public override void onExit()
@@ -70,7 +74,10 @@ namespace Game.UI
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_3].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_3);
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_4].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_4);
 
-            m_openEffImg = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
+            m_auxDynImageStaticGOImage = new AuxDynImageStaticGOImage();
+            m_auxDynImageStaticGOImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
+
+            m_textPackNum = new AuxLabel(m_GUIWin.m_uiRoot, OpenPackPath.PackNum);
         }
 
         // 添加事件监听
@@ -128,12 +135,12 @@ namespace Game.UI
             UtilMsg.sendMsg(cmd);
 
             //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], false);
-            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], true);
+            //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], true);
 
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].auxDynImageStaticGoButton.show();
 
-            m_openEffImg.SetActive(true);
             showOpenEff();
+            m_auxDynImageStaticGOImage.selfGo.SetActive(true);
         }
 
         protected void onPackBtnClk_1(IDispatchObject dispObj)
@@ -230,10 +237,36 @@ namespace Game.UI
         protected void showOpenEff()
         {
             m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
-            m_spriteAni.selfGo = m_openEffImg;
+            m_spriteAni.selfGo = m_auxDynImageStaticGOImage.selfGo;
             m_spriteAni.tableID = 6;
-            m_spriteAni.bLoop = true;
+            m_spriteAni.bLoop = false;
+            m_spriteAni.playEndEventDispatch.addEventHandle(effcPlayEnd);
             m_spriteAni.play();
+        }
+
+        public void updatePackNum()
+        {
+            uint packNum = 0;
+  
+            Dictionary<uint, DataItemObjectBase>.ValueCollection valueCol = Ctx.m_instance.m_dataPlayer.m_dataPack.m_id2ObjDic.Values;
+            foreach(DataItemObjectBase value in valueCol)
+            {
+                packNum += value.m_srvItemObject.dwNum;
+            }
+
+            if (0 == packNum)
+                m_textPackNum.text = "";
+            else
+             m_textPackNum.text = string.Format("{0}", packNum);
+        }
+
+        protected void effcPlayEnd(IDispatchObject dispObj)
+        {
+            m_auxDynImageStaticGOImage.setImageInfo(CVAtlasName.OpenPackAni, "kaibao_000");
+            m_auxDynImageStaticGOImage.syncUpdateCom();
+            m_auxDynImageStaticGOImage.selfGo.SetActive(false);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].auxDynImageStaticGoButton.hide();
+            UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], true);
         }
     }
 }

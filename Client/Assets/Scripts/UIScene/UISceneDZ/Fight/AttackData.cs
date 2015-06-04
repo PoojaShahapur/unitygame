@@ -5,7 +5,7 @@ namespace Game.UI
     /**
      * @brief 攻击数据
      */
-    public class AttackData
+    public class AttackData : FightListBase
     {
         protected MList<AttackItemBase> m_attackList;
         protected AttackItemBase m_curAttackItem;       // 当前攻击项
@@ -73,6 +73,22 @@ namespace Game.UI
             {
                 item.onTime(delta);
             }
+        }
+
+        public AttackItemBase createItem(EAttackType type)
+        {
+            AttackItemBase ret = null;
+            if (EAttackType.eCommon == type)
+            {
+                ret = new ComAttackItem();
+            }
+            else if(EAttackType.eSkill== type)
+            {
+                ret = new SkillAttackItem();
+            }
+
+            m_attackList.Add(ret);
+            return ret;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace Game.UI
+﻿using Game.Msg;
+namespace Game.UI
 {
     public class ComHurtItem : HurtItemBase
     {
@@ -25,6 +26,13 @@
         override public void execHurt(SceneCardBase card)
         {
             card.behaviorControl.execHurt(this);
+        }
+
+        override public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
+        {
+            base.initItemData(att, def, msg);
+
+            m_hurtEffectId = 4;         // 普通被击，根据攻击力播放不同的特效，并且播放掉血特效
         }
     }
 }

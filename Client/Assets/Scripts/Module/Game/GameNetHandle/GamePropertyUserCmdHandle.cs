@@ -1,6 +1,7 @@
 ﻿using Game.Msg;
 using SDK.Common;
 using SDK.Lib;
+using Game.UI;
 
 namespace Game.Game
 {
@@ -21,6 +22,13 @@ namespace Game.Game
             cmd.derialize(msg);
 
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstRemoveObjectPropertyUserCmd(cmd.qwThisID);
+
+            UIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            if (openPack != null)
+            {
+                openPack.updateData();
+                openPack.updatePackNum();
+            }
         }
 
         protected void psstRefCountObjectPropertyUserCmd(ByteBuffer msg)
@@ -29,6 +37,13 @@ namespace Game.Game
             cmd.derialize(msg);
 
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstRefCountObjectPropertyUserCmd(cmd.qwThisID, cmd.dwNum, cmd.type);
+
+            UIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            if (openPack != null)
+            {
+                openPack.updateData();
+                openPack.updatePackNum();
+            }
         }
 
         protected void psstAddMobileObjectListPropertyUserCmd(ByteBuffer msg)
@@ -45,6 +60,13 @@ namespace Game.Game
             cmd.derialize(msg);
 
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstAddMobileObjectPropertyUserCmd(cmd.mobject);
+
+            UIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            if (openPack != null)
+            {
+                openPack.updateData();
+                openPack.updatePackNum();
+            }
         }
 
         // 服务器返回商城消息

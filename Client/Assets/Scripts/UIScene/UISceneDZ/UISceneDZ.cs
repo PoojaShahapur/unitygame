@@ -220,125 +220,9 @@ namespace Game.UI
             m_sceneDZData.m_sceneDZAreaArr[msg.who - 1].psstAddBattleCardPropertyUserCmd(msg, sceneItem);
         }
 
-        public void psstNotifyBattleCardPropertyUserCmd_bak(stNotifyBattleCardPropertyUserCmd msg)
-        {
-            // 更新动画
-            EnDZPlayer attSide = EnDZPlayer.ePlayerTotal;
-            EnDZPlayer defSide = EnDZPlayer.ePlayerTotal;
-
-            CardArea attSlot = CardArea.CARDCELLTYPE_NONE;
-            CardArea defSlot = CardArea.CARDCELLTYPE_NONE;
-
-            SceneCardBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID, ref attSide, ref attSlot);
-            SceneCardBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID, ref defSide, ref defSlot);
-            int num = 0;
-
-            if (attSide == EnDZPlayer.ePlayerTotal ||
-                defSide == EnDZPlayer.ePlayerTotal ||
-                attSlot == CardArea.CARDCELLTYPE_NONE ||
-                defSlot == CardArea.CARDCELLTYPE_NONE)
-            {
-                Ctx.m_instance.m_logSys.log("攻击失败");
-            }
-
-            if (att != null && def != null)
-            {
-                if ((int)EnAttackType.ATTACK_TYPE_NORMAL == msg.attackType || (int)EnAttackType.ATTACK_TYPE_S_MAGIC == msg.attackType)  // 只有单攻才会有移动的动画
-                {
-                    if (msg.pDefThisID == att.sceneCardItem.svrCard.qwThisID)        // 只有发送给被击者的信息的时候，做一次动画，发送给攻击者的时候就不用了
-                    {
-                        att.behaviorControl.playAttackAni(att.transform().localPosition, def.transform().localPosition, null);     // 播放动画
-                    }
-                }
-
-                // 播放 Fly 数字,，攻击者和被击者都有可能伤血，播放掉血数字
-                // 攻击者掉血
-                num = (int)def.sceneCardItem.svrCard.damage;
-                if (num > 0)        // 攻击力可能为 0 
-                {
-                    att.playFlyNum(num);
-                }
-                num = (int)att.sceneCardItem.svrCard.damage;
-                if (num > 0)
-                {
-                    def.playFlyNum(num);
-                }
-            }
-
-            // 继续更新属性
-            stAddBattleCardPropertyUserCmd stUpdate = new stAddBattleCardPropertyUserCmd();
-
-            stUpdate.slot = (byte)attSlot;
-            stUpdate.who = (byte)((int)attSide + 1);
-            stUpdate.byActionType = 2;
-            stUpdate.mobject = msg.A_object;
-            m_sceneDZData.m_sceneDZAreaArr[(int)attSide].psstAddBattleCardPropertyUserCmd(stUpdate, att.sceneCardItem);
-
-            stUpdate.slot = (byte)defSlot;
-            stUpdate.who = (byte)((int)defSide + 1);
-            stUpdate.byActionType = 2;
-            stUpdate.mobject = msg.D_object;
-            m_sceneDZData.m_sceneDZAreaArr[(int)defSide].psstAddBattleCardPropertyUserCmd(stUpdate, def.sceneCardItem);
-        }
-
         public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)
         {
-            // 更新动画
-            EnDZPlayer attSide = EnDZPlayer.ePlayerTotal;
-            EnDZPlayer defSide = EnDZPlayer.ePlayerTotal;
-
-            CardArea attSlot = CardArea.CARDCELLTYPE_NONE;
-            CardArea defSlot = CardArea.CARDCELLTYPE_NONE;
-
-            SceneCardBase att = m_sceneDZData.getSceneCardByThisID(msg.pAttThisID, ref attSide, ref attSlot);
-            SceneCardBase def = m_sceneDZData.getSceneCardByThisID(msg.pDefThisID, ref defSide, ref defSlot);
-            int num = 0;
-
-            if (attSide == EnDZPlayer.ePlayerTotal ||
-                defSide == EnDZPlayer.ePlayerTotal ||
-                attSlot == CardArea.CARDCELLTYPE_NONE ||
-                defSlot == CardArea.CARDCELLTYPE_NONE)
-            {
-                Ctx.m_instance.m_logSys.log("攻击失败");
-            }
-
-            if (att != null && def != null)
-            {
-                AttackItemBase attItem = null;
-
-                if ((int)EnAttackType.ATTACK_TYPE_NORMAL == msg.attackType)         // 如果是普通攻击
-                {
-                    attItem = new ComAttackItem();
-                    (attItem as ComAttackItem).hurterId = msg.pDefThisID;
-                    (attItem as ComAttackItem).attackEffectId = 4;
-                }
-
-                // 播放 Fly 数字,，攻击者和被击者都有可能伤血，播放掉血数字
-                // 攻击者掉血
-                num = (int)def.sceneCardItem.svrCard.damage;
-                if (num > 0)        // 攻击力可能为 0 
-                {
-                    attItem.damage = (uint)num;
-                }
-
-                att.fightData.attackData.addItem(attItem);
-
-                // 受伤
-                HurtItemBase hurtItem = null;
-                if ((int)EnAttackType.ATTACK_TYPE_NORMAL == msg.attackType)         // 如果是普通攻击
-                {
-                    hurtItem = new ComHurtItem();
-                    (hurtItem as ComHurtItem).hurtEffectId = 4;
-                }
-
-                num = (int)att.sceneCardItem.svrCard.damage;
-                if (num > 0)
-                {
-                    hurtItem.damage = (uint)num;
-                }
-
-                def.fightData.hurtData.addItem(hurtItem);
-            }
+            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleCardPropertyUserCmd(msg);
         }
 
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)
@@ -389,7 +273,6 @@ namespace Game.UI
                 else                    // 退回到原来的位置
                 {
                     m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].moveDragBack();
-
                     m_sceneDZData.m_curDragItem = null;
                 }
             }

@@ -79,7 +79,7 @@ namespace Game.UI
         }
 
         // 播放攻击动画，就是移动过去砸一下
-        public void playAttackAni(Vector3 srcPos, Vector3 destPos, Action<NumAniBase> handle)
+        public void moveToDest(Vector3 srcPos, Vector3 destPos, Action<NumAniBase> handle)
         {
             Vector3 midPt;      // 中间点
             midPt = (srcPos + destPos) / 2;
@@ -130,30 +130,74 @@ namespace Game.UI
             }
 
             // 更新自己的属性显示
-            m_card.updateCardDataChange();
+            m_card.updateCardDataChange(item.svrCard);
         }
 
         // 执行普通受伤
         public void execHurt(ComHurtItem item)
         {
-            if(item.hurtEffectId > 0)       // 如果有特效需要播放
+            if (item.damage > 0)        // 如果受伤
             {
-                LinkEffect effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);
-                effect.addEffectPlayEndHandle(item.onHuerExecEnd);
-            }
-            else    // 一动作为标准，动作结束就算受伤结束
-            {
+                if (item.hurtEffectId > 0)       // 如果有特效需要播放，并且被击结束以特效为标准
+                {
+                    LinkEffect effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);  // 被击特效
+                    m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
+                    effect.addEffectPlayEndHandle(item.onHurtExecEnd);
+                }
+                //else    // 以动作为标准，动作结束就算受伤结束
+                //{
+                //}
 
-            }
-
-            // 播放伤害数字
-            if (item.damage > 0)
-            {
+                // 播放伤害数字
                 m_card.playFlyNum((int)item.damage);
+            }
+            else        // 可能是状态改变
+            {
+
             }
 
             // 更新自己的属性显示
-            m_card.updateCardDataChange();
+            m_card.updateCardDataChange(item.svrCard);
+        }
+
+        // 执行技能攻击
+        public void execAttack(SkillAttackItem item)
+        {
+            TableSkillItemBody skillTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, item.skillId).m_itemBody as TableSkillItemBody;
+            if(skillTableItem != null)
+            {
+                if (skillTableItem.m_skillAttackEffect != 0)
+                {
+                    m_card.effectControl.addMoveEffect((int)skillTableItem.m_skillAttackEffect);  // 攻击特效
+                }
+            }
+            else // 如果没有配置这个技能，直接结束攻击
+            {
+
+            }
+        }
+
+        // 执行技能受伤
+        public void execHurt(SkillHurtItem item)
+        {
+            if(item.bDamage)// 检查是否是伤血
+            {
+                LinkEffect effect = m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
+                effect.addEffectPlayEndHandle(item.onHurtExecEnd);
+
+                // 播放伤害数字
+                if (item.damage > 0)
+                {
+                    m_card.playFlyNum((int)item.damage);
+                }
+            }
+            else        // 如果是回血
+            {
+                item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
+            }
+
+            // 更新自己的属性显示
+            m_card.updateCardDataChange(item.svrCard);
         }
     }
 }

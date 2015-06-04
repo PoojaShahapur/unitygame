@@ -17,7 +17,7 @@ namespace FSM
         {
             base.OnStateEnter();
 
-            m_card.behaviorControl.playAttackAni(m_card.transform().localPosition, m_card.behaviorControl.srcPos, m_card.behaviorControl.onMove2InplaceEnd);
+            m_card.behaviorControl.moveToDest(m_card.transform().localPosition, m_card.behaviorControl.srcPos, m_card.behaviorControl.onMove2InplaceEnd);
         }
 
         override public void OnStateExit()

@@ -1586,25 +1586,31 @@ namespace Game.Msg
 
     public class stNotifyBattleCardPropertyUserCmd : stHeroCardCmd
     {
+        public uint dwMagicType;
+        public ushort count;
         public t_Card A_object;
-        public t_Card D_object;
-        public byte attackType;    //攻击类型
-        public uint pAttThisID;   //攻击者
-        public uint pDefThisID;   //防御者
+        public t_Card[] defList;
+
+        public bool m_bDamage;      // 客户端自己数据，记录是否是减血
 
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
 
+            ba.readUnsignedInt32(ref dwMagicType);
+            ba.readUnsignedInt16(ref count);
+
             A_object = new t_Card();
             A_object.derialize(ba);
 
-            D_object = new t_Card();
-            D_object.derialize(ba);
-
-            ba.readUnsignedInt8(ref attackType);
-            ba.readUnsignedInt32(ref pAttThisID);
-            ba.readUnsignedInt32(ref pDefThisID);
+            if (count > 0)
+            {
+                defList = new t_Card[count];
+                for (int idx = 0; idx < count; )
+                {
+                    defList[idx].derialize(ba);
+                }
+            }
         }
     }
 
@@ -1618,10 +1624,9 @@ namespace Game.Msg
     //        pAttThisID = 0;
     //        pDefThisID = 0;
     //    }   
-    //    t_Card A_object;    
-    //    t_Card D_object;    
-    //    BYTE attackType;    //攻击类型
-    //    DWORD pAttThisID;   //攻击者
-    //    DWORD pDefThisID;   //防御者
-    //};  
+        //DWORD dwMagicType;
+        //WORD count;
+        //t_Card A_object;    
+        //t_Card defList[0];
+    //};   
 }
