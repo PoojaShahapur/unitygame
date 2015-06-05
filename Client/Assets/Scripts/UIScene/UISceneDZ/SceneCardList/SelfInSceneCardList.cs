@@ -32,13 +32,13 @@ namespace Game.UI
                     // 记录开始卡牌的 id ，后面好判断更新
                     cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx];
                     cardItem.updateCardOutState(true);
-                    cardItem.aniControl.startRot = new Vector3(-90f, -90f, 0);       // 将卡牌竖起来
-                    cardItem.aniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-                    cardItem.aniControl.destPos = m_posList[idx];
-                    cardItem.aniControl.destRot = new Vector3(0, 0, 0);
+                    cardItem.trackAniControl.startRot = new Vector3(-90f, -90f, 0);       // 将卡牌竖起来
+                    cardItem.trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
+                    cardItem.trackAniControl.destPos = m_posList[idx];
+                    cardItem.trackAniControl.destRot = new Vector3(0, 0, 0);
 
-                    cardItem.aniControl.moveToStart();        // 放到开始位置
-                    cardItem.aniControl.moveToDestRST();          // 播放动画
+                    cardItem.trackAniControl.moveToStart();        // 放到开始位置
+                    cardItem.trackAniControl.moveToDestRST();          // 播放动画
 
                     cardItem.updateCardDataByTable();          // 这个时候还没有服务器的数据，只能更新客户端表中的数据
                 }

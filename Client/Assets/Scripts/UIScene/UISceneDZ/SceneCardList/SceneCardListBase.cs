@@ -55,10 +55,10 @@ namespace Game.UI
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                cardItem.aniControl.destPos = m_posList[idx];
-                cardItem.aniControl.destRot = m_rotList[idx].eulerAngles;
-                cardItem.aniControl.destScale = SceneCardBase.SMALLFACT;
-                cardItem.aniControl.moveToDestRST();
+                cardItem.trackAniControl.destPos = m_posList[idx];
+                cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
+                cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
+                cardItem.trackAniControl.moveToDestRST();
 
                 ++idx;
             }
@@ -74,8 +74,8 @@ namespace Game.UI
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                cardItem.aniControl.destPos = m_posList[idx];
-                cardItem.aniControl.moveToDestT();
+                cardItem.trackAniControl.destPos = m_posList[idx];
+                cardItem.trackAniControl.moveToDestT();
 
                 ++idx;
             }

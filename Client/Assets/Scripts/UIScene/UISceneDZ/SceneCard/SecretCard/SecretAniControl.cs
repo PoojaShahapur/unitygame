@@ -1,6 +1,6 @@
 ﻿namespace Game.UI
 {
-    public class SecretAniControl : AniControl
+    public class SecretAniControl : TrackAniControl
     {
         public SecretAniControl(SceneCardBase rhv) : 
             base(rhv)

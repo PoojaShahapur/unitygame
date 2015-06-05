@@ -19,7 +19,7 @@ namespace Game.UI
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_clickControl = new HeroClickControl(this);
-            m_sceneCardBaseData.m_aniControl = new HeroAniControl(this);
+            m_sceneCardBaseData.m_trackAniControl = new HeroAniControl(this);
             m_sceneCardBaseData.m_behaviorControl = new HeroBehaviorControl(this);
 
             m_render = new HeroRender(this);

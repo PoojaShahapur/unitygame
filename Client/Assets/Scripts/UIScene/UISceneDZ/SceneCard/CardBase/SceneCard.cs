@@ -45,8 +45,8 @@ namespace Game.UI
         {
             dragControl.m_centerPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
             // 设置初始位置为发牌位置
-            aniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-            aniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+            trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
+            trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
 
             // 设置是否可以动画
             if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
@@ -54,13 +54,13 @@ namespace Game.UI
                 dragControl.disableDrag();
                 if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
                 {
-                    aniControl.destScale = SceneCardBase.SMALLFACT;
+                    trackAniControl.destScale = SceneCardBase.SMALLFACT;
                 }
             }
             // 如果是放在技能或者装备的位置，是不允许拖放的
             else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
             {
-                aniControl.destScale = SceneCardBase.SMALLFACT;
+                trackAniControl.destScale = SceneCardBase.SMALLFACT;
                 dragControl.disableDrag();
             }
 

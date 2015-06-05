@@ -12,7 +12,7 @@ namespace Game.UI
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_clickControl = new EquipClickControl(this);
-            m_sceneCardBaseData.m_aniControl = new EquipAniControl(this);
+            m_sceneCardBaseData.m_trackAniControl = new EquipAniControl(this);
             m_sceneCardBaseData.m_dragControl = new EquipDragControl(this);
             m_sceneCardBaseData.m_behaviorControl = new EquipBehaviorControl(this);
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-    public class AniControl : CardControlBase
+    public class TrackAniControl : CardControlBase
     {
         // 仅仅是在做移动动画的时候才会使用，人为拖动不会改变这两个值
         // 开始信息
@@ -23,7 +23,7 @@ namespace Game.UI
         protected NumAniParallel m_numAniParal = new NumAniParallel();       // 回退的时候，这个单独的动画序列
         protected const float m_height = 1.0f;
 
-        public AniControl(SceneCardBase rhv) : 
+        public TrackAniControl(SceneCardBase rhv) : 
             base(rhv)
         {
             

@@ -1,6 +1,6 @@
 ﻿namespace Game.UI
 {
-    public class AttendAniControl : AniControl
+    public class AttendAniControl : TrackAniControl
     {
         public AttendAniControl(SceneCardBase rhv) : 
             base(rhv)

@@ -8,7 +8,7 @@ namespace Game.UI
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_clickControl = new SecretClickControl(this);
-            m_sceneCardBaseData.m_aniControl = new SecretAniControl(this);
+            m_sceneCardBaseData.m_trackAniControl = new SecretAniControl(this);
             m_sceneCardBaseData.m_dragControl = new SecretDragControl(this);
             m_sceneCardBaseData.m_behaviorControl = new SecretBehaviorControl(this);
 

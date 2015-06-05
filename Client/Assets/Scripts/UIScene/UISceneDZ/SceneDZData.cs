@@ -194,10 +194,10 @@ namespace Game.UI
 
         public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)
         {
-            card.aniControl.startPos = startPos.localPosition;
-            card.aniControl.destPos = destPos.localPosition;
+            card.trackAniControl.startPos = startPos.localPosition;
+            card.trackAniControl.destPos = destPos.localPosition;
 
-            card.aniControl.moveToDestRST();
+            card.trackAniControl.moveToDestRST();
         }
 
         public SceneCardBase getUnderSceneCard()

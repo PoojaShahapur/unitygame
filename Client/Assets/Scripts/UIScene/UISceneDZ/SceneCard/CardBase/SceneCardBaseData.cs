@@ -18,7 +18,7 @@ namespace Game.UI
         public AIController m_aiController;
         public BehaviorControl m_behaviorControl;
         public ClickControl m_clickControl;
-        public AniControl m_aniControl;
+        public TrackAniControl m_trackAniControl;
         public DragControl m_dragControl;
         public EffectControl m_effectControl;
         public CardMoveControl m_moveControl;

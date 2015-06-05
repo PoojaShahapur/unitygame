@@ -41,7 +41,7 @@ namespace Game.UI
             m_card.m_sceneDZData.m_curDragItem = m_card;     // 设置当前拖放的目标
 
             // 开始拖动动画
-            m_card.m_sceneDZData.m_curDragItem.aniControl.startDragAni();
+            m_card.m_sceneDZData.m_curDragItem.trackAniControl.startDragAni();
 
             // 判断法术攻击
             //if (m_sceneCardItem != null)
@@ -174,13 +174,13 @@ namespace Game.UI
             {
                 // 拖动结束直接退回去
                 // 开始缩放
-                m_card.aniControl.destScale = SceneCardBase.SMALLFACT;
+                m_card.trackAniControl.destScale = SceneCardBase.SMALLFACT;
                 backCard2Orig();
             }
             else
             {
             #if DEBUG_NOTNET
-                m_card.aniControl.endDragAni();       // 结束动画
+                m_card.trackAniControl.endDragAni();       // 结束动画
                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card);        // 放入输出列表
             #endif
                 if (m_card.sceneCardItem != null)
@@ -283,7 +283,7 @@ namespace Game.UI
             m_card.m_sceneDZData.m_curDragItem = null;
             UIDragObject drag = m_card.gameObject().GetComponent<UIDragObject>();
             drag.reset();
-            m_card.aniControl.moveBackToPre();      // 退回去
+            m_card.trackAniControl.moveBackToPre();      // 退回去
         }
     }
 }

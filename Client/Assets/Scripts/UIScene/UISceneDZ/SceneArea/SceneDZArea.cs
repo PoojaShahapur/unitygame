@@ -90,13 +90,13 @@ namespace Game.UI
                 {
                     m_sceneSkillCard = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_SKILL, m_sceneDZData);
                     m_sceneSkillCard.sceneCardItem = sceneItem;
-                    m_sceneSkillCard.aniControl.moveToDestRST();
+                    m_sceneSkillCard.trackAniControl.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
                 {
                     m_sceneEquipCard = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_EQUIP, m_sceneDZData);
                     m_sceneEquipCard.sceneCardItem = sceneItem;
-                    m_sceneEquipCard.aniControl.moveToDestRST();
+                    m_sceneEquipCard.trackAniControl.moveToDestRST();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
                 {
@@ -179,8 +179,8 @@ namespace Game.UI
             if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.svrCard.pos.dwLocation)        // 如果出的是装备
             {
                 m_sceneEquipCard = srcCard;
-                m_sceneEquipCard.aniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
-                m_sceneEquipCard.aniControl.moveToDestRST();
+                m_sceneEquipCard.trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
+                m_sceneEquipCard.trackAniControl.moveToDestRST();
             }
             else        // 出的是随从
             {
@@ -210,7 +210,7 @@ namespace Game.UI
         {
             if(m_sceneDZData.m_curDragItem != null)
             {
-                m_sceneDZData.m_curDragItem.aniControl.moveToDestRST();
+                m_sceneDZData.m_curDragItem.trackAniControl.moveToDestRST();
             }
         }
 
@@ -381,7 +381,7 @@ namespace Game.UI
             SceneCardBase card = m_outSceneCardList.removeNoDestroyAndRet() as SceneCardBase;
             if(card != null)
             {
-                card.aniControl.retFormOutAreaToHandleArea();
+                card.trackAniControl.retFormOutAreaToHandleArea();
                 m_outSceneCardList.updateSceneCardRST();
                 m_outSceneCardList.updateCardIndex();
             }

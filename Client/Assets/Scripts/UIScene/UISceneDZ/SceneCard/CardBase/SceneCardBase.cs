@@ -33,9 +33,9 @@ namespace Game.UI
             {
                 m_sceneCardBaseData.m_clickControl.init();
             }
-            if (m_sceneCardBaseData.m_aniControl != null)
+            if (m_sceneCardBaseData.m_trackAniControl != null)
             {
-                m_sceneCardBaseData.m_aniControl.init();
+                m_sceneCardBaseData.m_trackAniControl.init();
             }
             if (m_sceneCardBaseData.m_dragControl != null)
             {
@@ -173,15 +173,15 @@ namespace Game.UI
             }
         }
 
-        public AniControl aniControl
+        public TrackAniControl trackAniControl
         {
             get
             {
-                return m_sceneCardBaseData.m_aniControl;
+                return m_sceneCardBaseData.m_trackAniControl;
             }
             set
             {
-                m_sceneCardBaseData.m_aniControl = value;
+                m_sceneCardBaseData.m_trackAniControl = value;
             }
         }
 
@@ -249,7 +249,7 @@ namespace Game.UI
         override public void dispose()
         {
             m_sceneCardBaseData.m_clickControl.dispose();
-            m_sceneCardBaseData.m_aniControl.dispose();
+            m_sceneCardBaseData.m_trackAniControl.dispose();
             m_sceneCardBaseData.m_dragControl.dispose();
             m_sceneCardBaseData.m_effectControl.dispose();
 
