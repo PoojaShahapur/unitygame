@@ -14,7 +14,7 @@ namespace FSM
         //}
 
         public AnimRunFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }

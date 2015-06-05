@@ -15,7 +15,7 @@ namespace FSM
         //}
 
         public AnimIdleFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }

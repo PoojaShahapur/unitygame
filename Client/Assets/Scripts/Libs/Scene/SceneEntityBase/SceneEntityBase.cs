@@ -55,5 +55,10 @@ namespace SDK.Lib
         {
             return m_render.transform();
         }
+
+        virtual public void setPnt(GameObject pntGO_)
+        {
+
+        }
     }
 }

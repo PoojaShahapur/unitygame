@@ -38,7 +38,7 @@ namespace SDK.Lib
             }
         }
 
-        override protected void updateImage()
+        override public void updateImage()
         {
             m_image.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
         }

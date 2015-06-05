@@ -14,6 +14,10 @@ namespace SDK.Lib
         public SpriteRenderSpriteAni(SceneEntityBase entity_)
         {
             m_entity = entity_;
+
+            // 创建自己的场景 GameObject
+            selfGo = UtilApi.createSpriteGameObject();
+            UtilApi.adjustEffectRST(m_selfGo.transform);
         }
 
         public override void dispose()
@@ -29,6 +33,11 @@ namespace SDK.Lib
         {
             base.stop();
             m_spriteRender.sprite = null;
+        }
+
+        override protected void onPntChanged()
+        {
+            UtilApi.SetParent(m_selfGo, m_pntGo, false);
         }
 
         // 查找 UI 组件
@@ -47,7 +56,7 @@ namespace SDK.Lib
             }
         }
         
-        override protected void updateImage()
+        override public void updateImage()
         {
             m_spriteRender.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
         }

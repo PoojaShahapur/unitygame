@@ -10,7 +10,7 @@ namespace Game.UI
     public class HurtData : FightListBase
     {
         protected MList<HurtItemBase> m_hurtList;
-        protected HurtItemBase m_curHurtItem;           // 当前被击项
+        protected HurtItemBase m_curHurtItem;           // 当前被击项，由于受伤流程可以同时并存，因此不存在当前被击 Item，不能获取这个作为当期被击 Item
         protected EventDispatch m_allHurtExecEndDisp;   // 所有 Hurt Item 执行结束事件分发
 
         public HurtData()
@@ -27,17 +27,17 @@ namespace Game.UI
             }
         }
 
-        public HurtItemBase curHurtItem
-        {
-            get
-            {
-                return m_curHurtItem;
-            }
-            set
-            {
-                m_curHurtItem = value;
-            }
-        }
+        //public HurtItemBase curHurtItem
+        //{
+        //    get
+        //    {
+        //        return m_curHurtItem;
+        //    }
+        //    set
+        //    {
+        //        m_curHurtItem = value;
+        //    }
+        //}
 
         public EventDispatch allHurtExecEndDisp
         {
@@ -59,7 +59,7 @@ namespace Game.UI
         // 执行队列中的一个 Item，这个必须是有效的
         public void getNextItem()
         {
-            if (m_curHurtItem == null && m_hurtList.Count() > 0)
+            if (m_hurtList.Count() > 0)
             {
                 foreach (var item in m_hurtList.list)
                 {
@@ -82,20 +82,35 @@ namespace Game.UI
         public void endCurItem()
         {
             //removeItem(m_curHurtItem);
-            m_curHurtItem = null;
+            //m_curHurtItem = null;
         }
 
         public void removeItem(HurtItemBase item)
         {
             m_hurtList.Remove(item);
+            item.dispose();
         }
 
-        // 获取是否有有效的被击 Item
-        public bool hasEnableItem()
+        // 获取是否有被击 Item
+        public bool hasHurtItem()
         {
             foreach (var item in m_hurtList.list)
             {
                 if (item.delayTime <= 0 && item.execState == EHurtExecState.eNone)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // 获取是否有执行中的被击 Item
+        public bool hasExecHurtItem()
+        {
+            foreach (var item in m_hurtList.list)
+            {
+                if (item.execState == EHurtExecState.eExec)
                 {
                     return true;
                 }
@@ -129,11 +144,11 @@ namespace Game.UI
             HurtItemBase ret = null;
             if(EHurtType.eCommon == type)
             {
-                ret = new ComHurtItem();
+                ret = new ComHurtItem(type);
             }
             else if (EHurtType.eSkill == type)
             {
-                ret = new SkillHurtItem();
+                ret = new SkillHurtItem(type);
             }
 
             m_hurtList.Add(ret);

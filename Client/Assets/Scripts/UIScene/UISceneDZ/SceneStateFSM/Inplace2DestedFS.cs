@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class Inplace2DestedFS : FSMState
+    public class Inplace2DestedFS : FSMSceneState
     {
         public Inplace2DestedFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }

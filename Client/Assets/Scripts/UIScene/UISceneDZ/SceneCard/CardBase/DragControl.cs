@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 场景中可拖放的卡牌，仅限场景中可拖放的卡牌，只有手里卡牌区域中的卡牌可以拖放，其它的都是不能拖放的，目前装备、技能、手牌、出牌都是用这个类， hero 使用另外一个
      */
-    public class DragControl : ControlBase
+    public class DragControl : CardControlBase
     {
         public const uint WHITECARDID = 10000;
         // 拖动中分发

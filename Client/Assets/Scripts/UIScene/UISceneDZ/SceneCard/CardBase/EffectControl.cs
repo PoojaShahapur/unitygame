@@ -7,16 +7,15 @@ namespace Game.UI
     /**
      * @brief 特效控制
      */
-    public class EffectControl : ControlBase
+    public class EffectControl : CardControlBase
     {
-        protected MList<EffectBase> m_effectList;
         protected GameObject m_effectRootGO;        // 特效根节点
         protected LinkEffect m_linkEffect;
 
         public EffectControl(SceneCardBase rhv) :
             base(rhv)
         {
-            m_effectList = new MList<EffectBase>();
+            
         }
 
         public override void init()
@@ -26,12 +25,6 @@ namespace Game.UI
 
         public override void dispose()
         {
-            foreach (EffectBase effect in m_effectList.list)
-            {
-                effect.dispose();
-            }
-            m_effectList.Clear();
-
             m_linkEffect = null;
 
             base.dispose();
@@ -55,57 +48,26 @@ namespace Game.UI
             {
                 m_effectRootGO = UtilApi.createGameObject("FrameSprite");
                 UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
-                UtilApi.setPos(m_effectRootGO.transform, new Vector3(-0.01f, 0, 0.46f));
-                UtilApi.setRot(m_effectRootGO.transform, new Vector3(90, 0, 0));
-                UtilApi.setScale(m_effectRootGO.transform, new Vector3(0.5f, 0.48f, 1.0f));
+                UtilApi.adjustEffectRST(m_effectRootGO.transform);
             }
-        }
-
-        // 特效播放解释回调
-        public void onEffectEnd(IDispatchObject dispObj)
-        {
-            m_effectList.Remove(dispObj as EffectBase);
-            (dispObj as EffectBase).dispose();          // 释放资源
         }
 
         // 添加连接特效，固定不动
-        public LinkEffect addLinkEffect(int id, bool bLoop = false, bool bPlay = true)
+        public LinkEffect addLinkEffect(int id, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
         {
             addFrameSpriteGO();
 
-            GameObject _go = UtilApi.createSpriteGameObject();
-            LinkEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eLinkEffect) as LinkEffect;
-            m_effectList.Add(effect);
-
-            effect.addEffectPlayEndHandle(onEffectEnd);
-            UtilApi.SetParent(_go, m_effectRootGO, false);
-            effect.setGameObject(_go);
-            effect.setLoop(bLoop);
-            effect.setTableID(id);
-
-            if(bPlay)
-            {
-                effect.play();
-            }
+            LinkEffect effect = Ctx.m_instance.m_sceneEffectMgr.addLinkEffect(id, m_effectRootGO, bAutoRemove, bLoop, bPlay) as LinkEffect;
 
             return effect;
         }
 
         // 添加移动特效
-        public void addMoveEffect(int id)
+        public MoveEffect addMoveEffect(int id, Vector3 srcPos, Vector3 destPos, float moveTime, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
         {
-            addFrameSpriteGO();
+            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.addMoveEffect(id, m_card.m_sceneDZData.m_centerGO, srcPos, destPos, moveTime, bAutoRemove, bLoop, bPlay) as MoveEffect;
 
-            GameObject _go = UtilApi.createSpriteGameObject();
-            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eMoveEffect) as MoveEffect;
-            m_effectList.Add(effect);
-
-            effect.addMoveDestEventHandle(onEffectEnd);
-            UtilApi.SetParent(_go, m_effectRootGO, false);
-            effect.setGameObject(_go);
-            effect.setLoop(false);
-            effect.setTableID(id);
-            effect.play();
+            return effect;
         }
 
         // 更新卡牌是否可以出牌
@@ -113,7 +75,7 @@ namespace Game.UI
         {
             if (m_linkEffect == null)
             {
-                m_linkEffect = addLinkEffect(4, true);
+                m_linkEffect = addLinkEffect(4, false, true);
             }
 
             if (benable)
@@ -141,7 +103,7 @@ namespace Game.UI
         {
             if (m_linkEffect == null)
             {
-                m_linkEffect = addLinkEffect(4, true);
+                m_linkEffect = addLinkEffect(4, false, true);
             }
 
             if (benable)

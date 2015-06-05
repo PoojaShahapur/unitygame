@@ -7,18 +7,10 @@ namespace Game.UI
      */
     public class SkillHurtItem : HurtItemBase
     {
-        protected bool m_bDamage;       // 是否是伤血，可能是回血
-
-        public bool bDamage
+        public SkillHurtItem(EHurtType hurtType) : 
+            base(hurtType)
         {
-            get
-            {
-                return m_bDamage;
-            }
-            set
-            {
-                m_bDamage = value;
-            }
+
         }
 
         override public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)

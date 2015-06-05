@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class HurtingFS : FSMState
+    public class HurtingFS : FSMSceneState
     {
         public HurtingFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }
@@ -18,7 +18,7 @@ namespace FSM
             base.OnStateEnter();
 
             // 播放受伤动画和特效
-            m_card.fightData.hurtData.execCurItem(m_card);
+            card.fightData.hurtData.execCurItem(card);
             mFSM.MoveToState(SceneStateId.SSHurted);
         }
 

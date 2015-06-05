@@ -9,7 +9,7 @@ namespace SDK.Lib
     public class TuJianCardRender : CommonCardRender
     {
         public TuJianCardRender(SceneEntityBase entity_) :
-            base(entity_)
+            base(entity_, (int)CardSubPartType.eTotal)
         {
 
         }

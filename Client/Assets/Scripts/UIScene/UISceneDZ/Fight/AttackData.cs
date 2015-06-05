@@ -8,7 +8,7 @@ namespace Game.UI
     public class AttackData : FightListBase
     {
         protected MList<AttackItemBase> m_attackList;
-        protected AttackItemBase m_curAttackItem;       // 当前攻击项
+        protected AttackItemBase m_curAttackItem;       // 当前攻击项，因为攻击不能打断，必须整个攻击流程结束才算是攻击结束
 
         public AttackData()
         {
@@ -57,7 +57,7 @@ namespace Game.UI
         // 执行队列中的一个 Item
         public void endCurItem()
         {
-            m_curAttackItem.attackEndPlayDisp.dispatchEvent(m_curAttackItem);
+            m_curAttackItem.attackEndDisp.dispatchEvent(m_curAttackItem);
             removeItem(m_curAttackItem);
             m_curAttackItem = null;
         }
@@ -65,6 +65,7 @@ namespace Game.UI
         public void removeItem(AttackItemBase item)
         {
             m_attackList.Remove(item);
+            item.dispose();
         }
 
         public void onTime(float delta)
@@ -80,11 +81,11 @@ namespace Game.UI
             AttackItemBase ret = null;
             if (EAttackType.eCommon == type)
             {
-                ret = new ComAttackItem();
+                ret = new ComAttackItem(type);
             }
             else if(EAttackType.eSkill== type)
             {
-                ret = new SkillAttackItem();
+                ret = new SkillAttackItem(type);
             }
 
             m_attackList.Add(ret);

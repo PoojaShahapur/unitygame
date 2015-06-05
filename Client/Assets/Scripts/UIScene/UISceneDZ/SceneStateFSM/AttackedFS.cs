@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class AttackedFS : FSMState
+    public class AttackedFS : FSMSceneState
     {
         public AttackedFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }
@@ -17,7 +17,6 @@ namespace FSM
         {
             base.OnStateEnter();
 
-            m_card.fightData.attackData.endCurItem();
             mFSM.MoveToState(SceneStateId.SSDest2InplaceStart);
         }
 

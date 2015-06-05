@@ -52,5 +52,10 @@ namespace SDK.Lib
         {
             m_spriteRender.selfGo = rhv;
         }
+
+        override public void setPnt(GameObject pntGO_)
+        {
+            m_spriteRender.pntGo = pntGO_;
+        }
     }
 }

@@ -9,18 +9,15 @@ namespace Game.UI
     /**
      * @brief 主要处理行为相关的操作
      */
-    public class BehaviorControl : ControlBase
+    public class BehaviorControl : CardControlBase
     {
-        protected NumAniSequence m_numAniSeq;       // 攻击动画序列，这个所有的都有
         protected Vector3 m_srcPos;                 // 保存最初的位置
         protected SceneStateFSM m_sceneStateFSM;    // 状态的转换以动作结束为标准
 
         public BehaviorControl(SceneCardBase rhv) : 
             base(rhv)
         {
-            m_numAniSeq = new NumAniSequence();
-            m_sceneStateFSM = new SceneStateFSM();
-            m_sceneStateFSM.card = m_card;
+            m_sceneStateFSM = new SceneStateFSM(m_card);
             m_sceneStateFSM.Start();
         }
 
@@ -39,15 +36,13 @@ namespace Game.UI
         // 是否在攻击中，攻击定义是，从开始移动，到返回来，才算是攻击结束
         public bool bInAttack()
         {
-            return (!m_sceneStateFSM.equalCurState(SceneStateId.SSInplace) && 
-                    m_card.fightData.attackData.curAttackItem != null);
+            return (m_card.fightData.attackData.curAttackItem != null);
         }
 
         // 是否在受伤中
         public bool bInHurt()
         {
-            return (!m_sceneStateFSM.equalCurState(SceneStateId.SSInplace) &&
-                    m_card.fightData.hurtData.curHurtItem != null);
+            return (m_card.fightData.hurtData.hasExecHurtItem());
         }
 
         // 更新攻击
@@ -68,39 +63,11 @@ namespace Game.UI
         public void updateHurt()
         {
             // 只要有受伤就需要处理
-            //if (!bInHurt())
-            //{
-                // 如果当前有攻击数据
-                if (m_card.fightData.hurtData.hasEnableItem())
-                {
-                    m_sceneStateFSM.MoveToState(SceneStateId.SSHurtStart);     // 开始受伤
-                }
-            //}
-        }
-
-        // 播放攻击动画，就是移动过去砸一下
-        public void moveToDest(Vector3 srcPos, Vector3 destPos, Action<NumAniBase> handle)
-        {
-            Vector3 midPt;      // 中间点
-            midPt = (srcPos + destPos) / 2;
-            midPt.y = 2;
-
-            SimpleCurveAni curveAni = new SimpleCurveAni();
-            m_numAniSeq.addOneNumAni(curveAni);
-            curveAni.setGO(m_card.gameObject());
-            curveAni.setTime(0.3f);
-            curveAni.setPlotCount(3);
-            curveAni.addPlotPt(0, srcPos);
-            curveAni.addPlotPt(1, midPt);
-            curveAni.addPlotPt(2, destPos);
-            if (handle != null)
+            // 如果当前有攻击数据
+            if (m_card.fightData.hurtData.hasHurtItem())
             {
-                curveAni.setAniEndDisp(handle);
+                m_sceneStateFSM.MoveToState(SceneStateId.SSHurtStart);     // 开始受伤
             }
-
-            curveAni.setEaseType(iTween.EaseType.easeInExpo);
-
-            m_numAniSeq.play();
         }
 
         public void onMove2DestEnd(NumAniBase ani)
@@ -136,11 +103,15 @@ namespace Game.UI
         // 执行普通受伤
         public void execHurt(ComHurtItem item)
         {
-            if (item.damage > 0)        // 如果受伤
+            LinkEffect effect = null;
+            bool bAddEffect = false;
+
+            if (item.bDamage)        // 如果受伤
             {
                 if (item.hurtEffectId > 0)       // 如果有特效需要播放，并且被击结束以特效为标准
                 {
-                    LinkEffect effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);  // 被击特效
+                    bAddEffect = true;
+                    effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);  // 被击特效
                     m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
                     effect.addEffectPlayEndHandle(item.onHurtExecEnd);
                 }
@@ -151,11 +122,30 @@ namespace Game.UI
                 // 播放伤害数字
                 m_card.playFlyNum((int)item.damage);
             }
-            else        // 可能是状态改变
+            else if (item.bAddHp)       // 回血
             {
-
+                // 仅仅改变属性
+                item.onHurtExecEnd(null);
             }
+            if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
+            {
+                
+                int idx = 0;
+                for(idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
+                {
+                    if(UtilMath.checkState((StateID)idx, item.state))   // 如果这个状态改变
+                    {
+                        effect = m_card.effectControl.addLinkEffect(item.getStateEffect((StateID)idx));
 
+                        if(!bAddEffect)
+                        {
+                            bAddEffect = true;    
+                            effect.addEffectPlayEndHandle(item.onHurtExecEnd);
+                        }
+                    }
+                }
+            }
+            
             // 更新自己的属性显示
             m_card.updateCardDataChange(item.svrCard);
         }
@@ -163,12 +153,15 @@ namespace Game.UI
         // 执行技能攻击
         public void execAttack(SkillAttackItem item)
         {
-            TableSkillItemBody skillTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, item.skillId).m_itemBody as TableSkillItemBody;
-            if(skillTableItem != null)
+            if(item.skillTableItem != null)
             {
-                if (skillTableItem.m_skillAttackEffect != 0)
+                if (item.skillTableItem.m_skillAttackEffect != 0)
                 {
-                    m_card.effectControl.addMoveEffect((int)skillTableItem.m_skillAttackEffect);  // 攻击特效
+                    foreach(var thisId in item.hurtIdList.list)
+                    {
+                        SceneCardBase hurtCard = Ctx.m_instance.m_sceneCardMgr.getCard(thisId);
+                        m_card.effectControl.addMoveEffect((int)item.skillTableItem.m_skillAttackEffect, m_card.transform().localPosition, hurtCard.transform().localPosition, item.skillTableItem.m_effectMoveTime);  // 攻击特效
+                    }
                 }
             }
             else // 如果没有配置这个技能，直接结束攻击
@@ -180,9 +173,12 @@ namespace Game.UI
         // 执行技能受伤
         public void execHurt(SkillHurtItem item)
         {
-            if(item.bDamage)// 检查是否是伤血
+            LinkEffect effect = null;
+            bool bAddEffect = false;
+
+            if (item.bDamage)// 检查是否是伤血
             {
-                LinkEffect effect = m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
+                effect = m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
                 effect.addEffectPlayEndHandle(item.onHurtExecEnd);
 
                 // 播放伤害数字
@@ -191,9 +187,27 @@ namespace Game.UI
                     m_card.playFlyNum((int)item.damage);
                 }
             }
-            else        // 如果是回血
+            else if (item.bAddHp)       // 回血
             {
                 item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
+            }
+            if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
+            {
+
+                int idx = 0;
+                for (idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
+                {
+                    if (UtilMath.checkState((StateID)idx, item.state))   // 如果这个状态改变
+                    {
+                        effect = m_card.effectControl.addLinkEffect(item.getStateEffect((StateID)idx));
+
+                        if (!bAddEffect)
+                        {
+                            bAddEffect = true;
+                            effect.addEffectPlayEndHandle(item.onHurtExecEnd);
+                        }
+                    }
+                }
             }
 
             // 更新自己的属性显示

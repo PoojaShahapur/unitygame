@@ -5,7 +5,8 @@ namespace Game.UI
     {
         protected int m_hurtEffectId;   // 攻击受伤 Id
 
-        public ComHurtItem()
+        public ComHurtItem(EHurtType hurtType) :
+            base(hurtType)
         {
 
         }

@@ -10,7 +10,6 @@ namespace FSM
     {
         protected FSM mFSM;
         //protected BeingEntity m_beingEntity;
-        protected SceneCardBase m_card;
 
         //protected FSMState(FSM fsm, BeingEntity beingEntity)
         //{
@@ -18,10 +17,9 @@ namespace FSM
         //    m_beingEntity = beingEntity;
         //}
 
-        protected FSMState(FSM fsm, SceneCardBase card)
+        protected FSMState(FSM fsm)
         {
             mFSM = fsm;
-            m_card = card;
         }
 
         virtual public void OnStateEnter()

@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -36,6 +37,64 @@ namespace SDK.Lib
         {
             this.delObject(effect);
             effect.dispose();
+        }
+
+        // 添加连接特效，固定不动
+        public LinkEffect addLinkEffect(int id, GameObject pntGO_, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
+        {
+            LinkEffect effect = createAndAdd(EffectType.eLinkEffect) as LinkEffect;
+
+            effect.setPnt(pntGO_);
+            effect.setLoop(bLoop);
+            effect.setTableID(id);
+            effect.bAutoRemove = bAutoRemove;
+
+            if (bPlay)
+            {
+                effect.play();
+            }
+
+            return effect;
+        }
+
+
+        // 添加移动特效
+        public MoveEffect addMoveEffect(int id, GameObject pntGO_, Vector3 srcPos, Vector3 destPos, float moveTime, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
+        {
+            MoveEffect effect = createAndAdd(EffectType.eMoveEffect) as MoveEffect;
+
+            effect.setPnt(pntGO_);
+            effect.setLoop(bLoop);
+            effect.setTableID(id);
+            effect.srcPos = srcPos;
+            effect.destPos = destPos;
+            effect.effectMoveTime = moveTime;
+            effect.bAutoRemove = bAutoRemove;
+
+            if (bPlay)
+            {
+                effect.play();
+            }
+
+            return effect;
+        }
+
+        // 添加一个场景特效
+        public SceneEffect addSceneEffect(int id, GameObject pntGO_, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
+        {
+            SceneEffect effect = createAndAdd(EffectType.eSceneEffect) as SceneEffect;
+
+            effect.setPnt(pntGO_);
+            effect.setLoop(bLoop);
+            effect.setTableID(id);
+            effect.bAutoRemove = bAutoRemove;
+
+            if (bPlay)
+            {
+                effect.play();
+            }
+
+            return effect;
         }
     }
 }

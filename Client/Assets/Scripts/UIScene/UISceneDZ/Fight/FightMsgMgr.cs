@@ -90,8 +90,12 @@ namespace Game.UI
             }
             else
             {
+                msg.m_origAttObject = att.sceneCardItem.svrCard;
+                msg.m_origDefObject = def.sceneCardItem.svrCard;
+
                 att.sceneCardItem.svrCard = msg.A_object;
                 def.sceneCardItem.svrCard = msg.defList[0];
+
                 attackTo(att, def, EAttackType.eCommon, msg);
             }
         }
@@ -107,6 +111,7 @@ namespace Game.UI
                 Ctx.m_instance.m_logSys.log("攻击者无效");
             }
 
+            msg.m_origAttObject = att.sceneCardItem.svrCard;
             att.sceneCardItem.svrCard = msg.A_object;
 
             foreach (var svrCard in msg.defList)
@@ -117,8 +122,9 @@ namespace Game.UI
                 }
                 else
                 {
-                    msg.m_bDamage = bDamageHp(def.sceneCardItem.svrCard, svrCard);      // 技能攻击计算是否是伤血值
+                    msg.m_origDefObject = def.sceneCardItem.svrCard;
                     def.sceneCardItem.svrCard = svrCard;
+
                     attackTo(att, def, EAttackType.eSkill, msg);
                 }
             }
@@ -160,20 +166,6 @@ namespace Game.UI
 
                 m_hurtList.Add(def.fightData.hurtData);
             }
-        }
-
-        // 计算是否是伤血
-        protected bool bDamageHp(t_Card src, t_Card dest)
-        {
-            if(src.hp > dest.hp)        // HP 减少
-            {
-                if(src.hp != src.maxhp)         // 不是由于技能导致的将这两个值减少并且设置成同样的值，就是伤血
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

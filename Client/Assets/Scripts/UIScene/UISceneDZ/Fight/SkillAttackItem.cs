@@ -9,9 +9,11 @@ namespace Game.UI
     public class SkillAttackItem : AttackItemBase
     {
         protected uint m_skillId;
+        protected TableSkillItemBody m_skillTableItem;
         protected MList<uint> m_hurtIdList;     // 被击者 this id 列表
 
-        public SkillAttackItem()
+        public SkillAttackItem(EAttackType attackType) :
+            base(attackType)
         {
             m_hurtIdList = new MList<uint>();
         }
@@ -37,6 +39,18 @@ namespace Game.UI
             set
             {
                 m_skillId = value;
+            }
+        }
+
+        public TableSkillItemBody skillTableItem
+        {
+            get
+            {
+                return m_skillTableItem;
+            }
+            set
+            {
+                m_skillTableItem = value;
             }
         }
 

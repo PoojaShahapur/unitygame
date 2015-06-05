@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-    public class ClickControl : ControlBase
+    public class ClickControl : CardControlBase
     {
         public ClickControl(SceneCardBase rhv) : 
             base(rhv)

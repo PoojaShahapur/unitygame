@@ -6,9 +6,48 @@ namespace SDK.Lib
 {
     public class EffectBase : SceneEntity
     {
+        protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
+        protected bool m_bAutoRemove;       // 特效播放完成是否自动移除
+
         public EffectBase()
         {
             m_render = new EffectSpriteRender(this);
+            m_playEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
+            (m_render as EffectSpriteRender).spriteRender.playEndEventDispatch.addEventHandle(onEffectPlayEnd);
+        }
+
+        public EventDispatch playEndEventDispatch
+        {
+            get
+            {
+                return m_playEndEventDispatch;
+            }
+            set
+            {
+                m_playEndEventDispatch = value;
+            }
+        }
+
+        public bool bAutoRemove
+        {
+            get
+            {
+                return m_bAutoRemove;
+            }
+            set
+            {
+                m_bAutoRemove = true;
+            }
+        }
+
+        virtual public void onEffectPlayEnd(IDispatchObject dispObj)
+        {
+            m_playEndEventDispatch.dispatchEvent(this);
+
+            if (m_bAutoRemove)
+            {
+                this.dispose();          // 释放资源
+            }
         }
 
         virtual public void setSelfGo(GameObject go_)
@@ -50,12 +89,17 @@ namespace SDK.Lib
         // 添加特效播放结束处理
         public void addEffectPlayEndHandle(Action<IDispatchObject> handle)
         {
-            (m_render as EffectSpriteRender).spriteRender.playEndEventDispatch.addEventHandle(handle);
+            m_playEndEventDispatch.addEventHandle(handle);
         }
 
         virtual public void addMoveDestEventHandle(Action<IDispatchObject> dispObj)
         {
 
+        }
+
+        override public void setPnt(GameObject pntGO_)
+        {
+            (m_render as EffectSpriteRender).setPnt(pntGO_);
         }
     }
 }

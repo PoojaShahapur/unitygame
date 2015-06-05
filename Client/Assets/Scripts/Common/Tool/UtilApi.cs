@@ -292,6 +292,13 @@ namespace SDK.Common
             tran.localPosition = pos;
         }
 
+        public static void adjustEffectRST(Transform transform)
+        {
+            UtilApi.setPos(transform, new Vector3(-0.01f, 0, 0.46f));
+            UtilApi.setRot(transform, new Vector3(90, 0, 0));
+            UtilApi.setScale(transform, new Vector3(0.5f, 0.48f, 1.0f));
+        }
+
         // 卸载内部 Resources 管理的共享的那块资源，注意这个是异步事件
         public static AsyncOperation UnloadUnusedAssets()
         {

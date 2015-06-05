@@ -195,7 +195,7 @@ namespace SDK.Lib
             m_playEndEventDispatch.dispatchEvent(this);
         }
 
-        virtual protected void updateImage()
+        virtual public void updateImage()
         {
             
         }

@@ -8,7 +8,7 @@ namespace SDK.Lib
     public class SceneCardPlayerRender : CommonCardRender
     {
         public SceneCardPlayerRender(SceneEntityBase entity_) :
-            base(entity_)
+            base(entity_, (int)CardSubPartType.eTotal)
         {
 
         }

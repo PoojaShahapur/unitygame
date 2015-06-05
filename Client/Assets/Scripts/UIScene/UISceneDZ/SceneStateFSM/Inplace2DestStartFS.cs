@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class Inplace2DestStartFS : FSMState
+    public class Inplace2DestStartFS : FSMSceneState
     {
         public Inplace2DestStartFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }
@@ -17,9 +17,9 @@ namespace FSM
         {
             base.OnStateEnter();
 
-            m_card.behaviorControl.srcPos = m_card.transform().localPosition;
+            card.behaviorControl.srcPos = card.transform().localPosition;
             // 获取一项攻击数值
-            m_card.fightData.attackData.getNextItem();
+            card.fightData.attackData.getNextItem();
             mFSM.MoveToState(SceneStateId.SSInplace2Desting);
         }
 

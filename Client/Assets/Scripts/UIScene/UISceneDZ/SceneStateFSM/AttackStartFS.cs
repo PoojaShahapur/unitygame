@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class AttackStartFS : FSMState
+    public class AttackStartFS : FSMSceneState
     {
         public AttackStartFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }

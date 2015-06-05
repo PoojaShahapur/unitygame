@@ -19,6 +19,8 @@ namespace Game.UI
             m_sceneCardBaseData.m_animFSM.card = this;
             m_sceneCardBaseData.m_animFSM.Start();
 
+            m_sceneCardBaseData.m_moveControl = new CardMoveControl(this);
+
             m_sceneCardBaseData.m_aiController = new AIController();
             m_sceneCardBaseData.m_aiController.btID = BTID.e1000;
             m_sceneCardBaseData.m_aiController.possess(this);
@@ -77,6 +79,32 @@ namespace Game.UI
                     }
                 }
             }
+        }
+
+        // 转换成出牌模型
+        override public void convOutModel()
+        {
+            if(m_render != null)
+            {
+                m_render.dispose();
+                m_render = null;
+            }
+
+            m_render = new OutCardRender(this);
+            (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
+        }
+
+        // 转换成手牌模型
+        override public void convHandleModel()
+        {
+            if (m_render != null)
+            {
+                m_render.dispose();
+                m_render = null;
+            }
+
+            m_render = new SceneCardPlayerRender(this);
+            (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
         }
     }
 }

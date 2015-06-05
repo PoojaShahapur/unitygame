@@ -7,14 +7,22 @@ namespace SDK.Lib
      */
     public class CommonCardRender : CardPlayerRender
     {
+        protected string m_uiPrefabPath;            // UI 预制目录
         protected UIPrefabRes m_uiPrefabRes;        // 这个是 UI 资源
-        protected ModelRes m_boxModel;              // 这个是碰撞盒子模型
 
-        public CommonCardRender(SceneEntityBase entity_) :
+        protected string m_boxModelPath;            // 碰撞盒目录
+        protected ModelRes m_boxModel;              // 这个是碰撞盒子模型
+        protected int m_subModeCount;               // 子模型数量
+
+        public CommonCardRender(SceneEntityBase entity_, int subModelCount_) :
             base(entity_)
         {
-            m_subTex = new CardSubPart[(int)CardSubPartType.eTotal];
-            for (int idx = 0; idx < (int)CardSubPartType.eTotal; ++idx)
+            m_subModeCount = subModelCount_;
+            m_uiPrefabPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCardUI.prefab");
+            m_boxModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCardBox.prefab");
+
+            m_subTex = new CardSubPart[m_subModeCount];
+            for (int idx = 0; idx < m_subModeCount; ++idx)
             {
                 m_subTex[idx] = new CardSubPart();
             }
@@ -22,7 +30,7 @@ namespace SDK.Lib
 
         override public void dispose()
         {
-            for (int idx = 0; idx < (int)CardSubPartType.eTotal; ++idx)
+            for (int idx = 0; idx < m_subModeCount; ++idx)
             {
                 m_subTex[idx].dispose();
             }
@@ -53,15 +61,13 @@ namespace SDK.Lib
 
         protected void addUIAndBox()
         {
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCardUI.prefab");
-            m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(path);
-            GameObject _go = m_uiPrefabRes.InstantiateObject(path);
+            m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(m_uiPrefabPath);
+            GameObject _go = m_uiPrefabRes.InstantiateObject(m_uiPrefabPath);
             _go.name = "UIRoot";
             UtilApi.SetParent(_go, gameObject(), false);
 
-            path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCardBox.prefab");
-            m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
-            _go = m_boxModel.InstantiateObject(path);
+            m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
+            _go = m_boxModel.InstantiateObject(m_boxModelPath);
             _go.name = "CommonCardBox";
             UtilApi.SetParent(_go, gameObject(), false);
             UtilApi.addEventHandle(_go, onEntityClick);

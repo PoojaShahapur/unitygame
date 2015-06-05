@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-    public class AniControl : ControlBase
+    public class AniControl : CardControlBase
     {
         // 仅仅是在做移动动画的时候才会使用，人为拖动不会改变这两个值
         // 开始信息

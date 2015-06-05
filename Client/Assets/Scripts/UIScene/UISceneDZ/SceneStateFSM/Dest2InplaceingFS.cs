@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class Dest2InplaceingFS : FSMState
+    public class Dest2InplaceingFS : FSMSceneState
     {
         public Dest2InplaceingFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }
@@ -17,7 +17,14 @@ namespace FSM
         {
             base.OnStateEnter();
 
-            m_card.behaviorControl.moveToDest(m_card.transform().localPosition, m_card.behaviorControl.srcPos, m_card.behaviorControl.onMove2InplaceEnd);
+            if (card.fightData.attackData.curAttackItem.attackType == EAttackType.eCommon)
+            {
+                card.moveControl.moveToDest(card.transform().localPosition, card.behaviorControl.srcPos, card.fightData.attackData.curAttackItem.getMoveTime(), card.behaviorControl.onMove2InplaceEnd);
+            }
+            else
+            {
+                mFSM.MoveToState(SceneStateId.SSDest2Inplaced);
+            }
         }
 
         override public void OnStateExit()

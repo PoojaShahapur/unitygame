@@ -21,5 +21,6 @@ namespace Game.UI
         public AniControl m_aniControl;
         public DragControl m_dragControl;
         public EffectControl m_effectControl;
+        public CardMoveControl m_moveControl;
     }
 }

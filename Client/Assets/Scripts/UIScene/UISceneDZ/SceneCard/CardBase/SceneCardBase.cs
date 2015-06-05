@@ -208,6 +208,14 @@ namespace Game.UI
             }
         }
 
+        public CardMoveControl moveControl
+        {
+            get
+            {
+                return m_sceneCardBaseData.m_moveControl;
+            }
+        }
+
         public EventDispatch clickEntityDisp
         {
             get
@@ -355,6 +363,18 @@ namespace Game.UI
         virtual public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             (m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
+        }
+
+        // 转换成出牌模型
+        virtual public void convOutModel()
+        {
+
+        }
+
+        // 转换成手牌模型
+        virtual public void convHandleModel()
+        {
+
         }
     }
 }

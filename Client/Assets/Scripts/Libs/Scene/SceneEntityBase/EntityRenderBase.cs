@@ -38,5 +38,10 @@ namespace SDK.Lib
         {
 
         }
+
+        virtual public void setPnt(GameObject pntGO_)
+        {
+
+        }
     }
 }

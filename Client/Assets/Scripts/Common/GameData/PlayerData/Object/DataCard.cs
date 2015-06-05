@@ -40,38 +40,44 @@ namespace SDK.Common
         public void registerCardAttr()
         {
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_outModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/ChangCard.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_headerSubModel = "gaibangzhutu_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_pinZhiSubModel = "pinzhi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_raceSubModel = "menpaidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_ATTEND].m_outHeaderSubModel = "changpaizt_zhanchang";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_outModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/ChangCard.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_headerSubModel = "gaibangzhutu_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_pinZhiSubModel = "pinzhi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_raceSubModel = "menpaidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SECRET].m_outHeaderSubModel = "changpaizt_zhanchang";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/CommonCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_outModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/ChangCard.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_headerSubModel = "gaibangzhutu_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_frameSubModel = "paidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_yaoDaiSubModel = "mingzidi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_pinZhiSubModel = "pinzhi_kapai";
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_raceSubModel = "menpaidi_kapai";
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_outHeaderSubModel = "changpaizt_zhanchang";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/EquipCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/EquipCard.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_headerSubModel = "wuqitu_zhanchang";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/HeroCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/HeroCard.prefab");
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/SkillCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/SkillCard.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_headerSubModel = "jinengtu_zhanchang";
         }
 

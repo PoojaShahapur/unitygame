@@ -15,10 +15,9 @@ namespace Game.UI
         protected GameObject[] m_goArr = new GameObject[(int)OpenPackGo.eTotal];
         protected CardCom[] m_cardBtnArr = new CardCom[(int)CardBtnEnum.eCardBtnTotal];
 
+        protected GameObject m_openEffImg;
         protected SpriteAni m_spriteAni;
-        protected AuxLabel m_textPackNum;
-
-        protected AuxDynImageStaticGOImage m_auxDynImageStaticGOImage; 
+        protected AuxLabel m_textPackNum; 
 
         public override void onReady()
         {
@@ -74,8 +73,7 @@ namespace Game.UI
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_3].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_3);
             m_cardBtnArr[(int)CardBtnEnum.eOpenedPackBtn_4].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.OpenedPackBtn_4);
 
-            m_auxDynImageStaticGOImage = new AuxDynImageStaticGOImage();
-            m_auxDynImageStaticGOImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
+            m_openEffImg = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
 
             m_textPackNum = new AuxLabel(m_GUIWin.m_uiRoot, OpenPackPath.PackNum);
         }
@@ -124,23 +122,27 @@ namespace Game.UI
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].objData = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].load();
 
-            DataItemObjectBase bojBase;
+            //DataItemObjectBase bojBase;
 
-            bojBase = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
+            //bojBase = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
 
-            // 发消息通知开
-            stUseObjectPropertyUserCmd cmd = new stUseObjectPropertyUserCmd();
-            cmd.qwThisID = bojBase.m_srvItemObject.dwThisID;
-            cmd.useType = 1;
-            UtilMsg.sendMsg(cmd);
+            //// 发消息通知开
+            //stUseObjectPropertyUserCmd cmd = new stUseObjectPropertyUserCmd();
+            //cmd.qwThisID = bojBase.m_srvItemObject.dwThisID;
+            //cmd.useType = 1;
+            //UtilMsg.sendMsg(cmd);
 
             //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eCardPackLayer], false);
             //UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], true);
 
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].auxDynImageStaticGoButton.show();
 
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].auxDynImageStaticGoButton.hide();
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].auxDynImageStaticGoButton.hide();
+
             showOpenEff();
-            m_auxDynImageStaticGOImage.selfGo.SetActive(true);
+            m_openEffImg.SetActive(true);
+            UtilApi.SetActive(m_textPackNum.selfGo, false);
         }
 
         protected void onPackBtnClk_1(IDispatchObject dispObj)
@@ -237,7 +239,7 @@ namespace Game.UI
         protected void showOpenEff()
         {
             m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
-            m_spriteAni.selfGo = m_auxDynImageStaticGOImage.selfGo;
+            m_spriteAni.selfGo = m_openEffImg;
             m_spriteAni.tableID = 6;
             m_spriteAni.bLoop = false;
             m_spriteAni.playEndEventDispatch.addEventHandle(effcPlayEnd);
@@ -254,17 +256,28 @@ namespace Game.UI
                 packNum += value.m_srvItemObject.dwNum;
             }
 
-            if (0 == packNum)
+            if (packNum <= 1)
                 m_textPackNum.text = "";
             else
              m_textPackNum.text = string.Format("{0}", packNum);
+
+            UtilApi.SetActive(m_textPackNum.selfGo, true);
         }
 
         protected void effcPlayEnd(IDispatchObject dispObj)
         {
-            m_auxDynImageStaticGOImage.setImageInfo(CVAtlasName.OpenPackAni, "kaibao_000");
-            m_auxDynImageStaticGOImage.syncUpdateCom();
-            m_auxDynImageStaticGOImage.selfGo.SetActive(false);
+            DataItemObjectBase bojBase;
+
+            bojBase = Ctx.m_instance.m_dataPlayer.m_dataPack.m_objList[0];
+
+            // 发消息通知开
+            stUseObjectPropertyUserCmd cmd = new stUseObjectPropertyUserCmd();
+            cmd.qwThisID = bojBase.m_srvItemObject.dwThisID;
+            cmd.useType = 1;
+            UtilMsg.sendMsg(cmd);
+
+            m_spriteAni.updateImage();
+            m_openEffImg.SetActive(false);
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].auxDynImageStaticGoButton.hide();
             UtilApi.SetActive(m_goArr[(int)OpenPackGo.eOpenPackLayer], true);
         }

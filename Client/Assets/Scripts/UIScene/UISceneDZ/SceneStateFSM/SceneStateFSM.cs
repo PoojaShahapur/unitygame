@@ -5,20 +5,12 @@ using Game.UI;
 
 namespace FSM
 {
-    public class SceneStateFSM : FSM
+    public class SceneStateFSM : SceneFSMBase
     {
-        protected SceneCardBase m_card;
-
-        public SceneCardBase card
+        public SceneStateFSM(SceneCardBase card) : 
+            base(card)
         {
-            get
-            {
-                return m_card;
-            }
-            set
-            {
-                m_card = value;
-            }
+
         }
 
         public override void InitFSM()

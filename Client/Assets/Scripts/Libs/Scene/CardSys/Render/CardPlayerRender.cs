@@ -13,6 +13,7 @@ namespace SDK.Lib
         // 这些是为了卸载资源使用
         protected AuxDynModel m_model;          // 模型资源
         protected CardSubPart[] m_subTex;       // 子模型
+        protected string m_modelPath;           // 模型目录
 
         public CardPlayerRender(SceneEntityBase entity_) :
             base(entity_)
@@ -62,6 +63,7 @@ namespace SDK.Lib
         virtual public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             TableCardItemBody tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, objId).m_itemBody as TableCardItemBody;
+            m_modelPath = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[tableBody.m_type].m_handleModelPath;
             setTableItemAndPnt(tableBody, pntGo_);
         }
 
@@ -74,12 +76,12 @@ namespace SDK.Lib
             addHandle();
         }
 
-        public void updateModel(TableCardItemBody tableBody, GameObject pntGo_)
+        virtual public void updateModel(TableCardItemBody tableBody, GameObject pntGo_)
         {
             m_cardModelItem = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[tableBody.m_type];
 
             m_model.pntGo = pntGo_;
-            m_model.modelResPath = Ctx.m_instance.m_dataPlayer.m_dataCard.m_sceneCardModelAttrItemList[tableBody.m_type].m_path;
+            m_model.modelResPath = m_modelPath;
             m_model.syncUpdateModel();
         }
 

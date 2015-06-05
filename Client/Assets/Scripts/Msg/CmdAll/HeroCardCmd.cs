@@ -1591,7 +1591,8 @@ namespace Game.Msg
         public t_Card A_object;
         public t_Card[] defList;
 
-        public bool m_bDamage;      // 客户端自己数据，记录是否是减血
+        public t_Card m_origAttObject;  // 客户端自己使用的数据
+        public t_Card m_origDefObject;  // 客户端自己使用的数据
 
         public override void derialize(ByteBuffer ba)
         {

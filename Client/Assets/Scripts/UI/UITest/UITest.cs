@@ -72,21 +72,25 @@ namespace Game.UI
             //testMsg();
             //testAddCard();
             //testCommonFight();
-            testSkillFight();
+            //testSkillFight();
+            //testMoveEffect();
+            testChangeMode();
         }
 
         protected void onBtnClkTest1f()
         {
-            testStart();
+            //testStart();
             //testAttackAni();
             //testFlyNum();
             //testSendToSelf();
+            changeModeOut();
         }
 
         protected void onBtnClkTest2f()
         {
-            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOut();
+            //UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            //uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOut();
+            changeModeHandle();
         }
 
         public void logOut(string str)
@@ -234,8 +238,8 @@ namespace Game.UI
             //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(250000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO, uiDZ.m_sceneDZData);
             // 测试[英雄技能卡]
             //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(260000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_SKILL, CardType.CARDTYPE_SKILL, uiDZ.m_sceneDZData);
-            testCard.behaviorControl.moveToDest(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), testCard.behaviorControl.onMove2DestEnd);
-            testCard.behaviorControl.moveToDest(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), testCard.behaviorControl.onMove2DestEnd);
+            testCard.moveControl.moveToDest(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), 0.3f, testCard.behaviorControl.onMove2DestEnd);
+            testCard.moveControl.moveToDest(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), 0.3f, testCard.behaviorControl.onMove2DestEnd);
             //testCard.updateCardOutState(true);
             //testCard.effectControl.linkEffect.play();
         }
@@ -268,12 +272,13 @@ namespace Game.UI
             AttackItemBase attItem = selfCard.fightData.attackData.createItem(EAttackType.eCommon);
             (attItem as ComAttackItem).hurterId = 1;
             (attItem as ComAttackItem).attackEffectId = 4;
+            (attItem as ComAttackItem).moveTime = 2;
             attItem.damage = 10;
 
             // 受伤
             HurtItemBase hurtItem = enemyCard.fightData.hurtData.createItem(EHurtType.eCommon);
             (hurtItem as ComHurtItem).hurtEffectId = 4;
-            (hurtItem as ComHurtItem).delayTime = 0.5f;
+            (hurtItem as ComHurtItem).delayTime = (attItem as ComAttackItem).getMoveTime();
             hurtItem.damage = 20;
         }
 
@@ -306,14 +311,57 @@ namespace Game.UI
             AttackItemBase attItem = selfCard.fightData.attackData.createItem(EAttackType.eSkill);
             (attItem as SkillAttackItem).skillId = 3;
             (attItem as SkillAttackItem).hurtIdList.Add(1);
+            (attItem as SkillAttackItem).skillTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (attItem as SkillAttackItem).skillId).m_itemBody as TableSkillItemBody;
             attItem.damage = 10;
 
             // 受伤
             HurtItemBase hurtItem = enemyCard.fightData.hurtData.createItem(EHurtType.eSkill);
             // 技能攻击没有被击特效
-            (hurtItem as SkillHurtItem).delayTime = 0.5f;
+            (hurtItem as SkillHurtItem).delayTime = (attItem as SkillAttackItem).skillTableItem.m_effectMoveTime;
             (hurtItem as SkillHurtItem).bDamage = true;
             hurtItem.damage = 20;
+        }
+
+        public void testMoveEffect()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+
+            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eMoveEffect) as MoveEffect;
+
+            effect.setPnt(uiDZ.m_sceneDZData.m_centerGO);
+            effect.setLoop(false);
+            effect.setTableID(4);
+            effect.srcPos = new Vector3(4, 0, 0);
+            effect.destPos = new Vector3(4, 0, 0);
+            effect.effectMoveTime = 1;
+            effect.play();
+        }
+
+
+        protected SceneCardBase m_changeMode;
+        protected void testChangeMode()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            // 测试[随从卡]
+            m_changeMode = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            m_changeMode.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
+            SceneCardItem sceneCardItem = null;
+            sceneCardItem = new SceneCardItem();
+            sceneCardItem.svrCard = new t_Card();
+            sceneCardItem.svrCard.qwThisID = 0;
+            sceneCardItem.svrCard.dwObjectID = 230000;
+            sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+            m_changeMode.sceneCardItem = sceneCardItem;
+        }
+
+        protected void changeModeOut()
+        {
+            m_changeMode.convOutModel();
+        }
+
+        protected void changeModeHandle()
+        {
+            m_changeMode.convHandleModel();
         }
     }
 }

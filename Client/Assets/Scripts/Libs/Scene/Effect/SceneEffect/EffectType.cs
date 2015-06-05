@@ -4,5 +4,6 @@
     {
         eLinkEffect,
         eMoveEffect,
+        eSceneEffect,
     }
 }

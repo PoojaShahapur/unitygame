@@ -5,10 +5,10 @@ using Game.UI;
 
 namespace FSM
 {
-    public class HurtStartFS : FSMState
+    public class HurtStartFS : FSMSceneState
     {
         public HurtStartFS(FSM fsm, SceneCardBase card)
-            : base(fsm, card)
+            : base(fsm)
         {
 
         }
@@ -17,7 +17,7 @@ namespace FSM
         {
             base.OnStateEnter();
 
-            m_card.fightData.hurtData.getNextItem();
+            card.fightData.hurtData.getNextItem();
             mFSM.MoveToState(SceneStateId.SSHurting);
         }
 

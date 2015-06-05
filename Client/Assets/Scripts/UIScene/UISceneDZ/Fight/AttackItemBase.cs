@@ -8,11 +8,12 @@ namespace Game.UI
     {
         protected EAttackType m_attackType;
         protected EAttackRangeType m_attackRangeType;
-        protected EventDispatch m_attackEndPlayDisp;      // 攻击结束播放分发
+        protected EventDispatch m_attackEndDisp;      // 整个攻击结束，从发起攻击，到回到原地
 
-        public AttackItemBase()
+        public AttackItemBase(EAttackType attackType)
         {
-            m_attackEndPlayDisp = new AddOnceAndCallOnceEventDispatch();
+            m_attackType = attackType;
+            m_attackEndDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         public EAttackType attackType
@@ -39,18 +40,18 @@ namespace Game.UI
             }
         }
 
-        public EventDispatch attackEndPlayDisp
+        public EventDispatch attackEndDisp
         {
             get
             {
-                return m_attackEndPlayDisp;
+                return m_attackEndDisp;
             }
         }
 
         override public void dispose()
         {
-            m_attackEndPlayDisp.clearEventHandle();
-            m_attackEndPlayDisp = null;
+            m_attackEndDisp.clearEventHandle();
+            m_attackEndDisp = null;
             base.dispose();
         }
 
@@ -76,6 +77,12 @@ namespace Game.UI
             {
                 m_damage = def.sceneCardItem.svrCard.damage;
             }
+        }
+
+        // 获取攻击移动到目标的时间
+        virtual public float getMoveTime()
+        {
+            return 0;
         }
     }
 }
