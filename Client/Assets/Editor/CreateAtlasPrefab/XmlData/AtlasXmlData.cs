@@ -130,7 +130,7 @@ namespace AtlasPrefabSys
 
         public void createAnimatorAsset()
         {
-            SOAnimatorList soAnimator = m_dirData.createScriptAnimator();
+            SOAnimatorController soAnimator = m_dirData.createScriptAnimator();
 
             string assetsPrefabPath = ExportUtil.getRelDataPath(m_outPath);
             // 创建预制，并且添加到编辑器中，以便进行检查

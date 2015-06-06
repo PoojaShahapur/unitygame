@@ -4,5 +4,5 @@
 	<path inpath="Res/Image/UI/DynImage" outpath="Prefabs/Resources/Atlas" ignoreext="meta,mat" parentpath="true" restype="0" />
 	<path inpath="Res/Image/UI/StaticImage/Info" outpath="Prefabs/Resources/Atlas/Info.asset" ignoreext="meta,mat" restype="0" />
 	<path inpath="Res/Image/Effect/SpriteEffect" outpath="Prefabs/Resources/Effect/SpriteEffect" ignoreext="meta,mat" parentpath="true" restype="0" />
-  <path inpath="Animation/Scene" outpath="Prefabs/Resources/Animation/Scene/CardModel.asset" ignoreext="meta,mat" restype="1" />
+  <path inpath="Animation/Scene" outpath="Prefabs/Resources/Animation/Scene/CardModel.asset" ignoreext="meta,mat,anim" restype="1" />
 </Root>

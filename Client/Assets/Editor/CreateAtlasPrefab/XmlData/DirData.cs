@@ -94,9 +94,9 @@ namespace AtlasPrefabSys
             return retSOSprite;
         }
 
-        public SOAnimatorList createScriptAnimator()
+        public SOAnimatorController createScriptAnimator()
         {
-            SOAnimatorList retSOAnimator = ScriptableObject.CreateInstance<SOAnimatorList>();
+            SOAnimatorController retSOAnimator = ScriptableObject.CreateInstance<SOAnimatorController>();
             foreach (FileData file in m_filesList)
             {
                 file.addAnimator2SO(retSOAnimator);
