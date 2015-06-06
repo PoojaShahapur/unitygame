@@ -60,8 +60,8 @@ namespace AtlasPrefabSys
         public void addAnimator2SO(SOAnimatorList soAnimator)
         {
             string assetsImagePath = ExportUtil.convFullPath2AssetsPath(m_fullPath);
-            Animator[] allSpritesArr = AtlasPrefabUtil.loadAllAsset<Animator>(assetsImagePath);
-            soAnimator.addAnimator(m_subPathNoExt, allSpritesArr[0]);
+            RuntimeAnimatorController asset = AtlasPrefabUtil.loadAllAsset<RuntimeAnimatorController>(assetsImagePath);
+            soAnimator.addAnimator(m_subPathNoExt, asset);
         }
     }
 }

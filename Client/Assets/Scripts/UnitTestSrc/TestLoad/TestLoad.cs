@@ -15,7 +15,10 @@ namespace UnitTestSrc
             //testSyncLoadRefCount();
             //testAsyncLoadAtlasRefCount();
             //testAsyncLoadUIPrefabRefCount();
-            testLoadBT();
+            //testLoadBT();
+            //testLoadAnimatorController();
+            //testLoadAnimatorControllerPrefab();
+            testLoadScriptAnimatorControllerPrefab();
         }
 
         protected void testModelLoad()
@@ -118,6 +121,55 @@ namespace UnitTestSrc
         {
             BehaviorTreeRes bt = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndSyncLoadBT(BTID.e1000);
             Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(bt.GetPath(), null);
+        }
+
+        protected void testLoadAnimatorController()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam("Animation/Scene/CommonCard.controller", param);
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            ResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param);
+            System.Type type = bbb.getObject("").GetType();
+            Ctx.m_instance.m_logSys.log(string.Format("类型名字 {0}", type.FullName));
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            //GameObject _go = UtilApi.createGameObject("AnimatorController");
+            //Animator animator = _go.AddComponent<Animator>();
+            //animator.runtimeAnimatorController = bbb.getObject() as ;
+        }
+
+        protected void testLoadAnimatorControllerPrefab()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam("Animation/Scene/Control.prefab", param);
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            GameObject _go = UtilApi.createGameObject("AnimatorController");
+            Animator animator = _go.AddComponent<Animator>();
+            GameObject _insObj = bbb.InstantiateObject("");
+            RuntimeAnimatorController controlCom = _insObj.GetComponent<Animator>().runtimeAnimatorController;
+            //_insObj.GetComponent<Animator>().runtimeAnimatorController = null;
+            RuntimeAnimatorController copyCom = RuntimeAnimatorController.Instantiate(controlCom);
+            animator.runtimeAnimatorController = copyCom;
+            //UtilApi.SetParent(_insObj, _go);
+            UtilApi.Destroy(_insObj);
+        }
+
+        protected void testLoadScriptAnimatorControllerPrefab()
+        {
+            LoadParam param;
+            param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam("Animation/Scene/CardModel.asset", param);
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+            PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
+            Ctx.m_instance.m_poolSys.deleteObj(param);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,23 +62,13 @@ namespace AtlasPrefabSys
             return spriteArr;
         }
 
-        public static T[] loadAllAsset<T>(string path) where T : UnityEngine.Object
+        public static T loadAllAsset<T>(string path) where T : UnityEngine.Object
         {
-            T[] spriteArr;
-            List<T> spritesList = new List<T>();
-
-            UnityEngine.Object[] objArr = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
-            foreach (UnityEngine.Object obj in objArr)
-            {
-                if (obj != null && obj as T)
-                {
-                    spritesList.Add(obj as T);
-                }
-            }
-
-            spriteArr = spritesList.ToArray();
-
-            return spriteArr;
+            UnityEngine.Object assetObj = AssetDatabase.LoadAssetAtPath(path, typeof(AnimatorController));
+            //UnityEngine.Object[] assetObj = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
+            //UnityEngine.Object[] assetObj = AssetDatabase.LoadAllAssetsAtPath(path);
+            //RuntimeAnimatorController aaa = assetObj as AnimatorController;
+            return assetObj as T;
         }
     }
 }

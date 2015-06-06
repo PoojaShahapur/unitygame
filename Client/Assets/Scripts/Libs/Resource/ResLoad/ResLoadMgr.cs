@@ -366,6 +366,7 @@ namespace SDK.Lib
 
         public ResItem getAndLoad(LoadParam param)
         {
+            param.resolvePath();
             load(param);
             return getResource(param.m_path);
         }

@@ -9,16 +9,16 @@ namespace SDK.Lib
         [System.Serializable]
         public class SerialObject
         {
-            public Animator m_animator;
+            public RuntimeAnimatorController m_animatorController;
             public string m_path;
         }
 
         public List<SerialObject> m_objList = new List<SerialObject>();
 
-        public void addAnimator(string path, Animator animator_)
+        public void addAnimator(string path, RuntimeAnimatorController animatorController_)
         {
             SerialObject obj = new SerialObject();
-            obj.m_animator = animator_;
+            obj.m_animatorController = animatorController_;
             obj.m_path = path;
             m_objList.Add(obj);
         }
@@ -29,7 +29,7 @@ namespace SDK.Lib
             {
                 foreach (SerialObject sprite in m_objList)
                 {
-                    UtilApi.UnloadAsset(sprite.m_animator);
+                    UtilApi.UnloadAsset(sprite.m_animatorController);
                 }
                 m_objList = null;
             }
