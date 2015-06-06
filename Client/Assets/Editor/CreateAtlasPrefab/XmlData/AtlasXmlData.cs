@@ -51,6 +51,7 @@ namespace AtlasPrefabSys
         protected List<string> m_ignoreExtList;             // 或略的扩展名列表
 
         protected DirData m_dirData;
+        protected uint m_resType;
 
         public List<string> ignoreExtList
         {
@@ -64,6 +65,7 @@ namespace AtlasPrefabSys
         {
             m_inPath = ExportUtil.getXmlAttrStr(packElem.Attributes["inpath"]);
             m_outPath = ExportUtil.getXmlAttrStr(packElem.Attributes["outpath"]);
+            m_resType = ExportUtil.getXmlAttrUInt(packElem.Attributes["restype"]);
 
             string ignoreext = ExportUtil.getXmlAttrStr(packElem.Attributes["ignoreext"]);
             char[] separator = new char[1];
@@ -72,10 +74,11 @@ namespace AtlasPrefabSys
             m_ignoreExtList = new List<string>(strArr);
         }
 
-        public void setPathParam(string inpath, string outpath, string ignoreExtStr)
+        public void setPathParam(string inpath, string outpath, string ignoreExtStr, uint resType_)
         {
             m_inPath = inpath;
             m_outPath = outpath;
+            m_resType = resType_;
 
             string ignoreext = ignoreExtStr;
             char[] separator = new char[1];
@@ -104,6 +107,18 @@ namespace AtlasPrefabSys
 
         public void createAsset()
         {
+            if(0 == m_resType)
+            {
+                createSpriteAsset();
+            }
+            else if (1 == m_resType)
+            {
+                createAnimatorAsset();
+            }
+        }
+
+        public void createSpriteAsset()
+        {
             SOSpriteList soSprite = m_dirData.createScriptSprite();
 
             string assetsPrefabPath = ExportUtil.getRelDataPath(m_outPath);
@@ -111,6 +126,11 @@ namespace AtlasPrefabSys
             AssetDatabase.CreateAsset(soSprite, assetsPrefabPath);
             //刷新编辑器
             AssetDatabase.Refresh();
+        }
+
+        public void createAnimatorAsset()
+        {
+
         }
     }
 
@@ -122,12 +142,15 @@ namespace AtlasPrefabSys
         protected string m_fullDirPath;
         protected AtlasXmlData m_data;
 
+        protected uint m_resType;
+
         public void parseXml(XmlElement packElem, AtlasXmlData data)
         {
             m_data = data;
             m_inPath = ExportUtil.getXmlAttrStr(packElem.Attributes["inpath"]);
             m_outPath = ExportUtil.getXmlAttrStr(packElem.Attributes["outpath"]);
             m_ignoreExtStr = ExportUtil.getXmlAttrStr(packElem.Attributes["ignoreext"]);
+            m_resType = ExportUtil.getXmlAttrUInt(packElem.Attributes["restype"]);
 
             m_fullDirPath = ExportUtil.getDataPath(m_inPath);
             m_fullDirPath = ExportUtil.normalPath(m_fullDirPath);
@@ -148,7 +171,7 @@ namespace AtlasPrefabSys
             string inpath = string.Format("{0}/{1}", m_inPath, dirInfo.Name);
             string outpath = string.Format("{0}/{1}.asset", m_outPath, dirInfo.Name);
 
-            xmlPath.setPathParam(inpath, outpath, m_ignoreExtStr);
+            xmlPath.setPathParam(inpath, outpath, m_ignoreExtStr, m_resType);
         }
     }
 

@@ -93,5 +93,16 @@ namespace AtlasPrefabSys
 
             return retSOSprite;
         }
+
+        public SOAnimatorList createScriptAnimator()
+        {
+            SOAnimatorList retSOAnimator = ScriptableObject.CreateInstance<SOAnimatorList>();
+            foreach (FileData file in m_filesList)
+            {
+                file.addAnimator2SO(retSOAnimator);
+            }
+
+            return retSOAnimator;
+        }
     }
 }

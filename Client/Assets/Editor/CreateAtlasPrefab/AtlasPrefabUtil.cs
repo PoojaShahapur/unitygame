@@ -60,5 +60,24 @@ namespace AtlasPrefabSys
 
             return spriteArr;
         }
+
+        public static T[] loadAllAsset<T>(string path) where T : UnityEngine.Object
+        {
+            T[] spriteArr;
+            List<T> spritesList = new List<T>();
+
+            UnityEngine.Object[] objArr = AssetDatabase.LoadAllAssetRepresentationsAtPath(path);
+            foreach (UnityEngine.Object obj in objArr)
+            {
+                if (obj != null && obj as T)
+                {
+                    spritesList.Add(obj as T);
+                }
+            }
+
+            spriteArr = spritesList.ToArray();
+
+            return spriteArr;
+        }
     }
 }
