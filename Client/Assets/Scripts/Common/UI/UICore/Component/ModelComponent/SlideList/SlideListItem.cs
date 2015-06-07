@@ -1,5 +1,6 @@
-﻿using Game.Msg;
-using Game.UI;
+﻿using Fight;
+using FightCore;
+using Game.Msg;
 using SDK.Lib;
 using UnityEngine;
 

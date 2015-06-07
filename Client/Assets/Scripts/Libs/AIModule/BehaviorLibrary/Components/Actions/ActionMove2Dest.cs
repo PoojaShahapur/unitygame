@@ -1,4 +1,5 @@
-﻿using Game.UI;
+﻿using FightCore;
+using Game.UI;
 using SDK.Common;
 
 namespace BehaviorLibrary

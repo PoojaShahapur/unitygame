@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SDK.Lib;
-using Game.UI;
+using FightCore;
 
 namespace FSM
 {

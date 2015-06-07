@@ -8,6 +8,7 @@ using System;
 using UnitTestSrc;
 using BehaviorLibrary;
 using Game.UI;
+using FightCore;
 #endif
 
 /**
