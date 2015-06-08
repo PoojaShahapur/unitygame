@@ -70,21 +70,5 @@ namespace AtlasPrefabSys
             //RuntimeAnimatorController aaa = assetObj as AnimatorController;
             return assetObj as T;
         }
-
-        public static AnimatorController BuildAnimationController(List<AnimationClip> clips, string path, string name)
-        {
-            AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(string.Format("{0}/{1}.controller", path, name));
-            AnimatorControllerLayer layer = animatorController.layers[0];
-            AnimatorControllerParameter parameters = animatorController.parameters;
-            AnimatorStateMachine sm = layer.stateMachine;
-            foreach (AnimationClip newClip in clips)
-            {
-                AnimatorState state = sm.AddState(newClip.name);
-                state.motion = newClip;
-                AnimatorStateTransition trans = sm.AddAnyStateTransition(state);
-            }
-            AssetDatabase.SaveAssets();
-            return animatorController;
-        }
     }
 }

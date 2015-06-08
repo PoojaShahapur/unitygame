@@ -9,8 +9,8 @@ namespace SDK.Lib
     public class TimerItemBase : IDelayHandleItem
     {
         public float m_internal = 1;        // 定时器间隔
-        public float m_totalCount = 1;      // 总共定时器时间
-        public float m_curCount = 0;        // 当前已经调用的定时器的时间
+        public float m_totalTime = 1;      // 总共定时器时间
+        public float m_curTime = 0;        // 当前已经调用的定时器的时间
         public bool m_bInfineLoop = false;  // 是否是无限循环
         public float m_curLeftTimer = 0;    // 当前定时器剩余的次数
         public Action<TimerItemBase> m_timerDisp = null;       // 定时器分发
@@ -78,8 +78,8 @@ namespace SDK.Lib
 
         protected virtual bool checkEnd(float delta)
         {
-            m_curCount += delta;
-            if(m_curCount >= m_totalCount)
+            m_curTime += delta;
+            if(m_curTime >= m_totalTime)
             {
                 m_disposed = true;
                 return true;
@@ -91,7 +91,7 @@ namespace SDK.Lib
         public virtual void reset()
         {
             m_disposed = false;
-            m_curCount = 0;
+            m_curTime = 0;
             m_curLeftTimer = 0;
             m_disposed = false;
         }

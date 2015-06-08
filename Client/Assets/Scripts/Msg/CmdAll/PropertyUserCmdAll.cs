@@ -199,6 +199,12 @@ namespace Game.Msg
             base.serialize(ba);
             ba.writeUnsignedInt16(index);
         }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+            ba.readUnsignedInt16(ref index);
+        }
     }
 
     //const BYTE REQ_BUY_MARKET_MOBILE_OBJECT_CMD = 44;

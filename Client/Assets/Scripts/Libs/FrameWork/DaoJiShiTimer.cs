@@ -7,8 +7,8 @@
     {
         protected override bool checkEnd(float delta)
         {
-            m_curCount -= delta;
-            if (m_curCount <= 0)            // 保证肯定退出
+            m_curTime -= delta;
+            if (m_curTime <= 0)            // 保证肯定退出
             {
                 m_disposed = true;
                 return true;
@@ -19,7 +19,7 @@
 
         public override void reset()
         {
-            m_curCount = m_totalCount;
+            m_curTime = m_totalTime;
             m_curLeftTimer = 0;
             m_disposed = false;
         }

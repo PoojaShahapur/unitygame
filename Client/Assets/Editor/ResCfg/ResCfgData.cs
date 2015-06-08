@@ -39,20 +39,20 @@ namespace EditorTool
         public void parseXml()
         {
             ResCfgParse resCfgParse = new ResCfgParse();
-            resCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackCfg.xml"), m_packList);
+            resCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ResPackCfg.xml"), m_packList);
         }
 
         public void parseSkinsXml()
         {
             SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
-            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ExportSkinsCfg.xml"), m_meshList);
+            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkinsCfg.xml"), m_meshList);
             m_rootParam.m_outPath = skelMeshCfgParse.m_outPath;
         }
 
         public void parseSkelSubMeshPackXml()
         {
             SkelSubMeshPackParse skelSubMeshPackParse = new SkelSubMeshPackParse();
-            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Config/Tool/SkelSubMeshPackCfg.xml"), m_skelSubMeshList);
+            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/SkelSubMeshPackCfg.xml"), m_skelSubMeshList);
             m_rootParam.m_outPath = skelSubMeshPackParse.m_outPath;
             m_rootParam.m_tmpPath = skelSubMeshPackParse.m_tmpPath;
         }
@@ -60,7 +60,7 @@ namespace EditorTool
         public void parseResourceXml()
         {
             ResourceCfgParse resourceCfgParse = new ResourceCfgParse();
-            resourceCfgParse.parseXml(ExportUtil.getDataPath("Config/Tool/ResPackResourceCfg.xml"), m_pResourcesCfgPackData.m_resourceList);
+            resourceCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ResPackResourceCfg.xml"), m_pResourcesCfgPackData.m_resourceList);
         }
 
         public void pack()

@@ -1,5 +1,6 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 namespace UnitTestSrc
 {
     /**
@@ -10,6 +11,7 @@ namespace UnitTestSrc
         public void run()
         {
             //testAnim();
+            testDopeSheetAni();
         }
 
         // 测试 .anim 动画
@@ -36,6 +38,20 @@ namespace UnitTestSrc
             }
 
             Ctx.m_instance.m_resLoadMgr.unload("Anim/boxcampush", onLoadEventHandle);
+        }
+
+        protected void testDopeSheetAni()
+        {
+            DopeSheetAni ani = new DopeSheetAni();
+            GameObject _go = UtilApi.createGameObject("AnimatorController");
+            ani.setControlInfo("Animation/Scene/CardModel.asset");
+            ani.setGO(_go);
+            ani.syncUpdateControl();
+            ani.stateId = 2;
+            ani.play();
+            ani.stop();
+            ani.dispose();
+            UtilApi.Destroy(_go);
         }
     }
 }

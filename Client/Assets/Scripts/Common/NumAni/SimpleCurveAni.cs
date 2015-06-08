@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief 简单的曲线
      */
-    public class SimpleCurveAni : NumAniBase
+    public class SimpleCurveAni : ITweenAniBase
     {
         protected Vector3[] m_plotPtList;           // 控制点数组
 

@@ -292,6 +292,11 @@ namespace SDK.Common
             tran.localPosition = pos;
         }
 
+        public static void setRectPos(RectTransform tran, Vector3 pos)
+        {
+            tran.localPosition = pos;
+        }
+
         public static void adjustEffectRST(Transform transform)
         {
             UtilApi.setPos(transform, new Vector3(-0.01f, 0, 0.46f));
@@ -391,6 +396,18 @@ namespace SDK.Common
         public static GameObject createGameObject(string name = "PlaceHolder")
         {
             return new GameObject(name);
+        }
+
+        public static void copyBoxCollider(GameObject src, GameObject dest)
+        {
+            BoxCollider srcBox = src.GetComponent<BoxCollider>();
+            BoxCollider destBox = dest.GetComponent<BoxCollider>();
+            if(destBox == null)
+            {
+                destBox = dest.AddComponent<BoxCollider>();
+            }
+            destBox.center = srcBox.center;
+            destBox.size = srcBox.size;
         }
 
         // 当前是否在与 UI 元素交互

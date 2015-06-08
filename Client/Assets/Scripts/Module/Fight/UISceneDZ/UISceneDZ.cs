@@ -228,8 +228,8 @@ namespace Fight
 
         public void psstNotifyFightEnemyInfoUserCmd(stNotifyFightEnemyInfoUserCmd msg)
         {
-            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
-            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroOccupation);   // 设置职业
+            //m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_heroOccupation);   // 设置职业
+            //m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerEnemy].m_heroOccupation);   // 设置职业
         }
 
         // 自己第一次获得的卡牌的处理，如果换牌，还是会再次发送这个消息

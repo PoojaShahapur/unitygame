@@ -36,8 +36,8 @@ namespace FightCore
             if(m_timer == null)
             {
                 m_timer = new DaoJiShiTimer();
-                m_timer.m_curCount = 15;
-                m_timer.m_totalCount = 15;
+                m_timer.m_curTime = 15;
+                m_timer.m_totalTime = 15;
                 m_timer.m_timerDisp = onTimerHandle;
 
                 Ctx.m_instance.m_timerMgr.addObject(m_timer);
@@ -82,7 +82,7 @@ namespace FightCore
             {
                 if (!m_timer.m_disposed)
                 {
-                    m_numObj.setNum((int)m_timer.m_curCount);
+                    m_numObj.setNum((int)m_timer.m_curTime);
                 }
                 else
                 {

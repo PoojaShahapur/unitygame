@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief 数字动画，移动、旋转、缩放
      */
-    public class RSTAni : NumAniBase
+    public class RSTAni : ITweenAniBase
     {
         // 目标信息
         protected Vector3 m_destPos;       // 最终位置

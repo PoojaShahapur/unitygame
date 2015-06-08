@@ -33,8 +33,16 @@ namespace SDK.Common
         public void addOneNumAni(NumAniBase ani)
         {
             m_numAniList.Add(ani);
-            ani.setDispGo(m_go);
-            ani.setMethodName("onAniEnd");
+
+            if (ani is ITweenAniBase)   // 如果是补间动画
+            {
+                ani.setDispGo(m_go);
+                ani.setMethodName("onAniEnd");
+            }
+            else if(ani is DopeSheetAni)
+            {
+                ani.setAniEndDisp(onOneAniEndHandle);
+            }
         }
 
         public void setAniSeqEndDisp(Action<NumAniSeqBase> disp)
@@ -50,6 +58,11 @@ namespace SDK.Common
             }
             ani.stop();                 // 停止动画
             m_numAniList.Remove(ani);
+        }
+
+        virtual protected void onOneAniEndHandle(NumAniBase ani)
+        {
+
         }
     }
 }

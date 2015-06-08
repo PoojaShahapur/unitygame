@@ -32,11 +32,12 @@ namespace Game.UI
         // 添加事件监听
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_model.selfGo, onBtnClkOpen);
+            //UtilApi.addEventHandle(m_model.selfGo, onBtnClkOpen);
+            this.clickEntityDisp.addEventHandle(onBtnClkOpen);
         }
 
         // 点击开包按钮
-        protected virtual void onBtnClkOpen(GameObject go)
+        protected virtual void onBtnClkOpen(IDispatchObject dispObj)
         {
             if (!UtilApi.IsPointerOverGameObject())
             {

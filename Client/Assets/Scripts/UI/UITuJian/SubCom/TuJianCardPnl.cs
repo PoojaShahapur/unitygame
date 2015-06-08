@@ -164,7 +164,10 @@ namespace Game.UI
 
         public void updatePageNo()
         {
-            m_textPageNum.text = string.Format("第{0}/{1}页", m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].m_curPageIdx + 1, m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].getTotalPageDesc());
+            m_textPageNum.text = (m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].m_curPageIdx + 1).ToString();
+
+            AuxLabel textPageNum = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextPageMaxNum);
+            textPageNum.text = m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].getTotalPageDesc().ToString();
         }
 
         // 收藏中前一页

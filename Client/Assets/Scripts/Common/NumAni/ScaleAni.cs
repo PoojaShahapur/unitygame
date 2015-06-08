@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SDK.Common
 {
-    public class ScaleAni : NumAniBase
+    public class ScaleAni : ITweenAniBase
     {
         // 目标信息
         protected Vector3 m_destScale;     // 最终缩放

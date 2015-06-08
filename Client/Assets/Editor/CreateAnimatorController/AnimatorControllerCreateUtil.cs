@@ -1,6 +1,53 @@
-﻿namespace CreateAnimatorController
+﻿using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Animations;
+using UnityEngine;
+
+namespace CreateAnimatorController
 {
     public class AnimatorControllerCreateUtil
     {
+        // 暂时就支持一层，只支持一个参数
+        public static AnimatorController BuildAnimationController(AnimatorControllerCreate controllerData)
+        {
+            AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(controllerData.controllerFullPath);
+            AnimatorControllerLayer layer = animatorController.layers[0];
+            animatorController.AddParameter(controllerData.getParams.paramList[0].name, AnimatorControllerParameterType.Int);
+            AnimatorControllerParameter[] parameters = animatorController.parameters;
+            AnimatorStateMachine stateMachine = layer.stateMachine;
+
+            // 创建 Default State ，第一个创建的状态默认就是 Default State
+            AnimatorState animatorState = null;
+            animatorState = stateMachine.AddState("Start");
+            animatorState.writeDefaultValues = true;
+
+            foreach (State state in controllerData.layers.layerList[0].stateMachineList[0].stateList)
+            {
+                AnimationClip clip = AssetDatabase.LoadAssetAtPath(state.fullMotion, typeof(AnimationClip)) as AnimationClip;
+                animatorState = stateMachine.AddState(clip.name);
+                animatorState.motion = clip;
+                AnimatorStateTransition trans = stateMachine.AddAnyStateTransition(animatorState);
+                trans.AddCondition(AnimatorConditionMode.Equals, state.condList[0].getFloatValue(), state.condList[0].name);
+            }
+
+            AssetDatabase.SaveAssets();
+            return animatorController;
+        }
+
+        public static AnimatorController BuildAnimationController(List<AnimationClip> clips, string path, string name)
+        {
+            AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(string.Format("{0}/{1}.controller", path, name));
+            AnimatorControllerLayer layer = animatorController.layers[0];
+            AnimatorControllerParameter[] parameters = animatorController.parameters;
+            AnimatorStateMachine sm = layer.stateMachine;
+            foreach (AnimationClip newClip in clips)
+            {
+                AnimatorState state = sm.AddState(newClip.name);
+                state.motion = newClip;
+                AnimatorStateTransition trans = sm.AddAnyStateTransition(state);
+            }
+            AssetDatabase.SaveAssets();
+            return animatorController;
+        }
     }
 }

@@ -65,6 +65,8 @@ namespace FightCore
             m_changeCardList = new List<uint>();
 
             m_fightMsgMgr = new FightMsgMgr(this);
+
+            m_bHeroAniEnd = true;
         }
 
         public void findWidget()
@@ -79,7 +81,7 @@ namespace FightCore
 
             m_centerGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CenterGO);
             m_startGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.StartGO);
-            UtilApi.SetActive(m_startGO, false);      // 默认是隐藏的
+            //UtilApi.SetActive(m_startGO, false);      // 默认是隐藏的
 
             m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfStartCardCenterGO);
             m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyStartCardCenterGO);
@@ -266,7 +268,7 @@ namespace FightCore
             {
                 m_timer = new TimerItemBase();
                 m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_preparetime - m_DZDaoJiShiXmlLimit.m_lastpreparetime;
-                m_timer.m_totalCount = m_timer.m_internal;
+                m_timer.m_totalTime = m_timer.m_internal;
                 m_timer.m_timerDisp = onTimerInitCardHandle;
 
                 Ctx.m_instance.m_timerMgr.addObject(m_timer);
@@ -286,7 +288,7 @@ namespace FightCore
             {
                 m_timer = new TimerItemBase();
                 m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_roundtime - m_DZDaoJiShiXmlLimit.m_lastroundtime;
-                m_timer.m_totalCount = m_timer.m_internal;
+                m_timer.m_totalTime = m_timer.m_internal;
                 m_timer.m_timerDisp = onTimerDZHandle;
 
                 Ctx.m_instance.m_timerMgr.addObject(m_timer);
@@ -306,7 +308,7 @@ namespace FightCore
             {
                 m_timer.reset();
                 m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_roundtime - m_DZDaoJiShiXmlLimit.m_lastroundtime;
-                m_timer.m_totalCount = m_timer.m_internal;
+                m_timer.m_totalTime = m_timer.m_internal;
                 m_timer.m_timerDisp = onTimerDZHandle;
 
                 Ctx.m_instance.m_timerMgr.addObject(m_timer);

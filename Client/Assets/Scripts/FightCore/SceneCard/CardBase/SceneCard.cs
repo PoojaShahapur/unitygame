@@ -2,6 +2,7 @@
 using FSM;
 using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 
 namespace FightCore
 {
@@ -26,6 +27,28 @@ namespace FightCore
             m_sceneCardBaseData.m_aiController.possess(this);
         }
 
+        override public void init()
+        {
+            base.init();
+
+            if (m_sceneCardBaseData.m_clickControl != null)
+            {
+                m_sceneCardBaseData.m_clickControl.init();
+            }
+            if (m_sceneCardBaseData.m_trackAniControl != null)
+            {
+                m_sceneCardBaseData.m_trackAniControl.init();
+            }
+            if (m_sceneCardBaseData.m_dragControl != null)
+            {
+                m_sceneCardBaseData.m_dragControl.init();
+            }
+            if (m_sceneCardBaseData.m_effectControl != null)
+            {
+                m_sceneCardBaseData.m_effectControl.init();
+            }
+        }
+
         override public void onTick(float delta)
         {
             base.onTick(delta);
@@ -38,6 +61,11 @@ namespace FightCore
             {
                 m_sceneCardBaseData.m_aiController.onTick(delta);
             }
+        }
+
+        override public void setIdAndPnt(uint objId, GameObject pntGo_)
+        {
+            (m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
         }
 
         // 设置一些基本信息

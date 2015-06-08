@@ -20,7 +20,7 @@ namespace AtlasPrefabSys
 
         public void parseXml()
         {
-            string path = ExportUtil.getDataPath("Config/Tool/CreateAtlasPrefab.xml");
+            string path = ExportUtil.getDataPath("Res/Config/Tool/CreateAtlasPrefab.xml");
             AtlasXmlParse parse = new AtlasXmlParse();
             parse.parseXml(path, this);
         }

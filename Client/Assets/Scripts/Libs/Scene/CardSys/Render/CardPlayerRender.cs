@@ -29,11 +29,6 @@ namespace SDK.Lib
             }
         }
 
-        public void onEntityClick(GameObject go)
-        {
-            m_clickEntityDisp.dispatchEvent(this);
-        }
-
         override public void dispose()
         {
             if (m_model != null)

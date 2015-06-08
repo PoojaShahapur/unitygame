@@ -29,22 +29,7 @@ namespace FightCore
 
         virtual public void init()
         {
-            if (m_sceneCardBaseData.m_clickControl != null)
-            {
-                m_sceneCardBaseData.m_clickControl.init();
-            }
-            if (m_sceneCardBaseData.m_trackAniControl != null)
-            {
-                m_sceneCardBaseData.m_trackAniControl.init();
-            }
-            if (m_sceneCardBaseData.m_dragControl != null)
-            {
-                m_sceneCardBaseData.m_dragControl.init();
-            }
-            if (m_sceneCardBaseData.m_effectControl != null)
-            {
-                m_sceneCardBaseData.m_effectControl.init();
-            }
+
         }
 
         public SceneCardBaseData sceneCardBaseData
@@ -362,7 +347,7 @@ namespace FightCore
 
         virtual public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
-            (m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
+            //(m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
         }
 
         // 转换成出牌模型

@@ -54,11 +54,6 @@ namespace SDK.Lib
             addHandle();
         }
 
-        override protected void addHandle()
-        {
-            
-        }
-
         protected void addUIAndBox()
         {
             m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(m_uiPrefabPath);
@@ -67,10 +62,7 @@ namespace SDK.Lib
             UtilApi.SetParent(_go, gameObject(), false);
 
             m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
-            _go = m_boxModel.InstantiateObject(m_boxModelPath);
-            _go.name = "CommonCardBox";
-            UtilApi.SetParent(_go, gameObject(), false);
-            UtilApi.addEventHandle(_go, onEntityClick);
+            UtilApi.copyBoxCollider(m_boxModel.getObject() as GameObject, gameObject());
         }
 
         override protected void updateLeftAttr(TableCardItemBody tableBody)
@@ -90,6 +82,26 @@ namespace SDK.Lib
                 GameObject raceGO = UtilApi.TransFindChildByPObjAndPath(m_model.selfGo, m_cardModelItem.m_raceSubModel);
                 UtilApi.SetActive(raceGO, false);
                 raceText.text = "";
+            }
+
+            if (tableBody.m_type == (int)CardType.CARDTYPE_MAGIC)//法术牌
+            {
+                GameObject raceGO = UtilApi.TransFindChildByPObjAndPath(m_model.selfGo, "gongji_kapai");
+                UtilApi.SetActive(raceGO, false);
+                AuxLabel attText = new AuxLabel(m_model.selfGo, "UIRoot/AttText");
+                attText.text = "";
+
+                GameObject raceGO2 = UtilApi.TransFindChildByPObjAndPath(m_model.selfGo, "xue_kapai");
+                UtilApi.SetActive(raceGO2, false);
+                AuxLabel hpText = new AuxLabel(m_model.selfGo, "UIRoot/HpText");
+                hpText.text = "";
+            }
+            else if(tableBody.m_type == (int)CardType.CARDTYPE_EQUIP)//武器牌
+            {
+                GameObject raceGO2 = UtilApi.TransFindChildByPObjAndPath(m_model.selfGo, "xue_kapai");
+                UtilApi.SetActive(raceGO2, false);
+                AuxLabel hpText = new AuxLabel(m_model.selfGo, "UIRoot/HpText");
+                hpText.text = "";
             }
         }
 

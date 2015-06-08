@@ -46,7 +46,7 @@ namespace SDK.Common
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 5;
-            timer.m_totalCount = 5;
+            timer.m_totalTime = 5;
             timer.m_timerDisp = endTimer;
             Ctx.m_instance.m_timerMgr.addObject(timer);
         }

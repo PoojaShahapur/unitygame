@@ -17,7 +17,7 @@ namespace SDK.Lib
 
             // 创建自己的场景 GameObject
             selfGo = UtilApi.createSpriteGameObject();
-            UtilApi.adjustEffectRST(m_selfGo.transform);
+            //UtilApi.adjustEffectRST(m_selfGo.transform);
         }
 
         public override void dispose()

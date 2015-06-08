@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SDK.Common
 {
-    public class RotAni : NumAniBase
+    public class RotAni : ITweenAniBase
     {
         // 目标信息
         protected Vector3 m_destRot;       // 最终旋转

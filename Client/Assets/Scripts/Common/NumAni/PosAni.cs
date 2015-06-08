@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SDK.Common
 {
-    public class PosAni : NumAniBase
+    public class PosAni : ITweenAniBase
     {
         // 目标信息
         protected Vector3 m_destPos;       // 最终位置

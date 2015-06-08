@@ -2,15 +2,13 @@
 {
     public class CVSceneDZPath
     {
-        public const string TurnBtn = "dz/turn";
-        public const string SelfHero = "ZhanChang/yingxiong_zhanchang";
-        public const string EnemyHero = "ZhanChang/yingxiong_zhanchang001";
+        public const string TurnBtn = "jieshu_zhanchang";
         //public const string LuckyCoin = "luckycoin";
         public const string SelfTurnTip = "youturntip";
         public const string SelfCardFullTip = "SelfCardFullTip";
         public const string SelfCardFullTipText = "Canvas/Text";
-        public const string MyCardDeap = "ZhanChang/paizu_zhanchang";
-        public const string EnemyCardDeap = "ZhanChang/paizu_zhanchang";
+        public const string MyCardDeap = "paiku_zhanchang";
+        public const string EnemyCardDeap = "paiku_zhanchang";
 
         public const string CenterGO = "dzban";         // 中心位置，所有的牌的相对位置都是相对这个位置
 

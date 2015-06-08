@@ -24,6 +24,7 @@
         public const string BtnPrePage = "UIRootNode/TopLay/PrePageBtn";               // 前一页
         public const string BtnNextPage = "UIRootNode/TopLay/NextPageBtn";               // 后一页
         public const string TextPageNum = "UIRootNode/TopLay/PageBgImage/pagenum";               // 第一页
+        public const string TextPageMaxNum = "UIRootNode/TopLay/PageBgImage/pagemaxnum";               // 第一页
 
         public const string BtnJob = "UIRootNode/MidLay/LeftBtnList/JobBtn";           // 职业
 
@@ -37,6 +38,9 @@
         public const string BtnNewCardSet = "UIRootNode/MidLay/RightPnl/NewCardSetBtn";
         public const string BtnRet = "UIRootNode/MidLay/RightPnl/RetBtn";
         public const string TextCardSetCardCnt = "UIRootNode/MidLay/RightPnl/CardSetCardCntText";
+        public const string TextCardSetCardFootCnt = "UIRootNode/MidLay/RightPnl/CardSetCardCntFootText";
+        public const string TextCardSetCardSlashCnt = "UIRootNode/MidLay/RightPnl/CardSetCardCntSlashText";
+        public const string TextCardSetCardCnt2 = "UIRootNode/MidLay/RightPnl/CardSetCardCntText2";
 
         public const string CardSetListParent = "UIRootNode/MidLay/RightPnl/CardSetListGo";
         public const string CardSetListCont = "UIRootNode/MidLay/RightPnl/CardSetListGo/ScrollRect/Content";

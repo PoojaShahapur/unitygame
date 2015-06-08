@@ -42,5 +42,10 @@ namespace SDK.Lib
         {
             return gameObject;
         }
+
+        virtual public void dispose()
+        {
+
+        }
     }
 }

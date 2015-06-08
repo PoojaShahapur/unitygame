@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!--  -->
+<Root>
+	<Controller inpath="Assets/Res/Animation/Scene" outpath="Assets/Prefabs/Resources/Animation/Scene" outname="CardModel" outextname="asset" >
+		<Params>
+			<Param name="StateId" type="int" />
+		</Params>
+		<Layers>
+			<Layer>
+				<Statemachine>
+					<State motion="duifangchoupai.anim" >
+						<Condition name="StateId" value="1" />
+					</State>
+					<State motion="fanpai.anim" >
+						<Condition name="StateId" value="2" />
+					</State>
+					<State motion="jifangchoupai.anim" >
+						<Condition name="StateId" value="3" />
+					</State>
+					<State motion="jifangrushou.anim" >
+						<Condition name="StateId" value="4" />
+					</State>
+				</Statemachine>
+			</Layer>
+		</Layers>
+	</Controller>
+</Root>

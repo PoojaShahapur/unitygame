@@ -14,6 +14,7 @@ namespace Game.Game
             m_id2HandleDic[stPropertyUserCmd.ADDUSER_MOBJECT_LIST_PROPERTY_USERCMD_PARAMETER] = psstAddMobileObjectListPropertyUserCmd;
             m_id2HandleDic[stPropertyUserCmd.ADDUSER_MOBJECT_PROPERTY_USERCMD_PARAMETER] = psstAddMobileObjectPropertyUserCmd;
             m_id2HandleDic[stPropertyUserCmd.NOFITY_MARKET_ALL_OBJECT_CMD] = psstNotifyMarketAllObjectPropertyUserCmd;
+            m_id2HandleDic[stPropertyUserCmd.REQ_BUY_MARKET_MOBILE_OBJECT_CMD] = psstReqBuyMobileObjectPropertyUserCmd;
         }
 
         protected void psstRemoveObjectPropertyUserCmd(ByteBuffer msg)
@@ -75,6 +76,14 @@ namespace Game.Game
             stNotifyMarketAllObjectPropertyUserCmd cmd = new stNotifyMarketAllObjectPropertyUserCmd();
             cmd.derialize(msg);
             Ctx.m_instance.m_dataPlayer.m_dataShop.updateShop(cmd.id);
+        }
+
+        protected void psstReqBuyMobileObjectPropertyUserCmd(ByteBuffer msg)
+        {
+            stReqBuyMobileObjectPropertyUserCmd cmd = new stReqBuyMobileObjectPropertyUserCmd();
+            cmd.derialize(msg);
+
+           //给与购买成功提示
         }
     }
 }

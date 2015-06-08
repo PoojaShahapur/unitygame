@@ -24,5 +24,15 @@ namespace FightCore
         {
             this.transform().localPosition = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
         }
+
+        override public void updateCardDataChange(t_Card svrCard_ = null)
+        {
+
+        }
+
+        override public void updateCardDataNoChange()
+        {
+
+        }
     }
 }

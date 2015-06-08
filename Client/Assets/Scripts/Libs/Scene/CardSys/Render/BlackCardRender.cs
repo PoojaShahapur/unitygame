@@ -56,7 +56,7 @@ namespace SDK.Lib
         virtual public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             m_model.pntGo = pntGo_;
-            m_model.modelResPath = "";
+            m_model.modelResPath = "Model/Character/CommonCard.prefab";
             m_model.syncUpdateModel();
         }
     }

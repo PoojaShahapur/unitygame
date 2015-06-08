@@ -81,6 +81,9 @@ namespace FightCore
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
                     m_centerHero = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_HERO, m_sceneDZData) as HeroCard;
+
+                    m_centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroOccupation);
+
                     m_centerHero.sceneCardItem = sceneItem;      // 这个动画已经有了
                     // 设置 hero 动画结束后的处理
                     m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
@@ -228,7 +231,7 @@ namespace FightCore
 
         public void psstAddEnemyHandCardPropertyUserCmd()
         {
-            m_inSceneCardList.addSceneCard(uint.MaxValue, null);
+            m_inSceneCardList.addSceneCard(SceneCardBase.BLACK_CARD_ID, null);
         }
 
         public void delOneCard(SceneCardItem sceneItem)
@@ -296,16 +299,16 @@ namespace FightCore
             idx = 0;
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp - Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp)
             {
-                go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(idx).gameObject, "light");
-                go.SetActive(false);
+                //go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(idx).gameObject, "light");
+                //go.SetActive(false);
 
                 ++idx;
             }
 
             while(idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.maxmp)
             {
-                go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(idx).gameObject, "light");
-                go.SetActive(true);
+                //go = UtilApi.TransFindChildByPObjAndPath(m_sceneDZData.m_mpGridArr[(int)m_playerFlag].GetChild(idx).gameObject, "light");
+                //go.SetActive(true);
 
                 ++idx;
             }

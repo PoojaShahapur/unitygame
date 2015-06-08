@@ -14,31 +14,40 @@ namespace FightCore
     {
         public SceneDZData m_sceneDZData;
         public bool m_bNeedTipsInfo = true;     // 是否需要弹出提示框
-        public int m_clkTipsCnt = 0;               // 点击提示框次数
+        public int m_clkTipsCnt = 0;            // 点击提示框次数
+        protected Material m_mat;
+
+        protected TextureRes m_selfTex;         // 自己纹理
+        protected TextureRes m_enemyTex;        // 别人纹理
 
         public override void Start()
         {
             // 添加事件
             UtilApi.addEventHandle(gameObject, OnBtnClk);
+            m_mat = gameObject.GetComponent<Renderer>().material;
         }
 
-        // Update is called once per frame
-        public void Update()
+        override public void dispose()
         {
+            base.dispose();
 
+            if(m_selfTex != null)
+            {
+                Ctx.m_instance.m_texMgr.unload(m_selfTex.GetPath(), null);
+                m_selfTex = null;
+            }
+
+            if (m_enemyTex != null)
+            {
+                Ctx.m_instance.m_texMgr.unload(m_enemyTex.GetPath(), null);
+                m_enemyTex = null;
+            }
         }
 
         protected void OnBtnClk(GameObject go)
         {
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                //animation["dzturn"].speed = 1;
-                //dzcam.ismyturn = false;
-                //animation.Play("dzturn");
-                ////endturn
-                ////Camera.main.SendMessage("endturn");
-                //Ctx.m_instance.m_camSys.m_dzcam.endturn();
-
                 stReqEndMyRoundUserCmd cmd;
                 if (!m_bNeedTipsInfo)
                 {
@@ -91,17 +100,23 @@ namespace FightCore
         // 显示[结束回合]
         public void myTurn()
         {
-            animation["dzturn"].speed = -1;
-            animation["dzturn"].time = 1;
-            animation.Play("dzturn");
+            if(m_selfTex == null)
+            {
+                m_selfTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>("Image/Scene/jieshu_zhanchang.tga");
+            }
+
+            m_mat.mainTexture = m_selfTex.getTexture();
         }
 
         // 显示[对方回合]
         public void enemyTurn()
         {
-            animation["dzturn"].speed = 1;
-            animation.Play("dzturn");
-            //Ctx.m_instance.m_camSys.m_dzcam.endturn();
+            if (m_enemyTex == null)
+            {
+                m_enemyTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>("Image/Scene/duishou_zhanchang.tga");
+            }
+
+            m_mat.mainTexture = m_enemyTex.getTexture();
         }
     }
 }

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief Unity 最新的动画系统
+     */
     public class AnimSys
     {
         private Animator m_Animator = null;

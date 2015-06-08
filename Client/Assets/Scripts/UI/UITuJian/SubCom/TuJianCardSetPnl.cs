@@ -20,7 +20,7 @@ namespace Game.UI
     {
         eBtnNewCardSet,
         eBtnRet,
-        
+
         eBtnTotal,
     }
 
@@ -31,7 +31,7 @@ namespace Game.UI
     {
         public CardSetCom m_curEditCardSet = null;                 // 当前正在编辑的卡牌组，注意这个不是指向编辑的指针，而是拷贝的数据
         public List<TuJianCardSetCardItemCom> m_cardList = new List<TuJianCardSetCardItemCom>();// 当前在编辑的卡组中的卡牌列表
-        public Dictionary<uint, TuJianCardSetCardItemCom> m_id2CardComDic = new Dictionary<uint,TuJianCardSetCardItemCom>();
+        public Dictionary<uint, TuJianCardSetCardItemCom> m_id2CardComDic = new Dictionary<uint, TuJianCardSetCardItemCom>();
         public List<CardSetCom> m_cardSetEntityList = new List<CardSetCom>();      // 当前已经有的卡牌组
 
         public AuxLayoutV m_cardSetCardLayoutV;            // 左边的卡牌列表
@@ -48,7 +48,7 @@ namespace Game.UI
         public TuJianCardSetPnl(TuJianData data) :
             base(data)
         {
-            
+
         }
 
         public new void findWidget()
@@ -160,16 +160,16 @@ namespace Game.UI
             switch (m_curTaoPaiMod)
             {
                 case WdscmTaoPaiMod.eTaoPaiMod_Editset:
-                {
-                    endEditCardSetMode();
-                }
-                break;
+                    {
+                        endEditCardSetMode();
+                    }
+                    break;
                 case WdscmTaoPaiMod.eTaoPaiMod_Look:
-                {
-                    Ctx.m_instance.m_camSys.m_boxCam.back();
-                    m_tuJianData.m_form.exit();
-                }
-                break;
+                    {
+                        Ctx.m_instance.m_camSys.m_boxCam.back();
+                        m_tuJianData.m_form.exit();
+                    }
+                    break;
             }
         }
 
@@ -215,7 +215,7 @@ namespace Game.UI
 
         protected void delAllCardGroup()
         {
-            while(m_cardSetEntityList.Count > 0)
+            while (m_cardSetEntityList.Count > 0)
             {
                 delOneCardGroup(0);
             }
@@ -251,7 +251,7 @@ namespace Game.UI
             {
                 m_cardList[idx].removeFromLayout(m_cardSetCardLayoutV);
                 m_cardList[idx].dispose();
-                
+
                 ++idx;
             }
             m_cardList.Clear();
@@ -282,13 +282,22 @@ namespace Game.UI
 
         protected void updateCardSetCardCntText(IDispatchObject dispObj = null)
         {
+            AuxLabel foot = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardFootCnt);
+            AuxLabel max = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt2);
+            AuxLabel slash = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardSlashCnt);
+            slash.text = "/";
             if (m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Look)
             {
-                m_cardSetCardCntText.text = string.Format("{0}/{1}", Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr.Count, 9);   // 设置显示套牌数量
+                m_cardSetCardCntText.text = Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardGroupListArr.Count.ToString();
+                max.text = "9";
+                foot.text = "套 牌";
+
             }
             else
             {
-                m_cardSetCardCntText.text = string.Format("{0}/{1}\n卡牌", m_cardList.Count, 30);
+                m_cardSetCardCntText.text = m_cardList.Count.ToString();
+                max.text = "30";
+                foot.text = "卡 牌";
             }
         }
 
@@ -365,14 +374,14 @@ namespace Game.UI
         // 一个套牌的卡牌列表，index 指明是哪个套牌的
         public void psstRetOneCardGroupInfoUserCmd(uint index, List<uint> list)
         {
-            if(m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Editset)   // 如果在编辑模式
+            if (m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Editset)   // 如果在编辑模式
             {
-                if(m_curEditCardSet.m_cardGroupItem.m_cardGroup.index == index)       // 如果当前正在编辑这个套牌
+                if (m_curEditCardSet.m_cardGroupItem.m_cardGroup.index == index)       // 如果当前正在编辑这个套牌
                 {
                     CardSetCom findSet = null;
-                    foreach(CardSetCom cardSet in m_cardSetEntityList)
+                    foreach (CardSetCom cardSet in m_cardSetEntityList)
                     {
-                        if(cardSet.m_cardGroupItem.m_cardGroup.index == index)
+                        if (cardSet.m_cardGroupItem.m_cardGroup.index == index)
                         {
                             findSet = cardSet;
                             break;
@@ -397,11 +406,11 @@ namespace Game.UI
 
             int cardNum = 0;
 
-            foreach(uint cardidx in m_curEditCardSet.m_cardGroupItem.m_cardList)
+            foreach (uint cardidx in m_curEditCardSet.m_cardGroupItem.m_cardList)
             {
                 tableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, cardidx);
                 cardListItem = tableItem.m_itemBody as TableCardItemBody;
-                if(cardListItem.m_name == cardItem.m_name)
+                if (cardListItem.m_name == cardItem.m_name)
                 {
                     ++cardNum;
                 }

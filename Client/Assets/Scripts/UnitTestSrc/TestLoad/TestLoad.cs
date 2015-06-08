@@ -18,7 +18,8 @@ namespace UnitTestSrc
             //testLoadBT();
             //testLoadAnimatorController();
             //testLoadAnimatorControllerPrefab();
-            testLoadScriptAnimatorControllerPrefab();
+            //testLoadScriptAnimatorControllerPrefab();
+            testScriptController();
         }
 
         protected void testModelLoad()
@@ -170,6 +171,14 @@ namespace UnitTestSrc
             param.m_resNeedCoroutine = false;
             PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
             Ctx.m_instance.m_poolSys.deleteObj(param);
+        }
+
+        protected void testScriptController()
+        {
+            ControllerRes res = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>("Animation/Scene/CardModel.asset");
+            RuntimeAnimatorController copyCom = res.InstantiateController();
+            res.DestroyControllerInstance(copyCom);
+            Ctx.m_instance.m_controllerMgr.unload(res.GetPath(), null);
         }
     }
 }
