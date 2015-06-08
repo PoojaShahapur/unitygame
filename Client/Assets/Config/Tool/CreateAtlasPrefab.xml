@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8' ?>
-<!-- parentpath 说明这个是父目录，获取子目录，否则就是当前目录 -->
-<Root>
-  <path inpath="Animation/Scene" outpath="Prefabs/Resources/Animation/Scene/CardModel.asset" ignoreext="meta,mat,anim" restype="1" />
-</Root>

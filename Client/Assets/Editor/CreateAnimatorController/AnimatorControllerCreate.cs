@@ -10,7 +10,7 @@ namespace CreateAnimatorController
 {
     public enum EParaMType
     {
-        eInt,       // 整形
+        eInt,       // 整型
     }
 
     public class AnimatorControllerCreateSys
