@@ -210,6 +210,7 @@ namespace FightCore
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
+                                m_card.convOutModel();
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardRST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                                 m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpFaShu, m_card);
                             }
@@ -230,6 +231,7 @@ namespace FightCore
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
+                            m_card.convOutModel();
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardRST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                             m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, m_card);
                         }

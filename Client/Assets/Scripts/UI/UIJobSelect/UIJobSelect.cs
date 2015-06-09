@@ -74,13 +74,19 @@ namespace Game.UI
 
         public void psstRetHeroFightMatchUserCmd(stRetHeroFightMatchUserCmd cmd)
         {
-            m_jobSelectData.m_midPnl.matchSuccess();
+            //m_jobSelectData.m_midPnl.matchSuccess();
         }
 
         // 更新 hero 显示
         public void updateHeroList()
         {
             m_jobSelectData.m_midPnl.updateHeroList();
+        }
+
+        // 返回进入战斗场景消息
+        public void psstRetHeroIntoBattleSceneUserCmd(ByteBuffer msg)
+        {
+            m_jobSelectData.m_midPnl.psstRetHeroIntoBattleSceneUserCmd(msg);
         }
     }
 }

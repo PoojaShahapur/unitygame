@@ -129,5 +129,15 @@ namespace FightCore
 
             return true;
         }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
     }
 }

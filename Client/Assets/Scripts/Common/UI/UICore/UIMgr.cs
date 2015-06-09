@@ -292,6 +292,7 @@ namespace SDK.Common
             {
                 UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
                 m_ID2WidgetLoadingItemDic.Remove(ID);
+                Ctx.m_instance.m_logSys.log("UIFormID =  ， Failed Prefab");
             }
         }
 

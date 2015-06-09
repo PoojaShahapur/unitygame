@@ -27,6 +27,7 @@ namespace SDK.Lib
         protected TableSpriteAniItemBody m_tableBody;
         protected AtlasScriptRes m_atlasScriptRes;
         protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
+        protected bool m_bClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
 
         public SpriteAni()
         {
@@ -94,6 +95,16 @@ namespace SDK.Lib
             {
                 m_playEndEventDispatch = value;
             }
+        }
+
+        virtual public void setClientDispose()
+        {
+            m_bClientDispose = true;
+        }
+
+        virtual public bool getClientDispose()
+        {
+            return m_bClientDispose;
         }
 
         override public void dispose()
@@ -198,6 +209,11 @@ namespace SDK.Lib
         virtual public void updateImage()
         {
             
+        }
+
+        virtual public bool checkRender()
+        {
+            return false;
         }
     }
 }

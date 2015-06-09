@@ -95,5 +95,15 @@ namespace SDK.Lib
             m_curLeftTimer = 0;
             m_disposed = false;
         }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
     }
 }

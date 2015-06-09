@@ -117,5 +117,17 @@ namespace FightCore
                 }
             }
         }
+
+        // 开始转换模型
+        public void startConvModel()
+        {
+
+        }
+
+        // 结束转换模型
+        public void endConvModel()
+        {
+            this.m_card.clickEntityDisp.addEventHandle(onCardClick);
+        }
     }
 }

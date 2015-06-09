@@ -117,7 +117,8 @@ namespace FightCore
                 {
                     SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(msg.mobject.dwObjectID, m_playerFlag, (CardArea)msg.slot, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     srcCard.sceneCardItem = sceneItem;
-                    m_outSceneCardList.addCard(srcCard);
+                    srcCard.convOutModel();
+                    m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
                     m_outSceneCardList.updateSceneCardRST();
                     m_outSceneCardList.updateCardIndex();
                 }
@@ -158,6 +159,7 @@ namespace FightCore
             {
                 m_inSceneCardList.removeCard(srcCard);
                 srcCard.updateCardOutState(false);        // 当前卡牌可能处于绿色高亮，因此去掉
+                srcCard.convOutModel();
                 m_sceneDZData.m_gameOpState.quitMoveOp();      // 退出移动操作
             }
             else            // 如果手牌没有，可能是战吼或者法术有攻击目标的卡牌，客户端已经将卡牌移动到出牌区域

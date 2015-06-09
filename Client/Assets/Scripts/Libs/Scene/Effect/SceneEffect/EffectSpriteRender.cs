@@ -2,6 +2,9 @@
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 特效渲染器比较特殊， Render 中的包含真正的 Render ，其他的模型都是 Render 直接包含显示对象
+     */
     public class EffectSpriteRender : EntityRenderBase
     {
         protected SpriteRenderSpriteAni m_spriteRender;
@@ -33,6 +36,12 @@ namespace SDK.Lib
             }
         }
 
+        override public void setClientDispose()
+        {
+            base.setClientDispose();
+            m_spriteRender.setClientDispose();
+        }
+
         override public GameObject gameObject()
         {
             return m_spriteRender.selfGo;
@@ -56,6 +65,11 @@ namespace SDK.Lib
         override public void setPnt(GameObject pntGO_)
         {
             m_spriteRender.pntGo = pntGO_;
+        }
+
+        override public bool checkRender()
+        {
+            return m_spriteRender.checkRender();
         }
     }
 }

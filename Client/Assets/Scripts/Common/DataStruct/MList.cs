@@ -66,7 +66,7 @@ namespace SDK.Common
 
         public void Insert(int index, T item)
         {
-
+            m_list.Insert(index, item);
         }
     }
 }

@@ -49,7 +49,8 @@ namespace SDK.Common
 
         public void addOneSceneCard(SceneCardItem card)
         {
-            m_sceneCardList.Add(card);
+            //m_sceneCardList.Add(card);
+            m_sceneCardList.Insert(card.svrCard.pos.y, card);
         }
 
         public void removeOneSceneCard(SceneCardItem card)

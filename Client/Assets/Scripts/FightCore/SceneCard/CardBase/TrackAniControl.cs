@@ -233,6 +233,7 @@ namespace FightCore
         // 卡牌从已经出牌区域返回到手里的卡牌位置
         public void retFormOutAreaToHandleArea()
         {
+            m_card.convHandleModel();
             m_card.dragControl.enableDrag();
 
             RSTAni rstAni = new RSTAni();

@@ -28,6 +28,11 @@ namespace Fight
         public override void onShow()
         {
             base.onShow();
+
+            if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList != null)
+            {
+                psstRetFirstHandCardUserCmd(null);
+            }
         }
 
         public override void onExit()

@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.Msg;
+using SDK.Common;
 using SDK.Lib;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,13 @@ namespace Game.UI
 
         protected int m_cardCount;              // 中间选择职业的数量
         protected AuxDynImageStaticGOImage m_jobNameImage;
-        protected AuxLabel m_dzStartDescText;
+        //protected AuxLabel m_dzStartDescText;
+        protected SpriteAni m_spriteAni;        //匹配中动画
+        protected SpriteAni m_spriteAni2;        //匹配中动画
+        protected GameObject m_imageGo;
+        protected GameObject m_imageGo2;
+        protected GameObject m_imageMatchBg;
+        protected stRetHeroIntoBattleSceneUserCmd m_cmd;
 
         public JobSelMidPnl(JobSelectData data) :
             base(data)
@@ -83,8 +90,14 @@ namespace Game.UI
 
             m_jobNameImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageJobName);
 
-            m_dzStartDescText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartDescText);
-            m_dzStartDescText.hide();     // 默认隐藏
+            //m_dzStartDescText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartDescText);
+            //m_dzStartDescText.hide();     // 默认隐藏
+            m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatch);
+            UtilApi.SetActive(m_imageGo, false);
+            m_imageGo2 = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatch2);
+            UtilApi.SetActive(m_imageGo2, false);
+            m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
+            UtilApi.SetActive(m_imageMatchBg, false);
         }
 
         public new void addEventHandle()
@@ -112,6 +125,23 @@ namespace Game.UI
             if (m_jobNameImage != null)
             {
                 m_jobNameImage.dispose();
+            }
+
+            if(m_spriteAni != null)
+            {
+                m_spriteAni.dispose();
+                m_spriteAni = null;
+            }
+
+            if (m_spriteAni2 != null)
+            {
+                m_spriteAni2.dispose();
+                m_spriteAni2 = null;
+            }
+
+            foreach(var ele in m_jobCardList)
+            {
+                ele.dispose();
             }
         }
 
@@ -147,8 +177,24 @@ namespace Game.UI
 
         public void startmatch()
         {
-            m_dzStartDescText.text = "开始匹配中";
-            m_dzStartDescText.show();     // 默认隐藏
+            //m_dzStartDescText.text = "开始匹配中";
+            //m_dzStartDescText.show();     // 默认隐藏
+            m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
+            UtilApi.SetActive(m_imageMatchBg, true);
+
+            UtilApi.SetActive(m_imageGo, true);
+            m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
+            m_spriteAni.selfGo = m_imageGo;
+            m_spriteAni.tableID = 8;
+            m_spriteAni.bLoop = true;
+            m_spriteAni.play();
+
+            UtilApi.SetActive(m_imageGo2, true);
+            m_spriteAni2 = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
+            m_spriteAni2.selfGo = m_imageGo2;
+            m_spriteAni2.tableID = 9;
+            m_spriteAni2.bLoop = true;
+            m_spriteAni2.play();
             // test 进入战场
 #if DEBUG_NOTNET
             Ctx.m_instance.m_gameSys.loadDZScene(1);
@@ -157,7 +203,19 @@ namespace Game.UI
 
         public void matchSuccess()
         {
-            m_dzStartDescText.text = "开始成功";
+            m_spriteAni.stop();
+            m_spriteAni2.stop();
+            UtilApi.SetActive(m_imageGo, true);
+            m_spriteAni.selfGo = m_imageGo;
+            m_spriteAni.tableID = 10;
+            m_spriteAni.bLoop = false;
+            m_spriteAni.play();
+            m_spriteAni.playEndEventDispatch.addEventHandle(gotoBattle);
+        }
+
+        public void gotoBattle(IDispatchObject dispObj)
+        {
+            Ctx.m_instance.m_gameSys.loadDZScene(m_cmd.sceneNumber);
         }
 
         public void updateHeroList()
@@ -192,6 +250,15 @@ namespace Game.UI
             {
                 m_jobCardList[0].onJobSelBtnClk();
             }
+        }
+
+        // 返回进入战斗场景消息
+        public void psstRetHeroIntoBattleSceneUserCmd(ByteBuffer msg)
+        {
+            m_cmd = new stRetHeroIntoBattleSceneUserCmd();
+            m_cmd.derialize(msg);
+
+            matchSuccess();
         }
     }
 }

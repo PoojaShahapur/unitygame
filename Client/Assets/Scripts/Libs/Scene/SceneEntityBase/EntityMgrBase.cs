@@ -53,5 +53,15 @@ namespace SDK.Lib
         {
             processScheduledObjects();
         }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
     }
 }

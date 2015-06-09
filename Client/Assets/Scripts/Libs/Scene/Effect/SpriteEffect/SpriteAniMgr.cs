@@ -51,7 +51,10 @@ namespace SDK.Lib
         {
             foreach (ImageSpriteAni entity in m_sceneEntityList)
             {
-                (entity as ImageSpriteAni).onTick(delta);
+                if (!(entity as ImageSpriteAni).getClientDispose())
+                {
+                    (entity as ImageSpriteAni).onTick(delta);
+                }
             }
         }
 
@@ -73,6 +76,16 @@ namespace SDK.Lib
         {
             this.removeFromeList(ani);
             ani.dispose();
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
         }
     }
 }

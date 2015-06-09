@@ -5,5 +5,7 @@
      */
     public interface IDelayHandleItem
     {
+        void setClientDispose();
+        bool getClientDispose();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Game.UI
@@ -15,6 +16,8 @@ namespace Game.UI
         protected CardGroupItem m_cardGroupItem;
         protected AuxDynImageDynGOImage m_jobCardBtn;
         protected AuxLabel m_cardSetCardNumText;
+        protected SpriteAni m_spriteAni;        //选中动画
+        protected GameObject m_imageGo;
 
         public JobCard(JobSelectData data, int tag_, EnPlayerCareer ccc):
             base(data)
@@ -71,6 +74,8 @@ namespace Game.UI
                 {
                     m_cardSetCardNumText.text = string.Format("{0}/30", m_cardGroupItem.m_cardGroup.cardNum);
                 }
+
+                m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_jobCardBtn.selfGo, JobSelectPath.CardSetSelectedImage);
             }
         }
 
@@ -93,11 +98,38 @@ namespace Game.UI
         {
             if (m_jobSelectData.m_midPnl.curSelJobCard == null || !m_jobSelectData.m_midPnl.curSelJobCard.Equals(this))
             {
+                if (m_jobSelectData.m_midPnl.curSelJobCard != null && m_jobSelectData.m_midPnl.curSelJobCard.m_spriteAni != null)
+                {
+                    m_jobSelectData.m_midPnl.curSelJobCard.m_spriteAni.stop();
+                }
+
                 m_jobSelectData.m_midPnl.curSelJobCard = this;
                 m_jobSelectData.m_midPnl.toggleJob(m_tag);
 
                 m_jobSelectData.m_rightPnl.m_jobSelProg.update();
+
+                UtilApi.SetActive(m_imageGo, true);
+                if (m_spriteAni == null)
+                {
+                    m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
+                    m_spriteAni.selfGo = m_imageGo;
+                    m_spriteAni.tableID = 11;
+                    m_spriteAni.bLoop = true;
+                }
+                m_spriteAni.play();
             }
+        }
+
+        override public void dispose()
+        {
+            base.dispose();
+
+            if (m_spriteAni != null)
+            {
+                m_spriteAni.dispose();
+                m_spriteAni = null;
+            }
+
         }
     }
 }

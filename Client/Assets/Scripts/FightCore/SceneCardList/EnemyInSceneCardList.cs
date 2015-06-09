@@ -44,7 +44,7 @@ namespace FightCore
             // 移除最后一张
             if(m_sceneCardList.Count() > 0)
             {
-                UtilApi.Destroy(m_sceneCardList[m_sceneCardList.Count() - 1].gameObject());
+                m_sceneCardList[m_sceneCardList.Count() - 1].dispose();
                 m_sceneCardList.RemoveAt(m_sceneCardList.Count() - 1);                        // 移除数据
             }
         }

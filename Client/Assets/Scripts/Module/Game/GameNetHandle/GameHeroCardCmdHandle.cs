@@ -233,7 +233,10 @@ namespace Game.Game
         {
             stRetHeroIntoBattleSceneUserCmd cmd = new stRetHeroIntoBattleSceneUserCmd();
             cmd.derialize(msg);
-            Ctx.m_instance.m_gameSys.loadDZScene(cmd.sceneNumber);
+            msg.position = 0;
+
+            UIJobSelect ui = Ctx.m_instance.m_uiMgr.getForm<UIJobSelect>(UIFormID.eUIJobSelect);
+            ui.psstRetHeroIntoBattleSceneUserCmd(msg);
         }
 
         // 回归剩余卡牌数量

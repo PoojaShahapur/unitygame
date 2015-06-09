@@ -25,8 +25,8 @@
         public const string SelfHeroGO = "PlaceHolder/SelfHero";
         public const string EnemyHeroGO = "PlaceHolder/EnemyHero";
 
-        public const string ArrowStartPosGO = "dzban/ArrowStartPos";
-        public const string ArrowListGO = "dzban/ArrowStartPos/ArrowList";
+        public const string ArrowStartPosGO = "PlaceHolder/ArrowStartPos";
+        public const string ArrowListGO = "PlaceHolder/ArrowStartPos/ArrowList";
 
         public const string StartGO = "dz/StartBtn";
         public const string EndBtn = "EndBtn";

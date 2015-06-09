@@ -1607,8 +1607,9 @@ namespace Game.Msg
             if (count > 0)
             {
                 defList = new t_Card[count];
-                for (int idx = 0; idx < count; )
+                for (int idx = 0; idx < count; ++idx)
                 {
+                    defList[idx] = new t_Card();
                     defList[idx].derialize(ba);
                 }
             }

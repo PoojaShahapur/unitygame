@@ -20,6 +20,7 @@ namespace SDK.Lib
         {
             base.stop();
             m_image.sprite = null;
+            m_image.rectTransform.sizeDelta = new UnityEngine.Vector2(0, 0);
         }
 
         // 查找 UI 组件
@@ -41,6 +42,12 @@ namespace SDK.Lib
         override public void updateImage()
         {
             m_image.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+            UtilApi.SetNativeSize(m_image);
+        }
+
+        override public bool checkRender()
+        {
+            return m_image != null;
         }
     }
 }

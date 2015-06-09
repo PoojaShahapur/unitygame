@@ -14,6 +14,16 @@ namespace SDK.Lib
             m_entity = entity_;
         }
 
+        virtual public void setClientDispose()
+        {
+
+        }
+
+        virtual public bool getClientDispose()
+        {
+            return m_entity.getClientDispose();
+        }
+
         virtual public GameObject gameObject()
         {
             return null;
@@ -42,6 +52,11 @@ namespace SDK.Lib
         virtual public void setPnt(GameObject pntGO_)
         {
 
+        }
+
+        virtual public bool checkRender()
+        {
+            return false;
         }
     }
 }

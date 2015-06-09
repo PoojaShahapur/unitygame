@@ -112,6 +112,18 @@ namespace FightCore
         // 转换成出牌模型
         override public void convOutModel()
         {
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    m_sceneCardBaseData.m_effectControl.startConvModel();
+                }
+                if (m_sceneCardBaseData.m_clickControl != null)
+                {
+                    m_sceneCardBaseData.m_clickControl.startConvModel();
+                }
+            }
+
             if(m_render != null)
             {
                 m_render.dispose();
@@ -120,11 +132,46 @@ namespace FightCore
 
             m_render = new OutCardRender(this);
             (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
+
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    m_sceneCardBaseData.m_effectControl.endConvModel();
+                }
+                if (m_sceneCardBaseData.m_clickControl != null)
+                {
+                    m_sceneCardBaseData.m_clickControl.endConvModel();
+                }
+            }
+
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    if(!m_sceneCardBaseData.m_effectControl.checkRender())
+                    {
+                        Ctx.m_instance.m_logSys.log("Render Is Null");
+                    }
+                }
+            }
         }
 
         // 转换成手牌模型
         override public void convHandleModel()
         {
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    m_sceneCardBaseData.m_effectControl.startConvModel();
+                }
+                if (m_sceneCardBaseData.m_clickControl != null)
+                {
+                    m_sceneCardBaseData.m_clickControl.startConvModel();
+                }
+            }
+
             if (m_render != null)
             {
                 m_render.dispose();
@@ -133,6 +180,29 @@ namespace FightCore
 
             m_render = new SceneCardPlayerRender(this);
             (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
+
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    m_sceneCardBaseData.m_effectControl.endConvModel();
+                }
+                if (m_sceneCardBaseData.m_clickControl != null)
+                {
+                    m_sceneCardBaseData.m_clickControl.endConvModel();
+                }
+            }
+
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    if (!m_sceneCardBaseData.m_effectControl.checkRender())
+                    {
+                        Ctx.m_instance.m_logSys.log("Render Is Null");
+                    }
+                }
+            }
         }
     }
 }

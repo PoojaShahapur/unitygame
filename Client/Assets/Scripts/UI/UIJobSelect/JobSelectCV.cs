@@ -20,8 +20,11 @@
         public const string TextSkillDesc = "UIRootNode/MidLayer/SkillDescText";
         public const string ImageSkillIcon = "UIRootNode/MidLayer/SkillIconImage";
         public const string ImageJobName = "UIRootNode/MidLayer/JobNameImage";
-        public const string DzStartDescText = "UIRootNode/MidLayer/DzStartDescText";
+        public const string DzStartMatch = "UIRootNode/MidLayer/DzStartMatchImage";
+        public const string DzStartMatch2 = "UIRootNode/MidLayer/DzStartMatchImage2";
+        public const string DzStartMatchBg = "UIRootNode/MidLayer/MatchBgImage";
 
         public const string CardSetCardNumText = "CardSetCardNumText";
+        public const string CardSetSelectedImage = "SelectedImage";
     }
 }

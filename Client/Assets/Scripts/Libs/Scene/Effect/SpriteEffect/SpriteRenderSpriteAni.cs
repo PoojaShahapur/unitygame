@@ -53,17 +53,34 @@ namespace SDK.Lib
                 {
                     m_spriteRender = UtilApi.getComByP<SpriteRenderer>(m_pntGo, m_goName);
                 }
+
+                if(m_spriteRender == null)
+                {
+                    Ctx.m_instance.m_logSys.log("m_spriteRender is null");
+                }
             }
         }
         
         override public void updateImage()
         {
-            m_spriteRender.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+            if (m_spriteRender != null)
+            {
+                m_spriteRender.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("updateImage m_spriteRender is null");
+            }
         }
 
         override protected void dispEndEvent()
         {
             m_playEndEventDispatch.dispatchEvent(m_entity);
+        }
+
+        override public bool checkRender()
+        {
+            return m_spriteRender != null;
         }
     }
 }

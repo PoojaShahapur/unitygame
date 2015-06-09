@@ -29,6 +29,7 @@ namespace SDK.Lib
         {
             if (m_duringAdvance)
             {
+                delayObject.setClientDispose();
                 ArrayList args = new ArrayList();
                 args.Add(delayObject);
                 callDelLater(delObject, args);

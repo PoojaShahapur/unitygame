@@ -225,5 +225,15 @@ namespace SDK.Lib
         {
 
         }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
     }
 }

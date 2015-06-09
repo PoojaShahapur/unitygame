@@ -118,5 +118,33 @@ namespace FightCore
                 m_linkEffect.stop();
             }
         }
+
+        // 开始转换模型
+        public void startConvModel()
+        {
+            if (m_effectRootGO != null)         // 如果存在
+            {
+                UtilApi.removeFromSceneGraph(m_effectRootGO.transform);
+            }
+        }
+
+        // 结束转换模型
+        public void  endConvModel()
+        {
+            if (m_effectRootGO != null)         // 如果存在
+            {
+                UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
+            }
+        }
+
+        public bool checkRender()
+        {
+            if(m_linkEffect != null)
+            {
+                return m_linkEffect.checkRender();
+            }
+
+            return true;
+        }
     }
 }

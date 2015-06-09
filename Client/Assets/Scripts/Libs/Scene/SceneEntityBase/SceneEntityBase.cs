@@ -9,10 +9,11 @@ namespace SDK.Lib
     public class SceneEntityBase : IDelayHandleItem, IDispatchObject
     {
         protected EntityRenderBase m_render;
+        protected bool m_bClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
 
         public SceneEntityBase()
         {
-
+            m_bClientDispose = false;
         }
 
         //public EntityRenderBase render
@@ -34,6 +35,20 @@ namespace SDK.Lib
                 m_render.dispose();
                 m_render = null;
             }
+        }
+
+        virtual public void setClientDispose()
+        {
+            m_bClientDispose = true;
+            if(m_render != null)
+            {
+                m_render.setClientDispose();
+            }
+        }
+
+        virtual public bool getClientDispose()
+        {
+            return m_bClientDispose;
         }
 
         virtual public void onTick(float delta)
@@ -59,6 +74,11 @@ namespace SDK.Lib
         virtual public void setPnt(GameObject pntGO_)
         {
 
+        }
+
+        virtual public bool checkRender()
+        {
+            return m_render.checkRender();
         }
     }
 }

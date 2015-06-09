@@ -233,12 +233,27 @@ namespace FightCore
 
         override public void dispose()
         {
-            m_sceneCardBaseData.m_clickControl.dispose();
-            m_sceneCardBaseData.m_trackAniControl.dispose();
-            m_sceneCardBaseData.m_dragControl.dispose();
-            m_sceneCardBaseData.m_effectControl.dispose();
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_clickControl != null)
+                {
+                    m_sceneCardBaseData.m_clickControl.dispose();
+                }
+                if (m_sceneCardBaseData.m_trackAniControl != null)
+                {
+                    m_sceneCardBaseData.m_trackAniControl.dispose();
+                }
+                if (m_sceneCardBaseData.m_dragControl != null)
+                {
+                    m_sceneCardBaseData.m_dragControl.dispose();
+                }
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    m_sceneCardBaseData.m_effectControl.dispose();
+                }
+            }
 
-            UtilApi.Destroy(m_render.gameObject());
+            m_render.dispose();
             m_sceneCardItem = null;
         }
 
