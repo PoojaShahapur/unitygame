@@ -15,6 +15,7 @@ namespace SDK.Lib
         protected FrameTimerItem m_nextFrametimer;       // 需要下一帧才能获取的数据
         protected TimerItemBase m_oneAniEndTimer;       // 一个动画结束定时器
         protected bool m_startPlay;     // 是否直接播放
+        //protected AnimatorStateInfo m_state;
 
         public AnimatorControl()
         {
@@ -52,6 +53,7 @@ namespace SDK.Lib
             set
             {
                 m_animator = value;
+                //m_state = m_animator.GetCurrentAnimatorStateInfo(0);
             }
         }
 
@@ -96,8 +98,9 @@ namespace SDK.Lib
                 m_nextFrametimer.m_timerDisp = onNextFrameHandle;
             }
 
-            m_nextFrametimer.m_internal = 2;
-            m_nextFrametimer.m_totalFrameCount = 2;
+            m_nextFrametimer.m_internal = 1;
+            //m_nextFrametimer.m_totalFrameCount = 1000000;
+            m_nextFrametimer.m_bInfineLoop = true;
             Ctx.m_instance.m_frameTimerMgr.addObject(m_nextFrametimer);
         }
 
@@ -111,6 +114,7 @@ namespace SDK.Lib
 
             AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
             // 这个地方立马获取数据是获取不到的，需要等待下一帧才能获取到正确的数据
+            Ctx.m_instance.m_logSys.log(string.Format("当前长度 {0}", state.length));
             m_oneAniEndTimer.m_internal = state.length;
             m_oneAniEndTimer.m_totalTime = m_oneAniEndTimer.m_internal;
 
@@ -119,13 +123,26 @@ namespace SDK.Lib
 
         public void onNextFrameHandle(FrameTimerItem timer)
         {
-            startOneAniEndTimer();
+            Ctx.m_instance.m_logSys.log(string.Format("当前帧 {0}", timer.m_curFrame));
+            if (canStopFrameTimer())
+            {
+                timer.m_disposed = true;
+                startOneAniEndTimer();
+            }
         }
 
         public void onTimerInitCardHandle(TimerItemBase timer)
         {
             m_oneAniPlayEndDisp.dispatchEvent(this);
             // chechParams();
+        }
+
+        protected bool canStopFrameTimer()
+        {
+            //return (m_state.length > 0);
+            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
+            Ctx.m_instance.m_logSys.log(string.Format("当前检测长度 {0}", state.length));
+            return (state.length > 0);
         }
 
         // 测试获取各种参数
