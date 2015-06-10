@@ -31,6 +31,7 @@ namespace SDK.Common
         public ProcessSys m_processSys;            // 游戏处理系统
 
         public TimerMgr m_timerMgr;                // 定时器系统
+        public FrameTimerMgr m_frameTimerMgr;                // 定时器系统
         public UIMgr m_uiMgr;                      // UI 管理器
         public UISceneMgr m_uiSceneMgr;            // UIScene 管理器
         public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器

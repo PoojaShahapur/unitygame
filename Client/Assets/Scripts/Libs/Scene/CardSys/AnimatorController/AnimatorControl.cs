@@ -12,7 +12,7 @@ namespace SDK.Lib
         protected int m_stateId = 0;
         protected float m_stateDampTime = 0.1f;
         protected EventDispatch m_oneAniPlayEndDisp;    // 一个动画播放结束
-        protected TimerItemBase m_nextFrametimer;       // 需要下一帧才能获取的数据
+        protected FrameTimerItem m_nextFrametimer;       // 需要下一帧才能获取的数据
         protected TimerItemBase m_oneAniEndTimer;       // 一个动画结束定时器
         protected bool m_startPlay;     // 是否直接播放
 
@@ -32,7 +32,7 @@ namespace SDK.Lib
 
             if(m_nextFrametimer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_nextFrametimer);
+                Ctx.m_instance.m_frameTimerMgr.delObject(m_nextFrametimer);
                 m_nextFrametimer = null;
             }
 
@@ -92,13 +92,13 @@ namespace SDK.Lib
         {
             if (m_nextFrametimer == null)
             {
-                m_nextFrametimer = new TimerItemBase();
+                m_nextFrametimer = new FrameTimerItem();
                 m_nextFrametimer.m_timerDisp = onNextFrameHandle;
             }
 
-            m_nextFrametimer.m_internal = 0;
-            m_nextFrametimer.m_totalTime = 0;
-            Ctx.m_instance.m_timerMgr.addObject(m_nextFrametimer);
+            m_nextFrametimer.m_internal = 2;
+            m_nextFrametimer.m_totalFrameCount = 2;
+            Ctx.m_instance.m_frameTimerMgr.addObject(m_nextFrametimer);
         }
 
         protected void startOneAniEndTimer()
@@ -117,7 +117,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_timerMgr.addObject(m_oneAniEndTimer);
         }
 
-        public void onNextFrameHandle(TimerItemBase timer)
+        public void onNextFrameHandle(FrameTimerItem timer)
         {
             startOneAniEndTimer();
         }

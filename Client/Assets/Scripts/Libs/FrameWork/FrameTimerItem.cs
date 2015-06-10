@@ -1,0 +1,82 @@
+﻿using SDK.Common;
+using System;
+
+namespace SDK.Lib
+{
+    /**
+     * @brief 定时器，这个是不断增长的
+     */
+    public class FrameTimerItem : IDelayHandleItem
+    {
+        public int m_internal = 1;              // 帧数间隔
+        public int m_totalFrameCount = 1;       // 总共次数
+        public int m_curFrame = 0;              // 当前已经调用的定时器的时间
+        public int m_curLeftFrame = 0;          // 剩余帧数
+        public bool m_bInfineLoop = false;      // 是否是无限循环
+        public Action<FrameTimerItem> m_timerDisp = null;       // 定时器分发
+        public bool m_disposed = false;             // 是否已经被释放
+
+        public virtual void OnFrameTimer()
+        {
+            if (m_disposed)
+            {
+                return;
+            }
+
+            ++m_curFrame;
+            ++m_curLeftFrame;
+            if (m_bInfineLoop)
+            {
+                if (m_curLeftFrame == m_internal)
+                {
+                    m_curLeftFrame = 0;
+
+                    if (m_timerDisp != null)
+                    {
+                        m_timerDisp(this);
+                    }
+                }
+            }
+            else
+            {
+                if (m_curFrame == m_totalFrameCount)
+                {
+                    m_disposed = true;
+                    if (m_timerDisp != null)
+                    {
+                        m_timerDisp(this);
+                    }
+                }
+                else
+                {
+                    if (m_curLeftFrame == m_internal)
+                    {
+                        m_curLeftFrame = 0;
+                        if (m_timerDisp != null)
+                        {
+                            m_timerDisp(this);
+                        }
+                    }
+                }
+            }
+        }
+
+        public virtual void reset()
+        {
+            m_disposed = false;
+            m_curFrame = 0;
+            m_curLeftFrame = 0;
+            m_disposed = false;
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
+    }
+}

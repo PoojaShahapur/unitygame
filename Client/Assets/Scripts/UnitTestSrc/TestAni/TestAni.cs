@@ -43,15 +43,16 @@ namespace UnitTestSrc
         protected void testDopeSheetAni()
         {
             DopeSheetAni ani = new DopeSheetAni();
-            GameObject _go = UtilApi.createGameObject("AnimatorController");
+            //GameObject _go = UtilApi.createGameObject("AnimatorController");
+            GameObject _go = UtilApi.CreatePrimitive(PrimitiveType.Cube);
             ani.setControlInfo("Animation/Scene/CardModel.asset");
             ani.setGO(_go);
             ani.syncUpdateControl();
             ani.stateId = 2;
             ani.play();
-            ani.stop();
-            ani.dispose();
-            UtilApi.Destroy(_go);
+            //ani.stop();
+            //ani.dispose();
+            //UtilApi.Destroy(_go);
         }
     }
 }

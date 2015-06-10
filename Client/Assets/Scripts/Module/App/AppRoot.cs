@@ -109,6 +109,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_processSys = new ProcessSys();
         Ctx.m_instance.m_tickMgr = new TickMgr();
         Ctx.m_instance.m_timerMgr = new TimerMgr();
+        Ctx.m_instance.m_frameTimerMgr = new FrameTimerMgr();
         Ctx.m_instance.m_coroutineMgr = new CoroutineMgr();
         Ctx.m_instance.m_shareData = new ShareData();
         Ctx.m_instance.m_sceneSys = new SceneSys();

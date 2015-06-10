@@ -27,6 +27,10 @@ namespace CreateAnimatorController
                 animatorState = stateMachine.AddState(clip.name);
                 animatorState.motion = clip;
                 AnimatorStateTransition trans = stateMachine.AddAnyStateTransition(animatorState);
+                trans.hasExitTime = true;
+                trans.exitTime = 0;
+                trans.duration = 0;
+                trans.canTransitionToSelf = false;
                 trans.AddCondition(AnimatorConditionMode.Equals, state.condList[0].getFloatValue(), state.condList[0].name);
             }
 

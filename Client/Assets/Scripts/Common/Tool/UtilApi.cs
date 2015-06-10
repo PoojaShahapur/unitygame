@@ -427,6 +427,11 @@ namespace SDK.Common
             return new GameObject(name);
         }
 
+        public static GameObject CreatePrimitive(PrimitiveType type)
+        {
+            return GameObject.CreatePrimitive(type);
+        }
+
         public static void copyBoxCollider(GameObject src, GameObject dest)
         {
             BoxCollider srcBox = src.GetComponent<BoxCollider>();
