@@ -19,7 +19,7 @@ namespace FightCore
 
         public SceneDZData m_sceneDZData;
 
-        protected SceneCardItem m_sceneCardItem;
+        protected SceneCardItem m_sceneCardItem;        // 敌人手里卡牌和白色卡牌是没有这个字段的，其余都有
         protected SceneCardBaseData m_sceneCardBaseData;
 
         public SceneCardBase(SceneDZData data)
@@ -221,12 +221,23 @@ namespace FightCore
             }
         }
 
+        // 这个主要方便可以从卡牌 ID 直接创建卡牌，因为可能有的时候直接动卡牌 ID 创建卡牌，服务器的数据还没有
         virtual public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
 
         }
 
         override public void onTick(float delta)
+        {
+
+        }
+
+        virtual public bool getSvrDispose()
+        {
+            return false;
+        }
+
+        virtual public void setSvrDispose(bool rhv = true)
         {
 
         }
@@ -260,64 +271,20 @@ namespace FightCore
         // 更新卡牌属性，这个主要更改卡牌经常改变的属性
         public virtual void updateCardDataChange(t_Card svrCard_ = null)
         {
-            if (svrCard_ == null)
-            {
-                svrCard_ = m_sceneCardItem.svrCard;
-            }
-
-            if (m_sceneCardItem != null)
-            {
-                if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON || m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
-                {
-                    AuxLabel text = new AuxLabel();
-                    text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");       // 攻击
-                    text.text = svrCard_.damage.ToString();
-                    text.setSelfGo(m_render.gameObject(), "UIRoot/MpText");         // Magic
-                    text.text = svrCard_.mpcost.ToString();
-                    text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");       // HP
-                    text.text = svrCard_.hp.ToString();
-                }
-            }
+            
         }
 
         // 这个主要是更新卡牌不经常改变的属性
         public virtual void updateCardDataNoChange()
         {
-            if (m_sceneCardItem != null)
-            {
-                if (m_sceneCardItem.cardArea != CardArea.CARDCELLTYPE_HERO)
-                {
-                    UtilApi.updateCardDataNoChange(m_sceneCardItem.m_cardTableItem, m_render.gameObject());
-                }
-            }
+            
         }
 
         // 根据表更新卡牌数据，这个主要是用于初始卡牌更新
-        public void updateCardDataByTable()
+        public virtual void updateCardDataByTable()
         {
-            TableItemBase tableBase = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, m_sceneCardBaseData.m_startCardID);
-            if(tableBase != null)
-            {
-                TableCardItemBody cardTableData = tableBase.m_itemBody as TableCardItemBody;
-                UtilApi.updateCardDataNoChange(cardTableData, m_render.gameObject());
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("卡表查找失败， ID = {0}", m_sceneCardBaseData.m_startCardID));
-            }
+            
         }
-
-        //// 关闭拖放功能
-        //public virtual void disableDrag()
-        //{
-
-        //}
-
-        //// 开启拖动
-        //public virtual void  enableDrag()
-        //{
-
-        //}
 
         // 进入普通攻击状态
         public void enterAttack()
@@ -373,6 +340,28 @@ namespace FightCore
 
         // 转换成手牌模型
         virtual public void convHandleModel()
+        {
+
+        }
+
+        // 是否在战斗中
+        virtual public bool bInFight()
+        {
+            return false;
+        }
+
+        virtual public bool canDelFormClient()
+        {
+            return false;
+        }
+
+        public void delSelf()
+        {
+            m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerFlag].delOneCard(this.sceneCardItem);
+        }
+
+        // 开始卡牌动画
+        virtual public void startAni()
         {
 
         }

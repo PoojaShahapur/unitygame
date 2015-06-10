@@ -34,10 +34,5 @@ namespace FightCore
         {
 
         }
-
-        override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
-        {
-
-        }
     }
 }

@@ -17,6 +17,7 @@
     {
         eNum = 10,
     }
+    
 
     public class TuJianPath
     {
@@ -27,6 +28,7 @@
         public const string TextPageMaxNum = "UIRootNode/TopLay/PageBgImage/pagemaxnum";               // 第一页
 
         public const string BtnJob = "UIRootNode/MidLay/LeftBtnList/JobBtn";           // 职业
+        
 
         public const string BtnFilter = "UIRootNode/MidLay/LeftBtnList/FilterBtn";        // 过滤
         public const string BtnShouCang = "UIRootNode/MidLay/LeftBtnList/ShouCangBtn";      // 收藏

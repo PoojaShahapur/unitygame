@@ -3,7 +3,7 @@ using SDK.Lib;
 
 namespace FightCore
 {
-    public class SkillCard : SceneCard
+    public class SkillCard : NotOutCard
     {
         public SkillCard(SceneDZData sceneDZData) :
             base(sceneDZData)
@@ -19,7 +19,7 @@ namespace FightCore
 
         override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {
-            this.transform().localPosition = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+            UtilApi.setPos(this.transform(), m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition);
         }
 
         override public void updateCardDataChange(t_Card svrCard_ = null)

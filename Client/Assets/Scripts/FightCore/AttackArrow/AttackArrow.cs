@@ -60,7 +60,7 @@ namespace FightCore
         {
             // 计算位置
             getCurMouseScenePos();
-            m_sceneDZData.m_attackArrowGO.transform.localPosition = new Vector3(m_currentPos.x, 1, m_currentPos.z);
+            UtilApi.setPos(m_sceneDZData.m_attackArrowGO.transform, new Vector3(m_currentPos.x, 1, m_currentPos.z));
         }
 
         protected void updateRot()
@@ -72,7 +72,7 @@ namespace FightCore
             m_currentPos = m_sceneDZData.m_attackArrowGO.transform.InverseTransformPoint(m_currentPos);
 
             m_rot.y = -Mathf.Atan2(m_currentPos.z, m_currentPos.x) * Mathf.Rad2Deg;            // 弧度转成度数
-            m_sceneDZData.m_arrowListGO.transform.localRotation = Quaternion.Euler(m_rot);
+            UtilApi.setRot(m_sceneDZData.m_arrowListGO.transform, Quaternion.Euler(m_rot));
         }
 
         protected void updateArrow()

@@ -24,6 +24,7 @@
         ePathAudio,      // 音频
         ePathAtlas,     // 地图集
         ePathSpriteAni,  // 精灵动画
+        ePathSceneAnimatorController,  // Animator Controller 控制器
 
         eTotal          // 总数
     }

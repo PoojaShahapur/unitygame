@@ -36,7 +36,7 @@ namespace SDK.Lib
             }
             set
             {
-                this.gameObject().transform.localPosition = value;
+                UtilApi.setPos(this.gameObject().transform, value);
             }
         }
 
@@ -67,6 +67,12 @@ namespace SDK.Lib
         override public void onTick(float delta)
         {
             base.onTick(delta);
+        }
+
+        override public void setTableID(int tableId)
+        {
+            base.setTableID(tableId);
+            UtilApi.adjustEffectRST((m_render as EffectSpriteRender).spriteRender.selfGo.transform);
         }
 
         override public void play()

@@ -66,6 +66,7 @@ namespace Game.UI
                 m_filterMp = value;
                 buildFilterList();     // 生成过滤列表
                 destroyAndUpdateCardList();
+
             }
         }
 

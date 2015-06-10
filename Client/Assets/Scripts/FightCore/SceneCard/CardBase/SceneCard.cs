@@ -11,9 +11,12 @@ namespace FightCore
      */
     public class SceneCard : SceneCardBase
     {
+        protected bool m_svrDispose;        // 服务器已经删除了这个对象
+
         public SceneCard(SceneDZData data) : 
             base(data)
         {
+            m_svrDispose = false;
             m_sceneCardBaseData = new SceneCardBaseData();
             m_sceneCardBaseData.m_fightData = new FightData();
             m_sceneCardBaseData.m_animFSM = new AnimFSM();
@@ -25,6 +28,16 @@ namespace FightCore
             m_sceneCardBaseData.m_aiController = new AIController();
             m_sceneCardBaseData.m_aiController.btID = BTID.e1000;
             m_sceneCardBaseData.m_aiController.possess(this);
+        }
+
+        override public bool getSvrDispose()
+        {
+            return m_svrDispose;
+        }
+
+        override public void setSvrDispose(bool rhv = true)
+        {
+            m_svrDispose = rhv;
         }
 
         override public void init()
@@ -68,141 +81,16 @@ namespace FightCore
             (m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
         }
 
-        // 设置一些基本信息
-        override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
+        // 是否在战斗中
+        override public bool bInFight()
         {
-            dragControl.m_centerPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-            // 设置初始位置为发牌位置
-            trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-            trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
-
-            // 设置是否可以动画
-            if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
-            {
-                dragControl.disableDrag();
-                if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
-                {
-                    trackAniControl.destScale = SceneCardBase.SMALLFACT;
-                }
-            }
-            // 如果是放在技能或者装备的位置，是不允许拖放的
-            else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
-            {
-                trackAniControl.destScale = SceneCardBase.SMALLFACT;
-                dragControl.disableDrag();
-            }
-
-            // 更新边框
-            if (EnDZPlayer.ePlayerSelf == m_playerFlag)
-            {
-                if (CardArea.CARDCELLTYPE_HAND == area)
-                {
-                    if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
-                    {
-                        updateCardOutState(true);
-                    }
-                    else
-                    {
-                        updateCardOutState(false);
-                    }
-                }
-            }
+            return m_sceneCardBaseData.m_fightData.attackData.attackList.Count() > 0 || m_sceneCardBaseData.m_fightData.hurtData.hurtList.Count() > 0;
         }
 
-        // 转换成出牌模型
-        override public void convOutModel()
+        // 客户端检测是否能删除
+        override public bool canDelFormClient()
         {
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.startConvModel();
-                }
-                if (m_sceneCardBaseData.m_clickControl != null)
-                {
-                    m_sceneCardBaseData.m_clickControl.startConvModel();
-                }
-            }
-
-            if(m_render != null)
-            {
-                m_render.dispose();
-                m_render = null;
-            }
-
-            m_render = new OutCardRender(this);
-            (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
-
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.endConvModel();
-                }
-                if (m_sceneCardBaseData.m_clickControl != null)
-                {
-                    m_sceneCardBaseData.m_clickControl.endConvModel();
-                }
-            }
-
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    if(!m_sceneCardBaseData.m_effectControl.checkRender())
-                    {
-                        Ctx.m_instance.m_logSys.log("Render Is Null");
-                    }
-                }
-            }
-        }
-
-        // 转换成手牌模型
-        override public void convHandleModel()
-        {
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.startConvModel();
-                }
-                if (m_sceneCardBaseData.m_clickControl != null)
-                {
-                    m_sceneCardBaseData.m_clickControl.startConvModel();
-                }
-            }
-
-            if (m_render != null)
-            {
-                m_render.dispose();
-                m_render = null;
-            }
-
-            m_render = new SceneCardPlayerRender(this);
-            (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
-
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.endConvModel();
-                }
-                if (m_sceneCardBaseData.m_clickControl != null)
-                {
-                    m_sceneCardBaseData.m_clickControl.endConvModel();
-                }
-            }
-
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    if (!m_sceneCardBaseData.m_effectControl.checkRender())
-                    {
-                        Ctx.m_instance.m_logSys.log("Render Is Null");
-                    }
-                }
-            }
+            return m_svrDispose && this.m_sceneCardItem.svrCard.hp == 0;        // 如果服务器认为已经释放并且血是 0 了，就可以删除了
         }
     }
 }

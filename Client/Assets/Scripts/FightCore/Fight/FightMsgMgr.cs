@@ -36,6 +36,8 @@ namespace FightCore
 
         public void onOneAttackAndHurtEndHandle(IDispatchObject dispObj)
         {
+            Ctx.m_instance.m_logSys.log("结束一场攻击，将要开始下一场攻击");
+
             m_curFightData = null;
             m_hurtList.Remove(dispObj as HurtData);
             if (m_hurtList.Count() == 0)
@@ -46,23 +48,21 @@ namespace FightCore
 
         public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)
         {
-            if(m_curFightData == null)
-            {
-                processOneAttack(msg);
-            }
-            else
-            {
-                m_cacheList.Add(msg);
-            }
+            Ctx.m_instance.m_logSys.log("接收到攻击数据");
+            m_cacheList.Add(msg);
+            nextOneAttact();
         }
 
         protected void nextOneAttact()
         {
-            if(m_cacheList.Count() > 0)
+            if (m_curFightData == null)     // 如果当前没有攻击进行
             {
-                m_curFightData = m_cacheList[0];
-                m_cacheList.Remove(m_curFightData);
-                processOneAttack(m_curFightData);
+                if (m_cacheList.Count() > 0)    // 如果有攻击数据
+                {
+                    m_curFightData = m_cacheList[0];
+                    m_cacheList.Remove(m_curFightData);
+                    processOneAttack(m_curFightData);
+                }
             }
         }
 
@@ -81,12 +81,14 @@ namespace FightCore
         // 普通攻击，必然造成伤害
         protected void commonAttack(stNotifyBattleCardPropertyUserCmd msg)
         {
+            Ctx.m_instance.m_logSys.log("开始一次普通攻击");
+
             SceneCardBase att = null;
             SceneCardBase def = null;
 
             if (!attackCheck(msg.A_object.qwThisID, ref att) || !attackCheck(msg.defList[0].qwThisID, ref def))
             {
-                Ctx.m_instance.m_logSys.log("攻击失败");
+                Ctx.m_instance.m_logSys.log("普通攻击攻击失败");
             }
             else
             {
@@ -103,12 +105,14 @@ namespace FightCore
         // 法术攻击有攻击木目标，如果不用选择攻击目标的法术攻击，服务器发送过来的攻击者是释放一边的主角，技能攻击可能给自己回血，也可能给对方伤血
         protected void skillAttack(stNotifyBattleCardPropertyUserCmd msg)
         {
+            Ctx.m_instance.m_logSys.log("开始一次技能攻击");
+
             SceneCardBase att = null;
             SceneCardBase def = null;
 
             if (!attackCheck(msg.A_object.qwThisID, ref att))
             {
-                Ctx.m_instance.m_logSys.log("攻击者无效");
+                Ctx.m_instance.m_logSys.log("技能攻击攻击者无效");
             }
 
             msg.m_origAttObject = att.sceneCardItem.svrCard;
@@ -118,7 +122,7 @@ namespace FightCore
             {
                 if (!attackCheck(svrCard.qwThisID, ref def))
                 {
-                    Ctx.m_instance.m_logSys.log("被击者无效");
+                    Ctx.m_instance.m_logSys.log("技能攻击被击者无效");
                 }
                 else
                 {

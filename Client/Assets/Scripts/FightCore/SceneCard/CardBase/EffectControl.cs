@@ -48,7 +48,6 @@ namespace FightCore
             {
                 m_effectRootGO = UtilApi.createGameObject("FrameSprite");
                 UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
-                UtilApi.adjustEffectRST(m_effectRootGO.transform);
             }
         }
 

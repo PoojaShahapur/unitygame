@@ -101,7 +101,7 @@ namespace Game.UI
 		{
             Ctx.m_instance.m_uiMgr.loadAndShow<UIShop>(UIFormID.eUIShop);
             UIShop shop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
-            shop.m_GUIWin.m_uiRoot.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            UtilApi.setScale(shop.m_GUIWin.m_uiRoot.transform, new Vector3(1.0f, 1.0f, 1.0f));
 			// 发送消息
 			stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
 			UtilMsg.sendMsg(cmd);

@@ -6,6 +6,8 @@ namespace FightCore
 {
     public class AttackItemBase : FightItemBase
     {
+        public const float ComAttMoveTime = 1;  // 普通攻击的移动时间
+
         protected EAttackType m_attackType;
         protected EAttackRangeType m_attackRangeType;
         protected EventDispatch m_attackEndDisp;      // 整个攻击结束，从发起攻击，到回到原地
@@ -73,6 +75,7 @@ namespace FightCore
 
             // 播放 Fly 数字，攻击者和被击者都有可能伤血，播放掉血数字
             // 攻击者掉血
+            Ctx.m_instance.m_logSys.log(string.Format("攻击者掉血 {0}", def.sceneCardItem.svrCard.damage));
             if (def.sceneCardItem.svrCard.damage > 0)        // 攻击力可能为 0 
             {
                 m_damage = def.sceneCardItem.svrCard.damage;

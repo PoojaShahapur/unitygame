@@ -53,7 +53,7 @@ namespace SDK.Common
         protected void startAddingAni()
         {
             m_addingItem.setPntGo(pntGo);
-            m_addingItem.selfLocalGo.transform.localPosition = new Vector3(m_XOff, 0, 0);
+            UtilApi.setPos(m_addingItem.selfLocalGo.transform, new Vector3(m_XOff, 0, 0));
             m_posAni.setGO(m_addingItem.selfLocalGo);
             m_posAni.destPos = new Vector3(0, 0, 0);
             m_posAni.setEaseType(iTween.EaseType.easeInExpo);
@@ -69,7 +69,7 @@ namespace SDK.Common
         {
             if (m_addedList.Count > 0)
             {
-                m_localGo.transform.localPosition = new Vector3(0, 0, 0);
+                UtilApi.setPos(m_localGo.transform, new Vector3(0, 0, 0));
                 m_downPosAni.setGO(m_localGo);
                 m_downPosAni.destPos = new Vector3(0, 0, m_ZOff);
                 m_downPosAni.setEaseType(iTween.EaseType.easeInExpo);
@@ -102,13 +102,13 @@ namespace SDK.Common
         // 调整位置
         protected void adjustPos()
         {
-            m_localGo.transform.localPosition = new Vector3(0, 0, 0);
+            UtilApi.setPos(m_localGo.transform, new Vector3(0, 0, 0));
             float curheight = 0;
             int idx = m_addedList.Count - 1;
             m_addedList[m_addedList.Count - 1].setPntGo(m_localGo);
             for (; idx >= 0; --idx)
             {
-                m_addedList[idx].selfLocalGo.transform.localPosition = new Vector3(0, 0, curheight);
+                UtilApi.setPos(m_addedList[idx].selfLocalGo.transform, new Vector3(0, 0, curheight));
                 curheight -= m_addedList[idx].height;
             }
         }

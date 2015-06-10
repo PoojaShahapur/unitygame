@@ -26,7 +26,7 @@ namespace FightCore
             int idx = 0;
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount)
             {
-                SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(SceneCardBase.BLACK_CARD_ID, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(SceneCardBase.BLACK_CARD_ID, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                 addCard(cardItem);
 
                 ++idx;
@@ -44,7 +44,7 @@ namespace FightCore
             // 移除最后一张
             if(m_sceneCardList.Count() > 0)
             {
-                m_sceneCardList[m_sceneCardList.Count() - 1].dispose();
+                Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[m_sceneCardList.Count() - 1]);
                 m_sceneCardList.RemoveAt(m_sceneCardList.Count() - 1);                        // 移除数据
             }
         }

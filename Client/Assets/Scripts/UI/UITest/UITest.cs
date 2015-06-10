@@ -233,13 +233,13 @@ namespace Game.UI
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             SceneCardBase testCard = null;
             // 测试[随从卡]
-            testCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            testCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
             // 测试[武器卡]
-            //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(240000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_EQUIP, CardType.CARDTYPE_EQUIP, uiDZ.m_sceneDZData);
+            //testCard = Ctx.m_instance.m_sceneCardMgr.createCardById(240000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_EQUIP, CardType.CARDTYPE_EQUIP, uiDZ.m_sceneDZData);
             // 测试[英雄卡]
-            //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(250000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO, uiDZ.m_sceneDZData);
+            //testCard = Ctx.m_instance.m_sceneCardMgr.createCardById(250000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HERO, CardType.CARDTYPE_HERO, uiDZ.m_sceneDZData);
             // 测试[英雄技能卡]
-            //testCard = Ctx.m_instance.m_sceneCardMgr.createCard(260000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_SKILL, CardType.CARDTYPE_SKILL, uiDZ.m_sceneDZData);
+            //testCard = Ctx.m_instance.m_sceneCardMgr.createCardById(260000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_SKILL, CardType.CARDTYPE_SKILL, uiDZ.m_sceneDZData);
             testCard.moveControl.moveToDest(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), 0.3f, testCard.behaviorControl.onMove2DestEnd);
             testCard.moveControl.moveToDest(new Vector3(-4, 0, 0), new Vector3(4, 0, 0), 0.3f, testCard.behaviorControl.onMove2DestEnd);
             //testCard.updateCardOutState(true);
@@ -252,7 +252,7 @@ namespace Game.UI
             SceneCardBase selfCard = null;
             SceneCardBase enemyCard = null;
             // 测试[随从卡]
-            selfCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            selfCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
             selfCard.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();
@@ -262,7 +262,7 @@ namespace Game.UI
             sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
             selfCard.sceneCardItem = sceneCardItem;
 
-            enemyCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            enemyCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
             enemyCard.transform().localPosition = new UnityEngine.Vector3(4, 0, 0);
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
@@ -290,7 +290,7 @@ namespace Game.UI
             SceneCardBase selfCard = null;
             SceneCardBase enemyCard = null;
             // 测试[随从卡]
-            selfCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            selfCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
             selfCard.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();
@@ -300,7 +300,7 @@ namespace Game.UI
             sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
             selfCard.sceneCardItem = sceneCardItem;
 
-            enemyCard = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            enemyCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
             enemyCard.transform().localPosition = new UnityEngine.Vector3(4, 0, 0);
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
@@ -313,7 +313,6 @@ namespace Game.UI
             AttackItemBase attItem = selfCard.fightData.attackData.createItem(EAttackType.eSkill);
             (attItem as SkillAttackItem).skillId = 3;
             (attItem as SkillAttackItem).hurtIdList.Add(1);
-            (attItem as SkillAttackItem).skillTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, (attItem as SkillAttackItem).skillId).m_itemBody as TableSkillItemBody;
             attItem.damage = 10;
 
             // 受伤
@@ -345,7 +344,7 @@ namespace Game.UI
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             // 测试[随从卡]
-            m_changeMode = Ctx.m_instance.m_sceneCardMgr.createCard(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            m_changeMode = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
             m_changeMode.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();

@@ -95,6 +95,15 @@ namespace SDK.Lib
             Ctx.m_instance.m_logSys.log(m_tmpStr);
         }
 
+        /**
+         * @brief 所有的异常日志都走这个接口
+         */
+        public void catchLog(string message)
+        {
+            log("Out Catch Log");
+            log(message);
+        }
+
         public void log(string message)
         {
             //StackTrace stackTrace = new StackTrace(true);

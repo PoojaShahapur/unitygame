@@ -5,7 +5,7 @@ namespace FightCore
     /**
      * @brief 法术卡
      */
-    public class MagicCard : SceneCard
+    public class MagicCard : CanOutCard
     {
         public MagicCard(SceneDZData sceneDZData):
             base(sceneDZData)

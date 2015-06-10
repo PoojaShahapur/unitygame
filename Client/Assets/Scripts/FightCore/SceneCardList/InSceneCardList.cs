@@ -36,7 +36,7 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_smallInternal, m_radius, m_sceneCardList.Count(), ref m_posList, ref m_rotList);
+            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, SmallInternal, Radius, m_sceneCardList.Count(), ref m_posList, ref m_rotList);
         }
 
         public virtual void addCard(SceneCardBase card)
@@ -54,9 +54,15 @@ namespace FightCore
 
         public void addSceneCard(uint objid, SceneCardItem sceneItem)
         {
-            SceneCardBase tmpcard;
-            tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
-            tmpcard.sceneCardItem = sceneItem;
+            SceneCardBase tmpcard = null;
+            if (SceneCardBase.BLACK_CARD_ID == objid)   // 如果是 enemy 手牌，由于没有 m_sceneCardItem 数据，只能使用 id 创建
+            {
+                tmpcard = Ctx.m_instance.m_sceneCardMgr.createCardById(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+            }
+            else
+            {
+                tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
+            }
             addCard(tmpcard);
             updateSceneCardRST();
             updateCardIndex();

@@ -102,7 +102,7 @@ namespace SDK.Common
             //float startRadian = 0;          // 开始的弧度
             float startDeg = 0;             // 开始的角度
 
-            float yDelta = 0.1f;
+            float yDelta = 0.4f;
 
             Vector3 pos;
             Quaternion rot;
@@ -147,7 +147,7 @@ namespace SDK.Common
             //float startRadian = 0;          // 开始的弧度
             float startDeg = 0;             // 开始的角度
 
-            float yDelta = 0.1f;
+            float yDelta = 0.4f;
 
             Vector3 pos;
             Quaternion rot;

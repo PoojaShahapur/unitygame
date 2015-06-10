@@ -8,17 +8,14 @@
 		<Layers>
 			<Layer>
 				<Statemachine>
-					<State motion="duifangchoupai.anim" >
+					<State motion="jifangchoupai.anim" >
 						<Condition name="StateId" value="1" />
 					</State>
-					<State motion="fanpai.anim" >
+					<State motion="jifangrushou.anim" >
 						<Condition name="StateId" value="2" />
 					</State>
-					<State motion="jifangchoupai.anim" >
+					<State motion="duifangchoupai.anim" >
 						<Condition name="StateId" value="3" />
-					</State>
-					<State motion="jifangrushou.anim" >
-						<Condition name="StateId" value="4" />
 					</State>
 				</Statemachine>
 			</Layer>

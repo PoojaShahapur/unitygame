@@ -11,7 +11,7 @@ namespace FightCore
         public ComAttackItem(EAttackType attackType) :
             base(attackType)
         {
-
+            m_moveTime = AttackItemBase.ComAttMoveTime;
         }
 
         public uint attackEffectId

@@ -96,9 +96,9 @@ namespace FightCore
 
         public void moveToStart()
         {
-            m_card.transform().localPosition = m_startPos;
-            m_card.transform().localRotation = Quaternion.Euler(m_startRot);
-            m_card.transform().localScale = m_startScale;
+            UtilApi.setPos(m_card.transform(), m_startPos);
+            UtilApi.setRot(m_card.transform(), m_startRot);         // Quaternion.Euler(m_startRot)
+            UtilApi.setScale(m_card.transform(), m_startScale);
         }
 
         // 到目标位置，移动、旋转、缩放
@@ -157,7 +157,7 @@ namespace FightCore
             destScale = SceneCardBase.BIGFACT;
             // 缩放直接到达位置
             m_destPos.y = m_height;
-            m_card.transform().localPosition = m_destPos;
+            UtilApi.setPos(m_card.transform(), m_destPos);
 
             moveScaleToDest();
 

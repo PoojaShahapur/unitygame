@@ -448,7 +448,7 @@ namespace Game.Game
             }
         }
 
-        // 从已经出牌区域删除一个卡牌
+        // 从已经出牌区域删除一个卡牌，这个目前就是战斗删除
         protected void psstRetRemoveBattleCardUserCmd(ByteBuffer ba)
         {
             stRetRemoveBattleCardUserCmd cmd = new stRetRemoveBattleCardUserCmd();

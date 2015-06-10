@@ -21,28 +21,29 @@ namespace FightCore
 
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_bigInternal, Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length, ref m_posList, ref m_rotList);
+            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, BigInternal, Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length, ref m_posList, ref m_rotList);
 
             int idx = 0;
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length)
             {
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx] > 0)
                 {
-                    SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                    SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     addCard(cardItem);
 
                     // 记录开始卡牌的 id ，后面好判断更新
                     cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx];
                     cardItem.updateCardOutState(true);
-                    cardItem.trackAniControl.startRot = new Vector3(-90f, -90f, 0);       // 将卡牌竖起来
-                    cardItem.trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-                    cardItem.trackAniControl.destPos = m_posList[idx];
-                    cardItem.trackAniControl.destRot = new Vector3(0, 0, 0);
+                    //cardItem.trackAniControl.startRot = new Vector3(-90f, -90f, 0);       // 将卡牌竖起来
+                    //cardItem.trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
+                    //cardItem.trackAniControl.destPos = m_posList[idx];
+                    //cardItem.trackAniControl.destRot = new Vector3(0, 0, 0);
 
-                    cardItem.trackAniControl.moveToStart();        // 放到开始位置
-                    cardItem.trackAniControl.moveToDestRST();          // 播放动画
+                    //cardItem.trackAniControl.moveToStart();        // 放到开始位置
+                    //cardItem.trackAniControl.moveToDestRST();          // 播放动画
 
                     cardItem.updateCardDataByTable();          // 这个时候还没有服务器的数据，只能更新客户端表中的数据
+                    cardItem.startAni();
                 }
 
                 ++idx;
@@ -70,9 +71,9 @@ namespace FightCore
                     UtilApi.Destroy(cardItem.gameObject());      // 释放之前的资源
 
                     // 创建新的资源
-                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCard(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
-                    cardItem.transform().localPosition = curPos;
-                    cardItem.transform().localRotation = curRot;
+                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                    UtilApi.setPos(cardItem.transform(), curPos);
+                    UtilApi.setRot(cardItem.transform(), curRot);
 
                     cardItem.dragControl.enableDrag();      // 开启拖动
                 }

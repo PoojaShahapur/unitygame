@@ -80,12 +80,6 @@ namespace FightCore
             m_sceneStateFSM.MoveToState(SceneStateId.SSDest2Inplaced);
         }
 
-        //// 受伤动画和特效播放完成
-        //protected void onHurtEnd(IDispatchObject dispObj)
-        //{
-        //    m_sceneStateFSM.MoveToState(SceneStateId.SSHurted);
-        //}
-
         // 执行普通攻击
         public void execAttack(ComAttackItem item)
         {
@@ -111,13 +105,10 @@ namespace FightCore
                 if (item.hurtEffectId > 0)       // 如果有特效需要播放，并且被击结束以特效为标准
                 {
                     bAddEffect = true;
-                    effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);  // 被击特效
-                    m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
+                    effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);     // 被击特效
+                    m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                     effect.addEffectPlayEndHandle(item.onHurtExecEnd);
                 }
-                //else    // 以动作为标准，动作结束就算受伤结束
-                //{
-                //}
 
                 // 播放伤害数字
                 m_card.playFlyNum((int)item.damage);
@@ -125,11 +116,14 @@ namespace FightCore
             else if (item.bAddHp)       // 回血
             {
                 // 仅仅改变属性
-                item.onHurtExecEnd(null);
+                if (!item.bStateChange())   // 如果没有状态变化，直接结束，如果有，会释放特效结束
+                {
+                    item.onHurtExecEnd(null);
+                }
             }
+
             if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
-            {
-                
+            {   
                 int idx = 0;
                 for(idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
                 {
@@ -164,10 +158,6 @@ namespace FightCore
                     }
                 }
             }
-            else // 如果没有配置这个技能，直接结束攻击
-            {
-
-            }
         }
 
         // 执行技能受伤
@@ -189,11 +179,14 @@ namespace FightCore
             }
             else if (item.bAddHp)       // 回血
             {
-                item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
+                if (!item.bStateChange())
+                {
+                    item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
+                }
             }
+
             if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
             {
-
                 int idx = 0;
                 for (idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
                 {

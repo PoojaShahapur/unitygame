@@ -13,9 +13,9 @@ namespace FightCore
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
 
-        public float m_bigInternal = 1.171349f;            // 大卡牌间隔
-        public float m_smallInternal = 0.5f;                 // 小卡牌间隔
-        public float m_radius = 0.5f;                   // 半径
+        public const float BigInternal = 2.4f;             // 大卡牌间隔
+        public const float SmallInternal = 1.0f;                // 小卡牌间隔
+        public const float Radius = 0.5f;                     // 半径
 
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
@@ -205,7 +205,7 @@ namespace FightCore
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
-                    m_sceneCardList[idx].dispose();
+                    Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
                     m_sceneCardList.RemoveAt(idx);
                     bRet = true;
                     break;

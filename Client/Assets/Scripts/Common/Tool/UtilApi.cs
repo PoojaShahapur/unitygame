@@ -126,6 +126,30 @@ namespace SDK.Common
             }
         }
 
+        // 深度遍历移除 Sprite Image
+        public static bool CheckComponent<T>(GameObject go_)
+        {
+            T com = go_.GetComponent<T>();
+            if (com != null)
+            {
+                return true;
+            }
+
+            int childCount = go_.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                childTrans = go_.transform.GetChild(idx);
+                if(UtilApi.CheckComponent<T>(childTrans.gameObject))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         // 销毁对象
         public static void Destroy(UnityEngine.Object obj)
         {
@@ -263,13 +287,13 @@ namespace SDK.Common
         public static void normalPosScale(Transform tran)
         {
             //tran.localPosition = Vector3.zero;
-            tran.localPosition = new Vector3(0, 0, 0);
-            tran.localScale = Vector3.one;
+            UtilApi.setPos(tran, new Vector3(0, 0, 0));
+            UtilApi.setScale(tran, Vector3.one);
         }
 
         public static void normalPos(Transform tran)
         {
-            tran.localPosition = Vector3.zero;
+            UtilApi.setPos(tran, Vector3.zero);
         }
 
         public static void normalRot(Transform tran)
@@ -280,6 +304,11 @@ namespace SDK.Common
         public static void setRot(Transform tran, Vector3 rot)
         {
             tran.localEulerAngles = rot;
+        }
+
+        public static void setRot(Transform tran, Quaternion rot)
+        {
+            tran.localRotation = rot;
         }
 
         public static void setScale(Transform tran, Vector3 scale)
@@ -342,9 +371,9 @@ namespace SDK.Common
 
         public static void copyTransform(Transform src, Transform dest)
         {
-            dest.localPosition = src.localPosition;
-            dest.localRotation = src.localRotation;
-            dest.localScale = src.localScale;
+            UtilApi.setPos(dest, src.localPosition);
+            UtilApi.setRot(dest, src.localRotation);
+            UtilApi.setScale(dest, src.localScale);
         }
 
         // 是否包括 child 
@@ -724,7 +753,7 @@ namespace SDK.Common
                 }
                 catch (Exception /*err*/)
                 {
-                    Ctx.m_instance.m_logSys.error(string.Format("修改文件名字 {0} 改成 {1} 失败", srcPath, destPath));
+                    Ctx.m_instance.m_logSys.catchLog(string.Format("修改文件名字 {0} 改成 {1} 失败", srcPath, destPath));
                 }
             }
         }

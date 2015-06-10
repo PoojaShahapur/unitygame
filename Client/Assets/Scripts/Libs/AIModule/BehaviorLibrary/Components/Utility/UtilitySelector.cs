@@ -1,4 +1,5 @@
-﻿//
+﻿using SDK.Common;
+//
 //  UtilitySelector.cs
 //
 //  Author:
@@ -62,9 +63,11 @@ namespace BehaviorLibrary
 				//execute best pair match and return result
                 this.ReturnCode = best_match.behavior.Behave();
 				return this.ReturnCode;
-			}catch(Exception e){
+			}
+            catch(Exception e)
+            {
 				#if DEBUG
-				Console.WriteLine(e.ToString());
+                Ctx.m_instance.m_logSys.catchLog(e.ToString());
 				#endif
 				this.ReturnCode = BehaviorReturnCode.Failure;
 				return BehaviorReturnCode.Failure;

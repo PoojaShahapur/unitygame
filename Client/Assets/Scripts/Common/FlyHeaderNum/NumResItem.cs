@@ -53,7 +53,7 @@ namespace SDK.Common
                     modelItem.pntGo = m_parentGo;
                     modelItem.modelResPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     modelItem.syncUpdateModel();
-                    modelItem.selfGo.transform.localPosition = new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0);
+                    UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0));
                     m_childList.Add(modelItem);
 
                     ++idx;
@@ -73,7 +73,7 @@ namespace SDK.Common
 
         public void setPos(Vector3 pos)
         {
-            m_parentGo.transform.localPosition = pos;
+            UtilApi.setPos(m_parentGo.transform, pos);
         }
 
         public Vector3 getPos()

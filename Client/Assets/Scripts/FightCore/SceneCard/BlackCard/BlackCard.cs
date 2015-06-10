@@ -21,10 +21,5 @@ namespace FightCore
         {
             (m_render as BlackCardRender).setIdAndPnt(objId, pntGo_);
         }
-
-        override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
-        {
-
-        }
     }
 }

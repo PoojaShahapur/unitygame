@@ -2,7 +2,7 @@
 
 namespace FightCore
 {
-    public class SecretCard : SceneCard
+    public class SecretCard : CanOutCard
     {
         public SecretCard(SceneDZData sceneDZData) :
             base(sceneDZData)

@@ -23,6 +23,7 @@
         public const string DzStartMatch = "UIRootNode/MidLayer/DzStartMatchImage";
         public const string DzStartMatch2 = "UIRootNode/MidLayer/DzStartMatchImage2";
         public const string DzStartMatchBg = "UIRootNode/MidLayer/MatchBgImage";
+        public const string bgPanel = "UIRootNode/MidLayer/bgPanel";
 
         public const string CardSetCardNumText = "CardSetCardNumText";
         public const string CardSetSelectedImage = "SelectedImage";

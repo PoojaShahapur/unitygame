@@ -27,18 +27,6 @@ namespace FightCore
             }
         }
 
-        //public HurtItemBase curHurtItem
-        //{
-        //    get
-        //    {
-        //        return m_curHurtItem;
-        //    }
-        //    set
-        //    {
-        //        m_curHurtItem = value;
-        //    }
-        //}
-
         public EventDispatch allHurtExecEndDisp
         {
             get
@@ -145,10 +133,12 @@ namespace FightCore
             if(EHurtType.eCommon == type)
             {
                 ret = new ComHurtItem(type);
+                ret.delayTime = AttackItemBase.ComAttMoveTime;
             }
             else if (EHurtType.eSkill == type)
             {
                 ret = new SkillHurtItem(type);
+                ret.delayTime = 1;  // 技能攻击延迟时间有技能攻击飞行特效的时间决定，这里赋值一个默认的值
             }
 
             m_hurtList.Add(ret);
@@ -160,6 +150,8 @@ namespace FightCore
         // 一个受伤播放结束
         public void onOneHurtExecEnd(IDispatchObject dispObj)
         {
+            Ctx.m_instance.m_logSys.log("删除当前被击项");
+
             // 直接移除，不会在循环中删除的情况
             removeItem(dispObj as HurtItemBase);
             // 检查是否所有的受伤都播放结束

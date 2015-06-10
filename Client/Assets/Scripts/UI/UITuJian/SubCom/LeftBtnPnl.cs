@@ -24,16 +24,19 @@ namespace Game.UI
     public class LeftBtnPnl : TuJianPnlBase
     {
         protected AuxDynImageStaticGOImage m_jobBtnImage;
+        protected AuxDynImageStaticGOImage m_mpBtnImage;
 
         public LeftBtnPnl(TuJianData data) :
             base(data)
         {
             m_jobBtnImage = new AuxDynImageStaticGOImage();
+            m_mpBtnImage = new AuxDynImageStaticGOImage();
         }
 
         public new void findWidget()
         {
             m_jobBtnImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob);
+            m_mpBtnImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnFilter);
         }
 
         public new void addEventHandle()
@@ -92,6 +95,22 @@ namespace Game.UI
                     m_tuJianData.m_pClassFilterPnl.updateByCareer((EnPlayerCareer)idx, false);
                 }
             }
+        }
+
+        // 修改蓝耗图标
+        public void toggleMpBtn(int idx)
+        {
+           
+            if(idx >= 0 && idx <=7)
+            {
+                m_mpBtnImage.setImageInfo(CVAtlasName.TuJianDyn, "guolv_"+idx.ToString()+"fei");
+            }
+            else
+            {
+                m_mpBtnImage.setImageInfo(CVAtlasName.TuJianDyn, "guolv_paizu");
+            }
+            
+            m_mpBtnImage.syncUpdateCom();
         }
     }
 }

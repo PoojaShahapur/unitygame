@@ -8,11 +8,11 @@
     </xmlpg_>
     <open flag="1" />
     <obj>
-	<item index="1" objid="100" num="1" price="12" type="1"/>
-	<item index="2" objid="100" num="2" price="18" type="1"/>
-	<item index="3" objid="100" num="7" price="60" type="1"/>
-	<item index="4" objid="100" num="15" price="128" type="1"/>
-	<item index="5" objid="100" num="40" price="328" type="1"/>
-	<item index="6" objid="100" num="60" price="388" type="1"/>
+	<item index="1" objid="100" num="1" price="100" type="1"/>
+	<item index="2" objid="100" num="5" price="480" type="1"/>
+	<item index="3" objid="100" num="10" price="900" type="1"/>
+	<item index="4" objid="100" num="20" price="1688" type="1"/>
+	<item index="5" objid="100" num="40" price="3288" type="1"/>
+	<item index="6" objid="100" num="60" price="3888" type="1"/>
     </obj>
 </config>

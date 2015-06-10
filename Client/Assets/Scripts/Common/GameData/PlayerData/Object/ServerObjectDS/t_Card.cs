@@ -95,6 +95,11 @@ namespace SDK.Common
             }
             Array.Copy(state, 0, rhv.state, 0, state.Length);
         }
+
+        public string log()
+        {
+            return string.Format("HP = {0}, MaxHP = {1}, ", hp, maxhp);
+        }
     }
 
     //typedef struct t_Card

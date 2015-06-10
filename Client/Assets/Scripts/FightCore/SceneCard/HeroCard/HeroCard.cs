@@ -9,7 +9,7 @@ namespace FightCore
     /**
      * @brief 英雄卡
      */
-    public class HeroCard : SceneCard
+    public class HeroCard : NotOutCard
     {
         protected AuxLabel m_classs, m_heroname;
         protected AuxLabel m_hpText;        // 血
@@ -102,11 +102,6 @@ namespace FightCore
         override public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             (m_render as HeroRender).setIdAndPnt(objId, pntGo_);
-        }
-
-        override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
-        {
-            this.transform().localPosition = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
         }
     }
 }

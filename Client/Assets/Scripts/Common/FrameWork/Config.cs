@@ -59,6 +59,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathAudio] = "Sound/";
             m_pathLst[(int)ResPathType.ePathAtlas] = "Atlas/";
             m_pathLst[(int)ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
+            m_pathLst[(int)ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
 
             m_dataPath = Application.dataPath;
 

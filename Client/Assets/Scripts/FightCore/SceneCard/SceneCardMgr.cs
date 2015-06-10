@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FightCore
 {
     /**
-     * @brief 场景中所有的卡牌
+     * @brief 场景中所有的卡牌，白色卡牌是不加入管理器的
      */
     public class SceneCardMgr : EntityMgrBase
     {
@@ -22,7 +22,7 @@ namespace FightCore
             }
         }
 
-        public SceneCardBase createCard(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType, SceneDZData sceneDZData)
+        public SceneCardBase createCardById(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType, SceneDZData sceneDZData)
         {
             SceneCardBase ret = null;
 
@@ -77,17 +77,36 @@ namespace FightCore
             return ret;
         }
 
+        // 通过服务器数据创建
+        public SceneCardBase createCard(SceneCardItem sceneItem, SceneDZData sceneDZData)
+        {
+            SceneCardBase ret = null;
+            ret = createCardById(sceneItem.svrCard.dwObjectID, sceneItem.m_playerFlag, sceneItem.cardArea, (CardType)sceneItem.m_cardTableItem.m_type, sceneDZData);
+            ret.sceneCardItem = sceneItem;
+            return ret;
+        }
+
+        // 这个查找不包括敌人手里的黑色卡牌，敌人手牌是没有 m_sceneCardItem 这个字段的
         public SceneCardBase getCard(uint thidId)
         {
             foreach(var card in m_sceneEntityList)
             {
-                if(((card as SceneCardBase)).sceneCardItem.svrCard.qwThisID == thidId)
+                if (((card as SceneCardBase)).sceneCardItem != null)    // 敌人手里的黑色卡牌是没有这个字段的
                 {
-                    return card as SceneCardBase;
+                    if (((card as SceneCardBase)).sceneCardItem.svrCard.qwThisID == thidId)
+                    {
+                        return card as SceneCardBase;
+                    }
                 }
             }
 
             return null;
+        }
+
+        public void removeAndDestroy(SceneCardBase effect)
+        {
+            this.delObject(effect);
+            effect.dispose();
         }
     }
 }

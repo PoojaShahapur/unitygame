@@ -172,6 +172,7 @@ namespace Game.UI
         public void updateFilter(int idx)
         {
             m_tuJianData.m_wdscCardPnl.filterMp = idx;
+            m_tuJianData.m_leftBtnPnl.toggleMpBtn(idx);
         }
 
         // 返回是否在编辑模式

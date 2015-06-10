@@ -39,6 +39,7 @@ namespace FightCore
             set
             {
                 m_skillId = value;
+                m_skillTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SKILL, m_skillId).m_itemBody as TableSkillItemBody;
             }
         }
 
@@ -63,7 +64,7 @@ namespace FightCore
         {
             base.initItemData(att, def, msg);
 
-            m_skillId = msg.dwMagicType;
+            skillId = msg.dwMagicType;
             foreach(var item in msg.defList)
             {
                 m_hurtIdList.Add(item.qwThisID);

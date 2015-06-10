@@ -5,7 +5,7 @@ namespace FightCore
     /**
      * @brief 随从卡
      */
-    public class AttendCard : SceneCard
+    public class AttendCard : CanOutCard
     {
         public AttendCard(SceneDZData sceneDZData) :
             base(sceneDZData)

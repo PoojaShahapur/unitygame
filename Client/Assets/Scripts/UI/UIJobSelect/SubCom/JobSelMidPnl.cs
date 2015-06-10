@@ -22,6 +22,7 @@ namespace Game.UI
         protected GameObject m_imageGo;
         protected GameObject m_imageGo2;
         protected GameObject m_imageMatchBg;
+        protected GameObject m_bgPanel;
         protected stRetHeroIntoBattleSceneUserCmd m_cmd;
 
         public JobSelMidPnl(JobSelectData data) :
@@ -98,6 +99,8 @@ namespace Game.UI
             UtilApi.SetActive(m_imageGo2, false);
             m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
             UtilApi.SetActive(m_imageMatchBg, false);
+            m_bgPanel = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.bgPanel);
+            UtilApi.SetActive(m_bgPanel, false);
         }
 
         public new void addEventHandle()
@@ -179,6 +182,8 @@ namespace Game.UI
         {
             //m_dzStartDescText.text = "开始匹配中";
             //m_dzStartDescText.show();     // 默认隐藏
+            m_bgPanel = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.bgPanel);
+            UtilApi.SetActive(m_bgPanel, true);
             m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
             UtilApi.SetActive(m_imageMatchBg, true);
 

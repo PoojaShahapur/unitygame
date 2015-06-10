@@ -39,7 +39,7 @@ namespace SDK.Common
             }
             set
             {
-                m_GUIWin.m_uiRoot.transform.localPosition = new Vector3(value, m_GUIWin.m_uiRoot.transform.localPosition.y, m_GUIWin.m_uiRoot.transform.localPosition.z);
+                UtilApi.setPos(m_GUIWin.m_uiRoot.transform, new Vector3(value, m_GUIWin.m_uiRoot.transform.localPosition.y, m_GUIWin.m_uiRoot.transform.localPosition.z));
             }
         }
 
@@ -51,7 +51,7 @@ namespace SDK.Common
             }
             set
             {
-                m_GUIWin.m_uiRoot.transform.localPosition = new Vector3(m_GUIWin.m_uiRoot.transform.localPosition.x, value, m_GUIWin.m_uiRoot.transform.localPosition.z);
+                UtilApi.setPos(m_GUIWin.m_uiRoot.transform, new Vector3(m_GUIWin.m_uiRoot.transform.localPosition.x, value, m_GUIWin.m_uiRoot.transform.localPosition.z));
             }
         }
 

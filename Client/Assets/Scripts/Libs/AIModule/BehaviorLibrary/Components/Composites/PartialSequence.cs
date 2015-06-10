@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDK.Common;
+using System;
 
 namespace BehaviorLibrary
 {
@@ -49,7 +50,7 @@ namespace BehaviorLibrary
                 catch (Exception e)
                 {
 #if DEBUG
-                Console.Error.WriteLine(e.ToString());
+                    Ctx.m_instance.m_logSys.catchLog(e.ToString());
 #endif
                     _sequence = 0;
                     ReturnCode = BehaviorReturnCode.Failure;

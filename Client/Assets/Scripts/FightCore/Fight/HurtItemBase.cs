@@ -104,12 +104,14 @@ namespace FightCore
 
         virtual public void execHurt(SceneCardBase card)
         {
-
+            Ctx.m_instance.m_logSys.log("开始执行当前被击");
         }
 
         // 这个是整个受伤执行结束
         public void onHurtExecEnd(IDispatchObject dispObj)
         {
+            Ctx.m_instance.m_logSys.log("当前被击执行结束");
+
             m_execState = EHurtExecState.eEnd;
             m_hurtExecEndDisp.dispatchEvent(this);
         }
@@ -120,11 +122,15 @@ namespace FightCore
 
             m_svrCard = def.sceneCardItem.svrCard;  // 保存这次被击的属性，可能这个会被后面的给改掉
 
+            Ctx.m_instance.m_logSys.log(string.Format("被击者掉血 {0}", att.sceneCardItem.svrCard.damage));
             if (att.sceneCardItem.svrCard.damage > 0)
             {
                 m_damage = att.sceneCardItem.svrCard.damage;
             }
 
+            Ctx.m_instance.m_logSys.log(string.Format("被击者被击前属性值 {0}", msg.m_origDefObject.log()));
+            Ctx.m_instance.m_logSys.log(string.Format("被击者被击后属性值 {0}", def.sceneCardItem.svrCard.log()));
+            
             m_bDamage = hasDamageHp(msg.m_origDefObject, def.sceneCardItem.svrCard);
             m_bAddHp = hasAddHp(msg.m_origDefObject, def.sceneCardItem.svrCard);
 
@@ -148,7 +154,7 @@ namespace FightCore
         {
             if (src.hp > dest.hp)        // HP 减少
             {
-                if (src.hp != src.maxhp)         // 不是由于技能导致的将这两个值减少并且设置成同样的值，就是伤血
+                if (src.maxhp == dest.maxhp)         // 不是由于技能导致的将这两个值减少并且设置成同样的值，就是伤血
                 {
                     return true;
                 }
@@ -159,9 +165,9 @@ namespace FightCore
 
         protected bool hasAddHp(t_Card src, t_Card dest)
         {
-            if (src.hp > dest.hp)        // HP 减少
+            if (src.hp <= dest.hp)        // HP 增加
             {
-                if (src.hp != src.maxhp)         // 不是由于技能导致的将这两个值减少并且设置成同样的值，就是伤血
+                if (src.maxhp == dest.maxhp)         // 不是由于技能导致的将这两个值减少并且设置成同样的值，就是伤血
                 {
                     return true;
                 }

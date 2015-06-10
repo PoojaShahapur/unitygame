@@ -62,7 +62,7 @@ namespace SDK.Lib
 
         public void setLocalPos(Vector3 pos)
         {
-            m_skinAniModel.transform.localPosition = pos;
+            UtilApi.setPos(m_skinAniModel.transform, pos);
         }
 
         public void OnTick(float delta)
