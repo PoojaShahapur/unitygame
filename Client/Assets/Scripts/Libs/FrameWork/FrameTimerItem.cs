@@ -25,6 +25,7 @@ namespace SDK.Lib
 
             ++m_curFrame;
             ++m_curLeftFrame;
+
             if (m_bInfineLoop)
             {
                 if (m_curLeftFrame == m_internal)

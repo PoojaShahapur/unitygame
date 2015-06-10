@@ -62,7 +62,8 @@ namespace SDK.Lib
 
             foreach (TimerItemBase timerItem in m_timerLists)
             {
-                if(timerItem.OnTimer(delta))        // 如果已经结束
+                timerItem.OnTimer(delta);
+                if (timerItem.m_disposed)        // 如果已经结束
                 {
                     m_delLists.Add(timerItem);
                 }

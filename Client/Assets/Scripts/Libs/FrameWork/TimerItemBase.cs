@@ -16,76 +16,53 @@ namespace SDK.Lib
         public Action<TimerItemBase> m_timerDisp = null;       // 定时器分发
         public bool m_disposed = false;             // 是否已经被释放
 
-        protected float m_deltaTotal = 0;
-
-        public virtual bool OnTimer(float delta)
+        public virtual void OnTimer(float delta)
         {
             if (m_disposed)
             {
-                return true;
+                return;
             }
+
+            m_curTime += delta;
+            m_curLeftTimer += delta;
 
             if (m_bInfineLoop)
             {
-                if (m_curLeftTimer + delta >= m_internal)
-                {
-                    m_curLeftTimer = m_curLeftTimer + delta - m_internal;
-
-                    if (m_timerDisp != null)
-                    {
-                        m_timerDisp(this);
-                    }
-                }
-                else
-                {
-                    m_curLeftTimer += delta;
-                }
+                checkAndDisp();
             }
             else
             {
-                if (m_curLeftTimer + delta >= m_internal)
+                if (m_curTime >= m_totalTime)
                 {
-                    m_curLeftTimer = m_curLeftTimer + delta - m_internal;
-
-                    bool ret = checkEnd(m_internal - m_deltaTotal);
-                    m_deltaTotal = 0;
-
-                    if (m_timerDisp != null)
-                    {
-                        m_timerDisp(this);
-                    }
-
-                    return ret;
+                    disposeAndDisp();
                 }
                 else
                 {
-                    m_curLeftTimer += delta;
-                    m_deltaTotal += delta;
-                    if(checkEnd(delta))
-                    {
-                        if (m_timerDisp != null)
-                        {
-                            m_timerDisp(this);
-                        }
-
-                        return true;
-                    }
+                    checkAndDisp();
                 }
             }
-
-            return false;
         }
 
-        protected virtual bool checkEnd(float delta)
+        public virtual void disposeAndDisp()
         {
-            m_curTime += delta;
-            if(m_curTime >= m_totalTime)
+            m_disposed = true;
+            if (m_timerDisp != null)
             {
-                m_disposed = true;
-                return true;
+                m_timerDisp(this);
             }
+        }
 
-            return false;
+        public virtual void checkAndDisp()
+        {
+            if (m_curLeftTimer >= m_internal)
+            {
+                m_curLeftTimer = m_curLeftTimer - m_internal;
+
+                if (m_timerDisp != null)
+                {
+                    m_timerDisp(this);
+                }
+            }
         }
 
         public virtual void reset()

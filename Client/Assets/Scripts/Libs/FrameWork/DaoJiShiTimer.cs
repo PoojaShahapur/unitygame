@@ -5,16 +5,31 @@
      */
     public class DaoJiShiTimer : TimerItemBase
     {
-        protected override bool checkEnd(float delta)
+        public override void OnTimer(float delta)
         {
-            m_curTime -= delta;
-            if (m_curTime <= 0)            // 保证肯定退出
+            if (m_disposed)
             {
-                m_disposed = true;
-                return true;
+                return;
             }
 
-            return false;
+            m_curTime -= delta;
+            m_curLeftTimer += delta;
+
+            if (m_bInfineLoop)
+            {
+                checkAndDisp();
+            }
+            else
+            {
+                if (m_curTime <= 0)
+                {
+                    disposeAndDisp();
+                }
+                else
+                {
+                    checkAndDisp();
+                }
+            }
         }
 
         public override void reset()
