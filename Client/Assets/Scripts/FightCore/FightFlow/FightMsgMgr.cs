@@ -13,9 +13,14 @@ namespace FightCore
         protected stNotifyBattleCardPropertyUserCmd m_curFightData;     // 当前战斗数据
         protected MList<stNotifyBattleCardPropertyUserCmd> m_cacheList; // 缓存的战斗数据列表
         protected MList<HurtData> m_hurtList;       // 当前受伤对象列表
+        public int m_attCount;              // 当前一局攻击数量
+        public int m_delCount;              // 当前一局删除数量
 
         public FightMsgMgr(SceneDZData data)
         {
+            m_attCount = 0;
+            m_delCount = 0;
+
             m_sceneDZData = data;
             m_curFightData = null;
             m_cacheList = new MList<stNotifyBattleCardPropertyUserCmd>();
