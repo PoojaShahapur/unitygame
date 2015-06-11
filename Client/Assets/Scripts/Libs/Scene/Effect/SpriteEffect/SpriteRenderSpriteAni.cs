@@ -10,13 +10,14 @@ namespace SDK.Lib
     {
         protected SceneEntityBase m_entity;
         protected SpriteRenderer m_spriteRender;    // 精灵渲染器
+        protected ModelRes m_effectPrefab;          // 特效 Prefab
 
         public SpriteRenderSpriteAni(SceneEntityBase entity_)
         {
             m_entity = entity_;
 
             // 创建自己的场景 GameObject
-            selfGo = UtilApi.createSpriteGameObject();
+            //selfGo = UtilApi.createSpriteGameObject();
         }
 
         public override void dispose()
@@ -25,6 +26,13 @@ namespace SDK.Lib
             {
                 UtilApi.Destroy(m_selfGo);
             }
+
+            if (m_effectPrefab != null)
+            {
+                Ctx.m_instance.m_modelMgr.unload(m_effectPrefab.GetPath(), null);
+                m_effectPrefab = null;
+            }
+
             base.dispose();
         }
 
@@ -36,7 +44,7 @@ namespace SDK.Lib
 
         override protected void onPntChanged()
         {
-            UtilApi.SetParent(m_selfGo, m_pntGo, false);
+            linkSelf2Parent();
         }
 
         // 查找 UI 组件
@@ -80,6 +88,20 @@ namespace SDK.Lib
         override public bool checkRender()
         {
             return m_spriteRender != null;
+        }
+
+        // 特效对应的精灵 Prefab 改变
+        override public void onSpritePrefabChanged()
+        {
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], m_tableBody.m_aniPrefabName);
+            m_effectPrefab = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
+            selfGo = m_effectPrefab.InstantiateObject(path);
+        }
+
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+            linkSelf2Parent();
         }
     }
 }

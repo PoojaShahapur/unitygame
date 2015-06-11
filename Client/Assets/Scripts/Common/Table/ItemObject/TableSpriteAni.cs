@@ -10,7 +10,8 @@
         public string m_aniResNameNoExt; // 动画资源的名字，没有扩展名
 
         public float m_invFrameRate;    // 一帧需要的时间
-        public string m_aniResName; // 动画资源的名字，有扩展名
+        public string m_aniResName;     // 动画资源的名字，有扩展名
+        public string m_aniPrefabName;  // 动画预制资源
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -21,6 +22,8 @@
 
             m_invFrameRate = 1 / (float)m_frameRate;
             m_aniResName = string.Format("{0}.asset", m_aniResNameNoExt);
+
+            m_aniPrefabName = string.Format("{0}prefab.prefab", m_aniResNameNoExt);
         }
     }
 }

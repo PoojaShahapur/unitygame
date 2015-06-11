@@ -103,10 +103,10 @@ namespace FightCore
             return null;
         }
 
-        public void removeAndDestroy(SceneCardBase effect)
+        public void removeAndDestroy(SceneCardBase card)
         {
-            this.delObject(effect);
-            effect.dispose();
+            this.delObject(card);
+            card.dispose();
         }
     }
 }

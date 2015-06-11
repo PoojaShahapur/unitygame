@@ -23,7 +23,7 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, SmallInternal, m_sceneCardList.Count(), ref m_posList, ref m_rotList);
+            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_sceneDZData.m_cardHandleAreaWidthArr[(int)m_playerFlag], m_sceneCardList.Count(), ref m_posList);
         }
 
         public void addCard(SceneCardBase card, int idx = 0)

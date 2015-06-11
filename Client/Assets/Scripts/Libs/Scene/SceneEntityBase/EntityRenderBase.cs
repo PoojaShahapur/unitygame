@@ -54,6 +54,11 @@ namespace SDK.Lib
 
         }
 
+        virtual public GameObject getPnt()
+        {
+            return null;
+        }
+
         virtual public bool checkRender()
         {
             return false;

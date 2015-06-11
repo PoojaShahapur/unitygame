@@ -47,7 +47,7 @@ namespace FightCore
             if (m_effectRootGO == null)
             {
                 m_effectRootGO = UtilApi.createGameObject("FrameSprite");
-                UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
+                UtilApi.SetParent(m_effectRootGO, m_card.gameObject(), false);
             }
         }
 

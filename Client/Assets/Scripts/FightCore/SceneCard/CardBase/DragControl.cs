@@ -211,7 +211,7 @@ namespace FightCore
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
                                 m_card.convOutModel();
-                                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardRST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
+                                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                                 m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpFaShu, m_card);
                             }
                             else        // 如果没有攻击目标，直接拖出去
@@ -232,7 +232,7 @@ namespace FightCore
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
                             m_card.convOutModel();
-                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardRST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
+                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                             m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, m_card);
                         }
                         else        // 如果是普通移动牌，就发送移动消息

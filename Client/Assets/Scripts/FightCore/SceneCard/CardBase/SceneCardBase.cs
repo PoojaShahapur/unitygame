@@ -244,6 +244,8 @@ namespace FightCore
 
         override public void dispose()
         {
+            Ctx.m_instance.m_sceneCardMgr.delObject(this);
+
             if (m_sceneCardBaseData != null)
             {
                 if (m_sceneCardBaseData.m_clickControl != null)
@@ -357,13 +359,29 @@ namespace FightCore
 
         public void delSelf()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
             m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerFlag].delOneCard(this.sceneCardItem);
         }
 
         // 开始卡牌动画
-        virtual public void startAni()
+        virtual public void faPai2MinAni()
         {
 
+        }
+
+        virtual public void min2HandleAni()
+        {
+
+        }
+
+        virtual public void start2HandleAni()
+        {
+
+        }
+
+        virtual public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
+        {
+            
         }
     }
 }

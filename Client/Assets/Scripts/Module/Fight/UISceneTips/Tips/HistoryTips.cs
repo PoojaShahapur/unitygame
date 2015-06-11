@@ -50,11 +50,11 @@ namespace Fight
             {
                 m_cardItem.setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
                 m_cardItem.transform.SetParent(m_tipsItemRoot.transform, false);
-                m_cardItem.transform.localPosition = new Vector3(-2.12f, 0, 0);
+                UtilApi.setPos(m_cardItem.transform, new Vector3(-2.12f, 0, 0));
 #if UNITY_5
-                m_cardItem.transform.localRotation = Quaternion.Euler(270, 0, 0);
+                UtilApi.setRot(m_cardItem.transform, Quaternion.Euler(270, 0, 0));
 #elif UNITY_4_6
-                m_cardItem.transform.localRotation = Quaternion.EulerRotation(270, 0, 0);
+                UtilApi.setRot(m_cardItem.transform, Quaternion.EulerRotation(270, 0, 0));
 #endif
             }
 
@@ -73,11 +73,11 @@ namespace Fight
 
                     m_list[idx].setGameObject(UtilApi.Instantiate(tmpGO) as GameObject);
                     m_list[idx].transform.SetParent(m_tipsItemRoot.transform, false);
-                    m_cardItem.transform.localPosition = new Vector3(-2.12f + 1.5f * (1 + idx), 0, 0);
+                    UtilApi.setPos(m_cardItem.transform, new Vector3(-2.12f + 1.5f * (1 + idx), 0, 0));
 #if UNITY_5
-                    m_list[idx].transform.localRotation = Quaternion.Euler(270, 0, 0);
+                    UtilApi.setRot(m_list[idx].transform, Quaternion.Euler(270, 0, 0));
 #elif UNITY_4_6
-                    m_list[idx].transform.localRotation = Quaternion.EulerRotation(270, 0, 0);
+                    UtilApi.setRot(m_list[idx].transform, Quaternion.EulerRotation(270, 0, 0));
 #endif
                 }
             }

@@ -95,5 +95,10 @@ namespace SDK.Lib
         {
             
         }
+
+        override public GameObject getPnt()
+        {
+            return m_model.pntGo;
+        }
     }
 }

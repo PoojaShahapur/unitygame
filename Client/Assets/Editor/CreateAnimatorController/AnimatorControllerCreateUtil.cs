@@ -18,15 +18,26 @@ namespace CreateAnimatorController
 
             // 创建 Default State ，第一个创建的状态默认就是 Default State
             AnimatorState animatorState = null;
+            AnimatorStateTransition trans = null;
+
             animatorState = stateMachine.AddState("Start");
             animatorState.writeDefaultValues = true;
+
+            // 添加一个默认的状态，当没有所有的状态的时候，可以循环播放这个状态
+            animatorState = stateMachine.AddState("Idle");          // 待机状态
+            trans = stateMachine.AddAnyStateTransition(animatorState);
+            trans.hasExitTime = true;
+            trans.exitTime = 0;
+            trans.duration = 0;
+            trans.canTransitionToSelf = true;           // 可以循环自己
+            trans.AddCondition(AnimatorConditionMode.Equals, 0, "StateId");
 
             foreach (State state in controllerData.layers.layerList[0].stateMachineList[0].stateList)
             {
                 AnimationClip clip = AssetDatabase.LoadAssetAtPath(state.fullMotion, typeof(AnimationClip)) as AnimationClip;
                 animatorState = stateMachine.AddState(clip.name);
                 animatorState.motion = clip;
-                AnimatorStateTransition trans = stateMachine.AddAnyStateTransition(animatorState);
+                trans = stateMachine.AddAnyStateTransition(animatorState);
                 trans.hasExitTime = true;
                 trans.exitTime = 0;
                 trans.duration = 0;

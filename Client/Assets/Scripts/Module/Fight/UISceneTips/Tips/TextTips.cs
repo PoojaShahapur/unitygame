@@ -26,7 +26,7 @@ namespace Fight
         {
             show();
             m_desc.text = desc;
-            m_sceneTipsData.m_goRoot.transform.localPosition = pos;
+            UtilApi.setPos(m_sceneTipsData.m_goRoot.transform, pos);
         }
     }
 }

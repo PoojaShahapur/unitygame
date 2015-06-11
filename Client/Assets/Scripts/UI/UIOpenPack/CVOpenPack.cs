@@ -3,7 +3,6 @@
     public enum OpenPackGo
     {
         eCardPackLayer,
-        eOpenPackLayer,
 
         eTotal
     }
@@ -21,12 +20,6 @@
         ePackBtn_0,
         ePackBtn_1,
         ePackBtn_2,
-
-        eOpenedPackBtn_0,
-        eOpenedPackBtn_1,
-        eOpenedPackBtn_2,
-        eOpenedPackBtn_3,
-        eOpenedPackBtn_4,
 
         eCardBtnTotal
     }

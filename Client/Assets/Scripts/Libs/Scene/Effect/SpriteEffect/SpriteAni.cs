@@ -66,10 +66,12 @@ namespace SDK.Lib
                 if (m_tableID != value)
                 {
                     m_bNeedReloadRes = true;
-                }
 
-                m_tableID = value;
-                m_tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SPRITEANI, (uint)m_tableID).m_itemBody as TableSpriteAniItemBody;
+                    m_tableID = value;
+                    m_tableBody = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_SPRITEANI, (uint)m_tableID).m_itemBody as TableSpriteAniItemBody;
+
+                    onSpritePrefabChanged();
+                }
             }
         }
 
@@ -105,6 +107,12 @@ namespace SDK.Lib
         virtual public bool getClientDispose()
         {
             return m_bClientDispose;
+        }
+
+        // 特效对应的精灵 Prefab 改变
+        virtual public void onSpritePrefabChanged()
+        {
+
         }
 
         override public void dispose()

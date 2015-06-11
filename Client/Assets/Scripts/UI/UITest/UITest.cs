@@ -76,7 +76,9 @@ namespace Game.UI
             //testCommonFight();
             //testSkillFight();
             //testMoveEffect();
-            testChangeMode();
+            //testChangeModel();
+            //testAni();
+            testLinkEffect();
         }
 
         protected void onBtnClkTest1f()
@@ -85,7 +87,8 @@ namespace Game.UI
             //testAttackAni();
             //testFlyNum();
             //testSendToSelf();
-            changeModeOut();
+            //changeModeOut();
+            downAni();
         }
 
         protected void onBtnClkTest2f()
@@ -253,7 +256,7 @@ namespace Game.UI
             SceneCardBase enemyCard = null;
             // 测试[随从卡]
             selfCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
-            selfCard.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
+            UtilApi.setPos(selfCard.transform(), new UnityEngine.Vector3(-4, 0, 0));
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
@@ -263,7 +266,7 @@ namespace Game.UI
             selfCard.sceneCardItem = sceneCardItem;
 
             enemyCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
-            enemyCard.transform().localPosition = new UnityEngine.Vector3(4, 0, 0);
+            UtilApi.setPos(enemyCard.transform(), new UnityEngine.Vector3(4, 0, 0));
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
             sceneCardItem.svrCard.qwThisID = 1;
@@ -291,7 +294,7 @@ namespace Game.UI
             SceneCardBase enemyCard = null;
             // 测试[随从卡]
             selfCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
-            selfCard.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
+            UtilApi.setPos(selfCard.transform(), new UnityEngine.Vector3(-4, 0, 0));
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
@@ -301,7 +304,7 @@ namespace Game.UI
             selfCard.sceneCardItem = sceneCardItem;
 
             enemyCard = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerEnemy, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
-            enemyCard.transform().localPosition = new UnityEngine.Vector3(4, 0, 0);
+            UtilApi.setPos(enemyCard.transform(), new UnityEngine.Vector3(4, 0, 0));
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
             sceneCardItem.svrCard.qwThisID = 1;
@@ -323,6 +326,26 @@ namespace Game.UI
             hurtItem.damage = 20;
         }
 
+
+        // 创建一个卡牌就会放到 (-4, 0, 0) 位置
+        protected SceneCardBase m_linkEffectModel;
+        public void testLinkEffect()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            // 测试[随从卡]
+            m_linkEffectModel = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            UtilApi.setPos(m_linkEffectModel.transform(), new UnityEngine.Vector3(-4, 0, 0));
+            SceneCardItem sceneCardItem = null;
+            sceneCardItem = new SceneCardItem();
+            sceneCardItem.svrCard = new t_Card();
+            sceneCardItem.svrCard.qwThisID = 0;
+            sceneCardItem.svrCard.dwObjectID = 230000;
+            sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+            m_linkEffectModel.sceneCardItem = sceneCardItem;
+
+            m_linkEffectModel.effectControl.addLinkEffect(4, true, true, true);
+        }
+
         public void testMoveEffect()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
@@ -339,30 +362,52 @@ namespace Game.UI
         }
 
 
-        protected SceneCardBase m_changeMode;
-        protected void testChangeMode()
+        protected SceneCardBase m_changeModel;
+        protected void testChangeModel()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             // 测试[随从卡]
-            m_changeMode = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
-            m_changeMode.transform().localPosition = new UnityEngine.Vector3(-4, 0, 0);
+            m_changeModel = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            UtilApi.setPos(m_changeModel.transform(), new UnityEngine.Vector3(-4, 0, 0));
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();
             sceneCardItem.svrCard = new t_Card();
             sceneCardItem.svrCard.qwThisID = 0;
             sceneCardItem.svrCard.dwObjectID = 230000;
             sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
-            m_changeMode.sceneCardItem = sceneCardItem;
+            m_changeModel.sceneCardItem = sceneCardItem;
         }
 
         protected void changeModeOut()
         {
-            m_changeMode.convOutModel();
+            m_changeModel.convOutModel();
         }
 
         protected void changeModeHandle()
         {
-            m_changeMode.convHandleModel();
+            m_changeModel.convHandleModel();
+        }
+
+        protected SceneCardBase m_aniModel;
+        protected void testAni()
+        {
+            UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            // 测试[随从卡]
+            m_aniModel = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            UtilApi.setPos(m_aniModel.transform(), new UnityEngine.Vector3(-4, 0, 0));
+            SceneCardItem sceneCardItem = null;
+            sceneCardItem = new SceneCardItem();
+            sceneCardItem.svrCard = new t_Card();
+            sceneCardItem.svrCard.qwThisID = 0;
+            sceneCardItem.svrCard.dwObjectID = 230000;
+            sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
+            m_aniModel.sceneCardItem = sceneCardItem;
+            m_aniModel.faPai2MinAni();
+        }
+
+        protected void downAni()
+        {
+            m_aniModel.min2HandleAni();
         }
     }
 }

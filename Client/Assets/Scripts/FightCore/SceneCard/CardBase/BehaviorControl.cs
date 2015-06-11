@@ -206,5 +206,11 @@ namespace FightCore
             // 更新自己的属性显示
             m_card.updateCardDataChange(item.svrCard);
         }
+
+        // 直接移动到目标点
+        public void moveToDestDirect(Vector3 pos)
+        {
+            UtilApi.setPos(m_card.transform(), pos);
+        }
     }
 }

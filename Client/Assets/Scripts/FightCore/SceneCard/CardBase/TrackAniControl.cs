@@ -1,4 +1,6 @@
 ﻿using SDK.Common;
+using SDK.Lib;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -102,7 +104,7 @@ namespace FightCore
         }
 
         // 到目标位置，移动、旋转、缩放
-        public void moveToDestRST()
+        public void moveToDestST()
         {
             saveCurRSTToStart();
 
@@ -214,7 +216,7 @@ namespace FightCore
             m_pathStack.Clear();
 
             saveStartToDest();
-            moveToDestRST();
+            moveToDestST();
         }
 
         // 保存开始点和结束点到堆栈

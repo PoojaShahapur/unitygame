@@ -80,6 +80,9 @@ namespace FightCore
             {
                 m_damage = def.sceneCardItem.svrCard.damage;
             }
+
+            Ctx.m_instance.m_logSys.log(string.Format("攻击者攻击前属性值 {0}", msg.m_origAttObject.log()));
+            Ctx.m_instance.m_logSys.log(string.Format("攻击者攻击后属性值 {0}", att.sceneCardItem.svrCard.log()));
         }
 
         // 获取攻击移动到目标的时间

@@ -72,7 +72,7 @@ namespace SDK.Lib
         override public void setTableID(int tableId)
         {
             base.setTableID(tableId);
-            UtilApi.adjustEffectRST((m_render as EffectSpriteRender).spriteRender.selfGo.transform);
+            //UtilApi.adjustEffectRST((m_render as EffectSpriteRender).spriteRender.selfGo.transform);
         }
 
         override public void play()

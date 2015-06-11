@@ -76,6 +76,11 @@ namespace SDK.Lib
 
         }
 
+        virtual public GameObject getPnt()
+        {
+            return m_render.getPnt();
+        }
+
         virtual public bool checkRender()
         {
             return m_render.checkRender();

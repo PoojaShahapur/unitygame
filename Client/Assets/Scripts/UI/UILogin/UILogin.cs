@@ -13,6 +13,9 @@ namespace Game.UI
      */
     public class UILogin : Form
     {
+        protected SpriteAni m_spriteAni;        //登陆界面中间的动画
+        protected GameObject m_imageEffect;
+
         override public void onShow()
         {
             base.onShow();
@@ -26,6 +29,16 @@ namespace Game.UI
             base.onReady();
             findWidget();
             addEventHandle();
+        }
+
+        override public void onExit()
+        {
+            base.onExit();
+            if (m_spriteAni != null)
+            {
+                m_spriteAni.dispose();
+                m_spriteAni = null;
+            }
         }
 
         // 关联窗口
@@ -49,6 +62,9 @@ namespace Game.UI
 
             // 忽略鼠标事件
             UtilApi.getComByP<Image>(m_GUIWin.m_uiRoot, "ImageName").maskable = false;
+
+            m_imageEffect = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, LoginComPath.PathImageEffect);
+            UtilApi.SetActive(m_imageEffect, false);
         }
 
         protected void addEventHandle()
@@ -78,6 +94,16 @@ namespace Game.UI
 #else
                     Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
 #endif
+
+                    UtilApi.SetActive(m_imageEffect, true);
+                    m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();
+                    if (m_spriteAni != null)
+                    {
+                        m_spriteAni.selfGo = m_imageEffect;
+                        m_spriteAni.tableID = 12;
+                        m_spriteAni.bLoop = true;
+                        m_spriteAni.play();
+                    }
                 }
             }
         }

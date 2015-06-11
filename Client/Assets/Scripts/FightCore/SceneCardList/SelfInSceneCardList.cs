@@ -19,9 +19,9 @@ namespace FightCore
             // 释放之前的所有的卡牌
             clearSceneCardList();
 
-            m_posList.Clear();
-            m_rotList.Clear();
-            UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, BigInternal, Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length, ref m_posList, ref m_rotList);
+            //m_posList.Clear();
+            //m_rotList.Clear();
+            //UtilMath.rectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, BigInternal, Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length, ref m_posList, ref m_rotList);
 
             int idx = 0;
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length)
@@ -41,9 +41,10 @@ namespace FightCore
 
                     //cardItem.trackAniControl.moveToStart();        // 放到开始位置
                     //cardItem.trackAniControl.moveToDestRST();          // 播放动画
+                    cardItem.trackAniControl.destPos = m_sceneDZData.m_initCardPlaceHolder[idx].transform.localPosition;    // 记录动画结束后需要设置的位置
 
                     cardItem.updateCardDataByTable();          // 这个时候还没有服务器的数据，只能更新客户端表中的数据
-                    cardItem.startAni();
+                    cardItem.faPai2MinAni();
                 }
 
                 ++idx;
@@ -92,7 +93,7 @@ namespace FightCore
             card.dragControl.m_moveDisp = uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
         }
 
-        // 更新场景卡牌位置
+        // 移动初始卡牌到手牌列表，更新场景卡牌位置
         public override void startCardMoveTo()
         {
             int idx = 0;
@@ -107,11 +108,17 @@ namespace FightCore
                     UtilApi.Destroy(cardItem.chaHaoGo);
                 }
                 cardItem.dragControl.enableDrag();      // 开启拖动
+                cardItem.min2HandleAni();
+
+                if(idx == 0)
+                {
+                    cardItem.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
+                }
 
                 ++idx;
             }
 
-            base.startCardMoveTo();
+            //base.startCardMoveTo();
         }
 
         override public void disableAllCardDragExceptOne(SceneCardBase card)

@@ -11,7 +11,7 @@ namespace UnitTestSrc
         public void run()
         {
             //testAnim();
-            testDopeSheetAni();
+            //testDopeSheetAni();
         }
 
         // 测试 .anim 动画

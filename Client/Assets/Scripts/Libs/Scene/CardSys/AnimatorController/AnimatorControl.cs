@@ -86,7 +86,15 @@ namespace SDK.Lib
         public void SetInteger(int id, int value)
         {
             m_animator.SetInteger(m_stateId, value);
-            startNextFrameTimer();
+            if (value == 0)         // 0是默认状态
+            {
+                m_animator.enabled = false;
+            }
+            else
+            {
+                m_animator.enabled = true;
+                startNextFrameTimer();
+            }
         }
 
         // 启动下一帧定时器

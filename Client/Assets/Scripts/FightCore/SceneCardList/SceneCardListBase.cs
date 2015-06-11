@@ -10,12 +10,12 @@ namespace FightCore
      */
     public class SceneCardListBase
     {
+        public const float BigInternal = 2.4f;             // 大卡牌间隔
+        public const float SmallInternal = 2.0f;                // 小卡牌间隔
+        public const float Radius = 0.5f;                     // 半径
+
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
-
-        public const float BigInternal = 2.4f;             // 大卡牌间隔
-        public const float SmallInternal = 1.0f;                // 小卡牌间隔
-        public const float Radius = 0.5f;                     // 半径
 
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
@@ -45,7 +45,7 @@ namespace FightCore
         }
 
         // 更新场景卡牌位置
-        public virtual void updateSceneCardRST()
+        public virtual void updateSceneCardST()
         {
             int idx = 0;
             SceneCardBase cardItem;
@@ -56,9 +56,9 @@ namespace FightCore
             {
                 cardItem = m_sceneCardList[idx];
                 cardItem.trackAniControl.destPos = m_posList[idx];
-                cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
-                cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
-                cardItem.trackAniControl.moveToDestRST();
+                //cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
+                //cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
+                cardItem.trackAniControl.moveToDestST();
 
                 ++idx;
             }

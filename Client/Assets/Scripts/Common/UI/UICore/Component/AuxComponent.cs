@@ -120,6 +120,14 @@ namespace SDK.Common
             UtilApi.SetParent(m_placeHolderGo, m_pntGo, false);
         }
 
+        public void linkSelf2Parent()
+        {
+            if (m_selfGo != null && m_pntGo != null)   // 现在可能还没有创建
+            {
+                UtilApi.SetParent(m_selfGo, m_pntGo, false);
+            }
+        }
+
         public void show()
         {
             if (m_selfGo != null)

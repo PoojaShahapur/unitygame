@@ -34,7 +34,7 @@ namespace FightCore
 
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount > 0)
             {
-                updateSceneCardRST();
+                updateSceneCardST();
                 updateCardIndex();
             }
         }

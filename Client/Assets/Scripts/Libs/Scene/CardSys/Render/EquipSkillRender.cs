@@ -36,7 +36,7 @@ namespace SDK.Lib
         override protected void modifyTex(GameObject go_, TableCardItemBody tableBody)
         {
             // 头像是每一个卡牌一个配置
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], tableBody.m_cardHeader);
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], tableBody.m_dzCardHeader);
             m_subTex[0].tex.selfGo = UtilApi.TransFindChildByPObjAndPath(go_, m_cardModelItem.m_headerSubModel);          // 场上 Hero 的纹理贴图
             m_subTex[0].tex.texPath = path;
             m_subTex[0].tex.syncUpdateTex();

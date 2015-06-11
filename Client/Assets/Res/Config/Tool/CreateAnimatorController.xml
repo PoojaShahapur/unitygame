@@ -21,4 +21,18 @@
 			</Layer>
 		</Layers>
 	</Controller>
+	<Controller inpath="Assets/Res/Animation/Scene" outpath="Assets/Prefabs/Resources/Animation/Scene" outname="FanPai" outextname="asset" >
+		<Params>
+			<Param name="StateId" type="int" />
+		</Params>
+		<Layers>
+			<Layer>
+				<Statemachine>
+					<State motion="fanpai.anim" >
+						<Condition name="StateId" value="1" />
+					</State>
+				</Statemachine>
+			</Layer>
+		</Layers>
+	</Controller>
 </Root>

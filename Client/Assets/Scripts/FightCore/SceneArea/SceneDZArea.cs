@@ -111,7 +111,7 @@ namespace FightCore
                     SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
                     srcCard.convOutModel();
                     m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
-                    m_outSceneCardList.updateSceneCardRST();
+                    m_outSceneCardList.updateSceneCardPos();
                     m_outSceneCardList.updateCardIndex();
                 }
             }
@@ -170,14 +170,12 @@ namespace FightCore
             }
 
             m_inSceneCardList.updateCardIndex();
-            m_inSceneCardList.updateSceneCardRST();
+            m_inSceneCardList.updateSceneCardST();
 
             // 更新移动后的牌的位置
             if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.svrCard.pos.dwLocation)        // 如果出的是装备
             {
-                m_sceneEquipCard = srcCard;
-                m_sceneEquipCard.trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition;
-                m_sceneEquipCard.trackAniControl.moveToDestRST();
+                outEquipCard(srcCard);
             }
             else        // 出的是随从
             {
@@ -185,7 +183,7 @@ namespace FightCore
                 {
                     m_outSceneCardList.removeWhiteCard();
                     m_outSceneCardList.addCard(srcCard, msg.dst.y);
-                    m_outSceneCardList.updateSceneCardRST();
+                    m_outSceneCardList.updateSceneCardST();
                     m_outSceneCardList.updateCardIndex();
                 }
             }
@@ -207,7 +205,7 @@ namespace FightCore
         {
             if(m_sceneDZData.m_curDragItem != null)
             {
-                m_sceneDZData.m_curDragItem.trackAniControl.moveToDestRST();
+                m_sceneDZData.m_curDragItem.trackAniControl.moveToDestST();
             }
         }
 
@@ -217,8 +215,8 @@ namespace FightCore
             m_outSceneCardList.removeWhiteCard();
             m_inSceneCardList.removeCard(m_sceneDZData.m_curDragItem);
             m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.curWhiteIdx);
-            m_inSceneCardList.updateSceneCardRST();
-            m_outSceneCardList.updateSceneCardRST();
+            m_inSceneCardList.updateSceneCardST();
+            m_outSceneCardList.updateSceneCardST();
             m_inSceneCardList.updateCardIndex();
             m_outSceneCardList.updateCardIndex();
         }
@@ -265,7 +263,7 @@ namespace FightCore
                 else
                 {
                     m_outSceneCardList.removeCard(sceneItem);
-                    m_outSceneCardList.updateSceneCardRST();
+                    m_outSceneCardList.updateSceneCardPos();
                     m_outSceneCardList.updateCardIndex();
                 }
             }
@@ -280,7 +278,7 @@ namespace FightCore
                 {
                     if (m_inSceneCardList.removeCard(sceneItem))
                     {
-                        m_inSceneCardList.updateSceneCardRST();
+                        m_inSceneCardList.updateSceneCardST();
                         m_inSceneCardList.updateCardIndex();
                     }
                     else        // 可能是战吼或者法术有攻击目标的
@@ -393,7 +391,7 @@ namespace FightCore
         {
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;     // 更新卡牌区域信息
             m_outSceneCardList.addCard(card, idx);                          // 更新卡牌列表
-            m_outSceneCardList.updateSceneCardRST();                        // 更新位置信息
+            m_outSceneCardList.updateSceneCardST();                        // 更新位置信息
             m_outSceneCardList.updateCardIndex();                           // 更新卡牌索引信息
         }
 
@@ -410,7 +408,7 @@ namespace FightCore
             if(card != null)
             {
                 card.trackAniControl.retFormOutAreaToHandleArea();
-                m_outSceneCardList.updateSceneCardRST();
+                m_outSceneCardList.updateSceneCardST();
                 m_outSceneCardList.updateCardIndex();
             }
         }
@@ -420,7 +418,7 @@ namespace FightCore
             // 从出牌区域移除
             m_outSceneCardList.removeCardNoDestroy(card);
             //(card as SceneCardBase).retFormOutAreaToHandleArea();
-            m_outSceneCardList.updateSceneCardRST();
+            m_outSceneCardList.updateSceneCardST();
             m_outSceneCardList.updateCardIndex();
 
             // 放入手牌区域
@@ -428,7 +426,7 @@ namespace FightCore
             card.curIndex = card.preIndex;                                  // 更新索引信息
             card.dragControl.enableDrag();                                              // 开启拖放
             m_inSceneCardList.addCardByServerPos(card);                     // 添加到手牌位置
-            m_inSceneCardList.updateSceneCardRST();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
+            m_inSceneCardList.updateSceneCardST();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
         }
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
@@ -521,6 +519,23 @@ namespace FightCore
         virtual public void enableAllInCardDragExceptOne(SceneCardBase card)
         {
 
+        }
+
+        // 从手牌区域出了一张装备卡
+        protected void outEquipCard(SceneCardBase outCard)
+        {
+            if (m_sceneEquipCard == null)       // 直接替换数据
+            {
+                m_sceneEquipCard = Ctx.m_instance.m_sceneCardMgr.createCard(outCard.sceneCardItem, m_sceneDZData);
+            }
+            else
+            {
+                m_sceneEquipCard.setIdAndPnt(outCard.sceneCardItem.svrCard.dwObjectID, outCard.getPnt());
+            }
+
+            m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
+
+            outCard.delSelf();      // 释放原来的资源
         }
     }
 }

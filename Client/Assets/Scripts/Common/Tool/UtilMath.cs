@@ -49,7 +49,7 @@ namespace SDK.Common
          * @param posList 返回的位置列表
          * @param rotList 返回的旋转列表
          */
-        static public void splitPos(int up, Transform trans, float inter, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
+        static protected void splitPos(int up, Transform trans, float inter, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
             if (splitCnt > 3)        // 只有大于 3 个的时候才分割
             {
@@ -68,7 +68,7 @@ namespace SDK.Common
             }
         }
 
-        static public void rectSplit(Transform trans, float inter, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
+        static protected void rectSplit(Transform trans, float inter, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
             float totalLen = splitCnt * inter;
             float startPos = -totalLen / 2;
@@ -92,7 +92,7 @@ namespace SDK.Common
         }
 
         // 180 - 360 度区间
-        static public void upHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
+        static protected void upHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
             //float radianSector = 0;         // 每一个弧形的弧度
             float degSector = 0;            // 度
@@ -137,7 +137,7 @@ namespace SDK.Common
         }
 
         // 0 - 180 度区间
-        static public void downHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
+        static protected void downHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
         {
             //float radianSector = 0;         // 每一个弧形的弧度
             float degSector = 0;            // 度
@@ -184,6 +184,29 @@ namespace SDK.Common
         static public float xzDis(Vector3 aPos, Vector3 bPos)
         {
             return Mathf.Sqrt((aPos.x - bPos.x) * (aPos.x - bPos.x) + (aPos.z - bPos.z) * (aPos.z - bPos.z));
+        }
+
+        /**
+         * @param trans 起始位置
+         * @param areaWidth 区域宽度
+         * @param splitCnt 划分数量
+         * @param posList 返回的位置列表
+         */
+        static public void newRectSplit(Transform trans, float areaWidth, int splitCnt, ref List<Vector3> posList)
+        {
+            float cellWidth = areaWidth / splitCnt;
+            Vector3 pos;
+            float fYDelta = 0.3f;
+            int listIdx = 0;
+            while (listIdx < splitCnt)
+            {
+                pos.x = trans.localPosition.x + cellWidth * listIdx;
+                pos.y = trans.localPosition.y + fYDelta * listIdx;
+                pos.z = trans.localPosition.z;
+                posList.Add(pos);
+
+                ++listIdx;
+            }
         }
 
         // 设置状态为

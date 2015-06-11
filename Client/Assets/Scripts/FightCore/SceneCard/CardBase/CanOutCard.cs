@@ -10,11 +10,12 @@ namespace FightCore
     public class CanOutCard : SceneCard
     {
         protected DopeSheetAni m_startAni;          // 开始动画
+        protected EventDispatch m_onEnterHandleEntryDisp;
 
         public CanOutCard(SceneDZData data) : 
             base(data)
         {
-
+            m_onEnterHandleEntryDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         // 设置一些基本信息
@@ -22,8 +23,9 @@ namespace FightCore
         {
             dragControl.m_centerPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
             // 设置初始位置为发牌位置
-            trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-            trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+            //trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
+            //trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+            m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
 
             // 设置是否可以动画
             if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
@@ -223,28 +225,71 @@ namespace FightCore
             }
         }
 
-        // 开始动画
-        override public void startAni()
+        protected void createAni()
         {
-            if(m_startAni == null)
+            if (m_startAni == null)
             {
                 m_startAni = new DopeSheetAni();
+                string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "CardModel.asset");
+                m_startAni.setAniEndDisp(onFaPai2MinAniEnd);
+                m_startAni.setControlInfo(path);
+                m_startAni.setGO(this.gameObject());
+                m_startAni.syncUpdateControl();
             }
+        }
 
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "CardModel.asset");
-            m_startAni.setAniEndDisp(onStartAniEnd);
-            m_startAni.setControlInfo(path);
-            m_startAni.setGO(this.gameObject());
-            m_startAni.syncUpdateControl();
+        // 开始动画，发牌区域到场景中间
+        override public void faPai2MinAni()
+        {
+            createAni();
 
             m_startAni.stateId = 1;
             m_startAni.play();
         }
 
         // 开始卡牌动画播放结束，注意开始有 3 张或者 4 张卡牌做动画，只有一个有回调函数
-        protected void onStartAniEnd(NumAniBase ani)
+        protected void onFaPai2MinAniEnd(NumAniBase ani)
         {
+            //m_startAni.stateId = 0;
+            //m_startAni.play();
+            //m_startAni.stop();
 
+            //m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(trackAniControl.destPos);    // 移动到终点位置
+        }
+
+        // 开始动画，场景中间到手牌区域动画
+        override public void min2HandleAni()
+        {
+            m_startAni.setAniEndDisp(onMin2HandleEnd);
+            m_startAni.stateId = 2;
+            m_startAni.play();
+        }
+
+        protected void onMin2HandleEnd(NumAniBase ani)
+        {
+            //m_startAni.stateId = 0;
+            //m_startAni.play();
+            m_onEnterHandleEntryDisp.dispatchEvent(this);
+        }
+
+        // 开始区域到手牌区域
+        override public void start2HandleAni()
+        {
+            createAni();
+
+            m_startAni.setAniEndDisp(onStart2HandleAni);
+            m_startAni.stateId = 4;
+            m_startAni.play();
+        }
+
+        protected void onStart2HandleAni(NumAniBase ani)
+        {
+            m_onEnterHandleEntryDisp.dispatchEvent(this);
+        }
+
+        override public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
+        {
+            m_onEnterHandleEntryDisp.addEventHandle(eventHandle);
         }
     }
 }

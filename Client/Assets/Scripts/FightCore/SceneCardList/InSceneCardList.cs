@@ -29,14 +29,14 @@ namespace FightCore
 
         public virtual void startCardMoveTo()
         {
-            updateSceneCardRST();
+            updateSceneCardST();
         }
 
         protected override void getCardPos()
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.splitPos((int)m_playerFlag, m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, SmallInternal, Radius, m_sceneCardList.Count(), ref m_posList, ref m_rotList);
+            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_sceneDZData.m_cardHandleAreaWidthArr[(int)m_playerFlag], m_sceneCardList.Count(), ref m_posList);
         }
 
         public virtual void addCard(SceneCardBase card)
@@ -64,7 +64,8 @@ namespace FightCore
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
             }
             addCard(tmpcard);
-            updateSceneCardRST();
+            tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
+            //updateSceneCardST();
             updateCardIndex();
         }
 
@@ -91,6 +92,13 @@ namespace FightCore
             }
 
             return false;
+        }
+
+        // 从发牌去最终到手牌区起始位置，可能初始发牌，或者游戏中抽新卡牌
+        public void onOneCardEnterHandleEntry(IDispatchObject card_)
+        {
+            SceneCardBase _card = card_ as SceneCardBase;
+            updateSceneCardST();
         }
     }
 }

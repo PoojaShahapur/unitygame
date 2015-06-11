@@ -106,6 +106,8 @@ namespace SDK.Common
             {
                 m_aniEndDisp(this);
             }
+
+            stop();
         }
 
         override public void play()
