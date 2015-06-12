@@ -39,7 +39,6 @@ namespace FightCore
         {
             // 保存当前操作的卡牌
             m_card.m_sceneDZData.m_curDragItem = m_card;     // 设置当前拖放的目标
-
             // 开始拖动动画
             m_card.m_sceneDZData.m_curDragItem.trackAniControl.startDragAni();
 
@@ -174,7 +173,7 @@ namespace FightCore
             {
                 // 拖动结束直接退回去
                 // 开始缩放
-                m_card.trackAniControl.destScale = SceneCardBase.SMALLFACT;
+                m_card.trackAniControl.destScale = SceneDZCV.SMALLFACT;
                 backCard2Orig();
             }
             else

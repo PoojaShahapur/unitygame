@@ -71,5 +71,10 @@ namespace SDK.Lib
         {
             return m_spriteRender.checkRender();
         }
+
+        public bool bPlay()
+        {
+            return m_spriteRender.bPlay();
+        }
     }
 }

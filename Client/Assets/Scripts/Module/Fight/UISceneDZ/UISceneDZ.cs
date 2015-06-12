@@ -55,7 +55,7 @@ namespace Fight
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardDeap), onEnemyStartHover);
 
-            //UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CollideBG), onClkBg);   // 监听点击背景事件
+            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CollideBG), onClkBg);   // 监听点击背景事件
         }
 
         // 幸运币点击
@@ -304,7 +304,14 @@ namespace Fight
         // side 删除的某一方的一个卡牌
         public void psstRetRemoveBattleCardUserCmd(stRetRemoveBattleCardUserCmd cmd, int side, SceneCardItem sceneItem)
         {
-            m_sceneDZData.m_sceneDZAreaArr[side].delOneCard(sceneItem);
+            if ((int)EDeleteType.OP_ATTACK_DELETE == cmd.opType)             // 攻击删除
+            {
+                m_sceneDZData.m_fightMsgMgr.psstRetRemoveBattleCardUserCmd(cmd, side, sceneItem);
+            }
+            else if((int)EDeleteType.OP_FASHUCARD_DELETE == cmd.opType)     // 法术牌攻击的时候，直接删除法术牌，然后从英雄处发出特效攻击
+            {
+                m_sceneDZData.m_sceneDZAreaArr[side].delOneCard(sceneItem);
+            }
         }
 
         public void psstRetNotifyHandIsFullUserCmd(stRetNotifyHandIsFullUserCmd msg)

@@ -164,9 +164,10 @@ namespace UnitTestSrc
 
         protected void testLoadScriptAnimatorControllerPrefab()
         {
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam("Animation/Scene/CardModel.asset", param);
+            LocalFileSys.modifyLoadParam(path, param);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
@@ -175,7 +176,8 @@ namespace UnitTestSrc
 
         protected void testScriptController()
         {
-            ControllerRes res = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>("Animation/Scene/CardModel.asset");
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
+            ControllerRes res = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(path);
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
             Ctx.m_instance.m_controllerMgr.unload(res.GetPath(), null);

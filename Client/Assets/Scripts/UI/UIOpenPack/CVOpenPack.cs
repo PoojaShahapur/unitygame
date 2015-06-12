@@ -45,5 +45,9 @@
         public const string OpenedPackBtn_2 = "OpenPackLayer/OpenedPackBtn_2";
         public const string OpenedPackBtn_3 = "OpenPackLayer/OpenedPackBtn_3";
         public const string OpenedPackBtn_4 = "OpenPackLayer/OpenedPackBtn_4";
+
+        public const string PanelTrans = "PanelTrans";
+        public const string PanelGray = "PanelGray";
+        public const string OKBtn = "OKBtn";
     }
 }

@@ -10,9 +10,9 @@ namespace FightCore
      */
     public class SceneCardListBase
     {
-        public const float BigInternal = 2.4f;             // 大卡牌间隔
-        public const float SmallInternal = 2.0f;                // 小卡牌间隔
-        public const float Radius = 0.5f;                     // 半径
+        //public const float BigInternal = 2.4f;                  // 大卡牌间隔，开始发牌的时候，场牌中间区域卡牌大小
+        //public const float SmallInternal = 2.0f;                // 小卡牌间隔，手牌大小和场牌大小
+        //public const float Radius = 0.5f;                       // 半径
 
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置

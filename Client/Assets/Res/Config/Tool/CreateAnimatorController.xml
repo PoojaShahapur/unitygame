@@ -1,21 +1,65 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!--  -->
 <Root>
-	<Controller inpath="Assets/Res/Animation/Scene" outpath="Assets/Prefabs/Resources/Animation/Scene" outname="CardModel" outextname="asset" >
+	<Controller inpath="Assets/Res/Animation/Scene" outpath="Assets/Prefabs/Resources/Animation/Scene" outname="SelfCardAni" outextname="asset" >
 		<Params>
 			<Param name="StateId" type="int" />
 		</Params>
 		<Layers>
 			<Layer>
 				<Statemachine>
-					<State motion="jifangchoupai.anim" >
+					<State motion="jifangchoupai01.anim" >
 						<Condition name="StateId" value="1" />
 					</State>
-					<State motion="jifangrushou.anim" >
+					<State motion="jifangchoupai02.anim" >
 						<Condition name="StateId" value="2" />
 					</State>
-					<State motion="duifangchoupai.anim" >
+					<State motion="jifangchoupai03.anim" >
 						<Condition name="StateId" value="3" />
+					</State>
+					<State motion="jifangchoupai04.anim" >
+						<Condition name="StateId" value="4" />
+					</State>
+					<State motion="jifangruzhou01.anim" >
+						<Condition name="StateId" value="11" />
+					</State>
+					<State motion="jifangruzhou02.anim" >
+						<Condition name="StateId" value="12" />
+					</State>
+					<State motion="jifangruzhou03.anim" >
+						<Condition name="StateId" value="13" />
+					</State>
+					<State motion="jifangruzhou04.anim" >
+						<Condition name="StateId" value="14" />
+					</State>
+					<State motion="huiku01.anim" >
+						<Condition name="StateId" value="21" />
+					</State>
+					<State motion="huiku02.anim" >
+						<Condition name="StateId" value="22" />
+					</State>
+					<State motion="huiku03.anim" >
+						<Condition name="StateId" value="23" />
+					</State>
+					<State motion="huiku04.anim" >
+						<Condition name="StateId" value="24" />
+					</State>
+					<State motion="choupairushou.anim" >
+						<Condition name="StateId" value="31" />
+					</State>
+				</Statemachine>
+			</Layer>
+		</Layers>
+	</Controller>
+	<Controller inpath="Assets/Res/Animation/Scene" outpath="Assets/Prefabs/Resources/Animation/Scene" outname="EnemyCardAni" outextname="asset" >
+		<Params>
+			<Param name="StateId" type="int" />
+		</Params>
+		<Layers>
+			<Layer>
+				<Statemachine>
+					<State motion="duifangchoupai.anim" >
+						<Condition name="StateId" value="1" />
 					</State>
 				</Statemachine>
 			</Layer>

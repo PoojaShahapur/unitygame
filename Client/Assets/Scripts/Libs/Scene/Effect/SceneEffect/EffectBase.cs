@@ -101,5 +101,10 @@ namespace SDK.Lib
         {
             (m_render as EffectSpriteRender).setPnt(pntGO_);
         }
+
+        public bool bPlay()
+        {
+            return (m_render as EffectSpriteRender).bPlay();
+        }
     }
 }

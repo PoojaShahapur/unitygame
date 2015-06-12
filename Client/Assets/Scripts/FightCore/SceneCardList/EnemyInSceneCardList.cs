@@ -26,7 +26,7 @@ namespace FightCore
             int idx = 0;
             while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_enemyCardCount)
             {
-                SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(SceneCardBase.BLACK_CARD_ID, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                SceneCardBase cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(SceneDZCV.BLACK_CARD_ID, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                 addCard(cardItem);
 
                 ++idx;

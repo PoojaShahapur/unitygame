@@ -36,7 +36,7 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, m_sceneDZData.m_cardHandleAreaWidthArr[(int)m_playerFlag], m_sceneCardList.Count(), ref m_posList);
+            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_cardHandAreaWidthArr[(int)m_playerFlag], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
         }
 
         public virtual void addCard(SceneCardBase card)
@@ -52,16 +52,19 @@ namespace FightCore
             m_sceneCardList.Remove(m_sceneDZData.m_curDragItem);
         }
 
+        // 敌人发牌和自己发牌都走这里(除自己开始发牌到场景的 4 张牌)
         public void addSceneCard(uint objid, SceneCardItem sceneItem)
         {
             SceneCardBase tmpcard = null;
-            if (SceneCardBase.BLACK_CARD_ID == objid)   // 如果是 enemy 手牌，由于没有 m_sceneCardItem 数据，只能使用 id 创建
+            if (SceneDZCV.BLACK_CARD_ID == objid)   // 如果是 enemy 手牌，由于没有 m_sceneCardItem 数据，只能使用 id 创建
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCardById(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                tmpcard.startEnemyFaPaiAni();       // 播放动画
             }
             else
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
+                tmpcard.start2HandleAni();          // 播放动画
             }
             addCard(tmpcard);
             tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
@@ -98,7 +101,7 @@ namespace FightCore
         public void onOneCardEnterHandleEntry(IDispatchObject card_)
         {
             SceneCardBase _card = card_ as SceneCardBase;
-            updateSceneCardST();
+            updateSceneCardPos();       // 开始发送到手牌，只更新位置就行了
         }
     }
 }

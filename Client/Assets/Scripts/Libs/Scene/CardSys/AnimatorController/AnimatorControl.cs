@@ -9,19 +9,23 @@ namespace SDK.Lib
     public class AnimatorControl : IDispatchObject
     {
         protected Animator m_animator;
-        protected int m_stateId = 0;
+        protected int m_stateHashId = 0;
+        protected int m_stateValue;
         protected float m_stateDampTime = 0.1f;
         protected EventDispatch m_oneAniPlayEndDisp;    // 一个动画播放结束
         protected FrameTimerItem m_nextFrametimer;       // 需要下一帧才能获取的数据
+        protected FrameTimerItem m_idleStateFrametimer;       // 0 状态监测
         protected TimerItemBase m_oneAniEndTimer;       // 一个动画结束定时器
         protected bool m_startPlay;     // 是否直接播放
         //protected AnimatorStateInfo m_state;
+        protected bool m_bIdleStateDetect;      // 是否在 Idle State 状态监测中
 
         public AnimatorControl()
         {
-            m_stateId = Animator.StringToHash("StateId");
-            m_oneAniPlayEndDisp = new AddOnceAndCallOnceEventDispatch();
+            m_stateHashId = Animator.StringToHash("StateId");
+            m_oneAniPlayEndDisp = new AddOnceEventDispatch();
             m_startPlay = false;
+            m_bIdleStateDetect = false;
         }
 
         public void dispose()
@@ -42,6 +46,8 @@ namespace SDK.Lib
                 Ctx.m_instance.m_timerMgr.delObject(m_oneAniEndTimer);
                 m_oneAniEndTimer = null;
             }
+
+            m_oneAniPlayEndDisp.clearEventHandle();
         }
 
         public Animator animator
@@ -85,16 +91,59 @@ namespace SDK.Lib
 
         public void SetInteger(int id, int value)
         {
-            m_animator.SetInteger(m_stateId, value);
-            if (value == 0)         // 0是默认状态
+            if (m_stateValue == value)
             {
-                m_animator.enabled = false;
+                return;
+            }
+
+            if ((m_stateValue != 0 && value != 0) || value == 0)        // 如果两个有时间长度的动画切换状态，或者直接切换到 Idle 状态
+            {
+                idleStateSetInteger(m_stateHashId, 0);
+            }
+            else if (0 == m_stateValue)          // 如果当前状态已经是 Idle State 
+            {
+                if (!m_bIdleStateDetect)          // 如果 Idle State 状态没在监测中
+                {
+                    normalStateSetInteger(id, value);
+                }
+            }
+        }
+
+        //  Idle State 设置状态
+        protected void idleStateSetInteger(int id, int value)
+        {
+            m_animator.applyRootMotion = true;
+            m_stateValue = value;           // 保存状态值
+            m_animator.SetInteger(m_stateHashId, value);
+            startIdleStateFrameTimer();     // 启动 Idle State 监测
+        }
+
+        // 非 Idle State 设置状态
+        protected void normalStateSetInteger(int id, int value)
+        {
+            m_animator.applyRootMotion = false;
+            m_stateValue = value;
+            m_animator.SetInteger(m_stateHashId, value);
+            startNextFrameTimer();
+        }
+
+        // 启动默认状态定时器
+        protected void startIdleStateFrameTimer()
+        {
+            if (m_idleStateFrametimer == null)
+            {
+                m_idleStateFrametimer = new FrameTimerItem();
+                m_idleStateFrametimer.m_timerDisp = onIdleStateFrameHandle;
+                m_idleStateFrametimer.m_internal = 1;
+                m_idleStateFrametimer.m_bInfineLoop = true;
             }
             else
             {
-                m_animator.enabled = true;
-                startNextFrameTimer();
+                m_idleStateFrametimer.reset();
             }
+
+            m_bIdleStateDetect = true;
+            Ctx.m_instance.m_frameTimerMgr.addObject(m_idleStateFrametimer);
         }
 
         // 启动下一帧定时器
@@ -104,11 +153,14 @@ namespace SDK.Lib
             {
                 m_nextFrametimer = new FrameTimerItem();
                 m_nextFrametimer.m_timerDisp = onNextFrameHandle;
+                m_nextFrametimer.m_internal = 1;
+                m_nextFrametimer.m_bInfineLoop = true;
+            }
+            else
+            {
+                m_nextFrametimer.reset();
             }
 
-            m_nextFrametimer.m_internal = 1;
-            //m_nextFrametimer.m_totalFrameCount = 1000000;
-            m_nextFrametimer.m_bInfineLoop = true;
             Ctx.m_instance.m_frameTimerMgr.addObject(m_nextFrametimer);
         }
 
@@ -117,7 +169,11 @@ namespace SDK.Lib
             if (m_oneAniEndTimer == null)
             {
                 m_oneAniEndTimer = new TimerItemBase();
-                m_oneAniEndTimer.m_timerDisp = onTimerInitCardHandle;
+                m_oneAniEndTimer.m_timerDisp = onTimerAniEndHandle;
+            }
+            else
+            {
+                m_oneAniEndTimer.reset();
             }
 
             AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
@@ -129,23 +185,46 @@ namespace SDK.Lib
             Ctx.m_instance.m_timerMgr.addObject(m_oneAniEndTimer);
         }
 
+        // 默认状态监测处理器
+        public void onIdleStateFrameHandle(FrameTimerItem timer)
+        {
+            Ctx.m_instance.m_logSys.log(string.Format("Idle 当前帧 {0}", timer.m_curFrame));
+            if (canStopIdleFrameTimer())
+            {
+                m_bIdleStateDetect = false;
+                timer.m_disposed = true;
+                if (m_stateValue != 0)
+                {
+                    normalStateSetInteger(m_stateHashId, m_stateValue);
+                }
+            }
+        }
+
         public void onNextFrameHandle(FrameTimerItem timer)
         {
             Ctx.m_instance.m_logSys.log(string.Format("当前帧 {0}", timer.m_curFrame));
-            if (canStopFrameTimer())
+            if (canStopNextFrameTimer())
             {
                 timer.m_disposed = true;
                 startOneAniEndTimer();
             }
         }
 
-        public void onTimerInitCardHandle(TimerItemBase timer)
+        // 定时器动画结束处理函数
+        public void onTimerAniEndHandle(TimerItemBase timer)
         {
             m_oneAniPlayEndDisp.dispatchEvent(this);
             // chechParams();
         }
 
-        protected bool canStopFrameTimer()
+        protected bool canStopIdleFrameTimer()
+        {
+            AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
+            Ctx.m_instance.m_logSys.log(string.Format("Idle 当前检测长度 {0}", state.length));
+            return (state.length == 0);
+        }
+
+        protected bool canStopNextFrameTimer()
         {
             //return (m_state.length > 0);
             AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);

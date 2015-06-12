@@ -90,7 +90,8 @@ namespace SDK.Common
 
                  if(m_animatorControl.animator == null)
                  {
-                     m_animatorControl.animator = m_go.AddComponent<Animator>();
+                     UtilApi.AddAnimatorComponent(m_go);
+                     m_animatorControl.animator = m_go.GetComponent<Animator>();
                  }
 
                  m_animatorControl.animator.runtimeAnimatorController = m_controlRes.InstantiateController();

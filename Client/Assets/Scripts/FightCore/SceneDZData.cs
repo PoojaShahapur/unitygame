@@ -25,9 +25,11 @@ namespace FightCore
 
         public SceneCardBase m_curDragItem;             // 当前正在拖放的 item
 
-        public GameObject[,] m_cardCenterGOArr;     // 保存所有占位的位置信息
-        public GameObject[] m_cardHandleEndGO;      // 手牌结束位置
-        public float[] m_cardHandleAreaWidthArr;    // 卡牌手牌区域宽度
+        public GameObject[,] m_cardCenterGOArr;         // 保存所有占位的位置信息
+        public GameObject[] m_cardHandRadiusGO;         // 手牌半径位置
+        public GameObject[] m_cardCommonRadiusGO;       // 场牌半径位置
+        public float[] m_cardHandAreaWidthArr;      // 卡牌手牌区域宽度
+        public float[] m_cardCommonAreaWidthArr;    // 出牌区手牌区域宽度
         public GameObject m_attackArrowGO;                      // 攻击箭头开始位置
         public GameObject m_arrowListGO;                        // 攻击箭头列表
 
@@ -104,13 +106,39 @@ namespace FightCore
             m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfHeroGO);
             m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyHeroGO);
 
-            m_cardHandleEndGO = new GameObject[2];
-            m_cardHandleEndGO[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardHandleEndGO);
-            m_cardHandleEndGO[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardHandleEndGO);
+            m_cardHandRadiusGO = new GameObject[2];
+            m_cardHandRadiusGO[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardHandRadiusGO);
+            m_cardHandRadiusGO[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardHandRadiusGO);
 
-            m_cardHandleAreaWidthArr = new float[2];
-            m_cardHandleAreaWidthArr[0] = m_cardHandleEndGO[0].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
-            m_cardHandleAreaWidthArr[1] = m_cardHandleEndGO[1].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
+            m_cardHandAreaWidthArr = new float[2];
+            m_cardHandAreaWidthArr[0] = m_cardHandRadiusGO[0].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
+            m_cardHandAreaWidthArr[1] = m_cardHandRadiusGO[1].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
+
+            if (m_cardHandAreaWidthArr[0] < 0)
+            {
+                m_cardHandAreaWidthArr[0] = (-m_cardHandAreaWidthArr[0]);
+            }
+            if (m_cardHandAreaWidthArr[1] < 0)
+            {
+                m_cardHandAreaWidthArr[1] = (-m_cardHandAreaWidthArr[1]);
+            }
+
+            m_cardCommonRadiusGO = new GameObject[2];
+            m_cardCommonRadiusGO[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardCommonRadiusGO);
+            m_cardCommonRadiusGO[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardCommonRadiusGO);
+
+            m_cardCommonAreaWidthArr = new float[2];
+            m_cardCommonAreaWidthArr[0] = m_cardCommonRadiusGO[0].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
+            m_cardCommonAreaWidthArr[1] = m_cardCommonRadiusGO[1].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
+
+            if (m_cardCommonAreaWidthArr[0] < 0)
+            {
+                m_cardCommonAreaWidthArr[0] = (-m_cardCommonAreaWidthArr[0]);
+            }
+            if (m_cardCommonAreaWidthArr[1] < 0)
+            {
+                m_cardCommonAreaWidthArr[1] = (-m_cardCommonAreaWidthArr[1]);
+            }
 
             m_attackArrowGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowStartPosGO);
             m_arrowListGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowListGO);
@@ -374,6 +402,12 @@ namespace FightCore
             }
 
             m_DJSTimer.startTimer();
+        }
+
+        // 获取拖动时候卡牌的高度
+        public float getDragCardHeight()
+        {
+            return m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.y + SceneDZCV.DRAG_YDELTA;
         }
     }
 }

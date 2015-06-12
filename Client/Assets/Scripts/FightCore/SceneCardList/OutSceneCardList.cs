@@ -14,7 +14,7 @@ namespace FightCore
         public OutSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
             : base(data, playerFlag)
         {
-            m_whiteCard = Ctx.m_instance.m_sceneCardMgr.createCardById(SceneCardBase.WHITECARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+            m_whiteCard = Ctx.m_instance.m_sceneCardMgr.createCardById(SceneDZCV.WHITE_CARDID, playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
             Ctx.m_instance.m_sceneCardMgr.delObject(m_whiteCard);         // 白色卡牌就不加入列表中了
             m_whiteCard.gameObject().SetActive(false);
         }
@@ -23,7 +23,7 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, m_sceneDZData.m_cardHandleAreaWidthArr[(int)m_playerFlag], m_sceneCardList.Count(), ref m_posList);
+            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, SceneDZCV.COMMON_CARD_WIDTH, m_sceneDZData.m_cardCommonAreaWidthArr[(int)m_playerFlag], 0, m_sceneCardList.Count(), ref m_posList);
         }
 
         public void addCard(SceneCardBase card, int idx = 0)

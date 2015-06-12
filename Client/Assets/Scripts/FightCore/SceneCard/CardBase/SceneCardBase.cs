@@ -12,11 +12,6 @@ namespace FightCore
      */
     public class SceneCardBase : SceneEntity
     {
-        public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
-        public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
-        public const uint WHITECARDID = uint.MaxValue - 1;      // 白色的占位卡牌 ID
-        public const uint BLACK_CARD_ID = uint.MaxValue;        // 敌人背面卡 ID
-
         public SceneDZData m_sceneDZData;
 
         protected SceneCardItem m_sceneCardItem;        // 敌人手里卡牌和白色卡牌是没有这个字段的，其余都有
@@ -357,6 +352,7 @@ namespace FightCore
             return false;
         }
 
+        // 这个会从各种列表中清除
         public void delSelf()
         {
             Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
@@ -382,6 +378,16 @@ namespace FightCore
         virtual public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
         {
             
+        }
+
+        virtual public void setStartIdx(int rhv)
+        {
+
+        }
+
+        virtual public void startEnemyFaPaiAni()
+        {
+
         }
     }
 }

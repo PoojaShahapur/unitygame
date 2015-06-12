@@ -24,11 +24,6 @@ namespace SDK.Lib
             }
         }
 
-        public void onEntityClick(GameObject go)
-        {
-            m_clickEntityDisp.dispatchEvent(this);
-        }
-
         override public void dispose()
         {
             if (m_model != null)
@@ -56,7 +51,7 @@ namespace SDK.Lib
         virtual public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             m_model.pntGo = pntGo_;
-            m_model.modelResPath = "Model/Character/CommonCard.prefab";
+            m_model.modelResPath = "Model/Character/duishoucard.prefab";
             m_model.syncUpdateModel();
         }
     }

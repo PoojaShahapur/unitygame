@@ -23,7 +23,6 @@ namespace FightCore
         protected Stack m_pathStack = new Stack();              // 路径堆栈，记录路径信息
         protected const float m_time = 0.5f;      // 动画时间
         protected NumAniParallel m_numAniParal = new NumAniParallel();       // 回退的时候，这个单独的动画序列
-        protected const float m_height = 1.0f;
 
         public TrackAniControl(SceneCardBase rhv) : 
             base(rhv)
@@ -156,9 +155,9 @@ namespace FightCore
             saveDestToStart();
 
             // 缩放
-            destScale = SceneCardBase.BIGFACT;
+            destScale = SceneDZCV.BIGFACT;
             // 缩放直接到达位置
-            m_destPos.y = m_height;
+            m_destPos.y = m_card.m_sceneDZData.getDragCardHeight();
             UtilApi.setPos(m_card.transform(), m_destPos);
 
             moveScaleToDest();
@@ -170,7 +169,7 @@ namespace FightCore
         public void endDragAni()
         {
             // 缩放
-            destScale = SceneCardBase.SMALLFACT;
+            destScale = SceneDZCV.SMALLFACT;
         }
 
         // 保存当前的信息
@@ -242,7 +241,7 @@ namespace FightCore
             m_numAniParal.addOneNumAni(rstAni);
             rstAni.setGO(m_card.gameObject());
             rstAni.destPos = new Vector3(m_card.transform().localPosition.x, 1.0f, m_card.transform().localPosition.z);
-            rstAni.destScale = SceneCardBase.BIGFACT;
+            rstAni.destScale = SceneDZCV.BIGFACT;
             rstAni.destRot = m_card.transform().localRotation.eulerAngles;
 
             rstAni = new RSTAni();

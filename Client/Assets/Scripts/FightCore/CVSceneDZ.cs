@@ -1,4 +1,5 @@
-﻿namespace FightCore
+﻿using UnityEngine;
+namespace FightCore
 {
     public class CVSceneDZPath
     {
@@ -25,8 +26,10 @@
         public const string SelfHeroGO = "PlaceHolder/SelfHero";
         public const string EnemyHeroGO = "PlaceHolder/EnemyHero";
 
-        public const string SelfCardHandleEndGO = "PlaceHolder/SelfCardHandleEndGO";
-        public const string EnemyCardHandleEndGO = "PlaceHolder/EnemyCardHandleEndGO";
+        public const string SelfCardHandRadiusGO = "PlaceHolder/SelfCardHandRadiusGO";
+        public const string EnemyCardHandRadiusGO = "PlaceHolder/EnemyCardHandRadiusGO";
+        public const string SelfCardCommonRadiusGO = "PlaceHolder/SelfCardCommonRadiusGO";
+        public const string EnemyCardCommonRadiusGO = "PlaceHolder/EnemyCardCommonRadiusGO";
 
         public const string ArrowStartPosGO = "PlaceHolder/ArrowStartPos";
         public const string ArrowListGO = "PlaceHolder/ArrowStartPos/ArrowList";
@@ -41,7 +44,7 @@
         public const string HistoryGo = "HistoryGo";
         public const string TimerGo = "TimerGo";
 
-        public const string CollideBG = "dz/di/di";
+        public const string CollideBG = "bujian_zhanchang";
         public const string FirstInitCardGO = "PlaceHolder/FirstInitCardGO";         // 第一个场景卡牌位置
         public const string SecondInitCardGO = "PlaceHolder/SecondInitCardGO";        // 第二个场景卡牌位置
         public const string ThirdInitCardGO = "PlaceHolder/ThirdInitCardGO";         // 第三个场景卡牌位置
@@ -58,6 +61,16 @@
 
     public class SceneDZCV
     {
-        public const int OUT_CARD_TOTAL = 5;        // 出牌区域最多牌的数量
+        public const int OUT_CARD_TOTAL = 5;                        // 出牌区域最多牌的数量
+        public const float HAND_CARD_WIDTH = 2.0f;                  // 手牌宽度
+        public const float COMMON_CARD_WIDTH = 2.0f;                // 场牌宽度
+        public const float HAND_YDELTA = 0.3f;                      // 手牌的时候 Y Delta 值
+        public const float DRAG_YDELTA = HAND_YDELTA * 10;                      // 拖动 Y Delta 值
+
+        public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
+        public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
+        public const uint WHITE_CARDID = uint.MaxValue - 1;      // 白色的占位卡牌 ID
+        public const uint BLACK_CARD_ID = uint.MaxValue;        // 敌人背面卡 ID
+
     }
 }

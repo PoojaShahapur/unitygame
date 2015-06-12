@@ -25,6 +25,7 @@ namespace CreateAnimatorController
 
             // 添加一个默认的状态，当没有所有的状态的时候，可以循环播放这个状态
             animatorState = stateMachine.AddState("Idle");          // 待机状态
+            animatorState.writeDefaultValues = false;
             trans = stateMachine.AddAnyStateTransition(animatorState);
             trans.hasExitTime = true;
             trans.exitTime = 0;
@@ -37,6 +38,7 @@ namespace CreateAnimatorController
                 AnimationClip clip = AssetDatabase.LoadAssetAtPath(state.fullMotion, typeof(AnimationClip)) as AnimationClip;
                 animatorState = stateMachine.AddState(clip.name);
                 animatorState.motion = clip;
+                animatorState.writeDefaultValues = false;
                 trans = stateMachine.AddAnyStateTransition(animatorState);
                 trans.hasExitTime = true;
                 trans.exitTime = 0;

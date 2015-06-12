@@ -67,7 +67,6 @@ namespace SDK.Lib
 
         public virtual void reset()
         {
-            m_disposed = false;
             m_curTime = 0;
             m_curLeftTimer = 0;
             m_disposed = false;

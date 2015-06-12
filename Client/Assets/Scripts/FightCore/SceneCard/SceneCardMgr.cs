@@ -26,11 +26,11 @@ namespace FightCore
         {
             SceneCardBase ret = null;
 
-            if (SceneCardBase.WHITECARDID == objid)       // 白色占位卡牌
+            if (SceneDZCV.WHITE_CARDID == objid)       // 白色占位卡牌
             {
                 ret = new WhiteCard(sceneDZData);
             }
-            else if (SceneCardBase.BLACK_CARD_ID == objid)       // 背面牌
+            else if (SceneDZCV.BLACK_CARD_ID == objid)       // 背面牌
             {
                 ret = new BlackCard(sceneDZData);
             }
@@ -68,8 +68,8 @@ namespace FightCore
             ret.setBaseInfo(m_playerFlag, area, cardType);
 
             this.addObject(ret);
-            if (SceneCardBase.WHITECARDID != objid &&
-                SceneCardBase.BLACK_CARD_ID != objid)       // 这两个没有 AI 
+            if (SceneDZCV.WHITE_CARDID != objid &&
+                SceneDZCV.BLACK_CARD_ID != objid)       // 这两个没有 AI 
             {
                 Ctx.m_instance.m_aiSystem.aiControllerMgr.addObject(ret.aiController);       // 添加到控制器中
             }

@@ -1255,6 +1255,7 @@ namespace Game.Msg
     public class stRetRemoveBattleCardUserCmd : stHeroCardCmd
     {
         public uint dwThisID;
+        public byte opType;
 
         public stRetRemoveBattleCardUserCmd()
         {
@@ -1266,19 +1267,21 @@ namespace Game.Msg
             base.derialize(ba);
 
             ba.readUnsignedInt32(ref dwThisID);
+            ba.readUnsignedInt8(ref opType);
         }
     }
 
-    //const BYTE RET_REMOVE_BATTLE_CARD_USERCMD = 39; 
     //struct stRetRemoveBattleCardUserCmd : public stHeroCardCmd
     //{   
     //    stRetRemoveBattleCardUserCmd()
     //    {   
     //        byParam = RET_REMOVE_BATTLE_CARD_USERCMD;
     //        dwThisID = 0;
+    //        opType = 0;
     //    }   
     //    DWORD dwThisID;
-    //}; 
+    //    BYTE opType;
+    //};
 
     public class stRetRefreshCardAllStateUserCmd: stHeroCardCmd
     {

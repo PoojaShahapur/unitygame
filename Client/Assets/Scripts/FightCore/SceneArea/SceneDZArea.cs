@@ -223,7 +223,7 @@ namespace FightCore
 
         public void psstAddEnemyHandCardPropertyUserCmd()
         {
-            m_inSceneCardList.addSceneCard(SceneCardBase.BLACK_CARD_ID, null);
+            m_inSceneCardList.addSceneCard(SceneDZCV.BLACK_CARD_ID, null);
         }
 
         public void delOneCard(SceneCardItem sceneItem)

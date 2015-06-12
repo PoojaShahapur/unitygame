@@ -16,6 +16,8 @@ namespace SDK.Lib
         public Action<FrameTimerItem> m_timerDisp = null;       // 定时器分发
         public bool m_disposed = false;             // 是否已经被释放
 
+        //protected int m_preFrame = 0;
+
         public virtual void OnFrameTimer()
         {
             if (m_disposed)
@@ -25,6 +27,13 @@ namespace SDK.Lib
 
             ++m_curFrame;
             ++m_curLeftFrame;
+
+            //if (m_preFrame == m_curFrame)
+            //{
+            //    Ctx.m_instance.m_logSys.log("aaaaaaaafadfsasdf");
+            //}
+
+            //m_curFrame = m_preFrame;
 
             if (m_bInfineLoop)
             {
@@ -64,7 +73,6 @@ namespace SDK.Lib
 
         public virtual void reset()
         {
-            m_disposed = false;
             m_curFrame = 0;
             m_curLeftFrame = 0;
             m_disposed = false;

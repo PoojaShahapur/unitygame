@@ -77,8 +77,8 @@ namespace Game.UI
             //testSkillFight();
             //testMoveEffect();
             //testChangeModel();
-            //testAni();
-            testLinkEffect();
+            testAni();
+            //testLinkEffect();
         }
 
         protected void onBtnClkTest1f()
@@ -394,6 +394,7 @@ namespace Game.UI
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
             // 测试[随从卡]
             m_aniModel = Ctx.m_instance.m_sceneCardMgr.createCardById(230000, EnDZPlayer.ePlayerSelf, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, uiDZ.m_sceneDZData);
+            m_aniModel.setStartIdx(2);
             UtilApi.setPos(m_aniModel.transform(), new UnityEngine.Vector3(-4, 0, 0));
             SceneCardItem sceneCardItem = null;
             sceneCardItem = new SceneCardItem();

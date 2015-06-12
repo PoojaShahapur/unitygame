@@ -188,24 +188,41 @@ namespace SDK.Common
 
         /**
          * @param trans 起始位置
+         * @param unitWidth 单元宽度
          * @param areaWidth 区域宽度
          * @param splitCnt 划分数量
          * @param posList 返回的位置列表
          */
-        static public void newRectSplit(Transform trans, float areaWidth, int splitCnt, ref List<Vector3> posList)
+        static public void newRectSplit(Transform trans, float unitWidth, float areaRadius, float fYDelta, int splitCnt, ref List<Vector3> posList)
         {
-            float cellWidth = areaWidth / splitCnt;
             Vector3 pos;
-            float fYDelta = 0.3f;
             int listIdx = 0;
-            while (listIdx < splitCnt)
-            {
-                pos.x = trans.localPosition.x + cellWidth * listIdx;
-                pos.y = trans.localPosition.y + fYDelta * listIdx;
-                pos.z = trans.localPosition.z;
-                posList.Add(pos);
 
-                ++listIdx;
+            if (unitWidth * splitCnt > 2 * areaRadius)       // 如果当前区域不能完整放下所有的单元
+            {
+                float splitCellWidth = (areaRadius * 2) / splitCnt;
+                while (listIdx < splitCnt)
+                {
+                    pos.x = trans.localPosition.x + splitCellWidth * listIdx - areaRadius;
+                    pos.y = trans.localPosition.y + fYDelta * listIdx;
+                    pos.z = trans.localPosition.z;
+                    posList.Add(pos);
+
+                    ++listIdx;
+                }
+            }
+            else            // 全部能放下，就居中显示
+            {
+                float halfWidth = (float)((unitWidth * splitCnt) * 0.5);        // 占用的区域的一般宽度
+                while (listIdx < splitCnt)
+                {
+                    pos.x = trans.localPosition.x + unitWidth * listIdx - halfWidth;
+                    pos.y = trans.localPosition.y + fYDelta * listIdx;
+                    pos.z = trans.localPosition.z;
+                    posList.Add(pos);
+
+                    ++listIdx;
+                }
             }
         }
 

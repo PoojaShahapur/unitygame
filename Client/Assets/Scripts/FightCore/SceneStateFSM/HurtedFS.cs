@@ -21,10 +21,10 @@ namespace FSM
             mFSM.MoveToState(SceneStateId.SSInplace);
 
             // 检查是否已经因为受伤死亡
-            if(card.canDelFormClient())
-            {
-                card.delSelf();
-            }
+            //if(card.canDelFormClient())
+            //{
+            //    card.delSelf();
+            //}
         }
 
         override public void OnStateExit()

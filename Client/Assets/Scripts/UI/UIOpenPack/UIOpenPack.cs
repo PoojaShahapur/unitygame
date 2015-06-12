@@ -21,6 +21,13 @@ namespace Game.UI
         protected AuxLabel m_textPackNum;
         protected uint[] m_idList;
         protected bool m_bEffectEnd = false;
+        protected GameObject[] m_cardGo = new GameObject[5];
+        protected GameObject m_PanelTrans;
+        protected GameObject m_PanelGray;
+
+        public AuxBasicButton m_okBtn = new AuxBasicButton();
+
+        public static int m_iOpenedNum = 0;
 
         public override void onReady()
         {
@@ -37,6 +44,15 @@ namespace Game.UI
             for (idx = 3; idx < (int)CardBtnEnum.eCardBtnTotal; ++idx)
             {
                 m_cardBtnArr[idx].load();
+            }
+
+            for(int i=0; i<5; i++)
+            {
+                m_cardGo[i] = UtilApi.createGameObject("OpenPackCardGO");
+                UtilApi.SetParent(m_cardGo[i], Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel], false);
+                UtilApi.setGOName(m_cardGo[i], "CardListGo");
+                UtilApi.setPos(m_cardGo[i].transform, new Vector3(-6 + i * 3, 0.0f, 0.0f));
+                UtilApi.setRot(m_cardGo[i].transform, new Vector3(270.0f, 0.0f, 0.0f));
             }
         }
 
@@ -57,6 +73,8 @@ namespace Game.UI
             }
 
             disposeCard();
+            foreach (var item in m_cardGo)
+                UtilApi.Destroy(item);
         }
 
         // 获取控件
@@ -66,6 +84,7 @@ namespace Game.UI
 
             m_btnArr[(int)OpenPackBtnEnum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.RetBtn);
             m_btnArr[(int)OpenPackBtnEnum.eBtnShop] = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.ShopBtn);
+            m_okBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OKBtn);
 
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_0);
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_1);
@@ -74,6 +93,9 @@ namespace Game.UI
             m_openEffImg = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
 
             m_textPackNum = new AuxLabel(m_GUIWin.m_uiRoot, OpenPackPath.PackNum);
+
+            m_PanelTrans = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.PanelTrans);
+            m_PanelGray = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.PanelGray);
         }
 
         // 添加事件监听
@@ -81,6 +103,7 @@ namespace Game.UI
         {
             m_btnArr[(int)OpenPackBtnEnum.eBtnBack].addEventHandle(onBtnClkBack);
             m_btnArr[(int)OpenPackBtnEnum.eBtnShop].addEventHandle(onBtnClkShop);
+            m_okBtn.addEventHandle(onBtnClkOK);
 
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].auxDynImageStaticGoButton.addEventHandle(onPackBtnClk_0);
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].auxDynImageStaticGoButton.addEventHandle(onPackBtnClk_1);
@@ -120,6 +143,7 @@ namespace Game.UI
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].auxDynImageStaticGoButton.hide();
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].auxDynImageStaticGoButton.hide();
 
+            m_PanelTrans.SetActive(true);
             showOpenEff();
             m_openEffImg.SetActive(true);
             UtilApi.SetActive(m_textPackNum.selfGo, false);
@@ -184,6 +208,7 @@ namespace Game.UI
         {
             m_idList = idList;          // 保存
             show5Card();
+            m_PanelGray.SetActive(true);
         }
 
         protected void showOpenEff()
@@ -231,7 +256,8 @@ namespace Game.UI
             m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].auxDynImageStaticGoButton.hide();
 
             m_bEffectEnd = true;
-            show5Card();
+            //show5Card();
+            //m_PanelGray.SetActive(true);
         }
 
         // 开始显示 5 张卡牌
@@ -249,6 +275,11 @@ namespace Game.UI
                 return;
             }
 
+            foreach (var item in m_cardGo)
+            {
+                item.SetActive(true);
+            }
+
             if (m_cardModelArr == null)
             {
                 m_cardModelArr = new OpenCardItem[5];
@@ -258,7 +289,10 @@ namespace Game.UI
             for(idx = 0; idx < 5; ++idx)
             {
                 m_cardModelArr[idx] = new OpenCardItem();
-                m_cardModelArr[idx].setIdAndPnt(m_idList[idx], Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_UIModel]);
+                m_cardModelArr[idx].setIdAndPnt(m_idList[idx], m_cardGo[idx]);
+                Transform t = m_cardModelArr[idx].transform();
+                t.localEulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+                m_cardModelArr[idx].addEventHandle();
             }
 
             m_idList = null;
@@ -276,6 +310,17 @@ namespace Game.UI
                     }
                 }
             }
+        }
+
+        protected void onBtnClkOK(IDispatchObject dispObj)
+        {
+            foreach (var item in m_cardGo)
+            {
+                item.SetActive(false);
+            }
+            m_PanelTrans.SetActive(false);
+            m_PanelGray.SetActive(false);
+            UtilApi.SetActive(m_okBtn.selfGo, false);
         }
     }
 }

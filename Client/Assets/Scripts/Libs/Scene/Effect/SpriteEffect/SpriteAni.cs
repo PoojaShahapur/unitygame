@@ -155,6 +155,11 @@ namespace SDK.Lib
             }
         }
 
+        public bool bPlay()
+        {
+            return (SpritePlayState.ePlaying == m_playState);
+        }
+
         // 自己发生改变
         override protected void onSelfChanged()
         {

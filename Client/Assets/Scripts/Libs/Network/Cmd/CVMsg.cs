@@ -176,4 +176,18 @@
     //    ATTACK_TARGET_EEQUIP    =	16,	//敌方武器
     //    ATTACK_TARGET_SEQUIP    =	32,	//己方武器
     //};
+
+    enum EDeleteType
+    {
+        OP_ATTACK_DELETE = 1,  //攻击死亡
+        OP_FASHUCARD_DELETE = 2,  //出牌时，删除手上的法术卡
+        OP_DROPCARD_DELETE = 3,  //弃牌效果,删除手上的牌
+        OP_REPLACE_DELETE = 4,  //被替换,删除
+    }
+
+    //enum
+    //{
+    //    OP_ATTACK_DELETE    =   1,  //攻击死亡
+    //    OP_FASHUCARD_DELETE =   2,  //出牌时，删除手上的法术卡
+    //};
 }

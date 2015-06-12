@@ -10,12 +10,13 @@ namespace FightCore
     public class EffectControl : CardControlBase
     {
         protected GameObject m_effectRootGO;        // 特效根节点
-        protected LinkEffect m_linkEffect;
+        protected LinkEffect m_frameEffect;         // 边框特效
+        protected int m_frameEffectId;             // 边框特效 Id
 
         public EffectControl(SceneCardBase rhv) :
             base(rhv)
         {
-            
+            m_frameEffectId = 4;        // 默认是手牌特效 4 
         }
 
         public override void init()
@@ -25,20 +26,24 @@ namespace FightCore
 
         public override void dispose()
         {
-            m_linkEffect = null;
+            if (m_frameEffect != null)
+            {
+                m_frameEffect.dispose();
+                m_frameEffect = null;
+            }
 
             base.dispose();
         }
 
-        public LinkEffect linkEffect
+        public LinkEffect frameEffect
         {
             get
             {
-                return m_linkEffect;
+                return m_frameEffect;
             }
             set
             {
-                m_linkEffect = value;
+                m_frameEffect = value;
             }
         }
 
@@ -72,10 +77,7 @@ namespace FightCore
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
-            if (m_linkEffect == null)
-            {
-                m_linkEffect = addLinkEffect(4, false, true);
-            }
+            addFrameEffect();
 
             if (benable)
             {
@@ -83,43 +85,48 @@ namespace FightCore
                 {
                     if (m_card.sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)
                     {
-                        m_linkEffect.play();
+                        m_frameEffect.play();
                     }
                     else
                     {
-                        m_linkEffect.stop();
+                        m_frameEffect.stop();
                     }
                 }
             }
             else
             {
-                m_linkEffect.stop();
+                m_frameEffect.stop();
             }
         }
 
         // 更新卡牌是否可以被击
         public void updateCardAttackedState(bool benable)
         {
-            if (m_linkEffect == null)
-            {
-                m_linkEffect = addLinkEffect(4, false, true);
-            }
+            addFrameEffect();
 
             if (benable)
             {
                 if (m_card.sceneCardItem != null)
                 {
-                    m_linkEffect.play();
+                    m_frameEffect.play();
                 }
             }
             else
             {
-                m_linkEffect.stop();
+                m_frameEffect.stop();
             }
         }
 
-        // 开始转换模型
-        public void startConvModel()
+        protected void addFrameEffect()
+        {
+            if (m_frameEffect == null)
+            {
+                m_frameEffect = addLinkEffect(m_frameEffectId, false, true);
+            }
+        }
+
+        // 开始转换模型 type == 0 是手牌   1 是场牌
+        public void startConvModel(int type)
         {
             if (m_effectRootGO != null)         // 如果存在
             {
@@ -128,19 +135,42 @@ namespace FightCore
         }
 
         // 结束转换模型
-        public void  endConvModel()
+        public void endConvModel(int type)
         {
             if (m_effectRootGO != null)         // 如果存在
             {
                 UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
             }
+
+            if (0 == type)
+            {
+                m_frameEffectId = 4;
+            }
+            else
+            {
+                m_frameEffectId = 1;
+            }
+
+            if (m_frameEffect != null)
+            {
+                m_frameEffect.setTableID(m_frameEffectId);
+                if (m_frameEffect.bPlay())
+                {
+                    m_frameEffect.stop();                       // 直接停止掉
+                    m_frameEffect.play();
+                }
+                else
+                {
+                    m_frameEffect.stop();
+                }
+            }
         }
 
         public bool checkRender()
         {
-            if(m_linkEffect != null)
+            if (m_frameEffect != null)
             {
-                return m_linkEffect.checkRender();
+                return m_frameEffect.checkRender();
             }
 
             return true;

@@ -432,6 +432,23 @@ namespace SDK.Common
             return GameObject.CreatePrimitive(type);
         }
 
+        public static void AddComponent<T>(GameObject go_) where T : Component
+        {
+            if (go_.GetComponent<T>() == null)
+            {
+                go_.AddComponent<T>();
+            }
+        }
+
+        public static void AddAnimatorComponent(GameObject go_, bool applyRootMotion = false)
+        {
+            if (go_.GetComponent<Animator>() == null)
+            {
+                Animator animator = go_.AddComponent<Animator>();
+                animator.applyRootMotion = applyRootMotion;
+            }
+        }
+
         public static void copyBoxCollider(GameObject src, GameObject dest)
         {
             BoxCollider srcBox = src.GetComponent<BoxCollider>();
