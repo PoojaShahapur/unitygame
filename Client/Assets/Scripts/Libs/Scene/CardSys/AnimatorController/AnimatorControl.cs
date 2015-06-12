@@ -112,7 +112,7 @@ namespace SDK.Lib
         //  Idle State 设置状态
         protected void idleStateSetInteger(int id, int value)
         {
-            m_animator.applyRootMotion = true;
+            m_animator.applyRootMotion = true;  // 只有 Idle State 状态下才能自己移动
             m_stateValue = value;           // 保存状态值
             m_animator.SetInteger(m_stateHashId, value);
             startIdleStateFrameTimer();     // 启动 Idle State 监测
@@ -121,7 +121,7 @@ namespace SDK.Lib
         // 非 Idle State 设置状态
         protected void normalStateSetInteger(int id, int value)
         {
-            m_animator.applyRootMotion = false;
+            m_animator.applyRootMotion = false;         // 非 Idle State 状态下，有动画控制运动
             m_stateValue = value;
             m_animator.SetInteger(m_stateHashId, value);
             startNextFrameTimer();
