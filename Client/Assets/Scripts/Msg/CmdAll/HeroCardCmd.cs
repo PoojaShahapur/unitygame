@@ -539,6 +539,7 @@ namespace Game.Msg
     {
         public uint index;
         public byte fightType;      // 当前使用 CHALLENGE_GAME_RELAX_TYPE
+        public byte cancel;
 
         public stReqHeroFightMatchUserCmd()
         {
@@ -552,6 +553,7 @@ namespace Game.Msg
 
             ba.writeUnsignedInt32(index);
             ba.writeUnsignedInt8(fightType);
+            ba.writeUnsignedInt8(cancel);
         }
     }
 
@@ -566,6 +568,7 @@ namespace Game.Msg
     //    }   
     //    DWORD index;        //套牌索引
     //    BYTE fightType;     //对战类型
+    //    BYTE cancel;        //取消
     //};
 
     public class stRetHeroFightMatchUserCmd : stHeroCardCmd
@@ -1597,6 +1600,11 @@ namespace Game.Msg
         public t_Card m_origAttObject;  // 客户端自己使用的数据
         public t_Card m_origDefObject;  // 客户端自己使用的数据
 
+        public stNotifyBattleCardPropertyUserCmd()
+        {
+            byParam = NOTIFY_BATTLE_CARD_PROPERTY_CMD;
+        }
+
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
@@ -1634,4 +1642,48 @@ namespace Game.Msg
         //t_Card A_object;    
         //t_Card defList[0];
     //};   
+
+    public class stNotifyBattleFlowStartUserCmd : stHeroCardCmd
+    {
+        public stNotifyBattleFlowStartUserCmd()
+        {
+            byParam = NOTIFY_BATTLE_FLOW_START_CMD;
+        }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+        }
+    }
+
+    //const BYTE NOTIFY_BATTLE_FLOW_START_CMD = 50; 
+    //struct stNotifyBattleFlowStartUserCmd : public stHeroCardCmd
+    //{   
+    //    stNotifyBattleFlowStartUserCmd()
+    //    {   
+    //        byParam = NOTIFY_BATTLE_FLOW_START_CMD;
+    //    }   
+    //};  
+
+    public class stNotifyBattleFlowEndUserCmd : stHeroCardCmd
+    {
+        public stNotifyBattleFlowEndUserCmd()
+        {
+            byParam = NOTIFY_BATTLE_FLOW_END_CMD;
+        }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+        }
+    }
+
+    //const BYTE NOTIFY_BATTLE_FLOW_END_CMD = 51; 
+    //struct stNotifyBattleFlowEndUserCmd : public stHeroCardCmd
+    //{   
+    //    stNotifyBattleFlowEndUserCmd()
+    //    {   
+    //        byParam = NOTIFY_BATTLE_FLOW_END_CMD;
+    //    }   
+    //};  
 }

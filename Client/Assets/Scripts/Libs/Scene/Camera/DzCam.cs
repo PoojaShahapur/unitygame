@@ -178,7 +178,7 @@ namespace SDK.Lib
                 //旋转x轴,
                 t.Rotate(Vector3.forward, -8f);
 
-                t.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+                UtilApi.setScale(t, new Vector3(0.7f, 0.7f, 0.7f));
                 x++;
             }
             //等待动画完成

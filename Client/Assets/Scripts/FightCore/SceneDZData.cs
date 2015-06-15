@@ -49,7 +49,7 @@ namespace FightCore
         public DZDaoJiShiXmlLimit m_DZDaoJiShiXmlLimit;
 
         public FightMsgMgr m_fightMsgMgr;
-        public GameObject[] m_initCardPlaceHolder;
+        //public GameObject[] m_initCardPlaceHolder;
 
         public SceneDZData()
         {
@@ -71,7 +71,7 @@ namespace FightCore
             m_fightMsgMgr = new FightMsgMgr(this);
 
             m_bHeroAniEnd = true;
-            m_initCardPlaceHolder = new GameObject[4];
+            //m_initCardPlaceHolder = new GameObject[4];
         }
 
         public void findWidget()
@@ -158,10 +158,10 @@ namespace FightCore
             m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy].cellWidth = 0.284f;
             m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy].cellHeight = 0.284f;
 
-            m_initCardPlaceHolder[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.FirstInitCardGO);
-            m_initCardPlaceHolder[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SecondInitCardGO);
-            m_initCardPlaceHolder[2] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ThirdInitCardGO);
-            m_initCardPlaceHolder[3] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ForthInitCardGO);
+            //m_initCardPlaceHolder[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.FirstInitCardGO);
+            //m_initCardPlaceHolder[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SecondInitCardGO);
+            //m_initCardPlaceHolder[2] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ThirdInitCardGO);
+            //m_initCardPlaceHolder[3] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ForthInitCardGO);
         }
 
         public void addEventHandle()
@@ -238,13 +238,13 @@ namespace FightCore
             }
         }
 
-        public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)
-        {
-            card.trackAniControl.startPos = startPos.localPosition;
-            card.trackAniControl.destPos = destPos.localPosition;
+        //public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)
+        //{
+        //    card.trackAniControl.startPos = startPos.localPosition;
+        //    card.trackAniControl.destPos = destPos.localPosition;
 
-            card.trackAniControl.moveToDestST();
-        }
+        //    card.trackAniControl.moveToDestST();
+        //}
 
         public SceneCardBase getUnderSceneCard()
         {

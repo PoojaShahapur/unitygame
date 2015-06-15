@@ -61,11 +61,11 @@ namespace SDK.Common
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            m_index = UtilApi.getXmlAttrUInt(xmlelem, "index");
-            m_objid = UtilApi.getXmlAttrUInt(xmlelem, "objid");
-            m_num = UtilApi.getXmlAttrUInt(xmlelem, "num");
-            m_price = UtilApi.getXmlAttrUInt(xmlelem, "price");
-			m_type = UtilApi.getXmlAttrUInt(xmlelem,"type");
+            m_index = UtilXml.getXmlAttrUInt(xmlelem, "index");
+            m_objid = UtilXml.getXmlAttrUInt(xmlelem, "objid");
+            m_num = UtilXml.getXmlAttrUInt(xmlelem, "num");
+            m_price = UtilXml.getXmlAttrUInt(xmlelem, "price");
+			m_type = UtilXml.getXmlAttrUInt(xmlelem,"type");
         }
     }
 }

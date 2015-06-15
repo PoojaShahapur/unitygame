@@ -51,7 +51,7 @@ namespace Game.UI
             if (uiTuJian != null)
             if (EventSystem.current.currentSelectedGameObject != null)
             {
-                int idx = UtilApi.findIdxByUnderline(EventSystem.current.currentSelectedGameObject.name);
+                int idx = UtilLogic.findIdxByUnderline(EventSystem.current.currentSelectedGameObject.name);
                 uiTuJian.updateByCareer(idx);
             }
 

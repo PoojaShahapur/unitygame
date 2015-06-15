@@ -111,7 +111,7 @@ namespace FightCore
                     SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
                     srcCard.convOutModel();
                     m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
-                    m_outSceneCardList.updateSceneCardPos();
+                    m_outSceneCardList.updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
                     m_outSceneCardList.updateCardIndex();
                 }
             }
@@ -119,15 +119,15 @@ namespace FightCore
             {
                 if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
                 {
-                    m_centerHero.updateCardDataChange();      // 这个动画已经有了
+                    m_centerHero.updateCardDataChangeBySvr();      // 这个动画已经有了
                 }
                 else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
                 {
-                    m_sceneSkillCard.updateCardDataChange();
+                    m_sceneSkillCard.updateCardDataChangeBySvr();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
                 {
-                    m_sceneEquipCard.updateCardDataChange();
+                    m_sceneEquipCard.updateCardDataChangeBySvr();
                 }
                 else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
                 {
@@ -183,7 +183,7 @@ namespace FightCore
                 {
                     m_outSceneCardList.removeWhiteCard();
                     m_outSceneCardList.addCard(srcCard, msg.dst.y);
-                    m_outSceneCardList.updateSceneCardST();
+                    m_outSceneCardList.updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
                     m_outSceneCardList.updateCardIndex();
                 }
             }
@@ -263,7 +263,7 @@ namespace FightCore
                 else
                 {
                     m_outSceneCardList.removeCard(sceneItem);
-                    m_outSceneCardList.updateSceneCardPos();
+                    m_outSceneCardList.updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
                     m_outSceneCardList.updateCardIndex();
                 }
             }

@@ -91,7 +91,7 @@ namespace FightCore
             }
 
             // 更新自己的属性显示
-            m_card.updateCardDataChange(item.svrCard);
+            m_card.updateCardDataChangeBySvr(item.svrCard);
         }
 
         // 执行普通受伤
@@ -141,7 +141,7 @@ namespace FightCore
             }
             
             // 更新自己的属性显示
-            m_card.updateCardDataChange(item.svrCard);
+            m_card.updateCardDataChangeBySvr(item.svrCard);
         }
 
         // 执行技能攻击
@@ -204,7 +204,7 @@ namespace FightCore
             }
 
             // 更新自己的属性显示
-            m_card.updateCardDataChange(item.svrCard);
+            m_card.updateCardDataChangeBySvr(item.svrCard);
         }
 
         // 直接移动到目标点

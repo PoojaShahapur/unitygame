@@ -88,6 +88,8 @@ namespace Game.Msg
         public const byte REQ_CARD_MOVE_AND_MAGIC_USERCMD_PARA = 47;
         public const byte RET_BATTLE_HISTORY_INFO_CMD = 48;
         public const byte NOTIFY_BATTLE_CARD_PROPERTY_CMD = 49;
+        public const byte NOTIFY_BATTLE_FLOW_START_CMD = 50;
+        public const byte NOTIFY_BATTLE_FLOW_END_CMD = 51;
 
         public stHeroCardCmd()
         {

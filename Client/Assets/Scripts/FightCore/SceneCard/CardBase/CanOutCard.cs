@@ -32,15 +32,15 @@ namespace FightCore
             if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
             {
                 dragControl.disableDrag();
-                if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
-                {
-                    trackAniControl.destScale = SceneDZCV.SMALLFACT;
-                }
+                //if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
+                //{
+                //    trackAniControl.destScale = SceneDZCV.SMALLFACT;
+                //}
             }
             // 如果是放在技能或者装备的位置，是不允许拖放的
             else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
             {
-                trackAniControl.destScale = SceneDZCV.SMALLFACT;
+                //trackAniControl.destScale = SceneDZCV.SMALLFACT;
                 dragControl.disableDrag();
             }
 
@@ -137,6 +137,7 @@ namespace FightCore
 
             m_render = new SceneCardPlayerRender(this);
             (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
+            updateCardDataChangeBySvr();    // 更新服务器属性
 
             if (m_sceneCardBaseData != null)
             {
@@ -163,46 +164,49 @@ namespace FightCore
         }
 
         // 更新卡牌属性，这个主要更改卡牌经常改变的属性
-        public override void updateCardDataChange(t_Card svrCard_ = null)
+        public override void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
-            base.updateCardDataChange(svrCard_);
+            base.updateCardDataChangeBySvr(svrCard_);
 
             if (svrCard_ == null)
             {
                 svrCard_ = m_sceneCardItem.svrCard;
             }
 
+            AuxLabel text = new AuxLabel();
             if (m_sceneCardItem != null)
             {
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)     // 手牌不同更新
                 {
-                    AuxLabel text = new AuxLabel();
-                    text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");       // 攻击
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");        // 攻击
                     text.text = svrCard_.damage.ToString();
                     text.setSelfGo(m_render.gameObject(), "UIRoot/MpText");         // Magic
                     text.text = svrCard_.mpcost.ToString();
-                    text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");       // HP
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");         // HP
                     text.text = svrCard_.hp.ToString();
                 }
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)        // 场牌更新
                 {
-
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");        // 攻击
+                    text.text = svrCard_.damage.ToString();
+                    text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");         // HP
+                    text.text = svrCard_.hp.ToString();
                 }
             }
         }
 
         // 这个主要是更新卡牌不经常改变的属性
-        public override void updateCardDataNoChange()
+        public override void updateCardDataNoChangeByTable()
         {
-            base.updateCardDataNoChange();
+            base.updateCardDataNoChangeByTable();
 
             if (m_sceneCardItem != null)
             {
                 if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_HAND)
                 {
-                    UtilApi.updateCardDataNoChange(m_sceneCardItem.m_cardTableItem, m_render.gameObject());
+                    UtilLogic.updateCardDataNoChangeByTable(m_sceneCardItem.m_cardTableItem, m_render.gameObject());
                 }
-                if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)
+                if (m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)   // 场牌区没有不变属性显示
                 {
 
                 }
@@ -218,7 +222,7 @@ namespace FightCore
             if (tableBase != null)
             {
                 TableCardItemBody cardTableData = tableBase.m_itemBody as TableCardItemBody;
-                UtilApi.updateCardDataNoChange(cardTableData, m_render.gameObject());
+                UtilLogic.updateCardDataNoChangeByTable(cardTableData, m_render.gameObject());
             }
             else
             {
@@ -321,6 +325,21 @@ namespace FightCore
             }
 
             return 1;
+        }
+
+        // 更新初始卡牌场景位置信息
+        override public void updateInitCardSceneInfo(Transform trans)
+        {
+            UtilApi.setPos(this.transform(), trans.localPosition);
+            UtilApi.setScale(this.transform(), trans.localScale);
+            UtilApi.setRot(this.transform(), trans.localRotation);
+        }
+
+        // 更新场牌区域卡牌缩放信息
+        override public void updateOutCardScaleInfo(Transform trans)
+        {
+            m_sceneCardBaseData.m_trackAniControl.updateOutCardScaleInfo(trans);
+            UtilApi.setScale(this.transform(), trans.localScale);
         }
     }
 }

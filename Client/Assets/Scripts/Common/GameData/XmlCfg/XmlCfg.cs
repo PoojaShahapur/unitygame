@@ -40,7 +40,7 @@ namespace SDK.Common
         public virtual ArrayList getXmlNodeList(SecurityElement config, string itemNode)
         {
             SecurityElement objElem = null;
-            UtilApi.getXmlChild(config, itemNode, ref objElem);
+            UtilXml.getXmlChild(config, itemNode, ref objElem);
             ArrayList itemNodeList = objElem.Children;
             return itemNodeList;
         }

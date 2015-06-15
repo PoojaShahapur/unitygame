@@ -119,7 +119,7 @@ namespace Game.UI
                 UIInfo.showMsg(param);
                 return false;
             }
-            else if (UtilApi.IsIncludeChinese(name))
+            else if (UtilLogic.IsIncludeChinese(name))
             {
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem0);
@@ -134,7 +134,7 @@ namespace Game.UI
                 UIInfo.showMsg(param);
                 return false;
             }
-            else if (UtilApi.IsIncludeChinese(passwd))
+            else if (UtilLogic.IsIncludeChinese(passwd))
             {
                 InfoBoxParam param = Ctx.m_instance.m_poolSys.newObject<InfoBoxParam>();
                 param.m_midDesc = Ctx.m_instance.m_langMgr.getText(LangTypeId.eLogin3, LangItemID.eItem1);

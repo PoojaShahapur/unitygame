@@ -75,9 +75,9 @@ namespace Game.UI
             //testAddCard();
             //testCommonFight();
             //testSkillFight();
-            //testMoveEffect();
+            testMoveEffect();
             //testChangeModel();
-            testAni();
+            //testAni();
             //testLinkEffect();
         }
 
@@ -355,9 +355,9 @@ namespace Game.UI
             effect.setPnt(uiDZ.m_sceneDZData.m_centerGO);
             effect.setLoop(false);
             effect.setTableID(4);
-            effect.srcPos = new Vector3(4, 0, 0);
+            effect.srcPos = new Vector3(-4, 0, 0);
             effect.destPos = new Vector3(4, 0, 0);
-            effect.effectMoveTime = 1;
+            effect.effectMoveTime = 5;
             effect.play();
         }
 

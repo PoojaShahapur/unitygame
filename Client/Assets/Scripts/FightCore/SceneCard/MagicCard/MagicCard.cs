@@ -21,9 +21,9 @@ namespace FightCore
         }
 
         // 法术牌只有 MP 属性
-        public override void updateCardDataChange(t_Card svrCard_ = null)
+        public override void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
-            base.updateCardDataChange(svrCard_);
+            base.updateCardDataChangeBySvr(svrCard_);
 
             if (svrCard_ == null)
             {

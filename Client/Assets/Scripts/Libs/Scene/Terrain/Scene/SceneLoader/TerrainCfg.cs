@@ -25,7 +25,7 @@ namespace SDK.Lib
 
         public void parse(SecurityElement xe)
         {
-            string attr = UtilApi.getXmlAttrStr(xe, "size");
+            string attr = UtilXml.getXmlAttrStr(xe, "size");
             attr = attr.Substring(1, attr.Length - 2);
             char[] split = new char[1];
             split[0] = ',';

@@ -12,6 +12,7 @@ namespace FightCore
         protected FightRoundItemBase m_curFightData;     // 当前战斗数据
         protected MList<FightRoundItemBase> m_cacheList; // 缓存的战斗数据列表
         protected EventDispatch m_roundEndDisp;
+        protected bool m_bSvrRoundEnd;      // 服务器的战斗回合数据是否结束
 
         public FightRound(SceneDZData data)
         {
@@ -19,6 +20,7 @@ namespace FightCore
             m_curFightData = null;
             m_cacheList = new MList<FightRoundItemBase>();
             m_roundEndDisp = new AddOnceAndCallOnceEventDispatch();
+            m_bSvrRoundEnd = false;
         }
 
         public SceneDZData sceneDZData
@@ -30,6 +32,18 @@ namespace FightCore
             set
             {
                 m_sceneDZData = value;
+            }
+        }
+
+        public bool bSvrRoundEnd
+        {
+            get
+            {
+                return m_bSvrRoundEnd;
+            }
+            set
+            {
+                m_bSvrRoundEnd = value;
             }
         }
 
@@ -50,7 +64,7 @@ namespace FightCore
             attItem.addOneAttackAndHurtEndHandle(onOneAttackAndHurtEndHandle);
             attItem.psstNotifyBattleCardPropertyUserCmd(msg);
             m_cacheList.Add(attItem);
-            nextOneAttact();
+            //nextOneAttact();
         }
 
         public void psstRetRemoveBattleCardUserCmd(stRetRemoveBattleCardUserCmd msg, int side, SceneCardItem sceneItem)
@@ -59,6 +73,7 @@ namespace FightCore
             attItem.addOneAttackAndHurtEndHandle(onOneAttackAndHurtEndHandle);
             attItem.psstRetRemoveBattleCardUserCmd(msg, side, sceneItem);
             m_cacheList.Add(attItem);
+            //nextOneAttact();
         }
 
         public void nextOneAttact()
@@ -71,7 +86,7 @@ namespace FightCore
                     m_cacheList.Remove(m_curFightData);
                     m_curFightData.processOneAttack();
                 }
-                else
+                else if (m_bSvrRoundEnd)        // 服务器通知才算是结算
                 {
                     m_roundEndDisp.dispatchEvent(this);
                 }

@@ -22,7 +22,7 @@ namespace SDK.Common
         public string m_ip = "222.73.30.21";
         public int m_port = 7000;
 #else
-        public string m_ip = "192.168.125.254";
+        public string m_ip = "192.168.122.253";
         public int m_port = 10002;
         public ushort m_zone = 30;
 #endif

@@ -24,7 +24,7 @@ namespace Game.UI
         public override ArrayList getXmlNodeList(SecurityElement config, string itemNode)
         {
             ArrayList itemNodeList = new ArrayList();
-            UtilApi.getXmlChildList(config, itemNode, ref itemNodeList);
+            UtilXml.getXmlChildList(config, itemNode, ref itemNodeList);
 
             return itemNodeList;
         }
@@ -44,14 +44,14 @@ namespace Game.UI
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            m_preparetime = UtilApi.getXmlAttrUInt(xmlelem, "preparetime");
-            m_roundtime = UtilApi.getXmlAttrUInt(xmlelem, "roundtime");
-            m_peaceNum = UtilApi.getXmlAttrUInt(xmlelem, "peaceNum");
-            m_luckyCoin = UtilApi.getXmlAttrUInt(xmlelem, "luckyCoin");
+            m_preparetime = UtilXml.getXmlAttrUInt(xmlelem, "preparetime");
+            m_roundtime = UtilXml.getXmlAttrUInt(xmlelem, "roundtime");
+            m_peaceNum = UtilXml.getXmlAttrUInt(xmlelem, "peaceNum");
+            m_luckyCoin = UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin");
 
-            m_tiredCard = UtilApi.getXmlAttrUInt(xmlelem, "tiredCard");
-            m_lastpreparetime = UtilApi.getXmlAttrUInt(xmlelem, "lastpreparetime");
-            m_lastroundtime = UtilApi.getXmlAttrUInt(xmlelem, "lastroundtime");
+            m_tiredCard = UtilXml.getXmlAttrUInt(xmlelem, "tiredCard");
+            m_lastpreparetime = UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime");
+            m_lastroundtime = UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime");
         }
     }
 }

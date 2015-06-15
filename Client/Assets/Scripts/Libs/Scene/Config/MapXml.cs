@@ -25,7 +25,7 @@ namespace SDK.Lib
         public override ArrayList getXmlNodeList(SecurityElement config, string itemNode)
         {
             ArrayList itemNodeList = new ArrayList();
-            UtilApi.getXmlChildList(config, itemNode, ref itemNodeList);
+            UtilXml.getXmlChildList(config, itemNode, ref itemNodeList);
             return itemNodeList;
         }
     }
@@ -43,14 +43,14 @@ namespace SDK.Lib
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            m_preparetime = UtilApi.getXmlAttrUInt(xmlelem, "preparetime");
-            m_roundtime = UtilApi.getXmlAttrUInt(xmlelem, "roundtime");
-            m_peaceNum = UtilApi.getXmlAttrUInt(xmlelem, "peaceNum");
-            m_luckyCoin = UtilApi.getXmlAttrUInt(xmlelem, "luckyCoin");
+            m_preparetime = UtilXml.getXmlAttrUInt(xmlelem, "preparetime");
+            m_roundtime = UtilXml.getXmlAttrUInt(xmlelem, "roundtime");
+            m_peaceNum = UtilXml.getXmlAttrUInt(xmlelem, "peaceNum");
+            m_luckyCoin = UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin");
 
-            m_tiredCard = UtilApi.getXmlAttrUInt(xmlelem, "tiredCard");
-            m_lastpreparetime = UtilApi.getXmlAttrUInt(xmlelem, "lastpreparetime");
-            m_lastroundtime = UtilApi.getXmlAttrUInt(xmlelem, "lastroundtime");
+            m_tiredCard = UtilXml.getXmlAttrUInt(xmlelem, "tiredCard");
+            m_lastpreparetime = UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime");
+            m_lastroundtime = UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime");
         }
     }
 
@@ -63,10 +63,10 @@ namespace SDK.Lib
         public override void parseXml(SecurityElement xmlelem)
         {
             SecurityElement itemXml = null;
-            UtilApi.getXmlChild(xmlelem, "item", ref itemXml);
-            m_sceneId = UtilApi.getXmlAttrUInt(itemXml, "id");
-            m_sceneName = UtilApi.getXmlAttrStr(itemXml, "name");
-            m_levelName = UtilApi.getXmlAttrStr(itemXml, "res");
+            UtilXml.getXmlChild(xmlelem, "item", ref itemXml);
+            m_sceneId = UtilXml.getXmlAttrUInt(itemXml, "id");
+            m_sceneName = UtilXml.getXmlAttrStr(itemXml, "name");
+            m_levelName = UtilXml.getXmlAttrStr(itemXml, "res");
         }
     }
 }

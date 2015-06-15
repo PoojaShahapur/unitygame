@@ -20,12 +20,12 @@ namespace FightCore
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 
-        override public void updateCardDataChange(t_Card svrCard_ = null)
+        override public void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
 
         }
 
-        override public void updateCardDataNoChange()
+        override public void updateCardDataNoChangeByTable()
         {
 
         }

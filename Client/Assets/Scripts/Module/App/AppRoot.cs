@@ -96,7 +96,7 @@ public class AppRoot : MonoBehaviour
 
     public void constructAll()
     {
-        ByteUtil.checkEndian();     // 检查系统大端小端
+        UtilByte.checkEndian();     // 检查系统大端小端
 
         Ctx.m_instance.m_cfg = new Config();
         Ctx.m_instance.m_factoryBuild = new FactoryBuild();

@@ -173,7 +173,7 @@ namespace FightCore
             {
                 // 拖动结束直接退回去
                 // 开始缩放
-                m_card.trackAniControl.destScale = SceneDZCV.SMALLFACT;
+                //m_card.trackAniControl.destScale = SceneDZCV.SMALLFACT;
                 backCard2Orig();
             }
             else

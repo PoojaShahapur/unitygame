@@ -75,10 +75,10 @@ namespace SDK.Lib
         {
             //string loadPath = UtilApi.combineVerPath(path, fileInfo.m_fileMd5);
             //m_loadingPath.Add(loadPath);
-            m_loadingPath.Add(UtilApi.webFullPath(path));
+            m_loadingPath.Add(UtilLogic.webFullPath(path));
             if (Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(path))
             {
-                UtilApi.delFile(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilApi.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
+                UtilApi.delFile(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
             }
             //UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
 

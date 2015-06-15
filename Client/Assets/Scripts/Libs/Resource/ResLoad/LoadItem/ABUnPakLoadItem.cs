@@ -36,7 +36,7 @@ namespace SDK.Lib
 
             string curPath;
             curPath = Path.Combine(Application.streamingAssetsPath, m_pathNoExt);
-            curPath = UtilApi.getPakPathAndExt(curPath, curExt);
+            curPath = UtilLogic.getPakPathAndExt(curPath, curExt);
 
             if (Ctx.m_instance.m_localFileSys.isFileExist(curPath))
             {

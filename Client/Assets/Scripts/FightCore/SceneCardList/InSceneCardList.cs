@@ -101,7 +101,7 @@ namespace FightCore
         public void onOneCardEnterHandleEntry(IDispatchObject card_)
         {
             SceneCardBase _card = card_ as SceneCardBase;
-            updateSceneCardPos();       // 开始发送到手牌，只更新位置就行了
+            updateSceneCardPos(CardArea.CARDCELLTYPE_HAND);       // 开始发送到手牌，只更新位置就行了
         }
     }
 }

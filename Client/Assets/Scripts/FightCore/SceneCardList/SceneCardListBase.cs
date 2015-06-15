@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using SDK.Lib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,6 @@ namespace FightCore
      */
     public class SceneCardListBase
     {
-        //public const float BigInternal = 2.4f;                  // 大卡牌间隔，开始发牌的时候，场牌中间区域卡牌大小
-        //public const float SmallInternal = 2.0f;                // 小卡牌间隔，手牌大小和场牌大小
-        //public const float Radius = 0.5f;                       // 半径
-
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
 
@@ -49,33 +46,49 @@ namespace FightCore
         {
             int idx = 0;
             SceneCardBase cardItem;
+            WayPtItem pt;
 
             getCardPos();
 
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                cardItem.trackAniControl.destPos = m_posList[idx];
+                //cardItem.trackAniControl.destPos = m_posList[idx];
                 //cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
                 //cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
+                pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(PosType.eHandDown);
+                pt.pos = m_posList[idx];
                 cardItem.trackAniControl.moveToDestST();
 
                 ++idx;
             }
         }
 
-        public virtual void updateSceneCardPos()
+        public virtual void updateSceneCardPos(CardArea area)
         {
             int idx = 0;
-            SceneCardBase cardItem;
+            SceneCardBase cardItem = null;
+            WayPtItem pt = null;
+            PosType posType = PosType.eHandDown;
+            if (CardArea.CARDCELLTYPE_HAND == area)
+            {
+                posType = PosType.eHandDown;
+            }
+            else if (CardArea.CARDCELLTYPE_COMMON == area)
+            {
+                posType = PosType.eOutDown;
+            }
 
             getCardPos();
 
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                cardItem.trackAniControl.destPos = m_posList[idx];
-                cardItem.trackAniControl.moveToDestT();
+                //cardItem.trackAniControl.destPos = m_posList[idx];
+
+                pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(posType);
+                pt.pos = m_posList[idx];
+                cardItem.trackAniControl.moveToDestT(posType);
 
                 ++idx;
             }
@@ -119,7 +132,7 @@ namespace FightCore
             {
                 if (item.sceneCardItem.svrCard.qwThisID == sceneItem.svrCard.qwThisID)
                 {
-                    item.updateCardDataChange();
+                    item.updateCardDataChangeBySvr();
                     break;
                 }
             }

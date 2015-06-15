@@ -61,6 +61,8 @@ namespace SDK.Lib
         // 添加移动特效
         public MoveEffect addMoveEffect(int id, GameObject pntGO_, Vector3 srcPos, Vector3 destPos, float moveTime, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
         {
+            Ctx.m_instance.m_logSys.log(string.Format("添加位移特效，起始位置 {0}， 结束位移 {1}", srcPos.ToString(), destPos.ToString()));
+
             MoveEffect effect = createAndAdd(EffectType.eMoveEffect) as MoveEffect;
 
             effect.setPnt(pntGO_);

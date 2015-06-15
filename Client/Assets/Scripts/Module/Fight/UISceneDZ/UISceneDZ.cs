@@ -135,7 +135,7 @@ namespace Fight
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
                 // 显示那张牌可以出
-                // 如果出牌区域已经有 7 张牌，就不能再出了
+                // 如果出牌区域已经有 SceneDZCV.OUT_CARD_TOTAL 张牌，就不能再出了
                 if (m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].bOutAreaCardFull())
                 {
                     m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
@@ -356,6 +356,17 @@ namespace Fight
             {
                 m_sceneDZData.m_gameOpState.quitAttackOp();
             }
+        }
+
+
+        public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
+        {
+            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowStartUserCmd(ba);
+        }
+
+        public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
+        {
+            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowEndUserCmd(ba);
         }
     }
 }

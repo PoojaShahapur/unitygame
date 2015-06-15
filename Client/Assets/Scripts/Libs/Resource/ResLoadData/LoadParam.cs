@@ -118,7 +118,7 @@ namespace SDK.Lib
             }
             else        // 如果是打包，需要从原始加载目录获取关卡名字
             {
-                m_lvlName = UtilApi.convScenePath2LevelName(m_origPath);
+                m_lvlName = UtilLogic.convScenePath2LevelName(m_origPath);
             }
         }
     }

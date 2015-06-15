@@ -33,9 +33,9 @@ namespace FightCore
             #endif
             // 添加进来的卡牌是不能移动的
             card.dragControl.disableDrag();
-
             //m_sceneCardList.Add(card);
             m_sceneCardList.Insert(idx, card);
+            card.updateOutCardScaleInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform);    // 缩放按照配置运行
         }
 
         // 自己手里的牌移动，需要更新已经出的牌的位置
@@ -114,7 +114,7 @@ namespace FightCore
                         }
                     }
 
-                    updateSceneCardPos();
+                    updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
                 }
             }
             else

@@ -93,9 +93,9 @@ namespace FightCore
             }
         }
 
-        override public void updateCardDataChange(t_Card svrCard_ = null)
+        override public void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
-            base.updateCardDataChange();
+            base.updateCardDataChangeBySvr();
             updateHp();
         }
 

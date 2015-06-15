@@ -68,8 +68,8 @@ namespace SDK.Lib
         override protected void updateLeftAttr(TableCardItemBody tableBody)
         {
             // 根据表中的数据更新，如果服务器有数据，还会根据服务器的数据更新一次，因为图鉴的数据是根据表中更新的，场景中的牌是根据服务器的数据更新的
-            UtilApi.updateCardDataNoChange(tableBody, m_model.selfGo);
-            UtilApi.updateCardDataChange(tableBody, m_model.selfGo);
+            UtilLogic.updateCardDataNoChangeByTable(tableBody, m_model.selfGo);
+            UtilLogic.updateCardDataChangeByTable(tableBody, m_model.selfGo);
 
             AuxLabel raceText = new AuxLabel(m_model.selfGo, "UIRoot/RaceText");
             // 更新种族
@@ -137,7 +137,7 @@ namespace SDK.Lib
             }
             else
             {
-                path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], UtilApi.getImageByPinZhi(tableBody.m_quality));
+                path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathCardImage], UtilLogic.getImageByPinZhi(tableBody.m_quality));
                 m_subTex[(int)CardSubPartType.EQuality].tex.texPath = path;
                 m_subTex[(int)CardSubPartType.EQuality].tex.syncUpdateTex();
             }

@@ -45,10 +45,10 @@ namespace FightCore
         public const string TimerGo = "TimerGo";
 
         public const string CollideBG = "bujian_zhanchang";
-        public const string FirstInitCardGO = "PlaceHolder/FirstInitCardGO";         // 第一个场景卡牌位置
-        public const string SecondInitCardGO = "PlaceHolder/SecondInitCardGO";        // 第二个场景卡牌位置
-        public const string ThirdInitCardGO = "PlaceHolder/ThirdInitCardGO";         // 第三个场景卡牌位置
-        public const string ForthInitCardGO = "PlaceHolder/ForthInitCardGO";         // 第四个场景卡牌位置
+        //public const string FirstInitCardGO = "PlaceHolder/FirstInitCardGO";         // 第一个场景卡牌位置
+        //public const string SecondInitCardGO = "PlaceHolder/SecondInitCardGO";        // 第二个场景卡牌位置
+        //public const string ThirdInitCardGO = "PlaceHolder/ThirdInitCardGO";         // 第三个场景卡牌位置
+        //public const string ForthInitCardGO = "PlaceHolder/ForthInitCardGO";         // 第四个场景卡牌位置
     }
 
     public enum EnSceneDZText

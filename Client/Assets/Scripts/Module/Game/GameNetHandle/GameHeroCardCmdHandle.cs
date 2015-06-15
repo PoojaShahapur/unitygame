@@ -48,9 +48,12 @@ namespace Game.Game
 
             m_id2HandleDic[stHeroCardCmd.RET_HERO_INTO_BATTLE_SCENE_CMD] = psstRetHeroIntoBattleSceneUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_CARD_ATTACK_FAIL_USERCMD_PARA] = psstRetCardAttackFailUserCmd;
-            m_id2HandleDic[stHeroCardCmd.RET_BATTLE_HISTORY_INFO_CMD] = psstRetBattleHistoryInfoUserCmd;
+            //m_id2HandleDic[stHeroCardCmd.RET_BATTLE_HISTORY_INFO_CMD] = psstRetBattleHistoryInfoUserCmd;
             m_id2HandleDic[stHeroCardCmd.RET_BATTLE_GAME_RESULT_CMD] = psstRetBattleGameResultUserCmd;
             m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_CARD_PROPERTY_CMD] = psstNotifyBattleCardPropertyUserCmd;
+
+            m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_FLOW_START_CMD] = psstNotifyBattleFlowStartUserCmd;
+            m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_FLOW_END_CMD] = psstNotifyBattleFlowEndUserCmd;
         }
 
         // 重载方便调试
@@ -562,6 +565,24 @@ namespace Game.Game
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstNotifyBattleCardPropertyUserCmd(cmd);
+            }
+        }
+
+        protected void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
+        {
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstNotifyBattleFlowStartUserCmd(ba);
+            }
+        }
+
+        protected void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
+        {
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstNotifyBattleFlowEndUserCmd(ba);
             }
         }
     }

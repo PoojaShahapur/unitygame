@@ -225,7 +225,7 @@ namespace SDK.Lib
             string absPath = relPath;
             if (!string.IsNullOrEmpty(version))
             {
-                absPath = UtilApi.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), relPath), version);
+                absPath = UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), relPath), version);
                 if (!File.Exists(absPath))
                 {
                     absPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), relPath);
@@ -240,7 +240,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    relPath = UtilApi.combineVerPath(relPath, version);         // 在可写目录下，文件名字是有版本号的
+                    relPath = UtilLogic.combineVerPath(relPath, version);         // 在可写目录下，文件名字是有版本号的
                     loadType = ResLoadType.ePersistentData;
                 }
             }

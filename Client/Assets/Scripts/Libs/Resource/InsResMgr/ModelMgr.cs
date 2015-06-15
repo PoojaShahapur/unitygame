@@ -56,15 +56,15 @@ namespace SDK.Lib
             foreach (SecurityElement itemNode1f in itemMeshList)
             {
                 itemMesh = itemNode1f;
-                meshName = UtilApi.getXmlAttrStr(itemMesh, "name");
+                meshName = UtilXml.getXmlAttrStr(itemMesh, "name");
                 m_skinDic[meshName] = new Dictionary<string, string[]>();
 
                 itemSubMeshList = itemMesh.Children;
                 foreach (SecurityElement itemNode2f in itemSubMeshList)
                 {
                     itemSubMesh = itemNode2f;
-                    subMeshName = UtilApi.getXmlAttrStr(itemSubMesh, "name");
-                    bonesList = UtilApi.getXmlAttrStr(itemSubMesh, "bonelist");
+                    subMeshName = UtilXml.getXmlAttrStr(itemSubMesh, "name");
+                    bonesList = UtilXml.getXmlAttrStr(itemSubMesh, "bonelist");
                     m_skinDic[meshName][subMeshName] = bonesList.Split(',');
                 }
             }

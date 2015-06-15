@@ -14,6 +14,11 @@ namespace SDK.Common
             m_list = new List<T>();
         }
 
+        public MList(int capacity)
+        {
+            m_list = new List<T>(capacity);
+        }
+
         public List<T> list
         {
             get
