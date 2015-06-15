@@ -60,5 +60,13 @@ namespace FightCore
         {
             m_onEnterHandleEntryDisp.addEventHandle(eventHandle);
         }
+
+        // 更新初始卡牌场景位置信息
+        override public void updateInitCardSceneInfo(Transform trans)
+        {
+            UtilApi.setPos(this.transform(), trans.localPosition);
+            UtilApi.setScale(this.transform(), trans.localScale);
+            UtilApi.setRot(this.transform(), trans.localRotation);
+        }
     }
 }

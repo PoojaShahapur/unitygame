@@ -66,6 +66,7 @@ namespace FightCore
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
                 tmpcard.start2HandleAni();          // 播放动画
             }
+            tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
             addCard(tmpcard);
             tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
             //updateSceneCardST();
