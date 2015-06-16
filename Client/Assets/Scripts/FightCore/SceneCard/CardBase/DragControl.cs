@@ -83,7 +83,7 @@ namespace FightCore
                 drag.target = m_card.gameObject().transform;
                 drag.m_startDragDisp = onStartDrag;
                 drag.m_moveDisp = onMove;
-                drag.m_dropEndDisp = onDrogEnd;
+                drag.m_dropEndDisp = onDragEnd;
                 drag.m_canMoveDisp = canMove;
             }
             if (m_card.gameObject().GetComponent<WindowDragTilt>() == null)
@@ -164,7 +164,7 @@ namespace FightCore
         }
 
         // 拖放结束处理
-        protected void onDrogEnd()
+        protected void onDragEnd()
         {
             m_isCalc = false;
 
@@ -186,6 +186,7 @@ namespace FightCore
                 {
                     if (m_card.sceneCardItem.svrCard != null)
                     {
+                        // 法术攻击一次必然要消失
                         if (m_card.sceneCardItem.m_cardTableItem.m_type == (int)CardType.CARDTYPE_MAGIC)   // 如果是法术牌
                         {
                             if (m_card.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0)         // 如果有攻击目标
@@ -207,10 +208,16 @@ namespace FightCore
                                 // 现在是和战吼一样处理，先放下去，然后选择目标，然后攻击，如果攻击不成，退回去
                                 // 直接放下去，然后选择攻击目标
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
-                                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
-                                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
-                                m_card.convOutModel();
-                                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
+                                //m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
+                                //m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
+                                //m_card.convOutModel();
+                                //m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardPos();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
+                                m_card.hide();      // 隐藏起来
+                                // 英雄播放攻击准备特效
+                                if (m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect > 0)
+                                {
+                                    m_card.m_sceneDZData.m_sceneDZAreaArr[(int)(m_card.sceneCardItem.m_playerFlag)].centerHero.effectControl.startSkillAttPrepareEffect((int)m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect);
+                                }
                                 m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpFaShu, m_card);
                             }
                             else        // 如果没有攻击目标，直接拖出去
@@ -231,7 +238,7 @@ namespace FightCore
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
                             m_card.convOutModel();
-                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardST();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
+                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardPos(false);       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                             m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, m_card);
                         }
                         else        // 如果是普通移动牌，就发送移动消息

@@ -6,7 +6,7 @@ namespace FightCore
 {
     public class AttackItemBase : FightItemBase
     {
-        public const float ComAttMoveTime = 1;  // 普通攻击的移动时间
+        public const float ComAttMoveTime = 0.3f;  // 普通攻击的移动时间
 
         protected EAttackType m_attackType;
         protected EAttackRangeType m_attackRangeType;

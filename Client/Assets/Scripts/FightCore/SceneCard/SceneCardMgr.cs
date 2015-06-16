@@ -108,5 +108,14 @@ namespace FightCore
             this.delObject(card);
             card.dispose();
         }
+
+        public void removeAndDestroyAll(SceneCardBase card)
+        {
+            int idx = m_sceneEntityList.Count;
+            for(; idx >= 0; --idx)
+            {
+                m_sceneEntityList[idx].dispose();
+            }
+        }
     }
 }

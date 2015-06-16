@@ -28,6 +28,7 @@ namespace SDK.Lib
         protected AtlasScriptRes m_atlasScriptRes;
         protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
         protected bool m_bClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
+        protected bool m_bKeepLastFrame;        // 停止特效后，是否保留最后一帧的内容
 
         public SpriteAni()
         {
@@ -37,6 +38,7 @@ namespace SDK.Lib
             m_bNeedReloadRes = false;
             m_playState = SpritePlayState.eNone;
             m_playEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
+            m_bKeepLastFrame = false;
         }
 
         public bool bLoop
@@ -96,6 +98,18 @@ namespace SDK.Lib
             set
             {
                 m_playEndEventDispatch = value;
+            }
+        }
+
+        public bool bKeepLastFrame
+        {
+            get
+            {
+                return m_bKeepLastFrame;
+            }
+            set
+            {
+                m_bKeepLastFrame = value;
             }
         }
 
@@ -207,7 +221,7 @@ namespace SDK.Lib
                         if (!m_bLoop)
                         {
                             stop();
-                            dispEndEvent();
+                            dispEndEvent();         // 只有被动停止才会发送播放结束事件，如果是主动停止的，不会发送播放结束事件
                         }
                     }
                 }

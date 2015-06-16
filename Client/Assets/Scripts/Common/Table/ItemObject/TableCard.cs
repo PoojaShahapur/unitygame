@@ -55,7 +55,7 @@ namespace SDK.Common
 
         public string m_cardSetCardHeader;    // 卡牌头像贴图路径，卡组中卡牌资源
         public string m_dzCardHeader;         // 卡牌头像贴图路径，对战中卡牌图像
-        public uint m_skillPrepareEffect;   // 技能攻击准备特效
+        public uint m_skillPrepareEffect;     // 技能攻击准备特效
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {

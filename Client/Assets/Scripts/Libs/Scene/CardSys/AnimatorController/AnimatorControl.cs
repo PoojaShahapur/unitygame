@@ -121,6 +121,7 @@ namespace SDK.Lib
         // 非 Idle State 设置状态
         protected void normalStateSetInteger(int id, int value)
         {
+            m_animator.enabled = true;
             m_animator.applyRootMotion = false;         // 非 Idle State 状态下，有动画控制运动
             m_stateValue = value;
             m_animator.SetInteger(m_stateHashId, value);
@@ -196,6 +197,10 @@ namespace SDK.Lib
                 if (m_stateValue != 0)
                 {
                     normalStateSetInteger(m_stateHashId, m_stateValue);
+                }
+                else
+                {
+                    m_animator.enabled = false;         // 切换到空闲状态的时候，关闭，这样才能缩放
                 }
             }
         }

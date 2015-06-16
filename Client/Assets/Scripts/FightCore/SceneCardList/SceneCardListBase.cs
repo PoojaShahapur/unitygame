@@ -41,8 +41,8 @@ namespace FightCore
             return m_sceneCardList.Count();
         }
 
-        // 更新场景卡牌位置
-        public virtual void updateSceneCardST()
+        // 更新场景卡牌位置，更新缩放和位移，这个只有在卡牌被拖动出去然后退回来的时候才会调用，因为拖放出去后，卡牌会变大，因此退回来需要缩放，战吼的时候不更新索引，需要等服务器返回来才更新索引
+        public virtual void updateSceneCardST(bool bUpdateIdx = true)
         {
             int idx = 0;
             SceneCardBase cardItem;
@@ -53,10 +53,14 @@ namespace FightCore
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
+                if (bUpdateIdx)
+                {
+                    cardItem.curIndex = (ushort)idx;
+                }
                 //cardItem.trackAniControl.destPos = m_posList[idx];
                 //cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
                 //cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
-                pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(PosType.eHandDown);
+                pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(PosType.eHandDown);    // 缩放就是 PosType.eHandDown 保存的值
                 pt.pos = m_posList[idx];
                 cardItem.trackAniControl.moveToDestST();
 
@@ -64,7 +68,13 @@ namespace FightCore
             }
         }
 
-        public virtual void updateSceneCardPos(CardArea area)
+        // 战吼的时候不更新索引，需要等服务器返回来才更新索引
+        virtual public void updateSceneCardPos(bool bUpdateIdx = true)
+        {
+
+        }
+
+        virtual protected void updateSceneCardPosInternal(CardArea area, bool bUpdateIdx = true)
         {
             int idx = 0;
             SceneCardBase cardItem = null;
@@ -84,6 +94,10 @@ namespace FightCore
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
+                if (bUpdateIdx)
+                {
+                    cardItem.curIndex = (ushort)idx;
+                }
                 //cardItem.trackAniControl.destPos = m_posList[idx];
 
                 pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(posType);
@@ -163,11 +177,6 @@ namespace FightCore
             return card;
         }
 
-        public void removeCardNoDestroy(SceneCardBase card)
-        {
-            m_sceneCardList.Remove(card as SceneCardBase);
-        }
-
         public SceneCardBase getCardByIdx(int idx = 0)
         {
             SceneCardBase card = null;
@@ -210,7 +219,50 @@ namespace FightCore
             }
         }
 
-        public bool removeCard(SceneCardItem sceneCardItem)
+        // 通过客户端的卡牌数据添加卡牌
+        virtual public void addCard(SceneCardBase card, int idx = 0)
+        {
+            if (idx == -1)
+            {
+                m_sceneCardList.Add(card);
+            }
+            else
+            {
+                m_sceneCardList.Insert(idx, card);
+            }
+        }
+
+        virtual public void removeCard(SceneCardBase card)
+        {
+            m_sceneCardList.Remove(card);
+        }
+
+        public bool Contains(SceneCardBase card)
+        {
+            return m_sceneCardList.Contains(card);
+        }
+
+        // 通过服务器数据移除一张卡牌，并不释放
+        public bool removeCardIByItem(SceneCardItem sceneCardItem)
+        {
+            bool bRet = false;
+            int idx = 0;
+            while (idx < m_sceneCardList.Count())
+            {
+                if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
+                {
+                    //Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
+                    m_sceneCardList.RemoveAt(idx);
+                    bRet = true;
+                    break;
+                }
+                ++idx;
+            }
+
+            return bRet;
+        }
+
+        public bool removeAndDestroyCardByItem(SceneCardItem sceneCardItem)
         {
             bool bRet = false;
             int idx = 0;

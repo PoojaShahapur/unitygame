@@ -28,6 +28,32 @@ namespace SDK.Lib
         //    }
         //}
 
+        virtual public void show()
+        {
+            if (m_render != null)
+            {
+                m_render.show();
+            }
+        }
+
+        virtual public void hide()
+        {
+            if (m_render != null)
+            {
+                m_render.hide();
+            }
+        }
+
+        virtual public bool bVisible()
+        {
+            if (m_render != null)
+            {
+                return m_render.bVisible();
+            }
+
+            return true;
+        }
+
         virtual public void dispose()
         {
             if(m_render != null)

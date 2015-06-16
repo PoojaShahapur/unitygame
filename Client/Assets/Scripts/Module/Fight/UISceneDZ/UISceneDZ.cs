@@ -217,7 +217,7 @@ namespace Fight
             {
                 m_sceneDZData.m_roundBtn.enemyTurn();
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
-                m_sceneDZData.m_gameOpState.quitAttackOp();
+                m_sceneDZData.m_gameOpState.cancelAttackOp();
             }
         }
 
@@ -310,7 +310,7 @@ namespace Fight
             }
             else if((int)EDeleteType.OP_FASHUCARD_DELETE == cmd.opType)     // 法术牌攻击的时候，直接删除法术牌，然后从英雄处发出特效攻击
             {
-                m_sceneDZData.m_sceneDZAreaArr[side].delOneCard(sceneItem);
+                m_sceneDZData.m_sceneDZAreaArr[side].removeAndDestroyOneCardByItem(sceneItem);
             }
         }
 
@@ -354,14 +354,18 @@ namespace Fight
         {
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                m_sceneDZData.m_gameOpState.quitAttackOp();
+                m_sceneDZData.m_gameOpState.cancelAttackOp();
             }
         }
-
 
         public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
         {
             m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowStartUserCmd(ba);
+
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+            {
+                m_sceneDZData.m_gameOpState.endAttackOp();
+            }
         }
 
         public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)

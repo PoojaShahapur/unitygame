@@ -43,7 +43,7 @@ namespace FightCore
                 ++idx;
             }
 
-            updateCardIndex();
+            //updateCardIndex();
         }
 
         // 替换初始卡牌
@@ -77,9 +77,9 @@ namespace FightCore
         }
 
         // 自己的开拍需要监听卡牌的拖动
-        public override void addCard(SceneCardBase card)
+        public override void addCard(SceneCardBase card, int idx = 0)
         {
-            base.addCard(card);
+            base.addCard(card, idx);
             // 需要监听卡牌的拖动
             card.dragControl.m_moveDisp = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
         }
@@ -135,7 +135,7 @@ namespace FightCore
             --m_initCardCount;
             if(0 == m_initCardCount)
             {
-                updateSceneCardPos(CardArea.CARDCELLTYPE_HAND);
+                updateSceneCardPos();
             }
         }
     }

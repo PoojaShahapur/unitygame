@@ -9,7 +9,7 @@ namespace FightCore
      */
     public class HurtItemBase : FightItemBase
     {
-        public const int DAMAGE_EFFECTID = 7;
+        public const int DAMAGE_EFFECTID = 7;       // 掉血特效
 
         protected EHurtType m_hurtType;
         protected EHurtExecState m_execState;

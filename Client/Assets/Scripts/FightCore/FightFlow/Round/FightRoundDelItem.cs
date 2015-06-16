@@ -32,7 +32,7 @@ namespace FightCore
         {
             Ctx.m_instance.m_logSys.log("[Fight] 真正删除一个卡牌");
 
-            m_sceneDZData.m_sceneDZAreaArr[m_side].delOneCard(m_sceneItem);
+            m_sceneDZData.m_sceneDZAreaArr[m_side].removeAndDestroyOneCardByItem(m_sceneItem);
             m_OneAttackAndHurtEndDisp.dispatchEvent(this);
         }
     }

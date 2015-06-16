@@ -273,6 +273,16 @@ namespace SDK.Common
             target.SetActive(bshow);
         }
 
+        public static bool IsActive(GameObject target)
+        {
+            if (target != null)
+            {
+                return target.activeSelf;
+            }
+
+            return true;
+        }
+
         public static UnityEngine.Object Instantiate(UnityEngine.Object original)
         {
             return UnityEngine.Object.Instantiate(original);

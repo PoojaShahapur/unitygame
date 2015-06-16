@@ -19,6 +19,12 @@ namespace FightCore
             m_whiteCard.gameObject().SetActive(false);
         }
 
+        override public void dispose()
+        {
+            m_whiteCard.dispose();
+            m_whiteCard = null;
+        }
+
         protected override void getCardPos()
         {
             m_posList.Clear();
@@ -26,15 +32,16 @@ namespace FightCore
             UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, SceneDZCV.COMMON_CARD_WIDTH, m_sceneDZData.m_cardCommonAreaWidthArr[(int)m_playerFlag], 0, m_sceneCardList.Count(), ref m_posList);
         }
 
-        public void addCard(SceneCardBase card, int idx = 0)
+        override public void addCard(SceneCardBase card, int idx = 0)
         {
+            base.addCard(card, idx);
+
             #if !DEBUG_NOTNET
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;
             #endif
+
             // 添加进来的卡牌是不能移动的
             card.dragControl.disableDrag();
-            //m_sceneCardList.Add(card);
-            m_sceneCardList.Insert(idx, card);
             card.updateOutCardScaleInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform);    // 缩放按照配置运行
         }
 
@@ -114,7 +121,7 @@ namespace FightCore
                         }
                     }
 
-                    updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
+                    updateSceneCardPos();
                 }
             }
             else
@@ -151,6 +158,11 @@ namespace FightCore
             }
 
             return total;
+        }
+
+        override public void updateSceneCardPos(bool bUpdateIdx = true)
+        {
+            updateSceneCardPosInternal(CardArea.CARDCELLTYPE_COMMON);
         }
     }
 }

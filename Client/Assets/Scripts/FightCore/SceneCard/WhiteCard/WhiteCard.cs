@@ -16,6 +16,17 @@ namespace FightCore
             m_sceneCardBaseData.m_trackAniControl = new TrackAniControl(this);
         }
 
+        override public void dispose()
+        {
+            Ctx.m_instance.m_logSys.log("客户端彻底删除 White 卡牌");
+            base.dispose();
+        }
+
+        override protected void removeRef()
+        {
+            
+        }
+
         override public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             (m_render as WhiteCardRender).setIdAndPnt(objId, pntGo_);

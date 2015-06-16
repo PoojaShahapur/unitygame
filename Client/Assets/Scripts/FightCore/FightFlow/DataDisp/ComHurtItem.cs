@@ -34,7 +34,7 @@ namespace FightCore
         {
             base.initItemData(att, def, msg);
 
-            m_hurtEffectId = 4;         // 普通被击，根据攻击力播放不同的特效，并且播放掉血特效
+            m_hurtEffectId = 14;         // 普通被击，根据攻击力播放不同的特效，并且播放掉血特效
         }
     }
 }

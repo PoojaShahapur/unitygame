@@ -44,6 +44,21 @@ namespace SDK.Lib
             
         }
 
+        virtual public void show()
+        {
+
+        }
+
+        virtual public void hide()
+        {
+
+        }
+
+        virtual public bool bVisible()
+        {
+            return true;
+        }
+
         virtual public void dispose()
         {
 

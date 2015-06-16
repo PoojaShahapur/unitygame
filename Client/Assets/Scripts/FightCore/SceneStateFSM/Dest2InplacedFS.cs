@@ -18,14 +18,10 @@ namespace FSM
         {
             base.OnStateEnter();
 
+            // 播放攻击者掉血特效
+            card.behaviorControl.playAttackHurt(card.fightData.attackData.curAttackItem);
             card.fightData.attackData.endCurItem();
             mFSM.MoveToState(SceneStateId.SSInplace);
-
-            // 检查是否已经因为攻击死亡
-            //if (card.canDelFormClient())
-            //{
-            //    card.delSelf();
-            //}
         }
 
         override public void OnStateExit()

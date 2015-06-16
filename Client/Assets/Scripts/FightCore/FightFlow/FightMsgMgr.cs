@@ -84,6 +84,8 @@ namespace FightCore
 
         public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
         {
+            Ctx.m_instance.m_logSys.log("[Fight] 接收到战斗回合开始指令");
+
             m_curParseRound = new FightRound(m_sceneDZData);
             m_curParseRound.addRoundEndHandle(onOneRoundEnd);
             m_cacheList.Add(m_curParseRound);
@@ -91,13 +93,15 @@ namespace FightCore
 
         public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
         {
+            Ctx.m_instance.m_logSys.log("[Fight] 接收到战斗回合结束指令");
+
             m_curParseRound.bSvrRoundEnd = true;
         }
 
         // 一个战斗回合结束
         public void onOneRoundEnd(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 结束一场战斗回合，将要开始下一场战斗回合攻击攻击");
+            Ctx.m_instance.m_logSys.log("[Fight] 结束一场战斗回合，将要开始下一场战斗回合攻击");
 
             m_curFightData = null;
             nextOneAttactRound();
@@ -110,6 +114,7 @@ namespace FightCore
                 if (m_cacheList.Count() > 0)    // 如果有攻击数据
                 {
                     m_curFightData = m_cacheList[0];
+                    Ctx.m_instance.m_logSys.log(m_curFightData.msg.log());
                     m_cacheList.Remove(m_curFightData);
                     m_curFightData.nextOneAttact();
                 }

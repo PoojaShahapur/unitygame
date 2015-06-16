@@ -1625,6 +1625,17 @@ namespace Game.Msg
                 }
             }
         }
+
+        public string log()
+        {
+            string ret = string.Format("dwMagicType = {0}, \n count = {1} \n A_object = {2} \n, ", dwMagicType, count, A_object.log());
+            for (int idx = 0; idx < defList.Length; ++idx)
+            {
+                ret = string.Format("第 {0} 个信息 {1} \n", idx, defList[idx].log());
+            }
+
+            return ret;
+        }
     }
 
     //const BYTE NOTIFY_BATTLE_CARD_PROPERTY_CMD = 49; 

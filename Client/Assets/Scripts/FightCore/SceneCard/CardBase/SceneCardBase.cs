@@ -239,8 +239,27 @@ namespace FightCore
 
         override public void dispose()
         {
+            // 从管理器中删除
             Ctx.m_instance.m_sceneCardMgr.delObject(this);
+            removeRef();
+            disposeBaseData();
+            m_render.dispose();
+            m_sceneCardItem = null;
+        }
+        
+        // 移除所有引用当前对象的地方
+        virtual protected void removeRef()
+        {
+            if (sceneCardItem != null)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
+                // 从各种引用除删除
+                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerFlag].removeOneCard(this);
+            }
+        }
 
+        virtual protected void disposeBaseData()
+        {
             if (m_sceneCardBaseData != null)
             {
                 if (m_sceneCardBaseData.m_clickControl != null)
@@ -260,9 +279,6 @@ namespace FightCore
                     m_sceneCardBaseData.m_effectControl.dispose();
                 }
             }
-
-            m_render.dispose();
-            m_sceneCardItem = null;
         }
 
         // 更新卡牌属性，这个主要更改卡牌经常改变的属性，除了初始卡牌，后来服务器发送过来的卡牌数据都要从这个刷新
@@ -350,13 +366,6 @@ namespace FightCore
         virtual public bool canDelFormClient()
         {
             return false;
-        }
-
-        // 这个会从各种列表中清除
-        public void delSelf()
-        {
-            Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
-            m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerFlag].delOneCard(this.sceneCardItem);
         }
 
         // 开始卡牌动画

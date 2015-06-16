@@ -85,10 +85,10 @@ namespace FightCore
         {
             // 播放攻击动作
             // 播放伤害数字
-            if (item.damage > 0)
-            {
-                m_card.playFlyNum((int)item.damage);
-            }
+            //if (item.damage > 0)
+            //{
+            //    m_card.playFlyNum((int)item.damage);
+            //}
 
             // 更新自己的属性显示
             m_card.updateCardDataChangeBySvr(item.svrCard);
@@ -211,6 +211,16 @@ namespace FightCore
         public void moveToDestDirect(Vector3 pos)
         {
             UtilApi.setPos(m_card.transform(), pos);
+        }
+
+        // 播放攻击者受伤特效
+        public void playAttackHurt(FightItemBase item)
+        {
+            if (item.damage > 0)
+            {
+                m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
+                m_card.playFlyNum((int)item.damage);
+            }
         }
     }
 }

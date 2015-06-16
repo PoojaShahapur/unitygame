@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 namespace FightCore
 {
     public class CVSceneDZPath
@@ -8,8 +9,8 @@ namespace FightCore
         public const string SelfTurnTip = "youturntip";
         public const string SelfCardFullTip = "SelfCardFullTip";
         public const string SelfCardFullTipText = "Canvas/Text";
-        //public const string MyCardDeap = "paiku_zhanchang";
-        //public const string EnemyCardDeap = "paiku_zhanchang";
+        public const string MyCardDeap = "paiku_zhanchang";
+        public const string EnemyCardDeap = "paiku_zhanchang";
 
         public const string CenterGO = "dzban";         // 中心位置，所有的牌的相对位置都是相对这个位置
 
@@ -64,13 +65,12 @@ namespace FightCore
         public const int OUT_CARD_TOTAL = 5;                        // 出牌区域最多牌的数量
         public const float HAND_CARD_WIDTH = 2.0f;                  // 手牌宽度
         public const float COMMON_CARD_WIDTH = 2.0f;                // 场牌宽度
-        public const float HAND_YDELTA = 0.3f;                      // 手牌的时候 Y Delta 值
+        public const float HAND_YDELTA = 0.1f;                      // 手牌的时候 Y Delta 值
         public const float DRAG_YDELTA = HAND_YDELTA * 10;                      // 拖动 Y Delta 值
 
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
         public const uint WHITE_CARDID = uint.MaxValue - 1;      // 白色的占位卡牌 ID
         public const uint BLACK_CARD_ID = uint.MaxValue;        // 敌人背面卡 ID
-
     }
 }

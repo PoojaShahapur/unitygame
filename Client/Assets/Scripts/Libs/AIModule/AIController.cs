@@ -82,7 +82,7 @@ namespace BehaviorLibrary
             }
         }
 
-        public void dispose()
+        override public void dispose()
         {
             if(m_btRes != null)
             {
@@ -96,7 +96,7 @@ namespace BehaviorLibrary
             }
         }
 
-        public void onTick(float delta)
+        override public void onTick(float delta)
         {
             //if(m_radar != null)
             //{

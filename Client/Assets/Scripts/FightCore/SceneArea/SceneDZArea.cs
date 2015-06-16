@@ -98,7 +98,7 @@ namespace FightCore
                 {
                     if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
                     {
-                        m_inSceneCardList.addSceneCard(msg.mobject.dwObjectID, sceneItem);
+                        m_inSceneCardList.addCardByIdAndItem(msg.mobject.dwObjectID, sceneItem);
                     }
                     else
                     {
@@ -111,8 +111,8 @@ namespace FightCore
                     SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
                     srcCard.convOutModel();
                     m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
-                    m_outSceneCardList.updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
-                    m_outSceneCardList.updateCardIndex();
+                    m_outSceneCardList.updateSceneCardPos();
+                    //m_outSceneCardList.updateCardIndex();
                 }
             }
             else        // 更新卡牌数据
@@ -160,8 +160,8 @@ namespace FightCore
                 if (srcCard.canClientMove2OutArea())
                 {
                     // 更新手牌索引
-                    m_inSceneCardList.updateCardIndex();
-                    m_sceneDZData.m_gameOpState.quitAttackOp(false);    // 强制退出战斗操作
+                    //m_inSceneCardList.updateCardIndex();
+                    m_sceneDZData.m_gameOpState.endAttackOp();    // 战吼攻击结束
                 }
                 else
                 {
@@ -169,8 +169,8 @@ namespace FightCore
                 }
             }
 
-            m_inSceneCardList.updateCardIndex();
-            m_inSceneCardList.updateSceneCardST();
+            //m_inSceneCardList.updateCardIndex();
+            m_inSceneCardList.updateSceneCardPos();
 
             // 更新移动后的牌的位置
             if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.svrCard.pos.dwLocation)        // 如果出的是装备
@@ -183,8 +183,8 @@ namespace FightCore
                 {
                     m_outSceneCardList.removeWhiteCard();
                     m_outSceneCardList.addCard(srcCard, msg.dst.y);
-                    m_outSceneCardList.updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
-                    m_outSceneCardList.updateCardIndex();
+                    m_outSceneCardList.updateSceneCardPos();
+                    //m_outSceneCardList.updateCardIndex();
                 }
             }
 
@@ -215,71 +215,72 @@ namespace FightCore
             m_outSceneCardList.removeWhiteCard();
             m_inSceneCardList.removeCard(m_sceneDZData.m_curDragItem);
             m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.curWhiteIdx);
-            m_inSceneCardList.updateSceneCardST();
-            m_outSceneCardList.updateSceneCardST();
-            m_inSceneCardList.updateCardIndex();
-            m_outSceneCardList.updateCardIndex();
+            m_inSceneCardList.updateSceneCardPos();
+            m_outSceneCardList.updateSceneCardPos();
+            //m_inSceneCardList.updateCardIndex();
+            //m_outSceneCardList.updateCardIndex();
         }
 
         public void psstAddEnemyHandCardPropertyUserCmd()
         {
-            m_inSceneCardList.addSceneCard(SceneDZCV.BLACK_CARD_ID, null);
+            m_inSceneCardList.addCardByIdAndItem(SceneDZCV.BLACK_CARD_ID, null);
         }
 
-        public void delOneCard(SceneCardItem sceneItem)
+        // 移除并且释放一张卡牌，这个接口只能是从外部调用，彻底删除一张卡牌
+        public void removeAndDestroyOneCardByItem(SceneCardItem sceneItem)
         {
-            SceneCardBase card = null;
+            //SceneCardBase card = null;
             if ((int)CardArea.CARDCELLTYPE_SKILL == sceneItem.svrCard.pos.dwLocation)
             {
-                if (m_sceneSkillCard.bInFight())
-                {
-                    m_sceneSkillCard.setSvrDispose();
-                }
-                else
-                {
+                //if (m_sceneSkillCard.bInFight())
+                //{
+                //    m_sceneSkillCard.setSvrDispose();
+                //}
+                //else
+                //{
                     Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneSkillCard);
                     m_sceneSkillCard = null;
-                }
+                //}
             }
             else if ((int)CardArea.CARDCELLTYPE_EQUIP == sceneItem.svrCard.pos.dwLocation)
             {
-                if (m_sceneEquipCard.bInFight())
-                {
-                    m_sceneEquipCard.setSvrDispose();
-                }
-                else
-                {
+                //if (m_sceneEquipCard.bInFight())
+                //{
+                //    m_sceneEquipCard.setSvrDispose();
+                //}
+                //else
+                //{
                     Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneEquipCard);
                     m_sceneEquipCard = null;
-                }
+                //}
             }
             else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.svrCard.pos.dwLocation)
             {
-                card = m_outSceneCardList.getSceneCardByThisID(sceneItem.svrCard.qwThisID);
-                if (card.bInFight())
-                {
-                    card.setSvrDispose();
-                }
-                else
-                {
-                    m_outSceneCardList.removeCard(sceneItem);
-                    m_outSceneCardList.updateSceneCardPos(CardArea.CARDCELLTYPE_COMMON);
-                    m_outSceneCardList.updateCardIndex();
-                }
+                //card = m_outSceneCardList.getSceneCardByThisID(sceneItem.svrCard.qwThisID);
+                //if (card.bInFight())
+                //{
+                //    card.setSvrDispose();
+                //}
+                //else
+                //{
+                    m_outSceneCardList.removeAndDestroyCardByItem(sceneItem);
+                    m_outSceneCardList.updateSceneCardPos();
+                    //m_outSceneCardList.updateCardIndex();
+                //}
             }
             else if ((int)CardArea.CARDCELLTYPE_HAND == sceneItem.svrCard.pos.dwLocation)
             {
-                card = m_inSceneCardList.getSceneCardByThisID(sceneItem.svrCard.qwThisID);
-                if (card.bInFight())
-                {
-                    card.setSvrDispose();
-                }
-                else
-                {
-                    if (m_inSceneCardList.removeCard(sceneItem))
+                //card = m_inSceneCardList.getSceneCardByThisID(sceneItem.svrCard.qwThisID);
+                //if (card.bInFight())
+                //{
+                //    card.setSvrDispose();
+                //}
+                //else
+                //{
+                    if (m_inSceneCardList.removeAndDestroyCardByItem(sceneItem))
                     {
                         m_inSceneCardList.updateSceneCardST();
-                        m_inSceneCardList.updateCardIndex();
+                        //m_inSceneCardList.updateCardIndex();
                     }
                     else        // 可能是战吼或者法术有攻击目标的
                     {
@@ -293,10 +294,90 @@ namespace FightCore
 
                         Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(srcCard);
                     }
-                }
+                //}
             }
 
-            m_sceneDZData.m_gameOpState.quitAttackOp(false);        // 强制退出战斗操作
+            m_sceneDZData.m_gameOpState.cancelAttackOp();        // 强制退出战斗操作
+        }
+
+        // 移除一张卡牌，不释放资源，这个接口仅仅是客户端自己释放资源使用
+        public void removeOneCardByItem(SceneCardItem sceneItem)
+        {
+            if ((int)CardArea.CARDCELLTYPE_SKILL == sceneItem.svrCard.pos.dwLocation)
+            {
+                m_sceneSkillCard = null;
+            }
+            else if ((int)CardArea.CARDCELLTYPE_EQUIP == sceneItem.svrCard.pos.dwLocation)
+            {
+                m_sceneEquipCard = null;
+            }
+            else if ((int)CardArea.CARDCELLTYPE_COMMON == sceneItem.svrCard.pos.dwLocation)
+            {
+                m_outSceneCardList.removeCardIByItem(sceneItem);
+                m_outSceneCardList.updateSceneCardPos();
+                //m_outSceneCardList.updateCardIndex();
+            }
+            else if ((int)CardArea.CARDCELLTYPE_HAND == sceneItem.svrCard.pos.dwLocation)
+            {
+                if (m_inSceneCardList.removeCardIByItem(sceneItem))
+                {
+                    m_inSceneCardList.updateSceneCardPos();
+                    //m_inSceneCardList.updateCardIndex();
+                }
+                else        // 可能是战吼或者法术有攻击目标的
+                {
+                    SceneCardBase srcCard = m_outSceneCardList.removeAndRetCardByItemNoDestroy(sceneItem);
+                    // 如果是法术或者战吼有攻击目标的卡牌，虽然在出牌区，但是是客户端自己移动过去的
+                    if (srcCard != null && srcCard.canClientMove2OutArea())
+                    {
+                        // 更新手牌索引
+                        m_inSceneCardList.updateCardIndex();
+                    }
+                }
+            }
+        }
+
+        public void removeOneCard(SceneCardBase card)
+        {
+            if (card is SkillCard)
+            {
+                m_sceneSkillCard = null;
+            }
+            else if (card is EquipCard)
+            {
+                m_sceneEquipCard = null;
+            }
+            else if(card is BlackCard)      // Enemy Hand 手牌卡
+            {
+                m_inSceneCardList.removeCard(card);
+                m_inSceneCardList.updateSceneCardPos();
+                //m_inSceneCardList.updateCardIndex();
+            }
+            else if ((int)CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.svrCard.pos.dwLocation)
+            {
+                m_outSceneCardList.removeCard(card);
+                m_outSceneCardList.updateSceneCardPos();
+                //m_outSceneCardList.updateCardIndex();
+            }
+            else if ((int)CardArea.CARDCELLTYPE_HAND == card.sceneCardItem.svrCard.pos.dwLocation)
+            {
+                if (m_inSceneCardList.Contains(card))
+                {
+                    m_inSceneCardList.removeCard(card);
+                    m_inSceneCardList.updateSceneCardPos();
+                    //m_inSceneCardList.updateCardIndex();
+                }
+                else        // 可能是战吼或者法术有攻击目标的
+                {
+                    SceneCardBase srcCard = m_outSceneCardList.removeAndRetCardByItemNoDestroy(card.sceneCardItem);
+                    // 如果是法术或者战吼有攻击目标的卡牌，虽然在出牌区，但是是客户端自己移动过去的
+                    if (srcCard != null && srcCard.canClientMove2OutArea())
+                    {
+                        // 更新手牌索引
+                        m_inSceneCardList.updateCardIndex();
+                    }
+                }
+            }
         }
 
         public void updateMp()
@@ -391,8 +472,8 @@ namespace FightCore
         {
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;     // 更新卡牌区域信息
             m_outSceneCardList.addCard(card, idx);                          // 更新卡牌列表
-            m_outSceneCardList.updateSceneCardST();                        // 更新位置信息
-            m_outSceneCardList.updateCardIndex();                           // 更新卡牌索引信息
+            m_outSceneCardList.updateSceneCardPos();                        // 更新位置信息
+            //m_outSceneCardList.updateCardIndex();                           // 更新卡牌索引信息
         }
 
         // 从手牌区域移除一个卡牌
@@ -409,24 +490,31 @@ namespace FightCore
             {
                 card.trackAniControl.retFormOutAreaToHandleArea();
                 m_outSceneCardList.updateSceneCardST();
-                m_outSceneCardList.updateCardIndex();
+                //m_outSceneCardList.updateCardIndex();
             }
         }
 
         public void putHandFromOutByCard(SceneCardBase card)
         {
             // 从出牌区域移除
-            m_outSceneCardList.removeCardNoDestroy(card);
-            //(card as SceneCardBase).retFormOutAreaToHandleArea();
-            m_outSceneCardList.updateSceneCardST();
-            m_outSceneCardList.updateCardIndex();
+            m_outSceneCardList.removeCard(card);
+            m_outSceneCardList.updateSceneCardPos();
+            //m_outSceneCardList.updateCardIndex();
 
             // 放入手牌区域
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_HAND;       // 更新卡牌区域信息
             card.curIndex = card.preIndex;                                  // 更新索引信息
             card.dragControl.enableDrag();                                              // 开启拖放
             m_inSceneCardList.addCardByServerPos(card);                     // 添加到手牌位置
-            m_inSceneCardList.updateSceneCardST();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
+            m_inSceneCardList.updateSceneCardPos();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
+        }
+
+        public void cancelFashuOp(SceneCardBase card)
+        {
+            card.show();
+            m_inSceneCardList.updateSceneCardPos();
+            //m_outSceneCardList.updateCardIndex();
+            m_centerHero.effectControl.stopSkillAttPrepareEffect();
         }
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
@@ -491,6 +579,16 @@ namespace FightCore
                 }
             }
 
+            // 检查英雄
+            if (m_centerHero != null)
+            {
+                if (m_centerHero.sceneCardItem.svrCard.qwThisID == thisID)
+                {
+                    slot = CardArea.CARDCELLTYPE_HERO;
+                    return m_centerHero;
+                }
+            }
+
             return null;
         }
 
@@ -535,7 +633,7 @@ namespace FightCore
 
             m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
 
-            outCard.delSelf();      // 释放原来的资源
+            outCard.dispose();      // 释放原来的资源
         }
     }
 }

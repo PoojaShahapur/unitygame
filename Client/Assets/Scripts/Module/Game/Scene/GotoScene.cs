@@ -68,7 +68,7 @@ namespace Game.Game
 
         protected void loadAllDZUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.eUITest);
+            //Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.eUITest);
             Ctx.m_instance.m_uiMgr.loadForm<UIDZ>(UIFormID.eUIDZ);      // 显示对战场景界面
             Ctx.m_instance.m_uiMgr.loadForm<UIChat>(UIFormID.eUIChat);      // 显示聊天
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面

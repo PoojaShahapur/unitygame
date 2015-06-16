@@ -13,7 +13,7 @@ namespace SDK.Common
         protected GameObject m_dispGo;
         protected string m_methodName;
 
-        protected iTween.EaseType m_easeType = iTween.EaseType.easeOutElastic;
+        protected iTween.EaseType m_easeType = iTween.EaseType.easeOutExpo; // iTween.EaseType.easeOutElastic;
         protected iTween.LoopType m_loopType = iTween.LoopType.none;
 
         protected int m_itweenCount = 0;        // 一个动画启动的 Itween 的个数

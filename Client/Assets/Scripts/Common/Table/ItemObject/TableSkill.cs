@@ -8,8 +8,8 @@
     {
         public string m_name;               // 名称
         public string m_effect;             // 效果
-        public uint m_skillAttackEffect;      // 技能攻击特效
-        public float m_effectMoveTime;       // 移动
+        public uint m_skillAttackEffect;    // 技能攻击特效
+        public float m_effectMoveTime;      // 移动
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -25,7 +25,7 @@
         {
             if (m_skillAttackEffect == 0)
             {
-                m_skillAttackEffect = 4;
+                m_skillAttackEffect = 8;
             }
 
             m_effectMoveTime = 1;

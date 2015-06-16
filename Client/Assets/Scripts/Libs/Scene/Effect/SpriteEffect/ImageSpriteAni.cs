@@ -19,7 +19,10 @@ namespace SDK.Lib
         override public void stop()
         {
             base.stop();
-            m_image.sprite = null;
+            if (!m_bKeepLastFrame)
+            {
+                m_image.sprite = null;
+            }
             m_image.rectTransform.sizeDelta = new UnityEngine.Vector2(0, 0);
         }
 

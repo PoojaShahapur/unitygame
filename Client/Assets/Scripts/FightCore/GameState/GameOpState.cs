@@ -74,20 +74,23 @@ namespace FightCore
         // 检查之前的攻击状态
         public void checkPreAttackOp(EnGameOp op, SceneCardBase card)
         {
-            if (EnGameOp.eOpZhanHouAttack == m_curOp || EnGameOp.eOpFaShu == m_curOp)
+            if (EnGameOp.eOpZhanHouAttack == m_curOp)
             {
                 // 需要将其回退回去
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOutByCard(m_opCard);
             }
+            if(EnGameOp.eOpFaShu == m_curOp) // 法术
+            {
+                if (card.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0)         // 如果有攻击目标
+                {
+                    m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].cancelFashuOp(m_opCard);
+                }
+            }
         }
 
-        // 退出攻击操作， bCheckPreState 如果要检查之前的状态，就需要清理之前的状态数据，主要用于客户端自己取消某些操作
-        public void quitAttackOp(bool bCheckPreState = true)
+        // 这个说明攻击操作完成
+        public void endAttackOp()
         {
-            if (bCheckPreState)
-            {
-                checkPreAttackOp(m_curOp, m_opCard);
-            }
             m_curOp = EnGameOp.eOpNone;
             m_opCard = null;
             m_sceneDZData.m_attackArrow.stopArrow();
@@ -95,6 +98,16 @@ namespace FightCore
 
             // 退出操作后，需要开启手牌区域卡牌拖动操作
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].enableAllInCardDragExceptOne(null);
+        }
+
+        // 取消攻击操作
+        public void cancelAttackOp()
+        {
+            if (m_opCard != null)
+            {
+                checkPreAttackOp(m_curOp, m_opCard);
+                endAttackOp();
+            }
         }
 
         // 判断是否在某个操作中

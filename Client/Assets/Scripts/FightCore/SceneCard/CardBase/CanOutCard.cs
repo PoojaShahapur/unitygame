@@ -19,6 +19,13 @@ namespace FightCore
             m_onEnterHandleEntryDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
+        override public void dispose()
+        {
+            m_startAni.dispose();
+            m_startAni = null;
+            base.dispose();
+        }
+
         // 设置一些基本信息
         override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
         {

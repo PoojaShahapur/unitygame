@@ -27,6 +27,7 @@ namespace FightCore
 
         }
 
+        // 这个函数不用了
         public virtual void startCardMoveTo()
         {
             updateSceneCardST();
@@ -39,46 +40,47 @@ namespace FightCore
             UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_cardHandAreaWidthArr[(int)m_playerFlag], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
         }
 
-        public virtual void addCard(SceneCardBase card)
-        {
-            m_sceneCardList.Add(card);
-        }
-
-        public void removeCard(SceneCardBase card)
+        // 通过客户端的数据移除一张卡牌
+        override public void removeCard(SceneCardBase card)
         {
             // 移除监听器
             // card.m_moveDisp = null;
-            card.dragControl.disableDrag();
-            m_sceneCardList.Remove(m_sceneDZData.m_curDragItem);
+            if (card.dragControl != null)       // Enemy Hand 手牌没有拖动
+            {
+                card.dragControl.disableDrag();
+            }
+            base.removeCard(m_sceneDZData.m_curDragItem);
         }
 
-        // 敌人发牌和自己发牌都走这里(除自己开始发牌到场景的 4 张牌)
-        public void addSceneCard(uint objid, SceneCardItem sceneItem)
+        // 敌人发牌和自己发牌都走这里(除自己开始发牌到场景的 4 张牌)，通过服务器卡牌数据添加卡牌
+        public void addCardByIdAndItem(uint objid, SceneCardItem sceneItem)
         {
             SceneCardBase tmpcard = null;
             if (SceneDZCV.BLACK_CARD_ID == objid)   // 如果是 enemy 手牌，由于没有 m_sceneCardItem 数据，只能使用 id 创建
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCardById(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
                 tmpcard.startEnemyFaPaiAni();       // 播放动画
             }
             else
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
+                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
                 tmpcard.start2HandleAni();          // 播放动画
             }
-            tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
-            addCard(tmpcard);
+            addCard(tmpcard, -1);
             tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
-            //updateSceneCardST();
-            updateCardIndex();
+            //updateSceneCardST();      // 这个需要等到卡牌到手牌位置再更新
+            //updateCardIndex();
         }
 
         // 清空卡牌列表
         public void clearSceneCardList()
         {
-            foreach(SceneCardBase card in m_sceneCardList.list)
+            int idx = m_sceneCardList.Count() - 1;
+            for(; idx >= 0; --idx)
             {
-                UtilApi.Destroy(card.gameObject());
+                m_sceneCardList[idx].dispose();         // 这个地方内部删除的时候会从 m_sceneCardList 这个列表中删除数据，防止遍历过程中删除数据，因此从后向前遍历数据
             }
 
             m_sceneCardList.Clear();
@@ -102,7 +104,12 @@ namespace FightCore
         public void onOneCardEnterHandleEntry(IDispatchObject card_)
         {
             SceneCardBase _card = card_ as SceneCardBase;
-            updateSceneCardPos(CardArea.CARDCELLTYPE_HAND);       // 开始发送到手牌，只更新位置就行了
+            updateSceneCardPos();       // 开始发送到手牌，只更新位置就行了
+        }
+
+        override public void updateSceneCardPos(bool bUpdateIdx = true)
+        {
+            updateSceneCardPosInternal(CardArea.CARDCELLTYPE_HAND);
         }
     }
 }

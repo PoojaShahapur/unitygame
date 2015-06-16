@@ -13,6 +13,7 @@ namespace FightCore
         protected MList<FightRoundItemBase> m_cacheList; // 缓存的战斗数据列表
         protected EventDispatch m_roundEndDisp;
         protected bool m_bSvrRoundEnd;      // 服务器的战斗回合数据是否结束
+        protected stNotifyBattleCardPropertyUserCmd m_msg;
 
         public FightRound(SceneDZData data)
         {
@@ -44,6 +45,14 @@ namespace FightCore
             set
             {
                 m_bSvrRoundEnd = value;
+            }
+        }
+
+        public stNotifyBattleCardPropertyUserCmd msg
+        {
+            get
+            {
+                return m_msg;
             }
         }
 

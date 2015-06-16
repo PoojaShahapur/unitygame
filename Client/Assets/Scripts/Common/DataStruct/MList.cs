@@ -73,5 +73,10 @@ namespace SDK.Common
         {
             m_list.Insert(index, item);
         }
+
+        public bool Contains(T item)
+        {
+            return m_list.Contains(item);
+        }
     }
 }

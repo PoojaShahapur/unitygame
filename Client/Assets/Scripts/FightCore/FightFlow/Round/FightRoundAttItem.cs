@@ -59,7 +59,7 @@ namespace FightCore
             }
         }
 
-        // 法术攻击有攻击木目标，如果不用选择攻击目标的法术攻击，服务器发送过来的攻击者是释放一边的主角，技能攻击可能给自己回血，也可能给对方伤血
+        // 法术攻击有攻击木目标，如果不用选择攻击目标的法术攻击，服务器发送过来的攻击者是释放一边的英雄，技能攻击可能给自己回血，也可能给对方伤血
         protected void skillAttack(stNotifyBattleCardPropertyUserCmd msg)
         {
             Ctx.m_instance.m_logSys.log("[Fight] 开始一次技能攻击");

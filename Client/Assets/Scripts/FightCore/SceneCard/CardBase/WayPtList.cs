@@ -20,11 +20,17 @@ namespace FightCore
         public WayPtList()
         {
             m_ptList = new MList<WayPtItem>((int)PosType.eTotal);
-            int idx = 0;
-            for(idx = 0; idx < (int)PosType.eTotal; ++idx)
-            {
-                m_ptList.Add(null);
-            }
+            m_ptList.Add(new WayPtItem());
+            m_ptList[(int)PosType.eHandDown].rot = new UnityEngine.Vector3(0, 0, -3);
+            m_ptList[(int)PosType.eHandDown].scale = new UnityEngine.Vector3(0.5f, 0.5f, 0.5f);
+
+            m_ptList.Add(new WayPtItem());
+            m_ptList[(int)PosType.eHandUp].rot = new UnityEngine.Vector3(0, 0, 0);
+            m_ptList[(int)PosType.eHandUp].scale = new UnityEngine.Vector3(1, 1, 1);
+
+            m_ptList.Add(new WayPtItem());
+            m_ptList[(int)PosType.eOutDown].rot = new UnityEngine.Vector3(0, 0, 0);
+            m_ptList[(int)PosType.eOutDown].scale = new UnityEngine.Vector3(1, 1, 1);
         }
 
         public void setPosInfo(PosType wherePos, WayPtItem pos)

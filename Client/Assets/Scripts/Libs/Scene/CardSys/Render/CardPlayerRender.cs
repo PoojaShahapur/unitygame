@@ -29,6 +29,21 @@ namespace SDK.Lib
             }
         }
 
+        override public void show()
+        {
+            UtilApi.SetActive(m_model.selfGo, true);
+        }
+
+        override public void hide()
+        {
+            UtilApi.SetActive(m_model.selfGo, false);
+        }
+
+        override public bool bVisible()
+        {
+            return UtilApi.IsActive(m_model.selfGo);
+        }
+
         override public void dispose()
         {
             if (m_model != null)

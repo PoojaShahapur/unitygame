@@ -21,6 +21,19 @@ namespace FightCore
             m_onEnterHandleEntryDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
+        override public void dispose()
+        {
+            Ctx.m_instance.m_logSys.log("客户端彻底删除 Enemy Hand 卡牌");
+            m_startAni.dispose();
+            m_startAni = null;
+            base.dispose();
+        }
+
+        override protected void removeRef()
+        {
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].removeOneCard(this);
+        }
+
         override public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
             (m_render as BlackCardRender).setIdAndPnt(objId, pntGo_);

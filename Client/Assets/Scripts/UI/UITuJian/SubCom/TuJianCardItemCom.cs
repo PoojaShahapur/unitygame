@@ -19,7 +19,7 @@ namespace Game.UI
 
         }
 
-        public void createCard(CardItemBase cardItem, GameObject pntGo_)
+        override public void createCard(CardItemBase cardItem, GameObject pntGo_)
         {
             base.createCard(cardItem, pntGo_);
 

@@ -39,7 +39,18 @@ namespace SDK.Lib
         override public void stop()
         {
             base.stop();
-            m_spriteRender.sprite = null;
+            if (m_spriteRender != null)
+            {
+                if (!m_bKeepLastFrame)
+                {
+                    m_spriteRender.sprite = null;
+                    //m_spriteRender = null;
+                }
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("spriteRender 释放的时候已经为空值");
+            }
         }
 
         override protected void onPntChanged()
