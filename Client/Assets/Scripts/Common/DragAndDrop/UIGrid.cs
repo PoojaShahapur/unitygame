@@ -12,7 +12,7 @@ using SDK.Lib;
 /// If you want the cells to automatically set their scale based on the dimensions of their content, take a look at UITable.
 /// </summary>
 
-public class UIGrid : SceneComponent
+public class UIGrid : AuxSceneComponent
 {
 	public delegate void OnReposition ();
 

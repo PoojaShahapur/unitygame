@@ -42,8 +42,6 @@ namespace FightCore
 
                 ++idx;
             }
-
-            //updateCardIndex();
         }
 
         // 替换初始卡牌
@@ -77,7 +75,7 @@ namespace FightCore
         }
 
         // 自己的开拍需要监听卡牌的拖动
-        public override void addCard(SceneCardBase card, int idx = 0)
+        public override void addCard(SceneCardBase card, int idx = -1)
         {
             base.addCard(card, idx);
             // 需要监听卡牌的拖动
@@ -85,7 +83,7 @@ namespace FightCore
         }
 
         // 移动初始卡牌到手牌列表，更新场景卡牌位置
-        public override void startCardMoveTo()
+        override public void startCardMoveTo()
         {
             int idx = 0;
             SceneCardBase cardItem;
@@ -104,8 +102,6 @@ namespace FightCore
 
                 ++idx;
             }
-
-            //base.startCardMoveTo();
         }
 
         override public void disableAllCardDragExceptOne(SceneCardBase card)

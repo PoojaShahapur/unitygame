@@ -7,7 +7,7 @@ namespace FightCore
     /**
      * @brief 对战场景中的幸运币
      */
-    public class LuckCoinCard : SceneComponent
+    public class LuckCoinCard : AuxSceneComponent
     {
         // Use this for initialization
         public override void Start()

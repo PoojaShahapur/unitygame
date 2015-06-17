@@ -14,11 +14,8 @@ namespace FightCore
 
         public RoundBtn m_roundBtn;          // 翻转按钮，结束当前一局
         public LuckCoinCard m_luckCoin; // 对战场景中的幸运币
-        public SelfTurnTip m_selfTurnTip;               // 自己回合提示
+        public SelfRoundTip m_selfRoundTip;               // 自己回合提示
         public SelfCardFullTip m_selfCardFullTip;   // 自己卡牌满
-
-        public AuxLabel[] m_textArr;
-        public UIGrid[] m_mpGridArr;
 
         public GameObject m_centerGO;                   // 中心 GO ，所有场景中的牌都放在这个上面
         public GameObject m_startGO;                    // 开始按钮
@@ -44,12 +41,11 @@ namespace FightCore
         protected bool m_bAddselfCard = false;  // 是否有自己的初始卡牌
 
         public GameObject m_timerGo;            // 定时器节点
-        public DJSTimer m_DJSTimer;             // 定时器
+        public DJSNum m_DJSNum;             // 定时器
         public List<uint> m_changeCardList;     // 在初始阶段，选中的需要交换卡牌
         public DZDaoJiShiXmlLimit m_DZDaoJiShiXmlLimit;
 
         public FightMsgMgr m_fightMsgMgr;
-        //public GameObject[] m_initCardPlaceHolder;
 
         public SceneDZData()
         {
@@ -61,17 +57,14 @@ namespace FightCore
             m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
             m_roundBtn = new RoundBtn();
             m_luckCoin = new LuckCoinCard();
-            m_selfTurnTip = new SelfTurnTip();
+            m_selfRoundTip = new SelfRoundTip();
             m_selfCardFullTip = new SelfCardFullTip();
-            m_textArr = new AuxLabel[(int)EnSceneDZText.eTotal];
-            m_mpGridArr = new UIGrid[(int)EnSceneDZText.eTotal];
             m_cardCenterGOArr = new GameObject[2, 6];
             m_changeCardList = new List<uint>();
 
             m_fightMsgMgr = new FightMsgMgr(this);
 
             m_bHeroAniEnd = true;
-            //m_initCardPlaceHolder = new GameObject[4];
         }
 
         public void findWidget()
@@ -79,7 +72,7 @@ namespace FightCore
             m_roundBtn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));
             m_roundBtn.m_sceneDZData = this;
             //m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
-            m_selfTurnTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
+            m_selfRoundTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
             m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
             m_selfCardFullTip.m_desc = new AuxLabel(m_selfCardFullTip.getGameObject(), CVSceneDZPath.SelfCardFullTipText);
             m_selfCardFullTip.getGameObject().SetActive(false);
@@ -143,25 +136,6 @@ namespace FightCore
             m_attackArrowGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowStartPosGO);
             m_arrowListGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowListGO);
             m_timerGo = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TimerGo);
-
-            m_textArr[(int)EnSceneDZText.eSelfMp] = new AuxLabel(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpText));
-            m_textArr[(int)EnSceneDZText.eEnemyMp] = new AuxLabel(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpText));
-
-            m_mpGridArr[(int)EnDZPlayer.ePlayerSelf] = new UIGrid();
-            m_mpGridArr[(int)EnDZPlayer.ePlayerSelf].setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpList));
-            m_mpGridArr[(int)EnDZPlayer.ePlayerSelf].maxPerLine = 10;
-            m_mpGridArr[(int)EnDZPlayer.ePlayerSelf].cellWidth = 0.284f;
-            m_mpGridArr[(int)EnDZPlayer.ePlayerSelf].cellHeight = 0.284f;
-            m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy] = new UIGrid();
-            m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy].setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpList));
-            m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy].maxPerLine = 10;
-            m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy].cellWidth = 0.284f;
-            m_mpGridArr[(int)EnDZPlayer.ePlayerEnemy].cellHeight = 0.284f;
-
-            //m_initCardPlaceHolder[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.FirstInitCardGO);
-            //m_initCardPlaceHolder[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SecondInitCardGO);
-            //m_initCardPlaceHolder[2] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ThirdInitCardGO);
-            //m_initCardPlaceHolder[3] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ForthInitCardGO);
         }
 
         public void addEventHandle()
@@ -178,6 +152,9 @@ namespace FightCore
             m_historyArea.m_sceneDZData = this;
             m_attackArrow = new AttackArrow(this);
             m_gameOpState = new GameOpState(this);
+
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].crystalPtPanel.findWidget();
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].crystalPtPanel.findWidget();
         }
 
         public void dispose()
@@ -187,6 +164,10 @@ namespace FightCore
             stopTimer();
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].dispose();
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].dispose();
+
+            m_roundBtn.dispose();
+            m_selfRoundTip.dispose();
+            m_selfCardFullTip.dispose();
         }
 
         public bool bHeroAniEnd
@@ -237,14 +218,6 @@ namespace FightCore
                 m_curWhiteIdx = value;
             }
         }
-
-        //public void createMovePath(SceneCardBase card, Transform startPos, Transform destPos)
-        //{
-        //    card.trackAniControl.startPos = startPos.localPosition;
-        //    card.trackAniControl.destPos = destPos.localPosition;
-
-        //    card.trackAniControl.moveToDestST();
-        //}
 
         public SceneCardBase getUnderSceneCard()
         {
@@ -303,7 +276,7 @@ namespace FightCore
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.addInitCard();
         }
 
-        // 启动定时器
+        // 启动初始化定时器
         public void startInitCardTimer()
         {
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem4));
@@ -311,16 +284,17 @@ namespace FightCore
             if (m_timer == null)
             {
                 m_timer = new TimerItemBase();
-                m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_preparetime - m_DZDaoJiShiXmlLimit.m_lastpreparetime;
-                m_timer.m_totalTime = m_timer.m_internal;
-                m_timer.m_timerDisp = onTimerInitCardHandle;
-
-                Ctx.m_instance.m_timerMgr.addObject(m_timer);
             }
             else
             {
-                m_timer.reset();
+                m_timer.reset();        // 重置内部数据
             }
+
+            m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_preparetime - m_DZDaoJiShiXmlLimit.m_lastpreparetime;
+            m_timer.m_totalTime = m_timer.m_internal;
+            m_timer.m_timerDisp = onTimerInitCardHandle;
+
+            Ctx.m_instance.m_timerMgr.addObject(m_timer);
         }
 
         // 开始对战定时器
@@ -331,38 +305,17 @@ namespace FightCore
             if (m_timer == null)
             {
                 m_timer = new TimerItemBase();
-                m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_roundtime - m_DZDaoJiShiXmlLimit.m_lastroundtime;
-                m_timer.m_totalTime = m_timer.m_internal;
-                m_timer.m_timerDisp = onTimerDZHandle;
-
-                Ctx.m_instance.m_timerMgr.addObject(m_timer);
             }
             else
             {
                 m_timer.reset();    // 重置参数
             }
-        }
 
-        // 改变定时器参数为回合倒计时定时器参数
-        public void changeTimer()
-        {
-            Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem6));
+            m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_roundtime - m_DZDaoJiShiXmlLimit.m_lastroundtime;
+            m_timer.m_totalTime = m_timer.m_internal;
+            m_timer.m_timerDisp = onTimerDZHandle;
 
-            if (m_timer != null)
-            {
-                m_timer.reset();
-                m_timer.m_internal = m_DZDaoJiShiXmlLimit.m_roundtime - m_DZDaoJiShiXmlLimit.m_lastroundtime;
-                m_timer.m_totalTime = m_timer.m_internal;
-                m_timer.m_timerDisp = onTimerDZHandle;
-
-                Ctx.m_instance.m_timerMgr.addObject(m_timer);
-            }
-        }
-
-        // 重置定时器
-        protected void resetTimer()
-        {
-            m_timer.reset();
+            Ctx.m_instance.m_timerMgr.addObject(m_timer);
         }
 
         // 停止定时器
@@ -374,6 +327,11 @@ namespace FightCore
             {
                 Ctx.m_instance.m_timerMgr.delObject(m_timer);
             }
+
+            if (m_DJSNum != null)
+            {
+                m_DJSNum.stopTimer();
+            }
         }
 
         // 开始卡牌倒计时
@@ -382,12 +340,12 @@ namespace FightCore
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem8));
 
             // 开始显示倒计时数据
-            if (m_DJSTimer == null)
+            if (m_DJSNum == null)
             {
-                m_DJSTimer = new DJSTimer(m_timerGo);
+                m_DJSNum = new DJSNum(m_timerGo);
             }
 
-            m_DJSTimer.startTimer();
+            m_DJSNum.startTimer();
         }
 
         // 每一回合倒计时
@@ -396,12 +354,12 @@ namespace FightCore
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem9));
 
             // 开始显示倒计时数据
-            if (m_DJSTimer == null)
+            if (m_DJSNum == null)
             {
-                m_DJSTimer = new DJSTimer(m_timerGo);
+                m_DJSNum = new DJSNum(m_timerGo);
             }
 
-            m_DJSTimer.startTimer();
+            m_DJSNum.startTimer();
         }
 
         // 获取拖动时候卡牌的高度

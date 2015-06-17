@@ -22,18 +22,18 @@ namespace FightCore
         }
 
         // 替换初始卡牌
-        public virtual void replaceInitCard()
+        virtual public void replaceInitCard()
         {
 
         }
 
         // 这个函数不用了
-        public virtual void startCardMoveTo()
+        virtual public void startCardMoveTo()
         {
-            updateSceneCardST();
+            
         }
 
-        protected override void getCardPos()
+        override protected void getCardPos()
         {
             m_posList.Clear();
             m_rotList.Clear();
@@ -43,13 +43,12 @@ namespace FightCore
         // 通过客户端的数据移除一张卡牌
         override public void removeCard(SceneCardBase card)
         {
-            // 移除监听器
-            // card.m_moveDisp = null;
+            // 关闭拖拽功能
             if (card.dragControl != null)       // Enemy Hand 手牌没有拖动
             {
                 card.dragControl.disableDrag();
             }
-            base.removeCard(m_sceneDZData.m_curDragItem);
+            base.removeCard(card);
         }
 
         // 敌人发牌和自己发牌都走这里(除自己开始发牌到场景的 4 张牌)，通过服务器卡牌数据添加卡牌
@@ -68,10 +67,8 @@ namespace FightCore
                 tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
                 tmpcard.start2HandleAni();          // 播放动画
             }
-            addCard(tmpcard, -1);
+            addCard(tmpcard);
             tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
-            //updateSceneCardST();      // 这个需要等到卡牌到手牌位置再更新
-            //updateCardIndex();
         }
 
         // 清空卡牌列表

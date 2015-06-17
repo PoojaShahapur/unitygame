@@ -103,12 +103,14 @@ namespace FightCore
             return null;
         }
 
-        public void removeAndDestroy(SceneCardBase card)
-        {
-            this.delObject(card);
-            card.dispose();
-        }
+        // 不在提供这个接口，需要释放对象，直接调用对象的 dispose 接口
+        //public void removeAndDestroy(SceneCardBase card)
+        //{
+        //    this.delObject(card);
+        //    card.dispose();
+        //}
 
+        // 提供全部释放的接口
         public void removeAndDestroyAll(SceneCardBase card)
         {
             int idx = m_sceneEntityList.Count;

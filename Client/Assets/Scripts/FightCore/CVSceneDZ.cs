@@ -6,13 +6,13 @@ namespace FightCore
     {
         public const string TurnBtn = "jieshu_zhanchang";
         //public const string LuckyCoin = "luckycoin";
-        public const string SelfTurnTip = "youturntip";
-        public const string SelfCardFullTip = "SelfCardFullTip";
+        public const string SelfTurnTip = "DuiZhan/SelfRoundEffect";
+        public const string SelfCardFullTip = "DuiZhan/SelfCardFullTip";
         public const string SelfCardFullTipText = "Canvas/Text";
         public const string MyCardDeap = "paiku_zhanchang";
         public const string EnemyCardDeap = "paiku_zhanchang";
 
-        public const string CenterGO = "dzban";         // 中心位置，所有的牌的相对位置都是相对这个位置
+        public const string CenterGO = "CenterGo";         // 中心位置，所有的牌的相对位置都是相对这个位置
 
         public const string SelfStartCardCenterGO = "PlaceHolder/SelfStartCard";
         public const string EnemyStartCardCenterGO = "PlaceHolder/EnemyStartCard";
@@ -34,30 +34,16 @@ namespace FightCore
 
         public const string ArrowStartPosGO = "PlaceHolder/ArrowStartPos";
         public const string ArrowListGO = "PlaceHolder/ArrowStartPos/ArrowList";
+        public const string StartGO = "DuiZhan/StartBtn";
 
-        public const string StartGO = "dz/StartBtn";
-        public const string EndBtn = "EndBtn";
-
-        public const string SelfMpText = "dz/UIGo/Canvas/SelfMPText";
-        public const string EnemyMpText = "dz/UIGo/Canvas/EnemyMPText";
-        public const string SelfMpList = "dz/SelfGo/MpListGo";
-        public const string EnemyMpList = "dz/EnemyGo/MpListGo";
-        public const string HistoryGo = "HistoryGo";
+        public const string SelfMpText = "DuiZhan/UIGo/Canvas/SelfMPText";
+        public const string EnemyMpText = "DuiZhan/UIGo/Canvas/EnemyMPText";
+        public const string SelfMpList = "DuiZhan/SelfGo/MpListGo";
+        public const string EnemyMpList = "DuiZhan/EnemyGo/MpListGo";
+        public const string HistoryGo = "DuiZhan/HistoryGo";
         public const string TimerGo = "TimerGo";
 
         public const string CollideBG = "bujian_zhanchang";
-        //public const string FirstInitCardGO = "PlaceHolder/FirstInitCardGO";         // 第一个场景卡牌位置
-        //public const string SecondInitCardGO = "PlaceHolder/SecondInitCardGO";        // 第二个场景卡牌位置
-        //public const string ThirdInitCardGO = "PlaceHolder/ThirdInitCardGO";         // 第三个场景卡牌位置
-        //public const string ForthInitCardGO = "PlaceHolder/ForthInitCardGO";         // 第四个场景卡牌位置
-    }
-
-    public enum EnSceneDZText
-    {
-        eSelfMp,    // 自己的 MP 
-        eEnemyMp,    // 自己的 MP 
-
-        eTotal
     }
 
     public class SceneDZCV
@@ -70,7 +56,8 @@ namespace FightCore
 
         public static Vector3 SMALLFACT = new Vector3(0.5f, 0.5f, 0.5f);    // 小牌时的缩放因子
         public static Vector3 BIGFACT = new Vector3(1.2f, 1.2f, 1.2f);      // 大牌时候的因子
-        public const uint WHITE_CARDID = uint.MaxValue - 1;      // 白色的占位卡牌 ID
+        public const uint WHITE_CARDID = uint.MaxValue - 1;     // 白色的占位卡牌 ID
         public const uint BLACK_CARD_ID = uint.MaxValue;        // 敌人背面卡 ID
+        public const uint MAX_CRYSTAL = 10;                     // 魔法点最大数量
     }
 }

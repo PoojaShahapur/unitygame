@@ -8,16 +8,11 @@ namespace SDK.Common
       */
     public class DopeSheetAni : NumAniBase
     {
-        protected ControllerRes m_controlRes;
-        protected bool m_bNeedReload;       // 需要重新加载资源
-        protected string m_controlPath;
         protected AnimatorControl m_animatorControl;    // 动画控制器
         protected int m_stateId;        // 播放状态 Id
 
         public DopeSheetAni()
         {
-            m_bNeedReload = false;
-            m_controlPath = null;
             m_animatorControl = new AnimatorControl();
             m_animatorControl.oneAniPlayEndDisp.addEventHandle(onOneAniPlayEnd);
             m_stateId = 0;
@@ -26,12 +21,6 @@ namespace SDK.Common
         // 释放资源
         override public void dispose()
         {
-            if(m_controlRes != null)
-            {
-                Ctx.m_instance.m_controllerMgr.unload(m_controlRes.GetPath(), null);
-                m_controlRes = null;
-            }
-
             m_animatorControl.dispose();
             m_animatorControl = null;
         }
@@ -58,46 +47,19 @@ namespace SDK.Common
 
         public void setControlInfo(string path)
         {
-            if(m_controlPath != path)
-            {
-                m_controlPath = path;
-                m_bNeedReload = true;
-            }
+            m_animatorControl.setControlInfo(path);
         }
 
-        override public void setGO(GameObject go)
+        override public void setGO(GameObject go_)
         {
-            base.setGO(go);
+            base.setGO(go_);
+            m_animatorControl.selfGo = go_;
         }
 
         // 同步更新控制器
         public void syncUpdateControl()
         {
-             if(m_bNeedReload)
-             {
-                 if(m_controlRes != null)
-                 {
-                     Ctx.m_instance.m_controllerMgr.unload(m_controlRes.GetPath(), null);
-                     m_controlRes = null;
-
-                     if(m_animatorControl.animator != null)
-                     {
-                         UtilApi.Destroy(m_animatorControl.animator.runtimeAnimatorController);
-                     }
-                 }
-
-                 m_controlRes = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(m_controlPath);
-
-                 if(m_animatorControl.animator == null)
-                 {
-                     UtilApi.AddAnimatorComponent(m_go);
-                     m_animatorControl.animator = m_go.GetComponent<Animator>();
-                 }
-
-                 m_animatorControl.animator.runtimeAnimatorController = m_controlRes.InstantiateController();
-             }
-
-             m_bNeedReload = false;
+            m_animatorControl.syncUpdateControl();
         }
 
         // 一个动画播放结束
@@ -114,13 +76,13 @@ namespace SDK.Common
         override public void play()
         {
             base.play();
-            m_animatorControl.SetInteger(0, stateId);
+            m_animatorControl.play(stateId);
         }
 
         override public void stop()
         {
             base.stop();
-            m_animatorControl.SetInteger(0, 0);
+            m_animatorControl.stop();
         }
 
         override public void pause()

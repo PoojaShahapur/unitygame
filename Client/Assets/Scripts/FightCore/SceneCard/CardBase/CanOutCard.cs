@@ -21,8 +21,11 @@ namespace FightCore
 
         override public void dispose()
         {
-            m_startAni.dispose();
-            m_startAni = null;
+            if (m_startAni != null)         // 如果对手的场牌是没有这个动画的，因为对手的手牌和场牌是不同的对象，场牌是出到场中才生成的，这个时候没有动画
+            {
+                m_startAni.dispose();
+                m_startAni = null;
+            }
             base.dispose();
         }
 
@@ -31,8 +34,6 @@ namespace FightCore
         {
             dragControl.m_centerPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
             // 设置初始位置为发牌位置
-            //trackAniControl.startPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition;
-            //trackAniControl.destPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
             m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
 
             // 设置是否可以动画
@@ -93,6 +94,13 @@ namespace FightCore
             (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
             UtilApi.setScale(m_render.transform(), Vector3.one);
 
+            // 动画设置
+            if (m_startAni != null)
+            {
+                m_startAni.setGO(this.gameObject());
+                m_startAni.syncUpdateControl();
+            }
+
             if (m_sceneCardBaseData != null)
             {
                 if (m_sceneCardBaseData.m_effectControl != null)
@@ -145,6 +153,13 @@ namespace FightCore
             m_render = new SceneCardPlayerRender(this);
             (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
             updateCardDataChangeBySvr();    // 更新服务器属性
+
+            // 动画设置
+            if (m_startAni != null)
+            {
+                m_startAni.setGO(this.gameObject());
+                m_startAni.syncUpdateControl();
+            }
 
             if (m_sceneCardBaseData != null)
             {

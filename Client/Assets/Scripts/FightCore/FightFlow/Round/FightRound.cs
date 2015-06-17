@@ -14,6 +14,7 @@ namespace FightCore
         protected EventDispatch m_roundEndDisp;
         protected bool m_bSvrRoundEnd;      // 服务器的战斗回合数据是否结束
         protected stNotifyBattleCardPropertyUserCmd m_msg;
+        protected bool m_bHadFightData;     // 是否有战斗数据
 
         public FightRound(SceneDZData data)
         {
@@ -56,6 +57,18 @@ namespace FightCore
             }
         }
 
+        public bool bHadFightData
+        {
+            get
+            {
+                return m_bHadFightData;
+            }
+            set
+            {
+                m_bHadFightData = value;
+            }
+        }
+
         public void addRoundEndHandle(System.Action<IDispatchObject> dispObj)
         {
             m_roundEndDisp.addEventHandle(dispObj);
@@ -69,6 +82,8 @@ namespace FightCore
 
         public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)
         {
+            m_bHadFightData = true;
+            m_msg = msg;        // 保存这个消息，输出日志
             FightRoundItemBase attItem = new FightRoundAttItem(m_sceneDZData);
             attItem.addOneAttackAndHurtEndHandle(onOneAttackAndHurtEndHandle);
             attItem.psstNotifyBattleCardPropertyUserCmd(msg);
@@ -78,6 +93,7 @@ namespace FightCore
 
         public void psstRetRemoveBattleCardUserCmd(stRetRemoveBattleCardUserCmd msg, int side, SceneCardItem sceneItem)
         {
+            m_bHadFightData = true;
             FightRoundItemBase attItem = new FightRoundDelItem(m_sceneDZData);
             attItem.addOneAttackAndHurtEndHandle(onOneAttackAndHurtEndHandle);
             attItem.psstRetRemoveBattleCardUserCmd(msg, side, sceneItem);

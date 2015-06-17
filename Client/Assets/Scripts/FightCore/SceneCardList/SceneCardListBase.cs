@@ -98,7 +98,6 @@ namespace FightCore
                 {
                     cardItem.curIndex = (ushort)idx;
                 }
-                //cardItem.trackAniControl.destPos = m_posList[idx];
 
                 pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(posType);
                 pt.pos = m_posList[idx];
@@ -220,7 +219,7 @@ namespace FightCore
         }
 
         // 通过客户端的卡牌数据添加卡牌
-        virtual public void addCard(SceneCardBase card, int idx = 0)
+        virtual public void addCard(SceneCardBase card, int idx = -1)
         {
             if (idx == -1)
             {
@@ -242,6 +241,40 @@ namespace FightCore
             return m_sceneCardList.Contains(card);
         }
 
+        public bool ContainsByItem(SceneCardItem sceneCardItem)
+        {
+            bool bRet = false;
+            int idx = 0;
+            while (idx < m_sceneCardList.Count())
+            {
+                if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
+                {
+                    bRet = true;
+                    break;
+                }
+                ++idx;
+            }
+
+            return bRet;
+        }
+
+        public SceneCardBase findCardIByItem(SceneCardItem sceneCardItem)
+        {
+            SceneCardBase retCard = null;
+            int idx = 0;
+            while (idx < m_sceneCardList.Count())
+            {
+                if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
+                {
+                    retCard = m_sceneCardList[idx];
+                    break;
+                }
+                ++idx;
+            }
+
+            return retCard;
+        }
+
         // 通过服务器数据移除一张卡牌，并不释放
         public bool removeCardIByItem(SceneCardItem sceneCardItem)
         {
@@ -251,7 +284,6 @@ namespace FightCore
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
-                    //Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
                     m_sceneCardList.RemoveAt(idx);
                     bRet = true;
                     break;
@@ -270,8 +302,9 @@ namespace FightCore
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
-                    Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
-                    m_sceneCardList.RemoveAt(idx);
+                    //Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
+                    //m_sceneCardList.RemoveAt(idx);
+                    m_sceneCardList[idx].dispose();
                     bRet = true;
                     break;
                 }
@@ -281,7 +314,7 @@ namespace FightCore
             return bRet;
         }
 
-        public SceneCardBase removeAndRetCardByItemNoDestroy(SceneCardItem sceneCardItem)
+        public SceneCardBase removeAndRetCardByItem(SceneCardItem sceneCardItem)
         {
             SceneCardBase retCard = null;
             int idx = 0;

@@ -147,7 +147,7 @@ namespace Fight
             }
         }
 
-        // 刷新状态
+        // 刷新状态，战斗开始必然发送
         public void psstRetRefreshBattleStateUserCmd(stRetRefreshBattleStateUserCmd msg)
         {
             // ChallengeState.CHALLENGE_STATE_BATTLE 状态或者是刚开始，或者是中间掉线，然后重新上线
@@ -156,22 +156,19 @@ namespace Fight
                 m_sceneDZData.m_bStartRound = true;
                 // 停止各种倒计时
                 m_sceneDZData.stopTimer();
-                if (m_sceneDZData.m_DJSTimer != null)
-                {
-                    m_sceneDZData.m_DJSTimer.stopTimer();
-                }
 
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
                 {
+                    // 显示自己回合
+                    m_sceneDZData.m_selfRoundTip.playEffect();
+                    m_sceneDZData.m_roundBtn.myTurn();
+
                     // 开始定时器
-                    if (m_sceneDZData.m_timer == null)        // 如果定时器没有
-                    {
-                        m_sceneDZData.startDZTimer();
-                    }
-                    else
-                    {
-                        m_sceneDZData.changeTimer();
-                    }
+                    m_sceneDZData.startDZTimer();
+                }
+                else
+                {
+                    m_sceneDZData.m_roundBtn.enemyTurn();
                 }
 
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].bHaveStartCard())    // 如果自己有初始化的牌
@@ -184,33 +181,23 @@ namespace Fight
             }
         }
 
+        // 只有是自己回合开始的时候才会发送
         public void psstRetRefreshBattlePrivilegeUserCmd(stRetRefreshBattlePrivilegeUserCmd msg)
         {
             // 停止倒计时定时器
             m_sceneDZData.stopTimer();
-            if (m_sceneDZData.m_DJSTimer != null)
-            {
-                m_sceneDZData.m_DJSTimer.stopTimer();
-            }
 
             // 显示各种提示和动画
             if(Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                if (m_sceneDZData.m_bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息已进入对战就发送过来了
+                if (m_sceneDZData.m_bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息一进入对战就发送过来了，但是这个时候是初始卡牌阶段
                 {
-                    m_sceneDZData.m_selfTurnTip.turnBegin();
+                    // 显示自己回合
+                    m_sceneDZData.m_selfRoundTip.playEffect();
                     m_sceneDZData.m_roundBtn.myTurn();
-                    //m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardGreenFrame(true);
 
                     // 开始定时器
-                    if (m_sceneDZData.m_timer == null)        // 如果定时器没有
-                    {
-                        m_sceneDZData.startDZTimer();
-                    }
-                    else
-                    {
-                        m_sceneDZData.changeTimer();
-                    }
+                    m_sceneDZData.startDZTimer();
                 }
             }
             else 
@@ -298,7 +285,7 @@ namespace Fight
 
         public void psstDelEnemyHandCardPropertyUserCmd(stDelEnemyHandCardPropertyUserCmd msg)
         {
-            (m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList as EnemyInSceneCardList).removeEmptyCard();
+            (m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].inSceneCardList as EnemyInSceneCardList).removeAndDestroyEmptyCard(msg.index);
         }
 
         // side 删除的某一方的一个卡牌
@@ -310,6 +297,7 @@ namespace Fight
             }
             else if((int)EDeleteType.OP_FASHUCARD_DELETE == cmd.opType)     // 法术牌攻击的时候，直接删除法术牌，然后从英雄处发出特效攻击
             {
+                Ctx.m_instance.m_logSys.log(string.Format("[Fight] 法术攻击删除一张卡牌 id = {0}", sceneItem.svrCard.qwThisID));
                 m_sceneDZData.m_sceneDZAreaArr[side].removeAndDestroyOneCardByItem(sceneItem);
             }
         }

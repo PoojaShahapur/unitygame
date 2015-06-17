@@ -39,13 +39,18 @@ namespace FightCore
             }
         }
 
-        public void removeEmptyCard()
+        public void removeAndDestroyEmptyCard(byte delIndex)
         {
             // 移除最后一张
-            if(m_sceneCardList.Count() > 0)
+            //if(m_sceneCardList.Count() > 0)
+            //{
+            //    Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[m_sceneCardList.Count() - 1]);
+            //    m_sceneCardList.RemoveAt(m_sceneCardList.Count() - 1);                        // 移除数据
+            //}
+
+            if(delIndex < m_sceneCardList.Count())
             {
-                Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[m_sceneCardList.Count() - 1]);
-                m_sceneCardList.RemoveAt(m_sceneCardList.Count() - 1);                        // 移除数据
+                m_sceneCardList[delIndex].dispose();            // 删除
             }
         }
     }

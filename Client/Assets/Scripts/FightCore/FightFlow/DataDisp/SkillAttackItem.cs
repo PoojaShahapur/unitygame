@@ -10,6 +10,7 @@ namespace FightCore
     {
         protected uint m_skillId;
         protected TableSkillItemBody m_skillTableItem;
+        protected uint m_attThisId;             // 攻击者 this id
         protected MList<uint> m_hurtIdList;     // 被击者 this id 列表
 
         public SkillAttackItem(EAttackType attackType) :
@@ -55,6 +56,18 @@ namespace FightCore
             }
         }
 
+        public uint attThisId
+        {
+            get
+            {
+                return m_attThisId;
+            }
+            set
+            {
+                m_attThisId = value;
+            }
+        }
+
         override public void execAttack(SceneCardBase card)
         {
             card.behaviorControl.execAttack(this);
@@ -69,6 +82,7 @@ namespace FightCore
             {
                 m_hurtIdList.Add(item.qwThisID);
             }
+            m_attThisId = att.sceneCardItem.svrCard.qwThisID;
         }
     }
 }

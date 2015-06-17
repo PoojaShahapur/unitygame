@@ -33,11 +33,11 @@ namespace SDK.Lib
             return effect;
         }
 
-        public void removeAndDestroy(EffectBase effect)
-        {
-            this.delObject(effect);
-            effect.dispose();
-        }
+        //public void removeAndDestroy(EffectBase effect)
+        //{
+        //    this.delObject(effect);
+        //    effect.dispose();
+        //}
 
         // 添加连接特效，固定不动
         public LinkEffect addLinkEffect(int id, GameObject pntGO_, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)

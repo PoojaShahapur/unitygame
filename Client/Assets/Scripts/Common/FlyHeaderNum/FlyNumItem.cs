@@ -1,6 +1,7 @@
 ﻿using SDK.Lib;
 using System;
 using UnityEngine;
+
 namespace SDK.Common
 {
     /**
@@ -35,13 +36,14 @@ namespace SDK.Common
 
         public void play()
         {
-            PosAni posAni = new PosAni();
-            m_numAni = new NumAniParallel();
-            m_numAni.addOneNumAni(posAni);
-            posAni.setTime(5);
-            posAni.setGO(m_num.getParentGo());
-            posAni.destPos = m_num.getPos() + new Vector3(0, 3, 0);
-            m_numAni.play();
+            // 动画
+            //PosAni posAni = new PosAni();
+            //m_numAni = new NumAniParallel();
+            //m_numAni.addOneNumAni(posAni);
+            //posAni.setTime(5);
+            //posAni.setGO(m_num.getParentGo());
+            //posAni.destPos = m_num.getPos() + new Vector3(0, 3, 0);
+            //m_numAni.play();
 
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
@@ -54,6 +56,7 @@ namespace SDK.Common
         protected void endTimer(TimerItemBase timer)
         {
             m_num.dispose();
+
             if(m_aniEndDisp != null)
             {
                 m_aniEndDisp(this);

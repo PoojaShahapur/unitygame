@@ -32,7 +32,7 @@ namespace FightCore
             UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_COMMON].transform, SceneDZCV.COMMON_CARD_WIDTH, m_sceneDZData.m_cardCommonAreaWidthArr[(int)m_playerFlag], 0, m_sceneCardList.Count(), ref m_posList);
         }
 
-        override public void addCard(SceneCardBase card, int idx = 0)
+        override public void addCard(SceneCardBase card, int idx = -1)
         {
             base.addCard(card, idx);
 

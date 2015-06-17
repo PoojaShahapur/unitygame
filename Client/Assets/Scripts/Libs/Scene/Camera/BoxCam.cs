@@ -7,7 +7,7 @@ namespace SDK.Lib
     /// <summary>
     /// 主控制
     /// </summary>
-    public class BoxCam : SceneComponent
+    public class BoxCam : AuxSceneComponent
     {
         // Use this for initialization
         public override void Start()

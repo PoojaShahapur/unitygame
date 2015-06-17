@@ -6,7 +6,7 @@ using Game.UI;
 
 namespace SDK.Lib
 {
-    public class DzCam : SceneComponent
+    public class DzCam : AuxSceneComponent
     {
         protected Transform mycarddeap;
         List<Transform> cs = new List<Transform>();

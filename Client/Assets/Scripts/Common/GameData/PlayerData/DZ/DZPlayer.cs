@@ -22,6 +22,7 @@ namespace SDK.Common
 
         public DZPlayer(EnDZPlayer size)
         {
+            m_recStartCardNum = 0;
             m_side = size;
         }
 

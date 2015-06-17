@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 模拟 MonoBehaviour 中的 GameObject，直接放在场景中的资源的基类，就是保存一个场景中的 GameObject ，没有任何功能
      */
-    public class SceneComponent
+    public class AuxSceneComponent
     {
         protected GameObject gameObject;            // 模拟 MonoBehaviour 中的行为
         public Transform transform;              // 模拟 MonoBehaviour 中的行为

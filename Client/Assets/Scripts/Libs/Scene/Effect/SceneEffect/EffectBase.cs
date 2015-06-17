@@ -36,7 +36,7 @@ namespace SDK.Lib
             }
             set
             {
-                m_bAutoRemove = true;
+                m_bAutoRemove = value;
             }
         }
 

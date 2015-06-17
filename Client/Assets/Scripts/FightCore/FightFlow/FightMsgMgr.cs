@@ -60,7 +60,7 @@ namespace FightCore
             //}
 
             m_curParseRound.psstNotifyBattleCardPropertyUserCmd(msg);
-            nextOneAttactRound();
+            //nextOneAttactRound();
         }
 
         // 删除一个消息
@@ -79,23 +79,35 @@ namespace FightCore
             //}
 
             m_curParseRound.psstRetRemoveBattleCardUserCmd(msg, side, sceneItem);
-            nextOneAttactRound();
+            //nextOneAttactRound();
         }
 
+        // 一个操作开始
         public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
         {
             Ctx.m_instance.m_logSys.log("[Fight] 接收到战斗回合开始指令");
 
-            m_curParseRound = new FightRound(m_sceneDZData);
-            m_curParseRound.addRoundEndHandle(onOneRoundEnd);
-            m_cacheList.Add(m_curParseRound);
+            // 如果是空值才申请，否则就直接使用
+            if (m_curParseRound == null)
+            {
+                m_curParseRound = new FightRound(m_sceneDZData);
+                m_curParseRound.addRoundEndHandle(onOneRoundEnd);
+                //m_cacheList.Add(m_curParseRound);
+            }
         }
 
+        // 一个操作结束
         public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
         {
             Ctx.m_instance.m_logSys.log("[Fight] 接收到战斗回合结束指令");
 
-            m_curParseRound.bSvrRoundEnd = true;
+            if (m_curParseRound.bHadFightData)    // 说明有真正的攻击数据
+            {
+                m_cacheList.Add(m_curParseRound);   // 结束的时候才添加，因为现在有很多只有开始和结束的消息，没有战斗的消息
+                m_curParseRound.bSvrRoundEnd = true;
+                m_curParseRound = null;             // 设置成空值
+                nextOneAttactRound();               // 真正有消息数据的时候，才开始下一场战斗
+            }
         }
 
         // 一个战斗回合结束

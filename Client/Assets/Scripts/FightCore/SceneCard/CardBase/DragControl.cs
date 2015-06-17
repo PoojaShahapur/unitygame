@@ -191,27 +191,8 @@ namespace FightCore
                         {
                             if (m_card.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0)         // 如果有攻击目标
                             {
-                                // 之前是法术牌不能拖动，鼠标放下去的时候，放到攻击目标上，就是选择攻击目标
-                                //SceneCardBase sceneCard = m_sceneDZData.getUnderSceneCard();
-                                //if (sceneCard != null)
-                                //{
-                                //    if (m_sceneDZData.m_gameOpState.canAttackOp(sceneCard, EnGameOp.eOpFaShu))     // 判断法术攻击是否可以攻击
-                                //    {
-                                //        // 发送法术攻击消息
-                                //        stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-                                //        cmd.dwAttThisID = m_sceneDZData.m_gameOpState.getOpCardID();
-                                //        cmd.dwMagicType = (uint)m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                                //        cmd.dwDefThisID = sceneCard.sceneCardItem.m_svrCard.qwThisID;
-                                //        UtilMsg.sendMsg(cmd);
-                                //    }
-                                //}
-                                // 现在是和战吼一样处理，先放下去，然后选择目标，然后攻击，如果攻击不成，退回去
                                 // 直接放下去，然后选择攻击目标
                                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
-                                //m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
-                                //m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
-                                //m_card.convOutModel();
-                                //m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardPos();       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                                 m_card.hide();      // 隐藏起来
                                 // 英雄播放攻击准备特效
                                 if (m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect > 0)

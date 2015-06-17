@@ -1076,9 +1076,18 @@ namespace Game.Msg
     // enemy 手里删除一张牌
     public class stDelEnemyHandCardPropertyUserCmd : stHeroCardCmd
     {
+        public byte index;     //0----9[手牌的位置]
+
         public stDelEnemyHandCardPropertyUserCmd()
         {
             byParam = DEL_ENEMY_HAND_CARD_PROPERTY_CMD;
+        }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+
+            ba.readUnsignedInt8(ref index);
         }
     }
 
@@ -1628,7 +1637,7 @@ namespace Game.Msg
 
         public string log()
         {
-            string ret = string.Format("dwMagicType = {0}, \n count = {1} \n A_object = {2} \n, ", dwMagicType, count, A_object.log());
+            string ret = string.Format("整个消息数据\n dwMagicType = {0}, \n count = {1} \n A_object = {2} \n, ", dwMagicType, count, A_object.log());
             for (int idx = 0; idx < defList.Length; ++idx)
             {
                 ret = string.Format("第 {0} 个信息 {1} \n", idx, defList[idx].log());

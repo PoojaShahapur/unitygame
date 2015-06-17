@@ -7,9 +7,23 @@ namespace SDK.Lib
      */
     public class LinkEffect : EffectBase
     {
+        protected System.Object m_linkObject;       // 连接的对象，测试使用
+
         public LinkEffect()
         {
              
+        }
+
+        public System.Object linkObject
+        {
+            get
+            {
+                return m_linkObject;
+            }
+            set
+            {
+                m_linkObject = value;
+            }
         }
 
         override public void setTableID(int tableId)

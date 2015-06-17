@@ -2,7 +2,7 @@
 
 namespace Fight
 {
-    public class HistoryTipsCard : SceneComponent
+    public class HistoryTipsCard : AuxSceneComponent
     {
     }
 }

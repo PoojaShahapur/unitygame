@@ -8,14 +8,22 @@ namespace SDK.Lib
      */
     public class AnimatorControl : IDispatchObject
     {
+        protected ControllerRes m_controlRes;
+        protected bool m_bNeedReload;       // 需要重新加载资源
+        protected bool m_selfGoChanged;     // GameObject 对象改变
+        protected string m_controlPath;
+        protected GameObject m_selfGo;      // 拥有动画控制器的场景 GameObject
+
         protected Animator m_animator;
         protected int m_stateHashId = 0;
         protected int m_stateValue;
         protected float m_stateDampTime = 0.1f;
+
         protected EventDispatch m_oneAniPlayEndDisp;    // 一个动画播放结束
         protected FrameTimerItem m_nextFrametimer;       // 需要下一帧才能获取的数据
         protected FrameTimerItem m_idleStateFrametimer;       // 0 状态监测
         protected TimerItemBase m_oneAniEndTimer;       // 一个动画结束定时器
+
         protected bool m_startPlay;     // 是否直接播放
         //protected AnimatorStateInfo m_state;
         protected bool m_bIdleStateDetect;      // 是否在 Idle State 状态监测中
@@ -26,10 +34,19 @@ namespace SDK.Lib
             m_oneAniPlayEndDisp = new AddOnceEventDispatch();
             m_startPlay = false;
             m_bIdleStateDetect = false;
+            m_bNeedReload = false;
+            m_controlPath = null;
+            m_selfGoChanged = false;
         }
 
         public void dispose()
         {
+            if (m_controlRes != null)
+            {
+                Ctx.m_instance.m_controllerMgr.unload(m_controlRes.GetPath(), null);
+                m_controlRes = null;
+            }
+
             if(m_animator != null)
             {
                 UtilApi.Destroy(m_animator.runtimeAnimatorController);
@@ -40,7 +57,11 @@ namespace SDK.Lib
                 Ctx.m_instance.m_frameTimerMgr.delObject(m_nextFrametimer);
                 m_nextFrametimer = null;
             }
-
+            if (m_idleStateFrametimer != null)
+            {
+                Ctx.m_instance.m_frameTimerMgr.delObject(m_idleStateFrametimer);
+                m_idleStateFrametimer = null;
+            }
             if (m_oneAniEndTimer != null)
             {
                 Ctx.m_instance.m_timerMgr.delObject(m_oneAniEndTimer);
@@ -75,6 +96,69 @@ namespace SDK.Lib
             }
         }
 
+        public GameObject selfGo
+        {
+            get
+            {
+                return m_selfGo;
+            }
+            set
+            {
+                if (m_selfGo != value)
+                {
+                    m_selfGoChanged = true;
+                }
+                m_selfGo = value;
+            }
+        }
+
+        public void setControlInfo(string path)
+        {
+            if (m_controlPath != path)
+            {
+                m_controlPath = path;
+                m_bNeedReload = true;
+            }
+        }
+
+        // 同步更新控制器
+        public void syncUpdateControl()
+        {
+            if (m_bNeedReload)
+            {
+                if (m_controlRes != null)
+                {
+                    Ctx.m_instance.m_controllerMgr.unload(m_controlRes.GetPath(), null);
+                    m_controlRes = null;
+
+                    if (m_animator != null)
+                    {
+                        UtilApi.Destroy(m_animator.runtimeAnimatorController);
+                    }
+                }
+
+                m_controlRes = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(m_controlPath);
+            }
+            if (m_selfGoChanged)
+            {
+                UtilApi.AddAnimatorComponent(m_selfGo);
+                m_animator = m_selfGo.GetComponent<Animator>();
+            }
+
+            if (m_bNeedReload || m_selfGoChanged)
+            {
+                m_animator.runtimeAnimatorController = m_controlRes.InstantiateController();
+
+                if(m_stateValue == 0 && canStopIdleFrameTimer())       // 如果当前在 Idle 状态，并且已经完成到 Idle 状态的切换
+                {
+                    m_animator.enabled = false;
+                }
+            }
+
+            m_bNeedReload = false;
+            m_selfGoChanged = false;
+        }
+
         // 当前是否处于某个动画
         public bool bInAnimator(string aniName, int layerIdx)
         {
@@ -89,7 +173,7 @@ namespace SDK.Lib
             return inTransition;
         }
 
-        public void SetInteger(int id, int value)
+        protected void SetInteger(int id, int value)
         {
             if (m_stateValue == value)
             {
@@ -107,6 +191,16 @@ namespace SDK.Lib
                     normalStateSetInteger(id, value);
                 }
             }
+        }
+
+        public void play(int value)
+        {
+            SetInteger(m_stateHashId, value);
+        }
+
+        public void stop()
+        {
+            SetInteger(m_stateHashId, 0);
         }
 
         //  Idle State 设置状态

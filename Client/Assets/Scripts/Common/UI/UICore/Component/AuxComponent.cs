@@ -143,5 +143,10 @@ namespace SDK.Common
                 UtilApi.SetActive(m_selfGo, false);
             }
         }
+
+        public bool IsVisible()
+        {
+            return UtilApi.IsActive(m_selfGo);
+        }
     }
 }
