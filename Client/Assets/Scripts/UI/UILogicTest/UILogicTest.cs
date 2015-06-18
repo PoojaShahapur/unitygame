@@ -147,7 +147,7 @@ namespace Game.UI
 
         protected void testSpriteEffect()
         {
-            m_linkEffect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eLinkEffect) as LinkEffect;
+            m_linkEffect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eLinkEffect, EffectRenderType.eSpriteEffectRender) as LinkEffect;
             m_linkEffect.setGameObject(m_spriteGo);
             m_linkEffect.setTableID(1);
             m_linkEffect.setLoop(true);

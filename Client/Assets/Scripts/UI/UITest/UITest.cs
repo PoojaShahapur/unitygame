@@ -350,7 +350,7 @@ namespace Game.UI
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
 
-            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eMoveEffect) as MoveEffect;
+            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eMoveEffect, EffectRenderType.eSpriteEffectRender) as MoveEffect;
 
             effect.setPnt(uiDZ.m_sceneDZData.m_centerGO);
             effect.setLoop(false);

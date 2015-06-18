@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SDK.Lib
 {
     /**
      * @brief 特效渲染器比较特殊， Render 中的包含真正的 Render ，其他的模型都是 Render 直接包含显示对象
      */
-    public class EffectSpriteRender : EntityRenderBase
+    public class SpriteEffectRender : EffectRenderBase
     {
         protected SpriteRenderSpriteAni m_spriteRender;
 
-        public EffectSpriteRender(SceneEntityBase entity_) :
+        public SpriteEffectRender(SceneEntityBase entity_) :
             base(entity_)
         {
             m_spriteRender = new SpriteRenderSpriteAni(m_entity);
@@ -72,9 +73,39 @@ namespace SDK.Lib
             return m_spriteRender.checkRender();
         }
 
-        public bool bPlay()
+        override public bool bPlay()
         {
             return m_spriteRender.bPlay();
+        }
+
+        override public void addPlayEndEventHandle(Action<IDispatchObject> handle)
+        {
+            m_spriteRender.playEndEventDispatch.addEventHandle(handle);
+        }
+
+        override public void setSelfGo(GameObject go_)
+        {
+            m_spriteRender.selfGo = go_;
+        }
+
+        override public void setTableID(int tableId)
+        {
+            m_spriteRender.tableID = tableId;
+        }
+
+        override public void setLoop(bool bLoop)
+        {
+            m_spriteRender.bLoop = bLoop;
+        }
+
+        override public void play()
+        {
+            m_spriteRender.play();
+        }
+
+        override public void stop()
+        {
+            m_spriteRender.stop();
         }
     }
 }

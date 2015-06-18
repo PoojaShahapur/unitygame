@@ -9,7 +9,8 @@ namespace SDK.Lib
     {
         protected SceneEntityBase m_linkedEntity;       // 连接的对象，测试使用
 
-        public LinkEffect()
+        public LinkEffect(EffectRenderType renderType) :
+            base(renderType)
         {
              
         }

@@ -9,11 +9,23 @@ namespace SDK.Lib
         protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
         protected bool m_bAutoRemove;       // 特效播放完成是否自动移除
 
-        public EffectBase()
+        public EffectBase(EffectRenderType renderType)
         {
-            m_render = new EffectSpriteRender(this);
+            if (EffectRenderType.eSpriteEffectRender == renderType)
+            {
+                m_render = new SpriteEffectRender(this);
+            }
+            else if (EffectRenderType.eShurikenEffectRender == renderType)
+            {
+                m_render = new ShurikenEffectRender(this);
+            }
+            else if (EffectRenderType.eFxEffectRender == renderType)
+            {
+                m_render = new FxEffectRender(this);
+            }
+
             m_playEndEventDispatch = new AddOnceAndCallOnceEventDispatch();
-            (m_render as EffectSpriteRender).spriteRender.playEndEventDispatch.addEventHandle(onEffectPlayEnd);
+            effectRender.addPlayEndEventHandle(onEffectPlayEnd);
         }
 
         public EventDispatch playEndEventDispatch
@@ -40,6 +52,14 @@ namespace SDK.Lib
             }
         }
 
+        protected EffectRenderBase effectRender
+        {
+            get
+            {
+                return m_render as EffectRenderBase;
+            }
+        }
+
         virtual public void onEffectPlayEnd(IDispatchObject dispObj)
         {
             m_playEndEventDispatch.dispatchEvent(this);
@@ -52,27 +72,27 @@ namespace SDK.Lib
 
         virtual public void setSelfGo(GameObject go_)
         {
-            (m_render as EffectSpriteRender).spriteRender.selfGo = go_;
+            effectRender.setSelfGo(go_);
         }
 
         virtual public void setTableID(int tableId)
         {
-            (m_render as EffectSpriteRender).spriteRender.tableID = tableId;
+            effectRender.setTableID(tableId);
         }
 
         virtual public void setLoop(bool bLoop)
         {
-            (m_render as EffectSpriteRender).spriteRender.bLoop = bLoop;
+            effectRender.setLoop(bLoop);
         }
 
         virtual public void play()
         {
-            (m_render as EffectSpriteRender).spriteRender.play();
+            effectRender.play();
         }
 
         virtual public void stop()
         {
-            (m_render as EffectSpriteRender).spriteRender.stop();
+            effectRender.stop();
         }
 
         override public void dispose()
@@ -99,12 +119,12 @@ namespace SDK.Lib
 
         override public void setPnt(GameObject pntGO_)
         {
-            (m_render as EffectSpriteRender).setPnt(pntGO_);
+            effectRender.setPnt(pntGO_);
         }
 
         public bool bPlay()
         {
-            return (m_render as EffectSpriteRender).bPlay();
+            return effectRender.bPlay();
         }
     }
 }

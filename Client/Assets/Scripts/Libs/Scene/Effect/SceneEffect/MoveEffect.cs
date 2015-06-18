@@ -14,7 +14,8 @@ namespace SDK.Lib
         protected EventDispatch m_moveDestEventDispatch;         // 移动到目标事件分发，注意不是
         protected float m_effectMoveTime;
 
-        public MoveEffect()
+        public MoveEffect(EffectRenderType renderType) :
+            base(renderType)
         {
             m_moveControl = new EffectMoveControl(this);
             m_moveDestEventDispatch = new AddOnceAndCallOnceEventDispatch();
@@ -83,7 +84,7 @@ namespace SDK.Lib
 
         public void syncUpdate()        // 加载资源
         {
-            (m_render as EffectSpriteRender).spriteRender.syncUpdateCom();
+            (m_render as SpriteEffectRender).spriteRender.syncUpdateCom();
         }
 
         public override void dispose()

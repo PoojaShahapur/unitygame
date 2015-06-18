@@ -2,7 +2,8 @@
 {
     public class SceneEffect : EffectBase
     {
-        public SceneEffect()
+        public SceneEffect(EffectRenderType renderType) :
+            base(renderType)
         {
              
         }
