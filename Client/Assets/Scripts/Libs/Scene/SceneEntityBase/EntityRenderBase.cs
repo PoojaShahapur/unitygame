@@ -54,7 +54,7 @@ namespace SDK.Lib
 
         }
 
-        virtual public bool bVisible()
+        virtual public bool IsVisible()
         {
             return true;
         }

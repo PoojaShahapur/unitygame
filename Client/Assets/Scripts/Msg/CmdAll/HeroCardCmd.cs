@@ -1602,6 +1602,7 @@ namespace Game.Msg
     public class stNotifyBattleCardPropertyUserCmd : stHeroCardCmd
     {
         public uint dwMagicType;
+        public byte type;
         public ushort count;
         public t_Card A_object;
         public t_Card[] defList;
@@ -1619,6 +1620,7 @@ namespace Game.Msg
             base.derialize(ba);
 
             ba.readUnsignedInt32(ref dwMagicType);
+            ba.readUnsignedInt8(ref type);
             ba.readUnsignedInt16(ref count);
 
             A_object = new t_Card();
@@ -1658,6 +1660,7 @@ namespace Game.Msg
     //        pDefThisID = 0;
     //    }   
         //DWORD dwMagicType;
+        //BYTE type;      //1,召唤;
         //WORD count;
         //t_Card A_object;    
         //t_Card defList[0];

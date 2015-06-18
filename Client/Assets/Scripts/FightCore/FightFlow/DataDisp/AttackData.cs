@@ -49,6 +49,7 @@ namespace FightCore
             }
         }
 
+        // 攻击一次只能有一个，因此攻击 Item 没有状态
         public void execCurItem(SceneCardBase card)
         {
             m_curAttackItem.execAttack(card);

@@ -1,5 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Common;
+using SDK.Lib;
 
 namespace FightCore
 {
@@ -43,7 +44,15 @@ namespace FightCore
         // 执行当前的受伤操作
         override public void execHurt(SceneCardBase card)
         {
+            Ctx.m_instance.m_logSys.log("[Fight] 开始执行技能被击");
+            base.execHurt(card);
             card.behaviorControl.execHurt(this);
+        }
+
+        override public void onHurtExecEnd(IDispatchObject dispObj)
+        {
+            Ctx.m_instance.m_logSys.log("[Fight] 当前技能被击执行结束");
+            base.onHurtExecEnd(dispObj);
         }
     }
 }

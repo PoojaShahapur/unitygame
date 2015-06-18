@@ -48,7 +48,7 @@ namespace SDK.Common
 
         public int m_faShu;         // 法术
         public int m_zhanHou;       // 战吼
-        public byte m_bNeedFaShuTarget;     // 是否需要法术目标
+        public byte m_bNeedFaShuTarget;     // 是否需要法术目标，这个是出牌后是否需要选择目录，这个技能是否需要在目标位置释放，需要看技能表
         public int m_bNeedZhanHouTarget;    // 战吼需要目标
         public string m_cardDesc;           // 卡牌描述
         public string m_cardHeader;         // 卡牌头像贴图路径，卡牌模型中头像

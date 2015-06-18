@@ -87,7 +87,7 @@ namespace FightCore
         }
 
         // 这个查找不包括敌人手里的黑色卡牌，敌人手牌是没有 m_sceneCardItem 这个字段的
-        public SceneCardBase getCard(uint thidId)
+        public SceneCardBase getCardByThisId(uint thidId)
         {
             foreach(var card in m_sceneEntityList)
             {

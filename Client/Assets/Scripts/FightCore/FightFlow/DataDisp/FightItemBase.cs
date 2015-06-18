@@ -10,7 +10,7 @@ namespace FightCore
     public class FightItemBase : IDispatchObject
     {
         protected float m_delayTime;            // 延迟处理的时间
-        protected uint m_damage;                // 造成的伤害，需要显示伤害数字
+        protected int m_damage;                // 造成的伤害，需要显示伤害数字
         protected t_Card m_svrCard;
 
         public FightItemBase()
@@ -42,7 +42,7 @@ namespace FightCore
             }
         }
 
-        public uint damage
+        public int damage
         {
             get
             {
@@ -75,6 +75,11 @@ namespace FightCore
 
         // 初始化数据
         virtual public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
+        {
+
+        }
+
+        virtual public void initDieItemData(SceneCardBase dieCard, stRetRemoveBattleCardUserCmd msg)
         {
 
         }

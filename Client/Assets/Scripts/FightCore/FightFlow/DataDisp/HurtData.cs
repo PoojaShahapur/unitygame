@@ -44,7 +44,7 @@ namespace FightCore
             m_hurtList.Add(item);
         }
 
-        // 执行队列中的一个 Item，这个必须是有效的
+        // 执行队列中的一个 Item，这个必须是有效的，只有执行完后，才会删除者 Item
         public void getNextItem()
         {
             if (m_hurtList.Count() > 0)
@@ -54,7 +54,7 @@ namespace FightCore
                     if (item.delayTime <= 0 && item.execState== EHurtExecState.eNone)
                     {
                         m_curHurtItem = item;
-                        m_curHurtItem.execState = EHurtExecState.eExec;
+                        m_curHurtItem.startHurt();
                         return;
                     }
                 }
@@ -98,7 +98,7 @@ namespace FightCore
         {
             foreach (var item in m_hurtList.list)
             {
-                if (item.execState == EHurtExecState.eExec)
+                if (item.execState == EHurtExecState.eExecing || item.execState == EHurtExecState.eStartExec)
                 {
                     return true;
                 }
@@ -139,6 +139,11 @@ namespace FightCore
             {
                 ret = new SkillHurtItem(type);
                 ret.delayTime = 1;  // 技能攻击延迟时间有技能攻击飞行特效的时间决定，这里赋值一个默认的值
+            }
+            else if (EHurtType.eDie == type)
+            {
+                ret = new DieItem(type);
+
             }
 
             m_hurtList.Add(ret);

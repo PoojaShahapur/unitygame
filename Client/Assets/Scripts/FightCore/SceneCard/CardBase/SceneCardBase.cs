@@ -22,7 +22,7 @@ namespace FightCore
             m_sceneDZData = data;
         }
 
-        virtual public void init()
+        override public void init()
         {
 
         }

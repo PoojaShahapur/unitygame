@@ -8,6 +8,7 @@
         TABLE_JOB,              // 职业基本表
         TABLE_SPRITEANI,        // 精灵动画基本表
         TABLE_RACE,             // 种族表
+        TABLE_STATE,            // 状态表
 
         eTableTotal             // 表的总数
     }

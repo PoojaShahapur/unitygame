@@ -20,7 +20,7 @@ namespace FSM
 
             if (card.fightData.attackData.curAttackItem.attackType == EAttackType.eCommon)         // 普通攻击需要移动过去
             {
-                SceneCardBase hurtCard = Ctx.m_instance.m_sceneCardMgr.getCard(card.fightData.attackData.curAttackItem.getHurterId());
+                SceneCardBase hurtCard = Ctx.m_instance.m_sceneCardMgr.getCardByThisId(card.fightData.attackData.curAttackItem.getHurterId());
                 card.moveControl.moveToDest(card.behaviorControl.srcPos, hurtCard.transform().localPosition, card.fightData.attackData.curAttackItem.getMoveTime(), card.behaviorControl.onMove2DestEnd);
             }
             else    // 技能攻击不需要移动过去

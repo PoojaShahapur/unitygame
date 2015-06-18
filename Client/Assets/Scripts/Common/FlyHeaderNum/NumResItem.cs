@@ -10,6 +10,7 @@ namespace SDK.Common
     public class NumResItem
     {
         protected int m_num;        // 数字
+        protected bool m_bPositive;     // 负数还是正数
         protected GameObject m_parentGo = UtilApi.createGameObject("NumResParentGO");        // 父节点
         protected List<AuxDynModel> m_childList = new List<AuxDynModel>();
 
@@ -30,6 +31,15 @@ namespace SDK.Common
                 disposeNum();
 
                 m_num = value;
+                if(value > 0)
+                {
+                    m_bPositive = true;
+                }
+                else
+                {
+                    m_bPositive = false;
+                    m_num = -m_num;
+                }
 
                 int left = m_num;
                 int mod = 0;
@@ -51,7 +61,14 @@ namespace SDK.Common
                     curNum = numList[numList.Count - 1 - idx];
                     modelItem = new AuxDynModel();
                     modelItem.pntGo = m_parentGo;
-                    modelItem.modelResPath = string.Format("{0}{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                    if (m_bPositive)
+                    {
+                        modelItem.modelResPath = string.Format("{0}+{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                    }
+                    else
+                    {
+                        modelItem.modelResPath = string.Format("{0}-{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                    }
                     modelItem.syncUpdateModel();
                     UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0));
                     m_childList.Add(modelItem);

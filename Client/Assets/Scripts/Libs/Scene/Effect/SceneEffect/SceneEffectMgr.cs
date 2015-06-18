@@ -28,6 +28,11 @@ namespace SDK.Lib
             {
                 effect = new MoveEffect();
             }
+            else if (EffectType.eSceneEffect == type)
+            {
+                effect = new SceneEffect();
+            }
+
             Ctx.m_instance.m_sceneEffectMgr.addObject(effect);
 
             return effect;

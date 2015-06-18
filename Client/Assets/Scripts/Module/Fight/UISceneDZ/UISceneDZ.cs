@@ -304,15 +304,15 @@ namespace Fight
 
         public void psstRetNotifyHandIsFullUserCmd(stRetNotifyHandIsFullUserCmd msg)
         {
-            m_sceneDZData.m_selfCardFullTip.getGameObject().SetActive(true);
+            m_sceneDZData.m_selfCardFullTip.show();
 
             if (1 == msg.who)            // 如果是自己
             {
-                m_sceneDZData.m_selfCardFullTip.m_desc.text = "自己的卡牌已经满了";
+                m_sceneDZData.m_selfCardFullTip.desc.text = "自己的卡牌已经满了";
             }
             else            // 对方
             {
-                m_sceneDZData.m_selfCardFullTip.m_desc.text = "对方的卡牌已经满了";
+                m_sceneDZData.m_selfCardFullTip.desc.text = "对方的卡牌已经满了";
             }
 
             // 启动定时器
@@ -324,7 +324,7 @@ namespace Fight
 
         public void endSelfFullTip(TimerItemBase timer)
         {
-            m_sceneDZData.m_selfCardFullTip.getGameObject().SetActive(false);
+            m_sceneDZData.m_selfCardFullTip.hide();
         }
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)

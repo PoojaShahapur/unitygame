@@ -293,6 +293,13 @@ namespace SDK.Common
             return UnityEngine.Object.Instantiate(original, position, rotation);
         }
 
+        public static void normalRST(Transform tran)
+        {
+            UtilApi.setPos(tran, new Vector3(0, 0, 0));
+            UtilApi.setRot(tran, new Vector3(0, 0, 0));
+            UtilApi.setScale(tran, Vector3.one);
+        }
+
         public static void normalPosScale(Transform tran)
         {
             //tran.localPosition = Vector3.zero;

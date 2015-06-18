@@ -29,6 +29,7 @@ namespace SDK.Common
             m_dicTable[TableID.TABLE_JOB] = new TableBase("proBase_client.bytes", "proBase_client");
             m_dicTable[TableID.TABLE_SPRITEANI] = new TableBase("FrameAni_client.bytes", "FrameAni_client");
             m_dicTable[TableID.TABLE_RACE] = new TableBase("RaceBase_client.bytes", "RaceBase_client");
+            m_dicTable[TableID.TABLE_STATE] = new TableBase("StateBase_client.bytes", "StateBase_client");
 		}
 
         // 返回一个表
@@ -146,6 +147,10 @@ namespace SDK.Common
                 itemBase.parseBodyByteBuffer<TableSpriteAniItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_RACE == tableID)
+            {
+                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+            }
+            else if (TableID.TABLE_STATE == tableID)
             {
                 itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }

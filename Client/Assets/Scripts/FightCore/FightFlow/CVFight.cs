@@ -17,8 +17,9 @@
 
     public enum EHurtType
     {
-        eCommon,
-        eSkill,
+        eCommon,        // 普通被击
+        eSkill,         // 技能被击
+        eDie,           // 死亡
     }
 
     public enum EHurtItemState
@@ -30,7 +31,8 @@
     public enum EHurtExecState
     {
         eNone,              // 没有执行
-        eExec,              // 这个在执行中
+        eStartExec,         // 将要执行
+        eExecing,           // 这个在执行中
         eEnd,               // 执行结束
     }
 }

@@ -28,6 +28,11 @@ namespace SDK.Lib
         //    }
         //}
 
+        virtual public void init()
+        {
+
+        }
+
         virtual public void show()
         {
             if (m_render != null)
@@ -44,11 +49,11 @@ namespace SDK.Lib
             }
         }
 
-        virtual public bool bVisible()
+        virtual public bool IsVisible()
         {
             if (m_render != null)
             {
-                return m_render.bVisible();
+                return m_render.IsVisible();
             }
 
             return true;

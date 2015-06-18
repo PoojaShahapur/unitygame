@@ -4,6 +4,9 @@ using SDK.Lib;
 
 namespace FightCore
 {
+    /**
+     * @brief 攻击一次只能有一个，因此攻击 Item 没有状态
+     */
     public class AttackItemBase : FightItemBase
     {
         public const float ComAttMoveTime = 0.3f;  // 普通攻击的移动时间
@@ -78,7 +81,7 @@ namespace FightCore
             Ctx.m_instance.m_logSys.log(string.Format("[Fight] 攻击者掉血 {0}", def.sceneCardItem.svrCard.damage));
             if (def.sceneCardItem.svrCard.damage > 0)        // 攻击力可能为 0 
             {
-                m_damage = def.sceneCardItem.svrCard.damage;
+                m_damage = (int)def.sceneCardItem.svrCard.damage;
             }
 
             Ctx.m_instance.m_logSys.log(string.Format("[Fight] 攻击者攻击前属性值 {0}", msg.m_origAttObject.log()));

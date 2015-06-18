@@ -7,22 +7,22 @@ namespace SDK.Lib
      */
     public class LinkEffect : EffectBase
     {
-        protected System.Object m_linkObject;       // 连接的对象，测试使用
+        protected SceneEntityBase m_linkedEntity;       // 连接的对象，测试使用
 
         public LinkEffect()
         {
              
         }
 
-        public System.Object linkObject
+        public SceneEntityBase linkedEntity
         {
             get
             {
-                return m_linkObject;
+                return m_linkedEntity;
             }
             set
             {
-                m_linkObject = value;
+                m_linkedEntity = value;
             }
         }
 

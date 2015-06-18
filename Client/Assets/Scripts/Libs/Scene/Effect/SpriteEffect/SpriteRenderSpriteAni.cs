@@ -107,6 +107,11 @@ namespace SDK.Lib
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], m_tableBody.m_aniPrefabName);
             m_effectPrefab = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
             selfGo = m_effectPrefab.InstantiateObject(path);
+
+            if(m_selfGo == null)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("Load SpritePrefab Path = {0} Failed", path));
+            }
         }
 
         override protected void onSelfChanged()

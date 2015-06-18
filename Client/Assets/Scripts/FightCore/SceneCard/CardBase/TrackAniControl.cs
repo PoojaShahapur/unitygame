@@ -191,5 +191,13 @@ namespace FightCore
             m_curPt = m_wayPtList.getAndAddPosInfo(PosType.eOutDown);
             m_curPt.scale = trans.localScale;
         }
+
+        // Enemy 卡牌初始位置，这个和自己卡牌手里的初始信息是不一样的
+        public void initBlackPos()
+        {
+            m_curPt = m_wayPtList.getPosInfo(PosType.eHandDown);
+            m_curPt.rot = new Vector3(-90, -180, -180);
+            m_curPt.scale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
     }
 }

@@ -10,22 +10,40 @@ namespace FightCore
     /**
      * @brief 点击结束当前一局
      */
-    public class RoundBtn : AuxSceneComponent
+    public class RoundBtn : NpcEntityBase
     {
         public SceneDZData m_sceneDZData;
         public bool m_bNeedTipsInfo = false;     // 是否需要弹出提示框
         public int m_clkTipsCnt = 0;            // 点击提示框次数
+
+        protected AuxStaticModel m_model;
         protected Material m_mat;
 
         protected TextureRes m_selfTex;         // 自己纹理
         protected TextureRes m_enemyTex;        // 别人纹理
         protected LinkEffect m_effect;
 
-        public override void Start()
+        public RoundBtn()
+        {
+            m_model = new AuxStaticModel();
+        }
+
+        public override void init()
         {
             // 添加事件
-            UtilApi.addEventHandle(gameObject, OnBtnClk);
-            m_mat = gameObject.GetComponent<Renderer>().material;
+            UtilApi.addEventHandle(m_model.selfGo, OnBtnClk);
+            m_mat = m_model.selfGo.GetComponent<Renderer>().material;
+        }
+
+        override public GameObject gameObject()
+        {
+            return m_model.selfGo;
+        }
+
+        override public void setGameObject(GameObject rhv)
+        {
+            m_model.selfGo = rhv;
+            init();
         }
 
         override public void dispose()

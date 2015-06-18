@@ -17,6 +17,7 @@ namespace FightCore
         {
             m_sceneCardBaseData = new SceneCardBaseData();
             m_sceneCardBaseData.m_trackAniControl = new TrackAniControl(this);
+            m_sceneCardBaseData.m_trackAniControl.initBlackPos();
             m_render = new BlackCardRender(this);
             m_onEnterHandleEntryDisp = new AddOnceAndCallOnceEventDispatch();
         }

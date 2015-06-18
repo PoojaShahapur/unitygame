@@ -7,9 +7,26 @@ namespace FightCore
     /**
      * @brief 自己回合提示界面
      */
-    public class SelfRoundTip : AuxSceneComponent
+    public class SelfRoundTip : NpcEntityBase
     {
         protected LinkEffect m_effect;
+        protected AuxStaticModel m_model;
+
+        public SelfRoundTip()
+        {
+            m_model = new AuxStaticModel();
+        }
+
+        override public GameObject gameObject()
+        {
+            return m_model.selfGo;
+        }
+
+        override public void setGameObject(GameObject rhv)
+        {
+            m_model.selfGo = rhv;
+        }
+
         // 显示自己回合提示
         //public void turnBegin()
         //{
@@ -37,8 +54,8 @@ namespace FightCore
         {
             if(m_effect == null)
             {
-                m_effect = Ctx.m_instance.m_sceneEffectMgr.addLinkEffect(4, this.gameObject, false);
-                m_effect.linkObject = this;
+                m_effect = Ctx.m_instance.m_sceneEffectMgr.addLinkEffect(15, m_model.selfGo, false);
+                m_effect.linkedEntity = this;
             }
             else
             {

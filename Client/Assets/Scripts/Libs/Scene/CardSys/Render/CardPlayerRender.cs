@@ -39,7 +39,7 @@ namespace SDK.Lib
             UtilApi.SetActive(m_model.selfGo, false);
         }
 
-        override public bool bVisible()
+        override public bool IsVisible()
         {
             return UtilApi.IsActive(m_model.selfGo);
         }

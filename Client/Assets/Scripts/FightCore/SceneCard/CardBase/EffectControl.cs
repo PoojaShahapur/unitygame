@@ -13,6 +13,7 @@ namespace FightCore
         protected LinkEffect m_frameEffect;         // 边框特效
         protected LinkEffect m_skillAttPrepareEffect;         // 技能攻击准备特效
         protected int m_frameEffectId;             // 边框特效 Id
+        protected MList<LinkEffect> m_stateEffectList;
         protected MList<LinkEffect> m_linkEffectList;   // 保存所有添加的连接特效
 
         public EffectControl(SceneCardBase rhv) :
@@ -20,6 +21,13 @@ namespace FightCore
         {
             m_frameEffectId = 4;        // 默认是手牌特效 4 
             m_linkEffectList = new MList<LinkEffect>();
+
+            m_stateEffectList = new MList<LinkEffect>((int)StateID.CARD_STATE_MAX);
+            int idx = 0;
+            for(idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
+            {
+                m_stateEffectList.Add(null);
+            }
         }
 
         public override void init()
@@ -39,6 +47,8 @@ namespace FightCore
             {
                 m_skillAttPrepareEffect = null;
             }
+
+            m_stateEffectList.Clear();
 
             foreach (var effect in m_linkEffectList.list)
             {
@@ -89,6 +99,68 @@ namespace FightCore
             return effect;
         }
 
+        // 添加边框特效
+        protected void addFrameEffect()
+        {
+            if (m_frameEffect == null)
+            {
+                m_frameEffect = addLinkEffect(m_frameEffectId, false, true);
+            }
+        }
+
+        // 添加技能准备特效
+        public void startSkillAttPrepareEffect(int effectId)
+        {
+            if (m_skillAttPrepareEffect == null)
+            {
+                m_skillAttPrepareEffect = addLinkEffect(effectId, false, true);
+            }
+            else
+            {
+                m_skillAttPrepareEffect.setTableID(effectId);
+                if (m_skillAttPrepareEffect.bPlay())
+                {
+                    m_skillAttPrepareEffect.stop();                       // 直接停止掉
+                }
+                m_skillAttPrepareEffect.play();
+            }
+        }
+
+        public void stopSkillAttPrepareEffect()
+        {
+            if (m_skillAttPrepareEffect != null)
+            {
+                m_skillAttPrepareEffect.stop();
+            }
+        }
+
+        public LinkEffect startStateEffect(StateID stateId, int effectId)
+        {
+            if(m_stateEffectList[(int)stateId] == null)
+            {
+                m_stateEffectList[(int)stateId] = addLinkEffect(effectId, false, true);
+            }
+            else
+            {
+                m_stateEffectList[(int)stateId].setTableID(effectId);
+                if (m_stateEffectList[(int)stateId].bPlay())
+                {
+                    m_stateEffectList[(int)stateId].stop();                       // 直接停止掉
+                }
+                m_stateEffectList[(int)stateId].play();
+            }
+
+            return m_stateEffectList[(int)stateId];
+        }
+
+        public void stopStateEffect(StateID stateId)
+        {
+            if (m_stateEffectList[(int)stateId] != null)
+            {
+                m_stateEffectList[(int)stateId].stop();
+            }
+        }
+
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
@@ -132,40 +204,6 @@ namespace FightCore
             }
         }
 
-        protected void addFrameEffect()
-        {
-            if (m_frameEffect == null)
-            {
-                m_frameEffect = addLinkEffect(m_frameEffectId, false, true);
-            }
-        }
-
-        // 添加技能准备特效
-        public void startSkillAttPrepareEffect(int effectId)
-        {
-            if (m_skillAttPrepareEffect == null)
-            {
-                m_skillAttPrepareEffect = addLinkEffect(effectId, true, true);
-            }
-            else
-            {
-                m_skillAttPrepareEffect.setTableID(effectId);
-                if (m_skillAttPrepareEffect.bPlay())
-                {
-                    m_skillAttPrepareEffect.stop();                       // 直接停止掉
-                }
-                m_skillAttPrepareEffect.play();
-            }
-        }
-
-        public void stopSkillAttPrepareEffect()
-        {
-            if (m_skillAttPrepareEffect != null)
-            {
-                m_skillAttPrepareEffect.stop();
-            }
-        }
-
         // 开始转换模型 type == 0 是手牌   1 是场牌
         public void startConvModel(int type)
         {
@@ -180,7 +218,8 @@ namespace FightCore
         {
             if (m_effectRootGO != null)         // 如果存在
             {
-                UtilApi.SetParent(m_effectRootGO, m_card.gameObject());
+                UtilApi.SetParent(m_effectRootGO, m_card.gameObject(), false);
+                UtilApi.normalRST(m_effectRootGO.transform);
             }
 
             if (0 == type)

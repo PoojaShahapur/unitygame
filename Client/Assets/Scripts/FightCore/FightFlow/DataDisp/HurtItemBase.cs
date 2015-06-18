@@ -18,7 +18,8 @@ namespace FightCore
         protected bool m_bDamage;       // 是否是伤血
         protected bool m_bAddHp;        // 是否有回血
 
-        public byte[] m_state;          // 记录状态改变
+        protected byte[] m_changedState;           // 记录状态改变
+        protected byte[] m_curState;        // 当前状态 
 
         public HurtItemBase(EHurtType hurtType)
         {
@@ -26,7 +27,8 @@ namespace FightCore
             m_execState = EHurtExecState.eNone;
             m_hurtExecEndDisp = new AddOnceAndCallOnceEventDispatch();
 
-            m_state = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
+            m_changedState = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
+            m_curState = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
         }
 
         public EHurtType hurtType
@@ -89,11 +91,19 @@ namespace FightCore
             }
         }
 
-        public byte[] state
+        public byte[] changedState
         {
             get
             {
-                return m_state;
+                return m_changedState;
+            }
+        }
+
+        public byte[] curState
+        {
+            get
+            {
+                return m_curState;
             }
         }
 
@@ -102,16 +112,19 @@ namespace FightCore
             base.onTime(delta);
         }
 
+        virtual public void startHurt()
+        {
+            m_execState = EHurtExecState.eStartExec;
+        }
+
         virtual public void execHurt(SceneCardBase card)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 开始执行当前被击");
+            m_execState = EHurtExecState.eExecing;
         }
 
         // 这个是整个受伤执行结束
-        public void onHurtExecEnd(IDispatchObject dispObj)
+        virtual public void onHurtExecEnd(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 当前被击执行结束");
-
             m_execState = EHurtExecState.eEnd;
             m_hurtExecEndDisp.dispatchEvent(this);
         }
@@ -125,7 +138,7 @@ namespace FightCore
             Ctx.m_instance.m_logSys.log(string.Format("[Fight] 被击者掉血 {0}", att.sceneCardItem.svrCard.damage));
             if (att.sceneCardItem.svrCard.damage > 0)
             {
-                m_damage = att.sceneCardItem.svrCard.damage;
+                m_damage = (int)att.sceneCardItem.svrCard.damage;
             }
 
             Ctx.m_instance.m_logSys.log(string.Format("[Fight] 被击者被击前属性值 {0}", msg.m_origDefObject.log()));
@@ -144,7 +157,7 @@ namespace FightCore
 
                 if(srcState != destState)
                 {
-                    UtilMath.checkState((StateID)idx, m_state);     // 设置状态变化标志
+                    UtilMath.setState((StateID)idx, m_changedState);     // 设置状态变化标志
                 }
             }
         }
@@ -181,7 +194,7 @@ namespace FightCore
             int idx = 0;
             for(idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
             {
-                if(UtilMath.checkState((StateID)idx, m_state))
+                if (UtilMath.checkState((StateID)idx, m_changedState))
                 {
                     return true;
                 }

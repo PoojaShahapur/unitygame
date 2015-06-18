@@ -10,6 +10,7 @@
         public string m_effect;             // 效果
         public uint m_skillAttackEffect;    // 技能攻击特效
         public float m_effectMoveTime;      // 移动
+        public int m_bNeedMove;             // 是否弹道特效, 0 不需要 1 需要
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
@@ -17,6 +18,7 @@
             UtilTable.readString(bytes, ref m_name);
             UtilTable.readString(bytes, ref m_effect);
             bytes.readUnsignedInt32(ref m_skillAttackEffect);
+            bytes.readInt32(ref m_bNeedMove);
 
             initDefaultValue();
         }
@@ -29,6 +31,7 @@
             }
 
             m_effectMoveTime = 1;
+            //m_bNeedMove = 1;
         }
     }
 }

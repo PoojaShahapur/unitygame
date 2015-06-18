@@ -74,8 +74,8 @@ namespace FightCore
             //m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
             m_selfRoundTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
             m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
-            m_selfCardFullTip.m_desc = new AuxLabel(m_selfCardFullTip.getGameObject(), CVSceneDZPath.SelfCardFullTipText);
-            m_selfCardFullTip.getGameObject().SetActive(false);
+            m_selfCardFullTip.desc = new AuxLabel(m_selfCardFullTip.gameObject(), CVSceneDZPath.SelfCardFullTipText);
+            m_selfCardFullTip.hide();
 
             m_centerGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CenterGO);
             m_startGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.StartGO);

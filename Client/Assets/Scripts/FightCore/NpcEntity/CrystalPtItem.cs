@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FightCore
 {
-    public class CrystalPtItem
+    public class CrystalPtItem : NpcEntityBase
     {
         protected AuxDynModel m_modelItem;
         
