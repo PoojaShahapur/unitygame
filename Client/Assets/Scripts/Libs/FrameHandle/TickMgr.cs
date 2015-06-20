@@ -10,11 +10,11 @@ namespace SDK.Lib
 {
     public class TickMgr : DelayHandleMgrBase
     {
-        protected List<ProcessObject> m_tickLst = new List<ProcessObject>();
+        protected List<TickProcessObject> m_tickLst;
 
         public TickMgr()
         {
-            
+            m_tickLst = new List<TickProcessObject>();
         }
 
         public void addTick(ITickedObject tickObj, float priority = 0.0f)
@@ -48,7 +48,7 @@ namespace SDK.Lib
                     }
                 }
 
-                ProcessObject processObject = new ProcessObject();
+                TickProcessObject processObject = new TickProcessObject();
                 processObject.m_tickObject = delayObject as ITickedObject;
                 processObject.m_priority = priority;
 
@@ -71,7 +71,7 @@ namespace SDK.Lib
             }
             else
             {
-                foreach(ProcessObject item in m_tickLst)
+                foreach (TickProcessObject item in m_tickLst)
                 {
                     if (item.m_tickObject == delayObject)
                     {
@@ -86,7 +86,7 @@ namespace SDK.Lib
         {
             incDepth();
 
-            foreach (ProcessObject tk in m_tickLst)
+            foreach (TickProcessObject tk in m_tickLst)
             {
                 (tk.m_tickObject as ITickedObject).OnTick(delta);
             }
