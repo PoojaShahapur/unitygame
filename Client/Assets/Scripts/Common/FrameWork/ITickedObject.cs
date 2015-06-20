@@ -1,6 +1,6 @@
 ﻿namespace SDK.Common
 {
-    public interface ITickedObject : IDelayHandleItem
+    public interface ITickedObject
     {
         void OnTick(float delta);
     }

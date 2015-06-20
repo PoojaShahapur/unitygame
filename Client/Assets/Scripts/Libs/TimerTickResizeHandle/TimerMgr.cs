@@ -9,7 +9,6 @@ namespace SDK.Lib
     public class TimerMgr : DelayHandleMgrBase
     {
         protected List<TimerItemBase> m_timerLists = new List<TimerItemBase>();     // 当前所有的定时器列表
-        protected List<TimerItemBase> m_delLists = new List<TimerItemBase>();       // 当前需要删除的定时器
 
         public TimerMgr()
         {
@@ -21,7 +20,7 @@ namespace SDK.Lib
             // 检查当前是否已经在队列中
             if (m_timerLists.IndexOf(delayObject as TimerItemBase) == -1)
             {
-                if (m_duringAdvance)
+                if (bInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -38,15 +37,15 @@ namespace SDK.Lib
             if (m_timerLists.IndexOf(delayObject as TimerItemBase) != -1)
             {
                 (delayObject as TimerItemBase).m_disposed = true;
-                if (m_duringAdvance)
+                if (bInDepth())
                 {
-                    base.addObject(delayObject);
+                    base.delObject(delayObject);
                 }
                 else
                 {
                     foreach (TimerItemBase item in m_timerLists)
                     {
-                        if (item == delayObject)
+                        if (UtilApi.isAddressEqual(item, delayObject))
                         {
                             m_timerLists.Remove(item);
                             break;
@@ -56,27 +55,20 @@ namespace SDK.Lib
             }
         }
 
-        public override void Advance(float delta)
+        public void Advance(float delta)
         {
-            base.Advance(delta);
+            incDepth();
 
             foreach (TimerItemBase timerItem in m_timerLists)
             {
                 timerItem.OnTimer(delta);
                 if (timerItem.m_disposed)        // 如果已经结束
                 {
-                    m_delLists.Add(timerItem);
+                    delObject(timerItem);
                 }
             }
 
-            foreach (TimerItemBase timerItem in m_delLists)
-            {
-                m_timerLists.Remove(timerItem);
-            }
-
-            m_delLists.Clear();
-
-            m_duringAdvance = false;
+            decDepth();
         }
     }
 }

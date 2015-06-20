@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    public class BeingMgr : ITickedObject
+    public class BeingMgr : ITickedObject, IDelayHandleItem
     {
         public List<BeingEntity> m_list = new List<BeingEntity>();
 

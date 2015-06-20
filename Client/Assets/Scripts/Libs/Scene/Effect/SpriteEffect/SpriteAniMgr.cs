@@ -17,7 +17,7 @@ namespace SDK.Lib
 
         public void add2List(ImageSpriteAni entity)
         {
-            if (m_duringAdvance)
+            if (bInDepth())
             {
                 addObject(entity);
             }
@@ -29,7 +29,7 @@ namespace SDK.Lib
 
         public void removeFromeList(ImageSpriteAni entity)
         {
-            if (m_duringAdvance)
+            if (bInDepth())
             {
                 delObject(entity);
             }
@@ -41,10 +41,11 @@ namespace SDK.Lib
 
         virtual public void OnTick(float delta)
         {
-            m_duringAdvance = true;
+            incDepth();
+
             onTickExec(delta);
-            m_duringAdvance = false;
-            onTickEnd();
+
+            decDepth();
         }
 
         virtual protected void onTickExec(float delta)
@@ -56,11 +57,6 @@ namespace SDK.Lib
                     (entity as ImageSpriteAni).onTick(delta);
                 }
             }
-        }
-
-        virtual protected void onTickEnd()
-        {
-            processScheduledObjects();
         }
 
         public SpriteAni createAndAdd()

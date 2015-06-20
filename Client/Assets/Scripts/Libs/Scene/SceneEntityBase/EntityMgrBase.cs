@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    public class EntityMgrBase : DelayHandleMgrBase, ITickedObject
+    public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
         protected List<SceneEntityBase> m_sceneEntityList;
 
@@ -14,7 +14,7 @@ namespace SDK.Lib
 
         override public void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
-            if (m_duringAdvance)
+            if (bInDepth())
             {
                 base.addObject(entity);
             }
@@ -26,7 +26,7 @@ namespace SDK.Lib
 
         override public void delObject(IDelayHandleItem entity)
         {
-            if (m_duringAdvance)
+            if (bInDepth())
             {
                 base.delObject(entity);
             }
@@ -38,20 +38,16 @@ namespace SDK.Lib
 
         virtual public void OnTick(float delta)
         {
-            m_duringAdvance = true;
+            incDepth();
+
             onTickExec(delta);
-            m_duringAdvance = false;
-            onTickEnd();
+
+            decDepth();
         }
 
         virtual protected void onTickExec(float delta)
         {
 
-        }
-
-        virtual protected void onTickEnd()
-        {
-            processScheduledObjects();
         }
 
         public void setClientDispose()

@@ -8,18 +8,17 @@ namespace SDK.Lib
      * @brief 事件分发，之分发一类事件，不同类型的事件使用不同的事件分发
      * @brief 注意，事件分发缺点就是，可能被调用的对象已经释放，但是没有清掉事件处理器，结果造成空指针
      */
-    public class EventDispatch
+    public class EventDispatch : DelayHandleMgrBase
     {
-        protected List<Action<IDispatchObject>> m_handleList = new List<Action<IDispatchObject>>();
-        protected bool m_bInLoop;       // 是否是在循环遍历中
+        protected MList<EventDispatchFunctionObject> m_handleList;
         protected int m_uniqueId;       // 唯一 Id ，调试使用
 
         public EventDispatch()
         {
-            m_bInLoop = false;
+            m_handleList = new MList<EventDispatchFunctionObject>();
         }
 
-        protected List<Action<IDispatchObject>> handleList
+        protected MList<EventDispatchFunctionObject> handleList
         {
             get
             {
@@ -36,30 +35,18 @@ namespace SDK.Lib
             set
             {
                 m_uniqueId = value;
+                m_handleList.uniqueId = m_uniqueId;
             }
         }
 
         // 相同的函数只能增加一次
         virtual public void addEventHandle(Action<IDispatchObject> handle)
         {
-            if (handle != null)
+            EventDispatchFunctionObject funcObject = new EventDispatchFunctionObject();
+            funcObject.m_handle = handle;
+            if (null != handle)
             {
-                // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-                //if (m_handleList.IndexOf(handle) == -1)
-                //{
-                if (!m_bInLoop)
-                {
-                    m_handleList.Add(handle);
-                }
-                else
-                {
-                    Ctx.m_instance.m_logSys.log("looping cannot add element");
-                }
-                //}
-                //else
-                //{
-                //    Ctx.m_instance.m_logSys.log("Event Handle already exist");
-                //}
+                addObject(funcObject);
             }
             else
             {
@@ -67,59 +54,110 @@ namespace SDK.Lib
             }
         }
 
-        public void removeEventHandle(Action<IDispatchObject> handle)
+        override public void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (!m_bInLoop)
+            if (bInDepth())
             {
-                if (!m_handleList.Remove(handle))
-                {
-                    Ctx.m_instance.m_logSys.log("Event Handle not exist");
-                }
+                base.addObject(delayObject, priority);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("looping cannot delete element");
+                // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
+                m_handleList.Add(delayObject as EventDispatchFunctionObject);
+            }
+        }
+
+        public void removeEventHandle(Action<IDispatchObject> handle)
+        {
+            int idx = 0;
+            for (idx = 0; idx < m_handleList.Count(); ++idx)
+            {
+                if (UtilApi.isAddressEqual(m_handleList[idx].m_handle, handle))
+                {
+                    break;
+                }
+            }
+            if (idx < m_handleList.Count())
+            {
+                delObject(m_handleList[idx]);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("Event Handle not exist");
+            }
+        }
+
+        override public void delObject(IDelayHandleItem delayObject)
+        {
+            if (bInDepth())
+            {
+                base.delObject(delayObject);
+            }
+            else
+            {
+                if (!m_handleList.Remove(delayObject as EventDispatchFunctionObject))
+                {
+                    Ctx.m_instance.m_logSys.log("Event Handle not exist");
+                }
             }
         }
 
         virtual public void dispatchEvent(IDispatchObject dispatchObject)
         {
-            try
-            {
-                m_bInLoop = true;
-                foreach (var handle in m_handleList)
+            //try
+            //{
+                incDepth();
+
+                foreach (var handle in m_handleList.list)
                 {
-                    handle(dispatchObject);
+                    if (!handle.m_bClientDispose)
+                    {
+                        handle.m_handle(dispatchObject);
+                    }
                 }
-                m_bInLoop = false;
-            }
-            catch (Exception ex)
-            {
-                Ctx.m_instance.m_logSys.catchLog(ex.ToString());
-            }
+
+                decDepth();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Ctx.m_instance.m_logSys.catchLog(ex.ToString());
+            //}
         }
 
         public void clearEventHandle()
         {
-            if (!m_bInLoop)
+            if (bInDepth())
             {
-                m_handleList.Clear();
+                foreach (var item in m_handleList.list)
+                {
+                    delObject(item);
+                }
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("looping cannot delete element");
+                m_handleList.Clear();
             }
         }
 
         // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
         public bool existEventHandle(Action<IDispatchObject> handle)
         {
-            return m_handleList.IndexOf(handle) != -1;
+            bool bFinded = false;
+            foreach (var item in m_handleList.list)
+            {
+                if (UtilApi.isAddressEqual(item.m_handle, handle))
+                {
+                    bFinded = true;
+                    break;
+                }
+            }
+
+            return bFinded;
         }
 
         public void copyFrom(ResEventDispatch rhv)
         {
-            foreach(var handle in rhv.handleList)
+            foreach(var handle in rhv.handleList.list)
             {
                 m_handleList.Add(handle);
             }

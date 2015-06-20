@@ -143,14 +143,14 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_resizeMgr.addResizeObject(Ctx.m_instance.m_uiMgr as IResizeObject);
         //m_tickMgr.AddTickObj(m_inputMgr as ITickedObject);
         Ctx.m_instance.m_inputMgr.postInit();
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_playerMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_monsterMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_fObjectMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_npcMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_sceneEffectMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_sceneCardMgr as ITickedObject);
-        //Ctx.m_instance.m_tickMgr.addObject(Ctx.m_instance.m_aiSystem.aiControllerMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_playerMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_monsterMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_fObjectMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_npcMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_sceneEffectMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_sceneCardMgr as ITickedObject);
+        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_aiSystem.aiControllerMgr as ITickedObject);
 
         Ctx.m_instance.m_uiMgr.findCanvasGO();
         Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();

@@ -17,9 +17,14 @@ namespace SDK.Lib
             
         }
 
+        public void addTick(ITickedObject tickObj, float priority = 0.0f)
+        {
+            addObject(tickObj as IDelayHandleItem, priority);
+        }
+
         public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
-            if (m_duringAdvance)
+            if (bInDepth())
             {
                 base.addObject(delayObject, priority);
             }
@@ -31,7 +36,7 @@ namespace SDK.Lib
                     if (m_tickLst[i] == null)
                         continue;
 
-                    if (m_tickLst[i].m_listener == delayObject)
+                    if (m_tickLst[i].m_tickObject == delayObject)
                     {
                         return;
                     }
@@ -44,27 +49,31 @@ namespace SDK.Lib
                 }
 
                 ProcessObject processObject = new ProcessObject();
-                processObject.m_listener = delayObject;
+                processObject.m_tickObject = delayObject as ITickedObject;
                 processObject.m_priority = priority;
 
                 if (position < 0 || position >= m_tickLst.Count)
+                {
                     m_tickLst.Add(processObject);
+                }
                 else
+                {
                     m_tickLst.Insert(position, processObject);
+                }
             }
         }
 
         public override void delObject(IDelayHandleItem delayObject)
         {
-            if (m_duringAdvance)
+            if (bInDepth())
             {
-                base.addObject(delayObject);
+                base.delObject(delayObject);
             }
             else
             {
                 foreach(ProcessObject item in m_tickLst)
                 {
-                    if(item.m_listener == delayObject)
+                    if (item.m_tickObject == delayObject)
                     {
                         m_tickLst.Remove(item);
                         break;
@@ -73,14 +82,16 @@ namespace SDK.Lib
             }
         }
 
-        public override void Advance(float delta)
+        public void Advance(float delta)
         {
-            base.Advance(delta);
+            incDepth();
+
             foreach (ProcessObject tk in m_tickLst)
             {
-                (tk.m_listener as ITickedObject).OnTick(delta);
+                (tk.m_tickObject as ITickedObject).OnTick(delta);
             }
-            m_duringAdvance = false;
+
+            decDepth();
         }
     }
 }

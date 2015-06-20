@@ -8,7 +8,7 @@ namespace FightCore
     /**
      * @brief 攻击箭头
      */
-    public class AttackArrow : ITickedObject
+    public class AttackArrow : ITickedObject, IDelayHandleItem
     {
         public SceneDZData m_sceneDZData;
         protected List<ArrowItem> m_arrowList = new List<ArrowItem>();          // 当前显示的箭头

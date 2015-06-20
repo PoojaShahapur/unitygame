@@ -21,7 +21,7 @@ namespace SDK.Lib
             // 检查当前是否已经在队列中
             if (m_timerLists.IndexOf(delayObject as FrameTimerItem) == -1)
             {
-                if (m_duringAdvance)
+                if (bInDepth())
                 {
                     base.addObject(delayObject, priority);
                 }
@@ -38,7 +38,7 @@ namespace SDK.Lib
             if (m_timerLists.IndexOf(delayObject as FrameTimerItem) != -1)
             {
                 (delayObject as TimerItemBase).m_disposed = true;
-                if (m_duringAdvance)
+                if (bInDepth())
                 {
                     base.addObject(delayObject);
                 }
@@ -46,7 +46,7 @@ namespace SDK.Lib
                 {
                     foreach (FrameTimerItem item in m_timerLists)
                     {
-                        if (item == delayObject)
+                        if (UtilApi.isAddressEqual(item, delayObject))
                         {
                             m_timerLists.Remove(item);
                             break;
@@ -56,27 +56,20 @@ namespace SDK.Lib
             }
         }
 
-        public override void Advance(float delta)
+        public void Advance(float delta)
         {
-            base.Advance(delta);
+            incDepth();
 
             foreach (FrameTimerItem timerItem in m_timerLists)
             {
                 timerItem.OnFrameTimer();
                 if (timerItem.m_disposed)
                 {
-                    m_delLists.Add(timerItem);
+                    delObject(timerItem);
                 }
             }
 
-            foreach (FrameTimerItem timerItem in m_delLists)
-            {
-                m_timerLists.Remove(timerItem);
-            }
-
-            m_delLists.Clear();
-
-            m_duringAdvance = false;
+            decDepth();
         }
     }
 }

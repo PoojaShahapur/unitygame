@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Lib;
+using System.Collections.Generic;
 
 namespace SDK.Common
 {
@@ -8,6 +9,7 @@ namespace SDK.Common
     public class MList<T>
     {
         protected List<T> m_list;
+        protected int m_uniqueId;       // 唯一 Id ，调试使用
 
         public MList()
         {
@@ -27,14 +29,26 @@ namespace SDK.Common
             }
         }
 
+        public int uniqueId
+        {
+            get
+            {
+                return m_uniqueId;
+            }
+            set
+            {
+                m_uniqueId = value;
+            }
+        }
+
         public void Add(T item)
         {
             m_list.Add(item);
         }
 
-        public void Remove(T item)
+        public bool Remove(T item)
         {
-            m_list.Remove(item);
+            return m_list.Remove(item);
         }
 
         public T this[int index] 
