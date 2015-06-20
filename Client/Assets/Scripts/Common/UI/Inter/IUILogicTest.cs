@@ -2,5 +2,6 @@
 {
     public interface IUILogicTest : IUIBase
     {
+
     }
 }

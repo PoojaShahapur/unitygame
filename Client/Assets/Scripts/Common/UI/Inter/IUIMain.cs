@@ -2,5 +2,6 @@
 {
     public interface IUIMain : IUIBase
     {
+
     }
 }
