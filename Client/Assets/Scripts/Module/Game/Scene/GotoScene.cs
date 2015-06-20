@@ -90,7 +90,7 @@ namespace Game.Game
                 Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat);      // 退出聊天
 
                 // 请求主角基本数据
-                Ctx.m_instance.m_dataPlayer.reqMainData();
+                //Ctx.m_instance.m_dataPlayer.reqMainData();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using SDK.Common;
+using SDK.Lib;
 
 namespace FightCore
 {
@@ -17,6 +18,11 @@ namespace FightCore
 
             m_render = new SceneCardPlayerRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
+        }
+
+        public override string getDesc()
+        {
+            return string.Format("CardType = AttendCard, CardSide = {0}, CardArea = {1}, CardPos = {2}, CardClientId = {3}, ThisId = {4}", getSideStr(), getAreaStr(), getPos(), m_ClientId, getThisId());
         }
     }
 }

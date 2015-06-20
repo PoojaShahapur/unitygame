@@ -21,6 +21,7 @@ namespace SDK.Common
         public byte attackTimes;    // 每一局已经攻击次数，判断每一局是否能继续攻击，如果有 CARD_STATE_WINDFURY 这个状态就是每一局能攻击 2 次，其它的都只能攻击一次
         public byte equipOpen;      //武器状态(1开启,0关闭)
 
+        public byte side;
         public byte[] state;
 
         public void derialize(ByteBuffer ba)
@@ -41,6 +42,8 @@ namespace SDK.Common
             ba.readUnsignedInt32(ref armor);
             ba.readUnsignedInt8(ref attackTimes);
             ba.readUnsignedInt8(ref equipOpen);
+
+            ba.readUnsignedInt8(ref side);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -65,6 +68,8 @@ namespace SDK.Common
             ba.writeUnsignedInt32(armor);
             ba.writeUnsignedInt8(attackTimes);
             ba.writeUnsignedInt8(equipOpen);
+
+            ba.writeUnsignedInt8(side);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -94,11 +99,13 @@ namespace SDK.Common
                 rhv.state = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
             }
             Array.Copy(state, 0, rhv.state, 0, state.Length);
+
+            side = rhv.side;
         }
 
         public string log()
         {
-            return string.Format("HP = {0}, MaxHP = {1}, ", hp, maxhp);
+            return string.Format("[Fight] Side = {0}, Area = {1}, Pos = {2}, qwThisID = {3}, HP = {4}, MaxHP = {5}", side, pos.dwLocation, pos.y, qwThisID, hp, maxhp);
         }
     }
 

@@ -11,11 +11,17 @@ namespace SDK.Lib
      */
     public class FileLogDevice : LogDeviceBase
     {
-        protected string m_fileSuffix;     // 文件后缀。例如 log_suffix.txt ，suffix 就是后缀
+        protected string m_fileSuffix;      // 文件后缀。例如 log_suffix.txt ，suffix 就是后缀
+        protected string m_filePrefix;      // 文件前缀。例如 prefix_suffix.txt ，prefix 就是前缀
         protected FileStream m_fileStream;
         protected StreamWriter m_streamWriter;
         //protected StackTrace m_stackTrace;
         //protected string m_traceStr;
+
+        public FileLogDevice()
+        {
+            m_filePrefix = "log";
+        }
 
         public string fileSuffix
         {
@@ -26,6 +32,18 @@ namespace SDK.Lib
             set
             {
                 m_fileSuffix = value;
+            }
+        }
+
+        public string filePrefix
+        {
+            get
+            {
+                return m_filePrefix; 
+            }
+            set
+            {
+                m_filePrefix = value;
             }
         }
 
@@ -42,11 +60,11 @@ namespace SDK.Lib
             string file;
             if(string.IsNullOrEmpty(m_fileSuffix))
             {
-                file = string.Format("{0}{1}{2}{3}", path, "/log_", UtilApi.getUTCFormatText(), ".txt");
+                file = string.Format("{0}/{1}_{2}{3}", path, m_filePrefix, UtilApi.getUTCFormatText(), ".txt");
             }
             else
             {
-                file = string.Format("{0}{1}{2}{3}{4}{5}", path, "/log_", m_fileSuffix, "_", UtilApi.getUTCFormatText(), ".txt");
+                file = string.Format("{0}/{1}_{2}{3}{4}{5}", path, m_filePrefix, m_fileSuffix, "_", UtilApi.getUTCFormatText(), ".txt");
             }
             
             if (!Directory.Exists(path))                    // 判断是否存在

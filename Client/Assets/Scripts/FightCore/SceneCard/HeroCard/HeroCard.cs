@@ -103,5 +103,10 @@ namespace FightCore
         {
             (m_render as HeroRender).setIdAndPnt(objId, pntGo_);
         }
+
+        public override string getDesc()
+        {
+            return string.Format("CardType = HeroCard, CardSide = {0}, CardArea = {1}, CardPos = {2}, CardClientId = {3}, ThisId = {4}", getSideStr(), getAreaStr(), getPos(), m_ClientId, getThisId());
+        }
     }
 }

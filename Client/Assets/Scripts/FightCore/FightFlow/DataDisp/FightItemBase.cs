@@ -10,8 +10,9 @@ namespace FightCore
     public class FightItemBase : IDispatchObject
     {
         protected float m_delayTime;            // 延迟处理的时间
-        protected int m_damage;                // 造成的伤害，需要显示伤害数字
+        protected int m_damage;                 // 造成的伤害，需要显示伤害数字
         protected t_Card m_svrCard;
+        protected SceneCardBase m_card;         // 场景中的一个卡牌
 
         public FightItemBase()
         {

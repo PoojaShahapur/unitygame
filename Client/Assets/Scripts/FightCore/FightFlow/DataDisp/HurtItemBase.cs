@@ -133,16 +133,17 @@ namespace FightCore
         {
             base.initItemData(att, def, msg);
 
+            m_card = def;
             m_svrCard = def.sceneCardItem.svrCard;  // 保存这次被击的属性，可能这个会被后面的给改掉
 
-            Ctx.m_instance.m_logSys.log(string.Format("[Fight] 被击者掉血 {0}", att.sceneCardItem.svrCard.damage));
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 被击者掉血 {0}", att.sceneCardItem.svrCard.damage));
             if (att.sceneCardItem.svrCard.damage > 0)
             {
                 m_damage = (int)att.sceneCardItem.svrCard.damage;
             }
 
-            Ctx.m_instance.m_logSys.log(string.Format("[Fight] 被击者被击前属性值 {0}", msg.m_origDefObject.log()));
-            Ctx.m_instance.m_logSys.log(string.Format("[Fight] 被击者被击后属性值 {0}", def.sceneCardItem.svrCard.log()));
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 被击者被击前属性值 {0}", msg.m_origDefObject.log()));
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 被击者被击后属性值 {0}", def.sceneCardItem.svrCard.log()));
             
             m_bDamage = hasDamageHp(msg.m_origDefObject, def.sceneCardItem.svrCard);
             m_bAddHp = hasAddHp(msg.m_origDefObject, def.sceneCardItem.svrCard);

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+
 namespace SDK.Lib
 {
     public class EffectRenderBase : EntityRenderBase
@@ -40,7 +41,7 @@ namespace SDK.Lib
             
         }
 
-        virtual public void onTick(float delta)
+        override public void onTick(float delta)
         {
             
         }

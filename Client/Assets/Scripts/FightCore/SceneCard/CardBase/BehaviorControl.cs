@@ -89,11 +89,12 @@ namespace FightCore
         {
             // 播放攻击动作
             // 播放伤害数字
-            //if (item.damage > 0)
-            //{
-            //    m_card.playFlyNum((int)item.damage);
-            //}
-            Ctx.m_instance.m_logSys.log("[Fight] 开始执行普通攻击 execAttack");
+            if (item.damage > 0)
+            {
+                m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
+                //m_card.playFlyNum((int)item.damage);
+            }
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行普通攻击 execAttack");
             // 更新自己的属性显示
             m_card.updateCardDataChangeBySvr(item.svrCard);
         }
@@ -101,7 +102,7 @@ namespace FightCore
         // 执行普通受伤
         public void execHurt(ComHurtItem item)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 执行普通受伤 execHurt");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 执行普通受伤 execHurt");
 
             LinkEffect effect = null;
             bool bAddEffect = false;
@@ -110,7 +111,7 @@ namespace FightCore
             {
                 if (item.hurtEffectId > 0)       // 如果有特效需要播放，并且被击结束以特效为标准
                 {
-                    Ctx.m_instance.m_logSys.log("[Fight] 执行普通播放受伤特效");
+                    Ctx.m_instance.m_logSys.fightLog("[Fight] 执行普通播放受伤特效");
 
                     bAddEffect = true;
                     effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);     // 被击特效
@@ -164,7 +165,7 @@ namespace FightCore
         // 执行技能攻击
         public void execAttack(SkillAttackItem item)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 开始执行技能攻击 execAttack");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能攻击 execAttack");
             // 技能攻击开始，需要将技能准备特效移除
             if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerFlag].centerHero.sceneCardItem.svrCard.qwThisID == item.attThisId)
             {
@@ -181,11 +182,11 @@ namespace FightCore
                         {
                             if (thisId == m_card.sceneCardItem.svrCard.qwThisID)         // 如果攻击者还是被击者，就不播放攻击特效了
                             {
-                                Ctx.m_instance.m_logSys.log("[Fight] 攻击者 thisId 和被记者 thisId 相同，不播放攻击特效");
+                                Ctx.m_instance.m_logSys.fightLog("[Fight] 攻击者 thisId 和被记者 thisId 相同，不播放攻击特效");
                             }
                             else
                             {
-                                Ctx.m_instance.m_logSys.log("[Fight] 技能攻击播放攻击特效");
+                                Ctx.m_instance.m_logSys.fightLog("[Fight] 技能攻击播放攻击特效");
 
                                 SceneCardBase hurtCard = Ctx.m_instance.m_sceneCardMgr.getCardByThisId(thisId);
                                 m_card.effectControl.addMoveEffect((int)item.skillTableItem.m_skillAttackEffect, m_card.transform().localPosition, hurtCard.transform().localPosition, item.skillTableItem.m_effectMoveTime);  // 攻击特效
@@ -209,7 +210,7 @@ namespace FightCore
         // 执行技能受伤
         public void execHurt(SkillHurtItem item)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 开始执行技能被击 execHurt");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能被击 execHurt");
 
             LinkEffect effect = null;
             bool bAddEffect = false;
@@ -283,7 +284,7 @@ namespace FightCore
         {
             if (item.damage > 0)
             {
-                m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
+                //m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                 m_card.playFlyNum(-item.damage);
             }
         }

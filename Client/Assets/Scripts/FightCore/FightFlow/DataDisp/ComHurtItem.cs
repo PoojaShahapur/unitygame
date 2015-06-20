@@ -29,14 +29,14 @@ namespace FightCore
         // 执行当前的受伤操作
         override public void execHurt(SceneCardBase card)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 开始执行普通被击");
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 开始执行普通被击 {0}", m_card.getDesc()));
             base.execHurt(card);
             card.behaviorControl.execHurt(this);
         }
 
         override public void onHurtExecEnd(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 当前普通被击执行结束");
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 当前普通被击执行结束 {0}", m_card.getDesc()));
             base.onHurtExecEnd(dispObj);
         }
 

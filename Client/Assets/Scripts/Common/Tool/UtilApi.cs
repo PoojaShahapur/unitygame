@@ -505,7 +505,13 @@ namespace SDK.Common
         // 判断两个 GameObject 地址是否相等
         public static bool isAddressEqual(GameObject a, GameObject b)
         {
-            return a == b;
+            return object.ReferenceEquals(a, b);
+        }
+
+        // 判断两个 GameObject 地址是否相等
+        public static bool isAddressEqual(System.Object a, System.Object b)
+        {
+            return object.ReferenceEquals(a, b);
         }
 
         static long scurTime;

@@ -297,7 +297,7 @@ namespace Fight
             }
             else if((int)EDeleteType.OP_FASHUCARD_DELETE == cmd.opType)     // 法术牌攻击的时候，直接删除法术牌，然后从英雄处发出特效攻击
             {
-                Ctx.m_instance.m_logSys.log(string.Format("[Fight] 法术攻击删除一张卡牌 id = {0}", sceneItem.svrCard.qwThisID));
+                Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 法术攻击删除一张卡牌 id = {0}", sceneItem.svrCard.qwThisID));
                 m_sceneDZData.m_sceneDZAreaArr[side].removeAndDestroyOneCardByItem(sceneItem);
             }
         }

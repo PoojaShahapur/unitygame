@@ -16,6 +16,7 @@ namespace SDK.Lib
         public bool m_bOutLog = true;          // 是否输出日志
 
         protected List<LogDeviceBase> m_logDeviceList = new List<LogDeviceBase>();
+        protected List<LogDeviceBase> m_fightLogDeviceList = new List<LogDeviceBase>();
 
         public LogSys()
         {
@@ -38,12 +39,14 @@ namespace SDK.Lib
             logDevice = new WinLogDevice();
             logDevice.initDevice();
             m_logDeviceList.Add(logDevice);
+            m_fightLogDeviceList.Add(logDevice);
 #endif
 
 #if ENABLE_NETLOG
             logDevice = new NetLogDevice();
             logDevice.initDevice();
             m_logDeviceList.Add(logDevice);
+            m_fightLogDeviceList.Add(logDevice);
 #endif
         }
 
@@ -58,6 +61,12 @@ namespace SDK.Lib
             (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
             logDevice.initDevice();
             m_logDeviceList.Add(logDevice);
+
+            logDevice = new FileLogDevice();
+            (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
+            (logDevice as FileLogDevice).filePrefix = "FightLog";   // 战斗日志
+            logDevice.initDevice();
+            m_fightLogDeviceList.Add(logDevice);
 #endif
         }
 
@@ -102,6 +111,18 @@ namespace SDK.Lib
         {
             log("Out Catch Log");
             log(message);
+        }
+
+        // 战斗日志，都是主线程中发送
+        public void fightLog(string message)
+        {
+            if (MThread.isMainThread())
+            {
+                foreach (LogDeviceBase logDevice in m_fightLogDeviceList)
+                {
+                    logDevice.logout(message, LogColor.LOG);
+                }
+            }
         }
 
         public void log(string message)

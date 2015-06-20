@@ -216,6 +216,12 @@ namespace FightCore
             //}
         }
 
+        // 给自己添加一张手牌
+        public void addOneSelfHandCard(CardArea area)
+        {
+
+        }
+
         // 将当前拖放的对象移动会原始位置
         public void moveDragBack()
         {

@@ -1639,10 +1639,16 @@ namespace Game.Msg
 
         public string log()
         {
-            string ret = string.Format("整个消息数据\n dwMagicType = {0}, \n count = {1} \n A_object = {2} \n, ", dwMagicType, count, A_object.log());
+            string ret = "";
+            string tmp = string.Format("[Fight] 整个消息数据\n dwMagicType = {0}, count = {1}", dwMagicType, count);
+            ret = string.Format("{0}\n{1}", ret, tmp);
+            tmp = string.Format("[Fight] A_object = {0}", A_object.log());
+            ret = string.Format("{0}\n{1}", ret, tmp);
+
             for (int idx = 0; idx < defList.Length; ++idx)
             {
-                ret = string.Format("第 {0} 个信息 {1} \n", idx, defList[idx].log());
+                tmp = string.Format("[Fight] 第 {0} 个信息 {1}", idx, defList[idx].log());
+                ret = string.Format("{0}\n{1}", ret, tmp);
             }
 
             return ret;
@@ -1660,7 +1666,7 @@ namespace Game.Msg
     //        pDefThisID = 0;
     //    }   
         //DWORD dwMagicType;
-        //BYTE type;      //1,召唤;
+        //BYTE type;      //1,召唤;2,抽牌
         //WORD count;
         //t_Card A_object;    
         //t_Card defList[0];

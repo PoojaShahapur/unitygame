@@ -70,6 +70,7 @@ namespace FightCore
 
         override public void execAttack(SceneCardBase card)
         {
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 开始执行技能攻击 {0}", m_card.getDesc()));
             card.behaviorControl.execAttack(this);
         }
 

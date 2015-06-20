@@ -37,7 +37,7 @@ namespace FightCore
         // 接收到消息
         public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 接收到攻击数据");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 接收到攻击数据");
 
             m_curParseRound.psstNotifyBattleCardPropertyUserCmd(msg);
             //nextOneAttactRound();
@@ -46,7 +46,7 @@ namespace FightCore
         // 删除一个消息
         public void psstRetRemoveBattleCardUserCmd(stRetRemoveBattleCardUserCmd msg, int side, SceneCardItem sceneItem)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 接收到删除数据");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 接收到删除数据");
 
             m_curParseRound.psstRetRemoveBattleCardUserCmd(msg, side, sceneItem);
             //nextOneAttactRound();
@@ -55,7 +55,7 @@ namespace FightCore
         // 一个操作开始
         public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 接收到战斗回合开始指令");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 接收到战斗回合开始指令");
 
             // 如果是空值才申请，否则就直接使用
             if (m_curParseRound == null)
@@ -69,9 +69,9 @@ namespace FightCore
         // 一个操作结束
         public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 接收到战斗回合结束指令");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 接收到战斗回合结束指令");
 
-            if (m_curParseRound.bHadFightData)    // 说明有真正的攻击数据
+            if (m_curParseRound.bHasFightData)    // 说明有真正的攻击数据
             {
                 m_cacheList.Add(m_curParseRound);   // 结束的时候才添加，因为现在有很多只有开始和结束的消息，没有战斗的消息
                 m_curParseRound.bSvrRoundEnd = true;
@@ -83,7 +83,7 @@ namespace FightCore
         // 一个战斗回合结束
         public void onOneRoundEnd(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_logSys.log("[Fight] 结束一场战斗回合，将要开始下一场战斗回合攻击");
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 结束一场战斗回合，将要开始下一场战斗回合攻击");
 
             m_curFightData = null;
             nextOneAttactRound();
@@ -96,7 +96,6 @@ namespace FightCore
                 if (m_cacheList.Count() > 0)    // 如果有攻击数据
                 {
                     m_curFightData = m_cacheList[0];
-                    Ctx.m_instance.m_logSys.log(m_curFightData.msg.log());
                     m_cacheList.Remove(m_curFightData);
                     m_curFightData.nextOneAttact();
                 }

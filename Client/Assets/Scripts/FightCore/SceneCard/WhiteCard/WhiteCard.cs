@@ -45,5 +45,10 @@ namespace FightCore
         {
 
         }
+
+        public override string getDesc()
+        {
+            return string.Format("WhiteCard {0}", m_ClientId);
+        }
     }
 }

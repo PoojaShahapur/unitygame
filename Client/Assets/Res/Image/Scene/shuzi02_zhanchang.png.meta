@@ -1,0 +1,176 @@
+fileFormatVersion: 2
+guid: 073b3526b8aa96b4cad89440d8fca383
+timeCreated: 1434621740
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: shuzi02_zhanchang_0
+    21300002: shuzi02_zhanchang_1
+    21300004: shuzi02_zhanchang_2
+    21300006: shuzi02_zhanchang_3
+    21300008: shuzi02_zhanchang_4
+    21300010: shuzi02_zhanchang_5
+    21300012: shuzi02_zhanchang_6
+    21300014: shuzi02_zhanchang_7
+    21300016: shuzi02_zhanchang_8
+    21300018: shuzi02_zhanchang_9
+    21300020: shuzi02_zhanchang_10
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: shuzi02_zhanchang_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 17
+        width: 63
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 17
+        width: 62
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_2
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 17
+        width: 66
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_3
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 17
+        width: 64
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_4
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 17
+        width: 64
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_5
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 17
+        width: 62
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_6
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 17
+        width: 54
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_7
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 17
+        width: 60
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_8
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 15
+        width: 56
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_9
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 17
+        width: 66
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: shuzi02_zhanchang_10
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 17
+        width: 59
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: num
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

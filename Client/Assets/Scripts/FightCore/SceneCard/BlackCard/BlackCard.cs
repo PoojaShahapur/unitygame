@@ -82,5 +82,10 @@ namespace FightCore
             UtilApi.setScale(this.transform(), trans.localScale);
             UtilApi.setRot(this.transform(), trans.localRotation);
         }
+
+        public override string getDesc()
+        {
+            return string.Format("BlackCard {0}", m_ClientId);
+        }
     }
 }

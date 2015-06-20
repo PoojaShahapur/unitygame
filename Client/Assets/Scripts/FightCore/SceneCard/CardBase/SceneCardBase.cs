@@ -12,13 +12,16 @@ namespace FightCore
      */
     public class SceneCardBase : SceneEntity
     {
+        protected static int ID_ALLOC_IDX = 0;      // 分配 ID 索引的
         public SceneDZData m_sceneDZData;
-
+        protected int m_ClientId;                   // 客户端自己的唯一 ID
         protected SceneCardItem m_sceneCardItem;        // 敌人手里卡牌和白色卡牌是没有这个字段的，其余都有
         protected SceneCardBaseData m_sceneCardBaseData;
 
         public SceneCardBase(SceneDZData data)
         {
+            m_ClientId = ID_ALLOC_IDX;
+            ++ID_ALLOC_IDX;
             m_sceneDZData = data;
         }
 
@@ -408,6 +411,65 @@ namespace FightCore
         virtual public void updateOutCardScaleInfo(Transform trans)
         {
 
+        }
+
+        public virtual string getDesc()
+        {
+            return "";
+        }
+
+        protected string getSideStr()
+        {
+            string side = "";
+
+            if (EnDZPlayer.ePlayerSelf == sceneCardItem.m_playerFlag)
+            {
+                side = "Self";
+            }
+            else
+            {
+                side = "Enemy";
+            }
+
+            return side;
+        }
+
+        protected string getAreaStr()
+        {
+            string area = "";
+
+            if (CardArea.CARDCELLTYPE_COMMON == sceneCardItem.cardArea)
+            {
+                area = "Common";
+            }
+            else if (CardArea.CARDCELLTYPE_HAND == sceneCardItem.cardArea)
+            {
+                area = "Hand";
+            }
+            else if (CardArea.CARDCELLTYPE_EQUIP == sceneCardItem.cardArea)
+            {
+                area = "Equip";
+            }
+            else if (CardArea.CARDCELLTYPE_SKILL == sceneCardItem.cardArea)
+            {
+                area = "Skill";
+            }
+            else if (CardArea.CARDCELLTYPE_HERO == sceneCardItem.cardArea)
+            {
+                area = "Hero";
+            }
+
+            return area;
+        }
+
+        protected int getPos()
+        {
+            return sceneCardItem.svrCard.pos.y;
+        }
+
+        protected uint getThisId()
+        {
+            return sceneCardItem.svrCard.qwThisID;
         }
     }
 }

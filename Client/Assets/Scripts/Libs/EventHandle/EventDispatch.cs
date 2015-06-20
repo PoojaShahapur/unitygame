@@ -12,6 +12,7 @@ namespace SDK.Lib
     {
         protected List<Action<IDispatchObject>> m_handleList = new List<Action<IDispatchObject>>();
         protected bool m_bInLoop;       // 是否是在循环遍历中
+        protected int m_uniqueId;       // 唯一 Id ，调试使用
 
         public EventDispatch()
         {
@@ -26,6 +27,18 @@ namespace SDK.Lib
             }
         }
 
+        public int uniqueId
+        {
+            get
+            {
+                return m_uniqueId;
+            }
+            set
+            {
+                m_uniqueId = value;
+            }
+        }
+
         // 相同的函数只能增加一次
         virtual public void addEventHandle(Action<IDispatchObject> handle)
         {
@@ -34,7 +47,14 @@ namespace SDK.Lib
                 // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
                 //if (m_handleList.IndexOf(handle) == -1)
                 //{
+                if (!m_bInLoop)
+                {
                     m_handleList.Add(handle);
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log("looping cannot add element");
+                }
                 //}
                 //else
                 //{
@@ -64,12 +84,19 @@ namespace SDK.Lib
 
         virtual public void dispatchEvent(IDispatchObject dispatchObject)
         {
-            m_bInLoop = true;
-            foreach(var handle in m_handleList)
+            try
             {
-                handle(dispatchObject);
+                m_bInLoop = true;
+                foreach (var handle in m_handleList)
+                {
+                    handle(dispatchObject);
+                }
+                m_bInLoop = false;
             }
-            m_bInLoop = false;
+            catch (Exception ex)
+            {
+                Ctx.m_instance.m_logSys.catchLog(ex.ToString());
+            }
         }
 
         public void clearEventHandle()

@@ -320,7 +320,6 @@ namespace Game.Game
             {
                 sceneItem = new SceneCardItem();
                 sceneItem.svrCard = cmd.mobject;
-                //sceneItem.curSlot = cmd.slot;
                 sceneItem.cardArea = (CardArea)cmd.slot;
                 sceneItem.m_playerFlag = (EnDZPlayer)(cmd.who - 1);
                 sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
