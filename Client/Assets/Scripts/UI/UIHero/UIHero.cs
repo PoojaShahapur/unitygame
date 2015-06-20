@@ -10,7 +10,7 @@ namespace Game.UI
     /**
      * @brief hero 界面
      */
-    public class UIHero : Form
+    public class UIHero : Form, IUIHero
     {
         public HeroData m_heroData;
         public HeroCenteArear m_heroCenteArear;   // 之间区域

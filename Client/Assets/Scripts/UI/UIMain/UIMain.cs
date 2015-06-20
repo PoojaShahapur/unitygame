@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 登陆界面
      */
-    public class UIMain : Form
+    public class UIMain : Form, IUIMain
     {
         protected MainData m_mainData;
 
@@ -59,9 +59,9 @@ namespace Game.UI
 
         protected void onBtnClkShop(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIShop>(UIFormID.eUIShop);
-            UIShop shop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
-            UtilApi.setScale(shop.m_GUIWin.m_uiRoot.transform, new Vector3(1.0f, 1.0f, 1.0f));
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIShop);
+            IUIShop shop = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIShop) as IUIShop;
+            UtilApi.setScale(shop.GUIWin().m_uiRoot.transform, new Vector3(1.0f, 1.0f, 1.0f));
             // 发送消息
             stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
             UtilMsg.sendMsg(cmd);
@@ -69,26 +69,26 @@ namespace Game.UI
 
         protected void onBtnClkHero(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIHero>(UIFormID.eUIHero);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIHero);
             Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
         }
 
         protected void onBtnClkOpenPack(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIOpenPack>(UIFormID.eUIOpenPack);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIOpenPack);
         }
 
         protected void onBtnClkTuJian(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJian>(UIFormID.eUITuJian);
-            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITuJian);
+            IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             uiSC.showUI();
         }
 
         protected void onBtnClkDuiZhanMoShi(IDispatchObject dispObj)
         {
             Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.enterDZMode();
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIJobSelect>(UIFormID.eUIJobSelect);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIJobSelect);
         }
 
         protected void onBtnClkLianXiMoShi(IDispatchObject dispObj)

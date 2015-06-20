@@ -11,7 +11,7 @@ namespace Game.UI
     /**
      * @brief 登陆界面
      */
-    public class UILogin : Form
+    public class UILogin : Form, IUILogin
     {
         protected SpriteAni m_spriteAni;        //登陆界面中间的动画
         protected GameObject m_imageEffect;

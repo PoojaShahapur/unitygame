@@ -33,7 +33,7 @@ namespace Game.UI
         protected void onFilterTypeBtnClk()
         {
             int idx = UtilLogic.findIdxByUnderline(EventSystem.current.currentSelectedGameObject.name);
-            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(uiTuJian != null)
             {
                 uiTuJian.updateFilter(idx);

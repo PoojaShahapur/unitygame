@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Game.UI
 {
-    public class UIShop : Form
+    public class UIShop : Form, IUIShop
     {
         protected AuxBasicButton[] m_btnArr;
         protected ushort BuyIndex;

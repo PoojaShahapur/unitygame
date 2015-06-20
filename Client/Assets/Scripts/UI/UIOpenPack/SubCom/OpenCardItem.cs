@@ -78,7 +78,7 @@ namespace Game.UI
             if (UIOpenPack.m_iOpenedNum == 5)
             {
                 UIOpenPack.m_iOpenedNum = 0;
-                UIOpenPack uiPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+                UIOpenPack uiPack = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIOpenPack) as UIOpenPack;
                 if (uiPack != null)
                 {
                     UtilApi.SetActive(uiPack.m_okBtn.selfGo, true);

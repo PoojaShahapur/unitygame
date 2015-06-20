@@ -190,7 +190,7 @@ namespace Game.Login
             {
                 // 关闭登陆界面
                 Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUILogin);
-                Ctx.m_instance.m_uiMgr.loadForm<UIHeroSelect>(UIFormID.eUIHeroSelect);
+                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIHeroSelect);
             }
             else if((byte)ERetResult.LOGIN_RETURN_IDINUSE == cmd.byReturnCode)              // 账号在使用
             {

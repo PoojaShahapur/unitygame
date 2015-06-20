@@ -37,7 +37,7 @@ namespace Fight
 
         public void onPnlClk(GameObject go)
         {
-            UIHero uiSH = Ctx.m_instance.m_uiMgr.getForm<UIHero>(UIFormID.eUIHero);
+            IUIHero uiSH = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIHero) as IUIHero;
             uiSH.exit();
             hide();
         }

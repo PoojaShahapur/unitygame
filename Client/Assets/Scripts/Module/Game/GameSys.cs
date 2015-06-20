@@ -15,6 +15,7 @@ namespace Game.Game
 
         public void Start()
         {
+            registerScriptType();
             initGVar();
             loadGameScene();
         }
@@ -39,7 +40,7 @@ namespace Game.Game
             //Ctx.m_instance.m_aiSystem.getBehaviorTreeMgr().loadBT();
 
             // 立即加载 UIBlurBg 界面
-            Ctx.m_instance.m_uiMgr.loadForm<UIBlurBg>(UIFormID.eUIBlurBg);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIBlurBg);
         }
 
         public void loadGameScene()
@@ -50,6 +51,31 @@ namespace Game.Game
         public void loadDZScene(uint sceneNumber)
         {
             m_gotoScene.loadDZScene(sceneNumber);
+        }
+
+        protected void registerScriptType()
+        {
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIBlurBg", typeof(UIBlurBg));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIChat", typeof(UIChat));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIDZ", typeof(UIDZ));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIExtraOp", typeof(UIExtraOp));
+
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIGM", typeof(UIGM));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIHero", typeof(UIHero));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIHeroSelect", typeof(UIHeroSelect));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIInfo", typeof(UIInfo));
+
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIJobSelect", typeof(UIJobSelect));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UILogicTest", typeof(UILogicTest));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIMain", typeof(UIMain));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIOpenPack", typeof(UIOpenPack));
+
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIPack", typeof(UIPack));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIShop", typeof(UIShop));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITest", typeof(UITest));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITuJian", typeof(UITuJian));
+
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITuJianTop", typeof(UITuJianTop));
         }
     }
 }

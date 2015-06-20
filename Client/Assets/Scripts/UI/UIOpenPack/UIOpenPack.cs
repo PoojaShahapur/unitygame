@@ -9,7 +9,7 @@ namespace Game.UI
     /**
      * @brief 扩展包
      */
-    public class UIOpenPack : Form
+    public class UIOpenPack : Form, IUIOpenPack
     {
         protected AuxBasicButton[] m_btnArr = new AuxBasicButton[(int)OpenPackBtnEnum.eBtnTotal];
         protected GameObject[] m_goArr = new GameObject[(int)OpenPackGo.eTotal];
@@ -113,9 +113,9 @@ namespace Game.UI
 
         protected void onBtnClkShop(IDispatchObject dispObj)
 		{
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIShop>(UIFormID.eUIShop);
-            UIShop shop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
-            UtilApi.setScale(shop.m_GUIWin.m_uiRoot.transform, new Vector3(1.0f, 1.0f, 1.0f));
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIShop);
+            IUIShop shop = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIShop) as IUIShop;
+            UtilApi.setScale(shop.GUIWin().m_uiRoot.transform, new Vector3(1.0f, 1.0f, 1.0f));
 			// 发送消息
 			stReqMarketObjectInfoPropertyUserCmd cmd = new stReqMarketObjectInfoPropertyUserCmd();
 			UtilMsg.sendMsg(cmd);

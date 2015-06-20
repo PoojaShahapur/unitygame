@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    public class UILogicTest : Form
+    public class UILogicTest : Form, IUILogicTest
     {
         protected GameObject m_spriteGo;
         protected GameObject m_imageGo;
@@ -89,7 +89,7 @@ namespace Game.UI
 
         protected void testLoadSceneUI()
         {
-            Ctx.m_instance.m_uiMgr.loadForm<UIJobSelect>(UIFormID.eUIJobSelect);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIJobSelect);
         }
 
         protected void sendMsg()

@@ -99,6 +99,7 @@ namespace SDK.Common
         public SceneEffectMgr m_sceneEffectMgr;
         public SystemFrameData m_systemFrameData = new SystemFrameData();
         public SystemTimeData m_systemTimeData = new SystemTimeData();
+        public ScriptDynLoad m_scriptDynLoad = new ScriptDynLoad();
 
         public Ctx()
         {

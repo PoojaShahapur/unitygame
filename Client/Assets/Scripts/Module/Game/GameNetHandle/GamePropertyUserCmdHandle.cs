@@ -24,7 +24,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstRemoveObjectPropertyUserCmd(cmd.qwThisID);
 
-            UIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            IUIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIOpenPack) as IUIOpenPack;
             if (openPack != null)
             {
                 openPack.updateData();
@@ -39,7 +39,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstRefCountObjectPropertyUserCmd(cmd.qwThisID, cmd.dwNum, cmd.type);
 
-            UIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            IUIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIOpenPack) as IUIOpenPack;
             if (openPack != null)
             {
                 openPack.updateData();
@@ -62,7 +62,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dataPack.psstAddMobileObjectPropertyUserCmd(cmd.mobject);
 
-            UIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            IUIOpenPack openPack = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIOpenPack) as IUIOpenPack;
             if (openPack != null)
             {
                 openPack.updateData();

@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 聊天
      */
-    public class UIChat : Form
+    public class UIChat : Form, IUIChat
     {
         protected ChatData m_chatData = new ChatData();
 

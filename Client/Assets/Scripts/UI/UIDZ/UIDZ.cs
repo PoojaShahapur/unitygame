@@ -6,7 +6,7 @@ namespace Game.UI
     /**
      * @brief 对战的时候显示的一些基本信息
      */
-    public class UIDZ : Form
+    public class UIDZ : Form, IUIDZ
     {
         protected DZData m_dzData = new DZData();
 
@@ -35,7 +35,7 @@ namespace Game.UI
 
         protected void onOpBtnClk()
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIExtraOp>(UIFormID.eUIExtraOp);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIExtraOp);
         }
 
         // self 和 enemy hero 的名字显示

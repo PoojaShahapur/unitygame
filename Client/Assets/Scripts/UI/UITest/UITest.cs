@@ -11,7 +11,7 @@ namespace Game.UI
     /**
      * @brief 测试界面
      */
-    public class UITest : Form
+    public class UITest : Form, IUITest
     {
         public AuxLabel m_logText;
 

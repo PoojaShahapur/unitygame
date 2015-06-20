@@ -83,5 +83,10 @@ namespace SDK.Common
                 m_isResReady = value;
             }
         }
+
+        public GUIWin GUIWin()
+        {
+            return m_GUIWin;
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace Game.Login
         public void Start()
         {
             Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.AUTOUPDATEMN);
+            registerScriptType();
             initGVar();
             //loadScene();
             onResLoadScene(null);
@@ -43,7 +44,7 @@ namespace Game.Login
             Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Login);
             Ctx.m_instance.m_logSys.log("加载场景");
             // 加载登陆界面
-            Ctx.m_instance.m_uiMgr.loadForm<UILogin>(UIFormID.eUILogin);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUILogin);
         }
 
         public void connectLoginServer(string name, string passwd)
@@ -71,6 +72,11 @@ namespace Game.Login
         public uint getUserID()
         {
             return m_loginFlowHandle.getDwUserID();
+        }
+
+        protected void registerScriptType()
+        {
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UILogin", typeof(UILogin));
         }
     }
 }
