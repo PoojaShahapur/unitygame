@@ -167,9 +167,9 @@ namespace FightCore
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能攻击 execAttack");
             // 技能攻击开始，需要将技能准备特效移除
-            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerFlag].centerHero.sceneCardItem.svrCard.qwThisID == item.attThisId)
+            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].centerHero.sceneCardItem.svrCard.qwThisID == item.attThisId)
             {
-                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerFlag].centerHero.effectControl.stopSkillAttPrepareEffect();
+                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].centerHero.effectControl.stopSkillAttPrepareEffect();
             }
 
             if (item.skillTableItem.m_bNeedMove > 0)         // 如果是有攻击目标的技能攻击

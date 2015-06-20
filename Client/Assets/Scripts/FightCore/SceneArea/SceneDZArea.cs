@@ -13,7 +13,7 @@ namespace FightCore
     public class SceneDZArea
     {
         public SceneDZData m_sceneDZData;
-        public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
+        public EnDZPlayer m_playerSide;                 // 指示玩家的位置
 
         protected OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
         protected InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
@@ -23,12 +23,12 @@ namespace FightCore
 
         protected CrystalPtPanel m_crystalPtPanel;
 
-        public SceneDZArea(SceneDZData sceneDZData, EnDZPlayer playerFlag)
+        public SceneDZArea(SceneDZData sceneDZData, EnDZPlayer playerSide)
         {
             m_sceneDZData = sceneDZData;
-            m_playerFlag = playerFlag;
-            m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerFlag);
-            m_crystalPtPanel = new CrystalPtPanel(m_playerFlag);
+            m_playerSide = playerSide;
+            m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerSide);
+            m_crystalPtPanel = new CrystalPtPanel(m_playerSide);
         }
 
         virtual public void dispose()
@@ -110,8 +110,8 @@ namespace FightCore
         {
             SceneCardItem sceneItem = null;
             // 填充数据
-            sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].createCardItemBySvrData(m_playerFlag, mobject);
-            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].addOneSceneCard(sceneItem);       // 添加数据
+            sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].createCardItemBySvrData(m_playerSide, mobject);
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].addOneSceneCard(sceneItem);       // 添加数据
 
             addSceneCardByItem(sceneItem);
         }
@@ -122,7 +122,7 @@ namespace FightCore
             {
                 m_centerHero = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData) as HeroCard;
 
-                m_centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroOccupation);
+                m_centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroOccupation);
                 // 设置 hero 动画结束后的处理
                 m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
             }
@@ -136,14 +136,14 @@ namespace FightCore
             }
             else if (CardArea.CARDCELLTYPE_HAND == sceneItem.cardArea)
             {
-                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
+                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
                 {
                     m_inSceneCardList.addCardByIdAndItem(sceneItem.svrCard.dwObjectID, sceneItem);
                 }
                 else
                 {
-                    m_inSceneCardList.setCardDataByIdx(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum, sceneItem);
-                    ++Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum;
+                    m_inSceneCardList.setCardDataByIdx(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_recStartCardNum, sceneItem);
+                    ++Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_recStartCardNum;
                 }
             }
             else if (CardArea.CARDCELLTYPE_COMMON == sceneItem.cardArea)      // 只有对方出牌的时候才会走这里
@@ -158,7 +158,7 @@ namespace FightCore
         public void updateSceneCardBySvrData(t_Card mobject)
         {
             SceneCardItem sceneItem = null;
-            sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].updateCardInfoByCardItem(mobject);
+            sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].updateCardInfoByCardItem(mobject);
             updateSceneCardByItem(sceneItem);
         }
 
@@ -506,7 +506,7 @@ namespace FightCore
             }
 
             // 对手区域手牌是不检查的
-            if (EnDZPlayer.ePlayerSelf == m_playerFlag)
+            if (EnDZPlayer.ePlayerSelf == m_playerSide)
             {
                 cardBase = m_inSceneCardList.getSceneCardByThisID(thisID);
                 if (cardBase != null)
@@ -588,7 +588,7 @@ namespace FightCore
                 m_sceneEquipCard.setIdAndPnt(outCard.sceneCardItem.svrCard.dwObjectID, outCard.getPnt());
             }
 
-            m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
+            m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
 
             outCard.dispose();      // 释放原来的资源
         }

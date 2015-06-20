@@ -12,17 +12,17 @@ namespace FightCore
     public class SceneCardListBase
     {
         public SceneDZData m_sceneDZData;
-        public EnDZPlayer m_playerFlag;                 // 指示玩家的位置
+        public EnDZPlayer m_playerSide;                 // 指示玩家的位置
 
         protected List<Vector3> m_posList = new List<Vector3>();
         protected List<Quaternion> m_rotList = new List<Quaternion>();
 
         protected MList<SceneCardBase> m_sceneCardList = new MList<SceneCardBase>();
 
-        public SceneCardListBase(SceneDZData data, EnDZPlayer playerFlag)
+        public SceneCardListBase(SceneDZData data, EnDZPlayer playerSide)
         {
             m_sceneDZData = data;
-            m_playerFlag = playerFlag;
+            m_playerSide = playerSide;
         }
 
         virtual public void dispose()

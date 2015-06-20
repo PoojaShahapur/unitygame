@@ -12,7 +12,7 @@ namespace SDK.Common
         public t_CardPK pk = new t_CardPK();
         public TableCardItemBody m_cardTableItem;       // 卡牌表中的数据，类型从卡表中获取
 
-        public EnDZPlayer m_playerFlag;                 // 卡牌属性哪个玩家
+        public EnDZPlayer m_playerSide;                 // 卡牌属性哪个玩家
         protected CardArea m_preCardArea;               // 移动之前插槽位置
         protected CardArea m_cardArea;                  // 卡牌在什么位置
         public bool m_svrDie;                           // 服务器认为应该删除了，但是客户端还在做动画

@@ -9,8 +9,8 @@ namespace FightCore
     {
         protected int m_initCardCount = 0;
 
-        public SelfInSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
-            : base(data, playerFlag)
+        public SelfInSceneCardList(SceneDZData data, EnDZPlayer playerSide)
+            : base(data, playerSide)
         {
 
         }
@@ -23,19 +23,19 @@ namespace FightCore
 
             SceneCardBase cardItem;
 
-            m_initCardCount = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length;
+            m_initCardCount = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList.Length;
             int idx = 0;
-            while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList.Length)
+            while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList.Length)
             {
-                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx] > 0)
+                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx] > 0)
                 {
-                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx], m_playerSide, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     addCard(cardItem);
                     // 记录开始卡牌的 id ，后面好判断更新
-                    cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx];
+                    cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx];
                     cardItem.setStartIdx(idx);
                     cardItem.updateCardOutState(true);
-                    cardItem.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
+                    cardItem.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
                     cardItem.updateCardDataByTable();          // 这个时候还没有服务器的数据，只能更新客户端表中的数据
                     cardItem.faPai2MinAni();
                 }
@@ -56,14 +56,14 @@ namespace FightCore
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                if (cardItem.startCardID != Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx])
+                if (cardItem.startCardID != Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx])
                 {
                     curPos = cardItem.gameObject().transform.localPosition;
                     curRot = cardItem.gameObject().transform.localRotation;
                     UtilApi.Destroy(cardItem.gameObject());      // 释放之前的资源
 
                     // 创建新的资源
-                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_startCardList[idx], m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx], m_playerSide, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
                     UtilApi.setPos(cardItem.transform(), curPos);
                     UtilApi.setRot(cardItem.transform(), curRot);
 

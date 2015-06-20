@@ -220,7 +220,7 @@ namespace FightCore
         }
 
         // 这个主要方便可以从卡牌 ID 直接创建卡牌，因为可能有的时候直接动卡牌 ID 创建卡牌，服务器的数据还没有
-        virtual public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
+        virtual public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
 
         }
@@ -257,7 +257,7 @@ namespace FightCore
             {
                 Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
                 // 从各种引用除删除
-                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerFlag].removeOneCard(this);
+                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerSide].removeOneCard(this);
             }
         }
 
@@ -308,7 +308,7 @@ namespace FightCore
             if (this.m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)
             {
                 // 只有点击自己的时候，才启动攻击
-                if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                if (m_sceneCardItem.m_playerSide == EnDZPlayer.ePlayerSelf)
                 {
                     m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpNormalAttack, this);
                 }
@@ -422,7 +422,7 @@ namespace FightCore
         {
             string side = "";
 
-            if (EnDZPlayer.ePlayerSelf == sceneCardItem.m_playerFlag)
+            if (EnDZPlayer.ePlayerSelf == sceneCardItem.m_playerSide)
             {
                 side = "Self";
             }

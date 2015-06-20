@@ -195,7 +195,7 @@ namespace SDK.Common
                 Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  怎么能自己打自己");
                 return false;
             }
-            if (pAtt.m_playerFlag == pDef.m_playerFlag)
+            if (pAtt.m_playerSide == pDef.m_playerSide)
             {
                 Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("普通攻击失败  普通攻击不能攻击自己的牌");
                 return false;

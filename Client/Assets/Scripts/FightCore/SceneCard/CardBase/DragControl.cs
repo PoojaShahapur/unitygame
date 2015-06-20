@@ -50,7 +50,7 @@ namespace FightCore
                 //    if (this.m_sceneCardItem.m_cardArea == CardArea.CARDCELLTYPE_HAND)
                 //    {
                 //        // 只有点击自己的时候，才启动攻击
-                //        if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                //        if (m_sceneCardItem.m_playerSide == EnDZPlayer.ePlayerSelf)
                 //        {
                 //            m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpFaShu, this);
                 //        }
@@ -101,7 +101,7 @@ namespace FightCore
             }
 
             // 如果出牌区域卡牌已经满了，也是不能移动的
-            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerFlag].bOutAreaCardFull())
+            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].bOutAreaCardFull())
             {
                 return false;
             }
@@ -138,7 +138,7 @@ namespace FightCore
                         backCard2Orig();
                         m_isCalc = false;
                     }
-                    else if (m_card.sceneCardItem.svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.m_playerFlag].m_heroMagicPoint.mp)   // Mp 不够
+                    else if (m_card.sceneCardItem.svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.m_playerSide].m_heroMagicPoint.mp)   // Mp 不够
                     {
                         Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem11));
                         backCard2Orig();
@@ -197,7 +197,7 @@ namespace FightCore
                                 // 英雄播放攻击准备特效
                                 if (m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect > 0)
                                 {
-                                    m_card.m_sceneDZData.m_sceneDZAreaArr[(int)(m_card.sceneCardItem.m_playerFlag)].centerHero.effectControl.startSkillAttPrepareEffect((int)m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect);
+                                    m_card.m_sceneDZData.m_sceneDZAreaArr[(int)(m_card.sceneCardItem.m_playerSide)].centerHero.effectControl.startSkillAttPrepareEffect((int)m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect);
                                 }
                                 m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpFaShu, m_card);
                             }
