@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief UI 帧动画管理器，仅仅是存放 ImageSpriteAni 渲染器
      */
-    public class SpriteAniMgr : DelayHandleMgrBase, ITickedObject
+    public class SpriteAniMgr : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
         protected List<ImageSpriteAni> m_sceneEntityList;
 

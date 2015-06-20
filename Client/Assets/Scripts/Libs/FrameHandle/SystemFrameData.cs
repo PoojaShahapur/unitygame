@@ -20,7 +20,7 @@ namespace SDK.Lib
                 m_curFrameCount = 0;
                 m_curTime = 0;
 
-                Ctx.m_instance.m_logSys.log(string.Format("当前帧率 {0}", m_fps));
+                //Ctx.m_instance.m_logSys.log(string.Format("当前帧率 {0}", m_fps));
             }
         }
     }

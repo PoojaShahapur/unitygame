@@ -148,7 +148,7 @@ namespace Game.UI
             Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].sceneCardList.Add(new SceneCardItem());
 
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.psstAddBattleCardPropertyUserCmd(null, null);
+            uiDZ.psstAddBattleCardPropertyUserCmd(null);
         }
 
         protected void testStart()

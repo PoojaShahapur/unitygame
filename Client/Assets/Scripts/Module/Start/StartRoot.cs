@@ -17,7 +17,7 @@ namespace Game.Start
 
         void Awake()
         {
-            //Application.targetFrameRate = 30;
+            //Application.targetFrameRate = 24;
         }
 
         // Use this for initialization

@@ -94,78 +94,110 @@ namespace FightCore
         }
 
         // 添加卡牌不包括 CardArea.CARDCELLTYPE_COMMON 区域， enemy 对方出牌也是这个消息
-        public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
+        public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg)
         {
             if (msg.byActionType == 1)
             {
-                if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)
-                {
-                    m_centerHero = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData) as HeroCard;
-
-                    m_centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroOccupation);
-                    // 设置 hero 动画结束后的处理
-                    m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
-                }
-                else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
-                {
-                    m_sceneSkillCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
-                }
-                else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
-                {
-                    m_sceneEquipCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
-                }
-                else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
-                {
-                    if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
-                    {
-                        m_inSceneCardList.addCardByIdAndItem(msg.mobject.dwObjectID, sceneItem);
-                    }
-                    else
-                    {
-                        m_inSceneCardList.setCardDataByIdx(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum, sceneItem);
-                        ++Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum;
-                    }
-                }
-                else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
-                {
-                    SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
-                    srcCard.convOutModel();
-                    m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
-                    m_outSceneCardList.updateSceneCardPos();
-                }
+                addSceneCardByItem(msg.sceneItem);
             }
             else        // 更新卡牌数据
             {
-                if ((int)CardArea.CARDCELLTYPE_HERO == msg.slot)     // 如果是 hero ，hero 自己已经创建显示了
-                {
-                    m_centerHero.updateCardDataChangeBySvr();      // 这个动画已经有了
-                }
-                else if ((int)CardArea.CARDCELLTYPE_SKILL == msg.slot)
-                {
-                    m_sceneSkillCard.updateCardDataChangeBySvr();
-                }
-                else if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.slot)
-                {
-                    m_sceneEquipCard.updateCardDataChangeBySvr();
-                }
-                else if ((int)CardArea.CARDCELLTYPE_HAND == msg.slot)
-                {
-                    m_inSceneCardList.updateCardData(sceneItem);
-                }
-                else if ((int)CardArea.CARDCELLTYPE_COMMON == msg.slot)      // 只有对方出牌的时候才会走这里
-                {
-                    m_outSceneCardList.updateCardData(sceneItem);
-                }
+                updateSceneCardByItem(msg.sceneItem);
             }
         }
 
+        public void addSceneCardBySvrData(t_Card mobject)
+        {
+            SceneCardItem sceneItem = null;
+            // 填充数据
+            sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].createCardItemBySvrData(m_playerFlag, mobject);
+            Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].addOneSceneCard(sceneItem);       // 添加数据
+
+            addSceneCardByItem(sceneItem);
+        }
+
+        public void addSceneCardByItem(SceneCardItem sceneItem)
+        {
+            if (CardArea.CARDCELLTYPE_HERO == sceneItem.cardArea)
+            {
+                m_centerHero = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData) as HeroCard;
+
+                m_centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroOccupation);
+                // 设置 hero 动画结束后的处理
+                m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
+            }
+            else if (CardArea.CARDCELLTYPE_SKILL == sceneItem.cardArea)
+            {
+                m_sceneSkillCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
+            }
+            else if (CardArea.CARDCELLTYPE_EQUIP == sceneItem.cardArea)
+            {
+                m_sceneEquipCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
+            }
+            else if (CardArea.CARDCELLTYPE_HAND == sceneItem.cardArea)
+            {
+                if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum >= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].getStartCardNum())        // 判断接收的数据是否是 startCardList 列表中的数据
+                {
+                    m_inSceneCardList.addCardByIdAndItem(sceneItem.svrCard.dwObjectID, sceneItem);
+                }
+                else
+                {
+                    m_inSceneCardList.setCardDataByIdx(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum, sceneItem);
+                    ++Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_recStartCardNum;
+                }
+            }
+            else if (CardArea.CARDCELLTYPE_COMMON == sceneItem.cardArea)      // 只有对方出牌的时候才会走这里
+            {
+                SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
+                srcCard.convOutModel();
+                m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
+                m_outSceneCardList.updateSceneCardPos();
+            }
+        }
+
+        public void updateSceneCardBySvrData(t_Card mobject)
+        {
+            SceneCardItem sceneItem = null;
+            sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].updateCardInfoByCardItem(mobject);
+            updateSceneCardByItem(sceneItem);
+        }
+
+        public void updateSceneCardByItem(SceneCardItem sceneItem)
+        {
+            if (CardArea.CARDCELLTYPE_HERO == sceneItem.cardArea)     // 如果是 hero ，hero 自己已经创建显示了
+            {
+                m_centerHero.updateCardDataChangeBySvr();      // 这个动画已经有了
+            }
+            else if (CardArea.CARDCELLTYPE_SKILL == sceneItem.cardArea)
+            {
+                m_sceneSkillCard.updateCardDataChangeBySvr();
+            }
+            else if (CardArea.CARDCELLTYPE_EQUIP == sceneItem.cardArea)
+            {
+                m_sceneEquipCard.updateCardDataChangeBySvr();
+            }
+            else if (CardArea.CARDCELLTYPE_HAND == sceneItem.cardArea)
+            {
+                m_inSceneCardList.updateCardData(sceneItem);
+            }
+            else if (CardArea.CARDCELLTYPE_COMMON == sceneItem.cardArea)      // 只有对方出牌的时候才会走这里
+            {
+                m_outSceneCardList.updateCardData(sceneItem);
+            }
+        }
+
+        public void psstRetMoveGameCardUserCmd(stRetMoveGameCardUserCmd msg)
+        {
+            changeSceneCard(msg.qwThisID, (CardArea)msg.m_sceneCardItem.svrCard.pos.dwLocation, msg.dst.y);
+        }
+
         // 移动卡牌，从一个位置到另外一个位置，CardArea.CARDCELLTYPE_COMMON 区域增加是从这个消息过来的，目前只处理移动到 CardArea.CARDCELLTYPE_COMMON 区域
-        public void changeSceneCard(stRetMoveGameCardUserCmd msg)
+        public void changeSceneCard(uint qwThisID, CardArea dwLocation, ushort yPos)
         {
             SceneCardBase srcCard = null;
 
             // 移动手里的牌的位置
-            srcCard = m_inSceneCardList.getSceneCardByThisID(msg.qwThisID);
+            srcCard = m_inSceneCardList.getSceneCardByThisID(qwThisID);
             if (srcCard != null)
             {
                 m_inSceneCardList.removeCard(srcCard);
@@ -176,7 +208,7 @@ namespace FightCore
             }
             else            // 如果手牌没有，可能是战吼或者法术有攻击目标的卡牌，客户端已经将卡牌移动到出牌区域
             {
-                srcCard = m_outSceneCardList.getSceneCardByThisID(msg.qwThisID);
+                srcCard = m_outSceneCardList.getSceneCardByThisID(qwThisID);
                 if (srcCard.canClientMove2OutArea())
                 {
                     // 更新手牌索引
@@ -190,7 +222,7 @@ namespace FightCore
             }
 
             // 更新移动后的牌的位置
-            if ((int)CardArea.CARDCELLTYPE_EQUIP == msg.m_sceneCardItem.svrCard.pos.dwLocation)        // 如果出的是装备
+            if (CardArea.CARDCELLTYPE_EQUIP == dwLocation)        // 如果出的是装备
             {
                 outEquipCard(srcCard);
             }
@@ -199,7 +231,7 @@ namespace FightCore
                 if (srcCard != null && !srcCard.canClientMove2OutArea())         // 如果不是战吼或者法术有攻击目标的牌
                 {
                     m_outSceneCardList.removeWhiteCard();
-                    m_outSceneCardList.addCard(srcCard, msg.dst.y);
+                    m_outSceneCardList.addCard(srcCard, yPos);
                     m_outSceneCardList.updateSceneCardPos();
                 }
             }

@@ -208,9 +208,9 @@ namespace Fight
             }
         }
 
-        public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)
+        public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg)
         {
-            m_sceneDZData.m_sceneDZAreaArr[msg.who - 1].psstAddBattleCardPropertyUserCmd(msg, sceneItem);
+            m_sceneDZData.m_sceneDZAreaArr[msg.who - 1].psstAddBattleCardPropertyUserCmd(msg);
         }
 
         public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)
@@ -256,7 +256,7 @@ namespace Fight
 
                 if (msg.success == 1)     // 如果成功，就放进出牌位置
                 {
-                    m_sceneDZData.m_sceneDZAreaArr[msg.side - 1].changeSceneCard(msg);
+                    m_sceneDZData.m_sceneDZAreaArr[msg.side - 1].psstRetMoveGameCardUserCmd(msg);
 
                     if ((msg.side - 1) == (int)EnDZPlayer.ePlayerSelf)
                     {

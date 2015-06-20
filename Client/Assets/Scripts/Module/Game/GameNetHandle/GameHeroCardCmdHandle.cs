@@ -315,28 +315,23 @@ namespace Game.Game
 
             Ctx.m_instance.m_logSys.log(string.Format("添加一个卡牌 thisid: {0}", cmd.mobject.qwThisID));
 
-            SceneCardItem sceneItem = null;
             if (cmd.byActionType == 1)
             {
-                sceneItem = new SceneCardItem();
-                sceneItem.svrCard = cmd.mobject;
-                sceneItem.cardArea = (CardArea)cmd.slot;
-                sceneItem.m_playerFlag = (EnDZPlayer)(cmd.who - 1);
-                sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
                 // 填充数据
-                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].addOneSceneCard(sceneItem);       // 添加数据
+                cmd.sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].createCardItemBySvrData((EnDZPlayer)(cmd.who - 1), cmd.mobject);
+                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].addOneSceneCard(cmd.sceneItem);       // 添加数据
             }
             else
             {
-                sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].updateCardInfoByCardItem(cmd.mobject);
+                cmd.sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].updateCardInfoByCardItem(cmd.mobject);
             }
 
-            if (sceneItem != null)      // 更新或者添加都需要这个数据必须存在
+            if (cmd.sceneItem != null)      // 更新或者添加都需要这个数据必须存在
             {
                 UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
                 if (uiDZ != null && uiDZ.isVisible())
                 {
-                    uiDZ.psstAddBattleCardPropertyUserCmd(cmd, sceneItem);
+                    uiDZ.psstAddBattleCardPropertyUserCmd(cmd);
                 }
             }
         }

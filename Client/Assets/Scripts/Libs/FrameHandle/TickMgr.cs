@@ -73,7 +73,7 @@ namespace SDK.Lib
             {
                 foreach (TickProcessObject item in m_tickLst)
                 {
-                    if (item.m_tickObject == delayObject)
+                    if (UtilApi.isAddressEqual(item.m_tickObject, delayObject))
                     {
                         m_tickLst.Remove(item);
                         break;
