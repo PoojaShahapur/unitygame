@@ -8,7 +8,7 @@ namespace SDK.Lib
     public interface IElemMove
     {
         // 设置位置信息
-        void setPos(Vector3 pos);
-        void updatePos();
+        void setNormalPos(Vector3 pos);
+        void setExpandPos(Vector3 pos);
     }
 }

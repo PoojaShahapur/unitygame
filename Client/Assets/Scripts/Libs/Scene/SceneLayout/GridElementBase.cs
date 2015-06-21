@@ -97,12 +97,12 @@ namespace SDK.Lib
         }
 
         // 设置位置信息
-        virtual public void setPos(Vector3 pos)
+        virtual public void setNormalPos(Vector3 pos)
         {
 
         }
 
-        virtual public void updatePos()
+        virtual public void setExpandPos(Vector3 pos)
         {
 
         }

@@ -129,7 +129,15 @@ namespace FightCore
             m_curPt.scale = new UnityEngine.Vector3(1, 1, 1);
         }
 
-        override public void setPos(Vector3 pos)
+
+        override public void setNormalPos(Vector3 pos)
+        {
+            m_curPt = m_wayPtList.getPosInfo(PosType.eHandDown);
+            m_curPt.pos = pos;
+            moveToDestPos(PosType.eHandDown);
+        }
+
+        override public void setExpandPos(Vector3 pos)
         {
             m_curPt = m_wayPtList.getPosInfo(PosType.eScaleUp);
 
@@ -144,10 +152,7 @@ namespace FightCore
                 m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
                 m_curPt.scale = new UnityEngine.Vector3(1, 1, 1);
             }
-        }
 
-        override public void updatePos()
-        {
             moveToDestPos(PosType.eScaleUp);
         }
 

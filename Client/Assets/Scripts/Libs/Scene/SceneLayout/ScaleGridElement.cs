@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 namespace SDK.Lib
 {
     /**
@@ -64,14 +65,14 @@ namespace SDK.Lib
         }
 
         // 设置位置信息
-        override public void setPos(Vector3 pos)
+        override public void setNormalPos(Vector3 pos)
         {
-            m_movedEntity.setPos(pos);
+            m_movedEntity.setNormalPos(pos);
         }
 
-        override public void updatePos()
+        override public void setExpandPos(Vector3 pos)
         {
-            m_movedEntity.updatePos();
+            m_movedEntity.setExpandPos(pos);
         }
     }
 }
