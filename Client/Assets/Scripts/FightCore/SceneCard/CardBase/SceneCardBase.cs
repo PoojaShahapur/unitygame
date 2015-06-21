@@ -211,6 +211,22 @@ namespace FightCore
             }
         }
 
+        public EventDispatch dragOverEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).dragOverEntityDisp;
+            }
+        }
+
+        public EventDispatch dragOutEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).dragOutEntityDisp;
+            }
+        }
+
         public uint startCardID
         {
             get

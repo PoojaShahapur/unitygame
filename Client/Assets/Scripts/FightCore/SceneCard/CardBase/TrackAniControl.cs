@@ -289,5 +289,15 @@ namespace FightCore
         {
 
         }
+
+        virtual public void normalState()
+        {
+
+        }
+
+        virtual public void expandState()
+        {
+
+        }
     }
 }

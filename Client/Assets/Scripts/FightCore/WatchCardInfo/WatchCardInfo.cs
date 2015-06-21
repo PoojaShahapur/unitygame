@@ -98,7 +98,7 @@ namespace FightCore
         }
 
         // 将当前卡牌结束观察
-        public void endWatch()
+        public void stopWatch()
         {
             if (m_watchStage == WatchStage.eStartTimer)
             {
@@ -113,11 +113,11 @@ namespace FightCore
         }
 
         // 尝试结束，可能当前观察的卡牌不是要结束的卡牌
-        public void tryEndWatch(SceneCardBase card_)
+        public void tryStopWatch(SceneCardBase card_)
         {
             if (UtilApi.isAddressEqual(m_watchCard, card_))
             {
-                endWatch();
+                stopWatch();
             }
         }
     }

@@ -150,5 +150,15 @@ namespace FightCore
         {
             moveToDestPos(PosType.eScaleUp);
         }
+
+        override public void normalState()
+        {
+            m_scaleGridElement.normal();
+        }
+
+        override public void expandState()
+        {
+            m_scaleGridElement.expand();
+        }
     }
 }

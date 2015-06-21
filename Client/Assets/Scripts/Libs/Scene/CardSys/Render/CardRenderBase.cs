@@ -9,6 +9,8 @@ namespace SDK.Lib
         protected EventDispatch m_clickEntityDisp;  // 点击事件分发
         protected EventDispatch m_downEntityDisp;  // 按下事件分发
         protected EventDispatch m_upEntityDisp;  // 按下事件分发
+        protected EventDispatch m_dragOverEntityDisp;  // 按下拖动移动进入事件分发
+        protected EventDispatch m_dragOutEntityDisp;  // 按下拖动移动出去事件分发
 
         public CardRenderBase(SceneEntityBase entity_) :
             base(entity_)
@@ -16,6 +18,8 @@ namespace SDK.Lib
             m_clickEntityDisp = new AddOnceEventDispatch();
             m_downEntityDisp = new AddOnceEventDispatch();
             m_upEntityDisp = new AddOnceEventDispatch();
+            m_dragOverEntityDisp = new AddOnceEventDispatch();
+            m_dragOutEntityDisp = new AddOnceEventDispatch();
         }
 
         override public void dispose()
@@ -24,6 +28,8 @@ namespace SDK.Lib
             m_clickEntityDisp.clearEventHandle();
             m_downEntityDisp.clearEventHandle();
             m_upEntityDisp.clearEventHandle();
+            m_dragOverEntityDisp.clearEventHandle();
+            m_dragOutEntityDisp.clearEventHandle();
         }
 
         public EventDispatch clickEntityDisp
@@ -50,6 +56,22 @@ namespace SDK.Lib
             }
         }
 
+        public EventDispatch dragOverEntityDisp
+        {
+            get
+            {
+                return m_dragOverEntityDisp;
+            }
+        }
+
+        public EventDispatch dragOutEntityDisp
+        {
+            get
+            {
+                return m_dragOutEntityDisp;
+            }
+        }
+
         public void onEntityClick(GameObject go)
         {
             m_clickEntityDisp.dispatchEvent(this);
@@ -65,6 +87,16 @@ namespace SDK.Lib
             {
                 m_upEntityDisp.dispatchEvent(this);
             }
+        }
+
+        public void onEntityDragOver(GameObject go)
+        {
+            m_dragOverEntityDisp.dispatchEvent(this);
+        }
+
+        public void onEntityDragOut(GameObject go)
+        {
+            m_dragOutEntityDisp.dispatchEvent(this);
         }
     }
 }

@@ -86,6 +86,16 @@ namespace SDK.Common
             UIEventListener.Get(go).onPress = handle;
         }
 
+        public static void addDragOverHandle(GameObject go, UIEventListener.VoidDelegate handle)
+        {
+            UIEventListener.Get(go).onDragOver = handle;
+        }
+
+        public static void addDragOutHandle(GameObject go, UIEventListener.VoidDelegate handle)
+        {
+            UIEventListener.Get(go).onDragOut = handle;
+        }
+
         public static void addEventHandle(GameObject go, string path, UnityAction handle)
         {
             go.transform.Find(path).GetComponent<Button>().onClick.AddListener(handle);

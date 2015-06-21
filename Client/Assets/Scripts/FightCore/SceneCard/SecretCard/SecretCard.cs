@@ -8,7 +8,7 @@ namespace FightCore
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_trackAniControl = new SecretAniControl(this);
-            m_sceneCardBaseData.m_ioControl = new SecretDragControl(this);
+            m_sceneCardBaseData.m_ioControl = new SecretIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new SecretBehaviorControl(this);
 
             m_render = new SceneCardPlayerRender(this);

@@ -12,7 +12,7 @@ namespace FightCore
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_trackAniControl = new EquipAniControl(this);
-            m_sceneCardBaseData.m_ioControl = new EquipDragControl(this);
+            m_sceneCardBaseData.m_ioControl = new EquipIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new EquipBehaviorControl(this);
 
             m_render = new EquipSkillRender(this);

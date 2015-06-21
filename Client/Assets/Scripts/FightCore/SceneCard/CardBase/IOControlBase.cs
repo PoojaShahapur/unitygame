@@ -392,14 +392,29 @@ namespace FightCore
             }
         }
 
+        // 输入按下
         public void onCardDown(IDispatchObject dispObj)
         {
             m_card.m_sceneDZData.m_watchCardInfo.startWatch(m_card);
         }
 
+        // 输入释放
         public void onCardUp(IDispatchObject dispObj)
         {
+            m_card.m_sceneDZData.m_watchCardInfo.stopWatch();
+            m_card.trackAniControl.normalState();
+        }
 
+        // 输入按下移动到卡牌上
+        public void onDragOver(IDispatchObject dispObj)
+        {
+            m_card.trackAniControl.expandState();
+        }
+
+        // 输入按下移动到卡牌出
+        public void onDragOut(IDispatchObject dispObj)
+        {
+            m_card.trackAniControl.normalState();
         }
 
         // 开始转换模型
@@ -413,7 +428,12 @@ namespace FightCore
         {
             this.m_card.clickEntityDisp.addEventHandle(onCardClick);
 
-            if (1 == type)       // 转换到场牌需要开启按下和起来事件
+            if (0 == type)      // 转换到手牌需要能滑动
+            {
+                this.m_card.downEntityDisp.addEventHandle(onDragOver);
+                this.m_card.upEntityDisp.addEventHandle(onDragOut);
+            }
+            else if (1 == type)       // 转换到场牌需要开启按下和起来事件
             {
                 this.m_card.downEntityDisp.addEventHandle(onCardDown);
                 this.m_card.upEntityDisp.addEventHandle(onCardUp);
