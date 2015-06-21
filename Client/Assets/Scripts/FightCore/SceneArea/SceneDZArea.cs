@@ -462,7 +462,7 @@ namespace FightCore
             card.convHandleModel();
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_HAND;       // 更新卡牌区域信息
             card.curIndex = card.preIndex;                                  // 更新索引信息
-            card.dragControl.enableDrag();                                  // 开启拖放
+            card.ioControl.enableDrag();                                  // 开启拖放
             m_inSceneCardList.addCardByServerPos(card);                     // 添加到手牌位置
             m_inSceneCardList.updateSceneCardPos();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
         }
@@ -478,7 +478,7 @@ namespace FightCore
         {
             if (m_sceneDZData.m_curDragItem != null && m_sceneDZData.m_curDragItem.sceneCardItem.svrCard.qwThisID == cmd.dwAttThisID)
             {
-                m_sceneDZData.m_curDragItem.dragControl.backCard2Orig();
+                m_sceneDZData.m_curDragItem.ioControl.backCard2Orig();
             }
         }
 

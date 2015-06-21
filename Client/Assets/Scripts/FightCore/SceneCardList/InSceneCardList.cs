@@ -44,9 +44,9 @@ namespace FightCore
         override public void removeCard(SceneCardBase card)
         {
             // 关闭拖拽功能
-            if (card.dragControl != null)       // Enemy Hand 手牌没有拖动
+            if (card.ioControl != null)       // Enemy Hand 手牌没有拖动
             {
-                card.dragControl.disableDrag();
+                card.ioControl.disableDrag();
             }
             base.removeCard(card);
         }

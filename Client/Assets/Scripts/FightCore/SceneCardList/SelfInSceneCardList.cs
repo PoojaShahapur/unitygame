@@ -67,7 +67,7 @@ namespace FightCore
                     UtilApi.setPos(cardItem.transform(), curPos);
                     UtilApi.setRot(cardItem.transform(), curRot);
 
-                    cardItem.dragControl.enableDrag();      // 开启拖动
+                    cardItem.ioControl.enableDrag();      // 开启拖动
                 }
 
                 ++idx;
@@ -79,7 +79,7 @@ namespace FightCore
         {
             base.addCard(card, idx);
             // 需要监听卡牌的拖动
-            card.dragControl.m_moveDisp = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
+            card.ioControl.m_moveDisp = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
         }
 
         // 移动初始卡牌到手牌列表，更新场景卡牌位置
@@ -96,7 +96,7 @@ namespace FightCore
                 {
                     UtilApi.Destroy(cardItem.chaHaoGo);
                 }
-                cardItem.dragControl.enableDrag();      // 开启拖动
+                cardItem.ioControl.enableDrag();      // 开启拖动
                 cardItem.sceneCardBaseData.m_trackAniControl.min2HandleAni();
                 cardItem.sceneCardBaseData.m_trackAniControl.addEnterHandleEntryDisp(onSelfStartCardEnterHandEntry);
 
@@ -110,7 +110,7 @@ namespace FightCore
             {
                 if(!cardItem.Equals(card))       // 如果内存地址相等
                 {
-                    cardItem.dragControl.disableDrag();
+                    cardItem.ioControl.disableDrag();
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace FightCore
             {
                 if (!cardItem.Equals(card))       // 如果内存地址相等
                 {
-                    cardItem.dragControl.enableDrag();
+                    cardItem.ioControl.enableDrag();
                 }
             }
         }

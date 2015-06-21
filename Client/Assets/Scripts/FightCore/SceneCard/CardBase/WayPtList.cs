@@ -8,6 +8,7 @@ namespace FightCore
         eHandUp,            // 手牌区域 Up
         eOutDown,           // 出牌区域 Down
         eWatchUp,           // 观察卡牌 Up
+        eScaleUp,           // 缩放卡牌 Up ，就是手滑动过某一个，某一个放大
         eTotal
     }
 

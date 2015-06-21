@@ -32,14 +32,14 @@ namespace FightCore
         // 设置一些基本信息
         override public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
-            dragControl.m_centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition;
+            ioControl.m_centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition;
             // 设置初始位置为发牌位置
             m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
 
             // 设置是否可以动画
             if (m_playerSide == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
             {
-                dragControl.disableDrag();
+                ioControl.disableDrag();
                 //if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
                 //{
                 //    trackAniControl.destScale = SceneDZCV.SMALLFACT;
@@ -49,7 +49,7 @@ namespace FightCore
             else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
             {
                 //trackAniControl.destScale = SceneDZCV.SMALLFACT;
-                dragControl.disableDrag();
+                ioControl.disableDrag();
             }
 
             // 更新边框
@@ -78,9 +78,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.startConvModel(1);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.startConvModel(1);
+                    m_sceneCardBaseData.m_ioControl.startConvModel(1);
                 }
             }
 
@@ -107,9 +107,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.endConvModel(1);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.endConvModel(1);
+                    m_sceneCardBaseData.m_ioControl.endConvModel(1);
                 }
             }
 
@@ -134,9 +134,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.startConvModel(0);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.startConvModel(0);
+                    m_sceneCardBaseData.m_ioControl.startConvModel(0);
                 }
             }
 
@@ -167,9 +167,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.endConvModel(0);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.endConvModel(0);
+                    m_sceneCardBaseData.m_ioControl.endConvModel(0);
                 }
             }
 

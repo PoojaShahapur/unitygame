@@ -144,18 +144,6 @@ namespace FightCore
             }
         }
 
-        public ClickControl clickControl
-        {
-            get
-            {
-                return m_sceneCardBaseData.m_clickControl;
-            }
-            set
-            {
-                m_sceneCardBaseData.m_clickControl = value;
-            }
-        }
-
         public TrackAniControl trackAniControl
         {
             get
@@ -168,15 +156,15 @@ namespace FightCore
             }
         }
 
-        public DragControl dragControl
+        public IOControlBase ioControl
         {
             get
             {
-                return m_sceneCardBaseData.m_dragControl;
+                return m_sceneCardBaseData.m_ioControl;
             }
             set
             {
-                m_sceneCardBaseData.m_dragControl = value;
+                m_sceneCardBaseData.m_ioControl = value;
             }
         }
         public EffectControl effectControl
@@ -281,17 +269,13 @@ namespace FightCore
         {
             if (m_sceneCardBaseData != null)
             {
-                if (m_sceneCardBaseData.m_clickControl != null)
-                {
-                    m_sceneCardBaseData.m_clickControl.dispose();
-                }
                 if (m_sceneCardBaseData.m_trackAniControl != null)
                 {
                     m_sceneCardBaseData.m_trackAniControl.dispose();
                 }
-                if (m_sceneCardBaseData.m_dragControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_dragControl.dispose();
+                    m_sceneCardBaseData.m_ioControl.dispose();
                 }
                 if (m_sceneCardBaseData.m_effectControl != null)
                 {

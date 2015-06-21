@@ -10,6 +10,7 @@ namespace FightCore
     public class CanOutAniControl : ExceptBlackAniControl
     {
         protected EventDispatch m_onEnterHandleEntryDisp;
+        protected ScaleGridElement m_scaleGridElement;
 
         public CanOutAniControl(SceneCardBase rhv) :
             base(rhv)
@@ -126,6 +127,28 @@ namespace FightCore
             m_curPt = m_wayPtList.getPosInfo(PosType.eWatchUp);
             m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
             m_curPt.scale = new UnityEngine.Vector3(1, 1, 1);
+        }
+
+        override public void setPos(Vector3 pos)
+        {
+            m_curPt = m_wayPtList.getPosInfo(PosType.eScaleUp);
+
+            m_curPt.pos = pos;
+            if (m_scaleGridElement.isNormalState())
+            {
+                m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
+                m_curPt.scale = new UnityEngine.Vector3(0.5f, 0.5f, 0.5f);
+            }
+            else
+            {
+                m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
+                m_curPt.scale = new UnityEngine.Vector3(1, 1, 1);
+            }
+        }
+
+        override public void updatePos()
+        {
+            moveToDestPos(PosType.eScaleUp);
         }
     }
 }

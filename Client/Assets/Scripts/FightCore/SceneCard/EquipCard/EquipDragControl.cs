@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class EquipDragControl : DragControl
+    public class EquipDragControl : IOControlBase
     {
         public EquipDragControl(SceneCardBase rhv) : 
             base(rhv)

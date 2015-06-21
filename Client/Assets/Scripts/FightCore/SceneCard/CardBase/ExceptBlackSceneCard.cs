@@ -44,17 +44,13 @@ namespace FightCore
         {
             base.init();
 
-            if (m_sceneCardBaseData.m_clickControl != null)
-            {
-                m_sceneCardBaseData.m_clickControl.init();
-            }
             if (m_sceneCardBaseData.m_trackAniControl != null)
             {
                 m_sceneCardBaseData.m_trackAniControl.init();
             }
-            if (m_sceneCardBaseData.m_dragControl != null)
+            if (m_sceneCardBaseData.m_ioControl != null)
             {
-                m_sceneCardBaseData.m_dragControl.init();
+                m_sceneCardBaseData.m_ioControl.init();
             }
             if (m_sceneCardBaseData.m_effectControl != null)
             {

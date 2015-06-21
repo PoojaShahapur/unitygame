@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class AttendDragControl : DragControl
+    public class AttendDragControl : IOControlBase
     {
         public AttendDragControl(SceneCardBase rhv) : 
             base(rhv)

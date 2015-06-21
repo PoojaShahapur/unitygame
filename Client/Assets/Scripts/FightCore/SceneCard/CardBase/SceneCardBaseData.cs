@@ -17,9 +17,8 @@ namespace FightCore
 
         public AIController m_aiController;
         public BehaviorControl m_behaviorControl;
-        public ClickControl m_clickControl;
         public TrackAniControl m_trackAniControl;
-        public DragControl m_dragControl;
+        public IOControlBase m_ioControl;
         public EffectControl m_effectControl;
         public CardMoveControl m_moveControl;
     }

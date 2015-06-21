@@ -41,7 +41,7 @@ namespace FightCore
             #endif
 
             // 添加进来的卡牌是不能移动的
-            card.dragControl.disableDrag();
+            card.ioControl.disableDrag();
             card.updateOutCardScaleInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform);    // 缩放按照配置运行
         }
 

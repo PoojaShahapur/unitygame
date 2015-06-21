@@ -9,7 +9,7 @@ namespace FightCore
     /**
      * @brief 所有轨迹动画基类
      */
-    public class TrackAniControl : CardControlBase
+    public class TrackAniControl : CardControlBase, IElemMove
     {
         protected NumAniParallel m_numAniParal;       // 回退的时候，这个单独的动画序列
         protected WayPtList m_wayPtList;
@@ -145,7 +145,7 @@ namespace FightCore
                 m_startAni.stop();
                 m_startAni.disable();
             }
-            m_card.dragControl.disableDragTitle();
+            m_card.ioControl.disableDragTitle();
 
             m_curPt = m_wayPtList.getPosInfo(type);
 
@@ -205,7 +205,7 @@ namespace FightCore
         public void retFormOutAreaToHandleArea()
         {
             m_card.convHandleModel();
-            m_card.dragControl.enableDrag();
+            m_card.ioControl.enableDrag();
 
             PosAni posAni;
             posAni = new PosAni();
@@ -251,7 +251,7 @@ namespace FightCore
                 m_startAni.enable();
             }
 
-            m_card.dragControl.enableDragTitle();
+            m_card.ioControl.enableDragTitle();
         }
 
         // 开始卡牌动画
@@ -276,6 +276,16 @@ namespace FightCore
         }
 
         virtual public void startEnemyFaPaiAni()
+        {
+
+        }
+
+        virtual public void setPos(Vector3 pos)
+        {
+
+        }
+
+        virtual public void updatePos()
         {
 
         }
