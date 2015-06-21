@@ -259,7 +259,7 @@ namespace FightCore
         {
             if(m_sceneDZData.m_curDragItem != null)
             {
-                m_sceneDZData.m_curDragItem.trackAniControl.moveToDestST();
+                m_sceneDZData.m_curDragItem.trackAniControl.moveToDestPos();
             }
         }
 
@@ -588,7 +588,7 @@ namespace FightCore
                 m_sceneEquipCard.setIdAndPnt(outCard.sceneCardItem.svrCard.dwObjectID, outCard.getPnt());
             }
 
-            m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
+            m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
 
             outCard.dispose();      // 释放原来的资源
         }

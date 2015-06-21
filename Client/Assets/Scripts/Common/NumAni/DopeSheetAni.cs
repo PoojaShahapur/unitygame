@@ -89,5 +89,15 @@ namespace SDK.Common
         {
             base.pause();
         }
+
+        public void enable()
+        {
+            m_animatorControl.enable();
+        }
+
+        public void disable()
+        {
+            m_animatorControl.disable();
+        }
     }
 }

@@ -207,6 +207,22 @@ namespace FightCore
             }
         }
 
+        public EventDispatch downEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).downEntityDisp;
+            }
+        }
+
+        public EventDispatch upEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).upEntityDisp;
+            }
+        }
+
         public uint startCardID
         {
             get
@@ -329,7 +345,7 @@ namespace FightCore
 
         public void playFlyNum(int num)
         {
-            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition, m_sceneDZData.m_centerGO);
+            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition, m_sceneDZData.m_placeHolderGo.m_centerGO);
         }
 
         // 是否是客户端先从手牌区域移动到出牌区域，然后再发动攻击的卡牌
@@ -371,35 +387,14 @@ namespace FightCore
             return false;
         }
 
-        // 开始卡牌动画
-        virtual public void faPai2MinAni()
-        {
-
-        }
-
-        virtual public void min2HandleAni()
-        {
-
-        }
-
-        virtual public void start2HandleAni()
-        {
-
-        }
-
-        virtual public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
-        {
-            
-        }
-
         virtual public void setStartIdx(int rhv)
         {
 
         }
 
-        virtual public void startEnemyFaPaiAni()
+        virtual public int getStartIdx()
         {
-
+            return 0;
         }
 
         // 更新初始卡牌场景位置信息

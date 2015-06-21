@@ -39,6 +39,7 @@ namespace FightCore
         {
             // 保存当前操作的卡牌
             m_card.m_sceneDZData.m_curDragItem = m_card;     // 设置当前拖放的目标
+            enableDragTitle();      // Drag Title 动画
             // 开始拖动动画
             m_card.m_sceneDZData.m_curDragItem.trackAniControl.startDragAni();
 
@@ -85,11 +86,24 @@ namespace FightCore
                 drag.m_moveDisp = onMove;
                 drag.m_dropEndDisp = onDragEnd;
                 drag.m_canMoveDisp = canMove;
+                drag.m_planePt = new Vector3(0, SceneDZCV.DRAG_YDELTA, 0);
             }
             if (m_card.gameObject().GetComponent<WindowDragTilt>() == null)
             {
                 m_card.gameObject().AddComponent<WindowDragTilt>();
             }
+        }
+
+        public void enableDragTitle()
+        {
+            WindowDragTilt dragTitle = m_card.gameObject().GetComponent<WindowDragTilt>();
+            dragTitle.enabled = true;
+        }
+
+        public void disableDragTitle()
+        {
+            WindowDragTilt dragTitle = m_card.gameObject().GetComponent<WindowDragTilt>();
+            dragTitle.enabled = false;
         }
 
         // 指明当前是否可以改变位置
@@ -178,8 +192,9 @@ namespace FightCore
             }
             else
             {
-            #if DEBUG_NOTNET
                 m_card.trackAniControl.endDragAni();       // 结束动画
+
+            #if DEBUG_NOTNET
                 m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card);        // 放入输出列表
             #endif
                 if (m_card.sceneCardItem != null)

@@ -50,7 +50,7 @@ namespace Fight
         protected void addEventHandle()
         {
             //UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin), onLuckyCoinBtnClk);       // 点击幸运币
-            UtilApi.addEventHandle(m_sceneDZData.m_startGO, onStartBtnClk);       // 开始游戏
+            UtilApi.addEventHandle(m_sceneDZData.m_placeHolderGo.m_startGO, onStartBtnClk);       // 开始游戏
 
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
             UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardDeap), onEnemyStartHover);
@@ -70,9 +70,9 @@ namespace Fight
 
         protected void onStartBtnClk(GameObject go)
         {
-            m_sceneDZData.stopTimer();        // 停止定时器
+            m_sceneDZData.m_roundMgr.stopTimer();        // 停止定时器
             // 点击后直接隐藏按钮
-            m_sceneDZData.m_startGO.SetActive(false);
+            m_sceneDZData.m_placeHolderGo.m_startGO.SetActive(false);
 
             // 卸载可能加载的叉号资源
             string resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
@@ -153,27 +153,27 @@ namespace Fight
             // ChallengeState.CHALLENGE_STATE_BATTLE 状态或者是刚开始，或者是中间掉线，然后重新上线
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_state == (int)ChallengeState.CHALLENGE_STATE_BATTLE)
             {
-                m_sceneDZData.m_bStartRound = true;
+                m_sceneDZData.m_roundMgr.bStartRound = true;
                 // 停止各种倒计时
-                m_sceneDZData.stopTimer();
+                m_sceneDZData.m_roundMgr.stopTimer();
 
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
                 {
                     // 显示自己回合
-                    m_sceneDZData.m_selfRoundTip.playEffect();
-                    m_sceneDZData.m_roundBtn.myTurn();
+                    m_sceneDZData.m_cardNpcMgr.m_selfRoundTip.playEffect();
+                    m_sceneDZData.m_cardNpcMgr.m_roundBtn.myTurn();
 
                     // 开始定时器
-                    m_sceneDZData.startDZTimer();
+                    m_sceneDZData.m_roundMgr.startDZTimer();
                 }
                 else
                 {
-                    m_sceneDZData.m_roundBtn.enemyTurn();
+                    m_sceneDZData.m_cardNpcMgr.m_roundBtn.enemyTurn();
                 }
 
                 if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].bHaveStartCard())    // 如果自己有初始化的牌
                 {
-                    m_sceneDZData.m_startGO.SetActive(false);
+                    m_sceneDZData.m_placeHolderGo.m_startGO.SetActive(false);
                     m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();      // 一定初始化卡牌到卡牌列表
                 }
 
@@ -185,24 +185,24 @@ namespace Fight
         public void psstRetRefreshBattlePrivilegeUserCmd(stRetRefreshBattlePrivilegeUserCmd msg)
         {
             // 停止倒计时定时器
-            m_sceneDZData.stopTimer();
+            m_sceneDZData.m_roundMgr.stopTimer();
 
             // 显示各种提示和动画
             if(Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
-                if (m_sceneDZData.m_bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息一进入对战就发送过来了，但是这个时候是初始卡牌阶段
+                if (m_sceneDZData.m_roundMgr.bStartRound)          // 只有当回合开始后，如果到自己出牌，才开启倒计时，这个消息一进入对战就发送过来了，但是这个时候是初始卡牌阶段
                 {
                     // 显示自己回合
-                    m_sceneDZData.m_selfRoundTip.playEffect();
-                    m_sceneDZData.m_roundBtn.myTurn();
+                    m_sceneDZData.m_cardNpcMgr.m_selfRoundTip.playEffect();
+                    m_sceneDZData.m_cardNpcMgr.m_roundBtn.myTurn();
 
                     // 开始定时器
-                    m_sceneDZData.startDZTimer();
+                    m_sceneDZData.m_roundMgr.startDZTimer();
                 }
             }
             else 
             {
-                m_sceneDZData.m_roundBtn.enemyTurn();
+                m_sceneDZData.m_cardNpcMgr.m_roundBtn.enemyTurn();
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
                 m_sceneDZData.m_gameOpState.cancelAttackOp();
             }
@@ -304,15 +304,15 @@ namespace Fight
 
         public void psstRetNotifyHandIsFullUserCmd(stRetNotifyHandIsFullUserCmd msg)
         {
-            m_sceneDZData.m_selfCardFullTip.show();
+            m_sceneDZData.m_cardNpcMgr.m_selfCardFullTip.show();
 
             if (1 == msg.who)            // 如果是自己
             {
-                m_sceneDZData.m_selfCardFullTip.desc.text = "自己的卡牌已经满了";
+                m_sceneDZData.m_cardNpcMgr.m_selfCardFullTip.desc.text = "自己的卡牌已经满了";
             }
             else            // 对方
             {
-                m_sceneDZData.m_selfCardFullTip.desc.text = "对方的卡牌已经满了";
+                m_sceneDZData.m_cardNpcMgr.m_selfCardFullTip.desc.text = "对方的卡牌已经满了";
             }
 
             // 启动定时器
@@ -324,7 +324,7 @@ namespace Fight
 
         public void endSelfFullTip(TimerItemBase timer)
         {
-            m_sceneDZData.m_selfCardFullTip.hide();
+            m_sceneDZData.m_cardNpcMgr.m_selfCardFullTip.hide();
         }
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)

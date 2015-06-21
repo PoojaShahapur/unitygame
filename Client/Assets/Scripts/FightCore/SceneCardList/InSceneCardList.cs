@@ -37,7 +37,7 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_cardHandAreaWidthArr[(int)m_playerSide], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
+            UtilMath.newRectSplit(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_placeHolderGo.m_cardHandAreaWidthArr[(int)m_playerSide], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
         }
 
         // 通过客户端的数据移除一张卡牌
@@ -58,17 +58,17 @@ namespace FightCore
             if (SceneDZCV.BLACK_CARD_ID == objid)   // 如果是 enemy 手牌，由于没有 m_sceneCardItem 数据，只能使用 id 创建
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCardById(objid, m_playerSide, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
-                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
-                tmpcard.startEnemyFaPaiAni();       // 播放动画
+                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
+                tmpcard.sceneCardBaseData.m_trackAniControl.startEnemyFaPaiAni();       // 播放动画
             }
             else
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
-                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
-                tmpcard.start2HandleAni();          // 播放动画
+                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
+                tmpcard.sceneCardBaseData.m_trackAniControl.start2HandleAni();          // 播放动画
             }
             addCard(tmpcard);
-            tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
+            tmpcard.sceneCardBaseData.m_trackAniControl.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
         }
 
         // 清空卡牌列表

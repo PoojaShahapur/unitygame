@@ -98,6 +98,7 @@ namespace SDK.Lib
         virtual protected void addHandle()
         {
             UtilApi.addEventHandle(gameObject(), onEntityClick);
+            UtilApi.addPressHandle(gameObject(), onEntityDownUp);
         }
 
         virtual protected void updateLeftAttr(TableCardItemBody tableBody)

@@ -41,32 +41,32 @@ namespace FightCore
             return m_sceneCardList.Count();
         }
 
-        // 更新场景卡牌位置，更新缩放和位移，这个只有在卡牌被拖动出去然后退回来的时候才会调用，因为拖放出去后，卡牌会变大，因此退回来需要缩放，战吼的时候不更新索引，需要等服务器返回来才更新索引
-        public virtual void updateSceneCardST(bool bUpdateIdx = true)
-        {
-            int idx = 0;
-            SceneCardBase cardItem;
-            WayPtItem pt;
+        //// 更新场景卡牌位置，更新缩放和位移，这个只有在卡牌被拖动出去然后退回来的时候才会调用，因为拖放出去后，卡牌会变大，因此退回来需要缩放，战吼的时候不更新索引，需要等服务器返回来才更新索引
+        //public virtual void updateSceneCardST(bool bUpdateIdx = true)
+        //{
+        //    int idx = 0;
+        //    SceneCardBase cardItem;
+        //    WayPtItem pt;
 
-            getCardPos();
+        //    getCardPos();
 
-            while (idx < m_sceneCardList.Count())
-            {
-                cardItem = m_sceneCardList[idx];
-                if (bUpdateIdx)
-                {
-                    cardItem.curIndex = (ushort)idx;
-                }
-                //cardItem.trackAniControl.destPos = m_posList[idx];
-                //cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
-                //cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
-                pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(PosType.eHandDown);    // 缩放就是 PosType.eHandDown 保存的值
-                pt.pos = m_posList[idx];
-                cardItem.trackAniControl.moveToDestST();
+        //    while (idx < m_sceneCardList.Count())
+        //    {
+        //        cardItem = m_sceneCardList[idx];
+        //        if (bUpdateIdx)
+        //        {
+        //            cardItem.curIndex = (ushort)idx;
+        //        }
+        //        //cardItem.trackAniControl.destPos = m_posList[idx];
+        //        //cardItem.trackAniControl.destRot = m_rotList[idx].eulerAngles;
+        //        //cardItem.trackAniControl.destScale = SceneCardBase.SMALLFACT;
+        //        pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(PosType.eHandDown);    // 缩放就是 PosType.eHandDown 保存的值
+        //        pt.pos = m_posList[idx];
+        //        cardItem.trackAniControl.moveToDestST();
 
-                ++idx;
-            }
-        }
+        //        ++idx;
+        //    }
+        //}
 
         // 战吼的时候不更新索引，需要等服务器返回来才更新索引
         virtual public void updateSceneCardPos(bool bUpdateIdx = true)
@@ -101,7 +101,7 @@ namespace FightCore
 
                 pt = cardItem.trackAniControl.wayPtList.getAndAddPosInfo(posType);
                 pt.pos = m_posList[idx];
-                cardItem.trackAniControl.moveToDestT(posType);
+                cardItem.trackAniControl.moveToDestPos(posType);
 
                 ++idx;
             }

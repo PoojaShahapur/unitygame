@@ -9,11 +9,11 @@ namespace FightCore
     /**
      * @brief 英雄卡、技能卡、装备卡、随从卡、法术卡基类，但是不是对方手里的背面卡的基类
      */
-    public class SceneCard : SceneCardBase
+    public class ExceptBlackSceneCard : SceneCardBase
     {
         protected bool m_svrDispose;        // 服务器已经删除了这个对象
 
-        public SceneCard(SceneDZData data) : 
+        public ExceptBlackSceneCard(SceneDZData data) : 
             base(data)
         {
             m_svrDispose = false;

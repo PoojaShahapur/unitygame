@@ -29,7 +29,7 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform, SceneDZCV.COMMON_CARD_WIDTH, m_sceneDZData.m_cardCommonAreaWidthArr[(int)m_playerSide], 0, m_sceneCardList.Count(), ref m_posList);
+            UtilMath.newRectSplit(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform, SceneDZCV.COMMON_CARD_WIDTH, m_sceneDZData.m_placeHolderGo.m_cardCommonAreaWidthArr[(int)m_playerSide], 0, m_sceneCardList.Count(), ref m_posList);
         }
 
         override public void addCard(SceneCardBase card, int idx = -1)
@@ -42,7 +42,7 @@ namespace FightCore
 
             // 添加进来的卡牌是不能移动的
             card.dragControl.disableDrag();
-            card.updateOutCardScaleInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform);    // 缩放按照配置运行
+            card.updateOutCardScaleInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform);    // 缩放按照配置运行
         }
 
         // 自己手里的牌移动，需要更新已经出的牌的位置

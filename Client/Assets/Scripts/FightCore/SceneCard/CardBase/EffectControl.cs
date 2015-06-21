@@ -94,7 +94,7 @@ namespace FightCore
         // 添加移动特效
         public MoveEffect addMoveEffect(int id, Vector3 srcPos, Vector3 destPos, float moveTime, bool bAutoRemove = true, bool bLoop = false, bool bPlay = true)
         {
-            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.addMoveEffect(id, m_card.m_sceneDZData.m_centerGO, srcPos, destPos, moveTime, bAutoRemove, bLoop, bPlay) as MoveEffect;
+            MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.addMoveEffect(id, m_card.m_sceneDZData.m_placeHolderGo.m_centerGO, srcPos, destPos, moveTime, bAutoRemove, bLoop, bPlay) as MoveEffect;
 
             return effect;
         }

@@ -118,16 +118,32 @@ namespace FightCore
             }
         }
 
-        // 开始转换模型
-        public void startConvModel()
+        public void onCardDown(IDispatchObject dispObj)
+        {
+            m_card.m_sceneDZData.m_watchCardInfo.startWatch(m_card);
+        }
+
+        public void onCardUp(IDispatchObject dispObj)
         {
 
         }
 
+        // 开始转换模型
+        public void startConvModel(int type)
+        {
+            
+        }
+
         // 结束转换模型
-        public void endConvModel()
+        public void endConvModel(int type)
         {
             this.m_card.clickEntityDisp.addEventHandle(onCardClick);
+
+            if(1 == type)       // 转换到场牌需要开启按下和起来事件
+            {
+                this.m_card.downEntityDisp.addEventHandle(onCardDown);
+                this.m_card.upEntityDisp.addEventHandle(onCardUp);
+            }
         }
     }
 }

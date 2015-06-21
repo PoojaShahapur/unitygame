@@ -5,6 +5,9 @@ using UnityEngine;
 /// Look at how it's used in Example 6.
 /// </summary>
 
+/**
+ * @brief 拖动与当前组件的 enable 是否开启有关
+ */
 //[AddComponentMenu("NGUI/Examples/Window Drag Tilt")]
 public class WindowDragTilt : MonoBehaviour
 {
@@ -24,10 +27,10 @@ public class WindowDragTilt : MonoBehaviour
 
 	void Update ()
 	{
-        if(canUpdate())
-        {
+        //if(canUpdate())
+        //{
             titleUpdate();
-        }
+        //}
 	}
 
     protected void titleUpdate()

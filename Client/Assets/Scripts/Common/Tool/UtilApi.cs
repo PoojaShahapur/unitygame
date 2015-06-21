@@ -81,6 +81,11 @@ namespace SDK.Common
             UIEventListener.Get(go).onHover = handle;
         }
 
+        public static void addPressHandle(GameObject go, UIEventListener.BoolDelegate handle)
+        {
+            UIEventListener.Get(go).onPress = handle;
+        }
+
         public static void addEventHandle(GameObject go, string path, UnityAction handle)
         {
             go.transform.Find(path).GetComponent<Button>().onClick.AddListener(handle);
@@ -512,6 +517,23 @@ namespace SDK.Common
         public static bool isAddressEqual(System.Object a, System.Object b)
         {
             return object.ReferenceEquals(a, b);
+        }
+
+        // 判断向量是否相等
+        public static bool isVectorEqual(Vector3 lhv, Vector3 rhv)
+        {
+            if (UnityEngine.Mathf.Abs(lhv.x - rhv.x) < 0.0001f)
+            {
+                if (UnityEngine.Mathf.Abs(lhv.y - rhv.y) < 0.0001f)
+                {
+                    if (UnityEngine.Mathf.Abs(lhv.z - rhv.z) < 0.0001f)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         static long scurTime;

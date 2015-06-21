@@ -154,7 +154,7 @@ namespace Game.UI
         protected void testStart()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZData.m_startGO.SetActive(false);
+            uiDZ.m_sceneDZData.m_placeHolderGo.m_startGO.SetActive(false);
             uiDZ.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.startCardMoveTo();
         }
 
@@ -219,7 +219,7 @@ namespace Game.UI
         protected void testPrepareTime()
         {
             UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
-            uiDZ.m_sceneDZData.startInitCardTimer();
+            uiDZ.m_sceneDZData.m_roundMgr.startInitCardTimer();
         }
 
         protected void testMsg()
@@ -352,7 +352,7 @@ namespace Game.UI
 
             MoveEffect effect = Ctx.m_instance.m_sceneEffectMgr.createAndAdd(EffectType.eMoveEffect, EffectRenderType.eSpriteEffectRender) as MoveEffect;
 
-            effect.setPnt(uiDZ.m_sceneDZData.m_centerGO);
+            effect.setPnt(uiDZ.m_sceneDZData.m_placeHolderGo.m_centerGO);
             effect.setLoop(false);
             effect.setTableID(4);
             effect.srcPos = new Vector3(-4, 0, 0);
@@ -403,12 +403,12 @@ namespace Game.UI
             sceneCardItem.svrCard.dwObjectID = 230000;
             sceneCardItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneCardItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
             m_aniModel.sceneCardItem = sceneCardItem;
-            m_aniModel.faPai2MinAni();
+            m_aniModel.sceneCardBaseData.m_trackAniControl.faPai2MinAni();
         }
 
         protected void downAni()
         {
-            m_aniModel.min2HandleAni();
+            m_aniModel.sceneCardBaseData.m_trackAniControl.min2HandleAni();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace FightCore
             //    return new LuckCoinCard(sceneDZData);
             //}
 
-            ret.setIdAndPnt(objid, sceneDZData.m_centerGO);
+            ret.setIdAndPnt(objid, sceneDZData.m_placeHolderGo.m_centerGO);
             ret.init();
             ret.setBaseInfo(m_playerSide, area, cardType);
 
@@ -109,6 +109,11 @@ namespace FightCore
         //    this.delObject(card);
         //    card.dispose();
         //}
+
+        public void remove(SceneCardBase card)
+        {
+            this.delObject(card);
+        }
 
         // 提供全部释放的接口
         public void removeAndDestroyAll(SceneCardBase card)

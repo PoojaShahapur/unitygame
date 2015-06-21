@@ -35,9 +35,9 @@ namespace FightCore
                     cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx];
                     cardItem.setStartIdx(idx);
                     cardItem.updateCardOutState(true);
-                    cardItem.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
+                    cardItem.updateInitCardSceneInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
                     cardItem.updateCardDataByTable();          // 这个时候还没有服务器的数据，只能更新客户端表中的数据
-                    cardItem.faPai2MinAni();
+                    cardItem.sceneCardBaseData.m_trackAniControl.faPai2MinAni();
                 }
 
                 ++idx;
@@ -97,8 +97,8 @@ namespace FightCore
                     UtilApi.Destroy(cardItem.chaHaoGo);
                 }
                 cardItem.dragControl.enableDrag();      // 开启拖动
-                cardItem.min2HandleAni();
-                cardItem.addEnterHandleEntryDisp(onSelfStartCardEnterHandEntry);
+                cardItem.sceneCardBaseData.m_trackAniControl.min2HandleAni();
+                cardItem.sceneCardBaseData.m_trackAniControl.addEnterHandleEntryDisp(onSelfStartCardEnterHandEntry);
 
                 ++idx;
             }

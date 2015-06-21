@@ -201,7 +201,7 @@ namespace FightCore
                 {
                     if (item.skillTableItem.m_skillAttackEffect != 0)
                     {
-                        Ctx.m_instance.m_sceneEffectMgr.addSceneEffect((int)item.skillTableItem.m_skillAttackEffect, m_card.m_sceneDZData.m_centerGO);      // 添加一个场景特效
+                        Ctx.m_instance.m_sceneEffectMgr.addSceneEffect((int)item.skillTableItem.m_skillAttackEffect, m_card.m_sceneDZData.m_placeHolderGo.m_centerGO);      // 添加一个场景特效
                     }
                 }
             }

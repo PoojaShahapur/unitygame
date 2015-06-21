@@ -19,7 +19,7 @@ namespace FightCore
 
         override public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
-            UtilApi.setPos(this.transform(), m_sceneDZData.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition);
+            UtilApi.setPos(this.transform(), m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition);
         }
 
         override public void updateCardDataChangeBySvr(t_Card svrCard_ = null)

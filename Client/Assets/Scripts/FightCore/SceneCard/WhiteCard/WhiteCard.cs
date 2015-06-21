@@ -7,7 +7,7 @@ namespace FightCore
     /**
      * @brief 场景中的白色卡牌，就是用来占位使用的
      */
-    public class WhiteCard : SceneCard
+    public class WhiteCard : ExceptBlackSceneCard
     {
         public WhiteCard(SceneDZData sceneDZData) :
             base(sceneDZData)
