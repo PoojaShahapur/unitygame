@@ -31,11 +31,6 @@ namespace SDK.Lib
                 m_subTex[idx].dispose();
             }
 
-            Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath(), null);
-            m_uiPrefabRes = null;
-            Ctx.m_instance.m_modelMgr.unload(m_boxModel.GetPath(), null);
-            m_boxModel = null;
-
             base.dispose();
         }
 

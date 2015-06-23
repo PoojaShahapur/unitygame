@@ -15,6 +15,7 @@ namespace SDK.Lib
         protected CardSubPart[] m_subTex;       // 子模型
         protected string m_modelPath;           // 模型目录
 
+        // 目前 UIPrefab 和 BoxModel 是不会改变的，只有空值的时候才更新
         protected string m_uiPrefabPath;            // UI 预制目录
         protected UIPrefabRes m_uiPrefabRes;        // 这个是 UI 资源
 
@@ -58,7 +59,16 @@ namespace SDK.Lib
                 m_model = null;
             }
 
-            m_clickEntityDisp.clearEventHandle();
+            if (m_uiPrefabRes != null)
+            {
+                Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath(), null);
+                m_uiPrefabRes = null;
+            }
+            if (m_boxModel != null)
+            {
+                Ctx.m_instance.m_modelMgr.unload(m_boxModel.GetPath(), null);
+                m_boxModel = null;
+            }
         }
 
         override public GameObject gameObject()
@@ -95,13 +105,18 @@ namespace SDK.Lib
 
         virtual protected void addUIAndBox()
         {
-            m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(m_uiPrefabPath);
-            GameObject _go = m_uiPrefabRes.InstantiateObject(m_uiPrefabPath);
-            _go.name = "UIRoot";
-            UtilApi.SetParent(_go, gameObject(), false);
-
-            m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
-            UtilApi.copyBoxCollider(m_boxModel.getObject() as GameObject, gameObject());
+            if (m_uiPrefabRes == null)
+            {
+                m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(m_uiPrefabPath);
+                GameObject _go = m_uiPrefabRes.InstantiateObject(m_uiPrefabPath);
+                _go.name = "UIRoot";
+                UtilApi.SetParent(_go, gameObject(), false);
+            }
+            if (m_boxModel != null)
+            {
+                m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
+                UtilApi.copyBoxCollider(m_boxModel.getObject() as GameObject, gameObject());
+            }
         }
 
         virtual public void updateModel(TableCardItemBody tableBody, GameObject pntGo_)

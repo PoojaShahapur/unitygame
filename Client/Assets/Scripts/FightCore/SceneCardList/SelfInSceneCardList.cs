@@ -79,7 +79,7 @@ namespace FightCore
         {
             base.addCard(card, idx);
             // 需要监听卡牌的拖动
-            card.ioControl.m_moveDisp = m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove;
+            card.ioControl.setMoveDisp(m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove);
         }
 
         // 移动初始卡牌到手牌列表，更新场景卡牌位置

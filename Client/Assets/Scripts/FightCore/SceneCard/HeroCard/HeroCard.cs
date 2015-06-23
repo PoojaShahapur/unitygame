@@ -94,7 +94,23 @@ namespace FightCore
 
         override public void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
-            base.updateCardDataChangeBySvr();
+            base.updateCardDataChangeBySvr(svrCard_);
+
+            if (svrCard_ == null)
+            {
+                svrCard_ = m_sceneCardItem.svrCard;
+            }
+
+            AuxLabel text = new AuxLabel();
+
+            text.setSelfGo(m_render.gameObject(), "UIRoot/AttText");        // 攻击
+            text.text = svrCard_.damage.ToString();
+            text.setSelfGo(m_render.gameObject(), "UIRoot/HpText");         // HP
+            text.text = svrCard_.hp.ToString();
+
+            text.setSelfGo(m_render.gameObject(), "UIRoot/ArmorText");         // Armor 护甲
+            text.text = svrCard_.armor.ToString();
+
             updateHp();
         }
 

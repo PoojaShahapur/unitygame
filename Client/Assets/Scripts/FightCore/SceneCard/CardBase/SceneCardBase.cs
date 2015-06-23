@@ -303,7 +303,7 @@ namespace FightCore
         // 更新卡牌属性，这个主要更改卡牌经常改变的属性，除了初始卡牌，后来服务器发送过来的卡牌数据都要从这个刷新
         public virtual void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
-            
+
         }
 
         // 这个主要是更新卡牌不经常改变的属性

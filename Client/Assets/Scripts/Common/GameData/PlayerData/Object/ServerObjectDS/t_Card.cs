@@ -80,6 +80,10 @@ namespace SDK.Common
         {
             qwThisID = rhv.qwThisID;
 	        dwObjectID = rhv.dwObjectID;
+            if (pos == null)
+            {
+                pos = new stObjectLocation();
+            }
 	        pos.copyFrom(rhv.pos);
 
             mpcost = rhv.mpcost;
@@ -94,11 +98,11 @@ namespace SDK.Common
             attackTimes = rhv.attackTimes;
             equipOpen = rhv.equipOpen;
 
-            if(rhv.state == null || rhv.state.Length != state.Length)
+            if(state == null || rhv.state.Length != state.Length)
             {
-                rhv.state = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
+                state = new byte[((int)StateID.CARD_STATE_MAX + 7) / 8];
             }
-            Array.Copy(state, 0, rhv.state, 0, state.Length);
+            Array.Copy(rhv.state, 0, state, 0, rhv.state.Length);
 
             side = rhv.side;
         }

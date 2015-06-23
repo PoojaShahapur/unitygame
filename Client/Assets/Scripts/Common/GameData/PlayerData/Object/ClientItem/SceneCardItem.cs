@@ -15,8 +15,6 @@ namespace SDK.Common
         public EnDZPlayer m_playerSide;                 // 卡牌属性哪个玩家
         protected CardArea m_preCardArea;               // 移动之前插槽位置
         protected CardArea m_cardArea;                  // 卡牌在什么位置
-        public bool m_svrDie;                           // 服务器认为应该删除了，但是客户端还在做动画
-        public bool m_playDieAni;                       // 客户端播放动画
 
         public CardArea cardArea
         {
@@ -42,6 +40,18 @@ namespace SDK.Common
                 m_svrCard = value;
                 pk.attackTimes = m_svrCard.attackTimes;
             }
+        }
+
+        public void copyFrom(SceneCardItem rhv)
+        {
+            if (m_svrCard == null)
+            {
+                m_svrCard = new t_Card();
+            }
+            m_svrCard.copyFrom(rhv.m_svrCard);
+            m_cardTableItem = rhv.m_cardTableItem;
+            m_playerSide = rhv.m_playerSide;
+            m_cardArea = rhv.m_cardArea;
         }
 
         public bool hasEndDieFlag()

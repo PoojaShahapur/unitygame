@@ -51,15 +51,36 @@ namespace FightCore
             }
             else if (CardType.CARDTYPE_EQUIP == cardType)
             {
-                ret = new EquipCard(sceneDZData);
+                if (EnDZPlayer.ePlayerSelf == m_playerSide)
+                {
+                    ret = new SelfEquipCard(sceneDZData);
+                }
+                else
+                {
+                    ret = new EnemyEquipCard(sceneDZData);
+                }
             }
             else if (CardType.CARDTYPE_HERO == cardType)
             {
-                ret = new HeroCard(sceneDZData);
+                if (EnDZPlayer.ePlayerSelf == m_playerSide)
+                {
+                    ret = new SelfHeroCard(sceneDZData);
+                }
+                else
+                {
+                    ret = new EnemyHeroCard(sceneDZData);
+                }
             }
             else if (CardType.CARDTYPE_SKILL == cardType)
             {
-                ret = new SkillCard(sceneDZData);
+                if (EnDZPlayer.ePlayerSelf == m_playerSide)
+                {
+                    ret = new SelfSkillCard(sceneDZData);
+                }
+                else
+                {
+                    ret = new EnemySkillCard(sceneDZData);
+                }
             }
             //else if (CardType.CARDTYPE_LUCK_COINS == cardType)
             //{

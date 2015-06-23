@@ -9,7 +9,6 @@ namespace FightCore
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_trackAniControl = new SkillAniControl(this);
-            m_sceneCardBaseData.m_ioControl = new SkillIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new SkillBehaviorControl(this);
 
             m_render = new SkillRender(this);
@@ -23,7 +22,16 @@ namespace FightCore
 
         override public void updateCardDataChangeBySvr(t_Card svrCard_ = null)
         {
+            base.updateCardDataChangeBySvr();
 
+            if (svrCard_ == null)
+            {
+                svrCard_ = m_sceneCardItem.svrCard;
+            }
+
+            AuxLabel text = new AuxLabel();
+            text.setSelfGo(m_render.gameObject(), "UIRoot/MpText");         // 消耗
+            text.text = svrCard_.mpcost.ToString();
         }
 
         override public void updateCardDataNoChangeByTable()

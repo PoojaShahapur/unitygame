@@ -36,12 +36,5 @@ namespace SDK.Lib
             m_subTex[0].tex.texPath = path;
             m_subTex[0].tex.syncUpdateTex();
         }
-
-        // 技能装备没有显示的属性
-        override protected void addUIAndBox()
-        {
-            m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
-            UtilApi.copyBoxCollider(m_boxModel.getObject() as GameObject, gameObject());
-        }
     }
 }

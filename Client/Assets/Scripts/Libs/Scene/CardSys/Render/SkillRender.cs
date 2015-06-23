@@ -11,6 +11,7 @@ namespace SDK.Lib
         public SkillRender(SceneEntityBase entity_) :
             base(entity_)
         {
+            m_uiPrefabPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/SkillCardUI.prefab");
             m_boxModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/SkillCardBox.prefab");
         }
     }

@@ -25,7 +25,7 @@ namespace FightCore
         // 设置一些基本信息
         override public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
-            ioControl.m_centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition;
+            ioControl.setCenterPos(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition);
             // 设置初始位置为发牌位置
             m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
 
@@ -65,21 +65,7 @@ namespace FightCore
         // 转换成出牌模型
         override public void convOutModel()
         {
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.startConvModel(1);
-                }
-                if (m_sceneCardBaseData.m_ioControl != null)
-                {
-                    m_sceneCardBaseData.m_ioControl.startConvModel(1);
-                }
-                if (m_sceneCardBaseData.m_trackAniControl != null)
-                {
-                    m_sceneCardBaseData.m_trackAniControl.startConvModel(1);
-                }
-            }
+            startConvModel(1);
 
             if (m_render != null)
             {
@@ -91,52 +77,13 @@ namespace FightCore
             (m_render as ChangCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
             UtilApi.setScale(m_render.transform(), Vector3.one);
 
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.endConvModel(1);
-                }
-                if (m_sceneCardBaseData.m_ioControl != null)
-                {
-                    m_sceneCardBaseData.m_ioControl.endConvModel(1);
-                }
-                if (m_sceneCardBaseData.m_trackAniControl != null)
-                {
-                    m_sceneCardBaseData.m_trackAniControl.endConvModel(1);
-                }
-            }
-
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    if (!m_sceneCardBaseData.m_effectControl.checkRender())
-                    {
-                        Ctx.m_instance.m_logSys.log("Render Is Null");
-                    }
-                }
-            }
+            endConvModel(1);
         }
 
         // 转换成手牌模型
         override public void convHandleModel()
         {
-            if (m_sceneCardBaseData != null)
-            {
-                if (m_sceneCardBaseData.m_effectControl != null)
-                {
-                    m_sceneCardBaseData.m_effectControl.startConvModel(0);
-                }
-                if (m_sceneCardBaseData.m_ioControl != null)
-                {
-                    m_sceneCardBaseData.m_ioControl.startConvModel(0);
-                }
-                if (m_sceneCardBaseData.m_trackAniControl != null)
-                {
-                    m_sceneCardBaseData.m_trackAniControl.startConvModel(0);
-                }
-            }
+            startConvModel(0);
 
             if (m_render != null)
             {
@@ -152,19 +99,43 @@ namespace FightCore
             (m_render as SelfHandCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
             updateCardDataChangeBySvr();    // 更新服务器属性
 
+            endConvModel(0);
+        }
+
+        protected void startConvModel(int type)
+        {
             if (m_sceneCardBaseData != null)
             {
                 if (m_sceneCardBaseData.m_effectControl != null)
                 {
-                    m_sceneCardBaseData.m_effectControl.endConvModel(0);
+                    m_sceneCardBaseData.m_effectControl.startConvModel(type);
                 }
                 if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_ioControl.endConvModel(0);
+                    m_sceneCardBaseData.m_ioControl.startConvModel(type);
                 }
                 if (m_sceneCardBaseData.m_trackAniControl != null)
                 {
-                    m_sceneCardBaseData.m_trackAniControl.endConvModel(0);
+                    m_sceneCardBaseData.m_trackAniControl.startConvModel(type);
+                }
+            }
+        }
+
+        protected void endConvModel(int type)
+        {
+            if (m_sceneCardBaseData != null)
+            {
+                if (m_sceneCardBaseData.m_effectControl != null)
+                {
+                    m_sceneCardBaseData.m_effectControl.endConvModel(type);
+                }
+                if (m_sceneCardBaseData.m_ioControl != null)
+                {
+                    m_sceneCardBaseData.m_ioControl.endConvModel(type);
+                }
+                if (m_sceneCardBaseData.m_trackAniControl != null)
+                {
+                    m_sceneCardBaseData.m_trackAniControl.endConvModel(type);
                 }
             }
 

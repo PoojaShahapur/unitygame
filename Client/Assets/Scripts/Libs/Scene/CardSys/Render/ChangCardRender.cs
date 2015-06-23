@@ -41,7 +41,8 @@ namespace SDK.Lib
 
         override protected void addHandle()
         {
-            UtilApi.addEventHandle(gameObject(), onEntityClick);
+            base.addHandle();
+            UtilApi.addPressHandle(gameObject(), onEntityDownUp);
         }
     }
 }

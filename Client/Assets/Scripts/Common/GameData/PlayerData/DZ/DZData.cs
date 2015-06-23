@@ -267,7 +267,7 @@ namespace SDK.Common
                 (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("释放技能失败  这个技能需要你手动选择一个目标");
                 return false;
             }
-            if (pAtt.isHeroMagicCard() && pAtt.checkAttackTimes())
+            if (pAtt.isHeroMagicCard() && !pAtt.checkAttackTimes())
             {
                 (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("释放技能失败  英雄能力每回合只能使用一次");
                 return false;

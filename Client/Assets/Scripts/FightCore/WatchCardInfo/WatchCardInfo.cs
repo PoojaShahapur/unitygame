@@ -22,6 +22,7 @@ namespace FightCore
 
         protected SceneCardBase m_watchCard;
         protected SceneCardBase m_showCard;
+        protected SceneCardItem m_sceneCardItem;        // 需要显示的卡牌数据，因为总是显示手牌的内容，因此可能需要修改里面的内容，因此单独一份
 
         public WatchCardInfo()
         {
@@ -42,6 +43,8 @@ namespace FightCore
             {
                 m_showCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, sceneDZData);
                 Ctx.m_instance.m_sceneCardMgr.remove(m_showCard);
+
+                m_sceneCardItem = new SceneCardItem();
             }
         }
 
@@ -90,8 +93,11 @@ namespace FightCore
             else
             {
                 m_showCard.setIdAndPnt(m_watchCard.sceneCardItem.svrCard.dwObjectID, m_watchCard.m_sceneDZData.m_placeHolderGo.m_centerGO);
-                m_showCard.sceneCardItem = m_watchCard.sceneCardItem;
             }
+
+            m_sceneCardItem.copyFrom(m_watchCard.sceneCardItem);
+            m_sceneCardItem.cardArea = CardArea.CARDCELLTYPE_HAND;      // 总是显示手牌
+            m_showCard.sceneCardItem = m_sceneCardItem;
 
             UtilApi.setPos(m_showCard.transform(), m_watchCard.transform().localPosition + new Vector3(SceneDZCV.COMMON_CARD_WIDTH, SceneDZCV.DRAG_YDELTA, 0));
             m_showCard.show();
