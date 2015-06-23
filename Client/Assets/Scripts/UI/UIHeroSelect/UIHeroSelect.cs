@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-    public class UIHeroSelect : Form
+    public class UIHeroSelect : Form, IUIHeroSelect
     {
         override public void onShow()
         {

@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 职业选择界面和模式选择界面是一个界面
      */
-    public class UIJobSelect : Form
+    public class UIJobSelect : Form, IUIJobSelect
     {
         protected JobSelectData m_jobSelectData;
 
@@ -48,7 +48,7 @@ namespace Game.UI
         override public void onExit()
         {
             base.onExit();
-            UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian tujian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(tujian != null)
             {
                 tujian.toggleCardVisible(true);

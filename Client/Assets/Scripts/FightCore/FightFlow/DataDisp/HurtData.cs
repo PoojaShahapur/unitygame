@@ -143,7 +143,6 @@ namespace FightCore
             else if (EHurtType.eDie == type)
             {
                 ret = new DieItem(type);
-
             }
 
             m_hurtList.Add(ret);

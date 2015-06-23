@@ -71,7 +71,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstNotifyAllCardTujianInfoCmd(cmd.info);
             // 更新界面
-            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstNotifyAllCardTujianInfoCmd();
@@ -88,7 +88,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstNotifyOneCardTujianInfoCmd(cmd.id, cmd.num);
             // 更新界面
-            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstNotifyOneCardTujianInfoCmd(cmd.id, cmd.num, !bhas);
@@ -101,7 +101,7 @@ namespace Game.Game
             stRetGiftBagCardsDataUserCmd cmd = new stRetGiftBagCardsDataUserCmd();
             cmd.derialize(msg);
 
-            UIOpenPack uiPack = Ctx.m_instance.m_uiMgr.getForm<UIOpenPack>(UIFormID.eUIOpenPack);
+            IUIOpenPack uiPack = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIOpenPack) as IUIOpenPack;
             if(uiPack != null)
             {
                 uiPack.psstRetGiftBagCardsDataUserCmd(cmd.id);
@@ -118,13 +118,13 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCardGroupListInfoUserCmd(cmd.info);
             // 更新界面
-            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetCardGroupListInfoUserCmd();
             }
 
-            UIJobSelect uiMS = Ctx.m_instance.m_uiMgr.getForm<UIJobSelect>(UIFormID.eUIJobSelect);
+            IUIJobSelect uiMS = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIJobSelect) as IUIJobSelect;
             if (uiMS != null && uiMS.isVisible())
             {
                 uiMS.updateHeroList();
@@ -138,7 +138,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetOneCardGroupInfoUserCmd(cmd);
             // 更新界面
-            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetOneCardGroupInfoUserCmd(cmd.index, cmd.id);
@@ -154,7 +154,7 @@ namespace Game.Game
             // 更新数据
             Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetCreateOneCardGroupUserCmd(cmd);
             // 更新界面
-            UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if (uiSC != null && uiSC.isVisible())
             {
                 uiSC.psstRetCreateOneCardGroupUserCmd(Ctx.m_instance.m_dataPlayer.m_dataCard.m_id2CardGroupDic[cmd.index]);
@@ -171,7 +171,7 @@ namespace Game.Game
                 // 更新数据
                 int curIdx = Ctx.m_instance.m_dataPlayer.m_dataCard.psstRetDeleteOneCardGroupUserCmd(cmd.index);
                 // 更新界面
-                UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+                IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
                 if (uiSC != null && uiSC.isVisible())
                 {
                     uiSC.psstRetDeleteOneCardGroupUserCmd(curIdx);
@@ -186,7 +186,7 @@ namespace Game.Game
 
             if(cmd.success > 0)
             {
-                UITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+                IUITuJian uiSC = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
                 if (uiSC != null && uiSC.isVisible())
                 {
                     uiSC.psstRetSaveOneCardGroupUserCmd(cmd.index);
@@ -201,7 +201,7 @@ namespace Game.Game
 
             Ctx.m_instance.m_dataPlayer.m_dataHero.psstRetAllHeroInfoUserCmd(cmd.info);
 
-            UIHero uiSH = Ctx.m_instance.m_uiMgr.getForm<UIHero>(UIFormID.eUIHero);
+            IUIHero uiSH = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIHero) as IUIHero;
             if (uiSH != null && uiSH.isVisible())
             {
                 uiSH.updateAllHero();
@@ -224,7 +224,7 @@ namespace Game.Game
             cmd.derialize(msg);
 
             // 显示匹配结果
-            UIJobSelect uiMS = Ctx.m_instance.m_uiMgr.getForm<UIJobSelect>(UIFormID.eUIJobSelect);
+            IUIJobSelect uiMS = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIJobSelect) as IUIJobSelect;
             if (uiMS != null && uiMS.isVisible())
             {
                 uiMS.psstRetHeroFightMatchUserCmd(cmd);
@@ -238,7 +238,7 @@ namespace Game.Game
             cmd.derialize(msg);
             msg.position = 0;
 
-            UIJobSelect ui = Ctx.m_instance.m_uiMgr.getForm<UIJobSelect>(UIFormID.eUIJobSelect);
+            IUIJobSelect ui = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIJobSelect) as IUIJobSelect;
             ui.psstRetHeroIntoBattleSceneUserCmd(msg);
         }
 
@@ -315,28 +315,23 @@ namespace Game.Game
 
             Ctx.m_instance.m_logSys.log(string.Format("添加一个卡牌 thisid: {0}", cmd.mobject.qwThisID));
 
-            SceneCardItem sceneItem = null;
             if (cmd.byActionType == 1)
             {
-                sceneItem = new SceneCardItem();
-                sceneItem.svrCard = cmd.mobject;
-                sceneItem.cardArea = (CardArea)cmd.slot;
-                sceneItem.m_playerFlag = (EnDZPlayer)(cmd.who - 1);
-                sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, sceneItem.svrCard.dwObjectID).m_itemBody as TableCardItemBody;
                 // 填充数据
-                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].addOneSceneCard(sceneItem);       // 添加数据
+                cmd.sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].createCardItemBySvrData((EnDZPlayer)(cmd.who - 1), cmd.mobject);
+                Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].addOneSceneCard(cmd.sceneItem);       // 添加数据
             }
             else
             {
-                sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].updateCardInfoByCardItem(cmd.mobject);
+                cmd.sceneItem = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[cmd.who - 1].updateCardInfoByCardItem(cmd.mobject);
             }
 
-            if (sceneItem != null)      // 更新或者添加都需要这个数据必须存在
+            if (cmd.sceneItem != null)      // 更新或者添加都需要这个数据必须存在
             {
                 UISceneDZ uiDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
                 if (uiDZ != null && uiDZ.isVisible())
                 {
-                    uiDZ.psstAddBattleCardPropertyUserCmd(cmd, sceneItem);
+                    uiDZ.psstAddBattleCardPropertyUserCmd(cmd);
                 }
             }
         }
@@ -358,7 +353,7 @@ namespace Game.Game
                 uiSceneDZ.psstNotifyFightEnemyInfoUserCmd(cmd);
             }
 
-            UIDZ uiDZ = Ctx.m_instance.m_uiMgr.getForm<UIDZ>(UIFormID.eUIDZ);
+            IUIDZ uiDZ = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIDZ) as IUIDZ;
             if (uiDZ != null)
             {
                 uiDZ.psstNotifyFightEnemyInfoUserCmd();

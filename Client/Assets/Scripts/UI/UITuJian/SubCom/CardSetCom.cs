@@ -52,7 +52,7 @@ namespace Game.UI
         {
             m_tuJianData.m_wdscCardSetPnl.m_curCardSet = this;
             Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu = ETuJianMenu.eCardSet;
-            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianTop>(UIFormID.eUITuJianTop);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITuJianTop);
         }
 
         public void reqCardListAndStartEdit()

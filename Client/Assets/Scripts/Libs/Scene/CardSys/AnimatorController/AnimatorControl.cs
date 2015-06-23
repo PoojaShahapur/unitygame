@@ -112,6 +112,22 @@ namespace SDK.Lib
             }
         }
 
+        public void enable()
+        {
+            if(m_stateValue != 0 || m_bIdleStateDetect)     // 如果状态值不是 0 ，或者当前在 Idle State 检测中
+            {
+                m_animator.enabled = true;
+            }
+        }
+
+        public void disable()
+        {
+            if (m_animator.enabled)
+            {
+                m_animator.enabled = false;
+            }
+        }
+
         public void setControlInfo(string path)
         {
             if (m_controlPath != path)

@@ -11,6 +11,9 @@ using System;
 /// Allows dragging of the specified target object by mouse or touch, optionally limiting it to be within the UIPanel's clipped rectangle.
 /// </summary>
 
+/**
+ * @brief 拖动与当前组件的 enable 是否开启无关
+ */
 //[ExecuteInEditMode]
 //[AddComponentMenu("NGUI/Interaction/Drag Object")]
 public class UIDragObject : MonoBehaviour
@@ -94,6 +97,7 @@ public class UIDragObject : MonoBehaviour
     public Action m_dropEndDisp;
     // 是否可以移动
     public Func<bool> m_canMoveDisp;
+    public Vector3 m_planePt = Vector3.zero;
 
 	/// <summary>
 	/// Auto-upgrade the legacy data.
@@ -176,7 +180,8 @@ public class UIDragObject : MonoBehaviour
 					//Transform trans = UICamera.currentCamera.transform;
 					//mPlane = new Plane((panelRegion != null ? panelRegion.cachedTransform.rotation : trans.rotation) * Vector3.back, UICamera.lastWorldPosition);
                     //mPlane = new Plane(trans.rotation * Vector3.back, UICamera.lastWorldPosition);
-                    mPlane = new Plane(Vector3.up, Vector3.zero);
+                    //mPlane = new Plane(Vector3.up, Vector3.zero);
+                    mPlane = new Plane(Vector3.up, m_planePt);
 				}
 			}
 			else if (mPressed && mTouchID == UICamera.currentTouchID)

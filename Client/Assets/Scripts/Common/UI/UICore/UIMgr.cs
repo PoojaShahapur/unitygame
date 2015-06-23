@@ -57,7 +57,8 @@ namespace SDK.Common
             }
         }
 
-        public void loadAndShow<T>(UIFormID ID) where T : Form, new()
+        //public void loadAndShow<T>(UIFormID ID) where T : Form, new()
+        public void loadAndShow(UIFormID ID)
         {
             if (hasForm(ID))
             {
@@ -65,7 +66,7 @@ namespace SDK.Common
             }
             else
             {
-                loadForm<T>(ID);
+                loadForm(ID);
             }
         }
 
@@ -80,7 +81,7 @@ namespace SDK.Common
 
         public void showFormInternal(UIFormID ID)
         {
-            Form win = getForm<Form>(ID);
+            Form win = getForm(ID);
             if (win != null)
             {
                 if (!win.bReady)
@@ -98,7 +99,7 @@ namespace SDK.Common
         // 隐藏一个 UI
         private void hideFormInternal(UIFormID ID)
 		{
-			Form win = getForm<Form>(ID);
+			Form win = getForm(ID);
 			if (win != null)
 			{
 				if (win.IsVisible())
@@ -112,7 +113,7 @@ namespace SDK.Common
         // 退出一个 UI
         public void exitForm(UIFormID ID, bool bForce = false)
 		{
-			Form win = getForm<Form>(ID);
+			Form win = getForm(ID);
 
             if (win != null)
 			{
@@ -129,7 +130,7 @@ namespace SDK.Common
 
         protected void exitFormInternal(UIFormID ID)
         {
-            Form win = getForm<Form>(ID);
+            Form win = getForm(ID);
 
             if (win != null)
             {
@@ -184,11 +185,12 @@ namespace SDK.Common
             form.init();        // 初始化
         }
 
-        public T getForm<T>(UIFormID ID) where T : Form
+        //public T getForm<T>(UIFormID ID) where T : Form
+        public Form getForm(UIFormID ID)
         {
             if (m_dicForm.ContainsKey(ID))
             {
-                return m_dicForm[ID] as T;
+                return m_dicForm[ID];
             }
             else
             {
@@ -202,10 +204,11 @@ namespace SDK.Common
         }
 
         // 这个事加载界面需要的代码
-        public void loadForm<T>(UIFormID ID) where T : Form, new()
+        //public void loadForm<T>(UIFormID ID) where T : Form, new()
+        public void loadForm(UIFormID ID)
         {
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
-            Form window = getForm<Form>(ID);
+            Form window = getForm(ID);
 
             if (window != null)     // 本地已经创建了这个窗口，
             {
@@ -221,7 +224,7 @@ namespace SDK.Common
             {
                 // 创建窗口
                 Form form = null;
-                form = new T();
+                form = Ctx.m_instance.m_scriptDynLoad.getScriptObject(attrItem.m_scriptTypeName) as Form;
                 if (form != null)                   // 如果代码已经在本地
                 {
                     (form as Form).id = ID;

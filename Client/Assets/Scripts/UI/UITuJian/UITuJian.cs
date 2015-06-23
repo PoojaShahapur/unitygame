@@ -10,7 +10,7 @@ namespace Game.UI
     /**
      * @brief 图鉴界面
      */
-    public class UITuJian : Form
+    public class UITuJian : Form, IUITuJian
     {
         protected TuJianData m_tuJianData;
 

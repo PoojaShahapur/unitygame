@@ -44,7 +44,7 @@ namespace Game.UI
 
         protected void onEditBtnClk(IDispatchObject dispObj)
         {
-            UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian tujian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             tujian.editCurCardSet();
             m_tuJianTopData.m_form.exit();
         }
@@ -53,7 +53,7 @@ namespace Game.UI
         {
             if (InfoBoxBtnType.eBTN_OK == type)
             {
-                UITuJian tujian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+                IUITuJian tujian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
                 tujian.delCardSet();
             }
 

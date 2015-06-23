@@ -6,7 +6,7 @@ namespace Game.UI
     /**
      * @brief 模糊的背景
      */
-    public class UIBlurBg : Form
+    public class UIBlurBg : Form, IUIBlurBg
     {
         public override void onInit()
         {

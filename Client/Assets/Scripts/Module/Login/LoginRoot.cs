@@ -2,6 +2,7 @@
 using System.Collections;
 using Game.Login;
 using SDK.Common;
+using Game.UI;
 
 public class LoginRoot : MonoBehaviour 
 {

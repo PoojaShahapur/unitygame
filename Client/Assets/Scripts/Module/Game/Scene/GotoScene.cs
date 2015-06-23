@@ -60,20 +60,20 @@ namespace Game.Game
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIMain>(UIFormID.eUIMain);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMain);
 
             Ctx.m_instance.m_uiMgr.m_UIAttrs.m_dicAttr[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_Game);
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIGM>(UIFormID.eUIGM);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIGM);
         }
 
         protected void loadAllDZUIScene()
         {
             //Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.eUITest);
-            Ctx.m_instance.m_uiMgr.loadForm<UIDZ>(UIFormID.eUIDZ);      // 显示对战场景界面
-            Ctx.m_instance.m_uiMgr.loadForm<UIChat>(UIFormID.eUIChat);      // 显示聊天
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIDZ);      // 显示对战场景界面
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIChat);      // 显示聊天
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
             Ctx.m_instance.m_uiMgr.m_UIAttrs.m_dicAttr[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_DZ);
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIGM>(UIFormID.eUIGM);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIGM);
         }
 
         // 第一次进入游戏场景初始化

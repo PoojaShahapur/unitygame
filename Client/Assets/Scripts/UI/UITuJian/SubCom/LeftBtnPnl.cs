@@ -48,27 +48,27 @@ namespace Game.UI
 
         public void onJobBtnClk()
         {
-            if (Ctx.m_instance.m_uiMgr.getForm<UITuJianTop>(UIFormID.eUITuJianTop) != null)
+            if (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJianTop) != null)
             {
                 Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUITuJianTop);
             }
             else
             {
                 Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu = ETuJianMenu.eJobSel;
-                Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianTop>(UIFormID.eUITuJianTop);
+                Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITuJianTop);
             }
         }
 
         public void onFilterBtnClk()
         {
-            if (Ctx.m_instance.m_uiMgr.getForm<UITuJianTop>(UIFormID.eUITuJianTop) != null)
+            if (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJianTop) != null)
             {
                 Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUITuJianTop);
             }
             else
             {
                 Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu = ETuJianMenu.eFilter;
-                Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianTop>(UIFormID.eUITuJianTop);
+                Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITuJianTop);
             }
         }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.UI
 {
-    public class UITuJianTop : Form
+    public class UITuJianTop : Form, IUITuJianTop
     {
         public TuJianTopData m_tuJianTopData;
 

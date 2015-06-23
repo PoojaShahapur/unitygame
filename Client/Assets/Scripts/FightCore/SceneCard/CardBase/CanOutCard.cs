@@ -7,7 +7,7 @@ namespace FightCore
     /**
      * @brief 能放到场景上的牌，随从牌、法术牌，不包括技能牌、武器牌、英雄牌
      */
-    public class CanOutCard : SceneCard
+    public class CanOutCard : ExceptBlackSceneCard
     {
         protected int m_startIdx;                   // 开始卡牌索引，因为播放动画需要用到索引，索引从 0 开始
         protected DopeSheetAni m_startAni;          // 开始动画
@@ -30,16 +30,16 @@ namespace FightCore
         }
 
         // 设置一些基本信息
-        override public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
+        override public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
-            dragControl.m_centerPos = m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)area].transform.localPosition;
+            ioControl.m_centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition;
             // 设置初始位置为发牌位置
-            m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
+            m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
 
             // 设置是否可以动画
-            if (m_playerFlag == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
+            if (m_playerSide == EnDZPlayer.ePlayerEnemy)        // 如果是 enemy 的卡牌
             {
-                dragControl.disableDrag();
+                ioControl.disableDrag();
                 //if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
                 //{
                 //    trackAniControl.destScale = SceneDZCV.SMALLFACT;
@@ -49,11 +49,11 @@ namespace FightCore
             else if (area == CardArea.CARDCELLTYPE_SKILL || area == CardArea.CARDCELLTYPE_EQUIP)
             {
                 //trackAniControl.destScale = SceneDZCV.SMALLFACT;
-                dragControl.disableDrag();
+                ioControl.disableDrag();
             }
 
             // 更新边框
-            if (EnDZPlayer.ePlayerSelf == m_playerFlag)
+            if (EnDZPlayer.ePlayerSelf == m_playerSide)
             {
                 if (CardArea.CARDCELLTYPE_HAND == area)
                 {
@@ -78,9 +78,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.startConvModel(1);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.startConvModel();
+                    m_sceneCardBaseData.m_ioControl.startConvModel(1);
                 }
             }
 
@@ -91,7 +91,7 @@ namespace FightCore
             }
 
             m_render = new OutCardRender(this);
-            (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
+            (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
             UtilApi.setScale(m_render.transform(), Vector3.one);
 
             // 动画设置
@@ -107,9 +107,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.endConvModel(1);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.endConvModel();
+                    m_sceneCardBaseData.m_ioControl.endConvModel(1);
                 }
             }
 
@@ -134,9 +134,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.startConvModel(0);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.startConvModel();
+                    m_sceneCardBaseData.m_ioControl.startConvModel(0);
                 }
             }
 
@@ -151,7 +151,7 @@ namespace FightCore
             }
 
             m_render = new SceneCardPlayerRender(this);
-            (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_centerGO);
+            (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
             updateCardDataChangeBySvr();    // 更新服务器属性
 
             // 动画设置
@@ -167,9 +167,9 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.endConvModel(0);
                 }
-                if (m_sceneCardBaseData.m_clickControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_clickControl.endConvModel();
+                    m_sceneCardBaseData.m_ioControl.endConvModel(0);
                 }
             }
 
@@ -252,101 +252,9 @@ namespace FightCore
             }
         }
 
-        protected void createAni()
-        {
-            if (m_startAni == null)
-            {
-                m_startAni = new DopeSheetAni();
-                string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
-                m_startAni.setAniEndDisp(onFaPai2MinAniEnd);
-                m_startAni.setControlInfo(path);
-                m_startAni.setGO(this.gameObject());
-                m_startAni.syncUpdateControl();
-            }
-        }
-
-        // 开始动画，发牌区域到场景中间
-        override public void faPai2MinAni()
-        {
-            createAni();
-
-            m_startAni.stateId = convIdx2StateId(0);
-            m_startAni.play();
-        }
-
-        // 开始卡牌动画播放结束，注意开始有 3 张或者 4 张卡牌做动画，只有一个有回调函数
-        protected void onFaPai2MinAniEnd(NumAniBase ani)
-        {
-            //m_startAni.stateId = 0;
-            //m_startAni.play();
-            //m_startAni.stop();
-
-            //m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(trackAniControl.destPos);    // 移动到终点位置
-            Ctx.m_instance.m_logSys.log("自己卡牌从发牌区到场景区域动画结束");
-        }
-
-        // 开始动画，场景中间到手牌区域动画
-        override public void min2HandleAni()
-        {
-            m_startAni.setAniEndDisp(onMin2HandleEnd);
-            m_startAni.stateId = convIdx2StateId(1);
-            m_startAni.play();
-        }
-
-        protected void onMin2HandleEnd(NumAniBase ani)
-        {
-            //m_startAni.stateId = 0;
-            //m_startAni.play();
-            m_onEnterHandleEntryDisp.dispatchEvent(this);
-            Ctx.m_instance.m_logSys.log("自己卡牌从场景区域到手牌区域动画结束");
-        }
-
-        // 发牌区域到手牌区域
-        override public void start2HandleAni()
-        {
-            createAni();
-
-            m_startAni.setAniEndDisp(onStart2HandleAni);
-            m_startAni.stateId = convIdx2StateId(3);
-            m_startAni.play();
-        }
-
-        protected void onStart2HandleAni(NumAniBase ani)
-        {
-            Ctx.m_instance.m_logSys.log("自己卡牌从发牌区域到手牌区域动画结束");
-            m_onEnterHandleEntryDisp.dispatchEvent(this);
-        }
-
-        override public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
-        {
-            m_onEnterHandleEntryDisp.addEventHandle(eventHandle);
-        }
-
         override public void setStartIdx(int rhv)
         {
             m_startIdx = rhv;
-        }
-
-        protected int convIdx2StateId(int type)
-        {
-            if(0 == type)       // 获取发牌到场牌中心动画 Id
-            {
-                return m_startIdx + 1;
-            }
-            else if(1 == type)  // 场牌到手牌动画 Id
-            {
-                return (m_startIdx + 1 + 10);
-            }
-            else if(2 == type) // 不要的牌，回退发牌区
-            {
-                return (m_startIdx + 1 + 20);
-            }
-            else if(3 == type)  // 直接从发牌区域到手牌区域
-            {
-                return 31;
-            }
-
-            return 1;
         }
 
         // 更新初始卡牌场景位置信息

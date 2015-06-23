@@ -126,7 +126,7 @@ namespace Game.UI
         {
             m_tuJianData.m_wdscCardPnl.toggleCardVisible(false);
             Ctx.m_instance.m_auxUIHelp.m_auxJobSelectData.enterJobSelectMode();
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIJobSelect>(UIFormID.eUIJobSelect);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIJobSelect);
         }
 
         // 进入编辑卡牌组模式

@@ -9,8 +9,8 @@ namespace FightCore
      */
     public class InSceneCardList : SceneCardListBase
     {
-        public InSceneCardList(SceneDZData data, EnDZPlayer playerFlag)
-            : base(data, playerFlag)
+        public InSceneCardList(SceneDZData data, EnDZPlayer playerSide)
+            : base(data, playerSide)
         {
 
         }
@@ -37,16 +37,16 @@ namespace FightCore
         {
             m_posList.Clear();
             m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_cardHandAreaWidthArr[(int)m_playerFlag], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
+            UtilMath.newRectSplit(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_placeHolderGo.m_cardHandAreaWidthArr[(int)m_playerSide], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
         }
 
         // 通过客户端的数据移除一张卡牌
         override public void removeCard(SceneCardBase card)
         {
             // 关闭拖拽功能
-            if (card.dragControl != null)       // Enemy Hand 手牌没有拖动
+            if (card.ioControl != null)       // Enemy Hand 手牌没有拖动
             {
-                card.dragControl.disableDrag();
+                card.ioControl.disableDrag();
             }
             base.removeCard(card);
         }
@@ -57,18 +57,18 @@ namespace FightCore
             SceneCardBase tmpcard = null;
             if (SceneDZCV.BLACK_CARD_ID == objid)   // 如果是 enemy 手牌，由于没有 m_sceneCardItem 数据，只能使用 id 创建
             {
-                tmpcard = Ctx.m_instance.m_sceneCardMgr.createCardById(objid, m_playerFlag, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
-                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
-                tmpcard.startEnemyFaPaiAni();       // 播放动画
+                tmpcard = Ctx.m_instance.m_sceneCardMgr.createCardById(objid, m_playerSide, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
+                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
+                tmpcard.sceneCardBaseData.m_trackAniControl.startEnemyFaPaiAni();       // 播放动画
             }
             else
             {
                 tmpcard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
-                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_cardCenterGOArr[(int)m_playerFlag, (int)CardArea.CARDCELLTYPE_NONE].transform);
-                tmpcard.start2HandleAni();          // 播放动画
+                tmpcard.updateInitCardSceneInfo(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform);
+                tmpcard.sceneCardBaseData.m_trackAniControl.start2HandleAni();          // 播放动画
             }
             addCard(tmpcard);
-            tmpcard.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
+            tmpcard.sceneCardBaseData.m_trackAniControl.addEnterHandleEntryDisp(onOneCardEnterHandleEntry);
         }
 
         // 清空卡牌列表
@@ -88,7 +88,7 @@ namespace FightCore
         {
             foreach (SceneCardBase card in m_sceneCardList.list)
             {
-                if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerFlag].m_heroMagicPoint.mp >= card.sceneCardItem.svrCard.mpcost)
+                if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp >= card.sceneCardItem.svrCard.mpcost)
                 {
                     return true;
                 }

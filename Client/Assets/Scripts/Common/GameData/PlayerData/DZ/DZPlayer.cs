@@ -48,6 +48,18 @@ namespace SDK.Common
             }
         }
 
+        public SceneCardItem createCardItemBySvrData(EnDZPlayer playerSide, t_Card mobject)
+        {
+            SceneCardItem sceneItem = null;
+            sceneItem = new SceneCardItem();
+            sceneItem.svrCard = mobject;
+            sceneItem.cardArea = (CardArea)mobject.pos.dwLocation;
+            sceneItem.m_playerSide = playerSide;
+            sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, mobject.dwObjectID).m_itemBody as TableCardItemBody;
+
+            return sceneItem;
+        }
+
         public void addOneSceneCard(SceneCardItem card)
         {
             //m_sceneCardList.Add(card);

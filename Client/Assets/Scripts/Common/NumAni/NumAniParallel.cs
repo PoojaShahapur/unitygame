@@ -5,10 +5,12 @@ using UnityEngine;
 namespace SDK.Common
 {
     /**
-     * @breif 数字动画序列，同时执行，这个没有回调，因为 ITween 会自动释放相同的 ITween 
+     * @breif 数字动画序列，同时执行，只监听最后一个动画结束，因为 ITween 会自动释放相同的 ITween 
      */
     public class NumAniParallel : NumAniSeqBase
     {
+        protected NumAniBase m_lastAni;
+
         public NumAniParallel()
         {
             m_go = UtilApi.createGameObject("NumAniSeq");
@@ -19,20 +21,41 @@ namespace SDK.Common
 
         public void play()
         {
-            foreach (NumAniBase ani in m_numAniList)
+            if (m_numAniList.Count > 0)
             {
-                if(!ani.isPlaying())
+                m_lastAni = m_numAniList[0];
+
+                foreach (NumAniBase ani in m_numAniList)
                 {
-                    ani.play();
+                    if (!ani.isPlaying())
+                    {
+                        ani.play();
+                    }
+                }
+
+                m_numAniList.Clear();
+            }
+            else
+            {
+                if (m_aniSeqEndDisp != null)
+                {
+                    m_aniSeqEndDisp(this);
                 }
             }
-
-            m_numAniList.Clear();
         }
 
         protected void onAniEndDisp(NumAniBase ani)
         {
-            
+            if (ani.decItweenCount() == 0)      // 如果 ITween 全部播放完成
+            {
+                if (UtilApi.isAddressEqual(m_lastAni, ani))
+                {
+                    if (m_aniSeqEndDisp != null)
+                    {
+                        m_aniSeqEndDisp(this);
+                    }
+                }
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Game.UI
 
         protected void onAddBtnClk(IDispatchObject dispObj)
         {
-            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if (uiTuJian != null)
             {
                 uiTuJian.addCurCard2CardSet();

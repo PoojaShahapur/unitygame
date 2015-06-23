@@ -6,7 +6,9 @@ namespace FightCore
     {
         eHandDown,          // 手牌区域 Down
         eHandUp,            // 手牌区域 Up
-        eOutDown,            // 出牌区域 Down
+        eOutDown,           // 出牌区域 Down
+        eWatchUp,           // 观察卡牌 Up
+        eScaleUp,           // 缩放卡牌 Up ，就是手滑动过某一个，某一个放大
         eTotal
     }
 
@@ -20,17 +22,10 @@ namespace FightCore
         public WayPtList()
         {
             m_ptList = new MList<WayPtItem>((int)PosType.eTotal);
-            m_ptList.Add(new WayPtItem());
-            m_ptList[(int)PosType.eHandDown].rot = new UnityEngine.Vector3(0, 0, -3);
-            m_ptList[(int)PosType.eHandDown].scale = new UnityEngine.Vector3(0.5f, 0.5f, 0.5f);
-
-            m_ptList.Add(new WayPtItem());
-            m_ptList[(int)PosType.eHandUp].rot = new UnityEngine.Vector3(0, 0, 0);
-            m_ptList[(int)PosType.eHandUp].scale = new UnityEngine.Vector3(1, 1, 1);
-
-            m_ptList.Add(new WayPtItem());
-            m_ptList[(int)PosType.eOutDown].rot = new UnityEngine.Vector3(0, 0, 0);
-            m_ptList[(int)PosType.eOutDown].scale = new UnityEngine.Vector3(1, 1, 1);
+            for (int idx = 0; idx < (int)PosType.eTotal; ++idx)
+            {
+                m_ptList.Add(new WayPtItem());
+            }
         }
 
         public void setPosInfo(PosType wherePos, WayPtItem pos)

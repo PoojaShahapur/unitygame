@@ -25,7 +25,7 @@ namespace FightCore
             }
         }
 
-        public SceneCardBase createCardById(uint objid, EnDZPlayer m_playerFlag, CardArea area, CardType cardType, SceneDZData sceneDZData)
+        public SceneCardBase createCardById(uint objid, EnDZPlayer m_playerSide, CardArea area, CardType cardType, SceneDZData sceneDZData)
         {
             SceneCardBase ret = null;
 
@@ -66,9 +66,9 @@ namespace FightCore
             //    return new LuckCoinCard(sceneDZData);
             //}
 
-            ret.setIdAndPnt(objid, sceneDZData.m_centerGO);
+            ret.setIdAndPnt(objid, sceneDZData.m_placeHolderGo.m_centerGO);
             ret.init();
-            ret.setBaseInfo(m_playerFlag, area, cardType);
+            ret.setBaseInfo(m_playerSide, area, cardType);
 
             this.addObject(ret);
             if (SceneDZCV.WHITE_CARDID != objid &&
@@ -84,7 +84,7 @@ namespace FightCore
         public SceneCardBase createCard(SceneCardItem sceneItem, SceneDZData sceneDZData)
         {
             SceneCardBase ret = null;
-            ret = createCardById(sceneItem.svrCard.dwObjectID, sceneItem.m_playerFlag, sceneItem.cardArea, (CardType)sceneItem.m_cardTableItem.m_type, sceneDZData);
+            ret = createCardById(sceneItem.svrCard.dwObjectID, sceneItem.m_playerSide, sceneItem.cardArea, (CardType)sceneItem.m_cardTableItem.m_type, sceneDZData);
             ret.sceneCardItem = sceneItem;
             return ret;
         }
@@ -112,6 +112,11 @@ namespace FightCore
         //    this.delObject(card);
         //    card.dispose();
         //}
+
+        public void remove(SceneCardBase card)
+        {
+            this.delObject(card);
+        }
 
         // 提供全部释放的接口
         public void removeAndDestroyAll(SceneCardBase card)

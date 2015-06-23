@@ -144,18 +144,6 @@ namespace FightCore
             }
         }
 
-        public ClickControl clickControl
-        {
-            get
-            {
-                return m_sceneCardBaseData.m_clickControl;
-            }
-            set
-            {
-                m_sceneCardBaseData.m_clickControl = value;
-            }
-        }
-
         public TrackAniControl trackAniControl
         {
             get
@@ -168,15 +156,15 @@ namespace FightCore
             }
         }
 
-        public DragControl dragControl
+        public IOControlBase ioControl
         {
             get
             {
-                return m_sceneCardBaseData.m_dragControl;
+                return m_sceneCardBaseData.m_ioControl;
             }
             set
             {
-                m_sceneCardBaseData.m_dragControl = value;
+                m_sceneCardBaseData.m_ioControl = value;
             }
         }
         public EffectControl effectControl
@@ -207,6 +195,38 @@ namespace FightCore
             }
         }
 
+        public EventDispatch downEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).downEntityDisp;
+            }
+        }
+
+        public EventDispatch upEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).upEntityDisp;
+            }
+        }
+
+        public EventDispatch dragOverEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).dragOverEntityDisp;
+            }
+        }
+
+        public EventDispatch dragOutEntityDisp
+        {
+            get
+            {
+                return (m_render as CardRenderBase).dragOutEntityDisp;
+            }
+        }
+
         public uint startCardID
         {
             get
@@ -220,7 +240,7 @@ namespace FightCore
         }
 
         // 这个主要方便可以从卡牌 ID 直接创建卡牌，因为可能有的时候直接动卡牌 ID 创建卡牌，服务器的数据还没有
-        virtual public void setBaseInfo(EnDZPlayer m_playerFlag, CardArea area, CardType cardType)
+        virtual public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
 
         }
@@ -257,7 +277,7 @@ namespace FightCore
             {
                 Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
                 // 从各种引用除删除
-                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerFlag].removeOneCard(this);
+                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerSide].removeOneCard(this);
             }
         }
 
@@ -265,17 +285,13 @@ namespace FightCore
         {
             if (m_sceneCardBaseData != null)
             {
-                if (m_sceneCardBaseData.m_clickControl != null)
-                {
-                    m_sceneCardBaseData.m_clickControl.dispose();
-                }
                 if (m_sceneCardBaseData.m_trackAniControl != null)
                 {
                     m_sceneCardBaseData.m_trackAniControl.dispose();
                 }
-                if (m_sceneCardBaseData.m_dragControl != null)
+                if (m_sceneCardBaseData.m_ioControl != null)
                 {
-                    m_sceneCardBaseData.m_dragControl.dispose();
+                    m_sceneCardBaseData.m_ioControl.dispose();
                 }
                 if (m_sceneCardBaseData.m_effectControl != null)
                 {
@@ -308,7 +324,7 @@ namespace FightCore
             if (this.m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)
             {
                 // 只有点击自己的时候，才启动攻击
-                if (m_sceneCardItem.m_playerFlag == EnDZPlayer.ePlayerSelf)
+                if (m_sceneCardItem.m_playerSide == EnDZPlayer.ePlayerSelf)
                 {
                     m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpNormalAttack, this);
                 }
@@ -329,7 +345,7 @@ namespace FightCore
 
         public void playFlyNum(int num)
         {
-            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition, m_sceneDZData.m_centerGO);
+            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition, m_sceneDZData.m_placeHolderGo.m_centerGO);
         }
 
         // 是否是客户端先从手牌区域移动到出牌区域，然后再发动攻击的卡牌
@@ -371,35 +387,14 @@ namespace FightCore
             return false;
         }
 
-        // 开始卡牌动画
-        virtual public void faPai2MinAni()
-        {
-
-        }
-
-        virtual public void min2HandleAni()
-        {
-
-        }
-
-        virtual public void start2HandleAni()
-        {
-
-        }
-
-        virtual public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
-        {
-            
-        }
-
         virtual public void setStartIdx(int rhv)
         {
 
         }
 
-        virtual public void startEnemyFaPaiAni()
+        virtual public int getStartIdx()
         {
-
+            return 0;
         }
 
         // 更新初始卡牌场景位置信息
@@ -422,7 +417,7 @@ namespace FightCore
         {
             string side = "";
 
-            if (EnDZPlayer.ePlayerSelf == sceneCardItem.m_playerFlag)
+            if (EnDZPlayer.ePlayerSelf == sceneCardItem.m_playerSide)
             {
                 side = "Self";
             }

@@ -776,6 +776,8 @@ namespace Game.Msg
         //public uint pAttThisID;   //攻击者
         //public uint pDefThisID;   //防御者
 
+        public SceneCardItem sceneItem;
+
         public stAddBattleCardPropertyUserCmd()
         {
             byParam = ADD_BATTLE_CARD_PROPERTY_CMD;

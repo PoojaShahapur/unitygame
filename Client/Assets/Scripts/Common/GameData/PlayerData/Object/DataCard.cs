@@ -128,7 +128,7 @@ namespace SDK.Common
             }
 
             // 更新卡牌图鉴中的显示
-            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(uiTuJian != null)
             {
                 uiTuJian.updateMidCardModel();
@@ -161,7 +161,7 @@ namespace SDK.Common
             }
 
             // 更新卡牌图鉴中的显示
-            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if (uiTuJian != null)
             {
                 uiTuJian.updateMidCardModel();

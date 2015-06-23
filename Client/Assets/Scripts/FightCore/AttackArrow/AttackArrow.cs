@@ -60,7 +60,7 @@ namespace FightCore
         {
             // 计算位置
             getCurMouseScenePos();
-            UtilApi.setPos(m_sceneDZData.m_attackArrowGO.transform, new Vector3(m_currentPos.x, 1, m_currentPos.z));
+            UtilApi.setPos(m_sceneDZData.m_placeHolderGo.m_attackArrowGO.transform, new Vector3(m_currentPos.x, 1, m_currentPos.z));
         }
 
         protected void updateRot()
@@ -69,10 +69,10 @@ namespace FightCore
             getCurMouseScenePos();
 
             // 位置一定要转换到 m_attackArrowGO 里面，不要转换到 m_arrowListGO ，因为 m_arrowListGO 是不断旋转的，如果转换到 m_arrowListGO ，导致数据抖动
-            m_currentPos = m_sceneDZData.m_attackArrowGO.transform.InverseTransformPoint(m_currentPos);
+            m_currentPos = m_sceneDZData.m_placeHolderGo.m_attackArrowGO.transform.InverseTransformPoint(m_currentPos);
 
             m_rot.y = -Mathf.Atan2(m_currentPos.z, m_currentPos.x) * Mathf.Rad2Deg;            // 弧度转成度数
-            UtilApi.setRot(m_sceneDZData.m_arrowListGO.transform, Quaternion.Euler(m_rot));
+            UtilApi.setRot(m_sceneDZData.m_placeHolderGo.m_arrowListGO.transform, Quaternion.Euler(m_rot));
         }
 
         protected void updateArrow()
@@ -110,7 +110,7 @@ namespace FightCore
             {
                 m_tmpRet = new ArrowItem();
                 m_tmpRet.m_path = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel] + "ArrowItem.prefab";
-                m_tmpRet.m_parentTran = m_sceneDZData.m_arrowListGO.transform;
+                m_tmpRet.m_parentTran = m_sceneDZData.m_placeHolderGo.m_arrowListGO.transform;
                 m_tmpRet.load();        // 立即加载
             }
 

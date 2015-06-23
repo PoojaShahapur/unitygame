@@ -26,10 +26,10 @@ namespace Game.Game
 
             if (!Ctx.m_instance.m_uiMgr.hasForm(UIFormID.eUIShop))
             {
-                Ctx.m_instance.m_uiMgr.loadForm<UIShop>(UIFormID.eUIShop);
+                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIShop);
             }
 
-            UIShop shop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
+            IUIShop shop = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIShop) as IUIShop;
             if (shop != null)
             {
                 shop.UpdateGoldNum(cmd.data.m_gold);

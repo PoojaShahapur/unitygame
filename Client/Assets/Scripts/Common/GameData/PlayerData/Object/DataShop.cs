@@ -23,7 +23,7 @@ namespace SDK.Common
                 dataItemShop.m_xmlItemMarket = marketCfg.getXmlItem(id) as XmlItemMarket;
             }
 
-            UIShop uiShop = Ctx.m_instance.m_uiMgr.getForm<UIShop>(UIFormID.eUIShop);
+            IUIShop uiShop = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIShop) as IUIShop;
             if(uiShop != null)
             {
                 //uiShop.updateShopData();

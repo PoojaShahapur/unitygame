@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class AttendAniControl : TrackAniControl
+    public class AttendAniControl : CanOutAniControl
     {
         public AttendAniControl(SceneCardBase rhv) : 
             base(rhv)

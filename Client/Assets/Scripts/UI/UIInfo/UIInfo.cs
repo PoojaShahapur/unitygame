@@ -51,7 +51,7 @@ namespace Game.UI
         }
     }
 
-    public class UIInfo : Form
+    public class UIInfo : Form, IUIInfo
     {
         protected InfoData m_infoData;
 
@@ -156,8 +156,8 @@ namespace Game.UI
 
         public static void showMsg(InfoBoxParam param)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow<UIInfo>(param.m_formID);
-            Ctx.m_instance.m_uiMgr.getForm<UIInfo>(param.m_formID).setParam(param);
+            Ctx.m_instance.m_uiMgr.loadAndShow(param.m_formID);
+            (Ctx.m_instance.m_uiMgr.getForm(param.m_formID) as IUIInfo).setParam(param);
         }
     }
 }

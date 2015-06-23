@@ -5,10 +5,10 @@ namespace FightCore
 {
     public class EnemyDZArea : SceneDZArea
     {
-        public EnemyDZArea(SceneDZData sceneDZData, EnDZPlayer playerFlag)
-            : base(sceneDZData, playerFlag)
+        public EnemyDZArea(SceneDZData sceneDZData, EnDZPlayer playerSide)
+            : base(sceneDZData, playerSide)
         {
-            m_inSceneCardList = new EnemyInSceneCardList(m_sceneDZData, m_playerFlag);
+            m_inSceneCardList = new EnemyInSceneCardList(m_sceneDZData, m_playerSide);
         }
 
         // 给 enemy 可攻击的对象添加可攻击标识

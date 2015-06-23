@@ -161,7 +161,7 @@ namespace FightCore
 
         protected bool canNormalAttack(SceneCardBase card, EnGameOp gameOp)
         {
-            //if (m_opCard.sceneCardItem.m_playerFlag != card.sceneCardItem.m_playerFlag && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
+            //if (m_opCard.sceneCardItem.m_playerSide != card.sceneCardItem.m_playerSide && !UtilMath.checkState(StateID.CARD_STATE_SLEEP, card.sceneCardItem.m_svrCard.state))
             //{
             //    return true;
             //}
@@ -172,11 +172,11 @@ namespace FightCore
             cmd.dwAttThisID = m_opCard.sceneCardItem.svrCard.qwThisID;
             cmd.dwDefThisID = card.sceneCardItem.svrCard.qwThisID;
             cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
-            ret = Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd);
+            ret = Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerSide], cmd);
 
             if(ret)
             {
-                Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 普通攻击验证通过");
+                (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("Client 普通攻击验证通过");
             }
 
             return ret;
@@ -199,48 +199,48 @@ namespace FightCore
             cmd.dwDefThisID = card.sceneCardItem.svrCard.qwThisID;
             cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
 
-            if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerFlag], cmd))
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerSide], cmd))
             {
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SHERO, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
+                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerSide)       // 如果是自己
                     {
                         if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }
                 }
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SATTEND, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerFlag)       // 如果是自己
+                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerSide)       // 如果是自己
                     {
                         if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }
                 }
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EHERO, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
+                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerSide)       // 如果是 enemy
                     {
                         if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }
                 }
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EATTEND, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerFlag)       // 如果是 enemy
+                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerSide)       // 如果是 enemy
                     {
                         if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
-                            Ctx.m_instance.m_uiMgr.getForm<UIChat>(UIFormID.eUIChat).outMsg("Client 法术攻击验证通过");
+                            (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("Client 法术攻击验证通过");
                             return true;
                         }
                     }

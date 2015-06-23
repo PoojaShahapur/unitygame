@@ -22,7 +22,7 @@ namespace Game.UI
             m_btnArr[(int)Job_BtnIndex.eBtnJob2f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job2f);
             m_btnArr[(int)Job_BtnIndex.eBtnJob3f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job3f);
 
-            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(uiTuJian != null)
             {
                 if(uiTuJian.bInEditMode())
@@ -46,7 +46,7 @@ namespace Game.UI
 
         public void onJobTypeBtnClk()
         {
-            UITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm<UITuJian>(UIFormID.eUITuJian);
+            IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
 
             if (uiTuJian != null)
             if (EventSystem.current.currentSelectedGameObject != null)

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    public class UIGM : Form
+    public class UIGM : Form, IUIGM
     {
         public AuxInputField m_inputField;     // 输入
 

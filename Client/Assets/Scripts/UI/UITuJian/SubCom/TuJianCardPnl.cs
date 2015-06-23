@@ -299,7 +299,7 @@ namespace Game.UI
         {
             m_curClkTuJianCardItemCom = ioItem;
             Ctx.m_instance.m_auxUIHelp.m_auxTuJian.m_eTuJianMenu = ETuJianMenu.eCard;
-            Ctx.m_instance.m_uiMgr.loadAndShow<UITuJianTop>(UIFormID.eUITuJianTop);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITuJianTop);
         }
 
         public void addCurCard2CardSet()

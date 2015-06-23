@@ -18,7 +18,6 @@ namespace FightCore
         public HeroCard(SceneDZData sceneDZData) :
             base(sceneDZData)
         {
-            m_sceneCardBaseData.m_clickControl = new HeroClickControl(this);
             m_sceneCardBaseData.m_trackAniControl = new HeroAniControl(this);
             m_sceneCardBaseData.m_behaviorControl = new HeroBehaviorControl(this);
 
