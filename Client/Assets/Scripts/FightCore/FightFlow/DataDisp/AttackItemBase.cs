@@ -77,16 +77,19 @@ namespace FightCore
             m_card = att;
             m_svrCard = att.sceneCardItem.svrCard;  // 保存这次攻击的属性，可能这个会被后面的给改掉
 
-            // 播放 Fly 数字，攻击者和被击者都有可能伤血，播放掉血数字
-            // 攻击者掉血
-            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 攻击者掉血 {0}", def.sceneCardItem.svrCard.damage));
-            if (def.sceneCardItem.svrCard.damage > 0)        // 攻击力可能为 0 
-            {
-                m_damage = (int)def.sceneCardItem.svrCard.damage;
-            }
-
             Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 攻击者攻击前属性值 {0}", msg.m_origAttObject.log()));
             Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 攻击者攻击后属性值 {0}", att.sceneCardItem.svrCard.log()));
+
+            // 回血统一接口
+            m_bAddHp = hasAddHp(msg.m_origAttObject, att.sceneCardItem.svrCard);
+            m_addHp = (int)(att.sceneCardItem.svrCard.hp - msg.m_origAttObject.hp);
+
+            if (m_bAddHp)
+            {
+                Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 攻击者加血 {0}", m_addHp));
+            }
+
+            updateStateChange(msg.m_origAttObject.state, att.sceneCardItem.svrCard.state);
         }
 
         // 获取攻击移动到目标的时间

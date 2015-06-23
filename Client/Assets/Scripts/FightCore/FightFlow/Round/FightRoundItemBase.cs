@@ -15,15 +15,21 @@ namespace FightCore
      */
     public class FightRoundItemBase : IDispatchObject
     {
+        protected static int ID_ALLOC_IDX = 0;      // 分配 ID 索引的
+
         protected SceneDZData m_sceneDZData;
         protected byte m_parallelMask;          // 可以和自己连续的战斗 Item 同时执行的 Mask
         protected FightExecParallelMask m_parallelFlag;     // 自己的标志
         protected EventDispatch m_OneAttackAndHurtEndDisp;
+        protected int m_uniqueId;           // 战斗回合唯一 Id
 
         public FightRoundItemBase(SceneDZData data)
         {
             m_sceneDZData = data;
             m_OneAttackAndHurtEndDisp = new AddOnceAndCallOnceEventDispatch();
+
+            m_uniqueId = ID_ALLOC_IDX;
+            ++ID_ALLOC_IDX;
         }
 
         public byte parallelMask
@@ -47,6 +53,18 @@ namespace FightCore
             set
             {
                 m_parallelFlag = value;
+            }
+        }
+
+        public int uniqueId
+        {
+            get
+            {
+                return m_uniqueId;
+            }
+            set
+            {
+                m_uniqueId = value;
             }
         }
 

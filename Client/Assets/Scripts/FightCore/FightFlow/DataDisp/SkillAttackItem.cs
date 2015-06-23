@@ -74,6 +74,7 @@ namespace FightCore
             card.behaviorControl.execAttack(this);
         }
 
+        // 技能攻击攻击者不会伤血 m_damage = 0
         override public void initItemData(SceneCardBase att, SceneCardBase def, stNotifyBattleCardPropertyUserCmd msg)
         {
             base.initItemData(att, def, msg);

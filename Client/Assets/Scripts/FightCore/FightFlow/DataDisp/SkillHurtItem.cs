@@ -39,6 +39,15 @@ namespace FightCore
 
             skillId = msg.dwMagicType;
             this.delayTime = m_skillTableItem.m_effectMoveTime;
+
+            // 技能被击伤血是血量值差
+            m_bDamage = hasDamageHp(msg.m_origDefObject, def.sceneCardItem.svrCard);
+            if (m_bDamage)
+            {
+                m_damage = (int)(msg.m_origDefObject.hp - def.sceneCardItem.svrCard.hp);
+            }
+
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 被击者掉血 {0}", m_damage));
         }
 
         // 执行当前的受伤操作
@@ -53,6 +62,20 @@ namespace FightCore
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 当前技能被击执行结束");
             base.onHurtExecEnd(dispObj);
+        }
+
+        // 计算是否是伤血
+        protected bool hasDamageHp(t_Card src, t_Card dest)
+        {
+            if (src.hp > dest.hp)        // HP 减少
+            {
+                if (src.maxhp == dest.maxhp)         // 不是由于技能导致的将这两个值减少并且设置成同样的值，就是伤血
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

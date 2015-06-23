@@ -37,7 +37,7 @@ namespace SDK.Lib
             // 检查当前是否在队列中
             if (m_timerLists.IndexOf(delayObject as FrameTimerItem) != -1)
             {
-                (delayObject as TimerItemBase).m_disposed = true;
+                (delayObject as FrameTimerItem).m_disposed = true;
                 if (bInDepth())
                 {
                     base.addObject(delayObject);
@@ -62,7 +62,10 @@ namespace SDK.Lib
 
             foreach (FrameTimerItem timerItem in m_timerLists)
             {
-                timerItem.OnFrameTimer();
+                if (!timerItem.getClientDispose())
+                {
+                    timerItem.OnFrameTimer();
+                }
                 if (timerItem.m_disposed)
                 {
                     delObject(timerItem);

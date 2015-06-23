@@ -27,12 +27,20 @@ namespace SDK.Lib
         {
             if (m_loopDepth > 0)
             {
-                DelayHandleObject delayHandleObject = new DelayHandleObject();
-                delayHandleObject.m_delayParam = new DelayAddParam();
-                m_deferredAddQueue.Add(delayHandleObject);
+                if (!existAddList(delayObject))        // 如果添加列表中没有
+                {
+                    if (existDelList(delayObject))    // 如果已经添加到删除列表中
+                    {
+                        delFromDelayDelList(delayObject);
+                    }
 
-                delayHandleObject.m_delayObject = delayObject;
-                (delayHandleObject.m_delayParam as DelayAddParam).m_priority = priority;
+                    DelayHandleObject delayHandleObject = new DelayHandleObject();
+                    delayHandleObject.m_delayParam = new DelayAddParam();
+                    m_deferredAddQueue.Add(delayHandleObject);
+
+                    delayHandleObject.m_delayObject = delayObject;
+                    (delayHandleObject.m_delayParam as DelayAddParam).m_priority = priority;
+                }
             }
         }
 
@@ -40,12 +48,72 @@ namespace SDK.Lib
         {
             if (m_loopDepth > 0)
             {
-                delayObject.setClientDispose();
+                if (!existDelList(delayObject))
+                {
+                    if (existAddList(delayObject))    // 如果已经添加到删除列表中
+                    {
+                        delFromDelayAddList(delayObject);
+                    }
 
-                DelayHandleObject delayHandleObject = new DelayHandleObject();
-                delayHandleObject.m_delayParam = new DelayDelParam();
-                m_deferredDelQueue.Add(delayHandleObject);
-                delayHandleObject.m_delayObject = delayObject;
+                    delayObject.setClientDispose();
+
+                    DelayHandleObject delayHandleObject = new DelayHandleObject();
+                    delayHandleObject.m_delayParam = new DelayDelParam();
+                    m_deferredDelQueue.Add(delayHandleObject);
+                    delayHandleObject.m_delayObject = delayObject;
+                }
+            }
+        }
+
+        // 只有没有添加到列表中的才能添加
+        protected bool existAddList(IDelayHandleItem delayObject)
+        {
+            foreach(var item in m_deferredAddQueue.list)
+            {
+                if(UtilApi.isAddressEqual(item.m_delayObject, delayObject))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // 只有没有添加到列表中的才能添加
+        protected bool existDelList(IDelayHandleItem delayObject)
+        {
+            foreach (var item in m_deferredDelQueue.list)
+            {
+                if (UtilApi.isAddressEqual(item.m_delayObject, delayObject))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // 从延迟添加列表删除一个 Item
+        protected void delFromDelayAddList(IDelayHandleItem delayObject)
+        {
+            foreach (var item in m_deferredAddQueue.list)
+            {
+                if (UtilApi.isAddressEqual(item.m_delayObject, delayObject))
+                {
+                    m_deferredAddQueue.Remove(item);
+                }
+            }
+        }
+
+        // 从延迟删除列表删除一个 Item
+        protected void delFromDelayDelList(IDelayHandleItem delayObject)
+        {
+            foreach (var item in m_deferredDelQueue.list)
+            {
+                if(UtilApi.isAddressEqual(item.m_delayObject, delayObject))
+                {
+                    m_deferredDelQueue.Remove(item);
+                }
             }
         }
 

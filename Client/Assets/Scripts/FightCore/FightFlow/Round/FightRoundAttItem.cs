@@ -59,6 +59,7 @@ namespace FightCore
                 att.sceneCardItem.svrCard = msg.A_object;
                 def.sceneCardItem.svrCard = msg.defList[0];
 
+                startAtt(att, def, EAttackType.eCommon, msg);
                 attackTo(att, def, EAttackType.eCommon, msg);
             }
         }
@@ -78,6 +79,8 @@ namespace FightCore
 
             msg.m_origAttObject = att.sceneCardItem.svrCard;
             att.sceneCardItem.svrCard = msg.A_object;
+
+            startAtt(att, null, EAttackType.eSkill, msg);
 
             foreach (var svrCard in msg.defList)
             {
@@ -113,17 +116,24 @@ namespace FightCore
             return true;
         }
 
-        // 攻击者攻击被击者
-        protected void attackTo(SceneCardBase att, SceneCardBase def, EAttackType attackType, stNotifyBattleCardPropertyUserCmd msg)
+        // 生成攻击数据，普通攻击 def 是有值的，技能攻击没有值
+        protected void startAtt(SceneCardBase att, SceneCardBase def, EAttackType attackType, stNotifyBattleCardPropertyUserCmd msg)
         {
-            if (att != null && def != null)
+            if (att != null)
             {
                 Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 攻击者详细信息 {0}", att.getDesc()));
                 // 攻击
                 AttackItemBase attItem = null;
                 attItem = att.fightData.attackData.createItem(attackType);
                 attItem.initItemData(att, def, msg);
+            }
+        }
 
+        // 攻击者攻击被击者
+        protected void attackTo(SceneCardBase att, SceneCardBase def, EAttackType attackType, stNotifyBattleCardPropertyUserCmd msg)
+        {
+            if (att != null && def != null)
+            {
                 Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 被击者详细信息 {0}", def.getDesc()));
                 // 受伤
                 HurtItemBase hurtItem = null;

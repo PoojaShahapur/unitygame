@@ -152,7 +152,7 @@ namespace SDK.Common
             }
             else if (TableID.TABLE_STATE == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableStateItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
             }
         }
 		

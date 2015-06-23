@@ -88,7 +88,10 @@ namespace SDK.Lib
 
             foreach (ProcessObject tk in m_tickLst)
             {
-                (tk.m_tickObject as ITickedObject).OnTick(delta);
+                if (!(tk.m_tickObject as IDelayHandleItem).getClientDispose())
+                {
+                    (tk.m_tickObject as ITickedObject).OnTick(delta);
+                }
             }
 
             decDepth();

@@ -164,5 +164,13 @@ namespace FightCore
         {
             updateSceneCardPosInternal(CardArea.CARDCELLTYPE_COMMON);
         }
+
+        public void updateStateEffect()
+        {
+            foreach(var _card in m_sceneCardList.list)
+            {
+                _card.updateStateEffect();
+            }
+        }
     }
 }

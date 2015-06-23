@@ -363,5 +363,10 @@ namespace FightCore
             m_sceneCardBaseData.m_trackAniControl.updateOutCardScaleInfo(trans);
             UtilApi.setScale(this.transform(), trans.localScale);
         }
+
+        override public void updateStateEffect()
+        {
+            sceneCardBaseData.m_effectControl.updateStateEffect();
+        }
     }
 }

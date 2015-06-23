@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief UI 帧动画管理器，仅仅是存放 ImageSpriteAni 渲染器
      */
-    public class SpriteAniMgr : DelayHandleMgrBase, ITickedObject
+    public class SpriteAniMgr : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
         protected List<ImageSpriteAni> m_sceneEntityList;
 
@@ -17,25 +17,35 @@ namespace SDK.Lib
 
         public void add2List(ImageSpriteAni entity)
         {
-            if (bInDepth())
-            {
-                addObject(entity);
-            }
-            else
-            {
-                m_sceneEntityList.Add(entity);
-            }
+            addObject(entity);
         }
 
-        public void removeFromeList(ImageSpriteAni entity)
+        override public void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (bInDepth())
             {
-                delObject(entity);
+                base.addObject(delayObject);
             }
             else
             {
-                m_sceneEntityList.Remove(entity);
+                m_sceneEntityList.Add(delayObject as ImageSpriteAni);
+            }
+        }
+
+        public void removeFromList(ImageSpriteAni entity)
+        {
+            delObject(entity);
+        }
+
+        override public void delObject(IDelayHandleItem delayObject)
+        {
+            if (bInDepth())
+            {
+                base.delObject(delayObject);
+            }
+            else
+            {
+                m_sceneEntityList.Remove(delayObject as ImageSpriteAni);
             }
         }
 
@@ -68,11 +78,11 @@ namespace SDK.Lib
             return ani;
         }
 
-        public void removeAndDestroy(ImageSpriteAni ani)
-        {
-            this.removeFromeList(ani);
-            ani.dispose();
-        }
+        //public void removeAndDestroy(ImageSpriteAni ani)
+        //{
+        //    this.removeFromList(ani);
+        //    ani.dispose();
+        //}
 
         public void setClientDispose()
         {

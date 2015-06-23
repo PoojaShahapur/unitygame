@@ -65,6 +65,10 @@ namespace SDK.Lib
         {
             set
             {
+                //if (m_tableID == 11)
+                //{
+                //    Ctx.m_instance.m_logSys.log("asdfasdasdfas");
+                //}
                 if (m_tableID != value)
                 {
                     m_bNeedReloadRes = true;

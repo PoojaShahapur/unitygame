@@ -56,6 +56,22 @@ namespace SDK.Common
                 AuxDynModel modelItem;
                 int idx = 0;
                 int curNum = 0;
+
+                // 添加 + - 号
+                modelItem = new AuxDynModel();
+                modelItem.pntGo = m_parentGo;
+                if (m_bPositive)
+                {
+                    modelItem.modelResPath = string.Format("{0}+{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
+                }
+                else
+                {
+                    modelItem.modelResPath = string.Format("{0}-{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
+                }
+                modelItem.syncUpdateModel();
+                UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2) * m_modelWidth, 0, 0));
+                m_childList.Add(modelItem);
+
                 while (idx < numList.Count)
                 {
                     curNum = numList[numList.Count - 1 - idx];
@@ -70,7 +86,7 @@ namespace SDK.Common
                         modelItem.modelResPath = string.Format("{0}-{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
                     modelItem.syncUpdateModel();
-                    UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-numList.Count / 2 + idx) * m_modelWidth, 0, 0));
+                    UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2 + (idx + 1)) * m_modelWidth, 0, 0));
                     m_childList.Add(modelItem);
 
                     ++idx;

@@ -9,6 +9,8 @@ namespace FightCore
      */
     public class FightRound : IDispatchObject
     {
+        protected static int ID_ALLOC_IDX = 0;      // 分配 ID 索引的
+
         protected SceneDZData m_sceneDZData;
         protected FightRoundItemBase m_curFightData;        // 当前战斗数据
         protected FightRoundItemBase m_nextFightData;       // 下一个战斗数据
@@ -16,6 +18,7 @@ namespace FightCore
         protected EventDispatch m_roundEndDisp;
         protected bool m_bSvrRoundEnd;      // 服务器的战斗回合数据是否结束
         protected bool m_bHasFightData;     // 是否有战斗数据
+        protected int m_uniqueId;           // 战斗回合唯一 Id
 
         public FightRound(SceneDZData data)
         {
@@ -24,6 +27,9 @@ namespace FightCore
             m_cacheList = new MList<FightRoundItemBase>();
             m_roundEndDisp = new AddOnceAndCallOnceEventDispatch();
             m_bSvrRoundEnd = false;
+
+            m_uniqueId = ID_ALLOC_IDX;
+            ++ID_ALLOC_IDX;
         }
 
         public SceneDZData sceneDZData
@@ -59,6 +65,18 @@ namespace FightCore
             set
             {
                 m_bHasFightData = value;
+            }
+        }
+
+        public int uniqueId
+        {
+            get
+            {
+                return m_uniqueId;
+            }
+            set
+            {
+                m_uniqueId = value;
             }
         }
 
@@ -117,9 +135,10 @@ namespace FightCore
                 {
                     while (m_cacheList.Count() > 0)         // 死亡是可以并行执行的
                     {
-                        Ctx.m_instance.m_logSys.fightLog("[Fight] 获取一个回合中的数据开始执行");
-
                         m_curFightData = m_cacheList[0];
+
+                        Ctx.m_instance.m_logSys.fightLog(string.Format("\n[Fight] 开始进行第 {0} 回合中的第 {1} 次战斗", m_uniqueId, m_curFightData.uniqueId));
+
                         m_cacheList.Remove(m_curFightData);
                         m_curFightData.processOneAttack();
 

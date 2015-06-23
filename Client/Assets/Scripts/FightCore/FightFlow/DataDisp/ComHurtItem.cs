@@ -44,6 +44,15 @@ namespace FightCore
         {
             base.initItemData(att, def, msg);
 
+            // 普通被击伤血是对方的伤血值，不是血量的减少
+            m_bDamage = att.sceneCardItem.svrCard.damage > 0;
+            if (m_bDamage)
+            {
+                m_damage = (int)att.sceneCardItem.svrCard.damage;
+            }
+
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 被击者掉血 {0}", m_damage));
+
             m_hurtEffectId = 7;         // 普通被击，根据攻击力播放不同的特效，并且播放掉血特效
         }
     }

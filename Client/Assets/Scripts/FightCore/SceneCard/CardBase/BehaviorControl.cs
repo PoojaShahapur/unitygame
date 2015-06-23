@@ -87,6 +87,8 @@ namespace FightCore
         // 执行普通攻击
         public void execAttack(ComAttackItem item)
         {
+            Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行普通攻击 execAttack");
+
             // 播放攻击动作
             // 播放伤害数字
             if (item.damage > 0)
@@ -94,7 +96,9 @@ namespace FightCore
                 m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                 //m_card.playFlyNum((int)item.damage);
             }
-            Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行普通攻击 execAttack");
+
+            m_card.sceneCardBaseData.m_effectControl.updateAttHurtStateEffect(item);
+
             // 更新自己的属性显示
             m_card.updateCardDataChangeBySvr(item.svrCard);
         }
@@ -105,7 +109,6 @@ namespace FightCore
             Ctx.m_instance.m_logSys.fightLog("[Fight] 执行普通受伤 execHurt");
 
             LinkEffect effect = null;
-            bool bAddEffect = false;
 
             if (item.bDamage)        // 如果受伤
             {
@@ -113,7 +116,6 @@ namespace FightCore
                 {
                     Ctx.m_instance.m_logSys.fightLog("[Fight] 执行普通播放受伤特效");
 
-                    bAddEffect = true;
                     effect = m_card.effectControl.addLinkEffect(item.hurtEffectId);     // 被击特效
                     m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                     effect.addEffectPlayEndHandle(item.onHurtExecEnd);
@@ -125,38 +127,14 @@ namespace FightCore
             else if (item.bAddHp)       // 回血
             {
                 // 仅仅改变属性
-                if (!item.bStateChange())   // 如果没有状态变化，直接结束，如果有，会释放特效结束
-                {
+                //if (!item.bStateChange())   // 如果没有状态变化，直接结束，如果有，会释放特效结束
+                //{
+                    m_card.playFlyNum(item.addHp);
                     item.onHurtExecEnd(null);
-                }
+                //}
             }
 
-            if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
-            {
-                int idx = 0;
-                TableStateItemBody stateTabelItem = null;
-                for (idx = 1; idx < (int)StateID.CARD_STATE_MAX; ++idx)
-                {
-                    if (UtilMath.checkState((StateID)idx, item.changedState))   // 如果这个状态改变
-                    {
-                        if (UtilMath.checkState((StateID)idx, item.curState))   // 如果是增加状态
-                        {
-                            stateTabelItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_STATE, (uint)idx).m_itemBody as TableStateItemBody;
-                            effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
-
-                            if (!bAddEffect)
-                            {
-                                bAddEffect = true;
-                                effect.addEffectPlayEndHandle(item.onHurtExecEnd);
-                            }
-                        }
-                        else    // 删除状态，停止特效
-                        {
-                            m_card.effectControl.stopStateEffect((StateID)idx);
-                        }
-                    }
-                }
-            }
+            m_card.sceneCardBaseData.m_effectControl.updateAttHurtStateEffect(item);
             
             // 更新自己的属性显示
             m_card.updateCardDataChangeBySvr(item.svrCard);
@@ -201,10 +179,14 @@ namespace FightCore
                 {
                     if (item.skillTableItem.m_skillAttackEffect != 0)
                     {
+                        Ctx.m_instance.m_logSys.fightLog("[Fight] 技能攻击播放场景特效");
+
                         Ctx.m_instance.m_sceneEffectMgr.addSceneEffect((int)item.skillTableItem.m_skillAttackEffect, m_card.m_sceneDZData.m_centerGO);      // 添加一个场景特效
                     }
                 }
             }
+
+            m_card.sceneCardBaseData.m_effectControl.updateAttHurtStateEffect(item);
         }
 
         // 执行技能受伤
@@ -213,7 +195,6 @@ namespace FightCore
             Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能被击 execHurt");
 
             LinkEffect effect = null;
-            bool bAddEffect = false;
 
             if (item.bDamage)// 检查是否是伤血
             {
@@ -228,38 +209,14 @@ namespace FightCore
             }
             else if (item.bAddHp)       // 回血
             {
-                if (!item.bStateChange())
-                {
+                //if (!item.bStateChange())
+                //{
+                    m_card.playFlyNum(item.addHp);
                     item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
-                }
+                //}
             }
 
-            if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
-            {
-                int idx = 0;
-                TableStateItemBody stateTabelItem = null;
-                for (idx = 1; idx < (int)StateID.CARD_STATE_MAX; ++idx)
-                {
-                    if (UtilMath.checkState((StateID)idx, item.changedState))   // 如果这个状态改变
-                    {
-                        if (UtilMath.checkState((StateID)idx, item.curState))   // 如果是增加状态
-                        {
-                            stateTabelItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_STATE, (uint)idx).m_itemBody as TableStateItemBody;
-                            effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
-
-                            if (!bAddEffect)
-                            {
-                                bAddEffect = true;
-                                effect.addEffectPlayEndHandle(item.onHurtExecEnd);
-                            }
-                        }
-                        else    // 删除状态，停止特效
-                        {
-                            m_card.effectControl.stopStateEffect((StateID)idx);
-                        }
-                    }
-                }
-            }
+            m_card.sceneCardBaseData.m_effectControl.updateAttHurtStateEffect(item);
 
             // 更新自己的属性显示
             m_card.updateCardDataChangeBySvr(item.svrCard);
@@ -286,6 +243,10 @@ namespace FightCore
             {
                 //m_card.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                 m_card.playFlyNum(-item.damage);
+            }
+            if (item.bAddHp)       // 回血
+            {
+                m_card.playFlyNum(item.addHp);
             }
         }
     }

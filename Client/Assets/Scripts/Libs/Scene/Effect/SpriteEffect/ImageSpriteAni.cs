@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System;
 using UnityEngine.UI;
 
 namespace SDK.Lib
@@ -12,7 +13,7 @@ namespace SDK.Lib
 
         public override void dispose()
         {
-            Ctx.m_instance.m_spriteAniMgr.removeFromeList(this);
+            Ctx.m_instance.m_spriteAniMgr.removeFromList(this);
             base.dispose();
         }
 
@@ -44,7 +45,15 @@ namespace SDK.Lib
 
         override public void updateImage()
         {
-            m_image.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+            //try
+            //{
+                m_image.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+            //}
+            //catch(Exception ex)
+            //{
+            //    Ctx.m_instance.m_logSys.catchLog(ex.ToString());
+            //}
+
             UtilApi.SetNativeSize(m_image);
         }
 

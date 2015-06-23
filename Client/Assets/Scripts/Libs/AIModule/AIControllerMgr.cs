@@ -11,7 +11,10 @@ namespace BehaviorLibrary
         {
             foreach (SceneEntityBase entity in m_sceneEntityList)
             {
-                entity.onTick(delta);
+                if (!entity.getClientDispose())
+                {
+                    entity.onTick(delta);
+                }
             }
         }
     }

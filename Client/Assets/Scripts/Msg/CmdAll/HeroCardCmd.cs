@@ -1640,8 +1640,12 @@ namespace Game.Msg
         public string log()
         {
             string ret = "";
-            string tmp = string.Format("[Fight] 整个消息数据\n dwMagicType = {0}, count = {1}", dwMagicType, count);
+            string tmp = "";
+
+            ret = "[Fight] 整个消息数据";
+            tmp = string.Format("[Fight] dwMagicType = {0}, count = {1}", dwMagicType, count);
             ret = string.Format("{0}\n{1}", ret, tmp);
+
             tmp = string.Format("[Fight] A_object = {0}", A_object.log());
             ret = string.Format("{0}\n{1}", ret, tmp);
 

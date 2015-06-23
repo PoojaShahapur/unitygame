@@ -61,7 +61,11 @@ namespace SDK.Lib
 
             foreach (TimerItemBase timerItem in m_timerLists)
             {
-                timerItem.OnTimer(delta);
+                if (!timerItem.getClientDispose())
+                {
+                    timerItem.OnTimer(delta);
+                }
+
                 if (timerItem.m_disposed)        // 如果已经结束
                 {
                     delObject(timerItem);

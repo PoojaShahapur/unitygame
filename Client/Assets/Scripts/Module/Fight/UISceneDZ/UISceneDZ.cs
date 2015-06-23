@@ -206,6 +206,9 @@ namespace Fight
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
                 m_sceneDZData.m_gameOpState.cancelAttackOp();
             }
+
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.updateStateEffect();
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].outSceneCardList.updateStateEffect();
         }
 
         public void psstAddBattleCardPropertyUserCmd(stAddBattleCardPropertyUserCmd msg, SceneCardItem sceneItem)

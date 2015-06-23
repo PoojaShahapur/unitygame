@@ -62,6 +62,16 @@ namespace FightCore
         {
             base.initItemData(att, def, msg);
 
+            // 播放 Fly 数字，攻击者和被击者都有可能伤血，播放掉血数字
+            // 普通攻击者掉血是被击者的伤血量
+            m_bDamage = def.sceneCardItem.svrCard.damage > 0;
+            if (m_bDamage)        // 攻击力可能为 0 
+            {
+                m_damage = (int)def.sceneCardItem.svrCard.damage;
+            }
+
+            Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 攻击者掉血 {0}", m_damage));
+
             m_hurterId = def.sceneCardItem.svrCard.qwThisID;
             m_attackEffectId = 0; // 普通攻击没有攻击特效
         }

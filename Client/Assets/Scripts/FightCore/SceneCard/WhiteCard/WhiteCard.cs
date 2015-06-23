@@ -50,5 +50,11 @@ namespace FightCore
         {
             return string.Format("WhiteCard {0}", m_ClientId);
         }
+
+        // 白色卡牌不用更新状态特效
+        override public void updateStateEffect()
+        {
+
+        }
     }
 }

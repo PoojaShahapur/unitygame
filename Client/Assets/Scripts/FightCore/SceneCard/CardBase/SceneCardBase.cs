@@ -471,5 +471,10 @@ namespace FightCore
         {
             return sceneCardItem.svrCard.qwThisID;
         }
+
+        virtual public void updateStateEffect()
+        {
+
+        }
     }
 }
