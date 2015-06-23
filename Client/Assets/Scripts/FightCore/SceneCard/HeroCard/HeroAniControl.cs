@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class HeroAniControl : ExceptBlackAniControl
+    public class HeroAniControl : NotOutAniControl
     {
         public HeroAniControl(SceneCardBase rhv) : 
             base(rhv)

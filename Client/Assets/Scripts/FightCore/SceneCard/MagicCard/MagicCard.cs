@@ -4,7 +4,7 @@ using SDK.Lib;
 namespace FightCore
 {
     /**
-     * @brief 法术卡
+     * @brief 法术卡，必然是自己的， Enemy 使用的是 BlackCard
      */
     public class MagicCard : CanOutCard
     {
@@ -15,7 +15,7 @@ namespace FightCore
             m_sceneCardBaseData.m_ioControl = new MagicIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new MagicBehaviorControl(this);
 
-            m_render = new SceneCardPlayerRender(this);
+            m_render = new SelfHandCardRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 

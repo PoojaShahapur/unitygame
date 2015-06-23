@@ -4,7 +4,7 @@ using SDK.Lib;
 namespace FightCore
 {
     /**
-     * @brief 随从卡
+     * @brief 随从卡，必然是自己的， Enemy 随从卡是用的是 BlackCard
      */
     public class AttendCard : CanOutCard
     {
@@ -15,7 +15,7 @@ namespace FightCore
             m_sceneCardBaseData.m_ioControl = new AttendIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new AttendBehaviorControl(this);
 
-            m_render = new SceneCardPlayerRender(this);
+            m_render = new SelfHandCardRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 

@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 图鉴中的卡牌
      */
-    public class TuJianCardRender : CommonCardRender
+    public class TuJianCardRender : CanOutCardRender
     {
         public TuJianCardRender(SceneEntityBase entity_) :
             base(entity_, (int)CardSubPartType.eTotal)

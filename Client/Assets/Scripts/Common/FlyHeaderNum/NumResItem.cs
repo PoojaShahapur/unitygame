@@ -62,11 +62,11 @@ namespace SDK.Common
                 modelItem.pntGo = m_parentGo;
                 if (m_bPositive)
                 {
-                    modelItem.modelResPath = string.Format("{0}+{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
+                    modelItem.modelResPath = string.Format("{0}Num/+{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
                 }
                 else
                 {
-                    modelItem.modelResPath = string.Format("{0}-{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
+                    modelItem.modelResPath = string.Format("{0}Num/-{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], ".prefab");
                 }
                 modelItem.syncUpdateModel();
                 UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2) * m_modelWidth, 0, 0));
@@ -79,11 +79,11 @@ namespace SDK.Common
                     modelItem.pntGo = m_parentGo;
                     if (m_bPositive)
                     {
-                        modelItem.modelResPath = string.Format("{0}+{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                        modelItem.modelResPath = string.Format("{0}Num/+{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
                     else
                     {
-                        modelItem.modelResPath = string.Format("{0}-{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
+                        modelItem.modelResPath = string.Format("{0}Num/-{1}{2}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], curNum, ".prefab");
                     }
                     modelItem.syncUpdateModel();
                     UtilApi.setPos(modelItem.selfGo.transform, new Vector3(((float)-(numList.Count + 1) / 2 + (idx + 1)) * m_modelWidth, 0, 0));

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FightCore
 {
     /**
-     * @brief 敌人的背面牌
+     * @brief 敌人的背面牌，就是手牌卡，包括随从卡、法术卡、奥秘卡
      */
     public class BlackCard : SceneCardBase
     {

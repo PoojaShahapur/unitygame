@@ -66,46 +66,34 @@ namespace FightCore
             //}
         }
 
-        // 关闭拖放功能
-        virtual public void disableDrag()
-        {
-            UIDragObject drag = m_card.gameObject().GetComponent<UIDragObject>();
-            //drag.enabled = false;
-            UtilApi.Destroy(drag);
-            WindowDragTilt dragTitle = m_card.gameObject().GetComponent<WindowDragTilt>();
-            //dragTitle.enabled = false;
-            UtilApi.Destroy(dragTitle);
-        }
-
         // 开启拖动
         virtual public void enableDrag()
         {
-            if (m_card.gameObject().GetComponent<UIDragObject>() == null)
-            {
-                UIDragObject drag = m_card.gameObject().AddComponent<UIDragObject>();
-                drag.target = m_card.gameObject().transform;
-                drag.m_startDragDisp = onStartDrag;
-                drag.m_moveDisp = onMove;
-                drag.m_dropEndDisp = onDragEnd;
-                drag.m_canMoveDisp = canMove;
-                drag.m_planePt = new Vector3(0, SceneDZCV.DRAG_YDELTA, 0);
-            }
-            if (m_card.gameObject().GetComponent<WindowDragTilt>() == null)
-            {
-                m_card.gameObject().AddComponent<WindowDragTilt>();
-            }
+            
+        }
+
+        // 关闭拖放功能
+        virtual public void disableDrag()
+        {
+            
         }
 
         public void enableDragTitle()
         {
             WindowDragTilt dragTitle = m_card.gameObject().GetComponent<WindowDragTilt>();
-            dragTitle.enabled = true;
+            if (dragTitle != null)
+            {
+                dragTitle.enabled = true;
+            }
         }
 
         public void disableDragTitle()
         {
             WindowDragTilt dragTitle = m_card.gameObject().GetComponent<WindowDragTilt>();
-            dragTitle.enabled = false;
+            if (dragTitle != null)  // 手牌是有这个组件的，如果是出到场牌，这个组件就没有了，例如拖动出去后，这个组件就没有了
+            {
+                dragTitle.enabled = false;
+            }
         }
 
         // 指明当前是否可以改变位置
@@ -378,11 +366,32 @@ namespace FightCore
                             m_card.enterAttack();
                         }
                     }
-                    else if (CardArea.CARDCELLTYPE_SKILL == m_card.sceneCardItem.cardArea)     // 如果是技能卡牌
+                    else if (m_card.m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpSkillAttackTarget))      // 法术目标攻击
                     {
-                        stCardMoveAndAttackMagicUserCmd skillCmd = new stCardMoveAndAttackMagicUserCmd();
-                        skillCmd.dwAttThisID = m_card.sceneCardItem.svrCard.qwThisID;
-                        UtilMsg.sendMsg(skillCmd);
+                        if (m_card.m_sceneDZData.m_gameOpState.canAttackOp(m_card, EnGameOp.eOpSkillAttackTarget))
+                        {
+                            // 必然是有目标的法术攻击
+                            // 发送法术攻击消息
+                            stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
+                            cmd.dwAttThisID = m_card.m_sceneDZData.m_gameOpState.getOpCardID();
+                            cmd.dwMagicType = (uint)m_card.m_sceneDZData.m_gameOpState.getOpCardFaShu();
+                            cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
+                            UtilMsg.sendMsg(cmd);
+                        }
+                    }
+                    else if ((int)CardType.CARDTYPE_SKILL == m_card.sceneCardItem.m_cardTableItem.m_type)     // 如果点击的是技能卡牌
+                    {
+                        if (m_card.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget == 0)         // 如果没有攻击目标
+                        {
+                            // 直接发送消息
+                            stCardMoveAndAttackMagicUserCmd skillCmd = new stCardMoveAndAttackMagicUserCmd();
+                            skillCmd.dwAttThisID = m_card.sceneCardItem.svrCard.qwThisID;
+                            UtilMsg.sendMsg(skillCmd);
+                        }
+                        else        // 有攻击目标
+                        {
+                            m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpSkillAttackTarget, m_card);
+                        }
                     }
                     else        // 默认点击处理都走这里
                     {

@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class AttendIOControl : IOControlBase
+    public class AttendIOControl : CanOutIOControl
     {
         public AttendIOControl(SceneCardBase rhv) : 
             base(rhv)

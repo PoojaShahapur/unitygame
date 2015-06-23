@@ -2,6 +2,9 @@
 
 namespace FightCore
 {
+    /**
+     * @brief 奥秘卡，必然是自己的， Enemy 使用的是 BlackCard
+     */
     public class SecretCard : CanOutCard
     {
         public SecretCard(SceneDZData sceneDZData) :
@@ -11,7 +14,7 @@ namespace FightCore
             m_sceneCardBaseData.m_ioControl = new SecretIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new SecretBehaviorControl(this);
 
-            m_render = new SceneCardPlayerRender(this);
+            m_render = new SelfHandCardRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 

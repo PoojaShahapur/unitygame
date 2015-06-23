@@ -104,6 +104,8 @@ namespace SDK.Common
 
         public void psstNotifyAllCardTujianInfoCmd(List<t_Tujian> list)
         {
+            clearAllTuJian();
+
             CardItemBase item = null;
             int idx = 0;
             TableItemBase tableItem = null;
@@ -170,6 +172,8 @@ namespace SDK.Common
 
         public void psstRetCardGroupListInfoUserCmd(List<t_group_list> info)
         {
+            clearAllCardGroup();
+
             CardGroupItem item;
             TableItemBase tableItem;
             foreach (var itemlist in info)
@@ -232,6 +236,25 @@ namespace SDK.Common
             m_id2CardGroupDic.Remove(index);
 
             return curIdx;
+        }
+
+        protected void clearAllTuJian()
+        {
+            for(int idx = 0; idx < (int)EnPlayerCareer.ePCTotal; ++idx)
+            {
+                if(m_cardListArr[idx] != null)
+                {
+                    m_cardListArr[idx].Clear();
+                }
+            }
+
+            m_id2CardDic.Clear();
+        }
+
+        protected void clearAllCardGroup()
+        {
+            m_cardGroupListArr.Clear();
+            m_id2CardGroupDic.Clear();
         }
     }
 }

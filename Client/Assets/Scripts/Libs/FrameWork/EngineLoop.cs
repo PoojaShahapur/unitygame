@@ -17,13 +17,16 @@ namespace SDK.Lib
             }
 
             // 处理网络
-            ByteBuffer ret = null;
-            while((ret = Ctx.m_instance.m_netMgr.getMsg()) != null)
+            if (!Ctx.m_instance.m_netDispList.bStopNetHandle)
             {
-                if (null != Ctx.m_instance.m_netDispList)
+                ByteBuffer ret = null;
+                while ((ret = Ctx.m_instance.m_netMgr.getMsg()) != null)
                 {
-                    Ctx.m_instance.m_netDispList.addOneHandleMsg();
-                    Ctx.m_instance.m_netDispList.handleMsg(ret);
+                    if (null != Ctx.m_instance.m_netDispList)
+                    {
+                        Ctx.m_instance.m_netDispList.addOneHandleMsg();
+                        Ctx.m_instance.m_netDispList.handleMsg(ret);
+                    }
                 }
             }
 

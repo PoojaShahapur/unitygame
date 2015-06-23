@@ -74,7 +74,7 @@ namespace FightCore
 
         override public void setIdAndPnt(uint objId, GameObject pntGo_)
         {
-            (m_render as CardPlayerRender).setIdAndPnt(objId, pntGo_);
+            (m_render as ExceptBlackCardRender).setIdAndPnt(objId, pntGo_);
         }
 
         // 是否在战斗中

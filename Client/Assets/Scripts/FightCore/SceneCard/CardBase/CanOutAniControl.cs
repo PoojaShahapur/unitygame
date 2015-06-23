@@ -158,12 +158,22 @@ namespace FightCore
 
         override public void normalState()
         {
-            m_scaleGridElement.normal();
+            //m_scaleGridElement.normal();
         }
 
         override public void expandState()
         {
-            m_scaleGridElement.expand();
+            //m_scaleGridElement.expand();
+        }
+
+        override public void enableWindowTitle()
+        {
+            m_card.ioControl.enableDragTitle();
+        }
+
+        override public void disableWindowTitle()
+        {
+            m_card.ioControl.disableDragTitle();
         }
     }
 }

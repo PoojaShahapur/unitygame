@@ -15,7 +15,7 @@ namespace FightCore
             m_sceneCardBaseData.m_ioControl = new EquipIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new EquipBehaviorControl(this);
 
-            m_render = new EquipSkillRender(this);
+            m_render = new EquipRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 

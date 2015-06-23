@@ -6,13 +6,16 @@ namespace SDK.Lib
     /**
      * @brief 英雄卡渲染器
      */
-    public class HeroRender : CardPlayerRender
+    public class HeroRender : ExceptBlackCardRender
     {
         public HeroRender(SceneEntityBase entity_) :
             base(entity_)
         {
             m_subTex = new CardSubPart[1];
             m_subTex[0] = new CardSubPart();
+
+            m_uiPrefabPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/HeroCardUI.prefab");
+            m_boxModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/HeroCardBox.prefab");
         }
 
         override public void dispose()

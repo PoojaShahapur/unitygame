@@ -61,5 +61,15 @@ namespace FightCore
             m_curPt.rot = new Vector3(-90, -180, -180);
             m_curPt.scale = new Vector3(0.5f, 0.5f, 0.5f);
         }
+
+        override public void enableWindowTitle()
+        {
+            
+        }
+
+        override public void disableWindowTitle()
+        {
+            
+        }
     }
 }

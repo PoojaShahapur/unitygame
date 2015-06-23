@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class SkillIOControl : IOControlBase
+    public class SkillIOControl : NotOutIOControl
     {
         public SkillIOControl(SceneCardBase rhv) : 
             base(rhv)

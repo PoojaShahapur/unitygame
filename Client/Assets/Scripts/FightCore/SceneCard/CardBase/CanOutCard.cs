@@ -10,22 +10,15 @@ namespace FightCore
     public class CanOutCard : ExceptBlackSceneCard
     {
         protected int m_startIdx;                   // 开始卡牌索引，因为播放动画需要用到索引，索引从 0 开始
-        protected DopeSheetAni m_startAni;          // 开始动画
-        protected EventDispatch m_onEnterHandleEntryDisp;
 
         public CanOutCard(SceneDZData data) : 
             base(data)
         {
-            m_onEnterHandleEntryDisp = new AddOnceAndCallOnceEventDispatch();
+            
         }
 
         override public void dispose()
         {
-            if (m_startAni != null)         // 如果对手的场牌是没有这个动画的，因为对手的手牌和场牌是不同的对象，场牌是出到场中才生成的，这个时候没有动画
-            {
-                m_startAni.dispose();
-                m_startAni = null;
-            }
             base.dispose();
         }
 
@@ -82,6 +75,10 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_ioControl.startConvModel(1);
                 }
+                if (m_sceneCardBaseData.m_trackAniControl != null)
+                {
+                    m_sceneCardBaseData.m_trackAniControl.startConvModel(1);
+                }
             }
 
             if (m_render != null)
@@ -90,16 +87,9 @@ namespace FightCore
                 m_render = null;
             }
 
-            m_render = new OutCardRender(this);
-            (m_render as OutCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
+            m_render = new ChangCardRender(this);
+            (m_render as ChangCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
             UtilApi.setScale(m_render.transform(), Vector3.one);
-
-            // 动画设置
-            if (m_startAni != null)
-            {
-                m_startAni.setGO(this.gameObject());
-                m_startAni.syncUpdateControl();
-            }
 
             if (m_sceneCardBaseData != null)
             {
@@ -110,6 +100,10 @@ namespace FightCore
                 if (m_sceneCardBaseData.m_ioControl != null)
                 {
                     m_sceneCardBaseData.m_ioControl.endConvModel(1);
+                }
+                if (m_sceneCardBaseData.m_trackAniControl != null)
+                {
+                    m_sceneCardBaseData.m_trackAniControl.endConvModel(1);
                 }
             }
 
@@ -138,6 +132,10 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_ioControl.startConvModel(0);
                 }
+                if (m_sceneCardBaseData.m_trackAniControl != null)
+                {
+                    m_sceneCardBaseData.m_trackAniControl.startConvModel(0);
+                }
             }
 
             if (m_render != null)
@@ -150,16 +148,9 @@ namespace FightCore
                 m_render = null;
             }
 
-            m_render = new SceneCardPlayerRender(this);
-            (m_render as SceneCardPlayerRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
+            m_render = new SelfHandCardRender(this);
+            (m_render as SelfHandCardRender).setIdAndPnt(this.sceneCardItem.svrCard.dwObjectID, m_sceneDZData.m_placeHolderGo.m_centerGO);
             updateCardDataChangeBySvr();    // 更新服务器属性
-
-            // 动画设置
-            if (m_startAni != null)
-            {
-                m_startAni.setGO(this.gameObject());
-                m_startAni.syncUpdateControl();
-            }
 
             if (m_sceneCardBaseData != null)
             {
@@ -170,6 +161,10 @@ namespace FightCore
                 if (m_sceneCardBaseData.m_ioControl != null)
                 {
                     m_sceneCardBaseData.m_ioControl.endConvModel(0);
+                }
+                if (m_sceneCardBaseData.m_trackAniControl != null)
+                {
+                    m_sceneCardBaseData.m_trackAniControl.endConvModel(0);
                 }
             }
 
@@ -255,6 +250,11 @@ namespace FightCore
         override public void setStartIdx(int rhv)
         {
             m_startIdx = rhv;
+        }
+
+        override public int getStartIdx()
+        {
+            return m_startIdx;
         }
 
         // 更新初始卡牌场景位置信息

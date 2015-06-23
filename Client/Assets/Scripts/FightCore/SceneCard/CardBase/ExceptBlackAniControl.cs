@@ -16,8 +16,6 @@ namespace FightCore
 
         override public void dispose()
         {
-            m_startAni.dispose();
-            m_startAni = null;
             base.dispose();
         }
     }

@@ -41,13 +41,13 @@ namespace SDK.Lib
 
         public void handleMsg(ByteBuffer msg)
         {
-            if (false == m_bStopNetHandle)  // 如果没有停止网络处理
-            {
+            //if (false == m_bStopNetHandle)  // 如果没有停止网络处理
+            //{
                 foreach (var item in m_netDispList)
                 {
                     item.handleMsg(msg);
                 }
-            }
+            //}
         }
 
         public void addOneRevMsg()

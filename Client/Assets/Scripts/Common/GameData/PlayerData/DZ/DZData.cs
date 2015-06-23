@@ -171,7 +171,14 @@ namespace SDK.Common
             bool ret = false;
             if (rev.dwMagicType > 0)
             {
-                ret = cardSkillAttack(user, rev);
+                if (rev.bZhanHou)
+                {
+                    ret = true;
+                }
+                else
+                {
+                    ret = cardSkillAttack(user, rev);
+                }
             }
             else
             {

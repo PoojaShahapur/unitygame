@@ -33,8 +33,11 @@ namespace FightCore
 
         override public void dispose()
         {
-            m_startAni.dispose();
-            m_startAni = null;
+            if (m_startAni != null)
+            {
+                m_startAni.dispose();
+                m_startAni = null;
+            }
             base.dispose();
         }
 
@@ -145,7 +148,7 @@ namespace FightCore
                 m_startAni.stop();
                 m_startAni.disable();
             }
-            m_card.ioControl.disableDragTitle();
+            disableWindowTitle();
 
             m_curPt = m_wayPtList.getPosInfo(type);
 
@@ -251,7 +254,7 @@ namespace FightCore
                 m_startAni.enable();
             }
 
-            m_card.ioControl.enableDragTitle();
+            enableWindowTitle();
         }
 
         // 开始卡牌动画
@@ -298,6 +301,34 @@ namespace FightCore
         virtual public void expandState()
         {
 
+        }
+
+        virtual public void enableWindowTitle()
+        {
+            
+        }
+
+        // 停止拖动的 Title 动画，这个 Black 是没有的，只有自己的可以出的牌才有
+        virtual public void disableWindowTitle()
+        {
+            
+        }
+
+        // 开始转换模型 type == 0 是手牌   1 是场牌
+        public void startConvModel(int type)
+        {
+
+        }
+
+        // 结束转换模型
+        public void endConvModel(int type)
+        {
+            // 动画设置
+            if (m_startAni != null)
+            {
+                m_startAni.setGO(this.m_card.gameObject());
+                m_startAni.syncUpdateControl();
+            }
         }
     }
 }

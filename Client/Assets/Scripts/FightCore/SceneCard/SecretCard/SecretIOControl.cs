@@ -1,6 +1,6 @@
 ﻿namespace FightCore
 {
-    public class SecretIOControl : IOControlBase
+    public class SecretIOControl : CanOutIOControl
     {
         public SecretIOControl(SceneCardBase rhv) : 
             base(rhv)

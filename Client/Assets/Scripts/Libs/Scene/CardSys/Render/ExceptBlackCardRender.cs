@@ -5,9 +5,9 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
-     * @brief 场景卡牌资源，主要是显示卡牌使用的各种资源，图鉴卡牌、英雄卡、装备卡、技能卡、随从卡、法术卡基类
+     * @brief 场景卡牌资源，主要是显示卡牌使用的各种资源，图鉴卡牌、英雄卡、装备卡、技能卡、随从卡、法术卡基类，不包括 Enemy 手牌
      */
-    public class CardPlayerRender : CardRenderBase
+    public class ExceptBlackCardRender : CardRenderBase
     {
         protected CardModelItem m_cardModelItem;        // 异步加载的时候，使用 path 字段
         // 这些是为了卸载资源使用
@@ -15,7 +15,13 @@ namespace SDK.Lib
         protected CardSubPart[] m_subTex;       // 子模型
         protected string m_modelPath;           // 模型目录
 
-        public CardPlayerRender(SceneEntityBase entity_) :
+        protected string m_uiPrefabPath;            // UI 预制目录
+        protected UIPrefabRes m_uiPrefabRes;        // 这个是 UI 资源
+
+        protected string m_boxModelPath;            // 碰撞盒目录
+        protected ModelRes m_boxModel;              // 这个是碰撞盒子模型
+
+        public ExceptBlackCardRender(SceneEntityBase entity_) :
             base(entity_)
         {
             m_model = new AuxDynModel();
@@ -80,10 +86,22 @@ namespace SDK.Lib
         virtual public void setTableItemAndPnt(TableCardItemBody tableBody, GameObject pntGo_)
         {
             updateModel(tableBody, pntGo_);
+            addUIAndBox();      // 继续添加 UI 和碰撞
             updateLeftAttr(tableBody);      // 更新剩余的属性
             modifyTex(m_model.selfGo, tableBody);
 
             addHandle();
+        }
+
+        virtual protected void addUIAndBox()
+        {
+            m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(m_uiPrefabPath);
+            GameObject _go = m_uiPrefabRes.InstantiateObject(m_uiPrefabPath);
+            _go.name = "UIRoot";
+            UtilApi.SetParent(_go, gameObject(), false);
+
+            m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
+            UtilApi.copyBoxCollider(m_boxModel.getObject() as GameObject, gameObject());
         }
 
         virtual public void updateModel(TableCardItemBody tableBody, GameObject pntGo_)
@@ -98,9 +116,6 @@ namespace SDK.Lib
         virtual protected void addHandle()
         {
             UtilApi.addEventHandle(gameObject(), onEntityClick);
-            UtilApi.addPressHandle(gameObject(), onEntityDownUp);
-            UtilApi.addDragOverHandle(gameObject(), onEntityDragOver);
-            UtilApi.addDragOutHandle(gameObject(), onEntityDragOut);
         }
 
         virtual protected void updateLeftAttr(TableCardItemBody tableBody)

@@ -30,9 +30,9 @@ namespace Game.UI
             base.onShow();
             Ctx.m_instance.m_logSys.log("请求卡组数据");
             // 请求所有卡牌
-            Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
+            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqAllCard();
             // 请求所有的卡牌组
-            Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
+            //Ctx.m_instance.m_dataPlayer.m_dataCard.reqCardGroup();
         }
 
         // 获取控件
@@ -70,7 +70,7 @@ namespace Game.UI
         protected void onBtnClkHero(IDispatchObject dispObj)
         {
             Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIHero);
-            Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
+            //Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
         }
 
         protected void onBtnClkOpenPack(IDispatchObject dispObj)

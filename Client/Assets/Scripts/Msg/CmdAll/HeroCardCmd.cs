@@ -1235,6 +1235,8 @@ namespace Game.Msg
         public uint dwMagicType;	//技能ID
         public byte flag;      //1,手动释放;0,触发的效果
 
+        public bool bZhanHou;       // 是否是战吼
+
         public stCardAttackMagicUserCmd()
         {
             byParam = REQ_CARD_MAGIC_USERCMD_PARA;

@@ -14,6 +14,7 @@ namespace FightCore
         eOpFaShu,           // 法术操作，这个操作是指法术牌，并且有攻击目标，如果没有攻击目标，就直接作为普通出牌操作了
         eOpZhanHouAttack,   // 战吼攻击，这个操作是指战吼牌，并且有攻击目标，如果没有攻击目标，就直接作为普通出牌操作了
         eOpMoveIn2Out,      // 移动卡牌从手牌区域到卡牌区域
+        eOpSkillAttackTarget,   // 技能攻击需要攻击目录
         eOpTotal
     }
 
@@ -127,7 +128,7 @@ namespace FightCore
                     {
                         ret = canNormalAttack(card, gameOp);
                     }
-                    else if (gameOp == EnGameOp.eOpFaShu)  // 当前处于法术牌攻击
+                    else if (gameOp == EnGameOp.eOpFaShu || gameOp == EnGameOp.eOpSkillAttackTarget)  // 当前处于法术牌攻击
                     {
                         ret = canFaShuAttack(card, gameOp);
                     }
@@ -184,20 +185,34 @@ namespace FightCore
 
         protected bool canFaShuAttack(SceneCardBase card, EnGameOp gameOp)
         {
-            return canSkillAttack(card, gameOp, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget);
+            return canSkillAttack(card, gameOp, false); 
         }
 
         protected bool canZhanHouAttack(SceneCardBase card, EnGameOp gameOp)
         {
-            return canSkillAttack(card, gameOp, m_opCard.sceneCardItem.m_cardTableItem.m_bNeedZhanHouTarget);
+            return canSkillAttack(card, gameOp, true);
         }
 
-        protected bool canSkillAttack(SceneCardBase card, EnGameOp gameOp, int attackTarget)
+        protected bool canSkillAttack(SceneCardBase card, EnGameOp gameOp, bool bZhanHou)
         {
             stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
             cmd.dwAttThisID = m_opCard.sceneCardItem.svrCard.qwThisID;
             cmd.dwDefThisID = card.sceneCardItem.svrCard.qwThisID;
-            cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
+
+            int attackTarget = 0;
+
+            if (bZhanHou)
+            {
+                cmd.bZhanHou = true;
+                attackTarget = m_opCard.sceneCardItem.m_cardTableItem.m_bNeedZhanHouTarget;
+                cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_zhanHou;
+            }
+            else
+            {
+                cmd.bZhanHou = false;
+                attackTarget = m_opCard.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget;
+                cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
+            }
 
             if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerSide], cmd))
             {

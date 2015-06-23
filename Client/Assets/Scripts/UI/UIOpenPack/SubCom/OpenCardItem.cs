@@ -7,7 +7,7 @@ namespace Game.UI
     /**
      * @brief 开卡包卡
      */
-    public class OpenCardItem : CommonCardRender
+    public class OpenCardItem : CanOutCardRender
     {
         protected bool m_bOpened;       // 卡牌是否翻转
         protected DopeSheetAni m_fanKaAni;

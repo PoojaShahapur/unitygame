@@ -12,7 +12,7 @@ namespace FightCore
             m_sceneCardBaseData.m_ioControl = new SkillIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new SkillBehaviorControl(this);
 
-            m_render = new EquipSkillRender(this);
+            m_render = new SkillRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 
