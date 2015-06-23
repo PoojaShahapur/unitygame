@@ -14,15 +14,14 @@ public class WindowDragTilt : MonoBehaviour
 	public int updateOrder = 0;
 	public float degrees = 30f;
 
-	Vector3 mLastPos;
-	Transform mTrans;
-	float mAngleY = 0f;
-    float mAngleZ = 0f;
+	protected Vector3 mLastPos;
+    protected Transform mTrans;
+    protected float mAngleY = 0f;
+    protected float mAngleZ = 0f;
 
 	void OnEnable ()
 	{
-		mTrans = transform;
-		mLastPos = mTrans.position;
+        resetPos();
 	}
 
 	void Update ()
@@ -55,5 +54,13 @@ public class WindowDragTilt : MonoBehaviour
             return gameObject.GetComponent<UIDragObject>().isDrag();
         }
         return false;
+    }
+
+    public void resetPos()
+    {
+        mAngleY = 0f;
+        mAngleZ = 0f;
+        mTrans = transform;
+        mLastPos = mTrans.position;
     }
 }

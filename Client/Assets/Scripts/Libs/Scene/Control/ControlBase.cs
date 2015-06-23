@@ -8,5 +8,10 @@
         {
             m_entity = entity;
         }
+
+        public void dispose()
+        {
+
+        }
     }
 }

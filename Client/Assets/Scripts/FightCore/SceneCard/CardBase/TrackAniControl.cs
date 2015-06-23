@@ -330,5 +330,20 @@ namespace FightCore
                 m_startAni.syncUpdateControl();
             }
         }
+
+        virtual public GridElementBase getGridElement()
+        {
+            return null;
+        }
+
+        virtual public void createAndAddGridElem()
+        {
+            
+        }
+
+        virtual public void removeGridElem()
+        {
+
+        }
     }
 }

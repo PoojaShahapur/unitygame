@@ -8,15 +8,25 @@ ModelImporter:
     100000: //RootNode
     100002: yingxiong_zhanchang
     100004: yingxiongtu_zhanchang
+    100006: gongji_kapai
+    100008: xue_kapai
     400000: //RootNode
     400002: yingxiong_zhanchang
     400004: yingxiongtu_zhanchang
+    400006: gongji_kapai
+    400008: xue_kapai
     2300000: yingxiong_zhanchang
     2300002: yingxiongtu_zhanchang
+    2300004: gongji_kapai
+    2300006: xue_kapai
     3300000: yingxiong_zhanchang
     3300002: yingxiongtu_zhanchang
+    3300004: gongji_kapai
+    3300006: xue_kapai
     4300000: yingxiong_zhanchang
     4300002: yingxiongtu_zhanchang
+    4300004: gongji_kapai
+    4300006: xue_kapai
   materials:
     importMaterials: 1
     materialName: 0

@@ -12,11 +12,13 @@ namespace SDK.Lib
         protected MList<GridElementBase> m_elemList;        // 所有元素列表
         protected bool m_bNeedUpdate;             // 元素列表是否需要更新
         protected FrameTimerItem m_nextFrametimer;       // 需要下一帧才能更新的数据
+
         protected Transform m_centerPos;    // 中心点
         protected float m_radius;           // 半径
         protected float m_elemNormalWidth;        // 元素宽度
-        protected List<Vector3> m_posList;
         protected float m_yDelta;
+
+        protected List<Vector3> m_posList;
 
         public DynSceneGrid()
         {
@@ -115,18 +117,18 @@ namespace SDK.Lib
             }
         }
 
-        protected void updateElem()
+        public void updateElem()
         {
             m_bNeedUpdate = false;
 
-            if (!hasExpandElem())
-            {
+            //if (!hasExpandElem())
+            //{
                 normalUpdateElem();
-            }
-            else
-            {
-                expandUpdateElem();
-            }
+            //}
+            //else
+            //{
+            //    expandUpdateElem();
+            //}
         }
 
         protected void normalUpdateElem()
@@ -180,7 +182,7 @@ namespace SDK.Lib
 
                         m_posList[posIdx] += new Vector3(expandDeltaX, 0, expandDeltaZ);
 
-                        if(posIdx < validCount)
+                        if(posIdx < validCount - 1)
                         {
                             nextOrigX = m_posList[posIdx + 1].x + deltaX;
                             nextExpandX = m_posList[posIdx].x + m_elemList[idx].getExpandWidth() / 2 + m_elemList[idx + 1].getNormalWidth() / 2;

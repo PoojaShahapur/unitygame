@@ -25,6 +25,10 @@ namespace FightCore
         override public void init()
         {
             base.init();
+
+            this.m_card.dragOverEntityDisp.addEventHandle(onDragOver);
+            this.m_card.dragOutEntityDisp.addEventHandle(onDragOut);
+
             if (!m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))     // 初始化卡牌阶段是不能拖动的
             {
                 enableDrag();
@@ -439,8 +443,8 @@ namespace FightCore
 
             if (0 == type)      // 转换到手牌需要能滑动
             {
-                this.m_card.downEntityDisp.addEventHandle(onDragOver);
-                this.m_card.upEntityDisp.addEventHandle(onDragOut);
+                this.m_card.dragOverEntityDisp.addEventHandle(onDragOver);
+                this.m_card.dragOutEntityDisp.addEventHandle(onDragOut);
             }
             else if (1 == type)       // 转换到场牌需要开启按下和起来事件
             {

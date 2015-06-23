@@ -8,11 +8,16 @@ namespace FightCore
     class SelfInSceneCardList : InSceneCardList
     {
         protected int m_initCardCount = 0;
+        protected DynSceneGrid m_dynSceneGrid;
 
         public SelfInSceneCardList(SceneDZData data, EnDZPlayer playerSide)
             : base(data, playerSide)
         {
-
+            m_dynSceneGrid = new DynSceneGrid();
+            m_dynSceneGrid.centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform;
+            m_dynSceneGrid.elemNormalWidth = SceneDZCV.HAND_CARD_WIDTH;
+            m_dynSceneGrid.radius = m_sceneDZData.m_placeHolderGo.m_cardHandAreaWidthArr[(int)m_playerSide];
+            m_dynSceneGrid.yDelta = SceneDZCV.HAND_YDELTA;
         }
 
         // 对战开始显示的卡牌
@@ -82,6 +87,12 @@ namespace FightCore
             card.ioControl.setMoveDisp(m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.onMove);
         }
 
+        override public void removeCard(SceneCardBase card)
+        {
+            card.trackAniControl.removeGridElem();
+            base.removeCard(card);
+        }
+
         // 移动初始卡牌到手牌列表，更新场景卡牌位置
         override public void startCardMoveTo()
         {
@@ -128,11 +139,37 @@ namespace FightCore
 
         public void onSelfStartCardEnterHandEntry(IDispatchObject card_)
         {
+            SceneCardBase _card = card_ as SceneCardBase;
+            _card.trackAniControl.createAndAddGridElem();
+
             --m_initCardCount;
             if(0 == m_initCardCount)
             {
                 updateSceneCardPos();
             }
+        }
+
+        // 自己手牌更新位置信息
+        override public void updateSceneCardPos(bool bUpdateIdx = true)
+        {
+            m_dynSceneGrid.updateElem();
+
+            if(bUpdateIdx)
+            {
+                updateCardIndex();
+            }
+        }
+
+        override public DynSceneGrid getDynSceneGrid()
+        {
+            return m_dynSceneGrid;
+        }
+
+        override public void onOneCardEnterHandleEntry(IDispatchObject card_)
+        {
+            SceneCardBase _card = card_ as SceneCardBase;
+            _card.trackAniControl.createAndAddGridElem();
+            base.onOneCardEnterHandleEntry(card_);
         }
     }
 };

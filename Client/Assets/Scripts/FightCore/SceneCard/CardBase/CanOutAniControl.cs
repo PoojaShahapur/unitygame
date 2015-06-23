@@ -10,7 +10,6 @@ namespace FightCore
     public class CanOutAniControl : ExceptBlackAniControl
     {
         protected EventDispatch m_onEnterHandleEntryDisp;
-        protected ScaleGridElement m_scaleGridElement;
 
         public CanOutAniControl(SceneCardBase rhv) :
             base(rhv)
@@ -127,43 +126,6 @@ namespace FightCore
             m_curPt = m_wayPtList.getPosInfo(PosType.eWatchUp);
             m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
             m_curPt.scale = new UnityEngine.Vector3(1, 1, 1);
-        }
-
-
-        override public void setNormalPos(Vector3 pos)
-        {
-            m_curPt = m_wayPtList.getPosInfo(PosType.eHandDown);
-            m_curPt.pos = pos;
-            moveToDestPos(PosType.eHandDown);
-        }
-
-        override public void setExpandPos(Vector3 pos)
-        {
-            m_curPt = m_wayPtList.getPosInfo(PosType.eScaleUp);
-
-            m_curPt.pos = pos;
-            if (m_scaleGridElement.isNormalState())
-            {
-                m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
-                m_curPt.scale = new UnityEngine.Vector3(0.5f, 0.5f, 0.5f);
-            }
-            else
-            {
-                m_curPt.rot = new UnityEngine.Vector3(0, 0, 0);
-                m_curPt.scale = new UnityEngine.Vector3(1, 1, 1);
-            }
-
-            moveToDestPos(PosType.eScaleUp);
-        }
-
-        override public void normalState()
-        {
-            //m_scaleGridElement.normal();
-        }
-
-        override public void expandState()
-        {
-            //m_scaleGridElement.expand();
         }
 
         override public void enableWindowTitle()

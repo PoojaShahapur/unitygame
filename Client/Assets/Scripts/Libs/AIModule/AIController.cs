@@ -94,6 +94,8 @@ namespace BehaviorLibrary
             {
                 m_bt = null;
             }
+
+            Ctx.m_instance.m_aiSystem.aiControllerMgr.removeController(this);
         }
 
         override public void onTick(float delta)

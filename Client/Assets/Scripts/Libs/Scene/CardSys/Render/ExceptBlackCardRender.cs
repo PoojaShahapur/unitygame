@@ -112,7 +112,7 @@ namespace SDK.Lib
                 _go.name = "UIRoot";
                 UtilApi.SetParent(_go, gameObject(), false);
             }
-            if (m_boxModel != null)
+            if (m_boxModel == null)
             {
                 m_boxModel = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_boxModelPath);
                 UtilApi.copyBoxCollider(m_boxModel.getObject() as GameObject, gameObject());

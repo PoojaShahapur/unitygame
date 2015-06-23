@@ -11,7 +11,6 @@ namespace FightCore
         public MagicCard(SceneDZData sceneDZData):
             base(sceneDZData)
         {
-            m_sceneCardBaseData.m_trackAniControl = new MagicAniControl(this);
             m_sceneCardBaseData.m_ioControl = new MagicIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new MagicBehaviorControl(this);
 

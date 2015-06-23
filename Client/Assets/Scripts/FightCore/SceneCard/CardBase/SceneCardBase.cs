@@ -297,6 +297,18 @@ namespace FightCore
                 {
                     m_sceneCardBaseData.m_effectControl.dispose();
                 }
+                if(m_sceneCardBaseData.m_aiController != null)
+                {
+                    m_sceneCardBaseData.m_aiController.dispose();
+                }
+                if (m_sceneCardBaseData.m_moveControl != null)
+                {
+                    m_sceneCardBaseData.m_moveControl.dispose();
+                }
+                if (m_sceneCardBaseData.m_behaviorControl != null)
+                {
+                    m_sceneCardBaseData.m_behaviorControl.dispose();
+                }
             }
         }
 

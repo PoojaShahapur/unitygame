@@ -26,6 +26,7 @@ namespace SDK.Lib
 
         public GridElementBase()
         {
+            m_bValid = true;
             m_needUpdateDisp = new AddOnceEventDispatch();
             m_elemState = GridElementState.eNormal;
         }

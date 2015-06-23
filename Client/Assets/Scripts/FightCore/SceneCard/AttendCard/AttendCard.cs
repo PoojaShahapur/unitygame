@@ -11,7 +11,6 @@ namespace FightCore
         public AttendCard(SceneDZData sceneDZData) :
             base(sceneDZData)
         {
-            m_sceneCardBaseData.m_trackAniControl = new AttendAniControl(this);
             m_sceneCardBaseData.m_ioControl = new AttendIOControl(this);
             m_sceneCardBaseData.m_behaviorControl = new AttendBehaviorControl(this);
 

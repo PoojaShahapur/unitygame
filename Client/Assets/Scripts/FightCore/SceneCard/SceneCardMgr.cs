@@ -39,7 +39,14 @@ namespace FightCore
             }
             else if (CardType.CARDTYPE_ATTEND == cardType)
             {
-                ret = new AttendCard(sceneDZData);
+                if (EnDZPlayer.ePlayerSelf == m_playerSide)
+                {
+                    ret = new SelfAttendCard(sceneDZData);
+                }
+                else
+                {
+                    ret = new EnemyAttendCard(sceneDZData);
+                }
             }
             else if (CardType.CARDTYPE_SECRET == cardType)
             {
@@ -47,7 +54,14 @@ namespace FightCore
             }
             else if (CardType.CARDTYPE_MAGIC == cardType)
             {
-                ret = new MagicCard(sceneDZData);
+                if (EnDZPlayer.ePlayerSelf == m_playerSide)
+                {
+                    ret = new SelfMagicCard(sceneDZData);
+                }
+                else
+                {
+                    ret = new EnemyMagicCard(sceneDZData);
+                }
             }
             else if (CardType.CARDTYPE_EQUIP == cardType)
             {
@@ -95,7 +109,7 @@ namespace FightCore
             if (SceneDZCV.WHITE_CARDID != objid &&
                 SceneDZCV.BLACK_CARD_ID != objid)       // 这两个没有 AI 
             {
-                Ctx.m_instance.m_aiSystem.aiControllerMgr.addObject(ret.aiController);       // 添加到控制器中
+                Ctx.m_instance.m_aiSystem.aiControllerMgr.addController(ret.aiController);       // 添加到控制器中
             }
 
             return ret;

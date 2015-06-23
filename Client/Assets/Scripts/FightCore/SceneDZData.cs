@@ -195,5 +195,11 @@ namespace FightCore
         {
             return m_placeHolderGo.m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.y + SceneDZCV.DRAG_YDELTA;
         }
+
+        // 是否在拖动卡牌
+        public bool bInDargCarding()
+        {
+            return m_curDragItem != null;
+        }
     }
 }

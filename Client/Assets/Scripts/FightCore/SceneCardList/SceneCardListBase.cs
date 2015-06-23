@@ -170,7 +170,8 @@ namespace FightCore
             if(idx < m_sceneCardList.Count())
             {
                 card = m_sceneCardList[idx];
-                m_sceneCardList.RemoveAt(idx);
+                //m_sceneCardList.RemoveAt(idx);
+                removeCard(card);
             }
 
             return card;
@@ -284,7 +285,8 @@ namespace FightCore
             {
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
-                    m_sceneCardList.RemoveAt(idx);
+                    //m_sceneCardList.RemoveAt(idx);
+                    removeCard(m_sceneCardList[idx]);
                     bRet = true;
                     break;
                 }
@@ -323,7 +325,8 @@ namespace FightCore
                 if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
                 {
                     retCard = m_sceneCardList[idx];
-                    m_sceneCardList.RemoveAt(idx);
+                    //m_sceneCardList.RemoveAt(idx);
+                    removeCard(retCard);
                     break;
                 }
                 ++idx;

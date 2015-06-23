@@ -17,5 +17,15 @@ namespace BehaviorLibrary
                 }
             }
         }
+
+        public void addController(AIController ai)
+        {
+            this.addObject(ai);
+        }
+
+        public void removeController(AIController ai)
+        {
+            this.delObject(ai);
+        }
     }
 }

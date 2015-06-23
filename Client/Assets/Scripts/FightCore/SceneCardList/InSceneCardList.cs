@@ -33,6 +33,11 @@ namespace FightCore
             
         }
 
+        virtual public DynSceneGrid getDynSceneGrid()
+        {
+            return null;
+        }
+
         override protected void getCardPos()
         {
             m_posList.Clear();
@@ -98,9 +103,9 @@ namespace FightCore
         }
 
         // 从发牌去最终到手牌区起始位置，可能初始发牌，或者游戏中抽新卡牌
-        public void onOneCardEnterHandleEntry(IDispatchObject card_)
+        virtual public void onOneCardEnterHandleEntry(IDispatchObject card_)
         {
-            SceneCardBase _card = card_ as SceneCardBase;
+            //SceneCardBase _card = card_ as SceneCardBase;
             updateSceneCardPos();       // 开始发送到手牌，只更新位置就行了
         }
 
