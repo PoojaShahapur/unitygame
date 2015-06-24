@@ -14,6 +14,7 @@ namespace FightCore
         {
             m_render = new WhiteCardRender(this);
             m_sceneCardBaseData.m_trackAniControl = new TrackAniControl(this);
+            m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 
         override public void dispose()
@@ -53,6 +54,11 @@ namespace FightCore
 
         // 白色卡牌不用更新状态特效
         override public void updateStateEffect()
+        {
+
+        }
+
+        override public void clearAttTimes()
         {
 
         }

@@ -1723,4 +1723,21 @@ namespace Game.Msg
     //        byParam = NOTIFY_BATTLE_FLOW_END_CMD;
     //    }   
     //};  
+
+    public class stNotifyResetAttackTimesUserCmd : stHeroCardCmd
+    {
+        public stNotifyResetAttackTimesUserCmd()
+        {
+            byParam = NOTIFY_RESET_ATTACKTIMES_CMD;
+        }
+    }
+
+    //const BYTE NOTIFY_RESET_ATTACKTIMES_CMD = 52; 
+    //struct stNotifyResetAttackTimesUserCmd : public stHeroCardCmd
+    //{   
+    //    stNotifyResetAttackTimesUserCmd()
+    //    {   
+    //        byParam = NOTIFY_RESET_ATTACKTIMES_CMD;
+    //    }   
+    //};  
 }

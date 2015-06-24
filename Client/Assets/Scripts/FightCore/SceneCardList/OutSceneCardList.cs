@@ -48,7 +48,7 @@ namespace FightCore
         // 自己手里的牌移动，需要更新已经出的牌的位置
         public void onMove()
         {
-            if(m_sceneDZData.m_curDragItem == null)
+            if(m_sceneDZData.m_dragDropData.getCurDragItem() == null)
             {
                 Ctx.m_instance.m_logSys.log("error: move update position error");
                 return;
@@ -59,7 +59,7 @@ namespace FightCore
                 int idx = 0;
                 while (idx < m_sceneCardList.Count())
                 {
-                    if (m_sceneDZData.m_curDragItem.transform().localPosition.x < m_sceneCardList[idx].transform().localPosition.x)
+                    if (m_sceneDZData.m_dragDropData.getCurDragItem().transform().localPosition.x < m_sceneCardList[idx].transform().localPosition.x)
                     {
                         break;
                     }
@@ -171,6 +171,16 @@ namespace FightCore
             {
                 _card.updateStateEffect();
             }
+        }
+
+        virtual public void clearAttTimes()
+        {
+
+        }
+
+        virtual public void updateCanLaunchAttState(bool bEnable)
+        {
+
         }
     }
 }

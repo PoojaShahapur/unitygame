@@ -7,7 +7,7 @@ using System;
 namespace FightCore
 {
     /**
-     * @brief 英雄卡
+     * @brief 英雄卡，即可以作为攻击者，也可以作为被击者
      */
     public class HeroCard : NotOutCard
     {
@@ -19,10 +19,9 @@ namespace FightCore
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_trackAniControl = new HeroAniControl(this);
-            m_sceneCardBaseData.m_behaviorControl = new HeroBehaviorControl(this);
-
             m_render = new HeroRender(this);
-            m_sceneCardBaseData.m_effectControl = new EffectControl(this);
+            m_sceneCardBaseData.m_effectControl = new HeroEffectControl(this);
+            m_sceneCardBaseData.m_ioControl = new HeroIOControl(this);
         }
 
         public Action heroAniEndDisp
@@ -50,9 +49,9 @@ namespace FightCore
             //m_hpText.text = m_sceneCardItem.svrCard.hp.ToString();
         }
 
-        public void setClasss(EnPlayerCareer c)
+        public void setPlayerCareer(EnPlayerCareer career)
         {
-            //setPic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)c).m_mat);
+            //setPic(Ctx.m_instance.m_matMgr.getCardGroupMatByOccup((EnPlayerCareer)career).m_mat);
 
             ////播放动画,
             ////animation.Play();

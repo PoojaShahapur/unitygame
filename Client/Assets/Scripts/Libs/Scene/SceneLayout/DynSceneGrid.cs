@@ -121,14 +121,14 @@ namespace SDK.Lib
         {
             m_bNeedUpdate = false;
 
-            //if (!hasExpandElem())
-            //{
+            if (!hasExpandElem())
+            {
                 normalUpdateElem();
-            //}
-            //else
-            //{
-            //    expandUpdateElem();
-            //}
+            }
+            else
+            {
+                expandUpdateElem();
+            }
         }
 
         protected void normalUpdateElem()
@@ -167,30 +167,35 @@ namespace SDK.Lib
             float nextOrigX = 0;        // 后面一个的位置
             float nextExpandX = 0;        // 后面一个的位置
 
-            for (int idx = 0; idx < m_elemList.Count(); ++idx)
+            for (int elemIdx = 0; elemIdx < m_elemList.Count(); ++elemIdx)
             {
-                if (m_elemList[idx].bValid)
+                if (m_elemList[elemIdx].bValid)
                 {
                     m_posList[posIdx] += new Vector3(deltaX, 0, 0);
 
-                    if (!m_elemList[idx].isNormalState())
+                    if (!m_elemList[elemIdx].isNormalState())
                     {
+                        // 计算原始的位置
                         origX = m_posList[posIdx].x;
                         origZ = m_posList[posIdx].z;
-                        expandDeltaX = (m_elemList[idx].getExpandWidth() - m_elemList[idx].getNormalWidth()) / 2;
-                        expandDeltaZ = (m_elemList[idx].getExpandHeight() - m_elemList[idx].getNormalHeight()) / 2;
-
+                        // 计算由于放大需要的偏移量
+                        expandDeltaX = (m_elemList[elemIdx].getExpandWidth() - m_elemList[elemIdx].getNormalWidth()) / 2;
+                        expandDeltaZ = (m_elemList[elemIdx].getExpandHeight() - m_elemList[elemIdx].getNormalHeight()) / 2;
+                        // 计算正确的中心位置
                         m_posList[posIdx] += new Vector3(expandDeltaX, 0, expandDeltaZ);
-
+                        // 如果后面还有元素
                         if(posIdx < validCount - 1)
                         {
+                            // 计算下一个元素在当前元素没有扩大的情况下，中心点位置
                             nextOrigX = m_posList[posIdx + 1].x + deltaX;
-                            nextExpandX = m_posList[posIdx].x + m_elemList[idx].getExpandWidth() / 2 + m_elemList[idx + 1].getNormalWidth() / 2;
+                            // 计算下一个元素在当前元素有扩大的情况下，中心点位置
+                            nextExpandX = m_posList[posIdx].x + m_elemList[elemIdx].getExpandWidth() / 2 + m_elemList[elemIdx + 1].getNormalWidth() / 2;
+                            // 计算后面的元素应该偏移量
                             deltaX += (nextExpandX - nextOrigX);
                         }
                     }
 
-                    m_elemList[idx].setExpandPos(m_posList[posIdx]);
+                    m_elemList[elemIdx].setExpandPos(m_posList[posIdx]);
 
                     ++posIdx;
                 }
@@ -240,7 +245,7 @@ namespace SDK.Lib
 
             m_elemList.Add(elem);
             elem.addUpdateHandle(onElemChangedHandle);
-            onElemChangedHandle(elem);
+            //onElemChangedHandle(elem);    // 添加后不改变
 
             return elem;
         }

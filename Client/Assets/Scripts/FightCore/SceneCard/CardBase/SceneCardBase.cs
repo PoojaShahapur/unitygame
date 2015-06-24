@@ -277,7 +277,7 @@ namespace FightCore
             {
                 Ctx.m_instance.m_logSys.log(string.Format("客户端彻底删除卡牌 thisId = {0}", sceneCardItem.svrCard.qwThisID));
                 // 从各种引用除删除
-                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.m_playerSide].removeOneCard(this);
+                m_sceneDZData.m_sceneDZAreaArr[(int)sceneCardItem.playerSide].removeOneCard(this);
             }
         }
 
@@ -330,19 +330,6 @@ namespace FightCore
             
         }
 
-        // 进入普通攻击状态
-        public void enterAttack()
-        {
-            if (this.m_sceneCardItem.cardArea == CardArea.CARDCELLTYPE_COMMON)
-            {
-                // 只有点击自己的时候，才启动攻击
-                if (m_sceneCardItem.m_playerSide == EnDZPlayer.ePlayerSelf)
-                {
-                    m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpNormalAttack, this);
-                }
-            }
-        }
-
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
@@ -357,7 +344,7 @@ namespace FightCore
 
         public void playFlyNum(int num)
         {
-            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition, m_sceneDZData.m_placeHolderGo.m_centerGO);
+            Ctx.m_instance.m_pFlyNumMgr.addFlyNum(num, m_render.transform().localPosition + new Vector3(0, 1.2f, 0), m_sceneDZData.m_placeHolderGo.m_centerGO);
         }
 
         // 是否是客户端先从手牌区域移动到出牌区域，然后再发动攻击的卡牌
@@ -429,7 +416,7 @@ namespace FightCore
         {
             string side = "";
 
-            if (EnDZPlayer.ePlayerSelf == sceneCardItem.m_playerSide)
+            if (EnDZPlayer.ePlayerSelf == sceneCardItem.playerSide)
             {
                 side = "Self";
             }
@@ -480,6 +467,11 @@ namespace FightCore
         }
 
         virtual public void updateStateEffect()
+        {
+
+        }
+
+        virtual public void clearAttTimes()
         {
 
         }

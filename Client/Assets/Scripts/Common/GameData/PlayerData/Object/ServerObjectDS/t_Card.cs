@@ -22,6 +22,7 @@ namespace SDK.Common
         public byte equipOpen;      //武器状态(1开启,0关闭)
 
         public byte side;
+        public uint popValue;         //冒出的数字(回血or受伤)
         public byte[] state;
 
         public void derialize(ByteBuffer ba)
@@ -44,6 +45,7 @@ namespace SDK.Common
             ba.readUnsignedInt8(ref equipOpen);
 
             ba.readUnsignedInt8(ref side);
+            ba.readUnsignedInt32(ref popValue);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];

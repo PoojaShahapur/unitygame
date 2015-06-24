@@ -51,6 +51,7 @@ namespace FightCore
         public const int OUT_CARD_TOTAL = 5;                        // 出牌区域最多牌的数量
         public const float HAND_CARD_WIDTH = 2.0f;                  // 手牌宽度
         public const float COMMON_CARD_WIDTH = 2.0f;                // 场牌宽度
+        public const float HAND_CARD_EXPAND_WIDTH = 4.0f;                  // 手牌扩大宽度
         public const float HAND_YDELTA = 0.1f;                      // 手牌的时候 Y Delta 值
         public const float DRAG_YDELTA = HAND_YDELTA * 10;                      // 拖动 Y Delta 值
 

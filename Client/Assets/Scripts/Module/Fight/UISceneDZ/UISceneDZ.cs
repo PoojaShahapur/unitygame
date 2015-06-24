@@ -144,6 +144,8 @@ namespace Fight
                 {
                     m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);
                 }
+
+                m_sceneDZData.m_cardNpcMgr.m_roundBtn.updateEffect(true);
             }
         }
 
@@ -195,7 +197,6 @@ namespace Fight
                     // 显示自己回合
                     m_sceneDZData.m_cardNpcMgr.m_selfRoundTip.playEffect();
                     m_sceneDZData.m_cardNpcMgr.m_roundBtn.myTurn();
-
                     // 开始定时器
                     m_sceneDZData.m_roundMgr.startDZTimer();
                 }
@@ -204,6 +205,8 @@ namespace Fight
             {
                 m_sceneDZData.m_cardNpcMgr.m_roundBtn.enemyTurn();
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
+                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(false);
+                m_sceneDZData.m_cardNpcMgr.m_roundBtn.updateEffect(false);
                 m_sceneDZData.m_gameOpState.cancelAttackOp();
             }
 
@@ -263,13 +266,13 @@ namespace Fight
 
                     if ((msg.side - 1) == (int)EnDZPlayer.ePlayerSelf)
                     {
-                        m_sceneDZData.m_curDragItem = null;
+                        m_sceneDZData.m_dragDropData.setCurDragItem(null);
                     }
                 }
                 else                    // 退回到原来的位置
                 {
                     m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].moveDragBack();
-                    m_sceneDZData.m_curDragItem = null;
+                    m_sceneDZData.m_dragDropData.setCurDragItem(null);
                 }
             }
         }
@@ -362,6 +365,13 @@ namespace Fight
         public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
         {
             m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowEndUserCmd(ba);
+        }
+
+        // 清除攻击次数
+        public void psstNotifyResetAttackTimesUserCmd()
+        {
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].clearAttTimes();
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(true);     // 清除攻击次数，因为这个依赖攻击次数
         }
     }
 }

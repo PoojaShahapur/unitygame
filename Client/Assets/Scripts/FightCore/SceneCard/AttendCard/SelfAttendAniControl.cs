@@ -22,14 +22,14 @@ namespace FightCore
 
         override public void createAndAddGridElem()
         {
-            m_scaleGridElement = m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].inSceneCardList.getDynSceneGrid().createAndAddElem(GridElementType.eScale) as ScaleGridElement;
+            m_scaleGridElement = m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.playerSide].inSceneCardList.getDynSceneGrid().createAndAddElem(GridElementType.eScale) as ScaleGridElement;
             m_scaleGridElement.setMovedEntity(this);
         }
 
         override public void removeGridElem()
         {
             // 从列表中移除，不置空，因为战吼可能退回来
-            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].inSceneCardList.getDynSceneGrid().removeElem(m_scaleGridElement);
+            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.playerSide].inSceneCardList.getDynSceneGrid().removeElem(m_scaleGridElement);
         }
 
         override public GridElementBase getGridElement()
@@ -65,7 +65,7 @@ namespace FightCore
 
         override public void normalState()
         {
-            if (!m_card.m_sceneDZData.bInDargCarding())
+            if (!m_card.m_sceneDZData.m_dragDropData.getDownInCard())
             {
                 m_scaleGridElement.normal();
             }
@@ -73,7 +73,7 @@ namespace FightCore
 
         override public void expandState()
         {
-            if (!m_card.m_sceneDZData.bInDargCarding())
+            if (!m_card.m_sceneDZData.m_dragDropData.getDownInCard())
             {
                 m_scaleGridElement.expand();
             }

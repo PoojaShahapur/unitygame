@@ -1,4 +1,5 @@
 ﻿using FSM;
+using Game.Msg;
 using SDK.Common;
 using SDK.Lib;
 using System;
@@ -145,9 +146,9 @@ namespace FightCore
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能攻击 execAttack");
             // 技能攻击开始，需要将技能准备特效移除
-            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].centerHero.sceneCardItem.svrCard.qwThisID == item.attThisId)
+            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.playerSide].centerHero.sceneCardItem.svrCard.qwThisID == item.attThisId)
             {
-                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].centerHero.effectControl.stopSkillAttPrepareEffect();
+                m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.playerSide].centerHero.effectControl.stopSkillAttPrepareEffect();
             }
 
             if (item.skillTableItem.m_bNeedMove > 0)         // 如果是有攻击目标的技能攻击
@@ -202,16 +203,16 @@ namespace FightCore
                 effect.addEffectPlayEndHandle(item.onHurtExecEnd);
 
                 // 播放伤害数字
-                if (item.damage > 0)
+                if (item.svrCard.popValue > 0)
                 {
-                    m_card.playFlyNum(-item.damage);
+                    m_card.playFlyNum((int)-item.svrCard.popValue);
                 }
             }
-            else if (item.bAddHp)       // 回血
+            else if ((int)item.svrCard.popValue > 0)       // 回血
             {
                 //if (!item.bStateChange())
                 //{
-                    m_card.playFlyNum(item.addHp);
+                    m_card.playFlyNum((int)item.svrCard.popValue);
                     item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
                 //}
             }
@@ -248,6 +249,52 @@ namespace FightCore
             {
                 m_card.playFlyNum(item.addHp);
             }
+        }
+
+        // 进入普通攻击状态
+        public void enterAttack()
+        {
+            if (this.m_card.sceneCardItem.cardArea != CardArea.CARDCELLTYPE_HAND)   // 只要点击的不是手牌
+            {
+                // 只有点击自己的时候，才启动攻击
+                if (this.m_card.sceneCardItem.bSelfSide())   // 应该再判断是否能够继续攻击
+                {
+                    // 技能牌进入攻击判断流程
+                    if ((int)CardType.CARDTYPE_SKILL == m_card.sceneCardItem.m_cardTableItem.m_type)     // 如果点击的是技能卡牌
+                    {
+                        // 技能消耗 Mp 和攻击次数
+                        if (canLaunchAtt())
+                        {
+                            if (m_card.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget == 0)         // 如果没有攻击目标
+                            {
+                                // 直接发送消息
+                                stCardMoveAndAttackMagicUserCmd skillCmd = new stCardMoveAndAttackMagicUserCmd();
+                                skillCmd.dwAttThisID = m_card.sceneCardItem.svrCard.qwThisID;
+                                UtilMsg.sendMsg(skillCmd);
+                            }
+                            else        // 有攻击目标
+                            {
+                                m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpSkillAttackTarget, m_card);
+                            }
+                        }
+                    }
+                    else if ((int)CardType.CARDTYPE_ATTEND == m_card.sceneCardItem.m_cardTableItem.m_type || 
+                             (int)CardType.CARDTYPE_HERO == m_card.sceneCardItem.m_cardTableItem.m_type)      // 随从卡、英雄卡
+                    {
+                        // 有攻击力和攻击次数
+                        if (canLaunchAtt())
+                        {
+                            this.m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpNormalAttack, this.m_card);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 是否可以发起攻击
+        virtual public bool canLaunchAtt()
+        {
+            return false;
         }
     }
 }

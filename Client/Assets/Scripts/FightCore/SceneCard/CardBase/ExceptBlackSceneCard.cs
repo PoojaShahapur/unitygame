@@ -88,5 +88,10 @@ namespace FightCore
         {
             return m_svrDispose && this.m_sceneCardItem.svrCard.hp == 0;        // 如果服务器认为已经释放并且血是 0 了，就可以删除了
         }
+
+        override public void clearAttTimes()
+        {
+            this.sceneCardItem.clearAttTimes();
+        }
     }
 }

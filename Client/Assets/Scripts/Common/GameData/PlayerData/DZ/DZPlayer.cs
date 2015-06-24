@@ -54,7 +54,7 @@ namespace SDK.Common
             sceneItem = new SceneCardItem();
             sceneItem.svrCard = mobject;
             sceneItem.cardArea = (CardArea)mobject.pos.dwLocation;
-            sceneItem.m_playerSide = playerSide;
+            sceneItem.playerSide = playerSide;
             sceneItem.m_cardTableItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_CARD, mobject.dwObjectID).m_itemBody as TableCardItemBody;
 
             return sceneItem;
@@ -158,7 +158,12 @@ namespace SDK.Common
 
         public bool checkMp(int mpcost)
         {
-            return m_heroMagicPoint.mp >= mpcost;
+            if (m_heroMagicPoint != null)
+            {
+                return m_heroMagicPoint.mp >= mpcost;
+            }
+
+            return false;
         }
     }
 }

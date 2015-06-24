@@ -13,7 +13,7 @@ namespace FightCore
     public class SceneDZArea
     {
         public SceneDZData m_sceneDZData;
-        public EnDZPlayer m_playerSide;                 // 指示玩家的位置
+        protected EnDZPlayer m_playerSide;                 // 指示玩家的位置
 
         protected OutSceneCardList m_outSceneCardList; // 已经出的牌，在场景中心
         protected InSceneCardList m_inSceneCardList;   // 场景可拖放的卡牌列表，最底下的，还没有出的牌
@@ -27,7 +27,6 @@ namespace FightCore
         {
             m_sceneDZData = sceneDZData;
             m_playerSide = playerSide;
-            m_outSceneCardList = new OutSceneCardList(m_sceneDZData, m_playerSide);
             m_crystalPtPanel = new CrystalPtPanel(m_playerSide);
         }
 
@@ -38,6 +37,18 @@ namespace FightCore
             m_centerHero.dispose();
             m_sceneSkillCard.dispose();
             m_sceneEquipCard.dispose();
+        }
+
+        public EnDZPlayer playerSide
+        {
+            get
+            {
+                return m_playerSide;
+            }
+            set
+            {
+                m_playerSide = value;
+            }
         }
 
         public OutSceneCardList outSceneCardList
@@ -122,7 +133,7 @@ namespace FightCore
             {
                 m_centerHero = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData) as HeroCard;
 
-                m_centerHero.setClasss((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroOccupation);
+                m_centerHero.setPlayerCareer((EnPlayerCareer)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroOccupation);
                 // 设置 hero 动画结束后的处理
                 m_centerHero.heroAniEndDisp = m_sceneDZData.heroAniEndDisp;
             }
@@ -186,13 +197,14 @@ namespace FightCore
             }
         }
 
+        // 自己卡牌区域移动， Enemy 走 addSceneCardByItem 这个流程
         public void psstRetMoveGameCardUserCmd(stRetMoveGameCardUserCmd msg)
         {
-            changeSceneCard(msg.qwThisID, (CardArea)msg.m_sceneCardItem.svrCard.pos.dwLocation, msg.dst.y);
+            changeSceneCardArea(msg.qwThisID, (CardArea)msg.m_sceneCardItem.svrCard.pos.dwLocation, msg.dst.y);
         }
 
         // 移动卡牌，从一个位置到另外一个位置，CardArea.CARDCELLTYPE_COMMON 区域增加是从这个消息过来的，目前只处理移动到 CardArea.CARDCELLTYPE_COMMON 区域
-        public void changeSceneCard(uint qwThisID, CardArea dwLocation, ushort yPos)
+        virtual public void changeSceneCardArea(uint qwThisID, CardArea dwLocation, ushort yPos)
         {
             SceneCardBase srcCard = null;
 
@@ -233,6 +245,7 @@ namespace FightCore
                     m_outSceneCardList.removeWhiteCard();
                     m_outSceneCardList.addCard(srcCard, yPos);
                     m_outSceneCardList.updateSceneCardPos();
+                    srcCard.effectControl.updateStateEffect();
                 }
             }
 
@@ -257,9 +270,9 @@ namespace FightCore
         // 将当前拖放的对象移动会原始位置
         public void moveDragBack()
         {
-            if(m_sceneDZData.m_curDragItem != null)
+            if (m_sceneDZData.m_dragDropData.getCurDragItem() != null)
             {
-                m_sceneDZData.m_curDragItem.trackAniControl.moveToDestPos();
+                m_sceneDZData.m_dragDropData.getCurDragItem().trackAniControl.moveToDestPos();
             }
         }
 
@@ -267,8 +280,8 @@ namespace FightCore
         public void moveCard()
         {
             m_outSceneCardList.removeWhiteCard();
-            m_inSceneCardList.removeCard(m_sceneDZData.m_curDragItem);
-            m_outSceneCardList.addCard(m_sceneDZData.m_curDragItem, m_sceneDZData.curWhiteIdx);
+            m_inSceneCardList.removeCard(m_sceneDZData.m_dragDropData.getCurDragItem());
+            m_outSceneCardList.addCard(m_sceneDZData.m_dragDropData.getCurDragItem(), m_sceneDZData.curWhiteIdx);
             m_inSceneCardList.updateSceneCardPos();
             m_outSceneCardList.updateSceneCardPos();
         }
@@ -476,9 +489,9 @@ namespace FightCore
 
         public void psstRetCardAttackFailUserCmd(stRetCardAttackFailUserCmd cmd)
         {
-            if (m_sceneDZData.m_curDragItem != null && m_sceneDZData.m_curDragItem.sceneCardItem.svrCard.qwThisID == cmd.dwAttThisID)
+            if (m_sceneDZData.m_dragDropData.getCurDragItem() != null && m_sceneDZData.m_dragDropData.getCurDragItem().sceneCardItem.svrCard.qwThisID == cmd.dwAttThisID)
             {
-                m_sceneDZData.m_curDragItem.ioControl.backCard2Orig();
+                m_sceneDZData.m_dragDropData.getCurDragItem().ioControl.backCard2Orig();
             }
         }
 
@@ -549,6 +562,15 @@ namespace FightCore
             return null;
         }
 
+        /*
+         * @brief 更新当前卡牌可发起攻击的特效
+         * @param bEnable true 就是如果满足条件就开启， false 就是全部关闭
+         */
+        virtual public void updateCanLaunchAttState(bool bEnable)
+        {
+
+        }
+
         virtual public void updateCardAttackedState(GameOpState opt)
         {
 
@@ -591,6 +613,11 @@ namespace FightCore
             m_sceneEquipCard.behaviorControl.moveToDestDirect(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_EQUIP].transform.localPosition);
 
             outCard.dispose();      // 释放原来的资源
+        }
+
+        virtual public void clearAttTimes()
+        {
+
         }
     }
 }

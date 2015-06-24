@@ -8,6 +8,7 @@ namespace FightCore
         public EnemyDZArea(SceneDZData sceneDZData, EnDZPlayer playerSide)
             : base(sceneDZData, playerSide)
         {
+            m_outSceneCardList = new EnemyOutSceneCardList(m_sceneDZData, m_playerSide);
             m_inSceneCardList = new EnemyInSceneCardList(m_sceneDZData, m_playerSide);
         }
 

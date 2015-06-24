@@ -54,6 +54,7 @@ namespace Game.Game
 
             m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_FLOW_START_CMD] = psstNotifyBattleFlowStartUserCmd;
             m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_FLOW_END_CMD] = psstNotifyBattleFlowEndUserCmd;
+            m_id2HandleDic[stHeroCardCmd.NOTIFY_RESET_ATTACKTIMES_CMD] = psstNotifyResetAttackTimesUserCmd;
         }
 
         // 重载方便调试
@@ -577,6 +578,16 @@ namespace Game.Game
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstNotifyBattleFlowEndUserCmd(ba);
+            }
+        }
+
+        // 清除自己的卡牌(除了手牌)的攻击次数
+        protected void psstNotifyResetAttackTimesUserCmd(ByteBuffer ba)
+        {
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstNotifyResetAttackTimesUserCmd();
             }
         }
     }

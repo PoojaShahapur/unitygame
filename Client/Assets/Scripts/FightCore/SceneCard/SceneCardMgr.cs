@@ -119,7 +119,7 @@ namespace FightCore
         public SceneCardBase createCard(SceneCardItem sceneItem, SceneDZData sceneDZData)
         {
             SceneCardBase ret = null;
-            ret = createCardById(sceneItem.svrCard.dwObjectID, sceneItem.m_playerSide, sceneItem.cardArea, (CardType)sceneItem.m_cardTableItem.m_type, sceneDZData);
+            ret = createCardById(sceneItem.svrCard.dwObjectID, sceneItem.playerSide, sceneItem.cardArea, (CardType)sceneItem.m_cardTableItem.m_type, sceneDZData);
             ret.sceneCardItem = sceneItem;
             return ret;
         }

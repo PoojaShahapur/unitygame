@@ -31,6 +31,8 @@ namespace SDK.Common
         // 添加道具列表
         public void psstAddMobileObjectListPropertyUserCmd(List<stObjectOperator> list)
         {
+            clearPack();
+
             t_Object_mobile obj;
 
             foreach (stObjectOperator opt in list)
@@ -64,6 +66,12 @@ namespace SDK.Common
         public void psstRefCountObjectPropertyUserCmd(uint qwThisID, uint dwNum, byte type)
         {
             m_id2ObjDic[qwThisID].m_srvItemObject.dwNum = dwNum;
+        }
+
+        protected void clearPack()
+        {
+            m_objList.Clear();
+            m_id2ObjDic.Clear();
         }
     }
 }

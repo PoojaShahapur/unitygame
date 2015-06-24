@@ -173,7 +173,7 @@ namespace FightCore
             cmd.dwAttThisID = m_opCard.sceneCardItem.svrCard.qwThisID;
             cmd.dwDefThisID = card.sceneCardItem.svrCard.qwThisID;
             cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
-            ret = Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerSide], cmd);
+            ret = Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.playerSide], cmd);
 
             if(ret)
             {
@@ -214,11 +214,11 @@ namespace FightCore
                 cmd.dwMagicType = (uint)m_opCard.sceneCardItem.m_cardTableItem.m_faShu;
             }
 
-            if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.m_playerSide], cmd))
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.cardAttackMagic(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_opCard.sceneCardItem.playerSide], cmd))
             {
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SHERO, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerSide)       // 如果是自己
+                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.playerSide)       // 如果是自己
                     {
                         if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
@@ -229,7 +229,7 @@ namespace FightCore
                 }
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_SATTEND, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.m_playerSide)       // 如果是自己
+                    if (EnDZPlayer.ePlayerSelf == card.sceneCardItem.playerSide)       // 如果是自己
                     {
                         if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
@@ -240,7 +240,7 @@ namespace FightCore
                 }
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EHERO, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerSide)       // 如果是 enemy
+                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.playerSide)       // 如果是 enemy
                     {
                         if (CardArea.CARDCELLTYPE_HERO == card.sceneCardItem.cardArea)     // 如果是主角
                         {
@@ -251,7 +251,7 @@ namespace FightCore
                 }
                 if (UtilMath.checkAttackState(AttackTarget.ATTACK_TARGET_EATTEND, (uint)attackTarget))
                 {
-                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.m_playerSide)       // 如果是 enemy
+                    if (EnDZPlayer.ePlayerEnemy == card.sceneCardItem.playerSide)       // 如果是 enemy
                     {
                         if (CardArea.CARDCELLTYPE_COMMON == card.sceneCardItem.cardArea)     // 如果是出牌区
                         {
@@ -288,6 +288,7 @@ namespace FightCore
         // 可以攻击的目标显示效果，发送攻击消息的时候去掉显示
         protected void addAttackTargetFlags()
         {
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(false);
             // 遍历所有的 enemy 对象
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].updateCardAttackedState(this);
         }
@@ -297,6 +298,10 @@ namespace FightCore
         {
             // 遍历所有的 enemy 对象
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].clearCardAttackedState();
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
+            {
+                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(true);
+            }
         }
     }
 }

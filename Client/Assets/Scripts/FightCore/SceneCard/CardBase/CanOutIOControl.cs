@@ -26,6 +26,8 @@ namespace FightCore
         {
             base.init();
 
+            this.m_card.downEntityDisp.addEventHandle(onCardDown);
+            this.m_card.upEntityDisp.addEventHandle(onCardUp);
             this.m_card.dragOverEntityDisp.addEventHandle(onDragOver);
             this.m_card.dragOutEntityDisp.addEventHandle(onDragOut);
 
@@ -49,10 +51,10 @@ namespace FightCore
         override protected void onStartDrag()
         {
             // 保存当前操作的卡牌
-            m_card.m_sceneDZData.m_curDragItem = m_card;     // 设置当前拖放的目标
+            m_card.m_sceneDZData.m_dragDropData.setCurDragItem(m_card);     // 设置当前拖放的目标
             enableDragTitle();      // Drag Title 动画
             // 开始拖动动画
-            m_card.m_sceneDZData.m_curDragItem.trackAniControl.startDragAni();
+            m_card.m_sceneDZData.m_dragDropData.getCurDragItem().trackAniControl.startDragAni();
 
             // 判断法术攻击
             //if (m_sceneCardItem != null)
@@ -132,9 +134,12 @@ namespace FightCore
             }
 
             // 如果出牌区域卡牌已经满了，也是不能移动的
-            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.m_playerSide].bOutAreaCardFull())
+            if (m_card.m_sceneDZData.m_sceneDZAreaArr[(int)m_card.sceneCardItem.playerSide].bOutAreaCardFull())
             {
-                return false;
+                if ((int)CardType.CARDTYPE_ATTEND == m_card.sceneCardItem.m_cardTableItem.m_type)    // 法术牌是可以继续出的，随从牌不能继续出
+                {
+                    return false;
+                }
             }
 
             if (!m_card.m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpNone))        // 如果当前有操作，也不能进行拖动
@@ -169,7 +174,7 @@ namespace FightCore
                         backCard2Orig();
                         m_isCalc = false;
                     }
-                    else if (m_card.sceneCardItem.svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.m_playerSide].m_heroMagicPoint.mp)   // Mp 不够
+                    else if (m_card.sceneCardItem.svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.playerSide].m_heroMagicPoint.mp)   // Mp 不够
                     {
                         Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem11));
                         backCard2Orig();
@@ -229,7 +234,7 @@ namespace FightCore
                                 // 英雄播放攻击准备特效
                                 if (m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect > 0)
                                 {
-                                    m_card.m_sceneDZData.m_sceneDZAreaArr[(int)(m_card.sceneCardItem.m_playerSide)].centerHero.effectControl.startSkillAttPrepareEffect((int)m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect);
+                                    m_card.m_sceneDZData.m_sceneDZAreaArr[(int)(m_card.sceneCardItem.playerSide)].centerHero.effectControl.startSkillAttPrepareEffect((int)m_card.sceneCardItem.m_cardTableItem.m_skillPrepareEffect);
                                 }
                                 m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpFaShu, m_card);
                             }
@@ -301,17 +306,36 @@ namespace FightCore
         override public void backCard2Orig()
         {
             UICamera.simuStopDrag();
-            m_card.m_sceneDZData.m_curDragItem = null;
+            m_card.m_sceneDZData.m_dragDropData.setCurDragItem(null);
             UIDragObject drag = m_card.gameObject().GetComponent<UIDragObject>();
             drag.reset();
             m_card.trackAniControl.moveBackToPre();      // 退回去
         }
 
+        override public void onCardDown(IDispatchObject dispObj)
+        {
+            if (CardArea.CARDCELLTYPE_HAND == m_card.sceneCardItem.cardArea)    // 如果是手牌
+            {
+                m_card.m_sceneDZData.m_dragDropData.setDownInCard(true);
+            }
+            else    // 场牌
+            {
+                base.onCardUp(dispObj);
+            }
+        }
+
         // 输入释放
         override public void onCardUp(IDispatchObject dispObj)
         {
-            base.onCardUp(dispObj);
-            m_card.trackAniControl.normalState();
+            if (CardArea.CARDCELLTYPE_HAND == m_card.sceneCardItem.cardArea)    // 如果是手牌
+            {
+                m_card.m_sceneDZData.m_dragDropData.setDownInCard(false);
+            }
+            else
+            {
+                base.onCardUp(dispObj);
+                //m_card.trackAniControl.normalState();
+            }
         }
 
         // 输入按下移动到卡牌上
@@ -329,6 +353,7 @@ namespace FightCore
         // 除了 Enemy 手牌外，所有的卡牌都可以点击，包括主角、装备、技能、手里卡牌、出的卡牌
         override public void onCardClick(IDispatchObject dispObj)
         {
+            // 只有可以出的卡才会作为初始牌
             if (m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
             {
                 string resPath = "";
@@ -354,85 +379,7 @@ namespace FightCore
             }
             else        // 如果在对战阶段
             {
-                if (EnDZPlayer.ePlayerSelf != m_card.sceneCardItem.m_playerSide || CardArea.CARDCELLTYPE_HAND != m_card.sceneCardItem.cardArea)         // 如果点击的不是自己的手牌
-                {
-                    if (m_card.sceneCardItem != null)
-                    {
-                        if (m_card.m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpNormalAttack))
-                        {
-                            if (m_card.m_sceneDZData.m_gameOpState.canAttackOp(m_card, EnGameOp.eOpNormalAttack))
-                            {
-                                // 发送攻击指令
-                                stCardAttackMagicUserCmd cmd = new stCardAttackMagicUserCmd();
-                                cmd.dwAttThisID = m_card.m_sceneDZData.m_gameOpState.getOpCardID();
-                                cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
-                                UtilMsg.sendMsg(cmd);
-
-                                //m_sceneDZData.m_gameOpState.quitAttackOp(false);
-                            }
-                            else
-                            {
-                                m_card.enterAttack();
-                            }
-                        }
-                        else if ((m_card.m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpFaShu)))        // 法术攻击
-                        {
-                            if (m_card.m_sceneDZData.m_gameOpState.canAttackOp(m_card, EnGameOp.eOpFaShu))
-                            {
-                                // 必然是有目标的法术攻击
-                                // 发送法术攻击消息
-                                stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
-                                cmd.dwAttThisID = m_card.m_sceneDZData.m_gameOpState.getOpCardID();
-                                cmd.dwMagicType = (uint)m_card.m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                                cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
-                                //m_sceneDZData.m_gameOpState.quitAttackOp(false);
-                                UtilMsg.sendMsg(cmd);
-                            }
-                            else
-                            {
-                                m_card.enterAttack();
-                            }
-                        }
-                        else if (m_card.m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpZhanHouAttack))      // 战吼攻击
-                        {
-                            if (m_card.m_sceneDZData.m_gameOpState.canAttackOp(m_card, EnGameOp.eOpZhanHouAttack))
-                            {
-                                // 发送攻击指令
-                                stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
-                                cmd.dwAttThisID = m_card.m_sceneDZData.m_gameOpState.getOpCardID();
-                                cmd.dwMagicType = (uint)m_card.m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                                cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
-                                cmd.dst = new stObjectLocation();
-                                cmd.dst.dwLocation = (uint)m_card.sceneCardItem.cardArea;
-                                cmd.dst.y = m_card.curIndex;
-                                UtilMsg.sendMsg(cmd);
-
-                                //m_sceneDZData.m_gameOpState.quitAttackOp();
-                            }
-                            else
-                            {
-                                m_card.enterAttack();
-                            }
-                        }
-                        else if (m_card.m_sceneDZData.m_gameOpState.bInOp(EnGameOp.eOpSkillAttackTarget))      // 技能目标攻击
-                        {
-                            if (m_card.m_sceneDZData.m_gameOpState.canAttackOp(m_card, EnGameOp.eOpSkillAttackTarget))
-                            {
-                                // 必然是有目标的法术攻击
-                                // 发送法术攻击消息
-                                stCardMoveAndAttackMagicUserCmd cmd = new stCardMoveAndAttackMagicUserCmd();
-                                cmd.dwAttThisID = m_card.m_sceneDZData.m_gameOpState.getOpCardID();
-                                cmd.dwMagicType = (uint)m_card.m_sceneDZData.m_gameOpState.getOpCardFaShu();
-                                cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
-                                UtilMsg.sendMsg(cmd);
-                            }
-                        }
-                        else        // 默认点击处理都走这里
-                        {
-                            m_card.enterAttack();
-                        }
-                    }
-                }
+                base.onCardClick(dispObj);
             }
         }
 
@@ -445,6 +392,9 @@ namespace FightCore
             {
                 this.m_card.dragOverEntityDisp.addEventHandle(onDragOver);
                 this.m_card.dragOutEntityDisp.addEventHandle(onDragOut);
+
+                this.m_card.downEntityDisp.addEventHandle(onCardDown);  // 判断是否鼠标在手牌的手牌上按下
+                this.m_card.upEntityDisp.addEventHandle(onCardUp);
             }
             else if (1 == type)       // 转换到场牌需要开启按下和起来事件
             {

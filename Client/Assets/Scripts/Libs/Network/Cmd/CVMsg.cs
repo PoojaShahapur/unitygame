@@ -133,11 +133,27 @@
         CARD_STATE_SHIED    = 5,    //圣盾
         CARD_STATE_SLEEP    = 6,    //冷却
         CARD_STATE_FREEZE   = 7,    //冻结
-        CARD_STATE_A1H11,
-        CARD_STATE_A1H12,
-        CARD_STATE_A1H13,
-        CARD_STATE_A1H14,
-        CARD_STATE_A1H15,
+
+        CARD_STATE_BECURE = 8,    //有效果
+        CARD_STATE_BEHURT = 9,    //有效果
+        CARD_STATE_DEADLAN = 10,   //有效果
+        CARD_STATE_SRSTART = 11,   //有效果
+        CARD_STATE_SREND = 12,   //有效果
+        CARD_STATE_ERSTART = 13,   //有效果
+        CARD_STATE_EREND = 14,   //有效果
+        CARD_STATE_SUSEMA = 15,   //有效果
+        CARD_STATE_EUSEMA = 16,   //有效果
+        CARD_STATE_ASTART = 17,   //有效果
+        CARD_STATE_BASTART = 18,   //有效果
+        CARD_STATE_DRAW = 19,   //有效果
+        CARD_STATE_DRAWED = 20,   //有效果
+        CARD_STATE_OHURT = 21,   //有效果
+        CARD_STATE_OCURE = 22,   //有效果
+        CARD_STATE_ODEAD = 23,   //有效果
+        CARD_STATE_SUSEA = 24,   //有效果
+        CARD_STATE_ATTENDIN = 25,   //有效果
+        CARD_STATE_AEND = 26,   //有效果
+        CARD_STATE_HALO = 27,   //有效果
 
         CARD_STATE_MAX,
     }

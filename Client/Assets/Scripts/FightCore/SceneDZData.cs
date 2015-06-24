@@ -12,9 +12,8 @@ namespace FightCore
         public RoundMgr m_roundMgr;
         public PlaceHolderGo m_placeHolderGo;
 
+        public DragDropData m_dragDropData;
         public CardNpcMgr m_cardNpcMgr;
-        public SceneCardBase m_curDragItem;             // 当前正在拖放的 item
-
         public AttackArrow m_attackArrow;
         public GameOpState m_gameOpState;
         public GameRunState m_gameRunState;             // 游戏运行状态
@@ -46,6 +45,7 @@ namespace FightCore
             m_watchCardInfo = new WatchCardInfo();
             m_roundMgr = new RoundMgr(this);
             m_roundMgr.startInitCardTimer();           // 启动定时器
+            m_dragDropData = new DragDropData();
         }
 
         public void findWidget()
@@ -194,12 +194,6 @@ namespace FightCore
         public float getDragCardHeight()
         {
             return m_placeHolderGo.m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.y + SceneDZCV.DRAG_YDELTA;
-        }
-
-        // 是否在拖动卡牌
-        public bool bInDargCarding()
-        {
-            return m_curDragItem != null;
         }
     }
 }

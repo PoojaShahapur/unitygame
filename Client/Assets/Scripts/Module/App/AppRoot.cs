@@ -18,7 +18,7 @@ public class AppRoot : MonoBehaviour
 {
     void Awake()
     {
-        Application.targetFrameRate = 24;
+        //Application.targetFrameRate = 24;
     }
 
 	// Use this for initialization

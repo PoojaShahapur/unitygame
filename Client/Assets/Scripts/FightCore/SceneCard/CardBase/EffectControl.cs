@@ -5,12 +5,12 @@ using UnityEngine;
 namespace FightCore
 {
     /**
-     * @brief 特效控制
+     * @brief 特效控制，好像特效基本都一样
      */
     public class EffectControl : CardControlBase
     {
         protected GameObject m_effectRootGO;        // 特效根节点
-        protected LinkEffect m_frameEffect;         // 边框特效
+        protected LinkEffect m_frameEffect;         // 边框特效，自己手牌，这个就是表示是否可以出牌，自己场牌、英雄卡、技能卡表示是否可以发起攻击，对方场牌、英雄卡、技能卡表示是否可以作为当前攻击卡牌的攻击对象
         protected LinkEffect m_skillAttPrepareEffect;         // 技能攻击准备特效
         protected int m_frameEffectId;             // 边框特效 Id
         protected MList<LinkEffect> m_stateEffectList;
@@ -164,25 +164,30 @@ namespace FightCore
         // 更新卡牌是否可以出牌
         public void updateCardOutState(bool benable)
         {
-            addFrameEffect();
-
             if (benable)
             {
                 if (m_card.sceneCardItem != null)
                 {
-                    if (m_card.sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.m_playerSide].m_heroMagicPoint.mp)
+                    if (m_card.sceneCardItem.svrCard.mpcost <= Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.playerSide].m_heroMagicPoint.mp)
                     {
+                        addFrameEffect();
                         m_frameEffect.play();
                     }
                     else
                     {
-                        m_frameEffect.stop();
+                        if (m_frameEffect != null)
+                        {
+                            m_frameEffect.stop();
+                        }
                     }
                 }
             }
             else
             {
-                m_frameEffect.stop();
+                if (m_frameEffect != null)
+                {
+                    m_frameEffect.stop();
+                }
             }
         }
 
@@ -233,16 +238,21 @@ namespace FightCore
 
             if (m_frameEffect != null)
             {
-                m_frameEffect.setTableID(m_frameEffectId);
-                if (m_frameEffect.bPlay())
-                {
-                    m_frameEffect.stop();                       // 直接停止掉
-                    m_frameEffect.play();
-                }
-                else
-                {
-                    m_frameEffect.stop();
-                }
+                changeFrameEffectId();
+            }
+        }
+
+        protected void changeFrameEffectId()
+        {
+            m_frameEffect.setTableID(m_frameEffectId);
+            if (m_frameEffect.bPlay())
+            {
+                m_frameEffect.stop();                       // 直接停止掉
+                m_frameEffect.play();
+            }
+            else
+            {
+                m_frameEffect.stop();
             }
         }
 
@@ -273,7 +283,10 @@ namespace FightCore
                 if (UtilMath.checkState((StateID)idx, m_card.sceneCardItem.svrCard.state))   // 如果这个状态改变
                 {
                     stateTabelItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_STATE, (uint)idx).m_itemBody as TableStateItemBody;
-                    effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
+                    if (stateTabelItem.m_effectId > 0)
+                    {
+                        effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
+                    }
                 }
                 else    // 删除状态，停止特效
                 {
@@ -305,6 +318,35 @@ namespace FightCore
                             m_card.effectControl.stopStateEffect((StateID)idx);
                         }
                     }
+                }
+            }
+        }
+
+        virtual public void updateCanLaunchAttState(bool bEnable)
+        {
+            if (bEnable)
+            {
+                if (m_card.sceneCardItem != null)
+                {
+                    if (m_card.behaviorControl.canLaunchAtt())
+                    {
+                        addFrameEffect();
+                        m_frameEffect.play();
+                    }
+                    else
+                    {
+                        if (m_frameEffect != null)
+                        {
+                            m_frameEffect.stop();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (m_frameEffect != null)
+                {
+                    m_frameEffect.stop();
                 }
             }
         }

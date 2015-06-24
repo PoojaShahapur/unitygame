@@ -1,8 +1,8 @@
 ﻿namespace FightCore
 {
-    public class HeroClickControl : NotOutIOControl
+    public class HeroIOControl : NotOutIOControl
     {
-        public HeroClickControl(SceneCardBase rhv) : 
+        public HeroIOControl(SceneCardBase rhv) : 
             base(rhv)
         {
             

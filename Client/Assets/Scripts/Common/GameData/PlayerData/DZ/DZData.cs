@@ -57,7 +57,7 @@ namespace SDK.Common
             }
         }
 
-        // 是否是自己一般控制
+        // 是否是自己回合控制
         public bool bSelfSide()
         {
             return Ctx.m_instance.m_dataPlayer.m_dzData.m_priv == 1;
@@ -202,7 +202,7 @@ namespace SDK.Common
                 (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("普通攻击失败  怎么能自己打自己");
                 return false;
             }
-            if (pAtt.m_playerSide == pDef.m_playerSide)
+            if (pAtt.playerSide == pDef.playerSide)
             {
                 (Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIChat) as IUIChat).outMsg("普通攻击失败  普通攻击不能攻击自己的牌");
                 return false;

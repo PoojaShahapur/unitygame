@@ -61,6 +61,12 @@ namespace FightCore
                 Ctx.m_instance.m_texMgr.unload(m_enemyTex.GetPath(), null);
                 m_enemyTex = null;
             }
+
+            if (m_effect != null)
+            {
+                m_effect.dispose();
+                m_effect = null;
+            }
         }
 
         protected void OnBtnClk(GameObject go)
@@ -136,6 +142,47 @@ namespace FightCore
             }
 
             m_mat.mainTexture = m_enemyTex.getTexture();
+        }
+
+        public void updateEffect(bool bEnable)
+        {
+            if (bEnable)
+            {
+                if (!hasLeftMagicPtCanUse())  // 如果没有 Mp 值可以使用
+                {
+                    if (m_effect == null)
+                    {
+                        addFrameEffect();
+                    }
+                    else
+                    {
+                        m_effect.play();
+                    }
+                }
+                else
+                {
+                    if (m_effect != null)
+                    {
+                        m_effect.stop();
+                    }
+                }
+            }
+            else
+            {
+                if (m_effect != null)
+                {
+                    m_effect.stop();
+                }
+            }
+        }
+
+        // 添加边框特效
+        protected void addFrameEffect()
+        {
+            if (m_effect == null)
+            {
+                m_effect = Ctx.m_instance.m_sceneEffectMgr.addLinkEffect(2, gameObject(), false, true) as LinkEffect;
+            }
         }
     }
 }

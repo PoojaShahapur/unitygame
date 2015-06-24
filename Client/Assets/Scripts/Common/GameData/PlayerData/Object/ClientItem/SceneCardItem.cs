@@ -9,10 +9,10 @@ namespace SDK.Common
     public class SceneCardItem
     {
         protected t_Card m_svrCard;        // 服务器卡牌数据
-        public t_CardPK pk = new t_CardPK();
+        public t_CardPK m_pk = new t_CardPK();
         public TableCardItemBody m_cardTableItem;       // 卡牌表中的数据，类型从卡表中获取
 
-        public EnDZPlayer m_playerSide;                 // 卡牌属性哪个玩家
+        protected EnDZPlayer m_playerSide;                 // 卡牌属性哪个玩家
         protected CardArea m_preCardArea;               // 移动之前插槽位置
         protected CardArea m_cardArea;                  // 卡牌在什么位置
 
@@ -29,6 +29,18 @@ namespace SDK.Common
             }
         }
 
+        public EnDZPlayer playerSide
+        {
+            get
+            {
+                return m_playerSide;
+            }
+            set
+            {
+                m_playerSide = value;
+            }
+        }
+
         public t_Card svrCard
         {
             get
@@ -38,8 +50,13 @@ namespace SDK.Common
             set
             {
                 m_svrCard = value;
-                pk.attackTimes = m_svrCard.attackTimes;
+                m_pk.attackTimes = m_svrCard.attackTimes;
             }
+        }
+
+        public bool bSelfSide()
+        {
+            return (EnDZPlayer.ePlayerSelf == m_playerSide);
         }
 
         public void copyFrom(SceneCardItem rhv)
@@ -54,11 +71,17 @@ namespace SDK.Common
             m_cardArea = rhv.m_cardArea;
         }
 
+        // 清除攻击次数
+        public void clearAttTimes()
+        {
+            this.m_pk.attackTimes = 0;
+        }
+
         public bool hasEndDieFlag()
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                if (this.pk.endDieFlag != 0)
+                if (this.m_pk.endDieFlag != 0)
                 {
                     return true;
                 }
@@ -70,7 +93,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                if (this.pk.enragedFlag != 0)
+                if (this.m_pk.enragedFlag != 0)
                 {
                     return true;
                 }
@@ -80,17 +103,17 @@ namespace SDK.Common
 
         public void addAttackTimes()
         {
-            this.pk.attackTimes++;
+            this.m_pk.attackTimes++;
         }
 
         public byte getAttackTimes()
         {
-            return this.pk.attackTimes;
+            return this.m_pk.attackTimes;
         }
 
         public bool hasMagic()
         {
-            if (this.pk.magicID != 0)
+            if (this.m_pk.magicID != 0)
             {
                 return true;
             }
@@ -99,19 +122,19 @@ namespace SDK.Common
 
         public bool addMagic(uint skillID)
         {
-            this.pk.magicID = skillID;
+            this.m_pk.magicID = skillID;
             return true;
         }
 
         public bool clearMagic()
         {
-            this.pk.magicID = 0;
+            this.m_pk.magicID = 0;
             return true;
         }
 
         public bool hasShout()
         {
-            if (this.pk.shoutID != 0)
+            if (this.m_pk.shoutID != 0)
             {
                 return true;
             }
@@ -120,19 +143,19 @@ namespace SDK.Common
 
         public bool addShout(uint skillID)
         {
-            this.pk.shoutID = skillID;
+            this.m_pk.shoutID = skillID;
             return true;
         }
 
         public bool clearShout()
         {
-            this.pk.magicID = 0;
+            this.m_pk.magicID = 0;
             return true;
         }
 
         public bool hasDeadLanguage()
         {
-            if (this.pk.deadID != 0)
+            if (this.m_pk.deadID != 0)
             {
                 return true;
             }
@@ -141,19 +164,19 @@ namespace SDK.Common
 
         public bool addDeadLanguage(uint skillID)
         {
-            this.pk.deadID = skillID;
+            this.m_pk.deadID = skillID;
             return true;
         }
 
         public bool clearDeadLanguage()
         {
-            this.pk.deadID = 0;
+            this.m_pk.deadID = 0;
             return true;
         }
 
         public bool hasEnrage()
         {
-            if (this.pk.enrageID != 0)
+            if (this.m_pk.enrageID != 0)
             {
                 return true;
             }
@@ -162,13 +185,13 @@ namespace SDK.Common
 
         public bool addEnrage(uint skillID)
         {
-            this.pk.enrageID = skillID;
+            this.m_pk.enrageID = skillID;
             return true;
         }
 
         public bool clearEnrage()
         {
-            this.pk.enrageID = 0;
+            this.m_pk.enrageID = 0;
             return true;
         }
 
@@ -265,6 +288,7 @@ namespace SDK.Common
             return false;
         }
 
+        // True 是可以还有攻击次数
         public bool checkAttackTimes()
         {
             byte limitTimes = 0;
@@ -285,7 +309,7 @@ namespace SDK.Common
 
         public void resetAttackTimes()
         {
-            this.pk.attackTimes = 0;
+            this.m_pk.attackTimes = 0;
         }
 
         public bool isHero()
@@ -467,7 +491,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.taunt = 1;
+                this.m_pk.taunt = 1;
                 UtilMath.clearState(StateID.CARD_STATE_TAUNT, m_svrCard.state);
                 return true;
             }
@@ -478,7 +502,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.taunt = 0;
+                this.m_pk.taunt = 0;
                 UtilMath.clearState(StateID.CARD_STATE_TAUNT, m_svrCard.state);
                 return true;
             }
@@ -527,7 +551,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.charge = 1;
+                this.m_pk.charge = 1;
                 UtilMath.clearState(StateID.CARD_STATE_SLEEP, m_svrCard.state);
                 return true;
             }
@@ -538,7 +562,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.charge = 0;
+                this.m_pk.charge = 0;
                 return true;
             }
             return false;
@@ -548,7 +572,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.shield = 1;
+                this.m_pk.shield = 1;
                 UtilMath.clearState(StateID.CARD_STATE_SHIED, m_svrCard.state);
                 return true;
             }
@@ -559,7 +583,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.windfury = 1;
+                this.m_pk.windfury = 1;
                 UtilMath.clearState(StateID.CARD_STATE_WINDFURY, m_svrCard.state);
                 return true;
             }
@@ -570,7 +594,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.windfury = 0;
+                this.m_pk.windfury = 0;
                 UtilMath.clearState(StateID.CARD_STATE_WINDFURY, m_svrCard.state);
                 return true;
             }
@@ -581,7 +605,7 @@ namespace SDK.Common
         {
             if (this.m_cardTableItem.m_type == (int)CardType.CARDTYPE_ATTEND)
             {
-                this.pk.sneak = 1;
+                this.m_pk.sneak = 1;
                 UtilMath.clearState(StateID.CARD_STATE_SNEAK, m_svrCard.state);
                 return true;
             }
@@ -604,6 +628,11 @@ namespace SDK.Common
             }
 
             return true;
+        }
+
+        public bool bInSleepState()
+        {
+            return (UtilMath.checkState(StateID.CARD_STATE_SLEEP, m_svrCard.state));
         }
     }
 }

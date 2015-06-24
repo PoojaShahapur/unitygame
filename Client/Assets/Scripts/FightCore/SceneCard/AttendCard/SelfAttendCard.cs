@@ -12,6 +12,7 @@ namespace FightCore
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_trackAniControl = new SelfAttendAniControl(this);
+            m_sceneCardBaseData.m_behaviorControl = new SelfAttendBehaviorControl(this);
         }
     }
 }

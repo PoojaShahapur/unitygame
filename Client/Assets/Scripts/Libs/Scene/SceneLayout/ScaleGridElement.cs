@@ -9,14 +9,17 @@ namespace SDK.Lib
     {
         protected IElemMove m_movedEntity;  // 保存移动信息的实体
 
-        protected float m_normalWidth;  // 
-        protected float m_normalHeight;  // 
-        protected float m_expandWidth;  // 
-        protected float m_expandHeight;  // 
+        protected float m_normalWidth;      // 正常宽度
+        protected float m_normalHeight;     // 正常高度
+        protected float m_expandWidth;      // 扩展宽度
+        protected float m_expandHeight;     // 扩展高度
 
         public ScaleGridElement()
         {
-
+            m_normalWidth = 1.2f;
+            m_normalHeight = 2.2f;
+            m_expandWidth = 2.4f;
+            m_expandHeight = 4.4f;
         }
 
         public void setWidthAndHeight(float normalWidth_, float normalHeight_, float expandWidth_, float expandHeight_)

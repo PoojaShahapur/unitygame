@@ -90,6 +90,7 @@ namespace Game.Msg
         public const byte NOTIFY_BATTLE_CARD_PROPERTY_CMD = 49;
         public const byte NOTIFY_BATTLE_FLOW_START_CMD = 50;
         public const byte NOTIFY_BATTLE_FLOW_END_CMD = 51;
+        public const byte NOTIFY_RESET_ATTACKTIMES_CMD = 52;
 
         public stHeroCardCmd()
         {

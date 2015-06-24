@@ -1,4 +1,6 @@
-﻿namespace FightCore
+﻿using SDK.Common;
+
+namespace FightCore
 {
     public class SkillBehaviorControl : BehaviorControl
     {

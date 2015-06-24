@@ -3,14 +3,15 @@ using SDK.Lib;
 
 namespace FightCore
 {
+    /**
+     * @brief 只能作为攻击者
+     */
     public class SkillCard : NotOutCard
     {
         public SkillCard(SceneDZData sceneDZData) :
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_trackAniControl = new SkillAniControl(this);
-            m_sceneCardBaseData.m_behaviorControl = new SkillBehaviorControl(this);
-
             m_render = new SkillRender(this);
             m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
