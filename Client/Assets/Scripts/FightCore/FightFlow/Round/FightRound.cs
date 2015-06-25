@@ -30,6 +30,8 @@ namespace FightCore
 
             m_uniqueId = ID_ALLOC_IDX;
             ++ID_ALLOC_IDX;
+
+            FightRoundItemBase.CLEAR_ID_ALLOC_IDX();    // 需要重置每一个战斗 ID
         }
 
         public SceneDZData sceneDZData

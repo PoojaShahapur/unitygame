@@ -9,6 +9,7 @@
             base(sceneDZData)
         {
             m_sceneCardBaseData.m_behaviorControl = new SelfHeroBehaviorControl(this);
+            m_sceneCardBaseData.m_effectControl = new SelfHeroEffectControl(this);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace FightCore
         {
             m_sceneCardBaseData.m_ioControl = new MagicIOControl(this);
             m_render = new SelfHandCardRender(this);
-            m_sceneCardBaseData.m_effectControl = new EffectControl(this);
+            m_sceneCardBaseData.m_effectControl = new MagicCardEffectControl(this);
         }
 
         // 法术牌只有 MP 属性

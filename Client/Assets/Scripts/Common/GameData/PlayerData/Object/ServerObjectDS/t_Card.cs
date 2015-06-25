@@ -22,7 +22,8 @@ namespace SDK.Common
         public byte equipOpen;      //武器状态(1开启,0关闭)
 
         public byte side;
-        public uint popValue;         //冒出的数字(回血or受伤)
+        public uint popHpValue;               //冒出的数字(回血)
+        public uint popDamValue;              //冒出的数字(受伤)
         public byte[] state;
 
         public void derialize(ByteBuffer ba)
@@ -45,7 +46,8 @@ namespace SDK.Common
             ba.readUnsignedInt8(ref equipOpen);
 
             ba.readUnsignedInt8(ref side);
-            ba.readUnsignedInt32(ref popValue);
+            ba.readUnsignedInt32(ref popHpValue);
+            ba.readUnsignedInt32(ref popDamValue);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -72,6 +74,8 @@ namespace SDK.Common
             ba.writeUnsignedInt8(equipOpen);
 
             ba.writeUnsignedInt8(side);
+            ba.writeUnsignedInt32(popHpValue);
+            ba.writeUnsignedInt32(popDamValue);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
@@ -107,11 +111,14 @@ namespace SDK.Common
             Array.Copy(rhv.state, 0, state, 0, rhv.state.Length);
 
             side = rhv.side;
+
+            popHpValue = rhv.popHpValue;
+            popDamValue = rhv.popDamValue;
         }
 
         public string log()
         {
-            return string.Format("[Fight] Side = {0}, Area = {1}, Pos = {2}, qwThisID = {3}, HP = {4}, MaxHP = {5}", side, pos.dwLocation, pos.y, qwThisID, hp, maxhp);
+            return string.Format("[Fight] Side = {0}, Area = {1}, Pos = {2}, qwThisID = {3}, HP = {4}, MaxHP = {5} popHpValue={6} popDamValue={7}", side, pos.dwLocation, pos.y, qwThisID, hp, maxhp, popHpValue, popDamValue);
         }
     }
 

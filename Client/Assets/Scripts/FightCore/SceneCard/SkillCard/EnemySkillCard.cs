@@ -7,6 +7,7 @@
         {
             m_sceneCardBaseData.m_behaviorControl = new EnemySkillBehaviorControl(this);
             m_sceneCardBaseData.m_ioControl = new EnemySkillIOControl(this);
+            m_sceneCardBaseData.m_effectControl = new EnemySkillEffectControl(this);
         }
     }
 }

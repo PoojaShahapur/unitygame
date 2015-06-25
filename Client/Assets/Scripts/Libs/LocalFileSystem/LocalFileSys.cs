@@ -197,6 +197,13 @@ namespace SDK.Lib
             return System.Environment.CurrentDirectory;
         }
 
+        // 获取编辑器工作目录
+        public string getDebugWorkPath()
+        {
+            string path = string.Format("{0}{1}", getWorkPath(), "/Debug");
+            return path;
+        }
+
         public FileStream openFile(string path)
         {
             // 判断文件是否存在
@@ -292,6 +299,15 @@ namespace SDK.Lib
 #else
             param.m_path = resPath;
 #endif
+        }
+
+        public void saveTex2Disc(Texture2D tex, string fileName)
+        {
+            //将图片信息编码为字节信息
+            byte[] bytes = tex.EncodeToPNG();
+            //保存
+            string path = string.Format("{0}/{1}.png", getDebugWorkPath(), fileName);
+            writeFileByte(path, bytes);
         }
     }
 }

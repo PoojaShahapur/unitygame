@@ -13,7 +13,7 @@ namespace FightCore
         {
             m_sceneCardBaseData.m_ioControl = new AttendIOControl(this);
             m_render = new SelfHandCardRender(this);
-            m_sceneCardBaseData.m_effectControl = new EffectControl(this);
+            m_sceneCardBaseData.m_effectControl = new AttendCardEffectControl(this);
         }
 
         public override string getDesc()

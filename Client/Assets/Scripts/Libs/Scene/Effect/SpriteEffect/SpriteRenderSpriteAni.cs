@@ -22,9 +22,18 @@ namespace SDK.Lib
 
         public override void dispose()
         {
-            if(m_selfGo != null)        // 场景中的特效需要直接释放这个 GameObject
+            clearEffectRes();
+
+            base.dispose();
+        }
+
+        protected void clearEffectRes()
+        {
+            if (m_selfGo != null)        // 场景中的特效需要直接释放这个 GameObject
             {
                 UtilApi.Destroy(m_selfGo);
+                m_selfGo = null;
+                m_spriteRender = null;
             }
 
             if (m_effectPrefab != null)
@@ -32,8 +41,6 @@ namespace SDK.Lib
                 Ctx.m_instance.m_modelMgr.unload(m_effectPrefab.GetPath(), null);
                 m_effectPrefab = null;
             }
-
-            base.dispose();
         }
 
         override public void stop()
@@ -104,6 +111,8 @@ namespace SDK.Lib
         // 特效对应的精灵 Prefab 改变
         override public void onSpritePrefabChanged()
         {
+            clearEffectRes();
+
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], m_tableBody.m_aniPrefabName);
             m_effectPrefab = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(path);
             selfGo = m_effectPrefab.InstantiateObject(path);

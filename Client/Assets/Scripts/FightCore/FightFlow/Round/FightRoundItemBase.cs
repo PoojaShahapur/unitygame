@@ -32,6 +32,12 @@ namespace FightCore
             ++ID_ALLOC_IDX;
         }
 
+        static public void CLEAR_ID_ALLOC_IDX()
+        {
+            FightRoundItemBase.ID_ALLOC_IDX = 0;
+        }
+
+
         public byte parallelMask
         {
             get

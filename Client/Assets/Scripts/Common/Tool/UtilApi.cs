@@ -666,5 +666,13 @@ namespace SDK.Common
                 }
             }
         }
+
+        static public void saveTex2Disc(Texture2D tex, string filePath)
+        {
+            //将图片信息编码为字节信息
+            byte[] bytes = tex.EncodeToPNG();
+            //保存
+            System.IO.File.WriteAllBytes(filePath, bytes);
+        }
     }
 }

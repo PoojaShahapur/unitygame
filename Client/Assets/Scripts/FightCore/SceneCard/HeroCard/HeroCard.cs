@@ -20,7 +20,6 @@ namespace FightCore
         {
             m_sceneCardBaseData.m_trackAniControl = new HeroAniControl(this);
             m_render = new HeroRender(this);
-            m_sceneCardBaseData.m_effectControl = new HeroEffectControl(this);
             m_sceneCardBaseData.m_ioControl = new HeroIOControl(this);
         }
 

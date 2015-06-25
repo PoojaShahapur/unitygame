@@ -88,6 +88,7 @@ namespace FightCore
             LinkEffect effect = Ctx.m_instance.m_sceneEffectMgr.addLinkEffect(id, m_effectRootGO, bAutoRemove, bLoop, bPlay) as LinkEffect;
             m_linkEffectList.Add(effect);
             effect.addEffectPlayEndHandle(onLinkEffectPlayEnd);
+            effect.linkedEntity = this.m_card;
             return effect;
         }
 
@@ -108,7 +109,7 @@ namespace FightCore
             }
         }
 
-        // 添加技能准备特效
+        // 添加技能准备特效，主要是法术卡，但是释放的时候基本都是英雄卡上
         public void startSkillAttPrepareEffect(int effectId)
         {
             if (m_skillAttPrepareEffect == null)
@@ -161,7 +162,7 @@ namespace FightCore
             }
         }
 
-        // 更新卡牌是否可以出牌
+        // 更新卡牌是否可以出牌，自己手牌
         public void updateCardOutState(bool benable)
         {
             if (benable)
@@ -191,7 +192,7 @@ namespace FightCore
             }
         }
 
-        // 更新卡牌是否可以被击
+        // 更新卡牌是否可以被击，对方场牌、英雄卡、技能卡、自己场牌、英雄卡、技能卡
         public void updateCardAttackedState(bool benable)
         {
             addFrameEffect();
@@ -209,7 +210,7 @@ namespace FightCore
             }
         }
 
-        // 开始转换模型 type == 0 是手牌   1 是场牌
+        // 开始转换模型 type == 0 是手牌   1 是场牌，自己手牌、场牌转换
         public void startConvModel(int type)
         {
             if (m_effectRootGO != null)         // 如果存在
@@ -218,7 +219,7 @@ namespace FightCore
             }
         }
 
-        // 结束转换模型
+        // 结束转换模型，自己手牌、场牌转换
         public void endConvModel(int type)
         {
             if (m_effectRootGO != null)         // 如果存在
@@ -272,83 +273,22 @@ namespace FightCore
             m_linkEffectList.Remove(dispObj as LinkEffect);
         }
 
-        // 每一次回合开始就更新牌的状态
-        public void updateStateEffect()
+        // 每一次回合开始就更新牌的状态，双方的场牌，英雄卡、技能卡
+        virtual public void updateStateEffect()
         {
-            LinkEffect effect = null;
-            int idx = 0;
-            TableStateItemBody stateTabelItem = null;
-            for (idx = 1; idx < (int)StateID.CARD_STATE_MAX; ++idx)
-            {
-                if (UtilMath.checkState((StateID)idx, m_card.sceneCardItem.svrCard.state))   // 如果这个状态改变
-                {
-                    stateTabelItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_STATE, (uint)idx).m_itemBody as TableStateItemBody;
-                    if (stateTabelItem.m_effectId > 0)
-                    {
-                        effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
-                    }
-                }
-                else    // 删除状态，停止特效
-                {
-                    m_card.effectControl.stopStateEffect((StateID)idx);
-                }
-            }
+            
         }
 
-        // 每一个状态对应一个特效，这个特效是循环特效，每一次战斗都要更新状态
-        public void updateAttHurtStateEffect(FightItemBase item)
+        // 每一个状态对应一个特效，这个特效是循环特效，每一次战斗都要更新状态，双方的场牌，英雄卡、技能卡
+        virtual public void updateAttHurtStateEffect(FightItemBase item)
         {
-            LinkEffect effect = null;
-
-            if (item.bStateChange())       // 每一个状态对应一个特效，需要播放特效
-            {
-                int idx = 0;
-                TableStateItemBody stateTabelItem = null;
-                for (idx = 1; idx < (int)StateID.CARD_STATE_MAX; ++idx)
-                {
-                    if (UtilMath.checkState((StateID)idx, item.changedState))   // 如果这个状态改变
-                    {
-                        if (UtilMath.checkState((StateID)idx, item.curState))   // 如果是增加状态
-                        {
-                            stateTabelItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_STATE, (uint)idx).m_itemBody as TableStateItemBody;
-                            effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
-                        }
-                        else    // 删除状态，停止特效
-                        {
-                            m_card.effectControl.stopStateEffect((StateID)idx);
-                        }
-                    }
-                }
-            }
+            
         }
 
+        // 自己的场牌、英雄卡、技能卡
         virtual public void updateCanLaunchAttState(bool bEnable)
         {
-            if (bEnable)
-            {
-                if (m_card.sceneCardItem != null)
-                {
-                    if (m_card.behaviorControl.canLaunchAtt())
-                    {
-                        addFrameEffect();
-                        m_frameEffect.play();
-                    }
-                    else
-                    {
-                        if (m_frameEffect != null)
-                        {
-                            m_frameEffect.stop();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (m_frameEffect != null)
-                {
-                    m_frameEffect.stop();
-                }
-            }
+            
         }
     }
 }

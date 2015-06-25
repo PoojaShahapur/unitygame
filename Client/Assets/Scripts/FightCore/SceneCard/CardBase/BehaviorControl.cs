@@ -134,6 +134,10 @@ namespace FightCore
                     item.onHurtExecEnd(null);
                 //}
             }
+            else    // 不伤血也不加血，直接结束
+            {
+                item.onHurtExecEnd(null);
+            }
 
             m_card.sceneCardBaseData.m_effectControl.updateAttHurtStateEffect(item);
             
@@ -203,18 +207,22 @@ namespace FightCore
                 effect.addEffectPlayEndHandle(item.onHurtExecEnd);
 
                 // 播放伤害数字
-                if (item.svrCard.popValue > 0)
+                if (item.svrCard.popDamValue > 0)
                 {
-                    m_card.playFlyNum((int)-item.svrCard.popValue);
+                    m_card.playFlyNum((int)-item.svrCard.popDamValue);
                 }
             }
-            else if ((int)item.svrCard.popValue > 0)       // 回血
+            else if ((int)item.svrCard.popHpValue > 0)       // 回血
             {
                 //if (!item.bStateChange())
                 //{
-                    m_card.playFlyNum((int)item.svrCard.popValue);
+                    m_card.playFlyNum((int)item.svrCard.popHpValue);
                     item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
                 //}
+            }
+            else    // 不伤血也不加血，直接结束
+            {
+                item.onHurtExecEnd(null);       // 直接结束当前技能被击 Item
             }
 
             m_card.sceneCardBaseData.m_effectControl.updateAttHurtStateEffect(item);

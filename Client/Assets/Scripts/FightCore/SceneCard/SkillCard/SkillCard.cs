@@ -13,7 +13,6 @@ namespace FightCore
         {
             m_sceneCardBaseData.m_trackAniControl = new SkillAniControl(this);
             m_render = new SkillRender(this);
-            m_sceneCardBaseData.m_effectControl = new EffectControl(this);
         }
 
         override public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
