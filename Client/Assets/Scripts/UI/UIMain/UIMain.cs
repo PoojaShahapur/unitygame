@@ -39,7 +39,7 @@ namespace Game.UI
         protected void findWidget()
         {
             m_btnArr[(int)MainBtnEnum.eBtnShop] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnShop);
-            m_btnArr[(int)MainBtnEnum.eBtnHero] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnHero);
+            m_btnArr[(int)MainBtnEnum.eBtnTask] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnTask);
             m_btnArr[(int)MainBtnEnum.eBtnExtPack] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnExtPack);
             m_btnArr[(int)MainBtnEnum.eBtnTuJian] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnTuJian);
 
@@ -51,7 +51,7 @@ namespace Game.UI
         protected void addEventHandle()
         {
             m_btnArr[(int)MainBtnEnum.eBtnShop].addEventHandle(onBtnClkShop);              // 商店
-            m_btnArr[(int)MainBtnEnum.eBtnHero].addEventHandle(onBtnClkHero);              // 请求 hero 数据
+            m_btnArr[(int)MainBtnEnum.eBtnTask].addEventHandle(onBtnClkTask);              // 请求 hero 数据
             m_btnArr[(int)MainBtnEnum.eBtnExtPack].addEventHandle(onBtnClkOpenPack);       // 打开扩展
             m_btnArr[(int)MainBtnEnum.eBtnTuJian].addEventHandle(onBtnClkTuJian);          // 我的收藏
             m_btnArr[(int)MainBtnEnum.eBtnDuiZhan].addEventHandle(onBtnClkDuiZhanMoShi);   // 对战模式
@@ -67,9 +67,9 @@ namespace Game.UI
             UtilMsg.sendMsg(cmd);
         }
 
-        protected void onBtnClkHero(IDispatchObject dispObj)
+        protected void onBtnClkTask(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIHero);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITask);
             //Ctx.m_instance.m_dataPlayer.m_dataHero.reqAllHero();            //  请求 hero 数据
         }
 

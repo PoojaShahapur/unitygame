@@ -197,26 +197,36 @@ namespace SDK.Common
         {
             Vector3 pos;
             int listIdx = 0;
-
+            float halfUnitWidth = unitWidth / 2;
             if (unitWidth * splitCnt > 2 * areaRadius)       // 如果当前区域不能完整放下所有的单元
             {
-                float splitCellWidth = (areaRadius * 2) / splitCnt;
-                while (listIdx < splitCnt)
+                float plusOneWidth = (areaRadius * 2) - unitWidth;          // 最后一个必然要放在最后一个，并且不能超出边界
+                float splitCellWidth = plusOneWidth / (splitCnt - 1);
+                while (listIdx < splitCnt - 1)  // 最后一个位置左边界就是 plusOneWidth ，已经计算好了
                 {
-                    pos.x = trans.localPosition.x + splitCellWidth * listIdx - areaRadius;
+                    pos.x = trans.localPosition.x + splitCellWidth * listIdx - areaRadius;  // 这个是左边的位置
+                    pos.x += halfUnitWidth;           // 调整中心点的位置
                     pos.y = trans.localPosition.y + fYDelta * listIdx;
                     pos.z = trans.localPosition.z;
                     posList.Add(pos);
 
                     ++listIdx;
                 }
+
+                // 计算最后一个位置
+                pos.x = trans.localPosition.x + plusOneWidth - areaRadius;  // 这个是左边的位置
+                pos.x += halfUnitWidth;           // 调整中心点的位置
+                pos.y = trans.localPosition.y + fYDelta * listIdx;
+                pos.z = trans.localPosition.z;
+                posList.Add(pos);
             }
             else            // 全部能放下，就居中显示
             {
-                float halfWidth = (float)((unitWidth * splitCnt) * 0.5);        // 占用的区域的一般宽度
+                float halfWidth = (float)((unitWidth * splitCnt) * 0.5);        // 占用的区域的一半宽度
                 while (listIdx < splitCnt)
                 {
-                    pos.x = trans.localPosition.x + unitWidth * listIdx - halfWidth;
+                    pos.x = trans.localPosition.x + unitWidth * listIdx - halfWidth;    // 这个是左边的位置
+                    pos.x += halfUnitWidth;           // 调整中心点的位置
                     pos.y = trans.localPosition.y + fYDelta * listIdx;
                     pos.z = trans.localPosition.z;
                     posList.Add(pos);

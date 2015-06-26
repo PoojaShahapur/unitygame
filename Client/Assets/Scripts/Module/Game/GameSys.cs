@@ -63,7 +63,7 @@ namespace Game.Game
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIGM", typeof(UIGM));
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIHero", typeof(UIHero));
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIHeroSelect", typeof(UIHeroSelect));
-            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIInfo", typeof(UIInfo));
+            //Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIInfo", typeof(UIInfo));
 
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIJobSelect", typeof(UIJobSelect));
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UILogicTest", typeof(UILogicTest));
@@ -76,6 +76,7 @@ namespace Game.Game
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITuJian", typeof(UITuJian));
 
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITuJianTop", typeof(UITuJianTop));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITask", typeof(UITask));
         }
     }
 }

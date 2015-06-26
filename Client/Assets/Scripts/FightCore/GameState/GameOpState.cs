@@ -285,11 +285,17 @@ namespace FightCore
             return 0;
         }
 
+        public int getZhanHouCommonClientIdx()
+        {
+            return m_opCard.getZhanHouCommonClientIdx();
+        }
+
         // 可以攻击的目标显示效果，发送攻击消息的时候去掉显示
         protected void addAttackTargetFlags()
         {
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(false);
-            // 遍历所有的 enemy 对象
+            // 遍历所有对象，包括 Enemy 的场牌、Enemy 的英雄、Enemy 的 Skill、自己的场牌、自己的英雄卡、自己的技能卡
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCardAttackedState(this);
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].updateCardAttackedState(this);
         }
 
@@ -297,6 +303,7 @@ namespace FightCore
         protected void clearAttackTargetFlags()
         {
             // 遍历所有的 enemy 对象
+            m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].clearCardAttackedState();
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].clearCardAttackedState();
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {

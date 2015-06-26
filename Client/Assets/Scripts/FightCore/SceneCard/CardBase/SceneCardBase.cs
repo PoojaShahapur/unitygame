@@ -64,15 +64,15 @@ namespace FightCore
             }
         }
 
-        public GameObject chaHaoGo
+        public AuxDynModel chaHaoModel
         {
             get
             {
-                return m_sceneCardBaseData.m_chaHaoGo;
+                return m_sceneCardBaseData.m_chaHaoModel;
             }
             set
             {
-                m_sceneCardBaseData.m_chaHaoGo = value;
+                m_sceneCardBaseData.m_chaHaoModel = value;
             }
         }
 
@@ -337,9 +337,12 @@ namespace FightCore
         }
 
         // 更新卡牌是否可以被击
-        public void updateCardAttackedState(bool benable)
+        public void updateCardAttackedState(GameOpState opt)
         {
-            m_sceneCardBaseData.m_effectControl.updateCardAttackedState(benable);
+            if (opt.canAttackOp(this, opt.curOp))
+            {
+                m_sceneCardBaseData.m_effectControl.updateCardAttackedState();
+            }
         }
 
         public void playFlyNum(int num)
@@ -474,6 +477,26 @@ namespace FightCore
         virtual public void clearAttTimes()
         {
 
+        }
+
+        virtual public void loadChaHaoModel(GameObject pntGo_)
+        {
+
+        }
+
+        virtual public void destroyChaHaoModel()
+        {
+
+        }
+
+        virtual public void setZhanHouCommonClientIdx(int idx)
+        {
+            
+        }
+
+        virtual public int getZhanHouCommonClientIdx()
+        {
+            return 0;
         }
     }
 }

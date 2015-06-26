@@ -240,7 +240,10 @@ namespace Game.Game
             msg.position = 0;
 
             IUIJobSelect ui = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIJobSelect) as IUIJobSelect;
-            ui.psstRetHeroIntoBattleSceneUserCmd(msg);
+            if (ui != null)
+            {
+                ui.psstRetHeroIntoBattleSceneUserCmd(msg);
+            }
         }
 
         // 回归剩余卡牌数量
@@ -544,9 +547,15 @@ namespace Game.Game
             stRetBattleGameResultUserCmd cmd = new stRetBattleGameResultUserCmd();
             cmd.derialize(ba);
 
-            if (cmd.win == 1 || cmd.win == 0)        // 赢了输了
+            //if (cmd.win == 1 || cmd.win == 0)        // 赢了输了
+            //{
+            //    Ctx.m_instance.m_gameSys.loadGameScene();        // 加载游戏场景
+            //}
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
-                Ctx.m_instance.m_gameSys.loadGameScene();        // 加载游戏场景
+                uiSceneDZ.psstRetBattleGameResultUserCmd(cmd);
             }
         }
 

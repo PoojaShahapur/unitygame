@@ -41,8 +41,8 @@ namespace FightCore
         override protected void getCardPos()
         {
             m_posList.Clear();
-            m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform, SceneDZCV.HAND_CARD_WIDTH, m_sceneDZData.m_placeHolderGo.m_cardHandAreaWidthArr[(int)m_playerSide], SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
+            //m_rotList.Clear();
+            UtilMath.newRectSplit(m_centerPos, SceneDZCV.HAND_CARD_WIDTH, m_radius, SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
         }
 
         // 通过客户端的数据移除一张卡牌

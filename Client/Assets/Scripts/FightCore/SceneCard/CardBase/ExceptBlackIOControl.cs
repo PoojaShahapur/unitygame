@@ -37,8 +37,6 @@ namespace FightCore
                                 cmd.dwAttThisID = m_card.m_sceneDZData.m_gameOpState.getOpCardID();
                                 cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
                                 UtilMsg.sendMsg(cmd);
-
-                                //m_sceneDZData.m_gameOpState.quitAttackOp(false);
                             }
                             else
                             {
@@ -73,11 +71,9 @@ namespace FightCore
                                 cmd.dwMagicType = (uint)m_card.m_sceneDZData.m_gameOpState.getOpCardFaShu();
                                 cmd.dwDefThisID = m_card.sceneCardItem.svrCard.qwThisID;
                                 cmd.dst = new stObjectLocation();
-                                cmd.dst.dwLocation = (uint)m_card.sceneCardItem.cardArea;
-                                cmd.dst.y = m_card.curIndex;
+                                cmd.dst.dwLocation = (uint)CardArea.CARDCELLTYPE_COMMON;
+                                cmd.dst.y = (ushort)m_card.m_sceneDZData.m_gameOpState.getZhanHouCommonClientIdx();
                                 UtilMsg.sendMsg(cmd);
-
-                                //m_sceneDZData.m_gameOpState.quitAttackOp();
                             }
                             else
                             {

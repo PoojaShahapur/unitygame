@@ -28,8 +28,8 @@ namespace FightCore
         protected override void getCardPos()
         {
             m_posList.Clear();
-            m_rotList.Clear();
-            UtilMath.newRectSplit(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform, SceneDZCV.COMMON_CARD_WIDTH, m_sceneDZData.m_placeHolderGo.m_cardCommonAreaWidthArr[(int)m_playerSide], 0, m_sceneCardList.Count(), ref m_posList);
+            //m_rotList.Clear();
+            UtilMath.newRectSplit(m_centerPos, SceneDZCV.COMMON_CARD_WIDTH, m_radius, 0, m_sceneCardList.Count(), ref m_posList);
         }
 
         override public void addCard(SceneCardBase card, int idx = -1)

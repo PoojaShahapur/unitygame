@@ -35,6 +35,7 @@ namespace FightCore
         public const string ArrowStartPosGO = "PlaceHolder/ArrowStartPos";
         public const string ArrowListGO = "PlaceHolder/ArrowStartPos/ArrowList";
         public const string StartGO = "DuiZhan/StartBtn";
+        
 
         public const string SelfMpText = "DuiZhan/UIGo/Canvas/SelfMPText";
         public const string EnemyMpText = "DuiZhan/UIGo/Canvas/EnemyMPText";
@@ -44,12 +45,13 @@ namespace FightCore
         public const string TimerGo = "TimerGo";
 
         public const string CollideBG = "bujian_zhanchang";
+        public const string FightResultPanel = "DuiZhan/FightResultPanelGo";
     }
 
     public class SceneDZCV
     {
         public const int OUT_CARD_TOTAL = 5;                        // 出牌区域最多牌的数量
-        public const float HAND_CARD_WIDTH = 2.0f;                  // 手牌宽度
+        public const float HAND_CARD_WIDTH = 1.3f;                  // 手牌宽度
         public const float COMMON_CARD_WIDTH = 2.0f;                // 场牌宽度
         public const float HAND_CARD_EXPAND_WIDTH = 4.0f;                  // 手牌扩大宽度
         public const float HAND_YDELTA = 0.1f;                      // 手牌的时候 Y Delta 值

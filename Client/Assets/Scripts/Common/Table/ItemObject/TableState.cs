@@ -20,7 +20,7 @@
         {
             if(m_effectId == 0)
             {
-                m_effectId = 4;
+                m_effectId = 0;
             }
         }
     }

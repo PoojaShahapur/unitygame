@@ -34,6 +34,11 @@ namespace FightCore
 
         }
 
+        virtual public void setOutSplitZ(float outSplitZ_)
+        {
+
+        }
+
         // 能拖动的必然所有的操作都完成后才能操作
         virtual protected void onStartDrag()
         {

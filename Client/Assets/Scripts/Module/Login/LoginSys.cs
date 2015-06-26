@@ -77,6 +77,8 @@ namespace Game.Login
         protected void registerScriptType()
         {
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UILogin", typeof(UILogin));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIHeroSelect", typeof(UIHeroSelect));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIInfo", typeof(UIInfo));
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UILogicTest", typeof(UILogicTest));
         }
     }

@@ -77,6 +77,11 @@ namespace FightCore
                 Ctx.m_instance.m_logSys.fightLog("[Fight] 技能攻击攻击者无效");
             }
 
+            if (att == null || att.sceneCardItem == null)
+            {
+                Ctx.m_instance.m_logSys.fightLog(string.Format("[Fight] 技能攻击攻击者卡牌 {0} 数据为null", att.getDesc()));
+            }
+
             msg.m_origAttObject = att.sceneCardItem.svrCard;
             att.sceneCardItem.svrCard = msg.A_object;
 

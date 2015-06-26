@@ -9,7 +9,7 @@
             m_entity = entity;
         }
 
-        public void dispose()
+        virtual public void dispose()
         {
 
         }

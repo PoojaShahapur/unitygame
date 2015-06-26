@@ -7,5 +7,11 @@
         {
 
         }
+
+        override public void updateCardAttackedState()
+        {
+            m_frameEffectId = 5;
+            base.updateCardAttackedState();
+        }
     }
 }

@@ -14,8 +14,11 @@ namespace FightCore
         public SceneDZData m_sceneDZData;
         public EnDZPlayer m_playerSide;                 // 指示玩家的位置
 
+        protected Transform m_centerPos;    // 中心点
+        protected float m_radius;           // 半径
+
         protected List<Vector3> m_posList = new List<Vector3>();
-        protected List<Quaternion> m_rotList = new List<Quaternion>();
+        //protected List<Quaternion> m_rotList = new List<Quaternion>();
 
         protected MList<SceneCardBase> m_sceneCardList = new MList<SceneCardBase>();
 
@@ -25,9 +28,38 @@ namespace FightCore
             m_playerSide = playerSide;
         }
 
+        virtual public void init()
+        {
+
+        }
+
         virtual public void dispose()
         {
 
+        }
+
+        public Transform centerPos
+        {
+            get
+            {
+                return m_centerPos;
+            }
+            set
+            {
+                m_centerPos = value;
+            }
+        }
+
+        public float radius
+        {
+            get
+            {
+                return m_radius;
+            }
+            set
+            {
+                m_radius = value;
+            }
         }
 
         protected virtual void getCardPos()
@@ -208,14 +240,12 @@ namespace FightCore
             }
         }
 
+        // 更新被击状态
         public void updateCardAttackedState(GameOpState opt)
         {
             foreach (SceneCardBase cardItem in m_sceneCardList.list)
             {
-                if (opt.canAttackOp(cardItem, opt.curOp))
-                {
-                    cardItem.updateCardAttackedState(true);
-                }
+                cardItem.updateCardAttackedState(opt);
             }
         }
 

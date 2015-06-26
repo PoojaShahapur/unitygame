@@ -64,6 +64,9 @@ namespace FightCore
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf] = new SelfDZArea(this, EnDZPlayer.ePlayerSelf);
             m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy] = new EnemyDZArea(this, EnDZPlayer.ePlayerEnemy);
 
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].init();
+            m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerEnemy].init();
+
             m_historyArea = new HistoryArea(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.HistoryGo));
             m_historyArea.m_sceneDZData = this;
             m_attackArrow = new AttackArrow(this);

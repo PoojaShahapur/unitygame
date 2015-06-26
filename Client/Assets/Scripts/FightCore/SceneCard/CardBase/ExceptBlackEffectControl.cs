@@ -50,7 +50,10 @@ namespace FightCore
                         if (UtilMath.checkState((StateID)idx, item.curState))   // 如果是增加状态
                         {
                             stateTabelItem = Ctx.m_instance.m_tableSys.getItem(TableID.TABLE_STATE, (uint)idx).m_itemBody as TableStateItemBody;
-                            effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
+                            if (stateTabelItem.m_effectId > 0)
+                            {
+                                effect = m_card.effectControl.startStateEffect((StateID)idx, stateTabelItem.m_effectId);
+                            }
                         }
                         else    // 删除状态，停止特效
                         {

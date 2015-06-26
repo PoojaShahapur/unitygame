@@ -23,6 +23,7 @@ namespace SDK.Lib
 
         override protected void addHandle()
         {
+            base.addHandle();
             UtilApi.addPressHandle(gameObject(), onEntityDownUp);
             UtilApi.addDragOverHandle(gameObject(), onEntityDragOver);
             UtilApi.addDragOutHandle(gameObject(), onEntityDragOut);

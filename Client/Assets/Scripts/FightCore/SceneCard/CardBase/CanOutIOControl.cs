@@ -14,7 +14,8 @@ namespace FightCore
         protected Action m_moveDisp;           // 拖动中分发
         protected Vector3 m_centerPos;         // 中心点位置
         protected float m_radius = 1;          // 半径
-        protected bool m_isCalc;               // 本次是否计算过超过圆形区域的处理
+        protected float m_outSplitZ;            // 输出分割线，比这个值大，就是在出牌区，比这个值小，就是手牌区
+        protected bool m_isCalc;               // 记录第一次从手牌区域到场牌区域是否计算过条件，就是是否可以从手牌区域移动到场牌区域
 
         public CanOutIOControl(SceneCardBase rhv) : 
             base(rhv)
@@ -45,6 +46,11 @@ namespace FightCore
         override public void setCenterPos(Vector3 rhv)
         {
             m_centerPos = rhv;
+        }
+
+        override public void setOutSplitZ(float outSplitZ_)
+        {
+            m_outSplitZ = outSplitZ_;
         }
 
         // 能拖动的必然所有的操作都完成后才能操作
@@ -161,27 +167,7 @@ namespace FightCore
 
         override protected void onMove()
         {
-            // 这个地方需要判断不是自己回合在允许的范围内
-            if (!m_isCalc)
-            {
-                if (!bInSafeTyArea())
-                {
-                    m_isCalc = true;
-
-                    if (!Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())        // 不是自己回合
-                    {
-                        Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem10));
-                        backCard2Orig();
-                        m_isCalc = false;
-                    }
-                    else if (m_card.sceneCardItem.svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.playerSide].m_heroMagicPoint.mp)   // Mp 不够
-                    {
-                        Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem11));
-                        backCard2Orig();
-                        m_isCalc = false;
-                    }
-                }
-            }
+            checkMoveHandArea2CommonArea();
 
             // 如果不是自己出牌或者拖动的是装备卡牌，就不用通知其它的移动了
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
@@ -205,7 +191,7 @@ namespace FightCore
             m_isCalc = false;
 
             // 如果在一定小范围内
-            if (bInSafeTyArea())
+            if (bInHandArea())
             {
                 // 拖动结束直接退回去
                 // 开始缩放
@@ -254,8 +240,9 @@ namespace FightCore
                             // 直接放下去，然后选择攻击目标
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
-                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
                             m_card.convOutModel();
+                            m_card.setZhanHouCommonClientIdx(m_card.m_sceneDZData.curWhiteIdx);
+                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardPos(false);       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
                             m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, m_card);
                         }
@@ -289,10 +276,36 @@ namespace FightCore
             }
         }
 
-        // 如果在范围内，就不发生交互
-        protected bool bInSafeTyArea()
+        protected void checkMoveHandArea2CommonArea()
         {
-            if (UtilMath.xzDis(m_centerPos, m_card.transform().localPosition) <= m_radius)
+            // 这个地方需要判断不是自己回合在允许的范围内
+            if (!m_isCalc)
+            {
+                if (!bInHandArea())
+                {
+                    m_isCalc = true;
+
+                    if (!Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())        // 不是自己回合
+                    {
+                        Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem10));
+                        backCard2Orig();
+                        m_isCalc = false;
+                    }
+                    else if (m_card.sceneCardItem.svrCard.mpcost > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_card.sceneCardItem.playerSide].m_heroMagicPoint.mp)   // Mp 不够
+                    {
+                        Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eDZ4, LangItemID.eItem11));
+                        backCard2Orig();
+                        m_isCalc = false;
+                    }
+                }
+            }
+        }
+
+        // 如果在手牌范围内
+        protected bool bInHandArea()
+        {
+            //if (UtilMath.xzDis(m_centerPos, m_card.transform().localPosition) <= m_radius)
+            if (m_card.transform().localPosition.z <= m_outSplitZ)
             {
                 return true;
             }
@@ -314,40 +327,52 @@ namespace FightCore
 
         override public void onCardDown(IDispatchObject dispObj)
         {
-            if (CardArea.CARDCELLTYPE_HAND == m_card.sceneCardItem.cardArea)    // 如果是手牌
+            if (!m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))
             {
-                m_card.m_sceneDZData.m_dragDropData.setDownInCard(true);
-            }
-            else    // 场牌
-            {
-                base.onCardUp(dispObj);
+                if (CardArea.CARDCELLTYPE_HAND == m_card.sceneCardItem.cardArea)    // 如果是手牌
+                {
+                    m_card.m_sceneDZData.m_dragDropData.setDownInCard(true);
+                }
+                else    // 场牌
+                {
+                    base.onCardDown(dispObj);
+                }
             }
         }
 
         // 输入释放
         override public void onCardUp(IDispatchObject dispObj)
         {
-            if (CardArea.CARDCELLTYPE_HAND == m_card.sceneCardItem.cardArea)    // 如果是手牌
+            if (!m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))
             {
-                m_card.m_sceneDZData.m_dragDropData.setDownInCard(false);
-            }
-            else
-            {
-                base.onCardUp(dispObj);
-                //m_card.trackAniControl.normalState();
+                if (CardArea.CARDCELLTYPE_HAND == m_card.sceneCardItem.cardArea)    // 如果是手牌
+                {
+                    m_card.m_sceneDZData.m_dragDropData.setDownInCard(false);
+                }
+                else
+                {
+                    base.onCardUp(dispObj);
+                    //m_card.trackAniControl.normalState();
+                }
             }
         }
 
         // 输入按下移动到卡牌上
         override public void onDragOver(IDispatchObject dispObj)
         {
-            m_card.trackAniControl.expandState();
+            if (!m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))
+            {
+                m_card.trackAniControl.expandState();
+            }
         }
 
         // 输入按下移动到卡牌出
         override public void onDragOut(IDispatchObject dispObj)
         {
-            m_card.trackAniControl.normalState();
+            if (!m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))
+            {
+                m_card.trackAniControl.normalState();
+            }
         }
 
         // 除了 Enemy 手牌外，所有的卡牌都可以点击，包括主角、装备、技能、手里卡牌、出的卡牌
@@ -356,7 +381,6 @@ namespace FightCore
             // 只有可以出的卡才会作为初始牌
             if (m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))      // 如果处于初始化卡牌阶段
             {
-                string resPath = "";
                 // 这个时候还没有服务器的数据 m_sceneCardItem
                 int idx = 0;
                 idx = m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.findCardIdx(m_card);
@@ -365,16 +389,13 @@ namespace FightCore
                 {
                     m_card.m_sceneDZData.m_changeCardList.Remove(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
                     // 去掉叉号
-                    UtilApi.Destroy(m_card.chaHaoGo);        // 释放资源
+                    m_card.destroyChaHaoModel();        // 释放资源
                 }
                 else  // 选中
                 {
                     m_card.m_sceneDZData.m_changeCardList.Add(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
                     // 添加叉号
-                    resPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
-                    ModelRes model = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(resPath) as ModelRes;
-                    m_card.chaHaoGo = model.InstantiateObject(resPath) as GameObject;
-                    UtilApi.SetParent(m_card.chaHaoGo.transform, m_card.transform(), false);
+                    m_card.loadChaHaoModel(m_card.gameObject());
                 }
             }
             else        // 如果在对战阶段

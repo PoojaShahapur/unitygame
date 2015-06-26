@@ -22,6 +22,7 @@ namespace SDK.Common
         eUIHero,             // 英雄
         eUIOpenPack,         // 开包
         eUIShop,         //商店
+        eUITask,         //任务
 
         // 第四层
         eUIInfo,             // 信息窗口

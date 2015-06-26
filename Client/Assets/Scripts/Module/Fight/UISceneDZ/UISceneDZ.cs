@@ -14,6 +14,7 @@ namespace Fight
     {
         public SceneDZData m_sceneDZData;
 
+       
         public override void onReady()
         {
             base.onReady();
@@ -44,6 +45,7 @@ namespace Fight
         public void findWidget()
         {
             m_sceneDZData.findWidget();
+            m_sceneDZData.m_cardNpcMgr.m_startBtn.updateEffect();
         }
 
         // 添加事件监听
@@ -372,6 +374,12 @@ namespace Fight
         {
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].clearAttTimes();
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(true);     // 清除攻击次数，因为这个依赖攻击次数
+        }
+
+        public void psstRetBattleGameResultUserCmd(stRetBattleGameResultUserCmd cmd)
+        {
+            m_sceneDZData.m_cardNpcMgr.m_fightResultPanel.show();
+
         }
     }
 }

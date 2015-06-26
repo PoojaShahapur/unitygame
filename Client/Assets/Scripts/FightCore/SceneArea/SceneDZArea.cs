@@ -30,6 +30,12 @@ namespace FightCore
             m_crystalPtPanel = new CrystalPtPanel(m_playerSide);
         }
 
+        virtual public void init()
+        {
+            m_outSceneCardList.init();
+            m_inSceneCardList.init();
+        }
+
         virtual public void dispose()
         {
             m_outSceneCardList.dispose();
@@ -159,10 +165,7 @@ namespace FightCore
             }
             else if (CardArea.CARDCELLTYPE_COMMON == sceneItem.cardArea)      // 只有对方出牌的时候才会走这里
             {
-                SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem, m_sceneDZData);
-                srcCard.convOutModel();
-                m_outSceneCardList.addCard(srcCard, srcCard.sceneCardItem.svrCard.pos.y);
-                m_outSceneCardList.updateSceneCardPos();
+                changeEnemySceneCardArea(sceneItem);
             }
         }
 
@@ -200,11 +203,21 @@ namespace FightCore
         // 自己卡牌区域移动， Enemy 走 addSceneCardByItem 这个流程
         public void psstRetMoveGameCardUserCmd(stRetMoveGameCardUserCmd msg)
         {
-            changeSceneCardArea(msg.qwThisID, (CardArea)msg.m_sceneCardItem.svrCard.pos.dwLocation, msg.dst.y);
+            changeSelfSceneCardArea(msg.qwThisID, (CardArea)msg.m_sceneCardItem.svrCard.pos.dwLocation, msg.dst.y);
+        }
+
+        // Enemy 卡牌改变位置
+        virtual public void changeEnemySceneCardArea(SceneCardItem sceneItem_)
+        {
+            SceneCardBase srcCard = Ctx.m_instance.m_sceneCardMgr.createCard(sceneItem_, m_sceneDZData);
+            srcCard.convOutModel();
+            m_outSceneCardList.addCard(srcCard, sceneItem_.svrCard.pos.y);
+            m_outSceneCardList.updateSceneCardPos();
+            srcCard.effectControl.updateStateEffect();
         }
 
         // 移动卡牌，从一个位置到另外一个位置，CardArea.CARDCELLTYPE_COMMON 区域增加是从这个消息过来的，目前只处理移动到 CardArea.CARDCELLTYPE_COMMON 区域
-        virtual public void changeSceneCardArea(uint qwThisID, CardArea dwLocation, ushort yPos)
+        virtual public void changeSelfSceneCardArea(uint qwThisID, CardArea dwLocation, ushort yPos)
         {
             SceneCardBase srcCard = null;
 
@@ -571,14 +584,24 @@ namespace FightCore
 
         }
 
+        // 更新被击者标志
         virtual public void updateCardAttackedState(GameOpState opt)
         {
-
+            // 场牌
+            outSceneCardList.updateCardAttackedState(opt);
+            // 英雄卡
+            m_centerHero.updateCardAttackedState(opt);
+            // 技能卡
+            m_sceneSkillCard.updateCardAttackedState(opt);
         }
 
         virtual public void clearCardAttackedState()
         {
-
+            outSceneCardList.updateCardOutState(false);
+            // 英雄卡
+            m_centerHero.updateCardOutState(false);
+            // 技能卡
+            m_sceneSkillCard.updateCardOutState(false);
         }
 
         // 出牌区域卡牌是否满了

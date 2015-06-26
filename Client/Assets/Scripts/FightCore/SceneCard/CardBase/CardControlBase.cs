@@ -27,7 +27,7 @@ namespace FightCore
 
         }
 
-        virtual public void dispose()
+        override public void dispose()
         {
 
         }

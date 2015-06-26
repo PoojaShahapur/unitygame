@@ -193,20 +193,18 @@ namespace FightCore
         }
 
         // 更新卡牌是否可以被击，对方场牌、英雄卡、技能卡、自己场牌、英雄卡、技能卡
-        public void updateCardAttackedState(bool benable)
+        virtual public void updateCardAttackedState()
         {
-            addFrameEffect();
-
-            if (benable)
+            if (m_card.sceneCardItem != null)
             {
-                if (m_card.sceneCardItem != null)
+                if (m_frameEffect == null)
+                {
+                    addFrameEffect();
+                }
+                else
                 {
                     m_frameEffect.play();
                 }
-            }
-            else
-            {
-                m_frameEffect.stop();
             }
         }
 

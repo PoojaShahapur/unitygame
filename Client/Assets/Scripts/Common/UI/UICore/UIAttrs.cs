@@ -133,6 +133,13 @@ namespace SDK.Common
             m_dicAttr[UIFormID.eUIShop].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIShop", "UIShop", ".prefab");
             m_dicAttr[UIFormID.eUIShop].m_scriptTypeName = "Game.UI.UIShop";
 
+            m_dicAttr[UIFormID.eUITask] = new UIAttrItem();
+            m_dicAttr[UIFormID.eUITask].m_canvasID = UICanvasID.eCanvas_100;
+            m_dicAttr[UIFormID.eUITask].m_LayerID = UILayerID.eSecondLayer;
+            m_dicAttr[UIFormID.eUITask].addUISceneType(UISceneType.eUIScene_Game);
+            m_dicAttr[UIFormID.eUITask].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UITask", "UITask", ".prefab");
+            m_dicAttr[UIFormID.eUITask].m_scriptTypeName = "Game.UI.UITask";
+
             // ****************** 第二层结束 ***********************
 
             // ****************** 第四层开始 ***********************

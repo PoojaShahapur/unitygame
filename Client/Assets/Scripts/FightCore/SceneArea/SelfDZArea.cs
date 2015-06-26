@@ -10,6 +10,12 @@ namespace FightCore
         {
             m_outSceneCardList = new SelfOutSceneCardList(m_sceneDZData, m_playerSide);
             m_inSceneCardList = new SelfInSceneCardList(m_sceneDZData, m_playerSide);
+
+            m_outSceneCardList.centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_COMMON].transform;
+            m_outSceneCardList.radius = m_sceneDZData.m_placeHolderGo.m_cardCommonAreaWidthArr[(int)m_playerSide];
+
+            m_inSceneCardList.centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform;
+            m_inSceneCardList.radius = m_sceneDZData.m_placeHolderGo.m_cardHandAreaWidthArr[(int)m_playerSide];
         }
 
         // 除了 card 禁止所有手牌区域卡牌拖动，目前只有自己区域才能做这个功能
@@ -70,9 +76,9 @@ namespace FightCore
         }
 
         // 自己移动卡牌位置，需要更新能发起攻击状态特效
-        override public void changeSceneCardArea(uint qwThisID, CardArea dwLocation, ushort yPos)
+        override public void changeSelfSceneCardArea(uint qwThisID, CardArea dwLocation, ushort yPos)
         {
-            base.changeSceneCardArea(qwThisID, dwLocation, yPos);
+            base.changeSelfSceneCardArea(qwThisID, dwLocation, yPos);
 
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {

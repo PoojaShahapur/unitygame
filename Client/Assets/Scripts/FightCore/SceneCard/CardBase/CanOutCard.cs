@@ -26,6 +26,7 @@ namespace FightCore
         override public void setBaseInfo(EnDZPlayer m_playerSide, CardArea area, CardType cardType)
         {
             ioControl.setCenterPos(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition);
+            ioControl.setOutSplitZ(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)area].transform.localPosition.z + 0.65f);
             // 设置初始位置为发牌位置
             m_sceneCardBaseData.m_behaviorControl.moveToDestDirect(m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_NONE].transform.localPosition); // 移动到发牌位置
 
@@ -246,6 +247,26 @@ namespace FightCore
         override public void updateStateEffect()
         {
             sceneCardBaseData.m_effectControl.updateStateEffect();
+        }
+
+        override public void loadChaHaoModel(GameObject pntGo_)
+        {
+            if (chaHaoModel == null)
+            {
+                chaHaoModel = new AuxDynModel();
+            }
+            chaHaoModel.pntGo = pntGo_;
+            chaHaoModel.modelResPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "ChaHao.prefab");
+            chaHaoModel.syncUpdateModel();
+        }
+
+        override public void destroyChaHaoModel()
+        {
+            if (chaHaoModel != null)
+            {
+                chaHaoModel.dispose();
+                chaHaoModel = null;
+            }
         }
     }
 }

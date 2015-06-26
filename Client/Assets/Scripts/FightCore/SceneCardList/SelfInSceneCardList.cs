@@ -13,10 +13,17 @@ namespace FightCore
         public SelfInSceneCardList(SceneDZData data, EnDZPlayer playerSide)
             : base(data, playerSide)
         {
+            
+        }
+
+        override public void init()
+        {
+            base.init();
+
             m_dynSceneGrid = new DynSceneGrid();
-            m_dynSceneGrid.centerPos = m_sceneDZData.m_placeHolderGo.m_cardCenterGOArr[(int)m_playerSide, (int)CardArea.CARDCELLTYPE_HAND].transform;
+            m_dynSceneGrid.centerPos = m_centerPos;
             m_dynSceneGrid.elemNormalWidth = SceneDZCV.HAND_CARD_WIDTH;
-            m_dynSceneGrid.radius = m_sceneDZData.m_placeHolderGo.m_cardHandAreaWidthArr[(int)m_playerSide];
+            m_dynSceneGrid.radius = m_radius;
             m_dynSceneGrid.yDelta = SceneDZCV.HAND_YDELTA;
         }
 
@@ -103,10 +110,7 @@ namespace FightCore
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
-                if (cardItem.chaHaoGo != null)        // 如果之前添加的资源交换卡牌叉号
-                {
-                    UtilApi.Destroy(cardItem.chaHaoGo);
-                }
+                cardItem.destroyChaHaoModel();
                 cardItem.ioControl.enableDrag();      // 开启拖动
                 cardItem.sceneCardBaseData.m_trackAniControl.min2HandleAni();
                 cardItem.sceneCardBaseData.m_trackAniControl.addEnterHandleEntryDisp(onSelfStartCardEnterHandEntry);

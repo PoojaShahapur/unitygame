@@ -13,5 +13,11 @@
             m_frameEffectId = 5;
             base.updateCanLaunchAttState(bEnable);
         }
+
+        override public void updateCardAttackedState()
+        {
+            m_frameEffectId = 5;
+            base.updateCardAttackedState();
+        }
     }
 }

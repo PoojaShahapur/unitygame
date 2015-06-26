@@ -70,15 +70,15 @@ namespace SDK.Common
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_MAGIC].m_outHeaderSubModel = "changpaizt_zhanchang";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/EquipCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Scene/wuqi_zhanchang.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_EQUIP].m_headerSubModel = "wuqitu_zhanchang ";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/HeroCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Scene/yingxiong_zhanchang.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_HERO].m_headerSubModel = "yingxiongtu_zhanchang";
 
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL] = new CardModelItem();
-            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Character/SkillCard.prefab");
+            m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_handleModelPath = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathModel], "Scene/jineng_zhanchang.prefab");
             m_sceneCardModelAttrItemList[(int)CardType.CARDTYPE_SKILL].m_headerSubModel = "Cylinder001";
         }
 

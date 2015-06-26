@@ -85,7 +85,14 @@ namespace SDK.Common
 
         public void Insert(int index, T item)
         {
-            m_list.Insert(index, item);
+            if (index <= Count())
+            {
+                m_list.Insert(index, item);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("Insert Failed index={0}, Count={1}", index, Count()));
+            }
         }
 
         public bool Contains(T item)

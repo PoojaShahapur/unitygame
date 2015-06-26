@@ -3,7 +3,7 @@
     public enum MainBtnEnum
     {
         eBtnShop,           // 商店
-        eBtnHero,           // 英雄，任务界面
+        eBtnTask,           // 任务界面
         eBtnExtPack,        // 扩展背包
         eBtnTuJian,         // 我的收藏
         eBtnDuiZhan,        // 对战按钮
@@ -16,7 +16,7 @@
     public class MainComPath
     {
         public const string BtnShop = "BtnShop";
-        public const string BtnHero = "BtnHero";
+        public const string BtnTask = "BtnTask";
         public const string BtnExtPack = "BtnExtPack";
         public const string BtnTuJian = "BtnTuJian";
 
