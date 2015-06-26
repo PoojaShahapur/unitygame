@@ -160,7 +160,7 @@ namespace FightCore
             return total;
         }
 
-        override public void updateSceneCardPos(bool bUpdateIdx = true)
+        override public void updateSceneCardPos()
         {
             updateSceneCardPosInternal(CardArea.CARDCELLTYPE_COMMON);
         }

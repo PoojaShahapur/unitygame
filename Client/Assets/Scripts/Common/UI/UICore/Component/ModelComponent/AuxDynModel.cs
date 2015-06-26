@@ -103,7 +103,7 @@ namespace SDK.Common
 
                 m_modelRes = Ctx.m_instance.m_modelMgr.getAndSyncLoad<ModelRes>(m_modelResPath);
 
-                m_selfGo = m_modelRes.InstantiateObject(m_modelResPath);
+                selfGo = m_modelRes.InstantiateObject(m_modelResPath);
                 attach2Parent();
 
                 m_modelInsDisp.dispatchEvent(this);

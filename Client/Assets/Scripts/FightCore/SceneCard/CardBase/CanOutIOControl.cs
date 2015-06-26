@@ -241,9 +241,8 @@ namespace FightCore
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.removeWhiteCard();       // 将占位的牌移除
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].removeFormInList(m_card);     // 从手牌区移除卡牌
                             m_card.convOutModel();
-                            m_card.setZhanHouCommonClientIdx(m_card.m_sceneDZData.curWhiteIdx);
                             m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card, m_card.m_sceneDZData.curWhiteIdx);
-                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardPos(false);       // 仅仅更新位置信息，不更新索引信息，因为卡牌可能退回来
+                            m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.updateSceneCardPos();
                             m_card.m_sceneDZData.m_gameOpState.enterAttackOp(EnGameOp.eOpZhanHouAttack, m_card);
                         }
                         else        // 如果是普通移动牌，就发送移动消息
@@ -385,15 +384,15 @@ namespace FightCore
                 int idx = 0;
                 idx = m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].inSceneCardList.findCardIdx(m_card);
                 // 显示换牌标志
-                if (m_card.m_sceneDZData.m_changeCardList.IndexOf(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]) != -1)      // 如果已经选中
+                if (m_card.m_sceneDZData.m_changeCardIdxList.IndexOf(idx) != -1)      // 如果已经选中
                 {
-                    m_card.m_sceneDZData.m_changeCardList.Remove(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
+                    m_card.m_sceneDZData.m_changeCardIdxList.Remove(idx);
                     // 去掉叉号
                     m_card.destroyChaHaoModel();        // 释放资源
                 }
                 else  // 选中
                 {
-                    m_card.m_sceneDZData.m_changeCardList.Add(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList[idx]);
+                    m_card.m_sceneDZData.m_changeCardIdxList.Add(idx);
                     // 添加叉号
                     m_card.loadChaHaoModel(m_card.gameObject());
                 }

@@ -35,6 +35,12 @@ namespace FightCore
             {
                 m_showCard.dispose();
             }
+
+            if (m_watchStage == WatchStage.eStartTimer)
+            {
+                stopTimer();
+                m_timer = null;
+            }
         }
 
         protected void createCard(SceneCardItem sceneItem, SceneDZData sceneDZData)
@@ -69,8 +75,8 @@ namespace FightCore
                 m_timer.reset();        // 重置内部数据
             }
 
-            m_timer.m_internal = 2;
-            m_timer.m_totalTime = 2;
+            m_timer.m_internal = 0.5f;
+            m_timer.m_totalTime = 0.5f;
             m_timer.m_timerDisp = onTimerEndHandle;
 
             Ctx.m_instance.m_timerMgr.addObject(m_timer);

@@ -1740,4 +1740,33 @@ namespace Game.Msg
     //        byParam = NOTIFY_RESET_ATTACKTIMES_CMD;
     //    }   
     //};  
+
+
+    public class stNotifyOutCardInfoUserCmd : stHeroCardCmd
+    {
+        public uint cardID;
+
+        public stNotifyOutCardInfoUserCmd()
+        {
+            byParam = NOTIFY_OUT_CARD_INFO_CMD;
+        }
+
+        public override void derialize(ByteBuffer ba)
+        {
+            base.derialize(ba);
+
+            ba.readUnsignedInt32(ref cardID);
+        }
+    }
+
+    //const BYTE NOTIFY_OUT_CARD_INFO_CMD = 53; 
+    //struct stNotifyOutCardInfoUserCmd : public stHeroCardCmd
+    //{   
+    //    stNotifyOutCardInfoUserCmd()
+    //    {   
+    //        byParam = NOTIFY_OUT_CARD_INFO_CMD;
+    //        cardID = 0;
+    //    }   
+    //    DWORD cardID;   //卡表ID
+    //};  
 }

@@ -109,7 +109,7 @@ namespace FightCore
             updateSceneCardPos();       // 开始发送到手牌，只更新位置就行了
         }
 
-        override public void updateSceneCardPos(bool bUpdateIdx = true)
+        override public void updateSceneCardPos()
         {
             updateSceneCardPosInternal(CardArea.CARDCELLTYPE_HAND);
         }

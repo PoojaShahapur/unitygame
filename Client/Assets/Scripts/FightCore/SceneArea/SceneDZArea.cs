@@ -259,6 +259,7 @@ namespace FightCore
                     m_outSceneCardList.addCard(srcCard, yPos);
                     m_outSceneCardList.updateSceneCardPos();
                     srcCard.effectControl.updateStateEffect();
+                    m_sceneDZData.m_dragDropData.tryClearDragItem(srcCard);
                 }
             }
 
@@ -488,9 +489,10 @@ namespace FightCore
             card.convHandleModel();
             card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_HAND;       // 更新卡牌区域信息
             card.curIndex = card.preIndex;                                  // 更新索引信息
-            card.ioControl.enableDrag();                                  // 开启拖放
+            card.ioControl.enableDrag();                                    // 开启拖放
+            card.addGridElem2DynGrid();                                     // 将元素添加的动态格子列表中
             m_inSceneCardList.addCardByServerPos(card);                     // 添加到手牌位置
-            m_inSceneCardList.updateSceneCardPos();                         // 更新位置信息，索引就不更新了，因为如果退回来索引还是原来的，没有改变
+            m_inSceneCardList.updateSceneCardPos();                         // 更新位置信息
         }
 
         public void cancelFashuOp(SceneCardBase card)
@@ -511,7 +513,21 @@ namespace FightCore
         // 更新卡牌绿色边框，说明可以出牌
         public void updateInCardOutState(bool benable)
         {
-            m_inSceneCardList.updateCardOutState(benable);
+            if (benable)
+            {
+                if (bOutAreaCardFull())
+                {
+                    m_inSceneCardList.updateCardOutState(false);
+                }
+                else
+                {
+                    m_inSceneCardList.updateCardOutState(true);
+                }
+            }
+            else
+            {
+                m_inSceneCardList.updateCardOutState(false);
+            }
         }
 
         // 更新卡牌绿色边框，说明可以出牌

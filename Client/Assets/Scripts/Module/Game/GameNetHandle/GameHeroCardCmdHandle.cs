@@ -55,6 +55,7 @@ namespace Game.Game
             m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_FLOW_START_CMD] = psstNotifyBattleFlowStartUserCmd;
             m_id2HandleDic[stHeroCardCmd.NOTIFY_BATTLE_FLOW_END_CMD] = psstNotifyBattleFlowEndUserCmd;
             m_id2HandleDic[stHeroCardCmd.NOTIFY_RESET_ATTACKTIMES_CMD] = psstNotifyResetAttackTimesUserCmd;
+            m_id2HandleDic[stHeroCardCmd.NOTIFY_OUT_CARD_INFO_CMD] = psstNotifyOutCardInfoUserCmd;
         }
 
         // 重载方便调试
@@ -597,6 +598,18 @@ namespace Game.Game
             if (uiSceneDZ != null && uiSceneDZ.isVisible())
             {
                 uiSceneDZ.psstNotifyResetAttackTimesUserCmd();
+            }
+        }
+
+        protected void psstNotifyOutCardInfoUserCmd(ByteBuffer ba)
+        {
+            stNotifyOutCardInfoUserCmd cmd = new stNotifyOutCardInfoUserCmd();
+            cmd.derialize(ba);
+
+            UISceneDZ uiSceneDZ = Ctx.m_instance.m_uiSceneMgr.getSceneUI<UISceneDZ>(UISceneFormID.eUISceneDZ);
+            if (uiSceneDZ != null && uiSceneDZ.isVisible())
+            {
+                uiSceneDZ.psstNotifyOutCardInfoUserCmd(cmd);
             }
         }
     }

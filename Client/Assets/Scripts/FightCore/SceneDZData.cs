@@ -23,11 +23,12 @@ namespace FightCore
 
         protected bool m_bHeroAniEnd = false;   // hero 动画是否结束
         protected bool m_bAddselfCard = false;  // 是否有自己的初始卡牌
-        public List<uint> m_changeCardList;     // 在初始阶段，选中的需要交换卡牌
+        public List<int> m_changeCardIdxList;     // 在初始阶段，选中的需要交换卡牌的索引，从左到右分别是 0 ， 1 因为可能初始卡牌有相同的 CardId
         public DZDaoJiShiXmlLimit m_DZDaoJiShiXmlLimit;
 
         public FightMsgMgr m_fightMsgMgr;
         public WatchCardInfo m_watchCardInfo;
+        public WatchOutCardInfo m_watchOutCardInfo;
 
         public SceneDZData()
         {
@@ -38,11 +39,12 @@ namespace FightCore
             m_gameRunState = new GameRunState(this);
             m_sceneDZAreaArr = new SceneDZArea[(int)EnDZPlayer.ePlayerTotal];
             m_cardNpcMgr = new CardNpcMgr(this);
-            m_changeCardList = new List<uint>();
+            m_changeCardIdxList = new List<int>();
             m_fightMsgMgr = new FightMsgMgr(this);
 
             m_bHeroAniEnd = true;
             m_watchCardInfo = new WatchCardInfo();
+            m_watchOutCardInfo = new WatchOutCardInfo(this);
             m_roundMgr = new RoundMgr(this);
             m_roundMgr.startInitCardTimer();           // 启动定时器
             m_dragDropData = new DragDropData();

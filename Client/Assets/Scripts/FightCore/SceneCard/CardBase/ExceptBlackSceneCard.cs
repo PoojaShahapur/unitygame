@@ -93,5 +93,10 @@ namespace FightCore
         {
             this.sceneCardItem.clearAttTimes();
         }
+
+        override public void updateRenderInfo(int cardId)
+        {
+            setIdAndPnt((uint)cardId, m_sceneDZData.m_placeHolderGo.m_centerGO);
+        }
     }
 }

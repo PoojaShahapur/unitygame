@@ -61,25 +61,15 @@ namespace FightCore
         {
             int idx = 0;
             SceneCardBase cardItem;
-            Vector3 curPos;
-            Quaternion curRot;
 
-            // 释放之前的叉号
+            // 替换卡牌
             while (idx < m_sceneCardList.Count())
             {
                 cardItem = m_sceneCardList[idx];
                 if (cardItem.startCardID != Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx])
                 {
-                    curPos = cardItem.gameObject().transform.localPosition;
-                    curRot = cardItem.gameObject().transform.localRotation;
-                    UtilApi.Destroy(cardItem.gameObject());      // 释放之前的资源
-
-                    // 创建新的资源
-                    cardItem = Ctx.m_instance.m_sceneCardMgr.createCardById(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx], m_playerSide, CardArea.CARDCELLTYPE_HAND, CardType.CARDTYPE_ATTEND, m_sceneDZData);
-                    UtilApi.setPos(cardItem.transform(), curPos);
-                    UtilApi.setRot(cardItem.transform(), curRot);
-
-                    cardItem.ioControl.enableDrag();      // 开启拖动
+                    cardItem.startCardID = Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_startCardList[idx];
+                    cardItem.updateRenderInfo((int)cardItem.startCardID);
                 }
 
                 ++idx;
@@ -154,14 +144,10 @@ namespace FightCore
         }
 
         // 自己手牌更新位置信息
-        override public void updateSceneCardPos(bool bUpdateIdx = true)
+        override public void updateSceneCardPos()
         {
             m_dynSceneGrid.updateElem();
-
-            if(bUpdateIdx)
-            {
-                updateCardIndex();
-            }
+            updateCardIndex();
         }
 
         override public DynSceneGrid getDynSceneGrid()

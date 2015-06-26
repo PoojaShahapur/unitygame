@@ -56,6 +56,8 @@ namespace FightCore
             {
                 m_model.show();
             }
+
+            showResult();
         }
 
         override public void hide()
@@ -104,7 +106,7 @@ namespace FightCore
                 m_sndEffectId = 29;
             }
 
-            showResult();
+            show();
         }
     }
 }

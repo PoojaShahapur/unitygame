@@ -16,14 +16,14 @@ namespace SDK.Lib
 
     public class CardSubPart
     {
-        protected StaticModelDynTex m_tex;
+        protected AuxStaticModelDynTex m_tex;
 
         public CardSubPart()
         {
-            m_tex = new StaticModelDynTex();
+            m_tex = new AuxStaticModelDynTex();
         }
 
-        public StaticModelDynTex tex
+        public AuxStaticModelDynTex tex
         {
             get
             {

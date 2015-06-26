@@ -8,8 +8,6 @@ namespace FightCore
      */
     public class SelfAttendCard : AttendCard
     {
-        protected int m_clientIdx;          // 客户端拖动战吼进入场牌区域，此时几率客户端的 Idx，因为有攻击目标的战吼需要填这个位置
-
         public SelfAttendCard(SceneDZData sceneDZData) :
             base(sceneDZData)
         {
@@ -17,14 +15,16 @@ namespace FightCore
             m_sceneCardBaseData.m_behaviorControl = new SelfAttendBehaviorControl(this);
         }
 
-        override public void setZhanHouCommonClientIdx(int idx)
-        {
-            m_clientIdx = idx;
-        }
-
         override public int getZhanHouCommonClientIdx()
         {
-            return m_clientIdx;
+            return preIndex;
+        }
+
+        // 随从战后可以移动回来
+        override public void addGridElem2DynGrid()
+        {
+            // 从列表中移除，不置空，因为战吼可能退回来
+            m_sceneDZData.m_sceneDZAreaArr[(int)this.sceneCardItem.playerSide].inSceneCardList.getDynSceneGrid().addElem(this.trackAniControl.getGridElement(), this.curIndex);
         }
     }
 }

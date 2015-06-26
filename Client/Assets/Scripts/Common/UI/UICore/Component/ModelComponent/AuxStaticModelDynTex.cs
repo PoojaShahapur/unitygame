@@ -6,7 +6,7 @@ namespace SDK.Common
     /**
      * @brief 静态模型，动态纹理
      */
-    public class StaticModelDynTex : AuxComponent
+    public class AuxStaticModelDynTex : AuxComponent
     {
         protected string m_texPath;     // 纹理目录
         protected TextureRes m_texRes;  // 纹理资源
@@ -14,7 +14,7 @@ namespace SDK.Common
         protected bool m_bNeedReloadTex;        // 是否需要重新加载纹理
         protected bool m_bModelChanged;         // 模型是否改变
 
-        public StaticModelDynTex()
+        public AuxStaticModelDynTex()
         {
             m_bNeedReloadTex = false;
             m_bModelChanged = false;

@@ -96,6 +96,23 @@ namespace FightCore
                 ++idx;
             }
 
+            // 只有这种情况下才
+            if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp)
+            {
+                idx = 0;
+                while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp - Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp)
+                {
+                    m_crystalList[idx].updateTexture(false);
+                    ++idx;
+                }
+
+                while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp)
+                {
+                    m_crystalList[idx].updateTexture(true);
+                    ++idx;
+                }
+            }
+
             //GameObject go = null;
 
             // 更新哪些是可以使用的 mp

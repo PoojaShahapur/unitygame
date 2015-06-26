@@ -250,6 +250,18 @@ namespace SDK.Lib
             return elem;
         }
 
+        public void addElem(GridElementBase elem, int idx = -1)
+        {
+            if(-1 == idx)
+            {
+                m_elemList.Add(elem);
+            }
+            else
+            {
+                m_elemList.Insert(idx, elem);
+            }
+        }
+
         public void removeElem(GridElementBase elem)
         {
             m_elemList.Remove(elem);

@@ -75,12 +75,12 @@ namespace FightCore
         // 检查之前的攻击状态
         public void checkPreAttackOp(EnGameOp op, SceneCardBase card)
         {
-            if (EnGameOp.eOpZhanHouAttack == m_curOp)
+            if (EnGameOp.eOpZhanHouAttack == m_curOp)   // 如果是战吼
             {
                 // 需要将其回退回去
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].putHandFromOutByCard(m_opCard);
             }
-            if(EnGameOp.eOpFaShu == m_curOp) // 法术
+            else if(EnGameOp.eOpFaShu == m_curOp)       // 法术
             {
                 if (card.sceneCardItem.m_cardTableItem.m_bNeedFaShuTarget > 0)         // 如果有攻击目标
                 {

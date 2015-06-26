@@ -489,14 +489,20 @@ namespace FightCore
 
         }
 
-        virtual public void setZhanHouCommonClientIdx(int idx)
-        {
-            
-        }
-
         virtual public int getZhanHouCommonClientIdx()
         {
             return 0;
+        }
+
+        virtual public void addGridElem2DynGrid()
+        {
+
+        }
+
+        // 根据卡牌 Id 更新渲染器信息，只能是同类的更新，比如随从卡更新的还是随从卡
+        virtual public void updateRenderInfo(int cardId)
+        {
+
         }
     }
 }

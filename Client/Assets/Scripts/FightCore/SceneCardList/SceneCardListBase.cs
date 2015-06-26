@@ -101,7 +101,7 @@ namespace FightCore
         //}
 
         // 战吼的时候不更新索引，需要等服务器返回来才更新索引
-        virtual public void updateSceneCardPos(bool bUpdateIdx = true)
+        virtual public void updateSceneCardPos()
         {
 
         }
@@ -387,7 +387,7 @@ namespace FightCore
             {
                 foreach (var cardItem in m_sceneCardList.list)
                 {
-                    if (cardItem.curIndex > card.curIndex)
+                    if (cardItem.curIndex >= card.curIndex)
                     {
                         m_sceneCardList.Insert(idx, card as SceneCardBase);
                         break;

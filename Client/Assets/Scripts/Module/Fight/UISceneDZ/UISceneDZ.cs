@@ -13,7 +13,6 @@ namespace Fight
     public class UISceneDZ : SceneForm
     {
         public SceneDZData m_sceneDZData;
-
        
         public override void onReady()
         {
@@ -86,7 +85,7 @@ namespace Fight
             // 设置需要交换的卡牌
             foreach (uint cardid in Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)EnDZPlayer.ePlayerSelf].m_startCardList)
             {
-                if (m_sceneDZData.m_changeCardList.IndexOf(cardid) != -1)
+                if (m_sceneDZData.m_changeCardIdxList.IndexOf(idx) != -1)
                 {
                     cmd.change |= (byte)(1 << idx);
                 }
@@ -138,15 +137,7 @@ namespace Fight
             {
                 // 显示那张牌可以出
                 // 如果出牌区域已经有 SceneDZCV.OUT_CARD_TOTAL 张牌，就不能再出了
-                if (m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].bOutAreaCardFull())
-                {
-                    m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(false);
-                }
-                else
-                {
-                    m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);
-                }
-
+                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);
                 m_sceneDZData.m_cardNpcMgr.m_roundBtn.updateEffect(true);
             }
         }
@@ -210,6 +201,7 @@ namespace Fight
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(false);
                 m_sceneDZData.m_cardNpcMgr.m_roundBtn.updateEffect(false);
                 m_sceneDZData.m_gameOpState.cancelAttackOp();
+                m_sceneDZData.m_dragDropData.backCard2Orig();
             }
 
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.updateStateEffect();
@@ -367,6 +359,12 @@ namespace Fight
         public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
         {
             m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowEndUserCmd(ba);
+            // 攻击结束可能自己场牌数量和可能发起攻击状态会改变
+            if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())   // 只有自己回合的时候才更新
+            {
+                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateInCardOutState(true);     // 更新手牌是否可以出
+                m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(true);     // 更新场牌是否可以发起攻击
+            }
         }
 
         // 清除攻击次数
@@ -378,8 +376,12 @@ namespace Fight
 
         public void psstRetBattleGameResultUserCmd(stRetBattleGameResultUserCmd cmd)
         {
-            m_sceneDZData.m_cardNpcMgr.m_fightResultPanel.show();
+            m_sceneDZData.m_cardNpcMgr.m_fightResultPanel.psstRetBattleGameResultUserCmd(cmd);
+        }
 
+        public void psstNotifyOutCardInfoUserCmd(stNotifyOutCardInfoUserCmd cmd)
+        {
+            m_sceneDZData.m_watchOutCardInfo.startWatch(cmd.cardID);
         }
     }
 }
