@@ -11,9 +11,16 @@ namespace Game.UI
     {
         public AuxInputField m_inputField;     // 输入
 
+        public override void onInit()
+        {
+            exitMode = false;         // 直接隐藏
+            base.onInit();
+        }
+
         public override void onReady()
         {
             base.onReady();
+            // this.m_bHideOnCreate = true;
             findWidget();
             addEventHandle();
         }
@@ -21,6 +28,7 @@ namespace Game.UI
         public override void onShow()
         {
             base.onShow();
+            //exit();
         }
 
         protected void findWidget()

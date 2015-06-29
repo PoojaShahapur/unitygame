@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using SDK.Common;
+using SDK.Lib;
 using UnityEngine;
 
 namespace FightCore
@@ -67,7 +68,14 @@ namespace FightCore
         {
             if (!m_card.m_sceneDZData.m_dragDropData.getDownInCard())
             {
-                m_scaleGridElement.normal();
+                if (m_scaleGridElement != null) // 只有到手牌区域的时候，这个字段才会有值
+                {
+                    m_scaleGridElement.normal();
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("随从卡 normalState 失败 {0}", this.m_card.getDesc()));
+                }
             }
         }
 
@@ -75,7 +83,14 @@ namespace FightCore
         {
             if (!m_card.m_sceneDZData.m_dragDropData.getDownInCard())
             {
-                m_scaleGridElement.expand();
+                if (m_scaleGridElement != null) // 只有到手牌区域的时候，这个字段才会有值
+                {
+                    m_scaleGridElement.expand();
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("随从卡 normalState 失败 {0}", this.m_card.getDesc()));
+                }
             }
         }
     }

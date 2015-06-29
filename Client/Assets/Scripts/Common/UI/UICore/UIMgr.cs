@@ -338,12 +338,15 @@ namespace SDK.Common
             //}
             if (!m_dicForm[ID].hideOnCreate)
             {
-                showFormInternal(ID);
+                showFormInternal(ID);   // 如果 onShow 中调用 exit 函数，就会清掉 m_dicForm 中的内容。如果设置了 exitMode = false，就不会清掉 m_dicForm ，就不会有问题
             }
 
             if (null != Ctx.m_instance.m_cbUIEvent)
             {
-                Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_dicForm[ID]);  // 资源加载完成
+                if (m_dicForm.ContainsKey(ID))      // 如果 onShow 中调用 exit 函数，并且没有设置 exitMode = false ，就会清除 m_dicForm， 这个时候再调用这个函数，就会有问题，是不是添加延迟卸载
+                {
+                    Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_dicForm[ID]);  // 资源加载完成
+                }
             }
 
             // 卸载资源

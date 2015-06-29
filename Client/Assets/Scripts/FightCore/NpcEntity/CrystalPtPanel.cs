@@ -93,20 +93,24 @@ namespace FightCore
                 {
                     m_crystalList[idx].modelItem.show();
                 }
+                m_crystalList[idx].updateTexture(true);         // 默认都变亮
                 ++idx;
             }
 
             // 只有这种情况下才
             if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp > Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp)
             {
-                idx = 0;
-                while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp - Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp)
+                // 从后向前变暗
+                idx = (int)Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp;
+                while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp)
                 {
                     m_crystalList[idx].updateTexture(false);
                     ++idx;
                 }
 
-                while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.maxmp)
+                // 将前面的变亮
+                idx = 0;
+                while (idx < Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp)
                 {
                     m_crystalList[idx].updateTexture(true);
                     ++idx;

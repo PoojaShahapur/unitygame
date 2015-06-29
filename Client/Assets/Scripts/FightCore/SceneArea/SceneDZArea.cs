@@ -262,17 +262,6 @@ namespace FightCore
                     m_sceneDZData.m_dragDropData.tryClearDragItem(srcCard);
                 }
             }
-
-            // 修改 mp 
-            //if (msg.side == 1)      // 如果是自己
-            //{
-            //    // 更新 mp 显示
-            //    if (Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp >= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume)
-            //    {
-            //        Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[msg.side - 1].m_heroMagicPoint.mp -= (uint)srcCard.sceneCardItem.m_cardTableItem.m_magicConsume;
-            //    }
-            //    updateMp();
-            //}
         }
 
         // 给自己添加一张手牌

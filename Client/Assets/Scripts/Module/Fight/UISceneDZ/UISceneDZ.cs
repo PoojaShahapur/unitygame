@@ -201,7 +201,7 @@ namespace Fight
                 m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].updateCanLaunchAttState(false);
                 m_sceneDZData.m_cardNpcMgr.m_roundBtn.updateEffect(false);
                 m_sceneDZData.m_gameOpState.cancelAttackOp();
-                m_sceneDZData.m_dragDropData.backCard2Orig();
+                //m_sceneDZData.m_dragDropData.backCard2Orig();
             }
 
             m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].outSceneCardList.updateStateEffect();

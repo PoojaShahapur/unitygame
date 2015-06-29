@@ -332,13 +332,28 @@ namespace FightCore
             int idx = 0;
             while (idx < m_sceneCardList.Count())
             {
-                if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
+                // 这个地方删除的地方有时候会宕机， Enemy 自己手牌是没有 sceneCardItem 这个字段的
+                if (m_sceneCardList[idx] != null && m_sceneCardList[idx].sceneCardItem != null)
                 {
-                    //Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
-                    //m_sceneCardList.RemoveAt(idx);
-                    m_sceneCardList[idx].dispose();
-                    bRet = true;
-                    break;
+                    if (m_sceneCardList[idx].sceneCardItem.svrCard.qwThisID == sceneCardItem.svrCard.qwThisID)
+                    {
+                        //Ctx.m_instance.m_sceneCardMgr.removeAndDestroy(m_sceneCardList[idx]);
+                        //m_sceneCardList.RemoveAt(idx);
+                        m_sceneCardList[idx].dispose();
+                        bRet = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(m_sceneCardList[idx] == null)
+                    {
+                        Ctx.m_instance.m_logSys.log("卡牌为空，卡牌详细信息");
+                    }
+                    else if(m_sceneCardList[idx].sceneCardItem == null)
+                    {
+                        Ctx.m_instance.m_logSys.log(string.Format("卡牌 sceneCardItem 为 空，卡牌详细信息 {0}", m_sceneCardList[idx].getDesc()));
+                    }
                 }
                 ++idx;
             }

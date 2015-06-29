@@ -14,7 +14,16 @@ namespace Game.UI
         public override void onInit()
         {
             exitMode = false;         // 直接隐藏
+            //this.m_bHideOnCreate = true;  // 设置这个标志，不会代用 onReady 和 onShow 函数，控件不会创建
             base.onInit();
+        }
+
+        // 初始化控件
+        override public void onReady()
+        {
+            base.onReady();
+            findWidget();
+            addEventHandle();
         }
 
         override public void onShow()
@@ -24,14 +33,8 @@ namespace Game.UI
             {
                 outMsg(Ctx.m_instance.m_dataPlayer.m_chatData.getStr());
             }
-        }
-        
-        // 初始化控件
-        override public void onReady()
-        {
-            base.onReady();
-            findWidget();
-            addEventHandle();
+
+            //exit();
         }
 
         // 每一次隐藏都会调用一次
