@@ -1,0 +1,7 @@
+g_debugMode = false
+
+function regPath(path_)
+    local m_package_path = package.path
+    package.path = string.format("%s;%s/?.lua", m_package_path, path_)
+    return package.path 
+end

@@ -25,6 +25,7 @@
         ePathAtlas,     // 地图集
         ePathSpriteAni,  // 精灵动画
         ePathSceneAnimatorController,  // Animator Controller 控制器
+        ePathLuaScript,                       // Lua 脚本
 
         eTotal          // 总数
     }

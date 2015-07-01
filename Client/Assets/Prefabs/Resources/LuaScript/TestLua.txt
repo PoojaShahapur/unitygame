@@ -1,0 +1,10 @@
+if true == g_debugMode then
+    local initconnection = require("debugger")
+    initconnection("127.0.0.1", "10000", "luaidekey")
+end
+
+function luaFunc(i)
+    a = i + 100
+    print(a)
+    return a
+end

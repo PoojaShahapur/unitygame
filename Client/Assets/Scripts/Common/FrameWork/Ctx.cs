@@ -101,6 +101,8 @@ namespace SDK.Common
         public SystemTimeData m_systemTimeData = new SystemTimeData();
         public ScriptDynLoad m_scriptDynLoad = new ScriptDynLoad();
 
+        public TextResMgr m_textResMgr = new TextResMgr();
+
         public Ctx()
         {
 
