@@ -674,5 +674,10 @@ namespace SDK.Common
             //保存
             System.IO.File.WriteAllBytes(filePath, bytes);
         }
+
+        static public string getDataPath()
+        {
+            return Application.dataPath;
+        }
     }
 }

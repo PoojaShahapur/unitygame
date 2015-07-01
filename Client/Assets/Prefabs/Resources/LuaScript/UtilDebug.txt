@@ -1,7 +1,11 @@
-g_debugMode = false
+g_debugMode = true
 
 function regPath(path_)
     local m_package_path = package.path
-    package.path = string.format("%s;%s/?.lua", m_package_path, path_)
+    package.path = string.format("%s;%s/?.lua;F:/ProgramFiles/Lua/51/lua/?.lua", m_package_path, path_)
+    
+    local m_package_cpath = package.cpath
+    package.cpath = string.format("%s;F:/ProgramFiles/Lua/51/clibs/?.dll", m_package_cpath)
+    
     return package.path 
 end

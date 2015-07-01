@@ -27,7 +27,9 @@ namespace UnitTestSrc
             ls.DoString(textRes.text);
 
             LuaFunction reflf = ls.GetFunction("regPath");
-            object[] ret = reflf.Call("E:/Work/Code20150402/client/trunk/Client/Assets/Prefabs/Resources/LuaScript");
+            string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
+            UtilApi.normalPath(ref luaPath);
+            object[] ret = reflf.Call(luaPath);
 
             //path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "debugger.txt");
             //textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoad<TextRes>(path);
