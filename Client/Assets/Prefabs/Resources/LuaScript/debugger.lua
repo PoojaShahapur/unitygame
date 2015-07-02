@@ -229,7 +229,7 @@ package.preload["debugger.transport.luasocket_sched"] = function(...)
 -- As LuaShed totally hides blocking functions, this module MUST be loaded on the very start of the program 
 -- (before loading sched) to catch references to blocking functions.
 
-local socketcore = require"socket.core"
+local socketcore = require"socketcore"
 local debug      = require "debug"
 local reg = debug.getregistry()
 

@@ -10,7 +10,7 @@
 -----------------------------------------------------------------------------
 local base = _G
 local ltn12 = require("ltn12")
-local mime = require("mime.core")
+local mime = require("mimecore")
 local io = require("io")
 local string = require("string")
 module("mime")
