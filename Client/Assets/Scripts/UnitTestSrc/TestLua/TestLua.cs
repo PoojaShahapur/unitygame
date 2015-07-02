@@ -13,7 +13,8 @@ namespace UnitTestSrc
 
         public void run()
         {
-            testLua();
+            //testLua();
+            testLoadLuaFile();
         }
 
         protected void testLua()
@@ -50,6 +51,13 @@ namespace UnitTestSrc
             //LuaTable table = LuaScriptMgr.Instance.lua.GetTable("mimeself");
             //object _obj = table["encode"];
             //int aaa = 10;
+        }
+
+        protected void testLoadLuaFile()
+        {
+            LuaScriptMgr luaMgr = new LuaScriptMgr();
+            string path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript/UtilDebug.lua");
+            LuaScriptMgr.Instance.lua.LoadFile(path);
         }
     }
 }
