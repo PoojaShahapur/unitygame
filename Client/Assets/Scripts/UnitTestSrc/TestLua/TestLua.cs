@@ -1,6 +1,7 @@
 ﻿using LuaInterface;
 using SDK.Common;
 using SDK.Lib;
+using System.Diagnostics;
 
 namespace UnitTestSrc
 {
@@ -15,6 +16,7 @@ namespace UnitTestSrc
         {
             //testLua();
             testLoadLuaFile();
+            //testLocalLua();
         }
 
         protected void testLua()
@@ -56,8 +58,34 @@ namespace UnitTestSrc
         protected void testLoadLuaFile()
         {
             LuaScriptMgr luaMgr = new LuaScriptMgr();
-            string path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript/UtilDebug.lua");
-            LuaScriptMgr.Instance.lua.LoadFile(path);
+            luaMgr.Start();
+
+            string path = "";
+            luaMgr.lua.DoFile("LuaScript/UtilDebug.lua");
+
+            LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("regPath");
+            string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
+            UtilApi.normalPath(ref luaPath);
+            object[] ret = reflf.Call(luaPath);
+
+            luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Plugins/x86_64");
+            reflf = luaMgr.lua.GetFunction("regCPath");
+            ret = reflf.Call(luaPath);
+
+            path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript/UtilDebug.lua");
+            luaMgr.lua.DoFile("LuaScript/TestLua.lua");
+
+            //LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("addVarArg");
+            //object[] ret = reflf.Call(10, 30);
+            //int aaa = 10;
+        }
+
+        protected void testLocalLua()
+        {
+            //Process.Start("\"D:\\ProgramFiles(x86)\\Lua\\5.1\\lua\" -e \"require('debugger')('192.168.122.64', '10000');\" E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
+            //Process.Start("D:\\ProgramFiles(x86)\\Lua\\5.1\\lua");
+            //Process.Start("E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
+            Process.Start("E:/Start.bat");
         }
     }
 }

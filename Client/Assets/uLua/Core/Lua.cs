@@ -122,8 +122,6 @@ namespace LuaInterface
         internal void ThrowExceptionFromError(int oldTop)
         {            
             string err = LuaDLL.lua_tostring(L, -1);
-            byte[] bytes = Encoding.UTF8.GetBytes(err);
-            string ret = Encoding.GetEncoding("GB2312").GetString(bytes);
             LuaDLL.lua_settop(L, oldTop);
 
             // A pre-wrapped exception - just rethrow it (stack trace of InnerException will be preserved)

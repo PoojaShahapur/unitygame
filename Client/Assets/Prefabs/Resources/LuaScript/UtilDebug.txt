@@ -1,4 +1,4 @@
-g_debugMode = false
+g_debugMode = true
 
 function regPath(path_)
     local m_package_path = package.path

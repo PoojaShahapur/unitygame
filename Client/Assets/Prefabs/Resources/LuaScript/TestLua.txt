@@ -1,9 +1,8 @@
---[[
 if true == g_debugMode then
     local initconnection = require("debugger")
     initconnection("127.0.0.1", "10000", "luaidekey")
 end
-]]
+
 --[[
 
 mime   = require("mime")
@@ -27,6 +26,3 @@ function luaFunc(i)
     print(a)
     return a
 end
-
-aaa = luaFunc(10)
-print(aaa)
