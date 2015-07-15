@@ -1,16 +1,17 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!-- 每一个技能对应一个攻击动作配置 -->
+<!-- 每一个技能对应一个攻击动作配置，攻击动作只能是顺序执行，一个攻击完成，进入下一个攻击 
+	AttackAction 就是一个攻击动作，HashId 就是动作状态机中的哈希值Id，NeedMove 就是攻击的时候是否需要向前移动
+	ActionEffect 当前攻击特效，EffectId 攻击特效 Id，DelayTime 攻击特效延时，LinkBone 播放特效的时候特效连接的骨头
+	HurtAction 受伤动作，HashId 就是动作状态机中的哈希值Id，NeedMove 就是受伤的时候是否需要向后移动
+	HurtEffect 受伤特效，EffectId 受伤特效 Id，DelayTime 攻击特效延时，LinkBone 播放特效的时候特效连接的骨头
+-->
 <Config>
-    <BehaviorTemplate name="1000" >
-		<!-- 根节点 -->
-        <BehaviorTree name="1000">
-			<!-- 各个模块顺序执行 -->
-            <Sequence>
-				<!-- 攻击模块，暂时全部写在这里面 -->
-				<Sequence>
-					<Action type="AttackAll" />
-				</Sequence>
-            </Sequence>
-        </BehaviorTree>
-    </BehaviorTemplate>
+    <AttackAction HashId="2" NeedMove="true" >
+		<ActionEffect EffectId="2" DelayTime="0" LinkBone="Head" />
+		<ActionEffect EffectId="3" DelayTime="0" />
+		<HurtAction HashId="2" DelayTime="0" NeedMove="true" >
+			<HurtEffect EffectId="2" DelayTime="0" LinkBone="Head" />
+			<HurtEffect EffectId="3" DelayTime="0" />
+		</HurtAction>
+    </AttackAction>
 </Config>
