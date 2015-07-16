@@ -464,8 +464,16 @@ namespace SDK.Lib
         {
             LuaScriptMgr luaMgr = Ctx.m_instance.m_luaMgr;
             if (luaMgr == null) return null;
-            string funcName = module + "." + func;
-            funcName = funcName.Replace("(Clone)", "");
+            string funcName = "";
+            if(String.IsNullOrEmpty(module))    // 如果在 _G 表中
+            {
+                funcName = func;
+            }
+            else    // 在一个 _G 的一个表中
+            {
+                funcName = module + "." + func;
+            }
+            // funcName = funcName.Replace("(Clone)", "");
             return luaMgr.CallLuaFunction(funcName, args);
         }
     }

@@ -15,8 +15,9 @@ namespace UnitTestSrc
         public void run()
         {
             //testLua();
-            testLoadLuaFile();
+            //testLoadLuaFile();
             //testLocalLua();
+            testLuaBindFile();
         }
 
         protected void testLua()
@@ -57,8 +58,9 @@ namespace UnitTestSrc
 
         protected void testLoadLuaFile()
         {
-            LuaScriptMgr luaMgr = new LuaScriptMgr();
-            luaMgr.Start();
+            //LuaScriptMgr luaMgr = new LuaScriptMgr();
+            //luaMgr.Start();
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaMgr;
 
             string path = "";
             luaMgr.lua.DoFile("LuaScript/UtilDebug.lua");
@@ -86,6 +88,16 @@ namespace UnitTestSrc
             //Process.Start("D:\\ProgramFiles(x86)\\Lua\\5.1\\lua");
             //Process.Start("E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
             Process.Start("E:/Start.bat");
+        }
+
+        protected void testLuaBindFile()
+        {
+            LuaCSBridge _luaCSBridge = new LuaCSBridge("");
+            string path = "LuaScript/TestLuaBind.lua";      // 
+            _luaCSBridge.DoFile(path);                      // 添加函数，如果 "TestLuaBind.lua" 文件直接调用了一个函数，例如 luaFunc(10) ，执行 DoFile 后返回值是 null ，注意这一点，但是自己手工调用这个函数却有返回值的。
+            object[] ret = _luaCSBridge.CallMethod("luaFunc", 10);
+
+            object member = _luaCSBridge.GetMember("testGlobal");
         }
     }
 }
