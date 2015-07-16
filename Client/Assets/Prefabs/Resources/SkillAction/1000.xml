@@ -6,12 +6,14 @@
 	HurtEffect 受伤特效，EffectId 受伤特效 Id，DelayTime 攻击特效延时，LinkBone 播放特效的时候特效连接的骨头
 -->
 <Config>
-    <AttackAction HashId="2" NeedMove="true" >
-		<AttackEffect EffectId="2" DelayTime="0" LinkBone="Head" />
-		<AttackEffect EffectId="3" DelayTime="0" />
+	<AttackItem>
+		<AttackAction HashId="2" NeedMove="true" >
+			<AttackEffect EffectId="2" DelayTime="0" LinkBone="Head" />
+			<AttackEffect EffectId="3" DelayTime="0" />
+		</AttackAction>
 		<HurtAction HashId="2" DelayTime="0" NeedMove="true" >
 			<HurtEffect EffectId="2" DelayTime="0" LinkBone="Head" />
 			<HurtEffect EffectId="3" DelayTime="0" />
 		</HurtAction>
-    </AttackAction>
+	</AttackItem>
 </Config>

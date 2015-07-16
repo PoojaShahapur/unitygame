@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class SkillActionRes : InsResBase
     {
-        protected AttackActionNode m_attackActionNode;      // 攻击动作的流程
+        protected AttackActionSeq m_attackActionSeq;
 
         public SkillActionRes()
         {
@@ -17,8 +17,8 @@ namespace SDK.Lib
         override public void init(ResItem res)
         {
             string text = res.getText(GetPath());
-            m_attackActionNode = new AttackActionNode();
-            m_attackActionNode.parseXml(text);
+            m_attackActionSeq = new AttackActionSeq();
+            m_attackActionSeq.parseXml(text);
 
             base.init(res);
         }
