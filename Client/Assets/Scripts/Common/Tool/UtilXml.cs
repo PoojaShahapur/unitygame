@@ -43,6 +43,17 @@ namespace SDK.Common
             return ret;
         }
 
+        static public int getXmlAttrInt(SecurityElement attr, string name)
+        {
+            int ret = 0;
+            if (attr != null)
+            {
+                int.TryParse(attr.Attribute(name), out ret);
+            }
+
+            return ret;
+        }
+
         // 获取一个孩子节点列表
         static public void getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
         {

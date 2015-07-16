@@ -61,6 +61,7 @@ namespace SDK.Common
             m_pathLst[(int)ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
             m_pathLst[(int)ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
             m_pathLst[(int)ResPathType.ePathLuaScript] = "LuaScript/";
+            m_pathLst[(int)ResPathType.ePathSkillAction] = "SkillAction/";
 
             m_dataPath = Application.dataPath;
 

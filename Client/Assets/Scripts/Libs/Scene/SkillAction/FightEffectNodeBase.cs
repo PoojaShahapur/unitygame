@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using System.Security;
+
+namespace SDK.Lib
 {
     /**
      * @brief 战斗特效的基类
@@ -8,5 +10,10 @@
         protected string m_effectId;    // 特效 Id
         protected float m_delayTime;    // 延迟时间
         protected string m_linkBone;    // 连接的骨头
+
+        virtual public void parseXmlElem(SecurityElement elem_)
+        {
+
+        }
     }
 }

@@ -186,7 +186,8 @@ namespace UnitTestSrc
 
         protected void testLoadSkillAction()
         {
-            string _path = "";
+            string _path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSkillAction], "1000.xml");
+            Ctx.m_instance.m_skillActionMgr.getAndSyncLoad<SkillActionRes>(_path);
         }
     }
 }

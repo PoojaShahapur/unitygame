@@ -17,7 +17,8 @@ namespace SDK.Lib
         override public void init(ResItem res)
         {
             string text = res.getText(GetPath());
-            Ctx.m_instance.m_aiSystem.behaviorTreeMgr.parseXml(text);
+            m_attackActionNode = new AttackActionNode();
+            m_attackActionNode.parseXml(text);
 
             base.init(res);
         }

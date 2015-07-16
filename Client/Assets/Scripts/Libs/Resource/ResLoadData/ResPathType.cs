@@ -26,6 +26,7 @@
         ePathSpriteAni,  // 精灵动画
         ePathSceneAnimatorController,  // Animator Controller 控制器
         ePathLuaScript,                       // Lua 脚本
+        ePathSkillAction,           // 技能动作配置文件
 
         eTotal          // 总数
     }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using UnityEngine.Rendering;
+using SDK.Lib;
 
 [InitializeOnLoad]
 public static class LuaBinding
@@ -265,6 +266,8 @@ public static class LuaBinding
         //_GT(typeof(LeanTween)),
         //_GT(typeof(LTDescr)),
         
+        // 自己测试
+        _GT(typeof(TestStaticHandle)),
     };
 
 
