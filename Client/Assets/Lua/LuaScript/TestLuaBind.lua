@@ -5,3 +5,6 @@ function luaFunc(i)
 end
 
 local testGlobal = 25
+
+luaFunc(36)
+

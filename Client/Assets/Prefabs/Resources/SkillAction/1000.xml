@@ -7,8 +7,8 @@
 -->
 <Config>
     <AttackAction HashId="2" NeedMove="true" >
-		<ActionEffect EffectId="2" DelayTime="0" LinkBone="Head" />
-		<ActionEffect EffectId="3" DelayTime="0" />
+		<AttackEffect EffectId="2" DelayTime="0" LinkBone="Head" />
+		<AttackEffect EffectId="3" DelayTime="0" />
 		<HurtAction HashId="2" DelayTime="0" NeedMove="true" >
 			<HurtEffect EffectId="2" DelayTime="0" LinkBone="Head" />
 			<HurtEffect EffectId="3" DelayTime="0" />

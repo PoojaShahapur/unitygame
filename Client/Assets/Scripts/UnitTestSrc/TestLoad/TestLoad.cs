@@ -19,7 +19,8 @@ namespace UnitTestSrc
             //testLoadAnimatorController();
             //testLoadAnimatorControllerPrefab();
             //testLoadScriptAnimatorControllerPrefab();
-            testScriptController();
+            //testScriptController();
+            testLoadSkillAction();
         }
 
         protected void testModelLoad()
@@ -181,6 +182,11 @@ namespace UnitTestSrc
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
             Ctx.m_instance.m_controllerMgr.unload(res.GetPath(), null);
+        }
+
+        protected void testLoadSkillAction()
+        {
+            string _path = "";
         }
     }
 }

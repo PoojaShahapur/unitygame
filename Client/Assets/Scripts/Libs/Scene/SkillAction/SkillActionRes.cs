@@ -1,19 +1,17 @@
-﻿using Mono.Xml;
-using SDK.Common;
-using SDK.Lib;
-using System.Collections;
-using System.Security;
+﻿using SDK.Common;
 
-namespace BehaviorLibrary
+namespace SDK.Lib
 {
     /**
-     * @brief 行为树资源
+     * @brief 技能动作配置资源
      */
-    public class BehaviorTreeRes : InsResBase
+    public class SkillActionRes : InsResBase
     {
-        public BehaviorTreeRes()
+        protected AttackActionNode m_attackActionNode;      // 攻击动作的流程
+
+        public SkillActionRes()
         {
-            
+
         }
 
         override public void init(ResItem res)
