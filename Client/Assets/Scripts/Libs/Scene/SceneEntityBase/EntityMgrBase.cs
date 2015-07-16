@@ -65,5 +65,10 @@ namespace SDK.Lib
         {
             return false;
         }
+
+        public SceneEntity getEntityByThisId(uint thisId)
+        {
+            return null;
+        }
     }
 }

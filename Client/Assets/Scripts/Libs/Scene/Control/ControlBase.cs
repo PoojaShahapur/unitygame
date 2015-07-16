@@ -9,6 +9,11 @@
             m_entity = entity;
         }
 
+        virtual public void init()
+        {
+
+        }
+
         virtual public void dispose()
         {
 

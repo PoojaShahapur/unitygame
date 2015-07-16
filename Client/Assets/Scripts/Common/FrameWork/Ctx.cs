@@ -104,6 +104,7 @@ namespace SDK.Common
         public TextResMgr m_textResMgr = new TextResMgr();
         public LuaScriptMgr m_luaMgr = new LuaScriptMgr();
         public SkillActionMgr m_skillActionMgr = new SkillActionMgr();
+        public ScenePlaceHolder m_scenePlaceHolder = new ScenePlaceHolder();
 
         public Ctx()
         {

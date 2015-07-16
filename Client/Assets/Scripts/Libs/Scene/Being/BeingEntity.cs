@@ -149,5 +149,62 @@ namespace SDK.Lib
         {
 
         }
+
+        virtual public string getDesc()
+        {
+            return "";
+        }
+
+        public FightData fightData
+        {
+            get
+            {
+                return getFightData();
+            }
+        }
+
+        virtual public FightData getFightData()
+        {
+            return null;
+        }
+
+        public BeingBehaviorControl behaviorControl
+        {
+            get
+            {
+                return getBeingBehaviorControl();
+            }
+        }
+
+        virtual public BeingBehaviorControl getBeingBehaviorControl()
+        {
+            return null;
+        }
+
+        public EffectControl effectControl
+        {
+            get
+            {
+                return getEffectControl();
+            }
+        }
+
+        virtual public EffectControl getEffectControl()
+        {
+            return null;
+        }
+
+        public uint qwThisID
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public void playFlyNum(int num)
+        {
+
+        }
 	}
 }

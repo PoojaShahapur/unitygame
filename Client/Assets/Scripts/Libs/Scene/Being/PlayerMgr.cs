@@ -45,5 +45,10 @@ namespace SDK.Lib
         {
             return m_hero;
         }
+
+        public Player getPlayerByThisId(uint thisId)
+        {
+            return getEntityByThisId(thisId) as Player;
+        }
 	}
 }
