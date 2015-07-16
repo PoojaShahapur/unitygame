@@ -102,10 +102,11 @@ namespace SDK.Common
         public ScriptDynLoad m_scriptDynLoad = new ScriptDynLoad();
 
         public TextResMgr m_textResMgr = new TextResMgr();
+        public LuaScriptMgr m_luaMgr = new LuaScriptMgr();
 
         public Ctx()
         {
-
+            m_luaMgr.Start();
         }
 
         public static Ctx instance()
