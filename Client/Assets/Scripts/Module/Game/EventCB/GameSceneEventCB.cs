@@ -40,7 +40,7 @@ namespace Game.Game
         public void createMonster(Vector3 pos)
         {
             Monster monster = Ctx.m_instance.m_monsterMgr.createMonster();
-            Ctx.m_instance.m_monsterMgr.add(monster);
+            Ctx.m_instance.m_monsterMgr.addMonster(monster);
             monster.setSkeleton("DefaultAvatar");
             monster.setLocalPos(pos);
             monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");

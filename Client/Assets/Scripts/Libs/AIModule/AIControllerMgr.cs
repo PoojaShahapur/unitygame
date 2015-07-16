@@ -9,13 +9,7 @@ namespace BehaviorLibrary
     {
         override protected void onTickExec(float delta)
         {
-            foreach (SceneEntityBase entity in m_sceneEntityList)
-            {
-                if (!entity.getClientDispose())
-                {
-                    entity.onTick(delta);
-                }
-            }
+            base.onTickExec(delta);
         }
 
         public void addController(AIController ai)

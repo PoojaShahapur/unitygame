@@ -4,9 +4,19 @@ using UnitySteer.Behaviors;
 
 namespace SDK.Lib
 {
-    public class MonsterMgr : BeingMgr
+    public class MonsterMgr : EntityMgrBase
     {
         //protected Dictionary<int, List<Vehicle>> m_group2RadarDic = new Dictionary<int, List<Vehicle>>();
+
+        public MonsterMgr()
+        {
+
+        }
+
+        override protected void onTickExec(float delta)
+        {
+            base.onTickExec(delta);
+        }
 
         public Monster createMonster()
         {
@@ -46,6 +56,16 @@ namespace SDK.Lib
 
             //    ++idx;
             //}
+        }
+
+        public void addMonster(BeingEntity being)
+        {
+            this.addObject(being);
+        }
+
+        public void removeMonster(BeingEntity being)
+        {
+            this.delObject(being);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace SDK.Lib
 	/**
 	 * @brief 玩家管理器
 	 */
-    public class PlayerMgr : BeingMgr
+    public class PlayerMgr : EntityMgrBase
 	{
         protected PlayerMain m_hero;
 
@@ -14,6 +14,11 @@ namespace SDK.Lib
 		{
 
 		}
+
+        override protected void onTickExec(float delta)
+        {
+            base.onTickExec(delta);
+        }
 
         public PlayerMain createHero()
         {
@@ -23,7 +28,17 @@ namespace SDK.Lib
         public void addHero(PlayerMain hero)
         {
             m_hero = hero as PlayerMain;
-            add(m_hero);
+            addPlayer(m_hero);
+        }
+
+        public void addPlayer(BeingEntity being)
+        {
+            this.addObject(being);
+        }
+
+        public void removePlayer(BeingEntity being)
+        {
+            this.delObject(being);
         }
 
         public PlayerMain getHero()

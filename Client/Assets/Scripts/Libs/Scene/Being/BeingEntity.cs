@@ -8,7 +8,7 @@ namespace SDK.Lib
 	/**
 	 * @brief 生物 
 	 */
-    public class BeingEntity : ITickedObject
+    public class BeingEntity : SceneEntity
 	{
         protected SkinAniModel m_skinAniModel;      // 模型数据
         protected BehaviorTree m_behaviorTree;      // 行为树

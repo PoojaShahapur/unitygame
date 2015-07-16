@@ -24,7 +24,7 @@ namespace SDK.Lib
             m_tableName = tableName;
         }
 
-        protected void Start()
+        protected void init()
         {
             Ctx.m_instance.m_luaMgr.lua[m_tableName + ".gameObject"] = m_gameObject;
         }
@@ -33,16 +33,6 @@ namespace SDK.Lib
         {
             Util.ClearMemory();
             Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
-        }
-
-        protected void OnClick()
-        {
-            CallMethod("OnClick");
-        }
-
-        protected void OnClickEvent(GameObject go)
-        {
-            CallMethod("OnClick", go);
         }
 
         /// <summary>
@@ -68,7 +58,8 @@ namespace SDK.Lib
 
         /**
          * @brief 执行Lua方法
-         * @brief funcName_ 函数名字
+         * @param funcName_ 函数名字
+         * @example CallMethod("OnClick");  CallMethod("OnClick", GameObject go_);
          */
         public object[] CallMethod(string funcName_, params object[] args)
         {

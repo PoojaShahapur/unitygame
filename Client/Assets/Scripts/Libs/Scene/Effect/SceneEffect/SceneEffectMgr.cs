@@ -10,13 +10,7 @@ namespace SDK.Lib
     {
         override protected void onTickExec(float delta)
         {
-            foreach (SceneEntityBase entity in m_sceneEntityList)
-            {
-                if (!entity.getClientDispose())
-                {
-                    entity.onTick(delta);
-                }
-            }
+            base.onTickExec(delta);
         }
 
         public EffectBase createAndAdd(EffectType type, EffectRenderType renderType)
