@@ -102,5 +102,21 @@ namespace SDK.Lib
 
             return Ctx.m_instance.m_luaMgr.lua[fullMemberName];
         }
+
+        /**
+         * @brief 强制调用 _G 中的函数
+         */
+        public object[] CallGlobalMethod(string funcName_, params object[] args)
+        {
+            return Ctx.m_instance.m_luaMgr.CallLuaFunction(funcName_, args);
+        }
+
+        /**
+         * @brief 强制从 _G 中获取数据
+         */
+        public object GetGlobalMember(string memberName_)
+        {
+            return Ctx.m_instance.m_luaMgr.lua[memberName_];
+        }
     }
 }
