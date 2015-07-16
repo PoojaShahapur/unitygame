@@ -3,16 +3,16 @@ using SDK.Common;
 
 namespace SDK.Lib
 {
-    public class ComAttackItem : AttackItemBase
+    public class ImmeComAttackItem : ImmeAttackItemBase
     {
         protected uint m_attackEffectId; // 攻击特效id
         protected uint m_hurterId;       // 被击者 thisId
         protected float m_moveTime;      // 攻击的时候移动到攻击目标的时间
 
-        public ComAttackItem(EAttackType attackType) :
+        public ImmeComAttackItem(EImmeAttackType attackType) :
             base(attackType)
         {
-            m_moveTime = AttackItemBase.ComAttMoveTime;
+            m_moveTime = ImmeAttackItemBase.ComAttMoveTime;
         }
 
         public uint attackEffectId

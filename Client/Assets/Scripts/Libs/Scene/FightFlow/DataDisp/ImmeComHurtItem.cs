@@ -4,11 +4,11 @@ using SDK.Lib;
 
 namespace SDK.Lib
 {
-    public class ComHurtItem : HurtItemBase
+    public class ImmeComHurtItem : ImmeHurtItemBase
     {
         protected int m_hurtEffectId;   // 攻击受伤 Id
 
-        public ComHurtItem(EHurtType hurtType) :
+        public ImmeComHurtItem(EImmeHurtType hurtType) :
             base(hurtType)
         {
 

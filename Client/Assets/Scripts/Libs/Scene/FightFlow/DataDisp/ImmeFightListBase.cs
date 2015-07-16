@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class FightListBase : IDispatchObject
+    public class ImmeFightListBase : IDispatchObject
     {
 
     }

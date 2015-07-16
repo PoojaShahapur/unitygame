@@ -6,21 +6,21 @@ namespace SDK.Lib
     /**
      * @brief 攻击一次只能有一个，因此攻击 Item 没有状态
      */
-    public class AttackItemBase : FightItemBase
+    public class ImmeAttackItemBase : ImmeFightItemBase
     {
         public const float ComAttMoveTime = 0.3f;  // 普通攻击的移动时间
 
-        protected EAttackType m_attackType;
-        protected EAttackRangeType m_attackRangeType;
+        protected EImmeAttackType m_attackType;
+        protected EImmeAttackRangeType m_attackRangeType;
         protected EventDispatch m_attackEndDisp;      // 整个攻击结束，从发起攻击，到回到原地
 
-        public AttackItemBase(EAttackType attackType)
+        public ImmeAttackItemBase(EImmeAttackType attackType)
         {
             m_attackType = attackType;
             m_attackEndDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
-        public EAttackType attackType
+        public EImmeAttackType attackType
         {
             get
             {
@@ -32,7 +32,7 @@ namespace SDK.Lib
             }
         }
 
-        public EAttackRangeType attackRangeType
+        public EImmeAttackRangeType attackRangeType
         {
             get
             {

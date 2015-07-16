@@ -6,12 +6,12 @@ namespace SDK.Lib
     /**
      * @brief 技能被击，仅仅是播放掉血特效，没有被击特效
      */
-    public class SkillHurtItem : HurtItemBase
+    public class ImmeSkillHurtItem : ImmeHurtItemBase
     {
         protected uint m_skillId;
         protected TableSkillItemBody m_skillTableItem;
 
-        public SkillHurtItem(EHurtType hurtType) : 
+        public ImmeSkillHurtItem(EImmeHurtType hurtType) : 
             base(hurtType)
         {
 

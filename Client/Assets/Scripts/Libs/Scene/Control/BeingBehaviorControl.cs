@@ -70,7 +70,7 @@ namespace SDK.Lib
         }
 
         // 执行普通攻击
-        public void execAttack(ComAttackItem item)
+        public void execAttack(ImmeComAttackItem item)
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行普通攻击 execAttack");
 
@@ -78,13 +78,13 @@ namespace SDK.Lib
             // 播放伤害数字
             if (item.damage > 0)
             {
-                m_being.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
+                m_being.effectControl.addLinkEffect(ImmeHurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                 //m_being.playFlyNum((int)item.damage);
             }
         }
 
         // 执行普通受伤
-        public void execHurt(ComHurtItem item)
+        public void execHurt(ImmeComHurtItem item)
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 执行普通受伤 execHurt");
 
@@ -97,7 +97,7 @@ namespace SDK.Lib
                     Ctx.m_instance.m_logSys.fightLog("[Fight] 执行普通播放受伤特效");
 
                     effect = m_being.effectControl.addLinkEffect(item.hurtEffectId);     // 被击特效
-                    m_being.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
+                    m_being.effectControl.addLinkEffect(ImmeHurtItemBase.DAMAGE_EFFECTID);   // 掉血特效必然播放
                     effect.addEffectPlayEndHandle(item.onHurtExecEnd);
                 }
 
@@ -120,7 +120,7 @@ namespace SDK.Lib
         }
 
         // 执行技能攻击
-        public void execAttack(SkillAttackItem item)
+        public void execAttack(ImmeSkillAttackItem item)
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能攻击 execAttack");
 
@@ -162,7 +162,7 @@ namespace SDK.Lib
         }
 
         // 执行技能受伤
-        public void execHurt(SkillHurtItem item)
+        public void execHurt(ImmeSkillHurtItem item)
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 开始执行技能被击 execHurt");
 
@@ -170,13 +170,13 @@ namespace SDK.Lib
 
             if (item.bDamage)// 检查是否是伤血
             {
-                effect = m_being.effectControl.addLinkEffect(HurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
+                effect = m_being.effectControl.addLinkEffect(ImmeHurtItemBase.DAMAGE_EFFECTID);  // 掉血特效必然播放
                 effect.addEffectPlayEndHandle(item.onHurtExecEnd);
             }
         }
 
         // 执行普通死亡
-        public void execHurt(DieItem item)
+        public void execHurt(ImmeDieItem item)
         {
             LinkEffect effect = null;
             effect = m_being.effectControl.addLinkEffect(item.dieEffectId);  // 死亡特效
@@ -190,7 +190,7 @@ namespace SDK.Lib
         }
 
         // 播放攻击者受伤特效
-        public void playAttackHurt(FightItemBase item)
+        public void playAttackHurt(ImmeFightItemBase item)
         {
             if (item.damage > 0)
             {

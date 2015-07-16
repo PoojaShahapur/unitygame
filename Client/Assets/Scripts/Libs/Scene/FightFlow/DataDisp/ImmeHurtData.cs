@@ -6,19 +6,19 @@ namespace SDK.Lib
     /**
      * @brief 受伤数据
      */
-    public class HurtData : FightListBase
+    public class ImmeHurtData : ImmeFightListBase
     {
-        protected MList<HurtItemBase> m_hurtList;
-        protected HurtItemBase m_curHurtItem;           // 当前被击项，由于受伤流程可以同时并存，因此不存在当前被击 Item，不能获取这个作为当期被击 Item
+        protected MList<ImmeHurtItemBase> m_hurtList;
+        protected ImmeHurtItemBase m_curHurtItem;           // 当前被击项，由于受伤流程可以同时并存，因此不存在当前被击 Item，不能获取这个作为当期被击 Item
         protected EventDispatch m_allHurtExecEndDisp;   // 所有 Hurt Item 执行结束事件分发
 
-        public HurtData()
+        public ImmeHurtData()
         {
-            m_hurtList = new MList<HurtItemBase>();
+            m_hurtList = new MList<ImmeHurtItemBase>();
             m_allHurtExecEndDisp = new AddOnceEventDispatch();
         }
 
-        public MList<HurtItemBase> hurtList
+        public MList<ImmeHurtItemBase> hurtList
         {
             get
             {
@@ -38,7 +38,7 @@ namespace SDK.Lib
             }
         }
 
-        public void addItem(HurtItemBase item)
+        public void addItem(ImmeHurtItemBase item)
         {
             m_hurtList.Add(item);
         }
@@ -50,7 +50,7 @@ namespace SDK.Lib
             {
                 foreach (var item in m_hurtList.list)
                 {
-                    if (item.delayTime <= 0 && item.execState== EHurtExecState.eNone)
+                    if (item.delayTime <= 0 && item.execState == EImmeHurtExecState.eNone)
                     {
                         m_curHurtItem = item;
                         m_curHurtItem.startHurt();
@@ -72,7 +72,7 @@ namespace SDK.Lib
             //m_curHurtItem = null;
         }
 
-        public void removeItem(HurtItemBase item)
+        public void removeItem(ImmeHurtItemBase item)
         {
             m_hurtList.Remove(item);
             item.dispose();
@@ -83,7 +83,7 @@ namespace SDK.Lib
         {
             foreach (var item in m_hurtList.list)
             {
-                if (item.delayTime <= 0 && item.execState == EHurtExecState.eNone)
+                if (item.delayTime <= 0 && item.execState == EImmeHurtExecState.eNone)
                 {
                     return true;
                 }
@@ -97,7 +97,7 @@ namespace SDK.Lib
         {
             foreach (var item in m_hurtList.list)
             {
-                if (item.execState == EHurtExecState.eExecing || item.execState == EHurtExecState.eStartExec)
+                if (item.execState == EImmeHurtExecState.eExecing || item.execState == EImmeHurtExecState.eStartExec)
                 {
                     return true;
                 }
@@ -108,11 +108,11 @@ namespace SDK.Lib
 
         public void onTime(float delta)
         {
-            List<HurtItemBase> list = new List<HurtItemBase>();
+            List<ImmeHurtItemBase> list = new List<ImmeHurtItemBase>();
             foreach(var item in m_hurtList.list)
             {
                 item.onTime(delta);
-                if(item.execState == EHurtExecState.eEnd)
+                if (item.execState == EImmeHurtExecState.eEnd)
                 {
                     list.Add(item);
                 }
@@ -126,22 +126,22 @@ namespace SDK.Lib
             list.Clear();
         }
 
-        public HurtItemBase createItem(EHurtType type)
+        public ImmeHurtItemBase createItem(EImmeHurtType type)
         {
-            HurtItemBase ret = null;
-            if(EHurtType.eCommon == type)
+            ImmeHurtItemBase ret = null;
+            if (EImmeHurtType.eCommon == type)
             {
-                ret = new ComHurtItem(type);
-                ret.delayTime = AttackItemBase.ComAttMoveTime;
+                ret = new ImmeComHurtItem(type);
+                ret.delayTime = ImmeAttackItemBase.ComAttMoveTime;
             }
-            else if (EHurtType.eSkill == type)
+            else if (EImmeHurtType.eSkill == type)
             {
-                ret = new SkillHurtItem(type);
+                ret = new ImmeSkillHurtItem(type);
                 ret.delayTime = 1;  // 技能攻击延迟时间有技能攻击飞行特效的时间决定，这里赋值一个默认的值
             }
-            else if (EHurtType.eDie == type)
+            else if (EImmeHurtType.eDie == type)
             {
-                ret = new DieItem(type);
+                ret = new ImmeDieItem(type);
             }
 
             m_hurtList.Add(ret);
@@ -156,7 +156,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_logSys.log("删除当前被击项");
 
             // 直接移除，不会在循环中删除的情况
-            removeItem(dispObj as HurtItemBase);
+            removeItem(dispObj as ImmeHurtItemBase);
             // 检查是否所有的受伤都播放结束
             if (m_hurtList.Count() == 0)
             {

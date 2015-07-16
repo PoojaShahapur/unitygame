@@ -6,22 +6,22 @@ namespace SDK.Lib
     /**
      * @brief 每一个 Hurt 以特效为结束标准，如果没有特效，就以动作为标准
      */
-    public class HurtItemBase : FightItemBase
+    public class ImmeHurtItemBase : ImmeFightItemBase
     {
         public const int DAMAGE_EFFECTID = 7;       // 掉血特效
 
-        protected EHurtType m_hurtType;
-        protected EHurtExecState m_execState;
+        protected EImmeHurtType m_hurtType;
+        protected EImmeHurtExecState m_execState;
         protected EventDispatch m_hurtExecEndDisp;  // Hurt Item 执行结束事件分发
 
-        public HurtItemBase(EHurtType hurtType)
+        public ImmeHurtItemBase(EImmeHurtType hurtType)
         {
             m_hurtType = hurtType;
-            m_execState = EHurtExecState.eNone;
+            m_execState = EImmeHurtExecState.eNone;
             m_hurtExecEndDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
-        public EHurtType hurtType
+        public EImmeHurtType hurtType
         {
             get
             {
@@ -33,7 +33,7 @@ namespace SDK.Lib
             }
         }
 
-        public EHurtExecState execState
+        public EImmeHurtExecState execState
         {
             get
             {
@@ -64,18 +64,18 @@ namespace SDK.Lib
 
         virtual public void startHurt()
         {
-            m_execState = EHurtExecState.eStartExec;
+            m_execState = EImmeHurtExecState.eStartExec;
         }
 
         virtual public void execHurt(BeingEntity being)
         {
-            m_execState = EHurtExecState.eExecing;
+            m_execState = EImmeHurtExecState.eExecing;
         }
 
         // 这个是整个受伤执行结束
         virtual public void onHurtExecEnd(IDispatchObject dispObj)
         {
-            m_execState = EHurtExecState.eEnd;
+            m_execState = EImmeHurtExecState.eEnd;
             m_hurtExecEndDisp.dispatchEvent(this);
         }
 

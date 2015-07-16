@@ -5,17 +5,17 @@ namespace SDK.Lib
     /**
      * @brief 攻击数据
      */
-    public class AttackData : FightListBase
+    public class ImmeAttackData : ImmeFightListBase
     {
-        protected MList<AttackItemBase> m_attackList;
-        protected AttackItemBase m_curAttackItem;       // 当前攻击项，因为攻击不能打断，必须整个攻击流程结束才算是攻击结束
+        protected MList<ImmeAttackItemBase> m_attackList;
+        protected ImmeAttackItemBase m_curAttackItem;       // 当前攻击项，因为攻击不能打断，必须整个攻击流程结束才算是攻击结束
 
-        public AttackData()
+        public ImmeAttackData()
         {
-            m_attackList = new MList<AttackItemBase>();
+            m_attackList = new MList<ImmeAttackItemBase>();
         }
 
-        public MList<AttackItemBase> attackList
+        public MList<ImmeAttackItemBase> attackList
         {
             get
             {
@@ -23,7 +23,7 @@ namespace SDK.Lib
             }
         }
 
-        public AttackItemBase curAttackItem
+        public ImmeAttackItemBase curAttackItem
         {
             get
             {
@@ -35,7 +35,7 @@ namespace SDK.Lib
             }
         }
 
-        public void addItem(AttackItemBase item)
+        public void addItem(ImmeAttackItemBase item)
         {
             m_attackList.Add(item);
         }
@@ -63,7 +63,7 @@ namespace SDK.Lib
             m_curAttackItem = null;
         }
 
-        public void removeItem(AttackItemBase item)
+        public void removeItem(ImmeAttackItemBase item)
         {
             m_attackList.Remove(item);
             item.dispose();
@@ -77,16 +77,16 @@ namespace SDK.Lib
             }
         }
 
-        public AttackItemBase createItem(EAttackType type)
+        public ImmeAttackItemBase createItem(EImmeAttackType type)
         {
-            AttackItemBase ret = null;
-            if (EAttackType.eCommon == type)
+            ImmeAttackItemBase ret = null;
+            if (EImmeAttackType.eCommon == type)
             {
-                ret = new ComAttackItem(type);
+                ret = new ImmeComAttackItem(type);
             }
-            else if(EAttackType.eSkill== type)
+            else if (EImmeAttackType.eSkill == type)
             {
-                ret = new SkillAttackItem(type);
+                ret = new ImmeSkillAttackItem(type);
             }
 
             m_attackList.Add(ret);

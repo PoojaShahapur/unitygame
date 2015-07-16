@@ -7,11 +7,11 @@ namespace SDK.Lib
     /**
      * @brief 死亡项
      */
-    public class DieItem : HurtItemBase
+    public class ImmeDieItem : ImmeHurtItemBase
     {
         protected int m_dieEffectId;   // 死亡特效 Id
 
-        public DieItem(EHurtType hurtType) : 
+        public ImmeDieItem(EImmeHurtType hurtType) : 
             base(hurtType)
         {
 

@@ -155,7 +155,7 @@ namespace SDK.Lib
             return "";
         }
 
-        public FightData fightData
+        public ImmeFightData fightData
         {
             get
             {
@@ -163,7 +163,7 @@ namespace SDK.Lib
             }
         }
 
-        virtual public FightData getFightData()
+        virtual public ImmeFightData getFightData()
         {
             return null;
         }

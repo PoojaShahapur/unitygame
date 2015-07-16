@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 基本的战斗中的一项数据
      */
-    public class FightItemBase : IDispatchObject
+    public class ImmeFightItemBase : IDispatchObject
     {
         protected float m_delayTime;            // 延迟处理的时间
         protected bool m_bDamage;       // 是否是伤血
@@ -18,7 +18,7 @@ namespace SDK.Lib
         protected byte[] m_changedState;    // 记录状态改变
         protected byte[] m_curState;        // 当前状态 
 
-        public FightItemBase()
+        public ImmeFightItemBase()
         {
             m_delayTime = 0;
 

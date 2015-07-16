@@ -6,14 +6,14 @@ namespace SDK.Lib
     /**
      * @brief 技能攻击不会发生移动过去的情况，仅仅是将法术卡拖到场景中，然后释放，就出发技能，可能会有功能准备特效和攻击特效
      */
-    public class SkillAttackItem : AttackItemBase
+    public class ImmeSkillAttackItem : ImmeAttackItemBase
     {
         protected uint m_skillId;
         protected TableSkillItemBody m_skillTableItem;
         protected uint m_attThisId;             // 攻击者 this id
         protected MList<uint> m_hurtIdList;     // 被击者 this id 列表
 
-        public SkillAttackItem(EAttackType attackType) :
+        public ImmeSkillAttackItem(EImmeAttackType attackType) :
             base(attackType)
         {
             m_hurtIdList = new MList<uint>();

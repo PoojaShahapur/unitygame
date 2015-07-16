@@ -3,18 +3,18 @@
     /**
      * @brief 战斗中用到的数据
      */
-    public class FightData
+    public class ImmeFightData
     {
-        protected AttackData m_attackData;
-        protected HurtData m_hurtData;
+        protected ImmeAttackData m_attackData;
+        protected ImmeHurtData m_hurtData;
 
-        public FightData()
+        public ImmeFightData()
         {
-            m_attackData = new AttackData();
-            m_hurtData = new HurtData();
+            m_attackData = new ImmeAttackData();
+            m_hurtData = new ImmeHurtData();
         }
 
-        public AttackData attackData
+        public ImmeAttackData attackData
         {
             get
             {
@@ -22,7 +22,7 @@
             }
         }
 
-        public HurtData hurtData
+        public ImmeHurtData hurtData
         {
             get
             {
