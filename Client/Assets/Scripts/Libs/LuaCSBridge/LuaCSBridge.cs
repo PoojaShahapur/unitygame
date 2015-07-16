@@ -9,12 +9,13 @@ using SDK.Common;
 namespace SDK.Lib
 {
     /**
-     * @brief 逻辑 Lua 和 CS 之间的交互，是以表为单位进行交互的，一定要注意表名正确
+     * @brief 逻辑 Lua 和 CS 之间的交互，是以表为单位进行交互的，一定要注意表名正确，每一个表就是一个功能
      */
     public class LuaCSBridge
     {
         protected string m_tableName;   // 表的名字
         protected GameObject m_gameObject;  // 测试绑定 UnitEngine 对象
+        //protected LuaTable m_moduleEnv;     // 执行模块的环境
 
         /**
          * @brief 表的名字
@@ -53,6 +54,20 @@ namespace SDK.Lib
         // 直接从 Lua 脚本添加函数或者变量到表中，执行后不会有任何返回值，不知道为什么
         public object[] DoFile(string fileName)
         {
+            //if (m_moduleEnv == null)
+            //{
+            //    m_moduleEnv = Ctx.m_instance.m_luaMgr.lua.NewTable();
+            //    // 获取注册表的全局环境 _G 
+            //    int oldTop = LuaDLL.lua_gettop(Ctx.m_instance.m_luaMgr.lua.L);
+            //    int globalIndex = LuaDLL.lua_getmetatable(Ctx.m_instance.m_luaMgr.lua.L, LuaIndexes.LUA_REGISTRYINDEX);
+            //    if (globalIndex != 0)
+            //    {
+            //        LuaTable globalTable = LuaScriptMgr.SelfToLuaTable(Ctx.m_instance.m_luaMgr.lua.L, globalIndex);
+            //        m_moduleEnv.SetMetaTable(globalTable);
+            //        LuaDLL.lua_settop(Ctx.m_instance.m_luaMgr.lua.L, oldTop);
+            //    }
+            //}
+            //return Ctx.m_instance.m_luaMgr.lua.DoFile(fileName, m_moduleEnv);
             return Ctx.m_instance.m_luaMgr.lua.DoFile(fileName);
         }
 

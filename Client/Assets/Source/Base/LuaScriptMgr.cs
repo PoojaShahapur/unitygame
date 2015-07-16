@@ -1113,6 +1113,13 @@ public class LuaScriptMgr
         return func;
     }
 
+    // 自己添加的函数
+    //public static LuaTable SelfToLuaTable(IntPtr L, int stackPos)
+    //{
+    //    LuaDLL.lua_pushvalue(L, stackPos);
+    //    return new LuaTable(LuaDLL.luaL_ref(L, LuaIndexes.LUA_REGISTRYINDEX), GetTranslator(L).interpreter);
+    //}
+
     static LuaTable ToLuaTable(IntPtr L, int stackPos)
     {
         LuaDLL.lua_pushvalue(L, stackPos);
