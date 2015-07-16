@@ -6,7 +6,7 @@ namespace SDK.Lib
     {
         override public void parseXmlElem(SecurityElement elem_)
         {
-
+            base.parseXmlElem(elem_);
         }
     }
 }

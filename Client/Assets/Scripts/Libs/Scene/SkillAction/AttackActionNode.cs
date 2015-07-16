@@ -19,6 +19,7 @@ namespace SDK.Lib
             // 解析攻击
             ArrayList attackActionNodeList = rootNode.Children; // AttackAction 攻击动作节点，这个节点只有一个 AttackAction
             SecurityElement attackActionNode = attackActionNodeList[0] as SecurityElement;
+            parseXmlElem(attackActionNode);
 
             // 解析攻击特效
             ArrayList attackEffectList = new ArrayList();   // 攻击者攻击特效
@@ -31,7 +32,7 @@ namespace SDK.Lib
 
             // 解析被击
             SecurityElement hurtActionNode = null;
-            UtilXml.getXmlChild(attackActionNode, "HurtAction ", ref hurtActionNode);
+            UtilXml.getXmlChild(attackActionNode, "HurtAction", ref hurtActionNode);
             if (hurtActionNode != null)
             {
                 m_hurtActionNode = new HurtActionNode();

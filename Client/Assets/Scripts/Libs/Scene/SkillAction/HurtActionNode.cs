@@ -16,6 +16,7 @@ namespace SDK.Lib
             if(hurtEffectNodeList != null)
             {
                 m_hurtEffectList = new HurtEffectList();
+                m_hurtEffectList.parseXmlElemList(hurtEffectNodeList);
             }
         }
     }

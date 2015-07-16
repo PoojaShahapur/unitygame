@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using SDK.Common;
+using System.Security;
 
 namespace SDK.Lib
 {
@@ -13,7 +14,9 @@ namespace SDK.Lib
 
         virtual public void parseXmlElem(SecurityElement elem_)
         {
-
+            m_effectId = UtilXml.getXmlAttrStr(elem_, "EffectId");
+            m_delayTime = UtilXml.getXmlAttrFloat(elem_, "DelayTime");
+            m_linkBone = UtilXml.getXmlAttrStr(elem_, "LinkBone");
         }
     }
 }

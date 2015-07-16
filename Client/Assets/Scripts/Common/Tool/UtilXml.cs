@@ -54,6 +54,17 @@ namespace SDK.Common
             return ret;
         }
 
+        static public float getXmlAttrFloat(SecurityElement attr, string name)
+        {
+            float ret = 0;
+            if (attr != null)
+            {
+                float.TryParse(attr.Attribute(name), out ret);
+            }
+
+            return ret;
+        }
+
         // 获取一个孩子节点列表
         static public void getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
         {
