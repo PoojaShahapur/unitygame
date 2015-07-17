@@ -6,6 +6,12 @@
     public class AttackSeqItem
     {
         protected AttackActionNode m_attackActionNode;      // 攻击动作节点
+        protected OneAttackFlowSeq m_attackSeq;
+
+        public AttackSeqItem(OneAttackFlowSeq attackSeq_)
+        {
+            m_attackSeq = attackSeq_;
+        }
 
         public AttackActionNode attackActionNode
         {
@@ -17,6 +23,11 @@
             {
                 m_attackActionNode = value;
             }
+        }
+
+        public void onTime(float delta)
+        {
+            
         }
     }
 }

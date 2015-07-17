@@ -8,6 +8,7 @@ namespace SDK.Lib
     public class OneHurtFlowSeq
     {
         protected MList<HurtSeqItem> m_hurtSeqItem;
+        protected ImmeHurtItemBase m_hurtItem;
 
         public OneHurtFlowSeq()
         {
@@ -20,7 +21,7 @@ namespace SDK.Lib
             HurtSeqItem seqItem = null;
             foreach(var actionItem in actionSeq.itemList.list)
             {
-                seqItem = new HurtSeqItem();
+                seqItem = new HurtSeqItem(this);
                 m_hurtSeqItem.Add(seqItem);
                 if (actionItem.hurtActionNode != null)
                 {

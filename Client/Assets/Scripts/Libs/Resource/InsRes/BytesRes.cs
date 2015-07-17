@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 二进制资源
      */
-    class BytesRes : InsResBase
+    public class BytesRes : InsResBase
     {
         protected byte[] m_bytes;
 

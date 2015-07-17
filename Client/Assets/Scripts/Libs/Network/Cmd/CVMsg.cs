@@ -193,7 +193,7 @@
     //    ATTACK_TARGET_SEQUIP    =	32,	//己方武器
     //};
 
-    enum EDeleteType
+    public enum EDeleteType
     {
         OP_ATTACK_DELETE = 1,  //攻击死亡
         OP_FASHUCARD_DELETE = 2,  //出牌时，删除手上的法术卡

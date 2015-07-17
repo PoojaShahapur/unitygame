@@ -8,6 +8,7 @@ namespace SDK.Lib
     public class OneAttackFlowSeq
     {
         protected MList<AttackSeqItem> m_attackItemList;
+        protected ImmeAttackItemBase m_attackItem;
 
         public OneAttackFlowSeq()
         {
@@ -20,9 +21,17 @@ namespace SDK.Lib
             AttackSeqItem seqItem = null;
             foreach(var actionItem in actionSeq.itemList.list)
             {
-                seqItem = new AttackSeqItem();
+                seqItem = new AttackSeqItem(this);
                 m_attackItemList.Add(seqItem);
                 seqItem.attackActionNode = actionItem.attackActionNode;
+            }
+        }
+
+        public void onTime(float delta)
+        {
+            foreach (var item in m_attackItemList.list)
+            {
+                item.onTime(delta);
             }
         }
     }

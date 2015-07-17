@@ -3,7 +3,7 @@
     /**
      * @brief Panel 基类
      */
-    interface IAuxPanel
+    public interface IAuxPanel
     {
         void findWidget();
         void addEventHandle();

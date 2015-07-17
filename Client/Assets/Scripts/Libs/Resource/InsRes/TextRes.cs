@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 文本资源
      */
-    class TextRes : InsResBase
+    public class TextRes : InsResBase
     {
         protected string m_text;
 
