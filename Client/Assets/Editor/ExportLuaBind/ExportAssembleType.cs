@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using UnityEditor;
 
-namespace SDK.Lib
+namespace EditorTool
 {
     public class ExportAssembleType
     {
@@ -37,21 +37,21 @@ namespace SDK.Lib
                 {
                     if (bSelfType(_type.Namespace))
                     {
-                        if (_type.Name.Contains("NumAniBase"))
-                        {
-                            Debugger.Log("aaaa");
-                        }
-
                         // 如果是模板类型，名字是 "DynamicBuffer`1"，但是 Type.MemberType == MemberTypes.TypeInfo
                         // 如果是内部类，那么 Type.MemberType == MemberTypes.NestedType
                         // 如果是协程(Coroutine)，例如 protected IEnumerator initAssetByCoroutine()，Type.MemberType == MemberTypes.NestedType
                         // 去掉模板类、内部类、协程、接口、抽象类
-                        // 抽象类导致 ToLuaExport.cs 宕机
+                        // 抽象类导致 ToLuaExport.cs 导出的 bind 文件编译不过
+                        // 函数中有模板类， 导致 ToLuaExport.cs 宕机。 static public void newRectSplit(Transform trans, float unitWidth, float areaRadius, float fYDelta, int splitCnt, ref List<Vector3> posList)
                         if (!_type.Name.Contains("`1") &&
                             _type.MemberType == MemberTypes.TypeInfo &&
                             !_type.IsInterface && 
                             !_type.IsAbstract)
                         {
+                            if (_type.Name.Contains("UtilMath"))
+                            {
+                                continue;
+                            }
                             if (!namespaceDic.ContainsKey(_type.Namespace))
                             {
                                 namespaceDic[_type.Namespace] = true;
