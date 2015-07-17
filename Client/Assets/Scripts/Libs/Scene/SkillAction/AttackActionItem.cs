@@ -6,11 +6,39 @@ namespace SDK.Lib
 {
     public class AttackActionItem
     {
+        protected string m_id;
         protected AttackActionNode m_attackActionNode;
         protected HurtActionNode m_hurtActionNode;
 
+        public AttackActionNode attackActionNode
+        {
+            get
+            {
+                return m_attackActionNode;
+            }
+            set
+            {
+                m_attackActionNode = value;
+            }
+        }
+
+        public HurtActionNode hurtActionNode
+        {
+            get
+            {
+                return m_hurtActionNode;
+            }
+            set
+            {
+                m_hurtActionNode = value;
+            }
+        }
+
         public void parseXmlElem(SecurityElement elem_)
         {
+            // 解析 Id
+            m_id = UtilXml.getXmlAttrStr(elem_, "Id");
+
             // 解析攻击
             ArrayList attackActionNodeList = elem_.Children; // AttackAction 攻击动作节点，这个节点只有一个 AttackAction
             SecurityElement attackActionNode = attackActionNodeList[0] as SecurityElement;

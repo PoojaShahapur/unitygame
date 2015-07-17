@@ -9,6 +9,14 @@ namespace SDK.Lib
     {
         protected MList<AttackActionItem> m_itemList;
 
+        public MList<AttackActionItem> itemList
+        {
+            get
+            {
+                return m_itemList;
+            }
+        }
+
         public void parseXml(string str)
         {
             m_itemList = new MList<AttackActionItem>();

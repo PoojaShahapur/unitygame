@@ -32,5 +32,13 @@ namespace SDK.Lib
         {
             base.unload();
         }
+
+        public AttackActionSeq attackActionSeq
+        {
+            get
+            {
+                return m_attackActionSeq;
+            }
+        }
     }
 }
