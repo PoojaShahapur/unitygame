@@ -13,6 +13,7 @@ namespace SDK.Lib
     public class BeingBehaviorControl : BeingControlBase
     {
         protected Vector3 m_srcPos;                 // 保存最初的位置
+        protected FightSeqData m_fightSeqData;      // 战斗数据
 
         public BeingBehaviorControl(BeingEntity rhv) : 
             base(rhv)
@@ -29,6 +30,14 @@ namespace SDK.Lib
             set
             {
                 m_srcPos = value;
+            }
+        }
+
+        public FightSeqData fightSeqData
+        {
+            get
+            {
+                return m_fightSeqData;
             }
         }
 

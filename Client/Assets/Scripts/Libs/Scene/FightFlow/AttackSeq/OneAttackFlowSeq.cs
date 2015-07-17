@@ -15,6 +15,18 @@ namespace SDK.Lib
             m_attackItemList = new MList<AttackSeqItem>();
         }
 
+        public ImmeAttackItemBase attackItem
+        {
+            get
+            {
+                return m_attackItem;
+            }
+            set
+            {
+                m_attackItem = value;
+            }
+        }
+
         // 创建攻击流程序列
         public void initAttackFlowSeq(AttackActionSeq actionSeq)
         {

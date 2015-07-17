@@ -15,6 +15,18 @@ namespace SDK.Lib
             m_hurtSeqItem = new MList<HurtSeqItem>();
         }
 
+        public ImmeHurtItemBase hurtItem
+        {
+            get
+            {
+                return m_hurtItem;
+            }
+            set
+            {
+                m_hurtItem = value;
+            }
+        }
+
         // 创建攻击流程序列
         public void initHurtFlowSeq(AttackActionSeq actionSeq)
         {
