@@ -19,7 +19,7 @@ namespace SDK.Lib
             Dictionary<string, bool> namespaceDic = new Dictionary<string, bool>();
             string namespaceStr = "";
 
-            // 写入的文件
+            // 打开写入的文件
             _path = ExportUtil.getDataPath("Editor/BindLua.cs");
             FileStream fileStream;
             if (File.Exists(@_path))
@@ -37,12 +37,29 @@ namespace SDK.Lib
                 {
                     if (bSelfType(_type.Namespace))
                     {
-                        if (!namespaceDic.ContainsKey(_type.Namespace))
+                        if (_type.Name.Contains("NumAniBase"))
                         {
-                            namespaceDic[_type.Namespace] = true;
-                            namespaceStr += string.Format("using {0};\r\n", _type.Namespace);
+                            Debugger.Log("aaaa");
                         }
-                        bindTypeInfo += string.Format("         _GT(typeof({0})),\r\n", _type.Name);
+
+                        // 如果是模板类型，名字是 "DynamicBuffer`1"，但是 Type.MemberType == MemberTypes.TypeInfo
+                        // 如果是内部类，那么 Type.MemberType == MemberTypes.NestedType
+                        // 如果是协程(Coroutine)，例如 protected IEnumerator initAssetByCoroutine()，Type.MemberType == MemberTypes.NestedType
+                        // 去掉模板类、内部类、协程、接口、抽象类
+                        // 抽象类导致 ToLuaExport.cs 宕机
+                        if (!_type.Name.Contains("`1") &&
+                            _type.MemberType == MemberTypes.TypeInfo &&
+                            !_type.IsInterface && 
+                            !_type.IsAbstract)
+                        {
+                            if (!namespaceDic.ContainsKey(_type.Namespace))
+                            {
+                                namespaceDic[_type.Namespace] = true;
+                                namespaceStr += string.Format("using {0};\r\n", _type.Namespace);
+                            }
+
+                            bindTypeInfo += string.Format("         _GT(typeof({0})),\r\n", _type.Name);
+                        }
                     }
                 }
             }
