@@ -6,9 +6,9 @@ namespace SDK.Lib
     /**
      * @brief 战斗消息统一处理的地方
      */
-    public class FightMsgMgr
+    public class ImmeFightMsgMgr
     {
-        public FightMsgMgr()
+        public ImmeFightMsgMgr()
         {
             
         }
