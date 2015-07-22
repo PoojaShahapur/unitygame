@@ -15,7 +15,7 @@ namespace SDK.Lib
         }
 
         // 添加分发器
-        public void addResEventDispatch(int groupID, EventDispatch disp)
+        public void addEventDispatch(int groupID, EventDispatch disp)
         {
             if (!m_groupID2DispatchDic.ContainsKey(groupID))
             {
