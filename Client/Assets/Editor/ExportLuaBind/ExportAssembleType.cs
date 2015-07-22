@@ -35,7 +35,7 @@ namespace EditorTool
             {
                 foreach (Type _type in assembly.GetTypes())
                 {
-                    if (bSelfType(_type.Namespace))
+                    if (bNeedExportNS(_type.Namespace))
                     {
                         // 如果是模板类型，名字是 "DynamicBuffer`1"，但是 Type.MemberType == MemberTypes.TypeInfo
                         // 如果是内部类，那么 Type.MemberType == MemberTypes.NestedType
@@ -48,10 +48,11 @@ namespace EditorTool
                             !_type.IsInterface && 
                             !_type.IsAbstract)
                         {
-                            if (_type.Name.Contains("UtilMath"))
+                            if (!bNeedExportClassName(_type.Name))
                             {
                                 continue;
                             }
+
                             if (!namespaceDic.ContainsKey(_type.Namespace))
                             {
                                 namespaceDic[_type.Namespace] = true;
@@ -87,7 +88,7 @@ namespace EditorTool
             fileStream = null;
         }
 
-        static public bool bSelfType(string nameSpace)
+        static protected bool bNeedExportNS(string nameSpace)
         {
             if(nameSpace == "SDK.Lib" ||
                nameSpace == "SDK.Common")
@@ -96,6 +97,18 @@ namespace EditorTool
             }
 
             return false;
+        }
+
+        static protected bool bNeedExportClassName(string className)
+        {
+            if (className.Contains("UtilMath") ||
+                className.Contains("Dec") ||
+                className.Contains("DynSceneGrid"))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
