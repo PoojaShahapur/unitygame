@@ -1,5 +1,5 @@
 -- 定义一个类表
-local _class={}
+local _class={}     -- 保存定义的所有的类
 
 function class(super)
     local class_type = {}       -- 返回的类表
@@ -21,7 +21,9 @@ function class(super)
      
             create(class_type, ...)
         end
+        
         setmetatable(obj, { __index = _class[class_type] })     -- 设置新表的元表为父类表
+        
         return obj
     end
     
