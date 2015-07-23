@@ -177,7 +177,10 @@ function ByteBuffer:writeMultiByte(value)
         idx = 1
         while(idx <= string.len(value))
         do
-            self.m_buff[self.m_position + idx - 1] = string.byte(string.sub(value, idx, 1))
+            buffIdx = self.m_position + idx - 1
+            subStr = string.sub(value, idx, idx)
+            byte = string.byte(subStr)
+            self.m_buff[buffIdx] = byte
             idx = idx + 1
         end
     end
