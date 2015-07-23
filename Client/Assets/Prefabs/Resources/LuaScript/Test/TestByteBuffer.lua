@@ -8,6 +8,11 @@ require('DataStruct/Class')
 
 ByteBuffer.m_buff = {3, 1, '2', 3, 4, 5, 6, 7, 8, 9}
 
+local tbl = {}
+tbl[0] = 1
+tbl[1] = 2
+tbl[2] = 3
+
 -- local _int8 = ByteBuffer.readInt8()
 -- local _int16 = ByteBuffer.readInt16()
 
@@ -16,8 +21,10 @@ ByteBuffer.m_buff = {3, 1, '2', 3, 4, 5, 6, 7, 8, 9}
 
 --local buIns = class(ByteBuffer)
 --a = buIns.new(1)
-a = ByteBuffer.new()
+local a = ByteBuffer.new()
 a:writeMultiByte("aaaa")
 
-b = ByteBuffer.new()
+local b = ByteBuffer.new()
 b:writeMultiByte("bbb")
+
+local c = 10

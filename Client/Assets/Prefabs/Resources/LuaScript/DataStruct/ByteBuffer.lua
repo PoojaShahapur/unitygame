@@ -13,6 +13,7 @@ ByteBuffer.m_sysEndian = ByteBuffer.ENDIAN_LITTLE -- 系统字节序
 -- local self = ByteBuffer   -- 局部引用
 
 function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
+    -- 一定要重新赋值不共享的数据成员，否则会直接从父类表中获取同名字的成员
     self.m_endian = ByteBuffer.ENDIAN_LITTLE -- 自己字节序
     self.m_buff = {}  -- 字节缓冲区
     self.m_position = 1   -- 缓冲区当前位置，注意 Lua 下表是从 1 开始的，不是从 0 开始的。 self.m_buff[0] == nil ，太坑了
@@ -26,7 +27,7 @@ end
 function ByteBuffer:readInt8()
     local elem = self.m_buff[self.m_position]
     local retData = string.byte(elem)
-    self.advPos(1);
+    self:advPos(1);
     return retData
 end
 
@@ -34,13 +35,13 @@ end
 -- 读取两个字节
 function ByteBuffer:readInt16()
     local retData = 0
-    if self.canRead(2) then
+    if self:canRead(2) then
         if self.m_endian == ByteBuffer.ENDIAN_LITTLE then-- 如果是小端字节序
             retData = string.byte(self.m_buff[self.m_position]) * 256 + string.byte(self.m_buff[self.m_position + 1])
         else
             retData = string.byte(self.m_buff[self.m_position + 1]) * 256 + string.byte(self.m_buff[self.m_position])
         end
-        self.advPos(2);
+        self:advPos(2);
     end
     
     return retData
@@ -48,13 +49,13 @@ end
 
 function ByteBuffer:readInt32()
     local retData = 0
-    if self.canRead(4) then
+    if self:canRead(4) then
         if self.m_endian == ByteBuffer.ENDIAN_LITTLE then-- 如果是小端字节序
             retData = string.byte(self.m_buff[self.m_position]) * 256 * 256 * 256 + string.byte(self.m_buff[self.m_position + 1]) * 256 * 256 + string.byte(self.m_buff[self.m_position + 2]) * 256 + string.byte(self.m_buff[self.m_position + 3])
         else
             retData = string.byte(self.m_buff[self.m_position + 3]) * 256 * 256 * 256 + string.byte(self.m_buff[self.m_position + 2]) * 256 * 256 + string.byte(self.m_buff[self.m_position + 1]) * 256 + string.byte(self.m_buff[self.m_position])
         end
-        self.advPos(4);
+        self:advPos(4);
     end
     
     return retData
@@ -62,7 +63,7 @@ end
 
 function ByteBuffer:readNumber()
     local retData = 0
-    if self.canRead(8) then
+    if self:canRead(8) then
         if self.m_endian == ByteBuffer.ENDIAN_LITTLE then-- 如果是小端字节序
             local str = self.m_buff[self.m_position] .. self.m_buff[self.m_position + 1] .. self.m_buff[self.m_position + 2] .. self.m_buff[self.m_position + 3] .. self.m_buff[self.m_position + 4] .. self.m_buff[self.m_position + 5] .. self.m_buff[self.m_position + 6] .. self.m_buff[self.m_position + 7]
         else
@@ -70,7 +71,7 @@ function ByteBuffer:readNumber()
         end
 
         retData = tonumber(str)        
-        self.advPos(8);
+        self:advPos(8);
     end
     
     return retData
@@ -78,7 +79,7 @@ end
 
 -- 读取 utf-8 字符串
 function ByteBuffer:readMultiByte(len)
-    if self.canRead(len) then
+    if self:canRead(len) then
         local utf8Str
         idx = 1
         while(idx <= len)
@@ -90,7 +91,7 @@ function ByteBuffer:readMultiByte(len)
             end 
         end
         
-        self.advPos(len);
+        self:advPos(len);
     end
     
     return utf8Str
@@ -98,7 +99,7 @@ end
 
 function ByteBuffer:writeInt8(retData)
     self.m_buff[self.m_position] = retData
-    self.advPosAndLen(1);
+    self:advPosAndLen(1);
 end
 
 function ByteBuffer.writeInt16(retData)
@@ -113,7 +114,7 @@ function ByteBuffer.writeInt16(retData)
         self.m_buff[self.m_position + 1] = twoByte
     end
     
-    self.advPosAndLen(2);
+    self:advPosAndLen(2);
 end
 
 function ByteBuffer:writeInt32(retData)
@@ -134,7 +135,7 @@ function ByteBuffer:writeInt32(retData)
         self.m_buff[self.m_position + 3] = fourByte
     end
     
-    self.advPosAndLen(4);
+    self:advPosAndLen(4);
 end
 
 function ByteBuffer:writeNumber(retData)
@@ -167,7 +168,7 @@ function ByteBuffer:writeNumber(retData)
         end
     end
     
-    self.advPosAndLen(8);
+    self:advPosAndLen(8);
 end
 
 -- 写 utf-8 字节字符串，必须是 utf-8 的
@@ -181,7 +182,7 @@ function ByteBuffer:writeMultiByte(value)
         end
     end
     
-    self.advPosAndLen(string.len(value));
+    self:advPosAndLen(string.len(value));
 end
 
 -- 是否有足够的字节可以读取
