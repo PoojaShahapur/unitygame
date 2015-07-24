@@ -23,6 +23,8 @@ namespace SDK.Common
 
         protected byte[] m_padBytes;
 
+        protected LuaCSBridgeByteBuffer m_luaCSBridgeByteBuffer;        // Lua 中的缓冲区
+
         public ByteBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
@@ -100,6 +102,18 @@ namespace SDK.Common
                 m_position = value;
 
                 //check();
+            }
+        }
+
+        public LuaCSBridgeByteBuffer luaCSBridgeByteBuffer
+        {
+            get
+            {
+                return m_luaCSBridgeByteBuffer;
+            }
+            set
+            {
+                m_luaCSBridgeByteBuffer = value;
             }
         }
 

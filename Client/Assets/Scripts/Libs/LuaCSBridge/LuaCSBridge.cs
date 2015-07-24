@@ -14,7 +14,6 @@ namespace SDK.Lib
     public class LuaCSBridge
     {
         protected string m_tableName;   // 表的名字
-        protected GameObject m_gameObject;  // 测试绑定 UnitEngine 对象
         //protected LuaTable m_moduleEnv;     // 执行模块的环境
 
         /**
@@ -25,12 +24,12 @@ namespace SDK.Lib
             m_tableName = tableName;
         }
 
-        protected void init()
+        virtual protected void init()
         {
-            Ctx.m_instance.m_luaMgr.lua[m_tableName + ".gameObject"] = m_gameObject;
+            
         }
 
-        public void dispose()
+        virtual public void dispose()
         {
             Util.ClearMemory();
             Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
