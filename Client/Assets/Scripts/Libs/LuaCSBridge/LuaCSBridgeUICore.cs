@@ -2,6 +2,10 @@
 {
     public class LuaCSBridgeUICore : LuaCSBridge
     {
-
+        public LuaCSBridgeUICore()
+            : base("NetDispHandle")
+        {
+            
+        }
     }
 }

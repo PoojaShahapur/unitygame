@@ -1,3 +1,5 @@
+using SDK.Lib;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SDK.Common
@@ -17,11 +19,17 @@ namespace SDK.Common
         protected bool m_bBlurBg = false;       // 是否模糊背景
         protected bool m_bHandleExitBtn = false;       // 是否关联关闭按钮
 
+        protected LuaCSBridgeForm m_luaCSBridgeForm;
+        protected string m_formName;            // 这个是 Lua 中传的标识符，会传给 Lua 使用，客户端自己不用
+        protected Dictionary<GameObject, GOExtraInfo> m_go2Path;
+
 		public Form()
             : base()
 		{
 			m_alignVertial = Window.CENTER;
-			m_alignHorizontal = Window.CENTER;	
+			m_alignHorizontal = Window.CENTER;
+
+            m_go2Path = new Dictionary<GameObject, GOExtraInfo>();
 		}
 
         public UIFormID id
@@ -82,6 +90,18 @@ namespace SDK.Common
             get
             {
                 return m_bReady;
+            }
+        }
+
+        public string formName
+        {
+            get
+            {
+                return m_formName;
+            }
+            set
+            {
+                m_formName = value;
             }
         }
 
@@ -211,5 +231,60 @@ namespace SDK.Common
 		{
             exit();
 		}
+
+        public void registerBtnClickEventByList(string[] btnList)
+        {
+            foreach(var path in btnList)
+            {
+                addClick(m_GUIWin.m_uiRoot, path);
+            }
+        }
+
+        public void registerWidgetEvent()
+        {
+            string[] pathArr = m_luaCSBridgeForm.getTable2StrArray("BtnClickTable");
+            foreach(var path in pathArr)
+            {
+                addClick(m_GUIWin.m_uiRoot, path);
+            }
+        }
+
+        protected void onBtnClk(GameObject go_)
+        {
+            if(m_luaCSBridgeForm != null)
+            {
+                if(m_go2Path.ContainsKey(go_))
+                {
+                    m_luaCSBridgeForm.handleUIEvent("onBtnClk", m_formName, m_go2Path[go_].m_path);
+                }
+            }
+        }
+
+        public void addClick(GameObject go, string path)
+        {
+            UtilApi.addEventHandle(go, path, onBtnClk);
+            GameObject btnGo = UtilApi.TransFindChildByPObjAndPath(go, path);
+            if(btnGo = null)
+            {
+                if(!m_go2Path.ContainsKey(btnGo))
+                {
+                    m_go2Path[btnGo] = new GOExtraInfo();
+                    m_go2Path[btnGo].m_path = path;
+                }
+            }
+        }
+
+        public void removeClick(GameObject go, string path)
+        {
+            UtilApi.removeEventHandle(go, path);
+            GameObject btnGo = UtilApi.TransFindChildByPObjAndPath(go, path);
+            if(btnGo != null)
+            {
+                if(m_go2Path.ContainsKey(btnGo))
+                {
+                    m_go2Path.Remove(btnGo);
+                }
+            }
+        }
 	}
 }

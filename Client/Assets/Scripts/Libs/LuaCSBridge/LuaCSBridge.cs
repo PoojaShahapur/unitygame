@@ -74,6 +74,7 @@ namespace SDK.Lib
          * @brief 执行Lua方法
          * @param funcName_ 函数名字
          * @example CallMethod("OnClick");  CallMethod("OnClick", GameObject go_);
+         * @example 表中需要这么写 TableName.FunctionName()
          */
         public object[] CallMethod(string funcName_, params object[] args)
         {
@@ -87,6 +88,24 @@ namespace SDK.Lib
                 fullFuncName = m_tableName + "." + funcName_;
             }
             return Ctx.m_instance.m_luaMgr.CallLuaFunction(fullFuncName, args);
+        }
+
+        /**
+         * @brief 调用类方法
+         * @example 表中需要这么写 TableName:FunctionName()， 需要把这个表作为第二个参数传递进入，在 Lua 函数中就直接可以使用 self 了
+         */
+        public object[] CallClassMethod(string funcName_, params object[] args)
+        {
+            string fullFuncName = "";               // 完全的有表的完全名字
+            if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
+            {
+                fullFuncName = m_tableName + "." + funcName_;
+                LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable(m_tableName);
+
+                return Ctx.m_instance.m_luaMgr.CallLuaFunction(fullFuncName, luaTable, args);
+            }
+
+            return null;
         }
 
         /**
@@ -122,6 +141,40 @@ namespace SDK.Lib
         public object GetGlobalMember(string memberName_)
         {
             return Ctx.m_instance.m_luaMgr.lua[memberName_];
+        }
+
+        public string[] getTable2StrArray(string tableName)
+        {
+            string fullTableName = "";
+            if(String.IsNullOrEmpty(m_tableName))
+            {
+                fullTableName = tableName;
+            }
+            else
+            {
+                fullTableName = m_tableName + "." + tableName;
+            }
+
+            LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable(fullTableName);
+            string[] strArray = luaTable.ToArray<string>();
+            return strArray;
+        }
+
+        public int[] getTable2IntArray(string tableName)
+        {
+            string fullTableName = "";
+            if (String.IsNullOrEmpty(m_tableName))
+            {
+                fullTableName = tableName;
+            }
+            else
+            {
+                fullTableName = m_tableName + "." + tableName;
+            }
+
+            LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable(fullTableName);
+            int[] strArray = luaTable.ToArray<int>();
+            return strArray;
         }
     }
 }

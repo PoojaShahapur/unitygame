@@ -8,7 +8,7 @@ namespace SDK.Lib
      */
     public class LuaCSBridgeByteBuffer : LuaCSBridge
     {
-        public const 
+        public const string CLEAR = "clear";
 
         protected LuaTable m_luaTable;      // LuaTable
 
@@ -21,7 +21,11 @@ namespace SDK.Lib
         // 更新 Lua 中表的数据
         public void updateLuaTable(ByteBuffer ba)
         {
-            CallGlobalMethod();
+            CallClassMethod(LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
+            for(int idx = 0; idx < ba.dynBuff.size; ++idx)
+            {
+                m_luaTable[idx] = ba.dynBuff.buff[idx];
+            }
         }
     }
 }

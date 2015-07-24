@@ -71,6 +71,11 @@ namespace SDK.Common
             UIEventListener.Get(go.transform.Find(path).gameObject).onClick = handle;
         }
 
+        public static void removeEventHandle(GameObject go, string path)
+        {
+            UIEventListener.Get(go.transform.Find(path).gameObject).onClick = null;
+        }
+
         public static void addEventHandle(GameObject go, UIEventListener.VoidDelegate handle)
         {
             UIEventListener.Get(go).onClick = handle;

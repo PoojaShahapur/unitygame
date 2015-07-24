@@ -7,7 +7,8 @@ namespace SDK.Lib
      */
     public class LuaCSBridgeNetDispHandle : LuaCSBridge
     {
-        public void LuaCSBridgeNetDispHandle()
+        public LuaCSBridgeNetDispHandle()
+            : base("NetDispHandle")
         {
             // Ctx.m_instance.m_luaMgr.DoString();
         }
