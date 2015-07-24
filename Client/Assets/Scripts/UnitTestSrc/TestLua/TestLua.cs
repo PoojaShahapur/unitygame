@@ -17,7 +17,8 @@ namespace UnitTestSrc
             //testLua();
             //testLoadLuaFile();
             //testLocalLua();
-            testLuaBindFile();
+            //testLuaBindFile();
+            testLuaByteBuffer();
         }
 
         protected void testLua()
@@ -98,6 +99,17 @@ namespace UnitTestSrc
             object[] ret = _luaCSBridge.CallMethod("tableFunc", 10);
 
             object member = _luaCSBridge.GetMember("tableData");
+        }
+
+        protected void testLuaByteBuffer()
+        {
+            ByteBuffer ba = new ByteBuffer();
+            ba.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
+
+            ba.writeInt16(234);
+            ba.writeInt32(567);
+            ba.luaCSBridgeByteBuffer.updateLuaTable(ba);
+            ba.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
         }
     }
 }

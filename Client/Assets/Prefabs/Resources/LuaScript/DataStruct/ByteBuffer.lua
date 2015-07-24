@@ -192,7 +192,7 @@ end
 
 -- 是否有足够的字节可以读取
 function ByteBuffer:canRead(len)
-    if self.m_position + len > self.length() then
+    if self.m_position + len > self:length() then
         return false
     end
     
@@ -214,6 +214,13 @@ end
 
 -- 获取长度
 function ByteBuffer:length()
+    if self == nil then
+        self:log("self nil")
+    end
+    if self.m_buff == nil then
+        self:log("buff nil")
+    end
+    self:log("buff nil")
     return #self.m_buff
 end
 
@@ -221,4 +228,15 @@ end
 function ByteBuffer:clear()
     self.m_buff = {}
     self.m_position = 1
+end
+
+-- 输出缓冲区所有的字节
+function ByteBuffer:dumpAllBytes()
+    for idx = 1, #(self.m_buff) do
+        SDK.Lib.TestStaticHandle.log(tostring(self.m_buff[idx]))
+    end
+end
+
+function ByteBuffer:log(msg)
+    SDK.Lib.TestStaticHandle.log(msg)
 end
