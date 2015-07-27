@@ -8,6 +8,10 @@ function class(super)
     
     class_type.new = function(...)    -- 以这个表为元表，生成一个新的表
         local obj={}
+        
+        -- 生成表后，直接赋值元表为类的 vtbl 表，这样 ctor 中就可以使用类的 vtbl 中的数据了
+        setmetatable(obj, { __index = _class[class_type] })     -- 设置新表的元表为父类表的 vtbl 虚函数表，注意不是类自己
+        
         do
             local create              -- 调用类的创建函数
             create = function(c, ...)
@@ -22,7 +26,7 @@ function class(super)
             create(class_type, ...)
         end
         
-        setmetatable(obj, { __index = _class[class_type] })     -- 设置新表的元表为父类表
+        -- setmetatable(obj, { __index = _class[class_type] })     -- 设置新表的元表为父类表的 vtbl 虚函数表，注意不是类自己
         
         return obj
     end
@@ -30,7 +34,7 @@ function class(super)
     local vtbl = {}
     _class[class_type] = vtbl     -- 几率这个类的虚函数表
    
-   -- 设置当前类的元表为 vtbl 表
+   -- 设置当前类的元表为 vtbl 表，所有向 class() 返回的表中添加数据，都是添加到这个表的 vtbl 表中 
     setmetatable(class_type, {__newindex =
         function(t, k, v)
             vtbl[k]=v       -- 添加一个成员完全是重新生成
@@ -41,7 +45,7 @@ function class(super)
     if super then
         setmetatable(vtbl, {__index =
             function(t, k)
-                local ret = _class[super][k]
+                local ret = _class[super][k] -- 获取 super 类的 vtbl 虚函数表
                 vtbl[k] = ret       -- 读取的时候从父类查找
                 return ret
             end

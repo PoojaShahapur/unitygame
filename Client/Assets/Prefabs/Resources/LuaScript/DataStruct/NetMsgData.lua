@@ -1,5 +1,7 @@
 -- 各种需要的 ByteBuffer
 
+package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources")
+
 require('LuaScript/DataStruct/ByteBuffer')
  
 NetMsgData = ByteBuffer.new()
@@ -21,3 +23,7 @@ end
 function NetMsgData:clearFromCS(oneByte)
 	self:clear()
 end
+
+local int16_ = NetMsgData:readInt16()
+
+local aaa = 10
