@@ -20,7 +20,7 @@ function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
     self.m_endian = self.ENDIAN_LITTLE -- 自己字节序
     self.m_buff = {}  -- 字节缓冲区
     self.m_position = 0   -- 缓冲区当前位置，注意 Lua 下标是从 1 开始的，不是从 0 开始的。 self.m_buff[0] == nil ，太坑了
-	self.m_size = 0
+    self.m_size = 0
 end
 
 function ByteBuffer:setEndian(endian)
@@ -40,12 +40,12 @@ end
 function ByteBuffer:readInt16()
     local retData = 0
 	
-	self:log("self.m_endian " .. self.m_endian)
-	self:log("self.ENDIAN_BIG " .. self.ENDIAN_BIG)
-	self:log("self.m_position " .. self.m_position)
+    self:log("self.m_endian " .. self.m_endian)
+    self:log("self.ENDIAN_BIG " .. self.ENDIAN_BIG)
+    self:log("self.m_position " .. self.m_position)
 	
-	self:log("string.byte(self.m_buff[self.m_position]) " .. self.m_buff[self.m_position])
-	self:log("string.byte(self.m_buff[self.m_position + 1]) " .. self.m_buff[self.m_position + 1])
+    self:log("string.byte(self.m_buff[self.m_position]) " .. self.m_buff[self.m_position])
+    self:log("string.byte(self.m_buff[self.m_position + 1]) " .. self.m_buff[self.m_position + 1])
 	
     if self:canRead(2) then
         if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
@@ -79,16 +79,16 @@ end
 function ByteBuffer:readDouble()
     local retData = 0
 	
-	if self:canRead(8) then
-		local low = 0
-		local heigh = 0
+    if self:canRead(8) then
+		    local low = 0
+		    local heigh = 0
 		
-		if self.m_endian == self.ENDIAN_BIG then
-			heigh = self:readInt32()
-			low = self:readInt32()
-		else
-			low = self:readInt32()
-			heigh = self:readInt32()
+    		if self.m_endian == self.ENDIAN_BIG then
+    		    heigh = self:readInt32()
+    		    low = self:readInt32()
+    		else
+    		    low = self:readInt32()
+            heigh = self:readInt32()
 		end
 		
 		retData = (heigh * 4294967296 + low) / 100
@@ -102,9 +102,9 @@ end
 
 -- 读取 utf-8 字符串
 function ByteBuffer:readMultiByte(len_)
-	 self:log("len_ " .. len_)
-	 self:log("m_position " .. self.m_position)
-	 self:log("m_size " .. self.m_size)
+    self:log("len_ " .. len_)
+    self:log("m_position " .. self.m_position)
+    self:log("m_size " .. self.m_size)
 
     local utf8Str
     if self:canRead(len_) then
@@ -132,11 +132,11 @@ function ByteBuffer:readMultiByte(len_)
 end
 
 function ByteBuffer:writeInt8(retData)
-	self:log("writeInt8 " .. retData)
+    self:log("writeInt8 " .. retData)
 	
     self.m_buff[self.m_position] = retData
 	
-	self:log("self.m_buff[self.m_position] " .. self.m_buff[self.m_position])
+    self:log("self.m_buff[self.m_position] " .. self.m_buff[self.m_position])
 	
     self:advPosAndLen(1);
 	
@@ -160,9 +160,9 @@ end
 
 function ByteBuffer:writeInt32(retData)
     local oneByte = retData % 256
-    local twoByte = ((retData % (256 * 256))  - oneByte) / 256
-    local threeByte = ((retData % (256 * 256 * 256)) - twoByte) / (256 * 256)
-    local fourByte = retData / (256 * 256 * 256)
+    local twoByte = math.floor((retData / 256) % 256)
+    local threeByte = math.floor((retData / (256 * 256)) % 256)
+    local fourByte = math.floor(retData / (256 * 256 * 256))
 
     if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
         self.m_buff[self.m_position] = fourByte
@@ -182,15 +182,15 @@ end
 -- 保存双精度浮点数，精度两位小数
 function ByteBuffer:writeDouble(retData)
     local low = (retData * 100) % 4294967296
-	local heigh = (retData * 100) / 4294967296
+    local heigh = math.floor((retData * 100) / 4294967296)
 	
-	if self.m_endian == self.ENDIAN_BIG then
-		self:writeInt32(heigh)
-		self:writeInt32(low)
-	else
-		self:writeInt32(low)
-		self:writeInt32(heigh)
-	end
+	  if self.m_endian == self.ENDIAN_BIG then
+		    self:writeInt32(heigh)
+		    self:writeInt32(low)
+	  else
+		    self:writeInt32(low)
+		    self:writeInt32(heigh)
+	  end
     
     self:advPosAndLen(8);
 end
@@ -244,30 +244,30 @@ function ByteBuffer:length()
         self:log("buff nil")
     end
     self:log("buff len " .. #self.m_buff)
-	self:log("buff len size " .. self.m_size)
+	  self:log("buff len size " .. self.m_size)
     --return #self.m_buff + 1 	-- 这个返回的从 0 开始的索引，需要加 1 才行
-	return self.m_size
+	  return self.m_size
 end
 
 -- 清理数据
 function ByteBuffer:clear()
-	self:log("clear ByteBuffer")
+	  self:log("clear ByteBuffer")
     self.m_buff = {}
     self.m_position = 0
 end
 
 -- 设置读写位置
 function ByteBuffer:setPos(pos_)
-	self.m_position = pos_
+	  self.m_position = pos_
 end
 
 function ByteBuffer:setSize(size_)
-	self.m_size = size_
+    self.m_size = size_
 end
 
 -- 输出缓冲区所有的字节
 function ByteBuffer:dumpAllBytes()
-	self:log("dumpAllBytes " .. self:length())
+    self:log("dumpAllBytes " .. self:length())
     for idx = 0, #(self.m_buff) do
         self:log(tostring(self.m_buff[idx]))
     end
@@ -280,4 +280,46 @@ end
 -- 测试通过 . 获取表中的函数
 function ByteBuffer.tableFunc()
 	
+end
+
+function bytes_to_int(str,endian,signed) -- use length of string to determine 8,16,32,64 bits
+    local t={str:byte(1,-1)}
+    if endian=="big" then --reverse bytes
+        local tt={}
+        for k=1,#t do
+            tt[#t-k+1]=t[k]
+        end
+        t=tt
+    end
+    local n=0
+    for k=1,#t do
+        n=n+t[k]*2^((k-1)*8)
+    end
+    if signed then
+        n = (n > 2^(#t-1) -1) and (n - 2^#t) or n -- if last bit set, negative.
+    end
+    return n
+end
+
+function int_to_bytes(num,endian,signed)
+    if num<0 and not signed then num=-num print"warning, dropping sign from number converting to unsigned" end
+    local res={}
+    local n = math.ceil(select(2,math.frexp(num))/8) -- number of bytes to be used.
+    if signed and num < 0 then
+        num = num + 2^n
+    end
+    for k=n,1,-1 do -- 256 = 2^8 bits per char.
+        local mul=2^(8*(k-1))
+        res[k]=math.floor(num/mul)
+        num=num-res[k]*mul
+    end
+    assert(num==0)
+    if endian == "big" then
+        local t={}
+        for k=1,n do
+            t[k]=res[n-k+1]
+        end
+        res=t
+    end
+    return string.char(unpack(res))
 end
