@@ -9,7 +9,8 @@ namespace SDK.Lib
      */
     public class LuaCSBridgeByteBuffer : LuaCSBridge
     {
-        public const string CLEAR = "clear";
+        public const string CLEAR = "clearFromCS";
+        public const string WRITEINT8 = "writeInt8FromCS";
 
         protected LuaTable m_luaTable;      // LuaTable
 
@@ -17,7 +18,7 @@ namespace SDK.Lib
             // base ("NetMsgData")
             base("ByteBuffer")
         {
-            string path = "LuaScript/DataStruct/GlobalByteBuffer.lua";
+            string path = "LuaScript/DataStruct/NetMsgData.lua";
             Ctx.m_instance.m_luaMgr.DoFile(path);
             m_luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable(m_tableName);
         }
@@ -36,14 +37,14 @@ namespace SDK.Lib
             }
         }
 
-        // writeInt8 函数调用
+        // writeInt8 函数调用，写一个字节到 Lua 表中
         protected void writeInt8ToLua(int oneByte)
         {
-            string funcName = "writeInt8";
+            //string funcName = "writeInt8";
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
-                fullFuncName = m_tableName + "." + funcName;
+                fullFuncName = m_tableName + "." + WRITEINT8;
                 LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable(m_tableName);
 
                 IntPtr L = Ctx.m_instance.m_luaMgr.lua.L;
@@ -60,7 +61,7 @@ namespace SDK.Lib
                     return;
                 }
                 // 获取函数
-                LuaDLL.lua_pushstring(L, funcName);
+                LuaDLL.lua_pushstring(L, WRITEINT8);
                 LuaDLL.lua_rawget(L, -2);
                 type = LuaDLL.lua_type(L, -1);
                 if (type != LuaTypes.LUA_TFUNCTION)
