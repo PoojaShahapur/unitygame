@@ -20,6 +20,7 @@ function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
     self.m_endian = self.ENDIAN_LITTLE -- 自己字节序
     self.m_buff = {}  -- 字节缓冲区
     self.m_position = 0   -- 缓冲区当前位置，注意 Lua 下标是从 1 开始的，不是从 0 开始的。 self.m_buff[0] == nil ，太坑了
+	self.m_size = 0
 end
 
 function ByteBuffer:setEndian(endian)
@@ -49,10 +50,8 @@ function ByteBuffer:readInt16()
     if self:canRead(2) then
         if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
             retData = self.m_buff[self.m_position] * 256 + self.m_buff[self.m_position + 1]
-			self:log("1111 ")
         else
             retData = self.m_buff[self.m_position + 1] * 256 + self.m_buff[self.m_position]
-			self:log("2222 ")
         end
         self:advPos(2);
     end
@@ -63,10 +62,13 @@ end
 function ByteBuffer:readInt32()
     local retData = 0
     if self:canRead(4) then
+		self:log("2222 ")
         if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
             retData = self.m_buff[self.m_position] * 256 * 256 * 256 + self.m_buff[self.m_position + 1] * 256 * 256 + self.m_buff[self.m_position + 2] * 256 + self.m_buff[self.m_position + 3]
+			self:log("3333 ")
         else
             retData = self.m_buff[self.m_position + 3] * 256 * 256 * 256 + self.m_buff[self.m_position + 2] * 256 * 256 + self.m_buff[self.m_position + 1] * 256 + self.m_buff[self.m_position]
+			self:log("4444 ")
         end
         self:advPos(4);
     end
@@ -111,12 +113,10 @@ function ByteBuffer:readMultiByte(len)
 end
 
 function ByteBuffer:writeInt8(retData)
-	-- local aaa = retData + 0
 	self:log("writeInt8 " .. retData)
-	-- self:log("writeInt8 data " .. aaa)
+	
     self.m_buff[self.m_position] = retData
 	
-	self:log("retData " .. retData)
 	self:log("self.m_buff[self.m_position] " .. self.m_buff[self.m_position])
 	
     self:advPosAndLen(1);
@@ -225,6 +225,7 @@ end
 
 function ByteBuffer:advPosAndLen(num)
     self.m_position = self.m_position + num;
+	self.m_size = self.m_size + num
 end
 
 -- 判断字节序和系统字节序是否相同
@@ -241,7 +242,9 @@ function ByteBuffer:length()
         self:log("buff nil")
     end
     self:log("buff len " .. #self.m_buff)
-    return #self.m_buff
+	self:log("buff len size " .. self.m_size)
+    --return #self.m_buff + 1 	-- 这个返回的从 0 开始的索引，需要加 1 才行
+	return self.m_size
 end
 
 -- 清理数据
@@ -254,6 +257,10 @@ end
 -- 设置读写位置
 function ByteBuffer:setPos(pos_)
 	self.m_position = pos_
+end
+
+function ByteBuffer:setSize(size_)
+	self.m_size = size_
 end
 
 -- 输出缓冲区所有的字节

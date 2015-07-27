@@ -29,6 +29,10 @@ function NetMsgData:readInt16FromCS()
 	return self:readInt16()
 end
 
+function NetMsgData:readInt32FromCS()
+	return self:readInt32()
+end
+
 function NetMsgData:clearFromCS(oneByte)
 	self:clear()
 end
