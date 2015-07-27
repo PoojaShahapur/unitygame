@@ -103,7 +103,7 @@ end
 function ByteBuffer:writeInt8(retData)
 	local aaa = retData + 0
 	-- self:log("writeInt8" .. retData)
-	self:log("writeInt8" .. aaa)
+	self:log("writeInt8 data " .. aaa)
     self.m_buff[self.m_position] = retData
     self:advPosAndLen(1);
 	
@@ -226,7 +226,7 @@ function ByteBuffer:length()
     if self.m_buff == nil then
         self:log("buff nil")
     end
-    self:log("buff len" .. #self.m_buff)
+    self:log("buff len " .. #self.m_buff)
     return #self.m_buff
 end
 
@@ -239,7 +239,7 @@ end
 
 -- 输出缓冲区所有的字节
 function ByteBuffer:dumpAllBytes()
-	self:log("dumpAllBytes" .. self:length())
+	self:log("dumpAllBytes " .. self:length())
     for idx = 0, #(self.m_buff) do
         self:log(tostring(self.m_buff[idx]))
     end
@@ -250,5 +250,5 @@ function ByteBuffer:log(msg)
 end
 
 function ByteBuffer.tableFunc()
-
+	
 end
