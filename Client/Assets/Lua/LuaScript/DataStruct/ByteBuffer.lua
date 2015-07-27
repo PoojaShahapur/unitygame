@@ -29,7 +29,7 @@ end
 -- 读取一个字节
 function ByteBuffer:readInt8()
     local elem = self.m_buff[self.m_position]
-    local retData = string.byte(elem)
+    local retData = elem
     self:advPos(1);
     return retData
 end
@@ -38,11 +38,21 @@ end
 -- 读取两个字节
 function ByteBuffer:readInt16()
     local retData = 0
+	
+	self:log("self.m_endian " .. self.m_endian)
+	self:log("self.ENDIAN_BIG " .. self.ENDIAN_BIG)
+	self:log("self.m_position " .. self.m_position)
+	
+	self:log("string.byte(self.m_buff[self.m_position]) " .. self.m_buff[self.m_position])
+	self:log("string.byte(self.m_buff[self.m_position + 1]) " .. self.m_buff[self.m_position + 1])
+	
     if self:canRead(2) then
         if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
-            retData = string.byte(self.m_buff[self.m_position]) * 256 + string.byte(self.m_buff[self.m_position + 1])
+            retData = self.m_buff[self.m_position] * 256 + self.m_buff[self.m_position + 1]
+			self:log("1111 ")
         else
-            retData = string.byte(self.m_buff[self.m_position + 1]) * 256 + string.byte(self.m_buff[self.m_position])
+            retData = self.m_buff[self.m_position + 1] * 256 + self.m_buff[self.m_position]
+			self:log("2222 ")
         end
         self:advPos(2);
     end
@@ -54,9 +64,9 @@ function ByteBuffer:readInt32()
     local retData = 0
     if self:canRead(4) then
         if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
-            retData = string.byte(self.m_buff[self.m_position]) * 256 * 256 * 256 + string.byte(self.m_buff[self.m_position + 1]) * 256 * 256 + string.byte(self.m_buff[self.m_position + 2]) * 256 + string.byte(self.m_buff[self.m_position + 3])
+            retData = self.m_buff[self.m_position] * 256 * 256 * 256 + self.m_buff[self.m_position + 1] * 256 * 256 + self.m_buff[self.m_position + 2] * 256 + self.m_buff[self.m_position + 3]
         else
-            retData = string.byte(self.m_buff[self.m_position + 3]) * 256 * 256 * 256 + string.byte(self.m_buff[self.m_position + 2]) * 256 * 256 + string.byte(self.m_buff[self.m_position + 1]) * 256 + string.byte(self.m_buff[self.m_position])
+            retData = self.m_buff[self.m_position + 3] * 256 * 256 * 256 + self.m_buff[self.m_position + 2] * 256 * 256 + self.m_buff[self.m_position + 1] * 256 + self.m_buff[self.m_position]
         end
         self:advPos(4);
     end
@@ -105,6 +115,10 @@ function ByteBuffer:writeInt8(retData)
 	self:log("writeInt8 " .. retData)
 	-- self:log("writeInt8 data " .. aaa)
     self.m_buff[self.m_position] = retData
+	
+	self:log("retData " .. retData)
+	self:log("self.m_buff[self.m_position] " .. self.m_buff[self.m_position])
+	
     self:advPosAndLen(1);
 	
 	return retData
@@ -187,8 +201,8 @@ function ByteBuffer:writeMultiByte(value)
         do
             buffIdx = self.m_position + idx - 1
             subStr = string.sub(value, idx, idx)
-            byte = string.byte(subStr)
-            self.m_buff[buffIdx] = byte
+            oneByte = string.byte(subStr)
+            self.m_buff[buffIdx] = oneByte
             idx = idx + 1
         end
     end
@@ -215,7 +229,7 @@ end
 
 -- 判断字节序和系统字节序是否相同
 function ByteBuffer:isEqualEndian()
-    return self.m_endian == ByteBuffer.m_sysEndian
+    return self.m_endian == self.m_sysEndian
 end
 
 -- 获取长度
