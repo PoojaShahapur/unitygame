@@ -93,20 +93,31 @@ function ByteBuffer:readNumber()
 end
 
 -- 读取 utf-8 字符串
-function ByteBuffer:readMultiByte(len)
-    if self:canRead(len) then
-        local utf8Str
-        idx = 1
-        while(idx <= len)
+function ByteBuffer:readMultiByte(len_)
+	 self:log("len_ " .. len_)
+	 self:log("m_position " .. self.m_position)
+	 self:log("m_size " .. self.m_size)
+
+    local utf8Str
+    if self:canRead(len_) then
+        idx = 0
+		
+		    self:log("aaaaaaaaa")
+		
+        while(idx < len_)
         do
             if utf8Str == nil then
-                utf8Str = string.char(self.m_buff[self.m_position + idx - 1])
+                utf8Str = string.char(self.m_buff[self.m_position + idx])
+				        self:log("bbbbbbbbbbbb")
             else
-                utf8Str = utf8Str .. string.char(self.m_buff[self.m_position + idx - 1])
-            end 
+                utf8Str = utf8Str .. string.char(self.m_buff[self.m_position + idx])
+				        self:log("fffffffffff")
+            end
+            
+            idx = idx + 1
         end
         
-        self:advPos(len);
+        self:advPos(len_);
     end
     
     return utf8Str
@@ -272,7 +283,7 @@ function ByteBuffer:dumpAllBytes()
 end
 
 function ByteBuffer:log(msg)
-    SDK.Lib.TestStaticHandle.log(msg)
+    --SDK.Lib.TestStaticHandle.log(msg)
 end
 
 -- 测试通过 . 获取表中的函数
