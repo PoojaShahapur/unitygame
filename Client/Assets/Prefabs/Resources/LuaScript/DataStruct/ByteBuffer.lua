@@ -282,7 +282,15 @@ function ByteBuffer.tableFunc()
 	
 end
 
-function bytes_to_int(str,endian,signed) -- use length of string to determine 8,16,32,64 bits
+--------------------------------------------------------------------------------------------
+require 'struct'
+-- convert character codes to a Lua string - this may come from your source
+local str = string.char(0x00, 0x1d, 0xff, 0x23, 0x44, 0x32)
+-- format string: < = little endian, In = unsigned int (n bytes)
+local u16, u32 = struct.unpack('<I2I4', str)
+print(u16, u32) --> 7424    843326463
+---------------------------------------------------------------------------------------------
+function ByteBuffer:bytes_to_int(str,endian,signed) -- use length of string to determine 8,16,32,64 bits
     local t={str:byte(1,-1)}
     if endian=="big" then --reverse bytes
         local tt={}
@@ -301,7 +309,7 @@ function bytes_to_int(str,endian,signed) -- use length of string to determine 8,
     return n
 end
 
-function int_to_bytes(num,endian,signed)
+function ByteBuffer:int_to_bytes(num,endian,signed)
     if num<0 and not signed then num=-num print"warning, dropping sign from number converting to unsigned" end
     local res={}
     local n = math.ceil(select(2,math.frexp(num))/8) -- number of bytes to be used.
