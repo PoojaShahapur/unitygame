@@ -76,18 +76,26 @@ function ByteBuffer:readInt32()
     return retData
 end
 
-function ByteBuffer:readNumber()
+function ByteBuffer:readDouble()
     local retData = 0
-    if self:canRead(8) then
-        if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
-            local str = self.m_buff[self.m_position] .. self.m_buff[self.m_position + 1] .. self.m_buff[self.m_position + 2] .. self.m_buff[self.m_position + 3] .. self.m_buff[self.m_position + 4] .. self.m_buff[self.m_position + 5] .. self.m_buff[self.m_position + 6] .. self.m_buff[self.m_position + 7]
-        else
-            local str = self.m_buff[self.m_position + 7] .. self.m_buff[self.m_position + 6] .. self.m_buff[self.m_position + 5] .. self.m_buff[self.m_position + 4] .. self.m_buff[self.m_position + 3] .. self.m_buff[self.m_position + 2] .. self.m_buff[self.m_position + 1] .. self.m_buff[self.m_position]
-        end
-
-        retData = tonumber(str)        
-        self:advPos(8);
-    end
+	
+	if self:canRead(8) then
+		local low = 0
+		local heigh = 0
+		
+		if self.m_endian == self.ENDIAN_BIG then
+			heigh = self:readInt32()
+			low = self:readInt32()
+		else
+			low = self:readInt32()
+			heigh = self:readInt32()
+		end
+		
+		retData = (heigh * 4294967296 + low) / 100
+		
+		self:advPos(8);
+	
+	end
     
     return retData
 end
@@ -152,8 +160,8 @@ end
 
 function ByteBuffer:writeInt32(retData)
     local oneByte = retData % 256
-    local twoByte = retData / 256 % 256
-    local threeByte = retData / (256 * 256) % 256
+    local twoByte = ((retData % (256 * 256))  - oneByte) / 256
+    local threeByte = ((retData % (256 * 256 * 256)) - twoByte) / (256 * 256)
     local fourByte = retData / (256 * 256 * 256)
 
     if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
@@ -171,35 +179,18 @@ function ByteBuffer:writeInt32(retData)
     self:advPosAndLen(4);
 end
 
-function ByteBuffer:writeNumber(retData)
-    str = tostrng(retData)
-    len = string.len(str)
-    idx = 1
-    if self.m_endian == self.ENDIAN_BIG then-- 如果是小端字节序
-        while( idx <= 8 )
-        do
-            self.m_buff[self.m_position + idx - 1] = string.byte(str, idx)
-            idx = idx + 1
-        end
-        
-        while( idx <= 8 )
-        do
-            self.m_buff[self.m_position + idx - 1] = 0
-            idx = idx + 1
-        end
-    else
-        while( idx < 8 )
-        do
-            self.m_buff[self.m_position + idx - 1] = string.byte(str, len - idx)
-            idx = idx + 1
-        end
-        
-        while( idx < 8 )
-        do
-            self.m_buff[self.m_position + idx - 1] = 0
-            idx = idx + 1
-        end
-    end
+-- 保存双精度浮点数，精度两位小数
+function ByteBuffer:writeDouble(retData)
+    local low = (retData * 100) % 4294967296
+	local heigh = (retData * 100) / 4294967296
+	
+	if self.m_endian == self.ENDIAN_BIG then
+		self:writeInt32(heigh)
+		self:writeInt32(low)
+	else
+		self:writeInt32(low)
+		self:writeInt32(heigh)
+	end
     
     self:advPosAndLen(8);
 end

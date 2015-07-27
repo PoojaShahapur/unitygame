@@ -43,7 +43,20 @@ function NetMsgData:clearFromCS(oneByte)
 	self:clear()
 end
 
-NetMsgData:writeMultiByte("asdfasdf")
+--NetMsgData:writeMultiByte("asdfasdf")
+--NetMsgData:setPos(0)
+--local bbbb = NetMsgData:readMultiByte(8)
+--local sssss = 10
+
+--[[
+NetMsgData:writeDouble(12.89)
 NetMsgData:setPos(0)
-local bbbb = NetMsgData:readMultiByte(8)
-local sssss = 10
+local double_ = NetMsgData:readDouble()
+local asdf = 10
+]]
+
+NetMsgData:writeInt32(1289)
+NetMsgData:setPos(0)
+local int32_ = NetMsgData:readInt32()
+
+local aaa = 10
