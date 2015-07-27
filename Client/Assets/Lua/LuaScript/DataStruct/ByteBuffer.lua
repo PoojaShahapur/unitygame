@@ -1,6 +1,7 @@
 --[[字节缓冲区]]
 require('LuaScript/DataStruct/Class')
 
+--ByteBuffer = {}
 ByteBuffer = class()    -- 定义一个类，必须从返回的类中添加成员
 
 -- 只读属性，所有的类共享一份
@@ -18,7 +19,7 @@ function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
     -- 一定要重新赋值不共享的数据成员，否则会直接从父类表中获取同名字的成员
     self.m_endian = ByteBuffer.ENDIAN_LITTLE -- 自己字节序
     self.m_buff = {}  -- 字节缓冲区
-    self.m_position = 1   -- 缓冲区当前位置，注意 Lua 下表是从 1 开始的，不是从 0 开始的。 self.m_buff[0] == nil ，太坑了
+    self.m_position = 0   -- 缓冲区当前位置，注意 Lua 下标是从 1 开始的，不是从 0 开始的。 self.m_buff[0] == nil ，太坑了，现在使用 Table ，因此不存在这个问题了
 end
 
 function ByteBuffer:setEndian(endian)
@@ -100,8 +101,13 @@ function ByteBuffer:readMultiByte(len)
 end
 
 function ByteBuffer:writeInt8(retData)
+	local aaa = retData + 0
+	-- self:log("writeInt8" .. retData)
+	self:log("writeInt8" .. aaa)
     self.m_buff[self.m_position] = retData
     self:advPosAndLen(1);
+	
+	return retData
 end
 
 function ByteBuffer.writeInt16(retData)
@@ -220,23 +226,29 @@ function ByteBuffer:length()
     if self.m_buff == nil then
         self:log("buff nil")
     end
-    self:log("buff nil")
+    self:log("buff len" .. #self.m_buff)
     return #self.m_buff
 end
 
 -- 清理数据
 function ByteBuffer:clear()
+	self:log("clear ByteBuffer")
     self.m_buff = {}
-    self.m_position = 1
+    self.m_position = 0
 end
 
 -- 输出缓冲区所有的字节
 function ByteBuffer:dumpAllBytes()
-    for idx = 1, #(self.m_buff) do
-        SDK.Lib.TestStaticHandle.log(tostring(self.m_buff[idx]))
+	self:log("dumpAllBytes" .. self:length())
+    for idx = 0, #(self.m_buff) do
+        self:log(tostring(self.m_buff[idx]))
     end
 end
 
 function ByteBuffer:log(msg)
     SDK.Lib.TestStaticHandle.log(msg)
+end
+
+function ByteBuffer.tableFunc()
+
 end

@@ -108,8 +108,10 @@ namespace UnitTestSrc
 
             ba.writeInt16(234);
             ba.writeInt32(567);
-            ba.luaCSBridgeByteBuffer.updateLuaTable(ba);
-            ba.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
+            ba.luaCSBridgeByteBuffer.CallClassMethod("tableFunc");
+            ba.luaCSBridgeByteBuffer.updateLuaByteBuffer(ba);
+            //ba.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
+            ba.luaCSBridgeByteBuffer.CallClassMethod("dumpAllBytes");
         }
     }
 }

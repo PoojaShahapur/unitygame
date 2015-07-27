@@ -3,9 +3,12 @@
 require('LuaScript/DataStruct/ByteBuffer')
  
 NetMsgData = ByteBuffer.new()
+--NetMsgData = {}
 
 -- 输出测试
 function NetMsgData:TestOut()
-    local _int16 = self:readInt16()
+	self:log("TestOut")
+	self:clear()
+    --local _int16 = self:readInt16()
     self:dumpAllBytes()
 end 

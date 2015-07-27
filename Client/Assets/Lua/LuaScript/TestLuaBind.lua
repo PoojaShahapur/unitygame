@@ -22,7 +22,7 @@ testTable.tableFunc = function (i)
 	return a
 end
 
--- 测试调用 CS 函数
--- SDK.Lib.TestStaticHandle.log("aaaaa")
-GlobalLog = SDK.Lib.TestStaticHandle
-GlobalLog.log("aaaaa")
+-- 测试调用 CS 函数，全路径和非全路径都可以
+SDK.Lib.TestStaticHandle.log("aaaaa")
+-- GlobalLog = SDK.Lib.TestStaticHandle
+-- GlobalLog.log("aaaaa")
