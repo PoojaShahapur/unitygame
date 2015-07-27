@@ -101,9 +101,9 @@ function ByteBuffer:readMultiByte(len)
 end
 
 function ByteBuffer:writeInt8(retData)
-	local aaa = retData + 0
-	-- self:log("writeInt8" .. retData)
-	self:log("writeInt8 data " .. aaa)
+	-- local aaa = retData + 0
+	self:log("writeInt8 " .. retData)
+	-- self:log("writeInt8 data " .. aaa)
     self.m_buff[self.m_position] = retData
     self:advPosAndLen(1);
 	
@@ -237,6 +237,11 @@ function ByteBuffer:clear()
     self.m_position = 0
 end
 
+-- 设置读写位置
+function ByteBuffer:setPos(pos_)
+	self.m_position = pos_
+end
+
 -- 输出缓冲区所有的字节
 function ByteBuffer:dumpAllBytes()
 	self:log("dumpAllBytes " .. self:length())
@@ -249,6 +254,7 @@ function ByteBuffer:log(msg)
     SDK.Lib.TestStaticHandle.log(msg)
 end
 
+-- 测试通过 . 获取表中的函数
 function ByteBuffer.tableFunc()
 	
 end

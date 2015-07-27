@@ -112,6 +112,9 @@ namespace UnitTestSrc
             ba.luaCSBridgeByteBuffer.updateLuaByteBuffer(ba);
             ba.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
             //ba.luaCSBridgeByteBuffer.CallClassMethod("dumpAllBytes");
+
+            object _int16 = ba.luaCSBridgeByteBuffer.CallClassMethod("readInt16FromCS");
+            int aaa = 0;
         }
     }
 }
