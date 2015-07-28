@@ -15,6 +15,7 @@ ByteBuffer.m_sysEndian = ByteBuffer.ENDIAN_LITTLE -- 系统字节序
 
 -- local self = ByteBuffer   -- 局部引用
 
+-- ByteBuffer 表中的所有的成员都是添加到 vtbl 这个表中的，如果从外部通过压栈的方式访问，这个时候是不能访问到函数的，因为根本不在 ByteBuffer 这个表，而在 vtbl 这个表 
 -- 设置系统字节序
 function ByteBuffer:setSysEndian(endian_)
     self.m_sysEndian = endian_
