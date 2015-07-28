@@ -4,7 +4,7 @@ local _class={}     -- 保存定义的所有的类
 function class(super)
     local class_type = {}       -- 返回的类表
     class_type.ctor = false     -- 构造构造函数默认是没有的
-    class_type.super = super    -- 设置父类表
+    class_type.super = super    -- 设置父类表，可以通过 super 这个字段访问父类
     
     class_type.new = function(...)    -- 以这个表为元表，生成一个新的表
         local obj={}
@@ -33,12 +33,14 @@ function class(super)
     
     local vtbl = {}
     _class[class_type] = vtbl     -- 几率这个类的虚函数表
-   
+
+   -- 类也可以查找自己的数据成员和成员函数
    -- 设置当前类的元表为 vtbl 表，所有向 class() 返回的表中添加数据，都是添加到这个表的 vtbl 表中 
     setmetatable(class_type, {__newindex =
         function(t, k, v)
             vtbl[k]=v       -- 添加一个成员完全是重新生成
         end
+    , __index = vtbl
     })
    
    -- 如果父类表存在，设置 vtbl 表的元表为父类表

@@ -15,6 +15,11 @@ ByteBuffer.m_sysEndian = ByteBuffer.ENDIAN_LITTLE -- 系统字节序
 
 -- local self = ByteBuffer   -- 局部引用
 
+-- 设置系统字节序
+function ByteBuffer:setSysEndian(endian_)
+    self.m_sysEndian = endian_
+end
+
 function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
     -- 一定要重新赋值不共享的数据成员，否则会直接从父类表中获取同名字的成员
     self.m_endian = self.ENDIAN_LITTLE -- 自己字节序
@@ -70,7 +75,7 @@ end
 
 -- 清理数据
 function ByteBuffer:clear()
-	  self:log("clear ByteBuffer")
+	self:log("clear ByteBuffer")
     self.m_buff = {}
     self.m_position = 0
 end
@@ -80,6 +85,13 @@ function ByteBuffer:isEqualEndian()
     return self.m_endian == self.m_sysEndian
 end
 
+--[[
+(retData > 2^(bitsLen-1) -1) and (retData - 2^bitsLen) or retData 解释
+(retData > 2^(bitsLen-1) -1) 判断最高位是不是 1 ，如果是 1 ，就是负数
+(retData - 2^bitsLen) 负数的补码，就是原码除符号位外按位取反 + 1 注意是除符号位
+or retData 就是保证如果 (retData > 2^(bitsLen-1) -1) 判断后是整数，就返回 or retData 中的 retData
+
+]]
 -- 读取一个字节
 function ByteBuffer:readInt8()
     local retData = self:readUnsignedInt8()
@@ -372,10 +384,12 @@ function ByteBuffer:dumpAllBytes()
     for idx = 0, #(self.m_buff) do
         self:log(tostring(self.m_buff[idx]))
     end
+    
+    self:log("self.m_sysEndian " .. self.m_sysEndian)
 end
 
 function ByteBuffer:log(msg)
-    SDK.Lib.TestStaticHandle.log(msg)
+    --SDK.Lib.TestStaticHandle.log(msg)
 end
 
 -- 测试通过 . 获取表中的函数
