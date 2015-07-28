@@ -7,6 +7,7 @@ require('LuaScript/DataStruct/ByteBuffer')
 NetMsgData = ByteBuffer.new()
 --NetMsgData = {}
 
+--ByteBuffer:setSysEndian(23)
 -- 输出测试
 function NetMsgData:TestOut()
     self:log("TestOut")
@@ -16,7 +17,7 @@ function NetMsgData:TestOut()
     self:dumpAllBytes()
 end
 
-NetMsgData:TestOut()
+--NetMsgData:TestOut()
 
 -- 给 C# 提供接口，因为 C# 中通过堆栈获取 Lua 函数，如果这个函数是通过元表指定的，是获取不到的，必须自己手工添加到表中的才能获取到
 function NetMsgData:writeInt8FromCS(oneByte)
@@ -53,12 +54,13 @@ local bbbb = NetMsgData:readMultiByte(8)
 local sssss = 10
 ]]
 
-
+--[[
 -- 测试 double
 NetMsgData:writeDouble(1245698.89)
 NetMsgData:setPos(0)
 local double_ = NetMsgData:readDouble()
 local asdf = 10
+]]
 
 -- 测试 int32
 --[[
