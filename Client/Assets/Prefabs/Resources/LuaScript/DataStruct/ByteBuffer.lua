@@ -21,6 +21,7 @@ function ByteBuffer:setSysEndian(endian_)
     self.m_sysEndian = endian_
 end
 
+-- c.ctor(obj, ...) 构造函数第一个参数 obj 变成 self
 function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
     -- 一定要重新赋值不共享的数据成员，否则会直接从父类表中获取同名字的成员
     self.m_endian = self.ENDIAN_LITTLE -- 自己字节序
