@@ -7,6 +7,7 @@ require('LuaScript/DataStruct/ByteBuffer')
 NetMsgData = ByteBuffer.new()
 --NetMsgData = {}
 
+ByteBuffer:setSysEndian(23)
 -- 输出测试
 function NetMsgData:TestOut()
     self:log("TestOut")
