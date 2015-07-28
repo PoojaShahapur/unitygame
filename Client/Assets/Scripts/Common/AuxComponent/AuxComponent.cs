@@ -12,9 +12,11 @@ namespace SDK.Common
         protected GameObject m_pntGo;       // 指向父节点
         protected GameObject m_placeHolderGo;      // 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
         protected bool m_bNeedPlaceHolderGo;    // 是否需要占位 GameObject
+        protected LuaCSBridge m_luaCSBridge;
 
-        public AuxComponent()
+        public AuxComponent(LuaCSBridge luaCSBridge_ = null)
         {
+            m_luaCSBridge = luaCSBridge_;
             m_bNeedPlaceHolderGo = false;
         }
 
