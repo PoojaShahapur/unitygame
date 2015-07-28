@@ -22,6 +22,8 @@ namespace SDK.Lib
             string path = "LuaScript/DataStruct/NetMsgData.lua";
             Ctx.m_instance.m_luaMgr.DoFile(path);
             m_luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable(m_tableName);
+            // 设置系统字节序
+            setSysEndian((int)SystemEndian.m_sEndian);
         }
 
         // 更新 Lua 中表的数据
@@ -37,7 +39,7 @@ namespace SDK.Lib
                 //writeInt8ToLua(m_tableName, WRITEINT8, ba.dynBuff.buff[idx]);
             }
 
-            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, ba.dynBuff.buff, ba.dynBuff.size);
+            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, ba.dynBuff.buff, (int)ba.dynBuff.size);
         }
 
         // writeInt8 函数调用，写一个字节到 Lua 表中
@@ -103,7 +105,7 @@ namespace SDK.Lib
         }
 
         // 直接写一个 byte[] 数组到 Lua
-        protected void writeByteArrToLua(string tableName_, string funcName_, byte[] bytes, uint size_)
+        protected void writeByteArrToLua(string tableName_, string funcName_, byte[] bytes, int size_)
         {
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(tableName_))  // 如果在 _G 表中
@@ -142,7 +144,7 @@ namespace SDK.Lib
                     return;
                 }
                 // 放一个字节数组
-                LuaDLL.lua_pushlstring(L, bytes, (int)size_);
+                LuaDLL.lua_pushlstring(L, bytes, size_);
                 type = LuaDLL.lua_type(L, -1);
                 if (type != LuaTypes.LUA_TSTRING)
                 {

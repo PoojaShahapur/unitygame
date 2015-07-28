@@ -5,8 +5,8 @@ require('LuaScript/DataStruct/Class')
 ByteBuffer = class()    -- 定义一个类，必须从返回的类中添加成员
 
 -- 只读属性，所有的类共享一份，所有这里定义的属性都放在类的 vtbl 表中，不是放在类自己表中
-ByteBuffer.ENDIAN_LITTLE = 0    -- 小端字节序是 0
-ByteBuffer.ENDIAN_BIG = 1       -- 大端字节序是 0
+ByteBuffer.ENDIAN_BIG = 0       -- 大端字节序是 0
+ByteBuffer.ENDIAN_LITTLE = 1    -- 小端字节序是 1
 -- ByteBuffer.m_endian = ByteBuffer.ENDIAN_LITTLE -- 自己字节序
 ByteBuffer.m_sysEndian = ByteBuffer.ENDIAN_LITTLE -- 系统字节序
 
@@ -70,9 +70,9 @@ function ByteBuffer:length()
         self:log("buff nil")
     end
     self:log("buff len " .. #self.m_buff)
-	  self:log("buff len size " .. self.m_size)
+	self:log("buff len size " .. self.m_size)
     --return #self.m_buff + 1 	-- 这个返回的从 0 开始的索引，需要加 1 才行
-	  return self.m_size
+	return self.m_size
 end
 
 -- 清理数据
