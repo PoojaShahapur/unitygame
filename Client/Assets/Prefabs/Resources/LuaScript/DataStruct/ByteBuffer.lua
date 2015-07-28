@@ -282,6 +282,8 @@ function ByteBuffer.tableFunc()
 	
 end
 
+-- 类似实现如下功能
+--[[
 --------------------------------------------------------------------------------------------
 require 'struct'
 -- convert character codes to a Lua string - this may come from your source
@@ -290,6 +292,7 @@ local str = string.char(0x00, 0x1d, 0xff, 0x23, 0x44, 0x32)
 local u16, u32 = struct.unpack('<I2I4', str)
 print(u16, u32) --> 7424    843326463
 ---------------------------------------------------------------------------------------------
+]]
 function ByteBuffer:bytes_to_int(str,endian,signed) -- use length of string to determine 8,16,32,64 bits
     local t={str:byte(1,-1)}
     if endian=="big" then --reverse bytes
