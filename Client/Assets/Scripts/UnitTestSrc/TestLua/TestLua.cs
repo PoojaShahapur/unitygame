@@ -106,14 +106,17 @@ namespace UnitTestSrc
             ByteBuffer ba = new ByteBuffer();
             ba.luaCSBridgeByteBuffer = new LuaCSBridgeByteBuffer();
 
-            ba.writeInt16(234);
-            ba.writeInt32(567);
+            ba.writeInt16(257);
+            ba.writeInt32(2147483647);
+            ba.writeMultiByte("asdfasdf", GkEncode.UTF8, 8);
             //ba.luaCSBridgeByteBuffer.CallClassMethod("tableFunc");
             ba.luaCSBridgeByteBuffer.updateLuaByteBuffer(ba);
             ba.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
             //ba.luaCSBridgeByteBuffer.CallClassMethod("dumpAllBytes");
 
             object _int16 = ba.luaCSBridgeByteBuffer.CallClassMethod("readInt16FromCS");
+            object _int32 = ba.luaCSBridgeByteBuffer.CallClassMethod("readInt32FromCS");
+            object _str = ba.luaCSBridgeByteBuffer.CallClassMethod("readMultiByteFromCS");
             int aaa = 0;
         }
     }
