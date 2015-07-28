@@ -70,7 +70,7 @@ end
 
 -- 清理数据
 function ByteBuffer:clear()
-	  self:log("clear ByteBuffer")
+	self:log("clear ByteBuffer")
     self.m_buff = {}
     self.m_position = 0
 end
@@ -80,6 +80,13 @@ function ByteBuffer:isEqualEndian()
     return self.m_endian == self.m_sysEndian
 end
 
+--[[
+(retData > 2^(bitsLen-1) -1) and (retData - 2^bitsLen) or retData 解释
+(retData > 2^(bitsLen-1) -1) 判断最高位是不是 1 ，如果是 1 ，就是负数
+(retData - 2^bitsLen) 负数的补码，就是原码除符号位外按位取反 + 1 注意是除符号位
+or retData 就是保证如果 (retData > 2^(bitsLen-1) -1) 判断后是整数，就返回 or retData 中的 retData
+
+]]
 -- 读取一个字节
 function ByteBuffer:readInt8()
     local retData = self:readUnsignedInt8()
