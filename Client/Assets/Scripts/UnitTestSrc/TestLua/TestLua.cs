@@ -18,9 +18,10 @@ namespace UnitTestSrc
             //testLoadLuaFile();
             //testLocalLua();
             //testLuaBindFile();
-            testLuaByteBuffer();
+            //testLuaByteBuffer();
             //testLuaByteBufferNeg();
             //testSysEndian();
+            testGet_GTable();
         }
 
         protected void testLua()
@@ -158,6 +159,11 @@ namespace UnitTestSrc
 
             object _int32Neg = ba.luaCSBridgeByteBuffer.CallClassMethod("readInt32FromCS");
             int aaa = 0;
+        }
+
+        protected void testGet_GTable()
+        {
+            LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable("_G");
         }
     }
 }
