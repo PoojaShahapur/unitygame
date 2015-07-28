@@ -120,7 +120,6 @@ end
 
 function ByteBuffer:readUnsignedInt16()
     local retData = 0
-    local bitsLen = 16
 	
     self:log("self.m_endian " .. self.m_endian)
     self:log("self.ENDIAN_BIG " .. self.ENDIAN_BIG)
@@ -137,9 +136,7 @@ function ByteBuffer:readUnsignedInt16()
         end
         self:advPos(2);
     end
-    
-    retData = (retData > 2^(bitsLen-1) -1) and (retData - 2^bitsLen) or retData
-    
+
     return retData
 end
 
