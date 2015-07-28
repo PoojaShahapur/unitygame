@@ -24,6 +24,10 @@ function NetMsgData:writeInt8FromCS(oneByte)
     self:writeInt8(oneByte)
 end
 
+function NetMsgData:writeMultiByteFromCS(bytes)
+    self:writeMultiByte(bytes)
+end
+
 function NetMsgData:readInt8FromCS()
     return self:readInt8()
 end
@@ -70,3 +74,9 @@ local int32_ = NetMsgData:readInt32()
 
 local aaa = 10
 ]]
+
+-- 测试 byte ，string.byte 必然将内容作为字符串，比如数字 123，它就把它作为字符串"123"
+local tbl = {}
+tbl[0] = 12345
+local bt = string.byte(tbl[0])
+local aaa = 145
