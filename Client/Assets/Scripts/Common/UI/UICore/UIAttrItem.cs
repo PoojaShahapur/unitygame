@@ -12,6 +12,10 @@ namespace SDK.Common
         public UILayerID m_LayerID;             // 所在的 Layer
         public byte m_uiSceneType;              // 场景类型列表
 
+        public bool m_bNeedLua;
+        public string m_luaScriptPath;
+        public string m_luaScriptTableName;
+
         public void addUISceneType(UISceneType sceneType)
         {
             UtilMath.setState((int)sceneType, ref m_uiSceneType);

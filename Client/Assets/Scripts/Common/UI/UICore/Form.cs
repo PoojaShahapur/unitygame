@@ -105,6 +105,18 @@ namespace SDK.Common
             }
         }
 
+        public LuaCSBridgeForm luaCSBridgeForm
+        {
+            get
+            {
+                return m_luaCSBridgeForm;
+            }
+            set
+            {
+                m_luaCSBridgeForm = value;
+            }
+        }
+
         public void init()
         {
             onInit();

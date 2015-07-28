@@ -24,7 +24,7 @@ namespace SDK.Lib
             m_tableName = tableName;
         }
 
-        virtual protected void init()
+        virtual public void init()
         {
             
         }

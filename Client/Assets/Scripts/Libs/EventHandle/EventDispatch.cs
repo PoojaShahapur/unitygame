@@ -10,11 +10,14 @@ namespace SDK.Lib
      */
     public class EventDispatch : DelayHandleMgrBase
     {
+        protected int m_eventId;
         protected MList<EventDispatchFunctionObject> m_handleList;
         protected int m_uniqueId;       // 唯一 Id ，调试使用
+        protected LuaCSBridgeDispatch m_luaCSBridgeDispatch;
 
-        public EventDispatch()
+        public EventDispatch(int eventId_ = 0)
         {
+            m_eventId = eventId_;
             m_handleList = new MList<EventDispatchFunctionObject>();
         }
 
@@ -36,6 +39,18 @@ namespace SDK.Lib
             {
                 m_uniqueId = value;
                 m_handleList.uniqueId = m_uniqueId;
+            }
+        }
+
+        public LuaCSBridgeDispatch luaCSBridgeDispatch
+        {
+            get
+            {
+                return m_luaCSBridgeDispatch;
+            }
+            set
+            {
+                m_luaCSBridgeDispatch = value;
             }
         }
 
@@ -114,6 +129,11 @@ namespace SDK.Lib
                     {
                         handle.m_handle(dispatchObject);
                     }
+                }
+
+                if (m_luaCSBridgeDispatch != null)
+                {
+                    m_luaCSBridgeDispatch.handleGlobalEvent(m_eventId, dispatchObject);
                 }
 
                 decDepth();

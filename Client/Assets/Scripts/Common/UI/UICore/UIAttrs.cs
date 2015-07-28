@@ -42,6 +42,10 @@ namespace SDK.Common
             m_dicAttr[UIFormID.eUIPack].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIPack", "UIPack", ".prefab");
             m_dicAttr[UIFormID.eUIPack].m_scriptTypeName = "Game.UI.UIPack";
 
+            m_dicAttr[UIFormID.eUIPack].m_bNeedLua = false;
+            m_dicAttr[UIFormID.eUIPack].m_luaScriptPath = "LuaScript/UI/UIPack/UIPack.lua";
+            m_dicAttr[UIFormID.eUIPack].m_luaScriptTableName = "UIPack";
+
             m_dicAttr[UIFormID.eUILogin] = new UIAttrItem();
             m_dicAttr[UIFormID.eUILogin].m_canvasID = UICanvasID.eCanvas_100;
             m_dicAttr[UIFormID.eUILogin].m_LayerID = UILayerID.eSecondLayer;

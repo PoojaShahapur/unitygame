@@ -224,10 +224,24 @@ namespace SDK.Common
             {
                 // 创建窗口
                 Form form = null;
-                form = Ctx.m_instance.m_scriptDynLoad.getScriptObject(attrItem.m_scriptTypeName) as Form;
+                if (attrItem.m_bNeedLua)
+                {
+                    form = new Form();
+                }
+                else
+                {
+                    form = Ctx.m_instance.m_scriptDynLoad.getScriptObject(attrItem.m_scriptTypeName) as Form;
+                }
+                
                 if (form != null)                   // 如果代码已经在本地
                 {
                     (form as Form).id = ID;
+                    if (attrItem.m_bNeedLua)
+                    {
+                        form.luaCSBridgeForm = new LuaCSBridgeForm(attrItem.m_luaScriptTableName, form);
+                        form.luaCSBridgeForm.DoFile(attrItem.m_luaScriptPath);
+                    }
+
                     addFormNoReady(form);           // 仅仅是创建数据，资源还没有加载完成
                     onCodeLoadedByForm(form);
                 }
@@ -326,6 +340,12 @@ namespace SDK.Common
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
             m_dicForm[ID].bLoadWidgetRes = true;
             m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
+            if (attrItem.m_bNeedLua)
+            {
+                m_dicForm[ID].luaCSBridgeForm.gameObject = m_dicForm[ID].m_GUIWin.m_uiRoot;
+                m_dicForm[ID].luaCSBridgeForm.init();
+            }
+
             // 设置位置
             UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
 

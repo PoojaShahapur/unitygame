@@ -30,7 +30,7 @@ namespace SDK.Lib
             }
         }
 
-        override protected void init()
+        override public void init()
         {
             base.init();
             Ctx.m_instance.m_luaMgr.lua[m_tableName + ".gameObject"] = m_gameObject;
