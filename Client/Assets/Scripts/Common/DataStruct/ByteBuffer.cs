@@ -513,6 +513,7 @@ namespace SDK.Common
             return this;
         }
 
+        // 如果要使用 writeInt8 ，直接使用 writeMultiByte 这个函数
         public void writeUnsignedInt8(byte value)
         {
             if (!canWrite(sizeof(byte)))
