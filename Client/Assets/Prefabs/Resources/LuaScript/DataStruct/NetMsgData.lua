@@ -1,6 +1,6 @@
 -- 各种需要的 ByteBuffer
 
-package.path = string.format("%s;%s/?.lua", package.path, "D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Prefabs/Resources")
+--package.path = string.format("%s;%s/?.lua", package.path, "D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Prefabs/Resources")
 
 require('LuaScript/DataStruct/ByteBuffer')
  
@@ -35,7 +35,7 @@ end
 
 function NetMsgData:readMultiByteFromCS()
     self:log("readMultiByteFromCS")
-    local len_ = 8
+    local len_ = 16
     return self:readMultiByte(len_)
 end
 
