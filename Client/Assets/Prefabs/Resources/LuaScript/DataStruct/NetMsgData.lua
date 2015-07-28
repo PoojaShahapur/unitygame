@@ -1,6 +1,6 @@
 -- 各种需要的 ByteBuffer
 
-package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources")
+package.path = string.format("%s;%s/?.lua", package.path, "D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Prefabs/Resources")
 
 require('LuaScript/DataStruct/ByteBuffer')
  
@@ -43,20 +43,26 @@ function NetMsgData:clearFromCS(oneByte)
 	self:clear()
 end
 
---NetMsgData:writeMultiByte("asdfasdf")
---NetMsgData:setPos(0)
---local bbbb = NetMsgData:readMultiByte(8)
---local sssss = 10
-
+-- 测试字符串
 --[[
-NetMsgData:writeDouble(12.89)
+NetMsgData:writeMultiByte("asdfasdf")
+NetMsgData:setPos(0)
+local bbbb = NetMsgData:readMultiByte(8)
+local sssss = 10
+]]
+
+
+-- 测试 double
+NetMsgData:writeDouble(1245698.89)
 NetMsgData:setPos(0)
 local double_ = NetMsgData:readDouble()
 local asdf = 10
-]]
 
+-- 测试 int32
+--[[
 NetMsgData:writeInt32(1289)
 NetMsgData:setPos(0)
 local int32_ = NetMsgData:readInt32()
 
 local aaa = 10
+]]
