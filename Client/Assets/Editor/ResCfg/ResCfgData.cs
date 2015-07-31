@@ -31,8 +31,7 @@ namespace EditorTool
         }
 
         protected ResCfgData()
-        {
-            
+        {   
             m_targetPlatform = BuildTarget.StandaloneWindows;
         }
 
