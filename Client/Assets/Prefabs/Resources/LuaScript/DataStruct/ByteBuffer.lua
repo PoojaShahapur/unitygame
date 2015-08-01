@@ -5,8 +5,8 @@ require('LuaScript/DataStruct/Class')
 ByteBuffer = class()    -- 定义一个类，必须从返回的类中添加成员
 
 -- 只读属性，所有的类共享一份，所有这里定义的属性都放在类的 vtbl 表中，不是放在类自己表中
-ByteBuffer.ENDIAN_BIG = 0       -- 大端字节序是 0
-ByteBuffer.ENDIAN_LITTLE = 1    -- 小端字节序是 1
+ByteBuffer.ENDIAN_LITTLE = 0    -- 小端字节序是 0
+ByteBuffer.ENDIAN_BIG = 1       -- 大端字节序是 0
 -- ByteBuffer.m_endian = ByteBuffer.ENDIAN_LITTLE -- 自己字节序
 ByteBuffer.m_sysEndian = ByteBuffer.ENDIAN_LITTLE -- 系统字节序
 
@@ -21,7 +21,6 @@ function ByteBuffer:setSysEndian(endian_)
     self.m_sysEndian = endian_
 end
 
--- c.ctor(obj, ...) 构造函数第一个参数 obj 变成 self
 function ByteBuffer:ctor()  -- 定义 ByteBuffer 的构造函数
     -- 一定要重新赋值不共享的数据成员，否则会直接从父类表中获取同名字的成员
     self.m_endian = self.ENDIAN_LITTLE -- 自己字节序
@@ -70,9 +69,9 @@ function ByteBuffer:length()
         self:log("buff nil")
     end
     self:log("buff len " .. #self.m_buff)
-	self:log("buff len size " .. self.m_size)
+	  self:log("buff len size " .. self.m_size)
     --return #self.m_buff + 1 	-- 这个返回的从 0 开始的索引，需要加 1 才行
-	return self.m_size
+	  return self.m_size
 end
 
 -- 清理数据
@@ -120,6 +119,7 @@ end
 
 function ByteBuffer:readUnsignedInt16()
     local retData = 0
+    local bitsLen = 16
 	
     self:log("self.m_endian " .. self.m_endian)
     self:log("self.ENDIAN_BIG " .. self.ENDIAN_BIG)
@@ -136,7 +136,9 @@ function ByteBuffer:readUnsignedInt16()
         end
         self:advPos(2);
     end
-
+    
+    retData = (retData > 2^(bitsLen-1) -1) and (retData - 2^bitsLen) or retData
+    
     return retData
 end
 
