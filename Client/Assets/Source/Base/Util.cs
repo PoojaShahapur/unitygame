@@ -13,9 +13,32 @@ public class Util {
         string path = Application.dataPath + "/";
         string lowerName = name.ToLower();
         if (lowerName.EndsWith(".lua")) {
-            return path + "lua/" + name;
+			if (File.Exists(path + "Prefabs/Resources/" + name))
+			{
+				return path + "Prefabs/Resources/" + name;
+			}
+			else if (File.Exists(path + "Prefabs/Resources/LuaScript/LuaLib/" + name))
+			{
+				return path + "Prefabs/Resources/LuaScript/LuaLib/" + name;
+			}
+			else
+			{
+				return path + "lua/" + name;
+			}
         }
-        return path + "lua/" + name + ".lua";
+        
+		if (File.Exists(path + "Prefabs/Resources/" + name + ".lua"))
+		{
+			return path + "Prefabs/Resources/" + name + ".lua";
+		}
+		else if (File.Exists(path + "Prefabs/Resources/LuaScript/LuaLib/" + name + ".lua"))
+		{
+			return path + "Prefabs/Resources/LuaScript/LuaLib/" + name + ".lua";
+		}
+		else
+		{
+			return path + "lua/" + name + ".lua";
+		}
     }
 
     public static void Log(string str) {
