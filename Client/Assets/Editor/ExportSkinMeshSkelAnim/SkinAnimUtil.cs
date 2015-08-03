@@ -1,6 +1,6 @@
 namespace EditorTool
 {
-    public class ExportSkinAnim
+    public class SkinAnimUtil
     {
 
     }
