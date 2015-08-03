@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!--
   导出蒙皮列表
-	[SubMesh] 的 [part] 是指身体的哪一部分
+  [SubMesh] 的 [part] 是指身体的哪一部分，这个程序识别是模型的哪一个子模型，这样没美术命名可以和程序是用分开，自己命名自己的
   [Root] 标签中的 [outpath] 是指生成 [xml] 文件放在哪个文件夹下
-  [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录
+  [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录，如果没有配置就是用 [Root] 中的 [output]
 -->
-<Root outpath="Prefabs/Being" >
-	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Being" >
+<Root outpath="Prefabs/Resources/Being/MeshSkinCfg" >
+	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" >
 		<SubMesh name="Geo_grp/Unity_Body_Mesh" part="body"/>
 		<SubMesh name="Geo_grp/Lw_Teeth_Mesh" part="lwteeth"/>
 		<SubMesh name="Geo_grp/Tounge_Mesh" part="tounge"/>
