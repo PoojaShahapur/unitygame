@@ -55,7 +55,7 @@ namespace SDK.Lib
 #if UNITY_5
                 // Unity5
                 req = m_bundle.LoadAssetAsync(m_bundlePath);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 // Unity4
                 req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
 #endif

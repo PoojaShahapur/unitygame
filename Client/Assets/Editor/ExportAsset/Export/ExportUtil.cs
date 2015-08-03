@@ -37,7 +37,7 @@ namespace EditorTool
             {
                 BuildPipeline.BuildAssetBundles(param.m_pathName, param.m_assetBundleOptions, param.m_targetPlatform);
             }
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             BuildPipeline.BuildAssetBundle(param.m_mainAsset, param.m_assets, param.m_pathName, param.m_assetBundleOptions, param.m_targetPlatform);
 #endif
         }
@@ -46,7 +46,7 @@ namespace EditorTool
         {
 #if UNITY_5
             BuildPipeline.BuildPlayer(param.m_levels, param.m_locationPath, param.m_target, param.m_options);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             BuildPipeline.BuildStreamedSceneAssetBundle(param.m_levels, param.m_locationPath, param.m_target, param.m_options);
 #endif
         }

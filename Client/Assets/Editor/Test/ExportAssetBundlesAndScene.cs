@@ -42,7 +42,7 @@ public class ExportAssetBundlesAndScene
             buildList[0].assetBundleVariant = "unity3d";
             buildList[0].assetNames = assetNameList.ToArray();
             BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             BuildPipeline.BuildAssetBundle(null, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows);
 #endif
             Selection.objects = selection;
@@ -89,7 +89,7 @@ public class ExportAssetBundlesAndScene
             buildList[0].assetBundleVariant = "unity3d";
             buildList[0].assetNames = assetNameList.ToArray();
             BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             BuildPipeline.BuildAssetBundle(Selection.activeObject, Selection.objects, path, 0, BuildTarget.StandaloneWindows);
 #endif
             //BuildPipeline.BuildAssetBundle(null, Selection.objects, path, 0, BuildTarget.StandaloneWindows);
@@ -193,7 +193,7 @@ public class ExportAssetBundlesAndScene
                     buildList[0].assetBundleVariant = "unity3d";
                     buildList[0].assetNames = levels;
                     BuildPipeline.BuildAssetBundles(path, buildList, 0, BuildTarget.StandaloneWindows);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                     BuildPipeline.BuildStreamedSceneAssetBundle(levels, path, BuildTarget.StandaloneWindows);
 #endif
                 }
@@ -246,7 +246,7 @@ public class ExportAssetBundlesAndScene
                 buildList[0].assetNames = new string[1];
                 buildList[0].assetNames[0] = levels[0];
                 BuildPipeline.BuildAssetBundles(destpath, buildList, 0, BuildTarget.StandaloneWindows);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 BuildPipeline.BuildStreamedSceneAssetBundle(levels, destfilename, BuildTarget.StandaloneWindows);
 #endif
             }

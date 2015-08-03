@@ -19,7 +19,7 @@ namespace SDK.Lib
             transform = gameObject.transform;
 #if UNITY_5
             animation = gameObject.GetComponent<Animation>();
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
         animation = gameObject.animation;
 #endif
             name = gameObject.name;

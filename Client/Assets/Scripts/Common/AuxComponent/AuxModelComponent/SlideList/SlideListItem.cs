@@ -91,7 +91,7 @@ namespace SDK.Common
             GameObject go_ = UtilApi.TransFindChildByPObjAndPath(m_selfGo, "25e9d638.obj");
 #if UNITY_5
 		    go_.GetComponent<Renderer>().material.mainTexture = m_texRes.getTexture();
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             go_.renderer.material.mainTexture = m_texRes.getTexture();
 #endif
         }

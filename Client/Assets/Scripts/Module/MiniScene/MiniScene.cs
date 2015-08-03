@@ -26,7 +26,7 @@ public class MiniScene : MonoBehaviour
 #if UNITY_5
         // Unity5
         UnityEngine.Object bt = bundle.LoadAsset("Assets/Prefabs/Resources/Module/Start");
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
         // Unity4
         UnityEngine.Object bt = bundle.Load("Assets/Prefabs/Resources/Module/Start");
 #endif

@@ -53,7 +53,7 @@ namespace Fight
                 UtilApi.setPos(m_cardItem.transform, new Vector3(-2.12f, 0, 0));
 #if UNITY_5
                 UtilApi.setRot(m_cardItem.transform, Quaternion.Euler(270, 0, 0));
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 UtilApi.setRot(m_cardItem.transform, Quaternion.EulerRotation(270, 0, 0));
 #endif
             }
@@ -76,7 +76,7 @@ namespace Fight
                     UtilApi.setPos(m_cardItem.transform, new Vector3(-2.12f + 1.5f * (1 + idx), 0, 0));
 #if UNITY_5
                     UtilApi.setRot(m_list[idx].transform, Quaternion.Euler(270, 0, 0));
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                     UtilApi.setRot(m_list[idx].transform, Quaternion.EulerRotation(270, 0, 0));
 #endif
                 }

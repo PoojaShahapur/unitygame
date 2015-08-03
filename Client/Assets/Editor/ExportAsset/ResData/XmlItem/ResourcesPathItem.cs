@@ -106,7 +106,7 @@ namespace EditorTool
                     bundleParam.m_buildList[0].assetNames[0] = assetPath;
                     bundleParam.m_targetPlatform = ResExportSys.m_instance.m_targetPlatform;
                     bundleParam.m_pathName = destPath;
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                     bundleParam.m_assets = objList.ToArray();
                     pathList.Clear();
                     pathList.Add(m_skelMeshParam.m_outPath);

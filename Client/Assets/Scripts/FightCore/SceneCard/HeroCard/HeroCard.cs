@@ -73,7 +73,7 @@ namespace FightCore
         {
 #if UNITY_5
             m_render.transform().FindChild("pic").GetComponent<Renderer>().material = m;
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             transform.FindChild("pic").renderer.material = m;
 #endif
         }

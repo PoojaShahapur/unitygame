@@ -687,7 +687,7 @@ public class UICamera : MonoBehaviour
 			//if (trans.GetComponent<UIPanel>() != null) return null;
 #if UNITY_5
 		    Rigidbody rb = trans.GetComponent<Rigidbody>();
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             Rigidbody rb = trans.rigidbody;
 #endif
             if (rb != null) return rb;
@@ -707,7 +707,7 @@ public class UICamera : MonoBehaviour
 			//if (trans.GetComponent<UIPanel>() != null) return null;
 #if UNITY_5
 		    Rigidbody2D rb = trans.GetComponent<Rigidbody2D>();
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             Rigidbody2D rb = trans.rigidbody2D;
 #endif
             if (rb != null) return rb;

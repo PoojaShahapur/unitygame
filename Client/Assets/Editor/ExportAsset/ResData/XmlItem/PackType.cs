@@ -109,7 +109,7 @@ namespace EditorTool
                         pathList.Clear();
                         pathList.Add(m_packParam.m_outPath);
                         bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                         bundleParam.m_assets = objList.ToArray();
                         pathList.Clear();
                         pathList.Add(m_packParam.m_outPath);

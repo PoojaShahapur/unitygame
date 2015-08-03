@@ -109,11 +109,11 @@ static public class NGUITools
 			{
 #if UNITY_5
 		        AudioSource source = mListener.GetComponent<AudioSource>();
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 AudioSource source = mListener.audio;
 #endif
-				
-				if (source == null) source = mListener.gameObject.AddComponent<AudioSource>();
+
+                if (source == null) source = mListener.gameObject.AddComponent<AudioSource>();
 				source.priority = 50;
 				source.pitch = pitch;
 				source.PlayOneShot(clip, volume);
@@ -855,10 +855,10 @@ static public class NGUITools
 	{
 #if UNITY_5
 		if (cam.orthographic)
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
         if (cam.isOrthoGraphic)
 #endif
-		{
+        {
 			float os = cam.orthographicSize;
 			float x0 = -os;
 			float x1 = os;
@@ -934,10 +934,10 @@ static public class NGUITools
 	{
 #if UNITY_5
 		if (cam.orthographic)
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
         if (cam.isOrthoGraphic)
 #endif
-		{
+        {
 			float os = cam.orthographicSize;
 			float x0 = -os;
 			float x1 = os;

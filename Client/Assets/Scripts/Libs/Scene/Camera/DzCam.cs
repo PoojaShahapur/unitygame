@@ -43,7 +43,7 @@ namespace SDK.Lib
                 c.GetComponent<Animation>().AddClip(moveto(mycarddeap.position, fpoint[x]), "come");
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
                 c.GetComponent<Animation>().Blend("come", 60);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 c.animation.AddClip(moveto(mycarddeap.position, fpoint[x]), "come");
                 c.animation.Play("cardxuanzhuan");
                 c.animation.Blend("come", 60);
@@ -67,7 +67,7 @@ namespace SDK.Lib
                 c.GetComponent<Animation>().AddClip(moveto(mycarddeap.position, fpoint[3]), "come");
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
                 c.GetComponent<Animation>().Blend("come", 60);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 c.animation.AddClip(moveto(mycarddeap.position, fpoint[3]), "come");
                 c.animation.Play("cardxuanzhuan");
                 c.animation.Blend("come", 60);
@@ -108,7 +108,7 @@ namespace SDK.Lib
                 t.GetComponent<Animation>().Play("cardxuanzhuan");
                 //混合播
                 t.GetComponent<Animation>().Blend("back", 60);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 t.animation.AddClip(back, "back");
 
                 //让转倒播
@@ -131,7 +131,7 @@ namespace SDK.Lib
                 //倒播
                 c.GetComponent<Animation>().Play("cardxuanzhuan");
                 c.GetComponent<Animation>().Blend("come", 60);
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
                 c.animation.AddClip(come, "come");
                 //倒播
                 c.animation.Play("cardxuanzhuan");

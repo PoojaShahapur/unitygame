@@ -10,7 +10,7 @@ namespace EditorTool
 #if UNITY_5
         public AssetBundleBuild[] m_buildList;
         public BuildAssetBundleOptions m_assetBundleOptions = BuildAssetBundleOptions.UncompressedAssetBundle;  // 打包都是打包成非压缩的，自己在外面压缩一边
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
         public UnityEngine.Object m_mainAsset = null;
         public UnityEngine.Object[] m_assets;
         public BuildAssetBundleOptions m_assetBundleOptions = BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.UncompressedAssetBundle;

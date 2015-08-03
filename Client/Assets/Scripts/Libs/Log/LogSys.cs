@@ -23,7 +23,7 @@ namespace SDK.Lib
 #if UNITY_5
             Application.logMessageReceived += onDebugLogCallbackHandler;
             Application.logMessageReceivedThreaded += onDebugLogCallbackThreadHandler;
-#elif UNITY_4_6
+#elif UNITY_4_6 || UNITY_4_5
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
