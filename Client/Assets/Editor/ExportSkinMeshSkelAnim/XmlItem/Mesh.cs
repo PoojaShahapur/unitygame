@@ -12,6 +12,14 @@ namespace EditorTool
         protected SkelMeshParam m_skelMeshParam = new SkelMeshParam();
         public List<SubMesh> m_subMeshList = new List<SubMesh>();
 
+        public SkelMeshParam skelMeshParam
+        {
+            get
+            {
+                return m_skelMeshParam;
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
             m_skelMeshParam.m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
@@ -35,8 +43,46 @@ namespace EditorTool
             }
         }
 
+        // 从 Mesh 中添加 SubMesh
+        protected void addSubMesh()
+        {
+            List<string> pathList = new List<string>();
+            pathList.Add(m_skelMeshParam.m_inPath);
+            pathList.Add(m_skelMeshParam.m_name);
+
+            string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_skelMeshParam.m_resType)) as GameObject;
+
+            int childCount = go.transform.childCount;
+            int idx = 0;
+            Transform childTrans = null;
+            SkinnedMeshRenderer render = null;
+            SubMesh item = null;
+
+            for (idx = 0; idx < childCount; ++idx)
+            {
+                render = null;
+                childTrans = go.transform.GetChild(idx);
+                render = childTrans.gameObject.GetComponent<SkinnedMeshRenderer>();
+
+                if (render != null)
+                {
+                    item = new SubMesh();
+                    m_subMeshList.Add(item);
+                    item.m_name = childTrans.gameObject.name;
+                    item.m_part = item.m_name;
+                    item.m_resType = m_skelMeshParam.m_resType;
+                }
+            }
+        }
+
         public void exportMeshBone(XmlDocument xmlDocSave, XmlElement root)
         {
+            if (m_subMeshList.Count == 0)        // 说明没有定义 SubMesh，就说明导出 GameObject 中有 Skinned Mesh Renderer 组件的 GameObject
+            {
+                addSubMesh();
+            }
+
             XmlElement meshXml = xmlDocSave.CreateElement("Mesh");
             root.AppendChild(meshXml);
             meshXml.SetAttribute("name", ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name));
@@ -49,6 +95,11 @@ namespace EditorTool
 
         public void exportMeshBoneFile(ref string xmlStr)
         {
+            if (m_subMeshList.Count == 0)        // 说明没有定义 SubMesh，就说明导出 GameObject 中有 Skinned Mesh Renderer 组件的 GameObject
+            {
+                addSubMesh();
+            }
+
             xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name));
             foreach (SubMesh subMesh in m_subMeshList)
             {

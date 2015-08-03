@@ -21,6 +21,6 @@ function connectServer(ip, port)
     end
 end
 
-regPath("E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript/LuaLib")
+-- regPath("E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript/LuaLib")
 regCPath("E:/Self/Self/unity/unitygame/Client/Assets/Plugins/x86_64")
 

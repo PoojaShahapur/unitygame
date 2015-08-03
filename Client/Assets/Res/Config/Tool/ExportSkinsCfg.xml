@@ -3,13 +3,19 @@
   导出蒙皮列表
   [SubMesh] 的 [part] 是指身体的哪一部分，这个程序识别是模型的哪一个子模型，这样没美术命名可以和程序是用分开，自己命名自己的
   [Root] 标签中的 [outpath] 是指生成 [xml] 文件放在哪个文件夹下
-  [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录，如果没有配置就是用 [Root] 中的 [output]
+  [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录，如果没有配置就是用 [Root] 中的 [output]，如果这下面没有配置 [SubMesh] ，就说明导出 GameObject 中有 Skinned Mesh Renderer 组件的 GameObject
+  [Path] 说明这个是个目录，这个目录下所有的 fbx 都要导出
+  [modeltype] 分为男 0 - 鲜肉、1 - 猛男、2 - 女、3 - 萝莉女、4 - npc、5 - 怪物、6 - 坐骑、7 - 武器
 -->
 <Root outpath="Prefabs/Resources/Being/MeshSkinCfg" >
-	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" >
+	<ModelTypes>
+		<ModelType id="0" subpath="Man" />
+	</ModelTypes>
+	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" modeltype="0" >
 		<SubMesh name="Geo_grp/Unity_Body_Mesh" part="body"/>
 		<SubMesh name="Geo_grp/Lw_Teeth_Mesh" part="lwteeth"/>
 		<SubMesh name="Geo_grp/Tounge_Mesh" part="tounge"/>
 		<SubMesh name="Geo_grp/Up_Teeth_Mesh" part="upteeth"/>
 	</Mesh>
+	<ModelPath restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" modeltype="0" / >
 </Root>

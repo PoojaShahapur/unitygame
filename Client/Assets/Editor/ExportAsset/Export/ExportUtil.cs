@@ -309,6 +309,20 @@ namespace EditorTool
             return "";
         }
 
+        static public string getFileNameWithExt(string path)
+        {
+            path = normalPath(path);
+            int slashIdx = path.LastIndexOf('/');
+            if (-1 != slashIdx)
+            {
+                return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
+            }
+            else
+            {
+                return path;
+            }
+        }
+
         static public string convFullPath2AssetsPath(string fullpath)
         {
             return fullpath.Substring(fullpath.IndexOf("Assets/"));
@@ -578,6 +592,17 @@ namespace EditorTool
             if (attr != null)
             {
                 uint.TryParse(attr.Value, out ret);
+            }
+
+            return ret;
+        }
+
+        static public int getXmlAttrInt(XmlAttribute attr)
+        {
+            int ret = 0;
+            if (attr != null)
+            {
+                int.TryParse(attr.Value, out ret);
             }
 
             return ret;
