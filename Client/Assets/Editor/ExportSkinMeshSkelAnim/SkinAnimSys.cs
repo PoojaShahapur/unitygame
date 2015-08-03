@@ -44,7 +44,6 @@ namespace EditorTool
             m_rootParam.m_tmpPath = skelSubMeshPackParse.m_tmpPath;
         }
 
-
         public void exportBoneList()
         {
             XmlDocument xmlDocSave = new XmlDocument();

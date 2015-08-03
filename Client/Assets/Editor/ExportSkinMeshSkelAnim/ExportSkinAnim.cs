@@ -10,6 +10,7 @@ namespace EditorTool
         {
             SkinAnimSys.instance();
             SkinAnimSys.m_instance.parseSkinsXml();
+            //SkinAnimSys.m_instance.exportBoneList();
             SkinAnimSys.m_instance.exportSkinsFile();
         }
 
