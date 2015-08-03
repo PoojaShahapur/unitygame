@@ -29,10 +29,10 @@ namespace Game.Game
             playerMain.setSkeleton("DefaultAvatar");
             //playerMain.setSkeleton("TestBeing");
 
-            playerMain.setPartModel((int)PlayerModelDef.eModelHead, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
-            playerMain.setPartModel((int)PlayerModelDef.eModelChest, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
-            playerMain.setPartModel((int)PlayerModelDef.eModelWaist, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
-            playerMain.setPartModel((int)PlayerModelDef.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
+            playerMain.setPartModel((int)ePlayerModelType.eModelHead, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
+            playerMain.setPartModel((int)ePlayerModelType.eModelChest, "DefaultAvatar_Lw_Teeth_Mesh", "Lw_Teeth_Mesh");
+            playerMain.setPartModel((int)ePlayerModelType.eModelWaist, "DefaultAvatar_Tounge_Mesh", "Tounge_Mesh");
+            playerMain.setPartModel((int)ePlayerModelType.eModelLeg, "DefaultAvatar_Up_Teeth_Mesh", "Up_Teeth_Mesh");
 
             //playerMain.addAiByID("1001");
         }
@@ -43,7 +43,7 @@ namespace Game.Game
             Ctx.m_instance.m_monsterMgr.addMonster(monster);
             monster.setSkeleton("DefaultAvatar");
             monster.setLocalPos(pos);
-            monster.setPartModel((int)MonstersModelDef.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
+            monster.setPartModel((int)eMonstersModelType.eModelBody, "DefaultAvatar_Unity_Body_Mesh", "Unity_Body_Mesh");
             monster.addAiByID(BTID.e1000);
         }
     }

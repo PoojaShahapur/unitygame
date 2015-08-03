@@ -3,7 +3,7 @@
     /**
      * @brief 武器链接定义
      */
-    public enum EquipSlotDef
+    public enum eEquipSlotType
     {
         eEquipSlotHand,             // 手部武器
     }

@@ -11,11 +11,11 @@ namespace SDK.Lib
         public Monster()
             : base()
         {
-            m_skinAniModel.m_modelList = new PartInfo[(int)MonstersModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new SkinSubModel[(int)eMonstersModelType.eModelTotal];
             int idx = 0;
-            while (idx < (int)MonstersModelDef.eModelTotal)
+            while (idx < (int)eMonstersModelType.eModelTotal)
             {
-                m_skinAniModel.m_modelList[idx] = new PartInfo();
+                m_skinAniModel.m_modelList[idx] = new SkinSubModel();
                 ++idx;
             }
         }

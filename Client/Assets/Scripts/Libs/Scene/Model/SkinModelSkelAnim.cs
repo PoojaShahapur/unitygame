@@ -8,17 +8,17 @@ namespace SDK.Lib
     /**
      * @brief 蒙皮网格骨骼动画模型资源
      */
-    public class SkinAniModel
+    public class SkinModelSkelAnim
     {
         protected GameObject m_rootGo;                  // 根 GO ，骨骼同步加载，不会异步加载
-        public PartInfo[] m_modelList;                  // 一个数组
+        public SkinSubModel[] m_modelList;                  // 一个数组
         public string m_skeletonName;                   // 骨骼名字
         protected Transform m_transform;                // 位置信息
         protected Action m_handleCB;
 
         protected AnimSys m_animSys = new AnimSys();       // 动画数据
 
-        public SkinAniModel()
+        public SkinModelSkelAnim()
         {
             
         }
@@ -84,7 +84,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onSkeletonLoadEventHandle);
 
             int idx = 0;
-            foreach (PartInfo partInfo in m_modelList)
+            foreach (SkinSubModel partInfo in m_modelList)
             {
                 if (partInfo.m_res != null)
                 {
@@ -136,7 +136,7 @@ namespace SDK.Lib
         {
             string modelPath = "";
             int ret = 0;
-            foreach(PartInfo partInfo in m_modelList)
+            foreach (SkinSubModel partInfo in m_modelList)
             {
                 modelPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + partInfo.m_bundleName;
                 if(modelPath == path)

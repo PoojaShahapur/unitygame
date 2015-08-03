@@ -42,19 +42,19 @@ namespace SDK.Lib
 
         static public string convID2PartName(int id)
         {
-            if ((int)PlayerModelDef.eModelHead == id)
+            if ((int)ePlayerModelType.eModelHead == id)
             {
                 return "body";
             }
-            else if ((int)PlayerModelDef.eModelChest == id)
+            else if ((int)ePlayerModelType.eModelChest == id)
             {
                 return "lwteeth";
             }
-            else if ((int)PlayerModelDef.eModelWaist == id)
+            else if ((int)ePlayerModelType.eModelWaist == id)
             {
                 return "tounge";
             }
-            else if ((int)PlayerModelDef.eModelLeg == id)
+            else if ((int)ePlayerModelType.eModelLeg == id)
             {
                 return "upteeth";
             }

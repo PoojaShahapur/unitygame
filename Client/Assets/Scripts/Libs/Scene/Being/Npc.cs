@@ -11,11 +11,11 @@ namespace SDK.Lib
 		public Npc()
             : base()
 		{
-            m_skinAniModel.m_modelList = new PartInfo[(int)NpcModelDef.eModelTotal];
+            m_skinAniModel.m_modelList = new SkinSubModel[(int)eNpcModelType.eModelTotal];
             int idx = 0;
-            while (idx < (int)NpcModelDef.eModelTotal)
+            while (idx < (int)eNpcModelType.eModelTotal)
             {
-                m_skinAniModel.m_modelList[idx] = new PartInfo();
+                m_skinAniModel.m_modelList[idx] = new SkinSubModel();
                 ++idx;
             }
 		}

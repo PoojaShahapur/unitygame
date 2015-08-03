@@ -10,7 +10,7 @@ namespace SDK.Lib
 	 */
     public class BeingEntity : SceneEntity
 	{
-        protected SkinAniModel m_skinAniModel;      // 模型数据
+        protected SkinModelSkelAnim m_skinAniModel;      // 模型数据
         protected BehaviorTree m_behaviorTree;      // 行为树
         protected AIController m_aiController;      // ai 控制
         protected AnimFSM m_animFSM;                // 动画状态机
@@ -23,12 +23,12 @@ namespace SDK.Lib
 
         public BeingEntity()
         {
-            m_skinAniModel = new SkinAniModel();
+            m_skinAniModel = new SkinModelSkelAnim();
             m_skinAniModel.handleCB = onSkeletonLoaded;
             m_aiLocalState = new AILocalState();
         }
 
-        public SkinAniModel skinAniModel
+        public SkinModelSkelAnim skinAniModel
         {
             get
             {

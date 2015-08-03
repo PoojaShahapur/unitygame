@@ -48,7 +48,7 @@ namespace BehaviorLibrary
             }
         }
 
-        public void initControl(SkinAniModel skinAniModel)
+        public void initControl(SkinModelSkelAnim skinAniModel)
         {
             m_radar = new Radar();
             m_vehicle = new Biped();
