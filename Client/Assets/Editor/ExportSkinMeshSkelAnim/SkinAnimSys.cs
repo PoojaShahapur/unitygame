@@ -33,15 +33,12 @@ namespace EditorTool
         {
             SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
             skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkinsCfg.xml"), m_meshList);
-            m_rootParam.m_outPath = skelMeshCfgParse.m_outPath;
         }
 
         public void parseSkelSubMeshPackXml()
         {
             SkelSubMeshPackParse skelSubMeshPackParse = new SkelSubMeshPackParse();
             skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/SkelSubMeshPackCfg.xml"), m_skelSubMeshList);
-            m_rootParam.m_outPath = skelSubMeshPackParse.m_outPath;
-            m_rootParam.m_tmpPath = skelSubMeshPackParse.m_tmpPath;
         }
 
         public void exportBoneList()

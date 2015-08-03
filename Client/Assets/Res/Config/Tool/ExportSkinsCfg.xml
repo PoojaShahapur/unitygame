@@ -7,7 +7,7 @@
   [Path] 说明这个是个目录，这个目录下所有的 fbx 都要导出
   [modeltype] 分为男 0 - 鲜肉、1 - 猛男、2 - 女、3 - 萝莉女、4 - npc、5 - 怪物、6 - 坐骑、7 - 武器
 -->
-<Root outpath="Prefabs/Resources/Being/MeshSkinCfg" >
+<Root outpath="Prefabs/Resources/Being/MeshSkinCfg" ExportFileType="0" >
 	<ModelTypes>
 		<ModelType id="0" subpath="Man" />
 	</ModelTypes>
@@ -17,6 +17,4 @@
 		<SubMesh name="Geo_grp/Tounge_Mesh" part="tounge"/>
 		<SubMesh name="Geo_grp/Up_Teeth_Mesh" part="upteeth"/>
 	</Mesh>
-	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" modeltype="0" />
-	<ModelPath restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" modeltype="0" / >
 </Root>

@@ -4,6 +4,16 @@ using System.Xml;
 namespace EditorTool
 {
     /**
+     * @brief 导出文件的类型
+     */
+    public enum eExportFileType
+    {
+        eOneMeshOneFile,        // 一个模型一个文件
+        eOneSubMeshOneFile,     // 一个子模型一个文件
+        eOneTypeOneFile,        // 一种类型的模型一个文件
+    }
+
+    /**
      * @brief 模型类型常量。分为男 0 - 鲜肉、1 - 猛男、2 - 女、3 - 萝莉女、4 - npc、5 - 怪物、6 - 坐骑、7 - 武器
      */
     public enum eModelType

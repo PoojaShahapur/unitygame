@@ -6,15 +6,14 @@ namespace EditorTool
 {
     class SkelMeshCfgParse
     {
-        public string m_outPath = "";
-
         public void parseXml(string path, List<Mesh> meshList)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
-            m_outPath = ExportUtil.getXmlAttrStr(rootNode.Attributes["outpath"]);
+            SkinAnimSys.m_instance.m_rootParam.m_outPath = ExportUtil.getXmlAttrStr(rootNode.Attributes["outpath"]);
+            SkinAnimSys.m_instance.m_rootParam.m_exportFileType = (eExportFileType)ExportUtil.getXmlAttrInt(rootNode.Attributes["ExportFileType"]);
             XmlNodeList packNodeList = rootNode.ChildNodes;
             XmlElement packElem;
             Mesh mesh;
