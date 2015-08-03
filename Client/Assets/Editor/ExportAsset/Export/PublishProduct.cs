@@ -27,11 +27,11 @@ namespace EditorTool
             // 创建打包输出根目录
             PublishProductUtil.createPublishProductOutputPath();
             // 实例化全局数据
-            ResCfgData.Instance();
+            ResExportSys.instance();
             // 打包生成 unity3d 资源
             PublishProductUtil.pkgResources();
             // 导出资源列表
-            ResCfgData.m_ins.m_exportResList.exportResList();
+            ResExportSys.m_instance.m_exportResList.exportResList();
             // 拷贝资源到输出目录
             //PublishProductUtil.copyRes2Dest();
             // 删除 Resources 目录，防止资源被重复打包进输出镜像

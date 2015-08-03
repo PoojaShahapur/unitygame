@@ -17,20 +17,20 @@ namespace EditorTool
 
         public static void pkgResources()
         {
-            ResCfgData.m_ins.m_targetPlatform = BuildTarget.StandaloneWindows;
+            ResExportSys.m_instance.m_targetPlatform = BuildTarget.StandaloneWindows;
 
-            ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
-            ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.normalPath(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
-            ExportUtil.DeleteDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
-            ExportUtil.CreateDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            ExportUtil.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            ExportUtil.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
 
-            ResCfgData.m_ins.parseResourceXml();
-            ResCfgData.m_ins.packResourceList();
+            ResExportSys.m_instance.parseResourceXml();
+            ResExportSys.m_instance.packResourceList();
         }
 
         public static void copyRes2Dest()
         {
-            ExportUtil.CopyAssetBundlesTo(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, ResCfgData.m_ins.m_targetPlatform);
+            ExportUtil.CopyAssetBundlesTo(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, ResExportSys.m_instance.m_targetPlatform);
         }
 
         public static void delResources()
@@ -45,14 +45,14 @@ namespace EditorTool
 
         public static void buildImage(BuildOptions option = BuildOptions.None)
         {
-            string outputImagePath = ExportUtil.getImagePath("", ResCfgData.m_ins.m_targetPlatform);
+            string outputImagePath = ExportUtil.getImagePath("", ResExportSys.m_instance.m_targetPlatform);
             ExportUtil.DeleteDirectory(outputImagePath);
             ExportUtil.CreateDirectory(outputImagePath);
 
             string[] levelsPath = new string[1];    // 打包第一个启动场景目录
             levelsPath[0] = "Assets/Scenes/Start.unity";
 
-            string targetName = ExportUtil.GetBuildTargetName(ResCfgData.m_ins.m_targetPlatform/*EditorUserBuildSettings.activeBuildTarget*/);
+            string targetName = ExportUtil.GetBuildTargetName(ResExportSys.m_instance.m_targetPlatform/*EditorUserBuildSettings.activeBuildTarget*/);
             if (targetName == null)
                 return;
 
@@ -62,7 +62,7 @@ namespace EditorTool
             PlayerParam param = new PlayerParam();
             param.m_levels = levelsPath;
             param.m_locationPath = outputImagePath + targetName;
-            param.m_target = ResCfgData.m_ins.m_targetPlatform;
+            param.m_target = ResExportSys.m_instance.m_targetPlatform;
             param.m_options = option;
 
             ExportUtil.BuildPlayer(param);

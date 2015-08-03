@@ -66,7 +66,7 @@ namespace EditorTool
         {
             if (!string.IsNullOrEmpty(m_destRoot))
             {
-                ExportUtil.CreateDirectory(Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
+                ExportUtil.CreateDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
             }
             ExportUtil.recursiveTraversalDir(m_srcFullPath, handleFile, handleDir);
         }
@@ -89,12 +89,12 @@ namespace EditorTool
                     }
                     if (!string.IsNullOrEmpty(m_destRoot))
                     {
-                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
+                        destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
                         destPath = Path.Combine(destPath, destPath);
                     }
                     else
                     {
-                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                        destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, destPath);
                     }
 
                     AssetBundleParam bundleParam = new AssetBundleParam();
@@ -104,7 +104,7 @@ namespace EditorTool
                     bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
                     bundleParam.m_buildList[0].assetNames = new string[1];
                     bundleParam.m_buildList[0].assetNames[0] = assetPath;
-                    bundleParam.m_targetPlatform = ResCfgData.m_ins.m_targetPlatform;
+                    bundleParam.m_targetPlatform = ResExportSys.m_instance.m_targetPlatform;
                     bundleParam.m_pathName = destPath;
 #elif UNITY_4_6
                     bundleParam.m_assets = objList.ToArray();
@@ -125,12 +125,12 @@ namespace EditorTool
                     }
                     if (!string.IsNullOrEmpty(m_destRoot))
                     {
-                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
+                        destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
                         destPath = Path.Combine(destPath, destPath);
                     }
                     else
                     {
-                        destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                        destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, destPath);
                         File.Copy(fullFileName, destPath);
                     }
                 }
@@ -147,18 +147,18 @@ namespace EditorTool
                 string destPath = fullDirName.Substring(m_srcFullPath.Length + 1, fullDirName.Length - (m_srcFullPath.Length + 1));
                 if (!string.IsNullOrEmpty(m_destRoot))
                 {
-                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
+                    destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot);
                     destPath = Path.Combine(destPath, destPath);
                 }
                 else
                 {
-                    destPath = Path.Combine(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath, destPath);
+                    destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, destPath);
                     ExportUtil.CreateDirectory(destPath);
                 }
             }
             else
             {
-                ExportUtil.CreateDirectory(ResCfgData.m_ins.m_pResourcesCfgPackData.m_destFullPath);
+                ExportUtil.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
             }
         }
 
@@ -186,7 +186,7 @@ namespace EditorTool
             {
                 item.m_srcName = string.Format("Scenes/{0}", item.m_srcName);
             }
-            ResCfgData.m_ins.m_exportResList.addItem(item);
+            ResExportSys.m_instance.m_exportResList.addItem(item);
         }
     }
 }

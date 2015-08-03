@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace EditorTool
 {
-    class ResCfgData
+    class ResExportSys
     {
-        public static ResCfgData m_ins = null;
+        public static ResExportSys m_instance = null;
 
         public List<PackType> m_packList = new List<PackType>();
         public BuildTarget m_targetPlatform;
@@ -18,15 +18,15 @@ namespace EditorTool
         public ResourcesCfgPackData m_pResourcesCfgPackData = new ResourcesCfgPackData();
         public ExportResList m_exportResList = new ExportResList();
 
-        public static void Instance()
+        public static void instance()
         {
-            if (m_ins == null)
+            if (m_instance == null)
             {
-                m_ins = new ResCfgData();
+                m_instance = new ResExportSys();
             }
         }
 
-        protected ResCfgData()
+        protected ResExportSys()
         {   
             m_targetPlatform = BuildTarget.StandaloneWindows;
         }

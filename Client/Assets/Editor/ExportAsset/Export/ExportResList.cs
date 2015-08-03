@@ -32,12 +32,12 @@ namespace EditorTool
             StreamWriter streamWriter = null;
             try
             {
-                if (File.Exists(@ResCfgData.m_ins.m_pResourcesCfgPackData.m_resListOutpath))                  // 如果文件存在
+                if (File.Exists(@ResExportSys.m_instance.m_pResourcesCfgPackData.m_resListOutpath))                  // 如果文件存在
                 {
-                    File.Delete(@ResCfgData.m_ins.m_pResourcesCfgPackData.m_resListOutpath);
+                    File.Delete(@ResExportSys.m_instance.m_pResourcesCfgPackData.m_resListOutpath);
                 }
 
-                fileStream = new FileStream(ResCfgData.m_ins.m_pResourcesCfgPackData.m_resListOutpath, FileMode.Create);
+                fileStream = new FileStream(ResExportSys.m_instance.m_pResourcesCfgPackData.m_resListOutpath, FileMode.Create);
                 streamWriter = new StreamWriter(fileStream, Encoding.UTF8);
 
                 bool bFirstLine = true;

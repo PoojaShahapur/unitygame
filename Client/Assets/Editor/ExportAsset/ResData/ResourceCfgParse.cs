@@ -11,7 +11,7 @@ namespace EditorTool
             xmlDoc.Load(path);
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
-            ResCfgData.m_ins.m_pResourcesCfgPackData.m_resListOutpath = ExportUtil.getXmlAttrStr(rootNode.Attributes["reslistoutpath"]);
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_resListOutpath = ExportUtil.getXmlAttrStr(rootNode.Attributes["reslistoutpath"]);
             XmlNodeList packNodeList = rootNode.ChildNodes;
             XmlElement packElem;
             ResourcesPathItem packType;
