@@ -17,7 +17,7 @@ namespace UnitTestSrc
             //testLua();
             //testLoadLuaFile();
             testLocalLua();
-            //testLuaBindFile();
+            // testLuaBindFile();
             //testLuaByteBuffer();
             //testLuaByteBufferNeg();
             //testSysEndian();
@@ -96,6 +96,9 @@ namespace UnitTestSrc
 
         protected void testLuaBindFile()
         {
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaMgr;
+            luaMgr.lua.DoFile("LuaScript/Common/Prerequisites.lua");
+
             LuaCSBridge _luaCSBridge = new LuaCSBridge("testTable");
             string path = "LuaScript/Test/TestLuaBind.lua";      // 
             _luaCSBridge.DoFile(path);                      // 添加函数，如果 "TestLuaBind.lua" 文件直接调用了一个函数，例如 luaFunc(10) ，执行 DoFile 后返回值是 null ，注意这一点，但是自己手工调用这个函数却有返回值的。

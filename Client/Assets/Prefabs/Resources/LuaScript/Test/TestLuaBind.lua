@@ -1,5 +1,8 @@
-require "LuaScript/Common/Prerequisites"
-connectServer()
+-- require "LuaScript/Common/Prerequisites"
+-- connectServer()
+
+local initconnection = require("debugger")
+initconnection("192.168.122.64", "10000", "luaidekey")
 
 -- 不允许定义全局函数
 --[[
@@ -24,6 +27,8 @@ testTable.tableFunc = function (i)
 	a = i + 300
 	return a
 end
+
+testTable.tableFunc(20)
 
 -- 测试调用 CS 函数，全路径和非全路径都可以
 -- SDK.Lib.TestStaticHandle.log("aaaaa")
