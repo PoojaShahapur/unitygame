@@ -1,4 +1,4 @@
-local g_debugMode = true
+g_debugMode = true
 
 function regPath(path_)
     local origPackagePath = package.path
@@ -14,12 +14,13 @@ function regCPath(path_)
     return package.cpath 
 end
 
-function connectServer()
+function connectServer(ip, port)
     if true == g_debugMode then
         local initconnection = require("debugger")
         initconnection("127.0.0.1", "10000", "luaidekey")
     end
 end
 
-regCPath("D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Plugins/x86_64")
+-- regPath("E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript/LuaLib")
+-- regCPath("E:/Self/Self/unity/unitygame/Client/Assets/Plugins/x86_64")
 

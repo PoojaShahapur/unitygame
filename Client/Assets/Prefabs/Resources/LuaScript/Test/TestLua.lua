@@ -1,12 +1,13 @@
-require "LuaScript/Common/Prerequisites"
-connectServer()
+-- require "LuaScript/Common/Prerequisites"  -- 只要包含这一行就不能调试，在连接服务器之前一定不能有 require 指令，但是可以有代码
+-- connectServer()
 
---[[
-if true == g_debugMode then
+-- local aaa = 5
+
+-- if true == g_debugMode then
     local initconnection = require("debugger")
-    initconnection("127.0.0.1", "10000", "luaidekey")
-end
-]]
+    initconnection("192.168.122.64", "10000", "luaidekey")
+-- end
+
 --[[
 
 mime   = require("mime")

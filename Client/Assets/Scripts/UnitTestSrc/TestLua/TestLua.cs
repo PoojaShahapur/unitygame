@@ -16,8 +16,8 @@ namespace UnitTestSrc
         {
             //testLua();
             //testLoadLuaFile();
-            //testLocalLua();
-            testLuaBindFile();
+            testLocalLua();
+            //testLuaBindFile();
             //testLuaByteBuffer();
             //testLuaByteBufferNeg();
             //testSysEndian();
@@ -91,7 +91,7 @@ namespace UnitTestSrc
             //Process.Start("\"D:\\ProgramFiles(x86)\\Lua\\5.1\\lua\" -e \"require('debugger')('192.168.122.64', '10000');\" E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
             //Process.Start("D:\\ProgramFiles(x86)\\Lua\\5.1\\lua");
             //Process.Start("E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
-            Process.Start("E:/Start.bat");
+            Process.Start("E:/Self/Self/unity/unitygame/Client/Assets/Scripts/UnitTestSrc/TestLua/Start.bat");
         }
 
         protected void testLuaBindFile()
