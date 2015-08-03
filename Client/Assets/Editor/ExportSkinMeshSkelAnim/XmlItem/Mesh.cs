@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace EditorTool
 {
-    class Mesh
+    public class Mesh
     {
         protected SkelMeshParam m_skelMeshParam = new SkelMeshParam();
         public List<SubMesh> m_subMeshList = new List<SubMesh>();

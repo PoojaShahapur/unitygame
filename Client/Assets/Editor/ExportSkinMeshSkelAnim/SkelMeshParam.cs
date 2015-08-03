@@ -1,6 +1,6 @@
 ﻿namespace EditorTool
 {
-    class SkelMeshParam
+    public class SkelMeshParam
     {
         public string m_name;
         public string m_inPath;

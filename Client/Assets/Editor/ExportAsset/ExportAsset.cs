@@ -32,30 +32,5 @@ namespace EditorTool
             ResCfgData.m_ins.parseXml();
             ResCfgData.m_ins.pack();
         }
-
-        // 导出骨骼动画的蒙皮
-        [MenuItem("Assets/SelfAssetBundles/ExportSkinsCfg")]
-        static void ExportSkinsCfg()
-        {
-            ResCfgData.Instance();
-            ResCfgData.m_ins.parseSkinsXml();
-            ResCfgData.m_ins.exportSkinsFile();
-        }
-
-        // 导出骨骼和子网格
-        [MenuItem("Assets/SelfAssetBundles/ExportSkelSubmeshCfg")]
-        static void ExportSkelSubMeshCfg()
-        {
-            //string resPath = ExportUtil.getRelDataPath("Locomotion Setup/Locomotion/Animations/DefaultAvatar.fbx");
-            //GameObject go = AssetDatabase.LoadAssetAtPath(resPath, typeof(GameObject)) as GameObject;
-            //if(go != null)
-            //{
-            //
-            //}
-
-            ResCfgData.Instance();
-            ResCfgData.m_ins.parseSkelSubMeshPackXml();
-            ResCfgData.m_ins.skelSubMeshPackFile();
-        }
     }
 }

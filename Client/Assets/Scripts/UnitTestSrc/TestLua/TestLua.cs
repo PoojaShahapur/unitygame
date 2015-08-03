@@ -16,8 +16,8 @@ namespace UnitTestSrc
         {
             //testLua();
             //testLoadLuaFile();
-            testLocalLua();
-            // testLuaBindFile();
+            // testLocalLua();
+            testLuaBindFile();
             //testLuaByteBuffer();
             //testLuaByteBufferNeg();
             //testSysEndian();

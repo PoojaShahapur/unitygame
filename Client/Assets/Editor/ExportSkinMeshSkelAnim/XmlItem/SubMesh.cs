@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace EditorTool
 {
-    class SubMesh
+    public class SubMesh
     {
         public string m_name;
         public string m_part;
