@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace EditorTool
@@ -48,6 +50,30 @@ namespace EditorTool
             }
         }
 
+        public void createDir(string parentPath)
+        {
+            foreach(eModelType key in m_modelTypeDic.Keys)
+            {
+                m_modelTypeDic[key].createDir(parentPath);
+            }
+        }
+
+        public void addXmlHeader()
+        {
+            foreach (eModelType key in m_modelTypeDic.Keys)
+            {
+                m_modelTypeDic[key].addXmlHeader();
+            }
+        }
+
+        public void save2Files(string parentPath)
+        {
+            foreach (eModelType key in m_modelTypeDic.Keys)
+            {
+                m_modelTypeDic[key].save2Files(parentPath);
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
             XmlNodeList itemNodeList = elem.ChildNodes;
@@ -72,6 +98,8 @@ namespace EditorTool
     {
         protected eModelType m_id;
         protected string m_subPath;
+        protected string m_outFileName;     // 输出文件名字
+        public string m_content;         // 输出内容
 
         public eModelType id
         {
@@ -89,10 +117,50 @@ namespace EditorTool
             }
         }
 
+        public void createDir(string parentPath)
+        {
+            string path = "";
+            path = ExportUtil.getDataPath(string.Format("{0}/{1}", parentPath, m_subPath));
+            if(!ExportUtil.bDirExist(path))
+            {
+                ExportUtil.RecurCreateDirectory(path);
+            }
+        }
+
+        public void addXmlHeader()
+        {
+            m_content = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
+            m_content += string.Format("    <Mesh name=\"{0}\" >\n", m_outFileName);
+        }
+
+        public void addXmlEnd()
+        {
+            m_content += "    </Mesh>\n";
+            m_content += "</Root>";
+        }
+
+        public void save2Files(string parentPath)
+        {
+            string path = "";
+            path = ExportUtil.getDataPath(string.Format("{0}/{1}/{2}.xml", parentPath, m_subPath, m_outFileName));
+
+            ExportUtil.deleteFile(path);
+            FileStream fileStream = new FileStream(path, FileMode.Create);
+            byte[] data = new UTF8Encoding().GetBytes(m_content);
+            //开始写入
+            fileStream.Write(data, 0, data.Length);
+
+            //清空缓冲区、关闭流
+            fileStream.Flush();
+            fileStream.Close();
+            fileStream.Dispose();
+        }
+
         public void parseXml(XmlElement elem)
         {
             m_id = (eModelType)ExportUtil.getXmlAttrInt(elem.Attributes["id"]);
             m_subPath = ExportUtil.getXmlAttrStr(elem.Attributes["subpath"]);
+            m_outFileName = ExportUtil.getXmlAttrStr(elem.Attributes["outfilename"]);
         }
     }
 }

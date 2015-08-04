@@ -9,7 +9,7 @@
 -->
 <Root outpath="Prefabs/Resources/Being/MeshSkinCfg" ExportFileType="0" >
 	<ModelTypes>
-		<ModelType id="0" subpath="Man" />
+		<ModelType id="0" subpath="Man" outfilename="Man" />
 	</ModelTypes>
 	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Being/MeshSkinCfg" modeltype="0" >
 		<SubMesh name="Geo_grp/Unity_Body_Mesh" part="body"/>

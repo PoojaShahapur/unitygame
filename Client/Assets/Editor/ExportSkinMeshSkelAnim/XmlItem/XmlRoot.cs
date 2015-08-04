@@ -17,7 +17,6 @@ namespace EditorTool
         public List<Mesh> m_skinMeshList;
         public List<ModelPath> m_modelPathList;
 
-
         public XmlSkinMeshRoot()
         {
             m_modelTypes = new ModelTypes();
@@ -29,6 +28,19 @@ namespace EditorTool
         {
             SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
             skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkinsCfg.xml"));
+
+            createSubDir();         // 创建出来所有的子目录，不用在执行中判断
+        }
+
+        // 创建所需要的所有的子目录
+        protected void createSubDir()
+        {
+            m_modelTypes.createDir(m_outPath);
+            
+            foreach (Mesh mesh in m_skinMeshList)
+            {
+                m_modelTypes.createDir(mesh.skelMeshParam.m_outPath);
+            }
         }
 
         public void exportBoneList()
@@ -78,8 +90,8 @@ namespace EditorTool
                 string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType], xmlName);
                 xmlPath = ExportUtil.getDataPath(xmlPath);
 
-                ExportUtil.deleteFile(xmlName);
-                FileStream fileStream = new FileStream(xmlName, FileMode.Create);
+                ExportUtil.deleteFile(xmlPath);
+                FileStream fileStream = new FileStream(xmlPath, FileMode.Create);
                 byte[] data = new UTF8Encoding().GetBytes(xmlStr);
                 //开始写入
                 fileStream.Write(data, 0, data.Length);
@@ -93,54 +105,50 @@ namespace EditorTool
 
         protected void exportSkinsFile_OneSubMeshOneFile()
         {
-            string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
-
             foreach (Mesh mesh in m_skinMeshList)
             {
-                mesh.exportMeshBoneFile(ref xmlStr);
+                foreach (SubMesh subMesh in mesh.m_subMeshList)
+                {
+                    string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
+                    xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", ExportUtil.getFileNameNoExt(mesh.skelMeshParam.m_name));
+
+                    subMesh.exportSubMeshBoneFile(mesh.skelMeshParam, ref xmlStr);
+
+                    xmlStr += "    </Mesh>\n";
+
+                    xmlStr += "</Root>";
+
+                    string xmlName = string.Format("{0}.xml", ExportUtil.getFileNameNoExt(subMesh.m_name));
+                    string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType], xmlName);
+                    xmlPath = ExportUtil.getDataPath(xmlPath);
+
+                    ExportUtil.deleteFile(xmlPath);
+                    FileStream fileStream = new FileStream(xmlPath, FileMode.Create);
+                    byte[] data = new UTF8Encoding().GetBytes(xmlStr);
+                    //开始写入
+                    fileStream.Write(data, 0, data.Length);
+
+                    //清空缓冲区、关闭流
+                    fileStream.Flush();
+                    fileStream.Close();
+                    fileStream.Dispose();
+                }
             }
-
-            xmlStr += "</Root>";
-
-            string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
-            xmlName = ExportUtil.getDataPath(xmlName);
-
-            ExportUtil.deleteFile(xmlName);
-            FileStream fileStream = new FileStream(xmlName, FileMode.Create);
-            byte[] data = new UTF8Encoding().GetBytes(xmlStr);
-            //开始写入
-            fileStream.Write(data, 0, data.Length);
-
-            //清空缓冲区、关闭流
-            fileStream.Flush();
-            fileStream.Close();
-            fileStream.Dispose();
         }
 
         protected void exportSkinsFile_OneTypeOneFile()
         {
-            string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
+            m_modelTypes.addXmlHeader();
 
             foreach (Mesh mesh in m_skinMeshList)
             {
-                mesh.exportMeshBoneFile(ref xmlStr);
+                foreach (SubMesh subMesh in mesh.m_subMeshList)
+                {
+                    subMesh.exportSubMeshBoneFile(mesh.skelMeshParam, ref m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].m_content);
+                }
             }
 
-            xmlStr += "</Root>";
-
-            string xmlName = string.Format("{0}/{1}", m_outPath, "BoneList.xml");
-            xmlName = ExportUtil.getDataPath(xmlName);
-
-            ExportUtil.deleteFile(xmlName);
-            FileStream fileStream = new FileStream(xmlName, FileMode.Create);
-            byte[] data = new UTF8Encoding().GetBytes(xmlStr);
-            //开始写入
-            fileStream.Write(data, 0, data.Length);
-
-            //清空缓冲区、关闭流
-            fileStream.Flush();
-            fileStream.Close();
-            fileStream.Dispose();
+            m_modelTypes.save2Files(m_outPath);
         }
     }
 

@@ -157,6 +157,13 @@ namespace EditorTool
             }
         }
 
+        // 目录是否存在
+        static public bool bDirExist(string path)
+        {
+            return Directory.Exists(path);
+        }
+
+        // 递归创建目录
         static public void RecurCreateDirectory(string pathAndName)
         {
             string curpath = "";
