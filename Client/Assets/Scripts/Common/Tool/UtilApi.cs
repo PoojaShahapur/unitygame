@@ -200,12 +200,16 @@ namespace SDK.Common
             UnityEngine.Object.DestroyImmediate(obj);
         }
 
-        public static void DestroyImmediate(UnityEngine.Object obj, bool allowDestroyingAssets)
+        // bInstance 是通过 Instance 实例画出来的，否则是直接加载的磁盘资源，这种资源是受保护的，不能设置任何里面的值
+        public static void DestroyImmediate(UnityEngine.Object obj, bool allowDestroyingAssets, bool bInstance = true)
         {
             if (obj as GameObject)
             {
-                (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
-                UtilApi.DestroyTexMat(obj as GameObject);
+                if (bInstance)
+                {
+                    (obj as GameObject).transform.SetParent(null);      // 这个仅仅是移除场景中
+                    UtilApi.DestroyTexMat(obj as GameObject);
+                }
             }
             GameObject.DestroyImmediate(obj, allowDestroyingAssets);
         }

@@ -48,7 +48,7 @@ namespace EditorTool
 
                 mesh.addSubMesh();
 
-                SkinAnimSys.m_instance.m_xmlSkinMeshRoot.m_skinMeshList.Add(mesh);
+                SkinAnimSys.m_instance.m_xmlSkinMeshRoot.m_meshList.Add(mesh);
             }
         }
     }

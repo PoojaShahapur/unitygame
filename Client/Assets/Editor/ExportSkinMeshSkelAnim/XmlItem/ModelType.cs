@@ -50,6 +50,11 @@ namespace EditorTool
             }
         }
 
+        public void clear()
+        {
+            m_modelTypeDic.Clear();
+        }
+
         public void createDir(string parentPath)
         {
             foreach(eModelType key in m_modelTypeDic.Keys)

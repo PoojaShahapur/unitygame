@@ -40,11 +40,8 @@ namespace EditorTool
                 m_subMeshList.Add(item);
                 item.parseXml(itemElem);
                 item.m_resType = m_skelMeshParam.m_resType;
-            }
-
-            if (m_subMeshList.Count == 0)        // 说明没有定义 SubMesh，就说明导出 GameObject 中有 Skinned Mesh Renderer 组件的 GameObject
-            {
-                addSubMesh();
+                item.m_modelType = m_skelMeshParam.m_modelType;
+                item.m_outPath = m_skelMeshParam.m_outPath;
             }
         }
 
@@ -79,6 +76,8 @@ namespace EditorTool
                     item.m_name = childTrans.gameObject.name;
                     item.m_part = item.m_name;
                     item.m_resType = m_skelMeshParam.m_resType;
+                    item.m_modelType = m_skelMeshParam.m_modelType;
+                    item.m_outPath = m_skelMeshParam.m_outPath;
                 }
             }
         }
@@ -97,6 +96,11 @@ namespace EditorTool
 
         public void exportMeshBoneFile(ref string xmlStr)
         {
+            if (m_subMeshList.Count == 0)        // 说明没有定义 SubMesh，就说明导出 GameObject 中有 Skinned Mesh Renderer 组件的 GameObject
+            {
+                addSubMesh();
+            }
+
             xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name));
             foreach (SubMesh subMesh in m_subMeshList)
             {
@@ -112,6 +116,11 @@ namespace EditorTool
 
         public void packSubMesh()
         {
+            if (m_subMeshList.Count == 0)        // 说明没有定义 SubMesh，就说明导出 GameObject 中有 Skinned Mesh Renderer 组件的 GameObject
+            {
+                addSubMesh();
+            }
+
             foreach (SubMesh subMesh in m_subMeshList)
             {
                 subMesh.packSubMesh(m_skelMeshParam);
@@ -129,19 +138,27 @@ namespace EditorTool
             GameObject subMeshGo = null;
 
             string skelNoExt = ExportUtil.getFileNameNoExt(m_skelMeshParam.m_name);
-            string tmpPrefabPath = "";
+            string outPrefabPath = "";
             List<Object> objList = new List<Object>();
             List<string> assetNamesList = new List<string>();
 
             pathList.Clear();
-            pathList.Add(SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_tmpPath);
+            if (string.IsNullOrEmpty(m_skelMeshParam.m_outPath))
+            {
+                pathList.Add(SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_outPath);
+            }
+            else
+            {
+                pathList.Add(m_skelMeshParam.m_outPath);
+            }
+            pathList.Add(SkinAnimSys.m_instance.m_xmlSkeletonRoot.m_modelTypes.modelTypeDic[m_skelMeshParam.m_modelType].subPath);
             pathList.Add(skelNoExt + ".prefab");
 
-            tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
-            assetNamesList.Add(tmpPrefabPath);
-            PrefabUtility.CreatePrefab(tmpPrefabPath, go);
+            outPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            assetNamesList.Add(outPrefabPath);
+            PrefabUtility.CreatePrefab(outPrefabPath, go);
 
-            go = AssetDatabase.LoadAssetAtPath(tmpPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+            go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
 
             if (go != null)
             {
@@ -153,32 +170,34 @@ namespace EditorTool
                         //GameObject.DestroyImmediate(subMeshGo);
                         //GameObject.Destroy(subMeshGo);
                         //GameObject.DestroyImmediate(subMeshGo, true);
-                        UtilApi.DestroyImmediate(subMeshGo, true);
+                        UtilApi.DestroyImmediate(subMeshGo, false, false);
                     }
                 }
 
                 AssetDatabase.Refresh();
-                go = AssetDatabase.LoadAssetAtPath(tmpPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+
+                // 现在不直接打包，需要最后发布的时候才打包
+                go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
                 objList.Add(go);
 
-                AssetBundleParam bundleParam = new AssetBundleParam();
-#if UNITY_5
-                bundleParam.m_buildList = new AssetBundleBuild[1];
-                bundleParam.m_buildList[0].assetBundleName = skelNoExt;
-                bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
-                bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
-                pathList.Clear();
-                pathList.Add(m_skelMeshParam.m_outPath);
-                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
-#elif UNITY_4_6 || UNITY_4_5
-                bundleParam.m_assets = objList.ToArray();
-                pathList.Clear();
-                pathList.Add(m_skelMeshParam.m_outPath);
-                pathList.Add(skelNoExt + ".unity3d");
-                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
-#endif
+//                AssetBundleParam bundleParam = new AssetBundleParam();
+//#if UNITY_5
+//                bundleParam.m_buildList = new AssetBundleBuild[1];
+//                bundleParam.m_buildList[0].assetBundleName = skelNoExt;
+//                bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+//                bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
+//                pathList.Clear();
+//                pathList.Add(m_skelMeshParam.m_outPath);
+//                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+//#elif UNITY_4_6 || UNITY_4_5
+//                bundleParam.m_assets = objList.ToArray();
+//                pathList.Clear();
+//                pathList.Add(m_skelMeshParam.m_outPath);
+//                pathList.Add(skelNoExt + ".unity3d");
+//                bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+//#endif
 
-                ExportUtil.BuildAssetBundle(bundleParam);
+//                ExportUtil.BuildAssetBundle(bundleParam);
             }
         }
     }

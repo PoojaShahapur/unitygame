@@ -34,12 +34,20 @@ namespace EditorTool
 
         public void parseSkinsXml()
         {
+            m_xmlSkinMeshRoot.clear();
             m_xmlSkinMeshRoot.parseSkinsXml();
         }
 
         public void parseSkelSubMeshPackXml()
         {
+            m_xmlSubMeshRoot.clear();
             m_xmlSubMeshRoot.parseSkelSubMeshPackXml();
+        }
+
+        public void parseSkeletonCfgXml()
+        {
+            m_xmlSkeletonRoot.clear();
+            m_xmlSkeletonRoot.parseSkeletonXml();
         }
 
         public void exportBoneList()

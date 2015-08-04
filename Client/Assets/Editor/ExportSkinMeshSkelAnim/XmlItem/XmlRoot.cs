@@ -6,41 +6,73 @@ using System.Xml;
 namespace EditorTool
 {
     /**
-     * @brief Xml 蒙皮网格导出
+     * @brief Xml 配置根节点
      */
-    public class XmlSkinMeshRoot
+    public class XmlRootBase
     {
         public string m_outPath = "";
-        public eExportFileType m_exportFileType;        // 导出的文件类型
 
         public ModelTypes m_modelTypes;
-        public List<Mesh> m_skinMeshList;
+        public List<Mesh> m_meshList;
         public List<ModelPath> m_modelPathList;
 
-        public XmlSkinMeshRoot()
+        public XmlRootBase()
         {
             m_modelTypes = new ModelTypes();
-            m_skinMeshList = new List<Mesh>();
+            m_meshList = new List<Mesh>();
             m_modelPathList = new List<ModelPath>();
-        }
-
-        public void parseSkinsXml()
-        {
-            SkinMeshCfgParse skelMeshCfgParse = new SkinMeshCfgParse();
-            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkinsCfg.xml"));
-
-            createSubDir();         // 创建出来所有的子目录，不用在执行中判断
         }
 
         // 创建所需要的所有的子目录
         protected void createSubDir()
         {
-            m_modelTypes.createDir(m_outPath);
-            
-            foreach (Mesh mesh in m_skinMeshList)
+            if (!string.IsNullOrEmpty(m_outPath))
             {
-                m_modelTypes.createDir(mesh.skelMeshParam.m_outPath);
+                m_modelTypes.createDir(m_outPath);
             }
+            
+            foreach (Mesh mesh in m_meshList)
+            {
+                if (!string.IsNullOrEmpty(mesh.skelMeshParam.m_outPath))
+                {
+                    m_modelTypes.createDir(mesh.skelMeshParam.m_outPath);
+                }
+            }
+        }
+
+        virtual public void clear()
+        {
+            m_modelTypes.clear();
+            m_meshList.Clear();
+            m_modelPathList.Clear();
+        }
+    }
+
+    /**
+     * @brief Xml 蒙皮网格导出
+     */
+    public class XmlSkinMeshRoot : XmlRootBase
+    {
+        public eExportFileType m_exportFileType;        // 导出的文件类型
+
+        public XmlSkinMeshRoot()
+        {
+            m_exportFileType = eExportFileType.eOneMeshOneFile;
+        }
+
+        override public void clear()
+        {
+            m_exportFileType = eExportFileType.eOneMeshOneFile;
+
+            base.clear();
+        }
+
+        public void parseSkinsXml()
+        {
+            SkinMeshCfgParse skelMeshCfgParse = new SkinMeshCfgParse();
+            skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkinsCfg.xml"), this);
+
+            createSubDir();         // 创建出来所有的子目录，不用在执行中判断
         }
 
         public void exportBoneList()
@@ -49,7 +81,7 @@ namespace EditorTool
             xmlDocSave.CreateXmlDeclaration("1.0", "utf-8", null);
             XmlElement root = xmlDocSave.CreateElement("Root");
 
-            foreach (Mesh mesh in m_skinMeshList)
+            foreach (Mesh mesh in m_meshList)
             {
                 mesh.exportMeshBone(xmlDocSave, root);
             }
@@ -78,7 +110,7 @@ namespace EditorTool
         // 一个 Mesh 一个配置文件
         protected void exportSkinsFile_OneMeshOneFile()
         {
-            foreach (Mesh mesh in m_skinMeshList)
+            foreach (Mesh mesh in m_meshList)
             {
                 string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
 
@@ -105,7 +137,7 @@ namespace EditorTool
 
         protected void exportSkinsFile_OneSubMeshOneFile()
         {
-            foreach (Mesh mesh in m_skinMeshList)
+            foreach (Mesh mesh in m_meshList)
             {
                 foreach (SubMesh subMesh in mesh.m_subMeshList)
                 {
@@ -140,7 +172,7 @@ namespace EditorTool
         {
             m_modelTypes.addXmlHeader();
 
-            foreach (Mesh mesh in m_skinMeshList)
+            foreach (Mesh mesh in m_meshList)
             {
                 foreach (SubMesh subMesh in mesh.m_subMeshList)
                 {
@@ -156,25 +188,24 @@ namespace EditorTool
     /**
      * @brief 导出子网格配置
      */
-    public class XmlSubMeshRoot
+    public class XmlSubMeshRoot : XmlRootBase
     {
-        public string m_tmpPath = "";
-        public List<Mesh> m_subMeshList;
-
         public XmlSubMeshRoot()
         {
-            m_subMeshList = new List<Mesh>();
+            
         }
 
         public void parseSkelSubMeshPackXml()
         {
             SubMeshCfgParse skelSubMeshPackParse = new SubMeshCfgParse();
-            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSubMeshCfg.xml"), m_subMeshList);
+            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSubMeshCfg.xml"), this);
+
+            createSubDir();         // 创建出来所有的子目录，不用在执行中判断
         }
 
         public void subMeshPackFile()
         {
-            foreach (Mesh mesh in m_subMeshList)
+            foreach (Mesh mesh in m_meshList)
             {
                 mesh.packSkelSubMesh();
             }
@@ -184,25 +215,24 @@ namespace EditorTool
     /**
      * @briefe 导出骨骼配置
      */
-    public class XmlSkeletonRoot
+    public class XmlSkeletonRoot : XmlRootBase
     {
-        public string m_tmpPath = "";
-        public List<Mesh> m_skeletonList;
-
         public XmlSkeletonRoot()
         {
-            m_skeletonList = new List<Mesh>();
+            
         }
 
         public void parseSkeletonXml()
         {
             SkeletonCfgParse skeletonCfgParse = new SkeletonCfgParse();
-            skeletonCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkeletonCfg.xml"), m_skeletonList);
+            skeletonCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkeletonCfg.xml"), this);
+
+            createSubDir();         // 创建出来所有的子目录，不用在执行中判断
         }
 
         public void exportSkeleton()
         {
-            foreach (Mesh mesh in m_skeletonList)
+            foreach (Mesh mesh in m_meshList)
             {
                 mesh.packSkel();
             }

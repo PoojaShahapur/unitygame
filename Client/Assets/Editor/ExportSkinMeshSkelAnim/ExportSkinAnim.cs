@@ -29,7 +29,7 @@ namespace EditorTool
         static void ExportSkeletonCfg()
         {
             SkinAnimSys.instance();
-            SkinAnimSys.m_instance.parseSkelSubMeshPackXml();
+            SkinAnimSys.m_instance.parseSkeletonCfgXml();
             SkinAnimSys.m_instance.exportSkeletonFile();
         }
 
