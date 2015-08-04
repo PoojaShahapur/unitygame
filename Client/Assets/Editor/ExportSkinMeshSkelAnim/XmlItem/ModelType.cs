@@ -66,6 +66,14 @@ namespace EditorTool
             }
         }
 
+        public void addXmlEnd()
+        {
+            foreach (eModelType key in m_modelTypeDic.Keys)
+            {
+                m_modelTypeDic[key].addXmlEnd();
+            }
+        }
+
         public void save2Files(string parentPath)
         {
             foreach (eModelType key in m_modelTypeDic.Keys)
@@ -145,7 +153,7 @@ namespace EditorTool
             path = ExportUtil.getDataPath(string.Format("{0}/{1}/{2}.xml", parentPath, m_subPath, m_outFileName));
 
             ExportUtil.deleteFile(path);
-            FileStream fileStream = new FileStream(path, FileMode.Create);
+            FileStream fileStream = new FileStream(path, FileMode.CreateNew);
             byte[] data = new UTF8Encoding().GetBytes(m_content);
             //开始写入
             fileStream.Write(data, 0, data.Length);
@@ -154,6 +162,8 @@ namespace EditorTool
             fileStream.Flush();
             fileStream.Close();
             fileStream.Dispose();
+
+            m_content = "";
         }
 
         public void parseXml(XmlElement elem)

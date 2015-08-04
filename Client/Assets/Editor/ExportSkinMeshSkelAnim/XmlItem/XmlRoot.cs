@@ -87,11 +87,11 @@ namespace EditorTool
                 xmlStr += "</Root>";
 
                 string xmlName = string.Format("{0}.xml", ExportUtil.getFileNameNoExt(mesh.skelMeshParam.m_name));
-                string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType], xmlName);
+                string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
                 xmlPath = ExportUtil.getDataPath(xmlPath);
 
                 ExportUtil.deleteFile(xmlPath);
-                FileStream fileStream = new FileStream(xmlPath, FileMode.Create);
+                FileStream fileStream = new FileStream(xmlPath, FileMode.CreateNew);
                 byte[] data = new UTF8Encoding().GetBytes(xmlStr);
                 //开始写入
                 fileStream.Write(data, 0, data.Length);
@@ -118,12 +118,12 @@ namespace EditorTool
 
                     xmlStr += "</Root>";
 
-                    string xmlName = string.Format("{0}.xml", ExportUtil.getFileNameNoExt(subMesh.m_name));
-                    string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType], xmlName);
+                    string xmlName = string.Format("{0}.xml", ExportUtil.getFileNameNoExt(subMesh.m_part));
+                    string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
                     xmlPath = ExportUtil.getDataPath(xmlPath);
 
                     ExportUtil.deleteFile(xmlPath);
-                    FileStream fileStream = new FileStream(xmlPath, FileMode.Create);
+                    FileStream fileStream = new FileStream(xmlPath, FileMode.CreateNew);
                     byte[] data = new UTF8Encoding().GetBytes(xmlStr);
                     //开始写入
                     fileStream.Write(data, 0, data.Length);
@@ -148,6 +148,7 @@ namespace EditorTool
                 }
             }
 
+            m_modelTypes.addXmlEnd();
             m_modelTypes.save2Files(m_outPath);
         }
     }

@@ -164,7 +164,7 @@ namespace EditorTool
         }
 
         // 递归创建目录
-        static public void RecurCreateDirectory(string pathAndName)
+        static public void RecurCreateStreamDirectory(string pathAndName)
         {
             string curpath = "";
             string leftpath = "";
@@ -186,6 +186,28 @@ namespace EditorTool
                 CreateDirectory(fullpath);
 
                 slashIdx = leftpath.IndexOf("/");
+            }
+        }
+
+        static public void RecurCreateDirectory(string pathAndName)
+        {
+            string normPath = ExportUtil.normalPath(pathAndName);
+            string[] pathArr = normPath.Split(new []{'/'});
+
+            string curCreatePath = "";
+            int idx = 0;
+            for(; idx < pathArr.Length; ++idx)
+            {
+                if(curCreatePath.Length == 0)
+                {
+                    curCreatePath = pathArr[idx];
+                }
+                else
+                {
+                    curCreatePath = string.Format("{0}/{1}", curCreatePath, pathArr[idx]);
+                }
+
+                CreateDirectory(curCreatePath);
             }
         }
 
@@ -312,8 +334,17 @@ namespace EditorTool
                     return path.Substring(0, dotIdx);
                 }
             }
-
-            return "";
+            else
+            {
+                if (-1 != slashIdx)
+                {
+                    return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
+                }
+                else
+                {
+                    return path;
+                }
+            }
         }
 
         static public string getFileNameWithExt(string path)

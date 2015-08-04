@@ -34,7 +34,7 @@ namespace EditorTool
 
             // Path 节点
             ModelPath modelPath;
-            packNodeList = rootNode.SelectNodes("Path");
+            packNodeList = rootNode.SelectNodes("ModelPath");
             foreach (XmlNode packNode in packNodeList)
             {
                 packElem = (XmlElement)packNode;

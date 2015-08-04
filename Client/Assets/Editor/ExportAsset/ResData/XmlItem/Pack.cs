@@ -36,7 +36,7 @@ namespace EditorTool
             pathList.Add(param.m_outPath);
             pathList.Add(m_name);
             string path = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
-            ExportUtil.RecurCreateDirectory(path);
+            ExportUtil.RecurCreateStreamDirectory(path);
 
             if (ExportUtil.BUNDLE == param.m_type)
             {

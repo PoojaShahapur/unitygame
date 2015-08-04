@@ -50,13 +50,15 @@ namespace EditorTool
         }
 
         // 从 Mesh 中添加 SubMesh
-        protected void addSubMesh()
+        public void addSubMesh()
         {
             List<string> pathList = new List<string>();
             pathList.Add(m_skelMeshParam.m_inPath);
             pathList.Add(m_skelMeshParam.m_name);
 
+            // 目录一定是以 "Assets" 开头的相对目录
             string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            UnityEngine.Object go_ = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_skelMeshParam.m_resType));
             GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_skelMeshParam.m_resType)) as GameObject;
 
             int childCount = go.transform.childCount;

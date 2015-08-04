@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace EditorTool
 {
@@ -13,12 +14,16 @@ namespace EditorTool
         protected eModelType m_modelType;
         protected bool m_packSkel;
 
+        protected List<string> m_ignoreExtList;
+
         public void parseXml(XmlElement elem)
         {
             m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
             m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);
             m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
             m_modelType = (eModelType)ExportUtil.getXmlAttrInt(elem.Attributes["part"]);
+            string ignoreExtStr = ExportUtil.getXmlAttrStr(elem.Attributes["ignoreext"]);
+            m_ignoreExtList = new List<string>(ignoreExtStr.Split(new[] { ',' }));
 
             addMesh();
         }
@@ -31,15 +36,21 @@ namespace EditorTool
 
         protected void onFindOneFile(string fullPath)
         {
-            string fileName = ExportUtil.getFileNameWithExt(fullPath);
-            Mesh mesh = new Mesh();
-            mesh.skelMeshParam.m_name = fileName;
-            mesh.skelMeshParam.m_inPath = m_inPath;
-            mesh.skelMeshParam.m_outPath = m_outPath;
-            mesh.skelMeshParam.m_resType = m_resType;
-            mesh.skelMeshParam.m_packSkel = m_packSkel;
+            string ext = ExportUtil.getFileExt(fullPath);
+            if (m_ignoreExtList.IndexOf(ext) == -1)
+            {
+                string fileName = ExportUtil.getFileNameWithExt(fullPath);
+                Mesh mesh = new Mesh();
+                mesh.skelMeshParam.m_name = fileName;
+                mesh.skelMeshParam.m_inPath = m_inPath;
+                mesh.skelMeshParam.m_outPath = m_outPath;
+                mesh.skelMeshParam.m_resType = m_resType;
+                mesh.skelMeshParam.m_packSkel = m_packSkel;
 
-            SkinAnimSys.m_instance.m_xmlSkinMeshRoot.m_skinMeshList.Add(mesh);
+                mesh.addSubMesh();
+
+                SkinAnimSys.m_instance.m_xmlSkinMeshRoot.m_skinMeshList.Add(mesh);
+            }
         }
     }
 }
