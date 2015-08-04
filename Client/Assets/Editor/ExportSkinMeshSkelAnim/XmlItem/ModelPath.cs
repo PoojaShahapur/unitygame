@@ -39,7 +39,7 @@ namespace EditorTool
             mesh.skelMeshParam.m_resType = m_resType;
             mesh.skelMeshParam.m_packSkel = m_packSkel;
 
-            SkinAnimSys.m_instance.m_meshList.Add(mesh);
+            SkinAnimSys.m_instance.m_xmlSkinMeshRoot.m_skinMeshList.Add(mesh);
         }
     }
 }

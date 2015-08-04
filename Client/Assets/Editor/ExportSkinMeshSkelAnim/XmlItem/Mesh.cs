@@ -27,6 +27,7 @@ namespace EditorTool
             m_skelMeshParam.m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
             m_skelMeshParam.m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
             m_skelMeshParam.m_packSkel = ExportUtil.getXmlAttrBool(elem.Attributes["packskel"]);
+            m_skelMeshParam.m_modelType = (eModelType)ExportUtil.getXmlAttrInt(elem.Attributes["modeltype"]);
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;
@@ -103,25 +104,25 @@ namespace EditorTool
             xmlStr += "    </Mesh>\n";
         }
 
-        public void packSkelSubMesh(RootParam rootParam)
+        public void packSkelSubMesh()
         {
-            packSubMesh(rootParam);
+            packSubMesh();
 
             if (m_skelMeshParam.m_packSkel)
             {
-                packSkel(rootParam);
+                packSkel();
             }
         }
 
-        public void packSubMesh(RootParam rootParam)
+        public void packSubMesh()
         {
             foreach (SubMesh subMesh in m_subMeshList)
             {
-                subMesh.packSubMesh(m_skelMeshParam, rootParam);
+                subMesh.packSubMesh(m_skelMeshParam);
             }
         }
 
-        public void packSkel(RootParam rootParam)
+        public void packSkel()
         {
             List<string> pathList = new List<string>();
             pathList.Add(m_skelMeshParam.m_inPath);
@@ -137,7 +138,7 @@ namespace EditorTool
             List<string> assetNamesList = new List<string>();
 
             pathList.Clear();
-            pathList.Add(rootParam.m_tmpPath);
+            pathList.Add(SkinAnimSys.m_instance.m_xmlSkelSubMeshRoot.m_tmpPath);
             pathList.Add(skelNoExt + ".prefab");
 
             tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));

@@ -656,5 +656,14 @@ namespace EditorTool
                 Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
             }
         }
+
+        // 删除一个文件
+        static public void deleteFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
     }
 }

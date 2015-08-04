@@ -79,7 +79,7 @@ namespace EditorTool
             xmlStr += string.Format("        <SubMesh name=\"{0}\" bonelist=\"{1}\" />\n", m_part, ret);
         }
 
-        public void packSubMesh(SkelMeshParam param, RootParam rootParam)
+        public void packSubMesh(SkelMeshParam param)
         {
             List<string> pathList = new List<string>();
             pathList.Add(param.m_inPath);
@@ -105,7 +105,7 @@ namespace EditorTool
                     subMeshName = ExportUtil.getSubMeshName(param.m_name, m_name);
 
                     pathList.Clear();
-                    pathList.Add(rootParam.m_tmpPath);
+                    pathList.Add(SkinAnimSys.m_instance.m_xmlSkelSubMeshRoot.m_tmpPath);
                     pathList.Add(subMeshName + ".prefab");
 
                     tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
