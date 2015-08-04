@@ -142,6 +142,8 @@ namespace EditorTool
             List<Object> objList = new List<Object>();
             List<string> assetNamesList = new List<string>();
 
+            GameObject instanceGo;
+
             pathList.Clear();
             if (string.IsNullOrEmpty(m_skelMeshParam.m_outPath))
             {
@@ -156,15 +158,19 @@ namespace EditorTool
 
             outPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
             assetNamesList.Add(outPrefabPath);
-            PrefabUtility.CreatePrefab(outPrefabPath, go);
 
-            go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+            // 原始的资源是不能修改的，必须要 Instantiate 后才能修改，因此这里 Instantiate 一个 GameObject
+            instanceGo = UtilApi.Instantiate(go) as GameObject;
+            //PrefabUtility.CreatePrefab(outPrefabPath, go);
 
-            if (go != null)
+            //go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+
+            if (instanceGo != null)
             {
+                UtilApi.normalRST(instanceGo.transform);
                 foreach (SubMesh subMesh in m_subMeshList)
                 {
-                    subMeshGo = go.transform.Find(subMesh.m_name).gameObject;
+                    subMeshGo = instanceGo.transform.Find(subMesh.m_name).gameObject;
                     if (subMeshGo != null)
                     {
                         //GameObject.DestroyImmediate(subMeshGo);
@@ -174,6 +180,8 @@ namespace EditorTool
                     }
                 }
 
+                PrefabUtility.CreatePrefab(outPrefabPath, instanceGo);
+                UtilApi.DestroyImmediate(instanceGo, false, false);
                 AssetDatabase.Refresh();
 
                 // 现在不直接打包，需要最后发布的时候才打包
