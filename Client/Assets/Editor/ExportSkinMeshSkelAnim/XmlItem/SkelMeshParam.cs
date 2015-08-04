@@ -6,7 +6,6 @@
         public string m_inPath;
         public string m_outPath;
         public string m_resType;    // 资源类型
-        public bool m_packSkel;    // 是否打包骨骼
         public eModelType m_modelType;  // 模型的类型
     }
 }

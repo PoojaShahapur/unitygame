@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!--
+  导出骨骼\动画\子网格
+	[SubMesh] 的 [part] 是指身体的哪一部分
+  [Root] 标签中的 [outpath] 是指生成 [xml] 文件放在哪个文件夹下
+  [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录
+-->
+<Root tmppath="Prefabs/Resources/Being" >
+	<Mesh name="DefaultAvatar.fbx" packskel="true" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Being" >
+		<SubMesh name="Geo_grp/Unity_Body_Mesh" part="body"/>
+		<SubMesh name="Geo_grp/Lw_Teeth_Mesh" part="lwteeth"/>
+		<SubMesh name="Geo_grp/Tounge_Mesh" part="tounge"/>
+		<SubMesh name="Geo_grp/Up_Teeth_Mesh" part="upteeth"/>
+	</Mesh>
+</Root>

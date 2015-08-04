@@ -15,13 +15,22 @@ namespace EditorTool
             SkinAnimSys.m_instance.exportSkinsFile();
         }
 
-        // 导出骨骼和子网格
-        [MenuItem("Assets/SelfAssetBundles/ExportSkelSubmeshCfg")]
-        static void ExportSkelSubMeshCfg()
+        // 导出子网格
+        [MenuItem("Assets/SelfAssetBundles/ExportSubmeshCfg")]
+        static void ExportSubMeshCfg()
         {
             SkinAnimSys.instance();
             SkinAnimSys.m_instance.parseSkelSubMeshPackXml();
-            SkinAnimSys.m_instance.skelSubMeshPackFile();
+            SkinAnimSys.m_instance.exportSubMeshPackFile();
+        }
+
+        // 导出骨骼
+        [MenuItem("Assets/SelfAssetBundles/ExportSkeletonCfg")]
+        static void ExportSkeletonCfg()
+        {
+            SkinAnimSys.instance();
+            SkinAnimSys.m_instance.parseSkelSubMeshPackXml();
+            SkinAnimSys.m_instance.exportSkeletonFile();
         }
 
         static public void testLoadAsset()

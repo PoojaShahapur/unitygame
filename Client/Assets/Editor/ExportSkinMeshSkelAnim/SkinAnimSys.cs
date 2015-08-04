@@ -20,14 +20,16 @@ namespace EditorTool
         }
 
         public XmlSkinMeshRoot m_xmlSkinMeshRoot;
-        public XmlSkelSubMeshRoot m_xmlSkelSubMeshRoot;
+        public XmlSubMeshRoot m_xmlSubMeshRoot;
+        public XmlSkeletonRoot m_xmlSkeletonRoot;
         public BuildTarget m_targetPlatform;
 
         protected SkinAnimSys()
         {   
             m_targetPlatform = BuildTarget.StandaloneWindows;
             m_xmlSkinMeshRoot = new XmlSkinMeshRoot();
-            m_xmlSkelSubMeshRoot = new XmlSkelSubMeshRoot();
+            m_xmlSubMeshRoot = new XmlSubMeshRoot();
+            m_xmlSkeletonRoot = new XmlSkeletonRoot();
         }
 
         public void parseSkinsXml()
@@ -37,7 +39,7 @@ namespace EditorTool
 
         public void parseSkelSubMeshPackXml()
         {
-            m_xmlSkelSubMeshRoot.parseSkelSubMeshPackXml();
+            m_xmlSubMeshRoot.parseSkelSubMeshPackXml();
         }
 
         public void exportBoneList()
@@ -50,9 +52,14 @@ namespace EditorTool
             m_xmlSkinMeshRoot.exportSkinsFile();
         }
 
-        public void skelSubMeshPackFile()
+        public void exportSubMeshPackFile()
         {
-            m_xmlSkelSubMeshRoot.skelSubMeshPackFile();
+            m_xmlSubMeshRoot.subMeshPackFile();
+        }
+
+        public void exportSkeletonFile()
+        {
+            m_xmlSkeletonRoot.exportSkeleton();
         }
     }
 }

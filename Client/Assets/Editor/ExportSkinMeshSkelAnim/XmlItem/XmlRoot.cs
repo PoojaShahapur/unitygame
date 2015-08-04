@@ -6,7 +6,7 @@ using System.Xml;
 namespace EditorTool
 {
     /**
-     * @brief Xml 的根节点
+     * @brief Xml 蒙皮网格导出
      */
     public class XmlSkinMeshRoot
     {
@@ -26,7 +26,7 @@ namespace EditorTool
 
         public void parseSkinsXml()
         {
-            SkelMeshCfgParse skelMeshCfgParse = new SkelMeshCfgParse();
+            SkinMeshCfgParse skelMeshCfgParse = new SkinMeshCfgParse();
             skelMeshCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkinsCfg.xml"));
 
             createSubDir();         // 创建出来所有的子目录，不用在执行中判断
@@ -153,29 +153,59 @@ namespace EditorTool
         }
     }
 
-    public class XmlSkelSubMeshRoot
+    /**
+     * @brief 导出子网格配置
+     */
+    public class XmlSubMeshRoot
     {
         public string m_tmpPath = "";
-        public List<Mesh> m_skelSubMeshList;
+        public List<Mesh> m_subMeshList;
 
-        public XmlSkelSubMeshRoot()
+        public XmlSubMeshRoot()
         {
-            m_skelSubMeshList = new List<Mesh>();
+            m_subMeshList = new List<Mesh>();
         }
 
         public void parseSkelSubMeshPackXml()
         {
-            SkelSubMeshPackParse skelSubMeshPackParse = new SkelSubMeshPackParse();
-            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/SkelSubMeshPackCfg.xml"), m_skelSubMeshList);
+            SubMeshCfgParse skelSubMeshPackParse = new SubMeshCfgParse();
+            skelSubMeshPackParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSubMeshCfg.xml"), m_subMeshList);
         }
 
-        public void skelSubMeshPackFile()
+        public void subMeshPackFile()
         {
-            foreach (Mesh mesh in m_skelSubMeshList)
+            foreach (Mesh mesh in m_subMeshList)
             {
                 mesh.packSkelSubMesh();
             }
         }
+    }
 
+    /**
+     * @briefe 导出骨骼配置
+     */
+    public class XmlSkeletonRoot
+    {
+        public string m_tmpPath = "";
+        public List<Mesh> m_skeletonList;
+
+        public XmlSkeletonRoot()
+        {
+            m_skeletonList = new List<Mesh>();
+        }
+
+        public void parseSkeletonXml()
+        {
+            SkeletonCfgParse skeletonCfgParse = new SkeletonCfgParse();
+            skeletonCfgParse.parseXml(ExportUtil.getDataPath("Res/Config/Tool/ExportSkeletonCfg.xml"), m_skeletonList);
+        }
+
+        public void exportSkeleton()
+        {
+            foreach (Mesh mesh in m_skeletonList)
+            {
+                mesh.packSkel();
+            }
+        }
     }
 }

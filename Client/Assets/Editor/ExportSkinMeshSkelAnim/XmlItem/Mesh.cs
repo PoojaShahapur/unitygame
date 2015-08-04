@@ -26,7 +26,6 @@ namespace EditorTool
             m_skelMeshParam.m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);
             m_skelMeshParam.m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
             m_skelMeshParam.m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
-            m_skelMeshParam.m_packSkel = ExportUtil.getXmlAttrBool(elem.Attributes["packskel"]);
             m_skelMeshParam.m_modelType = (eModelType)ExportUtil.getXmlAttrInt(elem.Attributes["modeltype"]);
 
             XmlNodeList itemNodeList = elem.ChildNodes;
@@ -109,11 +108,6 @@ namespace EditorTool
         public void packSkelSubMesh()
         {
             packSubMesh();
-
-            if (m_skelMeshParam.m_packSkel)
-            {
-                packSkel();
-            }
         }
 
         public void packSubMesh()
@@ -140,7 +134,7 @@ namespace EditorTool
             List<string> assetNamesList = new List<string>();
 
             pathList.Clear();
-            pathList.Add(SkinAnimSys.m_instance.m_xmlSkelSubMeshRoot.m_tmpPath);
+            pathList.Add(SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_tmpPath);
             pathList.Add(skelNoExt + ".prefab");
 
             tmpPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));

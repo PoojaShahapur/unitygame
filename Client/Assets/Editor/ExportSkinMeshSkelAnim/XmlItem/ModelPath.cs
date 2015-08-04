@@ -45,7 +45,6 @@ namespace EditorTool
                 mesh.skelMeshParam.m_inPath = m_inPath;
                 mesh.skelMeshParam.m_outPath = m_outPath;
                 mesh.skelMeshParam.m_resType = m_resType;
-                mesh.skelMeshParam.m_packSkel = m_packSkel;
 
                 mesh.addSubMesh();
 

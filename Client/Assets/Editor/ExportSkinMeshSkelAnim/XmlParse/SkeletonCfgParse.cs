@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace EditorTool
 {
-    class SkelSubMeshPackParse
+    class SkeletonCfgParse
     {
         public string m_outPath = "";
         public string m_tmpPath = "";
@@ -16,7 +16,7 @@ namespace EditorTool
 
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
             SkinAnimSys.m_instance.m_xmlSkinMeshRoot.m_outPath = ExportUtil.getXmlAttrStr(rootNode.Attributes["outpath"]);
-            SkinAnimSys.m_instance.m_xmlSkelSubMeshRoot.m_tmpPath = ExportUtil.getXmlAttrStr(rootNode.Attributes["tmppath"]);
+            SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_tmpPath = ExportUtil.getXmlAttrStr(rootNode.Attributes["tmppath"]);
             XmlNodeList packNodeList = rootNode.ChildNodes;
             XmlElement packElem;
             Mesh mesh;

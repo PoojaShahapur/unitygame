@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace EditorTool
 {
-    class SkelMeshCfgParse
+    class SkinMeshCfgParse
     {
         public void parseXml(string path)
         {
