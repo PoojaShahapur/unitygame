@@ -31,7 +31,7 @@ namespace EditorTool
             // 打包生成 unity3d 资源
             PublishProductUtil.pkgResources();
             // 导出资源列表
-            ResExportSys.m_instance.m_exportResList.exportResList();
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_exportResList.exportResList();
             // 拷贝资源到输出目录
             //PublishProductUtil.copyRes2Dest();
             // 删除 Resources 目录，防止资源被重复打包进输出镜像

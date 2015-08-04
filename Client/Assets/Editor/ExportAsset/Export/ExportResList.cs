@@ -16,7 +16,7 @@ namespace EditorTool
     /**
      * @brief 导出打包的资源列表
      */
-    class ExportResList
+    public class ExportResList
     {
         protected List<ResListItem> m_list = new List<ResListItem>();
 

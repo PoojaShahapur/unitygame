@@ -13,10 +13,8 @@ namespace EditorTool
         public static ResExportSys m_instance = null;
 
         public List<PackType> m_packList = new List<PackType>();
-        public BuildTarget m_targetPlatform;
-
         public ResourcesCfgPackData m_pResourcesCfgPackData = new ResourcesCfgPackData();
-        public ExportResList m_exportResList = new ExportResList();
+        public BuildTarget m_targetPlatform;
 
         public static void instance()
         {

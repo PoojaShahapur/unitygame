@@ -14,6 +14,7 @@ namespace EditorTool
         public List<ResourcesPathItem> m_resourceList = new List<ResourcesPathItem>();
         public string m_destFullPath;
         public string m_resListOutpath;
+        public ExportResList m_exportResList = new ExportResList();
     }
 
     /**
@@ -186,7 +187,7 @@ namespace EditorTool
             {
                 item.m_srcName = string.Format("Scenes/{0}", item.m_srcName);
             }
-            ResExportSys.m_instance.m_exportResList.addItem(item);
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_exportResList.addItem(item);
         }
     }
 }
