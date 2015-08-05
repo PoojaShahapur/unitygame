@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace CreateAnimatorController
@@ -16,6 +17,7 @@ namespace CreateAnimatorController
     public class AnimatorControllerCreateSys
     {
         static public AnimatorControllerCreateSys m_instance;
+        protected XmlAnimatorController m_curXmlAnimatorController;         // 当前处理的动画控制器
 
         public static AnimatorControllerCreateSys instance()
         {
@@ -26,7 +28,19 @@ namespace CreateAnimatorController
             return m_instance;
         }
 
-        protected List<AnimatorControllerCreate> m_controllerList = new List<AnimatorControllerCreate>();
+        protected List<XmlAnimatorController> m_controllerList = new List<XmlAnimatorController>();
+
+        public XmlAnimatorController curXmlAnimatorController
+        {
+            get
+            {
+                return m_curXmlAnimatorController;
+            }
+            set
+            {
+                m_curXmlAnimatorController = value;
+            }
+        }
 
         public void clear()
         {
@@ -44,12 +58,13 @@ namespace CreateAnimatorController
 
             XmlNodeList controllerNodeList = rootNode.ChildNodes;
             XmlElement controllerElem;
-            AnimatorControllerCreate controller;
+            XmlAnimatorController controller;
 
             foreach (XmlNode controllerNode in controllerNodeList)
             {
                 controllerElem = (XmlElement)controllerNode;
-                controller = new AnimatorControllerCreate();
+                controller = new XmlAnimatorController();
+                m_curXmlAnimatorController = controller;
                 m_controllerList.Add(controller);
                 controller.parseXml(controllerElem);
             }
@@ -60,6 +75,7 @@ namespace CreateAnimatorController
         {
             foreach(var item in m_controllerList)
             {
+                m_curXmlAnimatorController = item;
                 RuntimeAnimatorController runtimeAsset = AnimatorControllerCreateUtil.BuildAnimationController(item);
                 SOAnimatorController soAnimator = ScriptableObject.CreateInstance<SOAnimatorController>();
                 soAnimator.addAnimator(item.controllerFullPath, runtimeAsset);
@@ -72,7 +88,7 @@ namespace CreateAnimatorController
         }
     }
 
-    public class AnimatorControllerCreate
+    public class XmlAnimatorController
     {
         protected string m_inPath;
         protected string m_outPath;
@@ -192,10 +208,10 @@ namespace CreateAnimatorController
             m_assetFullPath = string.Format("{0}/{1}.{2}", m_outPath, m_outName, m_outExtName);
 
             XmlNode paramsNode = elem.SelectSingleNode("Params");
-            m_params.parseXml(paramsNode as XmlElement, this);
+            m_params.parseXml(paramsNode as XmlElement);
 
             XmlNode layersNode = elem.SelectSingleNode("Layers");
-            m_layers.parseXml(layersNode as XmlElement, this);
+            m_layers.parseXml(layersNode as XmlElement);
         }
     }
 
@@ -215,7 +231,7 @@ namespace CreateAnimatorController
             }
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public void parseXml(XmlElement elem)
         {
             XmlNodeList paramsNodeList = elem.ChildNodes;
             XmlElement paramElem = null;
@@ -225,7 +241,7 @@ namespace CreateAnimatorController
                 paramElem = (XmlElement)paramNode;
                 param = new Param();
                 m_paramList.Add(param);
-                param.parseXml(paramElem, controllerData);
+                param.parseXml(paramElem);
             }
         }
     }
@@ -259,7 +275,7 @@ namespace CreateAnimatorController
             }
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public void parseXml(XmlElement elem)
         {
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
             m_type = ExportUtil.getXmlAttrStr(elem.Attributes["type"]);
@@ -282,9 +298,9 @@ namespace CreateAnimatorController
             }
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public void parseXml(XmlElement elem)
         {
-            XmlNodeList layersNodeList = elem.ChildNodes;
+            XmlNodeList layersNodeList = elem.SelectNodes("Layer");
             XmlElement layerElem = null;
             Layer layer;
             foreach (XmlNode layerNode in layersNodeList)
@@ -292,7 +308,7 @@ namespace CreateAnimatorController
                 layerElem = (XmlElement)layerNode;
                 layer = new Layer();
                 m_layerList.Add(layer);
-                layer.parseXml(layerElem, controllerData);
+                layer.parseXml(layerElem);
             }
         }
     }
@@ -313,17 +329,18 @@ namespace CreateAnimatorController
             }
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public void parseXml(XmlElement elem)
         {
-            XmlNodeList stateMachineNodeList = elem.ChildNodes;
+            XmlNodeList stateMachineNodeList = elem.SelectNodes("Statemachine");
             XmlElement stateMachineElem = null;
             StateMachine stateMachine;
             foreach (XmlNode stateMachineNode in stateMachineNodeList)
             {
                 stateMachineElem = (XmlElement)stateMachineNode;
                 stateMachine = new StateMachine();
+                stateMachine.layer = this;
                 m_stateMachineList.Add(stateMachine);
-                stateMachine.parseXml(stateMachineElem, controllerData);
+                stateMachine.parseXml(stateMachineElem);
             }
         }
     }
@@ -331,6 +348,11 @@ namespace CreateAnimatorController
     public class StateMachine
     {
         protected List<State> m_stateList = new List<State>();
+        protected List<Clip> m_clipList = new List<Clip>();
+        protected List<XmlTransition> m_tranList = new List<XmlTransition>();
+
+        protected Layer m_layer;                // 当前状态机所在的 Layer
+        protected AnimatorStateMachine m_animatorStateMachine;      // 记录当前状态机
 
         public List<State> stateList
         {
@@ -344,17 +366,91 @@ namespace CreateAnimatorController
             }
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public AnimatorStateMachine animatorStateMachine
         {
-            XmlNodeList stateNodeList = elem.ChildNodes;
+            get
+            {
+                return m_animatorStateMachine;
+            }
+            set
+            {
+                m_animatorStateMachine = value;
+            }
+        }
+
+        public Layer layer
+        {
+            get
+            {
+                return m_layer;
+            }
+            set
+            {
+                m_layer = value;
+            }
+        }
+
+        public void parseXml(XmlElement elem)
+        {
+            XmlNodeList stateNodeList = elem.SelectNodes("Clip");
+            XmlElement stateElem = null;
+            Clip _clip;
+            foreach (XmlNode stateNode in stateNodeList)
+            {
+                stateElem = (XmlElement)stateNode;
+                _clip = new Clip();
+                _clip.stateMachine = this;
+                m_clipList.Add(_clip);
+                _clip.parseXml(stateElem);
+            }
+
+            XmlNodeList tranNodeList = elem.SelectNodes("Transition");
+            XmlElement tranElem = null;
+            XmlTransition _tran;
+            foreach (XmlNode stateNode in stateNodeList)
+            {
+                tranElem = (XmlElement)stateNode;
+                _tran = new XmlTransition();
+                _tran.stateMachine = this;
+                m_tranList.Add(_tran);
+                _tran.parseXml(stateElem);
+            }
+        }
+    }
+
+    public class Clip
+    {
+        protected string m_name;
+        protected StateMachine m_stateMachine;  // 对应的状态机
+        protected List<State> m_stateList = new List<State>();
+
+        public StateMachine stateMachine
+        {
+            get
+            {
+                return m_stateMachine;
+            }
+            set
+            {
+                m_stateMachine = value;
+            }
+        }
+
+        public void parseXml(XmlElement elem)
+        {
+            m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
+
+            XmlNodeList stateNodeList = elem.SelectNodes("State");
             XmlElement stateElem = null;
             State state;
             foreach (XmlNode stateNode in stateNodeList)
             {
                 stateElem = (XmlElement)stateNode;
                 state = new State();
+                state.stateMachine = m_stateMachine;
                 m_stateList.Add(state);
-                state.parseXml(stateElem, controllerData);
+                m_stateMachine.stateList.Add(state);
+                state.parseXml(stateElem);
             }
         }
     }
@@ -365,6 +461,7 @@ namespace CreateAnimatorController
         protected string m_fullMotion;
 
         protected List<Condition> m_condList = new List<Condition>();
+        protected StateMachine m_stateMachine;  // 对应的状态机
 
         public List<Condition> condList
         {
@@ -390,12 +487,24 @@ namespace CreateAnimatorController
             }
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public StateMachine stateMachine
+        {
+            get
+            {
+                return m_stateMachine;
+            }
+            set
+            {
+                m_stateMachine = value;
+            }
+        }
+
+        public void parseXml(XmlElement elem)
         {
             m_motion = ExportUtil.getXmlAttrStr(elem.Attributes["motion"]);
-            m_fullMotion = string.Format("{0}/{1}", controllerData.inPath, m_motion);
+            m_fullMotion = string.Format("{0}/{1}", AnimatorControllerCreateSys.m_instance.curXmlAnimatorController.inPath, m_motion);
 
-            XmlNodeList condNodeList = elem.ChildNodes;
+            XmlNodeList condNodeList = elem.SelectNodes("AnyCondition");
             XmlElement condElem = null;
             Condition cond;
             foreach (XmlNode condNode in condNodeList)
@@ -403,15 +512,21 @@ namespace CreateAnimatorController
                 condElem = (XmlElement)condNode;
                 cond = new Condition();
                 m_condList.Add(cond);
-                cond.parseXml(condElem, controllerData);
+                cond.parseXml(condElem);
             }
         }
     }
 
     public class Condition
     {
+        public const string GREATER = "Greater";            // 大于
+        public const string LESS = "Less";                  // 小于
+        public const string EQUALS = "Equals";              // 等于
+        public const string NOTEQUAL = "NotEqual";          // 不等于
+
         protected string m_name;
         protected string m_value;
+        protected AnimatorConditionMode m_opMode;           // 操作模式
 
         public string name
         {
@@ -432,10 +547,74 @@ namespace CreateAnimatorController
             return ret;
         }
 
-        public void parseXml(XmlElement elem, AnimatorControllerCreate controllerData)
+        public AnimatorConditionMode opMode
+        {
+            get
+            {
+                return m_opMode;
+            }
+            set
+            {
+                m_opMode = value;
+            }
+        }
+
+        public void parseXml(XmlElement elem)
         {
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
             m_value = ExportUtil.getXmlAttrStr(elem.Attributes["value"]);
+            string opMode = ExportUtil.getXmlAttrStr(elem.Attributes["OpMode"]);
+            if(Condition.GREATER == opMode)
+            {
+                m_opMode = AnimatorConditionMode.Greater;
+            }
+            else if (Condition.LESS == opMode)
+            {
+                m_opMode = AnimatorConditionMode.Less;
+            }
+            else if (Condition.EQUALS == opMode)
+            {
+                m_opMode = AnimatorConditionMode.Equals;
+            }
+            else if (Condition.NOTEQUAL == opMode)
+            {
+                m_opMode = AnimatorConditionMode.NotEqual;
+            }
+        }
+    }
+
+    public class XmlTransition
+    {
+        protected string m_srcState;
+        protected string m_destState;
+        protected List<Condition> m_condList;
+
+        protected StateMachine m_stateMachine;
+
+        public StateMachine stateMachine
+        {
+            get
+            {
+                return m_stateMachine;
+            }
+            set
+            {
+                m_stateMachine = value;
+            }
+        }
+
+        public void parseXml(XmlElement elem)
+        {
+            XmlNodeList condNodeList = elem.SelectNodes("Condition");
+            XmlElement condElem = null;
+            Condition cond;
+            foreach (XmlNode condNode in condNodeList)
+            {
+                condElem = (XmlElement)condNode;
+                cond = new Condition();
+                m_condList.Add(cond);
+                cond.parseXml(condElem);
+            }
         }
     }
 }

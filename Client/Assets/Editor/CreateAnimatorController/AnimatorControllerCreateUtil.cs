@@ -8,7 +8,7 @@ namespace CreateAnimatorController
     public class AnimatorControllerCreateUtil
     {
         // 暂时就支持一层，只支持一个参数
-        public static AnimatorController BuildAnimationController(AnimatorControllerCreate controllerData)
+        public static AnimatorController BuildAnimationController(XmlAnimatorController controllerData)
         {
             AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(controllerData.controllerFullPath);
             AnimatorControllerLayer layer = animatorController.layers[0];
@@ -33,18 +33,33 @@ namespace CreateAnimatorController
             trans.canTransitionToSelf = true;           // 可以循环自己
             trans.AddCondition(AnimatorConditionMode.Equals, 0, "StateId");
 
+            AnimationClip clip = null;
+            int idx = 0;
+            UnityEngine.Object[] assetArr = null;
+
             foreach (State state in controllerData.layers.layerList[0].stateMachineList[0].stateList)
             {
-                AnimationClip clip = AssetDatabase.LoadAssetAtPath(state.fullMotion, typeof(AnimationClip)) as AnimationClip;
-                animatorState = stateMachine.AddState(clip.name);
-                animatorState.motion = clip;
-                animatorState.writeDefaultValues = false;
-                trans = stateMachine.AddAnyStateTransition(animatorState);
-                trans.hasExitTime = true;
-                trans.exitTime = 0;
-                trans.duration = 0;
-                trans.canTransitionToSelf = false;
-                trans.AddCondition(AnimatorConditionMode.Equals, state.condList[0].getFloatValue(), state.condList[0].name);
+                //AnimationClip clip = AssetDatabase.LoadAssetAtPath(state.fullMotion, typeof(AnimationClip)) as AnimationClip;
+                clip = null;
+                idx = 0;
+
+                assetArr = AssetDatabase.LoadAllAssetsAtPath(state.fullMotion);   // 一个 anim 就一个动画，但是一个 fbx 可能有多个动画，因此同一使用这个加载资源，否则只能加载第一个。在 fbx 中还会有一个奇怪的 Clip ，名字类似 "__preview___72_a_U1_M_P_PlantNTurn90_Run_R_Fb_p90_No_0_PJ_4"，这个也要排除，排除 Clip 前缀是 "__preview__" 的 Clip 就行了
+                for (idx = 0; idx < assetArr.Length; ++idx)
+                {
+                    clip = assetArr[idx] as AnimationClip;
+                    if (clip != null)
+                    {
+                        animatorState = stateMachine.AddState(clip.name);
+                        animatorState.motion = clip;
+                        animatorState.writeDefaultValues = false;
+                        trans = stateMachine.AddAnyStateTransition(animatorState);
+                        trans.hasExitTime = true;
+                        trans.exitTime = 0;
+                        trans.duration = 0;
+                        trans.canTransitionToSelf = false;
+                        trans.AddCondition(AnimatorConditionMode.Equals, state.condList[0].getFloatValue(), state.condList[0].name);
+                    }
+                }
             }
 
             AssetDatabase.SaveAssets();

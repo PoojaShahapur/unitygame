@@ -616,7 +616,7 @@ public static class LuaBinding
          _GT(typeof(FilesVer)),
          _GT(typeof(VersionSys)),
          _GT(typeof(AILocalState)),
-         _GT(typeof(ActState)),
+         _GT(typeof(eBeingActId)),
          _GT(typeof(BehaviorState)),
          _GT(typeof(BeingBehaviour)),
          _GT(typeof(BeingEntity)),
