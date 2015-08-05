@@ -147,11 +147,12 @@ namespace EditorTool
             {
                 srcXmlState = xmlStateMachine.getXmlStateByName(tran.srcStateName);
                 destXmlState = xmlStateMachine.getXmlStateByName(tran.destStateName);
-                tran.animatorTransition = xmlStateMachine.animatorStateMachine.AddStateMachineTransition(xmlStateMachine.animatorStateMachine, destXmlState.animatorState);
+                //tran.animatorTransition = xmlStateMachine.animatorStateMachine.AddStateMachineTransition(xmlStateMachine.animatorStateMachine, destXmlState.animatorState);
+                tran.animatorStateTransition = srcXmlState.animatorState.AddTransition(destXmlState.animatorState);
 
                 foreach (var xmlCond in tran.condList)
                 {
-                    tran.animatorTransition.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
+                    tran.animatorStateTransition.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
                 }
             }
         }

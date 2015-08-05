@@ -11,7 +11,8 @@ namespace EditorTool
         protected List<XmlCondition> m_condList = new List<XmlCondition>();
 
         protected XmlStateMachine m_stateMachine;
-        protected AnimatorTransition m_animatorTransition;
+        // protected AnimatorTransition m_animatorTransition;
+        protected AnimatorStateTransition m_animatorStateTransition;
 
         public XmlStateMachine stateMachine
         {
@@ -49,15 +50,27 @@ namespace EditorTool
             }
         }
 
-        public AnimatorTransition animatorTransition
+        //public AnimatorTransition animatorTransition
+        //{
+        //    get
+        //    {
+        //        return m_animatorTransition;
+        //    }
+        //    set
+        //    {
+        //        m_animatorTransition = value;
+        //    }
+        //}
+
+        public AnimatorStateTransition animatorStateTransition
         {
             get
             {
-                return m_animatorTransition;
+                return m_animatorStateTransition;
             }
             set
             {
-                m_animatorTransition = value;
+                m_animatorStateTransition = value;
             }
         }
 
