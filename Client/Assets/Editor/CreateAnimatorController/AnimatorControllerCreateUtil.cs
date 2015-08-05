@@ -26,7 +26,7 @@ namespace EditorTool
             for(; layerIdx < controllerData.layers.layerList.Count; ++layerIdx)
             {
                 // 获取当前层
-                AnimatorControllerLayer layer = animatorController.layers[0];
+                AnimatorControllerLayer layer = animatorController.layers[layerIdx];
                 controllerData.layers.layerList[layerIdx].animatorControllerLayer = layer;
                 BuildAnimationStateLayer(controllerData.layers.layerList[layerIdx]);
             }
@@ -97,13 +97,12 @@ namespace EditorTool
             int idx = 0;
             UnityEngine.Object[] assetArr = null;
             XmlState xmlState = null;
-            //XmlCondition xmlCond = null;
             AnimatorState animatorState;
-            AnimatorStateTransition trans = null;
 
             //AnimationClip clip = AssetDatabase.LoadAssetAtPath(state.fullMotion, typeof(AnimationClip)) as AnimationClip;
             clip = null;
             idx = 0;
+            string preFixStr = "__preview__";
 
             assetArr = AssetDatabase.LoadAllAssetsAtPath(xmlClip.fullMotion);   // 一个 anim 就一个动画，但是一个 fbx 可能有多个动画，因此同一使用这个加载资源，否则只能加载第一个。在 fbx 中还会有一个奇怪的 Clip ，名字类似 "__preview___72_a_U1_M_P_PlantNTurn90_Run_R_Fb_p90_No_0_PJ_4"，这个也要排除，排除 Clip 前缀是 "__preview__" 的 Clip 就行了
             for (idx = 0; idx < assetArr.Length; ++idx)
@@ -111,22 +110,31 @@ namespace EditorTool
                 clip = assetArr[idx] as AnimationClip;
                 if (clip != null)
                 {
-                    xmlState = xmlClip.getXmlStateByName(clip.name);
-                    animatorState = xmlClip.stateMachine.animatorStateMachine.AddState(clip.name);
-                    xmlState.animatorState = animatorState;
-                    animatorState.motion = clip;
-                    animatorState.writeDefaultValues = false;
-                    trans = xmlClip.stateMachine.animatorStateMachine.AddAnyStateTransition(animatorState);
-                    trans.hasExitTime = true;
-                    trans.exitTime = 0;
-                    trans.duration = 0;
-                    trans.canTransitionToSelf = false;
-
-                    foreach (XmlCondition xmlCond in xmlState.condList)
+                    if (!clip.name.Contains(preFixStr))
                     {
-                        trans.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
+                        xmlState = xmlClip.getXmlStateByName(clip.name);
+                        animatorState = xmlClip.stateMachine.animatorStateMachine.AddState(clip.name);
+                        xmlState.animatorState = animatorState;
+                        animatorState.motion = clip;
+                        BuildState(xmlState);
                     }
                 }
+            }
+        }
+
+        static public void BuildState(XmlState xmlState)
+        {
+            AnimatorStateTransition trans = null;
+            xmlState.animatorState.writeDefaultValues = false;
+            trans = xmlState.stateMachine.animatorStateMachine.AddAnyStateTransition(xmlState.animatorState);
+            trans.hasExitTime = true;
+            trans.exitTime = 0;
+            trans.duration = 0;
+            trans.canTransitionToSelf = false;
+
+            foreach (XmlCondition xmlCond in xmlState.condList)
+            {
+                trans.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
             }
         }
 

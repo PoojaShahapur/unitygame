@@ -50,20 +50,20 @@ namespace EditorTool
         {
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
             m_value = ExportUtil.getXmlAttrStr(elem.Attributes["value"]);
-            string opMode = ExportUtil.getXmlAttrStr(elem.Attributes["OpMode"]);
-            if (XmlCondition.GREATER == opMode)
+            string _opMode = ExportUtil.getXmlAttrStr(elem.Attributes["OpMode"]);
+            if (XmlCondition.GREATER == _opMode)
             {
                 m_opMode = AnimatorConditionMode.Greater;
             }
-            else if (XmlCondition.LESS == opMode)
+            else if (XmlCondition.LESS == _opMode)
             {
                 m_opMode = AnimatorConditionMode.Less;
             }
-            else if (XmlCondition.EQUALS == opMode)
+            else if (XmlCondition.EQUALS == _opMode)
             {
                 m_opMode = AnimatorConditionMode.Equals;
             }
-            else if (XmlCondition.NOTEQUAL == opMode)
+            else if (XmlCondition.NOTEQUAL == _opMode)
             {
                 m_opMode = AnimatorConditionMode.NotEqual;
             }

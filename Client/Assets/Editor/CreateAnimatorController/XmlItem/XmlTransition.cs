@@ -8,7 +8,7 @@ namespace EditorTool
     {
         protected string m_srcStateName;
         protected string m_destStateName;
-        protected List<XmlCondition> m_condList;
+        protected List<XmlCondition> m_condList = new List<XmlCondition>();
 
         protected XmlStateMachine m_stateMachine;
         protected AnimatorTransition m_animatorTransition;

@@ -75,28 +75,28 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
-            XmlNodeList stateNodeList = elem.SelectNodes("Clip");
-            XmlElement stateElem = null;
+            XmlNodeList clipNodeList = elem.SelectNodes("Clip");
+            XmlElement clipElem = null;
             XmlClip _clip;
-            foreach (XmlNode stateNode in stateNodeList)
+            foreach (XmlNode clipNode in clipNodeList)
             {
-                stateElem = (XmlElement)stateNode;
+                clipElem = (XmlElement)clipNode;
                 _clip = new XmlClip();
                 _clip.stateMachine = this;
                 m_clipList.Add(_clip);
-                _clip.parseXml(stateElem);
+                _clip.parseXml(clipElem);
             }
 
             XmlNodeList tranNodeList = elem.SelectNodes("Transition");
             XmlElement tranElem = null;
             XmlTransition _tran;
-            foreach (XmlNode stateNode in stateNodeList)
+            foreach (XmlNode tranNode in tranNodeList)
             {
-                tranElem = (XmlElement)stateNode;
+                tranElem = (XmlElement)tranNode;
                 _tran = new XmlTransition();
                 _tran.stateMachine = this;
                 m_tranList.Add(_tran);
-                _tran.parseXml(stateElem);
+                _tran.parseXml(tranElem);
             }
         }
 
