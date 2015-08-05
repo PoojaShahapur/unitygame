@@ -58,7 +58,7 @@ namespace SDK.Lib
         }
 
         // 播放动画
-        public void playAnim(ActState actState)
+        public void playAnim(eBeingActId actState)
         {
             // 首先重置
 

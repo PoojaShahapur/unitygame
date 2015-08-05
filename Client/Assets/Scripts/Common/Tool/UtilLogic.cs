@@ -36,25 +36,25 @@ namespace SDK.Common
             return retState;
         }
 
-        static public ActState convBeingState2ActState(BeingState beingState, BeingSubState beingSubState)
+        static public eBeingActId convBeingState2ActState(BeingState beingState, BeingSubState beingSubState)
         {
             switch (beingState)
             {
                 case BeingState.BSIdle:
                     {
-                        return ActState.ActIdle;
+                        return eBeingActId.ActIdle;
                     }
                 case BeingState.BSWalk:
                     {
-                        return ActState.ActWalk;
+                        return eBeingActId.ActWalk;
                     }
                 case BeingState.BSRun:
                     {
-                        return ActState.ActRun;
+                        return eBeingActId.ActRun;
                     }
             }
 
-            return ActState.ActIdle;
+            return eBeingActId.ActIdle;
         }
 
         // 赋值卡牌显示
