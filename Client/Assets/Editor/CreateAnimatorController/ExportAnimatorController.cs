@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace CreateAnimatorController
+namespace EditorTool
 {
     public class AnimatorControllerExport
     {
