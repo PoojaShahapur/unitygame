@@ -8,7 +8,9 @@ namespace EditorTool
     {
         protected List<XmlState> m_stateList = new List<XmlState>();
         protected List<XmlClip> m_clipList = new List<XmlClip>();
-        protected List<XmlTransition> m_tranList = new List<XmlTransition>();
+        protected List<XmlStateTransition> m_tranList = new List<XmlStateTransition>();
+
+        protected string m_name;                    // 状态机的名字
 
         protected XmlLayer m_layer;                // 当前状态机所在的 Layer
         protected AnimatorStateMachine m_animatorStateMachine;      // 记录当前状态机
@@ -61,7 +63,7 @@ namespace EditorTool
             }
         }
 
-        public List<XmlTransition> tranList
+        public List<XmlStateTransition> tranList
         {
             get
             {
@@ -73,8 +75,24 @@ namespace EditorTool
             }
         }
 
+        public string name
+        {
+            get
+            {
+                return m_name;
+            }
+            set
+            {
+                m_name = value;
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
+            clear();
+
+            m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
+
             XmlNodeList clipNodeList = elem.SelectNodes("Clip");
             XmlElement clipElem = null;
             XmlClip _clip;
@@ -89,11 +107,11 @@ namespace EditorTool
 
             XmlNodeList tranNodeList = elem.SelectNodes("Transition");
             XmlElement tranElem = null;
-            XmlTransition _tran;
+            XmlStateTransition _tran;
             foreach (XmlNode tranNode in tranNodeList)
             {
                 tranElem = (XmlElement)tranNode;
-                _tran = new XmlTransition();
+                _tran = new XmlStateTransition();
                 _tran.stateMachine = this;
                 m_tranList.Add(_tran);
                 _tran.parseXml(tranElem);
@@ -111,6 +129,15 @@ namespace EditorTool
             }
 
             return null;
+        }
+
+        public void clear()
+        {
+            m_stateList.Clear();
+            m_clipList.Clear();
+            m_tranList.Clear();
+
+            m_animatorStateMachine = null;
         }
     }
 }

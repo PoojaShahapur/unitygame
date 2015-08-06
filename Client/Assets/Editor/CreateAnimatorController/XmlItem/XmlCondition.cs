@@ -14,6 +14,10 @@ namespace EditorTool
         protected string m_name;
         protected string m_value;
         protected AnimatorConditionMode m_opMode;           // 操作模式
+        protected XmlState m_xmlState;
+        protected XmlStateTransition m_xmlStateTransition;                  // 保存的是状态的转换
+
+        protected XmlStateMachineTransition m_xmlStateMachineTransition;    // 保存的是状态机的转换
 
         public string name
         {
@@ -24,6 +28,30 @@ namespace EditorTool
             set
             {
                 m_name = value;
+            }
+        }
+
+        public XmlState xmlState
+        {
+            get
+            {
+                return m_xmlState;
+            }
+            set
+            {
+                m_xmlState = value;
+            }
+        }
+
+        public XmlStateTransition xmlStateTransition
+        {
+            get
+            {
+                return m_xmlStateTransition;
+            }
+            set
+            {
+                m_xmlStateTransition = value;
             }
         }
 
@@ -43,6 +71,18 @@ namespace EditorTool
             set
             {
                 m_opMode = value;
+            }
+        }
+
+        public XmlStateMachineTransition xmlStateMachineTransition
+        {
+            get
+            {
+                return m_xmlStateMachineTransition;
+            }
+            set
+            {
+                m_xmlStateMachineTransition = value;
             }
         }
 

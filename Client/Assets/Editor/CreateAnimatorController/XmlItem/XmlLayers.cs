@@ -6,6 +6,7 @@ namespace EditorTool
     public class XmlLayers
     {
         protected List<XmlLayer> m_layerList = new List<XmlLayer>();
+        protected XmlAnimatorController m_xmlAnimatorController;
 
         public List<XmlLayer> layerList
         {
@@ -19,8 +20,22 @@ namespace EditorTool
             }
         }
 
+        public XmlAnimatorController xmlAnimatorController
+        {
+            get
+            {
+                return m_xmlAnimatorController;
+            }
+            set
+            {
+                m_xmlAnimatorController = value;
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
+            m_layerList.Clear();
+
             XmlNodeList layersNodeList = elem.SelectNodes("Layer");
             XmlElement layerElem = null;
             XmlLayer layer;
@@ -29,6 +44,7 @@ namespace EditorTool
                 layerElem = (XmlElement)layerNode;
                 layer = new XmlLayer();
                 m_layerList.Add(layer);
+                layer.xmlLayers = this;
                 layer.parseXml(layerElem);
             }
         }

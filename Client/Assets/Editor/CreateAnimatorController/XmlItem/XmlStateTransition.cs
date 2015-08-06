@@ -4,7 +4,7 @@ using UnityEditor.Animations;
 
 namespace EditorTool
 {
-    public class XmlTransition
+    public class XmlStateTransition
     {
         protected string m_srcStateName;
         protected string m_destStateName;
@@ -88,6 +88,8 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
+            clear();
+
             m_srcStateName = ExportUtil.getXmlAttrStr(elem.Attributes["srcstate"]);
             m_destStateName = ExportUtil.getXmlAttrStr(elem.Attributes["deststate"]);
 
@@ -99,8 +101,15 @@ namespace EditorTool
                 condElem = (XmlElement)condNode;
                 cond = new XmlCondition();
                 m_condList.Add(cond);
+                cond.xmlStateTransition = this;
                 cond.parseXml(condElem);
             }
+        }
+
+        public void clear()
+        {
+            m_condList.Clear();
+            m_animatorStateTransition = null;
         }
     }
 }

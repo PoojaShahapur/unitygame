@@ -6,8 +6,8 @@
 			<Param name="StateId" type="int" />
 		</Params>
 		<Layers>
-			<Layer>
-				<Statemachine>
+			<Layer name="FirstLayer">
+				<Statemachine name="MainStateMachine">
 					<Clip name="jifangchoupai01.anim" >
 						<State motion="jifangchoupai01" >
 							<AnyCondition name="StateId" value="1" OpMode="Equals" />
@@ -73,19 +73,282 @@
 							<AnyCondition name="StateId" value="31" OpMode="Equals" />
 						</State>
 					</Clip>
-					<Transition srcstate="jifangchoupai01" deststate="jifangchoupai02" >
+					<StateTransition srcstate="jifangchoupai01" deststate="jifangchoupai02" >
 						<Condition name="StateId" value="1000" OpMode="Equals" />
-					</Transition>
-					<Transition srcstate="jifangchoupai02" deststate="jifangchoupai03" >
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai03" >
 						<Condition name="StateId" value="2000" OpMode="Equals" />
-					</Transition>
-					<Transition srcstate="jifangchoupai02" deststate="jifangchoupai04" >
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai04" >
 						<Condition name="StateId" value="3000" OpMode="Equals" />
-					</Transition>
-					<Transition srcstate="jifangchoupai04" deststate="jifangruzhou01" >
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai04" deststate="jifangruzhou01" >
 						<Condition name="StateId" value="4000" OpMode="Equals" />
-					</Transition>
+					</StateTransition>
 				</Statemachine>
+				<Statemachine name="FirstSubMachine">
+					<Clip name="jifangchoupai01.anim" >
+						<State motion="jifangchoupai01" >
+							<AnyCondition name="StateId" value="1" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai02.anim" >
+						<State motion="jifangchoupai02" >
+							<AnyCondition name="StateId" value="2" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai03.anim" >
+						<State motion="jifangchoupai03" >
+							<AnyCondition name="StateId" value="3" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai04.anim" >
+						<State motion="jifangchoupai04" >
+							<AnyCondition name="StateId" value="4" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou01.anim" >
+						<State motion="jifangruzhou01" >
+							<AnyCondition name="StateId" value="11" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou02.anim" >
+						<State motion="jifangruzhou02" >
+							<AnyCondition name="StateId" value="12" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou03.anim" >
+						<State motion="jifangruzhou03" >
+							<AnyCondition name="StateId" value="13" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou04.anim" >
+						<State motion="jifangruzhou04" >
+							<AnyCondition name="StateId" value="14" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku01.anim" >
+						<State motion="huiku01" >
+							<AnyCondition name="StateId" value="21" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku02.anim" >
+						<State motion="huiku02" >
+							<AnyCondition name="StateId" value="22" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku03.anim" >
+						<State motion="huiku03" >
+							<AnyCondition name="StateId" value="23" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku04.anim" >
+						<State motion="huiku04" >
+							<AnyCondition name="StateId" value="24" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="choupairushou.anim" >
+						<State motion="choupairushou" >
+							<AnyCondition name="StateId" value="31" OpMode="Equals" />
+						</State>
+					</Clip>
+					<StateTransition srcstate="jifangchoupai01" deststate="jifangchoupai02" >
+						<Condition name="StateId" value="1000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai03" >
+						<Condition name="StateId" value="2000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai04" >
+						<Condition name="StateId" value="3000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai04" deststate="jifangruzhou01" >
+						<Condition name="StateId" value="4000" OpMode="Equals" />
+					</StateTransition>
+				</Statemachine>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai01" >
+					<Condition name="StateId" value="1000" OpMode="Equals" />
+				</StateMachineTransition>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai02" >
+					<Condition name="StateId" value="2000" OpMode="Equals" />
+				</StateMachineTransition>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai03" >
+					<Condition name="StateId" value="3000" OpMode="Equals" />
+				</StateMachineTransition>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai04" >
+					<Condition name="StateId" value="4000" OpMode="Equals" />
+				</StateMachineTransition>
+			</Layer>
+			<Layer name="SecondLayer">
+				<Statemachine name="MainStateMachine">
+					<Clip name="jifangchoupai01.anim" >
+						<State motion="jifangchoupai01" >
+							<AnyCondition name="StateId" value="1" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai02.anim" >
+						<State motion="jifangchoupai02" >
+							<AnyCondition name="StateId" value="2" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai03.anim" >
+						<State motion="jifangchoupai03" >
+							<AnyCondition name="StateId" value="3" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai04.anim" >
+						<State motion="jifangchoupai04" >
+							<AnyCondition name="StateId" value="4" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou01.anim" >
+						<State motion="jifangruzhou01" >
+							<AnyCondition name="StateId" value="11" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou02.anim" >
+						<State motion="jifangruzhou02" >
+							<AnyCondition name="StateId" value="12" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou03.anim" >
+						<State motion="jifangruzhou03" >
+							<AnyCondition name="StateId" value="13" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou04.anim" >
+						<State motion="jifangruzhou04" >
+							<AnyCondition name="StateId" value="14" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku01.anim" >
+						<State motion="huiku01" >
+							<AnyCondition name="StateId" value="21" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku02.anim" >
+						<State motion="huiku02" >
+							<AnyCondition name="StateId" value="22" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku03.anim" >
+						<State motion="huiku03" >
+							<AnyCondition name="StateId" value="23" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku04.anim" >
+						<State motion="huiku04" >
+							<AnyCondition name="StateId" value="24" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="choupairushou.anim" >
+						<State motion="choupairushou" >
+							<AnyCondition name="StateId" value="31" OpMode="Equals" />
+						</State>
+					</Clip>
+					<StateTransition srcstate="jifangchoupai01" deststate="jifangchoupai02" >
+						<Condition name="StateId" value="1000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai03" >
+						<Condition name="StateId" value="2000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai04" >
+						<Condition name="StateId" value="3000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai04" deststate="jifangchoupai04" >
+						<Condition name="StateId" value="4000" OpMode="Equals" />
+					</StateTransition>
+				</Statemachine>
+				<Statemachine name="FirstSubMachine">
+					<Clip name="jifangchoupai01.anim" >
+						<State motion="jifangchoupai01" >
+							<AnyCondition name="StateId" value="1" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai02.anim" >
+						<State motion="jifangchoupai02" >
+							<AnyCondition name="StateId" value="2" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai03.anim" >
+						<State motion="jifangchoupai03" >
+							<AnyCondition name="StateId" value="3" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangchoupai04.anim" >
+						<State motion="jifangchoupai04" >
+							<AnyCondition name="StateId" value="4" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou01.anim" >
+						<State motion="jifangruzhou01" >
+							<AnyCondition name="StateId" value="11" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou02.anim" >
+						<State motion="jifangruzhou02" >
+							<AnyCondition name="StateId" value="12" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou03.anim" >
+						<State motion="jifangruzhou03" >
+							<AnyCondition name="StateId" value="13" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="jifangruzhou04.anim" >
+						<State motion="jifangruzhou04" >
+							<AnyCondition name="StateId" value="14" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku01.anim" >
+						<State motion="huiku01" >
+							<AnyCondition name="StateId" value="21" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku02.anim" >
+						<State motion="huiku02" >
+							<AnyCondition name="StateId" value="22" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku03.anim" >
+						<State motion="huiku03" >
+							<AnyCondition name="StateId" value="23" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="huiku04.anim" >
+						<State motion="huiku04" >
+							<AnyCondition name="StateId" value="24" OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="choupairushou.anim" >
+						<State motion="choupairushou" >
+							<AnyCondition name="StateId" value="31" OpMode="Equals" />
+						</State>
+					</Clip>
+					<StateTransition srcstate="jifangchoupai01" deststate="jifangchoupai02" >
+						<Condition name="StateId" value="1000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai03" >
+						<Condition name="StateId" value="2000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai02" deststate="jifangchoupai04" >
+						<Condition name="StateId" value="3000" OpMode="Equals" />
+					</StateTransition>
+					<StateTransition srcstate="jifangchoupai04" deststate="jifangruzhou01" >
+						<Condition name="StateId" value="4000" OpMode="Equals" />
+					</StateTransition>
+				</Statemachine>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai01" >
+					<Condition name="StateId" value="1000" OpMode="Equals" />
+				</StateMachineTransition>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai02" >
+					<Condition name="StateId" value="2000" OpMode="Equals" />
+				</StateMachineTransition>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai03" >
+					<Condition name="StateId" value="3000" OpMode="Equals" />
+				</StateMachineTransition>
+				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangruzhou04" >
+					<Condition name="StateId" value="4000" OpMode="Equals" />
+				</StateMachineTransition>
 			</Layer>
 		</Layers>
 	</Controller>
@@ -95,7 +358,7 @@
 		</Params>
 		<Layers>
 			<Layer>
-				<Statemachine>
+				<Statemachine name="MainStateMachine">
 					<Clip name="duifangchoupai.anim" >
 						<State motion="duifangchoupai" >
 							<AnyCondition name="StateId" value="1" OpMode="Equals" />
@@ -111,7 +374,7 @@
 		</Params>
 		<Layers>
 			<Layer>
-				<Statemachine>
+				<Statemachine name="MainStateMachine">
 					<Clip name="fanpai.anim" >
 						<State motion="fanpai" >
 							<AnyCondition name="StateId" value="1"  OpMode="Equals" />

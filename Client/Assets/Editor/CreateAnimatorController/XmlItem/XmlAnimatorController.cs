@@ -17,6 +17,12 @@ namespace EditorTool
         protected string m_assetFullPath;
         protected AnimatorController m_animatorController;
 
+        public XmlAnimatorController()
+        {
+            m_params.xmlAnimatorController = this;
+            m_layers.xmlAnimatorController = this;
+        }
+
         public string inPath
         {
             get

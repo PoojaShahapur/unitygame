@@ -37,6 +37,8 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
+            clear();
+
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
             m_fullMotion = string.Format("{0}/{1}", AnimatorControllerCreateSys.m_instance.curXmlAnimatorController.inPath, m_name);
 
@@ -65,6 +67,11 @@ namespace EditorTool
             }
 
             return null;
+        }
+
+        public void clear()
+        {
+            m_stateList.Clear();
         }
     }
 }

@@ -12,6 +12,9 @@ namespace EditorTool
 
         protected string m_name;
         protected AnimatorControllerParameterType m_type;
+        protected AnimatorControllerParameter m_animatorControllerParameter;
+
+        protected XmlParams m_xmlParams;
 
         public string name
         {
@@ -37,8 +40,34 @@ namespace EditorTool
             }
         }
 
+        public XmlParams xmlParams
+        {
+            get
+            {
+                return m_xmlParams;
+            }
+            set
+            {
+                m_xmlParams = value;
+            }
+        }
+
+        public AnimatorControllerParameter animatorControllerParameter
+        {
+            get
+            {
+                return m_animatorControllerParameter;
+            }
+            set
+            {
+                m_animatorControllerParameter = value;
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
+            clear();
+
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
             string typeStr = ExportUtil.getXmlAttrStr(elem.Attributes["type"]);
 
@@ -58,6 +87,11 @@ namespace EditorTool
             {
                 m_type = AnimatorControllerParameterType.Trigger;
             }
+        }
+
+        public void clear()
+        {
+            m_animatorControllerParameter = null;
         }
     }
 }

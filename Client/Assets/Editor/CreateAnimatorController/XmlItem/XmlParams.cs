@@ -7,7 +7,8 @@ namespace EditorTool
     public class XmlParams
     {
         protected List<XmlParam> m_paramList = new List<XmlParam>();
-        protected AnimatorControllerParameter[] m_parameters;
+        //protected AnimatorControllerParameter[] m_parameters;
+        protected XmlAnimatorController m_xmlAnimatorController;
 
         public List<XmlParam> paramList
         {
@@ -21,20 +22,34 @@ namespace EditorTool
             }
         }
 
-        public AnimatorControllerParameter[] parameters
+        //public AnimatorControllerParameter[] parameters
+        //{
+        //    get
+        //    {
+        //        return m_parameters;
+        //    }
+        //    set
+        //    {
+        //        m_parameters = value;
+        //    }
+        //}
+
+        public XmlAnimatorController xmlAnimatorController
         {
             get
             {
-                return m_parameters;
+                return m_xmlAnimatorController;
             }
             set
             {
-                m_parameters = value;
+                m_xmlAnimatorController = value;
             }
         }
 
         public void parseXml(XmlElement elem)
         {
+            clear();
+
             XmlNodeList paramsNodeList = elem.ChildNodes;
             XmlElement paramElem = null;
             XmlParam param;
@@ -43,8 +58,15 @@ namespace EditorTool
                 paramElem = (XmlElement)paramNode;
                 param = new XmlParam();
                 m_paramList.Add(param);
+                param.xmlParams = this;
                 param.parseXml(paramElem);
             }
+        }
+
+        public void clear()
+        {
+            m_paramList.Clear();
+            //m_parameters = null;
         }
     }
 }

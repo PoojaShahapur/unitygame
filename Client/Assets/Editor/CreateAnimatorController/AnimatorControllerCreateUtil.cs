@@ -15,38 +15,40 @@ namespace EditorTool
             controllerData.animatorController = animatorController;
 
             // 设置控制器参数
+            int paramsIdx = 0;
             foreach (var param in controllerData.getParams.paramList)
             {
-                animatorController.AddParameter(controllerData.getParams.paramList[0].name, AnimatorControllerParameterType.Int);
-            }
-            AnimatorControllerParameter[] parameters = animatorController.parameters;
-            controllerData.getParams.parameters = parameters;
+                animatorController.AddParameter(param.name, param.type);
+                param.animatorControllerParameter = animatorController.parameters[paramsIdx];
 
+                ++paramsIdx;
+            }
+            //AnimatorControllerParameter[] parameters = animatorController.parameters;
+            //controllerData.getParams.parameters = parameters;
+
+            // 创建层，默认会创建一个 Layer，名字是 BaseLayer，其它的 Layer 需要自己创建
+            AnimatorControllerLayer layer = null;
             int layerIdx = 0;
             for(; layerIdx < controllerData.layers.layerList.Count; ++layerIdx)
             {
                 // 获取当前层
-                AnimatorControllerLayer layer = animatorController.layers[layerIdx];
+                if (layerIdx < animatorController.layers.Length)        // 如果 Layer 已经有了，第一层默认创建的，不用自己创建
+                {
+                    layer = animatorController.layers[layerIdx];
+                }
+                else        // 除第一层外，需要自己创建，创建层的时候，会默认创建当前层的主状态机
+                {
+                    animatorController.AddLayer(controllerData.layers.layerList[layerIdx].name);
+                    layer = animatorController.layers[layerIdx];
+                }
+
+                layer.name = controllerData.layers.layerList[layerIdx].name;        // 设置名字
+
                 controllerData.layers.layerList[layerIdx].animatorControllerLayer = layer;
                 BuildAnimationStateLayer(controllerData.layers.layerList[layerIdx]);
+                BuildStateMachineTransition(controllerData.layers.layerList[layerIdx]);
             }
 
-            AssetDatabase.SaveAssets();
-            return animatorController;
-        }
-
-        public static AnimatorController BuildAnimationController(List<AnimationClip> clips, string path, string name)
-        {
-            AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(string.Format("{0}/{1}.controller", path, name));
-            AnimatorControllerLayer layer = animatorController.layers[0];
-            AnimatorControllerParameter[] parameters = animatorController.parameters;
-            AnimatorStateMachine sm = layer.stateMachine;
-            foreach (AnimationClip newClip in clips)
-            {
-                AnimatorState state = sm.AddState(newClip.name);
-                state.motion = newClip;
-                AnimatorStateTransition trans = sm.AddAnyStateTransition(state);
-            }
             AssetDatabase.SaveAssets();
             return animatorController;
         }
@@ -54,15 +56,24 @@ namespace EditorTool
         static public void BuildAnimationStateLayer(XmlLayer xmlLayer)
         {
             int stateMachineIdx = 0;
+            AnimatorStateMachine stateMachine = null;
 
             for(stateMachineIdx = 0; stateMachineIdx < xmlLayer.stateMachineList.Count; ++stateMachineIdx)
             {
                 // 获取当前状态机
-                AnimatorStateMachine stateMachine = xmlLayer.animatorControllerLayer.stateMachine;
-                xmlLayer.stateMachineList[stateMachineIdx].animatorStateMachine = stateMachine;
+                if (0 == stateMachineIdx)        // 系统默认创建一个主动画状态机，自状态机需要自己创建
+                {
+                    stateMachine = xmlLayer.animatorControllerLayer.stateMachine;
+                    xmlLayer.stateMachineList[stateMachineIdx].animatorStateMachine = stateMachine;
+                    stateMachine.name = xmlLayer.stateMachineList[stateMachineIdx].name;
+                }
+                else    // 自状态机需要从主状态机创建
+                {
+                    xmlLayer.stateMachineList[stateMachineIdx].animatorStateMachine = xmlLayer.stateMachineList[0].animatorStateMachine.AddStateMachine(xmlLayer.stateMachineList[stateMachineIdx].name, new Vector3(0, 0, 0));
+                }
 
                 BuildAnimationStateMachine(xmlLayer.stateMachineList[stateMachineIdx]);
-                BuildTransition(xmlLayer.stateMachineList[stateMachineIdx]);
+                BuildStateTransition(xmlLayer.stateMachineList[stateMachineIdx]);
             }
         }
 
@@ -138,7 +149,8 @@ namespace EditorTool
             }
         }
 
-        static public void BuildTransition(XmlStateMachine xmlStateMachine)
+        // 这个是添加状态机内部状态的转换
+        static public void BuildStateTransition(XmlStateMachine xmlStateMachine)
         {
             XmlState srcXmlState = null;
             XmlState destXmlState = null;
@@ -155,6 +167,41 @@ namespace EditorTool
                     tran.animatorStateTransition.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
                 }
             }
+        }
+
+        // 添加状态机之间的转换
+        static public void BuildStateMachineTransition(XmlLayer xmlLayer)
+        {
+            XmlStateMachine xmlSrcStateMachine = null;
+            XmlStateMachine xmlDestStateMachine = null;
+            XmlState xmlDestState = null;
+
+            foreach (var stateMachineTransition in xmlLayer.xmlStateMachineTransitionList)
+            {
+                xmlSrcStateMachine = xmlLayer.getXmlStateMachineByName(stateMachineTransition.srcStateMachineName);
+                xmlDestStateMachine = xmlLayer.getXmlStateMachineByName(stateMachineTransition.destStateMachineName);
+                xmlDestState = xmlDestStateMachine.getXmlStateByName(stateMachineTransition.destStateName);
+
+                //stateMachineTransition.animatorTransition = xmlSrcStateMachine.animatorStateMachine.AddStateMachineTransition(xmlDestStateMachine.animatorStateMachine, xmlDestState.animatorState);
+                stateMachineTransition.animatorTransition = xmlDestStateMachine.animatorStateMachine.AddStateMachineTransition(xmlSrcStateMachine.animatorStateMachine, xmlDestState.animatorState);
+            }
+        }
+
+        // 单独生成动画控制器
+        public static AnimatorController BuildAnimationController(List<AnimationClip> clips, string path, string name)
+        {
+            AnimatorController animatorController = AnimatorController.CreateAnimatorControllerAtPath(string.Format("{0}/{1}.controller", path, name));
+            AnimatorControllerLayer layer = animatorController.layers[0];
+            AnimatorControllerParameter[] parameters = animatorController.parameters;
+            AnimatorStateMachine sm = layer.stateMachine;
+            foreach (AnimationClip newClip in clips)
+            {
+                AnimatorState state = sm.AddState(newClip.name);
+                state.motion = newClip;
+                AnimatorStateTransition trans = sm.AddAnyStateTransition(state);
+            }
+            AssetDatabase.SaveAssets();
+            return animatorController;
         }
     }
 }

@@ -63,6 +63,8 @@ namespace EditorTool
 
         public void parseXml(XmlElement elem)
         {
+            clear();
+
             m_motion = ExportUtil.getXmlAttrStr(elem.Attributes["motion"]);
 
             XmlNodeList condNodeList = elem.SelectNodes("AnyCondition");
@@ -73,8 +75,15 @@ namespace EditorTool
                 condElem = (XmlElement)condNode;
                 cond = new XmlCondition();
                 m_condList.Add(cond);
+                cond.xmlState = this;
                 cond.parseXml(condElem);
             }
+        }
+
+        public void clear()
+        {
+            m_condList.Clear();
+            m_animatorState = null;
         }
     }
 }
