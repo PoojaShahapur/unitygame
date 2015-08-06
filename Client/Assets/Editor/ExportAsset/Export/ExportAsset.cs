@@ -7,7 +7,7 @@ namespace EditorTool
     class ExportAsset
     {
         // 将 Resources 目录下的所有的 prefab 文件都打包成 unity3d，然后拷贝到另外一个目录下，整个目录结构不变
-        [MenuItem("Assets/SelfAssetBundles/ExportByResourcesCfg")]
+        [MenuItem("Assets/PackResources/ExportByResourcesCfg")]
         static void ExportByResourcesCfg()
         {
             ResExportSys.instance();
@@ -25,7 +25,7 @@ namespace EditorTool
         }
 
         // 根据配置文件导出资源打包
-        [MenuItem("Assets/SelfAssetBundles/ExportByCfg")]
+        [MenuItem("Assets/PackResources/ExportByCfg")]
         static void ExportByCfg()
         {
             ResExportSys.instance();

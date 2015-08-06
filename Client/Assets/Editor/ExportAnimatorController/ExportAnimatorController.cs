@@ -4,7 +4,7 @@ namespace EditorTool
 {
     public class AnimatorControllerExport
     {
-        [MenuItem("Assets/AnimatorControllerCreate/ExportAnimatorController")]
+        [MenuItem("Assets/ExportSkinMeshSkel/ExportAnimatorController")]
         static public void ExportAnimatorController()
         {
             export();

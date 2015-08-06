@@ -22,7 +22,6 @@ namespace EditorTool
         public XmlSkinMeshRoot m_xmlSkinMeshRoot;
         public XmlSubMeshRoot m_xmlSubMeshRoot;
         public XmlSkeletonRoot m_xmlSkeletonRoot;
-        public XmlSkelAnimControlRoot m_xmlSkelAnimControlRoot;
         public BuildTarget m_targetPlatform;
 
         protected SkinAnimSys()
@@ -31,7 +30,6 @@ namespace EditorTool
             m_xmlSkinMeshRoot = new XmlSkinMeshRoot();
             m_xmlSubMeshRoot = new XmlSubMeshRoot();
             m_xmlSkeletonRoot = new XmlSkeletonRoot();
-            m_xmlSkelAnimControlRoot = new XmlSkelAnimControlRoot();
         }
 
         public void parseSkinsXml()
@@ -50,11 +48,6 @@ namespace EditorTool
         {
             m_xmlSkeletonRoot.clear();
             m_xmlSkeletonRoot.parseSkeletonXml();
-        }
-
-        public void parseSkelAnimControllerXml()
-        {
-
         }
 
         public void exportBoneList()

@@ -238,16 +238,4 @@ namespace EditorTool
             }
         }
     }
-
-    /**
-     * @brief 导出骨骼动画控制器
-     */
-    public class XmlSkelAnimControlRoot
-    {
-        public void parseSkeletonXml()
-        {
-            string path = ExportUtil.getDataPath("Res/Config/Tool/ExportSkelAnimController.xml");
-
-        }
-    }
 }

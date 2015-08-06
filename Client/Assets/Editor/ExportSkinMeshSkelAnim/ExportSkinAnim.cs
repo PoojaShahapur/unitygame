@@ -6,7 +6,7 @@ namespace EditorTool
     class ExportSkinAnim
     {
         // 导出蒙皮
-        [MenuItem("Assets/SelfAssetBundles/ExportSkinsCfg")]
+        [MenuItem("Assets/ExportSkinMeshSkel/ExportSkinsCfg")]
         static void ExportSkinsCfg()
         {
             SkinAnimSys.instance();
@@ -16,7 +16,7 @@ namespace EditorTool
         }
 
         // 导出子网格
-        [MenuItem("Assets/SelfAssetBundles/ExportSubmeshCfg")]
+        [MenuItem("Assets/ExportSkinMeshSkel/ExportSubmeshCfg")]
         static void ExportSubMeshCfg()
         {
             SkinAnimSys.instance();
@@ -25,21 +25,12 @@ namespace EditorTool
         }
 
         // 导出骨骼
-        [MenuItem("Assets/SelfAssetBundles/ExportSkeletonCfg")]
+        [MenuItem("Assets/ExportSkinMeshSkel/ExportSkeletonCfg")]
         static void ExportSkeletonCfg()
         {
             SkinAnimSys.instance();
             SkinAnimSys.m_instance.parseSkeletonCfgXml();
             SkinAnimSys.m_instance.exportSkeletonFile();
-        }
-
-        // 导出骨骼动画控制器
-        [MenuItem("Assets/SelfAssetBundles/ExportSkelAnimController")]
-        static public void ExportAnimatorController()
-        {
-            SkinAnimSys.instance();
-            SkinAnimSys.m_instance.parseSkelAnimControllerXml();
-            //SkinAnimSys.m_instance.exportSkelAnimController();
         }
 
         static public void testLoadAsset()
