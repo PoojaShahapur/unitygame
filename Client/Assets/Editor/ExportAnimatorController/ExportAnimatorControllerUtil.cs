@@ -73,29 +73,36 @@ namespace EditorTool
                 }
 
                 BuildAnimationStateMachine(xmlLayer.stateMachineList[stateMachineIdx]);
-                BuildStateTransition(xmlLayer.stateMachineList[stateMachineIdx]);
+                //BuildStateTransition(xmlLayer.stateMachineList[stateMachineIdx]);
             }
         }
 
         static public void BuildAnimationStateMachine(XmlStateMachine xmlStateMachine)
         {
             // 创建 Default State ，第一个创建的状态默认就是 Default State
-            AnimatorState animatorState = null;
-            AnimatorStateTransition trans = null;
+            //AnimatorState animatorState = null;
+            //AnimatorStateTransition trans = null;
 
-            animatorState = xmlStateMachine.animatorStateMachine.AddState("Start");
-            animatorState.writeDefaultValues = true;
+            //animatorState = xmlStateMachine.animatorStateMachine.AddState("Start");
+            //animatorState.writeDefaultValues = true;
 
             // 添加一个默认的状态，当没有所有的状态的时候，可以循环播放这个状态
-            animatorState = xmlStateMachine.animatorStateMachine.AddState("Idle");          // 待机状态
-            animatorState.writeDefaultValues = false;
-            trans = xmlStateMachine.animatorStateMachine.AddAnyStateTransition(animatorState);
-            trans.hasExitTime = true;
-            trans.exitTime = 0;
-            trans.duration = 0;
-            trans.canTransitionToSelf = true;           // 可以循环自己
-            trans.AddCondition(AnimatorConditionMode.Equals, 0, "StateId");
+            //animatorState = xmlStateMachine.animatorStateMachine.AddState("Idle");          // 待机状态
+            //animatorState.writeDefaultValues = false;
+            //trans = xmlStateMachine.animatorStateMachine.AddAnyStateTransition(animatorState);
+            //trans.hasExitTime = true;
+            //trans.exitTime = 0;
+            //trans.duration = 0;
+            //trans.canTransitionToSelf = true;           // 可以循环自己
+            //trans.AddCondition(AnimatorConditionMode.Equals, 0, "StateId");
 
+            // 创建没有动画资源的状态
+            foreach (XmlState xmlState in xmlStateMachine.noResStateList)
+            {
+                BuildNoResState(xmlState);
+            }
+
+            // 创建有动画资源的状态
             foreach (XmlClip xmlClip in xmlStateMachine.clipList)
             {
                 BuildAnimationClip(xmlClip);
@@ -147,6 +154,13 @@ namespace EditorTool
             {
                 trans.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
             }
+        }
+
+        static public void BuildNoResState(XmlState xmlState)
+        {
+            // 添加一个默认的状态，当没有所有的状态的时候，可以循环播放这个状态
+            xmlState.animatorState = xmlState.stateMachine.animatorStateMachine.AddState(xmlState.motion);
+            BuildState(xmlState);
         }
 
         // 这个是添加状态机内部状态的转换

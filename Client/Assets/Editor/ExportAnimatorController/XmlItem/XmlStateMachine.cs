@@ -6,8 +6,11 @@ namespace EditorTool
 {
     public class XmlStateMachine
     {
-        protected List<XmlState> m_stateList = new List<XmlState>();
+        protected List<XmlState> m_stateList = new List<XmlState>();            // 这些是有动画文件的状态
         protected List<XmlClip> m_clipList = new List<XmlClip>();
+
+        protected List<XmlState> m_noResStateList = new List<XmlState>();
+
         protected List<XmlStateTransition> m_tranList = new List<XmlStateTransition>();
 
         protected string m_name;                    // 状态机的名字
@@ -87,6 +90,18 @@ namespace EditorTool
             }
         }
 
+        public List<XmlState> noResStateList
+        {
+            get
+            {
+                return m_noResStateList;
+            }
+            set
+            {
+                m_noResStateList = value;
+            }
+        }
+
         public void adjustFileName(string modelName)
         {
             foreach (var clip in m_clipList)
@@ -101,6 +116,20 @@ namespace EditorTool
 
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
 
+            // 解析没有动画文件的 State
+            XmlNodeList noStateNodeList = elem.SelectNodes("State");
+            XmlElement stateElem = null;
+            XmlState state = null;
+            foreach (XmlNode stateNode in noStateNodeList)
+            {
+                stateElem = (XmlElement)stateNode;
+                state = new XmlState();
+                state.stateMachine = this;
+                m_noResStateList.Add(state);
+                state.parseXml(stateElem);
+            }
+
+            // 解析有动画资源文件的 State
             XmlNodeList clipNodeList = elem.SelectNodes("Clip");
             XmlElement clipElem = null;
             XmlClip _clip;
@@ -113,6 +142,7 @@ namespace EditorTool
                 _clip.parseXml(clipElem);
             }
 
+            // 解析状态机中的转换
             XmlNodeList tranNodeList = elem.SelectNodes("Transition");
             XmlElement tranElem = null;
             XmlStateTransition _tran;

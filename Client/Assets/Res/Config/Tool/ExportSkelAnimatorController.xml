@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<!--  -->
+<!--
+Statemachine 表示一个状态机
+State Statemachine 直接的 State 是不需要动画资源的状态
+Clip 是一个动画资源，一个 Clip 动画文件中可能有多个动作，每一个动作使用 Clip 中的 State 指明每一个动作状态
+AnyCondition 是从 Any State 动当前动画状态的的条件
+StateTransition 是指一个状态机中从一个状态转换到另外一个状态的转换
+StateMachineTransition 是指两个状态机之间的转换，目前没有使用
+Path 是指整个目录下所有的模型文件，不包括动作文件，与 Path 中的配置组合成 Controller，例如查找到一个 DefaultAvatar.fbx ，然后将 Clip 中的 DefaultAvatar@Idle_Neutral.fbx 进行替换，例如将 DefaultAvatar@Idle_Neutral 中 DefaultAvatar 替换成 DefaultAvatar.fbx 中的 DefaultAvatar，然后进行资源加载
+-->
 <Root>
 	<Controller inpath="Assets/Res/Animation/Scene" outpath="Assets/Prefabs/Resources/Animation/Scene" outname="SelfCardAni" outextname="asset" >
 		<Params>
@@ -8,6 +16,12 @@
 		<Layers>
 			<Layer name="FirstLayer">
 				<Statemachine name="MainStateMachine">
+					<State motion="Start" >
+						<AnyCondition name="StateId" value="1"  OpMode="Equals" />
+					</State>
+					<State motion="IdleDefault" >
+						<AnyCondition name="StateId" value="2"  OpMode="Equals" />
+					</State>
 					<Clip name="jifangchoupai01.anim" >
 						<State motion="jifangchoupai01" >
 							<AnyCondition name="StateId" value="1" OpMode="Equals" />
