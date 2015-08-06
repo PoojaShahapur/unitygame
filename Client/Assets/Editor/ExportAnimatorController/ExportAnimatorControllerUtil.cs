@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace EditorTool
 {
-    public class AnimatorControllerCreateUtil
+    public class ExportAnimatorControllerUtil
     {
         // 暂时就支持一层，只支持一个参数
         public static AnimatorController BuildAnimationController(XmlAnimatorController controllerData)
@@ -182,8 +182,8 @@ namespace EditorTool
                 xmlDestStateMachine = xmlLayer.getXmlStateMachineByName(stateMachineTransition.destStateMachineName);
                 xmlDestState = xmlDestStateMachine.getXmlStateByName(stateMachineTransition.destStateName);
 
-                //stateMachineTransition.animatorTransition = xmlSrcStateMachine.animatorStateMachine.AddStateMachineTransition(xmlDestStateMachine.animatorStateMachine, xmlDestState.animatorState);
-                stateMachineTransition.animatorTransition = xmlDestStateMachine.animatorStateMachine.AddStateMachineTransition(xmlSrcStateMachine.animatorStateMachine, xmlDestState.animatorState);
+                stateMachineTransition.animatorTransition = xmlSrcStateMachine.animatorStateMachine.AddStateMachineTransition(xmlDestStateMachine.animatorStateMachine, xmlDestState.animatorState);
+                //stateMachineTransition.animatorTransition = xmlDestStateMachine.animatorStateMachine.AddStateMachineTransition(xmlSrcStateMachine.animatorStateMachine, xmlDestState.animatorState);
             }
         }
 

@@ -9,6 +9,7 @@ namespace EditorTool
      */
     public class XmlStateMachineTransition
     {
+        protected string m_parentStateMachineName;  // 父状态机
         protected string m_srcStateMachineName;     // 原状态机
         protected string m_destStateMachineName;    // 目标状态机
         protected string m_destStateName;           // 目标状态机的状态
@@ -94,6 +95,7 @@ namespace EditorTool
         {
             clear();
 
+            m_parentStateMachineName = ExportUtil.getXmlAttrStr(elem.Attributes["parentstatemachine"]);
             m_srcStateMachineName = ExportUtil.getXmlAttrStr(elem.Attributes["srcstatemachine"]);
             m_destStateMachineName = ExportUtil.getXmlAttrStr(elem.Attributes["deststatemachine"]);
             m_destStateName = ExportUtil.getXmlAttrStr(elem.Attributes["deststate"]);

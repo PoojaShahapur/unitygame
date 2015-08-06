@@ -165,16 +165,16 @@
 						<Condition name="StateId" value="4000" OpMode="Equals" />
 					</StateTransition>
 				</Statemachine>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai01" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai01" >
 					<Condition name="StateId" value="1000" OpMode="Equals" />
 				</StateMachineTransition>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai02" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai02" >
 					<Condition name="StateId" value="2000" OpMode="Equals" />
 				</StateMachineTransition>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai03" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai03" >
 					<Condition name="StateId" value="3000" OpMode="Equals" />
 				</StateMachineTransition>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai04" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai04" >
 					<Condition name="StateId" value="4000" OpMode="Equals" />
 				</StateMachineTransition>
 			</Layer>
@@ -337,16 +337,16 @@
 						<Condition name="StateId" value="4000" OpMode="Equals" />
 					</StateTransition>
 				</Statemachine>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai01" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai01" >
 					<Condition name="StateId" value="1000" OpMode="Equals" />
 				</StateMachineTransition>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai02" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai02" >
 					<Condition name="StateId" value="2000" OpMode="Equals" />
 				</StateMachineTransition>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai03" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangchoupai03" >
 					<Condition name="StateId" value="3000" OpMode="Equals" />
 				</StateMachineTransition>
-				<StateMachineTransition srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangruzhou04" >
+				<StateMachineTransition parentstatemachine="MainStateMachine" srcstatemachine="MainStateMachine" deststatemachine="FirstSubMachine" deststate="jifangruzhou04" >
 					<Condition name="StateId" value="4000" OpMode="Equals" />
 				</StateMachineTransition>
 			</Layer>
@@ -377,11 +377,32 @@
 				<Statemachine name="MainStateMachine">
 					<Clip name="fanpai.anim" >
 						<State motion="fanpai" >
-							<AnyCondition name="StateId" value="1"  OpMode="Equals" />
+							<AnyCondition name="StateId" value="1" OpMode="Equals" />
 						</State>
 					</Clip>
 				</Statemachine>
 			</Layer>
 		</Layers>
 	</Controller>
+	<Path inpath="Assets/Locomotion Setup/Locomotion/Animations" outpath="Assets/Prefabs/Resources/Animation/Scene" outextname="asset" >
+		<Params>
+			<Param name="StateId" type="int" />
+		</Params>
+		<Layers>
+			<Layer>
+				<Statemachine name="MainStateMachine">
+					<Clip name="DefaultAvatar@Idle_Neutral.fbx" >
+						<State motion="Idle" >
+							<AnyCondition name="StateId" value="1"  OpMode="Equals" />
+						</State>
+					</Clip>
+					<Clip name="DefaultAvatar@WalkForward_NtrlFaceFwd.fbx" >
+						<State motion="Walk" >
+							<AnyCondition name="StateId" value="12"  OpMode="Equals" />
+						</State>
+					</Clip>
+				</Statemachine>
+			</Layer>
+		</Layers>
+	</Path>
 </Root>

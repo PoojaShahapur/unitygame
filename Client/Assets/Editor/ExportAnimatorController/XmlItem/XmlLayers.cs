@@ -32,6 +32,14 @@ namespace EditorTool
             }
         }
 
+        public void adjustFileName(string modelName)
+        {
+            foreach(var lay in m_layerList)
+            {
+                lay.adjustFileName(modelName);
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
             m_layerList.Clear();

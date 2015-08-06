@@ -87,6 +87,14 @@ namespace EditorTool
             }
         }
 
+        public void adjustFileName(string modelName)
+        {
+            foreach (var clip in m_clipList)
+            {
+                clip.adjustFileName(modelName);
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
             clear();

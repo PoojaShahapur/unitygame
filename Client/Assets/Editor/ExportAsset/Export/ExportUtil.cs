@@ -26,6 +26,9 @@ namespace EditorTool
         public const string METAEXT = "meta";
         public const string PKG_OUTPATH = "PkgOutput";
 
+        public const string FBX = "fbx";
+        public const string AT = "@";
+
         static public void BuildAssetBundle(AssetBundleParam param)
         {
 #if UNITY_5
@@ -65,7 +68,7 @@ namespace EditorTool
         }
 
         // 获取当前目录
-        protected static string getWorkPath(string path)
+        static public string getWorkPath(string path)
         {
             return Path.Combine(System.Environment.CurrentDirectory, path);
         }

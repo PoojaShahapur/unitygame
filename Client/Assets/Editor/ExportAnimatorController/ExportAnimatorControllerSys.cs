@@ -9,49 +9,65 @@ using UnityEngine;
 
 namespace EditorTool
 {
-    public class AnimatorControllerCreateSys
+    public class ExportAnimatorControllerSys
     {
-        static public AnimatorControllerCreateSys m_instance;
-        protected XmlAnimatorController m_curXmlAnimatorController;         // 当前处理的动画控制器
+        static public ExportAnimatorControllerSys m_instance;
+        //protected XmlAnimatorController m_curXmlAnimatorController;         // 当前处理的动画控制器
 
-        public static AnimatorControllerCreateSys instance()
+        public static ExportAnimatorControllerSys instance()
         {
             if (m_instance == null)
             {
-                m_instance = new AnimatorControllerCreateSys();
+                m_instance = new ExportAnimatorControllerSys();
             }
             return m_instance;
         }
 
         protected List<XmlAnimatorController> m_controllerList = new List<XmlAnimatorController>();
+        protected List<XmlPath> m_xmlPathList = new List<XmlPath>();                // 保存所有的目录
 
-        public XmlAnimatorController curXmlAnimatorController
+        public List<XmlAnimatorController> controllerList
         {
             get
             {
-                return m_curXmlAnimatorController;
+                return m_controllerList;
             }
             set
             {
-                m_curXmlAnimatorController = value;
+                m_controllerList = value;
             }
         }
+
+        //public XmlAnimatorController curXmlAnimatorController
+        //{
+        //    get
+        //    {
+        //        return m_curXmlAnimatorController;
+        //    }
+        //    set
+        //    {
+        //        m_curXmlAnimatorController = value;
+        //    }
+        //}
 
         public void clear()
         {
             m_controllerList.Clear();
+            m_xmlPathList.Clear();
         }
 
         // 解析 Xml
         public void parseXml()
         {
-            string path = ExportUtil.getDataPath("Res/Config/Tool/CreateAnimatorController.xml");
+            clear();
+
+            string path = ExportUtil.getDataPath("Res/Config/Tool/ExportSkelAnimatorController.xml");
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
             XmlNode rootNode = xmlDoc.SelectSingleNode("Root");
 
-            XmlNodeList controllerNodeList = rootNode.ChildNodes;
+            XmlNodeList controllerNodeList = rootNode.SelectNodes("Controller");
             XmlElement controllerElem;
             XmlAnimatorController controller;
 
@@ -59,9 +75,21 @@ namespace EditorTool
             {
                 controllerElem = (XmlElement)controllerNode;
                 controller = new XmlAnimatorController();
-                m_curXmlAnimatorController = controller;
+                //m_curXmlAnimatorController = controller;
                 m_controllerList.Add(controller);
                 controller.parseXml(controllerElem);
+            }
+
+            XmlNodeList pathNodeList = rootNode.SelectNodes("Path");
+            XmlElement pathElem = null;
+            XmlPath xmlPath = null;
+
+            foreach (XmlNode pathNode in pathNodeList)
+            {
+                pathElem = (XmlElement)pathNode;
+                xmlPath = new XmlPath();
+                m_xmlPathList.Add(xmlPath);
+                xmlPath.parseXml(pathElem);
             }
         }
 
@@ -70,8 +98,8 @@ namespace EditorTool
         {
             foreach(var item in m_controllerList)
             {
-                m_curXmlAnimatorController = item;
-                RuntimeAnimatorController runtimeAsset = AnimatorControllerCreateUtil.BuildAnimationController(item);
+                //m_curXmlAnimatorController = item;
+                RuntimeAnimatorController runtimeAsset = ExportAnimatorControllerUtil.BuildAnimationController(item);
                 SOAnimatorController soAnimator = ScriptableObject.CreateInstance<SOAnimatorController>();
                 soAnimator.addAnimator(item.controllerFullPath, runtimeAsset);
 

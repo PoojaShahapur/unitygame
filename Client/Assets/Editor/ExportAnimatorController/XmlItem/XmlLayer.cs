@@ -73,6 +73,14 @@ namespace EditorTool
             }
         }
 
+        public void adjustFileName(string modelName)
+        {
+            foreach(var stateMachine in m_stateMachineList)
+            {
+                stateMachine.adjustFileName(modelName);
+            }
+        }
+
         public void parseXml(XmlElement elem)
         {
             clear();

@@ -131,6 +131,11 @@ namespace EditorTool
             }
         }
 
+        public void adjustFileName(string modelName)
+        {
+            m_layers.adjustFileName(modelName);
+        }
+
         public void parseXml(XmlElement elem)
         {
             m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);

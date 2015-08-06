@@ -12,10 +12,10 @@ namespace EditorTool
 
         public static void export()
         {
-            AnimatorControllerCreateSys.instance();
-            AnimatorControllerCreateSys.m_instance.clear();
-            AnimatorControllerCreateSys.m_instance.parseXml();
-            AnimatorControllerCreateSys.m_instance.exportControllerAsset();
+            ExportAnimatorControllerSys.instance();
+            ExportAnimatorControllerSys.m_instance.clear();
+            ExportAnimatorControllerSys.m_instance.parseXml();
+            ExportAnimatorControllerSys.m_instance.exportControllerAsset();
         }
     }
 }

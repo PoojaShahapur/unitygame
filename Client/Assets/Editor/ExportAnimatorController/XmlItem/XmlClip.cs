@@ -35,12 +35,21 @@ namespace EditorTool
             }
         }
 
+        public void adjustFileName(string modelName)
+        {
+            // m_name 配置的仍然是一个完整的名字，例如 DefaultAvatar@WalkForward_NtrlFaceFwd.fbx 。自己要拆解开
+            int atIdx = m_name.IndexOf(ExportUtil.AT);
+            string animName = m_name.Substring(atIdx + 1, m_name.Length - atIdx - 1);
+            m_name = string.Format("{0}@{1}", modelName, animName);
+            m_fullMotion = string.Format("{0}/{1}", m_stateMachine.layer.xmlLayers.xmlAnimatorController.inPath, m_name);
+        }
+
         public void parseXml(XmlElement elem)
         {
             clear();
 
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
-            m_fullMotion = string.Format("{0}/{1}", AnimatorControllerCreateSys.m_instance.curXmlAnimatorController.inPath, m_name);
+            m_fullMotion = string.Format("{0}/{1}", m_stateMachine.layer.xmlLayers.xmlAnimatorController.inPath, m_name);
 
             XmlNodeList stateNodeList = elem.SelectNodes("State");
             XmlElement stateElem = null;
