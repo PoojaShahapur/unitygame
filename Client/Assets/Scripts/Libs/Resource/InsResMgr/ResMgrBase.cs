@@ -26,6 +26,20 @@ namespace SDK.Lib
             return getRes(path) as T;
         }
 
+        public T getAndAsyncLoad<T>(string path, Action<IDispatchObject> handle) where T : InsResBase, new()
+        {
+            T ret = null;
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            LocalFileSys.modifyLoadParam(path, param);
+            param.m_loadNeedCoroutine = true;
+            param.m_resNeedCoroutine = true;
+            param.m_loadEventHandle = handle;
+            ret = getAndLoad<T>(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            return ret;
+        }
+
         public T getAndLoad<T>(LoadParam param) where T : InsResBase, new()
         {
             load<T>(param);
@@ -171,6 +185,7 @@ namespace SDK.Lib
                 if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
                 {
                     m_path2ResDic[path].init(res);
+                    m_path2ResDic[path].loaded(res);
                     if (m_path2ResDic[path].bOrigResNeedImmeUnload)
                     {
                         // 卸载资源

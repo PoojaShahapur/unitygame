@@ -68,6 +68,13 @@ namespace SDK.Common
             set
             {
                 m_bNeedPlaceHolderGo = value;
+                if(m_bNeedPlaceHolderGo)
+                {
+                    if (m_placeHolderGo == null)
+                    {
+                        m_placeHolderGo = UtilApi.createGameObject("PlaceHolderGO");
+                    }
+                }
             }
         }
 

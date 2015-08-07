@@ -3,6 +3,7 @@ using FightCore;
 using Game.UI;
 using SDK.Common;
 using SDK.Lib;
+using UnityEngine;
 
 namespace Game.Game
 {
@@ -69,7 +70,78 @@ namespace Game.Game
 
         protected void testLoadModel()
         {
+            /*
+            // 加载骨骼动画
+            string path = "Scene/Man/Skeleton/DefaultAvatar.prefab";
+            SkelAnimRes skelAnim = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<SkelAnimRes>(path) as SkelAnimRes;
+            // 加载模型
+            path = "Scene/Man/SubMesh/DefaultAvatar_Lw_Teeth_Mesh.prefab";
+            ModelRes lowTeethModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
+            path = "Scene/Man/SubMesh/DefaultAvatar_Tounge_Mesh.prefab";
+            ModelRes toungeModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
+            path = "Scene/Man/SubMesh/DefaultAvatar_Unity_Body_Mesh.prefab";
+            ModelRes bodyModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
+            path = "Scene/Man/SubMesh/DefaultAvatar_Up_Teeth_Mesh.prefab";
+            ModelRes upTeethModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
+            // 加载蒙皮
+            path = "Scene/Man/Skin/lwteeth.xml";
+            SkinRes lowTeethSkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
+            path = "Scene/Man/Skin/tounge.xml";
+            SkinRes toungeSkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
+            path = "Scene/Man/Skin/body.xml";
+            SkinRes bodySkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
+            path = "Scene/Man/Skin/upteeth.xml";
+            SkinRes upTeethSkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
 
+            GameObject skelAnimGo = skelAnim.InstantiateObject(skelAnim.GetPath());
+            GameObject lowTeethGo = lowTeethModel.InstantiateObject(lowTeethModel.GetPath());
+            GameObject toungeGo = toungeModel.InstantiateObject(skelAnim.GetPath());
+            GameObject bodyGo = bodyModel.InstantiateObject(skelAnim.GetPath());
+            GameObject upTeethGo = upTeethModel.InstantiateObject(skelAnim.GetPath());
+
+            UtilApi.SetParent(lowTeethGo, skelAnimGo);
+            UtilApi.SetParent(toungeGo, skelAnimGo);
+            UtilApi.SetParent(bodyGo, skelAnimGo);
+            UtilApi.SetParent(upTeethGo, skelAnimGo);
+
+            UtilSkin.skinSkel(lowTeethGo, skelAnimGo, lowTeethSkinRes.boneArr);
+            UtilSkin.skinSkel(toungeGo, skelAnimGo, toungeSkinRes.boneArr);
+            UtilSkin.skinSkel(bodyGo, skelAnimGo, bodySkinRes.boneArr);
+            UtilSkin.skinSkel(upTeethGo, skelAnimGo, upTeethSkinRes.boneArr);
+
+            // 挂在相机跟随
+            Transform hips = UtilApi.TransFindChildByPObjAndPath(skelAnimGo, "Reference/Hips").transform;
+            SmoothFollow sm = Camera.main.GetComponent<SmoothFollow>();
+            sm.target = hips;
+            */
+
+            SkinModelSkelAnim skinModelSkelAnim = new SkinModelSkelAnim(4);
+            skinModelSkelAnim.skeletonAnim.skelAnimPath = "Scene/Man/Skeleton/DefaultAvatar.prefab";
+            skinModelSkelAnim.skeletonAnim.loadSkelAnim();
+
+            skinModelSkelAnim.skinModel.skinSubModelArr[0].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Lw_Teeth_Mesh.prefab";
+            skinModelSkelAnim.skinModel.skinSubModelArr[0].skinPath = "Scene/Man/Skin/lwteeth.xml";
+            skinModelSkelAnim.skinModel.skinSubModelArr[0].loadSubModel();
+            skinModelSkelAnim.skinModel.skinSubModelArr[0].loadSkin();
+
+            skinModelSkelAnim.skinModel.skinSubModelArr[1].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Tounge_Mesh.prefab";
+            skinModelSkelAnim.skinModel.skinSubModelArr[1].skinPath = "Scene/Man/Skin/tounge.xml";
+            skinModelSkelAnim.skinModel.skinSubModelArr[1].loadSubModel();
+            skinModelSkelAnim.skinModel.skinSubModelArr[1].loadSkin();
+
+            skinModelSkelAnim.skinModel.skinSubModelArr[2].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Unity_Body_Mesh.prefab";
+            skinModelSkelAnim.skinModel.skinSubModelArr[2].skinPath = "Scene/Man/Skin/body.xml";
+            skinModelSkelAnim.skinModel.skinSubModelArr[2].loadSubModel();
+            skinModelSkelAnim.skinModel.skinSubModelArr[2].loadSkin();
+
+            skinModelSkelAnim.skinModel.skinSubModelArr[3].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Up_Teeth_Mesh.prefab";
+            skinModelSkelAnim.skinModel.skinSubModelArr[3].skinPath = "Scene/Man/Skin/upteeth.xml";
+            skinModelSkelAnim.skinModel.skinSubModelArr[3].loadSubModel();
+            skinModelSkelAnim.skinModel.skinSubModelArr[3].loadSkin();
+
+            Transform hips = skinModelSkelAnim.boneSockets.getSocket(0).placeHolderGo.transform;
+            SmoothFollow sm = Camera.main.GetComponent<SmoothFollow>();
+            sm.target = hips;
         }
 
         // 加载 Main Scene UI

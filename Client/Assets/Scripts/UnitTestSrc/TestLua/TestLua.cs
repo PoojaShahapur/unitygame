@@ -31,7 +31,7 @@ namespace UnitTestSrc
             //LuaState ls = new LuaState();
             LuaScriptMgr luaMgr = new LuaScriptMgr();
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "UtilDebug.txt");
-            textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoad<TextRes>(path);
+            textRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextRes>(path);
             LuaScriptMgr.Instance.lua.DoString(textRes.text);
 
             LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("regPath");
@@ -48,7 +48,7 @@ namespace UnitTestSrc
             //ls.DoString(textRes.text);
 
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "TestLua.txt");
-            textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoad<TextRes>(path);
+            textRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextRes>(path);
             LuaScriptMgr.Instance.lua.DoString(textRes.text);
 
             LuaFunction lf = LuaScriptMgr.Instance.lua.GetFunction("luaFunc");

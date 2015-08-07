@@ -11,13 +11,13 @@ namespace SDK.Lib
         public Monster()
             : base()
         {
-            m_skinAniModel.m_modelList = new SkinSubModel[(int)eMonstersModelType.eModelTotal];
-            int idx = 0;
-            while (idx < (int)eMonstersModelType.eModelTotal)
-            {
-                m_skinAniModel.m_modelList[idx] = new SkinSubModel();
-                ++idx;
-            }
+            //m_skinAniModel.m_modelList = new SkinSubModel[(int)eMonstersModelType.eModelTotal];
+            //int idx = 0;
+            //while (idx < (int)eMonstersModelType.eModelTotal)
+            //{
+            //    m_skinAniModel.m_modelList[idx] = new SkinSubModel();
+            //    ++idx;
+            //}
         }
 
         public int groupID

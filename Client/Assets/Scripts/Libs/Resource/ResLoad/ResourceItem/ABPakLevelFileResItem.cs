@@ -26,7 +26,7 @@ namespace SDK.Lib
             base.init(item);
             // 继续加载当前的关卡
             //loadLevel(m_origPath);
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            //refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         //public void loadLevel(string resName)

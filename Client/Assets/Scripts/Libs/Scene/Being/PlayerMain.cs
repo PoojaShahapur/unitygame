@@ -17,20 +17,20 @@ namespace SDK.Lib
         public override void onSkeletonLoaded()
         {
             base.onSkeletonLoaded();
-            Transform tran = m_skinAniModel.transform.FindChild("Reference/Hips");
-            if(tran)
-            {
+            //Transform tran = m_skinAniModel.transform.FindChild("Reference/Hips");
+            //if(tran)
+            //{
                 //Ctx.m_instance.m_camSys.m_sceneCam.setTarget(tran);
-            }
+            //}
         }
 
         public void evtMove()
         {
-            if (m_skinAniModel.animSys.animator && Camera.main)
-            {
-                Do(m_skinAniModel.transform, Camera.main.transform, ref speed, ref direction);
-                m_skinAniModel.animSys.Do(speed * 6, direction * 180);
-            }
+            //if (m_skinAniModel.animSys.animator && Camera.main)
+            //{
+            //    Do(m_skinAniModel.transform, Camera.main.transform, ref speed, ref direction);
+            //    m_skinAniModel.animSys.Do(speed * 6, direction * 180);
+            //}
         }
 
         public void Do(Transform root, Transform camera, ref float speed, ref float direction)

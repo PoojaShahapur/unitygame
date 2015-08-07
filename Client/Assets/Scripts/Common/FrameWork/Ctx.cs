@@ -67,6 +67,8 @@ namespace SDK.Common
         public MaterialMgr m_matMgr = new MaterialMgr();
         public ModelMgr m_modelMgr = new ModelMgr();
         public TextureMgr m_texMgr = new TextureMgr();
+        public SkelAniMgr m_skelAniMgr = new SkelAniMgr();
+        public SkinResMgr m_skinResMgr = new SkinResMgr();
         public UIPrefabMgr m_uiPrefabMgr = new UIPrefabMgr();
         public ControllerMgr m_controllerMgr = new ControllerMgr();
 
@@ -101,7 +103,6 @@ namespace SDK.Common
         public SystemTimeData m_systemTimeData = new SystemTimeData();
         public ScriptDynLoad m_scriptDynLoad = new ScriptDynLoad();
 
-        public TextResMgr m_textResMgr = new TextResMgr();
         public LuaScriptMgr m_luaMgr = new LuaScriptMgr();
         public SkillActionMgr m_skillActionMgr = new SkillActionMgr();
         public ScenePlaceHolder m_scenePlaceHolder = new ScenePlaceHolder();

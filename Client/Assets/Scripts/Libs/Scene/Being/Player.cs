@@ -12,13 +12,13 @@ namespace SDK.Lib
 		public Player()
             : base()
 		{
-            m_skinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
-            int idx = 0;
-            while (idx < (int)ePlayerModelType.eModelTotal)
-            {
-                m_skinAniModel.m_modelList[idx] = new SkinSubModel();
-                ++idx;
-            }
+            //m_skinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
+            //int idx = 0;
+            //while (idx < (int)ePlayerModelType.eModelTotal)
+            //{
+            //    m_skinAniModel.m_modelList[idx] = new SkinSubModel();
+            //    ++idx;
+            //}
 		}
 	}
 }

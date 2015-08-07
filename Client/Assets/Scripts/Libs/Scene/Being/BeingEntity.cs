@@ -23,8 +23,8 @@ namespace SDK.Lib
 
         public BeingEntity()
         {
-            m_skinAniModel = new SkinModelSkelAnim();
-            m_skinAniModel.handleCB = onSkeletonLoaded;
+            //m_skinAniModel = new SkinModelSkelAnim();
+            //m_skinAniModel.handleCB = onSkeletonLoaded;
             m_aiLocalState = new AILocalState();
         }
 
@@ -62,7 +62,7 @@ namespace SDK.Lib
 
         public void setLocalPos(Vector3 pos)
         {
-            UtilApi.setPos(m_skinAniModel.transform, pos);
+            //UtilApi.setPos(m_skinAniModel.transform, pos);
         }
 
         public void OnTick(float delta)
@@ -93,7 +93,7 @@ namespace SDK.Lib
 
         protected void initAi(BTID id)
         {
-            if (m_behaviorTree == null && m_skinAniModel.rootGo != null)
+            //if (m_behaviorTree == null && m_skinAniModel.rootGo != null)
             {
                 // 生成行为树
                 BehaviorTree behaviorTree = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getBT(id) as BehaviorTree;
@@ -124,18 +124,18 @@ namespace SDK.Lib
         // 骨骼设置，骨骼不能更换
         public void setSkeleton(string name)
         {
-            if(string.IsNullOrEmpty(m_skinAniModel.m_skeletonName))
-            {
-                m_skinAniModel.m_skeletonName = name;
-                m_skinAniModel.loadSkeleton();
-            }
+            //if(string.IsNullOrEmpty(m_skinAniModel.m_skeletonName))
+            //{
+            //    m_skinAniModel.m_skeletonName = name;
+            //    m_skinAniModel.loadSkeleton();
+            //}
         }
 
         public void setPartModel(int modelDef, string assetBundleName, string partName)
         {
-            m_skinAniModel.m_modelList[modelDef].m_bundleName = string.Format("{0}{1}", assetBundleName, ".prefab");
-            m_skinAniModel.m_modelList[modelDef].m_partName = partName;
-            m_skinAniModel.loadPartModel(modelDef);
+            //m_skinAniModel.m_modelList[modelDef].m_bundleName = string.Format("{0}{1}", assetBundleName, ".prefab");
+            //m_skinAniModel.m_modelList[modelDef].m_partName = partName;
+            //m_skinAniModel.loadPartModel(modelDef);
         }
 
         public virtual void onSkeletonLoaded()

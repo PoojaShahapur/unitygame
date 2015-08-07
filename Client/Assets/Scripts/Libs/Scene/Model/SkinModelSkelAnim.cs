@@ -10,151 +10,71 @@ namespace SDK.Lib
      */
     public class SkinModelSkelAnim
     {
-        protected GameObject m_rootGo;                  // 根 GO ，骨骼同步加载，不会异步加载
-        public SkinSubModel[] m_modelList;                  // 一个数组
-        public string m_skeletonName;                   // 骨骼名字
-        protected Transform m_transform;                // 位置信息
-        protected Action m_handleCB;
+        protected SkeletonAnim m_skeletonAnim;
+        protected SkinModel m_skinModel;
+        protected AnimControl m_animControl;       // 动画控制器
+        protected BoneSockets m_boneSockets;
 
-        protected AnimSys m_animSys = new AnimSys();       // 动画数据
-
-        public SkinModelSkelAnim()
+        public SkinModelSkelAnim(int subModelNum)
         {
-            
+            m_skeletonAnim = new SkeletonAnim();
+            m_skeletonAnim.skelLoadDisp.addEventHandle(onSkelAnimLoadedHandle);
+            m_skinModel = new SkinModel(subModelNum);
+            m_animControl = new AnimControl();
+            m_boneSockets = new BoneSockets(1);
+            m_boneSockets.addSocket(0, "Reference/Hips");
         }
 
-        public GameObject rootGo
+        public AnimControl animControl
         {
             get
             {
-                return m_rootGo;
-            }
-            set
-            {
-                m_rootGo = value;
-                m_transform = m_rootGo.transform;
+                return m_animControl;
             }
         }
 
-        public Transform transform
+        public SkeletonAnim skeletonAnim
         {
             get
             {
-                return m_transform;
+                return m_skeletonAnim;
             }
             set
             {
-                m_transform = value;
+                m_skeletonAnim = value;
             }
         }
 
-        public Action handleCB
-        {
-            set
-            {
-                m_handleCB = value;
-            }
-        }
-
-        public AnimSys animSys
+        public SkinModel skinModel
         {
             get
             {
-                return m_animSys;
+                return m_skinModel;
             }
-        }
-
-        public void loadSkeleton()
-        {
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath], m_skeletonName), param);
-            param.m_loadEventHandle = onSkeletonLoadEventHandle;
-            Ctx.m_instance.m_resLoadMgr.loadResources(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
-        }
-
-        // 资源加载成功，通过事件回调
-        public void onSkeletonLoadEventHandle(IDispatchObject dispObj)
-        {
-            ResItem res = dispObj as ResItem;
-            m_rootGo = res.InstantiateObject(m_skeletonName);
-            m_transform = m_rootGo.transform;
-            m_animSys.animator = m_rootGo.GetComponent<Animator>();
-
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onSkeletonLoadEventHandle);
-
-            int idx = 0;
-            foreach (SkinSubModel partInfo in m_modelList)
+            set
             {
-                if (partInfo.m_res != null)
-                {
-                    partInfo.m_partGo = partInfo.m_res.InstantiateObject(m_modelList[idx].m_partName);
-                    partInfo.m_partGo.transform.parent = m_rootGo.transform;
-                    skinSubMesh(idx);
-
-                    Ctx.m_instance.m_resLoadMgr.unload(partInfo.m_res.GetPath(), onSkeletonLoadEventHandle);
-                    partInfo.m_res = null;
-                }
-
-                ++idx;
-            }
-
-            if(m_handleCB != null)
-            {
-                m_handleCB();
+                m_skinModel = value;
             }
         }
 
-        public void loadPartModel(int modelDef)
+        public BoneSockets boneSockets
         {
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath], m_modelList[modelDef].m_bundleName), param);
-            param.m_loadEventHandle = onPartModelloaded;
-            Ctx.m_instance.m_resLoadMgr.loadResources(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
-        }
-
-        // 资源加载成功，通过事件回调
-        public void onPartModelloaded(IDispatchObject dispObj)
-        {
-            ResItem res = dispObj as ResItem;
-            int idx = getModelIdx(res.GetPath());
-            
-            if (m_rootGo != null)
+            get
             {
-                m_modelList[idx].m_partGo = res.InstantiateObject(m_modelList[idx].m_partName);
-                m_modelList[idx].m_partGo.transform.parent = m_rootGo.transform;
-                skinSubMesh(idx);
+                return m_boneSockets;
             }
-            else
+            set
             {
-                m_modelList[idx].m_res = res;
+                m_boneSockets = value;
             }
         }
 
-        protected int getModelIdx(string path)
+        public void onSkelAnimLoadedHandle(IDispatchObject dispObj)
         {
-            string modelPath = "";
-            int ret = 0;
-            foreach (SkinSubModel partInfo in m_modelList)
-            {
-                modelPath = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathBeingPath] + partInfo.m_bundleName;
-                if(modelPath == path)
-                {
-                    break;
-                }
-
-                ++ret;
-            }
-
-            return ret;
-        }
-
-        protected void skinSubMesh(int subMeshIdx)
-        {
-            string submeshName = UtilSkin.convID2PartName(subMeshIdx);
-            string[] bonesList = Ctx.m_instance.m_modelMgr.getBonesListByName(submeshName);
-            UtilSkin.skinSkel(m_modelList[subMeshIdx].m_partGo, m_rootGo, bonesList);
+            SkeletonAnim res = dispObj as SkeletonAnim;
+            m_skinModel.setSkelAnim(res.selfGo);
+            m_animControl.animator = res.selfGo.GetComponent<Animator>();
+            m_boneSockets.setSkelAnim(res.selfGo);
         }
     }
 }

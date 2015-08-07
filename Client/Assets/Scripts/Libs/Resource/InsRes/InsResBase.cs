@@ -42,6 +42,11 @@ namespace SDK.Lib
 
         virtual public void init(ResItem res)
         {
+            
+        }
+
+        virtual public void loaded(ResItem res)
+        {
             refCountResLoadResultNotify.onLoadEventHandle(this);
         }
 

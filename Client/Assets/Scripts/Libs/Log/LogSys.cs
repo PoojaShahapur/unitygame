@@ -287,5 +287,17 @@ namespace SDK.Lib
                 logDevice.closeDevice();
             }
         }
+
+        public void logLoad(InsResBase res)
+        {
+            if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            {
+                log(string.Format("{0} Loaded", res.GetPath()));
+            }
+            else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            {
+                log(string.Format("{0} Failed", res.GetPath()));
+            }
+        }
     }
 }

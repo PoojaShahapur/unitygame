@@ -451,6 +451,7 @@ namespace SDK.Lib
             if (m_LoadData.m_path2Res.ContainsKey(item.path))
             {
                 m_LoadData.m_path2Res[item.path].init(m_LoadData.m_path2LDItem[item.path]);
+                m_LoadData.m_path2Res[item.path].loaded(m_LoadData.m_path2LDItem[item.path]);
             }
             else        // 如果资源已经没有使用的地方了
             {

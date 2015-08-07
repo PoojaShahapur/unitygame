@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief Unity 最新的动画系统
      */
-    public class AnimSys
+    public class AnimControl
     {
         private Animator m_Animator = null;
 
@@ -18,7 +18,7 @@ namespace SDK.Lib
         public float m_AnguarSpeedDampTime = 0.25f;
         public float m_DirectionResponseTime = 0.2f;
 
-        public AnimSys()
+        public AnimControl()
         {
             m_SpeedId = Animator.StringToHash("Speed");
             m_AgularSpeedId = Animator.StringToHash("AngularSpeed");
