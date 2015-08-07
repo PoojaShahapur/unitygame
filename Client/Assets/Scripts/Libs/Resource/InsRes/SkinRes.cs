@@ -21,9 +21,9 @@ namespace SDK.Lib
             }
         }
 
-        public override void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
-            base.init(res);
+            base.initImpl(res);
 
             SecurityParser xmlDoc = new SecurityParser();
             xmlDoc.LoadXml(m_text);

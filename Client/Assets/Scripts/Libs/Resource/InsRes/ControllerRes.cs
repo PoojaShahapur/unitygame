@@ -8,10 +8,10 @@ namespace SDK.Lib
         protected SOAnimatorController m_controller;
         protected RuntimeAnimatorController m_insController;
 
-        override public void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
             m_controller = res.getObject(res.getPrefabName()) as SOAnimatorController;
-            base.init(res);
+            base.initImpl(res);
         }
 
         public RuntimeAnimatorController InstantiateController()

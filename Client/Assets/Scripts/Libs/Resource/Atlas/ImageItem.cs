@@ -71,7 +71,7 @@ namespace SDK.Lib
         {
             m_image = atlasScriptRes.getSprite(m_spriteName);
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            //m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public void failed(AtlasScriptRes atlasScriptRes)

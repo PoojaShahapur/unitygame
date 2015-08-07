@@ -14,11 +14,11 @@ namespace SDK.Lib
 
         }
 
-        override public void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
             // 获取资源单独保存
             m_bytes = (res.getObject(res.getPrefabName()) as TextAsset).bytes;
-            base.init(res);
+            base.initImpl(res);
         }
     }
 }

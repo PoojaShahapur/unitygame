@@ -185,7 +185,6 @@ namespace SDK.Lib
                 if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
                 {
                     m_path2ResDic[path].init(res);
-                    m_path2ResDic[path].loaded(res);
                     if (m_path2ResDic[path].bOrigResNeedImmeUnload)
                     {
                         // 卸载资源

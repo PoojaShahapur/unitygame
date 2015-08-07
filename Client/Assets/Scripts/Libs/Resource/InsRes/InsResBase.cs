@@ -40,14 +40,16 @@ namespace SDK.Lib
             return "";
         }
 
-        virtual public void init(ResItem res)
+        public void init(ResItem res)
         {
-            
+            initImpl(res);         // 内部初始化完成后，才分发事件
+            refCountResLoadResultNotify.onLoadEventHandle(this);
         }
 
-        virtual public void loaded(ResItem res)
+        // 这个是内部初始化实现，初始化都重载这个，但是现在很多都是重在了
+        virtual protected void initImpl(ResItem res)
         {
-            refCountResLoadResultNotify.onLoadEventHandle(this);
+
         }
 
         virtual public void failed(ResItem res)

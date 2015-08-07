@@ -13,10 +13,10 @@ namespace SDK.Lib
 
         }
 
-        override public void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
             m_go = res.getObject(res.getPrefabName()) as GameObject;
-            base.init(res);
+            base.initImpl(res);
         }
 
         public GameObject InstantiateObject(string resName)

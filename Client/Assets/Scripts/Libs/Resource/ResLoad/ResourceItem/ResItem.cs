@@ -126,11 +126,6 @@ namespace SDK.Lib
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
         }
 
-        virtual public void loaded(LoadItem item)
-        {
-            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
-        }
-
         virtual public void failed(LoadItem item)
         {
             m_refCountResLoadResultNotify.resLoadState.setFailed();

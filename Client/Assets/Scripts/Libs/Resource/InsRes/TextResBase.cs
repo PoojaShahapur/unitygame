@@ -11,11 +11,11 @@ namespace SDK.Lib
 
         }
 
-        override public void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
             // 获取资源单独保存
             m_text = (res.getObject(res.getPrefabName()) as TextAsset).text;
-            base.init(res);
+            base.initImpl(res);
         }
 
         public string text

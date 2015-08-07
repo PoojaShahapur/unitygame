@@ -16,12 +16,12 @@ namespace BehaviorLibrary
             
         }
 
-        override public void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
             string text = res.getText(GetPath());
             Ctx.m_instance.m_aiSystem.behaviorTreeMgr.parseXml(text);
 
-            base.init(res);
+            base.initImpl(res);
         }
 
         override public void failed(ResItem res)

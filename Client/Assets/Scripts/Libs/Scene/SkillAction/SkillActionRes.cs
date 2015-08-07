@@ -14,13 +14,13 @@ namespace SDK.Lib
 
         }
 
-        override public void init(ResItem res)
+        override protected void initImpl(ResItem res)
         {
             string text = res.getText(GetPath());
             m_attackActionSeq = new AttackActionSeq();
             m_attackActionSeq.parseXml(text);
 
-            base.init(res);
+            base.initImpl(res);
         }
 
         override public void failed(ResItem res)
