@@ -119,7 +119,8 @@ namespace EditorTool
                 xmlStr += "</Root>";
 
                 string xmlName = string.Format("{0}.xml", ExportUtil.getFileNameNoExt(mesh.skelMeshParam.m_name));
-                string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
+                //string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
+                string xmlPath = string.Format("{0}/{1}", m_outPath, xmlName);
                 xmlPath = ExportUtil.getDataPath(xmlPath);
 
                 ExportUtil.deleteFile(xmlPath);
@@ -151,7 +152,8 @@ namespace EditorTool
                     xmlStr += "</Root>";
 
                     string xmlName = string.Format("{0}.xml", ExportUtil.getFileNameNoExt(subMesh.m_part));
-                    string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
+                    //string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
+                    string xmlPath = string.Format("{0}/{1}", m_outPath, xmlName);
                     xmlPath = ExportUtil.getDataPath(xmlPath);
 
                     ExportUtil.deleteFile(xmlPath);

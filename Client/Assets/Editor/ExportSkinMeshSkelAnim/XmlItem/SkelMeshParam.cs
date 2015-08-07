@@ -7,5 +7,6 @@
         public string m_outPath;
         public string m_resType;    // 资源类型
         public eModelType m_modelType;  // 模型的类型
+        public string m_controllerPath; // 动画控制器目录
     }
 }

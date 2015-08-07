@@ -84,7 +84,8 @@ public class AppRoot : MonoBehaviour
 #if PKG_RES_LOAD
         Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
 #else
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
 #endif
 
         // 运行单元测试

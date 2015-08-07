@@ -57,6 +57,21 @@ namespace Game.Game
             Ctx.m_instance.m_gameRunStage.quitedAndEnteredCurStage();
         }
 
+        public void loadScene(string sceneName)
+        {
+            Ctx.m_instance.m_sceneSys.loadScene(sceneName, onLoadScene);
+        }
+
+        public void onLoadScene(Scene scene)
+        {
+            testLoadModel();
+        }
+
+        protected void testLoadModel()
+        {
+
+        }
+
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {

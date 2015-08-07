@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EditorTool
@@ -27,6 +28,7 @@ namespace EditorTool
             m_skelMeshParam.m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
             m_skelMeshParam.m_resType = ExportUtil.getXmlAttrStr(elem.Attributes["restype"]);
             m_skelMeshParam.m_modelType = (eModelType)ExportUtil.getXmlAttrInt(elem.Attributes["modeltype"]);
+            m_skelMeshParam.m_controllerPath = ExportUtil.getXmlAttrStr(elem.Attributes["controllerpath"]);
 
             XmlNodeList itemNodeList = elem.ChildNodes;
             XmlElement itemElem;
@@ -153,7 +155,7 @@ namespace EditorTool
             {
                 pathList.Add(m_skelMeshParam.m_outPath);
             }
-            pathList.Add(SkinAnimSys.m_instance.m_xmlSkeletonRoot.m_modelTypes.modelTypeDic[m_skelMeshParam.m_modelType].subPath);
+            //pathList.Add(SkinAnimSys.m_instance.m_xmlSkeletonRoot.m_modelTypes.modelTypeDic[m_skelMeshParam.m_modelType].subPath);
             pathList.Add(skelNoExt + ".prefab");
 
             outPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
@@ -165,9 +167,13 @@ namespace EditorTool
 
             //go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
 
+            Animator animator = null;
+
             if (instanceGo != null)
             {
+                // 单位化转换
                 UtilApi.normalRST(instanceGo.transform);
+                // 释放子模型
                 foreach (SubMesh subMesh in m_subMeshList)
                 {
                     subMeshGo = instanceGo.transform.Find(subMesh.m_name).gameObject;
@@ -176,17 +182,25 @@ namespace EditorTool
                         //GameObject.DestroyImmediate(subMeshGo);
                         //GameObject.Destroy(subMeshGo);
                         //GameObject.DestroyImmediate(subMeshGo, true);
-                        UtilApi.DestroyImmediate(subMeshGo, false, false);
+                        UtilApi.DestroyImmediate(subMeshGo, false);
                     }
                 }
+                // 添加控制器
+                string controlPath = string.Format("{0}/{1}.controller", m_skelMeshParam.m_controllerPath, skelNoExt);
+                controlPath = ExportUtil.getRelDataPath(controlPath);
+                animator = instanceGo.GetComponent<Animator>();
+                UnityEngine.Object assetObj = AssetDatabase.LoadAssetAtPath(controlPath, typeof(AnimatorController));
+                animator.runtimeAnimatorController = assetObj as RuntimeAnimatorController;
 
+                // 保存资源
                 PrefabUtility.CreatePrefab(outPrefabPath, instanceGo);
-                UtilApi.DestroyImmediate(instanceGo, false, false);
                 AssetDatabase.Refresh();
+                AssetDatabase.SaveAssets();
+                UtilApi.DestroyImmediate(instanceGo, false);
 
                 // 现在不直接打包，需要最后发布的时候才打包
-                go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
-                objList.Add(go);
+                //go = AssetDatabase.LoadAssetAtPath(outPrefabPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
+                //objList.Add(go);
 
 //                AssetBundleParam bundleParam = new AssetBundleParam();
 //#if UNITY_5

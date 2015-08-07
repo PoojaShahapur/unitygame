@@ -116,7 +116,7 @@ namespace EditorTool
                     {
                         pathList.Add(m_outPath);
                     }
-                    pathList.Add(SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_modelTypes.modelTypeDic[m_modelType].subPath);
+                    //pathList.Add(SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_modelTypes.modelTypeDic[m_modelType].subPath);
                     pathList.Add(subMeshName + ".prefab");
 
                     outPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));

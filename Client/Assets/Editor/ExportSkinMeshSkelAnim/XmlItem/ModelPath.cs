@@ -13,6 +13,7 @@ namespace EditorTool
         protected string m_outPath;
         protected eModelType m_modelType;
         protected bool m_packSkel;
+        public string m_controllerPath; // 动画控制器目录
 
         protected List<string> m_ignoreExtList;
 
@@ -24,6 +25,7 @@ namespace EditorTool
             m_modelType = (eModelType)ExportUtil.getXmlAttrInt(elem.Attributes["part"]);
             string ignoreExtStr = ExportUtil.getXmlAttrStr(elem.Attributes["ignoreext"]);
             m_ignoreExtList = new List<string>(ignoreExtStr.Split(new[] { ',' }));
+            m_controllerPath = ExportUtil.getXmlAttrStr(elem.Attributes["controllerpath"]);
 
             addMesh();
         }
@@ -45,6 +47,7 @@ namespace EditorTool
                 mesh.skelMeshParam.m_inPath = m_inPath;
                 mesh.skelMeshParam.m_outPath = m_outPath;
                 mesh.skelMeshParam.m_resType = m_resType;
+                mesh.skelMeshParam.m_controllerPath = m_controllerPath;
 
                 mesh.addSubMesh();
 

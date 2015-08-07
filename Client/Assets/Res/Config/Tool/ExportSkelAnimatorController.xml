@@ -10,7 +10,7 @@ Path 是指整个目录下所有的模型文件，不包括动作文件，与 Pa
 Statemachine 中的第一个 State 系统会默认创建 Entity AnimatorTransition ，就是默认调用 AnimatorStateMachine 的 AddEntryTransition 连接的
 -->
 <Root>
-	<Controller inpath="Assets/Res/Animation/Scene" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene" outname="SelfCardAni" outextname="asset" >
+	<Controller inpath="Assets/Res/Animation/Scene" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene/Asset" outname="SelfCardAni" outextname="asset" >
 		<Params>
 			<Param name="StateId" type="Int" />
 		</Params>
@@ -367,7 +367,7 @@ Statemachine 中的第一个 State 系统会默认创建 Entity AnimatorTransiti
 			</Layer>
 		</Layers>
 	</Controller>
-	<Controller inpath="Assets/Res/Animation/Scene" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene" outname="EnemyCardAni" outextname="asset" >
+	<Controller inpath="Assets/Res/Animation/Scene" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene/Asset" outname="EnemyCardAni" outextname="asset" >
 		<Params>
 			<Param name="StateId" type="Int" />
 		</Params>
@@ -383,7 +383,7 @@ Statemachine 中的第一个 State 系统会默认创建 Entity AnimatorTransiti
 			</Layer>
 		</Layers>
 	</Controller>
-	<Controller inpath="Assets/Res/Animation/Scene" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene" outname="FanPai" outextname="asset" >
+	<Controller inpath="Assets/Res/Animation/Scene" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene/Asset" outname="FanPai" outextname="asset" >
 		<Params>
 			<Param name="StateId" type="Int" />
 		</Params>
@@ -399,7 +399,7 @@ Statemachine 中的第一个 State 系统会默认创建 Entity AnimatorTransiti
 			</Layer>
 		</Layers>
 	</Controller>
-	<Path inpath="Assets/Locomotion Setup/Locomotion/Animations" controlleroutpath="Assets/Prefabs/Resources/Animation/Scene/Controller" assetoutpath="Assets/Prefabs/Resources/Animation/Scene/Asset" outextname="asset" >
+	<Path inpath="Assets/Locomotion Setup/Locomotion/Animations" controlleroutpath="Assets/Prefabs/Resources/Scene/Man/Anim" assetoutpath="Assets/Prefabs/Resources/Scene/Man/Anim" outextname="asset" >
 		<Params>
 			<Param name="StateId" type="Int" />
 		</Params>

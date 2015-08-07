@@ -133,7 +133,8 @@ namespace EditorTool
         public void createDir(string parentPath)
         {
             string path = "";
-            path = ExportUtil.getDataPath(string.Format("{0}/{1}", parentPath, m_subPath));
+            //path = ExportUtil.getDataPath(string.Format("{0}/{1}", parentPath, m_subPath));
+            path = ExportUtil.getDataPath(m_subPath);
             if(!ExportUtil.bDirExist(path))
             {
                 ExportUtil.RecurCreateDirectory(path);
@@ -155,7 +156,8 @@ namespace EditorTool
         public void save2Files(string parentPath)
         {
             string path = "";
-            path = ExportUtil.getDataPath(string.Format("{0}/{1}/{2}.xml", parentPath, m_subPath, m_outFileName));
+            //path = ExportUtil.getDataPath(string.Format("{0}/{1}/{2}.xml", parentPath, m_subPath, m_outFileName));
+            path = ExportUtil.getDataPath(string.Format("{0}/{1}.xml", parentPath, m_outFileName));
 
             ExportUtil.deleteFile(path);
             FileStream fileStream = new FileStream(path, FileMode.CreateNew);

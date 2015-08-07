@@ -45,7 +45,8 @@ namespace Game.Game
 
         public void loadGameScene()
         {
-            m_gotoScene.loadGameScene();
+            //m_gotoScene.loadGameScene();
+            m_gotoScene.loadScene("TestAnimScene.unity");
         }
 
         public void loadDZScene(uint sceneNumber)
