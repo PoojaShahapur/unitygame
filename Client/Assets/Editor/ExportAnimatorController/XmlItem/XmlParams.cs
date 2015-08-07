@@ -50,7 +50,7 @@ namespace EditorTool
         {
             clear();
 
-            XmlNodeList paramsNodeList = elem.ChildNodes;
+            XmlNodeList paramsNodeList = elem.SelectNodes("Param");
             XmlElement paramElem = null;
             XmlParam param;
             foreach (XmlNode paramNode in paramsNodeList)

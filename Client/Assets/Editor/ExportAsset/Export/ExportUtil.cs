@@ -649,6 +649,20 @@ namespace EditorTool
             return ret;
         }
 
+        // 格式是 "0, 0, 0"
+        static public Vector3 getXmlAttrVector3(XmlAttribute attr)
+        {
+            Vector3 ret = Vector3.zero;
+            string[] scaleArr;
+            if (attr != null)
+            {
+                scaleArr = attr.Value.Split(new []{','});
+                ret = new Vector3(int.Parse(scaleArr[0]), int.Parse(scaleArr[1]), int.Parse(scaleArr[2]));
+            }
+
+            return ret;
+        }
+
         static public string rightSubStr(string origStr, string subStr)
         {
             int idx = origStr.IndexOf(subStr);

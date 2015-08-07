@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using UnityEditor.Animations;
+using UnityEngine;
 
 namespace EditorTool
 {
@@ -10,13 +11,12 @@ namespace EditorTool
         protected List<XmlClip> m_clipList = new List<XmlClip>();
 
         protected List<XmlState> m_noResStateList = new List<XmlState>();
-
         protected List<XmlStateTransition> m_tranList = new List<XmlStateTransition>();
-
         protected string m_name;                    // 状态机的名字
 
-        protected XmlLayer m_layer;                // 当前状态机所在的 Layer
+        protected XmlLayer m_layer;                 // 当前状态机所在的 Layer
         protected AnimatorStateMachine m_animatorStateMachine;      // 记录当前状态机
+        protected Vector3 m_pos;            // 状态机的当前位置
 
         public List<XmlState> stateList
         {
@@ -102,6 +102,18 @@ namespace EditorTool
             }
         }
 
+        public Vector3 pos
+        {
+            get
+            {
+                return m_pos;
+            }
+            set
+            {
+                m_pos = value;
+            }
+        }
+
         public void adjustFileName(string modelName)
         {
             foreach (var clip in m_clipList)
@@ -115,6 +127,7 @@ namespace EditorTool
             clear();
 
             m_name = ExportUtil.getXmlAttrStr(elem.Attributes["name"]);
+            m_pos = ExportUtil.getXmlAttrVector3(elem.Attributes["pos"]);
 
             // 解析没有动画文件的 State
             XmlNodeList noStateNodeList = elem.SelectNodes("State");
@@ -143,7 +156,7 @@ namespace EditorTool
             }
 
             // 解析状态机中的转换
-            XmlNodeList tranNodeList = elem.SelectNodes("Transition");
+            XmlNodeList tranNodeList = elem.SelectNodes("StateTransition");
             XmlElement tranElem = null;
             XmlStateTransition _tran;
             foreach (XmlNode tranNode in tranNodeList)

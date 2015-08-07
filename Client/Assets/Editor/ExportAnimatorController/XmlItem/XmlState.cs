@@ -8,20 +8,20 @@ namespace EditorTool
     {
         protected string m_motion;
 
-        protected List<XmlCondition> m_condList = new List<XmlCondition>();
+        protected List<XmlCondition> m_anyCondList = new List<XmlCondition>();
         protected XmlStateMachine m_stateMachine;  // 对应的状态机
 
         protected AnimatorState m_animatorState;
 
-        public List<XmlCondition> condList
+        public List<XmlCondition> anyCondList
         {
             get
             {
-                return m_condList;
+                return m_anyCondList;
             }
             set
             {
-                m_condList = value;
+                m_anyCondList = value;
             }
         }
 
@@ -74,7 +74,7 @@ namespace EditorTool
             {
                 condElem = (XmlElement)condNode;
                 cond = new XmlCondition();
-                m_condList.Add(cond);
+                m_anyCondList.Add(cond);
                 cond.xmlState = this;
                 cond.parseXml(condElem);
             }
@@ -82,7 +82,7 @@ namespace EditorTool
 
         public void clear()
         {
-            m_condList.Clear();
+            m_anyCondList.Clear();
             m_animatorState = null;
         }
     }

@@ -46,7 +46,7 @@ namespace EditorTool
 
                 controllerData.layers.layerList[layerIdx].animatorControllerLayer = layer;
                 BuildAnimationStateLayer(controllerData.layers.layerList[layerIdx]);
-                BuildStateMachineTransition(controllerData.layers.layerList[layerIdx]);
+                //BuildStateMachineTransition(controllerData.layers.layerList[layerIdx]);
             }
 
             AssetDatabase.SaveAssets();
@@ -69,11 +69,11 @@ namespace EditorTool
                 }
                 else    // 自状态机需要从主状态机创建
                 {
-                    xmlLayer.stateMachineList[stateMachineIdx].animatorStateMachine = xmlLayer.stateMachineList[0].animatorStateMachine.AddStateMachine(xmlLayer.stateMachineList[stateMachineIdx].name, new Vector3(0, 0, 0));
+                    xmlLayer.stateMachineList[stateMachineIdx].animatorStateMachine = xmlLayer.stateMachineList[0].animatorStateMachine.AddStateMachine(xmlLayer.stateMachineList[stateMachineIdx].name, xmlLayer.stateMachineList[stateMachineIdx].pos);
                 }
 
                 BuildAnimationStateMachine(xmlLayer.stateMachineList[stateMachineIdx]);
-                //BuildStateTransition(xmlLayer.stateMachineList[stateMachineIdx]);
+                BuildStateTransition(xmlLayer.stateMachineList[stateMachineIdx]);
             }
         }
 
@@ -150,7 +150,7 @@ namespace EditorTool
             trans.duration = 0;
             trans.canTransitionToSelf = false;
 
-            foreach (XmlCondition xmlCond in xmlState.condList)
+            foreach (XmlCondition xmlCond in xmlState.anyCondList)
             {
                 trans.AddCondition(xmlCond.opMode, xmlCond.getFloatValue(), xmlCond.name);
             }

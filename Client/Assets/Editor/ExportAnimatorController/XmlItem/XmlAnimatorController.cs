@@ -6,7 +6,8 @@ namespace EditorTool
     public class XmlAnimatorController
     {
         protected string m_inPath;
-        protected string m_outPath;
+        protected string m_assetOutPath;
+        protected string m_controllerOutPath;
         protected string m_outName;
         protected string m_outExtName;
 
@@ -35,15 +36,15 @@ namespace EditorTool
             }
         }
 
-        public string outPath
+        public string assetOutPath
         {
             get
             {
-                return m_outPath;
+                return m_assetOutPath;
             }
             set
             {
-                m_outPath = value;
+                m_assetOutPath = value;
             }
         }
 
@@ -95,6 +96,18 @@ namespace EditorTool
             }
         }
 
+        public string controllerOutPath
+        {
+            get
+            {
+                return m_controllerOutPath;
+            }
+            set
+            {
+                m_controllerOutPath = value;
+            }
+        }
+
         public string controllerFullPath
         {
             get
@@ -139,18 +152,46 @@ namespace EditorTool
         public void parseXml(XmlElement elem)
         {
             m_inPath = ExportUtil.getXmlAttrStr(elem.Attributes["inpath"]);
-            m_outPath = ExportUtil.getXmlAttrStr(elem.Attributes["outpath"]);
+            m_assetOutPath = ExportUtil.getXmlAttrStr(elem.Attributes["assetoutpath"]);
+            m_controllerOutPath = ExportUtil.getXmlAttrStr(elem.Attributes["controlleroutpath"]);
             m_outName = ExportUtil.getXmlAttrStr(elem.Attributes["outname"]);
             m_outExtName = ExportUtil.getXmlAttrStr(elem.Attributes["outextname"]);
 
-            m_controllerFullPath = string.Format("{0}/{1}.controller", m_inPath, m_outName);
-            m_assetFullPath = string.Format("{0}/{1}.{2}", m_outPath, m_outName, m_outExtName);
+            m_controllerFullPath = string.Format("{0}/{1}.controller", m_controllerOutPath, m_outName);
+            m_assetFullPath = string.Format("{0}/{1}.{2}", m_assetOutPath, m_outName, m_outExtName);
 
             XmlNode paramsNode = elem.SelectSingleNode("Params");
             m_params.parseXml(paramsNode as XmlElement);
 
             XmlNode layersNode = elem.SelectSingleNode("Layers");
             m_layers.parseXml(layersNode as XmlElement);
+
+            // 确保目录都创建
+            createSubDir();
+        }
+
+        // 创建所需要的所有的子目录
+        protected void createSubDir()
+        {
+            if (!string.IsNullOrEmpty(m_assetOutPath))
+            {
+                string path = "";
+                path = ExportUtil.getWorkPath(m_assetOutPath);
+                if (!ExportUtil.bDirExist(path))
+                {
+                    ExportUtil.RecurCreateDirectory(path);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(m_controllerOutPath))
+            {
+                string path = "";
+                path = ExportUtil.getWorkPath(m_controllerOutPath);
+                if (!ExportUtil.bDirExist(path))
+                {
+                    ExportUtil.RecurCreateDirectory(path);
+                }
+            }
         }
     }
 }
