@@ -90,7 +90,7 @@ namespace SDK.Lib
             {
                 if (!(tk.m_tickObject as IDelayHandleItem).getClientDispose())
                 {
-                    (tk.m_tickObject as ITickedObject).OnTick(delta);
+                    (tk.m_tickObject as ITickedObject).onTick(delta);
                 }
             }
 

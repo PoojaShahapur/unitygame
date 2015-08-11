@@ -49,7 +49,7 @@ namespace SDK.Lib
             }
         }
 
-        virtual public void OnTick(float delta)
+        virtual public void onTick(float delta)
         {
             incDepth();
 

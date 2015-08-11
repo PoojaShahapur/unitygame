@@ -2,6 +2,6 @@
 {
     public interface ITickedObject
     {
-        void OnTick(float delta);
+        void onTick(float delta);
     }
 }

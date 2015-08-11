@@ -42,7 +42,7 @@ namespace FightCore
             delArrow();
         }
 
-        public void OnTick(float delta)
+        public void onTick(float delta)
         {
             if (needUpdate())
             {

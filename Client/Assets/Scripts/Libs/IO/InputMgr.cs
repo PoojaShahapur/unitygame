@@ -31,7 +31,7 @@ namespace SDK.Lib
         /**
          * @inheritDoc
          */
-        public void OnTick(float deltaTime)
+        public void onTick(float deltaTime)
         {
             handleKeyDown();
             handleKeyUp();
