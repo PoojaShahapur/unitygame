@@ -43,14 +43,14 @@ namespace SDK.Lib
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            m_preparetime = UtilXml.getXmlAttrUInt(xmlelem, "preparetime");
-            m_roundtime = UtilXml.getXmlAttrUInt(xmlelem, "roundtime");
-            m_peaceNum = UtilXml.getXmlAttrUInt(xmlelem, "peaceNum");
-            m_luckyCoin = UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin");
+            UtilXml.getXmlAttrUInt(xmlelem, "preparetime", ref m_preparetime);
+            UtilXml.getXmlAttrUInt(xmlelem, "roundtime", ref m_roundtime);
+            UtilXml.getXmlAttrUInt(xmlelem, "peaceNum", ref m_peaceNum);
+            UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin", ref m_luckyCoin);
 
-            m_tiredCard = UtilXml.getXmlAttrUInt(xmlelem, "tiredCard");
-            m_lastpreparetime = UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime");
-            m_lastroundtime = UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime");
+            UtilXml.getXmlAttrUInt(xmlelem, "tiredCard", ref m_tiredCard);
+            UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime", ref m_lastpreparetime);
+            UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime", ref m_lastroundtime);
         }
     }
 
@@ -64,9 +64,9 @@ namespace SDK.Lib
         {
             SecurityElement itemXml = null;
             UtilXml.getXmlChild(xmlelem, "item", ref itemXml);
-            m_sceneId = UtilXml.getXmlAttrUInt(itemXml, "id");
-            m_sceneName = UtilXml.getXmlAttrStr(itemXml, "name");
-            m_levelName = UtilXml.getXmlAttrStr(itemXml, "res");
+            UtilXml.getXmlAttrUInt(itemXml, "id", ref m_sceneId);
+            UtilXml.getXmlAttrStr(itemXml, "name", ref m_sceneName);
+            UtilXml.getXmlAttrStr(itemXml, "res", ref m_levelName);
         }
     }
 }

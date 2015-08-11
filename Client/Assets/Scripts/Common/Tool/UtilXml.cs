@@ -5,91 +5,125 @@ namespace SDK.Common
 {
     public class UtilXml
     {
-        static public bool getXmlAttrBool(SecurityElement attr, string name)
+        public const int XML_OK = 0;
+        public const int XML_FAIL = 1;
+
+        static public int getXmlAttrBool(SecurityElement attr, string name, ref bool ret)
         {
-            if (attr != null)
+            if (attr != null && attr.Attributes.ContainsKey(name))
             {
                 if (UtilApi.TRUE == attr.Attribute(name))
                 {
-                    return true;
+                    ret = true;
                 }
                 else if (UtilApi.FALSE == attr.Attribute(name))
                 {
-                    return false;
+                    ret = false;
                 }
+                else
+                {
+                    ret = false;
+                }
+
+                return XML_OK;
             }
 
-            return false;
+            ret = false;
+            return XML_FAIL;
         }
 
-        static public string getXmlAttrStr(SecurityElement attr, string name)
+        static public int getXmlAttrStr(SecurityElement attr, string name, ref string ret)
         {
-            if (attr != null)
+            if (attr != null && attr.Attributes.ContainsKey(name))
             {
-                return attr.Attribute(name);
+                ret =  attr.Attribute(name);
+                return XML_OK;
             }
 
-            return "";
+            ret = "";
+            return XML_FAIL;
         }
 
-        static public uint getXmlAttrUInt(SecurityElement attr, string name)
+        static public int getXmlAttrUInt(SecurityElement attr, string name, ref uint ret)
         {
-            uint ret = 0;
-            if (attr != null)
+            if (attr != null && attr.Attributes.ContainsKey(name))
             {
                 uint.TryParse(attr.Attribute(name), out ret);
+                return XML_OK;
             }
 
-            return ret;
+            ret = 0;
+            return XML_FAIL;
         }
 
-        static public int getXmlAttrInt(SecurityElement attr, string name)
+        static public int getXmlAttrInt(SecurityElement attr, string name, ref int ret)
         {
-            int ret = 0;
-            if (attr != null)
+            if (attr != null && attr.Attributes.ContainsKey(name))
             {
                 int.TryParse(attr.Attribute(name), out ret);
+                return XML_OK;
             }
 
-            return ret;
+            ret = 0;
+            return XML_FAIL;
         }
 
-        static public float getXmlAttrFloat(SecurityElement attr, string name)
+        static public int getXmlAttrFloat(SecurityElement attr, string name, ref float ret)
         {
-            float ret = 0;
-            if (attr != null)
+            if (attr != null && attr.Attributes.ContainsKey(name))
             {
                 float.TryParse(attr.Attribute(name), out ret);
+                return XML_OK;
             }
 
-            return ret;
+            ret = 0;
+            return XML_FAIL;
         }
 
         // 获取一个孩子节点列表
-        static public void getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
+        static public int getXmlChildList(SecurityElement elem, string name, ref ArrayList list)
         {
-            foreach (SecurityElement child in elem.Children)
+            if (elem != null)
             {
-                //比对下是否使自己所需要得节点
-                if (child.Tag == name)
+                foreach (SecurityElement child in elem.Children)
                 {
-                    list.Add(child);
+                    //比对下是否使自己所需要得节点
+                    if (child.Tag == name)
+                    {
+                        list.Add(child);
+                    }
                 }
+            }
+
+            if (list.Count > 0)
+            {
+                return XML_OK;
+            }
+            else
+            {
+                list.Clear();
+                return XML_FAIL;
             }
         }
 
         // 获取一个孩子节点
-        static public void getXmlChild(SecurityElement elem, string name, ref SecurityElement childNode)
+        static public int getXmlChild(SecurityElement elem, string name, ref SecurityElement childNode)
         {
-            foreach (SecurityElement child in elem.Children)
+            if (elem != null)
             {
-                //比对下是否使自己所需要得节点
-                if (child.Tag == name)
+                foreach (SecurityElement child in elem.Children)
                 {
-                    childNode = child;
-                    break;
+                    //比对下是否使自己所需要得节点
+                    if (child.Tag == name)
+                    {
+                        childNode = child;
+                        return XML_OK;
+                    }
                 }
             }
+
+            childNode = null;
+            return XML_FAIL;
         }
     }
 }

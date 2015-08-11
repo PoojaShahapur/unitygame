@@ -13,8 +13,8 @@ namespace SDK.Lib
 
         virtual public void parseXmlElem(SecurityElement elem_)
         {
-            m_HashId = UtilXml.getXmlAttrInt(elem_, "HashId");
-            m_needMove = UtilXml.getXmlAttrBool(elem_, "NeedMove");
+            UtilXml.getXmlAttrInt(elem_, "HashId", ref m_HashId);
+            UtilXml.getXmlAttrBool(elem_, "NeedMove", ref m_needMove);
         }
     }
 }

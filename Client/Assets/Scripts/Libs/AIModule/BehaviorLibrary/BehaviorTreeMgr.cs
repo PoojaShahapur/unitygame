@@ -100,7 +100,7 @@ namespace BehaviorLibrary
                 behaviorTreeXmlList = xmlElemTpl.Children;
                 behaviorTree = new BehaviorTree(new BTRoot());
 
-                strId = UtilXml.getXmlAttrStr(node, "name");
+                UtilXml.getXmlAttrStr(node, "name", ref strId);
                 id = m_btAttrSys.getBTIDByName(strId);
                 m_id2BTDic[id] = behaviorTree;
 

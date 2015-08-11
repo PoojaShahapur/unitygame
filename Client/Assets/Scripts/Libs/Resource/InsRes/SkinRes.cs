@@ -41,14 +41,14 @@ namespace SDK.Lib
             foreach (SecurityElement itemNode1f in itemMeshList)
             {
                 itemMesh = itemNode1f;
-                meshName = UtilXml.getXmlAttrStr(itemMesh, "name");
+                UtilXml.getXmlAttrStr(itemMesh, "name", ref meshName);
 
                 itemSubMeshList = itemMesh.Children;
                 foreach (SecurityElement itemNode2f in itemSubMeshList)
                 {
                     itemSubMesh = itemNode2f;
-                    subMeshName = UtilXml.getXmlAttrStr(itemSubMesh, "name");
-                    bonesList = UtilXml.getXmlAttrStr(itemSubMesh, "bonelist");
+                    UtilXml.getXmlAttrStr(itemSubMesh, "name", ref subMeshName);
+                    UtilXml.getXmlAttrStr(itemSubMesh, "bonelist", ref bonesList);
                     m_boneArr = bonesList.Split(',');
                 }
             }

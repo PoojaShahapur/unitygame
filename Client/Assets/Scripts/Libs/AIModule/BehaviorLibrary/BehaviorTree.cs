@@ -21,7 +21,7 @@ namespace BehaviorLibrary
 		private BehaviorComponent _Root;
         private BehaviorReturnCode _ReturnCode;
 
-        protected string m_name;            // 行为树名字
+        public string m_name;            // 行为树名字
         protected InsParam m_inputParam;    // 输入数据
         protected UBlackboardData m_blackboardData; // 黑盒数据
 

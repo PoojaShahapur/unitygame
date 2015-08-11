@@ -44,14 +44,14 @@ namespace Game.UI
 
         public override void parseXml(SecurityElement xmlelem)
         {
-            m_preparetime = UtilXml.getXmlAttrUInt(xmlelem, "preparetime");
-            m_roundtime = UtilXml.getXmlAttrUInt(xmlelem, "roundtime");
-            m_peaceNum = UtilXml.getXmlAttrUInt(xmlelem, "peaceNum");
-            m_luckyCoin = UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin");
+            UtilXml.getXmlAttrUInt(xmlelem, "preparetime", ref m_preparetime);
+            UtilXml.getXmlAttrUInt(xmlelem, "roundtime", ref m_roundtime);
+            UtilXml.getXmlAttrUInt(xmlelem, "peaceNum", ref m_peaceNum);
+            UtilXml.getXmlAttrUInt(xmlelem, "luckyCoin", ref m_luckyCoin);
 
-            m_tiredCard = UtilXml.getXmlAttrUInt(xmlelem, "tiredCard");
-            m_lastpreparetime = UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime");
-            m_lastroundtime = UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime");
+            UtilXml.getXmlAttrUInt(xmlelem, "tiredCard", ref m_tiredCard);
+            UtilXml.getXmlAttrUInt(xmlelem, "lastpreparetime", ref m_lastpreparetime);
+            UtilXml.getXmlAttrUInt(xmlelem, "lastroundtime", ref m_lastroundtime);
         }
     }
 }

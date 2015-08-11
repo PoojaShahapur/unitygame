@@ -37,7 +37,7 @@ namespace SDK.Lib
         public void parseXmlElem(SecurityElement elem_)
         {
             // 解析 Id
-            m_id = UtilXml.getXmlAttrStr(elem_, "Id");
+            UtilXml.getXmlAttrStr(elem_, "Id", ref m_id);
 
             // 解析攻击
             ArrayList attackActionNodeList = elem_.Children; // AttackAction 攻击动作节点，这个节点只有一个 AttackAction

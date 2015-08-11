@@ -55,7 +55,7 @@ namespace BehaviorLibrary
         {
             ArrayList btCmtNodeList = btNode.Children;
             BehaviorComponent btCmt;
-            string type;
+            string type = "";
 
             if (btCmtNodeList != null)
             {
@@ -64,7 +64,7 @@ namespace BehaviorLibrary
                 {
                     if (m_id2CreateDic.ContainsKey(node.Tag))
                     {
-                        type = UtilXml.getXmlAttrStr(node, "type");
+                        UtilXml.getXmlAttrStr(node, "type", ref type);
                         btCmt = m_id2CreateDic[node.Tag].createComp(type);
                         btCmt.behaviorTree = parentNode.behaviorTree;
                         parentNode.addChild(btCmt);
@@ -78,7 +78,7 @@ namespace BehaviorLibrary
 
         protected void buildBT(BehaviorTree btree, SecurityElement btNode)
         {
-            btree.name = UtilXml.getXmlAttrStr(btNode, "name");
+            UtilXml.getXmlAttrStr(btNode, "name", ref btree.m_name);
         }
     }
 }

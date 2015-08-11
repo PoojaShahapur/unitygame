@@ -14,9 +14,9 @@ namespace SDK.Lib
 
         virtual public void parseXmlElem(SecurityElement elem_)
         {
-            m_effectId = UtilXml.getXmlAttrStr(elem_, "EffectId");
-            m_delayTime = UtilXml.getXmlAttrFloat(elem_, "DelayTime");
-            m_linkBone = UtilXml.getXmlAttrStr(elem_, "LinkBone");
+            UtilXml.getXmlAttrStr(elem_, "EffectId", ref m_effectId);
+            UtilXml.getXmlAttrFloat(elem_, "DelayTime", ref m_delayTime);
+            UtilXml.getXmlAttrStr(elem_, "LinkBone", ref m_linkBone);
         }
     }
 }

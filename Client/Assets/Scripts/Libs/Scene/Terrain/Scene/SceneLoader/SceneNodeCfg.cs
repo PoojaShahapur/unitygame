@@ -17,9 +17,10 @@ namespace SDK.Lib
             m_rotate = new Quaternion();
             m_scale = new Vector3();
 
-            m_prefab = UtilXml.getXmlAttrStr(xe, "prefab");
+            UtilXml.getXmlAttrStr(xe, "prefab", ref m_prefab);
 
-            string attr = UtilXml.getXmlAttrStr(xe, "pos");
+            string attr = "";
+            UtilXml.getXmlAttrStr(xe, "pos", ref attr);
             attr = attr.Substring(1, attr.Length - 2);
             char[] split = new char[1];
             split[0] = ',';
@@ -29,7 +30,7 @@ namespace SDK.Lib
             m_pos.y = float.Parse(strarr[1]);
             m_pos.z = float.Parse(strarr[2]);
 
-            attr = UtilXml.getXmlAttrStr(xe, "rotate");
+            UtilXml.getXmlAttrStr(xe, "rotate", ref attr);
             attr = attr.Substring(1, attr.Length - 2);
             split[0] = ',';
             strarr = attr.Split(split);
@@ -39,7 +40,7 @@ namespace SDK.Lib
             m_rotate.z = float.Parse(strarr[2]);
             m_rotate.w = float.Parse(strarr[3]);
 
-            attr = UtilXml.getXmlAttrStr(xe, "scale");
+            UtilXml.getXmlAttrStr(xe, "scale", ref attr);
             attr = attr.Substring(1, attr.Length - 2);
             split[0] = ',';
             strarr = attr.Split(split);
