@@ -1,13 +1,15 @@
 -- require "LuaScript/Common/Prerequisites"  -- 只要包含这一行就不能调试，在连接服务器之前一定不能有 require 指令，但是可以有代码， Prerequisites.lua 一定要在启动的时候加载进来，不能在调试的文件中加载
 -- connectServer()
 
+package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources")
+package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript/LuaLib")
 package.cpath = string.format("%s;%s/?.dll", package.cpath, "E:/Self/Self/unity/unitygame/Client/Assets/Plugins/x86_64")
 
 -- local aaa = 5
 
 -- if true == g_debugMode then
     local initconnection = require("debugger")
-    initconnection("192.168.122.64", "10000", "luaidekey")
+    initconnection("192.168.122.64", "10000", "luaidekey", "debugger.transport.luasocket", "win", "E:/Self/Self/unity/unitygame/Client")
 -- end
 
 --[[
@@ -51,3 +53,5 @@ end
 
 aaa = luaFunc(10)
 print(aaa)
+
+SDK.Lib.TestStaticHandle.log(string.format("[LuaDebug]-- %d", aaa))
