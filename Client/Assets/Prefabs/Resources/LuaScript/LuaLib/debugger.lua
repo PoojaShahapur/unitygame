@@ -2058,12 +2058,25 @@ end
 
 --- Returns a RFC2396 compliant URI for given source, or false if the mapping failed
 local function get_abs_file_uri (source)
+    if source:sub(1,1) ~= "@" then
+        local extLen = string.len(source)
+        if extLen > 4 then
+            --SDK.Lib.TestStaticHandle.log(string.format("LuaDebug-source : %s", source))
+            local extName = string.sub(source, extLen - 4 + 1)
+            --SDK.Lib.TestStaticHandle.log(string.format("LuaDebug-extName : %s", extName))
+            if extName == ".lua" then
+                source = string.format("%s%s", "@", source)
+                --SDK.Lib.TestStaticHandle.log(string.format("LuaDebug-extLua : %s", source))
+            end
+        end
+    end
     local uri
     if source:sub(1,1) == "@" then -- real source file
         local sourcepath = source:sub(2)
         local normalizedpath = M.normalize(sourcepath)
         if not M.is_path_absolute(normalizedpath) then
             normalizedpath = M.normalize(M.base_dir .. "/" .. normalizedpath)
+            SDK.Lib.TestStaticHandle.log(string.format("LuaDebug-normalizedpath : %s", normalizedpath))
         end
         return M.to_file_uri(normalizedpath)
     else -- dynamic code, stripped bytecode, tail return, ...
