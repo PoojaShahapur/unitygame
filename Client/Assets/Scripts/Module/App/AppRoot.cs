@@ -85,7 +85,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
 #else
         //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
 #endif
 
         // 运行单元测试
