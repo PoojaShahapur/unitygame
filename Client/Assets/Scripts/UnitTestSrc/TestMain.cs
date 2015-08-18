@@ -21,6 +21,7 @@ namespace UnitTestSrc
         protected TestAni m_pTestAni = new TestAni();
         protected TestLogic m_pTestLogic = new TestLogic();
         protected TestLua m_pTestLua = new TestLua();
+        protected TestNavMesh m_pTestNavMesh = new TestNavMesh();
 
         public void run()
         {
@@ -44,6 +45,7 @@ namespace UnitTestSrc
 
             m_pTestLogic.run();
             m_pTestLua.run();
+            m_pTestNavMesh.run();
         }
     }
 }

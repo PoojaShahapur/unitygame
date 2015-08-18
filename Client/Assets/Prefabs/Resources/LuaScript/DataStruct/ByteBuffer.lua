@@ -40,7 +40,7 @@ end
 
 -- 设置读写位置
 function ByteBuffer:setPos(pos_)
-	  self.m_position = pos_
+    self.m_position = pos_
 end
 
 function ByteBuffer:setSize(size_)
@@ -69,9 +69,9 @@ function ByteBuffer:length()
         self:log("buff nil")
     end
     self:log("buff len " .. #self.m_buff)
-	  self:log("buff len size " .. self.m_size)
+	self:log("buff len size " .. self.m_size)
     --return #self.m_buff + 1 	-- 这个返回的从 0 开始的索引，需要加 1 才行
-	  return self.m_size
+	return self.m_size
 end
 
 -- 清理数据
@@ -315,13 +315,13 @@ function ByteBuffer:writeUnsignedDouble(retData)
     local low = (retData * 100) % 4294967296
     local heigh = math.floor((retData * 100) / 4294967296)
 	
-	  if self.m_endian == self.ENDIAN_BIG then
-		    self:writeInt32(heigh)
+        if self.m_endian == self.ENDIAN_BIG then
+            self:writeInt32(heigh)
 		    self:writeInt32(low)
-	  else
+        else
 		    self:writeInt32(low)
 		    self:writeInt32(heigh)
-	  end
+        end
     
     self:advPosAndLen(8);
 end
