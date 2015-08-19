@@ -45,7 +45,7 @@ namespace SDK.Lib
             string path = "";
             for(int idx = 0; idx < m_itemCount; ++idx)
             {
-                mazeRoom = new MazeRoom();
+                mazeRoom = new MazeRoom(idx);
                 m_mazeRoomList.Add(mazeRoom);
                 path = string.Format("RootGo/Plane_{0}", idx);
                 mazeRoom.selfGo = UtilApi.GoFindChildByPObjAndName(path);
@@ -54,6 +54,52 @@ namespace SDK.Lib
 
             path = "RootGo/SplitGo";
             m_trans = UtilApi.GoFindChildByPObjAndName(path).transform;
+        }
+
+        public int getRoomIdx(MazeRoom mazeRoom)
+        {
+            if (mazeRoom.selfGo.transform.localPosition.x <= m_trans.localPosition.x)     // 如果在左边
+            {
+                if (mazeRoom.selfGo.transform.localPosition.z >= m_trans.localPosition.z)    // 如果在上面
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
+            else                // 如果在右边
+            {
+                if (mazeRoom.selfGo.transform.localPosition.z >= m_trans.localPosition.z)    // 如果在上面
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 3;
+                }
+            }
+        }
+
+        public MazeRoom getMazeRoom(int idx)
+        {
+            return m_mazeRoomList[idx];
+        }
+
+        public void updateRoomList()
+        {
+            m_mazeRoomList.list.Sort(sortRoom);
+        }
+
+        static public int sortRoom(MazeRoom lh, MazeRoom rh)
+        {
+            if(lh.iTag < rh.iTag)
+            {
+                return -1;
+            }
+
+            return 1;
         }
     }
 }

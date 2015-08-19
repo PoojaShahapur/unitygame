@@ -56,7 +56,21 @@ namespace SDK.Lib
         // 拖放结束处理
         protected void onDragEnd()
         {
-            
+            int idx = Ctx.m_instance.m_maze.mazeData.roomInfo.getRoomIdx(m_mazeRoom);
+            if(idx != m_mazeRoom.iTag)
+            {
+                MazeRoom mazeRoom = Ctx.m_instance.m_maze.mazeData.roomInfo.getMazeRoom(idx);
+                mazeRoom.iTag = m_mazeRoom.iTag;
+                Vector2 origPos = mazeRoom.origPos;
+                mazeRoom.origPos = m_mazeRoom.origPos;
+                m_mazeRoom.iTag = idx;
+                m_mazeRoom.origPos = origPos;
+
+                Ctx.m_instance.m_maze.mazeData.roomInfo.updateRoomList();
+
+                mazeRoom.mazeTrackAniControl.moveToDestPos();
+                m_mazeRoom.mazeTrackAniControl.moveToDestPos();
+            }
         }
 
         // 指明当前是否可以改变位置
