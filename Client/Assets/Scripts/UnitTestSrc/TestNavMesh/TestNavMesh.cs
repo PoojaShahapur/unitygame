@@ -23,6 +23,8 @@ namespace UnitTestSrc
             GameObject destGo = UtilApi.GoFindChildByPObjAndName("RootGo/DestGo");
             NavMeshAgent agent = agentGo.GetComponent<NavMeshAgent>();
             agent.destination = destGo.transform.localPosition;
+
+            Ctx.m_instance.m_maze.init();
         }
     }
 }

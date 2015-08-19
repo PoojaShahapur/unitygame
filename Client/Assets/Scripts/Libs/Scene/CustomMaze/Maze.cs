@@ -13,7 +13,7 @@ namespace SDK.Lib
 
         public void init()
         {
-
+            m_mazeData.init();
         }
 
         public MazeData mazeData
