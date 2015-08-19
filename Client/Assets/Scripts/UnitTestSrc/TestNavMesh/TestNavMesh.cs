@@ -19,8 +19,8 @@ namespace UnitTestSrc
         public void onResLoadScene(Scene scene)
         {
             // 加载完成场景
-            GameObject agentGo = UtilApi.GoFindChildByPObjAndName("AgentGo");
-            GameObject destGo = UtilApi.GoFindChildByPObjAndName("DestGo");
+            GameObject agentGo = UtilApi.GoFindChildByPObjAndName("RootGo/AgentGo");
+            GameObject destGo = UtilApi.GoFindChildByPObjAndName("RootGo/DestGo");
             NavMeshAgent agent = agentGo.GetComponent<NavMeshAgent>();
             agent.destination = destGo.transform.localPosition;
         }
