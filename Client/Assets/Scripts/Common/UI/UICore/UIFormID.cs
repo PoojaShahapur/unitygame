@@ -21,8 +21,9 @@ namespace SDK.Common
         eUIMain,             // 主界面
         eUIHero,             // 英雄
         eUIOpenPack,         // 开包
-        eUIShop,         //商店
-        eUITask,         //任务
+        eUIShop,         // 商店
+        eUITask,         // 任务
+        eUIMaze,         // 迷宫
 
         // 第四层
         eUIInfo,             // 信息窗口

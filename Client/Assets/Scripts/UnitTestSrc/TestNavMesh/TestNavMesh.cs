@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.UI;
+using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
 
@@ -25,6 +26,9 @@ namespace UnitTestSrc
             agent.destination = destGo.transform.localPosition;
 
             Ctx.m_instance.m_maze.init();
+
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIMaze", typeof(UIMaze));
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
         }
     }
 }
