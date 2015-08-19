@@ -107,6 +107,7 @@ namespace SDK.Common
         public SkillActionMgr m_skillActionMgr = new SkillActionMgr();
         public ScenePlaceHolder m_scenePlaceHolder = new ScenePlaceHolder();
         public SkillAttackFlowMgr m_skillAttackFlowMgr = new SkillAttackFlowMgr();
+        public Maze m_maze = new Maze();
 
         public Ctx()
         {
