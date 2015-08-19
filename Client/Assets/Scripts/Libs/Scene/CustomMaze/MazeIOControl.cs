@@ -61,7 +61,7 @@ namespace SDK.Lib
             {
                 MazeRoom mazeRoom = Ctx.m_instance.m_maze.mazeData.roomInfo.getMazeRoom(idx);
                 mazeRoom.iTag = m_mazeRoom.iTag;
-                Vector2 origPos = mazeRoom.origPos;
+                Vector3 origPos = mazeRoom.origPos;
                 mazeRoom.origPos = m_mazeRoom.origPos;
                 m_mazeRoom.iTag = idx;
                 m_mazeRoom.origPos = origPos;
