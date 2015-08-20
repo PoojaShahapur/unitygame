@@ -23,6 +23,7 @@ namespace Game.UI
         override public void onShow()
         {
             base.onShow();
+            Ctx.m_instance.m_maze.mazeData.mazeOp.bStart = false;
         }
         
         // 初始化控件
@@ -36,6 +37,7 @@ namespace Game.UI
         // 每一次隐藏都会调用一次
         override public void onHide()
 		{
+            Ctx.m_instance.m_maze.mazeData.mazeOp.bStart = true;
             base.onHide();
 		}
 
@@ -60,6 +62,8 @@ namespace Game.UI
             Ctx.m_instance.m_maze.mazeData.getWayPtList();
             Ctx.m_instance.m_maze.mazeData.setStartPos();
             Ctx.m_instance.m_maze.mazeData.startMove();
+
+            exit();
         }
     }
 }

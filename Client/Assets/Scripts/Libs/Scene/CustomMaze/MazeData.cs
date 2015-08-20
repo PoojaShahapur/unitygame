@@ -45,8 +45,8 @@
 
         public void getWayPtList()
         {
-            m_mazePlayer.ptList.Clear();
-            m_roomInfo.getWayPtList(m_mazePlayer.ptList);
+            m_mazePlayer.clearPath();
+            m_roomInfo.getWayPtList(m_mazePlayer.mazePlayerTrackAniControl.ptList);
         }
 
         public void setStartPos()

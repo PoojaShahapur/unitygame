@@ -68,15 +68,15 @@ namespace SDK.Lib
 
                 Ctx.m_instance.m_maze.mazeData.roomInfo.updateRoomList();
 
-                mazeRoom.mazeTrackAniControl.moveToDestPos();
-                m_mazeRoom.mazeTrackAniControl.moveToDestPos();
+                mazeRoom.mazeRoomTrackAniControl.moveToDestPos();
+                m_mazeRoom.mazeRoomTrackAniControl.moveToDestPos();
             }
         }
 
         // 指明当前是否可以改变位置
         protected bool canMove()
         {
-            return true;
+            return Ctx.m_instance.m_maze.mazeData.mazeOp.bStart;
         }
 
         public void enableDragTitle()

@@ -4,39 +4,44 @@ namespace SDK.Lib
 {
     public class MazePlayer : AuxComponent
     {
-        protected MList<MazePt> m_ptList;
+        protected MazePlayerTrackAniControl m_mazePlayerTrackAniControl;
 
         public MazePlayer()
         {
-            m_ptList = new MList<MazePt>();
+            m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
         }
 
-        public MList<MazePt> ptList
+        public MazePlayerTrackAniControl mazePlayerTrackAniControl
         {
             get
             {
-                return m_ptList;
+                return m_mazePlayerTrackAniControl;
             }
             set
             {
-                m_ptList = value;
+                m_mazePlayerTrackAniControl = value;
             }
         }
 
         public void init()
         {
-            string path = "";
+            string path = "RootGo/AgentGo";
             this.selfGo = UtilApi.GoFindChildByPObjAndName(path);
         }
 
         public void setStartPos()
         {
-            this.selfGo.transform.localPosition = m_ptList[0].pos;
+            m_mazePlayerTrackAniControl.setStartPos();
         }
 
         public void startMove()
         {
             
+        }
+
+        public void clearPath()
+        {
+            m_mazePlayerTrackAniControl.ptList.Clear();
         }
     }
 }

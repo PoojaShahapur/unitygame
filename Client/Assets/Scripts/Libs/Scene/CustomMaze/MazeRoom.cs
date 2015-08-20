@@ -8,7 +8,7 @@ namespace SDK.Lib
         protected int m_fixIdx;     // 固定不变的索引
         protected int m_iTag;
         protected MazeIOControl m_mazeIOControl;
-        protected MazeTrackAniControl m_mazeTrackAniControl;
+        protected MazeRoomTrackAniControl m_mazeRoomTrackAniControl;
         protected Vector3 m_origPos;
         protected MList<MazePt> m_ptList;
 
@@ -17,7 +17,7 @@ namespace SDK.Lib
             m_fixIdx = iTag_;
             m_iTag = iTag_;
             m_mazeIOControl = new MazeIOControl(this);
-            m_mazeTrackAniControl = new MazeTrackAniControl(this);
+            m_mazeRoomTrackAniControl = new MazeRoomTrackAniControl(this);
             m_ptList = new MList<MazePt>();
         }
 
@@ -69,15 +69,15 @@ namespace SDK.Lib
             }
         }
 
-        public MazeTrackAniControl mazeTrackAniControl
+        public MazeRoomTrackAniControl mazeRoomTrackAniControl
         {
             get
             {
-                return m_mazeTrackAniControl;
+                return m_mazeRoomTrackAniControl;
             }
             set
             {
-                m_mazeTrackAniControl = value;
+                m_mazeRoomTrackAniControl = value;
             }
         }
 

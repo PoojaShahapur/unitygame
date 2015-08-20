@@ -2,13 +2,13 @@
 
 namespace SDK.Lib
 {
-    public class MazeTrackAniControl
+    public class MazeRoomTrackAniControl
     {
         protected MazeRoom m_mazeRoom;
 
         protected NumAniParallel m_numAniParal;
 
-        public MazeTrackAniControl(MazeRoom mazeRoom_)
+        public MazeRoomTrackAniControl(MazeRoom mazeRoom_)
         {
             m_mazeRoom = mazeRoom_;
             m_numAniParal = new NumAniParallel();
