@@ -92,6 +92,14 @@ namespace SDK.Lib
             m_mazeRoomList.list.Sort(sortRoom);
         }
 
+        public void getWayPtList(MList<MazePt> ptList)
+        {
+            for(int idx = 0; idx < 4; ++idx)
+            {
+                m_mazeRoomList[idx].getWayPtList(ptList);
+            }
+        }
+
         static public int sortRoom(MazeRoom lh, MazeRoom rh)
         {
             if(lh.iTag < rh.iTag)
