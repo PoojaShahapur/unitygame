@@ -10,7 +10,7 @@ namespace SDK.Lib
         protected MazeIOControl m_mazeIOControl;
         protected MazeRoomTrackAniControl m_mazeRoomTrackAniControl;
         protected Vector3 m_origPos;
-        protected MList<MazePt> m_ptList;
+        protected MList<MazePtBase> m_ptList;
 
         public MazeRoom(int iTag_)
         {
@@ -18,7 +18,7 @@ namespace SDK.Lib
             m_iTag = iTag_;
             m_mazeIOControl = new MazeIOControl(this);
             m_mazeRoomTrackAniControl = new MazeRoomTrackAniControl(this);
-            m_ptList = new MList<MazePt>();
+            m_ptList = new MList<MazePtBase>();
         }
 
         public int fixIdx
@@ -88,7 +88,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            MazePt pt = null;
+            MazePtBase pt = null;
             string path = "";
 
             for(int idx = 0; idx < 4; ++idx)
@@ -103,7 +103,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    pt = new MazePt();
+                    pt = new MazeComPt();
                 }
                 m_ptList.Add(pt);
 
@@ -112,9 +112,9 @@ namespace SDK.Lib
             }
         }
 
-        public void getWayPtList(MList<MazePt> ptList_)
+        public void getWayPtList(MList<MazePtBase> ptList_)
         {
-            MazePt pt = null;
+            MazePtBase pt = null;
 
             for(int idx = 0; idx < 4; ++idx)
             {
@@ -128,11 +128,12 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    pt = new MazePt();
+                    pt = new MazeComPt();
                 }
                 ptList_.Add(pt);
 
-                pt.pos = m_ptList[idx].pos + selfGo.transform.InverseTransformPoint(m_ptList[idx].pos);
+                //pt.pos = Ctx.m_instance.m_maze.mazeData.sceneRootGo.transform.TransformPoint(m_ptList[idx].pos);
+                pt.pos = m_ptList[idx].pos + selfGo.transform.localPosition;
             }
         }
     }

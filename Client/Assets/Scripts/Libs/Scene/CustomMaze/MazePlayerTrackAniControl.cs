@@ -8,17 +8,17 @@ namespace SDK.Lib
         protected MazePlayer m_mazePlayer;
 
         protected NumAniParallel m_numAniParal;
-        protected MList<MazePt> m_ptList;
+        protected MList<MazePtBase> m_ptList;
 
         public MazePlayerTrackAniControl(MazePlayer mazePlayer_)
         {
             m_mazePlayer = mazePlayer_;
             m_numAniParal = new NumAniParallel();
             m_numAniParal.setAniSeqEndDisp(onMoveEndHandle);
-            m_ptList = new MList<MazePt>();
+            m_ptList = new MList<MazePtBase>();
         }
 
-        public MList<MazePt> ptList
+        public MList<MazePtBase> ptList
         {
             get
             {
@@ -37,8 +37,14 @@ namespace SDK.Lib
             m_ptList.RemoveAt(0);
         }
 
-        // 简单直接移动移动动画
-        public void moveToDestPos(MazePt pt_)
+        public void startMove()
+        {
+            m_ptList[0].moveToDestPos(m_mazePlayer);
+            // 删除第一个点
+            m_ptList.RemoveAt(0);
+        }
+
+        public void moveToDestPos(MazeEndPt pt_)
         {
             PosAni posAni;
             posAni = new PosAni();
@@ -46,6 +52,21 @@ namespace SDK.Lib
             posAni.setGO(m_mazePlayer.selfGo);
             posAni.destPos = pt_.pos;
             posAni.setTime(0.5f);
+            posAni.setEaseType(iTween.EaseType.linear);
+
+            m_numAniParal.play();
+        }
+
+        // 简单直接移动移动动画
+        public void moveToDestPos(MazeComPt pt_)
+        {
+            PosAni posAni;
+            posAni = new PosAni();
+            m_numAniParal.addOneNumAni(posAni);
+            posAni.setGO(m_mazePlayer.selfGo);
+            posAni.destPos = pt_.pos;
+            posAni.setTime(0.5f);
+            posAni.setEaseType(iTween.EaseType.linear);
 
             m_numAniParal.play();
         }
@@ -59,7 +80,7 @@ namespace SDK.Lib
 
             Vector3 midPt;      // 中间点
             midPt = (srcPos + destPos) / 2;
-            midPt.y = 2;
+            midPt.y = 5;
 
             SimpleCurveAni curveAni = new SimpleCurveAni();
             m_numAniParal.addOneNumAni(curveAni);
@@ -82,7 +103,7 @@ namespace SDK.Lib
         {
             if(m_ptList.Count() > 0)  // 说明还有 WayPoint 可以走
             {
-                moveToDestPos(m_ptList[0]);
+                m_ptList[0].moveToDestPos(m_mazePlayer);
                 m_ptList.RemoveAt(0);
             }
             else    // 如果运行到终点位置

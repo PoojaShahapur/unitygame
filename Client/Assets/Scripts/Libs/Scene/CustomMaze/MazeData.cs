@@ -1,10 +1,14 @@
-﻿namespace SDK.Lib
+﻿using SDK.Common;
+using UnityEngine;
+
+namespace SDK.Lib
 {
     public class MazeData
     {
         protected RoomInfo m_roomInfo;
         protected MazeOp m_mazeOp;
         protected MazePlayer m_mazePlayer;
+        protected GameObject m_sceneRootGo;
 
         public MazeData()
         {
@@ -37,8 +41,23 @@
             }
         }
 
+        public GameObject sceneRootGo
+        {
+            get
+            {
+                return m_sceneRootGo;
+            }
+            set
+            {
+                m_sceneRootGo = value;
+            }
+        }
+
         public void init()
         {
+            string path = "RootGo";
+            m_sceneRootGo = UtilApi.GoFindChildByPObjAndName(path);
+
             m_roomInfo.initMazeRoomCount(4);
             m_mazePlayer.init();
         }

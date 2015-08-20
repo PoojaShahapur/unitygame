@@ -8,7 +8,7 @@ namespace SDK.Lib
 
         public MazePlayer()
         {
-            m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
+            
         }
 
         public MazePlayerTrackAniControl mazePlayerTrackAniControl
@@ -27,6 +27,8 @@ namespace SDK.Lib
         {
             string path = "RootGo/AgentGo";
             this.selfGo = UtilApi.GoFindChildByPObjAndName(path);
+
+            m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
         }
 
         public void setStartPos()
@@ -36,7 +38,7 @@ namespace SDK.Lib
 
         public void startMove()
         {
-            
+            m_mazePlayerTrackAniControl.startMove();
         }
 
         public void clearPath()

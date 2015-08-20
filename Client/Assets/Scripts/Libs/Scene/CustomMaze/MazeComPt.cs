@@ -1,9 +1,9 @@
 ﻿namespace SDK.Lib
 {
-    public class MazeEndPt : MazePtBase
+    public class MazeComPt : MazePtBase
     {
-        public MazeEndPt()
-            : base(eMazePtType.eEnd)
+        public MazeComPt()
+            : base(eMazePtType.eCom)
         {
 
         }

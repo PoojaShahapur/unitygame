@@ -50,6 +50,7 @@ namespace SDK.Lib
                 path = string.Format("RootGo/Plane_{0}", idx);
                 mazeRoom.selfGo = UtilApi.GoFindChildByPObjAndName(path);
                 mazeRoom.mazeIOControl.enableDrag();
+                mazeRoom.init();
             }
 
             path = "RootGo/SplitGo";
@@ -92,7 +93,7 @@ namespace SDK.Lib
             m_mazeRoomList.list.Sort(sortRoom);
         }
 
-        public void getWayPtList(MList<MazePt> ptList)
+        public void getWayPtList(MList<MazePtBase> ptList)
         {
             for(int idx = 0; idx < 4; ++idx)
             {

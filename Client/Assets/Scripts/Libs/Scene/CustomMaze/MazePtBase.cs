@@ -9,12 +9,12 @@ namespace SDK.Lib
         eEnd
     }
 
-    public class MazePt
+    public class MazePtBase
     {
         protected eMazePtType m_ptType;
         protected Vector3 m_pos;
 
-        public MazePt(eMazePtType type_ = eMazePtType.eCom)
+        public MazePtBase(eMazePtType type_)
         {
             m_ptType = type_;
         }
@@ -41,6 +41,11 @@ namespace SDK.Lib
             {
                 m_pos = value;
             }
+        }
+
+        virtual public void moveToDestPos(MazePlayer mazePlayer_)
+        {
+            
         }
     }
 }
