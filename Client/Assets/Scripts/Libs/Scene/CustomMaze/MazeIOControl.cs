@@ -76,7 +76,7 @@ namespace SDK.Lib
         // 指明当前是否可以改变位置
         protected bool canMove()
         {
-            return Ctx.m_instance.m_maze.mazeData.mazeOp.bStart;
+            return !Ctx.m_instance.m_maze.mazeData.mazeOp.bStart;
         }
 
         public void enableDragTitle()

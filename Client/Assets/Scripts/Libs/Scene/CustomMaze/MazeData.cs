@@ -53,6 +53,18 @@ namespace SDK.Lib
             }
         }
 
+        public MazePlayer mazePlayer
+        {
+            get
+            {
+                return m_mazePlayer;
+            }
+            set
+            {
+                m_mazePlayer = value;
+            }
+        }
+
         public void init()
         {
             string path = "RootGo";
