@@ -63,22 +63,22 @@ namespace SDK.Lib
             {
                 if (mazeRoom.selfGo.transform.localPosition.z >= m_trans.localPosition.z)    // 如果在上面
                 {
-                    return 0;
+                    return 3;
                 }
                 else
                 {
-                    return 2;
+                    return 1;
                 }
             }
             else                // 如果在右边
             {
                 if (mazeRoom.selfGo.transform.localPosition.z >= m_trans.localPosition.z)    // 如果在上面
                 {
-                    return 1;
+                    return 2;
                 }
                 else
                 {
-                    return 3;
+                    return 0;
                 }
             }
         }

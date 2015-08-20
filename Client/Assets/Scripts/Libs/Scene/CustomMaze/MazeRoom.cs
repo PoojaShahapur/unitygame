@@ -93,17 +93,24 @@ namespace SDK.Lib
 
             for(int idx = 0; idx < 4; ++idx)
             {
-                if(0 == idx)
+                if (2 == m_fixIdx && 2 == idx)
                 {
-                    pt = new MazeStartPt();
-                }
-                else if(3 == idx)
-                {
-                    pt = new MazeEndPt();
+                    pt = new MazeDiePt();
                 }
                 else
                 {
-                    pt = new MazeComPt();
+                    if (0 == idx)
+                    {
+                        pt = new MazeStartPt();
+                    }
+                    else if (3 == idx)
+                    {
+                        pt = new MazeEndPt();
+                    }
+                    else
+                    {
+                        pt = new MazeComPt();
+                    }
                 }
                 m_ptList.Add(pt);
 
@@ -118,17 +125,24 @@ namespace SDK.Lib
 
             for(int idx = 0; idx < 4; ++idx)
             {
-                if (0 == idx)
+                if (2 == m_fixIdx && 2 == idx)
                 {
-                    pt = new MazeStartPt();
-                }
-                else if (3 == idx)
-                {
-                    pt = new MazeEndPt();
+                    pt = new MazeDiePt();
                 }
                 else
                 {
-                    pt = new MazeComPt();
+                    if (0 == idx)
+                    {
+                        pt = new MazeStartPt();
+                    }
+                    else if (3 == idx)
+                    {
+                        pt = new MazeEndPt();
+                    }
+                    else
+                    {
+                        pt = new MazeComPt();
+                    }
                 }
                 ptList_.Add(pt);
 

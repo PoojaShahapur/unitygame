@@ -9,6 +9,7 @@ namespace SDK.Lib
 
         protected NumAniParallel m_numAniParal;
         protected MList<MazePtBase> m_ptList;
+        protected bool m_bDiePt;
 
         public MazePlayerTrackAniControl(MazePlayer mazePlayer_)
         {
@@ -16,6 +17,7 @@ namespace SDK.Lib
             m_numAniParal = new NumAniParallel();
             m_numAniParal.setAniSeqEndDisp(onMoveEndHandle);
             m_ptList = new MList<MazePtBase>();
+            m_bDiePt = false;
         }
 
         public MList<MazePtBase> ptList
@@ -97,17 +99,34 @@ namespace SDK.Lib
             m_numAniParal.play();
         }
 
+        public void moveToDestPos(MazeDiePt pt_)
+        {
+            // 死亡点
+            m_bDiePt = true;
+
+            PosAni posAni;
+            posAni = new PosAni();
+            m_numAniParal.addOneNumAni(posAni);
+            posAni.setGO(m_mazePlayer.selfGo);
+            posAni.destPos = pt_.pos;
+            posAni.setTime(0.5f);
+            posAni.setEaseType(iTween.EaseType.linear);
+
+            m_numAniParal.play();
+        }
 
         // 移动结束回调
         protected void onMoveEndHandle(NumAniSeqBase dispObj)
         {
-            if(m_ptList.Count() > 0)  // 说明还有 WayPoint 可以走
+            if (m_ptList.Count() > 0 && !m_bDiePt)  // 说明还有 WayPoint 可以走
             {
                 m_ptList[0].moveToDestPos(m_mazePlayer);
                 m_ptList.RemoveAt(0);
             }
             else    // 如果运行到终点位置
             {
+                m_ptList.Clear();
+                m_bDiePt = false;
                 Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
             }
         }

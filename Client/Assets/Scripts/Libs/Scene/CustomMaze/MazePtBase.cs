@@ -6,7 +6,9 @@ namespace SDK.Lib
     {
         eCom,
         eStart,
-        eEnd
+        eEnd,
+        eDie,
+        eTotal
     }
 
     public class MazePtBase
