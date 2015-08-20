@@ -5,10 +5,11 @@ namespace SDK.Lib
     public class MazePlayer : AuxComponent
     {
         protected MazePlayerTrackAniControl m_mazePlayerTrackAniControl;
+        protected MazeAnimatorControl m_mazeAnimatorControl;
 
         public MazePlayer()
         {
-            
+            m_mazeAnimatorControl = new MazeAnimatorControl();
         }
 
         public MazePlayerTrackAniControl mazePlayerTrackAniControl
