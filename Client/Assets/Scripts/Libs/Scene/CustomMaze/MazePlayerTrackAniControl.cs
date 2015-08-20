@@ -48,6 +48,7 @@ namespace SDK.Lib
             m_ptList.RemoveAt(0);
         }
 
+        // 移动到结束点
         public void moveToDestPos(MazeEndPt pt_)
         {
             PosAni posAni;
@@ -78,6 +79,8 @@ namespace SDK.Lib
         // 移动到下一个开始点，需要跳跃
         public void moveToDestPos(MazeStartPt pt_)
         {
+            Ctx.m_instance.m_soundMgr.play("Jump.mp3", false);
+
             Vector3 srcPos = m_mazePlayer.selfGo.transform.localPosition;
             Vector3 destPos = pt_.pos;
             float time = 1;
@@ -115,6 +118,8 @@ namespace SDK.Lib
             posAni.setEaseType(iTween.EaseType.linear);
 
             m_numAniParal.play();
+
+            Ctx.m_instance.m_soundMgr.play("BossDie.mp3", false);
         }
 
         public void moveToDestPos(MazeBombPt pt_)
@@ -147,6 +152,7 @@ namespace SDK.Lib
                 m_bBombPt = false;
                 m_bDiePt = false;
                 Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
+                Ctx.m_instance.m_soundMgr.play("GameOver.mp3", false);
             }
         }
 

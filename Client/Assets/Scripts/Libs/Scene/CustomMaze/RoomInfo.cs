@@ -60,7 +60,10 @@ namespace SDK.Lib
                 m_mazeRoomList.Add(mazeRoom);
                 path = string.Format("RootGo/Plane_{0}", idx);
                 mazeRoom.selfGo = UtilApi.GoFindChildByPObjAndName(path);
-                mazeRoom.mazeIOControl.enableDrag();
+                if (0 != idx)
+                {
+                    mazeRoom.mazeIOControl.enableDrag();
+                }
                 mazeRoom.init();
             }
 

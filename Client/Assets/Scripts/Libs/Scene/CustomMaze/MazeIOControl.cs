@@ -57,7 +57,7 @@ namespace SDK.Lib
         protected void onDragEnd()
         {
             int idx = Ctx.m_instance.m_maze.mazeData.roomInfo.getRoomIdx(m_mazeRoom);
-            if(idx != m_mazeRoom.iTag)
+            if (idx != m_mazeRoom.iTag && 0 != idx)
             {
                 MazeRoom mazeRoom = Ctx.m_instance.m_maze.mazeData.roomInfo.getMazeRoom(idx);
                 mazeRoom.iTag = m_mazeRoom.iTag;
@@ -69,6 +69,10 @@ namespace SDK.Lib
                 Ctx.m_instance.m_maze.mazeData.roomInfo.updateRoomList();
 
                 mazeRoom.mazeRoomTrackAniControl.moveToDestPos();
+                m_mazeRoom.mazeRoomTrackAniControl.moveToDestPos();
+            }
+            else
+            {
                 m_mazeRoom.mazeRoomTrackAniControl.moveToDestPos();
             }
         }

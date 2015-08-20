@@ -61,7 +61,7 @@ namespace Game.UI
 
         protected void onStartBtnClk()
         {
-            Ctx.m_instance.m_soundMgr.play("BossDie.mp3");
+            //Ctx.m_instance.m_soundMgr.play("BossDie.mp3", false);
 
             Ctx.m_instance.m_maze.mazeData.getWayPtList();
             Ctx.m_instance.m_maze.mazeData.setStartPos();
