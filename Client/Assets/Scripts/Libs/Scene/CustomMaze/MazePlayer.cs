@@ -30,6 +30,7 @@ namespace SDK.Lib
             this.selfGo = UtilApi.GoFindChildByPObjAndName(path);
 
             m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
+            Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(7, this.selfGo, false, true, true);
         }
 
         public void setStartPos()

@@ -72,6 +72,7 @@ namespace SDK.Lib
 
             m_roomInfo.initMazeRoomCount(4);
             m_mazePlayer.init();
+            Ctx.m_instance.m_soundMgr.play("Ground.mp3");
         }
 
         public void getWayPtList()

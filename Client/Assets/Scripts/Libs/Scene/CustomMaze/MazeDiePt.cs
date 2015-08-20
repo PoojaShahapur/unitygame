@@ -16,5 +16,17 @@
             base.moveToDestPos(mazePlayer_);
             mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
         }
+
+        override public MazePtBase clone()
+        {
+            MazeDiePt pt = new MazeDiePt();
+            pt.copyFrom(this);
+            return pt;
+        }
+
+        override public void copyFrom(MazePtBase rh)
+        {
+            base.copyFrom(rh);
+        }
     }
 }

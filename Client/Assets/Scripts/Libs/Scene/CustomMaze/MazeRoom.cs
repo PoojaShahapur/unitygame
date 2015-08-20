@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    public enum eRoomIndex
+    {
+        eStart,
+        eA,
+        eB,
+        eC,
+        eTotal
+    }
+
     public class MazeRoom : AuxComponent
     {
         protected int m_fixIdx;     // 固定不变的索引
@@ -10,7 +19,7 @@ namespace SDK.Lib
         protected MazeIOControl m_mazeIOControl;
         protected MazeRoomTrackAniControl m_mazeRoomTrackAniControl;
         protected Vector3 m_origPos;
-        protected MList<MazePtBase> m_ptList;
+        protected MList<MazePtBase>[] m_ptListArr;
 
         public MazeRoom(int iTag_)
         {
@@ -18,7 +27,50 @@ namespace SDK.Lib
             m_iTag = iTag_;
             m_mazeIOControl = new MazeIOControl(this);
             m_mazeRoomTrackAniControl = new MazeRoomTrackAniControl(this);
-            m_ptList = new MList<MazePtBase>();
+            m_ptListArr = new MList<MazePtBase>[(int)ePathIndex.eTotal];
+
+            for (int pathIdx = 0; pathIdx < (int)ePathIndex.eTotal; ++pathIdx)
+            {
+                if ((int)ePathIndex.eABC == pathIdx)
+                {
+                    m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                }
+                else if ((int)ePathIndex.eACB == pathIdx)
+                {
+                    if ((int)eRoomIndex.eStart != m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eBAC == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eBCA == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eCAB == pathIdx)
+                {
+                    if ((int)eRoomIndex.eStart != m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eCBA == pathIdx)
+                {
+                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+            }
         }
 
         public int fixIdx
@@ -91,63 +143,273 @@ namespace SDK.Lib
             MazePtBase pt = null;
             string path = "";
 
-            for(int idx = 0; idx < 4; ++idx)
+            for (int pathIdx = 0; pathIdx < (int)ePathIndex.eTotal; ++pathIdx)
             {
-                if (2 == m_fixIdx && 2 == idx)
+                if ((int)ePathIndex.eABC == pathIdx)
                 {
-                    pt = new MazeDiePt();
-                }
-                else
-                {
-                    if (0 == idx)
+                    for (int idx = 0; idx < 4; ++idx)
                     {
-                        pt = new MazeStartPt();
-                    }
-                    else if (3 == idx)
-                    {
-                        pt = new MazeEndPt();
-                    }
-                    else
-                    {
-                        pt = new MazeComPt();
-                    }
-                }
-                m_ptList.Add(pt);
+                        if (0 == idx)
+                        {
+                            pt = new MazeStartPt();
+                        }
+                        else if (3 == idx)
+                        {
+                            pt = new MazeEndPt();
+                        }
+                        else
+                        {
+                            pt = new MazeComPt();
+                        }
+                        m_ptListArr[pathIdx].Add(pt);
 
-                path = string.Format("WayPt_{0}", idx);
-                pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                        pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                    }
+                }
+                else if ((int)ePathIndex.eACB == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 6; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else if(4 == idx)
+                            {
+                                pt = new MazeBombPt();
+                            }
+                            else if (5== idx)
+                            {
+                                pt = new MazeDiePt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                    else if ((int)eRoomIndex.eStart != m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 4; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                }
+                else if ((int)ePathIndex.eBAC == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 4; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                }
+                else if ((int)ePathIndex.eBCA == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 4; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                }
+                else if ((int)ePathIndex.eCAB == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 6; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else if (4 == idx)
+                            {
+                                pt = new MazeBombPt();
+                            }
+                            else if (5 == idx)
+                            {
+                                pt = new MazeDiePt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                    else if ((int)eRoomIndex.eStart != m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 4; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                }
+                else if ((int)ePathIndex.eCBA == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 6; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else if (4 == idx)
+                            {
+                                pt = new MazeBombPt();
+                            }
+                            else if (5 == idx)
+                            {
+                                pt = new MazeDiePt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                    else if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx)
+                    {
+                        for (int idx = 0; idx < 4; ++idx)
+                        {
+                            if (0 == idx)
+                            {
+                                pt = new MazeStartPt();
+                            }
+                            else if (3 == idx)
+                            {
+                                pt = new MazeEndPt();
+                            }
+                            else
+                            {
+                                pt = new MazeComPt();
+                            }
+                            m_ptListArr[pathIdx].Add(pt);
+
+                            path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+                            pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
+                        }
+                    }
+                }
             }
         }
 
-        public void getWayPtList(MList<MazePtBase> ptList_)
+        public void getWayPtList(MList<MazePtBase> ptList_, int pathIdx)
         {
             MazePtBase pt = null;
+            MazePtBase srcPt = null;
+            MList<MazePtBase> list = null;
 
-            for(int idx = 0; idx < 4; ++idx)
+            if((int)eRoomIndex.eStart == m_fixIdx)
             {
-                if (2 == m_fixIdx && 2 == idx)
-                {
-                    pt = new MazeDiePt();
-                }
-                else
-                {
-                    if (0 == idx)
-                    {
-                        pt = new MazeStartPt();
-                    }
-                    else if (3 == idx)
-                    {
-                        pt = new MazeEndPt();
-                    }
-                    else
-                    {
-                        pt = new MazeComPt();
-                    }
-                }
-                ptList_.Add(pt);
+                list = m_ptListArr[(int)ePathIndex.eABC];
+            }
+            else
+            {
+                list = m_ptListArr[pathIdx];
+            }
 
-                //pt.pos = Ctx.m_instance.m_maze.mazeData.sceneRootGo.transform.TransformPoint(m_ptList[idx].pos);
-                pt.pos = m_ptList[idx].pos + selfGo.transform.localPosition;
+            if (list != null)
+            {
+                for (int idx = 0; idx < list.Count(); ++idx)
+                {
+                    pt = list[idx].clone();
+                    ptList_.Add(pt);
+
+                    //pt.pos = Ctx.m_instance.m_maze.mazeData.sceneRootGo.transform.TransformPoint(m_ptList[idx].pos);
+                    pt.pos = list[idx].pos + selfGo.transform.localPosition;
+                }
             }
         }
     }

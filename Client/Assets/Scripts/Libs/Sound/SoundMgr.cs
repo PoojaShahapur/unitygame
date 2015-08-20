@@ -63,11 +63,18 @@ namespace SDK.Lib
             }
         }
 
-        protected void play(string path)
+        public void play(string path)
         {
             if (m_path2SoundDic.ContainsKey(path))
             {
                 m_path2SoundDic[path].Play();
+            }
+            else
+            {
+                SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
+                param.m_path = path;
+                play(param);
+                Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }
 

@@ -1,9 +1,12 @@
 ﻿namespace SDK.Lib
 {
-    public class MazeComPt : MazePtBase
+    public class MazeBombPt : MazePtBase
     {
-        public MazeComPt()
-            : base(eMazePtType.eCom)
+        /**
+         * @brief 爆炸点
+         */
+        public MazeBombPt()
+            : base(eMazePtType.eBomb)
         {
 
         }
@@ -16,7 +19,7 @@
 
         override public MazePtBase clone()
         {
-            MazeComPt pt = new MazeComPt();
+            MazeBombPt pt = new MazeBombPt();
             pt.copyFrom(this);
             return pt;
         }

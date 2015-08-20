@@ -7,6 +7,7 @@ namespace SDK.Lib
         eCom,
         eStart,
         eEnd,
+        eBomb,
         eDie,
         eTotal
     }
@@ -48,6 +49,17 @@ namespace SDK.Lib
         virtual public void moveToDestPos(MazePlayer mazePlayer_)
         {
             
+        }
+
+        virtual public MazePtBase clone()
+        {
+            return null;
+        }
+
+        virtual public void copyFrom(MazePtBase rh)
+        {
+            this.m_ptType = rh.m_ptType;
+            this.m_pos = rh.m_pos;
         }
     }
 }

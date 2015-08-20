@@ -3,6 +3,17 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    public enum ePathIndex
+    {
+        eABC,
+        eACB,
+        eBAC,
+        eBCA,
+        eCAB,
+        eCBA,
+        eTotal
+    }
+
     public class RoomInfo
     {
         protected MList<MazeRoom> m_mazeRoomList;   // 所有迷宫房间
@@ -95,9 +106,44 @@ namespace SDK.Lib
 
         public void getWayPtList(MList<MazePtBase> ptList)
         {
+            int pathIdx = 0;
+            if ((int)eRoomIndex.eA == m_mazeRoomList[1].iTag)
+            {
+                if ((int)eRoomIndex.eB == m_mazeRoomList[2].iTag)
+                {
+                    pathIdx = (int)ePathIndex.eABC;
+                }
+                else if((int)eRoomIndex.eC == m_mazeRoomList[2].iTag)
+                {
+                    pathIdx = (int)ePathIndex.eACB;
+                }
+            }
+            else if ((int)eRoomIndex.eB == m_mazeRoomList[1].iTag)
+            {
+                if ((int)eRoomIndex.eA == m_mazeRoomList[2].iTag)
+                {
+                    pathIdx = (int)ePathIndex.eBAC;
+                }
+                else if ((int)eRoomIndex.eC == m_mazeRoomList[2].iTag)
+                {
+                    pathIdx = (int)ePathIndex.eBCA;
+                }
+            }
+            else if ((int)eRoomIndex.eC == m_mazeRoomList[1].iTag)
+            {
+                if ((int)eRoomIndex.eB == m_mazeRoomList[2].iTag)
+                {
+                    pathIdx = (int)ePathIndex.eCBA;
+                }
+                else if ((int)eRoomIndex.eA == m_mazeRoomList[2].iTag)
+                {
+                    pathIdx = (int)ePathIndex.eCAB;
+                }
+            }
+
             for(int idx = 0; idx < 4; ++idx)
             {
-                m_mazeRoomList[idx].getWayPtList(ptList);
+                m_mazeRoomList[idx].getWayPtList(ptList, pathIdx);
             }
         }
 
