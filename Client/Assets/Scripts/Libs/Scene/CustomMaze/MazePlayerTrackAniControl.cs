@@ -6,7 +6,7 @@ namespace SDK.Lib
 {
     public class MazePlayerTrackAniControl
     {
-        protected const float sTime = 1;
+        protected const float sTime = 0.5f;
 
         protected MazePlayer m_mazePlayer;
 

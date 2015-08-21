@@ -32,7 +32,14 @@ namespace SDK.Common
         // 通过父对象和完整的目录查找 child 对象，如果 path=""，返回的是自己，如果 path = null ，宕机
         static public GameObject TransFindChildByPObjAndPath(GameObject pObject, string path)
         {
-            return pObject.transform.Find(path).gameObject;
+            Transform trans = null;
+            trans = pObject.transform.Find(path);
+            if (trans != null)
+            {
+                return trans.gameObject;
+            }
+
+            return null;
         }
 
         // 从 Parent 获取一个组件

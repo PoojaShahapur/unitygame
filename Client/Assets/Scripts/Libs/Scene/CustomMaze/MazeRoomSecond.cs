@@ -119,9 +119,10 @@ namespace SDK.Lib
         protected void buildPathSecond(int pathIdx)
         {
             MazePtBase pt = null;
-            bool bFindWayPt = true;
+            int emptyCount = 0;
             List<string> wayPtSuffix = new List<string>();
             wayPtSuffix.Add("");
+            wayPtSuffix.Add("_Start");
             wayPtSuffix.Add("_Start_Jump");
             wayPtSuffix.Add("_Start_Show");
             wayPtSuffix.Add("_Start_Door");
@@ -133,20 +134,23 @@ namespace SDK.Lib
             // 最多 10 个点
             for (int idx = 0; idx < 10; ++idx)
             {
-                bFindWayPt = true;
+                emptyCount = 0;
 
                 for (int suffixIdx = 0; suffixIdx < wayPtSuffix.Count; ++suffixIdx)
                 {
                     pt = createWayPtByGo(pathIdx, idx, wayPtSuffix[suffixIdx]);
                     if(null == pt)
                     {
-                        bFindWayPt = false;
+                        ++emptyCount;
+                    }
+                    else
+                    {
+                        m_ptListArr[pathIdx].Add(pt);
                         break;
                     }
-                    m_ptListArr[pathIdx].Add(pt);
                 }
 
-                if(!bFindWayPt)
+                if(emptyCount == wayPtSuffix.Count)
                 {
                     break;
                 }
@@ -163,39 +167,47 @@ namespace SDK.Lib
             go_ = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path);
             if (null != go_)
             {
-                if("_Start_Jump" == suffix)
+                if ("_Start" == suffix)
+                {
+                    pt = new MazeStartPt();
+                }
+                else if ("_Start_Jump" == suffix)
                 {
                     pt = new MazeStartJumpPt();
                 }
-                if ("_Start_Show" == suffix)
+                else if ("_Start_Show" == suffix)
                 {
                     pt = new MazeStartShowPt();
                 }
-                if ("_Start_Door" == suffix)
+                else if ("_Start_Door" == suffix)
                 {
                     pt = new MazeStartDoorPt();
                 }
-
-                if ("_End_Jump" == suffix)
+                else if ("_End_Jump" == suffix)
                 {
                     pt = new MazeEndJumpPt();
                 }
-                if ("_End_Hide" == suffix)
+                else if ("_End_Hide" == suffix)
                 {
                     pt = new MazeEndHidePt();
                 }
-                if ("_End_Door" == suffix)
+                else if ("_End_Door" == suffix)
                 {
                     pt = new MazeEndDoorPt();
                 }
-                if ("_End_Die" == suffix)
+                else if ("_End_Die" == suffix)
                 {
                     pt = new MazeEndDiePt();
                 }
+                else
+                {
+                    pt = new MazeComPt();
+                }
+
                 pt.pos = go_.transform.localPosition;
             }
 
-            return null;
+            return pt;
         }
     }
 }

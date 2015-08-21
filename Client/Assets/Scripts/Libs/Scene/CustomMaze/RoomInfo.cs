@@ -51,12 +51,20 @@ namespace SDK.Lib
 
         public void initMazeRoomCount(int count_)
         {
+            m_mazeRoomList.Clear();
             m_itemCount = count_;
             MazeRoom mazeRoom = null;
             string path = "";
             for(int idx = 0; idx < m_itemCount; ++idx)
             {
-                mazeRoom = new MazeRoom(idx);
+                if (Ctx.m_instance.m_maze.mazeData.bInFisrstScene())
+                {
+                    mazeRoom = new MazeRoom(idx);
+                }
+                else
+                {
+                    mazeRoom = new MazeRoomSecond(idx);
+                }
                 m_mazeRoomList.Add(mazeRoom);
                 path = string.Format("RootGo/Plane_{0}", idx);
                 mazeRoom.selfGo = UtilApi.GoFindChildByPObjAndName(path);

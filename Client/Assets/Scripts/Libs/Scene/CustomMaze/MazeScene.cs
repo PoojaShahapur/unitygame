@@ -37,29 +37,36 @@ namespace SDK.Lib
 
         public void hide()
         {
-            UtilApi.SetActive(m_bigStartPnl, false);
-            UtilApi.SetActive(m_smallStarPnl_0, false);
-            UtilApi.SetActive(m_smallStarPnl_1, false);
-            UtilApi.SetActive(m_smallStarPnl_2, false);
+            if (Ctx.m_instance.m_maze.mazeData.bInFisrstScene())
+            {
+                UtilApi.SetActive(m_bigStartPnl, false);
+                UtilApi.SetActive(m_smallStarPnl_0, false);
+                UtilApi.SetActive(m_smallStarPnl_1, false);
+                UtilApi.SetActive(m_smallStarPnl_2, false);
+            }
         }
 
         public void show()
         {
-            UtilApi.SetActive(m_bigStartPnl, true);
-            UtilApi.SetActive(m_smallStarPnl_0, true);
-            UtilApi.SetActive(m_smallStarPnl_1, true);
-            UtilApi.SetActive(m_smallStarPnl_2, true);
+            if (Ctx.m_instance.m_maze.mazeData.bInFisrstScene())
+            {
+                UtilApi.SetActive(m_bigStartPnl, true);
+                UtilApi.SetActive(m_smallStarPnl_0, true);
+                UtilApi.SetActive(m_smallStarPnl_1, true);
+                UtilApi.SetActive(m_smallStarPnl_2, true);
+            }
         }
 
         public void loadSecondScene()
         {
+            Ctx.m_instance.m_soundMgr.unloadAll();
             Ctx.m_instance.m_maze.mazeData.curSceneIdx = (int)eSceneIndex.eSecond;
             Ctx.m_instance.m_sceneSys.loadScene("MazeSecond.unity", onResLoadScene);
         }
 
         public void onResLoadScene(Scene scene)
         {
-
+            Ctx.m_instance.m_maze.mazeData.init();
         }
     }
 }
