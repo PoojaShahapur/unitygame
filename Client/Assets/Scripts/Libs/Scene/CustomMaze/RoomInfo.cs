@@ -110,35 +110,35 @@ namespace SDK.Lib
         public void getWayPtList(MList<MazePtBase> ptList)
         {
             int pathIdx = 0;
-            if ((int)eRoomIndex.eA == m_mazeRoomList[1].iTag)
+            if ((int)eRoomIndex.eA == m_mazeRoomList[1].fixIdx)
             {
-                if ((int)eRoomIndex.eB == m_mazeRoomList[2].iTag)
+                if ((int)eRoomIndex.eB == m_mazeRoomList[2].fixIdx)
                 {
                     pathIdx = (int)ePathIndex.eABC;
                 }
-                else if((int)eRoomIndex.eC == m_mazeRoomList[2].iTag)
+                else if((int)eRoomIndex.eC == m_mazeRoomList[2].fixIdx)
                 {
                     pathIdx = (int)ePathIndex.eACB;
                 }
             }
-            else if ((int)eRoomIndex.eB == m_mazeRoomList[1].iTag)
+            else if ((int)eRoomIndex.eB == m_mazeRoomList[1].fixIdx)
             {
-                if ((int)eRoomIndex.eA == m_mazeRoomList[2].iTag)
+                if ((int)eRoomIndex.eA == m_mazeRoomList[2].fixIdx)
                 {
                     pathIdx = (int)ePathIndex.eBAC;
                 }
-                else if ((int)eRoomIndex.eC == m_mazeRoomList[2].iTag)
+                else if ((int)eRoomIndex.eC == m_mazeRoomList[2].fixIdx)
                 {
                     pathIdx = (int)ePathIndex.eBCA;
                 }
             }
-            else if ((int)eRoomIndex.eC == m_mazeRoomList[1].iTag)
+            else if ((int)eRoomIndex.eC == m_mazeRoomList[1].fixIdx)
             {
-                if ((int)eRoomIndex.eB == m_mazeRoomList[2].iTag)
+                if ((int)eRoomIndex.eB == m_mazeRoomList[2].fixIdx)
                 {
                     pathIdx = (int)ePathIndex.eCBA;
                 }
-                else if ((int)eRoomIndex.eA == m_mazeRoomList[2].iTag)
+                else if ((int)eRoomIndex.eA == m_mazeRoomList[2].fixIdx)
                 {
                     pathIdx = (int)ePathIndex.eCAB;
                 }

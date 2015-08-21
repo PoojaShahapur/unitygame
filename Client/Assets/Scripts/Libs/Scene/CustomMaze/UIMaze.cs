@@ -24,7 +24,7 @@ namespace Game.UI
         {
             base.onShow();
             Ctx.m_instance.m_maze.mazeData.mazeOp.bStart = false;
-            Ctx.m_instance.m_maze.mazeData.mazePlayer.hide();       // 初始的时候隐藏
+            //Ctx.m_instance.m_maze.mazeData.mazePlayer.hide();       // 初始的时候隐藏
         }
         
         // 初始化控件
@@ -39,7 +39,7 @@ namespace Game.UI
         override public void onHide()
 		{
             Ctx.m_instance.m_maze.mazeData.mazeOp.bStart = true;
-            Ctx.m_instance.m_maze.mazeData.mazePlayer.show();       // 初始的时候隐藏
+            //Ctx.m_instance.m_maze.mazeData.mazePlayer.show();       // 初始的时候隐藏
             base.onHide();
 		}
 
