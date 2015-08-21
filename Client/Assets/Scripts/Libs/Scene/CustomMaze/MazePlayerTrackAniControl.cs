@@ -80,8 +80,7 @@ namespace SDK.Lib
             m_numAniParal.play();
         }
 
-        // 简单直接移动移动动画
-        public void moveToDestPos(MazeComPt pt_)
+        protected void moveToNextPos(MazePtBase pt_)
         {
             PosAni posAni;
             posAni = new PosAni();
@@ -92,6 +91,12 @@ namespace SDK.Lib
             posAni.setEaseType(iTween.EaseType.linear);
 
             m_numAniParal.play();
+        }
+
+        // 简单直接移动移动动画
+        public void moveToDestPos(MazeComPt pt_)
+        {
+            moveToNextPos(pt_);
         }
 
         // 移动到结束点
@@ -153,8 +158,9 @@ namespace SDK.Lib
         {
             if (m_ptList.Count() > 0 && !m_bDiePt)  // 说明还有 WayPoint 可以走
             {
-                m_ptList[0].moveToDestPos(m_mazePlayer);
+                MazePtBase pt = m_ptList[0];
                 m_ptList.RemoveAt(0);
+                pt.moveToDestPos(m_mazePlayer);
             }
             else    // 如果运行到终点位置
             {
@@ -219,16 +225,35 @@ namespace SDK.Lib
         public void moveToDestPos(MazeStartShowPt pt_)
         {
             m_mazePlayer.selfGo.transform.localPosition = pt_.pos;
+            onMoveEndHandle(null);
         }
 
         public void moveToDestPos(MazeStartDoorPt pt_)
         {
             m_mazePlayer.selfGo.transform.localPosition = pt_.pos;
+            onMoveEndHandle(null);
+        }
+
+        public void moveToDestPos(MazeEndJumpPt pt_)
+        {
+            moveToNextPos(pt_);
+        }
+
+        public void moveToDestPos(MazeEndHidePt pt_)
+        {
+            moveToNextPos(pt_);
+        }
+
+        public void moveToDestPos(MazeEndDoorPt pt_)
+        {
+            moveToNextPos(pt_);
         }
 
         public void moveToDestPos(MazeEndDiePt pt_)
         {
             m_bDiePt = true;
+            moveToNextPos(pt_);
+
             m_mazePlayer.sceneEffect.stop();
             m_mazePlayer.sceneEffect.setTableID(32);
             m_mazePlayer.sceneEffect.play();

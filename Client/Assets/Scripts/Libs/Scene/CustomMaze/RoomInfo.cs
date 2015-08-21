@@ -152,10 +152,20 @@ namespace SDK.Lib
                 }
             }
 
-            for(int idx = 0; idx < 4; ++idx)
-            {
-                m_mazeRoomList[idx].getWayPtList(ptList, pathIdx);
-            }
+            //if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
+            //{
+                for (int idx = 0; idx < 4; ++idx)
+                {
+                    m_mazeRoomList[idx].getWayPtList(ptList, pathIdx);
+                }
+            //}
+            //else
+            //{
+            //    for (int idx = 0; idx < 1; ++idx)
+            //    {
+            //        m_mazeRoomList[idx].getWayPtList(ptList, pathIdx);
+            //    }
+            //}
         }
 
         static public int sortRoom(MazeRoom lh, MazeRoom rh)

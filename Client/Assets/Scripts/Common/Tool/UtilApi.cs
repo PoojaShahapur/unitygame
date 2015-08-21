@@ -695,5 +695,20 @@ namespace SDK.Common
         {
             return Application.dataPath;
         }
+
+        static public Vector3 convPtFromLocal2World(Transform trans, Vector3 localPt)
+        {
+            return trans.TransformPoint(localPt);
+        }
+
+        static public Vector3 convPtFromWorld2Local(Transform trans, Vector3 localPt)
+        {
+            return trans.InverseTransformPoint(localPt);
+        }
+
+        static public Vector3 convPtFromLocal2Local(Transform from, Transform to, Vector3 localPt)
+        {
+            return to.InverseTransformPoint(from.TransformPoint(localPt));
+        }
     }
 }

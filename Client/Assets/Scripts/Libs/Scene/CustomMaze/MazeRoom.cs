@@ -283,8 +283,10 @@ namespace SDK.Lib
                     pt = list[idx].clone();
                     ptList_.Add(pt);
 
-                    //pt.pos = Ctx.m_instance.m_maze.mazeData.sceneRootGo.transform.TransformPoint(m_ptList[idx].pos);
-                    pt.pos = list[idx].pos + selfGo.transform.localPosition;
+                    pt.pos = UtilApi.convPtFromLocal2Local(this.selfGo.transform, Ctx.m_instance.m_maze.mazeData.sceneRootGo.transform, list[idx].pos);
+
+                    // 如果父节点没有缩放时是正确的，如果有缩放，就是错误的
+                    //pt.pos = list[idx].pos + selfGo.transform.localPosition;
                 }
             }
         }

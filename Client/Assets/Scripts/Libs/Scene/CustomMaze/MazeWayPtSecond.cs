@@ -89,11 +89,11 @@
 
         }
 
-        //override public void moveToDestPos(MazePlayer mazePlayer_)
-        //{
-        //    base.moveToDestPos(mazePlayer_);
-        //    mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
-        //}
+        override public void moveToDestPos(MazePlayer mazePlayer_)
+        {
+            base.moveToDestPos(mazePlayer_);
+            mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
+        }
 
         override public MazePtBase clone()
         {
@@ -116,11 +116,11 @@
 
         }
 
-        //override public void moveToDestPos(MazePlayer mazePlayer_)
-        //{
-        //    base.moveToDestPos(mazePlayer_);
-        //    mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
-        //}
+        override public void moveToDestPos(MazePlayer mazePlayer_)
+        {
+            base.moveToDestPos(mazePlayer_);
+            mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
+        }
 
         override public MazePtBase clone()
         {
@@ -143,11 +143,11 @@
 
         }
 
-        //override public void moveToDestPos(MazePlayer mazePlayer_)
-        //{
-        //    base.moveToDestPos(mazePlayer_);
-        //    mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
-        //}
+        override public void moveToDestPos(MazePlayer mazePlayer_)
+        {
+            base.moveToDestPos(mazePlayer_);
+            mazePlayer_.mazePlayerTrackAniControl.moveToDestPos(this);
+        }
 
         override public MazePtBase clone()
         {
