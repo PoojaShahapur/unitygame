@@ -203,7 +203,7 @@ namespace Game.Game
         {
             // 播放音乐
             //SoundParam param = Ctx.m_instance.m_poolSys.newObject<SoundParam>();
-            //param.m_path = "ZuiZhenDeMeng.mp3";
+            //param.m_path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "ZuiZhenDeMeng.mp3");
             //Ctx.m_instance.m_soundMgr.play(param);
             //Ctx.m_instance.m_poolSys.deleteObj(param);
 

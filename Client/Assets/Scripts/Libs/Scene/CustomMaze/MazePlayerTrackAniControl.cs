@@ -1,4 +1,5 @@
 ﻿using SDK.Common;
+using System.IO;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -79,7 +80,8 @@ namespace SDK.Lib
         // 移动到下一个开始点，需要跳跃
         public void moveToDestPos(MazeStartPt pt_)
         {
-            Ctx.m_instance.m_soundMgr.play("Jump.mp3", false);
+            string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Jump.mp3");
+            Ctx.m_instance.m_soundMgr.play(path, false);
 
             Vector3 srcPos = m_mazePlayer.selfGo.transform.localPosition;
             Vector3 destPos = pt_.pos;
@@ -119,7 +121,8 @@ namespace SDK.Lib
 
             m_numAniParal.play();
 
-            Ctx.m_instance.m_soundMgr.play("BossDie.mp3", false);
+            string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "BossDie.mp3");
+            Ctx.m_instance.m_soundMgr.play(path, false);
         }
 
         public void moveToDestPos(MazeBombPt pt_)
@@ -152,7 +155,8 @@ namespace SDK.Lib
                 m_bBombPt = false;
                 m_bDiePt = false;
                 Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
-                Ctx.m_instance.m_soundMgr.play("GameOver.mp3", false);
+                string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "GameOver.mp3");
+                Ctx.m_instance.m_soundMgr.play(path, false);
             }
         }
 
