@@ -9,6 +9,13 @@ namespace SDK.Lib
         eEnd,
         eBomb,
         eDie,
+        eStart_Jump,
+        eStart_Show,
+        eStart_Door,
+        eEnd_Jump,
+        eEnd_Hide,
+        eEnd_Door,
+        eEnd_Die,
         eTotal
     }
 

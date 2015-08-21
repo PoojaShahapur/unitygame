@@ -9,6 +9,7 @@ namespace SDK.Lib
         eA,
         eB,
         eC,
+        eEnd,       // 最后一个
         eTotal
     }
 
@@ -29,48 +30,7 @@ namespace SDK.Lib
             m_mazeRoomTrackAniControl = new MazeRoomTrackAniControl(this);
             m_ptListArr = new MList<MazePtBase>[(int)ePathIndex.eTotal];
 
-            for (int pathIdx = 0; pathIdx < (int)ePathIndex.eTotal; ++pathIdx)
-            {
-                if ((int)ePathIndex.eABC == pathIdx)
-                {
-                    m_ptListArr[pathIdx] = new MList<MazePtBase>();
-                }
-                else if ((int)ePathIndex.eACB == pathIdx)
-                {
-                    if ((int)eRoomIndex.eStart != m_fixIdx)
-                    {
-                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
-                    }
-                }
-                else if ((int)ePathIndex.eBAC == pathIdx)
-                {
-                    if ((int)eRoomIndex.eB == m_fixIdx)
-                    {
-                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
-                    }
-                }
-                else if ((int)ePathIndex.eBCA == pathIdx)
-                {
-                    if ((int)eRoomIndex.eB == m_fixIdx)
-                    {
-                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
-                    }
-                }
-                else if ((int)ePathIndex.eCAB == pathIdx)
-                {
-                    if ((int)eRoomIndex.eStart != m_fixIdx)
-                    {
-                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
-                    }
-                }
-                else if ((int)ePathIndex.eCBA == pathIdx)
-                {
-                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx)
-                    {
-                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
-                    }
-                }
-            }
+            initWayPtList();
         }
 
         public int fixIdx
@@ -133,12 +93,58 @@ namespace SDK.Lib
             }
         }
 
+        virtual public void initWayPtList()
+        {
+            for (int pathIdx = 0; pathIdx < (int)ePathIndex.eTotal; ++pathIdx)
+            {
+                if ((int)ePathIndex.eABC == pathIdx)
+                {
+                    m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                }
+                else if ((int)ePathIndex.eACB == pathIdx)
+                {
+                    if ((int)eRoomIndex.eStart != m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eBAC == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eBCA == pathIdx)
+                {
+                    if ((int)eRoomIndex.eB == m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eCAB == pathIdx)
+                {
+                    if ((int)eRoomIndex.eStart != m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+                else if ((int)ePathIndex.eCBA == pathIdx)
+                {
+                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx)
+                    {
+                        m_ptListArr[pathIdx] = new MList<MazePtBase>();
+                    }
+                }
+            }
+        }
+
         override protected void onSelfChanged()
         {
             m_origPos = new Vector3(selfGo.transform.localPosition.x, selfGo.transform.localPosition.y, selfGo.transform.localPosition.z);
         }
 
-        public void init()
+        virtual public void init()
         {
             for (int pathIdx = 0; pathIdx < (int)ePathIndex.eTotal; ++pathIdx)
             {

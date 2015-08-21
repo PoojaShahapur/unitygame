@@ -12,12 +12,12 @@ namespace SDK.Lib
         protected GameObject m_sceneRootGo;
         protected MazeScene m_mazeScene;
 
+        protected int m_curSceneIdx;
+
         public MazeData()
         {
-            m_roomInfo = new RoomInfo();
-            m_mazeOp = new MazeOp();
-            m_mazePlayer = new MazePlayer();
-            m_mazeScene = new MazeScene();
+            m_curSceneIdx = (int)eSceneIndex.eFirst;
+            construct();
         }
 
         public RoomInfo roomInfo
@@ -80,6 +80,26 @@ namespace SDK.Lib
             }
         }
 
+        public int curSceneIdx
+        {
+            get
+            {
+                return m_curSceneIdx;
+            }
+            set
+            {
+                m_curSceneIdx = value;
+            }
+        }
+
+        public void construct()
+        {
+            m_roomInfo = new RoomInfo();
+            m_mazeOp = new MazeOp();
+            m_mazePlayer = new MazePlayer();
+            m_mazeScene = new MazeScene();
+        }
+
         public void init()
         {
             Ctx.m_instance.m_tableSys.getTable(TableID.TABLE_SPRITEANI);
@@ -110,6 +130,11 @@ namespace SDK.Lib
         public void startMove()
         {
             m_mazePlayer.startMove();
+        }
+
+        public bool bInFisrstScene()
+        {
+            return (m_curSceneIdx == (int)eSceneIndex.eFirst);
         }
     }
 }

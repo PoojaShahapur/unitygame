@@ -159,9 +159,11 @@ namespace SDK.Lib
             else    // 如果运行到终点位置
             {
                 m_ptList.Clear();
+                bool bChangeScene = false;
                 if(!m_bBombPt && !m_bDiePt)     // 如果胜利
                 {
                     Ctx.m_instance.m_maze.mazeData.mazeScene.show();
+                    bChangeScene = true;
                 }
                 m_bBombPt = false;
                 m_bDiePt = false;
@@ -172,12 +174,67 @@ namespace SDK.Lib
                 Ctx.m_instance.m_soundMgr.stop(path);
                 path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "GameOver.mp3");
                 Ctx.m_instance.m_soundMgr.play(path, false);
+
+                if(bChangeScene)
+                {
+                    Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();
+                }
             }
         }
 
         public void onMove2DestEnd(NumAniBase ani)
         {
             onMoveEndHandle(null);
+        }
+
+        // 开始
+        public void moveToDestPos(MazeStartJumpPt pt_)
+        {
+            string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Jump.mp3");
+            Ctx.m_instance.m_soundMgr.play(path, false);
+
+            Vector3 srcPos = m_mazePlayer.selfGo.transform.localPosition;
+            Vector3 destPos = pt_.pos;
+            //float time = 1;
+
+            Vector3 midPt;      // 中间点
+            midPt = (srcPos + destPos) / 2;
+            midPt.y = 5;
+
+            SimpleCurveAni curveAni = new SimpleCurveAni();
+            m_numAniParal.addOneNumAni(curveAni);
+            curveAni.setGO(m_mazePlayer.selfGo);
+            curveAni.setTime(sTime);
+            curveAni.setPlotCount(3);
+            curveAni.addPlotPt(0, srcPos);
+            curveAni.addPlotPt(1, midPt);
+            curveAni.addPlotPt(2, destPos);
+            curveAni.setAniEndDisp(onMove2DestEnd);
+
+            curveAni.setEaseType(iTween.EaseType.easeInExpo);
+
+            m_numAniParal.play();
+        }
+
+        public void moveToDestPos(MazeStartShowPt pt_)
+        {
+            m_mazePlayer.selfGo.transform.localPosition = pt_.pos;
+        }
+
+        public void moveToDestPos(MazeStartDoorPt pt_)
+        {
+            m_mazePlayer.selfGo.transform.localPosition = pt_.pos;
+        }
+
+        public void moveToDestPos(MazeEndDiePt pt_)
+        {
+            m_bDiePt = true;
+            m_mazePlayer.sceneEffect.stop();
+            m_mazePlayer.sceneEffect.setTableID(32);
+            m_mazePlayer.sceneEffect.play();
+
+            string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "BossDie.mp3");
+            Ctx.m_instance.m_soundMgr.play(path, false);
         }
     }
 }
