@@ -90,7 +90,7 @@ namespace SDK.Lib
             m_roomInfo.initMazeRoomCount(4);
             m_mazePlayer.init();
             path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Ground.mp3");
-            Ctx.m_instance.m_soundMgr.play(path);
+            //Ctx.m_instance.m_soundMgr.play(path);
 
             m_mazeScene.init();
             m_mazeScene.hide();

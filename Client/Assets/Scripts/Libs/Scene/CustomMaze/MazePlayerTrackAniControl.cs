@@ -166,7 +166,11 @@ namespace SDK.Lib
                 m_bBombPt = false;
                 m_bDiePt = false;
                 Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
-                string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "GameOver.mp3");
+
+                string path = "";
+                path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Ground.mp3");
+                Ctx.m_instance.m_soundMgr.stop(path);
+                path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "GameOver.mp3");
                 Ctx.m_instance.m_soundMgr.play(path, false);
             }
         }

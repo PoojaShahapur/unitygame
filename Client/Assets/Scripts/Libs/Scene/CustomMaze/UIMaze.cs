@@ -4,6 +4,7 @@ using Game.Msg;
 using SDK.Common;
 using SDK.Lib;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace Game.UI
@@ -63,6 +64,10 @@ namespace Game.UI
         {
             // string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "BossDie.mp3");
             //Ctx.m_instance.m_soundMgr.play(path, false);
+
+            string path = "";
+            path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Ground.mp3");
+            Ctx.m_instance.m_soundMgr.play(path);
 
             Ctx.m_instance.m_maze.mazeData.mazeScene.hide();
 
