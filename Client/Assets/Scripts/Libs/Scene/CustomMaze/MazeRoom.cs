@@ -161,14 +161,14 @@ namespace SDK.Lib
                 {
                     if ((int)eRoomIndex.eB == m_fixIdx)
                     {
-                        buildPathPt4f(pathIdx);
+                        buildPathPt6f(pathIdx);
                     }
                 }
                 else if ((int)ePathIndex.eBCA == pathIdx)
                 {
                     if ((int)eRoomIndex.eB == m_fixIdx)
                     {
-                        buildPathPt4f(pathIdx);
+                        buildPathPt6f(pathIdx);
                     }
                 }
                 else if ((int)ePathIndex.eCAB == pathIdx)

@@ -6,6 +6,7 @@ namespace SDK.Lib
     {
         protected MazePlayerTrackAniControl m_mazePlayerTrackAniControl;
         protected MazeAnimatorControl m_mazeAnimatorControl;
+        protected SceneEffect m_sceneEffect;
 
         public MazePlayer()
         {
@@ -24,13 +25,25 @@ namespace SDK.Lib
             }
         }
 
+        public SceneEffect sceneEffect
+        {
+            get
+            {
+                return m_sceneEffect;
+            }
+            set
+            {
+                m_sceneEffect = value;
+            }
+        }
+
         public void init()
         {
             string path = "RootGo/AgentGo";
             this.selfGo = UtilApi.GoFindChildByPObjAndName(path);
 
             m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
-            Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(7, this.selfGo, false, true, true);
+            m_sceneEffect = Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(31, this.selfGo, false, true, true);
         }
 
         public void setStartPos()

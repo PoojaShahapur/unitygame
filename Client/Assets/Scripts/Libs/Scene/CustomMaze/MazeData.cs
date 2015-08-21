@@ -10,12 +10,14 @@ namespace SDK.Lib
         protected MazeOp m_mazeOp;
         protected MazePlayer m_mazePlayer;
         protected GameObject m_sceneRootGo;
+        protected MazeScene m_mazeScene;
 
         public MazeData()
         {
             m_roomInfo = new RoomInfo();
             m_mazeOp = new MazeOp();
             m_mazePlayer = new MazePlayer();
+            m_mazeScene = new MazeScene();
         }
 
         public RoomInfo roomInfo
@@ -66,8 +68,22 @@ namespace SDK.Lib
             }
         }
 
+        public MazeScene mazeScene
+        {
+            get
+            {
+                return m_mazeScene;
+            }
+            set
+            {
+                m_mazeScene = value;
+            }
+        }
+
         public void init()
         {
+            Ctx.m_instance.m_tableSys.getTable(TableID.TABLE_SPRITEANI);
+
             string path = "RootGo";
             m_sceneRootGo = UtilApi.GoFindChildByPObjAndName(path);
 
@@ -75,6 +91,9 @@ namespace SDK.Lib
             m_mazePlayer.init();
             path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Ground.mp3");
             Ctx.m_instance.m_soundMgr.play(path);
+
+            m_mazeScene.init();
+            m_mazeScene.hide();
         }
 
         public void getWayPtList()

@@ -64,6 +64,10 @@ namespace Game.UI
             // string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "BossDie.mp3");
             //Ctx.m_instance.m_soundMgr.play(path, false);
 
+            Ctx.m_instance.m_maze.mazeData.mazePlayer.sceneEffect.stop();
+            Ctx.m_instance.m_maze.mazeData.mazePlayer.sceneEffect.setTableID(31);
+            Ctx.m_instance.m_maze.mazeData.mazePlayer.sceneEffect.play();
+
             Ctx.m_instance.m_maze.mazeData.getWayPtList();
             Ctx.m_instance.m_maze.mazeData.setStartPos();
             Ctx.m_instance.m_maze.mazeData.startMove();
