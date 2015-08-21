@@ -107,7 +107,7 @@ namespace SDK.Lib
             string path = "RootGo";
             m_sceneRootGo = UtilApi.GoFindChildByPObjAndName(path);
 
-            m_roomInfo.initMazeRoomCount(4);
+            m_roomInfo.initMazeRoomCount(5);
             m_mazePlayer.init();
             path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Ground.mp3");
             //Ctx.m_instance.m_soundMgr.play(path);

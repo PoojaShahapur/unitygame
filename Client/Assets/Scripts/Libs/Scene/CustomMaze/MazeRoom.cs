@@ -103,7 +103,7 @@ namespace SDK.Lib
                 }
                 else if ((int)ePathIndex.eACB == pathIdx)
                 {
-                    if ((int)eRoomIndex.eStart != m_fixIdx)
+                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eEnd != m_fixIdx)
                     {
                         m_ptListArr[pathIdx] = new MList<MazePtBase>();
                     }
@@ -124,14 +124,14 @@ namespace SDK.Lib
                 }
                 else if ((int)ePathIndex.eCAB == pathIdx)
                 {
-                    if ((int)eRoomIndex.eStart != m_fixIdx)
+                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eEnd != m_fixIdx)
                     {
                         m_ptListArr[pathIdx] = new MList<MazePtBase>();
                     }
                 }
                 else if ((int)ePathIndex.eCBA == pathIdx)
                 {
-                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx)
+                    if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx && (int)eRoomIndex.eEnd != m_fixIdx)
                     {
                         m_ptListArr[pathIdx] = new MList<MazePtBase>();
                     }
@@ -158,7 +158,7 @@ namespace SDK.Lib
                     {
                         buildPathPt6f(pathIdx);
                     }
-                    else if ((int)eRoomIndex.eStart != m_fixIdx)
+                    else if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eEnd != m_fixIdx)
                     {
                         buildPathPt4f(pathIdx);
                     }
@@ -183,7 +183,7 @@ namespace SDK.Lib
                     {
                         buildPathPt6f(pathIdx);
                     }
-                    else if ((int)eRoomIndex.eStart != m_fixIdx)
+                    else if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eEnd != m_fixIdx)
                     {
                         buildPathPt4f(pathIdx);
                     }
@@ -194,7 +194,7 @@ namespace SDK.Lib
                     {
                         buildPathPt6f(pathIdx);
                     }
-                    else if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx)
+                    else if ((int)eRoomIndex.eStart != m_fixIdx && (int)eRoomIndex.eA != m_fixIdx && (int)eRoomIndex.eEnd != m_fixIdx)
                     {
                         buildPathPt4f(pathIdx);
                     }
@@ -209,22 +209,30 @@ namespace SDK.Lib
 
             for (int idx = 0; idx < 4; ++idx)
             {
-                if (0 == idx)
+                path = string.Format("WayPt_{0}{1}", pathIdx, idx);
+
+                if (UtilApi.TransFindChildByPObjAndPath(this.selfGo, path) != null)
                 {
-                    pt = new MazeStartPt();
-                }
-                else if (3 == idx)
-                {
-                    pt = new MazeEndPt();
+                    if (0 == idx)
+                    {
+                        pt = new MazeStartPt();
+                    }
+                    else if (3 == idx)
+                    {
+                        pt = new MazeEndPt();
+                    }
+                    else
+                    {
+                        pt = new MazeComPt();
+                    }
+
+                    m_ptListArr[pathIdx].Add(pt);
+                    pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
                 }
                 else
                 {
-                    pt = new MazeComPt();
+                    break;
                 }
-                m_ptListArr[pathIdx].Add(pt);
-
-                path = string.Format("WayPt_{0}{1}", pathIdx, idx);
-                pt.pos = UtilApi.TransFindChildByPObjAndPath(this.selfGo, path).transform.localPosition;
             }
         }
 
@@ -267,7 +275,7 @@ namespace SDK.Lib
             MazePtBase pt = null;
             MList<MazePtBase> list = null;
 
-            if((int)eRoomIndex.eStart == m_fixIdx)
+            if((int)eRoomIndex.eStart == m_fixIdx || (int)eRoomIndex.eEnd == m_fixIdx)
             {
                 list = m_ptListArr[(int)ePathIndex.eABC];
             }

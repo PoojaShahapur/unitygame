@@ -68,7 +68,7 @@ namespace SDK.Lib
                 m_mazeRoomList.Add(mazeRoom);
                 path = string.Format("RootGo/Plane_{0}", idx);
                 mazeRoom.selfGo = UtilApi.GoFindChildByPObjAndName(path);
-                if (0 != idx)
+                if (0 != idx && 4 != idx)
                 {
                     mazeRoom.mazeIOControl.enableDrag();
                 }
@@ -154,7 +154,7 @@ namespace SDK.Lib
 
             //if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
             //{
-                for (int idx = 0; idx < 4; ++idx)
+                for (int idx = 0; idx < 5; ++idx)
                 {
                     m_mazeRoomList[idx].getWayPtList(ptList, pathIdx);
                 }

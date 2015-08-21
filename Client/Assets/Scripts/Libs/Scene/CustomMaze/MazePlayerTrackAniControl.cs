@@ -183,7 +183,10 @@ namespace SDK.Lib
 
                 if(bChangeScene)
                 {
-                    Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();
+                    if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
+                    {
+                        Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();
+                    }
                 }
             }
         }
