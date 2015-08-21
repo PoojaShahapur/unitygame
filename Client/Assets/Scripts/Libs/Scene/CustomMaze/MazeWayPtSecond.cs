@@ -16,7 +16,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeStartJumpPt pt = new MazeStartJumpPt();
             pt.copyFrom(this);
             return pt;
         }
@@ -43,7 +43,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeStartShowPt pt = new MazeStartShowPt();
             pt.copyFrom(this);
             return pt;
         }
@@ -70,7 +70,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeStartDoorPt pt = new MazeStartDoorPt();
             pt.copyFrom(this);
             return pt;
         }
@@ -97,7 +97,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeEndJumpPt pt = new MazeEndJumpPt();
             pt.copyFrom(this);
             return pt;
         }
@@ -124,7 +124,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeEndHidePt pt = new MazeEndHidePt();
             pt.copyFrom(this);
             return pt;
         }
@@ -151,7 +151,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeEndDoorPt pt = new MazeEndDoorPt();
             pt.copyFrom(this);
             return pt;
         }
@@ -178,7 +178,7 @@
 
         override public MazePtBase clone()
         {
-            MazeStartPt pt = new MazeStartPt();
+            MazeEndDiePt pt = new MazeEndDiePt();
             pt.copyFrom(this);
             return pt;
         }

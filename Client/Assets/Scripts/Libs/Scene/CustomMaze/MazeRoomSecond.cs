@@ -126,6 +126,7 @@ namespace SDK.Lib
             wayPtSuffix.Add("_Start_Jump");
             wayPtSuffix.Add("_Start_Show");
             wayPtSuffix.Add("_Start_Door");
+            wayPtSuffix.Add("_End");
             wayPtSuffix.Add("_End_Jump");
             wayPtSuffix.Add("_End_Hide");
             wayPtSuffix.Add("_End_Door");
@@ -182,6 +183,10 @@ namespace SDK.Lib
                 else if ("_Start_Door" == suffix)
                 {
                     pt = new MazeStartDoorPt();
+                }
+                else if ("_End" == suffix)
+                {
+                    pt = new MazeEndPt();
                 }
                 else if ("_End_Jump" == suffix)
                 {
