@@ -6,7 +6,7 @@ namespace SDK.Lib
 {
     public class MazePlayerTrackAniControl
     {
-        protected const float sTime = 0.5f;
+        protected const float sTime = 1.0f;
 
         protected MazePlayer m_mazePlayer;
 
@@ -14,6 +14,7 @@ namespace SDK.Lib
         protected MList<MazePtBase> m_ptList;
         protected bool m_bDiePt;
         protected bool m_bBombPt;
+        protected bool m_BDiedPlayEffect;
 
         public MazePlayerTrackAniControl(MazePlayer mazePlayer_)
         {
@@ -23,6 +24,7 @@ namespace SDK.Lib
             m_ptList = new MList<MazePtBase>();
             m_bDiePt = false;
             m_bBombPt = false;
+            m_BDiedPlayEffect = false;
         }
 
         public MList<MazePtBase> ptList
@@ -102,15 +104,7 @@ namespace SDK.Lib
         // 移动到结束点
         public void moveToDestPos(MazeEndPt pt_)
         {
-            PosAni posAni;
-            posAni = new PosAni();
-            m_numAniParal.addOneNumAni(posAni);
-            posAni.setGO(m_mazePlayer.selfGo);
-            posAni.destPos = pt_.pos;
-            posAni.setTime(sTime);
-            posAni.setEaseType(iTween.EaseType.linear);
-
-            m_numAniParal.play();
+            moveToNextPos(pt_);
         }
 
         // 爆炸点
@@ -119,15 +113,7 @@ namespace SDK.Lib
             // 爆炸点
             m_bBombPt = true;
 
-            PosAni posAni;
-            posAni = new PosAni();
-            m_numAniParal.addOneNumAni(posAni);
-            posAni.setGO(m_mazePlayer.selfGo);
-            posAni.destPos = pt_.pos;
-            posAni.setTime(sTime);
-            posAni.setEaseType(iTween.EaseType.linear);
-
-            m_numAniParal.play();
+            moveToNextPos(pt_);
         }
 
         // 死亡点
@@ -135,9 +121,6 @@ namespace SDK.Lib
         {
             // 死亡点
             m_bDiePt = true;
-            m_mazePlayer.sceneEffect.stop();
-            m_mazePlayer.sceneEffect.setTableID(32);
-            m_mazePlayer.sceneEffect.play();
 
             PosAni posAni;
             posAni = new PosAni();
@@ -148,6 +131,15 @@ namespace SDK.Lib
             posAni.setEaseType(iTween.EaseType.easeInOutBounce);
 
             m_numAniParal.play();
+
+            playDieAniAndSound();
+        }
+
+        protected void playDieAniAndSound()
+        {
+            m_mazePlayer.sceneEffect.stop();
+            m_mazePlayer.sceneEffect.setTableID(32);
+            m_mazePlayer.sceneEffect.play();
 
             string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "BossDie.mp3");
             Ctx.m_instance.m_soundMgr.play(path, false);
@@ -165,6 +157,12 @@ namespace SDK.Lib
             else    // 如果运行到终点位置
             {
                 m_ptList.Clear();
+
+                if(m_BDiedPlayEffect)
+                {
+                    playDieAniAndSound();
+                }
+
                 bool bChangeScene = false;
                 if(!m_bBombPt && !m_bDiePt)     // 如果胜利
                 {
@@ -173,6 +171,7 @@ namespace SDK.Lib
                 }
                 m_bBombPt = false;
                 m_bDiePt = false;
+                m_BDiedPlayEffect = false;
                 Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
 
                 string path = "";
@@ -255,14 +254,8 @@ namespace SDK.Lib
         public void moveToDestPos(MazeEndDiePt pt_)
         {
             m_bDiePt = true;
+            m_BDiedPlayEffect = true;
             moveToNextPos(pt_);
-
-            m_mazePlayer.sceneEffect.stop();
-            m_mazePlayer.sceneEffect.setTableID(32);
-            m_mazePlayer.sceneEffect.play();
-
-            string path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "BossDie.mp3");
-            Ctx.m_instance.m_soundMgr.play(path, false);
         }
     }
 }
