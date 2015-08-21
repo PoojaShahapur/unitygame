@@ -44,6 +44,7 @@ namespace SDK.Lib
 
             m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
             m_sceneEffect = Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(31, this.selfGo, false, true, true);
+            m_sceneEffect.setKeepLastFrame(true);
         }
 
         public void setStartPos()

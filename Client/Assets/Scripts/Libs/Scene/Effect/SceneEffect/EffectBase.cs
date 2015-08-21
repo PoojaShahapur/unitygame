@@ -126,5 +126,10 @@ namespace SDK.Lib
         {
             return effectRender.bPlay();
         }
+
+        public void setKeepLastFrame(bool bKeep)
+        {
+            effectRender.setKeepLastFrame(bKeep);
+        }
     }
 }

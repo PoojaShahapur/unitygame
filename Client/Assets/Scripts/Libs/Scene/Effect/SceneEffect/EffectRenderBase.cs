@@ -46,7 +46,7 @@ namespace SDK.Lib
             
         }
 
-        virtual public void setPnt(GameObject pntGO_)
+        override public void setPnt(GameObject pntGO_)
         {
             
         }
@@ -54,6 +54,11 @@ namespace SDK.Lib
         virtual public bool bPlay()
         {
             return false;
+        }
+
+        virtual public void setKeepLastFrame(bool bKeep)
+        {
+
         }
     }
 }

@@ -91,6 +91,10 @@ namespace SDK.Lib
             if (m_spriteRender != null)
             {
                 m_spriteRender.sprite = m_atlasScriptRes.getImage(m_curFrame).image;
+                if(m_spriteRender.sprite == null)
+                {
+                    Ctx.m_instance.m_logSys.log("updateImage m_spriteRender is null");
+                }
             }
             else
             {

@@ -107,5 +107,10 @@ namespace SDK.Lib
         {
             m_spriteRender.stop();
         }
+
+        override public void setKeepLastFrame(bool bKeep)
+        {
+            m_spriteRender.setKeepLastFrame(bKeep);
+        }
     }
 }

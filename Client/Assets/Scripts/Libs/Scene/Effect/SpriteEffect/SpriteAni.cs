@@ -117,6 +117,11 @@ namespace SDK.Lib
             }
         }
 
+        virtual public void setKeepLastFrame(bool bKeep)
+        {
+            m_bKeepLastFrame = bKeep;
+        }
+
         virtual public void setClientDispose()
         {
             m_bClientDispose = true;
