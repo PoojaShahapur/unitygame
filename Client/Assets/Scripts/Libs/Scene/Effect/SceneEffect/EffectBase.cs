@@ -131,5 +131,10 @@ namespace SDK.Lib
         {
             effectRender.setKeepLastFrame(bKeep);
         }
+
+        public void setLoopType(eSpriteLoopType type)
+        {
+            effectRender.setLoopType(type);
+        }
     }
 }

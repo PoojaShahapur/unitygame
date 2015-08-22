@@ -60,5 +60,10 @@ namespace SDK.Lib
         {
 
         }
+
+        virtual public void setLoopType(eSpriteLoopType type)
+        {
+
+        }
     }
 }

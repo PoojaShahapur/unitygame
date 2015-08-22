@@ -112,5 +112,10 @@ namespace SDK.Lib
         {
             m_spriteRender.setKeepLastFrame(bKeep);
         }
+
+        override public void setLoopType(eSpriteLoopType type)
+        {
+            m_spriteRender.setLoopType(type);
+        }
     }
 }
