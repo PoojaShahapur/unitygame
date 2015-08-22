@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13058" name="激怒：风怒">
+    <haloID><!--光环-->
+		<haloCondition ctype="2" cid="1"/>
+		<skill id="109"/>
+    </haloID>
+</card>

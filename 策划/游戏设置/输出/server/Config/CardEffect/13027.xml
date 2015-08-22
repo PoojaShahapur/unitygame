@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13027" name="攻击时对自己释放圣盾">
+    <sAttackID><!--自身开始攻击时-->
+		<skill id="45"/>
+    </sAttackID>
+</card>

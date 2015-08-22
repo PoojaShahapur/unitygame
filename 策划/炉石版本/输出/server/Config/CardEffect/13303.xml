@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13303" name="纳克萨玛斯之影">
+    <roundSID><!--自己回合开始时-->
+		<skill id="76"/>
+    </roundSID>
+</card>

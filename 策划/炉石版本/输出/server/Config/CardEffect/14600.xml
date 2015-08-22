@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14600" name="伊利丹·怒风">
+    <selfUseMagic><!--己方使用法术牌时-->
+		<skill id="80"/>
+    </selfUseMagic>
+    <useAttend><!--使用随从牌-->
+		<condition status="8-0-0"/>
+		<skill id="80"/>
+    </useAttend>
+</card>

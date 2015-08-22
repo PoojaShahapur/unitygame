@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13024" name="抽到时全体疗1">
+    <drawedID><!--抽到该牌时-->
+		<skill id="38"/>
+    </drawedID>
+</card>

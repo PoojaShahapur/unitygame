@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="GiftBagConfig">
+	<open flag="WORD"/>
+	<bag index="DWORD" container_="map" key_="index">
+	    <quality level="DWORD" container_="map" key_="level">
+		<item cardid="DWORD" odds="DWORD" container_="map" key_="cardid"/>
+	    </quality>
+	</bag>
+	<gift objid="DWORD" index="DWORD" container_="map" key_="objid">
+	    <card qualityOdds="string" container_="vector"/>
+	</gift>
+    </xmlpg_>
+    <open flag="1" />
+    <bag index="1">
+	<quality level="1">
+	    <item cardid="10000" odds="50" />
+		<item cardid="10001" odds="50" />
+		<item cardid="10002" odds="50" />
+		<item cardid="10003" odds="50" />
+		<item cardid="10004" odds="50" />
+		<item cardid="10005" odds="50" />
+		<item cardid="10006" odds="50" />
+		<item cardid="10007" odds="50" />
+		<item cardid="10008" odds="50" />
+		<item cardid="10009" odds="50" />
+		<item cardid="130000" odds="50" />
+		<item cardid="130001" odds="50" />
+		<item cardid="130002" odds="50" />
+		<item cardid="130003" odds="50" />
+		<item cardid="130004" odds="50" />
+		<item cardid="130005" odds="50" />
+		<item cardid="230000" odds="50" />
+		<item cardid="230001" odds="50" />
+		<item cardid="230002" odds="50" />
+		<item cardid="230003" odds="50" />
+		<item cardid="230004" odds="50" />
+		<item cardid="230005" odds="50" />
+		<item cardid="330000" odds="50" />
+		<item cardid="330001" odds="50" />
+		<item cardid="330002" odds="50" />
+		<item cardid="330003" odds="50" />
+		<item cardid="330004" odds="50" />
+		<item cardid="330005" odds="50" />
+		<item cardid="13000" odds="50" />
+		<item cardid="13001" odds="50" />
+		<item cardid="13002" odds="50" />
+		<item cardid="13003" odds="50" />
+		<item cardid="13004" odds="50" />
+		<item cardid="13005" odds="50" />
+		<item cardid="13006" odds="50" />
+		<item cardid="13007" odds="50" />
+		<item cardid="13008" odds="50" />
+		<item cardid="13009" odds="50" />
+		<item cardid="13010" odds="50" />
+		<item cardid="13011" odds="50" />
+		<item cardid="13012" odds="50" />
+		<item cardid="13013" odds="50" />
+		<item cardid="13014" odds="50" />
+		<item cardid="13015" odds="50" />
+		<item cardid="13016" odds="50" />
+		<item cardid="13017" odds="50" />
+		<item cardid="13018" odds="50" />
+		<item cardid="13019" odds="50" />
+		<item cardid="13020" odds="50" />
+		<item cardid="13021" odds="50" />
+		<item cardid="13022" odds="50" />
+		<item cardid="13023" odds="50" />
+		<item cardid="13024" odds="50" />
+		<item cardid="13025" odds="50" />
+	</quality>
+	<quality level="2">
+	    <item cardid="11000" odds="50" />
+		<item cardid="11001" odds="50" />
+		<item cardid="11002" odds="50" />
+		<item cardid="11003" odds="50" />
+		<item cardid="11004" odds="50" />
+		<item cardid="11005" odds="50" />
+		<item cardid="11006" odds="50" />
+		<item cardid="11007" odds="50" />
+		<item cardid="11008" odds="50" />
+		<item cardid="11009" odds="50" />
+		<item cardid="11010" odds="50" />
+		<item cardid="11011" odds="50" />
+		<item cardid="11012" odds="50" />
+		<item cardid="11013" odds="50" />
+		<item cardid="11014" odds="50" />
+		<item cardid="11015" odds="50" />
+		<item cardid="11016" odds="50" />
+		<item cardid="11017" odds="50" />
+		<item cardid="11018" odds="50" />
+		<item cardid="11019" odds="50" />
+		<item cardid="11020" odds="50" />
+		<item cardid="11021" odds="50" />
+		<item cardid="11022" odds="50" />
+		<item cardid="11023" odds="50" />
+		<item cardid="11024" odds="50" />
+		<item cardid="11025" odds="50" />
+		<item cardid="11026" odds="50" />
+		<item cardid="11027" odds="50" />
+		<item cardid="11028" odds="50" />
+		<item cardid="11029" odds="50" />
+	</quality>
+	<quality level="3">
+	    <item cardid="12000" odds="50" />
+	</quality>
+	<quality level="4">
+	    <item cardid="13000" odds="50" />
+	</quality>
+	<quality level="5">
+	    <item cardid="14000" odds="50" />
+	</quality>
+    </bag>
+    <gift objid="100" index="1">
+	<card qualityOdds="50;20;20;9;1"/>
+	<card qualityOdds="50;20;20;9;1"/>
+	<card qualityOdds="50;20;20;9;1"/>
+	<card qualityOdds="50;20;20;9;1"/>
+	<card qualityOdds="0;70;20;9;1"/>
+    </gift>
+    <bag index="2">
+	<quality level="1">
+	    <item cardid="12000" odds="50" />
+		<item cardid="12001" odds="50" />
+		<item cardid="12002" odds="50" />
+		<item cardid="12003" odds="50" />
+		<item cardid="12004" odds="50" />
+		<item cardid="12005" odds="50" />
+		<item cardid="12006" odds="50" />
+		<item cardid="12007" odds="50" />
+		<item cardid="12008" odds="50" />
+		<item cardid="12009" odds="50" />
+		<item cardid="12010" odds="50" />
+	</quality>
+    </bag>
+    <gift objid="101" index="2">
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+    </gift>
+</config>

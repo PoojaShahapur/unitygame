@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="210005" name="紫虚真人">
+  <selfUseMagic>
+    <!--己方使用法术牌时-->
+    <skill id="45" />
+  </selfUseMagic>
+</card>

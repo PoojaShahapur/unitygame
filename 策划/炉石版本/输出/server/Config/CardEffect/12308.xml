@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12308" name="帝王眼镜蛇">
+    <attackEnd><!--普通攻击结束-->
+		<condition id="1"/>
+		<skill id="68"/>
+    </attackEnd>
+</card>

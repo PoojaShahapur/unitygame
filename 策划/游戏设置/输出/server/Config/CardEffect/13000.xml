@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13000" name="回合开始抽牌">
+    <roundSID><!--自己回合开始时-->
+		<skill id="39"/>
+    </roundSID>
+    <enemyroundSID><!--敌方回合开始时-->
+		<skill id="39"/>
+    </enemyroundSID>
+    <enemyroundEID><!--敌方回合结束时-->
+		<skill id="39"/>
+    </enemyroundEID>
+</card>

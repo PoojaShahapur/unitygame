@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12405" name="紫罗兰教师">
+    <selfUseMagic><!--己方使用法术牌时-->
+		<skill id="70"/>
+    </selfUseMagic>
+</card>

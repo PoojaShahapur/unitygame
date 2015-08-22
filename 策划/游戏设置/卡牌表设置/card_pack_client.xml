@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<config>
+	<table name="CardBase_client.bytes" ExcelFile="卡牌基本表.xlsx" tablename="CardBase">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="名称" type="string" size="64" />
+			<field name="类型" type="int" size="4"/>
+			<field name="职业" type="int" size="4"/>
+			<field name="种族" type="int" size="4"/>
+			<field name="品质" type="int" size="4"/>
+			<field name="魔法消耗" type="int" size="4"/>
+			<field name="攻击力" type="int" size="4"/>
+			<field name="血量" type="int" size="4"/>
+			<field name="耐久" type="int" size="4"/>
+			<field name="嘲讽" type="int" size="4"/>
+			<field name="冲锋" type="int" size="4"/>
+			<field name="风怒" type="int" size="4"/>
+			<field name="潜行" type="int" size="4"/>
+			<field name="圣盾" type="int" size="4"/>
+			<field name="法术伤害增加" type="int" size="4"/>
+			<field name="过载" type="int" size="4"/>
+			<field name="法术" type="int" size="4"/>
+			<field name="战吼" type="int" size="4"/>
+			<field name="法术需要目标" type="int" size="1"/>
+			<field name="战吼需要目标" type="int" size="4"/>
+			<field name="卡牌描述" type="string" size="256" />
+			<field name="美术资源" type="string" size="16" />
+			<field name="准备特效" type="int" size="4" />
+		</fields>
+	</table>
+</config>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13004" name="回合结束消灭随机敌方">
+    <roundEID><!--自己回合结束时-->
+		<skill id="40"/>
+    </roundEID>
+</card>

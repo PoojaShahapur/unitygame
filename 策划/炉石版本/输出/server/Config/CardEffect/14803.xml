@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14803" name="格鲁尔">
+    <roundEID><!--自己回合结束时-->
+		<skill id="89"/>
+    </roundEID>
+    <enemyroundEID><!--敌方回合结束时-->
+		<skill id="89"/>
+    </enemyroundEID>
+</card>

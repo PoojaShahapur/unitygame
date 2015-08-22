@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<config>
+	<table name="proBase_client.bytes" ExcelFile="职业信息表.xlsx" tablename="proBase">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="门派名称" type="string" size="64" />
+			<field name="门派描述" type="string" size="256" />
+			<field name="门派底图资源" type="string" size="16" />
+			<field name="卡牌名字腰带资源" type="string" size="16" />
+			<field name="门派选择资源" type="string" size="16" />
+			<field name="门派卡组资源" type="string" size="16" />
+			<field name="技能名称" type="string" size="64" />
+			<field name="技能描述" type="string" size="128" />
+			<field name="技能图标资源" type="string" size="16" />
+		</fields>
+	</table>
+</config>

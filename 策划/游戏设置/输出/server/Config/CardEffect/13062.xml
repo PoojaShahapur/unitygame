@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13062" name="消耗减少1（光环）">
+  <haloID>
+    <!--光环-->
+    <haloCondition ctype="10000" cid="10000" />
+    <skill id="121" />
+  </haloID>
+</card>

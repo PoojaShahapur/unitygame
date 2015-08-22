@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11305" name="腐肉食尸鬼">
+    <otherDead><!--(其他)角色死亡时-->
+		<condition status="10-0-0"/>
+		<skill id="50"/>
+    </otherDead>
+</card>

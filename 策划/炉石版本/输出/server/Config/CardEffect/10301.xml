@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10301" name="团队领袖">
+    <haloID><!--光环-->
+		<haloCondition ctype="10000" cid="10000"/>
+		<skill id="34"/>
+    </haloID>
+</card>

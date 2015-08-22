@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13055" name="其他友方随从+1+1">
+    <attackEnd><!--普通攻击结束-->
+		<condition id="1"/>
+		<skill id="93"/>
+    </attackEnd>
+</card>

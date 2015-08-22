@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="18000" name="陈近南">
+  <roundSID>
+    <!--自身回合开始时-->
+    <skill id="7" />
+  </roundSID>
+</card>

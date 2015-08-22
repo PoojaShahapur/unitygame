@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12300" name="任务达人">
+    <selfUseMagic><!--己方使用法术牌时-->
+		<skill id="66"/>
+    </selfUseMagic>
+    <useAttend><!--使用随从牌-->
+		<condition status="8-0-0"/>
+		<skill id="66"/>
+    </useAttend>
+</card>

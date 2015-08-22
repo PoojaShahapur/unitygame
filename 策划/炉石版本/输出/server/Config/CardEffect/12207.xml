@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12207" name="铸剑师">
+    <roundEID><!--自己回合结束时-->
+		<skill id="62"/>
+    </roundEID>
+</card>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14810" name="瑟玛普拉格">
+    <otherDead><!--(其他)角色死亡时-->
+		<condition status="2-0-0"/>
+		<skill id="90"/>
+    </otherDead>
+</card>

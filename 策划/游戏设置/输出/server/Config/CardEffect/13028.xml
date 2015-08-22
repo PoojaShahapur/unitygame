@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13028" name="回合结束给自己圣盾然后1伤">
+    <roundEID><!--自己回合结束时-->
+		<skill id="46"/>
+    </roundEID>
+</card>

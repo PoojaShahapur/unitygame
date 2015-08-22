@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="SummonConfig">
+	<card index="DWORD" container_="map" key_="index">
+	    <item id="DWORD" odds="DWORD" container_="map" key_="id"/>
+	</card>
+    </xmlpg_>
+    <card index="1"><!--库索引-->
+	<item id="130000" odds="1"/>
+    </card>
+    <card index="2"><!--库索引-->
+	<item id="130006" odds="1"/>
+    </card>
+</config>

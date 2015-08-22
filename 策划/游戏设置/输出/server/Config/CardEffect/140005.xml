@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="140005" name="己方使用法术牌时抽牌">
+  <selfUseMagic>
+    <!--己方使用法术牌时-->
+    <skill id="39" />
+  </selfUseMagic>
+</card>

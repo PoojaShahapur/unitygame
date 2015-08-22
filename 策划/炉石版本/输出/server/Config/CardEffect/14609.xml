@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14609" name="霍格">
+    <roundEID><!--自己回合结束时-->
+		<skill id="84"/>
+    </roundEID>
+</card>

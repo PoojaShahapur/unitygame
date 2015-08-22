@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13020" name="亡语：抽1牌">
+    <deadLanguage><!--亡语-->
+		<skill id="39"/>
+    </deadLanguage>
+    <haloID><!--光环-->
+	    <haloCondition ctype="2" cid="1"/>
+		<skill id="79"/>
+    </haloID>
+</card>

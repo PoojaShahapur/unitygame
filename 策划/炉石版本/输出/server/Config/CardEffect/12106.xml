@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12106" name="龙蛋">
+    <beHurtID><!--自身受伤时-->
+		<skill id="60"/>
+    </beHurtID>
+</card>

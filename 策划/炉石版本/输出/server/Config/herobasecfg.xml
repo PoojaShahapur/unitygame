@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="HeroBaseCFG">
+	<exp maxlevel="WORD">
+	    <item level="WORD" exp="QWORD" container_="map" key_="level"/>
+	</exp>
+	<init>
+	    <item occupation="DWORD" hcard="DWORD" scard="DWORD" container_="map" key_="occupation"/>
+	</init>
+    </xmlpg_>
+    <exp maxlevel="4">
+	<item level="1" exp="1000" />
+	<item level="2" exp="2000" />
+	<item level="3" exp="3000" />
+	<item level="4" exp="4000" />
+    </exp>
+    <init>
+	<item occupation="1" hcard="150000" scard="160000" />
+	<item occupation="2" hcard="250000" scard="260000" />
+	<item occupation="3" hcard="350000" scard="360000" />
+    </init>
+</config>

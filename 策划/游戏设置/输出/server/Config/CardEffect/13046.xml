@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13046" name="当敌方使用法术牌时抽牌">
+    <enemyUseMagic><!--敌方使用法术牌时-->
+		<skill id="39"/>
+    </enemyUseMagic>
+</card>

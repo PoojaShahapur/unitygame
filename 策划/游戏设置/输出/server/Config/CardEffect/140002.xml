@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="140002" name="自身回合结束抽牌">
+  <roundEID>
+    <!--自身回合结束时-->
+    <skill id="39" />
+  </roundEID>
+</card>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13013" name="抽牌时英雄回2血">
+    <drawID><!--自身抽牌时-->
+		<skill id="43"/>
+    </drawID>
+</card>

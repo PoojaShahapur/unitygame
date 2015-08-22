@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10038" name="魔教妖女">
+    <selfUseMagic><!--己方使用法术牌时-->
+		<skill id="70"/>
+    </selfUseMagic>
+</card>

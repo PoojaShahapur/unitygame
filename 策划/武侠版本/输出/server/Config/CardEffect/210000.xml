@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="210000" name="玄虚新晋弟子">
+  <selfUseMagic>
+    <!--己方使用法术牌时-->
+    <skill id="33" />
+  </selfUseMagic>
+</card>

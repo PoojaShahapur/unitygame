@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13036" name="当其他角色受伤时抽牌">
+    <otherBeHurt><!--(其他)角色受伤时-->
+		<condition status="15-0-0"/>
+		<skill id="39"/>
+    </otherBeHurt>
+</card>

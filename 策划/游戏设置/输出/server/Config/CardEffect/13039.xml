@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13039" name="当角色受到治疗时抽牌">
+    <otherBeCure><!--(其他)角色受到治疗时-->
+		<condition status="15-0-1"/>
+		<skill id="39"/>
+    </otherBeCure>
+</card>

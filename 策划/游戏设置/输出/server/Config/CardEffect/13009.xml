@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13009" name="自身被攻击时抽牌">
+    <beAttackID><!--自身被攻击时-->
+		<skill id="39"/>
+    </beAttackID>
+</card>

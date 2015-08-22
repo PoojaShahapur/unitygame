@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13007" name="自身攻击时敌方英雄扣2血">
+    <sAttackID><!--自身开始攻击时-->
+		<skill id="42"/>
+    </sAttackID>
+</card>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11202" name="微型战斗机甲">
+    <roundSID><!--自己回合开始时-->
+		<skill id="42"/>
+    </roundSID>
+    <enemyroundSID><!--敌方回合开始时-->
+		<skill id="42"/>
+    </enemyroundSID>
+</card>

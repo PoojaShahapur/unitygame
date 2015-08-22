@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13002" name="回合开始随机打3">
+    <roundSID><!--自己回合开始时-->
+		<skill id="41"/>
+    </roundSID>
+</card>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11107" name="送葬者">
+    <attendIn><!--随从进场-->
+		<condition status="8-8-0"/>
+		<skill id="38"/>
+    </attendIn>
+</card>

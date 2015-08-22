@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11215" name="阿曼尼狂战士">
+    <haloID><!--光环-->
+		<haloCondition ctype="2" cid="1"/>
+		<skill id="46"/>
+    </haloID>
+</card>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13010" name="自身被攻击时敌方英雄扣2血">
+    <beAttackID><!--自身被攻击时-->
+		<skill id="42"/>
+    </beAttackID>
+</card>

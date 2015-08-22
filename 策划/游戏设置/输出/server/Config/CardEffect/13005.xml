@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13005" name="回合结束随机打3">
+    <roundEID><!--自己回合结束时-->
+		<skill id="41"/>
+    </roundEID>
+</card>

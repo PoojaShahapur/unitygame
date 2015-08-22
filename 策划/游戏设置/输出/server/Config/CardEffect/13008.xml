@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13008" name="自身攻击时英雄回2血">
+    <sAttackID><!--自身开始攻击时-->
+		<skill id="43"/>
+    </sAttackID>
+</card>

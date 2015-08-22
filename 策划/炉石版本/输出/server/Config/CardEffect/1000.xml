@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="1000" name="疲劳卡">
+    <deadLanguage><!--亡语-->
+		<skill id="39"/>
+    </deadLanguage>
+    <roundSID><!--自己回合开始时-->
+		<skill id="39"/>
+    </roundSID>
+    <roundEID><!--自己回合结束时-->
+		<skill id="39"/>
+    </roundEID>
+    <enemyroundSID><!--敌方回合开始时-->
+		<skill id="39"/>
+    </enemyroundSID>
+    <enemyroundEID><!--敌方回合结束时-->
+		<skill id="39"/>
+    </enemyroundEID>
+    <sAttackID><!--自身开始攻击时-->
+		<skill id="39"/>
+    </sAttackID>
+    <beAttackID><!--自身被攻击时-->
+		<skill id="39"/>
+    </beAttackID>
+    <drawID><!--自身抽牌时-->
+		<skill id="39"/>
+    </drawID>
+    <beHurtID><!--自身受伤时-->
+		<skill id="39"/>
+    </beHurtID>
+    <beCureID><!--自身受到治疗时-->
+		<skill id="39"/>
+    </beCureID>
+    <drawedID><!--抽到该牌时-->
+		<skill id="39"/>
+    </drawedID>
+    <otherBeHurt><!--(其他)角色受伤时-->
+		<condition status="15-4-1"/>
+		<skill id="39"/>
+    </otherBeHurt>
+    <otherDead><!--(其他)角色死亡时-->
+		<condition status="15-4-1"/>
+		<skill id="39"/>
+    </otherDead>
+    <otherBeCure><!--(其他)角色受到治疗时-->
+		<condition status="15-4-1"/>
+		<skill id="39"/>
+    </otherBeCure>
+    <selfUseMagic><!--己方使用法术牌时-->
+		<skill id="39"/>
+    </selfUseMagic>
+    <enemyUseMagic><!--敌方使用法术牌时-->
+		<skill id="39"/>
+    </enemyUseMagic>
+    <attackEnd><!--普通攻击结束-->
+		<condition id="1"/>
+		<skill id="81"/>
+    </attackEnd>
+    <haloID><!--光环-->
+		<haloCondition ctype="2" cid="1"/>
+		<skill id="80"/>
+    </haloID>
+    <useAttend><!--使用随从牌-->
+		<condition status="2-4-0"/>
+		<skill id="39"/>
+    </useAttend>
+    <attendIn><!--随从进场-->
+		<condition status="8-0-0"/>
+		<skill id="41"/>
+    </attendIn>
+</card>

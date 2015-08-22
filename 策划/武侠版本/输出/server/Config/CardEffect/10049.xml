@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10049" name="锦衣千户">
+    <haloID><!--光环-->
+		<haloCondition ctype="10000" cid="10000"/>
+		<skill id="36"/>
+    </haloID>
+</card>

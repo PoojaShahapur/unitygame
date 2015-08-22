@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12209" name="魔瘾者">
+    <selfUseMagic><!--己方使用法术牌时-->
+		<skill id="64"/>
+    </selfUseMagic>
+</card>

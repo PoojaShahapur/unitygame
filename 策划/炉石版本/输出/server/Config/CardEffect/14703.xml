@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14703" name="颤地者特罗格佐尔">
+    <enemyUseMagic><!--敌方使用法术牌时-->
+		<skill id="88"/>
+    </enemyUseMagic>
+</card>

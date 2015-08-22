@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10039" name="狂暴灰熊">
+    <beHurtID><!--自身受伤时-->
+		<skill id="35"/>
+    </beHurtID>
+</card>

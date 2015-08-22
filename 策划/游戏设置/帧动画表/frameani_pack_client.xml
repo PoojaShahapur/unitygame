@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<config>
+	<table name="FrameAni_client.bytes" ExcelFile="帧动画表.xlsx" tablename="FrameAni">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="帧率" type="int" size="4" />
+			<field name="帧数" type="int" size="4" />
+			<field name="资源名字" type="string" size="64" />
+		</fields>
+	</table>
+</config>

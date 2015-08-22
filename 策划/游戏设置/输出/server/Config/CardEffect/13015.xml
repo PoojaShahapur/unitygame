@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13015" name="自身受伤时消灭随机敌方">
+    <beHurtID><!--自身受伤时-->
+		<skill id="40"/>
+    </beHurtID>
+</card>

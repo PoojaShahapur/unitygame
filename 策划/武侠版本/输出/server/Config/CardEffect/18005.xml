@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="18005" name="达摩祖师">
+    <roundEID><!--自己回合结束时-->
+		<skill id="23"/>
+    </roundEID>
+</card>

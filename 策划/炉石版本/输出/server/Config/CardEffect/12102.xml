@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12102" name="年轻的女祭司">
+    <roundEID><!--自己回合结束时-->
+		<skill id="58"/>
+    </roundEID>
+</card>

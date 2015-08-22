@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="GiftBagConfig">
+	<open flag="WORD"/>
+	<bag index="DWORD" container_="map" key_="index">
+	    <quality level="DWORD" container_="map" key_="level">
+		<item cardid="DWORD" odds="DWORD" container_="map" key_="cardid"/>
+	    </quality>
+	</bag>
+	<gift objid="DWORD" index="DWORD" container_="map" key_="objid">
+	    <card qualityOdds="string" container_="vector"/>
+	</gift>
+    </xmlpg_>
+    <open flag="1" />
+    <bag index="1">
+	<quality level="1">
+	<item cardid="10100" odds="50" />
+<item cardid="10101" odds="50" />
+<item cardid="10102" odds="50" />
+<item cardid="10103" odds="50" />
+<item cardid="10104" odds="50" />
+<item cardid="10105" odds="50" />
+<item cardid="10200" odds="50" />
+<item cardid="10201" odds="50" />
+<item cardid="10202" odds="50" />
+<item cardid="10203" odds="50" />
+<item cardid="10204" odds="50" />
+<item cardid="10205" odds="50" />
+<item cardid="10206" odds="50" />
+<item cardid="10207" odds="50" />
+<item cardid="10300" odds="50" />
+<item cardid="10301" odds="50" />
+<item cardid="10302" odds="50" />
+<item cardid="10303" odds="50" />
+<item cardid="10304" odds="50" />
+<item cardid="10305" odds="50" />
+<item cardid="10306" odds="50" />
+<item cardid="10307" odds="50" />
+<item cardid="10308" odds="50" />
+<item cardid="10400" odds="50" />
+<item cardid="10401" odds="50" />
+<item cardid="10402" odds="50" />
+<item cardid="10403" odds="50" />
+<item cardid="10404" odds="50" />
+<item cardid="10405" odds="50" />
+<item cardid="10406" odds="50" />
+<item cardid="10500" odds="50" />
+<item cardid="10501" odds="50" />
+<item cardid="10502" odds="50" />
+<item cardid="10503" odds="50" />
+<item cardid="10504" odds="50" />
+<item cardid="10503" odds="50" />
+<item cardid="10600" odds="50" />
+<item cardid="10601" odds="50" />
+<item cardid="10602" odds="50" />
+<item cardid="10603" odds="50" />
+<item cardid="10700" odds="50" />
+<item cardid="10701" odds="50" />
+<item cardid="10702" odds="50" />
+<item cardid="10900" odds="50" />
+<item cardid="10901" odds="50" />
+<item cardid="10902" odds="50" />
+<item cardid="11000" odds="50" />
+<item cardid="11100" odds="50" />
+<item cardid="11101" odds="50" />
+<item cardid="11102" odds="50" />
+<item cardid="11103" odds="50" />
+<item cardid="11104" odds="50" />
+<item cardid="11105" odds="50" />
+<item cardid="11106" odds="50" />
+<item cardid="11107" odds="50" />
+<item cardid="11108" odds="50" />
+<item cardid="11109" odds="50" />
+<item cardid="11110" odds="50" />
+<item cardid="11200" odds="50" />
+<item cardid="11201" odds="50" />
+<item cardid="11202" odds="50" />
+<item cardid="11203" odds="50" />
+<item cardid="11204" odds="50" />
+<item cardid="11205" odds="50" />
+<item cardid="11206" odds="50" />
+<item cardid="11207" odds="50" />
+<item cardid="11208" odds="50" />
+<item cardid="11209" odds="50" />
+<item cardid="11210" odds="50" />
+<item cardid="11211" odds="50" />
+<item cardid="11212" odds="50" />
+<item cardid="11213" odds="50" />
+<item cardid="11214" odds="50" />
+<item cardid="11215" odds="50" />
+<item cardid="11216" odds="50" />
+<item cardid="11217" odds="50" />
+<item cardid="11218" odds="50" />
+<item cardid="11219" odds="50" />
+<item cardid="11300" odds="50" />
+<item cardid="11301" odds="50" />
+<item cardid="11302" odds="50" />
+<item cardid="11303" odds="50" />
+<item cardid="11304" odds="50" />
+<item cardid="11305" odds="50" />
+<item cardid="11306" odds="50" />
+<item cardid="11307" odds="50" />
+<item cardid="11308" odds="50" />
+<item cardid="11309" odds="50" />
+<item cardid="11310" odds="50" />
+<item cardid="11311" odds="50" />
+<item cardid="11312" odds="50" />
+<item cardid="11313" odds="50" />
+<item cardid="11314" odds="50" />
+<item cardid="11315" odds="50" />
+<item cardid="11316" odds="50" />
+<item cardid="11400" odds="50" />
+<item cardid="11401" odds="50" />
+<item cardid="11402" odds="50" />
+<item cardid="11403" odds="50" />
+<item cardid="11404" odds="50" />
+<item cardid="11405" odds="50" />
+<item cardid="11406" odds="50" />
+<item cardid="11407" odds="50" />
+<item cardid="11408" odds="50" />
+<item cardid="11409" odds="50" />
+<item cardid="11410" odds="50" />
+<item cardid="11411" odds="50" />
+<item cardid="11500" odds="50" />
+<item cardid="11501" odds="50" />
+<item cardid="11502" odds="50" />
+<item cardid="11503" odds="50" />
+<item cardid="11504" odds="50" />
+<item cardid="11505" odds="50" />
+<item cardid="11506" odds="50" />
+<item cardid="11507" odds="50" />
+<item cardid="11600" odds="50" />
+<item cardid="11601" odds="50" />
+<item cardid="11602" odds="50" />
+<item cardid="11800" odds="50" />
+<item cardid="11900" odds="50" />
+<item cardid="11901" odds="50" />
+<item cardid="11902" odds="50" />
+<item cardid="12000" odds="50" />
+<item cardid="12100" odds="50" />
+<item cardid="12101" odds="50" />
+<item cardid="12102" odds="50" />
+<item cardid="12103" odds="50" />
+<item cardid="12104" odds="50" />
+<item cardid="12105" odds="50" />
+<item cardid="12106" odds="50" />
+<item cardid="12200" odds="50" />
+<item cardid="12201" odds="50" />
+<item cardid="12202" odds="50" />
+<item cardid="12203" odds="50" />
+<item cardid="12204" odds="50" />
+<item cardid="12205" odds="50" />
+<item cardid="12206" odds="50" />
+<item cardid="12207" odds="50" />
+<item cardid="12208" odds="50" />
+<item cardid="12209" odds="50" />
+<item cardid="12300" odds="50" />
+<item cardid="12301" odds="50" />
+<item cardid="12302" odds="50" />
+<item cardid="12303" odds="50" />
+<item cardid="12304" odds="50" />
+<item cardid="12305" odds="50" />
+<item cardid="12306" odds="50" />
+<item cardid="12307" odds="50" />
+<item cardid="12308" odds="50" />
+<item cardid="12309" odds="50" />
+<item cardid="12310" odds="50" />
+<item cardid="12311" odds="50" />
+<item cardid="12312" odds="50" />
+<item cardid="12313" odds="50" />
+<item cardid="12400" odds="50" />
+<item cardid="12401" odds="50" />
+<item cardid="12402" odds="50" />
+<item cardid="12403" odds="50" />
+<item cardid="12404" odds="50" />
+<item cardid="12405" odds="50" />
+<item cardid="12406" odds="50" />
+<item cardid="12500" odds="50" />
+<item cardid="12501" odds="50" />
+<item cardid="12502" odds="50" />
+<item cardid="12503" odds="50" />
+<item cardid="12504" odds="50" />
+<item cardid="12505" odds="50" />
+<item cardid="12506" odds="50" />
+<item cardid="12600" odds="50" />
+<item cardid="12601" odds="50" />
+<item cardid="12602" odds="50" />
+<item cardid="12700" odds="50" />
+<item cardid="12900" odds="50" />
+<item cardid="12901" odds="50" />
+<item cardid="12902" odds="50" />
+<item cardid="12903" odds="50" />
+<item cardid="12904" odds="50" />
+<item cardid="13100" odds="50" />
+<item cardid="13200" odds="50" />
+<item cardid="13201" odds="50" />
+<item cardid="13202" odds="50" />
+<item cardid="13203" odds="50" />
+<item cardid="13300" odds="50" />
+<item cardid="13301" odds="50" />
+<item cardid="13302" odds="50" />
+<item cardid="13303" odds="50" />
+<item cardid="13304" odds="50" />
+<item cardid="13305" odds="50" />
+<item cardid="13400" odds="50" />
+<item cardid="13401" odds="50" />
+<item cardid="13500" odds="50" />
+<item cardid="13501" odds="50" />
+<item cardid="13502" odds="50" />
+<item cardid="13600" odds="50" />
+<item cardid="13800" odds="50" />
+<item cardid="13801" odds="50" />
+<item cardid="13802" odds="50" />
+<item cardid="13803" odds="50" />
+<item cardid="14200" odds="50" />
+<item cardid="14201" odds="50" />
+<item cardid="14202" odds="50" />
+<item cardid="14203" odds="50" />
+<item cardid="14300" odds="50" />
+<item cardid="14301" odds="50" />
+<item cardid="14400" odds="50" />
+<item cardid="14401" odds="50" />
+<item cardid="14500" odds="50" />
+<item cardid="14501" odds="50" />
+<item cardid="14502" odds="50" />
+<item cardid="14503" odds="50" />
+<item cardid="14504" odds="50" />
+<item cardid="14505" odds="50" />
+<item cardid="14506" odds="50" />
+<item cardid="14507" odds="50" />
+<item cardid="14508" odds="50" />
+<item cardid="14509" odds="50" />
+<item cardid="14600" odds="50" />
+<item cardid="14601" odds="50" />
+<item cardid="14602" odds="50" />
+<item cardid="14603" odds="50" />
+<item cardid="14604" odds="50" />
+<item cardid="14605" odds="50" />
+<item cardid="14606" odds="50" />
+<item cardid="14607" odds="50" />
+<item cardid="14608" odds="50" />
+<item cardid="14609" odds="50" />
+<item cardid="14610" odds="50" />
+<item cardid="14611" odds="50" />
+<item cardid="14700" odds="50" />
+<item cardid="14701" odds="50" />
+<item cardid="14702" odds="50" />
+<item cardid="14703" odds="50" />
+<item cardid="14800" odds="50" />
+<item cardid="14801" odds="50" />
+<item cardid="14802" odds="50" />
+<item cardid="14803" odds="50" />
+<item cardid="14804" odds="50" />
+<item cardid="14805" odds="50" />
+<item cardid="14806" odds="50" />
+<item cardid="14807" odds="50" />
+<item cardid="14808" odds="50" />
+<item cardid="14809" odds="50" />
+<item cardid="14810" odds="50" />
+<item cardid="14811" odds="50" />
+<item cardid="14812" odds="50" />
+<item cardid="14813" odds="50" />
+<item cardid="14814" odds="50" />
+<item cardid="14900" odds="50" />
+<item cardid="14901" odds="50" />
+<item cardid="14902" odds="50" />
+<item cardid="14903" odds="50" />
+<item cardid="14904" odds="50" />
+<item cardid="14905" odds="50" />
+	</quality>
+    </bag>
+    <gift objid="100" index="1">
+	<card qualityOdds="100"/>
+    </gift>
+    <bag index="2">
+	<quality level="1">
+	    <item cardid="12000" odds="50" />
+		<item cardid="12001" odds="50" />
+		<item cardid="12002" odds="50" />
+		<item cardid="12003" odds="50" />
+		<item cardid="12004" odds="50" />
+		<item cardid="12005" odds="50" />
+		<item cardid="12006" odds="50" />
+		<item cardid="12007" odds="50" />
+		<item cardid="12008" odds="50" />
+		<item cardid="12009" odds="50" />
+		<item cardid="12010" odds="50" />
+	</quality>
+    </bag>
+    <gift objid="101" index="2">
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+	<card qualityOdds="100"/>
+    </gift>
+</config>

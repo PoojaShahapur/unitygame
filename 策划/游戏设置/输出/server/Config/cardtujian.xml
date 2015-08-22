@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="CardTujianConfig">
+	<open flag="WORD"/>
+	<limit groupMaxNum="DWORD" totalGroup="DWORD" sameNameNum="DWORD" legendNum="DWORD"/>
+	<init>
+	    <item id="DWORD" num="DWORD" container_="map" key_="id"/>
+	</init>
+    </xmlpg_>
+    <open flag="1" />
+    <!--groupMaxNum:每组最大卡牌数; totalGroup:最大套牌组数; sameNameNum:每组套牌中同名的卡牌数; legendNum:每组套牌中传说卡牌数-->
+    <limit groupMaxNum="30" totalGroup="9" sameNameNum="2" legendNum="1"/>
+    <init>
+	<item id="10000" num="2"/>
+	<item id="10001" num="2"/>
+	<item id="10002" num="2"/>
+	<item id="10003" num="2"/>
+	<item id="10004" num="2"/>
+    </init>
+</config>

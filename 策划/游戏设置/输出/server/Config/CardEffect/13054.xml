@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13054" name="当敌方召唤攻击小于3随从时抽牌">
+    <useAttend><!--使用随从牌-->
+		<condition status="2-4-0"/>
+		<skill id="39"/>
+    </useAttend>
+    <haloID><!--光环-->
+		<haloCondition ctype="2" cid="1"/>
+		<skill id="80"/>
+    </haloID>
+</card>

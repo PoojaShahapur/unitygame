@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13053" name="当召唤亡语随从时抽牌">
+    <useAttend><!--使用随从牌-->
+		<condition status="10-8-0"/>
+		<skill id="39"/>
+    </useAttend>
+	    <attackEnd><!--普通攻击结束-->
+		<condition id="3"/>
+		<skill id="39"/>
+    </attackEnd>
+</card>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="140009" name="当角色死亡时抽牌">
+  <otherDead>
+    <!--角色死亡时-->
+    <condition status="15-0-0" />
+    <skill id="39" />
+  </otherDead>
+</card>

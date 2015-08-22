@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13032" name="自身受伤消灭攻击大等2">
+    <beHurtID><!--自身受伤时-->
+		<skill id="48"/>
+    </beHurtID>
+</card>

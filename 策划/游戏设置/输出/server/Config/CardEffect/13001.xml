@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13001" name="回合开始消灭随机敌方">
+    <roundSID><!--自己回合开始时-->
+		<skill id="40"/>
+    </roundSID>
+</card>

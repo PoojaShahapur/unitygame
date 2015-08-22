@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="310004" name="地字庄医师">
+  <roundEID>
+    <!--自身回合结束时-->
+    <skill id="53" />
+  </roundEID>
+</card>

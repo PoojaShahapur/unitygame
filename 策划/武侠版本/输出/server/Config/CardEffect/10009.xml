@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10009" name="剧毒马蜂">
+    <deadLanguage><!--亡语-->
+		<skill id="39"/>
+    </deadLanguage>
+</card>

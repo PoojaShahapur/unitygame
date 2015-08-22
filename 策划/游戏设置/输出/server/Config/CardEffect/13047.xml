@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13047" name="当己方使用随从牌时抽牌">
+    <useAttend><!--使用随从牌-->
+		<condition status="8-0-0"/>
+		<skill id="39"/>
+    </useAttend>
+</card>

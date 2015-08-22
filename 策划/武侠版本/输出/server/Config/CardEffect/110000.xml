@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="110000" name="丐帮无袋弟子">
+  <otherBeHurt>
+    <!--角色受伤时-->
+    <condition status="8-0-0" />
+    <skill id="24" />
+  </otherBeHurt>
+</card>

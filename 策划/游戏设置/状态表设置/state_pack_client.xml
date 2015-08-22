@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<config>
+	<table name="StateBase_client.bytes" ExcelFile="状态基本表.xlsx" tablename="StateBase">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="名称" type="string" size="32" />
+			<field name="资源" type="string" size="128" />
+		</fields>
+	</table>
+</config>

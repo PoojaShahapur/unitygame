@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<!-- solution 是一个方案 name 显示的方案的名字 cmd 打包完成后执行的配置文件 -->
+<config>
+	<table name="ObjectBase.tbl" ExcelFile="道具基本表.xlsx" tablename="sheetobj">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="名称" type="string" size="64" />
+			<field name="最大数量" type="int" size="4"/>
+			<field name="类型" type="int" size="4"/>
+			<field name="颜色" type="int" size="4"/>
+		</fields>
+	</table>
+</config>

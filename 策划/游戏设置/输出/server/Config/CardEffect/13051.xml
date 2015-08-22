@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13051" name="当召唤随从时抽牌">
+    <attendIn><!--随从进场-->
+		<condition status="10-0-0"/>
+		<skill id="39"/>
+    </attendIn>
+</card>

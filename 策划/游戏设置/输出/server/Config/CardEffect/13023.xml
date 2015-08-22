@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13023" name="抽到时全体打1">
+    <drawedID><!--抽到该牌时-->
+		<skill id="37"/>
+    </drawedID>
+</card>

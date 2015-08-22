@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13202" name="末日预言者">
+    <roundSID><!--自己回合开始时-->
+		<skill id="75"/>
+    </roundSID>
+</card>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="140001" name="自身回合开始抽牌">
+  <roundSID>
+    <!--自身回合开始时-->
+    <skill id="39" />
+  </roundSID>
+</card>

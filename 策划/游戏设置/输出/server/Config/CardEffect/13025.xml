@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13025" name="抽到时敌方英雄扣2血">
+    <drawedID><!--抽到该牌时-->
+		<skill id="42"/>
+    </drawedID>
+</card>

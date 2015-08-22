@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13019" name="受到治疗时随机打3">
+    <beCureID><!--自身受到治疗时-->
+		<skill id="41"/>
+    </beCureID>
+</card>

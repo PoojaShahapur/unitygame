@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11403" name="石腭穴居人壮汉">
+    <enemyUseMagic><!--敌方使用法术牌时-->
+		<skill id="55"/>
+    </enemyUseMagic>
+</card>

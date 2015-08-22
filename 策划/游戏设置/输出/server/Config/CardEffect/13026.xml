@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13026" name="攻击时对自己造成1点伤害">
+    <sAttackID><!--自身开始攻击时-->
+		<skill id="44"/>
+    </sAttackID>
+</card>

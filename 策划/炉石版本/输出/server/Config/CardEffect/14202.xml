@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14202" name="纳特·帕格">
+    <roundSID><!--自己回合开始时-->
+		<skill id="77"/>
+    </roundSID>
+</card>

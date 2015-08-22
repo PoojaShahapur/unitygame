@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="14804" name="死神4000型">
+  <attackEnd>
+    <!--普通攻击结束-->
+    <condition id="10000" />
+    <skill id="95" />
+  </attackEnd>
+</card>

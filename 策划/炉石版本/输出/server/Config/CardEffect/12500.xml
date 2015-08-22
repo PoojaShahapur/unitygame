@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="12500" name="恐怖的奴隶主">
+    <otherBeHurt><!--(其他)角色受伤时-->
+		<condition status="64-0-1"/>
+		<skill id="71"/>
+    </otherBeHurt>
+</card>

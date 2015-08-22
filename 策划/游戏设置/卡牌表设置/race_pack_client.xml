@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<config>
+	<table name="RaceBase_client.bytes" ExcelFile="卡牌基本表.xlsx" tablename="RaceBase">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="种族" type="string" size="32"/>
+		</fields>
+	</table>
+</config>

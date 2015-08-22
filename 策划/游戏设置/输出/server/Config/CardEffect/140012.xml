@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="140012" name="所有友方随从+1攻击力">
+  <haloID>
+    <!--光环-->
+    <haloCondition ctype="10000" cid="10000" />
+    <skill id="127" />
+  </haloID>
+</card>

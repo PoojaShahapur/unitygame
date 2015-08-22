@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="110002" name="丐帮掌钵龙头">
+  <otherDead>
+    <!--角色死亡时-->
+    <condition status="8-0-0" />
+    <skill id="26" />
+  </otherDead>
+</card>

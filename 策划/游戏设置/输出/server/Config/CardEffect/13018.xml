@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13018" name="受到治疗时消灭随机敌方">
+    <beCureID><!--自身受到治疗时-->
+		<skill id="40"/>
+    </beCureID>
+</card>

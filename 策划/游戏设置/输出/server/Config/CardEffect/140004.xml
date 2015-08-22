@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="140004" name="敌方回合结束抽牌">
+  <enemyroundEID>
+    <!--敌方回合结束时-->
+    <skill id="39" />
+  </enemyroundEID>
+</card>

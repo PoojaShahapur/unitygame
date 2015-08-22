@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13043" name="攻击大于等于2角色受到治疗时抽牌">
+    <otherBeCure><!--(其他)角色受到治疗时-->
+		<condition status="15-2-1"/>
+		<skill id="39"/>
+    </otherBeCure>
+</card>

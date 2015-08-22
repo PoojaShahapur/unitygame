@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11203" name="恐狼前锋">
+    <haloID><!--光环-->
+		<haloCondition ctype="10000" cid="10000"/>
+		<skill id="41"/>
+    </haloID>
+</card>

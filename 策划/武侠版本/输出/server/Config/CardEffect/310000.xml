@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="310000" name="心字庄小师妹">
+  <otherBeCure>
+    <!--角色受治疗时-->
+    <condition status="15-0-1" />
+    <skill id="46" />
+  </otherBeCure>
+</card>

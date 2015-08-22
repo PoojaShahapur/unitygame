@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<config>
+	<table name="SkillBase_client.bytes" ExcelFile="卡牌技能表.xlsx" tablename="SkillBase">
+		<fields>
+			<field name="编号" type="int" size="4"/>
+			<field name="名称" type="string" size="32" />
+			<field name="效果" type="string" size="1024" />
+		</fields>
+	</table>
+</config>

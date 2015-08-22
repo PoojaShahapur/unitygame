@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11405" name="诅咒教派领袖">
+    <otherDead><!--(其他)角色死亡时-->
+		<condition status="8-0-0"/>
+		<skill id="56"/>
+    </otherDead>
+</card>

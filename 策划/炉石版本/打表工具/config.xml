@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 打包配置文件 -->
+<!-- solution 是一个方案 name 显示的方案的名字 cmd 打包完成后执行的配置文件 xmlrootpath 就是这个方案下的根目录 defaultoutput 就是当 package 没有指定 output ，就会使用这个-->
+<config>
+	<solution name="所有打包" xmlrootpath=".." defaultoutput="../输出" cmd="" >
+		<package xml="道具表设置/object_pack_client.xml" output="../输出/client/Prefabs/Resources/table" />
+		<package xml="道具表设置/object_pack_server.xml" output="../输出/server/data" />
+		<package xml="卡牌表设置/card_pack_client.xml" output="../输出/client/Prefabs/Resources/table" />
+		<package xml="卡牌表设置/card_pack_server.xml" output="../输出/server/data" />
+		<package xml="技能表设置/skill_pack_client.xml" output="../输出/client/Prefabs/Resources/table" />
+		<package xml="技能表设置/skill_pack_server.xml" output="../输出/server/data" />
+		<package xml="状态表设置/state_pack_client.xml" output="../输出/client/Prefabs/Resources/table" />
+		<package xml="状态表设置/state_pack_server.xml" output="../输出/server/data" />
+		<package xml="职业表设置/pro_pack_client.xml" output="../输出/client/Prefabs/Resources/table" />
+	</solution>
+</config>

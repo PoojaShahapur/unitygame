@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="13021" name="亡语：消灭随机敌方">
+    <deadLanguage><!--亡语-->
+		<skill id="40"/>
+		<skill id="39"/>
+		<skill id="70"/>
+    </deadLanguage>
+</card>

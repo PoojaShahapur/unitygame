@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11209" name="碎石穴居人">
+    <enemyUseMagic><!--敌方使用法术牌时-->
+		<skill id="44"/>
+    </enemyUseMagic>
+</card>

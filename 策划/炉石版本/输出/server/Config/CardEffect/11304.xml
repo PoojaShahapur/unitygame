@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="11304" name="牛头人战士">
+    <haloID><!--光环-->
+		<haloCondition ctype="2" cid="1"/>
+		<skill id="49"/>
+    </haloID>
+</card>
