@@ -39,13 +39,13 @@ public class WindowDragTilt : MonoBehaviour
         Vector3 deltaPos = mTrans.position - mLastPos;
         mLastPos = mTrans.position;
 
-        mAngleX += deltaPos.z * degrees;
+        mAngleX += deltaPos.z * degrees * 0.2f;
         mAngleX = NGUIMath.SpringLerp(mAngleX, 0f, 20f, Time.deltaTime);
 
-        //mAngleY += deltaPos.x * degrees;
+        //mAngleY += deltaPos.y * degrees;
         //mAngleY = NGUIMath.SpringLerp(mAngleY, 0f, 20f, Time.deltaTime);
 
-        mAngleZ += deltaPos.x * degrees;
+        mAngleZ += deltaPos.x * degrees * 0.2f;
         mAngleZ = NGUIMath.SpringLerp(mAngleZ, 0f, 20f, Time.deltaTime);
 
         //mTrans.localRotation = Quaternion.Euler(0f, mAngleY, -mAngleZ);
