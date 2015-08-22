@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<zoneInfo>
+    <zone game="10" zone="30" ip="192.168.125.254" port="10000" name="testZone" desc="some desc"/>
+    <zone game="10" zone="31" ip="192.168.125.79" port="10000" name="testZone2" desc="some desc"/>
+    <zone game="10" zone="500" ip="192.168.125.216" port="10000" name="battleZone" desc="some desc"/>
+</zoneInfo>

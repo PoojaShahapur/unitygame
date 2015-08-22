@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="310001" name="后山采药师">
+  <enemyUseMagic>
+    <!--敌方使用法术牌时-->
+    <skill id="47" />
+  </enemyUseMagic>
+</card>

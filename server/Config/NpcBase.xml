@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="NpcBase">
+	<npc>
+	    <item id="DWORD" name="string" kind="DWORD" level="DWORD" hp="DWORD" distance="DWORD"
+		adistance="DWORD" container_="map" key_="id"/>
+	</npc>
+    </xmlpg_>
+    <npc>
+	<item id="2899" name="克拉斯" kind="7" level="100" distance="0" adistance="0" hp="1000000"/>
+	<item id="3293" name="神秘墓穴传送使者" kind="7" level="100" distance="0" adistance="0" hp="1000000"/>
+	<item id="1160" name="克里斯托弗" kind="6" level="100" distance="0" adistance="0" hp="1000000"/>
+	<item id="10006" name="灵龙树妖" kind="1" level="100" distance="960" adistance="1360" hp="1000000"/>
+	<item id="1821" name="巡逻守卫" kind="27" level="100" distance="960" adistance="1360" hp="1000000"/>
+	<item id="1517" name="阿诺德" kind="8" level="100" distance="0" adistance="0" hp="1000000"/>
+	<item id="1516" name="贝内特" kind="8" level="100" distance="0" adistance="0" hp="1000000"/>
+    </npc>
+</config>

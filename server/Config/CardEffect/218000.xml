@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="218000" name="张三丰">
+  <selfUseMagic>
+    <!--己方使用法术牌时-->
+    <skill id="59" />
+  </selfUseMagic>
+</card>

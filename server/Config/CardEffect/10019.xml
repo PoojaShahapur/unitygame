@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10019" name="流亡弓手">
+    <attendIn><!--随从进场-->
+		<condition status="8-0-0"/>
+		<skill id="63"/>
+    </attendIn>
+</card>

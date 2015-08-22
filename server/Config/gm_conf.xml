@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<conf>
+    <!--允许的网段-->
+    <gm ip="192.168.125.0" mask="255.255.255.0"/>
+    <gm ip="192.168.122.0" mask="255.255.255.0"/>
+    <!--例外的charid-->
+    <except charid="1" />
+</conf>

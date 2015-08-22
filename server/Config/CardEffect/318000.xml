@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="318000" name="灭绝师太">
+  <roundEID>
+    <!--自身回合结束时-->
+    <skill id="60" />
+  </roundEID>
+</card>

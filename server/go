@@ -1,0 +1,35 @@
+#!/bin/bash
+FLServer/FLServer -d
+roleRegServer/roleRegServer -d
+#为节省服务器资源先不要启动下面这两个
+#roleChangeServer/roleChangeServer -d
+BroadcastServer/BroadcastServer -d
+
+sleep 1
+SuperServer/SuperServer -d 
+sleep 1
+RecordServer/RecordServer -d
+sleep 1
+BillServer/BillServer -d
+#sleep 1
+#MiniServer/MiniServer -d
+sleep 1
+SessionServer/SessionServer -d
+sleep 1
+ScenesServer/ScenesServer -d
+ScenesServer/ScenesServer -d
+ScenesServer/ScenesServer -d
+ScenesServer/ScenesServer -d
+ScenesServer/ScenesServer -d
+
+#ScenesServer/ScenesServer -f ../log/sceneserver1.log -d
+#ScenesServer/ScenesServer -f ../log/sceneserver2.log -d
+#ScenesServer/ScenesServer -f ../log/sceneserver3.log -d
+#ScenesServer/ScenesServer -f ../log/sceneserver4.log -d
+#ScenesServer/ScenesServer -f ../log/sceneserver5.log -d
+
+#GatewayServer/GatewayServer -f ../log/gatewayserver1.log -d
+#GatewayServer/GatewayServer -f ../log/gatewayserver2.log -d
+GatewayServer/GatewayServer -d
+
+

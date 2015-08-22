@@ -1,0 +1,1735 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by any (Ru-Board) -->
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by xiao (xiao) -->
+<info>
+	<!--script id="3" name="村长" npcid="56000" repeat="-1" shared="1">
+		<phase action="say" str="你好，欢迎来到清源村，我是这里的村长贾仁。希望大家在这玩得尽兴。" lasttime="240"/>
+		<phase action="randomchat" lasttime="10"/>
+	</script-->
+	<!--以下是地图1065上古遗迹怪物巡逻AI -->
+	<!--左上方格怪物 -->
+	<script id="1" repeat="-1" shared="0">
+		<phase action="patrol" x="7" y="3" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="12" y="29" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="2" repeat="-1" shared="0">
+		<phase action="patrol" x="4" y="5" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="18" y="5" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--左中方格怪物 -->
+	<script id="3" repeat="-1" shared="0">
+		<phase action="patrol" x="9" y="75" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="15" y="54" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="4" repeat="-1" shared="0">
+		<phase action="patrol" x="10" y="54" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="14" y="72" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--左下方格怪物 -->
+	<script id="5" repeat="-1" shared="0">
+		<phase action="patrol" x="24" y="123" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="7" y="111" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="6" repeat="-1" shared="0">
+		<phase action="patrol" x="7" y="125" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="25" y="113" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--中上方格怪物 -->
+	<script id="7" repeat="-1" shared="0">
+		<phase action="patrol" x="62" y="8" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="62" y="25" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="8" repeat="-1" shared="0">
+		<phase action="patrol" x="66" y="10" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="59" y="22" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--中下方格怪物 -->
+	<script id="9" repeat="-1" shared="0">
+		<phase action="patrol" x="68" y="123" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="67" y="107" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="10" repeat="-1" shared="0">
+		<phase action="patrol" x="57" y="118" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="67" y="108" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--右上方格怪物 -->
+	<script id="11" repeat="-1" shared="0">
+		<phase action="patrol" x="109" y="1" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="108" y="10" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="12" repeat="-1" shared="0">
+		<phase action="patrol" x="114" y="10" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="114" y="1" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--右中方格怪物 -->
+	<script id="13" repeat="-1" shared="0">
+		<phase action="patrol" x="126" y="55" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="112" y="70" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="14" repeat="-1" shared="0">
+		<phase action="patrol" x="125" y="71" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="110" y="54" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--右下方格怪物 -->
+	<script id="15" repeat="-1" shared="0">
+		<phase action="patrol" x="116" y="110" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="125" y="104" chaseOut="4" lasttime="100"/>
+	</script>
+	<script id="16" repeat="-1" shared="0">
+		<phase action="patrol" x="118" y="112" chaseOut="4" lasttime="100"/>
+		<phase action="patrol" x="107" y="114" chaseOut="4" lasttime="100"/>
+	</script>
+	<!--地图1065上古遗迹怪物巡逻AI结束 -->
+	<script id="160" name="酒吧舞娘" npcid="1176" repeat="-1" shared="0">
+		<phase action="moveto" x="115" y="150" lasttime="1800"/>
+		<phase action="wait" x="115" y="150" lasttime="5"/>
+		<phase action="moveto" x="111" y="153" lasttime="1800"/>
+		<phase action="wait" x="111" y="153" lasttime="5"/>
+		<phase action="moveto" x="108" y="151" lasttime="1800"/>
+		<phase action="wait" x="108" y="151" lasttime="5"/>
+		<phase action="moveto" x="108" y="147" lasttime="1800"/>
+		<phase action="wait" x="108" y="147" lasttime="5"/>
+		<phase action="moveto" x="110" y="145" lasttime="1800"/>
+		<phase action="wait" x="110" y="145" lasttime="5"/>
+		<phase action="moveto" x="108" y="141" lasttime="1800"/>
+		<phase action="wait" x="108" y="141" lasttime="5"/>
+		<phase action="moveto" x="109" y="136" lasttime="1800"/>
+		<phase action="wait" x="109" y="136" lasttime="5"/>
+		<phase action="moveto" x="114" y="137" lasttime="1800"/>
+		<phase action="wait" x="114" y="137" lasttime="5"/>
+		<phase action="moveto" x="116" y="142" lasttime="1800"/>
+		<phase action="wait" x="116" y="142" lasttime="5"/>
+		<phase action="moveto" x="114" y="146" lasttime="1800"/>
+		<phase action="wait" x="114" y="146" lasttime="5"/>
+	</script>
+	<script id="1125" name="荣誉卫士" npcid="1525" repeat="-1" shared="0">
+		<phase action="wait" x="127" y="166" lasttime="1"/>
+		<phase action="moveto" x="127" y="123" lasttime="5000"/>
+		<phase action="wait" x="127" y="123" lasttime="5"/>
+		<phase action="moveto" x="127" y="166" lasttime="5000"/>
+		<phase action="wait" x="127" y="166" lasttime="1"/>
+	</script>
+	<script id="1126" name="荣誉卫士" npcid="1526" repeat="-1" shared="0">
+		<phase action="wait" x="127" y="166" lasttime="3"/>
+		<phase action="moveto" x="127" y="123" lasttime="5000"/>
+		<phase action="wait" x="127" y="123" lasttime="5"/>
+		<phase action="moveto" x="127" y="166" lasttime="5000"/>
+		<phase action="wait" x="127" y="166" lasttime="1"/>
+	</script>
+	<script id="1127" name="荣誉卫士" npcid="1527" repeat="-1" shared="0">
+		<phase action="wait" x="127" y="166" lasttime="5"/>
+		<phase action="moveto" x="127" y="123" lasttime="5000"/>
+		<phase action="wait" x="127" y="123" lasttime="5"/>
+		<phase action="moveto" x="127" y="166" lasttime="5000"/>
+		<phase action="wait" x="127" y="166" lasttime="1"/>
+	</script>
+	<script id="1128" name="荣誉卫士" npcid="1528" repeat="-1" shared="0">
+		<phase action="wait" x="127" y="166" lasttime="7"/>
+		<phase action="moveto" x="127" y="123" lasttime="5000"/>
+		<phase action="wait" x="127" y="123" lasttime="5"/>
+		<phase action="moveto" x="127" y="166" lasttime="5000"/>
+		<phase action="wait" x="127" y="166" lasttime="1"/>
+	</script>
+	<!--哈玛据点：对话内容
+-->
+	<script id="2003" repeat="1" shared="0">
+		<phase action="say" str="勇士们！我终于等到你们了！" lasttime="3"/>
+		<phase action="say" str="我对你们的英勇十分钦佩，让我们并肩作战吧！" lasttime="3"/>
+	</script>
+	<!--哈玛据点：第一波怪物移动轨迹
+-->
+	<script id="4000" repeat="1" shared="0">
+		<phase action="moveto" x="14" y="62" lasttime="30"/>
+		<phase action="moveto" x="21" y="63" lasttime="30"/>
+		<phase action="moveto" x="28" y="61" lasttime="30"/>
+		<phase action="moveto" x="38" y="60" lasttime="30"/>
+		<phase action="moveto" x="35" y="60" lasttime="30"/>
+		<phase action="moveto" x="46" y="61" lasttime="30"/>
+		<phase action="moveto" x="53" y="62" lasttime="30"/>
+		<phase action="moveto" x="60" y="64" lasttime="30"/>
+	</script>
+	<script id="4001" repeat="1" shared="0">
+		<phase action="moveto" x="12" y="65" lasttime="30"/>
+		<phase action="moveto" x="23" y="60" lasttime="30"/>
+		<phase action="moveto" x="31" y="58" lasttime="30"/>
+		<phase action="moveto" x="40" y="58" lasttime="30"/>
+		<phase action="moveto" x="47" y="58" lasttime="30"/>
+		<phase action="moveto" x="54" y="57" lasttime="30"/>
+		<phase action="moveto" x="64" y="60" lasttime="30"/>
+	</script>
+	<script id="4002" repeat="1" shared="0">
+		<phase action="moveto" x="8" y="64" lasttime="30"/>
+		<phase action="moveto" x="15" y="66" lasttime="30"/>
+		<phase action="moveto" x="23" y="65" lasttime="30"/>
+		<phase action="moveto" x="32" y="62" lasttime="30"/>
+		<phase action="moveto" x="40" y="62" lasttime="30"/>
+		<phase action="moveto" x="49" y="61" lasttime="30"/>
+		<phase action="moveto" x="56" y="65" lasttime="30"/>
+	</script>
+	<!--哈玛据点：第二波怪物移动轨迹
+-->
+	<script id="4010" repeat="1" shared="0">
+		<phase action="moveto" x="106" y="58" lasttime="30"/>
+		<phase action="moveto" x="97" y="58" lasttime="30"/>
+		<phase action="moveto" x="89" y="58" lasttime="30"/>
+		<phase action="moveto" x="82" y="58" lasttime="30"/>
+		<phase action="moveto" x="72" y="62" lasttime="30"/>
+		<phase action="moveto" x="66" y="63" lasttime="30"/>
+		<phase action="moveto" x="61" y="63" lasttime="30"/>
+	</script>
+	<script id="4011" repeat="1" shared="0">
+		<phase action="moveto" x="105" y="56" lasttime="30"/>
+		<phase action="moveto" x="95" y="54" lasttime="30"/>
+		<phase action="moveto" x="88" y="54" lasttime="30"/>
+		<phase action="moveto" x="79" y="56" lasttime="30"/>
+		<phase action="moveto" x="73" y="59" lasttime="30"/>
+		<phase action="moveto" x="66" y="59" lasttime="30"/>
+		<phase action="moveto" x="63" y="60" lasttime="30"/>
+	</script>
+	<script id="4012" repeat="1" shared="0">
+		<phase action="moveto" x="106" y="58" lasttime="30"/>
+		<phase action="moveto" x="98" y="56" lasttime="30"/>
+		<phase action="moveto" x="90" y="60" lasttime="30"/>
+		<phase action="moveto" x="80" y="63" lasttime="30"/>
+		<phase action="moveto" x="75" y="65" lasttime="30"/>
+		<phase action="moveto" x="68" y="67" lasttime="30"/>
+		<phase action="moveto" x="59" y="65" lasttime="30"/>
+	</script>
+	<!--军情官-->
+	<script id="2006" repeat="1" shared="0">
+		<phase action="moveto" x="139" y="6" lasttime="180"/>
+		<phase action="wait" x="139" y="6" lasttime="3"/>
+		<phase action="npc_communicate" str="abcd" radius="0"/>
+		<phase action="moveto" x="140" y="200" lasttime="180"/>
+		<phase action="clear" x="140" y="200" region="2" lasttime="3"/>
+	</script>
+	<!--天空城布道的牧师-->
+	<script id="2007" repeat="-1" shared="0">
+		<phase action="moveto" x="139" y="176" lasttime="180"/>
+		<phase action="wait" x="139" y="176" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="伟大的神灵，请听我虔诚的祈祷，把祝福赐予众人吧！" lasttime="3"/>
+		<phase action="moveto" x="139" y="149" lasttime="180"/>
+		<phase action="wait" x="139" y="149" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="仁爱之神啊，请降福于您的子民吧！" lasttime="3"/>
+		<phase action="moveto" x="98" y="148" lasttime="180"/>
+		<phase action="wait" x="98" y="148" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="以神之名，赐予你们最神圣的祝福！" lasttime="3"/>
+		<phase action="moveto" x="98" y="128" lasttime="180"/>
+		<phase action="wait" x="98" y="128" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="神爱世人！" lasttime="3"/>
+		<phase action="moveto" x="98" y="107" lasttime="180"/>
+		<phase action="wait" x="98" y="107" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="伟大的神灵，请听我虔诚的祈祷，把祝福赐予众人吧！" lasttime="3"/>
+		<phase action="moveto" x="112" y="107" lasttime="180"/>
+		<phase action="wait" x="112" y="107" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="为了神的荣光！" lasttime="3"/>
+		<phase action="moveto" x="138" y="107" lasttime="180"/>
+		<phase action="wait" x="138" y="107" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="仁爱之神啊，请降福于您的子民吧！" lasttime="3"/>
+		<phase action="moveto" x="163" y="107" lasttime="180"/>
+		<phase action="wait" x="163" y="107" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="伟大的神灵，请听我虔诚的祈祷，把祝福赐予众人吧！" lasttime="3"/>
+		<phase action="moveto" x="163" y="128" lasttime="180"/>
+		<phase action="wait" x="163" y="128" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="神爱世人！" lasttime="3"/>
+		<phase action="moveto" x="184" y="128" lasttime="180"/>
+		<phase action="wait" x="184" y="128" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="伟大的神灵，请听我虔诚的祈祷，把祝福赐予众人吧！" lasttime="3"/>
+		<phase action="moveto" x="176" y="150" lasttime="180"/>
+		<phase action="wait" x="176" y="150" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="仁爱之神啊，请降福于您的子民吧！" lasttime="3"/>
+		<phase action="moveto" x="156" y="154" lasttime="180"/>
+		<phase action="wait" x="156" y="154" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="神爱世人！" lasttime="3"/>
+		<phase action="moveto" x="140" y="156" lasttime="180"/>
+		<phase action="wait" x="140" y="156" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="伟大的神灵，请听我虔诚的祈祷，把祝福赐予众人吧！" lasttime="3"/>
+		<phase action="moveto" x="140" y="185" lasttime="180"/>
+		<phase action="wait" x="140" y="185" lasttime="3"/>
+		<phase action="npc_communicate" str="sky1" radius="0"/>
+		<phase action="say" str="仁爱之神啊，请降福于您的子民吧！" lasttime="3"/>
+		<phase action="moveto" x="129" y="196" lasttime="180"/>
+		<phase action="moveto" x="129" y="193" lasttime="180"/>
+		<phase action="wait" x="129" y="193" lasttime="120"/>
+	</script>
+	<!--天空城挨打的小狼-->
+	<script id="2008" repeat="1" shared="0">
+		<phase action="patrol" x="40" y="197" lasttime="240"/>
+		<phase action="wait" x="40" y="197" lasttime="4"/>
+		<phase action="say" str="呜……嗷嗷……" lasttime="3"/>
+		<phase action="patrol" x="38" y="200" lasttime="240"/>
+		<phase action="wait" x="38" y="200" lasttime="4"/>
+		<phase action="say" str="呜……嗷嗷……" lasttime="3"/>
+		<phase action="patrol" x="44" y="202" lasttime="240"/>
+		<phase action="wait" x="44" y="202" lasttime="4"/>
+		<phase action="say" str="呜……嗷嗷……" lasttime="3"/>
+		<phase action="patrol" x="46" y="196" lasttime="240"/>
+		<phase action="wait" x="46" y="196" lasttime="4"/>
+		<phase action="say" str="呜……嗷嗷……" lasttime="3"/>
+		<phase action="patrol" x="36" y="183" lasttime="240"/>
+		<phase action="clear"/>
+	</script>
+	<!--猫狗大战的AI-->
+	<script id="2020" repeat="-1" shared="0">
+		<phase action="moveto" x="135" y="150" lasttime="1000"/>
+		<phase action="npc_communicate" str="slogan" radius="0"/>
+		<phase action="moveto" x="120" y="150" lasttime="1000"/>
+		<phase action="npc_communicate" str="slogan" radius="0"/>
+		<phase action="moveto" x="120" y="135" lasttime="1000"/>
+		<phase action="npc_communicate" str="slogan" radius="0"/>
+		<phase action="moveto" x="135" y="135" lasttime="1000"/>
+		<phase action="npc_communicate" str="slogan" radius="0"/>
+	</script>
+	<!--怪物自杀的脚本-->
+	<script id="10001">
+		<phase action="clear"/>
+	</script>
+	<!--30级经验镖行进路线1-->
+	<script id="2009" repeat="1" shared="0">
+		<phase action="moveto" x="200" y="42" lasttime="100000"/>
+		<phase action="moveto" x="200" y="48" lasttime="100000"/>
+		<phase action="moveto" x="200" y="54" lasttime="100000"/>
+		<phase action="moveto" x="216" y="54" lasttime="100000"/>
+		<phase action="moveto" x="232" y="54" lasttime="100000"/>
+		<phase action="moveto" x="232" y="70" lasttime="100000"/>
+		<phase action="moveto" x="232" y="85" lasttime="100000"/>
+		<phase action="moveto" x="232" y="100" lasttime="100000"/>
+		<phase action="moveto" x="232" y="114" lasttime="100000"/>
+		<phase action="moveto" x="216" y="114" lasttime="100000"/>
+		<phase action="moveto" x="200" y="114" lasttime="100000"/>
+		<phase action="moveto" x="185" y="114" lasttime="100000"/>
+		<phase action="moveto" x="170" y="114" lasttime="100000"/>
+		<phase action="moveto" x="160" y="114" lasttime="100000"/>
+		<phase action="moveto" x="160" y="130" lasttime="100000"/>
+		<phase action="moveto" x="160" y="145" lasttime="100000"/>
+		<phase action="moveto" x="160" y="160" lasttime="100000"/>
+		<phase action="moveto" x="160" y="176" lasttime="100000"/>
+		<phase action="moveto" x="145" y="176" lasttime="100000"/>
+		<phase action="moveto" x="135" y="176" lasttime="100000"/>
+		<phase action="moveto" x="124" y="176" lasttime="100000"/>
+		<phase action="moveto" x="124" y="190" lasttime="100000"/>
+		<phase action="moveto" x="124" y="200" lasttime="100000"/>
+		<phase action="moveto" x="124" y="214" lasttime="100000"/>
+		<phase action="moveto" x="128" y="214" lasttime="100000"/>
+		<phase action="moveto" x="128" y="230" lasttime="100000"/>
+		<phase action="moveto" x="128" y="240" lasttime="100000"/>
+		<phase action="moveto" x="128" y="245" lasttime="100000"/>
+		<!--史坎布雷城到佣兵营地-->
+		<phase action="changemap" str="佣兵营地" x="143" y="8" lasttime="10"/>
+		<phase action="moveto" x="120" y="34" lasttime="100000"/>
+		<phase action="moveto" x="107" y="49" lasttime="100000"/>
+	</script>
+	<!--30级钱镖行进路线2-->
+	<script id="2101" repeat="1" shared="0">
+		<phase action="moveto" x="120" y="34" lasttime="100000"/>
+		<phase action="moveto" x="143" y="8" lasttime="100000"/>
+		<phase action="moveto" x="145" y="5" lasttime="100000"/>
+		<!--佣兵营地到史坎布雷城-->
+		<phase action="changemap" str="史坎布雷城" x="128" y="242" lasttime="10"/>
+		<phase action="moveto" x="128" y="236" lasttime="100000"/>
+		<phase action="moveto" x="128" y="230" lasttime="100000"/>
+		<phase action="moveto" x="128" y="214" lasttime="100000"/>
+		<phase action="moveto" x="124" y="214" lasttime="100000"/>
+		<phase action="moveto" x="124" y="200" lasttime="100000"/>
+		<phase action="moveto" x="124" y="190" lasttime="100000"/>
+		<phase action="moveto" x="124" y="176" lasttime="100000"/>
+		<phase action="moveto" x="135" y="176" lasttime="100000"/>
+		<phase action="moveto" x="145" y="176" lasttime="100000"/>
+		<phase action="moveto" x="160" y="176" lasttime="100000"/>
+		<phase action="moveto" x="160" y="160" lasttime="100000"/>
+		<phase action="moveto" x="160" y="145" lasttime="100000"/>
+		<phase action="moveto" x="160" y="130" lasttime="100000"/>
+		<phase action="moveto" x="160" y="114" lasttime="100000"/>
+		<phase action="moveto" x="170" y="114" lasttime="100000"/>
+		<phase action="moveto" x="185" y="114" lasttime="100000"/>
+		<phase action="moveto" x="200" y="114" lasttime="100000"/>
+		<phase action="moveto" x="216" y="114" lasttime="100000"/>
+		<phase action="moveto" x="232" y="114" lasttime="100000"/>
+		<phase action="moveto" x="232" y="100" lasttime="100000"/>
+		<phase action="moveto" x="232" y="85" lasttime="100000"/>
+		<phase action="moveto" x="232" y="70" lasttime="100000"/>
+		<phase action="moveto" x="232" y="54" lasttime="100000"/>
+		<phase action="moveto" x="216" y="54" lasttime="100000"/>
+		<phase action="moveto" x="200" y="54" lasttime="100000"/>
+		<phase action="moveto" x="200" y="48" lasttime="100000"/>
+		<phase action="moveto" x="200" y="42" lasttime="100000"/>
+		<phase action="moveto" x="183" y="42" lasttime="100000"/>
+	</script>
+	<!--50级经验运镖行进路线1-->
+	<script id="2102" repeat="1" shared="0">
+		<phase action="moveto" x="200" y="42" lasttime="100000"/>
+		<phase action="moveto" x="200" y="48" lasttime="100000"/>
+		<phase action="moveto" x="200" y="54" lasttime="100000"/>
+		<phase action="moveto" x="216" y="54" lasttime="100000"/>
+		<phase action="moveto" x="232" y="54" lasttime="100000"/>
+		<phase action="moveto" x="232" y="70" lasttime="100000"/>
+		<phase action="moveto" x="232" y="85" lasttime="100000"/>
+		<phase action="moveto" x="232" y="100" lasttime="100000"/>
+		<phase action="moveto" x="232" y="114" lasttime="100000"/>
+		<phase action="moveto" x="216" y="114" lasttime="100000"/>
+		<phase action="moveto" x="200" y="114" lasttime="100000"/>
+		<phase action="moveto" x="185" y="114" lasttime="100000"/>
+		<phase action="moveto" x="170" y="114" lasttime="100000"/>
+		<phase action="moveto" x="160" y="114" lasttime="100000"/>
+		<phase action="moveto" x="160" y="130" lasttime="100000"/>
+		<phase action="moveto" x="160" y="145" lasttime="100000"/>
+		<phase action="moveto" x="160" y="160" lasttime="100000"/>
+		<phase action="moveto" x="160" y="176" lasttime="100000"/>
+		<phase action="moveto" x="145" y="176" lasttime="100000"/>
+		<phase action="moveto" x="135" y="176" lasttime="100000"/>
+		<phase action="moveto" x="124" y="176" lasttime="100000"/>
+		<phase action="moveto" x="124" y="190" lasttime="100000"/>
+		<phase action="moveto" x="124" y="200" lasttime="100000"/>
+		<phase action="moveto" x="124" y="214" lasttime="100000"/>
+		<phase action="moveto" x="128" y="214" lasttime="100000"/>
+		<phase action="moveto" x="128" y="230" lasttime="100000"/>
+		<phase action="moveto" x="128" y="240" lasttime="100000"/>
+		<!--史坎布雷城到佣兵营地-->
+		<phase action="moveto" x="128" y="245" lasttime="100000"/>
+		<phase action="changemap" str="佣兵营地" x="143" y="8" lasttime="10"/>
+		<phase action="moveto" x="143" y="15" lasttime="100000"/>
+		<phase action="moveto" x="123" y="15" lasttime="100000"/>
+		<phase action="moveto" x="123" y="38" lasttime="100000"/>
+		<phase action="moveto" x="135" y="38" lasttime="100000"/>
+		<phase action="moveto" x="135" y="51" lasttime="100000"/>
+		<phase action="moveto" x="132" y="51" lasttime="100000"/>
+		<phase action="moveto" x="132" y="65" lasttime="100000"/>
+		<phase action="moveto" x="130" y="65" lasttime="100000"/>
+		<phase action="moveto" x="130" y="80" lasttime="100000"/>
+		<phase action="moveto" x="130" y="92" lasttime="100000"/>
+		<phase action="moveto" x="130" y="105" lasttime="100000"/>
+		<phase action="moveto" x="118" y="118" lasttime="100000"/>
+		<phase action="moveto" x="111" y="132" lasttime="100000"/>
+		<phase action="moveto" x="108" y="150" lasttime="100000"/>
+		<phase action="moveto" x="118" y="116" lasttime="100000"/>
+		<phase action="moveto" x="135" y="173" lasttime="100000"/>
+		<phase action="moveto" x="145" y="194" lasttime="100000"/>
+		<phase action="moveto" x="155" y="198" lasttime="100000"/>
+		<phase action="moveto" x="168" y="216" lasttime="100000"/>
+		<phase action="moveto" x="186" y="221" lasttime="100000"/>
+		<phase action="moveto" x="212" y="228" lasttime="100000"/>
+		<phase action="moveto" x="220" y="241" lasttime="100000"/>
+		<phase action="moveto" x="231" y="248" lasttime="100000"/>
+		<phase action="moveto" x="231" y="250" lasttime="100000"/>
+		<!--佣兵营地到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="8" y="20" lasttime="10"/>
+		<phase action="moveto" x="16" y="27" lasttime="100000"/>
+		<phase action="moveto" x="26" y="32" lasttime="100000"/>
+		<phase action="moveto" x="31" y="46" lasttime="100000"/>
+		<phase action="moveto" x="42" y="60" lasttime="100000"/>
+		<phase action="moveto" x="48" y="73" lasttime="100000"/>
+		<phase action="moveto" x="67" y="87" lasttime="100000"/>
+		<phase action="moveto" x="84" y="91" lasttime="100000"/>
+		<phase action="moveto" x="89" y="100" lasttime="100000"/>
+		<phase action="moveto" x="93" y="113" lasttime="100000"/>
+		<phase action="moveto" x="96" y="124" lasttime="100000"/>
+		<phase action="moveto" x="113" y="126" lasttime="100000"/>
+		<phase action="moveto" x="132" y="132" lasttime="100000"/>
+		<phase action="moveto" x="153" y="151" lasttime="100000"/>
+		<phase action="moveto" x="179" y="164" lasttime="100000"/>
+		<phase action="moveto" x="203" y="177" lasttime="100000"/>
+		<phase action="moveto" x="216" y="167" lasttime="100000"/>
+		<phase action="moveto" x="232" y="147" lasttime="100000"/>
+		<phase action="moveto" x="241" y="132" lasttime="100000"/>
+		<phase action="moveto" x="249" y="122" lasttime="100000"/>
+	</script>
+	<!--50级运钱镖行进路线2-->
+	<script id="2103" repeat="1" shared="0">
+		<phase action="moveto" x="241" y="132" lasttime="100000"/>
+		<phase action="moveto" x="232" y="147" lasttime="100000"/>
+		<phase action="moveto" x="216" y="167" lasttime="100000"/>
+		<phase action="moveto" x="203" y="177" lasttime="100000"/>
+		<phase action="moveto" x="179" y="164" lasttime="100000"/>
+		<phase action="moveto" x="153" y="151" lasttime="100000"/>
+		<phase action="moveto" x="132" y="132" lasttime="100000"/>
+		<phase action="moveto" x="113" y="126" lasttime="100000"/>
+		<phase action="moveto" x="96" y="124" lasttime="100000"/>
+		<phase action="moveto" x="93" y="113" lasttime="100000"/>
+		<phase action="moveto" x="89" y="100" lasttime="100000"/>
+		<phase action="moveto" x="84" y="91" lasttime="100000"/>
+		<phase action="moveto" x="67" y="87" lasttime="100000"/>
+		<phase action="moveto" x="48" y="73" lasttime="100000"/>
+		<phase action="moveto" x="42" y="60" lasttime="100000"/>
+		<phase action="moveto" x="31" y="46" lasttime="100000"/>
+		<phase action="moveto" x="26" y="32" lasttime="100000"/>
+		<phase action="moveto" x="16" y="27" lasttime="100000"/>
+		<phase action="moveto" x="8" y="20" lasttime="100000"/>
+		<phase action="moveto" x="6" y="15" lasttime="100000"/>
+		<!--落日峡谷到佣兵营地-->
+		<phase action="changemap" str="佣兵营地" x="225" y="246" lasttime="10"/>
+		<phase action="moveto" x="220" y="241" lasttime="100000"/>
+		<phase action="moveto" x="212" y="228" lasttime="100000"/>
+		<phase action="moveto" x="186" y="221" lasttime="100000"/>
+		<phase action="moveto" x="168" y="216" lasttime="100000"/>
+		<phase action="moveto" x="155" y="198" lasttime="100000"/>
+		<phase action="moveto" x="145" y="194" lasttime="100000"/>
+		<phase action="moveto" x="135" y="173" lasttime="100000"/>
+		<phase action="moveto" x="105" y="150" lasttime="100000"/>
+		<phase action="moveto" x="109" y="137" lasttime="100000"/>
+		<phase action="moveto" x="118" y="116" lasttime="100000"/>
+		<phase action="moveto" x="130" y="105" lasttime="100000"/>
+		<phase action="moveto" x="130" y="92" lasttime="100000"/>
+		<phase action="moveto" x="130" y="80" lasttime="100000"/>
+		<phase action="moveto" x="130" y="65" lasttime="100000"/>
+		<phase action="moveto" x="132" y="65" lasttime="100000"/>
+		<phase action="moveto" x="132" y="51" lasttime="100000"/>
+		<phase action="moveto" x="135" y="51" lasttime="100000"/>
+		<phase action="moveto" x="135" y="38" lasttime="100000"/>
+		<phase action="moveto" x="123" y="38" lasttime="100000"/>
+		<phase action="moveto" x="123" y="15" lasttime="100000"/>
+		<phase action="moveto" x="143" y="15" lasttime="100000"/>
+		<phase action="moveto" x="145" y="5" lasttime="100000"/>
+		<!--佣兵营地到史坎布雷城-->
+		<phase action="changemap" str="史坎布雷城" x="128" y="242" lasttime="10"/>
+		<phase action="moveto" x="128" y="230" lasttime="100000"/>
+		<phase action="moveto" x="128" y="214" lasttime="100000"/>
+		<phase action="moveto" x="124" y="214" lasttime="100000"/>
+		<phase action="moveto" x="124" y="200" lasttime="100000"/>
+		<phase action="moveto" x="124" y="190" lasttime="100000"/>
+		<phase action="moveto" x="124" y="176" lasttime="100000"/>
+		<phase action="moveto" x="135" y="176" lasttime="100000"/>
+		<phase action="moveto" x="145" y="176" lasttime="100000"/>
+		<phase action="moveto" x="160" y="176" lasttime="100000"/>
+		<phase action="moveto" x="160" y="160" lasttime="100000"/>
+		<phase action="moveto" x="160" y="145" lasttime="100000"/>
+		<phase action="moveto" x="160" y="130" lasttime="100000"/>
+		<phase action="moveto" x="160" y="114" lasttime="100000"/>
+		<phase action="moveto" x="170" y="114" lasttime="100000"/>
+		<phase action="moveto" x="185" y="114" lasttime="100000"/>
+		<phase action="moveto" x="200" y="114" lasttime="100000"/>
+		<phase action="moveto" x="216" y="114" lasttime="100000"/>
+		<phase action="moveto" x="232" y="114" lasttime="100000"/>
+		<phase action="moveto" x="232" y="100" lasttime="100000"/>
+		<phase action="moveto" x="232" y="85" lasttime="100000"/>
+		<phase action="moveto" x="232" y="70" lasttime="100000"/>
+		<phase action="moveto" x="232" y="54" lasttime="100000"/>
+		<phase action="moveto" x="216" y="54" lasttime="100000"/>
+		<phase action="moveto" x="200" y="54" lasttime="100000"/>
+		<phase action="moveto" x="200" y="48" lasttime="100000"/>
+		<phase action="moveto" x="200" y="42" lasttime="100000"/>
+		<phase action="moveto" x="183" y="42" lasttime="100000"/>
+	</script>
+	<!--80级经验运镖行进路线1-->
+	<script id="2104" repeat="1" shared="0">
+		<phase action="moveto" x="343" y="165" lasttime="100000"/>
+		<phase action="moveto" x="357" y="166" lasttime="100000"/>
+		<phase action="moveto" x="362" y="168" lasttime="100000"/>
+		<phase action="moveto" x="380" y="169" lasttime="100000"/>
+		<phase action="moveto" x="379" y="178" lasttime="100000"/>
+		<phase action="moveto" x="374" y="182" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="379" y="200" lasttime="100000"/>
+		<phase action="moveto" x="380" y="208" lasttime="100000"/>
+		<phase action="moveto" x="373" y="225" lasttime="100000"/>
+		<phase action="moveto" x="375" y="253" lasttime="100000"/>
+		<phase action="moveto" x="415" y="253" lasttime="100000"/>
+		<phase action="moveto" x="431" y="241" lasttime="100000"/>
+		<phase action="moveto" x="440" y="212" lasttime="100000"/>
+		<phase action="moveto" x="445" y="171" lasttime="100000"/>
+		<phase action="moveto" x="456" y="158" lasttime="100000"/>
+		<phase action="moveto" x="462" y="134" lasttime="100000"/>
+		<phase action="moveto" x="456" y="120" lasttime="100000"/>
+		<phase action="moveto" x="458" y="80" lasttime="100000"/>
+		<phase action="moveto" x="463" y="54" lasttime="100000"/>
+		<phase action="moveto" x="465" y="30" lasttime="100000"/>
+		<phase action="moveto" x="469" y="9" lasttime="100000"/>
+		<!--红石城到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="12" y="245" lasttime="10"/>
+		<phase action="moveto" x="28" y="245" lasttime="100000"/>
+		<phase action="moveto" x="28" y="249" lasttime="100000"/>
+		<phase action="moveto" x="46" y="249" lasttime="100000"/>
+		<phase action="moveto" x="62" y="249" lasttime="100000"/>
+		<phase action="moveto" x="62" y="210" lasttime="100000"/>
+		<phase action="moveto" x="52" y="193" lasttime="100000"/>
+		<phase action="moveto" x="60" y="177" lasttime="100000"/>
+		<phase action="moveto" x="70" y="164" lasttime="100000"/>
+		<phase action="moveto" x="82" y="152" lasttime="100000"/>
+		<phase action="moveto" x="97" y="128" lasttime="100000"/>
+		<phase action="moveto" x="117" y="113" lasttime="100000"/>
+		<phase action="moveto" x="146" y="106" lasttime="100000"/>
+		<phase action="moveto" x="162" y="102" lasttime="100000"/>
+		<phase action="moveto" x="169" y="90" lasttime="100000"/>
+		<phase action="moveto" x="165" y="72" lasttime="100000"/>
+		<phase action="moveto" x="169" y="55" lasttime="100000"/>
+		<phase action="moveto" x="184" y="38" lasttime="100000"/>
+		<phase action="moveto" x="203" y="27" lasttime="100000"/>
+		<phase action="moveto" x="225" y="19" lasttime="100000"/>
+		<phase action="moveto" x="240" y="9" lasttime="100000"/>
+		<phase action="moveto" x="245" y="7" lasttime="100000"/>
+		<!--落日峡谷到眠龙城-->
+		<phase action="changemap" str="眠龙城" x="19" y="249" lasttime="10"/>
+		<phase action="moveto" x="36" y="232" lasttime="100000"/>
+		<phase action="moveto" x="51" y="220" lasttime="100000"/>
+		<phase action="moveto" x="88" y="220" lasttime="100000"/>
+		<phase action="moveto" x="113" y="220" lasttime="100000"/>
+		<phase action="moveto" x="113" y="215" lasttime="100000"/>
+		<phase action="moveto" x="131" y="215" lasttime="100000"/>
+		<phase action="moveto" x="144" y="215" lasttime="100000"/>
+		<phase action="moveto" x="159" y="204" lasttime="100000"/>
+		<phase action="moveto" x="177" y="204" lasttime="100000"/>
+		<phase action="moveto" x="196" y="204" lasttime="100000"/>
+		<phase action="moveto" x="196" y="155" lasttime="100000"/>
+		<phase action="moveto" x="190" y="155" lasttime="100000"/>
+		<phase action="moveto" x="190" y="144" lasttime="100000"/>
+		<phase action="moveto" x="176" y="144" lasttime="100000"/>
+		<phase action="moveto" x="162" y="144" lasttime="100000"/>
+	</script>
+	<!--80级运钱镖行进路线2-->
+	<script id="2105" repeat="1" shared="0">
+		<phase action="moveto" x="166" y="144" lasttime="100000"/>
+		<phase action="moveto" x="176" y="144" lasttime="100000"/>
+		<phase action="moveto" x="190" y="144" lasttime="100000"/>
+		<phase action="moveto" x="190" y="155" lasttime="100000"/>
+		<phase action="moveto" x="196" y="155" lasttime="100000"/>
+		<phase action="moveto" x="196" y="204" lasttime="100000"/>
+		<phase action="moveto" x="177" y="204" lasttime="100000"/>
+		<phase action="moveto" x="159" y="204" lasttime="100000"/>
+		<phase action="moveto" x="144" y="215" lasttime="100000"/>
+		<phase action="moveto" x="131" y="215" lasttime="100000"/>
+		<phase action="moveto" x="113" y="215" lasttime="100000"/>
+		<phase action="moveto" x="113" y="220" lasttime="100000"/>
+		<phase action="moveto" x="88" y="220" lasttime="100000"/>
+		<phase action="moveto" x="51" y="220" lasttime="100000"/>
+		<phase action="moveto" x="36" y="232" lasttime="100000"/>
+		<phase action="moveto" x="19" y="249" lasttime="100000"/>
+		<!--眠龙城到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="244" y="6" lasttime="10"/>
+		<phase action="moveto" x="225" y="19" lasttime="100000"/>
+		<phase action="moveto" x="203" y="27" lasttime="100000"/>
+		<phase action="moveto" x="184" y="38" lasttime="100000"/>
+		<phase action="moveto" x="169" y="55" lasttime="100000"/>
+		<phase action="moveto" x="165" y="72" lasttime="100000"/>
+		<phase action="moveto" x="169" y="90" lasttime="100000"/>
+		<phase action="moveto" x="162" y="102" lasttime="100000"/>
+		<phase action="moveto" x="146" y="106" lasttime="100000"/>
+		<phase action="moveto" x="117" y="113" lasttime="100000"/>
+		<phase action="moveto" x="97" y="128" lasttime="100000"/>
+		<phase action="moveto" x="82" y="152" lasttime="100000"/>
+		<phase action="moveto" x="70" y="164" lasttime="100000"/>
+		<phase action="moveto" x="60" y="177" lasttime="100000"/>
+		<phase action="moveto" x="52" y="193" lasttime="100000"/>
+		<phase action="moveto" x="62" y="210" lasttime="100000"/>
+		<phase action="moveto" x="62" y="249" lasttime="100000"/>
+		<phase action="moveto" x="46" y="249" lasttime="100000"/>
+		<phase action="moveto" x="28" y="249" lasttime="100000"/>
+		<phase action="moveto" x="28" y="245" lasttime="100000"/>
+		<phase action="moveto" x="12" y="245" lasttime="100000"/>
+		<phase action="moveto" x="6" y="248" lasttime="100000"/>
+		<!--落日峡谷到红石城-->
+		<phase action="changemap" str="红石城" x="470" y="14" lasttime="10"/>
+		<phase action="moveto" x="469" y="9" lasttime="100000"/>
+		<phase action="moveto" x="465" y="30" lasttime="100000"/>
+		<phase action="moveto" x="463" y="54" lasttime="100000"/>
+		<phase action="moveto" x="458" y="80" lasttime="100000"/>
+		<phase action="moveto" x="456" y="120" lasttime="100000"/>
+		<phase action="moveto" x="462" y="134" lasttime="100000"/>
+		<phase action="moveto" x="456" y="158" lasttime="100000"/>
+		<phase action="moveto" x="445" y="171" lasttime="100000"/>
+		<phase action="moveto" x="440" y="212" lasttime="100000"/>
+		<phase action="moveto" x="431" y="241" lasttime="100000"/>
+		<phase action="moveto" x="415" y="253" lasttime="100000"/>
+		<phase action="moveto" x="375" y="253" lasttime="100000"/>
+		<phase action="moveto" x="373" y="225" lasttime="100000"/>
+		<phase action="moveto" x="380" y="208" lasttime="100000"/>
+		<phase action="moveto" x="379" y="200" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="374" y="182" lasttime="100000"/>
+		<phase action="moveto" x="379" y="178" lasttime="100000"/>
+		<phase action="moveto" x="380" y="169" lasttime="100000"/>
+		<phase action="moveto" x="362" y="168" lasttime="100000"/>
+		<phase action="moveto" x="357" y="166" lasttime="100000"/>
+		<phase action="moveto" x="343" y="165" lasttime="100000"/>
+		<phase action="moveto" x="333" y="145" lasttime="100000"/>
+	</script>
+	<!--100级经验运镖行进路线1-->
+	<script id="2106" repeat="1" shared="0">
+		<phase action="moveto" x="343" y="165" lasttime="100000"/>
+		<phase action="moveto" x="357" y="166" lasttime="100000"/>
+		<phase action="moveto" x="362" y="168" lasttime="100000"/>
+		<phase action="moveto" x="380" y="169" lasttime="100000"/>
+		<phase action="moveto" x="379" y="178" lasttime="100000"/>
+		<phase action="moveto" x="374" y="182" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="379" y="200" lasttime="100000"/>
+		<phase action="moveto" x="380" y="208" lasttime="100000"/>
+		<phase action="moveto" x="373" y="225" lasttime="100000"/>
+		<phase action="moveto" x="375" y="253" lasttime="100000"/>
+		<phase action="moveto" x="415" y="253" lasttime="100000"/>
+		<phase action="moveto" x="431" y="241" lasttime="100000"/>
+		<phase action="moveto" x="440" y="212" lasttime="100000"/>
+		<phase action="moveto" x="445" y="171" lasttime="100000"/>
+		<phase action="moveto" x="456" y="158" lasttime="100000"/>
+		<phase action="moveto" x="462" y="134" lasttime="100000"/>
+		<phase action="moveto" x="456" y="120" lasttime="100000"/>
+		<phase action="moveto" x="458" y="80" lasttime="100000"/>
+		<phase action="moveto" x="463" y="54" lasttime="100000"/>
+		<phase action="moveto" x="465" y="30" lasttime="100000"/>
+		<phase action="moveto" x="469" y="9" lasttime="100000"/>
+		<!--红石城到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="12" y="245" lasttime="10"/>
+		<phase action="moveto" x="28" y="245" lasttime="100000"/>
+		<phase action="moveto" x="28" y="249" lasttime="100000"/>
+		<phase action="moveto" x="46" y="249" lasttime="100000"/>
+		<phase action="moveto" x="62" y="249" lasttime="100000"/>
+		<phase action="moveto" x="62" y="210" lasttime="100000"/>
+		<phase action="moveto" x="52" y="193" lasttime="100000"/>
+		<phase action="moveto" x="60" y="177" lasttime="100000"/>
+		<phase action="moveto" x="70" y="164" lasttime="100000"/>
+		<phase action="moveto" x="82" y="152" lasttime="100000"/>
+		<phase action="moveto" x="97" y="128" lasttime="100000"/>
+		<phase action="moveto" x="117" y="113" lasttime="100000"/>
+		<phase action="moveto" x="146" y="106" lasttime="100000"/>
+		<phase action="moveto" x="162" y="102" lasttime="100000"/>
+		<phase action="moveto" x="169" y="90" lasttime="100000"/>
+		<phase action="moveto" x="165" y="72" lasttime="100000"/>
+		<phase action="moveto" x="169" y="55" lasttime="100000"/>
+		<phase action="moveto" x="184" y="38" lasttime="100000"/>
+		<phase action="moveto" x="203" y="27" lasttime="100000"/>
+		<phase action="moveto" x="225" y="19" lasttime="100000"/>
+		<phase action="moveto" x="240" y="9" lasttime="100000"/>
+		<phase action="moveto" x="245" y="7" lasttime="100000"/>
+		<!--落日峡谷到眠龙城-->
+		<phase action="changemap" str="眠龙城" x="19" y="249" lasttime="10"/>
+		<phase action="moveto" x="36" y="232" lasttime="100000"/>
+		<phase action="moveto" x="51" y="220" lasttime="100000"/>
+		<phase action="moveto" x="88" y="220" lasttime="100000"/>
+		<phase action="moveto" x="113" y="220" lasttime="100000"/>
+		<phase action="moveto" x="113" y="215" lasttime="100000"/>
+		<phase action="moveto" x="131" y="215" lasttime="100000"/>
+		<phase action="moveto" x="144" y="215" lasttime="100000"/>
+		<phase action="moveto" x="159" y="204" lasttime="100000"/>
+		<phase action="moveto" x="177" y="204" lasttime="100000"/>
+		<phase action="moveto" x="196" y="204" lasttime="100000"/>
+		<phase action="moveto" x="196" y="155" lasttime="100000"/>
+		<phase action="moveto" x="190" y="155" lasttime="100000"/>
+		<phase action="moveto" x="190" y="144" lasttime="100000"/>
+		<phase action="moveto" x="176" y="144" lasttime="100000"/>
+		<phase action="moveto" x="162" y="144" lasttime="100000"/>
+	</script>
+	<!--100级运钱镖行进路线2-->
+	<script id="2107" repeat="1" shared="0">
+		<phase action="moveto" x="166" y="144" lasttime="100000"/>
+		<phase action="moveto" x="176" y="144" lasttime="100000"/>
+		<phase action="moveto" x="190" y="144" lasttime="100000"/>
+		<phase action="moveto" x="190" y="155" lasttime="100000"/>
+		<phase action="moveto" x="196" y="155" lasttime="100000"/>
+		<phase action="moveto" x="196" y="204" lasttime="100000"/>
+		<phase action="moveto" x="177" y="204" lasttime="100000"/>
+		<phase action="moveto" x="159" y="204" lasttime="100000"/>
+		<phase action="moveto" x="144" y="215" lasttime="100000"/>
+		<phase action="moveto" x="131" y="215" lasttime="100000"/>
+		<phase action="moveto" x="113" y="215" lasttime="100000"/>
+		<phase action="moveto" x="113" y="220" lasttime="100000"/>
+		<phase action="moveto" x="88" y="220" lasttime="100000"/>
+		<phase action="moveto" x="51" y="220" lasttime="100000"/>
+		<phase action="moveto" x="36" y="232" lasttime="100000"/>
+		<phase action="moveto" x="19" y="249" lasttime="100000"/>
+		<!--眠龙城到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="244" y="6" lasttime="10"/>
+		<phase action="moveto" x="225" y="19" lasttime="100000"/>
+		<phase action="moveto" x="203" y="27" lasttime="100000"/>
+		<phase action="moveto" x="184" y="38" lasttime="100000"/>
+		<phase action="moveto" x="169" y="55" lasttime="100000"/>
+		<phase action="moveto" x="165" y="72" lasttime="100000"/>
+		<phase action="moveto" x="169" y="90" lasttime="100000"/>
+		<phase action="moveto" x="162" y="102" lasttime="100000"/>
+		<phase action="moveto" x="146" y="106" lasttime="100000"/>
+		<phase action="moveto" x="117" y="113" lasttime="100000"/>
+		<phase action="moveto" x="97" y="128" lasttime="100000"/>
+		<phase action="moveto" x="82" y="152" lasttime="100000"/>
+		<phase action="moveto" x="70" y="164" lasttime="100000"/>
+		<phase action="moveto" x="60" y="177" lasttime="100000"/>
+		<phase action="moveto" x="52" y="193" lasttime="100000"/>
+		<phase action="moveto" x="62" y="210" lasttime="100000"/>
+		<phase action="moveto" x="62" y="249" lasttime="100000"/>
+		<phase action="moveto" x="46" y="249" lasttime="100000"/>
+		<phase action="moveto" x="28" y="249" lasttime="100000"/>
+		<phase action="moveto" x="28" y="245" lasttime="100000"/>
+		<phase action="moveto" x="12" y="245" lasttime="100000"/>
+		<phase action="moveto" x="6" y="248" lasttime="100000"/>
+		<!--落日峡谷到红石城-->
+		<phase action="changemap" str="红石城" x="470" y="14" lasttime="10"/>
+		<phase action="moveto" x="469" y="9" lasttime="100000"/>
+		<phase action="moveto" x="465" y="30" lasttime="100000"/>
+		<phase action="moveto" x="463" y="54" lasttime="100000"/>
+		<phase action="moveto" x="458" y="80" lasttime="100000"/>
+		<phase action="moveto" x="456" y="120" lasttime="100000"/>
+		<phase action="moveto" x="462" y="134" lasttime="100000"/>
+		<phase action="moveto" x="456" y="158" lasttime="100000"/>
+		<phase action="moveto" x="445" y="171" lasttime="100000"/>
+		<phase action="moveto" x="440" y="212" lasttime="100000"/>
+		<phase action="moveto" x="431" y="241" lasttime="100000"/>
+		<phase action="moveto" x="415" y="253" lasttime="100000"/>
+		<phase action="moveto" x="375" y="253" lasttime="100000"/>
+		<phase action="moveto" x="373" y="225" lasttime="100000"/>
+		<phase action="moveto" x="380" y="208" lasttime="100000"/>
+		<phase action="moveto" x="379" y="200" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="374" y="182" lasttime="100000"/>
+		<phase action="moveto" x="379" y="178" lasttime="100000"/>
+		<phase action="moveto" x="380" y="169" lasttime="100000"/>
+		<phase action="moveto" x="362" y="168" lasttime="100000"/>
+		<phase action="moveto" x="357" y="166" lasttime="100000"/>
+		<phase action="moveto" x="343" y="165" lasttime="100000"/>
+		<phase action="moveto" x="333" y="145" lasttime="100000"/>
+	</script>
+	<!--120级经验运镖行进路线1-->
+	<script id="2108" repeat="1" shared="0">
+		<phase action="moveto" x="343" y="165" lasttime="100000"/>
+		<phase action="moveto" x="357" y="166" lasttime="100000"/>
+		<phase action="moveto" x="362" y="168" lasttime="100000"/>
+		<phase action="moveto" x="380" y="169" lasttime="100000"/>
+		<phase action="moveto" x="379" y="178" lasttime="100000"/>
+		<phase action="moveto" x="374" y="182" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="379" y="200" lasttime="100000"/>
+		<phase action="moveto" x="380" y="208" lasttime="100000"/>
+		<phase action="moveto" x="373" y="225" lasttime="100000"/>
+		<phase action="moveto" x="375" y="253" lasttime="100000"/>
+		<phase action="moveto" x="415" y="253" lasttime="100000"/>
+		<phase action="moveto" x="431" y="241" lasttime="100000"/>
+		<phase action="moveto" x="440" y="212" lasttime="100000"/>
+		<phase action="moveto" x="445" y="171" lasttime="100000"/>
+		<phase action="moveto" x="456" y="158" lasttime="100000"/>
+		<phase action="moveto" x="462" y="134" lasttime="100000"/>
+		<phase action="moveto" x="456" y="120" lasttime="100000"/>
+		<phase action="moveto" x="458" y="80" lasttime="100000"/>
+		<phase action="moveto" x="463" y="54" lasttime="100000"/>
+		<phase action="moveto" x="465" y="30" lasttime="100000"/>
+		<phase action="moveto" x="469" y="9" lasttime="100000"/>
+		<!--红石城到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="12" y="245" lasttime="10"/>
+		<phase action="moveto" x="28" y="245" lasttime="100000"/>
+		<phase action="moveto" x="28" y="249" lasttime="100000"/>
+		<phase action="moveto" x="46" y="249" lasttime="100000"/>
+		<phase action="moveto" x="62" y="249" lasttime="100000"/>
+		<phase action="moveto" x="62" y="210" lasttime="100000"/>
+		<phase action="moveto" x="52" y="193" lasttime="100000"/>
+		<phase action="moveto" x="60" y="177" lasttime="100000"/>
+		<phase action="moveto" x="70" y="164" lasttime="100000"/>
+		<phase action="moveto" x="82" y="152" lasttime="100000"/>
+		<phase action="moveto" x="97" y="128" lasttime="100000"/>
+		<phase action="moveto" x="127" y="127" lasttime="100000"/>
+		<phase action="moveto" x="145" y="145" lasttime="100000"/>
+		<phase action="moveto" x="160" y="160" lasttime="100000"/>
+		<phase action="moveto" x="182" y="166" lasttime="100000"/>
+		<phase action="moveto" x="200" y="178" lasttime="100000"/>
+		<phase action="moveto" x="219" y="166" lasttime="100000"/>
+		<phase action="moveto" x="228" y="152" lasttime="100000"/>
+		<phase action="moveto" x="241" y="130" lasttime="100000"/>
+		<phase action="moveto" x="247" y="105" lasttime="100000"/>
+		<!--落日峡谷到元素走廊-->
+		<phase action="changemap" str="元素走廊" x="11" y="11" lasttime="10"/>
+		<phase action="moveto" x="23" y="30" lasttime="100000"/>
+		<phase action="moveto" x="33" y="43" lasttime="100000"/>
+		<phase action="moveto" x="48" y="54" lasttime="100000"/>
+		<phase action="moveto" x="60" y="46" lasttime="100000"/>
+		<phase action="moveto" x="79" y="42" lasttime="100000"/>
+		<phase action="moveto" x="92" y="60" lasttime="100000"/>
+		<phase action="moveto" x="105" y="68" lasttime="100000"/>
+		<phase action="moveto" x="108" y="85" lasttime="100000"/>
+		<phase action="moveto" x="102" y="91" lasttime="100000"/>
+		<phase action="moveto" x="102" y="110" lasttime="100000"/>
+		<phase action="moveto" x="102" y="130" lasttime="100000"/>
+		<phase action="moveto" x="102" y="150" lasttime="100000"/>
+		<phase action="moveto" x="118" y="160" lasttime="100000"/>
+		<phase action="moveto" x="134" y="175" lasttime="100000"/>
+		<phase action="moveto" x="155" y="184" lasttime="100000"/>
+		<phase action="moveto" x="163" y="195" lasttime="100000"/>
+		<phase action="moveto" x="171" y="208" lasttime="100000"/>
+	</script>
+	<!--120级运钱镖行进路线2-->
+	<script id="2109" repeat="1" shared="0">
+		<phase action="moveto" x="163" y="195" lasttime="100000"/>
+		<phase action="moveto" x="155" y="184" lasttime="100000"/>
+		<phase action="moveto" x="134" y="175" lasttime="100000"/>
+		<phase action="moveto" x="118" y="160" lasttime="100000"/>
+		<phase action="moveto" x="102" y="150" lasttime="100000"/>
+		<phase action="moveto" x="102" y="130" lasttime="100000"/>
+		<phase action="moveto" x="102" y="110" lasttime="100000"/>
+		<phase action="moveto" x="102" y="91" lasttime="100000"/>
+		<phase action="moveto" x="108" y="85" lasttime="100000"/>
+		<phase action="moveto" x="105" y="68" lasttime="100000"/>
+		<phase action="moveto" x="92" y="60" lasttime="100000"/>
+		<phase action="moveto" x="79" y="42" lasttime="100000"/>
+		<phase action="moveto" x="60" y="46" lasttime="100000"/>
+		<phase action="moveto" x="48" y="54" lasttime="100000"/>
+		<phase action="moveto" x="33" y="43" lasttime="100000"/>
+		<phase action="moveto" x="23" y="30" lasttime="100000"/>
+		<phase action="moveto" x="11" y="11" lasttime="100000"/>
+		<phase action="moveto" x="7" y="7" lasttime="100000"/>
+		<!--元素走廊到落日峡谷-->
+		<phase action="changemap" str="落日峡谷" x="247" y="107" lasttime="10"/>
+		<phase action="moveto" x="245" y="114" lasttime="100000"/>
+		<phase action="moveto" x="241" y="130" lasttime="100000"/>
+		<phase action="moveto" x="228" y="152" lasttime="100000"/>
+		<phase action="moveto" x="219" y="166" lasttime="100000"/>
+		<phase action="moveto" x="200" y="178" lasttime="100000"/>
+		<phase action="moveto" x="182" y="166" lasttime="100000"/>
+		<phase action="moveto" x="160" y="160" lasttime="100000"/>
+		<phase action="moveto" x="145" y="145" lasttime="100000"/>
+		<phase action="moveto" x="127" y="127" lasttime="100000"/>
+		<phase action="moveto" x="97" y="128" lasttime="100000"/>
+		<phase action="moveto" x="82" y="152" lasttime="100000"/>
+		<phase action="moveto" x="70" y="164" lasttime="100000"/>
+		<phase action="moveto" x="60" y="177" lasttime="100000"/>
+		<phase action="moveto" x="52" y="193" lasttime="100000"/>
+		<phase action="moveto" x="62" y="210" lasttime="100000"/>
+		<phase action="moveto" x="62" y="249" lasttime="100000"/>
+		<phase action="moveto" x="46" y="249" lasttime="100000"/>
+		<phase action="moveto" x="28" y="249" lasttime="100000"/>
+		<phase action="moveto" x="28" y="245" lasttime="100000"/>
+		<phase action="moveto" x="12" y="245" lasttime="100000"/>
+		<phase action="moveto" x="6" y="248" lasttime="100000"/>
+		<!--落日峡谷到红石城-->
+		<phase action="changemap" str="红石城" x="470" y="14" lasttime="10"/>
+		<phase action="moveto" x="469" y="9" lasttime="100000"/>
+		<phase action="moveto" x="465" y="30" lasttime="100000"/>
+		<phase action="moveto" x="463" y="54" lasttime="100000"/>
+		<phase action="moveto" x="458" y="80" lasttime="100000"/>
+		<phase action="moveto" x="456" y="120" lasttime="100000"/>
+		<phase action="moveto" x="462" y="134" lasttime="100000"/>
+		<phase action="moveto" x="456" y="158" lasttime="100000"/>
+		<phase action="moveto" x="445" y="171" lasttime="100000"/>
+		<phase action="moveto" x="440" y="212" lasttime="100000"/>
+		<phase action="moveto" x="431" y="241" lasttime="100000"/>
+		<phase action="moveto" x="415" y="253" lasttime="100000"/>
+		<phase action="moveto" x="375" y="253" lasttime="100000"/>
+		<phase action="moveto" x="373" y="225" lasttime="100000"/>
+		<phase action="moveto" x="380" y="208" lasttime="100000"/>
+		<phase action="moveto" x="379" y="200" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="375" y="189" lasttime="100000"/>
+		<phase action="moveto" x="374" y="182" lasttime="100000"/>
+		<phase action="moveto" x="379" y="178" lasttime="100000"/>
+		<phase action="moveto" x="380" y="169" lasttime="100000"/>
+		<phase action="moveto" x="362" y="168" lasttime="100000"/>
+		<phase action="moveto" x="357" y="166" lasttime="100000"/>
+		<phase action="moveto" x="343" y="165" lasttime="100000"/>
+		<phase action="moveto" x="333" y="145" lasttime="100000"/>
+	</script>
+	<!--史坎布雷城疯狂骑士伊兹密的AI-->
+	<script id="2010" repeat="-1" shared="0">
+		<phase action="moveto" x="170" y="172" lasttime="300"/>
+		<phase action="wait" x="170" y="172" lasttime="5"/>
+		<phase action="say" str="决斗！决斗！快举起你的剑，跟我决斗吧！" lasttime="4"/>
+		<phase action="moveto" x="154" y="172" lasttime="300"/>
+		<phase action="wait" x="154" y="172" lasttime="5"/>
+		<phase action="say" str="堂德！你这个卑鄙的家伙！快出来！我要跟你决斗！" lasttime="4"/>
+		<phase action="moveto" x="127" y="172" lasttime="300"/>
+		<phase action="wait" x="127" y="172" lasttime="5"/>
+		<phase action="say" str="你，就是你，敢不敢接受我的挑战？" lasttime="4"/>
+		<phase action="moveto" x="127" y="150" lasttime="300"/>
+		<phase action="wait" x="127" y="150" lasttime="5"/>
+		<phase action="say" str="胆小鬼，快点拔出你的剑，接受我的挑战！" lasttime="4"/>
+		<phase action="moveto" x="127" y="124" lasttime="300"/>
+		<phase action="wait" x="127" y="124" lasttime="5"/>
+		<phase action="say" str="决斗！决斗！快举起你的剑，跟我决斗吧！" lasttime="4"/>
+		<phase action="moveto" x="159" y="124" lasttime="300"/>
+		<phase action="wait" x="159" y="124" lasttime="5"/>
+		<phase action="say" str="堂德！你这个卑鄙的家伙！快出来！我要跟你决斗！" lasttime="4"/>
+		<phase action="moveto" x="176" y="124" lasttime="300"/>
+		<phase action="wait" x="176" y="124" lasttime="5"/>
+		<phase action="say" str="你，就是你，敢不敢接受我的挑战？" lasttime="4"/>
+		<phase action="moveto" x="176" y="161" lasttime="300"/>
+		<phase action="wait" x="176" y="161" lasttime="5"/>
+		<phase action="say" str="胆小鬼，快点拔出你的剑，接受我的挑战！" lasttime="4"/>
+		<phase action="moveto" x="176" y="172" lasttime="300"/>
+		<phase action="npc_communicate" str="knight" radius="0"/>
+	</script>
+	<!--疯狂骑士仆人吉尔的AI-->
+	<script id="2022" repeat="-1" shared="0">
+		<phase action="say" str="可怜的主人！" lasttime="20"/>
+		<phase action="say" str="我绝对不会背弃我的主人！" lasttime="20"/>
+		<phase action="say" str="主人，小心！" lasttime="20"/>
+	</script>
+	<!--中间的道路会攻击-->
+	<script id="2555" repeat="1" shared="0">
+		<phase action="moveto" x="76" y="100" lasttime="350"/>
+		<phase action="moveto" x="75" y="72" lasttime="200"/>
+		<phase action="moveto" x="75" y="68" lasttime="200"/>
+		<phase action="patrol" x="72" y="63" lasttime="600"/>
+		<phase action="moveto" x="65" y="53" lasttime="300"/>
+		<phase action="moveto" x="64" y="32" lasttime="150"/>
+		<phase action="moveto" x="66" y="27" lasttime="60"/>
+		<phase action="moveto" x="67" y="4" lasttime="250"/>
+	</script>
+	<!--左边的道路到左边-->
+	<script id="2556" repeat="1" shared="0">
+		<phase action="moveto" x="38" y="84" lasttime="100"/>
+		<phase action="moveto" x="38" y="97" lasttime="50"/>
+		<phase action="moveto" x="77" y="101" lasttime="300"/>
+		<phase action="moveto" x="75" y="68" lasttime="200"/>
+		<phase action="patrol" x="72" y="63" lasttime="600"/>
+		<phase action="moveto" x="58" y="60" lasttime="200"/>
+		<phase action="moveto" x="24" y="56" lasttime="200"/>
+		<phase action="moveto" x="24" y="34" lasttime="200"/>
+		<phase action="patrol" x="18" y="29" lasttime="500"/>
+		<phase action="moveto" x="25" y="22" lasttime="300"/>
+		<phase action="moveto" x="24" y="4" lasttime="300"/>
+		<phase action="moveto" x="67" y="4" lasttime="300"/>
+	</script>
+	<!--右边的道路到右边-->
+	<script id="2557" repeat="1" shared="0">
+		<phase action="moveto" x="48" y="120" lasttime="100"/>
+		<phase action="moveto" x="51" y="105" lasttime="100"/>
+		<phase action="moveto" x="116" y="102" lasttime="300"/>
+		<phase action="moveto" x="117" y="43" lasttime="500"/>
+		<phase action="patrol" x="114" y="40" lasttime="800"/>
+		<phase action="moveto" x="117" y="5" lasttime="300"/>
+		<phase action="moveto" x="67" y="4" lasttime="400"/>
+	</script>
+	<!--攻击性move-->
+	<!--中间的道路-->
+	<script id="2558" repeat="1" shared="0">
+		<phase action="patrol" x="76" y="100" lasttime="350"/>
+		<phase action="patrol" x="75" y="72" lasttime="200"/>
+		<phase action="patrol" x="65" y="53" lasttime="300"/>
+		<phase action="patrol" x="65" y="53" lasttime="300"/>
+		<phase action="patrol" x="64" y="32" lasttime="150"/>
+		<phase action="patrol" x="66" y="27" lasttime="60"/>
+		<phase action="patrol" x="67" y="4" lasttime="250"/>
+	</script>
+	<!--左边的道路到左边-->
+	<script id="2559" repeat="1" shared="0">
+		<phase action="patrol" x="38" y="84" lasttime="100"/>
+		<phase action="patrol" x="38" y="97" lasttime="50"/>
+		<phase action="patrol" x="77" y="101" lasttime="300"/>
+		<phase action="patrol" x="80" y="60" lasttime="300"/>
+		<phase action="patrol" x="24" y="56" lasttime="200"/>
+		<phase action="patrol" x="24" y="4" lasttime="300"/>
+		<phase action="patrol" x="67" y="4" lasttime="300"/>
+	</script>
+	<!--右边的道路到右边-->
+	<script id="2560" repeat="1" shared="0">
+		<phase action="patrol" x="48" y="120" lasttime="100"/>
+		<phase action="patrol" x="51" y="105" lasttime="100"/>
+		<phase action="patrol" x="116" y="102" lasttime="300"/>
+		<phase action="patrol" x="117" y="43" lasttime="500"/>
+		<phase action="patrol" x="117" y="5" lasttime="300"/>
+		<phase action="patrol" x="67" y="4" lasttime="400"/>
+	</script>
+	<!--高傲的法师派恩的AI-->
+	<script id="2441" repeat="-1" shared="0">
+		<phase action="say" str="哈哈，很好！今天来听我宣讲魔法知识的人还是这么多！" lasttime="15"/>
+		<phase action="wait" x="87" y="10" lasttime="2"/>
+		<phase action="say" str="自从我当上了咒术师之后，就没有一天能安安静静的过日子！" lasttime="15"/>
+		<phase action="say" str="不过，能看到有这么多热爱魔法的人，实在是件令人愉快的事！" lasttime="15"/>
+		<phase action="say" str="喂，学习魔法是件严肃的事，别跟我嬉皮笑脸！" lasttime="15"/>
+		<phase action="say" str="听说过乌鲁摩亚达吗？他是亚伯拉罕一世的智囊兼好友，法术的开山祖师！是我最敬仰的法师！" lasttime="15"/>
+		<phase action="say" str="有传说：乌鲁摩亚达正是火神佩特罗的化身！噢，火神佩特罗！他的魔网实在是太厉害了！只可惜没有人真正见过……" lasttime="15"/>
+		<phase action="say" str="噢，不多说了，我要去找我那个内向的弟弟查克斯诺克，他年纪轻轻，就当上了魔法大臣，最近不知道又研究出什么有趣的魔法。" lasttime="6"/>
+		<phase action="moveto" x="77" y="13" lasttime="20"/>
+		<phase action="wait" x="77" y="13" lasttime="3"/>
+		<phase action="say" str="主教大人，您今天看起来真精神！" lasttime="5"/>
+		<phase action="npc_communicate" str="proud1" radius="0"/>
+		<phase action="wait" x="77" y="13" lasttime="2"/>
+		<phase action="moveto" x="77" y="20" lasttime="20"/>
+		<phase action="say" str="哈哈！" lasttime="4"/>
+		<phase action="moveto" x="68" y="32" lasttime="20"/>
+		<phase action="wait" x="68" y="32" lasttime="2"/>
+		<phase action="say" str="喂，后面一直尾随我的，别在跟过来了！嗯哼，说的就是你！" lasttime="4"/>
+		<phase action="moveto" x="68" y="37" lasttime="20"/>
+		<phase action="moveto" x="72" y="37" lasttime="20"/>
+		<phase action="wait" x="72" y="37" lasttime="4"/>
+		<phase action="say" str="看到眼前的这座喷泉了吗？每次站在这里，就能感受到一股强大的魔法力量扑面而来！" lasttime="10"/>
+		<phase action="moveto" x="65" y="39" lasttime="20"/>
+		<phase action="moveto" x="59" y="40" lasttime="20"/>
+		<phase action="wait" x="59" y="40" lasttime="2"/>
+		<phase action="say" str="嗨！吉罗德，真巧碰到你！你们的同伴找的怎么样了？" lasttime="5"/>
+		<phase action="npc_communicate" str="proud3" radius="0"/>
+		<phase action="wait" x="59" y="40" lasttime="3"/>
+		<phase action="say" str="噢，我敬佩你们！今天又来城里卖水晶鱼吗？" lasttime="5"/>
+		<phase action="npc_communicate" str="proud4" radius="0"/>
+		<phase action="wait" x="59" y="40" lasttime="3"/>
+		<phase action="say" str="列特可是个老酒鬼，你去酒吧那边看看吧！我先走了！" lasttime="5"/>
+		<phase action="moveto" x="54" y="47" lasttime="20"/>
+		<phase action="say" str="修炼魔法是不分时间和地点的。比如现在也可以！火神佩特罗，请听我虔诚的祈祷！让神奇的魔法元素向我聚拢而来吧！" lasttime="7"/>
+		<phase action="npc_communicate" str="proud2" radius="0"/>
+		<phase action="say" str="看到了吗？哈哈！" lasttime="5"/>
+		<phase action="moveto" x="44" y="49" lasttime="30"/>
+		<phase action="wait" x="44" y="49" lasttime="3"/>
+		<phase action="say" str="亲爱的弟弟，最近研究出来什么有趣的魔法吗？" lasttime="7"/>
+		<phase action="npc_communicate" str="proud5" radius="0"/>
+		<phase action="wait" x="44" y="49" lasttime="4"/>
+		<phase action="say" str="好吧，看来你今天心情不太好，我先走了！内向的人真可怕啊……" lasttime="8"/>
+		<phase action="moveto" x="56" y="42" lasttime="30"/>
+		<phase action="say" str="冥想是法师力量的源泉！" lasttime="3"/>
+		<phase action="moveto" x="67" y="32" lasttime="30"/>
+		<phase action="say" str="喂喂，别挡在我的面前，你应该对一个高贵的法师表示足够的尊重！" lasttime="5"/>
+		<phase action="moveto" x="77" y="21" lasttime="30"/>
+		<phase action="moveto" x="89" y="8" lasttime="30"/>
+		<phase action="moveto" x="87" y="10" lasttime="20"/>
+		<phase action="say" str="呼，我要休息一下，进入冥想状态，不要再打搅我了！" lasttime="4"/>
+		<phase action="wait" x="87" y="10" lasttime="15"/>
+		<phase action="say" str="今天的天气真不错啊！" lasttime="15"/>
+		<phase action="say" str="冥想……冥想……" lasttime="15"/>
+		<phase action="say" str="呼！" lasttime="15"/>
+		<phase action="say" str="佩特罗，最伟大的火神！" lasttime="15"/>
+		<phase action="wait" x="87" y="10" lasttime="15"/>
+	</script>
+	<!--吉罗德的AI-->
+	<script id="2455" repeat="-1" shared="0">
+		<phase action="moveto" x="53" y="38" lasttime="20"/>
+		<phase action="wait" x="53" y="38" lasttime="10"/>
+		<phase action="moveto" x="56" y="35" lasttime="20"/>
+		<phase action="wait" x="56" y="35" lasttime="15"/>
+		<phase action="moveto" x="53" y="35" lasttime="20"/>
+		<phase action="wait" x="53" y="35" lasttime="10"/>
+	</script>
+	<!--####以下是铁十字大教堂的寻路脚本#####-->
+	<script id="3001" repeat="1" shared="0">
+		<phase action="wait" x="77" y="219" lasttime="30"/>
+		<phase action="say" str="嘿，我是猫女梅菲拉。你就是军官长凯恩派来的增援吧？" lasttime="10"/>
+		<phase action="say" str="我们的任务是潜入哈玛教堂，获取一切最近哈玛骑士异动的情报。" lasttime="10"/>
+		<phase action="say" str="当然，这只是字面上的内容。如果你了解我对于“潜入”的解释的话，恐怕会对这次任务的刺激程度有一个新的认识。" lasttime="18"/>
+		<phase action="say" str="你确信准备好了吗？我可不会等你的哦～" lasttime="10"/>
+		<phase action="wait" x="77" y="219" lasttime="5"/>
+		<phase action="say" str="很好，准备行动。我说跑就赶紧跟上我，明白了么？" lasttime="8"/>
+		<phase action="wait" x="77" y="219" lasttime="5"/>
+		<phase action="say" str="先别动，准备！" lasttime="2"/>
+		<phase action="moveto" x="66" y="207" lasttime="5"/>
+		<phase action="say" str="跑！" lasttime="1"/>
+		<phase action="moveto" x="76" y="193" lasttime="8"/>
+		<phase action="moveto" x="108" y="193" lasttime="15"/>
+		<phase action="say" str="等等。" lasttime="2"/>
+		<phase action="wait" x="108" y="193" lasttime="1"/>
+		<phase action="say" str="这里是铁十字大教堂的监狱。他们在这里关押“非信者”" lasttime="8"/>
+		<phase action="wait" x="108" y="193" lasttime="1"/>
+		<phase action="say" str="当然牢犯都死了，无一例外。" lasttime="5"/>
+		<phase action="wait" x="108" y="193" lasttime="1"/>
+		<phase action="say" str="看守这个监狱的是名叫铁腕塔姆罗斯的家伙。他可以单手捏碎一匹马的头骨。如果我是你的话，会离他远一点。" lasttime="8"/>
+		<phase action="wait" x="108" y="193" lasttime="1"/>
+		<phase action="say" str="但是我是“我”。小子，开始了哦～" lasttime="5"/>
+		<phase action="say" str="喂！塔姆罗斯！你脖子上的伤好了没？要不要我再给你看看？" lasttime="8"/>
+		<phase action="say" str="你知道，我对你没有恶意。但是你真的应该把脑袋从肩窝里拉出来。看不见自己的鞋子一定是很痛苦的事情吧。走路不会失去平衡吗？" lasttime="12"/>
+		<phase action="say" str="我很想知道，你每天是怎么起床的，你的裤带都是你妈妈帮你系的吗？" lasttime="12"/>
+		<phase action="moveto" x="163" y="195" lasttime="30"/>
+		<phase action="say" str="铁腕，我知道你追上我有点困难。但是你或许可以努力一下，也许你就此能改名叫铁裤衩呢！" lasttime="12"/>
+		<phase action="moveto" x="194" y="195" lasttime="30"/>
+		<phase action="say" str="你就不能再努力一点吗？我奶奶都比你跑得快。" lasttime="6"/>
+		<phase action="say" str="哇噢，卫兵，喂，凯恩的增援，帮我干掉他们。" lasttime="8"/>
+		<phase action="wait" x="194" y="195" lasttime="10"/>
+		<phase action="moveto" x="230" y="191" lasttime="40"/>
+		<phase action="wait" x="230" y="191" lasttime="10"/>
+		<phase action="say" str="干掉他了。别掉以轻心，麻烦的在后头呢" lasttime="8"/>
+		<phase action="moveto" x="230" y="154" lasttime="40"/>
+		<phase action="say" str="啊哦。。。看来我们来的时机不是很好。。" lasttime="8"/>
+		<phase action="wait" x="230" y="154" lasttime="20"/>
+		<phase action="say" str="这家伙有点扎手。。但是幸好我也做了点准备" lasttime="10"/>
+		<phase action="say" str="现在我们来看看谁的人多吧。" lasttime="10"/>
+		<phase action="say" str="保护我的幻影，她们可以使我变得，呃，暂时的强壮。" lasttime="10"/>
+		<phase action="wait" x="230" y="154" lasttime="40"/>
+		<phase action="say" str="他以前曾经是个非常勇敢的战士。继续走吧，他并不是第一个倒在哈玛影响之下的勇士，也不是最后一个。" lasttime="10"/>
+		<phase action="moveto" x="206" y="142" lasttime="40"/>
+		<phase action="say" str="前面是铁十字大教堂的受礼室。" lasttime="5"/>
+		<phase action="say" str="在门打开之前，我必须告诉你。前面有两个很可怕的人。我已经可以闻到他们的存在。" lasttime="8"/>
+		<phase action="moveto" x="137" y="143" lasttime="40"/>
+		<phase action="say" str="他们是一对孪生的双胞胎，或者说是一对孪生的恶魔。在面对他们的时候，要注意他们的双剑。" lasttime="10"/>
+		<phase action="say" str="这对双剑是哈玛铁十字教堂的神器。它们具备可怕的力量。" lasttime="10"/>
+		<phase action="moveto" x="130" y="144" lasttime="40"/>
+		<phase action="wait" x="130" y="144" lasttime="40"/>
+		<phase action="say" str="他们死了。。。。。这里面有些不对。。。我不记得黑白双子有如此癫狂过。。" lasttime="10"/>
+		<phase action="say" str="越是接近礼拜堂，我就越觉得奇怪。这里面一定有些不对。" lasttime="10"/>
+		<phase action="moveto" x="111" y="130" lasttime="40"/>
+		<phase action="say" str="跟上。" lasttime="5"/>
+		<phase action="moveto" x="111" y="103" lasttime="20"/>
+		<phase action="moveto" x="174" y="103" lasttime="30"/>
+		<phase action="say" str="哈玛骑士。。。他们都疯了。。。。。" lasttime="10"/>
+		<phase action="say" str="这不是哈玛的力量，似乎有股邪恶的力量在驱使。" lasttime="10"/>
+		<phase action="moveto" x="202" y="89" lasttime="30"/>
+		<phase action="say" str="这里竟然有丧尸和鬼魂，哈玛教堂被污染了！" lasttime="8"/>
+		<phase action="moveto" x="201" y="73" lasttime="10"/>
+		<phase action="say" str="警报！太大意了！跟上我！磨磨蹭蹭的会没命的哦！" lasttime="5"/>
+		<phase action="moveto" x="147" y="73" lasttime="30"/>
+		<phase action="say" str="这警报真没玩没了。" lasttime="5"/>
+		<phase action="moveto" x="64" y="73" lasttime="40"/>
+		<phase action="say" str="警报室！我去关掉那个开关，这需要一点时间。掩护我！" lasttime="8"/>
+		<phase action="moveto" x="43" y="64" lasttime="20"/>
+		<phase action="wait" x="43" y="64" lasttime="20"/>
+		<phase action="say" str="该死的！还要点时间，保护我！" lasttime="8"/>
+		<phase action="wait" x="43" y="64" lasttime="20"/>
+		<phase action="say" str="守护之灵！消灭它！消灭它警报就关闭了！" lasttime="8"/>
+		<phase action="wait" x="43" y="64" lasttime="20"/>
+		<phase action="say" str="咻，差一点。。。。这次玩出火来了。。。" lasttime="8"/>
+		<phase action="moveto" x="48" y="29" lasttime="30"/>
+		<phase action="say" str="前面就是大礼拜堂了。" lasttime="5"/>
+		<phase action="moveto" x="79" y="27" lasttime="20"/>
+		<phase action="say" str="嘘，这次我们不要再犯错误了。。。轻声点，跟着我。" lasttime="8"/>
+		<phase action="wait" x="79" y="27" lasttime="2"/>
+		<phase action="moveto" x="86" y="27" lasttime="10"/>
+		<phase action="moveto" x="86" y="45" lasttime="10"/>
+		<phase action="moveto" x="167" y="45" lasttime="45"/>
+		<phase action="wait" x="167" y="45" lasttime="1"/>
+		<phase action="say" str="过来" lasttime="5"/>
+		<phase action="wait" x="167" y="45" lasttime="1"/>
+		<phase action="say" str="我会上去打开魔法屏障，这可以把下面的教徒们挡住，你趁机给那个唠叨的老头好看。明白了么？他是大祭司，你最好做好最坏的打算。" lasttime="15"/>
+		<phase action="say" str="准备好了？" lasttime="5"/>
+		<phase action="say" str="上！" lasttime="1"/>
+		<phase action="moveto" x="161" y="30" lasttime="8"/>
+		<phase action="wait" x="161" y="30" lasttime="10"/>
+		<phase action="say" str="我顶的很辛苦，你能不能手脚快点！" lasttime="10"/>
+		<phase action="wait" x="161" y="30" lasttime="10"/>
+		<phase action="say" str="屏障破了一个角，有人上来了！" lasttime="10"/>
+		<phase action="wait" x="161" y="30" lasttime="10"/>
+		<phase action="say" str="你究竟在磨蹭什么！我快不行了！！" lasttime="10"/>
+		<phase action="wait" x="161" y="30" lasttime="10"/>
+		<phase action="say" str="看那，祭祀死了，信徒们竟然也逃散了。" lasttime="10"/>
+		<phase action="moveto" x="168" y="25" lasttime="8"/>
+		<phase action="say" str="密门。。。。果然。。果然是他。。我想所有的秘密一定都在这个密门后了吧？" lasttime="10"/>
+		<phase action="say" str="你看我干嘛？我不会进去的。这后面究竟是谁，我想我已经知道了。我的鼻子一向很灵。" lasttime="15"/>
+		<phase action="say" str="不，我有我很个人的原因，不能够帮你。我很抱歉，我劝你也不要冒这个险。不管怎样，情报已经得到。我们就此。。告别吧。" lasttime="15"/>
+		<phase action="say" str="冒险者，我很高兴能和你完成这次任务。如果有机会，我想我们还会再见的。保重。" lasttime="15"/>
+	</script>
+	<!--地图：1007。守护麦田 -->
+	<script id="3010" repeat="1" shared="0">
+		<phase action="moveto" x="221" y="159" lasttime="20"/>
+		<phase action="moveto" x="220" y="154" lasttime="20"/>
+		<phase action="moveto" x="219" y="148" lasttime="20"/>
+		<phase action="moveto" x="217" y="142" lasttime="20"/>
+		<phase action="moveto" x="216" y="136" lasttime="20"/>
+		<phase action="moveto" x="214" y="128" lasttime="20"/>
+		<phase action="moveto" x="212" y="124" lasttime="20"/>
+		<phase action="moveto" x="213" y="118" lasttime="20"/>
+		<phase action="moveto" x="217" y="114" lasttime="20"/>
+		<phase action="moveto" x="222" y="109" lasttime="20"/>
+		<phase action="moveto" x="222" y="99" lasttime="20"/>
+		<phase action="moveto" x="222" y="94" lasttime="20"/>
+		<phase action="moveto" x="222" y="89" lasttime="20"/>
+		<phase action="moveto" x="221" y="82" lasttime="20"/>
+		<phase action="clear"/>
+	</script>
+	<script id="3011" repeat="1" shared="0">
+		<phase action="moveto" x="221" y="159" lasttime="20"/>
+		<phase action="moveto" x="220" y="152" lasttime="20"/>
+		<phase action="moveto" x="219" y="146" lasttime="20"/>
+		<phase action="moveto" x="218" y="139" lasttime="20"/>
+		<phase action="moveto" x="217" y="133" lasttime="20"/>
+		<phase action="moveto" x="214" y="128" lasttime="20"/>
+		<phase action="moveto" x="214" y="121" lasttime="20"/>
+		<phase action="moveto" x="217" y="116" lasttime="20"/>
+		<phase action="moveto" x="222" y="111" lasttime="20"/>
+		<phase action="moveto" x="223" y="105" lasttime="20"/>
+		<phase action="moveto" x="223" y="92" lasttime="20"/>
+		<phase action="moveto" x="222" y="88" lasttime="20"/>
+		<phase action="moveto" x="224" y="83" lasttime="20"/>
+		<phase action="clear"/>
+	</script>
+	<script id="3012" repeat="1" shared="0">
+		<phase action="moveto" x="221" y="159" lasttime="20"/>
+		<phase action="moveto" x="217" y="154" lasttime="20"/>
+		<phase action="moveto" x="216" y="148" lasttime="20"/>
+		<phase action="moveto" x="211" y="132" lasttime="20"/>
+		<phase action="moveto" x="213" y="133" lasttime="20"/>
+		<phase action="moveto" x="212" y="127" lasttime="20"/>
+		<phase action="moveto" x="213" y="120" lasttime="20"/>
+		<phase action="moveto" x="227" y="112" lasttime="20"/>
+		<phase action="moveto" x="220" y="107" lasttime="20"/>
+		<phase action="moveto" x="221" y="101" lasttime="20"/>
+		<phase action="moveto" x="221" y="93" lasttime="20"/>
+		<phase action="moveto" x="221" y="89" lasttime="20"/>
+		<phase action="moveto" x="221" y="80" lasttime="20"/>
+		<phase action="clear"/>
+	</script>
+	<script id="3013" repeat="1" shared="0">
+		<phase action="moveto" x="221" y="159" lasttime="20"/>
+		<phase action="moveto" x="221" y="154" lasttime="20"/>
+		<phase action="moveto" x="223" y="146" lasttime="20"/>
+		<phase action="moveto" x="223" y="138" lasttime="20"/>
+		<phase action="moveto" x="223" y="132" lasttime="20"/>
+		<phase action="moveto" x="224" y="123" lasttime="20"/>
+		<phase action="moveto" x="223" y="136" lasttime="20"/>
+		<phase action="moveto" x="224" y="106" lasttime="20"/>
+		<phase action="moveto" x="223" y="97" lasttime="20"/>
+		<phase action="moveto" x="223" y="91" lasttime="20"/>
+		<phase action="moveto" x="224" y="83" lasttime="20"/>
+		<phase action="clear"/>
+	</script>
+	<script id="3014" repeat="1" shared="0">
+		<phase action="moveto" x="221" y="159" lasttime="20"/>
+		<phase action="moveto" x="224" y="151" lasttime="20"/>
+		<phase action="moveto" x="225" y="144" lasttime="20"/>
+		<phase action="moveto" x="226" y="137" lasttime="20"/>
+		<phase action="moveto" x="227" y="131" lasttime="20"/>
+		<phase action="moveto" x="228" y="125" lasttime="20"/>
+		<phase action="moveto" x="230" y="114" lasttime="20"/>
+		<phase action="moveto" x="231" y="107" lasttime="20"/>
+		<phase action="moveto" x="231" y="101" lasttime="20"/>
+		<phase action="moveto" x="231" y="96" lasttime="20"/>
+		<phase action="moveto" x="232" y="90" lasttime="20"/>
+		<phase action="moveto" x="230" y="84" lasttime="20"/>
+		<phase action="clear"/>
+	</script>
+	<!--地图5068 -->
+	<script id="3015" repeat="1" shared="0">
+		<!--左 -->
+		<phase action="moveto" x="107" y="10" lasttime="30"/>
+		<phase action="moveto" x="111" y="18" lasttime="30"/>
+		<phase action="moveto" x="113" y="23" lasttime="30"/>
+		<phase action="moveto" x="113" y="30" lasttime="30"/>
+		<phase action="moveto" x="112" y="33" lasttime="30"/>
+		<phase action="moveto" x="112" y="39" lasttime="30"/>
+		<phase action="moveto" x="112" y="45" lasttime="30"/>
+		<phase action="moveto" x="112" y="51" lasttime="30"/>
+		<phase action="moveto" x="106" y="56" lasttime="30"/>
+		<phase action="moveto" x="101" y="60" lasttime="30"/>
+		<phase action="moveto" x="96" y="64" lasttime="30"/>
+		<phase action="moveto" x="90" y="66" lasttime="30"/>
+		<phase action="moveto" x="85" y="70" lasttime="30"/>
+		<phase action="moveto" x="78" y="76" lasttime="30"/>
+		<phase action="moveto" x="72" y="80" lasttime="30"/>
+		<phase action="moveto" x="68" y="83" lasttime="30"/>
+		<phase action="moveto" x="65" y="90" lasttime="30"/>
+		<phase action="moveto" x="62" y="96" lasttime="30"/>
+		<phase action="moveto" x="62" y="104" lasttime="30"/>
+		<phase action="clear"/>
+	</script>
+	<script id="3016" repeat="1" shared="0">
+		<!--中 -->
+		<phase action="moveto" x="70" y="15" lasttime="30"/>
+		<phase action="moveto" x="70" y="21" lasttime="30"/>
+		<phase action="moveto" x="70" y="28" lasttime="30"/>
+		<phase action="moveto" x="70" y="36" lasttime="30"/>
+		<phase action="moveto" x="70" y="43" lasttime="30"/>
+		<phase action="moveto" x="70" y="51" lasttime="30"/>
+		<phase action="moveto" x="70" y="57" lasttime="30"/>
+		<phase action="moveto" x="69" y="63" lasttime="30"/>
+		<phase action="moveto" x="69" y="69" lasttime="30"/>
+		<phase action="moveto" x="69" y="76" lasttime="30"/>
+		<phase action="moveto" x="65" y="81" lasttime="30"/>
+		<phase action="moveto" x="62" y="90" lasttime="30"/>
+		<phase action="moveto" x="61" y="96" lasttime="30"/>
+		<phase action="moveto" x="59" y="104" lasttime="30"/>
+		<phase action="clear"/>
+	</script>
+	<script id="3017" repeat="1" shared="0">
+		<!--右 -->
+		<phase action="moveto" x="26" y="13" lasttime="30"/>
+		<phase action="moveto" x="22" y="19" lasttime="30"/>
+		<phase action="moveto" x="19" y="24" lasttime="30"/>
+		<phase action="moveto" x="18" y="30" lasttime="30"/>
+		<phase action="moveto" x="17" y="36" lasttime="30"/>
+		<phase action="moveto" x="31" y="43" lasttime="30"/>
+		<phase action="moveto" x="28" y="48" lasttime="30"/>
+		<phase action="moveto" x="33" y="51" lasttime="30"/>
+		<phase action="moveto" x="39" y="57" lasttime="30"/>
+		<phase action="moveto" x="44" y="61" lasttime="30"/>
+		<phase action="moveto" x="48" y="64" lasttime="30"/>
+		<phase action="moveto" x="52" y="68" lasttime="30"/>
+		<phase action="moveto" x="57" y="74" lasttime="30"/>
+		<phase action="moveto" x="63" y="81" lasttime="30"/>
+		<phase action="moveto" x="64" y="87" lasttime="30"/>
+		<phase action="moveto" x="62" y="92" lasttime="30"/>
+		<phase action="moveto" x="61" y="98" lasttime="30"/>
+		<phase action="moveto" x="60" y="104" lasttime="30"/>
+		<phase action="clear"/>
+	</script>
+	<!--守护麦田结束 -->
+	<!-- 守卫要塞开始 -->
+	<script id="5000" repeat="1" shared="0">
+		<!--左 -->
+		<phase action="moveto" x="19" y="28" lasttime="60"/>
+		<phase action="moveto" x="19" y="36" lasttime="60"/>
+		<phase action="moveto" x="19" y="44" lasttime="60"/>
+		<phase action="moveto" x="19" y="52" lasttime="60"/>
+		<phase action="moveto" x="21" y="63" lasttime="60"/>
+		<phase action="moveto" x="23" y="70" lasttime="60"/>
+		<phase action="moveto" x="29" y="77" lasttime="60"/>
+		<phase action="moveto" x="33" y="82" lasttime="60"/>
+		<phase action="moveto" x="39" y="88" lasttime="60"/>
+		<phase action="moveto" x="44" y="93" lasttime="60"/>
+		<phase action="moveto" x="49" y="97" lasttime="60"/>
+		<phase action="moveto" x="53" y="101" lasttime="60"/>
+		<phase action="moveto" x="56" y="105" lasttime="60"/>
+		<phase action="moveto" x="63" y="111" lasttime="30"/>
+		<phase action="clear"/>
+	</script>
+	<script id="5001" repeat="1" shared="0">
+		<!--左 -->
+		<phase action="moveto" x="64" y="28" lasttime="60"/>
+		<phase action="moveto" x="64" y="34" lasttime="60"/>
+		<phase action="moveto" x="64" y="42" lasttime="60"/>
+		<phase action="moveto" x="64" y="49" lasttime="60"/>
+		<phase action="moveto" x="64" y="58" lasttime="60"/>
+		<phase action="moveto" x="64" y="67" lasttime="60"/>
+		<phase action="moveto" x="64" y="75" lasttime="60"/>
+		<phase action="moveto" x="64" y="81" lasttime="60"/>
+		<phase action="moveto" x="64" y="88" lasttime="60"/>
+		<phase action="moveto" x="64" y="96" lasttime="60"/>
+		<phase action="moveto" x="63" y="102" lasttime="60"/>
+		<phase action="moveto" x="63" y="111" lasttime="60"/>
+		<phase action="clear"/>
+	</script>
+	<script id="5002" repeat="1" shared="0">
+		<!--左 -->
+		<phase action="moveto" x="107" y="29" lasttime="60"/>
+		<phase action="moveto" x="107" y="35" lasttime="60"/>
+		<phase action="moveto" x="107" y="43" lasttime="60"/>
+		<phase action="moveto" x="107" y="50" lasttime="60"/>
+		<phase action="moveto" x="106" y="59" lasttime="60"/>
+		<phase action="moveto" x="103" y="66" lasttime="60"/>
+		<phase action="moveto" x="102" y="72" lasttime="60"/>
+		<phase action="moveto" x="98" y="77" lasttime="60"/>
+		<phase action="moveto" x="92" y="83" lasttime="60"/>
+		<phase action="moveto" x="86" y="89" lasttime="60"/>
+		<phase action="moveto" x="80" y="95" lasttime="60"/>
+		<phase action="moveto" x="74" y="100" lasttime="60"/>
+		<phase action="moveto" x="70" y="105" lasttime="60"/>
+		<phase action="moveto" x="63" y="111" lasttime="60"/>
+		<phase action="clear"/>
+	</script>
+	<!-- 守卫要塞结束 -->
+	<!-- 守卫据点开始 -->
+	<script id="6000" repeat="1" shared="0">
+		<!--左 -->
+		<phase action="moveto" x="19" y="23" lasttime="160"/>
+		<phase action="moveto" x="19" y="45" lasttime="160"/>
+		<phase action="moveto" x="16" y="64" lasttime="160"/>
+		<phase action="moveto" x="24" y="75" lasttime="160"/>
+		<phase action="moveto" x="38" y="58" lasttime="160"/>
+		<phase action="moveto" x="56" y="60" lasttime="160"/>
+		<phase action="moveto" x="60" y="84" lasttime="160"/>
+		<phase action="moveto" x="62" y="110" lasttime="160"/>
+		<phase action="moveto" x="60" y="123" lasttime="160"/>
+		<phase action="moveto" x="36" y="130" lasttime="160"/>
+		<phase action="moveto" x="29" y="142" lasttime="160"/>
+		<phase action="moveto" x="30" y="171" lasttime="160"/>
+		<phase action="moveto" x="30" y="200" lasttime="160"/>
+		<phase action="moveto" x="42" y="213" lasttime="160"/>
+		<phase action="moveto" x="66" y="215" lasttime="160"/>
+		<phase action="moveto" x="86" y="214" lasttime="160"/>
+		<phase action="moveto" x="96" y="197" lasttime="160"/>
+		<phase action="moveto" x="70" y="194" lasttime="160"/>
+		<phase action="moveto" x="73" y="180" lasttime="160"/>
+		<phase action="moveto" x="102" y="173" lasttime="160"/>
+		<phase action="moveto" x="111" y="166" lasttime="160"/>
+		<phase action="moveto" x="125" y="170" lasttime="160"/>
+		<phase action="moveto" x="126" y="182" lasttime="160"/>
+		<phase action="moveto" x="127" y="222" lasttime="160"/>
+		<phase action="moveto" x="128" y="235" lasttime="160"/>
+		<phase action="clear"/>
+	</script>
+	<script id="6001" repeat="1" shared="0">
+		<!--中 -->
+		<phase action="moveto" x="123" y="24" lasttime="160"/>
+		<phase action="moveto" x="92" y="22" lasttime="160"/>
+		<phase action="moveto" x="91" y="35" lasttime="160"/>
+		<phase action="moveto" x="104" y="42" lasttime="160"/>
+		<phase action="moveto" x="124" y="40" lasttime="160"/>
+		<phase action="moveto" x="137" y="40" lasttime="160"/>
+		<phase action="moveto" x="158" y="20" lasttime="160"/>
+		<phase action="moveto" x="168" y="32" lasttime="160"/>
+		<phase action="moveto" x="165" y="51" lasttime="160"/>
+		<phase action="moveto" x="133" y="57" lasttime="160"/>
+		<phase action="moveto" x="147" y="90" lasttime="160"/>
+		<phase action="moveto" x="117" y="87" lasttime="160"/>
+		<phase action="moveto" x="106" y="95" lasttime="160"/>
+		<phase action="moveto" x="107" y="112" lasttime="160"/>
+		<phase action="moveto" x="137" y="138" lasttime="160"/>
+		<phase action="moveto" x="129" y="160" lasttime="160"/>
+		<phase action="moveto" x="126" y="182" lasttime="160"/>
+		<phase action="moveto" x="127" y="222" lasttime="160"/>
+		<phase action="moveto" x="128" y="235" lasttime="160"/>
+		<phase action="clear"/>
+	</script>
+	<script id="6002" repeat="1" shared="0">
+		<!--右 -->
+		<phase action="moveto" x="237" y="26" lasttime="160"/>
+		<phase action="moveto" x="237" y="48" lasttime="160"/>
+		<phase action="moveto" x="239" y="77" lasttime="160"/>
+		<phase action="moveto" x="240" y="99" lasttime="160"/>
+		<phase action="moveto" x="224" y="99" lasttime="160"/>
+		<phase action="moveto" x="206" y="78" lasttime="160"/>
+		<phase action="moveto" x="191" y="80" lasttime="160"/>
+		<phase action="moveto" x="187" y="106" lasttime="160"/>
+		<phase action="moveto" x="212" y="121" lasttime="160"/>
+		<phase action="moveto" x="230" y="128" lasttime="160"/>
+		<phase action="moveto" x="240" y="139" lasttime="160"/>
+		<phase action="moveto" x="238" y="177" lasttime="160"/>
+		<phase action="moveto" x="240" y="216" lasttime="160"/>
+		<phase action="moveto" x="229" y="223" lasttime="160"/>
+		<phase action="moveto" x="186" y="219" lasttime="160"/>
+		<phase action="moveto" x="182" y="190" lasttime="160"/>
+		<phase action="moveto" x="203" y="175" lasttime="160"/>
+		<phase action="moveto" x="187" y="163" lasttime="160"/>
+		<phase action="moveto" x="154" y="164" lasttime="160"/>
+		<phase action="moveto" x="128" y="167" lasttime="160"/>
+		<phase action="moveto" x="126" y="182" lasttime="160"/>
+		<phase action="moveto" x="127" y="222" lasttime="160"/>
+		<phase action="moveto" x="128" y="235" lasttime="160"/>
+		<phase action="clear"/>
+	</script>
+	<!-- 守卫据点结束 -->
+	<!-- 守卫龙岛开始 -->
+	<script id="6003" repeat="1" shared="0">
+		<phase action="moveto" x="110" y="42" lasttime="160"/>
+		<phase action="moveto" x="100" y="42" lasttime="160"/>
+		<phase action="moveto" x="90" y="42" lasttime="160"/>
+		<phase action="moveto" x="80" y="42" lasttime="160"/>
+		<phase action="moveto" x="70" y="42" lasttime="160"/>
+		<phase action="moveto" x="60" y="42" lasttime="160"/>
+		<phase action="moveto" x="50" y="42" lasttime="160"/>
+		<phase action="moveto" x="40" y="42" lasttime="160"/>
+		<phase action="moveto" x="35" y="42" lasttime="160"/>
+		<phase action="moveto" x="29" y="42" lasttime="160"/>
+		<phase action="moveto" x="29" y="54" lasttime="160"/>
+		<phase action="moveto" x="29" y="64" lasttime="160"/>
+		<phase action="moveto" x="29" y="74" lasttime="160"/>
+		<phase action="moveto" x="29" y="84" lasttime="160"/>
+		<phase action="moveto" x="35" y="84" lasttime="160"/>
+		<phase action="moveto" x="40" y="84" lasttime="160"/>
+		<phase action="moveto" x="50" y="84" lasttime="160"/>
+		<phase action="moveto" x="60" y="84" lasttime="160"/>
+		<phase action="moveto" x="70" y="84" lasttime="160"/>
+		<phase action="moveto" x="80" y="84" lasttime="160"/>
+		<phase action="moveto" x="90" y="84" lasttime="160"/>
+		<phase action="moveto" x="100" y="84" lasttime="160"/>
+		<phase action="moveto" x="110" y="84" lasttime="160"/>
+		<phase action="clear"/>
+	</script>
+	<!-- 守卫龙岛结束 -->
+	<!-- 维多守卫 -->
+	<script id="3643" repeat="-1" shared="0">
+		<phase action="patrol" x="172" y="23" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="162" y="23" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="162" y="29" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="172" y="29" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="172" y="23" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="3644" repeat="-1" shared="0">
+		<phase action="patrol" x="207" y="118" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="202" y="118" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="202" y="107" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="191" y="107" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="191" y="116" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="201" y="116" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="202" y="118" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="207" y="118" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="3645" repeat="-1" shared="0">
+		<phase action="patrol" x="55" y="131" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="55" y="124" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="65" y="124" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="64" y="131" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="55" y="131" chaseOut="7" lasttime="500"/>
+	</script>
+	<!--【精英】狂热的异教徒（20003807）怪物巡逻开始 -->
+	<script id="12132" repeat="-1" shared="0">
+		<phase action="patrol" x="176" y="11" chaseOut="5" lasttime="100"/>
+		<phase action="patrol" x="180" y="13" chaseOut="5" lasttime="100"/>
+	</script>
+	<script id="12133" repeat="-1" shared="0">
+		<phase action="patrol" x="181" y="15" chaseOut="3" lasttime="100"/>
+		<phase action="patrol" x="175" y="12" chaseOut="3" lasttime="100"/>
+	</script>
+	<!--【精英】狂热的异教徒（20003807）怪物巡逻结束 -->
+	<!--哈玛卫兵（20004806）怪物巡逻开始 -->
+	<script id="12152" repeat="-1" shared="0">
+		<phase action="patrol" x="136" y="43" chaseOut="5" lasttime="100"/>
+		<phase action="patrol" x="142" y="46" chaseOut="5" lasttime="100"/>
+	</script>
+	<script id="12153" repeat="-1" shared="0">
+		<phase action="patrol" x="134" y="46" chaseOut="3" lasttime="100"/>
+		<phase action="patrol" x="132" y="53" chaseOut="3" lasttime="100"/>
+	</script>
+	<!--哈玛卫兵（20004806）怪物巡逻结束 -->
+	<!--史坎布雷城巡逻守卫相关AI开始 -->
+	<script id="1821" repeat="-1" shared="0">
+	    <phase action="patrol" x="128" y="33" chaseOut="7" lasttime="200"/>
+	    <phase action="patrol" x="127" y="232" chaseOut="7" lasttime="200"/>
+	</script>
+	<script id="1822" repeat="-1" shared="0">
+		<phase action="patrol" x="177" y="167" chaseOut="5" lasttime="120"/>
+		<phase action="patrol" x="177" y="124" chaseOut="5" lasttime="120"/>
+		<phase action="patrol" x="228" y="124" chaseOut="5" lasttime="90"/>
+		<phase action="patrol" x="228" y="70" chaseOut="5" lasttime="90"/>
+		<phase action="patrol" x="211" y="70" chaseOut="5" lasttime="50"/>
+		<phase action="patrol" x="211" y="60" chaseOut="5" lasttime="50"/>
+		<phase action="patrol" x="182" y="60" chaseOut="5" lasttime="90"/>
+		<phase action="patrol" x="182" y="28" chaseOut="5" lasttime="90"/>
+		<phase action="patrol" x="127" y="28" chaseOut="5" lasttime="100"/>
+		<phase action="patrol" x="127" y="167" chaseOut="5" lasttime="50"/>
+		<phase action="patrol" x="177" y="167" chaseOut="5" lasttime="100"/>
+	</script>
+	<script id="1837" repeat="-1" shared="0">
+		<phase action="patrol" x="41" y="167" chaseOut="5" lasttime="150"/>
+		<phase action="patrol" x="129" y="167" chaseOut="5" lasttime="150"/>
+		<phase action="patrol" x="129" y="27" chaseOut="5" lasttime="100"/>
+		<phase action="patrol" x="100" y="27" chaseOut="5" lasttime="30"/>
+		<phase action="patrol" x="80" y="17" chaseOut="5" lasttime="20"/>
+		<phase action="patrol" x="41" y="45" chaseOut="5" lasttime="30"/>
+		<phase action="patrol" x="41" y="167" chaseOut="5" lasttime="150"/>
+	</script>
+	<!--史坎布雷城巡逻守卫相关AI结束 -->
+	<!--城主守卫相关AI开始 -->
+	<!--史坎布雷城路线 -->
+	<script id="7000" repeat="-1" shared="0">
+		<phase action="patrol" x="183" y="26" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="135" y="26" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7001" repeat="-1" shared="0">
+		<phase action="patrol" x="128" y="130" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="128" y="75" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7002" repeat="-1" shared="0">
+		<phase action="patrol" x="177" y="95" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="83" y="95" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7003" repeat="-1" shared="0">
+		<phase action="patrol" x="36" y="165" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="36" y="96" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7004" repeat="-1" shared="0">
+		<phase action="patrol" x="80" y="173" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="80" y="96" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7005" repeat="-1" shared="0">
+		<phase action="patrol" x="178" y="169" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="178" y="96" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7006" repeat="-1" shared="0">
+		<phase action="patrol" x="175" y="121" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="83" y="121" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7007" repeat="-1" shared="0">
+		<phase action="patrol" x="128" y="210" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="128" y="149" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7008" repeat="-1" shared="0">
+		<phase action="patrol" x="234" y="171" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="234" y="70" chaseOut="7" lasttime="500"/>
+	</script>
+	<!--红石城路线 -->
+	<script id="7010" repeat="-1" shared="0">
+		<phase action="patrol" x="87" y="131" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="87" y="124" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="45" y="124" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="45" y="131" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7011" repeat="-1" shared="0">
+		<phase action="patrol" x="107" y="171" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="107" y="85" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7012" repeat="-1" shared="0">
+		<phase action="patrol" x="193" y="24" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="108" y="24" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7013" repeat="-1" shared="0">
+		<phase action="patrol" x="181" y="116" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="181" y="51" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7014" repeat="-1" shared="0">
+		<phase action="patrol" x="216" y="163" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="216" y="53" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7015" repeat="-1" shared="0">
+		<phase action="patrol" x="205" y="103" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="150" y="103" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7016" repeat="-1" shared="0">
+		<phase action="patrol" x="206" y="148" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="146" y="148" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7017" repeat="-1" shared="0">
+		<phase action="patrol" x="227" y="223" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="227" y="166" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7018" repeat="-1" shared="0">
+		<phase action="patrol" x="208" y="218" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="143" y="218" chaseOut="7" lasttime="500"/>
+	</script>
+	<!--眠龙城路线 -->
+	<script id="7020" repeat="-1" shared="0">
+		<phase action="patrol" x="37" y="111" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="37" y="37" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7021" repeat="-1" shared="0">
+		<phase action="patrol" x="83" y="130" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="83" y="96" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7022" repeat="-1" shared="0">
+		<phase action="patrol" x="136" y="140" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="136" y="84" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7023" repeat="-1" shared="0">
+		<phase action="patrol" x="203" y="107" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="176" y="107" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7024" repeat="-1" shared="0">
+		<phase action="patrol" x="203" y="116" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="176" y="116" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7025" repeat="-1" shared="0">
+		<phase action="patrol" x="99" y="207" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="99" y="160" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7026" repeat="-1" shared="0">
+		<phase action="patrol" x="124" y="207" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="124" y="160" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7027" repeat="-1" shared="0">
+		<phase action="patrol" x="193" y="211" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="193" y="168" chaseOut="7" lasttime="500"/>
+	</script>
+	<script id="7028" repeat="-1" shared="0">
+		<phase action="patrol" x="238" y="21" chaseOut="7" lasttime="500"/>
+		<phase action="patrol" x="190" y="21" chaseOut="7" lasttime="500"/>
+	</script>
+	<!--城主守卫相关AI结束 -->
+	<!--史坎布雷城天空之翼的AI开始-->
+	<script id="1717" name="天空之翼" npcid="1717" repeat="-1" shared="0">
+		<phase action="say" str="如果想回天空城，可以随时回来找我，我会送您回天空城去！" lasttime="30"/>
+	</script>
+	<!--史坎布雷城天空之翼的AI结束-->
+	<!--天空城酒吧吧女阿妮塔的AI开始-->
+	<script id="6552" name="阿妮塔" npcid="2556" repeat="-1" shared="0">
+		<phase action="say" str="作为一个冒险者，拥有众多的好友和强大的团队是很重要的噢！" lasttime="20"/>
+		<phase action="say" str="你想了解好友和组队的相关信息吗？欢迎随时来找我！" lasttime="20"/>
+	</script>
+	<!--天空城酒吧吧女阿妮塔的AI结束-->
+	<!--坦格拉美亚圣典相关隐藏任务链开始-->
+	<script id="2205" name="康丝坦" npcid="2205" repeat="-1" shared="0">
+		<phase action="say" str="太奇怪了！" lasttime="30"/>
+		<phase action="say" str="在史坎布雷城的东南角竟然有个秘法箱，晚上还会发光" lasttime="30"/>
+	</script>
+	<script id="1757" name="马达维" npcid="1757" repeat="-1" shared="0">
+		<phase action="say" str="那个谁？对！就是你！别看别人，过来过来！" lasttime="30"/>
+		<phase action="say" str="我这里有好东西你要不要买？我便宜点卖给你吧！" lasttime="30"/>
+	</script>
+	<script id="1516" name="贝内特" npcid="1516" repeat="-1" shared="0">
+		<phase action="say" str="一边玩去！谁有功夫打你~" lasttime="30"/>
+	</script>
+	<script id="1517" name="阿诺德" npcid="1517" repeat="-1" shared="0">
+		<phase action="say" str="快打我快打我!!!" lasttime="30"/>
+		<phase action="say" str="快打我快打我呀!!!" lasttime="30"/>
+		<!--phase action="dropitem" x="712" y="10" /-->
+	</script>
+	<!--坦格拉美亚圣典相关隐藏任务链结束-->
+</info>
+<!-- Npc脚本说明 -->
+<!-- id         脚本id，配置地图npc时填上脚本id，该npc即激活此脚本 -->
+<!-- npcid      执行该脚本的npcid -->
+<!-- repeat     脚本重复次数 -2：乱序执行       -1：无限循环    n>0:循环n次 -->
+<!-- shared     是否为共享脚本，如果为"1"则所有该类npc都拥有此脚本 -->
+<!-- action     动作 npc要执行的动作，有移动、攻击、跳转等 -->
+<!-- x,y        坐标，动作的目的地或发生地，根据动作不同意义不同 -->
+<!-- region     npc的活动范围 -->
+<!-- lasttime   持续时间，时间之后执行下一动作 -->

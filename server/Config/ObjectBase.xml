@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="ObjectBase">
+	<obj>
+	    <item id="DWORD" name="string" maxnum="DWORD" kind="DWORD" color="DWORD" container_="map" key_="id"/>
+	</obj>
+    </xmlpg_>
+    <obj>
+	<item id="665" name="金属币" maxnum="10000000" kind="24" color="1"/>
+	<item id="712" name="神炼城邦魔晶卡" maxnum="50000" kind="255" color="1"/>
+	<item id="671" name="100点战功兑换券" maxnum="1000" kind="223" color="1"/>
+    </obj>
+</config>

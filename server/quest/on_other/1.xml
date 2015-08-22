@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="gb2312"?>
+<event id="1" name="职业1">
+    <quest id="90409809" new="1">
+	<embranchment id="10">
+	    <conditions>
+		<var type="Differ" name="zheshiyige" value="1"/>
+	    </conditions>
+	    <actions>
+		<var type="Set" name="zheshiyige" value="1"/>
+		<countrysvar type="Add" name="testo" value="1"/>
+		<tracelog name="执行分支10" />
+	    </actions>
+	</embranchment>
+	<embranchment id="11">
+	    <conditions>
+		<countrysvar type="Equal" name="testo" value="1"/>
+	    </conditions>
+	    <actions>
+		<tracelog name="执行分支11" />
+	    </actions>
+	</embranchment>
+	<embranchment id="12">
+	    <conditions>
+		<countrysvar type="Equal" name="testo" value="2"/>
+	    </conditions>
+	    <actions>
+		<tracelog name="执行分支12" />
+	    </actions>
+	</embranchment>
+	<embranchment id="13">
+	    <conditions>
+		<countrysvar type="Equal" name="testo" value="3"/>
+	    </conditions>
+	    <actions>
+		<tracelog name="执行分支13" />
+	    </actions>
+	</embranchment>
+	<embranchment id="14">
+	    <conditions>
+		<countrysvar type="Equal" name="testo" value="4"/>
+	    </conditions>
+	    <actions>
+		<tracelog name="执行分支14" />
+	    </actions>
+	</embranchment>
+	<embranchment id="15">
+	    <conditions>
+		<countrysvar type="Great" name="testo" value="1"/>
+	    </conditions>
+	    <actions>
+		<tracelog name="执行分支15" />
+	    </actions>
+	</embranchment>
+    </quest>
+</event>

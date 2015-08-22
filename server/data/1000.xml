@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GB2312"?>
+<map>
+	<waypoint>
+		<point x="127" y="253" width="5" height="5"/>
+		<dest name="1001" country="0" x="237" y="23" width="5" height="5"/>
+	</waypoint>
+	<zonedef width="25" height="20" x="85" y="69" type="8" color="0,0,255,0"/>
+	<zonedef width="10" height="10" x="120" y="48" type="4" color="0,0,255,0"/>
+	<zonedef width="254" height="254" x="1" y="1" type="2" color="0,0,255,0"/>
+	<!--
+	<npc id="2899" name="克拉斯" width="5" height="5" x="88" y="88" num="10" interval="3600"/>
+	<npc id="3293" name="神秘墓穴传送使者" width="5" height="5" x="88" y="88" num="10" interval="3600"/>
+	<npc id="1160" name="克里斯托弗" width="5" height="5" x="88" y="88" num="10" interval="7200"/>
+	<npc id="10006" name="灵龙树妖" width="20" height="20" x="88" y="88" num="3" interval="5"
+	ai="1048576"/>
+	<npc id="1821" name="巡逻守卫" width="1" height="1" x="127" y="239" num="1" interval="1"
+	    ai="1048576" script="1821"/>	
+	<npc id="1517" name="阿诺德" width="1" height="1" x="88" y="90" num="1" interval="3600"
+	    script="1517"/>
+	<npc id="1516" name="贝内特" width="1" height="1" x="90" y="88" num="1" interval="3600"
+	    script="1516"/>
+	-->
+	<npc id="1142" name="迭戈洛" width="1" height="1" x="90" y="88" num="20" interval="3600" />
+</map>

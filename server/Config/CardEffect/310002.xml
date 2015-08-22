@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="310002" name="心字庄护法">
+  <attendIn>
+    <!--随从进场-->
+    <condition status="8-0-0" />
+    <skill id="49" />
+  </attendIn>
+</card>

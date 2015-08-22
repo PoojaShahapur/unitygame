@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by xiao (xiao) -->
+<!--NPC功能描述,比如在那里可以打造,那里可以买卖制定的物品-->
+<!--对于玩家来说.action 买=1,卖=2,修=4,打造(合成）=8,升级=16,如果ID或者kind是0表示所有可以有此动作的物品-->
+<!--level表示物品所需级数。50表示小于等于50-->
+<!--任务放在前面就要TaskDialog() 放在最上面-->
+<!--this:AddDialogItemk 代表这个是金黄色-->
+<!--this:AddDialogItemg 代表这个是浅绿色-->
+<!--@@@@接口案例@@@-->
+<!--this:AddDialogItemg("实用快捷键介绍","Dialog1")
+this:AddDialogItemg("怎么做任务？","Dialog2")
+this:AddDialogItemg("怎么杀怪？","Dialog3")
+this:AddDialogItemg("怎么组队？","Dialog4")
+this:AddDialogItemg("怎么交朋友？","Dialog5")
+this:AddDialogItemg("如何离开天空城？","Dialog6")
+this:AddDialogItemg("天空城是一座怎样的城市？","Dialog7")
+this:AddDialogItemg("天空城的故事","Dialog8")-->
+<!--function Dialog1()
+this:AddTalk("实用快捷键介绍:\r\n新手指导【H】\r\n查看任务面板【L】\r\n自动打怪【Ctrl+Z】\r\n查看大地图【Y】\r\n查看小地图【M】\r\n查看包裹【B】\r\n查看技能【V】\r\n查看人物属性【C】")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog2()
+this:AddTalk("怎么做任务？:\r\n找带有感叹号“！”的人物进行对话，就能领取任务了。\r\n领取任务后，按【L】打开任务面板，就能看到相关任务的详细说明进行任务了。完成任务后，会获得丰厚的奖励！")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog3()
+this:AddTalk("怎么杀怪？:\r\n徒手杀怪：【左键】点击怪物就能杀怪了。\r\n使用技能杀怪：按【V】打开技能面板，将技能图标拖到屏幕下方的快捷栏里，每次打怪时点击快捷栏中的技能图标就能快速施放技能杀怪了。")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog4()
+this:AddTalk("怎么组队？:\r\n按F键，在弹出的附近玩家界面中，选定玩家，按“组队”按钮。\r\n点选对方后，右键点击对方头像，在弹出的菜单中选择“组队”。\r\n?右键选择聊天频道中玩家的名字，在弹出的菜单中选择“邀请组队”")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog5()
+this:AddTalk("怎么交朋友？:\r\n按【O】，打开社会关系面板，在好友功能中按“添加好友”按钮，输入要加为好友的名字，对方确认通过后即可成为好友。\r\n点选对方后，右键点击对方的头像，在菜单中选择“添加好友”。\r\n按F键，在弹出的附近玩家界面中，选定指定玩家，按“添加好友”。\r\n右键选择聊天频道中玩家的名字，在弹出的菜单中选择“添加好友”。")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog6()
+this:AddTalk("如何离开天空城？:\r\n当你等级达到10级后，到天空城地图正下方的飞龙塔就可以离开天空城，去亚伯利亚大陆冒险了。")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog7()
+this:AddTalk("天空城是一座怎样的城市？:\r\n天空城是一座由水晶魔法能量驱动，悬浮在空中的城市。\r\n千年试炼之后，亚伯利亚大陆陷入一片混战之中。天空城城主：龙骑士阿拉贡靠着父亲庞大的财力和巨大的水晶矿储备，研制出了一道水晶魔法阵秘文，把天空城从地面升到了空中，从而避开了大陆的纷乱。自此，天空城的居民过上了与世隔绝的和平生活。\r\n身处遥远龙谷的飞龙族被天空城散发出的巨大水晶魔力吸引而来，由于天性喜欢晶石，于是飞龙族乐于成为天空城的守卫，始终盘旋在城的上空。\r\n但和平的背后却暗藏着危机：亚伯利亚大陆的其他种族也都希望把自己的领地扩展到空中，以建立更高级的城邦，于是纷纷想尽办法入侵天空城，司机偷盗水晶魔法阵秘文，并窃取天空城的水晶能源。")
+this:AddDialogItem("返回","MainDialog")
+end
+
+function Dialog8()
+this:AddTalk("天空城的故事:\r\n妙趣横生的怪物农场\r\n里面饲养了许多有趣的怪物，它们主要以农场里的晶石为生。天空城的孩子们非常喜欢这群怪物，常常帮助农场主杰夫采集晶石，喂养怪物。这里经常发生一些趣闻。\r\n争斗不断的狩猎场\r\n在天空城脱离大陆以后，为了抢夺有限空间资源，狩猎场的野狼族和蛮熊族引发了一场又一场的恶战，直到现在战斗还在持续进行中。这里常发生一件怪事：植被莫名其妙的萎缩。\r\n神奇的密林\r\n在天空城脱离大陆之前，这里原本是一块荒凉之地。后来龙族从龙谷带来了种子撒了下去，于是大地苏醒，慢慢长出了灵龙草，灵龙花和灵龙树，形成了密林。最近不知道什么原因，这里的灵龙树长的特别巨大。\r\n禁入的乱石遗地\r\n这里是飞龙族由天空城飞往龙谷的唯一入口，无法受到天空城整体防护魔法的守护。因此，大陆上的魔怪就利用这个漏洞，想尽办法潜入天空城，司机偷盗水晶魔法阵秘文，并窃取天空城的水晶能源。为了有效击退敌人，城主召集了众多魔法师为乱石遗地加持了两道魔法：限制魔法和重塑魔法。一般人禁止入内。")
+this:AddDialogItem("返回","MainDialog")
+end-->
+<!--this:AddGatherBuy("发布收购物品","1")
+this:AddGatherSell("缴交收购物品","2")
+this:AddGatherGet("领取收购物品","3")
+this:AddSetArmyCloak("定制佣兵团披风","4")
+this:AddGetArmyCloak("领取佣兵团披风","5")
+this:AddSetFamilyCloak("定制家族披风","6")
+this:AddGetFamilyCloak("领取家族披风","7")-->
+<NpcTrade>
+    <npc name="克拉斯" id="2899">
+	<menu>
+	    function MainDialog()
+	    if( IsHasTask() == false) then
+	    this:AddTalk("   活动已结束~")
+	    end
+	    if( IsHasTask() == true) then
+	    TaskDialog()
+	    end
+	    end
+	    this:AddDialog("MainDialog")
+	</menu>
+    </npc>
+    <npc name="神秘墓穴传送使者" id="3293">
+	<menu>
+	    function MainDialog()
+	    if( IsHasTask() == false) then
+	    this:AddTalk("   原来你想去墓穴 ")
+	    end
+	    if( IsHasTask() == true) then
+	    TaskDialog()
+	    end
+	    end
+	    this:AddDialog("MainDialog")
+	</menu>
+    </npc>
+    <npc name="克里斯托弗" id="1160">
+	<menu>
+	    function MainDialog()
+	    if( IsHasTask() == false) then
+	    id=this:AddTradeItem("购买武器{5}","剑{id[71001,71002,71003,71004,71005,71006]}|杖{id[71013,71014,71015,71016,71017,71018]}|锤{id[71007,71008,71009,71010,71011,71012]}","","","武器商店\n2710\n2711\n2712\n0\n")
+	    this:Action(id)
+	    else
+	    end
+	    if( IsHasTask() == true) then
+	    TaskDialog()
+	    this:AddTradeItem("购买武器{5}","剑{id[71001,71002,71003,71004,71005,71006]}|杖{id[71013,71014,71015,71016,71017,71018]}|锤{id[71007,71008,71009,71010,71011,71012]}","","","武器商店\n2710\n2711\n2712\n0\n")
+	    end
+	    end
+	    this:AddDialog("MainDialog")
+	</menu>
+	<item id="71001" action="1"/>
+	<item id="71002" action="1"/>
+	<item id="71003" action="1"/>
+	<item id="71004" action="1"/>
+	<item id="71005" action="1"/>
+	<item id="71006" action="1"/>
+	<item id="71007" action="1"/>
+	<item id="71008" action="1"/>
+	<item id="71009" action="1"/>
+	<item id="71010" action="1"/>
+	<item id="71011" action="1"/>
+	<item id="71012" action="1"/>
+	<item id="71013" action="1"/>
+	<item id="71014" action="1"/>
+	<item id="71015" action="1"/>
+	<item id="71016" action="1"/>
+	<item id="71017" action="1"/>
+	<item id="71018" action="1"/>
+	<item id="" kind="" action="6"/>
+    </npc>
+    <npc name="迭戈洛" id="1142">
+	<menu>
+	    function MainDialog()
+	    if( IsHasTask() == false) then
+	    id=this:GetMail("我想确认下有没有我的邮件{5}")
+	    this:Action(id)
+	    else
+	    end
+	    if( IsHasTask() == true) then
+	    TaskDialog()
+	    this:GetMail("我想确认下有没有我的邮件{5}")
+	    this:AddCloseItem("没事{5}")
+	    end
+	    end
+	    this:AddDialog("MainDialog")
+	</menu>
+    </npc>
+</NpcTrade>

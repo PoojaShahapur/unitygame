@@ -1,0 +1,11 @@
+MySQL加入到系统服务里面
+
+　　cp /usr/local/mysql/share/mysql/mysql.server /etc/init.d/mysqld
+
+　　#把msql的脚本文件拷到系统的启动目录下
+
+　　cd /etc/init.d/
+
+　　chkconfig --add mysqld #将mysql加到启动服务列表里
+
+　　chkconfig mysqld on #让系统启动时自动打开mysql服务

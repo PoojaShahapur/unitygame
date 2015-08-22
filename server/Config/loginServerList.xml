@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<Zebra>
+    <!-- FLServer列表 -->
+    <LoginServerList>
+	<server ip="192.168.122.253" port="10001"/>
+    </LoginServerList>
+
+    <!--roleRegServer列表-->
+    <RoleregServerList>
+	<server ip="192.168.122.253" port="10008"/>
+    </RoleregServerList>
+    <!--roleChangeServer列表-->
+    <RolechangeServerList>
+	<server ip="192.168.122.253" port="9910"/>
+    </RolechangeServerList>
+    <BroadServerList>
+	<server ip="192.168.122.253" port="9993"/>
+    </BroadServerList>
+</Zebra>
+

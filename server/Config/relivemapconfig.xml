@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by any (Ru-Board) -->
+<Config>
+	<!-- 复活地图配置		-->
+	<!-- mapID: 地图ID，name:地图名字  -->
+	<!--
+	<map mapID="60" name="界域测试">
+		<level min="1" max="10000" backto="60" backtocity="60" foreignerbackto="60" commoncountrybackto="60" backtodare="60"/>
+	</map>
+	<map mapID="70" name="中立测试">
+		<level min="1" max="10000" backto="70" backtocity="70" foreignerbackto="70" commoncountrybackto="70" backtodare="70"/>
+	</map>
+	-->
+	<map mapID="1000" name="天空城">
+		<level min="1" max="10000" backto="1000" backtocity="1000" foreignerbackto="1000" commoncountrybackto="1000" backtodare="1000"/>
+	</map>
+</Config>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="GB2312"?>
+<TestConfig>
+    <xmlpg_ node_="TestConfig">
+	<reward> 
+	    <item id="int" num="int" container_="map" key_="id"/>
+	</reward>
+    </xmlpg_>
+    <reward>
+	<item id="14" num="5" />
+	<item id="15" num="5" />
+    </reward>
+</TestConfig>

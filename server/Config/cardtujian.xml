@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="GB2312"?>
+<config>
+    <xmlpg_ node_="CardTujianConfig">
+	<open flag="WORD"/>
+	<limit groupMaxNum="DWORD" totalGroup="DWORD" sameNameNum="DWORD" legendNum="DWORD"/>
+	<init>
+	    <item id="DWORD" num="DWORD" container_="map" key_="id"/>
+	</init>
+    </xmlpg_>
+    <open flag="1" />
+    <!--groupMaxNum:每组最大卡牌数; totalGroup:最大套牌组数; sameNameNum:每组套牌中同名的卡牌数; legendNum:每组套牌中传说卡牌数-->
+    <limit groupMaxNum="30" totalGroup="9" sameNameNum="2" legendNum="1"/>
+    <init>
+<item id="10001" num="2" />
+<item id="10002" num="2" />
+<item id="10003" num="2" />
+<item id="10004" num="2" />
+<item id="10005" num="2" />
+<item id="10006" num="2" />
+<item id="10007" num="2" />
+<item id="10008" num="2" />
+<item id="10009" num="2" />
+<item id="10010" num="2" />
+<item id="10011" num="2" />
+<item id="10012" num="2" />
+<item id="10013" num="2" />
+<item id="10014" num="2" />
+<item id="10015" num="2" />
+<item id="10016" num="2" />
+<item id="10017" num="2" />
+<item id="10018" num="2" />
+<item id="10019" num="2" />
+<item id="10020" num="2" />
+<item id="10021" num="2" />
+<item id="10022" num="2" />
+<item id="10023" num="2" />
+<item id="10024" num="2" />
+<item id="10025" num="2" />
+<item id="10026" num="2" />
+<item id="10027" num="2" />
+<item id="10028" num="2" />
+<item id="10029" num="2" />
+<item id="10030" num="2" />
+<item id="10031" num="2" />
+<item id="10032" num="2" />
+<item id="10033" num="2" />
+<item id="10034" num="2" />
+<item id="10035" num="2" />
+<item id="10036" num="2" />
+<item id="10037" num="2" />
+<item id="10038" num="2" />
+<item id="10039" num="2" />
+<item id="10040" num="2" />
+<item id="10041" num="2" />
+<item id="10042" num="2" />
+<item id="10043" num="2" />
+<item id="10044" num="2" />
+<item id="10045" num="2" />
+<item id="10046" num="2" />
+<item id="10047" num="2" />
+<item id="10048" num="2" />
+<item id="10049" num="2" />
+<item id="10050" num="2" />
+<item id="10051" num="2" />
+<item id="18000" num="2" />
+<item id="18001" num="2" />
+<item id="18002" num="2" />
+<item id="18003" num="2" />
+<item id="18004" num="2" />
+<item id="18005" num="2" />
+<item id="110000" num="2" />
+<item id="110001" num="2" />
+<item id="110002" num="2" />
+<item id="110003" num="2" />
+<item id="110004" num="2" />
+<item id="110005" num="2" />
+<item id="110006" num="2" />
+<item id="110007" num="2" />
+<item id="118000" num="2" />
+<item id="130000" num="2" />
+<item id="130001" num="2" />
+<item id="130002" num="2" />
+<item id="130003" num="2" />
+<item id="130004" num="2" />
+<item id="130005" num="2" />
+<item id="130006" num="2" />
+<item id="130007" num="2" />
+<item id="210000" num="2" />
+<item id="210001" num="2" />
+<item id="210002" num="2" />
+<item id="210003" num="2" />
+<item id="210004" num="2" />
+<item id="210005" num="2" />
+<item id="218000" num="2" />
+<item id="230000" num="2" />
+<item id="230001" num="2" />
+<item id="230002" num="2" />
+<item id="230003" num="2" />
+<item id="230004" num="2" />
+<item id="230005" num="2" />
+<item id="230006" num="2" />
+<item id="230007" num="2" />
+<item id="230008" num="2" />
+<item id="310000" num="2" />
+<item id="310001" num="2" />
+<item id="310002" num="2" />
+<item id="310003" num="2" />
+<item id="310004" num="2" />
+<item id="310005" num="2" />
+<item id="310006" num="2" />
+<item id="318000" num="2" />
+<item id="330000" num="2" />
+<item id="330001" num="2" />
+<item id="330002" num="2" />
+<item id="330003" num="2" />
+<item id="330004" num="2" />
+<item id="330005" num="2" />
+<item id="330006" num="2" />
+<item id="330007" num="2" />
+    </init>
+</config>

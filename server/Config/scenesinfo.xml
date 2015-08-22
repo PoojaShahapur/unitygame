@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="GB2312"?>
+<ScenesInfo>
+    <server id="21">
+	<country id="1">
+	    <map mapID="1000"/>
+	    <map mapID="1100"/>
+	    <map mapID="1101"/>
+	    <map mapID="1102"/>
+	    <map mapID="1103"/>
+	</country>
+    </server>
+    <server id="22">
+	<country id="6">
+	    <map mapID="1000"/>
+	    <map mapID="1100"/>
+	    <map mapID="1101"/>
+	    <map mapID="1102"/>
+	    <map mapID="1103"/>
+	    <map mapID="60"/>
+	</country>
+    </server>
+    <server id="23">
+	<country id="3">
+	    <map mapID="1000"/>
+	    <map mapID="1100"/>
+	    <map mapID="1101"/>
+	    <map mapID="1102"/>
+	    <map mapID="1103"/>
+	</country>
+    </server>
+    <server id="24">
+	<country id="4">
+	    <map mapID="1000"/>
+	    <map mapID="1100"/>
+	    <map mapID="1101"/>
+	    <map mapID="1102"/>
+	    <map mapID="1103"/>
+	</country>
+    </server>
+    <server id="25">
+	<country id="5">
+	    <map mapID="1000"/>
+	    <map mapID="1100"/>
+	    <map mapID="1101"/>
+	    <map mapID="1102"/>
+	    <map mapID="1103"/>
+	</country>
+    </server>
+    <countryinfo>
+	<country id="1" name="地神界" mapID="1000" function="0"/>
+	<country id="2" name="水神界" mapID="1000" function="0"/>
+	<country id="3" name="火神界" mapID="1000" function="0"/>
+	<country id="4" name="光神界" mapID="1000" function="0"/>
+	<country id="5" name="战神界" mapID="1000" function="0"/>
+	<country id="7" name="无名界" mapID="1000" function="1"/>
+	<country id="8" name="疯神界" mapID="1000" function="1"/>
+	<country id="6" name="中立区" mapID="1000" function="1"/>
+	<country id="9" name="副本区" mapID="1000" function="1"/>
+    </countryinfo>
+    <mapinfo>
+	<map mapID="1000" name="天空城" fileName="1000" backto="1000" backtocity="1000" foreignerbackto="1000" function="10240" commoncountrybackto="1000" backtodare="1000" pklevel="49" level="0" iscity="1"/>
+	<map mapID="1100" name="天空城分流一" fileName="1000" backto="1100" backtocity="1100"
+	    foreignerbackto="1100" function="10240" commoncountrybackto="1100" backtodare="1100"
+	    pklevel="49" level="0" iscity="1"/>
+	<map mapID="1101" name="天空城分流二" fileName="1000" backto="1101"
+	    backtocity="1101" foreignerbackto="1101" function="10240"
+	    commoncountrybackto="1101" backtodare="1101" pklevel="49" level="0"
+	    iscity="1"/>
+	<map mapID="1102" name="天空城分流三" fileName="1000" backto="1102"
+	    backtocity="1102" foreignerbackto="1102" function="10240"
+	    commoncountrybackto="1102" backtodare="1102" pklevel="49" level="0"
+	    iscity="1"/>
+	<map mapID="1103" name="天空城分流四" fileName="1000"
+	    backto="1103" backtocity="1103" foreignerbackto="1103"
+	    function="10240" commoncountrybackto="1103"
+	    backtodare="1103" pklevel="49" level="0" iscity="1"/>
+	<map mapID="60" name="对战" fileName="60"
+	    backto="60" backtocity="1000" foreignerbackto="1000"
+	    function="10240" commoncountrybackto="1000"
+	    backtodare="1000" pklevel="49" level="0" iscity="0"/>
+    </mapinfo>
+</ScenesInfo>

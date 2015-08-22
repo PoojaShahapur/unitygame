@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="10034" name="朱衣邪僧">
+    <enemyUseMagic><!--敌方使用法术牌时-->
+		<skill id="55"/>
+    </enemyUseMagic>
+</card>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--所有各种服务器参数-->
+<Zebra>
+        <global>
+                <!-- 日志级别[debug,info,warning,error,fatal,always]. -->
+                <log>debug</log>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+                <mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+                <!-- 指定网卡名字 -->
+                <ifname>eth0</ifname>
+                <!-- SuperSererIP和端口的地址 其他服务器会通过这个配置连接superserver-->
+                <superserver port="10000">192.168.125.216</superserver>
+                <!--GM模式开关，请关闭-->
+                <gm_mode>false</gm_mode>
+                <!--指令统计开关技术性能测试用-->
+                <cmdswitch>true</cmdswitch>
+                <!--重连开关-->
+                <reconn>false</reconn>
+                <!--服务标志 1代表邮件 2拍卖 4向客户端发送特征码 8到达30级时赠送枣红马 16邮件检测自动封号-->
+                <service_flag>11</service_flag>
+                <!--特征码文件，客户端登陆成功时发下去-->
+                <process_file>../cfg/process.dat</process_file>
+                <!--pet_point>true</pet_point-->
+                <!--合区版本号-->
+                <merge_version>1</merge_version>
+                <!--安全日，特殊日期 禁止PK 如512-->
+                <securityDayBegin>20170225 00:00:00</securityDayBegin>
+                <securityDayEnd>20170225 23:00:00</securityDayEnd>
+                <imagepassportpath>../cfg/image/</imagepassportpath>
+                <newzonelimit>../cfg/newZoneLimit.xml</newzonelimit>
+		<!--腾讯IDIP接口的密钥配置-->
+		<QQIDIPPASS>1234567890123456</QQIDIPPASS>
+                <!--双线区请配置成true 普通区配置成false-->
+                <doubleline>true</doubleline>
+				<!--转区功能开关-->
+                <from_change_zone>true</from_change_zone>
+                <!--允许进入跨服战的最低玩家等级-->
+                <battle_start_level>1</battle_start_level>
+                <!--允许进入跨服战的最高玩家等级-->
+                <battle_end_level>160</battle_end_level>
+                <!--战场服务器ID-->
+		<battleZone>500</battleZone> 		
+		<battle>true</battle>
+	    </global>
+	    <FLServer>
+		<logfilename>../log/flserver.log</logfilename>
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+		<maxGatewayUser>10000</maxGatewayUser><!--网关最大连接数-->
+		<inside_port>10001</inside_port><!--用于game server 数据传输-->
+		<login_port>10002</login_port><!--用于客户端登录-->
+		<user_port>10004</user_port><!--用于UserServer端口,接受BILLSER-->
+		<rolereg_port>10008</rolereg_port><!--用于角色注册产生唯一charid服务-->
+		<PointListFile>Config/PointList.xml</PointListFile>
+	    </FLServer>
+	    <roleRegServer>
+		<logfilename>../log/roleregserver.log</logfilename>
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+		<client_port>10008</client_port>
+		<table_start>1</table_start>
+		<table_end>3</table_end>
+	    </roleRegServer>
+	    <roleChangeServer>
+		<if_CTC>eth0</if_CTC> <!-- 走电信路由的网卡 -->
+		<if_CNC>eth0</if_CNC> <!-- 走网通路由的网卡 -->
+		<logfilename>../log/rolechangeserver.log</logfilename>
+		<bindport>9910</bindport>
+		<!--mysql>mysql://mysql_wang:123456@192.168.125.216:3306/roleChangeServer</mysql-->
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+		<!--
+		是否关闭转区验证服务1:关闭，0:不关闭
+		-->
+		<close_check_flag>0</close_check_flag>
+	    </roleChangeServer>
+<!--SuperServer配置段 SuperServer读取本段-->
+        <SuperServer>
+                <!-- 本地日志路径 -->
+                <logfilename>../log/superserver.log</logfilename>
+                <!-- 统一用户平台服务器列表文件 -->
+                <loginServerListFile>../cfg/loginServerList.xml</loginServerListFile>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+                <!--指令统计开关-->
+                <cmdswitch>true</cmdswitch>
+        </SuperServer>
+        <RecordServer>
+                <!-- Specify the log filename. -->
+                <logfilename>../log/recordserver.log</logfilename>
+                <statobjlogfilename>../log/statobjrecordserver.log</statobjlogfilename>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+                <!--指令统计开关-->
+                <cmdswitch>true</cmdswitch>
+                <objlogfilename>../log/objrecordserver.log</objlogfilename>
+        </RecordServer>
+        <BillServer>
+                <!-- Specify the log filename. -->
+                <logfilename>../log/billserver.log</logfilename>
+                <tradelogfilename>../log/billtrade.log</tradelogfilename>
+                <billServerList>../cfg/billServerList.xml</billServerList>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+                <gold_tradelog>/../log/goldtrade.log</gold_tradelog>
+                <!--指令统计开关-->
+                <cmdswitch>true</cmdswitch>
+		<!--添加IDIP监听端口,不配置就不会监听-->
+		<QQBillPort>6001</QQBillPort>
+        </BillServer>
+        <BillClient>
+                <!-- 交易记录log文件路径 -->
+                <tradelogfilename>../log/clienttrade.log</tradelogfilename>
+        </BillClient>
+        <SessionServer>
+                <!-- Specify the log filename. -->
+                <logfilename>../log/sessionserver.log</logfilename>
+                <objlogfilename>../log/objsessionserver.log</objlogfilename>
+                <statobjlogfilename>../log/statobjsessionserver.log</statobjlogfilename>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+                <!-- mysql2>mysql://ztgame:vxLvpH6vc}w8muvy@172.172.16.183:3306/MessageServer</mysql2-->
+	    <mysql2>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql2>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+                <offlineMsgPath>../cfg/offlineMessages</offlineMsgPath>
+                <!--指令统计开关-->
+                <cmdswitch>true</cmdswitch>
+                <!--是否开启反外挂程序-->
+                <process>true</process>
+                <!--同一台机器登陆客户端数限制-->
+                <userlimit>10</userlimit>
+                <!-- 新手村人数限制, 超限将分流--> 
+                <newbielimit>1</newbielimit>
+                <auditlogfilename>../log/auditsessionserver.log</auditlogfilename>
+        </SessionServer>
+        <ScenesServer>
+                <!--租赁仓库价格-->
+                <rentstore>100000</rentstore>
+                <!-- Specify the log filename. -->
+                <logfilename>../log/scenesserver.log</logfilename>
+                <objlogfilename>../log/objscenesserver.log</objlogfilename>
+                <s_objlogfilename>../log/statobjscenesserver.log</s_objlogfilename>
+                <gmlogfilename>../log/gm_log.log</gmlogfilename>
+                <wg_logfile>../log/wg_log.log</wg_logfile>
+                <!--双倍经验标志-->
+                <double_exp>false</double_exp>
+                <!--双倍掉率标志-->
+                <double_drop>false</double_drop>
+                <!--双倍掉率等级限制-->
+                <level_double_drop>0</level_double_drop>
+                <!--地图信息文件位置-->
+                <sceneinfofile>../cfg/scenesinfo.xml</sceneinfofile>
+                <!--npctrade配置脚本位置-->
+                <npctradefile>../cfg/npctrade.xml</npctradefile>
+                <!--以下类似-->
+                <messageSystemFile>../cfg/messageSystem.xml</messageSystemFile>
+                <charinitinfoFile>../cfg/initcharinfo.xml</charinitinfoFile>
+                <magicrangefile>../cfg/magicrangefile.xml</magicrangefile>
+                <goldlogfilename>../log/goldsys.log</goldlogfilename>
+                <!--changeSuitTime>1000</changeSuitTime-->
+                <!--回写档案平率(单位是秒) -->
+                <writebacktimer>300</writebacktimer>
+                <!--地图文件-->
+                <mapdir>../cfg/map/</mapdir>
+                <!--静态表格信息-->
+                <tbldir>../data/</tbldir>
+                <!--临时任务变量位置-->
+                <ossdir>../var/</ossdir>
+                <!--指令统计开关-->
+                <cmdswitch>true</cmdswitch>
+                <!--目前为元素走廊隐藏时间-->
+                <bianjingHideTime>30</bianjingHideTime>
+                <!--是否启用防沉迷功能-->
+                <healthygame>true</healthygame>
+                <!--掉落物品的绑定几率-->
+                <drop_bind_rate>100</drop_bind_rate>
+                <!--网吧配置-->
+                <tsigapi_config_path>/data/home/user00/kok3/cfg/tsigapi_config.ini</tsigapi_config_path>
+        </ScenesServer>
+        <GatewayServer>
+                <!-- Specify the log filename. -->
+                <logfilename>../log/gatewayserver.log</logfilename>
+                <!-- 是否启用角色名称唯一性验证服务器来保证角色名称的唯一性 -->
+                <rolereg_verify>1</rolereg_verify>
+                <forbidWordsFile>../cfg/forbidWords</forbidWordsFile>
+                <gmconfig>../cfg/gm_conf.xml</gmconfig>
+                <sceneinfofile>../cfg/scenesinfo.xml</sceneinfofile>
+                <!--指令统计开关-->
+                <cmdswitch>true</cmdswitch>
+                <!--消息大小-->
+                <broadcastsize>500</broadcastsize>
+                <!-- 角色登录图形验证, 缺省为on表示开, off表示关闭 -->
+                <loginverify>off</loginverify>
+                <!-- 腾讯脏字管理平台中的业务ID, 用于区分不同的项目 -->
+                <DirtyWordBusid>42</DirtyWordBusid>
+		<!--网关连接数改为配置-->
+		<GatewayPoolCapacity>2000</GatewayPoolCapacity>
+        </GatewayServer>
+        <MiniServer>
+                <!-- Specify the log filename. -->
+                <logfilename>~/log/miniserver.log</logfilename>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+		<mysql>mysql://mysql_wang:123456@192.168.125.216:3306/test</mysql>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+        </MiniServer>
+        <MonitorServer>
+                <!--日志文件名-->
+                <logfilename>../log/monitorserver.log</logfilename>
+                <!--数据库管理服务器url,具体数据库名在serverList.xml配-->
+                <mysql>mysql://dbconn:KOKgame0916@10.129.139.106:3306/</mysql>
+                 <!--监听端口，各个区游戏服务器配置到loginServerList.xml 中的MonitorServerList-->
+                <zoneport>7284</zoneport>
+                <!--客户端监听端口-->
+                <clientport>7283</clientport>
+        </MonitorServer>
+</Zebra>

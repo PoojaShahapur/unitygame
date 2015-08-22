@@ -1,0 +1,3 @@
+#!bin/bash
+#start mysql
+/usr/local/mysql/bin/mysqld_safe -user=mysql &

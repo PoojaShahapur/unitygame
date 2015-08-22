@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Zebra>
+    <sourceID>10</sourceID><!--game type-->
+    <BillServerList>
+	<server>
+	    <entry ip="192.168.122.253" port="10004"/>
+	</server>
+    </BillServerList>
+</Zebra>

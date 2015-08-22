@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<card id="110001" name="大勇弟子">
+  <haloID>
+    <!--光环-->
+    <haloCondition ctype="1" cid="4" />
+    <skill id="25" />
+  </haloID>
+</card>

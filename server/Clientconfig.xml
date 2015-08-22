@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--所有各种服务器参数-->
+<Zebra>
+        <global>
+                <!-- 日志级别[debug,info,warning,error,fatal,always]. -->
+                <log>debug</log>
+                <!--MySQL database connection[mysql://user:passwd@host:port/dbName]-->
+                <mysql>mysql://mysql_wang:123456@192.168.125.254:3306/test</mysql>
+                <!-- 如果要编码mysql连接字符串请使用工具，配置如下面的例子
+                <mysql>lmOf.1kySwS0a09j11xyCdI1ySujl1hnCvT0hDitT0hjzv00gzSv00gDSw91tS9fE1</mysql>
+                -->
+                <!-- 指定网卡名字 -->
+                <ifname>eth0</ifname>
+	    </global>
+	    <Client>
+		<logfilename>../log/client.log</logfilename>
+		<server>192.168.125.254</server>
+		<port>10002</port>
+		<!--账号是 zhanghao10,zhanghao11,...... 总数为count个 -->
+		<prefix>zhanghao</prefix>
+		<user>10</user>
+		<count>3000</count>
+	    </Client>
+</Zebra>

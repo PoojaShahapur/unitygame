@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by any (Ru-Board) -->
+<quests>
+    <!--##################################1-10级主线任务
+    开始##################################-->
+    <quest id="10000101" name="[剧情]初入世界（1/3）" level="1">
+	<description>
+	    <body>
+		<p>
+		    <n
+			color="255,239,196,0"
+			align="1">任务:初入世界</n>
+		</p>
+		<p>
+		    <n
+			color="255,239,196,0">任务描述：</n>
+		</p>
+		<p>
+		    <a
+			href="PopPicture
+			filename='op_intro.tga'">
+			提示：点此可查看【基础操作指南】。</a>
+		</p>
+		<p>
+		    <n
+			color="255,0,255,0">
+			提示：头顶有『！』代表有任务可接，『W』『S』『A』『D』键可用来移动</n>
+		</p>
+		<p>
+		    <n>
+			『左键』点击
+		    </n>
+		    <a
+			href="goto
+			1000,95,79">新手导师：艾米丽(95,79)</a>
+		    <n
+			color="255,0,255,255">（点击下划线部分，可以自动找到目标人物）</n>
+		    <n>，她会告诉你一些有用的东西噢！</n>
+		</p>
+		<p>
+		    <n
+			color="255,239,196,0">经验奖励：</n>
+		    <n>
+			15</n>
+		</p>
+	    </body>
+	</description>
+	<events>
+	    <event type="on_enter" source="0.xml"/>
+	</events>
+    </quest>
+    <!--%%%%%%%%%%%%%%%%%%%%% 100901 里面是没有任务描述的任务加载 %%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <quest id="100901" name="100901" level="1">
+	<description />
+	<events>
+	    <event type="on_visit" source="2899.xml"/>
+	    <event type="on_visit" source="3293.xml"/>
+	    <event type="on_other" source="1.xml"/>
+	    <event type="on_other" source="2.xml"/>
+	    <event type="on_other" source="3.xml"/>
+	</events>
+    </quest>
+</quests>

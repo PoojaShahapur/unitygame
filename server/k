@@ -1,0 +1,186 @@
+Index: ScenesServer/Property.cpp
+===================================================================
+--- ScenesServer/Property.cpp	£®–ﬁ∂©∞Ê 122£©
++++ ScenesServer/Property.cpp	£®π§◊˜øΩ±¥£©
+@@ -5,6 +5,7 @@
+ #include "QuestTable.h"
+ #include "QuestEvent.h"
+ #include "MarketSystemManager.h"
++#include "SceneUserManager.h"
+ 
+ /**     
+  * \brief  Â§ÑÁêÜstPropertyUserCmdÊåá‰ª§
+@@ -431,7 +432,58 @@
+ 	    }
+     }
+     break;
++    case SELECT_MAINUSER_PROPERTY_USERCMD_PARA:
++    {
++	using namespace Cmd;
++	stSelectMainUserPropertyUserCmd *smu = (stSelectMainUserPropertyUserCmd*)rev;
++	switch(smu->byType)
++	{
++	    case MAPDATATYPE_USER:
++		{
++		    SceneUser *pUser = SceneUserManager::getMe().getUserByTempID(smu->dwTempID);
++		    if (pUser)
++		    {
++//			if (!pUser->mask.is_masking())
++			{
++			    char Buf[sizeof(stSelectReturnMainUserPropertyUserCmd) + sizeof(EquipedObject) * 16];
++			    bzero(Buf,sizeof(Buf));
++			    stSelectReturnMainUserPropertyUserCmd *srm = (stSelectReturnMainUserPropertyUserCmd*)Buf;
++			    constructInPlace(srm);
++			    srm->dwTempID = pUser->tempid;
++			    pUser->full_t_MainUserData(srm->mainuser_data);
++			    pUser->full_t_MapUserData(srm->mapuser_data);
++
++			    srm->dwSize = pUser->packs.equip.fullAllEquiped((char*)srm->object_data);
++			    this->sendCmdToMe(srm,sizeof(stSelectReturnMainUserPropertyUserCmd) 
++				    + sizeof(EquipedObject) * srm->dwSize);
+ #if 0
++			    if (pUser->horse.horse())
++			    {
++				stSelectReturnHorsePropertyUserCmd send;
++				pUser->horse.full_HorseDataStruct(&send.data);
++				sendCmdToMe(&send,sizeof(send));
++			    }
++#endif
++			}
++#if 0
++			else
++			{
++			    Channel::sendSys(this,Cmd::INFO_TYPE_MSG,"‰ªñÊòØËíôÈù¢‰∫∫Êó†Ê≥ïËßÇÂØü");
++			}
++#endif
++		    }
++		}
++		break;
++	    case MAPDATATYPE_NPC:
++		{
++		}
++		break;
++	    default:
++		break;
++	}
++    }
++    break;
++#if 0
+ 	case UNIONUSEROBJECT_PROPERTY_USERCMD_PARAMETER:
+ 	    {
+ 		Cmd::stUnionObjectPropertyUserCmd *uobj=(Cmd::stUnionObjectPropertyUserCmd *)rev;
+Index: ScenesServer/SessionClient.cpp
+===================================================================
+--- ScenesServer/SessionClient.cpp	£®–ﬁ∂©∞Ê 122£©
++++ ScenesServer/SessionClient.cpp	£®π§◊˜øΩ±¥£©
+@@ -4529,6 +4529,34 @@
+ 		
+ 	    }
+ 	    break;
++	case WATCH_PKGAME_PARA:
++	    {
++		using namespace Cmd;
++		t_watchPKGame_SceneSession *rev = (t_watchPKGame_SceneSession*)cmd;
++		SceneUser *to = SceneUserManager::getMe().getUserByID(rev->toID);
++		if(!to)
++		    return true;
++		if(rev->fromID <= 100)
++		{
++		}
++		else
++		{
++
++		}
++		char Buf[sizeof(stSelectReturnMainUserPropertyUserCmd) + sizeof(EquipedObject) * 16];
++		bzero(Buf,sizeof(Buf));
++		stSelectReturnMainUserPropertyUserCmd *srm = (stSelectReturnMainUserPropertyUserCmd*)Buf;
++		constructInPlace(srm);
++		srm->dwTempID = to->tempid;
++		to->full_t_MainUserData(srm->mainuser_data);
++		to->full_t_MapUserData(srm->mapuser_data);
++
++		srm->dwSize = to->packs.equip.fullAllEquiped((char*)srm->object_data);
++		sendCmdByID(rev->fromID, srm, sizeof(stSelectReturnMainUserPropertyUserCmd) 
++			+ sizeof(EquipedObject) * srm->dwSize);
++
++	    }
++	    break;
+ 	default:
+ 	    break;
+     }
+Index: SessionServer/CRelationManager.cpp
+===================================================================
+--- SessionServer/CRelationManager.cpp	£®–ﬁ∂©∞Ê 122£©
++++ SessionServer/CRelationManager.cpp	£®π§◊˜øΩ±¥£©
+@@ -1248,6 +1248,23 @@
+               return true;
+             }
+             break;
++	  case Cmd::WATCH_FRIEND_PARA:
++	    {
++		Cmd::stWatchFriendUserCmd *rev = (Cmd::stWatchFriendUserCmd *)pNullCmd;
++		UserSession *w = UserSessionManager::getInstance()->getUserSessionByName(rev->name);
++		if(!w)
++		{
++		    user->sendSysChat(Cmd::INFO_TYPE_FAIL, "∂‘∑Ω≤ª‘⁄œﬂ£¨Œﬁ∑®≤Èø¥");
++		    return true;
++		}
++		Cmd::Session::t_watchPKGame_SceneSession send;
++		send.fromID = user->id;
++		send.toID = w->id;
++		strncpy(send.name, user->name, MAX_NAMESIZE-1);
++		w->scene->sendCmd(&send, sizeof(send));
++		return true;
++	    }
++	    break;
+           default:
+             break;
+         }
+Index: base/Command.h
+===================================================================
+--- base/Command.h	£®–ﬁ∂©∞Ê 122£©
++++ base/Command.h	£®π§◊˜øΩ±¥£©
+@@ -6218,6 +6218,18 @@
+   }
+ };
+ 
++const BYTE WATCH_FRIEND_PARA = 17;
++struct stWatchFriendUserCmd : public stRelationUserCmd
++{
++    stWatchFriendUserCmd()
++    {
++	byParam = WATCH_FRIEND_PARA;
++	bzero(name, sizeof(name));
++	watchType = 0;
++    }
++    BYTE watchType;
++    char name[MAX_NAMESIZE];
++};
+ //////////////////////////////////////////////////////////////
+ // Á§æ‰ºöÂÖ≥Á≥ªÊåá‰ª§ÂÆö‰πâÁªìÊùü
+ //////////////////////////////////////////////////////////////
+Index: base/SessionCommand.h
+===================================================================
+--- base/SessionCommand.h	£®–ﬁ∂©∞Ê 122£©
++++ base/SessionCommand.h	£®π§◊˜øΩ±¥£©
+@@ -3613,6 +3613,20 @@
+ 	  DWORD cardsNumber;
+ 	  BYTE type;		//∂‘’Ω¿‡–Õ
+       };
++
++    const BYTE WATCH_PKGAME_PARA = 8;
++    struct t_watchPKGame_SceneSession : t_PKGame_SceneSession
++      {
++	  t_watchPKGame_SceneSession() : t_PKGame_SceneSession(WATCH_PKGAME_PARA)
++	  {
++	      fromID = 0;
++	      toID = 0;
++	      bzero(name, sizeof(name));
++	  }
++	  DWORD fromID;
++	  DWORD toID;
++	  char name[MAX_NAMESIZE];
++      };
+     //////////////////////////////////////////////////////////////
+     ///  end of PKGAME cmd
+     //////////////////////////////////////////////////////////////

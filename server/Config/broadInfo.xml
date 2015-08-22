@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Zebra>
+    <!--broad msg to all the config zone-->
+    <broadserver>
+	<port>10003</port>
+	<ip>192.168.125.254</ip>
+	<logfilename>../log/broadserver.log</logfilename>
+    </broadserver>
+    <zone ip="192.168.125.254" port="10000" id="30"/>
+</Zebra>
