@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.UI;
+using SDK.Common;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -23,6 +24,8 @@ namespace SDK.Lib
         protected TimerItemBase m_smallStar0fTimer;
         protected TimerItemBase m_smallStar1fTimer;
         protected TimerItemBase m_smallStar2fTimer;
+
+        protected TimerItemBase m_enterTimer;
 
         public MazeScene()
         {
@@ -64,6 +67,11 @@ namespace SDK.Lib
 
         public void loadSecondScene()
         {
+            UIMaze uiMaze = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIMaze) as UIMaze;
+            if(uiMaze != null)
+            {
+                uiMaze.enterSecond();
+            }
             Ctx.m_instance.m_soundMgr.unloadAll();
             Ctx.m_instance.m_maze.mazeData.curSceneIdx = (int)eSceneIndex.eSecond;
             Ctx.m_instance.m_sceneSys.loadScene("MazeSecond.unity", onResLoadScene);
@@ -80,6 +88,7 @@ namespace SDK.Lib
             startSmallStar0fTimer();
             startSmallStar1fTimer();
             startSmallStar2fTimer();
+            startEnterTimer();
         }
 
         // 启动初始化定时器
@@ -155,6 +164,24 @@ namespace SDK.Lib
             Ctx.m_instance.m_timerMgr.addObject(m_smallStar2fTimer);
         }
 
+        protected void startEnterTimer()
+        {
+            if (m_enterTimer == null)
+            {
+                m_enterTimer = new TimerItemBase();
+            }
+            else
+            {
+                m_enterTimer.reset();        // 重置内部数据
+            }
+
+            m_enterTimer.m_internal = 15.0f;
+            m_enterTimer.m_totalTime = 15.0f;
+            m_enterTimer.m_timerDisp = onEnterTimerEndHandle;
+
+            Ctx.m_instance.m_timerMgr.addObject(m_enterTimer);
+        }
+
         protected void stopTimer()
         {
             if (m_bigStartTimer != null)
@@ -193,7 +220,10 @@ namespace SDK.Lib
         public void onSmallStar2fTimerEndHandle(TimerItemBase timer)
         {
             UtilApi.SetActive(m_smallStarPnl_2, true);
+        }
 
+        public void onEnterTimerEndHandle(TimerItemBase timer)
+        {
             if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
             {
                 Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();

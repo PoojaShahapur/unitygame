@@ -16,6 +16,7 @@ namespace Game.UI
     public class UIMaze : Form, IUITest
     {
         protected GameObject m_btnGo;
+        protected GameObject m_btnResetGo;
 
         public override void onInit()
         {
@@ -39,6 +40,8 @@ namespace Game.UI
             {
                 UtilApi.setRectPos(trans, new Vector3(-449, 172, 0));
             }
+
+            UtilApi.SetActive(m_btnResetGo, false);
         }
         
         // 初始化控件
@@ -66,6 +69,7 @@ namespace Game.UI
         protected void findWidget()
         {
             m_btnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnStart");
+            m_btnResetGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnReset");
         }
 
         protected void addEventHandle()
@@ -111,6 +115,17 @@ namespace Game.UI
         protected void onResetBtnClk()
         {
             Ctx.m_instance.m_maze.mazeData.roomInfo.resetInitState();
+        }
+
+        public void enterSecond()
+        {
+            RectTransform trans = m_btnGo.GetComponent<RectTransform>();
+            UtilApi.setRectPos(trans, new Vector3(-449, 172, 0));
+        }
+
+        public void toggleResetBtn(bool bShow)
+        {
+            UtilApi.SetActive(m_btnResetGo, bShow);
         }
     }
 }

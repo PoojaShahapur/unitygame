@@ -1,4 +1,5 @@
-﻿using SDK.Common;
+﻿using Game.UI;
+using SDK.Common;
 using System.IO;
 using UnityEngine;
 
@@ -183,6 +184,12 @@ namespace SDK.Lib
                 m_bDiePt = false;
                 m_BDiedPlayEffect = false;
                 Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMaze);
+
+                UIMaze uiMaze = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIMaze) as UIMaze;
+                if (uiMaze != null)
+                {
+                    uiMaze.toggleResetBtn(true);
+                }
 
                 string path = "";
                 path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "Ground.mp3");
