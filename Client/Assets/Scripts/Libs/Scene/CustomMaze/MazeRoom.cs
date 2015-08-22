@@ -19,7 +19,8 @@ namespace SDK.Lib
         protected int m_iTag;
         protected MazeIOControl m_mazeIOControl;
         protected MazeRoomTrackAniControl m_mazeRoomTrackAniControl;
-        protected Vector3 m_origPos;
+        protected Vector3 m_initOrigPos;    // 最初的原始位置，永远不会变
+        protected Vector3 m_origPos;        // 当前原始位置，永远记录当前的原点位置
         protected MList<MazePtBase>[] m_ptListArr;
 
         public MazeRoom(int iTag_)
@@ -78,6 +79,18 @@ namespace SDK.Lib
             set
             {
                 m_origPos = value;
+            }
+        }
+
+        public Vector3 initOrigPos
+        {
+            get
+            {
+                return m_initOrigPos;
+            }
+            set
+            {
+                m_initOrigPos = value;
             }
         }
 
@@ -142,6 +155,7 @@ namespace SDK.Lib
         override protected void onSelfChanged()
         {
             m_origPos = new Vector3(selfGo.transform.localPosition.x, selfGo.transform.localPosition.y, selfGo.transform.localPosition.z);
+            m_initOrigPos = m_origPos;
         }
 
         virtual public void init()

@@ -234,6 +234,7 @@ namespace SDK.Lib
             {
                 m_mazeRoomList[idx].iTag = idx;
 
+                m_mazeRoomList[idx].origPos = m_mazeRoomList[idx].initOrigPos;
                 m_mazeRoomList[idx].mazeIOControl.disableDragTitle();
                 m_mazeRoomList[idx].mazeRoomTrackAniControl.goToDestPos();
                 m_mazeRoomList[idx].mazeIOControl.enableDragTitle();
