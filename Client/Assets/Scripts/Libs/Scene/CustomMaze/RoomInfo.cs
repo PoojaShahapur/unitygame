@@ -177,5 +177,15 @@ namespace SDK.Lib
 
             return 1;
         }
+
+        public void showLightWin()
+        {
+            (m_mazeRoomList[4] as MazeRoomSecond).showLightWin();
+        }
+
+        public void showDarkWin()
+        {
+            (m_mazeRoomList[4] as MazeRoomSecond).showDarkWin();
+        }
     }
 }

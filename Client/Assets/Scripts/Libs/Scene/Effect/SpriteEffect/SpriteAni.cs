@@ -273,6 +273,7 @@ namespace SDK.Lib
                                 if(m_curFrame == m_tableBody.m_frameCount)  // 如果总共就一帧
                                 {
                                     m_curFrame = 0;
+                                    m_curPlayDirection = ePlayDirection.eNegative;
                                 }
                             }
                             else

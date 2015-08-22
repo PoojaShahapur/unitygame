@@ -6,7 +6,7 @@ namespace SDK.Lib
 {
     public class MazePlayerTrackAniControl
     {
-        protected const float sTime = 1.0f;
+        public static float sTime = 1.0f;
 
         protected MazePlayer m_mazePlayer;
 
@@ -163,11 +163,21 @@ namespace SDK.Lib
                     playDieAniAndSound();
                 }
 
-                bool bChangeScene = false;
+                //bool bChangeScene = false;
                 if(!m_bBombPt && !m_bDiePt)     // 如果胜利
                 {
-                    Ctx.m_instance.m_maze.mazeData.mazeScene.show();
-                    bChangeScene = true;
+                    //Ctx.m_instance.m_maze.mazeData.mazeScene.show();
+                    //bChangeScene = true;
+
+                    if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eSecond)
+                    {
+                        Ctx.m_instance.m_maze.mazeData.roomInfo.showLightWin();
+                        Ctx.m_instance.m_maze.mazeData.mazePlayer.hide();
+                    }
+                    else
+                    {
+                        Ctx.m_instance.m_maze.mazeData.mazeScene.showStar();
+                    }
                 }
                 m_bBombPt = false;
                 m_bDiePt = false;
@@ -180,13 +190,13 @@ namespace SDK.Lib
                 path = Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathAudio], "GameOver.mp3");
                 Ctx.m_instance.m_soundMgr.play(path, false);
 
-                if(bChangeScene)
-                {
-                    if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
-                    {
-                        Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();
-                    }
-                }
+                //if(bChangeScene)
+                //{
+                //    if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
+                //    {
+                //        Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();
+                //    }
+                //}
             }
         }
 

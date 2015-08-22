@@ -79,6 +79,17 @@ namespace Game.UI
             Ctx.m_instance.m_maze.mazeData.setStartPos();
             Ctx.m_instance.m_maze.mazeData.startMove();
 
+            if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eSecond)
+            {
+                Ctx.m_instance.m_maze.mazeData.roomInfo.showDarkWin();
+                Ctx.m_instance.m_maze.mazeData.mazePlayer.show();
+                MazePlayerTrackAniControl.sTime = 2.0f;
+            }
+            else
+            {
+                MazePlayerTrackAniControl.sTime = 1.0f;
+            }
+
             exit();
         }
     }

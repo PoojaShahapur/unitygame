@@ -19,6 +19,11 @@ namespace SDK.Lib
         protected GameObject m_smallStarPnl_1;
         protected GameObject m_smallStarPnl_2;
 
+        protected TimerItemBase m_bigStartTimer;
+        protected TimerItemBase m_smallStar0fTimer;
+        protected TimerItemBase m_smallStar1fTimer;
+        protected TimerItemBase m_smallStar2fTimer;
+
         public MazeScene()
         {
 
@@ -67,6 +72,132 @@ namespace SDK.Lib
         public void onResLoadScene(Scene scene)
         {
             Ctx.m_instance.m_maze.mazeData.init();
+        }
+
+        public void showStar()
+        {
+            startBigStartTimer();
+            startSmallStar0fTimer();
+            startSmallStar1fTimer();
+            startSmallStar2fTimer();
+        }
+
+        // 启动初始化定时器
+        protected void startBigStartTimer()
+        {
+            if (m_bigStartTimer == null)
+            {
+                m_bigStartTimer = new TimerItemBase();
+            }
+            else
+            {
+                m_bigStartTimer.reset();        // 重置内部数据
+            }
+
+            m_bigStartTimer.m_internal = 0.5f;
+            m_bigStartTimer.m_totalTime = 0.5f;
+            m_bigStartTimer.m_timerDisp = onBigStartTimerEndHandle;
+
+            Ctx.m_instance.m_timerMgr.addObject(m_bigStartTimer);
+        }
+
+        protected void startSmallStar0fTimer()
+        {
+            if (m_smallStar0fTimer == null)
+            {
+                m_smallStar0fTimer = new TimerItemBase();
+            }
+            else
+            {
+                m_smallStar0fTimer.reset();        // 重置内部数据
+            }
+
+            m_smallStar0fTimer.m_internal = 1.0f;
+            m_smallStar0fTimer.m_totalTime = 1.0f;
+            m_smallStar0fTimer.m_timerDisp = onSmallStar0fTimerEndHandle;
+
+            Ctx.m_instance.m_timerMgr.addObject(m_smallStar0fTimer);
+        }
+
+        protected void startSmallStar1fTimer()
+        {
+            if (m_smallStar1fTimer == null)
+            {
+                m_smallStar1fTimer = new TimerItemBase();
+            }
+            else
+            {
+                m_smallStar1fTimer.reset();        // 重置内部数据
+            }
+
+            m_smallStar1fTimer.m_internal = 1.5f;
+            m_smallStar1fTimer.m_totalTime = 1.5f;
+            m_smallStar1fTimer.m_timerDisp = onSmallStar1fTimerEndHandle;
+
+            Ctx.m_instance.m_timerMgr.addObject(m_smallStar1fTimer);
+        }
+
+        protected void startSmallStar2fTimer()
+        {
+            if (m_smallStar2fTimer == null)
+            {
+                m_smallStar2fTimer = new TimerItemBase();
+            }
+            else
+            {
+                m_smallStar2fTimer.reset();        // 重置内部数据
+            }
+
+            m_smallStar2fTimer.m_internal = 2.0f;
+            m_smallStar2fTimer.m_totalTime = 2.0f;
+            m_smallStar2fTimer.m_timerDisp = onSmallStar2fTimerEndHandle;
+
+            Ctx.m_instance.m_timerMgr.addObject(m_smallStar2fTimer);
+        }
+
+        protected void stopTimer()
+        {
+            if (m_bigStartTimer != null)
+            {
+                Ctx.m_instance.m_timerMgr.delObject(m_bigStartTimer);
+            }
+            if(m_smallStar0fTimer != null)
+            {
+                Ctx.m_instance.m_timerMgr.delObject(m_smallStar0fTimer);
+            }
+            if (m_smallStar1fTimer != null)
+            {
+                Ctx.m_instance.m_timerMgr.delObject(m_smallStar1fTimer);
+            }
+            if (m_smallStar2fTimer != null)
+            {
+                Ctx.m_instance.m_timerMgr.delObject(m_smallStar2fTimer);
+            }
+        }
+
+        public void onBigStartTimerEndHandle(TimerItemBase timer)
+        {
+            UtilApi.SetActive(m_bigStartPnl, true);
+        }
+
+        public void onSmallStar0fTimerEndHandle(TimerItemBase timer)
+        {
+            UtilApi.SetActive(m_smallStarPnl_0, true);
+        }
+
+        public void onSmallStar1fTimerEndHandle(TimerItemBase timer)
+        {
+            UtilApi.SetActive(m_smallStarPnl_1, true);
+        }
+
+        public void onSmallStar2fTimerEndHandle(TimerItemBase timer)
+        {
+            UtilApi.SetActive(m_smallStarPnl_2, true);
+
+            if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
+            {
+                Ctx.m_instance.m_maze.mazeData.mazeScene.loadSecondScene();
+            }
         }
     }
 }
