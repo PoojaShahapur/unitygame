@@ -6,6 +6,7 @@ using SDK.Lib;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
@@ -14,6 +15,8 @@ namespace Game.UI
      */
     public class UIMaze : Form, IUITest
     {
+        protected GameObject m_btnGo;
+
         public override void onInit()
         {
             exitMode = false;         // 直接隐藏
@@ -26,6 +29,16 @@ namespace Game.UI
             base.onShow();
             Ctx.m_instance.m_maze.mazeData.mazeOp.bStart = false;
             //Ctx.m_instance.m_maze.mazeData.mazePlayer.hide();       // 初始的时候隐藏
+
+            RectTransform trans = m_btnGo.GetComponent<RectTransform>();
+            if (Ctx.m_instance.m_maze.mazeData.curSceneIdx == (int)eSceneIndex.eFirst)
+            {
+                UtilApi.setRectPos(trans, new Vector3(-287, 70, 0));
+            }
+            else
+            {
+                UtilApi.setRectPos(trans, new Vector3(-449, 172, 0));
+            }
         }
         
         // 初始化控件
@@ -52,12 +65,13 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            
+            m_btnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnStart");
         }
 
         protected void addEventHandle()
         {
             UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnStart", onStartBtnClk);
+            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnReset", onResetBtnClk);
         }
 
         protected void onStartBtnClk()
@@ -91,6 +105,12 @@ namespace Game.UI
             }
 
             exit();
+        }
+
+        // 重置按钮
+        protected void onResetBtnClk()
+        {
+            Ctx.m_instance.m_maze.mazeData.roomInfo.resetInitState();
         }
     }
 }

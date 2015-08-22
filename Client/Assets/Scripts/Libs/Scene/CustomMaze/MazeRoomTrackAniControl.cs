@@ -27,5 +27,11 @@ namespace SDK.Lib
 
             m_numAniParal.play();
         }
+
+        // 直接移动到目标位置
+        public void goToDestPos()
+        {
+            UtilApi.setPos(m_mazeRoom.selfGo.transform, m_mazeRoom.origPos);
+        }
     }
 }

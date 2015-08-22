@@ -77,6 +77,35 @@ namespace SDK.Lib
 
             path = "RootGo/SplitGo";
             m_trans = UtilApi.GoFindChildByPObjAndName(path).transform;
+
+            adjustInitState();
+        }
+
+        // 调整最初的状态， B 和 C 交换一下
+        public void adjustInitState()
+        {
+            int srcIdx = 2;
+            int destIdx = 3;
+
+            MazeRoom srcMazeRoom = m_mazeRoomList[srcIdx];
+            MazeRoom destMazeRoom = m_mazeRoomList[destIdx];
+
+            destMazeRoom.iTag = srcMazeRoom.iTag;
+            Vector3 origPos = destMazeRoom.origPos;
+            destMazeRoom.origPos = srcMazeRoom.origPos;
+            srcMazeRoom.iTag = destIdx;
+            srcMazeRoom.origPos = origPos;
+
+            Ctx.m_instance.m_maze.mazeData.roomInfo.updateRoomList();
+
+            srcMazeRoom.mazeIOControl.disableDragTitle();
+            destMazeRoom.mazeIOControl.disableDragTitle();
+            
+            srcMazeRoom.mazeRoomTrackAniControl.goToDestPos();
+            destMazeRoom.mazeRoomTrackAniControl.goToDestPos();
+
+            srcMazeRoom.mazeIOControl.enableDragTitle();
+            destMazeRoom.mazeIOControl.enableDragTitle();
         }
 
         public int getRoomIdx(MazeRoom mazeRoom)
@@ -178,6 +207,16 @@ namespace SDK.Lib
             return 1;
         }
 
+        static public int sortFixRoom(MazeRoom lh, MazeRoom rh)
+        {
+            if (lh.fixIdx < rh.fixIdx)
+            {
+                return -1;
+            }
+
+            return 1;
+        }
+
         public void showLightWin()
         {
             (m_mazeRoomList[4] as MazeRoomSecond).showLightWin();
@@ -186,6 +225,20 @@ namespace SDK.Lib
         public void showDarkWin()
         {
             (m_mazeRoomList[4] as MazeRoomSecond).showDarkWin();
+        }
+
+        public void resetInitState()
+        {
+            m_mazeRoomList.list.Sort(sortFixRoom);      // 排序
+            for(int idx = 0; idx < m_mazeRoomList.Count(); ++idx)
+            {
+                m_mazeRoomList[idx].iTag = idx;
+
+                m_mazeRoomList[idx].mazeIOControl.disableDragTitle();
+                m_mazeRoomList[idx].mazeRoomTrackAniControl.goToDestPos();
+                m_mazeRoomList[idx].mazeIOControl.enableDragTitle();
+            }
+            adjustInitState();
         }
     }
 }
