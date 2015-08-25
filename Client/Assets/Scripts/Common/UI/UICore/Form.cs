@@ -140,6 +140,10 @@ namespace SDK.Common
         // 界面代码创建后就调用
         virtual public void onInit()
         {
+            if(m_luaCSBridgeForm != null)
+            {
+                m_luaCSBridgeForm.CallMethod(LuaCSBridgeForm.ON_INIT);
+            }
             //if (m_bLoadWidgetRes)
             //{
                 // 默认会继续加载资源
@@ -150,6 +154,11 @@ namespace SDK.Common
         // 第一次显示之前会调用一次
         virtual public void onReady()
         {
+            if (m_luaCSBridgeForm != null)
+            {
+                m_luaCSBridgeForm.CallMethod(LuaCSBridgeForm.ON_READY);
+            }
+
             m_bReady = true;
             if (m_bHandleExitBtn)
             {
@@ -160,6 +169,11 @@ namespace SDK.Common
         // 每一次显示都会调用一次
         virtual public void onShow()
 		{
+            if (m_luaCSBridgeForm != null)
+            {
+                m_luaCSBridgeForm.CallMethod(LuaCSBridgeForm.ON_SHOW);
+            }
+
             if (m_bBlurBg)
             {
                 Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
@@ -170,6 +184,11 @@ namespace SDK.Common
         // 每一次隐藏都会调用一次
         virtual public void onHide()
 		{
+            if (m_luaCSBridgeForm != null)
+            {
+                m_luaCSBridgeForm.CallMethod(LuaCSBridgeForm.ON_HIDE);
+            }
+
             if (m_bBlurBg)
             {
                 Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
@@ -179,6 +198,11 @@ namespace SDK.Common
         // 每一次关闭都会调用一次
         virtual public void onExit()
 		{
+            if (m_luaCSBridgeForm != null)
+            {
+                m_luaCSBridgeForm.CallMethod(LuaCSBridgeForm.ON_EXIT);
+            }
+
             if (m_bBlurBg)
             {
                 Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
@@ -252,6 +276,11 @@ namespace SDK.Common
             }
         }
 
+        public void registerImageClickEventByList(string[] imageList)
+        {
+
+        }
+
         public void registerWidgetEvent()
         {
             string[] pathArr = m_luaCSBridgeForm.getTable2StrArray("BtnClickTable");
@@ -270,6 +299,9 @@ namespace SDK.Common
                     m_luaCSBridgeForm.handleUIEvent("onBtnClk", m_formName, m_go2Path[go_].m_path);
                 }
             }
+
+            // 测试全局分发事件
+            // Ctx.m_instance.m_globalEventMgr.eventDispatchGroup.dispatchEvent((int)eGlobalEventType.eGlobalTest, null);
         }
 
         public void addClick(GameObject go, string path)

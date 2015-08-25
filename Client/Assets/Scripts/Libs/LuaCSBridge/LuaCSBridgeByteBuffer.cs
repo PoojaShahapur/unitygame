@@ -170,5 +170,11 @@ namespace SDK.Lib
         {
             writeInt8ToLua("ByteBuffer", "setSysEndian", endian_);
         }
+
+        public void updateLuaByteBuffer(byte[] bytes, int bytesLen)
+        {
+            CallClassMethod(LuaCSBridgeByteBuffer.CLEAR);
+            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, bytes, bytesLen);
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace SDK.Common
     public class UIAttrs
     {
         public Dictionary<UIFormID, UIAttrItem> m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
+        protected LuaCSBridgeUICore m_luaCSBridgeUICore;
 
         public UIAttrs()
         {
@@ -173,6 +174,10 @@ namespace SDK.Common
             m_dicAttr[UIFormID.eUIGM].m_scriptTypeName = "Game.UI.UIGM";
             // ****************** 顶层结束 ***********************
             // ****************** Canvas_100 结束 **********************
+
+            m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
+            m_luaCSBridgeUICore.DoFile("script/UI/UICore/UIAttrs.lua");
+            m_luaCSBridgeUICore.loadLuaCfg();
         }
 
         public string getPath(UIFormID id)

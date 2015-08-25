@@ -143,14 +143,15 @@ namespace SDK.Lib
             return Ctx.m_instance.m_luaMgr.lua[memberName_];
         }
 
+        // 获取一个表，然后转换成数组
         public string[] getTable2StrArray(string tableName)
         {
-            string fullTableName = "";
-            if(String.IsNullOrEmpty(m_tableName))
+            string fullTableName = "";              // 有表前缀的成员名字
+            if(String.IsNullOrEmpty(m_tableName))   // 如果在 _G 表中
             {
                 fullTableName = tableName;
             }
-            else
+            else        // 在一个 _G 的一个表中
             {
                 fullTableName = m_tableName + "." + tableName;
             }
@@ -160,14 +161,15 @@ namespace SDK.Lib
             return strArray;
         }
 
+        // 获取一个表，然后转换成数组
         public int[] getTable2IntArray(string tableName)
         {
-            string fullTableName = "";
-            if (String.IsNullOrEmpty(m_tableName))
+            string fullTableName = "";                      // 有表前缀的成员的名字
+            if (String.IsNullOrEmpty(m_tableName))          // 如果在 _G 表中 
             {
                 fullTableName = tableName;
             }
-            else
+            else            // 在一个 _G 的一个表中
             {
                 fullTableName = m_tableName + "." + tableName;
             }
