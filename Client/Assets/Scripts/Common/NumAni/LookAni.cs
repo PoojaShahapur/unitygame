@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class LookAni : ITweenAniBase
     {

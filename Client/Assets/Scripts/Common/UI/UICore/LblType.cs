@@ -1,4 +1,4 @@
-﻿namespace SDK.Common
+﻿namespace SDK.Lib
 {
     /**
      * @brief Label 类型，主要是设置 Label 的各种属性

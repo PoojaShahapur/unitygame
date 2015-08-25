@@ -3,7 +3,7 @@ using Game.UI;
 using SDK.Lib;
 using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 卡牌数据

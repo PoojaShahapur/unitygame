@@ -1,5 +1,5 @@
-﻿using SDK.Common;
-using SDK.Lib;
+﻿using SDK.Lib;
+
 namespace FightCore
 {
     /**

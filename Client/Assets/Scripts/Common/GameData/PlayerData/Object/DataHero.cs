@@ -1,7 +1,7 @@
 ﻿using Game.Msg;
 using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 玩家所有的 hero 数据

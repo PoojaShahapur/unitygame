@@ -1,6 +1,6 @@
 ﻿using FightCore;
 using Game.Msg;
-using SDK.Common;
+using SDK.Lib;
 using UnityEngine;
 
 namespace Fight

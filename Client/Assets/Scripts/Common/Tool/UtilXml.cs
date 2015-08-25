@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Security;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class UtilXml
     {

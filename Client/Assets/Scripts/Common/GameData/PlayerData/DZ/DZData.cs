@@ -1,7 +1,7 @@
 ﻿using Game.Msg;
 using Game.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public enum EnDZPlayer
     {

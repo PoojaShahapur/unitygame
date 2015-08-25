@@ -1,5 +1,5 @@
 ﻿using System;
-namespace SDK.Common
+namespace SDK.Lib
 {
     public enum EGameStage
     {

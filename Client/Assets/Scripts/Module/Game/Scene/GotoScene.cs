@@ -1,7 +1,7 @@
 ﻿using Fight;
 using FightCore;
 using Game.UI;
-using SDK.Common;
+using SDK.Lib;
 using SDK.Lib;
 using UnityEngine;
 

@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using System;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class AuxDynImageDynGoButton : AuxBasicButton
     {

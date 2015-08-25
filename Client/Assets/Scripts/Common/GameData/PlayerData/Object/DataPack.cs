@@ -1,7 +1,7 @@
 ﻿using Game.Msg;
 using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 背包中的数据

@@ -2,7 +2,7 @@ using SDK.Lib;
 using System.Collections.Generic;
 using System.Security;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 商城

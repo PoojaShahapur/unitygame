@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public interface IUIEvent
     {

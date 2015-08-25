@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 对 api 的进一步 wrap 

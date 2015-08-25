@@ -2,7 +2,6 @@
 using System.Collections;
 using SDK.Lib;
 using FightCore;
-using SDK.Common;
 
 namespace FSM
 {

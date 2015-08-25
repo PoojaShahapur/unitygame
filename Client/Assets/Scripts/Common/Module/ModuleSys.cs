@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 主要是各个模块的管理

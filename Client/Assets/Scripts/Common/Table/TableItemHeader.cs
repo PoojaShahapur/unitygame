@@ -1,4 +1,4 @@
-﻿namespace SDK.Common
+﻿namespace SDK.Lib
 {
     public class TableItemHeader
     {

@@ -1,4 +1,4 @@
-﻿using SDK.Common;
+﻿using SDK.Lib;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -7,7 +7,7 @@ using System.Threading;
 /**
  *@brief 环形缓冲区，不支持多线程写操作
  */
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class CirculeBuffer
     {

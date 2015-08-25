@@ -1,7 +1,7 @@
 ﻿using Game.Msg;
 using SDK.Lib;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 场景中的一个卡牌

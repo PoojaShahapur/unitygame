@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class AuxDynImageStaticGoButton : AuxBasicButton
     {

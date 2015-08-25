@@ -1,5 +1,5 @@
 ﻿using Game.Msg;
-using SDK.Common;
+using SDK.Lib;
 using SDK.Lib;
 
 namespace SDK.Lib

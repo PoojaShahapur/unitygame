@@ -1,4 +1,4 @@
-﻿namespace SDK.Common
+﻿namespace SDK.Lib
 {
     /**
      * @brief 技能基本表

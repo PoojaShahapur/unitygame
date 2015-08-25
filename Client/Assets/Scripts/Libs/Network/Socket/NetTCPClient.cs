@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using SDK.Common;
+using SDK.Lib;
 using System;
 using System.Threading;
 

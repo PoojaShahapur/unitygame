@@ -1,4 +1,4 @@
-﻿namespace SDK.Common
+﻿namespace SDK.Lib
 {
     /**
      * @brief 用来在帮助 UI 完成一些动态加载的内容

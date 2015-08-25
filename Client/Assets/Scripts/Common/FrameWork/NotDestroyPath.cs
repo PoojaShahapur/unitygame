@@ -1,4 +1,4 @@
-﻿namespace SDK.Common
+﻿namespace SDK.Lib
 {
     /**
      * @brief 不释放的路径

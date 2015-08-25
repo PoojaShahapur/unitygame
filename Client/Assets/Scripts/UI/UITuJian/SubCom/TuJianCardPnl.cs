@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using SDK.Common;
+using SDK.Lib;
 using SDK.Lib;
 
 namespace Game.UI

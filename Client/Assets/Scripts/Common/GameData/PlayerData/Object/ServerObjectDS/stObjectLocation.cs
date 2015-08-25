@@ -1,4 +1,4 @@
-﻿namespace SDK.Common
+﻿namespace SDK.Lib
 {
     /**
      * @brief 场景卡牌移动的时候， dwLocation 表示区域， y 表示位置， x 和 dwTableID 没有使用

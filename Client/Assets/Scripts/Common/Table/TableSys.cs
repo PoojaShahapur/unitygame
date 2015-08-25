@@ -1,11 +1,10 @@
-using SDK.Common;
 using SDK.Lib;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 添加一个表的步骤总共分 4 步

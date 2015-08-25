@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public interface IGameSys
     {

@@ -1,6 +1,6 @@
 ﻿using SDK.Lib;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 处理消息工具

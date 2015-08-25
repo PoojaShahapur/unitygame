@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief ITween 动画基类

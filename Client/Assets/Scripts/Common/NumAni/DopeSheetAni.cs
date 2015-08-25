@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
      /**
       * @brief Unity 自己的 DopeSheet 动画

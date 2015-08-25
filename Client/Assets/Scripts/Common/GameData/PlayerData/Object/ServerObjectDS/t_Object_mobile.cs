@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class t_Object_mobile
     {

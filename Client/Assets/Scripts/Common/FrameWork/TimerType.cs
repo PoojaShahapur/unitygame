@@ -1,7 +1,7 @@
 ﻿/**
  * @brief 定时器类型
  */
-namespace SDK.Common
+namespace SDK.Lib
 {
     public enum TimerType
     {

@@ -1,6 +1,6 @@
 using BehaviorLibrary;
 using FSM;
-using SDK.Common;
+using SDK.Lib;
 using UnityEngine;
 
 namespace SDK.Lib

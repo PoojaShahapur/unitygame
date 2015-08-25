@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using System;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 共享内容，主要是数据

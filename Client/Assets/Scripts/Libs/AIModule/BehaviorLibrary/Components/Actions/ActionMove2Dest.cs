@@ -1,6 +1,6 @@
 ﻿using FightCore;
 using Game.UI;
-using SDK.Common;
+using SDK.Lib;
 
 namespace BehaviorLibrary
 {

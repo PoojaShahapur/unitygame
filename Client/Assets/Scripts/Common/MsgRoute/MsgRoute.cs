@@ -1,5 +1,5 @@
 ﻿using SDK.Lib;
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class SocketOpenedMR : MsgRouteBase
     {

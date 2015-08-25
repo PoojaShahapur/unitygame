@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @breif 数字动画序列，同时执行，只监听最后一个动画结束，因为 ITween 会自动释放相同的 ITween 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public enum XmlCfgID
     {

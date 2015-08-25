@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 基本的窗口内容，包括添加一些基本控件

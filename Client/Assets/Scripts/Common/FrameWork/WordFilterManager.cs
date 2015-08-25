@@ -5,7 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class WordFilterManager
     {

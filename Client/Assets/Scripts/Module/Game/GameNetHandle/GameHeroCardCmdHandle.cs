@@ -2,7 +2,7 @@
 using FightCore;
 using Game.Msg;
 using Game.UI;
-using SDK.Common;
+using SDK.Lib;
 using SDK.Lib;
 
 namespace Game.Game

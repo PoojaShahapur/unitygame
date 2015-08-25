@@ -4,7 +4,7 @@ using Game.Msg;
 using SDK.Lib;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 滑动控件的元素

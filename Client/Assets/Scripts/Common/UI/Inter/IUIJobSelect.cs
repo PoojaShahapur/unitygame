@@ -1,6 +1,6 @@
 ﻿using Game.Msg;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public interface IUIJobSelect : IUIBase
     {

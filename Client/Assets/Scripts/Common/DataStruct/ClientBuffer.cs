@@ -1,10 +1,9 @@
-﻿using SDK.Common;
-using SDK.Lib;
+﻿using SDK.Lib;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      *@brief 网络数据缓冲区

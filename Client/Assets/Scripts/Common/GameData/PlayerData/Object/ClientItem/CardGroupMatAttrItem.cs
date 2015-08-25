@@ -1,6 +1,6 @@
 ﻿using Game.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class CardGroupAttrMatItem
     {

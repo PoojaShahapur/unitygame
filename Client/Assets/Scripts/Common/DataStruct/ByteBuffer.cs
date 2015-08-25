@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      *@brief ByteBuffer 功能

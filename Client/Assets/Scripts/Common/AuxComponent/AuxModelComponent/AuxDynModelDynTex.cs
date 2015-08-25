@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 静态模型，动态纹理

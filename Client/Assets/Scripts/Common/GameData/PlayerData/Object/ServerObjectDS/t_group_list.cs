@@ -1,6 +1,6 @@
 ﻿using SDK.Lib;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class t_group_list
     {

@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using UnityEngine.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 动态 UI Image，但是 Image 使用的是一张单独的图片，不是地图集

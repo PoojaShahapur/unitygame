@@ -1,5 +1,4 @@
 ﻿using Fight;
-using SDK.Common;
 using SDK.Lib;
 using UnityEngine;
 

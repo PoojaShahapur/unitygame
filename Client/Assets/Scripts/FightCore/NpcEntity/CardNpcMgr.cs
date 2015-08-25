@@ -1,4 +1,4 @@
-﻿using SDK.Common;
+﻿using SDK.Lib;
 namespace FightCore
 {
     public class CardNpcMgr

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SDK.Common;
+using SDK.Lib;
 using Game.DepLib;
 
 /**

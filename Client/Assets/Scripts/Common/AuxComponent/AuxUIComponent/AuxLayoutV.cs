@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 垂直布局

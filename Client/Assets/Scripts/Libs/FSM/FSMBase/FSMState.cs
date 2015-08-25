@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SDK.Lib;
-using SDK.Common;
 using Game.UI;
 
 namespace FSM

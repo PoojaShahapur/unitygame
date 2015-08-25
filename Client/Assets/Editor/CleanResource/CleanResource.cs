@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using SDK.Common;
+using SDK.Lib;
 using SDK.Lib;
 
 namespace CleanResourceSys

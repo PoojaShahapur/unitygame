@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     // 信息模式类型
     public enum InfoBoxModeType

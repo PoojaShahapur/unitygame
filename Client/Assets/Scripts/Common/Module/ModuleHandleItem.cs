@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using System;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 单一模块处理 Item 

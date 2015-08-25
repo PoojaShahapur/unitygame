@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 系统设置

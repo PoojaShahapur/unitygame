@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 辅助基类

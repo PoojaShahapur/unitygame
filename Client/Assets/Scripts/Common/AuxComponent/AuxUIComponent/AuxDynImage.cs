@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using UnityEngine.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class AuxDynImage : AuxComponent
     {

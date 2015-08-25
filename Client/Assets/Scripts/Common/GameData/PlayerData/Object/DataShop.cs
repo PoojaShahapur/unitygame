@@ -1,7 +1,7 @@
 ﻿using Game.UI;
 using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 商城数据

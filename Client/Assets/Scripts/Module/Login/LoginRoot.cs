@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Game.Login;
-using SDK.Common;
+using SDK.Lib;
 using Game.UI;
 
 public class LoginRoot : MonoBehaviour 

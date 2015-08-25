@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
-using SDK.Common;
+using SDK.Lib;
 
 namespace SDK.Lib
 {

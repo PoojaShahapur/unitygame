@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      *@brief 字节编码解码，大端小端

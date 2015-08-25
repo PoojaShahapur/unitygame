@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class GkEncode
     {

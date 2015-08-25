@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 数字动画基类

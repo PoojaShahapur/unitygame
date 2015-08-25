@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @beirf 一项数字，可能有动画

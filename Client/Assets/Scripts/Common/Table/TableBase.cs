@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     //public class TableBase<T> where T : ItemBase, new()
     public class TableBase

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using SDK.Lib;
-using SDK.Common;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;
@@ -10,7 +9,7 @@ using BehaviorLibrary;
 using FightCore;
 #endif
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 全局数据区

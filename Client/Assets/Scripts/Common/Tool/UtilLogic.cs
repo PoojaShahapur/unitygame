@@ -1,12 +1,11 @@
-﻿using SDK.Common;
-using SDK.Lib;
+﻿using SDK.Lib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class UtilLogic
     {

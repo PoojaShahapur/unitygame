@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Game.Game;
-using SDK.Common;
+using SDK.Lib;
 
 public class GameRoot : MonoBehaviour 
 {

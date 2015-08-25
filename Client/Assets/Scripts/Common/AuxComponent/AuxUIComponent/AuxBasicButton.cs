@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     public class AuxBasicButton : AuxComponent
     {

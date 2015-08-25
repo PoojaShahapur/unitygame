@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 对象池

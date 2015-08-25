@@ -1,5 +1,4 @@
-﻿using SDK.Common;
-using SDK.Lib;
+﻿using SDK.Lib;
 
 namespace Game.Msg
 {
@@ -17,7 +16,7 @@ namespace Game.Msg
             byParam = CHAT_USERCMD_PARAMETER;
         }
 
-        public override void derialize(SDK.Common.ByteBuffer ba)
+        public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
 
@@ -29,7 +28,7 @@ namespace Game.Msg
             ba.readUnsignedInt32(ref dwChannelID);
         }
 
-        public override void serialize(SDK.Common.ByteBuffer ba)
+        public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
 

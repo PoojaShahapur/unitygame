@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using SDK.Common;
-using Game.UI;
 using SDK.Lib;
+using Game.UI;
 
 namespace Game.AutoUpdate
 {

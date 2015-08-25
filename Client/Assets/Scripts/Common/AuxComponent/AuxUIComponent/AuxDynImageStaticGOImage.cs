@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 动态加载的 Image，但是 GameObject 是静态的

@@ -1,7 +1,7 @@
 ﻿using SDK.Lib;
 using System.Collections.Generic;
 
-namespace SDK.Common
+namespace SDK.Lib
 {
     /**
      * @brief 对系统 List 的封装
