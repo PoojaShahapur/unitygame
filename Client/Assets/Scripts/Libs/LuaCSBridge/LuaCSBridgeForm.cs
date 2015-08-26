@@ -47,9 +47,9 @@ namespace SDK.Lib
         override public void init()
         {
             base.init();
-            Ctx.m_instance.m_luaMgr.lua[m_tableName + ".gameObject"] = m_gameObject;
-            Ctx.m_instance.m_luaMgr.lua[m_tableName + ".transform"] = m_gameObject.transform;
-            Ctx.m_instance.m_luaMgr.lua[m_tableName + ".form"] = m_form;
+            LuaScriptMgr.Instance.lua[m_tableName + ".gameObject"] = m_gameObject;
+            LuaScriptMgr.Instance.lua[m_tableName + ".transform"] = m_gameObject.transform;
+            LuaScriptMgr.Instance.lua[m_tableName + ".form"] = m_form;
         }
 
         // 根据表注册 UI 事件， LuaTable 的格式如下 luaTable {name="Panel_Name", BtnClickTable={"ui/click", "ui/tab"} ImageClickTable={"ui/click", "ui/tab"}}
@@ -68,8 +68,8 @@ namespace SDK.Lib
 
         public void handleUIEvent(string eventName, string formName, string path)
         {
-            // Ctx.m_instance.m_luaMgr.DoFile("script/panelscript/UIMgr.lua");
-            LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable("UIManager");
+            // LuaScriptMgr.Instance.DoFile("script/panelscript/UIMgr.lua");
+            LuaTable luaTable = LuaScriptMgr.Instance.GetLuaTable("UIManager");
             CallGlobalMethod(LuaCSBridgeForm.LUA_DISPATCH_FULL_FUNC_NAME, luaTable, eventName, formName, path);  // 这个地方把 luaTable 传递进去，是因为 Lua 中是这么写的 UIManager:OnBtnClick ，而不是 UIManager.OnBtnClick 写的
             // CallGlobalMethod("UISysTest.OnUiMsg", "bbb", "ffff");
         }

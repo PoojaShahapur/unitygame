@@ -20,9 +20,9 @@ namespace SDK.Lib
         public void loadLuaCfg()
         {
             // 首先读取 UIFOrmID 表
-            LuaTable idTable = Ctx.m_instance.m_luaMgr.GetLuaTable("UIFormID");
-            ListDictionary idList = Ctx.m_instance.m_luaMgr.lua.GetTableDict(idTable);
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaMgr.GetLuaTable("UIAttrs");
+            LuaTable idTable = LuaScriptMgr.Instance.GetLuaTable("UIFormID");
+            ListDictionary idList = LuaScriptMgr.Instance.lua.GetTableDict(idTable);
+            LuaTable luaAttrsTable = LuaScriptMgr.Instance.GetLuaTable("UIAttrs");
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem;

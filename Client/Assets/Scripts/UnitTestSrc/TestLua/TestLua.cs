@@ -63,7 +63,7 @@ namespace UnitTestSrc
         {
             //LuaScriptMgr luaMgr = new LuaScriptMgr();
             //luaMgr.Start();
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaMgr;
+            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
 
             string path = "";
             luaMgr.lua.DoFile("LuaScript/UtilDebug.lua");
@@ -87,7 +87,7 @@ namespace UnitTestSrc
 
         protected void testLocalLua()
         {
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaMgr;
+            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
             //luaMgr.lua.DoFile("LuaScript/Common/Prerequisites.lua");
             luaMgr.lua.DoFile("LuaScript/Test/TestLua.lua");
 
@@ -99,7 +99,7 @@ namespace UnitTestSrc
 
         protected void testLuaBindFile()
         {
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaMgr;
+            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
             luaMgr.lua.DoFile("LuaScript/Common/Prerequisites.lua");
 
             LuaCSBridge _luaCSBridge = new LuaCSBridge("testTable");
@@ -169,7 +169,7 @@ namespace UnitTestSrc
 
         protected void testGet_GTable()
         {
-            LuaTable luaTable = Ctx.m_instance.m_luaMgr.GetLuaTable("_G");
+            LuaTable luaTable = LuaScriptMgr.Instance.GetLuaTable("_G");
         }
     }
 }

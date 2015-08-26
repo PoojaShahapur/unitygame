@@ -10,7 +10,7 @@ namespace SDK.Lib
         public LuaCSBridgeNetDispHandle()
             : base("NetDispHandle")
         {
-            // Ctx.m_instance.m_luaMgr.DoString();
+            // LuaScriptMgr.Instance.DoString();
         }
 
         // Lua 脚本处理消息

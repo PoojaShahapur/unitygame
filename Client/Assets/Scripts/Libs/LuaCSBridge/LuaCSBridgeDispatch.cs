@@ -19,7 +19,7 @@ namespace SDK.Lib
         public LuaCSBridgeDispatch(string tableName)
             : base(tableName)
         {
-            Ctx.m_instance.m_luaMgr.DoFile("LuaScript/GlobalEventMgr.lua");
+            LuaScriptMgr.Instance.DoFile("LuaScript/GlobalEventMgr.lua");
         }
 
         // 事件分发

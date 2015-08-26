@@ -108,7 +108,7 @@ namespace SDK.Lib
         public Maze m_maze = new Maze();
         public GlobalEventMgr m_globalEventMgr = new GlobalEventMgr();
 
-        public LuaScriptMgr m_luaMgr;
+        //public LuaScriptMgr m_luaMgr;
 
         public Ctx()
         {
@@ -118,7 +118,7 @@ namespace SDK.Lib
             LuaScriptMgr luaMgr_ = new LuaScriptMgr();
             luaMgr_.Start();
 
-            m_luaMgr = LuaScriptMgr.Instance;
+            //m_luaMgr = LuaScriptMgr.Instance;
         }
 
         public static Ctx instance()

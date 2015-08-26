@@ -24,7 +24,7 @@ public class AppRoot : MonoBehaviour
 	void Start () 
     {
         Ctx.instance();
-        init();
+        //init();
 	}
 	
 	// Update is called once per frame
