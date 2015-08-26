@@ -47,7 +47,7 @@ namespace SDK.Lib
             }
         }
 
-        public void dispose()
+        override public void dispose()
         {
             if (m_skelAnim != null)
             {

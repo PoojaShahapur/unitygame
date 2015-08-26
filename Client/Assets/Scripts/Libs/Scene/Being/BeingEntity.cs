@@ -65,7 +65,7 @@ namespace SDK.Lib
             //UtilApi.setPos(m_skinAniModel.transform, pos);
         }
 
-        public void onTick(float delta)
+        override public void onTick(float delta)
         {
             // 更新一些 ai
             if (m_aiController != null)

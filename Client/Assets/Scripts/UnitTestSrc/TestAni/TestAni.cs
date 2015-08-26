@@ -1,6 +1,6 @@
 ﻿using SDK.Lib;
-using SDK.Lib;
 using UnityEngine;
+
 namespace UnitTestSrc
 {
     /**

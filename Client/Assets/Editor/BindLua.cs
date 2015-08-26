@@ -479,7 +479,7 @@ public static class LuaBinding
          _GT(typeof(CallOnceEventDispatch)),
          _GT(typeof(EventDispatch)),
          _GT(typeof(EventDispatchFunctionObject)),
-         _GT(typeof(ResEventDispatchGroup)),
+         _GT(typeof(EventDispatchGroup)),
          _GT(typeof(ResEventDispatch)),
          _GT(typeof(DaoJiShiTimer)),
          _GT(typeof(FrameTimerItem)),

@@ -1,6 +1,5 @@
 using SDK.Lib;
 using Game.Msg;
-using SDK.Lib;
 
 namespace UnitTestSrc
 {

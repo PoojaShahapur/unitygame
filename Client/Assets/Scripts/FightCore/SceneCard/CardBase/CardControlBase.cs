@@ -22,7 +22,7 @@ namespace FightCore
             }
         }
 
-        virtual public void init()
+        override public void init()
         {
 
         }

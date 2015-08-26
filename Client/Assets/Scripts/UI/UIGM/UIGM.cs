@@ -1,6 +1,5 @@
 ﻿using Game.Msg;
 using SDK.Lib;
-using SDK.Lib;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

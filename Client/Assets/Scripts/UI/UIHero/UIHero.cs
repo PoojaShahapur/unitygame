@@ -2,7 +2,6 @@
 using FightCore;
 using Game.Msg;
 using SDK.Lib;
-using SDK.Lib;
 using UnityEngine;
 
 namespace Game.UI

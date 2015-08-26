@@ -1,5 +1,5 @@
 ﻿using SDK.Lib;
-using SDK.Lib;
+
 namespace Game.Msg
 {
     public class stServerReturnLoginSuccessCmd : stLogonUserCmd

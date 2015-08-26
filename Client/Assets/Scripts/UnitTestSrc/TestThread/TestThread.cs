@@ -1,6 +1,5 @@
 ﻿using Game.Game;
 using SDK.Lib;
-using SDK.Lib;
 
 namespace UnitTestSrc
 {

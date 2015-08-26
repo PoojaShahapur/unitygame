@@ -1,6 +1,6 @@
 ﻿using Game.Msg;
 using SDK.Lib;
-using SDK.Lib;
+
 namespace Game.Login
 {
     public class LoginSelectUserCmdHandle : NetCmdHandleBase
