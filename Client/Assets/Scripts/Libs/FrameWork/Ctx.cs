@@ -102,7 +102,7 @@ namespace SDK.Lib
         public SystemTimeData m_systemTimeData = new SystemTimeData();
         public ScriptDynLoad m_scriptDynLoad = new ScriptDynLoad();
 
-        public LuaScriptMgr m_luaMgr/* = new LuaScriptMgr()*/;
+        public LuaScriptMgr m_luaMgr = new LuaScriptMgr();
         public SkillActionMgr m_skillActionMgr = new SkillActionMgr();
         public ScenePlaceHolder m_scenePlaceHolder = new ScenePlaceHolder();
         public SkillAttackFlowMgr m_skillAttackFlowMgr = new SkillAttackFlowMgr();
@@ -111,7 +111,7 @@ namespace SDK.Lib
 
         public Ctx()
         {
-            //m_luaMgr.Start();
+            m_luaMgr.Start();
         }
 
         public static Ctx instance()

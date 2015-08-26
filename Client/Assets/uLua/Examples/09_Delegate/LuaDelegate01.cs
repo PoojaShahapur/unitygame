@@ -43,6 +43,7 @@ public class LuaDelegate01 : MonoBehaviour
         func.Call(listener);                
         listener.OnClick(go);
         func.Release();
+
         Debug.Log("---------------------------------------------------------------------");        
         func = mgr.GetLuaFunction("RemoveDelegate");
         func.Call(listener);
