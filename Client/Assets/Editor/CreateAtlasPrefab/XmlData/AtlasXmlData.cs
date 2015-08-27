@@ -1,6 +1,5 @@
 ﻿using EditorTool;
 using SDK.Lib;
-using SDK.Lib;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;

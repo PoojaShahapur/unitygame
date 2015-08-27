@@ -1,5 +1,4 @@
-﻿using SDK.Lib;
-using UnityEngine;
+﻿using UnityEngine;
 using UnitySteer.Behaviors;
 
 namespace SDK.Lib

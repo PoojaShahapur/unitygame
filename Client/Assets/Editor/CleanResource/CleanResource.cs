@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using SDK.Lib;
-using SDK.Lib;
 
 namespace CleanResourceSys
 {

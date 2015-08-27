@@ -1,5 +1,4 @@
-﻿using SDK.Lib;
-using System.Security;
+﻿using System.Security;
 using UnityEngine;
 
 namespace SDK.Lib

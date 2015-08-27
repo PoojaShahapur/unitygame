@@ -1,5 +1,4 @@
-﻿using SDK.Lib;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 namespace SDK.Lib
 {

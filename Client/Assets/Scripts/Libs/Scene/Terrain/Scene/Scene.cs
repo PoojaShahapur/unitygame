@@ -1,5 +1,4 @@
 ﻿using QuadTree;
-using SDK.Lib;
 
 namespace SDK.Lib
 {

@@ -1,5 +1,4 @@
 ﻿using LuaInterface;
-using SDK.Lib;
 using System.Collections.Specialized;
 
 namespace SDK.Lib

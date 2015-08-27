@@ -1,5 +1,4 @@
 ﻿using SDK.Lib;
-using SDK.Lib;
 using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;

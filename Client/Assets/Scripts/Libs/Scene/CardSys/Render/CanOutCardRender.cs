@@ -1,5 +1,5 @@
-﻿using SDK.Lib;
-using UnityEngine;
+﻿using UnityEngine;
+
 namespace SDK.Lib
 {
     /**

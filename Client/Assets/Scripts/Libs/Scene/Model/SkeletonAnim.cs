@@ -1,6 +1,4 @@
-﻿using SDK.Lib;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 骨骼动画，假设骨骼是不会换的，如果换骨骼就会有问题

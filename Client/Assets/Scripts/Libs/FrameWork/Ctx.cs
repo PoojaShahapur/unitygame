@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using SDK.Lib;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;

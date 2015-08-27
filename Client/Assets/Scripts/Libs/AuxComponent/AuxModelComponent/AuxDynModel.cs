@@ -1,6 +1,4 @@
-﻿using SDK.Lib;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 动态模型，材质都是静态的，不会改变，只会加载动态模型

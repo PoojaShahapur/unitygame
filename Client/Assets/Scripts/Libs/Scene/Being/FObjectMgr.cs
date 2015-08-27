@@ -1,5 +1,3 @@
-using SDK.Lib;
-
 namespace SDK.Lib
 {
 	/**

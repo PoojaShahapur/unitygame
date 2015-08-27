@@ -1,5 +1,5 @@
-﻿using SDK.Lib;
-using Game.UI;
+﻿using Game.UI;
+
 namespace SDK.Lib
 {
     public class t_MainUserData

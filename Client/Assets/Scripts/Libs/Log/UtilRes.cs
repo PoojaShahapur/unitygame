@@ -1,6 +1,4 @@
-﻿using SDK.Lib;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     // 资源工具类
     public class UtilRes

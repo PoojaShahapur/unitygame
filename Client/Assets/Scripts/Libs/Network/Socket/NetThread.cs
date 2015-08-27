@@ -1,5 +1,5 @@
-﻿using SDK.Lib;
-using System.Threading;
+﻿using System.Threading;
+
 namespace SDK.Lib
 {
     /**

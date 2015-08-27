@@ -1,4 +1,3 @@
-using SDK.Lib;
 namespace SDK.Lib
 {
     /// <summary>

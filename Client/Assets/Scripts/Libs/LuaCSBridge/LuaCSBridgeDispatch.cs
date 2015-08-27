@@ -1,6 +1,4 @@
-﻿using SDK.Lib;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      *@breif 全局事件 Id

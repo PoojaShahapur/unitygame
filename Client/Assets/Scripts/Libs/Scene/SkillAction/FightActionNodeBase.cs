@@ -1,5 +1,4 @@
-﻿using SDK.Lib;
-using System.Security;
+﻿using System.Security;
 
 namespace SDK.Lib
 {

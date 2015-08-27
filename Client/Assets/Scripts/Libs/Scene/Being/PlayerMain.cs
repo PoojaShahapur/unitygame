@@ -1,4 +1,3 @@
-using SDK.Lib;
 using UnityEngine;
 using UnitySteer.Behaviors;
 

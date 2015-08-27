@@ -1,5 +1,4 @@
-﻿using SDK.Lib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 /**
  * @brief 定时器管理器

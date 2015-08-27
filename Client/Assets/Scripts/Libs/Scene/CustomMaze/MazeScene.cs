@@ -1,5 +1,4 @@
 ﻿using Game.UI;
-using SDK.Lib;
 using UnityEngine;
 
 namespace SDK.Lib

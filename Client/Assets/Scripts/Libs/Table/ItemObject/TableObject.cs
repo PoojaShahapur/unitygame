@@ -1,5 +1,4 @@
-﻿using SDK.Lib;
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
     * @brief 道具基本表   
