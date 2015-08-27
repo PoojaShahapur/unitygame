@@ -16,12 +16,13 @@ end
 
 function connectServer()
     if true == g_debugMode then
-        local initconnection = require("debugger")
+        local initconnection = require "debugger"
         initconnection("127.0.0.1", "10000", "luaidekey")
     end
 end
 
-regPath("D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Prefabs/Resources")
-regPath("D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Prefabs/Resources/LuaScript/LuaLib")
-regCPath("D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Plugins/x86_64")
+-- regPath("D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Prefabs/Resources/LuaScript")
+regPath("E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript")
+-- regCPath("D:/file/opensource/unity-game-git/unitygame/unitygame/Client/Assets/Plugins/x86_64")
+regCPath("E:/Self/Self/unity/unitygame/Client/Assets/Plugins/x86_64")
 

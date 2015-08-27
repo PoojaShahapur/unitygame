@@ -3,8 +3,8 @@
 local packagePath = package.path
 package.path = string.format("%s;%s/?.lua", packagePath, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript")
 
-require('LuaScript/DataStruct/ByteBuffer')
-require('LuaScript/DataStruct/Class')
+require "DataStruct/ByteBuffer"
+require "DataStruct/Class"
 
 ByteBuffer.m_buff = {3, 1, '2', 3, 4, 5, 6, 7, 8, 9}
 

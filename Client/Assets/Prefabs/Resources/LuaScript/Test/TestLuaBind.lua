@@ -1,4 +1,4 @@
-require "LuaScript/Common/Prerequisites"
+require "Common/Prerequisites"
 --connectServer()
 local initconnection = require("debugger")
 initconnection("192.168.0.101", "10000", "luaidekey")

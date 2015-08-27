@@ -1,5 +1,5 @@
 --[[字节缓冲区]]
-require('LuaScript/DataStruct/Class')
+require "DataStruct.Class"
 
 --ByteBuffer = {}
 ByteBuffer = class()    -- 定义一个类，必须从返回的类中添加成员

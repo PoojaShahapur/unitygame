@@ -1,12 +1,12 @@
-require "LuaScript/Common/Prerequisites"
+require "Common.Prerequisites"
 connectServer()
 
---[[
-if true == g_debugMode then
-    local initconnection = require("debugger")
-    initconnection("127.0.0.1", "10000", "luaidekey")
-end
-]]
+
+--if true == g_debugMode then
+--    local initconnection = require "debugger"
+--    initconnection("127.0.0.1", "10000", "luaidekey")
+--end
+
 --[[
 
 mime   = require("mime")

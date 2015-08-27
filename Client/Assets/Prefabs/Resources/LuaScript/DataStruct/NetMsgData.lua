@@ -2,7 +2,7 @@
 
 package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources")
 
-require('LuaScript/DataStruct/ByteBuffer')
+require "DataStruct.ByteBuffer"
  
 NetMsgData = ByteBuffer.new()
 --NetMsgData = {}
