@@ -1,4 +1,4 @@
-local g_debugMode = true
+g_debugMode = true
 
 function regPath(path_)
     local origPackagePath = package.path
@@ -17,7 +17,7 @@ end
 function connectServer()
     if true == g_debugMode then
         local initconnection = require "debugger"
-        initconnection("127.0.0.1", "10000", "luaidekey")
+        initconnection("127.0.0.1", "10000", "luaidekey", "debugger.transport.luasocket", "win", "E:/Self/Self/unity/unitygame/Client/Assets/Prefabs/Resources/LuaScript")
     end
 end
 
