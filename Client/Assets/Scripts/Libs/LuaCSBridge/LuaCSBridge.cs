@@ -54,20 +54,20 @@ namespace SDK.Lib
         {
             //if (m_moduleEnv == null)
             //{
-            //    m_moduleEnv = LuaScriptMgr.Instance.lua.NewTable();
+            //    m_moduleEnv = Ctx.m_instance.m_luaScriptMgr.lua.NewTable();
             //    // 获取注册表的全局环境 _G 
-            //    int oldTop = LuaDLL.lua_gettop(LuaScriptMgr.Instance.lua.L);
-            //    int globalIndex = LuaDLL.lua_getmetatable(LuaScriptMgr.Instance.lua.L, LuaIndexes.LUA_REGISTRYINDEX);
+            //    int oldTop = LuaDLL.lua_gettop(Ctx.m_instance.m_luaScriptMgr.lua.L);
+            //    int globalIndex = LuaDLL.lua_getmetatable(Ctx.m_instance.m_luaScriptMgr.lua.L, LuaIndexes.LUA_REGISTRYINDEX);
             //    if (globalIndex != 0)
             //    {
-            //        LuaTable globalTable = LuaScriptMgr.SelfToLuaTable(LuaScriptMgr.Instance.lua.L, globalIndex);
+            //        LuaTable globalTable = LuaScriptMgr.SelfToLuaTable(Ctx.m_instance.m_luaScriptMgr.lua.L, globalIndex);
             //        m_moduleEnv.SetMetaTable(globalTable);
-            //        LuaDLL.lua_settop(LuaScriptMgr.Instance.lua.L, oldTop);
+            //        LuaDLL.lua_settop(Ctx.m_instance.m_luaScriptMgr.lua.L, oldTop);
             //    }
             //}
-            //return LuaScriptMgr.Instance.lua.DoFile(fileName, m_moduleEnv);
-            //return LuaScriptMgr.Instance.lua.DoFile(fileName);
-            return LuaScriptMgr.Instance.lua.DoFile(fileName);
+            //return Ctx.m_instance.m_luaScriptMgr.lua.DoFile(fileName, m_moduleEnv);
+            //return Ctx.m_instance.m_luaScriptMgr.lua.DoFile(fileName);
+            return Ctx.m_instance.m_luaScriptMgr.lua.DoFile(fileName);
         }
 
         /**
@@ -88,7 +88,7 @@ namespace SDK.Lib
             {
                 fullFuncName = m_tableName + "." + funcName_;
             }
-            return LuaScriptMgr.Instance.CallLuaFunction(fullFuncName, args);
+            return Ctx.m_instance.m_luaScriptMgr.CallLuaFunction(fullFuncName, args);
         }
 
         /**
@@ -102,9 +102,9 @@ namespace SDK.Lib
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
                 fullFuncName = m_tableName + "." + funcName_;
-                LuaTable luaTable = LuaScriptMgr.Instance.GetLuaTable(m_tableName);
+                LuaTable luaTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable(m_tableName);
 
-                return LuaScriptMgr.Instance.CallLuaFunction(fullFuncName, luaTable, args);
+                return Ctx.m_instance.m_luaScriptMgr.CallLuaFunction(fullFuncName, luaTable, args);
             }
 
             return null;
@@ -127,7 +127,7 @@ namespace SDK.Lib
                 fullMemberName = m_tableName + "." + memberName_;
             }
 
-            return LuaScriptMgr.Instance.lua[fullMemberName];
+            return Ctx.m_instance.m_luaScriptMgr.lua[fullMemberName];
         }
 
         /**
@@ -136,7 +136,7 @@ namespace SDK.Lib
         public object[] CallGlobalMethod(string funcName_, params object[] args)
         {
             return null;
-            return LuaScriptMgr.Instance.CallLuaFunction(funcName_, args);
+            return Ctx.m_instance.m_luaScriptMgr.CallLuaFunction(funcName_, args);
         }
 
         /**
@@ -144,7 +144,7 @@ namespace SDK.Lib
          */
         public object GetGlobalMember(string memberName_)
         {
-            return LuaScriptMgr.Instance.lua[memberName_];
+            return Ctx.m_instance.m_luaScriptMgr.lua[memberName_];
         }
 
         // 获取一个表，然后转换成数组
@@ -160,7 +160,7 @@ namespace SDK.Lib
                 fullTableName = m_tableName + "." + tableName;
             }
 
-            LuaTable luaTable = LuaScriptMgr.Instance.GetLuaTable(fullTableName);
+            LuaTable luaTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable(fullTableName);
             string[] strArray = luaTable.ToArray<string>();
             return strArray;
         }
@@ -178,7 +178,7 @@ namespace SDK.Lib
                 fullTableName = m_tableName + "." + tableName;
             }
 
-            LuaTable luaTable = LuaScriptMgr.Instance.GetLuaTable(fullTableName);
+            LuaTable luaTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable(fullTableName);
             int[] strArray = luaTable.ToArray<int>();
             return strArray;
         }

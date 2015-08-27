@@ -17,7 +17,7 @@
         public LuaCSBridgeDispatch(string tableName)
             : base(tableName)
         {
-            LuaScriptMgr.Instance.DoFile("LuaScript/GlobalEventMgr.lua");
+            Ctx.m_instance.m_luaScriptMgr.DoFile("GlobalEvent/GlobalEventMgr.lua");
         }
 
         // 事件分发

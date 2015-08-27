@@ -31,15 +31,15 @@ namespace UnitTestSrc
             LuaScriptMgr luaMgr = new LuaScriptMgr();
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "UtilDebug.txt");
             textRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextRes>(path);
-            LuaScriptMgr.Instance.lua.DoString(textRes.text);
+            Ctx.m_instance.m_luaScriptMgr.lua.DoString(textRes.text);
 
-            LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("regPath");
+            LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
             UtilApi.normalPath(ref luaPath);
             object[] ret = reflf.Call(luaPath);
 
             luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Plugins/x86_64");
-            reflf = LuaScriptMgr.Instance.lua.GetFunction("regCPath");
+            reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("regCPath");
             ret = reflf.Call(luaPath);
 
             //path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "debugger.txt");
@@ -48,13 +48,13 @@ namespace UnitTestSrc
 
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "TestLua.txt");
             textRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextRes>(path);
-            LuaScriptMgr.Instance.lua.DoString(textRes.text);
+            Ctx.m_instance.m_luaScriptMgr.lua.DoString(textRes.text);
 
-            LuaFunction lf = LuaScriptMgr.Instance.lua.GetFunction("luaFunc");
+            LuaFunction lf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("luaFunc");
             object[] r = lf.Call("2");
             string str = r[0].ToString();
 
-            //LuaTable table = LuaScriptMgr.Instance.lua.GetTable("mimeself");
+            //LuaTable table = Ctx.m_instance.m_luaScriptMgr.lua.GetTable("mimeself");
             //object _obj = table["encode"];
             //int aaa = 10;
         }
@@ -63,12 +63,12 @@ namespace UnitTestSrc
         {
             //LuaScriptMgr luaMgr = new LuaScriptMgr();
             //luaMgr.Start();
-            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
 
             string path = "";
             luaMgr.lua.DoFile("Test/UtilDebug.lua");
 
-            LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("regPath");
+            LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
             UtilApi.normalPath(ref luaPath);
             object[] ret = reflf.Call(luaPath);
@@ -80,14 +80,14 @@ namespace UnitTestSrc
             path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript/UtilDebug.lua");
             luaMgr.lua.DoFile("Test/TestLua.lua");
 
-            //LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("addVarArg");
+            //LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("addVarArg");
             //object[] ret = reflf.Call(10, 30);
             //int aaa = 10;
         }
 
         protected void testLocalLua()
         {
-            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
             //luaMgr.lua.DoFile("Common/Prerequisites.lua");
             luaMgr.lua.DoFile("Test/TestLua.lua");
 
@@ -99,7 +99,7 @@ namespace UnitTestSrc
 
         protected void testLuaBindFile()
         {
-            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
             luaMgr.lua.DoFile("Common/Prerequisites.lua");
 
             LuaCSBridge _luaCSBridge = new LuaCSBridge("testTable");
@@ -169,7 +169,7 @@ namespace UnitTestSrc
 
         protected void testGet_GTable()
         {
-            LuaTable luaTable = LuaScriptMgr.Instance.GetLuaTable("_G");
+            LuaTable luaTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable("_G");
         }
     }
 }
