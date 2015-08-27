@@ -78,6 +78,7 @@ namespace SDK.Lib
          */
         public object[] CallMethod(string funcName_, params object[] args)
         {
+            return null;
             string fullFuncName = "";               // 完全的有表的完全名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -96,6 +97,7 @@ namespace SDK.Lib
          */
         public object[] CallClassMethod(string funcName_, params object[] args)
         {
+            return null;
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -114,6 +116,7 @@ namespace SDK.Lib
          */
         public object GetMember(string memberName_)
         {
+            return null;
             string fullMemberName = "";             // 有表前缀的成员的名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -132,6 +135,7 @@ namespace SDK.Lib
          */
         public object[] CallGlobalMethod(string funcName_, params object[] args)
         {
+            return null;
             return LuaScriptMgr.Instance.CallLuaFunction(funcName_, args);
         }
 
