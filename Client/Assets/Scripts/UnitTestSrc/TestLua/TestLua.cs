@@ -66,7 +66,7 @@ namespace UnitTestSrc
             LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
 
             string path = "";
-            luaMgr.lua.DoFile("LuaScript/UtilDebug.lua");
+            luaMgr.lua.DoFile("Test/UtilDebug.lua");
 
             LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
@@ -78,7 +78,7 @@ namespace UnitTestSrc
             ret = reflf.Call(luaPath);
 
             path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript/UtilDebug.lua");
-            luaMgr.lua.DoFile("LuaScript/TestLua.lua");
+            luaMgr.lua.DoFile("Test/TestLua.lua");
 
             //LuaFunction reflf = LuaScriptMgr.Instance.lua.GetFunction("addVarArg");
             //object[] ret = reflf.Call(10, 30);
@@ -88,8 +88,8 @@ namespace UnitTestSrc
         protected void testLocalLua()
         {
             LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
-            //luaMgr.lua.DoFile("LuaScript/Common/Prerequisites.lua");
-            luaMgr.lua.DoFile("LuaScript/Test/TestLua.lua");
+            //luaMgr.lua.DoFile("Common/Prerequisites.lua");
+            luaMgr.lua.DoFile("Test/TestLua.lua");
 
             //Process.Start("\"D:\\ProgramFiles(x86)\\Lua\\5.1\\lua\" -e \"require('debugger')('192.168.122.64', '10000');\" E:\\Work\\Code20150402\\client\\trunk\\Client\\Assets\\Lua\\LuaScript\\TestLua.lua");
             //Process.Start("D:\\ProgramFiles(x86)\\Lua\\5.1\\lua");
@@ -100,10 +100,10 @@ namespace UnitTestSrc
         protected void testLuaBindFile()
         {
             LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
-            luaMgr.lua.DoFile("LuaScript/Common/Prerequisites.lua");
+            luaMgr.lua.DoFile("Common/Prerequisites.lua");
 
             LuaCSBridge _luaCSBridge = new LuaCSBridge("testTable");
-            string path = "LuaScript/Test/TestLuaBind.lua";      // 
+            string path = "Test/TestLuaBind.lua";      // 
             _luaCSBridge.DoFile(path);                      // 添加函数，如果 "TestLuaBind.lua" 文件直接调用了一个函数，例如 luaFunc(10) ，执行 DoFile 后返回值是 null ，注意这一点，但是自己手工调用这个函数却有返回值的。
             object[] ret = _luaCSBridge.CallMethod("tableFunc", 10);
 

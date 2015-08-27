@@ -107,7 +107,7 @@ namespace SDK.Lib
         public Maze m_maze = new Maze();
         public GlobalEventMgr m_globalEventMgr = new GlobalEventMgr();
 
-        //public LuaScriptMgr m_luaMgr;
+        //public LuaScriptMgr m_luaScriptMgr = new LuaScriptMgr();
 
         public Ctx()
         {

@@ -22,7 +22,14 @@ public class Util {
             name = name.Substring(0, index);
         }
         name = name.Replace('.', '/');
-        return path + "/uLua/lua/" + name + ".lua";
+        if (File.Exists(path + "/Prefabs/Resources/LuaScript/" + name + ".lua"))
+        {
+            return path + "/Prefabs/Resources/LuaScript/" + name + ".lua";
+        }
+        else
+        {
+            return path + "/uLua/lua/" + name + ".lua";
+        }
     }
 
     public static void Log(string str) {
