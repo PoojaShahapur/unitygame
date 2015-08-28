@@ -5,7 +5,7 @@ UIFormID =
 
 UIAttrs = 
 {
-	eUIFormLua = 
+	[UIFormID.eUIFormLua] = 
 	{
 		m_widgetPath = "UI/UIFormLua/UIFormLua.prefab",
 		m_luaScriptPath = "UI/UIFormLua/UIFormLua.lua",

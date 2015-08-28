@@ -26,15 +26,15 @@ namespace SDK.Lib
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem;
-            //foreach(double value in idList.Values)
-            foreach (string key in idList.Keys)
+            foreach(double value in idList.Values)
+            //foreach (string key in idList.Keys)
             {
-                //id = (int)value;
-                id = Convert.ToInt32(idList[key]);
+                id = Convert.ToInt32(value);
+                //id = Convert.ToInt32(idList[key]);
                 attrItem = new UIAttrItem();
                 m_uiAttrs.m_dicAttr[(UIFormID)id] = attrItem;
-                //luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
-                luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
+                luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
+                //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
 
                 attrItem.m_bNeedLua = true;
                 attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
