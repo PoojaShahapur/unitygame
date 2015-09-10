@@ -513,6 +513,18 @@ namespace SDK.Lib
         }
 
         // 如果要使用 writeInt8 ，直接使用 writeMultiByte 这个函数
+        public void writeInt8(char value)
+        {
+            if (!canWrite(sizeof(char)))
+            {
+                extendDeltaCapicity(sizeof(char));
+            }
+            m_dynBuff.buff[m_position] = (byte)value;
+            advPosAndLen(sizeof(char));
+
+            //check();
+        }
+
         public void writeUnsignedInt8(byte value)
         {
             if (!canWrite(sizeof(byte)))
@@ -525,7 +537,7 @@ namespace SDK.Lib
             //check();
         }
 
-		public void writeInt16 (short value)
+        public void writeInt16 (short value)
         {
             if (!canWrite(sizeof(short)))
             {
