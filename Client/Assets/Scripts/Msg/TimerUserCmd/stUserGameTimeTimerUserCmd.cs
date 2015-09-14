@@ -15,8 +15,8 @@ namespace Game.Msg
         public override void serialize(ByteBuffer ba)
         {
             base.serialize(ba);
-            ba.writeUnsignedLong(dwUserTempID);
-            ba.writeUnsignedLong(qwGameTime);
+            ba.writeUnsignedInt64(dwUserTempID);
+            ba.writeUnsignedInt64(qwGameTime);
         }
 
         //public override void derialize(ByteBuffer ba)

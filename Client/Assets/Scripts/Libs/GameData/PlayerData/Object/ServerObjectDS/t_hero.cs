@@ -15,7 +15,7 @@
         {
             ba.readUnsignedInt16(ref occupation);
             ba.readUnsignedInt16(ref level);
-            ba.readUnsignedLong(ref exp);
+            ba.readUnsignedInt64(ref exp);
             ba.readUnsignedInt8(ref isActive);
             ba.readUnsignedInt8(ref isGold);
         }

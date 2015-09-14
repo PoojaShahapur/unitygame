@@ -14,7 +14,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer ba)
         {
             base.derialize(ba);
-            ba.readUnsignedLong(ref qwGameTime);
+            ba.readUnsignedInt64(ref qwGameTime);
         }
     }
 }
