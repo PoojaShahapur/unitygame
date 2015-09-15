@@ -17,22 +17,22 @@ namespace UnitTestSrc
             reserve = 0;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
-            ba.writeUnsignedInt32(reserve);
-            ba.writeUnsignedInt32(version);
+            base.serialize(bu);
+            bu.writeUnsignedInt32(reserve);
+            bu.writeUnsignedInt32(version);
 
-            ba.writeMultiByte(testStr, GkEncode.UTF8, 100);
+            bu.writeMultiByte(testStr, GkEncode.UTF8, 100);
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt32(ref reserve);
-            ba.readUnsignedInt32(ref version);
+            base.derialize(bu);
+            bu.readUnsignedInt32(ref reserve);
+            bu.readUnsignedInt32(ref version);
 
-            ba.readMultiByte(ref testStr, 100, GkEncode.UTF8);
+            bu.readMultiByte(ref testStr, 100, GkEncode.UTF8);
         }
     }
 }

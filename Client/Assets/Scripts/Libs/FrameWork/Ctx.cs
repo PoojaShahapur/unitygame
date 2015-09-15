@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using BehaviorLibrary;
+using FightCore;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;
-using BehaviorLibrary;
-using FightCore;
 #endif
 
 namespace SDK.Lib

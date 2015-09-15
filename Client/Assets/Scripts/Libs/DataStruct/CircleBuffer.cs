@@ -172,10 +172,10 @@ namespace SDK.Lib
             m_dynamicBuffer.m_size += len;
         }
 
-        public void pushBackBA(ByteBuffer ba)
+        public void pushBackBA(ByteBuffer bu)
         {
-            //pushBack(ba.dynBuff.buff, ba.position, ba.bytesAvailable);
-            pushBackArr(ba.dynBuff.buff, 0, ba.length);
+            //pushBack(bu.dynBuff.buff, bu.position, bu.bytesAvailable);
+            pushBackArr(bu.dynBuff.buff, 0, bu.length);
         }
 
         /**

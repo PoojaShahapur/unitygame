@@ -8,10 +8,10 @@ namespace SDK.Lib
         public string m_name = "";                   //玩家名字
         public uint m_gold;                     //玩家的金币
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readMultiByte(ref m_name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            ba.readUnsignedInt32(ref m_gold);
+            bu.readMultiByte(ref m_name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readUnsignedInt32(ref m_gold);
         }
     }
 }

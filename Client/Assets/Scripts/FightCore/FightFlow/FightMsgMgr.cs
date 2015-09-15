@@ -52,7 +52,7 @@ namespace FightCore
         }
 
         // 一个操作开始
-        public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
+        public void psstNotifyBattleFlowStartUserCmd(ByteBuffer bu)
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 接收到战斗回合开始指令");
 
@@ -66,7 +66,7 @@ namespace FightCore
         }
 
         // 一个操作结束
-        public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
+        public void psstNotifyBattleFlowEndUserCmd(ByteBuffer bu)
         {
             Ctx.m_instance.m_logSys.fightLog("[Fight] 接收到战斗回合结束指令");
 

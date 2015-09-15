@@ -50,10 +50,10 @@ namespace UnitTestSrc
             pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
             pDataBuffer.moveRaw2Msg();
 
-            ByteBuffer ba;
-            ba = pDataBuffer.getMsg();
-            UAssert.DebugAssert(ba != null);
-            pUnitTestCmd.derialize(ba);
+            ByteBuffer bu;
+            bu = pDataBuffer.getMsg();
+            UAssert.DebugAssert(bu != null);
+            pUnitTestCmd.derialize(bu);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "测试数据");
 
             pDataBuffer.getSendData();
@@ -66,9 +66,9 @@ namespace UnitTestSrc
                 pDataBuffer.moveRaw2Msg();
             }
 
-            ba = pDataBuffer.getMsg();
-            UAssert.DebugAssert(ba != null);
-            pUnitTestCmd.derialize(ba);
+            bu = pDataBuffer.getMsg();
+            UAssert.DebugAssert(bu != null);
+            pUnitTestCmd.derialize(bu);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "成功返回");
 
             pDataBuffer.getSendData();
@@ -81,9 +81,9 @@ namespace UnitTestSrc
                 pDataBuffer.moveRaw2Msg();
             }
 
-            ba = pDataBuffer.getMsg();
-            UAssert.DebugAssert(ba != null);
-            pUnitTesNumtCmd.derialize(ba);
+            bu = pDataBuffer.getMsg();
+            UAssert.DebugAssert(bu != null);
+            pUnitTesNumtCmd.derialize(bu);
             UAssert.DebugAssert(pUnitTesNumtCmd.num == 2001);
 
             Ctx.m_instance.m_netDispList.clearOneRevMsg();
@@ -93,11 +93,11 @@ namespace UnitTestSrc
         protected void testBA()
         {
             string str = "测试数据";
-            ByteBuffer ba = new ByteBuffer();
-            ba.writeMultiByte(str, GkEncode.UTF8, 24);
-            ba.position = 0;
+            ByteBuffer bu = new ByteBuffer();
+            bu.writeMultiByte(str, GkEncode.UTF8, 24);
+            bu.position = 0;
             string ret = "";
-            ba.readMultiByte(ref ret, 24, GkEncode.UTF8);
+            bu.readMultiByte(ref ret, 24, GkEncode.UTF8);
         }
 
         protected void testSend()

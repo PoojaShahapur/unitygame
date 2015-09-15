@@ -19,21 +19,21 @@ namespace Game.Msg
             byParam = CREATE_SELECT_USERCMD_PARA;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
-            ba.writeMultiByte(strUserName, GkEncode.UTF8, CVMsg.MAX_NAMESIZE + 1);
-            ba.writeUnsignedInt16(gender);
-            ba.writeUnsignedInt16(race);
+            base.serialize(bu);
+            bu.writeMultiByte(strUserName, GkEncode.UTF8, CVMsg.MAX_NAMESIZE + 1);
+            bu.writeUnsignedInt16(gender);
+            bu.writeUnsignedInt16(race);
 
-            ba.writeUnsignedInt32(hair);
-            ba.writeUnsignedInt32(face);
+            bu.writeUnsignedInt32(hair);
+            bu.writeUnsignedInt32(face);
 
-            ba.writeUnsignedInt16(career);
-            ba.writeUnsignedInt32(country);
+            bu.writeUnsignedInt16(career);
+            bu.writeUnsignedInt32(country);
 
-            ba.writeUnsignedInt8(height);
-            ba.writeUnsignedInt8(weight);
+            bu.writeUnsignedInt8(height);
+            bu.writeUnsignedInt8(weight);
         }
     }
 }

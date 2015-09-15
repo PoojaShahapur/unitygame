@@ -7,11 +7,11 @@ namespace SDK.Lib
     {
         public Dictionary<int, Action<ByteBuffer>> m_id2HandleDic = new Dictionary<int, Action<ByteBuffer>>();
 
-        public virtual void handleMsg(ByteBuffer ba, byte byCmd, byte byParam)
+        public virtual void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         {
             if(m_id2HandleDic.ContainsKey(byParam))
             {
-                m_id2HandleDic[byParam](ba);
+                m_id2HandleDic[byParam](bu);
             }
             else
             {

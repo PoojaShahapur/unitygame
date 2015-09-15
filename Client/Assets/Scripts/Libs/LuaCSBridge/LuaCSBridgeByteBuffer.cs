@@ -26,19 +26,19 @@ namespace SDK.Lib
         }
 
         // 更新 Lua 中表的数据
-        public void updateLuaByteBuffer(ByteBuffer ba)
+        public void updateLuaByteBuffer(ByteBuffer bu)
         {
             CallClassMethod(LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
-            for(int idx = 0; idx < ba.dynBuff.size; ++idx)
+            for(int idx = 0; idx < bu.dynBuff.size; ++idx)
             {
-                //m_luaTable[idx] = ba.dynBuff.buff[idx];               // 这样是直接加入表中
-                //CallClassMethod("writeInt8", ba.dynBuff.buff[idx]);         // 写入每一个字节到缓冲区中，直接传递数字类型调用函数，这个数字会被作为 UserData ，如果传递数字，需要传递字符串才行
-                //object ret = CallClassMethod("writeInt8", ba.dynBuff.buff[idx].ToString());
+                //m_luaTable[idx] = bu.dynBuff.buff[idx];               // 这样是直接加入表中
+                //CallClassMethod("writeInt8", bu.dynBuff.buff[idx]);         // 写入每一个字节到缓冲区中，直接传递数字类型调用函数，这个数字会被作为 UserData ，如果传递数字，需要传递字符串才行
+                //object ret = CallClassMethod("writeInt8", bu.dynBuff.buff[idx].ToString());
                 //int aaa = 10;
-                //writeInt8ToLua(m_tableName, WRITEINT8, ba.dynBuff.buff[idx]);
+                //writeInt8ToLua(m_tableName, WRITEINT8, bu.dynBuff.buff[idx]);
             }
 
-            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, ba.dynBuff.buff, (int)ba.dynBuff.size);
+            writeByteArrToLua(m_tableName, WRITEMULTIBYTE, bu.dynBuff.buff, (int)bu.dynBuff.size);
         }
 
         // writeInt8 函数调用，写一个字节到 Lua 表中

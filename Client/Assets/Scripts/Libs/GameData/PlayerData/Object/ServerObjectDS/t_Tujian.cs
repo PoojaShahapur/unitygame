@@ -5,10 +5,10 @@
         public uint id;
         public byte num;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt32(ref id);
-            ba.readUnsignedInt8(ref num);
+            bu.readUnsignedInt32(ref id);
+            bu.readUnsignedInt8(ref num);
         }
     }
 

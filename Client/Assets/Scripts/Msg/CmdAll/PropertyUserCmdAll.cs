@@ -12,10 +12,10 @@ namespace Game.Msg
             byParam = REMOVEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt32(ref qwThisID);
+            base.derialize(bu);
+            bu.readUnsignedInt32(ref qwThisID);
         }
     }
 
@@ -39,12 +39,12 @@ namespace Game.Msg
             byParam = REFCOUNTOBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt32(ref qwThisID);
-            ba.readUnsignedInt32(ref dwNum);
-            ba.readUnsignedInt8(ref type);
+            base.derialize(bu);
+            bu.readUnsignedInt32(ref qwThisID);
+            bu.readUnsignedInt32(ref dwNum);
+            bu.readUnsignedInt8(ref type);
         }
     }
 
@@ -73,13 +73,13 @@ namespace Game.Msg
             byParam = USEUSEROBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
-            ba.writeUnsignedInt32(qwThisID);
-            ba.writeUnsignedInt32(dwNumber);
-            ba.writeUnsignedInt8(useType);
-            ba.writeUnsignedInt8(flag);
+            base.serialize(bu);
+            bu.writeUnsignedInt32(qwThisID);
+            bu.writeUnsignedInt32(dwNumber);
+            bu.writeUnsignedInt8(useType);
+            bu.writeUnsignedInt8(flag);
         }
     }
 
@@ -104,11 +104,11 @@ namespace Game.Msg
         public byte byActionType;
         public t_Object_mobile mobject;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt8(ref byActionType);
+            bu.readUnsignedInt8(ref byActionType);
             mobject = new t_Object_mobile();
-            mobject.derialize(ba);
+            mobject.derialize(bu);
         }
     }
 
@@ -122,10 +122,10 @@ namespace Game.Msg
             byParam = ADDUSER_MOBJECT_LIST_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt16(ref num);
+            base.derialize(bu);
+            bu.readUnsignedInt16(ref num);
 
             list = new List<stObjectOperator>();
             stObjectOperator item;
@@ -133,7 +133,7 @@ namespace Game.Msg
             while(idx < num)
             {
                 item = new stObjectOperator();
-                item.derialize(ba);
+                item.derialize(bu);
                 list.Add(item);
                 ++idx;
             }
@@ -165,12 +165,12 @@ namespace Game.Msg
             byParam = ADDUSER_MOBJECT_PROPERTY_USERCMD_PARAMETER;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt8(ref byActionType);
+            base.derialize(bu);
+            bu.readUnsignedInt8(ref byActionType);
             mobject = new t_Object_mobile();
-            mobject.derialize(ba);
+            mobject.derialize(bu);
         }
     }
 
@@ -194,16 +194,16 @@ namespace Game.Msg
             byParam = REQ_BUY_MARKET_MOBILE_OBJECT_CMD;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
-            ba.writeUnsignedInt16(index);
+            base.serialize(bu);
+            bu.writeUnsignedInt16(index);
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt16(ref index);
+            base.derialize(bu);
+            bu.readUnsignedInt16(ref index);
         }
     }
 
@@ -227,10 +227,10 @@ namespace Game.Msg
             byParam = NOFITY_MARKET_ALL_OBJECT_CMD;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt16(ref count);
+            base.derialize(bu);
+            bu.readUnsignedInt16(ref count);
             if(count > 0)
             {
                 id = new List<ushort>(count);
@@ -238,7 +238,7 @@ namespace Game.Msg
                 ushort ret = 0;
                 while(idx < count)
                 {
-                    ba.readUnsignedInt16(ref ret);
+                    bu.readUnsignedInt16(ref ret);
                     id.Add(ret);
                     ++idx;
                 }
@@ -282,9 +282,9 @@ namespace Game.Msg
             byParam = REQ_USER_BASE_DATA_INFO_CMD;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
+            base.serialize(bu);
         }
     }
 

@@ -10,20 +10,20 @@
         public ushort x;
         public ushort y;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt32(ref dwLocation);
-            ba.readUnsignedInt32(ref dwTableID);
-            ba.readUnsignedInt16(ref x);
-            ba.readUnsignedInt16(ref y);
+            bu.readUnsignedInt32(ref dwLocation);
+            bu.readUnsignedInt32(ref dwTableID);
+            bu.readUnsignedInt16(ref x);
+            bu.readUnsignedInt16(ref y);
         }
 
-        public void serialize(ByteBuffer ba)
+        public void serialize(ByteBuffer bu)
         {
-            ba.writeUnsignedInt32(dwLocation);
-            ba.writeUnsignedInt32(dwTableID);
-            ba.writeUnsignedInt16(x);
-            ba.writeUnsignedInt16(y);
+            bu.writeUnsignedInt32(dwLocation);
+            bu.writeUnsignedInt32(dwTableID);
+            bu.writeUnsignedInt16(x);
+            bu.writeUnsignedInt16(y);
         }
 
         public void copyFrom(stObjectLocation rhv)

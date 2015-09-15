@@ -11,11 +11,11 @@ namespace Game.Msg
             byParam = MAIN_USER_DATA_USERCMD_PARA;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
+            base.derialize(bu);
             data = new t_MainUserData();
-            data.derialize(ba);
+            data.derialize(bu);
         }
     }
 

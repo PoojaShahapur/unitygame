@@ -6,11 +6,11 @@
         public uint maxmp;
         public uint forbid;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt32(ref mp);
-            ba.readUnsignedInt32(ref maxmp);
-            ba.readUnsignedInt32(ref forbid);
+            bu.readUnsignedInt32(ref mp);
+            bu.readUnsignedInt32(ref maxmp);
+            bu.readUnsignedInt32(ref forbid);
         }
     }
 

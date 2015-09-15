@@ -11,10 +11,10 @@ namespace Game.Msg
             byParam = GAMETIME_TIMER_USERCMD_PARA;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt64(ref qwGameTime);
+            base.derialize(bu);
+            bu.readUnsignedInt64(ref qwGameTime);
         }
     }
 }

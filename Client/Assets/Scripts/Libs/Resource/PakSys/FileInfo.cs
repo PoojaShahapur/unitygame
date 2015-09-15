@@ -50,13 +50,13 @@ namespace SDK.Lib
             }
         }
 
-		public void readHeaderFromArchiveFile(ByteBuffer ba)
+		public void readHeaderFromArchiveFile(ByteBuffer bu)
 		{
-            ba.readUnsignedInt8(ref m_pathLen);
-            ba.readMultiByte(ref m_fileNamePath, m_pathLen, Encoding.UTF8);
-            ba.readUnsignedInt32(ref m_fileOffset);
-            ba.readUnsignedInt32(ref m_fileSize);
-            ba.readUnsignedInt32(ref m_flags);
+            bu.readUnsignedInt8(ref m_pathLen);
+            bu.readMultiByte(ref m_fileNamePath, m_pathLen, Encoding.UTF8);
+            bu.readUnsignedInt32(ref m_fileOffset);
+            bu.readUnsignedInt32(ref m_fileSize);
+            bu.readUnsignedInt32(ref m_flags);
 		}
 
         public void readArchiveFile2Bytes(FileStream fileHandle, ref byte[] bytes)

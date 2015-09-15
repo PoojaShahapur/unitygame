@@ -18,16 +18,16 @@ namespace Game.Msg
             byParam = SERVER_RETURN_LOGIN_OK;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt32(ref dwUserID);
-            ba.readUnsignedInt32(ref loginTempID);
-            ba.readMultiByte(ref pstrIP, CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
-            ba.readUnsignedInt16(ref wdPort);
+            base.derialize(bu);
+            bu.readUnsignedInt32(ref dwUserID);
+            bu.readUnsignedInt32(ref loginTempID);
+            bu.readMultiByte(ref pstrIP, CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
+            bu.readUnsignedInt16(ref wdPort);
             keyAux = new ByteBuffer();
             byte[] ret = new byte[256];
-            ba.readBytes(ref ret, 256);
+            bu.readBytes(ref ret, 256);
             keyAux.writeBytes(ret, 0, 256);
             keyAux.position = 58;
             byte index = 0;
@@ -35,7 +35,7 @@ namespace Game.Msg
             keyAux.position = index;
             key = new byte[8];
             keyAux.readBytes(ref key, 8);
-            ba.readUnsignedInt32(ref state);
+            bu.readUnsignedInt32(ref state);
         }
     }
 }

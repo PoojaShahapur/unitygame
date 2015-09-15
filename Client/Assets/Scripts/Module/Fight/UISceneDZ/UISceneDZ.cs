@@ -345,9 +345,9 @@ namespace Fight
             }
         }
 
-        public void psstNotifyBattleFlowStartUserCmd(ByteBuffer ba)
+        public void psstNotifyBattleFlowStartUserCmd(ByteBuffer bu)
         {
-            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowStartUserCmd(ba);
+            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowStartUserCmd(bu);
 
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())
             {
@@ -355,9 +355,9 @@ namespace Fight
             }
         }
 
-        public void psstNotifyBattleFlowEndUserCmd(ByteBuffer ba)
+        public void psstNotifyBattleFlowEndUserCmd(ByteBuffer bu)
         {
-            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowEndUserCmd(ba);
+            m_sceneDZData.m_fightMsgMgr.psstNotifyBattleFlowEndUserCmd(bu);
             // 攻击结束可能自己场牌数量和可能发起攻击状态会改变
             if (Ctx.m_instance.m_dataPlayer.m_dzData.bSelfSide())   // 只有自己回合的时候才更新
             {

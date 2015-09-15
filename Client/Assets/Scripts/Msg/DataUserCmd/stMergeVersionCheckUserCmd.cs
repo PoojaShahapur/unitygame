@@ -11,10 +11,10 @@ namespace Game.Msg
             byParam = MERGE_VERSION_CHECK_USERCMD_PARA;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt32(ref dwMergeVersion);
+            base.derialize(bu);
+            bu.readUnsignedInt32(ref dwMergeVersion);
         }
     }
 }

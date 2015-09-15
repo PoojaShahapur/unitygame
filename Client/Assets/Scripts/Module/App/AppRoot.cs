@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using SDK.Lib;
-using System;
+using BehaviorLibrary;
+using FightCore;
 
 #if UNIT_TEST_SRC
 using UnitTestSrc;
-using BehaviorLibrary;
-using Game.UI;
-using FightCore;
 #endif
 
 /**

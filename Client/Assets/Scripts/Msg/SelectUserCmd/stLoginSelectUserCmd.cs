@@ -11,11 +11,11 @@ namespace Game.Msg
             byParam = LOGIN_SELECT_USERCMD_PARA;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
+            base.serialize(bu);
             charNo = 0;
-            ba.writeUnsignedInt32(charNo);
+            bu.writeUnsignedInt32(charNo);
         }
     }
 }

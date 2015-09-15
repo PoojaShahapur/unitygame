@@ -11,13 +11,13 @@
         public byte isActive;
         public byte isGold;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt16(ref occupation);
-            ba.readUnsignedInt16(ref level);
-            ba.readUnsignedInt64(ref exp);
-            ba.readUnsignedInt8(ref isActive);
-            ba.readUnsignedInt8(ref isGold);
+            bu.readUnsignedInt16(ref occupation);
+            bu.readUnsignedInt16(ref level);
+            bu.readUnsignedInt64(ref exp);
+            bu.readUnsignedInt8(ref isActive);
+            bu.readUnsignedInt8(ref isGold);
         }
 
         public void copyFrom(t_hero rhv)

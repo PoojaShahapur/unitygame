@@ -25,60 +25,60 @@ namespace SDK.Lib
         public uint popDamValue;              //冒出的数字(受伤)
         public byte[] state;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt32(ref qwThisID);
-            ba.readUnsignedInt32(ref dwObjectID);
+            bu.readUnsignedInt32(ref qwThisID);
+            bu.readUnsignedInt32(ref dwObjectID);
 	        pos = new stObjectLocation();
-            pos.derialize(ba);
+            pos.derialize(bu);
 
-            ba.readUnsignedInt32(ref mpcost);
-            ba.readUnsignedInt32(ref damage);
-            ba.readUnsignedInt32(ref hp);
-            ba.readUnsignedInt32(ref maxhp);
-            ba.readUnsignedInt32(ref dur);
+            bu.readUnsignedInt32(ref mpcost);
+            bu.readUnsignedInt32(ref damage);
+            bu.readUnsignedInt32(ref hp);
+            bu.readUnsignedInt32(ref maxhp);
+            bu.readUnsignedInt32(ref dur);
 
-            ba.readUnsignedInt8(ref magicDamAdd);
-            ba.readUnsignedInt8(ref overload);
-            ba.readUnsignedInt32(ref armor);
-            ba.readUnsignedInt8(ref attackTimes);
-            ba.readUnsignedInt8(ref equipOpen);
+            bu.readUnsignedInt8(ref magicDamAdd);
+            bu.readUnsignedInt8(ref overload);
+            bu.readUnsignedInt32(ref armor);
+            bu.readUnsignedInt8(ref attackTimes);
+            bu.readUnsignedInt8(ref equipOpen);
 
-            ba.readUnsignedInt8(ref side);
-            ba.readUnsignedInt32(ref popHpValue);
-            ba.readUnsignedInt32(ref popDamValue);
+            bu.readUnsignedInt8(ref side);
+            bu.readUnsignedInt32(ref popHpValue);
+            bu.readUnsignedInt32(ref popDamValue);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
-            ba.readBytes(ref state, len);
+            bu.readBytes(ref state, len);
         }
 
-        public void serialize(ByteBuffer ba)
+        public void serialize(ByteBuffer bu)
         {
-            ba.writeUnsignedInt32(qwThisID);
-            ba.writeUnsignedInt32(dwObjectID);
+            bu.writeUnsignedInt32(qwThisID);
+            bu.writeUnsignedInt32(dwObjectID);
             pos = new stObjectLocation();
-            pos.serialize(ba);
+            pos.serialize(bu);
 
-            ba.writeUnsignedInt32(mpcost);
-            ba.writeUnsignedInt32(damage);
-            ba.writeUnsignedInt32(hp);
-            ba.writeUnsignedInt32(maxhp);
-            ba.writeUnsignedInt32(dur);
+            bu.writeUnsignedInt32(mpcost);
+            bu.writeUnsignedInt32(damage);
+            bu.writeUnsignedInt32(hp);
+            bu.writeUnsignedInt32(maxhp);
+            bu.writeUnsignedInt32(dur);
 
-            ba.writeUnsignedInt8(magicDamAdd);
-            ba.writeUnsignedInt8(overload);
-            ba.writeUnsignedInt32(armor);
-            ba.writeUnsignedInt8(attackTimes);
-            ba.writeUnsignedInt8(equipOpen);
+            bu.writeUnsignedInt8(magicDamAdd);
+            bu.writeUnsignedInt8(overload);
+            bu.writeUnsignedInt32(armor);
+            bu.writeUnsignedInt8(attackTimes);
+            bu.writeUnsignedInt8(equipOpen);
 
-            ba.writeUnsignedInt8(side);
-            ba.writeUnsignedInt32(popHpValue);
-            ba.writeUnsignedInt32(popDamValue);
+            bu.writeUnsignedInt8(side);
+            bu.writeUnsignedInt32(popHpValue);
+            bu.writeUnsignedInt32(popDamValue);
 
             uint len = ((int)StateID.CARD_STATE_MAX + 7) / 8;
             state = new byte[len];
-            ba.writeBytes(state, 0, len);
+            bu.writeBytes(state, 0, len);
         }
 
         public void copyFrom(t_Card rhv)

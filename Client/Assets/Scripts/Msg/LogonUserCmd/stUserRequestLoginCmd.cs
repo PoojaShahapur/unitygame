@@ -19,34 +19,34 @@ namespace Game.Msg
             byParam = USER_REQUEST_LOGIN_PARA;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
+            base.serialize(bu);
 
-            ba.writeMultiByte(pstrName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
-            ba.writeMultiByte(pstrPassword, GkEncode.UTF8, 33);
-            ba.writeUnsignedInt16(game);
-            ba.writeUnsignedInt16(zone);
-            ba.writeMultiByte(jpegPassport, GkEncode.UTF8, 7);
-            ba.writeMultiByte(mac_addr, GkEncode.UTF8, 13);
-            ba.writeMultiByte(uuid, GkEncode.UTF8, 25);
-            ba.writeUnsignedInt16(wdNetType);
-            ba.writeMultiByte(passpodPwd, GkEncode.UTF8, 9);
+            bu.writeMultiByte(pstrName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
+            bu.writeMultiByte(pstrPassword, GkEncode.UTF8, 33);
+            bu.writeUnsignedInt16(game);
+            bu.writeUnsignedInt16(zone);
+            bu.writeMultiByte(jpegPassport, GkEncode.UTF8, 7);
+            bu.writeMultiByte(mac_addr, GkEncode.UTF8, 13);
+            bu.writeMultiByte(uuid, GkEncode.UTF8, 25);
+            bu.writeUnsignedInt16(wdNetType);
+            bu.writeMultiByte(passpodPwd, GkEncode.UTF8, 9);
         }
 
-        //public override void derialize(ByteBuffer ba)
+        //public override void derialize(ByteBuffer bu)
         //{
-        //    base.derialize(ba);
+        //    base.derialize(bu);
 
-        //    pstrName = ba.readMultiByte(CVMsg.MAX_ACCNAMESIZE, GkEncode.UTF8);
-        //    pstrPassword = ba.readMultiByte(33, GkEncode.UTF8);
-        //    game = ba.readUnsignedShort();
-        //    zone = ba.readUnsignedShort();
-        //    jpegPassport = ba.readMultiByte(7, GkEncode.UTF8);
-        //    mac_addr = ba.readMultiByte(13, GkEncode.UTF8);
-        //    uuid = ba.readMultiByte(25, GkEncode.UTF8);
-        //    wdNetType = ba.readUnsignedShort();
-        //    passpodPwd = ba.readMultiByte(9, GkEncode.UTF8);
+        //    pstrName = bu.readMultiByte(CVMsg.MAX_ACCNAMESIZE, GkEncode.UTF8);
+        //    pstrPassword = bu.readMultiByte(33, GkEncode.UTF8);
+        //    game = bu.readUnsignedShort();
+        //    zone = bu.readUnsignedShort();
+        //    jpegPassport = bu.readMultiByte(7, GkEncode.UTF8);
+        //    mac_addr = bu.readMultiByte(13, GkEncode.UTF8);
+        //    uuid = bu.readMultiByte(25, GkEncode.UTF8);
+        //    wdNetType = bu.readUnsignedShort();
+        //    passpodPwd = bu.readMultiByte(9, GkEncode.UTF8);
         //}
     }
 }

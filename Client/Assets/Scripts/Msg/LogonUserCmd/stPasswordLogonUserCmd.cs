@@ -13,20 +13,20 @@ namespace Game.Msg
             byParam = PASSWORD_LOGON_USERCMD_PARA;
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
-            ba.writeMultiByte(strName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
-            ba.writeMultiByte(strPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
-            ba.writeMultiByte(strNewPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
+            base.serialize(bu);
+            bu.writeMultiByte(strName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
+            bu.writeMultiByte(strPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
+            bu.writeMultiByte(strNewPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
         }
 
-        //public override void derialize(ByteBuffer ba)
+        //public override void derialize(ByteBuffer bu)
         //{
-        //    base.derialize(ba);
-        //    strName = ba.readMultiByte(CVMsg.MAX_ACCNAMESIZE, GkEncode.UTF8);
-        //    strPassword = ba.readMultiByte(CVMsg.MAX_PASSWORD, GkEncode.UTF8);
-        //    strNewPassword = ba.readMultiByte(CVMsg.MAX_PASSWORD, GkEncode.UTF8);
+        //    base.derialize(bu);
+        //    strName = bu.readMultiByte(CVMsg.MAX_ACCNAMESIZE, GkEncode.UTF8);
+        //    strPassword = bu.readMultiByte(CVMsg.MAX_PASSWORD, GkEncode.UTF8);
+        //    strNewPassword = bu.readMultiByte(CVMsg.MAX_PASSWORD, GkEncode.UTF8);
         //}
     }
 }

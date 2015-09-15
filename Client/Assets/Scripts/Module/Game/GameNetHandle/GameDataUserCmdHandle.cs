@@ -12,7 +12,7 @@ namespace Game.Game
         }
 
         // 如果要调试，可以重载，方便调试
-        //public override void handleMsg(ByteBuffer ba, byte byCmd, byte byParam)
+        //public override void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         //{
         //
         //}

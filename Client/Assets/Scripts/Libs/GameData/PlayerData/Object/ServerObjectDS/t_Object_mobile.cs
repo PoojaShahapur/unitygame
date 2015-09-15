@@ -12,13 +12,13 @@ namespace SDK.Lib
         public stObjectLocation pos;
         public uint dwNum;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt32(ref dwThisID);
-            ba.readUnsignedInt32(ref dwObjectID);
+            bu.readUnsignedInt32(ref dwThisID);
+            bu.readUnsignedInt32(ref dwObjectID);
             pos = new stObjectLocation();
-            pos.derialize(ba);
-            ba.readUnsignedInt32(ref dwNum);
+            pos.derialize(bu);
+            bu.readUnsignedInt32(ref dwNum);
         }
     }
 }

@@ -47,50 +47,50 @@ namespace Game.Msg
         byte weight;
         ushort picbindloginclearnum;
 
-        public void derialize(ByteBuffer ba)
+        public void derialize(ByteBuffer bu)
         {
-            ba.readUnsignedInt32(ref id);
-            ba.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            ba.readUnsignedInt16(ref type);
-            ba.readUnsignedInt16(ref level);
-            ba.readUnsignedInt32(ref mapid);
-            ba.readMultiByte(ref mapName, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            ba.readUnsignedInt16(ref country);
+            bu.readUnsignedInt32(ref id);
+            bu.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readUnsignedInt16(ref type);
+            bu.readUnsignedInt16(ref level);
+            bu.readUnsignedInt32(ref mapid);
+            bu.readMultiByte(ref mapName, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readUnsignedInt16(ref country);
 
-            ba.readMultiByte(ref countryName, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
-            ba.readUnsignedInt32(ref bitmask);
-            ba.readUnsignedInt32(ref zone_state);
-            ba.readUnsignedInt32(ref target_zone);
-            ba.readUnsignedInt32(ref model1);
-            ba.readUnsignedInt32(ref model2);
-            ba.readUnsignedInt32(ref model3);
-            ba.readUnsignedInt32(ref model4);
-            ba.readUnsignedInt32(ref model5);
-            ba.readUnsignedInt32(ref model6);
-            ba.readUnsignedInt32(ref model7);
-            ba.readUnsignedInt32(ref model8);
-            ba.readUnsignedInt32(ref model9);
-            ba.readUnsignedInt32(ref model10);
-            ba.readUnsignedInt32(ref model11);
-            ba.readUnsignedInt32(ref model12);
-            ba.readUnsignedInt32(ref model13);
-            ba.readUnsignedInt32(ref model14);
-            ba.readUnsignedInt32(ref model15);
-            ba.readUnsignedInt32(ref model16);
+            bu.readMultiByte(ref countryName, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readUnsignedInt32(ref bitmask);
+            bu.readUnsignedInt32(ref zone_state);
+            bu.readUnsignedInt32(ref target_zone);
+            bu.readUnsignedInt32(ref model1);
+            bu.readUnsignedInt32(ref model2);
+            bu.readUnsignedInt32(ref model3);
+            bu.readUnsignedInt32(ref model4);
+            bu.readUnsignedInt32(ref model5);
+            bu.readUnsignedInt32(ref model6);
+            bu.readUnsignedInt32(ref model7);
+            bu.readUnsignedInt32(ref model8);
+            bu.readUnsignedInt32(ref model9);
+            bu.readUnsignedInt32(ref model10);
+            bu.readUnsignedInt32(ref model11);
+            bu.readUnsignedInt32(ref model12);
+            bu.readUnsignedInt32(ref model13);
+            bu.readUnsignedInt32(ref model14);
+            bu.readUnsignedInt32(ref model15);
+            bu.readUnsignedInt32(ref model16);
 
-            ba.readUnsignedInt8(ref effect11);
-            ba.readUnsignedInt8(ref effect12);
-            ba.readUnsignedInt8(ref effect13);
-            ba.readUnsignedInt8(ref effect14);
-            ba.readUnsignedInt8(ref effect15);
-            ba.readUnsignedInt8(ref effect16);
-            ba.readUnsignedInt8(ref effect17);
-            ba.readUnsignedInt8(ref effect18);
+            bu.readUnsignedInt8(ref effect11);
+            bu.readUnsignedInt8(ref effect12);
+            bu.readUnsignedInt8(ref effect13);
+            bu.readUnsignedInt8(ref effect14);
+            bu.readUnsignedInt8(ref effect15);
+            bu.readUnsignedInt8(ref effect16);
+            bu.readUnsignedInt8(ref effect17);
+            bu.readUnsignedInt8(ref effect18);
 
-            ba.readUnsignedInt16(ref job);
-            ba.readUnsignedInt8(ref height);
-            ba.readUnsignedInt8(ref weight);
-            ba.readUnsignedInt16(ref picbindloginclearnum);
+            bu.readUnsignedInt16(ref job);
+            bu.readUnsignedInt8(ref height);
+            bu.readUnsignedInt8(ref weight);
+            bu.readUnsignedInt16(ref picbindloginclearnum);
         }
     }
 }

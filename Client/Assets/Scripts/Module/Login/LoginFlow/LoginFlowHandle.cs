@@ -256,7 +256,7 @@ namespace Game.Login
         }
 
         // 返回基本角色信息
-        public void psstUserInfoUserCmd(ByteBuffer ba)
+        public void psstUserInfoUserCmd(ByteBuffer bu)
         {
             // 发送选择角色登陆进入游戏
             stLoginSelectUserCmd cmd1f = new stLoginSelectUserCmd();
@@ -264,14 +264,14 @@ namespace Game.Login
             UtilMsg.sendMsg(cmd1f);
 
             stUserInfoUserCmd cmd = new stUserInfoUserCmd();
-            cmd.derialize(ba);
+            cmd.derialize(bu);
         }
 
         // 终于登陆成功了
-        public void psstLoginSelectSuccessUserCmd(ByteBuffer ba)
+        public void psstLoginSelectSuccessUserCmd(ByteBuffer bu)
         {
             stLoginSelectSuccessUserCmd cmd = new stLoginSelectSuccessUserCmd();
-            cmd.derialize(ba);
+            cmd.derialize(bu);
 
             Ctx.m_instance.m_netDispList.bStopNetHandle = true;     // 停止网络消息处理
             // 进入场景

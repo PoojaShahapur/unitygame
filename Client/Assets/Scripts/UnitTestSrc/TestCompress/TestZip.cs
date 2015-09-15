@@ -38,10 +38,10 @@ namespace UnitTestSrc
             byte[] outBytes = null;
             //uint outSize = 0;
 
-            ByteBuffer ba = new ByteBuffer();
+            ByteBuffer bu = new ByteBuffer();
             stUserRequestLoginCmd cmd = new stUserRequestLoginCmd();
-            cmd.serialize(ba);
-            //Compress.CompressByteZip(ba.dynBuff.buff, 0, (uint)ba.length, ref outBytes, ref outSize);
+            cmd.serialize(bu);
+            //Compress.CompressByteZip(bu.dynBuff.buff, 0, (uint)bu.length, ref outBytes, ref outSize);
 
             writeFile("e:\\log.zip", outBytes);
         }

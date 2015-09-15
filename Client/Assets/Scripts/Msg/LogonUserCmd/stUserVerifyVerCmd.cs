@@ -16,22 +16,22 @@ namespace Game.Msg
             cmd = new stPasswdLogonUserCmd();
         }
 
-        public override void serialize(ByteBuffer ba)
+        public override void serialize(ByteBuffer bu)
         {
-            base.serialize(ba);
-            ba.writeUnsignedInt32(reserve);
-            ba.writeUnsignedInt32(version);
+            base.serialize(bu);
+            bu.writeUnsignedInt32(reserve);
+            bu.writeUnsignedInt32(version);
 
-            cmd.serialize(ba);
+            cmd.serialize(bu);
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
-            ba.readUnsignedInt32(ref reserve);
-            ba.readUnsignedInt32(ref version);
+            base.derialize(bu);
+            bu.readUnsignedInt32(ref reserve);
+            bu.readUnsignedInt32(ref version);
 
-            cmd.derialize(ba);
+            cmd.derialize(bu);
         }
 	}
 }

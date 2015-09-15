@@ -13,22 +13,22 @@ namespace Game.Msg
             byParam = USERINFO_SELECT_USERCMD_PARA;
         }
 
-        public override void derialize(ByteBuffer ba)
+        public override void derialize(ByteBuffer bu)
         {
-            base.derialize(ba);
+            base.derialize(bu);
 
             charInfo = new SelectUserInfo[CVMsg.MAX_CHARINFO];
             int idx = 0;
             while(idx < CVMsg.MAX_CHARINFO)
             {
-                charInfo[idx].derialize(ba);
+                charInfo[idx].derialize(bu);
                 ++idx;
             }
 
-            ba.readUnsignedInt16(ref size);
+            bu.readUnsignedInt16(ref size);
             if(size > 0)
             {
-                ba.readMultiByte(ref data, size, GkEncode.UTF8);
+                bu.readMultiByte(ref data, size, GkEncode.UTF8);
             }
         }
     }

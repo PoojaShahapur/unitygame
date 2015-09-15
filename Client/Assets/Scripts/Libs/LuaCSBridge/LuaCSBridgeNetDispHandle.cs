@@ -12,7 +12,7 @@
         }
 
         // Lua 脚本处理消息
-        public void handleMsg(ByteBuffer ba, byte byCmd, byte byParam)
+        public void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         {
 
         }
