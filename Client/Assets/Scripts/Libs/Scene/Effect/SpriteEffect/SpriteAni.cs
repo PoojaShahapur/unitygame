@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public enum SpritePlayState
     {

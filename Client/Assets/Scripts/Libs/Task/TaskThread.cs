@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 网络线程

@@ -1,6 +1,4 @@
-﻿using Game.Msg;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 战斗消息统一处理的地方

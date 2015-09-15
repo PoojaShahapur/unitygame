@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using BehaviorLibrary;
+﻿using BehaviorLibrary;
 using FightCore;
 
 #if UNIT_TEST_SRC

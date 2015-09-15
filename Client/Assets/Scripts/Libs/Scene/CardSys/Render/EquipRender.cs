@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 装备卡、技能卡，渲染器

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public interface IUIEvent
     {

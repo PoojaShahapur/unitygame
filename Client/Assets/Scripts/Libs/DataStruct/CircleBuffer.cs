@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Threading;
 
 /**
  *@brief 环形缓冲区，不支持多线程写操作

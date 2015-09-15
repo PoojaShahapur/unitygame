@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.IO;
 
 namespace SDK.Lib

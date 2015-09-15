@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class UIAttrItem
     {

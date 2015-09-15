@@ -1,6 +1,3 @@
-using BehaviorLibrary;
-using UnityEngine;
-
 namespace SDK.Lib
 {
 	/**

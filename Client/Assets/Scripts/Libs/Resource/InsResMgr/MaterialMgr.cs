@@ -1,7 +1,3 @@
-using Game.UI;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace SDK.Lib
 {
     public class MaterialMgr : ResMgrBase

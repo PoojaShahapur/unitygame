@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace SDK.Lib
 {
     public class CryptKeyBase

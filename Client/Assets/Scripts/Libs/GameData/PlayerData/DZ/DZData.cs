@@ -1,5 +1,4 @@
 ﻿using Game.Msg;
-using Game.UI;
 
 namespace SDK.Lib
 {

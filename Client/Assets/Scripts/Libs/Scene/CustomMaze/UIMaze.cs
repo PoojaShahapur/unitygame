@@ -1,11 +1,6 @@
-﻿using Fight;
-using FightCore;
-using Game.Msg;
-using SDK.Lib;
-using System.Collections.Generic;
+﻿using SDK.Lib;
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.UI
 {

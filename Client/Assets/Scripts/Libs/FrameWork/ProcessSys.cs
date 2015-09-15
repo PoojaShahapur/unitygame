@@ -1,6 +1,4 @@
-﻿using System;
-
-/**
+﻿/**
  * @brief 系统循环
  */
 namespace SDK.Lib

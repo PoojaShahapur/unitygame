@@ -1,6 +1,4 @@
-﻿using Game.UI;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class t_MainUserData
     {

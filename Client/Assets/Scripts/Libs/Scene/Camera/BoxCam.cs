@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /// <summary>
     /// 主控制

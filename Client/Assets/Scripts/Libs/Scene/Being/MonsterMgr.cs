@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnitySteer.Behaviors;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class MonsterMgr : EntityMgrBase
     {
