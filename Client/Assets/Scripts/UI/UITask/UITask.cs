@@ -1,7 +1,4 @@
-﻿using Game.Msg;
-using SDK.Lib;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using SDK.Lib;
 
 namespace Game.UI
 {

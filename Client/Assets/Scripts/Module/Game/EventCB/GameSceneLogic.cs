@@ -1,7 +1,4 @@
-﻿using Game.UI;
-using SDK.Lib;
-using System;
-using System.Collections.Generic;
+﻿using SDK.Lib;
 using UnityEngine;
 
 namespace Game.Game

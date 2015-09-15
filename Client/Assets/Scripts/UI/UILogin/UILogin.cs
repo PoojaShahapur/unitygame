@@ -1,7 +1,4 @@
-﻿using Game.Login;
-using Game.Msg;
-using SDK.Lib;
-using System.Collections.Generic;
+﻿using SDK.Lib;
 using UnityEngine;
 using UnityEngine.UI;
 

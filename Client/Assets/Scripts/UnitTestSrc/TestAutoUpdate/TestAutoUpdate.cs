@@ -1,6 +1,4 @@
-﻿using SDK.Lib;
-
-namespace UnitTestSrc
+﻿namespace UnitTestSrc
 {
     public class TestAutoUpdate
     {

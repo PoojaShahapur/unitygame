@@ -1,5 +1,4 @@
 using SDK.Lib;
-using System;
 
 namespace Game.AutoUpdate
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using System.Collections.Generic;
-using SDK.Lib;
+﻿using SDK.Lib;
 using Game.UI;
 
 namespace Game.Login

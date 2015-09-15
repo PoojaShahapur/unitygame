@@ -1,6 +1,5 @@
 ﻿using LuaInterface;
 using SDK.Lib;
-using System.Diagnostics;
 
 namespace UnitTestSrc
 {

@@ -1,5 +1,4 @@
-﻿using Game.AutoUpdate;
-using SDK.Lib;
+﻿using SDK.Lib;
 using UnityEngine;
 
 public class AutoUpdateRoot : MonoBehaviour 
