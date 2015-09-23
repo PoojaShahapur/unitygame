@@ -38,6 +38,7 @@ namespace SDK.Lib
 
         public Vertex()
         {
+            m_vertsIdVec = new List<int>();
             reset();
         }
 
@@ -96,10 +97,13 @@ namespace SDK.Lib
         // 路径缓存列表
         PathCache m_pathCache;
 
-
         public MGraph()
         {
+            m_vertsVec = new List<Vertex>();
+            m_pathList = new List<Vertex>();
             m_neighborVertIdArr = new int[8];
+            m_closedVec = new List<int>();
+            m_pathCache = new PathCache();
         }
 
         public void dispose()
@@ -185,7 +189,7 @@ namespace SDK.Lib
         *	3		4
         *	5	6	7
         */
-        public float adjacentCost(int vertId, int neighborVertId)
+        protected float adjacentCost(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -252,7 +256,7 @@ namespace SDK.Lib
             setNeighborInvalidByVertId(vertId);
         }
 
-        public bool isHorizontalOrVerticalNeighbor(int vertId, int neighborVertId)
+        protected bool isHorizontalOrVerticalNeighbor(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -271,7 +275,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public bool isHorizontalNeighbor(int vertId, int neighborVertId)
+        protected bool isHorizontalNeighbor(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -289,7 +293,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public bool isVerticalNeighbor(int vertId, int neighborVertId)
+        protected bool isVerticalNeighbor(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -307,7 +311,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public bool isSlashNeighbor(int vertId, int neighborVertId)
+        protected bool isSlashNeighbor(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -325,7 +329,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public bool isNeighbor(int vertId, int neighborVertId)
+        protected bool isNeighbor(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -345,7 +349,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public bool isBackSlashStopPoint(int vertId, int neighborVertId)
+        protected bool isBackSlashStopPoint(int vertId, int neighborVertId)
         {
             int x = 0;
             int y = 0;
@@ -363,7 +367,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public void findNeighborVertIdArr(int vertId)
+        protected void findNeighborVertIdArr(int vertId)
         {
             int x = 0;
             int y = 0;
@@ -400,7 +404,7 @@ namespace SDK.Lib
             }
         }
 
-        public void setNeighborInvalidByVertId(int vertId)
+        protected void setNeighborInvalidByVertId(int vertId)
         {
             // 需要修改邻居是这个顶点的其它顶点的邻居
             if (!m_vertsVec[vertId].m_bNeighborValid)

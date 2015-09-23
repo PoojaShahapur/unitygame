@@ -14,7 +14,7 @@ namespace UnitTestSrc
         {
             //testLua();
             //testLoadLuaFile();
-            testLocalLua();
+            //testLocalLua();
             //testLuaBindFile();
             //testLuaByteBuffer();
             //testLuaByteBufferNeg();

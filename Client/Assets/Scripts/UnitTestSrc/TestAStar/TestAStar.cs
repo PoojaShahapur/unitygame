@@ -188,7 +188,7 @@ namespace UnitTestSrc
             }
             else
             {
-                strStream = "can not find path \n";
+                strStream += "can not find path \n";
             }
         }
     }

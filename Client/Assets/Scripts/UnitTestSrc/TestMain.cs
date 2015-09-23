@@ -22,6 +22,7 @@ namespace UnitTestSrc
         protected TestLogic m_pTestLogic = new TestLogic();
         protected TestLua m_pTestLua = new TestLua();
         protected TestNavMesh m_pTestNavMesh = new TestNavMesh();
+        protected TestAStar m_pTestAStar = new TestAStar();
 
         public void run()
         {
@@ -46,6 +47,7 @@ namespace UnitTestSrc
             m_pTestLogic.run();
             m_pTestLua.run();
             m_pTestNavMesh.run();
+            m_pTestAStar.run();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace SDK.Lib
 {
     public partial class MGraph
     {
-        void buildPath(Vertex endVert)
+        protected void buildPath(Vertex endVert)
         {
             Vertex vert = endVert;
             while (vert != null)
@@ -16,7 +16,7 @@ namespace SDK.Lib
             m_pathList.Insert(0, m_startVert);      // 把最初的顶点放进去
         }
 
-        void initVerts(int startId, int endId)
+        protected void initVerts(int startId, int endId)
         {
             m_startVert = null;
             m_endVert = null;
@@ -47,7 +47,7 @@ namespace SDK.Lib
             m_startVert.m_distance = 0;
         }
 
-        void resetAllVerts(int startId)
+        protected void resetAllVerts(int startId)
         {
             Vertex pVert = null;
             // 初始化数据
@@ -63,7 +63,7 @@ namespace SDK.Lib
             m_startVert.m_state = State.Closed;    // m_startVert->m_state 表示 startId 至 startId 不需要求路径，已经添加到确认队列中了
         }
 
-        bool findNextClosedVert(ref float minDist, ref int minIdx, List<int> closedVec)
+        protected bool findNextClosedVert(ref float minDist, ref int minIdx, List<int> closedVec)
         {
             Vertex pVert = null;
             int closedIdx = 0;
@@ -95,7 +95,7 @@ namespace SDK.Lib
             return bFindNextClosedVert;
         }
 
-        void modifyVertsDist(ref float minDist, ref int minIdx)
+        protected void modifyVertsDist(ref float minDist, ref int minIdx)
         {
             int neighborVertIdx = 0;
             Vertex pVert = null;
@@ -184,7 +184,7 @@ namespace SDK.Lib
             return m_pathList;
         }
 
-        public void convVertIdVec2VertList(List<int> vertsIdVec)
+        protected void convVertIdVec2VertList(List<int> vertsIdVec)
         {
             m_pathList.Clear();
             foreach (var vertId in vertsIdVec)
@@ -193,7 +193,7 @@ namespace SDK.Lib
             }
         }
 
-        void convVertList2VertIdVec(List<int> vertsIdVec)
+        protected void convVertList2VertIdVec(List<int> vertsIdVec)
         {
             foreach (var vert in m_pathList)
             {
