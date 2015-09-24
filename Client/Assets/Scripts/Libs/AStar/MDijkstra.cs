@@ -249,13 +249,11 @@ namespace SDK.Lib
                 Vertex startVert = null;
                 Vertex endVert = null;
                 startVert = m_pathList[0];
-                m_pathList.RemoveAt(0);
-                endVert = m_pathList[0];
-                m_pathList.RemoveAt(0);
+                endVert = m_pathList[1];
 
                 int idx = 0;
 
-                for (idx = 0; idx < m_pathList.Count; ++idx)
+                for (idx = 2; idx < m_pathList.Count; ++idx)
                 {
                     if (isStraightBetweenVert(startVert, m_pathList[idx]))
                     {
