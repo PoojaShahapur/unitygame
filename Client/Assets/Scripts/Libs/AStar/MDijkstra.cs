@@ -170,6 +170,7 @@ namespace SDK.Lib
             if (bFindShortestPath)
             {
                 buildPath(m_endVert);   // 生成路径列表
+                smoothPath();
                 convVertList2VertIdVec(m_pathCache.getAndAddPathCache(startId, endId).m_vertsIdVec);        // 缓存目录
             }
         }
@@ -235,6 +236,92 @@ namespace SDK.Lib
                     vert.m_pStopPoint = null;
                 }
             }
+        }
+
+        protected void smoothPath()
+        {
+            m_smoothPathList.Clear();
+
+            if (m_pathList.Count > 2)
+            {
+                m_smoothPathList.Add(m_pathList[0]);
+
+                Vertex startVert = null;
+                Vertex endVert = null;
+                startVert = m_pathList[0];
+                m_pathList.RemoveAt(0);
+                endVert = m_pathList[0];
+                m_pathList.RemoveAt(0);
+
+                int idx = 0;
+
+                for (idx = 0; idx < m_pathList.Count; ++idx)
+                {
+                    if (isStraightBetweenVert(startVert, m_pathList[idx]))
+                    {
+                        endVert = m_pathList[idx];
+                        if (1 == Math.Abs(m_pathList.Count - idx))
+                        {
+                            m_smoothPathList.Add(endVert);
+                        }
+                    }
+                    else
+                    {
+                        m_smoothPathList.Add(endVert);
+                        startVert = endVert;
+
+                        if (Math.Abs(m_pathList.Count - idx) > 1)
+                        {
+                            endVert = m_pathList[idx];
+                        }
+                        else
+                        {
+                            m_smoothPathList.Add(m_pathList[idx]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                m_smoothPathList.AddRange(m_pathList);
+            }
+        }
+
+        protected bool isStraightBetweenVert(Vertex startVert, Vertex endVert)
+        {
+            int minX = int.MaxValue;
+            int minY = int.MaxValue;
+            int maxX = int.MinValue;
+            int maxY = int.MinValue;
+
+            int startX = 0;
+            int startY = 0;
+            int endX = 0;
+            int endY = 0;
+
+            int curId = 0;
+
+            convVertIdToXY(startVert.m_id, ref startX, ref startY);
+            convVertIdToXY(endVert.m_id, ref endX, ref endY);
+
+            minX = Math.Min(startX, endX);
+            minY = Math.Min(startY, endY);
+            maxX = Math.Max(startX, endX);
+            maxY = Math.Max(startY, endY);
+
+            for (int yIdx = minY; yIdx <= maxY; ++yIdx)
+            {
+                for (int xIdx = minX; xIdx <= maxX; ++xIdx)
+                {
+                    curId = convXYToVertId(xIdx, yIdx);
+                    if (m_vertsVec[curId].m_pStopPoint != null)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

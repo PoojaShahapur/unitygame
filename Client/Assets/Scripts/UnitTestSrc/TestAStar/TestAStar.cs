@@ -15,22 +15,27 @@ namespace UnitTestSrc
             FileStream pFile = new FileStream("E:\\aaa.txt", FileMode.Create);
             string strStream = "";
 
-            vertList = test5Stop(pMGraph);
-            serializePath(vertList, ref strStream);
-            pMGraph.clearAllStopPoint();
-            pMGraph.clearPath();
+            //vertList = test5Stop(pMGraph);
+            //serializePath(vertList, ref strStream);
+            //pMGraph.clearAllStopPoint();
+            //pMGraph.clearPath();
 
-            vertList = test4Stop(pMGraph);
-            serializePath(vertList, ref strStream);
-            pMGraph.clearAllStopPoint();
-            pMGraph.clearPath();
+            //vertList = test4Stop(pMGraph);
+            //serializePath(vertList, ref strStream);
+            //pMGraph.clearAllStopPoint();
+            //pMGraph.clearPath();
 
-            vertList = test2Stop(pMGraph);
-            serializePath(vertList, ref strStream);
-            pMGraph.clearAllStopPoint();
-            pMGraph.clearPath();
+            //vertList = test2Stop(pMGraph);
+            //serializePath(vertList, ref strStream);
+            //pMGraph.clearAllStopPoint();
+            //pMGraph.clearPath();
 
-            vertList = test2Stop(pMGraph);
+            //vertList = test2Stop(pMGraph);
+            //serializePath(vertList, ref strStream);
+            //pMGraph.clearAllStopPoint();
+            //pMGraph.clearPath();
+
+            vertList = test6Stop(pMGraph);
             serializePath(vertList, ref strStream);
             pMGraph.clearAllStopPoint();
             pMGraph.clearPath();
@@ -172,6 +177,22 @@ namespace UnitTestSrc
             else
             {
                 vertList = pMGraph.getOrCreateShortestPath(0, 6);
+            }
+
+            return vertList;
+        }
+
+        // ²âÊÔÐ±ÏßÂ·¾¶Æ½»¬
+        public List<Vertex> test6Stop(MGraph pMGraph)
+        {
+            List<Vertex> vertList;
+            if (pMGraph.isPathCacheValid(0, 7))
+            {
+                vertList = pMGraph.getShortestPathFromPathCache(0, 7);
+            }
+            else
+            {
+                vertList = pMGraph.getOrCreateShortestPath(0, 7);
             }
 
             return vertList;

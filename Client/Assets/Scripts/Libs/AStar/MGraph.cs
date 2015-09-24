@@ -90,6 +90,7 @@ namespace SDK.Lib
 
         // 最终路径列表
         protected List<Vertex> m_pathList;  // 使用 List ，主要是使用 push_front 这个接口
+        protected List<Vertex> m_smoothPathList;
                                             // 计算中需要用的 8 个邻居顶点索引
         protected int[] m_neighborVertIdArr;
         protected List<int> m_closedVec;   // 已经确认的队列列表
@@ -106,10 +107,10 @@ namespace SDK.Lib
         {
             m_vertsVec = new List<Vertex>();
             m_pathList = new List<Vertex>();
+            m_smoothPathList = new List<Vertex>();
             m_neighborVertIdArr = new int[8];
             m_closedVec = new List<int>();
             m_pathCache = new PathCache();
-
 
             m_dx = new int[8] { -1, 0, 1, -1, 1, -1, 0, 1 };
             m_dy = new int[8] { -1, -1, 1, 0, 0, 1, 1, 1 };
