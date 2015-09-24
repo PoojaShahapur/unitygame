@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    class CacheItem
+    public class CacheItem
     {
         public List<int> m_vertsIdVec = null;          // 顶点路径列表
         public bool m_bValid;
@@ -13,7 +13,7 @@ namespace SDK.Lib
         }
     };
 
-    class PathCache
+    public class PathCache
     {
         Dictionary<int, Dictionary<int, CacheItem>> m_rowCol2PathMap;
 

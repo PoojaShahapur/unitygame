@@ -95,7 +95,12 @@ namespace SDK.Lib
         protected List<int> m_closedVec;   // 已经确认的队列列表
 
         // 路径缓存列表
-        PathCache m_pathCache;
+        protected PathCache m_pathCache;
+
+        // 获取邻居信息的辅助数据
+        protected int[] m_dx;
+        protected int[] m_dy;
+        protected float[] m_cost;
 
         public MGraph()
         {
@@ -104,6 +109,11 @@ namespace SDK.Lib
             m_neighborVertIdArr = new int[8];
             m_closedVec = new List<int>();
             m_pathCache = new PathCache();
+
+
+            m_dx = new int[8] { -1, 0, 1, -1, 1, -1, 0, 1 };
+            m_dy = new int[8] { -1, -1, 1, 0, 0, 1, 1, 1 };
+            m_cost = new float[8] { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
         }
 
         public void dispose()
@@ -196,9 +206,6 @@ namespace SDK.Lib
             int xNeighbor = 0;
             int yNeighbor = 0;
             float neighborCost = float.MaxValue;            // 默认是最大值
-            int[] dx = new int[8] { -1, 0, 1, -1, 1, -1, 0, 1 };
-            int[] dy = new int[8] { -1, -1, 1, 0, 0, 1, 1, 1 };
-            float[] cost = new float[8] { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 
             if (vertId == neighborVertId)       // 如果是自己，就返回 0
             {
@@ -222,22 +229,22 @@ namespace SDK.Lib
 
             for (int i = 0; i < 8; ++i)
             {
-                nx = x + dx[i];
-                ny = y + dy[i];
+                nx = x + m_dx[i];
+                ny = y + m_dy[i];
 
                 if (convXYToVertId(nx, ny) == neighborVertId)       // 如果正好是邻居
                 {
                     // 肯定不在阻挡点中，因为如果在阻挡点中，上面已经判断了
                     if (isHorizontalOrVerticalNeighbor(vertId, neighborVertId))     // 如果是水平或者垂直，是斜线
                     {
-                        neighborCost = cost[i];
+                        neighborCost = m_cost[i];
                     }
                     else
                     {
                         // 需要判断斜线上的另一个斜线的两个格子是否是阻挡点
                         if (!isInStopPt(x, yNeighbor) && !isInStopPt(xNeighbor, y))     // 如果对角线上的两个格子都不是阻挡点
                         {
-                            neighborCost = cost[i];
+                            neighborCost = m_cost[i];
                         }
                     }
 
@@ -373,17 +380,14 @@ namespace SDK.Lib
             int y = 0;
             convVertIdToXY(vertId, ref x, ref y);
 
-            int[] dx = new int[8] { -1, 0, 1, -1, 1, -1, 0, 1 };
-            int[] dy = new int[8] { -1, -1, 1, 0, 0, 1, 1, 1 };
-
             int nx = 0;
             int ny = 0;
 
             // 遍历 8 个邻居顶点
             for (int i = 0; i < 8; ++i)
             {
-                nx = x + dx[i];
-                ny = y + dy[i];
+                nx = x + m_dx[i];
+                ny = y + m_dy[i];
 
                 if (nx >= 0 && nx < m_xCount &&
                     ny >= 0 && ny < m_yCount)       // 如果邻居顶点在范围内
