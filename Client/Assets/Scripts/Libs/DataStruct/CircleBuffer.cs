@@ -12,7 +12,7 @@ namespace SDK.Lib
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引，浪费一个字节
         protected ByteBuffer m_tmpBA;        // 临时数据
 
-        public CirculeBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY)
+        public CirculeBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY)
         {
             m_dynBuffer = new DynBuffer<byte>(initCapacity, maxCapacity);
 

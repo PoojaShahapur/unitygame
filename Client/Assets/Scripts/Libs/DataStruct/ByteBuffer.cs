@@ -25,7 +25,7 @@ namespace SDK.Lib
 
         protected LuaCSBridgeByteBuffer m_luaCSBridgeByteBuffer;        // Lua 中的缓冲区
 
-        public ByteBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
+        public ByteBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
             m_dynBuff = new DynBuffer<byte>(initCapacity, maxCapacity);

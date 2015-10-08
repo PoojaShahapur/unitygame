@@ -18,8 +18,8 @@
         protected ByteBuffer m_tmp1fData;           // 临时需要转换的数据放在这里
 
 #if NET_MULTHREAD
-        private MMutex m_readMutex = new MMutex(false, "ReadMutex");   // 读互斥
-        private MMutex m_writeMutex = new MMutex(false, "WriteMutex");   // 写互斥
+        private MMutex m_readMutex;   // 读互斥
+        private MMutex m_writeMutex;   // 写互斥
 #endif
 
 #if MSG_ENCRIPT
@@ -40,6 +40,9 @@
             m_sendData = new ByteBuffer();
             m_tmpData = new ByteBuffer(4);
             m_tmp1fData = new ByteBuffer(4);
+
+            m_readMutex = new MMutex(false, "ReadMutex");
+            m_writeMutex = new MMutex(false, "WriteMutex");
 
 #if MSG_ENCRIPT
             m_cryptContext = new CryptContext();
@@ -244,7 +247,7 @@
                 m_socketSendBA.readUnsignedInt32(ref origMsgLen);    // 读取一个消息包头
 
 #if MSG_COMPRESS
-                if (origMsgLen > DataCV.PACKET_ZIP_MIN)
+                if (origMsgLen > MsgCV.PACKET_ZIP_MIN)
                 {
                     compressMsgLen = m_socketSendBA.compress(origMsgLen);
                 }
@@ -286,10 +289,10 @@
                 // 整个消息压缩后，包括 4 个字节头的长度，然后整个加密
 #if MSG_ENCRIPT
                 cryptLen = ((compressMsgLen + 4 + 7) / 8) * 8 - 4;      // 计算加密后，不包括 4 个头长度的 body 长度
-                if (origMsgLen > DataCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
+                if (origMsgLen > MsgCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
                 {
                     origMsgLen = cryptLen;                // 压缩后的长度
-                    origMsgLen |= DataCV.PACKET_ZIP;            // 添加
+                    origMsgLen |= MsgCV.PACKET_ZIP;            // 添加
                 }
                 else
                 {
@@ -317,7 +320,7 @@
 #if MSG_COMPRESS
             uint origMsgLen = m_socketSendBA.length;       // 原始的消息长度，后面判断头部是否添加压缩标志
             uint compressMsgLen = 0;
-            if (origMsgLen > DataCV.PACKET_ZIP_MIN)
+            if (origMsgLen > MsgCV.PACKET_ZIP_MIN)
             {
                 compressMsgLen = m_socketSendBA.compress();
             }
@@ -335,10 +338,10 @@
 #endif
 
 #if MSG_COMPRESS || MSG_ENCRIPT             // 如果压缩或者加密，需要再次添加压缩或者加密后的头长度
-            if (origMsgLen > DataCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
+            if (origMsgLen > MsgCV.PACKET_ZIP_MIN)    // 如果原始长度需要压缩
             {
                 origMsgLen = compressMsgLen;
-                origMsgLen |= DataCV.PACKET_ZIP;            // 添加
+                origMsgLen |= MsgCV.PACKET_ZIP;            // 添加
             }
             else
             {
@@ -380,9 +383,9 @@
                     break;
                 }
 #if MSG_COMPRESS
-                if ((msglen & DataCV.PACKET_ZIP) > 0)
+                if ((msglen & MsgCV.PACKET_ZIP) > 0)
                 {
-                    msglen &= (~DataCV.PACKET_ZIP);         // 去掉压缩标志位
+                    msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
                     Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息未解压长度　{0}", msglen));
                     msglen = m_rawBuffer.msgBodyBA.uncompress(msglen);
                     Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息解压后长度　{0}", msglen));
@@ -426,7 +429,7 @@
             m_rawBuffer.headerBA.setPos(0);
             uint msglen = 0;
             m_rawBuffer.headerBA.readUnsignedInt32(ref msglen);
-            if ((msglen & DataCV.PACKET_ZIP) > 0)
+            if ((msglen & MsgCV.PACKET_ZIP) > 0)
             {
                 m_rawBuffer.msgBodyBA.uncompress();
             }
