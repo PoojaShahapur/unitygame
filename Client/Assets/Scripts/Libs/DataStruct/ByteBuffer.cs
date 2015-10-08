@@ -17,7 +17,7 @@ namespace SDK.Lib
         public byte[] m_writeFloatBytes = null;
         public byte[] m_writeDoubleBytes = null;
 
-        protected DynamicBuffer<byte> m_dynBuff;
+        protected DynBuffer<byte> m_dynBuff;
         protected uint m_position;          // 当前可以读取的位置索引
         protected Endian m_endian;          // 大端小端
 
@@ -28,10 +28,10 @@ namespace SDK.Lib
         public ByteBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
-            m_dynBuff = new DynamicBuffer<byte>(initCapacity, maxCapacity);
+            m_dynBuff = new DynBuffer<byte>(initCapacity, maxCapacity);
         }
 
-        public DynamicBuffer<byte> dynBuff
+        public DynBuffer<byte> dynBuff
         {
             get
             {

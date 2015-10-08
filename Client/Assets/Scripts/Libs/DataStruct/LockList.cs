@@ -7,13 +7,13 @@ namespace SDK.Lib
      */
     public class LockList<T>
     {
-        protected DynamicBuffer<T> m_dynamicBuffer;
+        protected DynBuffer<T> m_dynamicBuffer;
         protected MMutex m_visitMutex;
         protected T m_retItem;
 
         public LockList(string name, uint initCapacity = 32/*DataCV.INIT_ELEM_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)
         {
-            m_dynamicBuffer = new DynamicBuffer<T>(initCapacity, maxCapacity);
+            m_dynamicBuffer = new DynBuffer<T>(initCapacity, maxCapacity);
             m_visitMutex = new MMutex(false, name);
         }
 

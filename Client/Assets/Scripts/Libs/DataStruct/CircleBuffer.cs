@@ -7,14 +7,14 @@ namespace SDK.Lib
 {
     public class CirculeBuffer
     {
-        protected DynamicBuffer<byte> m_dynamicBuffer;
+        protected DynBuffer<byte> m_dynBuffer;
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引，浪费一个字节
         protected ByteBuffer m_tmpBA;        // 临时数据
 
         public CirculeBuffer(uint initCapacity = DataCV.INIT_CAPACITY, uint maxCapacity = DataCV.MAX_CAPACITY)
         {
-            m_dynamicBuffer = new DynamicBuffer<byte>(initCapacity, maxCapacity);
+            m_dynBuffer = new DynBuffer<byte>(initCapacity, maxCapacity);
 
             m_first = 0;
             m_last = 0;
@@ -36,7 +36,7 @@ namespace SDK.Lib
         {
             get
             {
-                return m_dynamicBuffer.m_buff;
+                return m_dynBuffer.m_buff;
             }
         }
 
@@ -44,22 +44,22 @@ namespace SDK.Lib
         {
             get
             {
-                return m_dynamicBuffer.m_size;
+                return m_dynBuffer.m_size;
             }
             set
             {
-                m_dynamicBuffer.size = value;
+                m_dynBuffer.size = value;
             }
         }
 
         public bool empty()
         {
-            return m_dynamicBuffer.m_size == 0;
+            return m_dynBuffer.m_size == 0;
         }
 
         public uint capacity()
         {
-            return m_dynamicBuffer.m_iCapacity;
+            return m_dynBuffer.m_iCapacity;
         }
 
         public bool full()
@@ -100,8 +100,8 @@ namespace SDK.Lib
             {
                 // 数据在两个不连续的内存空间中
                 char[] tmp = new char[m_last];
-                Array.Copy(m_dynamicBuffer.m_buff, 0, tmp, 0, m_last);  // 拷贝一段内存空间中的数据到 tmp
-                Array.Copy(m_dynamicBuffer.m_buff, m_first, m_dynamicBuffer.m_buff, 0, m_dynamicBuffer.m_iCapacity - m_first);
+                Array.Copy(m_dynBuffer.m_buff, 0, tmp, 0, m_last);  // 拷贝一段内存空间中的数据到 tmp
+                Array.Copy(m_dynBuffer.m_buff, m_first, m_dynBuffer.m_buff, 0, m_dynBuffer.m_iCapacity - m_first);
             }
         }
 
@@ -121,18 +121,18 @@ namespace SDK.Lib
             byte[] tmpbuff = new byte[newCapacity];   // 分配新的空间
             if (isLinearized()) // 如果是在一段内存空间
             {
-                Array.Copy(m_dynamicBuffer.m_buff, m_first, tmpbuff, 0, m_dynamicBuffer.m_size);
+                Array.Copy(m_dynBuffer.m_buff, m_first, tmpbuff, 0, m_dynBuffer.m_size);
             }
             else    // 如果在两端内存空间
             {
-                Array.Copy(m_dynamicBuffer.m_buff, m_first, tmpbuff, 0, m_dynamicBuffer.m_iCapacity - m_first);
-                Array.Copy(m_dynamicBuffer.m_buff, 0, tmpbuff, m_dynamicBuffer.m_iCapacity - m_first, m_last);
+                Array.Copy(m_dynBuffer.m_buff, m_first, tmpbuff, 0, m_dynBuffer.m_iCapacity - m_first);
+                Array.Copy(m_dynBuffer.m_buff, 0, tmpbuff, m_dynBuffer.m_iCapacity - m_first, m_last);
             }
 
             m_first = 0;
-            m_last = m_dynamicBuffer.m_size;
-            m_dynamicBuffer.m_iCapacity = newCapacity;
-            m_dynamicBuffer.m_buff = tmpbuff;
+            m_last = m_dynBuffer.m_size;
+            m_dynBuffer.m_iCapacity = newCapacity;
+            m_dynBuffer.m_buff = tmpbuff;
         }
 
         /**
@@ -142,31 +142,31 @@ namespace SDK.Lib
         {
             if (!canAddData(len)) // 存储空间必须要比实际数据至少多 1
             {
-                uint closeSize = UtilMath.getCloseSize(len + m_dynamicBuffer.m_size, m_dynamicBuffer.m_iCapacity, m_dynamicBuffer.m_iMaxCapacity);
+                uint closeSize = DynBufResizePolicy.getCloseSize(len + m_dynBuffer.m_size, m_dynBuffer.m_iCapacity, m_dynBuffer.m_iMaxCapacity);
                 setCapacity(closeSize);
             }
 
             if (isLinearized())
             {
-                if (len <= (m_dynamicBuffer.m_iCapacity - m_last))
+                if (len <= (m_dynBuffer.m_iCapacity - m_last))
                 {
-                    Array.Copy(items, start, m_dynamicBuffer.m_buff, m_last, len);
+                    Array.Copy(items, start, m_dynBuffer.m_buff, m_last, len);
                 }
                 else
                 {
-                    Array.Copy(items, start, m_dynamicBuffer.m_buff, m_last, m_dynamicBuffer.m_iCapacity - m_last);
-                    Array.Copy(items, m_dynamicBuffer.m_iCapacity - m_last, m_dynamicBuffer.m_buff, 0, len - (m_dynamicBuffer.m_iCapacity - m_last));
+                    Array.Copy(items, start, m_dynBuffer.m_buff, m_last, m_dynBuffer.m_iCapacity - m_last);
+                    Array.Copy(items, m_dynBuffer.m_iCapacity - m_last, m_dynBuffer.m_buff, 0, len - (m_dynBuffer.m_iCapacity - m_last));
                 }
             }
             else
             {
-                Array.Copy(items, start, m_dynamicBuffer.m_buff, m_last, len);
+                Array.Copy(items, start, m_dynBuffer.m_buff, m_last, len);
             }
 
             m_last += len;
-            m_last %= m_dynamicBuffer.m_iCapacity;
+            m_last %= m_dynBuffer.m_iCapacity;
 
-            m_dynamicBuffer.m_size += len;
+            m_dynBuffer.m_size += len;
         }
 
         public void pushBackBA(ByteBuffer bu)
@@ -182,7 +182,7 @@ namespace SDK.Lib
         {
             if (!canAddData((uint)items.Length)) // 存储空间必须要比实际数据至少多 1
             {
-                uint closeSize = UtilMath.getCloseSize((uint)items.Length + m_dynamicBuffer.m_size, m_dynamicBuffer.m_iCapacity, m_dynamicBuffer.m_iMaxCapacity);
+                uint closeSize = DynBufResizePolicy.getCloseSize((uint)items.Length + m_dynBuffer.m_size, m_dynBuffer.m_iCapacity, m_dynBuffer.m_iMaxCapacity);
                 setCapacity(closeSize);
             }
 
@@ -190,17 +190,17 @@ namespace SDK.Lib
             {
                 if (items.Length <= m_first)
                 {
-                    Array.Copy(items, 0, m_dynamicBuffer.m_buff, m_first - items.Length, items.Length);
+                    Array.Copy(items, 0, m_dynBuffer.m_buff, m_first - items.Length, items.Length);
                 }
                 else
                 {
-                    Array.Copy(items, items.Length - m_first, m_dynamicBuffer.m_buff, 0, m_first);
-                    Array.Copy(items, 0, m_dynamicBuffer.m_buff, m_dynamicBuffer.m_iCapacity - (items.Length - m_first), items.Length - m_first);
+                    Array.Copy(items, items.Length - m_first, m_dynBuffer.m_buff, 0, m_first);
+                    Array.Copy(items, 0, m_dynBuffer.m_buff, m_dynBuffer.m_iCapacity - (items.Length - m_first), items.Length - m_first);
                 }
             }
             else
             {
-                Array.Copy(items, 0, m_dynamicBuffer.m_buff, m_first - items.Length, items.Length);
+                Array.Copy(items, 0, m_dynBuffer.m_buff, m_first - items.Length, items.Length);
             }
 
             if (items.Length <= m_first)
@@ -209,9 +209,9 @@ namespace SDK.Lib
             }
             else
             {
-                m_first = m_dynamicBuffer.m_iCapacity - ((uint)items.Length - m_first);
+                m_first = m_dynBuffer.m_iCapacity - ((uint)items.Length - m_first);
             }
-            m_dynamicBuffer.m_size += (uint)items.Length;
+            m_dynBuffer.m_size += (uint)items.Length;
         }
 
         /**
@@ -219,7 +219,7 @@ namespace SDK.Lib
          */
         protected bool canAddData(uint num)
         {
-            if (m_dynamicBuffer.m_iCapacity - m_dynamicBuffer.m_size > num) // 浪费一个字节，不用 >= ，使用 > 
+            if (m_dynBuffer.m_iCapacity - m_dynBuffer.m_size > num) // 浪费一个字节，不用 >= ，使用 > 
             {
                 return true;
             }
@@ -240,20 +240,20 @@ namespace SDK.Lib
         public void frontBA(ByteBuffer bytearray, uint len)
         {
             bytearray.clear();          // 设置数据为初始值
-            if (m_dynamicBuffer.m_size >= len)          // 头部占据 4 个字节
+            if (m_dynBuffer.m_size >= len)          // 头部占据 4 个字节
             {
                 if (isLinearized())      // 在一段连续的内存
                 {
-                    bytearray.writeBytes(m_dynamicBuffer.m_buff, m_first, len);
+                    bytearray.writeBytes(m_dynBuffer.m_buff, m_first, len);
                 }
-                else if (m_dynamicBuffer.m_iCapacity - m_first >= len)
+                else if (m_dynBuffer.m_iCapacity - m_first >= len)
                 {
-                    bytearray.writeBytes(m_dynamicBuffer.m_buff, m_first, len);
+                    bytearray.writeBytes(m_dynBuffer.m_buff, m_first, len);
                 }
                 else
                 {
-                    bytearray.writeBytes(m_dynamicBuffer.m_buff, m_first, m_dynamicBuffer.m_iCapacity - m_first);
-                    bytearray.writeBytes(m_dynamicBuffer.m_buff, 0, len - (m_dynamicBuffer.m_iCapacity - m_first));
+                    bytearray.writeBytes(m_dynBuffer.m_buff, m_first, m_dynBuffer.m_iCapacity - m_first);
+                    bytearray.writeBytes(m_dynBuffer.m_buff, 0, len - (m_dynBuffer.m_iCapacity - m_first));
                 }
             }
 
@@ -269,24 +269,24 @@ namespace SDK.Lib
             {
                 m_first += len;
             }
-            else if (m_dynamicBuffer.m_iCapacity - m_first >= len)
+            else if (m_dynBuffer.m_iCapacity - m_first >= len)
             {
                 m_first += len;
             }
             else
             {
-                m_first = len - (m_dynamicBuffer.m_iCapacity - m_first);
+                m_first = len - (m_dynBuffer.m_iCapacity - m_first);
             }
 
-            m_dynamicBuffer.m_size -= len;
+            m_dynBuffer.m_size -= len;
         }
 
         // 向自己尾部添加一个 CirculeBuffer 
         public void pushBackCB(CirculeBuffer rhv)
         {
-            if(m_dynamicBuffer.m_iCapacity - m_dynamicBuffer.m_size < rhv.size)
+            if(m_dynBuffer.m_iCapacity - m_dynBuffer.m_size < rhv.size)
             {
-                uint closeSize = UtilMath.getCloseSize(rhv.size + m_dynamicBuffer.m_size, m_dynamicBuffer.m_iCapacity, m_dynamicBuffer.m_iMaxCapacity);
+                uint closeSize = DynBufResizePolicy.getCloseSize(rhv.size + m_dynBuffer.m_size, m_dynBuffer.m_iCapacity, m_dynBuffer.m_iMaxCapacity);
                 setCapacity(closeSize);
             }
             //this.m_size += rhv.size;
@@ -311,7 +311,7 @@ namespace SDK.Lib
         // 清空缓冲区
         public void clear()
         {
-            m_dynamicBuffer.m_size = 0;
+            m_dynBuffer.m_size = 0;
             m_first = 0;
             m_last = 0;
         }

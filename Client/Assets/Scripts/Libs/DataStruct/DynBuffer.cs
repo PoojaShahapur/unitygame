@@ -5,14 +5,14 @@ namespace SDK.Lib
     /**
      * @brief 动态增长的缓冲区，不是环形的，从 0 开始增长的
      */
-    public class DynamicBuffer<T>
+    public class DynBuffer<T>
     {
         public uint m_iCapacity;         // 分配的内存空间大小，单位大小是字节
         public uint m_iMaxCapacity;      // 最大允许分配的存储空间大小 
         public uint m_size;              // 存储在当前缓冲区中的数量
         public T[] m_buff;            // 当前环形缓冲区
 
-        public DynamicBuffer(uint initCapacity = 1 * 1024/*DataCV.INIT_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)      // mono 模板类中使用常亮报错， vs 可以
+        public DynBuffer(uint initCapacity = 1 * 1024/*DataCV.INIT_CAPACITY*/, uint maxCapacity = 8 * 1024 * 1024/*DataCV.MAX_CAPACITY*/)      // mono 模板类中使用常亮报错， vs 可以
         {
             m_iMaxCapacity = maxCapacity;
             m_iCapacity = initCapacity;
@@ -82,7 +82,7 @@ namespace SDK.Lib
 
         public void extendDeltaCapicity(uint delta)
         {
-            capacity = UtilMath.getCloseSize(size + delta, capacity, maxCapacity);
+            capacity = DynBufResizePolicy.getCloseSize(size + delta, capacity, maxCapacity);
         }
     }
 }
