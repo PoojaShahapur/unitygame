@@ -16,9 +16,9 @@ namespace Game.Msg
         public override void serialize(ByteBuffer bu)
         {
             base.serialize(bu);
-            bu.writeMultiByte(strName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
-            bu.writeMultiByte(strPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
-            bu.writeMultiByte(strNewPassword, GkEncode.UTF8, CVMsg.MAX_PASSWORD);
+            bu.writeMultiByte(strName, GkEncode.UTF8, ProtoCV.MAX_ACCNAMESIZE);
+            bu.writeMultiByte(strPassword, GkEncode.UTF8, ProtoCV.MAX_PASSWORD);
+            bu.writeMultiByte(strNewPassword, GkEncode.UTF8, ProtoCV.MAX_PASSWORD);
         }
 
         //public override void derialize(ByteBuffer bu)

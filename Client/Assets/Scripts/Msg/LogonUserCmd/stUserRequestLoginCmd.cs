@@ -23,7 +23,7 @@ namespace Game.Msg
         {
             base.serialize(bu);
 
-            bu.writeMultiByte(pstrName, GkEncode.UTF8, CVMsg.MAX_ACCNAMESIZE);
+            bu.writeMultiByte(pstrName, GkEncode.UTF8, ProtoCV.MAX_ACCNAMESIZE);
             bu.writeMultiByte(pstrPassword, GkEncode.UTF8, 33);
             bu.writeUnsignedInt16(game);
             bu.writeUnsignedInt16(zone);

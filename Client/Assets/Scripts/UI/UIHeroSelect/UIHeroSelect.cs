@@ -50,7 +50,7 @@ namespace Game.UI
                 else
                 {
                     // 判断名字长度
-                    if (UtilLogic.CalcCharCount(lblName.text) <= CVMsg.MAX_NAMESIZE)
+                    if (UtilLogic.CalcCharCount(lblName.text) <= ProtoCV.MAX_NAMESIZE)
                     {
                         stCreateSelectUserCmd cmd = new stCreateSelectUserCmd();
                         cmd.strUserName = lblName.text;

@@ -17,9 +17,9 @@ namespace Game.Msg
         {
             base.derialize(bu);
 
-            charInfo = new SelectUserInfo[CVMsg.MAX_CHARINFO];
+            charInfo = new SelectUserInfo[ProtoCV.MAX_CHARINFO];
             int idx = 0;
-            while(idx < CVMsg.MAX_CHARINFO)
+            while(idx < ProtoCV.MAX_CHARINFO)
             {
                 charInfo[idx].derialize(bu);
                 ++idx;

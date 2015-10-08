@@ -13,7 +13,7 @@ namespace UnitTestSrc
         public UnitTestStrCmd()
         {
             byParam = USER_VERIFY_VER_PARA;
-            version = (int)CVMsg.GAME_VERSION;
+            version = (int)ProtoCV.GAME_VERSION;
             reserve = 0;
         }
 

@@ -8,7 +8,7 @@
 
         public void derialize(ByteBuffer bu)
         {
-            bu.readMultiByte(ref m_name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readMultiByte(ref m_name, ProtoCV.MAX_NAMESIZE + 1, GkEncode.UTF8);
             bu.readUnsignedInt32(ref m_gold);
         }
     }

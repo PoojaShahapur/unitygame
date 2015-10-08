@@ -12,7 +12,7 @@
             bu.readUnsignedInt32(ref index);
             bu.readUnsignedInt32(ref occupation);
             bu.readUnsignedInt32(ref cardNum);
-            bu.readMultiByte(ref name, CVMsg.MAX_NAMESIZE + 1, GkEncode.UTF8);
+            bu.readMultiByte(ref name, ProtoCV.MAX_NAMESIZE + 1, GkEncode.UTF8);
         }
 
         public void copyFrom(t_group_list rhv)

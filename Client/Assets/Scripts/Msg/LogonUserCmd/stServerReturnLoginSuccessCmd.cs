@@ -23,7 +23,7 @@ namespace Game.Msg
             base.derialize(bu);
             bu.readUnsignedInt32(ref dwUserID);
             bu.readUnsignedInt32(ref loginTempID);
-            bu.readMultiByte(ref pstrIP, CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
+            bu.readMultiByte(ref pstrIP, ProtoCV.MAX_IP_LENGTH, GkEncode.UTF8);
             bu.readUnsignedInt16(ref wdPort);
             keyAux = new ByteBuffer();
             byte[] ret = new byte[256];

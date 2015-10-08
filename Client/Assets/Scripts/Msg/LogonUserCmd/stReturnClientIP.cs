@@ -15,7 +15,7 @@ namespace Game.Msg
         public override void derialize(ByteBuffer bu)
         {
             base.derialize(bu);
-            bu.readMultiByte(ref pstrIP, (int)CVMsg.MAX_IP_LENGTH, GkEncode.UTF8);
+            bu.readMultiByte(ref pstrIP, (int)ProtoCV.MAX_IP_LENGTH, GkEncode.UTF8);
             bu.readUnsignedInt16(ref port);
         }
     }

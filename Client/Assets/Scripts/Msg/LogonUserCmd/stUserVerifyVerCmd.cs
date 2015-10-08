@@ -11,7 +11,7 @@ namespace Game.Msg
         public stUserVerifyVerCmd()
         {
             byParam = USER_VERIFY_VER_PARA;
-            version = (int)CVMsg.GAME_VERSION;
+            version = (int)ProtoCV.GAME_VERSION;
             reserve = 0;
             cmd = new stPasswdLogonUserCmd();
         }

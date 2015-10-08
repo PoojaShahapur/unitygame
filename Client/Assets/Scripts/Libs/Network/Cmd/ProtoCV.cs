@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class CVMsg
+    public class ProtoCV
     {
         public const int GAME_VERSION = 1999;
         public const int MAX_IP_LENGTH = 16;
