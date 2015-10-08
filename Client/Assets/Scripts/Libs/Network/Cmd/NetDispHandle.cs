@@ -4,8 +4,13 @@ namespace SDK.Lib
 {
     public class NetDispHandle
     {
-        public Dictionary<int, NetCmdHandleBase> m_id2DispDic = new Dictionary<int, NetCmdHandleBase>();
+        public Dictionary<int, NetCmdHandleBase> m_id2DispDic;
         public LuaCSBridgeNetDispHandle m_luaCSBridgeNetDispHandle;     // Lua 网络事件处理器
+
+        public NetDispHandle()
+        {
+            m_id2DispDic = new Dictionary<int, NetCmdHandleBase>();
+        }
 
         public virtual void handleMsg(ByteBuffer msg)
         {

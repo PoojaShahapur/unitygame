@@ -5,7 +5,12 @@ namespace SDK.Lib
 {
     public class NetCmdHandleBase
     {
-        public Dictionary<int, Action<ByteBuffer>> m_id2HandleDic = new Dictionary<int, Action<ByteBuffer>>();
+        public Dictionary<int, Action<ByteBuffer>> m_id2HandleDic;
+
+        public NetCmdHandleBase()
+        {
+            m_id2HandleDic = new Dictionary<int, Action<ByteBuffer>>();
+        }
 
         public virtual void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         {
