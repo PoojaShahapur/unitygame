@@ -193,7 +193,7 @@
         }
 
         // 获取数据，然后压缩加密
-        public void getSendData()
+        public void getSocketSendData()
         {
             //m_socketSendBA.m_startTest = false;
 

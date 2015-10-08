@@ -266,7 +266,7 @@ namespace SDK.Lib
                 {
                     if (m_dataBuffer.sendTmpBuffer.circuleBuffer.size > 0)      // 如果发送临时缓冲区有数据要发
                     {
-                        m_dataBuffer.getSendData();
+                        m_dataBuffer.getSocketSendData();
                     }
 
                     if (m_dataBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据

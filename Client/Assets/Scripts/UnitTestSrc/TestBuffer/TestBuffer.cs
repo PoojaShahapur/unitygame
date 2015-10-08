@@ -43,7 +43,7 @@ namespace UnitTestSrc
             pUnitTesNumtCmd.serialize(pDataBuffer.sendData);
             pDataBuffer.send();
 
-            pDataBuffer.getSendData();
+            pDataBuffer.getSocketSendData();
             ByteBuffer cryptLenBA = new ByteBuffer();
             cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
             pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
@@ -56,7 +56,7 @@ namespace UnitTestSrc
             pUnitTestCmd.derialize(bu);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "测试数据");
 
-            pDataBuffer.getSendData();
+            pDataBuffer.getSocketSendData();
             if (pDataBuffer.sendBuffer.length > 0)
             {
                 cryptLenBA.clear();
@@ -71,7 +71,7 @@ namespace UnitTestSrc
             pUnitTestCmd.derialize(bu);
             UAssert.DebugAssert(pUnitTestCmd.testStr.Substring(0, 4) == "成功返回");
 
-            pDataBuffer.getSendData();
+            pDataBuffer.getSocketSendData();
             if (pDataBuffer.sendBuffer.length > 0)
             {
                 cryptLenBA.clear();
@@ -161,7 +161,7 @@ namespace UnitTestSrc
                 pDataBuffer.sendData.clear();
                 pCmd.serialize(pDataBuffer.sendData);
                 pDataBuffer.send();
-                pDataBuffer.getSendData();
+                pDataBuffer.getSocketSendData();
                 pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
                 Array.Copy(pDataBuffer.sendBuffer.dynBuff.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
                 pDataBuffer.moveDyn2Raw();
@@ -175,7 +175,7 @@ namespace UnitTestSrc
             pDataBuffer.sendData.clear();
             pCmd_1.serialize(pDataBuffer.sendData);
             pDataBuffer.send();
-            pDataBuffer.getSendData();
+            pDataBuffer.getSocketSendData();
             pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
             Array.Copy(pDataBuffer.sendBuffer.dynBuff.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
             pDataBuffer.moveDyn2Raw();
@@ -188,7 +188,7 @@ namespace UnitTestSrc
                 pDataBuffer.sendData.clear();
                 pCmd.serialize(pDataBuffer.sendData);
                 pDataBuffer.send();
-                pDataBuffer.getSendData();
+                pDataBuffer.getSocketSendData();
                 pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
                 Array.Copy(pDataBuffer.sendBuffer.dynBuff.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
                 pDataBuffer.moveDyn2Raw();
