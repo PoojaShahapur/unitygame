@@ -5,7 +5,7 @@ namespace SDK.Lib
     public class NetworkMgr
     {
         // 此处使用 Dictionary ，不适用 Hashable
-        public Dictionary<string, NetTCPClient> m_id2SocketDic;
+        public Dictionary<string, NetTCPClient> m_id2ClientDic;
         protected NetTCPClient m_curSocket;
 #if NET_MULTHREAD
         protected NetThread m_netThread;
@@ -15,7 +15,7 @@ namespace SDK.Lib
         // 函数区域
         public NetworkMgr()
         {
-            m_id2SocketDic = new Dictionary<string, NetTCPClient>();
+            m_id2ClientDic = new Dictionary<string, NetTCPClient>();
             #if NET_MULTHREAD
             startThread();
             #endif
@@ -38,7 +38,7 @@ namespace SDK.Lib
         public bool openSocket(string ip, int port)
         {
             string key = ip + "&" + port;
-            if (!m_id2SocketDic.ContainsKey(key))
+            if (!m_id2ClientDic.ContainsKey(key))
             {
                 m_curSocket = new NetTCPClient(ip, port);
                 m_curSocket.Connect(ip, port);
@@ -46,7 +46,7 @@ namespace SDK.Lib
                 using (MLock mlock = new MLock(m_visitMutex))
                 #endif
                 {
-                    m_id2SocketDic.Add(key, m_curSocket);
+                    m_id2ClientDic.Add(key, m_curSocket);
                 }
             }
             else
@@ -63,20 +63,20 @@ namespace SDK.Lib
         public void closeSocket(string ip, int port)
         {
             string key = ip + "&" + port;
-            if (m_id2SocketDic.ContainsKey(key))
+            if (m_id2ClientDic.ContainsKey(key))
             {
                 // 关闭 socket 之前要等待所有的数据都发送完成，如果发送一直超时，可能就卡在这很长时间
                 #if NET_MULTHREAD
-                m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
-                m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
+                m_id2ClientDic[key].msgSendEndEvent.Reset();        // 重置信号
+                m_id2ClientDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
                 #endif
 
                 #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_visitMutex))
                 #endif
                 {
-                    m_id2SocketDic[key].Disconnect(0);
-                    m_id2SocketDic.Remove(key);
+                    m_id2ClientDic[key].Disconnect(0);
+                    m_id2ClientDic.Remove(key);
                 }
                 m_curSocket = null;
             }
@@ -101,14 +101,14 @@ namespace SDK.Lib
                 //m_id2SocketDic[key].msgSendEndEvent.Reset();        // 重置信号
                 //m_id2SocketDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
 
-                if (m_id2SocketDic.ContainsKey(key))
+                if (m_id2ClientDic.ContainsKey(key))
                 {
                     #if NET_MULTHREAD
                     using (MLock mlock = new MLock(m_visitMutex))
                     #endif
                     {
-                        m_id2SocketDic[key].Disconnect(0);
-                        m_id2SocketDic.Remove(key);
+                        m_id2ClientDic[key].Disconnect(0);
+                        m_id2ClientDic.Remove(key);
                     }
                     m_curSocket = null;
                 }
@@ -170,7 +170,7 @@ namespace SDK.Lib
             #endif
             {
                 // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
-                foreach (NetTCPClient socket in m_id2SocketDic.Values)
+                foreach (NetTCPClient socket in m_id2ClientDic.Values)
                 {
                     if (!socket.brecvThreadStart && socket.isConnected)
                     {
