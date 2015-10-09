@@ -13,21 +13,26 @@ namespace SDK.Lib
         //public int m_sendTimeout = 5000;
         //public int m_revTimeout = 0;
 
-        public string m_ip = "localhost";
-        public int m_port = 50000;
+        public string m_ip;
+        public int m_port;
 
         protected Socket m_socket = null;
         protected ClientBuffer m_clientBuffer;
-        protected bool m_brecvThreadStart = false;      // 接收线程是否启动
-        protected bool m_isConnected = false;
+        protected bool m_brecvThreadStart;      // 接收线程是否启动
+        protected bool m_isConnected;
 
 #if NET_MULTHREAD
-        protected MEvent m_msgSendEndEvent = new MEvent(false);       // 当前所有的消息都发送出去了，通知等待线程
-        protected MMutex m_sendMutex = new MMutex(false, "NetTCPClient_SendMutex");   // 读互斥
+        protected MEvent m_msgSendEndEvent;       // 当前所有的消息都发送出去了，通知等待线程
+        protected MMutex m_sendMutex;   // 读互斥
 #endif
 
-        public NetTCPClient(string ip, int port)
+        public NetTCPClient(string ip = "localhost", int port = 5000)
         {
+            m_brecvThreadStart = false;
+            m_isConnected = false;
+            m_msgSendEndEvent = new MEvent(false);
+            m_sendMutex = new MMutex(false, "NetTCPClient_SendMutex");
+
             m_ip = ip;
             m_port = port;
 
