@@ -5,6 +5,9 @@
  */
 namespace SDK.Lib
 {
+    /**
+     *@brief 浪费一个自己，这样判断也好判断，并且索引也不用减 1 ，因此浪费一个字节
+     */
     public class CircularBuffer
     {
         protected DynBuffer<byte> m_dynBuffer;
@@ -22,14 +25,20 @@ namespace SDK.Lib
             m_tmpBA = new ByteBuffer();
         }
 
-        public bool isLinearized()
+        public uint first
         {
-            if (size == 0)
+            get
             {
-                return true;
+                return m_first;
             }
+        }
 
-            return m_first < m_last;
+        public uint last
+        {
+            get
+            {
+                return m_last;
+            }
         }
 
         public byte[] buff
@@ -52,6 +61,16 @@ namespace SDK.Lib
             }
         }
 
+        public bool isLinearized()
+        {
+            if (size == 0)
+            {
+                return true;
+            }
+
+            return m_first < m_last;
+        }
+
         public bool empty()
         {
             return m_dynBuffer.m_size == 0;
@@ -67,20 +86,12 @@ namespace SDK.Lib
             return capacity() == size;
         }
 
-        public uint first
+        // 清空缓冲区
+        public void clear()
         {
-            get
-            {
-                return m_first;
-            }
-        }
-
-        public uint last
-        {
-            get
-            {
-                return m_last;
-            }
+            m_dynBuffer.m_size = 0;
+            m_first = 0;
+            m_last = 0;
         }
 
         /**
@@ -101,7 +112,11 @@ namespace SDK.Lib
                 // 数据在两个不连续的内存空间中
                 char[] tmp = new char[m_last];
                 Array.Copy(m_dynBuffer.m_buff, 0, tmp, 0, m_last);  // 拷贝一段内存空间中的数据到 tmp
-                Array.Copy(m_dynBuffer.m_buff, m_first, m_dynBuffer.m_buff, 0, m_dynBuffer.m_iCapacity - m_first);
+                Array.Copy(m_dynBuffer.m_buff, m_first, m_dynBuffer.m_buff, 0, m_dynBuffer.m_iCapacity - m_first);  // 拷贝第一段数据到 0 索引位置
+                Array.Copy(tmp, 0, m_dynBuffer.m_buff, m_dynBuffer.m_iCapacity - m_first, m_last);      // 拷贝第二段数据到缓冲区
+
+                m_first = 0;
+                m_last = this.size;
             }
         }
 
@@ -121,6 +136,7 @@ namespace SDK.Lib
             byte[] tmpbuff = new byte[newCapacity];   // 分配新的空间
             if (isLinearized()) // 如果是在一段内存空间
             {
+                // 已经是线性空间了仍然将数据移动到索引 0 的位置
                 Array.Copy(m_dynBuffer.m_buff, m_first, tmpbuff, 0, m_dynBuffer.m_size);
             }
             else    // 如果在两端内存空间
@@ -133,6 +149,19 @@ namespace SDK.Lib
             m_last = m_dynBuffer.m_size;
             m_dynBuffer.m_iCapacity = newCapacity;
             m_dynBuffer.m_buff = tmpbuff;
+        }
+
+        /**
+         *@brief 能否添加 num 长度的数据
+         */
+        protected bool canAddData(uint num)
+        {
+            if (m_dynBuffer.m_iCapacity - m_dynBuffer.m_size > num) // 浪费一个字节，不用 >= ，使用 > 
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /**
@@ -215,19 +244,6 @@ namespace SDK.Lib
         }
 
         /**
-         *@brief 能否添加 num 长度的数据
-         */
-        protected bool canAddData(uint num)
-        {
-            if (m_dynBuffer.m_iCapacity - m_dynBuffer.m_size > num) // 浪费一个字节，不用 >= ，使用 > 
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /**
          * @brief 从 CB 中读取内容，并且将数据删除
          */
         public void popFrontBA(ByteBuffer bytearray, uint len)
@@ -306,14 +322,6 @@ namespace SDK.Lib
             //    Array.Copy(m_buff, 0, m_buff, rhv.capacity() - rhv.first, rhv.last);
             //}
             //rhv.clear();
-        }
-
-        // 清空缓冲区
-        public void clear()
-        {
-            m_dynBuffer.m_size = 0;
-            m_first = 0;
-            m_last = 0;
         }
     }
 }

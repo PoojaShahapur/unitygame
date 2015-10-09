@@ -58,7 +58,7 @@ namespace SDK.Lib
                     return;
                 }
                 T[] tmpbuff = new T[value];   // 分配新的空间
-                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);  // 这个地方是 m_size 还是应该是 m_iCapacity，如果是 CircleBuffer 好像应该是 m_iCapacity，如果是 ByteBuffer ，好像应该是 m_iCapacity
+                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);  // 这个地方是 m_size 还是应该是 m_iCapacity，如果是 CircleBuffer 好像应该是 m_iCapacity，如果是 ByteBuffer ，好像应该是 m_iCapacity。但是 DynBuffer 只有 ByteBuffer 才会使用这个函数，因此使用 m_size 就行了，但是如果使用 m_iCapacity 也没有问题
                 m_buff = tmpbuff;
                 m_iCapacity = value;
             }
