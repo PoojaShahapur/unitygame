@@ -46,8 +46,8 @@ namespace UnitTestSrc
             pDataBuffer.getSocketSendData();
             ByteBuffer cryptLenBA = new ByteBuffer();
             cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
-            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
-            pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+            pDataBuffer.rawBuffer.circularBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
+            pDataBuffer.rawBuffer.circularBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
             pDataBuffer.moveRaw2Msg();
 
             ByteBuffer bu;
@@ -61,8 +61,8 @@ namespace UnitTestSrc
             {
                 cryptLenBA.clear();
                 cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+                pDataBuffer.rawBuffer.circularBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
+                pDataBuffer.rawBuffer.circularBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
                 pDataBuffer.moveRaw2Msg();
             }
 
@@ -76,8 +76,8 @@ namespace UnitTestSrc
             {
                 cryptLenBA.clear();
                 cryptLenBA.writeUnsignedInt32(pDataBuffer.sendBuffer.length);
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
-                pDataBuffer.rawBuffer.circuleBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
+                pDataBuffer.rawBuffer.circularBuffer.pushBackBA(cryptLenBA);                     // 自己补上消息头
+                pDataBuffer.rawBuffer.circularBuffer.pushBackBA(pDataBuffer.sendBuffer);         // 直接放到接收原始消息缓冲区
                 pDataBuffer.moveRaw2Msg();
             }
 

@@ -130,9 +130,9 @@
             // 接收到一个socket数据，就被认为是一个数据包，这个地方可能会有问题，服务器是这么发送的，只能这么处理，自己写入包的长度
             m_tmp1fData.clear();
             m_tmp1fData.writeUnsignedInt32(m_dynBuff.size);      // 填充长度
-            m_rawBuffer.circuleBuffer.pushBackBA(m_tmp1fData);
+            m_rawBuffer.circularBuffer.pushBackBA(m_tmp1fData);
             // 写入包的数据
-            m_rawBuffer.circuleBuffer.pushBackArr(m_dynBuff.buff, 0, m_dynBuff.size);
+            m_rawBuffer.circularBuffer.pushBackArr(m_dynBuff.buff, 0, m_dynBuff.size);
         }
 
         public void moveRaw2Msg()
@@ -158,8 +158,8 @@
                     //m_sendTmpBA.writeUnsignedInt(m_sendData.length);                            // 写入头部长度
                     //m_sendTmpBA.writeBytes(m_sendData.dynBuff.buff, 0, m_sendData.length);      // 写入内容
 
-                    m_sendTmpBuffer.circuleBuffer.pushBackBA(m_tmpData);
-                    m_sendTmpBuffer.circuleBuffer.pushBackBA(m_sendData);
+                    m_sendTmpBuffer.circularBuffer.pushBackBA(m_tmpData);
+                    m_sendTmpBuffer.circularBuffer.pushBackBA(m_sendData);
                 }
             }
             else        // 直接放入接收消息缓冲区
@@ -171,8 +171,8 @@
                     //m_tmpData.clear();
                     //m_tmpData.writeUnsignedInt(m_sendData.length);      // 填充长度
 
-                    m_msgBuffer.circuleBuffer.pushBackBA(m_tmpData);              // 保存消息大小字段
-                    m_msgBuffer.circuleBuffer.pushBackBA(m_sendData);             // 保存消息大小字段
+                    m_msgBuffer.circularBuffer.pushBackBA(m_tmpData);              // 保存消息大小字段
+                    m_msgBuffer.circularBuffer.pushBackBA(m_sendData);             // 保存消息大小字段
                 }
             }
         }
@@ -405,8 +405,8 @@
                 using (MLock mlock = new MLock(m_readMutex))
                 #endif
                 {
-                    m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
-                    m_msgBuffer.circuleBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
+                    m_msgBuffer.circularBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
+                    m_msgBuffer.circularBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
                 }
 
                 Ctx.m_instance.m_logSys.log(string.Format("解压解密后消息起始索引 {0}, 消息长度　{1}, 消息 position 位置 {2}, 消息 size {3}", m_rawBuffer.msgBodyBA.position - msglen, msglen, m_rawBuffer.msgBodyBA.position, m_rawBuffer.msgBodyBA.length));
@@ -447,7 +447,7 @@
 #if !MSG_COMPRESS && !MSG_ENCRIPT
                 m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
 #endif
-                m_msgBuffer.circuleBuffer.pushBackBA(m_rawBuffer.msgBodyBA);      // 保存消息大小字段
+                m_msgBuffer.circularBuffer.pushBackBA(m_rawBuffer.msgBodyBA);      // 保存消息大小字段
             }
         }
     }

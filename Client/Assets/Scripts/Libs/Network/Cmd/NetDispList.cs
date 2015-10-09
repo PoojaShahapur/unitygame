@@ -4,14 +4,16 @@ namespace SDK.Lib
 {
     public class NetDispList
     {
-        protected int m_revMsgCnt = 0;      // 接收到消息的数量
-        protected int m_handleMsgCnt = 0;   // 处理的消息的数量
+        protected int m_revMsgCnt;      // 接收到消息的数量
+        protected int m_handleMsgCnt;   // 处理的消息的数量
 
         protected List<NetDispHandle> m_netDispList;
         protected bool m_bStopNetHandle;       // 是否停止网络消息处理
 
         public NetDispList()
         {
+            m_revMsgCnt = 0;
+            m_handleMsgCnt = 0;
             m_netDispList = new List<NetDispHandle>();
             m_bStopNetHandle = false;
         }

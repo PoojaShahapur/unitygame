@@ -58,7 +58,7 @@ namespace SDK.Lib
                     return;
                 }
                 T[] tmpbuff = new T[value];   // 分配新的空间
-                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);
+                Array.Copy(m_buff, 0, tmpbuff, 0, m_size);  // 这个地方是 m_size 还是应该是 m_iCapacity，如果是 CircleBuffer 好像应该是 m_iCapacity，如果是 ByteBuffer ，好像应该是 m_iCapacity
                 m_buff = tmpbuff;
                 m_iCapacity = value;
             }

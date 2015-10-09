@@ -5,14 +5,14 @@
  */
 namespace SDK.Lib
 {
-    public class CirculeBuffer
+    public class CircularBuffer
     {
         protected DynBuffer<byte> m_dynBuffer;
         protected uint m_first;             // 当前缓冲区数据的第一个索引
         protected uint m_last;              // 当前缓冲区数据的最后一个索引的后面一个索引，浪费一个字节
         protected ByteBuffer m_tmpBA;        // 临时数据
 
-        public CirculeBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY)
+        public CircularBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY)
         {
             m_dynBuffer = new DynBuffer<byte>(initCapacity, maxCapacity);
 
@@ -282,7 +282,7 @@ namespace SDK.Lib
         }
 
         // 向自己尾部添加一个 CirculeBuffer 
-        public void pushBackCB(CirculeBuffer rhv)
+        public void pushBackCB(CircularBuffer rhv)
         {
             if(m_dynBuffer.m_iCapacity - m_dynBuffer.m_size < rhv.size)
             {
