@@ -13,11 +13,11 @@ namespace SDK.Lib
         //public int m_sendTimeout = 5000;
         //public int m_revTimeout = 0;
 
-        public string m_host = "localhost";
+        public string m_ip = "localhost";
         public int m_port = 50000;
 
         protected Socket m_socket = null;
-        protected ClientBuffer m_dataBuffer;
+        protected ClientBuffer m_clientBuffer;
         protected bool m_brecvThreadStart = false;      // 接收线程是否启动
         protected bool m_isConnected = false;
 
@@ -28,17 +28,17 @@ namespace SDK.Lib
 
         public NetTCPClient(string ip, int port)
         {
-            m_host = ip;
+            m_ip = ip;
             m_port = port;
 
-            m_dataBuffer = new ClientBuffer();
+            m_clientBuffer = new ClientBuffer();
         }
 
-        public ClientBuffer dataBuffer
+        public ClientBuffer clientBuffer
         {
             get
             {
-                return m_dataBuffer;
+                return m_clientBuffer;
             }
         }
 
@@ -79,14 +79,14 @@ namespace SDK.Lib
         // 是否可以发送新的数据，上一次发送的数据是否发送完成，只有上次发送的数据全部发送完成，才能发送新的数据
         public bool canSendNewData()
         {
-            return (m_dataBuffer.sendBuffer.bytesAvailable == 0);
+            return (m_clientBuffer.sendBuffer.bytesAvailable == 0);
         }
 
         // 设置接收缓冲区大小，和征途服务器对接，这个一定要和服务器大小一致，并且一定要是 8 的整数倍，否则在消息比较多，并且一个包发送过来的时候，会出错
         public void SetRevBufferSize(int size)
         {
             m_socket.ReceiveBufferSize = size;      // ReceiveBufferSize 默认 8096 字节
-            m_dataBuffer.SetRevBufferSize(size);
+            m_clientBuffer.SetRevBufferSize(size);
         }
 
         // 连接服务器
@@ -193,7 +193,7 @@ namespace SDK.Lib
             if (m_socket.Connected)
             {
                 // 接收从服务器返回的信息
-                IAsyncResult asyncSend = m_socket.BeginReceive(m_dataBuffer.dynBuff.buff, 0, (int)m_dataBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
+                IAsyncResult asyncSend = m_socket.BeginReceive(m_clientBuffer.dynBuff.buff, 0, (int)m_clientBuffer.dynBuff.capacity, SocketFlags.None, new System.AsyncCallback(ReceiveData), 0);
 
                 //checkThread();
 
@@ -228,9 +228,9 @@ namespace SDK.Lib
                 if (read > 0)
                 {
                     Ctx.m_instance.m_logSys.log("接收到数据 " + read.ToString());
-                    m_dataBuffer.dynBuff.size = (uint)read; // 设置读取大小
-                    m_dataBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
-                    m_dataBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
+                    m_clientBuffer.dynBuff.size = (uint)read; // 设置读取大小
+                    m_clientBuffer.moveDyn2Raw();             // 将接收到的数据放到原始数据队列
+                    m_clientBuffer.moveRaw2Msg();             // 将完整的消息移动到消息缓冲区
                     Receive();                  // 继续接收
                 }
             }
@@ -262,14 +262,14 @@ namespace SDK.Lib
                     return;
                 }
 
-                if (m_dataBuffer.sendBuffer.bytesAvailable == 0)     // 如果发送缓冲区没有要发送的数据
+                if (m_clientBuffer.sendBuffer.bytesAvailable == 0)     // 如果发送缓冲区没有要发送的数据
                 {
-                    if (m_dataBuffer.sendTmpBuffer.circularBuffer.size > 0)      // 如果发送临时缓冲区有数据要发
+                    if (m_clientBuffer.sendTmpBuffer.circularBuffer.size > 0)      // 如果发送临时缓冲区有数据要发
                     {
-                        m_dataBuffer.getSocketSendData();
+                        m_clientBuffer.getSocketSendData();
                     }
 
-                    if (m_dataBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
+                    if (m_clientBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
                     {
 #if NET_MULTHREAD
                         m_msgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
@@ -280,9 +280,9 @@ namespace SDK.Lib
 
                 try
                 {
-                    Ctx.m_instance.m_logSys.log(string.Format("开始发送字节数 {0} ", m_dataBuffer.sendBuffer.bytesAvailable));
+                    Ctx.m_instance.m_logSys.log(string.Format("开始发送字节数 {0} ", m_clientBuffer.sendBuffer.bytesAvailable));
 
-                    IAsyncResult asyncSend = m_socket.BeginSend(m_dataBuffer.sendBuffer.dynBuff.buff, (int)m_dataBuffer.sendBuffer.position, (int)m_dataBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
+                    IAsyncResult asyncSend = m_socket.BeginSend(m_clientBuffer.sendBuffer.dynBuff.buff, (int)m_clientBuffer.sendBuffer.position, (int)m_clientBuffer.sendBuffer.bytesAvailable, 0, new System.AsyncCallback(SendCallback), 0);
                     //bool success = asyncSend.AsyncWaitHandle.WaitOne(m_sendTimeout, true);
                     //if (!success)
                     //{
@@ -320,17 +320,17 @@ namespace SDK.Lib
                     int bytesSent = m_socket.EndSend(ar);
                     Ctx.m_instance.m_logSys.log(string.Format("结束发送字节数 {0} ", bytesSent));
 
-                    if (m_dataBuffer.sendBuffer.length < m_dataBuffer.sendBuffer.position + (uint)bytesSent)
+                    if (m_clientBuffer.sendBuffer.length < m_clientBuffer.sendBuffer.position + (uint)bytesSent)
                     {
                         Ctx.m_instance.m_logSys.log(string.Format("结束发送字节数错误 {0}", bytesSent));
-                        m_dataBuffer.sendBuffer.setPos(m_dataBuffer.sendBuffer.length);
+                        m_clientBuffer.sendBuffer.setPos(m_clientBuffer.sendBuffer.length);
                     }
                     else
                     {
-                        m_dataBuffer.sendBuffer.setPos(m_dataBuffer.sendBuffer.position + (uint)bytesSent);
+                        m_clientBuffer.sendBuffer.setPos(m_clientBuffer.sendBuffer.position + (uint)bytesSent);
                     }
 
-                    if (m_dataBuffer.sendBuffer.bytesAvailable > 0)     // 如果上一次发送的数据还没发送完成，继续发送
+                    if (m_clientBuffer.sendBuffer.bytesAvailable > 0)     // 如果上一次发送的数据还没发送完成，继续发送
                     {
                         Send();                 // 继续发送数据
                     }

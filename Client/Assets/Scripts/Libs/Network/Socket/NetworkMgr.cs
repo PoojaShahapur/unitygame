@@ -6,15 +6,16 @@ namespace SDK.Lib
     {
         // 此处使用 Dictionary ，不适用 Hashable
         public Dictionary<string, NetTCPClient> m_id2ClientDic;
-        protected NetTCPClient m_curSocket;
+        protected NetTCPClient m_curClient;
 #if NET_MULTHREAD
         protected NetThread m_netThread;
-        public MMutex m_visitMutex = new MMutex(false, "NetMutex");
+        public MMutex m_visitMutex;
 #endif
 
         // 函数区域
         public NetworkMgr()
         {
+            m_visitMutex = new MMutex(false, "NetMutex");
             m_id2ClientDic = new Dictionary<string, NetTCPClient>();
             #if NET_MULTHREAD
             startThread();
@@ -40,13 +41,13 @@ namespace SDK.Lib
             string key = ip + "&" + port;
             if (!m_id2ClientDic.ContainsKey(key))
             {
-                m_curSocket = new NetTCPClient(ip, port);
-                m_curSocket.Connect(ip, port);
+                m_curClient = new NetTCPClient(ip, port);
+                m_curClient.Connect(ip, port);
                 #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_visitMutex))
                 #endif
                 {
-                    m_id2ClientDic.Add(key, m_curSocket);
+                    m_id2ClientDic.Add(key, m_curClient);
                 }
             }
             else
@@ -78,7 +79,7 @@ namespace SDK.Lib
                     m_id2ClientDic[key].Disconnect(0);
                     m_id2ClientDic.Remove(key);
                 }
-                m_curSocket = null;
+                m_curClient = null;
             }
         }
 
@@ -87,13 +88,13 @@ namespace SDK.Lib
          */
         public void closeCurSocket()
         {
-            if(m_curSocket != null)
+            if(m_curClient != null)
             {
                 string ip;
                 int port;
 
-                ip = m_curSocket.m_host;
-                port = m_curSocket.m_port;
+                ip = m_curClient.m_ip;
+                port = m_curClient.m_port;
 
                 string key = ip + "&" + port;
 
@@ -110,16 +111,17 @@ namespace SDK.Lib
                         m_id2ClientDic[key].Disconnect(0);
                         m_id2ClientDic.Remove(key);
                     }
-                    m_curSocket = null;
+                    m_curClient = null;
                 }
             }
         }
 
+        // 获取消息队列中的消息
         public ByteBuffer getMsg()
         {
-            if (m_curSocket != null)
+            if (m_curClient != null)
             {
-                return m_curSocket.dataBuffer.getMsg();
+                return m_curClient.clientBuffer.getMsg();
             }
 
             return null;
@@ -128,10 +130,10 @@ namespace SDK.Lib
         // 获取发送消息缓冲区
         public ByteBuffer getSendBA()
         {
-            if (m_curSocket != null)
+            if (m_curClient != null)
             {
-                m_curSocket.dataBuffer.sendData.clear();
-                return m_curSocket.dataBuffer.sendData;
+                m_curClient.clientBuffer.sendData.clear();
+                return m_curClient.clientBuffer.sendData;
             }
 
             return null;
@@ -140,11 +142,11 @@ namespace SDK.Lib
         // 注意这个仅仅是放入缓冲区冲，真正发送在子线程中发送
         public void send(bool bnet = true)
         {
-            if (m_curSocket != null)
+            if (m_curClient != null)
             {
-                m_curSocket.dataBuffer.send(bnet);
+                m_curClient.clientBuffer.send(bnet);
                 #if !NET_MULTHREAD
-                m_curSocket.Send();
+                m_curClient.Send();
                 #endif
             }
             else
@@ -192,7 +194,7 @@ namespace SDK.Lib
 #if MSG_ENCRIPT
         public void setCryptKey(byte[] encrypt)
         {
-            m_curSocket.dataBuffer.setCryptKey(encrypt);
+            m_curClient.clientBuffer.setCryptKey(encrypt);
         }
 #endif
 
