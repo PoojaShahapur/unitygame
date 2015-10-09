@@ -172,20 +172,20 @@ namespace SDK.Lib
             #endif
             {
                 // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
-                foreach (NetTCPClient socket in m_id2ClientDic.Values)
+                foreach (NetTCPClient client in m_id2ClientDic.Values)
                 {
-                    if (!socket.brecvThreadStart && socket.isConnected)
+                    if (!client.brecvThreadStart && client.isConnected)
                     {
-                        socket.brecvThreadStart = true;
-                        socket.Receive();
+                        client.brecvThreadStart = true;
+                        client.Receive();
                     }
 
                     // 处理接收到的数据
                     //socket.dataBuffer.moveRaw2Msg();
                     // 处理发送数据
-                    if (socket.canSendNewData())        // 只有上一次发送的数据全部发送出去后，才能继续发送新的数据
+                    if (client.canSendNewData())        // 只有上一次发送的数据全部发送出去后，才能继续发送新的数据
                     {
-                        socket.Send();
+                        client.Send();
                     }
                 }
             }
