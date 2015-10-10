@@ -177,6 +177,16 @@ namespace SDK.Lib
             //check();
         }
 
+        public void incPosDelta(int delta)        // 添加 pos delta 数量
+        {
+            m_pos += (uint)delta;
+        }
+
+        public void decPosDelta(int delta)     // 减少 pos delta 数量
+        {
+            m_pos -= (uint)delta;
+        }
+
         // 压缩
         public uint compress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
         {

@@ -253,20 +253,20 @@
                 }
                 else
                 {
-                    m_socketSendBA.position += origMsgLen;
+                    m_socketSendBA.incPosDelta((int)origMsgLen);
                     compressMsgLen = origMsgLen;
                 }
 #endif
                 // 只加密消息 body
-//#if MSG_ENCRIPT
-//                m_socketSendBA.position -= compressMsgLen;      // 移动加密指针位置
-//                cryptLen = m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], compressMsgLen, m_cryptAlgorithm);
-//                if (compressMsgLen != cryptLen)
-//                {
-//                    bHeaderChange = true;
-//                }
-//                compressMsgLen = cryptLen;
-//#endif
+                //#if MSG_ENCRIPT
+                //                m_socketSendBA.position -= compressMsgLen;      // 移动加密指针位置
+                //                cryptLen = m_socketSendBA.encrypt(m_cryptKeyArr[(int)m_cryptAlgorithm], compressMsgLen, m_cryptAlgorithm);
+                //                if (compressMsgLen != cryptLen)
+                //                {
+                //                    bHeaderChange = true;
+                //                }
+                //                compressMsgLen = cryptLen;
+                //#endif
 
                 // 加密如果系统补齐字节，长度可能会变成 8 字节的证书倍，因此需要等加密完成后再写入长度
 #if MSG_COMPRESS && !MSG_ENCRIPT
@@ -280,9 +280,9 @@
 //#if !MSG_ENCRIPT
                 if(bHeaderChange)
                 {
-                    m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
+                    m_socketSendBA.decPosDelta(compressMsgLen + 4);        // 移动到头部位置
                     m_socketSendBA.writeUnsignedInt32(origMsgLen, false);     // 写入压缩或者加密后的消息长度
-                    m_socketSendBA.position += compressMsgLen;              // 移动到下一个位置
+                    m_socketSendBA.incPosDelta(compressMsgLen);              // 移动到下一个位置
                 }
 #endif
 
@@ -299,10 +299,10 @@
                     origMsgLen = cryptLen;                // 压缩后的长度
                 }
 
-                m_socketSendBA.position -= (compressMsgLen + 4);        // 移动到头部位置
+                m_socketSendBA.decPosDelta((int)(compressMsgLen + 4));        // 移动到头部位置
                 m_socketSendBA.writeUnsignedInt32(origMsgLen, false);     // 写入压缩或者加密后的消息长度
 
-                m_socketSendBA.position -= 4;      // 移动到头部
+                m_socketSendBA.decPosDelta(4);      // 移动到头部
                 m_socketSendBA.encrypt(m_cryptContext, 0);  // 加密
 #endif
             }
@@ -330,10 +330,10 @@
             else
             {
                 compressMsgLen = origMsgLen;
-                m_socketSendBA.position += origMsgLen;
+                m_socketSendBA.incPosDelta((int)origMsgLen);
             }
 
-            m_socketSendBA.position -= compressMsgLen;
+            m_socketSendBA.decPosDelta((int)compressMsgLen);
             compressMsgLen = m_socketSendBA.encrypt(m_cryptContext, 0);
 #endif
 
