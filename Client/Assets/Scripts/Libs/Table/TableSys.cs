@@ -32,7 +32,7 @@ namespace SDK.Lib
         public List<TableItemBase> getTable(TableID tableID)
 		{
 			TableBase table = m_dicTable[tableID];
-			if (table == null)
+			if (null == table)
 			{
 				loadOneTable(tableID);
 				table = m_dicTable[tableID];
@@ -44,7 +44,7 @@ namespace SDK.Lib
         public TableItemBase getItem(TableID tableID, uint itemID)
 		{
             TableBase table = m_dicTable[tableID];
-            if (null == table.m_byteArray)
+            if (null == table.m_byteBuffer)
 			{
 				loadOneTable(tableID);
 				table = m_dicTable[tableID];
@@ -56,7 +56,7 @@ namespace SDK.Lib
                 loadOneTableOneItemAll(tableID, table, ret);
             }
 
-            if (ret == null)
+            if (null == ret)
             {
                 Ctx.m_instance.m_logSys.log(string.Format("table name: {0}, table Item {1} 加载失败", (int)tableID, itemID));
             }
@@ -124,31 +124,31 @@ namespace SDK.Lib
         {
             if (TableID.TABLE_OBJECT == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableObjectItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableObjectItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_CARD == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableCardItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableCardItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_SKILL == tableID)  // 添加一个表的步骤四
             {
-                itemBase.parseBodyByteBuffer<TableSkillItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableSkillItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_JOB == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableJobItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableJobItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_SPRITEANI == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableSpriteAniItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableSpriteAniItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_RACE == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableRaceItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
             else if (TableID.TABLE_STATE == tableID)
             {
-                itemBase.parseBodyByteBuffer<TableStateItemBody>(table.m_byteArray, itemBase.m_itemHeader.m_offset);
+                itemBase.parseBodyByteBuffer<TableStateItemBody>(table.m_byteBuffer, itemBase.m_itemHeader.m_offset);
             }
         }
 		
@@ -156,7 +156,7 @@ namespace SDK.Lib
 		public string getTableName(TableID tableID)
 		{
 			TableBase table = m_dicTable[tableID];
-			if (table != null)
+			if (null != table)
 			{
 				return table.m_tableName;
 			}			
@@ -167,7 +167,7 @@ namespace SDK.Lib
         private void readTable(TableID tableID, ByteBuffer bytes)
         {
             TableBase table = m_dicTable[tableID];
-            table.m_byteArray = bytes;
+            table.m_byteBuffer = bytes;
 
             bytes.setEndian(Endian.LITTLE_ENDIAN);
             uint len = 0;
@@ -199,7 +199,7 @@ namespace SDK.Lib
 			int low = 0;
 			int high = size - 1;
 			int middle = 0;
-			uint idCur;
+			uint idCur = 0;
 			
 			while (low <= high)
 			{

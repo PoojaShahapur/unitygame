@@ -14,7 +14,7 @@
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            bytes.position = offset;
+            bytes.setPos(offset);
             UtilTable.readString(bytes, ref m_name);
             UtilTable.readString(bytes, ref m_effect);
             bytes.readUnsignedInt32(ref m_skillAttackEffect);

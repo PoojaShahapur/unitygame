@@ -9,7 +9,7 @@ namespace SDK.Lib
         public string m_tableName;      // 表的名字
 
         public List<TableItemBase> m_List;
-        public ByteBuffer m_byteArray;      // 整个表格所有的原始数据
+        public ByteBuffer m_byteBuffer;      // 整个表格所有的原始数据
 
         public TableBase(string resName, string tablename)
         {

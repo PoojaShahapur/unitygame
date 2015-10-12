@@ -57,7 +57,7 @@
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            bytes.position = offset;
+            bytes.setPos(offset);
             UtilTable.readString(bytes, ref m_name);
 
             bytes.readInt32(ref m_type);

@@ -42,7 +42,7 @@
 
         override public void parseBodyByteBuffer(ByteBuffer bytes, uint offset)
         {
-            bytes.position = offset;  // 从偏移处继续读取真正的内容
+            bytes.setPos(offset);  // 从偏移处继续读取真正的内容
             UtilTable.readString(bytes, ref m_name);
             bytes.readInt32(ref m_maxNum);
             bytes.readInt32(ref m_type);
