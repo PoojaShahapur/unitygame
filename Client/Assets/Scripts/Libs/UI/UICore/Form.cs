@@ -8,15 +8,15 @@ namespace SDK.Lib
 	 */
 	public class Form : Window
 	{
-        protected bool m_exitMode = true;               // 关闭退出模式
-		protected bool m_bHideOnCreate = false;         // 创建后是否隐藏
-        //protected bool m_bResLoaded = false;            // 资源加载进来
+        protected bool m_exitMode;               // 关闭退出模式
+		protected bool m_bHideOnCreate;         // 创建后是否隐藏
+        //protected bool m_bResLoaded;            // 资源加载进来
         protected UIFormID m_id;
-        protected bool m_bLoadWidgetRes = false;                // 是否应该加载窗口资源
-        protected bool m_bReady = false;            // 是否准备就绪
+        protected bool m_bLoadWidgetRes;                // 是否应该加载窗口资源
+        protected bool m_bReady;            // 是否准备就绪
 
-        protected bool m_bBlurBg = false;       // 是否模糊背景
-        protected bool m_bHandleExitBtn = false;       // 是否关联关闭按钮
+        protected bool m_bBlurBg;       // 是否模糊背景
+        protected bool m_bHandleExitBtn;       // 是否关联关闭按钮
 
         protected LuaCSBridgeForm m_luaCSBridgeForm;
         protected string m_formName;            // 这个是 Lua 中传的标识符，会传给 Lua 使用，客户端自己不用
@@ -25,8 +25,14 @@ namespace SDK.Lib
 		public Form()
             : base()
 		{
-			m_alignVertial = Window.CENTER;
-			m_alignHorizontal = Window.CENTER;
+            m_exitMode = true;
+            m_bHideOnCreate = false;
+            m_bLoadWidgetRes = false;
+            m_bReady = false;
+            m_bBlurBg = false;
+            m_bHandleExitBtn = false;
+            m_alignVertial = (int)WindowAnchor.CENTER;
+			m_alignHorizontal = (int)WindowAnchor.CENTER;
 
             m_go2Path = new Dictionary<GameObject, GOExtraInfo>();
 		}
@@ -233,11 +239,11 @@ namespace SDK.Lib
 			PointF ret = new PointF(0, 0);
 			int widthStage = 0;
 			int heightStage = 0;
-            if (m_alignVertial == CENTER)
+            if (m_alignVertial == (int)WindowAnchor.CENTER)
 			{
                 ret.y = (heightStage - this.m_height) / 2;
 			}
-            else if (m_alignVertial == TOP)
+            else if (m_alignVertial == (int)WindowAnchor.TOP)
 			{
 				ret.y = this.m_marginTop;
 			}
@@ -246,11 +252,11 @@ namespace SDK.Lib
 				ret.y = heightStage - this.m_height - this.m_marginBottom;
 			}
 			
-			if (m_alignHorizontal == CENTER)
+			if (m_alignHorizontal == (int)WindowAnchor.CENTER)
 			{
                 ret.x = (widthStage - this.m_width) / 2;
 			}
-			else if (m_alignHorizontal == LEFT)
+			else if (m_alignHorizontal == (int)WindowAnchor.LEFT)
 			{
 				ret.x = m_marginLeft;
 			}

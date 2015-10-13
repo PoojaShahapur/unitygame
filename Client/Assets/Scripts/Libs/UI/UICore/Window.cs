@@ -7,19 +7,12 @@ namespace SDK.Lib
      */
     public class Window
     {
-        public static int LEFT = 0; //居左
-		public static int CENTER = 1; //居中(横向和纵向都用此值)
-		public static int RIGHT = 2; //居右
-		
-		public static int TOP = 0; //居上
-		public static int BOTTOM = 2; //居下
+        public GUIWin m_GUIWin;      // 控件数据
+		protected bool m_draggable;
 
-        public GUIWin m_GUIWin = new GUIWin();      // 控件数据
-		protected bool m_draggable = true;
-
-		protected int m_hitYMax = 30;	// 可点击范围 Y 的最大值
-		protected int m_alignVertial = 0;
-		protected int m_alignHorizontal = 0;
+		protected int m_hitYMax;	// 可点击范围 Y 的最大值
+		protected int m_alignVertial;
+		protected int m_alignHorizontal;
 	
 		protected int m_marginLeft;
 		protected int m_marginTop;
@@ -29,7 +22,17 @@ namespace SDK.Lib
         public int m_width;
         public int m_height;
         public UILayer m_uiLayer;
-        protected bool m_isResReady = false;            // 资源是否已经加载并初始化
+        protected bool m_isResReady;            // 资源是否已经加载并初始化
+
+        public Window()
+        {
+            m_GUIWin = new GUIWin();
+            m_draggable = true;
+            m_hitYMax = 30;
+            m_alignVertial = 0;
+            m_alignHorizontal = 0;
+            m_isResReady = false;
+        }
 
         public float x
         {
