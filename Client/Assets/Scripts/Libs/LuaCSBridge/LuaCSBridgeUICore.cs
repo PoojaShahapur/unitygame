@@ -32,7 +32,7 @@ namespace SDK.Lib
                 id = Convert.ToInt32(value);
                 //id = Convert.ToInt32(idList[key]);
                 attrItem = new UIAttrItem();
-                m_uiAttrs.m_dicAttr[(UIFormID)id] = attrItem;
+                m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
                 luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
                 //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
 

@@ -147,7 +147,7 @@ namespace Game.Game
         {
             Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMain);
 
-            Ctx.m_instance.m_uiMgr.m_UIAttrs.m_dicAttr[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_Game);
+            Ctx.m_instance.m_uiMgr.m_UIAttrs.m_id2AttrDic[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_Game);
             Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIGM);
         }
 
@@ -157,7 +157,7 @@ namespace Game.Game
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIDZ);      // 显示对战场景界面
             Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIChat);      // 显示聊天
             Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
-            Ctx.m_instance.m_uiMgr.m_UIAttrs.m_dicAttr[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_DZ);
+            Ctx.m_instance.m_uiMgr.m_UIAttrs.m_id2AttrDic[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_DZ);
             Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIGM);
         }
 

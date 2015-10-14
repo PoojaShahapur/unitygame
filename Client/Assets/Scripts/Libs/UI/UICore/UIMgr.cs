@@ -20,7 +20,7 @@ namespace SDK.Lib
         private Dictionary<UIFormID, UILoadingItem> m_ID2CodeLoadingItemDic;         // 记录当前代码正在加载的项
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
 
-        private List<UIFormID> m_tmpList = new List<UIFormID>();
+        private List<UIFormID> m_tmpList;
         public GameObject m_sceneUIRootGo;           // 每一个场景都会有一个这样的节点，专门放一些 Scene 中 UI 的一些信息
 
 		public UIMgr()
@@ -29,6 +29,7 @@ namespace SDK.Lib
             m_UIAttrs = new UIAttrSystem();
             m_ID2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
+            m_tmpList = new List<UIFormID>();
 
             createCanvas();
 		}
@@ -37,7 +38,7 @@ namespace SDK.Lib
         {
             m_canvasList = new List<UICanvas>();
             int idx = 0;
-            for (idx = 0; idx < (int)UICanvasID.eeCanvas_Total; ++idx)
+            for (idx = 0; idx < (int)UICanvasID.eCanvas_Total; ++idx)
             {
                 m_canvasList.Add(new UICanvas((UICanvasID)idx));
             }
@@ -50,7 +51,7 @@ namespace SDK.Lib
         public void findCanvasGO()
         {
             int idx = 0;
-            for (idx = 0; idx < (int)UICanvasID.eeCanvas_Total; ++idx)
+            for (idx = 0; idx < (int)UICanvasID.eCanvas_Total; ++idx)
             {
                 m_canvasList[idx].findCanvasGO();
             }
@@ -176,7 +177,7 @@ namespace SDK.Lib
         // 内部接口
         private void addFormNoReady(Form form)
         {
-            UILayer layer = getLayer(m_UIAttrs.m_dicAttr[form.id].m_canvasID, m_UIAttrs.m_dicAttr[form.id].m_LayerID);
+            UILayer layer = getLayer(m_UIAttrs.m_id2AttrDic[form.id].m_canvasID, m_UIAttrs.m_id2AttrDic[form.id].m_LayerID);
             form.uiLayer = layer;
             layer.addForm(form);
 
@@ -206,7 +207,7 @@ namespace SDK.Lib
         //public void loadForm<T>(UIFormID ID) where T : Form, new()
         public void loadForm(UIFormID ID)
         {
-            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItem attrItem = m_UIAttrs.m_id2AttrDic[ID];
             Form window = getForm(ID);
 
             if (window != null)     // 本地已经创建了这个窗口，
@@ -259,7 +260,7 @@ namespace SDK.Lib
         // 加载窗口控件资源，窗口资源都是从文件加载
         public void loadWidgetRes(UIFormID ID)
         {
-            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItem attrItem = m_UIAttrs.m_id2AttrDic[ID];
             if (!m_ID2WidgetLoadingItemDic.ContainsKey(ID))                       // 如果什么都没有创建，第一次加载
             {
                 m_ID2WidgetLoadingItemDic[ID] = new UILoadingItem();
@@ -336,7 +337,7 @@ namespace SDK.Lib
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
-            UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
+            UIAttrItem attrItem = m_UIAttrs.m_id2AttrDic[ID];
             m_id2FormDic[ID].bLoadWidgetRes = true;
             m_id2FormDic[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
             if (attrItem.m_bNeedLua)
@@ -377,7 +378,7 @@ namespace SDK.Lib
         {
             int canvasIdx = 0;
             int layerIdx = 0;
-            for(canvasIdx = 0; canvasIdx < (int)UICanvasID.eeCanvas_Total; ++canvasIdx)
+            for(canvasIdx = 0; canvasIdx < (int)UICanvasID.eCanvas_Total; ++canvasIdx)
             {
                 for (layerIdx = 0; layerIdx <= (int)UILayerID.eMaxLayer; ++layerIdx)
                 {
@@ -411,7 +412,7 @@ namespace SDK.Lib
         {
             foreach (UIFormID id in m_id2FormDic.Keys)
             {
-                if (m_UIAttrs.m_dicAttr[id].canUnloadUIBySceneType(unloadSceneType, loadSceneTpe))
+                if (m_UIAttrs.m_id2AttrDic[id].canUnloadUIBySceneType(unloadSceneType, loadSceneTpe))
                 {
                     m_tmpList.Add(id);
                 }
