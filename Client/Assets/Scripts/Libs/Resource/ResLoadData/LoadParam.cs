@@ -26,6 +26,11 @@ namespace SDK.Lib
         public ResItem m_loadRes = null;
         public InsResBase m_loadInsRes = null;
 
+        public LoadParam()
+        {
+            m_path = "";
+        }
+
         public string prefabName
         {
             get

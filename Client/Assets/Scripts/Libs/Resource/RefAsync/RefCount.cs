@@ -1,5 +1,8 @@
 ﻿namespace SDK.Lib
 {
+    /**
+     * @brief 脚本引用计数
+     */
     public class RefCount
     {
         protected uint m_refNum;                // 引用计数

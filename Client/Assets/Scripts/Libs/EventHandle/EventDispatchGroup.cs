@@ -5,11 +5,12 @@ namespace SDK.Lib
 {
     public class EventDispatchGroup
     {
-        protected Dictionary<int, EventDispatch> m_groupID2DispatchDic = new Dictionary<int, EventDispatch>();
+        protected Dictionary<int, EventDispatch> m_groupID2DispatchDic;
         protected bool m_bInLoop;       // 是否是在循环遍历中
 
         public EventDispatchGroup()
         {
+            m_groupID2DispatchDic = new Dictionary<int, EventDispatch>();
             m_bInLoop = false;
         }
 
