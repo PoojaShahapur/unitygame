@@ -13,7 +13,7 @@ namespace SDK.Lib
      */
     public class UIMgr : IResizeObject
 	{
-		private Dictionary<UIFormID, Form> m_dicForm; //[id,form]
+		private Dictionary<UIFormID, Form> m_id2FormDic; //[id,form]
         private List<UICanvas> m_canvasList;
         public UIAttrSystem m_UIAttrs;
 
@@ -25,7 +25,7 @@ namespace SDK.Lib
 
 		public UIMgr()
 		{
-            m_dicForm = new Dictionary<UIFormID, Form>();
+            m_id2FormDic = new Dictionary<UIFormID, Form>();
             m_UIAttrs = new UIAttrSystem();
             m_ID2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
@@ -147,7 +147,7 @@ namespace SDK.Lib
                 //    Ctx.m_instance.m_resLoadMgr.unload(path);
                 //}
                 UtilApi.UnloadUnusedAssets();       // 异步卸载共用资源
-                m_dicForm.Remove(ID);
+                m_id2FormDic.Remove(ID);
                 win = null;
             }
         }
@@ -180,16 +180,16 @@ namespace SDK.Lib
             form.uiLayer = layer;
             layer.addForm(form);
 
-            m_dicForm[form.id] = form;
+            m_id2FormDic[form.id] = form;
             form.init();        // 初始化
         }
 
         //public T getForm<T>(UIFormID ID) where T : Form
         public Form getForm(UIFormID ID)
         {
-            if (m_dicForm.ContainsKey(ID))
+            if (m_id2FormDic.ContainsKey(ID))
             {
-                return m_dicForm[ID];
+                return m_id2FormDic[ID];
             }
             else
             {
@@ -199,7 +199,7 @@ namespace SDK.Lib
 
         public bool hasForm(UIFormID ID)
         {
-            return (m_dicForm.ContainsKey(ID));
+            return (m_id2FormDic.ContainsKey(ID));
         }
 
         // 这个事加载界面需要的代码
@@ -317,8 +317,8 @@ namespace SDK.Lib
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
             m_ID2CodeLoadingItemDic.Remove(ID);
-            addFormNoReady(m_dicForm[ID]);
-            onCodeLoadedByForm(m_dicForm[ID]);
+            addFormNoReady(m_id2FormDic[ID]);
+            onCodeLoadedByForm(m_id2FormDic[ID]);
         }
 
         protected void onCodeLoadedByForm(Form form)
@@ -337,34 +337,34 @@ namespace SDK.Lib
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
             UIAttrItem attrItem = m_UIAttrs.m_dicAttr[ID];
-            m_dicForm[ID].bLoadWidgetRes = true;
-            m_dicForm[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
+            m_id2FormDic[ID].bLoadWidgetRes = true;
+            m_id2FormDic[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
             if (attrItem.m_bNeedLua)
             {
-                m_dicForm[ID].luaCSBridgeForm.gameObject = m_dicForm[ID].m_GUIWin.m_uiRoot;
-                m_dicForm[ID].luaCSBridgeForm.init();
+                m_id2FormDic[ID].luaCSBridgeForm.gameObject = m_id2FormDic[ID].m_GUIWin.m_uiRoot;
+                m_id2FormDic[ID].luaCSBridgeForm.init();
             }
 
             // 设置位置
-            UtilApi.SetParent(m_dicForm[ID].m_GUIWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
+            UtilApi.SetParent(m_id2FormDic[ID].m_GUIWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
 
             // 先设置再设置缩放，否则无效
-            m_dicForm[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
-            UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件
+            m_id2FormDic[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
+            UtilApi.SetActive(m_id2FormDic[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件
             //if (m_dicForm[ID].hideOnCreate)
             //{
             //    UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);
             //}
-            if (!m_dicForm[ID].hideOnCreate)
+            if (!m_id2FormDic[ID].hideOnCreate)
             {
                 showFormInternal(ID);   // 如果 onShow 中调用 exit 函数，就会清掉 m_dicForm 中的内容。如果设置了 exitMode = false，就不会清掉 m_dicForm ，就不会有问题
             }
 
             if (null != Ctx.m_instance.m_cbUIEvent)
             {
-                if (m_dicForm.ContainsKey(ID))      // 如果 onShow 中调用 exit 函数，并且没有设置 exitMode = false ，就会清除 m_dicForm， 这个时候再调用这个函数，就会有问题，是不是添加延迟卸载
+                if (m_id2FormDic.ContainsKey(ID))      // 如果 onShow 中调用 exit 函数，并且没有设置 exitMode = false ，就会清除 m_dicForm， 这个时候再调用这个函数，就会有问题，是不是添加延迟卸载
                 {
-                    Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_dicForm[ID]);  // 资源加载完成
+                    Ctx.m_instance.m_cbUIEvent.onWidgetLoaded(m_id2FormDic[ID]);  // 资源加载完成
                 }
             }
 
@@ -389,7 +389,7 @@ namespace SDK.Lib
         // 关闭所有显示的窗口
         public void exitAllWin()
         {
-            foreach(UIFormID id in m_dicForm.Keys)
+            foreach(UIFormID id in m_id2FormDic.Keys)
             {
                 m_tmpList.Add(id);
             }
@@ -409,7 +409,7 @@ namespace SDK.Lib
         // 根据场景类型卸载 UI，强制卸载
         public void unloadUIBySceneType(UISceneType unloadSceneType, UISceneType loadSceneTpe)
         {
-            foreach (UIFormID id in m_dicForm.Keys)
+            foreach (UIFormID id in m_id2FormDic.Keys)
             {
                 if (m_UIAttrs.m_dicAttr[id].canUnloadUIBySceneType(unloadSceneType, loadSceneTpe))
                 {
