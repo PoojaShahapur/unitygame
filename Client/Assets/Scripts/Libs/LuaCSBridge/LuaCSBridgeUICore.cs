@@ -9,9 +9,9 @@ namespace SDK.Lib
      */
     public class LuaCSBridgeUICore : LuaCSBridge
     {
-        protected UIAttrs m_uiAttrs;
+        protected UIAttrSystem m_uiAttrs;
 
-        public LuaCSBridgeUICore(UIAttrs uiAttrs)
+        public LuaCSBridgeUICore(UIAttrSystem uiAttrs)
             : base("")
         {
             m_uiAttrs = uiAttrs;

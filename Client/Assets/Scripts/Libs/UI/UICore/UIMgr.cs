@@ -15,7 +15,7 @@ namespace SDK.Lib
 	{
 		private Dictionary<UIFormID, Form> m_dicForm; //[id,form]
         private List<UICanvas> m_canvasList;
-        public UIAttrs m_UIAttrs;
+        public UIAttrSystem m_UIAttrs;
 
         private Dictionary<UIFormID, UILoadingItem> m_ID2CodeLoadingItemDic;         // 记录当前代码正在加载的项
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
@@ -26,7 +26,7 @@ namespace SDK.Lib
 		public UIMgr()
 		{
             m_dicForm = new Dictionary<UIFormID, Form>();
-            m_UIAttrs = new UIAttrs();
+            m_UIAttrs = new UIAttrSystem();
             m_ID2CodeLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
             m_ID2WidgetLoadingItemDic = new Dictionary<UIFormID, UILoadingItem>();
 

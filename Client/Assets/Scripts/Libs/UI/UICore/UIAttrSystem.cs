@@ -2,12 +2,12 @@
 
 namespace SDK.Lib
 {
-    public class UIAttrs
+    public class UIAttrSystem
     {
         public Dictionary<UIFormID, UIAttrItem> m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
         protected LuaCSBridgeUICore m_luaCSBridgeUICore;
 
-        public UIAttrs()
+        public UIAttrSystem()
         {
             m_dicAttr = new Dictionary<UIFormID, UIAttrItem>();
 
