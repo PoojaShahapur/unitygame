@@ -7,12 +7,13 @@ namespace SDK.Lib
 {
     public class FrameTimerMgr : DelayHandleMgrBase
     {
-        protected List<FrameTimerItem> m_timerLists = new List<FrameTimerItem>();     // 当前所有的定时器列表
-        protected List<FrameTimerItem> m_delLists = new List<FrameTimerItem>();       // 当前需要删除的定时器
+        protected List<FrameTimerItem> m_timerLists;     // 当前所有的定时器列表
+        protected List<FrameTimerItem> m_delLists;       // 当前需要删除的定时器
 
         public FrameTimerMgr()
         {
-            
+            m_timerLists = new List<FrameTimerItem>();
+            m_delLists = new List<FrameTimerItem>();
         }
 
         public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)

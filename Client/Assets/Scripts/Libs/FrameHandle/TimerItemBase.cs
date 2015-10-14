@@ -7,13 +7,24 @@ namespace SDK.Lib
      */
     public class TimerItemBase : IDelayHandleItem
     {
-        public float m_internal = 1;        // 定时器间隔
-        public float m_totalTime = 1;      // 总共定时器时间
-        public float m_curTime = 0;        // 当前已经调用的定时器的时间
-        public bool m_bInfineLoop = false;  // 是否是无限循环
-        public float m_curLeftTimer = 0;    // 当前定时器剩余的次数
-        public Action<TimerItemBase> m_timerDisp = null;       // 定时器分发
-        public bool m_disposed = false;             // 是否已经被释放
+        public float m_internal;        // 定时器间隔
+        public float m_totalTime;       // 总共定时器时间
+        public float m_curTime;         // 当前已经调用的定时器的时间
+        public bool m_bInfineLoop;      // 是否是无限循环
+        public float m_curLeftTimer;    // 当前定时器剩余的次数
+        public Action<TimerItemBase> m_timerDisp;       // 定时器分发
+        public bool m_disposed;             // 是否已经被释放
+
+        public TimerItemBase()
+        {
+            m_internal = 1;
+            m_totalTime = 1;
+            m_curTime = 0;
+            m_bInfineLoop = false;
+            m_curLeftTimer = 0;
+            m_timerDisp = null;
+            m_disposed = false;
+        }
 
         public virtual void OnTimer(float delta)
         {

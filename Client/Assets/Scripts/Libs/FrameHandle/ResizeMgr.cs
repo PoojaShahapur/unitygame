@@ -4,7 +4,12 @@ namespace SDK.Lib
 {
     public class ResizeMgr
     {
-        protected List<IResizeObject> m_ResizeLst = new List<IResizeObject>();
+        protected List<IResizeObject> m_ResizeLst;
+
+        public ResizeMgr()
+        {
+            m_ResizeLst = new List<IResizeObject>();
+        }
 
         public void addResizeObject(IResizeObject obj)
         {
