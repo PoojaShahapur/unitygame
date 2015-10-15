@@ -173,7 +173,7 @@ namespace SDK.Lib
             return bFinded;
         }
 
-        public void copyFrom(ResEventDispatch rhv)
+        public void copyFrom(EventDispatch rhv)
         {
             foreach(var handle in rhv.handleList.list)
             {
