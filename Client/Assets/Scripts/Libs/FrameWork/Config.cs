@@ -13,30 +13,42 @@ namespace SDK.Lib
      */
     public class Config
     {
-        public const string StreamingAssets = "StreamingAssets/";
-        public const string UIModelLayer = "UIModel";
+        public static string StreamingAssets;
+        public static string UIModelLayer;
 
 #if KOKSERVER_TEST
         public string m_ip = "222.73.30.21";
         public int m_port = 7000;
 #else
-        public string m_ip = "192.168.122.253";
-        public int m_port = 10002;
-        public ushort m_zone = 30;
+        public string m_ip;
+        public int m_port;
+        public ushort m_zone;
 #endif
 
-        public string m_webIP = "http://127.0.0.1/UnityServer/";               // web 服务器
-        public int m_webPort = 80;
+        public string m_webIP;               // web 服务器
+        public int m_webPort;
 
         public string[] m_pathLst;
         public ResLoadType m_resLoadType;   // 资源加载类型
         public string m_dataPath;
         //public bool m_bNeedNet = false;                       // 是否需要网络
-        public string m_netLogPhp = "/netlog/NetLog.php";       // Php 处理文件
-        public List<string> m_pakExtNameList = new List<string>();       // 打包的扩展名字列表
+        public string m_netLogPhp;       // Php 处理文件
+        public List<string> m_pakExtNameList;       // 打包的扩展名字列表
 
         public Config()
         {
+            StreamingAssets = "StreamingAssets/";
+            UIModelLayer = "UIModel";
+
+            m_ip = "192.168.122.253";
+            m_port = 10002;
+            m_zone = 30;
+
+            m_webIP = "http://127.0.0.1/UnityServer/";
+            m_webPort = 80;
+            m_netLogPhp = "/netlog/NetLog.php";
+            m_pakExtNameList = new List<string>();
+
             m_resLoadType = ResLoadType.eLoadDisc;
             m_pathLst = new string[(int)ResPathType.eTotal];
             m_pathLst[(int)ResPathType.ePathScene] = "Scenes/";
