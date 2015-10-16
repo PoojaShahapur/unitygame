@@ -6,8 +6,8 @@ namespace SDK.Lib
 {
     public class ResLoadMgr : MsgRouteHandleBase
     {
-        protected uint m_maxParral = 8;                             // 最多同时加载的内容
-        protected uint m_curNum = 0;                                // 当前加载的数量
+        protected uint m_maxParral;                             // 最多同时加载的内容
+        protected uint m_curNum;                                // 当前加载的数量
         protected ResLoadData m_LoadData;
         protected LoadItem m_retLoadItem;
         protected ResItem m_retResItem;
@@ -17,6 +17,8 @@ namespace SDK.Lib
 
         public ResLoadMgr()
         {
+            m_maxParral = 8;
+            m_curNum = 0;
             m_LoadData = new ResLoadData();
             m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = onMsgRouteResLoad;
             m_zeroRefResIDList = new List<string>();
