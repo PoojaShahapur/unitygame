@@ -74,21 +74,21 @@ public class PhysicsWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_kIgnoreRaycastLayer(IntPtr L)
 	{
-		LuaScriptMgr.Push(L, Physics.kIgnoreRaycastLayer);
+		LuaScriptMgr.Push(L, Physics.IgnoreRaycastLayer);
 		return 1;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_kDefaultRaycastLayers(IntPtr L)
 	{
-		LuaScriptMgr.Push(L, Physics.kDefaultRaycastLayers);
+		LuaScriptMgr.Push(L, Physics.DefaultRaycastLayers);
 		return 1;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_kAllLayers(IntPtr L)
 	{
-		LuaScriptMgr.Push(L, Physics.kAllLayers);
+		LuaScriptMgr.Push(L, Physics.AllLayers);
 		return 1;
 	}
 
