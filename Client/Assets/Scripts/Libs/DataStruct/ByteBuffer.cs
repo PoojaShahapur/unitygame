@@ -341,18 +341,11 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(short)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpShort = System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_shortByte, 0, sizeof(short));
-                    //Array.Reverse(m_shortByte);
-                    //tmpShort = System.BitConverter.ToInt16(m_shortByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(short));
-                    System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpShort = System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_pos);
 
                 advPos(sizeof(short));
             }
@@ -366,18 +359,11 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(ushort)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpUshort = System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_shortByte, 0, sizeof(ushort));
-                    //Array.Reverse(m_shortByte);
-                    //tmpUshort = System.BitConverter.ToUInt16(m_shortByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(ushort));
-                    System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpUshort = System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_pos);
 
                 advPos(sizeof(ushort));
             }
@@ -391,18 +377,12 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(int)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpInt = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_intByte, 0, sizeof(int));
-                    //Array.Reverse(m_intByte);
-                    //tmpInt = System.BitConverter.ToInt32(m_intByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(int));
-                    System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpInt = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_pos);
+
                 advPos(sizeof(int));
             }
 
@@ -415,18 +395,11 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(uint)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpUint = System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_intByte, 0, sizeof(uint));
-                    //Array.Reverse(m_intByte);
-                    //tmpUint = System.BitConverter.ToUInt32(m_intByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(uint));
-                    System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpUint = System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_pos);
 
                 advPos(sizeof(uint));
             }
@@ -440,18 +413,11 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(long)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpLong = System.BitConverter.ToInt64(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_longByte, 0, sizeof(long));
-                    //Array.Reverse(m_longByte);
-                    //tmpLong = System.BitConverter.ToInt64(m_longByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(long));
-                    System.BitConverter.ToInt64(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpLong = System.BitConverter.ToInt64(m_dynBuff.buff, (int)m_pos);
 
                 advPos(sizeof(long));
             }
@@ -465,18 +431,11 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(ulong)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpUlong = System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_longByte, 0, sizeof(ulong));
-                    //Array.Reverse(m_longByte);
-                    //tmpUlong = System.BitConverter.ToUInt64(m_longByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(ulong));
-                    System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpUlong = System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_pos);
 
                 advPos(sizeof(ulong));
             }
@@ -490,18 +449,12 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(float)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpFloat = System.BitConverter.ToSingle(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_floatByte, 0, sizeof(float));
-                    //Array.Reverse(m_floatByte);
-                    //tmpFloat = System.BitConverter.ToSingle(m_floatByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(float));
-                    System.BitConverter.ToSingle(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpFloat = System.BitConverter.ToSingle(m_dynBuff.buff, (int)m_pos);
+
                 advPos(sizeof(float));
             }
 
@@ -514,18 +467,12 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(double)))
             {
-                if (m_endian == SystemEndian.m_sEndian)
+                if (m_endian != SystemEndian.m_sEndian)
                 {
-                    tmpDouble = System.BitConverter.ToDouble(m_dynBuff.buff, (int)m_pos);
-                }
-                else
-                {
-                    //Array.Copy(m_dynBuff.buff, (int)m_pos, m_doubleByte, 0, sizeof(double));
-                    //Array.Reverse(m_doubleByte);
-                    //tmpDouble = System.BitConverter.ToDouble(m_doubleByte, 0);
                     Array.Reverse(m_dynBuff.buff, (int)m_pos, sizeof(double));
-                    System.BitConverter.ToDouble(m_dynBuff.buff, (int)m_pos);
                 }
+                tmpDouble = System.BitConverter.ToDouble(m_dynBuff.buff, (int)m_pos);
+
                 advPos(sizeof(double));
             }
 
