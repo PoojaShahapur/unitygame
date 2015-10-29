@@ -29,11 +29,11 @@ namespace SDK.Lib
             // 方法二
             if(System.BitConverter.IsLittleEndian)
             {
-                SystemEndian.m_sEndian = Endian.LITTLE_ENDIAN;
+                SystemEndian.m_sEndian = EEndian.eLITTLE_ENDIAN;
             }
             else
             {
-                SystemEndian.m_sEndian = Endian.BIG_ENDIAN;
+                SystemEndian.m_sEndian = EEndian.eBIG_ENDIAN;
             }
         }
 

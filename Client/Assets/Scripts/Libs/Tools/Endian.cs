@@ -1,13 +1,13 @@
 ﻿namespace SDK.Lib
 {
-    public enum Endian
+    public enum EEndian
     {
-        BIG_ENDIAN,         // 大端
-        LITTLE_ENDIAN,      // 小端
+        eBIG_ENDIAN,         // 大端
+        eLITTLE_ENDIAN,      // 小端
     }
 
     public class SystemEndian
     {
-        static public Endian m_sEndian = Endian.LITTLE_ENDIAN;     // 当前机器的编码
+        static public EEndian m_sEndian = EEndian.eLITTLE_ENDIAN;     // 当前机器的编码
     }
 }

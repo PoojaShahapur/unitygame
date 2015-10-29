@@ -19,13 +19,13 @@ namespace SDK.Lib
 
         protected DynBuffer<byte> m_dynBuff;
         protected uint m_pos;          // 当前可以读取的位置索引
-        protected Endian m_endian;          // 大端小端
+        protected EEndian m_endian;          // 大端小端
 
         protected byte[] m_padBytes;
 
         protected LuaCSBridgeByteBuffer m_luaCSBridgeByteBuffer;        // Lua 中的缓冲区
 
-        public ByteBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY, Endian endian = Endian.LITTLE_ENDIAN)
+        public ByteBuffer(uint initCapacity = BufferCV.INIT_CAPACITY, uint maxCapacity = BufferCV.MAX_CAPACITY, EEndian endian = EEndian.eLITTLE_ENDIAN)
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
             m_dynBuff = new DynBuffer<byte>(initCapacity, maxCapacity);
@@ -48,7 +48,7 @@ namespace SDK.Lib
             }
         }
 
-		public Endian endian
+		public EEndian endian
         {
             get
             {
@@ -60,7 +60,7 @@ namespace SDK.Lib
             }
         }
 
-        public void setEndian(Endian end)
+        public void setEndian(EEndian end)
         {
             m_endian = end;
         }

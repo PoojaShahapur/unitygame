@@ -16,7 +16,9 @@ namespace Game.Start
 
         void Awake()
         {
-            //Application.targetFrameRate = 24;
+            // Application.targetFrameRate = 24;
+            // QualitySettings.vSyncCount = 2;
+            // Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
 
         // Use this for initialization

@@ -169,7 +169,7 @@ namespace SDK.Lib
             TableBase table = m_dicTable[tableID];
             table.m_byteBuffer = bytes;
 
-            bytes.setEndian(Endian.LITTLE_ENDIAN);
+            bytes.setEndian(EEndian.eLITTLE_ENDIAN);
             uint len = 0;
             bytes.readUnsignedInt32(ref len);
             uint i = 0;

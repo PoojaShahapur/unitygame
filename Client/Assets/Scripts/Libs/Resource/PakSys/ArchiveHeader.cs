@@ -23,7 +23,7 @@ namespace SDK.Lib
 			m_magic[2] = (byte)'d';
 			m_magic[3] = (byte)'f';
 
-			m_endian = (byte)Endian.LITTLE_ENDIAN;		// 0 大端 1 小端
+			m_endian = (byte)EEndian.eLITTLE_ENDIAN;		// 0 大端 1 小端
 		}
 
 		public void clear()
@@ -49,7 +49,7 @@ namespace SDK.Lib
 			pMByteBuffer.length = calcArchiveHeaderSizeNoFileHeader() - 4;
 			// 读取 endian 
             pMByteBuffer.readUnsignedInt8(ref m_endian);
-			pMByteBuffer.setEndian((Endian)m_endian);
+			pMByteBuffer.setEndian((EEndian)m_endian);
 
 			// 读取头部大小
             pMByteBuffer.readUnsignedInt32(ref m_headerSize);
