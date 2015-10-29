@@ -4,7 +4,7 @@ using BehaviorLibrary;
 using FightCore;
 
 #if UNIT_TEST_SRC
-using UnitTestSrc;
+using UnitTest;
 #endif
 
 /**
