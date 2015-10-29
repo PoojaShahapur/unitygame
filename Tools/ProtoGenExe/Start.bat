@@ -1,0 +1,1 @@
+protogen -i:Person.proto -o:Person.cs -ns:MyProtoBuf
