@@ -23,6 +23,7 @@ namespace UnitTest
         protected TestLua m_pTestLua = new TestLua();
         protected TestNavMesh m_pTestNavMesh = new TestNavMesh();
         protected TestAStar m_pTestAStar = new TestAStar();
+        protected TestProtoBuf m_pTestProtoBuf = new TestProtoBuf();
 
         public void run()
         {
@@ -48,6 +49,7 @@ namespace UnitTest
             m_pTestLua.run();
             m_pTestNavMesh.run();
             m_pTestAStar.run();
+            m_pTestProtoBuf.run();
         }
     }
 }
