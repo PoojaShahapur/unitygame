@@ -6,12 +6,9 @@ namespace SDK.Lib
 {
     public class ProtobufHelper
     {
-        /// <summary>
-        /// 序列化
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
-        /// <returns></returns>
+        /**
+         * @brief 序列化成字符串
+         */
         public static string SerializeTString<T>(T t)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -33,12 +30,9 @@ namespace SDK.Lib
             }
         }
 
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="content"></param>
-        /// <returns></returns>
+        /**
+         * @brief 从字符串反序列化
+         */
         public static T DeSerializeFString<T>(string content)
         {
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(content)))
@@ -49,7 +43,7 @@ namespace SDK.Lib
         }
 
         /**
-         * @brief 反序列化
+         * @brief 从字节数组反序列化
          */
         public static T DeSerializeFBytes<T>(byte[] content)
         {
