@@ -59,5 +59,17 @@ namespace SDK.Lib
                 return t;
             }
         }
+
+        /**
+         * @brief 获取序列化后占用的字节大小
+         */
+        public static int getSerializeBytesLength<T>(T t)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Serializer.Serialize<T>(ms, t);
+                return ms.ToArray().Length;
+            }
+        }
     }
 }
