@@ -7,18 +7,30 @@ namespace UnitTest
     {
         public void run()
         {
-            testProtoBuf();
+            testProtoBufStr();
+            testProtoBufBytes();
         }
 
-        public void testProtoBuf()
+        public void testProtoBufStr()
         {
             Person pSource = new Person();
             pSource.name = "asdf";
             pSource.id = 123;
             pSource.email = "qwer";
-            string content = ProtobufHelper.Serialize<Person>(pSource);
+            string content = ProtobufHelper.SerializeTString<Person>(pSource);
 
-            Person pResult = ProtobufHelper.DeSerialize<Person>(content);
+            Person pResult = ProtobufHelper.DeSerializeFString<Person>(content);
+        }
+
+        public void testProtoBufBytes()
+        {
+            Person pSource = new Person();
+            pSource.name = "asdf";
+            pSource.id = 123;
+            pSource.email = "qwer";
+
+            byte[] bytes = ProtobufHelper.SerializeTBytes<Person>(pSource);
+            Person pFBytes = ProtobufHelper.DeSerializeFBytes<Person>(bytes);
         }
     }
 }
