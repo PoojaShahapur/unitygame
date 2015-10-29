@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief Protobuf 辅助函数
+     */
     public class ProtobufHelper
     {
         /**
