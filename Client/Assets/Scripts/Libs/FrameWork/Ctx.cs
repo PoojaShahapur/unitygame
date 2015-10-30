@@ -105,7 +105,10 @@ namespace SDK.Lib
         public GlobalEventMgr m_globalEventMgr = new GlobalEventMgr();
 
         public LuaScriptMgr m_luaScriptMgr = new LuaScriptMgr();
-        public MovieMgr m_movieMgr = new MovieMgr();
+        public MovieMgr m_movieMgr = new MovieMgr();    // 视频 Clip 播放
+        public NativeInterface m_nativeInterface = new NativeInterface();   // 本地接口调用
+        public GCAutoCollect m_gcAutoCollect = new GCAutoCollect();     // 自动垃圾回收
+        public MemoryCheck m_memoryCheck = new MemoryCheck();       // 内存查找
 
         public Ctx()
         {

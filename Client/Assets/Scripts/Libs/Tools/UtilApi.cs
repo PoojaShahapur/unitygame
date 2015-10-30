@@ -385,6 +385,13 @@ namespace SDK.Lib
             return opt;
         }
 
+        // 立即垃圾回收
+        public static void ImmeUnloadUnusedAssets()
+        {
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
+        }
+
         // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的指导释放哪个资源
         public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
@@ -706,6 +713,17 @@ namespace SDK.Lib
         static public Vector3 convPtFromLocal2Local(Transform from, Transform to, Vector3 localPt)
         {
             return to.InverseTransformPoint(from.TransformPoint(localPt));
+        }
+
+        static public void PrefetchSocketPolicy(string ip, int atPort)
+        {
+            Security.PrefetchSocketPolicy(ip, atPort);
+        }
+
+        // 获取某一类型所有的对象
+        static public T[] FindObjectsOfTypeAll<T>() where T : UnityEngine.Object
+        {
+            return Resources.FindObjectsOfTypeAll<T>();
         }
     }
 }
