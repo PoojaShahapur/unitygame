@@ -45,3 +45,6 @@
 
 // 非打包文件系统资源加载
 // #define UnPKG_RES_LOAD
+
+// 是否开启 EnableProtoBuf
+// #define EnableProtoBuf

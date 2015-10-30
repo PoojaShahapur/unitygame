@@ -335,7 +335,8 @@ namespace SDK.Lib
         {
             AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
             Ctx.m_instance.m_logSys.log(string.Format("Idle 当前检测长度 {0}", state.length));
-            return (state.length == 0);
+            //return (state.length == 0);
+            return state.normalizedTime >= 1.0f;    // Unity4 使用这个判断动画是否结束， Unity5 可以和 UE4 一样，使用事件
         }
 
         protected bool canStopNextFrameTimer()
@@ -343,7 +344,8 @@ namespace SDK.Lib
             //return (m_state.length > 0);
             AnimatorStateInfo state = m_animator.GetCurrentAnimatorStateInfo(0);
             Ctx.m_instance.m_logSys.log(string.Format("当前检测长度 {0}", state.length));
-            return (state.length > 0);
+            //return (state.length > 0);
+            return state.normalizedTime >= 1.0f;
         }
 
         // 测试获取各种参数

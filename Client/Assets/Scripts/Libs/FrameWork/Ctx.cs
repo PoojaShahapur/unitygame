@@ -105,6 +105,7 @@ namespace SDK.Lib
         public GlobalEventMgr m_globalEventMgr = new GlobalEventMgr();
 
         public LuaScriptMgr m_luaScriptMgr = new LuaScriptMgr();
+        public MovieMgr m_movieMgr = new MovieMgr();
 
         public Ctx()
         {
