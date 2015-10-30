@@ -356,5 +356,44 @@ namespace SDK.Lib
             AnimatorClipInfo[] clipArr = m_animator.GetCurrentAnimatorClipInfo(0);
             bool aaa = bInTransition(0);
         }
+
+        /**
+         * @brief 给一个 Animator 中的 AnimationClip 添加事件，这个可以直接在编辑器 DopeSheet 或者直接在动画资源中直接添加
+         */
+        public void AddEvent(string clipName, string funcName, float time)
+        {
+            if(m_animator == null)
+            {
+                return;
+            }
+
+            AnimationClip[] animClip = m_animator.runtimeAnimatorController.animationClips;
+            if(animClip.Length == 0)
+            {
+                return;
+            }
+
+            AnimationEvent animEvt = new AnimationEvent();
+            animEvt.functionName = "AnimEventCall";
+            animEvt.stringParameter = funcName;
+            animEvt.time = time;
+
+            for(int idx = 0; idx < animClip.Length; ++idx)
+            {
+                if(animClip[idx].name.Equals(clipName))
+                {
+                    animClip[idx].AddEvent(animEvt);
+                    break;
+                }
+            }
+        }
+
+        /**
+         * @breif 事件回调函数
+         */
+        protected void AnimEventCall(string funcName)
+        {
+            // 执行事件的一些出来
+        }
     }
 }

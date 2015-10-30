@@ -170,5 +170,14 @@ namespace UnitTest
         {
             LuaTable luaTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable("_G");
         }
+
+        // 下面函数仅仅是说明用法，不能真正运行
+        private void testFunc()
+        {
+            LuaFunction luaFunc = null;
+            luaFunc.Call();
+            luaFunc.Dispose();
+            luaFunc = null;
+        }
     }
 }
