@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -123,6 +124,41 @@ namespace SDK.Lib
         public static void RemoveListener(Button btn, UnityAction handle)
         {
             btn.onClick.RemoveListener(handle);
+        }
+
+        public static void addEventHandle(UnityEvent unityEvent, UnityAction unityAction)
+        {
+            unityEvent.AddListener(unityAction);
+        }
+
+        public static void RemoveListener(UnityEvent unityEvent, UnityAction unityAction)
+        {
+            unityEvent.RemoveListener(unityAction);
+        }
+
+        public static void RemoveAllListener(UnityEvent unityEvent)
+        {
+            unityEvent.RemoveAllListeners();
+        }
+
+        public static void addEventHandle(Button.ButtonClickedEvent buttonClickedEvent, UnityAction unityAction)
+        {
+            buttonClickedEvent.AddListener(unityAction);
+        }
+
+        public static void addEventHandle(UnityEvent<GameObject> unityEvent, UnityAction<GameObject> unityAction)
+        {
+            unityEvent.AddListener(unityAction);
+        }
+
+        public static void addEventHandle(UnityEvent<bool> unityEvent, LuaFunction func)
+        {
+            unityEvent.AddListener(
+                (param) => 
+                {
+                    func.Call(param);
+                }
+            );
         }
 
         // 深度遍历移除 Sprite Image
