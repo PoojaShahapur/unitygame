@@ -13,7 +13,7 @@ namespace UnitTest
         public void run()
         {
             //testLua();
-            //testLoadLuaFile();
+            testLoadLuaFile();
             //testLocalLua();
             //testLuaBindFile();
             //testLuaByteBuffer();
