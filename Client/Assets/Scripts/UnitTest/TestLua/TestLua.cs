@@ -179,5 +179,16 @@ namespace UnitTest
             luaFunc.Dispose();
             luaFunc = null;
         }
+
+        private void testPCall()
+        {
+            LuaFunction luaFunc = null;
+            int oldTop = luaFunc.BeginPCall();       // 将函数压栈
+            LuaInterface.LuaDLL.lua_pushinteger(Ctx.m_instance.m_luaScriptMgr.lua.L, 10);
+            if(luaFunc.PCall(oldTop, 1))
+            {
+                luaFunc.EndPCall(oldTop);
+            }
+        }
     }
 }
