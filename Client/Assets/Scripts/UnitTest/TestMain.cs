@@ -24,6 +24,7 @@ namespace UnitTest
         protected TestNavMesh m_pTestNavMesh = new TestNavMesh();
         protected TestAStar m_pTestAStar = new TestAStar();
         protected TestProtoBuf m_pTestProtoBuf = new TestProtoBuf();
+        protected TestDraw m_pTestDraw = new TestDraw();
 
         public void run()
         {
@@ -47,9 +48,11 @@ namespace UnitTest
 
             m_pTestLogic.run();
             m_pTestLua.run();
-            m_pTestNavMesh.run();
+            //m_pTestNavMesh.run();
             m_pTestAStar.run();
             m_pTestProtoBuf.run();
+
+            m_pTestDraw.run();
         }
     }
 }

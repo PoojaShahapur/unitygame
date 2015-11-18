@@ -143,6 +143,10 @@ namespace SDK.Lib
             return m_vertsVec.Count;
         }
 
+        /**
+         * @brief 初始化
+         * @xCount 格子的数量，注意，顶点数量是 xCount + 1，类似 power(2, n) + 1 ，这个才是顶点数量
+         */
         public void init(int xCount, int yCount, float gridWidth, float gridHeight)
         {
             m_xCount = xCount;
