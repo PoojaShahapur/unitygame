@@ -18,20 +18,24 @@ function coroutine.start(f, ...)
 		local flag, msg = resume(co, ...)
 	
 		if not flag then		
-			error(msg)
+			msg = debug.traceback(co, msg)				
+			error(msg)				
 		end					
 	else
 		local args = {...}
+		local timer = nil
 		
 		local action = function()							
 			local flag, msg = resume(co, unpack(args))
 	
 			if not flag then				
-				error(msg)		
+				timer:Stop()
+				msg = debug.traceback(co, msg)				
+				error(msg)						
 			end		
 		end
 			
-		local timer = FrameTimer.New(action, 0, 1)
+		timer = FrameTimer.New(action, 0, 1)
 		timer:Start()		
 	end
 end
@@ -39,18 +43,20 @@ end
 function coroutine.wait(t, co, ...)
 	local args = {...}
 	co = co or running()		
+	local timer = nil
 		
 	local action = function()		
 		local flag, msg = resume(co, unpack(args))
 		
 		if not flag then	
-			msg = debug.traceback(co, msg)				
-			Debugger.LogError("coroutine error:{0}", msg)		
+			timer:Stop()
+			msg = debug.traceback(co, msg)							
+			error(msg)			
 			return
 		end
 	end
 	
-	local timer = CoTimer.New(action, t, 1)
+	timer = CoTimer.New(action, t, 1)	
 	timer:Start()
 	return yield()
 end
@@ -58,18 +64,44 @@ end
 function coroutine.step(t, co, ...)
 	local args = {...}
 	co = co or running()		
+	local timer = nil
 	
 	local action = function()							
 		local flag, msg = resume(co, unpack(args))
 	
 		if not flag then				
-			msg = debug.traceback(co, msg)				
-			Debugger.LogError("coroutine error:{0}", msg)		
+			timer:Stop()
+			msg = debug.traceback(co, msg)							
+			error(msg)					
 			return	
 		end		
 	end
-			
-	local timer = FrameTimer.New(action, t or 1, 1)
+				
+	timer = FrameTimer.New(action, t or 1, 1)
 	timer:Start()
 	return yield()
 end
+
+function coroutine.www(www, co)			
+	co = co or running()			
+	local timer = nil			
+			
+	local action = function()				
+		if not www.isDone then		
+			return		
+		end		
+		
+		timer:Stop()		
+		local flag, msg = resume(co)		
+			
+		if not flag then						
+			msg = debug.traceback(co, msg)						
+			error(msg)			
+			return			
+		end				
+	end		
+					
+	timer = FrameTimer.New(action, 1, -1)		
+ 	timer:Start()
+ 	return yield()
+ end

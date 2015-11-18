@@ -70,6 +70,7 @@ namespace SDK.Lib
             m_pathLst[(int)ResPathType.ePathAtlas] = "Atlas/";
             m_pathLst[(int)ResPathType.ePathSpriteAni] = "Effect/SpriteEffect/";
             m_pathLst[(int)ResPathType.ePathSceneAnimatorController] = "Animation/Scene/";
+            m_pathLst[(int)ResPathType.ePathULua] = "LuaScript/";
             m_pathLst[(int)ResPathType.ePathLuaScript] = "LuaScript/";
             m_pathLst[(int)ResPathType.ePathSkillAction] = "SkillAction/";
 

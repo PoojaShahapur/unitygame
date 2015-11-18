@@ -203,14 +203,15 @@ public class LuaScriptMgr
             LuaDLL.luaopen_cjson(lua.L);
             LuaDLL.luaopen_cjson_safe(lua.L);
         }
+#if UNITY_EDITOR
+        LuaDLL.luaopen_socket_core(lua.L);
+#endif
         if (AppConst.UseSproto) {
             LuaDLL.luaopen_sproto_core(lua.L);
         }
         LuaDLL.tolua_openlibs(lua.L);
-
-        //if (Const.UseSQLite) {
-            //LuaDLL.luaopen_lsqlite3(lua.L);
-        //}
+        //OpenXml();        
+                
         fileList = new HashSet<string>();
         dict = new Dictionary<string,LuaBase>();        
         //dictBundle = new Dictionary<string, IAssetFile>();
@@ -1986,10 +1987,11 @@ public class LuaScriptMgr
         {
             sf = st.GetFrame(pos++);
             file = sf.GetFileName();
-        } while (!file.Contains("Wrap"));
+            file = Path.GetFileName(file);
+        } while (!file.Contains("Wrap."));
 
         int index1 = file.LastIndexOf('\\');
-        int index2 = file.LastIndexOf("Wrap");
+        int index2 = file.LastIndexOf("Wrap.");
         string className = file.Substring(index1 + 1, index2 - index1 - 1);
         return string.Format("{0}.{1}", className, sf.GetMethod().Name);                
     }
@@ -2111,6 +2113,10 @@ public class LuaScriptMgr
                 return (string[])ret;
             }
         }
+        else if (luatype == LuaTypes.LUA_TNIL)
+        {
+            return null;
+        }
 
         LuaDLL.luaL_error(L, string.Format("invalid arguments to method: {0}, pos {1}", GetErrorFunc(1), stackPos));           
         return null;
@@ -2157,6 +2163,10 @@ public class LuaScriptMgr
                 return (T[])ret;
             }            
         }
+        else if (luatype == LuaTypes.LUA_TNIL)
+        {
+            return null;
+        }
 
         LuaDLL.luaL_error(L, string.Format("invalid arguments to method: {0}, pos {1}", GetErrorFunc(1), stackPos));   
         return null;
@@ -2201,6 +2211,10 @@ public class LuaScriptMgr
             {
                 return (bool[])ret;
             }
+        }
+        else if (luatype == LuaTypes.LUA_TNIL)
+        {
+            return null;
         }
 
         LuaDLL.luaL_error(L, string.Format("invalid arguments to method: {0}, pos {1}", GetErrorFunc(1), stackPos));

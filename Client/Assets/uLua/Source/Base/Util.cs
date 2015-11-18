@@ -15,21 +15,14 @@ public class Util {
     /// 取得Lua路径
     /// </summary>
     public static string LuaPath(string name) {
-        string path = Application.dataPath ;
+        string path = Application.dataPath;
         string lowerName = name.ToLower();
         if (lowerName.EndsWith(".lua")) {
             int index = name.LastIndexOf('.');
             name = name.Substring(0, index);
         }
         name = name.Replace('.', '/');
-        if (File.Exists(path + "/Prefabs/Resources/LuaScript/" + name + ".lua"))
-        {
-            return path + "/Prefabs/Resources/LuaScript/" + name + ".lua";
-        }
-        else
-        {
-            return path + "/uLua/lua/" + name + ".lua";
-        }
+        return path + "/uLua/lua/" + name + ".lua";
     }
 
     public static void Log(string str) {
@@ -41,14 +34,14 @@ public class Util {
     }
 
     public static void LogError(string str) {
-        Debug.LogError(str); 
+        Debug.LogError(str);
     }
 
     /// <summary>
     /// 清理内存
     /// </summary>
     public static void ClearMemory() {
-        GC.Collect(); 
+        GC.Collect();
         Resources.UnloadUnusedAssets();
         LuaScriptMgr mgr = LuaScriptMgr.Instance;
         if (mgr != null && mgr.lua != null) mgr.LuaGC();
@@ -88,5 +81,15 @@ public class Util {
 #endif
         return true;
     }
+    /// <summary>
+    /// 是不是苹果平台
+    /// </summary>
+    /// <returns></returns>
+    public static bool isApplePlatform {
+        get {
+            return Application.platform == RuntimePlatform.IPhonePlayer ||
+                   Application.platform == RuntimePlatform.OSXEditor ||
+                   Application.platform == RuntimePlatform.OSXPlayer;
+        }
+    }
 }
- 

@@ -25,6 +25,7 @@
         ePathAtlas,         // 地图集
         ePathSpriteAni,     // 精灵动画
         ePathSceneAnimatorController,   // Animator Controller 控制器
+        ePathULua,                      // ULua 脚本目录
         ePathLuaScript,                 // Lua 脚本
         ePathSkillAction,               // 技能动作配置文件
 

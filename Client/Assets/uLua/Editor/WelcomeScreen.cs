@@ -21,6 +21,7 @@
     public class WelcomeScreen : EditorWindow
     {
         private bool flag = true;
+        private string version = "Version : 1.23";
         private Rect mContactDescriptionRect = new Rect(70f, 344f, 250f, 30f);
         private Rect mContactHeaderRect = new Rect(70f, 324f, 250f, 20f);
         private Texture mContactImage;
@@ -83,7 +84,7 @@
             GUI.DrawTexture(this.mContactImageRect, this.mContactImage);
             GUI.Label(this.mContactHeaderRect, " 加入技术支持社群");
             GUI.Label(this.mContactDescriptionRect, "QQ群:469941220 或者 QQ群:62978170");
-            GUI.Label(this.mVersionRect, "Version : 1.21" );
+            GUI.Label(this.mVersionRect, version );
 
             flag = GUI.Toggle(this.mToggleButtonRect, flag, "开始时候显示对话框");
             if (flag) {

@@ -11,7 +11,6 @@ local core = require "sproto.core"
 local print_r = require "3rd/sproto/print_r"
 
 require "Logic/LuaClass"
-require "Logic/CtrlManager"
 require "Common/functions"
 
 --管理器--
@@ -21,7 +20,7 @@ local this = GameManager;
 local game; 
 local transform;
 local gameObject;
-
+local WWW = UnityEngine.WWW;
 
 function GameManager.LuaScriptPanel()
 	return 'Prompt', 'Message';
@@ -48,8 +47,20 @@ function GameManager.OnInitOK()
     this.test_pbc_func();
     this.test_lpeg_func();
     this.test_sproto_func();
-    
-    warn('InitOK--->>>');
+    coroutine.start(this.test_coroutine);
+
+    warn('SimpleFramework InitOK--->>>');
+end
+
+--测试协同--
+function GameManager.test_coroutine()    
+    warn("1111");
+    coroutine.wait(1);	
+    warn("2222");
+	
+    local www = WWW("http://bbs.ulua.org/readme.txt");
+    coroutine.www(www);
+    warn(www.text);    	
 end
 
 --测试sproto--
