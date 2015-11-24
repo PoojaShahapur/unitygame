@@ -761,5 +761,10 @@ namespace SDK.Lib
         {
             return Resources.FindObjectsOfTypeAll<T>();
         }
+
+        static public double Sqrt(double d)
+        {
+            return Math.Sqrt(d);
+        }
     }
 }

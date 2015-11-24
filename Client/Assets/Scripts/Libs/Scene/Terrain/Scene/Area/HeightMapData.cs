@@ -17,6 +17,22 @@ namespace SDK.Lib
             setHeightMapData(tex);
         }
 
+        public HeightMapData(int width_, int height_)
+        {
+            m_texRes = null;
+            m_heightMap = new Texture2D(width_, height_, TextureFormat.RGB24, false);
+        }
+
+        public void dispose()
+        {
+
+        }
+
+        public void createHeightMap(int width_, int height_)
+        {
+            m_heightMap = new Texture2D(width_, height_, TextureFormat.RGB24, false);
+        }
+
         /**
          * @brief 设置灰度图纹理资源
          */
@@ -73,6 +89,26 @@ namespace SDK.Lib
         public float getPixHeight(int x, int z)
         {
             return m_heightMap.GetPixel(x, z).grayscale;
+        }
+
+        public int getPixel(int x, int z)
+        {
+            return (int)m_heightMap.GetPixel(x, z).grayscale;
+        }
+
+        public void setPixel(int x, int y, uint color)
+        {
+
+        }
+
+        public void lockMem()
+        {
+
+        }
+
+        public void unlock()
+        {
+
         }
     }
 }

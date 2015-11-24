@@ -45,6 +45,11 @@ namespace SDK.Lib
             m_list.Add(item);
         }
 
+        public void push(T item)
+        {
+            m_list.Add(item);
+        }
+
         public bool Remove(T item)
         {
             return m_list.Remove(item);
@@ -70,6 +75,16 @@ namespace SDK.Lib
         public int Count()
         {
             return m_list.Count;
+        }
+
+        public int length()
+        {
+            return m_list.Count;
+        }
+
+        public void setLength(int value)
+        {
+            m_list.Capacity = value;
         }
 
         public void RemoveAt(int index)
