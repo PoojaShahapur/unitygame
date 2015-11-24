@@ -66,6 +66,7 @@ namespace SDK.Lib
         public SkinResMgr m_skinResMgr = new SkinResMgr();
         public UIPrefabMgr m_uiPrefabMgr = new UIPrefabMgr();
         public ControllerMgr m_controllerMgr = new ControllerMgr();
+        public BytesResMgr m_bytesResMgr = new BytesResMgr();
 
         public SystemSetting m_systemSetting = new SystemSetting();
         public CoordConv m_coordConv = new CoordConv();

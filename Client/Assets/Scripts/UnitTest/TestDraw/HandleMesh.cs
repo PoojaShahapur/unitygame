@@ -45,7 +45,15 @@ public class HandleMesh : MonoBehaviour
             1,3,2,// 通过顶点132连接形成的三角面
         };
 
-        if(!m_bUpdated)
+        m_color = new Color[4]
+        {
+            new Color(255, 0, 0, 1),
+            new Color(0, 255, 0, 1),
+            new Color(0, 0, 255, 1),
+            new Color(0, 0, 255, 1),
+        };
+
+        if (!m_bUpdated)
         {
             m_bUpdated = true;
             fill();

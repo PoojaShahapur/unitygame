@@ -24,7 +24,6 @@ namespace SDK.Lib
         public void buildMesh()
         {
             m_vertList = new MList<Vector3>();
-            
         }
     }
 }

@@ -26,6 +26,8 @@ namespace UnitTest
         protected TestProtoBuf m_pTestProtoBuf = new TestProtoBuf();
         protected TestDraw m_pTestDraw = new TestDraw();
 
+        protected TestHeightMap m_testHeightMap = new TestHeightMap();
+
         public void run()
         {
             m_pTestFile.run();
@@ -53,6 +55,7 @@ namespace UnitTest
             m_pTestProtoBuf.run();
 
             m_pTestDraw.run();
+            m_testHeightMap.run();
         }
     }
 }

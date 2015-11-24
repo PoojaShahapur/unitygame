@@ -20,5 +20,10 @@ namespace SDK.Lib
             m_bytes = (res.getObject(res.getPrefabName()) as TextAsset).bytes;
             base.initImpl(res);
         }
+
+        public byte[] getBytes()
+        {
+            return m_bytes;
+        }
     }
 }

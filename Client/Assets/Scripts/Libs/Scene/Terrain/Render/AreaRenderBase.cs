@@ -421,10 +421,17 @@ namespace SDK.Lib
             mRebuildMat = true;
 
             verts = new BetterList<Vector3>();
-            verts.Add(new Vector3(1, 1, 1));
-            verts.Add(new Vector3(2, 2, 2));
-            verts.Add(new Vector3(3, 3, 3));
-            verts.Add(new Vector3(4, 4, 4));
+
+            // 第一次填充这个值，竟然不显示
+            //verts.Add(new Vector3(1, 1, 1));
+            //verts.Add(new Vector3(2, 2, 2));
+            //verts.Add(new Vector3(3, 3, 3));
+            //verts.Add(new Vector3(4, 4, 4));
+
+            verts.Add(new Vector3(0, 0, 0));
+            verts.Add(new Vector3(1, 0, 0));
+            verts.Add(new Vector3(0, 1, 0));
+            verts.Add(new Vector3(1, 1, 0));
 
             norms = new BetterList<Vector3>();
             //norms.Add(new Vector3(1, 1, 1));
@@ -444,8 +451,8 @@ namespace SDK.Lib
 
             uvs = new BetterList<Vector2>();
             uvs.Add(new Vector2(0, 0));
-            uvs.Add(new Vector2(0, 1));
             uvs.Add(new Vector2(1, 0));
+            uvs.Add(new Vector2(0, 1));
             uvs.Add(new Vector2(1, 1));
 
             cols = new BetterList<Color32>();
