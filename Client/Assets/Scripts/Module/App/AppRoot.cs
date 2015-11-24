@@ -3,7 +3,7 @@ using SDK.Lib;
 using BehaviorLibrary;
 using FightCore;
 
-#if UNIT_TEST_SRC
+#if UNIT_TEST
 using UnitTest;
 #endif
 
@@ -85,7 +85,7 @@ public class AppRoot : MonoBehaviour
 #endif
 
         // 运行单元测试
-#if UNIT_TEST_SRC
+#if UNIT_TEST
         UnitTestMain pUnitTestMain = new UnitTestMain();
         pUnitTestMain.run();
 #endif

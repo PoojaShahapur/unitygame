@@ -16,6 +16,8 @@ namespace UnitTest
         {
             HeightMapData heightMapData = new HeightMapData();
             heightMapData.loadHeightMap("Terrain/terrain.png");
+            heightMapData.getWidth();
+            heightMapData.getHeight();
         }
     }
 }

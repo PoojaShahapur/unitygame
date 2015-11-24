@@ -1,7 +1,7 @@
 ﻿using BehaviorLibrary;
 using FightCore;
 
-#if UNIT_TEST_SRC
+#if UNIT_TEST
 using UnitTest;
 #endif
 
