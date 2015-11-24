@@ -17,6 +17,9 @@ namespace SDK.Lib
             setHeightMapData(tex);
         }
 
+        /**
+         * @brief 设置灰度图纹理资源
+         */
         public void setHeightMapData(TextureRes tex)
         {
             if(m_texRes != null)
@@ -50,6 +53,9 @@ namespace SDK.Lib
             return m_heightMap.height;
         }
 
+        /**
+         * @brief 加载高度图
+         */
         public void loadHeightMap(string path_, bool async = false)
         {
             TextureRes tex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(path_);
