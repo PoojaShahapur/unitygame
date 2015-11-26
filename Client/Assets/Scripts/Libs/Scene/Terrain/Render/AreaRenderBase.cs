@@ -16,22 +16,20 @@ namespace SDK.Lib
         public BetterList<Vector2> uvs = new BetterList<Vector2>();
         public BetterList<Color32> cols = new BetterList<Color32>();
 
-        Material mMaterial;     // Material used by this draw call
-        Texture mTexture;       // Main texture used by the material
-        Shader mShader;     // Shader used by the dynamically created material
+        Material mMaterial;         // 使用的共享材质
+        Texture mTexture;           // 使用的纹理
+        Shader mShader;             // 动态材质使用的纹理
 
-        Transform mTrans;           // Cached transform
-        Mesh mMesh;         // First generated mesh
-        MeshFilter mFilter;     // Mesh filter for this draw call
-        MeshRenderer mRenderer;     // Mesh renderer for this screen
-        Material mDynamicMat;   // Instantiated material
-        int[] mIndices;     // Cached indices
+        Transform mTrans;           // 渲染位置信息
+        Mesh mMesh;                 // mesh 信息
+        MeshFilter mFilter;         // 绘制使用的 MeshFilter
+        MeshRenderer mRenderer;     // mesh 渲染使用的 Render
+        Material mDynamicMat;       // 实例化的动态材质，显示使用的材质
+        int[] mIndices;             // 缓存的索引
 
-        bool mRebuildMat = true;
-        int mRenderQueue = 3000;
-        int mTriangles = 0;
-
-        public bool isDirty = false;
+        bool mRebuildMat = true;    // 是否重新生成材质
+        int mRenderQueue = 3000;    // 渲染队列
+        int mTriangles = 0;         // 渲染的三角形的数量
 
         public AreaRenderBase()
         {
@@ -68,8 +66,17 @@ namespace SDK.Lib
 
         public int sortingOrder
         {
-            get { return (mRenderer != null) ? mRenderer.sortingOrder : 0; }
-            set { if (mRenderer != null && mRenderer.sortingOrder != value) mRenderer.sortingOrder = value; }
+            get
+            {
+                return (mRenderer != null) ? mRenderer.sortingOrder : 0;
+            }
+            set
+            {
+                if (mRenderer != null && mRenderer.sortingOrder != value)
+                {
+                    mRenderer.sortingOrder = value;
+                }
+            }
         }
 
         public int finalRenderQueue
@@ -104,7 +111,17 @@ namespace SDK.Lib
         bool mActive = true;
 #endif
 
-        public Transform cachedTransform { get { if (mTrans == null) mTrans = m_selfGo.transform; return mTrans; } }
+        public Transform cachedTransform
+        {
+            get
+            {
+                if (mTrans == null)
+                {
+                    mTrans = m_selfGo.transform;
+                }
+                return mTrans;
+            }
+        }
 
         public Material baseMaterial
         {
@@ -122,7 +139,13 @@ namespace SDK.Lib
             }
         }
 
-        public Material dynamicMaterial { get { return mDynamicMat; } }
+        public Material dynamicMaterial
+        {
+            get
+            {
+                return mDynamicMat;
+            }
+        }
 
         public Texture mainTexture
         {
@@ -133,7 +156,10 @@ namespace SDK.Lib
             set
             {
                 mTexture = value;
-                if (mDynamicMat != null) mDynamicMat.mainTexture = value;
+                if (mDynamicMat != null)
+                {
+                    mDynamicMat.mainTexture = value;
+                }
             }
         }
 
@@ -153,14 +179,20 @@ namespace SDK.Lib
             }
         }
 
-        public int triangles { get { return (mMesh != null) ? mTriangles : 0; } }
+        public int triangles
+        {
+            get
+            {
+                return (mMesh != null) ? mTriangles : 0;
+            }
+        }
 
         void CreateMaterial()
         {
             string shaderName = (mShader != null) ? mShader.name :
                 ((mMaterial != null) ? mMaterial.shader.name : "Unlit/Transparent Colored");
 
-            // Figure out the normal shader's name
+            // 确定正常 Shader 的名字
             shaderName = shaderName.Replace("GUI/Text Shader", "Unlit/Text");
 
             if (shaderName.Length > 2)
@@ -168,14 +200,18 @@ namespace SDK.Lib
                 if (shaderName[shaderName.Length - 2] == ' ')
                 {
                     int index = shaderName[shaderName.Length - 1];
-                    if (index > '0' && index <= '9') shaderName = shaderName.Substring(0, shaderName.Length - 2);
+                    if (index > '0' && index <= '9')
+                    {
+                        shaderName = shaderName.Substring(0, shaderName.Length - 2);
+                    }
                 }
             }
 
             if (shaderName.StartsWith("Hidden/"))
+            {
                 shaderName = shaderName.Substring(7);
+            }
 
-            // Legacy functionality
             const string soft = " (SoftClip)";
             shaderName = shaderName.Replace(soft, "");
 
@@ -184,7 +220,7 @@ namespace SDK.Lib
 
             shader = Shader.Find(shaderName);
 
-            // Always fallback to the default shader
+            // 如果没有加载到 Shader，就是用默认的
             if (shader == null) shader = Shader.Find("Mobile/Diffuse");
 
             if (mMaterial != null)
@@ -196,9 +232,11 @@ namespace SDK.Lib
 
                 string[] keywords = mMaterial.shaderKeywords;
                 for (int i = 0; i < keywords.Length; ++i)
+                {
                     mDynamicMat.EnableKeyword(keywords[i]);
+                }
 
-                // If there is a valid shader, assign it to the custom material
+                // 如果 Shader 有效，赋值给动态材质
                 if (shader != null)
                 {
                     mDynamicMat.shader = shader;
@@ -214,24 +252,30 @@ namespace SDK.Lib
 
         Material RebuildMaterial()
         {
-            // Destroy the old material
+            // 释放老的材质
             NGUITools.DestroyImmediate(mDynamicMat);
 
-            // Create a new material
+            // 创建新的材质
             CreateMaterial();
             mDynamicMat.renderQueue = mRenderQueue;
 
-            // Assign the main texture
-            if (mTexture != null) mDynamicMat.mainTexture = mTexture;
+            // 赋值主要的纹理
+            if (mTexture != null)
+            {
+                mDynamicMat.mainTexture = mTexture;
+            }
 
-            // Update the renderer
-            if (mRenderer != null) mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+            // 更新渲染
+            if (mRenderer != null)
+            {
+                mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+            }
             return mDynamicMat;
         }
 
         void UpdateMaterials()
         {
-            // If clipping should be used, we need to find a replacement shader
+            // 如果裁剪应该被使用，需要查找一个替换的 shader 
             if (mRebuildMat || mDynamicMat == null)
             {
                 RebuildMaterial();
@@ -250,20 +294,26 @@ namespace SDK.Lib
         {
             int count = verts.size;
 
-            // Safety check to ensure we get valid values
+            // 安全检查，确保值是正确的
             if (count > 0 && (count == uvs.size && count == cols.size) && (count % 4) == 0)
             {
-                // Cache all components
-                if (mFilter == null) mFilter = m_selfGo.GetComponent<MeshFilter>();
-                if (mFilter == null) mFilter = m_selfGo.AddComponent<MeshFilter>();
+                // 缓存所有的组件
+                if (mFilter == null)
+                {
+                    mFilter = m_selfGo.GetComponent<MeshFilter>();
+                }
+                if (mFilter == null)
+                {
+                    mFilter = m_selfGo.AddComponent<MeshFilter>();
+                }
 
                 if (verts.size < 65000)
                 {
-                    // Populate the index buffer
+                    // 填充索引缓冲区
                     int indexCount = (count >> 1) * 3;
                     bool setIndices = (mIndices == null || mIndices.Length != indexCount);
 
-                    // Create the mesh
+                    // 创建 mesh
                     if (mMesh == null)
                     {
                         mMesh = new Mesh();
@@ -273,16 +323,19 @@ namespace SDK.Lib
                         setIndices = true;
                     }
 
-                    // If the buffer length doesn't match, we need to trim all buffers
+                    // 如果缓冲区长度不匹配，我们需要整理所有的缓冲区
                     bool trim = (uvs.buffer.Length != verts.buffer.Length) ||
                         (cols.buffer.Length != verts.buffer.Length) ||
                         (norms.buffer != null && norms.buffer.Length != verts.buffer.Length) ||
                         (tans.buffer != null && tans.buffer.Length != verts.buffer.Length);
 
-                    // Non-automatic render queues rely on Z position, so it's a good idea to trim everything
+                    // 非依赖渲染队列依赖 Z 位置，因此它是一个好的注意整理任何东西
                     if (!trim)
+                    {
                         trim = (mMesh == null || mMesh.vertexCount != verts.buffer.Length);
+                    }
 
+                    // 注意: 
                     // NOTE: Apparently there is a bug with Adreno devices:
                     // http://www.tasharen.com/forum/index.php?topic=8415.0
 #if !UNITY_ANDROID
