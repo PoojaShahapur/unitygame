@@ -174,7 +174,7 @@ namespace SDK.Lib
         {
             Vector2[] uvArray = new Vector2[_uvs.length() / 2];
             int uvArrIdx = 0;
-            for (int idx = 0; idx < _uvs.length(); idx += 3, ++uvArrIdx)
+            for (int idx = 0; idx < _uvs.length(); idx += 2, ++uvArrIdx)
             {
                 uvArray[uvArrIdx] = new Vector2(_uvs[idx], _uvs[idx + 1]);
             }

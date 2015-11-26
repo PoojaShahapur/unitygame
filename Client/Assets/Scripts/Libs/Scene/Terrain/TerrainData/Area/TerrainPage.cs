@@ -24,6 +24,7 @@
             //m_heightMapData.loadHeightMap("Terrain/terrain_heights.jpg");
 
             m_heightMapMesh = new HeightMapMesh(null, m_heightMapData, 5000, 1300, 5000, 250, 250);
+            //m_heightMapMesh = new HeightMapMesh(null, m_heightMapData, 20, 20, 20, 20, 20);
 
             render();
         }

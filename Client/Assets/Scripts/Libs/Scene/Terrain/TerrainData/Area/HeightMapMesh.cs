@@ -275,8 +275,8 @@
 			}
             else
             {
-				vertices = new MList<float>((int)numVerts * 3); // 顶点的数量
-				indices = new MList<int>((int)(_segmentsH * _segmentsW * 6));  // 索引的数量
+				vertices = new MList<float>(numVerts * 3); // 顶点的数量
+				indices = new MList<int>(_segmentsH * _segmentsW * 6);  // 索引的数量
 			}
 
             numVerts = 0;
@@ -309,8 +309,9 @@
             {
 				for (int xi = 0; xi <= _segmentsW; ++xi)
                 {
-					x = (int)(xi / _segmentsW - 0.5) * _width;
-                    z = (int)(zi / _segmentsH - 0.5) * _depth;
+                    // (float) 一定要先转换成 (float) ，否则 xi / _segmentsW 整数除总是 0 ，导致结果总是在一个顶点
+                    x = (int)(((float)xi / _segmentsW - 0.5f) * _width);            // -0.5 保证原点放在地形的中心点
+                    z = (int)(((float)zi / _segmentsH - 0.5f) * _depth);
                     u = xi * uDiv;
                     v = (_segmentsH - zi) * vDiv;
 
@@ -374,8 +375,8 @@
             {
 				for (uint xi = 0; xi <= _segmentsW; ++xi) 
                 {
-					uvs[numUvs++] = xi/_segmentsW;
-					uvs[numUvs++] = 1 - yi/_segmentsH;
+					uvs[numUvs++] = (float)xi / _segmentsW;
+					uvs[numUvs++] = 1 - (float)yi / _segmentsH;
 				}
 			}
 			
