@@ -5,10 +5,11 @@
      */
     public class MMesh
     {
-        protected MList<MSubMesh> _subMeshes;
-		protected MGeometry _geometry;
+        protected MList<MSubMesh> _subMeshes;       // 所有的子 mesh
+		protected MGeometry _geometry;              // 几何数据
         protected bool _boundsInvalid;
         protected bool _worldBoundsInvalid;
+        protected MeshRender m_meshRender;          // Mesh 渲染器
 
         public MMesh(MGeometry geometry, MatRes material = null)
         {

@@ -7,31 +7,31 @@ namespace SDK.Lib
      */
     public class Area : AreaBase
     {
-        protected AreaRenderBase m_render;  // 区域渲染器
+        protected MeshRender m_render;  // 区域渲染器
 
         public Area()
         {
             m_render = new SingleAreaRender();      // 默认创建漫反射的地形
         }
 
-        public AreaRenderBase getAreaRender()
+        public MeshRender getAreaRender()
         {
             return m_render;
         }
 
-        public void setAreaRender(AreaRenderBase render_)
+        public void setAreaRender(MeshRender render_)
         {
             m_render = render_;
         }
 
         public void setTexture(Texture tex)
         {
-            m_render.mainTexture = tex;
+            //m_render.mainTexture = tex;
         }
 
         public void render()
         {
-            m_render.buildMesh();
+            //m_render.buildMesh();
         }
     }
 }

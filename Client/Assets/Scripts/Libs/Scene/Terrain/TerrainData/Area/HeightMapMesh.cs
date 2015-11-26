@@ -1,12 +1,12 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 高度地形
+     * @brief 高度地形 Mesh
      */
-    public class MElevation : MMesh
+    public class HeightMapMesh : MMesh
     {
-        protected uint _segmentsW;  // 世界空间高度图宽度划分的线段数量， X 轴线段数量
-		protected uint _segmentsH;  // 世界空间高度图高度划分的线段数量， Z 轴线段数量
+        protected int _segmentsW;  // 世界空间高度图宽度划分的线段数量， X 轴线段数量
+		protected int _segmentsH;  // 世界空间高度图高度划分的线段数量， Z 轴线段数量
         protected float _width;     // 世界空间高度图宽度， X 轴宽度
         protected float _height;    // 世界空间高度图高度， Z 轴高度
         protected float _depth;     // 世界空间高度图深度，这个等价于 Z 的世界空间高度
@@ -19,7 +19,7 @@
 		protected bool _uvDirty;                        // UV 数据是否被修改
 		protected MSubGeometry _subGeometry;            // SubGeometry 数据
 
-        public MElevation(MatRes material, HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, uint segmentsW = 30, uint segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
+        public HeightMapMesh(MatRes material, HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
             : base(new MGeometry(), material)
         {
             _subGeometry = new MSubGeometry();
@@ -52,8 +52,10 @@
          */
         public void setMinElevation(uint val)
 		{
-			if (_minElevation == val)
-				return;
+            if (_minElevation == val)
+            {
+                return;
+            }
 			
 			_minElevation = val;
             invalidateGeometry();
@@ -84,12 +86,12 @@
         /**
          * @brief 获取 Z 轴世界空间分割的 Segment 的数量
 		 */
-        public uint getSegmentsH()
+        public int getSegmentsH()
 		{
 			return _segmentsH;
 		}
 		
-		public void setSegmentsH(uint value)
+		public void setSegmentsH(int value)
 		{
 			_segmentsH = value;
             invalidateGeometry();
@@ -121,7 +123,7 @@
 		}
 		
 		/**
-		 * The depth of the terrain plane.
+		 * @brief 地形 Mesh 的深度，就是 Z 值的世界空间的长度
 		 */
 		public float getDepth()
 		{
@@ -145,6 +147,9 @@
             return (col > _maxElevation) ? (_maxElevation / 0xff) * _height : ((col < _minElevation) ? (_minElevation / 0xff) * _height : (col / 0xff) * _height);
         }
 
+        /**
+         * @brief 生成平滑的高度图
+         */
         public HeightMapData generateSmoothedHeightMap()
 		{
             if (_smoothedHeightMap != null)
@@ -153,20 +158,20 @@
             }
 			_smoothedHeightMap = new HeightMapData(_heightMap.getWidth(), _heightMap.getHeight());
 
-            uint w = (uint)(_smoothedHeightMap.getWidth());
-            uint h = (uint)(_smoothedHeightMap.getHeight());
-            uint i;
-            uint j;
-            uint k;
-            uint l;
+            int w = _smoothedHeightMap.getWidth();
+            int h = _smoothedHeightMap.getHeight();
+            int i = 0;
+            int j = 0;
+            int k = 0;
+            int l = 0;
 
-            uint px1;
-            uint px2;
+            uint px1 = 0;
+            uint px2 = 0;
             uint px3 = 0;
             uint px4 = 0;
 
-            uint lockx;
-            uint locky;
+            int lockx = 0;
+            int locky = 0;
 			
 			_smoothedHeightMap.lockMem();
 			
@@ -245,42 +250,48 @@
 			return _smoothedHeightMap;
 		}
 
+        /**
+         * @brief 生成几何
+         */
 		private void buildGeometry()
 		{
             MList<float> vertices;
-			MList<uint> indices;
+			MList<int> indices;
 			float x = 0, z = 0;
             uint numInds = 0;
-            uint baseIdx = 0;
-            uint tw = _segmentsW + 1;
-            uint numVerts = (_segmentsH + 1)* tw;
+            int baseIdx = 0;
+            int tw = _segmentsW + 1;
+            int numVerts = (_segmentsH + 1)* tw;
             float uDiv = (_heightMap.getWidth() - 1)/_segmentsW;
 			float vDiv = (_heightMap.getHeight() - 1)/_segmentsH;
 			float u = 0, v = 0;
 			float y = 0;
 			
-			if (numVerts == _subGeometry.getNumVertices()) {
+			if (numVerts == _subGeometry.getNumVertices())
+            {
 				vertices = _subGeometry.getVertexData();
 				indices = _subGeometry.getIndexData();
-			} else {
-				vertices = new MList<float>((int)numVerts*3);
-				indices = new MList<uint>((int)(_segmentsH * _segmentsW*6));
+			}
+            else
+            {
+				vertices = new MList<float>((int)numVerts * 3); // 顶点的数量
+				indices = new MList<int>((int)(_segmentsH * _segmentsW * 6));  // 索引的数量
 			}
 			
 			numVerts = 0;
-            uint col;
+            uint col = 0;
 			
-			for (uint zi = 0; zi <= _segmentsH; ++zi) 
+			for (int zi = 0; zi <= _segmentsH; ++zi) 
             {
-				for (uint xi = 0; xi <= _segmentsW; ++xi) 
+				for (int xi = 0; xi <= _segmentsW; ++xi) 
                 {
-					x = (int)(xi/_segmentsW - 0.5)* _width;
-                    z = (int)(zi/_segmentsH - 0.5)* _depth;
-                    u = xi* uDiv;
-                    v = (_segmentsH - zi)* vDiv;
+					x = (int)(xi / _segmentsW - 0.5) * _width;
+                    z = (int)(zi / _segmentsH - 0.5) * _depth;
+                    u = xi * uDiv;
+                    v = (_segmentsH - zi) * vDiv;
 
                     col = (uint)(_heightMap.getPixel((int)u, (int)v)) & 0xff;
-					y = (col > _maxElevation)? (_maxElevation/0xff)* _height : ((col<_minElevation)? (_minElevation/0xff)* _height : (col/0xff)* _height);
+					y = (col > _maxElevation) ? (_maxElevation/0xff)* _height : ((col<_minElevation) ? (_minElevation/0xff)* _height : (col/0xff) * _height);
 					
 					vertices[(int)numVerts++] = x;
 					vertices[(int)numVerts++] = y;
@@ -311,7 +322,7 @@
 		private void buildUVs()
 		{
             MList<float> uvs = new MList<float>();
-            uint numUvs = (_segmentsH + 1)*(_segmentsW + 1)*2;
+            int numUvs = (_segmentsH + 1)*(_segmentsW + 1)*2;
 
             if (_subGeometry.getUVData() != null && numUvs == _subGeometry.getUVData().length())
             {
@@ -335,12 +346,18 @@
 			_subGeometry.updateUVData(uvs);
 		}
 		
+        /**
+         * @brief 设置几何无效
+         */
 		protected void invalidateGeometry()
 		{
 			_geomDirty = true;
             invalidateBounds();
 		}
 
+        /**
+         * @brief 设置 UV 无效
+         */
 		protected void invalidateUVs()
 		{
 			_uvDirty = true;

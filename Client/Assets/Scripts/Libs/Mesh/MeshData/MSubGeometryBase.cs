@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using UnityEngine;
 
 namespace SDK.Lib
 {
     /**
-     * @brief SubGeometryBase 基类
+     * @brief SubGeometryBase 基类，只包含基本的顶点索引数据
      */
     public class MSubGeometryBase : MISubGeometry
     {
@@ -15,7 +13,7 @@ namespace SDK.Lib
         protected bool _faceNormalsDirty;
         protected bool _faceTangentsDirty;
         protected MList<float> _faceTangents;
-        protected MList<uint> _indices;
+        protected MList<int> _indices;
         protected uint _numIndices;
         protected MList<Boolean> _indicesInvalid;
         protected uint _numTriangles;
@@ -63,11 +61,66 @@ namespace SDK.Lib
         }
 
         /**
+         * @brief 获取顶点数据
+         */
+        public MList<float> getVertexData()
+        {
+            return _vertexData;
+        }
+
+        /**
+         * @brief 获取顶点向量数据
+         */
+        public Vector3[] getVertexDataArray()
+        {
+            Vector3[] vertexVec = new Vector3[_vertexData.length() / 3];        // 必然是 3 个
+            int idxVec = 0;
+            for (int idx = 0; idx < _vertexData.length(); idx += 3, ++idxVec)
+            {
+                vertexVec[idxVec] = new Vector3(_vertexData[idx], _vertexData[idx + 1], _vertexData[idx + 2]);
+            }
+
+            return vertexVec;
+        }
+
+        /**
+         * @brief 获取顶点数量
+         */
+        public int getVertexDataCount()
+        {
+            return _vertexData.length();
+        }
+
+        /**
 		 * @brief 获取索引数据
 		 */
-        public MList<uint> getIndexData()
+        public MList<int> getIndexData()
         {
             return _indices;
+        }
+
+        /**
+         * @brief 获取三角形的数量，就是获取面的数量
+         */
+        public int getTriangleCount()
+        {
+            return _indices.length() / 3;
+        }
+
+        /**
+         * @brief 获取法线数据
+         */
+        virtual public MList<float> getVertexNormalsData()
+        {
+            throw new Exception();
+        }
+
+        /**
+         * @brief 获取切线数据
+         */
+        virtual public MList<float> getVertexTangentsData()
+        {
+            throw new Exception();
         }
 
         public bool getAutoDeriveVertexNormals()
@@ -108,20 +161,39 @@ namespace SDK.Lib
             throw new Exception();
         }
 
+        /**
+         * @brief 获取顶点法线数组
+         */
+        virtual public Vector3[] getVertexNormalArray()
+        {
+            throw new Exception();
+        }
+
         virtual public uint getVertexNormalStride()
         {
             throw new Exception();
         }
 
         /**
-         * @brief 
+         * @brief 获取顶点偏移
          */
         virtual public int getVertexNormalOffset()
         {
             throw new Exception();
         }
 
+        /**
+         * @brief 获取 UV 数据
+         */
         virtual public MList<float> getUVData()
+        {
+            throw new Exception();
+        }
+
+        /**
+         * @brief 获取 UV 数组数据
+         */
+        virtual public Vector2[] getUVDataArray()
         {
             throw new Exception();
         }
@@ -132,6 +204,14 @@ namespace SDK.Lib
         }
 
         virtual public int getUVOffset()
+        {
+            throw new Exception();
+        }
+
+        /**
+         * @brief 获取顶点切线数组
+         */
+        virtual public Vector4[] getVertexTangentArray()
         {
             throw new Exception();
         }
@@ -147,12 +227,36 @@ namespace SDK.Lib
         }
 
         /**
+         * @brief 获取顶点颜色
+         */
+        public MList<byte> getVertexColor()
+        {
+            return null;
+        }
+
+        /**
+         * @brief 获取顶点颜色数组
+         */
+        public Color32[] getVectexColorArray()
+        {
+            return null;
+        }
+
+        /**
+         * @brief 清除 Cpu 缓冲区
+         */
+        virtual public void clear()
+        {
+
+        }
+
+        /**
          * @brief 更新面的切线
          */
         protected void updateFaceTangents()
         {
             uint i = 0;
-            uint index1 = 0, index2 = 0, index3 = 0;
+            int index1 = 0, index2 = 0, index3 = 0;
             uint len = (uint)_indices.length();
             uint ui = 0, vi = 0;
             float v0 = 0;
@@ -290,7 +394,7 @@ namespace SDK.Lib
         /**
          * @brief 更新顶点法向量
          */
-        protected MList<float> updateVertexNormals(MList<float> target)
+        virtual protected MList<float> updateVertexNormals(MList<float> target)
         {
             if (_faceNormalsDirty)
             {
@@ -319,8 +423,8 @@ namespace SDK.Lib
 
             uint i = 0, k = 0;
             uint lenI = (uint)_indices.length();
-            uint index;
-            float weight;
+            uint index = 0;
+            float weight = 0;
 
             // 计算未经单位化的顶点法向量
             while (i < lenI)
@@ -442,7 +546,7 @@ namespace SDK.Lib
         {
             _uvsDirty = false;
 
-            uint idx, uvIdx;
+            uint idx = 0, uvIdx = 0;
             int stride = (int)getUVStride();
             int skip = stride - 2;
             uint len = (uint)(_vertexData.length() / getVertexStride() * stride);
@@ -456,19 +560,22 @@ namespace SDK.Lib
 
             idx = (uint)getUVOffset();
             uvIdx = 0;
-            while (idx < len) {
+            while (idx < len)
+            {
                 target[(int)idx++] = (float)(uvIdx * 0.5);
                 target[(int)idx++] = (float)(1.0 - (uvIdx & 1));
                 idx += (uint)skip;
 
                 if (++uvIdx == 3)
+                {
                     uvIdx = 0;
+                }
             }
 
             return target;
         }
 
-        public void updateIndexData(MList<uint> indices)
+        public void updateIndexData(MList<int> indices)
         {
             _indices = indices;
             _numIndices = (uint)(indices.length());
@@ -483,9 +590,13 @@ namespace SDK.Lib
             _faceNormalsDirty = true;
 
             if (_autoDeriveVertexNormals)
+            {
                 _vertexNormalsDirty = true;
+            }
             if (_autoDeriveVertexTangents)
+            {
                 _vertexTangentsDirty = true;
+            }
         }
 
         protected void disposeIndexBuffers()
@@ -493,12 +604,12 @@ namespace SDK.Lib
 
         }
 
-        protected void invalidateBuffers(MList<Boolean> invalid)
+        virtual protected void invalidateBuffers(MList<Boolean> invalid)
 		{
 			for (int i = 0; i< 8; ++i)
             {
 				invalid[i] = true;
             }
 		}
-}
+    }
 }

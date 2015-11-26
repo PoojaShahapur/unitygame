@@ -1,7 +1,9 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
-     * @brief 基本的 SubGeometry
+     * @brief 基本的 SubGeometry，包含 UV 、法向量、切向量
      */
     public class MSubGeometry : MSubGeometryBase
     {
@@ -38,10 +40,10 @@
         /**
          * @brief 获取顶点数据
          */
-        public MList<float> getVertexData()
-		{
-			return _vertexData;
-		}
+        //public MList<float> getVertexData()
+		//{
+		//	return _vertexData;
+		//}
 
         public void updateVertexData(MList<float> vertices)
 		{
@@ -65,7 +67,7 @@
             invalidateBounds();
         }
 
-        protected void invalidateBuffers(MList<bool> invalid)
+        override protected void invalidateBuffers(MList<bool> invalid)
 		{
             for (int i = 0; i < 8; ++i)
             {
@@ -87,7 +89,7 @@
 			return _vertexNormals;
 		}
 
-        protected MList<float> updateVertexNormals(MList<float> target)
+        override protected MList<float> updateVertexNormals(MList<float> target)
 		{
             invalidateBuffers(_normalsInvalid);
 			return base.updateVertexNormals(target);
@@ -103,6 +105,29 @@
 			return 0;
 		}
 
+        /**
+         * @brief 获取法线数据
+         */
+        override public MList<float> getVertexNormalsData()
+        {
+            return _vertexNormals;
+        }
+
+        /**
+         * @brief 获取顶点法线数组
+         */
+        override public Vector3[] getVertexNormalArray()
+        {
+            Vector3[] normalArray = new Vector3[_vertexNormals.length()/3];
+            int normalArrIdx = 0;
+            for(int idx = 0; idx < _vertexNormals.length(); idx += 3, ++normalArrIdx)
+            {
+                normalArray[normalArrIdx] = new Vector3(_vertexNormals[idx], _vertexNormals[idx + 1], _vertexNormals[idx + 2]);
+            }
+
+            return normalArray;
+        }
+
         override public int getVertexNormalOffset()
 		{
 			return 0;
@@ -115,10 +140,27 @@
 
         override public MList<float> getUVData()
 		{
-			if (_uvsDirty && _autoGenerateUVs)
-				_uvs = updateDummyUVs(_uvs);
+            if (_uvsDirty && _autoGenerateUVs)
+            {
+                _uvs = updateDummyUVs(_uvs);
+            }
 			return _uvs;
 		}
+
+        /**
+         * @brief 获取 UV 数组数据
+         */
+        override public Vector2[] getUVDataArray()
+        {
+            Vector2[] uvArray = new Vector2[_uvs.length() / 2];
+            int uvArrIdx = 0;
+            for (int idx = 0; idx < _uvs.length(); idx += 3, ++uvArrIdx)
+            {
+                uvArray[uvArrIdx] = new Vector2(_uvs[idx], _uvs[idx + 1]);
+            }
+
+            return uvArray;
+        }
 
         override public int getUVOffset()
 		{
@@ -135,6 +177,29 @@
             invalidateBuffers(_uvsInvalid);
 			return base.updateDummyUVs(target);
 		}
+
+        /**
+         * @brief 获取切线数据
+         */
+        override public MList<float> getVertexTangentsData()
+        {
+            return _vertexTangents;
+        }
+
+        /**
+         * @brief 获取顶点切线数组
+         */
+        override public Vector4[] getVertexTangentArray()
+        {
+            Vector4[] tangentArray = new Vector4[_vertexTangents.length() / 3];
+            int tangentArrIdx = 0;
+            for (int idx = 0; idx < _vertexNormals.length(); idx += 3, ++tangentArrIdx)
+            {
+                tangentArray[tangentArrIdx] = new Vector4(_vertexTangents[idx], _vertexTangents[idx + 1], _vertexTangents[idx + 2], 0);
+            }
+
+            return tangentArray;
+        }
 
         override public int getVertexTangentOffset()
 		{

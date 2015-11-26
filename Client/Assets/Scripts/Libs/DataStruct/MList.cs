@@ -20,6 +20,11 @@ namespace SDK.Lib
             m_list = new List<T>(capacity);
         }
 
+        public T[] ToArray()
+        {
+            return m_list.ToArray();
+        }
+
         public List<T> list
         {
             get
@@ -43,6 +48,30 @@ namespace SDK.Lib
         public void Add(T item)
         {
             m_list.Add(item);
+        }
+
+        // 主要是 Add 一个 float 类型的 Vector3
+        public void Add(T item_1, T item_2, T item_3)
+        {
+            m_list.Add(item_1);
+            m_list.Add(item_2);
+            m_list.Add(item_3);
+        }
+
+        // 主要是 Add 一个 float 类型的 UV
+        public void Add(T item_1, T item_2)
+        {
+            m_list.Add(item_1);
+            m_list.Add(item_2);
+        }
+
+        // 主要是 Add 一个 byte 类型的 Color32
+        public void Add(T item_1, T item_2, T item_3, T item_4)
+        {
+            m_list.Add(item_1);
+            m_list.Add(item_2);
+            m_list.Add(item_3);
+            m_list.Add(item_4);
         }
 
         public void push(T item)

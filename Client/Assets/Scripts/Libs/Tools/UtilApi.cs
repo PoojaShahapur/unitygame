@@ -766,5 +766,15 @@ namespace SDK.Lib
         {
             return Math.Sqrt(d);
         }
+
+        static public void SetDirty(UnityEngine.Object obj)
+        {
+#if UNITY_EDITOR
+            if (obj)
+            {
+                UnityEditor.EditorUtility.SetDirty(obj);
+            }
+#endif
+        }
     }
 }
