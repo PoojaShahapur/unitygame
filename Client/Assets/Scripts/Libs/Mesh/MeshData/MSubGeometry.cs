@@ -68,7 +68,7 @@ namespace SDK.Lib
 			_faceNormalsDirty = true;
 			
 			_vertexData = vertices;
-            int numVertices = vertices.length()/3;
+            int numVertices = vertices.length() / 3;
             if (numVertices != _numVertices)
             {
                 disposeAllVertexBuffers();
@@ -138,7 +138,7 @@ namespace SDK.Lib
         override public Vector3[] getVertexNormalArray()
         {
             getVertexNormalData();          // 确保法线是可以获取的
-            Vector3[] normalArray = new Vector3[_vertexNormals.length()/3];
+            Vector3[] normalArray = new Vector3[_vertexNormals.length() / 3];
             int normalArrIdx = 0;
             for(int idx = 0; idx < _vertexNormals.length(); idx += 3, ++normalArrIdx)
             {

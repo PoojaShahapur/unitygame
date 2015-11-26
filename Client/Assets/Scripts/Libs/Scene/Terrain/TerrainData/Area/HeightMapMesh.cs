@@ -142,10 +142,10 @@
 		 */
 		public float getHeightAt(float x, float z)
 		{
-            int pixX = (int)(x / _width + 0.5) * (_activeMap.getWidth() - 1);
+            int pixX = (int)(x / _width + 0.5) * (_activeMap.getWidth() - 1);       // + 0.5 就是将地形的原点放在中心点
             int pixZ = (int)(-z / _depth + 0.5) * (_activeMap.getHeight() - 1);
             uint col = (uint)(_activeMap.getPixel(pixX, pixZ)) & 0xff;
-            return (col > _maxElevation) ? (_maxElevation / 0xff) * _height : ((col < _minElevation) ? (_minElevation / 0xff) * _height : (col / 0xff) * _height);
+            return (col > _maxElevation) ? ((float)_maxElevation / 0xff) * _height : ((col < _minElevation) ? ((float)_minElevation / 0xff) * _height : ((float)col / 0xff) * _height);
         }
 
         /**
@@ -228,12 +228,12 @@
 					
 					for (k = 0; k<_segmentsW; ++k)
                     {
-						incXL = 1/_segmentsW* k;
+						incXL = (float)1 / _segmentsW * k;
                         incXR = 1 - incXL;
 						
-						for (l = 0; l<_segmentsH; ++l)
+						for (l = 0; l < _segmentsH; ++l)
                         {
-							incYL = 1/_segmentsH* l;
+							incYL = (float)1 / _segmentsH * l;
                             incYR = 1 - incYL;
 							
 							pxx = ((px1* incXR) + (px2* incXL))* incYR;
@@ -263,8 +263,8 @@
             int baseIdx = 0;
             int tw = _segmentsW + 1;
             int numVerts = (_segmentsH + 1)* tw;
-            float uDiv = (_heightMap.getWidth() - 1)/_segmentsW;
-			float vDiv = (_heightMap.getHeight() - 1)/_segmentsH;
+            float uDiv = (float)(_heightMap.getWidth() - 1) / _segmentsW;
+			float vDiv = (float)(_heightMap.getHeight() - 1) / _segmentsH;
 			float u = 0, v = 0;
 			float y = 0;
 			

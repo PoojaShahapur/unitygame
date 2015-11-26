@@ -280,7 +280,7 @@ namespace SDK.Lib
 
             if (_faceTangents == null)
             {
-                _faceTangents = new MList<float>((int)_indices.length());
+                _faceTangents = new MList<float>(_indices.length());
             }
 
             // 初始化

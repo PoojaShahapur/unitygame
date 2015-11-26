@@ -776,5 +776,15 @@ namespace SDK.Lib
             }
 #endif
         }
+
+        /**
+         * @brief 两个整数除，获取 float 值
+         * @param numerator 分子
+         * @param denominator 分母
+         */
+        static public float div(int numerator, int denominator)
+        {
+            return ((float)numerator) / denominator;
+        }
     }
 }
