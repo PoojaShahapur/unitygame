@@ -26,10 +26,16 @@ namespace SDK.Lib
         protected string m_shaderName;          // shader 的名字
         protected string m_matPreStr;           // 材质前缀字符
         protected string m_meshName;            // Mesh 的名字
+        protected string m_texName;             // Texture 名字
 
-        public SingleAreaRender()
+        protected MatRes m_matRes;                      // 材质资源
+        protected TextureRes m_texRes;                  // 纹理资源
+
+        public SingleAreaRender(MatRes matRes_ = null)
+            : base(matRes_)
         {
             m_shaderName = "Mobile/Diffuse";
+            m_texName = "Terrain/terrain_diffuse.jpg";
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
         }
@@ -185,8 +191,7 @@ namespace SDK.Lib
 
         void CreateMaterial()
         {
-            string shaderName = (mShader != null) ? mShader.name :
-                ((mMaterial != null) ? mMaterial.shader.name : m_shaderName);
+            string shaderName = (mShader != null) ? mShader.name : ((mMaterial != null) ? mMaterial.shader.name : m_shaderName);
             
             shader = Shader.Find(shaderName);
 
@@ -277,7 +282,7 @@ namespace SDK.Lib
                 mFilter = m_selfGo.AddComponent<MeshFilter>();
             }
 
-            if (vertexCount < 65000)
+            if (vertexCount < 200000)
             {
                 bool trim = true;           // 是否顶点数据改变过
                 // 创建 mesh
@@ -315,11 +320,17 @@ namespace SDK.Lib
             else
             {
                 mTriangles = 0;
-                if (mFilter.mesh != null) mFilter.mesh.Clear();
+                if (mFilter.mesh != null)
+                {
+                    mFilter.mesh.Clear();
+                }
                 Debug.LogError("Too many vertices on one panel: " + vertexCount);
             }
 
-            if (mRenderer == null) mRenderer = m_selfGo.GetComponent<MeshRenderer>();
+            if (mRenderer == null)
+            {
+                mRenderer = m_selfGo.GetComponent<MeshRenderer>();
+            }
 
             if (mRenderer == null)
             {
@@ -328,9 +339,17 @@ namespace SDK.Lib
                 mRenderer.enabled = isActive;
 #endif
             }
-            UpdateMaterials();
 
             m_subGeometry.clear();
+        }
+
+        /**
+         * @brief 更新纹理
+         */
+        public void UpdateTexture()
+        {
+            m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texName);
+            mainTexture = m_texRes.getTexture();
         }
 
         void OnEnable()
@@ -354,6 +373,13 @@ namespace SDK.Lib
         {
             UtilApi.DestroyImmediate(mMesh);
             mMesh = null;
+        }
+
+        override public void render()
+        {
+            UpdateGeometry();
+            UpdateMaterials();
+            UpdateTexture();
         }
     }
 }

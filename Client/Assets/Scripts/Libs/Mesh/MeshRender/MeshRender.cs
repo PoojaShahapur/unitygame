@@ -7,14 +7,24 @@
     {
         protected MSubGeometryBase m_subGeometry;       // 子几何顶点数据
 
-        public MeshRender()
+        public MeshRender(MatRes matRes_ = null)
         {
-            m_selfGo = UtilApi.createGameObject("AreaRenderBase");
+            m_selfGo = UtilApi.createGameObject("MeshRender");
         }
 
         override protected void onPntChanged()
         {
             linkSelf2Parent();
+        }
+
+        public void setSubGeometry(MSubGeometryBase subGeometry_)
+        {
+            m_subGeometry = subGeometry_;
+        }
+
+        virtual public void render()
+        {
+
         }
     }
 }

@@ -27,6 +27,15 @@ namespace SDK.Lib
             _secondaryUvsInvalid = new MList<bool>();
             _normalsInvalid = new MList<bool>();
             _tangentsInvalid = new MList<bool>();
+
+            for (int i = 0; i < 8; ++i)
+            {
+                _verticesInvalid.Add(true);
+                _uvsInvalid.Add(true);
+                _secondaryUvsInvalid.Add(true);
+                _normalsInvalid.Add(true);
+                _tangentsInvalid.Add(true);
+            }
         }
 
         /**
@@ -47,10 +56,14 @@ namespace SDK.Lib
 
         public void updateVertexData(MList<float> vertices)
 		{
-			if (_autoDeriveVertexNormals)
-				_vertexNormalsDirty = true;
-			if (_autoDeriveVertexTangents)
-				_vertexTangentsDirty = true;
+            if (_autoDeriveVertexNormals)
+            {
+                _vertexNormalsDirty = true;
+            }
+            if (_autoDeriveVertexTangents)
+            {
+                _vertexTangentsDirty = true;
+            }
 			
 			_faceNormalsDirty = true;
 			
@@ -80,6 +93,9 @@ namespace SDK.Lib
 
         }
 
+        /**
+         * @brief 获取顶点法线信息
+         */
         public MList<float> getVertexNormalData()
 		{
             if (_autoDeriveVertexNormals && _vertexNormalsDirty)
@@ -89,6 +105,9 @@ namespace SDK.Lib
 			return _vertexNormals;
 		}
 
+        /**
+         * @brief 更新顶点法线信息
+         */
         override protected MList<float> updateVertexNormals(MList<float> target)
 		{
             invalidateBuffers(_normalsInvalid);
@@ -118,6 +137,7 @@ namespace SDK.Lib
          */
         override public Vector3[] getVertexNormalArray()
         {
+            getVertexNormalData();          // 确保法线是可以获取的
             Vector3[] normalArray = new Vector3[_vertexNormals.length()/3];
             int normalArrIdx = 0;
             for(int idx = 0; idx < _vertexNormals.length(); idx += 3, ++normalArrIdx)
@@ -179,10 +199,23 @@ namespace SDK.Lib
 		}
 
         /**
+         * @brief 更新顶点切线
+         */
+        override protected MList<float> updateVertexTangents(MList<float> target)
+        {
+            invalidateBuffers(_tangentsInvalid);
+            return base.updateVertexTangents(target);
+        }
+
+        /**
          * @brief 获取切线数据
          */
         override public MList<float> getVertexTangentsData()
         {
+            if (_autoDeriveVertexTangents && _vertexTangentsDirty)
+            {
+                _vertexTangents = updateVertexTangents(_vertexTangents);
+            }
             return _vertexTangents;
         }
 
@@ -191,6 +224,7 @@ namespace SDK.Lib
          */
         override public Vector4[] getVertexTangentArray()
         {
+            getVertexTangentsData();
             Vector4[] tangentArray = new Vector4[_vertexTangents.length() / 3];
             int tangentArrIdx = 0;
             for (int idx = 0; idx < _vertexNormals.length(); idx += 3, ++tangentArrIdx)

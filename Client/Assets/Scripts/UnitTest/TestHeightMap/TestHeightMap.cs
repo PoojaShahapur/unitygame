@@ -9,7 +9,8 @@ namespace UnitTest
     {
         public void run()
         {
-            testHeightMap();
+            //testHeightMap();
+            testTerrainPage();
         }
 
         protected void testHeightMap()
@@ -21,6 +22,12 @@ namespace UnitTest
             float _height = heightMapData.getPixHeight(200, 200);
 
             end();
+        }
+
+        public void testTerrainPage()
+        {
+            TerrainPage terPage = new TerrainPage();
+            terPage.buildPage();
         }
 
         protected void end()

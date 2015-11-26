@@ -5,15 +5,17 @@
      */
     public class MMesh
     {
-        protected MList<MSubMesh> _subMeshes;       // 所有的子 mesh
+        protected MList<MSubMesh> _subMeshes;       // 所有的子 mesh , 子 mesh 有自己单独的渲染器
+        // MeshRender 主要是渲染 _geometry 中的数据的
 		protected MGeometry _geometry;              // 几何数据
+        protected MeshRender m_meshRender;          // Mesh 渲染器
         protected bool _boundsInvalid;
         protected bool _worldBoundsInvalid;
-        protected MeshRender m_meshRender;          // Mesh 渲染器
 
-        public MMesh(MGeometry geometry, MatRes material = null)
+        public MMesh(MGeometry geometry_, MeshRender meshRender_)
         {
-
+            _geometry = geometry_;
+            m_meshRender = meshRender_;
         }
 
         public MGeometry getGeometry()
@@ -37,6 +39,11 @@
         private void notifySceneBoundsInvalid()
         {
 
+        }
+
+        public void render()
+        {
+            m_meshRender.render();
         }
     }
 }

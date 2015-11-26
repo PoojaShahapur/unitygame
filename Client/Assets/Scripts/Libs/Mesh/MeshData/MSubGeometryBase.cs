@@ -48,6 +48,11 @@ namespace SDK.Lib
 
             _scaleU = 1;
             _scaleV = 1;
+
+            for(int idx = 0; idx < 8; ++idx)
+            {
+                _indicesInvalid.Add(true);
+            }
         }
 
         public MGeometry getParentGeometry()
@@ -278,7 +283,19 @@ namespace SDK.Lib
                 _faceTangents = new MList<float>((int)_indices.length());
             }
 
+            // 初始化
+            i = 0;
             while (i < len)
+            {
+                _faceTangents.Add(0);
+                _faceTangents.Add(0);
+                _faceTangents.Add(0);
+
+                i += 3;
+            }
+
+            i = 0;
+            while (i < len)     // 一个面是 3 个顶点，遍历一次就是一个面
             {
                 index1 = _indices[(int)i];
                 index2 = _indices[(int)i + 1];
@@ -347,6 +364,20 @@ namespace SDK.Lib
                 }
             }
 
+            // 初始化
+            i = 0;
+            j = 0;
+            while (i < len)
+            {
+                _faceNormals.Add(0);
+                _faceNormals.Add(0);
+                _faceNormals.Add(0);
+
+                i += 3;
+            }
+
+            i = 0;
+            j = 0;
             // 每一次遍历就是一个面， 3 个顶点
             while (i < len)
             {
@@ -415,9 +446,12 @@ namespace SDK.Lib
             // 初始化向量
             while (v1 < lenV)
             {
-                target[(int)v1] = 0.0f;
-                target[(int)v1 + 1] = 0.0f;
-                target[(int)v1 + 2] = 0.0f;
+                //target[(int)v1] = 0.0f;
+                //target[(int)v1 + 1] = 0.0f;
+                //target[(int)v1 + 2] = 0.0f;
+                target.Add(0);
+                target.Add(0);
+                target.Add(0);
                 v1 += (uint)normalStride;
             }
 
@@ -469,7 +503,7 @@ namespace SDK.Lib
         /**
          * @brief 更新顶点切线
          */
-        protected MList<float> updateVertexTangents(MList<float> target)
+        virtual protected MList<float> updateVertexTangents(MList<float> target)
         {
             if (_faceTangentsDirty)
             {
@@ -490,9 +524,12 @@ namespace SDK.Lib
             // 初始化切线缓冲区
             while (i < lenV)
             {
-                target[(int)i] = 0.0f;
-                target[(int)i + 1] = 0.0f;
-                target[(int)i + 2] = 0.0f;
+                //target[(int)i] = 0.0f;
+                //target[(int)i + 1] = 0.0f;
+                //target[(int)i + 2] = 0.0f;
+                target.Add(0);
+                target.Add(0);
+                target.Add(0);
                 i += (uint)tangentStride;
             }
 

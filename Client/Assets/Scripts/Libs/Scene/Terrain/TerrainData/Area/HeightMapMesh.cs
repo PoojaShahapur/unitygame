@@ -20,10 +20,11 @@
 		protected MSubGeometry _subGeometry;            // SubGeometry 数据
 
         public HeightMapMesh(MatRes material, HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
-            : base(new MGeometry(), material)
+            : base(new MGeometry(), new SingleAreaRender())
         {
             _subGeometry = new MSubGeometry();
             this.getGeometry().addSubGeometry(_subGeometry);
+            m_meshRender.setSubGeometry(_subGeometry);      // 设置几何信息
 
             _geomDirty = true;
             _uvDirty = true;
@@ -175,12 +176,12 @@
 			
 			_smoothedHeightMap.lockMem();
 			
-			float incXL;
-            float incXR;
-            float incYL;
-            float incYR;
-            float pxx;
-            float pxy;
+			float incXL = 0;
+            float incXR = 0;
+            float incYL = 0;
+            float incYR = 0;
+            float pxx = 0;
+            float pxy = 0;
 			
 			for (i = 0; i<w + 1; i += _segmentsW)
             {
@@ -277,13 +278,36 @@
 				vertices = new MList<float>((int)numVerts * 3); // 顶点的数量
 				indices = new MList<int>((int)(_segmentsH * _segmentsW * 6));  // 索引的数量
 			}
-			
-			numVerts = 0;
+
+            numVerts = 0;
+            // 初始化
+            for (int zi = 0; zi <= _segmentsH; ++zi)
+            {
+                for (int xi = 0; xi <= _segmentsW; ++xi)
+                {
+                    vertices.Add(0);
+                    vertices.Add(0);
+                    vertices.Add(0);
+
+                    if (xi != _segmentsW && zi != _segmentsH)
+                    {
+                        baseIdx = xi + zi * tw;
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                    }
+                }
+            }
+
+            numVerts = 0;
             uint col = 0;
 			
-			for (int zi = 0; zi <= _segmentsH; ++zi) 
+			for (int zi = 0; zi <= _segmentsH; ++zi)
             {
-				for (int xi = 0; xi <= _segmentsW; ++xi) 
+				for (int xi = 0; xi <= _segmentsW; ++xi)
                 {
 					x = (int)(xi / _segmentsW - 0.5) * _width;
                     z = (int)(zi / _segmentsH - 0.5) * _depth;
@@ -293,11 +317,11 @@
                     col = (uint)(_heightMap.getPixel((int)u, (int)v)) & 0xff;
 					y = (col > _maxElevation) ? (_maxElevation/0xff)* _height : ((col<_minElevation) ? (_minElevation/0xff)* _height : (col/0xff) * _height);
 					
-					vertices[(int)numVerts++] = x;
-					vertices[(int)numVerts++] = y;
-					vertices[(int)numVerts++] = z;
+					vertices[numVerts++] = x;
+					vertices[numVerts++] = y;
+					vertices[numVerts++] = z;
 					
-					if (xi != _segmentsW && zi != _segmentsH)
+					if (xi != _segmentsW && zi != _segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
                     {
 						baseIdx = xi + zi* tw;
                         indices[(int)numInds++] = baseIdx;
@@ -330,16 +354,28 @@
             }
             else
             {
-                uvs = new MList<float>((int)numUvs);
+                uvs = new MList<float>(numUvs);
             }
 			
 			numUvs = 0;
-			for (uint yi = 0; yi <= _segmentsH; ++yi) 
+            // 初始化
+            for (uint yi = 0; yi <= _segmentsH; ++yi)
+            {
+                for (uint xi = 0; xi <= _segmentsW; ++xi)
+                {
+                    uvs.Add(0);
+                    uvs.Add(0);
+                }
+            }
+
+            // 计算 UV
+            numUvs = 0;
+            for (uint yi = 0; yi <= _segmentsH; ++yi) 
             {
 				for (uint xi = 0; xi <= _segmentsW; ++xi) 
                 {
-					uvs[(int)numUvs++] = xi/_segmentsW;
-					uvs[(int)numUvs++] = 1 - yi/_segmentsH;
+					uvs[numUvs++] = xi/_segmentsW;
+					uvs[numUvs++] = 1 - yi/_segmentsH;
 				}
 			}
 			

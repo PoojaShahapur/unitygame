@@ -7,6 +7,11 @@
     {
         protected MList<MSubGeometryBase> _subGeometries;
 
+        public MGeometry()
+        {
+            _subGeometries = new MList<MSubGeometryBase>();
+        }
+
         public void addSubGeometry(MSubGeometryBase subGeometry)
         {
             _subGeometries.push(subGeometry);

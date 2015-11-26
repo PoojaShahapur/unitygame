@@ -4,8 +4,8 @@
     {
         protected SimpleSubGeometry m_subGeometry;            // SubGeometry 数据
 
-        public SimpleMesh(MGeometry geometry, MatRes material = null)
-            : base(geometry, material)
+        public SimpleMesh(MGeometry geometry, MeshRender meshRender_)
+            : base(geometry, meshRender_)
         {
 
         }
@@ -16,11 +16,6 @@
             this.getGeometry().addSubGeometry(m_subGeometry);
 
             m_subGeometry.buildGeometry();
-        }
-
-        public void render()
-        {
-
         }
     }
 }
