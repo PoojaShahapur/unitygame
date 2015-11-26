@@ -11,6 +11,7 @@ namespace UnitTest
         {
             //testHeightMap();
             testTerrainPage();
+            //testPrint();
         }
 
         protected void testHeightMap()
@@ -28,6 +29,13 @@ namespace UnitTest
         {
             TerrainPage terPage = new TerrainPage();
             terPage.buildPage();
+        }
+
+        public void testPrint()
+        {
+            HeightMapData heightMapData = new HeightMapData();
+            heightMapData.loadHeightMap("Terrain/terrain.png");
+            heightMapData.print();
         }
 
         protected void end()

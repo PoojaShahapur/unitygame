@@ -84,16 +84,38 @@ namespace SDK.Lib
         }
 
         /**
-         * @brief 获取灰度值
+         * @brief 获取灰度值，灰度图已经是灰度缩放的值，如果再取 grayscale ，就是缩放了两次了
          */
         public float getPixHeight(int x, int z)
         {
-            return m_heightMap.GetPixel(x, z).grayscale;
+            return getColorGrayScaleValue(x, z);
         }
 
         public int getPixel(int x, int z)
         {
+            return getColorGrayScaleValue(x, z);
+        }
+
+        /**
+         * @brief 获取一个像素的灰度值，如果这个图像已经是灰度图了，就会计算两次灰度值，返回值将会是错误的
+         */
+        public float getGrayScaleValue(int x, int z)
+        {
+            return m_heightMap.GetPixel(x, z).grayscale;    // grayscale 是 [0, 1] 之间的值
+        }
+
+        public int getGrayScale(int x, int z)
+        {
             return (int)m_heightMap.GetPixel(x, z).grayscale;
+        }
+
+        /**
+         * @brief 获取颜色高度值
+         */
+        public int getColorGrayScaleValue(int x, int z)
+        {
+            Color color = m_heightMap.GetPixel(x, z);       // Color 中的值 r 是 [0, 1] 之间的值
+            return (int)(color.r * 255);                      // 灰度图中的 Color 值是 [0, 1] 的灰度值，需要缩放到 [0, 255]
         }
 
         public void setPixel(int x, int y, uint color)
@@ -109,6 +131,29 @@ namespace SDK.Lib
         public void unlock()
         {
 
+        }
+
+        /**
+         * @brief 日志输出所有的顶点
+         */
+        public void print()
+        {
+            int iH = 0;
+            float fH = 0;
+            string str = "";
+            for(int idz = 0; idz < getHeight(); ++idz)
+            {
+                for (int idx = 0; idx < getWidth(); ++idx)
+                {
+                    //iH = getColor(idx, idz);
+                    fH = getPixHeight(idx, idz);
+                    //Debug.Log(fH);
+                    str += iH;
+                    str += "\n";
+                    str += fH;
+                    str += "\n";
+                }
+            }
         }
     }
 }

@@ -316,9 +316,9 @@
                     v = (_segmentsH - zi) * vDiv;
 
                     col = (uint)(_heightMap.getPixel((int)u, (int)v)) & 0xff;
-					y = (col > _maxElevation) ? (_maxElevation/0xff)* _height : ((col<_minElevation) ? (_minElevation/0xff)* _height : (col/0xff) * _height);
-					
-					vertices[numVerts++] = x;
+					y = (col > _maxElevation) ? ((float)_maxElevation / 0xff)* _height : ((col<_minElevation) ? ((float)_minElevation /0xff) * _height : ((float)col / 0xff) * _height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
+
+                    vertices[numVerts++] = x;
 					vertices[numVerts++] = y;
 					vertices[numVerts++] = z;
 					
