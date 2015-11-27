@@ -3,7 +3,7 @@
     /**
      * @brief 高度地形 Mesh
      */
-    public class HeightMapMesh : MMesh
+    public class HeightMapMeshOne : MMesh
     {
         protected int m_segmentsW;  // 世界空间高度图宽度划分的线段数量， X 轴线段数量
 		protected int m_segmentsH;  // 世界空间高度图高度划分的线段数量， Z 轴线段数量
@@ -19,8 +19,16 @@
 		protected bool m_uvDirty;                        // UV 数据是否被修改
 		protected MSubGeometry m_subGeometry;            // SubGeometry 数据
 
-        public HeightMapMesh(MatRes material, HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
+        public HeightMapMeshOne(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
             : base(new MGeometry(), new SingleAreaRender())
+        {
+            buildOneAreaMesh(heightMap, width, height, depth, segmentsW, segmentsH, maxElevation, minElevation, smoothMap);
+        }
+
+        /**
+         * @breif 一个 Page 就是一个 Area 的地形生成方法
+         */
+        protected void buildOneAreaMesh(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
         {
             m_subGeometry = new MSubGeometry();
             this.getGeometry().addSubGeometry(m_subGeometry);
@@ -49,9 +57,17 @@
         }
 
         /**
-         * @brief 返回高度图最小高度
+         * @brief 生成多个区域地图
          */
-        public void setMinElevation(uint val)
+        protected void buildMutilAreaMesh(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
+        {
+            
+        }
+
+       /**
+        * @brief 返回高度图最小高度
+        */
+       public void setMinElevation(uint val)
 		{
             if (m_minElevation == val)
             {

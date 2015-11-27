@@ -6,7 +6,7 @@
     public class TerrainPage
     {
         protected HeightMapData m_heightMapData;    // 高度图数据
-        protected HeightMapMesh m_heightMapMesh;    // 高度图 Mesh
+        protected HeightMapMeshOne m_heightMapMesh;    // 高度图 Mesh
         protected MatRes m_matRes;                  // 材质资源
 
         public TerrainPage()
@@ -23,8 +23,8 @@
             m_heightMapData.loadHeightMap("Terrain/terrain.png");
             //m_heightMapData.loadHeightMap("Terrain/terrain_heights.jpg");
 
-            m_heightMapMesh = new HeightMapMesh(null, m_heightMapData, 5000, 1300, 5000, 250, 250);
-            //m_heightMapMesh = new HeightMapMesh(null, m_heightMapData, 20, 20, 20, 20, 20);
+            m_heightMapMesh = new HeightMapMeshOne(m_heightMapData, 5000, 1300, 5000, 250, 250);
+            //m_heightMapMesh = new HeightMapMeshOne(m_heightMapData, 20, 20, 20, 20, 20);
 
             render();
         }
