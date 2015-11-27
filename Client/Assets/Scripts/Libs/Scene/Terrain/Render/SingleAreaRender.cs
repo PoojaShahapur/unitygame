@@ -282,7 +282,7 @@ namespace SDK.Lib
                 m_filter = m_selfGo.AddComponent<MeshFilter>();
             }
 
-            if (vertexCount < 200000)
+            if (vertexCount < 2000000)
             {
                 bool trim = true;           // 是否顶点数据改变过
                 // 创建 mesh

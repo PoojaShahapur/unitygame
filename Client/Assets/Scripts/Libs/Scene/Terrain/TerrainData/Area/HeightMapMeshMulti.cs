@@ -52,13 +52,19 @@
 
             // 生成顶点数据
             MList<float> vertices = null;
-            MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices);
-            subGeometry.setAutoDeriveVertexNormals(true);
-            subGeometry.updateVertexData(vertices);
+            //MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices);
+            //subGeometry.setAutoDeriveVertexNormals(true);
+            //subGeometry.updateVertexData(vertices);
 
             // 生成索引数据
             MList<int> indices = null;
-            MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
+            //MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
+            //subGeometry.setAutoDeriveVertexTangents(true);
+            //subGeometry.updateIndexData(indices);
+
+            MeshSplit.buildVertexAndIndex(idx, idz, heightMap, terrainPageCfg, ref vertices, ref indices);
+            subGeometry.setAutoDeriveVertexNormals(true);
+            subGeometry.updateVertexData(vertices);
             subGeometry.setAutoDeriveVertexTangents(true);
             subGeometry.updateIndexData(indices);
 
