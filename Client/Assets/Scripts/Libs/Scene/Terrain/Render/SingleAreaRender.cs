@@ -7,6 +7,9 @@ namespace SDK.Lib
      */
     public class SingleAreaRender : MeshRender
     {
+        // Unity 规定一个 Mesh 顶点最多不能超过 65000 个顶点
+        protected static int MAX_VERTEX_PER_MESH = 65000;
+
         protected AreaBase m_area;
 
         protected Material m_material;         // 使用的共享材质
@@ -282,7 +285,7 @@ namespace SDK.Lib
                 m_filter = m_selfGo.AddComponent<MeshFilter>();
             }
 
-            if (vertexCount < 2000000)
+            if (vertexCount < MAX_VERTEX_PER_MESH)  // 顶点数量判断
             {
                 bool trim = true;           // 是否顶点数据改变过
                 // 创建 mesh
