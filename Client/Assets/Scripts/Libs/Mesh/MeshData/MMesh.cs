@@ -43,6 +43,10 @@
 
         protected void addSubMesh(MSubMesh subMesh_)
         {
+            if(this.m_subMeshes == null)
+            {
+                this.m_subMeshes = new MList<MSubMesh>();
+            }
             this.m_subMeshes.Add(subMesh_);
         }
 

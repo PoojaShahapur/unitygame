@@ -11,7 +11,7 @@
          * @brief 构造函数
          */
         public HeightMapMeshMulti(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
-            : base(new MGeometry(), new SingleAreaRender())
+            : base(null, null)
         {
             m_terrainPageCfg = terrainPageCfg;
             buildMutilAreaMesh(heightMap, terrainPageCfg);
@@ -43,6 +43,7 @@
             SingleAreaRender render = new SingleAreaRender();
             MSubMesh subMesh = new MSubMesh(subGeometry, render);
             render.setSubGeometry(subGeometry);
+            this.addSubMesh(subMesh);
 
             // 生成 UV 坐标
             MList<float> uvs = null;

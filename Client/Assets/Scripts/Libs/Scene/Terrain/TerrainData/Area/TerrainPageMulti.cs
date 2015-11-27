@@ -26,7 +26,7 @@
 
             m_heightMapMesh = new HeightMapMeshMulti(m_heightMapData, m_terrainPageCfg);
 
-             render();
+            render();
         }
 
         protected void render()

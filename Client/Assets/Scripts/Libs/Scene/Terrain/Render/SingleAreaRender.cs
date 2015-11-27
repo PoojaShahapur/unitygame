@@ -263,7 +263,7 @@ namespace SDK.Lib
             else if (m_renderer.sharedMaterial != m_dynamicMat)
             {
 #if UNITY_EDITOR
-                Debug.LogError("Hmm... This point got hit!");
+                Debug.LogError("share material not equal !");
 #endif
                 m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
             }
@@ -324,7 +324,7 @@ namespace SDK.Lib
                 {
                     m_filter.mesh.Clear();
                 }
-                Debug.LogError("Too many vertices on one panel: " + vertexCount);
+                Debug.LogError("Too many vertices on one Mesh" + vertexCount);
             }
 
             if (m_renderer == null)

@@ -13,9 +13,9 @@
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
-            int xBaseSegment = 0;
-            int zBaseSegment = 0;
-            terrainPageCfg.calcAreaBaseSegment(ref xBaseSegment, ref zBaseSegment, idx, idz);
+            int xSegmentOffset = 0;
+            int zSegmentOffset = 0;
+            terrainPageCfg.calcAreaSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
 
             int width = terrainPageCfg.getWorldWidth();
             int depth = terrainPageCfg.getWorldDepth();
@@ -25,9 +25,9 @@
             int height = terrainPageCfg.getWorldHeight();
 
             float x = 0, z = 0;
-            int tw = totalSegmentsW + 1;
-            int numVerts = (totalSegmentsH + 1) * tw;
-            float uDiv = (float)(heightMap.getWidth() - 1) / totalSegmentsW;
+            int tw = segmentsW + 1;
+            int numVerts = (segmentsH + 1) * tw;    // 矩形区域中顶点的总数
+            float uDiv = (float)(heightMap.getWidth() - 1) / totalSegmentsW;    // 世界空间中单位长度对应像素的个数
             float vDiv = (float)(heightMap.getHeight() - 1) / totalSegmentsH;
             float u = 0, v = 0;
             float y = 0;
@@ -61,10 +61,10 @@
                 for (int xi = 0; xi <= segmentsW; ++xi)
                 {
                     // (float) 一定要先转换成 (float) ，否则 xi / segmentsW 整数除总是 0 ，导致结果总是在一个顶点
-                    x = (int)((((float)xi + xBaseSegment) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
-                    z = (int)((((float)zi + zBaseSegment) / totalSegmentsH - 0.5f) * depth);
-                    u = (xi + xBaseSegment) * uDiv;
-                    v = (totalSegmentsH - (zi + zBaseSegment)) * vDiv;
+                    x = (int)((((float)xi + xSegmentOffset) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
+                    z = (int)((((float)zi + zSegmentOffset) / totalSegmentsH - 0.5f) * depth);
+                    u = (xi + xSegmentOffset) * uDiv;
+                    v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
 
                     col = (uint)(heightMap.getPixel((int)u, (int)v)) & 0xff;
                     y = (col > maxElevation) ? ((float)maxElevation / 0xff) * height : ((col < minElevation) ? ((float)minElevation / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
@@ -84,30 +84,14 @@
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
-            int xBaseSegment = 0;
-            int zBaseSegment = 0;
-            terrainPageCfg.calcAreaBaseSegment(ref xBaseSegment, ref zBaseSegment, idx, idz);
-
-            int width = terrainPageCfg.getWorldWidth();
-            int depth = terrainPageCfg.getWorldDepth();
-
-            int minElevation = terrainPageCfg.getMinElevation();
-            int maxElevation = terrainPageCfg.getMaxElevation();
-            int height = terrainPageCfg.getWorldHeight();
-
-            float x = 0, z = 0;
             uint numInds = 0;
             int baseIdx = 0;
-            int tw = totalSegmentsW + 1;
-            int numVerts = (totalSegmentsH + 1) * tw;
+            int tw = segmentsW + 1;
             float uDiv = (float)(heightMap.getWidth() - 1) / totalSegmentsW;
             float vDiv = (float)(heightMap.getHeight() - 1) / totalSegmentsH;
-            float u = 0, v = 0;
-            float y = 0;
 
             indices = new MList<int>(segmentsH * segmentsW * 6);  // 索引的数量
 
-            numVerts = 0;
             // 初始化
             for (int zi = 0; zi <= segmentsH; ++zi)
             {
@@ -124,8 +108,6 @@
                     }
                 }
             }
-
-            numVerts = 0;
 
             for (int zi = 0; zi <= segmentsH; ++zi)
             {
@@ -159,9 +141,9 @@
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
-            int xBaseSegment = 0;
-            int zBaseSegment = 0;
-            terrainPageCfg.calcAreaBaseSegment(ref xBaseSegment, ref zBaseSegment, idx, idz);
+            int xSegmentOffset = 0;
+            int zSegmentOffset = 0;
+            terrainPageCfg.calcAreaSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
 
             int numUvs = (segmentsH + 1) * (segmentsW + 1) * 2;
             if (uvs == null)
@@ -190,8 +172,8 @@
             {
                 for (uint xi = 0; xi <= segmentsW; ++xi)
                 {
-                    uvs[numUvs++] = ((float)xi + xBaseSegment)/ totalSegmentsW;
-                    uvs[numUvs++] = 1 - ((float)yi + zBaseSegment) / totalSegmentsH;
+                    uvs[numUvs++] = ((float)xi + xSegmentOffset) / totalSegmentsW;
+                    uvs[numUvs++] = 1 - ((float)yi + zSegmentOffset) / totalSegmentsH;
                 }
             }
 

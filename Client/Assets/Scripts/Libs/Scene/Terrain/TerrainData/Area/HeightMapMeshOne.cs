@@ -5,19 +5,19 @@
      */
     public class HeightMapMeshOne : MMesh
     {
-        protected int m_segmentsW;  // 世界空间高度图宽度划分的线段数量， X 轴线段数量
-		protected int m_segmentsH;  // 世界空间高度图高度划分的线段数量， Z 轴线段数量
-        protected float m_width;     // 世界空间高度图宽度， X 轴宽度
-        protected float m_height;    // 世界空间高度图高度， Z 轴高度
-        protected float m_depth;     // 世界空间高度图深度，这个等价于 Z 的世界空间高度
-        protected HeightMapData m_heightMap;     // 高度图
-		protected HeightMapData m_smoothedHeightMap;     // 平滑的高度图
-		protected HeightMapData m_activeMap;             // 获取高度的高度图
-		protected uint m_minElevation;                   // 高度图最小高度
-		protected uint m_maxElevation;                   // 高度图最大高度
-		protected bool m_geomDirty;                      // Geometry 数据是否是被修改
-		protected bool m_uvDirty;                        // UV 数据是否被修改
-		protected MSubGeometry m_subGeometry;            // SubGeometry 数据
+        protected int m_segmentsW;      // 世界空间高度图宽度划分的线段数量， X 轴线段数量
+		protected int m_segmentsH;      // 世界空间高度图高度划分的线段数量， Z 轴线段数量
+        protected float m_width;        // 世界空间高度图宽度， X 轴宽度
+        protected float m_height;       // 世界空间高度图高度， Z 轴高度
+        protected float m_depth;        // 世界空间高度图深度，这个等价于 Z 的世界空间高度
+        protected HeightMapData m_heightMap;                // 高度图
+		protected HeightMapData m_smoothedHeightMap;        // 平滑的高度图
+		protected HeightMapData m_activeMap;                // 获取高度的高度图
+		protected uint m_minElevation;                      // 高度图最小高度
+		protected uint m_maxElevation;                      // 高度图最大高度
+		protected bool m_geomDirty;                         // Geometry 数据是否是被修改
+		protected bool m_uvDirty;                           // UV 数据是否被修改
+		protected MSubGeometry m_subGeometry;               // SubGeometry 数据
 
         /**
          * @brief 构造函数

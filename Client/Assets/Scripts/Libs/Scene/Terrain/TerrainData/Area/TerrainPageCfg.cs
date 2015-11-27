@@ -29,8 +29,7 @@
          */
         public TerrainPageCfg(int pixelWidth = 512, int pixelHeight = 512)
         {
-            m_xAreaCount = pixelWidth / m_xGridCountPerArea;
-            m_zAreaCount = pixelHeight / m_zGridCountPerArea;
+            setPixelWidthAndHeight(pixelWidth, pixelHeight);
 
             m_minElevation = 0;
             m_maxElevation = 0xFF;      // byte 最大值 0xFF
@@ -156,6 +155,9 @@
         {
             m_xAreaCount = pixelWidth / m_xGridCountPerArea;
             m_zAreaCount = pixelHeight / m_zGridCountPerArea;
+
+            m_xTotalGrid = m_xGridCountPerArea * m_xAreaCount;
+            m_zTotalGrid = m_zGridCountPerArea * m_zAreaCount;
         }
 
         /**
@@ -237,12 +239,12 @@
         }
 
         /**
-         * @brief 计算 Area 顶点 base 顶点索引
+         * @brief 计算 Area 顶点 base 片段的偏移，其实就是顶点的偏移
          */
-        public void calcAreaBaseSegment(ref int xBaseVertex, ref int zBaseVertex, int idx, int idz)
+        public void calcAreaSegmentOffset(ref int xSegmentOffset, ref int zSegmentOffset, int idx, int idz)
         {
-            xBaseVertex = idx * m_xGridCountPerArea;
-            zBaseVertex = idz * m_zGridCountPerArea;
+            xSegmentOffset = idx * m_xGridCountPerArea;
+            zSegmentOffset = idz * m_zGridCountPerArea;
         }
     }
 }
