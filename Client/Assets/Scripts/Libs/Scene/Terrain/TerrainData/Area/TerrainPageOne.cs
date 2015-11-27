@@ -1,15 +1,15 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 一个 Terrain Page
+     * @brief 一个 Terrain Page，这个地形 Page 只有一个 Area
      */
-    public class TerrainPage
+    public class TerrainPageOne
     {
         protected HeightMapData m_heightMapData;    // 高度图数据
         protected HeightMapMeshOne m_heightMapMesh;    // 高度图 Mesh
         protected MatRes m_matRes;                  // 材质资源
 
-        public TerrainPage()
+        public TerrainPageOne()
         {
 
         }

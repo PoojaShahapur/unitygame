@@ -19,6 +19,9 @@
 		protected bool m_uvDirty;                        // UV 数据是否被修改
 		protected MSubGeometry m_subGeometry;            // SubGeometry 数据
 
+        /**
+         * @brief 构造函数
+         */
         public HeightMapMeshOne(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
             : base(new MGeometry(), new SingleAreaRender())
         {
@@ -54,14 +57,6 @@
             {
                 generateSmoothedHeightMap();
             }
-        }
-
-        /**
-         * @brief 生成多个区域地图
-         */
-        protected void buildMutilAreaMesh(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
-        {
-            
         }
 
        /**
@@ -365,7 +360,7 @@
 		 */
 		private void buildUVs()
 		{
-            MList<float> uvs = new MList<float>();
+            MList<float> uvs = null;
             int numUvs = (m_segmentsH + 1)*(m_segmentsW + 1)*2;
 
             if (m_subGeometry.getUVData() != null && numUvs == m_subGeometry.getUVData().length())
@@ -378,7 +373,7 @@
             }
 			
 			numUvs = 0;
-            // 初始化，遍历范围 [0, _segmentsH] * [0, _segmentsW]
+            // 初始化，遍历范围 [0, m_segmentsH] * [0, m_segmentsW]
             for (uint yi = 0; yi <= m_segmentsH; ++yi)
             {
                 for (uint xi = 0; xi <= m_segmentsW; ++xi)

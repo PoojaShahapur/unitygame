@@ -27,7 +27,7 @@ namespace UnitTest
 
         public void testTerrainPage()
         {
-            TerrainPage terPage = new TerrainPage();
+            TerrainPageOne terPage = new TerrainPageOne();
             terPage.buildPage();
         }
 
