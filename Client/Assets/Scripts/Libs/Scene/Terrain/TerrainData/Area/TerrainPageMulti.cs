@@ -7,7 +7,7 @@
     {
         protected HeightMapData m_heightMapData;        // 高度图数据
         protected HeightMapMeshMulti m_heightMapMesh;   // 高度图 Mesh
-        protected TerrainPageCfg m_terrainPageCfg;  // Page 配置
+        protected TerrainPageCfg m_terrainPageCfg;      // Page 配置
 
         public TerrainPageMulti()
         {

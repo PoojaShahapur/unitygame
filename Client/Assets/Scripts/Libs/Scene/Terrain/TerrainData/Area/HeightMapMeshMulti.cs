@@ -38,7 +38,33 @@
          */
         protected void buildArea(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
         {
+            // 生成 SubMesh
+            MSubGeometry subGeometry = new MSubGeometry();
+            SingleAreaRender render = new SingleAreaRender();
+            MSubMesh subMesh = new MSubMesh(subGeometry, render);
+            render.setSubGeometry(subGeometry);
 
+            // 生成 UV 坐标
+            MList<float> uvs = null;
+            MeshSplit.buildUVs(idx, idz, heightMap, terrainPageCfg, ref uvs);
+            subGeometry.updateUVData(uvs);
+
+            // 生成顶点数据
+            MList<float> vertices = null;
+            MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices);
+            subGeometry.setAutoDeriveVertexNormals(true);
+            subGeometry.updateVertexData(vertices);
+
+            // 生成索引数据
+            MList<int> indices = null;
+            MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
+            subGeometry.setAutoDeriveVertexTangents(true);
+            subGeometry.updateIndexData(indices);
+
+            // 移动到正确的位置
+            int areaWidth = terrainPageCfg.getAreaWorldWidth();
+            int areaDepth = terrainPageCfg.getAreaWorldDepth();
+            subMesh.moveToPos(idx * areaWidth, idz * areaDepth);
         }
     }
 }

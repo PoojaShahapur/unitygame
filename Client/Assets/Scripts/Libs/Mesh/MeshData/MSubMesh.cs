@@ -32,6 +32,17 @@
         }
 
         /**
+         * @brief 局部空间移动 Mesh
+         */
+        public void moveToPos(int xPos, int zPos)
+        {
+            if(m_meshRender != null)
+            {
+                m_meshRender.moveToPos(xPos, zPos);
+            }
+        }
+
+        /**
          * @brief 渲染数据
          */
         public void render()

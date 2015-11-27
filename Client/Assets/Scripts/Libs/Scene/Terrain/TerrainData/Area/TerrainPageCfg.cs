@@ -134,6 +134,22 @@
         }
 
         /**
+         * @brief 获取 Area 世界空间中的宽度，这个现在就是 Area 中 Grid 的数量
+         */
+        public int getAreaWorldWidth()
+        {
+            return m_xAreaCount;
+        }
+
+        /**
+         * @brief 获取 Area 世界空间中的深度
+         */
+        public int getAreaWorldDepth()
+        {
+            return m_zAreaCount;
+        }
+
+        /**
          * @brief 设置像素的宽度和高度
          */
         public void setPixelWidthAndHeight(int pixelWidth, int pixelHeight)

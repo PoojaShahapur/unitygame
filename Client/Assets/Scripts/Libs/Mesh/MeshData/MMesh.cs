@@ -41,6 +41,22 @@
 
         }
 
+        protected void addSubMesh(MSubMesh subMesh_)
+        {
+            this.m_subMeshes.Add(subMesh_);
+        }
+
+        public void moveToPos(int xPos, int zPos)
+        {
+            if (m_subMeshes != null)
+            {
+                for (int idx = 0; idx < m_subMeshes.Count(); ++idx)
+                {
+                    m_subMeshes[idx].moveToPos(xPos, zPos);
+                }
+            }
+        }
+
         public void render()
         {
             // 渲染 Mesh 数据

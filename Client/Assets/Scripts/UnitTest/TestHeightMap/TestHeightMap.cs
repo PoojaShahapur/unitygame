@@ -10,7 +10,7 @@ namespace UnitTest
         public void run()
         {
             //testHeightMap();
-            testTerrainPage();
+            testTerrainPageOne();
             //testPrint();
         }
 
@@ -25,9 +25,15 @@ namespace UnitTest
             end();
         }
 
-        public void testTerrainPage()
+        public void testTerrainPageOne()
         {
             TerrainPageOne terPage = new TerrainPageOne();
+            terPage.buildPage();
+        }
+
+        public void testTerrainPageMulti()
+        {
+            TerrainPageMulti terPage = new TerrainPageMulti();
             terPage.buildPage();
         }
 

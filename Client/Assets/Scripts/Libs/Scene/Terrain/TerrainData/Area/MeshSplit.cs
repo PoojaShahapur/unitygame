@@ -5,7 +5,7 @@
      */
     public class MeshSplit
     {
-        private void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices)
+        static public void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerArea();
             int segmentsH = terrainPageCfg.getZGridCountPerArea();
@@ -76,7 +76,7 @@
             }
         }
 
-        private void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<int> indices)
+        static public void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<int> indices)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerArea();
             int segmentsH = terrainPageCfg.getZGridCountPerArea();

@@ -28,6 +28,14 @@
         }
 
         /**
+         * @brief 局部空间移动 Render
+         */
+        public void moveToPos(int xPos, int zPos)
+        {
+            UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(xPos, 0, zPos));
+        }
+
+        /**
          * @brief 子类实现具体的显示
          */
         virtual public void render()
