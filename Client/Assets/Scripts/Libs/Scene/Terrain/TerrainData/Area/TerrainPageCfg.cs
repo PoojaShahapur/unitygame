@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 地形的几何数据
      */
-    public class GeometryData
+    public class TerrainPageCfg
     {
         protected int m_xGridWidth = 1;     // 一个 Grid 的宽度
         protected int m_zGridWidth = 1;
@@ -15,15 +13,5 @@ namespace SDK.Lib
 
         protected int m_xAreaCount = 1;     // 一个地形 Area 的数量
         protected int m_zAreaCount = 1;
-
-        protected MList<Vector3> m_vertList;
-
-        /**
-         * @brief 生成地形数据
-         */
-        public void buildMesh()
-        {
-            m_vertList = new MList<Vector3>();
-        }
     }
 }

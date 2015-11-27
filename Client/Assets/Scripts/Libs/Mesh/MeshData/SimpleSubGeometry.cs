@@ -1,5 +1,8 @@
 ﻿namespace SDK.Lib
 {
+    /**
+     * @brief 这个是简单的 SubGeometry 显示
+     */
     public class SimpleSubGeometry : MSubGeometry
     {
         public SimpleSubGeometry()

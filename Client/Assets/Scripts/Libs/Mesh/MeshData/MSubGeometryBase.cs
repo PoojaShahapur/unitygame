@@ -8,61 +8,55 @@ namespace SDK.Lib
      */
     public class MSubGeometryBase : MISubGeometry
     {
-        protected MGeometry _parentGeometry;
-        protected MList<float> _vertexData;
-        protected bool _faceNormalsDirty;
-        protected bool _faceTangentsDirty;
-        protected MList<float> _faceTangents;
-        protected MList<int> _indices;
-        protected uint _numIndices;
-        protected MList<Boolean> _indicesInvalid;
-        protected uint _numTriangles;
+        protected MGeometry m_parentGeometry;
+        protected MList<float> m_vertexData;
+        protected bool m_faceNormalsDirty;
+        protected bool m_faceTangentsDirty;
+        protected MList<float> m_faceTangents;
+        protected MList<int> m_indices;
+        protected uint m_numIndices;
+        protected MList<Boolean> m_indicesInvalid;
+        protected uint m_numTriangles;
 
-        protected bool _autoDeriveVertexNormals;
-        protected bool _autoDeriveVertexTangents;
-        protected bool _autoGenerateUVs;
-        protected bool _useFaceWeights;         // 计算顶点法向量的时候，使用面法向量插值生成
-        protected bool _vertexNormalsDirty;
-        protected bool _vertexTangentsDirty;
+        protected bool m_autoDeriveVertexNormals;
+        protected bool m_autoDeriveVertexTangents;
+        protected bool m_autoGenerateUVs;
+        protected bool m_useFaceWeights;         // 计算顶点法向量的时候，使用面法向量插值生成
+        protected bool m_vertexNormalsDirty;
+        protected bool m_vertexTangentsDirty;
 
-        protected MList<float> _faceNormals;
-        protected MList<float> _faceWeights;
+        protected MList<float> m_faceNormals;
+        protected MList<float> m_faceWeights;
 
-        private float _scaleU;
-        private float _scaleV;
-
-        protected bool _uvsDirty = true;
+        protected bool m_uvsDirty = true;
 
         public MSubGeometryBase()
         {
-            _faceNormalsDirty = true;
-            _faceTangentsDirty = true;
-            _indicesInvalid = new MList<Boolean>(8);
+            m_faceNormalsDirty = true;
+            m_faceTangentsDirty = true;
+            m_indicesInvalid = new MList<Boolean>(8);
 
-            _autoDeriveVertexNormals = true;
-            _autoDeriveVertexTangents = true;
-            _autoGenerateUVs = false;
-            _useFaceWeights = false;
-            _vertexNormalsDirty = true;
-            _vertexTangentsDirty = true;
-
-            _scaleU = 1;
-            _scaleV = 1;
+            m_autoDeriveVertexNormals = true;
+            m_autoDeriveVertexTangents = true;
+            m_autoGenerateUVs = false;
+            m_useFaceWeights = false;
+            m_vertexNormalsDirty = true;
+            m_vertexTangentsDirty = true;
 
             for(int idx = 0; idx < 8; ++idx)
             {
-                _indicesInvalid.Add(true);
+                m_indicesInvalid.Add(true);
             }
         }
 
         public MGeometry getParentGeometry()
         {
-            return _parentGeometry;
+            return m_parentGeometry;
         }
 
         public void setParentGeometry(MGeometry parentGeom)
         {
-            _parentGeometry = parentGeom;
+            m_parentGeometry = parentGeom;
         }
 
         /**
@@ -70,7 +64,7 @@ namespace SDK.Lib
          */
         public MList<float> getVertexData()
         {
-            return _vertexData;
+            return m_vertexData;
         }
 
         /**
@@ -78,11 +72,11 @@ namespace SDK.Lib
          */
         public Vector3[] getVertexDataArray()
         {
-            Vector3[] vertexVec = new Vector3[_vertexData.length() / 3];        // 必然是 3 个
+            Vector3[] vertexVec = new Vector3[m_vertexData.length() / 3];        // 必然是 3 个
             int idxVec = 0;
-            for (int idx = 0; idx < _vertexData.length(); idx += 3, ++idxVec)
+            for (int idx = 0; idx < m_vertexData.length(); idx += 3, ++idxVec)
             {
-                vertexVec[idxVec] = new Vector3(_vertexData[idx], _vertexData[idx + 1], _vertexData[idx + 2]);
+                vertexVec[idxVec] = new Vector3(m_vertexData[idx], m_vertexData[idx + 1], m_vertexData[idx + 2]);
             }
 
             return vertexVec;
@@ -93,7 +87,7 @@ namespace SDK.Lib
          */
         public int getVertexDataCount()
         {
-            return _vertexData.length();
+            return m_vertexData.length();
         }
 
         /**
@@ -101,7 +95,7 @@ namespace SDK.Lib
 		 */
         public MList<int> getIndexData()
         {
-            return _indices;
+            return m_indices;
         }
 
         /**
@@ -109,7 +103,7 @@ namespace SDK.Lib
          */
         public int getTriangleCount()
         {
-            return _indices.length() / 3;
+            return m_indices.length() / 3;
         }
 
         /**
@@ -130,29 +124,29 @@ namespace SDK.Lib
 
         public bool getAutoDeriveVertexNormals()
         {
-            return _autoDeriveVertexNormals;
+            return m_autoDeriveVertexNormals;
         }
 
         public void setAutoDeriveVertexNormals(bool value)
         {
-            _autoDeriveVertexNormals = value;
+            m_autoDeriveVertexNormals = value;
         }
 
         public bool getAutoDeriveVertexTangents()
         {
-            return _autoDeriveVertexTangents;
+            return m_autoDeriveVertexTangents;
         }
 
         public void setAutoDeriveVertexTangents(bool value)
         {
-            _autoDeriveVertexTangents = value;
+            m_autoDeriveVertexTangents = value;
         }
 
         protected void invalidateBounds()
         {
-            if (_parentGeometry != null)
+            if (m_parentGeometry != null)
             {
-                _parentGeometry.invalidateBounds(this as MISubGeometry);
+                m_parentGeometry.invalidateBounds(this as MISubGeometry);
             }
         }
 
@@ -262,7 +256,7 @@ namespace SDK.Lib
         {
             uint i = 0;
             int index1 = 0, index2 = 0, index3 = 0;
-            uint len = (uint)_indices.length();
+            uint len = (uint)m_indices.length();
             uint ui = 0, vi = 0;
             float v0 = 0;
             float dv1 = 0, dv2 = 0;
@@ -271,25 +265,25 @@ namespace SDK.Lib
             float dx1 = 0, dy1 = 0, dz1 = 0;
             float dx2 = 0, dy2 = 0, dz2 = 0;
             float cx = 0, cy = 0, cz = 0;
-            MList<float> vertices = _vertexData;
+            MList<float> vertices = m_vertexData;
             MList<float> uvs = getUVData();
             int posStride = (int)getVertexStride();
             int posOffset = getVertexOffset();
             int texStride = (int)getUVStride();
             int texOffset = getUVOffset();
 
-            if (_faceTangents == null)
+            if (m_faceTangents == null)
             {
-                _faceTangents = new MList<float>(_indices.length());
+                m_faceTangents = new MList<float>(m_indices.length());
             }
 
             // 初始化
             i = 0;
             while (i < len)
             {
-                _faceTangents.Add(0);
-                _faceTangents.Add(0);
-                _faceTangents.Add(0);
+                m_faceTangents.Add(0);
+                m_faceTangents.Add(0);
+                m_faceTangents.Add(0);
 
                 i += 3;
             }
@@ -297,9 +291,9 @@ namespace SDK.Lib
             i = 0;
             while (i < len)     // 一个面是 3 个顶点，遍历一次就是一个面
             {
-                index1 = _indices[(int)i];
-                index2 = _indices[(int)i + 1];
-                index3 = _indices[(int)i + 2];
+                index1 = m_indices[(int)i];
+                index2 = m_indices[(int)i + 1];
+                index3 = m_indices[(int)i + 2];
 
                 ui = (uint)(texOffset + index1 * texStride + 1);
                 v0 = uvs[(int)ui];
@@ -325,12 +319,12 @@ namespace SDK.Lib
                 cy = dv2 * dy1 - dv1 * dy2;
                 cz = dv2 * dz1 - dv1 * dz2;
                 denom = (float)(1 / UtilApi.Sqrt(cx * cx + cy * cy + cz * cz));
-                _faceTangents[(int)i++] = denom * cx;
-                _faceTangents[(int)i++] = denom * cy;
-                _faceTangents[(int)i++] = denom * cz;
+                m_faceTangents[(int)i++] = denom * cx;
+                m_faceTangents[(int)i++] = denom * cy;
+                m_faceTangents[(int)i++] = denom * cz;
             }
 
-            _faceTangentsDirty = false;
+            m_faceTangentsDirty = false;
         }
 
         /**
@@ -340,7 +334,7 @@ namespace SDK.Lib
         {
             uint i = 0, j = 0, k = 0;
             uint index = 0;
-            uint len = (uint)_indices.length();         // 三角形索引的数量， len/3 就是面的数量，一个三角形有 3 个顶点
+            uint len = (uint)m_indices.length();         // 三角形索引的数量， len/3 就是面的数量，一个三角形有 3 个顶点
             float x1 = 0, x2 = 0, x3 = 0;
             float y1 = 0, y2 = 0, y3 = 0;
             float z1 = 0, z2 = 0, z3 = 0;
@@ -348,19 +342,19 @@ namespace SDK.Lib
             float dx2 = 0, dy2 = 0, dz2 = 0;
             float cx = 0, cy = 0, cz = 0;
             float d = 0;
-            MList<float> vertices = _vertexData;
+            MList<float> vertices = m_vertexData;
             int posStride = (int)getVertexStride();
             int posOffset = getVertexOffset();
 
-            if (_faceNormals == null)
+            if (m_faceNormals == null)
             {
-                _faceNormals = new MList<float>((int)len);
+                m_faceNormals = new MList<float>((int)len);
             }
-            if (_useFaceWeights)
+            if (m_useFaceWeights)
             {
-                if (_faceWeights == null)
+                if (m_faceWeights == null)
                 {
-                    _faceWeights = new MList<float>((int)len / 3);         // len / 3 面的数量
+                    m_faceWeights = new MList<float>((int)len / 3);         // len / 3 面的数量
                 }
             }
 
@@ -369,9 +363,9 @@ namespace SDK.Lib
             j = 0;
             while (i < len)
             {
-                _faceNormals.Add(0);
-                _faceNormals.Add(0);
-                _faceNormals.Add(0);
+                m_faceNormals.Add(0);
+                m_faceNormals.Add(0);
+                m_faceNormals.Add(0);
 
                 i += 3;
             }
@@ -381,15 +375,15 @@ namespace SDK.Lib
             // 每一次遍历就是一个面， 3 个顶点
             while (i < len)
             {
-                index = (uint)(posOffset + _indices[(int)i++] * posStride);
+                index = (uint)(posOffset + m_indices[(int)i++] * posStride);
                 x1 = vertices[(int)index];
                 y1 = vertices[(int)index + 1];
                 z1 = vertices[(int)index + 2];
-                index = (uint)(posOffset + _indices[(int)i++] * posStride);
+                index = (uint)(posOffset + m_indices[(int)i++] * posStride);
                 x2 = vertices[(int)index];
                 y2 = vertices[(int)index + 1];
                 z2 = vertices[(int)index + 2];
-                index = (uint)(posOffset + _indices[(int)i++] * posStride);
+                index = (uint)(posOffset + m_indices[(int)i++] * posStride);
                 x3 = vertices[(int)index];
                 y3 = vertices[(int)index + 1];
                 z3 = vertices[(int)index + 2];
@@ -404,22 +398,22 @@ namespace SDK.Lib
                 cz = dy1 * dx2 - dx1 * dy2;
                 d = (float)UtilApi.Sqrt(cx * cx + cy * cy + cz * cz);
                 // 叉乘的方向是垂直于两个向量的向量方向，叉乘值是两个向量组成的平行四边形的面积，就是两个三角形面积的大小
-                if (_useFaceWeights)
+                if (m_useFaceWeights)
                 {
                     float w = d * 10000;  // 放大权重数量级
                     if (w < 1)          // 如果太小
                     {
                         w = 1;          // 至少等于 1
                     }
-                    _faceWeights[(int)k++] = w;
+                    m_faceWeights[(int)k++] = w;
                 }
                 d = 1 / d;
-                _faceNormals[(int)j++] = cx * d;
-                _faceNormals[(int)j++] = cy * d;
-                _faceNormals[(int)j++] = cz * d;
+                m_faceNormals[(int)j++] = cx * d;
+                m_faceNormals[(int)j++] = cy * d;
+                m_faceNormals[(int)j++] = cz * d;
             }
 
-            _faceNormalsDirty = false;
+            m_faceNormalsDirty = false;
         }
 
         /**
@@ -427,14 +421,14 @@ namespace SDK.Lib
          */
         virtual protected MList<float> updateVertexNormals(MList<float> target)
         {
-            if (_faceNormalsDirty)
+            if (m_faceNormalsDirty)
             {
                 updateFaceNormals();
             }
 
             uint v1 = 0;
             uint f1 = 0, f2 = 1, f3 = 2;
-            uint lenV = (uint)_vertexData.length();
+            uint lenV = (uint)m_vertexData.length();
             int normalStride = (int)getVertexNormalStride();
             int normalOffset = getVertexNormalOffset();
 
@@ -456,26 +450,26 @@ namespace SDK.Lib
             }
 
             uint i = 0, k = 0;
-            uint lenI = (uint)_indices.length();
+            uint lenI = (uint)m_indices.length();
             uint index = 0;
             float weight = 0;
 
             // 计算未经单位化的顶点法向量
             while (i < lenI)
             {
-                weight = _useFaceWeights ? _faceWeights[(int)k++] : 1;
-                index = (uint)(normalOffset + _indices[(int)i++] * normalStride);
-                target[(int)index++] += _faceNormals[(int)f1] * weight;
-                target[(int)index++] += _faceNormals[(int)f2] * weight;
-                target[(int)index] += _faceNormals[(int)f3] * weight;
-                index = (uint)(normalOffset + _indices[(int)i++] * normalStride);
-                target[(int)index++] += _faceNormals[(int)f1] * weight;
-                target[(int)index++] += _faceNormals[(int)f2] * weight;
-                target[(int)index] += _faceNormals[(int)f3] * weight;
-                index = (uint)(normalOffset + _indices[(int)i++] * normalStride);
-                target[(int)index++] += _faceNormals[(int)f1] * weight;
-                target[(int)index++] += _faceNormals[(int)f2] * weight;
-                target[(int)index] += _faceNormals[(int)f3] * weight;
+                weight = m_useFaceWeights ? m_faceWeights[(int)k++] : 1;
+                index = (uint)(normalOffset + m_indices[(int)i++] * normalStride);
+                target[(int)index++] += m_faceNormals[(int)f1] * weight;
+                target[(int)index++] += m_faceNormals[(int)f2] * weight;
+                target[(int)index] += m_faceNormals[(int)f3] * weight;
+                index = (uint)(normalOffset + m_indices[(int)i++] * normalStride);
+                target[(int)index++] += m_faceNormals[(int)f1] * weight;
+                target[(int)index++] += m_faceNormals[(int)f2] * weight;
+                target[(int)index] += m_faceNormals[(int)f3] * weight;
+                index = (uint)(normalOffset + m_indices[(int)i++] * normalStride);
+                target[(int)index++] += m_faceNormals[(int)f1] * weight;
+                target[(int)index++] += m_faceNormals[(int)f2] * weight;
+                target[(int)index] += m_faceNormals[(int)f3] * weight;
                 f1 += 3;
                 f2 += 3;
                 f3 += 3;
@@ -495,7 +489,7 @@ namespace SDK.Lib
                 v1 += (uint)normalStride;
             }
 
-            _vertexNormalsDirty = false;
+            m_vertexNormalsDirty = false;
 
             return target;
         }
@@ -505,13 +499,13 @@ namespace SDK.Lib
          */
         virtual protected MList<float> updateVertexTangents(MList<float> target)
         {
-            if (_faceTangentsDirty)
+            if (m_faceTangentsDirty)
             {
                 updateFaceTangents();
             }
 
             uint i = 0;
-            uint lenV = (uint)_vertexData.length();
+            uint lenV = (uint)m_vertexData.length();
             int tangentStride = (int)getVertexTangentStride();
             int tangentOffset = (int)getVertexTangentOffset();
 
@@ -534,7 +528,7 @@ namespace SDK.Lib
             }
 
             uint k = 0;
-            uint lenI = (uint)_indices.length();
+            uint lenI = (uint)m_indices.length();
             uint index = 0;
             float weight = 0;
             uint f1 = 0, f2 = 1, f3 = 2;
@@ -543,19 +537,19 @@ namespace SDK.Lib
 
             while (i < lenI)
             {
-                weight = _useFaceWeights ? _faceWeights[(int)k++] : 1;
-                index = (uint)(tangentOffset + _indices[(int)i++] * tangentStride);
-                target[(int)index++] += _faceTangents[(int)f1] * weight;
-                target[(int)index++] += _faceTangents[(int)f2] * weight;
-                target[(int)index] += _faceTangents[(int)f3] * weight;
-                index = (uint)(tangentOffset + _indices[(int)i++] * tangentStride);
-                target[(int)index++] += _faceTangents[(int)f1] * weight;
-                target[(int)index++] += _faceTangents[(int)f2] * weight;
-                target[(int)index] += _faceTangents[(int)f3] * weight;
-                index = (uint)(tangentOffset + _indices[(int)i++] * tangentStride);
-                target[(int)index++] += _faceTangents[(int)f1] * weight;
-                target[(int)index++] += _faceTangents[(int)f2] * weight;
-                target[(int)index] += _faceTangents[(int)f3] * weight;
+                weight = m_useFaceWeights ? m_faceWeights[(int)k++] : 1;
+                index = (uint)(tangentOffset + m_indices[(int)i++] * tangentStride);
+                target[(int)index++] += m_faceTangents[(int)f1] * weight;
+                target[(int)index++] += m_faceTangents[(int)f2] * weight;
+                target[(int)index] += m_faceTangents[(int)f3] * weight;
+                index = (uint)(tangentOffset + m_indices[(int)i++] * tangentStride);
+                target[(int)index++] += m_faceTangents[(int)f1] * weight;
+                target[(int)index++] += m_faceTangents[(int)f2] * weight;
+                target[(int)index] += m_faceTangents[(int)f3] * weight;
+                index = (uint)(tangentOffset + m_indices[(int)i++] * tangentStride);
+                target[(int)index++] += m_faceTangents[(int)f1] * weight;
+                target[(int)index++] += m_faceTangents[(int)f2] * weight;
+                target[(int)index] += m_faceTangents[(int)f3] * weight;
                 f1 += 3;
                 f2 += 3;
                 f3 += 3;
@@ -574,19 +568,19 @@ namespace SDK.Lib
                 i += (uint)tangentStride;
             }
 
-            _vertexTangentsDirty = false;
+            m_vertexTangentsDirty = false;
 
             return target;
         }
 
         virtual protected MList<float> updateDummyUVs(MList<float> target)
         {
-            _uvsDirty = false;
+            m_uvsDirty = false;
 
             uint idx = 0, uvIdx = 0;
             int stride = (int)getUVStride();
             int skip = stride - 2;
-            uint len = (uint)(_vertexData.length() / getVertexStride() * stride);
+            uint len = (uint)(m_vertexData.length() / getVertexStride() * stride);
 
             if (target == null)
             {
@@ -614,25 +608,25 @@ namespace SDK.Lib
 
         public void updateIndexData(MList<int> indices)
         {
-            _indices = indices;
-            _numIndices = (uint)(indices.length());
+            m_indices = indices;
+            m_numIndices = (uint)(indices.length());
 
-            int numTriangles = (int)(_numIndices / 3);
-            if (_numTriangles != numTriangles)
+            int numTriangles = (int)(m_numIndices / 3);
+            if (m_numTriangles != numTriangles)
             {
                 disposeIndexBuffers();
             }
-            _numTriangles = (uint)numTriangles;
-            invalidateBuffers(_indicesInvalid);
-            _faceNormalsDirty = true;
+            m_numTriangles = (uint)numTriangles;
+            invalidateBuffers(m_indicesInvalid);
+            m_faceNormalsDirty = true;
 
-            if (_autoDeriveVertexNormals)
+            if (m_autoDeriveVertexNormals)
             {
-                _vertexNormalsDirty = true;
+                m_vertexNormalsDirty = true;
             }
-            if (_autoDeriveVertexTangents)
+            if (m_autoDeriveVertexTangents)
             {
-                _vertexTangentsDirty = true;
+                m_vertexTangentsDirty = true;
             }
         }
 

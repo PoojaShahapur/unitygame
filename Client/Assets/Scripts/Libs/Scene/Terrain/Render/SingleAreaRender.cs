@@ -9,19 +9,19 @@ namespace SDK.Lib
     {
         protected AreaBase m_area;
 
-        protected Material mMaterial;         // 使用的共享材质
-        protected Texture mTexture;           // 使用的纹理
-        protected Shader mShader;             // 动态材质使用的纹理
+        protected Material m_material;         // 使用的共享材质
+        protected Texture m_texture;           // 使用的纹理
+        protected Shader m_shader;             // 动态材质使用的纹理
 
-        protected Transform mTrans;           // 渲染位置信息
-        protected Mesh mMesh;                 // mesh 信息
-        protected MeshFilter mFilter;         // 绘制使用的 MeshFilter
-        protected MeshRenderer mRenderer;     // mesh 渲染使用的 Render
-        protected Material mDynamicMat;       // 实例化的动态材质，显示使用的材质
+        protected Transform m_trans;           // 渲染位置信息
+        protected Mesh m_mesh;                 // mesh 信息
+        protected MeshFilter m_filter;         // 绘制使用的 MeshFilter
+        protected MeshRenderer m_renderer;     // mesh 渲染使用的 Render
+        protected Material m_dynamicMat;       // 实例化的动态材质，显示使用的材质
 
-        protected bool mRebuildMat = true;    // 是否重新生成材质
-        protected int mRenderQueue = 3000;    // 渲染队列
-        protected int mTriangles = 0;         // 渲染的三角形的数量
+        protected bool m_rebuildMat = true;    // 是否重新生成材质
+        protected int m_renderQueue = 3000;    // 渲染队列
+        protected int m_triangles = 0;         // 渲染的三角形的数量
 
         protected string m_shaderName;          // shader 的名字
         protected string m_matPreStr;           // 材质前缀字符
@@ -31,8 +31,8 @@ namespace SDK.Lib
         protected MatRes m_matRes;                      // 材质资源
         protected TextureRes m_texRes;                  // 纹理资源
 
-        public SingleAreaRender(MatRes matRes_ = null)
-            : base(matRes_)
+        public SingleAreaRender(MSubGeometryBase subGeometry_ = null)
+            : base(subGeometry_)
         {
             m_shaderName = "Mobile/Diffuse";
             m_texName = "Terrain/terrain_diffuse.jpg";
@@ -44,21 +44,21 @@ namespace SDK.Lib
         {
             get
             {
-                return mRenderQueue;
+                return m_renderQueue;
             }
             set
             {
-                if (mRenderQueue != value)
+                if (m_renderQueue != value)
                 {
-                    mRenderQueue = value;
+                    m_renderQueue = value;
 
-                    if (mDynamicMat != null)
+                    if (m_dynamicMat != null)
                     {
-                        mDynamicMat.renderQueue = value;
+                        m_dynamicMat.renderQueue = value;
 #if UNITY_EDITOR
-                        if (mRenderer != null)
+                        if (m_renderer != null)
                         {
-                            mRenderer.enabled = isActive;
+                            m_renderer.enabled = isActive;
                         }
 #endif
                     }
@@ -70,13 +70,13 @@ namespace SDK.Lib
         {
             get
             {
-                return (mRenderer != null) ? mRenderer.sortingOrder : 0;
+                return (m_renderer != null) ? m_renderer.sortingOrder : 0;
             }
             set
             {
-                if (mRenderer != null && mRenderer.sortingOrder != value)
+                if (m_renderer != null && m_renderer.sortingOrder != value)
                 {
-                    mRenderer.sortingOrder = value;
+                    m_renderer.sortingOrder = value;
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace SDK.Lib
         {
             get
             {
-                return (mDynamicMat != null) ? mDynamicMat.renderQueue : mRenderQueue;
+                return (m_dynamicMat != null) ? m_dynamicMat.renderQueue : m_renderQueue;
             }
         }
 
@@ -94,34 +94,34 @@ namespace SDK.Lib
         {
             get
             {
-                return mActive;
+                return m_active;
             }
             set
             {
-                if (mActive != value)
+                if (m_active != value)
                 {
-                    mActive = value;
+                    m_active = value;
 
-                    if (mRenderer != null)
+                    if (m_renderer != null)
                     {
-                        mRenderer.enabled = value;
+                        m_renderer.enabled = value;
                         UtilApi.SetDirty(m_selfGo);
                     }
                 }
             }
         }
-        bool mActive = true;
+        bool m_active = true;
 #endif
 
         public Transform cachedTransform
         {
             get
             {
-                if (mTrans == null)
+                if (m_trans == null)
                 {
-                    mTrans = m_selfGo.transform;
+                    m_trans = m_selfGo.transform;
                 }
-                return mTrans;
+                return m_trans;
             }
         }
 
@@ -129,14 +129,14 @@ namespace SDK.Lib
         {
             get
             {
-                return mMaterial;
+                return m_material;
             }
             set
             {
-                if (mMaterial != value)
+                if (m_material != value)
                 {
-                    mMaterial = value;
-                    mRebuildMat = true;
+                    m_material = value;
+                    m_rebuildMat = true;
                 }
             }
         }
@@ -145,7 +145,7 @@ namespace SDK.Lib
         {
             get
             {
-                return mDynamicMat;
+                return m_dynamicMat;
             }
         }
 
@@ -153,14 +153,14 @@ namespace SDK.Lib
         {
             get
             {
-                return mTexture;
+                return m_texture;
             }
             set
             {
-                mTexture = value;
-                if (mDynamicMat != null)
+                m_texture = value;
+                if (m_dynamicMat != null)
                 {
-                    mDynamicMat.mainTexture = value;
+                    m_dynamicMat.mainTexture = value;
                 }
             }
         }
@@ -169,14 +169,14 @@ namespace SDK.Lib
         {
             get
             {
-                return mShader;
+                return m_shader;
             }
             set
             {
-                if (mShader != value)
+                if (m_shader != value)
                 {
-                    mShader = value;
-                    mRebuildMat = true;
+                    m_shader = value;
+                    m_rebuildMat = true;
                 }
             }
         }
@@ -185,13 +185,13 @@ namespace SDK.Lib
         {
             get
             {
-                return (mMesh != null) ? mTriangles : 0;
+                return (m_mesh != null) ? m_triangles : 0;
             }
         }
 
         void CreateMaterial()
         {
-            string shaderName = (mShader != null) ? mShader.name : ((mMaterial != null) ? mMaterial.shader.name : m_shaderName);
+            string shaderName = (m_shader != null) ? m_shader.name : ((m_material != null) ? m_material.shader.name : m_shaderName);
             
             shader = Shader.Find(shaderName);
 
@@ -202,70 +202,70 @@ namespace SDK.Lib
             }
 
             // 直接拷贝共享材质
-            if (mMaterial != null)
+            if (m_material != null)
             {
-                mDynamicMat = new Material(mMaterial);
-                mDynamicMat.name = m_matPreStr + mMaterial.name;
-                mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
-                mDynamicMat.CopyPropertiesFromMaterial(mMaterial);
+                m_dynamicMat = new Material(m_material);
+                m_dynamicMat.name = m_matPreStr + m_material.name;
+                m_dynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
+                m_dynamicMat.CopyPropertiesFromMaterial(m_material);
 
-                string[] keywords = mMaterial.shaderKeywords;
+                string[] keywords = m_material.shaderKeywords;
                 for (int i = 0; i < keywords.Length; ++i)
                 {
-                    mDynamicMat.EnableKeyword(keywords[i]);
+                    m_dynamicMat.EnableKeyword(keywords[i]);
                 }
 
                 // 如果 Shader 有效，赋值给动态材质
                 if (shader != null)
                 {
-                    mDynamicMat.shader = shader;
+                    m_dynamicMat.shader = shader;
                 }
             }
             else
             {
-                mDynamicMat = new Material(shader);
-                mDynamicMat.name = m_matPreStr + shader.name;
-                mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
+                m_dynamicMat = new Material(shader);
+                m_dynamicMat.name = m_matPreStr + shader.name;
+                m_dynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
             }
         }
 
         Material RebuildMaterial()
         {
             // 释放老的材质
-            UtilApi.DestroyImmediate(mDynamicMat);
+            UtilApi.DestroyImmediate(m_dynamicMat);
 
             // 创建新的材质
             CreateMaterial();
-            mDynamicMat.renderQueue = mRenderQueue;
+            m_dynamicMat.renderQueue = m_renderQueue;
 
             // 赋值主要的纹理
-            if (mTexture != null)
+            if (m_texture != null)
             {
-                mDynamicMat.mainTexture = mTexture;
+                m_dynamicMat.mainTexture = m_texture;
             }
 
             // 更新渲染
-            if (mRenderer != null)
+            if (m_renderer != null)
             {
-                mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+                m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
             }
-            return mDynamicMat;
+            return m_dynamicMat;
         }
 
         void UpdateMaterials()
         {
             // 如果裁剪应该被使用，需要查找一个替换的 shader 
-            if (mRebuildMat || mDynamicMat == null)
+            if (m_rebuildMat || m_dynamicMat == null)
             {
                 RebuildMaterial();
-                mRebuildMat = false;
+                m_rebuildMat = false;
             }
-            else if (mRenderer.sharedMaterial != mDynamicMat)
+            else if (m_renderer.sharedMaterial != m_dynamicMat)
             {
 #if UNITY_EDITOR
                 Debug.LogError("Hmm... This point got hit!");
 #endif
-                mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+                m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
             }
         }
 
@@ -273,70 +273,70 @@ namespace SDK.Lib
         {
             int vertexCount = m_subGeometry.getVertexDataCount();
             // 缓存所有的组件
-            if (mFilter == null)
+            if (m_filter == null)
             {
-                mFilter = m_selfGo.GetComponent<MeshFilter>();
+                m_filter = m_selfGo.GetComponent<MeshFilter>();
             }
-            if (mFilter == null)
+            if (m_filter == null)
             {
-                mFilter = m_selfGo.AddComponent<MeshFilter>();
+                m_filter = m_selfGo.AddComponent<MeshFilter>();
             }
 
             if (vertexCount < 200000)
             {
                 bool trim = true;           // 是否顶点数据改变过
                 // 创建 mesh
-                if (mMesh == null)
+                if (m_mesh == null)
                 {
-                    mMesh = new Mesh();
-                    mMesh.hideFlags = HideFlags.DontSave;
-                    mMesh.name = (mMaterial != null) ? m_matPreStr + mMaterial.name : m_meshName;
-                    mMesh.MarkDynamic();
+                    m_mesh = new Mesh();
+                    m_mesh.hideFlags = HideFlags.DontSave;
+                    m_mesh.name = (m_material != null) ? m_matPreStr + m_material.name : m_meshName;
+                    m_mesh.MarkDynamic();
                 }
 
-                mTriangles = m_subGeometry.getTriangleCount();
+                m_triangles = m_subGeometry.getTriangleCount();
 
-                if (mMesh.vertexCount != vertexCount)
+                if (m_mesh.vertexCount != vertexCount)
                 {
-                    mMesh.Clear();
+                    m_mesh.Clear();
                 }
 
-                mMesh.vertices = m_subGeometry.getVertexDataArray();
-                mMesh.uv = m_subGeometry.getUVDataArray();
-                mMesh.colors32 = m_subGeometry.getVectexColorArray();
+                m_mesh.vertices = m_subGeometry.getVertexDataArray();
+                m_mesh.uv = m_subGeometry.getUVDataArray();
+                m_mesh.colors32 = m_subGeometry.getVectexColorArray();
 
-                mMesh.normals = m_subGeometry.getVertexNormalArray();
-                mMesh.tangents = m_subGeometry.getVertexTangentArray();
-                
-                mMesh.triangles = m_subGeometry.getIndexData().ToArray();
+                m_mesh.normals = m_subGeometry.getVertexNormalArray();
+                m_mesh.tangents = m_subGeometry.getVertexTangentArray();
+
+                m_mesh.triangles = m_subGeometry.getIndexData().ToArray();
 
                 if (trim)
                 {
-                    mMesh.RecalculateBounds();
+                    m_mesh.RecalculateBounds();
                 }
 
-                mFilter.mesh = mMesh;
+                m_filter.mesh = m_mesh;
             }
             else
             {
-                mTriangles = 0;
-                if (mFilter.mesh != null)
+                m_triangles = 0;
+                if (m_filter.mesh != null)
                 {
-                    mFilter.mesh.Clear();
+                    m_filter.mesh.Clear();
                 }
                 Debug.LogError("Too many vertices on one panel: " + vertexCount);
             }
 
-            if (mRenderer == null)
+            if (m_renderer == null)
             {
-                mRenderer = m_selfGo.GetComponent<MeshRenderer>();
+                m_renderer = m_selfGo.GetComponent<MeshRenderer>();
             }
 
-            if (mRenderer == null)
+            if (m_renderer == null)
             {
-                mRenderer = m_selfGo.AddComponent<MeshRenderer>();
+                m_renderer = m_selfGo.AddComponent<MeshRenderer>();
 #if UNITY_EDITOR
-                mRenderer.enabled = isActive;
+                m_renderer.enabled = isActive;
 #endif
             }
 
@@ -354,25 +354,27 @@ namespace SDK.Lib
 
         void OnEnable()
         {
-            mRebuildMat = true;
+            m_rebuildMat = true;
         }
 
         void OnDisable()
         {
-            mMaterial = null;
-            mTexture = null;
+            m_material = null;
+            m_texture = null;
 
-            if (mRenderer != null)
-                mRenderer.sharedMaterials = new Material[] { };
+            if (m_renderer != null)
+            {
+                m_renderer.sharedMaterials = new Material[] { };
+            }
 
-            NGUITools.DestroyImmediate(mDynamicMat);
-            mDynamicMat = null;
+            NGUITools.DestroyImmediate(m_dynamicMat);
+            m_dynamicMat = null;
         }
 
         void OnDestroy()
         {
-            UtilApi.DestroyImmediate(mMesh);
-            mMesh = null;
+            UtilApi.DestroyImmediate(m_mesh);
+            m_mesh = null;
         }
 
         override public void render()

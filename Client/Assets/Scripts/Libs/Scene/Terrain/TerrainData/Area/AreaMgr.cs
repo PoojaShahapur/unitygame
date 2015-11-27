@@ -5,12 +5,12 @@
      */
     public class AreaMgr
     {
-        protected GeometryData m_geometryData;
+        protected TerrainPageCfg m_terrainPageCfg;
         protected MList<Area> m_areaList;       // 所有的区域列表
 
         public AreaMgr()
         {
-            m_geometryData = new GeometryData();
+            m_terrainPageCfg = new TerrainPageCfg();
 
             // TODO: 测试一个区域数据
             m_areaList = new MList<Area>();

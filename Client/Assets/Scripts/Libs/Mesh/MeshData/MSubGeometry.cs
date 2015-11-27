@@ -7,34 +7,34 @@ namespace SDK.Lib
      */
     public class MSubGeometry : MSubGeometryBase
     {
-        protected MList<float> _uvs;
-		protected MList<float> _secondaryUvs;
-		protected MList<float> _vertexNormals;
-		protected MList<float> _vertexTangents;
+        protected MList<float> m_uvs;
+		protected MList<float> m_secondaryUvs;
+		protected MList<float> m_vertexNormals;
+		protected MList<float> m_vertexTangents;
 		
-		protected MList<bool> _verticesInvalid;
-		protected MList<bool> _uvsInvalid;
-		protected MList<bool> _secondaryUvsInvalid;
-		protected MList<bool> _normalsInvalid;
-		protected MList<bool> _tangentsInvalid;
+		protected MList<bool> m_verticesInvalid;
+		protected MList<bool> m_uvsInvalid;
+		protected MList<bool> m_secondaryUvsInvalid;
+		protected MList<bool> m_normalsInvalid;
+		protected MList<bool> m_tangentsInvalid;
 		
-		protected uint _numVertices;
+		protected uint m_numVertices;
 
         public MSubGeometry()
         {
-            _verticesInvalid = new MList<bool>();
-            _uvsInvalid = new MList<bool>();
-            _secondaryUvsInvalid = new MList<bool>();
-            _normalsInvalid = new MList<bool>();
-            _tangentsInvalid = new MList<bool>();
+            m_verticesInvalid = new MList<bool>();
+            m_uvsInvalid = new MList<bool>();
+            m_secondaryUvsInvalid = new MList<bool>();
+            m_normalsInvalid = new MList<bool>();
+            m_tangentsInvalid = new MList<bool>();
 
             for (int i = 0; i < 8; ++i)
             {
-                _verticesInvalid.Add(true);
-                _uvsInvalid.Add(true);
-                _secondaryUvsInvalid.Add(true);
-                _normalsInvalid.Add(true);
-                _tangentsInvalid.Add(true);
+                m_verticesInvalid.Add(true);
+                m_uvsInvalid.Add(true);
+                m_secondaryUvsInvalid.Add(true);
+                m_normalsInvalid.Add(true);
+                m_tangentsInvalid.Add(true);
             }
         }
 
@@ -43,7 +43,7 @@ namespace SDK.Lib
 		 */
         public uint getNumVertices()
 		{
-			return _numVertices;
+			return m_numVertices;
 		}
 
         /**
@@ -56,26 +56,26 @@ namespace SDK.Lib
 
         public void updateVertexData(MList<float> vertices)
 		{
-            if (_autoDeriveVertexNormals)
+            if (m_autoDeriveVertexNormals)
             {
-                _vertexNormalsDirty = true;
+                m_vertexNormalsDirty = true;
             }
-            if (_autoDeriveVertexTangents)
+            if (m_autoDeriveVertexTangents)
             {
-                _vertexTangentsDirty = true;
+                m_vertexTangentsDirty = true;
             }
 			
-			_faceNormalsDirty = true;
+			m_faceNormalsDirty = true;
 			
-			_vertexData = vertices;
+			m_vertexData = vertices;
             int numVertices = vertices.length() / 3;
-            if (numVertices != _numVertices)
+            if (numVertices != m_numVertices)
             {
                 disposeAllVertexBuffers();
             }
-            _numVertices = (uint)numVertices;
+            m_numVertices = (uint)numVertices;
 
-            invalidateBuffers(_verticesInvalid);
+            invalidateBuffers(m_verticesInvalid);
 
             invalidateBounds();
         }
@@ -98,11 +98,11 @@ namespace SDK.Lib
          */
         public MList<float> getVertexNormalData()
 		{
-            if (_autoDeriveVertexNormals && _vertexNormalsDirty)
+            if (m_autoDeriveVertexNormals && m_vertexNormalsDirty)
             {
-                _vertexNormals = updateVertexNormals(_vertexNormals);
+                m_vertexNormals = updateVertexNormals(m_vertexNormals);
             }
-			return _vertexNormals;
+			return m_vertexNormals;
 		}
 
         /**
@@ -110,7 +110,7 @@ namespace SDK.Lib
          */
         override protected MList<float> updateVertexNormals(MList<float> target)
 		{
-            invalidateBuffers(_normalsInvalid);
+            invalidateBuffers(m_normalsInvalid);
 			return base.updateVertexNormals(target);
 		}
 
@@ -129,7 +129,7 @@ namespace SDK.Lib
          */
         override public MList<float> getVertexNormalsData()
         {
-            return _vertexNormals;
+            return m_vertexNormals;
         }
 
         /**
@@ -138,11 +138,11 @@ namespace SDK.Lib
         override public Vector3[] getVertexNormalArray()
         {
             getVertexNormalData();          // 确保法线是可以获取的
-            Vector3[] normalArray = new Vector3[_vertexNormals.length() / 3];
+            Vector3[] normalArray = new Vector3[m_vertexNormals.length() / 3];
             int normalArrIdx = 0;
-            for(int idx = 0; idx < _vertexNormals.length(); idx += 3, ++normalArrIdx)
+            for(int idx = 0; idx < m_vertexNormals.length(); idx += 3, ++normalArrIdx)
             {
-                normalArray[normalArrIdx] = new Vector3(_vertexNormals[idx], _vertexNormals[idx + 1], _vertexNormals[idx + 2]);
+                normalArray[normalArrIdx] = new Vector3(m_vertexNormals[idx], m_vertexNormals[idx + 1], m_vertexNormals[idx + 2]);
             }
 
             return normalArray;
@@ -160,11 +160,11 @@ namespace SDK.Lib
 
         override public MList<float> getUVData()
 		{
-            if (_uvsDirty && _autoGenerateUVs)
+            if (m_uvsDirty && m_autoGenerateUVs)
             {
-                _uvs = updateDummyUVs(_uvs);
+                m_uvs = updateDummyUVs(m_uvs);
             }
-			return _uvs;
+			return m_uvs;
 		}
 
         /**
@@ -172,11 +172,11 @@ namespace SDK.Lib
          */
         override public Vector2[] getUVDataArray()
         {
-            Vector2[] uvArray = new Vector2[_uvs.length() / 2];
+            Vector2[] uvArray = new Vector2[m_uvs.length() / 2];
             int uvArrIdx = 0;
-            for (int idx = 0; idx < _uvs.length(); idx += 2, ++uvArrIdx)
+            for (int idx = 0; idx < m_uvs.length(); idx += 2, ++uvArrIdx)
             {
-                uvArray[uvArrIdx] = new Vector2(_uvs[idx], _uvs[idx + 1]);
+                uvArray[uvArrIdx] = new Vector2(m_uvs[idx], m_uvs[idx + 1]);
             }
 
             return uvArray;
@@ -194,7 +194,7 @@ namespace SDK.Lib
 
         override protected MList<float> updateDummyUVs(MList<float> target)
 		{
-            invalidateBuffers(_uvsInvalid);
+            invalidateBuffers(m_uvsInvalid);
 			return base.updateDummyUVs(target);
 		}
 
@@ -203,7 +203,7 @@ namespace SDK.Lib
          */
         override protected MList<float> updateVertexTangents(MList<float> target)
         {
-            invalidateBuffers(_tangentsInvalid);
+            invalidateBuffers(m_tangentsInvalid);
             return base.updateVertexTangents(target);
         }
 
@@ -212,11 +212,11 @@ namespace SDK.Lib
          */
         override public MList<float> getVertexTangentsData()
         {
-            if (_autoDeriveVertexTangents && _vertexTangentsDirty)
+            if (m_autoDeriveVertexTangents && m_vertexTangentsDirty)
             {
-                _vertexTangents = updateVertexTangents(_vertexTangents);
+                m_vertexTangents = updateVertexTangents(m_vertexTangents);
             }
-            return _vertexTangents;
+            return m_vertexTangents;
         }
 
         /**
@@ -225,11 +225,11 @@ namespace SDK.Lib
         override public Vector4[] getVertexTangentArray()
         {
             getVertexTangentsData();
-            Vector4[] tangentArray = new Vector4[_vertexTangents.length() / 3];
+            Vector4[] tangentArray = new Vector4[m_vertexTangents.length() / 3];
             int tangentArrIdx = 0;
-            for (int idx = 0; idx < _vertexNormals.length(); idx += 3, ++tangentArrIdx)
+            for (int idx = 0; idx < m_vertexNormals.length(); idx += 3, ++tangentArrIdx)
             {
-                tangentArray[tangentArrIdx] = new Vector4(_vertexTangents[idx], _vertexTangents[idx + 1], _vertexTangents[idx + 2], 0);
+                tangentArray[tangentArrIdx] = new Vector4(m_vertexTangents[idx], m_vertexTangents[idx + 1], m_vertexTangents[idx + 2], 0);
             }
 
             return tangentArray;
@@ -247,13 +247,13 @@ namespace SDK.Lib
 
         public void updateUVData(MList<float> uvs)
 		{
-            if (_autoDeriveVertexTangents)
+            if (m_autoDeriveVertexTangents)
             {
-                _vertexTangentsDirty = true;
+                m_vertexTangentsDirty = true;
             }
-			_faceTangentsDirty = true;
-			_uvs = uvs;
-            invalidateBuffers(_uvsInvalid);
+			m_faceTangentsDirty = true;
+			m_uvs = uvs;
+            invalidateBuffers(m_uvsInvalid);
         }
     }
 }

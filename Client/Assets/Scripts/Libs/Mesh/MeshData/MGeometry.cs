@@ -5,16 +5,16 @@
      */
     public class MGeometry
     {
-        protected MList<MSubGeometryBase> _subGeometries;
+        protected MList<MSubGeometryBase> m_subGeometries;
 
         public MGeometry()
         {
-            _subGeometries = new MList<MSubGeometryBase>();
+            m_subGeometries = new MList<MSubGeometryBase>();
         }
 
         public void addSubGeometry(MSubGeometryBase subGeometry)
         {
-            _subGeometries.push(subGeometry);
+            m_subGeometries.push(subGeometry);
             subGeometry.setParentGeometry(this);
         }
 
