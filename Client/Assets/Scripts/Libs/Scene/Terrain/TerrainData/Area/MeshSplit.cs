@@ -5,6 +5,146 @@
      */
     public class MeshSplit
     {
+        private void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices)
+        {
+            int segmentsW = terrainPageCfg.getXGridCountPerArea();
+            int segmentsH = terrainPageCfg.getZGridCountPerArea();
+
+            int totalSegmentsW = terrainPageCfg.getXTotalGrid();
+            int totalSegmentsH = terrainPageCfg.getZTotalGrid();
+
+            int xBaseSegment = 0;
+            int zBaseSegment = 0;
+            terrainPageCfg.calcAreaBaseSegment(ref xBaseSegment, ref zBaseSegment, idx, idz);
+
+            int width = terrainPageCfg.getWorldWidth();
+            int depth = terrainPageCfg.getWorldDepth();
+
+            int minElevation = terrainPageCfg.getMinElevation();
+            int maxElevation = terrainPageCfg.getMaxElevation();
+            int height = terrainPageCfg.getWorldHeight();
+
+            float x = 0, z = 0;
+            int tw = totalSegmentsW + 1;
+            int numVerts = (totalSegmentsH + 1) * tw;
+            float uDiv = (float)(heightMap.getWidth() - 1) / totalSegmentsW;
+            float vDiv = (float)(heightMap.getHeight() - 1) / totalSegmentsH;
+            float u = 0, v = 0;
+            float y = 0;
+
+            if (vertices == null)
+            {
+                vertices = new MList<float>(numVerts * 3); // 顶点的数量
+            }
+            else
+            {
+                vertices.Clear();
+            }
+
+            numVerts = 0;
+            // 初始化
+            for (int zi = 0; zi <= segmentsH; ++zi)
+            {
+                for (int xi = 0; xi <= segmentsW; ++xi)
+                {
+                    vertices.Add(0);
+                    vertices.Add(0);
+                    vertices.Add(0);
+                }
+            }
+
+            numVerts = 0;
+            uint col = 0;
+
+            for (int zi = 0; zi <= segmentsH; ++zi)
+            {
+                for (int xi = 0; xi <= segmentsW; ++xi)
+                {
+                    // (float) 一定要先转换成 (float) ，否则 xi / segmentsW 整数除总是 0 ，导致结果总是在一个顶点
+                    x = (int)((((float)xi + xBaseSegment) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
+                    z = (int)((((float)zi + zBaseSegment) / totalSegmentsH - 0.5f) * depth);
+                    u = (xi + xBaseSegment) * uDiv;
+                    v = (totalSegmentsH - (zi + zBaseSegment)) * vDiv;
+
+                    col = (uint)(heightMap.getPixel((int)u, (int)v)) & 0xff;
+                    y = (col > maxElevation) ? ((float)maxElevation / 0xff) * height : ((col < minElevation) ? ((float)minElevation / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
+
+                    vertices[numVerts++] = x;
+                    vertices[numVerts++] = y;
+                    vertices[numVerts++] = z;
+                }
+            }
+        }
+
+        private void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<int> indices)
+        {
+            int segmentsW = terrainPageCfg.getXGridCountPerArea();
+            int segmentsH = terrainPageCfg.getZGridCountPerArea();
+
+            int totalSegmentsW = terrainPageCfg.getXTotalGrid();
+            int totalSegmentsH = terrainPageCfg.getZTotalGrid();
+
+            int xBaseSegment = 0;
+            int zBaseSegment = 0;
+            terrainPageCfg.calcAreaBaseSegment(ref xBaseSegment, ref zBaseSegment, idx, idz);
+
+            int width = terrainPageCfg.getWorldWidth();
+            int depth = terrainPageCfg.getWorldDepth();
+
+            int minElevation = terrainPageCfg.getMinElevation();
+            int maxElevation = terrainPageCfg.getMaxElevation();
+            int height = terrainPageCfg.getWorldHeight();
+
+            float x = 0, z = 0;
+            uint numInds = 0;
+            int baseIdx = 0;
+            int tw = totalSegmentsW + 1;
+            int numVerts = (totalSegmentsH + 1) * tw;
+            float uDiv = (float)(heightMap.getWidth() - 1) / totalSegmentsW;
+            float vDiv = (float)(heightMap.getHeight() - 1) / totalSegmentsH;
+            float u = 0, v = 0;
+            float y = 0;
+
+            indices = new MList<int>(segmentsH * segmentsW * 6);  // 索引的数量
+
+            numVerts = 0;
+            // 初始化
+            for (int zi = 0; zi <= segmentsH; ++zi)
+            {
+                for (int xi = 0; xi <= segmentsW; ++xi)
+                {
+                    if (xi != segmentsW && zi != segmentsH)
+                    {
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                        indices.Add(0);
+                    }
+                }
+            }
+
+            numVerts = 0;
+
+            for (int zi = 0; zi <= segmentsH; ++zi)
+            {
+                for (int xi = 0; xi <= segmentsW; ++xi)
+                {
+                    if (xi != segmentsW && zi != segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
+                    {
+                        baseIdx = xi + zi * tw;
+                        indices[(int)numInds++] = baseIdx;
+                        indices[(int)numInds++] = baseIdx + tw;
+                        indices[(int)numInds++] = baseIdx + tw + 1;
+                        indices[(int)numInds++] = baseIdx;
+                        indices[(int)numInds++] = baseIdx + tw + 1;
+                        indices[(int)numInds++] = baseIdx + 1;
+                    }
+                }
+            }
+        }
+
         /**
          * @brief 生成顶点的 UV
          * @param idx 在 area 中偏移的 X 方向的位置
@@ -19,9 +159,9 @@
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
-            int xBaseVertex = 0;
-            int zBaseVertex = 0;
-            terrainPageCfg.calcAreaBaseVertex(ref xBaseVertex, ref zBaseVertex, idx, idz);
+            int xBaseSegment = 0;
+            int zBaseSegment = 0;
+            terrainPageCfg.calcAreaBaseSegment(ref xBaseSegment, ref zBaseSegment, idx, idz);
 
             int numUvs = (segmentsH + 1) * (segmentsW + 1) * 2;
             if (uvs == null)
@@ -50,8 +190,8 @@
             {
                 for (uint xi = 0; xi <= segmentsW; ++xi)
                 {
-                    uvs[numUvs++] = (float)xi / segmentsW;
-                    uvs[numUvs++] = 1 - (float)yi / segmentsH;
+                    uvs[numUvs++] = ((float)xi + xBaseSegment)/ totalSegmentsW;
+                    uvs[numUvs++] = 1 - ((float)yi + zBaseSegment) / totalSegmentsH;
                 }
             }
 

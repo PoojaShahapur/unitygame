@@ -305,7 +305,6 @@
 
                     if (xi != m_segmentsW && zi != m_segmentsH)
                     {
-                        baseIdx = xi + zi * tw;
                         indices.Add(0);
                         indices.Add(0);
                         indices.Add(0);
@@ -323,7 +322,7 @@
             {
 				for (int xi = 0; xi <= m_segmentsW; ++xi)
                 {
-                    // (float) 一定要先转换成 (float) ，否则 xi / _segmentsW 整数除总是 0 ，导致结果总是在一个顶点
+                    // (float) 一定要先转换成 (float) ，否则 xi / m_segmentsW 整数除总是 0 ，导致结果总是在一个顶点
                     x = (int)(((float)xi / m_segmentsW - 0.5f) * m_width);            // -0.5 保证原点放在地形的中心点
                     z = (int)(((float)zi / m_segmentsH - 0.5f) * m_depth);
                     u = xi * uDiv;
@@ -390,8 +389,8 @@
 				for (uint xi = 0; xi <= m_segmentsW; ++xi) 
                 {
 					uvs[numUvs++] = (float)xi / m_segmentsW;
-					uvs[numUvs++] = 1 - (float)yi / m_segmentsH;
-				}
+					uvs[numUvs++] = 1 - (float)yi / m_segmentsH;    // UV 坐标的 Y 轴是向下的，而顶点的 Z 轴是向上的，因此需要使用 1 - (float)yi / m_segmentsH 获取正确的值
+                }
 			}
 			
 			m_subGeometry.updateUVData(uvs);

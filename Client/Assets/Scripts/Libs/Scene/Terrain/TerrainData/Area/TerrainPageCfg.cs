@@ -19,6 +19,10 @@
         protected int m_xTotalGrid;             // X 轴总共格子数
         protected int m_zTotalGrid;             // Z 轴总共格子数
 
+        protected int m_minElevation;                   // 高度图最小高度
+        protected int m_maxElevation;                   // 高度图最大高度
+        protected int m_height;    // 世界空间高度图高度， Z 轴高度
+
         /**
          * @brief 地形配置，尽量 pixelWidth 和 pixelHeight 尽量相等
          * @param pixelWidth 像素宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
@@ -27,6 +31,10 @@
         {
             m_xAreaCount = pixelWidth / m_xGridCountPerArea;
             m_zAreaCount = pixelHeight / m_zGridCountPerArea;
+
+            m_minElevation = 0;
+            m_maxElevation = 0xFF;      // byte 最大值 0xFF
+            m_height = 100;
         }
 
         /**
@@ -167,9 +175,55 @@
         }
 
         /**
+         * @brief 返回世界空间中的宽度，这个宽度实际上就是格子的数量，我们规定世界空间的大小尽量是整形，不要是浮点数，这样计算方便
+         */
+        public int getWorldWidth()
+        {
+            return m_xTotalGrid;
+        }
+
+        /**
+         * @brief 返回世界空间中的深度
+         */
+        public int getWorldDepth()
+        {
+            return m_zTotalGrid;
+        }
+
+        public int getWorldHeight()
+        {
+            return m_height;
+        }
+
+        public void setWorldHeight(int value)
+        {
+            m_height = value;
+        }
+
+        public int getMinElevation()
+        {
+            return m_minElevation;
+        }
+
+        public void setMinElevation(int value)
+        {
+            m_minElevation = value;
+        }
+
+        public int getMaxElevation()
+        {
+            return m_maxElevation;
+        }
+
+        public void setMaxElevation(int value)
+        {
+            m_maxElevation = value;
+        }
+
+        /**
          * @brief 计算 Area 顶点 base 顶点索引
          */
-        public void calcAreaBaseVertex(ref int xBaseVertex, ref int zBaseVertex, int idx, int idz)
+        public void calcAreaBaseSegment(ref int xBaseVertex, ref int zBaseVertex, int idx, int idz)
         {
             xBaseVertex = idx * m_xGridCountPerArea;
             zBaseVertex = idz * m_zGridCountPerArea;
