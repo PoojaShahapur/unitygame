@@ -5,39 +5,39 @@
      */
     public class HeightMapMesh : MMesh
     {
-        protected int _segmentsW;  // 世界空间高度图宽度划分的线段数量， X 轴线段数量
-		protected int _segmentsH;  // 世界空间高度图高度划分的线段数量， Z 轴线段数量
-        protected float _width;     // 世界空间高度图宽度， X 轴宽度
-        protected float _height;    // 世界空间高度图高度， Z 轴高度
-        protected float _depth;     // 世界空间高度图深度，这个等价于 Z 的世界空间高度
-        protected HeightMapData _heightMap;     // 高度图
-		protected HeightMapData _smoothedHeightMap;     // 平滑的高度图
-		protected HeightMapData _activeMap;             // 获取高度的高度图
-		protected uint _minElevation;                   // 高度图最小高度
-		protected uint _maxElevation;                   // 高度图最大高度
-		protected bool _geomDirty;                      // Geometry 数据是否是被修改
-		protected bool _uvDirty;                        // UV 数据是否被修改
-		protected MSubGeometry _subGeometry;            // SubGeometry 数据
+        protected int m_segmentsW;  // 世界空间高度图宽度划分的线段数量， X 轴线段数量
+		protected int m_segmentsH;  // 世界空间高度图高度划分的线段数量， Z 轴线段数量
+        protected float m_width;     // 世界空间高度图宽度， X 轴宽度
+        protected float m_height;    // 世界空间高度图高度， Z 轴高度
+        protected float m_depth;     // 世界空间高度图深度，这个等价于 Z 的世界空间高度
+        protected HeightMapData m_heightMap;     // 高度图
+		protected HeightMapData m_smoothedHeightMap;     // 平滑的高度图
+		protected HeightMapData m_activeMap;             // 获取高度的高度图
+		protected uint m_minElevation;                   // 高度图最小高度
+		protected uint m_maxElevation;                   // 高度图最大高度
+		protected bool m_geomDirty;                      // Geometry 数据是否是被修改
+		protected bool m_uvDirty;                        // UV 数据是否被修改
+		protected MSubGeometry m_subGeometry;            // SubGeometry 数据
 
         public HeightMapMesh(MatRes material, HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
             : base(new MGeometry(), new SingleAreaRender())
         {
-            _subGeometry = new MSubGeometry();
-            this.getGeometry().addSubGeometry(_subGeometry);
-            m_meshRender.setSubGeometry(_subGeometry);      // 设置几何信息
+            m_subGeometry = new MSubGeometry();
+            this.getGeometry().addSubGeometry(m_subGeometry);
+            m_meshRender.setSubGeometry(m_subGeometry);      // 设置几何信息
 
-            _geomDirty = true;
-            _uvDirty = true;
+            m_geomDirty = true;
+            m_uvDirty = true;
 
-            _heightMap = heightMap;
-            _activeMap = _heightMap;
-            _segmentsW = segmentsW;
-            _segmentsH = segmentsH;
-            _width = width;
-            _height = height;
-            _depth = depth;
-            _maxElevation = maxElevation;
-            _minElevation = minElevation;
+            m_heightMap = heightMap;
+            m_activeMap = m_heightMap;
+            m_segmentsW = segmentsW;
+            m_segmentsH = segmentsH;
+            m_width = width;
+            m_height = height;
+            m_depth = depth;
+            m_maxElevation = maxElevation;
+            m_minElevation = minElevation;
 
             buildUVs();
             buildGeometry();
@@ -53,18 +53,18 @@
          */
         public void setMinElevation(uint val)
 		{
-            if (_minElevation == val)
+            if (m_minElevation == val)
             {
                 return;
             }
 			
-			_minElevation = val;
+			m_minElevation = val;
             invalidateGeometry();
         }
 
         public uint getMinElevation()
 		{
-			return _minElevation;
+			return m_minElevation;
 		}
 
         /**
@@ -72,18 +72,18 @@
          */
         public void setMaxElevation(uint val)
 		{
-            if (_maxElevation == val)
+            if (m_maxElevation == val)
             {
                 return;
             }
 			
-			_maxElevation = val;
+			m_maxElevation = val;
             invalidateGeometry();
 		}
 		
 		public uint getMaxElevation()
 		{
-			return _maxElevation;
+			return m_maxElevation;
 		}
 
         /**
@@ -91,12 +91,12 @@
 		 */
         public int getSegmentsH()
 		{
-			return _segmentsH;
+			return m_segmentsH;
 		}
 		
 		public void setSegmentsH(int value)
 		{
-			_segmentsH = value;
+			m_segmentsH = value;
             invalidateGeometry();
             invalidateUVs();
 		}
@@ -106,23 +106,23 @@
 		 */
 		public float getWidth()
 		{
-			return _width;
+			return m_width;
 		}
 		
 		public void setWidth(float value)
 		{
-			_width = value;
+			m_width = value;
             invalidateGeometry();
 		}
 		
 		public float getHeight()
 		{
-			return _height;
+			return m_height;
 		}
 		
 		public void setHeight(float value)
 		{
-			_height = value;
+			m_height = value;
 		}
 		
 		/**
@@ -130,12 +130,12 @@
 		 */
 		public float getDepth()
 		{
-			return _depth;
+			return m_depth;
 		}
 		
 		public void setDepth(float value)
 		{
-			_depth = value;
+			m_depth = value;
             invalidateGeometry();
 		}
 		
@@ -145,10 +145,10 @@
 		 */
 		public float getHeightAt(float x, float z)
 		{
-            int pixX = (int)(x / _width + 0.5) * (_activeMap.getWidth() - 1);       // + 0.5 将地形世界坐标点转换成高度图中图像的像素的坐标点
-            int pixZ = (int)(-z / _depth + 0.5) * (_activeMap.getHeight() - 1);
-            uint col = (uint)(_activeMap.getPixel(pixX, pixZ)) & 0xff;
-            return (col > _maxElevation) ? ((float)_maxElevation / 0xff) * _height : ((col < _minElevation) ? ((float)_minElevation / 0xff) * _height : ((float)col / 0xff) * _height);
+            int pixX = (int)(x / m_width + 0.5) * (m_activeMap.getWidth() - 1);       // + 0.5 将地形世界坐标点转换成高度图中图像的像素的坐标点
+            int pixZ = (int)(-z / m_depth + 0.5) * (m_activeMap.getHeight() - 1);
+            uint col = (uint)(m_activeMap.getPixel(pixX, pixZ)) & 0xff;
+            return (col > m_maxElevation) ? ((float)m_maxElevation / 0xff) * m_height : ((col < m_minElevation) ? ((float)m_minElevation / 0xff) * m_height : ((float)col / 0xff) * m_height);
         }
 
         /**
@@ -156,14 +156,14 @@
          */
         public HeightMapData generateSmoothedHeightMap()
 		{
-            if (_smoothedHeightMap != null)
+            if (m_smoothedHeightMap != null)
             {
-                _smoothedHeightMap.dispose();
+                m_smoothedHeightMap.dispose();
             }
-			_smoothedHeightMap = new HeightMapData(_heightMap.getWidth(), _heightMap.getHeight());
+			m_smoothedHeightMap = new HeightMapData(m_heightMap.getWidth(), m_heightMap.getHeight());
 
-            int w = _smoothedHeightMap.getWidth();
-            int h = _smoothedHeightMap.getHeight();
+            int w = m_smoothedHeightMap.getWidth();
+            int h = m_smoothedHeightMap.getHeight();
             int i = 0;
             int j = 0;
             int k = 0;
@@ -177,7 +177,7 @@
             int lockx = 0;
             int locky = 0;
 			
-			_smoothedHeightMap.lockMem();
+			m_smoothedHeightMap.lockMem();
 			
 			float incXL = 0;
             float incXR = 0;
@@ -186,72 +186,72 @@
             float pxx = 0;
             float pxy = 0;
 			
-			for (i = 0; i < w + 1; i += _segmentsW)         // 遍历像素宽度，这个遍历的一个前提就是 _segmentsW 世界空间划分的段数要小于等于像素的数量
+			for (i = 0; i < w + 1; i += m_segmentsW)         // 遍历像素宽度，这个遍历的一个前提就是 _segmentsW 世界空间划分的段数要小于等于像素的数量
             {
-                if (i + _segmentsW > w - 1)     // 遍历的像素的空间是 [0, w - 1]，如果当前 i 超出这个范围，就取最后的一个像素
+                if (i + m_segmentsW > w - 1)     // 遍历的像素的空间是 [0, w - 1]，如果当前 i 超出这个范围，就取最后的一个像素
                 {
                     lockx = w - 1;
                 }
                 else    // 如果当前像素的下一个 i + _segmentsW 像素在 [0, w - 1] 范围内
                 {
-                    lockx = i + _segmentsW;
+                    lockx = i + m_segmentsW;
                 }
 				
-				for (j = 0; j < h + 1; j += _segmentsH)
+				for (j = 0; j < h + 1; j += m_segmentsH)
                 {
-                    if (j + _segmentsH > h - 1)
+                    if (j + m_segmentsH > h - 1)
                     {
                         locky = h - 1;
                     }
                     else
                     {
-                        locky = j + _segmentsH;
+                        locky = j + m_segmentsH;
                     }
 					
 					if (j == 0)         // 如果是在像素的第一行，就是矩形的四个顶点
                     {
-						px1 = (uint)(_heightMap.getPixel(i, j)) & 0xFF;
-						px1 = (px1 > _maxElevation) ? _maxElevation : ((px1 < _minElevation) ? _minElevation : px1);
-						px2 = (uint)(_heightMap.getPixel(lockx, j)) & 0xFF;
-						px2 = (px2 > _maxElevation) ? _maxElevation : ((px2 < _minElevation) ? _minElevation : px2);
-						px3 = (uint)(_heightMap.getPixel(lockx, locky)) & 0xFF;
-						px3 = (px3 > _maxElevation) ? _maxElevation : ((px3 < _minElevation) ? _minElevation : px3);
-						px4 = (uint)(_heightMap.getPixel(i, locky)) & 0xFF;
-						px4 = (px4 > _maxElevation) ? _maxElevation : ((px4 < _minElevation) ? _minElevation : px4);
+						px1 = (uint)(m_heightMap.getPixel(i, j)) & 0xFF;
+						px1 = (px1 > m_maxElevation) ? m_maxElevation : ((px1 < m_minElevation) ? m_minElevation : px1);
+						px2 = (uint)(m_heightMap.getPixel(lockx, j)) & 0xFF;
+						px2 = (px2 > m_maxElevation) ? m_maxElevation : ((px2 < m_minElevation) ? m_minElevation : px2);
+						px3 = (uint)(m_heightMap.getPixel(lockx, locky)) & 0xFF;
+						px3 = (px3 > m_maxElevation) ? m_maxElevation : ((px3 < m_minElevation) ? m_minElevation : px3);
+						px4 = (uint)(m_heightMap.getPixel(i, locky)) & 0xFF;
+						px4 = (px4 > m_maxElevation) ? m_maxElevation : ((px4 < m_minElevation) ? m_minElevation : px4);
 					}
                     else                // 如果不是第一行， px1 就直接取上一行的 px4
                     {
 						px1 = px4;      // px1 就直接取上一行的 px4
                         px2 = px3;
-						px3 = (uint)(_heightMap.getPixel(lockx, locky)) & 0xFF;
-						px3 = (px3 > _maxElevation) ? _maxElevation : ((px3 < _minElevation) ? _minElevation : px3);
-						px4 = (uint)(_heightMap.getPixel(i, locky)) & 0xFF;
-						px4 = (px4 > _maxElevation) ? _maxElevation : ((px4 < _minElevation) ? _minElevation : px4);
+						px3 = (uint)(m_heightMap.getPixel(lockx, locky)) & 0xFF;
+						px3 = (px3 > m_maxElevation) ? m_maxElevation : ((px3 < m_minElevation) ? m_minElevation : px3);
+						px4 = (uint)(m_heightMap.getPixel(i, locky)) & 0xFF;
+						px4 = (px4 > m_maxElevation) ? m_maxElevation : ((px4 < m_minElevation) ? m_minElevation : px4);
 					}
 					
-					for (k = 0; k < _segmentsW; ++k)    // 遍历当前获取的矩形像素区域的所有像素
+					for (k = 0; k < m_segmentsW; ++k)    // 遍历当前获取的矩形像素区域的所有像素
                     {
-						incXL = (float)1 / _segmentsW * k;      // 1 / _segmentsW * k 范围是 [0, 1)，当前点在矩形区域中距离左边的比例
+						incXL = (float)1 / m_segmentsW * k;      // 1 / _segmentsW * k 范围是 [0, 1)，当前点在矩形区域中距离左边的比例
                         incXR = 1 - incXL;                      // 当前点在矩形区域中距离右边的比例，比例范围是 [0, 1]
 						
-						for (l = 0; l < _segmentsH; ++l)
+						for (l = 0; l < m_segmentsH; ++l)
                         {
-							incYL = (float)1 / _segmentsH * l;
+							incYL = (float)1 / m_segmentsH * l;
                             incYR = 1 - incYL;
 							
 							pxx = ((px1 * incXR) + (px2 * incXL)) * incYR;  // 矩形区域插值计算高度，就是两次线性差值
                             pxy = ((px4 * incXR) + (px3 * incXL)) * incYL;
                             
-                            _smoothedHeightMap.setPixel(k + i, l + j, (uint)((int)(pxy + pxx) << 16 | (int)(pxy + pxx) << 8 | (int)(pxy + pxx)));       // pxy + pxx 第二次线性差值计算的高度
+                            m_smoothedHeightMap.setPixel(k + i, l + j, (uint)((int)(pxy + pxx) << 16 | (int)(pxy + pxx) << 8 | (int)(pxy + pxx)));       // pxy + pxx 第二次线性差值计算的高度
                         }
 					}
 				}
 			}
-			_smoothedHeightMap.unlock();
+			m_smoothedHeightMap.unlock();
 			
-			_activeMap = _smoothedHeightMap;
+			m_activeMap = m_smoothedHeightMap;
 			
-			return _smoothedHeightMap;
+			return m_smoothedHeightMap;
 		}
 
         /**
@@ -264,35 +264,35 @@
 			float x = 0, z = 0;
             uint numInds = 0;
             int baseIdx = 0;
-            int tw = _segmentsW + 1;
-            int numVerts = (_segmentsH + 1)* tw;
-            float uDiv = (float)(_heightMap.getWidth() - 1) / _segmentsW;
-			float vDiv = (float)(_heightMap.getHeight() - 1) / _segmentsH;
+            int tw = m_segmentsW + 1;
+            int numVerts = (m_segmentsH + 1)* tw;
+            float uDiv = (float)(m_heightMap.getWidth() - 1) / m_segmentsW;
+			float vDiv = (float)(m_heightMap.getHeight() - 1) / m_segmentsH;
 			float u = 0, v = 0;
 			float y = 0;
 			
-			if (numVerts == _subGeometry.getNumVertices())
+			if (numVerts == m_subGeometry.getNumVertices())
             {
-				vertices = _subGeometry.getVertexData();
-				indices = _subGeometry.getIndexData();
+				vertices = m_subGeometry.getVertexData();
+				indices = m_subGeometry.getIndexData();
 			}
             else
             {
 				vertices = new MList<float>(numVerts * 3); // 顶点的数量
-				indices = new MList<int>(_segmentsH * _segmentsW * 6);  // 索引的数量
+				indices = new MList<int>(m_segmentsH * m_segmentsW * 6);  // 索引的数量
 			}
 
             numVerts = 0;
             // 初始化
-            for (int zi = 0; zi <= _segmentsH; ++zi)
+            for (int zi = 0; zi <= m_segmentsH; ++zi)
             {
-                for (int xi = 0; xi <= _segmentsW; ++xi)
+                for (int xi = 0; xi <= m_segmentsW; ++xi)
                 {
                     vertices.Add(0);
                     vertices.Add(0);
                     vertices.Add(0);
 
-                    if (xi != _segmentsW && zi != _segmentsH)
+                    if (xi != m_segmentsW && zi != m_segmentsH)
                     {
                         baseIdx = xi + zi * tw;
                         indices.Add(0);
@@ -308,24 +308,24 @@
             numVerts = 0;
             uint col = 0;
 			
-			for (int zi = 0; zi <= _segmentsH; ++zi)
+			for (int zi = 0; zi <= m_segmentsH; ++zi)
             {
-				for (int xi = 0; xi <= _segmentsW; ++xi)
+				for (int xi = 0; xi <= m_segmentsW; ++xi)
                 {
                     // (float) 一定要先转换成 (float) ，否则 xi / _segmentsW 整数除总是 0 ，导致结果总是在一个顶点
-                    x = (int)(((float)xi / _segmentsW - 0.5f) * _width);            // -0.5 保证原点放在地形的中心点
-                    z = (int)(((float)zi / _segmentsH - 0.5f) * _depth);
+                    x = (int)(((float)xi / m_segmentsW - 0.5f) * m_width);            // -0.5 保证原点放在地形的中心点
+                    z = (int)(((float)zi / m_segmentsH - 0.5f) * m_depth);
                     u = xi * uDiv;
-                    v = (_segmentsH - zi) * vDiv;
+                    v = (m_segmentsH - zi) * vDiv;
 
-                    col = (uint)(_heightMap.getPixel((int)u, (int)v)) & 0xff;
-					y = (col > _maxElevation) ? ((float)_maxElevation / 0xff)* _height : ((col<_minElevation) ? ((float)_minElevation /0xff) * _height : ((float)col / 0xff) * _height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
+                    col = (uint)(m_heightMap.getPixel((int)u, (int)v)) & 0xff;
+					y = (col > m_maxElevation) ? ((float)m_maxElevation / 0xff)* m_height : ((col < m_minElevation) ? ((float)m_minElevation /0xff) * m_height : ((float)col / 0xff) * m_height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
                     vertices[numVerts++] = x;
 					vertices[numVerts++] = y;
 					vertices[numVerts++] = z;
 					
-					if (xi != _segmentsW && zi != _segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
+					if (xi != m_segmentsW && zi != m_segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
                     {
 						baseIdx = xi + zi* tw;
                         indices[(int)numInds++] = baseIdx;
@@ -338,10 +338,10 @@
 				}
 			}
 			
-			_subGeometry.setAutoDeriveVertexNormals(true);
-			_subGeometry.setAutoDeriveVertexTangents(true);
-			_subGeometry.updateVertexData(vertices);
-			_subGeometry.updateIndexData(indices);
+			m_subGeometry.setAutoDeriveVertexNormals(true);
+			m_subGeometry.setAutoDeriveVertexTangents(true);
+			m_subGeometry.updateVertexData(vertices);
+			m_subGeometry.updateIndexData(indices);
 		}
 		
 		/**
@@ -350,11 +350,11 @@
 		private void buildUVs()
 		{
             MList<float> uvs = new MList<float>();
-            int numUvs = (_segmentsH + 1)*(_segmentsW + 1)*2;
+            int numUvs = (m_segmentsH + 1)*(m_segmentsW + 1)*2;
 
-            if (_subGeometry.getUVData() != null && numUvs == _subGeometry.getUVData().length())
+            if (m_subGeometry.getUVData() != null && numUvs == m_subGeometry.getUVData().length())
             {
-                uvs = _subGeometry.getUVData();
+                uvs = m_subGeometry.getUVData();
             }
             else
             {
@@ -363,9 +363,9 @@
 			
 			numUvs = 0;
             // 初始化，遍历范围 [0, _segmentsH] * [0, _segmentsW]
-            for (uint yi = 0; yi <= _segmentsH; ++yi)
+            for (uint yi = 0; yi <= m_segmentsH; ++yi)
             {
-                for (uint xi = 0; xi <= _segmentsW; ++xi)
+                for (uint xi = 0; xi <= m_segmentsW; ++xi)
                 {
                     uvs.Add(0);
                     uvs.Add(0);
@@ -374,16 +374,16 @@
 
             // 计算 UV
             numUvs = 0;
-            for (uint yi = 0; yi <= _segmentsH; ++yi) 
+            for (uint yi = 0; yi <= m_segmentsH; ++yi) 
             {
-				for (uint xi = 0; xi <= _segmentsW; ++xi) 
+				for (uint xi = 0; xi <= m_segmentsW; ++xi) 
                 {
-					uvs[numUvs++] = (float)xi / _segmentsW;
-					uvs[numUvs++] = 1 - (float)yi / _segmentsH;
+					uvs[numUvs++] = (float)xi / m_segmentsW;
+					uvs[numUvs++] = 1 - (float)yi / m_segmentsH;
 				}
 			}
 			
-			_subGeometry.updateUVData(uvs);
+			m_subGeometry.updateUVData(uvs);
 		}
 		
         /**
@@ -391,7 +391,7 @@
          */
 		protected void invalidateGeometry()
 		{
-			_geomDirty = true;
+			m_geomDirty = true;
             invalidateBounds();
 		}
 
@@ -400,7 +400,7 @@
          */
 		protected void invalidateUVs()
 		{
-			_uvDirty = true;
+			m_uvDirty = true;
 		}
     }
 }
