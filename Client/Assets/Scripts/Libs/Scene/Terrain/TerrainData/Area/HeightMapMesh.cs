@@ -72,8 +72,10 @@
          */
         public void setMaxElevation(uint val)
 		{
-			if (_maxElevation == val)
-				return;
+            if (_maxElevation == val)
+            {
+                return;
+            }
 			
 			_maxElevation = val;
             invalidateGeometry();
@@ -138,11 +140,12 @@
 		}
 		
 		/**
-		 * @brief 获取地形的某一个坐标的高度
+		 * @brief 获取地形的某一个坐标的高度，注意 x 和 z 是世界场景中的，世界中的坐标中心点 (0, 0) 在地形的中间，因此 x 和 z 可能是负值
+         * @param x 是世界中的坐标， x 值可能是负值，如果要转换成高度图中的坐标，需要 + 0.5，因为世界中心点 (0, 0) 在地形的中间， + 0.5 将世界坐标点转成高度图坐标点
 		 */
 		public float getHeightAt(float x, float z)
 		{
-            int pixX = (int)(x / _width + 0.5) * (_activeMap.getWidth() - 1);       // + 0.5 就是将地形的原点放在中心点
+            int pixX = (int)(x / _width + 0.5) * (_activeMap.getWidth() - 1);       // + 0.5 将地形世界坐标点转换成高度图中图像的像素的坐标点
             int pixZ = (int)(-z / _depth + 0.5) * (_activeMap.getHeight() - 1);
             uint col = (uint)(_activeMap.getPixel(pixX, pixZ)) & 0xff;
             return (col > _maxElevation) ? ((float)_maxElevation / 0xff) * _height : ((col < _minElevation) ? ((float)_minElevation / 0xff) * _height : ((float)col / 0xff) * _height);
@@ -183,18 +186,18 @@
             float pxx = 0;
             float pxy = 0;
 			
-			for (i = 0; i<w + 1; i += _segmentsW)
+			for (i = 0; i < w + 1; i += _segmentsW)         // 遍历像素宽度，这个遍历的一个前提就是 _segmentsW 世界空间划分的段数要小于等于像素的数量
             {
-                if (i + _segmentsW > w - 1)
+                if (i + _segmentsW > w - 1)     // 遍历的像素的空间是 [0, w - 1]，如果当前 i 超出这个范围，就取最后的一个像素
                 {
                     lockx = w - 1;
                 }
-                else
+                else    // 如果当前像素的下一个 i + _segmentsW 像素在 [0, w - 1] 范围内
                 {
                     lockx = i + _segmentsW;
                 }
 				
-				for (j = 0; j<h + 1; j += _segmentsH)
+				for (j = 0; j < h + 1; j += _segmentsH)
                 {
                     if (j + _segmentsH > h - 1)
                     {
@@ -205,42 +208,42 @@
                         locky = j + _segmentsH;
                     }
 					
-					if (j == 0)
+					if (j == 0)         // 如果是在像素的第一行，就是矩形的四个顶点
                     {
-						px1 = (uint)(_heightMap.getPixel((int)i, (int)j)) & 0xFF;
-						px1 = (px1 > _maxElevation)? _maxElevation : ((px1<_minElevation)? _minElevation : px1);
-						px2 = (uint)(_heightMap.getPixel((int)lockx, (int)j)) & 0xFF;
-						px2 = (px2 > _maxElevation)? _maxElevation : ((px2<_minElevation)? _minElevation : px2);
-						px3 = (uint)(_heightMap.getPixel((int)lockx, (int)locky)) & 0xFF;
-						px3 = (px3 > _maxElevation)? _maxElevation : ((px3<_minElevation)? _minElevation : px3);
-						px4 = (uint)(_heightMap.getPixel((int)i, (int)locky)) & 0xFF;
-						px4 = (px4 > _maxElevation)? _maxElevation : ((px4<_minElevation)? _minElevation : px4);
+						px1 = (uint)(_heightMap.getPixel(i, j)) & 0xFF;
+						px1 = (px1 > _maxElevation) ? _maxElevation : ((px1 < _minElevation) ? _minElevation : px1);
+						px2 = (uint)(_heightMap.getPixel(lockx, j)) & 0xFF;
+						px2 = (px2 > _maxElevation) ? _maxElevation : ((px2 < _minElevation) ? _minElevation : px2);
+						px3 = (uint)(_heightMap.getPixel(lockx, locky)) & 0xFF;
+						px3 = (px3 > _maxElevation) ? _maxElevation : ((px3 < _minElevation) ? _minElevation : px3);
+						px4 = (uint)(_heightMap.getPixel(i, locky)) & 0xFF;
+						px4 = (px4 > _maxElevation) ? _maxElevation : ((px4 < _minElevation) ? _minElevation : px4);
 					}
-                    else
+                    else                // 如果不是第一行， px1 就直接取上一行的 px4
                     {
-						px1 = px4;
-						px2 = px3;
-						px3 = (uint)(_heightMap.getPixel((int)lockx, (int)locky)) & 0xFF;
-						px3 = (px3 > _maxElevation)? _maxElevation : ((px3<_minElevation)? _minElevation : px3);
-						px4 = (uint)(_heightMap.getPixel((int)i, (int)locky)) & 0xFF;
-						px4 = (px4 > _maxElevation)? _maxElevation : ((px4<_minElevation)? _minElevation : px4);
+						px1 = px4;      // px1 就直接取上一行的 px4
+                        px2 = px3;
+						px3 = (uint)(_heightMap.getPixel(lockx, locky)) & 0xFF;
+						px3 = (px3 > _maxElevation) ? _maxElevation : ((px3 < _minElevation) ? _minElevation : px3);
+						px4 = (uint)(_heightMap.getPixel(i, locky)) & 0xFF;
+						px4 = (px4 > _maxElevation) ? _maxElevation : ((px4 < _minElevation) ? _minElevation : px4);
 					}
 					
-					for (k = 0; k<_segmentsW; ++k)
+					for (k = 0; k < _segmentsW; ++k)    // 遍历当前获取的矩形像素区域的所有像素
                     {
-						incXL = (float)1 / _segmentsW * k;
-                        incXR = 1 - incXL;
+						incXL = (float)1 / _segmentsW * k;      // 1 / _segmentsW * k 范围是 [0, 1)，当前点在矩形区域中距离左边的比例
+                        incXR = 1 - incXL;                      // 当前点在矩形区域中距离右边的比例，比例范围是 [0, 1]
 						
 						for (l = 0; l < _segmentsH; ++l)
                         {
 							incYL = (float)1 / _segmentsH * l;
                             incYR = 1 - incYL;
 							
-							pxx = ((px1* incXR) + (px2* incXL))* incYR;
-                            pxy = ((px4* incXR) + (px3* incXL))* incYL;
+							pxx = ((px1 * incXR) + (px2 * incXL)) * incYR;  // 矩形区域插值计算高度，就是两次线性差值
+                            pxy = ((px4 * incXR) + (px3 * incXL)) * incYL;
                             
-                            _smoothedHeightMap.setPixel((int)(k + i), (int)(l + j), (uint)((int)(pxy + pxx) << 16 | (int)(pxy + pxx) << 8 | (int)(pxy + pxx)));
-						}
+                            _smoothedHeightMap.setPixel(k + i, l + j, (uint)((int)(pxy + pxx) << 16 | (int)(pxy + pxx) << 8 | (int)(pxy + pxx)));       // pxy + pxx 第二次线性差值计算的高度
+                        }
 					}
 				}
 			}
@@ -359,7 +362,7 @@
             }
 			
 			numUvs = 0;
-            // 初始化
+            // 初始化，遍历范围 [0, _segmentsH] * [0, _segmentsW]
             for (uint yi = 0; yi <= _segmentsH; ++yi)
             {
                 for (uint xi = 0; xi <= _segmentsW; ++xi)

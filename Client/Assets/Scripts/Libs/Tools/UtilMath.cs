@@ -275,5 +275,46 @@ namespace SDK.Lib
 
             return false;
         }
+
+        /**
+         * @brief 转换一个 Color 值到一个 Int 颜色值
+         */
+        static public int ColorToInt32(Color c)
+        {
+            int retVal = 0;
+            retVal |= Mathf.RoundToInt(c.r * 255f) << 24;
+            retVal |= Mathf.RoundToInt(c.g * 255f) << 16;
+            retVal |= Mathf.RoundToInt(c.b * 255f) << 8;
+            retVal |= Mathf.RoundToInt(c.a * 255f);
+            return retVal;
+        }
+
+        /**
+         * @brief 转换一个 Int R， G， B， A 值到 color 值
+         */
+        static public Color Int32ToColor(int val)
+        {
+            float inv = 1f / 255f;
+            Color c = Color.black;
+            c.r = inv * ((val >> 24) & 0xFF);
+            c.g = inv * ((val >> 16) & 0xFF);
+            c.b = inv * ((val >> 8) & 0xFF);
+            c.a = inv * (val & 0xFF);
+            return c;
+        }
+
+        /**
+         * @brief 转换 Int R, G, B 值成 Color
+         */
+        static public Color Int24ToColor(int val)
+        {
+            float inv = 1f / 255f;
+            Color c = Color.black;
+            c.r = inv * ((val >> 16) & 0xFF);
+            c.g = inv * ((val >> 8) & 0xFF);
+            c.b = inv * (val & 0xFF);
+            c.a = 1.0f;
+            return c;
+        }
     }
 }

@@ -115,12 +115,33 @@ namespace SDK.Lib
         public int getColorGrayScaleValue(int x, int z)
         {
             Color color = m_heightMap.GetPixel(x, z);       // Color 中的值 r 是 [0, 1] 之间的值
-            return (int)(color.r * 255);                      // 灰度图中的 Color 值是 [0, 1] 的灰度值，需要缩放到 [0, 255]
+            return (int)(color.r * 0xFF);                   // 灰度图中的 Color 值是 [0, 1] 的灰度值，需要缩放到 [0, 255]
         }
 
+        /**
+         * @brief 设置像素值
+         * @param color 是一个整数值
+         */
         public void setPixel(int x, int y, uint color)
         {
+            setPixel(x, y, UtilMath.Int24ToColor((int)color));
+        }
 
+        /**
+         * @brief 设置像素值
+         * @param r， g， b， a 的范围是 [0, 1]
+         */
+        public void setPixel(int x, int y, float r, float g, float b, float a)
+        {
+            m_heightMap.SetPixel(x, y, new Color(r, g, b, a));
+        }
+
+        /**
+         * @brief 设置像素的值， color 中的 r， g， b， a 的范围都是 [0, 1]
+         */
+        public void setPixel(int x, int y, Color color)
+        {
+            m_heightMap.SetPixel(x, y, color);
         }
 
         public void lockMem()

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /**
  * @brief 这个需要自己拖动一个立方体到场景中，然后将这个脚本拖动到 GameObject 上，运行后，立方体变成一个面了
