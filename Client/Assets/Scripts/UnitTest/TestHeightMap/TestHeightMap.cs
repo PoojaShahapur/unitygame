@@ -10,8 +10,8 @@ namespace UnitTest
         public void run()
         {
             //testHeightMap();
-            testTerrainPageOne();
-            //testTerrainPageMulti();
+            //testTerrainPageOne();
+            testTerrainPageMulti();
             //testPrint();
         }
 

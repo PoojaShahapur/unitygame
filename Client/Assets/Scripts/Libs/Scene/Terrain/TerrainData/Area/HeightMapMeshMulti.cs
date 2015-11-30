@@ -6,6 +6,8 @@
     public class HeightMapMeshMulti : MMesh
     {
         protected TerrainPageCfg m_terrainPageCfg;  // Page 配置
+        protected bool m_bInLocal;      // 是否生成的每一个 Area 中的顶点是放在局部空间中
+        protected bool m_bCreateVertexIndexInOne;   // 同时创建顶点索引
 
         /**
          * @brief 构造函数
@@ -13,6 +15,8 @@
         public HeightMapMeshMulti(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
             : base(null, null)
         {
+            m_bInLocal = true;
+            m_bCreateVertexIndexInOne = true;
             m_terrainPageCfg = terrainPageCfg;
             buildMutilAreaMesh(heightMap, terrainPageCfg);
         }
@@ -49,32 +53,48 @@
             MList<float> uvs = null;
             MeshSplit.buildUVs(idx, idz, heightMap, terrainPageCfg, ref uvs);
             subGeometry.updateUVData(uvs);
+
             // Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
 
             // 生成顶点数据
             MList<float> vertices = null;
-            //MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices);
-            //subGeometry.setAutoDeriveVertexNormals(true);
-            //subGeometry.updateVertexData(vertices);
+            if (!m_bCreateVertexIndexInOne)
+            {
+                MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices, m_bInLocal);
+                subGeometry.setAutoDeriveVertexNormals(true);
+                subGeometry.updateVertexData(vertices);
+            }
 
             // 生成索引数据
             MList<int> indices = null;
-            //MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
-            //subGeometry.setAutoDeriveVertexTangents(true);
-            //subGeometry.updateIndexData(indices);
+            if (!m_bCreateVertexIndexInOne)
+            {
+                MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
+                subGeometry.setAutoDeriveVertexTangents(true);
+                subGeometry.updateIndexData(indices);
+            }
 
-            MeshSplit.buildVertexAndIndex(idx, idz, heightMap, terrainPageCfg, ref vertices, ref indices);
+            if (m_bCreateVertexIndexInOne)
+            {
+                MeshSplit.buildVertexAndIndex(idx, idz, heightMap, terrainPageCfg, ref vertices, ref indices, m_bInLocal);
+                subGeometry.setAutoDeriveVertexNormals(true);
+                subGeometry.updateVertexData(vertices);
+                subGeometry.setAutoDeriveVertexTangents(true);
+                subGeometry.updateIndexData(indices);
+            }
+
             //Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
             //Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
-            subGeometry.setAutoDeriveVertexNormals(true);
-            subGeometry.updateVertexData(vertices);
-            subGeometry.setAutoDeriveVertexTangents(true);
-            subGeometry.updateIndexData(indices);
 
             // 移动到正确的位置
             int areaWidth = terrainPageCfg.getAreaWorldWidth();
             int areaDepth = terrainPageCfg.getAreaWorldDepth();
-            //subMesh.moveToPos(idx * areaWidth, idz * areaDepth);  // 位置顶点中已经放置到正确的位置了
+
+            // 如果是在局部空间中放置的 Area 中的顶点，需要移动每一块的位置，如果直接将 Area 中的顶点放在世界空间具体位置了，位置顶点中已经放置到正确的位置了
+            if (m_bInLocal)
+            {
+                subMesh.moveToPos(idx * areaWidth, idz * areaDepth);
+            }
         }
     }
 }

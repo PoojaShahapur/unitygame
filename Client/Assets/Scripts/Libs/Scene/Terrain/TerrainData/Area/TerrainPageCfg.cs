@@ -137,7 +137,7 @@
          */
         public int getAreaWorldWidth()
         {
-            return m_xAreaCount;
+            return m_xGridCountPerArea * m_xGridWidth;
         }
 
         /**
@@ -145,7 +145,7 @@
          */
         public int getAreaWorldDepth()
         {
-            return m_zAreaCount;
+            return m_zGridCountPerArea * m_zGridHeight;
         }
 
         /**
@@ -197,7 +197,7 @@
          */
         public int getWorldWidth()
         {
-            return m_xTotalGrid;
+            return m_xTotalGrid * m_xGridWidth;
         }
 
         /**
@@ -205,7 +205,7 @@
          */
         public int getWorldDepth()
         {
-            return m_zTotalGrid;
+            return m_zTotalGrid * m_xGridWidth;
         }
 
         public int getWorldHeight()

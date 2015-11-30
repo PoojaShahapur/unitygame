@@ -5,7 +5,11 @@
      */
     public class MeshSplit
     {
-        static public void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices)
+        /**
+         * @brief 生成顶点数据，注意这个顶点数据在局部空间已经移动到具体的位置了
+         * @param inLocal 是否是在局部空间中生成数据
+         */
+        static public void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, bool bInLocal = false)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerArea();
             int segmentsH = terrainPageCfg.getZGridCountPerArea();
@@ -23,6 +27,9 @@
             int minElevation = terrainPageCfg.getMinElevation();
             int maxElevation = terrainPageCfg.getMaxElevation();
             int height = terrainPageCfg.getWorldHeight();
+
+            int areaWidth = terrainPageCfg.getAreaWorldWidth();
+            int areaDepth = terrainPageCfg.getAreaWorldDepth();
 
             float x = 0, z = 0;
             int tw = segmentsW + 1;
@@ -61,8 +68,16 @@
                 for (int xi = 0; xi <= segmentsW; ++xi)
                 {
                     // (float) 一定要先转换成 (float) ，否则 xi / segmentsW 整数除总是 0 ，导致结果总是在一个顶点
-                    x = (int)((((float)xi + xSegmentOffset) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
-                    z = (int)((((float)zi + zSegmentOffset) / totalSegmentsH - 0.5f) * depth);
+                    if (!bInLocal)  // 如果直接放在世界空间中
+                    {
+                        x = (int)((((float)xi + xSegmentOffset) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
+                        z = (int)((((float)zi + zSegmentOffset) / totalSegmentsH - 0.5f) * depth);
+                    }
+                    else    // 否则放在局部空间中，需要自己移动 GameObject 的 Transform 位置信息
+                    {
+                        x = (int)(((float)xi / segmentsW - 0.5f) * areaWidth);            // -0.5 保证原点放在地形的中心点
+                        z = (int)(((float)zi / segmentsH - 0.5f) * areaDepth);
+                    }
                     u = (xi + xSegmentOffset) * uDiv;
                     v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
 
@@ -76,6 +91,9 @@
             }
         }
 
+        /**
+         * @brief 生成索引数据
+         */
         static public void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<int> indices)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerArea();
@@ -127,7 +145,10 @@
             }
         }
 
-        static public void buildVertexAndIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, ref MList<int> indices)
+        /**
+         * @brief 同时生成顶点和索引数据
+         */
+        static public void buildVertexAndIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, ref MList<int> indices, bool bInLocal = false)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerArea();
             int segmentsH = terrainPageCfg.getZGridCountPerArea();
@@ -145,6 +166,9 @@
             int minElevation = terrainPageCfg.getMinElevation();
             int maxElevation = terrainPageCfg.getMaxElevation();
             int height = terrainPageCfg.getWorldHeight();
+
+            int areaWidth = terrainPageCfg.getAreaWorldWidth();
+            int areaDepth = terrainPageCfg.getAreaWorldDepth();
 
             float x = 0, z = 0;
             uint numInds = 0;
@@ -191,8 +215,16 @@
                 for (int xi = 0; xi <= segmentsW; ++xi)
                 {
                     // (float) 一定要先转换成 (float) ，否则 xi / segmentsW 整数除总是 0 ，导致结果总是在一个顶点
-                    x = (int)((((float)xi + xSegmentOffset) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
-                    z = (int)((((float)zi + zSegmentOffset) / totalSegmentsH - 0.5f) * depth);
+                    if (!bInLocal)
+                    {
+                        x = (int)((((float)xi + xSegmentOffset) / totalSegmentsW - 0.5f) * width);            // -0.5 保证原点放在地形的中心点
+                        z = (int)((((float)zi + zSegmentOffset) / totalSegmentsH - 0.5f) * depth);
+                    }
+                    else    // 否则放在局部空间中，需要自己移动 GameObject 的 Transform 位置信息
+                    {
+                        x = (int)(((float)xi / segmentsW - 0.5f) * areaWidth);            // -0.5 保证原点放在地形的中心点
+                        z = (int)(((float)zi / segmentsH - 0.5f) * areaDepth);
+                    }
                     u = (xi + xSegmentOffset) * uDiv;
                     v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
 
