@@ -10,8 +10,8 @@
         protected int m_zGridHeight = 1;     // 一个 Grid 的高度，世界空间中 z 轴的长度
 
         // 这两个值基本也是固定的
-        protected int m_xGridCountPerArea = 128;     // 每一个 Area 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
-        protected int m_zGridCountPerArea = 128;     // 每一个 Area 的 Grid 高度数量， z 轴 Grid 的数量
+        protected int m_xGridCountPerArea = 32;     // 每一个 Area 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
+        protected int m_zGridCountPerArea = 32;     // 每一个 Area 的 Grid 高度数量， z 轴 Grid 的数量
         // 这两个值是可变的
         protected int m_xAreaCount = 16;     // 一个地形 Area 宽度的数量，x 轴 Area 的数量，默认值是 512 / 16
         protected int m_zAreaCount = 16;     // 一个地形 Area 高度的数量，z 轴 Area 的数量
@@ -21,7 +21,7 @@
 
         protected int m_minElevation;                   // 高度图最小高度
         protected int m_maxElevation;                   // 高度图最大高度
-        protected int m_height;    // 世界空间高度图高度， Z 轴高度
+        protected int m_height;    // 世界空间高度图高度， Z 轴高度，这个高度要和 HeightMapMeshOne 中的 m_height 高度一样，因为计算高度依赖这个值
 
         /**
          * @brief 地形配置，尽量 pixelWidth 和 pixelHeight 尽量相等

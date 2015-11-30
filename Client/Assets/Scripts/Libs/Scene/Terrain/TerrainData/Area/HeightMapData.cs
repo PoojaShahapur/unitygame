@@ -58,9 +58,9 @@ namespace SDK.Lib
          */
         public int getWidth()
         {
-            //return m_heightMap.width;
+            return m_heightMap.width;
             // Test
-            return 129;
+            //return 129;
         }
 
         /**
@@ -68,9 +68,9 @@ namespace SDK.Lib
          */
         public int getHeight()
         {
-            //return m_heightMap.height;
+            return m_heightMap.height;
             // Test
-            return 129;
+            //return 129;
         }
 
         /**

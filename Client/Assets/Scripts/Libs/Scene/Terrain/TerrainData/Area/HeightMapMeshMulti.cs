@@ -74,7 +74,7 @@
             // 移动到正确的位置
             int areaWidth = terrainPageCfg.getAreaWorldWidth();
             int areaDepth = terrainPageCfg.getAreaWorldDepth();
-            subMesh.moveToPos(idx * areaWidth, idz * areaDepth);
+            //subMesh.moveToPos(idx * areaWidth, idz * areaDepth);  // 位置顶点中已经放置到正确的位置了
         }
     }
 }
