@@ -93,7 +93,7 @@
             // 如果是在局部空间中放置的 Area 中的顶点，需要移动每一块的位置，如果直接将 Area 中的顶点放在世界空间具体位置了，位置顶点中已经放置到正确的位置了
             if (m_bInLocal)
             {
-                subMesh.moveToPos(idx * areaWidth, idz * areaDepth);
+                subMesh.moveToPos(idx * areaWidth + areaWidth / 2, idz * areaDepth + areaDepth / 2);    // + areaWidth / 2 是为了将所有的顶点的世界范围都放在 >= 0 的范围内
             }
         }
     }
