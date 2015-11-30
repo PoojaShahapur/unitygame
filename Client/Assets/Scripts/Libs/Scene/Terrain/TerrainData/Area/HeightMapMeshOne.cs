@@ -73,6 +73,9 @@
             invalidateGeometry();
         }
 
+        /**
+         * @brief 获取最小高度
+         */
         public uint getMinElevation()
 		{
 			return m_minElevation;
@@ -92,6 +95,9 @@
             invalidateGeometry();
 		}
 		
+        /**
+         * @brief 获取最大高度
+         */
 		public uint getMaxElevation()
 		{
 			return m_maxElevation;
@@ -105,6 +111,9 @@
 			return m_segmentsH;
 		}
 		
+        /**
+         * @brief 设置 Z 空间划分的线段数量
+         */
 		public void setSegmentsH(int value)
 		{
 			m_segmentsH = value;
@@ -120,17 +129,26 @@
 			return m_width;
 		}
 		
+        /**
+         * @brief 设置世界空间 X 轴大小
+         */
 		public void setWidth(float value)
 		{
 			m_width = value;
             invalidateGeometry();
 		}
 		
+        /**
+         * @brief 获取世界空间 Y 轴的高度
+         */
 		public float getHeight()
 		{
 			return m_height;
 		}
 		
+        /**
+         * @brief 设置世界空间 Y 轴的高度
+         */
 		public void setHeight(float value)
 		{
 			m_height = value;
@@ -144,6 +162,9 @@
 			return m_depth;
 		}
 		
+        /**
+         * @brief 设置世界空间 Z 轴的深度
+         */
 		public void setDepth(float value)
 		{
 			m_depth = value;
@@ -275,11 +296,11 @@
 			float x = 0, z = 0;
             uint numInds = 0;
             int baseIdx = 0;
-            int tw = m_segmentsW + 1;
-            int numVerts = (m_segmentsH + 1)* tw;
-            float uDiv = (float)(m_heightMap.getWidth() - 1) / m_segmentsW;
-			float vDiv = (float)(m_heightMap.getHeight() - 1) / m_segmentsH;
-			float u = 0, v = 0;
+            int tw = m_segmentsW + 1;               // 宽度方向顶点数量
+            int numVerts = (m_segmentsH + 1)* tw;   // 高度方向顶点数量
+            float uDiv = (float)(m_heightMap.getWidth() - 1) / m_segmentsW;     // X 方向单位分段对应当像素数量
+			float vDiv = (float)(m_heightMap.getHeight() - 1) / m_segmentsH;    // Z 方向单位分段对应当像素数量
+            float u = 0, v = 0;
 			float y = 0;
 			
 			if (numVerts == m_subGeometry.getNumVertices())

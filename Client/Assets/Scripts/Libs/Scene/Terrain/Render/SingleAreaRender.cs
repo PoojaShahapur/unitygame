@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class SingleAreaRender : MeshRender
     {
-        // Unity 规定一个 Mesh 顶点最多不能超过 65000 个顶点
+        // Unity 规定一个 Mesh 顶点最多不能超过 65000 个顶点，注意是顶点数量，不是内存数量
         protected static int MAX_VERTEX_PER_MESH = 65000;
 
         protected AreaBase m_area;
@@ -43,6 +43,9 @@ namespace SDK.Lib
             m_meshName = "Dyn_Mesh";
         }
 
+        /**
+         * @brief 渲染队列
+         */
         public int renderQueue
         {
             get
@@ -69,6 +72,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 排序
+         */
         public int sortingOrder
         {
             get
@@ -84,6 +90,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 渲染队列数量
+         */
         public int finalRenderQueue
         {
             get
@@ -116,6 +125,9 @@ namespace SDK.Lib
         bool m_active = true;
 #endif
 
+        /**
+         * @brief 转换信息
+         */
         public Transform cachedTransform
         {
             get
@@ -128,6 +140,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 基本的公用 Material
+         */
         public Material baseMaterial
         {
             get
@@ -144,6 +159,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 使用的显示 Material
+         */
         public Material dynamicMaterial
         {
             get
@@ -152,6 +170,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 设置 Texture 
+         */
         public Texture mainTexture
         {
             get
@@ -168,6 +189,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief shader 设置
+         */
         public Shader shader
         {
             get
@@ -184,6 +208,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 获取三角形的数量
+         */
         public int triangles
         {
             get
@@ -192,6 +219,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 创建材质
+         */
         void CreateMaterial()
         {
             string shaderName = (m_shader != null) ? m_shader.name : ((m_material != null) ? m_material.shader.name : m_shaderName);
@@ -232,6 +262,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 重新生成材质
+         */
         Material RebuildMaterial()
         {
             // 释放老的材质
@@ -255,6 +288,9 @@ namespace SDK.Lib
             return m_dynamicMat;
         }
 
+        /**
+         * @brief 更新材质
+         */
         void UpdateMaterials()
         {
             // 如果裁剪应该被使用，需要查找一个替换的 shader 
@@ -272,6 +308,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 更新几何信息
+         */
         public void UpdateGeometry()
         {
             int vertexCount = m_subGeometry.getVertexDataCount();
@@ -355,12 +394,18 @@ namespace SDK.Lib
             mainTexture = m_texRes.getTexture();
         }
 
-        void OnEnable()
+        /**
+         * @brief 初始化时候调用
+         */
+        void init()
         {
             m_rebuildMat = true;
         }
 
-        void OnDisable()
+        /**
+         * @brief 释放资源
+         */
+        override public void dispose()
         {
             m_material = null;
             m_texture = null;
@@ -372,14 +417,14 @@ namespace SDK.Lib
 
             NGUITools.DestroyImmediate(m_dynamicMat);
             m_dynamicMat = null;
-        }
 
-        void OnDestroy()
-        {
             UtilApi.DestroyImmediate(m_mesh);
             m_mesh = null;
         }
 
+        /**
+         * @brief 渲染
+         */
         override public void render()
         {
             UpdateGeometry();

@@ -54,19 +54,23 @@ namespace SDK.Lib
         }
 
         /**
-         * @brief 获取图片的宽度值
+         * @brief 获取图片的宽度值，所有获取宽度的都使用这个值，测试的时候也好测试
          */
         public int getWidth()
         {
-            return m_heightMap.width;
+            // return m_heightMap.width;
+            // Test
+            return 33;
         }
 
         /**
-         * @获取图片的高度值
+         * @获取图片的高度值，所有获取高度的都使用这个值，测试的时候也好测试
          */
         public int getHeight()
         {
-            return m_heightMap.height;
+            // return m_heightMap.height;
+            // Test
+            return 33;
         }
 
         /**
@@ -78,6 +82,9 @@ namespace SDK.Lib
             setHeightMapData(tex);
         }
 
+        /**
+         * @brief 加载 raw 纹理数据
+         */
         public void loadRawTextureData(byte[] data)
         {
             m_heightMap.LoadRawTextureData(data);
@@ -91,6 +98,10 @@ namespace SDK.Lib
             return getColorGrayScaleValue(x, z);
         }
 
+        /**
+         * @brief 获取像素的高度
+         * @ret 返回值是一个 int 值，就是 byte 值
+         */
         public int getPixel(int x, int z)
         {
             return getColorGrayScaleValue(x, z);
@@ -104,6 +115,10 @@ namespace SDK.Lib
             return m_heightMap.GetPixel(x, z).grayscale;    // grayscale 是 [0, 1] 之间的值
         }
 
+        /**
+         * @brief 获取灰度缩放值
+         * @ret 返回值是一个 int 类型
+         */
         public int getGrayScale(int x, int z)
         {
             return (int)m_heightMap.GetPixel(x, z).grayscale;
@@ -144,11 +159,17 @@ namespace SDK.Lib
             m_heightMap.SetPixel(x, y, color);
         }
 
+        /**
+         * @brief 锁定显存
+         */
         public void lockMem()
         {
 
         }
 
+        /**
+         * @brief 释放锁定个显存
+         */
         public void unlock()
         {
 

@@ -10,8 +10,8 @@
         protected int m_zGridHeight = 1;     // 一个 Grid 的高度，世界空间中 z 轴的长度
 
         // 这两个值基本也是固定的
-        protected int m_xGridCountPerArea = 512;     // 每一个 Area 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32
-        protected int m_zGridCountPerArea = 512;     // 每一个 Area 的 Grid 高度数量， z 轴 Grid 的数量
+        protected int m_xGridCountPerArea = 32;     // 每一个 Area 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
+        protected int m_zGridCountPerArea = 32;     // 每一个 Area 的 Grid 高度数量， z 轴 Grid 的数量
         // 这两个值是可变的
         protected int m_xAreaCount = 16;     // 一个地形 Area 宽度的数量，x 轴 Area 的数量，默认值是 512 / 16
         protected int m_zAreaCount = 16;     // 一个地形 Area 高度的数量，z 轴 Area 的数量
