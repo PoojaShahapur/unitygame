@@ -114,7 +114,7 @@ namespace SDK.Lib
 			return base.updateVertexNormals(target);
 		}
 
-        override public uint getVertexStride()
+        override public int getVertexStride()
 		{
 			return 3;
 		}

@@ -72,9 +72,9 @@ namespace SDK.Lib
          */
         public Vector3[] getVertexDataArray()
         {
-            Vector3[] vertexVec = new Vector3[m_vertexData.length() / 3];        // 必然是 3 个
+            Vector3[] vertexVec = new Vector3[getVertexDataCount()];        // 必然是 3 个
             int idxVec = 0;
-            for (int idx = 0; idx < m_vertexData.length(); idx += 3, ++idxVec)
+            for (int idx = 0; idx < m_vertexData.length(); idx += getVertexStride(), ++idxVec)
             {
                 vertexVec[idxVec] = new Vector3(m_vertexData[idx], m_vertexData[idx + 1], m_vertexData[idx + 2]);
             }
@@ -87,7 +87,7 @@ namespace SDK.Lib
          */
         public int getVertexDataCount()
         {
-            return m_vertexData.length();
+            return m_vertexData.length() / getVertexStride();
         }
 
         /**
@@ -150,7 +150,7 @@ namespace SDK.Lib
             }
         }
 
-        virtual public uint getVertexStride()
+        virtual public int getVertexStride()
         {
             throw new Exception();
         }
