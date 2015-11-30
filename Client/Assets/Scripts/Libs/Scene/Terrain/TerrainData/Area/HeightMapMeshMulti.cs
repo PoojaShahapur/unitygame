@@ -49,6 +49,7 @@
             MList<float> uvs = null;
             MeshSplit.buildUVs(idx, idz, heightMap, terrainPageCfg, ref uvs);
             subGeometry.updateUVData(uvs);
+            // Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
 
             // 生成顶点数据
             MList<float> vertices = null;
@@ -63,8 +64,8 @@
             //subGeometry.updateIndexData(indices);
 
             MeshSplit.buildVertexAndIndex(idx, idz, heightMap, terrainPageCfg, ref vertices, ref indices);
-            Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
-            Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
+            //Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
+            //Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
             subGeometry.setAutoDeriveVertexNormals(true);
             subGeometry.updateVertexData(vertices);
             subGeometry.setAutoDeriveVertexTangents(true);

@@ -33,7 +33,7 @@
 
             m_minElevation = 0;
             m_maxElevation = 0xFF;      // byte 最大值 0xFF
-            m_height = 1000;
+            m_height = 128;
         }
 
         /**

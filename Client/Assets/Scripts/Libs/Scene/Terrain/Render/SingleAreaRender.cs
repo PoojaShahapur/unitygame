@@ -352,6 +352,13 @@ namespace SDK.Lib
 
                 m_mesh.triangles = m_subGeometry.getIndexData().ToArray();
 
+                //Ctx.m_instance.m_localFileSys.serializeArray<Vector3>("buildVertex.txt", m_mesh.vertices, 1);
+                //Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", m_mesh.triangles, 3);
+                //Ctx.m_instance.m_localFileSys.serializeArray<Vector2>("buildVU.txt", m_mesh.uv, 1);
+
+                //Ctx.m_instance.m_localFileSys.serializeArray<Vector3>("buildNormal.txt", m_mesh.normals, 1);
+                //Ctx.m_instance.m_localFileSys.serializeArray<Vector4>("buildTangent.txt", m_mesh.tangents, 1);
+
                 if (trim)
                 {
                     m_mesh.RecalculateBounds();
