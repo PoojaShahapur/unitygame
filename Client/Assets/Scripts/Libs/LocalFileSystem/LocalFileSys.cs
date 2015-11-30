@@ -308,5 +308,49 @@ namespace SDK.Lib
             string path = string.Format("{0}/{1}.png", getDebugWorkPath(), fileName);
             writeFileByte(path, bytes);
         }
+
+        
+        public void serializeArray<T>(string fileName, T[] datas, int stride)
+        {
+            FileStream fileStream;
+            StreamWriter streamWriter;
+            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
+            try
+            {
+                if (File.Exists(@path))                  // 如果文件存在
+                {
+                    File.Delete(@path);
+                }
+
+                fileStream = new FileStream(path, FileMode.Create);
+                streamWriter = new StreamWriter(fileStream);
+                int idx = 0;
+                int strideIdx = 0;
+                for (idx = 0; idx < datas.Length; idx += stride)
+                {
+                    for (strideIdx = 0; strideIdx < stride; ++strideIdx)
+                    {
+                        streamWriter.Write(datas[idx].ToString());
+                        if (strideIdx < stride - 1)
+                        {
+                            streamWriter.Write(" -- ");
+                        }
+                    }
+
+                    streamWriter.Write("\n");
+                }
+
+                streamWriter.Flush();
+                streamWriter.Close();
+                streamWriter.Dispose();
+                fileStream.Flush();
+                fileStream.Close();
+                fileStream.Dispose();
+            }
+            catch (Exception e)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
+            }
+        }
     }
 }

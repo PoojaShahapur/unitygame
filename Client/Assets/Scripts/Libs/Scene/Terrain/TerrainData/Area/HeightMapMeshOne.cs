@@ -373,7 +373,10 @@
 			m_subGeometry.setAutoDeriveVertexTangents(true);
 			m_subGeometry.updateVertexData(vertices);
 			m_subGeometry.updateIndexData(indices);
-		}
+
+            Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex_1.txt", vertices.ToArray(), 3);
+            Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex_1.txt", indices.ToArray(), 3);
+        }
 		
 		/**
 		 * @brief 生成顶点的 UV

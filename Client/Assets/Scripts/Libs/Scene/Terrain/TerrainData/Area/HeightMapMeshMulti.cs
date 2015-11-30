@@ -63,6 +63,8 @@
             //subGeometry.updateIndexData(indices);
 
             MeshSplit.buildVertexAndIndex(idx, idz, heightMap, terrainPageCfg, ref vertices, ref indices);
+            Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
+            Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
             subGeometry.setAutoDeriveVertexNormals(true);
             subGeometry.updateVertexData(vertices);
             subGeometry.setAutoDeriveVertexTangents(true);
