@@ -13,13 +13,14 @@ namespace UnitTest
         public void run()
         {
             //testLua();
-            testLoadLuaFile();
+            //testLoadLuaFile();
             //testLocalLua();
             //testLuaBindFile();
             //testLuaByteBuffer();
             //testLuaByteBufferNeg();
             //testSysEndian();
             //testGet_GTable();
+            testLuaCsCall();
         }
 
         protected void testLua()
@@ -189,6 +190,12 @@ namespace UnitTest
             {
                 luaFunc.EndPCall(oldTop);
             }
+        }
+
+        // 测试 Lua 中回调 CS 中保存 Lua 中的表的出来
+        public void testLuaCsCall()
+        {
+
         }
     }
 }

@@ -40,8 +40,8 @@ public class HandleMesh : MonoBehaviour
 
         m_triangles = new int[6] // 两个三角面的连接
         {
-            0,1,2,// 通过顶点012连接形成的三角面
-            1,3,2,// 通过顶点132连接形成的三角面
+            0, 1, 2,// 通过顶点012连接形成的三角面
+            1, 3, 2,// 通过顶点132连接形成的三角面
         };
 
         m_color = new Color[4]
@@ -76,11 +76,20 @@ public class HandleMesh : MonoBehaviour
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateBounds();
 
-        if (m_meshFilter == null) m_meshFilter = gameObject.GetComponent<MeshFilter>();
-        if (m_meshFilter == null) m_meshFilter = gameObject.AddComponent<MeshFilter>();
+        if (m_meshFilter == null)
+        {
+            m_meshFilter = gameObject.GetComponent<MeshFilter>();
+        }
+        if (m_meshFilter == null)
+        {
+            m_meshFilter = gameObject.AddComponent<MeshFilter>();
+        }
 
         GetComponent<MeshFilter>().mesh = m_mesh;
-        if (mRenderer == null) mRenderer = gameObject.GetComponent<MeshRenderer>();
+        if (mRenderer == null)
+        {
+            mRenderer = gameObject.GetComponent<MeshRenderer>();
+        }
 
         if (mRenderer == null)
         {
@@ -94,6 +103,9 @@ public class HandleMesh : MonoBehaviour
         //Shader shader = Shader.Find("Standard");
         mDynamicMat = new Material(shader);
         //mDynamicMat.mainTexture = mTexture;
-        if (mRenderer != null) mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+        if (mRenderer != null)
+        {
+            mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+        }
     }
 }
