@@ -11,7 +11,8 @@ namespace UnitTest
         {
             //testHeightMap();
             //testTerrainPageOne();
-            testTerrainPageMulti();
+            //testTerrainPageMulti();
+            testProjectMatrix();
             //testPrint();
         }
 
@@ -43,6 +44,17 @@ namespace UnitTest
             HeightMapData heightMapData = new HeightMapData();
             heightMapData.loadHeightMap("Terrain/terrain.png");
             heightMapData.print();
+        }
+
+        // 测试投影矩阵
+        public void testProjectMatrix()
+        {
+            Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
+        }
+
+        public void onResLoadScene(Scene scene)
+        {
+
         }
 
         protected void end()

@@ -5,21 +5,26 @@
      */
     public class MLensBase
     {
-        // Far clip distance - default 10000
+        protected MMatrix3D m_matrix3D;     // 镜头变换矩阵
+        // Far 裁剪距离，默认 10000
         protected float m_farDist;
-        // Near clip distance - default 100
+        // Near 裁剪距离，默认 100
         protected float m_nearDist;
         // x/y viewport ratio - default 1.3333
         protected float m_aspectRatio;
         // 存放 Frustum 的四面体的八个顶点
+        protected bool m_matrixInvalid;
         protected MList<float> m_frustumCorners;
 
         protected MLensBase()
         {
+            m_matrix3D = new MMatrix3D();
+
             m_farDist = 1000;
             m_nearDist = 1000;
 
             m_aspectRatio = 1.3333f;
+            m_matrixInvalid = true;
             m_frustumCorners = new MList<float>();
         }
 
@@ -47,5 +52,13 @@
         {
             
         }
-    }
+
+        /**
+         * @brief 更新投影矩阵
+         */
+        virtual protected void updateMatrix()
+		{
+			
+        }
+}
 }

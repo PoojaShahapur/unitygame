@@ -44,7 +44,6 @@ namespace SDK.Lib
             }
         }
 
-        // todo: fix to infinite height so that height needn't be passed in constructor
         override public bool isInFrustum(MList<MPlane3D> planes, int numPlanes)
 		{
 			for (int i = 0; i < numPlanes; ++i) 
