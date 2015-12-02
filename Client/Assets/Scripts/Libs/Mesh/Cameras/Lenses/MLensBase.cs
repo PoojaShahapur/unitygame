@@ -1,7 +1,7 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * brief 镜头
+     * brief 镜头基类
      */
     public class MLensBase
     {
@@ -11,6 +11,8 @@
         protected float m_nearDist;
         // x/y viewport ratio - default 1.3333
         protected float m_aspectRatio;
+        // 存放 Frustum 的四面体的八个顶点
+        protected MList<float> m_frustumCorners;
 
         protected MLensBase()
         {
@@ -18,6 +20,7 @@
             m_nearDist = 1000;
 
             m_aspectRatio = 1.3333f;
+            m_frustumCorners = new MList<float>();
         }
 
         virtual public void setFieldOfView(float value)

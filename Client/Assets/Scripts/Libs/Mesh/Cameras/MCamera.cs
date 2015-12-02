@@ -3,7 +3,7 @@
 namespace SDK.Lib
 {
     /**
-     * @brief 摄像机
+     * @brief 摄像机，左手系，深度 [-1, 1] 范围
      */
     public class MCamera
     {
@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected Matrix4x4 m_viewProjMat;  // view Proj 矩阵
         protected bool m_viewProjDirty;
 		protected MLensBase m_lens;         // 镜头
-        protected MPlane3D[] m_frustumPlanes;   // 6 个裁剪面板
+        protected MPlane3D[] m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
         protected bool m_frustumPlanesDirty;
 
         public MCamera()
@@ -48,6 +48,9 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 更新 Frustum 6 个面板
+         */
         protected void updateFrustum()
 		{
 			float a = 0, b = 0, c = 0;
@@ -59,6 +62,7 @@ namespace SDK.Lib
             MPlane3D p;
             float invLen;
 
+            // View Project 矩阵，注意不是只有 Project 矩阵，因此这个求的面板是世界空间中的面板
             c11 = m_viewProjMat.m00;
 			c12 = m_viewProjMat.m10;
 			c13 = m_viewProjMat.m20;
@@ -76,7 +80,7 @@ namespace SDK.Lib
 			c43 = m_viewProjMat.m23;
 			c44 = m_viewProjMat.m33;
 			
-			// left plane
+			// 左边 Plane
 			p = m_frustumPlanes[0];
 			a = c41 + c11;
 			b = c42 + c12;
@@ -87,7 +91,7 @@ namespace SDK.Lib
             p.m_c = c* invLen;
             p.m_d = -(c44 + c14)*invLen;
 			
-			// right plane
+			// 右边 Plane
 			p = m_frustumPlanes[1];
 			a = c41 - c11;
 			b = c42 - c12;
@@ -98,7 +102,7 @@ namespace SDK.Lib
             p.m_c = c* invLen;
             p.m_d = (c14 - c44)*invLen;
 			
-			// bottom
+			// 底边 Plane
 			p = m_frustumPlanes[2];
 			a = c41 + c21;
 			b = c42 + c22;
@@ -109,7 +113,7 @@ namespace SDK.Lib
             p.m_c = c* invLen;
             p.m_d = -(c44 + c24)*invLen;
 			
-			// top
+			// 顶端 Plane
 			p = m_frustumPlanes[3];
 			a = c41 - c21;
 			b = c42 - c22;
@@ -120,7 +124,7 @@ namespace SDK.Lib
             p.m_c = c* invLen;
             p.m_d = (c24 - c44)*invLen;
 			
-			// near
+			// 近 Plane
 			p = m_frustumPlanes[4];
 			a = c31;
 			b = c32;
@@ -131,7 +135,7 @@ namespace SDK.Lib
             p.m_c = c* invLen;
             p.m_d = -c34* invLen;
 
-            // far
+            // 远 Plane
             p = m_frustumPlanes[5];
 			a = c41 - c31;
 			b = c42 - c32;

@@ -15,6 +15,7 @@ namespace SDK.Lib
     {
         public const string TRUE = "true";
         public const string FALSE = "false";
+        public const double PI = Math.PI;
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -785,6 +786,22 @@ namespace SDK.Lib
         static public float div(int numerator, int denominator)
         {
             return ((float)numerator) / denominator;
+        }
+
+        /**
+         * @brief tan
+         */
+        static public float tan(double a)
+        {
+            return (float)(Math.Tan(a));
+        }
+
+        /**
+         * @brief atan
+         */
+        static public float atan(double a)
+        {
+            return (float)(Math.Atan(a));
         }
     }
 }
