@@ -10,8 +10,6 @@
         // 焦距长度
         protected float m_focalLength;          // 焦距
         protected float m_focalLengthInv;       // 焦距的倒数
-        protected float m_yMax;
-		protected float m_xMax;
 
         public MPerspectiveLens()
         {
@@ -46,28 +44,33 @@
         }
 
         /**
-         * @brief 更新投影矩阵
+         * @brief 更新投影矩阵和 Frustum 的八个顶点
          */
-        override protected void updateMatrix()
+        override public void updateMatrix()
 		{
-			m_yMax = m_nearDist * m_focalLengthInv;
-            m_xMax = m_yMax* m_aspectRatio;
+            float halfHeight = m_nearDist * m_focalLengthInv;
+            float halfWidth = halfHeight * m_aspectRatio;
 
-            float left, right, top, bottom;
+            float left = 0, right = 0, top = 0, bottom = 0;
 			
-			left = -m_xMax;
-			right = m_xMax;
-			top = -m_yMax;
-			bottom = m_yMax;
+			left = -halfWidth;
+			right = halfWidth;
+			top = halfHeight;
+			bottom = -halfHeight;
 
-            m_matrix3D.m[0, 0] = m_nearDist / m_xMax;
-            m_matrix3D.m[1, 1] = m_nearDist / m_yMax;
-            m_matrix3D.m[2, 2] = m_farDist / (m_farDist - m_nearDist);
-            m_matrix3D.m[2, 3] = 1;
-            m_matrix3D.m[0, 1] = m_matrix3D.m[0, 2] = raw[0, 3] = raw[1, 0] =
-                m_matrix3D.m[uint(6)] = m_matrix3D.m[uint(7)] = raw[uint(8)] = raw[uint(9)] =
-                m_matrix3D.m[uint(12)] = m_matrix3D.m[uint(13)] = raw[uint(15)] = 0;
-            m_matrix3D.m[uint(14)] = -_near* raw[uint(10)];
+            float invWidth = 1 / (right - left);
+            float invHeight = 1 / (top - bottom);
+            float invDepth = 1 / (m_farDist - m_nearDist);
+
+            m_matrix3D.m[0, 0] = 2 * m_nearDist * invWidth;
+            m_matrix3D.m[0, 2] = (right + left) * (right - left);
+            m_matrix3D.m[1, 1] = 2 * m_nearDist * invHeight;
+            m_matrix3D.m[1, 2] = (top + bottom) / (top - bottom);
+            m_matrix3D.m[2, 2] = -(m_farDist + m_nearDist) / (m_farDist - m_nearDist);
+            m_matrix3D.m[2, 3] = -2 * (m_farDist * m_nearDist) / (m_farDist - m_nearDist);
+            m_matrix3D.m[3, 2] = -1;
+            m_matrix3D.m[0, 1] = m_matrix3D.m[0, 3] = m_matrix3D.m[1, 0] = m_matrix3D.m[1, 3] = m_matrix3D.m[2, 0] = m_matrix3D.m[2, 1] =
+                m_matrix3D.m[3, 0] = m_matrix3D.m[3, 1] = m_matrix3D.m[3, 3] = 0;
 
 			float yMaxFar = m_farDist * m_focalLengthInv;
             float xMaxFar = yMaxFar* m_aspectRatio;
@@ -86,6 +89,8 @@
 			m_frustumCorners[14] = m_frustumCorners[17] = m_frustumCorners[20] = m_frustumCorners[23] = m_farDist;
 			
 			m_matrixInvalid = false;
-		}
+
+            testLogMatrix(m_matrix3D);
+        }
     }
 }

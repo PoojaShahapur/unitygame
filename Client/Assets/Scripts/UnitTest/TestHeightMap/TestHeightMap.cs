@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using UnityEngine;
 
 namespace UnitTest
 {
@@ -54,7 +55,12 @@ namespace UnitTest
 
         public void onResLoadScene(Scene scene)
         {
+            checkCamera();
+        }
 
+        public void checkCamera()
+        {
+            MCamera camera = new MCamera(Camera.main);
         }
 
         protected void end()
