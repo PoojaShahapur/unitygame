@@ -12,8 +12,8 @@ namespace UnitTest
         {
             //testHeightMap();
             //testTerrainPageOne();
-            //testTerrainPageMulti();
-            testProjectMatrix();
+            testTerrainPageMulti();
+            //testProjectMatrix();
             //testPrint();
         }
 
@@ -61,6 +61,12 @@ namespace UnitTest
         public void checkCamera()
         {
             MCamera camera = new MCamera(Camera.main);
+        }
+
+        // 测试四叉树
+        protected void testQuadTree()
+        {
+
         }
 
         protected void end()

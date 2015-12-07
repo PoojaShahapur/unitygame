@@ -3,7 +3,7 @@
     /**
      * @brief 一个 Terrain Page，这个地形 Page 只有一个 Area
      */
-    public class TerrainPageOne
+    public class TerrainPageOne : TerrainPage
     {
         protected HeightMapData m_heightMapData;    // 高度图数据
         protected HeightMapMeshOne m_heightMapMesh;    // 高度图 Mesh

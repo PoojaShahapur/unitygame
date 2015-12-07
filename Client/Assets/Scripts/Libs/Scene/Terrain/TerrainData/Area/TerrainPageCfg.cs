@@ -21,7 +21,7 @@
 
         protected int m_minElevation;                   // 高度图最小高度
         protected int m_maxElevation;                   // 高度图最大高度
-        protected int m_height;    // 世界空间高度图高度， Z 轴高度，这个高度要和 HeightMapMeshOne 中的 m_height 高度一样，因为计算高度依赖这个值
+        protected int m_height;    // 世界空间高度图高度， Z 轴高度，这个高度要和 HeightMapMeshOne 中的 m_height 高度一样，因为计算高度依赖这个值，因为高度图暂时精度范围是 [0, 255] ，m_height 就是缩放高度图中的 [0, 1] 到具体高度，因此 m_height 这个值取值范围要和高度图的范围尽量一样 [0, 255]
 
         /**
          * @brief 地形配置，尽量 pixelWidth 和 pixelHeight 尽量相等

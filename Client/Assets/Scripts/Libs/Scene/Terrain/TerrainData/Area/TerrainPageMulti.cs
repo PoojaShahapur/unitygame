@@ -3,7 +3,7 @@
     /**
      * @brief 一个 Terrain Page，这个地形 Page 有多个 Multi
      */
-    public class TerrainPageMulti
+    public class TerrainPageMulti : TerrainPage
     {
         protected HeightMapData m_heightMapData;        // 高度图数据
         protected HeightMapMeshMulti m_heightMapMesh;   // 高度图 Mesh
@@ -12,6 +12,11 @@
         public TerrainPageMulti()
         {
             m_terrainPageCfg = new TerrainPageCfg();
+        }
+
+        override public TerrainPageCfg getTerrainPageCfg()
+        {
+            return m_terrainPageCfg;
         }
 
         /**

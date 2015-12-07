@@ -21,9 +21,12 @@ namespace SDK.Lib
         protected float m_halfExtentXZ;
         protected float m_halfExtentY;
 
-        public MQuadTreeNode(int maxDepth = 5, float size = 10000, float height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0)
+        /**
+         * @brief 四叉树的节点，深度根据 leaf 的大小确定
+         */
+        public MQuadTreeNode(TerrainPage terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0)
         {
-            float hs = size * 0.5f;
+            int hs = (int)(size * 0.5f);
 
             m_centerX = centerX;
             m_centerZ = centerZ;
@@ -37,10 +40,10 @@ namespace SDK.Lib
             if (!m_leaf)
             {
                 float hhs = hs * 0.5f;
-                addNode(m_leftNear = new MQuadTreeNode(maxDepth, hs, height, centerX - hhs, centerZ - hhs, depth + 1));
-                addNode(m_rightNear = new MQuadTreeNode(maxDepth, hs, height, centerX + hhs, centerZ - hhs, depth + 1));
-                addNode(m_leftFar = new MQuadTreeNode(maxDepth, hs, height, centerX - hhs, centerZ + hhs, depth + 1));
-                addNode(m_rightFar = new MQuadTreeNode(maxDepth, hs, height, centerX + hhs, centerZ + hhs, depth + 1));
+                addNode(m_leftNear = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX - hhs, centerZ - hhs, depth + 1));
+                addNode(m_rightNear = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX + hhs, centerZ - hhs, depth + 1));
+                addNode(m_leftFar = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX - hhs, centerZ + hhs, depth + 1));
+                addNode(m_rightFar = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX + hhs, centerZ + hhs, depth + 1));
             }
         }
 

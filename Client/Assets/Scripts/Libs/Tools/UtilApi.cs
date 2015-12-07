@@ -803,5 +803,10 @@ namespace SDK.Lib
         {
             return (float)(Math.Atan(a));
         }
+
+        static public int powerTwo(int exponent)
+        {
+            return (int)Math.Pow(2, exponent);
+        }
     }
 }

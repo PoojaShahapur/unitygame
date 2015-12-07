@@ -11,10 +11,10 @@ namespace SDK.Lib
         protected Matrix4x4 m_viewMat;      // View 矩阵
         protected Matrix4x4 m_projMat;      // Proj 矩阵
         protected Matrix4x4 m_viewProjMat;  // view Proj 矩阵
-        protected bool m_viewProjDirty;
-		protected MLensBase m_lens;         // 镜头
+        protected bool m_viewProjDirty;     // view Proj 矩阵是否无效
+        protected MLensBase m_lens;         // 镜头
         protected MPlane3D[] m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
-        protected bool m_frustumPlanesDirty;
+        protected bool m_frustumPlanesDirty;    // FrustumPlane 是否无效
 
         public MCamera(Camera camera_ = null)
         {

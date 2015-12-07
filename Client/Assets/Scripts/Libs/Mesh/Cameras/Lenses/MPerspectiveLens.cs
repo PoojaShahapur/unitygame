@@ -5,10 +5,8 @@
      */
     public class MPerspectiveLens : MLensBase
     {
-        // y-direction field-of-view (default 45)
-        protected float m_fieldOfView;
-        // 焦距长度
-        protected float m_focalLength;          // 焦距
+        protected float m_fieldOfView;          // y 方向 FieldOfView，默认值是 45
+        protected float m_focalLength;          // 焦距长度
         protected float m_focalLengthInv;       // 焦距的倒数
 
         public MPerspectiveLens()
