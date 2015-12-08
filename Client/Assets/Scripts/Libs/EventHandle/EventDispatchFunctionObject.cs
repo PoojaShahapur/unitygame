@@ -12,6 +12,14 @@ namespace SDK.Lib
             m_bClientDispose = false;
         }
 
+        public void call(IDispatchObject dispObj)
+        {
+            if (null !=  m_handle)
+            {
+                m_handle(dispObj);
+            }
+        }
+
         public void setClientDispose()
         {
             m_bClientDispose = true;

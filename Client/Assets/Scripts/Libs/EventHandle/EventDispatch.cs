@@ -125,7 +125,7 @@ namespace SDK.Lib
                 {
                     if (!handle.m_bClientDispose)
                     {
-                        handle.m_handle(dispatchObject);
+                        handle.call(dispatchObject);
                     }
                 }
 
