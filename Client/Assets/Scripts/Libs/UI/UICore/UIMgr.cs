@@ -238,8 +238,8 @@ namespace SDK.Lib
                     (form as Form).id = ID;
                     if (attrItem.m_bNeedLua)
                     {
-                        form.luaCSBridgeForm = new LuaCSBridgeForm(attrItem.m_luaScriptTableName, form);
-                        form.luaCSBridgeForm.DoFile(attrItem.m_luaScriptPath);
+                        form.luaCSBridgeForm = new LuaCSBridgeForm(attrItem, form);
+                        form.luaCSBridgeForm.init();
                     }
 
                     addFormNoReady(form);           // 仅仅是创建数据，资源还没有加载完成
@@ -343,7 +343,7 @@ namespace SDK.Lib
             if (attrItem.m_bNeedLua)
             {
                 m_id2FormDic[ID].luaCSBridgeForm.gameObject = m_id2FormDic[ID].m_GUIWin.m_uiRoot;
-                m_id2FormDic[ID].luaCSBridgeForm.init();
+                m_id2FormDic[ID].luaCSBridgeForm.postInit();
             }
 
             // 设置位置

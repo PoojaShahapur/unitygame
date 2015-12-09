@@ -1,4 +1,5 @@
 ﻿using LuaInterface;
+using System;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -23,11 +24,14 @@ namespace SDK.Lib
         public const string BTN_CLICK_TABLE = "BtnClickTable";      // BtnClickTable 按钮点击事件表
 
         protected GameObject m_gameObject;  // 测试绑定 UnitEngine 对象
-        protected Form m_form;
+        protected UIAttrItem m_attrItem;    // Form 基本配置
+        protected Form m_form;              // CS 中的 Form
+        protected LuaTable m_luaInsTable;      // Lua 中的 Form 实例表
 
-        public LuaCSBridgeForm(string tableName, Form form_)
-            : base(tableName)
+        public LuaCSBridgeForm(UIAttrItem attrItem, Form form_)
+            : base(attrItem.m_luaScriptPath, attrItem.m_luaScriptTableName)
         {
+            m_attrItem = attrItem;
             m_form = form_;
         }
 
@@ -43,9 +47,16 @@ namespace SDK.Lib
             }
         }
 
+        // 加载表并且实例化表
         override public void init()
         {
             base.init();
+            m_luaInsTable = base.CallClassMethod("new")[0] as LuaTable;
+        }
+
+        // 资源加载完成初始化
+        public void postInit()
+        {
             Ctx.m_instance.m_luaSystem.lua[m_tableName + ".gameObject"] = m_gameObject;
             Ctx.m_instance.m_luaSystem.lua[m_tableName + ".transform"] = m_gameObject.transform;
             Ctx.m_instance.m_luaSystem.lua[m_tableName + ".form"] = m_form;
@@ -71,6 +82,18 @@ namespace SDK.Lib
             LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable("UIManager");
             CallGlobalMethod(LuaCSBridgeForm.LUA_DISPATCH_FULL_FUNC_NAME, luaTable, eventName, formName, path);  // 这个地方把 luaTable 传递进去，是因为 Lua 中是这么写的 UIManager:OnBtnClick ，而不是 UIManager.OnBtnClick 写的
             // CallGlobalMethod("UISysTest.OnUiMsg", "bbb", "ffff");
+        }
+
+        override public object[] CallClassMethod(string funcName_, params object[] args)
+        {
+            string fullFuncName = "";               // 完全的有表的完全名字
+            if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
+            {
+                fullFuncName = m_tableName + "." + funcName_;
+                return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, m_luaInsTable, args);
+            }
+
+            return null;
         }
     }
 }

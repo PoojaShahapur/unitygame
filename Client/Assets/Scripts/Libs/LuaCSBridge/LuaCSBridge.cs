@@ -10,20 +10,31 @@ namespace SDK.Lib
      */
     public class LuaCSBridge
     {
-        protected string m_tableName;   // 表的名字
-        //protected LuaTable m_moduleEnv;     // 执行模块的环境
+        protected string m_luaFile;         // Lua 文件名字
+        protected string m_tableName;       // 表的名字
+        protected LuaTable m_luaTable;       // Lua 中的 Form
+        //protected LuaTable m_moduleEnv;   // 执行模块的环境
 
         /**
          * @brief 表的名字
          */
-        public LuaCSBridge(string tableName)
+        public LuaCSBridge(string luaFile, string tableName)
         {
+            m_luaFile = luaFile;
             m_tableName = tableName;
         }
 
         virtual public void init()
         {
-            
+            if (!string.IsNullOrEmpty(m_luaFile))
+            {
+                //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
+                m_luaTable = Ctx.m_instance.m_luaSystem.getLuaClassLoader().CallMethod("loadClass", m_luaFile)[0] as LuaTable;   // 加载 lua 脚本
+            }
+            else
+            {
+                m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
+            }
         }
 
         virtual public void dispose()
@@ -76,8 +87,7 @@ namespace SDK.Lib
          */
         public object[] CallMethod(string funcName_, params object[] args)
         {
-            return null;
-            string fullFuncName = "";               // 完全的有表的完全名字
+            string fullFuncName = "";   // 完全的有表的完全名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
                 fullFuncName = funcName_;
@@ -93,16 +103,13 @@ namespace SDK.Lib
          * @brief 调用类方法
          * @example 表中需要这么写 TableName:FunctionName()， 需要把这个表作为第二个参数传递进入，在 Lua 函数中就直接可以使用 self 了
          */
-        public object[] CallClassMethod(string funcName_, params object[] args)
+        virtual public object[] CallClassMethod(string funcName_, params object[] args)
         {
-            return null;
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
                 fullFuncName = m_tableName + "." + funcName_;
-                LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
-
-                return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, luaTable, args);
+                return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, m_luaTable, args);
             }
 
             return null;
@@ -114,7 +121,6 @@ namespace SDK.Lib
          */
         public object GetMember(string memberName_)
         {
-            return null;
             string fullMemberName = "";             // 有表前缀的成员的名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -133,7 +139,6 @@ namespace SDK.Lib
          */
         public object[] CallGlobalMethod(string funcName_, params object[] args)
         {
-            return null;
             return Ctx.m_instance.m_luaSystem.CallLuaFunction(funcName_, args);
         }
 

@@ -21,6 +21,7 @@ public class AppRoot : MonoBehaviour
 	void Start () 
     {
         Ctx.instance();
+        Ctx.m_instance.init();
         init();
 	}
 	

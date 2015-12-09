@@ -22,8 +22,8 @@ GlobalNS[M.clsName] = M
 function M:ctor()
     M[GlobalNS.UIFormID.eUILua] = {
             m_widgetPath = "UI/UILua/UILua.prefab",
-            m_luaScriptPath = "UI/UILua/UILua.lua",
-            m_luaScriptTableName = "UILua"
+            m_luaScriptPath = "MyLua/UI/UILua/UILua",
+            m_luaScriptTableName = "GlobalNS.UILua"
         }
 end
 

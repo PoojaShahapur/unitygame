@@ -8,6 +8,7 @@ namespace SDK.Lib
     public class LuaSystem
     {
         protected LuaScriptMgr m_luaScriptMgr;
+        protected LuaCSBridgeClassLoader m_luaClassLoader;  // Lua 类文件加载器
 
         public LuaSystem()
         {
@@ -17,7 +18,8 @@ namespace SDK.Lib
         public void init()
         {
             m_luaScriptMgr.Start();
-            DoFile("MyLua.Libs.Core.Prequisites");
+            DoFile("MyLua.Libs.Core.Prequisites");  // 一次性加载所有文件
+            m_luaClassLoader = new LuaCSBridgeClassLoader();
         }
 
         public LuaScriptMgr getLuaScriptMgr()
@@ -31,6 +33,11 @@ namespace SDK.Lib
             {
                 return m_luaScriptMgr.lua;
             }
+        }
+
+        public LuaCSBridgeClassLoader getLuaClassLoader()
+        {
+            return m_luaClassLoader;
         }
 
         public object[] CallLuaFunction(string name, params object[] args)

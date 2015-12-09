@@ -51,6 +51,7 @@ namespace UnitTest
         public void testProjectMatrix()
         {
             Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
+            Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
         }
 
         public void onResLoadScene(Scene scene)

@@ -113,7 +113,7 @@ namespace SDK.Lib
 
         public Ctx()
         {
-            m_luaSystem.init();
+            
         }
 
         public static Ctx instance()
@@ -123,6 +123,11 @@ namespace SDK.Lib
                 m_instance = new Ctx();
             }
             return m_instance;
+        }
+
+        public void init()
+        {
+            m_luaSystem.init();
         }
 
         // 卸载所有的资源

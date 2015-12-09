@@ -15,7 +15,7 @@
         public const string LUA_DISPATCH_FUNC_NAME = "handleGlobalEvent";   // 处理全局事件的函数
 
         public LuaCSBridgeDispatch(string tableName)
-            : base(tableName)
+            : base("", tableName)
         {
             Ctx.m_instance.m_luaSystem.DoFile("GlobalEvent/GlobalEventMgr.lua");
         }

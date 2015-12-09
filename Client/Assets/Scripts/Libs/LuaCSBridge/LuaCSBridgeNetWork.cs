@@ -6,7 +6,7 @@
     public class LuaCSBridgeNetWork : LuaCSBridge
     {
         public LuaCSBridgeNetWork() : 
-            base ("LuaCSBridgeNetWork")
+            base ("", "LuaCSBridgeNetWork")
         {
 
         }

@@ -1,4 +1,5 @@
 require "System.Wrap"
+--require "MyLua.Libs.Core.CSImportToLua"         -- 导入 CS 反射
 luanet.load_assembly("UnityEngine")
 
 object			= System.Object

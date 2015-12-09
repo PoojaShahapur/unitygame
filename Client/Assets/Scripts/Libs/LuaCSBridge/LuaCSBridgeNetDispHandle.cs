@@ -6,7 +6,7 @@
     public class LuaCSBridgeNetDispHandle : LuaCSBridge
     {
         public LuaCSBridgeNetDispHandle()
-            : base("NetDispHandle")
+            : base("", "NetDispHandle")
         {
             // Ctx.m_instance.m_luaSystem.DoString();
         }

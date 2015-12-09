@@ -15,7 +15,7 @@ namespace SDK.Lib
         protected LuaTable m_luaTable;      // LuaTable
 
         public LuaCSBridgeByteBuffer() : 
-            base ("NetMsgData")
+            base ("", "NetMsgData")
             //base("ByteBuffer")
         {
             string path = "LuaScript/DataStruct/NetMsgData.lua";

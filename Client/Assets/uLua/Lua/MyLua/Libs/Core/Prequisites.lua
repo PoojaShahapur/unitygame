@@ -1,11 +1,14 @@
 -- 所有全局类都在这里加载
+
 require "MyLua.Libs.Core.GlobalNS"      -- 加载自己的全局表
 
 -- 基础
 require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Core.StaticClass"
+require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Core.ClassLoader"
+--require "MyLua.Libs.Core.CSImportToLua"
+
 
 -- 数据结构
 require "MyLua.Libs.DataStruct.MList"

@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected UIAttrSystem m_uiAttrs;
 
         public LuaCSBridgeUICore(UIAttrSystem uiAttrs)
-            : base("")
+            : base("", "")
         {
             m_uiAttrs = uiAttrs;
         }
