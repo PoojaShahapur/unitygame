@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using SDK.Lib;
 
 public static class WrapFile {
 
@@ -110,7 +111,10 @@ public static class WrapFile {
         _GT(typeof(TweenPosition)),
         _GT(typeof(TweenScale)),
         _GT(typeof(UICenterOnChild)),    
-        _GT(typeof(UIAtlas)),*/         
+        _GT(typeof(UIAtlas)),*/
+
+        // My 导出
+        _GT(typeof(UtilApi)),
     };
 
     public static BindType _GT(Type t) {

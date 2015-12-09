@@ -12,7 +12,7 @@ namespace UnitTest
             pMGraph.init(3, 3, 1, 1);
 
             List<Vertex> vertList;
-            FileStream pFile = new FileStream("E:\\aaa.txt", FileMode.Create);
+            FileStream pFile = new FileStream("D:\\aaa.txt", FileMode.Create);
             string strStream = "";
 
             //vertList = test5Stop(pMGraph);

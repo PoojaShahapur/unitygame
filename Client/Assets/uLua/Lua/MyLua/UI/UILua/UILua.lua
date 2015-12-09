@@ -18,6 +18,7 @@ end
 function M:onReady()
     print("M:onReady()")
     --GlobalNS.CSImportToLua.UtilApi.addEventHandle(self.gameObject, self.onBtnClk);
+	SDK.Lib.UtilApi.addEventHandle(self.gameObject, "Button", self.onBtnClk);
 end
 
 function M:onShow()

@@ -55,6 +55,7 @@ public static class LuaBinder
 			case "RenderSettingsWrap": RenderSettingsWrap.Register(L); break;
 			case "RenderTextureWrap": RenderTextureWrap.Register(L); break;
 			case "ScreenWrap": ScreenWrap.Register(L); break;
+			case "SDK_Lib_UtilApiWrap": SDK_Lib_UtilApiWrap.Register(L); break;
 			case "SkinnedMeshRendererWrap": SkinnedMeshRendererWrap.Register(L); break;
 			case "SleepTimeoutWrap": SleepTimeoutWrap.Register(L); break;
 			case "SpaceWrap": SpaceWrap.Register(L); break;
