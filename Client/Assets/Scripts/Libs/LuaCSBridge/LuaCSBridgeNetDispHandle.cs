@@ -8,7 +8,7 @@
         public LuaCSBridgeNetDispHandle()
             : base("NetDispHandle")
         {
-            // Ctx.m_instance.m_luaScriptMgr.DoString();
+            // Ctx.m_instance.m_luaSystem.DoString();
         }
 
         // Lua 脚本处理消息

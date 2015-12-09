@@ -7,12 +7,12 @@ local Class = function (super)
     classType.ctor = false      -- 默认是没有构造函数的
     classType.super = super     -- 记录父类
     classType.__index = classType  -- 设置类表的 __index 是自己，这样元表就是类表
-    classType.tableType = "Class"   -- 表的类型
+    classType.dataType = "Class"   -- 表的类型
     
     -- 这个函数都是没有传递 self ，如果要传递 self ，可以 classType:new 这么写，然后 cls 就是 self，classType:new 不能这么写，只能 classType:new = function(...)
     function classType:new(...)     -- 以这个表为元表，生成一个新的表
         local instance = {}         -- 实例化对象
-        instance.tableType = "Instance"   -- 表的类型
+        instance.dataType = "Instance"   -- 表的类型
         instance.clsCode = self     -- 记录自己的类表
         
         -- 生成表后，直接赋值元表为类的表，这样 ctor 中就可以使用类中的数据了

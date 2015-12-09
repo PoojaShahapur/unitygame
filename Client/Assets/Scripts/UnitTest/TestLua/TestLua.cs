@@ -31,15 +31,15 @@ namespace UnitTest
             LuaScriptMgr luaMgr = new LuaScriptMgr();
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "UtilDebug.txt");
             textRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextRes>(path);
-            Ctx.m_instance.m_luaScriptMgr.lua.DoString(textRes.text);
+            Ctx.m_instance.m_luaSystem.lua.DoString(textRes.text);
 
-            LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("regPath");
+            LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
             UtilApi.normalPath(ref luaPath);
             object[] ret = reflf.Call(luaPath);
 
             luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Plugins/x86_64");
-            reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("regCPath");
+            reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regCPath");
             ret = reflf.Call(luaPath);
 
             //path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "debugger.txt");
@@ -48,13 +48,13 @@ namespace UnitTest
 
             path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathLuaScript], "TestLua.txt");
             textRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextRes>(path);
-            Ctx.m_instance.m_luaScriptMgr.lua.DoString(textRes.text);
+            Ctx.m_instance.m_luaSystem.lua.DoString(textRes.text);
 
-            LuaFunction lf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("luaFunc");
+            LuaFunction lf = Ctx.m_instance.m_luaSystem.lua.GetFunction("luaFunc");
             object[] r = lf.Call("2");
             string str = r[0].ToString();
 
-            //LuaTable table = Ctx.m_instance.m_luaScriptMgr.lua.GetTable("mimeself");
+            //LuaTable table = Ctx.m_instance.m_luaSystem.lua.GetTable("mimeself");
             //object _obj = table["encode"];
             //int aaa = 10;
         }
@@ -63,12 +63,12 @@ namespace UnitTest
         {
             //LuaScriptMgr luaMgr = new LuaScriptMgr();
             //luaMgr.Start();
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaSystem.getLuaScriptMgr();
 
             string path = "";
             luaMgr.lua.DoFile("Test/UtilDebug.lua");
 
-            LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("regPath");
+            LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
             UtilApi.normalPath(ref luaPath);
             object[] ret = reflf.Call(luaPath);
@@ -87,7 +87,7 @@ namespace UnitTest
 
         protected void testLocalLua()
         {
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaSystem.getLuaScriptMgr();
             //luaMgr.lua.DoFile("Common/Prerequisites.lua");
             luaMgr.lua.DoFile("Test/TestLua.lua");
 
@@ -99,7 +99,7 @@ namespace UnitTest
 
         protected void testLuaBindFile()
         {
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
+            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaSystem.getLuaScriptMgr();
             luaMgr.lua.DoFile("Common/Prerequisites.lua");
 
             LuaCSBridge _luaCSBridge = new LuaCSBridge("testTable");
@@ -169,7 +169,7 @@ namespace UnitTest
 
         protected void testGet_GTable()
         {
-            LuaTable luaTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable("_G");
+            LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable("_G");
         }
 
         // 下面函数仅仅是说明用法，不能真正运行
@@ -185,7 +185,7 @@ namespace UnitTest
         {
             LuaFunction luaFunc = null;
             int oldTop = luaFunc.BeginPCall();       // 将函数压栈
-            LuaInterface.LuaDLL.lua_pushinteger(Ctx.m_instance.m_luaScriptMgr.lua.L, 10);
+            LuaInterface.LuaDLL.lua_pushinteger(Ctx.m_instance.m_luaSystem.lua.L, 10);
             if(luaFunc.PCall(oldTop, 1))
             {
                 luaFunc.EndPCall(oldTop);

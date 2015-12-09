@@ -262,7 +262,7 @@ namespace SDK.Lib
         public static void ClearMemory()
         {
             GC.Collect(); Resources.UnloadUnusedAssets();
-            LuaScriptMgr mgr = Ctx.m_instance.m_luaScriptMgr;
+            LuaScriptMgr mgr = LuaScriptMgr.Instance;
             if (mgr == null) mgr.LuaGC();
         }
 
@@ -460,7 +460,7 @@ namespace SDK.Lib
         /// </summary>
         public static object[] CallMethod(string module, string func, params object[] args)
         {
-            LuaScriptMgr luaMgr = Ctx.m_instance.m_luaScriptMgr;
+            LuaScriptMgr luaMgr = LuaScriptMgr.Instance;
             if (luaMgr == null) return null;
             string funcName = "";
             if(String.IsNullOrEmpty(module))    // 如果在 _G 表中

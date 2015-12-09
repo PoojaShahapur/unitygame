@@ -7,17 +7,26 @@ M.clsName = "UIFormID"
 GlobalNS[M.clsName] = M
 
 -- 定义 Form ID
-M.eUILua = 100
+function M.ctor()
+    M.eUILua = 100
+end
 
+M.ctor()    -- 构造函数调用
+
+--[[******************************************]]
 -- 定义属性
 local M = GlobalNS.StaticClass()
 M.clsName = "UIAttrSystem"
 GlobalNS[M.clsName] = M
 
-M[UIFormID.eUILua] = {
-        m_widgetPath = "UI/UIFormLua/UIFormLua.prefab",
-        m_luaScriptPath = "UI/UIFormLua/UIFormLua.lua",
-        m_luaScriptTableName = "UIFormLua"
-    }
+function M:ctor()
+    M[GlobalNS.UIFormID.eUILua] = {
+            m_widgetPath = "UI/UILua/UILua.prefab",
+            m_luaScriptPath = "UI/UILua/UILua.lua",
+            m_luaScriptTableName = "UILua"
+        }
+end
+
+M.ctor()
 
 return M

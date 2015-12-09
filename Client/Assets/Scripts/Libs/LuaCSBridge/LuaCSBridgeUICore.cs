@@ -1,5 +1,6 @@
 ﻿using LuaInterface;
 using System;
+using System.Collections;
 using System.Collections.Specialized;
 
 namespace SDK.Lib
@@ -17,12 +18,12 @@ namespace SDK.Lib
             m_uiAttrs = uiAttrs;
         }
 
-        public void loadLuaCfg()
+        public void loadLuaCfg_bak()
         {
-            // 首先读取 UIFOrmID 表
-            LuaTable idTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable("UIFormID");
-            ListDictionary idList = Ctx.m_instance.m_luaScriptMgr.lua.GetTableDict(idTable);
-            LuaTable luaAttrsTable = Ctx.m_instance.m_luaScriptMgr.GetLuaTable("UIAttrs");
+            // 首先读取 UIFormID 表
+            LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
+            ListDictionary idList = Ctx.m_instance.m_luaSystem.lua.GetTableDict(idTable);
+            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
             LuaTable luaAttrsItemTable = null;
             int id = 0;
             UIAttrItem attrItem;
@@ -35,6 +36,35 @@ namespace SDK.Lib
                 m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
                 luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
                 //luaAttrsItemTable = luaAttrsTable[key] as LuaTable;
+
+                attrItem.m_bNeedLua = true;
+                attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
+                attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
+                attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+            }
+        }
+
+        public void loadLuaCfg()
+        {
+            // 首先读取 UIFormID 表
+            LuaTable idTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIFormID");
+            IDictionaryEnumerator idTableEnum =  idTable.GetEnumerator();
+            idTableEnum.Reset();
+
+            LuaTable luaAttrsTable = Ctx.m_instance.m_luaSystem.GetLuaTable("GlobalNS.UIAttrSystem");
+            LuaTable luaAttrsItemTable = null;
+            int id = 0;
+            UIAttrItem attrItem;
+            while(idTableEnum.MoveNext())
+            {
+                if(bIsSystemAttr((string)idTableEnum.Key))
+                {
+                    continue;
+                }
+                id = Convert.ToInt32(idTableEnum.Value);
+                attrItem = new UIAttrItem();
+                m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+                luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
 
                 attrItem.m_bNeedLua = true;
                 attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;

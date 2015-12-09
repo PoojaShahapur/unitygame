@@ -105,7 +105,7 @@ namespace SDK.Lib
         public Maze m_maze = new Maze();
         public GlobalEventMgr m_globalEventMgr = new GlobalEventMgr();
 
-        public LuaScriptMgr m_luaScriptMgr = new LuaScriptMgr();
+        public LuaSystem m_luaSystem = new LuaSystem();
         public MovieMgr m_movieMgr = new MovieMgr();    // 视频 Clip 播放
         public NativeInterface m_nativeInterface = new NativeInterface();   // 本地接口调用
         public GCAutoCollect m_gcAutoCollect = new GCAutoCollect();     // 自动垃圾回收
@@ -113,7 +113,7 @@ namespace SDK.Lib
 
         public Ctx()
         {
-            m_luaScriptMgr.Start();
+            m_luaSystem.init();
         }
 
         public static Ctx instance()

@@ -175,7 +175,7 @@ namespace SDK.Lib
             // ****************** Canvas_100 结束 **********************
 
             m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
-            m_luaCSBridgeUICore.DoFile("UI/UICore/UIAttrs.lua");
+            m_luaCSBridgeUICore.DoFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
             m_luaCSBridgeUICore.loadLuaCfg();
         }
 

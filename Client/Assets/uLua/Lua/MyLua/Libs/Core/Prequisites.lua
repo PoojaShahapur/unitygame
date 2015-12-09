@@ -43,3 +43,7 @@ require "MyLua.Libs.FrameHandle.TickProcessObject"
 require "MyLua.Libs.FrameHandle.TimerMgr"
 require "MyLua.Libs.FrameHandle.FrameTimerMgr"
 require "MyLua.Libs.FrameHandle.TickMgr"
+
+-- UI
+require "MyLua.Libs.UI.UICore.Form"
+require "MyLua.Libs.UI.UICore.UIAttrSystem"
