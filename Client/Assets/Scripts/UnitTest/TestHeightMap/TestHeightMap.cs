@@ -12,8 +12,8 @@ namespace UnitTest
         {
             //testHeightMap();
             //testTerrainPageOne();
-            testTerrainPageMulti();
-            //testProjectMatrix();
+            //testTerrainPageMulti();
+            testProjectMatrix();
             //testPrint();
         }
 
