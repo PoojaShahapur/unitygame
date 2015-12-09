@@ -11,7 +11,7 @@ function M:ctor()
 
 end
 
-M.UtilApi = luanet.import_type(UtilApi)        -- 参数一定不能空
+M.UtilApi = luanet.import_type("SDK.Lib.UtilApi")        -- 参数一定不能空
 
 M.ctor()
 

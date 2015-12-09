@@ -152,6 +152,35 @@ namespace SDK.Lib
             unityEvent.AddListener(unityAction);
         }
 
+        public static void addEventHandle(GameObject go, LuaFunction func)
+        {
+            Button.ButtonClickedEvent btnEvent = go.GetComponent<Button>().onClick;
+            if (btnEvent != null)
+            {
+                btnEvent.RemoveAllListeners();
+                btnEvent.AddListener(
+                    () =>
+                    {
+                        func.Call(go);
+                    }
+                    );
+            }
+        }
+
+        public static void addEventHandle(Button.ButtonClickedEvent btnEvent, LuaFunction func)
+        {
+            if (btnEvent != null)
+            {
+                btnEvent.RemoveAllListeners();
+                btnEvent.AddListener(
+                    () =>
+                    {
+                        func.Call();
+                    }
+                    );
+            }
+        }
+
         public static void addEventHandle(UnityEvent<bool> unityEvent, LuaFunction func)
         {
             unityEvent.AddListener(

@@ -1,5 +1,7 @@
 -- 所有全局类都在这里加载
 
+require("mobdebug").start()
+
 require "MyLua.Libs.Core.GlobalNS"      -- 加载自己的全局表
 
 -- 基础

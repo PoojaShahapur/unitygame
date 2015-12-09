@@ -17,6 +17,7 @@ end
 
 function M:onReady()
     print("M:onReady()")
+    --GlobalNS.CSImportToLua.UtilApi.addEventHandle(self.gameObject, self.onBtnClk);
 end
 
 function M:onShow()
@@ -29,6 +30,10 @@ end
 
 function M:onExit()
     print("M:onExit()")
+end
+
+function M:onBtnClk()
+
 end
 
 return M
