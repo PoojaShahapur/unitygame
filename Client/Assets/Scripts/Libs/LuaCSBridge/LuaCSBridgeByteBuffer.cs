@@ -12,8 +12,6 @@ namespace SDK.Lib
         public const string WRITEINT8 = "writeInt8FromCS";
         public const string WRITEMULTIBYTE = "writeMultiByteFromCS";
 
-        protected LuaTable m_luaTable;      // LuaTable
-
         public LuaCSBridgeByteBuffer() : 
             base ("", "NetMsgData")
             //base("ByteBuffer")

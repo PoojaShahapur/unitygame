@@ -35,7 +35,7 @@ namespace SDK.Lib
 
         override protected IEnumerator initAssetByCoroutine()
         {
-            AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(m_bytes);
+            AssetBundleCreateRequest createReq = AssetBundle.LoadFromMemoryAsync(m_bytes);
             yield return createReq;
 
             m_bundle = createReq.assetBundle;

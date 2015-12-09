@@ -38,7 +38,7 @@ namespace SDK.Lib
 
         virtual protected void initAsset()
         {
-            m_bundle = AssetBundle.CreateFromMemoryImmediate(m_bytes);
+            m_bundle = AssetBundle.LoadFromMemory(m_bytes);
         }
 
         virtual protected IEnumerator initAssetByCoroutine()

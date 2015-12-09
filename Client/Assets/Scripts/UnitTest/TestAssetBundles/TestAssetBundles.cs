@@ -21,7 +21,7 @@ namespace UnitTest
             // 加载资源到内存
             byte[] memBytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Path.Combine(getStreamingDataPath(""), "TestExportPrefab.unity3d"));
             // 从内存创建资源
-            AssetBundle bundles = AssetBundle.CreateFromMemoryImmediate(memBytes);
+            AssetBundle bundles = AssetBundle.LoadFromMemory(memBytes);
             string[] nameList = bundles.GetAllAssetNames();
             Ctx.m_instance.m_logSys.log("TestExportPrefab");
 
@@ -36,7 +36,7 @@ namespace UnitTest
             // 加载资源到内存
             byte[] memBytes = Ctx.m_instance.m_localFileSys.LoadFileByte(Path.Combine(getStreamingDataPath(""), "testexportscene.unity3d"));
             // 从内存创建资源
-            AssetBundle bundles = AssetBundle.CreateFromMemoryImmediate(memBytes);
+            AssetBundle bundles = AssetBundle.LoadFromMemory(memBytes);
             string[] nameList = bundles.GetAllAssetNames();
             Ctx.m_instance.m_logSys.log("testexportscene");
 

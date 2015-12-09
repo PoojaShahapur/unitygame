@@ -38,7 +38,7 @@ namespace SDK.Lib
         {
             string path;
             path = Application.dataPath + "/" + m_path;
-            m_assetBundle = AssetBundle.CreateFromFile(path);
+            m_assetBundle = AssetBundle.LoadFromFile(path);
 
             if (m_assetBundle != null)
             {

@@ -97,7 +97,7 @@ namespace Game.Start
 
             //AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
             byte[] bytes = StartUtil.LoadFileByte(m_appURL);
-            AssetBundle assetBundle = AssetBundle.CreateFromMemoryImmediate(bytes);
+            AssetBundle assetBundle = AssetBundle.LoadFromMemory(bytes);
 
             if (assetBundle != null)
             {
