@@ -23,15 +23,15 @@
          * @brief 构造函数
          */
         public HeightMapMeshOne(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
-            : base(new MGeometry(), new SingleAreaRender())
+            : base(new MGeometry(), new SingleTileRender())
         {
-            buildOneAreaMesh(heightMap, width, height, depth, segmentsW, segmentsH, maxElevation, minElevation, smoothMap);
+            buildOneTileMesh(heightMap, width, height, depth, segmentsW, segmentsH, maxElevation, minElevation, smoothMap);
         }
 
         /**
-         * @breif 一个 Page 就是一个 Area 的地形生成方法
+         * @breif 一个 Page 就是一个 Tile 的地形生成方法
          */
-        protected void buildOneAreaMesh(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
+        protected void buildOneTileMesh(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
         {
             m_subGeometry = new MSubGeometry();
             this.getGeometry().addSubGeometry(m_subGeometry);

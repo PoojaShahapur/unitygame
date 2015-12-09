@@ -158,22 +158,22 @@ namespace SDK.Lib
         /**
          * @param trans 起始位置
          * @param unitWidth 单元宽度
-         * @param areaWidth 区域宽度
+         * @param tileWidth 区域宽度
          * @param splitCnt 划分数量
          * @param posList 返回的位置列表
          */
-        static public void newRectSplit(Transform trans, float unitWidth, float areaRadius, float fYDelta, int splitCnt, ref List<Vector3> posList)
+        static public void newRectSplit(Transform trans, float unitWidth, float tileRadius, float fYDelta, int splitCnt, ref List<Vector3> posList)
         {
             Vector3 pos;
             int listIdx = 0;
             float halfUnitWidth = unitWidth / 2;
-            if (unitWidth * splitCnt > 2 * areaRadius)       // 如果当前区域不能完整放下所有的单元
+            if (unitWidth * splitCnt > 2 * tileRadius)       // 如果当前区域不能完整放下所有的单元
             {
-                float plusOneWidth = (areaRadius * 2) - unitWidth;          // 最后一个必然要放在最后一个，并且不能超出边界
+                float plusOneWidth = (tileRadius * 2) - unitWidth;          // 最后一个必然要放在最后一个，并且不能超出边界
                 float splitCellWidth = plusOneWidth / (splitCnt - 1);
                 while (listIdx < splitCnt - 1)  // 最后一个位置左边界就是 plusOneWidth ，已经计算好了
                 {
-                    pos.x = trans.localPosition.x + splitCellWidth * listIdx - areaRadius;  // 这个是左边的位置
+                    pos.x = trans.localPosition.x + splitCellWidth * listIdx - tileRadius;  // 这个是左边的位置
                     pos.x += halfUnitWidth;           // 调整中心点的位置
                     pos.y = trans.localPosition.y + fYDelta * listIdx;
                     pos.z = trans.localPosition.z;
@@ -183,7 +183,7 @@ namespace SDK.Lib
                 }
 
                 // 计算最后一个位置
-                pos.x = trans.localPosition.x + plusOneWidth - areaRadius;  // 这个是左边的位置
+                pos.x = trans.localPosition.x + plusOneWidth - tileRadius;  // 这个是左边的位置
                 pos.x += halfUnitWidth;           // 调整中心点的位置
                 pos.y = trans.localPosition.y + fYDelta * listIdx;
                 pos.z = trans.localPosition.z;

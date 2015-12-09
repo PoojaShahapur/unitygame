@@ -13,8 +13,8 @@ public class HandleMesh : MonoBehaviour
 
     protected Mesh m_mesh;
     protected MeshFilter m_meshFilter;
-    MeshRenderer mRenderer;
-    Material mDynamicMat;
+    MeshRenderer m_renderer;
+    Material m_dynamicMat;
 
     protected bool m_bUpdated;
 
@@ -38,10 +38,18 @@ public class HandleMesh : MonoBehaviour
             new Vector3(1, 1),
         };
 
+        // 左手系
+        //m_triangles = new int[6] // 两个三角面的连接
+        //{
+        //    0, 1, 2,// 通过顶点012连接形成的三角面
+        //    1, 3, 2,// 通过顶点132连接形成的三角面
+        //};
+
+        // 右手系
         m_triangles = new int[6] // 两个三角面的连接
         {
-            0, 1, 2,// 通过顶点012连接形成的三角面
-            1, 3, 2,// 通过顶点132连接形成的三角面
+            0, 2, 3,// 通过顶点012连接形成的三角面
+            0, 3, 1,// 通过顶点132连接形成的三角面
         };
 
         m_color = new Color[4]
@@ -86,26 +94,26 @@ public class HandleMesh : MonoBehaviour
         }
 
         GetComponent<MeshFilter>().mesh = m_mesh;
-        if (mRenderer == null)
+        if (m_renderer == null)
         {
-            mRenderer = gameObject.GetComponent<MeshRenderer>();
+            m_renderer = gameObject.GetComponent<MeshRenderer>();
         }
 
-        if (mRenderer == null)
+        if (m_renderer == null)
         {
-            mRenderer = gameObject.AddComponent<MeshRenderer>();
+            m_renderer = gameObject.AddComponent<MeshRenderer>();
 #if UNITY_EDITOR
-            mRenderer.enabled = true;
+            m_renderer.enabled = true;
 #endif
         }
 
         Shader shader = Shader.Find("Mobile/Diffuse");
         //Shader shader = Shader.Find("Standard");
-        mDynamicMat = new Material(shader);
-        //mDynamicMat.mainTexture = mTexture;
-        if (mRenderer != null)
+        m_dynamicMat = new Material(shader);
+        //m_dynamicMat.mainTexture = mTexture;
+        if (m_renderer != null)
         {
-            mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+            m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
         }
     }
 }

@@ -13,9 +13,11 @@ namespace SDK.Lib
         protected float m_aspectRatio;      // x/y 视口比例，默认 1.3333
         protected bool m_matrixInvalid;     // 投影矩阵是否无效
         protected MList<float> m_frustumCorners;    // 存放 Frustum 的四面体的八个顶点
+        protected QuadMeshRender m_frustumRender;   // Frustum 渲染
 
         protected MLensBase()
         {
+            m_frustumRender = new QuadMeshRender(24);
             m_matrix3D = new MMatrix3D();
 
             m_farDist = 10000;
@@ -67,6 +69,50 @@ namespace SDK.Lib
         virtual public void updateMatrix()
 		{
 			
+        }
+
+        public void updateFrustumRender()
+        {
+            m_frustumRender.clear();
+
+            // 前面
+            m_frustumRender.addVertex(m_frustumCorners[0], m_frustumCorners[1], m_frustumCorners[2]);
+            m_frustumRender.addVertex(m_frustumCorners[3], m_frustumCorners[4], m_frustumCorners[5]);
+            m_frustumRender.addVertex(m_frustumCorners[6], m_frustumCorners[7], m_frustumCorners[8]);
+            m_frustumRender.addVertex(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
+
+            // 后面
+            m_frustumRender.addVertex(m_frustumCorners[15], m_frustumCorners[16], m_frustumCorners[17]);
+            m_frustumRender.addVertex(m_frustumCorners[12], m_frustumCorners[13], m_frustumCorners[14]);
+            m_frustumRender.addVertex(m_frustumCorners[21], m_frustumCorners[22], m_frustumCorners[23]);
+            m_frustumRender.addVertex(m_frustumCorners[18], m_frustumCorners[19], m_frustumCorners[20]);
+
+            // 左面
+            m_frustumRender.addVertex(m_frustumCorners[12], m_frustumCorners[13], m_frustumCorners[14]);
+            m_frustumRender.addVertex(m_frustumCorners[0], m_frustumCorners[1], m_frustumCorners[2]);
+            m_frustumRender.addVertex(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
+            m_frustumRender.addVertex(m_frustumCorners[21], m_frustumCorners[22], m_frustumCorners[23]);
+
+            // 右面
+            m_frustumRender.addVertex(m_frustumCorners[3], m_frustumCorners[4], m_frustumCorners[5]);
+            m_frustumRender.addVertex(m_frustumCorners[15], m_frustumCorners[16], m_frustumCorners[17]);
+            m_frustumRender.addVertex(m_frustumCorners[18], m_frustumCorners[19], m_frustumCorners[20]);
+            m_frustumRender.addVertex(m_frustumCorners[6], m_frustumCorners[7], m_frustumCorners[8]);
+
+            // 顶面
+            m_frustumRender.addVertex(m_frustumCorners[0], m_frustumCorners[1], m_frustumCorners[2]);
+            m_frustumRender.addVertex(m_frustumCorners[12], m_frustumCorners[13], m_frustumCorners[14]);
+            m_frustumRender.addVertex(m_frustumCorners[15], m_frustumCorners[16], m_frustumCorners[17]);
+            m_frustumRender.addVertex(m_frustumCorners[3], m_frustumCorners[4], m_frustumCorners[5]);
+
+            // 底面
+            m_frustumRender.addVertex(m_frustumCorners[21], m_frustumCorners[22], m_frustumCorners[23]);
+            m_frustumRender.addVertex(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
+            m_frustumRender.addVertex(m_frustumCorners[6], m_frustumCorners[7], m_frustumCorners[8]);
+            m_frustumRender.addVertex(m_frustumCorners[18], m_frustumCorners[19], m_frustumCorners[20]);
+
+            m_frustumRender.buildIndexB();
+            m_frustumRender.uploadGeometry();
         }
 
         /**

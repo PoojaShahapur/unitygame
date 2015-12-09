@@ -12,7 +12,7 @@
             return null;
         }
 
-        protected void buildQuadTree()
+        public void buildQuadTree()
         {
             m_quadTree = new MQuadTree(this);
         }

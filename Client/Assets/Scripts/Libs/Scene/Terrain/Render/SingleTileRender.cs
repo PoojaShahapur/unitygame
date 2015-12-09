@@ -5,12 +5,12 @@ namespace SDK.Lib
     /**
      * @brief 仅仅有漫反射渲染
      */
-    public class SingleAreaRender : MeshRender
+    public class SingleTileRender : MeshRender
     {
         // Unity 规定一个 Mesh 顶点最多不能超过 65000 个顶点，注意是顶点数量，不是内存数量
         protected static int MAX_VERTEX_PER_MESH = 65000;
 
-        protected AreaBase m_area;
+        protected TileBase m_tile;
 
         protected Material m_material;         // 使用的共享材质
         protected Texture m_texture;           // 使用的纹理
@@ -34,7 +34,7 @@ namespace SDK.Lib
         protected MatRes m_matRes;                      // 材质资源
         protected TextureRes m_texRes;                  // 纹理资源
 
-        public SingleAreaRender(MSubGeometryBase subGeometry_ = null)
+        public SingleTileRender(MSubGeometryBase subGeometry_ = null)
             : base(subGeometry_)
         {
             m_shaderName = "Mobile/Diffuse";

@@ -11,15 +11,15 @@
          */
         static public void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, bool bInLocal = false)
         {
-            int segmentsW = terrainPageCfg.getXGridCountPerArea();
-            int segmentsH = terrainPageCfg.getZGridCountPerArea();
+            int segmentsW = terrainPageCfg.getXGridCountPerTile();
+            int segmentsH = terrainPageCfg.getZGridCountPerTile();
 
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
             int xSegmentOffset = 0;
             int zSegmentOffset = 0;
-            terrainPageCfg.calcAreaSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
+            terrainPageCfg.calcTileSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
 
             int width = terrainPageCfg.getWorldWidth();
             int depth = terrainPageCfg.getWorldDepth();
@@ -28,8 +28,8 @@
             int maxElevation = terrainPageCfg.getMaxElevation();
             int height = terrainPageCfg.getWorldHeight();
 
-            int areaWidth = terrainPageCfg.getAreaWorldWidth();
-            int areaDepth = terrainPageCfg.getAreaWorldDepth();
+            int tileWidth = terrainPageCfg.getTileWorldWidth();
+            int tileDepth = terrainPageCfg.getTileWorldDepth();
 
             float x = 0, z = 0;
             int tw = segmentsW + 1;
@@ -75,8 +75,8 @@
                     }
                     else    // 否则放在局部空间中，需要自己移动 GameObject 的 Transform 位置信息
                     {
-                        x = (int)(((float)xi / segmentsW - 0.5f) * areaWidth);            // -0.5 保证原点放在地形的中心点
-                        z = (int)(((float)zi / segmentsH - 0.5f) * areaDepth);
+                        x = (int)(((float)xi / segmentsW - 0.5f) * tileWidth);            // -0.5 保证原点放在地形的中心点
+                        z = (int)(((float)zi / segmentsH - 0.5f) * tileDepth);
                     }
                     u = (xi + xSegmentOffset) * uDiv;
                     v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
@@ -96,8 +96,8 @@
          */
         static public void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<int> indices)
         {
-            int segmentsW = terrainPageCfg.getXGridCountPerArea();
-            int segmentsH = terrainPageCfg.getZGridCountPerArea();
+            int segmentsW = terrainPageCfg.getXGridCountPerTile();
+            int segmentsH = terrainPageCfg.getZGridCountPerTile();
 
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
@@ -150,15 +150,15 @@
          */
         static public void buildVertexAndIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, ref MList<int> indices, bool bInLocal = false)
         {
-            int segmentsW = terrainPageCfg.getXGridCountPerArea();
-            int segmentsH = terrainPageCfg.getZGridCountPerArea();
+            int segmentsW = terrainPageCfg.getXGridCountPerTile();
+            int segmentsH = terrainPageCfg.getZGridCountPerTile();
 
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
             int xSegmentOffset = 0;
             int zSegmentOffset = 0;
-            terrainPageCfg.calcAreaSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
+            terrainPageCfg.calcTileSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
 
             int width = terrainPageCfg.getWorldWidth();
             int depth = terrainPageCfg.getWorldDepth();
@@ -167,8 +167,8 @@
             int maxElevation = terrainPageCfg.getMaxElevation();
             int height = terrainPageCfg.getWorldHeight();
 
-            int areaWidth = terrainPageCfg.getAreaWorldWidth();
-            int areaDepth = terrainPageCfg.getAreaWorldDepth();
+            int tileWidth = terrainPageCfg.getTileWorldWidth();
+            int tileDepth = terrainPageCfg.getTileWorldDepth();
 
             float x = 0, z = 0;
             uint numInds = 0;
@@ -222,8 +222,8 @@
                     }
                     else    // 否则放在局部空间中，需要自己移动 GameObject 的 Transform 位置信息
                     {
-                        x = (int)(((float)xi / segmentsW - 0.5f) * areaWidth);            // -0.5 保证原点放在地形的中心点
-                        z = (int)(((float)zi / segmentsH - 0.5f) * areaDepth);
+                        x = (int)(((float)xi / segmentsW - 0.5f) * tileWidth);            // -0.5 保证原点放在地形的中心点
+                        z = (int)(((float)zi / segmentsH - 0.5f) * tileDepth);
                     }
                     u = (xi + xSegmentOffset) * uDiv;
                     v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
@@ -251,21 +251,21 @@
 
         /**
          * @brief 生成顶点的 UV
-         * @param idx 在 area 中偏移的 X 方向的位置
-         * @param idz 在 area 中偏移的 Z 方向的位置
+         * @param idx 在 Tile 中偏移的 X 方向的位置
+         * @param idz 在 Tile 中偏移的 Z 方向的位置
          */
         static public bool buildUVs(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> uvs)
         {
-            // 当前 Area 中划分的片段数量，其实就是 Area 中 Grid 的数量
-            int segmentsW = terrainPageCfg.getXGridCountPerArea();
-            int segmentsH = terrainPageCfg.getZGridCountPerArea();
+            // 当前 Tile 中划分的片段数量，其实就是 Area 中 Grid 的数量
+            int segmentsW = terrainPageCfg.getXGridCountPerTile();
+            int segmentsH = terrainPageCfg.getZGridCountPerTile();
 
             int totalSegmentsW = terrainPageCfg.getXTotalGrid();
             int totalSegmentsH = terrainPageCfg.getZTotalGrid();
 
             int xSegmentOffset = 0;
             int zSegmentOffset = 0;
-            terrainPageCfg.calcAreaSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
+            terrainPageCfg.calcTileSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
 
             int numUvs = (segmentsH + 1) * (segmentsW + 1) * 2;
             if (uvs == null)

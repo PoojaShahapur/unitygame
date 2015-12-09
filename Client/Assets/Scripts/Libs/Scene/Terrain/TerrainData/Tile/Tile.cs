@@ -5,21 +5,21 @@ namespace SDK.Lib
     /**
      * @brief 地形的一个区域，一个区域就是单独的一个逻辑单元
      */
-    public class Area : AreaBase
+    public class Tile : TileBase
     {
         protected MeshRender m_render;  // 区域渲染器
 
-        public Area()
+        public Tile()
         {
-            m_render = new SingleAreaRender();      // 默认创建漫反射的地形
+            m_render = new SingleTileRender();      // 默认创建漫反射的地形
         }
 
-        public MeshRender getAreaRender()
+        public MeshRender getTileRender()
         {
             return m_render;
         }
 
-        public void setAreaRender(MeshRender render_)
+        public void setTileRender(MeshRender render_)
         {
             m_render = render_;
         }

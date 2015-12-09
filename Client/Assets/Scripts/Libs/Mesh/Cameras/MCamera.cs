@@ -53,9 +53,11 @@ namespace SDK.Lib
                 m_lens.setAspectRatio(m_camera.aspect);
 
                 m_viewProjMat = m_viewMat * m_projMat;
-                testLogMatrix(m_projMat);
+                //testLogMatrix(m_projMat);
 
+                updateFrustum();
                 m_lens.updateMatrix();
+                m_lens.updateFrustumRender();
             }
         }
 

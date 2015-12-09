@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using UnityEngine;
 
 namespace UnitTest
 {
@@ -10,14 +11,35 @@ namespace UnitTest
         public void run()
         {
             testArea();
+            //testQuadMeshRender();
         }
 
         protected void testArea()
         {
-            Area area = new Area();
+            Tile tile = new Tile();
             TextureRes m_selfTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>("Image/Scene/jieshu_zhanchang.tga");
-            area.setTexture(m_selfTex.getTexture());
-            area.render();
+            tile.setTexture(m_selfTex.getTexture());
+            tile.render();
+        }
+
+        protected void testQuadMeshRender()
+        {
+            QuadMeshRender quadMeshRender = new QuadMeshRender(8);
+            //GameObject go = UtilApi.GoFindChildByPObjAndName("GOStart");
+            //quadMeshRender.selfGo = go;
+
+            quadMeshRender.addVertex(new Vector3(0, 1, 0));
+            quadMeshRender.addVertex(new Vector3(1, 1, 0));
+            quadMeshRender.addVertex(new Vector3(0, 0, 0));
+            quadMeshRender.addVertex(new Vector3(1, 0, 0));
+
+            quadMeshRender.addVertex(new Vector3(1, 1, 0));
+            quadMeshRender.addVertex(new Vector3(1, 1, 1));
+            quadMeshRender.addVertex(new Vector3(1, 0, 0));
+            quadMeshRender.addVertex(new Vector3(1, 0, 1));
+
+            quadMeshRender.buildIndexA();
+            quadMeshRender.uploadGeometry();
         }
     }
 }

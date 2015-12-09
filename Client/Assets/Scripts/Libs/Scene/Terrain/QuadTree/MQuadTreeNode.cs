@@ -26,7 +26,7 @@ namespace SDK.Lib
          */
         public MQuadTreeNode(TerrainPage terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0)
         {
-            int hs = (int)(size * 0.5f);
+            int halfSize = (int)(size * 0.5f);
 
             m_centerX = centerX;
             m_centerZ = centerZ;
@@ -39,11 +39,11 @@ namespace SDK.Lib
 
             if (!m_leaf)
             {
-                float hhs = hs * 0.5f;
-                addNode(m_leftNear = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX - hhs, centerZ - hhs, depth + 1));
-                addNode(m_rightNear = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX + hhs, centerZ - hhs, depth + 1));
-                addNode(m_leftFar = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX - hhs, centerZ + hhs, depth + 1));
-                addNode(m_rightFar = new MQuadTreeNode(terrain, maxDepth, hs, height, centerX + hhs, centerZ + hhs, depth + 1));
+                float halfHalfSize = halfSize * 0.5f;
+                addNode(m_leftNear = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ - halfHalfSize, depth + 1));
+                addNode(m_rightNear = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ - halfHalfSize, depth + 1));
+                addNode(m_leftFar = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ + halfHalfSize, depth + 1));
+                addNode(m_rightFar = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ + halfHalfSize, depth + 1));
             }
         }
 

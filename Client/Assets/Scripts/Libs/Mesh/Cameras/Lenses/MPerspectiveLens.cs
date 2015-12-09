@@ -101,7 +101,7 @@
 			
 			m_matrixInvalid = false;
 
-            testLogMatrix(m_matrix3D);
+            //testLogMatrix(m_matrix3D);
         }
     }
 }

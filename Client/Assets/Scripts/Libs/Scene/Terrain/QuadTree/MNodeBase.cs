@@ -61,7 +61,8 @@ namespace SDK.Lib
 		{
 			node.setParent(this);
 			m_numEntities += node.getNumEntities();
-            m_childNodes[m_numChildNodes++] = node;
+            m_childNodes.Add(node);
+            m_numChildNodes++;
 
             // 更新场景图中 Entity 的数量
             int numEntities = node.getNumEntities();

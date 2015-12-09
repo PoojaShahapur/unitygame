@@ -7,7 +7,7 @@
     {
         protected TerrainPage m_terrain;    // 地形
         protected int m_maxDepth;           // 四叉树的深度，深度值从 0 开始，最大值就是最后一个值，不是最后一个值 + 1
-        protected int m_size;               // 地形的世界空间中的大小，地形需要是正方形的，并且这个大小的公式是: size = Area 世界空间大小 * (2 ^ depth)
+        protected int m_size;               // 地形的世界空间中的大小，地形需要是正方形的，并且这个大小的公式是: size = Tile 世界空间大小 * (2 ^ depth)
         protected int m_height;             // 世界空间地形高度
 
         public MQuadTree(TerrainPage terrain)
@@ -25,14 +25,14 @@
         protected int calcDepth()
         {
             m_maxDepth = 0;
-            int splitArea = m_size / UtilApi.powerTwo(m_maxDepth);
-            int areaSize = m_terrain.getTerrainPageCfg().getAreaWorldWidth();   // 获取 Area 的世界空间宽度
-            while (splitArea > areaSize)    // 一定不能大于地形
+            int splitTile = m_size / UtilApi.powerTwo(m_maxDepth);
+            int tileSize = m_terrain.getTerrainPageCfg().getTileWorldWidth();   // 获取 Area 的世界空间宽度
+            while (splitTile > tileSize)    // 一定不能大于地形
             {
-                splitArea = m_size / UtilApi.powerTwo(m_maxDepth);
+                splitTile = m_size / UtilApi.powerTwo(m_maxDepth);
                 ++m_maxDepth;
             }
-            return 0;
+            return m_maxDepth;
         }
 
         protected void buildTree()

@@ -1,12 +1,12 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 多个 Area 的 HeightMapMesh
+     * @brief 多个 Tile 的 HeightMapMesh
      */
     public class HeightMapMeshMulti : MMesh
     {
         protected TerrainPageCfg m_terrainPageCfg;  // Page 配置
-        protected bool m_bInLocal;      // 是否生成的每一个 Area 中的顶点是放在局部空间中
+        protected bool m_bInLocal;      // 是否生成的每一个 Tile 中的顶点是放在局部空间中
         protected bool m_bCreateVertexIndexInOne;   // 同时创建顶点索引
 
         /**
@@ -18,33 +18,33 @@
             m_bInLocal = true;
             m_bCreateVertexIndexInOne = true;
             m_terrainPageCfg = terrainPageCfg;
-            buildMutilAreaMesh(heightMap, terrainPageCfg);
+            buildMutilTileMesh(heightMap, terrainPageCfg);
         }
 
         /**
          * @brief 生成多个区域地图
          */
-        protected void buildMutilAreaMesh(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
+        protected void buildMutilTileMesh(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
         {
             int idx = 0;
             int idz = 0;
-            for(idz = 0; idz < terrainPageCfg.getZAreaCount(); ++idz)
+            for(idz = 0; idz < terrainPageCfg.getZTileCount(); ++idz)
             {
-                for (idx = 0; idx < terrainPageCfg.getXAreaCount(); ++idx)
+                for (idx = 0; idx < terrainPageCfg.getXTileCount(); ++idx)
                 {
-                    buildArea(idx, idz, heightMap, terrainPageCfg);
+                    buildTile(idx, idz, heightMap, terrainPageCfg);
                 }
             }
         }
 
         /**
-         * @brief 生成一个 Page 中的一个 Area
+         * @brief 生成一个 Page 中的一个 Tile
          */
-        protected void buildArea(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
+        protected void buildTile(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
         {
             // 生成 SubMesh
             MSubGeometry subGeometry = new MSubGeometry();
-            SingleAreaRender render = new SingleAreaRender();
+            SingleTileRender render = new SingleTileRender();
             MSubMesh subMesh = new MSubMesh(subGeometry, render);
             render.setSubGeometry(subGeometry);
             this.addSubMesh(subMesh);
@@ -87,13 +87,13 @@
             //Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
 
             // 移动到正确的位置
-            int areaWidth = terrainPageCfg.getAreaWorldWidth();
-            int areaDepth = terrainPageCfg.getAreaWorldDepth();
+            int tileWidth = terrainPageCfg.getTileWorldWidth();
+            int tileDepth = terrainPageCfg.getTileWorldDepth();
 
-            // 如果是在局部空间中放置的 Area 中的顶点，需要移动每一块的位置，如果直接将 Area 中的顶点放在世界空间具体位置了，位置顶点中已经放置到正确的位置了
+            // 如果是在局部空间中放置的 Tile 中的顶点，需要移动每一块的位置，如果直接将 Area 中的顶点放在世界空间具体位置了，位置顶点中已经放置到正确的位置了
             if (m_bInLocal)
             {
-                subMesh.moveToPos(idx * areaWidth + areaWidth / 2, idz * areaDepth + areaDepth / 2);    // + areaWidth / 2 是为了将所有的顶点的世界范围都放在 >= 0 的范围内
+                subMesh.moveToPos(idx * tileWidth + tileWidth / 2, idz * tileDepth + tileDepth / 2);    // + areaWidth / 2 是为了将所有的顶点的世界范围都放在 >= 0 的范围内
             }
         }
     }

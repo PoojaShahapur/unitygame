@@ -10,11 +10,11 @@
         protected int m_zGridHeight = 1;     // 一个 Grid 的高度，世界空间中 z 轴的长度
 
         // 这两个值基本也是固定的
-        protected int m_xGridCountPerArea = 32;     // 每一个 Area 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
-        protected int m_zGridCountPerArea = 32;     // 每一个 Area 的 Grid 高度数量， z 轴 Grid 的数量
+        protected int m_xGridCountPerTile = 32;     // 每一个 Tile 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
+        protected int m_zGridCountPerTile = 32;     // 每一个 Tile 的 Grid 高度数量， z 轴 Grid 的数量
         // 这两个值是可变的
-        protected int m_xAreaCount = 16;     // 一个地形 Area 宽度的数量，x 轴 Area 的数量，默认值是 512 / 16
-        protected int m_zAreaCount = 16;     // 一个地形 Area 高度的数量，z 轴 Area 的数量
+        protected int m_xTileCount = 16;     // 一个地形 Tile 宽度的数量，x 轴 Tile 的数量，默认值是 512 / 16
+        protected int m_zTileCount = 16;     // 一个地形 Tile 高度的数量，z 轴 Tile 的数量
 
         protected int m_xTotalGrid;             // X 轴总共格子数
         protected int m_zTotalGrid;             // Z 轴总共格子数
@@ -71,81 +71,81 @@
         /**
          * @brief 
          */
-        public int getXGridCountPerArea()
+        public int getXGridCountPerTile()
         {
-            return m_xGridCountPerArea;
+            return m_xGridCountPerTile;
         }
 
         /**
          * @brief 
          */
-        public void setXGridCountPerArea(int value)
+        public void setXGridCountPerTile(int value)
         {
-            m_xGridCountPerArea = value;
+            m_xGridCountPerTile = value;
         }
 
         /**
          * @brief 
          */
-        public int getZGridCountPerArea()
+        public int getZGridCountPerTile()
         {
-            return m_zGridCountPerArea;
+            return m_zGridCountPerTile;
         }
 
         /**
          * @brief 
          */
-        public void setZGridCountPerArea(int value)
+        public void setZGridCountPerTile(int value)
         {
-            m_zGridCountPerArea = value;
+            m_zGridCountPerTile = value;
         }
 
         /**
          * @brief 
          */
-        public int getXAreaCount()
+        public int getXTileCount()
         {
-            return m_xAreaCount;
+            return m_xTileCount;
         }
 
         /**
          * @brief 
          */
-        public void setXAreaCount(int value)
+        public void setXTileCount(int value)
         {
-            m_xAreaCount = value;
+            m_xTileCount = value;
         }
 
         /**
          * @brief 
          */
-        public int getZAreaCount()
+        public int getZTileCount()
         {
-            return m_zAreaCount;
+            return m_zTileCount;
         }
 
         /**
          * @brief 
          */
-        public void setZAreaCount(int value)
+        public void setZTileCount(int value)
         {
-            m_zAreaCount = value;
+            m_zTileCount = value;
         }
 
         /**
-         * @brief 获取 Area 世界空间中的宽度，这个现在就是 Area 中 Grid 的数量
+         * @brief 获取 Tile 世界空间中的宽度，这个现在就是 Tile 中 Grid 的数量
          */
-        public int getAreaWorldWidth()
+        public int getTileWorldWidth()
         {
-            return m_xGridCountPerArea * m_xGridWidth;
+            return m_xGridCountPerTile * m_xGridWidth;
         }
 
         /**
-         * @brief 获取 Area 世界空间中的深度
+         * @brief 获取 Tile 世界空间中的深度
          */
-        public int getAreaWorldDepth()
+        public int getTileWorldDepth()
         {
-            return m_zGridCountPerArea * m_zGridHeight;
+            return m_zGridCountPerTile * m_zGridHeight;
         }
 
         /**
@@ -153,11 +153,11 @@
          */
         public void setPixelWidthAndHeight(int pixelWidth, int pixelHeight)
         {
-            m_xAreaCount = pixelWidth / m_xGridCountPerArea;
-            m_zAreaCount = pixelHeight / m_zGridCountPerArea;
+            m_xTileCount = pixelWidth / m_xGridCountPerTile;
+            m_zTileCount = pixelHeight / m_zGridCountPerTile;
 
-            m_xTotalGrid = m_xGridCountPerArea * m_xAreaCount;
-            m_zTotalGrid = m_zGridCountPerArea * m_zAreaCount;
+            m_xTotalGrid = m_xGridCountPerTile * m_xTileCount;
+            m_zTotalGrid = m_zGridCountPerTile * m_zTileCount;
         }
 
         /**
@@ -239,12 +239,12 @@
         }
 
         /**
-         * @brief 计算 Area 顶点 base 片段的偏移，其实就是顶点的偏移
+         * @brief 计算 Tile 顶点 base 片段的偏移，其实就是顶点的偏移
          */
-        public void calcAreaSegmentOffset(ref int xSegmentOffset, ref int zSegmentOffset, int idx, int idz)
+        public void calcTileSegmentOffset(ref int xSegmentOffset, ref int zSegmentOffset, int idx, int idz)
         {
-            xSegmentOffset = idx * m_xGridCountPerArea;
-            zSegmentOffset = idz * m_zGridCountPerArea;
+            xSegmentOffset = idx * m_xGridCountPerTile;
+            zSegmentOffset = idz * m_zGridCountPerTile;
         }
     }
 }

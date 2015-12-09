@@ -1,7 +1,7 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 一个 Terrain Page，这个地形 Page 只有一个 Area
+     * @brief 一个 Terrain Page，这个地形 Page 只有一个 Tile
      */
     public class TerrainPageOne : TerrainPage
     {

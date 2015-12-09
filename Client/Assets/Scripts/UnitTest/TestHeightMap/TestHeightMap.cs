@@ -37,7 +37,9 @@ namespace UnitTest
         public void testTerrainPageMulti()
         {
             TerrainPageMulti terPage = new TerrainPageMulti();
-            terPage.buildPage();
+            terPage.buildPage();        // 生成地形
+            terPage.buildQuadTree();    // 生成四叉树
+            Ctx.m_instance.m_camSys.getCamera().setCamera(Camera.main);
         }
 
         public void testPrint()
@@ -51,12 +53,13 @@ namespace UnitTest
         public void testProjectMatrix()
         {
             Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
-            Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
         }
 
         public void onResLoadScene(Scene scene)
         {
-            checkCamera();
+            //checkCamera();
+            Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
+            testTerrainPageMulti();
         }
 
         public void checkCamera()
