@@ -50,11 +50,11 @@ function M:Remove(key)
     table.remove(self.m_data, key)
 end
 
-function Clear()
+function M:Clear()
     self.m_data = {}
 end
 
-function ContainsKey(key)
+function M:ContainsKey(key)
     for key_, value_ in self.m_data do
         if key_ == key then
             return true
@@ -64,7 +64,7 @@ function ContainsKey(key)
     return false
 end
 
-function ContainsValue(value)
+function M:ContainsValue(value)
     for key_, value_ in self.m_data do
         if value_ == value then
             return true

@@ -1,12 +1,15 @@
-package.path = string.format("%s;%s/?.lua", package.path, "D:/File/OpenSource/Unity/Tools/LuaLibs/src")
--- package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/Tools/Tools/LuaLibs/src")
-require "MyLua.Libs.Core.Prequisites"
+--package.path = string.format("%s;%s/?.lua", package.path, "D:/File/OpenSource/Unity/Tools/LuaLibs/src")
+package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/Tools/Tools/LuaLibs/src")
+-- require "MyLua.Libs.Core.Prequisites"
+--require "MyLua.Libs.EventHandle.CallOnceEventDispatch"
+require "MyLua.Libs.FrameHandle.TimerMgr"
 
 local function main()
     -- testArray()
     -- testLen()
     -- testFuncEnv()
-    testDispatcher()
+    -- testDispatcher()
+    testTimerMgr()
 end
 
 function testArray()
@@ -41,6 +44,11 @@ end
 
 function eventCall(dispObj)
 
+end
+
+function testTimerMgr()
+    local timerMgr =  GlobalNS.TimerMgr:new()
+    local aaa = 10
 end
 
 main()

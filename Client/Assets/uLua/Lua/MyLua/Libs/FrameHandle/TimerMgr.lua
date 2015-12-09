@@ -29,7 +29,7 @@ function M:delObject(delayObject)
         if (self:bInDepth()) then
             self.super.delObject(self, delayObject);
         else
-            for key, item in ipairs(self.m_timerLists.list()) do
+            for key, item in ipairs(self.m_timerLists:list()) do
                 if (item == delayObject) then
                     self.m_timerLists:Remove(item);
                     break;
@@ -40,7 +40,7 @@ function M:delObject(delayObject)
 end
 
 function M:Advance(delta)
-    self.incDepth();
+    self:incDepth();
 
     for key, timerItem in ipairs(self.m_timerLists:list()) do
         if not timerItem:getClientDispose() then
