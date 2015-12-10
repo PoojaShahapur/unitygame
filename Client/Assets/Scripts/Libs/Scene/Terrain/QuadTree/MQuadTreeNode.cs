@@ -43,13 +43,15 @@ namespace SDK.Lib
         protected int m_xTileOffset;        // 当前节点相对于父节点的 X Tile 偏移数量
         protected int m_zTileOffset;        // 当前节点相对于父节点的 Z Tile 偏移数量
 
+        protected QuadMeshRender m_quadRender;  // 显示节点的区域大小
+        protected bool m_bshowBoundBox;         // 显示 BoundBox
+
         /**
          * @brief 四叉树的节点，深度根据 leaf 的大小确定
          */
         public MQuadTreeNode(TerrainPage terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0, int xTileOffset = 0, int zTileOffset = 0)
         {
             m_terrain = terrain;
-            m_nodeProxy = new MQuadTreeNodeProxy();
 
             int halfSize = (int)(size * 0.5f);
 
@@ -63,6 +65,7 @@ namespace SDK.Lib
             m_leaf = depth == maxDepth;
             m_xTileOffset = xTileOffset;
             m_zTileOffset = zTileOffset;
+            m_bshowBoundBox = true;
 
             int curDepthTileCount = terrain.getTerrainPageCfg().getXTileCount() / UtilApi.powerTwo(depth);    // 当前节点的 Tile 数量
             int halfCurDepthTileCount = curDepthTileCount / 2;  // 当前节点的 Tile 数量的一半
@@ -246,6 +249,10 @@ namespace SDK.Lib
             if(m_leaf)
             {
                 updateProxy();
+                if (m_bshowBoundBox)
+                {
+                    showBoundBox();
+                }
             }
             else
             {
@@ -263,9 +270,35 @@ namespace SDK.Lib
         {
             if (m_leaf)
             {
+                if(m_nodeProxy == null)     // 如果为空，就生成一个
+                {
+                    m_nodeProxy = new MQuadTreeNodeProxy();
+                }
                 int tileIndex = getTileIndex();
                 m_nodeProxy.updateMesh(m_terrain, tileIndex);
             }
+        }
+
+        /**
+         * @brief 更新 Bound Box 显示，顶点排列如下
+         * 0 - 1
+         * |   |
+         * 2 - 3
+         */
+        protected void showBoundBox()
+        {
+            if(m_quadRender == null)
+            {
+                m_quadRender = new QuadMeshRender(4);
+            }
+
+            m_quadRender.addVertex(-m_halfExtentXZ, 0, m_halfExtentXZ);
+            m_quadRender.addVertex(m_halfExtentXZ, 0, m_halfExtentXZ);
+            m_quadRender.addVertex(-m_halfExtentXZ, 0, -m_halfExtentXZ);
+            m_quadRender.addVertex(m_halfExtentXZ, 0, -m_halfExtentXZ);
+            m_quadRender.buildIndexA();
+            m_quadRender.uploadGeometry();
+            UtilApi.setPos(m_quadRender.selfGo.transform, new Vector3(m_centerX, 0, m_centerZ));
         }
     }
 }

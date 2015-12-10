@@ -54,7 +54,8 @@
          */
         protected void buildTree()
         {
-            m_rootNode = new MQuadTreeNode(m_terrain, m_maxDepth, m_size, m_height);
+            // 中心点移动到地图的中心点(m_size / 2, m_size / 2)
+            m_rootNode = new MQuadTreeNode(m_terrain, m_maxDepth, m_size, m_height, m_size / 2, m_size / 2);
             m_rootNode.postInit();
         }
 
