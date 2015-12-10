@@ -52,5 +52,21 @@
                 m_meshRender.render();
             }
         }
+
+        /**
+         * @brief 显示
+         */
+        public void show()
+        {
+            m_meshRender.show();
+        }
+
+        /**
+         * @brief 隐藏
+         */
+        public void hide()
+        {
+            m_meshRender.hide();
+        }
     }
 }

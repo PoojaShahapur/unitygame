@@ -40,6 +40,7 @@ namespace UnitTest
             terPage.buildPage();        // 生成地形
             terPage.buildQuadTree();    // 生成四叉树
             Ctx.m_instance.m_camSys.getCamera().setCamera(Camera.main);
+
         }
 
         public void testPrint()

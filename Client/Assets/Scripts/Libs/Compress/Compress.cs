@@ -1,10 +1,13 @@
 using System;
 using System.IO;
+using ComponentAce.Compression.Libs.zlib;
+
+#if ENABLE_SHARP_ZIP_LIB
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
-using ComponentAce.Compression.Libs.zlib;
+#endif
 
 namespace SDK.Lib
 {

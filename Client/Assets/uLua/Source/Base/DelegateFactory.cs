@@ -21,6 +21,9 @@ public static class DelegateFactory
 		dict.Add(typeof(AudioClip.PCMReaderCallback), new DelegateValue(AudioClip_PCMReaderCallback));
 		dict.Add(typeof(AudioClip.PCMSetPositionCallback), new DelegateValue(AudioClip_PCMSetPositionCallback));
 		dict.Add(typeof(Application.LogCallback), new DelegateValue(Application_LogCallback));
+		dict.Add(typeof(UIEventListener.VoidDelegate), new DelegateValue(UIEventListener_VoidDelegate));
+		dict.Add(typeof(UIEventListener.BoolDelegate), new DelegateValue(UIEventListener_BoolDelegate));
+		dict.Add(typeof(UnityEngine.Events.UnityAction<GameObject>), new DelegateValue(UnityAction_GameObject));
 	}
 
 	[NoToLuaAttribute]
@@ -161,6 +164,46 @@ public static class DelegateFactory
 			LuaScriptMgr.Push(L, param1);
 			LuaScriptMgr.Push(L, param2);
 			func.PCall(top, 3);
+			func.EndPCall(top);
+		};
+		return d;
+	}
+
+	public static Delegate UIEventListener_VoidDelegate(LuaFunction func)
+	{
+		UIEventListener.VoidDelegate d = (param0) =>
+		{
+			int top = func.BeginPCall();
+			IntPtr L = func.GetLuaState();
+			LuaScriptMgr.Push(L, param0);
+			func.PCall(top, 1);
+			func.EndPCall(top);
+		};
+		return d;
+	}
+
+	public static Delegate UIEventListener_BoolDelegate(LuaFunction func)
+	{
+		UIEventListener.BoolDelegate d = (param0, param1) =>
+		{
+			int top = func.BeginPCall();
+			IntPtr L = func.GetLuaState();
+			LuaScriptMgr.Push(L, param0);
+			LuaScriptMgr.Push(L, param1);
+			func.PCall(top, 2);
+			func.EndPCall(top);
+		};
+		return d;
+	}
+
+	public static Delegate UnityAction_GameObject(LuaFunction func)
+	{
+		UnityEngine.Events.UnityAction<GameObject> d = (param0) =>
+		{
+			int top = func.BeginPCall();
+			IntPtr L = func.GetLuaState();
+			LuaScriptMgr.Push(L, param0);
+			func.PCall(top, 1);
 			func.EndPCall(top);
 		};
 		return d;

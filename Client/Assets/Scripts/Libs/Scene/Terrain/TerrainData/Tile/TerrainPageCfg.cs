@@ -246,5 +246,13 @@
             xSegmentOffset = idx * m_xGridCountPerTile;
             zSegmentOffset = idz * m_zGridCountPerTile;
         }
+
+        /**
+         * @brief 获取 Tile 在 Tile 数组中的下表索引
+         */
+        public int getTileIndex(int xTile, int zTile)
+        {
+            return zTile * m_xTileCount + xTile;
+        }
     }
 }

@@ -38,5 +38,15 @@
         {
             m_heightMapMesh.render();
         }
+
+        override public MSubMesh getTileMesh(int xTile, int zTile)
+        {
+            return m_heightMapMesh.getTileMesh(xTile, zTile);
+        }
+
+        override public MSubMesh getTileMesh(int tileIndex)
+        {
+            return m_heightMapMesh.getTileMesh(tileIndex);
+        }
     }
 }

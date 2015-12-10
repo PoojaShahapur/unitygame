@@ -127,5 +127,13 @@ namespace SDK.Lib
             }
             while ((node = node.getParent()) != null);
         }
+
+        /**
+         * @brief 更新 Frustum 裁剪剔除
+         */
+        virtual public void updateClip(MList<MPlane3D> planes)
+        {
+
+        }
     }
 }

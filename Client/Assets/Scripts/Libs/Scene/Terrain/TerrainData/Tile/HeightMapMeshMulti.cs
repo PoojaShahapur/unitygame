@@ -96,5 +96,19 @@
                 subMesh.moveToPos(idx * tileWidth + tileWidth / 2, idz * tileDepth + tileDepth / 2);    // + areaWidth / 2 是为了将所有的顶点的世界范围都放在 >= 0 的范围内
             }
         }
+
+        // 根据 Tile 坐标获取对应的 Tile Mesh
+        public MSubMesh getTileMesh(int xTile, int zTile)
+        {
+            return m_subMeshes[zTile * m_terrainPageCfg.getXTileCount() + xTile];
+        }
+
+        /**
+         * @brief 根据 Tile 在数组中的索引直接获取对应的 Mesh
+         */
+        public MSubMesh getTileMesh(int tileIndex)
+        {
+            return m_subMeshes[tileIndex];
+        }
     }
 }

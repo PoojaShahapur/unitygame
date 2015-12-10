@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected Matrix4x4 m_viewProjMat;  // view Proj 矩阵
         protected bool m_viewProjDirty;     // view Proj 矩阵是否无效
         protected MLensBase m_lens;         // 镜头
-        protected MPlane3D[] m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
+        protected MList<MPlane3D> m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
         protected bool m_frustumPlanesDirty;    // FrustumPlane 是否无效
 
         public MCamera(Camera camera_ = null)
@@ -21,13 +21,21 @@ namespace SDK.Lib
             m_viewProjDirty = true;
             m_lens = new MPerspectiveLens();    // 默认透视投影
 
-            m_frustumPlanes = new MPlane3D[6];
+            m_frustumPlanes = new MList<MPlane3D>(6);
             for (int idx = 0; idx < 6; ++idx)
             {
-                m_frustumPlanes[idx] = new MPlane3D();
+                m_frustumPlanes.Add(new MPlane3D());
             }
 
             setCamera(camera_);
+        }
+
+        /**
+         * @brief 返回 Frustum 的六个面板
+         */
+        public MList<MPlane3D> getFrustumPlanes()
+        {
+            return m_frustumPlanes;
         }
 
         public void setCamera(Camera camera_ = null)
@@ -73,69 +81,69 @@ namespace SDK.Lib
             // View Project 矩阵，注意不是只有 Project 矩阵，因此这个求的面板是世界空间中的面板
 			// 左边 Plane
 			p = m_frustumPlanes[0];
-			a = m_viewProjMat.m03 + m_viewProjMat.m00;
-			b = m_viewProjMat.m13 + m_viewProjMat.m10;
-			c = m_viewProjMat.m23 + m_viewProjMat.m20;
+			a = m_viewProjMat.m30 + m_viewProjMat.m00;
+			b = m_viewProjMat.m31 + m_viewProjMat.m01;
+			c = m_viewProjMat.m32 + m_viewProjMat.m02;
 			invLen = (float)(1/UtilApi.Sqrt(a* a + b* b + c* c));
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = -(m_viewProjMat.m33 + m_viewProjMat.m30) *invLen;
+            p.m_d = -(m_viewProjMat.m33 + m_viewProjMat.m03) *invLen;
 			
 			// 右边 Plane
 			p = m_frustumPlanes[1];
-			a = m_viewProjMat.m03 - m_viewProjMat.m00;
-			b = m_viewProjMat.m13 - m_viewProjMat.m10;
-			c = m_viewProjMat.m23 - m_viewProjMat.m20;
+			a = m_viewProjMat.m30 - m_viewProjMat.m00;
+			b = m_viewProjMat.m31 - m_viewProjMat.m01;
+			c = m_viewProjMat.m32 - m_viewProjMat.m02;
 			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = (m_viewProjMat.m30 - m_viewProjMat.m33) * invLen;
+            p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m03) * invLen;
 			
 			// 底边 Plane
 			p = m_frustumPlanes[2];
-			a = m_viewProjMat.m32 + m_viewProjMat.m01;
-			b = m_viewProjMat.m13 + m_viewProjMat.m11;
-			c = m_viewProjMat.m23 + m_viewProjMat.m21;
+			a = m_viewProjMat.m30 + m_viewProjMat.m10;
+			b = m_viewProjMat.m31 + m_viewProjMat.m11;
+			c = m_viewProjMat.m32 + m_viewProjMat.m12;
 			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = -(m_viewProjMat.m33 + m_viewProjMat.m31) *invLen;
+            p.m_d = -(m_viewProjMat.m33 + m_viewProjMat.m13) *invLen;
 			
 			// 顶端 Plane
 			p = m_frustumPlanes[3];
-			a = m_viewProjMat.m03 - m_viewProjMat.m01;
-			b = m_viewProjMat.m13 - m_viewProjMat.m11;
-			c = m_viewProjMat.m23 - m_viewProjMat.m21;
+			a = m_viewProjMat.m30 - m_viewProjMat.m10;
+			b = m_viewProjMat.m31 - m_viewProjMat.m11;
+			c = m_viewProjMat.m32 - m_viewProjMat.m12;
 			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = (m_viewProjMat.m31 - m_viewProjMat.m33) *invLen;
+            p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m13) *invLen;
 			
 			// 近 Plane
 			p = m_frustumPlanes[4];
-			a = m_viewProjMat.m02;
-			b = m_viewProjMat.m12;
-			c = m_viewProjMat.m22;
+			a = m_viewProjMat.m30 + m_viewProjMat.m20;
+			b = m_viewProjMat.m31 + m_viewProjMat.m21;
+			c = m_viewProjMat.m32 + m_viewProjMat.m22;
 			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = -m_viewProjMat.m32 * invLen;
+            p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m23) * invLen;
 
             // 远 Plane
             p = m_frustumPlanes[5];
-			a = m_viewProjMat.m03 - m_viewProjMat.m02;
-			b = m_viewProjMat.m13 - m_viewProjMat.m12;
-			c = m_viewProjMat.m23 - m_viewProjMat.m22;
+			a = m_viewProjMat.m30 - m_viewProjMat.m20;
+			b = m_viewProjMat.m31 - m_viewProjMat.m21;
+			c = m_viewProjMat.m32 - m_viewProjMat.m22;
 			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = (m_viewProjMat.m23 - m_viewProjMat.m33) *invLen;
+            p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m23) *invLen;
 			
 			m_frustumPlanesDirty = false;
 		}
