@@ -10,8 +10,8 @@
         protected int m_zGridHeight = 1;     // 一个 Grid 的高度，世界空间中 z 轴的长度
 
         // 这两个值基本也是固定的
-        protected int m_xGridCountPerTile = 32;     // 每一个 Tile 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
-        protected int m_zGridCountPerTile = 32;     // 每一个 Tile 的 Grid 高度数量， z 轴 Grid 的数量
+        protected int m_xGridCountPerTile = 64;     // 每一个 Tile 的 Grid 宽度数量， x 轴 Grid 的数量，默认值是 32，测试的时候使用 512
+        protected int m_zGridCountPerTile = 64;     // 每一个 Tile 的 Grid 高度数量， z 轴 Grid 的数量
         // 这两个值是可变的
         protected int m_xTileCount = 16;     // 一个地形 Tile 宽度的数量，x 轴 Tile 的数量，默认值是 512 / 16
         protected int m_zTileCount = 16;     // 一个地形 Tile 高度的数量，z 轴 Tile 的数量
@@ -24,12 +24,12 @@
         protected int m_height;    // 世界空间高度图高度， Z 轴高度，这个高度要和 HeightMapMeshOne 中的 m_height 高度一样，因为计算高度依赖这个值，因为高度图暂时精度范围是 [0, 255] ，m_height 就是缩放高度图中的 [0, 1] 到具体高度，因此 m_height 这个值取值范围要和高度图的范围尽量一样 [0, 255]
 
         /**
-         * @brief 地形配置，尽量 pixelWidth 和 pixelHeight 尽量相等
-         * @param pixelWidth 像素宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
+         * @brief 地形配置，尽量 worldWidth 和 worldHeight 尽量相等
+         * @param worldWidth 像素宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
          */
-        public TerrainPageCfg(int pixelWidth = 512, int pixelHeight = 512)
+        public TerrainPageCfg(int worldWidth = 512, int worldHeight = 512)
         {
-            setPixelWidthAndHeight(pixelWidth, pixelHeight);
+            setPixelWidthAndHeight(worldWidth, worldHeight);
 
             m_minElevation = 0;
             m_maxElevation = 0xFF;      // byte 最大值 0xFF
@@ -151,10 +151,10 @@
         /**
          * @brief 设置像素的宽度和高度
          */
-        public void setPixelWidthAndHeight(int pixelWidth, int pixelHeight)
+        public void setPixelWidthAndHeight(int worldWidth, int worldHeight)
         {
-            m_xTileCount = pixelWidth / m_xGridCountPerTile;
-            m_zTileCount = pixelHeight / m_zGridCountPerTile;
+            m_xTileCount = worldWidth / getTileWorldWidth();
+            m_zTileCount = worldHeight / getTileWorldDepth();
 
             m_xTotalGrid = m_xGridCountPerTile * m_xTileCount;
             m_zTotalGrid = m_zGridCountPerTile * m_zTileCount;

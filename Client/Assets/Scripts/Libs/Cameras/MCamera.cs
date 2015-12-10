@@ -63,7 +63,7 @@ namespace SDK.Lib
                 m_viewProjMat = m_viewMat * m_projMat;
                 //testLogMatrix(m_projMat);
 
-                updateFrustum();
+                updateFrustum_B();
                 m_lens.updateMatrix();
                 if (m_lens.getShowBoundBox())
                 {
@@ -75,7 +75,7 @@ namespace SDK.Lib
         /**
          * @brief 更新 Frustum 6 个面板
          */
-        protected void updateFrustum()
+        protected void updateFrustum_A()
 		{
 			float a = 0, b = 0, c = 0;
             MPlane3D p;
@@ -150,6 +150,97 @@ namespace SDK.Lib
 			
 			m_frustumPlanesDirty = false;
 		}
+
+        protected void updateFrustum_B()
+        {
+            float a = 0, b = 0, c = 0;
+            MPlane3D p;
+            Vector4 pnl = new Vector4();
+
+            // View Project 矩阵，注意不是只有 Project 矩阵，因此这个求的面板是世界空间中的面板
+            // 左边 Plane
+            p = m_frustumPlanes[0];
+            // 摄像机空间
+            pnl.x = m_projMat.m30 + m_projMat.m00;
+            pnl.y = m_projMat.m31 + m_projMat.m01;
+            pnl.z = m_projMat.m32 + m_projMat.m02;
+            pnl.w = m_projMat.m33 + m_projMat.m03;
+            // 世界空间
+            pnl = m_camera.cameraToWorldMatrix * pnl;
+            // 单位化
+            pnl.Normalize();
+            p.m_a = pnl.x;
+            p.m_b = pnl.y;
+            p.m_c = pnl.z;
+            p.m_d = pnl.w;
+
+            // 右边 Plane
+            p = m_frustumPlanes[1];
+            pnl.x = m_projMat.m30 - m_projMat.m00;
+            pnl.y = m_projMat.m31 - m_projMat.m01;
+            pnl.z = m_projMat.m32 - m_projMat.m02;
+            pnl.w = m_projMat.m33 - m_projMat.m03;
+            pnl = m_camera.cameraToWorldMatrix * pnl;
+            pnl.Normalize();
+            p.m_a = pnl.x;
+            p.m_b = pnl.y;
+            p.m_c = pnl.z;
+            p.m_d = pnl.w;
+
+            // 顶端 Plane
+            p = m_frustumPlanes[3];
+            pnl.x = m_projMat.m30 - m_projMat.m10;
+            pnl.y = m_projMat.m31 - m_projMat.m11;
+            pnl.z = m_projMat.m32 - m_projMat.m12;
+            pnl.w = m_projMat.m33 - m_projMat.m13;
+            pnl = m_camera.cameraToWorldMatrix * pnl;
+            pnl.Normalize();
+            p.m_a = pnl.x;
+            p.m_b = pnl.y;
+            p.m_c = pnl.z;
+            p.m_d = pnl.w;
+
+            // 底边 Plane
+            p = m_frustumPlanes[2];
+            pnl.x = m_projMat.m30 + m_projMat.m10;
+            pnl.y = m_projMat.m31 + m_projMat.m11;
+            pnl.z = m_projMat.m32 + m_projMat.m12;
+            pnl.w = m_projMat.m33 + m_projMat.m13;
+            pnl = m_camera.cameraToWorldMatrix * pnl;
+            pnl.Normalize();
+            p.m_a = pnl.x;
+            p.m_b = pnl.y;
+            p.m_c = pnl.z;
+            p.m_d = pnl.w;
+
+            // 近 Plane
+            p = m_frustumPlanes[4];
+            pnl.x = m_projMat.m30 + m_projMat.m20;
+            pnl.y = m_projMat.m31 + m_projMat.m21;
+            pnl.z = m_projMat.m32 + m_projMat.m22;
+            pnl.w = m_projMat.m33 + m_projMat.m23;
+            pnl = m_camera.cameraToWorldMatrix * pnl;
+            pnl.Normalize();
+            p.m_a = pnl.x;
+            p.m_b = pnl.y;
+            p.m_c = pnl.z;
+            p.m_d = pnl.w;
+
+            // 远 Plane
+            p = m_frustumPlanes[5];
+            pnl.x = m_projMat.m30 - m_projMat.m20;
+            pnl.y = m_projMat.m31 - m_projMat.m21;
+            pnl.z = m_projMat.m32 - m_projMat.m22;
+            pnl.w = m_projMat.m33 - m_projMat.m23;
+            pnl = m_camera.cameraToWorldMatrix * pnl;
+            pnl.Normalize();
+            p.m_a = pnl.x;
+            p.m_b = pnl.y;
+            p.m_c = pnl.z;
+            p.m_d = pnl.w;
+
+            m_frustumPlanesDirty = false;
+        }
 
         /**
          * brief 测试输出投影矩阵
