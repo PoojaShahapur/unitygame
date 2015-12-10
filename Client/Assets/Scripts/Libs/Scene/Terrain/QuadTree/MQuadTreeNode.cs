@@ -92,12 +92,16 @@ namespace SDK.Lib
             }
         }
 
+        /**
+         * @brief 判断 Node 是否在 Frustum 中，注意 Node 的数据是世界空间的，因此 Panels 也要是世界空间中的 Panel
+         */
         override public bool isInFrustum(MList<MPlane3D> planes, int numPlanes)
 		{
+            // 只要 Node 的最小点位置在最大 Panel 外，或者 Node 最大点位置在最小 Panel 外，就说明这个 Node 不被 Panels 包围
 			for (int i = 0; i < numPlanes; ++i) 
             {
                 MPlane3D plane = planes[i];
-				float flippedExtentX = plane.m_a < 0 ? - m_halfExtentXZ : m_halfExtentXZ;
+				float flippedExtentX = plane.m_a < 0 ? - m_halfExtentXZ : m_halfExtentXZ;   // 如果 plane.m_a < 0，只要测试最小点是否在这个 Panel 的背面，如果在，那么这个 Node 肯定不被这些 Panel 包围
                 float flippedExtentY = plane.m_b < 0 ? - m_halfExtentY : m_halfExtentY;
                 float flippedExtentZ = plane.m_c < 0 ? - m_halfExtentXZ : m_halfExtentXZ;
                 float projDist = plane.m_a * (m_centerX + flippedExtentX) + plane.m_b * flippedExtentY + plane.m_c * (m_centerZ + flippedExtentZ) + plane.m_d; // 计算距离，注意 m_centerX 是世界空间中的位置

@@ -109,10 +109,10 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 - m_viewProjMat.m10;
 			b = m_viewProjMat.m31 - m_viewProjMat.m11;
 			c = m_viewProjMat.m32 - m_viewProjMat.m12;
-			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
-            p.m_a = a* invLen;
-            p.m_b = b* invLen;
-            p.m_c = c* invLen;
+			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+            p.m_a = a * invLen;
+            p.m_b = b * invLen;
+            p.m_c = c * invLen;
             p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m13) *invLen;
 
             // 底边 Plane
@@ -131,10 +131,10 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 + m_viewProjMat.m20;
 			b = m_viewProjMat.m31 + m_viewProjMat.m21;
 			c = m_viewProjMat.m32 + m_viewProjMat.m22;
-			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
-            p.m_a = a* invLen;
-            p.m_b = b* invLen;
-            p.m_c = c* invLen;
+			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+            p.m_a = a * invLen;
+            p.m_b = b * invLen;
+            p.m_c = c * invLen;
             p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m23) * invLen;
 
             // 远 Plane
@@ -142,10 +142,10 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 - m_viewProjMat.m20;
 			b = m_viewProjMat.m31 - m_viewProjMat.m21;
 			c = m_viewProjMat.m32 - m_viewProjMat.m22;
-			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
-            p.m_a = a* invLen;
-            p.m_b = b* invLen;
-            p.m_c = c* invLen;
+			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+            p.m_a = a * invLen;
+            p.m_b = b * invLen;
+            p.m_c = c * invLen;
             p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m23) *invLen;
 			
 			m_frustumPlanesDirty = false;
