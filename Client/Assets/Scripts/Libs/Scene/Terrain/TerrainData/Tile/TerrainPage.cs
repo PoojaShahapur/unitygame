@@ -38,5 +38,10 @@
         {
             return null;
         }
+
+        public void updateClip(MList<MPlane3D> planes)
+        {
+            m_quadTree.updateClip(planes);
+        }
     }
 }

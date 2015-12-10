@@ -17,11 +17,13 @@
         override public void show()
         {
             base.show();
+            m_submesh.show();
         }
 
         override public void hide()
         {
             base.hide();
+            m_submesh.hide();
         }
 
         override public void updateMesh(TerrainPage terrain, int tileIndex)

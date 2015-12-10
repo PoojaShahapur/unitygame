@@ -20,11 +20,19 @@ namespace SDK.Lib
         {
             m_childNodes = new MList<MNodeBase>();
         }
-		
-		/**
+
+        /**
+         * @brief 后更新数据
+         */
+        virtual public void postInit()
+        {
+
+        }
+
+        /**
 		 * @brief 父节点。如果这个 Node ，说明这个 Node 是 Root 结点
 		 */
-		public MNodeBase getParent()
+        public MNodeBase getParent()
 		{
 			return m_parent;
 		}

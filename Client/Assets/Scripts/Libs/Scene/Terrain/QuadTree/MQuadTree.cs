@@ -55,6 +55,7 @@
         protected void buildTree()
         {
             m_rootNode = new MQuadTreeNode(m_terrain, m_maxDepth, m_size, m_height);
+            m_rootNode.postInit();
         }
 
         /**

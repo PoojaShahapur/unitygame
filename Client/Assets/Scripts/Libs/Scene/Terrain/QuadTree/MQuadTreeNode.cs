@@ -87,11 +87,6 @@ namespace SDK.Lib
                 m_rightTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ + halfHalfSize, depth + 1, halfCurDepthTileCount, 0);
                 addNode(m_rightTop);
             }
-
-            if(m_leaf)  // 只有 Leaf 才需要更新 Proxy 数据
-            {
-                updateProxy();      // 更新代理数据
-            }
         }
 
         override public bool isInFrustum(MList<MPlane3D> planes, int numPlanes)
@@ -231,8 +226,8 @@ namespace SDK.Lib
         // 获取当前节点对应的 Tile 在保存的 Tile 的数组中的索引
         protected int getTileIndex()
         {
-            int xTile = 0;
-            int zTile = 0;
+            int xTile = m_xTileOffset;
+            int zTile = m_zTileOffset;
 
             if(this.m_parent != null)
             {
@@ -244,12 +239,33 @@ namespace SDK.Lib
         }
 
         /**
+         * @brief 四叉树构造完成更新一些数据
+         */
+        override public void postInit()
+        {
+            if(m_leaf)
+            {
+                updateProxy();
+            }
+            else
+            {
+                m_leftBottom.postInit();
+                m_rightBottom.postInit();
+                m_leftTop.postInit();
+                m_rightTop.postInit();
+            }
+        }
+
+        /**
          * @brief 获取 Proxy 数据
          */
         protected void updateProxy()
         {
-            int tileIndex = getTileIndex();
-            m_nodeProxy.updateMesh(m_terrain, tileIndex);
+            if (m_leaf)
+            {
+                int tileIndex = getTileIndex();
+                m_nodeProxy.updateMesh(m_terrain, tileIndex);
+            }
         }
     }
 }
