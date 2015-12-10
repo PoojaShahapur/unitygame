@@ -14,9 +14,11 @@ namespace SDK.Lib
         protected bool m_matrixInvalid;     // 投影矩阵是否无效
         protected MList<float> m_frustumCorners;    // 存放 Frustum 的四面体的八个顶点
         protected QuadMeshRender m_frustumRender;   // Frustum 渲染
+        protected bool m_bShowBoundBox;             // 是否显示
 
         protected MLensBase()
         {
+            m_bShowBoundBox = false;
             m_frustumRender = new QuadMeshRender(24);
             m_matrix3D = new MMatrix3D();
 
@@ -30,6 +32,11 @@ namespace SDK.Lib
             {
                 m_frustumCorners.Add(0);
             }
+        }
+
+        public bool getShowBoundBox()
+        {
+            return m_bShowBoundBox;
         }
 
         /**

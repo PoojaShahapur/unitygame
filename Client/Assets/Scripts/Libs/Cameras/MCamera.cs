@@ -65,7 +65,10 @@ namespace SDK.Lib
 
                 updateFrustum();
                 m_lens.updateMatrix();
-                m_lens.updateFrustumRender();
+                if (m_lens.getShowBoundBox())
+                {
+                    m_lens.updateFrustumRender();
+                }
             }
         }
 

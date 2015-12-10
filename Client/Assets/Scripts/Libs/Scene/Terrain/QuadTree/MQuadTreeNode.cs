@@ -44,7 +44,7 @@ namespace SDK.Lib
         protected int m_zTileOffset;        // 当前节点相对于父节点的 Z Tile 偏移数量
 
         protected QuadMeshRender m_quadRender;  // 显示节点的区域大小
-        protected bool m_bshowBoundBox;         // 显示 BoundBox
+        protected bool m_bShowBoundBox;         // 显示 BoundBox
 
         /**
          * @brief 四叉树的节点，深度根据 leaf 的大小确定
@@ -65,7 +65,7 @@ namespace SDK.Lib
             m_leaf = depth == maxDepth;
             m_xTileOffset = xTileOffset;
             m_zTileOffset = zTileOffset;
-            m_bshowBoundBox = true;
+            m_bShowBoundBox = false;
 
             int curDepthTileCount = terrain.getTerrainPageCfg().getXTileCount() / UtilApi.powerTwo(depth);    // 当前节点的 Tile 数量
             int halfCurDepthTileCount = curDepthTileCount / 2;  // 当前节点的 Tile 数量的一半
@@ -189,10 +189,7 @@ namespace SDK.Lib
             }
             else            // 如果不可见，就直接隐藏掉
             {
-                if (m_leaf)
-                {
-                    m_nodeProxy.hide();
-                }
+                hideLeafNode();
             }
         }
 
@@ -249,7 +246,7 @@ namespace SDK.Lib
             if(m_leaf)
             {
                 updateProxy();
-                if (m_bshowBoundBox)
+                if (m_bShowBoundBox)
                 {
                     showBoundBox();
                 }
@@ -299,6 +296,21 @@ namespace SDK.Lib
             m_quadRender.buildIndexA();
             m_quadRender.uploadGeometry();
             UtilApi.setPos(m_quadRender.selfGo.transform, new Vector3(m_centerX, 0, m_centerZ));
+        }
+
+        public void hideLeafNode()
+        {
+            if(m_leaf)
+            {
+                m_nodeProxy.hide();
+            }
+            else
+            {
+                m_rightTop.hideLeafNode();
+                m_leftTop.hideLeafNode();
+                m_rightBottom.hideLeafNode();
+                m_leftBottom.hideLeafNode();
+            }
         }
     }
 }
