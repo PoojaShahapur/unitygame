@@ -91,7 +91,7 @@ namespace SDK.Lib
             p.m_a = a* invLen;
             p.m_b = b* invLen;
             p.m_c = c* invLen;
-            p.m_d = -(m_viewProjMat.m33 + m_viewProjMat.m03) *invLen;
+            p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m03) *invLen;
 			
 			// 右边 Plane
 			p = m_frustumPlanes[1];
@@ -104,17 +104,6 @@ namespace SDK.Lib
             p.m_c = c* invLen;
             p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m03) * invLen;
 			
-			// 底边 Plane
-			p = m_frustumPlanes[2];
-			a = m_viewProjMat.m30 + m_viewProjMat.m10;
-			b = m_viewProjMat.m31 + m_viewProjMat.m11;
-			c = m_viewProjMat.m32 + m_viewProjMat.m12;
-			invLen = (float)(1 / UtilApi.Sqrt(a* a + b* b + c* c));
-            p.m_a = a* invLen;
-            p.m_b = b* invLen;
-            p.m_c = c* invLen;
-            p.m_d = -(m_viewProjMat.m33 + m_viewProjMat.m13) *invLen;
-			
 			// 顶端 Plane
 			p = m_frustumPlanes[3];
 			a = m_viewProjMat.m30 - m_viewProjMat.m10;
@@ -125,9 +114,20 @@ namespace SDK.Lib
             p.m_b = b* invLen;
             p.m_c = c* invLen;
             p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m13) *invLen;
-			
-			// 近 Plane
-			p = m_frustumPlanes[4];
+
+            // 底边 Plane
+            p = m_frustumPlanes[2];
+            a = m_viewProjMat.m30 + m_viewProjMat.m10;
+            b = m_viewProjMat.m31 + m_viewProjMat.m11;
+            c = m_viewProjMat.m32 + m_viewProjMat.m12;
+            invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+            p.m_a = a * invLen;
+            p.m_b = b * invLen;
+            p.m_c = c * invLen;
+            p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m13) * invLen;
+
+            // 近 Plane
+            p = m_frustumPlanes[4];
 			a = m_viewProjMat.m30 + m_viewProjMat.m20;
 			b = m_viewProjMat.m31 + m_viewProjMat.m21;
 			c = m_viewProjMat.m32 + m_viewProjMat.m22;

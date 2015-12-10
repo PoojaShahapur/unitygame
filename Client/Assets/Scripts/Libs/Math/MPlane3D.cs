@@ -154,19 +154,19 @@ namespace SDK.Lib
 		{
             if (m_alignment == ALIGN_YZ_AXIS)
             {
-                return m_a * p.x - m_d;
+                return m_a * p.x + m_d;
             }
             else if (m_alignment == ALIGN_XZ_AXIS)
             {
-                return m_b * p.y - m_d;
+                return m_b * p.y + m_d;
             }
             else if (m_alignment == ALIGN_XY_AXIS)
             {
-                return m_c * p.z - m_d;
+                return m_c * p.z + m_d;
             }
             else
             {
-                return m_a * p.x + m_b * p.y + m_c * p.z - m_d;
+                return m_a * p.x + m_b * p.y + m_c * p.z + m_d;
             }
 		}
 		
@@ -175,30 +175,24 @@ namespace SDK.Lib
 		 * @param p Vector3D
 		 * @return int Plane3.FRONT or Plane3D.BACK or Plane3D.INTERSECT
 		 */
-		public int classifyPoint(Vector3 p, float epsilon = 0.01f)
+		public int getSide(Vector3 p, float epsilon = 0.01f)
 		{
-            // check NaN
-            if (m_d != m_d)
-            {
-                return MPlaneClassification.FRONT;
-            }
-			
 			float len;
             if (m_alignment == ALIGN_YZ_AXIS)
             {
-                len = m_a * p.x - m_d;
+                len = m_a * p.x + m_d;
             }
             else if (m_alignment == ALIGN_XZ_AXIS)
             {
-                len = m_b * p.y - m_d;
+                len = m_b * p.y + m_d;
             }
             else if (m_alignment == ALIGN_XY_AXIS)
             {
-                len = m_c * p.z - m_d;
+                len = m_c * p.z + m_d;
             }
             else
             {
-                len = m_a * p.x + m_b * p.y + m_c * p.z - m_d;
+                len = m_a * p.x + m_b * p.y + m_c * p.z + m_d;
             }
 
             if (len < -epsilon)
@@ -214,8 +208,29 @@ namespace SDK.Lib
                 return MPlaneClassification.INTERSECT;
             }
 		}
-		
-		public string toString()
+
+        /**
+         * @brief 判断一个四边形是在面板的哪一面
+         */
+        public int getSide(Vector3 center, Vector3 halfSize)
+        {
+            float dist = distance(center);
+            float maxAbsDist = UtilApi.Abs(m_a * halfSize.x) + UtilApi.Abs(m_b * halfSize.y) + UtilApi.Abs(m_c * halfSize.z);
+
+            if (dist < -maxAbsDist)
+            {
+                return MPlaneClassification.BACK;
+            }
+
+            if (dist > +maxAbsDist)
+            {
+                return MPlaneClassification.FRONT;
+            }
+
+            return MPlaneClassification.INTERSECT;
+        }
+
+        public string toString()
 		{
 			return "Plane3D [a:" + m_a + ", b:" + m_b + ", c:" + m_c + ", d:" + m_d + "].";
 		}

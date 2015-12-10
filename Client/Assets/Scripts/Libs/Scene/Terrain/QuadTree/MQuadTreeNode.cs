@@ -97,10 +97,10 @@ namespace SDK.Lib
 			for (int i = 0; i < numPlanes; ++i) 
             {
                 MPlane3D plane = planes[i];
-				float flippedExtentX = plane.m_a< 0? - m_halfExtentXZ : m_halfExtentXZ;
-                float flippedExtentY = plane.m_b < 0? - m_halfExtentY : m_halfExtentY;
-                float flippedExtentZ = plane.m_c < 0? - m_halfExtentXZ : m_halfExtentXZ;
-                float projDist = plane.m_a * (m_centerX + flippedExtentX) + plane.m_b * flippedExtentY + plane.m_c * (m_centerZ + flippedExtentZ) - plane.m_d;
+				float flippedExtentX = plane.m_a < 0 ? - m_halfExtentXZ : m_halfExtentXZ;
+                float flippedExtentY = plane.m_b < 0 ? - m_halfExtentY : m_halfExtentY;
+                float flippedExtentZ = plane.m_c < 0 ? - m_halfExtentXZ : m_halfExtentXZ;
+                float projDist = plane.m_a * (m_centerX + flippedExtentX) + plane.m_b * flippedExtentY + plane.m_c * (m_centerZ + flippedExtentZ) + plane.m_d; // 计算距离，注意 m_centerX 是世界空间中的位置
                 if (projDist < 0)
                 {
                     return false;

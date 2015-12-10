@@ -852,5 +852,10 @@ namespace SDK.Lib
         {
             return (int)Math.Pow(2, exponent);
         }
+
+        static public float Abs(float value)
+        {
+            return Math.Abs(value);
+        }
     }
 }
