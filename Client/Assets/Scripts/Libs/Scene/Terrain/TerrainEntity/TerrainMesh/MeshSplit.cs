@@ -24,8 +24,8 @@
             int width = terrainPageCfg.getWorldWidth();
             int depth = terrainPageCfg.getWorldDepth();
 
-            int minElevation = terrainPageCfg.getMinElevation();
-            int maxElevation = terrainPageCfg.getMaxElevation();
+            int minHeight = terrainPageCfg.getMinHeight();
+            int maxHeight = terrainPageCfg.getMaxHeight();
             int height = terrainPageCfg.getWorldHeight();
 
             int tileWidth = terrainPageCfg.getTileWorldWidth();
@@ -82,7 +82,7 @@
                     v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
 
                     col = (uint)(heightMap.getPixel((int)u, (int)v)) & 0xff;
-                    y = (col > maxElevation) ? ((float)maxElevation / 0xff) * height : ((col < minElevation) ? ((float)minElevation / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
+                    y = (col > maxHeight) ? ((float)maxHeight / 0xff) * height : ((col < minHeight) ? ((float)minHeight / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
                     vertices[numVerts++] = x;
                     vertices[numVerts++] = y;
@@ -163,8 +163,8 @@
             int width = terrainPageCfg.getWorldWidth();
             int depth = terrainPageCfg.getWorldDepth();
 
-            int minElevation = terrainPageCfg.getMinElevation();
-            int maxElevation = terrainPageCfg.getMaxElevation();
+            int minHeight = terrainPageCfg.getMinHeight();
+            int maxHeight = terrainPageCfg.getMaxHeight();
             int height = terrainPageCfg.getWorldHeight();
 
             int tileWidth = terrainPageCfg.getTileWorldWidth();
@@ -229,7 +229,7 @@
                     v = (totalSegmentsH - (zi + zSegmentOffset)) * vDiv;
 
                     col = (uint)(heightMap.getPixel((int)u, (int)v)) & 0xff;
-                    y = (col > maxElevation) ? ((float)maxElevation / 0xff) * height : ((col < minElevation) ? ((float)minElevation / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
+                    y = (col > maxHeight) ? ((float)maxHeight / 0xff) * height : ((col < minHeight) ? ((float)minHeight / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
                     vertices[numVerts++] = x;
                     vertices[numVerts++] = y;

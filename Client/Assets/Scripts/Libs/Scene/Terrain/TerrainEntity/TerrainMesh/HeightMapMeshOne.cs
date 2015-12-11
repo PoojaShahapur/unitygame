@@ -13,8 +13,8 @@
         protected HeightMapData m_heightMap;                // 高度图
 		protected HeightMapData m_smoothedHeightMap;        // 平滑的高度图
 		protected HeightMapData m_activeMap;                // 获取高度的高度图
-		protected uint m_minElevation;                      // 高度图最小高度
-		protected uint m_maxElevation;                      // 高度图最大高度
+		protected uint m_minHeight;                      // 高度图最小高度
+		protected uint m_maxHeight;                      // 高度图最大高度
 		protected bool m_geomDirty;                         // Geometry 数据是否是被修改
 		protected bool m_uvDirty;                           // UV 数据是否被修改
 		protected MSubGeometry m_subGeometry;               // SubGeometry 数据
@@ -22,16 +22,16 @@
         /**
          * @brief 构造函数
          */
-        public HeightMapMeshOne(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
+        public HeightMapMeshOne(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxHeight = 255, uint minHeight = 0, bool smoothMap = false)
             : base(new MGeometry(), new SingleTileRender())
         {
-            buildOneTileMesh(heightMap, width, height, depth, segmentsW, segmentsH, maxElevation, minElevation, smoothMap);
+            buildOneTileMesh(heightMap, width, height, depth, segmentsW, segmentsH, maxHeight, minHeight, smoothMap);
         }
 
         /**
          * @breif 一个 Page 就是一个 Tile 的地形生成方法
          */
-        protected void buildOneTileMesh(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxElevation = 255, uint minElevation = 0, bool smoothMap = false)
+        protected void buildOneTileMesh(HeightMapData heightMap, float width = 1000, float height = 100, float depth = 1000, int segmentsW = 30, int segmentsH = 30, uint maxHeight = 255, uint minHeight = 0, bool smoothMap = false)
         {
             m_subGeometry = new MSubGeometry();
             this.getGeometry().addSubGeometry(m_subGeometry);
@@ -47,8 +47,8 @@
             m_width = width;
             m_height = height;
             m_depth = depth;
-            m_maxElevation = maxElevation;
-            m_minElevation = minElevation;
+            m_maxHeight = maxHeight;
+            m_minHeight = minHeight;
 
             buildUVs();
             buildGeometry();
@@ -62,45 +62,45 @@
        /**
         * @brief 返回高度图最小高度
         */
-       public void setMinElevation(uint val)
+       public void setMinHeight(uint val)
 		{
-            if (m_minElevation == val)
+            if (m_minHeight == val)
             {
                 return;
             }
-			
-			m_minElevation = val;
+
+            m_minHeight = val;
             invalidateGeometry();
         }
 
         /**
          * @brief 获取最小高度
          */
-        public uint getMinElevation()
+        public uint getMinHeight()
 		{
-			return m_minElevation;
+			return m_minHeight;
 		}
 
         /**
          * @brief 设置高度图最大高度
          */
-        public void setMaxElevation(uint val)
+        public void setMaxHeight(uint val)
 		{
-            if (m_maxElevation == val)
+            if (m_maxHeight == val)
             {
                 return;
             }
-			
-			m_maxElevation = val;
+
+            m_maxHeight = val;
             invalidateGeometry();
 		}
 		
         /**
          * @brief 获取最大高度
          */
-		public uint getMaxElevation()
+		public uint getMaxHeight()
 		{
-			return m_maxElevation;
+			return m_maxHeight;
 		}
 
         /**
@@ -180,7 +180,7 @@
             int pixX = (int)(x / m_width + 0.5) * (m_activeMap.getWidth() - 1);       // + 0.5 将地形世界坐标点转换成高度图中图像的像素的坐标点
             int pixZ = (int)(-z / m_depth + 0.5) * (m_activeMap.getHeight() - 1);
             uint col = (uint)(m_activeMap.getPixel(pixX, pixZ)) & 0xff;
-            return (col > m_maxElevation) ? ((float)m_maxElevation / 0xff) * m_height : ((col < m_minElevation) ? ((float)m_minElevation / 0xff) * m_height : ((float)col / 0xff) * m_height);
+            return (col > m_maxHeight) ? ((float)m_maxHeight / 0xff) * m_height : ((col < m_minHeight) ? ((float)m_minHeight / 0xff) * m_height : ((float)col / 0xff) * m_height);
         }
 
         /**
@@ -243,22 +243,22 @@
 					if (j == 0)         // 如果是在像素的第一行，就是矩形的四个顶点
                     {
 						px1 = (uint)(m_heightMap.getPixel(i, j)) & 0xFF;
-						px1 = (px1 > m_maxElevation) ? m_maxElevation : ((px1 < m_minElevation) ? m_minElevation : px1);
+						px1 = (px1 > m_maxHeight) ? m_maxHeight : ((px1 < m_minHeight) ? m_minHeight : px1);
 						px2 = (uint)(m_heightMap.getPixel(lockx, j)) & 0xFF;
-						px2 = (px2 > m_maxElevation) ? m_maxElevation : ((px2 < m_minElevation) ? m_minElevation : px2);
+						px2 = (px2 > m_maxHeight) ? m_maxHeight : ((px2 < m_minHeight) ? m_minHeight : px2);
 						px3 = (uint)(m_heightMap.getPixel(lockx, locky)) & 0xFF;
-						px3 = (px3 > m_maxElevation) ? m_maxElevation : ((px3 < m_minElevation) ? m_minElevation : px3);
+						px3 = (px3 > m_maxHeight) ? m_maxHeight : ((px3 < m_minHeight) ? m_minHeight : px3);
 						px4 = (uint)(m_heightMap.getPixel(i, locky)) & 0xFF;
-						px4 = (px4 > m_maxElevation) ? m_maxElevation : ((px4 < m_minElevation) ? m_minElevation : px4);
+						px4 = (px4 > m_maxHeight) ? m_maxHeight : ((px4 < m_minHeight) ? m_minHeight : px4);
 					}
                     else                // 如果不是第一行， px1 就直接取上一行的 px4
                     {
 						px1 = px4;      // px1 就直接取上一行的 px4
                         px2 = px3;
 						px3 = (uint)(m_heightMap.getPixel(lockx, locky)) & 0xFF;
-						px3 = (px3 > m_maxElevation) ? m_maxElevation : ((px3 < m_minElevation) ? m_minElevation : px3);
+						px3 = (px3 > m_maxHeight) ? m_maxHeight : ((px3 < m_minHeight) ? m_minHeight : px3);
 						px4 = (uint)(m_heightMap.getPixel(i, locky)) & 0xFF;
-						px4 = (px4 > m_maxElevation) ? m_maxElevation : ((px4 < m_minElevation) ? m_minElevation : px4);
+						px4 = (px4 > m_maxHeight) ? m_maxHeight : ((px4 < m_minHeight) ? m_minHeight : px4);
 					}
 					
 					for (k = 0; k < m_segmentsW; ++k)    // 遍历当前获取的矩形像素区域的所有像素
@@ -350,7 +350,7 @@
                     v = (m_segmentsH - zi) * vDiv;
 
                     col = (uint)(m_heightMap.getPixel((int)u, (int)v)) & 0xff;
-					y = (col > m_maxElevation) ? ((float)m_maxElevation / 0xff)* m_height : ((col < m_minElevation) ? ((float)m_minElevation /0xff) * m_height : ((float)col / 0xff) * m_height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
+					y = (col > m_maxHeight) ? ((float)m_maxHeight / 0xff)* m_height : ((col < m_minHeight) ? ((float)m_minHeight / 0xff) * m_height : ((float)col / 0xff) * m_height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
                     vertices[numVerts++] = x;
 					vertices[numVerts++] = y;

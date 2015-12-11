@@ -27,7 +27,9 @@
             m_heightMapData = new HeightMapData();
             m_heightMapData.loadHeightMap("Terrain/terrain.png");
 
-            m_terrainPageCfg.setPixelWidthAndHeight(m_heightMapData.getWidth() - 1, m_heightMapData.getHeight() - 1);
+            //m_terrainPageCfg.setWorldWidthAndHeight(m_heightMapData.getWidth() - 1, m_heightMapData.getHeight() - 1);
+
+            m_terrainPageCfg.setWorldWidthAndHeight(128, 128);
 
             m_heightMapMesh = new HeightMapMeshMulti(m_heightMapData, m_terrainPageCfg);
 

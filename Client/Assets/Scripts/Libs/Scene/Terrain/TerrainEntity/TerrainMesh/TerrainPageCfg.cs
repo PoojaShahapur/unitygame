@@ -19,8 +19,8 @@
         protected int m_xTotalGrid;             // X 轴总共格子数
         protected int m_zTotalGrid;             // Z 轴总共格子数
 
-        protected int m_minElevation;                   // 高度图最小高度
-        protected int m_maxElevation;                   // 高度图最大高度
+        protected int m_minHeight;                   // 高度图最小高度
+        protected int m_maxHeight;                   // 高度图最大高度
         protected int m_height;    // 世界空间高度图高度， Z 轴高度，这个高度要和 HeightMapMeshOne 中的 m_height 高度一样，因为计算高度依赖这个值，因为高度图暂时精度范围是 [0, 255] ，m_height 就是缩放高度图中的 [0, 1] 到具体高度，因此 m_height 这个值取值范围要和高度图的范围尽量一样 [0, 255]
 
         /**
@@ -29,10 +29,10 @@
          */
         public TerrainPageCfg(int worldWidth = 512, int worldHeight = 512)
         {
-            setPixelWidthAndHeight(worldWidth, worldHeight);
+            setWorldWidthAndHeight(worldWidth, worldHeight);
 
-            m_minElevation = 0;
-            m_maxElevation = 0xFF;      // byte 最大值 0xFF
+            m_minHeight = 0;
+            m_maxHeight = 0xFF;      // byte 最大值 0xFF
             m_height = 128;
         }
 
@@ -151,7 +151,7 @@
         /**
          * @brief 设置像素的宽度和高度
          */
-        public void setPixelWidthAndHeight(int worldWidth, int worldHeight)
+        public void setWorldWidthAndHeight(int worldWidth, int worldHeight)
         {
             m_xTileCount = worldWidth / getTileWorldWidth();
             m_zTileCount = worldHeight / getTileWorldDepth();
@@ -218,24 +218,24 @@
             m_height = value;
         }
 
-        public int getMinElevation()
+        public int getMinHeight()
         {
-            return m_minElevation;
+            return m_minHeight;
         }
 
-        public void setMinElevation(int value)
+        public void setMinHeight(int value)
         {
-            m_minElevation = value;
+            m_minHeight = value;
         }
 
-        public int getMaxElevation()
+        public int getMaxHeight()
         {
-            return m_maxElevation;
+            return m_maxHeight;
         }
 
-        public void setMaxElevation(int value)
+        public void setMaxHeight(int value)
         {
-            m_maxElevation = value;
+            m_maxHeight = value;
         }
 
         /**
