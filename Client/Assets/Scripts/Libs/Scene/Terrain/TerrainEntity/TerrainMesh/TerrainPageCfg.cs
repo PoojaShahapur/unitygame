@@ -25,7 +25,7 @@
 
         /**
          * @brief 地形配置，尽量 worldWidth 和 worldHeight 尽量相等
-         * @param worldWidth 像素宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
+         * @param worldWidth 场景宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
          */
         public TerrainPageCfg(int worldWidth = 512, int worldHeight = 512)
         {

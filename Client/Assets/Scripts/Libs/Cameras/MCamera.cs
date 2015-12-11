@@ -153,7 +153,6 @@ namespace SDK.Lib
 
         protected void updateFrustum_B()
         {
-            float a = 0, b = 0, c = 0;
             MPlane3D p;
             Vector4 pnl = new Vector4();
 

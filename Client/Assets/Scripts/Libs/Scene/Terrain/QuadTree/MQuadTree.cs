@@ -34,14 +34,14 @@
             int tileSize = m_terrain.getTerrainPageCfg().getTileWorldWidth();   // 获取 Area 的世界空间宽度
             while (splitTile > tileSize)    // 一定不能大于地形
             {
-                splitTile = m_size / UtilApi.powerTwo(m_maxDepth);
                 ++m_maxDepth;
+                splitTile = m_size / UtilApi.powerTwo(m_maxDepth);
             }
             return m_maxDepth;
         }
 
         /**
-         * @brief 计算 Tile 的数量
+         * @brief 从 Depth 直接计算 Tile 的数量
          */
         //public int calcTileCount()
         //{

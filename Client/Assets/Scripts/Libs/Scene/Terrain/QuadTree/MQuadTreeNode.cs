@@ -65,7 +65,7 @@ namespace SDK.Lib
             m_leaf = depth == maxDepth;
             m_xTileOffset = xTileOffset;
             m_zTileOffset = zTileOffset;
-            m_bShowBoundBox = false;
+            m_bShowBoundBox = true;
 
             int curDepthTileCount = terrain.getTerrainPageCfg().getXTileCount() / UtilApi.powerTwo(depth);    // 当前节点的 Tile 数量
             int halfCurDepthTileCount = curDepthTileCount / 2;  // 当前节点的 Tile 数量的一半
