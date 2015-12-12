@@ -11,7 +11,7 @@
 
         public MPerspectiveLens()
         {
-            m_fieldOfView = 45;
+            m_fieldOfView = 60;
             m_focalLength = 1;
         }
 

@@ -60,7 +60,8 @@ namespace SDK.Lib
                 m_lens.setNearDist(m_camera.nearClipPlane);
                 m_lens.setAspectRatio(m_camera.aspect);
 
-                m_viewProjMat = m_viewMat * m_projMat;
+                //m_viewProjMat = m_viewMat * m_projMat;
+                m_viewProjMat = m_projMat * m_viewMat;
                 //testLogMatrix(m_projMat);
 
                 updateFrustum_B();
