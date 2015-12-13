@@ -1,132 +1,50 @@
 namespace SDK.Lib
 {
-	public class fObject extends fRenderableElement
+	public class fObject : fRenderableElement
 	{
-		// Constants
-		
-		/**
-		 * Limits size of object shadow projection relative to X times the object's height (amount of stretching movieClips will suffer)
-		 */
-		public static const MAXSHADOW:int = 2;
-		
-		/**
-		 * Shadows are harder or softer depending on the distance from the shadow origin to the plane where the shadow is drawn
-		 * This constant defines the max distance in pixels at which a shadow will be seen. The shadow's alpha values will fade
-		 * from 1 to 0 along this distance
-		 */
-		public static const SHADOWRANGE:int = 100;
-		
-		/**
-		 * Shadows become bigger as they fade away. This is the scaling factor -1. 1 means the shadow doubles in size
-		 */
-		public static const SHADOWSCALE:Number = 0.7;
-		
-		// Private properties
-		/** @private */
 		// KBEN: 模板定义信息，内部数据最终会填写成实例化的数据使用  
-		public var definition:fObjectDefinition;
-		/** @private */
-		//public var sprites:Array;
-		/** @private */
-		public var _orientation:Number;
-		/** @private */
-		//public var shadowRange:Number;
-		private var _hasUpdateTagBounds2d:Boolean; //true 已经更新过m_tagBounds2d。角色建立后，只需更新m_tagBounds2d一次
+		public fObjectDefinition definition;
+
+		public float _orientation;
+
+		private bool _hasUpdateTagBounds2d; //true 已经更新过m_tagBounds2d。角色建立后，只需更新m_tagBounds2d一次
 		
-		// Public properties
-		
-		/**
-		 * The collision model for this object. A collision model is a matematical representation of an object's geometry
-		 * that is used to manage collisions. For example, a box is a good collision model for a car, and a cilinder is a
-		 * good collision model for people.<br>
-		 * Collision models need to be simple geometry so the engine can solve collisions fast.
-		 * @private
-		 */
-		public var collisionModel:fEngineCollisionModel;
-		
-		/**
-		 * The definition ID for this fObject. It is useful for example when processing collision events, as it will allow
-		 * you to know what kind of thing did you collide against.
-		 */
 		// KBEN: 这个是模板定义 ID  
-		public var definitionID:String = "";
+		public string definitionID = "";
 		// KBEN: 这个是实例化 ID 
-		public var m_insID:String = "";
+		public string m_insID = "";
+
+		public bool animated = false;
 		
-		/**
-		 * This property provides a bit of rendering optimization.
-		 * Non-Animated objects can be rendered faster if their cacheAsBitmap property is set to true.
-		 * For animated objects this would slowdown performance as the cache would be redrawn continuously.
-		 * Don't confuse "animated" ( a looping movieClip ) with "moveable".
-		 * fObjects default to non-animated and fCharacters default to animated. You can use the <b>animated</b> attribute in your XMLs to change this
-		 */
-		public var animated:Boolean = false;
+		public static string NEWORIENTATION = "objectNewOrientation";
 		
-		// Events
-		
-		/**
-		 * The fObject.NEWORIENTATION constant defines the value of the
-		 * <code>type</code> property of the event object for a <code>objectNewOrientation</code> event.
-		 * The event is dispatched when the object changes its orientation
-		 *
-		 * @eventType objectNewOrientation
-		 */
-		public static const NEWORIENTATION:String = "objectNewOrientation";
-		
-		/**
-		 * The fObject.GOTOANDPLAY constant defines the value of the
-		 * <code>type</code> property of the event object for a <code>objectGotoAndPlay</code> event.
-		 * The event is dispatched when you execute a gotoAndPlay call in the object
-		 *
-		 * @eventType objectGotoAndPlay
-		 */
-		public static const GOTOANDPLAY:String = "objectGotoAndPlay";
-		
-		/**
-		 * The fObject.GOTOANDSTOP constant defines the value of the
-		 * <code>type</code> property of the event object for a <code>objectGotoAndStop</code> event.
-		 * The event is dispatched when you execute a gotoAndPlay call in the object
-		 *
-		 * @eventType objectGotoAndStop
-		 */
-		public static const GOTOANDSTOP:String = "objectGotoAndStop";
+		public static string GOTOANDPLAY = "objectGotoAndPlay";
+
+		public static string GOTOANDSTOP = "objectGotoAndStop";
 		
 		// KBEN: 记录当前的状态，默认待机状态    
-		protected var m_state:uint = EntityCValue.TStand;
+		protected uint m_state = EntityCValue.TStand;
 		// KBEN: 帧率，这个定义在 fObjectDefinition 这里面，然后自己保存，以方便更改 
-		//protected var _framerateDic:Dictionary;
-		//protected var _framerateInvDic:Dictionary;	// KBEN: 帧率倒数 
-		protected var _leftInterval:Number = 0; // KBEN: 动画播放剩余的时间
-		public var _totalTime:Number = 0; // KBEN: 动画播放的总的时间，插值计算帧
-		
-		//protected var _repeatDic:Dictionary;	// 动作是否重复播放  
-		//protected var _frameInitDic:Dictionary;	// fFlash9ObjectSeqRenderer 中 _framesDic 有没有初始化   
+		protected float _leftInterval = 0; // KBEN: 动画播放剩余的时间
+		public float _totalTime = 0; // KBEN: 动画播放的总的时间，插值计算帧
+
 		// 是否配置文件已经初始化 
-		protected var m_binsXml:Boolean = false;
+		protected bool m_binsXml = false;
 		// 所有的偏移都在这里
-		public var m_ModelActDirOff:fActDirOff = null;
+		public fActDirOff m_ModelActDirOff = null;
 		// 特效使用来偏移中心，人物调整中心位置，这个只是某一个方向时候为了不使用中间变量使用的值
-		protected var m_origLinkOff:Point;		// 这个保存的是最初的偏移，因为编辑器中会修改这个值，因此保存一份最初的
-		protected var m_LinkOff:Point = null;
-		protected var m_preAct:int = -1;		// 为了模型偏移只计算一次，前一次动作
-		protected var m_preDir:int = -1;		// 为了模型偏移只计算一次，前一次方向
-		protected var m_preFrame:int = -1;		// 前一次帧
+		protected Point m_origLinkOff;		// 这个保存的是最初的偏移，因为编辑器中会修改这个值，因此保存一份最初的
+		protected Point m_LinkOff = null;
+		protected int m_preAct = -1;		// 为了模型偏移只计算一次，前一次动作
+		protected int m_preDir = -1;		// 为了模型偏移只计算一次，前一次方向
+		protected int m_preFrame = -1;		// 前一次帧
 		
-		protected var m_MountserLinkOff:Point = null;		// 骑乘者偏移，可能没有，只有有些坐骑才需要每一帧都调整
-		
-		// KBEN: 是否接收全局光照的影响，主要是战斗中可能要变暗除战斗双方外其它的内容，地形肯定要变暗
-		//public var m_affectByGI:Boolean = true;
-		public var m_affectByGI:Boolean = false;	// 现在只有地形会变暗，其它的都不变，包括人物和特效
-		
-		// Constructor
-		/** @private */
-		function fObject(defObj:XML, con:Context):void
+		protected Point m_MountserLinkOff = null;		// 骑乘者偏移，可能没有，只有有些坐骑才需要每一帧都调整
+
+		public fObject(defObj:XML)
 		{
-			// Previous
 			super(defObj, con);
 			
-			// Make sure this object has a definition in the scene. If it doesn't, throw an error
-			//this.definitionID = defObj.@definition;
 			var str:String = defObj.@definition;
 			
 			// this.definitionID 组成是这样子的， "aaa-bbb" : aaa 是模板的 ID ， bbb 是实例 ID 
@@ -140,45 +58,16 @@ namespace SDK.Lib
 			{
 				this.definitionID = defObj.@definition;
 				this.m_insID = "";
-				DebugBox.info("fObject:fObject()--模型定义文件名称格式错误" + defObj.@definition);
-				//throw new Event("defObj.@definition error");
 			}
 			
-			//this.definition = this.scene.resourceManager.getObjectDefinition(this.definitionID);
 			// 现在自己保存一份拷贝，这样方便修改
 			var srcdef:fObjectDefinition = this.m_context.m_sceneResMgr.getObjectDefinition(this.definitionID);
 			
-			//if (!this.definition)
 			if (!srcdef)
 			{
-				DebugBox.info("The scene does not contain a valid object definition that matches definition id '" + this.definitionID + "'");
-				//throw new Error("The scene does not contain a valid object definition that matches definition id '" + this.definitionID + "'");
 			}
 			
 			this.definition = new fObjectDefinition(srcdef.xmlData, srcdef.basepath);
-			
-			// 属性的继承    
-			//var insdef:fObjectDefinition = this.scene.resourceManager.getInsDefinition(this.m_insID);
-			// 如果设置了重载属性，就重写    
-			//if (insdef)
-			//{
-			//overwriteAtt(this.definition, insdef);
-			//}
-			//else	// 如果没有设置属性，就按照默认的规则进行处理    
-			//{
-			//adjustAtt(this.definition, m_insID);
-			//}
-			
-			// Retrieve all sprites for this object
-			// KBEN: 资源的初始化放到加载资源后面再初始化  
-			//try
-			//{
-			//this.sprites = this.definition.sprites;
-			//}
-			//catch (e:Error)
-			//{
-			//throw new Error("Object definition '" + this.definitionID + "' contains an invalid display model or it can't be applied to object '" + this.id + "' " + e);
-			//}
 			
 			// Initialize rotation for this object
 			this._orientation = 0;
@@ -187,36 +76,6 @@ namespace SDK.Lib
 			if (defObj.@animated.length() == 1)
 				this.animated = (defObj.@animated.toString() == "true");
 			
-			// Definition Lights enabled ?
-			//if (defObj.@receiveLights.length() != 1)
-			//	this.receiveLights = this.definition.receiveLights;
-			
-			// Definition Shadows enabled ?
-			//if (defObj.@receiveShadows.length() != 1)
-			//	this.receiveShadows = this.definition.receiveShadows;
-			
-			// Definition Projects shadow ?
-			//if (defObj.@castShadows.length() != 1)
-			//	this.castShadows = this.definition.castShadows;
-			
-			// Definition Solid ?
-			//if (defObj.@solid.length() != 1)
-			//	this.solid = this.definition.solid;
-			
-			// Retrieve collision model
-			try
-			{
-				this.collisionModel = this.definition.collisionModel;
-			}
-			catch (e:Error)
-			{
-				throw new Error("Object definition '" + this.definitionID + "' contains an invalid collision model or it can't be applied to object '" + this.id + "'");
-			}
-			
-			// Define shadowRange
-			//this.shadowRange = this.height * fObject.MAXSHADOW * fEngine.DEFORMATION;
-			
-			// Define bounds. I need to load the symbol from the library to know its size. I will be destroyed immediately
 			this.top = this.z + this.height;
 			this.x0 = this.x - this.radius;
 			this.x1 = this.x + this.radius;
@@ -224,10 +83,6 @@ namespace SDK.Lib
 			this.y1 = this.y + this.radius;
 			
 			// KBEN: 宽高需要自己从定义中指定 
-			//var clase:Class = this.sprites[0].sprite as Class;
-			//var tempSprite:MovieClip = objectPool.getInstanceOf(clase) as MovieClip;
-			//var w:Number = tempSprite.width;
-			//var h:Number = tempSprite.height;
 			// 这些每一帧切换图片的时候都需要更新的，初始值设置为 0 就行了
 			var w:Number = this.definition._width;
 			var h:Number = this.definition._height;
@@ -236,7 +91,6 @@ namespace SDK.Lib
 			h = this.definition.tagHeight;
 			this.m_tagBounds2d = new Rectangle(-w / 2, -h, w, h);
 			// KBEN: 宽高需要自己从定义中指定 
-			//objectPool.returnInstance(tempSprite);
 			
 			// Screen area
 			this.screenArea = this.bounds2d.clone();
@@ -248,46 +102,12 @@ namespace SDK.Lib
 			else
 				this.orientation = 0;
 			
-			// KBEN: 初始化帧率  
-			//_repeatDic = new Dictionary();
-			//_framerateDic = new Dictionary();
-			//_framerateInvDic = new Dictionary();
-			
-			//var key:String;
-			//for (key in this.definition.dicAction)
-			//{
-			//_framerateDic[key] = this.definition.dicAction[key].framerate;
-			//_framerateInvDic[key] = 1 / _framerateDic[key];
-			
-			//_repeatDic[key] = this.definition.dicAction[key].repeat;
-			//}
-			
-			// 生成自己数组 
-			//_frameInitDic = new Dictionary();
-			//var dir:int = 0;
-			
-			//var action:fActDefinition;
-			//for (key in definition.dicAction)
-			//{
-			//	//action = definition.dicAction[key];
-			//	//_resDic[key] = new Vector.<SWFResource>(definition.yCount, true);
-			//	//_frameInitDic[key] = new Vector.<Boolean>(definition.yCount, true);
-			//	_resDic[key] = this.m_context.m_SObjectMgr.m_actDirResList;
-			//	_frameInitDic[key] = this.m_context.m_SObjectMgr.m_frameInitList;
-			//}
-			
-			//m_LinkOff = new Point();
-			
 			// 加载自己定义的内容 
 			loadObjDefRes();
 		}
 		
-		/** @private */
 		public override function distanceTo(x:Number, y:Number, z:Number):Number
 		{
-			//var n1:Number = mathUtils.distance3d(x, y, z, this.x, this.y, this.z);
-			//var n2:Number = mathUtils.distance3d(x, y, z, this.x, this.y, this.top);
-			
 			var n1:Number = mathUtils.distance(x, y, this.x, this.y);
 			var n2:Number = mathUtils.distance(x, y, this.x, this.y);
 			
@@ -331,10 +151,6 @@ namespace SDK.Lib
 			if (isNaN(correctedAngle))
 				return;
 			
-			// Update collision model
-			// KBEN: 方向直接改成y 
-			// var newSprite:int = int(correctedAngle * this.sprites.length);
-			//this.collisionModel.orientation = (this.sprites[newSprite] as fSpriteDefinition).angle;
 			var newSprite:int = int(correctedAngle * this.definition.yCount);
 			this.collisionModel.orientation = this.definition.angle(newSprite);
 			
@@ -347,11 +163,6 @@ namespace SDK.Lib
 			return this._orientation;
 		}
 		
-		/**
-		 * The height in pixels of an imaginary cilinder enclosing the object. It is used only for colision detection. You can change it anytime
-		 * This is useful for example if a character has rolling or crawling movements and you want to change its collision height during those
-		 * movements.
-		 */
 		public function set height(h:Number):void
 		{
 			this.collisionModel.height = h;
@@ -362,10 +173,7 @@ namespace SDK.Lib
 		{
 			return this.collisionModel.height;
 		}
-		
-		/**
-		 * The radius in pixels of an imaginary cilinder enclosing the object. It is used only for colision detection.
-		 */
+
 		public function get radius():Number
 		{
 			return this.collisionModel.getRadius();
@@ -402,43 +210,9 @@ namespace SDK.Lib
 			_leftInterval = value;
 		}
 		
-		//public function get framerateInvDic():Dictionary 
-		//{
-		//return _framerateInvDic;
-		//}
-		
-		//public function set framerateInvDic(value:Dictionary):void 
-		//{
-		//_framerateInvDic = value;
-		//}
-		
-		//public function get repeatDic():Dictionary 
-		//{
-		//return _repeatDic;
-		//_repeatDic[key] = this.definition.dicAction[key].repeat;
-		//}
-		
-		//public function set repeatDic(value:Dictionary):void 
-		//{
-		//	_repeatDic = value;
-		//}
-		
-		/**
-		 * Passes the stardard gotoAndPLay command to the base clip
-		 *
-		 * @param where A frame number or frame label
-		 */
 		// KBEN: 这个就是切换状态的函数    
 		public override function gotoAndPlay(where:*):void
 		{
-			// KBEN: MovieClip 资源的时候直接切换状态
-			// bug: 性能
-			//if (this.flashClip)
-			//	this.flashClip.gotoAndPlay(where);
-			
-			// KBEN: 记录人物状态，现在是先设置人物状态，然后更新资源，然后播放动作，因此这里不需要再次设置这个状态了        
-			//m_state = PBUtil.convStateStr2ID(where);
-			// Dispatch event so the render engine updates the screen
 			this.dispatchEvent(new Event(fObject.GOTOANDPLAY));
 		}
 		

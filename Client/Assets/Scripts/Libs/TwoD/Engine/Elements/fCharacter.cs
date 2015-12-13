@@ -1,16 +1,7 @@
 namespace SDK.Lib
 {
-	public class fCharacter extends fSceneObject implements fMovingElement
+	public class fCharacter : fSceneObject, fMovingElement
 	{
-		// Constants
-		
-		/**
-		 * The fCharacter.COLLIDE constant defines the value of the
-		 * <code>type</code> property of the event object for a <code>charactercollide</code> event.
-		 * The event is dispatched when the character collides with another element in the scene
-		 *
-		 * @eventType charactercollide
-		 */
 		public static const COLLIDE:String = "charactercollide";
 		
 		/**

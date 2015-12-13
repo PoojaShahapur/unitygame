@@ -1,358 +1,140 @@
-package org.ffilmation.engine.core
+using System.Collections;
+using System.Collections.Generic;
+
+namespace SDK.Lib
 {
-	// Imports
-	//import com.bit101.components.Panel;
-	//import com.gskinner.motion.easing.Back;
-	import com.pblabs.engine.debug.Logger;
-	import com.pblabs.engine.entity.BeingEntity;
-	import com.pblabs.engine.entity.EffectEntity;
-	import com.pblabs.engine.entity.EntityCValue;
-	import org.ffilmation.engine.events.fNewCellEvent;
-	//import com.pblabs.engine.resource.SWFResource;
-	import com.util.DebugBox;
-	import flash.display.BitmapData;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	//import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
-	import org.ffilmation.engine.core.sceneInitialization.fSceneInitializer;
-	import org.ffilmation.engine.core.sceneLogic.fCharacterSceneLogic;
-	import org.ffilmation.engine.core.sceneLogic.fEffectSceneLogic;
-	import org.ffilmation.engine.core.sceneLogic.fEmptySpriteSceneLogic;
-	import org.ffilmation.engine.core.sceneLogic.fFObjectSceneLogic;
-	import org.ffilmation.engine.core.sceneLogic.fSceneRenderManager;
-	import org.ffilmation.engine.datatypes.fCell;
-	import org.ffilmation.engine.datatypes.stopPoint;
-	import org.ffilmation.engine.elements.fCharacter;
-	import org.ffilmation.engine.elements.fEmptySprite;
-	import org.ffilmation.engine.elements.fFloor;
-	import org.ffilmation.engine.elements.fFogPlane;
-	import org.ffilmation.engine.elements.fObject;
-	import org.ffilmation.engine.elements.fSceneObject;
-	import org.ffilmation.engine.events.fMoveEvent;
-	import org.ffilmation.engine.helpers.fEngineCValue;
-	import org.ffilmation.engine.helpers.fUtil;
-	import org.ffilmation.engine.interfaces.fEngineRenderEngine;
-	import org.ffilmation.engine.interfaces.fEngineSceneController;
-	import org.ffilmation.engine.interfaces.fEngineSceneRetriever;
-	import org.ffilmation.engine.logicSolvers.visibilitySolver.fVisibilitySolver;
-	import org.ffilmation.engine.renderEngines.flash9RenderEngine.fFlash9ElementRenderer;
-	import org.ffilmation.engine.renderEngines.flash9RenderEngine.fFlash9RenderEngine;
-	
-	//import org.ffilmation.profiler.*;
-	
-	/**
-	 * <p>The fScene class provides control over a scene in your application. The API for this object is used to add and remove
-	 * elements from the scene after it has been loaded, and managing cameras.</p>
-	 *
-	 * <p>Moreover, you can get information on topology, visibility from one point to another, search for paths and other useful
-	 * methods that will help, for example, in programming AIs that move inside the scene.</p>
-	 *
-	 * <p>The data structures contained within this object are populated during initialization by the fSceneInitializer class (which you don't need to understand).</p>
-	 *
-	 */
-	public class fScene extends EventDispatcher
+	public class fScene : EventDispatch
 	{
-		// This counter is used to generate unique scene Ids
-		private static var count:Number = 0;
+		private static float count = 0;
+
+		public static bool allCharacters = false;
 		
-		// This flag is set by the editor so every object is created as a character and can be moved ( so ugly I know but It does work )
-		/** @private */
-		public static var allCharacters:Boolean = false;
+		private fEngineSceneController _controller = null;
+		private fSceneInitializer initializer;
+		public fEngineRenderEngine renderEngine;
+		public fSceneRenderManager renderManager;
+		public fEngine engine;
+        public AuxComponent _orig_container;
+
+		public float viewWidth;
+
+		public float viewHeight;
+
+		public float top;
+
+        public int gridWidth;
+
+		public int gridDepth;
+
+		public int gridHeight;
+
+		public int gridSize;
+        public int gridSizeHalf;
+
+        public int levelSize;
+
+		public int sortCubeSize = fEngine.SORTCUBESIZE;
 		
-		// Private properties
+		public ArrayList grid;
+		public ArrayList allUsedCells;
+	
+		public bool IAmBeingRendered = false;
+		private bool _enabled;
+
+		public string id;
+
+		public fCamera currentCamera;
 		
-		// 1. References
-		private var _controller:fEngineSceneController = null;
-		/** @private */
-		//public var prof:fProfiler = null; // Profiler
-		private var initializer:fSceneInitializer; // This scene's initializer
-		/** @private */
-		public var renderEngine:fEngineRenderEngine; // The render engine
-		/** @private */
-		public var renderManager:fSceneRenderManager; // The render manager
-		/** @private */
-		public var engine:fEngine;
-		/** @private */
-		public var _orig_container:Sprite; // Backup reference
+		public AuxComponent container;
+
+		public string stat;
 		
-		// 2. Geometry and sizes
+		public bool ready;
 		
-		/** @private */
-		public var viewWidth:Number; // Viewport size
-		/** @private */
-		public var viewHeight:Number; // Viewport size
-		/** @private */
-		public var top:Number; // Highest Z in the scene
-		/** @private */
-		public var gridWidth:int; // Grid size in cells
-		/** @private */
-		public var gridDepth:int;
-		/** @private */
-		public var gridHeight:int;
-		/** @private */
-		public var gridSize:int; // Grid size ( in pixels )
-		public var gridSizeHalf:int; //half of grid size
-		/** @private */
-		public var levelSize:int; // Vertical grid size ( along Z axis, in pixels )
-		/** @private */
-		public var sortCubeSize:int = fEngine.SORTCUBESIZE; // Sorting cube size
+		public float width;
+
+		public float depth;
 		
-		// 3. zSort
+		public float height;
 		
-		/** @private */
-		public var grid:Array; // The grid
-		/** @private */
-		public var allUsedCells:Array;
-		/** @private */
-		//public var sortAreas:Array; // zSorting generates this. This array points to contiguous spaces sharing the same zIndex
-		// It is used to find the proper zIndex for a cell
-		/** @private */
-		//public var sortAreasRTree:fRTree; // This tree is used to search sortAreas efficiently
-		
-		/** @private */
-		//public var allStatic2D:Array; // This provides fast 2D searches in the static elements
-		/** @private */
-		//public var allStatic2DRTree:fRTree;
-		
-		/** @private */
-		//public var allStatic3D:Array; // This provides fast 3D searches in the static elements
-		/** @private */
-		//public var allStatic3DRTree:fRTree;
-		
-		// 4. Resources
-		
-		/** @private */
-		//public var resourceManager:fSceneResourceManager; // The resource manager stores all definitions loaded for this scene
-		
-		// 5.Status			
-		
-		/** @private */
-		public var IAmBeingRendered:Boolean = false; // If this scene is actually being rendered
-		private var _enabled:Boolean; // Is the scene enabled ?
-		
-		// Public properties
-		
-		/**
-		 * Every Scene is automatically assigned and ID
-		 */
-		public var id:String;
-		
-		/**
-		 * The camera currently in use, if any
-		 */
-		public var currentCamera:fCamera;
-		
-		/**
-		 * Were this scene is drawn
-		 */
-		public var container:Sprite;
-		
-		/**
-		 * An string indicating the scene's current status
-		 */
-		public var stat:String;
-		
-		/**
-		 * Indicates if the scene is loaded and ready
-		 */
-		public var ready:Boolean;
-		
-		/**
-		 * Scene width in pixels.
-		 */
-		public var width:Number;
-		
-		/**
-		 * Scene depth in pixels
-		 */
-		public var depth:Number;
-		
-		/**
-		 * Scene height in pixels
-		 */
-		public var height:Number;
-		
-		/**
-		 * An array of all floors for fast loop access. For "id" access use the .all array
-		 */
 		// KBEN: 这个是存放地形的，使用树进行裁剪    
-		public var floors:Array;
-		
-		/**
-		 * An array of all walls for fast loop access. For "id" access use the .all array
-		 */
-		// KBEN: 这个是存放墙的，暂时不用了  
-		//public var walls:Array;
-		
-		/**
-		 * An array of all objects for fast loop access. For "id" access use the .all array
-		 */
+		public ArrayList floors;
+	
 		// KBEN: 这个里面存放的是场景中不能被移动和删除的实体，例如地物，使用树进行裁剪      
-		public var objects:Array;
+		public ArrayList objects;
 		
 		// KBEN: 可移动或者可以动态删除的放在这里，特效，掉落物，npc ，直接使用中心点进行裁剪       
-		public var m_dynamicObjects:Vector.<fObject>;
-		
-		/**
-		 * An array of all characters for fast loop access. For "id" access use the .all array
-		 */
+		public MList<fObject> m_dynamicObjects;
+
 		// KBEN: 这个是存放总是走动的，玩家，直接使用中心点进行裁剪     
-		public var characters:Array;
-		
+		public ArrayList characters;
+
 		/**
-		 * An array of all empty sprites for fast loop access. For "id" access use the .all array
+		 * 所有元素
 		 */
-		// KBEN: 空精灵，在使用       
-		public var emptySprites:Array;
-		
+		public ArrayList everything;
+
 		/**
-		 * An array of all lights for fast loop access. For "id" access use the .all array
+		 * 所有元素
 		 */
-		public var lights:Array;
+		public ArrayList all;
 		
 		/**
-		 * An array of all elements for fast loop access. For "id" access use the .all array. Bullets are not here
+		 * AI 内容
 		 */
-		public var everything:Array;
-		
-		/**
-		 * The global light for this scene. Use this property to change light properties such as intensity and color
-		 */
-		public var environmentLight:fGlobalLight;
-		
-		/**
-		 * An array of all elements in this scene, use it with ID Strings. Bullets are not here
-		 */
-		public var all:Array;
-		
-		/**
-		 * 场景 UI bottom 层，显示在地形上，不需要排序和裁剪，自己控制显示隐藏，场景不管
-		 * */
-		public var m_sceneUIBtmEffVec:Vector.<fObject>;
-		
-		/**
-		 * 场景 UI top 层，显示在玩家上，不需要排序和裁剪，自己控制显示隐藏，场景不管
-		 * */
-		public var m_sceneUITopEffVec:Vector.<fObject>;
-		/**
-		 * 场景锦囊特效持续层，显示在玩家下，地形的上面，不需要排序和裁剪，自己控制显示隐藏，场景不管
-		 * */
-		public var m_sceneJinNangEffVec:Vector.<fObject>;
-		
-		/**
-		 * The AI-related method are grouped inside this object, for easier access
-		 */
-		public var AI:fAiContainer;
-		
-		/**
-		 * All the bullets currently active in the scene are here
-		 */
-		//public var bullets:Array;
-		
-		// Bullets go here instead of being deleted, so they can be reused
-		//private var bulletPool:Array;
-		
-		// Al events
-		/** @private */
-		public var events:Array;
+		public fAiContainer AI;
+
+		public ArrayList events;
 		
 		// KBEN: 场景配置 
-		public var m_sceneConfig:fSceneConfig;
+		public fSceneConfig m_sceneConfig;
 		
 		// KBEN:
-		public var m_floorWidth:Number; // 单个 Floor 区域宽度，单位像素  
-		public var m_floorDepth:Number; // 单个 Floor 区域高度，单位像素  
+		public float m_floorWidth; // 单个 Floor 区域宽度，单位像素  
+		public float m_floorDepth; // 单个 Floor 区域高度，单位像素  
 		
-		public var m_floorXCnt:uint; // X 方向面板个数 
-		public var m_floorYCnt:uint; // Y 方向面板个数 
+		public uint m_floorXCnt; // X 方向面板个数 
+		public uint m_floorYCnt; // Y 方向面板个数 
 		
-		public var m_scenePixelXOff:int = 0; // 场景 X 方向偏移，主要用在战斗场景，需要偏移一定距离
-		public var m_scenePixelYOff:int = 0; // 场景 Y 方向偏移，主要用在战斗场景，需要偏移一定距离
+		public int m_scenePixelXOff = 0; // 场景 X 方向偏移，主要用在战斗场景，需要偏移一定距离
+		public int m_scenePixelYOff = 0; // 场景 Y 方向偏移，主要用在战斗场景，需要偏移一定距离
 		
-		public var m_scenePixelWidth:int = 0; // 场景图像真实的像素宽度，可能比 scene 的格子的宽度要小
-		public var m_scenePixelHeight:int = 0; // 场景图像真实的像素高度，可能比 scene 的格子的高度要小
+		public int m_scenePixelWidth = 0; // 场景图像真实的像素宽度，可能比 scene 的格子的宽度要小
+		public int m_scenePixelHeight = 0; // 场景图像真实的像素高度，可能比 scene 的格子的高度要小
+
+		public bool m_depthDirty = false; // 主要用来进行一帧中只调用一次 depthSort 这个函数
+		public bool m_depthDirtySingle = false; // 每一个移动的时候需要深度排序
+		public MList<fRenderableElement> m_singleDirtyArr; // 每一个深度改变的时候都存放在这个列表，一次更新
 		
-		public var m_thumbnails:BitmapData; // 保存场景缩略图，因为缩略图资源加载完成的时候，场景西那是还没有完成，因此有的数据不能使用
-		//public var m_thumbnailsExtend:BitmapData;
+		public static string LOADINGDESCRIPTION = "Creating scene";
 		
-		public var m_depthDirty:Boolean = false; // 主要用来进行一帧中只调用一次 depthSort 这个函数
-		public var m_depthDirtySingle:Boolean = false; // 每一个移动的时候需要深度排序
-		public var m_singleDirtyArr:Vector.<fRenderableElement>; // 每一个深度改变的时候都存放在这个列表，一次更新
-		
-		// Events
-		
-		/**
-		 * An string describing the process of loading and processing and scene XML definition file.
-		 * Events dispatched by the scene while loading containg this String as a description of what is happening
-		 */
-		public static const LOADINGDESCRIPTION:String = "Creating scene";
-		
-		/**
-		 * The fScene.LOADPROGRESS constant defines the value of the
-		 * <code>type</code> property of the event object for a <code>scenecloadprogress</code> event.
-		 * The event is dispatched when the status of the scene changes during scene loading and processing.
-		 * A listener to this event can then check the scene's status property to update a progress dialog
-		 *
-		 */
-		public static const LOADPROGRESS:String = "scenecloadprogress";
-		
-		/**
-		 * The fScene.LOADCOMPLETE constant defines the value of the
-		 * <code>type</code> property of the event object for a <code>sceneloadcomplete</code> event.
-		 * The event is dispatched when the scene finishes loading and processing and is ready to be used
-		 *
-		 */
-		public static const LOADCOMPLETE:String = "sceneloadcomplete";
+		public static string LOADPROGRESS = "scenecloadprogress";
+
+		public static string LOADCOMPLETE = "sceneloadcomplete";
 		
 		// KBEN: 渲染引擎层，这个仅仅是场景， UI 单独一层 
-		public var m_SceneLayer:Vector.<Sprite>;
-		//public static const SLTerrainThumbnails:uint = 0;		// 地形缩略图层，不参与排序的
-		//public static const SLTerrain:uint = 0;		// 地形层，不参与排序的
-		//public static const SLSceneUIBtm:uint = SLTerrain + 1;	// 1 场景 UI 底层，在地形上，不排序，不裁剪，场景不管
-		//public static const SLBlur:uint = SLSceneUIBtm + 1;		// 2 运行拖尾，战斗场景中用
-		//public static const SLShadow:uint = SLBlur + 1;		// 3 阴影层，场景中所有的不接收阴影，除了地形
-		//public static const SLShadow1:uint = 4;		// 4 测试裁剪的时候添加的，测试的时候需要添加上
-		//public static const SLBuild:uint= SLShadow + 1;		// 地物,这个不用排序了
-		//public static const SLObject:uint = SLBuild + 1;		// 掉落物，NPC，怪物，人物，需要排序的  
-		//public static const SLEffect:uint = SLObject + 1;		// 特效
-		//public static const SLSceneUITop:uint = SLEffect + 1;	// 场景 UI 顶层，在人物上，不排序，不裁剪，场景不管
-		//public static const SLFog:uint = SLSceneUITop + 1;			// 场景中雾效果的层    
-		//public static const SLCnt:uint = SLFog + 1;			// 总共层的数量 
-		// KBEN:阻挡点信息，每一个 fScene 存储对这个的引用，是一个二位数组，第一维是行，第二位是列，减小内存，使用   Dictionary 不使用 Vector      
-		//public var m_stopPointList:Vector.<Vector.<stopPoint>>;
-		public var m_stopPointList:Dictionary;
-		public var m_defaultStopPoint:stopPoint; // 默认的阻挡点，为了统一处理，不用总是 if else 判断    
+		public MList<SpriteLayer> m_SceneLayer;
+
+		public Dictionary<int, Dictionary<int, StopPoint>> m_stopPointList;
+		public StopPoint m_defaultStopPoint; // 默认的阻挡点，为了统一处理，不用总是 if else 判断    
 		
-		private var m_fogPlane:fFogPlane; // 存储雾的信息
-		public var m_sceneType:uint; // 场景类型，普通场景还是战斗场景，战斗场景震动使用
-		public var m_serverSceneID:uint; // 服务器场景 id
-		public var m_filename:uint; // 客户端地图文件名字，没有扩展名字
+		public uint m_serverSceneID;    // 服务器场景 id
+		public uint m_filename;         // 客户端地图文件名字，没有扩展名字
 		
-		public var m_sortByBeingMove:Boolean = true; // 由于 being 移动是否需要重新排序，战斗场景不需要了，太多移动了
-		public var m_path:String;
+		public bool m_sortByBeingMove = true;
+		public string m_path;
 		
-		public var m_timesOfShow:int = 0;
-		public var m_disposed:Boolean = false;
-		public var m_dicDebugInfo:Dictionary;
-		
-		/**
-		 * Constructor. Don't call directly, use fEngine.createScene() instead
-		 * @private
-		 */
-		//function fScene(engine:fEngine, container:Sprite, retriever:fEngineSceneRetriever, width:Number, height:Number, renderer:fEngineRenderEngine = null, p:fProfiler = null):void
-		function fScene(engine:fEngine, container:Sprite, retriever:fEngineSceneRetriever, width:Number, height:Number, serversceneid:uint, renderer:fEngineRenderEngine = null):void
+		public int m_timesOfShow = 0;
+		public bool m_disposed = false;
+		public Dictionary<int, int> m_dicDebugInfo;
+
+		public fScene(fEngine engine, AuxComponent container, fEngineSceneRetriever retriever, float width, float height, uint serversceneid, fEngineRenderEngine renderer = null)
 		{
-			// Properties
 			this.id = "fScene_" + (fScene.count++);
 			this.m_serverSceneID = serversceneid;
 			this.engine = engine;
 			this._orig_container = container;
 			this.container = container;
-			this.environmentLight = null;
 			this.gridSize = 64;
 			this.levelSize = 64;
 			this.top = 0;
@@ -361,36 +143,19 @@ package org.ffilmation.engine.core
 			this.viewWidth = width;
 			this.viewHeight = height;
 			
-			// Internal arrays
-			this.floors = new Array;
-			//this.walls = new Array;
-			this.objects = new Array;
-			this.characters = new Array;
-			this.emptySprites = new Array;
-			this.events = new Array;
-			this.lights = new Array;
-			this.everything = new Array;
-			this.all = new Array;
-			//this.bullets = new Array;
-			//this.bulletPool = new Array;
-			m_dicDebugInfo = new Dictionary();
+			this.floors = new ArrayList();
+			this.objects = new ArrayList();
+			this.characters = new ArrayList();
+			this.events = new ArrayList();
+			this.everything = new ArrayList();
+			this.all = new ArrayList();
 			// AI
 			this.AI = new fAiContainer(this);
 			
 			// KBEN: 场景层 
-			m_SceneLayer = new Vector.<Sprite>(EntityCValue.SLCnt, true);
-			// 这个在 startRender 的时候再创建    
-			//var k:uint = 0;
-			//while (k < fScene.SLCnt)
-			//{
-			//	m_SceneLayer[k] = new Sprite();
-			//	container.addChild(m_SceneLayer[k]);
-			//	++k;
-			//}
-			
-			// Render engine
-			//this.renderEngine = renderer || (new fFlash9RenderEngine(this, container, m_SceneLayer));
-			if (renderer)
+			m_SceneLayer = new MList<SpriteLayer>(EntityCValue.SLCnt);
+
+			if (renderer != null)
 			{
 				this.renderEngine = renderer;
 			}
@@ -399,62 +164,44 @@ package org.ffilmation.engine.core
 				this.renderEngine = new fFlash9RenderEngine(this, container, m_SceneLayer);
 			}
 			this.renderEngine.setViewportSize(width, height);
-			
-			// The render manager decides which elements are inside the viewport and which elements are not
+
 			this.renderManager = new fSceneRenderManager(this);
 			this.renderManager.setViewportSize(width, height);
 			
-			// Start xml retrieve process
 			this.initializer = new fSceneInitializer(this, retriever);
-			
-			// Profiler ?
-			//this.prof = p;
-			
+
 			// KBEN:
 			m_sceneConfig = new fSceneConfig();
-			m_dynamicObjects = new Vector.<fObject>();
-			m_sceneUIBtmEffVec = new Vector.<fObject>();
-			m_sceneUITopEffVec = new Vector.<fObject>();
-			m_sceneJinNangEffVec = new Vector.<fObject>();
-			m_stopPointList = new Dictionary();
+			m_dynamicObjects = new MList<fObject>();
+			m_sceneUIBtmEffVec = new MList<fObject>();
+			m_sceneUITopEffVec = new MList<fObject>();
+			m_sceneJinNangEffVec = new MList<fObject>();
+			m_stopPointList = new Dictionary<int, Dictionary<int, StopPoint>>();
 			
 			var defObj:XML =  <item x="-1" y="-1" type="0"/>;
-			m_defaultStopPoint = new stopPoint(defObj, this);
+			m_defaultStopPoint = new StopPoint(defObj, this);
 			m_defaultStopPoint.isStop = false; // 默认的阻挡点设置成 false ，不要忘了
-			m_sceneType = EntityCValue.SCComon;
-			m_singleDirtyArr = new Vector.<fRenderableElement>();
+			m_singleDirtyArr = new MList<fRenderableElement>();
 		}
 		
-		/**
-		 * Starts initialization process
-		 * @private
-		 */
-		public function initialize():void
+		public void initialize()
 		{
 			this.initializer.start();
 		}
 		
-		// Public methods
-		
-		/**
-		 * This method changes the viewport's size. It is useful, for example, to adapt your scene to liquid layouts
-		 *
-		 * @param width New width for the viewport
-		 * @param height New height for the viewport
-		 */
 		// KBEN: 舞台大小改变处理函数 
-		public function setViewportSize(width:int, height:int):void
+		public void setViewportSize(int width, int height)
 		{
 			// 相机保存视口数据
-			if (this.currentCamera)
+			if (this.currentCamera != null)
 			{
 				this.currentCamera.setViewportSize(width, height);
 			}
-			
-			// 清理格子中保存的裁剪的数据
-			var k:uint = 0;
-			var m:uint = 0;
-			var cell:fCell;
+
+            // 清理格子中保存的裁剪的数据
+            uint k = 0;
+            uint m = 0;
+            fCell cell;
 			while (k < this.gridDepth) // 行  
 			{
 				m = 0;
@@ -462,7 +209,7 @@ package org.ffilmation.engine.core
 				{
 					cell = this.getCellAt(m, k, 0);
 					// bug: 如果地图还没加载完成，这个时候产生了窗口大小改变的事件，这个时候格子是空的，就会获取不到格子
-					if (cell)
+					if (cell != null)
 					{
 						cell.updateScrollRect();
 						cell.clearClip();
@@ -486,57 +233,29 @@ package org.ffilmation.engine.core
 			}
 		}
 		
-		/**
-		 * This Method is called to enable the scene. It will enable all controllers associated to the scene and its
-		 * elements. The engine no longer calls this method when the scene is shown. Do it manually when needed.
-		 *
-		 * A typical use of manual enabling/disabling of scenes is pausing the game or showing a dialog box of any type.
-		 *
-		 * @see org.ffilmation.engine.core.fEngine#showScene
-		 */
-		public function enable():void
+		public void enable()
 		{
-			// Enable scene controller
 			this._enabled = true;
-			if (this.controller)
+			if (this.controller != null)
 				this.controller.enable();
 			
-			// Enable controllers for all elements in the scene
-			for (var i:int = 0; i < this.everything.length; i++)
+			for (int i = 0; i < this.everything.Count; i++)
 				if (this.everything[i].controller != null)
 					this.everything[i].controller.enable();
-			//for (i = 0; i < this.bullets.length; i++)
-			//	this.bullets[i].enable();
 		}
 		
-		/**
-		 * This Method is called to disable the scene. It will disable all controllers associated to the scene and its
-		 * elements. The engine no longer calls this method when the scene is hidden. Do it manually when needed.
-		 *
-		 * A typical use of manual enabling/disabling of scenes is pausing the game or showing a dialog box of any type.
-		 *
-		 * @see org.ffilmation.engine.core.fEngine#hideScene
-		 */
-		public function disable():void
+		public void disable()
 		{
-			// Disable scene controller
 			this._enabled = false;
-			if (this.controller)
+			if (this.controller != null)
 				this.controller.disable();
 			
-			// Disable  controllers for all elements in the scene
-			for (var i:int = 0; i < this.everything.length; i++)
+			for (int i = 0; i < this.everything.Count; i++)
 				if (this.everything[i].controller != null)
 					this.everything[i].controller.disable();
-			//for (i = 0; i < this.bullets.length; i++)
-			//	this.bullets[i].disable();
 		}
 		
-		/**
-		 * Assigns a controller to this scene
-		 * @param controller: any controller class that implements the fEngineSceneController interface
-		 */
-		public function set controller(controller:fEngineSceneController):void
+		public void setController(fEngineSceneController controller)
 		{
 			if (this._controller != null)
 				this._controller.disable();
@@ -544,35 +263,14 @@ package org.ffilmation.engine.core
 			this._controller.assignScene(this);
 		}
 		
-		/**
-		 * Retrieves controller from this scene
-		 * @return controller: the class that is currently controlling the fScene
-		 */
-		public function get controller():fEngineSceneController
+		public fEngineSceneController getController()
 		{
 			return this._controller;
 		}
-		
-		public function get fogPlane():fFogPlane
+
+		public void setCamera(fCamera camera)
 		{
-			return m_fogPlane;
-		}
-		
-		public function set fogPlane(value:fFogPlane):void
-		{
-			m_fogPlane = value;
-		}
-		
-		/**
-		 * This method sets the active camera for this scene. The camera position determines the viewable area of the scene
-		 *
-		 * @param camera The camera you want to be active
-		 *
-		 */
-		public function setCamera(camera:fCamera):void
-		{
-			// Stop following old camera
-			if (this.currentCamera)
+			if (this.currentCamera != null)
 			{
 				this.currentCamera.removeEventListener(fElement.MOVE, this.cameraMoveListener);
 				this.currentCamera.removeEventListener(fElement.NEWCELL, this.cameraNewCellListener);
@@ -587,158 +285,39 @@ package org.ffilmation.engine.core
 			this.followCamera(this.currentCamera);
 		}
 		
-		/**
-		 * Creates a new camera associated to the scene
-		 *
-		 * @return an fCamera object ready to move or make active using the setCamera() method
-		 *
-		 */
-		public function createCamera():fCamera
+		public fCamera createCamera()
 		{
-			//Return
 			return new fCamera(this);
 		}
-		
-		/**
-		 * Creates a new light and adds it to the scene. You won't see the light until you call its
-		 * render() or moveTo() methods
-		 *
-		 * @param idlight: The unique id that will identify the light
-		 *
-		 * @param x: Initial x coordinate for the light
-		 *
-		 * @param y: Initial x coordinate for the light
-		 *
-		 * @param z: Initial x coordinate for the light
-		 *
-		 * @param size: Radius of the sphere that identifies the light
-		 *
-		 * @param color: An string specifying the color of the light in HTML format, example: #ffeedd
-		 *
-		 * @param intensity: Intensity of the light goes from 0 to 100
-		 *
-		 * @param decay: From 0 to 100 marks the distance along the lights's radius from where intensity starrts to fade fades. A 0 decay defines a solid light
-		 *
-		 * @param bumpMapped: Determines if this light will be rendered with bumpmapping. Please note that for the bumpMapping to work in a given surface,
-		 * the surface will need a bumpMap definition and bumpMapping must be enabled in the engine's global parameters
-		 *
-		 */ /*
-		   public function createOmniLight(idlight:String, x:Number, y:Number, z:Number, size:Number, color:String, intensity:Number, decay:Number, bumpMapped:Boolean = false):fOmniLight
-		   {
-		   // Create
-		   var definitionObject:XML =  <light id={idlight} type="omni" size={size} x={x} y={y} z={z} color={color} intensity={intensity} decay={decay} bump={bumpMapped}/>;
-		   var nfLight:fOmniLight = new fOmniLight(definitionObject, this);
-		
-		   // Events
-		   nfLight.addEventListener(fElement.NEWCELL, this.processNewCell, false, 0, true);
-		   nfLight.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
-		   nfLight.addEventListener(fLight.RENDER, this.processNewCell, false, 0, true);
-		   nfLight.addEventListener(fLight.RENDER, this.renderElement, false, 0, true);
-		   nfLight.addEventListener(fLight.SIZECHANGE, this.processNewLightDimensions, false, 0, true);
-		
-		   // Add to lists
-		   this.lights.push(nfLight);
-		   this.everything.push(nfLight);
-		   this.all[nfLight.id] = nfLight;
-		
-		   //Return
-		   if (this.IAmBeingRendered)
-		   nfLight.render();
-		   return nfLight;
-		   }
-		 */
-		
-		/**
-		 * Removes an omni light from the scene. This is not the same as hiding the light, this removes the element completely from the scene
-		 *
-		 * @param light The light to be removed
-		 */ /*
-		   public function removeOmniLight(light:fOmniLight):void
-		   {
-		   // Remove from array
-		   if (this.lights && this.lights.indexOf(light) >= 0)
-		   {
-		   this.lights.splice(this.lights.indexOf(light), 1);
-		   this.everything.splice(this.everything.indexOf(light), 1);
-		   }
-		
-		   // Hide light from elements
-		   var cell:fCell = light.cell;
-		   var nEl:Number = light.nElements;
-		   for (var i2:Number = 0; i2 < nEl; i2++)
-		   this.renderEngine.lightOut(light.elementsV[i2].obj, light);
-		   light.scene = null;
-		
-		   nEl = this.characters.length;
-		   for (i2 = 0; i2 < nEl; i2++)
-		   this.renderEngine.lightOut(this.characters[i2], light);
-		   this.all[light.id] = null;
-		
-		   // Events
-		   light.removeEventListener(fElement.NEWCELL, this.processNewCell);
-		   light.removeEventListener(fElement.MOVE, this.renderElement);
-		   light.removeEventListener(fLight.RENDER, this.processNewCell);
-		   light.removeEventListener(fLight.RENDER, this.renderElement);
-		   light.removeEventListener(fLight.SIZECHANGE, this.processNewLightDimensions);
-		
-		   // This light may be in some character cache
-		   light.removed = true;
-		   }
-		 */
-		
-		/**
-		 *	Creates a new character an adds it to the scene
-		 *
-		 * @param idchar: The unique id that will identify the character
-		 *
-		 * @param def: Definition id. Must match a definition in some of the definition XMLs included in the scene
-		 *
-		 * @param x: Initial x coordinate for the character
-		 *
-		 * @param y: Initial x coordinate for the character
-		 *
-		 * @param z: Initial x coordinate for the character
-		 *
-		 * @param layer: 有些 npc 需要放在地物一层，不排序，永远在排序层下面
-		 *
-		 * @returns The newly created character, or null if the coordinates not allowed (outside bounds)
-		 *
-		 **/
-		//public function createCharacter(idchar:String, def:String, x:Number, y:Number, z:Number, orientation:Number):fCharacter
-		public function createCharacter(charType:uint, def:String, x:Number, y:Number, z:Number, orientation:Number, layer:uint = EntityCValue.SLObject):BeingEntity
+
+		public BeingEntity createCharacter(uint charType, string def, float x, float y, float z, float orientation, uint layer = EntityCValue.SLObject)
 		{
-			// Ensure coordinates are inside the scene
-			var c:fCell = this.translateToCell(x, y, z);
+            fCell c = this.translateToCell(x, y, z);
 			if (c == null)
 			{
-				var str:String = "无效的坐标(" + x + "," + y + ")。实际地图(像素)大小是(" + this.widthpx() + "," + this.heightpx() + ")";
-				DebugBox.info(str);
+				string str = "无效的坐标(" + x + "," + y + ")。实际地图(像素)大小是(" + this.widthpx() + "," + this.heightpx() + ")";
 				return null;
 			}
-			var dist:fFloor = getFloorAtByPos(x, y);
+            fFloor dist = getFloorAtByPos(x, y);
 			if (dist == null)
 			{
 				return null;
 			}
-			
-			var idchar:String = fUtil.elementID(this.engine.m_context, charType);
-			
-			// Create
-			var definitionObject:XML = <character id={idchar} definition={def} x={x} y={y} z={z} orientation={orientation}/>;
-			//var nCharacter:fCharacter = new fCharacter(definitionObject, this);
-			//var nCharacter:Player = new Player(definitionObject, this);
-			var nCharacter:BeingEntity = new this.engine.m_context.m_typeReg.m_classes[charType](definitionObject, this);
+
+            String idchar = fUtil.elementID(this.engine.m_context, charType);
+
+            XML definitionObject = <character id={idchar} definition={def} x={x} y={y} z={z} orientation={orientation}/>;
+
+            BeingEntity nCharacter = new this.engine.m_context.m_typeReg.m_classes[charType](definitionObject, this);
 			nCharacter.cell = c;
 			nCharacter.m_district = dist;
 			nCharacter.m_district.addCharacter(nCharacter.id);
 			nCharacter.setDepth(c.zIndex);
 			nCharacter.layer = layer;
 			
-			// Events
 			nCharacter.addEventListener(fElement.NEWCELL, this.processNewCell, false, 0, true);
 			nCharacter.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
 			
-			// Add to lists
 			this.characters.push(nCharacter);
 			this.everything.push(nCharacter);
 			this.all[nCharacter.id] = nCharacter;
@@ -749,63 +328,56 @@ package org.ffilmation.engine.core
 				this.render();
 			}
 			
-			//Return
 			return nCharacter;
 		}
 		
 		/**
-		 * Removes a character from the scene. This is not the same as hiding the character, this removes the element completely from the scene
-		 *
-		 * @param char The character to be removed
 		 * bDispose - true 销毁char, false - char脱离场景
 		 */
-		public function removeCharacter(char:fCharacter, bDispose:Boolean = true):void
+		public void removeCharacter(fCharacter character, bool bDispose = true)
 		{
-			// Remove from array
-			if (this.characters && this.characters.indexOf(char) >= 0)
+			if (this.characters && this.characters.indexOf(character) >= 0)
 			{
-				this.characters.splice(this.characters.indexOf(char), 1);
-				this.everything.splice(this.everything.indexOf(char), 1);
-				this.all[char.id] = null;
+				this.characters.splice(this.characters.indexOf(character), 1);
+				this.everything.splice(this.everything.indexOf(character), 1);
+				this.all[character.id] = null;
 			}
 			
-			// Hide
 			if (bDispose)
 			{
-				char.hide();
+                character.hide();
 			}
-			
-			// Events
-			char.removeEventListener(fElement.NEWCELL, this.processNewCell);
-			char.removeEventListener(fElement.MOVE, this.renderElement);
+
+            character.removeEventListener(fElement.NEWCELL, this.processNewCell);
+            character.removeEventListener(fElement.MOVE, this.renderElement);
 			
 			// Remove from render engine
-			this.removeElementFromRenderEngine(char);
+			this.removeElementFromRenderEngine(character);
 			// bug: 有时候卡的时候,时间间隔会很大,导致计算的 x 值很大或者很小,已经移出地图了
-			if (char.m_district)
+			if (character.m_district)
 			{
-				char.m_district.clearCharacter(char.id);
-				char.m_district = null;
+                character.m_district.clearCharacter(character.id);
+                character.m_district = null;
 			}
 			if (bDispose)
 			{
-				char.dispose();
+                character.dispose();
 			}
 			else
 			{
-				char.onRemoveFormScene();
-				char.scene = null;
+                character.onRemoveFormScene();
+                character.scene = null;
 			}
 		}
 		
-		public function addCharacter(nCharacter:fCharacter):void
+		public void addCharacter(fCharacter nCharacter)
 		{
-			var c:fCell = this.translateToCell(0, 0, 0);
+            fCell c = this.translateToCell(0, 0, 0);
 			if (c == null)
 			{
 				return;
 			}
-			var dist:fFloor = getFloorAtByPos(0, 0);
+            fFloor dist = getFloorAtByPos(0, 0);
 			if (dist == null)
 			{
 				return;
@@ -821,7 +393,6 @@ package org.ffilmation.engine.core
 			nCharacter.addEventListener(fElement.NEWCELL, this.processNewCell, false, 0, true);
 			nCharacter.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
 			
-			// Add to lists
 			this.characters.push(nCharacter);
 			this.everything.push(nCharacter);
 			this.all[nCharacter.id] = nCharacter;
@@ -832,277 +403,9 @@ package org.ffilmation.engine.core
 				this.render();
 			}
 		}
-		
-		// 掉落物  
-		public function createFObject(fobjType:uint, def:String, x:Number, y:Number, z:Number, orientation:Number):fSceneObject
-		{
-			// Ensure coordinates are inside the scene
-			var c:fCell = this.translateToCell(x, y, z);
-			if (c == null)
-			{
-				return null;
-			}
-			var dist:fFloor = getFloorAtByPos(x, y);
-			if (dist == null)
-			{
-				return null;
-			}
-			
-			var idchar:String = fUtil.elementID(this.engine.m_context, fobjType);
-			
-			// Create
-			var definitionObject:XML =  <fobject id={idchar} definition={def} x={x} y={y} z={z} orientation={orientation}/>;
-			var fobject:fSceneObject = new this.engine.m_context.m_typeReg.m_classes[fobjType](definitionObject, this);
-			fobject.cell = c;
-			fobject.m_district = dist;
-			fobject.m_district.addDynamic(fobject.id);
-			fobject.setDepth(c.zIndex);
-			
-			// Events
-			fobject.addEventListener(fElement.NEWCELL, this.processNewCell, false, 0, true);
-			fobject.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
-			
-			// Add to lists
-			this.m_dynamicObjects.push(fobject);
-			this.everything.push(fobject);
-			this.all[fobject.id] = fobject;
-			if (this.IAmBeingRendered)
-			{
-				this.addElementToRenderEngine(fobject);
-				this.renderManager.processNewCellFObject(fobject);
-				this.render();
-			}
-			
-			//Return
-			return fobject;
-		}
-		
-		/**
-		 * Removes a character from the scene. This is not the same as hiding the character, this removes the element completely from the scene
-		 *
-		 * @param char The character to be removed
-		 * bDispose - true 销毁char, false - char脱离场景
-		 */
-		public function removeFObject(fobj:fSceneObject, bDispose:Boolean = true):void
-		{
-			// Remove from array
-			if (this.m_dynamicObjects && this.m_dynamicObjects.indexOf(fobj) >= 0)
-			{
-				this.m_dynamicObjects.splice(this.m_dynamicObjects.indexOf(fobj), 1);
-				this.everything.splice(this.everything.indexOf(fobj), 1);
-				this.all[fobj.id] = null;
-			}
-			
-			// Hide
-			if (bDispose)
-			{
-				fobj.hide();
-			}
-			
-			// Events
-			fobj.removeEventListener(fElement.NEWCELL, this.processNewCell);
-			fobj.removeEventListener(fElement.MOVE, this.renderElement);
-			
-			// Remove from render engine
-			this.removeElementFromRenderEngine(fobj);
-			if (fobj.m_district)
-			{
-				fobj.m_district.clearDynamic(fobj.id);
-				fobj.m_district = null;
-			}
-			if (bDispose)
-			{
-				fobj.dispose();
-			}
-			else
-			{
-				fobj.scene = null;
-			}
-		}
-		
-		/**
-		 *	Creates a new empty sprite an adds it to the scene
-		 *
-		 * @param idchar: The unique id that will identify the character
-		 *
-		 * @param x: Initial x coordinate for the character
-		 *
-		 * @param y: Initial x coordinate for the character
-		 *
-		 * @param z: Initial x coordinate for the character
-		 *
-		 * @returns The newly created empty Sprite
-		 *
-		 **/
-		public function createEmptySprite(emptySpriteclass:Class, idspr:String, x:Number, y:Number, z:Number):fEmptySprite
-		{
-			var c:fCell = this.translateToCell(x, y, z);
-			if (c == null)
-			{
-				return null;
-			}
-			var dist:fFloor = getFloorAtByPos(x, y);
-			if (dist == null)
-			{
-				return null;
-			}
-			
-			// Create
-			var definitionObject:XML =  <emptySprite id={idspr} x={x} y={y} z={z}/>;
-			var nEmptySprite:fEmptySprite = new emptySpriteclass(definitionObject, this);
-			nEmptySprite.cell = this.translateToCell(x, y, z);
-			nEmptySprite.m_district = dist;
-			nEmptySprite.m_district.addEmptySprite(nEmptySprite.id);
-			nEmptySprite.updateDepth();
-			
-			// Events
-			nEmptySprite.addEventListener(fElement.NEWCELL, this.processNewCell, false, 0, true);
-			nEmptySprite.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
-			
-			// Add to lists
-			this.emptySprites.push(nEmptySprite);
-			this.everything.push(nEmptySprite);
-			this.all[nEmptySprite.id] = nEmptySprite;
-			if (this.IAmBeingRendered)
-			{
-				this.addElementToRenderEngine(nEmptySprite);
-				this.renderManager.processNewCellEmptySprite(nEmptySprite);
-			}
-			
-			//Return
-			return nEmptySprite;
-		}
-		
-		/**
-		 * Removes an empty sprite from the scene. This is not the same as hiding it, this removes the element completely from the scene
-		 *
-		 * @param spr The emptySprite to be removed
-		 */
-		public function removeEmptySprite(spr:fEmptySprite, bDispose:Boolean = true):void
-		{
-			// Remove from arraya
-			if (this.emptySprites && this.emptySprites.indexOf(spr) >= 0)
-			{
-				this.emptySprites.splice(this.emptySprites.indexOf(spr), 1);
-				this.everything.splice(this.everything.indexOf(spr), 1);
-				this.all[spr.id] = null;
-			}
-			
-			// Hide
-			spr.hide()
-			
-			// Events
-			spr.removeEventListener(fElement.NEWCELL, this.processNewCell);
-			spr.removeEventListener(fElement.MOVE, this.renderElement);
-			
-			// Remove from render engine
-			this.removeElementFromRenderEngine(spr);
-			if (spr.m_district)
-			{
-				spr.m_district.clearEmptySprite(spr.id);
-				spr.m_district = null;
-			}
-			if (bDispose)
-			{
-				spr.dispose();
-			}
-			else
-			{
-				spr.scene = null;
-			}
-		}
-		
-		/**
-		 * Creates a new bullet and adds it to the scene. Note that bullets use their own render system. The bulletRenderer interface allows
-		 * you to have complex things such as trails. If it was integrated with the standard renderer, your bullets would have to be standard
-		 * Sprites, and I dind't like that.
-		 *
-		 * <p><b>Note to developers:</b> bullets are reused. Creating new objects is slow, and depending on your game you could have a lot
-		 * being created and destroyed. The engine uses an object pool to reuse "dead" bullets and minimize the amount of new() calls. This
-		 * is transparent to you but I think this information can help tracking weird bugs</p>
-		 *
-		 * @param x Start position of the bullet
-		 * @param y Start position of the bullet
-		 * @param z Start position of the bullet
-		 * @param speedx Speed of bullet
-		 * @param speedy Speed of bullet
-		 * @param speedz Speed of bullet
-		 * @param renderer The renderer that will be drawing this bullet. In order to increase performace, you should't create a new
-		 * renderer instance for each bullet: pass the same renderer to all bullets that look the same.
-		 *
-		 */ /*
-		   public function createBullet(x:Number, y:Number, z:Number, speedx:Number, speedy:Number, speedz:Number, renderer:fEngineBulletRenderer):fBullet
-		   {
-		   // Is there an available bullet or a new one is needed ?
-		   var b:fBullet;
-		   if (this.bulletPool.length > 0)
-		   {
-		   b = this.bulletPool.pop();
-		   b.moveTo(x, y, z);
-		   b.show();
-		   }
-		   else
-		   {
-		   b = new fBullet(this);
-		   b.moveTo(x, y, z);
-		   if (this.IAmBeingRendered)
-		   this.addElementToRenderEngine(b);
-		   }
-		
-		   // Events
-		   b.addEventListener(fElement.NEWCELL, this.processNewCell, false, 0, true);
-		   b.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
-		   b.addEventListener(fBullet.SHOT, fBulletSceneLogic.processShot, false, 0, true);
-		
-		   // Properties
-		   b.moveTo(x, y, z);
-		   b.speedx = speedx;
-		   b.speedy = speedy;
-		   b.speedz = speedz;
-		
-		   // Init renderer
-		   b.customData.bulletRenderer = renderer;
-		   if (b.container)
-		   b.customData.bulletRenderer.init(b);
-		
-		   // Add to lists
-		   this.bullets.push(b);
-		
-		   // Enable
-		   if (this._enabled)
-		   b.enable();
-		
-		   // Return
-		   return b;
-		   }
-		 */
-		
-		/**
-		 * Removes a bullet from the scene. Bullets are automatically removed when they hit something,
-		 * but you If you can't wait for them to be delete, you can do it manually.
-		 * @param bullet The fBullet to be removed.
-		 */ /*
-		   public function removeBullet(bullet:fBullet):void
-		   {
-		   // Events
-		   bullet.removeEventListener(fElement.NEWCELL, this.processNewCell);
-		   bullet.removeEventListener(fElement.MOVE, this.renderElement);
-		   bullet.removeEventListener(fBullet.SHOT, fBulletSceneLogic.processShot);
-		
-		   // Hide
-		   bullet.disable();
-		   bullet.customData.bulletRenderer.clear(bullet);
-		   bullet.hide();
-		
-		   // Back to pool
-		   //this.bullets.splice(this.bullets.indexOf(bullet), 1);
-		   //this.bulletPool.push(bullet);
-		   }
-		 */
-		// KBEN: 创建特效，这个是创建加入场景的特效，例如飞行特效      
-		//public function createEffect(ideff:String, def:String, startx:Number, starty:Number, startz:Number, destx:Number, desty:Number, destz:Number, speedx:Number, speedy:Number, speedz:Number):EffectEntity
-		// speed 速度大小 
-		public function createEffect(ideff:String, def:String, startx:Number, starty:Number, startz:Number, destx:Number, desty:Number, destz:Number, speed:Number):EffectEntity
+
+        // KBEN: 创建特效，这个是创建加入场景的特效，例如飞行特效，speed 速度大小 
+        public function createEffect(ideff:String, def:String, startx:Number, starty:Number, startz:Number, destx:Number, desty:Number, destz:Number, speed:Number):EffectEntity
 		{
 			// Ensure coordinates are inside the scene
 			var c:fCell = this.translateToCell(startx, starty, startz);
@@ -1162,91 +465,6 @@ package org.ffilmation.engine.core
 			return nEffect;
 		}
 		
-		// KBEN: 创建不加入场景特效，例如链接特效，startx 坐标是相对坐标，相对于链接父对象，包括场景 UI 特效
-		public function createEffectNIScene(ideff:String, def:String, startx:Number, starty:Number, startz:Number, efftype:uint = 2, bshow:Boolean = true):EffectEntity
-		{
-			// Create
-			var definitionObject:XML =  <effect id={ideff} definition={def} x={startx} y={starty} z={startz}/>;
-			// KBEN: 特效可能每一个的定义是不一样的，因此不用特效池了    
-			var nEffect:EffectEntity = new EffectEntity(definitionObject, this);
-			
-			if (this.IAmBeingRendered)
-			{
-				// Init
-				nEffect.container = this.renderEngine.initRenderFor(nEffect);
-				
-				// This happens only if the render Engine returns a container for every element. 
-				if (nEffect.container)
-				{
-					nEffect.container.fElementId = nEffect.id;
-					nEffect.container.fElement = nEffect;
-				}
-				
-				// KBEN: 现在基本不存在 MovieClip ，仅仅是为了兼容之前的   
-				// This can be null, depending on the render engine
-				nEffect.flashClip = this.renderEngine.getAssetFor(nEffect);
-				
-				// Listen to show and hide events
-				nEffect.addEventListener(fRenderableElement.ENABLE, this.enableListener, false, 0, true);
-				nEffect.addEventListener(fRenderableElement.DISABLE, this.disableListener, false, 0, true);
-				
-				// Elements default to Mouse-disabled
-				nEffect.disableMouseEvents();
-				
-				// 场景 UI 特效需要特殊处理
-				if (efftype == EntityCValue.EFFSceneBtm || efftype == EntityCValue.EFFSceneTop)
-				{
-					// 移动需要就行处理
-					nEffect.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
-					this.everything.push(nEffect);
-					this.all[nEffect.id] = nEffect;
-					nEffect.type = efftype;
-					
-					if (efftype == EntityCValue.EFFSceneBtm)
-					{
-						m_sceneUIBtmEffVec.push(nEffect);
-						nEffect.customData.flash9Renderer.changeContainerParent(m_SceneLayer[EntityCValue.SLSceneUIBtm]);
-					}
-					else
-					{
-						m_sceneUITopEffVec.push(nEffect);
-						nEffect.customData.flash9Renderer.changeContainerParent(m_SceneLayer[EntityCValue.SLSceneUITop]);
-					}
-					
-					if (bshow)
-					{
-						// 逻辑数据可见
-						nEffect.show();
-						nEffect.isVisibleNow = true;
-						// 显示可见
-						renderEngine.showElement(nEffect);
-					}
-				}
-				else if (efftype == EntityCValue.EFFJinNang) // 锦囊场景持续特效
-				{
-					// 移动需要就行处理
-					nEffect.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
-					this.everything.push(nEffect);
-					this.all[nEffect.id] = nEffect;
-					nEffect.type = efftype;
-					
-					m_sceneJinNangEffVec.push(nEffect);
-					// 更改父节点
-					nEffect.customData.flash9Renderer.changeContainerParent(m_SceneLayer[EntityCValue.SLJinNang]);
-					if (bshow)
-					{
-						// 逻辑数据可见
-						nEffect.show();
-						nEffect.isVisibleNow = true;
-						// 显示可见
-						renderEngine.showElement(nEffect);
-					}
-				}
-			}
-			
-			return nEffect;
-		}
-		
 		private function onremove(e:Event):void
 		{
 			trace("error");
@@ -1281,151 +499,7 @@ package org.ffilmation.engine.core
 				effect.m_district = null;
 			}
 		}
-		
-		// KBEN: 移除非场景特效，例如链接特效    
-		public function removeEffectNIScene(effect:EffectEntity):void
-		{
-			// Hide
-			effect.hide();
-			effect.isVisibleNow = false;
-			
-			// Remove from render engine
-			// KBEN: 在这里面释放渲染资源    
-			var r:fFlash9ElementRenderer = effect.customData.flash9Renderer;
-			if (r == null)
-			{				
-				var str:String = "fScene::removeEffectNIScene dispose="+effect.isDisposed+fUtil.getStackInfo("");
-				DebugBox.sendToDataBase(str);
-			}
-			// bug: 链接特效在 BeingEntity 隐藏的时候会调用 hideRender 从而隐藏 EffectEntity，而在移除的时候如果再次调用这个就会出现 this.containerParent.removeChild(this.container); 中 this.container 的 parent 为 null 的现象  
-			if (r.screenVisible == true)
-			{
-				this.renderEngine.hideElement(effect);
-			}
-			this.renderEngine.stopRenderFor(effect);
-			if (effect.container)
-			{
-				effect.container.fElementId = null;
-				effect.container.fElement = null;
-			}
-			effect.container = null;
-			effect.flashClip = null;
-			
-			// Stop listening to show and hide events
-			effect.removeEventListener(fRenderableElement.ENABLE, this.enableListener);
-			effect.removeEventListener(fRenderableElement.DISABLE, this.disableListener);
-			
-			// 场景 UI 特效需要特殊处理,玩家身上的链接特效是不需要加入到场景中的数据结构中的
-			if (effect.type == EntityCValue.EFFSceneBtm || effect.type == EntityCValue.EFFSceneTop || effect.type == EntityCValue.EFFJinNang)
-			{
-				// 移动需要就行处理
-				var idx:uint = 0;
-				effect.removeEventListener(fElement.MOVE, this.renderElement);
-				idx = this.everything.indexOf(effect);
-				if (idx != -1)
-				{
-					this.everything.splice(idx, 1);
-				}
-				idx = this.all.indexOf(effect);
-				if (idx != -1)
-				{
-					this.all.splice(idx, 1);
-				}
-				
-				if (effect.type == EntityCValue.EFFSceneBtm)
-				{
-					idx = this.m_sceneUIBtmEffVec.indexOf(effect);
-					if (idx != -1)
-					{
-						m_sceneUIBtmEffVec.splice(idx, 1);
-					}
-				}
-				else if (effect.type == EntityCValue.EFFSceneTop)
-				{
-					idx = this.m_sceneUITopEffVec.indexOf(effect);
-					if (idx != -1)
-					{
-						m_sceneUITopEffVec.splice(idx, 1);
-					}
-				}
-				else if (effect.type == EntityCValue.EFFJinNang)
-				{
-					idx = this.m_sceneJinNangEffVec.indexOf(effect);
-					if (idx != -1)
-					{
-						m_sceneJinNangEffVec.splice(idx, 1);
-					}
-				}
-			}
-			
-			effect.dispose();
-		}
-		
-		// 雾创建    
-		public function createFog():fFogPlane
-		{
-			var def:XML =   <fog id="f1"/>;
-			m_fogPlane = new fFogPlane(def, this);
-			
-			if (this.IAmBeingRendered)
-			{
-				// Init
-				m_fogPlane.container = this.renderEngine.initRenderFor(m_fogPlane);
-				
-				// This happens only if the render Engine returns a container for every element. 
-				if (m_fogPlane.container)
-				{
-					m_fogPlane.container.fElementId = m_fogPlane.id;
-					m_fogPlane.container.fElement = m_fogPlane;
-				}
-				
-				// Listen to show and hide events
-				m_fogPlane.addEventListener(fRenderableElement.ENABLE, this.enableListener, false, 0, true);
-				m_fogPlane.addEventListener(fRenderableElement.DISABLE, this.disableListener, false, 0, true);
-				
-				// Elements default to Mouse-disabled
-				m_fogPlane.disableMouseEvents();
-				
-				// 直接显示出来    
-				this.renderEngine.showElement(m_fogPlane);
-			}
-			
-			return m_fogPlane;
-		}
-		
-		// 雾销毁   
-		public function removeFog(fogplane:fFogPlane):void
-		{
-			// Hide
-			fogplane.hide();
-			fogplane.isVisibleNow = false;
-			
-			// Remove from render engine
-			// KBEN: 在这里面释放渲染资源    
-			var r:fFlash9ElementRenderer = fogplane.customData.flash9Renderer;
-			if (r)
-			{
-				if (r.screenVisible)
-				{
-					this.renderEngine.hideElement(fogplane);
-				}
-				
-				this.renderEngine.stopRenderFor(fogplane);
-			}
-			if (fogplane.container)
-			{
-				fogplane.container.fElementId = null;
-				fogplane.container.fElement = null;
-			}
-			fogplane.container = null;
-			
-			// Stop listening to show and hide events
-			fogplane.removeEventListener(fRenderableElement.ENABLE, this.enableListener);
-			fogplane.removeEventListener(fRenderableElement.DISABLE, this.disableListener);
-			fogplane.dispose();
-			fogplane = null;
-		}
-		
+
 		/**
 		 * This method translates scene 3D coordinates to 2D coordinates relative to the Sprite containing the scene
 		 *
@@ -1517,41 +591,16 @@ package org.ffilmation.engine.core
 				return null;
 		}
 		
-		/**
-		 * Use this method to completely rerender the scene. However, under normal circunstances there shouldn't be a need to call this manually
-		 */
 		public function render():void
 		{
-			// bug 不再有灯光
-			return;
-			// Render global light
-			this.environmentLight.render();
 			
-			// Render dynamic lights
-			var ll:int = this.lights.length;
-			for (var i:int = 0; i < ll; i++)
-				this.lights[i].render();
 		}
 		
-		/**
-		 * Normally you don't need to call this method manually. When an scene is shown, this method is called to initialize the render engine
-		 * for this scene ( this involves creating all the Sprites ). This may take a couple of seconds.<br>
-		 * Under special circunstances, however, you may want to call this method manually at some point before showing the scene. This is useful is you want
-		 * the graphic assets to exist before the scene is shown ( to attach Mouse Events for example ).
-		 */
 		public function startRendering():void
 		{
 			if (this.IAmBeingRendered)
 				return;
-			
-			/*if (this.currentCamera.m_bInit)
-			{
-				if (renderManager.curCell!=currentCamera.cell)
-				{
-					//this.renderManager.curCell = currentCamera.cell;
-					renderManager.processNewCellCamera(currentCamera);
-				}
-			}*/
+
 			// Set flag
 			this.IAmBeingRendered = true;
 			// 开始渲染的时候才创建内部场景图      
@@ -1560,20 +609,9 @@ package org.ffilmation.engine.core
 			{
 				m_SceneLayer[k] = new fSceneChildLayer();
 				(m_SceneLayer[k] as fSceneChildLayer).m_layNo = k;
-				//m_SceneLayer[k].addEventListener(Event.REMOVED_FROM_STAGE, layremove);
-				//m_SceneLayer[k].addEventListener(Event.ADDED_TO_STAGE, layadd);
 				container.addChild(m_SceneLayer[k]);
 				++k;
 			}
-			
-			//m_SceneLayer[SLTerrain].visible = false;
-			
-			// 设置缩略图
-			//if(m_thumbnails)
-			//{
-			//addTerThumbnails(m_thumbnails);
-			//addTerThumbnails();
-			//}
 			
 			// Init render engine
 			this.renderEngine.initialize();
@@ -1598,12 +636,7 @@ package org.ffilmation.engine.core
 			jl = this.emptySprites.length
 			for (j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.emptySprites[j]);
-			//jl = this.bullets.length
-			//for (j = 0; j < jl; j++)
-			//{
-			//	this.addElementToRenderEngine(this.bullets[j]);
-			//	this.bullets[j].customData.bulletRenderer.init();
-			//}
+
 			jl = this.m_dynamicObjects.length
 			for (j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.m_dynamicObjects[j]);
@@ -1611,115 +644,13 @@ package org.ffilmation.engine.core
 			// KBEN: 添加雾到场景     
 			if (this.m_sceneConfig.fogOpened)
 			{
-				//createFog();
 				this.addElementToRenderEngineNoClip(m_fogPlane, false, true, true);
 			}
-			
-			
-			
-			// Render scene
+
 			this.render();
-		
-			// Update camera if any
-			// KBEN: 上层逻辑会调用移动摄像机的，那个时候再更新
-			//if (this.currentCamera)
-			//	this.renderManager.processNewCellCamera(this.currentCamera);
-		
-			//drawFightGrid(new Point(10, 10), new Point(140, 140));
-			//drawStopPt();
-			//drawFloor();
+
 		}
-		
-		//private function layadd(e:Event):void 
-		//{
-		//removeEventListener(Event.ADDED_TO_STAGE, layadd);
-		//
-		//}
-		//
-		//private function layremove(e:Event):void 
-		//{
-		//removeEventListener(Event.REMOVED_FROM_STAGE, layremove);
-		//
-		//}
-		
-		// KBEN: 添加可渲染元素，不进行裁剪 
-		private function addElementToRenderEngineNoClip(element:fRenderableElement, bshowListen:Boolean = false, mouseListen:Boolean = true, bshow:Boolean = true):void
-		{
-			// Init
-			element.container = this.renderEngine.initRenderFor(element);
-			
-			// This happens only if the render Engine returns a container for every element. 
-			if (element.container)
-			{
-				element.container.fElementId = element.id;
-				element.container.fElement = element;
-			}
-			
-			// KBEN: 现在基本不存在 MovieClip ，仅仅是为了兼容之前的   
-			// This can be null, depending on the render engine
-			element.flashClip = this.renderEngine.getAssetFor(element);
-			
-			// Listen to show and hide events
-			if (bshowListen)
-			{
-				element.addEventListener(fRenderableElement.SHOW, this.renderManager.showListener, false, 0, true);
-				element.addEventListener(fRenderableElement.HIDE, this.renderManager.hideListener, false, 0, true);
-			}
-			if (mouseListen)
-			{
-				element.addEventListener(fRenderableElement.ENABLE, this.enableListener, false, 0, true);
-				element.addEventListener(fRenderableElement.DISABLE, this.disableListener, false, 0, true);
-			}
-			
-			// Add to render manager
-			if (bshow)
-			{
-				this.renderEngine.showElement(element);
-			}
-			
-			// Elements default to Mouse-disabled
-			element.disableMouseEvents();
-		}
-		
-		// KBEN: 移除非裁剪元素   
-		private function removeElementFromRenderEngineNoClip(element:fRenderableElement, bshowListen:Boolean = false, mouseListen:Boolean = true, destroyingScene:Boolean = false):void
-		{
-			// bug: 如果渲染内容已经销毁，数据逻辑继续运行的时候，如果再次调用这个函数就会宕机，因此检查一下  
-			if (!element.container)
-			{
-				return;
-			}
-			
-			this.renderManager.removedItem(element, destroyingScene);
-			this.renderEngine.stopRenderFor(element);
-			if (element.container)
-			{
-				element.container.fElementId = null;
-				element.container.fElement = null;
-			}
-			element.container = null;
-			element.flashClip = null;
-			
-			// Stop listening to show and hide events
-			if (bshowListen)
-			{
-				element.removeEventListener(fRenderableElement.SHOW, this.renderManager.showListener);
-				element.removeEventListener(fRenderableElement.HIDE, this.renderManager.hideListener);
-			}
-			if (mouseListen)
-			{
-				element.removeEventListener(fRenderableElement.ENABLE, this.enableListener);
-				element.removeEventListener(fRenderableElement.DISABLE, this.disableListener);
-			}
-		}
-		
-		// PRIVATE AND INTERNAL METHODS FOLLOW
-		
-		// INTERNAL METHODS RELATED TO RENDER
-		
-		/**
-		 * This method adds an element to the renderEngine pool
-		 */
+
 		private function addElementToRenderEngine(element:fRenderableElement):void
 		{
 			// Init
@@ -1795,16 +726,10 @@ package org.ffilmation.engine.core
 		 */
 		public function stopRendering():void
 		{
-			// Stop render for all elements
-			// BUG:  
-			//var jl:int = jl;
 			var jl:int = this.floors.length;
 			for (var j:int = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.floors[j], true);
-			// KBEN: 没有了
-			//jl = this.walls.length;
-			//for (j = 0; j < jl; j++)
-			//	this.removeElementFromRenderEngine(this.walls[j], true)
+
 			jl = this.objects.length;
 			for (j = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.objects[j], true);
@@ -1814,25 +739,10 @@ package org.ffilmation.engine.core
 			jl = this.emptySprites.length;
 			for (j = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.emptySprites[j], true);
-			// KBEN: 没有了
-			//jl = this.bullets.length;
-			//for (j = 0; j < jl; j++)
-			//{
-			//	this.bullets[j].customData.bulletRenderer.clear();
-			//	this.removeElementFromRenderEngine(this.bullets[j], true);
-			//}
+
 			jl = this.m_dynamicObjects.length
 			for (j = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.m_dynamicObjects[j]);
-			
-			// Free bullet pool as the assets are no longer valid
-			//jl = this.bulletPool.length;
-			//for (j = 0; j < jl; j++)
-			//{
-			//	this.bulletPool[j].dispose();
-			//	delete this.bulletPool[j];
-			//}
-			//this.bulletPool = new Array;
 			
 			// Stop render engine
 			this.renderEngine.dispose();
@@ -1845,40 +755,13 @@ package org.ffilmation.engine.core
 			while (k < m_SceneLayer.length)
 			{
 				// 这里不用删除了，在 this.renderEngine.dispose(); 这个函数中处理了 
-				//container.removeChild(m_SceneLayer[k]);
 				m_SceneLayer[k] = null;
 				++k;
 			}
-			
-			// 这是固定大小，不清空   
-			//m_SceneLayer.splice(0, m_SceneLayer.length);
-			
+
 			// Set flag
 			this.IAmBeingRendered = false;
 		}
-		
-		// A light changes its size
-		/** @private */ /*
-		   public function processNewLightDimensions(evt:Event):void
-		   {
-		   if (this.IAmBeingRendered)
-		   {
-		   var light:fOmniLight = evt.target as fOmniLight;
-		
-		   // Hide light from elements
-		   var cell:fCell = light.cell;
-		   var nEl:Number = light.nElements;
-		   for (var i2:Number = 0; i2 < nEl; i2++)
-		   this.renderEngine.lightReset(light.elementsV[i2].obj, light);
-		
-		   nEl = this.characters.length;
-		   for (i2 = 0; i2 < nEl; i2++)
-		   this.renderEngine.lightReset(this.characters[i2], light);
-		
-		   fLightSceneLogic.processNewLightDimensions(this, evt.target as fOmniLight);
-		   }
-		   }
-		 */
 		
 		// Element enters new cell
 		/** @private */
@@ -1889,10 +772,6 @@ package org.ffilmation.engine.core
 			
 			if (this.IAmBeingRendered)
 			{
-				// KBEN: 灯光全部去掉
-				//if (evt.target is fOmniLight)
-				//	fLightSceneLogic.processNewCellOmniLight(this, evt.target as fOmniLight);
-				//else if (evt.target is fCharacter)
 				if (evt.target is fCharacter)
 				{
 					var c:fCharacter = evt.target as fCharacter
@@ -1905,11 +784,6 @@ package org.ffilmation.engine.core
 					this.renderManager.processNewCellEmptySprite(e);
 					fEmptySpriteSceneLogic.processNewCellEmptySprite(this, e);
 				}
-				//else if (evt.target is fBullet)
-				//{
-				//	var b:fBullet = evt.target as fBullet;
-				//	this.renderManager.processNewCellBullet(b);
-				//}
 				else if (evt.target is EffectEntity)
 				{
 					var eff:EffectEntity = evt.target as EffectEntity;
@@ -1934,10 +808,7 @@ package org.ffilmation.engine.core
 		{
 			if (this.engine.m_context.m_profiler)
 				this.engine.m_context.m_profiler.enter("fScene.renderElement");
-			
-			// If the scene is not being displayed, we don't update the render engine
-			// However, the element's properties are modified. When the scene is shown the result is consistent
-			// to what has changed while the render was not being updated
+
 			if (this.IAmBeingRendered)
 			{
 				//if (evt.target is fOmniLight)
@@ -1959,22 +830,6 @@ package org.ffilmation.engine.core
 			if (this.engine.m_context.m_profiler)
 				this.engine.m_context.m_profiler.exit("fScene.renderElement");
 		}
-		
-		// This method is called when the shadowQuality option changes
-		/** @private */ /*
-		   public function resetShadows():void
-		   {
-		   this.renderEngine.resetShadows();
-		   var cl:int = this.characters.length;
-		   for (i = 0; i < cl; i++)
-		   fCharacterSceneLogic.processNewCellCharacter(this, this.characters[i], true);
-		   cl = this.lights.length;
-		   for (var i:int = 0; i < cl; i++)
-		   fLightSceneLogic.processNewCellOmniLight(this, this.lights[i], true);
-		   }
-		 */
-		
-		// INTERNAL METHODS RELATED TO CAMERA MANAGEMENT
 		
 		// Listens cameras moving
 		private function cameraMoveListener(evt:fMoveEvent):void
@@ -2053,76 +908,7 @@ package org.ffilmation.engine.core
 		// Returns the cell at specific grid coordinates. If cell does not exist, it is created.
 		/** @private */
 		public function getCellAt(i:int, j:int, k:int = 0):fCell
-		{
-			//if (i < 0 || j < 0 || k < 0)
-			//return null;
-			//if (i >= this.gridWidth || j >= this.gridDepth || k >= this.gridHeight)
-			//return null;
-			//
-			// Create new if necessary
-			//if (!this.grid[i] || !this.grid[i][j])
-			//return null;
-			//var arr:Array = this.grid[i][j];
-			//if (!arr[k])
-			//{
-			//
-			//var cell:fCell = new fCell();
-			//
-			// Z-Index
-			//
-			// Original call
-			//cell.zIndex = this.computeZIndex(i,j,k)
-			//
-			// Inline for a bit of speedup
-			//var ow:int = this.gridWidth;
-			//var od:int = this.gridDepth;
-			//var oh:int = this.gridHeight;
-			//cell.zIndex = ((((((ow - i + 1) + (j * ow + 2))) * oh) + k)) / (ow * od * oh);
-			
-			//
-			//var s:Array = this.sortAreas[i];
-			//
-			//var s:Array = this.sortAreasRTree.intersects(new fCube(i,j,k,i+1,j+1,k+1))
-			//
-			//var l:int = s.length;
-			//
-			//var found:Boolean = false;
-			//for (var n:int = 0; !found && n < l; n++)
-			//{
-			//
-			///* Original call
-			//if(s[n].isPointInside(i,j,k)) {
-			//found = true
-			//cell.zIndex+=(s[n] as fSortArea).zValue
-			//}*/
-			//
-			///* Inline for a bit of speedup */
-			//var sA:fSortArea = s[n];
-			//var sA:fSortArea = this.sortAreas[s[n]]
-			//if ((i >= sA.i && i <= sA.i + sA.width) && (j >= sA.j && j <= sA.j + sA.depth) && (k >= sA.k && k <= sA.k + sA.height))
-			//{
-			//found = true;
-			//cell.zIndex += sA.zValue;
-			//}
-			//
-			//}
-			//
-			// Internal
-			//cell.i = i;
-			//cell.j = j;
-			//cell.k = k;
-			//cell.x = (this.gridSize >> 1) + (this.gridSize * i);
-			//cell.y = (this.gridSize >> 1) + (this.gridSize * j);
-			//cell.z = (this.levelSize >> 1) + (this.levelSize * k);
-			//arr[k] = cell;
-			//
-			//this.allUsedCells[this.allUsedCells.length] = cell;
-			//
-			//}
-			//
-			// Return cell
-			//return this.grid[i][j][k];
-			
+		{	
 			if (i < 0 || j < 0)
 				return null;
 			if (i >= this.gridWidth || j >= this.gridDepth)
@@ -2137,28 +923,6 @@ package org.ffilmation.engine.core
 			if (!cell)
 			{
 				cell = new fCell(this);
-				
-				// Z-Index				
-				// Inline for a bit of speedup
-				//var ow:int = this.gridWidth;
-				//var od:int = this.gridDepth;
-				// KBEN: gridHeight 永远为 1 
-				//var oh:int = this.gridHeight;
-				//cell.zIndex = ((ow - i + 1) + (j * ow + 2)) / (ow * od);
-				
-				//var s:Array = this.sortAreas[i];				
-				//var l:int = s.length;
-				
-				//var found:Boolean = false;
-				//for (var n:int = 0; !found && n < l; n++)
-				//{
-				//	var sA:fSortArea = s[n];
-				//	if ((i >= sA.i && i <= sA.i + sA.width) && (j >= sA.j && j <= sA.j + sA.depth))
-				//	{
-				//		found = true;
-				//		cell.zIndex += sA.zValue;
-				//	}
-				//}
 				
 				// Internal
 				cell.i = i;
@@ -2180,31 +944,12 @@ package org.ffilmation.engine.core
 				this.allUsedCells[this.allUsedCells.length] = cell;
 			}
 			
-			// Return cell
 			return cell;
 		}
 		
 		/** @private */
 		public static function translateCoords(x:Number, y:Number, z:Number):Point
 		{
-			/*
-			   // KBEN: 位置变换
-			   if (fSceneConfig.instance.mapType == fEngineCValue.Engine2d)
-			   {
-			   return new Point(x, y);
-			   }
-			   else
-			   {
-			   var xx:Number = x * fEngine.DEFORMATION;
-			   var yy:Number = y * fEngine.DEFORMATION;
-			   var zz:Number = z * fEngine.DEFORMATION;
-			   var xCart:Number = (xx + yy) * 0.8944271909999159; //Math.cos(0.4636476090008061)
-			   var yCart:Number = zz + (xx - yy) * 0.4472135954999579; //Math.sin(0.4636476090008061)
-			
-			   return new Point(xCart, -yCart);
-			   }
-			 */
-			// bug: 性能
 			return new Point(x, y);
 		}
 		
@@ -2230,23 +975,12 @@ package org.ffilmation.engine.core
 			}
 		}
 		
-		// Get elements affected by lights from given cell, sorted by distance
-		/** @private */ /*
-		   public function getAffectedByLight(cell:fCell, range:Number = Infinity):void
-		   {
-		   var r:Array = fVisibilitySolver.calcAffectedByLight(this, cell.x, cell.y, cell.z, range);
-		   cell.lightAffectedElements = r;
-		   cell.lightRange = range;
-		   }
-		 */
-		
 		// Get elements visible from given cell, sorted by distance
 		/** @private */
 		public function getVisibles(cell:fCell, range:Number = Infinity):void		
 		{
 			var visibleFloor:Vector.<fFloor> = new Vector.<fFloor>();
-			//var r:Array = fVisibilitySolver.calcVisibles(this, cell.x, cell.y, cell.z, range, visibleFloor);
-			//var r:Array = fVisibilitySolver.calcVisibles(this, cam.x, cam.y, cam.z, range, visibleFloor);
+
 			var r:Array = fVisibilitySolver.calcVisibles(this, cell, range, visibleFloor);
 			cell.visibleElements = r;
 			// 添加快速调用
@@ -2261,24 +995,8 @@ package org.ffilmation.engine.core
 		 */
 		public function dispose():void
 		{
-			// Free properties
-			// bug: 这个放在最后，因为销毁的函数要用到这个变量 
-			//this.engine = null;
-			//for (var i:int = 0; i < this.sortAreas.length; i++)
-			//	delete this.sortAreas[i];
-			//this.sortAreas = null;
-			//this.sortAreasRTree = null;
-			
-			//this.allStatic2D = null;
-			//this.allStatic2DRTree = null;
-			
-			//this.allStatic3D = null;
-			//this.allStatic3DRTree = null;
-			
 			// 一定放在 this.renderEngine = null; 之前
 			m_disposed = true;
-			removeFog(m_fogPlane);
-			m_fogPlane = null;
 			
 			// bug: 内存泄露，事件没有移除
 			if (this.currentCamera)
@@ -2357,30 +1075,8 @@ package org.ffilmation.engine.core
 			// 释放 ai
 			this.AI = null;
 			
-			// 清除显示根节点   
-			//var k:uint = 0;
-			//while (k < m_SceneLayer.length)
-			//{
-			// 这个在 this.renderEngine.dispose(); 这个函数中已经移除了  
-			//container.removeChild(m_SceneLayer[k]);
-			//	m_SceneLayer[k] = null;
-			//	++k;
-			//}
-			
-			//m_SceneLayer.splice(0, m_SceneLayer.length);
 			m_SceneLayer = null;
-			
-			if (m_thumbnails)
-			{
-				//m_thumbnails.dispose();
-				m_thumbnails = null;
-			}
-			//if(m_thumbnailsExtend)
-			//{
-			//	m_thumbnailsExtend.dispose();
-			//	m_thumbnailsExtend = null;
-			///}
-			
+
 			// 环境灯光释放
 			this.environmentLight.dispose();
 			this.environmentLight = null;
@@ -2442,34 +1138,6 @@ package org.ffilmation.engine.core
 			
 			return null;
 		}
-		
-		/*
-		   // KBEN: 雾绘制 pt: 全局坐标
-		   public function clearFog(ptx:int, pty:int, ptz:int):void
-		   {
-		   if (this.m_sceneConfig.fogOpened)
-		   {
-		   var floor:fFloor;
-		   var localx:int;
-		   var localy:int;
-		
-		   var theCell:fCell = this.translateToCell(ptx, pty, ptz);
-		   floor = this.getFloorByGridPos(theCell.i, theCell.j);
-		   if (floor)
-		   {
-		   // KBEN: 转换成 fPlane 局部坐标
-		   localx = ptx - floor.x0;
-		   localy = pty - floor.y0;
-		
-		   var render:fFlash9PlaneRenderer = floor.customData.flash9Renderer;
-		   if (render)
-		   {
-		   render.clearFog(localx, localy);
-		   }
-		   }
-		   }
-		   }
-		 */
 		
 		// 区域获取    
 		public function translateToFloor(x:Number, y:Number):fFloor
@@ -2534,7 +1202,6 @@ package org.ffilmation.engine.core
 		}
 		
 		// KBEN: 获取并且改变 floor 中的动态对象 
-		//public function translateToFloorAndIdx(x:Number, y:Number, idx:int, uniqueId:int, id:String, type:uint):int
 		public function translateToFloorAndIdx(x:Number, y:Number, idx:int, id:String, type:uint):int
 		{
 			var srci:int;
@@ -2925,42 +1592,6 @@ package org.ffilmation.engine.core
 			}
 			return ret;
 		}
-		
-		// 处理地形缩略图文件
-		//public function addTerThumbnails(bmd:BitmapData):void
-		//public function addTerThumbnails():void
-		//{
-		//if (m_SceneLayer[SLTerrainThumbnails].numChildren)
-		//{
-		//throw new Event("terrrain already add Thumbnails");
-		//}
-		
-		// 退出场景的时候释放资源
-		//var bm:Bitmap = new Bitmap(bmd);
-		//bm.width = m_scenePixelWidth;
-		//bm.height = m_scenePixelHeight;
-		//m_SceneLayer[SLTerrainThumbnails].addChild(bm);
-		
-		//copy 如果不存在就拷贝，如果已经存在就补考呗了
-		/*
-		   var mat:Matrix = new Matrix();
-		   mat.scale(m_scenePixelWidth/bmd.width, m_scenePixelHeight/bmd.height);
-		   m_thumbnailsExtend = new BitmapData(m_scenePixelWidth, m_scenePixelHeight);
-		   m_thumbnailsExtend.draw(bmd, mat);
-		   bmd.dispose();
-		   bmd = null;
-		 */
-		
-		//if(!m_thumbnailsExtend && m_thumbnails)
-		//{
-		//	var mat:Matrix = new Matrix();
-		//	mat.scale(m_scenePixelWidth/m_thumbnails.width, m_scenePixelHeight/m_thumbnails.height);
-		//	m_thumbnailsExtend = new BitmapData(m_scenePixelWidth, m_scenePixelHeight);
-		//	m_thumbnailsExtend.draw(m_thumbnails, mat);
-		//m_thumbnails.dispose();
-		//m_thumbnails = null;
-		//}
-		//}
 		
 		// 逻辑上一帧结束，有些一帧中更新很一次的数据在帧结束更新就放在这里，否则深度更新会更新很多次
 		public function onFrameEnd():void
