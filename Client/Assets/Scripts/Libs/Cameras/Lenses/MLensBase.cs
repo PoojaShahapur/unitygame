@@ -78,6 +78,11 @@ namespace SDK.Lib
 			
         }
 
+        virtual public void buildPanel()
+        {
+
+        }
+
         public void updateFrustumRender()
         {
             m_frustumRender.clear();

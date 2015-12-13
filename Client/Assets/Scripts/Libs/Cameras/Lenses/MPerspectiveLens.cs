@@ -1,18 +1,24 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
      * @brief 透视投影镜头
      */
     public class MPerspectiveLens : MLensBase
     {
-        protected float m_fieldOfView;          // y 方向 FieldOfView，默认值是 45
+        protected float m_fieldOfView;          // y 方向 FieldOfView，默认值是 60
         protected float m_focalLength;          // 焦距长度
         protected float m_focalLengthInv;       // 焦距的倒数
 
+        protected MPlane3D m_leftPanel;         // 左边面板
+
         public MPerspectiveLens()
         {
-            m_fieldOfView = 60;
+            m_fieldOfView = 0;
             m_focalLength = 1;
+            setFieldOfView(60); // 设置对应的值
+            m_leftPanel = new MPlane3D();
         }
 
         override public void setFieldOfView(float value)
@@ -23,7 +29,6 @@
             }
 
             m_fieldOfView = value;
-
             m_focalLengthInv = UtilApi.tan(m_fieldOfView * UtilApi.PI / 360);
             m_focalLength = 1 / m_focalLengthInv;
         }
@@ -83,9 +88,9 @@
             // 顶点位置是 5 - far x right x top
             // 顶点位置是 6 - far x right x bottom
             // 顶点位置是 7 - far x left x bottom
-            // 0 - 1
-            // |   |
-            // 3 - 2
+            // 0 - 1    4 - 5
+            // |   |    |   |
+            // 3 - 2    7 - 6
             m_frustumCorners[0] = m_frustumCorners[9] = left;
 			m_frustumCorners[3] = m_frustumCorners[6] = right;
 			m_frustumCorners[1] = m_frustumCorners[4] = top;
@@ -102,6 +107,14 @@
 			m_matrixInvalid = false;
 
             //testLogMatrix(m_matrix3D);
+        }
+
+        override public void buildPanel()
+        {
+            Vector3 p0 = new Vector3(m_frustumCorners[0], m_frustumCorners[1], m_frustumCorners[2]);
+            Vector3 p1 = new Vector3(m_frustumCorners[12], m_frustumCorners[13], m_frustumCorners[14]);
+            Vector3 p2 = new Vector3(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
+            m_leftPanel.fromPoints(p0, p1, p2);
         }
     }
 }

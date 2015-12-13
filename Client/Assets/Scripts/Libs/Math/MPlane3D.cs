@@ -81,7 +81,8 @@ namespace SDK.Lib
             m_a = d1y* d2z - d1z* d2y;
             m_b = d1z* d2x - d1x* d2z;
             m_c = d1x* d2y - d1y* d2x;
-            m_d = m_a * p0.x + m_b * p0.y + m_c * p0.z;
+            normalize();
+            m_d = -(m_a * p0.x + m_b * p0.y + m_c * p0.z);
 
             // not using epsilon, since a plane is infinite and a small incorrection can grow very large
             if (m_a == 0 && m_b == 0)
