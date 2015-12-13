@@ -1,0 +1,507 @@
+package org.ffilmation.engine.renderEngines.flash9RenderEngine
+{
+	// Imports
+	import flash.display.Shape;
+	import flash.display.Sprite;
+	import flash.geom.Point;
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
+	//import flash.geom.ColorTransform;
+	import flash.utils.Dictionary;
+	//import flash.utils.getDefinitionByName;
+	import org.ffilmation.engine.core.fElementContainer;
+	import org.ffilmation.engine.core.fPlane;
+	import org.ffilmation.engine.core.fScene;
+	//import org.ffilmation.engine.datatypes.fCell;
+	import org.ffilmation.engine.elements.fFloor;
+	import org.ffilmation.engine.helpers.fEngineCValue;
+	import org.ffilmation.utils.objectPool;
+	import org.ffilmation.utils.polygons.fPolygon;
+	import org.ffilmation.utils.polygonUtils;
+	import org.ffilmation.utils.vport;
+	
+	/**
+	 * This class renders an fFloor
+	 * @private
+	 */
+	public class fFlash9FloorRenderer extends fFlash9PlaneRenderer
+	{
+		// Static properties and Render cache
+		//public static var floorProjectionCache:fFloorProjectionCache = new fFloorProjectionCache();
+		public static var wallProjectionCache:Dictionary = new Dictionary(true);
+		private static var objectProjectionCache:Dictionary = new Dictionary(true);
+		//public static var matrix:Matrix = new Matrix(0.7071075439453125,-0.35355377197265625,0.7071075439453125,0.35355377197265625,0,0)
+		// 这个矩阵实际上就是缓存的投影矩阵    
+		public static var matrix:Matrix = new Matrix(0.5253219888177297, -0.4254517622670592, 0.8509035245341184, 0.26266099440886487, 0, 0);
+		public var vp:vport;
+		
+		// KBEN: 绘制阻挡点调试格子     
+		private var stopPtGrid:Shape;
+		
+		// Constructor
+		function fFlash9FloorRenderer(rEngine:fFlash9RenderEngine, container:fElementContainer, element:fFloor):void
+		{
+			// Generate sprite
+			var destination:Sprite = objectPool.getInstanceOf(Sprite) as Sprite;
+			container.addChild(destination);
+			
+			// Set specific wall dimensions
+			this.scrollR = new Rectangle(0, 0, element.width, element.depth);
+			this.planeDeform = new Matrix(); //fFlash9FloorRenderer.matrix
+			//this.planeDeform.rotate(-45 * Math.PI / 180);
+			//this.planeDeform.scale(1.0015, 0.501);
+			
+			// Previous
+			super(rEngine, element, element.width, element.depth, destination, container);
+			
+			// KBEN: 这个要放在父构造函数之后，这样 scene 才不会为空 
+			if (this.scene.m_sceneConfig.mapType == fEngineCValue.EngineISO || 
+			    this.scene.m_sceneConfig.mapType == fEngineCValue.Engine25d)
+			{
+				this.planeDeform.rotate(-45 * Math.PI / 180);
+				this.planeDeform.scale(1.0015, 0.501);
+			}
+			
+			// Clipping viewport
+			this.vp = new vport();
+			this.vp.x_min = element.x;
+			this.vp.x_max = element.x + element.width;
+			this.vp.y_min = element.y;
+			this.vp.y_max = element.y + element.depth;
+		}
+		
+		// LIGHTS
+		/////////
+		
+		/**
+		 * Render ( draw ) light
+		 */
+		//public override function renderLight(light:fLight):void
+		//{
+			//var status:fLightStatus = this.lightStatuses[light.uniqueId];
+			//var lClip:Sprite = this.lightClips[light.uniqueId];
+			//
+			//if (status.lightZ != light.z)
+			//{
+				//status.lightZ = light.z;
+				//var d:Number = light.z - this.element.z;
+				//this.setLightDistance(light, (d > 0) ? d : -d);
+			//}
+			//
+			// Move light
+			//this.setLightCoordinates(light, fScene.translateCoords(light.x - this.element.x, light.y - this.element.y, 0));
+		//}
+		
+		/**
+		 * Light leaves element
+		 */
+		//public override function lightOut(light:fLight):void
+		//{
+			//
+			// Hide container
+			//if (this.lightStatuses && this.lightStatuses[light.uniqueId])
+			//{
+				//var lClip:Sprite = this.lightClips[light.uniqueId];
+				//this.lightC.removeChild(lClip);
+			//}
+			//
+			// Hide shadows
+			//if (fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId])
+			//{
+				//var cache:Dictionary = fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId];
+				//for (var i:String in cache)
+				//{
+					//try
+					//{
+						//var clip:Sprite = cache[i].shadow;
+						//if (clip.parent.parent)
+							//clip.parent.parent.removeChild(clip.parent);
+						//this.rEngine.returnObjectShadow(cache[i]);
+						//delete cache[i];
+					//}
+					//catch (e:Error)
+					//{
+					//}
+				//}
+			//}
+			//
+			//this.undoCache(true);
+		//
+		//}
+		
+		/**
+		 * Light is to be reset
+		 */
+		//public override function lightReset(light:fLight):void
+		//{
+			//
+			//this.lightOut(light);
+			//delete this.lightStatuses[light.uniqueId];
+			//fFlash9RenderEngine.recursiveDelete(this.lightClips[light.uniqueId]);
+			//delete this.lightClips[light.uniqueId];
+			//delete fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId];
+		//
+		//}
+		
+		// OBJECT SHADOW RENDERING
+		//////////////////////////
+		
+		/**
+		 * Resets shadows. This is called when the fEngine.shadowQuality value is changed
+		 */
+		//public override function resetShadowsInt():void
+		//{
+			//for (var i:String in fFlash9FloorRenderer.objectProjectionCache)
+			//{
+				//var a:Dictionary = fFlash9FloorRenderer.objectProjectionCache[i];
+				//for (var j:String in a)
+				//{
+					//try
+					//{
+						//var clip:Sprite = a[j].shadow;
+						//clip.parent.parent.removeChild(clip.parent);
+						//this.rEngine.returnObjectShadow(a[j]);
+						//delete a[j];
+					//}
+					//catch (e:Error)
+					//{
+						//trace("Floor reset error: "+e)	
+					//}
+				//}
+				//delete fFlash9FloorRenderer.objectProjectionCache[i];
+			//}
+		//}
+		
+		/**
+		 * Calculates and projects shadows of objects upon this floor
+		 */
+		//public override function renderObjectShadow(light:fLight, other:fObject, msk:Sprite):void
+		//{
+			//
+			// Too far away ?
+			//if ((other.z - this.element.z) > fObject.SHADOWRANGE)
+				//return;
+			//
+			// Get projection
+			//var proj:fObjectProjection = this.rEngine.getObjectSpriteProjection(other, this.element.z, light.x, light.y, light.z);
+			//
+			//if (proj == null)
+			//{
+				//var clip:Sprite = cache[other.uniqueId].shadow;
+				//try
+				//{
+					//msk.removeChild(clip.parent)
+				//}
+				//catch (e:Error)
+				//{
+				//}
+				//return;
+			//}
+			//
+			// Simple shadows ?
+			//var simpleShadows:Boolean = (other.customData.flash9Renderer as fFlash9ObjectRenderer).simpleShadows;
+			//var eraseShadows:Boolean = (other.customData.flash9Renderer as fFlash9ObjectRenderer).eraseShadows;
+			//
+			// Cache or new Movieclip ?
+			//if (!fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId])
+			//{
+				//fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId] = new Dictionary(true);
+			//}
+			//var cache:Dictionary = fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId];
+			//if (!cache[other.uniqueId])
+			//{
+				//cache[other.uniqueId] = this.rEngine.getObjectShadow(other, this.element);
+				//if (!simpleShadows)
+					//cache[other.uniqueId].shadow.transform.colorTransform = new ColorTransform(0, 0, 0, 1, 0, 0, 0, 0);
+			//}
+			//
+			//var distance:Number = (other.z - this.element.z) / fObject.SHADOWRANGE;
+			//
+			// Draw
+			//clip = cache[other.uniqueId].shadow;
+			//msk.addChild(clip.parent);
+			//clip.alpha = 1 - distance;
+			//
+			// Rotate and deform
+			//clip.parent.x = proj.origin.x - this.element.x;
+			//clip.parent.y = proj.origin.y - this.element.y;
+			//if (!simpleShadows)
+			//{
+				//clip.height = proj.size * (1 + fObject.SHADOWSCALE * distance);
+				//clip.scaleX = 1 + fObject.SHADOWSCALE * distance;
+				//clip.parent.rotation = 90 + mathUtils.getAngle(light.x, light.y, other.x, other.y);
+			//}
+			//
+			// Adjust alpha if necessary
+			//if (light.size != Infinity && !eraseShadows)
+			//{
+				//var distToLight:Number = mathUtils.distance(light.x, light.y, other.x, other.y);
+				//var distToLightBorder:Number = -distToLight + (this.lightStatuses[light.uniqueId].localScale * light.size);
+				//if (distToLightBorder < clip.height)
+				//{
+					//var fade:Number = 1 - ((clip.height - distToLightBorder) / clip.height);
+					//clip.alpha *= fade;
+				//}
+			//}
+		//
+		//}
+		
+		/**
+		 * Delete character shadows upon this floor
+		 */
+		//public override function removeShadow(light:fLight, other:fRenderableElement):void
+		//{
+			//
+			//var o:fCharacter = other as fCharacter;
+			//
+			//var cache:Dictionary = fFlash9FloorRenderer.objectProjectionCache[this.element.uniqueId + "_" + light.uniqueId];
+			//if (cache)
+			//{
+				//var sh:fObjectShadow = cache[other.uniqueId];
+				//if (sh)
+				//{
+					//var clip:Sprite = sh.shadow;
+					//if (clip && clip.parent && clip.parent.parent)
+						//clip.parent.parent.removeChild(clip.parent);
+					//this.rEngine.returnObjectShadow(sh);
+				//}
+				//delete cache[other.uniqueId];
+			//}
+		//
+		//}
+		
+		// PLANE SHADOW RENDERING
+		/////////////////////////
+		
+		/**
+		 * Calculates and projects shadows upon this floor, and returns as polygon (with holes, if necessary)
+		 */
+		//public override function renderPlaneShadow(light:fLight, other:fRenderableElement):fPolygon
+		//{
+			//if (other is fFloor)
+				//return this.renderFloorShadow(light, other as fFloor);
+			//if (other is fWall)
+				//return this.renderWallShadow(light, other as fWall);
+			//return null;
+		//}
+		
+		/**
+		 * Calculates and projects shadows of another floor upon this floor
+		 */
+		//private function renderFloorShadow(light:fLight, other:fFloor):fPolygon
+		//{
+			//
+			// Read cache or write cache ?
+			//if (fFlash9FloorRenderer.floorProjectionCache.x != light.x || fFlash9FloorRenderer.floorProjectionCache.y != light.y || fFlash9FloorRenderer.floorProjectionCache.z != light.z || fFlash9FloorRenderer.floorProjectionCache.fl != other)
+			//{
+				//
+				// New Key
+				//fFlash9FloorRenderer.floorProjectionCache.x = light.x;
+				//fFlash9FloorRenderer.floorProjectionCache.y = light.y;
+				//fFlash9FloorRenderer.floorProjectionCache.z = light.z;
+				//fFlash9FloorRenderer.floorProjectionCache.fl = other;
+				//
+				// New value
+				//fFlash9FloorRenderer.floorProjectionCache.points = fProjectionSolver.calculateFloorProjection(light.x, light.y, light.z, other, this.element.z);
+				//
+			//}
+			//
+			// Deform
+			//var ret:fPolygon = this.applyIsometry(fFlash9FloorRenderer.floorProjectionCache.points, other);
+			//
+			//return ret;
+		//
+		//}
+		
+		/**
+		 * Calculates and draws the shadow of a given wall from a given light
+		 */
+		//private function renderWallShadow(light:fLight, wall:fWall):fPolygon
+		//{
+			//
+			//var cache:fWallProjectionCache = fFlash9FloorRenderer.wallProjectionCache[this.element.uniqueId + "_" + wall.uniqueId];
+			//if (!cache)
+				//cache = fFlash9FloorRenderer.wallProjectionCache[this.element.uniqueId + "_" + wall.uniqueId] = new fWallProjectionCache();
+			//
+			// Update cache ?
+			//if (cache.x != light.x || cache.y != light.y || cache.z != light.z)
+			//{
+				//
+				// New Key
+				//cache.x = light.x;
+				//cache.y = light.y;
+				//cache.z = light.z;
+				//
+				// New value
+				//cache.points = fProjectionSolver.calculateWallProjection(light.x, light.y, light.z, wall, this.element.z, this.scene);
+				//
+			//}
+			//
+			// Deform
+			//var ret:fPolygon = this.applyIsometry(cache.points, wall);
+			//
+			//return ret;
+		//
+		//}
+		
+		/**
+		 * Applies isometric projection to a given Polygon
+		 */
+		private function applyIsometry(poly:fPolygon, origin:fPlane):fPolygon
+		{
+			var ret:fPolygon = new fPolygon();
+			
+			// Contours
+			var contours:Array = poly.contours;
+			var cl:int = contours.length;
+			for (var k:int = 0; k < cl; k++)
+			{
+				// Clip against this Floor
+				var cont:Array = polygonUtils.clipPolygon(contours[k], this.vp);
+				var rcont:Array = new Array;
+				
+				// Project to 2d renderer coordinates
+				var cntl:int = cont.length;
+				for (var i:int = 0; i < cntl; i++)
+				{
+					var c:Point = cont[i];
+					rcont[rcont.length] = fScene.translateCoords(c.x - this.element.x, c.y - this.element.y, 0);
+				}
+				ret.contours[k] = rcont;
+			}
+			
+			// Holes
+			var holes:Array = poly.holes;
+			var hl:int = holes.length;
+			for (k = 0; k < hl; k++)
+			{
+				if (origin.holes[k].open)
+				{
+					
+					// Clip against this Floor
+					cont = polygonUtils.clipPolygon(holes[k], this.vp);
+					rcont = new Array;
+					
+					// Project to 2d renderer coordinates
+					cntl = cont.length;
+					for (i = 0; i < cntl; i++)
+					{
+						c = cont[i];
+						rcont[rcont.length] = fScene.translateCoords(c.x - this.element.x, c.y - this.element.y, 0);
+					}
+					ret.holes[k] = rcont;
+				}
+			}
+			
+			return ret;
+		}
+		
+		// OTHER
+		////////
+		
+		/** @private */
+		public function disposeFloorRenderer():void
+		{
+			//this.resetShadowsInt();
+			this.planeDeform = null;
+			this.disposePlaneRenderer();
+		}
+		
+		/** @private */
+		public override function dispose():void
+		{
+			this.disposeFloorRenderer();
+		}
+	
+		/*
+		// KBEN: 创建阻挡点调试信息格子
+		public override function createAssets():void
+		{
+			super.createAssets();
+			var floor:fFloor = this.element as fFloor;
+			var screenpos:Point;
+			
+			if (floor.scene.m_sceneConfig.isDebugStopPoint)
+			{
+				stopPtGrid = new Shape();
+				stopPtGrid.graphics.lineStyle(1);
+				stopPtGrid.graphics.beginFill(0xFFFFFF);
+				
+				// 绘制格子   
+				var k:int = 0;
+				while (k < floor.gWidth)
+				{
+					screenpos = fScene.translateCoords(k * floor.scene.gridSize, 0, 0);
+					stopPtGrid.graphics.moveTo(screenpos.x, screenpos.y);
+					
+					screenpos = fScene.translateCoords(k * floor.scene.gridSize, floor.depth, 0);
+					stopPtGrid.graphics.lineTo(screenpos.x, screenpos.y);
+					
+					++k;
+				}
+				
+				k = 0;
+				while (k < floor.gDepth)
+				{
+					screenpos = fScene.translateCoords(0, k * floor.scene.gridSize, 0);
+					stopPtGrid.graphics.moveTo(screenpos.x, screenpos.y);
+					
+					screenpos = fScene.translateCoords(floor.scene.width, k * floor.scene.gridSize, 0);
+					stopPtGrid.graphics.lineTo(screenpos.x, screenpos.y);
+						
+					++k;
+				}
+				
+				var m:uint = 0;
+				k = 0;
+				while (k < floor.gDepth)	// 行  
+				{
+					m = 0;
+					while (m < floor.gWidth)	// 列 
+					{
+						var c:fCell = floor.scene.getCellAt(m + floor.i, k + floor.j, 0);
+						if (c.stoppoint.isStop)	// 绘制阻挡点  
+						{
+							drawGrid(m, k);
+						}
+						
+						++m;
+					}
+
+					++k;
+				}
+				
+				stopPtGrid.graphics.endFill();
+
+				// KBEN: 添加到最上层     
+				if (!this.baseContainer.contains(stopPtGrid))
+				{
+					this.baseContainer.addChild(stopPtGrid);
+				}
+			}
+		}
+		
+		// KBEN: 绘制一个阻挡点格子，现在只支持二维  
+		public function drawGrid(ix:uint, iy:uint):void
+		{
+			// KBEN: 绘制阻挡点只有在调试的时候会使用，就多一次转换吧  
+			if (this.scene.m_sceneConfig.isDebugStopPoint)
+			{
+				var screenpos:Point;
+
+				screenpos = fScene.translateCoords(ix * this.scene.gridSize, iy * this.scene.gridSize, 0);
+				stopPtGrid.graphics.moveTo(screenpos.x, screenpos.y);
+				
+				screenpos = fScene.translateCoords((ix + 1) * this.scene.gridSize, (iy + 1) * this.scene.gridSize, 0);
+				stopPtGrid.graphics.lineTo(screenpos.x, screenpos.y);
+				
+				screenpos = fScene.translateCoords((ix + 1) * this.scene.gridSize, iy * this.scene.gridSize, 0);
+				stopPtGrid.graphics.moveTo(screenpos.x, screenpos.y);
+				
+				screenpos = fScene.translateCoords(ix * this.scene.gridSize, (iy + 1) * this.scene.gridSize, 0);
+				stopPtGrid.graphics.lineTo(screenpos.x, screenpos.y);
+			}
+		}
+		*/
+	}
+}
