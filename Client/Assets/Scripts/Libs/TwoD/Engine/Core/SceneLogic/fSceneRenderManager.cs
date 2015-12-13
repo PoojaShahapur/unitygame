@@ -1,31 +1,5 @@
-// RENDER AND ZSORT LOGIC
-package org.ffilmation.engine.core.sceneLogic
+namespace SDK.Lib
 {
-	// Imports
-	import com.pblabs.engine.debug.Logger;
-	import com.pblabs.engine.entity.BeingEntity;
-	import com.pblabs.engine.entity.EffectEntity;
-	import com.pblabs.engine.entity.EntityCValue;
-	import com.util.DebugBox;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import org.ffilmation.engine.core.fCamera;
-	import org.ffilmation.engine.core.fRenderableElement;
-	import org.ffilmation.engine.core.fScene;
-	import org.ffilmation.engine.datatypes.fCell;
-	import org.ffilmation.engine.elements.fCharacter;
-	import org.ffilmation.engine.elements.fEmptySprite;
-	import org.ffilmation.engine.elements.fFloor;
-	import org.ffilmation.engine.elements.fSceneObject;
-	import org.ffilmation.engine.helpers.fUtil;
-	import org.ffilmation.engine.interfaces.fEngineRenderEngine;
-	import org.ffilmation.engine.elements.fObject;
-	
-	/**
-	 * This class manages which elements are visible inside the viewport, zSorts them, and calls
-	 * methods from the render engine to create/destroy their graphic assets
-	 * @private
-	 */
 	public class fSceneRenderManager
 	{
 		// Properties
@@ -73,7 +47,6 @@ package org.ffilmation.engine.core.sceneLogic
 			//_staticElementV = new Array();
 		}
 		
-	
 		// KBEN: 优化裁剪
 		public function processNewCellCamera(cam:fCamera):void
 		{
@@ -153,8 +126,6 @@ package org.ffilmation.engine.core.sceneLogic
 			this.scene.m_depthDirty = true; // KBEN: 必须重新排序，至于是否真的需要排序，在排序的时候检查
 		}
 		
-
-		
 		// Process
 		public function processNewCellCharacter(character:fCharacter, needDepthsort:Boolean = true):void
 		{
@@ -170,10 +141,6 @@ package org.ffilmation.engine.core.sceneLogic
 			// If visible, we place it
 			if (character._visible)
 			{
-								
-				// Inside range ?
-				//if (character.distance2d(x, y, z) < this.range)
-				//if (this.scene.currentCamera.m_scrollRect.contains(character.x, character.y))
 				if (this.cell.m_scrollRect.contains(character.x, character.y))
 				{
 					// Create if it enters the screen
@@ -213,14 +180,6 @@ package org.ffilmation.engine.core.sceneLogic
 				if (EntityCValue.SLBuild != character.layer) // 如果不是地物层
 				{
 					character.setDepth(character.cell.zIndex, needDepthsort);
-					/*if(character is this.scene.engine.m_context.m_typeReg.m_classes[EntityCValue.TPlayerMain])
-					   {
-					   character.setDepth(character.cell.zIndex, false);
-					   }
-					   else
-					   {
-					   character.setDepth(character.cell.zIndex);
-					 }*/
 				}
 			}
 			
@@ -234,9 +193,6 @@ package org.ffilmation.engine.core.sceneLogic
 			// If visible, we place it
 			if (spr._visible)
 			{						
-				// Inside range ?
-				//if (spr.distance2d(x, y, z) < this.range)
-				//if (this.scene.currentCamera.m_scrollRect.contains(spr.x, spr.y))
 				if (this.cell.m_scrollRect.contains(spr.x, spr.y))
 				{
 					// Create if it enters the screen
@@ -268,61 +224,6 @@ package org.ffilmation.engine.core.sceneLogic
 				spr.updateDepth();
 			}
 		}
-		
-		// Process New cell for Bullets
-		/*
-		   public function processNewCellBullet(bullet:fBullet):void
-		   {
-		   // If it goes outside the scene, destroy it
-		   if (bullet.cell == null)
-		   {
-		   this.scene.removeBullet(bullet);
-		   return;
-		   }
-		
-		   // If visible, we place it
-		   if (bullet._visible)
-		   {
-		   var x:Number, y:Number, z:Number;
-		   try
-		   {
-		   x = this.cell.x;
-		   y = this.cell.y;
-		   z = this.cell.z;
-		   }
-		   catch (e:Error)
-		   {
-		   x = 0;
-		   y = 0;
-		   z = 0;
-		   }
-		
-		   // Inside range ?
-		   if (bullet.distance2d(x, y, z) < this.range)
-		   {
-		   // Create if it enters the screen
-		   if (!bullet.isVisibleNow)
-		   {
-		   this.renderEngine.showElement(bullet);
-		   this.addToDepthSort(bullet);
-		   bullet.isVisibleNow = true;
-		   }
-		   }
-		   else
-		   {
-		   // Destroy if it leaves the screen
-		   if (bullet.isVisibleNow)
-		   {
-		   this.renderEngine.hideElement(bullet);
-		   this.removeFromDepthSort(bullet);
-		   bullet.isVisibleNow = false;
-		   }
-		   }
-		   }
-		
-		   bullet.setDepth(bullet.cell.zIndex);
-		   }
-		 */
 		
 		// KBEN: 特效处理 
 		public function processNewCellEffect(effect:EffectEntity):void
@@ -373,52 +274,7 @@ package org.ffilmation.engine.core.sceneLogic
 			
 			effect.setDepth(effect.cell.zIndex);
 		}
-		
-		// KBEN: 掉落物处理 
-		public function processNewCellFObject(fobject:fSceneObject):void
-		{
-			// If it goes outside the scene, destroy it
-			if (fobject.cell == null)
-			{
-				this.scene.removeFObject(fobject);
-				return;
-			}
-			
-			// If visible, we place it
-			if (fobject._visible)
-			{
-				
-				// Inside range ?
-				//if (fobject.distance2d(x, y, z) < this.range)
-				//if (this.scene.currentCamera.m_scrollRect.contains(fobject.x, fobject.y))
-				if (this.cell.m_scrollRect.contains(fobject.x, fobject.y))
-				{
-					// Create if it enters the screen
-					if (!fobject.isVisibleNow)
-					{
-						this.elementsV[this.elementsV.length] = fobject;
-						this.renderEngine.showElement(fobject);
-						this.addToDepthSort(fobject);
-						fobject.isVisibleNow = true;
-					}
-				}
-				else
-				{
-					// Destroy if it leaves the screen
-					if (fobject.isVisibleNow)
-					{
-						var pos:int = this.elementsV.indexOf(fobject);
-						this.elementsV.splice(pos, 1);
-						this.renderEngine.hideElement(fobject);
-						this.removeFromDepthSort(fobject);
-						fobject.isVisibleNow = false;
-					}
-				}
-			}
-			
-			fobject.setDepth(fobject.cell.zIndex);
-		}
-		
+
 		// Listens to elements made visible and adds assets to display list if they are within display range
 		public function showListener(evt:Event):void
 		{
@@ -436,23 +292,6 @@ package org.ffilmation.engine.core.sceneLogic
 					return;
 				}
 				
-				/*var x:Number, y:Number, z:Number;
-				
-				   try
-				   {
-				   x = this.cell.x;
-				   y = this.cell.y;
-				   z = this.cell.z;
-				   }
-				   catch (e:Error)
-				   {
-				   x = 0;
-				   y = 0;
-				   z = 0;
-				 }*/
-				
-				//if (!ele.isVisibleNow && ele._visible && ele.distance2d(x, y, z) < this.range)
-				//if (!ele.isVisibleNow && ele._visible && this.scene.currentCamera.m_scrollRect.contains(ele.x, ele.y))
 				if (!ele.isVisibleNow && ele._visible && this.cell.m_scrollRect.contains(ele.x, ele.y))
 				{
 					ele.isVisibleNow = true;
@@ -474,10 +313,6 @@ package org.ffilmation.engine.core.sceneLogic
 					{
 						this.charactersV[this.charactersV.length] = ele as fCharacter;
 					}
-					//else if (ele is fFloor || ele is ThingEntity)
-					//{
-					//	_staticElementV[this._staticElementV.length] = ele;
-					//}
 					else if (ele is EffectEntity)
 					{
 						this.elementsV[this.elementsV.length] = ele;
@@ -490,15 +325,7 @@ package org.ffilmation.engine.core.sceneLogic
 							this.elementsV[this.elementsV.length] = ele;
 						}
 					}
-					//else if (ele is fEmptySprite)
-					//{
-					//	this.emptySpritesV[this.emptySpritesV.length] = ele;
-					//}
-					//else
-					//{
-					//	throw new Error("[addedItem] type is not distinguish");
-					//}
-					
+
 					// Redo depth sort
 					// KBEN: 地形不排序，只可视化剔除   
 					if (!(ele is fFloor))
@@ -556,28 +383,13 @@ package org.ffilmation.engine.core.sceneLogic
 			{
 				ele.isVisibleNow = false;
 				// KBEN:    
-				//if (ele is fCharacter)
 				if (ele is fFloor)
 				{
-					//pos = this._staticElementV.indexOf(ele);
-					//if (pos >= 0)
-					//{
-					//this._staticElementV.splice(pos, 1);
 					this.renderEngine.hideElement(ele);
-						// KBEN: fFloor 不参与深度排序   
-						//this.removeFromDepthSort(ele);
-						//}
+					// KBEN: fFloor 不参与深度排序   
+					//this.removeFromDepthSort(ele);
+					//}
 				}
-				//else if (ele is ThingEntity)
-				//{
-				//pos = this._staticElementV.indexOf(ele);
-				//if (pos >= 0)
-				//{
-				//this._staticElementV.splice(pos, 1);
-				//	this.renderEngine.hideElement(ele);
-				//	this.removeFromDepthSort(ele);
-				//}
-				//}
 				else if (ele is BeingEntity)
 				{
 					// KBEN:   
@@ -600,16 +412,6 @@ package org.ffilmation.engine.core.sceneLogic
 						this.removeFromDepthSort(ele);
 					}
 				}
-				//else if (ele is fEmptySprite)
-				//{
-				//pos = this.emptySpritesV.indexOf(ele);
-				//if (pos >= 0)
-				//{
-				//	this.emptySpritesV.splice(pos, 1);
-				//	this.renderEngine.hideElement(ele);
-				//	this.removeFromDepthSort(ele);
-				//}
-				//}
 				else if (ele is this.scene.engine.m_context.m_typeReg.m_classes[EntityCValue.TFallObject])
 				{
 					pos = this.elementsV.indexOf(ele);
@@ -626,70 +428,15 @@ package org.ffilmation.engine.core.sceneLogic
 					this.renderEngine.hideElement(ele);
 					this.removeFromDepthSort(ele);
 					
-						// Redo depth sort
-						// KBEN: 需要深度排序,移除的时候不需要深度排序吧
-						//if (!destroyingScene)
-						//{
-						//this.depthSort();
-						//	this.scene.m_depthDirty = true;
-						//}
+					// Redo depth sort
+					// KBEN: 需要深度排序,移除的时候不需要深度排序吧
+					//if (!destroyingScene)
+					//{
+					//this.depthSort();
+					//	this.scene.m_depthDirty = true;
+					//}
 				}
 			}
-//			else 	// KBEN: 如果不可见 
-//			{
-//				// KBEN:    
-//				//if (ele is fCharacter)
-//				if (ele is BeingEntity)
-//				{
-//					// KBEN:   
-//					//var ch:fCharacter = ele as fCharacter;
-//					ch = ele as BeingEntity;
-//					pos = this.charactersV.indexOf(ch);
-//					if (pos >= 0)
-//					{
-//						this.charactersV.splice(pos, 1);
-//					}
-//				}
-//				else if (ele is fFloor || ele is ThingEntity)
-//				{
-//					pos = this._staticElementV.indexOf(ele);
-//					if (pos >= 0)
-//					{
-//						this._staticElementV.splice(pos, 1);
-//					}
-//				}
-//				else if(ele is EffectEntity)
-//				{
-//					pos = this.elementsV.indexOf(ele);
-//					if (pos >= 0)
-//					{
-//						this.elementsV.splice(pos, 1);
-//					}
-//				}
-//				else if (ele is fEmptySprite)
-//				{
-//					pos = this.emptySpritesV.indexOf(ele);
-//					if (pos >= 0)
-//					{
-//						this.emptySpritesV.splice(pos, 1);
-//					}
-//				}
-//				else if(ele is this.scene.engine.m_context.m_typeReg.m_classes[EntityCValue.TFallObject])
-//				{
-//					pos = this.elementsV.indexOf(ele);
-//					if (pos >= 0)
-//					{
-//						this.elementsV.splice(pos, 1);
-//					}
-//				}
-//				else
-//				{
-//					throw new Error("[addedItem] type is not distinguish");
-//				}
-//			}
-			// Redo depth sort
-			//if (!destroyingScene)
-			//	this.depthSort();
 		}
 		
 		// Adds an element to the depth sort array
@@ -709,41 +456,7 @@ package org.ffilmation.engine.core.sceneLogic
 			this.depthSortArr.splice(this.depthSortArr.indexOf(item), 1);
 			item.removeEventListener(fRenderableElement.DEPTHCHANGE, this.depthChangeListener);
 		}
-		
-		/*
-		   // Listens to renderable elements changing their depth
-		   public function depthChangeListener(evt:Event):void
-		   {
-		   // 如果深度排序应经需要重新排序了，就没有必然在单独排序自己了
-		   if(this.scene.m_depthDirty || !this.scene.m_sortByBeingMove)
-		   {
-		   return;
-		   }
-		
-		   var el:fRenderableElement = evt.target as fRenderableElement;
-		   var oldD:int = el.depthOrder;
-		   // KBEN: 插入排序
-		   //this.depthSortArr.sortOn(insortSort);
-		   fUtil.insortSort(this.depthSortArr);
-		   var newD:int = this.depthSortArr.indexOf(el);
-		   if (newD != oldD)
-		   {
-		   el.depthOrder = newD;
-		   //this.scene.container.setChildIndex(el.container, newD);
-		   // KBEN: 地形不排序，阴影需要排序
-		   // KBEN: 不需要深度排序的不会调用 addToDepthSort 这个函数，因此这里不用调用这个函数
-		   if (this.scene.m_SceneLayer[EntityCValue.SLObject].contains(el.container) && newD < this.scene.m_SceneLayer[EntityCValue.SLObject].numChildren)
-		   {
-		   this.scene.m_SceneLayer[EntityCValue.SLObject].setChildIndex(el.container, newD);
-		   }
-		   else
-		   {
-		   Logger.info(null, null, "depthChangeListener error");
-		   }
-		   }
-		   }
-		 */
-		
+
 		public function depthChangeListener(evt:Event):void
 		{
 			// 如果深度排序应经需要重新排序了，就没有必然在单独排序自己了
@@ -849,13 +562,7 @@ package org.ffilmation.engine.core.sceneLogic
 					delete this.charactersV[i];
 			}
 			this.charactersV = null;
-			//if (this.emptySpritesV)
-			//{
-			//	il = this.emptySpritesV.length;
-			//	for (i = 0; i < il; i++)
-			//		delete this.emptySpritesV[i];
-			//}
-			//this.emptySpritesV = null;
+
 			this.cell = null;
 			this.m_preCell = null;
 		}

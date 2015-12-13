@@ -1,12 +1,5 @@
-package org.ffilmation.engine.core.sceneLogic
+namespace SDK.Lib
 {
-	import com.pblabs.engine.entity.EffectEntity;
-	import com.pblabs.engine.entity.EntityCValue;
-	import org.ffilmation.engine.core.fScene;
-	/**
-	 * ...
-	 * @author 
-	 */
 	public class fEffectSceneLogic 
 	{
 		// 进入新的单元格子处理   

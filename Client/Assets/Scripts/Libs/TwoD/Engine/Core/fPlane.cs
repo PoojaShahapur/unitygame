@@ -57,8 +57,6 @@ namespace SDK.Lib
 				_resDic[0][0].removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
 				_resDic[0][0].removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
 				
-				//_resDic[0][0].decrementReferenceCount();
-				//this.scene.engine.m_context.m_resMgrNoProg.unload(_resDic[0][0].filename, SWFResource);
 				this.m_context.m_resMgr.unload(_resDic[0][0].filename, SWFResource);
 				_resDic[0][0] = null;
 			}
@@ -132,10 +130,8 @@ namespace SDK.Lib
 			event.resourceObject.removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
 			event.resourceObject.removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
 			
-			//_resDic[0][0].decrementReferenceCount();
 			_resDic[0][0] = null;
 	
-			//this.scene.engine.m_context.m_resMgrNoProg.unload(event.resourceObject.filename, SWFResource);
 			this.m_context.m_resMgr.unload(event.resourceObject.filename, SWFResource);
 	
 			var res:SWFResource = event.resourceObject as SWFResource;
