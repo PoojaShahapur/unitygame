@@ -15,7 +15,7 @@ namespace SDK.Lib
     {
         public const string TRUE = "true";
         public const string FALSE = "false";
-        public const double PI = Math.PI;
+        public const double PI = UnityEngine.Mathf.PI;
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -809,7 +809,7 @@ namespace SDK.Lib
 
         static public double Sqrt(double d)
         {
-            return Math.Sqrt(d);
+            return UnityEngine.Mathf.Sqrt(d);
         }
 
         static public void SetDirty(UnityEngine.Object obj)
@@ -837,25 +837,25 @@ namespace SDK.Lib
          */
         static public float tan(double a)
         {
-            return (float)(Math.Tan(a));
+            return (float)(UnityEngine.Mathf.Tan(a));
         }
 
         /**
          * @brief atan
          */
-        static public float atan(double a)
+        static public float atan(float a)
         {
-            return (float)(Math.Atan(a));
+            return (float)(UnityEngine.Mathf.Atan(a));
         }
 
         static public int powerTwo(int exponent)
         {
-            return (int)Math.Pow(2, exponent);
+            return (int)UnityEngine.Mathf.Pow(2, exponent);
         }
 
         static public float Abs(float value)
         {
-            return Math.Abs(value);
+            return UnityEngine.Mathf.Abs(value);
         }
     }
 }

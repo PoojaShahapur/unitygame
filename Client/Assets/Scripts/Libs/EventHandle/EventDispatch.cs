@@ -180,5 +180,10 @@ namespace SDK.Lib
                 m_handleList.Add(handle);
             }
         }
+
+        public int getHandleCount()
+        {
+            return m_handleList.Count();
+        }
     }
 }

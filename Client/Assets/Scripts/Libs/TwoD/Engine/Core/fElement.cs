@@ -1,12 +1,13 @@
 using System;
+using System.Security;
 
 namespace SDK.Lib
 {
-	public class fElement
-	{
+	public class fElement : EventDispatchGroup, ITickedObject, IDelayHandleItem, IDispatchObject
+    {
 		private static int count = 0;
 		public string id;
-		public XmlNode xmlObj;
+		public SecurityElement xmlObj;
 		public int uniqueId;
 		public float x;
 		public float y;
@@ -14,14 +15,14 @@ namespace SDK.Lib
 
 		public fCell cell;
 		// KBEN: 元素所在的地形区域
-		public fFloor m_district;
-		
+		public fFloor m_district;		
 		public Object customData;
-		
-	
-		public static string MOVE = "elementmove";
+        public  flash9Renderer;
 
-		public static string NEWCELL = "elementnewcell";
+        // elementmove 元素移动事件
+        public static int MOVE = 0;
+        // elementnewcell 元素进入新的单元格子
+        public static int NEWCELL = 1;
 		
 		protected float destx = 0;
 		protected float desty = 0;
@@ -37,15 +38,15 @@ namespace SDK.Lib
 		private fEngineElementController _controller = null;
 		// KBEN: fFloor 
 		
-		public fElement(XmlNode defObj)
+		public fElement(SecurityElement defObj)
 		{
-			// Id
 			this.xmlObj = defObj;
-			var temp:XMLList = defObj.@id;
-			
-			this.uniqueId = fElement.count++;
-			if (temp.length() == 1)
-				this.id = temp.toString();
+            string temp = "";
+            UtilXml.getXmlAttrStr(defObj, "id", ref temp);
+
+            this.uniqueId = fElement.count++;
+			if (temp.Length == 1)
+				this.id = temp;
 			else
 				this.id = "fElement_" + this.uniqueId;
 
@@ -53,15 +54,9 @@ namespace SDK.Lib
 			this.cell = null;
 			
 			// 基本坐标
-			this.x = new Number(defObj.@x[0]);
-			this.y = new Number(defObj.@y[0]);
-			this.z = new Number(defObj.@z[0]);
-			if (isNaN(this.x))
-				this.x = 0;
-			if (isNaN(this.y))
-				this.y = 0;
-			if (isNaN(this.z))
-				this.z = 0;
+            UtilXml.getXmlAttrFloat(defObj, "x", ref this.x);
+            UtilXml.getXmlAttrFloat(defObj, "y", ref this.y);
+            UtilXml.getXmlAttrFloat(defObj, "z", ref this.z);
 			
 			this.customData = new Object();
 		}
@@ -96,28 +91,29 @@ namespace SDK.Lib
 			
 			this.elasticity = 1 + elasticity;
 			// KBEN: 如果这个地方跟随者没有移动，moveListener 这个函数就不会被调用
-			target.addEventListener(fElement.MOVE, this.moveListener, false, 0, true);
+			target.addEventHandle(fElement.MOVE, this.moveListener);
 		}
 		
 		public void stopFollowing(fElement target)
 		{
-			target.removeEventListener(fElement.MOVE, this.moveListener);
+			target.removeEventHandle(fElement.MOVE, this.moveListener);
 		}
 		
-		public fElement moveListener(fMoveEvent evt)
+		public void moveListener(IDispatchObject dispObj)
 		{
-			if (this.elasticity == 1)
-				this.moveTo(evt.target.x - this.offx, evt.target.y - this.offy, evt.target.z - this.offz);
+            fMoveEvent evt = dispObj as fMoveEvent;
+            if (this.elasticity == 1)
+				this.moveTo(evt.dx - this.offx, evt.dy - this.offy, evt.dz - this.offz);
 			else
 			{
-				this.destx = evt.target.x - this.offx;
-				this.desty = evt.target.y - this.offy;
-				this.destz = evt.target.z - this.offz;
-				fEngine.stage.addEventListener('enterFrame', this.followListener, false, 0, true);
-			}
+				this.destx = evt.dx - this.offx;
+				this.desty = evt.dy - this.offy;
+				this.destz = evt.dz - this.offz;
+                Ctx.m_instance.m_tickMgr.addTick(this);
+            }
 		}
 		
-		public void followListener(Event evt)
+		public void followListener(IDispatchObject dispObj)
 		{
 			float dx = this.destx - this.x;
             float dy = this.desty - this.y;
@@ -133,13 +129,13 @@ namespace SDK.Lib
 			// 停止
 			if (dx < 1 && dx > -1 && dy < 1 && dy > -1 && dz < 1 && dz > -1)
 			{
-				fEngine.stage.removeEventListener('enterFrame', this.followListener);
+                Ctx.m_instance.m_tickMgr.delTick(this);
 			}
 		}
 		
 		public float distanceTo(float x, float y, float z)
 		{
-			return mathUtils.distance(x, y, this.x, this.y);
+			return MathUtils.distance(x, y, this.x, this.y);
 		}
 		
 		public void disposeElement()
@@ -147,11 +143,10 @@ namespace SDK.Lib
 			this.xmlObj = null;
 			this.cell = null;
 			this._controller = null;
-			if (fEngine.stage)
-				fEngine.stage.removeEventListener('enterFrame', this.followListener);
-		}
+            Ctx.m_instance.m_tickMgr.delTick(this);
+        }
 		
-		public void dispose()
+		virtual public void dispose()
 		{
 			this.customData.flash9Renderer = null;
 			this.disposeElement();
@@ -159,7 +154,17 @@ namespace SDK.Lib
 		
 		public void onTick(float deltaTime)
 		{
-			
-		}
-	}
+            this.followListener(null);
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
+        }
+    }
 }

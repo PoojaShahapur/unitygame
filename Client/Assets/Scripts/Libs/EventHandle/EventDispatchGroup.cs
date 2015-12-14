@@ -25,6 +25,11 @@ namespace SDK.Lib
 
         public void addEventHandle(int groupID, Action<IDispatchObject> handle)
         {
+            // 如果没有就创建一个
+            if (!m_groupID2DispatchDic.ContainsKey(groupID))
+            {
+                addEventDispatch(groupID, new EventDispatch());
+            }
             m_groupID2DispatchDic[groupID].addEventHandle(handle);
         }
 
@@ -33,6 +38,12 @@ namespace SDK.Lib
             if (m_groupID2DispatchDic.ContainsKey(groupID))
             {
                 m_groupID2DispatchDic[groupID].removeEventHandle(handle);
+
+                // 如果已经没有了
+                if (m_groupID2DispatchDic[groupID].getHandleCount() == 0)
+                {
+                    m_groupID2DispatchDic.Remove(groupID);
+                }
             }
             else
             {

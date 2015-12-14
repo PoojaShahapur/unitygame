@@ -60,6 +60,11 @@ namespace SDK.Lib
             }
         }
 
+        public void delTick(ITickedObject tickObj)
+        {
+            this.delObject(tickObj as IDelayHandleItem);
+        }
+
         public override void delObject(IDelayHandleItem delayObject)
         {
             if (bInDepth())

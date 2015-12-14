@@ -2,34 +2,18 @@ namespace SDK.Lib
 {
 	public class fCharacterSceneLogic
 	{
-		// Process New cell for Characters
-		public static function processNewCellCharacter(scene:fScene, character:fCharacter, forceReset:Boolean = false):void
+		// 处理 Character 进入新的 Cell
+		public static void processNewCellCharacter(fScene scene, fCharacter character, bool forceReset = false)
 		{
-			if (scene.engine.m_context.m_profiler)
-				scene.engine.m_context.m_profiler.enter("fCharacterSceneLogic.processNewCellCharacter");
-				
-			// KBEN: 是否更改 Floor ，EntityCValue.TPlayer 和 TNpc 同处理，因此就赋值 TPlayer
-			var i:int = 0;
-			
-			if (scene.engine.m_context.m_profiler)
-				scene.engine.m_context.m_profiler.exit("fCharacterSceneLogic.processNewCellCharacter");
+            // KBEN: 是否更改 Floor ，EntityCValue.TPlayer 和 TNpc 同处理，因此就赋值 TPlayer
+            int i = 0;
 		}
 		
-		// Main render method for characters
-		public static function renderCharacter(scene:fScene, character:fCharacter):void
+		// characters 的主要渲染方法
+		public static void renderCharacter(fScene scene, fCharacter character)
 		{
-			//if (scene.prof)
-			//	scene.prof.begin("Render char:" + character.id, true);
-			if (scene.engine.m_context.m_profiler)
-				scene.engine.m_context.m_profiler.enter("Render char:" + character.id);
-			
-			//var light:fOmniLight, elements:Array, nEl:int, len:int, cache:fCharacterShadowCache;
-			
-			// Move character to its new position
-			scene.renderEngine.updateCharacterPosition(character);
-
-			if (scene.engine.m_context.m_profiler)
-				scene.engine.m_context.m_profiler.exit("Render char:" + character.id);
+            // 移动 character 到新的位置
+            scene.renderEngine.updateCharacterPosition(character);
 		}
 	}
 }

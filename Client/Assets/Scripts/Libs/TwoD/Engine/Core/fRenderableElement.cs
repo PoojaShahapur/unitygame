@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Security;
+
 namespace SDK.Lib
 {
 	public class fRenderableElement : fElement
@@ -17,9 +20,9 @@ namespace SDK.Lib
 		public bool willBeVisible = false;
 
 		// KBEN: 可渲染元素，必然有资源，字典中存放一个数组，里面存放是的每一个方向的资源      
-		public var _resDic:Dictionary;	//[act,Dictionary]的集合。其中Dictionary的是[direction, SWFResource]
-		// fObjectDefinition 是否初始化  
-		public var m_ObjDefRes:SWFResource;
+		public Dictionary<int, TextureRes> _resDic;	//[act,Dictionary]的集合。其中Dictionary的是[direction, ]
+		// fObjectDefinition 是否初始化
+		public TextRes m_ObjDefRes;
 		
 		// KBEN: 可绘制的元素属于的 fFloor 索引 
 		//public var m_floorIdx:int = -1;	// -1 表示没有 floor ，按一行一行
@@ -28,34 +31,35 @@ namespace SDK.Lib
 		protected bool m_bDisposed = false;
 		protected bool m_needDepthSort = true;
 
-		public static string DEPTHCHANGE = "renderableElementDepthChange";
-		
-		public static string SHOW = "renderableElementShow";
+        // renderableElementDepthChange
+        public static int DEPTHCHANGE = 0;
+        // renderableElementShow
+        public static int SHOW = 1;
+        // renderableElementHide
+        public static int HIDE = 2;
+        // renderableElementEnable
+        public static int ENABLE = 3;
+        // renderableElementDisable
+        public static int DISABLE = 4;
+        // renderableElementAssetsCreated
+        public static int ASSETS_CREATED = 5;
+        // renderableElementAssetsDestroyed
+        public static int ASSETS_DESTROYED = 6;
 
-		public static string HIDE = "renderableElementHide";
-
-		public static string ENABLE = "renderableElementEnable";
-
-		public static string DISABLE = "renderableElementDisable";
-
-		public static string ASSETS_CREATED = "renderableElementAssetsCreated";
-
-		public static string ASSETS_DESTROYED = "renderableElementAssetsDestroyed";
-
-		public fRenderableElement(XmlNode defObj, bool noDepthSort = false)
+		public fRenderableElement(SecurityElement defObj, bool noDepthSort = false)
 		{
-			super(defObj);
-			_resDic = new Dictionary();
+			base(defObj);
+			_resDic = new Dictionary<int, TextureRes>();
 		}
 		
 		public void disableMouseEvents()
 		{
-			dispatchEvent(new Event(fRenderableElement.DISABLE));
+			dispatchEvent(fRenderableElement.DISABLE, this);
 		}
 		
 		public void enableMouseEvents()
 		{
-			dispatchEvent(new Event(fRenderableElement.ENABLE));
+			dispatchEvent(fRenderableElement.ENABLE, this);
 		}
 		
 		public void show()
@@ -63,7 +67,7 @@ namespace SDK.Lib
 			if (!this._visible)
 			{
                 this._visible = true;
-				dispatchEvent(new Event(fRenderableElement.SHOW))
+                dispatchEvent(fRenderableElement.SHOW, this);
 			}
 		}
 		
@@ -72,7 +76,7 @@ namespace SDK.Lib
 			if (this._visible)
 			{
 				this._visible = false;
-				dispatchEvent(new Event(fRenderableElement.HIDE));
+				dispatchEvent(fRenderableElement.HIDE, this);
 			}
 		}
 
@@ -85,50 +89,13 @@ namespace SDK.Lib
 			// 记录所有的对象
 			if(dispatchmsg)
 			{
-				this.dispatchEvent(new Event(fRenderableElement.DEPTHCHANGE));
+				this.dispatchEvent(fRenderableElement.DEPTHCHANGE, this);
 			}
 		}
 
 		public float distance2d(float x, float y, float z)
 		{
-            Point p2d = fScene.translateCoords(x, y, z);
-			return this.distance2dScreen(p2d.x, p2d.y);
-		}
-
-		public void distance2dScreen(float x, float y)
-		{
-			if (this is fMovingElement)
-			{
-				this.screenArea = this.bounds2d.clone();
-				this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-			}
-			
-			// Test bounds
-			var bounds:Rectangle = this.screenArea;
-			var pos2D:Point = new Point(x, y);
-			var dist:Number = Infinity;
-			if (bounds.contains(pos2D.x, pos2D.y))
-				return 0;
-			
-			var corner1:Point = new Point(bounds.left, bounds.top);
-			var corner2:Point = new Point(bounds.left, bounds.bottom);
-			var corner3:Point = new Point(bounds.right, bounds.bottom);
-			var corner4:Point = new Point(bounds.right, bounds.top);
-			
-			var d:Number = mathUtils.distancePointToSegment(corner1, corner2, pos2D);
-			if (d < dist)
-				dist = d;
-			d = mathUtils.distancePointToSegment(corner2, corner3, pos2D);
-			if (d < dist)
-				dist = d;
-			d = mathUtils.distancePointToSegment(corner3, corner4, pos2D);
-			if (d < dist)
-				dist = d;
-			d = mathUtils.distancePointToSegment(corner4, corner1, pos2D);
-			if (d < dist)
-				dist = d;
-			
-			return dist;
+            return 0;
 		}
 		
 		public void disposeRenderable()
@@ -187,7 +154,7 @@ namespace SDK.Lib
 			return false;
 		}
 		
-		public uint actByRes(res:SWFResource)
+		public uint actByRes(TextureRes res)
 		{
 			for (var key:String in _resDic)
 			{
@@ -200,7 +167,7 @@ namespace SDK.Lib
 			return 0;
 		}
 		
-		public Dictionary getResDic() 
+		public Dictionary<int, TextureRes> getResDic() 
 		{
 			return _resDic;
 		}
@@ -230,7 +197,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN:
-		override public void onTick(float deltaTime)
+		public void onTick(float deltaTime)
 		{
 			// KBEN: 可视化判断，需要添加
 			if (this._visible && this.isVisibleNow)

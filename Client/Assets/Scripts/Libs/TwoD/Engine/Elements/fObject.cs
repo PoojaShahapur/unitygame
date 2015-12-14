@@ -106,21 +106,15 @@ namespace SDK.Lib
 			loadObjDefRes();
 		}
 		
-		public override function distanceTo(x:Number, y:Number, z:Number):Number
+		public override float distanceTo(float x, float y, float z)
 		{
-			var n1:Number = mathUtils.distance(x, y, this.x, this.y);
-			var n2:Number = mathUtils.distance(x, y, this.x, this.y);
+            float n1 = mathUtils.distance(x, y, this.x, this.y);
+            float n2 = mathUtils.distance(x, y, this.x, this.y);
 			
 			return (n1 < n2) ? n1 : n2;
 		}
 		
 		/**
-		 * The orientation (in degrees) of the object along the Z axis. That is, if the object was a man standing anywhere on our scene, this
-		 * would be where was his nose pointing. The default value of 0 indicates it is "looking" towards the positive X axis.
-		 *
-		 * The Axis in the Filmation Engine go like this.
-		 *
-		 *	<listing version="3.0">
 		 *		 positive Z
 		 *		         |
 		 *		         |      / positive X
@@ -131,60 +125,56 @@ namespace SDK.Lib
 		 *		            \
 		 *		              \
 		 *		                \ positive Y
-		 * </listing>
-		 *
-		 * @param angle The angle, in degrees, when want to set
 		 */
-		public function set orientation(angle:Number):void
+		public void setAttrOrientation(float angle)
 		{
 			angle += 45;
 			setOrientation(angle);
 		}
 		
-		protected function setOrientation(angle:Number):void
+		protected void setOrientation(float angle)
 		{
-			var correctedAngle:Number = angle % 360;
+			float correctedAngle = angle % 360;
 			if (correctedAngle < 0)
 				correctedAngle += 360;
 			this._orientation = correctedAngle;
 			correctedAngle /= 360;
 			if (isNaN(correctedAngle))
 				return;
-			
-			var newSprite:int = int(correctedAngle * this.definition.yCount);
+
+            int newSprite = int(correctedAngle * this.definition.yCount);
 			this.collisionModel.orientation = this.definition.angle(newSprite);
 			
-			// Dispatch event so the render engine updates the screen
 			this.dispatchEvent(new Event(fObject.NEWORIENTATION));
 		}
 		
-		public function get orientation():Number
+		public float getOrientation()
 		{
 			return this._orientation;
 		}
 		
-		public function set height(h:Number):void
+		public void setHeight(h)
 		{
 			this.collisionModel.height = h;
 			this.top = this.z + h;
 		}
 		
-		public function get height():Number
+		public float getHeight()
 		{
 			return this.collisionModel.height;
 		}
 
-		public function get radius():Number
+		public float getRadius()
 		{
 			return this.collisionModel.getRadius();
 		}
 		
-		public function get state():uint
+		public uint getState()
 		{
 			return m_state;
 		}
 		
-		public function set state(value:uint):void
+		public void setState(uint value)
 		{
 			if (m_state == value)
 			{
@@ -195,34 +185,29 @@ namespace SDK.Lib
 			this.gotoAndPlay(state2StateStr(m_state));
 		}
 		
-		public function onStateChange(oldState:uint, newState:uint):void
+		public void onStateChange(uint oldState, uint newState)
 		{
 			
 		}
 		
-		public function get leftInterval():Number
+		public float getLeftInterval()
 		{
 			return _leftInterval;
 		}
 		
-		public function set leftInterval(value:Number):void
+		public void setLeftInterval(float value)
 		{
 			_leftInterval = value;
 		}
 		
 		// KBEN: 这个就是切换状态的函数    
-		public override function gotoAndPlay(where:*):void
+		public override void gotoAndPlay(string where)
 		{
 			this.dispatchEvent(new Event(fObject.GOTOANDPLAY));
 		}
-		
-		/**
-		 * Passes the stardard gotoAndStop command to the base clip
-		 *
-		 * @param where A frame number or frame label
-		 */
+
 		// KBEN: 这个也是切换状态，有点多余，切换到站立状态的时候就是这个函数   
-		public override function gotoAndStop(where:*):void
+		public override void gotoAndStop(string where)
 		{
 			if (this.flashClip)
 				this.flashClip.gotoAndStop(where);
@@ -233,60 +218,41 @@ namespace SDK.Lib
 			this.dispatchEvent(new Event(fObject.GOTOANDSTOP));
 		}
 		
-		/**
-		 * Calls a function of the base clip
-		 *
-		 * @param what Name of the function to call
-		 *
-		 * @param param An optional extra parameter to pass to the function
-		 */
-		public override function call(what:String, param:* = null):void
+		public override void call(string what, ArrayList param = null)
 		{
 			if (this.flashClip)
 				this.flashClip[what](param);
 		}
 		
-		/**
-		 * Objects can't be moved
-		 * @private
-		 */
-		public override function moveTo(x:Number, y:Number, z:Number):void
+		public override void moveTo(float x, float y, float z)
 		{
 			throw new Error("Filmation Engine Exception: You can't move a fObject. If you want to move " + this.id + " make it an fCharacter");
 		}
 		
 		/** @private */
-		public function disposeObject():void
+		public void disposeObject()
 		{
 			// KBEN: 移除，否则会宕机
 			// bug: 这个地方会遍历 7 * 8 这么多次数
-			var dir:String;
-			for (var key:String in _resDic)
+			string dir;
+			for (String key in _resDic)
 			{
-				//dir = 0;
-				//while (dir < this.definition.yCount)
 				for(dir in _resDic[key])
 				{
 					if (_resDic[key][dir])
 					{
 						_resDic[key][dir].removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
 						_resDic[key][dir].removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
-						
-						//_resDic[key][dir].decrementReferenceCount();
-						//this.m_context.m_resMgrNoProg.unload(_resDic[key][dir].filename, SWFResource);
+
 						if (this.m_context.m_resMgr.getResource(_resDic[key][dir].filename, SWFResource))
 						{
 							this.m_context.m_resMgr.unload(_resDic[key][dir].filename, SWFResource);
 						}
 						_resDic[key][dir] = null;
 					}
-					
-					//++dir;
 				}
 				
 				_resDic[key] = null;
-				// bug: 不要一边遍历一边删除    
-				//delete _resDic[key];
 			}
 			_resDic = null;
 			
@@ -301,20 +267,16 @@ namespace SDK.Lib
 			}
 			
 			this.definition = null;
-			//this.sprites = null;
 			this.collisionModel = null;
-			
-			//this.disposeRenderable();
 		}
-		
-		/** @private */
-		public override function dispose():void
+
+		public override void dispose()
 		{
 			this.disposeObject();
 			super.dispose();
 		}
 		
-		public function state2StateStr(state:uint):String
+		public string state2StateStr(uint state)
 		{
 			switch (state)
 			{
@@ -337,7 +299,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		public function getAction():uint
+		public uint getAction()
 		{
 			switch (m_state)
 			{
@@ -361,7 +323,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN:转换状态字符串到对应的状态数字   
-		public static function convStateStr2ID(str:String):uint
+		public static uint convStateStr2ID(string str)
 		{
 			if (EntityCValue.TSStand == str)
 			{
@@ -396,7 +358,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 主要用来加载图片资源   
-		override public function loadRes(act:uint, direction:uint):void
+		override public void loadRes(uint act, uint direction)
 		{
 			// bug: 如果一个 fObject 正在加载配置文件,在没有加载完成的时候如果在此调用这个函数,就会导致资源的引用计数增加,但是监听器只有一个,导致资源卸载不了
 			if(this._resDic[act] && this._resDic[act][direction])	// 说明资源正在加载,但是没有加载完成,如果在此加载只能增加引用计数,但是监听器没有增加
@@ -404,10 +366,10 @@ namespace SDK.Lib
 				return;
 			}
 
-			// KBEN: 这个就是图片加载，配置文件需要兼容两者，渲染文件单独写就行了      
-			// 图片需要自己手工创建资源，启动解析配置文件的时候不再加载
-			// 注意 load 中如果直接调用 onResLoaded ，可能这个时候 _resDic 中对应 key 的内容还没有放到 _resDic 中 
-			var path:String;
+            // KBEN: 这个就是图片加载，配置文件需要兼容两者，渲染文件单独写就行了      
+            // 图片需要自己手工创建资源，启动解析配置文件的时候不再加载
+            // 注意 load 中如果直接调用 onResLoaded ，可能这个时候 _resDic 中对应 key 的内容还没有放到 _resDic 中 
+            string path;
 			//if (this.definition.dicAction[act].resPack)
 			//{
 			//	path = this.m_context.m_path.getPathByName(this.definition.dicAction[act].mediaPath, m_resType);
@@ -481,40 +443,6 @@ namespace SDK.Lib
 			var dir:int = 0;
 			var mirrordir:uint = 0; // 映射的方向
 			var curdir:uint = 0; // 模型当前方向
-			// bug: 这个地方有问题，遍历检查资源
-			/*
-			// test: 这个地方循环遍历检查初始化，可能浪费时间
-			for (var key:String in _resDic)
-			{
-			if (_resDic[key])
-			{
-			dir = 0;
-			while (dir < definition.yCount)
-			{
-			if (_resDic[key][dir] == event.resourceObject)
-			{
-			act = parseInt(key);
-			if (!_frameInitDic[act][dir])
-			{
-			_frameInitDic[act][dir] = true;
-			//this.definition.init(_resDic[act], act);
-			this.sprites = this.definition.sprites;
-			var r:fFlash9ElementRenderer = customData.flash9Renderer;
-			// bug : 可能渲染器被卸载了资源才被加载进来，结果就宕机了
-			if (r != null)
-			{
-			r.init(_resDic[act][dir], act, dir);
-			}
-		
-			Logger.info(null, null, _resDic[act][dir].filename + " loaded");
-			}
-			}
-		
-			++dir;
-			}
-			}
-			}
-			*/
 			
 			// 资源加载成功
 			act = int(fUtil.getActByPath(event.resourceObject.filename));
@@ -827,18 +755,6 @@ namespace SDK.Lib
 			var insdef:fObjectDefinition;
 			this.m_insID = insID;
 			
-			// 属性的继承    
-			//insdef = this.m_context.m_sceneResMgr.getInsDefinition(this.m_insID);
-			// 如果设置了重载属性
-			//if (insdef)
-			//{
-			//overwriteAtt(this.definition, insdef);
-			//}
-			//else	// 如果没有设置属性，就按照默认的规则进行处理    
-			//{
-			//adjustAtt(this.definition, m_insID);
-			//}
-			
 			// Define bounds. I need to load the symbol from the library to know its size. I will be destroyed immediately
 			this.top = this.z + this.height;
 			this.x0 = this.x - this.radius;
@@ -854,43 +770,7 @@ namespace SDK.Lib
 			// Screen area
 			this.screenArea = this.bounds2d.clone();
 			this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-			
-			//var key:String;
-			//for (key in this.definition.dicAction)
-			//{
-			//_framerateDic[key] = this.definition.dicAction[key].framerate;
-			//_framerateInvDic[key] = 1 / _framerateDic[key];
-			
-			//_repeatDic[key] = this.definition.dicAction[key].repeat;
-			//}
-			
-			// 生成自己数组 
-			//var dir:int = 0;
-			//var action:fActDefinition;
-			//for (key in this.definition.dicAction)
-			//{
-			//action = definition.dicAction[key];
-			//dir = 0;
-			//while (dir < _resDic[key].length)
-			//{
-			//if (_resDic[key][dir])
-			//{
-			//_resDic[key][dir].removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
-			//_resDic[key][dir].removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
-			//
-			//this.m_context.m_resMgrNoProg.unload(_resDic[key][dir].filename, SWFResource);
-			//_resDic[key][dir] = null;
-			//}
-			//
-			//_frameInitDic[key][dir] = false;
-			//
-			//++dir;
-			//}
-			//}
-			
-			//this.customData.flash9Renderer.disposeShow();
-			// 强制加载一次资源
-			//this.loadRes(this.getAction(), this.customData.flash9Renderer.actDir);
+
 			m_binsXml = false;
 			loadObjDefRes();
 		}
@@ -912,8 +792,6 @@ namespace SDK.Lib
 				var xml:XML;
 				xml = new XML(bytes.readUTFBytes(bytes.length));
 				
-				// bug: 不再拷贝
-				//insdef = new fObjectDefinition(xml.copy(), this.m_ObjDefRes.filename);
 				insdef = new fObjectDefinition(xml, this.m_ObjDefRes.filename);
 				xml = null;
 				this.m_context.m_sceneResMgr.addInsDefinition(insdef);
@@ -935,95 +813,9 @@ namespace SDK.Lib
 			{
 				// 重载属性     
 				overwriteAtt(this.definition, insdef);
-				// 调整名字   
-				//adjustAtt(this.definition, m_insID);
 			}
-			
-			//var w:Number = this.definition._width;
-			//var h:Number = this.definition._height;
-			//this.bounds2d.x = -w / 2;
-			//this.bounds2d.y = -h;
-			//this.bounds2d.width = w;
-			//this.bounds2d.height = h;
-			
-			// Screen area
-			//this.screenArea.x = -w / 2;
-			//this.screenArea.y = -h;
-			//this.screenArea.width = w;
-			//this.screenArea.height = h;
-			//this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-			
-			//var w:Number = this.definition.tagWidth;
-			//var h:Number = this.definition.tagHeight;
-			//this.m_tagBounds2d.x = -w / 2;
-			//this.m_tagBounds2d.y = -h;
-			//this.m_tagBounds2d.width = w;
-			//this.m_tagBounds2d.height = h;
-			
-			// 初始化真正的数据结构，数据在这里又重新赋值
-			//var action:fActDefinition;
-			//for (key in this.definition.dicAction)
-			//{
-			//	action = definition.dicAction[key];
-			//	_resDic[key] = new Vector.<SWFResource>(this.definition.yCount, true);
-			//	_frameInitDic[key] = new Vector.<Boolean>(this.definition.yCount, true);
-			//}
-			
 			updateFrameRate();
 		}
-		
-		/*
-		// 改变动作方向的时候更改相关的数据
-		public function changeInfoByActDir(act:uint, dir:uint):void
-		{
-			var action:fActDefinition;
-			var actdir:fActDirectDefinition;
-			action = this.definition.dicAction[act]
-			if (action)
-			{
-			actdir = action.directArr[dir];
-			// 初始化一下方向信息
-			if(actdir)
-			{
-			// 如果坐标原点没有偏移，就赋值默认值
-			//if (actdir.origin.x == 0 && actdir.origin.y == 0)
-			//{
-			//actdir.origin.x = Math.abs(this.bounds2d.x);
-			//actdir.origin.y = Math.abs(this.bounds2d.y);
-			//}
-			
-			// KBEN: 默认是取中心点
-			this.bounds2d.x = -actdir.origin.x;
-			this.bounds2d.y = -actdir.origin.y;
-			
-			//this.bounds2d.width = action.width;
-			//this.bounds2d.height = action.height;
-			this.bounds2d.width = this.definition._width;
-			this.bounds2d.height = this.definition._height;
-			
-			// Screen area
-			this.screenArea = this.bounds2d.clone();
-			this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-			
-			// 中心点左边比较小
-			if (2 * actdir.origin.x <= this.definition._width)
-			{
-			this.m_tagBounds2d.x = -actdir.origin.x;
-			this.m_tagBounds2d.y = -this.definition.tagHeight;
-			this.m_tagBounds2d.width = 2 * actdir.origin.x;
-			}
-			else
-			{
-			this.m_tagBounds2d.x = -(this.definition._width - actdir.origin.x);
-			this.m_tagBounds2d.y = -this.definition.tagHeight;
-			this.m_tagBounds2d.width = 2 * (this.definition._width - actdir.origin.x);
-			}
-			
-			this.m_tagBounds2d.height = this.definition.tagHeight;
-			}
-			}
-		}
-		 */
 		
 		public function changeInfoByActDir(act:uint, dir:uint):void
 		{

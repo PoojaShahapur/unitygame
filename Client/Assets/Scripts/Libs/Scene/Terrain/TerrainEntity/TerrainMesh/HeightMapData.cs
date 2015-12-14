@@ -160,6 +160,14 @@ namespace SDK.Lib
         }
 
         /**
+         * @brief 从内存加载一个图像
+         */
+        public bool LoadImage(byte[] data)
+        {
+            return m_heightMap.LoadImage(null);
+        }
+
+        /**
          * @brief 锁定显存
          */
         public void lockMem()
@@ -172,7 +180,7 @@ namespace SDK.Lib
          */
         public void unlock()
         {
-
+            
         }
 
         /**

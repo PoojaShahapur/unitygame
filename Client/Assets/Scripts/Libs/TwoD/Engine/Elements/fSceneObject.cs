@@ -2,8 +2,8 @@ namespace SDK.Lib
 {
 	public class fSceneObject : fObject 
 	{
-		public var scene:fScene;
-		public function fSceneObject(defObj:XML, scene:fScene):void
+		public fScene scene;
+		public void fSceneObject(defObj, fScene scene)
 		{
 			this.scene = scene;
 			super(defObj, scene.engine.m_context);

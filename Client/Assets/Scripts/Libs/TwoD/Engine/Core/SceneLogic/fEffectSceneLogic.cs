@@ -3,14 +3,14 @@ namespace SDK.Lib
 	public class fEffectSceneLogic 
 	{
 		// 进入新的单元格子处理   
-		public static function processNewCellEffect(scene:fScene, effect:EffectEntity, forceReset:Boolean = false):void
+		public static void processNewCellEffect(fScene scene, EffectEntity effect, bool forceReset = false)
 		{
 			// KBEN: 是否更改 Floor 
 			//effect.updateFloorInfo(EntityCValue.TEfffect);
 		}
 		
 		// 移动处理  
-		public static function renderEffect(scene:fScene, effect:EffectEntity):void
+		public static void renderEffect(fScene scene, EffectEntity effect)
 		{
 			scene.renderEngine.updateEffectPosition(effect);
 		}

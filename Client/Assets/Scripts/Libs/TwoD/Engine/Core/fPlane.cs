@@ -1,10 +1,12 @@
+using System.Security;
+
 namespace SDK.Lib
 {
 	public class fPlane : fRenderableElement
 	{
 		public static string NEWMATERIAL = "planenewmaterial";
 
-		public fMaterial material;
+		//public fMaterial material;
 		
 		public float zIndex;
 		
@@ -12,10 +14,10 @@ namespace SDK.Lib
 		private float planeHeight;
 		public fScene scene;
 		
-		public fPlane(XmlNode defObj, fScene scene, float width, float  height)
+		public fPlane(SecurityElement defObj, fScene scene, float width, float  height)
 		{
 			this.scene = scene;
-			super(defObj, scene.engine.m_context, defObj.@src.length() != 1);
+			base(defObj, scene.engine.m_context, defObj.@src.length() != 1);
 			
 			// 2 维
 			this.planeWidth = width;

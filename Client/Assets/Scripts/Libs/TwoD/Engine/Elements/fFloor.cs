@@ -1,67 +1,43 @@
+using System.Collections.Generic;
+using System.Security;
+
 namespace SDK.Lib
 {
 	public class fFloor : fPlane
 	{
-		public var gWidth:int;
-		/** @private */
-		public var gDepth:int;
-		/** @private */
-		public var i:int;
-		/** @private */
-		public var j:int;
-		/** @private */
-		public var k:int;
-		
-		// Public properties
-		
-		/**
-		 * Floor width in pixels. Size along x-axis
-		 */
-		public var width:Number;
-		
-		/**
-		 * Floor depth in pixels. Size along y-axis
-		 */
-		public var depth:Number;
-		
-		/** @private */
-		public var bounds:fPlaneBounds;
-		
+		public int gWidth;
+		public int gDepth;
+		public int i;
+		public int j;
+		public int k;
+   
+		public float width;
+
+		public float depth;
+
 		// KBEN: 存放这个区域中的动态改变的实体，查找使用 Dictionary ，遍历使用 Vector ，只有参与深度排序的内容才需要加入这里，方便快速剔除
 		// 某个元素的uniqueid 放在数组的下标
-		public var m_dynamicElementDic:Dictionary;
-		public var m_characterDic:Dictionary;
-		public var m_emptySpriteDic:Dictionary;
-		// 某个元素的数组中的下标对应元素的uniqueid
-		//public var m_dynamicElement2Dic:Dictionary;
-		//public var m_character2Dic:Dictionary;
-		//public var m_emptySprite2Dic:Dictionary;
-		
+		public Dictionary<string, int> m_dynamicElementDic;
+		public Dictionary<string, int> m_characterDic;
+		public Dictionary<string, int> m_emptySpriteDic;
+
 		// KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-		public var m_dynamicElementVec:Vector.<String>;
+		public MList<string> m_dynamicElementVec;
 		// KBEN: 存放人物，需要深度排序
-		public var m_characterVec:Vector.<String>;	
+		public MList<string> m_characterVec;	
 		// KBEN: 地上物，不会改变的地上建筑
-		public var m_staticVec:Vector.<String>;
-		// KBEN: 空精灵存放
-		public var m_emptyVec:Vector.<String>;
-		//public var m_fullVisible:Boolean = false;	// 这个格子中的内容是否全部可见
-		
-		// Constructor
-		/** @private */
-		function fFloor(defObj:XML, scene:fScene):void
+		public MList<string> m_staticVec;
+
+		public fFloor(SecurityElement defObj, fScene scene)
 		{
-			// Dimensions, parse size and snap to gride
 			this.gWidth = int((defObj.@width / scene.gridSize) + 0.5);
 			this.gDepth = int((defObj.@height / scene.gridSize) + 0.5);
 			this.width = scene.gridSize * this.gWidth;
 			this.depth = scene.gridSize * this.gDepth;
 			
-			// Previous
-			super(defObj, scene, this.width, this.depth);
+			base(defObj, scene, this.width, this.depth);
 			m_resType = EntityCValue.PHTER;
 			
-			// Specific coordinates
 			this.i = int((defObj.@x / scene.gridSize) + 0.5);
 			this.j = int((defObj.@y / scene.gridSize) + 0.5);
 			this.k = int((defObj.@z / scene.levelSize) + 0.5);
@@ -71,18 +47,6 @@ namespace SDK.Lib
 			this.x1 = this.x0 + this.width;
 			this.y1 = this.y0 + this.depth;
 			
-			// KBEN: 面板显示包围盒 
-			// Bounds
-			this.bounds = new fPlaneBounds(this);
-			var c1:Point = fScene.translateCoords(this.width, 0, 0);
-			var c2:Point = fScene.translateCoords(this.width, this.depth, 0);
-			var c3:Point = fScene.translateCoords(0, this.depth, 0);
-			this.bounds2d = new Rectangle(0, c1.y, c2.x, c3.y - c1.y);
-			
-			// Screen area
-			this.screenArea = this.bounds2d.clone();
-			this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-		
 			m_dynamicElementDic = new Dictionary();
 			m_characterDic = new Dictionary();
 			m_emptySpriteDic = new Dictionary();
@@ -90,9 +54,8 @@ namespace SDK.Lib
 			//m_character2Dic = new Dictionary();
 			//m_emptySprite2Dic = new Dictionary();
 			
-			m_dynamicElementVec = new Vector.<String>();
-			m_characterVec = new Vector.<String>();
-			m_emptyVec = new Vector.<String>();
+			m_dynamicElementVec = new Dictionary<string, int>();
+			m_characterVec = new Dictionary<string, int>();
 			
 			this.xmlObj = null;	// bug: 释放这个资源,总是释放不了这个 xml
 		}
@@ -138,21 +101,18 @@ namespace SDK.Lib
 			return Math.sqrt(dz * dz + d2d * d2d);
 		}
 		
-		/** @private */
-		public function disposeFloor():void
+		public void disposeFloor()
 		{
-			this.bounds = null;
 			this.disposePlane();
 		}
 		
-		/** @private */
-		public override function dispose():void
+		public override void dispose()
 		{
 			this.disposeFloor();
 		}
-		
-		// KBEN: id 是 fElement.uniqueId 和 fElement.id     
-		public function addDynamic(id:String):void
+
+        // KBEN: id 是 fElement.uniqueId 和 fElement.id     
+        public void addDynamic(string id)
 		{
 			if(!m_dynamicElementDic[id])
 			{
@@ -165,7 +125,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		public function clearDynamic(id:String):void
+		public void clearDynamic(string id)
 		{
 			if(m_dynamicElementDic[id])
 			{
@@ -194,7 +154,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		public function clearCharacter(id:String):void
+		public void clearCharacter(string id)
 		{	
 			if(m_characterDic[id])
 			{
@@ -211,27 +171,23 @@ namespace SDK.Lib
 		}
 		
 		// 显示这个区域中的各种可显示内容
-		public function showObject(cell:fCell):void
+		public void showObject(fCell cell)
 		{
-			// 计算所有可视化显示的内容
-			// KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-			var dynamicLength:uint;
-			var dynObject:fObject;
+            // 计算所有可视化显示的内容
+            // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
+            uint dynamicLength;
+			fObject dynObject;
 			
-			var i2:uint = 0;
-			var chLength:int = 0;
-			var character:fCharacter;
-			
-			var esLength:int = 0;
-			var spr:fEmptySprite;
-			
-			//var anyChanges:Boolean = false;
-			var distidx:int = -1;
+			uint i2 = 0;
+            int chLength = 0;
+            fCharacter character;
+
+            int esLength = 0;
+
+            int distidx = -1;
 			
 			dynamicLength = m_dynamicElementVec.length;
-			
-			//m_fullVisible = true;		// 区域裁剪之前设置全部可见标志
-			
+
 			for (i2 = 0; i2 < dynamicLength; i2++)
 			{
 				// 动态对象设置可视化状态
@@ -320,27 +276,24 @@ namespace SDK.Lib
 			// KBEN: 地上物，不会改变的地上建筑
 		}
 		
-		public function hideObject():void
+		public void hideObject()
 		{
-			// 计算所有可视化显示的内容
-			// KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-			var dynamicLength:uint;
-			var dynObject:fObject;
-			
-			var i2:uint = 0;
-			var chLength:int = 0;
-			var character:fCharacter;
-			
-			var esLength:int = 0;
-			var spr:fEmptySprite;
-			
-			//var anyChanges:Boolean = false;
-			var distidx:int = -1;
+            // 计算所有可视化显示的内容
+            // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
+            uint dynamicLength;
+            fObject dynObject;
+
+            uint i2 = 0;
+            int chLength = 0;
+            fCharacter character;
+
+            int esLength = 0;
+            fEmptySprite spr;
+
+            int distidx = -1;
 			
 			dynamicLength = m_dynamicElementVec.length;
-			
-			//m_fullVisible = false;		// 区域裁剪之前设置全部可见标志
-			
+
 			for (i2 = 0; i2 < dynamicLength; i2++)
 			{
 				// 动态对象设置可视化状态
