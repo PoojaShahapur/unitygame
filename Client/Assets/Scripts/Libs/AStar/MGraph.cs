@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace SDK.Lib
 {
     // 阻挡点
-    public class StopPoint
+    public class MStopPoint
     {
-        public StopPoint()
+        public MStopPoint()
         {
 
         }
@@ -34,7 +34,7 @@ namespace SDK.Lib
         public float m_distance;
         public bool m_bNeighborValid;      // 邻居数据是否有效，因为可能动态修改阻挡点
         public List<int> m_vertsIdVec;          // 保存邻居顶点 Id，这个数值只有在使用的时候才会动态生成，初始化的时候并不生成
-        public StopPoint m_pStopPoint;            // 阻挡点信息
+        public MStopPoint m_pStopPoint;            // 阻挡点信息
 
         public Vertex()
         {
@@ -260,7 +260,7 @@ namespace SDK.Lib
             return neighborCost;
         }
 
-        public void addStopPoint(int nx, int ny, StopPoint pStopPoint)
+        public void addStopPoint(int nx, int ny, MStopPoint pStopPoint)
         {
             int vertId = convXYToVertId(nx, ny);
             m_vertsVec[vertId].m_pStopPoint = pStopPoint;

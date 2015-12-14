@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace SDK.Lib
 {
 	public class fObject : fRenderableElement
@@ -38,13 +40,10 @@ namespace SDK.Lib
 		protected int m_preAct = -1;		// 为了模型偏移只计算一次，前一次动作
 		protected int m_preDir = -1;		// 为了模型偏移只计算一次，前一次方向
 		protected int m_preFrame = -1;		// 前一次帧
-		
-		protected Point m_MountserLinkOff = null;		// 骑乘者偏移，可能没有，只有有些坐骑才需要每一帧都调整
 
-		public fObject(defObj:XML)
+		public fObject(SecurityElement defObj)
+            : base(defObj)
 		{
-			super(defObj, con);
-			
 			var str:String = defObj.@definition;
 			
 			// this.definitionID 组成是这样子的， "aaa-bbb" : aaa 是模板的 ID ， bbb 是实例 ID 
@@ -209,24 +208,15 @@ namespace SDK.Lib
 		// KBEN: 这个也是切换状态，有点多余，切换到站立状态的时候就是这个函数   
 		public override void gotoAndStop(string where)
 		{
-			if (this.flashClip)
-				this.flashClip.gotoAndStop(where);
-			
 			// KBEN: 记录人物状态 
 			m_state = convStateStr2ID(where);
 			// Dispatch event so the render engine updates the screen
 			this.dispatchEvent(new Event(fObject.GOTOANDSTOP));
 		}
 		
-		public override void call(string what, ArrayList param = null)
-		{
-			if (this.flashClip)
-				this.flashClip[what](param);
-		}
-		
 		public override void moveTo(float x, float y, float z)
 		{
-			throw new Error("Filmation Engine Exception: You can't move a fObject. If you want to move " + this.id + " make it an fCharacter");
+			
 		}
 		
 		/** @private */
@@ -261,19 +251,17 @@ namespace SDK.Lib
 			{
 				this.m_ObjDefRes.removeEventListener(ResourceEvent.LOADED_EVENT, onObjDefResLoaded);
 				this.m_ObjDefRes.removeEventListener(ResourceEvent.FAILED_EVENT, onObjDefResFailed);
-				//this.m_context.m_resMgrNoProg.unload(this.m_ObjDefRes.filename, SWFResource);
 				this.m_context.m_resMgr.unload(this.m_ObjDefRes.filename, SWFResource);
 				this.m_ObjDefRes = null;
 			}
 			
 			this.definition = null;
-			this.collisionModel = null;
 		}
 
 		public override void dispose()
 		{
 			this.disposeObject();
-			super.dispose();
+			base.dispose();
 		}
 		
 		public string state2StateStr(uint state)
@@ -370,18 +358,11 @@ namespace SDK.Lib
             // 图片需要自己手工创建资源，启动解析配置文件的时候不再加载
             // 注意 load 中如果直接调用 onResLoaded ，可能这个时候 _resDic 中对应 key 的内容还没有放到 _resDic 中 
             string path;
-			//if (this.definition.dicAction[act].resPack)
-			//{
-			//	path = this.m_context.m_path.getPathByName(this.definition.dicAction[act].mediaPath, m_resType);
-			//}
-			//else
-			//{
-				// 有时候如果没有资源这个值就是 null
-				if (this.definition.dicAction[act].directDic[direction].mediaPath)
-				{
-					path = this.m_context.m_path.getPathByName(this.definition.dicAction[act].directDic[direction].mediaPath, m_resType);
-				}
-			//}
+			// 有时候如果没有资源这个值就是 null
+			if (this.definition.dicAction[act].directDic[direction].mediaPath)
+			{
+				path = this.m_context.m_path.getPathByName(this.definition.dicAction[act].directDic[direction].mediaPath, m_resType);
+			}
 			
 			// 路径存在才加载资源
 			if (path)
@@ -392,11 +373,9 @@ namespace SDK.Lib
 				var mirrordir:uint = 0; // 映射的方向
 				mirrordir = fUtil.getMirror(direction);
 				
-				//var res:SWFResource = this.m_context.m_resMgrNoProg.getResource(path, SWFResource) as SWFResource;
 				var res:SWFResource = this.m_context.m_resMgr.getResource(path, SWFResource) as SWFResource;
 				if (!res)
 				{
-					//_resDic[act][direction] = this.m_context.m_resMgrNoProg.load(path, SWFResource, onResLoaded, onResFailed);
 					_resDic[act][direction] = this.m_context.m_resMgr.load(path, SWFResource, onResLoaded, onResFailed);
 					if (mirrordir != direction)
 					{
@@ -433,7 +412,7 @@ namespace SDK.Lib
 		}
 		
 		// 资源加载成功     
-		public function onResLoaded(event:ResourceEvent):void
+		public void onResLoaded(ResourceEvent event)
 		{
 			event.resourceObject.removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
 			event.resourceObject.removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
@@ -449,19 +428,9 @@ namespace SDK.Lib
 			dir = int(fUtil.getDirByPath(event.resourceObject.filename));
 			mirrordir = fUtil.getMirror(dir);
 			// 确定最终的方向可能是镜像
-			//if(!_resDic[act][dir])
-			//{
-			//	dir = mirrordir;
-			//}
 			// 也有可能是两个映射方向同时加载，这个时候优先初始化当前模型动作方向
 			if (getAction() == act)
 			{
-				//if (!_frameInitDic[act] || !_frameInitDic[act][dir])
-				//{
-				//_frameInitDic[act] ||= new Vector.<Boolean>(8, true);	// 初始化动作 
-				//_frameInitDic[act][dir] = true;
-				
-				//this.sprites = this.definition.sprites;
 				var render:fFlash9ElementRenderer = customData.flash9Renderer;
 				// bug : 可能渲染器被卸载了资源才被加载进来，结果就宕机了，原来是主角过场景的时候从场景移除，结果 flash9Renderer 就为空了，结果这个时候资源加载进来了 
 				if (render)
@@ -473,14 +442,13 @@ namespace SDK.Lib
 						render.init(event.resourceObject as SWFResource, act, dir);
 					}
 				}
-				//}
 			}
 			
 			Logger.info(null, null, event.resourceObject.filename + " loaded");
 		}
 		
 		// 资源加载失败    
-		public function onResFailed(event:ResourceEvent):void
+		public void onResFailed(ResourceEvent event)
 		{
 			event.resourceObject.removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
 			event.resourceObject.removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
@@ -490,29 +458,6 @@ namespace SDK.Lib
 			var act:int = 0;
 			var dir:int = 0;
 			var mirrordir:uint = 0; // 映射的方向
-			
-			/*
-			for (var key:String in _resDic)
-			{
-			if (_resDic[key])
-			{
-			while (dir < definition.yCount)
-			{
-			if (_resDic[key][dir] == event.resourceObject)
-			{
-			// 删除资源，一定要减少引用计数
-			var path:String = _resDic[act][dir].filename;
-			//_resDic[act][dir].decrementReferenceCount();
-			_resDic[act][dir] = null;
-		
-			this.m_context.m_resMgrNoProg.unload(path, SWFResource);
-			}
-		
-			++dir;
-			}
-			}
-			}
-			*/
 			
 			// 资源加载成功
 			act = int(fUtil.getActByPath(event.resourceObject.filename));
@@ -528,14 +473,10 @@ namespace SDK.Lib
 				delete _resDic[act][mirrordir];
 			}
 			
-			//this.m_context.m_resMgrNoProg.unload(event.resourceObject.filename, SWFResource);
 			this.m_context.m_resMgr.unload(event.resourceObject.filename, SWFResource);
 			
 			// 如果其他方向都没有
-			//var idx:int = 0;
-			//var dir:String = "";
 			var hasRes:Boolean = false;
-			//while (idx < _resDic[act].length)
 			for(dir in _resDic[act])
 			{
 				if (_resDic[act][dir] != null)
@@ -543,7 +484,6 @@ namespace SDK.Lib
 					hasRes = true;
 					break;
 				}
-				//++idx;
 			}
 			
 			if (!hasRes)
@@ -554,7 +494,7 @@ namespace SDK.Lib
 		}
 		
 		// 加载对象定义 xml 配置文件   
-		override public function loadObjDefRes():void
+		override public void loadObjDefRes()
 		{
 			// bug: 如果一个 fObject 正在加载配置文件,在没有加载完成的时候如果在此调用这个函数,就会导致资源的引用计数增加,但是监听器只有一个,导致资源卸载不了
 			if(this.m_ObjDefRes || m_binsXml)	// this.m_ObjDefRes 存在说明正在加载， m_binsXml 存在说明配置文件已经初始化完成
@@ -577,12 +517,10 @@ namespace SDK.Lib
 				var filename:String = "x" + this.m_insID;
 				var type:int = fUtil.xmlResType(filename);
 				filename = this.m_context.m_path.getPathByName(filename + ".swf", type);
-				
-				//var res:SWFResource = this.m_context.m_resMgrNoProg.getResource(filename, SWFResource) as SWFResource;
+
 				var res:SWFResource = this.m_context.m_resMgr.getResource(filename, SWFResource) as SWFResource;
 				if (!res)
 				{
-					//this.m_ObjDefRes = this.m_context.m_resMgrNoProg.load(filename, SWFResource, this.onObjDefResLoaded, this.onObjDefResFailed) as SWFResource;
 					this.m_ObjDefRes = this.m_context.m_resMgr.load(filename, SWFResource, this.onObjDefResLoaded, this.onObjDefResFailed) as SWFResource;
 				}
 				else if (!res.isLoaded)
@@ -602,7 +540,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		public function onObjDefResLoaded(event:ResourceEvent):void
+		public void onObjDefResLoaded(ResourceEvent event)
 		{
 			event.resourceObject.removeEventListener(ResourceEvent.LOADED_EVENT, onObjDefResLoaded);
 			event.resourceObject.removeEventListener(ResourceEvent.FAILED_EVENT, onObjDefResFailed);
@@ -622,7 +560,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		public function onObjDefResFailed(event:ResourceEvent):void
+		public void onObjDefResFailed(ResourceEvent event)
 		{
 			event.resourceObject.removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
 			event.resourceObject.removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
@@ -630,153 +568,31 @@ namespace SDK.Lib
 			Logger.error(null, null, event.resourceObject.filename + " failed");
 			
 			this.m_ObjDefRes = null;
-			//this.m_context.m_resMgrNoProg.unload(event.resourceObject.filename, SWFResource);
 			this.m_context.m_resMgr.unload(event.resourceObject.filename, SWFResource);
 		}
 		
-		public function binitXmlDef():Boolean
+		public bool binitXmlDef()
 		{
-			//return (this.m_ObjDefRes != null) && this.m_ObjDefRes.isLoaded && !this.m_ObjDefRes.didFail;
 			return m_binsXml;
 		}
 		
-		//public function get frameInitDic():Dictionary 
-		//{
-		//	return _frameInitDic;
-		//}
-		
 		// 将 from 中的属性覆盖到 to 中，实现重载的机制，只覆盖 from 中有的属性，如果 from 中没有属性就不覆盖，使用 to 中自己的属性         
-		public function overwriteAtt(to:fObjectDefinition, from:fObjectDefinition):void
+		public void overwriteAtt(fObjectDefinition to, fObjectDefinition from)
 		{
 			if (from.overwrite)
 			{
 				to.overwriteAtt(from, m_insID);
 			}
-			//else
-			//{
-			//	to.adjustAtt(m_insID);
-			//}
 		}
 		
 		// 调整默认的属性处理
-		public function adjustAtt(objdef:fObjectDefinition, insID:String):void
+		public void adjustAtt(fObjectDefinition objdef, string insID)
 		{
 			objdef.adjustAtt(insID);
 		}
 		
-		// 换全部的显示，不分各个部分外观 
-		public function changeShow(def:String):void
-		{
-			// 重新设置动作方向，以便获取新模型的值
-			m_preAct = -1;
-			m_preDir = -1;
-			m_ModelActDirOff = null;
-			
-			// 先把之前的属性清除 ，否则更改     
-			//var dir:int = 0;
-			var dir:String;
-			var key:String
-			//var action:fActDefinition;
-			for (key in this.definition.dicAction)
-			{
-				//action = definition.dicAction[key];
-				//dir = 0;
-				if (key in _resDic)
-				{
-					//while (dir < _resDic[key].length)
-					for (dir in _resDic[key])
-					{
-						if (_resDic[key][dir])
-						{
-							_resDic[key][dir].removeEventListener(ResourceEvent.LOADED_EVENT, onResLoaded);
-							_resDic[key][dir].removeEventListener(ResourceEvent.FAILED_EVENT, onResFailed);
-							
-							//this.m_context.m_resMgrNoProg.unload(_resDic[key][dir].filename, SWFResource);
-							if (this.m_context.m_resMgr.getResource(_resDic[key][dir].filename, SWFResource))
-							{
-								this.m_context.m_resMgr.unload(_resDic[key][dir].filename, SWFResource);
-							}
-							_resDic[key][dir] = null;
-						}
-						
-						//_frameInitDic[key][dir] = false;
-						
-						//++dir;
-					}
-				}
-			}
-			
-			if (this.m_ObjDefRes)
-			{
-				this.m_ObjDefRes.removeEventListener(ResourceEvent.LOADED_EVENT, onObjDefResLoaded);
-				this.m_ObjDefRes.removeEventListener(ResourceEvent.FAILED_EVENT, onObjDefResFailed);
-				
-				//this.m_context.m_resMgrNoProg.unload(this.m_ObjDefRes.filename, SWFResource);
-				this.m_context.m_resMgr.unload(this.m_ObjDefRes.filename, SWFResource);
-				this.m_ObjDefRes = null;
-			}
-			
-			// 先把之前的属性清除 ，否则更改
-			this.customData.flash9Renderer.disposeShow();
-			
-			var delimit:int = def.indexOf("_");
-			var defID:String;
-			var insID:String;
-			if (delimit != -1)
-			{
-				defID = def.substring(0, delimit);
-				insID = def.substring(delimit + 1, def.length);
-			}
-			else
-			{
-				throw new Event("changeShow error");
-			}
-			
-			if (defID == this.definitionID && insID == this.m_insID)
-			{
-				return;
-			}
-			
-			var srcdef:fObjectDefinition;
-			// bug: 还是重新获取吧，否则如果修改了这个 define ，但是又重新替换回去，但是新的模型和 define 是一样的，结果就不能变换回原来的内容了   
-			//if (defID != this.definitionID)
-			{
-				this.definitionID = defID;
-				srcdef = this.m_context.m_sceneResMgr.getObjectDefinition(this.definitionID);
-				
-				if (!srcdef)
-				{
-					throw new Error("The scene does not contain a valid object definition that matches definition id '" + this.definitionID + "'");
-				}
-				
-				this.definition = new fObjectDefinition(srcdef.xmlData, srcdef.basepath);
-			}
-			
-			var insdef:fObjectDefinition;
-			this.m_insID = insID;
-			
-			// Define bounds. I need to load the symbol from the library to know its size. I will be destroyed immediately
-			this.top = this.z + this.height;
-			this.x0 = this.x - this.radius;
-			this.x1 = this.x + this.radius;
-			this.y0 = this.y - this.radius;
-			this.y1 = this.y + this.radius;
-			
-			// KBEN: 宽高需要自己从定义中指定，这些每一帧都需要更新的就不用在这里设置了
-			var w:Number = this.definition._width;
-			var h:Number = this.definition._height;
-			this.bounds2d = new Rectangle(-w / 2, -h, w, h);
-			
-			// Screen area
-			this.screenArea = this.bounds2d.clone();
-			this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-
-			m_binsXml = false;
-			loadObjDefRes();
-		}
-		
 		// 这个函数调用后，对象定义才算初始化完毕，人物模型默认处理方式
-		public function initObjDef():void
+		public void initObjDef()
 		{
 			m_binsXml = true;
 			
@@ -817,7 +633,7 @@ namespace SDK.Lib
 			updateFrameRate();
 		}
 		
-		public function changeInfoByActDir(act:uint, dir:uint):void
+		public void changeInfoByActDir(uint act, uint dir)
 		{
 			var action:fActDefinition;
 			var actdir:fActDirectDefinition;
@@ -838,38 +654,6 @@ namespace SDK.Lib
 				// 初始化一下方向信息    
 				if (actdir)
 				{
-					// 如果坐标原点没有偏移，就赋值默认值  
-					//if (actdir.origin.x == 0 && actdir.origin.y == 0)
-					//{
-					//actdir.origin.x = Math.abs(this.bounds2d.x);
-					//actdir.origin.y = Math.abs(this.bounds2d.y);
-					//}
-					
-					// KBEN: 默认是取中心点   
-					//this.bounds2d.x = -actdir.origin.x;
-					//this.bounds2d.y = -actdir.origin.y;
-					
-					// 人物获取中心点偏移
-					//if (!m_LinkOff)
-					//{
-					//	var pt:Point = getTableModelOff(this.m_insID, act, dir);
-					//	if (pt)
-					//	{
-					//		if (actdir.flipMode) // X 轴翻转
-					//		{
-					//			modeleffOff(-pt.x, pt.y);
-					//		}
-					//		else
-					//		{
-					//			modeleffOff(pt.x, pt.y);
-					//		}
-					//	}
-					//	else
-					//	{
-					//		modeleffOff(0, 0);
-					//	}
-					//}
-					
 					if(m_preAct != act || m_preDir != dir)		// 只要动作或者方向有一个改变的就需要重新计算，现在由于有骑马，骑马的动作和其它动作分别单独使用一个偏移
 					{
 						updateModelOff(act, dir, 0, actdir.flipMode);
@@ -950,65 +734,19 @@ namespace SDK.Lib
 			m_preFrame = curFrame;
 		}
 		
-		public function setTagBounds2d(_x:Number, _y:Number, _w:Number, _h:Number):void
-		{
-			m_tagBounds2d.x = _x;
-			m_tagBounds2d.y = _y;
-			m_tagBounds2d.width = _w;
-			m_tagBounds2d.height = _h;
-			onSetTagBounds2d();
-		}
-		
-		public function onSetTagBounds2d():void
-		{
-			
-		}
-		// 设置默认信息
-		public function defaultPlaceInfo():void
-		{
-			var defaultset:Boolean = false; // 是否使用默认的设置
-			var defaultWidth:uint = 50; // 默认宽度
-			var defaultHeight:uint = 120; // 默认高度
-			
-			this.bounds2d.x = -int(defaultWidth / 2);
-			this.bounds2d.y = -int(defaultHeight);
-			
-			this.bounds2d.width = int(defaultWidth);
-			this.bounds2d.height = int(defaultHeight);
-			
-			// Screen area
-			this.screenArea = this.bounds2d.clone();
-			this.screenArea.offsetPoint(fScene.translateCoords(this.x, this.y, this.z));
-			
-			if (m_tagBounds2d.height == 1)
-			{
-				//如果不等于1，表示该值已经更新过了
-				setTagBounds2d(this.bounds2d.x, this.bounds2d.y, this.bounds2d.width, this.bounds2d.y);
-			}
-			/*
-			this.m_tagBounds2d.x = this.bounds2d.x;
-			// bug 这个地方不能赋值，赋值就认为是已经调用 getTagHeight 获取了名字高度了
-			//this.definition.tagHeight = this.bounds2d.height;
-			this.m_tagBounds2d.y = this.bounds2d.y;
-			this.m_tagBounds2d.width = this.bounds2d.width;
-		
-			this.m_tagBounds2d.height = this.m_tagBounds2d.y;
-			*/
-		}
-		
-		public function getOrigin(act:int, dir:int):fPoint3d
+		public fPoint3d getOrigin(int act, int dir)
 		{
 			return definition.getOrigin(act, dir);
 		}
 		
 		// 根据设置更新帧率    
-		protected function updateFrameRate():void
+		protected void updateFrameRate()
 		{
 		
 		}
 		
 		// 获取动作的帧数     
-		public function getActFrameCnt(act:uint):uint
+		public uint getActFrameCnt(uint act)
 		{
 			var action:fActDefinition;
 			action = this.definition.dicAction[act];
@@ -1021,7 +759,7 @@ namespace SDK.Lib
 		}
 		
 		// 获取动作帧率     
-		public function getActFrameRate(act:uint):uint
+		public uint getActFrameRate(uint act)
 		{
 			var action:fActDefinition;
 			action = this.definition.dicAction[act];
@@ -1034,7 +772,7 @@ namespace SDK.Lib
 		}
 		
 		// 获取动作播放时间   
-		public function getActLength(act:uint):Number
+		public float getActLength(uint act)
 		{
 			var action:fActDefinition;
 			action = this.definition.dicAction[act];
@@ -1046,263 +784,46 @@ namespace SDK.Lib
 			return 1;
 		}
 		
-		// 返回头顶名字应该距离重心点的偏移
-		public function getTagHeight():int
-		{
-			//return this.m_context.getTagHeight(fUtil.modelInsNum(this.m_insID));
-			return -this.definition.tagHeight;
-		}
-		
-		// 现在由于骑乘者所起的坐骑如果动作比较大，需要每一帧都去调整，因此需要获取某一帧的偏移，而大部分只需要获取第0帧的偏移
-		public function getTableModelOff(beingid:String, act:uint, dir:uint, frame:uint = 0):Point
-		{
-			//return this.m_context.modelOff(fUtil.modelInsNum(beingid), act, dir);
-			if(!m_ModelActDirOff)
-			{
-				m_ModelActDirOff = getTableModelOffAll(beingid, act, dir);
-			}
-			
-			m_context.m_SObjectMgr.m_keyOff = this.m_context.m_SObjectMgr.m_actDir2Key[act][dir];
-			
-			if(m_context.m_SObjectMgr.m_keyOff && m_ModelActDirOff)
-			{
-				return m_ModelActDirOff.m_ModelOffDic[m_context.m_SObjectMgr.m_keyOff].m_offLst[frame];
-			}
-			
-			return null;
-		}
-		
-		// 从表中直接读取数据
-		public function getTableModelOffAll(beingid:String, act:uint, dir:uint):fActDirOff
-		{
-			return this.m_context.modelOffAll(fUtil.modelInsNum(beingid));
-		}
-		
-		// 从表中直接读取骑乘者偏移数据，这个记录在坐骑身上
-		public function getMountserTableModelOffAll(beingid:String):fActDirOff
-		{
-			return this.m_context.modelMountserOffAll(fUtil.modelInsNum(beingid));
-		}
-		
-		// 设置模型特效的偏移
-		public function modeleffOff(xoff:Number, yoff:Number):void
-		{
-			// 如果 m_LinkOff 已经有了，说明已经初始化了，就不用再初始化了 
-			m_LinkOff ||= new Point();
-			m_LinkOff.x = xoff;
-			m_LinkOff.y = yoff;
-		}
-		
-		public function get LinkOff():Point
-		{
-			m_LinkOff ||= new Point();
-			return m_LinkOff;
-		}
-		
-		public function get subState():uint
+		public uint getSubState()
 		{
 			return EntityCValue.STNone;
 		}
 		
-		public function set subState(value:uint):void
+		public void setSubState(uint value)
 		{
 			
 		}
 		
 		// 特效是否需要翻转
-		public function get bFlip():uint
+		public uint getFlip()
 		{
 			return 0;
 		}
 		
 		// 获取特效的类型
-		public function get type():int
+		public int getType()
 		{
 			return 0;
 		}
 		
-		public function get angle():Number
+		public float getAngle()
 		{
 			return 0;
 		}
 		
-		// 特效使用控制缩放后的宽度和高度
-		public function get scaleHeight2Orig():int
-		{
-			return 0;
-		}
-		
-		public function get scaleWidth2Left():int
-		{
-			return 0;
-		}
-		
-		public function get scaleHeight2Top():uint
-		{
-			return 0;
-		}
-		
-		public function get scaleWidth2Orig():uint
-		{
-			return 0;
-		}
-		
-		// 当前是否有马匹在骑乘
-		public function get curHorseData():fObject
-		{
-			return null;
-		}
-		
-		// 当前是否有马匹在骑乘
-		public function get curHorseRenderData():fFlash9ElementRenderer
-		{
-			return null;
-		}
-		
-		// 能否更新骑马的资源
-		public function canUpdataRide(substate:uint, act:uint):Boolean
-		{
-			if (substate == EntityCValue.TRide)	// 如果骑乘
-			{
-				if(act == EntityCValue.TActRideStand || act == EntityCValue.TActRideRun)
-				{
-					if (curHorseData)	// 当前的坐骑存在
-					{
-						return true;
-					}
-				}
-			}
-			
-			return false;
-		}
-		
-		public function get hasUpdateTagBounds2d():Boolean
-		{
-			return _hasUpdateTagBounds2d;
-		}
-		
-		public function set hasUpdateTagBounds2d(value:Boolean):void
-		{
-			_hasUpdateTagBounds2d = value;
-		}
-		
-		public function get horseHost():fObject
-		{
-			return null;
-		}
-		
-		public function isEqualAndGetDirMount2PlayerActDir(mountact:int, mountdir:int):int
-		{
-			return -1;
-		}
-		
-		public function isEqualMount2PlayerActDir(mountact:int, mountdir:int):Boolean
-		{
-			return false;
-		}
-		
-		// 这个是获取坐骑身上的
-		public function get mountserActDirOff():fActDirOff
-		{
-			return null;
-		}
-		
-		// 根据坐骑获取身上的骑乘的数据
-		public function get mountserActDirOffFromMounts():fActDirOff
-		{
-			return curHorseData.mountserActDirOff;
-		}
-		
-		protected function updateModelOff(act:uint, dir:uint, frame:uint, flipMode:Boolean):void
-		{
-			if (m_preAct != act)	// 如果动作更改了需要重新获取
-			{
-				m_origLinkOff = getTableModelOff(this.m_insID, act, dir);
-			}
-			if (!m_LinkOff)
-			{
-				m_LinkOff = new Point();
-			}
-			
-			if(m_origLinkOff)
-			{
-				m_LinkOff.y = m_origLinkOff.y;
-				if (flipMode) // X 轴翻转,方向修改了，需要根据是否翻转进行值的映射
-				{
-					m_LinkOff.x = -m_origLinkOff.x;
-				}
-				else
-				{
-					m_LinkOff.x = m_origLinkOff.x;
-				}
-			}
-			else
-			{
-				m_LinkOff.x = 0;
-				m_LinkOff.y = 0;
-			}
-		}
-		
-		// 更新骑乘者模型的改变
-		protected function updateMountserOff(act:uint, dir:uint, frame:uint, flipMode:Boolean):void
-		{
-			if (!m_MountserLinkOff)
-			{
-				m_MountserLinkOff = new Point();
-			}
-			if (m_preFrame != frame)
-			{
-				m_context.m_SObjectMgr.m_tmpMountserActDirOff = this.mountserActDirOffFromMounts;		// 换一次就需要重新获取，因此每一帧都获取一次
-				m_context.m_SObjectMgr.m_keyOff = this.m_context.m_SObjectMgr.m_mountserActDir2Key[act][dir];
-				// 这个就比较复杂，如果没有配置，就直接获取坐骑的统一提升的高度
-				if (!m_context.m_SObjectMgr.m_tmpMountserActDirOff || !m_context.m_SObjectMgr.m_tmpMountserActDirOff.m_ModelOffDic[m_context.m_SObjectMgr.m_keyOff])
-				{
-					m_context.m_SObjectMgr.m_hasOffInCurFrame = false;
-					m_MountserLinkOff.x = 0;
-					m_MountserLinkOff.y = 0;
-				}
-				else
-				{
-					m_context.m_SObjectMgr.m_hasOffInCurFrame = true;
-					
-					m_context.m_SObjectMgr.m_tmpModelOff = m_context.m_SObjectMgr.m_tmpMountserActDirOff.m_ModelOffDic[m_context.m_SObjectMgr.m_keyOff].m_offLst[frame];
-					m_MountserLinkOff.y = m_context.m_SObjectMgr.m_tmpModelOff.y;
-					if (!flipMode)
-					{
-						m_MountserLinkOff.x = m_context.m_SObjectMgr.m_tmpModelOff.x;
-					}
-					else
-					{
-						m_MountserLinkOff.x = -m_context.m_SObjectMgr.m_tmpModelOff.x;
-					}
-				}
-			}
-		}
-		
-		public function set preAct(value:int):void
+		public void setPreAct(int value)
 		{
 			m_preAct = value;
 		}
 		
-		public function set preDir(value:int):void
+		public void setPreDir(int value)
 		{
 			m_preDir = value;
 		}
 		
-		public function set preFrame(value:int):void
+		public void setPreFrame(int value)
 		{
 			m_preFrame = value;
-		}
-		
-		// 是否需要缩放
-		public function hasScale():Boolean
-		{
-			return false;
-		}
-		
-		public function get scaleFactor():Number
-		{
-			return 1;
 		}
 	}
 }

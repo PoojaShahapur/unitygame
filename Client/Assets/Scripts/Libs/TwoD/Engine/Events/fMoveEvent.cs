@@ -2,7 +2,8 @@ namespace SDK.Lib
 {
 	public class fMoveEvent : IDispatchObject
 	{
-		public float dx;
+        public fElement target;
+        public float dx;
 		public float dy;
 		public float dz;
 		

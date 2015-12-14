@@ -6,13 +6,13 @@ namespace SDK.Lib
 	{
 		private fScene scene;   // 对被管理场景的引用
 		public float range;     // 当前 ViewPort 可视化元素的范围
-		private ArrayList depthSortArr; // 深度排序的元素
+		private MList<fElement> depthSortArr; // 深度排序的元素
 		
 		// KBEN: 地形，以及一些静态地物可视化元素放在这里，不需要深度排序，可视化都是内部访问的   
 		// KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的 
-		public ArrayList elementsV;
+		public MList<fElement> elementsV;
 		// KBEN: 存放人物，需要深度排序        
-		public ArrayList charactersV; // 当前可视的 characters 数组
+		public MList<fElement> charactersV; // 当前可视的 characters 数组
 		private fCell cell; // 摄像机所在的 Cell
 		protected fCell m_preCell; // 这个是前一个摄像机所在的格子
 		public fEngineRenderEngine renderEngine; // 渲染引擎
@@ -35,9 +35,9 @@ namespace SDK.Lib
 
 		public void initialize()
 		{
-			this.depthSortArr = new ArrayList();
-			this.elementsV = new ArrayList();
-			this.charactersV = new ArrayList();
+			this.depthSortArr = new MList<fElement>();
+			this.elementsV = new MList<fElement>();
+			this.charactersV = new MList<fElement>();
 		}
 		
 		// KBEN: 优化裁剪
@@ -55,13 +55,13 @@ namespace SDK.Lib
             MList<fFloor> tempElements;
 			
 			// 摄像机进入新的单元
-			if (this.cell.visibleElements || this.cell.visibleRange < this.range)
+			if (this.cell.visibleElements != null || this.cell.visibleRange < this.range)
 			{
 				this.scene.getVisibles(this.cell, this.range);
 			}
 			
 			// 更新之前格子进入当前格子需要更新的区域
-			if (!this.cell.m_updateDistrict[this.m_preCell])
+			if (!this.cell.m_updateDistrict.ContainsKey(this.m_preCell))
 			{
 				this.cell.updateByPreInCur(this.m_preCell);
 			}
@@ -71,7 +71,7 @@ namespace SDK.Lib
 			tempElements = this.cell.m_updateDistrict[this.m_preCell];
 			
 			int nEl;
-            int nElements = tempElements.Count;
+            int nElements = tempElements.Count();
             int i2 = 0;
 
             int distidx = 0;
@@ -94,7 +94,7 @@ namespace SDK.Lib
 
             // 处理隐藏区域
             MList<fFloor> hideDistList = this.cell.m_hideDistrict[this.m_preCell];
-			nEl = hideDistList.Count;
+			nEl = hideDistList.Count();
 			for (i2 = 0; i2 < nEl; i2++)
 			{
 				floor = hideDistList[i2];				
@@ -124,7 +124,7 @@ namespace SDK.Lib
 				{
 					if (!character.isVisibleNow)
 					{
-						this.charactersV[this.charactersV.length] = character;
+						this.charactersV[this.charactersV.Count()] = character;
 						this.renderEngine.showElement(character);
 						if (EntityCValue.SLBuild != character.layer) // 如果不是地物层
 						{
@@ -137,8 +137,8 @@ namespace SDK.Lib
 				{
 					if (character.isVisibleNow)
 					{
-                        int pos = this.charactersV.indexOf(character);
-						this.charactersV.splice(pos, 1);
+                        int pos = this.charactersV.IndexOf(character);
+						this.charactersV.RemoveAt(pos);
 						this.renderEngine.hideElement(character);
 						if (EntityCValue.SLBuild != character.layer) // 如果不是地物层
 						{
@@ -181,7 +181,7 @@ namespace SDK.Lib
 				{
 					if (!effect.isVisibleNow)
 					{
-						this.elementsV[this.elementsV.length] = effect;
+						this.elementsV[this.elementsV.Count()] = effect;
 						this.renderEngine.showElement(effect);
 						this.addToDepthSort(effect);
 						effect.isVisibleNow = true;
@@ -191,8 +191,8 @@ namespace SDK.Lib
 				{
 					if (effect.isVisibleNow)
 					{
-						var pos:int = this.elementsV.indexOf(effect);
-						this.elementsV.splice(pos, 1);
+                        int pos = this.elementsV.IndexOf(effect);
+						this.elementsV.RemoveAt(pos);
 						this.renderEngine.hideElement(effect);
 						this.removeFromDepthSort(effect);
 						effect.isVisibleNow = false;
@@ -237,17 +237,16 @@ namespace SDK.Lib
 					//if (ele is fCharacter)
 					if (ele is BeingEntity)
 					{
-						this.charactersV[this.charactersV.length] = ele as fCharacter;
+						this.charactersV[this.charactersV.Count()] = ele as fCharacter;
 					}
 					else if (ele is EffectEntity)
 					{
-						this.elementsV[this.elementsV.length] = ele;
+						this.elementsV[this.elementsV.Count()] = ele;
 					}
 
 					// KBEN: 地形不排序，只可视化剔除   
 					if (!(ele is fFloor))
 					{
-						//this.depthSort();
 						// KBEN: 需要重新排序，增加的时候需要深度排序
 						if (EntityCValue.SLBuild != ele.layer) // 如果不是地物层
 						{
@@ -307,20 +306,20 @@ namespace SDK.Lib
 				{
 					// KBEN:   
 					ch = ele as BeingEntity;
-					pos = this.charactersV.indexOf(ch);
+					pos = this.charactersV.IndexOf(ch);
 					if (pos >= 0)
 					{
-						this.charactersV.splice(pos, 1);
+						this.charactersV.RemoveAt(pos);
 						this.renderEngine.hideElement(ele);
 						this.removeFromDepthSort(ele);
 					}
 				}
 				else if (ele is EffectEntity)
 				{
-					pos = this.elementsV.indexOf(ele);
+					pos = this.elementsV.IndexOf(ele);
 					if (pos >= 0)
 					{
-						this.elementsV.splice(pos, 1);
+						this.elementsV.RemoveAt(pos);
 						this.renderEngine.hideElement(ele);
 						this.removeFromDepthSort(ele);
 					}
@@ -336,17 +335,17 @@ namespace SDK.Lib
 		// KBEN: 不需要深度排序的不会调用这个函数   
 		public void addToDepthSort(fRenderableElement item)
 		{
-			if (this.depthSortArr.indexOf(item) < 0)
+			if (this.depthSortArr.IndexOf(item) < 0)
 			{
 				this.depthSortArr.push(item);
-				item.addEventListener(fRenderableElement.DEPTHCHANGE, this.depthChangeListener, false, 0, true);
+				item.addEventHandle(fRenderableElement.DEPTHCHANGE, this.depthChangeListener);
 			}
 		}
 		
 		public void removeFromDepthSort(fRenderableElement item)
 		{
-			this.depthSortArr.splice(this.depthSortArr.indexOf(item), 1);
-			item.removeEventListener(fRenderableElement.DEPTHCHANGE, this.depthChangeListener);
+			this.depthSortArr.RemoveAt(this.depthSortArr.IndexOf(item));
+			item.removeEventHandle(fRenderableElement.DEPTHCHANGE, this.depthChangeListener);
 		}
 
 		public void depthChangeListener(Event evt)
@@ -365,7 +364,7 @@ namespace SDK.Lib
 		// 某一些单个改变的内容
 		public void depthSortSingle()
 		{
-            ArrayList ar = this.depthSortArr;
+            MList<fElement> ar = this.depthSortArr;
 			// KBEN: 深度排序
 			fUtil.insortSort(this.depthSortArr);
             int i = ar.length;
@@ -373,11 +372,11 @@ namespace SDK.Lib
 				return;
             // KBEN: 除了地形都排序
             Sprite p = this.scene.m_SceneLayer[EntityCValue.SLObject];
-			for each (fRenderableElement el in this.scene.m_singleDirtyArr)
+			foreach (fRenderableElement el in this.scene.m_singleDirtyArr.list)
 			{
                 int oldD = el.depthOrder;
                 // KBEN: 插入排序
-                int newD = this.depthSortArr.indexOf(el);
+                int newD = this.depthSortArr.IndexOf(el);
 				if (newD != oldD)
 				{
 					el.depthOrder = newD;
@@ -391,9 +390,9 @@ namespace SDK.Lib
 							p.setChildIndex(el.container, newD);
 						}
 					}
-					catch (e:Error)
+					catch (Error e)
 					{
-						Logger.info(null, null, "depthSortSingle error");
+						
 					}
 				}
 			}
@@ -401,7 +400,7 @@ namespace SDK.Lib
 
 		public void depthSort()
 		{
-            ArrayList ar = this.depthSortArr;
+            MList<fElement> ar = this.depthSortArr;
 			// KBEN: 深度排序
 			fUtil.insortSort(this.depthSortArr);
             int i = ar.length;
@@ -429,27 +428,24 @@ namespace SDK.Lib
 
 		public void dispose()
 		{
-			if (this.depthSortArr)
+			if (this.depthSortArr != null)
 			{
-                int il = this.depthSortArr.Count;
-				for (int i = 0; i < il; i++)
-					delete this.depthSortArr[i];
-			}
-			this.depthSortArr = null;
-			if (this.elementsV)
+                this.depthSortArr.Clear();
+                this.depthSortArr = null;
+            }
+			
+			if (this.elementsV != null)
 			{
-				il = this.elementsV.length;
-				for (i = 0; i < il; i++)
-					delete this.elementsV[i];
-			}
-			this.elementsV = null;
-			if (this.charactersV)
+                this.elementsV.Clear();
+                this.elementsV = null;
+            }
+			
+			if (this.charactersV != null)
 			{
-				il = this.charactersV.length;
-				for (i = 0; i < il; i++)
-					delete this.charactersV[i];
-			}
-			this.charactersV = null;
+                this.charactersV.Clear();
+                this.charactersV = null;
+            }
+			
 
 			this.cell = null;
 			this.m_preCell = null;
