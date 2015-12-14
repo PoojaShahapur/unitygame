@@ -1,14 +1,14 @@
 ﻿namespace SDK.Lib
 {
-	public class fFlash9FloorRenderer : fFlash9ElementRenderer
-	{
+	public class fSpriteFloorRenderer : fSpriteElementRenderer
+    {
 		private float origWidth;
 		private float origHeight;
 		
 		// public Rectangle scrollR;
 		private float occlusionCount = 0;
 		
-		public fFlash9FloorRenderer(fFlash9RenderEngine rEngine, fPlane element, float width, float height)
+		public fSpriteFloorRenderer(fSpriteRenderEngine rEngine, fPlane element, float width, float height)
             : base(rEngine, element)
 		{
 			this.scene = element.scene;

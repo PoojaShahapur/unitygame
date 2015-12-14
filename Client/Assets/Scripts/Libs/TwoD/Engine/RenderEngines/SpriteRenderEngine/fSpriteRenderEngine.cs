@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-	public class fFlash9RenderEngine : fEngineRenderEngine
+	public class fSpriteRenderEngine : fEngineRenderEngine
 	{
 		private fScene scene;
 
 		private SpriteContainer container;
 
-		private Dictionary<int, fFlash9ElementRenderer> renderers;
+		private Dictionary<int, fSpriteElementRenderer> renderers;
 		
 		private float viewWidth = 0;
 		
@@ -21,7 +21,7 @@ namespace SDK.Lib
 		// 保存的裁剪矩形
 		//public Rectangle m_scrollRect;
 
-		public fFlash9RenderEngine(fScene scene, MList<SpriteLayer> sceneLayer = null)
+		public fSpriteRenderEngine(fScene scene, MList<SpriteLayer> sceneLayer = null)
 		{
 			// Init items
 			this.scene = scene;

@@ -1,10 +1,10 @@
 namespace SDK.Lib
 {
-	public class fFlash9ElementRenderer : ITickedObject
+	public class fSpriteElementRenderer : ITickedObject
 	{
 		public fRenderableElement element;
 
-		public fFlash9RenderEngine rEngine;
+		public fSpriteRenderEngine rEngine;
 
 		public fScene scene;
 		
@@ -15,7 +15,7 @@ namespace SDK.Lib
 
 		public bool screenVisible = false;
 		
-		public fFlash9ElementRenderer(fFlash9RenderEngine rEngine, fRenderableElement element)
+		public fSpriteElementRenderer(fSpriteRenderEngine rEngine, fRenderableElement element)
 		{
 			this.element = element;			
 			this.rEngine = rEngine;
