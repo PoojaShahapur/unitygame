@@ -29,78 +29,40 @@ namespace SDK.Lib
 		public MList<string> m_staticVec;
 
 		public fFloor(SecurityElement defObj, fScene scene)
+            : base(defObj, scene, 0, 0)
 		{
-			this.gWidth = int((defObj.@width / scene.gridSize) + 0.5);
-			this.gDepth = int((defObj.@height / scene.gridSize) + 0.5);
+            int defWidth = 0;
+            int defHeight = 0;
+            UtilXml.getXmlAttrInt(defObj, "width", ref defWidth);
+            UtilXml.getXmlAttrInt(defObj, "height", ref defHeight);
+            this.gWidth = (int)((defWidth / scene.gridSize) + 0.5);
+			this.gDepth = (int)((defHeight / scene.gridSize) + 0.5);
 			this.width = scene.gridSize * this.gWidth;
 			this.depth = scene.gridSize * this.gDepth;
-			
-			base(defObj, scene, this.width, this.depth);
-			m_resType = EntityCValue.PHTER;
-			
-			this.i = int((defObj.@x / scene.gridSize) + 0.5);
-			this.j = int((defObj.@y / scene.gridSize) + 0.5);
-			this.k = int((defObj.@z / scene.levelSize) + 0.5);
+
+            //m_resType = EntityCValue.PHTER;
+            int defX = UtilXml.getXmlAttrInt(defObj, "x", ref defWidth);
+            int defY = UtilXml.getXmlAttrInt(defObj, "y", ref defWidth);
+            int defZ = UtilXml.getXmlAttrInt(defObj, "z", ref defWidth);
+
+            this.i = (int)((defX / scene.gridSize) + 0.5);
+			this.j = (int)((defY / scene.gridSize) + 0.5);
+			this.k = (int)((defZ / scene.levelSize) + 0.5);
 			this.x0 = this.x = this.i * scene.gridSize;
 			this.y0 = this.y = this.j * scene.gridSize;
 			this.top = this.z = this.k * scene.levelSize;
 			this.x1 = this.x0 + this.width;
 			this.y1 = this.y0 + this.depth;
 			
-			m_dynamicElementDic = new Dictionary();
-			m_characterDic = new Dictionary();
-			m_emptySpriteDic = new Dictionary();
-			//m_dynamicElement2Dic = new Dictionary();
-			//m_character2Dic = new Dictionary();
-			//m_emptySprite2Dic = new Dictionary();
-			
-			m_dynamicElementVec = new Dictionary<string, int>();
-			m_characterVec = new Dictionary<string, int>();
+			m_dynamicElementDic = new Dictionary<string, int>();
+			m_characterDic = new Dictionary<string, int>();
+
+			m_dynamicElementVec = new MList<string>();
+			m_characterVec = new MList<string>();
 			
 			this.xmlObj = null;	// bug: 释放这个资源,总是释放不了这个 xml
 		}
-		
-		// Is this floor in front of other plane ? Note that a false return value does not imply the opposite: None of the planes
-		// may be in front of each other
-		/** @private */
-		public override function inFrontOf(p:fPlane):Boolean
-		{
-			var floor:fFloor = p as fFloor
-			if ((this.i < (floor.i + floor.gWidth) && (this.j + this.gDepth) > floor.j && this.k > floor.k) || ((this.j + this.gDepth) > floor.j && (this.i + this.gWidth) <= floor.i) || (this.i >= floor.i && this.i < (floor.i + floor.gWidth) && this.j >= (floor.j + floor.gDepth)))
-				return true;
-			return false;
-		}
-		
-		/** @private */
-		public override function distanceTo(x:Number, y:Number, z:Number):Number
-		{
-			// Easy case
-			if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.depth)
-				return ((this.z - z) > 0) ? (this.z - z) : -(this.z - z);
-			
-			var d2d:Number;
-			if (y < this.y)
-			{
-				d2d = mathUtils.distancePointToSegment(new Point(this.x, this.y), new Point(this.x + width, this.y), new Point(x, y));
-			}
-			else if (y > (this.y + this.depth))
-			{
-				d2d = mathUtils.distancePointToSegment(new Point(this.x, this.y + this.depth), new Point(this.x + width, this.y + this.depth), new Point(x, y));
-			}
-			else
-			{
-				if (x < this.x)
-					d2d = mathUtils.distancePointToSegment(new Point(this.x, this.y), new Point(this.x, this.y + this.depth), new Point(x, y));
-				else if (x > this.x + this.width)
-					d2d = mathUtils.distancePointToSegment(new Point(this.x + this.width, this.y), new Point(this.x + this.width, this.y + this.depth), new Point(x, y));
-				else
-					d2d = 0;
-			}
-			
-			var dz:Number = z - this.z;
-			return Math.sqrt(dz * dz + d2d * d2d);
-		}
-		
+
 		public void disposeFloor()
 		{
 			this.disposePlane();
@@ -114,59 +76,59 @@ namespace SDK.Lib
         // KBEN: id 是 fElement.uniqueId 和 fElement.id     
         public void addDynamic(string id)
 		{
-			if(!m_dynamicElementDic[id])
+			if(m_dynamicElementDic.ContainsKey(id))
 			{
 				m_dynamicElementDic[id] = 1;
 				m_dynamicElementVec.push(id);
 			}
 			else
 			{
-				throw new Event("dynamic already in current floor");
+				//throw new Event("dynamic already in current floor");
 			}
 		}
 		
 		public void clearDynamic(string id)
 		{
-			if(m_dynamicElementDic[id])
+			if(m_dynamicElementDic.ContainsKey(id))
 			{
-				m_dynamicElementDic[id] = null;
-				delete m_dynamicElementDic[id];
-				
-				var idx:int = m_dynamicElementVec.indexOf(id);
-				m_dynamicElementVec.splice(idx, 1);
+				m_dynamicElementDic[id] = 0;
+				m_dynamicElementDic.Remove(id);
+
+                int idx = m_dynamicElementVec.IndexOf(id);
+				m_dynamicElementVec.RemoveAt(idx);
 			}
 			else
 			{
-				throw new Event("dynamic not in current floor");
+				//throw new Event("dynamic not in current floor");
 			}
 		}
 		
-		public function addCharacter(id:String):void
+		public void addCharacter(string id)
 		{
-			if(!m_characterDic[id])
+			if(!m_characterDic.ContainsKey(id))
 			{
 				m_characterDic[id] = 1;
 				m_characterVec.push(id);
 			}
 			else
 			{
-				throw new Event("dynamic already in current floor");
+				//throw new Event("dynamic already in current floor");
 			}
 		}
 		
 		public void clearCharacter(string id)
 		{	
-			if(m_characterDic[id])
+			if(m_characterDic.ContainsKey(id))
 			{
-				m_characterDic[id] = null;
-				delete m_characterDic[id];
-				
-				var idx:int = m_characterVec.indexOf(id);
-				m_characterVec.splice(idx, 1);
+				m_characterDic[id] = 0;
+				m_characterDic.Remove(id);
+
+                int idx = m_characterVec.IndexOf(id);
+				m_characterVec.RemoveAt(idx);
 			}
 			else
 			{
-				throw new Event("character not in current floor");
+				//throw new Event("character not in current floor");
 			}
 		}
 		
@@ -175,10 +137,10 @@ namespace SDK.Lib
 		{
             // 计算所有可视化显示的内容
             // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-            uint dynamicLength;
+            int dynamicLength;
 			fObject dynObject;
 			
-			uint i2 = 0;
+			int i2 = 0;
             int chLength = 0;
             fCharacter character;
 
@@ -186,7 +148,7 @@ namespace SDK.Lib
 
             int distidx = -1;
 			
-			dynamicLength = m_dynamicElementVec.length;
+			dynamicLength = m_dynamicElementVec.Count();
 
 			for (i2 = 0; i2 < dynamicLength; i2++)
 			{
@@ -201,7 +163,7 @@ namespace SDK.Lib
 					dynObject.willBeVisible = false;
 					if (!dynObject.isVisibleNow && dynObject._visible)
 					{
-						this.scene.renderManager.elementsV[distidx = this.scene.renderManager.elementsV.length] = dynObject;
+						this.scene.renderManager.elementsV[distidx = this.scene.renderManager.elementsV.Count] = dynObject;
 						this.scene.renderManager.renderEngine.showElement(dynObject);
 						this.scene.renderManager.addToDepthSort(dynObject);
 						dynObject.isVisibleNow = true;
@@ -212,10 +174,10 @@ namespace SDK.Lib
 					if (dynObject.isVisibleNow && dynObject._visible)
 					{
 						// 从显示列表中去掉
-						distidx = this.scene.renderManager.elementsV.indexOf(dynObject);
+						distidx = this.scene.renderManager.elementsV.IndexOf(dynObject);
 						if(distidx != -1)
 						{
-							this.scene.renderManager.elementsV.splice(distidx, 1);
+							this.scene.renderManager.elementsV.RemoveAt(distidx);
 						}
 						// Remove asset
 						this.scene.renderManager.renderEngine.hideElement(dynObject);
@@ -227,7 +189,7 @@ namespace SDK.Lib
 			}
 			
 			// KBEN: 存放人物，需要深度排序
-			chLength = m_characterVec.length;
+			chLength = m_characterVec.Count();
 			for (i2 = 0; i2 < chLength; i2++)
 			{
 				// Is character within range ?
@@ -256,10 +218,10 @@ namespace SDK.Lib
 					if (character.isVisibleNow && character._visible)
 					{
 						// 从显示列表中去掉
-						distidx = this.scene.renderManager.charactersV.indexOf(character);
+						distidx = this.scene.renderManager.charactersV.IndexOf(character);
 						if(distidx != -1)
 						{
-							this.scene.renderManager.charactersV.splice(distidx, 1);
+							this.scene.renderManager.charactersV.RemoveAt(distidx);
 						}
 						// Remove asset
 						this.scene.renderManager.renderEngine.hideElement(character);
@@ -280,19 +242,18 @@ namespace SDK.Lib
 		{
             // 计算所有可视化显示的内容
             // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-            uint dynamicLength;
+            int dynamicLength;
             fObject dynObject;
 
-            uint i2 = 0;
+            int i2 = 0;
             int chLength = 0;
             fCharacter character;
 
             int esLength = 0;
-            fEmptySprite spr;
 
             int distidx = -1;
 			
-			dynamicLength = m_dynamicElementVec.length;
+			dynamicLength = m_dynamicElementVec.Count();
 
 			for (i2 = 0; i2 < dynamicLength; i2++)
 			{
@@ -301,10 +262,10 @@ namespace SDK.Lib
 				if (dynObject.isVisibleNow && dynObject._visible)
 				{
 					// 从显示列表中去掉
-					distidx = this.scene.renderManager.elementsV.indexOf(dynObject);
+					distidx = this.scene.renderManager.elementsV.IndexOf(dynObject);
 					if(distidx != -1)
 					{
-						this.scene.renderManager.elementsV.splice(distidx, 1);
+						this.scene.renderManager.elementsV.RemoveAt(distidx);
 					}
 					
 					// Remove asset
@@ -316,18 +277,17 @@ namespace SDK.Lib
 			}
 			
 			// KBEN: 存放人物，需要深度排序
-			chLength = m_characterVec.length;
+			chLength = m_characterVec.Count();
 			for (i2 = 0; i2 < chLength; i2++)
 			{
-				// Is character within range ?
 				character = scene.all[m_characterVec[i2]];
 				if (character.isVisibleNow && character._visible)
 				{
 					// 从显示列表中去掉
-					distidx = this.scene.renderManager.charactersV.indexOf(character);
+					distidx = this.scene.renderManager.charactersV.IndexOf(character);
 					if(distidx != -1)
 					{
-						this.scene.renderManager.charactersV.splice(distidx, 1);
+						this.scene.renderManager.charactersV.RemoveAt(distidx);
 					}
 					// Remove asset
 					this.scene.renderManager.renderEngine.hideElement(character);
@@ -335,12 +295,9 @@ namespace SDK.Lib
 					{
 						this.scene.renderManager.removeFromDepthSort(character);
 					}
-					//anyChanges = true;
 					character.isVisibleNow = false;	
 				}
 			}
-			
-			// KBEN: 地上物，不会改变的地上建筑
 		}
 	}
 }

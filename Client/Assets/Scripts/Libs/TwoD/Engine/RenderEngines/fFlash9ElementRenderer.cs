@@ -9,39 +9,16 @@ namespace SDK.Lib
 		public fScene scene;
 		
 		public fElementContainer container;
-
-		// 场景层
-		public DisplayObjectContainer m_sceneContainer;
-		
-		public DisplayObject containerToPaint;
-		
-		public DisplayObjectContainer containerParent;
 		
 		// 这个不再判断资源是否加载完成，现在不同的动作在不同资源里   
 		public bool assetsCreated = false;
 
 		public bool screenVisible = false;
 		
-		public fFlash9ElementRenderer(fFlash9RenderEngine rEngine, fRenderableElement element, DisplayObject libraryMovieClip, fElementContainer spriteToShowHide)
+		public fFlash9ElementRenderer(fFlash9RenderEngine rEngine, fRenderableElement element)
 		{
-			// Pointer to element
 			this.element = element;			
 			this.rEngine = rEngine;
-			
-			// Main container
-			this.containerToPaint = libraryMovieClip;
-			if (libraryMovieClip is MovieClip)
-				this.flashClip = (libraryMovieClip as MovieClip);
-			this.container = spriteToShowHide;
-			
-			// The container comes attached from the engine only so we can store the reference to the parent
-			this.containerParent = this.container.parent;
-			if (this.containerParent)
-			{
-				this.containerParent.removeChild(this.container);
-			}
-			
-			// Move asset to appropiate position
 			this.place();
 		}
 
@@ -56,28 +33,23 @@ namespace SDK.Lib
 
 		public void place()
 		{
-			var coords:Point = fScene.translateCoords(this.element.x, this.element.y, this.element.z);
+            Point coords = fScene.translateCoords(this.element.x, this.element.y, this.element.z);
 			this.container.x = Math.floor(coords.x);
 			this.container.y = Math.floor(coords.y);
 		}
 
 		public void disableMouseEvents()
 		{
-			this.container.mouseEnabled = false;
+			
 		}
 
 		public void enableMouseEvents()
 		{
-			this.container.mouseEnabled = true;
+			
 		}
 
 		public void show()
 		{
-			if (containerParent)
-			{
-				this.containerParent.addChild(this.container);
-			}
-			
 			// KBEN: 更新链接元素显示   
 			element.showRender();
 		}
@@ -111,10 +83,6 @@ namespace SDK.Lib
 
 		public void disposeRenderer()
 		{
-			this.containerToPaint = null;
-			fFlash9RenderEngine.recursiveDelete(this.container);
-			this.container = null;
-			this.containerParent = null;
 			this.element = null;	
 			this.rEngine = null;
 		}

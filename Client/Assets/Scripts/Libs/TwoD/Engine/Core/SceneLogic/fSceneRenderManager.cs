@@ -17,7 +17,7 @@ namespace SDK.Lib
 		protected fCell m_preCell; // 这个是前一个摄像机所在的格子
 		public fEngineRenderEngine renderEngine; // 渲染引擎
 		
-		public void fSceneRenderManager(fScene scene)
+		public fSceneRenderManager(fScene scene)
 		{
 			this.scene = scene;
 			this.renderEngine = this.scene.renderEngine;
@@ -26,9 +26,9 @@ namespace SDK.Lib
 		// 设置 Scene 的 ViewPort 大小
 		public void setViewportSize(float width, float height)
 		{
-			this.range = Math.sqrt(width * width + height * height) * 0.5;
+			this.range = (float)(UtilApi.Sqrt(width * width + height * height) * 0.5);
 			if (this.range <= 0)
-				this.range = Infinity;
+				this.range = 0;
 			else
 				this.range += 2 * this.scene.gridSize;
 		}
@@ -48,14 +48,14 @@ namespace SDK.Lib
 			{
 				return;
 			}
-			// Init
+
 			this.m_preCell = this.cell;
 			this.cell = cam.cell;
 			float x = 0, y = 0, z = 0;
             MList<fFloor> tempElements;
 			
 			// 摄像机进入新的单元
-			if (!this.cell.visibleElements || this.cell.visibleRange < this.range)
+			if (this.cell.visibleElements || this.cell.visibleRange < this.range)
 			{
 				this.scene.getVisibles(this.cell, this.range);
 			}

@@ -47,8 +47,8 @@ namespace SDK.Lib
         public static int ASSETS_DESTROYED = 6;
 
 		public fRenderableElement(SecurityElement defObj, bool noDepthSort = false)
+            : base(defObj)
 		{
-			base(defObj);
 			_resDic = new Dictionary<int, TextureRes>();
 		}
 		
@@ -110,7 +110,7 @@ namespace SDK.Lib
 			this.disposeRenderable();
 		}
 		
-		public void loadRes(uint act, uint direction)
+		virtual public void loadRes(uint act, uint direction)
 		{
 			
 		}
@@ -135,34 +135,34 @@ namespace SDK.Lib
 		// 判断某个资源的动作是否加载 
 		public bool actLoaded(uint act, uint direction)
 		{
-			var resact:Dictionary;
-			resact = this._resDic[act];
-			if (resact)
-			{
-				if (resact[direction])
-				{
-					if (resact[direction].isLoaded)
-					{
-						if (!resact[direction].didFail)
-						{
-							return true;
-						}
-					}
-				}
-			}
+			//var resact:Dictionary;
+			//resact = this._resDic[act];
+			//if (resact)
+			//{
+			//	if (resact[direction])
+			//	{
+			//		if (resact[direction].isLoaded)
+			//		{
+			//			if (!resact[direction].didFail)
+			//			{
+			//				return true;
+			//			}
+			//		}
+			//	}
+			//}
 			
 			return false;
 		}
 		
 		public uint actByRes(TextureRes res)
 		{
-			for (var key:String in _resDic)
-			{
-				if (_resDic[key] == res)
-				{
-					return parseInt(key);
-				}
-			}
+			//for (var key:String in _resDic)
+			//{
+			//	if (_resDic[key] == res)
+			//	{
+			//		return parseInt(key);
+			//	}
+			//}
 			
 			return 0;
 		}
@@ -202,9 +202,9 @@ namespace SDK.Lib
 			// KBEN: 可视化判断，需要添加
 			if (this._visible && this.isVisibleNow)
 			{
-				if (customData.flash9Renderer)
+				if (this.flash9Renderer != null)
 				{
-					customData.flash9Renderer.onTick(deltaTime);
+                    this.flash9Renderer.onTick(deltaTime);
 				}
 			}
 		}

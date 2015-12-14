@@ -405,15 +405,15 @@ namespace SDK.Lib
 		}
 
         // KBEN: 创建特效，这个是创建加入场景的特效，例如飞行特效，speed 速度大小 
-        public function createEffect(ideff:String, def:String, startx:Number, starty:Number, startz:Number, destx:Number, desty:Number, destz:Number, speed:Number):EffectEntity
+        public EffectEntity createEffect(string ideff, string def, float startx, float starty, float startz, float destx, float desty, float destz, float speed)
 		{
-			// Ensure coordinates are inside the scene
-			var c:fCell = this.translateToCell(startx, starty, startz);
+            // Ensure coordinates are inside the scene
+            fCell c = this.translateToCell(startx, starty, startz);
 			if (c == null)
 			{
 				return null;
 			}
-			var dist:fFloor = getFloorAtByPos(startx, starty);
+            fFloor dist = getFloorAtByPos(startx, starty);
 			if (dist == null)
 			{
 				return null;
@@ -433,20 +433,9 @@ namespace SDK.Lib
 			nEffect.addEventListener(fElement.MOVE, this.renderElement, false, 0, true);
 			
 			// KBEN: 属性设置 
-			//nEffect.vx = speedx;
-			//nEffect.vy = speedy;
-			//nEffect.vz = speedz;
 			nEffect.vel = speed;
-			
-			//nEffect.dx = destx;
-			//nEffect.dy = desty;
-			//nEffect.dz = destz;
 			nEffect.startTof(startx, starty, startz, destx, desty, destz);
-			
-			//nEffect.addEffectPath(new fPoint3d(destx, desty, destz));
-			// KBEN: bug 这个会更新一些列位置，但是这个时候有些变量还没有建立 
-			//nEffect.moveTo(startx, starty, startz);
-			
+
 			// Add to lists
 			this.m_dynamicObjects.push(nEffect);
 			this.everything.push(nEffect);
@@ -457,10 +446,7 @@ namespace SDK.Lib
 				this.renderManager.processNewCellEffect(nEffect);
 				this.render();
 			}
-			
-			// KBEN: 这个尽量放到这   
-			// nEffect.moveTo(startx, starty, startz);
-			
+
 			//Return
 			return nEffect;
 		}
@@ -471,7 +457,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 移除场景中特效，例如飞行特效      
-		public function removeEffect(effect:EffectEntity):void
+		public void removeEffect(EffectEntity effect)
 		{
 			// Remove from array
 			if (this.m_dynamicObjects && this.m_dynamicObjects.indexOf(effect) >= 0)
@@ -500,30 +486,12 @@ namespace SDK.Lib
 			}
 		}
 
-		/**
-		 * This method translates scene 3D coordinates to 2D coordinates relative to the Sprite containing the scene
-		 *
-		 * @param x x-axis coordinate
-		 * @param y y-axis coordinate
-		 * @param z z-axis coordinate
-		 *
-		 * @return A Point in this scene's container Sprite
-		 */
-		public function translate3DCoordsTo2DCoords(x:Number, y:Number, z:Number):Point
+		public Point translate3DCoordsTo2DCoords(float x, float y, float z)
 		{
 			return fScene.translateCoords(x, y, z);
 		}
 		
-		/**
-		 * This method translates scene 3D coordinates to 2D coordinates relative to the Stage
-		 *
-		 * @param x x-axis coordinate
-		 * @param y y-axis coordinate
-		 * @param z z-axis coordinate
-		 *
-		 * @return A Coordinate in the Stage
-		 */
-		public function translate3DCoordsToStageCoords(x:Number, y:Number, z:Number):Point
+		public Point translate3DCoordsToStageCoords(float x, float y, float z)
 		{
 			//Get offset of camera
 			var rect:Rectangle = this.container.scrollRect;
@@ -538,25 +506,7 @@ namespace SDK.Lib
 			return r;
 		}
 		
-		/**
-		 * This method translates Stage coordinates to scene coordinates. Useful to map mouse events into game events
-		 *
-		 * @example You can call it like
-		 *
-		 * <listing version="3.0">
-		 *  function mouseClick(evt:MouseEvent) {
-		 *    var coords:Point = this.scene.translateStageCoordsTo3DCoords(evt.stageX, evt.stageY)
-		 *    this.hero.character.teleportTo(coords.x,coords.y, this.hero.character.z)
-		 *   }
-		 * </listing>
-		 *
-		 * @param x x-axis coordinate
-		 * @param y y-axis coordinate
-		 *
-		 * @return A Point in the scene's coordinate system. Please note that a Z value is not returned as It can't be calculated from a 2D input.
-		 * The returned x and y correspond to z=0 in the game's coordinate system.
-		 */
-		public function translateStageCoordsTo3DCoords(x:Number, y:Number):Point
+		public Point translateStageCoordsTo3DCoords(float x, float y)
 		{
 			//get offset of camera
 			var rect:Rectangle = this.container.scrollRect;
@@ -566,23 +516,7 @@ namespace SDK.Lib
 			return fScene.translateCoordsInverse(xx, yy);
 		}
 		
-		/**
-		 * This method returns the element under a Stage coordinate, and a 3D translation of the 2D coordinates passed as input.
-		 * To achieve this it finds which visible elements are under the input pixel, ignoring the engine's internal coordinates.
-		 * Now you can find out what did you click and which point of that element did you click.
-		 *
-		 * @param x Stage horizontal coordinate
-		 * @param y Stage vertical coordinate
-		 *
-		 * @return An array of objects storing both the element under that point and a 3d coordinate corresponding to the 2d Point. This method returns null
-		 * if the coordinate is not occupied by any element.
-		 * Why an Array an not a single element ? Because you may want to search the Array for the element that better suits your intentions: for
-		 * example if you use it to walk around the scene, you will want to ignore trees to reach the floor behind. If you are shooting
-		 * people, you will want to ignore floors and look for objects and characters to target at.
-		 *
-		 * @see org.ffilmation.engine.datatypes.fCoordinateOccupant
-		 */
-		public function translateStageCoordsToElements(x:Number, y:Number):Array
+		public ArrayList translateStageCoordsToElements(float x, float y)
 		{
 			// This must be passed to the renderer because we have no idea how things are drawn
 			if (this.IAmBeingRendered)
@@ -591,12 +525,12 @@ namespace SDK.Lib
 				return null;
 		}
 		
-		public function render():void
+		public void render()
 		{
 			
 		}
 		
-		public function startRendering():void
+		public void startRendering()
 		{
 			if (this.IAmBeingRendered)
 				return;
@@ -651,7 +585,7 @@ namespace SDK.Lib
 
 		}
 
-		private function addElementToRenderEngine(element:fRenderableElement):void
+		private void addElementToRenderEngine(fRenderableElement element)
 		{
 			// Init
 			element.container = this.renderEngine.initRenderFor(element);
@@ -679,11 +613,8 @@ namespace SDK.Lib
 			// Elements default to Mouse-disabled
 			element.disableMouseEvents();
 		}
-		
-		/**
-		 * This method removes an element from the renderEngine pool
-		 */
-		private function removeElementFromRenderEngine(element:fRenderableElement, destroyingScene:Boolean = false):void
+
+		private void removeElementFromRenderEngine(fRenderableElement element, bool destroyingScene = false)
 		{
 			// bug: 如果渲染内容已经销毁，数据逻辑继续运行的时候，如果再次调用这个函数就会宕机，因此检查一下  
 			if (!element.container)
@@ -708,23 +639,18 @@ namespace SDK.Lib
 			element.removeEventListener(fRenderableElement.DISABLE, this.disableListener);
 		}
 		
-		// Listens to elements made enabled
-		private function enableListener(evt:Event):void
+		private void enableListener(evt:Event)
 		{
 			this.renderEngine.enableElement(evt.target as fRenderableElement);
 		}
 		
 		// Listens to elements made disabled
-		private function disableListener(evt:Event):void
+		private void disableListener(evt:Event)
 		{
 			this.renderEngine.disableElement(evt.target as fRenderableElement);
 		}
 		
-		/**
-		 * @private
-		 * This method is called when the scene is no longer displayed.
-		 */
-		public function stopRendering():void
+		public void stopRendering()
 		{
 			var jl:int = this.floors.length;
 			for (var j:int = 0; j < jl; j++)
@@ -763,13 +689,8 @@ namespace SDK.Lib
 			this.IAmBeingRendered = false;
 		}
 		
-		// Element enters new cell
-		/** @private */
 		public function processNewCell(evt:fNewCellEvent):void
 		{
-			if (this.engine.m_context.m_profiler)
-				this.engine.m_context.m_profiler.enter("fScene.processNewCell");
-			
 			if (this.IAmBeingRendered)
 			{
 				if (evt.target is fCharacter)
@@ -797,22 +718,12 @@ namespace SDK.Lib
 					fFObjectSceneLogic.processNewCellFObject(this, fobj);
 				}
 			}
-			
-			if (this.engine.m_context.m_profiler)
-				this.engine.m_context.m_profiler.exit("fScene.processNewCell");
 		}
-		
-		// LIstens to render events
-		/** @private */
-		public function renderElement(evt:Event):void
-		{
-			if (this.engine.m_context.m_profiler)
-				this.engine.m_context.m_profiler.enter("fScene.renderElement");
 
+		public void renderElement(Event evt)
+		{
 			if (this.IAmBeingRendered)
 			{
-				//if (evt.target is fOmniLight)
-				//	fLightSceneLogic.renderOmniLight(this, evt.target as fOmniLight);
 				if (evt.target is fCharacter)
 					fCharacterSceneLogic.renderCharacter(this, evt.target as fCharacter);
 				else if (evt.target is fEmptySprite)
@@ -826,19 +737,14 @@ namespace SDK.Lib
 					fFObjectSceneLogic.renderFObject(this, evt.target as fSceneObject);
 				}
 			}
-			
-			if (this.engine.m_context.m_profiler)
-				this.engine.m_context.m_profiler.exit("fScene.renderElement");
 		}
 		
-		// Listens cameras moving
-		private function cameraMoveListener(evt:fMoveEvent):void
+		private void cameraMoveListener(evt:fMoveEvent)
 		{
 			this.followCamera(evt.target as fCamera);
 		}
 		
-		// Listens cameras changing cells.
-		private function cameraNewCellListener(evt:Event):void
+		private void cameraNewCellListener(Event evt)
 		{
 			var camera:fCamera = evt.target as fCamera;
 			this.renderEngine.setCameraPosition(camera);
@@ -846,8 +752,7 @@ namespace SDK.Lib
 				this.renderManager.processNewCellCamera(camera);
 		}
 		
-		// Adjusts visualization to camera position
-		private function followCamera(camera:fCamera):void
+		private void followCamera(fCamera camera)
 		{
 			//if (this.prof)
 			if (this.engine.m_context.m_profiler)
@@ -863,27 +768,17 @@ namespace SDK.Lib
 				this.renderEngine.setCameraPosition(camera);
 			}
 		}
-		
-		// INTERNAL METHODS RELATED TO DEPTHSORT
-		
-		// Returns a normalized zSort value for a cell in the grid. Bigger values display in front of lower values
-		/** @private */
-		public function computeZIndex(i:Number, j:Number, k:Number):Number
+
+		public float computeZIndex(float i, float j, float k)
 		{
 			var ow:int = this.gridWidth;
 			var od:int = this.gridDepth;
 			// KBEN: 这个大小改成 1 就行了吧
 			var oh:int = this.gridHeight;
-			//return ((((((ow - i + 1) + (j * ow + 2))) * oh) + k)) / (ow * od * oh);
 			return ((ow - i + 1) + (j * ow + 2)) / (ow * od);
 		}
-		
-		// INTERNAL METHODS RELATED TO GRID MANAGEMENT	
-		
-		// Reset cell. This is called if the engine's quality options change to a better quality
-		// as all cell info will have to be recalculated
-		/** @private */
-		public function resetGrid():void
+
+		public void resetGrid()
 		{
 			var l:int = this.allUsedCells.length;
 			for (var i:int = 0; i < l; i++)
@@ -893,9 +788,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		// Returns the cell containing the given coordinates
-		/** @private */
-		public function translateToCell(x:Number, y:Number, z:Number):fCell
+		public fCell translateToCell(float x, float y, float z)
 		{
 			//if (x < 0 || y < 0 || z < 0)
 			//return null;
@@ -904,10 +797,8 @@ namespace SDK.Lib
 				return null;
 			return this.getCellAt(x / this.gridSize, y / this.gridSize);
 		}
-		
-		// Returns the cell at specific grid coordinates. If cell does not exist, it is created.
-		/** @private */
-		public function getCellAt(i:int, j:int, k:int = 0):fCell
+
+		public fCell getCellAt(int i, int j, int k = 0)
 		{	
 			if (i < 0 || j < 0)
 				return null;
@@ -946,15 +837,13 @@ namespace SDK.Lib
 			
 			return cell;
 		}
-		
-		/** @private */
-		public static function translateCoords(x:Number, y:Number, z:Number):Point
+
+		public static Point translateCoords(float x, float y, float z)
 		{
 			return new Point(x, y);
 		}
-		
-		/** @private */
-		public static function translateCoordsInverse(x:Number, y:Number):Point
+
+		public static Point translateCoordsInverse(float x, float y)
 		{
 			// KBEN: 
 			if (fSceneConfig.instance.mapType == fEngineCValue.Engine2d)
@@ -974,10 +863,8 @@ namespace SDK.Lib
 				return new Point(xCart, yCart);
 			}
 		}
-		
-		// Get elements visible from given cell, sorted by distance
-		/** @private */
-		public function getVisibles(cell:fCell, range:Number = Infinity):void		
+
+		public void getVisibles(fCell cell, float range = 0)		
 		{
 			var visibleFloor:Vector.<fFloor> = new Vector.<fFloor>();
 
@@ -988,12 +875,7 @@ namespace SDK.Lib
 			cell.visibleRange = range;
 		}
 		
-		/**
-		 * @private
-		 * This method frees all resources allocated by this scene. Always dispose unused scene objects:
-		 * scenes generate lots of internal Arrays and BitmapDatas that will eat your RAM fast if they are not properly deleted
-		 */
-		public function dispose():void
+		public void dispose()
 		{
 			// 一定放在 this.renderEngine = null; 之前
 			m_disposed = true;
@@ -1082,10 +964,7 @@ namespace SDK.Lib
 			this.environmentLight = null;
 		}
 		
-		/**
-		 * This method frees memory used by the grid in this scene
-		 */
-		private function freeGrid():void
+		private void freeGrid()
 		{
 			var l:int = this.allUsedCells.length;
 			for (var i:int = 0; i < l; i++)
@@ -1095,7 +974,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 阻挡点测试，初始化几个阻挡点  
-		public function testStopPoint():void
+		public void testStopPoint()
 		{
 			var k:uint = 0;
 			var m:uint = 0;
@@ -1112,8 +991,6 @@ namespace SDK.Lib
 						
 						// 绘制阻挡点 
 						var floor:fFloor = getFloorByGridPos(m, k);
-							//(floor.customData.flash9Renderer as fFlash9FloorRenderer).drawGrid(m - floor.i, k - floor.j);
-					}
 					
 					++m;
 				}
@@ -1124,7 +1001,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 根据格子找对应的区块，就是 floor
-		public function getFloorByGridPos(ix:uint, iy:uint):fFloor
+		public fFloor getFloorByGridPos(uint ix, uint iy)
 		{
 			var floor:fFloor;
 			for (var key:String in this.floors)
@@ -1140,7 +1017,7 @@ namespace SDK.Lib
 		}
 		
 		// 区域获取    
-		public function translateToFloor(x:Number, y:Number):fFloor
+		public fFloor translateToFloor(float x, float y)
 		{
 			// bug: 经常有些值返回 null ，这里直接跑出异常    
 			if (x < 0 || y < 0)
@@ -1151,7 +1028,7 @@ namespace SDK.Lib
 			return this.getFloorAt(x / this.m_floorWidth, y / this.m_floorDepth);
 		}
 		
-		public function getFloorAt(i:int, j:int):fFloor
+		public fFloor getFloorAt(int i, int j)
 		{
 			// bug: 经常有些值返回 null ，这里直接跑出异常    
 			if (i < 0 || j < 0)
@@ -1170,7 +1047,7 @@ namespace SDK.Lib
 		}
 		
 		// 根据世界空间中的位置获取区域, 这个坐标是场景中的坐标,不是 stage 坐标
-		public function getFloorAtByPos(x:Number, y:Number):fFloor
+		public fFloor getFloorAtByPos(float x, float y)
 		{
 			if (x < 0 || y < 0)
 				return null;
@@ -1202,7 +1079,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 获取并且改变 floor 中的动态对象 
-		public function translateToFloorAndIdx(x:Number, y:Number, idx:int, id:String, type:uint):int
+		public int translateToFloorAndIdx(float x, float y, int idx, string id, uint type)
 		{
 			var srci:int;
 			var srcj:int;
@@ -1251,7 +1128,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 直接获取阻挡点信息   
-		public function getStopPoint(xpos:int, ypos:int):stopPoint
+		public StopPoint getStopPoint(int xpos, int ypos)
 		{
 			if (m_stopPointList[ypos] && m_stopPointList[ypos][xpos])
 			{
@@ -1261,13 +1138,13 @@ namespace SDK.Lib
 		}
 		
 		// KBEN: 添加阻挡点  xpos : 列数  ypos : 行数    
-		public function addStopPoint(xpos:int, ypos:int, stoppoint:stopPoint):void
+		public void addStopPoint(int xpos, int ypos, StopPoint stoppoint)
 		{
 			m_stopPointList[ypos] ||= new Dictionary();
 			m_stopPointList[ypos][xpos] = stoppoint;
 		}
 		
-		public function correctX(x:Number):Number
+		public float correctX(float x)
 		{
 			if (x < 0)
 			{
@@ -1285,7 +1162,7 @@ namespace SDK.Lib
 			}
 		}
 		
-		public function correctY(y:Number):Number
+		public float correctY(float y)
 		{
 			if (y < 0)
 			{
@@ -1313,18 +1190,7 @@ namespace SDK.Lib
 			ptClient.y = correctY(ptClient.y);
 			return ptClient;
 		}
-		
-		public function ServerPointToClientPoint2(x:int, y:int):Point
-		{
-			var ptClient:Point = new Point();
-			ptClient.x = x * this.gridSize;
-			ptClient.y = y * this.gridSize;
-			
-			ptClient.x = correctX(ptClient.x);
-			ptClient.y = correctY(ptClient.y);
-			return ptClient;
-		}
-		
+
 		// 场景宽度和高度，像素为单位，这个是真实的图片的宽度和高度
 		public function widthpx():int
 		{			
@@ -1337,264 +1203,33 @@ namespace SDK.Lib
 		}
 		
 		// 这个是整个场景的像素宽度和高度，由于以格子为单位，所以可能这个像素大小要比真正的图片像素大小要大，并且战斗地图的左右两边都添加了很多的空格子
-		public function sceneWidthpx():int
+		public int sceneWidthpx()
 		{
 			return gridWidth * gridSize;
 		}
 		
-		public function sceneHeightpx():int
+		public int sceneHeightpx()
 		{
 			return gridDepth * gridSize;
 		}
 		
-		public function isCoordinateLegal(_x:Number, _y:Number):Boolean
+		public bool isCoordinateLegal(float _x, float  _y)
 		{
 			return _x < widthpx() && _y < heightpx();
 		}
-		
-		// 绘制战斗格子 startPt : 起始点    gridsize : 格子大小
-		public function drawFightGrid(startPt:Point, gridsize:Point):void
-		{
-			var xcnt:uint = 7;
-			var ycnt:uint = 3;
-			var screenpos:Point;
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.clear();
-			m_SceneLayer[EntityCValue.SLShadow].graphics.lineStyle(1, 0x000000);
-			//m_SceneLayer[SLShadow].graphics.beginFill(0xFFFFFF);
-			
-			// 绘制格子   
-			var k:int = 0;
-			while (k < xcnt + 1)
-			{
-				screenpos = translateCoords(startPt.x + k * gridsize.x, startPt.y, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-				
-				screenpos = fScene.translateCoords(startPt.x + k * gridsize.x, startPt.y + ycnt * gridsize.y, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-				
-				++k;
-			}
-			
-			k = 0;
-			while (k < ycnt + 1)
-			{
-				screenpos = fScene.translateCoords(startPt.x, startPt.y + k * gridsize.y, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-				
-				screenpos = fScene.translateCoords(startPt.x + xcnt * gridsize.x, startPt.y + k * gridsize.y, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-				
-				++k;
-			}
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.endFill();
-		}
-		
-		public function clearFightGrid():void
-		{
-			m_SceneLayer[EntityCValue.SLShadow].graphics.clear();
-		}
-		
-		// 调试的时候绘制阻挡点
-		public function drawStopPt():void
-		{
-			var screenpos:Point;
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.clear();
-			m_SceneLayer[EntityCValue.SLShadow].graphics.lineStyle(1, 0x000000);
-			//m_SceneLayer[SLShadow].graphics.beginFill(0xFF0000);
-			
-			// 绘制格子
-			// 绘制竖线
-			var k:int = 0;
-			while (k < this.gridWidth + 1)
-			{
-				screenpos = fScene.translateCoords(k * this.gridSize, 0, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-				
-				screenpos = fScene.translateCoords(k * this.gridSize, this.gridDepth * this.gridSize, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-				
-				++k;
-			}
-			
-			// 绘制横线
-			k = 0;
-			while (k < this.gridDepth + 1)
-			{
-				screenpos = fScene.translateCoords(0, k * this.gridSize, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-				
-				screenpos = fScene.translateCoords(this.gridWidth * this.gridSize, k * this.gridSize, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-				
-				++k;
-			}
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.endFill();
-			
-			// 阻挡点使用红色
-			m_SceneLayer[EntityCValue.SLShadow].graphics.lineStyle(1, 0xFF0000);
-			var m:uint = 0;
-			k = 0;
-			while (k < this.gridDepth) // 行  
-			{
-				m = 0;
-				while (m < this.gridWidth) // 列 
-				{
-					var c:fCell = getCellAt(m, k, 0);
-					if (c.stoppoint.isStop) // 绘制阻挡点  
-					{
-						drawGrid(m, k);
-					}
-					
-					++m;
-				}
-				
-				++k;
-			}
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.endFill();
-		}
-		
-		// 绘制 fFloor
-		public function drawFloor():void
-		{
-			var screenpos:Point;
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.clear();
-			m_SceneLayer[EntityCValue.SLShadow].graphics.lineStyle(1, 0x000000);
-			//m_SceneLayer[SLShadow].graphics.beginFill(0xFF0000);
-			
-			// 绘制格子
-			// 绘制竖线
-			var k:int = 0;
-			while (k < this.m_floorXCnt + 1)
-			{
-				screenpos = fScene.translateCoords(k * this.m_floorWidth, 0, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-				
-				screenpos = fScene.translateCoords(k * this.m_floorWidth, this.m_floorYCnt * this.m_floorDepth, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-				
-				++k;
-			}
-			
-			// 绘制横线
-			k = 0;
-			while (k < this.m_floorYCnt + 1)
-			{
-				screenpos = fScene.translateCoords(0, k * this.m_floorDepth, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-				
-				screenpos = fScene.translateCoords(this.m_floorWidth * this.m_floorXCnt, k * this.m_floorDepth, 0);
-				m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-				
-				++k;
-			}
-			
-			m_SceneLayer[EntityCValue.SLShadow].graphics.endFill();
-		}
-		
-		// 绘制滚动矩形
-		public function drawScrollRect(cell:fCell):void
-		{
-			var screenpos:Point;
-			
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.clear();
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.lineStyle(1, 0xFF0000);
-			
-			// 第一行
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x, cell.m_scrollRect.y, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.moveTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x + cell.m_scrollRect.width, cell.m_scrollRect.y, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.lineTo(screenpos.x, screenpos.y);
-			
-			// 第二行
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x, cell.m_scrollRect.y + cell.m_scrollRect.height, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.moveTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x + cell.m_scrollRect.width, cell.m_scrollRect.y + cell.m_scrollRect.height, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.lineTo(screenpos.x, screenpos.y);
-			
-			// 第一列
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x, cell.m_scrollRect.y, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.moveTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x, cell.m_scrollRect.y + cell.m_scrollRect.height, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.lineTo(screenpos.x, screenpos.y);
-			
-			// 第二列
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x + cell.m_scrollRect.width, cell.m_scrollRect.y, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.moveTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords(cell.m_scrollRect.x + cell.m_scrollRect.width, cell.m_scrollRect.y + cell.m_scrollRect.height, 0);
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.lineTo(screenpos.x, screenpos.y);
-			
-			m_SceneLayer[EntityCValue.SLShadow1].graphics.endFill();
-		}
-		
-		public function drawGrid(ix:uint, iy:uint):void
-		{
-			var screenpos:Point;
-			
-			screenpos = fScene.translateCoords(ix * this.gridSize, iy * this.gridSize, 0);
-			m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords((ix + 1) * this.gridSize, (iy + 1) * this.gridSize, 0);
-			m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords((ix + 1) * this.gridSize, iy * this.gridSize, 0);
-			m_SceneLayer[EntityCValue.SLShadow].graphics.moveTo(screenpos.x, screenpos.y);
-			
-			screenpos = fScene.translateCoords(ix * this.gridSize, (iy + 1) * this.gridSize, 0);
-			m_SceneLayer[EntityCValue.SLShadow].graphics.lineTo(screenpos.x, screenpos.y);
-		}
-		
-		public function clearStopPt():void
-		{
-			m_SceneLayer[EntityCValue.SLShadow].graphics.clear();
-		}
-		
-		public function getPosInMap():Point
+
+		public Point getPosInMap()
 		{
 			return new Point(this.container.mouseX, container.mouseY);
 		}
 		
-		public function sceneLayer(id:uint):Sprite
+		public Sprite sceneLayer(uint id)
 		{
 			return m_SceneLayer[id];
 		}
 		
-		public function convertToUIPos(x:Number, y:Number):Point
-		{
-			var ret:Point = new Point();
-			var rect:Rectangle = container.scrollRect;
-			if (rect != null)
-			{
-				ret.x = x - rect.x;
-				ret.y = y - rect.y;
-			}
-			return ret;
-		}
-		
-		// 转换 stage 到 scene 坐标
-		public function convertG2S(x:Number, y:Number):Point
-		{
-			var ret:Point = new Point();
-			var rect:Rectangle = container.scrollRect;
-			if (rect != null)
-			{
-				ret.x = x + rect.x;
-				ret.y = y + rect.y;
-			}
-			return ret;
-		}
-		
 		// 逻辑上一帧结束，有些一帧中更新很一次的数据在帧结束更新就放在这里，否则深度更新会更新很多次
-		public function onFrameEnd():void
+		public void onFrameEnd()
 		{
 			// 每一帧结束更新一次深度排序
 			if (true == this.m_depthDirty)

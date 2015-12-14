@@ -132,7 +132,7 @@ namespace SDK.Lib
 			setOrientation(angle);
 		}
 		
-		protected void setOrientation(float angle)
+		virtual public void setOrientation(float angle)
 		{
 			float correctedAngle = angle % 360;
 			if (correctedAngle < 0)

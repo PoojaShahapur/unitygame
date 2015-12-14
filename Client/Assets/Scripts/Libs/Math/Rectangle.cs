@@ -33,7 +33,23 @@ namespace SDK.Lib
             }
         }
 
+        public float x
+        {
+            get
+            {
+                return m_x;
+            }
+        }
+
         public float Y
+        {
+            get
+            {
+                return m_y;
+            }
+        }
+
+        public float y
         {
             get
             {
@@ -49,7 +65,23 @@ namespace SDK.Lib
             }
         }
 
+        public float width
+        {
+            get
+            {
+                return m_width;
+            }
+        }
+
         public float Height
+        {
+            get
+            {
+                return m_height;
+            }
+        }
+
+        public float height
         {
             get
             {

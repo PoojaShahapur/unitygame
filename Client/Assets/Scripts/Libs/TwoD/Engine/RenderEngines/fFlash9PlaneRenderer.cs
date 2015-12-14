@@ -5,27 +5,17 @@
 		private float origWidth;
 		private float origHeight;
 		
-		public Rectangle scrollR;
-		
-		private Sprite spriteToDraw;
-		public DisplayObjectContainer baseContainer;
-
+		// public Rectangle scrollR;
 		private float occlusionCount = 0;
-		private Sprite occlusionLayer;
-		private Object occlusionSpots;
 		
-		public fFlash9PlaneRenderer(fFlash9RenderEngine rEngine, fPlane element, float width, float height, Sprite spriteToDraw, fElementContainer spriteToShowHide)
+		public fFlash9PlaneRenderer(fFlash9RenderEngine rEngine, fPlane element, float width, float height)
+            : base(rEngine, element)
 		{
-			// Previous
 			this.scene = element.scene;
-			super(rEngine, element, null, spriteToShowHide);
 			
-			// Properties
 			this.origWidth = width;
 			this.origHeight = height;
-			this.spriteToDraw = spriteToDraw;
-			
-			// Listen to changes in material
+
 			this.element.addEventListener(fPlane.NEWMATERIAL, this.newMaterial, false, 0, true);
 		}
  

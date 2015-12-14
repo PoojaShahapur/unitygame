@@ -17,7 +17,7 @@ namespace SDK.Lib
 		// KBEN: 元素所在的地形区域
 		public fFloor m_district;		
 		public Object customData;
-        public  flash9Renderer;
+        public fFlash9ElementRenderer flash9Renderer;
 
         // elementmove 元素移动事件
         public static int MOVE = 0;
@@ -75,7 +75,7 @@ namespace SDK.Lib
 			return this._controller;
 		}
 		
-		public void moveTo(float x, float y, float z)
+		virtual public void moveTo(float x, float y, float z)
 		{			
 			// 设置新的坐标	   
 			this.x = x;
@@ -83,7 +83,7 @@ namespace SDK.Lib
 			this.z = z;			
 		}
 
-		public void follow(fElement target, float elasticity = 0)
+		virtual public void follow(fElement target, float elasticity = 0)
 		{
 			this.offx = target.x - this.x;
 			this.offy = target.y - this.y;
@@ -99,7 +99,7 @@ namespace SDK.Lib
 			target.removeEventHandle(fElement.MOVE, this.moveListener);
 		}
 		
-		public void moveListener(IDispatchObject dispObj)
+		virtual public void moveListener(IDispatchObject dispObj)
 		{
             fMoveEvent evt = dispObj as fMoveEvent;
             if (this.elasticity == 1)
@@ -113,7 +113,7 @@ namespace SDK.Lib
             }
 		}
 		
-		public void followListener(IDispatchObject dispObj)
+		virtual public void followListener(IDispatchObject dispObj)
 		{
 			float dx = this.destx - this.x;
             float dy = this.desty - this.y;
@@ -148,7 +148,7 @@ namespace SDK.Lib
 		
 		virtual public void dispose()
 		{
-			this.customData.flash9Renderer = null;
+			this.flash9Renderer = null;
 			this.disposeElement();
 		}
 		

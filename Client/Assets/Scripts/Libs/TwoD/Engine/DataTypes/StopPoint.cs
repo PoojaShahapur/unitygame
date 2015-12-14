@@ -3,7 +3,7 @@ namespace SDK.Lib
 	/**
 	 * KBEN: 阻挡点信息  
 	 */
-	public class stopPoint 
+	public class StopPoint 
 	{
 		protected var m_xmlObj:XML;	// 阻挡点的 XML 描述 
 		protected var m_type:int;		// 阻挡点类型     

@@ -807,7 +807,7 @@ namespace SDK.Lib
             return Resources.FindObjectsOfTypeAll<T>();
         }
 
-        static public double Sqrt(double d)
+        static public float Sqrt(float d)
         {
             return UnityEngine.Mathf.Sqrt(d);
         }
@@ -835,7 +835,7 @@ namespace SDK.Lib
         /**
          * @brief tan
          */
-        static public float tan(double a)
+        static public float tan(float a)
         {
             return (float)(UnityEngine.Mathf.Tan(a));
         }
