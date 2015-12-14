@@ -33,9 +33,9 @@ namespace SDK.Lib
 
 		public void place()
 		{
-            Point coords = fScene.translateCoords(this.element.x, this.element.y, this.element.z);
-			this.container.x = Math.floor(coords.x);
-			this.container.y = Math.floor(coords.y);
+   //         Point coords = fScene.translateCoords(this.element.x, this.element.y, this.element.z);
+			//this.container.x = Math.floor(coords.x);
+			//this.container.y = Math.floor(coords.y);
 		}
 
 		public void disableMouseEvents()
@@ -48,37 +48,22 @@ namespace SDK.Lib
 			
 		}
 
-		public void show()
+		virtual public void show()
 		{
 			// KBEN: 更新链接元素显示   
 			element.showRender();
 		}
 
-		public void hide()
+        virtual public void hide()
 		{
 			// 防止调用多次隐藏挂掉
-			if (containerParent && container.parent == containerParent)
-			{
-				this.containerParent.removeChild(this.container);
-			}
+			//if (containerParent && container.parent == containerParent)
+			//{
+			//	this.containerParent.removeChild(this.container);
+			//}
 			
 			// KBEN: 更新链接元素显示    
 			element.hideRender();
-		}
-
-		public void startOcclusion(fCharacter character)
-		{
-
-		}
-
-		public void updateOcclusion(fCharacter character)
-		{
-
-		}
-
-		public void stopOcclusion(fCharacter character)
-		{
-
 		}
 
 		public void disposeRenderer()
@@ -87,7 +72,7 @@ namespace SDK.Lib
 			this.rEngine = null;
 		}
 		
-		public void dispose()
+		virtual public void dispose()
 		{
 			this.disposeRenderer();
 		}
@@ -100,21 +85,10 @@ namespace SDK.Lib
 		}
 		
 		// KBEN:主要是资源类初始化类常量  
-		public void init(SWFResource res, uint act, uint direction)
-		{
+		//public void init(SWFResource res, uint act, uint direction)
+		//{
 			
-		}
-		
-		// KBEN: 切换渲染显示容器，一般是把特效关联到一个实体上面  
-		public void changeContainerParent(DisplayObjectContainer pnt)
-		{
-			if (this.container.parent)
-			{
-				this.containerParent.removeChild(this.container)
-			}
-			
-			this.containerParent = pnt;
-		}
+		//}
 		
 		// KBEN: 动作是否播放完，重复动作总是返回 false ，不重复的动作播放完了返回 true 
 		public bool aniOver() 
@@ -142,11 +116,6 @@ namespace SDK.Lib
 		public void setCurrentFrame(int value)
 		{
 			
-		}
-		
-		public DisplayObjectContainer layerContainer(uint layer)
-		{
-			return null;
 		}
 		
 		public void onMouseEnter()

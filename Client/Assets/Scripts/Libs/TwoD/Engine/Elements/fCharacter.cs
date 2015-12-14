@@ -33,17 +33,15 @@ namespace SDK.Lib
 			{
 				z = 0;
 			}
-            // Last position
+
             float lx = this.x;
             float ly = this.y;
             float lz = this.z;
 
-            // Movement
             float dx = x - lx;
             float dy = y - ly;
             float dz = z - lz;
 			
-			// bug: 这个地方如果返回，没有 exit 
 			if (dx == 0 && dy == 0 && dz == 0)
 			{
 				return;
@@ -55,10 +53,12 @@ namespace SDK.Lib
 				this.y = y;
 				this.z = z;
 
-                float radius = this.radius;
-                float height = this.height;
-				
-				this.top = this.z + height;
+                //float radius = this.radius;
+                //float height = this.height;
+                float radius = 0;
+                float height = 0;
+
+                this.top = this.z + height;
 
                 fCell cell = this.scene.translateToCell(this.x, this.y, this.z);
 				
@@ -106,7 +106,7 @@ namespace SDK.Lib
 		public void disposeCharacter()
 		{
 			// KBEN: 这个一定要放在最后，他会销毁自身的很多变量，这些变量在销毁之前很可能会用到
-			this.disposeObject();
+			//this.disposeObject();
 		}
 		
 		//在从场景对象(fScene)上移除时，调用此函数
@@ -114,8 +114,7 @@ namespace SDK.Lib
 		{
 			
 		}
-		
-		/** @private */
+
 		public override void dispose()
 		{
 			this.disposeCharacter();

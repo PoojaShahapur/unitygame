@@ -22,21 +22,10 @@ namespace SDK.Lib
 		public MList<fFloor> m_visibleFloor;		// 这个存放的是 fFloor 这个数据结构，但是可视化的内容与 visibleElements 都是一样的
 		
 		public float visibleRange = 0;
-		
-		/**
-		 * This is the list of elements that "cover" ( once translated and placed onscreen ) this cell
-		 * It is used to apply camera occlusion
-		 */
-		public MList<fElement> elementsInFront;
-		
-		/**
-		 * This is the list of characters that occupy this cell
-		 */
-		public MList<fElement> charactersOccupying;
-		
+
 		// KBEN: 阻挡点，本来没有必要在这里再存储一个阻挡点信息了，但是为了找到 fCell 直接找到阻挡点。其实可以从 fScene 中查找的      
 		private StopPoint m_stoppoint;
-		public Rectangle m_scrollRect;		// 这个是这个单元格子最大可见的范围，注意是格子左上角和右下角两个可见范围的并集
+		//public Rectangle m_scrollRect;		// 这个是这个单元格子最大可见的范围，注意是格子左上角和右下角两个可见范围的并集
 		public Dictionary<fCell, MList<fFloor>> m_updateDistrict;	// 当从 另外一个格子进入当前格子时，记录需要更新的内容区域(fFloor对象)列表，其实就是在前一次基础上迭代更新
 		public Dictionary<fCell, MList<fFloor>> m_hideDistrict;	// 这个是进入当前格子需要隐藏的区域
 		public fScene m_scene;
@@ -51,18 +40,9 @@ namespace SDK.Lib
 			m_stoppoint = value;
 		}
 		
-		// End pathfinding
-		
-		/**
-		 * Constructor
-		 */
 		public fCell(fScene scene)
 		{
 			m_scene = scene;
-			this.elementsInFront = new MList<fElement>();
-			this.charactersOccupying = new MList<fElement>();
-		
-			m_scrollRect = new Rectangle();
 			m_updateDistrict = new Dictionary<fCell, MList<fFloor>>();
 			m_hideDistrict = new Dictionary<fCell, MList<fFloor>>();
 		}
@@ -73,17 +53,6 @@ namespace SDK.Lib
 			{
                 this.visibleElements.Clear();
                 this.visibleElements = null;
-			}
-
-			if (this.elementsInFront != null)
-			{
-                this.elementsInFront.Clear();
-                this.elementsInFront = null;
-			}
-			if (this.charactersOccupying != null)
-			{
-                this.charactersOccupying.Clear();
-                this.charactersOccupying = null;
 			}
 			
 			clearClip();
@@ -108,14 +77,9 @@ namespace SDK.Lib
 			{
                 // 更新更新列表
                 MList<fFloor> updateDistrictList = m_updateDistrict[pregrid];
-                Rectangle pregridRect = pregrid.m_scrollRect;
 				foreach(fFloor floor in m_visibleFloor.list)
 				{
-					// 如果包含在前一个格子中，肯定不用更新了					
-					if(!pregridRect.containsRect(floor.screenArea))
-					{
-						updateDistrictList.push(floor);
-					}
+
 				}
                 MList<fFloor> hideDistrict = m_hideDistrict[pregrid];
 				// 更新隐藏列表

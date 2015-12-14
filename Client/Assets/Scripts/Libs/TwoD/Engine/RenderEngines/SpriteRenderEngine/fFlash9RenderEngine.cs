@@ -65,10 +65,10 @@ namespace SDK.Lib
 		}
 
 		// KBEN: 更新特效位置 
-		public void updateEffectPosition(EffectEntity effect)
-		{
-			effect.flash9Renderer.place();
-		}
+		//public void updateEffectPosition(EffectEntity effect)
+		//{
+		//	effect.flash9Renderer.place();
+		//}
 
 		public void showElement(fRenderableElement element)
 		{
@@ -243,35 +243,35 @@ namespace SDK.Lib
 
 		public void dispose()
 		{
-			// Delete resources
-			for (var i:String in this.renderers)
-			{
-				this.renderers[i].element.customData.flash9Renderer = null;
-				this.renderers[i].dispose();
-				if (this.renderers[i].element)
-				{
-					fFlash9RenderEngine.recursiveDelete(this.renderers[i].element.container);
-					objectPool.returnInstance(this.renderers[i].element.container);
-				}
-				delete this.renderers[i];
-			}
-			this.renderers = null;
-			// KBEN: 这个地方会递归移除 container 上的所有节点  
-			fFlash9RenderEngine.recursiveDelete(this.container);
+			//// Delete resources
+			//for (string i in this.renderers)
+			//{
+			//	this.renderers[i].element.customData.flash9Renderer = null;
+			//	this.renderers[i].dispose();
+			//	if (this.renderers[i].element)
+			//	{
+			//		fFlash9RenderEngine.recursiveDelete(this.renderers[i].element.container);
+			//		objectPool.returnInstance(this.renderers[i].element.container);
+			//	}
+			//	delete this.renderers[i];
+			//}
+			//this.renderers = null;
+			//// KBEN: 这个地方会递归移除 container 上的所有节点  
+			//fFlash9RenderEngine.recursiveDelete(this.container);
 			
-			this.m_SceneLayer = null;
+			//this.m_SceneLayer = null;
 		}
    
 		private fFlash9ElementRenderer createRendererFor(fRenderableElement element)
 		{
 			if (!this.renderers.ContainsKey(element.uniqueId))
 			{
-                fElementContainer spr = objectPool.getInstanceOf(fElementContainer) as fElementContainer;
+                fElementContainer spr = new fElementContainer();
 				
 				if (element is fFloor)
 				{
 					// KBEN: 添加到自己层，这一句一定要添加在后面语句的前面      
-					m_SceneLayer[EntityCValue.SLTerrain].addChild(spr);
+					//m_SceneLayer[EntityCValue.SLTerrain].addChild(spr);
 					element.flash9Renderer = new fFlash9FloorRenderer(this, spr, element as fFloor);
 				}
 				else

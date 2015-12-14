@@ -7,7 +7,7 @@ namespace SDK.Lib
 		public fScene scene;
 
 		public fSceneObject(SecurityElement defObj, fScene scene)
-            : base(defObj, scene.engine.m_context)
+            : base(defObj)
 		{
 			this.scene = scene;
 		}
@@ -50,7 +50,7 @@ namespace SDK.Lib
 			this.setDepth(nz);
 		}
 
-		override public void setOrientation(float angle)
+		public void setOrientation(float angle)
 		{
 			// KBEN: 选择对应的动画 			
 			angle += 45;

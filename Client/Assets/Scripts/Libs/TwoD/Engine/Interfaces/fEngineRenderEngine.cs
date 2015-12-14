@@ -13,7 +13,7 @@ namespace SDK.Lib
         void updateCharacterPosition(fCharacter character);
 
         // KBEN: 
-        void updateEffectPosition(EffectEntity effect);
+        //void updateEffectPosition(EffectEntity effect);
 
         void showElement(fRenderableElement element);
 
@@ -38,6 +38,5 @@ namespace SDK.Lib
         void dispose();
 
         void setSceneLayer(MList<SpriteLayer> value);
-        Rectangle getScrollRect();
 	}
 }
