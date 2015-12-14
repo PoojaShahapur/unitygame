@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 namespace SDK.Lib
@@ -126,10 +127,7 @@ namespace SDK.Lib
 					{
 						this.charactersV[this.charactersV.Count()] = character;
 						this.renderEngine.showElement(character);
-						if (EntityCValue.SLBuild != character.layer) // 如果不是地物层
-						{
-							this.addToDepthSort(character);
-						}
+						this.addToDepthSort(character);
 						character.isVisibleNow = true;
 					}
 				}
@@ -140,10 +138,7 @@ namespace SDK.Lib
                         int pos = this.charactersV.IndexOf(character);
 						this.charactersV.RemoveAt(pos);
 						this.renderEngine.hideElement(character);
-						if (EntityCValue.SLBuild != character.layer) // 如果不是地物层
-						{
-							this.removeFromDepthSort(character);
-						}
+						this.removeFromDepthSort(character);
 						character.isVisibleNow = false;
 					}
 				}
@@ -153,59 +148,57 @@ namespace SDK.Lib
 			{
 				// 只需要更新深度值，主角更新相机的时候会更新显示的
 				// bug: 但是如果 processNewCellCamera 没有 m_depthDirty = true ，就会导致不排序，就会有点问题，但是可以减少一次排序
-				if (EntityCValue.SLBuild != character.layer) // 如果不是地物层
-				{
-					character.setDepth(character.cell.zIndex, needDepthsort);
-				}
+				character.setDepth(character.cell.zIndex, needDepthsort);
 			}
 		}
 		
-		// KBEN: 特效处理 
-		public void processNewCellEffect(EffectEntity effect)
-		{
-			// 如果摄像机没有初始化，就不处理
-			if (!this.scene.currentCamera.m_bInit)
-			{
-				return;
-			}
+		//// KBEN: 特效处理 
+		//public void processNewCellEffect(EffectEntity effect)
+		//{
+		//	// 如果摄像机没有初始化，就不处理
+		//	if (!this.scene.currentCamera.m_bInit)
+		//	{
+		//		return;
+		//	}
 			
-			if (effect.cell == null)
-			{
-				this.scene.removeEffect(effect);
-				return;
-			}
+		//	if (effect.cell == null)
+		//	{
+		//		this.scene.removeEffect(effect);
+		//		return;
+		//	}
 			
-			if (effect._visible)
-			{
-				if (this.cell.m_scrollRect.contains(effect.x, effect.y))
-				{
-					if (!effect.isVisibleNow)
-					{
-						this.elementsV[this.elementsV.Count()] = effect;
-						this.renderEngine.showElement(effect);
-						this.addToDepthSort(effect);
-						effect.isVisibleNow = true;
-					}
-				}
-				else
-				{
-					if (effect.isVisibleNow)
-					{
-                        int pos = this.elementsV.IndexOf(effect);
-						this.elementsV.RemoveAt(pos);
-						this.renderEngine.hideElement(effect);
-						this.removeFromDepthSort(effect);
-						effect.isVisibleNow = false;
-					}
-				}
-			}
+		//	if (effect._visible)
+		//	{
+		//		if (this.cell.m_scrollRect.contains(effect.x, effect.y))
+		//		{
+		//			if (!effect.isVisibleNow)
+		//			{
+		//				this.elementsV[this.elementsV.Count()] = effect;
+		//				this.renderEngine.showElement(effect);
+		//				this.addToDepthSort(effect);
+		//				effect.isVisibleNow = true;
+		//			}
+		//		}
+		//		else
+		//		{
+		//			if (effect.isVisibleNow)
+		//			{
+  //                      int pos = this.elementsV.IndexOf(effect);
+		//				this.elementsV.RemoveAt(pos);
+		//				this.renderEngine.hideElement(effect);
+		//				this.removeFromDepthSort(effect);
+		//				effect.isVisibleNow = false;
+		//			}
+		//		}
+		//	}
 			
-			effect.setDepth(effect.cell.zIndex);
-		}
+		//	effect.setDepth(effect.cell.zIndex);
+		//}
 
-		public void showListener(Event evt)
+		public void showListener(IDispatchObject dispObj)
 		{
-			this.addedItem(evt.target as fRenderableElement);
+            fEvent evt = dispObj as fEvent;
+            this.addedItem(evt.target as fRenderableElement);
 		}
 		
 		public void addedItem(fRenderableElement ele)
@@ -226,70 +219,43 @@ namespace SDK.Lib
 					if (!(ele is fFloor))
 					{
 						// 地物层也不需要排序
-						if (EntityCValue.SLBuild != ele.layer) // 如果不是地物层
-						{
-							this.addToDepthSort(ele);
-						}
+						this.addToDepthSort(ele);
 					}
 					
 					// KBEN: 这个地方需要修改   
 					// KBEN: 玩家 npc 全部放在这里   
-					//if (ele is fCharacter)
-					if (ele is BeingEntity)
+					if (ele is fCharacter)
 					{
 						this.charactersV[this.charactersV.Count()] = ele as fCharacter;
 					}
-					else if (ele is EffectEntity)
-					{
-						this.elementsV[this.elementsV.Count()] = ele;
-					}
+					//else if (ele is EffectEntity)
+					//{
+					//	this.elementsV[this.elementsV.Count()] = ele;
+					//}
 
 					// KBEN: 地形不排序，只可视化剔除   
 					if (!(ele is fFloor))
 					{
 						// KBEN: 需要重新排序，增加的时候需要深度排序
-						if (EntityCValue.SLBuild != ele.layer) // 如果不是地物层
-						{
-							this.scene.m_depthDirty = true;
-						}
+						this.scene.m_depthDirty = true;
 					}
 				}
 			}
-			catch (Error e)
+			catch (Exception e)
 			{
-				string strLog = "";
-				if (scene)
-				{
-					strLog += "scene " + scene.m_serverSceneID + " ";
-					if (scene.currentCamera)
-					{
-						strLog += "scene.currentCamera ";
-					}
-				}
-				if (cell)
-				{
-					strLog += "cell ";
-				}
-				if (renderEngine)
-				{
-					strLog += "renderEngine ";
-				}
 				
-				if (ele)
-				{
-					strLog += "ele ";
-				}
 			}
 		}
 
-		public void hideListener(Event evt)
+		public void hideListener(IDispatchObject dispObj)
 		{
-			this.removedItem(evt.target as fRenderableElement);
+            fEvent evt = dispObj as fEvent;
+            this.removedItem(evt.target as fRenderableElement);
 		}
 		
 		public void removedItem(fRenderableElement ele, bool destroyingScene = false)
 		{
-            BeingEntity ch;
+            fCharacter ch;
             int pos;
 			if (ele.isVisibleNow)
 			{
@@ -302,10 +268,10 @@ namespace SDK.Lib
 					//this.removeFromDepthSort(ele);
 					//}
 				}
-				else if (ele is BeingEntity)
+				else if (ele is fCharacter)
 				{
 					// KBEN:   
-					ch = ele as BeingEntity;
+					ch = ele as fCharacter;
 					pos = this.charactersV.IndexOf(ch);
 					if (pos >= 0)
 					{
@@ -314,16 +280,16 @@ namespace SDK.Lib
 						this.removeFromDepthSort(ele);
 					}
 				}
-				else if (ele is EffectEntity)
-				{
-					pos = this.elementsV.IndexOf(ele);
-					if (pos >= 0)
-					{
-						this.elementsV.RemoveAt(pos);
-						this.renderEngine.hideElement(ele);
-						this.removeFromDepthSort(ele);
-					}
-				}
+				//else if (ele is EffectEntity)
+				//{
+				//	pos = this.elementsV.IndexOf(ele);
+				//	if (pos >= 0)
+				//	{
+				//		this.elementsV.RemoveAt(pos);
+				//		this.renderEngine.hideElement(ele);
+				//		this.removeFromDepthSort(ele);
+				//	}
+				//}
 				else
 				{
 					this.renderEngine.hideElement(ele);
@@ -348,10 +314,11 @@ namespace SDK.Lib
 			item.removeEventHandle(fRenderableElement.DEPTHCHANGE, this.depthChangeListener);
 		}
 
-		public void depthChangeListener(Event evt)
+		public void depthChangeListener(IDispatchObject dispObj)
 		{
-			// 如果深度排序应经需要重新排序了，就没有必然在单独排序自己了
-			if (this.scene.m_depthDirty || !this.scene.m_sortByBeingMove)
+            fEvent evt = dispObj as fEvent;
+            // 如果深度排序应经需要重新排序了，就没有必然在单独排序自己了
+            if (this.scene.m_depthDirty || !this.scene.m_sortByBeingMove)
 			{
 				return;
 			}
@@ -390,7 +357,7 @@ namespace SDK.Lib
 							p.setChildIndex(el.container, newD);
 						}
 					}
-					catch (Error e)
+					catch (Exception e)
 					{
 						
 					}
@@ -420,7 +387,7 @@ namespace SDK.Lib
 					}
 				}
 			}
-			catch (Error e) // KBEN: 有时候竟然会莫名其妙的减少一个  
+			catch (Exception e) // KBEN: 有时候竟然会莫名其妙的减少一个  
 			{
 				
 			}

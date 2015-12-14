@@ -10,7 +10,6 @@ namespace SDK.Lib
 		public static bool allCharacters = false;
 		
 		private fEngineSceneController _controller = null;
-		private fSceneInitializer initializer;
 		public fEngineRenderEngine renderEngine;
 		public fSceneRenderManager renderManager;
 		public fEngine engine;
@@ -59,7 +58,7 @@ namespace SDK.Lib
 		public MList<fFloor> floors;
 	
 		// KBEN: 这个里面存放的是场景中不能被移动和删除的实体，例如地物，使用树进行裁剪      
-		public MList<fElement> objects;
+		public MList<fRenderableElement> objects;
 		
 		// KBEN: 可移动或者可以动态删除的放在这里，特效，掉落物，npc ，直接使用中心点进行裁剪
 		public MList<fObject> m_dynamicObjects;
@@ -76,14 +75,6 @@ namespace SDK.Lib
 		 * 所有元素
 		 */
 		public Dictionary<string, fElement> all;
-		
-		/**
-		 * AI 内容
-		 */
-		public fAiContainer AI;
-		
-		// KBEN: 场景配置 
-		public fSceneConfig m_sceneConfig;
 		
 		// KBEN:
 		public float m_floorWidth; // 单个 Floor 区域宽度，单位像素  
@@ -124,7 +115,7 @@ namespace SDK.Lib
 		public bool m_disposed = false;
 		public Dictionary<int, int> m_dicDebugInfo;
 
-		public fScene(fEngine engine, AuxComponent container, fEngineSceneRetriever retriever, float width, float height, uint serversceneid, fEngineRenderEngine renderer = null)
+		public fScene(fEngine engine, AuxComponent container, float width, float height, uint serversceneid, fEngineRenderEngine renderer = null)
 		{
 			this.id = "fScene_" + (fScene.count++);
 			this.m_serverSceneID = serversceneid;
@@ -140,15 +131,13 @@ namespace SDK.Lib
 			this.viewHeight = height;
 			
 			this.floors = new MList<fFloor>();
-			this.objects = new MList<fElement>();
+			this.objects = new MList<fRenderableElement>();
 			this.characters = new MList<fCharacter>();
 			this.everything = new MList<fElement>();
-			this.all = new MList<fElement>();
-			// AI
-			this.AI = new fAiContainer(this);
+			this.all = new Dictionary<string, fElement>();
 			
 			// KBEN: 场景层 
-			m_SceneLayer = new MList<SpriteLayer>(EntityCValue.SLCnt);
+			//m_SceneLayer = new MList<SpriteLayer>(EntityCValue.SLCnt);
 
 			if (renderer != null)
 			{
@@ -156,17 +145,13 @@ namespace SDK.Lib
 			}
 			else
 			{
-				this.renderEngine = new fFlash9RenderEngine(this, container, m_SceneLayer);
+				this.renderEngine = new fFlash9RenderEngine(this, m_SceneLayer);
 			}
 			this.renderEngine.setViewportSize(width, height);
 
 			this.renderManager = new fSceneRenderManager(this);
 			this.renderManager.setViewportSize(width, height);
-			
-			this.initializer = new fSceneInitializer(this, retriever);
 
-			// KBEN:
-			m_sceneConfig = new fSceneConfig();
 			m_dynamicObjects = new MList<fObject>();
 			m_stopPointList = new Dictionary<int, Dictionary<int, StopPoint>>();
 			
@@ -177,7 +162,7 @@ namespace SDK.Lib
 		
 		public void initialize()
 		{
-			this.initializer.start();
+			
 		}
 		
 		// KBEN: 舞台大小改变处理函数 
@@ -226,23 +211,23 @@ namespace SDK.Lib
 		public void enable()
 		{
 			this._enabled = true;
-			if (this.controller != null)
-				this.controller.enable();
+			if (this._controller != null)
+				this._controller.enable();
 			
-			for (int i = 0; i < this.everything.Count; i++)
-				if (this.everything[i].controller != null)
-					this.everything[i].controller.enable();
+			for (int i = 0; i < this.everything.Count(); i++)
+				if (this.everything[i].getController() != null)
+					this.everything[i].getController().enable();
 		}
 		
 		public void disable()
 		{
 			this._enabled = false;
-			if (this.controller != null)
-				this.controller.disable();
+			if (this._controller != null)
+				this._controller.disable();
 			
 			for (int i = 0; i < this.everything.Count(); i++)
-				if (this.everything[i].controller != null)
-					this.everything[i].controller.disable();
+				if (this.everything[i].getController() != null)
+					this.everything[i].getController().disable();
 		}
 		
 		public void setController(fEngineSceneController controller)
@@ -279,7 +264,7 @@ namespace SDK.Lib
 			return new fCamera(this);
 		}
 
-		public BeingEntity createCharacter(uint charType, string def, float x, float y, float z, float orientation, uint layer = EntityCValue.SLObject)
+		public fCharacter createCharacter(uint charType, string def, float x, float y, float z, float orientation)
 		{
             fCell c = this.translateToCell(x, y, z);
 			if (c == null)
@@ -292,7 +277,7 @@ namespace SDK.Lib
 				return null;
 			}
 
-            string idchar = fUtil.elementID(this.engine.m_context, charType);
+            string idchar = "";
 
             XML definitionObject = <character id={idchar} definition={def} x={x} y={y} z={z} orientation={orientation}/>;
 
@@ -301,7 +286,7 @@ namespace SDK.Lib
 			nCharacter.m_district = dist;
 			nCharacter.m_district.addCharacter(nCharacter.id);
 			nCharacter.setDepth(c.zIndex);
-			nCharacter.layer = layer;
+			//nCharacter.layer = layer;
 			
 			nCharacter.addEventHandle(fElement.NEWCELL, this.processNewCell);
 			nCharacter.addEventHandle(fElement.MOVE, this.renderElement);
@@ -392,95 +377,95 @@ namespace SDK.Lib
 			}
 		}
 
-        // KBEN: 创建特效，这个是创建加入场景的特效，例如飞行特效，speed 速度大小 
-        public EffectEntity createEffect(string ideff, string def, float startx, float starty, float startz, float destx, float desty, float destz, float speed)
-		{
-            // Ensure coordinates are inside the scene
-            fCell c = this.translateToCell(startx, starty, startz);
-			if (c == null)
-			{
-				return null;
-			}
-            fFloor dist = getFloorAtByPos(startx, starty);
-			if (dist == null)
-			{
-				return null;
-			}
+  //      // KBEN: 创建特效，这个是创建加入场景的特效，例如飞行特效，speed 速度大小 
+  //      public EffectEntity createEffect(string ideff, string def, float startx, float starty, float startz, float destx, float desty, float destz, float speed)
+		//{
+  //          // Ensure coordinates are inside the scene
+  //          fCell c = this.translateToCell(startx, starty, startz);
+		//	if (c == null)
+		//	{
+		//		return null;
+		//	}
+  //          fFloor dist = getFloorAtByPos(startx, starty);
+		//	if (dist == null)
+		//	{
+		//		return null;
+		//	}
 			
-			// Create
-			var definitionObject:XML =  <effect id={ideff} definition={def} x={startx} y={starty} z={startz}/>;
-            // KBEN: 特效可能每一个的定义是不一样的，因此不用特效池了    
-            EffectEntity nEffect = new EffectEntity(definitionObject, this);
-			nEffect.cell = c;
-			nEffect.m_district = dist;
-			nEffect.m_district.addDynamic(nEffect.id);
-			nEffect.setDepth(c.zIndex);
+		//	// Create
+		//	var definitionObject:XML =  <effect id={ideff} definition={def} x={startx} y={starty} z={startz}/>;
+  //          // KBEN: 特效可能每一个的定义是不一样的，因此不用特效池了    
+  //          EffectEntity nEffect = new EffectEntity(definitionObject, this);
+		//	nEffect.cell = c;
+		//	nEffect.m_district = dist;
+		//	nEffect.m_district.addDynamic(nEffect.id);
+		//	nEffect.setDepth(c.zIndex);
 			
-			// Events
-			nEffect.addEventHandle(fElement.NEWCELL, this.processNewCell);
-			nEffect.addEventHandle(fElement.MOVE, this.renderElement);
+		//	// Events
+		//	nEffect.addEventHandle(fElement.NEWCELL, this.processNewCell);
+		//	nEffect.addEventHandle(fElement.MOVE, this.renderElement);
 			
-			// KBEN: 属性设置 
-			nEffect.vel = speed;
-			nEffect.startTof(startx, starty, startz, destx, desty, destz);
+		//	// KBEN: 属性设置 
+		//	nEffect.vel = speed;
+		//	nEffect.startTof(startx, starty, startz, destx, desty, destz);
 
-			// Add to lists
-			this.m_dynamicObjects.push(nEffect);
-			this.everything.push(nEffect);
-			this.all[nEffect.id] = nEffect;
-			if (this.IAmBeingRendered)
-			{
-				this.addElementToRenderEngine(nEffect);
-				this.renderManager.processNewCellEffect(nEffect);
-				this.render();
-			}
+		//	// Add to lists
+		//	this.m_dynamicObjects.push(nEffect);
+		//	this.everything.push(nEffect);
+		//	this.all[nEffect.id] = nEffect;
+		//	if (this.IAmBeingRendered)
+		//	{
+		//		this.addElementToRenderEngine(nEffect);
+		//		this.renderManager.processNewCellEffect(nEffect);
+		//		this.render();
+		//	}
 
-			//Return
-			return nEffect;
-		}
+		//	//Return
+		//	return nEffect;
+		//}
 		
-		// KBEN: 移除场景中特效，例如飞行特效      
-		public void removeEffect(EffectEntity effect)
-		{
-			// Remove from array
-			if (this.m_dynamicObjects && this.m_dynamicObjects.IndexOf(effect) >= 0)
-			{
-				this.m_dynamicObjects.RemoveAt(this.m_dynamicObjects.IndexOf(effect));
-				this.everything.RemoveAt(this.everything.IndexOf(effect));
-				this.all[effect.id] = null;
-			}
+		//// KBEN: 移除场景中特效，例如飞行特效      
+		//public void removeEffect(EffectEntity effect)
+		//{
+		//	// Remove from array
+		//	if (this.m_dynamicObjects && this.m_dynamicObjects.IndexOf(effect) >= 0)
+		//	{
+		//		this.m_dynamicObjects.RemoveAt(this.m_dynamicObjects.IndexOf(effect));
+		//		this.everything.RemoveAt(this.everything.IndexOf(effect));
+		//		this.all[effect.id] = null;
+		//	}
 			
-			// Hide
-			effect.hide();
+		//	// Hide
+		//	effect.hide();
 			
-			// Events
-			effect.removeEventHandle(fElement.NEWCELL, this.processNewCell);
-			effect.removeEventHandle(fElement.MOVE, this.renderElement);
+		//	// Events
+		//	effect.removeEventHandle(fElement.NEWCELL, this.processNewCell);
+		//	effect.removeEventHandle(fElement.MOVE, this.renderElement);
 			
-			// Remove from render engine
-			this.removeElementFromRenderEngine(effect);
-			effect.dispose();
+		//	// Remove from render engine
+		//	this.removeElementFromRenderEngine(effect);
+		//	effect.dispose();
 			
-			effect.scene = null;
-			if (effect.m_district)
-			{
-				effect.m_district.clearDynamic(effect.id);
-				effect.m_district = null;
-			}
-		}
+		//	effect.scene = null;
+		//	if (effect.m_district)
+		//	{
+		//		effect.m_district.clearDynamic(effect.id);
+		//		effect.m_district = null;
+		//	}
+		//}
 
-		public Point translate3DCoordsTo2DCoords(float x, float y, float z)
+		public PointF translate3DCoordsTo2DCoords(float x, float y, float z)
 		{
 			return fScene.translateCoords(x, y, z);
 		}
 		
-		public Point translate3DCoordsToStageCoords(float x, float y, float z)
+		public PointF translate3DCoordsToStageCoords(float x, float y, float z)
 		{
             //Get offset of camera
             Rectangle rect = this.container.scrollRect;
 
             // Get point
-            Point r = fScene.translateCoords(x, y, z);
+            PointF r = fScene.translateCoords(x, y, z);
 			
 			// Translate
 			r.x -= rect.x;
@@ -489,7 +474,7 @@ namespace SDK.Lib
 			return r;
 		}
 		
-		public Point translateStageCoordsTo3DCoords(float x, float y)
+		public PointF translateStageCoordsTo3DCoords(float x, float y)
 		{
             //get offset of camera
             Rectangle rect = this.container.scrollRect;
@@ -534,19 +519,19 @@ namespace SDK.Lib
 			
 			this.renderManager.initialize();
 
-            int jl = this.floors
+            int jl = this.floors;
 			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.floors[j]);
 
-			jl = this.objects.length
-			for (j = 0; j < jl; j++)
+            jl = this.objects.length;
+			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.objects[j]);
-			jl = this.characters.length
-			for (j = 0; j < jl; j++)
+            jl = this.characters.length;
+			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.characters[j]);
 
-			jl = this.m_dynamicObjects.length
-			for (j = 0; j < jl; j++)
+            jl = this.m_dynamicObjects.length;
+			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.m_dynamicObjects[j]);
 
 			this.render();
@@ -591,7 +576,6 @@ namespace SDK.Lib
 				element.container.fElement = null;
 			}
 			element.container = null;
-			element.flashClip = null;
 			
 			// Stop listening to show and hide events
 			element.removeEventHandle(fRenderableElement.SHOW, this.renderManager.showListener);
@@ -600,15 +584,17 @@ namespace SDK.Lib
 			element.removeEventHandle(fRenderableElement.DISABLE, this.disableListener);
 		}
 		
-		private void enableListener(Event evt)
+		private void enableListener(IDispatchObject dispObj)
 		{
-			this.renderEngine.enableElement(evt.target as fRenderableElement);
+            fEvent evt = dispObj as fEvent;
+            this.renderEngine.enableElement(evt.target as fRenderableElement);
 		}
 		
 		// Listens to elements made disabled
-		private void disableListener(Event evt)
+		private void disableListener(IDispatchObject dispObj)
 		{
-			this.renderEngine.disableElement(evt.target as fRenderableElement);
+            fEvent evt = dispObj as fEvent;
+            this.renderEngine.disableElement(evt.target as fRenderableElement);
 		}
 		
 		public void stopRendering()
@@ -618,14 +604,14 @@ namespace SDK.Lib
 				this.removeElementFromRenderEngine(this.floors[j], true);
 
 			jl = this.objects.Count();
-			for (j = 0; j < jl; j++)
+			for (int j = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.objects[j], true);
 			jl = this.characters.Count();
-			for (j = 0; j < jl; j++)
+			for (int j = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.characters[j], true);
 
             jl = this.m_dynamicObjects.Count();
-            for (j = 0; j < jl; j++)
+            for (int j = 0; j < jl; j++)
 				this.removeElementFromRenderEngine(this.m_dynamicObjects[j]);
 			
 			// Stop render engine
@@ -647,33 +633,37 @@ namespace SDK.Lib
 			this.IAmBeingRendered = false;
 		}
 		
-		public void processNewCell(fNewCellEvent evt)
+		public void processNewCell(IDispatchObject dispObj)
 		{
-			if (this.IAmBeingRendered)
+            fNewCellEvent evt = dispObj as fNewCellEvent;
+
+            if (this.IAmBeingRendered)
 			{
 				if (evt.target is fCharacter)
 				{
-                    fCharacter c = evt.target as fCharacter
+                    fCharacter c = evt.target as fCharacter;
 					this.renderManager.processNewCellCharacter(c, evt.m_needDepthSort);
 					fCharacterSceneLogic.processNewCellCharacter(this, c);
 				}
-				else if (evt.target is EffectEntity)
-				{
-                    EffectEntity eff = evt.target as EffectEntity;
-					this.renderManager.processNewCellEffect(eff);
-					fEffectSceneLogic.processNewCellEffect(this, eff);
-				}
+				//else if (evt.target is EffectEntity)
+				//{
+    //                EffectEntity eff = evt.target as EffectEntity;
+				//	this.renderManager.processNewCellEffect(eff);
+				//	fEffectSceneLogic.processNewCellEffect(this, eff);
+				//}
 			}
 		}
 
-		public void renderElement(Event evt)
+		public void renderElement(IDispatchObject dispObj)
 		{
-			if (this.IAmBeingRendered)
+            fRenderEvent evt = dispObj as fRenderEvent;
+
+            if (this.IAmBeingRendered)
 			{
 				if (evt.target is fCharacter)
 					fCharacterSceneLogic.renderCharacter(this, evt.target as fCharacter);
-				else if (evt.target is EffectEntity)
-					fEffectSceneLogic.renderEffect(this, evt.target as EffectEntity);
+				//else if (evt.target is EffectEntity)
+				//	fEffectSceneLogic.renderEffect(this, evt.target as EffectEntity);
 			}
 		}
 		
@@ -711,7 +701,7 @@ namespace SDK.Lib
             int l = this.allUsedCells.Count();
 			for (int i = 0; i < l; i++)
 			{
-				delete this.allUsedCells[i].visibleObjs;
+				//delete this.allUsedCells[i].visibleObjs;
 			}
 		}
 		
@@ -719,7 +709,7 @@ namespace SDK.Lib
 		{
 			if (x < 0 || y < 0)
 				return null;
-			return this.getCellAt(x / this.gridSize, y / this.gridSize);
+			return this.getCellAt((int)(x / this.gridSize), (int)(y / this.gridSize));
 		}
 
 		public fCell getCellAt(int i, int j, int k = 0)
@@ -730,10 +720,10 @@ namespace SDK.Lib
 				return null;
 
             MList<fCell> arr = this.grid[i];
-			if (!arr)
+			if (arr == null)
 				return null;
             fCell cell = arr[j];
-			if (!cell)
+			if (cell == null)
 			{
 				cell = new fCell(this);
 				
@@ -746,28 +736,28 @@ namespace SDK.Lib
 				cell.z = 0;
 				cell.zIndex = cell.y;
 				// 更新一下裁剪矩形信息
-				cell.updateScrollRect();
+				//cell.updateScrollRect();
 				arr[j] = cell;
 
                 // KBEN: 填写 fCell 阻挡点信息 
-                StopPoint stoppoint = this.getStopPoint(cell.i, cell.j);
-				cell.stoppoint = stoppoint;
+                StopPoint stoppoint = this.getStopPoint((int)cell.i, (int)cell.j);
+				cell.setStoppoint(stoppoint);
 				
 				// KBEN: 填写查找数组    
-				this.allUsedCells[this.allUsedCells.length] = cell;
+				this.allUsedCells[this.allUsedCells.Count()] = cell;
 			}
 			
 			return cell;
 		}
 
-		public static Point translateCoords(float x, float y, float z)
+		public static PointF translateCoords(float x, float y, float z)
 		{
-			return new Point(x, y);
+			return new PointF(x, y);
 		}
 
-		public static Point translateCoordsInverse(float x, float y)
+		public static PointF translateCoordsInverse(float x, float y)
 		{
-			return new Point(x, y);
+			return new PointF(x, y);
 		}
 
 		public void getVisibles(fCell cell, float range = 0)		
@@ -786,49 +776,38 @@ namespace SDK.Lib
 			m_disposed = true;
 			
 			// bug: 内存泄露，事件没有移除
-			if (this.currentCamera)
+			if (this.currentCamera != null)
 			{
-				this.currentCamera.removeEventListener(fElement.MOVE, this.cameraMoveListener);
-				this.currentCamera.removeEventListener(fElement.NEWCELL, this.cameraNewCellListener);
+				this.currentCamera.removeEventHandle(fElement.MOVE, this.cameraMoveListener);
+				this.currentCamera.removeEventHandle(fElement.NEWCELL, this.cameraNewCellListener);
 				this.currentCamera.dispose();
 			}
 			this.currentCamera = null;
 			this._controller = null;
-			
-			if (this.initializer)
-				this.initializer.dispose();
-			this.initializer = null;
 			
 			this.renderEngine.dispose();
 			this.renderEngine = null;
 			
 			this.renderManager.dispose();
 			this.renderManager = null;
-			
-			if (this._orig_container.parent)
-				this._orig_container.parent.removeChild(this._orig_container);
+
 			this._orig_container = null;
 			this.container = null;
 
             int il;
-			foreach(Object ele in floors)
+			foreach(fElement ele in floors.list)
 			{
 				ele.dispose();
 			}			
-			foreach(ele in objects)
+			foreach(fElement ele in objects.list)
 			{
 				ele.dispose();
 			}
 			
-			for each(ele in characters)
+			foreach(fElement ele in characters.list)
 			{
 				ele.dispose();
 			}
-			
-			for each(ele in emptySprites)
-			{
-				ele.dispose();
-			}	
 			
 			this.floors = null;
 			this.objects = null;
@@ -840,7 +819,7 @@ namespace SDK.Lib
 			this.freeGrid();
 			
 			// Free materials
-			fMaterial.disposeMaterials(this);
+			//fMaterial.disposeMaterials(this);
 			this.engine = null;
 			
 			// 释放阻挡点资源
@@ -848,14 +827,14 @@ namespace SDK.Lib
 			m_stopPointList = null;
 			
 			// 释放 ai
-			this.AI = null;
+			//this.AI = null;
 			
 			m_SceneLayer = null;
 		}
 		
 		private void freeGrid()
 		{
-            int l = this.allUsedCells.length;
+            int l = this.allUsedCells.Count();
 			for (int i = 0; i < l; i++)
 				this.allUsedCells[i].dispose();
 			this.grid = null;
@@ -865,10 +844,8 @@ namespace SDK.Lib
 		// KBEN: 根据格子找对应的区块，就是 floor
 		public fFloor getFloorByGridPos(uint ix, uint iy)
 		{
-			fFloor floor;
-			for (string key in this.floors)
+			foreach(fFloor floor in this.floors.list)
 			{
-				floor = this.floors[key];
 				if (floor.i <= ix && ix < floor.i + floor.gWidth && floor.j <= iy && iy < floor.j + floor.gDepth)
 				{
 					return floor;
@@ -886,7 +863,7 @@ namespace SDK.Lib
 			{
 				return null;
 			}
-			return this.getFloorAt(x / this.m_floorWidth, y / this.m_floorDepth);
+			return this.getFloorAt((int)(x / this.m_floorWidth), (int)(y / this.m_floorDepth));
 		}
 		
 		public fFloor getFloorAt(int i, int j)
@@ -902,7 +879,7 @@ namespace SDK.Lib
 				return null;
 			}
 			
-			return floors[j * this.m_floorXCnt + i];
+			return floors[(int)(j * this.m_floorXCnt + i)];
 		}
 		
 		// 根据世界空间中的位置获取区域, 这个坐标是场景中的坐标,不是 stage 坐标
@@ -910,15 +887,15 @@ namespace SDK.Lib
 		{
 			if (x < 0 || y < 0)
 				return null;
-            int i = x / this.m_floorWidth;
-            int j = y / this.m_floorDepth;
+            int i = (int)(x / this.m_floorWidth);
+            int j = (int)(y / this.m_floorDepth);
 			
 			if (i < 0 || j < 0)
 				return null;
 			if (i >= this.m_floorXCnt || j >= this.m_floorYCnt)
 				return null;
 			
-			return floors[j * this.m_floorXCnt + i];
+			return floors[(int)(j * this.m_floorXCnt + i)];
 		}
 		
 		// KBEN: 如果没有找到直接返回 -1 ，返回所在 floor 索引   
@@ -926,15 +903,15 @@ namespace SDK.Lib
 		{
 			if (x < 0 || y < 0)
 				return -1;
-			int i = x / this.m_floorWidth;
-            int j = y / this.m_floorDepth;
+			int i = (int)(x / this.m_floorWidth);
+            int j = (int)(y / this.m_floorDepth);
 			
 			if (i < 0 || j < 0)
 				return -1;
 			if (i >= this.m_floorXCnt || j >= this.m_floorYCnt)
 				return -1;
 			
-			return (j * this.m_floorXCnt + i);
+			return ((int)(j * this.m_floorXCnt + i));
 		}
 		
 		// KBEN: 获取并且改变 floor 中的动态对象 
@@ -945,14 +922,14 @@ namespace SDK.Lib
 			
 			if (idx != -1)
 			{
-				srcj = idx / this.m_floorXCnt;
-				srci = idx % this.m_floorYCnt;
+				srcj = (int)(idx / this.m_floorXCnt);
+				srci = (int)(idx % this.m_floorYCnt);
 			}
 			
 			if (x < 0 || y < 0)
 				return -1;
-            int i = x / this.m_floorWidth;
-            int j = y / this.m_floorDepth;
+            int i = (int)(x / this.m_floorWidth);
+            int j = (int)(y / this.m_floorDepth);
 			
 			if (i < 0 || j < 0)
 				return -1;
@@ -960,32 +937,32 @@ namespace SDK.Lib
 				return -1;
 			
 			if ((j * this.m_floorXCnt + i) == idx) // 如果一样就不更改了  
-				return (j * this.m_floorXCnt + i);
+				return ((int)(j * this.m_floorXCnt + i));
 			
-			if (type == EntityCValue.TEfffect)
+			if (type == (uint)EntityCValue.TEfffect)
 			{
-				floors[j * this.m_floorXCnt + i].addDynamic(id)
+                floors[(int)(j * this.m_floorXCnt + i)].addDynamic(id);
 				if (idx != -1)
 				{
-					floors[j * this.m_floorXCnt + i].clearDynamic(id)
+                    floors[(int)(j * this.m_floorXCnt + i)].clearDynamic(id);
 				}
 			}
-			else if (type == EntityCValue.TPlayer || type == EntityCValue.TVistNpc || type == EntityCValue.TBattleNpc || type == EntityCValue.TNpcPlayerFake)
+			else if (type == (uint)EntityCValue.TPlayer)
 			{
-				floors[j * this.m_floorXCnt + i].addCharacter(id)
+                floors[(int)(j * this.m_floorXCnt + i)].addCharacter(id);
 				if (idx != -1)
 				{
-					floors[j * this.m_floorXCnt + i].clearCharacter(id)
+                    floors[(int)(j * this.m_floorXCnt + i)].clearCharacter(id);
 				}
 			}
 			
-			return (j * this.m_floorXCnt + i);
+			return ((int)(j * this.m_floorXCnt + i));
 		}
 		
 		// KBEN: 直接获取阻挡点信息   
 		public StopPoint getStopPoint(int xpos, int ypos)
 		{
-			if (m_stopPointList[ypos] && m_stopPointList[ypos][xpos])
+			if (m_stopPointList[ypos] != null && m_stopPointList[ypos][xpos] != null)
 			{
 				return m_stopPointList[ypos][xpos];
 			}
@@ -995,7 +972,7 @@ namespace SDK.Lib
 		// KBEN: 添加阻挡点  xpos : 列数  ypos : 行数    
 		public void addStopPoint(int xpos, int ypos, StopPoint stoppoint)
 		{
-			m_stopPointList[ypos] ||= new Dictionary();
+			m_stopPointList[ypos] = new Dictionary<int, StopPoint>();
 			m_stopPointList[ypos][xpos] = stoppoint;
 		}
 		
@@ -1064,14 +1041,14 @@ namespace SDK.Lib
 				this.m_depthDirty = false;
 				
 				this.m_depthDirtySingle = false;
-				this.m_singleDirtyArr.length = 0;
+				this.m_singleDirtyArr.Clear();
 			}
 			else if (true == this.m_depthDirtySingle)
 			{
 				this.renderManager.depthSortSingle();
 				this.m_depthDirtySingle = false;
 				
-				this.m_singleDirtyArr.length = 0;
+				this.m_singleDirtyArr.Clear();
 			}
 		}
 	}

@@ -21,7 +21,7 @@ namespace SDK.Lib
 		// 保存的裁剪矩形
 		//public Rectangle m_scrollRect;
 
-		public fFlash9RenderEngine(fScene scene, SpriteContainer container, MList<SpriteLayer> sceneLayer = null)
+		public fFlash9RenderEngine(fScene scene, MList<SpriteLayer> sceneLayer = null)
 		{
 			// Init items
 			this.scene = scene;
@@ -127,117 +127,9 @@ namespace SDK.Lib
 			this.viewHeight = height;
 		}
 
-		public void startOcclusion(fRenderableElement element, fCharacter character)
-		{
-            fFlash9ElementRenderer r = element.flash9Renderer;
-			if (r.screenVisible)
-				r.startOcclusion(character);
-		}
-
-		public void updateOcclusion(fRenderableElement element, fCharacter character)
-		{
-            fFlash9ElementRenderer r = element.flash9Renderer;
-			if (r.screenVisible)
-				r.updateOcclusion(character);
-		}
-
-		public void stopOcclusion(fRenderableElement element, fCharacter character)
-		{
-            fFlash9ElementRenderer r = element.flash9Renderer;
-			if (r.screenVisible)
-				r.stopOcclusion(character);
-		}
-
 		// 直接获取对象
 		public ArrayList translateStageCoordsToElements(float x, float y)
 		{
-            //var ret:Array = [];
-            //var p:Point = new Point();
-
-            //// 查找 fFloor
-            //var floor:fFloor;
-            //var spt:Point = this.scene.convertG2S(x, y);
-            //floor = this.scene.getFloorAtByPos(spt.x, spt.y);
-            //if (floor == null)
-            //{
-            //	return null;
-            //}
-
-            //var buildentity:Array;	// 在 SLBuild 层的 npc
-            //buildentity = new Array();
-
-            //var el:fRenderableElement = null;
-            //var i:String = "";
-            //// 查找其它
-            //for (i in this.scene.renderManager.charactersV)
-            //{
-            //	el = this.scene.renderManager.charactersV[i];
-
-            //	if (el.customData.flash9Renderer.hitTest(x, y))
-            //	{
-            //		p.x = x;
-            //		p.y = y;
-            //		p = el.container.globalToLocal(p);
-            //		if(EntityCValue.SLBuild != el.layer)	// 如果不是在 SLBuild 层的 npc ,需要放在地形上面,所有其它的下面
-            //		{
-            //			ret[ret.length] = (new fCoordinateOccupant(el, el.x + p.x, el.y, el.z - p.y));
-            //		}
-            //		else
-            //		{
-            //			buildentity[buildentity.length] = (new fCoordinateOccupant(el, el.x + p.x, el.y, el.z - p.y));
-            //		}
-            //	}
-            //}
-
-            //// 查找其它
-            //for (i in this.scene.renderManager.elementsV)
-            //{
-            //	el = this.scene.renderManager.elementsV[i];
-            //	// KBEN: 特效直接忽略   
-            //	if (el is EffectEntity)
-            //	{
-            //		continue;
-            //	}
-            //	else if (el is fObject)
-            //	{	
-            //		if (el.customData.flash9Renderer.hitTest(x, y))
-            //		{
-            //			p.x = x;
-            //			p.y = y;
-            //			p = el.container.globalToLocal(p);
-            //			ret[ret.length] = (new fCoordinateOccupant(el, el.x + p.x, el.y, el.z - p.y));
-            //		}
-            //	}
-            //}
-
-            //// Sort elements by depth, closest to camera first
-            //var sortOnDepth:Function = function(a:fCoordinateOccupant, b:fCoordinateOccupant):Number
-            //{
-            //	if (a.element._depth < b.element._depth)
-            //		return 1;
-            //	else if (a.element._depth > b.element._depth)
-            //		return -1;
-            //	else
-            //		return 0;
-            //}
-            //ret.sort(sortOnDepth);
-            //// 放入 SLBuild 层的 npc
-            //if(buildentity.length)
-            //{
-            //	ret = ret.concat(buildentity);
-            //}
-            //p.x = x;
-            //p.y = y;
-
-            //p = floor.container.globalToLocal(p);
-            //ret[ret.length] = (new fCoordinateOccupant(floor, floor.x + p.x,floor.y + p.y, floor.z));
-
-            //// Return
-            //if (ret.length == 0)
-            //	return null;
-            //else
-            //	return ret;
-
             return null;
 		}
 
@@ -272,7 +164,7 @@ namespace SDK.Lib
 				{
 					// KBEN: 添加到自己层，这一句一定要添加在后面语句的前面      
 					//m_SceneLayer[EntityCValue.SLTerrain].addChild(spr);
-					element.flash9Renderer = new fFlash9FloorRenderer(this, spr, element as fFloor);
+					element.flash9Renderer = new fFlash9FloorRenderer(this, element as fFloor, 0, 0);
 				}
 				else
 				{

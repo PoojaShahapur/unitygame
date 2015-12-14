@@ -27,12 +27,6 @@ namespace SDK.Lib
 
         void setViewportSize(float width, float height);
 
-        void startOcclusion(fRenderableElement element, fCharacter character);
-
-        void updateOcclusion(fRenderableElement element, fCharacter character);
-
-        void stopOcclusion(fRenderableElement element, fCharacter character);
-
         ArrayList translateStageCoordsToElements(float x, float y);
 
         void dispose();
