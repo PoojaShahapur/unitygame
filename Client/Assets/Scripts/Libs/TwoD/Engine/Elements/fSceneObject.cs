@@ -35,15 +35,15 @@ namespace SDK.Lib
 		// KBEN: 清除标签
 		public void clearFloorInfo(uint type)
 		{
-			if (this.scene.m_sceneConfig.optimizeCutting)
-			{
-                fFloor floor = this.scene.translateToFloor(this.x, this.y);
-				floor.clearDynamic(this.id);
-				floor.clearCharacter(this.id);
-			}
-		}
+            //if (this.scene.m_sceneConfig.optimizeCutting)
+            //{
+            //    fFloor floor = this.scene.translateToFloor(this.x, this.y);
+            //    floor.clearDynamic(this.id);
+            //    floor.clearCharacter(this.id);
+            //}
+        }
 
-		public void updateDepth()
+        public void updateDepth()
 		{
             fCell c = (this.cell == null) ? (this.scene.translateToCell(this.x, this.y, this.z)) : (this.cell);
 			float nz = c.zIndex;

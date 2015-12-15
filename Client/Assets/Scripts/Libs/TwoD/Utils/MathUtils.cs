@@ -46,7 +46,7 @@ namespace SDK.Lib
 				return null;
 			}
             PointF result = new PointF(0, 0);
-			float scale = dist / mathUtils.distance(direction.x, direction.y, 0, 0);
+			float scale = dist / MathUtils.distance(direction.x, direction.y, 0, 0);
 			
 			result.x = scale * direction.x;
 			result.y = scale * direction.y;

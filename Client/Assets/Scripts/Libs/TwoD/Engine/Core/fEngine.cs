@@ -15,11 +15,9 @@ namespace SDK.Lib
 			this.current = null;
 		}
 
-		public fScene createScene(fEngineSceneRetriever retriever, float width, float height, fEngineRenderEngine renderer = null)
+		public fScene createScene(float width, float height, fEngineRenderEngine renderer = null)
 		{
-			var nSprite:Sprite = new Sprite();
-
-            fScene nfScene = new fScene(this, nSprite, retriever, width, height, retriever.getServerSceneID(), renderer);
+            fScene nfScene = new fScene(this, width, height, renderer);
 			nfScene.initialize();
 
 			this.scenes.Add(nfScene);
@@ -31,7 +29,7 @@ namespace SDK.Lib
 			this.hideScene(sc);
 			sc.dispose();
 			this.scenes.RemoveAt(this.scenes.IndexOf(sc));
-			objectPool.flush();
+			//objectPool.flush();
 		}
 		
 		public void showScene(fScene sc)
@@ -42,13 +40,13 @@ namespace SDK.Lib
 			if (this.current != null)
 			{
 				this.current.stopRendering();
-				this.container.removeChild(this.current.container);
+				//this.container.removeChild(this.current.container);
 			}
 			
 			this.current = sc;
 			this.current.startRendering();
 			this.current.enable();
-			this.container.addChild(sc.container);
+			//this.container.addChild(sc.container);
 		}
 	
 		public void hideScene(fScene sc, bool destroyRender = true)
@@ -57,7 +55,7 @@ namespace SDK.Lib
 			{
 				if (destroyRender)
 					this.current.stopRendering();
-				this.container.removeChild(this.current.container);
+				//this.container.removeChild(this.current.container);
 				this.current = null;
 			}
 		}
@@ -65,18 +63,18 @@ namespace SDK.Lib
 		// KBEN: 最后一帧调用
 		public void onFrameEnd()
 		{
-			if (current)
-			{
-				current.onFrameEnd();
-			}
+			//if (current)
+			//{
+			//	current.onFrameEnd();
+			//}
 
-			foreach(fScene iscene in scenes.list())
-			{
-				if (iscene && iscene != current)
-				{
-					iscene.onFrameEnd();
-				}
-			}
+			//foreach(fScene iscene in scenes.list())
+			//{
+			//	if (iscene && iscene != current)
+			//	{
+			//		iscene.onFrameEnd();
+			//	}
+			//}
 		}
 	}
 }

@@ -105,7 +105,6 @@ namespace SDK.Lib
 		public Dictionary<int, Dictionary<int, StopPoint>> m_stopPointList;
 		public StopPoint m_defaultStopPoint; // 默认的阻挡点，为了统一处理，不用总是 if else 判断    
 		
-		public uint m_serverSceneID;    // 服务器场景 id
 		public uint m_filename;         // 客户端地图文件名字，没有扩展名字
 		
 		public bool m_sortByBeingMove = true;
@@ -115,10 +114,9 @@ namespace SDK.Lib
 		public bool m_disposed = false;
 		public Dictionary<int, int> m_dicDebugInfo;
 
-		public fScene(fEngine engine, AuxComponent container, float width, float height, uint serversceneid, fEngineRenderEngine renderer = null)
+		public fScene(fEngine engine, float width, float height, fEngineRenderEngine renderer = null)
 		{
 			this.id = "fScene_" + (fScene.count++);
-			this.m_serverSceneID = serversceneid;
 			this.engine = engine;
 			this._orig_container = container;
 			this.container = container;
@@ -145,7 +143,7 @@ namespace SDK.Lib
 			}
 			else
 			{
-				this.renderEngine = new fFlash9RenderEngine(this, m_SceneLayer);
+				this.renderEngine = new fSpriteRenderEngine(this, m_SceneLayer);
 			}
 			this.renderEngine.setViewportSize(width, height);
 
@@ -279,9 +277,7 @@ namespace SDK.Lib
 
             string idchar = "";
 
-            XML definitionObject = <character id={idchar} definition={def} x={x} y={y} z={z} orientation={orientation}/>;
-
-            fCharacter nCharacter = new this.engine.m_context.m_typeReg.m_classes[charType](definitionObject, this);
+            fCharacter nCharacter = new fCharacter(null, this);
 			nCharacter.cell = c;
 			nCharacter.m_district = dist;
 			nCharacter.m_district.addCharacter(nCharacter.id);
@@ -461,27 +457,27 @@ namespace SDK.Lib
 		
 		public PointF translate3DCoordsToStageCoords(float x, float y, float z)
 		{
-            //Get offset of camera
-            Rectangle rect = this.container.scrollRect;
+            //Rectangle rect = this.container.scrollRect;
 
-            // Get point
-            PointF r = fScene.translateCoords(x, y, z);
-			
-			// Translate
-			r.x -= rect.x;
-			r.y -= rect.y;
-			
-			return r;
+            //PointF r = fScene.translateCoords(x, y, z);
+
+            //r.x -= rect.x;
+            //r.y -= rect.y;
+
+            //return r;
+
+            return null;
 		}
 		
 		public PointF translateStageCoordsTo3DCoords(float x, float y)
 		{
-            //get offset of camera
-            Rectangle rect = this.container.scrollRect;
-			float xx = x + rect.x;
-            float yy = y + rect.y;
-			
-			return fScene.translateCoordsInverse(xx, yy);
+            //Rectangle rect = this.container.scrollRect;
+            //float xx = x + rect.x;
+            //float yy = y + rect.y;
+
+            //return fScene.translateCoordsInverse(xx, yy);
+
+            return null;
 		}
 		
 		public ArrayList translateStageCoordsToElements(float x, float y)
@@ -505,32 +501,32 @@ namespace SDK.Lib
 			// Set flag
 			this.IAmBeingRendered = true;
             // 开始渲染的时候才创建内部场景图      
-            uint k = 0;
-			while (k < EntityCValue.SLCnt)
+            int k = 0;
+			while (k < (int)EntityCValue.SLCnt)
 			{
-				m_SceneLayer[k] = new fSceneChildLayer();
-				(m_SceneLayer[k] as fSceneChildLayer).m_layNo = k;
-				container.addChild(m_SceneLayer[k]);
+				m_SceneLayer[k] = new SpriteLayer();
+				(m_SceneLayer[k] as SpriteLayer).m_layNo = k;
+				//container.addChild(m_SceneLayer[k]);
 				++k;
 			}
 			
 			this.renderEngine.initialize();
-			this.renderEngine.SceneLayer = m_SceneLayer;
+			this.renderEngine.setSceneLayer(m_SceneLayer);
 			
 			this.renderManager.initialize();
 
-            int jl = this.floors;
+            int jl = this.floors.Count();
 			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.floors[j]);
 
-            jl = this.objects.length;
+            jl = this.objects.Count();
 			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.objects[j]);
-            jl = this.characters.length;
+            jl = this.characters.Count();
 			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.characters[j]);
 
-            jl = this.m_dynamicObjects.length;
+            jl = this.m_dynamicObjects.Count();
 			for (int j = 0; j < jl; j++)
 				this.addElementToRenderEngine(this.m_dynamicObjects[j]);
 
@@ -541,7 +537,7 @@ namespace SDK.Lib
 		{
 			element.container = this.renderEngine.initRenderFor(element);
 
-			if (element.container)
+			if (element.container != null)
 			{
 				element.container.fElementId = element.id;
 				element.container.fElement = element;
@@ -563,14 +559,14 @@ namespace SDK.Lib
 		private void removeElementFromRenderEngine(fRenderableElement element, bool destroyingScene = false)
 		{
 			// bug: 如果渲染内容已经销毁，数据逻辑继续运行的时候，如果再次调用这个函数就会宕机，因此检查一下  
-			if (!element.container)
+			if (element.container == null)
 			{
 				return;
 			}
 			
 			this.renderManager.removedItem(element, destroyingScene);
 			this.renderEngine.stopRenderFor(element);
-			if (element.container)
+			if (element.container != null)
 			{
 				element.container.fElementId = null;
 				element.container.fElement = null;
@@ -621,8 +617,8 @@ namespace SDK.Lib
 			this.renderManager.dispose();
 
             // 删除所有根节点下的资源
-            uint k = 0;
-			while (k < m_SceneLayer.length)
+            int k = 0;
+			while (k < m_SceneLayer.Count())
 			{
 				// 这里不用删除了，在 this.renderEngine.dispose(); 这个函数中处理了 
 				m_SceneLayer[k] = null;
@@ -764,8 +760,8 @@ namespace SDK.Lib
 		{
             MList<fFloor> visibleFloor = new MList<fFloor>();
 
-			var r:Array = fVisibilitySolver.calcVisibles(this, cell, range, visibleFloor);
-			cell.visibleElements = r;
+			//var r:Array = fVisibilitySolver.calcVisibles(this, cell, range, visibleFloor);
+			//cell.visibleElements = r;
 			// 添加快速调用
 			cell.m_visibleFloor = visibleFloor;
 			cell.visibleRange = range;

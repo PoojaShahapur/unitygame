@@ -29,7 +29,7 @@ namespace SDK.Lib
             }
 
             m_fieldOfView = value;
-            m_focalLengthInv = UtilApi.tan(m_fieldOfView * UtilApi.PI / 360);
+            m_focalLengthInv = UtilApi.tan((float)(m_fieldOfView * UtilApi.PI / 360));
             m_focalLength = 1 / m_focalLengthInv;
         }
 

@@ -4,5 +4,7 @@
     {
         TPlayer = 0,
         TEfffect = 1,
+
+        SLCnt = 2,
     }
 }

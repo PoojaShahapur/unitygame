@@ -135,169 +135,169 @@ namespace SDK.Lib
 		// 显示这个区域中的各种可显示内容
 		public void showObject(fCell cell)
 		{
-            // 计算所有可视化显示的内容
-            // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-            int dynamicLength;
-			fObject dynObject;
-			
-			int i2 = 0;
-            int chLength = 0;
-            fCharacter character;
+        //    // 计算所有可视化显示的内容
+        //    // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
+        //    int dynamicLength;
+        //    fObject dynObject;
 
-            int esLength = 0;
+        //    int i2 = 0;
+        //    int chLength = 0;
+        //    fCharacter character;
 
-            int distidx = -1;
-			
-			dynamicLength = m_dynamicElementVec.Count();
+        //    int esLength = 0;
 
-			for (i2 = 0; i2 < dynamicLength; i2++)
-			{
-				// 动态对象设置可视化状态
-				dynObject = scene.all[m_dynamicElementVec[i2]];
-				// 距离裁剪改成矩形裁剪, bug: 这样判断这个区域上面的所有内容必然可见， (x, y, z) 是区域的位置
-				if (cell.m_scrollRect.contains(dynObject.x, dynObject.y))
-				{
-					dynObject.willBeVisible = true;
-					
-					// 显示可视化对象
-					dynObject.willBeVisible = false;
-					if (!dynObject.isVisibleNow && dynObject._visible)
-					{
-						this.scene.renderManager.elementsV[distidx = this.scene.renderManager.elementsV.Count] = dynObject;
-						this.scene.renderManager.renderEngine.showElement(dynObject);
-						this.scene.renderManager.addToDepthSort(dynObject);
-						dynObject.isVisibleNow = true;
-					}
-				}
-				else	// 如果不可见
-				{
-					if (dynObject.isVisibleNow && dynObject._visible)
-					{
-						// 从显示列表中去掉
-						distidx = this.scene.renderManager.elementsV.IndexOf(dynObject);
-						if(distidx != -1)
-						{
-							this.scene.renderManager.elementsV.RemoveAt(distidx);
-						}
-						// Remove asset
-						this.scene.renderManager.renderEngine.hideElement(dynObject);
-						this.scene.renderManager.removeFromDepthSort(dynObject);
-						//anyChanges = true;
-						dynObject.isVisibleNow = false;	
-					}
-				}
-			}
-			
-			// KBEN: 存放人物，需要深度排序
-			chLength = m_characterVec.Count();
-			for (i2 = 0; i2 < chLength; i2++)
-			{
-				// Is character within range ?
-				character = scene.all[m_characterVec[i2]];
-				if (cell.m_scrollRect.contains(character.x, character.y))
-				{
-					character.willBeVisible = true;
+        //    int distidx = -1;
 
-					character.willBeVisible = false;
-					if (!character.isVisibleNow && character._visible)
-					{
-						this.scene.renderManager.charactersV[this.scene.renderManager.charactersV.length] = character; 
-						// Add asset
-						this.scene.renderManager.renderEngine.showElement(character);
-						if(EntityCValue.SLBuild != character.layer)		// 如果不是地物层
-						{
-							this.scene.renderManager.addToDepthSort(character);
-						}
-						character.isVisibleNow = true;
-						//anyChanges = true;
-					}
-				}
-				else	// 如果不可见
-				{
-					//m_fullVisible = false;
-					if (character.isVisibleNow && character._visible)
-					{
-						// 从显示列表中去掉
-						distidx = this.scene.renderManager.charactersV.IndexOf(character);
-						if(distidx != -1)
-						{
-							this.scene.renderManager.charactersV.RemoveAt(distidx);
-						}
-						// Remove asset
-						this.scene.renderManager.renderEngine.hideElement(character);
-						if(EntityCValue.SLBuild != character.layer)		// 如果不是地物层
-						{
-							this.scene.renderManager.removeFromDepthSort(character);
-						}
-						//anyChanges = true;
-						character.isVisibleNow = false;	
-					}
-				}
-			}
-			
-			// KBEN: 地上物，不会改变的地上建筑
-		}
-		
-		public void hideObject()
-		{
-            // 计算所有可视化显示的内容
-            // KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
-            int dynamicLength;
-            fObject dynObject;
+        //    dynamicLength = m_dynamicElementVec.Count();
 
-            int i2 = 0;
-            int chLength = 0;
-            fCharacter character;
+        //    for (i2 = 0; i2 < dynamicLength; i2++)
+        //    {
+        //        // 动态对象设置可视化状态
+        //        dynObject = scene.all[m_dynamicElementVec[i2]];
+        //        // 距离裁剪改成矩形裁剪, bug: 这样判断这个区域上面的所有内容必然可见， (x, y, z) 是区域的位置
+        //        if (cell.m_scrollRect.contains(dynObject.x, dynObject.y))
+        //        {
+        //            dynObject.willBeVisible = true;
 
-            int esLength = 0;
+        //            // 显示可视化对象
+        //            dynObject.willBeVisible = false;
+        //            if (!dynObject.isVisibleNow && dynObject._visible)
+        //            {
+        //                this.scene.renderManager.elementsV[distidx = this.scene.renderManager.elementsV.Count] = dynObject;
+        //                this.scene.renderManager.renderEngine.showElement(dynObject);
+        //                this.scene.renderManager.addToDepthSort(dynObject);
+        //                dynObject.isVisibleNow = true;
+        //            }
+        //        }
+        //        else    // 如果不可见
+        //        {
+        //            if (dynObject.isVisibleNow && dynObject._visible)
+        //            {
+        //                // 从显示列表中去掉
+        //                distidx = this.scene.renderManager.elementsV.IndexOf(dynObject);
+        //                if (distidx != -1)
+        //                {
+        //                    this.scene.renderManager.elementsV.RemoveAt(distidx);
+        //                }
+        //                // Remove asset
+        //                this.scene.renderManager.renderEngine.hideElement(dynObject);
+        //                this.scene.renderManager.removeFromDepthSort(dynObject);
+        //                //anyChanges = true;
+        //                dynObject.isVisibleNow = false;
+        //            }
+        //        }
+        //    }
 
-            int distidx = -1;
-			
-			dynamicLength = m_dynamicElementVec.Count();
+        //    // KBEN: 存放人物，需要深度排序
+        //    chLength = m_characterVec.Count();
+        //    for (i2 = 0; i2 < chLength; i2++)
+        //    {
+        //        // Is character within range ?
+        //        character = scene.all[m_characterVec[i2]];
+        //        if (cell.m_scrollRect.contains(character.x, character.y))
+        //        {
+        //            character.willBeVisible = true;
 
-			for (i2 = 0; i2 < dynamicLength; i2++)
-			{
-				// 动态对象设置可视化状态
-				dynObject = scene.all[m_dynamicElementVec[i2]];
-				if (dynObject.isVisibleNow && dynObject._visible)
-				{
-					// 从显示列表中去掉
-					distidx = this.scene.renderManager.elementsV.IndexOf(dynObject);
-					if(distidx != -1)
-					{
-						this.scene.renderManager.elementsV.RemoveAt(distidx);
-					}
-					
-					// Remove asset
-					this.scene.renderManager.renderEngine.hideElement(dynObject);
-					this.scene.renderManager.removeFromDepthSort(dynObject);
-					//anyChanges = true;
-					dynObject.isVisibleNow = false;	
-				}
-			}
-			
-			// KBEN: 存放人物，需要深度排序
-			chLength = m_characterVec.Count();
-			for (i2 = 0; i2 < chLength; i2++)
-			{
-				character = scene.all[m_characterVec[i2]];
-				if (character.isVisibleNow && character._visible)
-				{
-					// 从显示列表中去掉
-					distidx = this.scene.renderManager.charactersV.IndexOf(character);
-					if(distidx != -1)
-					{
-						this.scene.renderManager.charactersV.RemoveAt(distidx);
-					}
-					// Remove asset
-					this.scene.renderManager.renderEngine.hideElement(character);
-					if(EntityCValue.SLBuild != character.layer)		// 如果不是地物层
-					{
-						this.scene.renderManager.removeFromDepthSort(character);
-					}
-					character.isVisibleNow = false;	
-				}
-			}
-		}
-	}
+        //            character.willBeVisible = false;
+        //            if (!character.isVisibleNow && character._visible)
+        //            {
+        //                this.scene.renderManager.charactersV[this.scene.renderManager.charactersV.length] = character;
+        //                // Add asset
+        //                this.scene.renderManager.renderEngine.showElement(character);
+        //                if (EntityCValue.SLBuild != character.layer)        // 如果不是地物层
+        //                {
+        //                    this.scene.renderManager.addToDepthSort(character);
+        //                }
+        //                character.isVisibleNow = true;
+        //                //anyChanges = true;
+        //            }
+        //        }
+        //        else    // 如果不可见
+        //        {
+        //            //m_fullVisible = false;
+        //            if (character.isVisibleNow && character._visible)
+        //            {
+        //                // 从显示列表中去掉
+        //                distidx = this.scene.renderManager.charactersV.IndexOf(character);
+        //                if (distidx != -1)
+        //                {
+        //                    this.scene.renderManager.charactersV.RemoveAt(distidx);
+        //                }
+        //                // Remove asset
+        //                this.scene.renderManager.renderEngine.hideElement(character);
+        //                if (EntityCValue.SLBuild != character.layer)        // 如果不是地物层
+        //                {
+        //                    this.scene.renderManager.removeFromDepthSort(character);
+        //                }
+        //                //anyChanges = true;
+        //                character.isVisibleNow = false;
+        //            }
+        //        }
+        //    }
+
+        //    KBEN: 地上物，不会改变的地上建筑
+        }
+
+        public void hideObject()
+        {
+            //// 计算所有可视化显示的内容
+            //// KBEN: 除了地形和人物，其它可视化都放在这里，存放需要深度排序的
+            //int dynamicLength;
+            //fObject dynObject;
+
+            //int i2 = 0;
+            //int chLength = 0;
+            //fCharacter character;
+
+            //int esLength = 0;
+
+            //int distidx = -1;
+
+            //dynamicLength = m_dynamicElementVec.Count();
+
+            //for (i2 = 0; i2 < dynamicLength; i2++)
+            //{
+            //    // 动态对象设置可视化状态
+            //    dynObject = scene.all[m_dynamicElementVec[i2]];
+            //    if (dynObject.isVisibleNow && dynObject._visible)
+            //    {
+            //        // 从显示列表中去掉
+            //        distidx = this.scene.renderManager.elementsV.IndexOf(dynObject);
+            //        if (distidx != -1)
+            //        {
+            //            this.scene.renderManager.elementsV.RemoveAt(distidx);
+            //        }
+
+            //        // Remove asset
+            //        this.scene.renderManager.renderEngine.hideElement(dynObject);
+            //        this.scene.renderManager.removeFromDepthSort(dynObject);
+            //        //anyChanges = true;
+            //        dynObject.isVisibleNow = false;
+            //    }
+            //}
+
+            //// KBEN: 存放人物，需要深度排序
+            //chLength = m_characterVec.Count();
+            //for (i2 = 0; i2 < chLength; i2++)
+            //{
+            //    character = scene.all[m_characterVec[i2]];
+            //    if (character.isVisibleNow && character._visible)
+            //    {
+            //        // 从显示列表中去掉
+            //        distidx = this.scene.renderManager.charactersV.IndexOf(character);
+            //        if (distidx != -1)
+            //        {
+            //            this.scene.renderManager.charactersV.RemoveAt(distidx);
+            //        }
+            //        // Remove asset
+            //        this.scene.renderManager.renderEngine.hideElement(character);
+            //        if (EntityCValue.SLBuild != character.layer)        // 如果不是地物层
+            //        {
+            //            this.scene.renderManager.removeFromDepthSort(character);
+            //        }
+            //        character.isVisibleNow = false;
+            //    }
+            //}
+        }
+    }
 }

@@ -119,30 +119,30 @@ namespace SDK.Lib
 				return;
 			}
 			
-			if (character._visible)
-			{
-				if (this.cell.m_scrollRect.contains(character.x, character.y))
-				{
-					if (!character.isVisibleNow)
-					{
-						this.charactersV[this.charactersV.Count()] = character;
-						this.renderEngine.showElement(character);
-						this.addToDepthSort(character);
-						character.isVisibleNow = true;
-					}
-				}
-				else
-				{
-					if (character.isVisibleNow)
-					{
-                        int pos = this.charactersV.IndexOf(character);
-						this.charactersV.RemoveAt(pos);
-						this.renderEngine.hideElement(character);
-						this.removeFromDepthSort(character);
-						character.isVisibleNow = false;
-					}
-				}
-			}
+			//if (character._visible)
+			//{
+			//	if (this.cell.m_scrollRect.contains(character.x, character.y))
+			//	{
+			//		if (!character.isVisibleNow)
+			//		{
+			//			this.charactersV[this.charactersV.Count()] = character;
+			//			this.renderEngine.showElement(character);
+			//			this.addToDepthSort(character);
+			//			character.isVisibleNow = true;
+			//		}
+			//	}
+			//	else
+			//	{
+			//		if (character.isVisibleNow)
+			//		{
+   //                     int pos = this.charactersV.IndexOf(character);
+			//			this.charactersV.RemoveAt(pos);
+			//			this.renderEngine.hideElement(character);
+			//			this.removeFromDepthSort(character);
+			//			character.isVisibleNow = false;
+			//		}
+			//	}
+			//}
 			
 			if (character.cell != null)
 			{
@@ -211,8 +211,9 @@ namespace SDK.Lib
 					return;
 				}
 				
-				if (!ele.isVisibleNow && ele._visible && this.cell.m_scrollRect.contains(ele.x, ele.y))
-				{
+				//if (!ele.isVisibleNow && ele._visible && this.cell.m_scrollRect.contains(ele.x, ele.y))
+                if (!ele.isVisibleNow && ele._visible)
+                    {
 					ele.isVisibleNow = true;
 					this.renderEngine.showElement(ele);
 					// KBEN: fFloor 不参与深度排序 
@@ -222,8 +223,7 @@ namespace SDK.Lib
 						this.addToDepthSort(ele);
 					}
 					
-					// KBEN: 这个地方需要修改   
-					// KBEN: 玩家 npc 全部放在这里   
+					// KBEN: 这个地方需要修改
 					if (ele is fCharacter)
 					{
 						this.charactersV[this.charactersV.Count()] = ele as fCharacter;
@@ -266,7 +266,6 @@ namespace SDK.Lib
 					this.renderEngine.hideElement(ele);
 					// KBEN: fFloor 不参与深度排序   
 					//this.removeFromDepthSort(ele);
-					//}
 				}
 				else if (ele is fCharacter)
 				{
@@ -331,67 +330,67 @@ namespace SDK.Lib
 		// 某一些单个改变的内容
 		public void depthSortSingle()
 		{
-            MList<fElement> ar = this.depthSortArr;
-			// KBEN: 深度排序
-			fUtil.insortSort(this.depthSortArr);
-            int i = ar.length;
-			if (i == 0)
-				return;
-            // KBEN: 除了地形都排序
-            Sprite p = this.scene.m_SceneLayer[EntityCValue.SLObject];
-			foreach (fRenderableElement el in this.scene.m_singleDirtyArr.list)
-			{
-                int oldD = el.depthOrder;
-                // KBEN: 插入排序
-                int newD = this.depthSortArr.IndexOf(el);
-				if (newD != oldD)
-				{
-					el.depthOrder = newD;
-					// KBEN: 地形不排序，阴影需要排序
-					// KBEN: 不需要深度排序的不会调用 addToDepthSort 这个函数，因此这里不用调用这个函数
-					try
-					{
-						// 如果由于调整其它的位置，导致这个位置可能已经放在正确的位置了，就不再调整位置了
-						if (p.getChildIndex(el.container) != newD)
-						{
-							p.setChildIndex(el.container, newD);
-						}
-					}
-					catch (Exception e)
-					{
-						
-					}
-				}
-			}
-		}
+            //MList<fElement> ar = this.depthSortArr;
+            //// KBEN: 深度排序
+            //fUtil.insortSort(this.depthSortArr);
+            //int i = ar.length;
+            //if (i == 0)
+            //    return;
+            //// KBEN: 除了地形都排序
+            //Sprite p = this.scene.m_SceneLayer[EntityCValue.SLObject];
+            //foreach (fRenderableElement el in this.scene.m_singleDirtyArr.list)
+            //{
+            //    int oldD = el.depthOrder;
+            //    // KBEN: 插入排序
+            //    int newD = this.depthSortArr.IndexOf(el);
+            //    if (newD != oldD)
+            //    {
+            //        el.depthOrder = newD;
+            //        // KBEN: 地形不排序，阴影需要排序
+            //        // KBEN: 不需要深度排序的不会调用 addToDepthSort 这个函数，因此这里不用调用这个函数
+            //        try
+            //        {
+            //            // 如果由于调整其它的位置，导致这个位置可能已经放在正确的位置了，就不再调整位置了
+            //            if (p.getChildIndex(el.container) != newD)
+            //            {
+            //                p.setChildIndex(el.container, newD);
+            //            }
+            //        }
+            //        catch (Exception e)
+            //        {
+
+            //        }
+            //    }
+            //}
+        }
 
 		public void depthSort()
 		{
-            MList<fElement> ar = this.depthSortArr;
-			// KBEN: 深度排序
-			fUtil.insortSort(this.depthSortArr);
-            int i = ar.length;
-			if (i == 0)
-				return;
-            // KBEN: 除了地形都排序
-            Sprite p = this.scene.m_SceneLayer[EntityCValue.SLObject];
-			
-			try
-			{
-				while (i--)
-				{
-					if (p.getChildAt(i) != ar[i].container)
-					{
-						p.setChildIndex(ar[i].container, i);
-						ar[i].depthOrder = i;
-					}
-				}
-			}
-			catch (Exception e) // KBEN: 有时候竟然会莫名其妙的减少一个  
-			{
-				
-			}
-		}
+            //MList<fElement> ar = this.depthSortArr;
+            //// KBEN: 深度排序
+            //fUtil.insortSort(this.depthSortArr);
+            //int i = ar.length;
+            //if (i == 0)
+            //    return;
+            //// KBEN: 除了地形都排序
+            //Sprite p = this.scene.m_SceneLayer[EntityCValue.SLObject];
+
+            //try
+            //{
+            //    while (i--)
+            //    {
+            //        if (p.getChildAt(i) != ar[i].container)
+            //        {
+            //            p.setChildIndex(ar[i].container, i);
+            //            ar[i].depthOrder = i;
+            //        }
+            //    }
+            //}
+            //catch (Exception e) // KBEN: 有时候竟然会莫名其妙的减少一个  
+            //{
+
+            //}
+        }
 
 		public void dispose()
 		{

@@ -65,9 +65,9 @@ namespace UnitTest
         // ²âÊÔ 1 ¸ö×èµ²µã
         public List<Vertex> test1Stop(MGraph pMGraph)
         {
-            StopPoint pStopPoint = null;
+            MStopPoint pStopPoint = null;
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 0, pStopPoint);
 
             List<Vertex> vertList;
@@ -86,12 +86,12 @@ namespace UnitTest
         // ²âÊÔ 2 ¸ö×èµ²µã
         public List<Vertex> test2Stop(MGraph pMGraph)
         {
-            StopPoint pStopPoint = null;
+            MStopPoint pStopPoint = null;
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 0, pStopPoint);
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 1, pStopPoint);
 
             List<Vertex> vertList;
@@ -110,15 +110,15 @@ namespace UnitTest
         // ²âÊÔ 3 ¸ö×èµ²µã
         public List<Vertex> test3Stop(MGraph pMGraph)
         {
-            StopPoint pStopPoint = null;
+            MStopPoint pStopPoint = null;
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 0, pStopPoint);
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 1, pStopPoint);
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 2, pStopPoint);
 
             List<Vertex> vertList;
@@ -137,12 +137,12 @@ namespace UnitTest
         // ²âÊÔ¶Ô½ÇÏß×èµ²µã
         public List<Vertex> test4Stop(MGraph pMGraph)
         {
-            StopPoint pStopPoint = null;
+            MStopPoint pStopPoint = null;
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 0, pStopPoint);
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(0, 1, pStopPoint);
 
             List<Vertex> vertList;
@@ -161,12 +161,12 @@ namespace UnitTest
         // ²âÊÔ×î³¤×èµ²µã
         public List<Vertex> test5Stop(MGraph pMGraph)
         {
-            StopPoint pStopPoint = null;
+            MStopPoint pStopPoint = null;
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(1, 1, pStopPoint);
 
-            pStopPoint = new StopPoint();
+            pStopPoint = new MStopPoint();
             pMGraph.addStopPoint(0, 1, pStopPoint);
 
             List<Vertex> vertList;

@@ -26,7 +26,7 @@ namespace SDK.Lib
 			// Init items
 			this.scene = scene;
 			this.container = container;
-			this.renderers = new Dictionary<int, fFlash9ElementRenderer>();
+			this.renderers = new Dictionary<int, fSpriteElementRenderer>();
 			m_SceneLayer = sceneLayer;
 			//m_scrollRect = new Rectangle();
 		}
@@ -45,7 +45,7 @@ namespace SDK.Lib
 		
 		public fElementContainer initRenderFor(fRenderableElement element)
 		{
-            fFlash9ElementRenderer renderer = this.createRendererFor(element);
+            fSpriteElementRenderer renderer = this.createRendererFor(element);
 			return element.flash9Renderer.container;
 		}
 
@@ -72,7 +72,7 @@ namespace SDK.Lib
 
 		public void showElement(fRenderableElement element)
 		{
-            fFlash9ElementRenderer r = element.flash9Renderer;
+            fSpriteElementRenderer r = element.flash9Renderer;
 			// KBEN: 资源加载尽量放在这资源加载里面，不要放在显示隐藏里面  
 			if (!r.assetsCreated)
 			{
@@ -87,7 +87,7 @@ namespace SDK.Lib
 
 		public void hideElement(fRenderableElement element)
 		{
-            fFlash9ElementRenderer r = element.flash9Renderer;
+            fSpriteElementRenderer r = element.flash9Renderer;
 			r.hide();
 			r.screenVisible = false;
 		}
@@ -154,7 +154,7 @@ namespace SDK.Lib
 			//this.m_SceneLayer = null;
 		}
    
-		private fFlash9ElementRenderer createRendererFor(fRenderableElement element)
+		private fSpriteElementRenderer createRendererFor(fRenderableElement element)
 		{
 			if (!this.renderers.ContainsKey(element.uniqueId))
 			{
@@ -164,7 +164,7 @@ namespace SDK.Lib
 				{
 					// KBEN: 添加到自己层，这一句一定要添加在后面语句的前面      
 					//m_SceneLayer[EntityCValue.SLTerrain].addChild(spr);
-					element.flash9Renderer = new fFlash9FloorRenderer(this, element as fFloor, 0, 0);
+					element.flash9Renderer = new fSpriteFloorRenderer(this, element as fFloor, 0, 0);
 				}
 				else
 				{

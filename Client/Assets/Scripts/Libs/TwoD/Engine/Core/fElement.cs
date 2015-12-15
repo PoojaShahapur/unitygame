@@ -17,7 +17,7 @@ namespace SDK.Lib
 		// KBEN: 元素所在的地形区域
 		public fFloor m_district;		
 		public Object customData;
-        public fFlash9ElementRenderer flash9Renderer;
+        public fSpriteElementRenderer flash9Renderer;
 
         // elementmove 元素移动事件
         public static int MOVE = 0;
