@@ -540,9 +540,9 @@ namespace SDK.Lib
             image.type = type;
         }
 
-        public static Sprite Create(Texture2D texture, Rect rect, Vector2 pivot)
+        public static Sprite Create(Texture2D texture, Rect rect, Vector2 pivot, float pixelsPerUnit = 100, uint extrude = 0, SpriteMeshType meshType = SpriteMeshType.FullRect)
         {
-            return Sprite.Create(texture, rect, pivot);
+            return Sprite.Create(texture, rect, pivot, pixelsPerUnit, extrude, meshType);
         }
 
         // 创建一个精灵 GameObject ，播放场景特效
