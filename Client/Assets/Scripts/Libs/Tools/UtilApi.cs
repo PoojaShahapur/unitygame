@@ -451,6 +451,12 @@ namespace SDK.Lib
             tran.localPosition = pos;
         }
 
+        // 设置 RectTransform大小
+        public static void setRectSize(RectTransform tran, Vector2 size)
+        {
+            tran.sizeDelta = size;
+        }
+
         public static void adjustEffectRST(Transform transform)
         {
             UtilApi.setPos(transform, new Vector3(-0.01f, 0, 0.46f));
@@ -858,21 +864,18 @@ namespace SDK.Lib
             return UnityEngine.Mathf.Abs(value);
         }
 
-        // 两个相机坐标之间转换
-        static public Vector3 convPosFromSrcToDestCam(Camera src, Camera dest, Vector3 pos)
+        /**
+         * @brief 两个相机坐标之间转换
+         * @Param scale 就是 Canvas 组件所在的 GameObject 中 RectTransform 组件中的 Scale 因子
+         */
+        static public Vector3 convPosFromSrcToDestCam(Camera src, Camera dest, Vector3 pos, float scale = 0.0122f)
         {
             Vector3 srcScreenPos = src.WorldToScreenPoint(pos);
-            pos.z = 1.0f;
+            srcScreenPos.z = 1.0f;
             Vector3 destPos = dest.ScreenToWorldPoint(srcScreenPos);
+            destPos.z = 0.0f;
+            destPos /= scale;
             return destPos;
-        }
-
-        // 转换坐标从场景到 UI
-        static public Vector3 convPosFromSceneToUICam(Camera sceneCam, Vector3 pos)
-        {
-            Vector3 srcScreenPos = sceneCam.WorldToScreenPoint(pos);
-            srcScreenPos.z = 0.0f;
-            return srcScreenPos;
         }
     }
 }

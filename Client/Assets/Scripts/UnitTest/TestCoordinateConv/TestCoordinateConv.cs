@@ -21,6 +21,7 @@ namespace UnitTest
         protected void onResLoadScene(Scene scene)
         {
             // 获取主摄像机
+            Ctx.m_instance.m_camSys.setUGuiCamera(UtilApi.GoFindChildByPObjAndName("NoDestroy/UICamera").GetComponent<Camera>());
             Ctx.m_instance.m_camSys.setMainCamera(UtilApi.GoFindChildByPObjAndName("MainCamera").GetComponent<Camera>());
             m_plane = UtilApi.GoFindChildByPObjAndName("Plane");
             UtilApi.addEventHandle(m_plane, onPlaneClick);
@@ -30,9 +31,10 @@ namespace UnitTest
         public void onPlaneClick(GameObject go)
         {
             m_currentPos = Ctx.m_instance.m_coordConv.getCurTouchScenePos();
-            Vector3 screenPos = UtilApi.convPosFromSceneToUICam(Ctx.m_instance.m_camSys.getMainCamera(), m_currentPos);
+            //Vector3 screenPos = UtilApi.convPosFromSceneToUICam(Ctx.m_instance.m_camSys.getMainCamera(), m_currentPos);
+            Vector3 screenPos = UtilApi.convPosFromSrcToDestCam(Ctx.m_instance.m_camSys.getMainCamera(), Ctx.m_instance.m_camSys.getUGuiCamera(), m_currentPos);
             Form form = Ctx.m_instance.m_uiMgr.getForm((UIFormID)100);
-            UtilApi.setPos(form.m_GUIWin.m_uiRoot.transform, screenPos);
+            UtilApi.setRectPos(form.m_GUIWin.m_uiRoot.GetComponent<RectTransform>(), screenPos);
         }
     }
 }
