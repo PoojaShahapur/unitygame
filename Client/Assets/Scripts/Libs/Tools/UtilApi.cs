@@ -857,5 +857,22 @@ namespace SDK.Lib
         {
             return UnityEngine.Mathf.Abs(value);
         }
+
+        // 两个相机坐标之间转换
+        static public Vector3 convPosFromSrcToDestCam(Camera src, Camera dest, Vector3 pos)
+        {
+            Vector3 srcScreenPos = src.WorldToScreenPoint(pos);
+            pos.z = 1.0f;
+            Vector3 destPos = dest.ScreenToWorldPoint(srcScreenPos);
+            return destPos;
+        }
+
+        // 转换坐标从场景到 UI
+        static public Vector3 convPosFromSceneToUICam(Camera sceneCam, Vector3 pos)
+        {
+            Vector3 srcScreenPos = sceneCam.WorldToScreenPoint(pos);
+            srcScreenPos.z = 0.0f;
+            return srcScreenPos;
+        }
     }
 }

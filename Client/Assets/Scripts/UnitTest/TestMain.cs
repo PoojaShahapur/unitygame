@@ -27,6 +27,7 @@ namespace UnitTest
         protected TestDraw m_pTestDraw = new TestDraw();
 
         protected TestHeightMap m_testHeightMap = new TestHeightMap();
+        protected TestCoordinateConv m_testCoordinateConv = new TestCoordinateConv();
 
         public void run()
         {
@@ -55,7 +56,8 @@ namespace UnitTest
             m_pTestProtoBuf.run();
 
             m_pTestDraw.run();
-            m_testHeightMap.run();
+            //m_testHeightMap.run();
+            m_testCoordinateConv.run();
         }
     }
 }
