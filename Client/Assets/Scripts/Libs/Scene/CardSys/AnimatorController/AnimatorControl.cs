@@ -395,5 +395,13 @@ namespace SDK.Lib
         {
             // 执行事件的一些出来
         }
+
+        // 倒着播放动画
+        protected void playFromBackToFront()
+        {
+            AnimatorStateInfo stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
+            //m_animator.SetTime
+            m_animator.speed = -1.0f;
+        }
     }
 }
