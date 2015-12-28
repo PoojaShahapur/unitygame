@@ -64,6 +64,15 @@ function M:remove(value)
     end
 end
 
+function removeAt(index)
+	if index < self.Count() then
+		table.remove(self.m_data, index + 1)  	-- 需要添加 1 ，作为删除的索引
+		return true
+	end
+	
+	return false
+end
+
 function M:at(index)
     if index < self:getLen() then
         return self.m_data[index]
@@ -77,7 +86,6 @@ function M:IndexOf(value)
     while( idx < self:getLen() + 1 )
     do
         if self.m_data[idx] == value then
-            table.remove(self.m_data, idx)
             break;
         end
         idx = idx + 1

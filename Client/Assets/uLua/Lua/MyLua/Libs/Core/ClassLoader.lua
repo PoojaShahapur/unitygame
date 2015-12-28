@@ -7,6 +7,8 @@ local M = GlobalNS.StaticClass()
 M.clsName = "ClassLoader"     -- 记录类的名字，方便调试
 GlobalNS[M.clsName] = M
 
+local this = M 		-- this 访问变量， M 访问类
+
 function M.ctor()
 
 end

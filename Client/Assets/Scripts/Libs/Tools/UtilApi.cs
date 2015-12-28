@@ -491,9 +491,10 @@ namespace SDK.Lib
             trans.SetParent(null);      // 这个仅仅是移除场景中
         }
 
+        // 这个设置 Child 位置信息需要是 Transform 
         public static void SetParent(Transform child, Transform parent, bool worldPositionStays = true)
         {
-            if (child.transform.parent != parent.transform)
+            if (child.parent != parent)
             {
                 child.SetParent(parent, worldPositionStays);
             }
@@ -504,6 +505,17 @@ namespace SDK.Lib
             if (child.transform.parent != parent.transform)
             {
                 child.transform.SetParent(parent.transform, worldPositionStays);
+            }
+        }
+
+        // 这个设置 Child 位置信息需要是 RectTransform ，这个时候取 Child 的 Transform 不能使用 child.transform ，会报错误
+        public static void SetRectTransParent(GameObject child, GameObject parent, bool worldPositionStays = true)
+        {
+            RectTransform rectTrans = child.GetComponent<RectTransform>();
+
+            if (rectTrans != null && rectTrans.parent != parent.transform)
+            {
+                rectTrans.SetParent(parent.transform, worldPositionStays);
             }
         }
 
