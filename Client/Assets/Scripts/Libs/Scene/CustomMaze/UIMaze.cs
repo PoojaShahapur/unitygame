@@ -62,14 +62,14 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_btnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnStart");
-            m_btnResetGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnReset");
+            m_btnGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "BtnStart");
+            m_btnResetGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "BtnReset");
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnStart", onStartBtnClk);
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnReset", onResetBtnClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnStart", onStartBtnClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnReset", onResetBtnClk);
         }
 
         protected void onStartBtnClk()

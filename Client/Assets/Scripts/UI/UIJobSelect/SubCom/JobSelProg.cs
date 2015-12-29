@@ -20,9 +20,9 @@ namespace Game.UI
 
         public new void findWidget()
         {
-            m_maskImage = new AuxStaticImageStaticGoImage(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgMaskImage);
-            m_trans = UtilApi.getComByP<RectTransform>(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgMaskImage);
-            m_progText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ProgText);
+            m_maskImage = new AuxStaticImageStaticGoImage(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ProgMaskImage);
+            m_trans = UtilApi.getComByP<RectTransform>(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ProgMaskImage);
+            m_progText = new AuxLabel(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ProgText);
         }
 
         public new void init()

@@ -25,14 +25,14 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_btnArr[(int)TaskBtnNum.eBtnTask1] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.BtnTask1);
-            m_btnArr[(int)TaskBtnNum.eBtnTask2] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.BtnTask2);
-            m_btnArr[(int)TaskBtnNum.eBtnTask3] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.BtnTask3);
-            m_btnArr[(int)TaskBtnNum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.BtnBack);
-            m_btnArr[(int)TaskBtnNum.eBtnBg] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.BtnBg);
-            m_btnArr[(int)TaskBtnNum.eBtnTaskDes1] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.Task1);
-            m_btnArr[(int)TaskBtnNum.eBtnTaskDes2] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.Task2);
-            m_btnArr[(int)TaskBtnNum.eBtnTaskDes3] = new AuxBasicButton(m_GUIWin.m_uiRoot, TaskComPath.Task3);
+            m_btnArr[(int)TaskBtnNum.eBtnTask1] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.BtnTask1);
+            m_btnArr[(int)TaskBtnNum.eBtnTask2] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.BtnTask2);
+            m_btnArr[(int)TaskBtnNum.eBtnTask3] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.BtnTask3);
+            m_btnArr[(int)TaskBtnNum.eBtnBack] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.BtnBack);
+            m_btnArr[(int)TaskBtnNum.eBtnBg] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.BtnBg);
+            m_btnArr[(int)TaskBtnNum.eBtnTaskDes1] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.Task1);
+            m_btnArr[(int)TaskBtnNum.eBtnTaskDes2] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.Task2);
+            m_btnArr[(int)TaskBtnNum.eBtnTaskDes3] = new AuxBasicButton(m_guiWin.m_uiRoot, TaskComPath.Task3);
         }
 
         protected void addEventHandle()

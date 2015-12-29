@@ -28,7 +28,7 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, ExtraOpComPath.BtnQuitDZ, onQuitDZBtnClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, ExtraOpComPath.BtnQuitDZ, onQuitDZBtnClk);
         }
 
         protected void onQuitDZBtnClk()

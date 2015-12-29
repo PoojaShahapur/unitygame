@@ -19,8 +19,8 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, HeroSelectComPath.PathBtnLogin, onBtnClkLogin);
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, HeroSelectComPath.PathBtnRanName, onBtnClkRan);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, HeroSelectComPath.PathBtnLogin, onBtnClkLogin);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, HeroSelectComPath.PathBtnRanName, onBtnClkRan);
         }
 
         // 点击登陆处理
@@ -29,7 +29,7 @@ namespace Game.UI
             string textStr = "";
             if (Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginSuccessGateServer || Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginNewCharError)    // 网关登陆成功或者建立角色错误
             {
-                AuxInputField lblName = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+                AuxInputField lblName = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblName);
 
                 if (lblName.text.Length == 0)       // 如果没有输入名字
                 {
@@ -73,7 +73,7 @@ namespace Game.UI
         protected void onBtnClkRan()
         {
             string name = Ctx.m_instance.m_pRandName.getRandName();
-            AuxInputField lblName = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+            AuxInputField lblName = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblName);
             lblName.text = name;
         }
     }

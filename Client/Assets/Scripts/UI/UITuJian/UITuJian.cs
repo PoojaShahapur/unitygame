@@ -35,7 +35,7 @@ namespace Game.UI
 
             m_tuJianData.dispose();
 
-            UtilApi.Destroy(m_tuJianData.m_form.m_GUIWin.m_uiRoot);
+            UtilApi.Destroy(m_tuJianData.m_form.m_guiWin.m_uiRoot);
             //UtilApi.UnloadUnusedAssets();
         }
 

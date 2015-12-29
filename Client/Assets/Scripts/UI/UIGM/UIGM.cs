@@ -29,12 +29,12 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_inputField = new AuxInputField(m_GUIWin.m_uiRoot, "InputField");
+            m_inputField = new AuxInputField(m_guiWin.m_uiRoot, "InputField");
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnSend", onBtnSendClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnSend", onBtnSendClk);
         }
 
         protected void onBtnSendClk()

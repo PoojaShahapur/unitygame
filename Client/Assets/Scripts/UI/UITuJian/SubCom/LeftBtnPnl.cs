@@ -29,15 +29,15 @@ namespace Game.UI
 
         public new void findWidget()
         {
-            m_jobBtnImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob);
-            m_mpBtnImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnFilter);
+            m_jobBtnImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnJob);
+            m_mpBtnImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnFilter);
         }
 
         public new void addEventHandle()
         {
-            UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnJob, onJobBtnClk);
-            UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnFilter, onFilterBtnClk);
-            UtilApi.addEventHandle(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnShouCang, onShouCangBtnClk);
+            UtilApi.addEventHandle(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnJob, onJobBtnClk);
+            UtilApi.addEventHandle(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnFilter, onFilterBtnClk);
+            UtilApi.addEventHandle(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnShouCang, onShouCangBtnClk);
         }
 
         public void onJobBtnClk()

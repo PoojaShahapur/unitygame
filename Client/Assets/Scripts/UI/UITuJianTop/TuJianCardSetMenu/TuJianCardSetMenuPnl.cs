@@ -14,10 +14,10 @@ namespace Game.UI
 
         override public void findWidget()
         {
-            m_btnArr[0] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.CardSet_CardSetEdit_BtnDel);
-            m_btnArr[1] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.CardSet_CardSetEdit_BtnRename);
-            m_btnArr[2] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.CardSet_CardSetEdit_BtnEdit);
-            m_btnArr[3] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.CardSet_BtnExit);
+            m_btnArr[0] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.CardSet_CardSetEdit_BtnDel);
+            m_btnArr[1] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.CardSet_CardSetEdit_BtnRename);
+            m_btnArr[2] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.CardSet_CardSetEdit_BtnEdit);
+            m_btnArr[3] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.CardSet_BtnExit);
         }
 
         override public void addEventHandle()

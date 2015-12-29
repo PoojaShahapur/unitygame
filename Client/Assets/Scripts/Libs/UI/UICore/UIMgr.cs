@@ -90,7 +90,7 @@ namespace SDK.Lib
                 }
                 if (!win.IsVisible())
                 {
-                    UtilApi.SetActive(win.m_GUIWin.m_uiRoot, true);
+                    UtilApi.SetActive(win.m_guiWin.m_uiRoot, true);
                     win.onShow();
                 }
             }
@@ -104,7 +104,7 @@ namespace SDK.Lib
 			{
 				if (win.IsVisible())
 				{
-                    UtilApi.SetActive(win.m_GUIWin.m_uiRoot, false);
+                    UtilApi.SetActive(win.m_guiWin.m_uiRoot, false);
 					win.onHide();
 				}
 			}
@@ -139,8 +139,8 @@ namespace SDK.Lib
                 layer.winDic.Remove(ID);
                 // 释放界面资源
                 win.onExit();
-                UtilApi.Destroy(win.m_GUIWin.m_uiRoot);
-                win.m_GUIWin.m_uiRoot = null;
+                UtilApi.Destroy(win.m_guiWin.m_uiRoot);
+                win.m_guiWin.m_uiRoot = null;
                 // 释放加载的资源
                 //string path = m_UIAttrs.getPath(ID);
                 //if (path != null)
@@ -339,22 +339,22 @@ namespace SDK.Lib
 
             UIAttrItem attrItem = m_UIAttrs.m_id2AttrDic[ID];
             m_id2FormDic[ID].bLoadWidgetRes = true;
-            m_id2FormDic[ID].m_GUIWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
+            m_id2FormDic[ID].m_guiWin.m_uiRoot = res.InstantiateObject(attrItem.m_widgetPath);
             if (attrItem.m_bNeedLua)
             {
-                m_id2FormDic[ID].luaCSBridgeForm.gameObject = m_id2FormDic[ID].m_GUIWin.m_uiRoot;
+                m_id2FormDic[ID].luaCSBridgeForm.gameObject = m_id2FormDic[ID].m_guiWin.m_uiRoot;
                 m_id2FormDic[ID].luaCSBridgeForm.postInit();
             }
 
             // 设置位置
-            UtilApi.SetParent(m_id2FormDic[ID].m_GUIWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
+            UtilApi.SetParent(m_id2FormDic[ID].m_guiWin.m_uiRoot.transform, m_canvasList[(int)attrItem.m_canvasID].layerList[(int)attrItem.m_LayerID].layerTrans, false);
 
             // 先设置再设置缩放，否则无效
-            m_id2FormDic[ID].m_GUIWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
-            UtilApi.SetActive(m_id2FormDic[ID].m_GUIWin.m_uiRoot, false);      // 出发 onShow 事件
+            m_id2FormDic[ID].m_guiWin.m_uiRoot.transform.SetAsLastSibling();               // 放在最后
+            UtilApi.SetActive(m_id2FormDic[ID].m_guiWin.m_uiRoot, false);      // 出发 onShow 事件
             //if (m_dicForm[ID].hideOnCreate)
             //{
-            //    UtilApi.SetActive(m_dicForm[ID].m_GUIWin.m_uiRoot, false);
+            //    UtilApi.SetActive(m_dicForm[ID].m_guiWin.m_uiRoot, false);
             //}
             if (!m_id2FormDic[ID].hideOnCreate)
             {

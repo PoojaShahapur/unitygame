@@ -50,14 +50,14 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_chatData.m_logText = new AuxLabel(m_GUIWin.m_uiRoot, CVChat.TextOutput);
-            m_chatData.m_inputField = new AuxInputField(m_GUIWin.m_uiRoot, CVChat.Input);
-            m_chatData.m_scrollbar = new AuxScrollbar(m_GUIWin.m_uiRoot, CVChat.Scrollbar);
+            m_chatData.m_logText = new AuxLabel(m_guiWin.m_uiRoot, CVChat.TextOutput);
+            m_chatData.m_inputField = new AuxInputField(m_guiWin.m_uiRoot, CVChat.Input);
+            m_chatData.m_scrollbar = new AuxScrollbar(m_guiWin.m_uiRoot, CVChat.Scrollbar);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, CVChat.SendBtn, onSendBtnClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, CVChat.SendBtn, onSendBtnClk);
         }
 
         protected void onSendBtnClk()

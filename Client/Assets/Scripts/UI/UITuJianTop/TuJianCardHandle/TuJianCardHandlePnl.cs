@@ -14,8 +14,8 @@ namespace Game.UI
 
         override public void findWidget()
         {
-            m_btnArr[0] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Card_CardSetEdit_BtnAdd);
-            m_btnArr[1] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Card_BtnExit);
+            m_btnArr[0] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Card_CardSetEdit_BtnAdd);
+            m_btnArr[1] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Card_BtnExit);
         }
 
         override public void addEventHandle()

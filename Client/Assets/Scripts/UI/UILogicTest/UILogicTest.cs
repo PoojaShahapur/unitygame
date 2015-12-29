@@ -29,14 +29,14 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            m_spriteGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, LogicTestComPath.PathSprite);
-            m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, LogicTestComPath.PathImage);
+            m_spriteGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, LogicTestComPath.PathSprite);
+            m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, LogicTestComPath.PathImage);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, LogicTestComPath.PathButton, onBtnClkOk);
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, LogicTestComPath.PathButton2, onBtnClkOk2);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LogicTestComPath.PathButton, onBtnClkOk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LogicTestComPath.PathButton2, onBtnClkOk2);
         }
 
         // 点击登陆处理
@@ -102,9 +102,9 @@ namespace Game.UI
 
         protected void shareSprite()
         {
-            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "ShopBtn");
-            GameObject destBtnGo_1 = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "Button_1");
-            GameObject destBtnGo_2 = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "Button_2");
+            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "ShopBtn");
+            GameObject destBtnGo_1 = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "Button_1");
+            GameObject destBtnGo_2 = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "Button_2");
 
             Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
             Image destImage_1 = UtilApi.getComByP<Image>(destBtnGo_1);
@@ -122,7 +122,7 @@ namespace Game.UI
 
         protected void testShareSpriteAtlas()
         {
-            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnTest1");
+            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "BtnTest1");
             Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
 
             ImageItem imageItem = Ctx.m_instance.m_atlasMgr.getAndSyncLoadImage(CVAtlasName.Common, "denglu_srk");
@@ -134,7 +134,7 @@ namespace Game.UI
 
         protected void testScriptSprite()
         {
-            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, "BtnTest1");
+            GameObject srcBtnGo = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, "BtnTest1");
             Image srcImage = UtilApi.getComByP<Image>(srcBtnGo);
 
             SOSpriteList spriteList = Resources.Load<SOSpriteList>("Atlas/TuJian");

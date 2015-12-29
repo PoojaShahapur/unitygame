@@ -40,7 +40,7 @@ namespace Game.UI
         // 关联窗口
         protected void findWidget()
         {
-            AuxInputField lblName = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
+            AuxInputField lblName = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblName);
             lblName.text = "zhanghao06";      //zhanghao01---zhanghao09
 
             if(Ctx.m_instance.m_systemSetting.getString(SystemSetting.USERNAME) != default(string))
@@ -48,7 +48,7 @@ namespace Game.UI
                 lblName.text = Ctx.m_instance.m_systemSetting.getString(SystemSetting.USERNAME);
             }
 
-            AuxInputField lblPassWord = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+            AuxInputField lblPassWord = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblPassWord);
             lblPassWord.text = "1";
 
             if (Ctx.m_instance.m_systemSetting.getString(SystemSetting.PASSWORD) != default(string))
@@ -57,15 +57,15 @@ namespace Game.UI
             }
 
             // 忽略鼠标事件
-            UtilApi.getComByP<Image>(m_GUIWin.m_uiRoot, "ImageName").maskable = false;
+            UtilApi.getComByP<Image>(m_guiWin.m_uiRoot, "ImageName").maskable = false;
 
-            m_imageEffect = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, LoginComPath.PathImageEffect);
+            m_imageEffect = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, LoginComPath.PathImageEffect);
             UtilApi.SetActive(m_imageEffect, false);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, LoginComPath.PathBtnLogin, onBtnClkLogin);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, LoginComPath.PathBtnLogin, onBtnClkLogin);
         }
 
         // 点击登陆处理
@@ -73,8 +73,8 @@ namespace Game.UI
         {
             if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginingLoginServer && Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginingGateServer)    // 如果没有正在登陆登陆服务器和网关服务器
             {
-                AuxInputField lblName = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblName);
-                AuxInputField lblPassWord = new AuxInputField(m_GUIWin.m_uiRoot, LoginComPath.PathLblPassWord);
+                AuxInputField lblName = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblName);
+                AuxInputField lblPassWord = new AuxInputField(m_guiWin.m_uiRoot, LoginComPath.PathLblPassWord);
 
                 if (validStr(lblName.text, lblPassWord.text))
                 {

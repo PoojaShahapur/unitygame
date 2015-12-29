@@ -19,8 +19,8 @@ namespace Game.UI
 
         public new void addEventHandle()
         {
-            UtilApi.addEventHandle(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.BtnJobSel, onJobSelBtnClk);
-            UtilApi.addEventHandle(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.BtnRet, onRetBtnClk);
+            UtilApi.addEventHandle(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.BtnJobSel, onJobSelBtnClk);
+            UtilApi.addEventHandle(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.BtnRet, onRetBtnClk);
         }
 
         public new void init()

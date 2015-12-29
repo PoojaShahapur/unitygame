@@ -79,22 +79,22 @@ namespace Game.UI
         // 获取控件
         protected void findWidget()
         {
-            m_goArr[(int)OpenPackGo.eCardPackLayer] = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.CardPackLayer);
+            m_goArr[(int)OpenPackGo.eCardPackLayer] = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, OpenPackPath.CardPackLayer);
 
-            m_btnArr[(int)OpenPackBtnEnum.eBtnBack] = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.RetBtn);
-            m_btnArr[(int)OpenPackBtnEnum.eBtnShop] = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.ShopBtn);
-            m_okBtn = new AuxBasicButton(m_GUIWin.m_uiRoot, OpenPackPath.OKBtn);
+            m_btnArr[(int)OpenPackBtnEnum.eBtnBack] = new AuxBasicButton(m_guiWin.m_uiRoot, OpenPackPath.RetBtn);
+            m_btnArr[(int)OpenPackBtnEnum.eBtnShop] = new AuxBasicButton(m_guiWin.m_uiRoot, OpenPackPath.ShopBtn);
+            m_okBtn = new AuxBasicButton(m_guiWin.m_uiRoot, OpenPackPath.OKBtn);
 
-            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_0);
-            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_1);
-            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].createBtn(m_GUIWin.m_uiRoot, OpenPackPath.PackBtn_2);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_0].createBtn(m_guiWin.m_uiRoot, OpenPackPath.PackBtn_0);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_1].createBtn(m_guiWin.m_uiRoot, OpenPackPath.PackBtn_1);
+            m_cardBtnArr[(int)CardBtnEnum.ePackBtn_2].createBtn(m_guiWin.m_uiRoot, OpenPackPath.PackBtn_2);
 
-            m_openEffImg = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.OpenEffImg);
+            m_openEffImg = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, OpenPackPath.OpenEffImg);
 
-            m_textPackNum = new AuxLabel(m_GUIWin.m_uiRoot, OpenPackPath.PackNum);
+            m_textPackNum = new AuxLabel(m_guiWin.m_uiRoot, OpenPackPath.PackNum);
 
-            m_PanelTrans = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.PanelTrans);
-            m_PanelGray = UtilApi.TransFindChildByPObjAndPath(m_GUIWin.m_uiRoot, OpenPackPath.PanelGray);
+            m_PanelTrans = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, OpenPackPath.PanelTrans);
+            m_PanelGray = UtilApi.TransFindChildByPObjAndPath(m_guiWin.m_uiRoot, OpenPackPath.PanelGray);
         }
 
         // 添加事件监听

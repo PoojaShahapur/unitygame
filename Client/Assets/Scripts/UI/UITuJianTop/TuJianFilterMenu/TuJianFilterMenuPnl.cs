@@ -18,15 +18,15 @@ namespace Game.UI
 
         public new void addEventHandle()
         {
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter0f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter1f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter2f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter3f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter4f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter5f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter6f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter7f, onFilterTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Filter8f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter0f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter1f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter2f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter3f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter4f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter5f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter6f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter7f, onFilterTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Filter8f, onFilterTypeBtnClk);
         }
 
         protected void onFilterTypeBtnClk()

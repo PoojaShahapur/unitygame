@@ -73,8 +73,8 @@ namespace Game.UI
         public new void findWidget()
         {
             // 获取 GO ， initJobRes 里面要用到
-            m_auxLayoutH.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollContParent);
-            m_auxLayoutH.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollCont);
+            m_auxLayoutH.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ScrollContParent);
+            m_auxLayoutH.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ScrollCont);
 
             Ctx.m_instance.m_logSys.log(string.Format("添加 {0} 卡组数据", m_cardCount));
 
@@ -86,19 +86,19 @@ namespace Game.UI
             }
 
             m_jobSelProg.findWidget();
-            m_jobText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobDesc);
+            m_jobText = new AuxLabel(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.TextJobDesc);
 
-            m_jobNameImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageJobName);
+            m_jobNameImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ImageJobName);
 
-            //m_dzStartDescText = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartDescText);
+            //m_dzStartDescText = new AuxLabel(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.DzStartDescText);
             //m_dzStartDescText.hide();     // 默认隐藏
-            m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatch);
+            m_imageGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.DzStartMatch);
             UtilApi.SetActive(m_imageGo, false);
-            m_imageGo2 = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatch2);
+            m_imageGo2 = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.DzStartMatch2);
             UtilApi.SetActive(m_imageGo2, false);
-            m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
+            m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
             UtilApi.SetActive(m_imageMatchBg, false);
-            m_bgPanel = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.bgPanel);
+            m_bgPanel = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.bgPanel);
             UtilApi.SetActive(m_bgPanel, false);
         }
 
@@ -181,9 +181,9 @@ namespace Game.UI
         {
             //m_dzStartDescText.text = "开始匹配中";
             //m_dzStartDescText.show();     // 默认隐藏
-            m_bgPanel = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.bgPanel);
+            m_bgPanel = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.bgPanel);
             UtilApi.SetActive(m_bgPanel, true);
-            m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
+            m_imageMatchBg = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.DzStartMatchBg);
             UtilApi.SetActive(m_imageMatchBg, true);
 
             UtilApi.SetActive(m_imageGo, true);

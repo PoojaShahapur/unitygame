@@ -167,7 +167,7 @@ namespace SDK.Lib
             m_bReady = true;
             if (m_bHandleExitBtn)
             {
-                UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
+                UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnClose", onExitBtnClick); // 关闭事件
             }
         }
 
@@ -216,7 +216,7 @@ namespace SDK.Lib
 
         public bool isVisible()
         {
-            return m_GUIWin.m_uiRoot.activeSelf;        // 仅仅是自己是否可见
+            return m_guiWin.m_uiRoot.activeSelf;        // 仅仅是自己是否可见
         }
 
         /*
@@ -277,7 +277,7 @@ namespace SDK.Lib
         {
             foreach(var path in btnList)
             {
-                addClick(m_GUIWin.m_uiRoot, path);
+                addClick(m_guiWin.m_uiRoot, path);
             }
         }
 
@@ -291,7 +291,7 @@ namespace SDK.Lib
             string[] pathArr = m_luaCSBridgeForm.getTable2StrArray("BtnClickTable");
             foreach(var path in pathArr)
             {
-                addClick(m_GUIWin.m_uiRoot, path);
+                addClick(m_guiWin.m_uiRoot, path);
             }
         }
 

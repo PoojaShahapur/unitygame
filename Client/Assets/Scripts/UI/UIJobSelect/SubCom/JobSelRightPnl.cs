@@ -23,16 +23,16 @@ namespace Game.UI
         {
             m_jobSelProg.findWidget();
 
-            m_jobLvl = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextJobLvl);
-            m_skillName = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillName);
-            m_skillDesc = new AuxLabel(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.TextSkillDesc);
+            m_jobLvl = new AuxLabel(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.TextJobLvl);
+            m_skillName = new AuxLabel(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.TextSkillName);
+            m_skillDesc = new AuxLabel(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.TextSkillDesc);
 
-            m_skillImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ImageSkillIcon);
+            m_skillImage.selfGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ImageSkillIcon);
         }
 
         public new void addEventHandle()
         {
-            UtilApi.addEventHandle(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.BtnSel, onSelBtnClk);
+            UtilApi.addEventHandle(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.BtnSel, onSelBtnClk);
             m_jobSelProg.addEventHandle();
         }
 

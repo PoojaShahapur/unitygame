@@ -36,13 +36,13 @@ namespace Game.UI
         // 获取控件
         protected void findWidget()
         {
-            m_btnArr[(int)MainBtnEnum.eBtnShop] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnShop);
-            m_btnArr[(int)MainBtnEnum.eBtnTask] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnTask);
-            m_btnArr[(int)MainBtnEnum.eBtnExtPack] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnExtPack);
-            m_btnArr[(int)MainBtnEnum.eBtnTuJian] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnTuJian);
+            m_btnArr[(int)MainBtnEnum.eBtnShop] = new AuxBasicButton(m_mainData.m_form.m_guiWin.m_uiRoot, MainComPath.BtnShop);
+            m_btnArr[(int)MainBtnEnum.eBtnTask] = new AuxBasicButton(m_mainData.m_form.m_guiWin.m_uiRoot, MainComPath.BtnTask);
+            m_btnArr[(int)MainBtnEnum.eBtnExtPack] = new AuxBasicButton(m_mainData.m_form.m_guiWin.m_uiRoot, MainComPath.BtnExtPack);
+            m_btnArr[(int)MainBtnEnum.eBtnTuJian] = new AuxBasicButton(m_mainData.m_form.m_guiWin.m_uiRoot, MainComPath.BtnTuJian);
 
-            m_btnArr[(int)MainBtnEnum.eBtnDuiZhan] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnDuiZhanMode);
-            m_btnArr[(int)MainBtnEnum.eBtnLianXi] = new AuxBasicButton(m_mainData.m_form.m_GUIWin.m_uiRoot, MainComPath.BtnLianXI);
+            m_btnArr[(int)MainBtnEnum.eBtnDuiZhan] = new AuxBasicButton(m_mainData.m_form.m_guiWin.m_uiRoot, MainComPath.BtnDuiZhanMode);
+            m_btnArr[(int)MainBtnEnum.eBtnLianXi] = new AuxBasicButton(m_mainData.m_form.m_guiWin.m_uiRoot, MainComPath.BtnLianXI);
         }
 
         // 添加事件监听

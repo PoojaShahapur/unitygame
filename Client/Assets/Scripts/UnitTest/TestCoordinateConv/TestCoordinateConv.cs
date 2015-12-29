@@ -34,7 +34,7 @@ namespace UnitTest
             //Vector3 screenPos = UtilApi.convPosFromSceneToUICam(Ctx.m_instance.m_camSys.getMainCamera(), m_currentPos);
             Vector3 screenPos = UtilApi.convPosFromSrcToDestCam(Ctx.m_instance.m_camSys.getMainCamera(), Ctx.m_instance.m_camSys.getUGuiCamera(), m_currentPos);
             Form form = Ctx.m_instance.m_uiMgr.getForm((UIFormID)100);
-            UtilApi.setRectPos(form.m_GUIWin.m_uiRoot.GetComponent<RectTransform>(), screenPos);
+            UtilApi.setRectPos(form.m_guiWin.m_uiRoot.GetComponent<RectTransform>(), screenPos);
         }
     }
 }

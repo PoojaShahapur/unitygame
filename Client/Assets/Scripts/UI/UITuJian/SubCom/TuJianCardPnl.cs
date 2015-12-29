@@ -78,8 +78,8 @@ namespace Game.UI
         {
             m_tuJianData.m_onClkCard = onClkCard;
 
-            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnPrePage);
-            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNextPage);
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnPre] = new AuxBasicButton(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnPrePage);
+            m_btnArr[(int)TuJianCardPnl_BtnIndex.eBtnNext] = new AuxBasicButton(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnNextPage);
 
             m_cardGrid.setGameObject(m_cardGo);
             m_cardGrid.cellWidth = 3.0f;
@@ -87,7 +87,7 @@ namespace Game.UI
             m_cardGrid.maxPerLine = (int)TuJianCardNumPerPage.eCol;
 
             // 当前页号
-            m_textPageNum = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextPageNum);
+            m_textPageNum = new AuxLabel(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.TextPageNum);
         }
 
         public new void addEventHandle()
@@ -165,7 +165,7 @@ namespace Game.UI
         {
             m_textPageNum.text = (m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].m_curPageIdx + 1).ToString();
 
-            AuxLabel textPageNum = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextPageMaxNum);
+            AuxLabel textPageNum = new AuxLabel(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.TextPageMaxNum);
             textPageNum.text = m_pageArr[m_tuJianData.m_pClassFilterPnl.m_tabBtnIdx].getTotalPageDesc().ToString();
         }
 

@@ -23,13 +23,13 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_dzData.m_lblArr[(int)EnDZLbl.eLblSelfName] = new AuxLabel(m_GUIWin.m_uiRoot, DZComPath.SelfName);
-            m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName] = new AuxLabel(m_GUIWin.m_uiRoot, DZComPath.EnemyName);
+            m_dzData.m_lblArr[(int)EnDZLbl.eLblSelfName] = new AuxLabel(m_guiWin.m_uiRoot, DZComPath.SelfName);
+            m_dzData.m_lblArr[(int)EnDZLbl.eLblEnemyName] = new AuxLabel(m_guiWin.m_uiRoot, DZComPath.EnemyName);
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, DZComPath.BtnOp, onOpBtnClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, DZComPath.BtnOp, onOpBtnClk);
         }
 
         protected void onOpBtnClk()

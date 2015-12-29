@@ -17,8 +17,8 @@ namespace Game.UI
 
         public void findWidget()
         {
-            m_root = UtilApi.TransFindChildByPObjAndPath(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.ModeGo_1);
-            m_input = new AuxInputField(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.InputField);
+            m_root = UtilApi.TransFindChildByPObjAndPath(m_infoData.m_form.m_guiWin.m_uiRoot, InfoComPath.ModeGo_1);
+            m_input = new AuxInputField(m_infoData.m_form.m_guiWin.m_uiRoot, InfoComPath.InputField);
         }
 
         public void updateParam(InfoBoxParam infoParam)
@@ -41,8 +41,8 @@ namespace Game.UI
 
         public void findWidget()
         {
-            m_root = UtilApi.TransFindChildByPObjAndPath(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.ModeGo_2);
-            m_textDesc = new AuxLabel(m_infoData.m_form.m_GUIWin.m_uiRoot, InfoComPath.PathTextDesc);
+            m_root = UtilApi.TransFindChildByPObjAndPath(m_infoData.m_form.m_guiWin.m_uiRoot, InfoComPath.ModeGo_2);
+            m_textDesc = new AuxLabel(m_infoData.m_form.m_guiWin.m_uiRoot, InfoComPath.PathTextDesc);
         }
 
         public void updateParam(InfoBoxParam infoParam)
@@ -102,8 +102,8 @@ namespace Game.UI
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, InfoComPath.PathBtnOk, onBtnClkOk);
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, InfoComPath.PathBtnCancel, onBtnClkCancel);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, InfoComPath.PathBtnOk, onBtnClkOk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, InfoComPath.PathBtnCancel, onBtnClkCancel);
         }
 
         public void setParam(InfoBoxParam infoParam)

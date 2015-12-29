@@ -51,26 +51,26 @@ namespace Game.UI
 
         public new void findWidget()
         {
-            m_topEditCardPosGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.GoTopEditCardPos);
+            m_topEditCardPosGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.GoTopEditCardPos);
 
             m_cardSetCardLayoutV = new AuxLayoutV();
             m_cardSetCardLayoutV.elemWidth = 285;
             m_cardSetCardLayoutV.elemHeight = 78;
-            m_cardSetCardLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListParent);
-            m_cardSetCardLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetCardListCon);
+            m_cardSetCardLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.CardSetCardListParent);
+            m_cardSetCardLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.CardSetCardListCon);
             m_cardSetCardLayoutV.hideLayout();
 
             m_cardSetLayoutV = new AuxLayoutV();
             m_cardSetLayoutV.elemWidth = 285;
             m_cardSetLayoutV.elemHeight = 78;
-            m_cardSetLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListParent);
-            m_cardSetLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.CardSetListCont);
+            m_cardSetLayoutV.pntGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.CardSetListParent);
+            m_cardSetLayoutV.selfGo = UtilApi.TransFindChildByPObjAndPath(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.CardSetListCont);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = new AuxBasicButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnNewCardSet);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnNewCardSet] = new AuxBasicButton(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnNewCardSet);
 
-            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxDynImageStaticGoButton(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.BtnRet);
+            m_btnArr[(int)WdscCardSetPnl_BtnIndex.eBtnRet] = new AuxDynImageStaticGoButton(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.BtnRet);
             updateRetBtnImage(true);
-            m_cardSetCardCntText = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
+            m_cardSetCardCntText = new AuxLabel(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.TextCardSetCardCnt);
         }
 
         public new void addEventHandle()
@@ -280,9 +280,9 @@ namespace Game.UI
 
         protected void updateCardSetCardCntText(IDispatchObject dispObj = null)
         {
-            AuxLabel foot = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardFootCnt);
-            AuxLabel max = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardCnt2);
-            AuxLabel slash = new AuxLabel(m_tuJianData.m_form.m_GUIWin.m_uiRoot, TuJianPath.TextCardSetCardSlashCnt);
+            AuxLabel foot = new AuxLabel(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.TextCardSetCardFootCnt);
+            AuxLabel max = new AuxLabel(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.TextCardSetCardCnt2);
+            AuxLabel slash = new AuxLabel(m_tuJianData.m_form.m_guiWin.m_uiRoot, TuJianPath.TextCardSetCardSlashCnt);
             slash.text = "/";
             if (m_curTaoPaiMod == WdscmTaoPaiMod.eTaoPaiMod_Look)
             {

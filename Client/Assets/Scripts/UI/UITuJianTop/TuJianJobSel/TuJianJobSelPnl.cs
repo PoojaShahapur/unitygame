@@ -16,10 +16,10 @@ namespace Game.UI
 
         override public void findWidget()
         {
-            m_btnArr[(int)Job_BtnIndex.eBtnJob0f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job0f);
-            m_btnArr[(int)Job_BtnIndex.eBtnJob1f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job1f);
-            m_btnArr[(int)Job_BtnIndex.eBtnJob2f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job2f);
-            m_btnArr[(int)Job_BtnIndex.eBtnJob3f] = new AuxBasicButton(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job3f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob0f] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job0f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob1f] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job1f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob2f] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job2f);
+            m_btnArr[(int)Job_BtnIndex.eBtnJob3f] = new AuxBasicButton(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job3f);
 
             IUITuJian uiTuJian = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUITuJian) as IUITuJian;
             if(uiTuJian != null)
@@ -37,10 +37,10 @@ namespace Game.UI
 
         override public void addEventHandle()
         {
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job0f, onJobTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job1f, onJobTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job2f, onJobTypeBtnClk);
-            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_GUIWin.m_uiRoot, TuJianTopComPath.Job3f, onJobTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job0f, onJobTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job1f, onJobTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job2f, onJobTypeBtnClk);
+            UtilApi.addEventHandle(m_tuJianTopData.m_form.m_guiWin.m_uiRoot, TuJianTopComPath.Job3f, onJobTypeBtnClk);
         }
 
         public void onJobTypeBtnClk()

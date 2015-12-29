@@ -51,7 +51,7 @@ namespace Game.UI
 
         public void initJobCard()
         {
-            m_jobCardBtn.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_GUIWin.m_uiRoot, JobSelectPath.ScrollCont);
+            m_jobCardBtn.pntGo = UtilApi.TransFindChildByPObjAndPath(m_jobSelectData.m_form.m_guiWin.m_uiRoot, JobSelectPath.ScrollCont);
 
             TableItemBase tableItem = null;
             TableJobItemBody tableJobItemBody = null;

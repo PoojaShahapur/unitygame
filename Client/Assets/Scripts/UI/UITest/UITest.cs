@@ -48,14 +48,14 @@ namespace Game.UI
 
         protected void findWidget()
         {
-            m_logText = new AuxLabel(m_GUIWin.m_uiRoot, "LogText");
+            m_logText = new AuxLabel(m_guiWin.m_uiRoot, "LogText");
         }
 
         protected void addEventHandle()
         {
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnTest", onBtnClkTest);
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnTest1f", onBtnClkTest1f);
-            UtilApi.addEventHandle(m_GUIWin.m_uiRoot, "BtnTest2f", onBtnClkTest2f);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnTest", onBtnClkTest);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnTest1f", onBtnClkTest1f);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, "BtnTest2f", onBtnClkTest2f);
         }
 
         protected void onBtnClkTest()
