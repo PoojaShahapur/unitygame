@@ -10,6 +10,16 @@ function M.ctor()
 
 end
 
+function M.getComponent(go, name)
+	return go:getComponent(name)
+end
+
+function M.notBool(value)
+	local ret = value
+	ret = not value
+	return ret
+end
+
 M.ctor()        -- 构造
 
 return M
