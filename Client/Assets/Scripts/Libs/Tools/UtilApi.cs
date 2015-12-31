@@ -889,5 +889,30 @@ namespace SDK.Lib
             destPos /= scale;
             return destPos;
         }
+
+        static public void set(GameObject go, int preferredHeight)
+        {
+            LayoutElement layoutElem = go.GetComponent<LayoutElement>();
+            if(layoutElem != null)
+            {
+                layoutElem.preferredHeight = preferredHeight;
+            }
+        }
+
+        static public int getChildCount(GameObject go)
+        {
+            return go.transform.childCount;
+        }
+
+        static public void setSiblingIndex(GameObject go, int index)
+        {
+            go.transform.SetSiblingIndex(index);
+        }
+
+        // 设置节点到倒数第二个
+        static public void setSiblingIndexToLastTwo(GameObject go)
+        {
+            go.transform.SetSiblingIndex(go.transform.parent.childCount - 1);
+        }
     }
 }
