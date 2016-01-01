@@ -187,7 +187,7 @@ namespace SDK.Lib
                     {
                         func.Call(go);
                     }
-                    );
+                );
             }
         }
 
@@ -202,7 +202,7 @@ namespace SDK.Lib
                     {
                         func.Call(go);
                     }
-                    );
+                 );
             }
         }
 
@@ -216,7 +216,7 @@ namespace SDK.Lib
                     {
                         func.Call();
                     }
-                    );
+                );
             }
         }
 
