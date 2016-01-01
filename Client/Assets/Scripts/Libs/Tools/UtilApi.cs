@@ -117,6 +117,30 @@ namespace SDK.Lib
             go.GetComponent<Button>().onClick.AddListener(handle);
         }
 
+        // 给一个添加 EventTrigger 组件的 GameObject 添加单击事件
+        public static void addEventTriggerHandle(GameObject go, LuaFunction handle)
+        {
+            EventTrigger trigger = go.GetComponent<EventTrigger>();
+            if(trigger == null)
+            {
+                trigger = go.AddComponent<EventTrigger>();
+            }
+            if(trigger != null)
+            {
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                trigger.triggers.Add(entry); // 这一行就相当于在 EventTrigger 组件编辑器中点击[Add New Event Type] 添加一个新的事件类型
+                entry.eventID = EventTriggerType.PointerClick;
+
+                entry.callback.RemoveAllListeners();
+                entry.callback.AddListener(
+                    (BaseEventData eventData) =>
+                    {
+                        handle.Call(go);
+                    }
+                );
+            }
+        }
+
         public static void addEventHandle(Button btn, UnityAction handle)
         {
             btn.onClick.AddListener(handle);
@@ -449,6 +473,15 @@ namespace SDK.Lib
         public static void setRectPos(RectTransform tran, Vector3 pos)
         {
             tran.localPosition = pos;
+        }
+
+        public static void setRectRotate(RectTransform tran, Vector3 rotate)
+        {
+            Vector3 rot = tran.localEulerAngles;
+            rot.x = rotate.x;
+            rot.y = rotate.y;
+            rot.z = rotate.z;
+            tran.localEulerAngles = rot;
         }
 
         // 设置 RectTransform大小
@@ -913,6 +946,12 @@ namespace SDK.Lib
         static public void setSiblingIndexToLastTwo(GameObject go)
         {
             go.transform.SetSiblingIndex(go.transform.parent.childCount - 1);
+        }
+
+        static public void setTextStr(GameObject go, string str)
+        {
+            Text text = go.GetComponent<Text>();
+            text.text = str;
         }
     }
 }
