@@ -20,6 +20,14 @@ function M.notBool(value)
 	return ret
 end
 
+function M:setTextStr(go, str)
+    go:getComponent('Text').text = str
+end
+
+function M:setImageSprite(go, path)
+    go:getComponent('Image').sprite = loadSprite(path)
+end
+
 M.ctor()        -- 构造
 
 return M
