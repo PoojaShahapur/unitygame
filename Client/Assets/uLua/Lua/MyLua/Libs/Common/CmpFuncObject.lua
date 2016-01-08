@@ -22,17 +22,17 @@ end
 
 function M:callOneParam(param)
     if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        self.m_handle(self.m_pThis, param);
+        return self.m_handle(self.m_pThis, param);
     elseif nil ~= self.m_handle then
-        self.m_handle(param);
+        return self.m_handle(param);
     end
 end
 
 function M:callTwoParam(oneParam, twoParam)
     if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        self.m_handle(self.m_pThis, oneParam, twoParam);
+        return self.m_handle(self.m_pThis, oneParam, twoParam);
     elseif nil ~= self.m_handle then
-        self.m_handle(oneParam, twoParam);
+        return self.m_handle(oneParam, twoParam);
     end
 end
 

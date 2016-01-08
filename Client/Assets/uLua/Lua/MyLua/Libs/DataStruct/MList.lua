@@ -5,6 +5,8 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.Common.CmpFuncObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject:new())
 M.clsName = "MList"
@@ -76,6 +78,15 @@ function removeAt(index)
 	return false
 end
 
+function removeAtAndRet(index)
+    local ret
+    if index < self.Count() then
+        ret = table.remove(self.m_data, index + 1)    -- 需要添加 1 ，作为删除的索引
+    end
+    
+    return ret
+end
+
 function M:at(index)
     if index < self:getLen() then
         return self.m_data[index + 1]
@@ -127,4 +138,6 @@ function M:cmpFunc(a, b)
 			return 1
 		end
 	end
+end
+
 return M

@@ -128,7 +128,8 @@ namespace SDK.Lib
             if(trigger != null)
             {
                 EventTrigger.Entry entry = new EventTrigger.Entry();
-                trigger.triggers.Add(entry); // 这一行就相当于在 EventTrigger 组件编辑器中点击[Add New Event Type] 添加一个新的事件类型
+                // 这一行就相当于在 EventTrigger 组件编辑器中点击[Add New Event Type] 添加一个新的事件类型
+                trigger.triggers.Add(entry);
                 entry.eventID = EventTriggerType.PointerClick;
 
                 entry.callback.RemoveAllListeners();
