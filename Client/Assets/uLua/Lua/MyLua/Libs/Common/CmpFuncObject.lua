@@ -33,6 +33,8 @@ function M:callTwoParam(oneParam, twoParam)
         return self.m_handle(self.m_pThis, oneParam, twoParam);
     elseif nil ~= self.m_handle then
         return self.m_handle(oneParam, twoParam);
+    else
+        return 0
     end
 end
 

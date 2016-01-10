@@ -116,6 +116,25 @@ function M:Clear()
     self.m_data = {}
 end
 
+-- 排序
+function M:sort()
+    -- 目前采用插入排序
+    local len = self:getLen()
+    local temp
+    local jIndex = 0
+    for index = 2, len, 1 do
+        if self:cmpFunc(self.m_data[index - 1], self.m_data[index]) == 1 then
+            temp = self.m_data[index]
+            jIndex = index
+            while jIndex > 1 and self.cmpFunc(self.m_data[jIndex - 1], temp) == 1 do
+                self.m_data[jIndex] = self.m_data[jIndex - 1]
+                jIndex = jIndex - 1
+            end
+            self.m_data[jIndex] = temp
+        end
+    end
+end
+
 function M:setFuncObject(caller, func)
 	self.m_funcObj = GlobalNS.CmpFuncObject:new()
 	self.m_funcObj:setPThisAndHandle(caller, func)

@@ -954,5 +954,14 @@ namespace SDK.Lib
             Text text = go.GetComponent<Text>();
             text.text = str;
         }
+
+        static public void enableBtn(GameObject go)
+        {
+            Button btn = go.GetComponent<Button>();
+            if(btn != null)
+            {
+                btn.enabled = false;
+            }
+        }
     }
 }
