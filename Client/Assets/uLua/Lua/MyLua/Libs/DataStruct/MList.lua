@@ -112,6 +112,39 @@ function M:IndexOf(value)
     end
 end
 
+function M:find(value, func, pThis)
+    self:setFuncObject(pThis, func)
+    local index = 1
+    while(index < self:getLen() + 1) do
+        if self:cmpFunc(self.m_data[index], value) == 0 then
+            break;
+        end
+        index = index + 1
+    end
+    
+    if index < self:getLen() + 1 then
+        return self.m_data[index]
+    else
+        return nil
+    end
+end
+
+-- 通过一个类型添加一个变量
+function M:addByCls(cls)
+    local item = cls:new()
+    self:add(item)
+end
+
+-- 获取并且创建一个 Item 
+function M:getOrCreate(value, cls, func, pThis)
+    local item = self:find(value, func, pThis)
+    if item == nil then
+        item = self:addByCls(cls)
+    end
+    
+    return item
+end
+
 function M:Clear()
     self.m_data = {}
 end
@@ -135,9 +168,9 @@ function M:sort()
     end
 end
 
-function M:setFuncObject(caller, func)
+function M:setFuncObject(pThis, func)
 	self.m_funcObj = GlobalNS.CmpFuncObject:new()
-	self.m_funcObj:setPThisAndHandle(caller, func)
+	self.m_funcObj:setPThisAndHandle(pThis, func)
 end
 
 function M:clearFuncObject()
