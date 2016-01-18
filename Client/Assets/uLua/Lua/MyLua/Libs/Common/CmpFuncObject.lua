@@ -20,6 +20,15 @@ function M:setPThisAndHandle(pThis, handle)
 	self.m_handle = handle;
 end
 
+function M:clear()
+    self.m_handle = nil;
+    self.m_pThis = nil;
+end
+
+function M:isValid()
+    return nil ~= self.m_pThis or nil ~= self.m_handle;
+end
+
 function M:callOneParam(param)
     if(nil ~= self.m_pThis and nil ~= self.m_handle) then
         return self.m_handle(self.m_pThis, param);

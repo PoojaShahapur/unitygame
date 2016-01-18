@@ -5,7 +5,6 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Common.CmpFuncObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
@@ -148,7 +147,8 @@ function M:Clear()
 end
 
 -- 排序
-function M:sort()
+function M:sort(func, pThis)
+    self:setFuncObject(pThis, func);
     -- 目前采用插入排序
     local len = self:getLen();
     local temp;
@@ -167,7 +167,11 @@ function M:sort()
 end
 
 function M:setFuncObject(pThis, func)
-	self.m_funcObj = GlobalNS.new(GlobalNS.CmpFuncObject);
+    if self.m_funcObj == nil then
+	   self.m_funcObj = GlobalNS.new(GlobalNS.CmpFuncObject);
+    else
+        self.m_funcObj:clear();
+	end
 	self.m_funcObj:setPThisAndHandle(pThis, func);
 end
 
@@ -177,7 +181,7 @@ end
 
 -- 如果 a < b 返回 -1，如果 a == b ，返回 0，如果 a > b ，返回 1
 function M:cmpFunc(a, b)
-	if self.m_funcObj ~= nil then
+	if self.m_funcObj ~= nil and self.m_funcObj:isValid() then
 		return self.m_funcObj:callTwoParam(a, b);
 	else
 		if a < b then
