@@ -2,9 +2,9 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "SystemFrameData"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "SystemFrameData";
+GlobalNS[M.clsName] = M;
 
 function M:ctor(delta)
     self.m_totalFrameCount = 0;      -- 当前帧数
@@ -25,4 +25,4 @@ function M:nextFrame(delta)
     end
 end
 
-return M
+return M;

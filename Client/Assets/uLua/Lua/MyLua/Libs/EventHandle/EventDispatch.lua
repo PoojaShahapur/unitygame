@@ -8,14 +8,14 @@ require "MyLua.Libs.DataStruct.MList"
 require "MyLua.Libs.DelayHandle.DelayHandleMgrBase"
 require "MyLua.Libs.EventHandle.EventDispatchFunctionObject"
 
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase)
-M.clsName = "EventDispatch"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+M.clsName = "EventDispatch";
+GlobalNS[M.clsName] = M;
 
 function M:ctor(eventId_)
-    self.m_eventId = eventId_
-    self.m_handleList = GlobalNS.MList:new()
-    self.m_uniqueId = 0       -- 唯一 Id ，调试使用
+    self.m_eventId = eventId_;
+    self.m_handleList = GlobalNS.new(GlobalNS.MList);
+    self.m_uniqueId = 0;       -- 唯一 Id ，调试使用
 end
 
 function M:dtor()
@@ -36,7 +36,7 @@ function M:setUniqueId(value)
 end
 
 function M:addEventHandle(handle, pThis)
-    local funcObject = GlobalNS.EventDispatchFunctionObject:new()
+    local funcObject = GlobalNS.new(GlobalNS.EventDispatchFunctionObject);
     funcObject.m_handle = handle;
     funcObject.m_pThis = pThis;
     if (nil ~= handle) then
@@ -48,7 +48,7 @@ end
 
 function M:addObject(delayObject, priority)
     if self:bInDepth() then
-        self.super.addObject(self, delayObject, priority); -- super 使用需要自己填充 Self 参数
+        M.super.addObject(self, delayObject, priority); -- super 使用需要自己填充 Self 参数
     else
         -- 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
         self.m_handleList:Add(delayObject);
@@ -71,7 +71,7 @@ end
 
 function M:delObject(delayObject)
     if self:bInDepth() then
-        self.super.delObject(self, delayObject);
+        M.super.delObject(self, delayObject);
     else
         if self.m_handleList:Remove(delayObject) == false then
             -- 日志
@@ -120,4 +120,4 @@ function M:copyFrom(rhv)
     end
 end
 
-return M
+return M;

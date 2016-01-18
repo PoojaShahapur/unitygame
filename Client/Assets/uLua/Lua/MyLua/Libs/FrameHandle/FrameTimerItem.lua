@@ -6,9 +6,9 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.DelayHandle.IDelayHandleItem"
 
-local M = GlobalNS.Class(GlobalNS.IDelayHandleItem)
-M.clsName = "FrameTimerItem"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.IDelayHandleItem);
+M.clsName = "FrameTimerItem";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_internal = 1;
@@ -68,4 +68,4 @@ function M:getClientDispose()
     return false;
 end
 
-return M
+return M;

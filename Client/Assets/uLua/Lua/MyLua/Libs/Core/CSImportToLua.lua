@@ -3,16 +3,16 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.StaticClass"
 
-local M = GlobalNS.StaticClass()
-M.clsName = "CSImportToLua"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.StaticClass();
+M.clsName = "CSImportToLua";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
 
 end
 
-M.UtilApi = luanet.import_type("SDK.Lib.UtilApi")        -- 参数一定不能空
+M.UtilApi = luanet.import_type("SDK.Lib.UtilApi");        -- 参数一定不能空
 
-M.ctor()
+M.ctor();
 
-return M
+return M;

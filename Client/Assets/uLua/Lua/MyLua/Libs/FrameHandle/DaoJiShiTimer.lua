@@ -6,9 +6,9 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.FrameHandle.TimerItemBase"
 
-local M = GlobalNS.Class(GlobalNS.TimerItemBase)
-M.clsName = "DaoJiShiTimer"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.TimerItemBase);
+M.clsName = "DaoJiShiTimer";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
 
@@ -39,4 +39,4 @@ function M:reset()
     self.m_disposed = false;
 end
 
-return M
+return M;

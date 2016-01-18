@@ -10,12 +10,12 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "TableSys"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "TableSys";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-	self.m_dicTable = GlobalNS.Dictionary:new();
+	self.m_dicTable = GlobalNS.new(GlobalNS.Dictionary);
     self.m_dicTable.Add(GlobalNS.TableID.TABLE_OBJECT, GlobalNS.TableBase:new("ObjectBase_client.bytes", "ObjectBase_client"));
     self.m_dicTable.Add(GlobalNS.TableID.TABLE_CARD, GlobalNS.TableBase:new("CardBase_client.bytes", "CardBase_client"));
     self.m_dicTable.Add(GlobalNS.TableID.TABLE_SKILL, GlobalNS.TableBase:new("SkillBase_client.bytes", "SkillBase_client"));    -- 添加一个表的步骤三
@@ -111,17 +111,17 @@ end
 function loadOneTableOneItemAll(tableID, table, itemBase)
     if (GlobalNS.TableID.TABLE_OBJECT == tableID) then
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableObjectItemBody);
-    else if (GlobalNS.TableID.TABLE_CARD == tableID) then
+    elseif (GlobalNS.TableID.TABLE_CARD == tableID) then
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableCardItemBody);
-    else if (GlobalNS.TableID.TABLE_SKILL == tableID) then  -- 添加一个表的步骤四
+    elseif (GlobalNS.TableID.TABLE_SKILL == tableID) then  -- 添加一个表的步骤四
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableSkillItemBody);
-    else if (GlobalNS.TableID.TABLE_JOB == tableID) then
+    elseif (GlobalNS.TableID.TABLE_JOB == tableID) then
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableJobItemBody);
-    else if (GlobalNS.TableID.TABLE_SPRITEANI == tableID) then
+    elseif (GlobalNS.TableID.TABLE_SPRITEANI == tableID) then
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableSpriteAniItemBody);
-    else if (GlobalNS.TableID.TABLE_RACE == tableID) then
+    elseif (GlobalNS.TableID.TABLE_RACE == tableID) then
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableRaceItemBody);
-    else if (GlobalNS.TableID.TABLE_STATE == tableID) then
+    elseif (GlobalNS.TableID.TABLE_STATE == tableID) then
         itemBase.parseBodyByteBuffer(table.m_byteBuffer, itemBase.m_itemHeader.m_offset, TableStateItemBody);
     end
 end
@@ -146,7 +146,7 @@ function readTable(tableID, bytes)
     local i = 0;
     item = nil;
     for i = 0, i < len, 1 do
-        item = GlobalNS.TableItemBase:new();
+        item = GlobalNS.new(GlobalNS.TableItemBase);
         item.parseHeaderByteBuffer(bytes);
         table.m_List.Add(item);
     end
@@ -160,8 +160,7 @@ function findDataItem(table, id)
 	local middle = 0;
 	local idCur = 0;
 	
-	while (low <= high)
-	do
+	while (low <= high) do
 		middle = (low + high) / 2;
         idCur = table.m_List.at(middle).m_itemHeader.m_uID;
 		if (idCur == id) then
@@ -180,4 +179,4 @@ function findDataItem(table, id)
 	return nil;
 end
 
-return M
+return M;

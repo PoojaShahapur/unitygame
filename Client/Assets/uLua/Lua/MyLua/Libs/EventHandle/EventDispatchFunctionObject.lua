@@ -6,14 +6,14 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "EventDispatchFunctionObject"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "EventDispatchFunctionObject";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_bClientDispose = false       -- 是否释放了资源
-    self.m_handle = nil
-    self.m_pThis = nil
+    self.m_bClientDispose = false;       -- 是否释放了资源
+    self.m_handle = nil;
+    self.m_pThis = nil;
 end
 
 function M:dtor()
@@ -37,4 +37,4 @@ function M:getClientDispose()
     return self.m_bClientDispose;
 end
 
-return M
+return M;

@@ -6,13 +6,13 @@ require "MyLua.Libs.DelayHandle.DelayHandleObject"
 require "MyLua.Libs.DelayHandle.DelayAddParam"
 require "MyLua.Libs.DelayHandle.DelayDelParam"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "DelayHandleMgrBase"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "DelayHandleMgrBase";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_deferredAddQueue = GlobalNS.MList:new();
-    self.m_deferredDelQueue = GlobalNS.MList:new();
+    self.m_deferredAddQueue = GlobalNS.new(GlobalNS.MList);
+    self.m_deferredDelQueue = GlobalNS.new(GlobalNS.MList);
 
     self.m_loopDepth = 0;
 end
@@ -25,15 +25,15 @@ function M:addObject(delayObject, priority)
     if self.m_loopDepth > 0 then
         if not self:existAddList(delayObject) then       -- 如果添加列表中没有
             if self:existDelList(delayObject) then   -- 如果已经添加到删除列表中
-                self:delFromDelayDelList(delayObject)
+                self:delFromDelayDelList(delayObject);
             end
 
-            delayHandleObject = GlobalNS.DelayHandleObject:new()
-            delayHandleObject.m_delayParam = GlobalNS.DelayAddParam:new()
-            self.m_deferredAddQueue:Add(delayHandleObject)
+            local delayHandleObject = GlobalNS.new(GlobalNS.DelayHandleObject);
+            delayHandleObject.m_delayParam = GlobalNS.new(GlobalNS.DelayAddParam);
+            self.m_deferredAddQueue:Add(delayHandleObject);
 
-            delayHandleObject.m_delayObject = delayObject
-            delayHandleObject.m_delayParam.m_priority = priority
+            delayHandleObject.m_delayObject = delayObject;
+            delayHandleObject.m_delayParam.m_priority = priority;
         end
     end
 end
@@ -42,15 +42,15 @@ function M:delObject(delayObject)
     if self.m_loopDepth > 0 then
         if not self:existDelList(delayObject) then
             if self:existAddList(delayObject) then    -- 如果已经添加到删除列表中
-                self:delFromDelayAddList(delayObject)
+                self:delFromDelayAddList(delayObject);
             end
 
-            delayObject:setClientDispose()
+            delayObject:setClientDispose();
 
-            delayHandleObject = GlobalNS.DelayHandleObject:new()
-            delayHandleObject.m_delayParam = GlobalNS.DelayDelParam:new()
-            self.m_deferredDelQueue:Add(delayHandleObject)
-            delayHandleObject.m_delayObject = delayObject
+            local delayHandleObject = GlobalNS.new(GlobalNS.DelayHandleObject);
+            delayHandleObject.m_delayParam = GlobalNS.new(GlobalNS.DelayDelParam);
+            self.m_deferredDelQueue:Add(delayHandleObject);
+            delayHandleObject.m_delayObject = delayObject;
         end
     end
 end
@@ -98,16 +98,16 @@ end
 function M:processDelayObjects()
     if 0 == self.m_loopDepth then       -- 只有全部退出循环后，才能处理添加删除
         if self.m_deferredAddQueue:Count() > 0 then
-            local idx = 0
+            local idx = 0;
             for idx = 0, idx < self.m_deferredAddQueue:Count(), 1 do
-                self:addObject(self.m_deferredAddQueue:at(idx).m_delayObject, self.m_deferredAddQueue:at(idx).m_delayParam.m_priority)
+                self:addObject(self.m_deferredAddQueue:at(idx).m_delayObject, self.m_deferredAddQueue:at(idx).m_delayParam.m_priority);
             end
 
             self.m_deferredAddQueue:Clear();
         end
 
         if self.m_deferredDelQueue:Count() > 0 then
-            local idx = 0
+            local idx = 0;
             for idx = 0, idx < self.m_deferredDelQueue:Count(), 1 do
                 self:delObject(self.m_deferredDelQueue:at(idx).m_delayObject);
             end
@@ -130,4 +130,4 @@ function M:bInDepth()
     return self.m_loopDepth > 0;
 end
 
-return M
+return M;

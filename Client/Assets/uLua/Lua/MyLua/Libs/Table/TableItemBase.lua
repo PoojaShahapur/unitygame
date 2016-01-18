@@ -2,13 +2,13 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "TableItemBase"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "TableItemBase";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_itemHeader = nil
-    self.m_itemBody = nil
+    self.m_itemHeader = nil;
+    self.m_itemBody = nil;
 end
 
 function M:parseHeaderByteBuffer(bytes)
@@ -20,7 +20,7 @@ end
 
 function M:parseBodyByteBuffer(bytes, offset, cls)
     if nil == self.m_itemBody then
-        self.m_itemBody = cls:new();
+        self.m_itemBody = GlobalNS.new(cls);
     end
 
     self.m_itemBody.parseBodyByteBuffer(bytes, offset);
@@ -37,4 +37,4 @@ function M:parseAllByteBuffer(bytes, cls)
     bytes.setPos(UtilTable.m_prePos);
 end
 
-return M
+return M;

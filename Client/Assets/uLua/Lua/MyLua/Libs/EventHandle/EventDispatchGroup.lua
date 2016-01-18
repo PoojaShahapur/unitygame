@@ -3,12 +3,12 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.DataStruct.Dictionary"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "EventDispatchGroup"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "EventDispatchGroup";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_groupID2DispatchDic = GlobalNS.Dictionary:new()
+    self.m_groupID2DispatchDic = GlobalNS.new(GlobalNS.Dictionary);
     self.m_bInLoop = false;
 end
 
@@ -20,12 +20,12 @@ function M:addEventDispatch(groupID, disp)
 end
 
 function M:addEventHandle(groupID, handle)
-    self.m_groupID2DispatchDic:value(groupID):addEventHandle(handle)
+    self.m_groupID2DispatchDic:value(groupID):addEventHandle(handle);
 end
 
 function M:removeEventHandle(groupID, handle)
     if self.m_groupID2DispatchDic:ContainsKey(groupID) then
-        self.m_groupID2DispatchDic:value(groupID):removeEventHandle(handle)
+        self.m_groupID2DispatchDic:value(groupID):removeEventHandle(handle);
     else
         -- 日志
     end
@@ -34,7 +34,7 @@ end
 function M:dispatchEvent(groupID,  dispatchObject)
     self.m_bInLoop = true;
     if self.m_groupID2DispatchDic:ContainsKey(groupID) then
-        self.m_groupID2DispatchDic:value(groupID):dispatchEvent(dispatchObject)
+        self.m_groupID2DispatchDic:value(groupID):dispatchEvent(dispatchObject);
     else
         -- 日志
     end
@@ -44,10 +44,10 @@ end
 function M:clearAllEventHandle()
     if not m_bInLoop then
         for _, dispatch in pairs(self.m_groupID2DispatchDic) do
-            dispatch:clearEventHandle()
+            dispatch:clearEventHandle();
         end
 
-        self.m_groupID2DispatchDic:Clear()
+        self.m_groupID2DispatchDic:Clear();
     else
         -- 日志
     end
@@ -66,4 +66,4 @@ function M:clearGroupEventHandle(groupID)
     end
 end
 
-return M
+return M;

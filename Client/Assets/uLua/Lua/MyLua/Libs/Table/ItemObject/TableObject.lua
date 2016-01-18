@@ -5,9 +5,9 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 
-local M = GlobalNS.Class(GlobalNS.TableItemBodyBase)
-M.clsName = "TableObjectItemBody"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.TableItemBodyBase);
+M.clsName = "TableObjectItemBody";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_name = "";
@@ -18,7 +18,7 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil
+    local UtilTable = nil;
     bytes:setPos(offset);  -- 从偏移处继续读取真正的内容
     UtilTable.readString(bytes, self.m_name);
     bytes:readInt32(self.m_maxNum);
@@ -27,4 +27,4 @@ function M:parseBodyByteBuffer(bytes, offset)
     UtilTable.readString(bytes, self.m_objResName);
 end
 
-return M
+return M;

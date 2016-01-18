@@ -1,9 +1,9 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 
-local M = GlobalNS.Class(GlobalNS.TableItemBodyBase)
-M.clsName = "TableStateItemBody"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.TableItemBodyBase);
+M.clsName = "TableStateItemBody";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_name = "";           -- 名称
@@ -12,7 +12,7 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil 
+    local UtilTable = nil; 
     bytes.position = offset;
     UtilTable.readString(bytes, self.m_name);
     UtilTable.readString(bytes, self.m_res);
@@ -27,4 +27,4 @@ function M:initDefaultValue()
     end
 end
 
-return M
+return M;

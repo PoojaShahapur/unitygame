@@ -5,9 +5,9 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 
-local M = GlobalNS.Class(GlobalNS.TableItemBodyBase)
-M.clsName = "TableJobItemBody"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.TableItemBodyBase);
+M.clsName = "TableJobItemBody";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_jobName = "";                -- 职业名称
@@ -25,7 +25,7 @@ function M:ctor()
 end
 
 function M:parseBodyByteBuffer(bytes, offset)
-    local UtilTable = nil
+    local UtilTable = nil;
     bytes.position = offset;
     UtilTable.readString(bytes, self.m_jobName);
     UtilTable.readString(bytes, self.m_jobDesc);
@@ -66,4 +66,4 @@ function M:initDefaultValue()
     end
 end
 
-return M
+return M;

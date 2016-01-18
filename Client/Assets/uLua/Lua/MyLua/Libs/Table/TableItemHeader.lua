@@ -2,9 +2,9 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-local M = GlobalNS.Class(GlobalNS.GObject:new())
-M.clsName = "TableItemHeader"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "TableItemHeader";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_uID = 0;              -- 唯一 ID
@@ -17,4 +17,4 @@ function M:parseHeaderByteBuffer(bytes)
     bytes.readUnsignedInt32(self.m_offset);
 end
 
-return M
+return M;

@@ -4,12 +4,12 @@ require "MyLua.Libs.DataStruct.MList"
 require "MyLua.Libs.DelayHandle.DelayHandleMgrBase"
 require "MyLua.Libs.FrameHandle.TickProcessObject"
 
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase)
-M.clsName = "TickMgr"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+M.clsName = "TickMgr";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_tickLst = GlobalNS.MList:new();
+    self.m_tickLst = GlobalNS.new(GlobalNS.MList);
 end
 
 function M:addTick(tickObj, priority)
@@ -18,10 +18,10 @@ end
 
 function M:addObject(delayObject, priority)
     if self:bInDepth() then
-        self.super.addObject(self, delayObject, priority);
+        M.super.addObject(self, delayObject, priority);
     else
         local position = -1;
-        local i = 0
+        local i = 0;
         for i = 0, i < self.m_tickLst:Count(), 1 do
             while true do
                 if self.m_tickLst:at(i) == nil then
@@ -37,11 +37,11 @@ function M:addObject(delayObject, priority)
                     break;
                 end
                 
-                break
+                break;
             end
         end
 
-        local processObject = GlobalNS.TickProcessObject:new();
+        local processObject = GlobalNS.new(GlobalNS.TickProcessObject);
         processObject.m_tickObject = delayObject;
         processObject.m_priority = priority;
 
@@ -55,7 +55,7 @@ end
 
 function M:delObject(delayObject)
     if self:bInDepth() then
-        self.super.delObject(self, delayObject);
+        M.super.delObject(self, delayObject);
     else
         for key, item in ipairs(self.m_tickLst:list()) do
             if item.m_tickObject == delayObject then
@@ -78,4 +78,4 @@ function M:Advance(delta)
     self:decDepth();
 end
 
-return M
+return M;

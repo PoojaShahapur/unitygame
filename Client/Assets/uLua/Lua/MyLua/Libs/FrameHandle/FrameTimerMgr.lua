@@ -3,20 +3,20 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.DataStruct.MList"
 require "MyLua.Libs.DelayHandle.DelayHandleMgrBase"
 
-local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase)
-M.clsName = "FrameTimerMgr"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.DelayHandleMgrBase);
+M.clsName = "FrameTimerMgr";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_timerLists = GlobalNS.MList:new();
-    self.m_delLists = GlobalNS.MList:new();
+    self.m_timerLists = GlobalNS.new(GlobalNS.MList);
+    self.m_delLists = GlobalNS.new(GlobalNS.MList);
 end
 
 function M:addObject(delayObject, priority)
     -- 检查当前是否已经在队列中
     if self.m_timerLists:IndexOf(delayObject) == -1 then
         if self:bInDepth() then
-            self.super.addObject(self, delayObject, priority);
+            M.super.addObject(self, delayObject, priority);
         else
             self.m_timerLists:Add(delayObject);
         end
@@ -28,7 +28,7 @@ function M:delObject(delayObject)
     if not self.m_timerLists:IndexOf(delayObject) == -1 then
         delayObject.m_disposed = true;
         if self:bInDepth() then
-            self.super.addObject(self, delayObject);
+            M.super.addObject(self, delayObject);
         else
             for key, item in ipairs(self.m_timerLists.list()) do
                 if item == delayObject then
@@ -55,4 +55,4 @@ function M:Advance(delta)
     self:decDepth();
 end
 
-return M
+return M;

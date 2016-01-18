@@ -6,9 +6,9 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.DelayHandle.IDelayHandleItem"
 
-local M = GlobalNS.Class(GlobalNS.IDelayHandleItem)
-M.clsName = "TimerItemBase"
-GlobalNS[M.clsName] = M
+local M = GlobalNS.Class(GlobalNS.IDelayHandleItem);
+M.clsName = "TimerItemBase";
+GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_internal = 1;            -- 定时器间隔
@@ -17,7 +17,7 @@ function M:ctor()
     self.m_bInfineLoop = false;     -- 是否是无限循环
     self.m_curLeftTimer = 0;        -- 当前定时器剩余的次数
     self.m_timerDisp = nil;         -- 定时器分发
-    self.m_pThis = nil
+    self.m_pThis = nil;
     self.m_disposed = false;        -- 是否已经被释放
 end
 
@@ -70,4 +70,4 @@ function M:getClientDispose()
     return false;
 end
 
-return M
+return M;
