@@ -24,19 +24,20 @@ namespace EditorTool
             parse.parseXml(path, this);
         }
 
-        public void exportPrefab()
-        {
-            foreach(AssetBundleNameXmlPath xmlPath in m_pathList)
-            {
-                xmlPath.createDirData();
-            }
-        }
-
-        public void exportAsset()
+        public void setAssetBundleName()
         {
             foreach (AssetBundleNameXmlPath xmlPath in m_pathList)
             {
                 xmlPath.createDirData();
+                xmlPath.setAssetBundleName();
+            }
+        }
+
+        public void exportResABKV(List<string> list)
+        {
+            foreach (AssetBundleNameXmlPath xmlPath in m_pathList)
+            {
+                xmlPath.exportResABKV(list);
             }
         }
     }
@@ -44,7 +45,7 @@ namespace EditorTool
     public class AssetBundleNameXmlPath
     {
         protected string m_inPath;
-        protected List<string> m_includeExtList;             // 或略的扩展名列表
+        protected List<string> m_includeExtList;             // 包含的扩展名列表
 
         protected AssetBundleNameDirData m_dirData;
 
@@ -82,6 +83,16 @@ namespace EditorTool
         {
             m_dirData = new AssetBundleNameDirData(m_inPath, this);
             m_dirData.findAllFiles();
+        }
+
+        public void setAssetBundleName()
+        {
+            m_dirData.setAssetBundleName();
+        }
+
+        public void exportResABKV(List<string> list)
+        {
+            m_dirData.exportResABKV(list);
         }
     }
 

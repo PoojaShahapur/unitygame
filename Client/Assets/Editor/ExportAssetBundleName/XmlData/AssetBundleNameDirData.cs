@@ -65,5 +65,21 @@ namespace EditorTool
         {
 
         }
+
+        public void setAssetBundleName()
+        {
+            foreach(AssetBundleNameFileData fileData in m_filesList)
+            {
+                fileData.setAssetBundleName();
+            }
+        }
+
+        public void exportResABKV(List<string> list)
+        {
+            foreach (AssetBundleNameFileData fileData in m_filesList)
+            {
+                fileData.exportResABKV(list);
+            }
+        }
     }
 }

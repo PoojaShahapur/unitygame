@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.IO;
+
 namespace EditorTool
 {
     public class ExportAssetBundleNameSys
@@ -30,14 +33,40 @@ namespace EditorTool
             m_abNameXmlData.parseXml();
         }
 
-        public void exportPrefab()
+        public void setAssetBundleName()
         {
-            m_abNameXmlData.exportPrefab();
+            m_abNameXmlData.setAssetBundleName();
         }
 
-        public void exportAsset()
+        // 导出 Res 目录 AB 资源名字映射
+        public void exportResABKV()
         {
-            m_abNameXmlData.exportAsset();
+            List<string> m_list = new List<string>();
+            m_abNameXmlData.exportResABKV(m_list);
+
+            writeFile(ExportUtil.getWorkPath("ab.txt"), m_list);
+        }
+
+        public void writeFile(string path, List<string> list)
+        {
+            FileStream fileStream;
+            StreamWriter streamWriter;
+            
+            if (File.Exists(@path))                  // 如果文件存在
+            {
+                File.Delete(@path);
+            }
+
+            fileStream = new FileStream(path, FileMode.Create);
+            streamWriter = new StreamWriter(fileStream);
+
+            foreach(string line in list)
+            {
+                streamWriter.WriteLine(line);
+            }
+
+            streamWriter.Close();
+            fileStream.Close();
         }
     }
 }

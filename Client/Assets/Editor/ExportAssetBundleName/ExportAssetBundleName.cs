@@ -15,7 +15,9 @@ namespace EditorTool
             ExportAssetBundleNameSys.instance();
             ExportAssetBundleNameSys.m_instance.clear();
             ExportAssetBundleNameSys.m_instance.parseXml();
-            ExportAssetBundleNameSys.m_instance.exportAsset();
+            ExportAssetBundleNameSys.m_instance.setAssetBundleName();
+            ExportAssetBundleNameSys.m_instance.exportResABKV();
+            AssetDatabase.Refresh();
         }
     }
 }

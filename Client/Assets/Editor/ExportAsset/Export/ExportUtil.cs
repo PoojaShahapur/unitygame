@@ -29,6 +29,7 @@ namespace EditorTool
         public const string FBX = "fbx";
         public const string AT = "@";
         static public string RESOURCES = "Resources";
+        static public string SLASH = "/";
 
         static public void BuildAssetBundle(AssetBundleParam param)
         {
@@ -720,6 +721,12 @@ namespace EditorTool
             {
                 File.Delete(path);
             }
+        }
+
+        // 大写转换成小写
+        static public string toLower(string src)
+        {
+            return src.ToLower();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace EditorTool
         public static string OUTPUT_PATH = "";
     }
 
-    public class SetAssetBundleName : Editor
+    public class TestSetAssetBundleName : Editor
     {
         [MenuItem("Tool/SetFileBundleName")]
         static public void SetBundleName()
@@ -23,6 +23,7 @@ namespace EditorTool
             {
                 string path = AssetDatabase.GetAssetPath(selected);
                 AssetImporter asset = AssetImporter.GetAtPath(path);
+                // 这个设置后都是小写的字符串，即使自己设置的是大写的字符串，也会被转换成小写的
                 asset.assetBundleName = "aaa/" + selected.name + ".unity3d"; //设置Bundle文件的名称
                 //asset.assetBundleVariant = "unity3d";//设置Bundle文件的扩展名
                 asset.SaveAndReimport();

@@ -1,4 +1,7 @@
-﻿namespace EditorTool
+﻿using System.Collections.Generic;
+using UnityEditor;
+
+namespace EditorTool
 {
     public class AssetBundleNameFileData
     {
@@ -9,6 +12,8 @@
         protected string[] m_pathArr;
         protected string m_resPath;     // 就是放在 Resources 中的目录
         protected string m_abPath;      // 就是打包进 AB 中的目录
+        protected string m_abSetPath;   // 就是给 AssetBundle 设置的目录
+        protected string m_resNameNoExt;     // 资源名字
 
         public AssetBundleNameFileData(string path, AssetBundleNameDirData dir)
         {
@@ -39,17 +44,40 @@
                 }
             }
 
+            m_abSetPath = m_resPath + ExportUtil.DOTUNITY3D;
+            m_abSetPath = ExportUtil.toLower(m_abSetPath);
+
+            int lastSlash = -1;
+            lastSlash = m_resPath.LastIndexOf(ExportUtil.SLASH);
+            if (lastSlash != -1)
+            {
+                m_resNameNoExt = m_resPath.Substring(lastSlash + 1, m_resPath.Length - (lastSlash + 1));
+            }
+            else
+            {
+                // 说明资源直接放在 Resources 目录下，没有建立一个目录放进去
+                m_resNameNoExt = "";
+            }
+
             int assetIndex = m_fullPath.IndexOf(ExportUtil.ASSETS);
             if (resIndex != -1)
             {
                 m_abPath = m_fullPath.Substring(assetIndex);
-
-                dotIdx = m_abPath.IndexOf(".");
-                if (dotIdx != -1)
-                {
-                    m_abPath = m_abPath.Substring(0, dotIdx);
-                }
             }
+        }
+
+        public void setAssetBundleName()
+        {
+            AssetImporter asset = AssetImporter.GetAtPath(m_abPath);
+            // 这个设置后都是小写的字符串，即使自己设置的是大写的字符串，也会被转换成小写的
+            asset.assetBundleName = m_abSetPath;
+            asset.SaveAndReimport();
+        }
+
+        public void exportResABKV(List<string> list)
+        {
+            string str = m_resPath + "=" + m_abSetPath + "=" + m_abPath;
+            list.Add(str);
         }
     }
 }
