@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace EditorTool
 {
@@ -68,6 +69,7 @@ namespace EditorTool
 
         public void setAssetBundleName()
         {
+            Debug.Log("修改 AB: " + m_abPath +  " 名字: " + m_abSetPath);
             AssetImporter asset = AssetImporter.GetAtPath(m_abPath);
             // 这个设置后都是小写的字符串，即使自己设置的是大写的字符串，也会被转换成小写的
             asset.assetBundleName = m_abSetPath;
