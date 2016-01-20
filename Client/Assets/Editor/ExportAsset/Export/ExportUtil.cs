@@ -467,6 +467,8 @@ namespace EditorTool
 
         static string GetPlatformFolderForAssetBundles(RuntimePlatform platform)
         {
+            platform = Application.platform;
+
             switch (platform)
             {
                 case RuntimePlatform.Android:
@@ -476,8 +478,10 @@ namespace EditorTool
                 case RuntimePlatform.WindowsWebPlayer:
                 case RuntimePlatform.OSXWebPlayer:
                     return "WebPlayer";
+                case RuntimePlatform.WindowsEditor:
                 case RuntimePlatform.WindowsPlayer:
                     return "Windows";
+                case RuntimePlatform.OSXEditor:
                 case RuntimePlatform.OSXPlayer:
                     return "OSX";
                 // Add more build platform for your own.
