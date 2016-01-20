@@ -44,91 +44,44 @@ namespace EditorTool
     public class AssetBundleNameXmlPath
     {
         protected string m_inPath;
-        protected string m_outPath;
-        protected List<string> m_ignoreExtList;             // 或略的扩展名列表
+        protected List<string> m_includeExtList;             // 或略的扩展名列表
 
         protected AssetBundleNameDirData m_dirData;
-        protected uint m_resType;
 
-        public List<string> ignoreExtList
+        public List<string> includeExtList
         {
             get
             {
-                return m_ignoreExtList;
+                return m_includeExtList;
             }
         }
 
         public void parseXml(XmlElement packElem)
         {
             m_inPath = ExportUtil.getXmlAttrStr(packElem.Attributes["inpath"]);
-            m_outPath = ExportUtil.getXmlAttrStr(packElem.Attributes["outpath"]);
-            m_resType = ExportUtil.getXmlAttrUInt(packElem.Attributes["restype"]);
 
-            string ignoreext = ExportUtil.getXmlAttrStr(packElem.Attributes["ignoreext"]);
+            string includeext = ExportUtil.getXmlAttrStr(packElem.Attributes["includeext"]);
             char[] separator = new char[1];
             separator[0] = ',';
-            string[] strArr = ignoreext.Split(separator);
-            m_ignoreExtList = new List<string>(strArr);
+            string[] strArr = includeext.Split(separator);
+            m_includeExtList = new List<string>(strArr);
         }
 
-        public void setPathParam(string inpath, string outpath, string ignoreExtStr, uint resType_)
+        public void setPathParam(string inpath, string includeExtStr)
         {
             m_inPath = inpath;
-            m_outPath = outpath;
-            m_resType = resType_;
 
-            string ignoreext = ignoreExtStr;
+            string ignoreext = includeExtStr;
             char[] separator = new char[1];
             separator[0] = ',';
             string[] strArr = ignoreext.Split(separator);
-            m_ignoreExtList = new List<string>(strArr);
+            m_includeExtList = new List<string>(strArr);
         }
 
         public void createDirData()
         {
             m_dirData = new AssetBundleNameDirData(m_inPath, this);
             m_dirData.findAllFiles();
-        }
-    }
-
-    public class AssetBundleNameXmlParentPath
-    {
-        protected string m_inPath;
-        protected string m_outPath;
-        protected string m_ignoreExtStr;
-        protected string m_fullDirPath;
-        protected AssetBundleNameXmlData m_data;
-
-        protected uint m_resType;
-
-        public void parseXml(XmlElement packElem, AssetBundleNameXmlData data)
-        {
-            m_data = data;
-            m_inPath = ExportUtil.getXmlAttrStr(packElem.Attributes["inpath"]);
-            m_outPath = ExportUtil.getXmlAttrStr(packElem.Attributes["outpath"]);
-            m_ignoreExtStr = ExportUtil.getXmlAttrStr(packElem.Attributes["ignoreext"]);
-            m_resType = ExportUtil.getXmlAttrUInt(packElem.Attributes["restype"]);
-
-            m_fullDirPath = ExportUtil.getDataPath(m_inPath);
-            m_fullDirPath = ExportUtil.normalPath(m_fullDirPath);
-
-            findAllFiles();
-        }
-
-        public void findAllFiles()
-        {
-            ExportUtil.traverseSubDirInOneDir(m_fullDirPath, onFindDir);
-        }
-
-        protected void onFindDir(DirectoryInfo dirInfo)
-        {
-            AssetBundleNameXmlPath xmlPath = new AssetBundleNameXmlPath();
-            m_data.m_pathList.Add(xmlPath);
-            
-            string inpath = string.Format("{0}/{1}", m_inPath, dirInfo.Name);
-            string outpath = string.Format("{0}/{1}.asset", m_outPath, dirInfo.Name);
-
-            xmlPath.setPathParam(inpath, outpath, m_ignoreExtStr, m_resType);
         }
     }
 

@@ -28,6 +28,7 @@ namespace EditorTool
 
         public const string FBX = "fbx";
         public const string AT = "@";
+        static public string RESOURCES = "Resources";
 
         static public void BuildAssetBundle(AssetBundleParam param)
         {

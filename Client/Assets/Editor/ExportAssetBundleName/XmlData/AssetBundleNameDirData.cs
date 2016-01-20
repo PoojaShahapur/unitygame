@@ -53,7 +53,7 @@ namespace EditorTool
         {
             path = ExportUtil.normalPath(path);
             string extName = ExportUtil.getFileExt(path);
-            if (m_xmlPath.ignoreExtList.IndexOf(extName) == -1)         // 如果没有在或略的扩展名列表中
+            if (m_xmlPath.includeExtList.IndexOf(extName) != -1)         // 如果在包含的扩展名列表中
             {
                 AssetBundleNameFileData file = new AssetBundleNameFileData(path, this);
                 m_filesList.Add(file);
