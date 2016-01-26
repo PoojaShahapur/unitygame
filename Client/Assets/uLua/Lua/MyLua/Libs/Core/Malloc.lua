@@ -33,3 +33,5 @@ local delete = function (pThis)
 end
 
 GlobalNS["delete"] = delete;
+
+return GlobalNS

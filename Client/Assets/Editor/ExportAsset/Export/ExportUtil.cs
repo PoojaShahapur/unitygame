@@ -732,5 +732,42 @@ namespace EditorTool
         {
             return src.ToLower();
         }
+
+        static public void encodeLuaFile(string srcFile, string outFile, bool isWin)
+        {
+            if(!srcFile.ToLower().EndsWith(".lua"))
+            {
+                File.Copy(srcFile, outFile, true);
+                return;
+            }
+            string luaexe = string.Empty;
+            string args = string.Empty;
+            string exedir = string.Empty;
+            string currDir = Directory.GetCurrentDirectory();
+            if(Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                luaexe = "luajit.exe";
+                args = "-b " + srcFile + " " + outFile;
+                exedir = Application.dataPath + "/../../Tools/LuaEncoder/luajit/";
+            }
+            else if(Application.platform == RuntimePlatform.OSXEditor)
+            {
+                luaexe = "./luac";
+                args = "-o " + outFile + " " + srcFile;
+                exedir = Application.dataPath + "/../../Tools/LuaEncoder/luavm/";
+            }
+            Directory.SetCurrentDirectory(exedir);
+            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo();
+            info.FileName = luaexe;
+            info.Arguments = args;
+            info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            info.UseShellExecute = isWin;
+            info.ErrorDialog = true;
+            //Util.Log(info.FileName + " " + info.Arguments);
+
+            System.Diagnostics.Process pro = System.Diagnostics.Process.Start(info);
+            pro.WaitForExit();
+            Directory.SetCurrentDirectory(currDir);
+        }
     }
 }

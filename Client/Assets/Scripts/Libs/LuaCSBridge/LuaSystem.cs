@@ -9,6 +9,7 @@ namespace SDK.Lib
     {
         protected LuaScriptMgr m_luaScriptMgr;
         protected LuaCSBridgeClassLoader m_luaClassLoader;  // Lua 类文件加载器
+        public LuaCSBridgeMalloc m_luaCSBridgeMalloc;
 
         public LuaSystem()
         {
@@ -20,6 +21,7 @@ namespace SDK.Lib
             m_luaScriptMgr.Start();
             DoFile("MyLua.Libs.Core.Prequisites");  // 一次性加载所有文件
             m_luaClassLoader = new LuaCSBridgeClassLoader();
+            m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua/Libs/Core/Malloc.lua", "GlobalNS");
         }
 
         public LuaScriptMgr getLuaScriptMgr()
