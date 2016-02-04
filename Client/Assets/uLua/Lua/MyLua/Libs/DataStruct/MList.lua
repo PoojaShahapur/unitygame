@@ -52,19 +52,17 @@ end
 
 function M:remove(value)
     local idx = 1;
+    local bFind = false
     while( idx < self:getLen() + 1 ) do
         if self:cmpFunc(self.m_data[idx], value) == 0 then
             table.remove(self.m_data, idx);
+            bFind = true
             break;
         end
         idx = idx + 1;
     end
     
-    if idx < self:getLen() + 1 then
-        return true;
-    else
-        return false;
-    end
+    return bFind
 end
 
 function M:removeAt(index)
@@ -95,14 +93,16 @@ end
 
 function M:IndexOf(value)
     local idx = 1;
+    local bFind = false
     while( idx < self:getLen() + 1 ) do
         if self:cmpFunc(self.m_data[idx], value) == 0 then
+            bFind = true
             break;
         end
         idx = idx + 1;
     end
     
-    if idx < self:getLen() + 1 then
+    if bFind then
         return idx - 1;      -- 返回的是从 0 开始的下表
     else
         return -1;
@@ -112,14 +112,16 @@ end
 function M:find(value, func, pThis)
     self:setFuncObject(pThis, func);
     local index = 1;
+    local bFind = false;
     while(index < self:getLen() + 1) do
         if self:cmpFunc(self.m_data[index], value) == 0 then
+            bFind = true;
             break;
         end
         index = index + 1;
     end
     
-    if index < self:getLen() + 1 then
+    if bFind then
         return self.m_data[index];
     else
         return nil;

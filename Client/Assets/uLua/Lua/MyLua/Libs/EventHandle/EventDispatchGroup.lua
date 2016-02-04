@@ -42,7 +42,7 @@ function M:dispatchEvent(groupID,  dispatchObject)
 end
 
 function M:clearAllEventHandle()
-    if not m_bInLoop then
+    if not self.m_bInLoop then
         for _, dispatch in pairs(self.m_groupID2DispatchDic) do
             dispatch:clearEventHandle();
         end

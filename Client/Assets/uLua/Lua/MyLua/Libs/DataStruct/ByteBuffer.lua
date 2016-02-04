@@ -134,7 +134,7 @@ end
 function M:readUnsignedInt32()
     local retData = 0;
     if self:canRead(4) then
-        if self.m_endian == self.ENDIAN_BIG then;    -- 如果是小端字节序
+        if self.m_endian == self.ENDIAN_BIG then    -- 如果是小端字节序
             retData = self.m_buff[self.m_position] * 256 * 256 * 256 + self.m_buff[self.m_position + 1] * 256 * 256 + self.m_buff[self.m_position + 2] * 256 + self.m_buff[self.m_position + 3];
         else
             retData = self.m_buff[self.m_position + 3] * 256 * 256 * 256 + self.m_buff[self.m_position + 2] * 256 * 256 + self.m_buff[self.m_position + 1] * 256 + self.m_buff[self.m_position];
@@ -272,7 +272,10 @@ end
 -- 写 utf-8 字节字符串，必须是 utf-8 的
 function M:writeMultiByte(value)
     if value ~= nil then
-        idx = 1;
+        local idx = 1;
+        local buffIdx = 0
+        local subStr = ''
+        local oneByte = ''
         while(idx <= string.len(value)) do
             buffIdx = self.m_position + idx - 1;
             subStr = string.sub(value, idx, idx);
