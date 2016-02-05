@@ -34,6 +34,8 @@ function M:callOneParam(param)
         return self.m_handle(self.m_pThis, param);
     elseif nil ~= self.m_handle then
         return self.m_handle(param);
+    else
+        return 0
     end
 end
 
