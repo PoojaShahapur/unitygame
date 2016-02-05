@@ -35,7 +35,7 @@ function M:testLen()
 end
 
 function M:testFuncEnv()
-    require "TestEnv.TestEnv";
+    require "MyLua.Test.TestEnv.TestEnv";
     local aaa = 411;
 end
 
