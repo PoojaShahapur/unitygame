@@ -34,4 +34,4 @@ end
 
 GlobalNS["delete"] = delete;
 
-return GlobalNS
+return GlobalNS;

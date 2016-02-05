@@ -6,8 +6,9 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Common.CmpFuncObject"
+require "MyLua.Libs.DataStruct.MListBase"
 
-local M = GlobalNS.Class(GlobalNS.GObject);
+local M = GlobalNS.Class(GlobalNS.MListBase);
 M.clsName = "MList";
 GlobalNS[M.clsName] = M;
 
@@ -166,34 +167,6 @@ function M:sort(func, pThis)
             self.m_data[jIndex] = temp;
         end
     end
-end
-
-function M:setFuncObject(pThis, func)
-    if self.m_funcObj == nil then
-	   self.m_funcObj = GlobalNS.new(GlobalNS.CmpFuncObject);
-    else
-        self.m_funcObj:clear();
-	end
-	self.m_funcObj:setPThisAndHandle(pThis, func);
-end
-
-function M:clearFuncObject()
-	self.m_funcObj = nil;
-end
-
--- 如果 a < b 返回 -1，如果 a == b ，返回 0，如果 a > b ，返回 1
-function M:cmpFunc(a, b)
-	if self.m_funcObj ~= nil and self.m_funcObj:isValid() then
-		return self.m_funcObj:callTwoParam(a, b);
-	else
-		if a < b then
-			return -1;
-		elseif a == b then
-			return 0;
-		else
-			return 1;
-		end
-	end
 end
 
 return M;
