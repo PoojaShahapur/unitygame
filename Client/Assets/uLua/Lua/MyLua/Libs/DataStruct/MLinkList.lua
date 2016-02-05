@@ -34,6 +34,8 @@ function M:at(index)
             idx = idx + 1;
             ret = ret:getNext();
         end
+        
+        return ret;
     end
     
     return nil;
@@ -92,8 +94,8 @@ function M:addTail(value)
     
     local node = GlobalNS.new(GlobalNS.MLinkListNode);
     
-    node.setData(value);
-    node.setPrev(self.m_tail);
+    node:setData(value);
+    node:setPrev(self.m_tail);
 
     if(self.m_tail ~= nil) then
         self.m_tail:setNext(node);
@@ -131,15 +133,19 @@ function M:insert(index, data)
         -- 如果插入位置不是在结尾
         local elem = self:at(index);
         local node = GlobalNS.new(GlobalNS.MLinkListNode);
-        node.setData(data);
-        node.setNext(elem)
-        node.setPrev(elem:getPrev())
+        node:setData(data);
+        node:setNext(elem)
+        node:setPrev(elem:getPrev())
+        
+        if(elem:getPrev() ~= nil) then
+            elem:getPrev():setNext(node);
+        end
         elem:setPrev(node);
         
         self.m_count = self.m_count + 1;
     else
         -- 如果插入位置在结尾
-        self:addTail(data)
+        self:addTail(data);
     end
 end
 
@@ -169,13 +175,40 @@ function M:removeAt(index)
     return false;
 end
 
+function M:remove(value)
+    local elem = self.m_head;
+    local bFind = false
+    
+    while(elem ~= nil) do
+        if self:cmpFunc(elem:getData(), value) == 0 then
+            if(elem:getPrev() ~= nil) then
+                elem:getPrev():setNext(elem:getNext());
+            elseif(elem:getNext() ~= nil) then
+                elem:getNext():setPrev(elem:getPrev());
+            end
+            
+            if(self.m_head == elem) then
+                self.m_head = elem:getNext();
+            end
+            if(self.m_tail == elem) then
+                self.m_tail = elem:getPrev(); 
+            end
+            
+            break;
+        end
+        elem = elem:getNext();
+    end
+    
+    return bFind
+end
+
 function M:find(value, func, pThis)
     self:setFuncObject(pThis, func);
 
     local elem = self.m_head;
     local bFind = false;
     
-    while(elem ~= self.m_tail) do
+    while(elem ~= nil) do
         if self:cmpFunc(elem:getData(), value) == 0 then
             bFind = true;
             break;
@@ -188,6 +221,19 @@ function M:find(value, func, pThis)
     else
         return nil;
     end
+end
+
+function M:tostring()
+    local str = ''
+    local elem = self.m_head;
+    
+    while(elem ~= nil) do
+        str = str .. elem:getData();
+        elem = elem:getNext();
+        str = str .. ', ';
+    end
+    
+    print(str)
 end
 
 return M;
