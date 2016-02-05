@@ -1,60 +1,15 @@
 --package.path = string.format("%s;%s/?.lua", package.path, "D:/File/OpenSource/Unity/Tools/LuaLibs/src")
 package.path = string.format("%s;%s/?.lua", package.path, "E:/Self/Self/Tools/Tools/LuaLibs/src")
+
 require "MyLua.Libs.Core.Prequisites"
--- require "MyLua.Libs.EventHandle.CallOnceEventDispatch"
--- require "MyLua.Libs.FrameHandle.TimerMgr"
--- require "MyLua.Libs.UI.UICore.Form"
+require "MyLua.Libs.Test.TestCommon.TestMisc"
+
+local m_testMisc = GlobalNS.new(GlobalNS.TestMisc);
+local m_testLinkList = GlobalNS.new(GlobalNS.TestLinkList);
 
 local function main()
-    testArray();
-    -- testLen()
-    -- testFuncEnv()
-    -- testDispatcher()
-    -- testTimerMgr()
-    -- testUI()
-end
-
-function testArray()
-    local array = GlobalNS.new(GlobalNS.MList);
-    local metatable = array.metatable;   -- 在 lua 中是不能直接这样取值的
-    array:add(1);
-    array:add(2);
-    array:add(3);
-    
-    array:remove(2);
-end
-
-function testLen()
-    local tbs = {};
-    tbs = {[2] = 1};
-    tbs["aaa"] = "bbb";
-    local len = #tbs;
-    len = table.getn(tbs);
-    print(len);
-end
-
-function testFuncEnv()
-    require "TestEnv.TestEnv";
-    local aaa = 411;
-end
-
-function testDispatcher()
-    local callOnceEventDispatch = GlobalNS.new(GlobalNS.CallOnceEventDispatch);
-    callOnceEventDispatch:addEventHandle(eventCall);
-    callOnceEventDispatch:dispatchEvent(nil);
-end
-
-function eventCall(dispObj)
-
-end
-
-function testTimerMgr()
-    local timerMgr =  GlobalNS.new(GlobalNS.TimerMgr);
-    local aaa = 10;
-end
-
-function testUI()
-    
+    m_testMisc:run();
+    m_testLinkList:run();
 end
 
 main();
