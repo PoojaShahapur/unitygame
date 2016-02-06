@@ -49,16 +49,20 @@ end
 
 function M:testBasicB()
     produceFunc = function()
-        local 
+        local base = 0;
         while true do
-            local value = io.read();
+            --local value = io.read();
+            local value = base;
             print("produce: ", value);
             coroutine.yield(value);        --返回生产的值
+            base = base + 1;
+            -- base = base + aaa
         end
     end
     
     consumer = function(p)
         while true do
+            -- 
             local status, value = coroutine.resume(p);        --唤醒生产者进行生产
             print("consume: ", value);
         end
