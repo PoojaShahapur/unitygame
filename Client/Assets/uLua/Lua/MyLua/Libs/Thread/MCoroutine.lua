@@ -27,7 +27,7 @@ end
 function M:create(pThis, func, param)
     -- 使用闭包保存 self，如果不使用闭包， self 就没地方保存
     local runInternal;
-    runInternal = function(self)
+    runInternal = function()
         self:run();
     end
     
@@ -56,7 +56,7 @@ end
 -- 这个是没有默认 self 的函数，因为 coroutine.create 只能传递一个参数，就是函数，因此只能这样做，需要在实例化的表中添加 run 这个属性
 -- 使用闭包保存 self 后，run 就能传递 self 了
 function M:run()
-    
+    self.m_funcObj:call();
 end
 
 return M;

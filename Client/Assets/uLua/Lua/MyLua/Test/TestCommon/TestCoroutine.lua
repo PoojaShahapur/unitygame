@@ -20,7 +20,8 @@ function M:run()
     --self:testBasic();
     --self:testBasicA();
     --self:testBasicB();
-    self:testBasicD();
+    --self:testBasicD();
+    self:testBasicF();
 end
 
 function M:testBasic()
@@ -123,6 +124,24 @@ function M:testBasicD()
     --消费者驱动的设计，也就是消费者需要产品时找生产者请求，生产者完成生产后提供给消费者
     producer = coroutine.create(produceFunc);
     consumer(producer);
+end
+
+function M:testBasicF()
+    local cor = GlobalNS.new(GlobalNS.MCoroutine);
+    cor:createAndResume(self, self.produceFunc, nil);
+    print('end');
+end
+
+function M:produceFunc()
+    local index = 0;
+    while(true) do
+        print(index, ' produceFunc');
+        index = index + 1;
+        
+        if(index > 100) then
+            break;
+        end
+    end
 end
 
 return M;
