@@ -110,7 +110,7 @@ function M:IndexOf(value)
     end
 end
 
-function M:find(value, func, pThis)
+function M:find(value, pThis, func)
     self:setFuncObject(pThis, func);
     local index = 1;
     local bFind = false;
@@ -136,8 +136,8 @@ function M:addByCls(cls)
 end
 
 -- 获取并且创建一个 Item 
-function M:getOrCreate(value, cls, func, pThis)
-    local item = self:find(value, func, pThis);
+function M:getOrCreate(value, cls, pThis, func)
+    local item = self:find(value, pThis, func);
     if item == nil then
         item = self:addByCls(cls);
     end
@@ -150,7 +150,7 @@ function M:Clear()
 end
 
 -- 排序
-function M:sort(func, pThis)
+function M:sort(pThis, func)
     self:setFuncObject(pThis, func);
     -- 目前采用插入排序
     local len = self:getLen();

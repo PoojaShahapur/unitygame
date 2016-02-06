@@ -3,26 +3,29 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "CmpFuncObject";
+M.clsName = "CallFuncObject";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_handle = nil;
     self.m_pThis = nil;
+    self.m_param = nil;
 end
 
 function M:dtor()
 
 end
 
-function M:setPThisAndHandle(pThis, handle)
+function M:setPThisAndHandle(pThis, handle, param)
 	self.m_pThis = pThis;
 	self.m_handle = handle;
+	self.m_param = param;
 end
 
 function M:clear()
     self.m_handle = nil;
     self.m_pThis = nil;
+    self.m_param = nil;
 end
 
 function M:isValid()
@@ -35,23 +38,13 @@ function M:isValid()
     end
 end
 
-function M:callOneParam(param)
+function M:call()
     if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, param);
+        return self.m_handle(self.m_pThis, self.m_param);
     elseif nil ~= self.m_handle then
-        return self.m_handle(param);
+        return self.m_handle(self.m_param);
     else
         return 0
-    end
-end
-
-function M:callTwoParam(oneParam, twoParam)
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, oneParam, twoParam);
-    elseif nil ~= self.m_handle then
-        return self.m_handle(oneParam, twoParam);
-    else
-        return 0;
     end
 end
 

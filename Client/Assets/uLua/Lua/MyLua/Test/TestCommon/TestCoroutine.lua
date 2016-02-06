@@ -2,7 +2,7 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-require "MyLua.Libs.DataStruct.MLinkList"
+require "MyLua.Libs.Thread.MCoroutine"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "TestCoroutine";
@@ -19,7 +19,8 @@ end
 function M:run()
     --self:testBasic();
     --self:testBasicA();
-    self:testBasicB();
+    --self:testBasicB();
+    self:testBasicD();
 end
 
 function M:testBasic()
@@ -62,7 +63,7 @@ function M:testBasicB()
     
     consumer = function(p)
         while true do
-            -- 
+            -- coroutine.resume 执行的 coroutine ，如果正确执行， status 为 true， value 就是 coroutine.yield 返回值，如果执行错误，status 为 false， value 是错误字符串 
             local status, value = coroutine.resume(p);        --唤醒生产者进行生产
             print("consume: ", value);
         end
@@ -101,6 +102,27 @@ end
     producer = coroutine.create(produceFunc);
     filter = coroutine.create(filteFunc);
     consumer(filter, producer);
+end
+
+-- 启动一个 coroutine ，调用 coroutine.resume 的 coroutine 将阻塞，然后被调用的程序  coroutine 开始执行
+function M:testBasicD()
+    produceFunc = function()
+        local base = 0;
+        while true do
+            print("produceFunc");
+        end
+    end
+    
+    consumer = function(p)
+        while true do 
+            local status, value = coroutine.resume(p);
+            print("consumer: ");
+        end
+    end
+    
+    --消费者驱动的设计，也就是消费者需要产品时找生产者请求，生产者完成生产后提供给消费者
+    producer = coroutine.create(produceFunc);
+    consumer(producer);
 end
 
 return M;
