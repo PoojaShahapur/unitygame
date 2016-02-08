@@ -3,7 +3,7 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "CallFuncObject";
+M.clsName = "CallFuncObjectBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
@@ -17,9 +17,7 @@ function M:dtor()
 end
 
 function M:setPThisAndHandle(pThis, handle, param)
-	self.m_pThis = pThis;
-	self.m_handle = handle;
-	self.m_param = param;
+	
 end
 
 function M:clear()
@@ -39,13 +37,7 @@ function M:isValid()
 end
 
 function M:call()
-    if(nil ~= self.m_pThis and nil ~= self.m_handle) then
-        return self.m_handle(self.m_pThis, self.m_param);
-    elseif nil ~= self.m_handle then
-        return self.m_handle(self.m_param);
-    else
-        return 0
-    end
+    
 end
 
 return M;

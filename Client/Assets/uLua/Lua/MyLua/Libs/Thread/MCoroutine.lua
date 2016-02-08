@@ -37,6 +37,7 @@ end
 
 function M:resume()
     local status, value = coroutine.resume(self.m_handle)
+    self:error(status, value);
 end
 
 function M:createAndResume(pThis, func, param)
@@ -53,10 +54,23 @@ function M:yield()
     coroutine.yield()
 end
 
+function M:error(status, value)
+    if not status then
+        -- 获取当前堆栈信息
+        value = debug.traceback(self.m_handle, value)              
+        error(value)              
+    end
+end
+
 -- 这个是没有默认 self 的函数，因为 coroutine.create 只能传递一个参数，就是函数，因此只能这样做，需要在实例化的表中添加 run 这个属性
 -- 使用闭包保存 self 后，run 就能传递 self 了
 function M:run()
     self.m_funcObj:call();
+end
+
+-- 返回当前正在执行的协程，如果它被主线程调用的话，返回 null
+function M:running()
+    return coroutine.running();
 end
 
 return M;

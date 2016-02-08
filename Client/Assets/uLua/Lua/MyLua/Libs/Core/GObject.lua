@@ -7,6 +7,24 @@ local M = GlobalNS.Class();
 M.clsName = "GObject";
 GlobalNS[M.clsName] = M;
 
+function M:ctor()
+    --self:addCallMeta();
+end
+
+--[[
+function M:addCallMeta()
+    self.__call = function(self, ...)
+        self:call(...);
+    end
+end
+]]
+
+function M.callMeta(...)
+    
+end
+
+M.__call = M.callMeta;
+
 --[[
 -- 表访问
 M.__index = M
