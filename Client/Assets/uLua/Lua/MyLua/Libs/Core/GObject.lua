@@ -33,19 +33,33 @@ M.__newindex = M
 
 -- 函数访问
 function M.get(tbl, k)
+    -- 方法一:自己手工设置 __index 值，防止递归访问
+    --[[
     M.__index = nil;
     local ret = tbl[k];
     M.__index = M.get;
     return ret;
+    ]]
+    
+    -- 方法二:通过 rawget ，不查找 __index ，进行访问
+    local ret = rawget(M, k);
+    return ret
 end
 
 M.__index = M.get;
 
 function M.set(tbl, key, value)
+    -- 方法一:自己手工设置 __newindex 值，防止递归访问
+    --[[
     M.__newindex = nil;  -- 删除 __newindex ，否则调用 tbl[key] = value 的时候会递归调用 set 函数
     tbl[key] = value;
     M.__newindex = M.set;
     
+    M.checkAttrRedef(tbl, key, value);
+    ]]
+    
+    -- 方法二:通过 rawget ，不查找 __index ，进行访问
+    local tbl = rawset(tbl, key, value);
     M.checkAttrRedef(tbl, key, value);
 end
 
