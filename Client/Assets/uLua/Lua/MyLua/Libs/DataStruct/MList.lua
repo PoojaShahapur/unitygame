@@ -95,8 +95,8 @@ end
 function M:IndexOf(value)
     local idx = 1;
     local bFind = false
-    while( idx < self:getLen() + 1 ) do
-        if self:cmpFunc(self.m_data[idx], value) == 0 then
+    while (idx < self:getLen() + 1 ) do
+        if (self:cmpFunc(self.m_data[idx], value) == 0) then
             bFind = true
             break;
         end
@@ -115,7 +115,7 @@ function M:find(value, pThis, func)
     local index = 1;
     local bFind = false;
     while(index < self:getLen() + 1) do
-        if self:cmpFunc(self.m_data[index], value) == 0 then
+        if (self:cmpFunc(self.m_data[index], value) == 0) then
             bFind = true;
             break;
         end
@@ -157,10 +157,10 @@ function M:sort(pThis, func)
     local temp;
     local jIndex = 0;
     for index = 2, len, 1 do
-        if self:cmpFunc(self.m_data[index - 1], self.m_data[index]) == 1 then
+        if (self:cmpFunc(self.m_data[index - 1], self.m_data[index]) == 1) then
             temp = self.m_data[index];
             jIndex = index;
-            while jIndex > 1 and self.cmpFunc(self.m_data[jIndex - 1], temp) == 1 do
+            while (jIndex > 1 and self.cmpFunc(self.m_data[jIndex - 1], temp) == 1) do
                 self.m_data[jIndex] = self.m_data[jIndex - 1];
                 jIndex = jIndex - 1;
             end
