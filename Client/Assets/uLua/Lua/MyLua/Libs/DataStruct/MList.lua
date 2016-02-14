@@ -5,7 +5,7 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Common.CmpFuncObject"
+require "MyLua.Libs.Functor.CmpFuncObject"
 require "MyLua.Libs.DataStruct.MListBase"
 
 local M = GlobalNS.Class(GlobalNS.MListBase);

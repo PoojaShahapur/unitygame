@@ -53,3 +53,6 @@ require "MyLua.Libs.FrameHandle.TickMgr"
 -- UI
 require "MyLua.Libs.UI.UICore.Form"
 require "MyLua.Libs.UI.UICore.UIAttrSystem"
+
+-- FrameWork 脚本
+require "MyLua.Libs.FrameWork.ProcessSys"

@@ -13,10 +13,12 @@ namespace SDK.Lib
 
         protected LuaTable m_luaCtx;
         protected LuaTable m_processSys;
+        protected bool m_bNeedUpdate;           // 是否需要更新 Lua
 
         public LuaSystem()
         {
             m_luaScriptMgr = new LuaScriptMgr();
+            m_bNeedUpdate = true;
         }
 
         public void init()
@@ -25,7 +27,7 @@ namespace SDK.Lib
             DoFile("MyLua.Libs.Core.Prequisites");  // 一次性加载所有文件
             m_luaClassLoader = new LuaCSBridgeClassLoader();
             m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua/Libs/Core/Malloc.lua", "GlobalNS");
-            m_luaCtx = loadModule("MyLua/Libs/Core/GCtx.lua");     // 初始化 Lua 脚本
+            m_luaCtx = loadModule("MyLua/Libs/FrameWork/GCtx.lua");     // 初始化 Lua 脚本
             m_processSys = m_luaCtx["m_processSys"] as LuaTable;
         }
 
@@ -45,6 +47,11 @@ namespace SDK.Lib
         public LuaCSBridgeClassLoader getLuaClassLoader()
         {
             return m_luaClassLoader;
+        }
+
+        public void setNeedUpdate(bool value)
+        {
+            m_bNeedUpdate = value;
         }
 
         public object[] CallLuaFunction(string name, params object[] args)
@@ -77,9 +84,12 @@ namespace SDK.Lib
             return m_luaCSBridgeMalloc.malloc(table);
         }
 
-        public void advance(float delta)
+        public void Advance(float delta)
         {
-            this.CallLuaFunction("GlobalNS.ProcessSys.advance", m_processSys, delta);
+            if (m_bNeedUpdate)
+            {
+                this.CallLuaFunction("GlobalNS.ProcessSys.advance", m_processSys, delta);
+            }
         }
     }
 }
