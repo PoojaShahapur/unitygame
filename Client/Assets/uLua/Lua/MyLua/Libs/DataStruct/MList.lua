@@ -20,10 +20,23 @@ function M:dtor()
 
 end
 
+-- 获取数组中元素的个数
 function M:getLen()
 	local ret = 0;
     if (self.m_data ~= nil) then
         ret = table.getn(self.m_data);
+    end
+    
+    return ret;
+end
+
+-- 获取数组和哈希表中元素的个数
+function M:getAllLen()
+    local ret = 0;
+    if (self.m_data ~= nil) then
+        for _, value in pairs(self.m_data) do
+            ret = ret + 1;
+        end
     end
     
     return ret;
@@ -47,10 +60,20 @@ function M:add(value)
     -- self.m_data[self:getLen() + 1] = value;
 end
 
+-- 向列表中插入一个值
+function M:insert(index, value)
+    if(index < self:Count()) then
+        table.insert(self.m_data, index + 1, value);
+    else
+        self:add(value);
+    end
+end
+
 function M:Remove(value)
     return self:remove(value);
 end 
 
+-- 移除列表中第一个相等的值
 function M:remove(value)
     local idx = 1;
     local bFind = false;
@@ -61,6 +84,21 @@ function M:remove(value)
             break;
         end
         idx = idx + 1;
+    end
+    
+    return bFind
+end
+
+-- 移除所有相等的值
+function M:removeAllEqual(value)
+    local idx = self:getLen();
+    local bFind = false;
+    while( idx > 0 ) do
+        if (self:cmpFunc(self.m_data[idx], value) == 0) then
+            table.remove(self.m_data, idx);
+            bFind = true
+        end
+        idx = idx - 1;
     end
     
     return bFind

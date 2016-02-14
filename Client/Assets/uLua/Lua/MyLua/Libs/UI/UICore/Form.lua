@@ -7,7 +7,7 @@ M.clsName = "Form";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-
+    
 end
 
 -- 界面代码创建后就调用

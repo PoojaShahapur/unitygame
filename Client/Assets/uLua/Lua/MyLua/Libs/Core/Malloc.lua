@@ -29,7 +29,7 @@ GlobalNS["new"] = new;
 
 -- 删除空间
 local delete = function (pThis)
-    
+    pThis:dtor();       -- 调用析构函数
 end
 
 GlobalNS["delete"] = delete;

@@ -279,7 +279,7 @@ namespace SDK.Lib
             return false;
         }
 
-        // 销毁对象
+        // 销毁对象，如果使用这个销毁对象，然后立刻使用 GameObject.Find 查找对象，结果仍然可以查找到，这个时候尽量使用 DestroyImmediate
         public static void Destroy(UnityEngine.Object obj)
         {
             if (obj != null)

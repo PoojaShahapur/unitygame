@@ -10,27 +10,35 @@ M.clsName = "MStack";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_data = GlobalNS.new(GlobalNS.MList)
+    self.m_list = GlobalNS.new(GlobalNS.MList)
 end
 
 function M:dtor()
 
 end
 
+function M:setFuncObject(pThis, func)
+    self.m_list:setFuncObject(pThis, func);
+end
+
 function M:push(value)
-    self.m_data:add(value)
+    self.m_list:insert(0, value)
 end
 
 function M:pop()
     local ret;
-    ret = self.m_data:removeAtAndRet(1);
+    ret = self.m_list:removeAtAndRet(0);
     return ret;
 end
 
 function M:front()
     local ret;
-    ret = self.m_data:at(1);
+    ret = self.m_list:at(0);
     return ret;
+end
+
+function M:removeAllEqual(value)
+    self.m_list:removeAllEqual(value);
 end
 
 return M;
