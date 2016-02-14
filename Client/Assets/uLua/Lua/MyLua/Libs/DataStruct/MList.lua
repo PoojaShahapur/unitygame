@@ -111,7 +111,10 @@ function M:IndexOf(value)
 end
 
 function M:find(value, pThis, func)
-    self:setFuncObject(pThis, func);
+    -- 如果指定比较函数
+    if(nil ~= pThis or nil ~= func) then
+        self:setFuncObject(pThis, func);
+    end
     local index = 1;
     local bFind = false;
     while(index < self:getLen() + 1) do
@@ -151,7 +154,10 @@ end
 
 -- 排序
 function M:sort(pThis, func)
-    self:setFuncObject(pThis, func);
+    -- 如果指定比较函数
+    if(nil ~= pThis or nil ~= func) then
+        self:setFuncObject(pThis, func);
+    end
     -- 目前采用插入排序
     local len = self:getLen();
     local temp;
