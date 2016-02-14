@@ -6,11 +6,33 @@ local M = GCtx;
 local this = GCtx;
 
 function M.ctor()
-	this.aaa = 1000;
+	
 end
 
 function M.dtor()
 	
 end
+
+function M.preInit()
+    this.m_processSys = GlobalNS.new(GlobalNS.ProcessSys);
+    this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
+end
+
+function M.interInit()
+    
+end
+
+function M.postInit()
+    
+end
+
+function M.init()
+    this.preInit();
+    this.interInit();
+    this.postInit();
+end
+
+M.ctor();
+M.init();
 
 return M;

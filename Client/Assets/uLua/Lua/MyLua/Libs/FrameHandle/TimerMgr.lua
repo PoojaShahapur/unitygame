@@ -13,7 +13,7 @@ end
 
 function M:addObject(delayObject, priority)
     -- 检查当前是否已经在队列中
-    if self.m_timerLists:IndexOf(delayObject) == -1 then
+    if (self.m_timerLists:IndexOf(delayObject) == -1) then
         if (self:bInDepth()) then
             M.super.addObject(self, delayObject, priority);
         else
@@ -43,7 +43,7 @@ function M:Advance(delta)
     self:incDepth();
 
     for key, timerItem in ipairs(self.m_timerLists:list()) do
-        if not timerItem:getClientDispose() then
+        if (not timerItem:getClientDispose()) then
             timerItem:OnTimer(delta);
         end
 

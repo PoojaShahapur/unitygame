@@ -53,7 +53,7 @@ namespace SDK.Lib
             base.init();
             // 现在 new 移动到一个另外一个文件中了
             //m_luaInsTable = base.CallClassMethod("new")[0] as LuaTable;
-            m_luaInsTable = Ctx.m_instance.m_luaSystem.m_luaCSBridgeMalloc.malloc(m_luaTable);
+            m_luaInsTable = Ctx.m_instance.m_luaSystem.malloc(m_luaTable);
         }
 
         // 资源加载完成初始化
