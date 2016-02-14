@@ -22,7 +22,7 @@ end
 
 function M:getLen()
 	local ret = 0;
-    if self.m_data ~= nil then
+    if (self.m_data ~= nil) then
         ret = table.getn(self.m_data);
     end
     
@@ -53,9 +53,9 @@ end
 
 function M:remove(value)
     local idx = 1;
-    local bFind = false
+    local bFind = false;
     while( idx < self:getLen() + 1 ) do
-        if self:cmpFunc(self.m_data[idx], value) == 0 then
+        if (self:cmpFunc(self.m_data[idx], value) == 0) then
             table.remove(self.m_data, idx);
             bFind = true
             break;
@@ -67,7 +67,7 @@ function M:remove(value)
 end
 
 function M:removeAt(index)
-	if index < self.Count() then
+	if (index < self.Count()) then
 		table.remove(self.m_data, index + 1);  	-- 需要添加 1 ，作为删除的索引
 		return true;
 	end
@@ -77,7 +77,7 @@ end
 
 function M:removeAtAndRet(index)
     local ret;
-    if index < self.Count() then
+    if (index < self.Count()) then
         ret = table.remove(self.m_data, index + 1);    -- 需要添加 1 ，作为删除的索引
     end
     
@@ -85,7 +85,7 @@ function M:removeAtAndRet(index)
 end
 
 function M:at(index)
-    if index < self:getLen() then
+    if (index < self:getLen()) then
         return self.m_data[index + 1];
     end
     
@@ -94,16 +94,16 @@ end
 
 function M:IndexOf(value)
     local idx = 1;
-    local bFind = false
+    local bFind = false;
     while (idx < self:getLen() + 1 ) do
         if (self:cmpFunc(self.m_data[idx], value) == 0) then
-            bFind = true
+            bFind = true;
             break;
         end
         idx = idx + 1;
     end
     
-    if bFind then
+    if (bFind) then
         return idx - 1;      -- 返回的是从 0 开始的下表
     else
         return -1;
@@ -122,7 +122,7 @@ function M:find(value, pThis, func)
         index = index + 1;
     end
     
-    if bFind then
+    if (bFind) then
         return self.m_data[index];
     else
         return nil;

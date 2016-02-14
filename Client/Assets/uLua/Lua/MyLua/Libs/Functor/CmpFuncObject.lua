@@ -38,17 +38,17 @@ end
 function M:callOneParam(param)
     if(nil ~= self.m_pThis and nil ~= self.m_handle) then
         return self.m_handle(self.m_pThis, param);
-    elseif nil ~= self.m_handle then
+    elseif (nil ~= self.m_handle) then
         return self.m_handle(param);
     else
-        return 0
+        return 0;
     end
 end
 
 function M:callTwoParam(oneParam, twoParam)
     if(nil ~= self.m_pThis and nil ~= self.m_handle) then
         return self.m_handle(self.m_pThis, oneParam, twoParam);
-    elseif nil ~= self.m_handle then
+    elseif (nil ~= self.m_handle) then
         return self.m_handle(oneParam, twoParam);
     else
         return 0;

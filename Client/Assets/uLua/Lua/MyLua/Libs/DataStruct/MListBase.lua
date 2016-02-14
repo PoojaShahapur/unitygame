@@ -5,7 +5,7 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Common.CmpFuncObject"
+require "MyLua.Libs.Functor.CmpFuncObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "MListBase";
@@ -20,7 +20,11 @@ function M:dtor()
 end
 
 function M:setFuncObject(pThis, func)
-    self.m_funcObj:clear();
+    if(self.m_funcObj == nil) then
+        self.m_funcObj = GlobalNS.new(GlobalNS.CmpFuncObject);
+    else
+        self.m_funcObj:clear();
+    end
 	self.m_funcObj:setPThisAndHandle(pThis, func);
 end
 
@@ -30,12 +34,12 @@ end
 
 -- 如果 a < b 返回 -1，如果 a == b ，返回 0，如果 a > b ，返回 1
 function M:cmpFunc(a, b)
-	if self.m_funcObj ~= nil and self.m_funcObj:isValid() then
+	if (self.m_funcObj ~= nil and self.m_funcObj:isValid()) then
 		return self.m_funcObj:callTwoParam(a, b);
 	else
-		if a < b then
+		if (a < b) then
 			return -1;
-		elseif a == b then
+		elseif (a == b) then
 			return 0;
 		else
 			return 1;
