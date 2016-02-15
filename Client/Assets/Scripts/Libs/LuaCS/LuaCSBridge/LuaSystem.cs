@@ -10,11 +10,16 @@ namespace SDK.Lib
     {
         protected LuaScriptMgr m_luaScriptMgr;
         protected LuaCSBridgeClassLoader m_luaClassLoader;  // Lua 类文件加载器
-        public LuaCSBridgeMalloc m_luaCSBridgeMalloc;
+        protected LuaCSBridgeMalloc m_luaCSBridgeMalloc;
+
+        protected LuaTable m_luaCtx;
+        protected LuaTable m_processSys;
+        protected bool m_bNeedUpdate;           // 是否需要更新 Lua
 
         public LuaSystem()
         {
             m_luaScriptMgr = new LuaScriptMgr();
+            m_bNeedUpdate = true;
         }
 
         public void init()
@@ -23,6 +28,8 @@ namespace SDK.Lib
             DoFile("MyLua.Libs.Core.Prequisites");  // 一次性加载所有文件
             m_luaClassLoader = new LuaCSBridgeClassLoader();
             m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua/Libs/Core/Malloc.lua", "GlobalNS");
+            m_luaCtx = loadModule("MyLua/Libs/FrameWork/GCtx.lua");     // 初始化 Lua 脚本
+            m_processSys = m_luaCtx["m_processSys"] as LuaTable;
         }
 
         public LuaScriptMgr getLuaScriptMgr()
@@ -41,6 +48,11 @@ namespace SDK.Lib
         public LuaCSBridgeClassLoader getLuaClassLoader()
         {
             return m_luaClassLoader;
+        }
+
+        public void setNeedUpdate(bool value)
+        {
+            m_bNeedUpdate = value;
         }
 
         public object[] CallLuaFunction(string name, params object[] args)
@@ -74,6 +86,24 @@ namespace SDK.Lib
         {
             LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
             this.CallLuaFunction("NetManager.receiveMsg", 0, buffer);
+        }
+
+        public LuaTable loadModule(string file)
+        {
+            return m_luaClassLoader.loadModule(file);
+        }
+
+        public LuaTable malloc(LuaTable table)
+        {
+            return m_luaCSBridgeMalloc.malloc(table);
+        }
+
+        public void Advance(float delta)
+        {
+            if (m_bNeedUpdate)
+            {
+                this.CallLuaFunction("GlobalNS.ProcessSys.advance", m_processSys, delta);
+            }
         }
     }
 }

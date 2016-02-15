@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using LuaInterface;
+
+namespace SDK.Lib
 {
     /**
      * @brief Lua 类文件加载器
@@ -16,6 +18,11 @@
                 init();
                 m_bLoaded = true;
             }
+        }
+
+        public LuaTable loadModule(string file)
+        {
+            return this.CallMethod("loadClass", file)[0] as LuaTable;
         }
     }
 }

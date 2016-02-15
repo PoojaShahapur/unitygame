@@ -55,9 +55,9 @@ namespace UnitTest
             m_pTestAStar.run();
             m_pTestProtoBuf.run();
 
-            m_pTestDraw.run();
-            m_testHeightMap.run();
-            //m_testCoordinateConv.run();
+            //m_pTestDraw.run();
+            //m_testHeightMap.run();
+            m_testCoordinateConv.run();
         }
     }
 }

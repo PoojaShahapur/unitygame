@@ -29,7 +29,7 @@ namespace SDK.Lib
             if (!string.IsNullOrEmpty(m_luaFile))
             {
                 //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
-                m_luaTable = Ctx.m_instance.m_luaSystem.getLuaClassLoader().CallMethod("loadClass", m_luaFile)[0] as LuaTable;   // 加载 lua 脚本
+                m_luaTable = Ctx.m_instance.m_luaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
             }
             else
             {
