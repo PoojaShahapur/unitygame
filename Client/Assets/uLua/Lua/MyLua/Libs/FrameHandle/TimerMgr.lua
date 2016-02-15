@@ -11,8 +11,12 @@ function M:ctor()
     self.m_timerLists = GlobalNS.new(GlobalNS.MList);     -- 当前所有的定时器列表
 end
 
+function M:getCount()
+    return self.m_timerLists:Count();
+end
+
 function M:addObject(delayObject, priority)
-    GCtx.m_csSystem:setNeedUpdate(true);
+    GCtx.m_processSys:refreshUpdateFlag();
     
     -- 检查当前是否已经在队列中
     if (self.m_timerLists:IndexOf(delayObject) == -1) then
@@ -41,7 +45,7 @@ function M:delObject(delayObject)
     end
     
     if(self.m_timerLists:Count() == 0) then
-        GCtx.m_csSystem:setNeedUpdate(false);
+        GCtx.m_processSys:refreshUpdateFlag();
     end
 end
 

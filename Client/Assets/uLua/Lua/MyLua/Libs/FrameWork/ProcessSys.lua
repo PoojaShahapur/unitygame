@@ -15,4 +15,13 @@ function M:advance(delta)
     GCtx.m_timerMgr:Advance(delta);
 end
 
+-- 刷新更新标志
+function M:refreshUpdateFlag()
+    if(GCtx.m_timerMgr:getCount() > 0) then
+        Ctx.m_luaSystem:setNeedUpdate(true);
+    else
+        Ctx.m_luaSystem:setNeedUpdate(false);
+    end
+end
+
 return M;

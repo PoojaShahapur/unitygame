@@ -14,7 +14,7 @@ function M.dtor()
 end
 
 function M.preInit()
-    this.m_csSystem = GlobalNS.new(GlobalNS.CSSystem);
+    --this.m_csSystem = GlobalNS.new(GlobalNS.CSSystem);
     this.m_processSys = GlobalNS.new(GlobalNS.ProcessSys);
     this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
 end
