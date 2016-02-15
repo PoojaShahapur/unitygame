@@ -1,4 +1,5 @@
 ﻿using LuaInterface;
+using System;
 
 namespace SDK.Lib
 {
@@ -60,6 +61,19 @@ namespace SDK.Lib
         public object[] DoString(string str)
         {
             return m_luaScriptMgr.DoFile(str);
+        }
+
+        // 从 Lua 中发送 pb 消息
+        public void SendFromLua(UInt16 commandID, LuaStringBuffer buffer)
+        {
+            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
+            Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+        }
+
+        public void ReceiveViaLua(ByteBuffer msg)
+        {
+            LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+            this.CallLuaFunction("NetManager.receiveMsg", 0, buffer);
         }
     }
 }
