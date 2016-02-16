@@ -1,8 +1,8 @@
 ﻿using System;
+using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEngine;
 #endif
 
 namespace SDK.Lib
@@ -34,7 +34,7 @@ namespace SDK.Lib
                 m_movieTexture.Play();
             }
 #else
-            Handheld.PlayFullScreenMovie("Movie/" + movieName + ".mp4", Color.black, FullScreenMovieControlMode.Full | FullScreenMovieControlMode.Hidden);
+            UnityEngine.Handheld.PlayFullScreenMovie("Movie/" + movieName + ".mp4", Color.black, FullScreenMovieControlMode.Full | FullScreenMovieControlMode.Hidden);
 #endif
 
             if (m_timer == null)
