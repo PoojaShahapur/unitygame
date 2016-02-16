@@ -13,8 +13,14 @@ end
 -- 测试有限次循环
 function M:testDefinite()
     local index = 0;
-    local timer = GlobalNS.new(GlobalNS.TimerItemBase);
+    local timer = nil;
+    timer = GlobalNS.new(GlobalNS.TimerItemBase);
     timer.m_totalTime = 2;
+    timer:setFuncObject(self, self.onTimerEnd);
+    GCtx.m_timerMgr:addTimer(timer);
+    
+    timer = GlobalNS.new(GlobalNS.TimerItemBase);
+    timer.m_totalTime = 1;
     timer:setFuncObject(self, self.onTimerEnd);
     GCtx.m_timerMgr:addTimer(timer);
     

@@ -13,12 +13,19 @@ GlobalNS[M.clsName] = M;
 function M:ctor()
     self.m_deferredAddQueue = GlobalNS.new(GlobalNS.MList);
     self.m_deferredDelQueue = GlobalNS.new(GlobalNS.MList);
+    
+    self.m_deferredAddQueue:setFuncObject(self, self.cmpFuncObject);
+    self.m_deferredDelQueue:setFuncObject(self, self.cmpFuncObject);
 
     self.m_loopDepth = 0;
 end
 
 function M:dtor()
 
+end
+
+function M:cmpFuncObject(a, b)
+    return a:cmpTo(b);
 end
 
 function M:addObject(delayObject, priority)
@@ -99,7 +106,7 @@ function M:processDelayObjects()
     if 0 == self.m_loopDepth then       -- 只有全部退出循环后，才能处理添加删除
         if (self.m_deferredAddQueue:Count() > 0) then
             local idx = 0;
-            for idx = 0, idx < self.m_deferredAddQueue:Count(), 1 do
+            for idx = 0, self.m_deferredAddQueue:Count() - 1, 1 do
                 self:addObject(self.m_deferredAddQueue:at(idx).m_delayObject, self.m_deferredAddQueue:at(idx).m_delayParam.m_priority);
             end
 
@@ -108,7 +115,7 @@ function M:processDelayObjects()
 
         if (self.m_deferredDelQueue:Count() > 0) then
             local idx = 0;
-            for idx = 0, idx < self.m_deferredDelQueue:Count(), 1 do
+            for idx = 0, self.m_deferredDelQueue:Count() - 1, 1 do
                 self:delObject(self.m_deferredDelQueue:at(idx).m_delayObject);
             end
 
