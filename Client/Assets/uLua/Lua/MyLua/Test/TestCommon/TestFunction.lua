@@ -3,27 +3,26 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "TestTable";
+M.clsName = "TestFunction";
 GlobalNS[M.clsName] = M;
 
 function M:run()
-    --self(self, 1, 2, 3);
-    self:testTableEqual();
+    --self:testEqual();
+    self:testType();
 end
 
-function M:call(...)
-    local arr = {...};
-    print(arr);
-    local tuple = unpack(arr);
-    print(tuple);
+function M:func_1()
+
 end
 
--- 表的引用比较
-function M:testTableEqual()
-    local a = {atta = 10, attb = 20};
+function M:func_2()
+
+end
+
+function M:testEqual()
+    local a = self.func_1
     local b = a;
-    local c = {atta = 10, attb = 20};
-    local d = {atta = 11, attb = 20};
+    local c = self.func_2;
     
     if(a == b) then
         print("a == b");
@@ -42,10 +41,10 @@ function M:testTableEqual()
         print("a < c");
     end
     ]]
-    
-    if(a == d) then
-        print("a == d");
-    end
+end
+
+function M:testType()
+    print(type(self.func_2))
 end
 
 return M;

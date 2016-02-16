@@ -12,18 +12,26 @@ require "MyLua.Test.TestCommon.TestCoroutine"
 require "MyLua.Test.TestCommon.TestTable"
 require "MyLua.Test.TestCommon.TestTimer"
 
+require "MyLua.Test.TestCommon.TestString"
+require "MyLua.Test.TestCommon.TestFunction"
+
 local m_testMisc = GlobalNS.new(GlobalNS.TestMisc);
 local m_testLinkList = GlobalNS.new(GlobalNS.TestLinkList);
 local m_testCoroutine = GlobalNS.new(GlobalNS.TestCoroutine);
 local m_testTable = GlobalNS.new(GlobalNS.TestTable);
 local m_testTimer = GlobalNS.new(GlobalNS.TestTimer);
 
+local m_testString = GlobalNS.new(GlobalNS.TestString);
+local m_testFunction = GlobalNS.new(GlobalNS.TestFunction);
+
 local function main()
     --m_testMisc:run();
     --m_testLinkList:run();
     --m_testCoroutine:run();
     --m_testTable:run();
-    m_testTimer:run();
+    --m_testTimer:run();
+    --m_testString:run();
+    m_testFunction:run();
 end
 
 main();

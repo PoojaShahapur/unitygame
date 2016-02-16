@@ -43,6 +43,13 @@ function M:cmpFunc(a, b)
         else
             return -1;
         end
+    elseif(type(a) == type(b) and type(a) == 'function') then
+        -- function 也只能进行 == 比较操作，不能进行 < 或者 > 比较操作
+        if (a == b) then
+            return 0;
+        else
+            return -1;
+        end
 	else
 	    if (a == b) then
             return 0;
