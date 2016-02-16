@@ -276,35 +276,35 @@ namespace SDK.Lib
             string ret = "";
 
             int left = 0;
-            int year = second / 356 * 24 * 60 * 60;
-            left = second % 356 * 24 * 60 * 60;
-            int day = left / 24 * 60 * 60;
-            left = left % 24 * 60 * 60;
-            int hour = left / 60 * 60;
-            left = left % 60 * 60;
+            int year = second / (356 * 24 * 60 * 60);
+            left = second % (356 * 24 * 60 * 60);
+            int day = left / (24 * 60 * 60);
+            left = left % (24 * 60 * 60);
+            int hour = left / (60 * 60);
+            left = left % (60 * 60);
             int min = left / 60;
             left = left % 60;
             int sec = left;
 
             if(year != 0)
             {
-                ret = string.Format("{0}{0}年", ret, year);
+                ret = string.Format("{0}{1}年", ret, year);
             }
             if (day != 0)
             {
-                ret = string.Format("{0}{0}天", ret, day);
+                ret = string.Format("{0}{1}天", ret, day);
             }
             if (hour != 0)
             {
-                ret = string.Format("{0}{0}时", ret, hour);
+                ret = string.Format("{0}{1}时", ret, hour);
             }
             if (min != 0)
             {
-                ret = string.Format("{0}{0}分", ret, min);
+                ret = string.Format("{0}{1}分", ret, min);
             }
             if (sec != 0)
             {
-                ret = string.Format("{0}{0}秒", ret, sec);
+                ret = string.Format("{0}{1}秒", ret, sec);
             }
 
             return ret;

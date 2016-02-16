@@ -26,9 +26,8 @@ end
 
 -- 在调用回调函数之前处理
 function M:preCallBack()
-{
     
-}
+end
 
 function M:OnTimer(delta)
     if self.m_disposed then

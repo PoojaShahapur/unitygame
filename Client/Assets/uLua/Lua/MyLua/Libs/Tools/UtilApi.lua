@@ -52,6 +52,40 @@ function M.enableWidget()
 
 end
 
+-- 格式化时间，显示格式为 00年00天00时00分00秒
+function M.formatTime(second)
+    local ret = "";
+
+    local left = 0;
+    local year = math.floor(second / (356 * 24 * 60 * 60));
+    left = math.floor(second % (356 * 24 * 60 * 60));
+    local day = math.floor(left / (24 * 60 * 60));
+    left = math.floor(left % (24 * 60 * 60));
+    local hour = math.floor(left / (60 * 60));
+    left = math.floor(left % (60 * 60));
+    local min = math.floor(left / 60);
+    left = math.floor(left % 60);
+    local sec = left;
+
+    if(year ~= 0) then
+        ret = string.format("%s%d年", ret, year);
+    end
+    if (day ~= 0) then
+        ret = string.format("%s%d天", ret, day);
+    end
+    if (hour ~= 0) then
+        ret = string.format("%s%d时", ret, hour);
+    end
+    if (min ~= 0) then
+        ret = string.format("%s%d分", ret, min);
+    end
+    if (sec ~= 0) then
+        ret = string.format("%s%d秒", ret, sec);
+    end
+
+    return ret;
+end
+
 M.ctor()        -- 构造
 
 return M;

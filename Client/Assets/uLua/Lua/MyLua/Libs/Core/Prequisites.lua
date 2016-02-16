@@ -59,3 +59,6 @@ require "MyLua.Libs.FrameWork.ProcessSys"
 --require "MyLua.Libs.FrameWork.CSSystem"
 require "MyLua.Libs.FrameWork.Config"
 require "MyLua.Libs.FrameWork.UniqueIdGentor"
+
+-- 工具
+require "MyLua.Libs.Tools.UtilApi"

@@ -9,7 +9,7 @@ namespace SDK.Lib
         protected override void preCallBack()
         {
             base.preCallBack();
-
+            m_text.text = UtilLogic.formatTime((int)m_curTime);
         }
     }
 }
