@@ -11,7 +11,7 @@ function M:ctor()
 end
 
 function M:advance(delta)
-    print("ProcessSys:advance");
+    --print("ProcessSys:advance");
     GCtx.m_timerMgr:Advance(delta);
 end
 

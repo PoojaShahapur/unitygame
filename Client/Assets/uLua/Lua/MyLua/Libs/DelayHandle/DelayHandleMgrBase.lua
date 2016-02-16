@@ -13,19 +13,12 @@ GlobalNS[M.clsName] = M;
 function M:ctor()
     self.m_deferredAddQueue = GlobalNS.new(GlobalNS.MList);
     self.m_deferredDelQueue = GlobalNS.new(GlobalNS.MList);
-    
-    self.m_deferredAddQueue:setFuncObject(self, self.cmpFuncObject);
-    self.m_deferredDelQueue:setFuncObject(self, self.cmpFuncObject);
 
     self.m_loopDepth = 0;
 end
 
 function M:dtor()
 
-end
-
-function M:cmpFuncObject(a, b)
-    return a:cmpTo(b);
 end
 
 function M:addObject(delayObject, priority)
@@ -65,7 +58,7 @@ end
 -- 只有没有添加到列表中的才能添加
 function M:existAddList(delayObject)
     for _, item in ipairs(self.m_deferredAddQueue:list()) do
-        if (item.m_delayObject:isEqual(delayObject)) then
+        if (item.m_delayObject == delayObject) then
             return true;
         end
     end
@@ -76,7 +69,7 @@ end
 -- 只有没有添加到列表中的才能添加
 function M:existDelList(delayObject)
     for _, item in ipairs(self.m_deferredAddQueue:list()) do
-        if (item.m_delayObject:isEqual(delayObject)) then
+        if (item.m_delayObject == delayObject) then
             return true;
         end
     end
@@ -87,7 +80,7 @@ end
 -- 从延迟添加列表删除一个 Item
 function M:delFromDelayAddList(delayObject)
     for _, item in ipairs(self.m_deferredAddQueue:list()) do
-        if (item.m_delayObject:isEqual(delayObject)) then
+        if (item.m_delayObject == delayObject) then
             self.m_deferredAddQueue:Remove(item);
         end
     end
@@ -96,7 +89,7 @@ end
 -- 从延迟删除列表删除一个 Item
 function M:delFromDelayDelList(delayObject)
     for _, item in ipairs(self.m_deferredDelQueue:list()) do
-        if (item.m_delayObject:isEqual(delayObject)) then
+        if (item.m_delayObject == delayObject) then
             self.m_deferredDelQueue:Remove(item);
         end
     end

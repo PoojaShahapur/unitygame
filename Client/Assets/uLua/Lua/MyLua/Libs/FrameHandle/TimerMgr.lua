@@ -9,7 +9,6 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_timerList = GlobalNS.new(GlobalNS.MList);     -- 当前所有的定时器列表
-    self.m_timerList:setFuncObject(self, self.cmpFuncObject);   -- cmpFuncObject 是 DelayHandleMgrBase 这个类中的函数
 end
 
 function M:getCount()
