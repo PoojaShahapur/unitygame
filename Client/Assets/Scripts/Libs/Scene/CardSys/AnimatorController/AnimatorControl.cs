@@ -279,7 +279,7 @@ namespace SDK.Lib
             if (m_oneAniEndTimer == null)
             {
                 m_oneAniEndTimer = new TimerItemBase();
-                m_oneAniEndTimer.m_timerDisp = onTimerAniEndHandle;
+                m_oneAniEndTimer.m_timerDisp.setFuncObject(onTimerAniEndHandle);
             }
             else
             {

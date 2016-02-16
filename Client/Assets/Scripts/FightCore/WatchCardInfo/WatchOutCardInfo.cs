@@ -85,7 +85,7 @@ namespace FightCore
 
             m_timer.m_internal = 3;
             m_timer.m_totalTime = 3;
-            m_timer.m_timerDisp = onTimerEndHandle;
+            m_timer.m_timerDisp.setFuncObject(onTimerEndHandle);
 
             Ctx.m_instance.m_timerMgr.addObject(m_timer);
         }

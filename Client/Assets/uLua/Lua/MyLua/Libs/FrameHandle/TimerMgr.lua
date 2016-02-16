@@ -16,6 +16,10 @@ function M:getCount()
 end
 
 function M:addObject(delayObject, priority)
+    if(nil == priority) then
+        priority = 0;
+    end
+    
     GCtx.m_processSys:refreshUpdateFlag();
     
     -- 检查当前是否已经在队列中
@@ -47,6 +51,10 @@ function M:delObject(delayObject)
     if(self.m_timerLists:Count() == 0) then
         GCtx.m_processSys:refreshUpdateFlag();
     end
+end
+
+function M:addTimer(delayObject, priority)
+    self:addObject(delayObject, priority);
 end
 
 function M:Advance(delta)

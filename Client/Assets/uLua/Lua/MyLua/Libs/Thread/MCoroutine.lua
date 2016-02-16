@@ -1,7 +1,7 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.Common.CallFuncObject"
+require "MyLua.Libs.Functor.CallFuncObjectFixParam"
 
 -- MCoroutine 状态
 local M
@@ -20,7 +20,7 @@ M.clsName = "MCoroutine";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_funcObj = GlobalNS.new(GlobalNS.CallFuncObject);
+    self.m_funcObj = GlobalNS.new(GlobalNS.CallFuncObjectFixParam);
     self.m_handle = 0;
 end
 

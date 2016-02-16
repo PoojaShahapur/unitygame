@@ -54,6 +54,11 @@ namespace SDK.Lib
             }
         }
 
+        public void addTimer(IDelayHandleItem delayObject, float priority = 0.0f)
+        {
+            this.addObject(delayObject, priority);
+        }
+
         public void Advance(float delta)
         {
             incDepth();

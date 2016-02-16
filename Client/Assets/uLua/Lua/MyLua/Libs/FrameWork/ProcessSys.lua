@@ -17,10 +17,12 @@ end
 
 -- 刷新更新标志
 function M:refreshUpdateFlag()
-    if(GCtx.m_timerMgr:getCount() > 0) then
-        Ctx.m_luaSystem:setNeedUpdate(true);
-    else
-        Ctx.m_luaSystem:setNeedUpdate(false);
+    if(GCtx.m_cofig:isAllowCallCS()) then
+        if(GCtx.m_timerMgr:getCount() > 0) then
+            Ctx.m_luaSystem:setNeedUpdate(true);
+        else
+            Ctx.m_luaSystem:setNeedUpdate(false);
+        end
     end
 end
 

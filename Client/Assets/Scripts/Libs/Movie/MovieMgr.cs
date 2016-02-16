@@ -46,7 +46,7 @@ namespace SDK.Lib
                 m_timer.reset();
             }
             m_timer.m_internal = time;        // 一分钟遍历一次
-            m_timer.m_timerDisp = OnPlayEnd;
+            m_timer.m_timerDisp.setFuncObject(OnPlayEnd);
             Ctx.m_instance.m_timerMgr.addObject(m_timer);
         }
 

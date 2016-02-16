@@ -316,7 +316,7 @@ namespace Fight
             // 启动定时器
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 1;
-            timer.m_timerDisp = endSelfFullTip;
+            timer.m_timerDisp.setFuncObject(endSelfFullTip);
             Ctx.m_instance.m_timerMgr.addObject(timer);
         }
 

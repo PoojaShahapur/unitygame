@@ -15,10 +15,13 @@ function M:ctor()
     self.m_totalTime = 1;           -- 总共定时器时间
     self.m_curTime = 0;             -- 当前已经调用的定时器的时间
     self.m_bInfineLoop = false;     -- 是否是无限循环
-    self.m_curLeftTimer = 0;        -- 当前定时器剩余的次数
-    self.m_timerDisp = nil;         -- 定时器分发
-    self.m_pThis = nil;
+    self.m_curLeftTimer = 0;        -- 当前定时器剩余的时间
+    self.m_timerDisp = GlobalNS.new(GlobalNS.TimerFunctionObject);         -- 定时器分发
     self.m_disposed = false;        -- 是否已经被释放
+end
+
+function M:setFuncObject(pThis, func)
+    self.m_timerDisp:setPThisAndHandle(pThis, func);
 end
 
 function M:OnTimer(delta)
@@ -42,8 +45,8 @@ end
 
 function M:disposeAndDisp()
     self.m_disposed = true;
-    if self.m_timerDisp ~= nil then
-        self.m_timerDisp(self.m_pThis);
+    if (self.m_timerDisp:isValid()) then
+        self.m_timerDisp:call(self);
     end
 end
 
@@ -51,8 +54,8 @@ function M:checkAndDisp()
     if self.m_curLeftTimer >= self.m_internal then
         self.m_curLeftTimer = self.m_curLeftTimer - self.m_internal;
 
-        if (self.m_timerDisp ~= nil) then
-            self.m_timerDisp(self.m_pThis);
+        if (self.m_timerDisp:isValid()) then
+            self.m_timerDisp:call(self);
         end
     end
 end

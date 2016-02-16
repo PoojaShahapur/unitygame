@@ -50,7 +50,7 @@ namespace FightCore
 
             m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_preparetime - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastpreparetime;
             m_timer.m_totalTime = m_timer.m_internal;
-            m_timer.m_timerDisp = onTimerInitCardHandle;
+            m_timer.m_timerDisp.setFuncObject(onTimerInitCardHandle);
 
             Ctx.m_instance.m_timerMgr.addObject(m_timer);
         }
@@ -71,7 +71,7 @@ namespace FightCore
 
             m_timer.m_internal = m_sceneDZData.m_DZDaoJiShiXmlLimit.m_roundtime - m_sceneDZData.m_DZDaoJiShiXmlLimit.m_lastroundtime;
             m_timer.m_totalTime = m_timer.m_internal;
-            m_timer.m_timerDisp = onTimerDZHandle;
+            m_timer.m_timerDisp.setFuncObject(onTimerDZHandle);
 
             Ctx.m_instance.m_timerMgr.addObject(m_timer);
         }

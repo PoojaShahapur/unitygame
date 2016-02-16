@@ -12,7 +12,6 @@ require "MyLua.Libs.Core.ClassLoader"
 require "MyLua.Libs.Core.Malloc"
 --require "MyLua.Libs.Core.CSImportToLua"
 
-
 -- 数据结构
 require "MyLua.Libs.DataStruct.MList"
 require "MyLua.Libs.DataStruct.Dictionary"
@@ -49,6 +48,7 @@ require "MyLua.Libs.FrameHandle.TickProcessObject"
 require "MyLua.Libs.FrameHandle.TimerMgr"
 require "MyLua.Libs.FrameHandle.FrameTimerMgr"
 require "MyLua.Libs.FrameHandle.TickMgr"
+require "MyLua.Libs.FrameHandle.TimerFunctionObject"
 
 -- UI
 require "MyLua.Libs.UI.UICore.Form"
@@ -56,4 +56,5 @@ require "MyLua.Libs.UI.UICore.UIAttrSystem"
 
 -- FrameWork 脚本
 require "MyLua.Libs.FrameWork.ProcessSys"
-require "MyLua.Libs.FrameWork.CSSystem"
+--require "MyLua.Libs.FrameWork.CSSystem"
+require "MyLua.Libs.FrameWork.Config"

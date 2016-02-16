@@ -48,7 +48,7 @@ namespace SDK.Lib
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 1;
             timer.m_totalTime = 1;
-            timer.m_timerDisp = endTimer;
+            timer.m_timerDisp.setFuncObject(endTimer);
             Ctx.m_instance.m_timerMgr.addObject(timer);
         }
 

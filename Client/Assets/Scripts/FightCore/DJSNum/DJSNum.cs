@@ -37,7 +37,7 @@ namespace FightCore
                 m_timer = new DaoJiShiTimer();
                 m_timer.m_curTime = 15;
                 m_timer.m_totalTime = 15;
-                m_timer.m_timerDisp = onTimerHandle;
+                m_timer.m_timerDisp.setFuncObject(onTimerHandle);
 
                 Ctx.m_instance.m_timerMgr.addObject(m_timer);
             }
