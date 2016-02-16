@@ -28,6 +28,7 @@ namespace UnitTest
 
         protected TestHeightMap m_testHeightMap = new TestHeightMap();
         protected TestCoordinateConv m_testCoordinateConv = new TestCoordinateConv();
+        protected TestTime m_testTime = new TestTime();
 
         public void run()
         {
@@ -57,7 +58,8 @@ namespace UnitTest
 
             //m_pTestDraw.run();
             //m_testHeightMap.run();
-            m_testCoordinateConv.run();
+            //m_testCoordinateConv.run();
+            m_testTime.run();
         }
     }
 }

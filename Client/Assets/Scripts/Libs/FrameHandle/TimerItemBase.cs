@@ -31,6 +31,12 @@ namespace SDK.Lib
             m_timerDisp.setFuncObject(handle);
         }
 
+        // 在调用回调函数之前处理
+        protected virtual void preCallBack()
+        {
+
+        }
+
         public virtual void OnTimer(float delta)
         {
             if (m_disposed)
@@ -61,6 +67,8 @@ namespace SDK.Lib
         public virtual void disposeAndDisp()
         {
             m_disposed = true;
+            this.preCallBack();
+
             if (m_timerDisp.isValid())
             {
                 m_timerDisp.call(this);
@@ -72,6 +80,7 @@ namespace SDK.Lib
             if (m_curLeftTimer >= m_internal)
             {
                 m_curLeftTimer = m_curLeftTimer - m_internal;
+                this.preCallBack();
 
                 if (m_timerDisp.isValid())
                 {

@@ -24,6 +24,12 @@ function M:setFuncObject(pThis, func)
     self.m_timerDisp:setPThisAndHandle(pThis, func);
 end
 
+-- 在调用回调函数之前处理
+function M:preCallBack()
+{
+    
+}
+
 function M:OnTimer(delta)
     if self.m_disposed then
         return;
@@ -45,6 +51,8 @@ end
 
 function M:disposeAndDisp()
     self.m_disposed = true;
+    self:preCallBack();
+    
     if (self.m_timerDisp:isValid()) then
         self.m_timerDisp:call(self);
     end
@@ -53,7 +61,8 @@ end
 function M:checkAndDisp()
     if self.m_curLeftTimer >= self.m_internal then
         self.m_curLeftTimer = self.m_curLeftTimer - self.m_internal;
-
+        self:preCallBack();
+        
         if (self.m_timerDisp:isValid()) then
             self.m_timerDisp:call(self);
         end

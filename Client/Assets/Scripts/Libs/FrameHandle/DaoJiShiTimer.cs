@@ -13,6 +13,10 @@
             }
 
             m_curTime -= delta;
+            if(m_curTime < 0)
+            {
+                m_curTime = 0;
+            }
             m_curLeftTimer += delta;
 
             if (m_bInfineLoop)

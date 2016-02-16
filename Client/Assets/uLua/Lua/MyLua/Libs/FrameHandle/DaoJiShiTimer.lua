@@ -20,6 +20,9 @@ function M:OnTimer(delta)
     end
 
     self.m_curTime = self.m_curTime - delta;
+    if(self.m_curTime < 0) then
+        self.m_curTime = 0;
+    end
     self.m_curLeftTimer = self.m_curLeftTimer + delta;
 
     if self.m_bInfineLoop then
