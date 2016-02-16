@@ -7,8 +7,8 @@ M.clsName = "CmpFuncObject";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_handle = nil;
     self.m_pThis = nil;
+    self.m_handle = nil;
 end
 
 function M:dtor()

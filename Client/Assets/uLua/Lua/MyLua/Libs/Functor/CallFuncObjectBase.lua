@@ -21,8 +21,8 @@ function M:setPThisAndHandle(pThis, handle, param)
 end
 
 function M:clear()
-    self.m_handle = nil;
     self.m_pThis = nil;
+    self.m_handle = nil;
     self.m_param = nil;
 end
 

@@ -17,8 +17,8 @@ function M:dtor()
 end
 
 function M:setPThisAndHandle(pThis, handle)
-    self.m_handle = pThis;
-    self.m_pThis = handle;
+    self.m_pThis = pThis;
+    self.m_handle = handle;
 end
 
 function M:clear()
