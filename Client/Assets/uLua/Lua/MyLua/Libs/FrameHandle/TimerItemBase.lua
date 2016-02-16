@@ -11,6 +11,7 @@ M.clsName = "TimerItemBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
+    self.m_id = GCtx.m_timerIdGentor:next();
     self.m_internal = 1;            -- 定时器间隔
     self.m_totalTime = 1;           -- 总共定时器时间
     self.m_curTime = 0;             -- 当前已经调用的定时器的时间
@@ -22,6 +23,19 @@ end
 
 function M:setFuncObject(pThis, func)
     self.m_timerDisp:setPThisAndHandle(pThis, func);
+end
+
+-- 两个 TimerItemBase 是否相等
+function M:isEqual(rhv)
+    return self.m_id == rhv.m_id;
+end
+
+function M:cmpTo(rhv)
+    if(self.m_id == rhv.m_id) then
+        return 0;
+    end
+    
+    return -1;
 end
 
 function M:OnTimer(delta)

@@ -9,10 +9,15 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_timerLists = GlobalNS.new(GlobalNS.MList);     -- 当前所有的定时器列表
+    self.m_timerLists:setFuncObject(self, self.cmpFuncObject);
 end
 
 function M:getCount()
     return self.m_timerLists:Count();
+end
+
+function M:cmpFuncObject(a, b)
+    return a:cmpTo(b);
 end
 
 function M:addObject(delayObject, priority)

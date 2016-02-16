@@ -15,6 +15,7 @@ end
 
 function M.preInit()
     this.m_cofig = GlobalNS.new(GlobalNS.Config);
+    this.m_timerIdGentor = GlobalNS.new(GlobalNS.UniqueIdGentor);
     --this.m_csSystem = GlobalNS.new(GlobalNS.CSSystem);
     this.m_processSys = GlobalNS.new(GlobalNS.ProcessSys);
     this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
