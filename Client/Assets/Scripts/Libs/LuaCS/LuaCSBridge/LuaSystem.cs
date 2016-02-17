@@ -27,8 +27,8 @@ namespace SDK.Lib
             m_luaScriptMgr.Start();
             DoFile("MyLua.Libs.Core.Prequisites");  // 一次性加载所有文件
             m_luaClassLoader = new LuaCSBridgeClassLoader();
-            m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua/Libs/Core/Malloc.lua", "GlobalNS");
-            m_luaCtx = loadModule("MyLua/Libs/FrameWork/GCtx.lua");     // 初始化 Lua 脚本
+            m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
+            m_luaCtx = loadModule("MyLua.Libs.FrameWork.GCtx");     // 初始化 Lua 脚本
             m_processSys = m_luaCtx["m_processSys"] as LuaTable;
         }
 
