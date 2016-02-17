@@ -8,7 +8,7 @@ M.clsName = "TestDataStruct";
 GlobalNS[M.clsName] = M;
 
 function M:run()
-    self:test();
+    self:testNum();
 end
 
 function M:testNum()
