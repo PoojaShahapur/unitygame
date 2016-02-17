@@ -86,6 +86,42 @@ function M.formatTime(second)
     return ret;
 end
 
+function M.isTypeEqual(a, b)
+    return type(a) == type(b);
+end
+
+function M.isNumber(a)
+    return type(a) == "number";
+end
+
+function M.isBoolean(a)
+    return type(a) == "boolean";
+end
+
+function M.isString(a)
+    return type(a) == "string";
+end
+
+function M.isFunction(a)
+    return type(a) == "function";
+end
+
+function M.isTable(a)
+    return type(a) == "table";
+end
+
+function M.isUserData(a)
+    return type(a) == "userdata";
+end
+
+function M.isThread(a)
+    return type(a) == "thread";
+end
+
+function M:isNil(a)
+    return type(a) == "nil";
+end
+
 M.ctor()        -- 构造
 
 return M;

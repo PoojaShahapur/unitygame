@@ -8,6 +8,7 @@ require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Functor.CmpFuncObject"
 require "MyLua.Libs.DataStruct.MListBase"
 
+-- bug 提示，如果 require "MyLua.Libs.DataStruct.MListBase" 导入后，如果 clsName 不是 MListBase ，就会导致 GlobalNS.MListBase 为空，就会导致基类为空  
 local M = GlobalNS.Class(GlobalNS.MListBase);
 M.clsName = "MList";
 GlobalNS[M.clsName] = M;

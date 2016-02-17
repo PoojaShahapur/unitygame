@@ -36,14 +36,14 @@ end
 function M:cmpFunc(a, b)
 	if (self.m_funcObj ~= nil and self.m_funcObj:isValid()) then
 		return self.m_funcObj:callTwoParam(a, b);
-    elseif(type(a) == type(b) and type(a) == 'table') then
+    elseif(GlobalNS.UtilApi.isTypeEqual(a, b) and GlobalNS.UtilApi.isTable(a)) then
         -- 这个一定要放在第一行，因为如果是 table 比较，是可以进行 == 操作的，其实比较的是地址，但是不能进行 < 或者 > 比较操作，如果是表只进行 == 比较操作
         if (a == b) then
             return 0;
         else
             return -1;
         end
-    elseif(type(a) == type(b) and type(a) == 'function') then
+    elseif(GlobalNS.UtilApi.isTypeEqual(a, b) and GlobalNS.UtilApi.isFunction(a)) then
         -- function 也只能进行 == 比较操作，不能进行 < 或者 > 比较操作
         if (a == b) then
             return 0;

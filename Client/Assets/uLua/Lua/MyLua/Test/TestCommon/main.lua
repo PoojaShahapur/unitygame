@@ -16,6 +16,7 @@ require "MyLua.Test.TestCommon.TestString"
 require "MyLua.Test.TestCommon.TestFunction"
 require "MyLua.Test.TestCommon.TestEventDispatch"
 require "MyLua.Test.TestCommon.TestTime"
+require "MyLua.Test.TestCommon.TestType"
 
 local m_testMisc = GlobalNS.new(GlobalNS.TestMisc);
 local m_testLinkList = GlobalNS.new(GlobalNS.TestLinkList);
@@ -27,6 +28,7 @@ local m_testString = GlobalNS.new(GlobalNS.TestString);
 local m_testFunction = GlobalNS.new(GlobalNS.TestFunction);
 local m_testEventDispatch = GlobalNS.new(GlobalNS.TestEventDispatch);
 local m_testTime = GlobalNS.new(GlobalNS.TestTime);
+local m_testType = GlobalNS.new(GlobalNS.TestType);
 
 local function main()
     --m_testMisc:run();
@@ -37,7 +39,8 @@ local function main()
     --m_testString:run();
     --m_testFunction:run();
     --m_testEventDispatch:run();
-    m_testTime:run();
+    --m_testTime:run();
+    m_testType:run();
 end
 
 main();
