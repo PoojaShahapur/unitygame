@@ -13,7 +13,7 @@ end
 
 function M:parseHeaderByteBuffer(bytes)
     if nil == self.m_itemHeader then
-        self.m_itemHeader = GlobalNS.TableItemHeader:news();
+        self.m_itemHeader = GlobalNS.new(GlobalNS.TableItemHeader);
     end
     self.m_itemHeader.parseHeaderByteBuffer(bytes);
 end
