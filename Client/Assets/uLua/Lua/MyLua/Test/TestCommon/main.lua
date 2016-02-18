@@ -41,10 +41,10 @@ local function main()
     --m_testLinkList:run();
     --m_testCoroutine:run();
     --m_testTable:run();
-    m_testTimer:run();
+    --m_testTimer:run();
     --m_testString:run();
     --m_testFunction:run();
-    --m_testEventDispatch:run();
+    m_testEventDispatch:run();
     --m_testTime:run();
     --m_testType:run();
     --m_testDataStruct:run();

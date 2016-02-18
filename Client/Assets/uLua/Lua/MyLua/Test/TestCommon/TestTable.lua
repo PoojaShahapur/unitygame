@@ -8,7 +8,8 @@ GlobalNS[M.clsName] = M;
 
 function M:run()
     --self(self, 1, 2, 3);
-    self:testTableEqual();
+    --self:testTableEqual();
+    self:testDel();
 end
 
 function M:call(...)
@@ -46,6 +47,19 @@ function M:testTableEqual()
     if(a == d) then
         print("a == d");
     end
+end
+
+function M:testDel()
+    local tbl = {};
+    tbl.aaa = 10;
+    tbl.bbb = 20;
+    tbl.ccc = 30;
+    -- table.remove 只能用于数组
+    -- table.remove(tbl, "bbb");
+    -- 删除元素，赋值 nil 后，立马就删除了这个元素
+    tbl.bbb = nil;
+    
+    print("testDel");
 end
 
 return M;

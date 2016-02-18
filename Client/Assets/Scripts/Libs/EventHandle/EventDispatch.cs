@@ -55,10 +55,10 @@ namespace SDK.Lib
         // 相同的函数只能增加一次
         virtual public void addEventHandle(Action<IDispatchObject> handle)
         {
-            EventDispatchFunctionObject funcObject = new EventDispatchFunctionObject();
-            funcObject.m_handle = handle;
             if (null != handle)
             {
+                EventDispatchFunctionObject funcObject = new EventDispatchFunctionObject();
+                funcObject.setFuncObject(handle);
                 addObject(funcObject);
             }
             else
@@ -85,7 +85,7 @@ namespace SDK.Lib
             int idx = 0;
             for (idx = 0; idx < m_handleList.Count(); ++idx)
             {
-                if (UtilApi.isAddressEqual(m_handleList[idx].m_handle, handle))
+                if (m_handleList[idx].isEqual(handle))
                 {
                     break;
                 }
@@ -163,7 +163,7 @@ namespace SDK.Lib
             bool bFinded = false;
             foreach (var item in m_handleList.list)
             {
-                if (UtilApi.isAddressEqual(item.m_handle, handle))
+                if (item.isEqual(handle))
                 {
                     bFinded = true;
                     break;

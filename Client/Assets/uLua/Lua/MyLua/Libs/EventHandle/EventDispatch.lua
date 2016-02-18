@@ -35,11 +35,10 @@ function M:setUniqueId(value)
     --self.m_handleList.uniqueId = m_uniqueId;
 end
 
-function M:addEventHandle(handle, pThis)
-    local funcObject = GlobalNS.new(GlobalNS.EventDispatchFunctionObject);
-    funcObject.m_handle = handle;
-    funcObject.m_pThis = pThis;
+function M:addEventHandle(pThis, handle)
     if (nil ~= handle) then
+        local funcObject = GlobalNS.new(GlobalNS.EventDispatchFunctionObject);
+        funcObject:setFuncObject(pThis, handle);
         self:addObject(funcObject);
     else
         -- 日志
@@ -47,7 +46,7 @@ function M:addEventHandle(handle, pThis)
 end
 
 function M:addObject(delayObject, priority)
-    if self:bInDepth() then
+    if (self:bInDepth()) then
         M.super.addObject(self, delayObject, priority); -- super 使用需要自己填充 Self 参数
     else
         -- 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
@@ -57,12 +56,12 @@ end
 
 function M:removeEventHandle(handle, pThis)
     local idx = 0;
-    for idx = 0, idx < self.m_handleList:Count() - 1, 1 do
-        if self.m_handleList:at(idx).m_handle == handle and self.m_handleList.at(idx).m_pThis == pThis then
+    for idx = 0, self.m_handleList:Count() - 1, 1 do
+        if (self.m_handleList:at(idx):isEqual(handle, pThis)) then
             break;
         end
     end
-    if idx < self.m_handleList:Count() then
+    if (idx < self.m_handleList:Count()) then
         self:delObject(self.m_handleList[idx]);
     else
         -- 日志
@@ -70,10 +69,10 @@ function M:removeEventHandle(handle, pThis)
 end
 
 function M:delObject(delayObject)
-    if self:bInDepth() then
+    if (self:bInDepth()) then
         M.super.delObject(self, delayObject);
     else
-        if self.m_handleList:Remove(delayObject) == false then
+        if (self.m_handleList:Remove(delayObject) == false) then
             -- 日志
         end
     end
@@ -83,7 +82,7 @@ function M:dispatchEvent(dispatchObject)
     self:incDepth();
 
     for _, handle in ipairs(self.m_handleList:list()) do
-        if handle.m_bClientDispose == false then
+        if (handle.m_bClientDispose == false) then
             handle:call(dispatchObject);
         end
     end
@@ -102,10 +101,10 @@ function M:clearEventHandle()
 end
 
 -- 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-function M:existEventHandle(handle)
+function M:existEventHandle(pThis, handle)
     local bFinded = false;
     for _, item in ipairs(self.m_handleList:list()) do
-        if (item.m_handle == handle) then
+        if (item:isEqual(pThis, handle)) then
             bFinded = true;
             break;
         end

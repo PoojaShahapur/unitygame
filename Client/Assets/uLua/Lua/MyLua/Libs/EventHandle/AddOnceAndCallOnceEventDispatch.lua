@@ -10,9 +10,9 @@ function M:ctor()
     
 end
 
-function M:addEventHandle(handle)
-    if not self:existEventHandle(handle) then
-        M.super.addEventHandle(self, handle);
+function M:addEventHandle(pThis, handle)
+    if (not self:existEventHandle(pThis, handle)) then
+        M.super.addEventHandle(self, pThis, handle);
     end
 end
 

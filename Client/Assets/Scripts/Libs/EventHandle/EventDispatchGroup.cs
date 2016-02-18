@@ -51,7 +51,7 @@ namespace SDK.Lib
             }
         }
 
-        public void dispatchEvent(int groupID,  IDispatchObject dispatchObject)
+        public void dispatchEvent(int groupID, IDispatchObject dispatchObject)
         {
             m_bInLoop = true;
             if (m_groupID2DispatchDic.ContainsKey(groupID))
