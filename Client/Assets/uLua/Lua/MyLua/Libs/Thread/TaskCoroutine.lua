@@ -11,6 +11,7 @@ function M:ctor()
     
 end
 
+-- 通过重写协程函数
 function M:run()
     M.super.run(self);
 end
