@@ -74,6 +74,28 @@ function M:OnTimer(delta)
 end
 
 function M:disposeAndDisp()
+    if(self.m_bContinuous) then
+        self:continueDisposeAndDisp();
+    else
+        self:discontinueDisposeAndDisp();
+    end
+end
+
+function M:continueDisposeAndDisp()
+    self.m_disposed = true;
+    
+    while (self.m_intervalLeftTime >= self.m_internal and self.m_curCallTime < self.m_totalTime) do
+        self.m_curCallTime = self.m_curCallTime + self.m_internal;
+        self.m_intervalLeftTime = self.m_intervalLeftTime - self.m_internal;
+        self:onPreCallBack();
+
+        if (self.m_timerDisp:isValid()) then
+            self.m_timerDisp:call(self);
+        end
+    end
+end
+
+function M:discontinueDisposeAndDisp()
     self.m_disposed = true;
     self.m_curCallTime = self.m_totalTime;
     self:onPreCallBack();

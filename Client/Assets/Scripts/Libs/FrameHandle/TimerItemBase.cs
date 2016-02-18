@@ -74,7 +74,7 @@ namespace SDK.Lib
             }
 
             m_curRunTime += delta;
-            if(m_curRunTime > m_totalTime)
+            if (m_curRunTime > m_totalTime)
             {
                 m_curRunTime = m_totalTime;
             }
@@ -98,6 +98,35 @@ namespace SDK.Lib
         }
 
         public virtual void disposeAndDisp()
+        {
+            if (this.m_bContinuous)
+            {
+                this.continueDisposeAndDisp();
+            }
+            else
+            {
+                this.discontinueDisposeAndDisp();
+            }
+        }
+
+        protected void continueDisposeAndDisp()
+        {
+            this.m_disposed = true;
+
+            while (this.m_intervalLeftTime >= this.m_internal && this.m_curCallTime < this.m_totalTime)
+            {
+                this.m_curCallTime = this.m_curCallTime + this.m_internal;
+                this.m_intervalLeftTime = this.m_intervalLeftTime - this.m_internal;
+                this.onPreCallBack();
+
+                if (this.m_timerDisp.isValid())
+                {
+                    this.m_timerDisp.call(this);
+                }
+            }
+        }
+
+        protected void discontinueDisposeAndDisp()
         {
             m_disposed = true;
             m_curCallTime = m_totalTime;
