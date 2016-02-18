@@ -58,8 +58,8 @@ namespace UnitTest
 
             //m_pTestDraw.run();
             //m_testHeightMap.run();
-            //m_testCoordinateConv.run();
-            m_testTime.run();
+            m_testCoordinateConv.run();
+            //m_testTime.run();
         }
     }
 }

@@ -22,8 +22,9 @@ function M:run()
     --self:testBasicB();
     --self:testBasicD();
     --self:testBasicF();
-    -- self:testBasicG();
-    self:testStatus();
+    --self:testBasicG();
+    --self:testStatus();
+    self:testErrorHandle();
 end
 
 function M:testBasic()
@@ -207,5 +208,18 @@ function M:testStatus()
     coStatus = coroutine.status(coHandle);
     print(coStatus);
 end
+
+-- 测试协程错误处理，默认协程是不抛出异常的，通过返回值，调用者看需要处理这个异常，因为协程的调用者才是主宰者
+function M:testErrorHandle()
+    local t = GlobalNS.new(GlobalNS.MCoroutine);
+    t:createFixParam(self, self.handleError);
+    t:resume();
+end
+
+function M:handleError()
+    local aaa = 10;
+    aaa.print(20);
+end
+
 
 return M;
