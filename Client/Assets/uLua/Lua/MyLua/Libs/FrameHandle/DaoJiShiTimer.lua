@@ -14,21 +14,30 @@ function M:ctor()
 
 end
 
+function M:setTotalTime(value)
+    M.super.setTotalTime(self, value);
+    self.m_curRunTime = value;
+end
+
+function M:getRunTime()
+    return self.m_totalTime - self.m_curRunTime;
+end
+
 function M:OnTimer(delta)
     if self.m_disposed then
         return;
     end
 
-    self.m_curTime = self.m_curTime - delta;
-    if(self.m_curTime < 0) then
-        self.m_curTime = 0;
+    self.m_curRunTime = self.m_curRunTime - delta;
+    if(self.m_curRunTime < 0) then
+        self.m_curRunTime = 0;
     end
-    self.m_curLeftTimer = self.m_curLeftTimer + delta;
+    self.m_intervalLeftTime = self.m_intervalLeftTime + delta;
 
     if self.m_bInfineLoop then
         self:checkAndDisp();
     else
-        if self.m_curTime <= 0 then
+        if self.m_curRunTime <= 0 then
             self:disposeAndDisp();
         else
             self:checkAndDisp();
@@ -37,8 +46,9 @@ function M:OnTimer(delta)
 end
 
 function M:reset()
-    self.m_curTime = self.m_totalTime;
-    self.m_curLeftTimer = 0;
+    self.m_curRunTime = self.m_totalTime;
+    self.m_curCallTime = 0;
+    self.m_intervalLeftTime = 0;
     self.m_disposed = false;
 end
 

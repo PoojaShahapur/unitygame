@@ -19,6 +19,7 @@ require "MyLua.Test.TestCommon.TestTime"
 require "MyLua.Test.TestCommon.TestType"
 
 require "MyLua.Test.TestCommon.TestDataStruct"
+require "MyLua.Test.TestCommon.TestModeOp"
 
 local m_testMisc = GlobalNS.new(GlobalNS.TestMisc);
 local m_testLinkList = GlobalNS.new(GlobalNS.TestLinkList);
@@ -33,19 +34,21 @@ local m_testTime = GlobalNS.new(GlobalNS.TestTime);
 local m_testType = GlobalNS.new(GlobalNS.TestType);
 
 local m_testDataStruct = GlobalNS.new(GlobalNS.TestDataStruct);
+local m_testModeOp = GlobalNS.new(GlobalNS.TestModeOp);
 
 local function main()
     --m_testMisc:run();
     --m_testLinkList:run();
     --m_testCoroutine:run();
     --m_testTable:run();
-    --m_testTimer:run();
+    m_testTimer:run();
     --m_testString:run();
     --m_testFunction:run();
     --m_testEventDispatch:run();
     --m_testTime:run();
     --m_testType:run();
-    m_testDataStruct:run();
+    --m_testDataStruct:run();
+    --m_testModeOp:run();
 end
 
 main();

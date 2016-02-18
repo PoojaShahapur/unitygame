@@ -6,10 +6,10 @@ namespace SDK.Lib
     {
         protected Text m_text;
 
-        protected override void preCallBack()
+        protected override void onPreCallBack()
         {
-            base.preCallBack();
-            m_text.text = UtilLogic.formatTime((int)m_curTime);
+            base.onPreCallBack();
+            m_text.text = UtilLogic.formatTime((int)m_curRunTime);
         }
     }
 }

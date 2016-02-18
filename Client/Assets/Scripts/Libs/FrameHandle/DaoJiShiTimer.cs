@@ -5,6 +5,17 @@
      */
     public class DaoJiShiTimer : TimerItemBase
     {
+        override public void setTotalTime(float value)
+        {
+            base.setTotalTime(value);
+            this.m_curRunTime = value;
+        }
+
+        override public float getRunTime()
+        {
+            return this.m_totalTime - this.m_curRunTime;
+        }
+
         public override void OnTimer(float delta)
         {
             if (m_disposed)
@@ -12,12 +23,12 @@
                 return;
             }
 
-            m_curTime -= delta;
-            if(m_curTime < 0)
+            m_curRunTime -= delta;
+            if(m_curRunTime < 0)
             {
-                m_curTime = 0;
+                m_curRunTime = 0;
             }
-            m_curLeftTimer += delta;
+            m_intervalLeftTime += delta;
 
             if (m_bInfineLoop)
             {
@@ -25,7 +36,7 @@
             }
             else
             {
-                if (m_curTime <= 0)
+                if (m_curRunTime <= 0)
                 {
                     disposeAndDisp();
                 }
@@ -38,8 +49,9 @@
 
         public override void reset()
         {
-            m_curTime = m_totalTime;
-            m_curLeftTimer = 0;
+            m_curRunTime = m_totalTime;
+            m_curCallTime = 0;
+            m_intervalLeftTime = 0;
             m_disposed = false;
         }
     }
