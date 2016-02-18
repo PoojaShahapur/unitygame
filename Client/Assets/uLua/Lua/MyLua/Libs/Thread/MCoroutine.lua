@@ -49,6 +49,37 @@ function M:status()
     return coroutine.status(self.m_handle);
 end
 
+function M:getStatus()
+    local status = coroutine.status(self.m_handle);
+    if("suspended" == status) then
+        return GlobalNS.MCoroutineState.suspended;
+    elseif("running" == status) then
+        return GlobalNS.MCoroutineState.running;
+    elseif("dead" == status) then
+        return GlobalNS.MCoroutineState.dead;
+    else
+        return GlobalNS.MCoroutineState.dead;
+    end
+end
+
+-- 是否是暂停状态
+function M:isSuspended()
+    local status = coroutine.status(self.m_handle);
+    return status == "suspended";
+end
+
+-- 是否是运行状态
+function M:isRunning()
+    local status = coroutine.status(self.m_handle);
+    return status == "running";
+end
+
+-- 是否是死亡状态
+function M:isDead()
+    local status = coroutine.status(self.m_handle);
+    return status == "dead";
+end
+
 -- yield 只能内部调用，不能从外部调用
 function M:yield()
     coroutine.yield()
@@ -57,7 +88,7 @@ end
 function M:error(status, value)
     if not status then
         -- 获取当前堆栈信息
-        value = debug.traceback(self.m_handle, value)              
+        value = debug.traceback(self.m_handle, value, 2);       -- 获取堆栈上第二层，将当前函数层去掉              
         error(value)              
     end
 end

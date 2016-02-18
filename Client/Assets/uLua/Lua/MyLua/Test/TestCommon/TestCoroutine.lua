@@ -22,7 +22,8 @@ function M:run()
     --self:testBasicB();
     --self:testBasicD();
     --self:testBasicF();
-    self:testBasicG();
+    -- self:testBasicG();
+    self:testStatus();
 end
 
 function M:testBasic()
@@ -175,6 +176,36 @@ function M:testBasicG()
     
     producer = coroutine.create(produceFunc);
     consumer(producer);
+end
+
+function M:testStatus()
+    local coHandle;
+    local produceFunc = function()
+        local index = 0;
+        
+        local coStatus = coroutine.status(coHandle);
+        print(coStatus);
+        
+        while index < 1 do
+            print("index = " .. index);
+            index = index + 1;
+            
+            coroutine.yield();
+        end
+    end
+    
+    coHandle = coroutine.create(produceFunc);
+    local coStatus;
+    coStatus = coroutine.status(coHandle);
+    print(type(coStatus));
+    print(coStatus);
+    local status, value = coroutine.resume(coHandle);
+    coStatus = coroutine.status(coHandle);
+    print(coStatus);
+    
+    status, value = coroutine.resume(coHandle);
+    coStatus = coroutine.status(coHandle);
+    print(coStatus);
 end
 
 return M;

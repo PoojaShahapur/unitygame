@@ -27,6 +27,8 @@ end
 
 function M:onShow()
     M.super.onShow(self)
+    local aaa = 0;
+    aaa.print();
     print("M:onShow()")
 end
 
