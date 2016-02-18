@@ -16,6 +16,12 @@
             return this.m_totalTime - this.m_curRunTime;
         }
 
+        // 如果要获取剩余的倒计时时间，使用 getLeftCallTime
+        override public float getLeftRunTime()
+        {
+            return this.m_curRunTime;
+        }
+
         public override void OnTimer(float delta)
         {
             if (m_disposed)

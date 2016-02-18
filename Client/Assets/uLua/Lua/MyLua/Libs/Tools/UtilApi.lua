@@ -118,8 +118,12 @@ function M.isThread(a)
     return type(a) == "thread";
 end
 
-function M:isNil(a)
+function M.isNil(a)
     return type(a) == "nil";
+end
+
+function M.isNullOrEmpty(str)
+    return str == nil or str == '';
 end
 
 M.ctor()        -- 构造

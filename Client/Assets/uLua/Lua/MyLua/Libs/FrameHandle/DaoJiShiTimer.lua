@@ -23,6 +23,11 @@ function M:getRunTime()
     return self.m_totalTime - self.m_curRunTime;
 end
 
+-- 如果要获取剩余的倒计时时间，使用 getLeftCallTime 
+function M:getLeftRunTime()
+    return self.m_curRunTime;
+end
+
 function M:OnTimer(delta)
     if self.m_disposed then
         return;

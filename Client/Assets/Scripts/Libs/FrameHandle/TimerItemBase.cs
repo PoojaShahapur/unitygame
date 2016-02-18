@@ -50,6 +50,16 @@ namespace SDK.Lib
             return this.m_curCallTime;
         }
 
+        virtual public float getLeftRunTime()
+        {
+            return this.m_totalTime - this.m_curRunTime;
+        }
+
+        virtual public float getLeftCallTime()
+        {
+            return this.m_totalTime - this.m_curCallTime;
+        }
+
         // 在调用回调函数之前处理
         protected virtual void onPreCallBack()
         {

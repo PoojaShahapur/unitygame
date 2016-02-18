@@ -38,6 +38,14 @@ function M:getCallTime()
     return self.m_curCallTime;
 end
 
+function M:getLeftRunTime()
+    return self.m_totalTime - self.m_curRunTime;
+end
+
+function M:getLeftCallTime()
+    return self.m_totalTime - self.m_curCallTime;
+end
+
 -- 在调用回调函数之前处理
 function M:onPreCallBack()
     

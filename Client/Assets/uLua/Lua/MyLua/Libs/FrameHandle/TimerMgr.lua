@@ -20,8 +20,6 @@ function M:addObject(delayObject, priority)
         priority = 0;
     end
     
-    GCtx.m_processSys:refreshUpdateFlag();
-    
     -- 检查当前是否已经在队列中
     if (self.m_timerList:IndexOf(delayObject) == -1) then
         if (self:bInDepth()) then
@@ -30,6 +28,8 @@ function M:addObject(delayObject, priority)
             self.m_timerList:Add(delayObject);
         end
     end
+    
+    GCtx.m_processSys:refreshUpdateFlag();
 end
 
 function M:delObject(delayObject)
