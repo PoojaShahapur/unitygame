@@ -30,6 +30,8 @@ namespace UnitTest
         protected TestCoordinateConv m_testCoordinateConv = new TestCoordinateConv();
         protected TestTime m_testTime = new TestTime();
 
+        protected TestCameraMan m_testCameraMan = new TestCameraMan();
+
         public void run()
         {
             m_pTestFile.run();
@@ -60,6 +62,7 @@ namespace UnitTest
             //m_testHeightMap.run();
             m_testCoordinateConv.run();
             //m_testTime.run();
+            m_testCameraMan.run();
         }
     }
 }

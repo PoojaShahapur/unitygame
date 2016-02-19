@@ -1,5 +1,6 @@
 ﻿using LuaInterface;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -649,19 +650,49 @@ namespace SDK.Lib
         public static bool IsPointerOverGameObject()
         {
             bool ret = false;
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                if(Input.GetTouch(0).phase == TouchPhase.Began)
-                {
-                    ret = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
-                }
+                ret = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
             }
-            else
+            else if(Input.GetMouseButtonDown(0))
             {
                 ret = EventSystem.current.IsPointerOverGameObject();
             }
 
             return ret;
+        }
+
+        // 通过光线追踪判断是否相交
+        public static bool IsPointerOverGameObjectRaycast()
+        {
+            Vector2 ioPos = Vector2.zero;
+            if(Input.touchCount > 0)
+            {
+                ioPos = Input.GetTouch(0).position;
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                ioPos = Input.mousePosition;
+            }
+
+            PointerEventData cursor = new PointerEventData(EventSystem.current);
+            cursor.position = ioPos;
+            List<RaycastResult> objectsHit = new List<RaycastResult>();
+            objectsHit.Clear();
+            EventSystem.current.RaycastAll(cursor, objectsHit);
+            foreach(RaycastResult ray in objectsHit)
+            {
+                if(ray.gameObject.layer == LayerMask.NameToLayer("UGUI"))
+                {
+                    return true;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return objectsHit.Count > 0;
         }
 
         // 剔除字符串末尾的空格
