@@ -22,8 +22,14 @@ namespace SDK.Lib
         public void setParam(float radius, float theta, float fai)
         {
             m_coord.setParam(radius, theta, fai);
-            m_coord.syncTrans(m_cameraTrans);
-            m_cameraTrans.LookAt(0, 0, 0);
+            //m_coord.syncTrans(m_cameraTrans);
+            m_cameraTrans.rotation = m_targetTrans.rotation;
+            m_cameraTrans.position = m_targetTrans.position;
+            Vector3 localPos = m_cameraTrans.localPosition;
+            localPos.x = m_coord.getX();
+            localPos.y = m_coord.getY();
+            localPos.z = m_coord.getZ();
+            m_cameraTrans.LookAt(m_targetTrans);
         }
     }
 }

@@ -25,6 +25,21 @@ namespace SDK.Lib
             m_z = 0;
         }
 
+        public float getX()
+        {
+            return m_x;
+        }
+
+        public float getY()
+        {
+            return m_y;
+        }
+
+        public float getZ()
+        {
+            return m_z;
+        }
+
         public void setParam(float radius, float theta, float fai)
         {
             m_radius = radius;
