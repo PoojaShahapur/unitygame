@@ -1033,7 +1033,7 @@ public class UICamera : MonoBehaviour
                 cachedCamera.eventMask = 0;
             }
 		}
-		if (handlesEvents) NGUIDebug.debugRaycast = debug;
+		//if (handlesEvents) NGUIDebug.debugRaycast = debug;
 	}
 
 #if UNITY_EDITOR

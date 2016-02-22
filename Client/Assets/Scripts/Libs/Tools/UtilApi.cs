@@ -1005,5 +1005,19 @@ namespace SDK.Lib
         {
             return (degree - delta) % 360;
         }
+
+        // 获取是否可视
+        static public bool GetActive(GameObject go)
+        {
+            return go && go.activeInHierarchy;
+        }
+
+        static public float time
+        {
+            get
+            {
+                return Time.unscaledTime;
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -550,7 +551,7 @@ namespace SDK.Lib
                 {
                     // Invalid or inactive entry -- keep going
                     IOController cam = list.buffer[i];
-                    if (cam == null || !cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
+                    if (cam == null || !cam.enabled || !UtilApi.GetActive(cam.gameObject)) continue;
                     return cam;
                 }
                 return null;
@@ -786,7 +787,7 @@ namespace SDK.Lib
             if (mNotifying) return;
             mNotifying = true;
 
-            if (NGUITools.GetActive(go))
+            if (UtilApi.GetActive(go))
             {
                 go.SendMessage(funcName, obj, SendMessageOptions.DontRequireReceiver);
 
@@ -874,19 +875,29 @@ namespace SDK.Lib
             lastTouchPosition = mMouse[0].pos;
         }
 
-        /// <summary>
-        /// Sort the list when enabled.
-        /// </summary>
-        void OnEnable()
+        // 开启
+        public void enable()
         {
             list.Add(this);
             list.Sort(CompareFunc);
         }
 
         /// <summary>
+        /// Sort the list when enabled.
+        /// </summary>
+        //void OnEnable()
+        //{
+        //    list.Add(this);
+        //    list.Sort(CompareFunc);
+        //}
+
+        // 关闭
+        void disable() { list.Remove(this); }
+
+        /// <summary>
         /// Remove this camera from the list.
         /// </summary>
-        void OnDisable() { list.Remove(this); }
+        //void OnDisable() { list.Remove(this); }
 
         /// <summary>
         /// We don't want the camera to send out any kind of mouse events.
@@ -918,12 +929,17 @@ namespace SDK.Lib
                     cachedCamera.eventMask = 0;
                 }
             }
-            if (handlesEvents) NGUIDebug.debugRaycast = debug;
+            //if (handlesEvents) NGUIDebug.debugRaycast = debug;
         }
 
 #if UNITY_EDITOR
         void OnValidate() { Start(); }
 #endif
+
+        public void onTick()
+        {
+            Update();
+        }
 
         /// <summary>
         /// Check the input and send out appropriate events.
@@ -936,11 +952,13 @@ namespace SDK.Lib
             }
 
             // Only the first UI layer should be processing events
+            // 如果没有事件处理器，直接返回
 #if UNITY_EDITOR
             if (!Application.isPlaying || !handlesEvents) return;
 #else
-		if (!handlesEvents) return;
+		    if (!handlesEvents) return;
 #endif
+            // 记录当前 IO 控制器
             current = this;
 
             // Process touch events first
@@ -1002,7 +1020,7 @@ namespace SDK.Lib
 #if UNITY_EDITOR
             if (!Application.isPlaying || !handlesEvents) return;
 #else
-		if (!handlesEvents) return;
+		    if (!handlesEvents) return;
 #endif
             int w = Screen.width;
             int h = Screen.height;
@@ -1038,19 +1056,21 @@ namespace SDK.Lib
             }
 
             // Is any button currently pressed?
-            bool isPressed = false;
-            bool justPressed = false;
+            bool isPressed = false;     // 是否按下没有起来
+            bool justPressed = false;   // 是否是第一次按下
 
             for (int i = 0; i < 3; ++i)
             {
                 if (Input.GetMouseButtonDown(i))
                 {
+                    // 如果鼠标按下
                     currentScheme = ControlScheme.Mouse;
                     justPressed = true;
                     isPressed = true;
                 }
                 else if (Input.GetMouseButton(i))
                 {
+                    // 如果鼠标按下并且没有起来
                     currentScheme = ControlScheme.Mouse;
                     isPressed = true;
                 }
@@ -1216,7 +1236,7 @@ namespace SDK.Lib
                 currentTouchID = 1;
                 currentTouch = mMouse[0];
                 currentTouch.touchBegan = pressed;
-                if (pressed) currentTouch.pressTime = RealTime.time;
+                if (pressed) currentTouch.pressTime = UtilApi.time;
 
                 Vector2 pos = Input.mousePosition;
                 currentTouch.delta = pressed ? Vector2.zero : pos - currentTouch.pos;
@@ -1568,6 +1588,12 @@ namespace SDK.Lib
                 currentTouch.pressed = null;
                 currentTouch.dragged = null;
             }
+        }
+
+        // 播放协程
+        public Coroutine StartCoroutine(IEnumerator routine)
+        {
+            return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
         }
 
 #if !UNITY_EDITOR
