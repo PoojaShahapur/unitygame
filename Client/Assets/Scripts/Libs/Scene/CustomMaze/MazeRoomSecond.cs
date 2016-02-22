@@ -127,21 +127,21 @@ namespace SDK.Lib
             // 第二个房间有一个花头
             if (1 == m_iTag)
             {
-                m_flowerHeadGo = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_1/FlowerHeadGo");
+                m_flowerHeadGo = UtilApi.GoFindChildByName("RootGo/Plane_1/FlowerHeadGo");
                 m_flowerHeadEffect = Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(33, m_flowerHeadGo, false, true, true);
                 m_flowerHeadEffect.setLoopType(eSpriteLoopType.ePingPang);
             }
             // 第三个房间有一个花树
             if (2 == m_iTag)
             {
-                m_flowerTreeGo = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_2/FlowerTree");
+                m_flowerTreeGo = UtilApi.GoFindChildByName("RootGo/Plane_2/FlowerTree");
                 m_flowerTreeEffect = Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(34, m_flowerTreeGo, false, true, true);
             }
             // 如果是第五个房间，会有一个窗户
             if(4 == m_iTag)
             {
-                m_darkWin = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_4/WinGo/DarkWinGo");
-                m_lightWin = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_4/WinGo/LightWinGo");
+                m_darkWin = UtilApi.GoFindChildByName("RootGo/Plane_4/WinGo/DarkWinGo");
+                m_lightWin = UtilApi.GoFindChildByName("RootGo/Plane_4/WinGo/LightWinGo");
             }
         }
 

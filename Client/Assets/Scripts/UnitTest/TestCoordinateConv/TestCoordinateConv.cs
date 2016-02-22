@@ -21,9 +21,9 @@ namespace UnitTest
         protected void onResLoadScene(Scene scene)
         {
             // 获取主摄像机
-            Ctx.m_instance.m_camSys.setUGuiCamera(UtilApi.GoFindChildByPObjAndName("NoDestroy/UICamera").GetComponent<Camera>());
-            Ctx.m_instance.m_camSys.setMainCamera(UtilApi.GoFindChildByPObjAndName("MainCamera").GetComponent<Camera>());
-            m_plane = UtilApi.GoFindChildByPObjAndName("Plane");
+            Ctx.m_instance.m_camSys.setUGuiCamera(UtilApi.GoFindChildByName("NoDestroy/UICamera").GetComponent<Camera>());
+            Ctx.m_instance.m_camSys.setMainCamera(UtilApi.GoFindChildByName("MainCamera").GetComponent<Camera>());
+            m_plane = UtilApi.GoFindChildByName("Plane");
             UtilApi.addEventHandle(m_plane, onPlaneClick);
             Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
         }

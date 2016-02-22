@@ -214,7 +214,7 @@ namespace Game.Game
             {
                 Ctx.m_instance.m_logSys.log("场景加载成功");
                 loadAllUIScene();
-                Ctx.m_instance.m_camSys.m_boxCam.setGameObject(UtilApi.GoFindChildByPObjAndName("mcam"));
+                Ctx.m_instance.m_camSys.m_boxCam.setGameObject(UtilApi.GoFindChildByName("mcam"));
                 Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
                 Ctx.m_instance.m_camSys.setSceneCamera2UICamera();
             }

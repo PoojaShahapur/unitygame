@@ -51,10 +51,10 @@ namespace Fight
             //UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin), onLuckyCoinBtnClk);       // 点击幸运币
             UtilApi.addEventHandle(m_sceneDZData.m_placeHolderGo.m_startGO, onStartBtnClk);       // 开始游戏
 
-            UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
-            UtilApi.addHoverHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardDeap), onEnemyStartHover);
+            UtilApi.addHoverHandle(UtilApi.GoFindChildByName(CVSceneDZPath.MyCardDeap), onSelfStartHover);
+            UtilApi.addHoverHandle(UtilApi.GoFindChildByName(CVSceneDZPath.EnemyCardDeap), onEnemyStartHover);
 
-            UtilApi.addEventHandle(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CollideBG), onClkBg);   // 监听点击背景事件
+            UtilApi.addEventHandle(UtilApi.GoFindChildByName(CVSceneDZPath.CollideBG), onClkBg);   // 监听点击背景事件
         }
 
         // 幸运币点击

@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected Camera m_mainCamera;          // 主相机
         protected Camera m_uguiCam;             // UGUI 相机
         protected ThirdCameraController m_cameraController; // 摄像机控制器
-        protected CameraMan m_cameraMan;        // 摄像机玩家
+        //protected CameraMan m_cameraMan;        // 摄像机玩家
 
         public CamSys()
         {
@@ -67,6 +67,7 @@ namespace SDK.Lib
                 m_cameraController.setTarget(go);
             }
 
+            /*
             if (m_cameraMan == null)
             {
                 m_cameraMan = new CameraMan(go);
@@ -76,6 +77,7 @@ namespace SDK.Lib
             {
                 m_cameraMan.setActor(go);
             }
+            */
         }
     }
 }

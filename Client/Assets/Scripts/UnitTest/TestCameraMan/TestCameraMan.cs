@@ -1,4 +1,6 @@
-﻿using Game.Msg;
+﻿using SDK.Lib;
+using UnityEngine;
+
 namespace UnitTest
 {
     public class TestCameraMan
@@ -10,7 +12,7 @@ namespace UnitTest
 
         public void test()
         {
-
+            GameObject camera = UtilApi.GoFindChildByName("MainCamera");
         }
     }
 }

@@ -164,7 +164,7 @@ public class AppRoot : MonoBehaviour
 
     public void setNoDestroyObject()
     {
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByPObjAndName(NotDestroyPath.ND_CV_Root);
+        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
         //UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
 
         setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);

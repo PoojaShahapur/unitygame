@@ -22,17 +22,17 @@ namespace FightCore
         {
             if (EnDZPlayer.ePlayerSelf == m_playerSide)
             {
-                m_text = new AuxLabel(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpText));
+                m_text = new AuxLabel(UtilApi.GoFindChildByName(CVSceneDZPath.SelfMpText));
             }
             else
             {
-                m_text = new AuxLabel(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpText));
+                m_text = new AuxLabel(UtilApi.GoFindChildByName(CVSceneDZPath.EnemyMpText));
             }
 
             if (EnDZPlayer.ePlayerSelf == m_playerSide)
             {
                 m_mpGrid = new UIGrid();
-                m_mpGrid.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfMpList));
+                m_mpGrid.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.SelfMpList));
                 m_mpGrid.maxPerLine = 1;
                 m_mpGrid.cellWidth = 0.5f;
                 m_mpGrid.cellHeight = 0.5f;
@@ -40,7 +40,7 @@ namespace FightCore
             else
             {
                 m_mpGrid = new UIGrid();
-                m_mpGrid.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyMpList));
+                m_mpGrid.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.EnemyMpList));
                 m_mpGrid.maxPerLine = 10;
                 m_mpGrid.cellWidth = 0.5f;
                 m_mpGrid.cellHeight = 0.5f;

@@ -24,48 +24,48 @@ namespace FightCore
 
         public void findWidget()
         {
-            m_centerGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.CenterGO);
-            m_startGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.StartGO);
+            m_centerGO = UtilApi.GoFindChildByName(CVSceneDZPath.CenterGO);
+            m_startGO = UtilApi.GoFindChildByName(CVSceneDZPath.StartGO);
             //UtilApi.SetActive(m_startGO, false);      // 默认是隐藏的
 
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfStartCardCenterGO);
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyStartCardCenterGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfStartCardCenterGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_NONE] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyStartCardCenterGO);
 
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_COMMON] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfOutCardCenterGO);
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_COMMON] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyOutCardCenterGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_COMMON] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfOutCardCenterGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_COMMON] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyOutCardCenterGO);
 
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardCenterGO);
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardCenterGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfCardCenterGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyCardCenterGO);
 
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_EQUIP] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfEquipGO);
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_EQUIP] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyEquipGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_EQUIP] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfEquipGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_EQUIP] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyEquipGO);
 
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_SKILL] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfSkillGO);
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_SKILL] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemySkillGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_SKILL] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfSkillGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_SKILL] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemySkillGO);
 
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfHeroGO);
-            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyHeroGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfHeroGO);
+            m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HERO] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyHeroGO);
 
             m_cardHandRadiusGO = new GameObject[2];
-            m_cardHandRadiusGO[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardHandRadiusGO);
-            m_cardHandRadiusGO[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardHandRadiusGO);
+            m_cardHandRadiusGO[0] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfCardHandRadiusGO);
+            m_cardHandRadiusGO[1] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyCardHandRadiusGO);
 
             m_cardHandAreaWidthArr = new float[2];
             m_cardHandAreaWidthArr[0] = m_cardHandRadiusGO[0].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
             m_cardHandAreaWidthArr[1] = m_cardHandRadiusGO[1].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
 
             m_cardCommonRadiusGO = new GameObject[2];
-            m_cardCommonRadiusGO[0] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardCommonRadiusGO);
-            m_cardCommonRadiusGO[1] = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.EnemyCardCommonRadiusGO);
+            m_cardCommonRadiusGO[0] = UtilApi.GoFindChildByName(CVSceneDZPath.SelfCardCommonRadiusGO);
+            m_cardCommonRadiusGO[1] = UtilApi.GoFindChildByName(CVSceneDZPath.EnemyCardCommonRadiusGO);
 
             m_cardCommonAreaWidthArr = new float[2];
             m_cardCommonAreaWidthArr[0] = m_cardCommonRadiusGO[0].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerSelf, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
             m_cardCommonAreaWidthArr[1] = m_cardCommonRadiusGO[1].transform.localPosition.x - m_cardCenterGOArr[(int)EnDZPlayer.ePlayerEnemy, (int)CardArea.CARDCELLTYPE_HAND].transform.localPosition.x;
 
-            m_timerGo = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TimerGo);
+            m_timerGo = UtilApi.GoFindChildByName(CVSceneDZPath.TimerGo);
 
-            m_attackArrowGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowStartPosGO);
-            m_arrowListGO = UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.ArrowListGO);
+            m_attackArrowGO = UtilApi.GoFindChildByName(CVSceneDZPath.ArrowStartPosGO);
+            m_arrowListGO = UtilApi.GoFindChildByName(CVSceneDZPath.ArrowListGO);
 
             if (m_cardHandAreaWidthArr[0] < 0)
             {

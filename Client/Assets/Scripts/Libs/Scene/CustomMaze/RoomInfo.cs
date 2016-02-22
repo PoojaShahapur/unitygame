@@ -66,7 +66,7 @@ namespace SDK.Lib
                 }
                 m_mazeRoomList.Add(mazeRoom);
                 path = string.Format("RootGo/Plane_{0}", idx);
-                mazeRoom.selfGo = UtilApi.GoFindChildByPObjAndName(path);
+                mazeRoom.selfGo = UtilApi.GoFindChildByName(path);
                 if (0 != idx && 4 != idx)
                 {
                     mazeRoom.mazeIOControl.enableDrag();
@@ -75,7 +75,7 @@ namespace SDK.Lib
             }
 
             path = "RootGo/SplitGo";
-            m_trans = UtilApi.GoFindChildByPObjAndName(path).transform;
+            m_trans = UtilApi.GoFindChildByName(path).transform;
 
             adjustInitState();
         }

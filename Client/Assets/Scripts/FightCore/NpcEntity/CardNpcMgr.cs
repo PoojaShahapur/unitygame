@@ -25,16 +25,16 @@ namespace FightCore
 
         public void findWidget()
         {
-            m_roundBtn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.TurnBtn));
+            m_roundBtn.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.TurnBtn));
             m_roundBtn.m_sceneDZData = m_sceneDZData;
             //m_luckCoin.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.LuckyCoin));
-            m_selfRoundTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfTurnTip));
-            m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.SelfCardFullTip));
+            m_selfRoundTip.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.SelfTurnTip));
+            m_selfCardFullTip.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.SelfCardFullTip));
             m_selfCardFullTip.desc = new AuxLabel(m_selfCardFullTip.gameObject(), CVSceneDZPath.SelfCardFullTipText);
             m_selfCardFullTip.hide();
-            m_fightResultPanel.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.FightResultPanel));
+            m_fightResultPanel.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.FightResultPanel));
             m_fightResultPanel.hide();
-            m_startBtn.setGameObject(UtilApi.GoFindChildByPObjAndName(CVSceneDZPath.StartGO));
+            m_startBtn.setGameObject(UtilApi.GoFindChildByName(CVSceneDZPath.StartGO));
         }
 
         public void dispose()

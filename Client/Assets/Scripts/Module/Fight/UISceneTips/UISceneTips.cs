@@ -24,7 +24,7 @@ namespace Fight
         public override void onReady()
         {
             base.onReady();
-            m_sceneTipsData.m_goRoot = UtilApi.GoFindChildByPObjAndName("SceneTipsUI");
+            m_sceneTipsData.m_goRoot = UtilApi.GoFindChildByName("SceneTipsUI");
             m_sceneTipsData.m_goRoot.SetActive(false);         // 默认隐藏
         }
 

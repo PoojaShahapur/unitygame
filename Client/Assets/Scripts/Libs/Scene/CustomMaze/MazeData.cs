@@ -104,7 +104,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_tableSys.getTable(TableID.TABLE_SPRITEANI);
 
             string path = "RootGo";
-            m_sceneRootGo = UtilApi.GoFindChildByPObjAndName(path);
+            m_sceneRootGo = UtilApi.GoFindChildByName(path);
 
             m_roomInfo.initMazeRoomCount(5);
             m_mazePlayer.init();

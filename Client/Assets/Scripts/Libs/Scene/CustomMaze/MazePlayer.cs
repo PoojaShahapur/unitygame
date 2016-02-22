@@ -38,7 +38,7 @@
         public void init()
         {
             string path = "RootGo/AgentGo";
-            this.selfGo = UtilApi.GoFindChildByPObjAndName(path);
+            this.selfGo = UtilApi.GoFindChildByName(path);
 
             m_mazePlayerTrackAniControl = new MazePlayerTrackAniControl(this);
             m_sceneEffect = Ctx.m_instance.m_sceneEffectMgr.addSceneEffect(31, this.selfGo, false, true, true);

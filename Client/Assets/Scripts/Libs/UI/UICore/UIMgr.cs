@@ -404,7 +404,7 @@ namespace SDK.Lib
 
         public void findSceneUIRootGo()
         {
-            m_sceneUIRootGo = UtilApi.GoFindChildByPObjAndName("SceneUIRootGo");
+            m_sceneUIRootGo = UtilApi.GoFindChildByName("SceneUIRootGo");
         }
 
         // 根据场景类型卸载 UI，强制卸载

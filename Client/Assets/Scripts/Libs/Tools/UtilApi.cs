@@ -24,7 +24,7 @@ namespace SDK.Lib
         }
 
         // 仅仅根据名字查找 GameObject ，注意如果 GameObject 设置 SetActive 为 false ，就会查找不到，如果有相同名字的 GameObject ，不保证查找到正确的。
-        static public GameObject GoFindChildByPObjAndName(string name)
+        static public GameObject GoFindChildByName(string name)
         {
             return GameObject.Find(name);
         }

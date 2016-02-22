@@ -35,10 +35,10 @@ namespace SDK.Lib
         {
             if (Ctx.m_instance.m_maze.mazeData.bInFisrstScene())
             {
-                m_bigStartPnl = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_4/BigStartPnl");
-                m_smallStarPnl_0 = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_4/SmallStarPnl_0");
-                m_smallStarPnl_1 = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_4/SmallStarPnl_1");
-                m_smallStarPnl_2 = UtilApi.GoFindChildByPObjAndName("RootGo/Plane_4/SmallStarPnl_2");
+                m_bigStartPnl = UtilApi.GoFindChildByName("RootGo/Plane_4/BigStartPnl");
+                m_smallStarPnl_0 = UtilApi.GoFindChildByName("RootGo/Plane_4/SmallStarPnl_0");
+                m_smallStarPnl_1 = UtilApi.GoFindChildByName("RootGo/Plane_4/SmallStarPnl_1");
+                m_smallStarPnl_2 = UtilApi.GoFindChildByName("RootGo/Plane_4/SmallStarPnl_2");
             }
         }
 
