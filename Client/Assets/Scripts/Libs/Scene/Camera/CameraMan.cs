@@ -3,7 +3,7 @@
 namespace SDK.Lib
 {
     /**
-     * @brief 控制摄像机运动
+     * @brief 控制摄像机运动， CameraMan 只能 Y 轴旋转，如果要旋转摄像机绕其它轴，需要设置摄像机的坐标系
      */
     public class CameraMan
     {
@@ -23,7 +23,7 @@ namespace SDK.Lib
             }
 
             m_targetTrans = m_targetGo.transform;
-            Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
+            Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYPRESS_EVENT, onKeyPress);
         }
 
         public void setActor(GameObject targetGo)
@@ -40,21 +40,23 @@ namespace SDK.Lib
             m_cameraController = controller;
         }
 
-        public void onKeyDown(KeyCode key)
+        public void onKeyPress(KeyCode key)
         {
             if (KeyCode.W == key)
             {
-                m_localPos = m_targetTrans.localPosition;
-                m_localPos.z = m_localPos.z  + 0.1f;
-                m_targetTrans.localPosition = m_localPos;
-                m_cameraController.updateControl();
+                //m_localRot = m_targetTrans.localEulerAngles;
+                //m_localRot.x = UtilApi.incEulerAngles(m_localRot.x, 1);
+                //m_targetTrans.localEulerAngles = m_localRot;
+                //m_cameraController.updateControl();
+                m_cameraController.incTheta(1);
             }
             else if (KeyCode.S == key)
             {
-                m_localPos = m_targetTrans.localPosition;
-                m_localPos.z = m_localPos.z - 0.1f;
-                m_targetTrans.localPosition = m_localPos;
-                m_cameraController.updateControl();
+                //m_localRot = m_targetTrans.localEulerAngles;
+                //m_localRot.x = UtilApi.decEulerAngles(m_localRot.x, 1);
+                //m_targetTrans.localEulerAngles = m_localRot;
+                //m_cameraController.updateControl();
+                m_cameraController.decTheta(1);
             }
             else if (KeyCode.A == key)
             {
@@ -68,6 +70,34 @@ namespace SDK.Lib
                 m_localRot = m_targetTrans.localEulerAngles;
                 m_localRot.y = UtilApi.decEulerAngles(m_localRot.y, 1);
                 m_targetTrans.localEulerAngles = m_localRot;
+                m_cameraController.updateControl();
+            }
+            else if (KeyCode.UpArrow == key)
+            {
+                m_localPos = m_targetTrans.localPosition;
+                m_localPos.z = m_localPos.z + 0.1f;
+                m_targetTrans.localPosition = m_localPos;
+                m_cameraController.updateControl();
+            }
+            else if (KeyCode.DownArrow == key)
+            {
+                m_localPos = m_targetTrans.localPosition;
+                m_localPos.z = m_localPos.z - 0.1f;
+                m_targetTrans.localPosition = m_localPos;
+                m_cameraController.updateControl();
+            }
+            else if (KeyCode.RightArrow == key)
+            {
+                m_localPos = m_targetTrans.localPosition;
+                m_localPos.x = m_localPos.x + 0.1f;
+                m_targetTrans.localPosition = m_localPos;
+                m_cameraController.updateControl();
+            }
+            else if (KeyCode.LeftArrow == key)
+            {
+                m_localPos = m_targetTrans.localPosition;
+                m_localPos.x = m_localPos.x - 0.1f;
+                m_targetTrans.localPosition = m_localPos;
                 m_cameraController.updateControl();
             }
         }

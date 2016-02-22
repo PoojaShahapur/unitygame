@@ -11,6 +11,7 @@ namespace SDK.Lib
         protected GameObject m_targetGo;    // 目标对象
         protected Transform m_targetTrans;  // 目标转换
         protected Vector3 m_pos;       // 临时变量
+        protected Coordinate m_coord;  // 坐标系统
 
         public CameraController(Camera camera, GameObject target)
         {
@@ -23,6 +24,18 @@ namespace SDK.Lib
             m_targetTrans = m_targetGo.GetComponent<Transform>();
         }
 
+        // 增加 theta
+        virtual public void incTheta(float delta)
+        {
+            
+        }
+
+        // 减少 theta
+        virtual public void decTheta(float delta)
+        {
+                
+        }
+
         public void setTarget(GameObject target)
         {
             m_targetGo = target;
@@ -31,7 +44,7 @@ namespace SDK.Lib
 
         virtual public void updateControl()
         {
-
+            m_coord.updateCoord();
         }
     }
 }

@@ -10,15 +10,17 @@ namespace SDK.Lib
     {
         Action<KeyCode> m_onKeyUp = null;
         Action<KeyCode> m_onKeyDown = null;
+        Action<KeyCode> m_onKeyPress = null;
+        
         Action m_onMouseUp = null;
         Action m_onMouseDown = null;
 
         Action m_onAxisDown = null;
 
-        private bool[] _keyState = new bool[256];     // The most recent information on key states
-        private bool[] _keyStateOld = new bool[256];  // The state of the keys on the previous tick
-        private bool[] _justPressed = new bool[256];  // An array of keys that were just pressed within the last tick.
-        private bool[] _justReleased = new bool[256]; // An array of keys that were just released within the last tick.
+        private bool[] _keyState = new bool[(int)KeyCode.Joystick8Button19 + 1];     // The most recent information on key states
+        private bool[] _keyStateOld = new bool[(int)KeyCode.Joystick8Button19 + 1];  // The state of the keys on the previous tick
+        private bool[] _justPressed = new bool[(int)KeyCode.Joystick8Button19 + 1];  // An array of keys that were just pressed within the last tick.
+        private bool[] _justReleased = new bool[(int)KeyCode.Joystick8Button19 + 1]; // An array of keys that were just released within the last tick.
 
         public void postInit()
         {
@@ -43,6 +45,7 @@ namespace SDK.Lib
         {
             handleKeyDown();
             handleKeyUp();
+            handleKeyPress();
             handleAxis();
             handleMouseUp();
 
@@ -93,6 +96,33 @@ namespace SDK.Lib
             {
                 onKeyDown(KeyCode.D);
             }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                onKeyDown(KeyCode.UpArrow);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                onKeyDown(KeyCode.DownArrow);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                onKeyDown(KeyCode.RightArrow);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                onKeyDown(KeyCode.LeftArrow);
+            }
+
+            /*
+            if(Input.anyKeyDown)
+            {
+                // Event.current 为什么一直是 null
+                if (Event.current != null && Event.current.isKey)
+                {
+                    onKeyDown(Event.current.keyCode);
+                }
+            }
+            */
         }
 
         protected void handleKeyUp()
@@ -125,6 +155,80 @@ namespace SDK.Lib
             {
                 onKeyUp(KeyCode.D);
             }
+            else if (Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                onKeyUp(KeyCode.UpArrow);
+            }
+            else if (Input.GetKeyUp(KeyCode.DownArrow))
+            {
+                onKeyUp(KeyCode.DownArrow);
+            }
+            else if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                onKeyUp(KeyCode.RightArrow);
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                onKeyUp(KeyCode.LeftArrow);
+            }
+        }
+
+        public void handleKeyPress()
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                onKeyPress(KeyCode.Escape);
+            }
+            else if (Input.GetKey(KeyCode.M))
+            {
+                onKeyPress(KeyCode.M);
+            }
+            else if (Input.GetKey(KeyCode.K))
+            {
+                onKeyPress(KeyCode.K);
+            }
+            else if (Input.GetKey(KeyCode.W))
+            {
+                onKeyPress(KeyCode.W);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                onKeyPress(KeyCode.A);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                onKeyPress(KeyCode.S);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                onKeyPress(KeyCode.D);
+            }
+            else if (Input.GetKey(KeyCode.UpArrow))
+            {
+                onKeyPress(KeyCode.UpArrow);
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                onKeyPress(KeyCode.DownArrow);
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                onKeyPress(KeyCode.RightArrow);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                onKeyPress(KeyCode.LeftArrow);
+            }
+
+            /*
+            if(Input.anyKey)
+            {
+                if (Event.current != null && Event.current.isKey)
+                {
+                    onKeyPress(Event.current.keyCode);
+                }
+            }
+            */
         }
 
         protected void handleAxis()
@@ -206,6 +310,14 @@ namespace SDK.Lib
             }
         }
 
+        private void onKeyPress(KeyCode keyCode)
+        {
+            if (null != m_onKeyPress)
+            {
+                m_onKeyPress(keyCode);
+            }
+        }
+
         private void onMouseDown()
         {
             if (null != m_onMouseDown)
@@ -232,11 +344,26 @@ namespace SDK.Lib
             {
                 m_onKeyDown += cb;
             }
+            else if (EventID.KEYPRESS_EVENT == evtID)
+            {
+                m_onKeyPress += cb;
+            }
         }
 
         public void removeKeyListener(EventID evtID, Action<KeyCode> cb)
         {
-
+            if (EventID.KEYUP_EVENT == evtID)
+            {
+                m_onKeyUp -= cb;
+            }
+            else if (EventID.KEYDOWN_EVENT == evtID)
+            {
+                m_onKeyDown -= cb;
+            }
+            else if (EventID.KEYPRESS_EVENT == evtID)
+            {
+                m_onKeyPress -= cb;
+            }
         }
 
         public void addMouseListener(EventID evtID, Action cb)
@@ -253,7 +380,14 @@ namespace SDK.Lib
 
         public void removeMouseListener(EventID evtID, Action cb)
         {
-
+            if (EventID.MOUSEDOWN_EVENT == evtID)
+            {
+                m_onMouseDown -= cb;
+            }
+            else if (EventID.MOUSEUP_EVENT == evtID)
+            {
+                m_onMouseUp -= cb;
+            }
         }
 
         public void addAxisListener(EventID evtID, Action cb)
@@ -263,7 +397,7 @@ namespace SDK.Lib
 
         public void removeAxisListener(EventID evtID, Action cb)
         {
-
+            m_onAxisDown -= cb;
         }
     }
 }

@@ -26,48 +26,73 @@ namespace SDK.Lib
             m_z = 0;
         }
 
-        public float getX()
+        override public float getX()
         {
             return m_x;
         }
 
-        public float getY()
+        override public float getY()
         {
             return m_y;
         }
 
-        public float getZ()
+        override public float getZ()
         {
             return m_z;
         }
 
-        public void setParam(float radius, float theta, float fai)
+        // 增加 theta
+        override public void incTheta(float deltaDegree)
         {
-            m_radius = radius;
-            m_theta = theta;
-            m_fai = fai;
-
-            convSpherical2Cartesian();
+            m_theta += deltaDegree * Mathf.Deg2Rad;
+            //m_theta %= Mathf.PI;
+            if(m_theta > Mathf.PI)
+            {
+                m_theta = Mathf.PI;
+            }
         }
 
-        public void convCartesian2Spherical()
+        // 减少 theta
+        override public void decTheta(float deltaDegree)
+        {
+            m_theta -= deltaDegree * Mathf.Deg2Rad;
+            if(m_theta < 0)
+            {
+                m_theta = 0;
+            }
+        }
+
+        override public void setParam(float radius, float theta, float fai)
+        {
+            m_radius = radius;
+            m_theta = theta * Mathf.Deg2Rad;
+            m_fai = fai * Mathf.Deg2Rad;
+        }
+
+        override public void convCartesian2Spherical()
         {
             m_radius = Mathf.Sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
             m_theta = Mathf.Acos(m_z / m_radius);
             m_fai = Mathf.Atan(m_y / m_x);
         }
 
-        public void convSpherical2Cartesian()
+        override public void convSpherical2Cartesian()
         {
             m_x = m_radius * Mathf.Sin(m_theta) * Mathf.Cos(m_fai);
             m_y = m_radius * Mathf.Sin(m_theta) * Mathf.Sin(m_fai);
             m_z = m_radius * Mathf.Cos(m_theta);
         }
 
-        public void syncTrans(Transform trans)
+        override public void syncTrans(Transform trans)
         {
             Vector3 vec = trans.localPosition;
             vec.Set(m_x, m_y, m_z);
+        }
+
+        override public void updateCoord()
+        {
+            base.updateCoord();
+            convSpherical2Cartesian();
         }
     }
 }

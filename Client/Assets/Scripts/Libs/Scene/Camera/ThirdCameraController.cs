@@ -7,7 +7,6 @@ namespace SDK.Lib
      */
     public class ThirdCameraController : CameraController
     {
-        protected SphericalCoordinate m_coord;  // 坐标系统
         protected Transform m_cameraTrans;            // 摄像机的转换
 
         public ThirdCameraController(Camera camera, GameObject target)
@@ -16,16 +15,30 @@ namespace SDK.Lib
             m_coord = new SphericalCoordinate();
             m_cameraTrans = m_camera.GetComponent<Transform>();
 
-            //this.setParam(5, Mathf.PI / 4, Mathf.PI);
-            //this.setParam(10, Mathf.PI / 4, 0);
-            this.setParam(10, Mathf.PI / 4, Mathf.PI / 4);
+            //this.setParam(5, 45, 180);
+            //this.setParam(10, 45, 0);
+            this.setParam(10, 45, 45);
+        }
+
+        // 增加 theta
+        override public void incTheta(float deltaDegree)
+        {
+            m_coord.incTheta(deltaDegree);
+            this.updateControl();
+        }
+
+        // 减少 theta
+        override public void decTheta(float deltaDegree)
+        {
+            m_coord.decTheta(deltaDegree);
+            this.updateControl();
         }
 
         public void setParam(float radius, float theta, float fai)
         {
             m_coord.setParam(radius, theta, fai);
             //m_coord.syncTrans(m_cameraTrans);
-            updateControl();
+            this.updateControl();
         }
 
         override public void updateControl()

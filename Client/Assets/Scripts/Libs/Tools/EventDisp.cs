@@ -4,8 +4,9 @@
     {
         KEYDOWN_EVENT = 2,
         KEYUP_EVENT = 3,
-        MOUSEDOWN_EVENT = 4,
-        MOUSEUP_EVENT = 5,
-        AXIS_EVENT = 5,
+        KEYPRESS_EVENT = 4,
+        MOUSEDOWN_EVENT = 5,
+        MOUSEUP_EVENT = 6,
+        AXIS_EVENT = 7,
     }
 }
