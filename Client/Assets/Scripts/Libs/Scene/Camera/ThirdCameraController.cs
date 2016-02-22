@@ -55,7 +55,12 @@ namespace SDK.Lib
             //m_localPos.y = m_coord.getY();
             //m_localPos.z = m_coord.getZ();
             //m_cameraTrans.localPosition = m_localPos;
+            // 如果 m_coord.m_theta == 0；这个时候 LookAt 会变成垂直
             m_cameraTrans.LookAt(m_targetTrans);
+            //if(m_coord.getTheta() == 0)
+            //{
+            //    m_cameraTrans.eulerAngles = new Vector3(0, m_targetTrans.eulerAngles.y, 0);
+            //}
         }
     }
 }

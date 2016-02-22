@@ -46,6 +46,11 @@ namespace SDK.Lib
             return m_z;
         }
 
+        override public float getTheta()
+        {
+            return m_theta;
+        }
+
         // 增加 theta
         override public void incTheta(float deltaDegree)
         {

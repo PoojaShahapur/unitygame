@@ -22,6 +22,11 @@ namespace SDK.Lib
             return 0;   
         }
 
+        virtual public float getTheta()
+        {
+            return 0;
+        }
+
         // 增加 theta
         virtual public void incTheta(float deltaDegree)
         {
