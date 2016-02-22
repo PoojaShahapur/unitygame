@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 主要是场景消息处理， UI 消息单独走
      */
-    public class InputMgr : ITickedObject
+    public class InputMgr : ITickedObject, IDelayHandleItem
     {
         Action<KeyCode> m_onKeyUp = null;
         Action<KeyCode> m_onKeyDown = null;
@@ -24,6 +24,16 @@ namespace SDK.Lib
         {
             // 添加事件处理
             Ctx.m_instance.m_camSys.m_uiCam = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_App].AddComponent<UICamera>();
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
         }
 
         /**
@@ -67,6 +77,22 @@ namespace SDK.Lib
             {
                 onKeyDown(KeyCode.K);
             }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                onKeyDown(KeyCode.W);
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                onKeyDown(KeyCode.A);
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                onKeyDown(KeyCode.S);
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                onKeyDown(KeyCode.D);
+            }
         }
 
         protected void handleKeyUp()
@@ -82,6 +108,22 @@ namespace SDK.Lib
             else if (Input.GetKeyUp(KeyCode.K))
             {
                 onKeyUp(KeyCode.K);
+            }
+            else if (Input.GetKeyUp(KeyCode.W))
+            {
+                onKeyUp(KeyCode.W);
+            }
+            else if (Input.GetKeyUp(KeyCode.A))
+            {
+                onKeyUp(KeyCode.A);
+            }
+            else if (Input.GetKeyUp(KeyCode.S))
+            {
+                onKeyUp(KeyCode.S);
+            }
+            else if (Input.GetKeyUp(KeyCode.D))
+            {
+                onKeyUp(KeyCode.D);
             }
         }
 

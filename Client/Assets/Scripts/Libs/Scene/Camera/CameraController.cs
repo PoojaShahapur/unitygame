@@ -27,5 +27,10 @@ namespace SDK.Lib
             m_targetGo = target;
             m_targetTrans = m_targetGo.GetComponent<Transform>();
         }
+
+        virtual public void updateControl()
+        {
+
+        }
     }
 }

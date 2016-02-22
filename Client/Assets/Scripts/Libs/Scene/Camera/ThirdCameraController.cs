@@ -23,6 +23,13 @@ namespace SDK.Lib
         {
             m_coord.setParam(radius, theta, fai);
             //m_coord.syncTrans(m_cameraTrans);
+            updateControl();
+        }
+
+        override public void updateControl()
+        {
+            base.updateControl();
+
             m_cameraTrans.rotation = m_targetTrans.rotation;
             m_cameraTrans.position = m_targetTrans.position;
             Vector3 localPos = m_cameraTrans.localPosition;

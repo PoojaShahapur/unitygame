@@ -12,7 +12,7 @@ namespace UnitTest
 
         public void test()
         {
-            Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
+            Ctx.m_instance.m_sceneSys.loadScene("TestCameraControl.unity", onResLoadScene);
         }
 
         public void onResLoadScene(Scene scene)

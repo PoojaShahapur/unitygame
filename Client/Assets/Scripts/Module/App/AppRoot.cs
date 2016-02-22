@@ -139,7 +139,7 @@ public class AppRoot : MonoBehaviour
     public void PostInit()
     {
         Ctx.m_instance.m_resizeMgr.addResizeObject(Ctx.m_instance.m_uiMgr as IResizeObject);
-        //m_tickMgr.AddTickObj(m_inputMgr as ITickedObject);
+        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_inputMgr as ITickedObject);
         Ctx.m_instance.m_inputMgr.postInit();
         Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_playerMgr as ITickedObject);
         Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_monsterMgr as ITickedObject);
