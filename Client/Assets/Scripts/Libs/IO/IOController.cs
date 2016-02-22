@@ -472,6 +472,7 @@ namespace SDK.Lib
                 currentCamera = mCam;
                 IOController.currentScheme = mNextScheme;
                 //inputHasFocus = (mCurrentSelection.GetComponent<UIInput>() != null);
+                // 判断输入是否有焦点
                 inputHasFocus = false;
                 if (onSelect != null) onSelect(mCurrentSelection, true);
                 Notify(mCurrentSelection, "OnSelect", true);
@@ -591,7 +592,7 @@ namespace SDK.Lib
 #if UNITY_5
                 Rigidbody rb = trans.GetComponent<Rigidbody>();
 #elif UNITY_4_6 || UNITY_4_5
-            Rigidbody rb = trans.rigidbody;
+                Rigidbody rb = trans.rigidbody;
 #endif
                 if (rb != null) return rb;
                 trans = trans.parent;
@@ -628,7 +629,7 @@ namespace SDK.Lib
                 IOController cam = list.buffer[i];
 
                 // Skip inactive scripts
-                if (!cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
+                if (!cam.enabled || !UtilApi.GetActive(cam.gameObject)) continue;
 
                 // Convert to view space
                 currentCamera = cam.cachedCamera;
@@ -816,6 +817,7 @@ namespace SDK.Lib
             if (!mTouches.TryGetValue(id, out touch))
             {
                 touch = new MouseOrTouch();
+                // 触碰开始设置的参数
                 touch.pressTime = RealTime.time;
                 touch.touchBegan = true;
                 mTouches.Add(id, touch);
@@ -1059,6 +1061,7 @@ namespace SDK.Lib
             bool isPressed = false;     // 是否按下没有起来
             bool justPressed = false;   // 是否是第一次按下
 
+            // 检测按下状态
             for (int i = 0; i < 3; ++i)
             {
                 if (Input.GetMouseButtonDown(i))
@@ -1077,9 +1080,9 @@ namespace SDK.Lib
             }
 
             // No need to perform raycasts every frame
-            if (isPressed || posChanged || mNextRaycast < RealTime.time)
+            if (isPressed || posChanged || mNextRaycast < UtilApi.time)
             {
-                mNextRaycast = RealTime.time + 0.02f;
+                mNextRaycast = UtilApi.time + 0.02f;
                 if (!Raycast(Input.mousePosition)) hoveredObject = fallThrough;
                 if (hoveredObject == null) hoveredObject = mGenericHandler;
                 for (int i = 0; i < 3; ++i) mMouse[i].current = hoveredObject;
@@ -1098,7 +1101,7 @@ namespace SDK.Lib
                 if (mTooltipTime != 0f)
                 {
                     // Delay the tooltip
-                    mTooltipTime = RealTime.time + tooltipDelay;
+                    mTooltipTime = UtilApi.time + tooltipDelay;
                 }
                 else if (mTooltip != null)
                 {
@@ -1116,6 +1119,7 @@ namespace SDK.Lib
             }
 
             // The button was released over a different object -- remove the highlight from the previous
+            // justPressed 鼠标第一次按下，或者 isPressed 鼠标没有按下，并且 mHover 对象存在，并且 highlightChanged 高亮改变
             if ((justPressed || !isPressed) && mHover != null && highlightChanged)
             {
                 currentScheme = ControlScheme.Mouse;
@@ -1129,6 +1133,7 @@ namespace SDK.Lib
             // Process all 3 mouse buttons as individual touches
             for (int i = 0; i < 3; ++i)
             {
+                // 检查是否有鼠标操作
                 bool pressed = Input.GetMouseButtonDown(i);
                 bool unpressed = Input.GetMouseButtonUp(i);
 
@@ -1151,7 +1156,7 @@ namespace SDK.Lib
             if (!isPressed && highlightChanged)
             {
                 currentScheme = ControlScheme.Mouse;
-                mTooltipTime = RealTime.time + tooltipDelay;
+                mTooltipTime = UtilApi.time + tooltipDelay;
                 mHover = mMouse[0].current;
                 currentTouch = mMouse[0];
                 if (onHover != null) onHover(mHover, true);
@@ -1165,7 +1170,7 @@ namespace SDK.Lib
         }
 
         /// <summary>
-        /// Update touch-based events.
+        /// Update touch-based events.每一帧都执行的处理
         /// </summary>
         public void ProcessTouches()
         {
@@ -1180,6 +1185,7 @@ namespace SDK.Lib
 
                 bool pressed = (touch.phase == TouchPhase.Began) || currentTouch.touchBegan;
                 bool unpressed = (touch.phase == TouchPhase.Canceled) || (touch.phase == TouchPhase.Ended);
+                // 设置触碰结束，因为 GetTouch 在获取的时候设置这个值，结束直接删除 RemoveTouch
                 currentTouch.touchBegan = false;
 
                 // Although input.deltaPosition can be used, calculating it manually is safer (just in case)
@@ -1198,13 +1204,14 @@ namespace SDK.Lib
                 else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
 
                 // Double-tap support
-                if (touch.tapCount > 1) currentTouch.clickTime = RealTime.time;
+                if (touch.tapCount > 1) currentTouch.clickTime = UtilApi.time;
 
                 // Process the events from this touch
                 ProcessTouch(pressed, unpressed);
 
                 // If the touch has ended, remove it from the list
                 if (unpressed) RemoveTouch(currentTouchID);
+                // 处理完成直接设置空
                 currentTouch.last = null;
                 currentTouch = null;
 
@@ -1377,7 +1384,7 @@ namespace SDK.Lib
         }
 
         /// <summary>
-        /// Process the events of the specified touch.
+        /// Process the events of the specified touch.所有的数据结构填充完成后，开始处理事件
         /// </summary>
         public void ProcessTouch(bool pressed, bool unpressed)
         {
