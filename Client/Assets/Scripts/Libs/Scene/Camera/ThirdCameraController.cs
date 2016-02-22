@@ -17,7 +17,8 @@ namespace SDK.Lib
 
             //this.setParam(5, 45, 180);
             //this.setParam(10, 45, 0);
-            this.setParam(10, 45, 45);
+            //this.setParam(10, 45, 45);
+            this.setParam(10, 90, 0);
         }
 
         // 增加 theta
