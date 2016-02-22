@@ -54,13 +54,11 @@ namespace SDK.Lib
             /// <summary>
             /// Delta time since the touch operation started.
             /// </summary>
-
             public float deltaTime { get { return touchBegan ? RealTime.time - pressTime : 0f; } }
 
             /// <summary>
             /// Returns whether this touch is currently over a UI element.
             /// </summary>
-
             public bool isOverUI
             {
                 get
@@ -85,7 +83,7 @@ namespace SDK.Lib
         /// <summary>
         /// List of all active cameras in the scene.
         /// </summary>
-        static public BetterList<UICamera> list = new BetterList<UICamera>();
+        static public MList<IOController> list = new MList<IOController>();
 
         public delegate bool GetKeyStateFunc(KeyCode key);
         public delegate float GetAxisFunc(string name);
@@ -164,9 +162,6 @@ namespace SDK.Lib
         /// Whether the joystick and controller events will be processed.
         /// </summary>
         public bool useController = true;
-
-        [System.Obsolete("Use new OnDragStart / OnDragOver / OnDragOut / OnDragEnd events instead")]
-        public bool stickyPress { get { return true; } }
 
         /// <summary>
         /// Whether the tooltip will disappear as soon as the mouse moves (false) or only if the mouse moves outside of the widget's area (true).
@@ -305,12 +300,6 @@ namespace SDK.Lib
 
         // Obsolete, kept for backwards compatibility.
         static GameObject mGenericHandler;
-
-        /// <summary>
-        /// If set, this game object will receive all events regardless of whether they were handled or not.
-        /// </summary>
-        [System.Obsolete("Use delegates instead such as UICamera.onClick, UICamera.onHover, etc.")]
-        static public GameObject genericEventHandler { get { return mGenericHandler; } set { mGenericHandler = value; } }
 
         /// <summary>
         /// If events don't get handled, they will be forwarded to this game object.
@@ -541,7 +530,7 @@ namespace SDK.Lib
         {
             get
             {
-                UICamera mouse = eventHandler;
+                IOController mouse = eventHandler;
                 return (mouse != null) ? mouse.cachedCamera : null;
             }
         }
@@ -549,14 +538,14 @@ namespace SDK.Lib
         /// <summary>
         /// Event handler for all types of events.
         /// </summary>
-        static public UICamera eventHandler
+        static public IOController eventHandler
         {
             get
             {
-                for (int i = 0; i < list.size; ++i)
+                for (int i = 0; i < list.Count(); ++i)
                 {
                     // Invalid or inactive entry -- keep going
-                    UICamera cam = list.buffer[i];
+                    IOController cam = list.buffer[i];
                     if (cam == null || !cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
                     return cam;
                 }

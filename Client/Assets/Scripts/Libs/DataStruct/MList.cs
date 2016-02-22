@@ -45,6 +45,14 @@ namespace SDK.Lib
             }
         }
 
+        public List<T> buffer
+        {
+            get
+            {
+                return m_list;
+            }
+        }
+
         public void Add(T item)
         {
             m_list.Add(item);
