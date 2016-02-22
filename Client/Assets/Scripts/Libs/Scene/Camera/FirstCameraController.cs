@@ -7,8 +7,8 @@ namespace SDK.Lib
      */
     public class FirstCameraController : CameraController
     {
-        public FirstCameraController(Camera camera)
-            : base(camera)
+        public FirstCameraController(Camera camera, GameObject target)
+            : base(camera, target)
         {
 
         }
