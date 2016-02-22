@@ -14,6 +14,7 @@ namespace SDK.Lib
 
         protected bool m_bHalfMode;   // 半球模式
         protected bool m_bOrderMode; // 是否是相反的模式，就是操作摄像机的时候，是增加还是减少
+        protected float m_thetaEpsilon;
 
         protected float m_x;
         protected float m_y;
@@ -23,6 +24,7 @@ namespace SDK.Lib
         {
             m_bOrderMode = true;
             m_bHalfMode = true;
+            m_thetaEpsilon = float.Epsilon;
             m_radius = 5;
             m_theta = Mathf.PI / 4;
             m_radius = Mathf.PI;
@@ -74,7 +76,7 @@ namespace SDK.Lib
             {
                 if (m_bHalfMode)
                 {
-                    m_theta = Mathf.PI;
+                    m_theta = Mathf.PI - m_thetaEpsilon;
                 }
                 else
                 {
@@ -126,7 +128,7 @@ namespace SDK.Lib
             {
                 if (m_bHalfMode)
                 {
-                    m_theta = 0;
+                    m_theta = m_thetaEpsilon;
                 }
                 else
                 {
