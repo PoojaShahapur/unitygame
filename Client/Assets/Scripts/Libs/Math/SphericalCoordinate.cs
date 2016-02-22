@@ -8,9 +8,9 @@ namespace SDK.Lib
     public class SphericalCoordinate : Coordinate
     {
         // 球形坐标系，设置的旋转角度，最后都变成了空间中的坐标，因此不需要进行旋转
-        protected float m_radius;       // r∈[0,+∞)
-        protected float m_theta;        // θ∈[0, π]
-        protected float m_fai;          // φ∈[0,2π]
+        protected float m_radius;       // r∈[0,+∞)，半径
+        protected float m_theta;        // θ∈[0, π]，与 Z 夹角
+        protected float m_fai;          // φ∈[0,2π]，与 X 夹角
 
         protected float m_x;
         protected float m_y;

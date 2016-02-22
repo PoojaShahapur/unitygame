@@ -23,7 +23,7 @@ namespace SDK.Lib
             }
 
             m_targetTrans = m_targetGo.transform;
-            Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYUP_EVENT, onKeyUp);
+            Ctx.m_instance.m_inputMgr.addKeyListener(EventID.KEYDOWN_EVENT, onKeyDown);
         }
 
         public void setActor(GameObject targetGo)
@@ -40,7 +40,7 @@ namespace SDK.Lib
             m_cameraController = controller;
         }
 
-        public void onKeyUp(KeyCode key)
+        public void onKeyDown(KeyCode key)
         {
             if (KeyCode.W == key)
             {

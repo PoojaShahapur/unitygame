@@ -16,7 +16,9 @@ namespace SDK.Lib
             m_coord = new SphericalCoordinate();
             m_cameraTrans = m_camera.GetComponent<Transform>();
 
-            this.setParam(5, Mathf.PI / 4, Mathf.PI);
+            //this.setParam(5, Mathf.PI / 4, Mathf.PI);
+            //this.setParam(10, Mathf.PI / 4, 0);
+            this.setParam(10, Mathf.PI / 4, Mathf.PI / 4);
         }
 
         public void setParam(float radius, float theta, float fai)
