@@ -994,5 +994,16 @@ namespace SDK.Lib
                 btn.enabled = false;
             }
         }
+
+        // 欧拉角增加
+        static public float incEulerAngles(float degree, float delta)
+        {
+            return (degree + delta) % 360;
+        }
+
+        static public float decEulerAngles(float degree, float delta)
+        {
+            return (degree - delta) % 360;
+        }
     }
 }

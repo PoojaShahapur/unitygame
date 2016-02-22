@@ -59,16 +59,14 @@ namespace SDK.Lib
             else if (KeyCode.A == key)
             {
                 m_localRot = m_targetTrans.localEulerAngles;
-                m_localRot.y = m_localRot.y + 1;
-                m_localRot.y = m_localRot.y % 360;
+                m_localRot.y = UtilApi.incEulerAngles(m_localRot.y, 1);
                 m_targetTrans.localEulerAngles = m_localRot;
                 m_cameraController.updateControl();
             }
             else if (KeyCode.D == key)
             {
                 m_localRot = m_targetTrans.localEulerAngles;
-                m_localRot.y = m_localRot.y - 1;
-                m_localRot.y = m_localRot.y % 360;
+                m_localRot.y = UtilApi.decEulerAngles(m_localRot.y, 1);
                 m_targetTrans.localEulerAngles = m_localRot;
                 m_cameraController.updateControl();
             }
