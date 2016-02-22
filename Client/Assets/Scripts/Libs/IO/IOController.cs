@@ -254,7 +254,7 @@ namespace SDK.Lib
         /// <summary>
         /// UICamera that sent out the event.
         /// </summary>
-        static public UICamera current = null;
+        static public IOController current = null;
 
         /// <summary>
         /// Last camera active prior to sending out the event. This will always be the camera that actually sent out the event.
@@ -375,6 +375,10 @@ namespace SDK.Lib
         /// </summary>
         public Camera cachedCamera { get { if (mCam == null) mCam = Camera.main; return mCam; } }
 
+        public bool enabled;    // 等价组件 Behaviour 中的 enabled 字段
+        public GameObject gameObject;   // 等价于 Component 中的 gameObject 字段
+        public Transform transform;     // 等价于 Component 中的 transform 字段
+
         /// <summary>
         /// Set to 'true' just before OnDrag-related events are sent. No longer needed, but kept for backwards compatibility.
         /// </summary>
@@ -411,7 +415,7 @@ namespace SDK.Lib
             }
             set
             {
-                SetSelection(value, UICamera.currentScheme);
+                SetSelection(value, IOController.currentScheme);
             }
         }
 
@@ -440,9 +444,9 @@ namespace SDK.Lib
                 mNextSelection = go;
                 mNextScheme = scheme;
 
-                if (UICamera.list.size > 0)
+                if (IOController.list.size > 0)
                 {
-                    UICamera cam = (mNextSelection != null) ? FindCameraForLayer(mNextSelection.layer) : UICamera.list[0];
+                    IOController cam = (mNextSelection != null) ? FindCameraForLayer(mNextSelection.layer) : IOController.list[0];
                     if (cam != null) cam.StartCoroutine(cam.ChangeSelection());
                 }
             }
@@ -465,7 +469,7 @@ namespace SDK.Lib
             {
                 current = this;
                 currentCamera = mCam;
-                UICamera.currentScheme = mNextScheme;
+                IOController.currentScheme = mNextScheme;
                 //inputHasFocus = (mCurrentSelection.GetComponent<UIInput>() != null);
                 inputHasFocus = false;
                 if (onSelect != null) onSelect(mCurrentSelection, true);
@@ -542,7 +546,7 @@ namespace SDK.Lib
         {
             get
             {
-                for (int i = 0; i < list.Count(); ++i)
+                for (int i = 0; i < list.size; ++i)
                 {
                     // Invalid or inactive entry -- keep going
                     IOController cam = list.buffer[i];
@@ -556,7 +560,7 @@ namespace SDK.Lib
         /// <summary>
         /// Static comparison function used for sorting.
         /// </summary>
-        static int CompareFunc(UICamera a, UICamera b)
+        static int CompareFunc(IOController a, IOController b)
         {
             if (a.cachedCamera.depth < b.cachedCamera.depth) return 1;
             if (a.cachedCamera.depth > b.cachedCamera.depth) return -1;
@@ -620,7 +624,7 @@ namespace SDK.Lib
         {
             for (int i = 0; i < list.size; ++i)
             {
-                UICamera cam = list.buffer[i];
+                IOController cam = list.buffer[i];
 
                 // Skip inactive scripts
                 if (!cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
@@ -713,13 +717,13 @@ namespace SDK.Lib
         /// <summary>
         /// Find the camera responsible for handling events on objects of the specified layer.
         /// </summary>
-        static public UICamera FindCameraForLayer(int layer)
+        static public IOController FindCameraForLayer(int layer)
         {
             int layerMask = 1 << layer;
 
             for (int i = 0; i < list.size; ++i)
             {
-                UICamera cam = list.buffer[i];
+                IOController cam = list.buffer[i];
                 Camera uc = cam.cachedCamera;
                 if ((uc != null) && (uc.cullingMask & layerMask) != 0) return cam;
             }

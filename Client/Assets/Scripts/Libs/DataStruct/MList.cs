@@ -7,6 +7,8 @@ namespace SDK.Lib
      */
     public class MList<T>
     {
+        public delegate int CompareFunc(T left, T right);
+
         protected List<T> m_list;
         protected int m_uniqueId;       // 唯一 Id ，调试使用
 
@@ -53,6 +55,14 @@ namespace SDK.Lib
             }
         }
 
+        public int size
+        {
+            get
+            {
+                return m_list.Count;
+            }
+        }
+
         public void Add(T item)
         {
             m_list.Add(item);
@@ -92,8 +102,8 @@ namespace SDK.Lib
             return m_list.Remove(item);
         }
 
-        public T this[int index] 
-        { 
+        public T this[int index]
+        {
             get
             {
                 return m_list[index];
@@ -149,6 +159,11 @@ namespace SDK.Lib
         public bool Contains(T item)
         {
             return m_list.Contains(item);
+        }
+
+        public void Sort(CompareFunc comparer)
+        {
+            m_list.Sort(comparer);
         }
     }
 }
