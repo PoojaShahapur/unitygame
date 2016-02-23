@@ -211,5 +211,45 @@ namespace SDK.Lib
         //{
         //    return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
         //}
+
+        /// <summary>
+        /// Find the camera responsible for drawing the objects on the specified layer.
+        /// </summary>
+        static public Camera FindCameraForLayer(int layer)
+        {
+            int layerMask = 1 << layer;
+
+            Camera cam;
+
+            for (int i = 0; i < IOController.list.size; ++i)
+            {
+                cam = IOController.list.buffer[i].cachedCamera;
+                if (cam && (cam.cullingMask & layerMask) != 0)
+                    return cam;
+            }
+
+            cam = Camera.main;
+            if (cam && (cam.cullingMask & layerMask) != 0) return cam;
+
+#if UNITY_4_3 || UNITY_FLASH
+		    Camera[] cameras = NGUITools.FindActive<Camera>();
+		    for (int i = 0, imax = cameras.Length; i < imax; ++i)
+#else
+            Camera[] cameras = new Camera[Camera.allCamerasCount];
+            int camerasFound = Camera.GetAllCameras(cameras);
+            for (int i = 0; i < camerasFound; ++i)
+#endif
+            {
+                cam = cameras[i];
+                if (cam && cam.enabled && (cam.cullingMask & layerMask) != 0)
+                    return cam;
+            }
+            return null;
+        }
+
+        static public bool GetActive(GameObject go)
+        {
+            return go && go.activeInHierarchy;
+        }
     }
 }

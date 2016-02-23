@@ -23,7 +23,7 @@ namespace SDK.Lib
         {
             None,
             Always,
-            BasedOnDelta,
+            BasedOnDelta,   // Click 事件中间有间隔产生的，例如 Down ，然后移动很小距离，再 Up ，这个时候就产生 Click 事件
         }
 
         /// <summary>
@@ -177,6 +177,9 @@ namespace SDK.Lib
         /// </summary>
         public bool useController = true;
 
+        [System.Obsolete("Use new OnDragStart / OnDragOver / OnDragOut / OnDragEnd events instead")]
+        public bool stickyPress { get { return true; } }
+
         /// <summary>
         /// Whether the tooltip will disappear as soon as the mouse moves (false) or only if the mouse moves outside of the widget's area (true).
         /// false 是否一旦鼠标移动， tooltip 就消失，
@@ -258,6 +261,11 @@ namespace SDK.Lib
         public KeyCode cancelKey0 = KeyCode.Escape;
         public KeyCode cancelKey1 = KeyCode.JoystickButton1;
 
+        /// <summary>
+        /// Whether NGUI will automatically hide the mouse cursor when controller or touch input is detected.
+        /// </summary>
+        public bool autoHideCursor = true;
+
         public delegate void OnCustomInput();
 
         /// <summary>
@@ -279,6 +287,7 @@ namespace SDK.Lib
         {
             get
             {
+                //return mDisableController && !UIPopupList.isOpen;
                 return mDisableController;
             }
             set
@@ -303,15 +312,17 @@ namespace SDK.Lib
         {
             get
             {
-                IOController.ControlScheme scheme = IOController.currentScheme;
+                UICamera.ControlScheme scheme = UICamera.currentScheme;
 
-                if (scheme == IOController.ControlScheme.Controller)
+                if (scheme == UICamera.ControlScheme.Controller)
                 {
                     GameObject go = hoveredObject;
 
                     if (go != null)
                     {
+                        //Bounds b = NGUIMath.CalculateAbsoluteWidgetBounds(go.transform);
                         Camera cam = NGUITools.FindCameraForLayer(go.layer);
+                        //return cam.WorldToScreenPoint(b.center);
                         return cam.WorldToScreenPoint(go.transform.position);
                     }
                 }
@@ -339,6 +350,18 @@ namespace SDK.Lib
         static public IOController current = null;
 
         /// <summary>
+        /// NGUI event system that will be handling all events.
+        /// </summary>
+        static public IOController first
+        {
+            get
+            {
+                if (list == null || list.size == 0) return null;
+                return list[0];
+            }
+        }
+
+        /// <summary>
         /// Last camera active prior to sending out the event. This will always be the camera that actually sent out the event.
         /// 记在发送出事件之前最后 active 摄像机，这个将总是最终发送事件的摄像机，就是触发事件的摄像机
         /// </summary>
@@ -350,6 +373,7 @@ namespace SDK.Lib
         /// Delegate called when the control scheme changes.
         /// </summary>
         static public OnSchemeChange onSchemeChange;
+        static ControlScheme mLastScheme = ControlScheme.Mouse;
 
         /// <summary>
         /// Current control scheme. Derived from the last event to arrive.
@@ -360,6 +384,9 @@ namespace SDK.Lib
             {
                 if (mCurrentKey == KeyCode.None) return ControlScheme.Touch;
                 if (mCurrentKey >= KeyCode.JoystickButton0) return ControlScheme.Controller;
+                if (current != null && mLastScheme == ControlScheme.Controller &&
+                    (mCurrentKey == current.submitKey0 || mCurrentKey == current.submitKey1))
+                    return ControlScheme.Controller;
                 return ControlScheme.Mouse;
             }
             set
@@ -377,6 +404,8 @@ namespace SDK.Lib
                     currentKey = KeyCode.None;
                 }
                 else currentKey = KeyCode.Alpha0;
+
+                mLastScheme = value;
             }
         }
 
@@ -400,40 +429,43 @@ namespace SDK.Lib
             {
                 if (mCurrentKey != value)
                 {
-                    ControlScheme before = currentScheme;
+                    ControlScheme before = mLastScheme;
                     mCurrentKey = value;
-                    ControlScheme after = currentScheme;
+                    mLastScheme = currentScheme;
 
-                    if (before != after)
+                    if (before != mLastScheme)
                     {
                         HideTooltip();
 
-                        if (after == ControlScheme.Mouse)
+                        if (mLastScheme == ControlScheme.Mouse)
                         {
 #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-						    Screen.lockCursor = false;
-						    Screen.showCursor = true;
+						Screen.lockCursor = false;
+						Screen.showCursor = true;
 #else
-                            Cursor.lockState = CursorLockMode.Locked;
+                            Cursor.lockState = CursorLockMode.None;
                             Cursor.visible = true;
 #endif
                         }
 #if UNITY_EDITOR
-                        else if (after == ControlScheme.Controller)
+                        else if (mLastScheme == ControlScheme.Controller)
 #else
-					    else
+					else
 #endif
                         {
+                            if (current != null && current.autoHideCursor)
+                            {
 #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-						    Screen.showCursor = false;
-						    Screen.lockCursor = true;
+							Screen.showCursor = false;
+							Screen.lockCursor = true;
 #else
-                            Cursor.visible = false;
-                            Cursor.lockState = CursorLockMode.None;
+                                Cursor.visible = false;
+                                Cursor.lockState = CursorLockMode.Locked;
 #endif
 
-                            // Skip the next 2 frames worth of mouse movement
-                            mMouse[0].ignoreDelta = 2;
+                                // Skip the next 2 frames worth of mouse movement
+                                mMouse[0].ignoreDelta = 2;
+                            }
                         }
 
                         if (onSchemeChange != null) onSchemeChange();
@@ -555,7 +587,7 @@ namespace SDK.Lib
         /// Caching is always preferable for performance.
         /// </summary>
 #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-	public Camera cachedCamera { get { if (mCam == null) mCam = camera; return mCam; } }
+	    public Camera cachedCamera { get { if (mCam == null) mCam = camera; return mCam; } }
 #else
         public Camera cachedCamera { get { if (mCam == null) mCam = GetComponent<Camera>(); return mCam; } }
 #endif
@@ -578,10 +610,21 @@ namespace SDK.Lib
         {
             get
             {
-                if (currentTouch != null) return currentTouch.isOverUI;
-                if (mHover == null) return false;
-                if (mHover == fallThrough) return false;
-                //return NGUITools.FindInParents<UIRoot>(mHover) != null;
+                //if (currentTouch != null) return currentTouch.isOverUI;
+
+                //for (int i = 0, imax = activeTouches.Count; i < imax; ++i)
+                //{
+                //    MouseOrTouch touch = activeTouches[i];
+                //    if (touch.pressed != null && touch.pressed != fallThrough && NGUITools.FindInParents<UIRoot>(touch.pressed) != null)
+                //        return true;
+                //}
+
+                //if (mMouse[0].current != null && mMouse[0].current != fallThrough && NGUITools.FindInParents<UIRoot>(mMouse[0].current) != null)
+                //    return true;
+
+                //if (controller.pressed != null && controller.pressed != fallThrough && NGUITools.FindInParents<UIRoot>(controller.pressed) != null)
+                //    return true;
+
                 return false;
             }
         }
@@ -642,6 +685,9 @@ namespace SDK.Lib
 
                 if (mHover)
                 {
+                    //if (mHover != controller.current && mHover.GetComponent<UIKeyNavigation>() != null)
+                    //    controller.current = mHover;
+
                     // Locate the appropriate camera for the new object
                     if (statesDiffer)
                     {
@@ -678,6 +724,39 @@ namespace SDK.Lib
             {
                 if (controller.current && controller.current.activeInHierarchy)
                     return controller.current;
+
+                // Automatically update the object chosen by the controller
+                //if (currentScheme == ControlScheme.Controller &&
+                //    UICamera.current != null && UICamera.current.useController &&
+                //    UIKeyNavigation.list.size > 0)
+                //{
+                //    for (int i = 0; i < UIKeyNavigation.list.size; ++i)
+                //    {
+                //        UIKeyNavigation nav = UIKeyNavigation.list[i];
+
+                //        if (nav && nav.constraint != UIKeyNavigation.Constraint.Explicit && nav.startsSelected)
+                //        {
+                //            hoveredObject = nav.gameObject;
+                //            controller.current = mHover;
+                //            return mHover;
+                //        }
+                //    }
+
+                //    if (mHover == null)
+                //    {
+                //        for (int i = 0; i < UIKeyNavigation.list.size; ++i)
+                //        {
+                //            UIKeyNavigation nav = UIKeyNavigation.list[i];
+
+                //            if (nav && nav.constraint != UIKeyNavigation.Constraint.Explicit)
+                //            {
+                //                hoveredObject = nav.gameObject;
+                //                controller.current = mHover;
+                //                return mHover;
+                //            }
+                //        }
+                //    }
+                //}
 
                 controller.current = null;
                 return null;
@@ -753,6 +832,12 @@ namespace SDK.Lib
                 mSelected = value;
                 //if (scheme >= ControlScheme.Controller) mHover = value;
                 currentTouch.clickNotification = ClickNotification.None;
+
+                //if (value != null)
+                //{
+                //    UIKeyNavigation nav = value.GetComponent<UIKeyNavigation>();
+                //    if (nav != null) controller.current = value;
+                //}
 
                 // Set the camera for events
                 if (mSelected && statesDiffer)
@@ -966,7 +1051,7 @@ namespace SDK.Lib
                 IOController cam = list.buffer[i];
 
                 // Skip inactive scripts
-                if (!cam.enabled || !UtilApi.GetActive(cam.gameObject)) continue;
+                if (!cam.enabled || !UtilIO.GetActive(cam.gameObject)) continue;
 
                 // Convert to view space
                 currentCamera = cam.cachedCamera;
@@ -987,14 +1072,14 @@ namespace SDK.Lib
                 {
                     if (Physics.Raycast(ray, out lastHit, dist, mask))
                     {
-                        // raycast 需要设置的值
+                        // raycase 需要设置的值
                         lastWorldPosition = lastHit.point;
-                        hoveredObject = lastHit.collider.gameObject;
+                        mRayHitObject = lastHit.collider.gameObject;
 
                         if (!list[0].eventsGoToColliders)
                         {
-                            Rigidbody rb = FindRootRigidbody(hoveredObject.transform);
-                            if (rb != null) hoveredObject = rb.gameObject;
+                            Rigidbody rb = FindRootRigidbody(mRayHitObject.transform);
+                            if (rb != null) mRayHitObject = rb.gameObject;
                         }
                         return true;
                     }
@@ -1079,7 +1164,7 @@ namespace SDK.Lib
         /// </summary>
         static int GetDirection(string axis)
         {
-            float time = RealTime.time;
+            float time = UtilIO.time;
 
             if (mNextEvent < time && !string.IsNullOrEmpty(axis))
             {
@@ -1110,6 +1195,11 @@ namespace SDK.Lib
         static public void Notify(GameObject go, string funcName, object obj)
         {
             if (mNotifying > 10) return;
+
+            // Automatically forward events to the currently open popup list
+            //if (currentScheme == ControlScheme.Controller && UIPopupList.isOpen &&
+            //    UIPopupList.current.source == go && UIPopupList.isOpen)
+            //    go = UIPopupList.current.gameObject;
 
             if (go && go.activeInHierarchy)
             {
@@ -1174,28 +1264,15 @@ namespace SDK.Lib
             mWidth = Screen.width;
             mHeight = Screen.height;
 
-            /*if (Application.platform == RuntimePlatform.Android ||
-                Application.platform == RuntimePlatform.IPhonePlayer
-                || Application.platform == RuntimePlatform.WP8Player
-#if UNITY_4_3
-                || Application.platform == RuntimePlatform.BB10Player
+#if (UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_WP_8_1 || UNITY_BLACKBERRY || UNITY_WINRT || UNITY_METRO)
+		    currentScheme = ControlScheme.Touch;
 #else
-                || Application.platform == RuntimePlatform.BlackBerryPlayer
-#endif
-                )
+            if (Application.platform == RuntimePlatform.PS3 ||
+                Application.platform == RuntimePlatform.XBOX360)
             {
-                useTouch = true;
-                useMouse = false;
-                useKeyboard = false;
+                currentScheme = ControlScheme.Controller;
             }
-            else if (Application.platform == RuntimePlatform.PS3 ||
-                     Application.platform == RuntimePlatform.XBOX360)
-            {
-                useMouse = false;
-                useTouch = false;
-                useKeyboard = false;
-                useController = true;
-            }*/
+#endif
 
             // Save the starting mouse position
             mMouse[0].pos = Input.mousePosition;
@@ -1206,6 +1283,26 @@ namespace SDK.Lib
                 mMouse[i].lastPos = mMouse[0].pos;
             }
             mLastPos = mMouse[0].pos;
+
+#if !UNITY_EDITOR && (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX)
+		    string[] args = System.Environment.GetCommandLineArgs();
+
+		    if (args != null)
+		    {
+			    for (int i = 0; i < args.Length; ++i)
+			    {
+				    string s = args[i];
+				    if (s == "-noMouse") useMouse = false;
+				    else if (s == "-noTouch") useTouch = false;
+				    else if (s == "-noController") useController = false;
+				    else if (s == "-noJoystick") useController = false;
+				    else if (s == "-useMouse") useMouse = true;
+				    else if (s == "-useTouch") useTouch = true;
+				    else if (s == "-useController") useController = true;
+				    else if (s == "-useJoystick") useController = true;
+			    }
+		    }
+#endif
         }
 
         /// <summary>
@@ -1222,6 +1319,10 @@ namespace SDK.Lib
         /// </summary>
         void OnDisable() { list.Remove(this); }
 
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+        static bool disableControllerCheck = true;
+#endif
+
         /// <summary>
         /// We don't want the camera to send out any kind of mouse events.
         /// </summary>
@@ -1232,34 +1333,41 @@ namespace SDK.Lib
 
             if (Application.isPlaying)
             {
-                // Always set a fallthrough object
+                // Always set a fall-through object
                 if (fallThrough == null)
                 {
                     //UIRoot root = NGUITools.FindInParents<UIRoot>(gameObject);
 
                     //if (root != null)
                     //{
-                    //	fallThrough = root.gameObject;
+                    //    fallThrough = root.gameObject;
                     //}
                     //else
                     //{
-                    Transform t = transform;
-                    fallThrough = (t.parent != null) ? t.parent.gameObject : gameObject;
+                        Transform t = transform;
+                        fallThrough = (t.parent != null) ? t.parent.gameObject : gameObject;
                     //}
                 }
-
                 cachedCamera.eventMask = 0;
+
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+                // Automatically disable controller-based input if the game starts with a non-zero controller input.
+                // This most commonly happens with Thrustmaster and other similar joystick types.
+                if (disableControllerCheck && useController && handlesEvents)
+                {
+                    disableControllerCheck = false;
+                    if (!string.IsNullOrEmpty(horizontalAxisName) && Mathf.Abs(GetAxis(horizontalAxisName)) > 0.1f) useController = false;
+                    else if (!string.IsNullOrEmpty(verticalAxisName) && Mathf.Abs(GetAxis(verticalAxisName)) > 0.1f) useController = false;
+                    else if (!string.IsNullOrEmpty(horizontalPanAxisName) && Mathf.Abs(GetAxis(horizontalPanAxisName)) > 0.1f) useController = false;
+                    else if (!string.IsNullOrEmpty(verticalPanAxisName) && Mathf.Abs(GetAxis(verticalPanAxisName)) > 0.1f) useController = false;
+                }
+#endif
             }
         }
 
 #if UNITY_EDITOR
         void OnValidate() { Start(); }
 #endif
-
-        public void onTick()
-        {
-            Update();
-        }
 
         /// <summary>
         /// Check the input and send out appropriate events.
@@ -1299,7 +1407,7 @@ namespace SDK.Lib
                 }
 
                 // mTooltipTime < UtilApi.time 说明延迟时间到了，需要显示 ToolTip 了
-                if (showTooltips && mTooltipTime != 0f && (mTooltipTime < UtilIO.time ||
+                if (showTooltips && mTooltipTime != 0f && mMouse[0].dragged == null && (mTooltipTime < UtilIO.time ||
                     GetKey(KeyCode.LeftShift) || GetKey(KeyCode.RightShift)))
                 {
                     currentTouch = mMouse[0];
@@ -1468,17 +1576,18 @@ namespace SDK.Lib
 			    else
 #endif
                 {
-                    currentTouchID = -1 - i;
+                    currentTouchID = -1 - i;    // 如果鼠标， ID 就从负数开始索引， -1， -2， -3
                     currentKey = KeyCode.Mouse0 + i;
                 }
 
                 // We don't want to update the last camera while there is a touch happening
+                // 第一次按下
                 if (pressed)
                 {
                     currentTouch.pressedCam = currentCamera;
                     currentTouch.pressTime = UtilIO.time;
                 }
-                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
+                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam; // 之前已经按下
 
                 // Process the mouse events
                 ProcessTouch(pressed, unpressed);
@@ -1620,7 +1729,7 @@ namespace SDK.Lib
 
                 if (pressed)
                 {
-                    currentTouch.pressTime = RealTime.time;
+                    currentTouch.pressTime =  UtilIO.time;
                     activeTouches.Add(currentTouch);
                 }
 
@@ -1689,7 +1798,7 @@ namespace SDK.Lib
                 submitKeyUp = true;
             }
 
-            if (submitKeyDown) currentTouch.pressTime = RealTime.time;
+            if (submitKeyDown) currentTouch.pressTime = UtilIO.time;
 
             if ((submitKeyDown || submitKeyUp) && currentScheme == ControlScheme.Controller)
             {
@@ -1800,6 +1909,9 @@ namespace SDK.Lib
                     onPress(currentTouch.pressed, false);
 
                 Notify(currentTouch.pressed, "OnPress", false);
+
+                if (currentScheme == ControlScheme.Mouse && hoveredObject == null && currentTouch.current != null)
+                    hoveredObject = currentTouch.current;
 
                 currentTouch.pressed = currentTouch.current;
                 currentTouch.dragged = currentTouch.current;
@@ -1925,7 +2037,6 @@ namespace SDK.Lib
         /// <summary>
         /// Process the release part of a touch.
         /// </summary>
-
         void ProcessRelease(bool isMouse, float drag)
         {
             // Send out the unpress message
