@@ -163,5 +163,11 @@ namespace SDK.Lib
                 return Time.unscaledTime;
             }
         }
+
+        // 两个或多个滑动事件
+        static public void onMultiTouch()
+        {
+
+        }
     }
 }

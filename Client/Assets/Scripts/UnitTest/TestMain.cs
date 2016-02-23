@@ -31,6 +31,7 @@ namespace UnitTest
         protected TestTime m_testTime = new TestTime();
 
         protected TestCameraMan m_testCameraMan = new TestCameraMan();
+        protected TestIOControl m_testIOControl = new TestIOControl();
 
         public void run()
         {
@@ -63,6 +64,7 @@ namespace UnitTest
             //m_testCoordinateConv.run();
             //m_testTime.run();
             m_testCameraMan.run();
+            m_testIOControl.run();
         }
     }
 }

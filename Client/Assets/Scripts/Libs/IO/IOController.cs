@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -951,8 +950,8 @@ namespace SDK.Lib
             // raycast 设置的值
             if (!Raycast(touch.pos)) mRayHitObject = fallThrough;
             if (mRayHitObject == null) mRayHitObject = mGenericHandler;
-            touch.last = touch.current;
-            touch.current = mRayHitObject;
+            touch.last = touch.current;     // 第一帧这个字段可能没有，但是后面这个字段必然有值，或者默认值
+            touch.current = mRayHitObject;  // 这个字段必然有值，或者默认值
             mLastPos = touch.pos;
         }
 
@@ -1374,6 +1373,7 @@ namespace SDK.Lib
 
             if (currentTouch.ignoreDelta == 0)
             {
+                // ignoreDelta == 0 彩计算移动变化 delta 
                 currentTouch.delta = pos - currentTouch.pos;
             }
             else
@@ -1405,10 +1405,10 @@ namespace SDK.Lib
             }
 
             // No need to perform raycasts every frame
-            // 没有必要每一帧执行 raycast ， mNextRaycast < RealTime.time 说明超过间隔
-            if (isPressed || posChanged || mNextRaycast < RealTime.time)
+            // 没有必要每一帧执行 raycast ， mNextRaycast < RealTime.time 说明超过间隔，第一帧 mNextRaycast == 0 ，必然执行下面代码
+            if (isPressed || posChanged || mNextRaycast < UtilIO.time)
             {
-                mNextRaycast = RealTime.time + 0.02f;
+                mNextRaycast = UtilIO.time + 0.02f;
                 Raycast(currentTouch);
                 for (int i = 0; i < 3; ++i) mMouse[i].current = currentTouch.current;
             }
@@ -1418,7 +1418,7 @@ namespace SDK.Lib
 
             // hoveredObject 已经在 Raycast 这里面设置了，这里重复设置了一边
             if (!wasPressed)
-                hoveredObject = currentTouch.current;
+                hoveredObject = currentTouch.current;   // hoveredObject 其实在 Raycast 函数里已经设置过了
 
             currentTouchID = -1;
             if (highlightChanged) currentKey = KeyCode.Mouse0;
@@ -1446,6 +1446,7 @@ namespace SDK.Lib
             }
 
             // The button was released over a different object -- remove the highlight from the previous
+            // 按钮在一个不同的 GameObject 上面释放，判断比较特殊
             if (highlightChanged && (justPressed || (wasPressed && !isPressed)))
                 hoveredObject = null;
 
@@ -1483,6 +1484,7 @@ namespace SDK.Lib
             }
 
             // If nothing is pressed and there is an object under the touch, highlight it
+            // 不是第一次按下，或者是总是按着，或者没有按下，并且进入不同的 GameObject
             if (!isPressed && highlightChanged)
             {
                 currentTouch = mMouse[0];
