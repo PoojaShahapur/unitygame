@@ -385,6 +385,7 @@ namespace SDK.Lib
 
         /// <summary>
         /// Set to 'true' just before OnDrag-related events are sent. No longer needed, but kept for backwards compatibility.
+        /// 在 OnDrag 相关的时间发送前，设置成 'true' 。现在不再需要，但是为了保持向后兼容
         /// </summary>
         static public bool isDragging = false;
 
@@ -1098,6 +1099,7 @@ namespace SDK.Lib
             }
 
             // 是否移动进入一个新的 GameObject 
+            // highlightChanged 为 true，或者 mMouse[0].last 之前有 GameObject，或者 mMouse[0].last 没有 GameObject，但是 mMouse[0].current 一定存在，看上面的逻辑代码
             bool highlightChanged = (mMouse[0].last != mMouse[0].current);
             if (highlightChanged) currentScheme = ControlScheme.Mouse;
 
@@ -1161,8 +1163,9 @@ namespace SDK.Lib
                 currentKey = KeyCode.Mouse0 + i;// 当前的鼠标 key
 
                 // We don't want to update the last camera while there is a touch happening
-                if (pressed) currentTouch.pressedCam = currentCamera;
-                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
+                // 这个地方记录当前检测事件的相机，因为中间可能会更改相机
+                if (pressed) currentTouch.pressedCam = currentCamera;   // 如果是第一次按下
+                else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;             // 如果持续按着，可能有移动
 
                 // Process the mouse events
                 ProcessTouch(pressed, unpressed);
@@ -1170,6 +1173,8 @@ namespace SDK.Lib
             }
 
             // If nothing is pressed and there is an object under the touch, highlight it
+            // 如果没有按下，并且当前有个 GaneObject 在 Touch 触碰下面，高亮它，mMouse[0].current 一定存在，或者是真正的鼠标下面的 GameObject ，或者是自己占位的 GameObject
+            // 高亮事件处理
             if (!isPressed && highlightChanged)
             {
                 currentScheme = ControlScheme.Mouse;
@@ -1179,10 +1184,13 @@ namespace SDK.Lib
                 if (onHover != null) onHover(mHover, true);
                 Notify(mHover, "OnHover", true);
             }
+            // 置空当前的 MouseOrTouch 
             currentTouch = null;
 
             // Update the last value
+            // 将当前值保存在上一个值中
             mMouse[0].last = mMouse[0].current;
+            // 同步所有的鼠标数据
             for (int i = 1; i < 3; ++i) mMouse[i].last = mMouse[0].last;
         }
 
@@ -1401,7 +1409,11 @@ namespace SDK.Lib
         }
 
         /// <summary>
-        /// Process the events of the specified touch.所有的数据结构填充完成后，开始处理事件
+        /// Process the events of the specified touch.
+        /// 处理指定的触碰事件
+        /// 所有的数据结构填充完成后，开始处理事件
+        /// pressed 鼠标是否第一次按下
+        /// unpressed 鼠标是否 up
         /// </summary>
         public void ProcessTouch(bool pressed, bool unpressed)
         {
@@ -1417,11 +1429,15 @@ namespace SDK.Lib
             // Send out the press message
             if (pressed)
             {
+                // 第一次按下，取消 ToolTip
                 if (mTooltip != null) ShowTooltip(false);
 
+                // 设置 pressStarted 标志
                 currentTouch.pressStarted = true;
+                // 处理之前保存的按下的 GameObject ，这个地方有 bug 吧，感觉 currentTouch.pressed 可能不存在
                 if (onPress != null) onPress(currentTouch.pressed, false);
                 Notify(currentTouch.pressed, "OnPress", false);
+                // 处理新的 GameObject ，设置一些初始值
                 currentTouch.pressed = currentTouch.current;
                 currentTouch.dragged = currentTouch.current;
                 currentTouch.clickNotification = ClickNotification.BasedOnDelta;
@@ -1431,6 +1447,7 @@ namespace SDK.Lib
                 Notify(currentTouch.pressed, "OnPress", true);
 
                 // Update the selection
+                // 更新选择的对象
                 if (currentTouch.pressed != mCurrentSelection)
                 {
                     if (mTooltip != null) ShowTooltip(false);
@@ -1438,14 +1455,15 @@ namespace SDK.Lib
                     selectedObject = currentTouch.pressed;
                 }
             }
-            else if (currentTouch.pressed != null && (currentTouch.delta.sqrMagnitude != 0f || currentTouch.current != currentTouch.last))
+            else if (currentTouch.pressed != null && (currentTouch.delta.sqrMagnitude != 0f || currentTouch.current != currentTouch.last))  // 按下后并且移动，或者在同一个 GameObject 上移动，或者移动到不同的 GameObject 上
             {
                 // Keep track of the total movement
                 currentTouch.totalDelta += currentTouch.delta;
                 float mag = currentTouch.totalDelta.sqrMagnitude;
-                bool justStarted = false;
+                bool justStarted = false;   // 只有在启动拖动前，一直在同一个 GameObject 中的时候，才设置 justStarted
 
                 // If the drag process hasn't started yet but we've already moved off the object, start it immediately
+                // 如果拖动处理还没有开始，然而我们已经移动出当前 GameObject，立刻开始拖动
                 if (!currentTouch.dragStarted && currentTouch.last != currentTouch.current)
                 {
                     currentTouch.dragStarted = true;
@@ -1454,15 +1472,17 @@ namespace SDK.Lib
                     // OnDragOver is sent for consistency, so that OnDragOut is always preceded by OnDragOver
                     isDragging = true;
 
+                    // 发送给自己 OnDragStart 事件
                     if (onDragStart != null) onDragStart(currentTouch.dragged);
                     Notify(currentTouch.dragged, "OnDragStart", null);
 
+                    // 发送给重叠的 GameObject OnDragOver 事件
                     if (onDragOver != null) onDragOver(currentTouch.last, currentTouch.dragged);
                     Notify(currentTouch.last, "OnDragOver", currentTouch.dragged);
 
                     isDragging = false;
                 }
-                else if (!currentTouch.dragStarted && drag < mag)
+                else if (!currentTouch.dragStarted && drag < mag)  // 在同一个 GameObject 上拖动距离大于启动拖动上限值，就开始拖动
                 {
                     // If the drag event has not yet started, see if we've dragged the touch far enough to start it
                     justStarted = true;
@@ -1486,7 +1506,7 @@ namespace SDK.Lib
                         if (onDragOver != null) onDragOver(currentTouch.last, currentTouch.dragged);
                         Notify(currentTouch.current, "OnDragOver", currentTouch.dragged);
                     }
-                    else if (currentTouch.last != currentTouch.current)
+                    else if (currentTouch.last != currentTouch.current)     // 这个地方和 if (!currentTouch.dragStarted && currentTouch.last != currentTouch.current) 判断里面的代码有部分重复
                     {
                         if (onDragStart != null) onDragStart(currentTouch.dragged);
                         Notify(currentTouch.last, "OnDragOut", currentTouch.dragged);
@@ -1495,9 +1515,11 @@ namespace SDK.Lib
                         Notify(currentTouch.current, "OnDragOver", currentTouch.dragged);
                     }
 
+                    // 通知自己拖动事件
                     if (onDrag != null) onDrag(currentTouch.dragged, currentTouch.delta);
                     Notify(currentTouch.dragged, "OnDrag", currentTouch.delta);
 
+                    // 保存之前的 GameObject
                     currentTouch.last = currentTouch.current;
                     isDragging = false;
 
