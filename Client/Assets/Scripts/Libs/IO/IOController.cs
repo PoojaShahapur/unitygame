@@ -1818,7 +1818,6 @@ namespace SDK.Lib
         /// <summary>
         /// Process the press part of a touch.
         /// </summary>
-
         void ProcessPress(bool pressed, float click, float drag)
         {
             // Send out the press message
