@@ -66,8 +66,14 @@ namespace SDK.Lib
             {
                 get
                 {
-                    //return current != null && current != fallThrough && NGUITools.FindInParents<UIRoot>(current) != null;
+#if UI_NGUI
+                    // NGUI UI 判断当前摄像机是否在处理 UI 事件
+                    return current != null && current != fallThrough && NGUITools.FindInParents<UIRoot>(current) != null;
                     return current != null && current != fallThrough;
+#else
+                    // UGUI UI 判断当前摄像机是否在处理 UI 事件
+                    return UtilApi.IsPointerOverGameObjectRaycast();
+#endif
                 }
             }
         }
@@ -297,9 +303,9 @@ namespace SDK.Lib
         {
             get
             {
-                UICamera.ControlScheme scheme = UICamera.currentScheme;
+                IOController.ControlScheme scheme = IOController.currentScheme;
 
-                if (scheme == UICamera.ControlScheme.Controller)
+                if (scheme == IOController.ControlScheme.Controller)
                 {
                     GameObject go = hoveredObject;
 
@@ -404,8 +410,8 @@ namespace SDK.Lib
                         if (after == ControlScheme.Mouse)
                         {
 #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-						Screen.lockCursor = false;
-						Screen.showCursor = true;
+						    Screen.lockCursor = false;
+						    Screen.showCursor = true;
 #else
                             Cursor.lockState = CursorLockMode.Locked;
                             Cursor.visible = true;
@@ -414,12 +420,12 @@ namespace SDK.Lib
 #if UNITY_EDITOR
                         else if (after == ControlScheme.Controller)
 #else
-					else
+					    else
 #endif
                         {
 #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-						Screen.showCursor = false;
-						Screen.lockCursor = true;
+						    Screen.showCursor = false;
+						    Screen.lockCursor = true;
 #else
                             Cursor.visible = false;
                             Cursor.lockState = CursorLockMode.None;
@@ -1213,11 +1219,11 @@ namespace SDK.Lib
             /*if (Application.platform == RuntimePlatform.Android ||
                 Application.platform == RuntimePlatform.IPhonePlayer
                 || Application.platform == RuntimePlatform.WP8Player
-    #if UNITY_4_3
+#if UNITY_4_3
                 || Application.platform == RuntimePlatform.BB10Player
-    #else
+#else
                 || Application.platform == RuntimePlatform.BlackBerryPlayer
-    #endif
+#endif
                 )
             {
                 useTouch = true;
