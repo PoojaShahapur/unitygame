@@ -4,6 +4,12 @@ namespace SDK.Lib
 {
     public class UtilIO
     {
+        static protected Vector2 m_lastFirPos;
+        static protected Vector2 m_curFirPos;
+
+        static protected Vector2 m_lastSndPos;
+        static protected Vector2 m_curSndPos;
+
         static public KeyCode[] keys = new KeyCode[]
         {
             KeyCode.Backspace, // 8,
@@ -167,7 +173,43 @@ namespace SDK.Lib
         // 两个或多个滑动事件
         static public void onMultiTouch()
         {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                m_curFirPos = touch.position;
 
+                if (Input.touchCount > 1)
+                {
+                    touch = Input.GetTouch(1);
+                    m_curSndPos = touch.position;
+
+                    float curDist = Vector2.Distance(m_curFirPos, m_curSndPos);
+                    float lastDist = Vector2.Distance(m_lastFirPos, m_lastSndPos);
+                    float delta = curDist - lastDist;
+                    // 分发多触屏改变
+                    // disp
+                }
+            }
+
+            m_lastFirPos = m_curFirPos;
+            m_lastSndPos = m_curSndPos;
         }
+
+        // 模拟停止拖放
+        static public void simuStopDrag(IOController.MouseOrTouch currentTouch)
+        {
+            if (currentTouch != null)
+            {
+                currentTouch.dragStarted = false;
+                currentTouch.pressed = null;
+                currentTouch.dragged = null;
+            }
+        }
+
+        // 播放协程
+        //public Coroutine StartCoroutine(IEnumerator routine)
+        //{
+        //    return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
+        //}
     }
 }

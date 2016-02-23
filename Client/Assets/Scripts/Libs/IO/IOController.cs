@@ -2080,23 +2080,6 @@ namespace SDK.Lib
         /// </summary>
         static public bool HideTooltip() { return ShowTooltip(null); }
 
-        // 模拟停止拖放
-        static public void simuStopDrag()
-        {
-            if (currentTouch != null)
-            {
-                currentTouch.dragStarted = false;
-                currentTouch.pressed = null;
-                currentTouch.dragged = null;
-            }
-        }
-
-        // 播放协程
-        //public Coroutine StartCoroutine(IEnumerator routine)
-        //{
-        //    return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
-        //}
-
 #if !UNITY_EDITOR
 	/// <summary>
 	/// Clear all active press states when the application gets paused.
