@@ -671,7 +671,6 @@ namespace SDK.Lib
         /// <summary>
         /// Currently chosen object for controller-based navigation.
         /// </summary>
-
         static public GameObject controllerNavigationObject
         {
             get
@@ -903,17 +902,6 @@ namespace SDK.Lib
             return 0;
         }
 
-        struct DepthEntry
-        {
-            public int depth;
-            public RaycastHit hit;
-            public Vector3 point;
-            public GameObject go;
-        }
-
-        //static DepthEntry mHit = new DepthEntry();
-        //static BetterList<DepthEntry> mHits = new BetterList<DepthEntry>();
-
         /// <summary>
         /// Find the rigidbody on the parent, but return 'null' if a UIPanel is found instead.
         /// The idea is: send events to the rigidbody in the world, but to colliders in the UI.
@@ -1035,40 +1023,6 @@ namespace SDK.Lib
         }
 
         static Plane m2DPlane = new Plane(Vector3.back, 0f);
-
-        /// <summary>
-        /// Helper function to check if the specified hit is visible by the panel.
-        /// </summary>
-        static bool IsVisible(Vector3 worldPoint, GameObject go)
-        {
-            //UIPanel panel = NGUITools.FindInParents<UIPanel>(go);
-
-            //while (panel != null)
-            //{
-            //    if (!panel.IsVisible(worldPoint)) return false;
-            //    panel = panel.parentPanel;
-            //}
-            return true;
-        }
-
-        /// <summary>
-        /// Helper function to check if the specified hit is visible by the panel.
-        /// </summary>
-#if UNITY_FLASH
-	    static bool IsVisible (DepthEntry de)
-#else
-        static bool IsVisible(ref DepthEntry de)
-#endif
-        {
-            //UIPanel panel = NGUITools.FindInParents<UIPanel>(de.go);
-
-            //while (panel != null)
-            //{
-            //    if (!panel.IsVisible(de.point)) return false;
-            //    panel = panel.parentPanel;
-            //}
-            return true;
-        }
 
         /// <summary>
         /// Whether the specified object should be highlighted.
@@ -1496,12 +1450,12 @@ namespace SDK.Lib
                 currentTouch = mMouse[i];
 
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-			if (commandClick && i == 0 && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
-			{
-				currentTouchID = -2;
-				currentKey = KeyCode.Mouse1;
-			}
-			else
+			    if (commandClick && i == 0 && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+			    {
+				    currentTouchID = -2;
+				    currentKey = KeyCode.Mouse1;
+			    }
+			    else
 #endif
                 {
                     currentTouchID = -1 - i;
