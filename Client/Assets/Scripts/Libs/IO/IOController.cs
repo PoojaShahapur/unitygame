@@ -201,6 +201,7 @@ namespace SDK.Lib
 
         /// <summary>
         /// How far the mouse is allowed to move in pixels before it's no longer considered for click events, if the click notification is based on delta.
+        /// 输入移动多大后，再次 up 输入，这个时候仍算一次 Click， 事件分为 Down \ UP \ CLICK
         /// </summary>
         public float mouseClickThreshold = 10f;
 
@@ -1811,7 +1812,7 @@ namespace SDK.Lib
 
                 Notify(currentTouch.pressed, "OnPress", true);
 
-                if (mTooltip != null) ShowTooltip(null);
+                if (mTooltip != null) ShowTooltip(null);    // 与函数开头的一行代码重复了
 
                 // Change the selection
                 if (mSelected != currentTouch.pressed)
@@ -1960,6 +1961,7 @@ namespace SDK.Lib
                 }
 
                 // If the button/touch was released on the same object, consider it a click and select it
+                // 如果移动的输入还不到启动拖动的距离，判断是否作为一次 Click 事件
                 if (currentTouch.dragged == currentTouch.current ||
                     (currentScheme != ControlScheme.Controller &&
                     currentTouch.clickNotification != ClickNotification.None &&
