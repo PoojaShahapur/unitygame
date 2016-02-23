@@ -57,7 +57,7 @@ namespace SDK.Lib
             /// <summary>
             /// Delta time since the touch operation started.
             /// </summary>
-            public float deltaTime { get { return UtilApi.time - pressTime; } }
+            public float deltaTime { get { return UtilIO.time - pressTime; } }
 
             /// <summary>
             /// Returns whether this touch is currently over a UI element.
@@ -288,7 +288,7 @@ namespace SDK.Lib
         }
 
         static bool mDisableController = false;
-        static Vector2 mLastPos = Vector2.zero;
+        static Vector2 mLastPos = Vector2.zero;     // 记录最后触碰位置， Screen 空间位置
 
         /// <summary>
         /// Position of the last touch (or mouse) event.
@@ -322,6 +322,7 @@ namespace SDK.Lib
 
         /// <summary>
         /// Position of the last touch (or mouse) event in the world.
+        /// 世界空间最后触碰位置
         /// </summary>
         static public Vector3 lastWorldPosition = Vector3.zero;
 
@@ -943,9 +944,11 @@ namespace SDK.Lib
 
         /// <summary>
         /// Raycast into the screen underneath the touch and update its 'current' value.
+        /// Raycast 设置很多变量，后面会使用这些设置的值进行判断
         /// </summary>
         static public void Raycast(MouseOrTouch touch)
         {
+            // raycast 设置的值
             if (!Raycast(touch.pos)) mRayHitObject = fallThrough;
             if (mRayHitObject == null) mRayHitObject = mGenericHandler;
             touch.last = touch.current;
@@ -984,6 +987,7 @@ namespace SDK.Lib
                 {
                     if (Physics.Raycast(ray, out lastHit, dist, mask))
                     {
+                        // raycast 需要设置的值
                         lastWorldPosition = lastHit.point;
                         hoveredObject = lastHit.collider.gameObject;
 
@@ -1137,7 +1141,7 @@ namespace SDK.Lib
             if (createIfMissing)
             {
                 MouseOrTouch touch = new MouseOrTouch();
-                touch.pressTime = RealTime.time;
+                touch.pressTime = UtilIO.time;
                 touch.touchBegan = true;
                 activeTouches.Add(touch);
                 mTouchIDs.Add(id);
@@ -1294,7 +1298,8 @@ namespace SDK.Lib
                     Notify(mHover, "OnScroll", scroll);
                 }
 
-                if (showTooltips && mTooltipTime != 0f && (mTooltipTime < RealTime.time ||
+                // mTooltipTime < UtilApi.time 说明延迟时间到了，需要显示 ToolTip 了
+                if (showTooltips && mTooltipTime != 0f && (mTooltipTime < UtilIO.time ||
                     GetKey(KeyCode.LeftShift) || GetKey(KeyCode.RightShift)))
                 {
                     currentTouch = mMouse[0];
@@ -1303,7 +1308,7 @@ namespace SDK.Lib
                 }
             }
 
-            if (mTooltip != null && !NGUITools.GetActive(mTooltip))
+            if (mTooltip != null && !UtilApi.GetActive(mTooltip))
                 ShowTooltip(null);
 
             current = null;
@@ -1400,6 +1405,7 @@ namespace SDK.Lib
             }
 
             // No need to perform raycasts every frame
+            // 没有必要每一帧执行 raycast ， mNextRaycast < RealTime.time 说明超过间隔
             if (isPressed || posChanged || mNextRaycast < RealTime.time)
             {
                 mNextRaycast = RealTime.time + 0.02f;
@@ -1410,6 +1416,7 @@ namespace SDK.Lib
             bool highlightChanged = (currentTouch.last != currentTouch.current);
             bool wasPressed = (currentTouch.pressed != null);
 
+            // hoveredObject 已经在 Raycast 这里面设置了，这里重复设置了一边
             if (!wasPressed)
                 hoveredObject = currentTouch.current;
 
@@ -1418,6 +1425,7 @@ namespace SDK.Lib
 
             if (!isPressed && posChanged && (!stickyTooltip || highlightChanged))
             {
+                // 将要显示 ToolTip 但是由于延迟时间没有到，因此还没有显示
                 if (mTooltipTime != 0f)
                 {
                     // Delay the tooltip
@@ -1466,7 +1474,7 @@ namespace SDK.Lib
                 if (pressed)
                 {
                     currentTouch.pressedCam = currentCamera;
-                    currentTouch.pressTime = RealTime.time;
+                    currentTouch.pressTime = UtilIO.time;
                 }
                 else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
 
@@ -1478,7 +1486,7 @@ namespace SDK.Lib
             if (!isPressed && highlightChanged)
             {
                 currentTouch = mMouse[0];
-                mTooltipTime = RealTime.time + tooltipDelay;
+                mTooltipTime = UtilIO.time + tooltipDelay;
                 currentTouchID = -1;
                 currentKey = KeyCode.Mouse0;
                 hoveredObject = currentTouch.current;
@@ -1559,7 +1567,7 @@ namespace SDK.Lib
                 else if (currentTouch.pressed != null) currentCamera = currentTouch.pressedCam;
 
                 // Double-tap support
-                if (tapCount > 1) currentTouch.clickTime = RealTime.time;
+                if (tapCount > 1) currentTouch.clickTime = UtilIO.time;
 
                 // Process the events from this touch
                 ProcessTouch(pressed, unpressed);
@@ -1756,9 +1764,9 @@ namespace SDK.Lib
             // Send out all key events
             if (Input.anyKeyDown)
             {
-                for (int i = 0, imax = UtilApi.keys.Length; i < imax; ++i)
+                for (int i = 0, imax = UtilIO.keys.Length; i < imax; ++i)
                 {
-                    KeyCode key = UtilApi.keys[i];
+                    KeyCode key = UtilIO.keys[i];
                     if (lastKey == key) continue;
                     if (!GetKeyDown(key)) continue;
 
@@ -1959,7 +1967,7 @@ namespace SDK.Lib
                     if (currentTouch.clickNotification != ClickNotification.None && currentTouch.pressed == currentTouch.current)
                     {
                         ShowTooltip(null);
-                        float time = RealTime.time;
+                        float time = UtilIO.time;
 
                         if (onClick != null) onClick(currentTouch.pressed);
                         Notify(currentTouch.pressed, "OnClick", null);
@@ -2002,7 +2010,8 @@ namespace SDK.Lib
         /// </summary>
         public void ProcessTouch(bool pressed, bool released)
         {
-            if (pressed) mTooltipTime = Time.unscaledTime + tooltipDelay;
+            // 一旦按下，就设置延迟提示
+            if (pressed) mTooltipTime = UtilIO.time + tooltipDelay;
 
             // Whether we're using the mouse
             bool isMouse = (currentScheme == ControlScheme.Mouse);
@@ -2079,10 +2088,10 @@ namespace SDK.Lib
         }
 
         // 播放协程
-        public Coroutine StartCoroutine(IEnumerator routine)
-        {
-            return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
-        }
+        //public Coroutine StartCoroutine(IEnumerator routine)
+        //{
+        //    return Ctx.m_instance.m_coroutineMgr.StartCoroutine(routine);
+        //}
 
 #if !UNITY_EDITOR
 	/// <summary>
