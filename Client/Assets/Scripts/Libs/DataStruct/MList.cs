@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class MList<T>
     {
-        public delegate int CompareFunc(T left, T right);
+        //public delegate int CompareFunc(T left, T right);
 
         protected List<T> m_list;
         protected int m_uniqueId;       // 唯一 Id ，调试使用
@@ -161,7 +161,7 @@ namespace SDK.Lib
             return m_list.Contains(item);
         }
 
-        public void Sort(CompareFunc comparer)
+        public void Sort(System.Comparison<T> comparer)
         {
             m_list.Sort(comparer);
         }

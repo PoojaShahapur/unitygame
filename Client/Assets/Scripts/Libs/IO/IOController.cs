@@ -166,6 +166,8 @@ namespace SDK.Lib
 
         /// <summary>
         /// Whether the tooltip will disappear as soon as the mouse moves (false) or only if the mouse moves outside of the widget's area (true).
+        /// false 是否一旦鼠标移动， tooltip 就消失，
+        /// true 或者只有鼠标移动到窗口区域外边
         /// </summary>
         public bool stickyTooltip = true;
 
@@ -259,6 +261,7 @@ namespace SDK.Lib
 
         /// <summary>
         /// Last camera active prior to sending out the event. This will always be the camera that actually sent out the event.
+        /// 记在发送出事件之前最后 active 摄像机，这个将总是最终发送事件的摄像机，就是触发事件的摄像机
         /// </summary>
         static public Camera currentCamera = null;
 
@@ -334,7 +337,7 @@ namespace SDK.Lib
         static public BoolDelegate onTooltip;
         static public MoveDelegate onMouseMove;
 
-        // Selected widget (for input)
+        // Selected widget (for input)，记录 mNextSelection 是为了所有的输入一次都被处理
         static GameObject mCurrentSelection = null;
         static GameObject mNextSelection = null;
         static ControlScheme mNextScheme = ControlScheme.Controller;
@@ -436,12 +439,14 @@ namespace SDK.Lib
         /// </summary>
         static protected void SetSelection(GameObject go, ControlScheme scheme)
         {
+            // 如果下一个选择的已经有了，说明当前的也已经有了，只能替换下一个选择，保存当前选择的
             if (mNextSelection != null)
             {
                 mNextSelection = go;
             }
-            else if (mCurrentSelection != go)
+            else if (mCurrentSelection != go)   // 如果当前选择存在，并且下一个选择不存在，并且当前选择
             {
+                // 保存到下一个选择变量里面
                 mNextSelection = go;
                 mNextScheme = scheme;
 
@@ -1004,7 +1009,8 @@ namespace SDK.Lib
                     Notify(mHover, "OnScroll", scroll);
                 }
 
-                if (showTooltips && mTooltipTime != 0f && (mTooltipTime < RealTime.time ||
+                // mTooltipTime < UtilApi.time 就说明延迟显示的时间到了
+                if (showTooltips && mTooltipTime != 0f && (mTooltipTime < UtilApi.time ||
                     GetKey(KeyCode.LeftShift) || GetKey(KeyCode.RightShift)))
                 {
                     mTooltip = mHover;
@@ -1079,7 +1085,10 @@ namespace SDK.Lib
                 }
             }
 
+            // 获取当前帧交互 GameObject，以便进行后面的处理
             // No need to perform raycasts every frame
+            // 没有必要每一帧执行 raycasts ，只有间隔 0.02f 才执行一次
+            // 如果按下，或者位置改变，或者时间间隔到了
             if (isPressed || posChanged || mNextRaycast < UtilApi.time)
             {
                 mNextRaycast = UtilApi.time + 0.02f;
@@ -1088,16 +1097,19 @@ namespace SDK.Lib
                 for (int i = 0; i < 3; ++i) mMouse[i].current = hoveredObject;
             }
 
+            // 是否移动进入一个新的 GameObject 
             bool highlightChanged = (mMouse[0].last != mMouse[0].current);
             if (highlightChanged) currentScheme = ControlScheme.Mouse;
 
+            // 下面开始处理各种事件
             if (isPressed)
             {
                 // A button was pressed -- cancel the tooltip
                 mTooltipTime = 0f;
             }
-            else if (posChanged && (!stickyTooltip || highlightChanged))
+            else if (posChanged && (!stickyTooltip || highlightChanged))    // 如果鼠标位置移动了，并且或者移动鼠标提示就消失或者移动到另外一个新的 GameObject 上面
             {
+                // 如果 ToolTip 还没显示，但是正在倒计时将要显示中
                 if (mTooltipTime != 0f)
                 {
                     // Delay the tooltip
@@ -1105,12 +1117,14 @@ namespace SDK.Lib
                 }
                 else if (mTooltip != null)
                 {
+                    // ToolTip 在显示或者隐藏中，再次设置隐藏，以便保险
                     // Hide the tooltip
                     ShowTooltip(false);
                 }
             }
 
             // Generic mouse move notifications
+            // 鼠标移动事件处理
             if (posChanged && onMouseMove != null)
             {
                 currentTouch = mMouse[0];
@@ -1118,6 +1132,7 @@ namespace SDK.Lib
                 currentTouch = null;
             }
 
+            // 悬浮事件处理
             // The button was released over a different object -- remove the highlight from the previous
             // justPressed 鼠标第一次按下，或者 isPressed 鼠标没有按下，并且 mHover 对象存在，并且 highlightChanged 高亮改变
             if ((justPressed || !isPressed) && mHover != null && highlightChanged)
@@ -1130,7 +1145,9 @@ namespace SDK.Lib
                 mHover = null;
             }
 
+            // 下面试鼠标事件和触碰相同的事件处理，上面的那些是鼠标独有的事件
             // Process all 3 mouse buttons as individual touches
+            // 处理所有 3 个鼠标按钮座位单独的触碰
             for (int i = 0; i < 3; ++i)
             {
                 // 检查是否有鼠标操作
@@ -1140,8 +1157,8 @@ namespace SDK.Lib
                 if (pressed || unpressed) currentScheme = ControlScheme.Mouse;
 
                 currentTouch = mMouse[i];
-                currentTouchID = -1 - i;
-                currentKey = KeyCode.Mouse0 + i;
+                currentTouchID = -1 - i;        // 鼠标的触碰 ID 就是 -1, 0, 1
+                currentKey = KeyCode.Mouse0 + i;// 当前的鼠标 key
 
                 // We don't want to update the last camera while there is a touch happening
                 if (pressed) currentTouch.pressedCam = currentCamera;
@@ -1580,9 +1597,11 @@ namespace SDK.Lib
         /// </summary>
         public void ShowTooltip(bool val)
         {
+            // 只要显示提示或者隐藏提示，mTooltipTime 立刻设置成 0
             mTooltipTime = 0f;
             if (onTooltip != null) onTooltip(mTooltip, val);
             Notify(mTooltip, "OnTooltip", val);
+            // 如果隐藏提示，需要将 mTooltip 设置成 null
             if (!val) mTooltip = null;
         }
 
