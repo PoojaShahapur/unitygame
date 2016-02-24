@@ -45,12 +45,14 @@ namespace SDK.Lib
 
         protected QuadMeshRender m_quadRender;  // 显示节点的区域大小
         protected bool m_bShowBoundBox;         // 显示 BoundBox
+        protected MBoundingVolumeBase m_bv;
 
         /**
          * @brief 四叉树的节点，深度根据 leaf 的大小确定
          */
         public MQuadTreeNode(TerrainPage terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0, int xTileOffset = 0, int zTileOffset = 0)
         {
+            m_bv = new MBoundingVolumeBase();
             m_terrain = terrain;
 
             int halfSize = (int)(size * 0.5f);
@@ -114,6 +116,25 @@ namespace SDK.Lib
 			return true;
 		}
 
+        public bool isVisible(MList<MPlane3D> planes, int numPlanes)
+        {
+            Vector3 half = Vector3.zero;
+            for (int plane = 0; plane< 6; ++plane)
+            {
+                m_bv.setMin(new Vector3(m_centerX - m_halfExtentXZ / 2, 0, m_centerZ - m_halfExtentXZ / 2));
+                m_bv.setMax(new Vector3(m_centerX + m_halfExtentXZ / 2, 0, m_centerZ + m_halfExtentXZ / 2));
+                half = m_bv.getHalfSize();
+                int side = planes[plane].getSide(new Vector3(m_centerX, 0, m_centerZ), half);
+                half = new Vector3();
+                if (side == MPlaneClassification.BACK)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         override public MNodeBase findPartitionForEntity()
         {
             MBoundingVolumeBase bounds = null;
@@ -176,7 +197,8 @@ namespace SDK.Lib
          */
         override public void updateClip(MList<MPlane3D> planes)
         {
-            if(this.isInFrustum(planes, planes.length()))   // 如果在 Frustum 内
+            //if(this.isInFrustum(planes, planes.length()))   // 如果在 Frustum 内
+            if(this.isVisible(planes, planes.length()))
             {
                 if (m_leaf)      // 如果是 Leaf 节点
                 {
