@@ -113,7 +113,7 @@ namespace SDK.Lib
             m_a = normal.x;
             m_b = normal.y;
             m_c = normal.z;
-            m_d = m_a * point.x + m_b * point.y + m_c * point.z;
+            m_d = -(m_a * point.x + m_b * point.y + m_c * point.z);
             if (m_a == 0 && m_b == 0)
             {
                 m_alignment = ALIGN_XY_AXIS;

@@ -118,12 +118,30 @@ namespace SDK.Lib
 
         public bool isVisible(MList<MPlane3D> planes, int numPlanes)
         {
+            //m_centerX = 32;
+            //m_centerZ = 32;
+
+            //m_centerX = 96;
+            //m_centerZ = 32;
+
+            //m_centerX = 160;
+            //m_centerZ = 32;
+
+            m_centerX = 224;
+            m_centerZ = 32;
+
+            m_centerX = 160;
+            m_centerZ = 32;
+            m_halfExtentXZ = 32;
+            m_halfExtentY = 0;
+
             Vector3 half = Vector3.zero;
             for (int plane = 0; plane< 6; ++plane)
             {
-                m_bv.setMin(new Vector3(m_centerX - m_halfExtentXZ / 2, 0, m_centerZ - m_halfExtentXZ / 2));
-                m_bv.setMax(new Vector3(m_centerX + m_halfExtentXZ / 2, 0, m_centerZ + m_halfExtentXZ / 2));
+                m_bv.setMin(new Vector3(m_centerX - m_halfExtentXZ, 0, m_centerZ - m_halfExtentXZ));
+                m_bv.setMax(new Vector3(m_centerX + m_halfExtentXZ, 0, m_centerZ + m_halfExtentXZ));
                 half = m_bv.getHalfSize();
+
                 int side = planes[plane].getSide(new Vector3(m_centerX, 0, m_centerZ), half);
                 half = new Vector3();
                 if (side == MPlaneClassification.BACK)
