@@ -11,11 +11,11 @@ function M.traceback(thread, message, level)
         level = 1;
     end
     if(thread ~= nil) then
-        message = debug.traceback(thread, message, level)
+        message = debug.traceback(thread, message, level);
     else
-        message = debug.traceback(message, level)
+        message = debug.traceback(message, level);
     end
-    error(message, 2)
+    error(message, 2);
 end
 
 return M;
