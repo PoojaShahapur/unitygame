@@ -78,6 +78,11 @@ namespace SDK.Lib
 			
         }
 
+        virtual public void convCornerView2World(Matrix4x4 viewMat)
+        {
+
+        }
+
         virtual public void buildPanel()
         {
 

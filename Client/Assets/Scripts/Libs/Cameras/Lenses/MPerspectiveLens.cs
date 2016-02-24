@@ -101,12 +101,29 @@ namespace SDK.Lib
 			m_frustumCorners[13] = m_frustumCorners[16] = farHalfHeight;
 			m_frustumCorners[19] = m_frustumCorners[22] = -farHalfHeight;
 			
-			m_frustumCorners[2] = m_frustumCorners[5] = m_frustumCorners[8] = m_frustumCorners[11] = m_nearDist;
-			m_frustumCorners[14] = m_frustumCorners[17] = m_frustumCorners[20] = m_frustumCorners[23] = m_farDist;
-			
-			m_matrixInvalid = false;
+			m_frustumCorners[2] = m_frustumCorners[5] = m_frustumCorners[8] = m_frustumCorners[11] = -m_nearDist;
+			m_frustumCorners[14] = m_frustumCorners[17] = m_frustumCorners[20] = m_frustumCorners[23] = -m_farDist;
+
+            m_matrixInvalid = false;
 
             //testLogMatrix(m_matrix3D);
+        }
+
+        // 转换相机空间 Frustum 八个顶点到世界空间
+        override public void convCornerView2World(Matrix4x4 viewMat)
+        {
+            Matrix4x4 eyeToWorld = viewMat.inverse;
+            int index = 0;
+            Vector4 pos = Vector4.zero;
+            while(index < 8)
+            {
+                pos = new Vector4(m_frustumCorners[index * 3 + 0], m_frustumCorners[index * 3 + 1], m_frustumCorners[index * 3 + 2], 1);
+                pos = eyeToWorld * pos;
+                m_frustumCorners[index * 3 + 0] = pos.x;
+                m_frustumCorners[index * 3 + 1] = pos.y;
+                m_frustumCorners[index * 3 + 2] = pos.z;
+                index = index + 1;
+            }
         }
 
         override public void buildPanel()

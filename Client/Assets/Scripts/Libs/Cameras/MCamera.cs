@@ -66,6 +66,7 @@ namespace SDK.Lib
                 updateFrustum_A();
                 //updateFrustum_B();
                 m_lens.updateMatrix();
+                m_lens.convCornerView2World(m_viewMat);
                 //m_lens.buildPanel();
                 if (m_lens.getShowBoundBox())
                 {

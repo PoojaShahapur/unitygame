@@ -60,11 +60,11 @@ namespace UnitTest
             m_pTestProtoBuf.run();
 
             //m_pTestDraw.run();
-            //m_testHeightMap.run();
+            m_testHeightMap.run();
             //m_testCoordinateConv.run();
             //m_testTime.run();
-            m_testCameraMan.run();
-            m_testIOControl.run();
+            //m_testCameraMan.run();
+            //m_testIOControl.run();
         }
     }
 }

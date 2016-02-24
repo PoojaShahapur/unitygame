@@ -12,8 +12,8 @@ namespace UnitTest
         {
             //testHeightMap();
             //testTerrainPageOne();
-            testTerrainPageMulti();
-            //testProjectMatrix();
+            //testTerrainPageMulti();
+            testProjectMatrix();
             //testPrint();
         }
 
@@ -59,7 +59,7 @@ namespace UnitTest
         public void onResLoadScene(Scene scene)
         {
             //checkCamera();
-            Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
+            //Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
             testTerrainPageMulti();
         }
 
