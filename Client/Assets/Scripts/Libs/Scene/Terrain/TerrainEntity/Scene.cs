@@ -59,11 +59,16 @@ namespace SDK.Lib
             m_terrain.updateClip();
         }
 
+        public void updateClip()
+        {
+            m_terrain.updateClip();
+        }
+
         public float getHeightAt(float x, float z)
         {
             if (m_terrain != null)
             {
-                m_terrain.getHeightAt(x, z);
+                return m_terrain.getHeightAt(x, z);
             }
 
             return 0;

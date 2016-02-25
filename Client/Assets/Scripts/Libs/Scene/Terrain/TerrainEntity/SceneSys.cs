@@ -116,11 +116,16 @@ namespace SDK.Lib
             }
         }
 
+        public void updateClip()
+        {
+            m_scene.updateClip();
+        }
+
         public float getHeightAt(float x, float z)
         {
             if (m_scene != null)
             {
-                m_scene.getHeightAt(x, z);
+                return m_scene.getHeightAt(x, z);
             }
 
             return 0;

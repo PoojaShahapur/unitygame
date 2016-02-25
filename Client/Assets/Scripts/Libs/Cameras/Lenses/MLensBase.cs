@@ -28,7 +28,7 @@ namespace SDK.Lib
 
         protected MLensBase()
         {
-            m_bShowBoundBox = true;
+            m_bShowBoundBox = false;
             m_frustumRender = new QuadMeshRender(24);
             m_matrix3D = new MMatrix3D();
 

@@ -88,5 +88,13 @@ namespace SDK.Lib
         {
             return m_mCamera.getFrustumPlanes();
         }
+
+        public void invalidCamera()
+        {
+            if (m_mCamera != null)
+            {
+                m_mCamera.update();
+            }
+        }
     }
 }

@@ -24,7 +24,8 @@ namespace SDK.Lib
         {
             m_bOrderMode = true;
             m_bHalfMode = true;
-            m_thetaEpsilon = float.Epsilon;
+            //m_thetaEpsilon = float.Epsilon;
+            m_thetaEpsilon = 1;
             m_radius = 5;
             m_theta = Mathf.PI / 4;
             m_radius = Mathf.PI;
@@ -76,7 +77,7 @@ namespace SDK.Lib
             {
                 if (m_bHalfMode)
                 {
-                    m_theta = Mathf.PI - m_thetaEpsilon;
+                    m_theta = Mathf.PI - m_thetaEpsilon * Mathf.Deg2Rad;
                 }
                 else
                 {
@@ -128,7 +129,7 @@ namespace SDK.Lib
             {
                 if (m_bHalfMode)
                 {
-                    m_theta = m_thetaEpsilon;
+                    m_theta = m_thetaEpsilon * Mathf.Deg2Rad;
                 }
                 else
                 {

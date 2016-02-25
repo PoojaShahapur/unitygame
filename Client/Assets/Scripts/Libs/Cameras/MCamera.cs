@@ -44,7 +44,7 @@ namespace SDK.Lib
             update();
         }
 
-        protected void update()
+        public void update()
         {
             // 更新摄像机的参数信息，真正的摄像机的设置
             // fov = 60

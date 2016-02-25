@@ -17,7 +17,7 @@ namespace SDK.Lib
                 m_localPos = m_targetTrans.localPosition;
                 m_localPos.z = m_localPos.z + 0.1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
-                m_localPos.y = height;
+                m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
                 m_cameraController.updateControl();
             }
@@ -26,7 +26,7 @@ namespace SDK.Lib
                 m_localPos = m_targetTrans.localPosition;
                 m_localPos.z = m_localPos.z - 0.1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
-                m_localPos.y = height;
+                m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
                 m_cameraController.updateControl();
             }
@@ -35,7 +35,7 @@ namespace SDK.Lib
                 m_localPos = m_targetTrans.localPosition;
                 m_localPos.x = m_localPos.x + 0.1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
-                m_localPos.y = height;
+                m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
                 m_cameraController.updateControl();
             }
@@ -44,7 +44,7 @@ namespace SDK.Lib
                 m_localPos = m_targetTrans.localPosition;
                 m_localPos.x = m_localPos.x - 0.1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
-                m_localPos.y = height;
+                m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
                 m_cameraController.updateControl();
             }
