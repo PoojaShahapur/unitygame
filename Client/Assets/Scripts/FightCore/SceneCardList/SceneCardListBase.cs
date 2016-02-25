@@ -152,7 +152,7 @@ namespace FightCore
 
         public SceneCardBase getSceneCardByThisID(uint thisid)
         {
-            foreach (SceneCardBase item in m_sceneCardList.list)
+            foreach (SceneCardBase item in m_sceneCardList.list())
             {
                 if (item.sceneCardItem != null)
                 {
@@ -172,7 +172,7 @@ namespace FightCore
 
         public void updateCardData(SceneCardItem sceneItem)
         {
-            foreach (SceneCardBase item in m_sceneCardList.list)
+            foreach (SceneCardBase item in m_sceneCardList.list())
             {
                 if (item.sceneCardItem.svrCard.qwThisID == sceneItem.svrCard.qwThisID)
                 {
@@ -184,7 +184,7 @@ namespace FightCore
 
         public SceneCardBase getUnderSceneCard(GameObject underGo)
         {
-            foreach(SceneCardBase item in m_sceneCardList.list)
+            foreach(SceneCardBase item in m_sceneCardList.list())
             {
                 if (UtilApi.isAddressEqual(item.gameObject(), underGo))
                 {
@@ -224,7 +224,7 @@ namespace FightCore
         {
             ushort idx = 0;
 
-            foreach (SceneCardBase item in m_sceneCardList.list)
+            foreach (SceneCardBase item in m_sceneCardList.list())
             {
                 item.curIndex = idx;
                 ++idx;
@@ -233,7 +233,7 @@ namespace FightCore
 
         public void updateCardOutState(bool benable)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList.list)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list())
             {
                 cardItem.updateCardOutState(benable);
             }
@@ -242,7 +242,7 @@ namespace FightCore
         // 更新被击状态
         public void updateCardAttackedState(GameOpState opt)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList.list)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list())
             {
                 cardItem.updateCardAttackedState(opt);
             }
@@ -399,7 +399,7 @@ namespace FightCore
             }
             else
             {
-                foreach (var cardItem in m_sceneCardList.list)
+                foreach (var cardItem in m_sceneCardList.list())
                 {
                     if (cardItem.curIndex >= card.curIndex)
                     {

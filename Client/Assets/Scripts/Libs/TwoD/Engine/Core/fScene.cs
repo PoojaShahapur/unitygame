@@ -791,16 +791,16 @@ namespace SDK.Lib
 			this.container = null;
 
             int il;
-			foreach(fElement ele in floors.list)
+			foreach(fElement ele in floors.list())
 			{
 				ele.dispose();
 			}			
-			foreach(fElement ele in objects.list)
+			foreach(fElement ele in objects.list())
 			{
 				ele.dispose();
 			}
 			
-			foreach(fElement ele in characters.list)
+			foreach(fElement ele in characters.list())
 			{
 				ele.dispose();
 			}
@@ -840,7 +840,7 @@ namespace SDK.Lib
 		// KBEN: 根据格子找对应的区块，就是 floor
 		public fFloor getFloorByGridPos(uint ix, uint iy)
 		{
-			foreach(fFloor floor in this.floors.list)
+			foreach(fFloor floor in this.floors.list())
 			{
 				if (floor.i <= ix && ix < floor.i + floor.gWidth && floor.j <= iy && iy < floor.j + floor.gDepth)
 				{

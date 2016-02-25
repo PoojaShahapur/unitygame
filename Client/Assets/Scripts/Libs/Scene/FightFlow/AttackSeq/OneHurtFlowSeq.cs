@@ -29,7 +29,7 @@
         public void initHurtFlowSeq(AttackActionSeq actionSeq)
         {
             HurtSeqItem seqItem = null;
-            foreach(var actionItem in actionSeq.itemList.list)
+            foreach(var actionItem in actionSeq.itemList.list())
             {
                 seqItem = new HurtSeqItem(this);
                 m_hurtSeqItem.Add(seqItem);

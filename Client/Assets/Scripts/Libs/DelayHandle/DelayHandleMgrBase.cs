@@ -63,7 +63,7 @@
         // 只有没有添加到列表中的才能添加
         protected bool existAddList(IDelayHandleItem delayObject)
         {
-            foreach(var item in m_deferredAddQueue.list)
+            foreach(var item in m_deferredAddQueue.list())
             {
                 if(UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -77,7 +77,7 @@
         // 只有没有添加到列表中的才能添加
         protected bool existDelList(IDelayHandleItem delayObject)
         {
-            foreach (var item in m_deferredDelQueue.list)
+            foreach (var item in m_deferredDelQueue.list())
             {
                 if (UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -91,7 +91,7 @@
         // 从延迟添加列表删除一个 Item
         protected void delFromDelayAddList(IDelayHandleItem delayObject)
         {
-            foreach (var item in m_deferredAddQueue.list)
+            foreach (var item in m_deferredAddQueue.list())
             {
                 if (UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -103,7 +103,7 @@
         // 从延迟删除列表删除一个 Item
         protected void delFromDelayDelList(IDelayHandleItem delayObject)
         {
-            foreach (var item in m_deferredDelQueue.list)
+            foreach (var item in m_deferredDelQueue.list())
             {
                 if(UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {

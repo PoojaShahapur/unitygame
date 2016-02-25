@@ -29,7 +29,7 @@
         public void initAttackFlowSeq(AttackActionSeq actionSeq)
         {
             AttackSeqItem seqItem = null;
-            foreach(var actionItem in actionSeq.itemList.list)
+            foreach(var actionItem in actionSeq.itemList.list())
             {
                 seqItem = new AttackSeqItem(this);
                 m_attackItemList.Add(seqItem);
@@ -39,7 +39,7 @@
 
         public void onTime(float delta)
         {
-            foreach (var item in m_attackItemList.list)
+            foreach (var item in m_attackItemList.list())
             {
                 item.onTime(delta);
             }

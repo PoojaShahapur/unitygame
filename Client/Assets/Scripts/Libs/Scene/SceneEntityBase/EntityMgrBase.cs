@@ -4,11 +4,11 @@ namespace SDK.Lib
 {
     public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
-        protected List<SceneEntityBase> m_sceneEntityList;
+        protected MList<SceneEntityBase> m_sceneEntityList;
 
         public EntityMgrBase()
         {
-            m_sceneEntityList = new List<SceneEntityBase>();
+            m_sceneEntityList = new MList<SceneEntityBase>();
         }
 
         override public void addObject(IDelayHandleItem entity, float priority = 0.0f)
@@ -46,7 +46,7 @@ namespace SDK.Lib
 
         virtual protected void onTickExec(float delta)
         {
-            foreach (SceneEntityBase entity in m_sceneEntityList)
+            foreach (SceneEntityBase entity in m_sceneEntityList.list())
             {
                 if (!entity.getClientDispose())
                 {

@@ -110,7 +110,7 @@ namespace FightCore
 
         override public void disableAllCardDragExceptOne(SceneCardBase card)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList.list)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list())
             {
                 if(!cardItem.Equals(card))       // 如果内存地址相等
                 {
@@ -121,7 +121,7 @@ namespace FightCore
 
         override public void enableAllCardDragExceptOne(SceneCardBase card)
         {
-            foreach (SceneCardBase cardItem in m_sceneCardList.list)
+            foreach (SceneCardBase cardItem in m_sceneCardList.list())
             {
                 if (!cardItem.Equals(card))       // 如果内存地址相等
                 {

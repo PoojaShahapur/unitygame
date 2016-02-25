@@ -140,7 +140,7 @@ namespace SDK.Lib
 
         public void updateRoomList()
         {
-            m_mazeRoomList.list.Sort(sortRoom);
+            m_mazeRoomList.list().Sort(sortRoom);
         }
 
         public void getWayPtList(MList<MazePtBase> ptList)
@@ -228,7 +228,7 @@ namespace SDK.Lib
 
         public void resetInitState()
         {
-            m_mazeRoomList.list.Sort(sortFixRoom);      // 排序
+            m_mazeRoomList.list().Sort(sortFixRoom);      // 排序
             for(int idx = 0; idx < m_mazeRoomList.Count(); ++idx)
             {
                 m_mazeRoomList[idx].iTag = idx;

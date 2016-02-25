@@ -49,7 +49,7 @@ namespace FightCore
 
             m_stateEffectList.Clear();
 
-            foreach (var effect in m_linkEffectList.list)
+            foreach (var effect in m_linkEffectList.list())
             {
                 effect.dispose();
             }

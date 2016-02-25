@@ -77,13 +77,13 @@ namespace SDK.Lib
 			{
                 // 更新更新列表
                 MList<fFloor> updateDistrictList = m_updateDistrict[pregrid];
-				foreach(fFloor floor in m_visibleFloor.list)
+				foreach(fFloor floor in m_visibleFloor.list())
 				{
 
 				}
                 MList<fFloor> hideDistrict = m_hideDistrict[pregrid];
 				// 更新隐藏列表
-				foreach(fFloor floor in pregrid.m_visibleFloor.list)
+				foreach(fFloor floor in pregrid.m_visibleFloor.list())
 				{
 					// 如果上一个格子可见，这个格子不可见，必然是隐藏的区域
 					if(m_visibleFloor.IndexOf(floor) == -1)

@@ -14,7 +14,7 @@ namespace FightCore
         {
             base.clearAttTimes();
 
-            foreach(var card in m_sceneCardList.list)
+            foreach(var card in m_sceneCardList.list())
             {
                 card.clearAttTimes();
             }
@@ -24,7 +24,7 @@ namespace FightCore
         {
             base.updateCanLaunchAttState(bEnable);
 
-            foreach (var card in m_sceneCardList.list)
+            foreach (var card in m_sceneCardList.list())
             {
                 card.effectControl.updateCanLaunchAttState(bEnable);
             }

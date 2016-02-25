@@ -148,7 +148,7 @@ namespace FightCore
         override public int getCardCount()
         {
             int total = 0;
-            foreach(var cardItem in m_sceneCardList.list)
+            foreach(var cardItem in m_sceneCardList.list())
             {
                 if(!cardItem.Equals(m_whiteCard))
                 {
@@ -166,7 +166,7 @@ namespace FightCore
 
         public void updateStateEffect()
         {
-            foreach(var _card in m_sceneCardList.list)
+            foreach(var _card in m_sceneCardList.list())
             {
                 _card.updateStateEffect();
             }

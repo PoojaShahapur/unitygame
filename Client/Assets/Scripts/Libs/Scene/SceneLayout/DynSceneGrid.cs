@@ -205,7 +205,7 @@ namespace SDK.Lib
         {
             int count = 0;
 
-            foreach (var item in elemList_.list)
+            foreach (var item in elemList_.list())
             {
                 if(item.bValid)
                 {
@@ -218,7 +218,7 @@ namespace SDK.Lib
 
         protected bool hasExpandElem()
         {
-            foreach (var item in m_elemList.list)
+            foreach (var item in m_elemList.list())
             {
                 if (!item.isNormalState())
                 {

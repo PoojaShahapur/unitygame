@@ -27,12 +27,9 @@ namespace SDK.Lib
             return m_list.ToArray();
         }
 
-        public List<T> list
+        public List<T> list()
         {
-            get
-            {
-                return m_list;
-            }
+            return m_list;
         }
 
         public int uniqueId

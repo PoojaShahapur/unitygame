@@ -90,7 +90,7 @@ namespace FightCore
         // 是否还有剩余的点数可以使用
         public bool hasLeftMagicPtCanUse()
         {
-            foreach (SceneCardBase card in m_sceneCardList.list)
+            foreach (SceneCardBase card in m_sceneCardList.list())
             {
                 if(Ctx.m_instance.m_dataPlayer.m_dzData.m_playerArr[(int)m_playerSide].m_heroMagicPoint.mp >= card.sceneCardItem.svrCard.mpcost)
                 {

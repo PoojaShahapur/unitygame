@@ -47,7 +47,7 @@ namespace SDK.Lib
         {
             if (m_hurtList.Count() > 0)
             {
-                foreach (var item in m_hurtList.list)
+                foreach (var item in m_hurtList.list())
                 {
                     if (item.delayTime <= 0 && item.execState == EImmeHurtExecState.eNone)
                     {
@@ -80,7 +80,7 @@ namespace SDK.Lib
         // 获取是否有被击 Item
         public bool hasHurtItem()
         {
-            foreach (var item in m_hurtList.list)
+            foreach (var item in m_hurtList.list())
             {
                 if (item.delayTime <= 0 && item.execState == EImmeHurtExecState.eNone)
                 {
@@ -94,7 +94,7 @@ namespace SDK.Lib
         // 获取是否有执行中的被击 Item
         public bool hasExecHurtItem()
         {
-            foreach (var item in m_hurtList.list)
+            foreach (var item in m_hurtList.list())
             {
                 if (item.execState == EImmeHurtExecState.eExecing || item.execState == EImmeHurtExecState.eStartExec)
                 {
@@ -108,7 +108,7 @@ namespace SDK.Lib
         public void onTime(float delta)
         {
             List<ImmeHurtItemBase> list = new List<ImmeHurtItemBase>();
-            foreach(var item in m_hurtList.list)
+            foreach(var item in m_hurtList.list())
             {
                 item.onTime(delta);
                 if (item.execState == EImmeHurtExecState.eEnd)

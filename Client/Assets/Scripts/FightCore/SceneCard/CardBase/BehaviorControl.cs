@@ -160,7 +160,7 @@ namespace FightCore
                 {
                     if (item.skillTableItem.m_skillAttackEffect != 0)
                     {
-                        foreach (var thisId in item.hurtIdList.list)
+                        foreach (var thisId in item.hurtIdList.list())
                         {
                             if (thisId == m_card.sceneCardItem.svrCard.qwThisID)         // 如果攻击者还是被击者，就不播放攻击特效了
                             {

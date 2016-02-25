@@ -121,7 +121,7 @@ namespace SDK.Lib
             //{
                 incDepth();
 
-                foreach (var handle in m_handleList.list)
+                foreach (var handle in m_handleList.list())
                 {
                     if (!handle.m_bClientDispose)
                     {
@@ -146,7 +146,7 @@ namespace SDK.Lib
         {
             if (bInDepth())
             {
-                foreach (var item in m_handleList.list)
+                foreach (var item in m_handleList.list())
                 {
                     delObject(item);
                 }
@@ -161,7 +161,7 @@ namespace SDK.Lib
         public bool existEventHandle(Action<IDispatchObject> handle)
         {
             bool bFinded = false;
-            foreach (var item in m_handleList.list)
+            foreach (var item in m_handleList.list())
             {
                 if (item.isEqual(handle))
                 {
@@ -175,7 +175,7 @@ namespace SDK.Lib
 
         public void copyFrom(EventDispatch rhv)
         {
-            foreach(var handle in rhv.handleList.list)
+            foreach(var handle in rhv.handleList.list())
             {
                 m_handleList.Add(handle);
             }

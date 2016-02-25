@@ -69,7 +69,7 @@
 
         public void onTime(float delta)
         {
-            foreach (var item in m_attackList.list)
+            foreach (var item in m_attackList.list())
             {
                 item.onTime(delta);
             }

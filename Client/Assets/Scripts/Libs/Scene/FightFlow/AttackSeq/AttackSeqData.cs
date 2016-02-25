@@ -14,7 +14,7 @@
 
         public void onTime(float delta)
         {
-            foreach (var item in m_attackSeqList.list)
+            foreach (var item in m_attackSeqList.list())
             {
                 item.onTime(delta);
             }
