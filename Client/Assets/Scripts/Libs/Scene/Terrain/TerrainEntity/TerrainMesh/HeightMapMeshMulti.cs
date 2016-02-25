@@ -28,6 +28,7 @@
         {
             int idx = 0;
             int idz = 0;
+            // 从左下角到右上角，不是从左上角到右下角
             for(idz = 0; idz < terrainPageCfg.getZTileCount(); ++idz)
             {
                 for (idx = 0; idx < terrainPageCfg.getXTileCount(); ++idx)
