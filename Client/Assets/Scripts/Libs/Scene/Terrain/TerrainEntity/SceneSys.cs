@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -113,6 +114,16 @@ namespace SDK.Lib
             {
                 m_scene.createTerrain();
             }
+        }
+
+        public float getHeightAt(float x, float z)
+        {
+            if (m_scene != null)
+            {
+                m_scene.getHeightAt(x, z);
+            }
+
+            return 0;
         }
     }
 }

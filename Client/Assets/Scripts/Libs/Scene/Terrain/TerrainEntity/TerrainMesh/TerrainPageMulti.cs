@@ -19,6 +19,11 @@
             return m_terrainPageCfg;
         }
 
+        override public float getHeightAt(float x, float z)
+        {
+            return m_heightMapMesh.getHeightAt(x, z);
+        }
+
         /**
          * @brief 生成地形 Page
          */

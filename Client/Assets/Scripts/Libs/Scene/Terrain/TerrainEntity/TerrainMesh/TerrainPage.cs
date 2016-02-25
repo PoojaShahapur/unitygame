@@ -49,5 +49,10 @@
             MList<MPlane3D> planes = Ctx.m_instance.m_camSys.getFrustumPlanes();
             m_quadTree.updateClip(planes);
         }
+
+        virtual public float getHeightAt(float x, float z)
+        {
+            return 0.0f;
+        }
     }
 }

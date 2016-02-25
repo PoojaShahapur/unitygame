@@ -74,7 +74,8 @@ namespace SDK.Lib
 
             if (m_cameraMan == null)
             {
-                m_cameraMan = new CameraMan(go);
+                //m_cameraMan = new CameraMan(go);
+                m_cameraMan = new TerrainCameraMan(go);
                 m_cameraMan.setCameraController(m_cameraController);
             }
             else

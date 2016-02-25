@@ -5,6 +5,7 @@
      */
     public class HeightMapMeshMulti : MMesh
     {
+        protected HeightMapData m_heightMapData;        // 高度图数据
         protected TerrainPageCfg m_terrainPageCfg;  // Page 配置
         protected bool m_bInLocal;      // 是否生成的每一个 Tile 中的顶点是放在局部空间中
         protected bool m_bCreateVertexIndexInOne;   // 同时创建顶点索引
@@ -15,10 +16,19 @@
         public HeightMapMeshMulti(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
             : base(null, null)
         {
+            m_heightMapData = heightMap;
             m_bInLocal = true;
             m_bCreateVertexIndexInOne = true;
             m_terrainPageCfg = terrainPageCfg;
             buildMutilTileMesh(heightMap, terrainPageCfg);
+        }
+
+        public float getHeightAt(float x, float z)
+        {
+            int pixX = (int)(x / m_terrainPageCfg.getWorldWidth() + 0.5) * (m_heightMapData.getWidth() - 1);       // + 0.5 将地形世界坐标点转换成高度图中图像的像素的坐标点
+            int pixZ = (int)(-z / m_terrainPageCfg.getWorldDepth() + 0.5) * (m_heightMapData.getHeight() - 1);
+            uint col = (uint)(m_heightMapData.getPixel(pixX, pixZ)) & 0xff;
+            return (col > m_terrainPageCfg.getMaxHeight()) ? ((float)m_terrainPageCfg.getMaxHeight() / 0xff) * m_terrainPageCfg.getWorldHeight() : ((col < m_terrainPageCfg.getMinHeight()) ? ((float)m_terrainPageCfg.getMinHeight() / 0xff) * m_terrainPageCfg.getWorldHeight() : ((float)col / 0xff) * m_terrainPageCfg.getWorldHeight());
         }
 
         /**

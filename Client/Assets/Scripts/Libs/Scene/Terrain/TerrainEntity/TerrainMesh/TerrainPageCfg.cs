@@ -22,19 +22,37 @@
         protected int m_minHeight;                   // 高度图最小高度
         protected int m_maxHeight;                   // 高度图最大高度
         protected int m_height;    // 世界空间高度图高度， Z 轴高度，这个高度要和 HeightMapMeshOne 中的 m_height 高度一样，因为计算高度依赖这个值，因为高度图暂时精度范围是 [0, 255] ，m_height 就是缩放高度图中的 [0, 1] 到具体高度，因此 m_height 这个值取值范围要和高度图的范围尽量一样 [0, 255]
+        //protected float m_worldWidth;   // 世界空间宽度
+        //protected float m_worldDepth;   // 世界空间深度
 
         /**
          * @brief 地形配置，尽量 worldWidth 和 worldHeight 尽量相等
          * @param worldWidth 场景宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
          */
-        public TerrainPageCfg(int worldWidth = 512, int worldHeight = 512)
+        public TerrainPageCfg(int worldWidth = 512, int worldDepth = 512)
         {
-            setWorldWidthAndHeight(worldWidth, worldHeight);
+            setWorldWidthAndHeight(worldWidth, worldDepth);
 
             m_minHeight = 0;
             m_maxHeight = 0xFF;      // byte 最大值 0xFF
             m_height = 128;
         }
+
+        /**
+         * @brief 获取获取世界空间的宽度
+         */
+        //public float getWorldWidth()
+        //{
+        //    return m_worldWidth;
+        //}
+
+        /**
+         * @brief 获取世界空间的高度
+         */
+        //public float getWorldHeight()
+        //{
+        //    return m_worldDepth;
+        //}
 
         /**
          * @brief 
@@ -151,10 +169,13 @@
         /**
          * @brief 设置像素的宽度和高度
          */
-        public void setWorldWidthAndHeight(int worldWidth, int worldHeight)
+        public void setWorldWidthAndHeight(int worldWidth, int worldDepth)
         {
+            //m_worldWidth = worldWidth;
+            //m_worldWidth = worldDepth;
+
             m_xTileCount = worldWidth / getTileWorldWidth();
-            m_zTileCount = worldHeight / getTileWorldDepth();
+            m_zTileCount = worldDepth / getTileWorldDepth();
 
             m_xTotalGrid = m_xGridCountPerTile * m_xTileCount;
             m_zTotalGrid = m_zGridCountPerTile * m_zTileCount;

@@ -40,7 +40,7 @@ namespace SDK.Lib
             m_cameraController = controller;
         }
 
-        public void onKeyPress(KeyCode key)
+        virtual public void onKeyPress(KeyCode key)
         {
             if (KeyCode.W == key)
             {

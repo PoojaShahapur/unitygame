@@ -58,5 +58,15 @@ namespace SDK.Lib
             Ctx.m_instance.m_camSys.setMCamera(Camera.main);
             m_terrain.updateClip();
         }
+
+        public float getHeightAt(float x, float z)
+        {
+            if (m_terrain != null)
+            {
+                m_terrain.getHeightAt(x, z);
+            }
+
+            return 0;
+        }
     }
 }
