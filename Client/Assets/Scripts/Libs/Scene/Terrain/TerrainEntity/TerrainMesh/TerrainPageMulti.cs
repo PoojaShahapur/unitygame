@@ -22,7 +22,7 @@
         /**
          * @brief 生成地形 Page
          */
-        public void buildPage()
+        override public void buildPage()
         {
             m_heightMapData = new HeightMapData();
             m_heightMapData.loadHeightMap("Terrain/terrain.png");

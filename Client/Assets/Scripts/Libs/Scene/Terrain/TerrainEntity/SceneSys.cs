@@ -105,5 +105,14 @@ namespace SDK.Lib
         {
             unloadScene();
         }
+
+        // 创建当前场景对应的地图
+        public void createTerrain()
+        {
+            if(m_scene != null)
+            {
+                m_scene.createTerrain();
+            }
+        }
     }
 }

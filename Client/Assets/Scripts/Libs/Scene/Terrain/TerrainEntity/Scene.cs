@@ -1,4 +1,5 @@
 ﻿using QuadTree;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -6,8 +7,9 @@ namespace SDK.Lib
     {
         protected SceneCfg m_sceneCfg;
         protected string m_file;
-        protected QuadTree<Tile> m_quadTree;        // 地形四叉树
+        //protected QuadTree<Tile> m_quadTree;      // 地形四叉树
         protected ZoneSys m_zoneSys;
+        protected TerrainPage m_terrain;            // 地形
 
         public Scene()
         {
@@ -45,6 +47,16 @@ namespace SDK.Lib
             {
                 m_file = value;
             }
+        }
+
+        public void createTerrain()
+        {
+            m_terrain = new TerrainPageMulti();
+            m_terrain.buildPage();        // 生成地形
+            m_terrain.buildQuadTree();    // 生成四叉树
+
+            Ctx.m_instance.m_camSys.setMCamera(Camera.main);
+            m_terrain.updateClip();
         }
     }
 }

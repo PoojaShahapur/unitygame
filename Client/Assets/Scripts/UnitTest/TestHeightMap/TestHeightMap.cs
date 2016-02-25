@@ -39,8 +39,14 @@ namespace UnitTest
             TerrainPageMulti terPage = new TerrainPageMulti();
             terPage.buildPage();        // 生成地形
             terPage.buildQuadTree();    // 生成四叉树
-            Ctx.m_instance.m_camSys.getCamera().setCamera(Camera.main);
-            terPage.updateClip(Ctx.m_instance.m_camSys.getCamera().getFrustumPlanes());
+            Ctx.m_instance.m_camSys.setMCamera(Camera.main);
+            terPage.updateClip();
+        }
+
+        // 代码整理，将地形放到对应的场景里面了
+        public void testSceneTerrain()
+        {
+            Ctx.m_instance.m_sceneSys.createTerrain();
         }
 
         public void testPrint()
@@ -60,7 +66,7 @@ namespace UnitTest
         {
             //checkCamera();
             //Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
-            testTerrainPageMulti();
+            testSceneTerrain();
         }
 
         public void checkCamera()

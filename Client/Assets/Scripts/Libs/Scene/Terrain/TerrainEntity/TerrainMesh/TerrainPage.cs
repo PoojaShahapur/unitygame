@@ -39,8 +39,14 @@
             return null;
         }
 
-        public void updateClip(MList<MPlane3D> planes)
+        virtual public void buildPage()
         {
+
+        }
+
+        public void updateClip()
+        {
+            MList<MPlane3D> planes = Ctx.m_instance.m_camSys.getFrustumPlanes();
             m_quadTree.updateClip(planes);
         }
     }
