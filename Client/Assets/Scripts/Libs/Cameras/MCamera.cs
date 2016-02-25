@@ -244,6 +244,24 @@ namespace SDK.Lib
             m_frustumPlanesDirty = false;
         }
 
+        public bool isVisible(Vector3 vert)
+        {
+            for (int plane = 0; plane < 6; ++plane)
+            {
+                // Skip far plane if infinite view frustum
+                if (plane == (int)MLensBase.FrustumPlane.FRUSTUM_PLANE_FAR && m_lens.getNearDist() == 0)
+                    continue;
+
+                if (m_frustumPlanes[plane].getSide(vert) == MPlane3D.Side.NEGATIVE_SIDE)
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
         /**
          * brief 测试输出投影矩阵
          */

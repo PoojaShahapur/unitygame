@@ -7,6 +7,16 @@ namespace SDK.Lib
      */
     public class MLensBase
     {
+        public enum FrustumPlane
+        {
+            FRUSTUM_PLANE_NEAR = 0,
+            FRUSTUM_PLANE_FAR = 1,
+            FRUSTUM_PLANE_LEFT = 2,
+            FRUSTUM_PLANE_RIGHT = 3,
+            FRUSTUM_PLANE_TOP = 4,
+            FRUSTUM_PLANE_BOTTOM = 5
+        };
+
         protected MMatrix3D m_matrix3D;     // 镜头变换矩阵        
         protected float m_farDist;          // Far 裁剪距离，默认 10000
         protected float m_nearDist;         // Near 裁剪距离，默认 100
@@ -55,6 +65,11 @@ namespace SDK.Lib
         public void setNearDist(float value)
         {
             m_nearDist = value;
+        }
+
+        public float getNearDist()
+        {
+            return m_nearDist;
         }
 
         public void setAspectRatio(float value)

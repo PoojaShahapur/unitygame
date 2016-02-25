@@ -127,13 +127,20 @@ namespace SDK.Lib
             //m_centerX = 160;
             //m_centerZ = 32;
 
-            m_centerX = 224;
-            m_centerZ = 32;
+            //m_centerX = 224;
+            //m_centerZ = 32;
 
-            m_centerX = 160;
-            m_centerZ = 32;
-            m_halfExtentXZ = 32;
-            m_halfExtentY = 0;
+            //m_centerX = 32;
+            //m_centerZ = 96;
+
+            //m_centerX = 32;
+            //m_centerZ = 160;
+
+            //m_centerX = 32;
+            //m_centerZ = 224;
+
+            //m_halfExtentXZ = 32;
+            //m_halfExtentY = 0;
 
             Vector3 half = Vector3.zero;
             for (int plane = 0; plane< 6; ++plane)
@@ -142,9 +149,8 @@ namespace SDK.Lib
                 m_bv.setMax(new Vector3(m_centerX + m_halfExtentXZ, 0, m_centerZ + m_halfExtentXZ));
                 half = m_bv.getHalfSize();
 
-                int side = planes[plane].getSide(new Vector3(m_centerX, 0, m_centerZ), half);
-                half = new Vector3();
-                if (side == MPlaneClassification.BACK)
+                MPlane3D.Side side = planes[plane].getSide(new Vector3(m_centerX, 0, m_centerZ), half);
+                if (side == MPlane3D.Side.NEGATIVE_SIDE)
                 {
                     return false;
                 }
