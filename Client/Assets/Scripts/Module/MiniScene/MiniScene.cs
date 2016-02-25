@@ -25,10 +25,10 @@ public class MiniScene : MonoBehaviour
         AssetBundle bundle = www.assetBundle;
 #if UNITY_5
         // Unity5
-        UnityEngine.Object bt = bundle.LoadAsset("Assets/Prefabs/Resources/Module/Start");
+        UnityEngine.Object bt = bundle.LoadAsset("Assets/Resources/Module/Start");
 #elif UNITY_4_6 || UNITY_4_5
         // Unity4
-        UnityEngine.Object bt = bundle.Load("Assets/Prefabs/Resources/Module/Start");
+        UnityEngine.Object bt = bundle.Load("Assets/Resources/Module/Start");
 #endif
         UnityEngine.GameObject go = Instantiate(bt) as GameObject;
         bundle.Unload(false);

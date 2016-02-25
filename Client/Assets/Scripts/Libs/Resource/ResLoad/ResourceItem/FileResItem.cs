@@ -6,7 +6,7 @@
     public class FileResItem : ResItem
     {
         // 加载的资源目录的前缀目录，打包后的资源 name 需要加这个前缀才能找到
-        public const string PRE_PATH = "Assets/Prefabs/Resources";
+        public const string PRE_PATH = "Assets/Resources";
         public const string UNITY3D_EXT = "unity3d";
         public const string SCENE_PRE_PATH = "Assets/Scenes";
 

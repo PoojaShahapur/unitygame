@@ -8,7 +8,7 @@ namespace AtlasPrefabSys
     {
         public SOSpriteList m_soSprite;
 
-        // inPath 类似这样 Assets/Res/Image/UI/Common/denglu_srk.png , outPath = Assets/Prefabs/Resources/Atlas/aaa.asset
+        // inPath 类似这样 Assets/Res/Image/UI/Common/denglu_srk.png , outPath = Assets/Resources/Atlas/aaa.asset
         public void packSprite(string inPath, string outPath)
         {
             m_soSprite = ScriptableObject.CreateInstance<SOSpriteList>();

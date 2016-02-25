@@ -35,8 +35,8 @@ namespace EditorTool
 
         public static void delResources()
         {
-            string delPath = ExportUtil.getDataPath("Prefabs");
-            string bakPath = ExportUtil.getPkgWorkPath("Prefabs");
+            string delPath = ExportUtil.getDataPath("");
+            string bakPath = ExportUtil.getPkgWorkPath("");
             ExportUtil.DeleteDirectory(bakPath);
             ExportUtil.CreateDirectory(bakPath);
             ExportUtil.copyDirectory(delPath, bakPath);
@@ -70,8 +70,8 @@ namespace EditorTool
 
         public static void restoreResources()
         {
-            string restorePath = ExportUtil.getDataPath("Prefabs");
-            string bakPath = ExportUtil.getPkgWorkPath("Prefabs");
+            string restorePath = ExportUtil.getDataPath("");
+            string bakPath = ExportUtil.getPkgWorkPath("");
             ExportUtil.CreateDirectory(restorePath);
             ExportUtil.copyDirectory(bakPath, restorePath);
             ExportUtil.DeleteDirectory(bakPath);

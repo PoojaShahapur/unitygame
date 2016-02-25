@@ -5,13 +5,13 @@
   [Root] 标签中的 [outpath] 是指生成 [xml] 文件放在哪个文件夹下
   [Mesh] 的 [name] 是指文件的名字， [inpath] 是指输入的目录， [outpath] 是指输出的目录
 -->
-<Root outpath="Prefabs/Resources/Scene/Man/Skeleton" >
+<Root outpath="Resources/Scene/Man/Skeleton" >
 	<ModelTypes>
 		<ModelType id="0" subpath="Man" outfilename="Man" />
 	</ModelTypes>
-	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Scene/Man/Skeleton" controllerpath="Prefabs/Resources/Scene/Man/Anim" modeltype="0" >
+	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Resources/Scene/Man/Skeleton" controllerpath="Resources/Scene/Man/Anim" modeltype="0" >
 		<SubMesh name="Geo_grp" />
 	</Mesh>
-	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Scene/Man/Skeleton" controllerpath="Prefabs/Resources/Scene/Man/Anim" modeltype="0" />
-	<ModelPath restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Prefabs/Resources/Scene/Man/Skeleton" controllerpath="Prefabs/Resources/Scene/Man/Anim" modeltype="0" ignoreext="meta,mat" />
+	<Mesh name="DefaultAvatar.fbx" restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Resources/Scene/Man/Skeleton" controllerpath="Resources/Scene/Man/Anim" modeltype="0" />
+	<ModelPath restype="prefab" inpath="Locomotion Setup/Locomotion/Animations" outpath="Resources/Scene/Man/Skeleton" controllerpath="Resources/Scene/Man/Anim" modeltype="0" ignoreext="meta,mat" />
 </Root>

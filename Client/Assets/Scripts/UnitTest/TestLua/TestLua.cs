@@ -34,7 +34,7 @@ namespace UnitTest
             Ctx.m_instance.m_luaSystem.lua.DoString(textRes.text);
 
             LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
-            string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
+            string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript");
             UtilApi.normalPath(ref luaPath);
             object[] ret = reflf.Call(luaPath);
 
@@ -69,7 +69,7 @@ namespace UnitTest
             luaMgr.lua.DoFile("Test/UtilDebug.lua");
 
             LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
-            string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript");
+            string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript");
             UtilApi.normalPath(ref luaPath);
             object[] ret = reflf.Call(luaPath);
 
@@ -77,7 +77,7 @@ namespace UnitTest
             reflf = luaMgr.lua.GetFunction("regCPath");
             ret = reflf.Call(luaPath);
 
-            path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Prefabs/Resources/LuaScript/UtilDebug.lua");
+            path = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript/UtilDebug.lua");
             luaMgr.lua.DoFile("Test/TestLua.lua");
 
             //LuaFunction reflf = Ctx.m_instance.m_luaScriptMgr.lua.GetFunction("addVarArg");

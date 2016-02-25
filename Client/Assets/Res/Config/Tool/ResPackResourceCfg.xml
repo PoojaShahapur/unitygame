@@ -1,11 +1,15 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!--
-	resourcespath Ö¸Ã÷Ò»¸ö Resources Ä¿Â¼£¬srcroot Ö¸¶¨¸ùÄ¿Â¼£¬extname Ö¸¶¨ÄÄÐ©À©Õ¹ÃûµÄÐèÒª´ò°ü³É unity3d£¬ ignoreext Ö¸¶¨ÄÄÐ©ÎÄ¼þ²»ÐèÒª´¦Àí£¬Ê£ÏÂµÄÎÄ¼þÖ±½Ó¿½±´¹ýÈ¥
-	destroot Ö¸¶¨Ä¿±êÄ¿Â¼
-	null À©Õ¹Ãû×ÖÊÇÖ¸Ã»ÓÐÀ©Õ¹Ãû×Ö ""
-	reslistoutpath µ¼³öµÄ×ÊÔ´ÁÐ±íÊä³öÄ¿Â¼
+	resourcespathï¼šèµ„æºç›®å½•
+	srcrootï¼šæ ¹ç›®å½•
+	extnameï¼šæ‰©å±•åå­—
+	unity3dï¼š
+	ignoreext:å¿½ç•¥æ‰©å±•
+	destroot:ä¿å­˜çš„ç›®å½•
+	nullï¼šå¿½ç•¥æ­¤ç›®å½•
+	reslistoutpathï¼šèµ„æºåˆ—è¡¨è¾“å‡ºç›®å½•
 -->
 <Root reslistoutpath="E:/aaaaa/File2Unity3d.bytes">
-	<resourcespath srcroot="Assets/Prefabs/Resources" destroot="" unity3dextname="prefab,png,shader,mat" ignoreext="meta" />
+	<resourcespath srcroot="Assets/Resources" destroot="" unity3dextname="prefab,png,shader,mat" ignoreext="meta" />
 	<resourcespath srcroot="Assets/Scenes" destroot="Scenes" unity3dextname="unity" ignoreext="meta,xml,exr" />
 </Root>

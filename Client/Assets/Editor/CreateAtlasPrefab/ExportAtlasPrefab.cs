@@ -33,8 +33,8 @@ namespace AtlasPrefabSys
         {
             EditorSOSprite packSprite = new EditorSOSprite();
             // 不管扩展名字是 asset 还是 prefab ，结果 Unity 编辑器中显示的图标都是一样的
-            packSprite.packSprite("Assets/Res/Image/UI/Common/denglu_srk.png", "Assets/Prefabs/Resources/Atlas/aaa.asset");
-            //packSprite.packSprite("Assets/Res/Image/UI/Common/denglu_srk.png", "Assets/Prefabs/Resources/Atlas/aaa.prefab");
+            packSprite.packSprite("Assets/Res/Image/UI/Common/denglu_srk.png", "Assets/Resources/Atlas/aaa.asset");
+            //packSprite.packSprite("Assets/Res/Image/UI/Common/denglu_srk.png", "Assets/Resources/Atlas/aaa.prefab");
         }
     }
 }

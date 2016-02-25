@@ -21,7 +21,7 @@ namespace NSFBXImport
         static public void createPrefab()
         {
             string inPath = "Assets/Res/Model/Scene/bujian_zhanchang.FBX";
-            string outPath = "Assets/Prefabs/Resources/Model/aaa.prefab";
+            string outPath = "Assets/Resources/Model/aaa.prefab";
 
             GameObject _go = AssetDatabase.LoadAssetAtPath(inPath, typeof(GameObject)) as GameObject;
             PrefabUtility.CreatePrefab(outPath, _go, ReplacePrefabOptions.ConnectToPrefab);

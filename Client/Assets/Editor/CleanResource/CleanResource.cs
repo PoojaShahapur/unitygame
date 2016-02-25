@@ -14,7 +14,7 @@ namespace CleanResourceSys
         [MenuItem("Assets/CleanResouce")]
         static public void CleanResouce()
         {
-            GameObject go = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Resources/UI/UIShop/UIShop.prefab", ExportUtil.convResStr2Type("prefab")) as GameObject;
+            GameObject go = AssetDatabase.LoadAssetAtPath("Assets/Resources/UI/UIShop/UIShop.prefab", ExportUtil.convResStr2Type("prefab")) as GameObject;
   
             if(go != null)
             {

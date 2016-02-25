@@ -31,7 +31,7 @@
 	</PackType>
 -->
 <Root>
-	<PackType type="bundle" inpath="Prefabs/Resources/UI" outpath="UI" packallfiles="false" infileext="prefab" >
+	<PackType type="bundle" inpath="Resources/UI" outpath="UI" packallfiles="false" infileext="prefab" >
 		<Pack name="UIScrollForm.unity3d">
 			<PackItem path="UIScrollForm.prefab" restype="prefab" />
 		</Pack>
@@ -48,7 +48,7 @@
       <PackItem path="Test2Ai.xml" restype="textasset" />
     </Pack>
   </PackType>
-  <PackType type="bundle" inpath="Prefabs/Resources/Being" outpath="Being" packallfiles="false" infileext="prefab" >
+  <PackType type="bundle" inpath="Resources/Being" outpath="Being" packallfiles="false" infileext="prefab" >
     <Pack name="DefaultAvatar.unity3d">
       <PackItem path="DefaultAvatar.prefab" restype="prefab" />
     </Pack>
@@ -62,7 +62,7 @@
       <PackItem path="BoneList.xml" restype="textasset" />
     </Pack>
   </PackType>
-	<PackType type="bundle" inpath="Prefabs/Resources/Module" outpath="Module" packallfiles="false" infileext="prefab" >
+	<PackType type="bundle" inpath="Resources/Module" outpath="Module" packallfiles="false" infileext="prefab" >
 		<Pack name="App.unity3d">
 			<PackItem path="App.prefab" restype="prefab" />
 		</Pack>

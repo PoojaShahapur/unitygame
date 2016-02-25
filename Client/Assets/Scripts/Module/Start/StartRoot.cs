@@ -11,7 +11,7 @@ namespace Game.Start
     {
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
         private string m_appName = "App";
-        private string m_appPath = "Assets/Prefabs/Resources/Module/App.prefab";
+        private string m_appPath = "Assets/Resources/Module/App.prefab";
         private int m_loadType;
 
         void Awake()

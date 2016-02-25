@@ -16,7 +16,7 @@ namespace AtlasPrefabSys
     {
         public static void createPrefab(string name)
         {
-            string path = "Assets/Prefabs/Resources/Atlas";
+            string path = "Assets/Resources/Atlas";
             string prefabName = "Common";
             string prefabExtName = "prefab";
 
@@ -43,7 +43,7 @@ namespace AtlasPrefabSys
         public static Sprite[] loadAllSprite(string spritePath = "Assets/Res/Image/UI/OpenPack/shangdian_kaibao.png")
         {
             //spritePath = "E:/Work/Code20150402/client/trunk/Client/Assets/Res/Image/UI/Common";
-            //spritePath = "Assets/Prefabs/Resources/UI";
+            //spritePath = "Assets/Resources/UI";
             Sprite[] spriteArr;
             List<Sprite> spritesList = new List<Sprite>();
 
