@@ -22,6 +22,11 @@ namespace SDK.Lib
 
         protected bool m_bDirty;
 
+        protected float m_xPos;     // X 位置，记录位置调试使用
+        protected float m_zPos;     // Z 位置，记录位置调试使用
+        protected int m_xTile;      // Tile 的 X 位置，调试使用
+        protected int m_zTile;      // Tile 的 Z 位置，调试使用
+
         public QuadMeshRender(int vertexNum)
         {
             m_vertexNum = vertexNum;
@@ -29,6 +34,19 @@ namespace SDK.Lib
             m_bDirty = false;
             m_vertices = new Vector3[vertexNum];
             m_triangles = new int[vertexNum/4 * 2 * 3];
+        }
+
+        public void setTileXZ(int xTile, int zTile)
+        {
+            m_xTile = xTile;
+            m_zTile = zTile;
+        }
+
+        public void moveToPos(float xPos, float zPos)
+        {
+            m_xPos = xPos;
+            m_zPos = zPos;
+            UtilApi.setPos(this.selfGo.transform, new Vector3(xPos, 0, zPos));
         }
 
         public void clear()
@@ -103,7 +121,8 @@ namespace SDK.Lib
         {
             if(this.selfGo == null)
             {
-                this.selfGo = UtilApi.createGameObject("QuadMeshRender");
+                this.selfGo = UtilApi.createGameObject("QuadMeshRender" + "_" + m_xTile + "_" + m_zTile);
+
             }
             // 清除mesh信息，下面可以做相应的mesh动画
             if(m_mesh == null)

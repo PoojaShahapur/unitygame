@@ -337,6 +337,7 @@ namespace SDK.Lib
             if(m_quadRender == null)
             {
                 m_quadRender = new QuadMeshRender(4);
+                m_quadRender.setTileXZ(getXTileIndex(), getZTileIndex());
             }
 
             m_quadRender.addVertex(-m_halfExtentXZ, 0, m_halfExtentXZ);
@@ -345,7 +346,7 @@ namespace SDK.Lib
             m_quadRender.addVertex(m_halfExtentXZ, 0, -m_halfExtentXZ);
             m_quadRender.buildIndexA();
             m_quadRender.uploadGeometry();
-            UtilApi.setPos(m_quadRender.selfGo.transform, new Vector3(m_centerX, 0, m_centerZ));
+            m_quadRender.moveToPos(m_centerX, m_centerZ);
         }
 
         public void hideLeafNode()
