@@ -31,14 +31,14 @@ namespace SDK.Lib
 
         protected MNodeProxy m_nodeProxy;   // 保存的一些与显示有关的数据
         /**
-         * @brief Tile 的偏移原点在左上角，不是在四叉树的中间
-         * |---------> x
+         * @brief Tile 的偏移原点在左下角，不是在四叉树的中间。地形 Tile 划分的时候左下角是原点，右上角是最大值
+         * Z
+         * ^
+         * |---------
          * |  LT  |  RT  |
          * -----------
          * |  LB  |  RB  |
-         * -----------
-         * V
-         * z
+         * |----------> X
          */
         protected int m_xTileOffset;        // 当前节点相对于父节点的 X Tile 偏移数量
         protected int m_zTileOffset;        // 当前节点相对于父节点的 Z Tile 偏移数量
@@ -77,19 +77,19 @@ namespace SDK.Lib
                 float halfHalfSize = halfSize * 0.5f;
 
                 // 左底
-                m_leftBottom = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ - halfHalfSize, depth + 1, 0, halfCurDepthTileCount);
+                m_leftBottom = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ - halfHalfSize, depth + 1, 0, 0);
                 addNode(m_leftBottom);
 
                 // 右底
-                m_rightBottom = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ - halfHalfSize, depth + 1, halfCurDepthTileCount, halfCurDepthTileCount);
+                m_rightBottom = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ - halfHalfSize, depth + 1, halfCurDepthTileCount, 0);
                 addNode(m_rightBottom);
 
                 // 左顶
-                m_leftTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ + halfHalfSize, depth + 1, 0, 0);
+                m_leftTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ + halfHalfSize, depth + 1, 0, halfCurDepthTileCount);
                 addNode(m_leftTop);
 
                 // 右顶
-                m_rightTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ + halfHalfSize, depth + 1, halfCurDepthTileCount, 0);
+                m_rightTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ + halfHalfSize, depth + 1, halfCurDepthTileCount, halfCurDepthTileCount);
                 addNode(m_rightTop);
             }
         }
