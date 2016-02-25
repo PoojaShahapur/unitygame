@@ -19,6 +19,11 @@ namespace SDK.Lib
             m_bNeedPlaceHolderGo = false;
         }
 
+        public void setSelfName(string name_)
+        {
+            this.selfGo.name = name_;
+        }
+
         public GameObject selfGo
         {
             get

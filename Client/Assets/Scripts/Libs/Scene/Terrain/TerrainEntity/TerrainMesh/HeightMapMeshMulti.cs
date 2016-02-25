@@ -46,6 +46,7 @@
             MSubGeometry subGeometry = new MSubGeometry();
             SingleTileRender render = new SingleTileRender();
             MSubMesh subMesh = new MSubMesh(subGeometry, render);
+            subMesh.setTileXZ(idx, idz);
             render.setSubGeometry(subGeometry);
             this.addSubMesh(subMesh);
 
