@@ -2,7 +2,7 @@
 
 namespace FightCore
 {
-    public class NpcEntityBase : SceneEntity
+    public class NpcEntityBase : SceneEntityBase
     {
 
     }

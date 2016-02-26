@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class EffectBase : SceneEntity
+    public class EffectBase : SceneEntityBase
     {
         protected EventDispatch m_playEndEventDispatch;         // 特效播放完成事件分发
         protected bool m_bAutoRemove;       // 特效播放完成是否自动移除

@@ -6,12 +6,12 @@ namespace BehaviorLibrary
     /**
      * @brief 凡是 BehaviorTree 之外的 AI 逻辑都写在这里
      */
-    public class AIController : SceneEntity
+    public class AIController : SceneEntityBase
     {
         protected Biped m_vehicle;
         protected Radar m_radar;                // 每一个人身上有一个雷达
 
-        protected SceneEntity m_entity;        // 控制的场景 Entity
+        protected SceneEntityBase m_entity;        // 控制的场景 Entity
         protected BTID m_btID;          // 行为树 ID 
         protected BehaviorTreeRes m_btRes;        // 行为树资源
         protected BehaviorTree m_bt;              // 行为树
@@ -110,7 +110,7 @@ namespace BehaviorLibrary
         }
 
         // 设置 AI 控制器操作的场景对象
-        public void possess(SceneEntity entity)
+        public void possess(SceneEntityBase entity)
         {
             m_entity = entity;
         }

@@ -9,7 +9,7 @@ namespace FightCore
     /**
      * @brief 场景中卡牌基类
      */
-    public class SceneCardBase : SceneEntity
+    public class SceneCardBase : SceneEntityBase
     {
         protected static int ID_ALLOC_IDX = 0;      // 分配 ID 索引的
         public SceneDZData m_sceneDZData;

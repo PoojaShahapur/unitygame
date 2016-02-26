@@ -2,9 +2,9 @@
 {
     public class ControlBase
     {
-        protected SceneEntity m_entity;
+        protected SceneEntityBase m_entity;
 
-        public ControlBase(SceneEntity entity)
+        public ControlBase(SceneEntityBase entity)
         {
             m_entity = entity;
         }

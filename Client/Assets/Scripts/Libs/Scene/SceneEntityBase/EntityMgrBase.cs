@@ -65,7 +65,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public SceneEntity getEntityByThisId(uint thisId)
+        public SceneEntityBase getEntityByThisId(uint thisId)
         {
             return null;
         }

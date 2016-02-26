@@ -2,7 +2,7 @@
 {
     public class EffectMoveControl : MoveControl
     {
-        public EffectMoveControl(SceneEntity entity) : 
+        public EffectMoveControl(SceneEntityBase entity) : 
             base(entity)
         {
             

@@ -7,8 +7,8 @@ namespace SDK.Lib
 	/**
 	 * @brief 生物 
 	 */
-    public class BeingEntity : SceneEntity
-	{
+    public class BeingEntity : SceneEntityBase
+    {
         protected SkinModelSkelAnim m_skinAniModel;      // 模型数据
         protected BehaviorTree m_behaviorTree;      // 行为树
         protected AIController m_aiController;      // ai 控制

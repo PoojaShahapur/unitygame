@@ -6,7 +6,7 @@ require "MyLua.Libs.Core.GObject"
     @brief 生物 
 ]]
 
-local M = GlobalNS.Class(GlobalNS.SceneEntity);
+local M = GlobalNS.Class(GlobalNS.SceneEntityBase);
 M.clsName = "BeingEntity";
 GlobalNS[M.clsName] = M;
 

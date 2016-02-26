@@ -7,7 +7,7 @@ namespace SDK.Lib
     {
         protected NumAniSequence m_numAniSeq;       // 动画序列
 
-        public MoveControl(SceneEntity entity) :
+        public MoveControl(SceneEntityBase entity) :
             base(entity)
         {
             m_numAniSeq = new NumAniSequence();
