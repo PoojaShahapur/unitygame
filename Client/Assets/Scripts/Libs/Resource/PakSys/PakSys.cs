@@ -103,41 +103,46 @@ namespace SDK.Lib
         {
             //Ctx.m_instance.m_shareData.m_resInPakPath = resPath;
             //return Ctx.m_instance.m_shareData.m_resInPakPath;
-#if PKG_RES_LOAD
-            string retPath = resPath;
-
-            if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
+            if (MacroDef.PKG_RES_LOAD)
             {
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
-            }
-            else
-            {
-                // 获取包的名字
-                if (m_path2PakDic.ContainsKey(resPath))
-                {
-                    retPath = m_path2PakDic[resPath].m_pakName;
-                }
+                string retPath = resPath;
 
-                if(param != null)
+                if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
                 {
-                    retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                    param.m_resLoadType = ResLoadType.eStreamingAssets;
                 }
                 else
                 {
-                    ResLoadType tmp = ResLoadType.eStreamingAssets;
-                    retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    // 获取包的名字
+                    if (m_path2PakDic.ContainsKey(resPath))
+                    {
+                        retPath = m_path2PakDic[resPath].m_pakName;
+                    }
+
+                    if (param != null)
+                    {
+                        retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                    }
+                    else
+                    {
+                        ResLoadType tmp = ResLoadType.eStreamingAssets;
+                        retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    }
                 }
+                return retPath;
             }
-            return retPath;
-#elif UnPKG_RES_LOAD
-            if (param != null)
+            else if (MacroDef.UNPKG_RES_LOAD)
             {
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                if (param != null)
+                {
+                    param.m_resLoadType = ResLoadType.eStreamingAssets;
+                }
+                return resPath;
             }
-            return resPath;
-#else
-            return resPath;
-#endif
+            else
+            {
+                return resPath;
+            }
         }
     }
 }

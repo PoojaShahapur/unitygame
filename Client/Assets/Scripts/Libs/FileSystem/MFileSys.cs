@@ -260,44 +260,49 @@ namespace SDK.Lib
 
         public static void modifyLoadParam(string resPath, LoadParam param)
         {
-#if PKG_RES_LOAD
-            param.m_origPath = resPath;             // 记录原始的资源名字
-
-            string retPath = resPath;
-
-            if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
+            if (MacroDef.PKG_RES_LOAD)
             {
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
-            }
-            else
-            {
-                // 获取包的名字
-                if (Ctx.m_instance.m_pPakSys.path2PakDic.ContainsKey(resPath))
-                {
-                    retPath = Ctx.m_instance.m_pPakSys.path2PakDic[resPath].m_pakName;
-                }
+                param.m_origPath = resPath;             // 记录原始的资源名字
 
-                if(param != null)
+                string retPath = resPath;
+
+                if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
                 {
-                    Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                    param.m_resLoadType = ResLoadType.eStreamingAssets;
                 }
                 else
                 {
-                    ResLoadType tmp = ResLoadType.eStreamingAssets;
-                    Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    // 获取包的名字
+                    if (Ctx.m_instance.m_pPakSys.path2PakDic.ContainsKey(resPath))
+                    {
+                        retPath = Ctx.m_instance.m_pPakSys.path2PakDic[resPath].m_pakName;
+                    }
+
+                    if (param != null)
+                    {
+                        Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                    }
+                    else
+                    {
+                        ResLoadType tmp = ResLoadType.eStreamingAssets;
+                        Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    }
                 }
+                param.m_path = retPath;
+                param.m_pakPath = param.m_path;
             }
-            param.m_path = retPath;
-            param.m_pakPath = param.m_path;
-#elif UnPKG_RES_LOAD
-            if (param != null)
+            else if (MacroDef.UNPKG_RES_LOAD)
             {
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                if (param != null)
+                {
+                    param.m_resLoadType = ResLoadType.eStreamingAssets;
+                }
+                param.m_path = resPath;
             }
-            param.m_path = resPath;
-#else
-            param.m_path = resPath;
-#endif
+            else
+            {
+                param.m_path = resPath;
+            }
         }
 
         public void saveTex2Disc(Texture2D tex, string fileName)

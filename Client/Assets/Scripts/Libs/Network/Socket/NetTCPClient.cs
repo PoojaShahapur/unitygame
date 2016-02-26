@@ -153,9 +153,10 @@ namespace SDK.Lib
                 //m_socket.SendTimeout = m_sendTimeout;
                 //m_socket.ReceiveTimeout = m_revTimeout;
 
-                #if !NET_MULTHREAD
-                Receive();
-                #endif
+                if (!MacroDef.NET_MULTHREAD)
+                {
+                    Receive();
+                }
 
                 // 连接成功，通知
                 // 这个在主线程中调用
@@ -247,9 +248,7 @@ namespace SDK.Lib
         // 发送消息
         public void Send()
         {
-#if NET_MULTHREAD
             using (MLock mlock = new MLock(m_sendMutex))
-#endif
             {
                 if (!checkAndUpdateConnect())
                 {
@@ -272,9 +271,10 @@ namespace SDK.Lib
 
                     if (m_clientBuffer.sendBuffer.bytesAvailable == 0)        // 如果发送缓冲区中确实没有数据
                     {
-#if NET_MULTHREAD
-                        m_msgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
-#endif
+                        if (MacroDef.NET_MULTHREAD)
+                        {
+                            m_msgSendEndEvent.Set();        // 通知等待线程，所有数据都发送完成
+                        }
                         return;
                     }
                 }
@@ -292,9 +292,10 @@ namespace SDK.Lib
                 }
                 catch (System.Exception e)
                 {
-#if NET_MULTHREAD
-                    m_msgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
-#endif
+                    if (MacroDef.NET_MULTHREAD)
+                    {
+                        m_msgSendEndEvent.Set();        // 发生异常，通知等待线程，所有数据都发送完成，防止等待线程不能解锁
+                    }
                     // 输出日志
                     Ctx.m_instance.m_logSys.error(e.Message);
                     //Disconnect(0);
@@ -305,9 +306,7 @@ namespace SDK.Lib
         //发送回调
         private void SendCallback(System.IAsyncResult ar)
         {
-#if NET_MULTHREAD
             using (MLock mlock = new MLock(m_sendMutex))
-#endif
             {
                 if (!checkAndUpdateConnect())
                 {

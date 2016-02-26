@@ -81,7 +81,7 @@ namespace Game.UI
                     Ctx.m_instance.m_systemSetting.setString(SystemSetting.USERNAME, lblName.text);
                     Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
 
-                    if (!Config.DEBUG_NOTNET)
+                    if (!MacroDef.DEBUG_NOTNET)
                     {
                         if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
                         {

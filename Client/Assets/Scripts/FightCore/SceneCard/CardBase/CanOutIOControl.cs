@@ -201,7 +201,7 @@ namespace FightCore
             {
                 m_card.trackAniControl.endDragAni();       // 结束动画
 
-                if (Config.DEBUG_NOTNET)
+                if (MacroDef.DEBUG_NOTNET)
                 {
                     m_card.m_sceneDZData.m_sceneDZAreaArr[(int)EnDZPlayer.ePlayerSelf].addCardToOutList(m_card);        // 放入输出列表
                 }

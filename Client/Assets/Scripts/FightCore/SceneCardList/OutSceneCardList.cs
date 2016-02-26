@@ -35,7 +35,7 @@ namespace FightCore
         {
             base.addCard(card, idx);
 
-            if (!Config.DEBUG_NOTNET)
+            if (!MacroDef.DEBUG_NOTNET)
             {
                 card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;
             }

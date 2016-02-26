@@ -81,7 +81,7 @@ namespace Game.UI
                         m_jobSelectData.m_midPnl.startmatch();
                     }
                 }
-                if (Config.DEBUG_NOTNET)
+                if (MacroDef.DEBUG_NOTNET)
                 {
                     // test
                     m_jobSelectData.m_midPnl.startmatch();

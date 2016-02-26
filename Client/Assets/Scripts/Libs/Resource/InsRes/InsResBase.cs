@@ -8,11 +8,14 @@
 
         public InsResBase()
         {
-#if PKG_RES_LOAD
-            m_bOrigResNeedImmeUnload = false;
-#else
-            m_bOrigResNeedImmeUnload = true;
-#endif
+            if (MacroDef.PKG_RES_LOAD)
+            {
+                m_bOrigResNeedImmeUnload = false;
+            }
+            else
+            {
+                m_bOrigResNeedImmeUnload = true;
+            }
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 

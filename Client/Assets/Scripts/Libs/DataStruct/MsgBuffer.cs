@@ -46,12 +46,13 @@
             m_circularBuffer.frontBA(m_headerBA, MsgCV.HEADER_SIZE);  // 将数据读取到 m_headerBA
             uint msglen = 0;
             m_headerBA.readUnsignedInt32(ref msglen);
-#if MSG_COMPRESS
-            if ((msglen & MsgCV.PACKET_ZIP) > 0)         // 如果有压缩标志
+            if (MacroDef.MSG_COMPRESS)
             {
-                msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
+                if ((msglen & MsgCV.PACKET_ZIP) > 0)         // 如果有压缩标志
+                {
+                    msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
+                }
             }
-#endif
             if (msglen <= m_circularBuffer.size - MsgCV.HEADER_SIZE)
             {
                 return true;
@@ -73,12 +74,13 @@
                 m_circularBuffer.frontBA(m_headerBA, MsgCV.HEADER_SIZE);  // 如果不够整个消息的长度，还是不能去掉消息头的
                 uint msglen = 0;
                 m_headerBA.readUnsignedInt32(ref msglen);
-#if MSG_COMPRESS
-                if ((msglen & MsgCV.PACKET_ZIP) > 0)         // 如果有压缩标志
+                if (MacroDef.MSG_COMPRESS)
                 {
-                    msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
+                    if ((msglen & MsgCV.PACKET_ZIP) > 0)         // 如果有压缩标志
+                    {
+                        msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
+                    }
                 }
-#endif
 
                 if (msglen <= m_circularBuffer.size - MsgCV.HEADER_SIZE)
                 {

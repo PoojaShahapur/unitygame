@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using SDK.Lib;
 
 namespace Game.Start
 {
@@ -24,11 +25,14 @@ namespace Game.Start
         // Use this for initialization
         void Start()
         {
-#if PKG_RES_LOAD
-            m_loadType = 1;
-#else
-            m_loadType = 0;
-#endif
+            if (MacroDef.PKG_RES_LOAD)
+            {
+                m_loadType = 1;
+            }
+            else
+            {
+                m_loadType = 0;
+            }
 
             if (m_loadType == 0)
             {

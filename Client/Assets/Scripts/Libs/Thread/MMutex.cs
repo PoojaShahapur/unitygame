@@ -11,7 +11,7 @@ namespace SDK.Lib
 
         public MMutex(bool initiallyOwned, string name)
         {
-            if (Config.NET_MULTHREAD)
+            if (MacroDef.NET_MULTHREAD)
             {
                 m_mutex = new Mutex(initiallyOwned, name);
             }
@@ -19,7 +19,7 @@ namespace SDK.Lib
 
         public void WaitOne()
         {
-            if (Config.NET_MULTHREAD)
+            if (MacroDef.NET_MULTHREAD)
             {
                 m_mutex.WaitOne();
             }
@@ -27,7 +27,7 @@ namespace SDK.Lib
 
         public void ReleaseMutex()
         {
-            if (Config.NET_MULTHREAD)
+            if (MacroDef.NET_MULTHREAD)
             {
                 m_mutex.ReleaseMutex();
             }
@@ -35,7 +35,7 @@ namespace SDK.Lib
 
         public void close()
         {
-            if (Config.NET_MULTHREAD)
+            if (MacroDef.NET_MULTHREAD)
             {
                 m_mutex.Close();
             }

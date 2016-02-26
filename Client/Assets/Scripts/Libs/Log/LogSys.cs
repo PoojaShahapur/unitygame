@@ -33,39 +33,42 @@ namespace SDK.Lib
         {
             LogDeviceBase logDevice = null;
 
-#if ENABLE_WINLOG
-            logDevice = new WinLogDevice();
-            logDevice.initDevice();
-            m_logDeviceList.Add(logDevice);
-            m_fightLogDeviceList.Add(logDevice);
-#endif
+            if (MacroDef.ENABLE_WINLOG)
+            {
+                logDevice = new WinLogDevice();
+                logDevice.initDevice();
+                m_logDeviceList.Add(logDevice);
+                m_fightLogDeviceList.Add(logDevice);
+            }
 
-#if ENABLE_NETLOG
-            logDevice = new NetLogDevice();
-            logDevice.initDevice();
-            m_logDeviceList.Add(logDevice);
-            m_fightLogDeviceList.Add(logDevice);
-#endif
+            if (MacroDef.ENABLE_NETLOG)
+            {
+                logDevice = new NetLogDevice();
+                logDevice.initDevice();
+                m_logDeviceList.Add(logDevice);
+                m_fightLogDeviceList.Add(logDevice);
+            }
         }
 
         // 注册文件日志，因为需要账号，因此需要等待输入账号后才能注册，可能多次注册
         public void registerFileLogDevice()
         {
-#if ENABLE_FILELOG
-            unRegisterFileLogDevice();
+            if (MacroDef.ENABLE_FILELOG)
+            {
+                unRegisterFileLogDevice();
 
-            LogDeviceBase logDevice = null;
-            logDevice = new FileLogDevice();
-            (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
-            logDevice.initDevice();
-            m_logDeviceList.Add(logDevice);
+                LogDeviceBase logDevice = null;
+                logDevice = new FileLogDevice();
+                (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
+                logDevice.initDevice();
+                m_logDeviceList.Add(logDevice);
 
-            logDevice = new FileLogDevice();
-            (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
-            (logDevice as FileLogDevice).filePrefix = "FightLog";   // 战斗日志
-            logDevice.initDevice();
-            m_fightLogDeviceList.Add(logDevice);
-#endif
+                logDevice = new FileLogDevice();
+                (logDevice as FileLogDevice).fileSuffix = Ctx.m_instance.m_dataPlayer.m_accountData.m_account;
+                (logDevice as FileLogDevice).filePrefix = "FightLog";   // 战斗日志
+                logDevice.initDevice();
+                m_fightLogDeviceList.Add(logDevice);
+            }
         }
 
         protected void unRegisterFileLogDevice()
@@ -210,9 +213,10 @@ namespace SDK.Lib
 
         public void logout(string message, LogColor type = LogColor.LOG)
         {
-        #if THREAD_CALLCHECK
-            MThread.needMainThread();
-        #endif
+            if (MacroDef.THREAD_CALLCHECK)
+            {
+                MThread.needMainThread();
+            }
 
             if (m_bOutLog)
             {
@@ -225,9 +229,10 @@ namespace SDK.Lib
 
         public void updateLog()
         {
-        #if THREAD_CALLCHECK
-            MThread.needMainThread();
-        #endif
+            if (MacroDef.THREAD_CALLCHECK)
+            {
+                MThread.needMainThread();
+            }
 
             while ((m_tmpStr = m_asyncLogList.RemoveAt(0)) != default(string))
             {

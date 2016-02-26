@@ -147,9 +147,10 @@ namespace Game.Login
             Ctx.m_instance.m_loginSys.set_LoginState(LoginState.eLoginSuccessGateServer);     // 设置登陆状态
 
             // 登陆成功开始加密解密数据包
-#if MSG_ENCRIPT
-            Ctx.m_instance.m_netMgr.setCryptKey(m_cryptKey);
-#endif
+            if (MacroDef.MSG_ENCRIPT)
+            {
+                Ctx.m_instance.m_netMgr.setCryptKey(m_cryptKey);
+            }
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem7));
             sendMsg5f();
         }

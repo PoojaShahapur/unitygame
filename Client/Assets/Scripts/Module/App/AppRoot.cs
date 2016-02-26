@@ -78,12 +78,15 @@ public class AppRoot : MonoBehaviour
         initBasicCfg();
 
         // 加载模块
-#if PKG_RES_LOAD
-        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
-#else
-        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
-        //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
-#endif
+        if (MacroDef.PKG_RES_LOAD)
+        {
+            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.AUTOUPDATEMN);
+        }
+        else
+        {
+            //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
+            //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+        }
 
         // 运行单元测试
 #if UNIT_TEST

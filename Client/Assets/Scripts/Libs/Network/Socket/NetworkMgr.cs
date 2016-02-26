@@ -7,22 +7,20 @@ namespace SDK.Lib
         // 此处使用 Dictionary ，不适用 Hashable
         public Dictionary<string, NetTCPClient> m_id2ClientDic;
         protected NetTCPClient m_curClient;
-#if NET_MULTHREAD
         protected NetThread m_netThread;
         public MMutex m_visitMutex;
-#endif
 
         // 函数区域
         public NetworkMgr()
         {
             m_visitMutex = new MMutex(false, "NetMutex");
             m_id2ClientDic = new Dictionary<string, NetTCPClient>();
-            #if NET_MULTHREAD
-            startThread();
-            #endif
+            if (MacroDef.NET_MULTHREAD)
+            {
+                startThread();
+            }
         }
 
-#if NET_MULTHREAD
         /**
          *@brief 启动线程
          */
@@ -31,7 +29,6 @@ namespace SDK.Lib
             m_netThread = new NetThread(this);
             m_netThread.start();
         }
-#endif
 
         /**
          *@brief 打开到 socket 的连接
@@ -43,9 +40,7 @@ namespace SDK.Lib
             {
                 m_curClient = new NetTCPClient(ip, port);
                 m_curClient.Connect(ip, port);
-                #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_visitMutex))
-                #endif
                 {
                     m_id2ClientDic.Add(key, m_curClient);
                 }
@@ -67,14 +62,13 @@ namespace SDK.Lib
             if (m_id2ClientDic.ContainsKey(key))
             {
                 // 关闭 socket 之前要等待所有的数据都发送完成，如果发送一直超时，可能就卡在这很长时间
-                #if NET_MULTHREAD
-                m_id2ClientDic[key].msgSendEndEvent.Reset();        // 重置信号
-                m_id2ClientDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
-                #endif
+                if (MacroDef.NET_MULTHREAD)
+                {
+                    m_id2ClientDic[key].msgSendEndEvent.Reset();        // 重置信号
+                    m_id2ClientDic[key].msgSendEndEvent.WaitOne();      // 阻塞等待数据全部发送完成
+                }
 
-                #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_visitMutex))
-                #endif
                 {
                     m_id2ClientDic[key].Disconnect(0);
                     m_id2ClientDic.Remove(key);
@@ -104,9 +98,7 @@ namespace SDK.Lib
 
                 if (m_id2ClientDic.ContainsKey(key))
                 {
-                    #if NET_MULTHREAD
                     using (MLock mlock = new MLock(m_visitMutex))
-                    #endif
                     {
                         m_id2ClientDic[key].Disconnect(0);
                         m_id2ClientDic.Remove(key);
@@ -145,9 +137,10 @@ namespace SDK.Lib
             if (m_curClient != null)
             {
                 m_curClient.clientBuffer.send(bnet);
-                #if !NET_MULTHREAD
-                m_curClient.Send();
-                #endif
+                if (!MacroDef.NET_MULTHREAD)
+                {
+                    m_curClient.Send();
+                }
             }
             else
             {
@@ -159,17 +152,16 @@ namespace SDK.Lib
         public void quipApp()
         {
             closeCurSocket();
-            #if NET_MULTHREAD
-            m_netThread.ExitFlag = true;        // 设置退出标志
-            m_netThread.join();                 // 等待线程结束
-            #endif
+            if (MacroDef.NET_MULTHREAD)
+            {
+                m_netThread.ExitFlag = true;        // 设置退出标志
+                m_netThread.join();                 // 等待线程结束
+            }
         }
 
         public void sendAndRecData()
         {
-            #if NET_MULTHREAD
             using (MLock mlock = new MLock(m_visitMutex))
-            #endif
             {
                 // 从原始缓冲区取数据，然后放到解压和解密后的消息缓冲区中
                 foreach (NetTCPClient client in m_id2ClientDic.Values)
@@ -191,20 +183,21 @@ namespace SDK.Lib
             }
         }
 
-#if MSG_ENCRIPT
         public void setCryptKey(byte[] encrypt)
         {
             m_curClient.clientBuffer.setCryptKey(encrypt);
         }
-#endif
 
         public bool isNetThread(int threadID)
         {
-#if NET_MULTHREAD
-            return m_netThread.isCurThread(threadID);
-#else
-            return true;
-#endif
+            if (MacroDef.NET_MULTHREAD)
+            {
+                return m_netThread.isCurThread(threadID);
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

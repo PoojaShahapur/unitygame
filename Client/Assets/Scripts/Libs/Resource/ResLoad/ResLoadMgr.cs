@@ -89,19 +89,24 @@ namespace SDK.Lib
         {
             param.resolveLevel();
 
-#if PKG_RES_LOAD
-            param.m_resPackType = ResPackType.ePakLevelType;
-            param.resolvePath();
-            load(param);
-#elif UnPKG_RES_LOAD
-            param.m_resPackType = ResPackType.eUnPakLevelType;
-            param.m_resLoadType = ResLoadType.eStreamingAssets;
-            load(param);
-#else
-            param.m_resPackType = ResPackType.eLevelType;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-            load(param);
-#endif
+            if (MacroDef.PKG_RES_LOAD)
+            {
+                param.m_resPackType = ResPackType.ePakLevelType;
+                param.resolvePath();
+                load(param);
+            }
+            else if (MacroDef.UNPKG_RES_LOAD)
+            {
+                param.m_resPackType = ResPackType.eUnPakLevelType;
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                load(param);
+            }
+            else
+            {
+                param.m_resPackType = ResPackType.eLevelType;
+                param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
+                load(param);
+            }
         }
 
         // eResourcesType 打包类型资源加载
@@ -109,26 +114,31 @@ namespace SDK.Lib
         {
             param.resolvePath();
 
-#if PKG_RES_LOAD
-            if (param.m_path.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
+            if (MacroDef.PKG_RES_LOAD)
             {
-                param.m_resPackType = ResPackType.ePakType;
+                if (param.m_path.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
+                {
+                    param.m_resPackType = ResPackType.ePakType;
+                }
+                else        // 加载的是非打包文件
+                {
+                    param.m_resPackType = ResPackType.eUnPakType;
+                }
+                load(param);
             }
-            else        // 加载的是非打包文件
+            else if (MacroDef.UNPKG_RES_LOAD)
             {
+                // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
                 param.m_resPackType = ResPackType.eUnPakType;
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                load(param);
             }
-            load(param);
-#elif UnPKG_RES_LOAD
-            // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
-            param.m_resPackType = ResPackType.eUnPakType;
-            param.m_resLoadType = ResLoadType.eStreamingAssets;
-            return load(param);
-#else
-            param.m_resPackType = ResPackType.eResourcesType;
-            param.m_resLoadType = ResLoadType.eLoadResource;
-            load(param);
-#endif
+            else
+            {
+                param.m_resPackType = ResPackType.eResourcesType;
+                param.m_resLoadType = ResLoadType.eLoadResource;
+                load(param);
+            }
         }
 
         public ResItem createResItem(LoadParam param)
