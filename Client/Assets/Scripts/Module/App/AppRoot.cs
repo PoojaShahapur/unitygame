@@ -129,7 +129,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute("SysMsgRoute");
         Ctx.m_instance.m_moduleSys = new ModuleSys();
         Ctx.m_instance.m_tableSys = new TableSys();
-        Ctx.m_instance.m_localFileSys = new LocalFileSys();
+        Ctx.m_instance.m_fileSys = new MFileSys();
         Ctx.m_instance.m_langMgr = new LangMgr();
         //Ctx.m_instance.m_pWebSocketMgr = new WebSocketMgr();
         Ctx.m_instance.m_sceneCardMgr = new SceneCardMgr();

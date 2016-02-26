@@ -54,7 +54,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            MFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
@@ -81,7 +81,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
+            MFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
             UIPrefabRes aaa = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -89,7 +89,7 @@ namespace UnitTest
             Ctx.m_instance.m_uiPrefabMgr.unload(aaa.GetPath(), onUIPrefabLoadEventHandle);
 
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
+            MFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
             UIPrefabRes bbb = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -101,14 +101,14 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            MFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             ImageItem aaa = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            MFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             ImageItem bbb = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
@@ -128,7 +128,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam("Animation/Scene/CommonCard.controller", param);
+            MFileSys.modifyLoadParam("Animation/Scene/CommonCard.controller", param);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             ResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param);
@@ -145,7 +145,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam("Animation/Scene/Control.prefab", param);
+            MFileSys.modifyLoadParam("Animation/Scene/Control.prefab", param);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
@@ -167,7 +167,7 @@ namespace UnitTest
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(path, param);
+            MFileSys.modifyLoadParam(path, param);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;

@@ -55,7 +55,7 @@ namespace SDK.Lib
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(atlasName, param);
+            MFileSys.modifyLoadParam(atlasName, param);
             param.m_subPath = spriteName;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;

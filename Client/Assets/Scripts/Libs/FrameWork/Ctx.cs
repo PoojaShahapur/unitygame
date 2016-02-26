@@ -53,7 +53,7 @@ namespace SDK.Lib
         public MsgRouteDispList m_msgRouteList;           // RouteMsg 客户端自己消息流程
         public IModuleSys m_moduleSys;              // 模块
         public TableSys m_tableSys;                // 表格
-        public LocalFileSys m_localFileSys;        // 文件系统
+        public MFileSys m_fileSys;        // 文件系统
         public FactoryBuild m_factoryBuild;        // 生成各种内容，上层只用接口
 
         public LangMgr m_langMgr;                  // 语言管理器

@@ -55,7 +55,7 @@ namespace BehaviorLibrary
         public void loadBT(BTID id)
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(m_btAttrSys.m_id2ItemDic[id].m_path, param);
+            MFileSys.modifyLoadParam(m_btAttrSys.m_id2ItemDic[id].m_path, param);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             load<BehaviorTreeRes>(param);
@@ -70,7 +70,7 @@ namespace BehaviorLibrary
         public BehaviorTreeRes getAndLoadBT(BTID id)
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(m_btAttrSys.m_id2ItemDic[id].m_path, param);
+            MFileSys.modifyLoadParam(m_btAttrSys.m_id2ItemDic[id].m_path, param);
             param.m_loadNeedCoroutine = false;
             BehaviorTreeRes ret = getAndLoad<BehaviorTreeRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);

@@ -53,7 +53,7 @@ namespace SDK.Lib
             {
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
-                m_localPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_path));
+                m_localPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_path));
                 if (!string.IsNullOrEmpty(m_version))
                 {
                     m_localPath = UtilLogic.combineVerPath(m_localPath, m_version);
@@ -66,9 +66,9 @@ namespace SDK.Lib
 
         protected void loadFromStreamingAssets()
         {
-            if (Ctx.m_instance.m_localFileSys.isFileExist(m_path))
+            if (Ctx.m_instance.m_fileSys.isFileExist(m_path))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(m_path);
+                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(m_path);
             }
 
             if (m_bytes != null)
@@ -88,9 +88,9 @@ namespace SDK.Lib
             {
                 verPath = UtilLogic.combineVerPath(m_path, m_version);
             }
-            if (Ctx.m_instance.m_localFileSys.isFileExist(verPath))
+            if (Ctx.m_instance.m_fileSys.isFileExist(verPath))
             {
-                m_bytes = Ctx.m_instance.m_localFileSys.LoadFileByte(verPath);
+                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(verPath);
             }
 
             if (m_bytes != null)
@@ -134,7 +134,7 @@ namespace SDK.Lib
         protected IEnumerator coroutWebDown()
         {
             string uri = UtilLogic.webFullPath(m_path);
-            string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
+            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), m_path);
 
             //try
             {
@@ -209,7 +209,7 @@ namespace SDK.Lib
         {
             Ctx.m_instance.m_logSys.log(string.Format("线程开始下载下载任务 {0}", m_path));
 
-            string saveFile = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_path));
+            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_path));
             string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
             bool bNeedReName = false;
             if (!string.IsNullOrEmpty(m_version))

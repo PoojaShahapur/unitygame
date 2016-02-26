@@ -19,7 +19,7 @@ namespace UnitTest
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             string resPath = "Anim/boxcampush";
-            LocalFileSys.modifyLoadParam(resPath, param);
+            MFileSys.modifyLoadParam(resPath, param);
             param.m_loadEventHandle = onLoadEventHandle;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);

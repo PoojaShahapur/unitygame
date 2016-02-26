@@ -29,7 +29,7 @@ namespace SDK.Lib
         {
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(path, param);
+            MFileSys.modifyLoadParam(path, param);
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
             param.m_loadEventHandle = handle;

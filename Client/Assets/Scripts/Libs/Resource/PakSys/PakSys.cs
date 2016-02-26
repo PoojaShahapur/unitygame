@@ -36,7 +36,7 @@ namespace SDK.Lib
         virtual public void loadFile()
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(FILE_LIST, param);
+            MFileSys.modifyLoadParam(FILE_LIST, param);
             param.m_loadEventHandle = onLoadEventHandle;
 
             Ctx.m_instance.m_resLoadMgr.loadData(param);
@@ -120,12 +120,12 @@ namespace SDK.Lib
 
                 if(param != null)
                 {
-                    retPath = Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                    retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
                 }
                 else
                 {
                     ResLoadType tmp = ResLoadType.eStreamingAssets;
-                    retPath = Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
                 }
             }
             return retPath;

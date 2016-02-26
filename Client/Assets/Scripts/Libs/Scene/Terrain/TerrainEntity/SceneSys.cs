@@ -77,7 +77,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_netDispList.bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename), param);
+            MFileSys.modifyLoadParam(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename), param);
             param.m_loadEventHandle = onSceneResLoadded;
             param.m_resNeedCoroutine = true;
             param.m_loadNeedCoroutine = true;

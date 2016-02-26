@@ -374,8 +374,8 @@
 			m_subGeometry.updateVertexData(vertices);
 			m_subGeometry.updateIndexData(indices);
 
-            //Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex_1.txt", vertices.ToArray(), 3);
-            //Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex_1.txt", indices.ToArray(), 3);
+            //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVertex_1.txt", vertices.ToArray(), 3);
+            //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex_1.txt", indices.ToArray(), 3);
         }
 		
 		/**
@@ -418,7 +418,7 @@
 			}
 			
 			m_subGeometry.updateUVData(uvs);
-            //Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVU_1.txt", uvs.ToArray(), 2);
+            //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVU_1.txt", uvs.ToArray(), 2);
         }
 		
         /**

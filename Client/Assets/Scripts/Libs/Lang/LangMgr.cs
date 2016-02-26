@@ -77,7 +77,7 @@ namespace SDK.Lib
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
-                LocalFileSys.modifyLoadParam(m_ID2FileName[m_langID].m_filePath, param);
+                MFileSys.modifyLoadParam(m_ID2FileName[m_langID].m_filePath, param);
                 param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);

@@ -66,7 +66,7 @@
             MeshSplit.buildUVs(idx, idz, heightMap, terrainPageCfg, ref uvs);
             subGeometry.updateUVData(uvs);
 
-            // Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
+            // Ctx.m_instance.m_fileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
 
             // 生成顶点数据
             MList<float> vertices = null;
@@ -95,8 +95,8 @@
                 subGeometry.updateIndexData(indices);
             }
 
-            //Ctx.m_instance.m_localFileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
-            //Ctx.m_instance.m_localFileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
+            //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
+            //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
 
             // 移动到正确的位置
             int tileWidth = terrainPageCfg.getTileWorldWidth();

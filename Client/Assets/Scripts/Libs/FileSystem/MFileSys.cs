@@ -8,11 +8,11 @@ namespace SDK.Lib
     /**
      * @brief 本地文件系统
      */
-    public class LocalFileSys
+    public class MFileSys
     {
         protected string m_persistentDataPath;
 
-        public LocalFileSys()
+        public MFileSys()
         {
             m_persistentDataPath = Application.persistentDataPath;
         }
@@ -231,10 +231,10 @@ namespace SDK.Lib
             string absPath = relPath;
             if (!string.IsNullOrEmpty(version))
             {
-                absPath = UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), relPath), version);
+                absPath = UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), relPath), version);
                 if (!File.Exists(absPath))
                 {
-                    absPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), relPath);
+                    absPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalReadDir(), relPath);
                     if (!File.Exists(absPath))
                     {
                         absPath = "";
@@ -279,12 +279,12 @@ namespace SDK.Lib
 
                 if(param != null)
                 {
-                    Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                    Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
                 }
                 else
                 {
                     ResLoadType tmp = ResLoadType.eStreamingAssets;
-                    Ctx.m_instance.m_localFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                    Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
                 }
             }
             param.m_path = retPath;

@@ -22,13 +22,13 @@ namespace SDK.Lib
             string curPath = "";
             if (ResLoadType.eStreamingAssets == m_resLoadType)
             {
-                curPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalReadDir(), m_path);
+                curPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalReadDir(), m_path);
             }
             else if (ResLoadType.ePersistentData == m_resLoadType)
             {
-                curPath = Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), m_path);
+                curPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), m_path);
             }
-            m_fs = Ctx.m_instance.m_localFileSys.openFile(curPath);
+            m_fs = Ctx.m_instance.m_fileSys.openFile(curPath);
 
             if (m_fs != null)
             {

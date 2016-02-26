@@ -274,7 +274,7 @@ namespace SDK.Lib
         protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoadEventHandle)
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(reaPath, param);
+            MFileSys.modifyLoadParam(reaPath, param);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_loadEventHandle = onLoadEventHandle;

@@ -13,7 +13,7 @@ namespace SDK.Lib
             m_id2CfgDic[id] = item;
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            LocalFileSys.modifyLoadParam(item.m_path, param);
+            MFileSys.modifyLoadParam(item.m_path, param);
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;

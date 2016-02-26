@@ -47,7 +47,7 @@ namespace SDK.Lib
             {
                 // 初始化完成，开始加载自己的游戏场景
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                LocalFileSys.modifyLoadParam(m_type2ItemDic[moduleID].m_path, param);
+                MFileSys.modifyLoadParam(m_type2ItemDic[moduleID].m_path, param);
                 param.m_loadEventHandle = m_type2ItemDic[moduleID].m_loadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);

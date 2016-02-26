@@ -49,7 +49,7 @@ namespace SDK.Lib
         {
 #if UNITY_EDITOR
             //string path = string.Format("{0}{1}", Application.dataPath, "/Debug");
-            string path = string.Format("{0}{1}", Ctx.m_instance.m_localFileSys.getWorkPath(), "/Debug");
+            string path = string.Format("{0}{1}", Ctx.m_instance.m_fileSys.getWorkPath(), "/Debug");
 #else
             string path = string.Format("{0}{1}", Application.persistentDataPath,"/Debug");
 #endif

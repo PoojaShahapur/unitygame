@@ -25,7 +25,7 @@ namespace SDK.Lib
 
         public void loadMiniVerFile()
         {
-            if (UtilApi.fileExistNoVer(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME)))
+            if (UtilApi.fileExistNoVer(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.MINIFILENAME)))
             {
                 m_localVer.m_type = FilesVerType.ePersistentDataVer;
             }
@@ -41,7 +41,7 @@ namespace SDK.Lib
 
         public void loadVerFile()
         {
-            if (UtilApi.fileExistNoVer(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.FILENAME)))
+            if (UtilApi.fileExistNoVer(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.FILENAME)))
             {
                 m_localVer.m_type = FilesVerType.ePersistentDataVer;
             }
@@ -74,9 +74,9 @@ namespace SDK.Lib
         public void onWebMiniLoaded()
         {
             // 删除旧 mini 版本，修改新版本文件名字
-            UtilApi.delFile(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.FILENAME));
+            UtilApi.delFile(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.FILENAME));
             // 修改新的版本文件名字
-            UtilApi.renameFile(UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME), m_miniVer), Path.Combine(Ctx.m_instance.m_localFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME));
+            UtilApi.renameFile(UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.MINIFILENAME), m_miniVer), Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.MINIFILENAME));
 
             m_needUpdateVerFile = (m_localVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5 != m_webVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5);      // 如果版本不一致，需要重新加载
             //m_needUpdateVerFile = true;         // 测试强制更新
