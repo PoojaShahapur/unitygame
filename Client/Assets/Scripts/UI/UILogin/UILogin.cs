@@ -81,15 +81,18 @@ namespace Game.UI
                     Ctx.m_instance.m_systemSetting.setString(SystemSetting.USERNAME, lblName.text);
                     Ctx.m_instance.m_systemSetting.setString(SystemSetting.PASSWORD, lblPassWord.text);
 
-#if !DEBUG_NOTNET
-                    if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                    if (!Config.DEBUG_NOTNET)
                     {
-                        Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
+                        if (Ctx.m_instance.m_loginSys.get_LoginState() != LoginState.eLoginNone)        // 先关闭之前的 socket
+                        {
+                            Ctx.m_instance.m_netMgr.closeSocket(Ctx.m_instance.m_cfg.m_ip, Ctx.m_instance.m_cfg.m_port);
+                        }
+                        Ctx.m_instance.m_loginSys.connectLoginServer(lblName.text, lblPassWord.text);
                     }
-                    Ctx.m_instance.m_loginSys.connectLoginServer(lblName.text, lblPassWord.text);
-#else
-                    Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
-#endif
+                    else
+                    {
+                        Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+                    }
 
                     UtilApi.SetActive(m_imageEffect, true);
                     m_spriteAni = Ctx.m_instance.m_spriteAniMgr.createAndAdd();

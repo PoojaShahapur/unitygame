@@ -17,14 +17,10 @@
         protected ByteBuffer m_tmpData;             // 临时需要转换的数据放在这里
         protected ByteBuffer m_tmp1fData;           // 临时需要转换的数据放在这里
 
-#if NET_MULTHREAD
         private MMutex m_readMutex;   // 读互斥
         private MMutex m_writeMutex;   // 写互斥
-#endif
 
-#if MSG_ENCRIPT
         protected CryptContext m_cryptContext;
-#endif
 
         public ClientBuffer()
         {
@@ -44,9 +40,10 @@
             m_readMutex = new MMutex(false, "ReadMutex");
             m_writeMutex = new MMutex(false, "WriteMutex");
 
-#if MSG_ENCRIPT
-            m_cryptContext = new CryptContext();
-#endif
+            if (Config.MSG_ENCRIPT)
+            {
+                m_cryptContext = new CryptContext();
+            }
         }
 
         public DynBuffer<byte> dynBuff
@@ -151,9 +148,7 @@
 
             if (bnet)       // 从 socket 发送出去
             {
-                #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_writeMutex))
-                #endif
                 {
                     //m_sendTmpBA.writeUnsignedInt(m_sendData.length);                            // 写入头部长度
                     //m_sendTmpBA.writeBytes(m_sendData.dynBuff.buff, 0, m_sendData.length);      // 写入内容
@@ -179,9 +174,7 @@
 
         public ByteBuffer getMsg()
         {
-            #if NET_MULTHREAD
             using (MLock mlock = new MLock(m_readMutex))
-            #endif
             {
                 if (m_msgBuffer.popFront())
                 {
@@ -200,9 +193,7 @@
             m_socketSendBA.clear();
 
             // 获取完数据，就解锁
-            #if NET_MULTHREAD
             using (MLock mlock = new MLock(m_writeMutex))
-            #endif
             {
                 //m_socketSendBA.writeBytes(m_sendTmpBA.dynBuff.buff, 0, (uint)m_sendTmpBA.length);
                 //m_sendTmpBA.clear();
@@ -401,9 +392,7 @@
                 m_unCompressHeaderBA.writeUnsignedInt32(msglen);        // 写入解压后的消息的长度，不要写入 msglen ，如果压缩，再加密，解密后，再解压后的长度才是真正的长度
                 m_unCompressHeaderBA.position = 0;
 
-                #if NET_MULTHREAD
                 using (MLock mlock = new MLock(m_readMutex))
-                #endif
                 {
                     m_msgBuffer.circularBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
                     m_msgBuffer.circularBuffer.pushBackArr(m_rawBuffer.msgBodyBA.dynBuff.buff, m_rawBuffer.msgBodyBA.position - msglen, msglen);      // 保存消息大小字段
@@ -440,9 +429,8 @@
             m_unCompressHeaderBA.writeUnsignedInt32(m_rawBuffer.msgBodyBA.length);
             m_unCompressHeaderBA.position = 0;
 #endif
-            #if NET_MULTHREAD
+
             using (MLock mlock = new MLock(m_readMutex))
-            #endif
             {
 #if !MSG_COMPRESS && !MSG_ENCRIPT
                 m_msgBuffer.circularBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段

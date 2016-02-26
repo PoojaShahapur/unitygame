@@ -21,10 +21,8 @@ namespace SDK.Lib
         protected bool m_brecvThreadStart;      // 接收线程是否启动
         protected bool m_isConnected;
 
-#if NET_MULTHREAD
         protected MEvent m_msgSendEndEvent;       // 当前所有的消息都发送出去了，通知等待线程
         protected MMutex m_sendMutex;   // 读互斥
-#endif
 
         public NetTCPClient(string ip = "localhost", int port = 5000)
         {
@@ -67,7 +65,6 @@ namespace SDK.Lib
             }
         }
 
-#if NET_MULTHREAD
         public MEvent msgSendEndEvent
         {
             get
@@ -79,7 +76,6 @@ namespace SDK.Lib
                 m_msgSendEndEvent = value;
             }
         }
-#endif
 
         // 是否可以发送新的数据，上一次发送的数据是否发送完成，只有上次发送的数据全部发送完成，才能发送新的数据
         public bool canSendNewData()

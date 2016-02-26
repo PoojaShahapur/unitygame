@@ -200,9 +200,10 @@ namespace Game.UI
             m_spriteAni2.bLoop = true;
             m_spriteAni2.play();
             // test 进入战场
-#if DEBUG_NOTNET
-            Ctx.m_instance.m_gameSys.loadDZScene(1);
-#endif
+            if (!Config.DEBUG_NOTNET)
+            {
+                Ctx.m_instance.m_gameSys.loadDZScene(1);
+            }
         }
 
         public void matchSuccess()

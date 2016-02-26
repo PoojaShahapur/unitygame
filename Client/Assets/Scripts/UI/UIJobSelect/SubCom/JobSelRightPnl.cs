@@ -81,10 +81,11 @@ namespace Game.UI
                         m_jobSelectData.m_midPnl.startmatch();
                     }
                 }
-#if DEBUG_NOTNET
-                // test
-                m_jobSelectData.m_midPnl.startmatch();
-#endif
+                if (Config.DEBUG_NOTNET)
+                {
+                    // test
+                    m_jobSelectData.m_midPnl.startmatch();
+                }
             }
         }
 

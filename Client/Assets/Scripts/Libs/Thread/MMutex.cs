@@ -11,22 +11,34 @@ namespace SDK.Lib
 
         public MMutex(bool initiallyOwned, string name)
         {
-            m_mutex = new Mutex(initiallyOwned, name);
+            if (Config.NET_MULTHREAD)
+            {
+                m_mutex = new Mutex(initiallyOwned, name);
+            }
         }
 
         public void WaitOne()
         {
-            m_mutex.WaitOne();
+            if (Config.NET_MULTHREAD)
+            {
+                m_mutex.WaitOne();
+            }
         }
 
         public void ReleaseMutex()
         {
-            m_mutex.ReleaseMutex();
+            if (Config.NET_MULTHREAD)
+            {
+                m_mutex.ReleaseMutex();
+            }
         }
 
         public void close()
         {
-            m_mutex.Close();
+            if (Config.NET_MULTHREAD)
+            {
+                m_mutex.Close();
+            }
         }
     }
 }

@@ -35,9 +35,10 @@ namespace FightCore
         {
             base.addCard(card, idx);
 
-            #if !DEBUG_NOTNET
-            card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;
-            #endif
+            if (!Config.DEBUG_NOTNET)
+            {
+                card.sceneCardItem.cardArea = CardArea.CARDCELLTYPE_COMMON;
+            }
 
             // 添加进来的卡牌是不能移动的
             card.ioControl.disableDrag();
