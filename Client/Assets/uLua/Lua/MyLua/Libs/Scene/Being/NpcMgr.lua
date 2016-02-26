@@ -1,28 +1,27 @@
-namespace SDK.Lib
-{
-	/**
-	 * @brief 所有的 npc 
-	 */
-    public class NpcMgr : EntityMgrBase
-	{
-        public NpcMgr() 
-		{
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
 
-		}
+--[[
+    @brief 所有的 npc 
+]]
 
-        override protected void onTickExec(float delta)
-        {
-            base.onTickExec(delta);
-        }
+local M = GlobalNS.Class(GlobalNS.EntityMgrBase);
+M.clsName = "NpcMgr";
+GlobalNS[M.clsName] = M;
 
-        public void addNpc(BeingEntity being)
-        {
-            this.addObject(being);
-        }
+function M:ctor()
 
-        public void removeNpc(BeingEntity being)
-        {
-            this.delObject(being);
-        }
-	}
-}
+end
+
+function M:onTickExec(delta)
+    M.super.onTickExec(self, delta);
+end
+
+function M:addNpc(being)
+    self:addObject(being);
+end
+
+function M:removeNpc(being)
+    self:delObject(being);
+end

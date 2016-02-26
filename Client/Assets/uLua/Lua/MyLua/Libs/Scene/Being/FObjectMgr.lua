@@ -1,28 +1,27 @@
-namespace SDK.Lib
-{
-	/**
-	 * @brief 掉落物管理器   
-	 */
-    public class FObjectMgr : EntityMgrBase
-	{
-        public FObjectMgr()
-		{
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
 
-		}
+--[[
+    @brief 掉落物管理器   
+]]
 
-        override protected void onTickExec(float delta)
-        {
-            base.onTickExec(delta);
-        }
+local M = GlobalNS.Class(GlobalNS.EntityMgrBase);
+M.clsName = "FObjectMgr";
+GlobalNS[M.clsName] = M;
 
-        public void addFObject(BeingEntity being)
-        {
-            this.addObject(being);
-        }
+function M:ctor()
 
-        public void removeFObject(BeingEntity being)
-        {
-            this.delObject(being);
-        }
-	}
-}
+end
+
+function M:onTickExec(delta)
+    M.super.onTickExec(self, delta);
+end
+
+function M:addFObject(being)
+    self:addObject(being);
+end
+
+function M:removeFObject(being)
+    self:delObject(being);
+end

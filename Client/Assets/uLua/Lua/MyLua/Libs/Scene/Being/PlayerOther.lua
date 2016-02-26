@@ -1,13 +1,15 @@
-namespace SDK.Lib
-{
-	/**
-	 * @brief 其它玩家
-	 */
-	public class PlayerOther : Player
-	{
-		public PlayerOther()
-		{
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
 
-		}
-	}
-}
+--[[
+    @brief 其它玩家
+]]
+
+local M = GlobalNS.Class(GlobalNS.Player);
+M.clsName = "PlayerOther";
+GlobalNS[M.clsName] = M;
+
+function M:ctor()
+
+end

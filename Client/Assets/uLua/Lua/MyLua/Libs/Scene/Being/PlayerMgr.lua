@@ -1,51 +1,44 @@
-namespace SDK.Lib
-{
-	/**
-	 * @brief 玩家管理器
-	 */
-    public class PlayerMgr : EntityMgrBase
-	{
-        protected PlayerMain m_hero;
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
 
-        public PlayerMgr()
-		{
+--[[
+    @brief 玩家管理器
+]]
 
-		}
+local M = GlobalNS.Class(GlobalNS.EntityMgrBase);
+M.clsName = "PlayerMgr";
+GlobalNS[M.clsName] = M;
 
-        override protected void onTickExec(float delta)
-        {
-            base.onTickExec(delta);
-        }
+function M:ctor()
+    self.m_hero = nil;
+end
 
-        public PlayerMain createHero()
-        {
-            return new PlayerMain();
-        }
+function M:onTickExec(delta)
+    M.super.onTickExec(self, delta);
+end
 
-        public void addHero(PlayerMain hero)
-        {
-            m_hero = hero as PlayerMain;
-            addPlayer(m_hero);
-        }
+function M:createHero()
+    return GlobalNS.new(GloablNS.PlayerMain);
+end
 
-        public void addPlayer(BeingEntity being)
-        {
-            this.addObject(being);
-        }
+function M:addHero(hero)
+    self.m_hero = hero;
+    self:addPlayer(self.m_hero);
+end
 
-        public void removePlayer(BeingEntity being)
-        {
-            this.delObject(being);
-        }
+function M:addPlayer(being)
+    self:addObject(being);
+end
 
-        public PlayerMain getHero()
-        {
-            return m_hero;
-        }
+function M:removePlayer(being)
+    self:delObject(being);
+end
 
-        public Player getPlayerByThisId(uint thisId)
-        {
-            return getEntityByThisId(thisId) as Player;
-        }
-	}
-}
+function M:getHero()
+    return self.m_hero;
+end
+
+function M:getPlayerByThisId(thisId)
+    return self:getEntityByThisId(thisId);
+end

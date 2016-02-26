@@ -1,20 +1,15 @@
-namespace SDK.Lib
-{
-	/**
-	 * @brief 场景中的玩家
-	 */
-	public class Player : BeingEntity
-	{			
-		public Player()
-            : base()
-		{
-            //m_skinAniModel.m_modelList = new SkinSubModel[(int)ePlayerModelType.eModelTotal];
-            //int idx = 0;
-            //while (idx < (int)ePlayerModelType.eModelTotal)
-            //{
-            //    m_skinAniModel.m_modelList[idx] = new SkinSubModel();
-            //    ++idx;
-            //}
-		}
-	}
-}
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
+
+--[[
+    @brief 场景中的玩家
+]]
+
+local M = GlobalNS.Class(GlobalNS.BeingEntity);
+M.clsName = "Player";
+GlobalNS[M.clsName] = M;
+
+function M:ctor()
+
+end

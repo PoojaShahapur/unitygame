@@ -1,67 +1,31 @@
-﻿namespace SDK.Lib
-{
-    public class MonsterMgr : EntityMgrBase
-    {
-        //protected Dictionary<int, List<Vehicle>> m_group2RadarDic = new Dictionary<int, List<Vehicle>>();
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
 
-        public MonsterMgr()
-        {
+local M = GlobalNS.Class(GlobalNS.EntityMgrBase);
+M.clsName = "MonsterMgr";
+GlobalNS[M.clsName] = M;
 
-        }
+function M:ctor()
 
-        override protected void onTickExec(float delta)
-        {
-            base.onTickExec(delta);
-        }
+end
 
-        public Monster createMonster()
-        {
-            return new Monster();
-        }
+function M:onTickExec(delta)
+    m.super.onTickExec(self, delta);
+end
 
-        //public List<Vehicle> getOrAddGroup(int groupID)
-        //{
-        //    if(!m_group2RadarDic.ContainsKey(groupID))
-        //    {
-        //        m_group2RadarDic[groupID] = new List<Vehicle>();
-        //    }
+function M:createMonster()
+    return GlobalNS.new(GlobalNS.Monster);
+end
 
-        //    return m_group2RadarDic[groupID];
-        //}
+function M:addGroupMember(monster)
+    
+end
 
-        public void addGroupMember(Monster monster)
-        {
-            //m_group2RadarDic[monster.groupID].Add(monster.aiController.vehicle);
-            //int idx = 0;
-            //int idy = 0;
-            //while(idx < m_list.Count)
-            //{
-            //    idy = 0;
-            //    while (idy < m_list.Count)
-            //    {
-            //        m_list[idx].aiController.radar.Vehicles.Clear();
-            //        if (m_list[idx] != m_list[idy])
-            //        {
-            //            m_list[idx].aiController.radar.Vehicles.Add(m_list[idy].aiController.vehicle);
-            //        }
+function M:addMonster(being)
+    self:addObject(being);
+end
 
-            //        ++idy;
-            //    }
-
-            //    (m_list[idx].aiController.vehicle.Steerings[1] as SteerForNeighborGroup).HandleDetection(m_list[idx].aiController.radar);
-
-            //    ++idx;
-            //}
-        }
-
-        public void addMonster(BeingEntity being)
-        {
-            this.addObject(being);
-        }
-
-        public void removeMonster(BeingEntity being)
-        {
-            this.delObject(being);
-        }
-    }
-}
+function M:removeMonster(being)
+    self:delObject(being);
+end
