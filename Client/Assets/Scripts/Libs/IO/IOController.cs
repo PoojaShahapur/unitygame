@@ -312,16 +312,16 @@ namespace SDK.Lib
         {
             get
             {
-                UICamera.ControlScheme scheme = UICamera.currentScheme;
+                IOController.ControlScheme scheme = IOController.currentScheme;
 
-                if (scheme == UICamera.ControlScheme.Controller)
+                if (scheme == IOController.ControlScheme.Controller)
                 {
                     GameObject go = hoveredObject;
 
                     if (go != null)
                     {
                         //Bounds b = NGUIMath.CalculateAbsoluteWidgetBounds(go.transform);
-                        Camera cam = NGUITools.FindCameraForLayer(go.layer);
+                        Camera cam = UtilIO.FindCameraForLayer(go.layer);
                         //return cam.WorldToScreenPoint(b.center);
                         return cam.WorldToScreenPoint(go.transform.position);
                     }

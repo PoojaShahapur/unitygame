@@ -297,7 +297,7 @@ namespace SDK.Lib
             m_dynBuffer.m_size -= len;
         }
 
-        // 向自己尾部添加一个 CirculeBuffer 
+        // 向自己尾部添加一个 CircularBuffer
         public void pushBackCB(CircularBuffer rhv)
         {
             if(m_dynBuffer.m_iCapacity - m_dynBuffer.m_size < rhv.size)

@@ -38,7 +38,12 @@ namespace SDK.Lib
         {
             string path;
             path = Application.dataPath + "/" + m_path;
+            // UNITY_5_2 没有
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            m_assetBundle = AssetBundle.CreateFromFile(path);
+#else
             m_assetBundle = AssetBundle.LoadFromFile(path);
+#endif
 
             if (m_assetBundle != null)
             {

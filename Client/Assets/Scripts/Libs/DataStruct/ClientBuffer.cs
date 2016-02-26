@@ -207,8 +207,8 @@
                 //m_socketSendBA.writeBytes(m_sendTmpBA.dynBuff.buff, 0, (uint)m_sendTmpBA.length);
                 //m_sendTmpBA.clear();
                 // 一次全部取出来发送出去
-                //m_socketSendBA.writeBytes(m_sendTmpBuffer.circuleBuffer.buff, 0, (uint)m_sendTmpBuffer.circuleBuffer.size);
-                //m_sendTmpBuffer.circuleBuffer.clear();
+                //m_socketSendBA.writeBytes(m_sendTmpBuffer.circularBuffer.buff, 0, (uint)m_sendTmpBuffer.circuleBuffer.size);
+                //m_sendTmpBuffer.circularBuffer.clear();
                 // 一次仅仅获取一个消息发送出去，因为每一个消息的长度要填写加密补位后的长度
                 if (m_sendTmpBuffer.popFront())     // 弹出一个消息，如果只有一个消息，内部会重置变量
                 {
@@ -445,7 +445,7 @@
             #endif
             {
 #if !MSG_COMPRESS && !MSG_ENCRIPT
-                m_msgBuffer.circuleBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
+                m_msgBuffer.circularBuffer.pushBackBA(m_unCompressHeaderBA);             // 保存消息大小字段
 #endif
                 m_msgBuffer.circularBuffer.pushBackBA(m_rawBuffer.msgBodyBA);      // 保存消息大小字段
             }

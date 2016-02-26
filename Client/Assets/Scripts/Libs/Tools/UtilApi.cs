@@ -1011,5 +1011,10 @@ namespace SDK.Lib
         {
             return go && go.activeInHierarchy;
         }
+
+        static public int NameToLayer(string layerName)
+        {
+            return LayerMask.NameToLayer(layerName);
+        }
     }
 }

@@ -38,7 +38,11 @@ namespace SDK.Lib
 
         virtual protected void initAsset()
         {
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            m_bundle = AssetBundle.CreateFromMemoryImmediate(m_bytes);
+#else
             m_bundle = AssetBundle.LoadFromMemory(m_bytes);
+#endif
         }
 
         virtual protected IEnumerator initAssetByCoroutine()

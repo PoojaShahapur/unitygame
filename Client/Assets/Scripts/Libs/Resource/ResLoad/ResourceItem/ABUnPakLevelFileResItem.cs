@@ -42,7 +42,11 @@ namespace SDK.Lib
 
         override protected IEnumerator initAssetByCoroutine()
         {
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            AssetBundleCreateRequest createReq = AssetBundle.CreateFromMemory(m_bytes);
+#else
             AssetBundleCreateRequest createReq = AssetBundle.LoadFromMemoryAsync(m_bytes);
+#endif
             yield return createReq;
 
             m_bundle = createReq.assetBundle;

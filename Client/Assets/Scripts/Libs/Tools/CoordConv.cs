@@ -13,6 +13,12 @@ namespace SDK.Lib
         protected Ray m_ray;
         protected float m_dist = 0f;
         protected RaycastHit m_hit;
+        protected int m_layMask;
+
+        public CoordConv()
+        {
+            m_layMask = UtilApi.NameToLayer("UGUI");
+        }
 
         // 获取鼠标当前位置
         public Vector3 getCurTouchScenePos()
