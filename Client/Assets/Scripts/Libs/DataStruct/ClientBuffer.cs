@@ -306,20 +306,14 @@
             uint origMsgLen = m_socketSendBA.length;       // 原始的消息长度，后面判断头部是否添加压缩标志
             uint compressMsgLen = 0;
 
-            if (origMsgLen > MsgCV.PACKET_ZIP_MIN)
+            if (origMsgLen > MsgCV.PACKET_ZIP_MIN && MacroDef.MSG_COMPRESS)
             {
-                if (MacroDef.MSG_COMPRESS)
-                {
-                    compressMsgLen = m_socketSendBA.compress();
-                }
+                compressMsgLen = m_socketSendBA.compress();
             }
-            else
+            else if (MacroDef.MSG_ENCRIPT)
             {
-                if (MacroDef.MSG_ENCRIPT)
-                {
-                    compressMsgLen = origMsgLen;
-                    m_socketSendBA.incPosDelta((int)origMsgLen);
-                }
+                compressMsgLen = origMsgLen;
+                m_socketSendBA.incPosDelta((int)origMsgLen);
             }
 
             if (MacroDef.MSG_ENCRIPT)
@@ -376,15 +370,12 @@
                     break;
                 }
                 
-                if ((msglen & MsgCV.PACKET_ZIP) > 0)
+                if ((msglen & MsgCV.PACKET_ZIP) > 0 && MacroDef.MSG_COMPRESS)
                 {
-                    if (MacroDef.MSG_COMPRESS)
-                    {
-                        msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
-                        Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息未解压长度　{0}", msglen));
-                        msglen = m_rawBuffer.msgBodyBA.uncompress(msglen);
-                        Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息解压后长度　{0}", msglen));
-                    }
+                    msglen &= (~MsgCV.PACKET_ZIP);         // 去掉压缩标志位
+                    Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息未解压长度　{0}", msglen));
+                    msglen = m_rawBuffer.msgBodyBA.uncompress(msglen);
+                    Ctx.m_instance.m_logSys.log(string.Format("消息需要解压缩，消息解压后长度　{0}", msglen));
                 }
                 else
                 {
