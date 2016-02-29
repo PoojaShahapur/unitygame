@@ -1016,5 +1016,15 @@ namespace SDK.Lib
         {
             return LayerMask.NameToLayer(layerName);
         }
+
+        static public void assert(bool condition, string message = "")
+        {
+            Debug.Assert(condition, message);
+        }
+
+        static public float rangRandom(float min, float max)
+        {
+            return UnityEngine.Random.RandomRange(min, max);
+        }
     }
 }
