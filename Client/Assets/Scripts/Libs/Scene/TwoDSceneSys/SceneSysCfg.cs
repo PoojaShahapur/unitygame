@@ -16,24 +16,28 @@
 
         public SceneSysCfg()
         {
-            m_sceneWorldWidth = 0;
-            m_sceneWorldDepth = 0;
+            m_sceneWorldWidth = 3000;
+            m_sceneWorldDepth = 1500;
 
-            m_scenePageWidth = 0;
-            m_scenePageDepth = 0;
+            m_scenePageWidth = 300;
+            m_scenePageDepth = 300;
 
-            m_sceneTileWidth = 0;
-            m_sceneTileDepth = 0;
+            m_sceneTileWidth = 30;
+            m_sceneTileDepth = 30;
         }
 
         public int getPageCountX()
         {
-            return (m_sceneWorldWidth + m_scenePageWidth - 1) / m_scenePageWidth;
+            int countX = 0;
+            countX = (m_sceneWorldWidth + m_scenePageWidth - 1) / m_scenePageWidth;
+            return countX;
         }
 
         public int getPageCountY()
         {
-            return (m_sceneWorldDepth + m_scenePageDepth - 1) / m_scenePageDepth;
+            int countY = 0;
+            countY = (m_sceneWorldDepth + m_scenePageDepth - 1) / m_scenePageDepth;
+            return countY;
         }
 
         public int getTileCountXPerPage()
@@ -46,55 +50,55 @@
             return (m_scenePageDepth + m_sceneTileDepth - 1) / m_sceneTileDepth;
         }
 
-        public MVector2 convScenePageIdx2XYIdx(int pageIdx)
+        public MPoint convScenePageIdx2XYIdx(int pageIdx)
         {
-            MVector2 ret = new MVector2();
+            MPoint ret = new MPoint();
             ret.x = pageIdx % getPageCountX();
             ret.y = pageIdx / getPageCountX();
             return ret;
         }
 
-        public int convScenePageXYIdx2Idx(MVector2 xyIdx)
+        public int convScenePageXYIdx2Idx(MPoint xyIdx)
         {
             int idx = 0;
             idx = (int)(xyIdx.y * getPageCountX() + xyIdx.x);
             return idx;
         }
 
-        public MVector2 convWorldXYPos2ScenePageXYIdx(float x, float y)
+        public MPoint convWorldXYPos2ScenePageXYIdx(float x, float y)
         {
-            MVector2 ret = new MVector2();
-            ret.x = x + m_scenePageWidth - 1 / m_scenePageWidth;
-            ret.y = y + m_scenePageDepth - 1 / m_scenePageDepth;
+            MPoint ret = new MPoint();
+            ret.x = (int)(x / m_scenePageWidth);
+            ret.y = (int)(y / m_scenePageDepth);
             return ret;
         }
 
         // 转换世界坐标到场景索引
         public int convWorldXYPos2PageIdx(float x, float y)
         {
-            MVector2 ret = convWorldXYPos2ScenePageXYIdx(x, y);
+            MPoint ret = convWorldXYPos2ScenePageXYIdx(x, y);
             int idx = convScenePageXYIdx2Idx(ret);
             return idx;
         }
 
-        public MVector2 convWorldXYPos2PageXYPos(float x, float y)
+        public MPoint convWorldXYPos2PageXYPos(float x, float y)
         {
-            MVector2 ret = new MVector2();
-            MVector2 pageXYIdx = convWorldXYPos2ScenePageXYIdx(x, y);
+            MPoint ret = new MPoint();
+            MPoint pageXYIdx = convWorldXYPos2ScenePageXYIdx(x, y);
 
-            ret.x = x - pageXYIdx.x * m_scenePageWidth;
-            ret.y = y - pageXYIdx.y * m_scenePageDepth;
+            ret.x = (int)(x - pageXYIdx.x * m_scenePageWidth);
+            ret.y = (int)(y - pageXYIdx.y * m_scenePageDepth);
             return ret;
         }
 
         public int convPageXYPos2TileIdx(float x, float y)
         {
-            return (int)(((y + m_sceneTileDepth - 1) / m_sceneTileDepth) * getTileCountXPerPage() + (x + m_sceneTileWidth - 1) / m_sceneTileWidth);
+            return (int)((y / m_sceneTileDepth) * getTileCountXPerPage() + (x / m_sceneTileWidth));
         }
 
         public int convWorldXYPos2TileIdx(float x, float y)
         {
-            MVector2 pageXYPos = convWorldXYPos2PageXYPos(x, y);
+            MPoint pageXYPos = convWorldXYPos2PageXYPos(x, y);
             int tileIdx = convPageXYPos2TileIdx(pageXYPos.x, pageXYPos.y);
             return tileIdx;
         }

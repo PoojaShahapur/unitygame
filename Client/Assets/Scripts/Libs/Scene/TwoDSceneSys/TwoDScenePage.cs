@@ -21,13 +21,19 @@
 
         public TwoDScenePage()
         {
+            m_isVisible = false;
             m_box = new MTwoDAxisAlignedBox();
             m_sceneTileList = new MList<TwoDSceneTile>();
             m_entityList = new MList<SceneEntityBase>();
+
+            m_curVisibleTileList = new MList<TwoDSceneTile>();
+            m_willVisibleTileList = new MList<TwoDSceneTile>();
         }
 
         public void init()
         {
+            m_bInit = true;
+
             int idx = 0;
             int idy = 0;
 
@@ -39,7 +45,7 @@
                 idx = 0;
                 while (idx < tileCountX)
                 {
-                    m_sceneTileList[idy * tileCountX + idx] = new TwoDSceneTile();
+                    m_sceneTileList.Add(new TwoDSceneTile());
                     m_sceneTileList[idy * tileCountX + idx].setTileIdx(idy * tileCountX + idx);
                     m_sceneTileList[idy * tileCountX + idx].init();
                     ++idx;
@@ -51,13 +57,20 @@
         // 显示的时候调用
         public void show()
         {
-
+            if(!m_isVisible)
+            {
+                m_isVisible = true;
+                if(!m_bInit)
+                {
+                    init();
+                }
+            }
         }
 
         // 隐藏的时候调用
         public void hide()
         {
-
+            m_isVisible = false;
         }
 
         public void setPageIdx(int idx)
@@ -121,6 +134,7 @@
             {
                 m_willVisibleTileList[index].show();
                 m_curVisibleTileList.Add(m_willVisibleTileList[index]);
+                ++index;
             }
             m_willVisibleTileList.Clear();
         }

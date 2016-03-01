@@ -16,7 +16,14 @@
         // 显示的时候调用
         public void show()
         {
-
+            if (!m_isVisible)
+            {
+                m_isVisible = true;
+                if (!m_bInit)
+                {
+                    init();
+                }
+            }
         }
 
         // 隐藏的时候调用

@@ -42,9 +42,9 @@
                 idx = 0;
                 while (idx < pageCountX)
                 {
-                    m_scenePageList[idy * pageCountX + idx] = new TwoDScenePage();
+                    m_scenePageList.Add(new TwoDScenePage());
                     m_scenePageList[idy * pageCountX + idx].setPageIdx(idy * pageCountX + idx);
-                    m_scenePageList[idy * pageCountX + idx].init();
+                    //m_scenePageList[idy * pageCountX + idx].init();
                     ++idx;
                 }
                 ++idy;
@@ -81,7 +81,7 @@
         public TwoDScenePage getSceneTileByIdAndDirect(int pageIdx, PageDirect dir)
         {
             int newPageIdx = 0;
-            MVector2 pageXYIdx = m_sceneSysCfg.convScenePageIdx2XYIdx(pageIdx);
+            MPoint pageXYIdx = m_sceneSysCfg.convScenePageIdx2XYIdx(pageIdx);
             if(PageDirect.eLeft == dir)
             {
                 if(pageXYIdx.x > 0)
@@ -128,8 +128,8 @@
                 m_camPageIdx = pageIdx;
                 m_camTileIdx = tileIdx;
 
-                float lbx = x - m_sceneSysCfg.m_sceneTileWidth / 2;
-                float lby = y - m_sceneSysCfg.m_sceneTileDepth / 2;
+                float lbx = ((int)(x / m_sceneSysCfg.m_sceneTileWidth)) * m_sceneSysCfg.m_sceneTileWidth  - m_sceneSysCfg.m_sceneTileWidth / 2;
+                float lby = ((int)(y / m_sceneSysCfg.m_sceneTileDepth)) * m_sceneSysCfg.m_sceneTileDepth - m_sceneSysCfg.m_sceneTileDepth / 2;
 
                 int idx = 0;
                 int idy = 0;
@@ -138,7 +138,7 @@
                     idx = 0;
                     while(idx < 3)
                     {
-                        addWillVisiblePage(lbx + idx * (m_sceneSysCfg.m_sceneTileWidth / 2), lby + idy * (m_sceneSysCfg.m_sceneTileDepth / 2));
+                        addWillVisiblePage(lbx + idx * (m_sceneSysCfg.m_sceneTileWidth), lby + idy * (m_sceneSysCfg.m_sceneTileDepth));
                         ++idx;
                     }
                     ++idy;
@@ -155,6 +155,7 @@
             {
                 m_willVisiblePageList.Add(m_scenePageList[pageIdx]);
             }
+            m_scenePageList[pageIdx].show();
             m_scenePageList[pageIdx].addWillVisibleTile(x, y);
         }
 
@@ -181,6 +182,7 @@
                 m_willVisiblePageList[index].updateVisible();
                 m_willVisiblePageList[index].show();
                 m_curVisiblePageList.Add(m_willVisiblePageList[index]);
+                ++index;
             }
             m_willVisiblePageList.Clear();
         }
