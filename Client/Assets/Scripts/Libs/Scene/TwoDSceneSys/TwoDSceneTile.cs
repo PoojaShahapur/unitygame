@@ -44,7 +44,15 @@
 
         public void addToTile(SceneEntityBase entity)
         {
-            m_entityList.Add(entity);   // 检查是否存在
+            if (m_entityList.IndexOf(entity) == -1)
+            {
+                m_entityList.Add(entity);   // 检查是否存在
+            }
+        }
+
+        public void removeFromTile(SceneEntityBase entity)
+        {
+            m_entityList.Remove(entity);
         }
     }
 }

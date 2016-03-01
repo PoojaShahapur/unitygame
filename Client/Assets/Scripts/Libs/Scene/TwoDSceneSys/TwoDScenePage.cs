@@ -52,6 +52,11 @@
                 }
                 ++idy;
             }
+
+            foreach(SceneEntityBase entity in m_entityList.list())
+            {
+                addToTile(entity);
+            }
         }
 
         // 显示的时候调用
@@ -85,16 +90,42 @@
 
         public void addToPage(SceneEntityBase entity)
         {
-            m_entityList.Add(entity);   // 检查是否重复添加
+            if (m_entityList.IndexOf(entity) == -1)
+            {
+                m_entityList.Add(entity);   // 检查是否重复添加
+            }
 
             if (m_bInit)
             {
-                // 直接添加的具体 Tile 中去
-                float x = entity.getWorldPosX();
-                float y = entity.getWorldPosY();
-                TwoDSceneTile tile = getSceneTile(x, y);
-                tile.addToTile(entity);
+                addToTile(entity);
             }
+        }
+
+        public void removeFromPage(SceneEntityBase entity)
+        {
+            m_entityList.Remove(entity);
+
+            if(m_bInit)
+            {
+                removeFromTile(entity);
+            }
+        }
+
+        public void addToTile(SceneEntityBase entity)
+        {
+            // 直接添加的具体 Tile 中去
+            float x = entity.getWorldPosX();
+            float y = entity.getWorldPosY();
+            TwoDSceneTile tile = getSceneTile(x, y);
+            tile.addToTile(entity);
+        }
+
+        public void removeFromTile(SceneEntityBase entity)
+        {
+            float x = entity.getWorldPosX();
+            float y = entity.getWorldPosY();
+            TwoDSceneTile tile = getSceneTile(x, y);
+            tile.removeFromTile(entity);
         }
 
         public TwoDSceneTile getSceneTile(float x, float y)

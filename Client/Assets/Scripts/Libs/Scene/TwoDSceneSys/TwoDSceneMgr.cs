@@ -62,9 +62,13 @@
         }
 
         // 从场景移除
-        public void removeFromScene()
+        public void removeFromScene(SceneEntityBase entity)
         {
+            float x = entity.getWorldPosX();
+            float y = entity.getWorldPosY();
 
+            TwoDScenePage page = getScenePage(x, y);
+            page.removeFromPage(entity);
         }
 
         public TwoDScenePage getScenePage(float x, float y)
