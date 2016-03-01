@@ -115,5 +115,15 @@ namespace SDK.Lib
         {
             return m_render.checkRender();
         }
+
+        virtual public float getWorldPosX()
+        {
+            return 0;
+        }
+
+        virtual public float getWorldPosY()
+        {
+            return 0;
+        }
     }
 }

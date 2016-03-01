@@ -473,5 +473,25 @@ namespace SDK.Lib
         {
             return !(lhs == rhs);
         }
+
+        public override bool Equals(object other)
+        {
+            if (System.Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (((MTwoDAxisAlignedBox)this == null) || ((MTwoDAxisAlignedBox)other == null))
+            {
+                return false;
+            }
+
+            return (this.mMinimum == ((MTwoDAxisAlignedBox)other).mMinimum && this.mMaximum == ((MTwoDAxisAlignedBox)other).mMaximum);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.GetHashCode();
+        }
     }
 }

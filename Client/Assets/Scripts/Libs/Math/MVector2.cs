@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public struct MVector2
+    public class MVector2
     {
         public static MVector2 ZERO = new MVector2(0, 0);
         public static MVector2 UNIT_X = new MVector2(1, 0);
@@ -14,7 +14,7 @@ namespace SDK.Lib
         public float x;
         public float y;
 
-        public MVector2(float fX, float fY)
+        public MVector2(float fX = 0, float fY = 0)
         {
             x = fX;
             y = fY;

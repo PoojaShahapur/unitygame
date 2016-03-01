@@ -110,6 +110,7 @@ namespace SDK.Lib
         public NativeInterface m_nativeInterface;   // 本地接口调用
         public GCAutoCollect m_gcAutoCollect;     // 自动垃圾回收
         public MemoryCheck m_memoryCheck;       // 内存查找
+        public TwoDSceneMgr m_twoDSceneMgr;     // 2d 场景管理器
 
         public Ctx()
         {
@@ -178,6 +179,7 @@ namespace SDK.Lib
             m_nativeInterface = new NativeInterface();
             m_gcAutoCollect = new GCAutoCollect();
             m_memoryCheck = new MemoryCheck();
+            m_twoDSceneMgr = new TwoDSceneMgr();
         }
 
         protected void interInit()
