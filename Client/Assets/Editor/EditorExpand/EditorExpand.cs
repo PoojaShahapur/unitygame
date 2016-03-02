@@ -7,11 +7,13 @@ public class MyHierarchyMenu
 	[MenuItem("Window/Test/Test_0")]
 	static void Test()
 	{
+
 	}
 
 	[MenuItem("Window/Test/Test_1")]
 	static void Test1()
 	{
+
 	}
 
 	[InitializeOnLoadMethod]
@@ -31,7 +33,7 @@ public class MyHierarchyMenu
 	        {
 				Vector2 mousePosition = Event.current.mousePosition;
 
-				EditorUtility.DisplayPopupMenu(new Rect(mousePosition.x, mousePosition.y, 0, 0), "Window/Test",null);
+				EditorUtility.DisplayPopupMenu(new Rect(mousePosition.x, mousePosition.y, 0, 0), "Window/Test", null);
 	            Event.current.Use();
 	        }
 	    }
