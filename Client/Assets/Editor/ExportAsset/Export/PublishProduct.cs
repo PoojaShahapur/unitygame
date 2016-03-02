@@ -9,14 +9,14 @@ namespace EditorTool
     public class PublishProduct
     {
         // 发布 windows 平台产品
-        [MenuItem("Assets/PublishProduct/WindowsRelease")]
+        [MenuItem("My/Assets/PublishProduct/WindowsRelease")]
         static void WindowsRelease_PublishProduct()
         {
             Windows_PublishProduct(BuildOptions.None);
         }
 
         // 发布 windows 平台产品
-        [MenuItem("Assets/PublishProduct/WindowsDebug")]
+        [MenuItem("My/Assets/PublishProduct/WindowsDebug")]
         static void WindowsDebug_PublishProduct()
         {
             Windows_PublishProduct(BuildOptions.Development | BuildOptions.AllowDebugging | BuildOptions.SymlinkLibraries | BuildOptions.ConnectWithProfiler);

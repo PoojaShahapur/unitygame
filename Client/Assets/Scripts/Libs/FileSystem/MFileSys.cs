@@ -299,6 +299,11 @@ namespace SDK.Lib
                 }
                 param.m_path = resPath;
             }
+            else if (MacroDef.ASSETBUNDLES_LOAD)
+            {
+                param.m_path = "assets/resources" + resPath;
+                param.m_path = param.m_path.ToLower();
+            }
             else
             {
                 param.m_path = resPath;

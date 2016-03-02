@@ -6,7 +6,7 @@ namespace EditorTool
     class ExportSkinAnim
     {
         // 导出蒙皮
-        [MenuItem("Assets/ExportSkinMeshSkel/ExportSkinsCfg")]
+        [MenuItem("My/Assets/ExportSkinMeshSkel/ExportSkinsCfg")]
         static void ExportSkinsCfg()
         {
             SkinAnimSys.instance();
@@ -16,7 +16,7 @@ namespace EditorTool
         }
 
         // 导出子网格
-        [MenuItem("Assets/ExportSkinMeshSkel/ExportSubmeshCfg")]
+        [MenuItem("My/Assets/ExportSkinMeshSkel/ExportSubmeshCfg")]
         static void ExportSubMeshCfg()
         {
             SkinAnimSys.instance();
@@ -25,7 +25,7 @@ namespace EditorTool
         }
 
         // 导出骨骼
-        [MenuItem("Assets/ExportSkinMeshSkel/ExportSkeletonCfg")]
+        [MenuItem("My/Assets/ExportSkinMeshSkel/ExportSkeletonCfg")]
         static void ExportSkeletonCfg()
         {
             SkinAnimSys.instance();

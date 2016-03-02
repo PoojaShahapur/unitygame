@@ -53,6 +53,7 @@ namespace EditorTool
             assetIndex = m_abPath.LastIndexOf(".");
             if (assetIndex != -1)
             {
+                // AssetBundles 的 Label 都是从 Assets 目录下开始的，为了保持相同目录结构
                 m_abSetPath = m_abPath.Substring(0, assetIndex) + ExportUtil.DOTUNITY3D;
                 m_abSetPath = ExportUtil.toLower(m_abSetPath);
             }
@@ -69,8 +70,12 @@ namespace EditorTool
 
         public void exportResABKV(List<string> list)
         {
-            string str = m_resPath + "=" + m_abSetPath + "=" + m_abPath;
-            list.Add(str);
+            // 如果 m_resPath 不为空，就说明资源是在 Resources 目录下的，这种资源代码会主动加载，不在 Resources 目录下的资源，都是依赖资源，代码不会主动加载的，因此也不用导出对应的名字映射
+            if (m_resPath != null)
+            {
+                string str = m_resPath + "=" + m_abSetPath + "=" + m_abPath;
+                list.Add(str);
+            }
         }
     }
 }

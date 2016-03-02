@@ -6,7 +6,7 @@ namespace NSFBXImport
      */
     public class FBXImportMenu
     {
-        [MenuItem("Assets/FBXImport/FBXImport")]
+        [MenuItem("My/Assets/FBXImport/FBXImport")]
         static public void FBXImport()
         {
             import();

@@ -10,8 +10,8 @@ using System.Collections.Generic;
  */
 public class ExportAssetBundlesAndScene
 {
-	// 在Unity编辑器中添加菜单，导出的时候，一定要先选择自己设置的预设，然后点击菜单，支持选中文件夹，导出选中的资源到一个文件
-    //[MenuItem("Assets/Build AssetBundle From Selection All - Track dependencies")]
+    // 在Unity编辑器中添加菜单，导出的时候，一定要先选择自己设置的预设，然后点击菜单，支持选中文件夹，导出选中的资源到一个文件
+    //[MenuItem("My/Assets/Build AssetBundle From Selection All - Track dependencies")]
     static void ExportAssetBundlesAll()
 	{
 		// 打开保存面板，获得用户选择的路径  
@@ -66,7 +66,7 @@ public class ExportAssetBundlesAndScene
         System.GC.Collect();
 	}
 
-    //[MenuItem("Assets/Build AssetBundle From Selection All - No dependency tracking")]
+    //[MenuItem("My/Assets/Build AssetBundle From Selection All - No dependency tracking")]
     static void ExportResourceNoTrack()
     {
         // Bring up save panel
@@ -116,7 +116,7 @@ public class ExportAssetBundlesAndScene
 
     /*
     // 首先保存场景，然后再导出加载的场景资源文件
-	[MenuItem("Assets/Save Scene")]
+	[MenuItem("My/Assets/Save Scene")]
 	static void ExportScene()
 	{
 		// 打开保存面板，获得用户选择的路径  
@@ -153,7 +153,7 @@ public class ExportAssetBundlesAndScene
     */
 
     // 首先保存场景，然后再导出加载的场景资源文件，导出选择的场景文件
-    //[MenuItem("Assets/Save Scene One")]
+    //[MenuItem("My/Assets/Save Scene One")]
     static void ExportSceneOne()
     {
         // 打开保存面板，获得用户选择的路径  
@@ -202,8 +202,8 @@ public class ExportAssetBundlesAndScene
     }
 
     // 首先保存场景，然后再导出加载的场景资源文件，保存所有的场景到各自的资源文件
-	//[MenuItem("Assets/Save Scene All")]
-	static void ExportSceneAll()
+    //[MenuItem("My/Assets/Save Scene All")]
+    static void ExportSceneAll()
 	{
 		// 选择的要保存的对象
         string[] levels = new string[1];
@@ -255,7 +255,7 @@ public class ExportAssetBundlesAndScene
 	}
 
     // 场景文件导出，导出自己的地图文件格式，然后自己裁剪逐渐加载可见的模型资源
-    //[MenuItem("Assets/Save Scene XML")]
+    //[MenuItem("My/Assets/Save Scene XML")]
     static void ExportSceneXmlOneAndTerrainPrefab()
     {
         // 打开保存面板，获得用户选择的路径  
@@ -301,7 +301,7 @@ public class ExportAssetBundlesAndScene
     }
 
     // 清除缓存
-    [MenuItem("Assets/CleanCache")]
+    [MenuItem("My/Assets/CleanCache")]
     static void CleanCache()
     {
         Caching.CleanCache();

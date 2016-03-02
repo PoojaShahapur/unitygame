@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+#if UNITY_EDITOR	
+using UnityEditor;
+#endif
 
 namespace SDK.Lib
 {
@@ -41,14 +44,20 @@ namespace SDK.Lib
             }
         }
 
-        public void initialize(string manifestAssetBundleName)
+        public void initialize()
         {
+            string platformFolderForAssetBundles =
+#if UNITY_EDITOR
+            UtilApi.GetPlatformFolderForAssetBundles(EditorUserBuildSettings.activeBuildTarget);
+#else
+			UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
+#endif
             // 必须同步加载
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], manifestAssetBundleName), param);
+            param.m_path = Application.streamingAssetsPath + "/" + platformFolderForAssetBundles;
             param.m_loadEventHandle = onLoadEventHandle;
-            param.m_loadNeedCoroutine = false;
-            param.m_resNeedCoroutine = false;
+            param.m_loadNeedCoroutine = true;
+            param.m_resNeedCoroutine = true;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }

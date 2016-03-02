@@ -39,6 +39,9 @@
         // 非打包文件系统资源加载
         static public bool UNPKG_RES_LOAD = false;
 
+        // AssetBundles 加载
+        static public bool ASSETBUNDLES_LOAD = true;
+
         // 是否开启 EnableProtoBuf
         static public bool ENABLE_PROTOBUF = false;
 

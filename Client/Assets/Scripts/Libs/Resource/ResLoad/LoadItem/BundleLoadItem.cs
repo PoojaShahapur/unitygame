@@ -13,7 +13,16 @@ namespace SDK.Lib
             base.load();
             if (ResLoadType.eLoadDisc == m_resLoadType)
             {
-                loadFromAssetBundle();
+                if (m_loadNeedCoroutine)
+                {
+                    // 如果有协程的直接这么调用，编辑器会卡死
+                    //loadFromAssetBundleByCoroutine()
+                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadFromAssetBundleByCoroutine());
+                }
+                else
+                {
+                    loadFromAssetBundle();
+                }
             }
             else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
             {
@@ -33,18 +42,41 @@ namespace SDK.Lib
         }
 
         // CreateFromFile(注意这种方法只能用于standalone程序）这是最快的加载方法
-        // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
-        protected void loadFromAssetBundle()
+        // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的。目前这个接口各个平台都支持了，包括 Android 和 Mac、Iphone
+        protected IEnumerator loadFromAssetBundleByCoroutine()
         {
             string path;
-            path = Application.dataPath + "/" + m_path;
+            //path = Application.dataPath + "/" + m_path;
+            path = m_path;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             m_assetBundle = AssetBundle.CreateFromFile(path);
 #else
-            m_assetBundle = AssetBundle.LoadFromFile(path);
-#endif
+            AssetBundleCreateRequest req = null;
+            req = AssetBundle.LoadFromFileAsync(path);
+            yield return req;
 
+            m_assetBundle = req.assetBundle;
+#endif
+            assetBundleLoaded();
+        }
+
+        protected void loadFromAssetBundle()
+        {
+            string path;
+            //path = Application.dataPath + "/" + m_path;
+            path = m_path;
+            // UNITY_5_2 没有
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            m_assetBundle = AssetBundle.CreateFromFile(path);
+#else
+             m_assetBundle = AssetBundle.LoadFromFile(path);
+#endif
+            assetBundleLoaded();
+        }
+
+        protected void assetBundleLoaded()
+        {
             if (m_assetBundle != null)
             {
                 nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();

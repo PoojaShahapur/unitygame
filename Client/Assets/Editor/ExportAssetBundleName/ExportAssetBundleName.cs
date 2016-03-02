@@ -4,7 +4,7 @@ namespace EditorTool
 {
     public class ExportAssetBundleName
     {
-        [MenuItem("Assets/AssetBundleName/SetAssetBundleName")]
+        [MenuItem("My/Assets/AssetBundleName/SetAssetBundleName")]
         static public void SetAssetBundleName()
         {
             setAssetBundleName();

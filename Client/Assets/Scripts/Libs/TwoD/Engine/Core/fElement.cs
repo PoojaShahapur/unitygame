@@ -152,7 +152,7 @@ namespace SDK.Lib
 			this.disposeElement();
 		}
 		
-		public void onTick(float deltaTime)
+		virtual public void onTick(float deltaTime)
 		{
             this.followListener(null);
         }

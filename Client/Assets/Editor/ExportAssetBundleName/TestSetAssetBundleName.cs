@@ -14,7 +14,7 @@ namespace EditorTool
 
     public class TestSetAssetBundleName : Editor
     {
-        [MenuItem("Tool/SetFileBundleName")]
+        [MenuItem("My/Tool/SetFileBundleName")]
         static public void SetBundleName()
         {
             // 设置资源的AssetBundle的名称和文件扩展名
@@ -33,7 +33,7 @@ namespace EditorTool
         }
 
         // 设置assetbundle的名字(修改meta文件)
-        [MenuItem("Tools/SetAssetBundleName")]
+        [MenuItem("My/Tools/SetAssetBundleName")]
         static void OnSetAssetBundleName()
         {
             UnityEngine.Object obj = Selection.activeObject;
@@ -78,7 +78,7 @@ namespace EditorTool
             File.Delete(path + ".tmp");
         }
         
-        [MenuItem("Tools/CreateAssetBundle")]
+        [MenuItem("My/Tools/CreateAssetBundle")]
         static void OnCreateAssetBundle()
         {
             BuildPipeline.BuildAssetBundles(EditorConfig.OUTPUT_PATH);

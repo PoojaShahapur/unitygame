@@ -137,7 +137,15 @@ namespace SDK.Lib
             {
                 param.m_resPackType = ResPackType.eResourcesType;
                 param.m_resLoadType = ResLoadType.eLoadResource;
-                load(param);
+
+                if (!MacroDef.ASSETBUNDLES_LOAD)
+                {
+                    load(param);
+                }
+                else
+                {
+                    loadBundle(param);
+                }
             }
         }
 

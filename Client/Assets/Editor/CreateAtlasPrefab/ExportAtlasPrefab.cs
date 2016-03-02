@@ -4,7 +4,7 @@ namespace AtlasPrefabSys
 {
     public class AtlasPrefabExport
     {
-        [MenuItem("Assets/AtlasPrefab/ExportAtlasPrefab")]
+        [MenuItem("My/Assets/AtlasPrefab/ExportAtlasPrefab")]
         static public void ExportAtlasPrefab()
         {
             //spriteGoPack();

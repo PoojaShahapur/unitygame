@@ -161,6 +161,7 @@ public class AppRoot : MonoBehaviour
         Ctx.m_instance.m_TaskQueue.m_pTaskThreadPool = Ctx.m_instance.m_TaskThreadPool;
         Ctx.m_instance.m_TaskThreadPool.initThreadPool(2, Ctx.m_instance.m_TaskQueue);
 
+        Ctx.m_instance.m_depResMgr.initialize();
         // 获取主线程 ID
         MThread.getMainThreadID();
     }

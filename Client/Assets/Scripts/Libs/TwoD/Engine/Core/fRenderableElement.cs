@@ -197,7 +197,7 @@ namespace SDK.Lib
 		}
 		
 		// KBEN:
-		public void onTick(float deltaTime)
+		override public void onTick(float deltaTime)
 		{
 			// KBEN: 可视化判断，需要添加
 			if (this._visible && this.isVisibleNow)

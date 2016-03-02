@@ -11,7 +11,7 @@ namespace EditorTool
 {
     public class ExportAssembleType
     {
-        [MenuItem("Assets/LuaExport/Build-[BindLua.cs]-File")]
+        [MenuItem("My/Assets/LuaExport/Build-[BindLua.cs]-File")]
         static public void exportTypt()
         {
             string _path;
