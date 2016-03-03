@@ -14,9 +14,8 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
-
             m_prefabObj = (item as ResourceLoadItem).prefabObj;
-
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 

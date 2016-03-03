@@ -42,6 +42,7 @@ namespace SDK.Lib
                 //m_bundle.Unload(false);
             }
 
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
@@ -61,6 +62,8 @@ namespace SDK.Lib
                 //GameObject.Instantiate(req.asset);
                 //m_bundle.Unload(false);
             }
+
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             yield return null;

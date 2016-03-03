@@ -10,6 +10,9 @@ namespace SDK.Lib
      */
     public class MFileSys
     {
+        public const string kAssetBundlesPath = "/AssetBundles/";
+        static public string BaseDownloadingURL;
+
         protected string m_persistentDataPath;
 
         public MFileSys()
@@ -301,7 +304,7 @@ namespace SDK.Lib
             }
             else if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                param.m_path = "assets/resources" + resPath;
+                param.m_path = "Assets/Resources/" + resPath;
                 param.m_path = param.m_path.ToLower();
             }
             else
@@ -361,6 +364,21 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
             }
+        }
+
+        static public void initABRootPath()
+        {
+            string relativePath = "";
+            if (MacroDef.ASSETBUNDLES_LOAD)
+            {
+                relativePath = Application.streamingAssetsPath;
+            }
+            else
+            {
+                relativePath = Application.streamingAssetsPath;
+            }
+            string platformFolderForAssetBundles = UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
+            BaseDownloadingURL = relativePath + kAssetBundlesPath + platformFolderForAssetBundles;
         }
     }
 }

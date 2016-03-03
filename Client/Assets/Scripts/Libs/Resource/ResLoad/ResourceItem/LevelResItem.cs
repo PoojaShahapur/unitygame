@@ -68,6 +68,7 @@ namespace SDK.Lib
             Application.LoadLevel(m_levelName);
 
             yield return new WaitForEndOfFrame();
+
             refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }

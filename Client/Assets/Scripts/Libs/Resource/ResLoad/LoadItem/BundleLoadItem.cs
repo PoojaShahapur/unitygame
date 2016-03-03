@@ -47,17 +47,18 @@ namespace SDK.Lib
         {
             string path;
             //path = Application.dataPath + "/" + m_path;
-            path = m_path;
+            path = MFileSys.BaseDownloadingURL + "/" + m_path;
             // UNITY_5_2 没有
-#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            m_assetBundle = AssetBundle.CreateFromFile(path);
-#else
             AssetBundleCreateRequest req = null;
+
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+            byte[] bytes = Ctx.m_instance.m_fileSys.LoadFileByte(path);
+            req = AssetBundle.CreateFromMemory(path);
+#else
             req = AssetBundle.LoadFromFileAsync(path);
             yield return req;
-
-            m_assetBundle = req.assetBundle;
 #endif
+            m_assetBundle = req.assetBundle;
             assetBundleLoaded();
         }
 
@@ -65,12 +66,12 @@ namespace SDK.Lib
         {
             string path;
             //path = Application.dataPath + "/" + m_path;
-            path = m_path;
+            path = MFileSys.BaseDownloadingURL + "/" + m_path;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             m_assetBundle = AssetBundle.CreateFromFile(path);
 #else
-             m_assetBundle = AssetBundle.LoadFromFile(path);
+            m_assetBundle = AssetBundle.LoadFromFile(path);
 #endif
             assetBundleLoaded();
         }

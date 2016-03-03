@@ -6,9 +6,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-#if UNITY_EDITOR	
-using UnityEditor;
-#endif
 
 namespace SDK.Lib
 {
@@ -1042,33 +1039,7 @@ namespace SDK.Lib
                 return "file://" + Application.streamingAssetsPath;
         }
 
-#if UNITY_EDITOR
-        public static string GetPlatformFolderForAssetBundles(BuildTarget target)
-        {
-            switch (target)
-            {
-                case BuildTarget.Android:
-                    return "Android";
-                case BuildTarget.iOS:
-                    return "iOS";
-                case BuildTarget.WebPlayer:
-                    return "WebPlayer";
-                case BuildTarget.StandaloneWindows:
-                case BuildTarget.StandaloneWindows64:
-                    return "Windows";
-                case BuildTarget.StandaloneOSXIntel:
-                case BuildTarget.StandaloneOSXIntel64:
-                case BuildTarget.StandaloneOSXUniversal:
-                    return "OSX";
-                // Add more build targets for your own.
-                // If you add more targets, don't forget to add the same platforms to GetPlatformFolderForAssetBundles(RuntimePlatform) function.
-                default:
-                    return null;
-            }
-        }
-#endif
-
-        static string GetPlatformFolderForAssetBundles(RuntimePlatform platform)
+        static public string GetPlatformFolderForAssetBundles(RuntimePlatform platform)
         {
             switch (platform)
             {
@@ -1080,8 +1051,10 @@ namespace SDK.Lib
                 case RuntimePlatform.OSXWebPlayer:
                     return "WebPlayer";
                 case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
                     return "Windows";
                 case RuntimePlatform.OSXPlayer:
+                case RuntimePlatform.OSXEditor:
                     return "OSX";
                 // Add more build platform for your own.
                 // If you add more platforms, don't forget to add the same targets to GetPlatformFolderForAssetBundles(BuildTarget) function.

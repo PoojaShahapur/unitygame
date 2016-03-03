@@ -12,14 +12,14 @@ namespace SDK.Lib
      */
     public class DepResMgr
     {
-        protected Dictionary<string, DepRes> m_path2ResDic;
         protected AssetBundleManifest m_AssetBundleManifest;
         protected string[] m_Variants = { };
         protected Dictionary<string, string[]> m_Dependencies;
+        protected Dictionary<string, ResAndDepItem> m_resAndDepItemDic;
 
         public DepResMgr()
         {
-            m_path2ResDic = new Dictionary<string, DepRes>();
+            m_resAndDepItemDic = new Dictionary<string, ResAndDepItem>();
             m_AssetBundleManifest = null;
             m_Dependencies = new Dictionary<string, string[]>();
         }
@@ -46,15 +46,13 @@ namespace SDK.Lib
 
         public void initialize()
         {
+            MFileSys.initABRootPath();
+
             string platformFolderForAssetBundles =
-#if UNITY_EDITOR
-            UtilApi.GetPlatformFolderForAssetBundles(EditorUserBuildSettings.activeBuildTarget);
-#else
 			UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
-#endif
             // 必须同步加载
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = Application.streamingAssetsPath + "/" + platformFolderForAssetBundles;
+            param.m_path = platformFolderForAssetBundles;
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
@@ -112,49 +110,89 @@ namespace SDK.Lib
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
 
-        public void loadDep(string assetBundleName)
+        public bool hasDep(string assetBundleName)
         {
             if (m_AssetBundleManifest == null)
             {
                 Debug.LogError("Please initialize AssetBundleManifest");
-                return;
+                return false;
             }
 
-            string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
-            if (dependencies.Length == 0)
-                return;
-
-            for (int i = 0; i < dependencies.Length; i++)
-                dependencies[i] = RemapVariantName(dependencies[i]);
-
-            m_Dependencies.Add(assetBundleName, dependencies);
-            for (int i = 0; i < dependencies.Length; i++)
+            if (!m_Dependencies.ContainsKey(assetBundleName))
             {
-                if (m_path2ResDic[dependencies[i]] == null)
-                {
-                    m_path2ResDic[dependencies[i]] = new DepRes();
-                }
-                m_path2ResDic[dependencies[i]].load(dependencies[i]);
+                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
+                if (dependencies.Length == 0)
+                    return false;
+
+                for (int i = 0; i < dependencies.Length; i++)
+                    dependencies[i] = RemapVariantName(dependencies[i]);
+
+                m_Dependencies.Add(assetBundleName, dependencies);
             }
+
+            return true;
+        }
+
+        public bool checkIfAllDepLoaded(string[] depList)
+        {
+            foreach(string depName in depList)
+            {
+                ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(depName);
+                if(res == null)
+                {
+                    return false;
+                }
+                else if(res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded() ||
+                    res.refCountResLoadResultNotify.resLoadState.hasFailed())
+                {
+                    return false;
+                }
+            }
+
+            return true;    // 所有的依赖都加载完成
+        }
+
+        public bool isDepResLoaded(string assetBundleName)
+        {
+            if (m_AssetBundleManifest == null)
+            {
+                Debug.LogError("Please initialize AssetBundleManifest");
+                return true;
+            }
+
+            if(!m_Dependencies.ContainsKey(assetBundleName))
+            {
+                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
+                if (dependencies.Length == 0)
+                    return true;
+
+                for (int i = 0; i < dependencies.Length; i++)
+                    dependencies[i] = RemapVariantName(dependencies[i]);
+
+                m_Dependencies.Add(assetBundleName, dependencies);
+            }
+
+            return checkIfAllDepLoaded(m_Dependencies[assetBundleName]);
+        }
+
+        public void loadRes(LoadParam loadParam)
+        {
+            m_resAndDepItemDic[loadParam.m_path] = new ResAndDepItem();
+            m_resAndDepItemDic[loadParam.m_path].m_loadParam = loadParam;
+            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_path];
+            m_resAndDepItemDic[loadParam.m_path].loadDep();
         }
 
         public void unLoadDep(string assetBundleName)
         {
-            if (m_AssetBundleManifest == null)
+            if(m_resAndDepItemDic.ContainsKey(assetBundleName))
             {
-                Debug.LogError("Please initialize AssetBundleManifest");
-                return;
+                m_resAndDepItemDic[assetBundleName].unloadDep();
+                m_resAndDepItemDic.Remove(assetBundleName);
             }
-
-            if (m_Dependencies[assetBundleName].Length == 0)
-                return;
-
-            for (int i = 0; i < m_Dependencies[assetBundleName].Length; i++)
+            else
             {
-                if (m_path2ResDic[m_Dependencies[assetBundleName][i]] != null)
-                {
-                    m_path2ResDic[m_Dependencies[assetBundleName][i]].unload();
-                }
+                Debug.Log("Error");
             }
         }
     }
