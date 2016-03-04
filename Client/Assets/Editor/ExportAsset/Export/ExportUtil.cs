@@ -40,6 +40,7 @@ namespace EditorTool
             }
             else
             {
+                // BuildAssetBundleOptions None 是压缩的，如果不需要压缩，需要添加 UncompressedAssetBundle 
                 BuildPipeline.BuildAssetBundles(param.m_pathName, param.m_assetBundleOptions, param.m_targetPlatform);
             }
 #elif UNITY_4_6 || UNITY_4_5
