@@ -3,7 +3,7 @@ Shader "Test/RefractionMirror"
 	Properties
 	{
 		_MainTex("Base (RGB)", 2D) = "white" {}
-		[HideInInspector] _ReflectionTex("", 2D) = "white" {}
+		[HideInInspector] _RefractionTex("", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -39,14 +39,14 @@ Shader "Test/RefractionMirror"
 				return o;
 			}
 			sampler2D _MainTex;
-			sampler2D _ReflectionTex;
+			sampler2D _RefractionTex;
 			fixed4 frag(v2f i) : SV_Target
 			{
 				fixed4 tex = tex2D(_MainTex, i.uv);
-			//fixed4 refl = tex2Dproj(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
-			float2 final = i.refl.xy / i.refl.w;
-			fixed4 refl = tex2D(_ReflectionTex, final);
-			return tex * refl;
+				float2 final = i.refl.xy / i.refl.w;
+				fixed4 refl = tex2D(_RefractionTex, final);
+				return tex * refl;
+				//return refl;
 			}
 		ENDCG
 		}

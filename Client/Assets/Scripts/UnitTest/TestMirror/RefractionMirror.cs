@@ -11,12 +11,12 @@ public class RefractionMirror : MonoBehaviour
     public int m_TextureSize = 256;
     public float m_ClipPlaneOffset = 0.07f;
 
-    public LayerMask m_ReflectLayers = -1;
+    public LayerMask m_RefractionLayers = -1;
 
-    private Hashtable m_ReflectionCameras = new Hashtable(); // Camera -> Camera table
+    private Hashtable m_RefractionCameras = new Hashtable(); // Camera -> Camera table
 
-    private RenderTexture m_ReflectionTexture = null;
-    private int m_OldReflectionTextureSize = 0;
+    private RenderTexture m_RefractionTexture = null;
+    private int m_OldRefractionTextureSize = 0;
 
     private static bool s_InsideRendering = false;
 
@@ -61,8 +61,9 @@ public class RefractionMirror : MonoBehaviour
         CalculateObliqueMatrix(ref projection, clipPlane);
         reflectionCamera.projectionMatrix = projection;
 
-        reflectionCamera.cullingMask = ~(1 << 4) & m_ReflectLayers.value; // never render water layer
-        reflectionCamera.targetTexture = m_ReflectionTexture;
+        //reflectionCamera.cullingMask = ~(1 << 4) & m_RefractionLayers.value; // never render water layer
+        reflectionCamera.cullingMask = ~(1 << m_RefractionLayers.value);
+        reflectionCamera.targetTexture = m_RefractionTexture;
 
         reflectionCamera.transform.position = cam.transform.position;
         reflectionCamera.transform.eulerAngles = cam.transform.eulerAngles;
@@ -72,8 +73,8 @@ public class RefractionMirror : MonoBehaviour
         Material[] materials = rend.sharedMaterials;
         foreach (Material mat in materials)
         {
-            if (mat.HasProperty("_ReflectionTex"))
-                mat.SetTexture("_ReflectionTex", m_ReflectionTexture);
+            if (mat.HasProperty("_RefractionTex"))
+                mat.SetTexture("_RefractionTex", m_RefractionTexture);
         }
 
         // Restore pixel light count
@@ -83,20 +84,18 @@ public class RefractionMirror : MonoBehaviour
         s_InsideRendering = false;
     }
 
-
     // Cleanup all the objects we possibly have created
     void OnDisable()
     {
-        if (m_ReflectionTexture)
+        if (m_RefractionTexture)
         {
-            DestroyImmediate(m_ReflectionTexture);
-            m_ReflectionTexture = null;
+            DestroyImmediate(m_RefractionTexture);
+            m_RefractionTexture = null;
         }
-        foreach (DictionaryEntry kvp in m_ReflectionCameras)
+        foreach (DictionaryEntry kvp in m_RefractionCameras)
             DestroyImmediate(((Camera)kvp.Value).gameObject);
-        m_ReflectionCameras.Clear();
+        m_RefractionCameras.Clear();
     }
-
 
     private void UpdateCameraModes(Camera src, Camera dest)
     {
@@ -136,29 +135,29 @@ public class RefractionMirror : MonoBehaviour
         reflectionCamera = null;
 
         // Reflection render texture
-        if (!m_ReflectionTexture || m_OldReflectionTextureSize != m_TextureSize)
+        if (!m_RefractionTexture || m_OldRefractionTextureSize != m_TextureSize)
         {
-            if (m_ReflectionTexture)
-                DestroyImmediate(m_ReflectionTexture);
-            m_ReflectionTexture = new RenderTexture(m_TextureSize, m_TextureSize, 16);
-            m_ReflectionTexture.name = "__MirrorReflection" + GetInstanceID();
-            m_ReflectionTexture.isPowerOfTwo = true;
-            m_ReflectionTexture.hideFlags = HideFlags.DontSave;
-            m_OldReflectionTextureSize = m_TextureSize;
+            if (m_RefractionTexture)
+                DestroyImmediate(m_RefractionTexture);
+            m_RefractionTexture = new RenderTexture(m_TextureSize, m_TextureSize, 16);
+            m_RefractionTexture.name = "__MirrorRefraction" + GetInstanceID();
+            m_RefractionTexture.isPowerOfTwo = true;
+            m_RefractionTexture.hideFlags = HideFlags.DontSave;
+            m_OldRefractionTextureSize = m_TextureSize;
         }
 
         // Camera for reflection
-        reflectionCamera = m_ReflectionCameras[currentCamera] as Camera;
+        reflectionCamera = m_RefractionCameras[currentCamera] as Camera;
         if (!reflectionCamera) // catch both not-in-dictionary and in-dictionary-but-deleted-GO
         {
-            GameObject go = new GameObject("Mirror Refl Camera id" + GetInstanceID() + " for " + currentCamera.GetInstanceID(), typeof(Camera), typeof(Skybox));
+            GameObject go = new GameObject("Mirror Refr Camera id" + GetInstanceID() + " for " + currentCamera.GetInstanceID(), typeof(Camera), typeof(Skybox));
             reflectionCamera = go.GetComponent<Camera>();
             reflectionCamera.enabled = false;
             reflectionCamera.transform.position = transform.position;
             reflectionCamera.transform.rotation = transform.rotation;
             reflectionCamera.gameObject.AddComponent<FlareLayer>();
             go.hideFlags = HideFlags.HideAndDontSave;
-            m_ReflectionCameras[currentCamera] = reflectionCamera;
+            m_RefractionCameras[currentCamera] = reflectionCamera;
         }
     }
 
@@ -197,29 +196,5 @@ public class RefractionMirror : MonoBehaviour
         projection[6] = c.y - projection[7];
         projection[10] = c.z - projection[11];
         projection[14] = c.w - projection[15];
-    }
-
-    // Calculates reflection matrix around the given plane
-    private static void CalculateReflectionMatrix(ref Matrix4x4 reflectionMat, Vector4 plane)
-    {
-        reflectionMat.m00 = (1F - 2F * plane[0] * plane[0]);
-        reflectionMat.m01 = (-2F * plane[0] * plane[1]);
-        reflectionMat.m02 = (-2F * plane[0] * plane[2]);
-        reflectionMat.m03 = (-2F * plane[3] * plane[0]);
-
-        reflectionMat.m10 = (-2F * plane[1] * plane[0]);
-        reflectionMat.m11 = (1F - 2F * plane[1] * plane[1]);
-        reflectionMat.m12 = (-2F * plane[1] * plane[2]);
-        reflectionMat.m13 = (-2F * plane[3] * plane[1]);
-
-        reflectionMat.m20 = (-2F * plane[2] * plane[0]);
-        reflectionMat.m21 = (-2F * plane[2] * plane[1]);
-        reflectionMat.m22 = (1F - 2F * plane[2] * plane[2]);
-        reflectionMat.m23 = (-2F * plane[3] * plane[2]);
-
-        reflectionMat.m30 = 0F;
-        reflectionMat.m31 = 0F;
-        reflectionMat.m32 = 0F;
-        reflectionMat.m33 = 1F;
     }
 }

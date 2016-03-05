@@ -1,4 +1,4 @@
-Shader "Test/MirrorReflection"
+Shader "Test/ReflectionMirror"
 {
 	Properties
 	{
@@ -29,9 +29,9 @@ Shader "Test/MirrorReflection"
 				o.uv = TRANSFORM_TEX(uv, _MainTex);
 				//o.refl = ComputeScreenPos (o.pos);
 				float4x4 scalemat = float4x4 (
-					.5, 0, 0, .5,
-					0, .5 * _ProjectionParams.x, 0, .5,
-					0, 0, .5, .5,
+					0.5, 0, 0, 0.5,
+					0, 0.5 * _ProjectionParams.x, 0, .5,
+					0, 0, 0.5, 0.5,
 					0, 0, 0, 1
 					);
 				o.refl = mul(scalemat, o.pos);
