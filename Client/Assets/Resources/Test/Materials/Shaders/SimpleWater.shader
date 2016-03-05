@@ -36,46 +36,50 @@
 
 			struct v2f
 			{
-				float4 oPos		: POSITION,
-				float3 noiseCoord : TEXCOORD0,
-				float4 projectionCoord : TEXCOORD1,
-				float3 oEyeDir : TEXCOORD2,
-				float3 oNormal : TEXCOORD3,
+				float4 oPos		: POSITION;
+				float3 noiseCoord : TEXCOORD0;
+				float4 projectionCoord : TEXCOORD1;
+				float3 oEyeDir : TEXCOORD2;
+				float3 oNormal : TEXCOORD3;
 			};
 
 			v2f vert(float4 pos	: POSITION,
 					 float4 normal : NORMAL,
-					 float2 tex : TEXCOORD0, )
+					 float2 tex : TEXCOORD0 )
 			{
-				oPos = mul(worldViewProjMatrix, pos);
+				v2f o;
+				o.oPos = mul(worldViewProjMatrix, pos);
 
 				float4x4 scalemat = float4x4 (
-					.5, 0, 0, .5,
-					0, .5 * _ProjectionParams.x, 0, .5,
-					0, 0, .5, .5,
+					0.5, 0, 0, 0.5,
+					0, 0.5 * _ProjectionParams.x, 0, 0.5,
+					0, 0, 0.5, 0.5,
 					0, 0, 0, 1
 					);
-				projectionCoord = mul(scalemat, oPos);
-				noiseCoord.xy = (tex + (timeVal * scroll)) * scale;
-				noiseCoord.z = noise * timeVal;
+				o.projectionCoord = mul(scalemat, o.oPos);
+				o.noiseCoord.xy = (tex + (timeVal * scroll)) * scale;
+				o.noiseCoord.z = noise * timeVal;
 
-				oEyeDir = normalize(pos.xyz - eyePosition);
-				oNormal = normal.rgb;
+				o.oEyeDir = normalize(pos.xyz - eyePosition);
+				o.oNormal = normal.rgb;
+				return o;
 			}
 
 			float4 frag(v2f i) : COLOR
 			{
-				float2 final = projectionCoord.xy / projectionCoord.w;
+				half4 outcolor = half4(1,1,1,1);
+				float2 final = i.projectionCoord.xy / i.projectionCoord.w;
 
-				float3 noiseNormal = (tex2D(noiseMap, (noiseCoord.xy / 5)).rgb - 0.5).rbg * noiseScale;
+				float3 noiseNormal = (tex2D(noiseMap, (i.noiseCoord.xy / 5)).rgb - 0.5).rbg * noiseScale;
 				final += noiseNormal.xz;
 
-				float fresnel = fresnelBias + fresnelScale * pow(1 + dot(eyeDir, normal), fresnelPower);
+				float fresnel = fresnelBias + fresnelScale * pow(1 + dot(i.oEyeDir, i.oNormal), fresnelPower);
 
 				float4 reflectionColour = tex2D(reflectMap, final);
 				float4 refractionColour = tex2D(refractMap, final) + tintColour;
 
-				col = lerp(refractionColour, reflectionColour, fresnel);
+				outcolor = lerp(refractionColour, reflectionColour, fresnel);
+				return outcolor;
 			}
 			ENDCG
 		}
