@@ -28,6 +28,11 @@ Shader "Test/MirrorReflection"
 				o.pos = mul (UNITY_MATRIX_MVP, pos);
 				o.uv = TRANSFORM_TEX(uv, _MainTex);
 				o.refl = ComputeScreenPos (o.pos);
+				float4x4 scalemat = float4x4(0.5, 0, 0, 0.5,
+					0, -0.5, 0, 0.5,
+					0, 0, 0.5, 0.5,
+					0, 0, 0, 1);
+				//o.refl = mul(scalemat, o.pos);
 				return o;
 			}
 			sampler2D _MainTex;
@@ -36,6 +41,12 @@ Shader "Test/MirrorReflection"
 			{
 				fixed4 tex = tex2D(_MainTex, i.uv);
 				fixed4 refl = tex2Dproj(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
+				//fixed4 refl = tex2Dproj(_ReflectionTex, i.refl.xy);
+				//fixed4 refl = tex2Dproj(_ReflectionTex, i.refl);
+				//fixed4 refl = tex2D(_ReflectionTex, i.refl.xy);
+				//float2 final = i.refl.xy / i.refl.w;
+				//fixed4 refl = tex2D(_ReflectionTex, final);
+				//fixed4 refl = tex2D(_ReflectionTex, final);
 				return tex * refl;
 			}
 			ENDCG
