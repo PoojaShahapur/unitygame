@@ -2,14 +2,14 @@ namespace SDK.Lib
 {
     public class MVector3
     {
-        public static MVector3 ZERO;
-        public static MVector3 UNIT_X;
-        public static MVector3 UNIT_Y;
-        public static MVector3 UNIT_Z;
-        public static MVector3 NEGATIVE_UNIT_X;
-        public static MVector3 NEGATIVE_UNIT_Y;
-        public static MVector3 NEGATIVE_UNIT_Z;
-        public static MVector3 UNIT_SCALE;
+        public static MVector3 ZERO = new MVector3(0, 0, 0);
+        public static MVector3 UNIT_X = new MVector3(1, 0, 0);
+        public static MVector3 UNIT_Y = new MVector3(0, 1, 0);
+        public static MVector3 UNIT_Z = new MVector3(0, 0, 1);
+        public static MVector3 NEGATIVE_UNIT_X = new MVector3(-1, 0, 0);
+        public static MVector3 NEGATIVE_UNIT_Y = new MVector3(0, -1, 0);
+        public static MVector3 NEGATIVE_UNIT_Z = new MVector3(0, 0, -1);
+        public static MVector3 UNIT_SCALE = new MVector3(1, 1, 1);
 
         public float x;
         public float y;

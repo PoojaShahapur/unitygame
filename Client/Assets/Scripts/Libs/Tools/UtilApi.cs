@@ -1064,6 +1064,13 @@ namespace SDK.Lib
             }
         }
 
+        static public void swap<T>(ref T a, ref T b)
+        {
+            T t = a;
+            a = b;
+            b = t;
+        }
+
         static public void Swap<T>(ref T a, ref T b)
         {
             T t = a;
@@ -1103,6 +1110,26 @@ namespace SDK.Lib
         static public float Clamp(float value, float min, float max)
         {
             return Mathf.Clamp(value, min, max);
+        }
+
+        static public float Sin(float f)
+        {
+            return Mathf.Sin(f);
+        }
+
+        static public float Cos(float f)
+        {
+            return Mathf.Cos(f);
+        }
+
+        static public float InvSqrt(float fValue)
+        {
+            return 1 / Mathf.Sqrt(fValue);
+        }
+
+        static public float ATan2(float y, float x)
+        {
+            return Mathf.Atan2(y, x);
         }
     }
 }
