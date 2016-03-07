@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-#if UNITY_EDITOR	
-using UnityEditor;
-#endif
 
 namespace SDK.Lib
 {
@@ -178,7 +174,8 @@ namespace SDK.Lib
         public void loadRes(LoadParam loadParam)
         {
             m_resAndDepItemDic[loadParam.m_path] = new ResAndDepItem();
-            m_resAndDepItemDic[loadParam.m_path].m_loadParam = loadParam;
+            m_resAndDepItemDic[loadParam.m_path].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            m_resAndDepItemDic[loadParam.m_path].m_loadParam.copyFrom(loadParam);
             m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_path];
             m_resAndDepItemDic[loadParam.m_path].loadDep();
         }

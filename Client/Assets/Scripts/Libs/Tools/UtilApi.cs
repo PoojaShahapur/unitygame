@@ -510,7 +510,7 @@ namespace SDK.Lib
         // 立即垃圾回收
         public static void ImmeUnloadUnusedAssets()
         {
-            Resources.UnloadUnusedAssets();
+            Resources.UnloadUnusedAssets();     // 这个卸载好像很卡，使用的时候要小心使用
             GC.Collect();
         }
 

@@ -124,5 +124,27 @@ namespace SDK.Lib
                 m_lvlName = UtilLogic.convScenePath2LevelName(m_origPath);
             }
         }
+
+        public void copyFrom(LoadParam rhs)
+        {
+            this.m_resPackType = rhs.m_resPackType;
+            this.m_resLoadType = rhs.m_resLoadType;
+
+            this.m_path = rhs.m_path;
+            this.m_subPath = rhs.m_subPath;
+            this.m_pathNoExt = rhs.m_pathNoExt;
+            this.m_prefabName = rhs.m_prefabName;
+            this.m_extName = rhs.m_extName;
+
+            this.m_version = rhs.m_version;
+            this.m_lvlName = rhs.m_lvlName;
+            this.m_loadEventHandle = rhs.m_loadEventHandle;
+
+            this.m_resNeedCoroutine = rhs.m_resNeedCoroutine;
+            this.m_loadNeedCoroutine = rhs.m_loadNeedCoroutine;
+
+            this.m_origPath = rhs.m_origPath;
+            this.m_pakPath = rhs.m_pakPath;
+        }
     }
 }

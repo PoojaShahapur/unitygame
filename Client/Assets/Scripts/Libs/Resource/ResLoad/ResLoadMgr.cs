@@ -126,25 +126,26 @@ namespace SDK.Lib
                 }
                 load(param);
             }
-            else if (MacroDef.UNPKG_RES_LOAD)
+            else if (!MacroDef.UNPKG_RES_LOAD)
+            {
+                param.m_resPackType = ResPackType.eResourcesType;
+                param.m_resLoadType = ResLoadType.eLoadResource;
+                load(param);
+            }
+            else
             {
                 // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
                 param.m_resPackType = ResPackType.eUnPakType;
                 param.m_resLoadType = ResLoadType.eStreamingAssets;
                 load(param);
-            }
-            else
-            {
-                param.m_resPackType = ResPackType.eResourcesType;
-                param.m_resLoadType = ResLoadType.eLoadResource;
 
-                if (!MacroDef.ASSETBUNDLES_LOAD)
+                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_path)))
                 {
-                    load(param);
+                    loadBundle(param);
                 }
                 else
                 {
-                    loadBundle(param);
+                    Ctx.m_instance.m_depResMgr.loadRes(param);
                 }
             }
         }
@@ -391,6 +392,15 @@ namespace SDK.Lib
         // 这个卸载有引用计数，如果有引用计数就卸载不了
         public void unload(string path, Action<IDispatchObject> loadEventHandle)
         {
+            // 如果是 AssetBundles 加载，需要检查依赖性
+            if (MacroDef.ASSETBUNDLES_LOAD)
+            {
+                if(Ctx.m_instance.m_depResMgr.hasDep(path))
+                {
+                    Ctx.m_instance.m_depResMgr.unLoadDep(path);
+                }
+            }
+
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
                 m_LoadData.m_path2Res[path].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
