@@ -2,6 +2,15 @@ namespace SDK.Lib
 {
     public class MVector3
     {
+        public static MVector3 ZERO;
+        public static MVector3 UNIT_X;
+        public static MVector3 UNIT_Y;
+        public static MVector3 UNIT_Z;
+        public static MVector3 NEGATIVE_UNIT_X;
+        public static MVector3 NEGATIVE_UNIT_Y;
+        public static MVector3 NEGATIVE_UNIT_Z;
+        public static MVector3 UNIT_SCALE;
+
         public float x;
         public float y;
         public float z;
@@ -187,30 +196,29 @@ namespace SDK.Lib
                 lhs + rhs.z);
         }
 
-        inline friend Vector3 operator - (const Vector3& lhs, const Real rhs)
+        static public MVector3 operator - (MVector3 lhs, float rhs)
         {
-            return Vector3(
+            return new MVector3(
                 lhs.x - rhs,
                 lhs.y - rhs,
                 lhs.z - rhs);
         }
 
-        inline friend Vector3 operator - (const Real lhs, const Vector3& rhs)
+        static public MVector3 operator - (float lhs, MVector3 rhs)
         {
-            return Vector3(
+            return new MVector3(
                 lhs - rhs.x,
                 lhs - rhs.y,
                 lhs - rhs.z);
         }
 
-        // arithmetic updates
-        inline Vector3& operator += ( const Vector3& rkVector )
+        static MVector3 operator += (MVector3 lhs, MVector3 rkVector )
         {
-            x += rkVector.x;
-            y += rkVector.y;
-            z += rkVector.z;
+            lhs.x += rkVector.x;
+            lhs.y += rkVector.y;
+            lhs.z += rkVector.z;
 
-            return *this;
+            return lhs;
         }
 
         inline Vector3& operator += ( const Real fScalar )
@@ -221,170 +229,99 @@ namespace SDK.Lib
             return *this;
         }
 
-        inline Vector3& operator -= ( const Vector3& rkVector )
+        static public MVector3 operator -= (MVector3 lhs, MVector3 rkVector )
         {
-            x -= rkVector.x;
-            y -= rkVector.y;
-            z -= rkVector.z;
+            lhs.x -= rkVector.x;
+            lhs.y -= rkVector.y;
+            lhs.z -= rkVector.z;
 
-            return *this;
+            return lhs;
         }
 
-        inline Vector3& operator -= ( const Real fScalar )
+        static public MVector3 operator -= (MVector3 lhs, float fScalar )
         {
-            x -= fScalar;
-            y -= fScalar;
-            z -= fScalar;
-            return *this;
+            lhs.x -= fScalar;
+            lhs.y -= fScalar;
+            lhs.z -= fScalar;
+            return lhs;
         }
 
-        inline Vector3& operator *= ( const Real fScalar )
+        static public MVector3 operator *= (MVector3 lhs, float fScalar )
         {
-            x *= fScalar;
-            y *= fScalar;
-            z *= fScalar;
-            return *this;
+            lhs.x *= fScalar;
+            lhs.y *= fScalar;
+            lhs.z *= fScalar;
+            return lhs;
         }
 
-        inline Vector3& operator *= ( const Vector3& rkVector )
+        static public MVector3 operator *= (MVector3 lhs, MVector3 rkVector )
         {
-            x *= rkVector.x;
-            y *= rkVector.y;
-            z *= rkVector.z;
+            lhs.x *= rkVector.x;
+            lhs.y *= rkVector.y;
+            lhs.z *= rkVector.z;
 
-            return *this;
+            return lhs;
         }
 
-        inline Vector3& operator /= ( const Real fScalar )
+        static public MVector3 operator /= (MVector3 lhs, float fScalar )
         {
-            assert( fScalar != 0.0 );
+            UtilApi.assert( fScalar != 0.0 );
 
-            Real fInv = 1.0f / fScalar;
+            float fInv = 1.0f / fScalar;
 
-            x *= fInv;
-            y *= fInv;
-            z *= fInv;
+            lhs.x *= fInv;
+            lhs.y *= fInv;
+            lhs.z *= fInv;
 
-            return *this;
+            return lhs;
         }
 
-        inline Vector3& operator /= ( const Vector3& rkVector )
+        static public MVector3 operator /= (MVector3 lhs, MVector3 rkVector )
         {
-            x /= rkVector.x;
-            y /= rkVector.y;
-            z /= rkVector.z;
+            lhs.x /= rkVector.x;
+            lhs.y /= rkVector.y;
+            lhs.z /= rkVector.z;
 
-            return *this;
+            return lhs;
         }
 
-
-        /** Returns the length (magnitude) of the vector.
-            @warning
-                This operation requires a square root and is expensive in
-                terms of CPU operations. If you don't need to know the exact
-                length (e.g. for just comparing lengths) use squaredLength()
-                instead.
-        */
-        inline Real length () const
+        public float length ()
         {
-            return Math::Sqrt( x * x + y * y + z * z );
+            return UtilApi.Sqrt( x * x + y * y + z * z );
         }
 
-        /** Returns the square of the length(magnitude) of the vector.
-            @remarks
-                This  method is for efficiency - calculating the actual
-                length of a vector requires a square root, which is expensive
-                in terms of the operations required. This method returns the
-                square of the length of the vector, i.e. the same as the
-                length but before the square root is taken. Use this if you
-                want to find the longest / shortest vector without incurring
-                the square root.
-        */
-        inline Real squaredLength () const
+        public float squaredLength ()
         {
             return x * x + y * y + z * z;
         }
 
-        /** Returns the distance to another vector.
-            @warning
-                This operation requires a square root and is expensive in
-                terms of CPU operations. If you don't need to know the exact
-                distance (e.g. for just comparing distances) use squaredDistance()
-                instead.
-        */
-        inline Real distance(const Vector3& rhs) const
+        public float distance(MVector3 rhs)
         {
-            return (*this - rhs).length();
+            return (this - rhs).length();
         }
 
-        /** Returns the square of the distance to another vector.
-            @remarks
-                This method is for efficiency - calculating the actual
-                distance to another vector requires a square root, which is
-                expensive in terms of the operations required. This method
-                returns the square of the distance to another vector, i.e.
-                the same as the distance but before the square root is taken.
-                Use this if you want to find the longest / shortest distance
-                without incurring the square root.
-        */
-        inline Real squaredDistance(const Vector3& rhs) const
+        public float squaredDistance(MVector3 rhs)
         {
-            return (*this - rhs).squaredLength();
+            return (this - rhs).squaredLength();
         }
 
-        /** Calculates the dot (scalar) product of this vector with another.
-            @remarks
-                The dot product can be used to calculate the angle between 2
-                vectors. If both are unit vectors, the dot product is the
-                cosine of the angle; otherwise the dot product must be
-                divided by the product of the lengths of both vectors to get
-                the cosine of the angle. This result can further be used to
-                calculate the distance of a point from a plane.
-            @param
-                vec Vector with which to calculate the dot product (together
-                with this one).
-            @return
-                A float representing the dot product value.
-        */
-        inline Real dotProduct(const Vector3& vec) const
+        public float dotProduct(MVector3 vec)
         {
             return x * vec.x + y * vec.y + z * vec.z;
         }
 
-        /** Calculates the absolute dot (scalar) product of this vector with another.
-            @remarks
-                This function work similar dotProduct, except it use absolute value
-                of each component of the vector to computing.
-            @param
-                vec Vector with which to calculate the absolute dot product (together
-                with this one).
-            @return
-                A Real representing the absolute dot product value.
-        */
-        inline Real absDotProduct(const Vector3& vec) const
+        public float absDotProduct(MVector3 vec)
         {
-            return Math::Abs(x * vec.x) + Math::Abs(y * vec.y) + Math::Abs(z * vec.z);
+            return UtilApi.Abs(x * vec.x) + UtilApi.Abs(y * vec.y) + UtilApi.Abs(z * vec.z);
         }
 
-        /** Normalises the vector.
-            @remarks
-                This method normalises the vector such that it's
-                length / magnitude is 1. The result is called a unit vector.
-            @note
-                This function will not crash for zero-sized vectors, but there
-                will be no changes made to their components.
-            @return The previous length of the vector.
-        */
-        inline Real normalise()
+        public float normalise()
         {
-            Real fLength = Math::Sqrt( x * x + y * y + z * z );
+            float fLength = UtilApi.Sqrt( x * x + y * y + z * z );
 
-            // Will also work for zero-sized vectors, but will change nothing
-            // We're not using epsilons because we don't need to.
-            // Read http://www.ogre3d.org/forums/viewtopic.php?f=4&t=61259
-            if ( fLength > Real(0.0f) )
+            if ( fLength > float(0.0f) )
             {
-                Real fInvLength = 1.0f / fLength;
+                float fInvLength = 1.0f / fLength;
                 x *= fInvLength;
                 y *= fInvLength;
                 z *= fInvLength;
@@ -393,245 +330,146 @@ namespace SDK.Lib
             return fLength;
         }
 
-        /** Calculates the cross-product of 2 vectors, i.e. the vector that
-            lies perpendicular to them both.
-            @remarks
-                The cross-product is normally used to calculate the normal
-                vector of a plane, by calculating the cross-product of 2
-                non-equivalent vectors which lie on the plane (e.g. 2 edges
-                of a triangle).
-            @param rkVector
-                Vector which, together with this one, will be used to
-                calculate the cross-product.
-            @return
-                A vector which is the result of the cross-product. This
-                vector will <b>NOT</b> be normalised, to maximise efficiency
-                - call Vector3::normalise on the result if you wish this to
-                be done. As for which side the resultant vector will be on, the
-                returned vector will be on the side from which the arc from 'this'
-                to rkVector is anticlockwise, e.g. UNIT_Y.crossProduct(UNIT_Z)
-                = UNIT_X, whilst UNIT_Z.crossProduct(UNIT_Y) = -UNIT_X.
-                This is because OGRE uses a right-handed coordinate system.
-            @par
-                For a clearer explanation, look a the left and the bottom edges
-                of your monitor's screen. Assume that the first vector is the
-                left edge and the second vector is the bottom edge, both of
-                them starting from the lower-left corner of the screen. The
-                resulting vector is going to be perpendicular to both of them
-                and will go <i>inside</i> the screen, towards the cathode tube
-                (assuming you're using a CRT monitor, of course).
-        */
-        inline Vector3 crossProduct( const Vector3& rkVector ) const
+        public MVector3 crossProduct(MVector3 rkVector )
         {
-            return Vector3(
+            return new MVector3(
                 y * rkVector.z - z * rkVector.y,
                 z * rkVector.x - x * rkVector.z,
                 x * rkVector.y - y * rkVector.x);
         }
 
-        /** Returns a vector at a point half way between this and the passed
-            in vector.
-        */
-        inline Vector3 midPoint( const Vector3& vec ) const
+        public MVector3 midPoint( MVector3 vec )
         {
-            return Vector3(
+            return new MVector3(
                 ( x + vec.x ) * 0.5f,
                 ( y + vec.y ) * 0.5f,
                 ( z + vec.z ) * 0.5f );
         }
 
-        /** Returns true if the vector's scalar components are all greater
-            that the ones of the vector it is compared against.
-        */
-        inline bool operator < ( const Vector3& rhs ) const
+        static public bool operator < (MVector3 lhs, MVector3 rhs )
         {
-            if( x < rhs.x && y < rhs.y && z < rhs.z )
+            if(lhs.x < rhs.x && lhs.y < rhs.y && lhs.z < rhs.z )
                 return true;
             return false;
         }
 
-        /** Returns true if the vector's scalar components are all smaller
-            that the ones of the vector it is compared against.
-        */
-        inline bool operator > ( const Vector3& rhs ) const
+        static public bool operator > (MVector3 lhs, MVector3 rhs )
         {
-            if( x > rhs.x && y > rhs.y && z > rhs.z )
+            if(lhs.x > rhs.x && lhs.y > rhs.y && lhs.z > rhs.z )
                 return true;
             return false;
         }
 
-        /** Sets this vector's components to the minimum of its own and the
-            ones of the passed in vector.
-            @remarks
-                'Minimum' in this case means the combination of the lowest
-                value of x, y and z from both vectors. Lowest is taken just
-                numerically, not magnitude, so -1 < 0.
-        */
-        inline void makeFloor( const Vector3& cmp )
+        public void makeFloor(MVector3 cmp )
         {
-            x = Ogre::min( x, cmp.x );
-            y = Ogre::min( y, cmp.y );
-            z = Ogre::min( z, cmp.z );
+            x = UtilApi.min( x, cmp.x );
+            y = UtilApi.min( y, cmp.y );
+            z = UtilApi.min( z, cmp.z );
         }
 
-        /** Sets this vector's components to the maximum of its own and the
-            ones of the passed in vector.
-            @remarks
-                'Maximum' in this case means the combination of the highest
-                value of x, y and z from both vectors. Highest is taken just
-                numerically, not magnitude, so 1 > -3.
-        */
-        inline void makeCeil( const Vector3& cmp )
+        public void makeCeil(MVector3 cmp )
         {
-            x = Ogre::max( x, cmp.x );
-            y = Ogre::max( y, cmp.y );
-            z = Ogre::max( z, cmp.z );
+            x = UtilApi.max( x, cmp.x );
+            y = UtilApi.max( y, cmp.y );
+            z = UtilApi.max( z, cmp.z );
         }
 
-        /// Causes negative members to become positive
-        inline void makeAbs()
+        public void makeAbs()
         {
-            x = Math::Abs( x );
-            y = Math::Abs( y );
-            z = Math::Abs( z );
+            x = UtilApi.Abs( x );
+            y = UtilApi.Abs( y );
+            z = UtilApi.Abs( z );
         }
 
-        /** Generates a vector perpendicular to this vector (eg an 'up' vector).
-            @remarks
-                This method will return a vector which is perpendicular to this
-                vector. There are an infinite number of possibilities but this
-                method will guarantee to generate one of them. If you need more
-                control you should use the Quaternion class.
-        */
-        inline Vector3 perpendicular(void) const
+        public MVector3 perpendicular()
         {
-            static const Real fSquareZero = (Real)(1e-06 * 1e-06);
+            const float fSquareZero = (float)(1e-06 * 1e-06);
 
-            Vector3 perp = this->crossProduct( Vector3::UNIT_X );
+            MVector3 perp = this.crossProduct( MVector3.UNIT_X );
 
-            // Check length
             if( perp.squaredLength() < fSquareZero )
             {
-                /* This vector is the Y axis multiplied by a scalar, so we have
-                   to use another axis.
-                */
-                perp = this->crossProduct( Vector3::UNIT_Y );
+                perp = this.crossProduct(MVector3::UNIT_Y );
             }
             perp.normalise();
 
             return perp;
         }
-        /** Generates a new random vector which deviates from this vector by a
-            given angle in a random direction.
-            @remarks
-                This method assumes that the random number generator has already
-                been seeded appropriately.
-            @param
-                angle The angle at which to deviate
-            @param
-                up Any vector perpendicular to this one (which could generated
-                by cross-product of this vector and any other non-colinear
-                vector). If you choose not to provide this the function will
-                derive one on it's own, however if you provide one yourself the
-                function will be faster (this allows you to reuse up vectors if
-                you call this method more than once)
-            @return
-                A random vector which deviates from this vector by angle. This
-                vector will not be normalised, normalise it if you wish
-                afterwards.
-        */
-        inline Vector3 randomDeviant(
-            const Radian& angle,
-            const Vector3& up = Vector3::ZERO ) const
-        {
-            Vector3 newUp;
 
-            if (up == Vector3::ZERO)
+        public MVector3 randomDeviant(
+            float angle,
+            MVector3 up = MVector3.ZERO )
+        {
+            MVector3 newUp;
+
+            if (up == MVector3.ZERO)
             {
-                // Generate an up vector
-                newUp = this->perpendicular();
+                newUp = this.perpendicular();
             }
             else
             {
                 newUp = up;
             }
 
-            // Rotate up vector by random amount around this
-            Quaternion q;
-            q.FromAngleAxis( Radian(Math::UnitRandom() * Math::TWO_PI), *this );
+            MQuaternion q;
+            q.FromAngleAxis( float(UtilApi.UnitRandom() * UtilApi.TWO_PI), this );
             newUp = q * newUp;
 
-            // Finally rotate this by given angle around randomised up
             q.FromAngleAxis( angle, newUp );
-            return q * (*this);
+            return q * this;
         }
 
-        /** Gets the angle between 2 vectors.
-        @remarks
-            Vectors do not have to be unit-length but must represent directions.
-        */
-        inline Radian angleBetween(const Vector3& dest) const
+        public float angleBetween(MVector3 dest)
         {
-            Real lenProduct = length() * dest.length();
+            float lenProduct = length() * dest.length();
 
-            // Divide by zero check
             if(lenProduct < 1e-6f)
                 lenProduct = 1e-6f;
 
-            Real f = dotProduct(dest) / lenProduct;
+            float f = dotProduct(dest) / lenProduct;
 
-            f = Math::Clamp(f, (Real)-1.0, (Real)1.0);
-            return Math::ACos(f);
+            f = UtilApi.Clamp(f, (float)-1.0, (float)1.0);
+            return UtilApi.ACos(f);
 
         }
-        /** Gets the shortest arc quaternion to rotate this vector to the destination
-            vector.
-        @remarks
-            If you call this with a dest vector that is close to the inverse
-            of this vector, we will rotate 180 degrees around the 'fallbackAxis'
-            (if specified, or a generated axis if not) since in this case
-            ANY axis of rotation is valid.
-        */
-        Quaternion getRotationTo(const Vector3& dest,
-            const Vector3& fallbackAxis = Vector3::ZERO) const
+
+        public MQuaternion getRotationTo(MVector3 dest,
+            MVector3 fallbackAxis = MVector3.ZERO)
         {
-            // Based on Stan Melax's article in Game Programming Gems
-            Quaternion q;
-            // Copy, since cannot modify local
-            Vector3 v0 = *this;
-            Vector3 v1 = dest;
+            MQuaternion q;
+
+            MVector3 v0 = this;
+            MVector3 v1 = dest;
             v0.normalise();
             v1.normalise();
 
-            Real d = v0.dotProduct(v1);
-            // If dot == 1, vectors are the same
+            float d = v0.dotProduct(v1);
+
             if (d >= 1.0f)
             {
-                return Quaternion::IDENTITY;
+                return MQuaternion.IDENTITY;
             }
             if (d < (1e-6f - 1.0f))
             {
-                if (fallbackAxis != Vector3::ZERO)
+                if (fallbackAxis != MVector3.ZERO)
                 {
-                    // rotate 180 degrees about the fallback axis
-                    q.FromAngleAxis(Radian(Math::PI), fallbackAxis);
+                    q.FromAngleAxis(float(UtilApi.PI), fallbackAxis);
                 }
                 else
                 {
-                    // Generate an axis
-                    Vector3 axis = Vector3::UNIT_X.crossProduct(*this);
-                    if (axis.isZeroLength()) // pick another if colinear
-                        axis = Vector3::UNIT_Y.crossProduct(*this);
+                    MVector3 axis = MVector3.UNIT_X.crossProduct(this);
+                    if (axis.isZeroLength())
+                        axis = Vector3.UNIT_Y.crossProduct(this);
                     axis.normalise();
-                    q.FromAngleAxis(Radian(Math::PI), axis);
+                    q.FromAngleAxis(float(UtilApi.PI), axis);
                 }
             }
             else
             {
-                Real s = Math::Sqrt( (1+d)*2 );
-                Real invs = 1 / s;
+                float s = UtilApi.Sqrt( (1+d)*2 );
+                float invs = 1 / s;
 
-                Vector3 c = v0.crossProduct(v1);
+                MVector3 c = v0.crossProduct(v1);
 
                 q.x = c.x * invs;
                 q.y = c.y * invs;
@@ -642,121 +480,76 @@ namespace SDK.Lib
             return q;
         }
 
-        /** Returns true if this vector is zero length. */
-        inline bool isZeroLength(void) const
+        public bool isZeroLength()
         {
-            Real sqlen = (x * x) + (y * y) + (z * z);
+            float sqlen = (x * x) + (y * y) + (z * z);
             return (sqlen < (1e-06 * 1e-06));
-
         }
 
-        /** As normalise, except that this vector is unaffected and the
-            normalised vector is returned as a copy. */
-        inline Vector3 normalisedCopy(void) const
+        public MVector3 normalisedCopy()
         {
-            Vector3 ret = *this;
+            MVector3 ret = this;
             ret.normalise();
             return ret;
         }
 
-        /** Calculates a reflection vector to the plane with the given normal .
-        @remarks NB assumes 'this' is pointing AWAY FROM the plane, invert if it is not.
-        */
-        inline Vector3 reflect(const Vector3& normal) const
+        public MVector3 reflect(MVector3 normal)
         {
-            return Vector3( *this - ( 2 * this->dotProduct(normal) * normal ) );
+            return new MVector3( this - ( 2 * this.dotProduct(normal) * normal ) );
         }
 
-        /** Returns whether this vector is within a positional tolerance
-            of another vector.
-        @param rhs The vector to compare with
-        @param tolerance The amount that each element of the vector may vary by
-            and still be considered equal
-        */
-        inline bool positionEquals(const Vector3& rhs, Real tolerance = 1e-03) const
+        public bool positionEquals(MVector3 rhs, float tolerance = 1e-03)
         {
-            return Math::RealEqual(x, rhs.x, tolerance) &&
-                Math::RealEqual(y, rhs.y, tolerance) &&
-                Math::RealEqual(z, rhs.z, tolerance);
+            return UtilApi.RealEqual(x, rhs.x, tolerance) &&
+                UtilApi.RealEqual(y, rhs.y, tolerance) &&
+                UtilApi.RealEqual(z, rhs.z, tolerance);
 
         }
 
-        /** Returns whether this vector is within a positional tolerance
-            of another vector, also take scale of the vectors into account.
-        @param rhs The vector to compare with
-        @param tolerance The amount (related to the scale of vectors) that distance
-            of the vector may vary by and still be considered close
-        */
-        inline bool positionCloses(const Vector3& rhs, Real tolerance = 1e-03f) const
+        public bool positionCloses(MVector3 rhs, float tolerance = 1e-03f)
         {
             return squaredDistance(rhs) <=
                 (squaredLength() + rhs.squaredLength()) * tolerance;
         }
 
-        /** Returns whether this vector is within a directional tolerance
-            of another vector.
-        @param rhs The vector to compare with
-        @param tolerance The maximum angle by which the vectors may vary and
-            still be considered equal
-        @note Both vectors should be normalised.
-        */
-        inline bool directionEquals(const Vector3& rhs,
-            const Radian& tolerance) const
+        public bool directionEquals(MVector3 rhs,
+            float tolerance)
         {
-            Real dot = dotProduct(rhs);
-            Radian angle = Math::ACos(dot);
+            float dot = dotProduct(rhs);
+            float angle = UtilApi.ACos(dot);
 
-            return Math::Abs(angle.valueRadians()) <= tolerance.valueRadians();
+            return UtilAPi.Abs(angle.valueRadians()) <= tolerance.valueRadians();
 
         }
 
-        /// Check whether this vector contains valid values
-        inline bool isNaN() const
+        public bool isNaN()
         {
-            return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z);
+            return double.IsNaN(x) || double.IsNaN(y) || double.IsNaN(z);
         }
 
-        /// Extract the primary (dominant) axis from this direction vector
-        inline Vector3 primaryAxis() const
+        public MVector3 primaryAxis()
         {
-            Real absx = Math::Abs(x);
-            Real absy = Math::Abs(y);
-            Real absz = Math::Abs(z);
+            float absx = UtilApi.Abs(x);
+            float absy = UtilApi.Abs(y);
+            float absz = UtilApi.Abs(z);
             if (absx > absy)
                 if (absx > absz)
-                    return x > 0 ? Vector3::UNIT_X : Vector3::NEGATIVE_UNIT_X;
+                    return x > 0 ? MVector3.UNIT_X : MVector3.NEGATIVE_UNIT_X;
                 else
-                    return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
-            else // absx <= absy
+                    return z > 0 ? MVector3.UNIT_Z : MVector3.NEGATIVE_UNIT_Z;
+            else
                 if (absy > absz)
-                    return y > 0 ? Vector3::UNIT_Y : Vector3::NEGATIVE_UNIT_Y;
+                    return y > 0 ? MVector3.UNIT_Y : MVector3.NEGATIVE_UNIT_Y;
                 else
-                    return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
+                    return z > 0 ? MVector3.UNIT_Z : MVector3.NEGATIVE_UNIT_Z;
 
 
         }
 
-        // special points
-        static const Vector3 ZERO;
-        static const Vector3 UNIT_X;
-        static const Vector3 UNIT_Y;
-        static const Vector3 UNIT_Z;
-        static const Vector3 NEGATIVE_UNIT_X;
-        static const Vector3 NEGATIVE_UNIT_Y;
-        static const Vector3 NEGATIVE_UNIT_Z;
-        static const Vector3 UNIT_SCALE;
-
-        /** Function for writing to a stream.
-        */
-        inline _OgreExport friend std::ostream& operator <<
-            ( std::ostream& o, const Vector3& v )
+        static public ToString(MVector3 v)
         {
-            o << "Vector3(" << v.x << ", " << v.y << ", " << v.z << ")";
+            string o = "Vector3(" + v.x + ", " + v.y + ", " + v.z + ")";
             return o;
         }
-    };
-    /** @} */
-    /** @} */
-
+    }
 }
-#endif

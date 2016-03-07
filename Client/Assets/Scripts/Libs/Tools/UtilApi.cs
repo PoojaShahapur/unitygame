@@ -17,6 +17,7 @@ namespace SDK.Lib
         public const string TRUE = "true";
         public const string FALSE = "false";
         public const double PI = UnityEngine.Mathf.PI;
+        public const double TWO_PI = 2.0 * UnityEngine.Mathf.PI;
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1068,6 +1069,40 @@ namespace SDK.Lib
             T t = a;
             a = b;
             b = t;
+        }
+
+        static public float min(float a, float b)
+        {
+            return Mathf.Min(a, b);
+        }
+
+        static public float max(float a, float b)
+        {
+            return Mathf.Max(a, b);
+        }
+
+        static public float ACos(float f)
+        {
+            return Mathf.Acos(f);
+        }
+
+        static public bool RealEqual(float a, float b, float tolerance)
+        {
+            if (Mathf.Abs(b - a) <= tolerance)
+                return true;
+            else
+                return false;
+        }
+
+        static public float UnitRandom()
+        {
+            UnityEngine.Random.seed = (int)UtilApi.getUTCSec();
+            return UnityEngine.Random.Range(0, int.MaxValue) / int.MaxValue;
+        }
+
+        static public float Clamp(float value, float min, float max)
+        {
+            return Mathf.Clamp(value, min, max);
         }
     }
 }
