@@ -1062,5 +1062,12 @@ namespace SDK.Lib
                     return null;
             }
         }
+
+        static public void Swap<T>(ref T a, ref T b)
+        {
+            T t = a;
+            a = b;
+            b = t;
+        }
     }
 }
