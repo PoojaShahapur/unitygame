@@ -17,12 +17,14 @@ namespace SDK.Lib
 
         public MVector3()
         {
+
         }
 
         public MVector3( float fX, float fY, float fZ )
-            : x( fX ), y( fY ), z( fZ )
         {
-
+            x = fX;
+            y = fY;
+            z = fZ;
         }
 
         public MVector3( float afCoordinate[3] )
@@ -430,7 +432,6 @@ namespace SDK.Lib
 
             f = UtilApi.Clamp(f, (float)-1.0, (float)1.0);
             return UtilApi.ACos(f);
-
         }
 
         public MQuaternion getRotationTo(MVector3 dest,
@@ -542,14 +543,32 @@ namespace SDK.Lib
                     return y > 0 ? MVector3.UNIT_Y : MVector3.NEGATIVE_UNIT_Y;
                 else
                     return z > 0 ? MVector3.UNIT_Z : MVector3.NEGATIVE_UNIT_Z;
-
-
         }
 
-        static public ToString(MVector3 v)
+        static public string ToString(MVector3 v)
         {
             string o = "Vector3(" + v.x + ", " + v.y + ", " + v.z + ")";
             return o;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (System.Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (((MVector3)this == null) || ((MVector3)other == null))
+            {
+                return false;
+            }
+
+            return (this.x == ((MVector3)other).x && this.y == ((MVector3)other).y && this.z == ((MVector3)other).z);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.GetHashCode();
         }
     }
 }

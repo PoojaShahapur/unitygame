@@ -1,11 +1,11 @@
 ﻿namespace SDK.Lib
 {
-    public class SizeF
+    public class MSizeF
     {
         protected float m_width;
         protected float m_height;
 
-        public SizeF(float width, float height)
+        public MSizeF(float width, float height)
         {
             m_width = width;
             m_height = height;

@@ -18,6 +18,9 @@ namespace SDK.Lib
         public const string FALSE = "false";
         public const double PI = UnityEngine.Mathf.PI;
         public const double TWO_PI = 2.0 * UnityEngine.Mathf.PI;
+        public const float HALF_PI = (float)(0.5f * PI);
+        public const float fDeg2Rad = (float)(PI / 180.0f);
+        public const float fRad2Deg = (float)(180.0f / PI);
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1130,6 +1133,11 @@ namespace SDK.Lib
         static public float ATan2(float y, float x)
         {
             return Mathf.Atan2(y, x);
+        }
+
+        static public float ASin(float f)
+        {
+            return Mathf.Asin(f);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace SDK.Lib
 {
-    public class PointF
+    public class MPointF
     {
         protected float m_x;
         protected float m_y;
 
-        public PointF(float x, float y)
+        public MPointF(float x, float y)
         {
             m_x = x;
             m_y = y;

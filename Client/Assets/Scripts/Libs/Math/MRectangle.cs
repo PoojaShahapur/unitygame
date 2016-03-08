@@ -2,14 +2,14 @@
 
 namespace SDK.Lib
 {
-    public class RectangleF
+    public class MRectangleF
     {
         protected float m_x;
         protected float m_y;
         protected float m_width;
         protected float m_height;
 
-        public RectangleF(float x, float y, float width, float height)
+        public MRectangleF(float x, float y, float width, float height)
         {
             m_x = x;
             m_y = y;
@@ -17,7 +17,7 @@ namespace SDK.Lib
             m_height = height;
         }
 
-        public RectangleF(PointF point, SizeF size)
+        public MRectangleF(MPointF point, SizeF size)
         {
             m_x = point.X;
             m_y = point.Y;
