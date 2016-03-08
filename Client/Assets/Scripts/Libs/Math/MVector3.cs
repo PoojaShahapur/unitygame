@@ -1,6 +1,6 @@
 namespace SDK.Lib
 {
-    public class MVector3
+    public struct MVector3
     {
         public static MVector3 ZERO = new MVector3(0, 0, 0);
         public static MVector3 UNIT_X = new MVector3(1, 0, 0);
@@ -15,26 +15,21 @@ namespace SDK.Lib
         public float y;
         public float z;
 
-        public MVector3()
-        {
-
-        }
-
-        public MVector3( float fX, float fY, float fZ )
+        public MVector3( float fX = 0, float fY = 0, float fZ = 0 )
         {
             x = fX;
             y = fY;
             z = fZ;
         }
 
-        public MVector3( float afCoordinate[3] )
-            : x( afCoordinate[0] ),
-              y( afCoordinate[1] ),
-              z( afCoordinate[2] )
+        public MVector3(float[] afCoordinate)
         {
+            x = afCoordinate[0];
+            y = afCoordinate[1];
+            z = afCoordinate[2];
         }
 
-        public MVector3( int afCoordinate[3] )
+        public MVector3(int[] afCoordinate)
         {
             x = (float)afCoordinate[0];
             y = (float)afCoordinate[1];
@@ -42,10 +37,17 @@ namespace SDK.Lib
         }
 
         public MVector3( float scaler )
-            : x( scaler )
-            , y( scaler )
-            , z( scaler )
         {
+            x = scaler;
+            y = scaler;
+            z = scaler;
+        }
+
+        public MVector3(MVector3 rhs)
+        {
+            x = rhs.x;
+            y = rhs.y;
+            z = rhs.z;
         }
 
         public void swap(MVector3 other)
@@ -73,25 +75,42 @@ namespace SDK.Lib
                 {
                     return this.z;
                 }
+
+                return this.z;
+            }
+            set
+            {
+                if (0 == index)
+                {
+                    this.x = value;
+                }
+                else if (1 == index)
+                {
+                    this.y = value;
+                }
+                else if (2 == index)
+                {
+                    this.z = value;
+                }
             }
         }
 
-        static public MVector3 operator = (MVector3 lhs, MVector3 rkVector )
+        public MVector3 assignFrom(MVector3 rkVector )
         {
-            lhs.x = rkVector.x;
-            lhs.y = rkVector.y;
-            lhs.z = rkVector.z;
+            this.x = rkVector.x;
+            this.y = rkVector.y;
+            this.z = rkVector.z;
 
-            return lhs;
+            return this;
         }
 
-        static public MVector3 operator = (MVector3 lhs, float fScaler )
+        public MVector3 assignFrom(float fScaler )
         {
-            lhs.x = fScaler;
-            lhs.y = fScaler;
-            lhs.z = fScaler;
+            this.x = fScaler;
+            this.y = fScaler;
+            this.z = fScaler;
 
-            return lhs;
+            return this;
         }
 
         static public bool operator == (MVector3 lhs, MVector3 rkVector )
@@ -151,9 +170,9 @@ namespace SDK.Lib
         static public MVector3 operator / (MVector3 lhs, MVector3 rhs)
         {
             return new MVector3(
-                x / rhs.x,
-                y / rhs.y,
-                z / rhs.z);
+                lhs.x / rhs.x,
+                lhs.y / rhs.y,
+                lhs.z / rhs.z);
         }
 
         static public MVector3 operator + (MVector3 lhs)
@@ -182,7 +201,7 @@ namespace SDK.Lib
                 fScalar / rkVector.z);
         }
 
-        static public MVector3 operator + (Vector3 lhs, float rhs)
+        static public MVector3 operator + (MVector3 lhs, float rhs)
         {
             return new MVector3(
                 lhs.x + rhs,
@@ -214,6 +233,7 @@ namespace SDK.Lib
                 lhs - rhs.z);
         }
 
+        /*
         static MVector3 operator += (MVector3 lhs, MVector3 rkVector )
         {
             lhs.x += rkVector.x;
@@ -222,13 +242,13 @@ namespace SDK.Lib
 
             return lhs;
         }
-
-        inline Vector3& operator += ( const Real fScalar )
+        
+        static public MVector3 operator += (MVector3 lhs, float fScalar )
         {
-            x += fScalar;
-            y += fScalar;
-            z += fScalar;
-            return *this;
+            lhs.x += fScalar;
+            lhs.y += fScalar;
+            lhs.z += fScalar;
+            return lhs;
         }
 
         static public MVector3 operator -= (MVector3 lhs, MVector3 rkVector )
@@ -286,6 +306,7 @@ namespace SDK.Lib
 
             return lhs;
         }
+        */
 
         public float length ()
         {
@@ -321,7 +342,7 @@ namespace SDK.Lib
         {
             float fLength = UtilApi.Sqrt( x * x + y * y + z * z );
 
-            if ( fLength > float(0.0f) )
+            if ( fLength > (float)(0.0f) )
             {
                 float fInvLength = 1.0f / fLength;
                 x *= fInvLength;
@@ -391,7 +412,7 @@ namespace SDK.Lib
 
             if( perp.squaredLength() < fSquareZero )
             {
-                perp = this.crossProduct(MVector3::UNIT_Y );
+                perp = this.crossProduct(MVector3.UNIT_Y );
             }
             perp.normalise();
 
@@ -400,7 +421,7 @@ namespace SDK.Lib
 
         public MVector3 randomDeviant(
             float angle,
-            MVector3 up = MVector3.ZERO )
+            MVector3 up/* = MVector3.ZERO*/ )
         {
             MVector3 newUp;
 
@@ -413,8 +434,8 @@ namespace SDK.Lib
                 newUp = up;
             }
 
-            MQuaternion q;
-            q.FromAngleAxis( float(UtilApi.UnitRandom() * UtilApi.TWO_PI), this );
+            MQuaternion q = new MQuaternion();
+            q.FromAngleAxis( (float)(UtilApi.UnitRandom() * UtilApi.TWO_PI), this );
             newUp = q * newUp;
 
             q.FromAngleAxis( angle, newUp );
@@ -435,9 +456,9 @@ namespace SDK.Lib
         }
 
         public MQuaternion getRotationTo(MVector3 dest,
-            MVector3 fallbackAxis = MVector3.ZERO)
+            MVector3 fallbackAxis/* = MVector3.ZERO*/)
         {
-            MQuaternion q;
+            MQuaternion q = new MQuaternion();
 
             MVector3 v0 = this;
             MVector3 v1 = dest;
@@ -454,15 +475,15 @@ namespace SDK.Lib
             {
                 if (fallbackAxis != MVector3.ZERO)
                 {
-                    q.FromAngleAxis(float(UtilApi.PI), fallbackAxis);
+                    q.FromAngleAxis((float)(UtilApi.PI), fallbackAxis);
                 }
                 else
                 {
                     MVector3 axis = MVector3.UNIT_X.crossProduct(this);
                     if (axis.isZeroLength())
-                        axis = Vector3.UNIT_Y.crossProduct(this);
+                        axis = MVector3.UNIT_Y.crossProduct(this);
                     axis.normalise();
-                    q.FromAngleAxis(float(UtilApi.PI), axis);
+                    q.FromAngleAxis((float)(UtilApi.PI), axis);
                 }
             }
             else
@@ -499,7 +520,7 @@ namespace SDK.Lib
             return new MVector3( this - ( 2 * this.dotProduct(normal) * normal ) );
         }
 
-        public bool positionEquals(MVector3 rhs, float tolerance = 1e-03)
+        public bool positionEquals(MVector3 rhs, float tolerance = 1e-03f)
         {
             return UtilApi.RealEqual(x, rhs.x, tolerance) &&
                 UtilApi.RealEqual(y, rhs.y, tolerance) &&
@@ -519,7 +540,7 @@ namespace SDK.Lib
             float dot = dotProduct(rhs);
             float angle = UtilApi.ACos(dot);
 
-            return UtilAPi.Abs(angle.valueRadians()) <= tolerance.valueRadians();
+            return UtilApi.Abs(angle) <= tolerance;
 
         }
 

@@ -1,75 +1,81 @@
 namespace SDK.Lib
 {
-    public class MQuaternion
+    public struct MQuaternion
     {
-        public const float msEpsilon = 1e-03;
+        public static float msEpsilon = 1e-03f;
 
-        public const MQuaternion ZERO = new MQuaternion(0, 0, 0, 0);
-        public const MQuaternion IDENTITY = new MQuaternion(1, 0, 0, 0);
+        public static MQuaternion ZERO = new MQuaternion(0, 0, 0, 0);
+        public static MQuaternion IDENTITY = new MQuaternion(1, 0, 0, 0);
+        public static int[] s_iNext = new int[3]{ 1, 2, 0 };
 
-        protected float w, x, y, z;
-
-        public MQuaternion()
-            : w(1), x(0), y(0), z(0)
-        {
-        }
+        public float w, x, y, z;
 
         public MQuaternion(
-            float fW,
-            float fX, float fY, float fZ)
-                : w(fW), x(fX), y(fY), z(fZ)
+            float fW = 1,
+            float fX = 0, float fY = 0, float fZ = 0)
         {
+            w = fW;
+            x = fX;
+            y = fY;
+            z = fZ;
         }
 
-        public MQuaternion(const Matrix3& rot)
+        public MQuaternion(MMatrix3 rot)
         {
+            x = y = z = w = 0;
             this.FromRotationMatrix(rot);
         }
 
         public MQuaternion(float rfAngle, MVector3 rkAxis)
         {
+            x = y = z = w = 0;
             this.FromAngleAxis(rfAngle, rkAxis);
         }
 
         public MQuaternion(MVector3 xaxis, MVector3 yaxis, MVector3 zaxis)
         {
+            x = y = z = w = 0;
             this.FromAxes(xaxis, yaxis, zaxis);
         }
 
-        public MQuaternion(MVector3 akAxis)
+        public MQuaternion(MVector3[] akAxis)
         {
+            x = y = z = w = 0;
             this.FromAxes(akAxis);
         }
 
         public void swap(MQuaternion other)
         {
-            UtilApi.swap(w, other.w);
-            UtilApi.swap(x, other.x);
-            UtilApi.swap(y, other.y);
-            UtilApi.swap(z, other.z);
+            UtilApi.swap(ref w, ref other.w);
+            UtilApi.swap(ref x, ref other.x);
+            UtilApi.swap(ref y, ref other.y);
+            UtilApi.swap(ref z, ref other.z);
         }
 
-        public float operator [int index]
+        public float this [int index]
         {
-            UtilApi.assert(index < 4);
-            if(0 == index)
+            get
             {
+                UtilApi.assert(index < 4);
+                if (0 == index)
+                {
+                    return x;
+                }
+                else if (0 == index)
+                {
+                    return y;
+                }
+                else if (0 == index)
+                {
+                    return z;
+                }
+                else if (0 == index)
+                {
+                    return w;
+                }
+
                 return x;
             }
-            else if(0 == index)
-            {
-                return y;
-            }
-            else if(0 == index)
-            {
-                return z;
-            }
-            else if(0 == index)
-            {
-                return w;
-            }
-
-            return x;
         }
 
         public void FromRotationMatrix(MMatrix3 kRot)
@@ -88,11 +94,11 @@ namespace SDK.Lib
             }
             else
             {
-                static int s_iNext[3] = { 1, 2, 0 };
+                //static int[] s_iNext = new int{ 1, 2, 0 };
                 int i = 0;
-                if (kRot[1][1] > kRot[0][0])
+                if (kRot[1, 1] > kRot[0, 0])
                     i = 1;
-                if (kRot[2][2] > kRot[i][i])
+                if (kRot[2, 2] > kRot[i, i])
                     i = 2;
                 int j = s_iNext[i];
                 int k = s_iNext[j];
@@ -101,9 +107,9 @@ namespace SDK.Lib
                 float[] apkQuat = { 0, 0, 0 };
                 apkQuat[i] = 0.5f * fRoot;
                 fRoot = 0.5f / fRoot;
-                w = (kRot[k][j] - kRot[j][k]) * fRoot;
-                apkQuat[j] = (kRot[j][i] + kRot[i][j]) * fRoot;
-                apkQuat[k] = (kRot[k][i] + kRot[i][k]) * fRoot;
+                w = (kRot[k, j] - kRot[j, k]) * fRoot;
+                apkQuat[j] = (kRot[j, i] + kRot[i, j]) * fRoot;
+                apkQuat[k] = (kRot[k, i] + kRot[i, k]) * fRoot;
 
                 x = apkQuat[0];
                 y = apkQuat[1];
@@ -126,20 +132,20 @@ namespace SDK.Lib
             float fTyz = fTz * y;
             float fTzz = fTz * z;
 
-            kRot[0, 0] = 1.0f - (fTyy + fTzz);
-            kRot[0, 1] = fTxy - fTwz;
-            kRot[0, 2] = fTxz + fTwy;
-            kRot[1, 0] = fTxy + fTwz;
-            kRot[1, 1] = 1.0f - (fTxx + fTzz);
-            kRot[1, 2] = fTyz - fTwx;
-            kRot[2, 0] = fTxz - fTwy;
-            kRot[2, 1] = fTyz + fTwx;
-            kRot[2, 2] = 1.0f - (fTxx + fTyy);
+            kRot.m[0, 0] = 1.0f - (fTyy + fTzz);
+            kRot.m[0, 1] = fTxy - fTwz;
+            kRot.m[0, 2] = fTxz + fTwy;
+            kRot.m[1, 0] = fTxy + fTwz;
+            kRot.m[1, 1] = 1.0f - (fTxx + fTzz);
+            kRot.m[1, 2] = fTyz - fTwx;
+            kRot.m[2, 0] = fTxz - fTwy;
+            kRot.m[2, 1] = fTyz + fTwx;
+            kRot.m[2, 2] = 1.0f - (fTxx + fTyy);
         }
 
         public void FromAngleAxis(float rfAngle, MVector3 rkAxis)
         {
-            float fHalfAngle (0.5 * rfAngle);
+            float fHalfAngle = 0.5f * rfAngle;
             float fSin = UtilApi.Sin(fHalfAngle);
             w = UtilApi.Cos(fHalfAngle);
             x = fSin * rkAxis.x;
@@ -152,7 +158,7 @@ namespace SDK.Lib
             float fSqrLength = x * x + y * y + z * z;
             if (fSqrLength > 0.0)
             {
-                rfAngle = 2.0 * UtilApi.ACos(w);
+                rfAngle = 2.0f * UtilApi.ACos(w);
                 float fInvLength = UtilApi.InvSqrt(fSqrLength);
                 rkAxis.x = x * fInvLength;
                 rkAxis.y = y * fInvLength;
@@ -160,54 +166,54 @@ namespace SDK.Lib
             }
             else
             {
-                rfAngle = float(0.0);
-                rkAxis.x = 1.0;
-                rkAxis.y = 0.0;
-                rkAxis.z = 0.0;
+                rfAngle = (float)(0.0f);
+                rkAxis.x = 1.0f;
+                rkAxis.y = 0.0f;
+                rkAxis.z = 0.0f;
             }
         }
 
-        public void ToAngleAxis(float dAngle, MVector3 rkAxis)
+        public void ToAngleAxis(ref float dAngle, ref MVector3 rkAxis)
         {
-            float rAngle;
+            float rAngle = 0;
             ToAngleAxis(rAngle, rkAxis );
             dAngle = rAngle;
         }
 
-        public void FromAxes(MVector3 akAxis)
+        public void FromAxes(MVector3[] akAxis)
         {
             MMatrix3 kRot = new MMatrix3();
 
             for (int iCol = 0; iCol < 3; iCol++)
             {
-                kRot[0, iCol] = akAxis[iCol].x;
-                kRot[1, iCol] = akAxis[iCol].y;
-                kRot[2, iCol] = akAxis[iCol].z;
+                kRot.m[0, iCol] = akAxis[iCol].x;
+                kRot.m[1, iCol] = akAxis[iCol].y;
+                kRot.m[2, iCol] = akAxis[iCol].z;
             }
 
             FromRotationMatrix(kRot);
         }
 
-        public void FromAxes(MVector3 xAxis, MVector3 yAxis, MVector3 zAxis)
+        public void FromAxes(MVector3 xaxis, MVector3 yaxis, MVector3 zaxis)
         {
             MMatrix3 kRot = new MMatrix3();
 
-            kRot[0, 0] = xaxis.x;
-            kRot[1, 0] = xaxis.y;
-            kRot[2, 0] = xaxis.z;
+            kRot.m[0, 0] = xaxis.x;
+            kRot.m[1, 0] = xaxis.y;
+            kRot.m[2, 0] = xaxis.z;
 
-            kRot[0, 1] = yaxis.x;
-            kRot[1, 1] = yaxis.y;
-            kRot[2, 1] = yaxis.z;
+            kRot.m[0, 1] = yaxis.x;
+            kRot.m[1, 1] = yaxis.y;
+            kRot.m[2, 1] = yaxis.z;
 
-            kRot[0, 2] = zaxis.x;
-            kRot[1, 2] = zaxis.y;
-            kRot[2, 2] = zaxis.z;
+            kRot.m[0, 2] = zaxis.x;
+            kRot.m[1, 2] = zaxis.y;
+            kRot.m[2, 2] = zaxis.z;
 
             FromRotationMatrix(kRot);
         }
 
-        public void ToAxes(MVector3 akAxis)
+        public void ToAxes(ref MVector3[] akAxis)
         {
             MMatrix3 kRot = new MMatrix3();
 
@@ -221,7 +227,7 @@ namespace SDK.Lib
             }
         }
 
-        public void ToAxes(MVector3 xAxis, MVector3 yAxis, MVector3 zAxis)
+        public void ToAxes(ref MVector3 xaxis, ref MVector3 yaxis, ref MVector3 zaxis)
         {
             MMatrix3 kRot = new MMatrix3();
 
@@ -284,26 +290,26 @@ namespace SDK.Lib
             return new MVector3(fTxz + fTwy, fTyz - fTwx, 1.0f - (fTxx + fTyy));
         }
 
-        static public MQuaternion operator= (MQuaternion lhs, MQuaternion rkQ)
+        public MQuaternion assignFrom(MQuaternion rkQ)
         {
-            lhs.w = rkQ.w;
-            lhs.x = rkQ.x;
-            lhs.y = rkQ.y;
-            lhs.z = rkQ.z;
-            return lhs;
+            this.w = rkQ.w;
+            this.x = rkQ.x;
+            this.y = rkQ.y;
+            this.z = rkQ.z;
+            return this;
         }
 
-        static public MQuaternion operator +(MQuaternion lhs, const Quaternion& rkQ)
+        static public MQuaternion operator +(MQuaternion lhs, MQuaternion rkQ)
         {
             return new MQuaternion(lhs.w + rkQ.w, lhs.x + rkQ.x, lhs.y + rkQ.y, lhs.z + rkQ.z);
         }
 
-        static public MQuaternion operator -(MQuaternion lhs, const Quaternion& rkQ)
+        static public MQuaternion operator -(MQuaternion lhs, MQuaternion rkQ)
         {
-            return Quaternion(lhs.w - rkQ.w, lhs.x - rkQ.x, lhs.y - rkQ.y, lhs.z - rkQ.z);
+            return new MQuaternion(lhs.w - rkQ.w, lhs.x - rkQ.x, lhs.y - rkQ.y, lhs.z - rkQ.z);
         }
 
-        static public MQuaternion operator *(MQuaternion lhs, const Quaternion& rkQ)
+        static public MQuaternion operator *(MQuaternion lhs, MQuaternion rkQ)
         {
             return new MQuaternion
                 (
@@ -314,31 +320,31 @@ namespace SDK.Lib
                 );
         }
 
-        static public MQuaternion operator *(MQuaternion lhs, Real fScalar)
+        static public MQuaternion operator *(MQuaternion lhs, float fScalar)
         {
             return new MQuaternion(fScalar * lhs.w, fScalar * lhs.x, fScalar * lhs.y, fScalar * lhs.z);
         }
 
         static public MQuaternion operator *(float fScalar, MQuaternion rkQ)
         {
-            return nwe MQuaternion(fScalar * rkQ.w, fScalar * rkQ.x, fScalar * rkQ.y,
+            return new MQuaternion(fScalar * rkQ.w, fScalar * rkQ.x, fScalar * rkQ.y,
                     fScalar * rkQ.z);
         }
 
-        static public Quaternion operator -(MQuaternion lhs)
+        static public MQuaternion operator -(MQuaternion lhs)
         {
-            return MQuaternion(-lhs.w, -lhs.x, -lhs.y, -lhs.z);
+            return new MQuaternion(-lhs.w, -lhs.x, -lhs.y, -lhs.z);
         }
 
-        static public bool operator ==(MQuaternion lhs, const Quaternion rhs)
+        static public bool operator ==(MQuaternion lhs, MQuaternion rhs)
         {
             return (rhs.x == lhs.x) && (rhs.y == lhs.y) &&
                 (rhs.z == lhs.z) && (rhs.w == lhs.w);
         }
 
-        static bool operator !=(MQuaternion lhs, const Quaternion rhs)
+        static public bool operator !=(MQuaternion lhs, MQuaternion rhs)
         {
-            return !operator ==(rhs);
+            return !(lhs ==rhs);
         }
 
         public float Dot(MQuaternion rkQ)
@@ -380,7 +386,7 @@ namespace SDK.Lib
 
         public MQuaternion Exp()
         {
-            float fAngle = UtilApi::Sqrt(x * x + y * y + z * z);
+            float fAngle = UtilApi.Sqrt(x * x + y * y + z * z);
             float fSin = UtilApi.Sin(fAngle);
 
             MQuaternion kResult = new MQuaternion();
@@ -388,7 +394,7 @@ namespace SDK.Lib
 
             if (UtilApi.Abs(fSin) >= msEpsilon)
             {
-                float fCoeff = fSin / (fAngle.valueRadians());
+                float fCoeff = fSin / (fAngle);
                 kResult.x = fCoeff * x;
                 kResult.y = fCoeff * y;
                 kResult.z = fCoeff * z;
@@ -406,15 +412,15 @@ namespace SDK.Lib
         public MQuaternion Log()
         {
             MQuaternion kResult = new MQuaternion();
-            kResult.w = 0.0;
+            kResult.w = 0.0f;
 
             if (UtilApi.Abs(w) < 1.0)
             {
-                float fAngle (UtilApi.ACos(w));
+                float fAngle = UtilApi.ACos(w);
                 float fSin = UtilApi.Sin(fAngle);
                 if (UtilApi.Abs(fSin) >= msEpsilon)
                 {
-                    float fCoeff = fAngle.valueRadians() / fSin;
+                    float fCoeff = fAngle / fSin;
                     kResult.x = fCoeff * x;
                     kResult.y = fCoeff * y;
                     kResult.z = fCoeff * z;
@@ -429,16 +435,16 @@ namespace SDK.Lib
             return kResult;
         }
 
-        static public MVector3 operator *(MQuaternion lhs, MVector3 rkVector)
+        static public MVector3 operator *(MQuaternion lhs, MVector3 v)
         {
             MVector3 uv = new MVector3(), uuv = new MVector3();
-            MVector3 qvec = new MVector3(x, y, z);
-            uv = qvec.crossProduct(rkVector);
+            MVector3 qvec = new MVector3(lhs.x, lhs.y, lhs.z);
+            uv = qvec.crossProduct(v);
             uuv = qvec.crossProduct(uv);
-            uv *= (2.0f * w);
+            uv *= (2.0f * lhs.w);
             uuv *= 2.0f;
 
-            return rkVector + uv + uuv;
+            return v + uv + uuv;
         }
 
         public float getRoll(bool reprojectAxis = true)
@@ -453,7 +459,6 @@ namespace SDK.Lib
                 float fTzz = fTz * z;
 
                 return (float)(UtilApi.ATan2(fTxy + fTwz, 1.0f - (fTyy + fTzz)));
-
             }
             else
             {
@@ -506,10 +511,10 @@ namespace SDK.Lib
             float d = Dot(rhs);
             float angle = UtilApi.ACos(2.0f * d * d - 1.0f);
 
-            return UtilApi.Abs(angle.valueRadians()) <= tolerance.valueRadians();
+            return UtilApi.Abs(angle) <= tolerance;
         }
 
-        public bool orientationEquals(MQuaternion other, float tolerance = 1e-3)
+        public bool orientationEquals(MQuaternion other, float tolerance = 1e-3f)
         {
             float d = this.Dot(other);
             return 1 - d* d<tolerance;
@@ -553,13 +558,13 @@ namespace SDK.Lib
             int iExtraSpins)
         {
             float fCos = rkP.Dot(rkQ);
-            float fAngle (UtilApi.ACos(fCos));
+            float fAngle = UtilApi.ACos(fCos);
 
-            if (UtilApi.Abs(fAngle.valueRadians()) < msEpsilon)
+            if (UtilApi.Abs(fAngle) < msEpsilon)
                 return rkP;
 
             float fSin = UtilApi.Sin(fAngle);
-            float fPhase (UtilApi.PI * iExtraSpins * fT);
+            float fPhase = (float)(UtilApi.PI * iExtraSpins * fT);
             float fInvSin = 1.0f / fSin;
             float fCoeff0 = UtilApi.Sin((1.0f - fT) * fAngle - fPhase) * fInvSin;
             float fCoeff1 = UtilApi.Sin(fT * fAngle + fPhase) * fInvSin;
@@ -568,20 +573,20 @@ namespace SDK.Lib
 
         static public void Intermediate(MQuaternion rkQ0,
                     MQuaternion rkQ1, MQuaternion rkQ2,
-            MQuaternion rka, MQuaternion rkB)
+            MQuaternion rkA, MQuaternion rkB)
         {
             MQuaternion kQ0inv = rkQ0.UnitInverse();
             MQuaternion kQ1inv = rkQ1.UnitInverse();
             MQuaternion rkP0 = kQ0inv * rkQ1;
             MQuaternion rkP1 = kQ1inv * rkQ2;
-            MQuaternion kArg = 0.25 * (rkP0.Log() - rkP1.Log());
+            MQuaternion kArg = 0.25f * (rkP0.Log() - rkP1.Log());
             MQuaternion kMinusArg = -kArg;
 
             rkA = rkQ1 * kArg.Exp();
             rkB = rkQ1 * kMinusArg.Exp();
         }
 
-        static MQuaternion Squad(Real fT, MQuaternion rkP,
+        static MQuaternion Squad(float fT, MQuaternion rkP,
                     MQuaternion rkA, MQuaternion rkB,
                     MQuaternion rkQ, bool shortestPath = false)
         {

@@ -18,20 +18,22 @@ namespace SDK.Lib
         }
 
         public MVector4(float fX, float fY, float fZ, float fW)
-            : x(fX ), y(fY ), z(fZ ), w(fW )
         {
-
+            x = fX;
+            y = fY;
+            z = fZ;
+            w = fW;
         }
 
-        public MVector4(float afCoordinate[4] )
-            : x(afCoordinate[0] ),
-              y(afCoordinate[1] ),
-              z(afCoordinate[2] ),
-              w(afCoordinate[3] )
+        public MVector4(float[] afCoordinate)
         {
+            x = afCoordinate[0];
+            y = afCoordinate[1];
+            z = afCoordinate[2];
+            w = afCoordinate[3];
         }
 
-        public MVector4(int afCoordinate[4] )
+        public MVector4(int[] afCoordinate)
         {
             x = (float)afCoordinate[0];
             y = (float)afCoordinate[1];
@@ -40,16 +42,19 @@ namespace SDK.Lib
         }
 
         public MVector4(float scaler)
-            : x(scaler )
-            , y(scaler )
-            , z(scaler )
-            , w(scaler )
         {
+            x = scaler;
+            y = scaler;
+            z = scaler;
+            w = scaler;
         }
 
         public MVector4(MVector3 rhs)
-            : x(rhs.x), y(rhs.y), z(rhs.z), w(1.0f)
         {
+            x = rhs.x;
+            y = rhs.y;
+            z = rhs.z;
+            w = 1.0f;
         }
 
         public void swap(MVector4 other)
@@ -98,31 +103,31 @@ namespace SDK.Lib
             }
         }
 
-        static public MVector4 operator = ( MVector4 lhs, MVector4 rkVector )
+        public MVector4 assignFrom( MVector4 rkVector )
         {
-            lhs.x = rkVector.x;
-            lhs.y = rkVector.y;
-            lhs.z = rkVector.z;
-            lhs.w = rkVector.w;
+            this.x = rkVector.x;
+            this.y = rkVector.y;
+            this.z = rkVector.z;
+            this.w = rkVector.w;
 
-            return lhs;
+            return this;
         }
 
-        static public MVector4 operator = (MVector4 lhs, float fScalar)
+        public MVector4 assignFrom(float fScalar)
         {
-            lhs.x = fScalar;
-            lhs.y = fScalar;
-            lhs.z = fScalar;
-            lhs.w = fScalar;
-            return lhs;
+            this.x = fScalar;
+            this.y = fScalar;
+            this.z = fScalar;
+            this.w = fScalar;
+            return this;
         }
 
         static public bool operator == (MVector4 lhs, MVector4 rkVector )
         {
-            return ( x == rkVector.x &&
-                y == rkVector.y &&
-                z == rkVector.z &&
-                w == rkVector.w );
+            return (lhs.x == rkVector.x &&
+                lhs.y == rkVector.y &&
+                lhs.z == rkVector.z &&
+                lhs.w == rkVector.w );
         }
 
         static public bool operator != (MVector4 lhs, MVector4 rkVector )
@@ -133,13 +138,13 @@ namespace SDK.Lib
                 lhs.w != rkVector.w );
         }
 
-        static public MVector4 operator = (MVector4 lhs, MVector3 rhs)
+        public MVector4 assignFrom(MVector3 rhs)
         {
-            lhs.x = rhs.x;
-            lhs.y = rhs.y;
-            lhs.z = rhs.z;
-            lhs.w = 1.0f;
-            return lhs;
+            this.x = rhs.x;
+            this.y = rhs.y;
+            this.z = rhs.z;
+            this.w = 1.0f;
+            return this;
         }
 
         static public MVector4 operator + (MVector4 lhs, MVector4 rkVector)
@@ -264,6 +269,7 @@ namespace SDK.Lib
                 lhs - rhs.w);
         }
 
+        /*
         static public MVector4 operator += (MVector4 lhs, MVector4 rkVector )
         {
             lhs.x += rkVector.x;
@@ -344,8 +350,9 @@ namespace SDK.Lib
 
             return lhs;
         }
+        */
 
-        public float dotProduct(MVector4& vec)
+        public float dotProduct(MVector4 vec)
         {
             return this.x * vec.x + this.y * vec.y + this.z * vec.z + this.w * vec.w;
         }

@@ -1139,5 +1139,10 @@ namespace SDK.Lib
         {
             return Mathf.Asin(f);
         }
+
+        static public float Sqr(float fValue)
+        {
+            return fValue * fValue;
+        }
     }
 }
