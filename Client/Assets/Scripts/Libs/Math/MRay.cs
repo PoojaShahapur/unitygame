@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SDK.Lib
 {
     public class MRay
@@ -48,14 +50,14 @@ namespace SDK.Lib
             return lhs.getPoint(t);
         }
 
-        //public std::pair<bool, Real> intersects(ref MPlane p)
-        //{
-        //    return Math::intersects(this, p);
-        //}
+        public KeyValuePair<bool, float> intersects(ref MPlane p)
+        {
+            return UtilMath.intersects(this, ref p);
+        }
 
-        //public std::pair<bool, Real> intersects(ref MAxisAlignedBox box)
-        //{
-        //    return Math::intersects(this, box);
-        //}
+        public KeyValuePair<bool, float> intersects(ref MAxisAlignedBox box)
+        {
+            return UtilMath.intersects(this, ref box);
+        }
     }
 }

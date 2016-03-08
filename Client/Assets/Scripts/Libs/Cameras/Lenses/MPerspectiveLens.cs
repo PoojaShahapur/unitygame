@@ -29,7 +29,7 @@ namespace SDK.Lib
             }
 
             m_fieldOfView = value;
-            m_focalLengthInv = UtilApi.tan((float)(m_fieldOfView * UtilApi.PI / 360));
+            m_focalLengthInv = UtilMath.tan((float)(m_fieldOfView * UtilMath.PI / 360));
             m_focalLength = 1 / m_focalLengthInv;
         }
 
@@ -43,7 +43,7 @@ namespace SDK.Lib
             m_focalLength = value;
 
             m_focalLengthInv = 1 / m_focalLength;
-            m_fieldOfView = (float)(UtilApi.atan(m_focalLengthInv) * 360 / UtilApi.PI);
+            m_fieldOfView = (float)(UtilMath.atan(m_focalLengthInv) * 360 / UtilMath.PI);
         }
 
         /**

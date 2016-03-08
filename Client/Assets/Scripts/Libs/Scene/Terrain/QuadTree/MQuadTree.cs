@@ -30,12 +30,12 @@
         protected int calcDepth()
         {
             m_maxDepth = 0;
-            int splitTile = m_size / UtilApi.powerTwo(m_maxDepth);
+            int splitTile = m_size / UtilMath.powerTwo(m_maxDepth);
             int tileSize = m_terrain.getTerrainPageCfg().getTileWorldWidth();   // 获取 Area 的世界空间宽度
             while (splitTile > tileSize)    // 一定不能大于地形
             {
                 ++m_maxDepth;
-                splitTile = m_size / UtilApi.powerTwo(m_maxDepth);
+                splitTile = m_size / UtilMath.powerTwo(m_maxDepth);
             }
             return m_maxDepth;
         }

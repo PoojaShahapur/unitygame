@@ -134,7 +134,7 @@ namespace SDK.Lib
         {
             // 计算位置信息
             m_posList.Clear();
-            UtilMath.newRectSplit(m_centerPos, m_elemNormalWidth, m_radius, m_yDelta, getValidElemCount(m_elemList), ref m_posList);
+            UtilLogic.newRectSplit(m_centerPos, m_elemNormalWidth, m_radius, m_yDelta, getValidElemCount(m_elemList), ref m_posList);
 
             // 更新元素信息
             int posIdx = 0;
@@ -153,7 +153,7 @@ namespace SDK.Lib
             // 计算正常位置
             int validCount = getValidElemCount(m_elemList);
             m_posList.Clear();
-            UtilMath.newRectSplit(m_centerPos, m_elemNormalWidth, m_radius, m_yDelta, validCount, ref m_posList);
+            UtilLogic.newRectSplit(m_centerPos, m_elemNormalWidth, m_radius, m_yDelta, validCount, ref m_posList);
 
             // 更新元素信息
             float deltaX = 0;

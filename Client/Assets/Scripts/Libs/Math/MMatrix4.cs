@@ -70,22 +70,22 @@ namespace SDK.Lib
 
         public void swap(MMatrix4 other)
         {
-            UtilApi.swap(ref m[0, 0], ref other.m[0, 0]);
-            UtilApi.swap(ref m[0, 1], ref other.m[0, 1]);
-            UtilApi.swap(ref m[0, 2], ref other.m[0, 2]);
-            UtilApi.swap(ref m[0, 3], ref other.m[0, 3]);
-            UtilApi.swap(ref m[1, 0], ref other.m[1, 0]);
-            UtilApi.swap(ref m[1, 1], ref other.m[1, 1]);
-            UtilApi.swap(ref m[1, 2], ref other.m[1, 2]);
-            UtilApi.swap(ref m[1, 3], ref other.m[1, 3]);
-            UtilApi.swap(ref m[2, 0], ref other.m[2, 0]);
-            UtilApi.swap(ref m[2, 1], ref other.m[2, 1]);
-            UtilApi.swap(ref m[2, 2], ref other.m[2, 2]);
-            UtilApi.swap(ref m[2, 3], ref other.m[2, 3]);
-            UtilApi.swap(ref m[3, 0], ref other.m[3, 0]);
-            UtilApi.swap(ref m[3, 1], ref other.m[3, 1]);
-            UtilApi.swap(ref m[3, 2], ref other.m[3, 2]);
-            UtilApi.swap(ref m[3, 3], ref other.m[3, 3]);
+            UtilMath.swap(ref m[0, 0], ref other.m[0, 0]);
+            UtilMath.swap(ref m[0, 1], ref other.m[0, 1]);
+            UtilMath.swap(ref m[0, 2], ref other.m[0, 2]);
+            UtilMath.swap(ref m[0, 3], ref other.m[0, 3]);
+            UtilMath.swap(ref m[1, 0], ref other.m[1, 0]);
+            UtilMath.swap(ref m[1, 1], ref other.m[1, 1]);
+            UtilMath.swap(ref m[1, 2], ref other.m[1, 2]);
+            UtilMath.swap(ref m[1, 3], ref other.m[1, 3]);
+            UtilMath.swap(ref m[2, 0], ref other.m[2, 0]);
+            UtilMath.swap(ref m[2, 1], ref other.m[2, 1]);
+            UtilMath.swap(ref m[2, 2], ref other.m[2, 2]);
+            UtilMath.swap(ref m[2, 3], ref other.m[2, 3]);
+            UtilMath.swap(ref m[3, 0], ref other.m[3, 0]);
+            UtilMath.swap(ref m[3, 1], ref other.m[3, 1]);
+            UtilMath.swap(ref m[3, 2], ref other.m[3, 2]);
+            UtilMath.swap(ref m[3, 3], ref other.m[3, 3]);
         }
 
         public float this[int row, int column]
@@ -353,13 +353,13 @@ namespace SDK.Lib
         public bool hasScale()
         {
             float t = m[0, 0] * m[0, 0] + m[1, 0] * m[1, 0] + m[2, 0] * m[2, 0];
-            if (!UtilApi.RealEqual(t, 1.0f, (float)1e-04))
+            if (!UtilMath.RealEqual(t, 1.0f, (float)1e-04))
                 return true;
             t = m[0, 1] * m[0, 1] + m[1, 1] * m[1, 1] + m[2, 1] * m[2, 1];
-            if (!UtilApi.RealEqual(t, 1.0f, (float)1e-04))
+            if (!UtilMath.RealEqual(t, 1.0f, (float)1e-04))
                 return true;
             t = m[0, 2] * m[0, 2] + m[1, 2] * m[1, 2] + m[2, 2] * m[2, 2];
-            if (!UtilApi.RealEqual(t, 1.0f, (float)1e-04))
+            if (!UtilMath.RealEqual(t, 1.0f, (float)1e-04))
                 return true;
 
             return false;

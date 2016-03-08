@@ -41,7 +41,7 @@ namespace FightCore
         {
             m_posList.Clear();
             //m_rotList.Clear();
-            UtilMath.newRectSplit(m_centerPos, SceneDZCV.HAND_CARD_WIDTH, m_radius, SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
+            UtilLogic.newRectSplit(m_centerPos, SceneDZCV.HAND_CARD_WIDTH, m_radius, SceneDZCV.HAND_YDELTA, m_sceneCardList.Count(), ref m_posList);
         }
 
         // 通过客户端的数据移除一张卡牌

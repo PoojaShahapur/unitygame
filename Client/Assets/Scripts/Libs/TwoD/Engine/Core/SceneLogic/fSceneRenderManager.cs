@@ -27,7 +27,7 @@ namespace SDK.Lib
 		// 设置 Scene 的 ViewPort 大小
 		public void setViewportSize(float width, float height)
 		{
-			this.range = (float)(UtilApi.Sqrt(width * width + height * height) * 0.5);
+			this.range = (float)(UtilMath.Sqrt(width * width + height * height) * 0.5);
 			if (this.range <= 0)
 				this.range = 0;
 			else

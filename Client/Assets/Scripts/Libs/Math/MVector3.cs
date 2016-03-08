@@ -52,9 +52,9 @@ namespace SDK.Lib
 
         public void swap(MVector3 other)
         {
-            UtilApi.swap(ref x, ref other.x);
-            UtilApi.swap(ref y, ref other.y);
-            UtilApi.swap(ref z, ref other.z);
+            UtilMath.swap(ref x, ref other.x);
+            UtilMath.swap(ref y, ref other.y);
+            UtilMath.swap(ref z, ref other.z);
         }
 
         public float this[int index]
@@ -310,7 +310,7 @@ namespace SDK.Lib
 
         public float length ()
         {
-            return UtilApi.Sqrt( x * x + y * y + z * z );
+            return UtilMath.Sqrt( x * x + y * y + z * z );
         }
 
         public float squaredLength ()
@@ -335,12 +335,12 @@ namespace SDK.Lib
 
         public float absDotProduct(MVector3 vec)
         {
-            return UtilApi.Abs(x * vec.x) + UtilApi.Abs(y * vec.y) + UtilApi.Abs(z * vec.z);
+            return UtilMath.Abs(x * vec.x) + UtilMath.Abs(y * vec.y) + UtilMath.Abs(z * vec.z);
         }
 
         public float normalise()
         {
-            float fLength = UtilApi.Sqrt( x * x + y * y + z * z );
+            float fLength = UtilMath.Sqrt( x * x + y * y + z * z );
 
             if ( fLength > (float)(0.0f) )
             {
@@ -385,23 +385,23 @@ namespace SDK.Lib
 
         public void makeFloor(MVector3 cmp )
         {
-            x = UtilApi.min( x, cmp.x );
-            y = UtilApi.min( y, cmp.y );
-            z = UtilApi.min( z, cmp.z );
+            x = UtilMath.min( x, cmp.x );
+            y = UtilMath.min( y, cmp.y );
+            z = UtilMath.min( z, cmp.z );
         }
 
         public void makeCeil(MVector3 cmp )
         {
-            x = UtilApi.max( x, cmp.x );
-            y = UtilApi.max( y, cmp.y );
-            z = UtilApi.max( z, cmp.z );
+            x = UtilMath.max( x, cmp.x );
+            y = UtilMath.max( y, cmp.y );
+            z = UtilMath.max( z, cmp.z );
         }
 
         public void makeAbs()
         {
-            x = UtilApi.Abs( x );
-            y = UtilApi.Abs( y );
-            z = UtilApi.Abs( z );
+            x = UtilMath.Abs( x );
+            y = UtilMath.Abs( y );
+            z = UtilMath.Abs( z );
         }
 
         public MVector3 perpendicular()
@@ -435,7 +435,7 @@ namespace SDK.Lib
             }
 
             MQuaternion q = new MQuaternion();
-            q.FromAngleAxis( (float)(UtilApi.UnitRandom() * UtilApi.TWO_PI), this );
+            q.FromAngleAxis( (float)(UtilMath.UnitRandom() * UtilMath.TWO_PI), this );
             newUp = q * newUp;
 
             q.FromAngleAxis( angle, newUp );
@@ -451,8 +451,8 @@ namespace SDK.Lib
 
             float f = dotProduct(dest) / lenProduct;
 
-            f = UtilApi.Clamp(f, (float)-1.0, (float)1.0);
-            return UtilApi.ACos(f);
+            f = UtilMath.Clamp(f, (float)-1.0, (float)1.0);
+            return UtilMath.ACos(f);
         }
 
         public MQuaternion getRotationTo(MVector3 dest,
@@ -475,7 +475,7 @@ namespace SDK.Lib
             {
                 if (fallbackAxis != MVector3.ZERO)
                 {
-                    q.FromAngleAxis((float)(UtilApi.PI), fallbackAxis);
+                    q.FromAngleAxis((float)(UtilMath.PI), fallbackAxis);
                 }
                 else
                 {
@@ -483,12 +483,12 @@ namespace SDK.Lib
                     if (axis.isZeroLength())
                         axis = MVector3.UNIT_Y.crossProduct(this);
                     axis.normalise();
-                    q.FromAngleAxis((float)(UtilApi.PI), axis);
+                    q.FromAngleAxis((float)(UtilMath.PI), axis);
                 }
             }
             else
             {
-                float s = UtilApi.Sqrt( (1+d)*2 );
+                float s = UtilMath.Sqrt( (1+d)*2 );
                 float invs = 1 / s;
 
                 MVector3 c = v0.crossProduct(v1);
@@ -522,9 +522,9 @@ namespace SDK.Lib
 
         public bool positionEquals(MVector3 rhs, float tolerance = 1e-03f)
         {
-            return UtilApi.RealEqual(x, rhs.x, tolerance) &&
-                UtilApi.RealEqual(y, rhs.y, tolerance) &&
-                UtilApi.RealEqual(z, rhs.z, tolerance);
+            return UtilMath.RealEqual(x, rhs.x, tolerance) &&
+                UtilMath.RealEqual(y, rhs.y, tolerance) &&
+                UtilMath.RealEqual(z, rhs.z, tolerance);
 
         }
 
@@ -538,9 +538,9 @@ namespace SDK.Lib
             float tolerance)
         {
             float dot = dotProduct(rhs);
-            float angle = UtilApi.ACos(dot);
+            float angle = UtilMath.ACos(dot);
 
-            return UtilApi.Abs(angle) <= tolerance;
+            return UtilMath.Abs(angle) <= tolerance;
 
         }
 
@@ -551,9 +551,9 @@ namespace SDK.Lib
 
         public MVector3 primaryAxis()
         {
-            float absx = UtilApi.Abs(x);
-            float absy = UtilApi.Abs(y);
-            float absz = UtilApi.Abs(z);
+            float absx = UtilMath.Abs(x);
+            float absy = UtilMath.Abs(y);
+            float absz = UtilMath.Abs(z);
             if (absx > absy)
                 if (absx > absz)
                     return x > 0 ? MVector3.UNIT_X : MVector3.NEGATIVE_UNIT_X;

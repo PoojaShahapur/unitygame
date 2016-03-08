@@ -64,15 +64,15 @@ namespace SDK.Lib
 
         public void swap(MMatrix3 other)
         {
-            UtilApi.swap(ref m[0, 0], ref other.m[0, 0]);
-            UtilApi.swap(ref m[0, 1], ref other.m[0, 1]);
-            UtilApi.swap(ref m[0, 2], ref other.m[0, 2]);
-            UtilApi.swap(ref m[1, 0], ref other.m[1, 0]);
-            UtilApi.swap(ref m[1, 1], ref other.m[1, 1]);
-            UtilApi.swap(ref m[1, 2], ref other.m[1, 2]);
-            UtilApi.swap(ref m[2, 0], ref other.m[2, 0]);
-            UtilApi.swap(ref m[2, 1], ref other.m[2, 1]);
-            UtilApi.swap(ref m[2, 2], ref other.m[2, 2]);
+            UtilMath.swap(ref m[0, 0], ref other.m[0, 0]);
+            UtilMath.swap(ref m[0, 1], ref other.m[0, 1]);
+            UtilMath.swap(ref m[0, 2], ref other.m[0, 2]);
+            UtilMath.swap(ref m[1, 0], ref other.m[1, 0]);
+            UtilMath.swap(ref m[1, 1], ref other.m[1, 1]);
+            UtilMath.swap(ref m[1, 2], ref other.m[1, 2]);
+            UtilMath.swap(ref m[2, 0], ref other.m[2, 0]);
+            UtilMath.swap(ref m[2, 1], ref other.m[2, 1]);
+            UtilMath.swap(ref m[2, 2], ref other.m[2, 2]);
         }
 
         public float this[int iRow, int iCol]
@@ -280,7 +280,7 @@ namespace SDK.Lib
                 m[0, 1] * rkInverse[1, 0] +
                 m[0, 2] * rkInverse[2, 0];
 
-            if (UtilApi.Abs(fDet) <= fTolerance)
+            if (UtilMath.Abs(fDet) <= fTolerance)
                 return false;
 
             float fInvDet = 1.0f / fDet;
@@ -329,10 +329,10 @@ namespace SDK.Lib
                 float fSin0, fCos0, fTan0;
                 float fSin1, fCos1, fTan1;
 
-                bool bTest1 = (UtilApi.Abs(kA[0, 1]) <=
-                    msSvdEpsilon * (UtilApi.Abs(kA[0, 0]) + UtilApi.Abs(kA[1, 1])));
-                bool bTest2 = (UtilApi.Abs(kA[1, 2]) <=
-                    msSvdEpsilon * (UtilApi.Abs(kA[1, 1]) + UtilApi.Abs(kA[2, 2])));
+                bool bTest1 = (UtilMath.Abs(kA[0, 1]) <=
+                    msSvdEpsilon * (UtilMath.Abs(kA[0, 0]) + UtilMath.Abs(kA[1, 1])));
+                bool bTest2 = (UtilMath.Abs(kA[1, 2]) <=
+                    msSvdEpsilon * (UtilMath.Abs(kA[1, 1]) + UtilMath.Abs(kA[2, 2])));
                 if (bTest1)
                 {
                     if (bTest2)
@@ -346,8 +346,8 @@ namespace SDK.Lib
                     {
                         fTmp = (kA[1, 1] * kA[1, 1] - kA[2, 2] * kA[2, 2] +
                             kA[1, 2] * kA[1, 2]) / (kA[1, 2] * kA[2, 2]);
-                        fTan0 = 0.5f * (fTmp + UtilApi.Sqrt(fTmp * fTmp + 4.0f));
-                        fCos0 = UtilApi.InvSqrt(1.0f + fTan0 * fTan0);
+                        fTan0 = 0.5f * (fTmp + UtilMath.Sqrt(fTmp * fTmp + 4.0f));
+                        fCos0 = UtilMath.InvSqrt(1.0f + fTan0 * fTan0);
                         fSin0 = fTan0 * fCos0;
 
                         for (iCol = 0; iCol < 3; iCol++)
@@ -359,7 +359,7 @@ namespace SDK.Lib
                         }
 
                         fTan1 = (kA[1, 2] - kA[2, 2] * fTan0) / kA[1, 1];
-                        fCos1 = UtilApi.InvSqrt(1.0f + fTan1 * fTan1);
+                        fCos1 = UtilMath.InvSqrt(1.0f + fTan1 * fTan1);
                         fSin1 = -fTan1 * fCos1;
 
                         for (iRow = 0; iRow < 3; iRow++)
@@ -384,8 +384,8 @@ namespace SDK.Lib
                     {
                         fTmp = (kA[0, 0] * kA[0, 0] + kA[1, 1] * kA[1, 1] -
                             kA[0, 1] * kA[0, 1]) / (kA[0, 1] * kA[1, 1]);
-                        fTan0 = 0.5f * (-fTmp + UtilApi.Sqrt(fTmp * fTmp + 4.0f));
-                        fCos0 = UtilApi.InvSqrt(1.0f + fTan0 * fTan0);
+                        fTan0 = 0.5f * (-fTmp + UtilMath.Sqrt(fTmp * fTmp + 4.0f));
+                        fCos0 = UtilMath.InvSqrt(1.0f + fTan0 * fTan0);
                         fSin0 = fTan0 * fCos0;
 
                         for (iCol = 0; iCol < 3; iCol++)
@@ -397,7 +397,7 @@ namespace SDK.Lib
                         }
 
                         fTan1 = (kA[0, 1] - kA[1, 1] * fTan0) / kA[0, 0];
-                        fCos1 = UtilApi.InvSqrt(1.0f + fTan1 * fTan1);
+                        fCos1 = UtilMath.InvSqrt(1.0f + fTan1 * fTan1);
                         fSin1 = -fTan1 * fCos1;
 
                         for (iRow = 0; iRow < 3; iRow++)
@@ -458,7 +458,7 @@ namespace SDK.Lib
 
         public void Orthonormalize()
         {
-            float fInvLength = UtilApi.InvSqrt(m[0, 0] * m[0, 0]
+            float fInvLength = UtilMath.InvSqrt(m[0, 0] * m[0, 0]
                     + m[1, 0] * m[1, 0] +
                     m[2, 0] * m[2, 0]);
 
@@ -475,7 +475,7 @@ namespace SDK.Lib
             m[1, 1] -= fDot0 * m[1, 0];
             m[2, 1] -= fDot0 * m[2, 0];
 
-            fInvLength = UtilApi.InvSqrt(m[0, 1] * m[0, 1] +
+            fInvLength = UtilMath.InvSqrt(m[0, 1] * m[0, 1] +
                 m[1, 1] * m[1, 1] +
                 m[2, 1] * m[2, 1]);
 
@@ -497,7 +497,7 @@ namespace SDK.Lib
             m[1, 2] -= fDot0 * m[1, 0] + fDot1 * m[1, 1];
             m[2, 2] -= fDot0 * m[2, 0] + fDot1 * m[2, 1];
 
-            fInvLength = UtilApi.InvSqrt(m[0, 2] * m[0, 2] +
+            fInvLength = UtilMath.InvSqrt(m[0, 2] * m[0, 2] +
                 m[1, 2] * m[1, 2] +
                 m[2, 2] * m[2, 2]);
 
@@ -509,7 +509,7 @@ namespace SDK.Lib
         public void QDUDecomposition(MMatrix3 kQ, MVector3 kD,
             MVector3 kU)
         {
-            float fInvLength = UtilApi.InvSqrt(m[0, 0] * m[0, 0] + m[1, 0] * m[1, 0] + m[2, 0] * m[2, 0]);
+            float fInvLength = UtilMath.InvSqrt(m[0, 0] * m[0, 0] + m[1, 0] * m[1, 0] + m[2, 0] * m[2, 0]);
 
             kQ.m[0, 0] = m[0, 0] * fInvLength;
             kQ.m[1, 0] = m[1, 0] * fInvLength;
@@ -520,7 +520,7 @@ namespace SDK.Lib
             kQ.m[0, 1] = m[0, 1] - fDot * kQ[0, 0];
             kQ.m[1, 1] = m[1, 1] - fDot * kQ[1, 0];
             kQ.m[2, 1] = m[2, 1] - fDot * kQ[2, 0];
-            fInvLength = UtilApi.InvSqrt(kQ.m[0, 1] * kQ.m[0, 1] + kQ.m[1, 1] * kQ.m[1, 1] + kQ.m[2, 1] * kQ.m[2, 1]);
+            fInvLength = UtilMath.InvSqrt(kQ.m[0, 1] * kQ.m[0, 1] + kQ.m[1, 1] * kQ.m[1, 1] + kQ.m[2, 1] * kQ.m[2, 1]);
 
             kQ.m[0, 1] *= fInvLength;
             kQ.m[1, 1] *= fInvLength;
@@ -536,7 +536,7 @@ namespace SDK.Lib
             kQ.m[0, 2] -= fDot * kQ[0, 1];
             kQ.m[1, 2] -= fDot * kQ[1, 1];
             kQ.m[2, 2] -= fDot * kQ[2, 1];
-            fInvLength = UtilApi.InvSqrt(kQ[0, 2] * kQ[0, 2] + kQ[1, 2] * kQ[1, 2] + kQ[2, 2] * kQ[2, 2]);
+            fInvLength = UtilMath.InvSqrt(kQ[0, 2] * kQ[0, 2] + kQ[1, 2] * kQ[1, 2] + kQ[2, 2] * kQ[2, 2]);
 
             kQ.m[0, 2] *= fInvLength;
             kQ.m[1, 2] *= fInvLength;
@@ -614,7 +614,7 @@ namespace SDK.Lib
             afCoeff[2] = -(kP[0, 0] + kP[1, 1] + kP[2, 2]);
 
             float fRoot = MaxCubicRoot(afCoeff);
-            float fNorm = UtilApi.Sqrt(fPmax * fRoot);
+            float fNorm = UtilMath.Sqrt(fPmax * fRoot);
             return fNorm;
         }
 
@@ -622,11 +622,11 @@ namespace SDK.Lib
         {
             float fTrace = m[0, 0] + m[1, 1] + m[2, 2];
             float fCos = 0.5f * (fTrace - 1.0f);
-            rfRadians = UtilApi.ACos(fCos);
+            rfRadians = UtilMath.ACos(fCos);
 
             if (rfRadians > (float)(0.0f))
             {
-                if (rfRadians < (float)(UtilApi.PI))
+                if (rfRadians < (float)(UtilMath.PI))
                 {
                     rkAxis.x = m[2, 1] - m[1, 2];
                     rkAxis.y = m[0, 2] - m[2, 0];
@@ -640,7 +640,7 @@ namespace SDK.Lib
                     {
                         if (m[0, 0] >= m[2, 2])
                         {
-                            rkAxis.x = 0.5f * UtilApi.Sqrt(m[0, 0] -
+                            rkAxis.x = 0.5f * UtilMath.Sqrt(m[0, 0] -
                                 m[1, 1] - m[2, 2] + 1.0f);
                             fHalfInverse = 0.5f / rkAxis.x;
                             rkAxis.y = fHalfInverse * m[0, 1];
@@ -648,7 +648,7 @@ namespace SDK.Lib
                         }
                         else
                         {
-                            rkAxis.z = 0.5f * UtilApi.Sqrt(m[2, 2] -
+                            rkAxis.z = 0.5f * UtilMath.Sqrt(m[2, 2] -
                                 m[0, 0] - m[1, 1] + 1.0f);
                             fHalfInverse = 0.5f / rkAxis.z;
                             rkAxis.x = fHalfInverse * m[0, 2];
@@ -659,7 +659,7 @@ namespace SDK.Lib
                     {
                         if (m[1, 1] >= m[2, 2])
                         {
-                            rkAxis.y = 0.5f * UtilApi.Sqrt(m[1, 1] -
+                            rkAxis.y = 0.5f * UtilMath.Sqrt(m[1, 1] -
                                 m[0, 0] - m[2, 2] + 1.0f);
                             fHalfInverse = 0.5f / rkAxis.y;
                             rkAxis.x = fHalfInverse * m[0, 1];
@@ -667,7 +667,7 @@ namespace SDK.Lib
                         }
                         else
                         {
-                            rkAxis.z = 0.5f * UtilApi.Sqrt(m[2, 2] -
+                            rkAxis.z = 0.5f * UtilMath.Sqrt(m[2, 2] -
                                 m[0, 0] - m[1, 1] + 1.0f);
                             fHalfInverse = 0.5f / rkAxis.z;
                             rkAxis.x = fHalfInverse * m[0, 2];
@@ -693,8 +693,8 @@ namespace SDK.Lib
 
         public void FromAngleAxis(MVector3 rkAxis, float fRadians)
         {
-            float fCos = UtilApi.Cos(fRadians);
-            float fSin = UtilApi.Sin(fRadians);
+            float fCos = UtilMath.Cos(fRadians);
+            float fSin = UtilMath.Sin(fRadians);
             float fOneMinusCos = 1.0f - fCos;
             float fX2 = rkAxis.x * rkAxis.x;
             float fY2 = rkAxis.y * rkAxis.y;
@@ -720,18 +720,18 @@ namespace SDK.Lib
         public bool ToEulerAnglesXYZ(ref float rfYAngle, ref float rfPAngle,
             ref float rfRAngle)
         {
-            rfPAngle = (float)(UtilApi.ASin(m[0, 2]));
-            if (rfPAngle < (float)(UtilApi.HALF_PI))
+            rfPAngle = (float)(UtilMath.ASin(m[0, 2]));
+            if (rfPAngle < (float)(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilApi.HALF_PI))
+                if (rfPAngle > (float)(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilApi.ATan2(-m[1, 2], m[2, 2]);
-                    rfRAngle = UtilApi.ATan2(-m[0, 1], m[0, 0]);
+                    rfYAngle = UtilMath.ATan2(-m[1, 2], m[2, 2]);
+                    rfRAngle = UtilMath.ATan2(-m[0, 1], m[0, 0]);
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilApi.ATan2(m[1, 0], m[1, 1]);
+                    float fRmY = UtilMath.ATan2(m[1, 0], m[1, 1]);
                     rfRAngle = (float)(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
@@ -739,7 +739,7 @@ namespace SDK.Lib
             }
             else
             {
-                float fRpY = UtilApi.ATan2(m[1, 0], m[1, 1]);
+                float fRpY = UtilMath.ATan2(m[1, 0], m[1, 1]);
                 rfRAngle = (float)(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
@@ -749,18 +749,18 @@ namespace SDK.Lib
         public bool ToEulerAnglesXZY(ref float rfYAngle, ref float rfPAngle,
             ref float rfRAngle)
         {
-            rfPAngle = UtilApi.ASin(-m[0, 1]);
-            if (rfPAngle < (float)(UtilApi.HALF_PI))
+            rfPAngle = UtilMath.ASin(-m[0, 1]);
+            if (rfPAngle < (float)(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilApi.HALF_PI))
+                if (rfPAngle > (float)(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilApi.ATan2(m[2, 1], m[1, 1]);
-                    rfRAngle = UtilApi.ATan2(m[0, 2], m[0, 0]);
+                    rfYAngle = UtilMath.ATan2(m[2, 1], m[1, 1]);
+                    rfRAngle = UtilMath.ATan2(m[0, 2], m[0, 0]);
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilApi.ATan2(-m[2, 0], m[2, 2]);
+                    float fRmY = UtilMath.ATan2(-m[2, 0], m[2, 2]);
                     rfRAngle = (float)(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
@@ -768,7 +768,7 @@ namespace SDK.Lib
             }
             else
             {
-                float fRpY = UtilApi.ATan2(-m[2, 0], m[2, 2]);
+                float fRpY = UtilMath.ATan2(-m[2, 0], m[2, 2]);
                 rfRAngle = (float)(0.0);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
@@ -778,18 +778,18 @@ namespace SDK.Lib
         public bool ToEulerAnglesYXZ(ref float rfYAngle, ref float rfPAngle,
             ref float rfRAngle)
         {
-            rfPAngle = UtilApi.ASin(-m[1, 2]);
-            if (rfPAngle < (float)(UtilApi.HALF_PI))
+            rfPAngle = UtilMath.ASin(-m[1, 2]);
+            if (rfPAngle < (float)(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilApi.HALF_PI))
+                if (rfPAngle > (float)(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilApi.ATan2(m[0, 2], m[2, 2]);
-                    rfRAngle = UtilApi.ATan2(m[1, 0], m[1, 1]);
+                    rfYAngle = UtilMath.ATan2(m[0, 2], m[2, 2]);
+                    rfRAngle = UtilMath.ATan2(m[1, 0], m[1, 1]);
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilApi.ATan2(-m[0, 1], m[0, 0]);
+                    float fRmY = UtilMath.ATan2(-m[0, 1], m[0, 0]);
                     rfRAngle = (float)(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
@@ -797,7 +797,7 @@ namespace SDK.Lib
             }
             else
             {
-                float fRpY = UtilApi.ATan2(-m[0, 1], m[0, 0]);
+                float fRpY = UtilMath.ATan2(-m[0, 1], m[0, 0]);
                 rfRAngle = (float)(0.0);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
@@ -807,18 +807,18 @@ namespace SDK.Lib
         public bool ToEulerAnglesYZX(ref float rfYAngle, ref float rfPAngle,
             ref float rfRAngle)
         {
-            rfPAngle = UtilApi.ASin(m[1, 0]);
-            if (rfPAngle < (float)(UtilApi.HALF_PI))
+            rfPAngle = UtilMath.ASin(m[1, 0]);
+            if (rfPAngle < (float)(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilApi.HALF_PI))
+                if (rfPAngle > (float)(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilApi.ATan2(-m[2, 0], m[0, 0]);
-                    rfRAngle = UtilApi.ATan2(-m[1, 2], m[1, 1]);
+                    rfYAngle = UtilMath.ATan2(-m[2, 0], m[0, 0]);
+                    rfRAngle = UtilMath.ATan2(-m[1, 2], m[1, 1]);
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilApi.ATan2(m[2, 1], m[2, 2]);
+                    float fRmY = UtilMath.ATan2(m[2, 1], m[2, 2]);
                     rfRAngle = (float)(0.0);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
@@ -826,7 +826,7 @@ namespace SDK.Lib
             }
             else
             {
-                float fRpY = UtilApi.ATan2(m[2, 1], m[2, 2]);
+                float fRpY = UtilMath.ATan2(m[2, 1], m[2, 2]);
                 rfRAngle = (float)(0.0);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
@@ -836,18 +836,18 @@ namespace SDK.Lib
         public bool ToEulerAnglesZXY(ref float rfYAngle, ref float rfPAngle,
             ref float rfRAngle)
         {
-            rfPAngle = UtilApi.ASin(m[2, 1]);
-            if (rfPAngle < (float)(UtilApi.HALF_PI))
+            rfPAngle = UtilMath.ASin(m[2, 1]);
+            if (rfPAngle < (float)(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilApi.HALF_PI))
+                if (rfPAngle > (float)(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilApi.ATan2(-m[0, 1], m[1, 1]);
-                    rfRAngle = UtilApi.ATan2(-m[2, 0], m[2, 2]);
+                    rfYAngle = UtilMath.ATan2(-m[0, 1], m[1, 1]);
+                    rfRAngle = UtilMath.ATan2(-m[2, 0], m[2, 2]);
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilApi.ATan2(m[0, 2], m[0, 0]);
+                    float fRmY = UtilMath.ATan2(m[0, 2], m[0, 0]);
                     rfRAngle = (float)(0.0);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
@@ -855,7 +855,7 @@ namespace SDK.Lib
             }
             else
             {
-                float fRpY = UtilApi.ATan2(m[0, 2], m[0, 0]);
+                float fRpY = UtilMath.ATan2(m[0, 2], m[0, 0]);
                 rfRAngle = (float)(0.0);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
@@ -865,18 +865,18 @@ namespace SDK.Lib
         public bool ToEulerAnglesZYX(ref float rfYAngle, ref float rfPAngle,
             ref float rfRAngle)
         {
-            rfPAngle = UtilApi.ASin(-m[2, 0]);
-            if (rfPAngle < (float)(UtilApi.HALF_PI))
+            rfPAngle = UtilMath.ASin(-m[2, 0]);
+            if (rfPAngle < (float)(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilApi.HALF_PI))
+                if (rfPAngle > (float)(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilApi.ATan2(m[1, 0], m[0, 0]);
-                    rfRAngle = UtilApi.ATan2(m[2, 1], m[2, 2]);
+                    rfYAngle = UtilMath.ATan2(m[1, 0], m[0, 0]);
+                    rfRAngle = UtilMath.ATan2(m[2, 1], m[2, 2]);
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilApi.ATan2(-m[0, 1], m[0, 2]);
+                    float fRmY = UtilMath.ATan2(-m[0, 1], m[0, 2]);
                     rfRAngle = (float)(0.0);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
@@ -884,7 +884,7 @@ namespace SDK.Lib
             }
             else
             {
-                float fRpY = UtilApi.ATan2(-m[0, 1], m[0, 2]);
+                float fRpY = UtilMath.ATan2(-m[0, 1], m[0, 2]);
                 rfRAngle = (float)(0.0);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
@@ -895,16 +895,16 @@ namespace SDK.Lib
         {
             float fCos, fSin;
 
-            fCos = UtilApi.Cos(fYAngle);
-            fSin = UtilApi.Sin(fYAngle);
+            fCos = UtilMath.Cos(fYAngle);
+            fSin = UtilMath.Sin(fYAngle);
             MMatrix3 kXMat = new MMatrix3(1.0f, 0.0f, 0.0f, 0.0f, fCos, -fSin, 0.0f, fSin, fCos);
 
-            fCos = UtilApi.Cos(fPAngle);
-            fSin = UtilApi.Sin(fPAngle);
+            fCos = UtilMath.Cos(fPAngle);
+            fSin = UtilMath.Sin(fPAngle);
             MMatrix3 kYMat = new MMatrix3(fCos, 0.0f, fSin, 0.0f, 1.0f, 0.0f, -fSin, 0.0f, fCos);
 
-            fCos = UtilApi.Cos(fRAngle);
-            fSin = UtilApi.Sin(fRAngle);
+            fCos = UtilMath.Cos(fRAngle);
+            fSin = UtilMath.Sin(fRAngle);
             MMatrix3 kZMat = new MMatrix3(fCos,-fSin, 0.0f, fSin, fCos, 0.0f, 0.0f, 0.0f, 1.0f);
 
             this = kXMat * (kYMat * kZMat);
@@ -914,16 +914,16 @@ namespace SDK.Lib
         {
             float fCos, fSin;
 
-            fCos = UtilApi.Cos(fYAngle);
-            fSin = UtilApi.Sin(fYAngle);
+            fCos = UtilMath.Cos(fYAngle);
+            fSin = UtilMath.Sin(fYAngle);
             MMatrix3 kXMat = new MMatrix3(1.0f, 0.0f, 0.0f, 0.0f, fCos, -fSin, 0.0f, fSin, fCos);
 
-            fCos = UtilApi.Cos(fPAngle);
-            fSin = UtilApi.Sin(fPAngle);
+            fCos = UtilMath.Cos(fPAngle);
+            fSin = UtilMath.Sin(fPAngle);
             MMatrix3 kZMat = new MMatrix3(fCos,-fSin, 0.0f, fSin, fCos, 0.0f, 0.0f, 0.0f, 1.0f);
 
-            fCos = UtilApi.Cos(fRAngle);
-            fSin = UtilApi.Sin(fRAngle);
+            fCos = UtilMath.Cos(fRAngle);
+            fSin = UtilMath.Sin(fRAngle);
             MMatrix3 kYMat = new MMatrix3(fCos, 0.0f, fSin, 0.0f, 1.0f, 0.0f, -fSin, 0.0f, fCos);
 
             this = kXMat * (kZMat * kYMat);
@@ -933,16 +933,16 @@ namespace SDK.Lib
         {
             float fCos, fSin;
 
-            fCos = UtilApi.Cos(fYAngle);
-            fSin = UtilApi.Sin(fYAngle);
+            fCos = UtilMath.Cos(fYAngle);
+            fSin = UtilMath.Sin(fYAngle);
             MMatrix3 kYMat = new MMatrix3(fCos, 0.0f, fSin, 0.0f, 1.0f, 0.0f, -fSin, 0.0f, fCos);
 
-            fCos = UtilApi.Cos(fPAngle);
-            fSin = UtilApi.Sin(fPAngle);
+            fCos = UtilMath.Cos(fPAngle);
+            fSin = UtilMath.Sin(fPAngle);
             MMatrix3 kXMat = new MMatrix3(1.0f, 0.0f, 0.0f, 0.0f, fCos, -fSin, 0.0f, fSin, fCos);
 
-            fCos = UtilApi.Cos(fRAngle);
-            fSin = UtilApi.Sin(fRAngle);
+            fCos = UtilMath.Cos(fRAngle);
+            fSin = UtilMath.Sin(fRAngle);
             MMatrix3 kZMat = new MMatrix3(fCos,-fSin, 0.0f, fSin, fCos, 0.0f, 0.0f, 0.0f, 1.0f);
 
             this = kYMat * (kXMat * kZMat);
@@ -952,16 +952,16 @@ namespace SDK.Lib
         {
             float fCos, fSin;
 
-            fCos = UtilApi.Cos(fYAngle);
-            fSin = UtilApi.Sin(fYAngle);
+            fCos = UtilMath.Cos(fYAngle);
+            fSin = UtilMath.Sin(fYAngle);
             MMatrix3 kYMat = new MMatrix3(fCos, 0.0f, fSin, 0.0f, 1.0f, 0.0f, -fSin, 0.0f, fCos);
 
-            fCos = UtilApi.Cos(fPAngle);
-            fSin = UtilApi.Sin(fPAngle);
+            fCos = UtilMath.Cos(fPAngle);
+            fSin = UtilMath.Sin(fPAngle);
             MMatrix3 kZMat = new MMatrix3(fCos,-fSin, 0.0f, fSin, fCos, 0.0f, 0.0f, 0.0f, 1.0f);
 
-            fCos = UtilApi.Cos(fRAngle);
-            fSin = UtilApi.Sin(fRAngle);
+            fCos = UtilMath.Cos(fRAngle);
+            fSin = UtilMath.Sin(fRAngle);
             MMatrix3 kXMat = new MMatrix3(1.0f, 0.0f, 0.0f, 0.0f, fCos, -fSin, 0.0f, fSin, fCos);
 
             this = kYMat * (kZMat * kXMat);
@@ -971,16 +971,16 @@ namespace SDK.Lib
         {
             float fCos, fSin;
 
-            fCos = UtilApi.Cos(fYAngle);
-            fSin = UtilApi.Sin(fYAngle);
+            fCos = UtilMath.Cos(fYAngle);
+            fSin = UtilMath.Sin(fYAngle);
             MMatrix3 kZMat = new MMatrix3(fCos,-fSin, 0.0f, fSin, fCos, 0.0f, 0.0f, 0.0f, 1.0f);
 
-            fCos = UtilApi.Cos(fPAngle);
-            fSin = UtilApi.Sin(fPAngle);
+            fCos = UtilMath.Cos(fPAngle);
+            fSin = UtilMath.Sin(fPAngle);
             MMatrix3 kXMat = new MMatrix3(1.0f, 0.0f, 0.0f, 0.0f, fCos, -fSin, 0.0f, fSin, fCos);
 
-            fCos = UtilApi.Cos(fRAngle);
-            fSin = UtilApi.Sin(fRAngle);
+            fCos = UtilMath.Cos(fRAngle);
+            fSin = UtilMath.Sin(fRAngle);
             MMatrix3 kYMat = new MMatrix3(fCos, 0.0f, fSin, 0.0f, 1.0f, 0.0f, -fSin, 0.0f, fCos);
 
             this = kZMat * (kXMat * kYMat);
@@ -990,16 +990,16 @@ namespace SDK.Lib
         {
             float fCos, fSin;
 
-            fCos = UtilApi.Cos(fYAngle);
-            fSin = UtilApi.Sin(fYAngle);
+            fCos = UtilMath.Cos(fYAngle);
+            fSin = UtilMath.Sin(fYAngle);
             MMatrix3 kZMat = new MMatrix3(fCos,-fSin, 0.0f, fSin, fCos, 0.0f, 0.0f, 0.0f, 1.0f);
 
-            fCos = UtilApi.Cos(fPAngle);
-            fSin = UtilApi.Sin(fPAngle);
+            fCos = UtilMath.Cos(fPAngle);
+            fSin = UtilMath.Sin(fPAngle);
             MMatrix3 kYMat = new MMatrix3(fCos, 0.0f, fSin, 0.0f, 1.0f, 0.0f, -fSin, 0.0f, fCos);
 
-            fCos = UtilApi.Cos(fRAngle);
-            fSin = UtilApi.Sin(fRAngle);
+            fCos = UtilMath.Cos(fRAngle);
+            fSin = UtilMath.Sin(fRAngle);
             MMatrix3 kXMat = new MMatrix3(1.0f, 0.0f, 0.0f, 0.0f, fCos, -fSin, 0.0f, fSin, fCos);
 
             this = kZMat * (kYMat * kXMat);
@@ -1043,13 +1043,13 @@ namespace SDK.Lib
         public bool hasScale()
         {
             float t = m[0, 0] * m[0, 0] + m[1, 0] * m[1, 0] + m[2, 0] * m[2, 0];
-            if (!UtilApi.RealEqual(t, 1.0f, (float)1e-04))
+            if (!UtilMath.RealEqual(t, 1.0f, (float)1e-04))
                 return true;
             t = m[0, 1] * m[0, 1] + m[1, 1] * m[1, 1] + m[2, 1] * m[2, 1];
-            if (!UtilApi.RealEqual(t, 1.0f, (float)1e-04))
+            if (!UtilMath.RealEqual(t, 1.0f, (float)1e-04))
                 return true;
             t = m[0, 2] * m[0, 2] + m[1, 2] * m[1, 2] + m[2, 2] * m[2, 2];
-            if (!UtilApi.RealEqual(t, 1.0f, (float)1e-04))
+            if (!UtilMath.RealEqual(t, 1.0f, (float)1e-04))
                 return true;
 
             return false;
@@ -1076,9 +1076,9 @@ namespace SDK.Lib
 
             afDiag[0] = fA;
             afSubDiag[2] = 0.0f;
-            if (UtilApi.Abs(fC) >= EPSILON)
+            if (UtilMath.Abs(fC) >= EPSILON)
             {
-                float fLength = UtilApi.Sqrt(fB * fB + fC * fC);
+                float fLength = UtilMath.Sqrt(fB * fB + fC * fC);
                 float fInvLength = 1.0f / fLength;
                 fB *= fInvLength;
                 fC *= fInvLength;
@@ -1126,16 +1126,16 @@ namespace SDK.Lib
                     int i1;
                     for (i1 = i0; i1 <= 1; i1++)
                     {
-                        float fSum = UtilApi.Abs(afDiag[i1]) +
-                            UtilApi.Abs(afDiag[i1 + 1]);
-                        if (UtilApi.Abs(afSubDiag[i1]) + fSum == fSum)
+                        float fSum = UtilMath.Abs(afDiag[i1]) +
+                            UtilMath.Abs(afDiag[i1 + 1]);
+                        if (UtilMath.Abs(afSubDiag[i1]) + fSum == fSum)
                             break;
                     }
                     if (i1 == i0)
                         break;
 
                     float fTmp0 = (afDiag[i0 + 1] - afDiag[i0]) / (2.0f * afSubDiag[i0]);
-                    float fTmp1 = UtilApi.Sqrt(fTmp0 * fTmp0 + 1.0f);
+                    float fTmp1 = UtilMath.Sqrt(fTmp0 * fTmp0 + 1.0f);
                     if (fTmp0 < 0.0)
                         fTmp0 = afDiag[i1] - afDiag[i0] + afSubDiag[i0] / (fTmp0 - fTmp1);
                     else
@@ -1147,10 +1147,10 @@ namespace SDK.Lib
                     {
                         float fTmp3 = fSin * afSubDiag[i2];
                         float fTmp4 = fCos * afSubDiag[i2];
-                        if (UtilApi.Abs(fTmp3) >= UtilApi.Abs(fTmp0))
+                        if (UtilMath.Abs(fTmp3) >= UtilMath.Abs(fTmp0))
                         {
                             fCos = fTmp0 / fTmp3;
-                            fTmp1 = UtilApi.Sqrt(fCos * fCos + 1.0f);
+                            fTmp1 = UtilMath.Sqrt(fCos * fCos + 1.0f);
                             afSubDiag[i2 + 1] = fTmp3 * fTmp1;
                             fSin = 1.0f / fTmp1;
                             fCos *= fSin;
@@ -1158,7 +1158,7 @@ namespace SDK.Lib
                         else
                         {
                             fSin = fTmp3 / fTmp0;
-                            fTmp1 = UtilApi.Sqrt(fSin * fSin + 1.0f);
+                            fTmp1 = UtilMath.Sqrt(fSin * fSin + 1.0f);
                             afSubDiag[i2 + 1] = fTmp0 * fTmp1;
                             fCos = 1.0f / fTmp1;
                             fSin *= fCos;
@@ -1200,7 +1200,7 @@ namespace SDK.Lib
             float fLength, fSign, fT1, fInvT1, fT2;
             bool bIdentity;
 
-            fLength = UtilApi.Sqrt(kA[0, 0] * kA[0, 0] + kA[1, 0] * kA[1, 0] +
+            fLength = UtilMath.Sqrt(kA[0, 0] * kA[0, 0] + kA[1, 0] * kA[1, 0] +
                 kA[2, 0] * kA[2, 0]);
             if (fLength > 0.0)
             {
@@ -1236,7 +1236,7 @@ namespace SDK.Lib
                 bIdentity = true;
             }
 
-            fLength = UtilApi.Sqrt(kA[0, 1] * kA[0, 1] + kA[0, 2] * kA[0, 2]);
+            fLength = UtilMath.Sqrt(kA[0, 1] * kA[0, 1] + kA[0, 2] * kA[0, 2]);
             if (fLength > 0.0)
             {
                 fSign = (kA[0, 1] > 0.0f ? 1.0f : -1.0f);
@@ -1265,7 +1265,7 @@ namespace SDK.Lib
                 kR = MMatrix3.IDENTITY;
             }
 
-            fLength = UtilApi.Sqrt(kA[1, 1] * kA[1, 1] + kA[2, 1] * kA[2, 1]);
+            fLength = UtilMath.Sqrt(kA[1, 1] * kA[1, 1] + kA[2, 1] * kA[2, 1]);
             if (fLength > 0.0)
             {
                 fSign = (kA[1, 1] > 0.0f ? 1.0f : -1.0f);
@@ -1313,14 +1313,14 @@ namespace SDK.Lib
             float fT12 = kA[1, 1] * kA[1, 2];
             float fTrace = fT11 + fT22;
             float fDiff = fT11 - fT22;
-            float fDiscr = UtilApi.Sqrt(fDiff * fDiff + 4.0f * fT12 * fT12);
+            float fDiscr = UtilMath.Sqrt(fDiff * fDiff + 4.0f * fT12 * fT12);
             float fRoot1 = 0.5f * (fTrace + fDiscr);
             float fRoot2 = 0.5f * (fTrace - fDiscr);
 
-            float fY = kA[0, 0] - (UtilApi.Abs(fRoot1 - fT22) <=
-                UtilApi.Abs(fRoot2 - fT22) ? fRoot1 : fRoot2);
+            float fY = kA[0, 0] - (UtilMath.Abs(fRoot1 - fT22) <=
+                UtilMath.Abs(fRoot2 - fT22) ? fRoot1 : fRoot2);
             float fZ = kA[0, 1];
-            float fInvLength = UtilApi.InvSqrt(fY * fY + fZ * fZ);
+            float fInvLength = UtilMath.InvSqrt(fY * fY + fZ * fZ);
             float fSin = fZ * fInvLength;
             float fCos = -fY * fInvLength;
 
@@ -1342,7 +1342,7 @@ namespace SDK.Lib
 
             fY = kA[0, 0];
             fZ = kA[1, 0];
-            fInvLength = UtilApi.InvSqrt(fY * fY + fZ * fZ);
+            fInvLength = UtilMath.InvSqrt(fY * fY + fZ * fZ);
             fSin = fZ * fInvLength;
             fCos = -fY * fInvLength;
 
@@ -1365,7 +1365,7 @@ namespace SDK.Lib
 
             fY = kA[0, 1];
             fZ = kA[0, 2];
-            fInvLength = UtilApi.InvSqrt(fY * fY + fZ * fZ);
+            fInvLength = UtilMath.InvSqrt(fY * fY + fZ * fZ);
             fSin = fZ * fInvLength;
             fCos = -fY * fInvLength;
 
@@ -1387,7 +1387,7 @@ namespace SDK.Lib
 
             fY = kA[1, 1];
             fZ = kA[2, 1];
-            fInvLength = UtilApi.InvSqrt(fY * fY + fZ * fZ);
+            fInvLength = UtilMath.InvSqrt(fY * fY + fZ * fZ);
             fSin = fZ * fInvLength;
             fCos = -fY * fInvLength;
 
@@ -1418,11 +1418,11 @@ namespace SDK.Lib
             float fPoly = afCoeff[0] + fX * (afCoeff[1] + fX * (afCoeff[2] + fX));
             if (fPoly < 0.0)
             {
-                fX = UtilApi.Abs(afCoeff[0]);
-                float fTmp = 1.0f + UtilApi.Abs(afCoeff[1]);
+                fX = UtilMath.Abs(afCoeff[0]);
+                float fTmp = 1.0f + UtilMath.Abs(afCoeff[1]);
                 if (fTmp > fX)
                     fX = fTmp;
-                fTmp = 1.0f + UtilApi.Abs(afCoeff[2]);
+                fTmp = 1.0f + UtilMath.Abs(afCoeff[2]);
                 if (fTmp > fX)
                     fX = fTmp;
             }
@@ -1431,7 +1431,7 @@ namespace SDK.Lib
             for (int i = 0; i < 16; i++)
             {
                 fPoly = afCoeff[0] + fX * (afCoeff[1] + fX * (afCoeff[2] + fX));
-                if (UtilApi.Abs(fPoly) <= fEpsilon)
+                if (UtilMath.Abs(fPoly) <= fEpsilon)
                     return fX;
 
                 float fDeriv = afCoeff[1] + fX * (fTwoC2 + 3.0f * fX);

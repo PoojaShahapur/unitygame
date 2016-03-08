@@ -24,7 +24,7 @@ namespace QuadTree
         /// <summary>
         /// The bounds of this QuadTree
         /// </summary>
-        RectangleF m_rectangle;
+        MRectangleF m_rectangle;
 
         /// <summary>
         /// An delegate that performs an action on a QuadTreeNode
@@ -54,13 +54,13 @@ namespace QuadTree
 			}
 		}
 		
-		public Func<T, RectangleF> GetRect {get; set;}
+		public Func<T, MRectangleF> GetRect {get; set;}
 		
         /// <summary>
         /// 
         /// </summary>
         /// <param name="rectangle"></param>
-        public QuadTree(RectangleF rectangle)
+        public QuadTree(MRectangleF rectangle)
         {
             m_rectangle = rectangle;
             m_root = new QuadTreeNode<T>(m_rectangle, this);
@@ -93,7 +93,7 @@ namespace QuadTree
         /// </summary>
         /// <param name="area"></param>
         /// <returns></returns>
-        public IEnumerable<T> Query(RectangleF area)
+        public IEnumerable<T> Query(MRectangleF area)
         {
             return m_root.Query(area);
         }

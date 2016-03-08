@@ -90,7 +90,7 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 + m_viewProjMat.m00;
 			b = m_viewProjMat.m31 + m_viewProjMat.m01;
 			c = m_viewProjMat.m32 + m_viewProjMat.m02;
-			invLen = (float)(1/UtilApi.Sqrt(a* a + b* b + c* c));
+			invLen = (float)(1/ UtilMath.Sqrt(a* a + b* b + c* c));
             p.normal.x = a* invLen;
             p.normal.y = b* invLen;
             p.normal.z = c* invLen;
@@ -101,7 +101,7 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 - m_viewProjMat.m00;
 			b = m_viewProjMat.m31 - m_viewProjMat.m01;
 			c = m_viewProjMat.m32 - m_viewProjMat.m02;
-			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+			invLen = (float)(1 / UtilMath.Sqrt(a * a + b * b + c * c));
             p.normal.x = a* invLen;
             p.normal.y = b* invLen;
             p.normal.z = c* invLen;
@@ -112,7 +112,7 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 - m_viewProjMat.m10;
 			b = m_viewProjMat.m31 - m_viewProjMat.m11;
 			c = m_viewProjMat.m32 - m_viewProjMat.m12;
-			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+			invLen = (float)(1 / UtilMath.Sqrt(a * a + b * b + c * c));
             p.normal.x = a * invLen;
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
@@ -123,7 +123,7 @@ namespace SDK.Lib
             a = m_viewProjMat.m30 + m_viewProjMat.m10;
             b = m_viewProjMat.m31 + m_viewProjMat.m11;
             c = m_viewProjMat.m32 + m_viewProjMat.m12;
-            invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+            invLen = (float)(1 / UtilMath.Sqrt(a * a + b * b + c * c));
             p.normal.x = a * invLen;
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
@@ -134,7 +134,7 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 + m_viewProjMat.m20;
 			b = m_viewProjMat.m31 + m_viewProjMat.m21;
 			c = m_viewProjMat.m32 + m_viewProjMat.m22;
-			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+			invLen = (float)(1 / UtilMath.Sqrt(a * a + b * b + c * c));
             p.normal.x = a * invLen;
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
@@ -145,7 +145,7 @@ namespace SDK.Lib
 			a = m_viewProjMat.m30 - m_viewProjMat.m20;
 			b = m_viewProjMat.m31 - m_viewProjMat.m21;
 			c = m_viewProjMat.m32 - m_viewProjMat.m22;
-			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
+			invLen = (float)(1 / UtilMath.Sqrt(a * a + b * b + c * c));
             p.normal.x = a * invLen;
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;

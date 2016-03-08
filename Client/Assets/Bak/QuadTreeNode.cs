@@ -15,7 +15,7 @@ namespace QuadTree
         /// Construct a quadtree node with the given bounds 
         /// </summary>
         /// <param name="area"></param>
-        public QuadTreeNode(RectangleF bounds, QuadTree<T> tree)
+        public QuadTreeNode(MRectangleF bounds, QuadTree<T> tree)
         {
 			Tree = tree;
             m_bounds = bounds;
@@ -26,7 +26,7 @@ namespace QuadTree
         /// <summary>
         /// The area of this node
         /// </summary>
-        RectangleF m_bounds;
+        MRectangleF m_bounds;
 
         /// <summary>
         /// The contents of this node.
@@ -47,7 +47,7 @@ namespace QuadTree
         /// <summary>
         /// Area of the quadtree node
         /// </summary>
-        public RectangleF Bounds { get { return m_bounds; } }
+        public MRectangleF Bounds { get { return m_bounds; } }
 
         /// <summary>
         /// Total number of nodes in the this node and all SubNodes
@@ -90,7 +90,7 @@ namespace QuadTree
         /// </summary>
         /// <param name="queryArea"></pasram>
         /// <returns></returns>
-        public IEnumerable<T> Query(RectangleF queryArea)
+        public IEnumerable<T> Query(MRectangleF queryArea)
         {
             // this quad contains items that are not entirely contained by
             // it's four sub-quads. Iterate through the items in this quad 
@@ -143,7 +143,7 @@ namespace QuadTree
         /// Insert an item to this node
         /// </summary>
         /// <param name="item"></param>
-        public void Insert(T item, RectangleF rect)
+        public void Insert(T item, MRectangleF rect)
         {
             // if the item is not contained in this quad, there's a problem
             if (!m_bounds.Contains(rect))
@@ -229,10 +229,10 @@ namespace QuadTree
             float halfWidth = (m_bounds.Width / 2f);
             float halfHeight = (m_bounds.Height / 2f);
 
-			m_nodes.Add(new QuadTreeNode<T>(new RectangleF(m_bounds.Location, new SizeF(halfWidth, halfHeight)), Tree));
-            m_nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_bounds.Left, m_bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight)), Tree));
-            m_nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_bounds.Left + halfWidth, m_bounds.Top), new SizeF(halfWidth, halfHeight)), Tree));
-            m_nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_bounds.Left + halfWidth, m_bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight)),Tree));
+			m_nodes.Add(new QuadTreeNode<T>(new MRectangleF(m_bounds.Location, new MSizeF(halfWidth, halfHeight)), Tree));
+            m_nodes.Add(new QuadTreeNode<T>(new MRectangleF(new MPointF(m_bounds.Left, m_bounds.Top + halfHeight), new MSizeF(halfWidth, halfHeight)), Tree));
+            m_nodes.Add(new QuadTreeNode<T>(new MRectangleF(new MPointF(m_bounds.Left + halfWidth, m_bounds.Top), new MSizeF(halfWidth, halfHeight)), Tree));
+            m_nodes.Add(new QuadTreeNode<T>(new MRectangleF(new MPointF(m_bounds.Left + halfWidth, m_bounds.Top + halfHeight), new MSizeF(halfWidth, halfHeight)),Tree));
         }
 
         // 深度优先遍历

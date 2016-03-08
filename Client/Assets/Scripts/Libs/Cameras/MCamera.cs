@@ -30,7 +30,7 @@ namespace SDK.Lib
             mPosition = MVector3.ZERO;
             mWindowSet = false;
 
-            mFOVy = (float)(UtilApi.PI / 4.0f);
+            mFOVy = (float)(UtilMath.PI / 4.0f);
             mNearDist = 100.0f;
             mFarDist = 100000.0f;
             mAspect = 1.33333333333333f;
@@ -115,7 +115,7 @@ namespace SDK.Lib
                 MQuaternion rotQuat = new MQuaternion();
                 if ((axes[2] + zAdjustVec).squaredLength() < 0.00005f)
                 {
-                    rotQuat.FromAngleAxis((float)(UtilApi.PI), axes[1]);
+                    rotQuat.FromAngleAxis((float)(UtilMath.PI), axes[1]);
                 }
                 else
                 {
@@ -230,7 +230,7 @@ namespace SDK.Lib
             if (mReflect && mReflectPlane != null &&
                 !(mLastLinkedReflectionPlane == mReflectPlane))
             {
-                mReflectMatrix = UtilApi.buildReflectionMatrix(ref mReflectPlane);
+                mReflectMatrix = UtilMath.buildReflectionMatrix(ref mReflectPlane);
                 mLastLinkedReflectionPlane = mReflectPlane;
                 mRecalcView = true;
                 mRecalcWindow = true;

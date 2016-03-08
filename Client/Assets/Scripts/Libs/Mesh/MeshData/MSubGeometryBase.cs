@@ -318,7 +318,7 @@ namespace SDK.Lib
                 cx = dv2 * dx1 - dv1 * dx2;
                 cy = dv2 * dy1 - dv1 * dy2;
                 cz = dv2 * dz1 - dv1 * dz2;
-                denom = (float)(1 / UtilApi.Sqrt(cx * cx + cy * cy + cz * cz));
+                denom = (float)(1 / UtilMath.Sqrt(cx * cx + cy * cy + cz * cz));
                 m_faceTangents[(int)i++] = denom * cx;
                 m_faceTangents[(int)i++] = denom * cy;
                 m_faceTangents[(int)i++] = denom * cz;
@@ -396,7 +396,7 @@ namespace SDK.Lib
                 cx = dz1 * dy2 - dy1 * dz2;
                 cy = dx1 * dz2 - dz1 * dx2;
                 cz = dy1 * dx2 - dx1 * dy2;
-                d = (float)UtilApi.Sqrt(cx * cx + cy * cy + cz * cz);
+                d = (float)UtilMath.Sqrt(cx * cx + cy * cy + cz * cz);
                 // 叉乘的方向是垂直于两个向量的向量方向，叉乘值是两个向量组成的平行四边形的面积，就是两个三角形面积的大小
                 if (m_useFaceWeights)
                 {
@@ -484,7 +484,7 @@ namespace SDK.Lib
                 float vx = target[(int)v1];
                 float vy = target[(int)v1 + 1];
                 float vz = target[(int)v1 + 2];
-                float d = (float)(1.0 / UtilApi.Sqrt(vx * vx + vy * vy + vz * vz));
+                float d = (float)(1.0 / UtilMath.Sqrt(vx * vx + vy * vy + vz * vz));
                 target[(int)v1] = vx * d;
                 target[(int)v1 + 1] = vy * d;
                 target[(int)v1 + 2] = vz * d;
@@ -563,7 +563,7 @@ namespace SDK.Lib
                 float vx = target[(int)i];
                 float vy = target[(int)i + 1];
                 float vz = target[(int)i + 2];
-                float d = (float)(1.0 / UtilApi.Sqrt(vx * vx + vy * vy + vz * vz));
+                float d = (float)(1.0 / UtilMath.Sqrt(vx * vx + vy * vy + vz * vz));
                 target[(int)i] = vx * d;
                 target[(int)i + 1] = vy * d;
                 target[(int)i + 2] = vz * d;

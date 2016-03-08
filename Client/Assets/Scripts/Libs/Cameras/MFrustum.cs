@@ -76,7 +76,7 @@ namespace SDK.Lib
     public MFrustum()
     {
         mProjType = ProjectionType.PT_PERSPECTIVE;
-        mFOVy = (float)(UtilApi.PI / 4.0f);
+        mFOVy = (float)(UtilMath.PI / 4.0f);
         mFarDist = 100000.0f;
         mNearDist = 100.0f;
         mAspect = 1.33333333333333f;
@@ -294,7 +294,7 @@ public float getFocalLength()
             else if (mProjType == ProjectionType.PT_PERSPECTIVE)
             {
                 float thetaY = mFOVy * 0.5f;
-                float tanThetaY = UtilApi.Tan(thetaY);
+                float tanThetaY = UtilMath.Tan(thetaY);
                 float tanThetaX = tanThetaY * mAspect;
 
                 float nearFocal = mNearDist / mFocalLength;
@@ -377,8 +377,8 @@ public float getFocalLength()
                     MPlane plane = mViewMatrix * mObliqueProjPlane;
 
                     MVector4 qVec = new MVector4();
-                    qVec.x = (UtilApi.Sign(plane.normal.x) + mProjMatrix[0, 2]) / mProjMatrix[0, 0];
-                    qVec.y = (UtilApi.Sign(plane.normal.y) + mProjMatrix[1, 2]) / mProjMatrix[1, 1];
+                    qVec.x = (UtilMath.Sign(plane.normal.x) + mProjMatrix[0, 2]) / mProjMatrix[0, 0];
+                    qVec.y = (UtilMath.Sign(plane.normal.y) + mProjMatrix[1, 2]) / mProjMatrix[1, 1];
                     qVec.z = -1;
                     qVec.w = (1 + mProjMatrix[2, 2]) / mProjMatrix[2, 3];
 
@@ -487,7 +487,7 @@ public float getFocalLength()
             MQuaternion orientation = getOrientationForViewUpdate();
             MVector3 position = getPositionForViewUpdate();
 
-            mViewMatrix = UtilApi.makeViewMatrix(ref position, ref orientation, ref mReflectMatrix, mReflect);
+            mViewMatrix = UtilMath.makeViewMatrix(ref position, ref orientation, ref mReflectMatrix, mReflect);
         }
 
         mRecalcView = false;
@@ -676,7 +676,7 @@ public ProjectionType getProjectionType()
     {
         mReflect = true;
         mReflectPlane = p;
-        mReflectMatrix = UtilApi.buildReflectionMatrix(ref p);
+        mReflectMatrix = UtilMath.buildReflectionMatrix(ref p);
         invalidateView();
 
     }

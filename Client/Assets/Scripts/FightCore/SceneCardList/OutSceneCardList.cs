@@ -28,7 +28,7 @@ namespace FightCore
         {
             m_posList.Clear();
             //m_rotList.Clear();
-            UtilMath.newRectSplit(m_centerPos, SceneDZCV.COMMON_CARD_WIDTH, m_radius, 0, m_sceneCardList.Count(), ref m_posList);
+            UtilLogic.newRectSplit(m_centerPos, SceneDZCV.COMMON_CARD_WIDTH, m_radius, 0, m_sceneCardList.Count(), ref m_posList);
         }
 
         override public void addCard(SceneCardBase card, int idx = -1)

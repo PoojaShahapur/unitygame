@@ -5,204 +5,19 @@ namespace SDK.Lib
 {
     public class UtilMath
     {
+        public const double PI = UnityEngine.Mathf.PI;
+        public const double TWO_PI = 2.0 * UnityEngine.Mathf.PI;
+        public const float HALF_PI = (float)(0.5f * PI);
+        public const float fDeg2Rad = (float)(PI / 180.0f);
+        public const float fRad2Deg = (float)(180.0f / PI);
+
+        public const float POS_INFINITY = float.PositiveInfinity;
+        public const float NEG_INFINITY = float.NegativeInfinity;
+        public const float EPSILON = 1e-6f;
+
         static public bool isVisible(Camera camera, MRectangleF box)
         {
             return false;
-        }
-
-        /* 
-         * @brief 上半球分割
-         * @param inter 矩形分割的时候表示间隔
-         * @param radius 半径
-         * @param splitCnt 分裂多少分
-         * @param posList 返回的位置列表
-         * @param rotList 返回的旋转列表
-         */
-        static protected void splitPos(int up, Transform trans, float inter, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
-        {
-            if (splitCnt > 3)        // 只有大于 3 个的时候才分割
-            {
-                if (up == 0)
-                {
-                    upHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
-                }
-                else
-                {
-                    downHemisphereSplit(trans, radius, splitCnt, ref posList, ref rotList);
-                }
-            }
-            else
-            {
-                rectSplit(trans, inter, splitCnt, ref posList, ref rotList);
-            }
-        }
-
-        static protected void rectSplit(Transform trans, float inter, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
-        {
-            float totalLen = splitCnt * inter;
-            float startPos = -totalLen / 2;
-
-            Vector3 pos;
-            Quaternion rot;
-
-            int listIdx = 0;
-            while(listIdx < splitCnt)
-            {
-                pos.x = trans.localPosition.x + startPos + inter * listIdx;
-                pos.y = trans.localPosition.y;
-                pos.z = trans.localPosition.z;
-                posList.Add(pos);
-
-                rot = trans.localRotation;
-                rotList.Add(rot);
-
-                ++listIdx;
-            }
-        }
-
-        // 180 - 360 度区间
-        static protected void upHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
-        {
-            //float radianSector = 0;         // 每一个弧形的弧度
-            float degSector = 0;            // 度
-            //float curRadian = 0;
-            float curDeg = 0;
-
-            //float startRadian = 0;          // 开始的弧度
-            float startDeg = 0;             // 开始的角度
-
-            float yDelta = 0.4f;
-
-            Vector3 pos;
-            Quaternion rot;
-
-            // 总共 10 张牌
-            //radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
-            degSector = 180 / 11;
-
-            //startRadian = Mathf.PI + radianSector;
-            startDeg = 180 + degSector;
-
-            Vector3 orign = new Vector3(radius, 0, 0);
-
-            int listIdx = 0;
-            while (listIdx < splitCnt)
-            {
-                //curRadian = startRadian + radianSector * listIdx;
-                curDeg = startDeg + degSector * listIdx;
-
-                pos = new Vector3();
-                pos = Quaternion.AngleAxis(curDeg, Vector3.up) * orign;
-                pos += trans.localPosition;
-                pos.y += listIdx * yDelta;
-
-                posList.Add(pos);
-
-                rot = Quaternion.Euler(0, curDeg + trans.eulerAngles.y + 90, 0);            // +90 就是为了是竖直的变成水平的，起始都偏移 90 度，这样就可以认为是 0 度了
-                rotList.Add(rot);
-
-                ++listIdx;
-            }
-        }
-
-        // 0 - 180 度区间
-        static protected void downHemisphereSplit(Transform trans, float radius, int splitCnt, ref List<Vector3> posList, ref List<Quaternion> rotList)
-        {
-            //float radianSector = 0;         // 每一个弧形的弧度
-            float degSector = 0;            // 度
-            //float curRadian = 0;
-            float curDeg = 0;
-
-            //float startRadian = 0;          // 开始的弧度
-            float startDeg = 0;             // 开始的角度
-
-            float yDelta = 0.4f;
-
-            Vector3 pos;
-            Quaternion rot;
-
-            // 总共 10 张牌
-            //radianSector = Mathf.PI / 11;           // 这个地方需要加 1 
-            degSector = 180 / 11;
-
-            //startRadian = Mathf.PI - radianSector;
-            startDeg = 180 - degSector;
-
-            Vector3 orign = new Vector3(radius, 0, 0);
-
-            int listIdx = 0;
-            while (listIdx < splitCnt)
-            {
-                //curRadian = startRadian - radianSector * listIdx;
-                curDeg = startDeg - degSector * listIdx;
-
-                pos = new Vector3();
-                pos = Quaternion.AngleAxis(curDeg, Vector3.up) * orign;
-                pos += trans.localPosition;
-                pos.y += listIdx * yDelta;
-
-                posList.Add(pos);
-
-                rot = Quaternion.Euler(0, curDeg, 0);            // +90 就是为了是竖直的变成水平的，起始都偏移 90 度，这样就可以认为是 0 度了
-                rotList.Add(rot);
-
-                ++listIdx;
-            }
-        }
-
-        static public float xzDis(Vector3 aPos, Vector3 bPos)
-        {
-            return Mathf.Sqrt((aPos.x - bPos.x) * (aPos.x - bPos.x) + (aPos.z - bPos.z) * (aPos.z - bPos.z));
-        }
-
-        /**
-         * @param trans 起始位置
-         * @param unitWidth 单元宽度
-         * @param tileWidth 区域宽度
-         * @param splitCnt 划分数量
-         * @param posList 返回的位置列表
-         */
-        static public void newRectSplit(Transform trans, float unitWidth, float tileRadius, float fYDelta, int splitCnt, ref List<Vector3> posList)
-        {
-            Vector3 pos;
-            int listIdx = 0;
-            float halfUnitWidth = unitWidth / 2;
-            if (unitWidth * splitCnt > 2 * tileRadius)       // 如果当前区域不能完整放下所有的单元
-            {
-                float plusOneWidth = (tileRadius * 2) - unitWidth;          // 最后一个必然要放在最后一个，并且不能超出边界
-                float splitCellWidth = plusOneWidth / (splitCnt - 1);
-                while (listIdx < splitCnt - 1)  // 最后一个位置左边界就是 plusOneWidth ，已经计算好了
-                {
-                    pos.x = trans.localPosition.x + splitCellWidth * listIdx - tileRadius;  // 这个是左边的位置
-                    pos.x += halfUnitWidth;           // 调整中心点的位置
-                    pos.y = trans.localPosition.y + fYDelta * listIdx;
-                    pos.z = trans.localPosition.z;
-                    posList.Add(pos);
-
-                    ++listIdx;
-                }
-
-                // 计算最后一个位置
-                pos.x = trans.localPosition.x + plusOneWidth - tileRadius;  // 这个是左边的位置
-                pos.x += halfUnitWidth;           // 调整中心点的位置
-                pos.y = trans.localPosition.y + fYDelta * listIdx;
-                pos.z = trans.localPosition.z;
-                posList.Add(pos);
-            }
-            else            // 全部能放下，就居中显示
-            {
-                float halfWidth = (float)((unitWidth * splitCnt) * 0.5);        // 占用的区域的一半宽度
-                while (listIdx < splitCnt)
-                {
-                    pos.x = trans.localPosition.x + unitWidth * listIdx - halfWidth;    // 这个是左边的位置
-                    pos.x += halfUnitWidth;           // 调整中心点的位置
-                    pos.y = trans.localPosition.y + fYDelta * listIdx;
-                    pos.z = trans.localPosition.z;
-                    posList.Add(pos);
-
-                    ++listIdx;
-                }
-            }
         }
 
         // 设置状态为
@@ -315,6 +130,303 @@ namespace SDK.Lib
             c.b = inv * (val & 0xFF);
             c.a = 1.0f;
             return c;
+        }
+
+        static public float Sqrt(float d)
+        {
+            return UnityEngine.Mathf.Sqrt(d);
+        }
+
+        /**
+         * @brief 两个整数除，获取 float 值
+         * @param numerator 分子
+         * @param denominator 分母
+         */
+        static public float div(int numerator, int denominator)
+        {
+            return ((float)numerator) / denominator;
+        }
+
+        /**
+         * @brief tan
+         */
+        static public float tan(float a)
+        {
+            return (float)(UnityEngine.Mathf.Tan(a));
+        }
+
+        /**
+         * @brief atan
+         */
+        static public float atan(float a)
+        {
+            return (float)(UnityEngine.Mathf.Atan(a));
+        }
+
+        static public int powerTwo(int exponent)
+        {
+            return (int)UnityEngine.Mathf.Pow(2, exponent);
+        }
+
+        static public float Abs(float value)
+        {
+            return UnityEngine.Mathf.Abs(value);
+        }
+
+        static public void swap<T>(ref T a, ref T b)
+        {
+            T t = a;
+            a = b;
+            b = t;
+        }
+
+        static public void Swap<T>(ref T a, ref T b)
+        {
+            T t = a;
+            a = b;
+            b = t;
+        }
+
+        static public float min(float a, float b)
+        {
+            return Mathf.Min(a, b);
+        }
+
+        static public float max(float a, float b)
+        {
+            return Mathf.Max(a, b);
+        }
+
+        static public float ACos(float f)
+        {
+            return Mathf.Acos(f);
+        }
+
+        static public bool RealEqual(float a, float b, float tolerance)
+        {
+            if (Mathf.Abs(b - a) <= tolerance)
+                return true;
+            else
+                return false;
+        }
+
+        static public float UnitRandom()
+        {
+            UnityEngine.Random.seed = (int)UtilApi.getUTCSec();
+            return UnityEngine.Random.Range(0, int.MaxValue) / int.MaxValue;
+        }
+
+        static public float Clamp(float value, float min, float max)
+        {
+            return Mathf.Clamp(value, min, max);
+        }
+
+        static public float Sin(float f)
+        {
+            return Mathf.Sin(f);
+        }
+
+        static public float Cos(float f)
+        {
+            return Mathf.Cos(f);
+        }
+
+        static public float InvSqrt(float fValue)
+        {
+            return 1 / Mathf.Sqrt(fValue);
+        }
+
+        static public float ATan2(float y, float x)
+        {
+            return Mathf.Atan2(y, x);
+        }
+
+        static public float ASin(float f)
+        {
+            return Mathf.Asin(f);
+        }
+
+        static public float Sqr(float fValue)
+        {
+            return fValue * fValue;
+        }
+
+        static public bool intersects(ref MPlane plane, ref MAxisAlignedBox box)
+        {
+            return (plane.getSide(ref box) == MPlane.Side.BOTH_SIDE);
+        }
+
+        static public float Tan(float f)
+        {
+            return Mathf.Tan(f);
+        }
+
+        static public float Sign(float fValue)
+        {
+            if (fValue > 0.0)
+                return 1.0f;
+
+            if (fValue < 0.0)
+                return -1.0f;
+
+            return 0.0f;
+        }
+
+        static public MMatrix4 buildReflectionMatrix(ref MPlane p)
+        {
+            return new MMatrix4(
+                -2 * p.normal.x * p.normal.x + 1, -2 * p.normal.x * p.normal.y, -2 * p.normal.x * p.normal.z, -2 * p.normal.x * p.d,
+                -2 * p.normal.y * p.normal.x, -2 * p.normal.y * p.normal.y + 1, -2 * p.normal.y * p.normal.z, -2 * p.normal.y * p.d,
+                -2 * p.normal.z * p.normal.x, -2 * p.normal.z * p.normal.y, -2 * p.normal.z * p.normal.z + 1, -2 * p.normal.z * p.d,
+                0, 0, 0, 1);
+        }
+
+        static public MMatrix4 makeViewMatrix(ref MVector3 position, ref MQuaternion orientation, ref MMatrix4 reflectMatrix, bool reflect)
+        {
+            MMatrix4 viewMatrix = new MMatrix4();
+
+            MMatrix3 rot = new MMatrix3();
+            orientation.ToRotationMatrix(rot);
+
+            MMatrix3 rotT = rot.Transpose();
+            MVector3 trans = -rotT * position;
+
+            viewMatrix = MMatrix4.IDENTITY;
+            viewMatrix.assignForm(rotT);
+            viewMatrix.m[0, 3] = trans.x;
+            viewMatrix.m[1, 3] = trans.y;
+            viewMatrix.m[2, 3] = trans.z;
+
+            if (reflect && reflectMatrix != null)
+            {
+                viewMatrix = viewMatrix * (reflectMatrix);
+            }
+
+            return viewMatrix;
+        }
+
+        static public KeyValuePair<bool, float> intersects(MRay ray, ref MPlane plane)
+        {
+
+            float denom = plane.normal.dotProduct(ray.getDirection());
+            if (UtilMath.Abs(denom) < EPSILON)
+            {
+                return new KeyValuePair<bool, float>(false, (float)0);
+            }
+            else
+            {
+                float nom = plane.normal.dotProduct(ray.getOrigin()) + plane.d;
+                float t = -(nom / denom);
+                return new KeyValuePair<bool, float>(t >= 0, (float)t);
+            }
+        }
+
+        static public KeyValuePair<bool, float> intersects(MRay ray, ref MAxisAlignedBox box)
+        {
+            if (box.isNull()) return new KeyValuePair<bool, float>(false, (float)0);
+            if (box.isInfinite()) return new KeyValuePair<bool, float>(true, (float)0);
+
+            float lowt = 0.0f;
+            float t;
+            bool hit = false;
+            MVector3 hitpoint;
+            MVector3 min = box.getMinimum();
+            MVector3 max = box.getMaximum();
+            MVector3 rayorig = ray.getOrigin();
+            MVector3 raydir = ray.getDirection();
+
+            if (rayorig > min && rayorig < max)
+            {
+                return new KeyValuePair<bool, float>(true, (float)0);
+            }
+
+            if (rayorig.x <= min.x && raydir.x > 0)
+            {
+                t = (min.x - rayorig.x) / raydir.x;
+                if (t >= 0)
+                {
+                    hitpoint = rayorig + raydir * t;
+                    if (hitpoint.y >= min.y && hitpoint.y <= max.y &&
+                        hitpoint.z >= min.z && hitpoint.z <= max.z &&
+                        (!hit || t < lowt))
+                    {
+                        hit = true;
+                        lowt = t;
+                    }
+                }
+            }
+
+            if (rayorig.x >= max.x && raydir.x < 0)
+            {
+                t = (max.x - rayorig.x) / raydir.x;
+
+                hitpoint = rayorig + raydir * t;
+                if (hitpoint.y >= min.y && hitpoint.y <= max.y &&
+                    hitpoint.z >= min.z && hitpoint.z <= max.z &&
+                    (!hit || t < lowt))
+                {
+                    hit = true;
+                    lowt = t;
+                }
+            }
+
+            if (rayorig.y <= min.y && raydir.y > 0)
+            {
+                t = (min.y - rayorig.y) / raydir.y;
+
+                hitpoint = rayorig + raydir * t;
+                if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
+                    hitpoint.z >= min.z && hitpoint.z <= max.z &&
+                    (!hit || t < lowt))
+                {
+                    hit = true;
+                    lowt = t;
+                }
+            }
+
+            if (rayorig.y >= max.y && raydir.y < 0)
+            {
+                t = (max.y - rayorig.y) / raydir.y;
+
+                hitpoint = rayorig + raydir * t;
+                if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
+                    hitpoint.z >= min.z && hitpoint.z <= max.z &&
+                    (!hit || t < lowt))
+                {
+                    hit = true;
+                    lowt = t;
+                }
+            }
+
+            if (rayorig.z <= min.z && raydir.z > 0)
+            {
+                t = (min.z - rayorig.z) / raydir.z;
+
+                hitpoint = rayorig + raydir * t;
+                if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
+                    hitpoint.y >= min.y && hitpoint.y <= max.y &&
+                    (!hit || t < lowt))
+                {
+                    hit = true;
+                    lowt = t;
+                }
+            }
+
+            if (rayorig.z >= max.z && raydir.z < 0)
+            {
+                t = (max.z - rayorig.z) / raydir.z;
+
+                hitpoint = rayorig + raydir * t;
+                if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
+                    hitpoint.y >= min.y && hitpoint.y <= max.y &&
+                    (!hit || t < lowt))
+                {
+                    hit = true;
+                    lowt = t;
+                }
+            }
+
+            return new KeyValuePair<bool, float>(hit, (float)lowt);
         }
     }
 }

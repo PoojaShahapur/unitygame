@@ -46,10 +46,10 @@ namespace SDK.Lib
 
         public void swap(MQuaternion other)
         {
-            UtilApi.swap(ref w, ref other.w);
-            UtilApi.swap(ref x, ref other.x);
-            UtilApi.swap(ref y, ref other.y);
-            UtilApi.swap(ref z, ref other.z);
+            UtilMath.swap(ref w, ref other.w);
+            UtilMath.swap(ref x, ref other.x);
+            UtilMath.swap(ref y, ref other.y);
+            UtilMath.swap(ref z, ref other.z);
         }
 
         public float this [int index]
@@ -85,7 +85,7 @@ namespace SDK.Lib
 
             if (fTrace > 0.0)
             {
-                fRoot = UtilApi.Sqrt(fTrace + 1.0f);
+                fRoot = UtilMath.Sqrt(fTrace + 1.0f);
                 w = 0.5f * fRoot;
                 fRoot = 0.5f / fRoot;
                 x = (kRot[2, 1] - kRot[1, 2]) * fRoot;
@@ -103,7 +103,7 @@ namespace SDK.Lib
                 int j = s_iNext[i];
                 int k = s_iNext[j];
 
-                fRoot = UtilApi.Sqrt(kRot[i, i] - kRot[j, j] - kRot[k, k] + 1.0f);
+                fRoot = UtilMath.Sqrt(kRot[i, i] - kRot[j, j] - kRot[k, k] + 1.0f);
                 float[] apkQuat = { 0, 0, 0 };
                 apkQuat[i] = 0.5f * fRoot;
                 fRoot = 0.5f / fRoot;
@@ -146,8 +146,8 @@ namespace SDK.Lib
         public void FromAngleAxis(float rfAngle, MVector3 rkAxis)
         {
             float fHalfAngle = 0.5f * rfAngle;
-            float fSin = UtilApi.Sin(fHalfAngle);
-            w = UtilApi.Cos(fHalfAngle);
+            float fSin = UtilMath.Sin(fHalfAngle);
+            w = UtilMath.Cos(fHalfAngle);
             x = fSin * rkAxis.x;
             y = fSin * rkAxis.y;
             z = fSin * rkAxis.z;
@@ -158,8 +158,8 @@ namespace SDK.Lib
             float fSqrLength = x * x + y * y + z * z;
             if (fSqrLength > 0.0)
             {
-                rfAngle = 2.0f * UtilApi.ACos(w);
-                float fInvLength = UtilApi.InvSqrt(fSqrLength);
+                rfAngle = 2.0f * UtilMath.ACos(w);
+                float fInvLength = UtilMath.InvSqrt(fSqrLength);
                 rkAxis.x = x * fInvLength;
                 rkAxis.y = y * fInvLength;
                 rkAxis.z = z * fInvLength;
@@ -360,7 +360,7 @@ namespace SDK.Lib
         public float normalise()
         {
             float len = Norm();
-            float factor = 1.0f / UtilApi.Sqrt(len);
+            float factor = 1.0f / UtilMath.Sqrt(len);
             this = this * factor;
             return len;
         }
@@ -386,13 +386,13 @@ namespace SDK.Lib
 
         public MQuaternion Exp()
         {
-            float fAngle = UtilApi.Sqrt(x * x + y * y + z * z);
-            float fSin = UtilApi.Sin(fAngle);
+            float fAngle = UtilMath.Sqrt(x * x + y * y + z * z);
+            float fSin = UtilMath.Sin(fAngle);
 
             MQuaternion kResult = new MQuaternion();
-            kResult.w = UtilApi.Cos(fAngle);
+            kResult.w = UtilMath.Cos(fAngle);
 
-            if (UtilApi.Abs(fSin) >= msEpsilon)
+            if (UtilMath.Abs(fSin) >= msEpsilon)
             {
                 float fCoeff = fSin / (fAngle);
                 kResult.x = fCoeff * x;
@@ -414,11 +414,11 @@ namespace SDK.Lib
             MQuaternion kResult = new MQuaternion();
             kResult.w = 0.0f;
 
-            if (UtilApi.Abs(w) < 1.0)
+            if (UtilMath.Abs(w) < 1.0)
             {
-                float fAngle = UtilApi.ACos(w);
-                float fSin = UtilApi.Sin(fAngle);
-                if (UtilApi.Abs(fSin) >= msEpsilon)
+                float fAngle = UtilMath.ACos(w);
+                float fSin = UtilMath.Sin(fAngle);
+                if (UtilMath.Abs(fSin) >= msEpsilon)
                 {
                     float fCoeff = fAngle / fSin;
                     kResult.x = fCoeff * x;
@@ -458,11 +458,11 @@ namespace SDK.Lib
                 float fTyy = fTy * y;
                 float fTzz = fTz * z;
 
-                return (float)(UtilApi.ATan2(fTxy + fTwz, 1.0f - (fTyy + fTzz)));
+                return (float)(UtilMath.ATan2(fTxy + fTwz, 1.0f - (fTyy + fTzz)));
             }
             else
             {
-                return (float)(UtilApi.ATan2(2 * (x * y + w * z), w * w + x * x - y * y - z * z));
+                return (float)(UtilMath.ATan2(2 * (x * y + w * z), w * w + x * x - y * y - z * z));
             }
         }
 
@@ -477,11 +477,11 @@ namespace SDK.Lib
                 float fTyz = fTz * y;
                 float fTzz = fTz * z;
 
-                return (float)(UtilApi.ATan2(fTyz + fTwx, 1.0f - (fTxx + fTzz)));
+                return (float)(UtilMath.ATan2(fTyz + fTwx, 1.0f - (fTxx + fTzz)));
             }
             else
             {
-                return (float)(UtilApi.ATan2(2 * (y * z + w * x), w * w - x * x - y * y + z * z));
+                return (float)(UtilMath.ATan2(2 * (y * z + w * x), w * w - x * x - y * y + z * z));
             }
         }
 
@@ -497,21 +497,21 @@ namespace SDK.Lib
                 float fTxz = fTz * x;
                 float fTyy = fTy * y;
 
-                return (float)(UtilApi.ATan2(fTxz + fTwy, 1.0f - (fTxx + fTyy)));
+                return (float)(UtilMath.ATan2(fTxz + fTwy, 1.0f - (fTxx + fTyy)));
 
             }
             else
             {
-                return (float)(UtilApi.ASin(-2 * (x * z - w * y)));
+                return (float)(UtilMath.ASin(-2 * (x * z - w * y)));
             }
         }
 
         public bool equals(MQuaternion rhs, float tolerance)
         {
             float d = Dot(rhs);
-            float angle = UtilApi.ACos(2.0f * d * d - 1.0f);
+            float angle = UtilMath.ACos(2.0f * d * d - 1.0f);
 
-            return UtilApi.Abs(angle) <= tolerance;
+            return UtilMath.Abs(angle) <= tolerance;
         }
 
         public bool orientationEquals(MQuaternion other, float tolerance = 1e-3f)
@@ -536,13 +536,13 @@ namespace SDK.Lib
                 rkT = rkQ;
             }
 
-            if (UtilApi.Abs(fCos) < 1 - msEpsilon)
+            if (UtilMath.Abs(fCos) < 1 - msEpsilon)
             {
-                float fSin = UtilApi.Sqrt(1 - UtilApi.Sqr(fCos));
-                float fAngle = UtilApi.ATan2(fSin, fCos);
+                float fSin = UtilMath.Sqrt(1 - UtilMath.Sqr(fCos));
+                float fAngle = UtilMath.ATan2(fSin, fCos);
                 float fInvSin = 1.0f / fSin;
-                float fCoeff0 = UtilApi.Sin((1.0f - fT) * fAngle) * fInvSin;
-                float fCoeff1 = UtilApi.Sin(fT * fAngle) * fInvSin;
+                float fCoeff0 = UtilMath.Sin((1.0f - fT) * fAngle) * fInvSin;
+                float fCoeff1 = UtilMath.Sin(fT * fAngle) * fInvSin;
                 return fCoeff0 * rkP + fCoeff1 * rkT;
             }
             else
@@ -558,16 +558,16 @@ namespace SDK.Lib
             int iExtraSpins)
         {
             float fCos = rkP.Dot(rkQ);
-            float fAngle = UtilApi.ACos(fCos);
+            float fAngle = UtilMath.ACos(fCos);
 
-            if (UtilApi.Abs(fAngle) < msEpsilon)
+            if (UtilMath.Abs(fAngle) < msEpsilon)
                 return rkP;
 
-            float fSin = UtilApi.Sin(fAngle);
-            float fPhase = (float)(UtilApi.PI * iExtraSpins * fT);
+            float fSin = UtilMath.Sin(fAngle);
+            float fPhase = (float)(UtilMath.PI * iExtraSpins * fT);
             float fInvSin = 1.0f / fSin;
-            float fCoeff0 = UtilApi.Sin((1.0f - fT) * fAngle - fPhase) * fInvSin;
-            float fCoeff1 = UtilApi.Sin(fT * fAngle + fPhase) * fInvSin;
+            float fCoeff0 = UtilMath.Sin((1.0f - fT) * fAngle - fPhase) * fInvSin;
+            float fCoeff1 = UtilMath.Sin(fT * fAngle + fPhase) * fInvSin;
             return fCoeff0 * rkP + fCoeff1 * rkQ;
         }
 

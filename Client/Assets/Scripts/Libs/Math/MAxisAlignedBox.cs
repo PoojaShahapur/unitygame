@@ -357,9 +357,9 @@ namespace SDK.Lib
 
             MVector3 newCentre = m.transformAffine(centre);
             MVector3 newHalfSize = new MVector3(
-                UtilApi.Abs(m[0, 0]) * halfSize.x + UtilApi.Abs(m[0, 1]) * halfSize.y + UtilApi.Abs(m[0, 2]) * halfSize.z,
-                UtilApi.Abs(m[1, 0]) * halfSize.x + UtilApi.Abs(m[1, 1]) * halfSize.y + UtilApi.Abs(m[1, 2]) * halfSize.z,
-                UtilApi.Abs(m[2, 0]) * halfSize.x + UtilApi.Abs(m[2, 1]) * halfSize.y + UtilApi.Abs(m[2, 2]) * halfSize.z);
+                UtilMath.Abs(m[0, 0]) * halfSize.x + UtilMath.Abs(m[0, 1]) * halfSize.y + UtilMath.Abs(m[0, 2]) * halfSize.z,
+                UtilMath.Abs(m[1, 0]) * halfSize.x + UtilMath.Abs(m[1, 1]) * halfSize.y + UtilMath.Abs(m[1, 2]) * halfSize.z,
+                UtilMath.Abs(m[2, 0]) * halfSize.x + UtilMath.Abs(m[2, 1]) * halfSize.y + UtilMath.Abs(m[2, 2]) * halfSize.z);
 
             MVector3 min = newCentre - newHalfSize;
             MVector3 max = newCentre + newHalfSize;
@@ -461,7 +461,7 @@ namespace SDK.Lib
                     }
 
                 case Extent.EXTENT_INFINITE:
-                    return UtilApi.POS_INFINITY;
+                    return UtilMath.POS_INFINITY;
 
                 default:
                     UtilApi.assert(false, "Never reached");
@@ -481,7 +481,7 @@ namespace SDK.Lib
 
         public bool intersects(ref MPlane p)
         {
-            return UtilApi.intersects(ref p, ref this);
+            return UtilMath.intersects(ref p, ref this);
         }
 
         public bool intersects(ref MVector3 v)
@@ -527,9 +527,9 @@ namespace SDK.Lib
 
                 case Extent.EXTENT_INFINITE:
                     return new MVector3(
-                        UtilApi.POS_INFINITY,
-                        UtilApi.POS_INFINITY,
-                        UtilApi.POS_INFINITY);
+                        UtilMath.POS_INFINITY,
+                        UtilMath.POS_INFINITY,
+                        UtilMath.POS_INFINITY);
 
                 default:
                     UtilApi.assert(false, "Never reached");
@@ -549,9 +549,9 @@ namespace SDK.Lib
 
                 case Extent.EXTENT_INFINITE:
                     return new MVector3(
-                        UtilApi.POS_INFINITY,
-                        UtilApi.POS_INFINITY,
-                        UtilApi.POS_INFINITY);
+                        UtilMath.POS_INFINITY,
+                        UtilMath.POS_INFINITY,
+                        UtilMath.POS_INFINITY);
 
                 default:
                     UtilApi.assert(false, "Never reached");
@@ -600,7 +600,7 @@ namespace SDK.Lib
 
         public float distance(ref MVector3 v)
         {
-            return UtilApi.Sqrt(squaredDistance(ref v));
+            return UtilMath.Sqrt(squaredDistance(ref v));
         }
 
         bool contains(ref MAxisAlignedBox other)
