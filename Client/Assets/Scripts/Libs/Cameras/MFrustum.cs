@@ -28,7 +28,7 @@ namespace SDK.Lib
         FRUSTUM_PLANE_BOTTOM = 5
     }
 
-    public class Frustum
+    public class MFrustum
         {
         protected ProjectionType mProjType;
     protected float mFOVy;
@@ -73,7 +73,7 @@ namespace SDK.Lib
     protected string msMovableType = "Frustum";
     protected float INFINITE_FAR_PLANE_ADJUST = 0.00001f;
     
-    public Frustum()
+    public MFrustum()
     {
         mProjType = ProjectionType.PT_PERSPECTIVE;
         mFOVy = (float)(UtilApi.PI / 4.0f);
