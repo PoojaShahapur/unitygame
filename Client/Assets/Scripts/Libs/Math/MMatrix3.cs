@@ -618,15 +618,15 @@ namespace SDK.Lib
             return fNorm;
         }
 
-        public void ToAngleAxis(ref MVector3 rkAxis, ref float rfRadians)
+        public void ToAngleAxis(ref MVector3 rkAxis, ref MRadian rfRadians)
         {
             float fTrace = m[0, 0] + m[1, 1] + m[2, 2];
             float fCos = 0.5f * (fTrace - 1.0f);
-            rfRadians = UtilMath.ACos(fCos);
+            rfRadians = new MRadian(UtilMath.ACos(fCos));
 
-            if (rfRadians > (float)(0.0f))
+            if (rfRadians > new MRadian(0.0f))
             {
-                if (rfRadians < (float)(UtilMath.PI))
+                if (rfRadians < new MRadian(UtilMath.PI))
                 {
                     rkAxis.x = m[2, 1] - m[1, 2];
                     rkAxis.y = m[0, 2] - m[2, 0];
@@ -684,14 +684,14 @@ namespace SDK.Lib
             }
         }
 
-        public void ToAngleAxis(ref MVector3 rkAxis, ref float rfAngle, bool degree)
+        public void ToAngleAxis(ref MVector3 rkAxis, ref MDegree rfAngle)
         {
-            float r = 0;
+            MRadian r = new MRadian();
             ToAngleAxis(ref rkAxis, ref r);
-            rfAngle = r * UtilMath.fRad2Deg;
+            rfAngle.assignFrom(ref r);
         }
 
-        public void FromAngleAxis(ref MVector3 rkAxis, float fRadians)
+        public void FromAngleAxis(ref MVector3 rkAxis, MRadian fRadians)
         {
             float fCos = UtilMath.Cos(fRadians);
             float fSin = UtilMath.Sin(fRadians);
@@ -717,181 +717,181 @@ namespace SDK.Lib
             m[2, 2] = fZ2 * fOneMinusCos + fCos;
         }
 
-        public bool ToEulerAnglesXYZ(ref float rfYAngle, ref float rfPAngle,
-            ref float rfRAngle)
+        public bool ToEulerAnglesXYZ(ref MRadian rfYAngle, ref MRadian rfPAngle,
+            ref MRadian rfRAngle)
         {
-            rfPAngle = (float)(UtilMath.ASin(m[0, 2]));
-            if (rfPAngle < (float)(UtilMath.HALF_PI))
+            rfPAngle = new MRadian(UtilMath.ASin(m[0, 2]));
+            if (rfPAngle < new MRadian(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilMath.HALF_PI))
+                if (rfPAngle > new MRadian(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilMath.ATan2(-m[1, 2], m[2, 2]);
-                    rfRAngle = UtilMath.ATan2(-m[0, 1], m[0, 0]);
+                    rfYAngle = new MRadian(UtilMath.ATan2(-m[1, 2], m[2, 2]));
+                    rfRAngle = new MRadian(UtilMath.ATan2(-m[0, 1], m[0, 0]));
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilMath.ATan2(m[1, 0], m[1, 1]);
-                    rfRAngle = (float)(0.0f);
+                    MRadian fRmY = new MRadian(UtilMath.ATan2(m[1, 0], m[1, 1]));
+                    rfRAngle = new MRadian(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
                 }
             }
             else
             {
-                float fRpY = UtilMath.ATan2(m[1, 0], m[1, 1]);
-                rfRAngle = (float)(0.0f);
+                MRadian fRpY = new MRadian(UtilMath.ATan2(m[1, 0], m[1, 1]));
+                rfRAngle = new MRadian(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
             }
         }
 
-        public bool ToEulerAnglesXZY(ref float rfYAngle, ref float rfPAngle,
-            ref float rfRAngle)
+        public bool ToEulerAnglesXZY(ref MRadian rfYAngle, ref MRadian rfPAngle,
+            ref MRadian rfRAngle)
         {
-            rfPAngle = UtilMath.ASin(-m[0, 1]);
-            if (rfPAngle < (float)(UtilMath.HALF_PI))
+            rfPAngle = new MRadian(UtilMath.ASin(-m[0, 1]));
+            if (rfPAngle < new MRadian(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilMath.HALF_PI))
+                if (rfPAngle > new MRadian(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilMath.ATan2(m[2, 1], m[1, 1]);
-                    rfRAngle = UtilMath.ATan2(m[0, 2], m[0, 0]);
+                    rfYAngle = new MRadian(UtilMath.ATan2(m[2, 1], m[1, 1]));
+                    rfRAngle = new MRadian(UtilMath.ATan2(m[0, 2], m[0, 0]));
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilMath.ATan2(-m[2, 0], m[2, 2]);
-                    rfRAngle = (float)(0.0f);
+                    MRadian fRmY = new MRadian(UtilMath.ATan2(-m[2, 0], m[2, 2]));
+                    rfRAngle = new MRadian(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
                 }
             }
             else
             {
-                float fRpY = UtilMath.ATan2(-m[2, 0], m[2, 2]);
-                rfRAngle = (float)(0.0);
+                MRadian fRpY = new MRadian(UtilMath.ATan2(-m[2, 0], m[2, 2]));
+                rfRAngle = new MRadian(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
             }
         }
 
-        public bool ToEulerAnglesYXZ(ref float rfYAngle, ref float rfPAngle,
-            ref float rfRAngle)
+        public bool ToEulerAnglesYXZ(ref MRadian rfYAngle, ref MRadian rfPAngle,
+            ref MRadian rfRAngle)
         {
-            rfPAngle = UtilMath.ASin(-m[1, 2]);
-            if (rfPAngle < (float)(UtilMath.HALF_PI))
+            rfPAngle = new MRadian(UtilMath.ASin(-m[1, 2]));
+            if (rfPAngle < new MRadian(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilMath.HALF_PI))
+                if (rfPAngle > new MRadian(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilMath.ATan2(m[0, 2], m[2, 2]);
-                    rfRAngle = UtilMath.ATan2(m[1, 0], m[1, 1]);
+                    rfYAngle = new MRadian(UtilMath.ATan2(m[0, 2], m[2, 2]));
+                    rfRAngle = new MRadian(UtilMath.ATan2(m[1, 0], m[1, 1]));
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilMath.ATan2(-m[0, 1], m[0, 0]);
-                    rfRAngle = (float)(0.0f);
+                    MRadian fRmY = new MRadian(UtilMath.ATan2(-m[0, 1], m[0, 0]));
+                    rfRAngle = new MRadian(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
                 }
             }
             else
             {
-                float fRpY = UtilMath.ATan2(-m[0, 1], m[0, 0]);
-                rfRAngle = (float)(0.0);
+                MRadian fRpY = new MRadian(UtilMath.ATan2(-m[0, 1], m[0, 0]));
+                rfRAngle = new MRadian(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
             }
         }
 
-        public bool ToEulerAnglesYZX(ref float rfYAngle, ref float rfPAngle,
-            ref float rfRAngle)
+        public bool ToEulerAnglesYZX(ref MRadian rfYAngle, ref MRadian rfPAngle,
+            ref MRadian rfRAngle)
         {
-            rfPAngle = UtilMath.ASin(m[1, 0]);
-            if (rfPAngle < (float)(UtilMath.HALF_PI))
+            rfPAngle = new MRadian(UtilMath.ASin(m[1, 0]));
+            if (rfPAngle < new MRadian(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilMath.HALF_PI))
+                if (rfPAngle > new MRadian(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilMath.ATan2(-m[2, 0], m[0, 0]);
-                    rfRAngle = UtilMath.ATan2(-m[1, 2], m[1, 1]);
+                    rfYAngle = new MRadian(UtilMath.ATan2(-m[2, 0], m[0, 0]));
+                    rfRAngle = new MRadian(UtilMath.ATan2(-m[1, 2], m[1, 1]));
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilMath.ATan2(m[2, 1], m[2, 2]);
-                    rfRAngle = (float)(0.0);
+                    MRadian fRmY = new MRadian(UtilMath.ATan2(m[2, 1], m[2, 2]));
+                    rfRAngle = new MRadian(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
                 }
             }
             else
             {
-                float fRpY = UtilMath.ATan2(m[2, 1], m[2, 2]);
-                rfRAngle = (float)(0.0);
+                MRadian fRpY = new MRadian(UtilMath.ATan2(m[2, 1], m[2, 2]));
+                rfRAngle = new MRadian(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
             }
         }
 
-        public bool ToEulerAnglesZXY(ref float rfYAngle, ref float rfPAngle,
-            ref float rfRAngle)
+        public bool ToEulerAnglesZXY(ref MRadian rfYAngle, ref MRadian rfPAngle,
+            ref MRadian rfRAngle)
         {
-            rfPAngle = UtilMath.ASin(m[2, 1]);
-            if (rfPAngle < (float)(UtilMath.HALF_PI))
+            rfPAngle = new MRadian(UtilMath.ASin(m[2, 1]));
+            if (rfPAngle < new MRadian(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilMath.HALF_PI))
+                if (rfPAngle > new MRadian(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilMath.ATan2(-m[0, 1], m[1, 1]);
-                    rfRAngle = UtilMath.ATan2(-m[2, 0], m[2, 2]);
+                    rfYAngle = new MRadian(UtilMath.ATan2(-m[0, 1], m[1, 1]));
+                    rfRAngle = new MRadian(UtilMath.ATan2(-m[2, 0], m[2, 2]));
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilMath.ATan2(m[0, 2], m[0, 0]);
-                    rfRAngle = (float)(0.0);
+                    MRadian fRmY = new MRadian(UtilMath.ATan2(m[0, 2], m[0, 0]));
+                    rfRAngle = new MRadian(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
                 }
             }
             else
             {
-                float fRpY = UtilMath.ATan2(m[0, 2], m[0, 0]);
-                rfRAngle = (float)(0.0);
+                MRadian fRpY = new MRadian(UtilMath.ATan2(m[0, 2], m[0, 0]));
+                rfRAngle = new MRadian(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
             }
         }
 
-        public bool ToEulerAnglesZYX(ref float rfYAngle, ref float rfPAngle,
-            ref float rfRAngle)
+        public bool ToEulerAnglesZYX(ref MRadian rfYAngle, ref MRadian rfPAngle,
+            ref MRadian rfRAngle)
         {
-            rfPAngle = UtilMath.ASin(-m[2, 0]);
-            if (rfPAngle < (float)(UtilMath.HALF_PI))
+            rfPAngle = new MRadian(UtilMath.ASin(-m[2, 0]));
+            if (rfPAngle < new MRadian(UtilMath.HALF_PI))
             {
-                if (rfPAngle > (float)(-UtilMath.HALF_PI))
+                if (rfPAngle > new MRadian(-UtilMath.HALF_PI))
                 {
-                    rfYAngle = UtilMath.ATan2(m[1, 0], m[0, 0]);
-                    rfRAngle = UtilMath.ATan2(m[2, 1], m[2, 2]);
+                    rfYAngle = new MRadian(UtilMath.ATan2(m[1, 0], m[0, 0]));
+                    rfRAngle = new MRadian(UtilMath.ATan2(m[2, 1], m[2, 2]));
                     return true;
                 }
                 else
                 {
-                    float fRmY = UtilMath.ATan2(-m[0, 1], m[0, 2]);
-                    rfRAngle = (float)(0.0);
+                    MRadian fRmY = new MRadian(UtilMath.ATan2(-m[0, 1], m[0, 2]));
+                    rfRAngle = new MRadian(0.0f);
                     rfYAngle = rfRAngle - fRmY;
                     return false;
                 }
             }
             else
             {
-                float fRpY = UtilMath.ATan2(-m[0, 1], m[0, 2]);
-                rfRAngle = (float)(0.0);
+                MRadian fRpY = new MRadian(UtilMath.ATan2(-m[0, 1], m[0, 2]));
+                rfRAngle = new MRadian(0.0f);
                 rfYAngle = fRpY - rfRAngle;
                 return false;
             }
         }
 
-        public void FromEulerAnglesXYZ(float fYAngle, float fPAngle, float fRAngle)
+        public void FromEulerAnglesXYZ(MRadian fYAngle, MRadian fPAngle, MRadian fRAngle)
         {
             float fCos, fSin;
 
@@ -910,7 +910,7 @@ namespace SDK.Lib
             this = kXMat * (kYMat * kZMat);
         }
 
-        public void FromEulerAnglesXZY(float fYAngle, float fPAngle, float fRAngle)
+        public void FromEulerAnglesXZY(MRadian fYAngle, MRadian fPAngle, MRadian fRAngle)
         {
             float fCos, fSin;
 
@@ -929,7 +929,7 @@ namespace SDK.Lib
             this = kXMat * (kZMat * kYMat);
         }
 
-        public void FromEulerAnglesYXZ(float fYAngle, float fPAngle, float fRAngle)
+        public void FromEulerAnglesYXZ(MRadian fYAngle, MRadian fPAngle, MRadian fRAngle)
         {
             float fCos, fSin;
 
@@ -948,7 +948,7 @@ namespace SDK.Lib
             this = kYMat * (kXMat * kZMat);
         }
 
-        public void FromEulerAnglesYZX(float fYAngle, float fPAngle, float fRAngle)
+        public void FromEulerAnglesYZX(MRadian fYAngle, MRadian fPAngle, MRadian fRAngle)
         {
             float fCos, fSin;
 
@@ -967,7 +967,7 @@ namespace SDK.Lib
             this = kYMat * (kZMat * kXMat);
         }
 
-        public void FromEulerAnglesZXY(float fYAngle, float fPAngle, float fRAngle)
+        public void FromEulerAnglesZXY(MRadian fYAngle, MRadian fPAngle, MRadian fRAngle)
         {
             float fCos, fSin;
 
@@ -986,7 +986,7 @@ namespace SDK.Lib
             this = kZMat * (kXMat * kYMat);
         }
 
-        public void FromEulerAnglesZYX(float fYAngle, float fPAngle, float fRAngle)
+        public void FromEulerAnglesZYX(MRadian fYAngle, MRadian fPAngle, MRadian fRAngle)
         {
             float fCos, fSin;
 

@@ -442,7 +442,7 @@ namespace SDK.Lib
             return q * this;
         }
 
-        public float angleBetween(ref MVector3 dest)
+        public MRadian angleBetween(ref MVector3 dest)
         {
             float lenProduct = length() * dest.length();
 
@@ -452,7 +452,7 @@ namespace SDK.Lib
             float f = dotProduct(ref dest) / lenProduct;
 
             f = UtilMath.Clamp(f, (float)-1.0, (float)1.0);
-            return UtilMath.ACos(f);
+            return new MRadian(UtilMath.ACos(f));
         }
 
         public MQuaternion getRotationTo(ref MVector3 dest,
@@ -536,12 +536,12 @@ namespace SDK.Lib
         }
 
         public bool directionEquals(ref MVector3 rhs,
-            float tolerance)
+            MRadian tolerance)
         {
             float dot = dotProduct(ref rhs);
-            float angle = UtilMath.ACos(dot);
+            MRadian angle = new MRadian(UtilMath.ACos(dot));
 
-            return UtilMath.Abs(angle) <= tolerance;
+            return UtilMath.Abs(angle.valueRadians()) <= tolerance.valueRadians();
 
         }
 
