@@ -11,14 +11,14 @@ namespace SDK.Lib
         protected float m_focalLength;          // 焦距长度
         protected float m_focalLengthInv;       // 焦距的倒数
 
-        protected MPlane3D m_leftPanel;         // 左边面板
+        protected MPlane m_leftPanel;         // 左边面板
 
         public MPerspectiveLens()
         {
             m_fieldOfView = 0;
             m_focalLength = 1;
             setFieldOfView(60); // 设置对应的值
-            m_leftPanel = new MPlane3D();
+            m_leftPanel = new MPlane();
         }
 
         override public void setFieldOfView(float value)
@@ -128,10 +128,10 @@ namespace SDK.Lib
 
         override public void buildPanel()
         {
-            Vector3 p0 = new Vector3(m_frustumCorners[0], m_frustumCorners[1], m_frustumCorners[2]);
-            Vector3 p1 = new Vector3(m_frustumCorners[12], m_frustumCorners[13], m_frustumCorners[14]);
-            Vector3 p2 = new Vector3(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
-            m_leftPanel.fromPoints(p0, p1, p2);
+            MVector3 p0 = new MVector3(m_frustumCorners[0], m_frustumCorners[1], m_frustumCorners[2]);
+            MVector3 p1 = new MVector3(m_frustumCorners[12], m_frustumCorners[13], m_frustumCorners[14]);
+            MVector3 p2 = new MVector3(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
+            m_leftPanel.redefine(ref p0, ref p1, ref p2);
         }
     }
 }

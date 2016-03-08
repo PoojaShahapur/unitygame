@@ -40,7 +40,7 @@
         static public bool UNPKG_RES_LOAD = false;
 
         // AssetBundles 加载
-        static public bool ASSETBUNDLES_LOAD = true;
+        static public bool ASSETBUNDLES_LOAD = false;
 
         // 是否开启 EnableProtoBuf
         static public bool ENABLE_PROTOBUF = false;
@@ -48,7 +48,7 @@
         // 是否开启 SharpZipLib
         static public bool ENABLE_SHARP_ZIP_LIB = false;
 
-        // 单元测试
+        // 单元测试，这个需要宏定义
         static public bool UNIT_TEST = true;
 
         // 外网测试

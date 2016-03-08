@@ -38,14 +38,14 @@ namespace SDK.Lib
 		 *其公式是：result.x = (direction.x/|direction|)*dist
 		 * 			result.y = (direction.y/|direction|)*dist
 		 */
-		public static PointF displacementVector(PointF direction, float dist)
+		public static MPointF displacementVector(MPointF direction, float dist)
 		{
 			
 			if (direction == null)
 			{
 				return null;
 			}
-            PointF result = new PointF(0, 0);
+            MPointF result = new MPointF(0, 0);
 			float scale = dist / MathUtils.distance(direction.x, direction.y, 0, 0);
 			
 			result.x = scale * direction.x;

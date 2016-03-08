@@ -84,7 +84,7 @@ namespace SDK.Lib
             }
         }
 
-        public MList<MPlane3D> getFrustumPlanes()
+        public MList<MPlane> getFrustumPlanes()
         {
             return m_mCamera.getFrustumPlanes();
         }

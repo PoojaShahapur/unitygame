@@ -29,10 +29,10 @@ namespace SDK.Lib
         public float[,] m;
 
         public MMatrix4(
-            float m00 = 0, float m01 = 0, float m02 = 0, float m03 = 1,
-            float m10 = 0, float m11 = 0, float m12 = 0, float m13 = 1,
-            float m20 = 0, float m21 = 0, float m22 = 0, float m23 = 1,
-            float m30 = 0, float m31 = 0, float m32 = 0, float m33 = 1)
+            float m00 = 0, float m01 = 0, float m02 = 0, float m03 = 0,
+            float m10 = 0, float m11 = 0, float m12 = 0, float m13 = 0,
+            float m20 = 0, float m21 = 0, float m22 = 0, float m23 = 0,
+            float m30 = 0, float m31 = 0, float m32 = 0, float m33 = 0)
         {
             m = new float[4, 4];
 
@@ -151,11 +151,11 @@ namespace SDK.Lib
                 );
         }
 
-        public MPlane operator *(MPlane p)
+        static public MPlane operator *(MMatrix4 lhs, MPlane p)
         {
             MPlane ret;
-            MMatrix4 invTrans = inverse().transpose();
-            MVector4 v4(p.normal.x, p.normal.y, p.normal.z, p.d );
+            MMatrix4 invTrans = lhs.inverse().transpose();
+            MVector4 v4 = new MVector4(p.normal.x, p.normal.y, p.normal.z, p.d );
             v4 = invTrans * v4;
             ret.normal.x = v4.x;
             ret.normal.y = v4.y;
@@ -541,12 +541,12 @@ namespace SDK.Lib
             MMatrix3 m3x3 = new MMatrix3();
             extract3x3Matrix(m3x3);
 
-            MMatrix3 matQ;
-            MVector3 vecU;
+            MMatrix3 matQ = new MMatrix3();
+            MVector3 vecU = new MVector3();
             m3x3.QDUDecomposition(matQ, scale, vecU);
 
             orientation = new MQuaternion(matQ);
-            position = new MVector3(m[0][3], m[1][3], m[2][3]);
+            position = new MVector3(m[0, 3], m[1, 3], m[2, 3]);
         }
 
         public bool isAffine()

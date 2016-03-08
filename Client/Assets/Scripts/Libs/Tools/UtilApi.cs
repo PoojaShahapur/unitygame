@@ -22,6 +22,9 @@ namespace SDK.Lib
         public const float fDeg2Rad = (float)(PI / 180.0f);
         public const float fRad2Deg = (float)(180.0f / PI);
 
+        public const float POS_INFINITY = float.PositiveInfinity;
+        public const float NEG_INFINITY = float.NegativeInfinity;
+
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
             return GameObject.FindGameObjectsWithTag("Untagged");
@@ -1144,5 +1147,10 @@ namespace SDK.Lib
         {
             return fValue * fValue;
         }
-    }
+
+        static public bool intersects(ref MPlane plane, ref MAxisAlignedBox box)
+        {
+            return (plane.getSide(ref box) == MPlane.Side.BOTH_SIDE);
+        }
+}
 }

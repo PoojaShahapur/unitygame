@@ -46,7 +46,7 @@
 
         public void updateClip()
         {
-            MList<MPlane3D> planes = Ctx.m_instance.m_camSys.getFrustumPlanes();
+            MList<MPlane> planes = Ctx.m_instance.m_camSys.getFrustumPlanes();
             m_quadTree.updateClip(planes);
         }
 

@@ -103,7 +103,7 @@ namespace SDK.Lib
         /**
          * @brief 判断 Node 是否在六面体中
          */
-        virtual public bool isInFrustum(MList<MPlane3D> planes, int numPlanes)
+        virtual public bool isInFrustum(MList<MPlane> planes, int numPlanes)
 		{
 			return true;
 		}
@@ -139,7 +139,7 @@ namespace SDK.Lib
         /**
          * @brief 更新 Frustum 裁剪剔除
          */
-        virtual public void updateClip(MList<MPlane3D> planes)
+        virtual public void updateClip(MList<MPlane> planes)
         {
 
         }

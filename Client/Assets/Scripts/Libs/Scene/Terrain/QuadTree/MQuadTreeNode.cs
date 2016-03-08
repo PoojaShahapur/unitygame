@@ -97,16 +97,16 @@ namespace SDK.Lib
         /**
          * @brief 判断 Node 是否在 Frustum 中，注意 Node 的数据是世界空间的，因此 Panels 也要是世界空间中的 Panel
          */
-        override public bool isInFrustum(MList<MPlane3D> planes, int numPlanes)
+        override public bool isInFrustum(MList<MPlane> planes, int numPlanes)
 		{
             // 只要 Node 的最小点位置在最大 Panel 外，或者 Node 最大点位置在最小 Panel 外，就说明这个 Node 不被 Panels 包围
 			for (int i = 0; i < numPlanes; ++i) 
             {
-                MPlane3D plane = planes[i];
-				float flippedExtentX = plane.m_a < 0 ? - m_halfExtentXZ : m_halfExtentXZ;   // 如果 plane.m_a < 0，只要测试最小点是否在这个 Panel 的背面，如果在，那么这个 Node 肯定不被这些 Panel 包围
-                float flippedExtentY = plane.m_b < 0 ? - m_halfExtentY : m_halfExtentY;
-                float flippedExtentZ = plane.m_c < 0 ? - m_halfExtentXZ : m_halfExtentXZ;
-                float projDist = plane.m_a * (m_centerX + flippedExtentX) + plane.m_b * flippedExtentY + plane.m_c * (m_centerZ + flippedExtentZ) + plane.m_d; // 计算距离，注意 m_centerX 是世界空间中的位置
+                MPlane plane = planes[i];
+				float flippedExtentX = plane.normal.x < 0 ? - m_halfExtentXZ : m_halfExtentXZ;   // 如果 plane.m_a < 0，只要测试最小点是否在这个 Panel 的背面，如果在，那么这个 Node 肯定不被这些 Panel 包围
+                float flippedExtentY = plane.normal.y < 0 ? - m_halfExtentY : m_halfExtentY;
+                float flippedExtentZ = plane.normal.z < 0 ? - m_halfExtentXZ : m_halfExtentXZ;
+                float projDist = plane.normal.x * (m_centerX + flippedExtentX) + plane.normal.y * flippedExtentY + plane.normal.z * (m_centerZ + flippedExtentZ) + plane.d; // 计算距离，注意 m_centerX 是世界空间中的位置
                 if (projDist < 0)
                 {
                     return false;
@@ -116,7 +116,7 @@ namespace SDK.Lib
 			return true;
 		}
 
-        public bool isVisible(MList<MPlane3D> planes, int numPlanes)
+        public bool isVisible(MList<MPlane> planes, int numPlanes)
         {
             //m_centerX = 32;
             //m_centerZ = 32;
@@ -142,15 +142,16 @@ namespace SDK.Lib
             //m_halfExtentXZ = 32;
             //m_halfExtentY = 0;
 
-            Vector3 half = Vector3.zero;
+            MVector3 half = MVector3.ZERO;
             for (int plane = 0; plane< 6; ++plane)
             {
-                m_bv.setMin(new Vector3(m_centerX - m_halfExtentXZ, 0, m_centerZ - m_halfExtentXZ));
-                m_bv.setMax(new Vector3(m_centerX + m_halfExtentXZ, 0, m_centerZ + m_halfExtentXZ));
+                m_bv.setMin(new MVector3(m_centerX - m_halfExtentXZ, 0, m_centerZ - m_halfExtentXZ));
+                m_bv.setMax(new MVector3(m_centerX + m_halfExtentXZ, 0, m_centerZ + m_halfExtentXZ));
                 half = m_bv.getHalfSize();
 
-                MPlane3D.Side side = planes[plane].getSide(new Vector3(m_centerX, 0, m_centerZ), half);
-                if (side == MPlane3D.Side.NEGATIVE_SIDE)
+                MVector3 centerPt = new MVector3(m_centerX, 0, m_centerZ);
+                MPlane.Side side = planes[plane].getSide(ref centerPt, ref half);
+                if (side == MPlane.Side.NEGATIVE_SIDE)
                 {
                     return false;
                 }
@@ -162,8 +163,8 @@ namespace SDK.Lib
         override public MNodeBase findPartitionForEntity()
         {
             MBoundingVolumeBase bounds = null;
-            Vector3 min = bounds.getMin();
-            Vector3 max = bounds.getMax();
+            MVector3 min = bounds.getMin();
+            MVector3 max = bounds.getMax();
             return findPartitionForBounds(min.x, min.z, max.x, max.z);
         }
 
@@ -219,7 +220,7 @@ namespace SDK.Lib
         /**
          * @brief 更新 Frustum 裁剪剔除
          */
-        override public void updateClip(MList<MPlane3D> planes)
+        override public void updateClip(MList<MPlane> planes)
         {
             //if(this.isInFrustum(planes, planes.length()))   // 如果在 Frustum 内
             if(this.isVisible(planes, planes.length()))

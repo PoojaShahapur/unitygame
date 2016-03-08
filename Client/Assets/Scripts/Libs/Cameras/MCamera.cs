@@ -13,7 +13,7 @@ namespace SDK.Lib
         protected Matrix4x4 m_viewProjMat;  // view Proj 矩阵
         protected bool m_viewProjDirty;     // view Proj 矩阵是否无效
         protected MLensBase m_lens;         // 镜头
-        protected MList<MPlane3D> m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
+        protected MList<MPlane> m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
         protected bool m_frustumPlanesDirty;    // FrustumPlane 是否无效
 
         public MCamera(Camera camera_ = null)
@@ -21,10 +21,10 @@ namespace SDK.Lib
             m_viewProjDirty = true;
             m_lens = new MPerspectiveLens();    // 默认透视投影
 
-            m_frustumPlanes = new MList<MPlane3D>(6);
+            m_frustumPlanes = new MList<MPlane>(6);
             for (int idx = 0; idx < 6; ++idx)
             {
-                m_frustumPlanes.Add(new MPlane3D());
+                m_frustumPlanes.Add(new MPlane());
             }
 
             setCamera(camera_);
@@ -33,7 +33,7 @@ namespace SDK.Lib
         /**
          * @brief 返回 Frustum 的六个面板
          */
-        public MList<MPlane3D> getFrustumPlanes()
+        public MList<MPlane> getFrustumPlanes()
         {
             return m_frustumPlanes;
         }
@@ -81,7 +81,7 @@ namespace SDK.Lib
         protected void updateFrustum_A()
 		{
 			float a = 0, b = 0, c = 0;
-            MPlane3D p;
+            MPlane p;
             float invLen;
 
             // View Project 矩阵，注意不是只有 Project 矩阵，因此这个求的面板是世界空间中的面板
@@ -91,10 +91,10 @@ namespace SDK.Lib
 			b = m_viewProjMat.m31 + m_viewProjMat.m01;
 			c = m_viewProjMat.m32 + m_viewProjMat.m02;
 			invLen = (float)(1/UtilApi.Sqrt(a* a + b* b + c* c));
-            p.m_a = a* invLen;
-            p.m_b = b* invLen;
-            p.m_c = c* invLen;
-            p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m03) *invLen;
+            p.normal.x = a* invLen;
+            p.normal.y = b* invLen;
+            p.normal.z = c* invLen;
+            p.d = (m_viewProjMat.m33 + m_viewProjMat.m03) *invLen;
 			
 			// 右边 Plane
 			p = m_frustumPlanes[1];
@@ -102,10 +102,10 @@ namespace SDK.Lib
 			b = m_viewProjMat.m31 - m_viewProjMat.m01;
 			c = m_viewProjMat.m32 - m_viewProjMat.m02;
 			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
-            p.m_a = a* invLen;
-            p.m_b = b* invLen;
-            p.m_c = c* invLen;
-            p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m03) * invLen;
+            p.normal.x = a* invLen;
+            p.normal.y = b* invLen;
+            p.normal.z = c* invLen;
+            p.d = (m_viewProjMat.m33 - m_viewProjMat.m03) * invLen;
 			
 			// 顶端 Plane
 			p = m_frustumPlanes[3];
@@ -113,10 +113,10 @@ namespace SDK.Lib
 			b = m_viewProjMat.m31 - m_viewProjMat.m11;
 			c = m_viewProjMat.m32 - m_viewProjMat.m12;
 			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
-            p.m_a = a * invLen;
-            p.m_b = b * invLen;
-            p.m_c = c * invLen;
-            p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m13) *invLen;
+            p.normal.x = a * invLen;
+            p.normal.y = b * invLen;
+            p.normal.z = c * invLen;
+            p.d = (m_viewProjMat.m33 - m_viewProjMat.m13) *invLen;
 
             // 底边 Plane
             p = m_frustumPlanes[2];
@@ -124,10 +124,10 @@ namespace SDK.Lib
             b = m_viewProjMat.m31 + m_viewProjMat.m11;
             c = m_viewProjMat.m32 + m_viewProjMat.m12;
             invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
-            p.m_a = a * invLen;
-            p.m_b = b * invLen;
-            p.m_c = c * invLen;
-            p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m13) * invLen;
+            p.normal.x = a * invLen;
+            p.normal.y = b * invLen;
+            p.normal.z = c * invLen;
+            p.d = (m_viewProjMat.m33 + m_viewProjMat.m13) * invLen;
 
             // 近 Plane
             p = m_frustumPlanes[4];
@@ -135,10 +135,10 @@ namespace SDK.Lib
 			b = m_viewProjMat.m31 + m_viewProjMat.m21;
 			c = m_viewProjMat.m32 + m_viewProjMat.m22;
 			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
-            p.m_a = a * invLen;
-            p.m_b = b * invLen;
-            p.m_c = c * invLen;
-            p.m_d = (m_viewProjMat.m33 + m_viewProjMat.m23) * invLen;
+            p.normal.x = a * invLen;
+            p.normal.y = b * invLen;
+            p.normal.z = c * invLen;
+            p.d = (m_viewProjMat.m33 + m_viewProjMat.m23) * invLen;
 
             // 远 Plane
             p = m_frustumPlanes[5];
@@ -146,17 +146,17 @@ namespace SDK.Lib
 			b = m_viewProjMat.m31 - m_viewProjMat.m21;
 			c = m_viewProjMat.m32 - m_viewProjMat.m22;
 			invLen = (float)(1 / UtilApi.Sqrt(a * a + b * b + c * c));
-            p.m_a = a * invLen;
-            p.m_b = b * invLen;
-            p.m_c = c * invLen;
-            p.m_d = (m_viewProjMat.m33 - m_viewProjMat.m23) *invLen;
+            p.normal.x = a * invLen;
+            p.normal.y = b * invLen;
+            p.normal.z = c * invLen;
+            p.d = (m_viewProjMat.m33 - m_viewProjMat.m23) *invLen;
 			
 			m_frustumPlanesDirty = false;
 		}
 
         protected void updateFrustum_B()
         {
-            MPlane3D p;
+            MPlane p;
             Vector4 pnl = new Vector4();
 
             // View Project 矩阵，注意不是只有 Project 矩阵，因此这个求的面板是世界空间中的面板
@@ -171,10 +171,10 @@ namespace SDK.Lib
             pnl = m_camera.cameraToWorldMatrix * pnl;
             // 单位化
             pnl.Normalize();
-            p.m_a = pnl.x;
-            p.m_b = pnl.y;
-            p.m_c = pnl.z;
-            p.m_d = pnl.w;
+            p.normal.x = pnl.x;
+            p.normal.y = pnl.y;
+            p.normal.z = pnl.z;
+            p.d = pnl.w;
 
             // 右边 Plane
             p = m_frustumPlanes[1];
@@ -184,10 +184,10 @@ namespace SDK.Lib
             pnl.w = m_projMat.m33 - m_projMat.m03;
             pnl = m_camera.cameraToWorldMatrix * pnl;
             pnl.Normalize();
-            p.m_a = pnl.x;
-            p.m_b = pnl.y;
-            p.m_c = pnl.z;
-            p.m_d = pnl.w;
+            p.normal.x = pnl.x;
+            p.normal.y = pnl.y;
+            p.normal.z = pnl.z;
+            p.d = pnl.w;
 
             // 顶端 Plane
             p = m_frustumPlanes[3];
@@ -197,10 +197,10 @@ namespace SDK.Lib
             pnl.w = m_projMat.m33 - m_projMat.m13;
             pnl = m_camera.cameraToWorldMatrix * pnl;
             pnl.Normalize();
-            p.m_a = pnl.x;
-            p.m_b = pnl.y;
-            p.m_c = pnl.z;
-            p.m_d = pnl.w;
+            p.normal.x = pnl.x;
+            p.normal.y = pnl.y;
+            p.normal.z = pnl.z;
+            p.d = pnl.w;
 
             // 底边 Plane
             p = m_frustumPlanes[2];
@@ -210,10 +210,10 @@ namespace SDK.Lib
             pnl.w = m_projMat.m33 + m_projMat.m13;
             pnl = m_camera.cameraToWorldMatrix * pnl;
             pnl.Normalize();
-            p.m_a = pnl.x;
-            p.m_b = pnl.y;
-            p.m_c = pnl.z;
-            p.m_d = pnl.w;
+            p.normal.x = pnl.x;
+            p.normal.y = pnl.y;
+            p.normal.z = pnl.z;
+            p.d = pnl.w;
 
             // 近 Plane
             p = m_frustumPlanes[4];
@@ -223,10 +223,10 @@ namespace SDK.Lib
             pnl.w = m_projMat.m33 + m_projMat.m23;
             pnl = m_camera.cameraToWorldMatrix * pnl;
             pnl.Normalize();
-            p.m_a = pnl.x;
-            p.m_b = pnl.y;
-            p.m_c = pnl.z;
-            p.m_d = pnl.w;
+            p.normal.x = pnl.x;
+            p.normal.y = pnl.y;
+            p.normal.z = pnl.z;
+            p.d = pnl.w;
 
             // 远 Plane
             p = m_frustumPlanes[5];
@@ -236,15 +236,15 @@ namespace SDK.Lib
             pnl.w = m_projMat.m33 - m_projMat.m23;
             pnl = m_camera.cameraToWorldMatrix * pnl;
             pnl.Normalize();
-            p.m_a = pnl.x;
-            p.m_b = pnl.y;
-            p.m_c = pnl.z;
-            p.m_d = pnl.w;
+            p.normal.x = pnl.x;
+            p.normal.y = pnl.y;
+            p.normal.z = pnl.z;
+            p.d = pnl.w;
 
             m_frustumPlanesDirty = false;
         }
 
-        public bool isVisible(Vector3 vert)
+        public bool isVisible(MVector3 vert)
         {
             for (int plane = 0; plane < 6; ++plane)
             {
@@ -252,7 +252,7 @@ namespace SDK.Lib
                 if (plane == (int)MLensBase.FrustumPlane.FRUSTUM_PLANE_FAR && m_lens.getNearDist() == 0)
                     continue;
 
-                if (m_frustumPlanes[plane].getSide(vert) == MPlane3D.Side.NEGATIVE_SIDE)
+                if (m_frustumPlanes[plane].getSide(ref vert) == MPlane.Side.NEGATIVE_SIDE)
                 {
                     return false;
                 }

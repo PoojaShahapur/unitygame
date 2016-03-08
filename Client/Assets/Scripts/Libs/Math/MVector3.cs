@@ -579,10 +579,10 @@ namespace SDK.Lib
                 return true;
             }
 
-            if (((MVector3)this == null) || ((MVector3)other == null))
-            {
-                return false;
-            }
+            //if (((MVector3)this == null) || ((MVector3)other == null))
+            //{
+            //    return false;
+            //}
 
             return (this.x == ((MVector3)other).x && this.y == ((MVector3)other).y && this.z == ((MVector3)other).z);
         }

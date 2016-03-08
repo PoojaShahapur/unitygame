@@ -5,7 +5,7 @@ namespace SDK.Lib
 {
     public class UtilMath
     {
-        static public bool isVisible(Camera camera, RectangleF box)
+        static public bool isVisible(Camera camera, MRectangleF box)
         {
             return false;
         }

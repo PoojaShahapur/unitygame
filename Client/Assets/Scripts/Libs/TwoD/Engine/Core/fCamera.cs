@@ -6,7 +6,7 @@ namespace SDK.Lib
 	{
 		private static float count = 0;
 		private fScene m_scene;
-		private RectangleF m_rect;			// 不用经常申请释放资源
+		private MRectangleF m_rect;			// 不用经常申请释放资源
 
 		public bool m_bInit = false;
 		
@@ -18,7 +18,7 @@ namespace SDK.Lib
 			this.m_scene = scene;
 			//base(<camera id={myId}/>);
 
-			m_rect = new RectangleF(0, 0, 100, 100);
+			m_rect = new MRectangleF(0, 0, 100, 100);
 			// 这里宽度和高度赋值一个具体的值，裁剪的时候使用这个句型
 			//m_rect.width = this.m_context.m_config.m_curWidth;
 			//m_rect.height = this.m_context.m_config.m_curHeight;

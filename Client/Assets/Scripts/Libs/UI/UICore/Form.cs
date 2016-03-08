@@ -229,14 +229,14 @@ namespace SDK.Lib
 		
 		public void adjustPosWithAlign()
 		{
-			PointF pos = computeAdjustPosWithAlign();
+			MPointF pos = computeAdjustPosWithAlign();
 			this.x = pos.x;
 			this.y = pos.y;
 		}
 		
-		protected PointF computeAdjustPosWithAlign()
+		protected MPointF computeAdjustPosWithAlign()
 		{
-			PointF ret = new PointF(0, 0);
+			MPointF ret = new MPointF(0, 0);
 			int widthStage = 0;
 			int heightStage = 0;
             if (m_alignVertial == (int)WindowAnchor.CENTER)

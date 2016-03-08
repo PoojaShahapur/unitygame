@@ -17,7 +17,7 @@ namespace SDK.Lib
             FRUSTUM_PLANE_BOTTOM = 5
         };
 
-        protected MMatrix3D m_matrix3D;     // 镜头变换矩阵        
+        protected MMatrix4 m_matrix3D;     // 镜头变换矩阵        
         protected float m_farDist;          // Far 裁剪距离，默认 10000
         protected float m_nearDist;         // Near 裁剪距离，默认 100
         protected float m_aspectRatio;      // x/y 视口比例，默认 1.3333
@@ -28,9 +28,9 @@ namespace SDK.Lib
 
         protected MLensBase()
         {
-            m_bShowBoundBox = false;
+            m_bShowBoundBox = true;
             m_frustumRender = new QuadMeshRender(24);
-            m_matrix3D = new MMatrix3D();
+            m_matrix3D = new MMatrix4(0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
             m_farDist = 10000;
             m_nearDist = 100;
@@ -150,7 +150,7 @@ namespace SDK.Lib
         /**
          * brief 测试输出投影矩阵
          */
-        public void testLogMatrix(MMatrix3D projMat)
+        public void testLogMatrix(MMatrix4 projMat)
         {
             string str = "";
             for (int y = 0; y < 4; ++y)

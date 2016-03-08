@@ -62,7 +62,7 @@
         /**
          * @brief 根据相机的位置裁剪
          */
-        public void updateClip(MList<MPlane3D> planes)
+        public void updateClip(MList<MPlane> planes)
         {
             m_rootNode.updateClip(planes);
         }

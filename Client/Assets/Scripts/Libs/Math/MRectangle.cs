@@ -17,7 +17,7 @@ namespace SDK.Lib
             m_height = height;
         }
 
-        public MRectangleF(MPointF point, SizeF size)
+        public MRectangleF(MPointF point, MSizeF size)
         {
             m_x = point.X;
             m_y = point.Y;
@@ -89,11 +89,11 @@ namespace SDK.Lib
             }
         }
 
-        public PointF Location
+        public MPointF Location
         {
             get
             {
-                return new PointF(m_x, m_y);
+                return new MPointF(m_x, m_y);
             }
         }
 
@@ -121,7 +121,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool Contains(RectangleF rect)
+        public bool Contains(MRectangleF rect)
         {
             float minx = Math.Max(m_x, rect.X);
             float miny = Math.Max(m_y, rect.Y);
@@ -133,7 +133,7 @@ namespace SDK.Lib
             return (maxx - minx) * (maxy - miny) == rect.Width * rect.Height;
         }
 
-        public bool IntersectsWith(RectangleF rect)
+        public bool IntersectsWith(MRectangleF rect)
         {
             float minx = Math.Max(m_x, rect.m_x);
             float miny = Math.Max(m_y, rect.m_y);

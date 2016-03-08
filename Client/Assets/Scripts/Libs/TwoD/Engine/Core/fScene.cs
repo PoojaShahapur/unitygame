@@ -450,12 +450,12 @@ namespace SDK.Lib
 		//	}
 		//}
 
-		public PointF translate3DCoordsTo2DCoords(float x, float y, float z)
+		public MPointF translate3DCoordsTo2DCoords(float x, float y, float z)
 		{
 			return fScene.translateCoords(x, y, z);
 		}
 		
-		public PointF translate3DCoordsToStageCoords(float x, float y, float z)
+		public MPointF translate3DCoordsToStageCoords(float x, float y, float z)
 		{
             //Rectangle rect = this.container.scrollRect;
 
@@ -469,7 +469,7 @@ namespace SDK.Lib
             return null;
 		}
 		
-		public PointF translateStageCoordsTo3DCoords(float x, float y)
+		public MPointF translateStageCoordsTo3DCoords(float x, float y)
 		{
             //Rectangle rect = this.container.scrollRect;
             //float xx = x + rect.x;
@@ -746,14 +746,14 @@ namespace SDK.Lib
 			return cell;
 		}
 
-		public static PointF translateCoords(float x, float y, float z)
+		public static MPointF translateCoords(float x, float y, float z)
 		{
-			return new PointF(x, y);
+			return new MPointF(x, y);
 		}
 
-		public static PointF translateCoordsInverse(float x, float y)
+		public static MPointF translateCoordsInverse(float x, float y)
 		{
-			return new PointF(x, y);
+			return new MPointF(x, y);
 		}
 
 		public void getVisibles(fCell cell, float range = 0)		
