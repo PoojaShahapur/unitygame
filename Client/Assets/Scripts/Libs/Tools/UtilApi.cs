@@ -1152,5 +1152,21 @@ namespace SDK.Lib
         {
             return (plane.getSide(ref box) == MPlane.Side.BOTH_SIDE);
         }
-}
+
+        static public float Tan(float f)
+        {
+            return Mathf.Tan(f);
+        }
+
+        static public float Sign(float fValue)
+        {
+            if (fValue > 0.0)
+                return 1.0f;
+
+            if (fValue < 0.0)
+                return -1.0f;
+
+            return 0.0f;
+        }
+    }
 }
