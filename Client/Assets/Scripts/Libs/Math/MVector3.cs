@@ -22,14 +22,14 @@ namespace SDK.Lib
             z = fZ;
         }
 
-        public MVector3(float[] afCoordinate)
+        public MVector3(ref float[] afCoordinate)
         {
             x = afCoordinate[0];
             y = afCoordinate[1];
             z = afCoordinate[2];
         }
 
-        public MVector3(int[] afCoordinate)
+        public MVector3(ref int[] afCoordinate)
         {
             x = (float)afCoordinate[0];
             y = (float)afCoordinate[1];
@@ -50,7 +50,7 @@ namespace SDK.Lib
             z = rhs.z;
         }
 
-        public void swap(MVector3 other)
+        public void swap(ref MVector3 other)
         {
             UtilMath.swap(ref x, ref other.x);
             UtilMath.swap(ref y, ref other.y);
@@ -95,7 +95,7 @@ namespace SDK.Lib
             }
         }
 
-        public MVector3 assignFrom(MVector3 rkVector )
+        public MVector3 assignFrom(ref MVector3 rkVector )
         {
             this.x = rkVector.x;
             this.y = rkVector.y;
@@ -318,22 +318,22 @@ namespace SDK.Lib
             return x * x + y * y + z * z;
         }
 
-        public float distance(MVector3 rhs)
+        public float distance(ref MVector3 rhs)
         {
             return (this - rhs).length();
         }
 
-        public float squaredDistance(MVector3 rhs)
+        public float squaredDistance(ref MVector3 rhs)
         {
             return (this - rhs).squaredLength();
         }
 
-        public float dotProduct(MVector3 vec)
+        public float dotProduct(ref MVector3 vec)
         {
             return x * vec.x + y * vec.y + z * vec.z;
         }
 
-        public float absDotProduct(MVector3 vec)
+        public float absDotProduct(ref MVector3 vec)
         {
             return UtilMath.Abs(x * vec.x) + UtilMath.Abs(y * vec.y) + UtilMath.Abs(z * vec.z);
         }
@@ -353,7 +353,7 @@ namespace SDK.Lib
             return fLength;
         }
 
-        public MVector3 crossProduct(MVector3 rkVector )
+        public MVector3 crossProduct(ref MVector3 rkVector )
         {
             return new MVector3(
                 y * rkVector.z - z * rkVector.y,
@@ -361,7 +361,7 @@ namespace SDK.Lib
                 x * rkVector.y - y * rkVector.x);
         }
 
-        public MVector3 midPoint( MVector3 vec )
+        public MVector3 midPoint(ref MVector3 vec )
         {
             return new MVector3(
                 ( x + vec.x ) * 0.5f,
@@ -408,11 +408,11 @@ namespace SDK.Lib
         {
             const float fSquareZero = (float)(1e-06 * 1e-06);
 
-            MVector3 perp = this.crossProduct( MVector3.UNIT_X );
+            MVector3 perp = this.crossProduct(ref MVector3.UNIT_X );
 
             if( perp.squaredLength() < fSquareZero )
             {
-                perp = this.crossProduct(MVector3.UNIT_Y );
+                perp = this.crossProduct(ref MVector3.UNIT_Y );
             }
             perp.normalise();
 
@@ -420,8 +420,8 @@ namespace SDK.Lib
         }
 
         public MVector3 randomDeviant(
-            float angle,
-            MVector3 up/* = MVector3.ZERO*/ )
+            ref MRadian angle,
+            ref MVector3 up/* = MVector3.ZERO*/ )
         {
             MVector3 newUp;
 
@@ -435,28 +435,28 @@ namespace SDK.Lib
             }
 
             MQuaternion q = new MQuaternion();
-            q.FromAngleAxis( (float)(UtilMath.UnitRandom() * UtilMath.TWO_PI), this );
+            q.FromAngleAxis(new MRadian(UtilMath.UnitRandom() * UtilMath.TWO_PI), ref this);
             newUp = q * newUp;
 
-            q.FromAngleAxis( angle, newUp );
+            q.FromAngleAxis(angle, ref newUp);
             return q * this;
         }
 
-        public float angleBetween(MVector3 dest)
+        public float angleBetween(ref MVector3 dest)
         {
             float lenProduct = length() * dest.length();
 
             if(lenProduct < 1e-6f)
                 lenProduct = 1e-6f;
 
-            float f = dotProduct(dest) / lenProduct;
+            float f = dotProduct(ref dest) / lenProduct;
 
             f = UtilMath.Clamp(f, (float)-1.0, (float)1.0);
             return UtilMath.ACos(f);
         }
 
-        public MQuaternion getRotationTo(MVector3 dest,
-            MVector3 fallbackAxis/* = MVector3.ZERO*/)
+        public MQuaternion getRotationTo(ref MVector3 dest,
+            ref MVector3 fallbackAxis/* = MVector3.ZERO*/)
         {
             MQuaternion q = new MQuaternion();
 
@@ -465,7 +465,7 @@ namespace SDK.Lib
             v0.normalise();
             v1.normalise();
 
-            float d = v0.dotProduct(v1);
+            float d = v0.dotProduct(ref v1);
 
             if (d >= 1.0f)
             {
@@ -475,15 +475,15 @@ namespace SDK.Lib
             {
                 if (fallbackAxis != MVector3.ZERO)
                 {
-                    q.FromAngleAxis((float)(UtilMath.PI), fallbackAxis);
+                    q.FromAngleAxis(new MRadian(UtilMath.PI), ref fallbackAxis);
                 }
                 else
                 {
-                    MVector3 axis = MVector3.UNIT_X.crossProduct(this);
+                    MVector3 axis = MVector3.UNIT_X.crossProduct(ref this);
                     if (axis.isZeroLength())
-                        axis = MVector3.UNIT_Y.crossProduct(this);
+                        axis = MVector3.UNIT_Y.crossProduct(ref this);
                     axis.normalise();
-                    q.FromAngleAxis((float)(UtilMath.PI), axis);
+                    q.FromAngleAxis(new MRadian(UtilMath.PI), ref axis);
                 }
             }
             else
@@ -491,7 +491,7 @@ namespace SDK.Lib
                 float s = UtilMath.Sqrt( (1+d)*2 );
                 float invs = 1 / s;
 
-                MVector3 c = v0.crossProduct(v1);
+                MVector3 c = v0.crossProduct(ref v1);
 
                 q.x = c.x * invs;
                 q.y = c.y * invs;
@@ -515,9 +515,10 @@ namespace SDK.Lib
             return ret;
         }
 
-        public MVector3 reflect(MVector3 normal)
+        public MVector3 reflect(ref MVector3 normal)
         {
-            return new MVector3( this - ( 2 * this.dotProduct(normal) * normal ) );
+            MVector3 tmp = this - (2 * this.dotProduct(ref normal) * normal);
+            return new MVector3( tmp );
         }
 
         public bool positionEquals(MVector3 rhs, float tolerance = 1e-03f)
@@ -528,16 +529,16 @@ namespace SDK.Lib
 
         }
 
-        public bool positionCloses(MVector3 rhs, float tolerance = 1e-03f)
+        public bool positionCloses(ref MVector3 rhs, float tolerance = 1e-03f)
         {
-            return squaredDistance(rhs) <=
+            return squaredDistance(ref rhs) <=
                 (squaredLength() + rhs.squaredLength()) * tolerance;
         }
 
-        public bool directionEquals(MVector3 rhs,
+        public bool directionEquals(ref MVector3 rhs,
             float tolerance)
         {
-            float dot = dotProduct(rhs);
+            float dot = dotProduct(ref rhs);
             float angle = UtilMath.ACos(dot);
 
             return UtilMath.Abs(angle) <= tolerance;
@@ -566,7 +567,7 @@ namespace SDK.Lib
                     return z > 0 ? MVector3.UNIT_Z : MVector3.NEGATIVE_UNIT_Z;
         }
 
-        static public string ToString(MVector3 v)
+        static public string ToString(ref MVector3 v)
         {
             string o = "Vector3(" + v.x + ", " + v.y + ", " + v.z + ")";
             return o;

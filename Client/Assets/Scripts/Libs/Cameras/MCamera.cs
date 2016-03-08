@@ -98,10 +98,10 @@ namespace SDK.Lib
 
             if (mYawFixed)
             {
-                MVector3 xVec = mYawFixedAxis.crossProduct(zAdjustVec);
+                MVector3 xVec = mYawFixedAxis.crossProduct(ref zAdjustVec);
                 xVec.normalise();
 
-                MVector3 yVec = zAdjustVec.crossProduct(xVec);
+                MVector3 yVec = zAdjustVec.crossProduct(ref xVec);
                 yVec.normalise();
 
                 targetWorldOrientation.FromAxes(xVec, yVec, zAdjustVec);
@@ -115,12 +115,12 @@ namespace SDK.Lib
                 MQuaternion rotQuat = new MQuaternion();
                 if ((axes[2] + zAdjustVec).squaredLength() < 0.00005f)
                 {
-                    rotQuat.FromAngleAxis((float)(UtilMath.PI), axes[1]);
+                    rotQuat.FromAngleAxis(new MRadian(UtilMath.PI), ref axes[1]);
                 }
                 else
                 {
                     MVector3 tmp = new MVector3();
-                    rotQuat = axes[2].getRotationTo(zAdjustVec, tmp);
+                    rotQuat = axes[2].getRotationTo(ref zAdjustVec, ref tmp);
                 }
                 targetWorldOrientation = rotQuat * mRealOrientation;
             }
@@ -157,7 +157,7 @@ namespace SDK.Lib
             this.lookAt(ref vTemp);
         }
 
-        public void roll(ref float angle)
+        public void roll(ref MRadian angle)
         {
             MVector3 zAxis = mOrientation.zAxis();
             rotate(ref zAxis, ref angle);
@@ -165,7 +165,7 @@ namespace SDK.Lib
             invalidateView();
         }
 
-        public void yaw(ref float angle)
+        public void yaw(ref MRadian angle)
         {
             MVector3 yAxis;
 
@@ -183,7 +183,7 @@ namespace SDK.Lib
             invalidateView();
         }
 
-        public void pitch(ref float angle)
+        public void pitch(ref MRadian angle)
         {
             MVector3 xAxis = mOrientation.xAxis();
             rotate(ref xAxis, ref angle);
@@ -191,10 +191,10 @@ namespace SDK.Lib
             invalidateView();
         }
 
-        public void rotate(ref MVector3 axis, ref float angle)
+        public void rotate(ref MVector3 axis, ref MRadian angle)
         {
             MQuaternion q = new MQuaternion();
-            q.FromAngleAxis(angle, axis);
+            q.FromAngleAxis(angle, ref axis);
             rotate(ref q);
         }
 
@@ -241,9 +241,9 @@ namespace SDK.Lib
                 if (mReflect)
                 {
                     MVector3 dir = mRealOrientation * MVector3.NEGATIVE_UNIT_Z;
-                    MVector3 rdir = dir.reflect(mReflectPlane.normal);
+                    MVector3 rdir = dir.reflect(ref mReflectPlane.normal);
                     MVector3 up = mRealOrientation * MVector3.UNIT_Y;
-                    mDerivedOrientation = dir.getRotationTo(rdir, up) * mRealOrientation;
+                    mDerivedOrientation = dir.getRotationTo(ref rdir, ref up) * mRealOrientation;
 
                     mDerivedPosition = mReflectMatrix.transformAffine(mRealPosition);
                 }
@@ -377,9 +377,9 @@ namespace SDK.Lib
             updateView();
 
             mat.makeTransform(
-                    mDerivedPosition,
-                    mDerivedScale,
-                    mDerivedOrientation);
+                    ref mDerivedPosition,
+                    ref mDerivedScale,
+                    ref mDerivedOrientation);
         }
 
         public string getMovableType()

@@ -26,25 +26,25 @@ namespace SDK.Lib
             y = scaler;
         }
 
-        public MVector2(MVector2 vec)
+        public MVector2(ref MVector2 vec)
         {
             x = vec.x;
             y = vec.y;
         }
 
-        public MVector2(float[] afCoordinate)
+        public MVector2(ref float[] afCoordinate)
         {
             x = afCoordinate[0];
             y = afCoordinate[1];
         }
 
-        public MVector2(int[] afCoordinate)
+        public MVector2(ref int[] afCoordinate)
         {
             x = (float)afCoordinate[0];
             y = (float)afCoordinate[1];
         }
 
-        public void swap(MVector2 other)
+        public void swap(ref MVector2 other)
         {
             float tmp = 0;
             tmp = x;
@@ -278,19 +278,19 @@ namespace SDK.Lib
         }
 
 
-        public float distance(MVector2 rhs)
+        public float distance(ref MVector2 rhs)
         {
             return (this - rhs).length();
         }
 
 
-        public float squaredDistance(MVector2 rhs)
+        public float squaredDistance(ref MVector2 rhs)
         {
             return (this - rhs).squaredLength();
         }
 
 
-        public float dotProduct(MVector2 vec)
+        public float dotProduct(ref MVector2 vec)
         {
             return x* vec.x + y* vec.y;
         }
@@ -353,7 +353,7 @@ namespace SDK.Lib
             return new MVector2(-y, x);
         }
 
-        public float crossProduct(MVector2 rkVector )
+        public float crossProduct(ref MVector2 rkVector )
         {
             return x* rkVector.y - y* rkVector.x;
         }
@@ -381,30 +381,31 @@ namespace SDK.Lib
             return ret;
         }
 
-        public MVector2 reflect(MVector2 normal)
+        public MVector2 reflect(ref MVector2 normal)
         {
-            return new MVector2(this - ( 2 * this.dotProduct(normal) * normal ) );
+            MVector2 tmp = this - (2 * this.dotProduct(ref normal) * normal);
+            return new MVector2(ref tmp);
         }
 
-        public float angleBetween(MVector2 other)
+        public float angleBetween(ref MVector2 other)
         {
             float lenProduct = length() * other.length();
 
             if(lenProduct< 1e-6f)
                 lenProduct = 1e-6f;
         
-            float f = dotProduct(other) / lenProduct;
+            float f = dotProduct(ref other) / lenProduct;
 
             f = Mathf.Clamp(f, (float)-1.0, (float)1.0);
             return Mathf.Acos(f);
         }
 
 
-        public float angleTo(MVector2 other) 
+        public float angleTo(ref MVector2 other) 
         {
-            float angle = angleBetween(other);
+            float angle = angleBetween(ref other);
         
-            if (crossProduct(other)<0)          
+            if (crossProduct(ref other) <0)          
                 angle = (float)Mathf.PI * 2 - angle;       
 
             return angle;

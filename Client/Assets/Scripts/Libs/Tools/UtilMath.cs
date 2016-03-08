@@ -3,10 +3,16 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
+    public enum AngleUnit
+    {
+        AU_DEGREE,
+        AU_RADIAN
+    }
+
     public class UtilMath
     {
-        public const double PI = UnityEngine.Mathf.PI;
-        public const double TWO_PI = 2.0 * UnityEngine.Mathf.PI;
+        public const float PI = UnityEngine.Mathf.PI;
+        public const float TWO_PI = (float)2.0 * UnityEngine.Mathf.PI;
         public const float HALF_PI = (float)(0.5f * PI);
         public const float fDeg2Rad = (float)(PI / 180.0f);
         public const float fRad2Deg = (float)(180.0f / PI);
@@ -14,6 +20,58 @@ namespace SDK.Lib
         public const float POS_INFINITY = float.PositiveInfinity;
         public const float NEG_INFINITY = float.NegativeInfinity;
         public const float EPSILON = 1e-6f;
+
+        public static AngleUnit msAngleUnit;
+        public static int mTrigTableSize;
+        public static float mTrigTableFactor;
+        public static float[] mSinTable;
+        public static float[] mTanTable;
+
+        public UtilMath( int trigTableSize )
+        {
+            msAngleUnit = AngleUnit.AU_DEGREE;
+            mTrigTableSize = trigTableSize;
+            mTrigTableFactor = (float)(mTrigTableSize / TWO_PI);
+
+            mSinTable = new float[mTrigTableSize];
+            mTanTable = new float[mTrigTableSize];
+
+            buildTrigTables();
+        }
+
+        static public void buildTrigTables()
+        {
+            float angle;
+            for (int i = 0; i < mTrigTableSize; ++i)
+            {
+                angle = (float)((TWO_PI * i) / mTrigTableSize);
+                mSinTable[i] = sin(angle);
+                mTanTable[i] = tan(angle);
+            }
+        }
+
+        static public float SinTable(float fValue)
+        {
+            // Convert range to index values, wrap if required
+            int idx;
+            if (fValue >= 0)
+            {
+                idx = (int)(fValue * mTrigTableFactor) % mTrigTableSize;
+            }
+            else
+            {
+                idx = mTrigTableSize - ((int)(-fValue * mTrigTableFactor) % mTrigTableSize) - 1;
+            }
+
+            return mSinTable[idx];
+        }
+
+        static public float TanTable(float fValue)
+        {
+            // Convert range to index values, wrap if required
+            int idx = (int)(fValue *= mTrigTableFactor) % mTrigTableSize;
+            return mTanTable[idx];
+        }
 
         static public bool isVisible(Camera camera, MRectangleF box)
         {
@@ -221,15 +279,45 @@ namespace SDK.Lib
             return Mathf.Clamp(value, min, max);
         }
 
-        static public float Sin(float f)
+        static public float Sin(MRadian fValue, bool useTables = false)
+        {
+            return (!useTables) ? (float)(Mathf.Sin(fValue.valueRadians())) : SinTable(fValue.valueRadians());
+        }
+
+        static public float Sin(float fValue, bool useTables = false)
+        {
+            return (!useTables) ? (float)(sin(fValue)) : SinTable(fValue);
+        }
+
+        static public float Cos(MRadian fValue, bool useTables = false)
+        {
+            return (!useTables) ? (float)(cos(fValue.valueRadians())) : SinTable(fValue.valueRadians() + HALF_PI);
+        }
+
+        static public float Cos(float fValue, bool useTables = false)
+        {
+            return (!useTables) ? (float)(cos(fValue)) : SinTable(fValue + HALF_PI);
+        }
+
+        static public float sin(float f)
         {
             return Mathf.Sin(f);
         }
 
-        static public float Cos(float f)
+        //static public float Sin(float f)
+        //{
+        //    return Mathf.Sin(f);
+        //}
+
+        static public float cos(float f)
         {
             return Mathf.Cos(f);
         }
+
+        //static public float Cos(float f)
+        //{
+        //    return Mathf.Cos(f);
+        //}
 
         static public float InvSqrt(float fValue)
         {
@@ -286,13 +374,13 @@ namespace SDK.Lib
             MMatrix4 viewMatrix = new MMatrix4();
 
             MMatrix3 rot = new MMatrix3();
-            orientation.ToRotationMatrix(rot);
+            orientation.ToRotationMatrix(ref rot);
 
             MMatrix3 rotT = rot.Transpose();
             MVector3 trans = -rotT * position;
 
             viewMatrix = MMatrix4.IDENTITY;
-            viewMatrix.assignForm(rotT);
+            viewMatrix.assignForm(ref rotT);
             viewMatrix.m[0, 3] = trans.x;
             viewMatrix.m[1, 3] = trans.y;
             viewMatrix.m[2, 3] = trans.z;
@@ -307,15 +395,16 @@ namespace SDK.Lib
 
         static public KeyValuePair<bool, float> intersects(MRay ray, ref MPlane plane)
         {
-
-            float denom = plane.normal.dotProduct(ray.getDirection());
+            MVector3 dir = ray.getDirection();
+            float denom = plane.normal.dotProduct(ref dir);
             if (UtilMath.Abs(denom) < EPSILON)
             {
                 return new KeyValuePair<bool, float>(false, (float)0);
             }
             else
             {
-                float nom = plane.normal.dotProduct(ray.getOrigin()) + plane.d;
+                MVector3 orig = ray.getOrigin();
+                float nom = plane.normal.dotProduct(ref orig) + plane.d;
                 float t = -(nom / denom);
                 return new KeyValuePair<bool, float>(t >= 0, (float)t);
             }
@@ -427,6 +516,58 @@ namespace SDK.Lib
             }
 
             return new KeyValuePair<bool, float>(hit, (float)lowt);
+        }
+
+        static public float DegreesToRadians(float degrees)
+        {
+            return degrees * fDeg2Rad;
+        }
+
+        static public float RadiansToDegrees(float radians)
+        {
+            return radians * fRad2Deg;
+        }
+
+        static public void setAngleUnit(AngleUnit unit)
+        {
+            msAngleUnit = unit;
+        }
+
+        static public AngleUnit getAngleUnit()
+        {
+            return msAngleUnit;
+        }
+
+        static public float AngleUnitsToRadians(float angleunits)
+        {
+            if (msAngleUnit == AngleUnit.AU_DEGREE)
+                return angleunits * fDeg2Rad;
+            else
+                return angleunits;
+        }
+
+        static public float RadiansToAngleUnits(float radians)
+        {
+            if (msAngleUnit == AngleUnit.AU_DEGREE)
+                return radians * fRad2Deg;
+            else
+                return radians;
+        }
+
+        static public float AngleUnitsToDegrees(float angleunits)
+        {
+            if (msAngleUnit == AngleUnit.AU_RADIAN)
+                return angleunits * fRad2Deg;
+            else
+                return angleunits;
+        }
+
+        static public float DegreesToAngleUnits(float degrees)
+        {
+            if (msAngleUnit == AngleUnit.AU_RADIAN)
+                return degrees * fDeg2Rad;
+            else
+                return degrees;
         }
     }
 }

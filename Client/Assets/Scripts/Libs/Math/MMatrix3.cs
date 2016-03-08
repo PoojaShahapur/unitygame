@@ -11,7 +11,7 @@ namespace SDK.Lib
 
         public float[, ] m;
 
-        public MMatrix3(float[, ] arr)
+        public MMatrix3(ref float[, ] arr)
         {
             m = new float[3, 3];
 
@@ -28,7 +28,7 @@ namespace SDK.Lib
             m[2, 2] = arr[2, 2];
         }
 
-        public MMatrix3(MMatrix3 rkMatrix)
+        public MMatrix3(ref MMatrix3 rkMatrix)
         {
             m = new float[3, 3];
 
@@ -62,7 +62,7 @@ namespace SDK.Lib
             m[2, 2] = fEntry22;
         }
 
-        public void swap(MMatrix3 other)
+        public void swap(ref MMatrix3 other)
         {
             UtilMath.swap(ref m[0, 0], ref other.m[0, 0]);
             UtilMath.swap(ref m[0, 1], ref other.m[0, 1]);
@@ -90,7 +90,7 @@ namespace SDK.Lib
                 m[2, iCol]);
         }
 
-        public void SetColumn(int iCol, MVector3 vec)
+        public void SetColumn(int iCol, ref MVector3 vec)
         {
             UtilApi.assert(iCol < 3);
             m[0, iCol] = vec.x;
@@ -98,14 +98,14 @@ namespace SDK.Lib
             m[2, iCol] = vec.z;
         }
 
-        public void FromAxes(MVector3 xAxis, MVector3 yAxis, MVector3 zAxis)
+        public void FromAxes(ref MVector3 xAxis, ref MVector3 yAxis, ref MVector3 zAxis)
         {
-            SetColumn(0, xAxis);
-            SetColumn(1, yAxis);
-            SetColumn(2, zAxis);
+            SetColumn(0, ref xAxis);
+            SetColumn(1, ref yAxis);
+            SetColumn(2, ref zAxis);
         }
 
-        public MMatrix3 assignForm(MMatrix3 rkMatrix)
+        public MMatrix3 assignForm(ref MMatrix3 rkMatrix)
         {
             m[0, 0] = rkMatrix.m[0, 0];
             m[0, 1] = rkMatrix.m[0, 1];
@@ -254,7 +254,7 @@ namespace SDK.Lib
             }
             return kTranspose;
         }
-        public bool Inverse(MMatrix3 rkInverse, float fTolerance = 1e-06f)
+        public bool Inverse(ref MMatrix3 rkInverse, float fTolerance = 1e-06f)
         {
             rkInverse.m[0, 0] = m[1, 1] * m[2, 2] -
                     m[1, 2] * m[2, 1];
@@ -295,7 +295,7 @@ namespace SDK.Lib
         public MMatrix3 Inverse(float fTolerance = 1e-06f)
         {
             MMatrix3 kInverse = MMatrix3.ZERO;
-            Inverse(kInverse, fTolerance);
+            Inverse(ref kInverse, fTolerance);
             return kInverse;
         }
         public float Determinant()
@@ -315,13 +315,13 @@ namespace SDK.Lib
             return fDet;
         }
 
-        public void SingularValueDecomposition(MMatrix3 kL, MVector3 kS,
-            MMatrix3 kR)
+        public void SingularValueDecomposition(ref MMatrix3 kL, ref MVector3 kS,
+            ref MMatrix3 kR)
         {
             int iRow, iCol;
 
             MMatrix3 kA = this;
-            Bidiagonalize(kA, kL, kR);
+            Bidiagonalize(ref kA, ref kL, ref kR);
 
             for (int i = 0; i < msSvdMaxIterations; i++)
             {
@@ -417,7 +417,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        GolubKahanStep(kA, kL, kR);
+                        GolubKahanStep(ref kA, ref kL, ref kR);
                     }
                 }
             }
@@ -433,8 +433,8 @@ namespace SDK.Lib
             }
         }
 
-        public void SingularValueComposition(MMatrix3 kL,
-                    MVector3 kS, MMatrix3 kR)
+        public void SingularValueComposition(ref MMatrix3 kL,
+                    ref MVector3 kS, ref MMatrix3 kR)
         {
             int iRow, iCol;
             MMatrix3 kTmp = new MMatrix3();
@@ -506,8 +506,8 @@ namespace SDK.Lib
             m[2, 2] *= fInvLength;
         }
 
-        public void QDUDecomposition(MMatrix3 kQ, MVector3 kD,
-            MVector3 kU)
+        public void QDUDecomposition(ref MMatrix3 kQ, ref MVector3 kD,
+            ref MVector3 kU)
         {
             float fInvLength = UtilMath.InvSqrt(m[0, 0] * m[0, 0] + m[1, 0] * m[1, 0] + m[2, 0] * m[2, 0]);
 
@@ -613,12 +613,12 @@ namespace SDK.Lib
                 kP[1, 1] * kP[2, 2] - kP[1, 2] * kP[2, 1];
             afCoeff[2] = -(kP[0, 0] + kP[1, 1] + kP[2, 2]);
 
-            float fRoot = MaxCubicRoot(afCoeff);
+            float fRoot = MaxCubicRoot(ref afCoeff);
             float fNorm = UtilMath.Sqrt(fPmax * fRoot);
             return fNorm;
         }
 
-        public void ToAngleAxis(MVector3 rkAxis, ref float rfRadians)
+        public void ToAngleAxis(ref MVector3 rkAxis, ref float rfRadians)
         {
             float fTrace = m[0, 0] + m[1, 1] + m[2, 2];
             float fCos = 0.5f * (fTrace - 1.0f);
@@ -684,14 +684,14 @@ namespace SDK.Lib
             }
         }
 
-        public void ToAngleAxis(ref MVector3 rkAxis, ref float rfAngle)
+        public void ToAngleAxis(ref MVector3 rkAxis, ref float rfAngle, bool degree)
         {
             float r = 0;
-            ToAngleAxis(rkAxis, ref r);
-            rfAngle = r;
+            ToAngleAxis(ref rkAxis, ref r);
+            rfAngle = r * UtilMath.fRad2Deg;
         }
 
-        public void FromAngleAxis(MVector3 rkAxis, float fRadians)
+        public void FromAngleAxis(ref MVector3 rkAxis, float fRadians)
         {
             float fCos = UtilMath.Cos(fRadians);
             float fSin = UtilMath.Sin(fRadians);
@@ -1005,13 +1005,13 @@ namespace SDK.Lib
             this = kZMat * (kYMat * kXMat);
         }
 
-        public void EigenSolveSymmetric(float[] afEigenvalue,
-            MVector3[] akEigenvector)
+        public void EigenSolveSymmetric(ref float[] afEigenvalue,
+            ref MVector3[] akEigenvector)
         {
             MMatrix3 kMatrix = this;
             float[] afSubDiag = new float[3];
-            kMatrix.Tridiagonal(afEigenvalue, afSubDiag);
-            kMatrix.QLAlgorithm(afEigenvalue, afSubDiag);
+            kMatrix.Tridiagonal(ref afEigenvalue, ref afSubDiag);
+            kMatrix.QLAlgorithm(ref afEigenvalue, ref afSubDiag);
 
             for (int i = 0; i < 3; i++)
             {
@@ -1020,8 +1020,8 @@ namespace SDK.Lib
                 akEigenvector[i][2] = kMatrix[2, i];
             }
 
-            MVector3 kCross = akEigenvector[1].crossProduct(akEigenvector[2]);
-            float fDet = akEigenvector[0].dotProduct(kCross);
+            MVector3 kCross = akEigenvector[1].crossProduct(ref akEigenvector[2]);
+            float fDet = akEigenvector[0].dotProduct(ref kCross);
             if (fDet < 0.0f)
             {
                 akEigenvector[2][0] = -akEigenvector[2][0];
@@ -1030,8 +1030,8 @@ namespace SDK.Lib
             }
         }
 
-        static public void TensorProduct(MVector3 rkU, MVector3 rkV,
-            MMatrix3 rkProduct)
+        static public void TensorProduct(ref MVector3 rkU, ref MVector3 rkV,
+            ref MMatrix3 rkProduct)
         {
             for (int iRow = 0; iRow < 3; iRow++)
             {
@@ -1055,7 +1055,7 @@ namespace SDK.Lib
             return false;
         }
 
-        static public string ToString(MMatrix3 mat )
+        static public string ToString(ref MMatrix3 mat )
         {
             string o = "Matrix3(" + mat[0, 0] + ", " + mat[0, 1] + ", " + mat[0, 2] + ", "
                             + mat[1, 0] + ", " + mat[1, 1] + ", " + mat[1, 2] + ", "
@@ -1065,7 +1065,7 @@ namespace SDK.Lib
 
 
 
-        public void Tridiagonal(float[] afDiag, float[] afSubDiag)
+        public void Tridiagonal(ref float[] afDiag, ref float[] afSubDiag)
         {
             float fA = m[0, 0];
             float fB = m[0, 1];
@@ -1115,7 +1115,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool QLAlgorithm(float[] afDiag, float[] afSubDiag)
+        public bool QLAlgorithm(ref float[] afDiag, ref float[] afSubDiag)
         {
             for (int i0 = 0; i0 < 3; i0++)
             {
@@ -1192,8 +1192,8 @@ namespace SDK.Lib
             return true;
         }
 
-        static public void Bidiagonalize(MMatrix3 kA, MMatrix3 kL,
-            MMatrix3 kR)
+        static public void Bidiagonalize(ref MMatrix3 kA, ref MMatrix3 kL,
+            ref MMatrix3 kR)
         {
             float[] afV = new float[3];
             float[] afW = new float[3];
@@ -1305,8 +1305,8 @@ namespace SDK.Lib
             }
         }
 
-        static public void GolubKahanStep(MMatrix3 kA, MMatrix3 kL,
-            MMatrix3 kR)
+        static public void GolubKahanStep(ref MMatrix3 kA, ref MMatrix3 kL,
+            ref MMatrix3 kR)
         {
             float fT11 = kA[0, 1] * kA[0, 1] + kA[1, 1] * kA[1, 1];
             float fT22 = kA[1, 2] * kA[1, 2] + kA[2, 2] * kA[2, 2];
@@ -1406,7 +1406,7 @@ namespace SDK.Lib
             }
         }
 
-        static public float MaxCubicRoot(float[] afCoeff)
+        static public float MaxCubicRoot(ref float[] afCoeff)
         {
             const float fOneThird = 1.0f / 3.0f;
             const float fEpsilon = 1e-06f;

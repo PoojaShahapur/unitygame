@@ -20,31 +20,31 @@ namespace SDK.Lib
             z = fZ;
         }
 
-        public MQuaternion(MMatrix3 rot)
+        public MQuaternion(ref MMatrix3 rot)
         {
             x = y = z = w = 0;
-            this.FromRotationMatrix(rot);
+            this.FromRotationMatrix(ref rot);
         }
 
-        public MQuaternion(float rfAngle, MVector3 rkAxis)
+        public MQuaternion(MRadian rfAngle, ref MVector3 rkAxis)
         {
             x = y = z = w = 0;
-            this.FromAngleAxis(rfAngle, rkAxis);
+            this.FromAngleAxis(rfAngle, ref rkAxis);
         }
 
-        public MQuaternion(MVector3 xaxis, MVector3 yaxis, MVector3 zaxis)
+        public MQuaternion(ref MVector3 xaxis, ref MVector3 yaxis, ref MVector3 zaxis)
         {
             x = y = z = w = 0;
             this.FromAxes(xaxis, yaxis, zaxis);
         }
 
-        public MQuaternion(MVector3[] akAxis)
+        public MQuaternion(ref MVector3[] akAxis)
         {
             x = y = z = w = 0;
             this.FromAxes(akAxis);
         }
 
-        public void swap(MQuaternion other)
+        public void swap(ref MQuaternion other)
         {
             UtilMath.swap(ref w, ref other.w);
             UtilMath.swap(ref x, ref other.x);
@@ -78,7 +78,7 @@ namespace SDK.Lib
             }
         }
 
-        public void FromRotationMatrix(MMatrix3 kRot)
+        public void FromRotationMatrix(ref MMatrix3 kRot)
         {
             float fTrace = kRot[0, 0] + kRot[1, 1] + kRot[2, 2];
             float fRoot;
@@ -117,7 +117,7 @@ namespace SDK.Lib
             }
         }
 
-        public void ToRotationMatrix(MMatrix3 kRot)
+        public void ToRotationMatrix(ref MMatrix3 kRot)
         {
             float fTx = x + x;
             float fTy = y + y;
@@ -143,9 +143,9 @@ namespace SDK.Lib
             kRot.m[2, 2] = 1.0f - (fTxx + fTyy);
         }
 
-        public void FromAngleAxis(float rfAngle, MVector3 rkAxis)
+        public void FromAngleAxis(MRadian rfAngle, ref MVector3 rkAxis)
         {
-            float fHalfAngle = 0.5f * rfAngle;
+            MRadian fHalfAngle = 0.5f * rfAngle;
             float fSin = UtilMath.Sin(fHalfAngle);
             w = UtilMath.Cos(fHalfAngle);
             x = fSin * rkAxis.x;
@@ -153,12 +153,12 @@ namespace SDK.Lib
             z = fSin * rkAxis.z;
         }
 
-        public void ToAngleAxis(float rfAngle, MVector3 rkAxis)
+        public void ToAngleAxis(ref MRadian rfAngle, ref MVector3 rkAxis)
         {
             float fSqrLength = x * x + y * y + z * z;
             if (fSqrLength > 0.0)
             {
-                rfAngle = 2.0f * UtilMath.ACos(w);
+                rfAngle = new MRadian(2.0f * UtilMath.ACos(w));
                 float fInvLength = UtilMath.InvSqrt(fSqrLength);
                 rkAxis.x = x * fInvLength;
                 rkAxis.y = y * fInvLength;
@@ -166,18 +166,18 @@ namespace SDK.Lib
             }
             else
             {
-                rfAngle = (float)(0.0f);
+                rfAngle = new MRadian(0.0f);
                 rkAxis.x = 1.0f;
                 rkAxis.y = 0.0f;
                 rkAxis.z = 0.0f;
             }
         }
 
-        public void ToAngleAxis(ref float dAngle, ref MVector3 rkAxis)
+        public void ToAngleAxis(ref MDegree dAngle, ref MVector3 rkAxis)
         {
-            float rAngle = 0;
-            ToAngleAxis(rAngle, rkAxis );
-            dAngle = rAngle;
+            MRadian rAngle = new MRadian();
+            ToAngleAxis(ref rAngle, ref rkAxis);
+            dAngle.assignFrom(ref rAngle);
         }
 
         public void FromAxes(MVector3[] akAxis)
@@ -191,7 +191,7 @@ namespace SDK.Lib
                 kRot.m[2, iCol] = akAxis[iCol].z;
             }
 
-            FromRotationMatrix(kRot);
+            FromRotationMatrix(ref kRot);
         }
 
         public void FromAxes(MVector3 xaxis, MVector3 yaxis, MVector3 zaxis)
@@ -210,14 +210,14 @@ namespace SDK.Lib
             kRot.m[1, 2] = zaxis.y;
             kRot.m[2, 2] = zaxis.z;
 
-            FromRotationMatrix(kRot);
+            FromRotationMatrix(ref kRot);
         }
 
         public void ToAxes(ref MVector3[] akAxis)
         {
             MMatrix3 kRot = new MMatrix3();
 
-            ToRotationMatrix(kRot);
+            ToRotationMatrix(ref kRot);
 
             for (int iCol = 0; iCol < 3; iCol++)
             {
@@ -231,7 +231,7 @@ namespace SDK.Lib
         {
             MMatrix3 kRot = new MMatrix3();
 
-            ToRotationMatrix(kRot);
+            ToRotationMatrix(ref kRot);
 
             xaxis.x = kRot[0, 0];
             xaxis.y = kRot[1, 0];
@@ -290,7 +290,7 @@ namespace SDK.Lib
             return new MVector3(fTxz + fTwy, fTyz - fTwx, 1.0f - (fTxx + fTyy));
         }
 
-        public MQuaternion assignFrom(MQuaternion rkQ)
+        public MQuaternion assignFrom(ref MQuaternion rkQ)
         {
             this.w = rkQ.w;
             this.x = rkQ.x;
@@ -347,7 +347,7 @@ namespace SDK.Lib
             return !(lhs ==rhs);
         }
 
-        public float Dot(MQuaternion rkQ)
+        public float Dot(ref MQuaternion rkQ)
         {
             return rkQ.w * rkQ.w + rkQ.x * rkQ.x + rkQ.y * rkQ.y + rkQ.z * rkQ.z;
         }
@@ -386,7 +386,7 @@ namespace SDK.Lib
 
         public MQuaternion Exp()
         {
-            float fAngle = UtilMath.Sqrt(x * x + y * y + z * z);
+            MRadian fAngle = new MRadian(UtilMath.Sqrt(x * x + y * y + z * z));
             float fSin = UtilMath.Sin(fAngle);
 
             MQuaternion kResult = new MQuaternion();
@@ -394,7 +394,7 @@ namespace SDK.Lib
 
             if (UtilMath.Abs(fSin) >= msEpsilon)
             {
-                float fCoeff = fSin / (fAngle);
+                float fCoeff = fSin / (fAngle.valueRadians());
                 kResult.x = fCoeff * x;
                 kResult.y = fCoeff * y;
                 kResult.z = fCoeff * z;
@@ -416,11 +416,11 @@ namespace SDK.Lib
 
             if (UtilMath.Abs(w) < 1.0)
             {
-                float fAngle = UtilMath.ACos(w);
+                MRadian fAngle = new MRadian(UtilMath.ACos(w));
                 float fSin = UtilMath.Sin(fAngle);
                 if (UtilMath.Abs(fSin) >= msEpsilon)
                 {
-                    float fCoeff = fAngle / fSin;
+                    float fCoeff = fAngle.valueRadians() / fSin;
                     kResult.x = fCoeff * x;
                     kResult.y = fCoeff * y;
                     kResult.z = fCoeff * z;
@@ -439,15 +439,15 @@ namespace SDK.Lib
         {
             MVector3 uv = new MVector3(), uuv = new MVector3();
             MVector3 qvec = new MVector3(lhs.x, lhs.y, lhs.z);
-            uv = qvec.crossProduct(v);
-            uuv = qvec.crossProduct(uv);
+            uv = qvec.crossProduct(ref v);
+            uuv = qvec.crossProduct(ref uv);
             uv *= (2.0f * lhs.w);
             uuv *= 2.0f;
 
             return v + uv + uuv;
         }
 
-        public float getRoll(bool reprojectAxis = true)
+        public MRadian getRoll(bool reprojectAxis = true)
         {
             if (reprojectAxis)
             {
@@ -458,15 +458,15 @@ namespace SDK.Lib
                 float fTyy = fTy * y;
                 float fTzz = fTz * z;
 
-                return (float)(UtilMath.ATan2(fTxy + fTwz, 1.0f - (fTyy + fTzz)));
+                return new MRadian(UtilMath.ATan2(fTxy + fTwz, 1.0f - (fTyy + fTzz)));
             }
             else
             {
-                return (float)(UtilMath.ATan2(2 * (x * y + w * z), w * w + x * x - y * y - z * z));
+                return new MRadian(UtilMath.ATan2(2 * (x * y + w * z), w * w + x * x - y * y - z * z));
             }
         }
 
-        public float getPitch(bool reprojectAxis = true)
+        public MRadian getPitch(bool reprojectAxis = true)
         {
             if (reprojectAxis)
             {
@@ -477,15 +477,15 @@ namespace SDK.Lib
                 float fTyz = fTz * y;
                 float fTzz = fTz * z;
 
-                return (float)(UtilMath.ATan2(fTyz + fTwx, 1.0f - (fTxx + fTzz)));
+                return new MRadian(UtilMath.ATan2(fTyz + fTwx, 1.0f - (fTxx + fTzz)));
             }
             else
             {
-                return (float)(UtilMath.ATan2(2 * (y * z + w * x), w * w - x * x - y * y + z * z));
+                return new MRadian(UtilMath.ATan2(2 * (y * z + w * x), w * w - x * x - y * y + z * z));
             }
         }
 
-        public float getYaw(bool reprojectAxis = true)
+        public MRadian getYaw(bool reprojectAxis = true)
         {
             if (reprojectAxis)
             {
@@ -497,33 +497,33 @@ namespace SDK.Lib
                 float fTxz = fTz * x;
                 float fTyy = fTy * y;
 
-                return (float)(UtilMath.ATan2(fTxz + fTwy, 1.0f - (fTxx + fTyy)));
+                return new MRadian(UtilMath.ATan2(fTxz + fTwy, 1.0f - (fTxx + fTyy)));
 
             }
             else
             {
-                return (float)(UtilMath.ASin(-2 * (x * z - w * y)));
+                return new MRadian(UtilMath.ASin(-2 * (x * z - w * y)));
             }
         }
 
-        public bool equals(MQuaternion rhs, float tolerance)
+        public bool equals(MQuaternion rhs, MRadian tolerance)
         {
-            float d = Dot(rhs);
-            float angle = UtilMath.ACos(2.0f * d * d - 1.0f);
+            float d = Dot(ref rhs);
+            MRadian angle = new MRadian(UtilMath.ACos(2.0f * d * d - 1.0f));
 
-            return UtilMath.Abs(angle) <= tolerance;
+            return UtilMath.Abs(angle.valueRadians()) <= tolerance.valueRadians();
         }
 
         public bool orientationEquals(MQuaternion other, float tolerance = 1e-3f)
         {
-            float d = this.Dot(other);
+            float d = this.Dot(ref other);
             return 1 - d* d<tolerance;
         }
         
-        static public MQuaternion Slerp(float fT, MQuaternion rkP,
-            MQuaternion rkQ, bool shortestPath = false)
+        static public MQuaternion Slerp(float fT, ref MQuaternion rkP,
+            ref MQuaternion rkQ, bool shortestPath = false)
         {
-            float fCos = rkP.Dot(rkQ);
+            float fCos = rkP.Dot(ref rkQ);
             MQuaternion rkT;
 
             if (fCos < 0.0f && shortestPath)
@@ -539,7 +539,7 @@ namespace SDK.Lib
             if (UtilMath.Abs(fCos) < 1 - msEpsilon)
             {
                 float fSin = UtilMath.Sqrt(1 - UtilMath.Sqr(fCos));
-                float fAngle = UtilMath.ATan2(fSin, fCos);
+                MRadian fAngle = new MRadian(UtilMath.ATan2(fSin, fCos));
                 float fInvSin = 1.0f / fSin;
                 float fCoeff0 = UtilMath.Sin((1.0f - fT) * fAngle) * fInvSin;
                 float fCoeff1 = UtilMath.Sin(fT * fAngle) * fInvSin;
@@ -554,26 +554,26 @@ namespace SDK.Lib
         }
 
         static public MQuaternion SlerpExtraSpins(float fT,
-                    MQuaternion rkP, MQuaternion rkQ,
+                    ref MQuaternion rkP, ref MQuaternion rkQ,
             int iExtraSpins)
         {
-            float fCos = rkP.Dot(rkQ);
-            float fAngle = UtilMath.ACos(fCos);
+            float fCos = rkP.Dot(ref rkQ);
+            MRadian fAngle = new MRadian(UtilMath.ACos(fCos));
 
-            if (UtilMath.Abs(fAngle) < msEpsilon)
+            if (UtilMath.Abs(fAngle.valueRadians()) < msEpsilon)
                 return rkP;
 
             float fSin = UtilMath.Sin(fAngle);
-            float fPhase = (float)(UtilMath.PI * iExtraSpins * fT);
+            MRadian fPhase = new MRadian((float)UtilMath.PI * iExtraSpins * fT);
             float fInvSin = 1.0f / fSin;
             float fCoeff0 = UtilMath.Sin((1.0f - fT) * fAngle - fPhase) * fInvSin;
             float fCoeff1 = UtilMath.Sin(fT * fAngle + fPhase) * fInvSin;
             return fCoeff0 * rkP + fCoeff1 * rkQ;
         }
 
-        static public void Intermediate(MQuaternion rkQ0,
-                    MQuaternion rkQ1, MQuaternion rkQ2,
-            MQuaternion rkA, MQuaternion rkB)
+        static public void Intermediate(ref MQuaternion rkQ0,
+                    ref MQuaternion rkQ1, ref MQuaternion rkQ2,
+            ref MQuaternion rkA, ref MQuaternion rkB)
         {
             MQuaternion kQ0inv = rkQ0.UnitInverse();
             MQuaternion kQ1inv = rkQ1.UnitInverse();
@@ -586,21 +586,21 @@ namespace SDK.Lib
             rkB = rkQ1 * kMinusArg.Exp();
         }
 
-        static MQuaternion Squad(float fT, MQuaternion rkP,
-                    MQuaternion rkA, MQuaternion rkB,
-                    MQuaternion rkQ, bool shortestPath = false)
+        static MQuaternion Squad(float fT, ref MQuaternion rkP,
+                    ref MQuaternion rkA, ref MQuaternion rkB,
+                    ref MQuaternion rkQ, bool shortestPath = false)
         {
             float fSlerpT = 2.0f * fT * (1.0f - fT);
-            MQuaternion kSlerpP = Slerp(fT, rkP, rkQ, shortestPath);
-            MQuaternion kSlerpQ = Slerp(fT, rkA, rkB);
-            return Slerp(fSlerpT, kSlerpP, kSlerpQ);
+            MQuaternion kSlerpP = Slerp(fT, ref rkP, ref rkQ, shortestPath);
+            MQuaternion kSlerpQ = Slerp(fT, ref rkA, ref rkB);
+            return Slerp(fSlerpT, ref kSlerpP, ref kSlerpQ);
         }
 
-        static public MQuaternion nlerp(float fT, MQuaternion rkP,
-                    MQuaternion rkQ, bool shortestPath = false)
+        static public MQuaternion nlerp(float fT, ref MQuaternion rkP,
+                    ref MQuaternion rkQ, bool shortestPath = false)
         {
             MQuaternion result;
-            float fCos = rkP.Dot(rkQ);
+            float fCos = rkP.Dot(ref rkQ);
             if (fCos < 0.0f && shortestPath)
             {
                 result = rkP + fT * ((-rkQ) - rkP);

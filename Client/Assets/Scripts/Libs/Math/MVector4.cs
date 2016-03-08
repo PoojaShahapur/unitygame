@@ -25,7 +25,7 @@ namespace SDK.Lib
             w = fW;
         }
 
-        public MVector4(float[] afCoordinate)
+        public MVector4(ref float[] afCoordinate)
         {
             x = afCoordinate[0];
             y = afCoordinate[1];
@@ -33,7 +33,7 @@ namespace SDK.Lib
             w = afCoordinate[3];
         }
 
-        public MVector4(int[] afCoordinate)
+        public MVector4(ref int[] afCoordinate)
         {
             x = (float)afCoordinate[0];
             y = (float)afCoordinate[1];
@@ -49,7 +49,7 @@ namespace SDK.Lib
             w = scaler;
         }
 
-        public MVector4(MVector3 rhs)
+        public MVector4(ref MVector3 rhs)
         {
             x = rhs.x;
             y = rhs.y;
@@ -57,7 +57,7 @@ namespace SDK.Lib
             w = 1.0f;
         }
 
-        public void swap(MVector4 other)
+        public void swap(ref MVector4 other)
         {
             float tmp = 0;
             tmp = this.x;
@@ -103,7 +103,7 @@ namespace SDK.Lib
             }
         }
 
-        public MVector4 assignFrom( MVector4 rkVector )
+        public MVector4 assignFrom(ref MVector4 rkVector )
         {
             this.x = rkVector.x;
             this.y = rkVector.y;
@@ -138,7 +138,7 @@ namespace SDK.Lib
                 lhs.w != rkVector.w );
         }
 
-        public MVector4 assignFrom(MVector3 rhs)
+        public MVector4 assignFrom(ref MVector3 rhs)
         {
             this.x = rhs.x;
             this.y = rhs.y;
@@ -352,7 +352,7 @@ namespace SDK.Lib
         }
         */
 
-        public float dotProduct(MVector4 vec)
+        public float dotProduct(ref MVector4 vec)
         {
             return this.x * vec.x + this.y * vec.y + this.z * vec.z + this.w * vec.w;
         }
@@ -362,7 +362,7 @@ namespace SDK.Lib
             return float.IsNaN(x) || float.IsNaN(y) || float.IsNaN(z) || float.IsNaN(w);
         }
 
-        static public string ToString(MVector4 v)
+        static public string ToString(ref MVector4 v)
         {
             string dest = "";
             dest = string.Format("Vector4( {0} , {1}, {2}, {3}", v.x, v.y, v.z, v.w);

@@ -54,21 +54,21 @@ namespace SDK.Lib
             m[3, 3] = m33;
         }
 
-        public MMatrix4(MMatrix3 m3x3)
+        public MMatrix4(ref MMatrix3 m3x3)
         {
             this = IDENTITY;
-            this.assignForm(m3x3);
+            this.assignForm(ref m3x3);
         }
 
-        public MMatrix4(MQuaternion rot)
+        public MMatrix4(ref MQuaternion rot)
         {
             MMatrix3 m3x3 = new MMatrix3();
-            rot.ToRotationMatrix(m3x3);
+            rot.ToRotationMatrix(ref m3x3);
             this = IDENTITY;
-            this.assignForm(m3x3);
+            this.assignForm(ref m3x3);
         }
 
-        public void swap(MMatrix4 other)
+        public void swap(ref MMatrix4 other)
         {
             UtilMath.swap(ref m[0, 0], ref other.m[0, 0]);
             UtilMath.swap(ref m[0, 1], ref other.m[0, 1]);
@@ -97,7 +97,7 @@ namespace SDK.Lib
             }
         }
 
-        public MMatrix4 concatenate(MMatrix4 m2)
+        public MMatrix4 concatenate(ref MMatrix4 m2)
         {
             MMatrix4 r = new MMatrix4();
             r.m[0, 0] = m[0, 0] * m2.m[0, 0] + m[0, 1] * m2.m[1, 0] + m[0, 2] * m2.m[2, 0] + m[0, 3] * m2.m[3, 0];
@@ -125,7 +125,7 @@ namespace SDK.Lib
 
         static public MMatrix4 operator *(MMatrix4 lhs, MMatrix4 m2)
         {
-            return lhs.concatenate(m2);
+            return lhs.concatenate(ref m2);
         }
 
         static public MVector3 operator *(MMatrix4 lhs, MVector3 v)
@@ -240,7 +240,7 @@ namespace SDK.Lib
             return false;
         }
 
-        public void assignForm(MMatrix3 mat3)
+        public void assignForm(ref MMatrix3 mat3)
         {
             m[0, 0] = mat3.m[0, 0]; m[0, 1] = mat3.m[0, 1]; m[0, 2] = mat3.m[0, 2];
             m[1, 0] = mat3.m[1, 0]; m[1, 1] = mat3.m[1, 1]; m[1, 2] = mat3.m[1, 2];
@@ -267,7 +267,7 @@ namespace SDK.Lib
             return new MVector3(m[0, 3], m[1, 3], m[2, 3]);
         }
 
-        public void makeTrans(MVector3 v)
+        public void makeTrans(ref MVector3 v)
         {
             m[0, 0] = 1.0f; m[0, 1] = 0.0f; m[0, 2] = 0.0f; m[0, 3] = v.x;
             m[1, 0] = 0.0f; m[1, 1] = 1.0f; m[1, 2] = 0.0f; m[1, 3] = v.y;
@@ -283,7 +283,7 @@ namespace SDK.Lib
             m[3, 0] = 0.0f; m[3, 1] = 0.0f; m[3, 2] = 0.0f; m[3, 3] = 1.0f;
         }
 
-        public static MMatrix4 getTrans(MVector3 v)
+        public static MMatrix4 getTrans(ref MVector3 v)
         {
             MMatrix4 r = new MMatrix4();
 
@@ -307,14 +307,14 @@ namespace SDK.Lib
             return r;
         }
 
-        public void setScale(MVector3 v)
+        public void setScale(ref MVector3 v)
         {
             m[0, 0] = v.x;
             m[1, 1] = v.y;
             m[2, 2] = v.z;
         }
 
-        public static MMatrix4 getScale(MVector3 v)
+        public static MMatrix4 getScale(ref MVector3 v)
         {
             MMatrix4 r = new MMatrix4();
             r.m[0, 0] = v.x; r.m[0, 1] = 0.0f; r.m[0, 2] = 0.0f; r.m[0, 3] = 0.0f;
@@ -336,7 +336,7 @@ namespace SDK.Lib
             return r;
         }
 
-        public void extract3x3Matrix(MMatrix3 m3x3)
+        public void extract3x3Matrix(ref MMatrix3 m3x3)
         {
             m3x3.m[0, 0] = m[0, 0];
             m3x3.m[0, 1] = m[0, 1];
@@ -373,8 +373,8 @@ namespace SDK.Lib
         public MQuaternion extractQuaternion()
         {
             MMatrix3 m3x3 = new MMatrix3();
-            extract3x3Matrix(m3x3);
-            return new MQuaternion(m3x3);
+            extract3x3Matrix(ref m3x3);
+            return new MQuaternion(ref m3x3);
         }
 
         static public MMatrix4 operator *(MMatrix4 lhs, float scalar)
@@ -386,7 +386,7 @@ namespace SDK.Lib
                 scalar * lhs.m[3, 0], scalar * lhs.m[3, 1], scalar * lhs.m[3, 2], scalar * lhs.m[3, 3]);
         }
 
-        public string ToString(MMatrix4 mat)
+        public string ToString(ref MMatrix4 mat)
         {
             string o = "Matrix4(";
             for (int i = 0; i < 4; ++i)
@@ -402,7 +402,7 @@ namespace SDK.Lib
             return o;
         }
 
-        static public float MINOR(MMatrix4 m, int r0, int r1, int r2,
+        static public float MINOR(ref MMatrix4 m, int r0, int r1, int r2,
                                         int c0, int c1, int c2)
         {
             return m[r0, c0] * (m[r1, c1] * m[r2, c2] - m[r2, c1] * m[r1, c2]) -
@@ -412,33 +412,33 @@ namespace SDK.Lib
 
         public MMatrix4 adjoint()
         {
-            return new MMatrix4(MINOR(this, 1, 2, 3, 1, 2, 3),
-                    -MINOR(this, 0, 2, 3, 1, 2, 3),
-                    MINOR(this, 0, 1, 3, 1, 2, 3),
-                    -MINOR(this, 0, 1, 2, 1, 2, 3),
+            return new MMatrix4(MINOR(ref this, 1, 2, 3, 1, 2, 3),
+                    -MINOR(ref this, 0, 2, 3, 1, 2, 3),
+                    MINOR(ref this, 0, 1, 3, 1, 2, 3),
+                    -MINOR(ref this, 0, 1, 2, 1, 2, 3),
 
-                    -MINOR(this, 1, 2, 3, 0, 2, 3),
-                    MINOR(this, 0, 2, 3, 0, 2, 3),
-                    -MINOR(this, 0, 1, 3, 0, 2, 3),
-                    MINOR(this, 0, 1, 2, 0, 2, 3),
+                    -MINOR(ref this, 1, 2, 3, 0, 2, 3),
+                    MINOR(ref this, 0, 2, 3, 0, 2, 3),
+                    -MINOR(ref this, 0, 1, 3, 0, 2, 3),
+                    MINOR(ref this, 0, 1, 2, 0, 2, 3),
 
-                    MINOR(this, 1, 2, 3, 0, 1, 3),
-                    -MINOR(this, 0, 2, 3, 0, 1, 3),
-                    MINOR(this, 0, 1, 3, 0, 1, 3),
-                    -MINOR(this, 0, 1, 2, 0, 1, 3),
+                    MINOR(ref this, 1, 2, 3, 0, 1, 3),
+                    -MINOR(ref this, 0, 2, 3, 0, 1, 3),
+                    MINOR(ref this, 0, 1, 3, 0, 1, 3),
+                    -MINOR(ref this, 0, 1, 2, 0, 1, 3),
 
-                    -MINOR(this, 1, 2, 3, 0, 1, 2),
-                    MINOR(this, 0, 2, 3, 0, 1, 2),
-                    -MINOR(this, 0, 1, 3, 0, 1, 2),
-                    MINOR(this, 0, 1, 2, 0, 1, 2));
+                    -MINOR(ref this, 1, 2, 3, 0, 1, 2),
+                    MINOR(ref this, 0, 2, 3, 0, 1, 2),
+                    -MINOR(ref this, 0, 1, 3, 0, 1, 2),
+                    MINOR(ref this, 0, 1, 2, 0, 1, 2));
         }
 
         public float determinant()
         {
-            return m[0, 0] * MINOR(this, 1, 2, 3, 1, 2, 3) -
-                    m[0, 1] * MINOR(this, 1, 2, 3, 0, 2, 3) +
-                    m[0, 2] * MINOR(this, 1, 2, 3, 0, 1, 3) -
-                    m[0, 3] * MINOR(this, 1, 2, 3, 0, 1, 2);
+            return m[0, 0] * MINOR(ref this, 1, 2, 3, 1, 2, 3) -
+                    m[0, 1] * MINOR(ref this, 1, 2, 3, 0, 2, 3) +
+                    m[0, 2] * MINOR(ref this, 1, 2, 3, 0, 1, 3) -
+                    m[0, 3] * MINOR(ref this, 1, 2, 3, 0, 1, 2);
         }
 
         public MMatrix4 inverse()
@@ -503,10 +503,10 @@ namespace SDK.Lib
                 d30, d31, d32, d33);
         }
 
-        public void makeTransform(MVector3 position, MVector3 scale, MQuaternion orientation)
+        public void makeTransform(ref MVector3 position, ref MVector3 scale, ref MQuaternion orientation)
         {
             MMatrix3 rot3x3 = new MMatrix3();
-            orientation.ToRotationMatrix(rot3x3);
+            orientation.ToRotationMatrix(ref rot3x3);
 
             m[0, 0] = scale.x * rot3x3.m[0, 0]; m[0, 1] = scale.y * rot3x3.m[0, 1]; m[0, 2] = scale.z * rot3x3.m[0, 2]; m[0, 3] = position.x;
             m[1, 0] = scale.x * rot3x3.m[1, 0]; m[1, 1] = scale.y * rot3x3.m[1, 1]; m[1, 2] = scale.z * rot3x3.m[1, 2]; m[1, 3] = position.y;
@@ -515,7 +515,7 @@ namespace SDK.Lib
             m[3, 0] = 0; m[3, 1] = 0; m[3, 2] = 0; m[3, 3] = 1;
         }
 
-        public void makeInverseTransform(MVector3 position, MVector3 scale, MQuaternion orientation)
+        public void makeInverseTransform(ref MVector3 position, ref MVector3 scale, ref MQuaternion orientation)
         {
             MVector3 invTranslate = -position;
             MVector3 invScale = new MVector3(1 / scale.x, 1 / scale.y, 1 / scale.z);
@@ -525,7 +525,7 @@ namespace SDK.Lib
             invTranslate *= invScale;
 
             MMatrix3 rot3x3 = new MMatrix3();
-            invRot.ToRotationMatrix(rot3x3);
+            invRot.ToRotationMatrix(ref rot3x3);
 
             m[0, 0] = invScale.x * rot3x3.m[0, 0]; m[0, 1] = invScale.x * rot3x3.m[0, 1]; m[0, 2] = invScale.x * rot3x3.m[0, 2]; m[0, 3] = invTranslate.x;
             m[1, 0] = invScale.y * rot3x3.m[1, 0]; m[1, 1] = invScale.y * rot3x3.m[1, 1]; m[1, 2] = invScale.y * rot3x3.m[1, 2]; m[1, 3] = invTranslate.y;
@@ -539,13 +539,13 @@ namespace SDK.Lib
             UtilApi.assert(isAffine());
 
             MMatrix3 m3x3 = new MMatrix3();
-            extract3x3Matrix(m3x3);
+            extract3x3Matrix(ref m3x3);
 
             MMatrix3 matQ = new MMatrix3();
             MVector3 vecU = new MVector3();
-            m3x3.QDUDecomposition(matQ, scale, vecU);
+            m3x3.QDUDecomposition(ref matQ, ref scale, ref vecU);
 
-            orientation = new MQuaternion(matQ);
+            orientation = new MQuaternion(ref matQ);
             position = new MVector3(m[0, 3], m[1, 3], m[2, 3]);
         }
 
@@ -598,7 +598,7 @@ namespace SDK.Lib
                   0, 0, 0, 1);
         }
 
-        public MMatrix4 concatenateAffine(MMatrix4 m2)
+        public MMatrix4 concatenateAffine(ref MMatrix4 m2)
         {
             UtilApi.assert(isAffine() && m2.isAffine());
 
@@ -631,7 +631,7 @@ namespace SDK.Lib
                     m[2, 0] * v.x + m[2, 1] * v.y + m[2, 2] * v.z + m[2, 3]);
         }
 
-        public MVector4 transformAffine(MVector4 v)
+        public MVector4 transformAffine(ref MVector4 v)
         {
             UtilApi.assert(isAffine());
 

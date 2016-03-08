@@ -383,7 +383,7 @@ public float getFocalLength()
                     qVec.w = (1 + mProjMatrix[2, 2]) / mProjMatrix[2, 3];
 
                     MVector4 clipPlane4d = new MVector4(plane.normal.x, plane.normal.y, plane.normal.z, plane.d);
-                    MVector4 c = clipPlane4d * (2 / (clipPlane4d.dotProduct(qVec)));
+                    MVector4 c = clipPlane4d * (2 / (clipPlane4d.dotProduct(ref qVec)));
 
                     mProjMatrix.m[2, 0] = c.x;
                     mProjMatrix.m[2, 1] = c.y;
@@ -438,8 +438,10 @@ public float getFocalLength()
         if (mProjType == ProjectionType.PT_PERSPECTIVE)
         {
             float radio = farDist / mNearDist;
-            min.makeFloor(new MVector3(left * radio, bottom * radio, -farDist));
-            max.makeCeil(new MVector3(right * radio, top * radio, 0));
+            MVector3 tmp = new MVector3(left * radio, bottom * radio, -farDist);
+            min.makeFloor(tmp);
+            tmp = new MVector3(right * radio, top * radio, 0);
+            max.makeCeil(tmp);
         }
         mBoundingBox.setExtents(ref min, ref max);
 

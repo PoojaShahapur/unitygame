@@ -54,7 +54,7 @@
         //-----------------------------------------------------------------------
         public float getDistance(ref MVector3 rkPoint)
         {
-            return normal.dotProduct(rkPoint) + d;
+            return normal.dotProduct(ref rkPoint) + d;
         }
         //-----------------------------------------------------------------------
         public Side getSide(ref MVector3 rkPoint)
@@ -88,7 +88,7 @@
         {
             float dist = getDistance(ref centre);
 
-            float maxAbsDist = normal.absDotProduct(halfSize);
+            float maxAbsDist = normal.absDotProduct(ref halfSize);
 
             if (dist < -maxAbsDist)
                 return Side.NEGATIVE_SIDE;
@@ -104,15 +104,15 @@
         {
             MVector3 kEdge1 = rkPoint1 - rkPoint0;
             MVector3 kEdge2 = rkPoint2 - rkPoint0;
-            normal = kEdge1.crossProduct(kEdge2);
+            normal = kEdge1.crossProduct(ref kEdge2);
             normal.normalise();
-            d = -normal.dotProduct(rkPoint0);
+            d = -normal.dotProduct(ref rkPoint0);
         }
         //-----------------------------------------------------------------------
         public void redefine(ref MVector3 rkNormal, ref MVector3 rkPoint)
         {
             normal = rkNormal;
-            d = -rkNormal.dotProduct(rkPoint);
+            d = -rkNormal.dotProduct(ref rkPoint);
         }
         //-----------------------------------------------------------------------
         public MVector3 projectVector(ref MVector3 p)
