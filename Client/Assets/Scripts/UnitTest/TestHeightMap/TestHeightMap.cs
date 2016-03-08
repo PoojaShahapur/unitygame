@@ -78,7 +78,7 @@ namespace UnitTest
 
         public void checkCamera()
         {
-            MCamera camera = new MCamera(Camera.main);
+            MTestCamera camera = new MTestCamera(Camera.main);
         }
 
         // 测试四叉树

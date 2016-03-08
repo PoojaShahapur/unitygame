@@ -1168,5 +1168,38 @@ namespace SDK.Lib
 
             return 0.0f;
         }
+
+        static public MMatrix4 buildReflectionMatrix(ref MPlane p)
+        {
+            return new MMatrix4(
+                -2 * p.normal.x* p.normal.x + 1,   -2 * p.normal.x* p.normal.y,       -2 * p.normal.x* p.normal.z,       -2 * p.normal.x* p.d,
+                -2 * p.normal.y* p.normal.x,       -2 * p.normal.y* p.normal.y + 1,   -2 * p.normal.y* p.normal.z,       -2 * p.normal.y* p.d,
+                -2 * p.normal.z* p.normal.x,       -2 * p.normal.z* p.normal.y,       -2 * p.normal.z* p.normal.z + 1,   -2 * p.normal.z* p.d,
+                0,                                  0,                                  0,                                  1);
+        }
+
+        static public MMatrix4 makeViewMatrix(ref MVector3 position, ref MQuaternion orientation, ref MMatrix4 reflectMatrix, bool reflect)
+        {
+            MMatrix4 viewMatrix = new MMatrix4();
+
+            MMatrix3 rot = new MMatrix3();
+            orientation.ToRotationMatrix(rot);
+
+            MMatrix3 rotT = rot.Transpose();
+            MVector3 trans = -rotT * position;
+
+            viewMatrix = MMatrix4.IDENTITY;
+            viewMatrix.assignForm(rotT);
+            viewMatrix.m[0, 3] = trans.x;
+            viewMatrix.m[1, 3] = trans.y;
+            viewMatrix.m[2, 3] = trans.z;
+
+            if (reflect && reflectMatrix != null)
+            {
+                viewMatrix = viewMatrix * (reflectMatrix);
+            }
+
+            return viewMatrix;
+        }
     }
 }

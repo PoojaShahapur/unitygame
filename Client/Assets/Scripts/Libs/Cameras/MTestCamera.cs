@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 摄像机，左手系，深度 [-1, 1] 范围
      */
-    public class MCamera
+    public class MTestCamera
     {
         protected Camera m_camera;          // 保存的 Unity 的摄像机
         protected Matrix4x4 m_viewMat;      // View 矩阵
@@ -16,7 +16,7 @@ namespace SDK.Lib
         protected MList<MPlane> m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
         protected bool m_frustumPlanesDirty;    // FrustumPlane 是否无效
 
-        public MCamera(Camera camera_ = null)
+        public MTestCamera(Camera camera_ = null)
         {
             m_viewProjDirty = true;
             m_lens = new MPerspectiveLens();    // 默认透视投影

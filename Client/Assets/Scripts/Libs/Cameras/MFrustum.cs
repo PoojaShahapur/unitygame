@@ -110,7 +110,7 @@ namespace SDK.Lib
         invalidateFrustum();
     }
 
-        public const Radian& getFOVy()
+        public float getFOVy()
     {
         return mFOVy;
     }
@@ -146,10 +146,11 @@ public float getNearClipDistance()
 
 public void setFrustumOffset(float horizontal, float vertical)
     {
-        setFrustumOffset(new MVector2(horizontal, vertical));
+            MVector2 offsetVec = new MVector2(horizontal, vertical);
+        setFrustumOffset(ref offsetVec);
     }
 
-public ref MVector2 getFrustumOffset()
+public MVector2 getFrustumOffset()
     {
         return mFrustumOffset;
     }
@@ -199,7 +200,7 @@ public float getFocalLength()
 
     }
 
-    public MPlane getFrustumPlanes()
+    public MPlane[] getFrustumPlanes()
     {
         updateFrustumPlanes();
 
@@ -233,7 +234,7 @@ public float getFocalLength()
             MPlane.Side side = mFrustumPlanes[plane].getSide(ref centre, ref halfSize);
             if (side == MPlane.Side.NEGATIVE_SIDE)
             {
-                if (culledBy)
+                //if (culledBy)
                     culledBy = (FrustumPlane)plane;
                 return false;
             }
@@ -254,7 +255,7 @@ public float getFocalLength()
 
             if (mFrustumPlanes[plane].getSide(ref vert) == MPlane.Side.NEGATIVE_SIDE)
             {
-                if (culledBy)
+                //if (culledBy)
                     culledBy = (FrustumPlane)plane;
                 return false;
             }
@@ -375,7 +376,7 @@ public float getFocalLength()
                     updateView();
                     MPlane plane = mViewMatrix * mObliqueProjPlane;
 
-                    MVector4 qVec = new MVector4;
+                    MVector4 qVec = new MVector4();
                     qVec.x = (UtilApi.Sign(plane.normal.x) + mProjMatrix[0, 2]) / mProjMatrix[0, 0];
                     qVec.y = (UtilApi.Sign(plane.normal.y) + mProjMatrix[1, 2]) / mProjMatrix[1, 1];
                     qVec.z = -1;
@@ -419,8 +420,8 @@ public float getFocalLength()
             }
         }
 
-        _convertProjectionMatrix(mProjMatrix, mProjMatrixRS);
-        _convertProjectionMatrix(mProjMatrix, mProjMatrixRSDepth, true);
+        _convertProjectionMatrix(ref mProjMatrix, ref mProjMatrixRS);
+        _convertProjectionMatrix(ref mProjMatrix, ref mProjMatrixRSDepth, true);
 
         float farDist = (mFarDist == 0) ? 100000 : mFarDist;
 
@@ -455,106 +456,6 @@ public float getFocalLength()
         }
     }
 
-    public void updateVertexData()
-    {
-        if (mRecalcVertexData)
-        {
-            if (mVertexData.vertexBufferBinding->getBufferCount() <= 0)
-            {
-                // Initialise vertex & index data
-                mVertexData.vertexDeclaration->addElement(0, 0, VET_FLOAT3, VES_POSITION);
-                mVertexData.vertexCount = 32;
-                mVertexData.vertexStart = 0;
-                mVertexData.vertexBufferBinding->setBinding( 0,
-                    v1::HardwareBufferManager::getSingleton().createVertexBuffer(
-                        sizeof(float)*3, 32, v1::HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY) );
-            }
-
-            // Note: Even though we can dealing with general projection matrix here,
-            //       but because it's incompatibly with infinite far plane, thus, we
-            //       still need to working with projection parameters.
-
-            // Calc near plane corners
-            Real vpLeft, vpRight, vpBottom, vpTop;
-            calcProjectionParameters(vpLeft, vpRight, vpBottom, vpTop);
-
-            // Treat infinite fardist as some arbitrary far value
-            Real farDist = (mFarDist == 0) ? 100000 : mFarDist;
-
-            // Calc far plane corners
-            Real radio = mProjType == PT_PERSPECTIVE ? farDist / mNearDist : 1;
-            Real farLeft = vpLeft * radio;
-            Real farRight = vpRight * radio;
-            Real farBottom = vpBottom * radio;
-            Real farTop = vpTop * radio;
-
-            // Calculate vertex positions (local)
-            // 0 is the origin
-            // 1, 2, 3, 4 are the points on the near plane, top left first, clockwise
-            // 5, 6, 7, 8 are the points on the far plane, top left first, clockwise
-            v1::HardwareVertexBufferSharedPtr vbuf = mVertexData.vertexBufferBinding->getBuffer(0);
-            float* pFloat = static_cast<float*>(vbuf->lock(v1::HardwareBuffer::HBL_DISCARD));
-
-            // near plane (remember frustum is going in -Z direction)
-            *pFloat++ = vpLeft;  *pFloat++ = vpTop;    *pFloat++ = -mNearDist;
-            *pFloat++ = vpRight; *pFloat++ = vpTop;    *pFloat++ = -mNearDist;
-
-            *pFloat++ = vpRight; *pFloat++ = vpTop;    *pFloat++ = -mNearDist;
-            *pFloat++ = vpRight; *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-
-            *pFloat++ = vpRight; *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-            *pFloat++ = vpLeft;  *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-
-            *pFloat++ = vpLeft;  *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-            *pFloat++ = vpLeft;  *pFloat++ = vpTop;    *pFloat++ = -mNearDist;
-
-            // far plane (remember frustum is going in -Z direction)
-            *pFloat++ = farLeft;  *pFloat++ = farTop;    *pFloat++ = -farDist;
-            *pFloat++ = farRight; *pFloat++ = farTop;    *pFloat++ = -farDist;
-
-            *pFloat++ = farRight; *pFloat++ = farTop;    *pFloat++ = -farDist;
-            *pFloat++ = farRight; *pFloat++ = farBottom; *pFloat++ = -farDist;
-
-            *pFloat++ = farRight; *pFloat++ = farBottom; *pFloat++ = -farDist;
-            *pFloat++ = farLeft;  *pFloat++ = farBottom; *pFloat++ = -farDist;
-
-            *pFloat++ = farLeft;  *pFloat++ = farBottom; *pFloat++ = -farDist;
-            *pFloat++ = farLeft;  *pFloat++ = farTop;    *pFloat++ = -farDist;
-
-            // Sides of the pyramid
-            *pFloat++ = 0.0f;    *pFloat++ = 0.0f;   *pFloat++ = 0.0f;
-            *pFloat++ = vpLeft;  *pFloat++ = vpTop;  *pFloat++ = -mNearDist;
-
-            *pFloat++ = 0.0f;    *pFloat++ = 0.0f;   *pFloat++ = 0.0f;
-            *pFloat++ = vpRight; *pFloat++ = vpTop;    *pFloat++ = -mNearDist;
-
-            *pFloat++ = 0.0f;    *pFloat++ = 0.0f;   *pFloat++ = 0.0f;
-            *pFloat++ = vpRight; *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-
-            *pFloat++ = 0.0f;    *pFloat++ = 0.0f;   *pFloat++ = 0.0f;
-            *pFloat++ = vpLeft;  *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-
-            // Sides of the box
-
-            *pFloat++ = vpLeft;  *pFloat++ = vpTop;  *pFloat++ = -mNearDist;
-            *pFloat++ = farLeft;  *pFloat++ = farTop;  *pFloat++ = -farDist;
-
-            *pFloat++ = vpRight; *pFloat++ = vpTop;    *pFloat++ = -mNearDist;
-            *pFloat++ = farRight; *pFloat++ = farTop;    *pFloat++ = -farDist;
-
-            *pFloat++ = vpRight; *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-            *pFloat++ = farRight; *pFloat++ = farBottom; *pFloat++ = -farDist;
-
-            *pFloat++ = vpLeft;  *pFloat++ = vpBottom; *pFloat++ = -mNearDist;
-            *pFloat++ = farLeft;  *pFloat++ = farBottom; *pFloat++ = -farDist;
-
-
-            vbuf->unlock();
-
-            mRecalcVertexData = false;
-        }
-    }
-
     public bool isViewOutOfDate()
     {
         return mRecalcView;
@@ -569,10 +470,8 @@ public float getFocalLength()
                 mRecalcFrustum = true;
             }
 
-            if (mLinkedObliqueProjPlane && 
-                !(mLastLinkedObliqueProjPlane == mLinkedObliqueProjPlane->_getDerivedPlane()))
+            if (mObliqueProjPlane != null && !(mLastLinkedObliqueProjPlane == mObliqueProjPlane))
             {
-                mObliqueProjPlane = mLinkedObliqueProjPlane->_getDerivedPlane();
                 mLastLinkedObliqueProjPlane = mObliqueProjPlane;
                 mRecalcFrustum = true;
             }
@@ -585,11 +484,10 @@ public float getFocalLength()
     {
         if (!mCustomViewMatrix)
         {
-            MMatrix3 rot = new MMatrix3();
             MQuaternion orientation = getOrientationForViewUpdate();
             MVector3 position = getPositionForViewUpdate();
 
-            mViewMatrix = Math::makeViewMatrix(position, orientation, mReflect? &mReflectMatrix : 0);
+            mViewMatrix = UtilApi.makeViewMatrix(ref position, ref orientation, ref mReflectMatrix, mReflect);
         }
 
         mRecalcView = false;
@@ -710,60 +608,6 @@ public float getFocalLength()
         }
     }
 
-    public void getCustomWorldSpaceCorners(
-                ArrayVector3 outCorners[(8 + ARRAY_PACKED_REALS - 1) / ARRAY_PACKED_REALS],
-                Real customFarPlane )
-    {
-        updateView();
-
-        ArrayMatrixAf4x3 eyeToWorld;
-        eyeToWorld.setAll( mViewMatrix.inverseAffine() );
-
-        Real nearLeft, nearRight, nearBottom, nearTop;
-        calcProjectionParameters(nearLeft, nearRight, nearBottom, nearTop);
-
-        Real farDist = (customFarPlane == 0) ? 100000 : customFarPlane;
-
-        Real radio = mProjType == PT_PERSPECTIVE ? farDist / mNearDist : 1;
-        Real farLeft = nearLeft * radio;
-        Real farRight = nearRight * radio;
-        Real farBottom = nearBottom * radio;
-        Real farTop = nearTop * radio;
-
-        ArrayVector3 corners[(8 + ARRAY_PACKED_REALS - 1) / ARRAY_PACKED_REALS];
-
-        OGRE_ALIGNED_DECL( Real, scalarCorners[8 * 4 * (ARRAY_PACKED_REALS <= 8 ?
-                                               1 : (ARRAY_PACKED_REALS / 8))],
-                           OGRE_SIMD_ALIGNMENT );
-        memset( scalarCorners, 0, sizeof( scalarCorners ) );
-
-        scalarCorners[0] = nearRight;   scalarCorners[1] = nearTop;     scalarCorners[2] = -mNearDist;
-        scalarCorners[4] = nearLeft;    scalarCorners[5] = nearTop;     scalarCorners[6] = -mNearDist;
-        scalarCorners[8] = nearLeft;    scalarCorners[9] = nearBottom;  scalarCorners[10]= -mNearDist;
-        scalarCorners[12]= nearRight;   scalarCorners[13]= nearBottom;  scalarCorners[14]= -mNearDist;
-        scalarCorners[3] = scalarCorners[7] = scalarCorners[11] = scalarCorners[15] = 0;
-
-        scalarCorners[16]= farRight;    scalarCorners[17]= farTop;      scalarCorners[18]= -farDist;
-        scalarCorners[20]= farLeft;     scalarCorners[21]= farTop;      scalarCorners[22]= -farDist;
-        scalarCorners[24]= farLeft;     scalarCorners[25]= farBottom;   scalarCorners[26]= -farDist;
-        scalarCorners[28]= farRight;    scalarCorners[29]= farBottom;   scalarCorners[30]= -farDist;
-        scalarCorners[19] = scalarCorners[23] = scalarCorners[27] = scalarCorners[31] = 0;
-
-        for( size_t i=32; i<ARRAY_PACKED_REALS * 8; i += 4 )
-        {
-            scalarCorners[i+0] = farRight;
-            scalarCorners[i+1] = farBottom;
-            scalarCorners[i+2] = -farDist;
-            scalarCorners[i+3] = 0;
-        }
-
-        for( size_t i=0; i<(8 + ARRAY_PACKED_REALS - 1) / ARRAY_PACKED_REALS; ++i )
-        {
-            corners[i].loadFromAoS( scalarCorners + i * ARRAY_PACKED_REALS * 4 );
-            outCorners[i] = eyeToWorld * corners[i];
-        }
-    }
-
     public float getAspectRatio()
     {
         return mAspect;
@@ -800,7 +644,7 @@ public MAxisAlignedBox getBoundingBox()
         mRecalcWorldSpaceCorners = true;
     }
 
-    public MVector3 getWorldSpaceCorners()
+    public MVector3[] getWorldSpaceCorners()
     {
         updateWorldSpaceCorners();
 
@@ -832,42 +676,21 @@ public ProjectionType getProjectionType()
     {
         mReflect = true;
         mReflectPlane = p;
-        mLinkedReflectPlane = 0;
-        mReflectMatrix = Math::buildReflectionMatrix(p);
+        mReflectMatrix = UtilApi.buildReflectionMatrix(ref p);
         invalidateView();
 
-    }
-
-public void enableReflection( MovablePlane p)
-    {
-        mReflect = true;
-        mLinkedReflectPlane = p;
-        mReflectPlane = mLinkedReflectPlane->_getDerivedPlane();
-        mReflectMatrix = Math::buildReflectionMatrix(mReflectPlane);
-        mLastLinkedReflectionPlane = mLinkedReflectPlane->_getDerivedPlane();
-        invalidateView();
     }
 
 public void disableReflection()
     {
         mReflect = false;
-        mLinkedReflectPlane = 0;
-        mLastLinkedReflectionPlane.normal = Vector3::ZERO;
+            mLastLinkedReflectionPlane.normal = MVector3.ZERO;
         invalidateView();
-    }
-
-    public void enableCustomNearClipPlane(MovablePlane* plane)
-    {
-        mObliqueDepthProjection = true;
-        mLinkedObliqueProjPlane = plane;
-        mObliqueProjPlane = plane->_getDerivedPlane();
-        invalidateFrustum();
     }
 
 public void enableCustomNearClipPlane(ref MPlane plane)
     {
         mObliqueDepthProjection = true;
-        mLinkedObliqueProjPlane = 0;
         mObliqueProjPlane = plane;
         invalidateFrustum();
     }
@@ -875,7 +698,6 @@ public void enableCustomNearClipPlane(ref MPlane plane)
 public void disableCustomNearClipPlane()
     {
         mObliqueDepthProjection = false;
-        mLinkedObliqueProjPlane = 0;
         invalidateFrustum();
     }
 
@@ -967,7 +789,7 @@ public OrientationMode getOrientationMode()
     }
 
 protected void _convertProjectionMatrix(ref MMatrix4 matrix,
-    ref MMatrix4 dest, bool forGpuProgram)
+    ref MMatrix4 dest, bool forGpuProgram = false)
 {
     bool idDX = true;
     if (idDX)

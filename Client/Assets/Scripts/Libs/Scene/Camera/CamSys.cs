@@ -9,7 +9,7 @@ namespace SDK.Lib
 
         public UICamera m_uiCam;            // 这个不是 UI 相机，这个是场景相机
 
-        protected MCamera m_mCamera;         // 这个是系统摄像机，主要进行裁剪使用的
+        protected MTestCamera m_mCamera;         // 这个是系统摄像机，主要进行裁剪使用的
         protected Camera m_mainCamera;          // 主相机
         protected Camera m_uguiCam;             // UGUI 相机
         protected ThirdCameraController m_cameraController; // 摄像机控制器
@@ -17,10 +17,10 @@ namespace SDK.Lib
 
         public CamSys()
         {
-            m_mCamera = new MCamera();
+            m_mCamera = new MTestCamera();
         }
 
-        public MCamera getMCamera()
+        public MTestCamera getMCamera()
         {
             return m_mCamera;
         }
