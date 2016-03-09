@@ -16,6 +16,8 @@ namespace SDK.Lib
         protected MList<MPlane> m_frustumPlanes;   // 6 个裁剪面板，这个面板是世界空间中的面板，因为计算的时候使用的是 ViewProject 矩阵
         protected bool m_frustumPlanesDirty;    // FrustumPlane 是否无效
 
+        protected MCamera m_localCamera;
+
         public MTestCamera(Camera camera_ = null)
         {
             m_viewProjDirty = true;
@@ -50,7 +52,7 @@ namespace SDK.Lib
             // fov = 60
             // near = 10
             // far = 1000
-            if(null != m_camera)
+            if(false && null != m_camera)
             {
                 m_viewMat = m_camera.worldToCameraMatrix;
                 m_projMat = m_camera.projectionMatrix;
@@ -74,7 +76,8 @@ namespace SDK.Lib
                 }
             }
 
-            testLocalCamera();
+            //testLocalCamera();
+            testLocalUpdate();
         }
 
         /**
@@ -331,6 +334,23 @@ namespace SDK.Lib
                 worldCornerStr = camera.getWorldCornerStr();
 
                 Debug.Log("aaaa");
+            }
+        }
+
+        protected void testLocalUpdate()
+        {
+            if (null != m_camera)
+            {
+                if (m_localCamera == null)
+                {
+                    m_localCamera = new MCamera(m_camera.gameObject.transform);
+
+                    m_localCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(m_camera.fieldOfView)));
+                    m_localCamera.setFarClipDistance(m_camera.farClipPlane);
+                    m_localCamera.setNearClipDistance(m_camera.nearClipPlane);
+                    m_localCamera.setAspectRatio(m_camera.aspect);
+                }
+                m_localCamera.updateVertexData();
             }
         }
     }

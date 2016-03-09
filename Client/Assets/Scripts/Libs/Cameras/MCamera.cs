@@ -25,7 +25,6 @@ namespace SDK.Lib
         protected bool mRecalcWindow;
         MFrustum mCullFrustum;
         protected bool mAutoAspectRatio;
-        protected Transform mParentNode;
 
         public MCamera(Transform parentNode)
             : base(parentNode)
@@ -612,7 +611,6 @@ namespace SDK.Lib
             base.preInit(parentNode);
             mOrientation = MQuaternion.IDENTITY;
             mPosition = MVector3.ZERO;
-            mParentNode = parentNode;
         }
     }
 }

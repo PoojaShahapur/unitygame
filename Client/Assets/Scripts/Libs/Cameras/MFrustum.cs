@@ -74,6 +74,10 @@ namespace SDK.Lib
 
         protected string msMovableType = "Frustum";
         protected float INFINITE_FAR_PLANE_ADJUST = 0.00001f;
+        protected Transform mParentNode;
+
+        protected QuadMeshRender m_frustumRender;   // Frustum 渲染
+        protected bool m_bShowBoundBox;             // 是否显示
 
         public MFrustum(Transform parentNode)
         {
@@ -455,8 +459,72 @@ namespace SDK.Lib
             }
         }
 
+        public void updateVertexData()
+        {
+            if (m_bShowBoundBox)
+            {
+                updateWorldSpaceCorners();
+
+                m_frustumRender.clear();
+
+                // 前面
+                m_frustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
+
+                // 后面
+                m_frustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+
+                // 左面
+                m_frustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
+
+                // 右面
+                m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
+
+                // 顶面
+                m_frustumRender.addVertex(mWorldSpaceCorners[1].x, mWorldSpaceCorners[1].y, mWorldSpaceCorners[1].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[5].x, mWorldSpaceCorners[5].y, mWorldSpaceCorners[5].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[4].x, mWorldSpaceCorners[4].y, mWorldSpaceCorners[4].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
+
+                // 底面
+                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+
+                m_frustumRender.buildIndexB();
+                m_frustumRender.uploadGeometry();
+            }
+        }
+
         virtual public bool isViewOutOfDate()
         {
+            if (mParentNode != null)
+            {
+                MQuaternion derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
+                MVector3 derivedPos = MVector3.fromNative(mParentNode.position);
+
+                if (mRecalcView ||
+                    derivedOrient != mLastParentOrientation ||
+                    derivedPos != mLastParentPosition)
+                {
+                    mLastParentOrientation = derivedOrient;
+                    mLastParentPosition = derivedPos;
+                    mRecalcView = true;
+                }
+            }
+
             return mRecalcView;
         }
 
@@ -813,6 +881,9 @@ namespace SDK.Lib
 
         virtual protected void preInit(Transform parentNode)
         {
+            m_bShowBoundBox = true;
+            m_frustumRender = new QuadMeshRender(24);
+            mParentNode = parentNode;
             mFrustumPlanes = new MPlane[6];
             mWorldSpaceCorners = new MVector3[8];
         }
