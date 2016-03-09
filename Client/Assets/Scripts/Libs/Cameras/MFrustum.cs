@@ -586,7 +586,7 @@ namespace SDK.Lib
             mWorldSpaceCorners[1] = eyeToWorld.transformAffine(new MVector3(nearLeft, nearTop, -mNearDist));
             mWorldSpaceCorners[2] = eyeToWorld.transformAffine(new MVector3(nearLeft, nearBottom, -mNearDist));
             mWorldSpaceCorners[3] = eyeToWorld.transformAffine(new MVector3(nearRight, nearBottom, -mNearDist));
-            // far
+
             mWorldSpaceCorners[4] = eyeToWorld.transformAffine(new MVector3(farRight, farTop, -farDist));
             mWorldSpaceCorners[5] = eyeToWorld.transformAffine(new MVector3(farLeft, farTop, -farDist));
             mWorldSpaceCorners[6] = eyeToWorld.transformAffine(new MVector3(farLeft, farBottom, -farDist));
@@ -813,7 +813,34 @@ namespace SDK.Lib
 
         virtual protected void preInit(Transform parentNode)
         {
+            mFrustumPlanes = new MPlane[6];
+            mWorldSpaceCorners = new MVector3[8];
+        }
 
+        public string getFrustumPlanesStr()
+        {
+            int idx = 0;
+            string ret = "";
+            while (idx < 6)
+            {
+                ret += mFrustumPlanes[idx].ToString();
+                ++idx;
+            }
+
+            return ret;
+        }
+
+        public string getWorldCornerStr()
+        {
+            int idx = 0;
+            string ret = "";
+            while (idx < 8)
+            {
+                ret += mWorldSpaceCorners[idx].ToString();
+                ++idx;
+            }
+
+            return ret;
         }
     }
 }

@@ -88,7 +88,7 @@ namespace SDK.Lib
 
             // View Project 矩阵，注意不是只有 Project 矩阵，因此这个求的面板是世界空间中的面板
 			// 左边 Plane
-			p = m_frustumPlanes[0];
+			p = m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_LEFT];
 			a = m_viewProjMat.m30 + m_viewProjMat.m00;
 			b = m_viewProjMat.m31 + m_viewProjMat.m01;
 			c = m_viewProjMat.m32 + m_viewProjMat.m02;
@@ -97,9 +97,10 @@ namespace SDK.Lib
             p.normal.y = b* invLen;
             p.normal.z = c* invLen;
             p.d = (m_viewProjMat.m33 + m_viewProjMat.m03) *invLen;
-			
-			// 右边 Plane
-			p = m_frustumPlanes[1];
+            m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_LEFT] = p;
+
+            // 右边 Plane
+            p = m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_RIGHT];
 			a = m_viewProjMat.m30 - m_viewProjMat.m00;
 			b = m_viewProjMat.m31 - m_viewProjMat.m01;
 			c = m_viewProjMat.m32 - m_viewProjMat.m02;
@@ -108,9 +109,10 @@ namespace SDK.Lib
             p.normal.y = b* invLen;
             p.normal.z = c* invLen;
             p.d = (m_viewProjMat.m33 - m_viewProjMat.m03) * invLen;
-			
-			// 顶端 Plane
-			p = m_frustumPlanes[3];
+            m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_RIGHT] = p;
+
+            // 顶端 Plane
+            p = m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_TOP];
 			a = m_viewProjMat.m30 - m_viewProjMat.m10;
 			b = m_viewProjMat.m31 - m_viewProjMat.m11;
 			c = m_viewProjMat.m32 - m_viewProjMat.m12;
@@ -119,9 +121,10 @@ namespace SDK.Lib
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
             p.d = (m_viewProjMat.m33 - m_viewProjMat.m13) *invLen;
+            m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_TOP] = p;
 
             // 底边 Plane
-            p = m_frustumPlanes[2];
+            p = m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_BOTTOM];
             a = m_viewProjMat.m30 + m_viewProjMat.m10;
             b = m_viewProjMat.m31 + m_viewProjMat.m11;
             c = m_viewProjMat.m32 + m_viewProjMat.m12;
@@ -130,9 +133,10 @@ namespace SDK.Lib
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
             p.d = (m_viewProjMat.m33 + m_viewProjMat.m13) * invLen;
+            m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_BOTTOM] = p;
 
             // 近 Plane
-            p = m_frustumPlanes[4];
+            p = m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_NEAR];
 			a = m_viewProjMat.m30 + m_viewProjMat.m20;
 			b = m_viewProjMat.m31 + m_viewProjMat.m21;
 			c = m_viewProjMat.m32 + m_viewProjMat.m22;
@@ -141,9 +145,10 @@ namespace SDK.Lib
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
             p.d = (m_viewProjMat.m33 + m_viewProjMat.m23) * invLen;
+            m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_NEAR] = p;
 
             // 远 Plane
-            p = m_frustumPlanes[5];
+            p = m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_FAR];
 			a = m_viewProjMat.m30 - m_viewProjMat.m20;
 			b = m_viewProjMat.m31 - m_viewProjMat.m21;
 			c = m_viewProjMat.m32 - m_viewProjMat.m22;
@@ -152,9 +157,10 @@ namespace SDK.Lib
             p.normal.y = b * invLen;
             p.normal.z = c * invLen;
             p.d = (m_viewProjMat.m33 - m_viewProjMat.m23) *invLen;
-			
-			m_frustumPlanesDirty = false;
-		}
+            m_frustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_FAR] = p;
+
+            m_frustumPlanesDirty = false;
+        }
 
         protected void updateFrustum_B()
         {
@@ -264,6 +270,19 @@ namespace SDK.Lib
             return true;
         }
 
+        public string getFrustumPlanesStr()
+        {
+            int idx = 0;
+            string ret = "";
+            while (idx < 6)
+            {
+                ret += m_frustumPlanes[idx].ToString();
+                ++idx;
+            }
+
+            return ret;
+        }
+
         /**
          * brief 测试输出投影矩阵
          */
@@ -282,6 +301,12 @@ namespace SDK.Lib
             Debug.Log(str);
         }
 
+        protected string testOutClipPanel()
+        {
+            string ret = getFrustumPlanesStr();
+            return ret;
+        }
+
         public void testLocalCamera()
         {
             if (null != m_camera)
@@ -295,7 +320,17 @@ namespace SDK.Lib
                 MMatrix4 viewMatrix = camera.getViewMatrix();
                 MMatrix4 projMatrix = camera.getProjectionMatrix();
 
-                MPlane[] planes = camera.getFrustumPlanes
+                MPlane[] planes = camera.getFrustumPlanes();
+                string planeStr = "";
+                planeStr = testOutClipPanel();
+                planeStr = camera.getFrustumPlanesStr();
+                MVector3[] worldCorners = camera.getWorldSpaceCorners();
+
+                string worldCornerStr = "";
+                worldCornerStr = m_lens.getWorldCornerStr();
+                worldCornerStr = camera.getWorldCornerStr();
+
+                Debug.Log("aaaa");
             }
         }
     }

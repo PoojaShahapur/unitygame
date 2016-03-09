@@ -135,5 +135,18 @@ namespace SDK.Lib
             MVector3 p2 = new MVector3(m_frustumCorners[9], m_frustumCorners[10], m_frustumCorners[11]);
             m_leftPanel.redefine(ref p0, ref p1, ref p2);
         }
+
+        override public string getWorldCornerStr()
+        {
+            int idx = 0;
+            string ret = "";
+            while (idx < 8)
+            {
+                ret += "Vector3( x = " + m_frustumCorners[idx * 3] + " , y = " + m_frustumCorners[idx * 3 + 1] + " , z = " + m_frustumCorners[idx * 3 + 2] + " )";
+                ++idx;
+            }
+
+            return ret;
+        }
     }
 }

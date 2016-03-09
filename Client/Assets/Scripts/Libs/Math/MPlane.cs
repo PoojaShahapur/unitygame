@@ -154,9 +154,9 @@
             return (rhs.d != lhs.d || rhs.normal != lhs.normal);
         }
 
-        static public string ToString(ref MPlane p)
+        override public string ToString()
         {
-            string o = "Plane(normal=" + p.normal + ", d=" + p.d + ")";
+            string o = "Plane( normal x = " + this.normal.x + ", y = " + this.normal.y + ", z = " + this.normal.z + ", d = " + this.d + " )";
             return o;
         }
     }

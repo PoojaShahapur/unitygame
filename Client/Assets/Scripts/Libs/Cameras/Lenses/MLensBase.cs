@@ -147,6 +147,11 @@ namespace SDK.Lib
             m_frustumRender.uploadGeometry();
         }
 
+        virtual public string getWorldCornerStr()
+        {
+            return "";
+        }
+
         /**
          * brief 测试输出投影矩阵
          */

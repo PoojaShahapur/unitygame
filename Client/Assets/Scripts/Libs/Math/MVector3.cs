@@ -570,9 +570,9 @@ namespace SDK.Lib
                     return z > 0 ? MVector3.UNIT_Z : MVector3.NEGATIVE_UNIT_Z;
         }
 
-        static public string ToString(ref MVector3 v)
+        override public string ToString()
         {
-            string o = "Vector3(" + v.x + ", " + v.y + ", " + v.z + ")";
+            string o = "Vector3( x = " + this.x + " , y = " + this.y + " , z = " + this.z + " )";
             return o;
         }
 
