@@ -30,5 +30,10 @@
         {
             m_submesh = terrain.getTileMesh(tileIndex);
         }
+
+        override public MAxisAlignedBox getAABox()
+        {
+            return m_submesh.getAABox();
+        }
     }
 }

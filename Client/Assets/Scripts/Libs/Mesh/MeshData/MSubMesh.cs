@@ -91,5 +91,10 @@
         {
             m_meshRender.hide();
         }
+
+        public MAxisAlignedBox getAABox()
+        {
+            return m_subGeometry.getAABox();
+        }
     }
 }

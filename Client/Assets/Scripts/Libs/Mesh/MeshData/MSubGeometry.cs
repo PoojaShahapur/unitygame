@@ -19,9 +19,12 @@ namespace SDK.Lib
 		protected MList<bool> m_tangentsInvalid;
 		
 		protected uint m_numVertices;
+        protected MAxisAlignedBox m_aaBox;  // 包围盒子
 
         public MSubGeometry()
         {
+            m_aaBox = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+
             m_verticesInvalid = new MList<bool>();
             m_uvsInvalid = new MList<bool>();
             m_secondaryUvsInvalid = new MList<bool>();
@@ -76,8 +79,8 @@ namespace SDK.Lib
             m_numVertices = (uint)numVertices;
 
             invalidateBuffers(m_verticesInvalid);
-
             invalidateBounds();
+            updateAABox();      // 更新包围盒子
         }
 
         override protected void invalidateBuffers(MList<bool> invalid)
@@ -254,6 +257,21 @@ namespace SDK.Lib
 			m_faceTangentsDirty = true;
 			m_uvs = uvs;
             invalidateBuffers(m_uvsInvalid);
+        }
+
+        public void updateAABox()
+        {
+            int idx = 0;
+            while (idx < m_numVertices)
+            {
+                m_aaBox.addPoint(m_vertexData[idx * 3], m_vertexData[idx * 3 + 1], m_vertexData[idx * 3 + 2]);
+                ++idx;
+            }
+        }
+
+        override public MAxisAlignedBox getAABox()
+        {
+            return m_aaBox;
         }
     }
 }

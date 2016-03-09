@@ -28,5 +28,10 @@
         {
 
         }
+
+        virtual public MAxisAlignedBox getAABox()
+        {
+            return MAxisAlignedBox.BOX_NULL;
+        }
     }
 }

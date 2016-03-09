@@ -29,6 +29,7 @@ namespace SDK.Lib
         protected float m_halfExtentXZ;     // 世界空间中节点大小的一班，主要用来裁剪
         protected float m_halfExtentY;
 
+        protected MAxisAlignedBox m_aaBox;  // 包围盒子
         protected MNodeProxy m_nodeProxy;   // 保存的一些与显示有关的数据
         /**
          * @brief Tile 的偏移原点在左下角，不是在四叉树的中间。地形 Tile 划分的时候左下角是原点，右上角是最大值
@@ -45,14 +46,12 @@ namespace SDK.Lib
 
         protected QuadMeshRender m_quadRender;  // 显示节点的区域大小
         protected bool m_bShowBoundBox;         // 显示 BoundBox
-        protected MBoundingVolumeBase m_bv;
 
         /**
          * @brief 四叉树的节点，深度根据 leaf 的大小确定
          */
         public MQuadTreeNode(TerrainPage terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0, int xTileOffset = 0, int zTileOffset = 0)
         {
-            m_bv = new MBoundingVolumeBase();
             m_terrain = terrain;
 
             int halfSize = (int)(size * 0.5f);
@@ -145,9 +144,7 @@ namespace SDK.Lib
             MVector3 half = MVector3.ZERO;
             for (int plane = 0; plane< 6; ++plane)
             {
-                m_bv.setMin(new MVector3(m_centerX - m_halfExtentXZ, 0, m_centerZ - m_halfExtentXZ));
-                m_bv.setMax(new MVector3(m_centerX + m_halfExtentXZ, 0, m_centerZ + m_halfExtentXZ));
-                half = m_bv.getHalfSize();
+                half = m_aaBox.getHalfSize();
 
                 MVector3 centerPt = new MVector3(m_centerX, 0, m_centerZ);
                 MPlane.Side side = planes[plane].getSide(ref centerPt, ref half);
@@ -362,6 +359,40 @@ namespace SDK.Lib
                 m_leftTop.hideLeafNode();
                 m_rightBottom.hideLeafNode();
                 m_leftBottom.hideLeafNode();
+            }
+        }
+
+        public MAxisAlignedBox getAAB()
+        {
+            return m_aaBox;
+        }
+
+        // 更新更新 AABB
+        public void updateAABox()
+        {
+            if (m_leaf)
+            {
+                m_aaBox = m_nodeProxy.getAABox();
+            }
+            else
+            {
+                m_rightTop.updateAABox();
+                m_leftTop.updateAABox();
+                m_rightBottom.updateAABox();
+                m_leftBottom.updateAABox();
+
+                MAxisAlignedBox tmp;
+                tmp = m_rightTop.getAAB();
+                m_aaBox.merge(ref tmp);
+
+                tmp = m_leftTop.getAAB();
+                m_aaBox.merge(ref tmp);
+
+                tmp = m_rightBottom.getAAB();
+                m_aaBox.merge(ref tmp);
+
+                tmp = m_leftBottom.getAAB();
+                m_aaBox.merge(ref tmp);
             }
         }
     }

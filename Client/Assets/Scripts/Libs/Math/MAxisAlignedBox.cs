@@ -161,13 +161,13 @@ namespace SDK.Lib
                 "The minimum corner of the box must be less than or equal to maximum corner");
 
             mExtent = Extent.EXTENT_FINITE;
-            mMinimum = min;
-            mMaximum = max;
+            mMinimum.assignFrom(ref min);
+            mMaximum.assignFrom(ref max);
         }
 
         public void setExtents(
-        float mx, float my, float mz,
-        float Mx, float My, float Mz)
+            float mx, float my, float mz,
+            float Mx, float My, float Mz)
         {
             UtilApi.assert((mx <= Mx && my <= My && mz <= Mz),
                 "The minimum corner of the box must be less than or equal to maximum corner");
@@ -181,7 +181,6 @@ namespace SDK.Lib
             mMaximum.x = Mx;
             mMaximum.y = My;
             mMaximum.z = Mz;
-
         }
 
         public MVector3[] getAllCorners()
@@ -258,7 +257,6 @@ namespace SDK.Lib
             {
                 return;
             }
-
             else if (rhs.mExtent == Extent.EXTENT_INFINITE)
             {
                 mExtent = Extent.EXTENT_INFINITE;
@@ -276,7 +274,6 @@ namespace SDK.Lib
 
                 setExtents(ref min, ref max);
             }
-
         }
 
         public void merge(ref MVector3 point)
@@ -649,6 +646,35 @@ namespace SDK.Lib
         public override int GetHashCode()
         {
             return this.GetHashCode();
+        }
+
+        public void addPoint(float x, float y, float z)
+        {
+            if(x < this.mMinimum.x)
+            {
+                this.mMinimum.x = x;
+            }
+            if (y < this.mMinimum.y)
+            {
+                this.mMinimum.y = y;
+            }
+            if (z < this.mMinimum.z)
+            {
+                this.mMinimum.z = z;
+            }
+
+            if (x > this.mMaximum.x)
+            {
+                this.mMaximum.x = x;
+            }
+            if (y > this.mMaximum.y)
+            {
+                this.mMaximum.y = y;
+            }
+            if (z > this.mMaximum.z)
+            {
+                this.mMaximum.z = z;
+            }
         }
     }
 }
