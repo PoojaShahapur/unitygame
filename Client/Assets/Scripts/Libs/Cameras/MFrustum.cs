@@ -121,7 +121,7 @@ namespace SDK.Lib
             invalidateFrustum();
         }
 
-        public float getFarClipDistance()
+        virtual public float getFarClipDistance()
         {
             return mFarDist;
         }
@@ -133,7 +133,7 @@ namespace SDK.Lib
             invalidateFrustum();
         }
 
-        public float getNearClipDistance()
+        virtual public float getNearClipDistance()
         {
             return mNearDist;
         }
@@ -192,22 +192,21 @@ namespace SDK.Lib
             return mProjMatrixRS;
         }
 
-        public MMatrix4 getViewMatrix()
+        virtual public MMatrix4 getViewMatrix()
         {
             updateView();
 
             return mViewMatrix;
-
         }
 
-        public MPlane[] getFrustumPlanes()
+        virtual public MPlane[] getFrustumPlanes()
         {
             updateFrustumPlanes();
 
             return mFrustumPlanes;
         }
 
-        public MPlane getFrustumPlane(short plane)
+        virtual public MPlane getFrustumPlane(short plane)
         {
             updateFrustumPlanes();
 
@@ -215,7 +214,7 @@ namespace SDK.Lib
 
         }
 
-        public bool isVisible(ref MAxisAlignedBox bound, ref FrustumPlane culledBy)
+        virtual public bool isVisible(ref MAxisAlignedBox bound, ref FrustumPlane culledBy)
         {
             if (bound.isNull()) return false;
 
@@ -244,7 +243,7 @@ namespace SDK.Lib
             return true;
         }
 
-        public bool isVisible(ref MVector3 vert, ref FrustumPlane culledBy)
+        virtual public bool isVisible(ref MVector3 vert, ref FrustumPlane culledBy)
         {
             updateFrustumPlanes();
 
@@ -458,7 +457,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool isViewOutOfDate()
+        virtual public bool isViewOutOfDate()
         {
             return mRecalcView;
         }
@@ -626,12 +625,12 @@ namespace SDK.Lib
             return mBoundingBox;
         }
 
-        public string getMovableType()
+        virtual public string getMovableType()
         {
             return msMovableType;
         }
 
-        public void invalidateFrustum()
+        virtual public void invalidateFrustum()
         {
             mRecalcFrustum = true;
             mRecalcFrustumPlanes = true;
@@ -639,14 +638,14 @@ namespace SDK.Lib
             mRecalcVertexData = true;
         }
 
-        public void invalidateView()
+        virtual public void invalidateView()
         {
             mRecalcView = true;
             mRecalcFrustumPlanes = true;
             mRecalcWorldSpaceCorners = true;
         }
 
-        public MVector3[] getWorldSpaceCorners()
+        virtual public MVector3[] getWorldSpaceCorners()
         {
             updateWorldSpaceCorners();
 
@@ -664,12 +663,12 @@ namespace SDK.Lib
             return mProjType;
         }
 
-        public MVector3 getPositionForViewUpdate()
+        virtual public MVector3 getPositionForViewUpdate()
         {
             return mLastParentPosition;
         }
 
-        public MQuaternion getOrientationForViewUpdate()
+        virtual public MQuaternion getOrientationForViewUpdate()
         {
             return mLastParentOrientation;
         }

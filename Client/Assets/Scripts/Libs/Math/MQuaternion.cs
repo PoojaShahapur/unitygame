@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SDK.Lib
 {
     public struct MQuaternion
@@ -640,6 +642,16 @@ namespace SDK.Lib
         {
             string o = "Quaternion(" + q.w + ", " + q.x + ", " + q.y + ", " + q.z + ")";
             return o;
+        }
+
+        static public MQuaternion fromNative(Quaternion native)
+        {
+            return new MQuaternion(native.x, native.y, native.z, native.w);
+        }
+
+        public Quaternion toNative()
+        {
+            return new Quaternion(x, y, z, w);
         }
     }
 }

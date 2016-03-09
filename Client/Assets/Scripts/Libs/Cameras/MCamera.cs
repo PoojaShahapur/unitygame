@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SDK.Lib
 {
     public class MCamera : MFrustum
@@ -23,9 +25,11 @@ namespace SDK.Lib
         protected bool mRecalcWindow;
         MFrustum mCullFrustum;
         protected bool mAutoAspectRatio;
+        protected Transform mParentNode;
 
-        public MCamera()
+        public MCamera(Transform parentNode)
         {
+            mParentNode = parentNode;
             mOrientation = MQuaternion.IDENTITY;
             mPosition = MVector3.ZERO;
             mWindowSet = false;
@@ -95,7 +99,6 @@ namespace SDK.Lib
 
             MQuaternion targetWorldOrientation = new MQuaternion(1);
 
-
             if (mYawFixed)
             {
                 MVector3 xVec = mYawFixedAxis.crossProduct(ref zAdjustVec);
@@ -125,7 +128,8 @@ namespace SDK.Lib
                 targetWorldOrientation = rotQuat * mRealOrientation;
             }
 
-            mOrientation = mDerivedOrientation.Inverse() * targetWorldOrientation;
+            mOrientation = MQuaternion.fromNative(Quaternion.Inverse(mParentNode.rotation) * targetWorldOrientation.toNative());
+
             invalidateView();
         }
 
@@ -198,7 +202,6 @@ namespace SDK.Lib
             rotate(ref q);
         }
 
-        //-----------------------------------------------------------------------
         public void rotate(ref MQuaternion q)
         {
             MQuaternion qnorm = q;
@@ -206,13 +209,12 @@ namespace SDK.Lib
             mOrientation = qnorm * mOrientation;
 
             invalidateView();
-
         }
 
-        public bool isViewOutOfDate()
+        override public bool isViewOutOfDate()
         {
-            MQuaternion derivedOrient = new MQuaternion(1, 0, 0, 0);
-            MVector3 derivedPos = new MVector3(0, 0, 0);
+            MQuaternion derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
+            MVector3 derivedPos = MVector3.fromNative(mParentNode.position);
 
             if (mRecalcView ||
                 derivedOrient != mLastParentOrientation ||
@@ -254,23 +256,20 @@ namespace SDK.Lib
             }
 
             return mRecalcView;
-
         }
 
-        public void invalidateView()
+        override public void invalidateView()
         {
             mRecalcWindow = true;
             base.invalidateView();
         }
 
-        public void invalidateFrustum()
+        override public void invalidateFrustum()
         {
             mRecalcWindow = true;
             base.invalidateFrustum();
         }
 
-
-        //-----------------------------------------------------------------------
         public string ToString(ref MCamera c)
         {
             string o = "";
@@ -302,7 +301,6 @@ namespace SDK.Lib
         {
             return mOrientation;
         }
-
 
         public void setOrientation(ref MQuaternion q)
         {
@@ -375,13 +373,14 @@ namespace SDK.Lib
         {
             updateView();
 
+            MVector3 scale = MVector3.fromNative(mParentNode.localScale);
             mat.makeTransform(
                     ref mDerivedPosition,
-                    ref mDerivedScale,
+                    ref scale,
                     ref mDerivedOrientation);
         }
 
-        public string getMovableType()
+        override public string getMovableType()
         {
             return msMovableType;
         }
@@ -482,7 +481,6 @@ namespace SDK.Lib
             }
 
             mRecalcWindow = false;
-
         }
 
         public MList<MPlane> getWindowPlanes()
@@ -492,12 +490,12 @@ namespace SDK.Lib
             return mWindowClipPlanes;
         }
 
-        public MVector3 getPositionForViewUpdate()
+        override public MVector3 getPositionForViewUpdate()
         {
             return mRealPosition;
         }
 
-        public MQuaternion getOrientationForViewUpdate()
+        override public MQuaternion getOrientationForViewUpdate()
         {
             return mRealOrientation;
         }
@@ -512,7 +510,7 @@ namespace SDK.Lib
             mAutoAspectRatio = autoratio;
         }
 
-        public bool isVisible(ref MAxisAlignedBox bound, ref FrustumPlane culledBy)
+        override public bool isVisible(ref MAxisAlignedBox bound, ref FrustumPlane culledBy)
         {
             if (mCullFrustum != null)
             {
@@ -524,7 +522,7 @@ namespace SDK.Lib
             }
         }
 
-        public bool isVisible(ref MVector3 vert, ref FrustumPlane culledBy)
+        override public bool isVisible(ref MVector3 vert, ref FrustumPlane culledBy)
         {
             if (mCullFrustum != null)
             {
@@ -536,7 +534,7 @@ namespace SDK.Lib
             }
         }
 
-        public MVector3[] getWorldSpaceCorners()
+        override public MVector3[] getWorldSpaceCorners()
         {
             if (mCullFrustum != null)
             {
@@ -548,7 +546,7 @@ namespace SDK.Lib
             }
         }
 
-        public MPlane getFrustumPlane(short plane)
+        override public MPlane getFrustumPlane(short plane)
         {
             if (mCullFrustum != null)
             {
@@ -560,7 +558,7 @@ namespace SDK.Lib
             }
         }
 
-        public float getNearClipDistance()
+        override public float getNearClipDistance()
         {
             if (mCullFrustum != null)
             {
@@ -572,7 +570,7 @@ namespace SDK.Lib
             }
         }
 
-        public float getFarClipDistance()
+        override public float getFarClipDistance()
         {
             if (mCullFrustum != null)
             {
@@ -584,7 +582,7 @@ namespace SDK.Lib
             }
         }
 
-        public MMatrix4 getViewMatrix()
+        override public MMatrix4 getViewMatrix()
         {
             if (mCullFrustum != null)
             {

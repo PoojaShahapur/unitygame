@@ -73,6 +73,8 @@ namespace SDK.Lib
                     m_lens.updateFrustumRender();
                 }
             }
+
+            testLocalCamera();
         }
 
         /**
@@ -278,6 +280,18 @@ namespace SDK.Lib
             }
 
             Debug.Log(str);
+        }
+
+        public void testLocalCamera()
+        {
+            MCamera camera = new MCamera(m_camera.gameObject.transform);
+            if (null != m_camera)
+            {
+                camera.setFOVy(m_camera.fieldOfView);
+                camera.setFarClipDistance(m_camera.farClipPlane);
+                camera.setNearClipDistance(m_camera.nearClipPlane);
+                camera.setAspectRatio(m_camera.aspect);
+            }
         }
     }
 }

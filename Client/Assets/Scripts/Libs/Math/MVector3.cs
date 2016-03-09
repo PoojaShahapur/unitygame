@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SDK.Lib
 {
     public struct MVector3
@@ -592,6 +594,16 @@ namespace SDK.Lib
         public override int GetHashCode()
         {
             return this.GetHashCode();
+        }
+
+        static public MVector3 fromNative(Vector3 native)
+        {
+            return new MVector3(native.x, native.y, native.z);
+        }
+
+        public Vector3 toNative()
+        {
+            return new Vector3(x, y, z);
         }
     }
 }

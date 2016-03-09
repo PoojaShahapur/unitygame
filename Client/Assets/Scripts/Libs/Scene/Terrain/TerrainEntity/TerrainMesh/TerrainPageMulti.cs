@@ -33,6 +33,7 @@
             m_heightMapData.loadHeightMap("Terrain/terrain.png");
 
             m_terrainPageCfg.setWorldWidthAndHeight(m_heightMapData.getWidth() - 1, m_heightMapData.getHeight() - 1);
+            //m_terrainPageCfg.setWorldWidthAndHeight(1000, 1000);
 
             //m_terrainPageCfg.setWorldWidthAndHeight(64, 64);
 
