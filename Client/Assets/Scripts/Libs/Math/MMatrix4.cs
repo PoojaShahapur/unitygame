@@ -29,7 +29,7 @@ namespace SDK.Lib
         public float[,] m;
 
         public MMatrix4(
-            float m00 = 0, float m01 = 0, float m02 = 0, float m03 = 0,
+            float m00, float m01 = 0, float m02 = 0, float m03 = 0,
             float m10 = 0, float m11 = 0, float m12 = 0, float m13 = 0,
             float m20 = 0, float m21 = 0, float m22 = 0, float m23 = 0,
             float m30 = 0, float m31 = 0, float m32 = 0, float m33 = 0)
@@ -62,7 +62,7 @@ namespace SDK.Lib
 
         public MMatrix4(ref MQuaternion rot)
         {
-            MMatrix3 m3x3 = new MMatrix3();
+            MMatrix3 m3x3 = new MMatrix3(0);
             rot.ToRotationMatrix(ref m3x3);
             this = IDENTITY;
             this.assignForm(ref m3x3);
@@ -104,7 +104,7 @@ namespace SDK.Lib
 
         public MMatrix4 concatenate(ref MMatrix4 m2)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
             r[0, 0] = m[0, 0] * m2[0, 0] + m[0, 1] * m2[1, 0] + m[0, 2] * m2[2, 0] + m[0, 3] * m2[3, 0];
             r[0, 1] = m[0, 0] * m2[0, 1] + m[0, 1] * m2[1, 1] + m[0, 2] * m2[2, 1] + m[0, 3] * m2[3, 1];
             r[0, 2] = m[0, 0] * m2[0, 2] + m[0, 1] * m2[1, 2] + m[0, 2] * m2[2, 2] + m[0, 3] * m2[3, 2];
@@ -135,7 +135,7 @@ namespace SDK.Lib
 
         static public MVector3 operator *(MMatrix4 lhs, MVector3 v)
         {
-            MVector3 r = new MVector3();
+            MVector3 r = new MVector3(0, 0, 0);
 
             float fInvW = 1.0f / (lhs[3, 0] * v.x + lhs[3, 1] * v.y + lhs[3, 2] * v.z + lhs[3, 3]);
 
@@ -172,7 +172,7 @@ namespace SDK.Lib
 
         static public MMatrix4 operator +(MMatrix4 lhs, MMatrix4 m2)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
 
             r[0, 0] = lhs[0, 0] + m2[0, 0];
             r[0, 1] = lhs[0, 1] + m2[0, 1];
@@ -199,7 +199,7 @@ namespace SDK.Lib
 
         static public MMatrix4 operator -(MMatrix4 lhs, MMatrix4 m2)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
             r[0, 0] = lhs[0, 0] - m2[0, 0];
             r[0, 1] = lhs[0, 1] - m2[0, 1];
             r[0, 2] = lhs[0, 2] - m2[0, 2];
@@ -290,7 +290,7 @@ namespace SDK.Lib
 
         public static MMatrix4 getTrans(ref MVector3 v)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
 
             r[0, 0] = 1.0f; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = v.x;
             r[1, 0] = 0.0f; r[1, 1] = 1.0f; r[1, 2] = 0.0f; r[1, 3] = v.y;
@@ -302,7 +302,7 @@ namespace SDK.Lib
 
         public static MMatrix4 getTrans(float t_x, float t_y, float t_z)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
 
             r[0, 0] = 1.0f; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = t_x;
             r[1, 0] = 0.0f; r[1, 1] = 1.0f; r[1, 2] = 0.0f; r[1, 3] = t_y;
@@ -321,7 +321,7 @@ namespace SDK.Lib
 
         public static MMatrix4 getScale(ref MVector3 v)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
             r[0, 0] = v.x; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = 0.0f;
             r[1, 0] = 0.0f; r[1, 1] = v.y; r[1, 2] = 0.0f; r[1, 3] = 0.0f;
             r[2, 0] = 0.0f; r[2, 1] = 0.0f; r[2, 2] = v.z; r[2, 3] = 0.0f;
@@ -332,7 +332,7 @@ namespace SDK.Lib
 
         public static MMatrix4 getScale(float s_x, float s_y, float s_z)
         {
-            MMatrix4 r = new MMatrix4();
+            MMatrix4 r = new MMatrix4(0);
             r[0, 0] = s_x; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = 0.0f;
             r[1, 0] = 0.0f; r[1, 1] = s_y; r[1, 2] = 0.0f; r[1, 3] = 0.0f;
             r[2, 0] = 0.0f; r[2, 1] = 0.0f; r[2, 2] = s_z; r[2, 3] = 0.0f;
@@ -377,7 +377,7 @@ namespace SDK.Lib
 
         public MQuaternion extractQuaternion()
         {
-            MMatrix3 m3x3 = new MMatrix3();
+            MMatrix3 m3x3 = new MMatrix3(0);
             extract3x3Matrix(ref m3x3);
             return new MQuaternion(ref m3x3);
         }
@@ -510,7 +510,7 @@ namespace SDK.Lib
 
         public void makeTransform(ref MVector3 position, ref MVector3 scale, ref MQuaternion orientation)
         {
-            MMatrix3 rot3x3 = new MMatrix3();
+            MMatrix3 rot3x3 = new MMatrix3(0);
             orientation.ToRotationMatrix(ref rot3x3);
 
             m[0, 0] = scale.x * rot3x3[0, 0]; m[0, 1] = scale.y * rot3x3[0, 1]; m[0, 2] = scale.z * rot3x3[0, 2]; m[0, 3] = position.x;
@@ -529,7 +529,7 @@ namespace SDK.Lib
             invTranslate = invRot * invTranslate;
             invTranslate *= invScale;
 
-            MMatrix3 rot3x3 = new MMatrix3();
+            MMatrix3 rot3x3 = new MMatrix3(0);
             invRot.ToRotationMatrix(ref rot3x3);
 
             m[0, 0] = invScale.x * rot3x3[0, 0]; m[0, 1] = invScale.x * rot3x3[0, 1]; m[0, 2] = invScale.x * rot3x3[0, 2]; m[0, 3] = invTranslate.x;
@@ -543,11 +543,11 @@ namespace SDK.Lib
         {
             UtilApi.assert(isAffine());
 
-            MMatrix3 m3x3 = new MMatrix3();
+            MMatrix3 m3x3 = new MMatrix3(0);
             extract3x3Matrix(ref m3x3);
 
-            MMatrix3 matQ = new MMatrix3();
-            MVector3 vecU = new MVector3();
+            MMatrix3 matQ = new MMatrix3(0);
+            MVector3 vecU = new MVector3(0, 0, 0);
             m3x3.QDUDecomposition(ref matQ, ref scale, ref vecU);
 
             orientation = new MQuaternion(ref matQ);

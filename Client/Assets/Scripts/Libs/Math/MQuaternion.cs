@@ -10,9 +10,7 @@ namespace SDK.Lib
 
         public float w, x, y, z;
 
-        public MQuaternion(
-            float fW = 1,
-            float fX = 0, float fY = 0, float fZ = 0)
+        public MQuaternion(float fW, float fX = 0, float fY = 0, float fZ = 0)
         {
             w = fW;
             x = fX;
@@ -202,7 +200,7 @@ namespace SDK.Lib
 
         public void FromAxes(MVector3[] akAxis)
         {
-            MMatrix3 kRot = new MMatrix3();
+            MMatrix3 kRot = new MMatrix3(0);
 
             for (int iCol = 0; iCol < 3; iCol++)
             {
@@ -216,7 +214,7 @@ namespace SDK.Lib
 
         public void FromAxes(MVector3 xaxis, MVector3 yaxis, MVector3 zaxis)
         {
-            MMatrix3 kRot = new MMatrix3();
+            MMatrix3 kRot = new MMatrix3(0);
 
             kRot[0, 0] = xaxis.x;
             kRot[1, 0] = xaxis.y;
@@ -235,7 +233,7 @@ namespace SDK.Lib
 
         public void ToAxes(ref MVector3[] akAxis)
         {
-            MMatrix3 kRot = new MMatrix3();
+            MMatrix3 kRot = new MMatrix3(0);
 
             ToRotationMatrix(ref kRot);
 
@@ -249,7 +247,7 @@ namespace SDK.Lib
 
         public void ToAxes(ref MVector3 xaxis, ref MVector3 yaxis, ref MVector3 zaxis)
         {
-            MMatrix3 kRot = new MMatrix3();
+            MMatrix3 kRot = new MMatrix3(0);
 
             ToRotationMatrix(ref kRot);
 
@@ -409,7 +407,7 @@ namespace SDK.Lib
             MRadian fAngle = new MRadian(UtilMath.Sqrt(x * x + y * y + z * z));
             float fSin = UtilMath.Sin(fAngle);
 
-            MQuaternion kResult = new MQuaternion();
+            MQuaternion kResult = new MQuaternion(1);
             kResult.w = UtilMath.Cos(fAngle);
 
             if (UtilMath.Abs(fSin) >= msEpsilon)
@@ -431,7 +429,7 @@ namespace SDK.Lib
 
         public MQuaternion Log()
         {
-            MQuaternion kResult = new MQuaternion();
+            MQuaternion kResult = new MQuaternion(1);
             kResult.w = 0.0f;
 
             if (UtilMath.Abs(w) < 1.0)
@@ -457,7 +455,7 @@ namespace SDK.Lib
 
         static public MVector3 operator *(MQuaternion lhs, MVector3 v)
         {
-            MVector3 uv = new MVector3(), uuv = new MVector3();
+            MVector3 uv = new MVector3(0, 0, 0), uuv = new MVector3(0, 0, 0);
             MVector3 qvec = new MVector3(lhs.x, lhs.y, lhs.z);
             uv = qvec.crossProduct(ref v);
             uuv = qvec.crossProduct(ref uv);

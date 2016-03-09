@@ -371,9 +371,9 @@ namespace SDK.Lib
 
         static public MMatrix4 makeViewMatrix(ref MVector3 position, ref MQuaternion orientation, ref MMatrix4 reflectMatrix, bool reflect)
         {
-            MMatrix4 viewMatrix = new MMatrix4();
+            MMatrix4 viewMatrix = new MMatrix4(0);
 
-            MMatrix3 rot = new MMatrix3();
+            MMatrix3 rot = new MMatrix3(0);
             orientation.ToRotationMatrix(ref rot);
 
             MMatrix3 rotT = rot.Transpose();

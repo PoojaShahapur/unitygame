@@ -225,7 +225,7 @@ namespace SDK.Lib
                 case CornerEnum.NEAR_RIGHT_TOP:
                     return mMaximum;
                 default:
-                    return new MVector3();
+                    return new MVector3(0, 0, 0);
             }
         }
 

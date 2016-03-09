@@ -44,7 +44,6 @@ namespace SDK.Lib
             return new MVector3(mOrigin + (mDirection * t));
         }
 
-
         static public MVector3 operator *(MRay lhs, float t)
         {
             return lhs.getPoint(t);

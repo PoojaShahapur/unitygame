@@ -30,7 +30,7 @@ namespace SDK.Lib
         {
             m_bShowBoundBox = true;
             m_frustumRender = new QuadMeshRender(24);
-            m_matrix3D = new MMatrix4(0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            m_matrix3D = new MMatrix4(0);
 
             m_farDist = 10000;
             m_nearDist = 100;

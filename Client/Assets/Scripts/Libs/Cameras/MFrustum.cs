@@ -376,7 +376,7 @@ namespace SDK.Lib
                         updateView();
                         MPlane plane = mViewMatrix * mObliqueProjPlane;
 
-                        MVector4 qVec = new MVector4();
+                        MVector4 qVec = new MVector4(0, 0, 0, 1);
                         qVec.x = (UtilMath.Sign(plane.normal.x) + mProjMatrix[0, 2]) / mProjMatrix[0, 0];
                         qVec.y = (UtilMath.Sign(plane.normal.y) + mProjMatrix[1, 2]) / mProjMatrix[1, 1];
                         qVec.z = -1;

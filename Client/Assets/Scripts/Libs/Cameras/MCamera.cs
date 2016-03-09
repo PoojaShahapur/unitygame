@@ -35,7 +35,7 @@ namespace SDK.Lib
             mFarDist = 100000.0f;
             mAspect = 1.33333333333333f;
             mProjType = ProjectionType.PT_PERSPECTIVE;
-            MVector3 dir = new MVector3();
+            MVector3 dir = new MVector3(0, 0, 0);
             setFixedYawAxis(true, ref dir);
 
             invalidateFrustum();
@@ -93,7 +93,7 @@ namespace SDK.Lib
             MVector3 zAdjustVec = -vec;
             zAdjustVec.normalise();
 
-            MQuaternion targetWorldOrientation = new MQuaternion();
+            MQuaternion targetWorldOrientation = new MQuaternion(1);
 
 
             if (mYawFixed)
@@ -112,14 +112,14 @@ namespace SDK.Lib
                 MVector3[] axes = new MVector3[3];
                 updateView();
                 mRealOrientation.ToAxes(ref axes);
-                MQuaternion rotQuat = new MQuaternion();
+                MQuaternion rotQuat = new MQuaternion(1);
                 if ((axes[2] + zAdjustVec).squaredLength() < 0.00005f)
                 {
                     rotQuat.FromAngleAxis(new MRadian(UtilMath.PI), ref axes[1]);
                 }
                 else
                 {
-                    MVector3 tmp = new MVector3();
+                    MVector3 tmp = new MVector3(0, 0, 0);
                     rotQuat = axes[2].getRotationTo(ref zAdjustVec, ref tmp);
                 }
                 targetWorldOrientation = rotQuat * mRealOrientation;
@@ -193,7 +193,7 @@ namespace SDK.Lib
 
         public void rotate(ref MVector3 axis, ref MRadian angle)
         {
-            MQuaternion q = new MQuaternion();
+            MQuaternion q = new MQuaternion(1);
             q.FromAngleAxis(angle, ref axis);
             rotate(ref q);
         }
@@ -209,11 +209,10 @@ namespace SDK.Lib
 
         }
 
-
         public bool isViewOutOfDate()
         {
-            MQuaternion derivedOrient = new MQuaternion();
-            MVector3 derivedPos = new MVector3();
+            MQuaternion derivedOrient = new MQuaternion(1, 0, 0, 0);
+            MVector3 derivedPos = new MVector3(0, 0, 0);
 
             if (mRecalcView ||
                 derivedOrient != mLastParentOrientation ||

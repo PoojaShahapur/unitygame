@@ -435,7 +435,7 @@ namespace SDK.Lib
                 newUp = up;
             }
 
-            MQuaternion q = new MQuaternion();
+            MQuaternion q = new MQuaternion(1);
             q.FromAngleAxis(new MRadian(UtilMath.UnitRandom() * UtilMath.TWO_PI), ref this);
             newUp = q * newUp;
 
@@ -459,7 +459,7 @@ namespace SDK.Lib
         public MQuaternion getRotationTo(ref MVector3 dest,
             ref MVector3 fallbackAxis/* = MVector3.ZERO*/)
         {
-            MQuaternion q = new MQuaternion();
+            MQuaternion q = new MQuaternion(1);
 
             MVector3 v0 = this;
             MVector3 v1 = dest;

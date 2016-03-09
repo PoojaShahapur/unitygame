@@ -45,7 +45,7 @@ namespace SDK.Lib
             m[2, 2] = rkMatrix[2, 2];
         }
 
-        public MMatrix3(float fEntry00 = 0, float fEntry01 = 0, float fEntry02 = 0,
+        public MMatrix3(float fEntry00, float fEntry01 = 0, float fEntry02 = 0,
                     float fEntry10 = 0, float fEntry11 = 0, float fEntry12 = 0,
                     float fEntry20 = 0, float fEntry21 = 0, float fEntry22 = 0)
         {
@@ -148,7 +148,7 @@ namespace SDK.Lib
 
         static public MMatrix3 operator +(MMatrix3 lhs, MMatrix3 rkMatrix)
         {
-            MMatrix3 kSum = new MMatrix3();
+            MMatrix3 kSum = new MMatrix3(0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
@@ -162,7 +162,7 @@ namespace SDK.Lib
 
         static public MMatrix3 operator -(MMatrix3 lhs, MMatrix3 rkMatrix)
         {
-            MMatrix3 kDiff = new MMatrix3();
+            MMatrix3 kDiff = new MMatrix3(0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
@@ -176,7 +176,7 @@ namespace SDK.Lib
 
         static public MMatrix3 operator *(MMatrix3 lhs, MMatrix3 rkMatrix)
         {
-            MMatrix3 kProd = new MMatrix3();
+            MMatrix3 kProd = new MMatrix3(0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
@@ -192,7 +192,7 @@ namespace SDK.Lib
 
         static public MMatrix3 operator -(MMatrix3 lhs)
         {
-            MMatrix3 kNeg = new MMatrix3();
+            MMatrix3 kNeg = new MMatrix3(0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
@@ -203,7 +203,7 @@ namespace SDK.Lib
 
         static public MVector3 operator *(MMatrix3 lhs, MVector3 rkPoint)
         {
-            MVector3 kProd = new MVector3();
+            MVector3 kProd = new MVector3(0, 0, 0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 kProd[iRow] =
@@ -217,7 +217,7 @@ namespace SDK.Lib
         static public MVector3 operator *(MVector3 rkPoint,
             MMatrix3 rkMatrix)
         {
-            MVector3 kProd = new MVector3();
+            MVector3 kProd = new MVector3(0, 0, 0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 kProd[iRow] =
@@ -230,7 +230,7 @@ namespace SDK.Lib
 
         static public MMatrix3 operator *(MMatrix3 lhs, float fScalar)
         {
-            MMatrix3 kProd = new MMatrix3();
+            MMatrix3 kProd = new MMatrix3(0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
@@ -241,7 +241,7 @@ namespace SDK.Lib
 
         static public MMatrix3 operator *(float fScalar, MMatrix3 rkMatrix)
         {
-            MMatrix3 kProd = new MMatrix3();
+            MMatrix3 kProd = new MMatrix3(0);
             for (int iRow = 0; iRow< 3; iRow++)
             {
                 for (int iCol = 0; iCol< 3; iCol++)
@@ -252,7 +252,7 @@ namespace SDK.Lib
 
         public MMatrix3 Transpose()
         {
-            MMatrix3 kTranspose = new MMatrix3();
+            MMatrix3 kTranspose = new MMatrix3(0);
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
@@ -443,7 +443,7 @@ namespace SDK.Lib
                     ref MVector3 kS, ref MMatrix3 kR)
         {
             int iRow, iCol;
-            MMatrix3 kTmp = new MMatrix3();
+            MMatrix3 kTmp = new MMatrix3(0);
 
             for (iRow = 0; iRow < 3; iRow++)
             {
@@ -559,7 +559,7 @@ namespace SDK.Lib
                         kQ[iRow, iCol] = -kQ[iRow, iCol];
             }
 
-            MMatrix3 kR = new MMatrix3();
+            MMatrix3 kR = new MMatrix3(0);
             kR[0, 0] = kQ[0, 0] * m[0, 0] + kQ[1, 0] * m[1, 0] +
                 kQ[2, 0] * m[2, 0];
             kR[0, 1] = kQ[0, 0] * m[0, 1] + kQ[1, 0] * m[1, 1] +
@@ -585,7 +585,7 @@ namespace SDK.Lib
 
         public float SpectralNorm()
         {
-            MMatrix3 kP = new MMatrix3();
+            MMatrix3 kP = new MMatrix3(0);
             int iRow, iCol;
             float fPmax = 0.0f;
             for (iRow = 0; iRow < 3; iRow++)

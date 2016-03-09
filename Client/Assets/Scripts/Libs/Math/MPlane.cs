@@ -117,7 +117,7 @@
         //-----------------------------------------------------------------------
         public MVector3 projectVector(ref MVector3 p)
         {
-            MMatrix3 xform = new MMatrix3();
+            MMatrix3 xform = new MMatrix3(0);
             xform[0, 0] = 1.0f - normal.x * normal.x;
             xform[0, 1] = -normal.x * normal.y;
             xform[0, 2] = -normal.x * normal.z;

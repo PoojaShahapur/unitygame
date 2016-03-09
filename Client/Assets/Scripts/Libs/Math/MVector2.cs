@@ -14,7 +14,7 @@ namespace SDK.Lib
         public float x;
         public float y;
 
-        public MVector2(float fX = 0, float fY = 0)
+        public MVector2(float fX, float fY = 0)
         {
             x = fX;
             y = fY;

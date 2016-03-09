@@ -17,7 +17,7 @@ namespace SDK.Lib
             this.w = 0;
         }
 
-        public MVector4(float fX, float fY, float fZ, float fW)
+        public MVector4(float fX = 0, float fY = 0, float fZ = 0, float fW = 1)
         {
             x = fX;
             y = fY;
