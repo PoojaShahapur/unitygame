@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace SDK.Lib
 {
     public enum OrientationMode
@@ -31,7 +33,7 @@ namespace SDK.Lib
     public class MFrustum
     {
         protected ProjectionType mProjType;
-        protected float mFOVy;
+        protected MRadian mFOVy;
         protected float mFarDist;
         protected float mNearDist;
         protected float mAspect;
@@ -73,10 +75,11 @@ namespace SDK.Lib
         protected string msMovableType = "Frustum";
         protected float INFINITE_FAR_PLANE_ADJUST = 0.00001f;
 
-        public MFrustum()
+        public MFrustum(Transform parentNode)
         {
+            preInit(parentNode);
             mProjType = ProjectionType.PT_PERSPECTIVE;
-            mFOVy = (float)(UtilMath.PI / 4.0f);
+            mFOVy = new MRadian(UtilMath.PI / 4.0f);
             mFarDist = 100000.0f;
             mNearDist = 100.0f;
             mAspect = 1.33333333333333f;
@@ -100,17 +103,17 @@ namespace SDK.Lib
             mLastLinkedReflectionPlane.normal = MVector3.ZERO;
             mLastLinkedObliqueProjPlane.normal = MVector3.ZERO;
 
-            updateView();
-            updateFrustum();
+            //updateView();
+            //updateFrustum();
         }
 
-        public void setFOVy(float fov)
+        public void setFOVy(MRadian fov)
         {
             mFOVy = fov;
             invalidateFrustum();
         }
 
-        public float getFOVy()
+        public MRadian getFOVy()
         {
             return mFOVy;
         }
@@ -170,7 +173,6 @@ namespace SDK.Lib
 
         public MMatrix4 getProjectionMatrix()
         {
-
             updateFrustum();
 
             return mProjMatrix;
@@ -178,7 +180,6 @@ namespace SDK.Lib
 
         public MMatrix4 getProjectionMatrixWithRSDepth()
         {
-
             updateFrustum();
 
             return mProjMatrixRSDepth;
@@ -186,7 +187,6 @@ namespace SDK.Lib
 
         public MMatrix4 getProjectionMatrixRS()
         {
-
             updateFrustum();
 
             return mProjMatrixRS;
@@ -211,7 +211,6 @@ namespace SDK.Lib
             updateFrustumPlanes();
 
             return mFrustumPlanes[plane];
-
         }
 
         virtual public bool isVisible(ref MAxisAlignedBox bound, ref FrustumPlane culledBy)
@@ -292,7 +291,7 @@ namespace SDK.Lib
                 }
                 else if (mProjType == ProjectionType.PT_PERSPECTIVE)
                 {
-                    float thetaY = mFOVy * 0.5f;
+                    MRadian thetaY = mFOVy * 0.5f;
                     float tanThetaY = UtilMath.Tan(thetaY);
                     float tanThetaX = tanThetaY * mAspect;
 
@@ -327,7 +326,6 @@ namespace SDK.Lib
                     mTop = top;
                     mBottom = bottom;
                 }
-
             }
         }
 
@@ -505,7 +503,6 @@ namespace SDK.Lib
             MMatrix4 matTrans = MMatrix4.IDENTITY;
             matTrans.setTrans(relPos);
             matToUpdate = getViewMatrix() * matTrans;
-
         }
 
         public void updateView()
@@ -595,7 +592,6 @@ namespace SDK.Lib
             mWorldSpaceCorners[6] = eyeToWorld.transformAffine(new MVector3(farLeft, farBottom, -farDist));
             mWorldSpaceCorners[7] = eyeToWorld.transformAffine(new MVector3(farRight, farBottom, -farDist));
 
-
             mRecalcWorldSpaceCorners = false;
         }
 
@@ -679,7 +675,6 @@ namespace SDK.Lib
             mReflectPlane = p;
             mReflectMatrix = UtilMath.buildReflectionMatrix(ref p);
             invalidateView();
-
         }
 
         public void disableReflection()
@@ -795,7 +790,7 @@ namespace SDK.Lib
             bool idDX = true;
             if (idDX)
             {
-                dest = matrix;
+                dest.assignForm(ref matrix);
 
                 dest[2, 0] = (dest[2, 0] + dest[3, 0]) / 2;
                 dest[2, 1] = (dest[2, 1] + dest[3, 1]) / 2;
@@ -812,8 +807,13 @@ namespace SDK.Lib
             }
             else
             {
-                dest = matrix;
+                dest.assignForm(ref matrix);
             }
+        }
+
+        virtual protected void preInit(Transform parentNode)
+        {
+
         }
     }
 }

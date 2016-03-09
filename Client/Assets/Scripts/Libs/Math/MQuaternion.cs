@@ -646,7 +646,7 @@ namespace SDK.Lib
 
         static public MQuaternion fromNative(Quaternion native)
         {
-            return new MQuaternion(native.x, native.y, native.z, native.w);
+            return new MQuaternion(native.w, native.x, native.y, native.z);
         }
 
         public Quaternion toNative()

@@ -17,7 +17,7 @@ namespace SDK.Lib
         protected bool mYawFixed;
         protected MVector3 mYawFixedAxis;
 
-        protected static string msMovableType = "Camera";
+        protected new static string msMovableType = "Camera";
 
         protected float mWLeft, mWTop, mWRight, mWBottom;
         protected bool mWindowSet;
@@ -28,13 +28,13 @@ namespace SDK.Lib
         protected Transform mParentNode;
 
         public MCamera(Transform parentNode)
+            : base(parentNode)
         {
-            mParentNode = parentNode;
             mOrientation = MQuaternion.IDENTITY;
             mPosition = MVector3.ZERO;
             mWindowSet = false;
 
-            mFOVy = (float)(UtilMath.PI / 4.0f);
+            mFOVy = new MRadian(UtilMath.PI / 4.0f);
             mNearDist = 100.0f;
             mFarDist = 100000.0f;
             mAspect = 1.33333333333333f;
@@ -46,7 +46,8 @@ namespace SDK.Lib
             invalidateView();
 
             mViewMatrix = MMatrix4.ZERO;
-            mProjMatrixRS = MMatrix4.ZERO;
+            mProjMatrixRS = new MMatrix4(0);
+            mProjMatrixRSDepth = new MMatrix4(0);
 
             mReflect = false;
         }
@@ -604,6 +605,14 @@ namespace SDK.Lib
             {
                 return getViewMatrix();
             }
+        }
+
+        override protected void preInit(Transform parentNode)
+        {
+            base.preInit(parentNode);
+            mOrientation = MQuaternion.IDENTITY;
+            mPosition = MVector3.ZERO;
+            mParentNode = parentNode;
         }
     }
 }

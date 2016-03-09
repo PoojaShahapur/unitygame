@@ -29,7 +29,9 @@ namespace SDK.Lib
             }
 
             m_fieldOfView = value;
-            m_focalLengthInv = UtilMath.tan((float)(m_fieldOfView * UtilMath.PI / 360));
+            float halfFOVRadian = (float)(m_fieldOfView * UtilMath.PI / 180);
+            halfFOVRadian = halfFOVRadian / 2;
+            m_focalLengthInv = UtilMath.tan(halfFOVRadian);
             m_focalLength = 1 / m_focalLengthInv;
         }
 

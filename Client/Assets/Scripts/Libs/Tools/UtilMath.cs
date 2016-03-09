@@ -299,6 +299,15 @@ namespace SDK.Lib
             return (!useTables) ? (float)(cos(fValue)) : SinTable(fValue + HALF_PI);
         }
 
+        static public float Tan(MRadian fValue, bool useTables = false) {
+            return (!useTables) ? (float)(tan(fValue.valueRadians())) : TanTable(fValue.valueRadians());
+        }
+
+        static public float Tan(float fValue, bool useTables = false)
+        {
+            return (!useTables) ? (float)(tan(fValue)) : TanTable(fValue);
+        }
+
         static public float sin(float f)
         {
             return Mathf.Sin(f);
@@ -344,11 +353,6 @@ namespace SDK.Lib
             return (plane.getSide(ref box) == MPlane.Side.BOTH_SIDE);
         }
 
-        static public float Tan(float f)
-        {
-            return Mathf.Tan(f);
-        }
-
         static public float Sign(float fValue)
         {
             if (fValue > 0.0)
@@ -384,6 +388,11 @@ namespace SDK.Lib
             viewMatrix[0, 3] = trans.x;
             viewMatrix[1, 3] = trans.y;
             viewMatrix[2, 3] = trans.z;
+
+            viewMatrix[2, 0] = -viewMatrix[2, 0];
+            viewMatrix[2, 1] = -viewMatrix[2, 1];
+            viewMatrix[2, 2] = -viewMatrix[2, 2];
+            viewMatrix[2, 3] = -viewMatrix[2, 3];
 
             if (reflect && reflectMatrix != null)
             {

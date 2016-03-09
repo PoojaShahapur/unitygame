@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class MVector2
+    public struct MVector2
     {
         public static MVector2 ZERO = new MVector2(0, 0);
         public static MVector2 UNIT_X = new MVector2(1, 0);
@@ -418,10 +418,10 @@ namespace SDK.Lib
                 return true;
             }
 
-            if (((MVector2)this == null) || ((MVector2)other == null))
-            {
-                return false;
-            }
+            //if (((MVector2)this == null) || ((MVector2)other == null))
+            //{
+            //    return false;
+            //}
 
             return (this.x == ((MVector2)other).x && this.y == ((MVector2)other).y);
         }

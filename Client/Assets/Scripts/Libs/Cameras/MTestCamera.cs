@@ -284,13 +284,18 @@ namespace SDK.Lib
 
         public void testLocalCamera()
         {
-            MCamera camera = new MCamera(m_camera.gameObject.transform);
             if (null != m_camera)
             {
-                camera.setFOVy(m_camera.fieldOfView);
+                MCamera camera = new MCamera(m_camera.gameObject.transform);
+                camera.setFOVy(new MRadian(UtilMath.DegreesToRadians(m_camera.fieldOfView)));
                 camera.setFarClipDistance(m_camera.farClipPlane);
                 camera.setNearClipDistance(m_camera.nearClipPlane);
                 camera.setAspectRatio(m_camera.aspect);
+
+                MMatrix4 viewMatrix = camera.getViewMatrix();
+                MMatrix4 projMatrix = camera.getProjectionMatrix();
+
+                MPlane[] planes = camera.getFrustumPlanes
             }
         }
     }

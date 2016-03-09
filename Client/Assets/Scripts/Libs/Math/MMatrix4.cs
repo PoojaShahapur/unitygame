@@ -252,6 +252,14 @@ namespace SDK.Lib
             m[2, 0] = mat3[2, 0]; m[2, 1] = mat3[2, 1]; m[2, 2] = mat3[2, 2];
         }
 
+        public void assignForm(ref MMatrix4 mat4)
+        {
+            m[0, 0] = mat4[0, 0]; m[0, 1] = mat4[0, 1]; m[0, 2] = mat4[0, 2]; m[0, 3] = mat4[0, 3];
+            m[1, 0] = mat4[1, 0]; m[1, 1] = mat4[1, 1]; m[1, 2] = mat4[1, 2]; m[1, 3] = mat4[1, 3];
+            m[2, 0] = mat4[2, 0]; m[2, 1] = mat4[2, 1]; m[2, 2] = mat4[2, 2]; m[2, 3] = mat4[2, 3];
+            m[3, 0] = mat4[3, 0]; m[3, 1] = mat4[3, 1]; m[3, 2] = mat4[3, 2]; m[3, 3] = mat4[3, 3];
+        }
+
         public MMatrix4 transpose()
         {
             return new MMatrix4(m[0, 0], m[1, 0], m[2, 0], m[3, 0],
