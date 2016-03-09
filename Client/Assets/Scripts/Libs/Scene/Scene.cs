@@ -9,7 +9,7 @@ namespace SDK.Lib
         protected string m_file;
         //protected QuadTree<Tile> m_quadTree;      // 地形四叉树
         protected ZoneSys m_zoneSys;
-        protected TerrainPage m_terrain;            // 地形
+        protected MTerrain m_terrain;            // 地形
 
         public Scene()
         {
@@ -51,7 +51,7 @@ namespace SDK.Lib
 
         public void createTerrain()
         {
-            m_terrain = new TerrainPageMulti();
+            m_terrain = new MTerrainMulti();
             m_terrain.buildPage();        // 生成地形
             m_terrain.buildQuadTree();    // 生成四叉树
 

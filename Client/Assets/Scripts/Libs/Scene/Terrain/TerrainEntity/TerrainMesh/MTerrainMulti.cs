@@ -1,15 +1,15 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 一个 Terrain Page，这个地形 Page 有多个 Multi
+     * @brief 一个 Terrain，这个地形有多个 Tile
      */
-    public class TerrainPageMulti : TerrainPage
+    public class MTerrainMulti : MTerrain
     {
         protected HeightMapData m_heightMapData;        // 高度图数据
         protected HeightMapMeshMulti m_heightMapMesh;   // 高度图 Mesh
         protected TerrainPageCfg m_terrainPageCfg;      // Page 配置
 
-        public TerrainPageMulti()
+        public MTerrainMulti()
         {
             m_terrainPageCfg = new TerrainPageCfg();
         }

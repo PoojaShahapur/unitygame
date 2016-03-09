@@ -30,13 +30,13 @@ namespace UnitTest
 
         public void testTerrainPageOne()
         {
-            TerrainPageOne terPage = new TerrainPageOne();
+            MTerrainOne terPage = new MTerrainOne();
             terPage.buildPage();
         }
 
         public void testTerrainPageMulti()
         {
-            TerrainPageMulti terPage = new TerrainPageMulti();
+            MTerrainMulti terPage = new MTerrainMulti();
             terPage.buildPage();        // 生成地形
             terPage.buildQuadTree();    // 生成四叉树
             Ctx.m_instance.m_camSys.setMCamera(Camera.main);

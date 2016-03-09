@@ -1,9 +1,9 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 地形 Page
+     * @brief 地形
      */
-    public class TerrainPage
+    public class MTerrain
     {
         protected MQuadTree m_quadTree;     // 保存的四叉树
 

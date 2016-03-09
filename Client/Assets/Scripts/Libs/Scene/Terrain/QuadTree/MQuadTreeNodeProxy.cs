@@ -26,7 +26,7 @@
             m_submesh.hide();
         }
 
-        override public void updateMesh(TerrainPage terrain, int tileIndex)
+        override public void updateMesh(MTerrain terrain, int tileIndex)
         {
             m_submesh = terrain.getTileMesh(tileIndex);
         }
