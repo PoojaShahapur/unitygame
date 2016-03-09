@@ -32,17 +32,17 @@ namespace SDK.Lib
         {
             m = new float[3, 3];
 
-            m[0, 0] = rkMatrix.m[0, 0];
-            m[0, 1] = rkMatrix.m[0, 1];
-            m[0, 2] = rkMatrix.m[0, 2];
+            m[0, 0] = rkMatrix[0, 0];
+            m[0, 1] = rkMatrix[0, 1];
+            m[0, 2] = rkMatrix[0, 2];
 
-            m[1, 0] = rkMatrix.m[1, 0];
-            m[1, 1] = rkMatrix.m[1, 1];
-            m[1, 2] = rkMatrix.m[1, 2];
+            m[1, 0] = rkMatrix[1, 0];
+            m[1, 1] = rkMatrix[1, 1];
+            m[1, 2] = rkMatrix[1, 2];
 
-            m[2, 0] = rkMatrix.m[2, 0];
-            m[2, 1] = rkMatrix.m[2, 1];
-            m[2, 2] = rkMatrix.m[2, 2];
+            m[2, 0] = rkMatrix[2, 0];
+            m[2, 1] = rkMatrix[2, 1];
+            m[2, 2] = rkMatrix[2, 2];
         }
 
         public MMatrix3(float fEntry00 = 0, float fEntry01 = 0, float fEntry02 = 0,
@@ -79,7 +79,13 @@ namespace SDK.Lib
         {
             get
             {
+                UtilApi.assert(0 <= iRow && iRow < 3 && 0 <= iCol && iCol < 3, "index is out of range");
                 return m[iRow, iCol];
+            }
+            set
+            {
+                UtilApi.assert(0 <= iRow && iRow < 3 && 0 <= iCol && iCol < 3, "index is out of range");
+                m[iRow, iCol] = value;
             }
         }
 
@@ -107,17 +113,17 @@ namespace SDK.Lib
 
         public MMatrix3 assignForm(ref MMatrix3 rkMatrix)
         {
-            m[0, 0] = rkMatrix.m[0, 0];
-            m[0, 1] = rkMatrix.m[0, 1];
-            m[0, 2] = rkMatrix.m[0, 2];
+            m[0, 0] = rkMatrix[0, 0];
+            m[0, 1] = rkMatrix[0, 1];
+            m[0, 2] = rkMatrix[0, 2];
 
-            m[1, 0] = rkMatrix.m[1, 0];
-            m[1, 1] = rkMatrix.m[1, 1];
-            m[1, 2] = rkMatrix.m[1, 2];
+            m[1, 0] = rkMatrix[1, 0];
+            m[1, 1] = rkMatrix[1, 1];
+            m[1, 2] = rkMatrix[1, 2];
 
-            m[2, 0] = rkMatrix.m[2, 0];
-            m[2, 1] = rkMatrix.m[2, 1];
-            m[2, 2] = rkMatrix.m[2, 2];
+            m[2, 0] = rkMatrix[2, 0];
+            m[2, 1] = rkMatrix[2, 1];
+            m[2, 2] = rkMatrix[2, 2];
             return this;
         }
 
@@ -127,7 +133,7 @@ namespace SDK.Lib
             {
                 for (int iCol = 0; iCol < 3; iCol++)
                 {
-                    if (lhs.m[iRow, iCol] != rkMatrix.m[iRow, iCol])
+                    if (lhs[iRow, iCol] != rkMatrix[iRow, iCol])
                         return false;
                 }
             }
@@ -147,8 +153,8 @@ namespace SDK.Lib
             {
                 for (int iCol = 0; iCol < 3; iCol++)
                 {
-                    kSum.m[iRow, iCol] = lhs.m[iRow, iCol] +
-                        rkMatrix.m[iRow, iCol];
+                    kSum[iRow, iCol] = lhs[iRow, iCol] +
+                        rkMatrix[iRow, iCol];
                 }
             }
             return kSum;
@@ -161,8 +167,8 @@ namespace SDK.Lib
             {
                 for (int iCol = 0; iCol < 3; iCol++)
                 {
-                    kDiff.m[iRow, iCol] = lhs.m[iRow, iCol] -
-                        rkMatrix.m[iRow, iCol];
+                    kDiff[iRow, iCol] = lhs[iRow, iCol] -
+                        rkMatrix[iRow, iCol];
                 }
             }
             return kDiff;
@@ -175,10 +181,10 @@ namespace SDK.Lib
             {
                 for (int iCol = 0; iCol < 3; iCol++)
                 {
-                    kProd.m[iRow, iCol] =
-                        lhs.m[iRow, 0] * rkMatrix.m[0, iCol] +
-                        lhs.m[iRow, 1] * rkMatrix.m[1, iCol] +
-                        lhs.m[iRow, 2] * rkMatrix.m[2, iCol];
+                    kProd[iRow, iCol] =
+                        lhs[iRow, 0] * rkMatrix[0, iCol] +
+                        lhs[iRow, 1] * rkMatrix[1, iCol] +
+                        lhs[iRow, 2] * rkMatrix[2, iCol];
                 }
             }
             return kProd;
@@ -190,7 +196,7 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
-                    kNeg.m[iRow, iCol] = -lhs.m[iRow, iCol];
+                    kNeg[iRow, iCol] = -lhs[iRow, iCol];
             }
             return kNeg;
         }
@@ -201,9 +207,9 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 kProd[iRow] =
-                    lhs.m[iRow, 0] * rkPoint[0] +
-                    lhs.m[iRow, 1] * rkPoint[1] +
-                    lhs.m[iRow, 2] * rkPoint[2];
+                    lhs[iRow, 0] * rkPoint[0] +
+                    lhs[iRow, 1] * rkPoint[1] +
+                    lhs[iRow, 2] * rkPoint[2];
             }
             return kProd;
         }
@@ -215,9 +221,9 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 kProd[iRow] =
-                    rkPoint[0] * rkMatrix.m[0, iRow] +
-                    rkPoint[1] * rkMatrix.m[1, iRow] +
-                    rkPoint[2] * rkMatrix.m[2, iRow];
+                    rkPoint[0] * rkMatrix[0, iRow] +
+                    rkPoint[1] * rkMatrix[1, iRow] +
+                    rkPoint[2] * rkMatrix[2, iRow];
             }
             return kProd;
         }
@@ -228,7 +234,7 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
-                    kProd.m[iRow, iCol] = fScalar * lhs.m[iRow, iCol];
+                    kProd[iRow, iCol] = fScalar * lhs[iRow, iCol];
             }
             return kProd;
         }
@@ -239,7 +245,7 @@ namespace SDK.Lib
             for (int iRow = 0; iRow< 3; iRow++)
             {
                 for (int iCol = 0; iCol< 3; iCol++)
-                    kProd.m[iRow, iCol] = fScalar* rkMatrix.m[iRow, iCol];
+                    kProd[iRow, iCol] = fScalar* rkMatrix[iRow, iCol];
             }
             return kProd;
         }
@@ -250,29 +256,29 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
-                    kTranspose.m[iRow, iCol] = m[iCol, iRow];
+                    kTranspose[iRow, iCol] = m[iCol, iRow];
             }
             return kTranspose;
         }
         public bool Inverse(ref MMatrix3 rkInverse, float fTolerance = 1e-06f)
         {
-            rkInverse.m[0, 0] = m[1, 1] * m[2, 2] -
+            rkInverse[0, 0] = m[1, 1] * m[2, 2] -
                     m[1, 2] * m[2, 1];
-            rkInverse.m[0, 1] = m[0, 2] * m[2, 1] -
+            rkInverse[0, 1] = m[0, 2] * m[2, 1] -
                 m[0, 1] * m[2, 2];
-            rkInverse.m[0, 2] = m[0, 1] * m[1, 2] -
+            rkInverse[0, 2] = m[0, 1] * m[1, 2] -
                 m[0, 2] * m[1, 1];
-            rkInverse.m[1, 0] = m[1, 2] * m[2, 0] -
+            rkInverse[1, 0] = m[1, 2] * m[2, 0] -
                 m[1, 0] * m[2, 2];
-            rkInverse.m[1, 1] = m[0, 0] * m[2, 2] -
+            rkInverse[1, 1] = m[0, 0] * m[2, 2] -
                 m[0, 2] * m[2, 0];
-            rkInverse.m[1, 2] = m[0, 2] * m[1, 0] -
+            rkInverse[1, 2] = m[0, 2] * m[1, 0] -
                 m[0, 0] * m[1, 2];
-            rkInverse.m[2, 0] = m[1, 0] * m[2, 1] -
+            rkInverse[2, 0] = m[1, 0] * m[2, 1] -
                 m[1, 1] * m[2, 0];
-            rkInverse.m[2, 1] = m[0, 1] * m[2, 0] -
+            rkInverse[2, 1] = m[0, 1] * m[2, 0] -
                 m[0, 0] * m[2, 1];
-            rkInverse.m[2, 2] = m[0, 0] * m[1, 1] -
+            rkInverse[2, 2] = m[0, 0] * m[1, 1] -
                 m[0, 1] * m[1, 0];
 
             float fDet =
@@ -287,7 +293,7 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
-                    rkInverse.m[iRow, iCol] *= fInvDet;
+                    rkInverse[iRow, iCol] *= fInvDet;
             }
 
             return true;
@@ -354,8 +360,8 @@ namespace SDK.Lib
                         {
                             fTmp0 = kL[iCol, 1];
                             fTmp1 = kL[iCol, 2];
-                            kL.m[iCol, 1] = fCos0 * fTmp0 - fSin0 * fTmp1;
-                            kL.m[iCol, 2] = fSin0 * fTmp0 + fCos0 * fTmp1;
+                            kL[iCol, 1] = fCos0 * fTmp0 - fSin0 * fTmp1;
+                            kL[iCol, 2] = fSin0 * fTmp0 + fCos0 * fTmp1;
                         }
 
                         fTan1 = (kA[1, 2] - kA[2, 2] * fTan0) / kA[1, 1];
@@ -366,14 +372,14 @@ namespace SDK.Lib
                         {
                             fTmp0 = kR[1, iRow];
                             fTmp1 = kR[2, iRow];
-                            kR.m[1, iRow] = fCos1 * fTmp0 - fSin1 * fTmp1;
-                            kR.m[2, iRow] = fSin1 * fTmp0 + fCos1 * fTmp1;
+                            kR[1, iRow] = fCos1 * fTmp0 - fSin1 * fTmp1;
+                            kR[2, iRow] = fSin1 * fTmp0 + fCos1 * fTmp1;
                         }
 
                         kS[0] = kA[0, 0];
                         kS[1] = fCos0 * fCos1 * kA[1, 1] -
                             fSin1 * (fCos0 * kA[1, 2] - fSin0 * kA[2, 2]);
-                        kS[2] = fSin0 * fSin1 * kA.m[1, 1] +
+                        kS[2] = fSin0 * fSin1 * kA[1, 1] +
                             fCos1 * (fSin0 * kA[1, 2] + fCos0 * kA[2, 2]);
                         break;
                     }
@@ -392,8 +398,8 @@ namespace SDK.Lib
                         {
                             fTmp0 = kL[iCol, 0];
                             fTmp1 = kL[iCol, 1];
-                            kL.m[iCol, 0] = fCos0 * fTmp0 - fSin0 * fTmp1;
-                            kL.m[iCol, 1] = fSin0 * fTmp0 + fCos0 * fTmp1;
+                            kL[iCol, 0] = fCos0 * fTmp0 - fSin0 * fTmp1;
+                            kL[iCol, 1] = fSin0 * fTmp0 + fCos0 * fTmp1;
                         }
 
                         fTan1 = (kA[0, 1] - kA[1, 1] * fTan0) / kA[0, 0];
@@ -404,15 +410,15 @@ namespace SDK.Lib
                         {
                             fTmp0 = kR[0, iRow];
                             fTmp1 = kR[1, iRow];
-                            kR.m[0, iRow] = fCos1 * fTmp0 - fSin1 * fTmp1;
-                            kR.m[1, iRow] = fSin1 * fTmp0 + fCos1 * fTmp1;
+                            kR[0, iRow] = fCos1 * fTmp0 - fSin1 * fTmp1;
+                            kR[1, iRow] = fSin1 * fTmp0 + fCos1 * fTmp1;
                         }
 
                         kS[0] = fCos0 * fCos1 * kA[0, 0] -
                             fSin1 * (fCos0 * kA[0, 1] - fSin0 * kA[1, 1]);
                         kS[1] = fSin0 * fSin1 * kA[0, 0] +
                             fCos1 * (fSin0 * kA[0, 1] + fCos0 * kA[1, 1]);
-                        kS[2] = kA.m[2, 2];
+                        kS[2] = kA[2, 2];
                         break;
                     }
                     else
@@ -428,7 +434,7 @@ namespace SDK.Lib
                 {
                     kS[iRow] = -kS[iRow];
                     for (iCol = 0; iCol < 3; iCol++)
-                        kR.m[iRow, iCol] = -kR[iRow, iCol];
+                        kR[iRow, iCol] = -kR[iRow, iCol];
                 }
             }
         }
@@ -442,7 +448,7 @@ namespace SDK.Lib
             for (iRow = 0; iRow < 3; iRow++)
             {
                 for (iCol = 0; iCol < 3; iCol++)
-                    kTmp.m[iRow, iCol] = kS[iRow] * kR[iRow, iCol];
+                    kTmp[iRow, iCol] = kS[iRow] * kR[iRow, iCol];
             }
 
             for (iRow = 0; iRow < 3; iRow++)
@@ -511,36 +517,36 @@ namespace SDK.Lib
         {
             float fInvLength = UtilMath.InvSqrt(m[0, 0] * m[0, 0] + m[1, 0] * m[1, 0] + m[2, 0] * m[2, 0]);
 
-            kQ.m[0, 0] = m[0, 0] * fInvLength;
-            kQ.m[1, 0] = m[1, 0] * fInvLength;
-            kQ.m[2, 0] = m[2, 0] * fInvLength;
+            kQ[0, 0] = m[0, 0] * fInvLength;
+            kQ[1, 0] = m[1, 0] * fInvLength;
+            kQ[2, 0] = m[2, 0] * fInvLength;
 
             float fDot = kQ[0, 0] * m[0, 1] + kQ[1, 0] * m[1, 1] +
                 kQ[2, 0] * m[2, 1];
-            kQ.m[0, 1] = m[0, 1] - fDot * kQ[0, 0];
-            kQ.m[1, 1] = m[1, 1] - fDot * kQ[1, 0];
-            kQ.m[2, 1] = m[2, 1] - fDot * kQ[2, 0];
-            fInvLength = UtilMath.InvSqrt(kQ.m[0, 1] * kQ.m[0, 1] + kQ.m[1, 1] * kQ.m[1, 1] + kQ.m[2, 1] * kQ.m[2, 1]);
+            kQ[0, 1] = m[0, 1] - fDot * kQ[0, 0];
+            kQ[1, 1] = m[1, 1] - fDot * kQ[1, 0];
+            kQ[2, 1] = m[2, 1] - fDot * kQ[2, 0];
+            fInvLength = UtilMath.InvSqrt(kQ[0, 1] * kQ[0, 1] + kQ[1, 1] * kQ[1, 1] + kQ[2, 1] * kQ[2, 1]);
 
-            kQ.m[0, 1] *= fInvLength;
-            kQ.m[1, 1] *= fInvLength;
-            kQ.m[2, 1] *= fInvLength;
+            kQ[0, 1] *= fInvLength;
+            kQ[1, 1] *= fInvLength;
+            kQ[2, 1] *= fInvLength;
 
             fDot = kQ[0, 0] * m[0, 2] + kQ[1, 0] * m[1, 2] +
                 kQ[2, 0] * m[2, 2];
-            kQ.m[0, 2] = m[0, 2] - fDot * kQ[0, 0];
-            kQ.m[1, 2] = m[1, 2] - fDot * kQ[1, 0];
-            kQ.m[2, 2] = m[2, 2] - fDot * kQ[2, 0];
+            kQ[0, 2] = m[0, 2] - fDot * kQ[0, 0];
+            kQ[1, 2] = m[1, 2] - fDot * kQ[1, 0];
+            kQ[2, 2] = m[2, 2] - fDot * kQ[2, 0];
             fDot = kQ[0, 1] * m[0, 2] + kQ[1, 1] * m[1, 2] +
                 kQ[2, 1] * m[2, 2];
-            kQ.m[0, 2] -= fDot * kQ[0, 1];
-            kQ.m[1, 2] -= fDot * kQ[1, 1];
-            kQ.m[2, 2] -= fDot * kQ[2, 1];
+            kQ[0, 2] -= fDot * kQ[0, 1];
+            kQ[1, 2] -= fDot * kQ[1, 1];
+            kQ[2, 2] -= fDot * kQ[2, 1];
             fInvLength = UtilMath.InvSqrt(kQ[0, 2] * kQ[0, 2] + kQ[1, 2] * kQ[1, 2] + kQ[2, 2] * kQ[2, 2]);
 
-            kQ.m[0, 2] *= fInvLength;
-            kQ.m[1, 2] *= fInvLength;
-            kQ.m[2, 2] *= fInvLength;
+            kQ[0, 2] *= fInvLength;
+            kQ[1, 2] *= fInvLength;
+            kQ[2, 2] *= fInvLength;
 
             float fDet = kQ[0, 0] * kQ[1, 1] * kQ[2, 2] + kQ[0, 1] * kQ[1, 2] * kQ[2, 0] +
                 kQ[0, 2] * kQ[1, 0] * kQ[2, 1] - kQ[0, 2] * kQ[1, 1] * kQ[2, 0] -
@@ -550,21 +556,21 @@ namespace SDK.Lib
             {
                 for (int iRow = 0; iRow < 3; iRow++)
                     for (int iCol = 0; iCol < 3; iCol++)
-                        kQ.m[iRow, iCol] = -kQ[iRow, iCol];
+                        kQ[iRow, iCol] = -kQ[iRow, iCol];
             }
 
             MMatrix3 kR = new MMatrix3();
-            kR.m[0, 0] = kQ[0, 0] * m[0, 0] + kQ[1, 0] * m[1, 0] +
+            kR[0, 0] = kQ[0, 0] * m[0, 0] + kQ[1, 0] * m[1, 0] +
                 kQ[2, 0] * m[2, 0];
-            kR.m[0, 1] = kQ[0, 0] * m[0, 1] + kQ[1, 0] * m[1, 1] +
+            kR[0, 1] = kQ[0, 0] * m[0, 1] + kQ[1, 0] * m[1, 1] +
                 kQ[2, 0] * m[2, 1];
-            kR.m[1, 1] = kQ[0, 1] * m[0, 1] + kQ[1, 1] * m[1, 1] +
+            kR[1, 1] = kQ[0, 1] * m[0, 1] + kQ[1, 1] * m[1, 1] +
                 kQ[2, 1] * m[2, 1];
-            kR.m[0, 2] = kQ[0, 0] * m[0, 2] + kQ[1, 0] * m[1, 2] +
+            kR[0, 2] = kQ[0, 0] * m[0, 2] + kQ[1, 0] * m[1, 2] +
                 kQ[2, 0] * m[2, 2];
-            kR.m[1, 2] = kQ[0, 1] * m[0, 2] + kQ[1, 1] * m[1, 2] +
+            kR[1, 2] = kQ[0, 1] * m[0, 2] + kQ[1, 1] * m[1, 2] +
                 kQ[2, 1] * m[2, 2];
-            kR.m[2, 2] = kQ[0, 2] * m[0, 2] + kQ[1, 2] * m[1, 2] +
+            kR[2, 2] = kQ[0, 2] * m[0, 2] + kQ[1, 2] * m[1, 2] +
                 kQ[2, 2] * m[2, 2];
 
             kD[0] = kR[0, 0];
@@ -586,10 +592,10 @@ namespace SDK.Lib
             {
                 for (iCol = 0; iCol < 3; iCol++)
                 {
-                    kP.m[iRow, iCol] = 0.0f;
+                    kP[iRow, iCol] = 0.0f;
                     for (int iMid = 0; iMid < 3; iMid++)
                     {
-                        kP.m[iRow, iCol] +=
+                        kP[iRow, iCol] +=
                             m[iMid, iRow] * m[iMid, iCol];
                     }
                     if (kP[iRow, iCol] > fPmax)
@@ -601,7 +607,7 @@ namespace SDK.Lib
             for (iRow = 0; iRow < 3; iRow++)
             {
                 for (iCol = 0; iCol < 3; iCol++)
-                    kP.m[iRow, iCol] *= fInvPmax;
+                    kP[iRow, iCol] *= fInvPmax;
             }
 
             float[] afCoeff = new float[3];
@@ -1036,7 +1042,7 @@ namespace SDK.Lib
             for (int iRow = 0; iRow < 3; iRow++)
             {
                 for (int iCol = 0; iCol < 3; iCol++)
-                    rkProduct.m[iRow, iCol] = rkU[iRow] * rkV[iCol];
+                    rkProduct[iRow, iCol] = rkU[iRow] * rkV[iCol];
             }
         }
 
@@ -1214,20 +1220,20 @@ namespace SDK.Lib
                 afW[0] = fT2 * (kA[0, 0] + kA[1, 0] * afV[1] + kA[2, 0] * afV[2]);
                 afW[1] = fT2 * (kA[0, 1] + kA[1, 1] * afV[1] + kA[2, 1] * afV[2]);
                 afW[2] = fT2 * (kA[0, 2] + kA[1, 2] * afV[1] + kA[2, 2] * afV[2]);
-                kA.m[0, 0] += afW[0];
-                kA.m[0, 1] += afW[1];
-                kA.m[0, 2] += afW[2];
-                kA.m[1, 1] += afV[1] * afW[1];
-                kA.m[1, 2] += afV[1] * afW[2];
-                kA.m[2, 1] += afV[2] * afW[1];
-                kA.m[2, 2] += afV[2] * afW[2];
+                kA[0, 0] += afW[0];
+                kA[0, 1] += afW[1];
+                kA[0, 2] += afW[2];
+                kA[1, 1] += afV[1] * afW[1];
+                kA[1, 2] += afV[1] * afW[2];
+                kA[2, 1] += afV[2] * afW[1];
+                kA[2, 2] += afV[2] * afW[2];
 
-                kL.m[0, 0] = 1.0f + fT2;
-                kL.m[0, 1] = kL.m[1, 0] = fT2 * afV[1];
-                kL.m[0, 2] = kL.m[2, 0] = fT2 * afV[2];
-                kL.m[1, 1] = 1.0f + fT2 * afV[1] * afV[1];
-                kL.m[1, 2] = kL.m[2, 1] = fT2 * afV[1] * afV[2];
-                kL.m[2, 2] = 1.0f + fT2 * afV[2] * afV[2];
+                kL[0, 0] = 1.0f + fT2;
+                kL[0, 1] = kL[1, 0] = fT2 * afV[1];
+                kL[0, 2] = kL[2, 0] = fT2 * afV[2];
+                kL[1, 1] = 1.0f + fT2 * afV[1] * afV[1];
+                kL[1, 2] = kL[2, 1] = fT2 * afV[1] * afV[2];
+                kL[2, 2] = 1.0f + fT2 * afV[2] * afV[2];
                 bIdentity = false;
             }
             else
@@ -1247,18 +1253,18 @@ namespace SDK.Lib
                 afW[0] = fT2 * (kA[0, 1] + kA[0, 2] * afV[2]);
                 afW[1] = fT2 * (kA[1, 1] + kA[1, 2] * afV[2]);
                 afW[2] = fT2 * (kA[2, 1] + kA[2, 2] * afV[2]);
-                kA.m[0, 1] += afW[0];
-                kA.m[1, 1] += afW[1];
-                kA.m[1, 2] += afW[1] * afV[2];
-                kA.m[2, 1] += afW[2];
-                kA.m[2, 2] += afW[2] * afV[2];
+                kA[0, 1] += afW[0];
+                kA[1, 1] += afW[1];
+                kA[1, 2] += afW[1] * afV[2];
+                kA[2, 1] += afW[2];
+                kA[2, 2] += afW[2] * afV[2];
 
-                kR.m[0, 0] = 1.0f;
-                kR.m[0, 1] = kR.m[1, 0] = 0.0f;
-                kR.m[0, 2] = kR.m[2, 0] = 0.0f;
-                kR.m[1, 1] = 1.0f + fT2;
-                kR.m[1, 2] = kR.m[2, 1] = fT2 * afV[2];
-                kR.m[2, 2] = 1.0f + fT2 * afV[2] * afV[2];
+                kR[0, 0] = 1.0f;
+                kR[0, 1] = kR[1, 0] = 0.0f;
+                kR[0, 2] = kR[2, 0] = 0.0f;
+                kR[1, 1] = 1.0f + fT2;
+                kR[1, 2] = kR[2, 1] = fT2 * afV[2];
+                kR[2, 2] = 1.0f + fT2 * afV[2] * afV[2];
             }
             else
             {
@@ -1275,9 +1281,9 @@ namespace SDK.Lib
                 fT2 = -2.0f / (1.0f + afV[2] * afV[2]);
                 afW[1] = fT2 * (kA[1, 1] + kA[2, 1] * afV[2]);
                 afW[2] = fT2 * (kA[1, 2] + kA[2, 2] * afV[2]);
-                kA.m[1, 1] += afW[1];
-                kA.m[1, 2] += afW[2];
-                kA.m[2, 2] += afV[2] * afW[2];
+                kA[1, 1] += afW[1];
+                kA[1, 2] += afW[2];
+                kA[2, 2] += afV[2] * afW[2];
 
                 float fA = 1.0f + fT2;
                 float fB = fT2 * afV[2];
@@ -1285,12 +1291,12 @@ namespace SDK.Lib
 
                 if (bIdentity)
                 {
-                    kL.m[0, 0] = 1.0f;
-                    kL.m[0, 1] = kL.m[1, 0] = 0.0f;
-                    kL.m[0, 2] = kL.m[2, 0] = 0.0f;
-                    kL.m[1, 1] = fA;
-                    kL.m[1, 2] = kL.m[2, 1] = fB;
-                    kL.m[2, 2] = fC;
+                    kL[0, 0] = 1.0f;
+                    kL[0, 1] = kL[1, 0] = 0.0f;
+                    kL[0, 2] = kL[2, 0] = 0.0f;
+                    kL[1, 1] = fA;
+                    kL[1, 2] = kL[2, 1] = fB;
+                    kL[2, 2] = fC;
                 }
                 else
                 {
@@ -1298,8 +1304,8 @@ namespace SDK.Lib
                     {
                         float fTmp0 = kL[iRow, 1];
                         float fTmp1 = kL[iRow, 2];
-                        kL.m[iRow, 1] = fA * fTmp0 + fB * fTmp1;
-                        kL.m[iRow, 2] = fB * fTmp0 + fC * fTmp1;
+                        kL[iRow, 1] = fA * fTmp0 + fB * fTmp1;
+                        kL[iRow, 2] = fB * fTmp0 + fC * fTmp1;
                     }
                 }
             }
@@ -1326,18 +1332,18 @@ namespace SDK.Lib
 
             float fTmp0 = kA[0, 0];
             float fTmp1 = kA[0, 1];
-            kA.m[0, 0] = fCos * fTmp0 - fSin * fTmp1;
-            kA.m[0, 1] = fSin * fTmp0 + fCos * fTmp1;
-            kA.m[1, 0] = -fSin * kA[1, 1];
-            kA.m[1, 1] *= fCos;
+            kA[0, 0] = fCos * fTmp0 - fSin * fTmp1;
+            kA[0, 1] = fSin * fTmp0 + fCos * fTmp1;
+            kA[1, 0] = -fSin * kA[1, 1];
+            kA[1, 1] *= fCos;
 
             int iRow;
             for (iRow = 0; iRow < 3; iRow++)
             {
                 fTmp0 = kR[0, iRow];
                 fTmp1 = kR[1, iRow];
-                kR.m[0, iRow] = fCos * fTmp0 - fSin * fTmp1;
-                kR.m[1, iRow] = fSin * fTmp0 + fCos * fTmp1;
+                kR[0, iRow] = fCos * fTmp0 - fSin * fTmp1;
+                kR[1, iRow] = fSin * fTmp0 + fCos * fTmp1;
             }
 
             fY = kA[0, 0];
@@ -1346,21 +1352,21 @@ namespace SDK.Lib
             fSin = fZ * fInvLength;
             fCos = -fY * fInvLength;
 
-            kA.m[0, 0] = fCos * kA[0, 0] - fSin * kA[1, 0];
+            kA[0, 0] = fCos * kA[0, 0] - fSin * kA[1, 0];
             fTmp0 = kA[0, 1];
             fTmp1 = kA[1, 1];
-            kA.m[0, 1] = fCos * fTmp0 - fSin * fTmp1;
-            kA.m[1, 1] = fSin * fTmp0 + fCos * fTmp1;
-            kA.m[0, 2] = -fSin * kA[1, 2];
-            kA.m[1, 2] *= fCos;
+            kA[0, 1] = fCos * fTmp0 - fSin * fTmp1;
+            kA[1, 1] = fSin * fTmp0 + fCos * fTmp1;
+            kA[0, 2] = -fSin * kA[1, 2];
+            kA[1, 2] *= fCos;
 
             int iCol;
             for (iCol = 0; iCol < 3; iCol++)
             {
                 fTmp0 = kL[iCol, 0];
                 fTmp1 = kL[iCol, 1];
-                kL.m[iCol, 0] = fCos * fTmp0 - fSin * fTmp1;
-                kL.m[iCol, 1] = fSin * fTmp0 + fCos * fTmp1;
+                kL[iCol, 0] = fCos * fTmp0 - fSin * fTmp1;
+                kL[iCol, 1] = fSin * fTmp0 + fCos * fTmp1;
             }
 
             fY = kA[0, 1];
@@ -1369,20 +1375,20 @@ namespace SDK.Lib
             fSin = fZ * fInvLength;
             fCos = -fY * fInvLength;
 
-            kA.m[0, 1] = fCos * kA[0, 1] - fSin * kA[0, 2];
+            kA[0, 1] = fCos * kA[0, 1] - fSin * kA[0, 2];
             fTmp0 = kA[1, 1];
             fTmp1 = kA[1, 2];
-            kA.m[1, 1] = fCos * fTmp0 - fSin * fTmp1;
-            kA.m[1, 2] = fSin * fTmp0 + fCos * fTmp1;
-            kA.m[2, 1] = -fSin * kA[2, 2];
-            kA.m[2, 2] *= fCos;
+            kA[1, 1] = fCos * fTmp0 - fSin * fTmp1;
+            kA[1, 2] = fSin * fTmp0 + fCos * fTmp1;
+            kA[2, 1] = -fSin * kA[2, 2];
+            kA[2, 2] *= fCos;
 
             for (iRow = 0; iRow < 3; iRow++)
             {
                 fTmp0 = kR[1, iRow];
                 fTmp1 = kR[2, iRow];
-                kR.m[1, iRow] = fCos * fTmp0 - fSin * fTmp1;
-                kR.m[2, iRow] = fSin * fTmp0 + fCos * fTmp1;
+                kR[1, iRow] = fCos * fTmp0 - fSin * fTmp1;
+                kR[2, iRow] = fSin * fTmp0 + fCos * fTmp1;
             }
 
             fY = kA[1, 1];
@@ -1391,18 +1397,18 @@ namespace SDK.Lib
             fSin = fZ * fInvLength;
             fCos = -fY * fInvLength;
 
-            kA.m[1, 1] = fCos * kA[1, 1] - fSin * kA[2, 1];
+            kA[1, 1] = fCos * kA[1, 1] - fSin * kA[2, 1];
             fTmp0 = kA[1, 2];
             fTmp1 = kA[2, 2];
-            kA.m[1, 2] = fCos * fTmp0 - fSin * fTmp1;
-            kA.m[2, 2] = fSin * fTmp0 + fCos * fTmp1;
+            kA[1, 2] = fCos * fTmp0 - fSin * fTmp1;
+            kA[2, 2] = fSin * fTmp0 + fCos * fTmp1;
 
             for (iCol = 0; iCol < 3; iCol++)
             {
                 fTmp0 = kL[iCol, 1];
                 fTmp1 = kL[iCol, 2];
-                kL.m[iCol, 1] = fCos * fTmp0 - fSin * fTmp1;
-                kL.m[iCol, 2] = fSin * fTmp0 + fCos * fTmp1;
+                kL[iCol, 1] = fCos * fTmp0 - fSin * fTmp1;
+                kL[iCol, 2] = fSin * fTmp0 + fCos * fTmp1;
             }
         }
 

@@ -381,9 +381,9 @@ namespace SDK.Lib
 
             viewMatrix = MMatrix4.IDENTITY;
             viewMatrix.assignForm(ref rotT);
-            viewMatrix.m[0, 3] = trans.x;
-            viewMatrix.m[1, 3] = trans.y;
-            viewMatrix.m[2, 3] = trans.z;
+            viewMatrix[0, 3] = trans.x;
+            viewMatrix[1, 3] = trans.y;
+            viewMatrix[2, 3] = trans.z;
 
             if (reflect && reflectMatrix != null)
             {

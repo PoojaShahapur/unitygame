@@ -56,7 +56,7 @@ namespace SDK.Lib
         {
             get
             {
-                UtilApi.assert(index < 4);
+                UtilApi.assert(0 <= index && index < 4, "index is out of range");
                 if (0 == index)
                 {
                     return x;
@@ -75,6 +75,26 @@ namespace SDK.Lib
                 }
 
                 return x;
+            }
+            set
+            {
+                UtilApi.assert(0 <= index && index < 4, "index is out of range");
+                if (0 == index)
+                {
+                    this.x = value;
+                }
+                else if (1 == index)
+                {
+                    this.y = value;
+                }
+                else if (2 == index)
+                {
+                    this.z = value;
+                }
+                else if (3 == index)
+                {
+                    this.w = value;
+                }
             }
         }
 
@@ -132,15 +152,15 @@ namespace SDK.Lib
             float fTyz = fTz * y;
             float fTzz = fTz * z;
 
-            kRot.m[0, 0] = 1.0f - (fTyy + fTzz);
-            kRot.m[0, 1] = fTxy - fTwz;
-            kRot.m[0, 2] = fTxz + fTwy;
-            kRot.m[1, 0] = fTxy + fTwz;
-            kRot.m[1, 1] = 1.0f - (fTxx + fTzz);
-            kRot.m[1, 2] = fTyz - fTwx;
-            kRot.m[2, 0] = fTxz - fTwy;
-            kRot.m[2, 1] = fTyz + fTwx;
-            kRot.m[2, 2] = 1.0f - (fTxx + fTyy);
+            kRot[0, 0] = 1.0f - (fTyy + fTzz);
+            kRot[0, 1] = fTxy - fTwz;
+            kRot[0, 2] = fTxz + fTwy;
+            kRot[1, 0] = fTxy + fTwz;
+            kRot[1, 1] = 1.0f - (fTxx + fTzz);
+            kRot[1, 2] = fTyz - fTwx;
+            kRot[2, 0] = fTxz - fTwy;
+            kRot[2, 1] = fTyz + fTwx;
+            kRot[2, 2] = 1.0f - (fTxx + fTyy);
         }
 
         public void FromAngleAxis(MRadian rfAngle, ref MVector3 rkAxis)
@@ -186,9 +206,9 @@ namespace SDK.Lib
 
             for (int iCol = 0; iCol < 3; iCol++)
             {
-                kRot.m[0, iCol] = akAxis[iCol].x;
-                kRot.m[1, iCol] = akAxis[iCol].y;
-                kRot.m[2, iCol] = akAxis[iCol].z;
+                kRot[0, iCol] = akAxis[iCol].x;
+                kRot[1, iCol] = akAxis[iCol].y;
+                kRot[2, iCol] = akAxis[iCol].z;
             }
 
             FromRotationMatrix(ref kRot);
@@ -198,17 +218,17 @@ namespace SDK.Lib
         {
             MMatrix3 kRot = new MMatrix3();
 
-            kRot.m[0, 0] = xaxis.x;
-            kRot.m[1, 0] = xaxis.y;
-            kRot.m[2, 0] = xaxis.z;
+            kRot[0, 0] = xaxis.x;
+            kRot[1, 0] = xaxis.y;
+            kRot[2, 0] = xaxis.z;
 
-            kRot.m[0, 1] = yaxis.x;
-            kRot.m[1, 1] = yaxis.y;
-            kRot.m[2, 1] = yaxis.z;
+            kRot[0, 1] = yaxis.x;
+            kRot[1, 1] = yaxis.y;
+            kRot[2, 1] = yaxis.z;
 
-            kRot.m[0, 2] = zaxis.x;
-            kRot.m[1, 2] = zaxis.y;
-            kRot.m[2, 2] = zaxis.z;
+            kRot[0, 2] = zaxis.x;
+            kRot[1, 2] = zaxis.y;
+            kRot[2, 2] = zaxis.z;
 
             FromRotationMatrix(ref kRot);
         }

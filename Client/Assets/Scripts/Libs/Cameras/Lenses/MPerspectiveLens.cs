@@ -66,15 +66,15 @@ namespace SDK.Lib
             float invHeight = 1 / (top - bottom);
             float invDepth = 1 / (m_farDist - m_nearDist);
 
-            m_matrix3D.m[0, 0] = 2 * m_nearDist * invWidth;
-            m_matrix3D.m[0, 2] = (right + left) * (right - left);
-            m_matrix3D.m[1, 1] = 2 * m_nearDist * invHeight;
-            m_matrix3D.m[1, 2] = (top + bottom) / (top - bottom);
-            m_matrix3D.m[2, 2] = -(m_farDist + m_nearDist) / (m_farDist - m_nearDist);
-            m_matrix3D.m[2, 3] = -2 * (m_farDist * m_nearDist) / (m_farDist - m_nearDist);
-            m_matrix3D.m[3, 2] = -1;
-            m_matrix3D.m[0, 1] = m_matrix3D.m[0, 3] = m_matrix3D.m[1, 0] = m_matrix3D.m[1, 3] = m_matrix3D.m[2, 0] = m_matrix3D.m[2, 1] =
-                m_matrix3D.m[3, 0] = m_matrix3D.m[3, 1] = m_matrix3D.m[3, 3] = 0;
+            m_matrix3D[0, 0] = 2 * m_nearDist * invWidth;
+            m_matrix3D[0, 2] = (right + left) * (right - left);
+            m_matrix3D[1, 1] = 2 * m_nearDist * invHeight;
+            m_matrix3D[1, 2] = (top + bottom) / (top - bottom);
+            m_matrix3D[2, 2] = -(m_farDist + m_nearDist) / (m_farDist - m_nearDist);
+            m_matrix3D[2, 3] = -2 * (m_farDist * m_nearDist) / (m_farDist - m_nearDist);
+            m_matrix3D[3, 2] = -1;
+            m_matrix3D[0, 1] = m_matrix3D[0, 3] = m_matrix3D[1, 0] = m_matrix3D[1, 3] = m_matrix3D[2, 0] = m_matrix3D[2, 1] =
+                m_matrix3D[3, 0] = m_matrix3D[3, 1] = m_matrix3D[3, 3] = 0;
 
             // 更新 Frustum 的八个顶点，这个是相机空间的坐标位置
             float farHalfHeight = m_farDist * m_focalLengthInv;

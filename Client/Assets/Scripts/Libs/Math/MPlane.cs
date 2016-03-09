@@ -118,15 +118,15 @@
         public MVector3 projectVector(ref MVector3 p)
         {
             MMatrix3 xform = new MMatrix3();
-            xform.m[0, 0] = 1.0f - normal.x * normal.x;
-            xform.m[0, 1] = -normal.x * normal.y;
-            xform.m[0, 2] = -normal.x * normal.z;
-            xform.m[1, 0] = -normal.y * normal.x;
-            xform.m[1, 1] = 1.0f - normal.y * normal.y;
-            xform.m[1, 2] = -normal.y * normal.z;
-            xform.m[2, 0] = -normal.z * normal.x;
-            xform.m[2, 1] = -normal.z * normal.y;
-            xform.m[2, 2] = 1.0f - normal.z * normal.z;
+            xform[0, 0] = 1.0f - normal.x * normal.x;
+            xform[0, 1] = -normal.x * normal.y;
+            xform[0, 2] = -normal.x * normal.z;
+            xform[1, 0] = -normal.y * normal.x;
+            xform[1, 1] = 1.0f - normal.y * normal.y;
+            xform[1, 2] = -normal.y * normal.z;
+            xform[2, 0] = -normal.z * normal.x;
+            xform[2, 1] = -normal.z * normal.y;
+            xform[2, 2] = 1.0f - normal.z * normal.z;
             return xform * p;
 
         }

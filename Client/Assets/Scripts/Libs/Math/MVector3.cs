@@ -61,7 +61,7 @@ namespace SDK.Lib
         {
             get
             {
-                UtilApi.assert(index < 3);
+                UtilApi.assert(0 <= index && index < 3, "index is out of range");
 
                 if (0 == index)
                 {
@@ -80,6 +80,7 @@ namespace SDK.Lib
             }
             set
             {
+                UtilApi.assert(0 <= index && index < 3, "index is out of range");
                 if (0 == index)
                 {
                     this.x = value;

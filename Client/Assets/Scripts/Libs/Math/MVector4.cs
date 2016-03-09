@@ -81,8 +81,8 @@ namespace SDK.Lib
         {
             get
             {
-                UtilApi.assert(index < 4);
-                if(0 == index)
+                UtilApi.assert(0 <= index && index < 4, "index is out of range");
+                if (0 == index)
                 {
                     return this.x;
                 }
@@ -100,6 +100,26 @@ namespace SDK.Lib
                 }
 
                 return this.x;
+            }
+            set
+            {
+                UtilApi.assert(0 <= index && index < 4, "index is out of range");
+                if (0 == index)
+                {
+                    this.x = value;
+                }
+                else if (1 == index)
+                {
+                    this.y = value;
+                }
+                else if (2 == index)
+                {
+                    this.z = value;
+                }
+                else if (3 == index)
+                {
+                    this.w = value;
+                }
             }
         }
 

@@ -158,7 +158,7 @@ namespace SDK.Lib
                 for (int x = 0; x < 4; ++x)
                 {
                     str += string.Format("m{0}{1} = ", y, x);
-                    str += string.Format("{0} ,", projMat.m[y, x]);
+                    str += string.Format("{0} ,", projMat[y, x]);
                 }
             }
 

@@ -92,33 +92,38 @@ namespace SDK.Lib
         {
             get
             {
-                UtilApi.assert(row < 4 && column < 4);
+                UtilApi.assert(0 <= row && row < 4 && 0 <= column && column < 4, "index is out of range");
                 return m[row, column];
+            }
+            set
+            {
+                UtilApi.assert(0 <= row && row < 4 && 0 <= column && column < 4, "index is out of range");
+                m[row, column] = value;
             }
         }
 
         public MMatrix4 concatenate(ref MMatrix4 m2)
         {
             MMatrix4 r = new MMatrix4();
-            r.m[0, 0] = m[0, 0] * m2.m[0, 0] + m[0, 1] * m2.m[1, 0] + m[0, 2] * m2.m[2, 0] + m[0, 3] * m2.m[3, 0];
-            r.m[0, 1] = m[0, 0] * m2.m[0, 1] + m[0, 1] * m2.m[1, 1] + m[0, 2] * m2.m[2, 1] + m[0, 3] * m2.m[3, 1];
-            r.m[0, 2] = m[0, 0] * m2.m[0, 2] + m[0, 1] * m2.m[1, 2] + m[0, 2] * m2.m[2, 2] + m[0, 3] * m2.m[3, 2];
-            r.m[0, 3] = m[0, 0] * m2.m[0, 3] + m[0, 1] * m2.m[1, 3] + m[0, 2] * m2.m[2, 3] + m[0, 3] * m2.m[3, 3];
+            r[0, 0] = m[0, 0] * m2[0, 0] + m[0, 1] * m2[1, 0] + m[0, 2] * m2[2, 0] + m[0, 3] * m2[3, 0];
+            r[0, 1] = m[0, 0] * m2[0, 1] + m[0, 1] * m2[1, 1] + m[0, 2] * m2[2, 1] + m[0, 3] * m2[3, 1];
+            r[0, 2] = m[0, 0] * m2[0, 2] + m[0, 1] * m2[1, 2] + m[0, 2] * m2[2, 2] + m[0, 3] * m2[3, 2];
+            r[0, 3] = m[0, 0] * m2[0, 3] + m[0, 1] * m2[1, 3] + m[0, 2] * m2[2, 3] + m[0, 3] * m2[3, 3];
 
-            r.m[1, 0] = m[1, 0] * m2.m[0, 0] + m[1, 1] * m2.m[1, 0] + m[1, 2] * m2.m[2, 0] + m[1, 3] * m2.m[3, 0];
-            r.m[1, 1] = m[1, 0] * m2.m[0, 1] + m[1, 1] * m2.m[1, 1] + m[1, 2] * m2.m[2, 1] + m[1, 3] * m2.m[3, 1];
-            r.m[1, 2] = m[1, 0] * m2.m[0, 2] + m[1, 1] * m2.m[1, 2] + m[1, 2] * m2.m[2, 2] + m[1, 3] * m2.m[3, 2];
-            r.m[1, 3] = m[1, 0] * m2.m[0, 3] + m[1, 1] * m2.m[1, 3] + m[1, 2] * m2.m[2, 3] + m[1, 3] * m2.m[3, 3];
+            r[1, 0] = m[1, 0] * m2[0, 0] + m[1, 1] * m2[1, 0] + m[1, 2] * m2[2, 0] + m[1, 3] * m2[3, 0];
+            r[1, 1] = m[1, 0] * m2[0, 1] + m[1, 1] * m2[1, 1] + m[1, 2] * m2[2, 1] + m[1, 3] * m2[3, 1];
+            r[1, 2] = m[1, 0] * m2[0, 2] + m[1, 1] * m2[1, 2] + m[1, 2] * m2[2, 2] + m[1, 3] * m2[3, 2];
+            r[1, 3] = m[1, 0] * m2[0, 3] + m[1, 1] * m2[1, 3] + m[1, 2] * m2[2, 3] + m[1, 3] * m2[3, 3];
 
-            r.m[2, 0] = m[2, 0] * m2.m[0, 0] + m[2, 1] * m2.m[1, 0] + m[2, 2] * m2.m[2, 0] + m[2, 3] * m2.m[3, 0];
-            r.m[2, 1] = m[2, 0] * m2.m[0, 1] + m[2, 1] * m2.m[1, 1] + m[2, 2] * m2.m[2, 1] + m[2, 3] * m2.m[3, 1];
-            r.m[2, 2] = m[2, 0] * m2.m[0, 2] + m[2, 1] * m2.m[1, 2] + m[2, 2] * m2.m[2, 2] + m[2, 3] * m2.m[3, 2];
-            r.m[2, 3] = m[2, 0] * m2.m[0, 3] + m[2, 1] * m2.m[1, 3] + m[2, 2] * m2.m[2, 3] + m[2, 3] * m2.m[3, 3];
+            r[2, 0] = m[2, 0] * m2[0, 0] + m[2, 1] * m2[1, 0] + m[2, 2] * m2[2, 0] + m[2, 3] * m2[3, 0];
+            r[2, 1] = m[2, 0] * m2[0, 1] + m[2, 1] * m2[1, 1] + m[2, 2] * m2[2, 1] + m[2, 3] * m2[3, 1];
+            r[2, 2] = m[2, 0] * m2[0, 2] + m[2, 1] * m2[1, 2] + m[2, 2] * m2[2, 2] + m[2, 3] * m2[3, 2];
+            r[2, 3] = m[2, 0] * m2[0, 3] + m[2, 1] * m2[1, 3] + m[2, 2] * m2[2, 3] + m[2, 3] * m2[3, 3];
 
-            r.m[3, 0] = m[3, 0] * m2.m[0, 0] + m[3, 1] * m2.m[1, 0] + m[3, 2] * m2.m[2, 0] + m[3, 3] * m2.m[3, 0];
-            r.m[3, 1] = m[3, 0] * m2.m[0, 1] + m[3, 1] * m2.m[1, 1] + m[3, 2] * m2.m[2, 1] + m[3, 3] * m2.m[3, 1];
-            r.m[3, 2] = m[3, 0] * m2.m[0, 2] + m[3, 1] * m2.m[1, 2] + m[3, 2] * m2.m[2, 2] + m[3, 3] * m2.m[3, 2];
-            r.m[3, 3] = m[3, 0] * m2.m[0, 3] + m[3, 1] * m2.m[1, 3] + m[3, 2] * m2.m[2, 3] + m[3, 3] * m2.m[3, 3];
+            r[3, 0] = m[3, 0] * m2[0, 0] + m[3, 1] * m2[1, 0] + m[3, 2] * m2[2, 0] + m[3, 3] * m2[3, 0];
+            r[3, 1] = m[3, 0] * m2[0, 1] + m[3, 1] * m2[1, 1] + m[3, 2] * m2[2, 1] + m[3, 3] * m2[3, 1];
+            r[3, 2] = m[3, 0] * m2[0, 2] + m[3, 1] * m2[1, 2] + m[3, 2] * m2[2, 2] + m[3, 3] * m2[3, 2];
+            r[3, 3] = m[3, 0] * m2[0, 3] + m[3, 1] * m2[1, 3] + m[3, 2] * m2[2, 3] + m[3, 3] * m2[3, 3];
 
             return r;
         }
@@ -169,25 +174,25 @@ namespace SDK.Lib
         {
             MMatrix4 r = new MMatrix4();
 
-            r.m[0, 0] = lhs[0, 0] + m2.m[0, 0];
-            r.m[0, 1] = lhs[0, 1] + m2.m[0, 1];
-            r.m[0, 2] = lhs[0, 2] + m2.m[0, 2];
-            r.m[0, 3] = lhs[0, 3] + m2.m[0, 3];
+            r[0, 0] = lhs[0, 0] + m2[0, 0];
+            r[0, 1] = lhs[0, 1] + m2[0, 1];
+            r[0, 2] = lhs[0, 2] + m2[0, 2];
+            r[0, 3] = lhs[0, 3] + m2[0, 3];
 
-            r.m[1, 0] = lhs[1, 0] + m2.m[1, 0];
-            r.m[1, 1] = lhs[1, 1] + m2.m[1, 1];
-            r.m[1, 2] = lhs[1, 2] + m2.m[1, 2];
-            r.m[1, 3] = lhs[1, 3] + m2.m[1, 3];
+            r[1, 0] = lhs[1, 0] + m2[1, 0];
+            r[1, 1] = lhs[1, 1] + m2[1, 1];
+            r[1, 2] = lhs[1, 2] + m2[1, 2];
+            r[1, 3] = lhs[1, 3] + m2[1, 3];
 
-            r.m[2, 0] = lhs[2, 0] + m2.m[2, 0];
-            r.m[2, 1] = lhs[2, 1] + m2.m[2, 1];
-            r.m[2, 2] = lhs[2, 2] + m2.m[2, 2];
-            r.m[2, 3] = lhs[2, 3] + m2.m[2, 3];
+            r[2, 0] = lhs[2, 0] + m2[2, 0];
+            r[2, 1] = lhs[2, 1] + m2[2, 1];
+            r[2, 2] = lhs[2, 2] + m2[2, 2];
+            r[2, 3] = lhs[2, 3] + m2[2, 3];
 
-            r.m[3, 0] = lhs[3, 0] + m2.m[3, 0];
-            r.m[3, 1] = lhs[3, 1] + m2.m[3, 1];
-            r.m[3, 2] = lhs[3, 2] + m2.m[3, 2];
-            r.m[3, 3] = lhs[3, 3] + m2.m[3, 3];
+            r[3, 0] = lhs[3, 0] + m2[3, 0];
+            r[3, 1] = lhs[3, 1] + m2[3, 1];
+            r[3, 2] = lhs[3, 2] + m2[3, 2];
+            r[3, 3] = lhs[3, 3] + m2[3, 3];
 
             return r;
         }
@@ -195,25 +200,25 @@ namespace SDK.Lib
         static public MMatrix4 operator -(MMatrix4 lhs, MMatrix4 m2)
         {
             MMatrix4 r = new MMatrix4();
-            r.m[0, 0] = lhs.m[0, 0] - m2.m[0, 0];
-            r.m[0, 1] = lhs.m[0, 1] - m2.m[0, 1];
-            r.m[0, 2] = lhs.m[0, 2] - m2.m[0, 2];
-            r.m[0, 3] = lhs.m[0, 3] - m2.m[0, 3];
+            r[0, 0] = lhs[0, 0] - m2[0, 0];
+            r[0, 1] = lhs[0, 1] - m2[0, 1];
+            r[0, 2] = lhs[0, 2] - m2[0, 2];
+            r[0, 3] = lhs[0, 3] - m2[0, 3];
 
-            r.m[1, 0] = lhs.m[1, 0] - m2.m[1, 0];
-            r.m[1, 1] = lhs.m[1, 1] - m2.m[1, 1];
-            r.m[1, 2] = lhs.m[1, 2] - m2.m[1, 2];
-            r.m[1, 3] = lhs.m[1, 3] - m2.m[1, 3];
+            r[1, 0] = lhs[1, 0] - m2[1, 0];
+            r[1, 1] = lhs[1, 1] - m2[1, 1];
+            r[1, 2] = lhs[1, 2] - m2[1, 2];
+            r[1, 3] = lhs[1, 3] - m2[1, 3];
 
-            r.m[2, 0] = lhs.m[2, 0] - m2.m[2, 0];
-            r.m[2, 1] = lhs.m[2, 1] - m2.m[2, 1];
-            r.m[2, 2] = lhs.m[2, 2] - m2.m[2, 2];
-            r.m[2, 3] = lhs.m[2, 3] - m2.m[2, 3];
+            r[2, 0] = lhs[2, 0] - m2[2, 0];
+            r[2, 1] = lhs[2, 1] - m2[2, 1];
+            r[2, 2] = lhs[2, 2] - m2[2, 2];
+            r[2, 3] = lhs[2, 3] - m2[2, 3];
 
-            r.m[3, 0] = lhs.m[3, 0] - m2.m[3, 0];
-            r.m[3, 1] = lhs.m[3, 1] - m2.m[3, 1];
-            r.m[3, 2] = lhs.m[3, 2] - m2.m[3, 2];
-            r.m[3, 3] = lhs.m[3, 3] - m2.m[3, 3];
+            r[3, 0] = lhs[3, 0] - m2[3, 0];
+            r[3, 1] = lhs[3, 1] - m2[3, 1];
+            r[3, 2] = lhs[3, 2] - m2[3, 2];
+            r[3, 3] = lhs[3, 3] - m2[3, 3];
 
             return r;
         }
@@ -221,10 +226,10 @@ namespace SDK.Lib
         static public bool operator ==(MMatrix4 lhs, MMatrix4 m2)
         {
             if (
-                lhs.m[0, 0] != m2.m[0, 0] || lhs.m[0, 1] != m2.m[0, 1] || lhs.m[0, 2] != m2.m[0, 2] || lhs.m[0, 3] != m2.m[0, 3] ||
-                lhs.m[1, 0] != m2.m[1, 0] || lhs.m[1, 1] != m2.m[1, 1] || lhs.m[1, 2] != m2.m[1, 2] || lhs.m[1, 3] != m2.m[1, 3] ||
-                lhs.m[2, 0] != m2.m[2, 0] || lhs.m[2, 1] != m2.m[2, 1] || lhs.m[2, 2] != m2.m[2, 2] || lhs.m[2, 3] != m2.m[2, 3] ||
-                lhs.m[3, 0] != m2.m[3, 0] || lhs.m[3, 1] != m2.m[3, 1] || lhs.m[3, 2] != m2.m[3, 2] || lhs.m[3, 3] != m2.m[3, 3])
+                lhs[0, 0] != m2[0, 0] || lhs[0, 1] != m2[0, 1] || lhs[0, 2] != m2[0, 2] || lhs[0, 3] != m2[0, 3] ||
+                lhs[1, 0] != m2[1, 0] || lhs[1, 1] != m2[1, 1] || lhs[1, 2] != m2[1, 2] || lhs[1, 3] != m2[1, 3] ||
+                lhs[2, 0] != m2[2, 0] || lhs[2, 1] != m2[2, 1] || lhs[2, 2] != m2[2, 2] || lhs[2, 3] != m2[2, 3] ||
+                lhs[3, 0] != m2[3, 0] || lhs[3, 1] != m2[3, 1] || lhs[3, 2] != m2[3, 2] || lhs[3, 3] != m2[3, 3])
                 return false;
             return true;
         }
@@ -232,19 +237,19 @@ namespace SDK.Lib
         static public bool operator !=(MMatrix4 lhs, MMatrix4 m2)
         {
             if (
-                lhs.m[0, 0] != m2.m[0, 0] || lhs.m[0, 1] != m2.m[0, 1] || lhs.m[0, 2] != m2.m[0, 2] || lhs.m[0, 3] != m2.m[0, 3] ||
-                lhs.m[1, 0] != m2.m[1, 0] || lhs.m[1, 1] != m2.m[1, 1] || lhs.m[1, 2] != m2.m[1, 2] || lhs.m[1, 3] != m2.m[1, 3] ||
-                lhs.m[2, 0] != m2.m[2, 0] || lhs.m[2, 1] != m2.m[2, 1] || lhs.m[2, 2] != m2.m[2, 2] || lhs.m[2, 3] != m2.m[2, 3] ||
-                lhs.m[3, 0] != m2.m[3, 0] || lhs.m[3, 1] != m2.m[3, 1] || lhs.m[3, 2] != m2.m[3, 2] || lhs.m[3, 3] != m2.m[3, 3])
+                lhs[0, 0] != m2[0, 0] || lhs[0, 1] != m2[0, 1] || lhs[0, 2] != m2[0, 2] || lhs[0, 3] != m2[0, 3] ||
+                lhs[1, 0] != m2[1, 0] || lhs[1, 1] != m2[1, 1] || lhs[1, 2] != m2[1, 2] || lhs[1, 3] != m2[1, 3] ||
+                lhs[2, 0] != m2[2, 0] || lhs[2, 1] != m2[2, 1] || lhs[2, 2] != m2[2, 2] || lhs[2, 3] != m2[2, 3] ||
+                lhs[3, 0] != m2[3, 0] || lhs[3, 1] != m2[3, 1] || lhs[3, 2] != m2[3, 2] || lhs[3, 3] != m2[3, 3])
                 return true;
             return false;
         }
 
         public void assignForm(ref MMatrix3 mat3)
         {
-            m[0, 0] = mat3.m[0, 0]; m[0, 1] = mat3.m[0, 1]; m[0, 2] = mat3.m[0, 2];
-            m[1, 0] = mat3.m[1, 0]; m[1, 1] = mat3.m[1, 1]; m[1, 2] = mat3.m[1, 2];
-            m[2, 0] = mat3.m[2, 0]; m[2, 1] = mat3.m[2, 1]; m[2, 2] = mat3.m[2, 2];
+            m[0, 0] = mat3[0, 0]; m[0, 1] = mat3[0, 1]; m[0, 2] = mat3[0, 2];
+            m[1, 0] = mat3[1, 0]; m[1, 1] = mat3[1, 1]; m[1, 2] = mat3[1, 2];
+            m[2, 0] = mat3[2, 0]; m[2, 1] = mat3[2, 1]; m[2, 2] = mat3[2, 2];
         }
 
         public MMatrix4 transpose()
@@ -287,10 +292,10 @@ namespace SDK.Lib
         {
             MMatrix4 r = new MMatrix4();
 
-            r.m[0, 0] = 1.0f; r.m[0, 1] = 0.0f; r.m[0, 2] = 0.0f; r.m[0, 3] = v.x;
-            r.m[1, 0] = 0.0f; r.m[1, 1] = 1.0f; r.m[1, 2] = 0.0f; r.m[1, 3] = v.y;
-            r.m[2, 0] = 0.0f; r.m[2, 1] = 0.0f; r.m[2, 2] = 1.0f; r.m[2, 3] = v.z;
-            r.m[3, 0] = 0.0f; r.m[3, 1] = 0.0f; r.m[3, 2] = 0.0f; r.m[3, 3] = 1.0f;
+            r[0, 0] = 1.0f; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = v.x;
+            r[1, 0] = 0.0f; r[1, 1] = 1.0f; r[1, 2] = 0.0f; r[1, 3] = v.y;
+            r[2, 0] = 0.0f; r[2, 1] = 0.0f; r[2, 2] = 1.0f; r[2, 3] = v.z;
+            r[3, 0] = 0.0f; r[3, 1] = 0.0f; r[3, 2] = 0.0f; r[3, 3] = 1.0f;
 
             return r;
         }
@@ -299,10 +304,10 @@ namespace SDK.Lib
         {
             MMatrix4 r = new MMatrix4();
 
-            r.m[0, 0] = 1.0f; r.m[0, 1] = 0.0f; r.m[0, 2] = 0.0f; r.m[0, 3] = t_x;
-            r.m[1, 0] = 0.0f; r.m[1, 1] = 1.0f; r.m[1, 2] = 0.0f; r.m[1, 3] = t_y;
-            r.m[2, 0] = 0.0f; r.m[2, 1] = 0.0f; r.m[2, 2] = 1.0f; r.m[2, 3] = t_z;
-            r.m[3, 0] = 0.0f; r.m[3, 1] = 0.0f; r.m[3, 2] = 0.0f; r.m[3, 3] = 1.0f;
+            r[0, 0] = 1.0f; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = t_x;
+            r[1, 0] = 0.0f; r[1, 1] = 1.0f; r[1, 2] = 0.0f; r[1, 3] = t_y;
+            r[2, 0] = 0.0f; r[2, 1] = 0.0f; r[2, 2] = 1.0f; r[2, 3] = t_z;
+            r[3, 0] = 0.0f; r[3, 1] = 0.0f; r[3, 2] = 0.0f; r[3, 3] = 1.0f;
 
             return r;
         }
@@ -317,10 +322,10 @@ namespace SDK.Lib
         public static MMatrix4 getScale(ref MVector3 v)
         {
             MMatrix4 r = new MMatrix4();
-            r.m[0, 0] = v.x; r.m[0, 1] = 0.0f; r.m[0, 2] = 0.0f; r.m[0, 3] = 0.0f;
-            r.m[1, 0] = 0.0f; r.m[1, 1] = v.y; r.m[1, 2] = 0.0f; r.m[1, 3] = 0.0f;
-            r.m[2, 0] = 0.0f; r.m[2, 1] = 0.0f; r.m[2, 2] = v.z; r.m[2, 3] = 0.0f;
-            r.m[3, 0] = 0.0f; r.m[3, 1] = 0.0f; r.m[3, 2] = 0.0f; r.m[3, 3] = 1.0f;
+            r[0, 0] = v.x; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = 0.0f;
+            r[1, 0] = 0.0f; r[1, 1] = v.y; r[1, 2] = 0.0f; r[1, 3] = 0.0f;
+            r[2, 0] = 0.0f; r[2, 1] = 0.0f; r[2, 2] = v.z; r[2, 3] = 0.0f;
+            r[3, 0] = 0.0f; r[3, 1] = 0.0f; r[3, 2] = 0.0f; r[3, 3] = 1.0f;
 
             return r;
         }
@@ -328,25 +333,25 @@ namespace SDK.Lib
         public static MMatrix4 getScale(float s_x, float s_y, float s_z)
         {
             MMatrix4 r = new MMatrix4();
-            r.m[0, 0] = s_x; r.m[0, 1] = 0.0f; r.m[0, 2] = 0.0f; r.m[0, 3] = 0.0f;
-            r.m[1, 0] = 0.0f; r.m[1, 1] = s_y; r.m[1, 2] = 0.0f; r.m[1, 3] = 0.0f;
-            r.m[2, 0] = 0.0f; r.m[2, 1] = 0.0f; r.m[2, 2] = s_z; r.m[2, 3] = 0.0f;
-            r.m[3, 0] = 0.0f; r.m[3, 1] = 0.0f; r.m[3, 2] = 0.0f; r.m[3, 3] = 1.0f;
+            r[0, 0] = s_x; r[0, 1] = 0.0f; r[0, 2] = 0.0f; r[0, 3] = 0.0f;
+            r[1, 0] = 0.0f; r[1, 1] = s_y; r[1, 2] = 0.0f; r[1, 3] = 0.0f;
+            r[2, 0] = 0.0f; r[2, 1] = 0.0f; r[2, 2] = s_z; r[2, 3] = 0.0f;
+            r[3, 0] = 0.0f; r[3, 1] = 0.0f; r[3, 2] = 0.0f; r[3, 3] = 1.0f;
 
             return r;
         }
 
         public void extract3x3Matrix(ref MMatrix3 m3x3)
         {
-            m3x3.m[0, 0] = m[0, 0];
-            m3x3.m[0, 1] = m[0, 1];
-            m3x3.m[0, 2] = m[0, 2];
-            m3x3.m[1, 0] = m[1, 0];
-            m3x3.m[1, 1] = m[1, 1];
-            m3x3.m[1, 2] = m[1, 2];
-            m3x3.m[2, 0] = m[2, 0];
-            m3x3.m[2, 1] = m[2, 1];
-            m3x3.m[2, 2] = m[2, 2];
+            m3x3[0, 0] = m[0, 0];
+            m3x3[0, 1] = m[0, 1];
+            m3x3[0, 2] = m[0, 2];
+            m3x3[1, 0] = m[1, 0];
+            m3x3[1, 1] = m[1, 1];
+            m3x3[1, 2] = m[1, 2];
+            m3x3[2, 0] = m[2, 0];
+            m3x3[2, 1] = m[2, 1];
+            m3x3[2, 2] = m[2, 2];
 
         }
 
@@ -380,10 +385,10 @@ namespace SDK.Lib
         static public MMatrix4 operator *(MMatrix4 lhs, float scalar)
         {
             return new MMatrix4(
-                scalar * lhs.m[0, 0], scalar * lhs.m[0, 1], scalar * lhs.m[0, 2], scalar * lhs.m[0, 3],
-                scalar * lhs.m[1, 0], scalar * lhs.m[1, 1], scalar * lhs.m[1, 2], scalar * lhs.m[1, 3],
-                scalar * lhs.m[2, 0], scalar * lhs.m[2, 1], scalar * lhs.m[2, 2], scalar * lhs.m[2, 3],
-                scalar * lhs.m[3, 0], scalar * lhs.m[3, 1], scalar * lhs.m[3, 2], scalar * lhs.m[3, 3]);
+                scalar * lhs[0, 0], scalar * lhs[0, 1], scalar * lhs[0, 2], scalar * lhs[0, 3],
+                scalar * lhs[1, 0], scalar * lhs[1, 1], scalar * lhs[1, 2], scalar * lhs[1, 3],
+                scalar * lhs[2, 0], scalar * lhs[2, 1], scalar * lhs[2, 2], scalar * lhs[2, 3],
+                scalar * lhs[3, 0], scalar * lhs[3, 1], scalar * lhs[3, 2], scalar * lhs[3, 3]);
         }
 
         public string ToString(ref MMatrix4 mat)
@@ -508,9 +513,9 @@ namespace SDK.Lib
             MMatrix3 rot3x3 = new MMatrix3();
             orientation.ToRotationMatrix(ref rot3x3);
 
-            m[0, 0] = scale.x * rot3x3.m[0, 0]; m[0, 1] = scale.y * rot3x3.m[0, 1]; m[0, 2] = scale.z * rot3x3.m[0, 2]; m[0, 3] = position.x;
-            m[1, 0] = scale.x * rot3x3.m[1, 0]; m[1, 1] = scale.y * rot3x3.m[1, 1]; m[1, 2] = scale.z * rot3x3.m[1, 2]; m[1, 3] = position.y;
-            m[2, 0] = scale.x * rot3x3.m[2, 0]; m[2, 1] = scale.y * rot3x3.m[2, 1]; m[2, 2] = scale.z * rot3x3.m[2, 2]; m[2, 3] = position.z;
+            m[0, 0] = scale.x * rot3x3[0, 0]; m[0, 1] = scale.y * rot3x3[0, 1]; m[0, 2] = scale.z * rot3x3[0, 2]; m[0, 3] = position.x;
+            m[1, 0] = scale.x * rot3x3[1, 0]; m[1, 1] = scale.y * rot3x3[1, 1]; m[1, 2] = scale.z * rot3x3[1, 2]; m[1, 3] = position.y;
+            m[2, 0] = scale.x * rot3x3[2, 0]; m[2, 1] = scale.y * rot3x3[2, 1]; m[2, 2] = scale.z * rot3x3[2, 2]; m[2, 3] = position.z;
 
             m[3, 0] = 0; m[3, 1] = 0; m[3, 2] = 0; m[3, 3] = 1;
         }
@@ -527,9 +532,9 @@ namespace SDK.Lib
             MMatrix3 rot3x3 = new MMatrix3();
             invRot.ToRotationMatrix(ref rot3x3);
 
-            m[0, 0] = invScale.x * rot3x3.m[0, 0]; m[0, 1] = invScale.x * rot3x3.m[0, 1]; m[0, 2] = invScale.x * rot3x3.m[0, 2]; m[0, 3] = invTranslate.x;
-            m[1, 0] = invScale.y * rot3x3.m[1, 0]; m[1, 1] = invScale.y * rot3x3.m[1, 1]; m[1, 2] = invScale.y * rot3x3.m[1, 2]; m[1, 3] = invTranslate.y;
-            m[2, 0] = invScale.z * rot3x3.m[2, 0]; m[2, 1] = invScale.z * rot3x3.m[2, 1]; m[2, 2] = invScale.z * rot3x3.m[2, 2]; m[2, 3] = invTranslate.z;
+            m[0, 0] = invScale.x * rot3x3[0, 0]; m[0, 1] = invScale.x * rot3x3[0, 1]; m[0, 2] = invScale.x * rot3x3[0, 2]; m[0, 3] = invTranslate.x;
+            m[1, 0] = invScale.y * rot3x3[1, 0]; m[1, 1] = invScale.y * rot3x3[1, 1]; m[1, 2] = invScale.y * rot3x3[1, 2]; m[1, 3] = invTranslate.y;
+            m[2, 0] = invScale.z * rot3x3[2, 0]; m[2, 1] = invScale.z * rot3x3[2, 1]; m[2, 2] = invScale.z * rot3x3[2, 2]; m[2, 3] = invTranslate.z;
 
             m[3, 0] = 0; m[3, 1] = 0; m[3, 2] = 0; m[3, 3] = 1;
         }
@@ -603,20 +608,20 @@ namespace SDK.Lib
             UtilApi.assert(isAffine() && m2.isAffine());
 
             return new MMatrix4(
-                m[0, 0] * m2.m[0, 0] + m[0, 1] * m2.m[1, 0] + m[0, 2] * m2.m[2, 0],
-                m[0, 0] * m2.m[0, 1] + m[0, 1] * m2.m[1, 1] + m[0, 2] * m2.m[2, 1],
-                m[0, 0] * m2.m[0, 2] + m[0, 1] * m2.m[1, 2] + m[0, 2] * m2.m[2, 2],
-                m[0, 0] * m2.m[0, 3] + m[0, 1] * m2.m[1, 3] + m[0, 2] * m2.m[2, 3] + m[0, 3],
+                m[0, 0] * m2[0, 0] + m[0, 1] * m2[1, 0] + m[0, 2] * m2[2, 0],
+                m[0, 0] * m2[0, 1] + m[0, 1] * m2[1, 1] + m[0, 2] * m2[2, 1],
+                m[0, 0] * m2[0, 2] + m[0, 1] * m2[1, 2] + m[0, 2] * m2[2, 2],
+                m[0, 0] * m2[0, 3] + m[0, 1] * m2[1, 3] + m[0, 2] * m2[2, 3] + m[0, 3],
 
-                m[1, 0] * m2.m[0, 0] + m[1, 1] * m2.m[1, 0] + m[1, 2] * m2.m[2, 0],
-                m[1, 0] * m2.m[0, 1] + m[1, 1] * m2.m[1, 1] + m[1, 2] * m2.m[2, 1],
-                m[1, 0] * m2.m[0, 2] + m[1, 1] * m2.m[1, 2] + m[1, 2] * m2.m[2, 2],
-                m[1, 0] * m2.m[0, 3] + m[1, 1] * m2.m[1, 3] + m[1, 2] * m2.m[2, 3] + m[1, 3],
+                m[1, 0] * m2[0, 0] + m[1, 1] * m2[1, 0] + m[1, 2] * m2[2, 0],
+                m[1, 0] * m2[0, 1] + m[1, 1] * m2[1, 1] + m[1, 2] * m2[2, 1],
+                m[1, 0] * m2[0, 2] + m[1, 1] * m2[1, 2] + m[1, 2] * m2[2, 2],
+                m[1, 0] * m2[0, 3] + m[1, 1] * m2[1, 3] + m[1, 2] * m2[2, 3] + m[1, 3],
 
-                m[2, 0] * m2.m[0, 0] + m[2, 1] * m2.m[1, 0] + m[2, 2] * m2.m[2, 0],
-                m[2, 0] * m2.m[0, 1] + m[2, 1] * m2.m[1, 1] + m[2, 2] * m2.m[2, 1],
-                m[2, 0] * m2.m[0, 2] + m[2, 1] * m2.m[1, 2] + m[2, 2] * m2.m[2, 2],
-                m[2, 0] * m2.m[0, 3] + m[2, 1] * m2.m[1, 3] + m[2, 2] * m2.m[2, 3] + m[2, 3],
+                m[2, 0] * m2[0, 0] + m[2, 1] * m2[1, 0] + m[2, 2] * m2[2, 0],
+                m[2, 0] * m2[0, 1] + m[2, 1] * m2[1, 1] + m[2, 2] * m2[2, 1],
+                m[2, 0] * m2[0, 2] + m[2, 1] * m2[1, 2] + m[2, 2] * m2[2, 2],
+                m[2, 0] * m2[0, 3] + m[2, 1] * m2[1, 3] + m[2, 2] * m2[2, 3] + m[2, 3],
 
                 0, 0, 0, 1);
         }
