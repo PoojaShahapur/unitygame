@@ -32,12 +32,12 @@ CGPROGRAM
 struct v2f 
 {
     float4 pos : SV_POSITION;
-    float4  projTexCoord;
-    float2  bumpTexCoord;
-    float3  viewDir;
-    float3  lightDir;
-    float3  objSpaceNormal;
-    float2   foamStrengthAndDistance;
+    float4  projTexCoord : TEXCOORD0;
+    float2  bumpTexCoord : TEXCOORD1;
+    float3  viewDir : TEXCOORD2;
+    float3  lightDir : TEXCOORD3;
+    float3  objSpaceNormal : TEXCOORD4;
+    float2   foamStrengthAndDistance : TEXCOORD5;
 };
 
 float4 _Size;

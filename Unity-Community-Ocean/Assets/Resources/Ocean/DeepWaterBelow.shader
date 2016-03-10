@@ -28,10 +28,10 @@ CGPROGRAM
 struct v2f 
 {
     float4 pos : SV_POSITION;
-    float3  viewDir;
+    float3  viewDir : TEXCOORD0;
  //   float3  normal;
-    float4  projTexCoord;
-    float4 bumpTexCoord;
+    float4  projTexCoord : TEXCOORD1;
+    float4 bumpTexCoord : TEXCOORD2;
 };
 
 float4 _Size;

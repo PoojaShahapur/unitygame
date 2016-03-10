@@ -25,7 +25,7 @@ CGPROGRAM
 struct v2f 
 {
     float4 pos : SV_POSITION;
-    float depth;
+    float depth : TEXCOORD0;
 };
 
 v2f vert (appdata_base v)
@@ -44,7 +44,7 @@ v2f vert (appdata_base v)
 
 float4 frag (v2f i) : COLOR
 {
-    return float4(i.depth);
+    return float4(i.depth, i.depth, i.depth, i.depth);
 }
 ENDCG
 
