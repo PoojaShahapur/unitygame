@@ -18,32 +18,32 @@
             normal = MVector3.ZERO;
             d = 0.0f;
         }
-        //-----------------------------------------------------------------------
+
         public MPlane(ref MPlane rhs)
         {
             normal = rhs.normal;
             d = rhs.d;
         }
-        //-----------------------------------------------------------------------
+
         public MPlane(ref MVector3 rkNormal, float fConstant)
         {
             normal = rkNormal;
             d = -fConstant;
         }
-        //---------------------------------------------------------------------
+
         public MPlane(float a, float b, float c, float _d)
         {
             normal = new MVector3(a, b, c);
             d = _d;
         }
-        //-----------------------------------------------------------------------
+
         public MPlane(ref MVector3 rkNormal, ref MVector3 rkPoint)
         {
             normal = MVector3.ZERO;
             d = 0.0f;
             redefine(ref rkNormal, ref rkPoint);
         }
-        //-----------------------------------------------------------------------
+
         public MPlane(ref MVector3 rkPoint0, ref MVector3 rkPoint1,
             ref MVector3 rkPoint2)
         {
@@ -51,12 +51,12 @@
             d = 0.0f;
             redefine(ref rkPoint0, ref rkPoint1, ref rkPoint2);
         }
-        //-----------------------------------------------------------------------
+
         public float getDistance(ref MVector3 rkPoint)
         {
             return normal.dotProduct(ref rkPoint) + d;
         }
-        //-----------------------------------------------------------------------
+
         public Side getSide(ref MVector3 rkPoint)
         {
             float fDistance = getDistance(ref rkPoint);
@@ -70,8 +70,6 @@
             return Side.NO_SIDE;
         }
 
-
-        //-----------------------------------------------------------------------
         public Side getSide(ref MAxisAlignedBox box)
         {
             if (box.isNull())
@@ -83,7 +81,7 @@
             MVector3 half = box.getHalfSize();
             return getSide(ref center, ref half);
         }
-        //-----------------------------------------------------------------------
+
         public Side getSide(ref MVector3 centre, ref MVector3 halfSize)
         {
             float dist = getDistance(ref centre);
@@ -98,7 +96,7 @@
 
             return Side.BOTH_SIDE;
         }
-        //-----------------------------------------------------------------------
+
         public void redefine(ref MVector3 rkPoint0, ref MVector3 rkPoint1,
             ref MVector3 rkPoint2)
         {
@@ -108,13 +106,13 @@
             normal.normalise();
             d = -normal.dotProduct(ref rkPoint0);
         }
-        //-----------------------------------------------------------------------
+
         public void redefine(ref MVector3 rkNormal, ref MVector3 rkPoint)
         {
             normal = rkNormal;
             d = -rkNormal.dotProduct(ref rkPoint);
         }
-        //-----------------------------------------------------------------------
+
         public MVector3 projectVector(ref MVector3 p)
         {
             MMatrix3 xform = new MMatrix3(0);
@@ -130,7 +128,7 @@
             return xform * p;
 
         }
-        //-----------------------------------------------------------------------
+
         public float normalise()
         {
             float fLength = normal.length();

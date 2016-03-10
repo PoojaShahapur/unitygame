@@ -416,7 +416,7 @@ namespace SDK.Lib
                    mMinimum.y <= v.y && v.y <= mMaximum.y;
         }
 
-    public float squaredDistance(MVector2 v)
+        public float squaredDistance(MVector2 v)
         {
             if (this.contains(v))
                 return 0;

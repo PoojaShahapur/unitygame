@@ -317,14 +317,12 @@ namespace SDK.Lib
                 ( y + vec.y ) * 0.5f );
         }
 
-
         static public bool operator <(MVector2 lhs, MVector2 rhs )
         {
             if(lhs.x < rhs.x && lhs.y <rhs.y )
                 return true;
             return false;
         }
-
 
         static public bool operator >(MVector2 lhs, MVector2 rhs )
         {
@@ -333,20 +331,17 @@ namespace SDK.Lib
             return false;
         }
 
-
         public void makeFloor(MVector2 cmp )
         {
             if (cmp.x < x) x = cmp.x;
             if (cmp.y < y) y = cmp.y;
         }
 
-
         public void makeCeil(MVector2 cmp )
         {
             if (cmp.x > x) x = cmp.x;
             if (cmp.y > y) y = cmp.y;
         }
-
 
         public MVector2 perpendicular()
         {
@@ -399,7 +394,6 @@ namespace SDK.Lib
             f = Mathf.Clamp(f, (float)-1.0, (float)1.0);
             return Mathf.Acos(f);
         }
-
 
         public float angleTo(ref MVector2 other) 
         {
