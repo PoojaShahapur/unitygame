@@ -1,24 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Ocean : MonoBehaviour
 {
 private int width = 32;
 private int height = 32;
 
-private float scale = 0.1;
+private float scale = 0.1f;
 
-private Vector3 size = new Vector3 (150.0, 1.0, 150.0);
+private Vector3 size = new Vector3 (150.0f, 1.0f, 150.0f);
 
 private int tiles_x = 2;
 private int tiles_y = 2;
 
-private float windx = 10.0;
+private float windx = 10.0f;
 
 private float normal_scale = 16;
-private float normalStrength = 1.0;
+private float normalStrength = 1.0f;
 
-private float choppy_scale = 2.0;
-private float uv_speed = 0.01;
+private float choppy_scale = 2.0f;
+private float uv_speed = 0.01f;
 
 private Material material;
 
@@ -39,75 +41,73 @@ private ComplexF[] n_y;
 private ComplexF[] data;
 private ComplexF[] data_x;
 
-private Color[] pixelData : ;
-private Texture2D textureA : ;
-private Texture2D textureB : ;
+private Color[] pixelData;
+private Texture2D textureA;
+private Texture2D textureB;
 
-private Vector3[] baseHeight : ;
-private Vector2[] baseUV : ;
+private Vector3[] baseHeight;
+private Vector2[] baseUV;
 
-private Mesh baseMesh :  = null;
+private Mesh baseMesh = null;
 
-private GameObject child : ;
+private GameObject child;
 
-private var tiles_LOD : Array;
+private List<List<Mesh>> tiles_LOD;
 
-private int g_height : ;
-private int g_width : ;
+private int g_height;
+private int g_width;
 
-private int n_width : ;
-private int n_height : ;
+private int n_width;
+private int n_height;
 
 private bool drawFrame = true;
 
 private bool normalDone = false;
 
 private bool reflectionRefractionEnabled = false;
-private Camera depthCam :  = null;
-private Camera offscreenCam :  = null;
-private RenderTexture reflectionTexture :  = null;
-private RenderTexture refractionTexture :  = null;
-private RenderTexture waterHeightTexture :  = null;
-private RenderTexture underwaterTexture :  = null;
+private Camera depthCam = null;
+private Camera offscreenCam = null;
+private RenderTexture reflectionTexture = null;
+private RenderTexture refractionTexture = null;
+private RenderTexture waterHeightTexture = null;
+private RenderTexture underwaterTexture = null;
 
-private RenderTexture underwaterRefractionTexture :  = null;
+private RenderTexture underwaterRefractionTexture = null;
 
-private Shader shader :  = null;
-private Shader depthShader :  = null;
-private Shader waterBelowShader :  = null;
-private Material waterCompositionMaterial :  = null;
+private Shader shader = null;
+private Shader depthShader = null;
+private Shader waterBelowShader = null;
+private Material waterCompositionMaterial = null;
 
-private float waterDirtyness :  = 0.016;
+private float waterDirtyness = 0.016f;
 
+private Vector2[] uvs;
+private Vector3[] vertices;
+private Vector3[] normals;
+private Vector4[] tangents;
 
+public bool forceOriginalShader = false;
 
-private Vector2[] uvs : ;
-private Vector3[] vertices : ;
-private Vector3[] normals : ;
-private Vector4[] tangents : ;
+public Light SunLight = null;
 
-public bool forceOriginalShader : boolean = false;
+public Color surfaceColor = new Color(0.3f, 0.5f, 0.3f, 1.0f);
+public Color waterColor = new Color(0.3f, 0.4f, 0.3f);
 
-public Light SunLight :  = null;
+private Texture2D texFoam = null;
+private Texture2D texFresnel = null;
+private Texture2D texBump = null;
 
-public Color surfaceColor :  = new Color(0.3, 0.5, 0.3, 1.0);
-public Color waterColor :  = new Color(0.3, 0.4, 0.3);
+private bool renderReflection = true;
+private bool renderRefraction = true;
+private bool renderWaterDepth = true;
+private bool renderUnderwater = true;
+private bool renderUnderwaterRefraction = true;
 
-private Texture2D texFoam :  = null;
-private Texture2D texFresnel :  = null;
-private Texture2D texBump :  = null;
+private bool useCameraRenderTexture = false;
 
-private bool renderReflection : = true;
-private bool renderRefraction : = true;
-private bool renderWaterDepth : = true;
-private bool renderUnderwater : = true;
-private bool renderUnderwaterRefraction : = true;
+private RenderTexture cameraRenderTexture = null;
 
-private bool useCameraRenderTexture : = false;
-
-private RenderTexture cameraRenderTexture :  = null;
-
-function GetWaterHeightAtLocation (x : float, y : float) {
+    public float GetWaterHeightAtLocation (float x, float y) {
 	x = x / size.x;
 	x = (x-Mathf.Floor (x)) * width;
 	y = y / size.z;
@@ -116,30 +116,30 @@ function GetWaterHeightAtLocation (x : float, y : float) {
 	return data[width * Mathf.FloorToInt(y) + Mathf.FloorToInt(x)].Re * scale / (width * height);
 }
 
-function GaussianRnd () {
+public float GaussianRnd () {
 	var x1 = Random.value;
 	var x2 = Random.value;
 	
 	if (x1 == 0.0)
-		x1 = 0.01;
+		x1 = 0.01f;
 	
-	return Mathf.Sqrt (-2.0 * Mathf.Log (x1)) * Mathf.Cos (2.0 * Mathf.PI * x2);
+	return Mathf.Sqrt (-2.0f * Mathf.Log (x1)) * Mathf.Cos (2.0f * Mathf.PI * x2);
 }
 
 // Phillips spectrum
-function P_spectrum (vec_k : Vector2, wind : Vector2) {
+public float P_spectrum (Vector2 vec_k, Vector2 wind) {
 	var A = vec_k.x > 0.0 ? 1.0 : 0.05; // Set wind to blow only in one direction - otherwise we get turmoiling water
 	
 	var L = wind.sqrMagnitude / 9.81;
 	var k2 = vec_k.sqrMagnitude;
 	// Avoid division by zero
 	if (vec_k.magnitude == 0.0) {
-		return 0.0;
+		return 0.0f;
 	}
-	return A * Mathf.Exp (-1.0 / (k2*L*L) - Mathf.Pow (vec_k.magnitude * 0.1, 2.0)) / (k2*k2) * Mathf.Pow (Vector2.Dot (vec_k/vec_k.magnitude, wind/wind.magnitude), 2.0);// * wind_x * wind_y;
+	return (float)(A * Mathf.Exp ((float)(-1.0 / (k2*L*L) - Mathf.Pow (vec_k.magnitude * 0.1f, 2.0f))) / (k2*k2) * Mathf.Pow (Vector2.Dot (vec_k/vec_k.magnitude, wind/wind.magnitude), 2.0f));// * wind_x * wind_y;
 }
 
-function Start () 
+void Start () 
 {
 	cameraRenderTexture = new RenderTexture(2048, 2048, 24);
 
@@ -155,10 +155,10 @@ function Start ()
 	if (!SetupOffscreenRendering())
 	{
 		material.SetTexture ("_BumpMap", textureA);
-		material.SetTextureScale ("_BumpMap", Vector2(normal_scale, normal_scale));
+		material.SetTextureScale ("_BumpMap", new Vector2(normal_scale, normal_scale));
 
 		material.SetTexture ("_BumpMap2", textureB);
-		material.SetTextureScale ("_BumpMap2", Vector2(normal_scale, normal_scale));
+		material.SetTextureScale ("_BumpMap2", new Vector2(normal_scale, normal_scale));
 	}
 	
 	pixelData = new Color[n_width * n_height];
@@ -179,40 +179,47 @@ function Start ()
 	g_height = height + 1;	
 	g_width = width + 1;
 
-	tiles_LOD = new Array();
+	tiles_LOD = new List<List<Mesh>>();
 	
-	for (LOD=0;LOD<max_LOD;LOD++) {
-		tiles_LOD.Add (new Array());
+	for (int LOD=0;LOD<max_LOD;LOD++) {
+		tiles_LOD.Add (new List<Mesh>());
  	}
 
-	var tile : GameObject;
-	var chDist :int; // Chebychev distance	
-	for (y=0;y<tiles_y;y++) {
-		for (x=0;x<tiles_x;x++) {
+        GameObject tile;
+        int chDist; // Chebychev distance	
+        int cx = 0;
+        int cy = 0;
+        Vector3 pos;
+    for (int y=0;y<tiles_y;y++) {
+		for (int x = 0;x<tiles_x;x++) {
 			chDist = Mathf.Max (Mathf.Abs (tiles_y/2 - y), Mathf.Abs (tiles_x/2 - x));
 			chDist = chDist > 0 ? chDist-1 : 0;
 			cy = y-tiles_y/2;
 			cx = x-tiles_x/2;
 			tile = new GameObject ("WaterTile"+chDist);
-			tile.transform.position.x = cx * size.x;
-			tile.transform.position.y = -2.0 * chDist;
-			tile.transform.position.z = cy * size.z;
-			tile.AddComponent(MeshFilter);
-			tile.AddComponent("MeshRenderer");
-			tile.renderer.material = material;
-			tile.renderer.receiveShadows = false;
-			tile.renderer.castShadows = false;
-			
-			//Make child of this object, so we don't clutter up the
-			//scene hierarchy more than necessary.
-			tile.transform.parent = transform;
+                pos = tile.transform.position;
+
+                pos.x = cx * size.x;
+                pos.y = -2.0f * chDist;
+                pos.z = cy * size.z;
+                tile.transform.position = pos;
+
+            tile.AddComponent<MeshFilter>();
+			tile.AddComponent<MeshRenderer>();
+			tile.GetComponent<Renderer>().material = material;
+			tile.GetComponent<Renderer>().receiveShadows = false;
+                tile.GetComponent<Renderer>().shadowCastingMode = ShadowCastingMode.Off;
+
+                //Make child of this object, so we don't clutter up the
+                //scene hierarchy more than necessary.
+                tile.transform.parent = transform;
 			
 			//Also we don't want these to be drawn while doing refraction/reflection passes,
 			//so we'll add the to the water layer for easy filtering.
 			tile.layer = LayerMask.NameToLayer("Water");
 			
 			// Determine which LOD the tile belongs
-			(tiles_LOD[chDist] as Array).Add ((tile.GetComponent(MeshFilter) as MeshFilter).mesh);
+			tiles_LOD[chDist].Add (tile.GetComponent<MeshFilter>().mesh);
 		}
 	}
 
@@ -221,56 +228,71 @@ function Start ()
 	h0 = new ComplexF[width * height];
 	n0 = new ComplexF[n_width * n_height];
 
-	// Wind restricted to one direction, reduces calculations
-	wind = Vector2 (windx, 0.0);
+        // Wind restricted to one direction, reduces calculations
+        Vector2 wind = new Vector2(windx, 0.0f);
 
-	// Initialize wave generator	
-	for (y=0;y<height;y++) {
-		for (x=0;x<width;x++) {
+        // Initialize wave generator
+        int xc = 0;
+        int yc = 0;
+        Vector2 vec_k;
+    for (int y=0;y<height;y++) {
+		for (int x = 0;x<width;x++) {
 			yc = y < height / 2 ? y : -height + y;
 			xc = x < width / 2 ? x : -width + x;
-			vec_k = Vector2 (2.0 * Mathf.PI * xc / size.x, 2.0 * Mathf.PI * yc / size.z);
-			h0[width * y + x] = ComplexF ( GaussianRnd(), GaussianRnd()) * 0.707 * Mathf.Sqrt (P_spectrum (vec_k, wind));
+			vec_k = new Vector2 (2.0f * Mathf.PI * xc / size.x, 2.0f * Mathf.PI * yc / size.z);
+			h0[width * y + x] = new ComplexF ( GaussianRnd(), GaussianRnd()) * 0.707f * Mathf.Sqrt (P_spectrum (vec_k, wind));
 		}
 	}
 
-	for (y=0;y<n_height;y++) {
-		for (x=0;x<n_width;x++) {	
+	for (int y=0;y<n_height;y++) {
+		for (int x = 0;x<n_width;x++) {	
 			yc = y < n_height / 2 ? y : -n_height + y;
 			xc = x < n_width / 2 ? x : -n_width + x;
-			vec_k = Vector2 (2.0 * Mathf.PI * xc / (size.x / normal_scale), 2.0 * Mathf.PI * yc / (size.z / normal_scale));
-			n0[n_width * y + x] = ComplexF ( GaussianRnd(), GaussianRnd()) * 0.707 * Mathf.Sqrt (P_spectrum (vec_k, wind));
+			vec_k = new Vector2 (2.0f * Mathf.PI * xc / (size.x / normal_scale), 2.0f * Mathf.PI * yc / (size.z / normal_scale));
+			n0[n_width * y + x] = new ComplexF ( GaussianRnd(), GaussianRnd()) * 0.707f * Mathf.Sqrt (P_spectrum (vec_k, wind));
 		}
 	}
 	GenerateHeightmap ();
 	GenerateBumpmaps ();
 }
-function GenerateBumpmaps () {
-	if (!normalDone) { 
-		for (idx=0;idx<2;idx++) {
-			for (y = 0;y<n_height;y++) {
-				for (x = 0;x<n_width;x++) {	
+public void GenerateBumpmaps () {
+        int xc = 0;
+        int yc = 0;
+        Vector2 vec_k;
+        float iwkt = 0;
+        ComplexF coeffA;
+        ComplexF coeffB;
+
+        int nx = 0;
+        int ny = 0;
+
+        Vector3 bump;
+
+        if (!normalDone) { 
+		for (int idx = 0;idx<2;idx++) {
+			for (int y = 0;y<n_height;y++) {
+				for (int x = 0;x<n_width;x++) {	
 					yc = y < n_height / 2 ? y : -n_height + y;
 					xc = x < n_width / 2 ? x : -n_width + x;
-					vec_k = Vector2 (2.0 * Mathf.PI * xc / (size.x / normal_scale), 2.0 * Mathf.PI * yc / (size.z / normal_scale));
+					vec_k = new Vector2 (2.0f * Mathf.PI * xc / (size.x / normal_scale), 2.0f * Mathf.PI * yc / (size.z / normal_scale));
 
-					iwkt = idx == 0 ? 0.0 : Mathf.PI / 2;
-					coeffA = ComplexF (Mathf.Cos (iwkt), Mathf.Sin (iwkt));
+					iwkt = idx == 0 ? 0.0f : Mathf.PI / 2;
+					coeffA = new ComplexF (Mathf.Cos (iwkt), Mathf.Sin (iwkt));
 					coeffB = coeffA.GetConjugate();
 
 					ny = y > 0 ? n_height - y : 0;
 					nx = x > 0 ? n_width - x : 0;
 
-					n_x[n_width * y + x] = (n0[n_width * y + x] * coeffA + n0[n_width * ny + nx].GetConjugate() * coeffB) * ComplexF (0.0, -vec_k.x);				
-					n_y[n_width * y + x] = (n0[n_width * y + x] * coeffA + n0[n_width * ny + nx].GetConjugate() * coeffB) * ComplexF (0.0, -vec_k.y);				
+					n_x[n_width * y + x] = (n0[n_width * y + x] * coeffA + n0[n_width * ny + nx].GetConjugate() * coeffB) * new ComplexF (0.0f, -vec_k.x);				
+					n_y[n_width * y + x] = (n0[n_width * y + x] * coeffA + n0[n_width * ny + nx].GetConjugate() * coeffB) * new ComplexF (0.0f, -vec_k.y);				
 				}
 			}
 			Fourier.FFT2 (n_x, n_width, n_height, FourierDirection.Backward);
 			Fourier.FFT2 (n_y, n_width, n_height, FourierDirection.Backward);
 
-			for (i=0; i<n_width*n_height; i++){
-				bump = Vector3 (n_x[i].Re*Mathf.Abs(n_x[i].Re), n_y[i].Re*Mathf.Abs(n_y[i].Re), n_width * n_height / scale / normal_scale * normalStrength).normalized * 0.5;
-				pixelData[i] = Color (bump.x + 0.5, bump.y + 0.5, bump.z + 0.5);
+			for (int i=0; i<n_width*n_height; i++){
+				bump = new Vector3 (n_x[i].Re*Mathf.Abs(n_x[i].Re), n_y[i].Re*Mathf.Abs(n_y[i].Re), n_width * n_height / scale / normal_scale * normalStrength).normalized * 0.5f;
+				pixelData[i] = new Color (bump.x + 0.5f, bump.y + 0.5f, bump.z + 0.5f);
 				//			pixelData[i] = Color (0.5, 0.5, 1.0);			
 			}
 			if (idx==0) {
@@ -286,26 +308,26 @@ function GenerateBumpmaps () {
 	}
 	
 }
-function GenerateHeightmap () {
+public void GenerateHeightmap () {
 
-	var mesh : Mesh = new Mesh();
+        var mesh = new Mesh();
 
-	var y = 0;
-	var x = 0;
+        int y = 0;
+	int x = 0;
 
-	// Build vertices and UVs
-	var vertices = new Vector3[g_height * g_width];
-	var tangents = new Vector4[g_height * g_width];
-	var uv = new Vector2[g_height * g_width];
+        // Build vertices and UVs
+        Vector3[] vertices = new Vector3[(int)g_height * g_width];
+        Vector4[] tangents = new Vector4[(int)g_height * g_width];
+        Vector2[] uv = new Vector2[(int)g_height * g_width];
 
-	var uvScale = Vector2 (1.0 / (g_width - 1), 1.0 / (g_height - 1));
-	var sizeScale = Vector3 (size.x / (g_width - 1), size.y, size.z / (g_height - 1));
+        Vector2 uvScale = new Vector2 (1.0f / (g_width - 1), 1.0f / (g_height - 1));
+        Vector3 sizeScale = new Vector3(size.x / (g_width - 1), size.y, size.z / (g_height - 1));
 
 	for (y=0;y<g_height;y++) {
-		for (x=0;x<g_width;x++) {
-			var vertex = Vector3 (x, 0.0, y);
+		for (x = 0;x<g_width;x++) {
+                Vector3 vertex =new Vector3 (x, 0.0f, y);
 			vertices[y * g_width + x] = Vector3.Scale (sizeScale, vertex);
-			uv[y*g_width + x] = Vector2.Scale (Vector2 (x, y), uvScale);
+			uv[y*g_width + x] = Vector2.Scale (new Vector2 (x, y), uvScale);
 		}
 	}
 	
@@ -314,48 +336,48 @@ function GenerateHeightmap () {
 
 	for (y=0;y<g_height;y++) {
 		for (x=0;x<g_width;x++) {
-			tangents[y*g_width + x] = Vector4 (1.0, 0.0, 0.0, -1.0);
+			tangents[y*g_width + x] = new Vector4 (1.0f, 0.0f, 0.0f, -1.0f);
 		}
 	}
 	mesh.tangents = tangents;	
 	
-	for (LOD=0;LOD<max_LOD;LOD++) {
-		verticesLOD = new Vector3[(height/Mathf.Pow(2,LOD)+1) * (width/Mathf.Pow(2,LOD)+1)];
-		uvLOD = new Vector2[(height/Mathf.Pow(2,LOD)+1) * (width/Mathf.Pow(2,LOD)+1)];
-		idx = 0;
+	for (int LOD=0;LOD<max_LOD;LOD++) {
+            Vector3[] verticesLOD = new Vector3[(int)((height/Mathf.Pow(2,LOD)+1) * (width/Mathf.Pow(2,LOD)+1))];
+            Vector2[] uvLOD = new Vector2[(int)((height/Mathf.Pow(2,LOD)+1) * (width/Mathf.Pow(2,LOD)+1))];
+		int idx = 0;
  
-		for (y=0;y<g_height;y+=Mathf.Pow(2,LOD)) {
-			for (x=0;x<g_width;x+=Mathf.Pow(2,LOD)) {
+		for (y=0;y<g_height;y+=(int)Mathf.Pow(2,LOD)) {
+			for (x=0;x<g_width;x+= (int)Mathf.Pow(2,LOD)) {
 				verticesLOD[idx] = vertices[g_width * y + x];
 				uvLOD[idx++] = uv[g_width * y + x];
 			}			
 		}
-		for (k=0;k<(tiles_LOD[LOD] as Array).length;k++) {
-			meshLOD = (tiles_LOD[LOD] as Array)[k] as Mesh;
+		for (int k=0;k<tiles_LOD[LOD].Count;k++) {
+                Mesh meshLOD = tiles_LOD[LOD][k];
 			meshLOD.vertices = verticesLOD;
 			meshLOD.uv = uvLOD;
 		}		
 	}
 
 	// Build triangle indices: 3 indices into vertex array for each triangle
-	for (LOD=0;LOD<max_LOD;LOD++) {
-		index = 0;
-		width_LOD = width / Mathf.Pow(2,LOD) + 1;
-		triangles = new int[(height/Mathf.Pow(2,LOD) * width/Mathf.Pow(2,LOD)) * 6];
+	for (int LOD=0;LOD<max_LOD;LOD++) {
+		int index = 0;
+		float width_LOD = width / Mathf.Pow(2,LOD) + 1;
+		int[] triangles = new int[(int)((height/Mathf.Pow(2,LOD) * width/Mathf.Pow(2,LOD)) * 6)];
 		for (y=0;y<height/Mathf.Pow(2,LOD);y++) {
 			for (x=0;x<width/Mathf.Pow(2,LOD);x++) {
 				// For each grid cell output two triangles
-				triangles[index++] = (y     * width_LOD) + x;
-				triangles[index++] = ((y+1) * width_LOD) + x;
-				triangles[index++] = (y     * width_LOD) + x + 1;
+				triangles[index++] = (int)((y     * width_LOD) + x);
+				triangles[index++] = (int)(((y+1) * width_LOD) + x);
+				triangles[index++] = (int)((y     * width_LOD) + x + 1);
 
-				triangles[index++] = ((y+1) * width_LOD) + x;
-				triangles[index++] = ((y+1) * width_LOD) + x + 1;
-				triangles[index++] = (y     * width_LOD) + x + 1;
+				triangles[index++] = (int)(((y+1) * width_LOD) + x);
+				triangles[index++] = (int)(((y+1) * width_LOD) + x + 1);
+				triangles[index++] = (int)((y     * width_LOD) + x + 1);
 			}
 		}
-		for (k=0;k<(tiles_LOD[LOD] as Array).length;k++) {
-			meshLOD = (tiles_LOD[LOD] as Array)[k] as Mesh;
+		for (int k=0;k<tiles_LOD[LOD].Count;k++) {
+                Mesh meshLOD = tiles_LOD[LOD][k];
 			meshLOD.triangles = triangles;
 		}
 	}
@@ -368,7 +390,7 @@ Prepares the scene for offscreen rendering; spawns a camera we'll use for for
 temporary renderbuffers as well as the offscreen renderbuffers (one for
 reflection and one for refraction).
 */
-function SetupOffscreenRendering()
+public bool SetupOffscreenRendering()
 {
 	if (forceOriginalShader)
 		return false;
@@ -414,10 +436,10 @@ function SetupOffscreenRendering()
 	waterHeightTexture = new RenderTexture(128, 128, 16);
 	waterHeightTexture.wrapMode = TextureWrapMode.Clamp;
 	waterHeightTexture.isPowerOfTwo = true;
-	//waterHeightTexture.format = RenderTextureFormat.Depth;
-	
-	//Spawn the camera we'll use for offscreen rendering (refraction/reflection)
-	var cam : GameObject = new GameObject();
+        //waterHeightTexture.format = RenderTextureFormat.Depth;
+
+        //Spawn the camera we'll use for offscreen rendering (refraction/reflection)
+        GameObject cam = new GameObject();
 	cam.name = "DeepWaterOffscreenCam";
 	cam.transform.parent = transform;
 	offscreenCam = cam.AddComponent(typeof(Camera)) as Camera;
@@ -434,29 +456,29 @@ function SetupOffscreenRendering()
 	//Hack to make this object considered by the renderer - first make a plane
 	//covering the watertiles so we get a decent bounding box, then
 	//scale all the vertices to 0 to make it invisible.
-	gameObject.AddComponent(MeshRenderer);
+	gameObject.AddComponent<MeshRenderer>();
 		
-	renderer.material.renderQueue = 1001;
-	renderer.receiveShadows = false;
-	renderer.castShadows = false;
-	
-	var m : Mesh = new Mesh();
+	this.GetComponent<Renderer>().material.renderQueue = 1001;
+        this.GetComponent < Renderer>().receiveShadows = false;
+        this.GetComponent < Renderer>().shadowCastingMode = ShadowCastingMode.Off;
+
+        Mesh m = new Mesh();
+
+        var verts = new Vector3[4];
+        Vector2[] uv = new Vector2[4];
+        Vector3[] n  = new Vector3[4];
+        int[] tris  =  new int[6];
+
+        float minSizeX  = -1024;
+        float maxSizeX = 1024;
+
+        float minSizeY = -1024;
+        float maxSizeY = 1024;
 		
-	var verts : Vector3[] = new Vector3[4];
-	var uv : Vector2[] = new Vector2[4];
-	var n : Vector3[] = new Vector3[4];
-	var tris : int[] =  new int[6];
-		
-	var minSizeX : float = -1024;
-	var maxSizeX : float = 1024;
-	
-	var minSizeY : float = -1024;
-	var maxSizeY : float = 1024;
-		
-	verts[0] = new Vector3(minSizeX, 0.0, maxSizeY);
-	verts[1] = new Vector3(maxSizeX, 0.0, maxSizeY);
-	verts[2] = new Vector3(maxSizeX, 0.0, minSizeY);
-	verts[3] = new Vector3(minSizeX, 0.0, minSizeY);
+	verts[0] = new Vector3(minSizeX, 0.0f, maxSizeY);
+	verts[1] = new Vector3(maxSizeX, 0.0f, maxSizeY);
+	verts[2] = new Vector3(maxSizeX, 0.0f, minSizeY);
+	verts[3] = new Vector3(minSizeX, 0.0f, minSizeY);
 	
 	tris[0] = 0;
 	tris[1] = 1;
@@ -470,12 +492,12 @@ function SetupOffscreenRendering()
 	m.uv = uv;
 	m.normals = n;
 	m.triangles = tris;
-		
-		
-	var mfilter : MeshFilter = gameObject.GetComponent(MeshFilter);
+
+
+        MeshFilter mfilter = gameObject.GetComponent<MeshFilter>();
 		
 	if (mfilter == null)
-		mfilter = gameObject.AddComponent(MeshFilter);
+		mfilter = gameObject.AddComponent<MeshFilter>();
 		
 	mfilter.mesh = m;
 		
@@ -492,16 +514,16 @@ function SetupOffscreenRendering()
 	//Create the material and set up the texture references.
 	material = new Material(shader);
 	
-	texBump = Resources.Load("Ocean/Bump", Texture2D);
-	texFresnel = Resources.Load("Ocean/Fresnel", Texture2D);
-	texFoam = Resources.Load("Ocean/Foam", Texture2D);
+	texBump = Resources.Load<Texture2D>("Ocean/Bump");
+	texFresnel = Resources.Load<Texture2D>("Ocean/Fresnel");
+	texFoam = Resources.Load<Texture2D>("Ocean/Foam");
 	
 	material.SetTexture("_Reflection", reflectionTexture);
 	material.SetTexture("_Refraction", refractionTexture);
 	material.SetTexture ("_Bump", texBump);
 	material.SetTexture("_Fresnel", texFresnel);
 	material.SetTexture("_Foam", texFoam);
-	material.SetVector("_Size", new Vector4(size.x, size.y, size.z, 0.0));
+	material.SetVector("_Size", new Vector4(size.x, size.y, size.z, 0.0f));
 	
 	material.SetColor("_SurfaceColor", surfaceColor);	
 	material.SetColor("_WaterColor", waterColor);
@@ -523,7 +545,7 @@ function SetupOffscreenRendering()
 /*
 Delete the offscreen rendertextures on script shutdown.
 */
-function OnDisable()
+void OnDisable()
 {
 	if (reflectionTexture != null)
 		DestroyImmediate(reflectionTexture);
@@ -549,11 +571,11 @@ function OnDisable()
 }
 
 // Wave dispersion
-function disp (vec_k : Vector2) {
-	return Mathf.Sqrt (9.81 * vec_k.magnitude);
+public float disp (Vector2 vec_k) {
+	return Mathf.Sqrt (9.81f * vec_k.magnitude);
 }
 
-function OnGUI()
+void OnGUI()
 {
 	if (!showGUI)
 		return;
@@ -586,13 +608,13 @@ function OnGUI()
 
 	
 	GUI.Label(new Rect(10, 10, 100, 20), "Waveheight");
-	scale = GUI.HorizontalSlider(new Rect(120, 10, 200, 20), scale, 0.05, 3.0);
+	scale = GUI.HorizontalSlider(new Rect(120, 10, 200, 20), scale, 0.05f, 3.0f);
 		
 	GUI.Label(new Rect(10, 30, 100, 20), "Wave sharpness");
-	choppy_scale = GUI.HorizontalSlider(new Rect(120, 30, 200, 20), choppy_scale, 0.00, 10.0);
+	choppy_scale = GUI.HorizontalSlider(new Rect(120, 30, 200, 20), choppy_scale, 0.00f, 10.0f);
 		
 	GUI.Label(new Rect(10, 50, 100, 20), "Water dirtyness");
-	waterDirtyness = GUI.HorizontalSlider(new Rect(120, 50, 200, 20), waterDirtyness, 0.0, 0.1);
+	waterDirtyness = GUI.HorizontalSlider(new Rect(120, 50, 200, 20), waterDirtyness, 0.0f, 0.1f);
 	
 	GUI.Label(new Rect(10, 70, 300, 20), "Campos: " + Camera.main.gameObject.transform.position);
 	
@@ -605,7 +627,7 @@ function OnGUI()
 	useCameraRenderTexture = GUI.Toggle(new Rect(10, 190, 200, 20), useCameraRenderTexture, "Use camera render target");
 }
 
-function Update () 
+void Update () 
 {
 	if (Input.GetKeyDown(KeyCode.P))
 		Application.CaptureScreenshot("Screenshot.png");
@@ -618,8 +640,8 @@ function Update ()
 		
 	if (followMainCamera)
 	{
-		var campos : Vector3 = Camera.main.gameObject.transform.position;
-		var centerOffset : Vector3 = campos;
+            Vector3 campos = Camera.main.gameObject.transform.position;
+            Vector3 centerOffset = campos;
 	
 	
 		centerOffset.x = Mathf.Floor(campos.x/size.x) * size.x;
@@ -628,24 +650,34 @@ function Update ()
 	
 		transform.position = centerOffset;
 	}
-		
 
-	for (var y = 0;y<height;y++) {
+        int idx = 0;
+        int xc = 0;
+        int yc = 0;
+        Vector2 vec_k;
+        float iwkt = 0;
+        ComplexF coeffA;
+        ComplexF coeffB;
+
+        int nx = 0;
+        int ny = 0;
+
+        for (var y = 0;y<height;y++) {
 		for (var x = 0;x<width;x++) {
 			idx = width * y + x;
 			yc = y < height / 2 ? y : -height + y;
 			xc = x < width / 2 ? x : -width + x;
-			vec_k = Vector2 (2.0 * Mathf.PI * xc / size.x, 2.0 * Mathf.PI * yc / size.z);
+			vec_k = new Vector2 (2.0f * Mathf.PI * xc / size.x, 2.0f * Mathf.PI * yc / size.z);
 
-			var iwkt = disp(vec_k) * Time.time;
-			var coeffA = ComplexF (Mathf.Cos (iwkt), Mathf.Sin (iwkt));
-			var coeffB = coeffA.GetConjugate();
+			iwkt = disp(vec_k) * Time.time;
+                coeffA = new ComplexF (Mathf.Cos (iwkt), Mathf.Sin (iwkt));
+			coeffB = coeffA.GetConjugate();
 
 			ny = y > 0 ? height - y : 0;
 			nx = x > 0 ? width - x : 0;
 
 			data[idx] = h0[idx] * coeffA + h0[width * ny + nx].GetConjugate() * coeffB;				
-			t_x[idx] = data[idx] * ComplexF (0.0, vec_k.x) - data[idx] * vec_k.y;				
+			t_x[idx] = data[idx] * new ComplexF (0.0f, vec_k.x) - data[idx] * vec_k.y;				
 
 			// Choppy wave calcuations
 			if (x + y > 0)
@@ -660,7 +692,7 @@ function Update ()
 
 	// Get base values for vertices and uv coordinates.
 	if (baseHeight == null) {
-		var mesh : Mesh = baseMesh;
+            Mesh mesh = baseMesh;
 		baseHeight = mesh.vertices;
 		baseUV = mesh.uv;
 	
@@ -671,33 +703,36 @@ function Update ()
 		tangents = new Vector4[itemCount];
 	}
 
-	var vertex;
-	var uv;
-	var normal;
-	var n_scale = size.x / width / scale;	
+        Vector3[] vertex;
+        Vector2[] uv;
+        Vector3[] normal;
+	float n_scale = size.x / width / scale;
 
-	var scaleA = choppy_scale / (width * height);
-	var scaleB = scale / (width * height);
-	var scaleBinv = 1.0 / scaleB;
-	
-	for (i=0;i<width*height;i++) {
+        float scaleA = choppy_scale / (width * height);
+        float scaleB = scale / (width * height);
+        float scaleBinv = 1.0f / scaleB;
+
+        int iw = 0;
+	for (int i=0;i<width*height;i++) {
 		iw = i+i/width;
 		vertices[iw] = baseHeight[iw];
 		vertices[iw].x += data [i].Im * scaleA;
 		vertices[iw].y = data [i].Re * scaleB;
 
-		normals[iw] = Vector3 (t_x[i].Re, scaleBinv, t_x[i].Im).normalized;
+		normals[iw] = new Vector3 (t_x[i].Re, scaleBinv, t_x[i].Im).normalized;
 
-//		uv = baseUV[iw];
-//		uv.x = uv.x + Time.time * uv_speed;
-//		uvs[iw] = uv;
+            //		uv = baseUV[iw];
+            //		uv.x = uv.x + Time.time * uv_speed;
+            //		uvs[iw] = uv;
 
-		if (!((i+1) % width)) {
-			vertices[iw+1] = baseHeight[iw+1];
+            //if (!((i+1) % width)) {
+            if (((i + 1) % width) == 0)
+            {
+                vertices[iw+1] = baseHeight[iw+1];
 			vertices[iw+1].x += data [i+1-width].Im * scaleA;
 			vertices[iw+1].y = data [i+1-width].Re * scaleB;
 
-			normals[iw+1] = Vector3 (t_x[i+1-width].Re, scaleBinv, t_x[i+1-width].Im).normalized;
+			normals[iw+1] = new Vector3 (t_x[i+1-width].Re, scaleBinv, t_x[i+1-width].Im).normalized;
 
 //			uv = baseUV[iw+1];
 //			uv.x = uv.x + Time.time * uv_speed;
@@ -707,12 +742,12 @@ function Update ()
 
 	var offset = g_width*(g_height-1);
 
-	for (i=0;i<g_width;i++) {
+	for (int i=0;i<g_width;i++) {
 		vertices[i+offset] = baseHeight[i+offset];
 		vertices[i+offset].x += data [i%width].Im * scaleA;
 		vertices[i+offset].y = data [i%width].Re * scaleB;
 
-		normals[i+offset] = Vector3 (t_x[i%width].Re, scaleBinv, t_x[i%width].Im).normalized;
+		normals[i+offset] = new Vector3 (t_x[i%width].Re, scaleBinv, t_x[i%width].Im).normalized;
 
 //		uv = baseUV[i+offset];
 //		uv.x = uv.x - Time.time*uv_speed;
@@ -727,27 +762,27 @@ function Update ()
 	
 		waterCompositionMaterial.SetColor("_WaterColor", waterColor);
 	
-		for (i=0;i<g_width*g_height-1;i++) {
+		for (int i=0;i<g_width*g_height-1;i++) {
 			
 			//Need to preserve w in refraction/reflection mode
 			if (!reflectionRefractionEnabled)
 			{
 				if (((i+1) % g_width) == 0) {
-					tangents[i] = (vertices[i-width+1] + Vector3 (size.x, 0.0, 0.0) - vertices[i]).normalized;
+					tangents[i] = (vertices[i-width+1] + new Vector3 (size.x, 0.0f, 0.0f) - vertices[i]).normalized;
 				}
 				else {
 					tangents[i] = (vertices[i+1]-vertices[i]).normalized;
 				}
 			
-				tangents[i].w = 1.0;
+				tangents[i].w = 1.0f;
 			}
 			else
 			{
-				var tmp : Vector3 = Vector3.zero;
+                    Vector3 tmp = Vector3.zero;
 			
 				if (((i+1) % g_width) == 0) 
 				{
-					tmp = (vertices[i-width+1] + Vector3 (size.x, 0.0, 0.0) - vertices[i]).normalized;
+					tmp = (vertices[i-width+1] + new Vector3 (size.x, 0.0f, 0.0f) - vertices[i]).normalized;
 				}
 				else 
 				{
@@ -761,9 +796,9 @@ function Update ()
 		//In reflection mode, use tangent w for foam strength
 		if (reflectionRefractionEnabled)
 		{
-			for (y = 0; y < g_height; y++)
+			for (int y = 0; y < g_height; y++)
 			{
-				for (x = 0; x < g_width; x++)
+				for (int x = 0; x < g_width; x++)
 				{
 					if (x+1 >= g_width)
 					{
@@ -778,50 +813,50 @@ function Update ()
 						
 						continue;
 					}
-				
-					var right : Vector3 = vertices[(x+1) + g_width*y] - vertices[x + g_width*y];
-					var back : Vector3 = vertices[x + g_width*y] - vertices[x + g_width*(y+1)];
+
+                        Vector3 right = vertices[(x+1) + g_width*y] - vertices[x + g_width*y];
+                        Vector3 back = vertices[x + g_width*y] - vertices[x + g_width*(y+1)];
+
+                        float foam = right.x/(size.x/g_width);
 					
-					var foam : float = right.x/(size.x/g_width);
 					
-					
-					if (foam < 0.0)
+					if (foam < 0.0f)
 						tangents[x + g_width*y].w = 1;
 					else if (foam < 0.5)
-						tangents[x + g_width*y].w += 3.0 * Time.deltaTime;
+						tangents[x + g_width*y].w += 3.0f * Time.deltaTime;
 					else
-						tangents[x + g_width*y].w -= 0.4 * Time.deltaTime;
+						tangents[x + g_width*y].w -= 0.4f * Time.deltaTime;
 						
-					tangents[x + g_width*y].w = Mathf.Clamp(tangents[x + g_width*y].w, 0.0, 2.0);
+					tangents[x + g_width*y].w = Mathf.Clamp(tangents[x + g_width*y].w, 0.0f, 2.0f);
 				}
 			}
 		}
 	
-		tangents[g_width*g_height-1] = (vertices[g_width*g_height-1]+Vector3(size.x, 0.0, 0.0)-vertices[1]).normalized;
+		tangents[g_width*g_height-1] = (vertices[g_width*g_height-1]+ new Vector3(size.x, 0.0f, 0.0f)-vertices[1]).normalized;
 	}
 
 
-	for (LOD=0;LOD<max_LOD;LOD++) {
-		var den = Mathf.Pow(2,LOD);
-		var itemcount = (height/den+1) * (width/den+1);
-		
-		tangentsLOD = new Vector4[itemcount];
-		verticesLOD = new Vector3[itemcount];
-		normalsLOD = new Vector3[itemcount];
+	for (int LOD=0;LOD<max_LOD;LOD++) {
+		float den = Mathf.Pow(2,LOD);
+            int itemcount = (int)((height/den+1) * (width/den+1));
+
+            Vector4[] tangentsLOD = new Vector4[itemcount];
+            Vector3[] verticesLOD = new Vector3[itemcount];
+            Vector3[] normalsLOD = new Vector3[itemcount];
 //		uvLOD = new Vector2[(height/Mathf.Pow(2,LOD)+1) * (width/Mathf.Pow(2,LOD)+1)];
 		idx = 0;
 
-		for (y=0;y<g_height;y+=den) {
-			for (x=0;x<g_width;x+=den) {
-				idx2 = g_width * y + x;
+		for (int y=0;y<g_height;y+=(int)den) {
+			for (int x = 0;x<g_width;x+= (int)den) {
+				int idx2 = g_width * y + x;
 				verticesLOD[idx] = vertices[idx2];
 //				uvLOD[idx] = uvs[g_width * y + x];
 				tangentsLOD[idx] = tangents[idx2];
 				normalsLOD[idx++] = normals[idx2];
 			}			
 		}
-		for (k=0;k< (tiles_LOD[LOD] as Array).length ;k++) {
-			meshLOD = (tiles_LOD[LOD] as Array)[k] as Mesh;
+		for (int k=0;k< tiles_LOD[LOD].Count ;k++) {
+                Mesh meshLOD = tiles_LOD[LOD][k];
 			meshLOD.vertices = verticesLOD;
 			meshLOD.normals = normalsLOD;
 //			meshLOD.uv = uvLOD;
@@ -834,7 +869,7 @@ function Update ()
 Called when the object is about to be rendered. We render the refraction/reflection
 passes from here, since we only need to do it once per frame, not once per tile.
 */
-function OnWillRenderObject()
+void OnWillRenderObject()
 {
 	//Recursion guard, don't let the offscreen cam go into a never-ending loop.
 	if (Camera.current == offscreenCam
@@ -853,18 +888,18 @@ function OnWillRenderObject()
 Renders the wave height from above for use as a depth comparison map
 when blending over/underwater renders.
 */
-function RenderWaterDepth()
+public void RenderWaterDepth()
 {
 	if (!renderWaterDepth)
 		return;
 
 	depthCam.backgroundColor = Color.black;
-			
-			
-	var pos : Vector3 = Camera.current.gameObject.transform.position;
-	
-			
-	var waterMask : int = 1 << LayerMask.NameToLayer("Water");
+
+
+        Vector3 pos = Camera.current.gameObject.transform.position;
+
+
+        int waterMask = 1 << LayerMask.NameToLayer("Water");
 
 	depthCam.orthographic = true;
 			
@@ -872,7 +907,7 @@ function RenderWaterDepth()
 	//      too large, but it works for testing purposes and it makes it possible to see the
 	//      heightmap on the rendered output.
 	depthCam.orthographicSize = 50;
-	depthCam.aspect = 1.0;
+	depthCam.aspect = 1.0f;
 			
 	//NOTE: Changes to the 20 unit view distance MUST BE REFLECTED 
 	//      in WaterComposition and WaterHeight shaders! This is due
@@ -882,11 +917,11 @@ function RenderWaterDepth()
 	//      there will be a bit more work if the distance is to change.
 	//TODO: Fix the hack, or set this as a parameter to WaterComposition
 	//      and WaterHeight. This is left as an excercise for the reader.
-	depthCam.nearClipPlane = 0.0;
-	depthCam.farClipPlane = 20.0;
+	depthCam.nearClipPlane = 0.0f;
+	depthCam.farClipPlane = 20.0f;
 	
-	depthCam.transform.position = new Vector3(pos.x, transform.position.y + 10.0, pos.z);
-	depthCam.transform.eulerAngles = new Vector3(90.0, 0.0, 0.0);
+	depthCam.transform.position = new Vector3(pos.x, transform.position.y + 10.0f, pos.z);
+	depthCam.transform.eulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
 			
 	depthCam.targetTexture = waterHeightTexture;
 	depthCam.clearFlags = CameraClearFlags.SolidColor;
@@ -899,27 +934,27 @@ function RenderWaterDepth()
 Renders the reflection and refraction buffers using a second camera copying the current
 camera settings.
 */
-function RenderReflectionAndRefraction()
+public void RenderReflectionAndRefraction()
 {
-	var oldPixelLightCount : int = QualitySettings.pixelLightCount;
+        int oldPixelLightCount = QualitySettings.pixelLightCount;
 	QualitySettings.pixelLightCount = 0;
+
+
+        Camera renderCamera = Camera.current;
+
+        Matrix4x4 originalWorldToCam = renderCamera.worldToCameraMatrix;
+
+        int cullingMask = renderCamera.cullingMask & ~(1 << LayerMask.NameToLayer("Water"));
+
+        //Reflection pass
+        Matrix4x4 reflection = Matrix4x4.zero;
+
+        //TODO: Use local plane here, not global!
+
+        float d = -transform.position.y;
 	
 	
-	var renderCamera : Camera = Camera.current;
-			
-	var originalWorldToCam : Matrix4x4 = renderCamera.worldToCameraMatrix;
-		
-	var cullingMask : int = renderCamera.cullingMask & ~(1 << LayerMask.NameToLayer("Water"));
-		
-	//Reflection pass
-	var reflection : Matrix4x4 = Matrix4x4.zero;
-	
-	//TODO: Use local plane here, not global!
-	
-	var d : float = -transform.position.y;
-	
-	
-	CameraHelper.CalculateReflectionMatrix (reflection, new Vector4(0, 1, 0, d));
+	CameraHelper.CalculateReflectionMatrix (ref reflection, new Vector4(0, 1, 0, d));
 		
 	offscreenCam.transform.position = reflection.MultiplyPoint(renderCamera.transform.position);
 	offscreenCam.transform.rotation = renderCamera.transform.rotation;
@@ -931,17 +966,17 @@ function RenderReflectionAndRefraction()
 	
 	//Need to reverse face culling for reflection pass, since the camera
 	//is now flipped upside/down.
-	GL.SetRevertBackfacing (true);
-		
-	var cameraSpaceClipPlane : Vector4 = CameraHelper.CameraSpacePlane(offscreenCam, new Vector3(0.0, transform.position.y, 0.0), Vector3.up, 1.0);
-		
-	var projection : Matrix4x4 = renderCamera.projectionMatrix;
-	var obliqueProjection : Matrix4x4 = projection;
+	GL.invertCulling = true;
+
+        Vector4 cameraSpaceClipPlane = CameraHelper.CameraSpacePlane(offscreenCam, new Vector3(0.0f, transform.position.y, 0.0f), Vector3.up, 1.0f);
+
+        Matrix4x4 projection = renderCamera.projectionMatrix;
+        Matrix4x4 obliqueProjection = projection;
 	
 	offscreenCam.fieldOfView = renderCamera.fieldOfView;
 	offscreenCam.aspect = renderCamera.aspect;
 	
-	CameraHelper.CalculateObliqueMatrix (obliqueProjection, cameraSpaceClipPlane);
+	CameraHelper.CalculateObliqueMatrix (ref obliqueProjection, cameraSpaceClipPlane);
 	
 	//Do the actual render, with the near plane set as the clipping plane. See the
 	//pro water source for details.
@@ -953,15 +988,15 @@ function RenderReflectionAndRefraction()
 	offscreenCam.Render();
 	
 	
-	GL.SetRevertBackfacing (false);
+	GL.invertCulling = false;
 	
 	
 	
 	
 	//Refractionpass
-	var fog : boolean = RenderSettings.fog;
-	var fogColor : Color = RenderSettings.fogColor;
-	var fogDensity : float = RenderSettings.fogDensity;
+	bool fog = RenderSettings.fog;
+        Color fogColor  = RenderSettings.fogColor;
+        float fogDensity  = RenderSettings.fogDensity;
 		
 	RenderSettings.fog = true;
 	RenderSettings.fogColor = Color.grey;
@@ -981,8 +1016,8 @@ function RenderReflectionAndRefraction()
 	offscreenCam.worldToCameraMatrix = originalWorldToCam;
 	
 	
-	cameraSpaceClipPlane = CameraHelper.CameraSpacePlane(offscreenCam, Vector3.zero, Vector3.up, -1.0);
-	CameraHelper.CalculateObliqueMatrix (obliqueProjection, cameraSpaceClipPlane);
+	cameraSpaceClipPlane = CameraHelper.CameraSpacePlane(offscreenCam, Vector3.zero, Vector3.up, -1.0f);
+	CameraHelper.CalculateObliqueMatrix (ref obliqueProjection, cameraSpaceClipPlane);
 	offscreenCam.projectionMatrix = obliqueProjection;
 	
 	if (!renderRefraction)
@@ -998,14 +1033,14 @@ function RenderReflectionAndRefraction()
 		
 		
 	offscreenCam.targetTexture = null;
-	
-	//Do the passes for the underwater "effect" if the WaterPostEffect script is present on the
-	//current camera.
-	var wpe : WaterPostEffect = renderCamera.gameObject.GetComponent(WaterPostEffect) as WaterPostEffect;
+
+        //Do the passes for the underwater "effect" if the WaterPostEffect script is present on the
+        //current camera.
+        WaterPostEffect wpe = renderCamera.gameObject.GetComponent<WaterPostEffect>();
 		
 	if (wpe != null)
 	{
-		var waterMask : int = 1 << LayerMask.NameToLayer("Water");
+            int waterMask = 1 << LayerMask.NameToLayer("Water");
 		
 		
 		
@@ -1022,8 +1057,8 @@ function RenderReflectionAndRefraction()
 		offscreenCam.worldToCameraMatrix = originalWorldToCam;
 	
 	
-		cameraSpaceClipPlane = CameraHelper.CameraSpacePlane(offscreenCam, new Vector3(0.0, transform.position.y, 0.0), Vector3.up, 1.0);
-		CameraHelper.CalculateObliqueMatrix (obliqueProjection, cameraSpaceClipPlane);
+		cameraSpaceClipPlane = CameraHelper.CameraSpacePlane(offscreenCam, new Vector3(0.0f, transform.position.y, 0.0f), Vector3.up, 1.0f);
+		CameraHelper.CalculateObliqueMatrix (ref obliqueProjection, cameraSpaceClipPlane);
 		offscreenCam.projectionMatrix = obliqueProjection;
 	
 		if (!renderUnderwaterRefraction)
@@ -1043,7 +1078,7 @@ function RenderReflectionAndRefraction()
 		Shader.SetGlobalTexture("_UnderWaterRefraction", underwaterRefractionTexture);
 		Shader.SetGlobalTexture("_UnderWaterBump", texBump);
 		Shader.SetGlobalTexture("_Fresnel", texFresnel);
-		Shader.SetGlobalVector("_Size", new Vector4(size.x, size.y, size.z, 0.0));
+		Shader.SetGlobalVector("_Size", new Vector4(size.x, size.y, size.z, 0.0f));
 		
 		
 	
@@ -1058,8 +1093,8 @@ function RenderReflectionAndRefraction()
 		offscreenCam.transform.position = renderCamera.transform.position;
 		offscreenCam.transform.rotation = renderCamera.transform.rotation;
 		offscreenCam.fieldOfView = renderCamera.fieldOfView;
-		offscreenCam.nearClipPlane = 0.3;
-		offscreenCam.farClipPlane = 200.0;
+		offscreenCam.nearClipPlane = 0.3f;
+		offscreenCam.farClipPlane = 200.0f;
 				
 		offscreenCam.targetTexture = underwaterTexture;
 				
@@ -1068,9 +1103,9 @@ function RenderReflectionAndRefraction()
 			//First, draw only the water tiles with inverted normals and a custom, simplified
 			//shader, so we can see the surface from below as well.
 			offscreenCam.cullingMask = waterMask;
-			GL.SetRevertBackfacing (true);
+			GL.invertCulling = true;
 			offscreenCam.RenderWithShader(waterBelowShader, "");
-			GL.SetRevertBackfacing (false);
+			GL.invertCulling = false;
 			
 			offscreenCam.clearFlags = CameraClearFlags.Nothing;
 			offscreenCam.cullingMask = cullingMask & ~(waterMask);
@@ -1080,11 +1115,11 @@ function RenderReflectionAndRefraction()
 		RenderSettings.fog = fog;
 		RenderSettings.fogColor = fogColor;
 		RenderSettings.fogDensity = fogDensity;
-	
-	
-		var depthMV : Matrix4x4 = depthCam.worldToCameraMatrix;
-		
-		var MVP : Matrix4x4 = renderCamera.projectionMatrix * renderCamera.worldToCameraMatrix;
+
+
+            Matrix4x4 depthMV = depthCam.worldToCameraMatrix;
+
+            Matrix4x4 MVP  = renderCamera.projectionMatrix * renderCamera.worldToCameraMatrix;
 		
 		waterCompositionMaterial.SetMatrix("_DepthCamMV", depthMV);
 		waterCompositionMaterial.SetMatrix("_DepthCamProj", depthCam.projectionMatrix);

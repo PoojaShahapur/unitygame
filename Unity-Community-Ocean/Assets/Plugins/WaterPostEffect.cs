@@ -23,15 +23,15 @@ public class WaterPostEffect : MonoBehaviour
 	void OnRenderImage (RenderTexture source, RenderTexture destination) 
 	{	
 	
-		float nearClip = camera.nearClipPlane;
-		float angle = Mathf.Deg2Rad*(camera.fieldOfView/2.0f);
+		float nearClip = GetComponent<Camera>().nearClipPlane;
+		float angle = Mathf.Deg2Rad*(GetComponent<Camera>().fieldOfView/2.0f);
 				
 		float h = nearClip/Mathf.Cos(angle);
 		float k = Mathf.Sin(angle) * h;
 		
 				
 		Vector3 center = transform.position + transform.forward * nearClip * 1.01f;
-		Vector3 right = transform.right * camera.aspect * k  * 1.01f;
+		Vector3 right = transform.right * GetComponent<Camera>().aspect * k  * 1.01f;
 		Vector3 up = transform.up * k  * 1.01f;
 		
 		if (waterCompositionMaterial != null)
