@@ -39,7 +39,7 @@ namespace SDK.Lib
             m_autoDeriveVertexNormals = true;
             m_autoDeriveVertexTangents = true;
             m_autoGenerateUVs = false;
-            m_useFaceWeights = false;
+            m_useFaceWeights = true;
             m_vertexNormalsDirty = true;
             m_vertexTangentsDirty = true;
 
