@@ -15,7 +15,7 @@ private var engine = false;
 function Start () {
 	
 //	mag = rigidbody.mass / (ax * ay) * 10;
-	rigidbody.centerOfMass = Vector3 (0.0, -0.5, 0.0);
+	GetComponent.<Rigidbody>().centerOfMass = Vector3 (0.0, -0.5, 0.0);
 	
 	var bounds = GetComponent("MeshCollider").mesh.bounds.size;
 	var length = bounds.z;
@@ -49,15 +49,15 @@ function FixedUpdate () {
 		var blob = blobs[i];
 		if (blob != null) {
 		wpos = transform.TransformPoint (blob);
-	 	damp = rigidbody.GetPointVelocity(wpos).y;
+	 	damp = GetComponent.<Rigidbody>().GetPointVelocity(wpos).y;
 		if (ocean)
-			rigidbody.AddForceAtPosition (-Vector3.up * (mag * (wpos.y - ocean.GetWaterHeightAtLocation (wpos.x, wpos.z)) + dampCoeff*damp) , wpos);		
+			GetComponent.<Rigidbody>().AddForceAtPosition (-Vector3.up * (mag * (wpos.y - ocean.GetWaterHeightAtLocation (wpos.x, wpos.z)) + dampCoeff*damp) , wpos);		
 		else
-			rigidbody.AddForceAtPosition (-Vector3.up * (mag * (wpos.y ) + dampCoeff*damp) , wpos);		
+			GetComponent.<Rigidbody>().AddForceAtPosition (-Vector3.up * (mag * (wpos.y ) + dampCoeff*damp) , wpos);		
 		
 	}
 	if (engine)
-		rigidbody.AddForceAtPosition (transform.forward*40.0, transform.TransformPoint (Vector3 (0.0, -1.0, -7.5)));		
+		GetComponent.<Rigidbody>().AddForceAtPosition (transform.forward*40.0, transform.TransformPoint (Vector3 (0.0, -1.0, -7.5)));		
 	
 }
 

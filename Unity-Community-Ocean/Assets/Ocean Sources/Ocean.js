@@ -198,10 +198,10 @@ function Start ()
 			tile.transform.position.y = -2.0 * chDist;
 			tile.transform.position.z = cy * size.z;
 			tile.AddComponent(MeshFilter);
-			tile.AddComponent("MeshRenderer");
-			tile.renderer.material = material;
-			tile.renderer.receiveShadows = false;
-			tile.renderer.castShadows = false;
+			tile.AddComponent.<MeshRenderer>();
+			tile.GetComponent.<Renderer>().material = material;
+			tile.GetComponent.<Renderer>().receiveShadows = false;
+			tile.GetComponent.<Renderer>().castShadows = false;
 			
 			//Make child of this object, so we don't clutter up the
 			//scene hierarchy more than necessary.
@@ -436,9 +436,9 @@ function SetupOffscreenRendering()
 	//scale all the vertices to 0 to make it invisible.
 	gameObject.AddComponent(MeshRenderer);
 		
-	renderer.material.renderQueue = 1001;
-	renderer.receiveShadows = false;
-	renderer.castShadows = false;
+	GetComponent.<Renderer>().material.renderQueue = 1001;
+	GetComponent.<Renderer>().receiveShadows = false;
+	GetComponent.<Renderer>().castShadows = false;
 	
 	var m : Mesh = new Mesh();
 		
