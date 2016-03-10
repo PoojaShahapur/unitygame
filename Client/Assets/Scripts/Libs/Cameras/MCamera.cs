@@ -270,22 +270,22 @@ namespace SDK.Lib
             base.invalidateFrustum();
         }
 
-        public string ToString(ref MCamera c)
+        override public string ToString()
         {
             string o = "";
-            o += ("Camera(" + " pos=" + c.mPosition);
-            MVector3 dir = new MVector3(c.mOrientation * new MVector3(0, 0, -1));
-            o += (", direction=" + dir + ",near=" + c.mNearDist);
-            o += (", far=" + c.mFarDist + ", FOVy=" + c.mFOVy);
-            o += (", aspect=" + c.mAspect + ", ");
-            o += (", xoffset=" + c.mFrustumOffset.x + ", yoffset=" + c.mFrustumOffset.y);
-            o += (", focalLength=" + c.mFocalLength + ", ");
-            o += ("NearFrustumPlane=" + c.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_NEAR] + ", ");
-            o += ("FarFrustumPlane=" + c.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_FAR] + ", ");
-            o += ("LeftFrustumPlane=" + c.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_LEFT] + ", ");
-            o += ("RightFrustumPlane=" + c.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_RIGHT] + ", ");
-            o += ("TopFrustumPlane=" + c.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_TOP] + ", ");
-            o += ("BottomFrustumPlane=" + c.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_BOTTOM]);
+            o += ("Camera(" + " pos=" + this.mPosition);
+            MVector3 dir = new MVector3(this.mOrientation * new MVector3(0, 0, -1));
+            o += (", direction=" + dir + ",near=" + this.mNearDist);
+            o += (", far=" + this.mFarDist + ", FOVy=" + this.mFOVy);
+            o += (", aspect=" + this.mAspect + ", ");
+            o += (", xoffset=" + this.mFrustumOffset.x + ", yoffset=" + this.mFrustumOffset.y);
+            o += (", focalLength=" + this.mFocalLength + ", ");
+            o += ("NearFrustumPlane=" + this.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_NEAR] + ", ");
+            o += ("FarFrustumPlane=" + this.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_FAR] + ", ");
+            o += ("LeftFrustumPlane=" + this.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_LEFT] + ", ");
+            o += ("RightFrustumPlane=" + this.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_RIGHT] + ", ");
+            o += ("TopFrustumPlane=" + this.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_TOP] + ", ");
+            o += ("BottomFrustumPlane=" + this.mFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_BOTTOM]);
             o += (")");
 
             return o;

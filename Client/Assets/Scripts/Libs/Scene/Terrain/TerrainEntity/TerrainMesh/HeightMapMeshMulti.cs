@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
      * @brief 多个 Tile 的 HeightMapMesh
@@ -62,14 +64,12 @@
             this.addSubMesh(subMesh);
 
             // 生成 UV 坐标
-            MList<float> uvs = null;
+            Vector2[] uvs = null;
             MeshSplit.buildUVs(idx, idz, heightMap, terrainPageCfg, ref uvs);
             subGeometry.updateUVData(uvs);
 
-            // Ctx.m_instance.m_fileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
-
             // 生成顶点数据
-            MList<float> vertices = null;
+            Vector3[] vertices = null;
             if (!m_bCreateVertexIndexInOne)
             {
                 MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices, m_bInLocal);
@@ -78,7 +78,7 @@
             }
 
             // 生成索引数据
-            MList<int> indices = null;
+            int[] indices = null;
             if (!m_bCreateVertexIndexInOne)
             {
                 MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
@@ -95,8 +95,21 @@
                 subGeometry.updateIndexData(indices);
             }
 
+            // Ctx.m_instance.m_fileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
             //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
             //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
+
+            //if (1 == idx && 1 == idz)
+            //{
+            //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildVU" + idx + "_" + idz + ".txt", uvs);
+            //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildVertex" + idx + "_" + idz + ".txt", vertices);
+            //    Ctx.m_instance.m_fileSys.serializeArray<int>("A_buildIndex" + idx + "_" + idz + ".txt", indices, 3);
+
+            //    Vector3[] normals = subGeometry.getVertexNormalsData();
+            //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildNormal" + idx + "_" + idz + ".txt", normals);
+            //    Vector4[] tangents = subGeometry.getVertexTangentsData();
+            //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildTangent" + idx + "_" + idz + ".txt", tangents);
+            //}
 
             // 移动到正确的位置
             int tileWidth = terrainPageCfg.getTileWorldWidth();

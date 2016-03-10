@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
      * @brief 高度地形 Mesh
@@ -291,8 +293,8 @@
          */
 		private void buildGeometry()
 		{
-            MList<float> vertices;
-			MList<int> indices;
+            Vector3[] vertices;
+			int[] indices;
 			float x = 0, z = 0;
             uint numInds = 0;
             int baseIdx = 0;
@@ -310,31 +312,9 @@
 			}
             else
             {
-				vertices = new MList<float>(numVerts * 3); // 顶点的数量
-				indices = new MList<int>(m_segmentsH * m_segmentsW * 6);  // 索引的数量
+				vertices = new Vector3[numVerts]; // 顶点的数量
+				indices = new int[m_segmentsH * m_segmentsW * 6];  // 索引的数量
 			}
-
-            numVerts = 0;
-            // 初始化
-            for (int zi = 0; zi <= m_segmentsH; ++zi)
-            {
-                for (int xi = 0; xi <= m_segmentsW; ++xi)
-                {
-                    vertices.Add(0);
-                    vertices.Add(0);
-                    vertices.Add(0);
-
-                    if (xi != m_segmentsW && zi != m_segmentsH)
-                    {
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                    }
-                }
-            }
 
             numVerts = 0;
             uint col = 0;
@@ -352,20 +332,24 @@
                     col = (uint)(m_heightMap.getPixel((int)u, (int)v)) & 0xff;
 					y = (col > m_maxHeight) ? ((float)m_maxHeight / 0xff)* m_height : ((col < m_minHeight) ? ((float)m_minHeight / 0xff) * m_height : ((float)col / 0xff) * m_height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
-                    vertices[numVerts++] = x;
-					vertices[numVerts++] = y;
-					vertices[numVerts++] = z;
-					
-					if (xi != m_segmentsW && zi != m_segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
+                    vertices[numVerts].x = x;
+					vertices[numVerts].y = y;
+					vertices[numVerts].z = z;
+
+                    ++numVerts;
+
+                    if (xi != m_segmentsW && zi != m_segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
                     {
 						baseIdx = xi + zi* tw;
-                        indices[(int)numInds++] = baseIdx;
-						indices[(int)numInds++] = baseIdx + tw;
-						indices[(int)numInds++] = baseIdx + tw + 1;
-						indices[(int)numInds++] = baseIdx;
-						indices[(int)numInds++] = baseIdx + tw + 1;
-						indices[(int)numInds++] = baseIdx + 1;
-					}
+                        indices[(int)numInds] = baseIdx;
+						indices[(int)numInds + 1] = baseIdx + tw;
+						indices[(int)numInds + 2] = baseIdx + tw + 1;
+						indices[(int)numInds + 3] = baseIdx;
+						indices[(int)numInds + 4] = baseIdx + tw + 1;
+						indices[(int)numInds + 5] = baseIdx + 1;
+
+                        numInds += 6;
+                    }
 				}
 			}
 			
@@ -383,27 +367,16 @@
 		 */
 		private void buildUVs()
 		{
-            MList<float> uvs = null;
-            int numUvs = (m_segmentsH + 1)*(m_segmentsW + 1)*2;
+            Vector2[] uvs = null;
+            int numUvs = (m_segmentsH + 1)*(m_segmentsW + 1);
 
-            if (m_subGeometry.getUVData() != null && numUvs == m_subGeometry.getUVData().length())
+            if (m_subGeometry.getUVData() != null && numUvs == m_subGeometry.getUVData().Length)
             {
                 uvs = m_subGeometry.getUVData();
             }
             else
             {
-                uvs = new MList<float>(numUvs);
-            }
-			
-			numUvs = 0;
-            // 初始化，遍历范围 [0, m_segmentsH] * [0, m_segmentsW]
-            for (uint yi = 0; yi <= m_segmentsH; ++yi)
-            {
-                for (uint xi = 0; xi <= m_segmentsW; ++xi)
-                {
-                    uvs.Add(0);
-                    uvs.Add(0);
-                }
+                uvs = new Vector2[numUvs];
             }
 
             // 计算 UV
@@ -412,8 +385,10 @@
             {
 				for (uint xi = 0; xi <= m_segmentsW; ++xi) 
                 {
-					uvs[numUvs++] = (float)xi / m_segmentsW;
-					uvs[numUvs++] = 1 - (float)yi / m_segmentsH;    // UV 坐标的 Y 轴是向下的，而顶点的 Z 轴是向上的，因此需要使用 1 - (float)yi / m_segmentsH 获取正确的值
+					uvs[numUvs].x = (float)xi / m_segmentsW;
+					uvs[numUvs].y = 1 - (float)yi / m_segmentsH;    // UV 坐标的 Y 轴是向下的，而顶点的 Z 轴是向上的，因此需要使用 1 - (float)yi / m_segmentsH 获取正确的值
+
+                    ++numUvs;
                 }
 			}
 			

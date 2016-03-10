@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
      * @brief 这个是简单的 SubGeometry 显示
@@ -15,7 +17,7 @@
             this.setAutoDeriveVertexNormals(true);
             this.setAutoDeriveVertexTangents(true);
 
-            MList<float> vertices = new MList<float>();
+            Vector3[] vertices = new Vector3[4];
 
             // 第一次填充这个值，这是一条直线，不显示的
             //vertices.Add(1, 1, 1);
@@ -23,22 +25,27 @@
             //vertices.Add(3, 3, 3);
             //vertices.Add(4, 4, 4);
 
-            vertices.Add(0, 0, 0);
-            vertices.Add(1, 0, 0);
-            vertices.Add(0, 1, 0);
-            vertices.Add(1, 1, 0);
+            vertices[0] = new Vector3(0, 0, 0);
+            vertices[1] = new Vector3(1, 0, 0);
+            vertices[2] = new Vector3(0, 1, 0);
+            vertices[3] = new Vector3(1, 1, 0);
             this.updateVertexData(vertices);
 
-            MList<int> indexs = new MList<int>();
-            indexs.Add(0, 1, 2);
-            indexs.Add(1, 3, 2);
+            int[] indexs = new int[6];
+            indexs[0] = 0;
+            indexs[1] = 1;
+            indexs[2] = 2;
+
+            indexs[3] = 1;
+            indexs[4] = 3;
+            indexs[5] = 2;
             this.updateIndexData(indexs);
 
-            MList<float> uvs = new MList<float>();
-            uvs.Add(0, 0);
-            uvs.Add(1, 0);
-            uvs.Add(0, 1);
-            uvs.Add(1, 1);
+            Vector2[] uvs = new Vector2[4];
+            uvs[0] = new Vector2(0, 0);
+            uvs[1] = new Vector2(1, 0);
+            uvs[2] = new Vector2(0, 1);
+            uvs[3] = new Vector2(1, 1);
             this.updateUVData(uvs);
 
             MList<float> cols = new MList<float>();

@@ -9,11 +9,11 @@ namespace SDK.Lib
     public class MSubGeometryBase : MISubGeometry
     {
         protected MGeometry m_parentGeometry;
-        protected MList<float> m_vertexData;
+        protected Vector3[] m_vertexData;
         protected bool m_faceNormalsDirty;
         protected bool m_faceTangentsDirty;
-        protected MList<float> m_faceTangents;
-        protected MList<int> m_indices;
+        protected Vector3[] m_faceTangents;
+        protected int[] m_indices;
         protected uint m_numIndices;
         protected MList<Boolean> m_indicesInvalid;
         protected uint m_numTriangles;
@@ -25,8 +25,8 @@ namespace SDK.Lib
         protected bool m_vertexNormalsDirty;
         protected bool m_vertexTangentsDirty;
 
-        protected MList<float> m_faceNormals;
-        protected MList<float> m_faceWeights;
+        protected Vector3[] m_faceNormals;
+        protected float[] m_faceWeights;
 
         protected bool m_uvsDirty = true;
 
@@ -62,24 +62,9 @@ namespace SDK.Lib
         /**
          * @brief 获取顶点数据
          */
-        public MList<float> getVertexData()
+        public Vector3[] getVertexData()
         {
             return m_vertexData;
-        }
-
-        /**
-         * @brief 获取顶点向量数据
-         */
-        public Vector3[] getVertexDataArray()
-        {
-            Vector3[] vertexVec = new Vector3[getVertexDataCount()];        // 必然是 3 个
-            int idxVec = 0;
-            for (int idx = 0; idx < m_vertexData.length(); idx += getVertexStride(), ++idxVec)
-            {
-                vertexVec[idxVec] = new Vector3(m_vertexData[idx], m_vertexData[idx + 1], m_vertexData[idx + 2]);
-            }
-
-            return vertexVec;
         }
 
         /**
@@ -87,13 +72,13 @@ namespace SDK.Lib
          */
         public int getVertexDataCount()
         {
-            return m_vertexData.length() / getVertexStride();
+            return m_vertexData.Length / getVertexStride();
         }
 
         /**
 		 * @brief 获取索引数据
 		 */
-        public MList<int> getIndexData()
+        public int[] getIndexData()
         {
             return m_indices;
         }
@@ -103,13 +88,13 @@ namespace SDK.Lib
          */
         public int getTriangleCount()
         {
-            return m_indices.length() / 3;
+            return m_indices.Length / 3;
         }
 
         /**
          * @brief 获取法线数据
          */
-        virtual public MList<float> getVertexNormalsData()
+        virtual public Vector3[] getVertexNormalsData()
         {
             throw new Exception();
         }
@@ -117,7 +102,7 @@ namespace SDK.Lib
         /**
          * @brief 获取切线数据
          */
-        virtual public MList<float> getVertexTangentsData()
+        virtual public Vector4[] getVertexTangentsData()
         {
             throw new Exception();
         }
@@ -160,14 +145,6 @@ namespace SDK.Lib
             throw new Exception();
         }
 
-        /**
-         * @brief 获取顶点法线数组
-         */
-        virtual public Vector3[] getVertexNormalArray()
-        {
-            throw new Exception();
-        }
-
         virtual public uint getVertexNormalStride()
         {
             throw new Exception();
@@ -184,15 +161,7 @@ namespace SDK.Lib
         /**
          * @brief 获取 UV 数据
          */
-        virtual public MList<float> getUVData()
-        {
-            throw new Exception();
-        }
-
-        /**
-         * @brief 获取 UV 数组数据
-         */
-        virtual public Vector2[] getUVDataArray()
+        virtual public Vector2[] getUVData()
         {
             throw new Exception();
         }
@@ -203,14 +172,6 @@ namespace SDK.Lib
         }
 
         virtual public int getUVOffset()
-        {
-            throw new Exception();
-        }
-
-        /**
-         * @brief 获取顶点切线数组
-         */
-        virtual public Vector4[] getVertexTangentArray()
         {
             throw new Exception();
         }
@@ -256,7 +217,7 @@ namespace SDK.Lib
         {
             uint i = 0;
             int index1 = 0, index2 = 0, index3 = 0;
-            uint len = (uint)m_indices.length();
+            uint len = (uint)m_indices.Length;
             uint ui = 0, vi = 0;
             float v0 = 0;
             float dv1 = 0, dv2 = 0;
@@ -265,8 +226,8 @@ namespace SDK.Lib
             float dx1 = 0, dy1 = 0, dz1 = 0;
             float dx2 = 0, dy2 = 0, dz2 = 0;
             float cx = 0, cy = 0, cz = 0;
-            MList<float> vertices = m_vertexData;
-            MList<float> uvs = getUVData();
+            Vector3[] vertices = m_vertexData;
+            Vector2[] uvs = getUVData();
             int posStride = (int)getVertexStride();
             int posOffset = getVertexOffset();
             int texStride = (int)getUVStride();
@@ -274,18 +235,7 @@ namespace SDK.Lib
 
             if (m_faceTangents == null)
             {
-                m_faceTangents = new MList<float>(m_indices.length());
-            }
-
-            // 初始化
-            i = 0;
-            while (i < len)
-            {
-                m_faceTangents.Add(0);
-                m_faceTangents.Add(0);
-                m_faceTangents.Add(0);
-
-                i += 3;
+                m_faceTangents = new Vector3[m_indices.Length/3];
             }
 
             i = 0;
@@ -295,33 +245,35 @@ namespace SDK.Lib
                 index2 = m_indices[(int)i + 1];
                 index3 = m_indices[(int)i + 2];
 
-                ui = (uint)(texOffset + index1 * texStride + 1);
-                v0 = uvs[(int)ui];
-                ui = (uint)(texOffset + index2 * texStride + 1);
-                dv1 = uvs[(int)ui] - v0;
-                ui = (uint)(texOffset + index3 * texStride + 1);
-                dv2 = uvs[(int)ui] - v0;
+                ui = (uint)(texOffset + index1 * texStride);
+                v0 = uvs[(int)ui].y;
+                ui = (uint)(texOffset + index2 * texStride);
+                dv1 = uvs[(int)ui].y - v0;
+                ui = (uint)(texOffset + index3 * texStride);
+                dv2 = uvs[(int)ui].y - v0;
 
                 vi = (uint)(posOffset + index1 * posStride);
-                x0 = vertices[(int)vi];
-                y0 = vertices[(int)(vi + 1)];
-                z0 = vertices[(int)(vi + 2)];
+                x0 = vertices[(int)vi].x;
+                y0 = vertices[(int)vi].y;
+                z0 = vertices[(int)vi].z;
                 vi = (uint)(posOffset + index2 * posStride);
-                dx1 = vertices[(int)(vi)] - x0;
-                dy1 = vertices[(int)(vi + 1)] - y0;
-                dz1 = vertices[(int)(vi + 2)] - z0;
+                dx1 = vertices[(int)(vi)].x - x0;
+                dy1 = vertices[(int)(vi)].y - y0;
+                dz1 = vertices[(int)(vi)].z - z0;
                 vi = (uint)(posOffset + index3 * posStride);
-                dx2 = vertices[(int)(vi)] - x0;
-                dy2 = vertices[(int)(vi + 1)] - y0;
-                dz2 = vertices[(int)(vi + 2)] - z0;
+                dx2 = vertices[(int)(vi)].x - x0;
+                dy2 = vertices[(int)(vi)].y - y0;
+                dz2 = vertices[(int)(vi)].z - z0;
 
                 cx = dv2 * dx1 - dv1 * dx2;
                 cy = dv2 * dy1 - dv1 * dy2;
                 cz = dv2 * dz1 - dv1 * dz2;
                 denom = (float)(1 / UtilMath.Sqrt(cx * cx + cy * cy + cz * cz));
-                m_faceTangents[(int)i++] = denom * cx;
-                m_faceTangents[(int)i++] = denom * cy;
-                m_faceTangents[(int)i++] = denom * cz;
+                m_faceTangents[(int)i/3].x = denom * cx;
+                m_faceTangents[(int)i/3].y = denom * cy;
+                m_faceTangents[(int)i/3].z = denom * cz;
+
+                i += 3;     // 移动 3 个顶点，就是一个面
             }
 
             m_faceTangentsDirty = false;
@@ -334,7 +286,7 @@ namespace SDK.Lib
         {
             uint i = 0, j = 0, k = 0;
             uint index = 0;
-            uint len = (uint)m_indices.length();         // 三角形索引的数量， len/3 就是面的数量，一个三角形有 3 个顶点
+            uint len = (uint)m_indices.Length;         // 三角形索引的数量， len/3 就是面的数量，一个三角形有 3 个顶点
             float x1 = 0, x2 = 0, x3 = 0;
             float y1 = 0, y2 = 0, y3 = 0;
             float z1 = 0, z2 = 0, z3 = 0;
@@ -342,32 +294,20 @@ namespace SDK.Lib
             float dx2 = 0, dy2 = 0, dz2 = 0;
             float cx = 0, cy = 0, cz = 0;
             float d = 0;
-            MList<float> vertices = m_vertexData;
+            Vector3[] vertices = m_vertexData;
             int posStride = (int)getVertexStride();
             int posOffset = getVertexOffset();
 
             if (m_faceNormals == null)
             {
-                m_faceNormals = new MList<float>((int)len);
+                m_faceNormals = new Vector3[(int)len/3];
             }
             if (m_useFaceWeights)
             {
                 if (m_faceWeights == null)
                 {
-                    m_faceWeights = new MList<float>((int)len / 3);         // len / 3 面的数量
+                    m_faceWeights = new float[(int)len / 3];         // len / 3 面的数量
                 }
-            }
-
-            // 初始化
-            i = 0;
-            j = 0;
-            while (i < len)
-            {
-                m_faceNormals.Add(0);
-                m_faceNormals.Add(0);
-                m_faceNormals.Add(0);
-
-                i += 3;
             }
 
             i = 0;
@@ -375,18 +315,18 @@ namespace SDK.Lib
             // 每一次遍历就是一个面， 3 个顶点
             while (i < len)
             {
-                index = (uint)(posOffset + m_indices[(int)i++] * posStride);
-                x1 = vertices[(int)index];
-                y1 = vertices[(int)index + 1];
-                z1 = vertices[(int)index + 2];
-                index = (uint)(posOffset + m_indices[(int)i++] * posStride);
-                x2 = vertices[(int)index];
-                y2 = vertices[(int)index + 1];
-                z2 = vertices[(int)index + 2];
-                index = (uint)(posOffset + m_indices[(int)i++] * posStride);
-                x3 = vertices[(int)index];
-                y3 = vertices[(int)index + 1];
-                z3 = vertices[(int)index + 2];
+                index = (uint)(posOffset + m_indices[(int)i] * posStride);
+                x1 = vertices[(int)index].x;
+                y1 = vertices[(int)index].y;
+                z1 = vertices[(int)index].z;
+                index = (uint)(posOffset + m_indices[(int)i+1] * posStride);
+                x2 = vertices[(int)index].x;
+                y2 = vertices[(int)index].y;
+                z2 = vertices[(int)index].z;
+                index = (uint)(posOffset + m_indices[(int)i+2] * posStride);
+                x3 = vertices[(int)index].x;
+                y3 = vertices[(int)index].y;
+                z3 = vertices[(int)index].z;
                 dx1 = x3 - x1;
                 dy1 = y3 - y1;
                 dz1 = z3 - z1;
@@ -405,12 +345,16 @@ namespace SDK.Lib
                     {
                         w = 1;          // 至少等于 1
                     }
-                    m_faceWeights[(int)k++] = w;
+                    m_faceWeights[(int)k] = w;
                 }
                 d = 1 / d;
-                m_faceNormals[(int)j++] = cx * d;
-                m_faceNormals[(int)j++] = cy * d;
-                m_faceNormals[(int)j++] = cz * d;
+                m_faceNormals[(int)j].x = cx * d;
+                m_faceNormals[(int)j].y = cy * d;
+                m_faceNormals[(int)j].z = cz * d;
+
+                i += 3;     // 移动到下一个顶点
+                ++j;        // 下一个面
+                ++k;        // 下一个面
             }
 
             m_faceNormalsDirty = false;
@@ -421,7 +365,7 @@ namespace SDK.Lib
         /**
          * @brief 更新顶点法向量
          */
-        virtual protected MList<float> updateVertexNormals(MList<float> target)
+        virtual protected Vector3[] updateVertexNormals(Vector3[] target)
         {
             if (m_faceNormalsDirty)
             {
@@ -430,64 +374,59 @@ namespace SDK.Lib
 
             uint v1 = 0;
             uint f1 = 0, f2 = 1, f3 = 2;
-            uint lenV = (uint)m_vertexData.length();
+            uint lenV = (uint)m_vertexData.Length;
             int normalStride = (int)getVertexNormalStride();
             int normalOffset = getVertexNormalOffset();
 
             if (target == null)
             {
-                target = new MList<float>((int)lenV);
-            }
-            v1 = (uint)normalOffset;
-            // 初始化向量
-            while (v1 < lenV)
-            {
-                //target[(int)v1] = 0.0f;
-                //target[(int)v1 + 1] = 0.0f;
-                //target[(int)v1 + 2] = 0.0f;
-                target.Add(0);
-                target.Add(0);
-                target.Add(0);
-                v1 += (uint)normalStride;
+                target = new Vector3[((int)lenV)];
             }
 
             uint i = 0, k = 0;
-            uint lenI = (uint)m_indices.length();
+            uint lenI = (uint)m_indices.Length;
             uint index = 0;
             float weight = 0;
 
             // 计算未经单位化的顶点法向量
             while (i < lenI)
             {
-                weight = m_useFaceWeights ? m_faceWeights[(int)k++] : 1;
-                index = (uint)(normalOffset + m_indices[(int)i++] * normalStride);
-                target[(int)index++] += m_faceNormals[(int)f1] * weight;
-                target[(int)index++] += m_faceNormals[(int)f2] * weight;
-                target[(int)index] += m_faceNormals[(int)f3] * weight;
-                index = (uint)(normalOffset + m_indices[(int)i++] * normalStride);
-                target[(int)index++] += m_faceNormals[(int)f1] * weight;
-                target[(int)index++] += m_faceNormals[(int)f2] * weight;
-                target[(int)index] += m_faceNormals[(int)f3] * weight;
-                index = (uint)(normalOffset + m_indices[(int)i++] * normalStride);
-                target[(int)index++] += m_faceNormals[(int)f1] * weight;
-                target[(int)index++] += m_faceNormals[(int)f2] * weight;
-                target[(int)index] += m_faceNormals[(int)f3] * weight;
-                f1 += 3;
-                f2 += 3;
-                f3 += 3;
+                weight = m_useFaceWeights ? m_faceWeights[(int)k] : 1;
+                index = (uint)(normalOffset + m_indices[(int)i] * normalStride);
+                target[(int)index].x += m_faceNormals[(int)f1].x * weight;
+                target[(int)index].y += m_faceNormals[(int)f1].y * weight;
+                target[(int)index].z += m_faceNormals[(int)f1].z * weight;
+                index = (uint)(normalOffset + m_indices[(int)i + 1] * normalStride);
+                target[(int)index].x += m_faceNormals[(int)f1].x * weight;
+                target[(int)index].y += m_faceNormals[(int)f1].y * weight;
+                target[(int)index].z += m_faceNormals[(int)f1].z * weight;
+                index = (uint)(normalOffset + m_indices[(int)i + 2] * normalStride);
+                if(index >= target.Length)
+                {
+                    Debug.Log("aa");
+                }
+                target[(int)index].x += m_faceNormals[(int)f1].x * weight;
+                target[(int)index].y += m_faceNormals[(int)f1].y * weight;
+                target[(int)index].z += m_faceNormals[(int)f1].z * weight;
+
+                i += 3;
+                ++k;
+                ++f1;
+                ++f2;
+                ++f3;
             }
 
             v1 = (uint)normalOffset;
             // 顶点法向量单位化
             while (v1 < lenV)
             {
-                float vx = target[(int)v1];
-                float vy = target[(int)v1 + 1];
-                float vz = target[(int)v1 + 2];
+                float vx = target[(int)v1].x;
+                float vy = target[(int)v1].y;
+                float vz = target[(int)v1].z;
                 float d = (float)(1.0 / UtilMath.Sqrt(vx * vx + vy * vy + vz * vz));
-                target[(int)v1] = vx * d;
-                target[(int)v1 + 1] = vy * d;
-                target[(int)v1 + 2] = vz * d;
+                target[(int)v1].x = vx * d;
+                target[(int)v1].y = vy * d;
+                target[(int)v1].z = vz * d;
                 v1 += (uint)normalStride;
             }
 
@@ -499,7 +438,7 @@ namespace SDK.Lib
         /**
          * @brief 更新顶点切线
          */
-        virtual protected MList<float> updateVertexTangents(MList<float> target)
+        virtual protected Vector4[] updateVertexTangents(Vector4[] target)
         {
             if (m_faceTangentsDirty)
             {
@@ -507,30 +446,17 @@ namespace SDK.Lib
             }
 
             uint i = 0;
-            uint lenV = (uint)m_vertexData.length();
+            uint lenV = (uint)m_vertexData.Length;
             int tangentStride = (int)getVertexTangentStride();
             int tangentOffset = (int)getVertexTangentOffset();
 
             if (target == null)
             {
-                target = new MList<float>((int)lenV);
-            }
-
-            i = (uint)tangentOffset;
-            // 初始化切线缓冲区
-            while (i < lenV)
-            {
-                //target[(int)i] = 0.0f;
-                //target[(int)i + 1] = 0.0f;
-                //target[(int)i + 2] = 0.0f;
-                target.Add(0);
-                target.Add(0);
-                target.Add(0);
-                i += (uint)tangentStride;
+                target = new Vector4[((int)lenV)];
             }
 
             uint k = 0;
-            uint lenI = (uint)m_indices.length();
+            uint lenI = (uint)m_indices.Length;
             uint index = 0;
             float weight = 0;
             uint f1 = 0, f2 = 1, f3 = 2;
@@ -539,34 +465,41 @@ namespace SDK.Lib
 
             while (i < lenI)
             {
-                weight = m_useFaceWeights ? m_faceWeights[(int)k++] : 1;
-                index = (uint)(tangentOffset + m_indices[(int)i++] * tangentStride);
-                target[(int)index++] += m_faceTangents[(int)f1] * weight;
-                target[(int)index++] += m_faceTangents[(int)f2] * weight;
-                target[(int)index] += m_faceTangents[(int)f3] * weight;
-                index = (uint)(tangentOffset + m_indices[(int)i++] * tangentStride);
-                target[(int)index++] += m_faceTangents[(int)f1] * weight;
-                target[(int)index++] += m_faceTangents[(int)f2] * weight;
-                target[(int)index] += m_faceTangents[(int)f3] * weight;
-                index = (uint)(tangentOffset + m_indices[(int)i++] * tangentStride);
-                target[(int)index++] += m_faceTangents[(int)f1] * weight;
-                target[(int)index++] += m_faceTangents[(int)f2] * weight;
-                target[(int)index] += m_faceTangents[(int)f3] * weight;
-                f1 += 3;
-                f2 += 3;
-                f3 += 3;
+                weight = m_useFaceWeights ? m_faceWeights[(int)k] : 1;
+                index = (uint)(tangentOffset + m_indices[(int)i] * tangentStride);
+                target[(int)index].x += m_faceTangents[(int)f1].x * weight;
+                target[(int)index].y += m_faceTangents[(int)f1].y * weight;
+                target[(int)index].z += m_faceTangents[(int)f1].z * weight;
+                target[(int)index].w = 0;
+                index = (uint)(tangentOffset + m_indices[(int)i + 1] * tangentStride);
+                target[(int)index].x += m_faceTangents[(int)f1].x * weight;
+                target[(int)index].y += m_faceTangents[(int)f1].y * weight;
+                target[(int)index].z += m_faceTangents[(int)f1].z * weight;
+                target[(int)index].w = 0;
+                index = (uint)(tangentOffset + m_indices[(int)i + 2] * tangentStride);
+                target[(int)index].x += m_faceTangents[(int)f1].x * weight;
+                target[(int)index].y += m_faceTangents[(int)f1].y * weight;
+                target[(int)index].z += m_faceTangents[(int)f1].z * weight;
+                target[(int)index].w = 0;
+
+                i += 3;
+                ++k;
+                index += 3;
+                f1 += 1;
+                f2 += 1;
+                f3 += 1;
             }
 
             i = (uint)tangentOffset;
             while (i < lenV)
             {
-                float vx = target[(int)i];
-                float vy = target[(int)i + 1];
-                float vz = target[(int)i + 2];
+                float vx = target[(int)i].x;
+                float vy = target[(int)i].y;
+                float vz = target[(int)i].z;
                 float d = (float)(1.0 / UtilMath.Sqrt(vx * vx + vy * vy + vz * vz));
-                target[(int)i] = vx * d;
-                target[(int)i + 1] = vy * d;
-                target[(int)i + 2] = vz * d;
+                target[(int)i].x = vx * d;
+                target[(int)i].y = vy * d;
+                target[(int)i].z = vz * d;
                 i += (uint)tangentStride;
             }
 
@@ -575,28 +508,28 @@ namespace SDK.Lib
             return target;
         }
 
-        virtual protected MList<float> updateDummyUVs(MList<float> target)
+        virtual protected Vector2[] updateDummyUVs(Vector2[] target)
         {
             m_uvsDirty = false;
 
             uint idx = 0, uvIdx = 0;
             int stride = (int)getUVStride();
-            int skip = stride - 2;
-            uint len = (uint)(m_vertexData.length() / getVertexStride() * stride);
+            int skip = stride - 1;
+            uint len = (uint)(m_vertexData.Length / getVertexStride() * stride);
 
             if (target == null)
             {
-                target = new MList<float>();
+                target = new Vector2[(int)len];
             }
-
-            target.setLength((int)len);
 
             idx = (uint)getUVOffset();
             uvIdx = 0;
             while (idx < len)
             {
-                target[(int)idx++] = (float)(uvIdx * 0.5);
-                target[(int)idx++] = (float)(1.0 - (uvIdx & 1));
+                target[(int)idx].x = (float)(uvIdx * 0.5);
+                target[(int)idx].y = (float)(1.0 - (uvIdx & 1));
+
+                ++idx;
                 idx += (uint)skip;
 
                 if (++uvIdx == 3)
@@ -608,10 +541,10 @@ namespace SDK.Lib
             return target;
         }
 
-        public void updateIndexData(MList<int> indices)
+        public void updateIndexData(int[] indices)
         {
             m_indices = indices;
-            m_numIndices = (uint)(indices.length());
+            m_numIndices = (uint)(indices.Length);
 
             int numTriangles = (int)(m_numIndices / 3);
             if (m_numTriangles != numTriangles)
