@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
      * @brief Mesh 分割
@@ -9,7 +11,7 @@
          * @brief 生成顶点数据，注意这个顶点数据在局部空间已经移动到具体的位置了
          * @param inLocal 是否是在局部空间中生成数据
          */
-        static public void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, bool bInLocal = false)
+        static public void buildVertex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref Vector3[] vertices, bool bInLocal = false)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerTile();
             int segmentsH = terrainPageCfg.getZGridCountPerTile();
@@ -41,23 +43,7 @@
 
             if (vertices == null)
             {
-                vertices = new MList<float>(numVerts * 3); // 顶点的数量
-            }
-            else
-            {
-                vertices.Clear();
-            }
-
-            numVerts = 0;
-            // 初始化
-            for (int zi = 0; zi <= segmentsH; ++zi)
-            {
-                for (int xi = 0; xi <= segmentsW; ++xi)
-                {
-                    vertices.Add(0);
-                    vertices.Add(0);
-                    vertices.Add(0);
-                }
+                vertices = new Vector3[numVerts]; // 顶点的数量
             }
 
             numVerts = 0;
@@ -84,9 +70,11 @@
                     col = (uint)(heightMap.getPixel((int)u, (int)v)) & 0xff;
                     y = (col > maxHeight) ? ((float)maxHeight / 0xff) * height : ((col < minHeight) ? ((float)minHeight / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
-                    vertices[numVerts++] = x;
-                    vertices[numVerts++] = y;
-                    vertices[numVerts++] = z;
+                    vertices[numVerts].x = x;
+                    vertices[numVerts].y = y;
+                    vertices[numVerts].z = z;
+
+                    ++numVerts;
                 }
             }
         }
@@ -94,7 +82,7 @@
         /**
          * @brief 生成索引数据
          */
-        static public void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<int> indices)
+        static public void buildIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref int[] indices)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerTile();
             int segmentsH = terrainPageCfg.getZGridCountPerTile();
@@ -108,23 +96,9 @@
             float uDiv = (float)(heightMap.getWidth() - 1) / totalSegmentsW;
             float vDiv = (float)(heightMap.getHeight() - 1) / totalSegmentsH;
 
-            indices = new MList<int>(segmentsH * segmentsW * 6);  // 索引的数量
-
-            // 初始化
-            for (int zi = 0; zi <= segmentsH; ++zi)
+            if (indices == null)
             {
-                for (int xi = 0; xi <= segmentsW; ++xi)
-                {
-                    if (xi != segmentsW && zi != segmentsH)
-                    {
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                    }
-                }
+                indices = new int[segmentsH * segmentsW * 6];  // 索引的数量
             }
 
             for (int zi = 0; zi <= segmentsH; ++zi)
@@ -134,12 +108,14 @@
                     if (xi != segmentsW && zi != segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
                     {
                         baseIdx = xi + zi * tw;
-                        indices[(int)numInds++] = baseIdx;
-                        indices[(int)numInds++] = baseIdx + tw;
-                        indices[(int)numInds++] = baseIdx + tw + 1;
-                        indices[(int)numInds++] = baseIdx;
-                        indices[(int)numInds++] = baseIdx + tw + 1;
-                        indices[(int)numInds++] = baseIdx + 1;
+                        indices[(int)numInds] = baseIdx;
+                        indices[(int)numInds + 1] = baseIdx + tw;
+                        indices[(int)numInds + 2] = baseIdx + tw + 1;
+                        indices[(int)numInds + 3] = baseIdx;
+                        indices[(int)numInds + 4] = baseIdx + tw + 1;
+                        indices[(int)numInds + 5] = baseIdx + 1;
+
+                        numInds += 6;
                     }
                 }
             }
@@ -148,7 +124,7 @@
         /**
          * @brief 同时生成顶点和索引数据
          */
-        static public void buildVertexAndIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> vertices, ref MList<int> indices, bool bInLocal = false)
+        static public void buildVertexAndIndex(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref Vector3[] vertices, ref int[] indices, bool bInLocal = false)
         {
             int segmentsW = terrainPageCfg.getXGridCountPerTile();
             int segmentsH = terrainPageCfg.getZGridCountPerTile();
@@ -182,29 +158,8 @@
 
             if(vertices == null && indices == null)
             {
-                vertices = new MList<float>(numVerts * 3); // 顶点的数量
-                indices = new MList<int>(segmentsH * segmentsW * 6);  // 索引的数量
-            }
-
-            // 初始化
-            for (int zi = 0; zi <= segmentsH; ++zi)
-            {
-                for (int xi = 0; xi <= segmentsW; ++xi)
-                {
-                    vertices.Add(0);
-                    vertices.Add(0);
-                    vertices.Add(0);
-
-                    if (xi != segmentsW && zi != segmentsH)
-                    {
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                        indices.Add(0);
-                    }
-                }
+                vertices = new Vector3[numVerts]; // 顶点的数量
+                indices = new int[segmentsH * segmentsW * 6];  // 索引的数量
             }
 
             numVerts = 0;
@@ -231,19 +186,23 @@
                     col = (uint)(heightMap.getPixel((int)u, (int)v)) & 0xff;
                     y = (col > maxHeight) ? ((float)maxHeight / 0xff) * height : ((col < minHeight) ? ((float)minHeight / 0xff) * height : ((float)col / 0xff) * height);         // col 是 [0, 255] 的灰度值，col / 0xff 就是 [0, 1] 的灰度值，col / 0xff 两个整数除，如果要得到 float ，一定要写成 (float)col / 0xff，否则是四舍五入的整数值
 
-                    vertices[numVerts++] = x;
-                    vertices[numVerts++] = y;
-                    vertices[numVerts++] = z;
+                    vertices[numVerts].x = x;
+                    vertices[numVerts].y = y;
+                    vertices[numVerts].z = z;
+
+                    ++numVerts;
 
                     if (xi != segmentsW && zi != segmentsH)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
                     {
                         baseIdx = xi + zi * tw;
-                        indices[(int)numInds++] = baseIdx;
-                        indices[(int)numInds++] = baseIdx + tw;
-                        indices[(int)numInds++] = baseIdx + tw + 1;
-                        indices[(int)numInds++] = baseIdx;
-                        indices[(int)numInds++] = baseIdx + tw + 1;
-                        indices[(int)numInds++] = baseIdx + 1;
+                        indices[(int)numInds] = baseIdx;
+                        indices[(int)numInds + 1] = baseIdx + tw;
+                        indices[(int)numInds + 2] = baseIdx + tw + 1;
+                        indices[(int)numInds + 3] = baseIdx;
+                        indices[(int)numInds + 4] = baseIdx + tw + 1;
+                        indices[(int)numInds + 5] = baseIdx + 1;
+
+                        numInds += 6;
                     }
                 }
             }
@@ -254,7 +213,7 @@
          * @param idx 在 Tile 中偏移的 X 方向的位置
          * @param idz 在 Tile 中偏移的 Z 方向的位置
          */
-        static public bool buildUVs(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref MList<float> uvs)
+        static public bool buildUVs(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg, ref Vector2[] uvs)
         {
             // 当前 Tile 中划分的片段数量，其实就是 Area 中 Grid 的数量
             int segmentsW = terrainPageCfg.getXGridCountPerTile();
@@ -267,25 +226,10 @@
             int zSegmentOffset = 0;
             terrainPageCfg.calcTileSegmentOffset(ref xSegmentOffset, ref zSegmentOffset, idx, idz);
 
-            int numUvs = (segmentsH + 1) * (segmentsW + 1) * 2;
+            int numUvs = (segmentsH + 1) * (segmentsW + 1);
             if (uvs == null)
             {
-                uvs = new MList<float>(numUvs);
-            }
-            else
-            {
-                uvs.Clear();
-            }
-
-            numUvs = 0;
-            // 初始化，遍历范围 [0, segmentsH] * [0, segmentsW]
-            for (uint yi = 0; yi <= segmentsH; ++yi)
-            {
-                for (uint xi = 0; xi <= segmentsW; ++xi)
-                {
-                    uvs.Add(0);
-                    uvs.Add(0);
-                }
+                uvs = new Vector2[numUvs];
             }
 
             // 计算 UV
@@ -294,8 +238,10 @@
             {
                 for (uint xi = 0; xi <= segmentsW; ++xi)
                 {
-                    uvs[numUvs++] = ((float)xi + xSegmentOffset) / totalSegmentsW;
-                    uvs[numUvs++] = 1 - ((float)yi + zSegmentOffset) / totalSegmentsH;
+                    uvs[numUvs].x = ((float)xi + xSegmentOffset) / totalSegmentsW;
+                    uvs[numUvs].y = 1 - ((float)yi + zSegmentOffset) / totalSegmentsH;
+
+                    ++numUvs;
                 }
             }
 

@@ -343,14 +343,14 @@ namespace SDK.Lib
                     m_mesh.Clear();
                 }
 
-                m_mesh.vertices = m_subGeometry.getVertexDataArray();
-                m_mesh.uv = m_subGeometry.getUVDataArray();
+                m_mesh.vertices = m_subGeometry.getVertexData();
+                m_mesh.uv = m_subGeometry.getUVData();
                 m_mesh.colors32 = m_subGeometry.getVectexColorArray();
 
-                m_mesh.normals = m_subGeometry.getVertexNormalArray();
-                m_mesh.tangents = m_subGeometry.getVertexTangentArray();
+                m_mesh.normals = m_subGeometry.getVertexNormalsData();
+                m_mesh.tangents = m_subGeometry.getVertexTangentsData();
 
-                m_mesh.triangles = m_subGeometry.getIndexData().ToArray();
+                m_mesh.triangles = m_subGeometry.getIndexData();
 
                 //Ctx.m_instance.m_fileSys.serializeArray<Vector3>("buildVertex.txt", m_mesh.vertices, 1);
                 //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", m_mesh.triangles, 3);
@@ -432,8 +432,9 @@ namespace SDK.Lib
         /**
          * @brief 渲染
          */
-        override public void render()
+        override public void show()
         {
+            base.show();
             UpdateGeometry();
             UpdateMaterials();
             UpdateTexture();

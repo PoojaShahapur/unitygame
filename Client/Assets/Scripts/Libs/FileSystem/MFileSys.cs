@@ -322,7 +322,85 @@ namespace SDK.Lib
             writeFileByte(path, bytes);
         }
 
-        
+        public void writeStr2File(string fileName, Vector2[] datas)
+        {
+            FileStream fileStream;
+            StreamWriter streamWriter;
+            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
+
+            fileStream = new FileStream(path, FileMode.Create);
+            streamWriter = new StreamWriter(fileStream);
+            int idx = 0;
+            for (idx = 0; idx < datas.Length; idx += 1)
+            {
+                streamWriter.Write(datas[idx].x);
+                streamWriter.Write(" -- ");
+                streamWriter.Write(datas[idx].y);
+                streamWriter.Write("\n");
+            }
+
+            streamWriter.Flush();
+            fileStream.Flush();
+            streamWriter.Close();
+            fileStream.Close();
+            streamWriter.Dispose();
+            fileStream.Dispose();
+        }
+
+        public void writeStr2File(string fileName, Vector3[] datas)
+        {
+            FileStream fileStream;
+            StreamWriter streamWriter;
+            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
+
+            fileStream = new FileStream(path, FileMode.Create);
+            streamWriter = new StreamWriter(fileStream);
+            int idx = 0;
+            for (idx = 0; idx < datas.Length; idx += 1)
+            {
+                streamWriter.Write(datas[idx].x);
+                streamWriter.Write(" -- ");
+                streamWriter.Write(datas[idx].y);
+                streamWriter.Write(" -- ");
+                streamWriter.Write(datas[idx].z);
+                streamWriter.Write("\n");
+            }
+
+            streamWriter.Flush();
+            fileStream.Flush();
+            streamWriter.Close();
+            fileStream.Close();
+            streamWriter.Dispose();
+            fileStream.Dispose();
+        }
+
+        public void writeStr2File(string fileName, Vector4[] datas)
+        {
+            FileStream fileStream;
+            StreamWriter streamWriter;
+            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
+
+            fileStream = new FileStream(path, FileMode.Create);
+            streamWriter = new StreamWriter(fileStream);
+            int idx = 0;
+            for (idx = 0; idx < datas.Length; idx += 1)
+            {
+                streamWriter.Write(datas[idx].x);
+                streamWriter.Write(" -- ");
+                streamWriter.Write(datas[idx].y);
+                streamWriter.Write(" -- ");
+                streamWriter.Write(datas[idx].z);
+                streamWriter.Write("\n");
+            }
+
+            streamWriter.Flush();
+            fileStream.Flush();
+            streamWriter.Close();
+            fileStream.Close();
+            streamWriter.Dispose();
+            fileStream.Dispose();
+        }
+
         public void serializeArray<T>(string fileName, T[] datas, int stride)
         {
             FileStream fileStream;
@@ -343,7 +421,7 @@ namespace SDK.Lib
                 {
                     for (strideIdx = 0; strideIdx < stride; ++strideIdx)
                     {
-                        streamWriter.Write(datas[idx].ToString());
+                        streamWriter.Write(datas[idx + strideIdx].ToString());
                         if (strideIdx < stride - 1)
                         {
                             streamWriter.Write(" -- ");

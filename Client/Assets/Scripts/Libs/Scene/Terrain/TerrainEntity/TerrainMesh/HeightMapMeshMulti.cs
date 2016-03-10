@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     /**
      * @brief 多个 Tile 的 HeightMapMesh
@@ -17,10 +19,11 @@
             : base(null, null)
         {
             m_heightMapData = heightMap;
+            m_terrainPageCfg = terrainPageCfg;
             m_bInLocal = true;
             m_bCreateVertexIndexInOne = true;
-            m_terrainPageCfg = terrainPageCfg;
-            buildMutilTileMesh(heightMap, terrainPageCfg);
+            
+            buildMutilTileMesh();
         }
 
         public float getHeightAt(float x, float z)
@@ -34,16 +37,16 @@
         /**
          * @brief 生成多个区域地图
          */
-        protected void buildMutilTileMesh(HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
+        protected void buildMutilTileMesh()
         {
             int idx = 0;
             int idz = 0;
             // 从左下角到右上角，不是从左上角到右下角
-            for(idz = 0; idz < terrainPageCfg.getZTileCount(); ++idz)
+            for(idz = 0; idz < m_terrainPageCfg.getZTileCount(); ++idz)
             {
-                for (idx = 0; idx < terrainPageCfg.getXTileCount(); ++idx)
+                for (idx = 0; idx < m_terrainPageCfg.getXTileCount(); ++idx)
                 {
-                    buildTile(idx, idz, heightMap, terrainPageCfg);
+                    buildTile(idx, idz);
                 }
             }
         }
@@ -51,7 +54,7 @@
         /**
          * @brief 生成一个 Page 中的一个 Tile
          */
-        protected void buildTile(int idx, int idz, HeightMapData heightMap, TerrainPageCfg terrainPageCfg)
+        protected void buildTile(int idx, int idz)
         {
             // 生成 SubMesh
             MSubGeometry subGeometry = new MSubGeometry();
@@ -61,51 +64,107 @@
             render.setSubGeometry(subGeometry);
             this.addSubMesh(subMesh);
 
+            if (m_terrainPageCfg.getIsBuildAllTileAndNoClip())
+            {
+                buildUVByTileIdx(idx, idz, ref subGeometry);
+                buildVertexByTileIdx(idx, idz, ref subGeometry);
+                buildIndexByTileIdx(idx, idz, ref subGeometry);
+                buildVertexAndIndexByTileIdx(idx, idz, ref subGeometry);
+
+                //if (1 == idx && 1 == idz)
+                //{
+                //    Vector3[] normals = subGeometry.getVertexNormalsData();
+                //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildNormal" + idx + "_" + idz + ".txt", normals);
+                //    Vector4[] tangents = subGeometry.getVertexTangentsData();
+                //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildTangent" + idx + "_" + idz + ".txt", tangents);
+                //}
+
+                // 移动到正确的位置
+                int tileWidth = m_terrainPageCfg.getTileWorldWidth();
+                int tileDepth = m_terrainPageCfg.getTileWorldDepth();
+
+                // 如果是在局部空间中放置的 Tile 中的顶点，需要移动每一块的位置，如果直接将 Area 中的顶点放在世界空间具体位置了，位置顶点中已经放置到正确的位置了
+                if (m_bInLocal)
+                {
+                    subMesh.moveToPos(idx * tileWidth + tileWidth / 2, idz * tileDepth + tileDepth / 2);    // + areaWidth / 2 是为了将所有的顶点的世界范围都放在 >= 0 的范围内
+                }
+            }
+        }
+
+        public void buildUVByTileIdx(int idx, int idz, ref MSubGeometry subGeometry)
+        {
             // 生成 UV 坐标
-            MList<float> uvs = null;
-            MeshSplit.buildUVs(idx, idz, heightMap, terrainPageCfg, ref uvs);
+            Vector2[] uvs = null;
+            MeshSplit.buildUVs(idx, idz, m_heightMapData, m_terrainPageCfg, ref uvs);
             subGeometry.updateUVData(uvs);
 
-            // Ctx.m_instance.m_fileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
+            //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVU.txt", uvs.ToArray(), 2);
 
+            //if (1 == idx && 1 == idz)
+            //{
+            //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildVU" + idx + "_" + idz + ".txt", uvs);
+            //}
+        }
+
+        public void buildVertexByTileIdx(int idx, int idz, ref MSubGeometry subGeometry)
+        {
             // 生成顶点数据
-            MList<float> vertices = null;
+            Vector3[] vertices = null;
             if (!m_bCreateVertexIndexInOne)
             {
-                MeshSplit.buildVertex(idx, idz, heightMap, terrainPageCfg, ref vertices, m_bInLocal);
+                MeshSplit.buildVertex(idx, idz, m_heightMapData, m_terrainPageCfg, ref vertices, m_bInLocal);
                 subGeometry.setAutoDeriveVertexNormals(true);
                 subGeometry.updateVertexData(vertices);
-            }
 
+                //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
+
+                //if (1 == idx && 1 == idz)
+                //{
+                //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildVertex" + idx + "_" + idz + ".txt", vertices);
+                //}
+            }
+        }
+
+        public void buildIndexByTileIdx(int idx, int idz, ref MSubGeometry subGeometry)
+        {
             // 生成索引数据
-            MList<int> indices = null;
+            int[] indices = null;
             if (!m_bCreateVertexIndexInOne)
             {
-                MeshSplit.buildIndex(idx, idz, heightMap, terrainPageCfg, ref indices);
+                MeshSplit.buildIndex(idx, idz, m_heightMapData, m_terrainPageCfg, ref indices);
                 subGeometry.setAutoDeriveVertexTangents(true);
                 subGeometry.updateIndexData(indices);
+
+                //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
+
+                //if (1 == idx && 1 == idz)
+                //{
+                //    Ctx.m_instance.m_fileSys.serializeArray<int>("A_buildIndex" + idx + "_" + idz + ".txt", indices, 3);
+                //}
             }
+        }
+
+        public void buildVertexAndIndexByTileIdx(int idx, int idz, ref MSubGeometry subGeometry)
+        {
+            Vector3[] vertices = null;
+            int[] indices = null;
 
             if (m_bCreateVertexIndexInOne)
             {
-                MeshSplit.buildVertexAndIndex(idx, idz, heightMap, terrainPageCfg, ref vertices, ref indices, m_bInLocal);
+                MeshSplit.buildVertexAndIndex(idx, idz, m_heightMapData, m_terrainPageCfg, ref vertices, ref indices, m_bInLocal);
                 subGeometry.setAutoDeriveVertexNormals(true);
                 subGeometry.updateVertexData(vertices);
                 subGeometry.setAutoDeriveVertexTangents(true);
                 subGeometry.updateIndexData(indices);
-            }
 
-            //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
-            //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
+                //Ctx.m_instance.m_fileSys.serializeArray<float>("buildVertex.txt", vertices.ToArray(), 3);
+                //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", indices.ToArray(), 3);
 
-            // 移动到正确的位置
-            int tileWidth = terrainPageCfg.getTileWorldWidth();
-            int tileDepth = terrainPageCfg.getTileWorldDepth();
-
-            // 如果是在局部空间中放置的 Tile 中的顶点，需要移动每一块的位置，如果直接将 Area 中的顶点放在世界空间具体位置了，位置顶点中已经放置到正确的位置了
-            if (m_bInLocal)
-            {
-                subMesh.moveToPos(idx * tileWidth + tileWidth / 2, idz * tileDepth + tileDepth / 2);    // + areaWidth / 2 是为了将所有的顶点的世界范围都放在 >= 0 的范围内
+                //if (1 == idx && 1 == idz)
+                //{
+                //    Ctx.m_instance.m_fileSys.writeStr2File("A_buildVertex" + idx + "_" + idz + ".txt", vertices);
+                //    Ctx.m_instance.m_fileSys.serializeArray<int>("A_buildIndex" + idx + "_" + idz + ".txt", indices, 3);
+                //}
             }
         }
 

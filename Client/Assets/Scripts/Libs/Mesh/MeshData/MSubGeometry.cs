@@ -7,10 +7,10 @@ namespace SDK.Lib
      */
     public class MSubGeometry : MSubGeometryBase
     {
-        protected MList<float> m_uvs;
-		protected MList<float> m_secondaryUvs;
-		protected MList<float> m_vertexNormals;
-		protected MList<float> m_vertexTangents;
+        protected Vector2[] m_uvs;
+		protected Vector2[] m_secondaryUvs;
+		protected Vector3[] m_vertexNormals;
+		protected Vector4[] m_vertexTangents;
 		
 		protected MList<bool> m_verticesInvalid;
 		protected MList<bool> m_uvsInvalid;
@@ -57,7 +57,7 @@ namespace SDK.Lib
 		//	return _vertexData;
 		//}
 
-        public void updateVertexData(MList<float> vertices)
+        public void updateVertexData(Vector3[] vertices)
 		{
             if (m_autoDeriveVertexNormals)
             {
@@ -71,7 +71,7 @@ namespace SDK.Lib
 			m_faceNormalsDirty = true;
 			
 			m_vertexData = vertices;
-            int numVertices = vertices.length() / 3;
+            int numVertices = vertices.Length;
             if (numVertices != m_numVertices)
             {
                 disposeAllVertexBuffers();
@@ -80,7 +80,7 @@ namespace SDK.Lib
 
             invalidateBuffers(m_verticesInvalid);
             invalidateBounds();
-            updateAABox();      // 更新包围盒子
+            //updateAABox();      // 更新包围盒子
         }
 
         override protected void invalidateBuffers(MList<bool> invalid)
@@ -99,7 +99,7 @@ namespace SDK.Lib
         /**
          * @brief 获取顶点法线信息
          */
-        public MList<float> getVertexNormalData()
+        override public Vector3[] getVertexNormalsData()
 		{
             if (m_autoDeriveVertexNormals && m_vertexNormalsDirty)
             {
@@ -111,7 +111,7 @@ namespace SDK.Lib
         /**
          * @brief 更新顶点法线信息
          */
-        override protected MList<float> updateVertexNormals(MList<float> target)
+        override protected Vector3[] updateVertexNormals(Vector3[] target)
 		{
             invalidateBuffers(m_normalsInvalid);
 			return base.updateVertexNormals(target);
@@ -119,37 +119,13 @@ namespace SDK.Lib
 
         override public int getVertexStride()
 		{
-			return 3;
+			return 1;
 		}
 
         override public int getVertexOffset()
 		{
 			return 0;
 		}
-
-        /**
-         * @brief 获取法线数据
-         */
-        override public MList<float> getVertexNormalsData()
-        {
-            return m_vertexNormals;
-        }
-
-        /**
-         * @brief 获取顶点法线数组
-         */
-        override public Vector3[] getVertexNormalArray()
-        {
-            getVertexNormalData();          // 确保法线是可以获取的
-            Vector3[] normalArray = new Vector3[m_vertexNormals.length() / 3];
-            int normalArrIdx = 0;
-            for(int idx = 0; idx < m_vertexNormals.length(); idx += 3, ++normalArrIdx)
-            {
-                normalArray[normalArrIdx] = new Vector3(m_vertexNormals[idx], m_vertexNormals[idx + 1], m_vertexNormals[idx + 2]);
-            }
-
-            return normalArray;
-        }
 
         override public int getVertexNormalOffset()
 		{
@@ -158,10 +134,10 @@ namespace SDK.Lib
 
         override public uint getVertexNormalStride()
 		{
-			return 3;
+			return 1;
 		}
 
-        override public MList<float> getUVData()
+        override public Vector2[] getUVData()
 		{
             if (m_uvsDirty && m_autoGenerateUVs)
             {
@@ -170,21 +146,6 @@ namespace SDK.Lib
 			return m_uvs;
 		}
 
-        /**
-         * @brief 获取 UV 数组数据
-         */
-        override public Vector2[] getUVDataArray()
-        {
-            Vector2[] uvArray = new Vector2[m_uvs.length() / 2];
-            int uvArrIdx = 0;
-            for (int idx = 0; idx < m_uvs.length(); idx += 2, ++uvArrIdx)
-            {
-                uvArray[uvArrIdx] = new Vector2(m_uvs[idx], m_uvs[idx + 1]);
-            }
-
-            return uvArray;
-        }
-
         override public int getUVOffset()
 		{
 			return 0;
@@ -192,10 +153,10 @@ namespace SDK.Lib
 
         override public uint getUVStride()
 		{
-			return 2;
+			return 1;
 		}
 
-        override protected MList<float> updateDummyUVs(MList<float> target)
+        override protected Vector2[] updateDummyUVs(Vector2[] target)
 		{
             invalidateBuffers(m_uvsInvalid);
 			return base.updateDummyUVs(target);
@@ -204,7 +165,7 @@ namespace SDK.Lib
         /**
          * @brief 更新顶点切线
          */
-        override protected MList<float> updateVertexTangents(MList<float> target)
+        override protected Vector4[] updateVertexTangents(Vector4[] target)
         {
             invalidateBuffers(m_tangentsInvalid);
             return base.updateVertexTangents(target);
@@ -213,29 +174,13 @@ namespace SDK.Lib
         /**
          * @brief 获取切线数据
          */
-        override public MList<float> getVertexTangentsData()
+        override public Vector4[] getVertexTangentsData()
         {
             if (m_autoDeriveVertexTangents && m_vertexTangentsDirty)
             {
                 m_vertexTangents = updateVertexTangents(m_vertexTangents);
             }
             return m_vertexTangents;
-        }
-
-        /**
-         * @brief 获取顶点切线数组
-         */
-        override public Vector4[] getVertexTangentArray()
-        {
-            getVertexTangentsData();
-            Vector4[] tangentArray = new Vector4[m_vertexTangents.length() / 3];
-            int tangentArrIdx = 0;
-            for (int idx = 0; idx < m_vertexNormals.length(); idx += 3, ++tangentArrIdx)
-            {
-                tangentArray[tangentArrIdx] = new Vector4(m_vertexTangents[idx], m_vertexTangents[idx + 1], m_vertexTangents[idx + 2], 0);
-            }
-
-            return tangentArray;
         }
 
         override public int getVertexTangentOffset()
@@ -245,10 +190,10 @@ namespace SDK.Lib
 
         override public uint getVertexTangentStride()
 		{
-			return 3;
+			return 1;
 		}
 
-        public void updateUVData(MList<float> uvs)
+        public void updateUVData(Vector2[] uvs)
 		{
             if (m_autoDeriveVertexTangents)
             {
@@ -264,7 +209,7 @@ namespace SDK.Lib
             int idx = 0;
             while (idx < m_numVertices)
             {
-                m_aaBox.addPoint(m_vertexData[idx * 3], m_vertexData[idx * 3 + 1], m_vertexData[idx * 3 + 2]);
+                m_aaBox.addPoint(m_vertexData[idx * 3].x, m_vertexData[idx * 3].y, m_vertexData[idx * 3].z);
                 ++idx;
             }
         }

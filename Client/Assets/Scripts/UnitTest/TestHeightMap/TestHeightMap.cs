@@ -19,7 +19,8 @@ namespace UnitTest
 
         protected void testHeightMap()
         {
-            HeightMapData heightMapData = new HeightMapData();
+            //TestHeightMapData heightMapData = new TestHeightMapData();
+			HeightMapData heightMapData = new HeightMapData();
             heightMapData.loadHeightMap("Terrain/terrain.png");
             heightMapData.getWidth();
             heightMapData.getHeight();
@@ -30,13 +31,15 @@ namespace UnitTest
 
         public void testTerrainPageOne()
         {
-            MTerrainOne terPage = new MTerrainOne();
+            //MTestTerrainOne terPage = new MTestTerrainOne();
+			MTerrainOne terPage = new MTerrainOne();
             terPage.buildPage();
         }
 
         public void testTerrainPageMulti()
         {
-            MTerrainMulti terPage = new MTerrainMulti();
+            //MTestTerrainMulti terPage = new MTestTerrainMulti();
+			MTerrainMulti terPage = new MTerrainMulti();
             terPage.buildPage();        // 生成地形
             terPage.buildQuadTree();    // 生成四叉树
             Ctx.m_instance.m_camSys.setMCamera(Camera.main);
@@ -58,7 +61,8 @@ namespace UnitTest
 
         public void testPrint()
         {
-            HeightMapData heightMapData = new HeightMapData();
+            //TestHeightMapData heightMapData = new TestHeightMapData();
+			HeightMapData heightMapData = new HeightMapData();
             heightMapData.loadHeightMap("Terrain/terrain.png");
             heightMapData.print();
         }

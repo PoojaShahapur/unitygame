@@ -16,12 +16,18 @@
         public MeshRender(MSubGeometryBase subGeometry_ = null)     // 需要的材质在自己的子类中去操作
         {
             m_subGeometry = subGeometry_;
-            m_selfGo = UtilApi.createGameObject("MeshRender");
         }
 
         override protected void onPntChanged()
         {
             linkSelf2Parent();
+        }
+
+        // 如果改变
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+            moveToPos(m_xPos, m_zPos);
         }
 
         /**
@@ -46,17 +52,27 @@
         /**
          * @brief 局部空间移动 Render
          */
-        public void moveToPos(int xPos, int zPos)
+        public void moveToPos(float xPos, float zPos)
         {
-            UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(xPos, 0, zPos));
+            m_xPos = xPos;
+            m_zPos = zPos;
+
+            if (this.selfGo != null)
+            {
+                UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(xPos, 0, zPos));
+            }
         }
 
         /**
          * @brief 子类实现具体的显示
          */
-        virtual public void render()
+        override public void show()
         {
-
+            if(m_selfGo == null)
+            {
+                this.selfGo = UtilApi.createGameObject("MeshRender");
+            }
+            base.show();
         }
     }
 }
