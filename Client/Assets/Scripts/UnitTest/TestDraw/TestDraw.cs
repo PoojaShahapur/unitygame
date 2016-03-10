@@ -16,7 +16,7 @@ namespace UnitTest
 
         protected void testArea()
         {
-            Tile tile = new Tile();
+            TestTile tile = new TestTile();
             TextureRes m_selfTex = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>("Image/Scene/jieshu_zhanchang.tga");
             tile.setTexture(m_selfTex.getTexture());
             tile.render();
@@ -24,7 +24,7 @@ namespace UnitTest
 
         protected void testQuadMeshRender()
         {
-            QuadMeshRender quadMeshRender = new QuadMeshRender(8);
+            TestQuadMeshRender quadMeshRender = new TestQuadMeshRender(8);
             //GameObject go = UtilApi.GoFindChildByPObjAndName("GOStart");
             //quadMeshRender.selfGo = go;
 
