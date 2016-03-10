@@ -1,111 +1,111 @@
-#pragma strict
-#pragma implicit
-#pragma downcast
+using UnityEngine;
 
-var width = 32;
-var height = 32;
+public class Ocean : MonoBehaviour
+{
+private int width = 32;
+private int height = 32;
 
-var scale = 0.1;
+private float scale = 0.1;
 
-var size = Vector3 (150.0, 1.0, 150.0);
+private Vector3 size = new Vector3 (150.0, 1.0, 150.0);
 
-var tiles_x = 2;
-var tiles_y = 2;
+private int tiles_x = 2;
+private int tiles_y = 2;
 
-var windx = 10.0;
+private float windx = 10.0;
 
-var normal_scale = 16;
-var normalStrength = 1.0;
+private float normal_scale = 16;
+private float normalStrength = 1.0;
 
-var choppy_scale = 2.0;
-var uv_speed = 0.01;
+private float choppy_scale = 2.0;
+private float uv_speed = 0.01;
 
-var material : Material;
+private Material material;
 
-var followMainCamera : boolean = true;
+private bool followMainCamera = true;
 
-var showGUI = true;
+private bool showGUI = true;
 
-private var max_LOD = 4;
-private var h0 : ComplexF[];
+private int max_LOD = 4;
+private ComplexF[] h0;
 
-private var t_x : ComplexF[];
-private var t_y : ComplexF[];
+private ComplexF[] t_x;
+private ComplexF[] t_y;
 
-private var n0 : ComplexF[];
-private var n_x : ComplexF[];
-private var n_y : ComplexF[];
+private ComplexF[] n0;
+private ComplexF[] n_x;
+private ComplexF[] n_y;
 
-private var data : ComplexF[];
-private var data_x : ComplexF[];
+private ComplexF[] data;
+private ComplexF[] data_x;
 
-private var pixelData : Color[];
-private var textureA : Texture2D;
-private var textureB : Texture2D;
+private Color[] pixelData : ;
+private Texture2D textureA : ;
+private Texture2D textureB : ;
 
-private var baseHeight : Vector3[];
-private var baseUV : Vector2[];
+private Vector3[] baseHeight : ;
+private Vector2[] baseUV : ;
 
-private var baseMesh : Mesh = null;
+private Mesh baseMesh :  = null;
 
-private var child : GameObject;
+private GameObject child : ;
 
 private var tiles_LOD : Array;
 
-private var g_height : int;
-private var g_width : int;
+private int g_height : ;
+private int g_width : ;
 
-private var n_width : int;
-private var n_height : int;
+private int n_width : ;
+private int n_height : ;
 
-private var drawFrame = true;
+private bool drawFrame = true;
 
-private var normalDone = false;
+private bool normalDone = false;
 
-private var reflectionRefractionEnabled : boolean = false;
-private var depthCam : Camera = null;
-private var offscreenCam : Camera = null;
-private var reflectionTexture : RenderTexture = null;
-private var refractionTexture : RenderTexture = null;
-private var waterHeightTexture : RenderTexture = null;
-private var underwaterTexture : RenderTexture = null;
+private bool reflectionRefractionEnabled = false;
+private Camera depthCam :  = null;
+private Camera offscreenCam :  = null;
+private RenderTexture reflectionTexture :  = null;
+private RenderTexture refractionTexture :  = null;
+private RenderTexture waterHeightTexture :  = null;
+private RenderTexture underwaterTexture :  = null;
 
-private var underwaterRefractionTexture : RenderTexture = null;
+private RenderTexture underwaterRefractionTexture :  = null;
 
-private var shader : Shader = null;
-private var depthShader : Shader = null;
-private var waterBelowShader : Shader = null;
-private var waterCompositionMaterial : Material = null;
+private Shader shader :  = null;
+private Shader depthShader :  = null;
+private Shader waterBelowShader :  = null;
+private Material waterCompositionMaterial :  = null;
 
-private var waterDirtyness : float = 0.016;
+private float waterDirtyness :  = 0.016;
 
 
 
-private var uvs : Vector2[];
-private var vertices : Vector3[];
-private var normals : Vector3[];
-private var tangents : Vector4[];
+private Vector2[] uvs : ;
+private Vector3[] vertices : ;
+private Vector3[] normals : ;
+private Vector4[] tangents : ;
 
-public var forceOriginalShader : boolean = false;
+public bool forceOriginalShader : boolean = false;
 
-public var SunLight : Light = null;
+public Light SunLight :  = null;
 
-public var surfaceColor : Color = new Color(0.3, 0.5, 0.3, 1.0);
-public var waterColor : Color = new Color(0.3, 0.4, 0.3);
+public Color surfaceColor :  = new Color(0.3, 0.5, 0.3, 1.0);
+public Color waterColor :  = new Color(0.3, 0.4, 0.3);
 
-private var texFoam : Texture2D = null;
-private var texFresnel : Texture2D = null;
-private var texBump : Texture2D = null;
+private Texture2D texFoam :  = null;
+private Texture2D texFresnel :  = null;
+private Texture2D texBump :  = null;
 
-private var renderReflection : boolean = true;
-private var renderRefraction : boolean = true;
-private var renderWaterDepth : boolean = true;
-private var renderUnderwater : boolean = true;
-private var renderUnderwaterRefraction : boolean = true;
+private bool renderReflection : = true;
+private bool renderRefraction : = true;
+private bool renderWaterDepth : = true;
+private bool renderUnderwater : = true;
+private bool renderUnderwaterRefraction : = true;
 
-private var useCameraRenderTexture : boolean = false;
+private bool useCameraRenderTexture : = false;
 
-private var cameraRenderTexture : RenderTexture = null;
+private RenderTexture cameraRenderTexture :  = null;
 
 function GetWaterHeightAtLocation (x : float, y : float) {
 	x = x / size.x;
@@ -1093,4 +1093,5 @@ function RenderReflectionAndRefraction()
 	}
 		
 	QualitySettings.pixelLightCount = oldPixelLightCount;
+}
 }

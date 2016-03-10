@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AppRoot : MonoBehaviour
+public class Boyancy : MonoBehaviour
 {
 protected Ocean ocean;
 // Water plane at y = 0
