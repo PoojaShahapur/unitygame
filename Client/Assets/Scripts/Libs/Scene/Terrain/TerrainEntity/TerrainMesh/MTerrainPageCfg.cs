@@ -25,6 +25,8 @@
         //protected float m_worldWidth;   // 世界空间宽度
         //protected float m_worldDepth;   // 世界空间深度
 
+        protected bool m_isBuildAllTileAndNoClip;   // 是否是一次生成所有的 Tile 数据，不用裁剪
+
         /**
          * @brief 地形配置，尽量 worldWidth 和 worldHeight 尽量相等
          * @param worldWidth 场景宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
@@ -36,6 +38,7 @@
             m_minHeight = 0;
             m_maxHeight = 0xFF;      // byte 最大值 0xFF
             m_height = 128;
+            m_isBuildAllTileAndNoClip = true;
         }
 
         /**
@@ -274,6 +277,14 @@
         public int getTileIndex(int xTile, int zTile)
         {
             return zTile * m_xTileCount + xTile;
+        }
+
+        /**
+         *@brief 一次生成所有的 Tile 地形数据，不要裁剪
+         */
+        public bool getIsBuildAllTileAndNoClip()
+        {
+            return m_isBuildAllTileAndNoClip;
         }
     }
 }

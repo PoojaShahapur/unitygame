@@ -432,8 +432,9 @@ namespace SDK.Lib
         /**
          * @brief 渲染
          */
-        override public void render()
+        override public void show()
         {
+            base.show();
             UpdateGeometry();
             UpdateMaterials();
             UpdateTexture();

@@ -61,12 +61,12 @@
             }
         }
 
-        public void render()
+        public void show()
         {
             // 渲染 Mesh 数据
             if (m_meshRender != null)
             {
-                m_meshRender.render();
+                m_meshRender.show();
             }
 
             if (m_subMeshes != null)
@@ -74,7 +74,7 @@
                 // 渲染 SubMesh 数据
                 for (int idx = 0; idx < m_subMeshes.Count(); ++idx)
                 {
-                    m_subMeshes[idx].render();
+                    m_subMeshes[idx].show();
                 }
             }
         }

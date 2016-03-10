@@ -32,12 +32,12 @@
             //m_heightMapMesh = new HeightMapMeshOne(m_heightMapData, 20, 20, 20, 20, 20);
             //m_heightMapMesh = new HeightMapMeshOne(m_heightMapData, 128, 128, 128, 128, 128);
 
-            render();
+            show();
         }
 
-        protected void render()
+        protected void show()
         {
-            m_heightMapMesh.render();
+            m_heightMapMesh.show();
         }
     }
 }

@@ -141,7 +141,7 @@ namespace SDK.Lib
             }
         }
 
-        public void show()
+        virtual public void show()
         {
             if (m_selfGo != null)
             {

@@ -68,20 +68,12 @@
         /**
          * @brief 渲染数据
          */
-        public void render()
+        public void show()
         {
             if (m_meshRender != null)
             {
-                m_meshRender.render();
+                m_meshRender.show();
             }
-        }
-
-        /**
-         * @brief 显示
-         */
-        public void show()
-        {
-            m_meshRender.show();
         }
 
         /**

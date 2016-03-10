@@ -39,12 +39,12 @@
 
             m_heightMapMesh = new HeightMapMeshMulti(m_heightMapData, m_terrainPageCfg);
 
-            render();
+            show();
         }
 
-        protected void render()
+        protected void show()
         {
-            m_heightMapMesh.render();
+            m_heightMapMesh.show();
         }
 
         override public MSubMesh getTileMesh(int xTile, int zTile)
