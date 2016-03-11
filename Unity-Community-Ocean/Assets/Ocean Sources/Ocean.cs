@@ -842,6 +842,7 @@ public class Ocean : MonoBehaviour
 
                         float foam = right.x / (size.x / g_width);
 
+
                         if (foam < 0.0f)
                             tangents[x + g_width * y].w = 1;
                         else if (foam < 0.5)

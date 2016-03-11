@@ -95,9 +95,10 @@ Shader "WaterComposition"
 			half4 frag (v2f i) : COLOR
 			{
 				half3 source = tex2D(_MainTex, i.uv.zw).rgb;
-				//float depth = tex2D(_DepthTex, i.maskSpacePos.xy).r;
-				float2 projUV = i.maskSpacePos.xy / i.maskSpacePos.w;
-				float depth = tex2D(_DepthTex, projUV).r;
+				float depth = tex2D(_DepthTex, i.maskSpacePos.xy).r;
+				// 如果除以 w ，那么当摄像机靠近水面的时候，水面近相机的部分会显示不透明
+				//float2 projUV = i.maskSpacePos.xy / i.maskSpacePos.w;
+				//float depth = tex2D(_DepthTex, projUV).r;
 	
 				//Yann's tweak
 				float2 uvscaled = i.uv.xy * 0.03 + _Time.x / 10.0;
