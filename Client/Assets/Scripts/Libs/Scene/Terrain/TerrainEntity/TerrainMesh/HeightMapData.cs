@@ -9,11 +9,15 @@ namespace SDK.Lib
     {
         protected TextureRes m_texRes;          // 原始的资源
         protected Texture2D m_heightMap;        // 高度图
+        protected bool m_bEnableInterpolate;     // 开启插值
+        protected MList<float> m_tmpHeightList;       // 临时的高度数组 
 
         public HeightMapData(TextureRes tex = null)
         {
+            m_tmpHeightList = new MList<float>();
             m_texRes = null;
             m_heightMap = null;
+            m_bEnableInterpolate = true;
             setHeightMapData(tex);
         }
 
@@ -129,8 +133,84 @@ namespace SDK.Lib
          */
         public int getColorGrayScaleValue(int x, int z)
         {
-            Color color = m_heightMap.GetPixel(x, z);       // Color 中的值 r 是 [0, 1] 之间的值
-            return (int)(color.r * 0xFF);                   // 灰度图中的 Color 值是 [0, 1] 的灰度值，需要缩放到 [0, 255]
+            if (!m_bEnableInterpolate)
+            {
+                Color color = m_heightMap.GetPixel(x, z);       // Color 中的值 r 是 [0, 1] 之间的值
+                return (int)(color.r * 0xFF);                   // 灰度图中的 Color 值是 [0, 1] 的灰度值，需要缩放到 [0, 255]
+            }
+            else
+            {
+                return getInterpolateValue(x, z);
+            }
+        }
+
+        /**
+         * @brief 获取插值的高度值
+         */
+        public int getInterpolateValue(int x, int z)
+        {
+            Color color;
+            // 中间
+            color = m_heightMap.GetPixel(x, z);
+            m_tmpHeightList.Add(color.r);
+            // 左上
+            if(x > 0 && z > 0)
+            {
+                color = m_heightMap.GetPixel(x - 1, z - 1);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 顶中
+            if (z > 0)
+            {
+                color = m_heightMap.GetPixel(x, z - 1);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 右顶
+            if(x < getWidth() - 1 && z > 0)
+            {
+                color = m_heightMap.GetPixel(x + 1, z - 1);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 左中
+            if(x > 0)
+            {
+                color = m_heightMap.GetPixel(x - 1, z);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 右中
+            if (x < getWidth() - 1)
+            {
+                color = m_heightMap.GetPixel(x + 1, z);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 左底
+            if (x > 0 && z < getHeight() - 1)
+            {
+                color = m_heightMap.GetPixel(x - 1, z + 1);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 中底
+            if (z < getHeight() - 1)
+            {
+                color = m_heightMap.GetPixel(x, z + 1);
+                m_tmpHeightList.Add(color.r);
+            }
+            // 右底
+            if (x < getWidth() - 1 && z < getHeight() - 1)
+            {
+                color = m_heightMap.GetPixel(x + 1, z + 1);
+                m_tmpHeightList.Add(color.r);
+            }
+
+            float det = 1.0f / m_tmpHeightList.Count();
+            float ret = 0;
+            foreach(float item in m_tmpHeightList.list())
+            {
+                ret += item * det;
+            }
+
+            m_tmpHeightList.Clear();
+            return (int)(ret * 0xFF);
         }
 
         /**

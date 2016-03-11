@@ -11,6 +11,7 @@ namespace SDK.Lib
         protected TerrainPageCfg m_terrainPageCfg;  // Page 配置
         protected bool m_bInLocal;      // 是否生成的每一个 Tile 中的顶点是放在局部空间中
         protected bool m_bCreateVertexIndexInOne;   // 同时创建顶点索引
+        protected TerrainMat m_terrainMat;
 
         /**
          * @brief 构造函数
@@ -22,7 +23,10 @@ namespace SDK.Lib
             m_terrainPageCfg = terrainPageCfg;
             m_bInLocal = true;
             m_bCreateVertexIndexInOne = true;
-            
+
+            m_terrainMat = new TerrainMat();
+            m_terrainMat.loadDiffuseMat();
+            //m_terrainMat.loadSpecularMat();
             buildMutilTileMesh();
         }
 
@@ -59,6 +63,8 @@ namespace SDK.Lib
             // 生成 SubMesh
             MSubGeometry subGeometry = new MSubGeometry();
             SingleTileRender render = new SingleTileRender();
+            render.setCopyMaterial(m_terrainMat.getDiffuseMaterial());
+            //render.setCopyMaterial(m_terrainMat.getSpecularMaterial());
             MSubMesh subMesh = new MSubMesh(subGeometry, render);
             subMesh.setTileXZ(idx, idz);
             render.setSubGeometry(subGeometry);

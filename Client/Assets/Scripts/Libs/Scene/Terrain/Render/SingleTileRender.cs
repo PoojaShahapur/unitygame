@@ -38,7 +38,7 @@ namespace SDK.Lib
             : base(subGeometry_)
         {
             m_shaderName = "Mobile/Diffuse";
-            m_texName = "Texture/Terrain/terrain_diffuse.jpg";
+            m_texName = "Materials/Texture/Terrain/terrain_diffuse.jpg";
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
         }
@@ -350,6 +350,8 @@ namespace SDK.Lib
                 m_mesh.normals = m_subGeometry.getVertexNormalsData();
                 m_mesh.tangents = m_subGeometry.getVertexTangentsData();
 
+                //m_mesh.RecalculateBounds();
+                //m_mesh.RecalculateNormals();
                 m_mesh.triangles = m_subGeometry.getIndexData();
 
                 //Ctx.m_instance.m_fileSys.serializeArray<Vector3>("buildVertex.txt", m_mesh.vertices, 1);
@@ -429,6 +431,37 @@ namespace SDK.Lib
             m_mesh = null;
         }
 
+        void createCopyMaterial()
+        {
+            // 直接拷贝共享材质
+            if (m_material != null)
+            {
+                m_dynamicMat = new Material(m_material);
+                m_dynamicMat.name = m_matPreStr + m_material.name;
+                m_dynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
+                m_dynamicMat.CopyPropertiesFromMaterial(m_material);
+
+                string[] keywords = m_material.shaderKeywords;
+                for (int i = 0; i < keywords.Length; ++i)
+                {
+                    m_dynamicMat.EnableKeyword(keywords[i]);
+                }
+
+                m_dynamicMat.renderQueue = m_renderQueue;
+
+                // 更新渲染
+                if (m_renderer != null)
+                {
+                    m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+                }
+            }
+        }
+
+        public void setCopyMaterial(Material mat)
+        {
+            m_material = mat;
+        }
+
         /**
          * @brief 渲染
          */
@@ -436,8 +469,9 @@ namespace SDK.Lib
         {
             base.show();
             UpdateGeometry();
-            UpdateMaterials();
-            UpdateTexture();
+            //UpdateMaterials();
+            //UpdateTexture();
+            createCopyMaterial();
         }
     }
 }
