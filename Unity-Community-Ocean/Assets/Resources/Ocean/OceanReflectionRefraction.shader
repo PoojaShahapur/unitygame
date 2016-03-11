@@ -36,8 +36,8 @@ struct v2f
     float2  bumpTexCoord : TEXCOORD1;
     float3  viewDir : TEXCOORD2;
     float3  lightDir : TEXCOORD3;
-    float3  objSpaceNormal : TEXCOORD4;
-    float2   foamStrengthAndDistance : TEXCOORD5;
+    float3  objSpaceNormal : NORMAL;
+    float2   foamStrengthAndDistance : TEXCOORD4;
 };
 
 float4 _Size;

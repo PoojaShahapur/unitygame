@@ -727,9 +727,6 @@ public class Ocean : MonoBehaviour
             tangents = new Vector4[itemCount];
         }
 
-        Vector3[] vertex = null;
-        Vector2[] uv = null;
-        Vector3[] normal = null;
         float n_scale = size.x / width / scale;
 
         float scaleA = choppy_scale / (width * height);
@@ -926,9 +923,7 @@ public class Ocean : MonoBehaviour
 
         depthCam.backgroundColor = Color.black;
 
-
         Vector3 pos = Camera.current.gameObject.transform.position;
-
 
         int waterMask = 1 << LayerMask.NameToLayer("Water");
 

@@ -72,10 +72,10 @@ struct appdata {
 struct v2f {
 	float4 pos : SV_POSITION;
 	#if defined (HAS_REFLECTION) || defined (HAS_REFRACTION)
-	float3 ref;
+	float4 ref : TEXCOORD0;
 	#endif
-	float2 bumpuv[2];
-	float3 viewDir;
+	float2 bumpuv[2] : TEXCOORD1;
+	float3 viewDir : TEXCOORD2;
 };
 
 v2f vert(appdata v)

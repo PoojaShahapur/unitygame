@@ -33,8 +33,8 @@ CGPROGRAM
 struct v2f 
 {
     float4 pos : SV_POSITION;
+	float4 uv : TEXCOORD0;
     float4 maskSpacePos : TEXCOORD1;
-    float4 uv : TEXCOORD0;
 };
 
 
