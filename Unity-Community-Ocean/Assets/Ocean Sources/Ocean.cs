@@ -428,7 +428,6 @@ public class Ocean : MonoBehaviour
         if (!SystemInfo.supportsRenderTextures)
             return false;
 
-
         shader = Shader.Find("OceanReflectionRefraction");
 
         //Bail out if the shader could not be compiled
@@ -437,7 +436,6 @@ public class Ocean : MonoBehaviour
 
         if (!shader.isSupported)
             return false;
-
 
         depthShader = Shader.Find("WaterHeight");
         waterCompositionMaterial = new Material(Shader.Find("WaterComposition"));
