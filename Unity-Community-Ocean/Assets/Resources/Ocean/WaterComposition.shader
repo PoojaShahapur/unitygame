@@ -21,8 +21,8 @@ Shader "WaterComposition"
 			Cull Off
 
 			CGPROGRAM
-// Upgrade NOTE: excluded shader from OpenGL ES 2.0 because it uses non-square matrices
-#pragma exclude_renderers gles
+			// Upgrade NOTE: excluded shader from OpenGL ES 2.0 because it uses non-square matrices
+			#pragma exclude_renderers gles
 			// Upgrade NOTE: excluded shader from DX11 and Xbox360; has structs without semantics (struct v2f members maskSpacePos,uv)
 			//#pragma exclude_renderers d3d11 xbox360
 			// Upgrade NOTE: excluded shader from OpenGL ES 2.0 because it uses non-square matrices
@@ -41,14 +41,14 @@ Shader "WaterComposition"
 				float4 maskSpacePos : TEXCOORD1;
 			};
 
-			sampler2D _MainTex;
-			sampler2D _DepthTex;
-			sampler2D _UnderwaterTex;
-			sampler2D _UnderwaterDistortionTex;
+			uniform sampler2D _MainTex;
+			uniform sampler2D _DepthTex;
+			uniform sampler2D _UnderwaterTex;
+			uniform sampler2D _UnderwaterDistortionTex;
 
 			uniform float4x4 _DepthCamMV;
 			uniform float4x4 _DepthCamProj;
-			float4 _WaterColor;
+			uniform float4 _WaterColor;
 
 			uniform float4 _MainTex_TexelSize;
 
@@ -95,10 +95,12 @@ Shader "WaterComposition"
 			half4 frag (v2f i) : COLOR
 			{
 				half3 source = tex2D(_MainTex, i.uv.zw).rgb;
-				float depth = tex2D(_DepthTex, i.maskSpacePos.xy).r;
+				//float depth = tex2D(_DepthTex, i.maskSpacePos.xy).r;
+				float2 projUV = i.maskSpacePos.xy / i.maskSpacePos.w;
+				float depth = tex2D(_DepthTex, projUV).r;
 	
 				//Yann's tweak
-				float2 uvscaled = i.uv.xy*0.03 + _Time.x/10.0;
+				float2 uvscaled = i.uv.xy * 0.03 + _Time.x / 10.0;
 				float2 distort = ((tex2D(_UnderwaterDistortionTex, uvscaled).rg * 4.0) - 2.2);
 	
 				half3 underwater = tex2D(_UnderwaterTex, i.uv.xy + distort * 0.05).rgb;
@@ -121,7 +123,6 @@ Shader "WaterComposition"
 				return half4(result, 1.0);
 			}
 			ENDCG
-
 		}
 	} 
 }

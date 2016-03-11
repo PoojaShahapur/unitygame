@@ -33,24 +33,24 @@ Shader "OceanReflectionRefraction"
 			struct v2f 
 			{
 				float4 pos : SV_POSITION;
-				float4  projTexCoord : TEXCOORD0;
-				float2  bumpTexCoord : TEXCOORD1;
-				float3  viewDir : TEXCOORD2;
-				float3  lightDir : TEXCOORD3;
-				float3  objSpaceNormal : NORMAL;
-				float2   foamStrengthAndDistance : TEXCOORD4;
+				float4 projTexCoord : TEXCOORD0;
+				float2 bumpTexCoord : TEXCOORD1;
+				float3 viewDir : TEXCOORD2;
+				float3 lightDir : TEXCOORD3;
+				float3 objSpaceNormal : NORMAL;
+				float2 foamStrengthAndDistance : TEXCOORD4;
 			};
 
-			float4 _Size;
-			float4 _SunDir;
+			uniform float4 _Size;
+			uniform float4 _SunDir;
 
 			v2f vert (appdata_tan v)
 			{
 				v2f o;
     
-				o.bumpTexCoord.xy = v.vertex.xz/float2(_Size.x, _Size.z)*10;
+				o.bumpTexCoord.xy = v.vertex.xz / float2(_Size.x, _Size.z) * 10;
     
-				o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
     
 				o.foamStrengthAndDistance.x = v.tangent.w;
 				o.foamStrengthAndDistance.y = clamp(o.pos.z, 0, 1.0);
@@ -58,7 +58,7 @@ Shader "OceanReflectionRefraction"
   				float4 projSource = float4(v.vertex.x, 0.0, v.vertex.z, 1.0);
 				float4 tmpProj = mul( UNITY_MATRIX_MVP, projSource);
 				o.projTexCoord = tmpProj;
-			  /*  
+				/*  
 				//Bias matrix for converting clip-space vertex positions
 				//to texture coordinates.
 				float3x4 mat = float3x4(
@@ -69,7 +69,7 @@ Shader "OceanReflectionRefraction"
     
 				o.projTexCoord.xy = mul(mat, tmpProj).xy;
 				o.projTexCoord.xy /= tmpProj.w;
-			   */ 
+				*/ 
 				float3 objSpaceViewDir = ObjSpaceViewDir(v.vertex);
     
 				//o.normal = v.normal;
@@ -84,13 +84,13 @@ Shader "OceanReflectionRefraction"
 				return o;
 			}
 
-			sampler2D _Refraction;
-			sampler2D _Reflection;
-			sampler2D _Fresnel;
-			sampler2D _Bump;
-			sampler2D _Foam;
-			half4 _SurfaceColor;
-			half4 _WaterColor;
+			uniform sampler2D _Refraction;
+			uniform sampler2D _Reflection;
+			uniform sampler2D _Fresnel;
+			uniform sampler2D _Bump;
+			uniform sampler2D _Foam;
+			uniform half4 _SurfaceColor;
+			uniform half4 _WaterColor;
 
 			half4 frag (v2f i) : COLOR
 			{
@@ -124,7 +124,7 @@ Shader "OceanReflectionRefraction"
 				half4 foam = clamp(tex2D(_Foam, i.bumpTexCoord.xy * 1.0)  - 0.5, 0.0, 1.0) * foamStrength;
 
 				float3 halfVec = normalize(normViewDir - normalize(i.lightDir));
-				float specular = pow(max(dot(halfVec, tangentNormal.xyz), 0.0), 250.0);
+				float specular = pow(saturate(dot(halfVec, tangentNormal.xyz)), 250.0);
 
 				result.rgb = lerp(refraction, reflection, fresnelTerm) + clamp(foam.r, 0.0, 1.0) + specular;
 

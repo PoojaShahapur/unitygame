@@ -29,13 +29,13 @@ Shader "DeepWaterBelow"
 			struct v2f 
 			{
 				float4 pos : SV_POSITION;
-				float3  viewDir : TEXCOORD0;
+				float3 viewDir : TEXCOORD0;
 				//   float3  normal;
-				float4  projTexCoord : TEXCOORD1;
+				float4 projTexCoord : TEXCOORD1;
 				float4 bumpTexCoord : TEXCOORD2;
 			};
 
-			float4 _Size;
+			uniform float4 _Size;
 
 			v2f vert (appdata_tan v)
 			{
@@ -51,7 +51,7 @@ Shader "DeepWaterBelow"
    
 				o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
  
- 				o.bumpTexCoord.xy = v.vertex.xz/float2(_Size.x, _Size.z)*10;
+ 				o.bumpTexCoord.xy = v.vertex.xz / float2(_Size.x, _Size.z) * 10;
     
 				float3 objSpaceViewDir = ObjSpaceViewDir(v.vertex);
 				//  o.normal = -v.normal;
@@ -64,9 +64,9 @@ Shader "DeepWaterBelow"
 				return o;
 			}
 
-			sampler2D _UnderWaterRefraction;
-			sampler2D _UnderWaterBump;
-			sampler2D _Fresnel;
+			uniform sampler2D _UnderWaterRefraction;
+			uniform sampler2D _UnderWaterBump;
+			uniform sampler2D _Fresnel;
 
 			half4 frag (v2f i) : COLOR
 			{
