@@ -38,7 +38,7 @@ namespace SDK.Lib
             : base(subGeometry_)
         {
             m_shaderName = "Mobile/Diffuse";
-            m_texName = "Terrain/terrain_diffuse.jpg";
+            m_texName = "Texture/Terrain/terrain_diffuse.jpg";
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
         }

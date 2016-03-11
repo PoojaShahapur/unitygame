@@ -30,7 +30,7 @@
         override public void buildPage()
         {
             m_heightMapData = new HeightMapData();
-            m_heightMapData.loadHeightMap("Terrain/terrain.png");
+            m_heightMapData.loadHeightMap("Texture/Terrain/terrain.png");
 
             m_terrainPageCfg.setWorldWidthAndHeight(m_heightMapData.getWidth() - 1, m_heightMapData.getHeight() - 1);
             //m_terrainPageCfg.setWorldWidthAndHeight(1000, 1000);
