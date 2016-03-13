@@ -21,15 +21,10 @@ namespace SDK.Lib
          * |   |
          * 0 - 1
          */
-        protected MQuadTreeNode m_leftBottom;   // Child 节点
-        protected MQuadTreeNode m_rightBottom;  // Child 节点
-        protected MQuadTreeNode m_leftTop;      // Child 节点
-        protected MQuadTreeNode m_rightTop;     // Child 节点
-
+        protected MQuadTreeNode[] mChildren;
         protected float m_halfExtentXZ;     // 世界空间中节点大小的一班，主要用来裁剪
         protected float m_halfExtentY;
 
-        protected MAxisAlignedBox m_aaBox;  // 包围盒子
         protected MNodeProxy m_nodeProxy;   // 保存的一些与显示有关的数据
         /**
          * @brief Tile 的偏移原点在左下角，不是在四叉树的中间。地形 Tile 划分的时候左下角是原点，右上角是最大值
@@ -47,6 +42,9 @@ namespace SDK.Lib
         protected QuadMeshRender m_quadRender;  // 显示节点的区域大小
         protected bool m_bShowBoundBox;         // 显示 BoundBox
 
+        MVector3 mLocalCentre;
+		MAxisAlignedBox mAABB;
+
         /**
          * @brief 四叉树的节点，深度根据 leaf 的大小确定
          */
@@ -56,6 +54,7 @@ namespace SDK.Lib
 
             int halfSize = (int)(size * 0.5f);
 
+            mChildren = new MQuadTreeNode[4];
             m_centerX = centerX;
             m_centerZ = centerZ;
             m_height = height;
@@ -76,20 +75,20 @@ namespace SDK.Lib
                 float halfHalfSize = halfSize * 0.5f;
 
                 // 左底
-                m_leftBottom = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ - halfHalfSize, depth + 1, 0, 0);
-                addNode(m_leftBottom);
+                mChildren[0] = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ - halfHalfSize, depth + 1, 0, 0);
+                addNode(mChildren[0]);
 
                 // 右底
-                m_rightBottom = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ - halfHalfSize, depth + 1, halfCurDepthTileCount, 0);
-                addNode(m_rightBottom);
+                mChildren[1] = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ - halfHalfSize, depth + 1, halfCurDepthTileCount, 0);
+                addNode(mChildren[1]);
 
                 // 左顶
-                m_leftTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ + halfHalfSize, depth + 1, 0, halfCurDepthTileCount);
-                addNode(m_leftTop);
+                mChildren[2] = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX - halfHalfSize, centerZ + halfHalfSize, depth + 1, 0, halfCurDepthTileCount);
+                addNode(mChildren[2]);
 
                 // 右顶
-                m_rightTop = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ + halfHalfSize, depth + 1, halfCurDepthTileCount, halfCurDepthTileCount);
-                addNode(m_rightTop);
+                mChildren[3] = new MQuadTreeNode(terrain, maxDepth, halfSize, height, centerX + halfHalfSize, centerZ + halfHalfSize, depth + 1, halfCurDepthTileCount, halfCurDepthTileCount);
+                addNode(mChildren[3]);
             }
         }
 
@@ -144,7 +143,7 @@ namespace SDK.Lib
             MVector3 half = MVector3.ZERO;
             for (int plane = 0; plane< 6; ++plane)
             {
-                half = m_aaBox.getHalfSize();
+                half = mAABB.getHalfSize();
 
                 MVector3 centerPt = new MVector3(m_centerX, 0, m_centerZ);
                 MPlane.Side side = planes[plane].getSide(ref centerPt, ref half);
@@ -194,22 +193,22 @@ namespace SDK.Lib
 
                 if (left)
                 {
-                    return m_leftBottom.findPartitionForBounds(minX, minZ, maxX, maxZ);
+                    return mChildren[0].findPartitionForBounds(minX, minZ, maxX, maxZ);
                 }
                 else
                 {
-                    return m_rightBottom.findPartitionForBounds(minX, minZ, maxX, maxZ);
+                    return mChildren[1].findPartitionForBounds(minX, minZ, maxX, maxZ);
                 }
             }
             else
             {
                 if (left)
                 {
-                    return m_leftTop.findPartitionForBounds(minX, minZ, maxX, maxZ);
+                    return mChildren[2].findPartitionForBounds(minX, minZ, maxX, maxZ);
                 }
                 else
                 {
-                    return m_rightTop.findPartitionForBounds(minX, minZ, maxX, maxZ);
+                    return mChildren[3].findPartitionForBounds(minX, minZ, maxX, maxZ);
                 }
             }
         }
@@ -229,10 +228,10 @@ namespace SDK.Lib
                 }
                 else    // 继续裁剪 Child
                 {
-                    m_rightTop.updateClip(planes);
-                    m_leftTop.updateClip(planes);
-                    m_rightBottom.updateClip(planes);
-                    m_leftBottom.updateClip(planes);
+                    mChildren[0].updateClip(planes);
+                    mChildren[1].updateClip(planes);
+                    mChildren[2].updateClip(planes);
+                    mChildren[3].updateClip(planes);
                 }
             }
             else            // 如果不可见，就直接隐藏掉
@@ -301,10 +300,10 @@ namespace SDK.Lib
             }
             else
             {
-                m_leftBottom.postInit();
-                m_rightBottom.postInit();
-                m_leftTop.postInit();
-                m_rightTop.postInit();
+                mChildren[0].postInit();
+                mChildren[1].postInit();
+                mChildren[2].postInit();
+                mChildren[3].postInit();
             }
         }
 
@@ -355,16 +354,11 @@ namespace SDK.Lib
             }
             else
             {
-                m_rightTop.hideLeafNode();
-                m_leftTop.hideLeafNode();
-                m_rightBottom.hideLeafNode();
-                m_leftBottom.hideLeafNode();
+                mChildren[0].hideLeafNode();
+                mChildren[1].hideLeafNode();
+                mChildren[2].hideLeafNode();
+                mChildren[3].hideLeafNode();
             }
-        }
-
-        public MAxisAlignedBox getAAB()
-        {
-            return m_aaBox;
         }
 
         // 更新更新 AABB
@@ -372,28 +366,30 @@ namespace SDK.Lib
         {
             if (m_leaf)
             {
-                m_aaBox = m_nodeProxy.getAABox();
+                mAABB = m_nodeProxy.getAABox();
             }
             else
             {
-                m_rightTop.updateAABox();
-                m_leftTop.updateAABox();
-                m_rightBottom.updateAABox();
-                m_leftBottom.updateAABox();
-
-                MAxisAlignedBox tmp;
-                tmp = m_rightTop.getAAB();
-                m_aaBox.merge(ref tmp);
-
-                tmp = m_leftTop.getAAB();
-                m_aaBox.merge(ref tmp);
-
-                tmp = m_rightBottom.getAAB();
-                m_aaBox.merge(ref tmp);
-
-                tmp = m_leftBottom.getAAB();
-                m_aaBox.merge(ref tmp);
+                for (int i = 0; i < 4; ++i)
+                {
+                    mChildren[i].updateAABox();
+                    MAxisAlignedBox childBox = mChildren[i].getAABB();
+                    MVector3 boxoffset = mChildren[i].getLocalCentre() - getLocalCentre();
+                    childBox.setMinimum(childBox.getMinimum() + boxoffset);
+                    childBox.setMaximum(childBox.getMaximum() + boxoffset);
+                    mAABB.merge(childBox);
+                }
             }
+        }
+
+        public MAxisAlignedBox getAABB()
+	    {
+		    return mAABB;
+	    }
+
+        public MVector3 getLocalCentre()
+        {
+            return mLocalCentre;
         }
     }
 }

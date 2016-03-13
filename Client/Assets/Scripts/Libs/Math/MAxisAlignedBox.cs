@@ -97,7 +97,7 @@ namespace SDK.Lib
             return mMaximum;
         }
 
-        public void setMinimum(ref MVector3 vec)
+        public void setMinimum(MVector3 vec)
         {
             mExtent = Extent.EXTENT_FINITE;
             mMinimum = vec;
@@ -126,7 +126,7 @@ namespace SDK.Lib
             mMinimum.z = z;
         }
 
-        public void setMaximum(ref MVector3 vec)
+        public void setMaximum(MVector3 vec)
         {
             mExtent = Extent.EXTENT_FINITE;
             mMaximum = vec;
@@ -251,7 +251,7 @@ namespace SDK.Lib
             }
         }
 
-        public void merge(ref MAxisAlignedBox rhs)
+        public void merge(MAxisAlignedBox rhs)
         {
             if ((rhs.mExtent == Extent.EXTENT_NULL) || (mExtent == Extent.EXTENT_INFINITE))
             {

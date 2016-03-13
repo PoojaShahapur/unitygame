@@ -383,16 +383,16 @@ namespace SDK.Lib
 
                 MAxisAlignedBox tmp;
                 tmp = m_rightTop.getAAB();
-                m_aaBox.merge(ref tmp);
+                m_aaBox.merge(tmp);
 
                 tmp = m_leftTop.getAAB();
-                m_aaBox.merge(ref tmp);
+                m_aaBox.merge(tmp);
 
                 tmp = m_rightBottom.getAAB();
-                m_aaBox.merge(ref tmp);
+                m_aaBox.merge(tmp);
 
                 tmp = m_leftBottom.getAAB();
-                m_aaBox.merge(ref tmp);
+                m_aaBox.merge(tmp);
             }
         }
     }
