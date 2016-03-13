@@ -280,7 +280,6 @@
 
         public void getPoint(long x, long y, ref MVector3 outpos)
         {
-
             getPointAlign(x, y, mAlign, ref outpos);
         }
 
@@ -521,7 +520,7 @@
 
         public void distributeVertexData()
         {
-
+            mQuadTree.assignVertexData(0, 0, 0, 0);
         }
     }
 }

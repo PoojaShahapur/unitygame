@@ -142,5 +142,86 @@
                     return mAABB.getMaximum().x;
             };
         }
+
+        public bool rectContainsNode(ref MTRectI rect)
+        {
+            return (rect.left <= mOffsetX && rect.right > mBoundaryX &&
+                rect.top <= mOffsetY && rect.bottom > mBoundaryY);
+        }
+
+        public void resetBounds(ref MTRectI rect)
+        {
+            if (rectContainsNode(ref rect))
+            {
+                mAABB.setNull();
+                mBoundingRadius = 0;
+
+                if (!isLeaf())
+                {
+                    for (int i = 0; i < 4; ++i)
+                        mChildren[i].resetBounds(ref rect);
+                }
+            }
+        }
+
+        public void mergeIntoBounds(long x, long y, ref MVector3 pos)
+        {
+            if (pointIntersectsNode(x, y))
+            {
+                MVector3 localPos = pos - mLocalCentre;
+                mAABB.merge(ref localPos);
+                mBoundingRadius = UtilMath.max(mBoundingRadius, localPos.length());
+
+                if (!isLeaf())
+                {
+                    for (int i = 0; i < 4; ++i)
+                        mChildren[i].mergeIntoBounds(x, y, ref pos);
+                }
+            }
+        }
+
+        public bool pointIntersectsNode(long x, long y)
+        {
+            return x >= mOffsetX && x < mBoundaryX &&
+                y >= mOffsetY && y < mBoundaryY;
+        }
+
+        public void assignVertexData(ushort treeDepthStart, ushort treeDepthEnd, ushort resolution, uint sz)
+        {
+            UtilApi.assert(treeDepthStart >= mDepth, "Should not be calling this");
+
+            if (this.isLeaf())
+            {
+                createCpuVertexData();
+            }
+        }
+
+        public void createCpuVertexData()
+        {
+            MTRectI updateRect = new MTRectI((int)mOffsetX, (int)mOffsetY, (int)mBoundaryX, (int)mBoundaryY);
+            updateVertexBuffer(null, null, ref updateRect);
+        }
+
+        public void updateVertexBuffer(float[] posbuf, float[] deltabuf, ref MTRectI rect)
+        {
+            UtilApi.assert(rect.left >= mOffsetX && rect.right <= mBoundaryX &&
+                rect.top >= mOffsetY && rect.bottom <= mBoundaryY);
+
+            resetBounds(ref rect);
+
+            ushort inc = 1;
+            float height = 0;
+            MVector3 pos = new MVector3(0, 0, 0);
+            for (ushort y = (ushort)rect.top; y < rect.bottom; y += inc)
+            {
+                for (ushort x = (ushort)rect.left; x < rect.right; x += inc)
+                {
+                    height = mTerrain.getHeightData(x, y);
+                    mTerrain.getPoint(x, y, height, ref pos);
+                    mergeIntoBounds(x, y, ref pos);
+                    pos -= mLocalCentre;
+                }
+            }
+        }
     }
 }
