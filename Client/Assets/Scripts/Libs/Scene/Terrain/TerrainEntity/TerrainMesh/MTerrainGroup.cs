@@ -29,7 +29,7 @@ namespace SDK.Lib
             MTerrainSlot slot = getTerrainSlot(x, y, true);
             slot.def.useImportData();
 
-            slot.def.importData.terrainSize = mTerrainSize;
+            slot.def.importData.terrainSize = (ushort)mTerrainSize;
             slot.def.importData.worldSize = mTerrainWorldSize;
         }
 
@@ -49,7 +49,6 @@ namespace SDK.Lib
 
         public MTerrainSlot getTerrainSlot(long x, long y)
         {
-
             int key = (int)packIndex(x, y);
             if (mTerrainSlots.ContainsKey(key))
                 return mTerrainSlots[key];
@@ -70,7 +69,8 @@ namespace SDK.Lib
         {
             if (slot.instance == null && !string.IsNullOrEmpty(slot.def.filename))
             {
-                //slot.instance = new MTerrain(mSceneManager);
+                slot.instance = new MTerrain();
+                slot.instance.prepare(slot.def.importData);
             }
         }
 

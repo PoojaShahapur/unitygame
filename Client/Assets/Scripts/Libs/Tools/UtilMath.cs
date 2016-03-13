@@ -255,6 +255,16 @@ namespace SDK.Lib
             return Mathf.Max(a, b);
         }
 
+        static public long min(long a, long b)
+        {
+            return (long)Mathf.Min(a, b);
+        }
+
+        static public long max(long a, long b)
+        {
+            return (long)Mathf.Max(a, b);
+        }
+
         static public float ACos(float f)
         {
             return Mathf.Acos(f);
