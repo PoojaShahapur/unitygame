@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     public enum NeighbourIndex
     {
@@ -494,9 +496,9 @@
         }
 
         public Alignment getAlignment()
-	    {
-		    return mAlign;
-	    }
+        {
+            return mAlign;
+        }
 
         public ushort getSize()
         {
@@ -521,6 +523,131 @@
         public void distributeVertexData()
         {
             mQuadTree.assignVertexData(0, 0, 0, 0);
+        }
+
+        public MTerrain getNeighbour(NeighbourIndex index)
+        {
+            return mNeighbours[(int)index];
+        }
+
+        public void getPointFromSelfOrNeighbour(long x, long y, ref MVector3 outpos)
+        {
+            if (x >= 0 && y >= 0 && x < mSize && y < mSize)
+
+                getPoint(x, y, ref outpos);
+            else
+            {
+                long nx = 0, ny = 0;
+                NeighbourIndex ni = NeighbourIndex.NEIGHBOUR_EAST;
+
+                getNeighbourPointOverflow(x, y, ref ni, ref nx, ref ny);
+                MTerrain neighbour = getNeighbour(ni);
+                if (neighbour != null)
+                {
+                    MVector3 neighbourPos = MVector3.ZERO;
+                    neighbour.getPoint(nx, ny, ref neighbourPos);
+                    outpos = neighbourPos + neighbour.getPosition() - getPosition();
+                }
+                else
+                {
+                    x = UtilMath.min(x, mSize - 1L);
+                    y = UtilMath.min(y, mSize - 1L);
+                    x = UtilMath.max(x, 0L);
+                    y = UtilMath.max(y, 0L);
+
+                    getPoint(x, y, ref outpos);
+                }
+            }
+        }
+
+        public void getNeighbourPointOverflow(long x, long y, ref NeighbourIndex outindex, ref long outx, ref long outy)
+        {
+            if (x < 0)
+            {
+                outx = x + mSize - 1;
+                if (y < 0)
+                    outindex = NeighbourIndex.NEIGHBOUR_SOUTHWEST;
+                else if (y >= mSize)
+                    outindex = NeighbourIndex.NEIGHBOUR_NORTHWEST;
+                else
+                    outindex = NeighbourIndex.NEIGHBOUR_WEST;
+            }
+            else if (x >= mSize)
+            {
+                outx = x - mSize + 1;
+                if (y < 0)
+                    outindex = NeighbourIndex.NEIGHBOUR_SOUTHEAST;
+                else if (y >= mSize)
+                    outindex = NeighbourIndex.NEIGHBOUR_NORTHEAST;
+                else
+                    outindex = NeighbourIndex.NEIGHBOUR_EAST;
+            }
+            else
+                outx = x;
+
+            if (y < 0)
+            {
+                outy = y + mSize - 1;
+                if (x >= 0 && x < mSize)
+                    outindex = NeighbourIndex.NEIGHBOUR_SOUTH;
+            }
+            else if (y >= mSize)
+            {
+                outy = y - mSize + 1;
+                if (x >= 0 && x < mSize)
+                    outindex = NeighbourIndex.NEIGHBOUR_NORTH;
+            }
+            else
+                outy = y;
+        }
+
+        public bool calculateNormals(ref MTRectI rect, ref MVector3[] normalArray)
+        {
+            MTRectI widenedRect = new MTRectI(
+                (int)UtilMath.max(0L, rect.left - 1L),
+                (int)UtilMath.max(0L, rect.top - 1L),
+                (int)UtilMath.min(mSize, rect.right + 1L),
+                (int)UtilMath.min(mSize, rect.bottom + 1L)
+            );
+
+            MPlane plane = new MPlane(0);
+            for (long y = widenedRect.top; y < widenedRect.bottom; ++y)
+            {
+                for (long x = widenedRect.left; x < widenedRect.right; ++x)
+                {
+                    MVector3 cumulativeNormal = MVector3.ZERO;
+
+                    MVector3 centrePoint = new MVector3(0, 0, 0);
+                    MVector3[] adjacentPoints = new MVector3[8];
+
+                    getPointFromSelfOrNeighbour(x, y, ref centrePoint);
+                    getPointFromSelfOrNeighbour(x + 1, y, ref adjacentPoints[0]);
+                    getPointFromSelfOrNeighbour(x + 1, y + 1, ref adjacentPoints[1]);
+                    getPointFromSelfOrNeighbour(x, y + 1, ref adjacentPoints[2]);
+                    getPointFromSelfOrNeighbour(x - 1, y + 1, ref adjacentPoints[3]);
+                    getPointFromSelfOrNeighbour(x - 1, y, ref adjacentPoints[4]);
+                    getPointFromSelfOrNeighbour(x - 1, y - 1, ref adjacentPoints[5]);
+                    getPointFromSelfOrNeighbour(x, y - 1, ref adjacentPoints[6]);
+                    getPointFromSelfOrNeighbour(x + 1, y - 1, ref adjacentPoints[7]);
+
+                    for (int i = 0; i < 8; ++i)
+                    {
+                        plane.redefine(ref centrePoint, ref adjacentPoints[i], ref adjacentPoints[(i + 1) % 8]);
+                        cumulativeNormal += plane.normal;
+                    }
+
+                    cumulativeNormal.normalise();
+
+                    long storeX = x - widenedRect.left;
+                    long storeY = y - widenedRect.bottom;
+                    int normalIndex = (int)((storeY * widenedRect.width()) + storeX);
+
+                    normalArray[normalIndex].x = cumulativeNormal.x;
+                    normalArray[normalIndex].y = cumulativeNormal.y;
+                    normalArray[normalIndex].z = cumulativeNormal.z;
+                }
+            }
+            return true;
         }
     }
 }
