@@ -226,6 +226,9 @@
                     writePosVertex(x, y, ref pos, uvScale);
                 }
             }
+
+            mTerrain.calculateNormals(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexNormals);
+            mTerrain.calculateTangents(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexTangents);
         }
 
         protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)

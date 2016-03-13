@@ -650,7 +650,7 @@ namespace SDK.Lib
             return true;
         }
 
-        public bool calculateTangents(ref MTRectI rect, ref Vector3[] tangentArray)
+        public bool calculateTangents(ref MTRectI rect, ref Vector4[] tangentArray)
         {
             MTRectI widenedRect = new MTRectI(
                (int)UtilMath.max(0L, rect.left - 1L),
@@ -699,6 +699,7 @@ namespace SDK.Lib
                     tangentArray[normalIndex].x = cumulativeTangent.x;
                     tangentArray[normalIndex].y = cumulativeTangent.y;
                     tangentArray[normalIndex].z = cumulativeTangent.z;
+                    tangentArray[normalIndex].w = 0;
                 }
             }
             return true;
