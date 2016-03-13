@@ -70,7 +70,7 @@
             return mPos;
         }
 
-    public MAxisAlignedBox getAABB()
+        public MAxisAlignedBox getAABB()
         {
             if (mQuadTree == null)
                 return MAxisAlignedBox.BOX_NULL;
@@ -95,7 +95,7 @@
             else
                 return mQuadTree.getMinHeight();
         }
-        //---------------------------------------------------------------------
+
         public float getMaxHeight()
         {
             if (mQuadTree == null)
@@ -363,7 +363,6 @@
 
         public void getVectorAlign(float x, float y, float z, Alignment align, ref MVector3 outVec)
         {
-
             switch (align)
             {
                 case Alignment.ALIGN_X_Z:
@@ -386,31 +385,26 @@
 
         public void getPosition(MVector3 TSpos, ref MVector3 outWSpos)
         {
-
             getPositionAlign(TSpos, mAlign, ref outWSpos);
         }
 
         public void getPosition(float x, float y, float z, ref MVector3 outWSpos)
         {
-
             getPositionAlign(x, y, z, mAlign, ref outWSpos);
         }
 
         public void getTerrainPosition(MVector3 WSpos, ref MVector3 outTSpos)
         {
-
             getTerrainPositionAlign(WSpos, mAlign, ref outTSpos);
         }
 
         public void getTerrainPosition(float x, float y, float z, ref MVector3 outTSpos)
         {
-
             getTerrainPositionAlign(x, y, z, mAlign, ref outTSpos);
         }
 
         public void getPositionAlign(MVector3 TSpos, Alignment align, ref MVector3 outWSpos)
         {
-
             getPositionAlign(TSpos.x, TSpos.y, TSpos.z, align, ref outWSpos);
         }
 
@@ -470,19 +464,16 @@
 
         public void getTerrainVector(float x, float y, float z, ref MVector3 outVec)
         {
-
             getTerrainVectorAlign(x, y, z, mAlign, ref outVec);
         }
 
         public void getTerrainVectorAlign(MVector3 inVec, Alignment align, ref MVector3 outVec)
         {
-
             getTerrainVectorAlign(inVec.x, inVec.y, inVec.z, align, ref outVec);
         }
 
         public void getTerrainVectorAlign(float x, float y, float z, Alignment align, ref MVector3 outVec)
         {
-
             switch (align)
             {
                 case Alignment.ALIGN_X_Z:
@@ -504,11 +495,11 @@
         }
 
         public Alignment getAlignment()
-	{
-		return mAlign;
-	}
+	    {
+		    return mAlign;
+	    }
 
-    public ushort getSize()
+        public ushort getSize()
         {
             return mSize;
         }
