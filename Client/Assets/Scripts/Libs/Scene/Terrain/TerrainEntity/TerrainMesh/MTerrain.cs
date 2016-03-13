@@ -601,7 +601,7 @@ namespace SDK.Lib
                 outy = y;
         }
 
-        public bool calculateNormals(ref MTRectI rect, ref MVector3[] normalArray)
+        public bool calculateNormals(ref MTRectI rect, ref Vector3[] normalArray)
         {
             MTRectI widenedRect = new MTRectI(
                 (int)UtilMath.max(0L, rect.left - 1L),
@@ -648,6 +648,143 @@ namespace SDK.Lib
                 }
             }
             return true;
+        }
+
+        public bool calculateTangents(ref MTRectI rect, ref Vector3[] tangentArray)
+        {
+            MTRectI widenedRect = new MTRectI(
+               (int)UtilMath.max(0L, rect.left - 1L),
+               (int)UtilMath.max(0L, rect.top - 1L),
+               (int)UtilMath.min(mSize, rect.right + 1L),
+               (int)UtilMath.min(mSize, rect.bottom + 1L)
+            );
+
+            int faceNum = 2 * 2 * 2;
+            int indexNum = 2 * 2 * 6;
+            int vertexNum = 3 * 3;
+            int[] indexArray = new int[indexNum];
+            MVector3[] faceTangents = new MVector3[faceNum];
+            MVector2[] uvs = new MVector2[vertexNum];
+
+            for (long y = widenedRect.top; y < widenedRect.bottom; ++y)
+            {
+                for (long x = widenedRect.left; x < widenedRect.right; ++x)
+                {
+                    MVector3[] pointsArray = new MVector3[9];
+
+                    getPointFromSelfOrNeighbour(x, y, ref pointsArray[4]);
+                    getPointFromSelfOrNeighbour(x + 1, y, ref pointsArray[0]);
+                    getPointFromSelfOrNeighbour(x + 1, y + 1, ref pointsArray[1]);
+                    getPointFromSelfOrNeighbour(x, y + 1, ref pointsArray[2]);
+                    getPointFromSelfOrNeighbour(x - 1, y + 1, ref pointsArray[3]);
+                    getPointFromSelfOrNeighbour(x - 1, y, ref pointsArray[5]);
+                    getPointFromSelfOrNeighbour(x - 1, y - 1, ref pointsArray[6]);
+                    getPointFromSelfOrNeighbour(x, y - 1, ref pointsArray[7]);
+                    getPointFromSelfOrNeighbour(x + 1, y - 1, ref pointsArray[8]);
+
+                    calcIndex(pointsArray, 3, ref indexArray);
+                    updateFaceTangents(pointsArray, uvs, indexArray, 3, faceTangents);
+                    MVector3 cumulativeTangent = MVector3.ZERO;
+                    for (int i = 0; i < faceNum; ++i)
+                    {
+                        cumulativeTangent += faceTangents[i];
+                    }
+
+                    cumulativeTangent.normalise();
+
+                    long storeX = x - widenedRect.left;
+                    long storeY = y - widenedRect.bottom;
+                    int normalIndex = (int)((storeY * widenedRect.width()) + storeX);
+
+                    tangentArray[normalIndex].x = cumulativeTangent.x;
+                    tangentArray[normalIndex].y = cumulativeTangent.y;
+                    tangentArray[normalIndex].z = cumulativeTangent.z;
+                }
+            }
+            return true;
+        }
+
+        public void calcIndex(MVector3[] vertices, int vertexNum, ref int[] indexArray)
+        {
+            int numIndex = 0;
+            int baseIdx = 0;
+            int tw = vertexNum;
+
+            for (int zi = 0; zi <= vertexNum - 1; ++zi)
+            {
+                for (int xi = 0; xi <= vertexNum - 1; ++xi)
+                {
+                    if (xi != vertexNum - 1 && zi != vertexNum - 1)   // 循环中计数已经多加了 1 ，因此，这里如果超过范围直接返回，只有在范围内的值，才更新
+                    {
+                        baseIdx = xi + zi * tw;
+                        indexArray[numIndex] = baseIdx;
+                        indexArray[numIndex + 1] = baseIdx + tw;
+                        indexArray[numIndex + 2] = baseIdx + tw + 1;
+                        indexArray[numIndex + 3] = baseIdx;
+                        indexArray[numIndex + 4] = baseIdx + tw + 1;
+                        indexArray[numIndex + 5] = baseIdx + 1;
+
+                        numIndex += 6;
+                    }
+                }
+            }
+        }
+
+        protected void updateFaceTangents(MVector3[] vertices, MVector2[] uvs, int[] indexs, int vertexNum, MVector3[] faceTangents)
+        {
+            uint i = 0;
+            int index1 = 0, index2 = 0, index3 = 0;
+            uint len = (uint)indexs.Length;
+            uint ui = 0, vi = 0;
+            float v0 = 0;
+            float dv1 = 0, dv2 = 0;
+            float denom = 0;
+            float x0 = 0, y0 = 0, z0 = 0;
+            float dx1 = 0, dy1 = 0, dz1 = 0;
+            float dx2 = 0, dy2 = 0, dz2 = 0;
+            float cx = 0, cy = 0, cz = 0;
+            int posStride = 1;
+            int posOffset = 0;
+            int texStride = 1;
+            int texOffset = 0;
+
+            i = 0;
+            while (i < len)     // 一个面是 3 个顶点，遍历一次就是一个面
+            {
+                index1 = indexs[(int)i];
+                index2 = indexs[(int)i + 1];
+                index3 = indexs[(int)i + 2];
+
+                ui = (uint)(texOffset + index1 * texStride);
+                v0 = uvs[(int)ui].y;
+                ui = (uint)(texOffset + index2 * texStride);
+                dv1 = uvs[(int)ui].y - v0;
+                ui = (uint)(texOffset + index3 * texStride);
+                dv2 = uvs[(int)ui].y - v0;
+
+                vi = (uint)(posOffset + index1 * posStride);
+                x0 = vertices[(int)vi].x;
+                y0 = vertices[(int)vi].y;
+                z0 = vertices[(int)vi].z;
+                vi = (uint)(posOffset + index2 * posStride);
+                dx1 = vertices[(int)(vi)].x - x0;
+                dy1 = vertices[(int)(vi)].y - y0;
+                dz1 = vertices[(int)(vi)].z - z0;
+                vi = (uint)(posOffset + index3 * posStride);
+                dx2 = vertices[(int)(vi)].x - x0;
+                dy2 = vertices[(int)(vi)].y - y0;
+                dz2 = vertices[(int)(vi)].z - z0;
+
+                cx = dv2 * dx1 - dv1 * dx2;
+                cy = dv2 * dy1 - dv1 * dy2;
+                cz = dv2 * dz1 - dv1 * dz2;
+                denom = (float)(1 / UtilMath.Sqrt(cx * cx + cy * cy + cz * cz));
+                faceTangents[(int)i / 3].x = denom * cx;
+                faceTangents[(int)i / 3].y = denom * cy;
+                faceTangents[(int)i / 3].z = denom * cz;
+
+                i += 3;     // 移动 3 个顶点，就是一个面
+            }
         }
     }
 }

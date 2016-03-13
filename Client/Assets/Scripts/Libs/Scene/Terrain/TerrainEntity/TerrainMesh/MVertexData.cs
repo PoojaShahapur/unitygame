@@ -21,7 +21,7 @@ namespace SDK.Lib
 
             m_vertexData = new Vector3[mMaxBatchSize * mMaxBatchSize];
             m_uvs = new Vector2[mMaxBatchSize * mMaxBatchSize];
-            m_indices = new int[mMaxBatchSize * mMaxBatchSize * 6];
+            m_indices = new int[(mMaxBatchSize - 1) * (mMaxBatchSize - 1) * 6];
         }
     }
 }
