@@ -27,6 +27,7 @@
         protected float mBoundingRadius;
         protected int mCurrentLod;
         protected bool mSelfOrChildRendered;
+        protected MVertexDataRecord mVertexDataRecord;
 
         protected MSceneNode mLocalNode;
 
@@ -65,6 +66,7 @@
             else
             {
                 mBaseLod = 0;
+                mVertexDataRecord = new MVertexDataRecord();
             }
 
             ushort midoffset = (ushort)((size - 1) / 2);
@@ -209,6 +211,7 @@
 
             resetBounds(ref rect);
 
+            float uvScale = 1.0f / (mTerrain.getSize() - 1);
             ushort inc = 1;
             float height = 0;
             MVector3 pos = new MVector3(0, 0, 0);
@@ -220,7 +223,30 @@
                     mTerrain.getPoint(x, y, height, ref pos);
                     mergeIntoBounds(x, y, ref pos);
                     pos -= mLocalCentre;
+                    writePosVertex(x, y, ref pos, uvScale);
                 }
+            }
+        }
+
+        protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)
+        {
+            int vertexIndex = (y - mOffsetY) * mTerrain.getMaxBatchSize() + (x - mOffsetX);
+            mVertexDataRecord.cpuVertexData.m_vertexData[vertexIndex].x = pos.x;
+            mVertexDataRecord.cpuVertexData.m_vertexData[vertexIndex].y = pos.y;
+            mVertexDataRecord.cpuVertexData.m_vertexData[vertexIndex].z = pos.z;
+
+            mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].x = x * uvScale;
+            mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].y = 1.0f - (y * uvScale);
+
+            if (x != mBoundaryX && y != mBoundaryY)
+            {
+                int vertexWidth = mTerrain.getMaxBatchSize();
+                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6] = vertexIndex;
+                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 1] = vertexIndex + vertexWidth;
+                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 2] = vertexIndex + vertexWidth + 1;
+                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 3] = vertexIndex;
+                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 4] = vertexIndex + vertexWidth + 1;
+                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 5] = vertexIndex + 1;
             }
         }
     }
