@@ -3,7 +3,7 @@
     /**
      * @brief 一个 Terrain，这个地形 Page 只有一个 Tile
      */
-    public class MTerrainOne : MTerrain
+    public class MTerrainOne : MTerrainOld
     {
         protected HeightMapData m_heightMapData;    // 高度图数据
         protected HeightMapMeshOne m_heightMapMesh;    // 高度图 Mesh

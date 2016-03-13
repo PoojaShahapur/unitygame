@@ -9,7 +9,7 @@ namespace SDK.Lib
         protected string m_file;
         //protected QuadTree<Tile> m_quadTree;      // 地形四叉树
         protected ZoneSys m_zoneSys;
-        protected MTerrain m_terrain;            // 地形
+        protected MTerrainOld m_terrain;            // 地形
 
         public Scene()
         {

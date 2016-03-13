@@ -3,7 +3,7 @@
     /**
      * @brief 一个 Terrain，这个地形有多个 Tile
      */
-    public class MTerrainMulti : MTerrain
+    public class MTerrainMulti : MTerrainOld
     {
         protected HeightMapData m_heightMapData;        // 高度图数据
         protected HeightMapMeshMulti m_heightMapMesh;   // 高度图 Mesh
@@ -12,6 +12,28 @@
         public MTerrainMulti()
         {
             m_terrainPageCfg = new TerrainPageCfg();
+        }
+
+        override public void init()
+        {
+            base.init();
+            mHeightData = new float[m_heightMapData.getWidth() * m_heightMapData.getHeight()];
+            getHeightData();
+        }
+
+        protected void getHeightData()
+        {
+            int srcy = 0;
+            float height = 0;
+            for (int idy = 0; idy < mSize; ++idy)
+            {
+                srcy = mSize - idy - 1;
+                for(int idx = 0; idx < mSize; ++idx)
+                {
+                    height = m_heightMapData.getOrigHeight(idx, idy);
+                    mHeightData[idy * m_heightMapData.getWidth() + idx] = height * m_terrainPageCfg.getInputScale() + m_terrainPageCfg.getInputBias();
+                }
+            }
         }
 
         override public TerrainPageCfg getTerrainPageCfg()

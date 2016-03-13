@@ -94,6 +94,12 @@ namespace SDK.Lib
             m_heightMap.LoadRawTextureData(data);
         }
 
+        public float getOrigHeight(int x, int z)
+        {
+            Color color = m_heightMap.GetPixel(x, z);
+            return color.r;
+        }
+
         /**
          * @brief 获取灰度值，灰度图已经是灰度缩放的值，如果再取 grayscale ，就是缩放了两次了
          */

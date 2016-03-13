@@ -24,7 +24,7 @@
         /**
          * @brief 更新 Mesh 数据
          */
-        virtual public void updateMesh(MTerrain terrain, int tileIndex)
+        virtual public void updateMesh(MTerrainOld terrain, int tileIndex)
         {
 
         }

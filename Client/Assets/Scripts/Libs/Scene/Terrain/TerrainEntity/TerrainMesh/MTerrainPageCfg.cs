@@ -27,6 +27,9 @@
 
         protected bool m_isBuildAllTileAndNoClip;   // 是否是一次生成所有的 Tile 数据，不用裁剪
 
+        protected float mInputScale;
+        protected float mInputBias;
+
         /**
          * @brief 地形配置，尽量 worldWidth 和 worldHeight 尽量相等
          * @param worldWidth 场景宽度，注意是 2 的 n 次幂 - 1 ，例如 512 ，不是 513
@@ -285,6 +288,16 @@
         public bool getIsBuildAllTileAndNoClip()
         {
             return m_isBuildAllTileAndNoClip;
+        }
+
+        public float getInputScale()
+        {
+            return mInputScale;
+        }
+
+        public float getInputBias()
+        {
+            return mInputBias;
         }
     }
 }

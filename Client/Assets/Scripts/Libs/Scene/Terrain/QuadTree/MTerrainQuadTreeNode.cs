@@ -7,7 +7,7 @@ namespace SDK.Lib
      */
     public class MQuadTreeNode : MNodeBase
     {
-        protected MTerrain m_terrain;    // 地形
+        protected MTerrainOld m_terrain;    // 地形
 
         protected float m_centerX;  // 世界空间中的中心点
         protected float m_centerZ;  // 世界空间中的中心点
@@ -48,7 +48,7 @@ namespace SDK.Lib
         /**
          * @brief 四叉树的节点，深度根据 leaf 的大小确定
          */
-        public MQuadTreeNode(MTerrain terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0, int xTileOffset = 0, int zTileOffset = 0)
+        public MQuadTreeNode(MTerrainOld terrain, int maxDepth = 5, int size = 10000, int height = 1000000, float centerX = 0, float centerZ = 0, int depth = 0, int xTileOffset = 0, int zTileOffset = 0)
         {
             m_terrain = terrain;
 
