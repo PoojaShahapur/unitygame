@@ -626,7 +626,7 @@ namespace SDK.Lib
 
         public bool getPointNormal(long x, long y, ref Vector3 pointNormal)
         {
-            clampPoint(ref x, ref y, 1, mSize - 1);
+            clampPoint(ref x, ref y, 1, mSize - 2);
             MPlane plane = new MPlane(0);
 
             MVector3 cumulativeNormal = MVector3.ZERO;
@@ -636,13 +636,13 @@ namespace SDK.Lib
 
             getPointFromSelfOrNeighbour(x, y, ref centrePoint);
             getPointFromSelfOrNeighbour(x + 1, y, ref adjacentPoints[0]);
-            getPointFromSelfOrNeighbour(x + 1, y + 1, ref adjacentPoints[1]);
-            getPointFromSelfOrNeighbour(x, y + 1, ref adjacentPoints[2]);
-            getPointFromSelfOrNeighbour(x - 1, y + 1, ref adjacentPoints[3]);
+            getPointFromSelfOrNeighbour(x + 1, y + 1, ref adjacentPoints[7]);
+            getPointFromSelfOrNeighbour(x, y + 1, ref adjacentPoints[6]);
+            getPointFromSelfOrNeighbour(x - 1, y + 1, ref adjacentPoints[5]);
             getPointFromSelfOrNeighbour(x - 1, y, ref adjacentPoints[4]);
-            getPointFromSelfOrNeighbour(x - 1, y - 1, ref adjacentPoints[5]);
-            getPointFromSelfOrNeighbour(x, y - 1, ref adjacentPoints[6]);
-            getPointFromSelfOrNeighbour(x + 1, y - 1, ref adjacentPoints[7]);
+            getPointFromSelfOrNeighbour(x - 1, y - 1, ref adjacentPoints[3]);
+            getPointFromSelfOrNeighbour(x, y - 1, ref adjacentPoints[2]);
+            getPointFromSelfOrNeighbour(x + 1, y - 1, ref adjacentPoints[1]);
 
             for (int i = 0; i < 8; ++i)
             {
@@ -710,7 +710,7 @@ namespace SDK.Lib
 
         public bool getPointTangent(long x, long y, ref Vector4 pointTangent)
         {
-            clampPoint(ref x, ref y, 1, mSize - 1);
+            clampPoint(ref x, ref y, 1, mSize - 2);
 
             int faceNum = 2 * 2 * 2;
             int indexNum = 2 * 2 * 6;
@@ -721,54 +721,34 @@ namespace SDK.Lib
             int[] indexArray = new int[indexNum];
             MVector3[] faceTangents = new MVector3[faceNum];
 
-            getPointFromSelfOrNeighbour(x, y, ref pointsArray[4]);
-            getUVFromSelfOrNeighbour(x, y, ref uvArray[4]);
+            getPointFromSelfOrNeighbour(x, y, ref pointsArray[8]);
+            getPointFromSelfOrNeighbour(x + 1, y, ref pointsArray[0]);
+            getPointFromSelfOrNeighbour(x + 1, y + 1, ref pointsArray[7]);
+            getPointFromSelfOrNeighbour(x, y + 1, ref pointsArray[6]);
+            getPointFromSelfOrNeighbour(x - 1, y + 1, ref pointsArray[5]);
+            getPointFromSelfOrNeighbour(x - 1, y, ref pointsArray[4]);
+            getPointFromSelfOrNeighbour(x - 1, y - 1, ref pointsArray[3]);
+            getPointFromSelfOrNeighbour(x, y - 1, ref pointsArray[2]);
+            getPointFromSelfOrNeighbour(x + 1, y - 1, ref pointsArray[1]);
 
-            getPointFromSelfOrNeighbour(x + 1, y, ref pointsArray[5]);
-            getUVFromSelfOrNeighbour(x + 1, y, ref uvArray[5]);
-
-            getPointFromSelfOrNeighbour(x + 1, y + 1, ref pointsArray[8]);
-            getUVFromSelfOrNeighbour(x + 1, y + 1, ref uvArray[8]);
-
-            getPointFromSelfOrNeighbour(x, y + 1, ref pointsArray[7]);
-            getUVFromSelfOrNeighbour(x, y + 1, ref uvArray[7]);
-
-            getPointFromSelfOrNeighbour(x - 1, y + 1, ref pointsArray[6]);
-            getUVFromSelfOrNeighbour(x - 1, y + 1, ref uvArray[6]);
-
-            getPointFromSelfOrNeighbour(x - 1, y, ref pointsArray[3]);
-            getUVFromSelfOrNeighbour(x, y, ref uvArray[3]);
-
-            getPointFromSelfOrNeighbour(x - 1, y - 1, ref pointsArray[0]);
-            getUVFromSelfOrNeighbour(x - 1, y - 1, ref uvArray[0]);
-
-            getPointFromSelfOrNeighbour(x, y - 1, ref pointsArray[1]);
-            getUVFromSelfOrNeighbour(x, y - 1, ref uvArray[1]);
-
-            getPointFromSelfOrNeighbour(x + 1, y - 1, ref pointsArray[2]);
-            getUVFromSelfOrNeighbour(x + 1, y - 1, ref uvArray[2]);
+            getUVFromSelfOrNeighbour(x, y, ref uvArray[8]);
+            getUVFromSelfOrNeighbour(x + 1, y, ref uvArray[0]);
+            getUVFromSelfOrNeighbour(x + 1, y + 1, ref uvArray[7]);
+            getUVFromSelfOrNeighbour(x, y + 1, ref uvArray[6]);
+            getUVFromSelfOrNeighbour(x - 1, y + 1, ref uvArray[5]);
+            getUVFromSelfOrNeighbour(x - 1, y, ref uvArray[4]);
+            getUVFromSelfOrNeighbour(x - 1, y - 1, ref uvArray[3]);
+            getUVFromSelfOrNeighbour(x, y - 1, ref uvArray[2]);
+            getUVFromSelfOrNeighbour(x + 1, y - 1, ref uvArray[1]);
 
             int bufferIndex = 0;
-            int baseIdx = 0;
-            int vertexSize = 3;
 
-            for (int idy = 0; idy < 3; ++idy)
+            for (int idx = 0; idx < 8; ++idx)
             {
-                for (int idx = 0; idx < 3; ++idx)
-                {
-                    if (idx != 2 && idy != 2)
-                    {
-                        baseIdx = idx + idy * vertexSize;
-                        indexArray[bufferIndex] = baseIdx;
-                        indexArray[bufferIndex + 1] = baseIdx + vertexSize;
-                        indexArray[bufferIndex + 2] = baseIdx + vertexSize + 1;
-                        indexArray[bufferIndex + 3] = baseIdx;
-                        indexArray[bufferIndex + 4] = baseIdx + vertexSize + 1;
-                        indexArray[bufferIndex + 5] = baseIdx + 1;
-
-                        bufferIndex += 6;
-                    }
-                }
+                indexArray[bufferIndex] = 8;
+                indexArray[bufferIndex + 1] = idx;
+                indexArray[bufferIndex + 2] = (idx + 1) % 8;
+                bufferIndex += 3;
             }
 
             updateFaceTangents(pointsArray, uvArray, indexArray, faceTangents);

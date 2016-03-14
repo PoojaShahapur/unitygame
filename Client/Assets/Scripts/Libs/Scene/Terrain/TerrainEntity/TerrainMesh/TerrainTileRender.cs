@@ -27,6 +27,7 @@ namespace SDK.Lib
         protected string m_matPreStr;           // 材质前缀字符
         protected string m_meshName;            // Mesh 的名字
         protected MTerrainQuadTreeNode m_treeNode;
+        protected bool m_isAutoBuildNormal = false;
 
         public TerrainTileRender(MTerrainQuadTreeNode treeNode)
             : base(null)
@@ -34,6 +35,7 @@ namespace SDK.Lib
             m_treeNode = treeNode;
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
+            m_isAutoBuildNormal = true;
         }
 
         /**
@@ -230,7 +232,6 @@ namespace SDK.Lib
 
             if (vertexCount < MAX_VERTEX_PER_MESH)  // 顶点数量判断
             {
-                bool trim = true;           // 是否顶点数据改变过
                 // 创建 mesh
                 if (m_mesh == null)
                 {
@@ -250,15 +251,13 @@ namespace SDK.Lib
                 m_mesh.vertices = m_treeNode.getVertexData();
                 m_mesh.uv = m_treeNode.getUVData();
                 //m_mesh.colors32 = m_treeNode.getVectexColorData();
-
+                m_mesh.triangles = m_treeNode.getIndexData();
                 m_mesh.normals = m_treeNode.getVertexNormalsData();
                 m_mesh.tangents = m_treeNode.getVertexTangentsData();
 
-                m_mesh.triangles = m_treeNode.getIndexData();
-
-                if (trim)
+                if (m_isAutoBuildNormal)
                 {
-                    //m_mesh.RecalculateNormals();
+                    m_mesh.RecalculateNormals();
                     m_mesh.RecalculateBounds();
                 }
 
@@ -361,8 +360,6 @@ namespace SDK.Lib
 
             base.show();
             UpdateGeometry();
-            //UpdateMaterials();
-            //UpdateTexture();
             createCopyMaterial();
         }
 

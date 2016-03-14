@@ -269,6 +269,9 @@ namespace SDK.Lib
 
             mTerrain.getPointNormal(x, y, ref mVertexDataRecord.cpuVertexData.m_vertexNormals[vertexIndex]);
             mTerrain.getPointTangent(x, y, ref mVertexDataRecord.cpuVertexData.m_vertexTangents[vertexIndex]);
+
+            //mVertexDataRecord.cpuVertexData.m_vertexNormals[vertexIndex] = new Vector3(0, 1, 0);
+            //mVertexDataRecord.cpuVertexData.m_vertexTangents[vertexIndex] = new Vector3(0, 0, 1);
         }
 
         public Vector3[] getVertexData()
