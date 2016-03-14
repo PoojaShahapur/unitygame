@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public struct MTerrainSlot
+    public class MTerrainSlot
     {
         public long x, y;
         public MTerrainSlotDefinition def;

@@ -21,7 +21,7 @@
             pos = MVector3.ZERO;
             worldSize = 512;
             //public Image* inputImage;
-            heightPath = "Materials/Texture/Terrain/terrain.png";
+            heightPath = "Materials/Texture/Terrain/TerrainHeight_1.png";
             inputScale = 255;
             inputBias = 0;
             deleteInputData = true;

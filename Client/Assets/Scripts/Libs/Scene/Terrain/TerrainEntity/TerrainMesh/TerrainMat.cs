@@ -37,7 +37,7 @@ namespace SDK.Lib
             m_matPreStr = "Dyn_";
             m_diffuseShaderName = "Mobile/Diffuse";
             m_specularShaderName = "Mobile/Bumped Specular (1 Directional Light)";
-            m_diffuseTexName = "Materials/Texture/Terrain/terrain_diffuse.jpg";
+            m_diffuseTexName = "Materials/Texture/Terrain/TerrainDiffuse_1.jpg";
             m_heightTexName = "Materials/Texture/Terrain/terrain.png";
             m_normalTexName = "Materials/Texture/Terrain/terrain_normal.jpg";
         }

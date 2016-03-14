@@ -46,7 +46,7 @@ namespace SDK.Lib
                 mTerrainSlots[key] = slot;
                 return slot;
             }
-            return new MTerrainSlot();
+            return null;
         }
 
         public MTerrainSlot getTerrainSlot(long x, long y)
@@ -55,7 +55,7 @@ namespace SDK.Lib
             if (mTerrainSlots.ContainsKey(key))
                 return mTerrainSlots[key];
             else
-                return new MTerrainSlot();
+                return null;
         }
 
         public void loadTerrain(long x, long y, bool synchronous /*= false*/)
