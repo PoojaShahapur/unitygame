@@ -30,6 +30,7 @@ namespace SDK.Lib
         {
             MTerrainSlot slot = getTerrainSlot(x, y, true);
             slot.def.useImportData();
+            slot.def.importData.assignFrom(mDefaultImportData);
 
             slot.def.importData.terrainSize = (ushort)mTerrainSize;
             slot.def.importData.worldSize = mTerrainWorldSize;
@@ -61,7 +62,7 @@ namespace SDK.Lib
         public void loadTerrain(long x, long y, bool synchronous /*= false*/)
         {
             MTerrainSlot slot = getTerrainSlot(x, y, false);
-            //if (slot)
+            if (slot != null)
             {
                 loadTerrainImpl(slot, synchronous);
             }
@@ -69,7 +70,7 @@ namespace SDK.Lib
 
         public void loadTerrainImpl(MTerrainSlot slot, bool synchronous)
         {
-            if (slot.instance == null && !string.IsNullOrEmpty(slot.def.filename))
+            if (slot.instance == null && (!string.IsNullOrEmpty(slot.def.filename) || slot.def.importData != null))
             {
                 slot.instance = new MTerrain();
                 slot.instance.prepare(slot.def.importData);

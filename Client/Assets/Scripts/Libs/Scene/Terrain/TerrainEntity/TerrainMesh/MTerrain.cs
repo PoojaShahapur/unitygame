@@ -67,7 +67,6 @@ namespace SDK.Lib
 
             m_heightMapData = new HeightMapData();
             mTerrainMat = new TerrainMat();
-            mTerrainMat.loadDiffuseMat();
         }
 
         public MVector3 getPosition()
@@ -141,8 +140,10 @@ namespace SDK.Lib
                         mHeightData[idy * mSize + idx] = height * importData.inputScale + importData.inputBias;
                     }
                 }
-
             }
+
+            mTerrainMat.setDiffuseMap(importData.diffusePath);
+            mTerrainMat.loadDiffuseMat();
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
             mQuadTree.prepare();

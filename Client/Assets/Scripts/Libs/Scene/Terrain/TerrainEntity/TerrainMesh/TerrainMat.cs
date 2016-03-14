@@ -42,6 +42,11 @@ namespace SDK.Lib
             m_normalTexName = "Materials/Texture/Terrain/terrain_normal.jpg";
         }
 
+        public void setDiffuseMap(string path)
+        {
+            m_diffuseTexName = path;
+        }
+
         // 加载漫反射材质
         public void loadDiffuseMat()
         {

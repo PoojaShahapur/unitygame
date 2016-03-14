@@ -7,7 +7,7 @@
         public ushort minBatchSize;
         public MVector3 pos;
         public float worldSize;
-        //public Image* inputImage;
+        public string diffusePath;
         public string heightPath;
         public float inputScale;
         public float inputBias;
@@ -15,16 +15,32 @@
 
         public MImportData()
         {
-            terrainSize = 513;
+            terrainSize = 1025;
             maxBatchSize = 65;
             minBatchSize = 33;
             pos = MVector3.ZERO;
-            worldSize = 512;
-            //public Image* inputImage;
-            heightPath = "Materials/Texture/Terrain/TerrainHeight_1.png";
+            worldSize = 1024;
+            //diffusePath = "Materials/Texture/Terrain/TerrainDiffuse_1.png";
+            diffusePath = "Materials/Texture/Terrain/terrain_diffuse.png";
+            //heightPath = "Materials/Texture/Terrain/TerrainHeight_1.png";
+            heightPath = "Materials/Texture/Terrain/terrain_heights.png";
             inputScale = 255;
             inputBias = 0;
             deleteInputData = true;
+        }
+
+        public void assignFrom(MImportData rhs)
+        {
+            terrainSize = rhs.terrainSize;
+            maxBatchSize = rhs.maxBatchSize;
+            minBatchSize = rhs.minBatchSize;
+            pos = rhs.pos;
+            worldSize = rhs.worldSize;
+            diffusePath = rhs.diffusePath;
+            heightPath = rhs.heightPath;
+            inputScale = rhs.inputScale;
+            inputBias = rhs.inputBias;
+            deleteInputData = rhs.deleteInputData;
         }
     }
 }

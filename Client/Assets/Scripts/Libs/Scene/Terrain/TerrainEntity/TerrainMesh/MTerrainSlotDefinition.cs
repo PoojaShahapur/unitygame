@@ -7,7 +7,7 @@
 
         public MTerrainSlotDefinition()
         {
-            filename = "Materials/Texture/Terrain/TerrainHeight_1.png";
+            filename = "Materials/Texture/Terrain/Terrain.dat";
         }
 
         public void useImportData()
