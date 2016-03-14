@@ -23,7 +23,7 @@
             //diffusePath = "Materials/Texture/Terrain/TerrainDiffuse_1.png";
             diffusePath = "Materials/Texture/Terrain/terrain_diffuse.png";
             //heightPath = "Materials/Texture/Terrain/TerrainHeight_1.png";
-            heightPath = "Materials/Texture/Terrain/terrain_heights.png";
+            heightPath = "Materials/Texture/Terrain/terrain.png";
             inputScale = 255;
             inputBias = 0;
             deleteInputData = true;
