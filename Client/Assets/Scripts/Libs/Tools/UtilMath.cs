@@ -20,6 +20,7 @@ namespace SDK.Lib
         public const float POS_INFINITY = float.PositiveInfinity;
         public const float NEG_INFINITY = float.NegativeInfinity;
         public const float EPSILON = 1e-6f;
+        public static float LOG2 = Mathf.Log((float)(2.0));
 
         public static AngleUnit msAngleUnit;
         public static int mTrigTableSize;
@@ -587,6 +588,11 @@ namespace SDK.Lib
                 return degrees * fDeg2Rad;
             else
                 return degrees;
+        }
+
+        static public float Log2(float fValue)
+        {
+            return (float)(Mathf.Log(fValue) / LOG2);
         }
     }
 }

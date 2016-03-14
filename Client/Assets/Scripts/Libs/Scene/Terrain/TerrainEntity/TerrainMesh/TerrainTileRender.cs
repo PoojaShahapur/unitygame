@@ -5,12 +5,10 @@ namespace SDK.Lib
     /**
      * @brief 仅仅有漫反射渲染
      */
-    public class SingleTileRender : MeshRender
+    public class TerrainTileRender : AuxComponent
     {
         // Unity 规定一个 Mesh 顶点最多不能超过 65000 个顶点，注意是顶点数量，不是内存数量
         protected static int MAX_VERTEX_PER_MESH = 65000;
-
-        protected TileBase m_tile;
 
         protected Material m_material;         // 使用的共享材质
         protected Texture m_texture;           // 使用的纹理
@@ -26,19 +24,14 @@ namespace SDK.Lib
         protected int m_renderQueue = 3000;    // 渲染队列
         protected int m_triangles = 0;         // 渲染的三角形的数量
 
-        protected string m_shaderName;          // shader 的名字
         protected string m_matPreStr;           // 材质前缀字符
         protected string m_meshName;            // Mesh 的名字
-        protected string m_texName;             // Texture 名字
+        protected MTerrainQuadTreeNode m_treeNode;
 
-        protected MatRes m_matRes;                      // 材质资源
-        protected TextureRes m_texRes;                  // 纹理资源
-
-        public SingleTileRender(MSubGeometryBase subGeometry_ = null)
-            : base(subGeometry_)
+        public TerrainTileRender(MTerrainQuadTreeNode treeNode)
+            : base(null)
         {
-            m_shaderName = "Mobile/Diffuse";
-            m_texName = "Materials/Texture/Terrain/terrain_diffuse.jpg";
+            m_treeNode = treeNode;
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
         }
@@ -220,100 +213,11 @@ namespace SDK.Lib
         }
 
         /**
-         * @brief 创建材质
-         */
-        void CreateMaterial()
-        {
-            string shaderName = (m_shader != null) ? m_shader.name : ((m_material != null) ? m_material.shader.name : m_shaderName);
-            
-            shader = Shader.Find(shaderName);
-
-            // 如果没有加载到 Shader，就是用默认的
-            if (shader == null)
-            {
-                shader = Shader.Find("Mobile/Diffuse");
-            }
-
-            // 直接拷贝共享材质
-            if (m_material != null)
-            {
-                m_dynamicMat = new Material(m_material);
-                m_dynamicMat.name = m_matPreStr + m_material.name;
-                m_dynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
-                m_dynamicMat.CopyPropertiesFromMaterial(m_material);
-
-                string[] keywords = m_material.shaderKeywords;
-                for (int i = 0; i < keywords.Length; ++i)
-                {
-                    m_dynamicMat.EnableKeyword(keywords[i]);
-                }
-
-                // 如果 Shader 有效，赋值给动态材质
-                if (shader != null)
-                {
-                    m_dynamicMat.shader = shader;
-                }
-            }
-            else
-            {
-                m_dynamicMat = new Material(shader);
-                m_dynamicMat.name = m_matPreStr + shader.name;
-                m_dynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
-            }
-        }
-
-        /**
-         * @brief 重新生成材质
-         */
-        Material RebuildMaterial()
-        {
-            // 释放老的材质
-            UtilApi.DestroyImmediate(m_dynamicMat);
-
-            // 创建新的材质
-            CreateMaterial();
-            m_dynamicMat.renderQueue = m_renderQueue;
-
-            // 赋值主要的纹理
-            if (m_texture != null)
-            {
-                m_dynamicMat.mainTexture = m_texture;
-            }
-
-            // 更新渲染
-            if (m_renderer != null)
-            {
-                m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
-            }
-            return m_dynamicMat;
-        }
-
-        /**
-         * @brief 更新材质
-         */
-        void UpdateMaterials()
-        {
-            // 如果裁剪应该被使用，需要查找一个替换的 shader 
-            if (m_rebuildMat || m_dynamicMat == null)
-            {
-                RebuildMaterial();
-                m_rebuildMat = false;
-            }
-            else if (m_renderer.sharedMaterial != m_dynamicMat)
-            {
-#if UNITY_EDITOR
-                Debug.LogError("share material not equal !");
-#endif
-                m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
-            }
-        }
-
-        /**
          * @brief 更新几何信息
          */
         public void UpdateGeometry()
         {
-            int vertexCount = m_subGeometry.getVertexDataCount();
+            int vertexCount = m_treeNode.getVertexDataCount();
             // 缓存所有的组件
             if (m_filter == null)
             {
@@ -336,30 +240,23 @@ namespace SDK.Lib
                     m_mesh.MarkDynamic();
                 }
 
-                m_triangles = m_subGeometry.getTriangleCount();
+                m_triangles = m_treeNode.getTriangleCount();
 
                 if (m_mesh.vertexCount != vertexCount)
                 {
                     m_mesh.Clear();
                 }
 
-                m_mesh.vertices = m_subGeometry.getVertexData();
-                m_mesh.uv = m_subGeometry.getUVData();
-                m_mesh.colors32 = m_subGeometry.getVectexColorArray();
+                m_mesh.vertices = m_treeNode.getVertexData();
+                m_mesh.uv = m_treeNode.getUVData();
+                m_mesh.colors32 = m_treeNode.getVectexColorData();
 
-                //m_mesh.normals = m_subGeometry.getVertexNormalsData();
-                //m_mesh.tangents = m_subGeometry.getVertexTangentsData();
+                m_mesh.normals = m_treeNode.getVertexNormalsData();
+                m_mesh.tangents = m_treeNode.getVertexTangentsData();
 
-                m_mesh.RecalculateBounds();
-                m_mesh.RecalculateNormals();
-                m_mesh.triangles = m_subGeometry.getIndexData();
-
-                //Ctx.m_instance.m_fileSys.serializeArray<Vector3>("buildVertex.txt", m_mesh.vertices, 1);
-                //Ctx.m_instance.m_fileSys.serializeArray<int>("buildIndex.txt", m_mesh.triangles, 3);
-                //Ctx.m_instance.m_fileSys.serializeArray<Vector2>("buildVU.txt", m_mesh.uv, 1);
-
-                //Ctx.m_instance.m_fileSys.serializeArray<Vector3>("buildNormal.txt", m_mesh.normals, 1);
-                //Ctx.m_instance.m_fileSys.serializeArray<Vector4>("buildTangent.txt", m_mesh.tangents, 1);
+                //m_mesh.RecalculateBounds();
+                //m_mesh.RecalculateNormals();
+                m_mesh.triangles = m_treeNode.getIndexData();
 
                 if (trim)
                 {
@@ -391,16 +288,7 @@ namespace SDK.Lib
 #endif
             }
 
-            m_subGeometry.clear();
-        }
-
-        /**
-         * @brief 更新纹理
-         */
-        public void UpdateTexture()
-        {
-            m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texName);
-            mainTexture = m_texRes.getTexture();
+            m_treeNode.clear();
         }
 
         /**
@@ -467,11 +355,39 @@ namespace SDK.Lib
          */
         override public void show()
         {
+            if (m_selfGo == null)
+            {
+                this.selfGo = UtilApi.createGameObject("MeshRender");
+            }
+
             base.show();
             UpdateGeometry();
             //UpdateMaterials();
             //UpdateTexture();
             createCopyMaterial();
+        }
+
+        override protected void onPntChanged()
+        {
+            linkSelf2Parent();
+        }
+
+        // 如果改变
+        override protected void onSelfChanged()
+        {
+            base.onSelfChanged();
+            moveToPos();
+        }
+
+        /**
+         * @brief 局部空间移动 Render
+         */
+        public void moveToPos()
+        {
+            if (this.selfGo != null)
+            {
+                UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(m_treeNode.getLocalCentre().x, 0, m_treeNode.getLocalCentre().z));
+            }
         }
     }
 }

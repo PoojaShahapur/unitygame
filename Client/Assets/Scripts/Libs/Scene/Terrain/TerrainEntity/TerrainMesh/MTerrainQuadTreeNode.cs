@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     public enum QuadTreeChildIndex
     {
@@ -28,8 +30,10 @@
         protected int mCurrentLod;
         protected bool mSelfOrChildRendered;
         protected MVertexDataRecord mVertexDataRecord;
+        protected TerrainTileRender mTileRender;
 
         protected MSceneNode mLocalNode;
+        protected int mCurIndexBufferIndex;
 
         public MTerrainQuadTreeNode(MTerrain terrain,
         MTerrainQuadTreeNode parent, ushort xoff, ushort yoff, ushort size,
@@ -49,6 +53,7 @@
             mCurrentLod = -1;
             mSelfOrChildRendered = false;
             mLocalNode = null;
+            mCurIndexBufferIndex = 0;
 
             if (terrain.getMaxBatchSize() < size)
             {
@@ -67,6 +72,8 @@
             {
                 mBaseLod = 0;
                 mVertexDataRecord = new MVertexDataRecord();
+                mTileRender = new TerrainTileRender(this);
+                mTileRender.setCopyMaterial(mTerrain.getMatTmpl());
             }
 
             ushort midoffset = (ushort)((size - 1) / 2);
@@ -78,7 +85,8 @@
 
         public bool isLeaf()
         {
-            return mChildren[0] == null;
+            //return mChildren[0] == null;
+            return mChildren == null;
         }
         public MTerrainQuadTreeNode getChild(ushort child)
         {
@@ -196,10 +204,18 @@
             {
                 createCpuVertexData();
             }
+            else
+            {
+                UtilApi.assert(!isLeaf(), "No more levels below this!");
+
+                for (int i = 0; i < 4; ++i)
+                    mChildren[i].assignVertexData(treeDepthStart, treeDepthEnd, resolution, sz);
+            }
         }
 
         public void createCpuVertexData()
         {
+            mCurIndexBufferIndex = 0;
             MTRectI updateRect = new MTRectI((int)mOffsetX, (int)mOffsetY, (int)mBoundaryX, (int)mBoundaryY);
             updateVertexBuffer(null, null, ref updateRect);
         }
@@ -234,22 +250,98 @@
         protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)
         {
             int vertexIndex = (y - mOffsetY) * mTerrain.getMaxBatchSize() + (x - mOffsetX);
-            mVertexDataRecord.cpuVertexData.m_vertexData[vertexIndex].x = pos.x;
-            mVertexDataRecord.cpuVertexData.m_vertexData[vertexIndex].y = pos.y;
-            mVertexDataRecord.cpuVertexData.m_vertexData[vertexIndex].z = pos.z;
+            mVertexDataRecord.cpuVertexData.m_vertexs[vertexIndex].x = pos.x;
+            mVertexDataRecord.cpuVertexData.m_vertexs[vertexIndex].y = pos.y;
+            mVertexDataRecord.cpuVertexData.m_vertexs[vertexIndex].z = pos.z;
 
             mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].x = x * uvScale;
             mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].y = 1.0f - (y * uvScale);
 
-            if (x != mBoundaryX && y != mBoundaryY)
+            if (x != mBoundaryX - 1 && y != mBoundaryY - 1)
             {
                 int vertexWidth = mTerrain.getMaxBatchSize();
-                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6] = vertexIndex;
-                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 1] = vertexIndex + vertexWidth;
-                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 2] = vertexIndex + vertexWidth + 1;
-                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 3] = vertexIndex;
-                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 4] = vertexIndex + vertexWidth + 1;
-                mVertexDataRecord.cpuVertexData.m_indices[vertexIndex * 6 + 5] = vertexIndex + 1;
+                if(mCurIndexBufferIndex >= 24576)
+                {
+                    Debug.Log("aaaa");
+                }
+                mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex] = vertexIndex;
+                mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 1] = vertexIndex + vertexWidth;
+                mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 2] = vertexIndex + vertexWidth + 1;
+                mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 3] = vertexIndex;
+                mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 4] = vertexIndex + vertexWidth + 1;
+                mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 5] = vertexIndex + 1;
+
+                mCurIndexBufferIndex += 6;
+            }
+        }
+
+        public Vector3[] getVertexData()
+        {
+            if (isLeaf())
+            {
+                return mVertexDataRecord.cpuVertexData.m_vertexs;
+            }
+
+            return null;
+        }
+
+        public int getVertexDataCount()
+        {
+            return mVertexDataRecord.cpuVertexData.m_vertexs.Length;
+        }
+
+        public int getTriangleCount()
+        {
+            return mVertexDataRecord.cpuVertexData.m_indexs.Length / 2;
+        }
+
+        public Vector2[] getUVData()
+        {
+            return mVertexDataRecord.cpuVertexData.m_uvs;
+        }
+
+        public Color32[] getVectexColorData()
+        {
+            return null;
+        }
+
+        public Vector3[] getVertexNormalsData()
+        {
+            return mVertexDataRecord.cpuVertexData.m_vertexNormals;
+        }
+
+        public Vector4[] getVertexTangentsData()
+        {
+            return mVertexDataRecord.cpuVertexData.m_vertexTangents;
+        }
+
+        public int[] getIndexData()
+        {
+            return mVertexDataRecord.cpuVertexData.m_indexs;
+        }
+
+        public void clear()
+        {
+
+        }
+
+        public MVector3 getLocalCentre()
+        {
+            return mLocalCentre;
+        }
+
+        public void show()
+        {
+            if(isLeaf())
+            {
+                mTileRender.show();
+            }
+            else
+            {
+                for (int i = 0; i < 4; ++i)
+                {
+                    mChildren[i].show();
+                }
             }
         }
     }

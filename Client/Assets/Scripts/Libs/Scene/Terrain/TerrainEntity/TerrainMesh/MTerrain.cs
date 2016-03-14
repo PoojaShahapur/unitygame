@@ -46,6 +46,7 @@ namespace SDK.Lib
         protected bool mPrepareInProgress;
         protected MTerrain[] mNeighbours;
         protected HeightMapData m_heightMapData;
+        protected TerrainMat mTerrainMat;
 
         public MTerrain()
         {
@@ -65,6 +66,8 @@ namespace SDK.Lib
             mScale = 0;
 
             m_heightMapData = new HeightMapData();
+            mTerrainMat = new TerrainMat();
+            mTerrainMat.loadDiffuseMat();
         }
 
         public MVector3 getPosition()
@@ -116,6 +119,9 @@ namespace SDK.Lib
             mMinBatchSize = importData.minBatchSize;
             setPosition(importData.pos);
 
+            updateBaseScale();
+            determineLodLevels();
+
             int numVertices = mSize * mSize;
 
             mHeightData = new float[numVertices];
@@ -164,7 +170,10 @@ namespace SDK.Lib
 
         public void updateBaseScale()
         {
-            mBase = -mWorldSize * 0.5f;
+            //mBase = -mWorldSize * 0.5f;
+            //mScale = mWorldSize / (float)(mSize - 1);
+
+            mBase = mWorldSize * 0.5f;
             mScale = mWorldSize / (float)(mSize - 1);
         }
 
@@ -300,9 +309,13 @@ namespace SDK.Lib
             switch (align)
             {
                 case Alignment.ALIGN_X_Z:
+                    //outpos.y = height;
+                    //outpos.x = x * mScale + mBase;
+                    //outpos.z = y * -mScale - mBase;
+
                     outpos.y = height;
-                    outpos.x = x * mScale + mBase;
-                    outpos.z = y * -mScale - mBase;
+                    outpos.x = x * mScale;
+                    outpos.z = y * mScale;
                     break;
                 case Alignment.ALIGN_Y_Z:
                     outpos.x = height;
@@ -786,6 +799,23 @@ namespace SDK.Lib
 
                 i += 3;     // 移动 3 个顶点，就是一个面
             }
+        }
+
+        public void determineLodLevels()
+        {
+            mNumLodLevelsPerLeafNode = (ushort)(UtilMath.Log2(mMaxBatchSize - 1.0f) - UtilMath.Log2(mMinBatchSize - 1.0f) + 1.0f);
+            mNumLodLevels = (ushort)(UtilMath.Log2(mSize - 1.0f) - UtilMath.Log2(mMinBatchSize - 1.0f) + 1.0f);
+            mTreeDepth = (ushort)(mNumLodLevels - mNumLodLevelsPerLeafNode + 1);
+        }
+
+        public void show()
+        {
+            mQuadTree.show();
+        }
+
+        public Material getMatTmpl()
+        {
+            return mTerrainMat.getDiffuseMaterial();
         }
     }
 }

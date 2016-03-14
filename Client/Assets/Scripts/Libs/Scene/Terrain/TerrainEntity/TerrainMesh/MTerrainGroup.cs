@@ -14,12 +14,14 @@ namespace SDK.Lib
 
         public MTerrainGroup(ushort terrainSize, float terrainWorldSize)
         {
+            mTerrainSlots = new Dictionary<int, MTerrainSlot>();
             mTerrainSize = terrainSize;
             mTerrainWorldSize = terrainWorldSize;
             mOrigin = MVector3.ZERO;
             mFilenamePrefix = "terrain";
             mFilenameExtension = "dat";
 
+            mDefaultImportData = new MImportData();
             mDefaultImportData.terrainSize = terrainSize;
             mDefaultImportData.worldSize = terrainWorldSize;
         }
@@ -102,6 +104,15 @@ namespace SDK.Lib
             string str;
             str = (mFilenamePrefix + "_" + packIndex(x, y) + "." + mFilenameExtension);
             return str;
+        }
+
+        public void showTerrain(long x, long y)
+        {
+            MTerrainSlot terrain = getTerrainSlot(x, y, false);
+            if(terrain.instance != null)
+            {
+                terrain.instance.show();
+            }
         }
     }
 }

@@ -13,8 +13,10 @@ namespace UnitTest
             //testHeightMap();
             //testTerrainPageOne();
             //testTerrainPageMulti();
-            testProjectMatrix();
+            // testProjectMatrix();
             //testPrint();
+
+            restNewTerrain();
         }
 
         protected void testHeightMap()
@@ -94,6 +96,19 @@ namespace UnitTest
         protected void end()
         {
 
+        }
+
+        protected void restNewTerrain()
+        {
+            Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onNewResLoadScene);
+        }
+
+        public void onNewResLoadScene(Scene scene)
+        {
+            MTerrainGroup terrainGroup = new MTerrainGroup(513, 3000);
+            terrainGroup.defineTerrain(0, 0);
+            terrainGroup.loadTerrain(0, 0, true);
+            terrainGroup.showTerrain(0, 0);
         }
     }
 }

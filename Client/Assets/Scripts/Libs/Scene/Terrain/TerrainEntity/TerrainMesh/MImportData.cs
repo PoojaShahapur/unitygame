@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public struct MImportData
+    public class MImportData
     {
         public ushort terrainSize;
         public ushort maxBatchSize;
@@ -12,5 +12,19 @@
         public float inputScale;
         public float inputBias;
         public bool deleteInputData;
+
+        public MImportData()
+        {
+            terrainSize = 513;
+            maxBatchSize = 65;
+            minBatchSize = 33;
+            pos = MVector3.ZERO;
+            worldSize = 512;
+            //public Image* inputImage;
+            heightPath = "Materials/Texture/Terrain/terrain.png";
+            inputScale = 255;
+            inputBias = 0;
+            deleteInputData = true;
+        }
     }
 }
