@@ -626,6 +626,7 @@ namespace SDK.Lib
 
         public bool getPointNormal(long x, long y, ref Vector3 pointNormal)
         {
+            clampPoint(ref x, ref y, 1, mSize - 1);
             MPlane plane = new MPlane(0);
 
             MVector3 cumulativeNormal = MVector3.ZERO;
@@ -709,6 +710,8 @@ namespace SDK.Lib
 
         public bool getPointTangent(long x, long y, ref Vector4 pointTangent)
         {
+            clampPoint(ref x, ref y, 1, mSize - 1);
+
             int faceNum = 2 * 2 * 2;
             int indexNum = 2 * 2 * 6;
             int vertexNum = 3 * 3;
@@ -957,6 +960,26 @@ namespace SDK.Lib
             if (y >= mSize)
             {
                 y = mSize - 1;
+            }
+        }
+
+        public void clampPoint(ref long x, ref long y, long min, long max)
+        {
+            if (min > x)
+            {
+                x = min;
+            }
+            if (max < x)
+            {
+                x = max;
+            }
+            if (min > y)
+            {
+                y = min;
+            }
+            if (max == y)
+            {
+                y = max;
             }
         }
     }
