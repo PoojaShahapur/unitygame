@@ -242,9 +242,6 @@ namespace SDK.Lib
                     writePosVertex(x, y, ref pos, uvScale);
                 }
             }
-
-            //mTerrain.calculateNormals(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexNormals);
-            //mTerrain.calculateTangents(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexTangents);
         }
 
         protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)
@@ -269,6 +266,9 @@ namespace SDK.Lib
 
                 mCurIndexBufferIndex += 6;
             }
+
+            mTerrain.getPointNormal(x, y, ref mVertexDataRecord.cpuVertexData.m_vertexNormals[vertexIndex]);
+            mTerrain.getPointTangent(x, y, ref mVertexDataRecord.cpuVertexData.m_vertexTangents[vertexIndex]);
         }
 
         public Vector3[] getVertexData()

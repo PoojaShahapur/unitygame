@@ -105,8 +105,8 @@ namespace UnitTest
 
         public void onNewResLoadScene(Scene scene)
         {
-            //MTerrainGroup terrainGroup = new MTerrainGroup(1025, 3000);
-            MTerrainGroup terrainGroup = new MTerrainGroup(513, 512);
+            MTerrainGroup terrainGroup = new MTerrainGroup(1025, 6000);
+            //MTerrainGroup terrainGroup = new MTerrainGroup(513, 3000);
             terrainGroup.defineTerrain(0, 0);
             terrainGroup.loadTerrain(0, 0, true);
             terrainGroup.showTerrain(0, 0);

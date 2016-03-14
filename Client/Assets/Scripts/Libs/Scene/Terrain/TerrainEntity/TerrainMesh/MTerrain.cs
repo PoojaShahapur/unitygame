@@ -212,20 +212,7 @@ namespace SDK.Lib
 
         public void setHeightAtPoint(long x, long y, float h)
         {
-            //load(0, true);
-
-            //x = UtilMath.min(x, (long)mSize - 1L);
-            //x = UtilMath.max(x, 0L);
-            //y = UtilMath.min(y, (long)mSize - 1L);
-            //y = UtilMath.max(y, 0L);
-
-            //getHeightData(x, y) = h;
-            //Rect rect;
-            //rect.left = x;
-            //rect.right = x + 1;
-            //rect.top = y;
-            //rect.bottom = y + 1;
-            //dirtyRect(rect);
+            
         }
 
         public float getHeightAtTerrainPosition(float x, float y)
@@ -509,6 +496,13 @@ namespace SDK.Lib
             };
         }
 
+        public void getUV(long x, long y, ref MVector2 uv)
+        {
+            float uvScale = 1.0f / (this.getSize() - 1);
+            uv.x = x * uvScale;
+            uv.y = 1.0f - (y * uvScale);
+        }
+
         public Alignment getAlignment()
         {
             return mAlign;
@@ -575,6 +569,20 @@ namespace SDK.Lib
             }
         }
 
+        public void getUVFromSelfOrNeighbour(long x, long y, ref MVector2 outUV)
+        {
+            checkPoint(ref x, ref y);
+
+            if (x >= 0 && y >= 0 && x < mSize && y < mSize)
+            {
+                this.getUV(x, y, ref outUV);
+            }
+            else
+            {
+                
+            }
+        }
+
         public void getNeighbourPointOverflow(long x, long y, ref NeighbourIndex outindex, ref long outx, ref long outy)
         {
             if (x < 0)
@@ -614,6 +622,40 @@ namespace SDK.Lib
             }
             else
                 outy = y;
+        }
+
+        public bool getPointNormal(long x, long y, ref Vector3 pointNormal)
+        {
+            MPlane plane = new MPlane(0);
+
+            MVector3 cumulativeNormal = MVector3.ZERO;
+
+            MVector3 centrePoint = new MVector3(0, 0, 0);
+            MVector3[] adjacentPoints = new MVector3[8];
+
+            getPointFromSelfOrNeighbour(x, y, ref centrePoint);
+            getPointFromSelfOrNeighbour(x + 1, y, ref adjacentPoints[0]);
+            getPointFromSelfOrNeighbour(x + 1, y + 1, ref adjacentPoints[1]);
+            getPointFromSelfOrNeighbour(x, y + 1, ref adjacentPoints[2]);
+            getPointFromSelfOrNeighbour(x - 1, y + 1, ref adjacentPoints[3]);
+            getPointFromSelfOrNeighbour(x - 1, y, ref adjacentPoints[4]);
+            getPointFromSelfOrNeighbour(x - 1, y - 1, ref adjacentPoints[5]);
+            getPointFromSelfOrNeighbour(x, y - 1, ref adjacentPoints[6]);
+            getPointFromSelfOrNeighbour(x + 1, y - 1, ref adjacentPoints[7]);
+
+            for (int i = 0; i < 8; ++i)
+            {
+                plane.redefine(ref centrePoint, ref adjacentPoints[i], ref adjacentPoints[(i + 1) % 8]);
+                cumulativeNormal += plane.normal;
+            }
+
+            cumulativeNormal.normalise();
+
+            pointNormal.x = cumulativeNormal.x;
+            pointNormal.y = cumulativeNormal.y;
+            pointNormal.z = cumulativeNormal.z;
+
+            return true;
         }
 
         public bool calculateNormals(ref MTRectI rect, ref Vector3[] normalArray)
@@ -665,6 +707,83 @@ namespace SDK.Lib
             return true;
         }
 
+        public bool getPointTangent(long x, long y, ref Vector4 pointTangent)
+        {
+            int faceNum = 2 * 2 * 2;
+            int indexNum = 2 * 2 * 6;
+            int vertexNum = 3 * 3;
+
+            MVector3[] pointsArray = new MVector3[vertexNum];
+            MVector2[] uvArray = new MVector2[vertexNum];
+            int[] indexArray = new int[indexNum];
+            MVector3[] faceTangents = new MVector3[faceNum];
+
+            getPointFromSelfOrNeighbour(x, y, ref pointsArray[4]);
+            getUVFromSelfOrNeighbour(x, y, ref uvArray[4]);
+
+            getPointFromSelfOrNeighbour(x + 1, y, ref pointsArray[5]);
+            getUVFromSelfOrNeighbour(x + 1, y, ref uvArray[5]);
+
+            getPointFromSelfOrNeighbour(x + 1, y + 1, ref pointsArray[8]);
+            getUVFromSelfOrNeighbour(x + 1, y + 1, ref uvArray[8]);
+
+            getPointFromSelfOrNeighbour(x, y + 1, ref pointsArray[7]);
+            getUVFromSelfOrNeighbour(x, y + 1, ref uvArray[7]);
+
+            getPointFromSelfOrNeighbour(x - 1, y + 1, ref pointsArray[6]);
+            getUVFromSelfOrNeighbour(x - 1, y + 1, ref uvArray[6]);
+
+            getPointFromSelfOrNeighbour(x - 1, y, ref pointsArray[3]);
+            getUVFromSelfOrNeighbour(x, y, ref uvArray[3]);
+
+            getPointFromSelfOrNeighbour(x - 1, y - 1, ref pointsArray[0]);
+            getUVFromSelfOrNeighbour(x - 1, y - 1, ref uvArray[0]);
+
+            getPointFromSelfOrNeighbour(x, y - 1, ref pointsArray[1]);
+            getUVFromSelfOrNeighbour(x, y - 1, ref uvArray[1]);
+
+            getPointFromSelfOrNeighbour(x + 1, y - 1, ref pointsArray[2]);
+            getUVFromSelfOrNeighbour(x + 1, y - 1, ref uvArray[2]);
+
+            int bufferIndex = 0;
+            int baseIdx = 0;
+            int vertexSize = 3;
+
+            for (int idy = 0; idy < 3; ++idy)
+            {
+                for (int idx = 0; idx < 3; ++idx)
+                {
+                    if (idx != 2 && idy != 2)
+                    {
+                        baseIdx = idx + idy * vertexSize;
+                        indexArray[bufferIndex] = baseIdx;
+                        indexArray[bufferIndex + 1] = baseIdx + vertexSize;
+                        indexArray[bufferIndex + 2] = baseIdx + vertexSize + 1;
+                        indexArray[bufferIndex + 3] = baseIdx;
+                        indexArray[bufferIndex + 4] = baseIdx + vertexSize + 1;
+                        indexArray[bufferIndex + 5] = baseIdx + 1;
+
+                        bufferIndex += 6;
+                    }
+                }
+            }
+
+            updateFaceTangents(pointsArray, uvArray, indexArray, faceTangents);
+            MVector3 cumulativeTangent = MVector3.ZERO;
+            for (int i = 0; i < faceNum; ++i)
+            {
+                cumulativeTangent += faceTangents[i];
+            }
+
+            cumulativeTangent.normalise();
+
+            pointTangent.x = cumulativeTangent.x;
+            pointTangent.y = cumulativeTangent.y;
+            pointTangent.z = cumulativeTangent.z;
+            pointTangent.w = 0;
+            return true;
+        }
+
         public bool calculateTangents(ref MTRectI rect, ref Vector4[] tangentArray)
         {
             MTRectI widenedRect = new MTRectI(
@@ -698,7 +817,7 @@ namespace SDK.Lib
                     getPointFromSelfOrNeighbour(x + 1, y - 1, ref pointsArray[8]);
 
                     calcIndex(pointsArray, 3, ref indexArray);
-                    updateFaceTangents(pointsArray, uvs, indexArray, 3, faceTangents);
+                    updateFaceTangents(pointsArray, uvs, indexArray, faceTangents);
                     MVector3 cumulativeTangent = MVector3.ZERO;
                     for (int i = 0; i < faceNum; ++i)
                     {
@@ -746,7 +865,7 @@ namespace SDK.Lib
             }
         }
 
-        protected void updateFaceTangents(MVector3[] vertices, MVector2[] uvs, int[] indexs, int vertexNum, MVector3[] faceTangents)
+        protected void updateFaceTangents(MVector3[] vertices, MVector2[] uvs, int[] indexs, MVector3[] faceTangents)
         {
             uint i = 0;
             int index1 = 0, index2 = 0, index3 = 0;

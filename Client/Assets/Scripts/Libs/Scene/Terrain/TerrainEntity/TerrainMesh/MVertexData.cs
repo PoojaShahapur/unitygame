@@ -21,6 +21,8 @@ namespace SDK.Lib
 
             m_vertexs = new Vector3[mMaxBatchSize * mMaxBatchSize];
             m_uvs = new Vector2[mMaxBatchSize * mMaxBatchSize];
+            m_vertexNormals = new Vector3[mMaxBatchSize * mMaxBatchSize];
+            m_vertexTangents = new Vector4[mMaxBatchSize * mMaxBatchSize];
             m_indexs = new int[(mMaxBatchSize - 1) * (mMaxBatchSize - 1) * 6];
         }
     }
