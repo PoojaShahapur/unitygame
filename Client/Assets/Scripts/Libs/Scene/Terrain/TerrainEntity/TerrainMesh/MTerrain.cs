@@ -545,8 +545,9 @@ namespace SDK.Lib
 
         public void getPointFromSelfOrNeighbour(long x, long y, ref MVector3 outpos)
         {
-            if (x >= 0 && y >= 0 && x < mSize && y < mSize)
+            checkPoint(ref x, ref y);
 
+            if (x >= 0 && y >= 0 && x < mSize && y < mSize)
                 getPoint(x, y, ref outpos);
             else
             {
@@ -816,6 +817,27 @@ namespace SDK.Lib
         public Material getMatTmpl()
         {
             return mTerrainMat.getDiffuseMaterial();
+        }
+
+        public void checkPoint(ref long x, ref long y)
+        {
+            if(x < 0)
+            {
+                x = 0;
+            }
+            if(x >= mSize)
+            {
+                x = mSize - 1;
+            }
+
+            if (y < 0)
+            {
+                y = 0;
+            }
+            if (y >= mSize)
+            {
+                y = mSize - 1;
+            }
         }
     }
 }

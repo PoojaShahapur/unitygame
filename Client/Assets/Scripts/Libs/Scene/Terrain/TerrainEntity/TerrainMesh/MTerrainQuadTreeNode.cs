@@ -198,7 +198,7 @@ namespace SDK.Lib
 
         public void assignVertexData(ushort treeDepthStart, ushort treeDepthEnd, ushort resolution, uint sz)
         {
-            UtilApi.assert(treeDepthStart >= mDepth, "Should not be calling this");
+            //UtilApi.assert(treeDepthStart >= mDepth, "Should not be calling this");
 
             if (this.isLeaf())
             {
@@ -243,8 +243,8 @@ namespace SDK.Lib
                 }
             }
 
-            mTerrain.calculateNormals(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexNormals);
-            mTerrain.calculateTangents(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexTangents);
+            //mTerrain.calculateNormals(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexNormals);
+            //mTerrain.calculateTangents(ref rect, ref mVertexDataRecord.cpuVertexData.m_vertexTangents);
         }
 
         protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)
@@ -260,10 +260,6 @@ namespace SDK.Lib
             if (x != mBoundaryX - 1 && y != mBoundaryY - 1)
             {
                 int vertexWidth = mTerrain.getMaxBatchSize();
-                if(mCurIndexBufferIndex >= 24576)
-                {
-                    Debug.Log("aaaa");
-                }
                 mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex] = vertexIndex;
                 mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 1] = vertexIndex + vertexWidth;
                 mVertexDataRecord.cpuVertexData.m_indexs[mCurIndexBufferIndex + 2] = vertexIndex + vertexWidth + 1;

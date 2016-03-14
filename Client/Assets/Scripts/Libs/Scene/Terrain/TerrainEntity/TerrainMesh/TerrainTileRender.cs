@@ -249,13 +249,13 @@ namespace SDK.Lib
 
                 m_mesh.vertices = m_treeNode.getVertexData();
                 m_mesh.uv = m_treeNode.getUVData();
-                m_mesh.colors32 = m_treeNode.getVectexColorData();
+                //m_mesh.colors32 = m_treeNode.getVectexColorData();
 
-                m_mesh.normals = m_treeNode.getVertexNormalsData();
-                m_mesh.tangents = m_treeNode.getVertexTangentsData();
+                //m_mesh.normals = m_treeNode.getVertexNormalsData();
+                //m_mesh.tangents = m_treeNode.getVertexTangentsData();
 
-                //m_mesh.RecalculateBounds();
-                //m_mesh.RecalculateNormals();
+                m_mesh.RecalculateBounds();
+                m_mesh.RecalculateNormals();
                 m_mesh.triangles = m_treeNode.getIndexData();
 
                 if (trim)
