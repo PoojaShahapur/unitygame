@@ -785,7 +785,6 @@ public class Ocean : MonoBehaviour
 
             for (int i = 0; i < g_width * g_height - 1; i++)
             {
-
                 //Need to preserve w in refraction/reflection mode
                 if (!reflectionRefractionEnabled)
                 {
@@ -841,7 +840,6 @@ public class Ocean : MonoBehaviour
                         Vector3 back = vertices[x + g_width * y] - vertices[x + g_width * (y + 1)];
 
                         float foam = right.x / (size.x / g_width);
-
 
                         if (foam < 0.0f)
                             tangents[x + g_width * y].w = 1;
@@ -952,7 +950,6 @@ public class Ocean : MonoBehaviour
         depthCam.cullingMask = waterMask;
         depthCam.RenderWithShader(depthShader, "");
     }
-
 
     /*
     Renders the reflection and refraction buffers using a second camera copying the current
