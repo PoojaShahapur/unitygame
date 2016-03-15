@@ -131,10 +131,10 @@ public class Ocean : MonoBehaviour
     // Phillips spectrum
     public float P_spectrum(Vector2 vec_k, Vector2 wind)
     {
-        var A = vec_k.x > 0.0 ? 1.0 : 0.05; // Set wind to blow only in one direction - otherwise we get turmoiling water
+        float A = vec_k.x > 0.0f ? 1.0f : 0.05f; // Set wind to blow only in one direction - otherwise we get turmoiling water
 
-        var L = wind.sqrMagnitude / 9.81;
-        var k2 = vec_k.sqrMagnitude;
+        float L = wind.sqrMagnitude / 9.81f;
+        float k2 = vec_k.sqrMagnitude;
         // Avoid division by zero
         if (vec_k.magnitude == 0.0)
         {
@@ -265,6 +265,7 @@ public class Ocean : MonoBehaviour
         GenerateHeightmap();
         GenerateBumpmaps();
     }
+
     public void GenerateBumpmaps()
     {
         int xc = 0;
@@ -316,7 +317,8 @@ public class Ocean : MonoBehaviour
                     textureA.SetPixels(pixelData, 0);
                     textureA.Apply();
                 }
-                else {
+                else
+                {
                     textureB.SetPixels(pixelData, 0);
                     textureB.Apply();
                 }
@@ -488,7 +490,7 @@ public class Ocean : MonoBehaviour
 
         Mesh m = new Mesh();
 
-        var verts = new Vector3[4];
+        Vector3[] verts = new Vector3[4];
         Vector2[] uv = new Vector2[4];
         Vector3[] n = new Vector3[4];
         int[] tris = new int[6];
@@ -896,12 +898,12 @@ public class Ocean : MonoBehaviour
     void OnWillRenderObject()
     {
         //Recursion guard, don't let the offscreen cam go into a never-ending loop.
-        if (Camera.current == offscreenCam
-        || Camera.current == depthCam)
+        if (Camera.current == offscreenCam || 
+            Camera.current == depthCam)
             return;
 
-        if (reflectionTexture == null
-        || refractionTexture == null)
+        if (reflectionTexture == null || 
+            refractionTexture == null)
             return;
 
         RenderWaterDepth();
@@ -960,7 +962,6 @@ public class Ocean : MonoBehaviour
         int oldPixelLightCount = QualitySettings.pixelLightCount;
         QualitySettings.pixelLightCount = 0;
 
-
         Camera renderCamera = Camera.current;
 
         Matrix4x4 originalWorldToCam = renderCamera.worldToCameraMatrix;
@@ -973,7 +974,6 @@ public class Ocean : MonoBehaviour
         //TODO: Use local plane here, not global!
 
         float d = -transform.position.y;
-
 
         CameraHelper.CalculateReflectionMatrix(ref reflection, new Vector4(0, 1, 0, d));
 
