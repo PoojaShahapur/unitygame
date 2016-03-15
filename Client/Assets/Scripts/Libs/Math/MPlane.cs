@@ -76,10 +76,40 @@
                 return Side.NO_SIDE;
             if (box.isInfinite())
                 return Side.BOTH_SIDE;
-
+            /*
             MVector3 center = box.getCenter();
             MVector3 half = box.getHalfSize();
             return getSide(ref center, ref half);
+            */
+
+            MVector3 dmin = new MVector3(0, 0, 0);
+            MVector3 dmax = new MVector3(0, 0, 0);
+            for (int idx = 0; idx < 3; ++idx)
+            {
+                if (normal[idx] >= 0)
+                {
+                    dmin[idx] = box.mMinimum[idx];
+                    dmax[idx] = box.mMaximum[idx];
+                }
+                else
+                {
+                    dmin[idx] = box.mMaximum[idx];
+                    dmax[idx] = box.mMinimum[idx];
+                }
+            }
+
+            if(normal.dotProduct(ref dmin) + d >= 0)
+            {
+                return Side.POSITIVE_SIDE;
+            }
+            else if (normal.dotProduct(ref dmax) + d <= 0)
+            {
+                return Side.NEGATIVE_SIDE;
+            }
+            else
+            {
+                return Side.BOTH_SIDE;
+            }
         }
 
         public Side getSide(ref MVector3 centre, ref MVector3 halfSize)
@@ -126,7 +156,6 @@
             xform[2, 1] = -normal.z * normal.y;
             xform[2, 2] = 1.0f - normal.z * normal.z;
             return xform * p;
-
         }
 
         public float normalise()

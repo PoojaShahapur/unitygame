@@ -225,15 +225,16 @@ namespace SDK.Lib
 
             updateFrustumPlanes();
 
-            MVector3 centre = bound.getCenter();
-            MVector3 halfSize = bound.getHalfSize();
+            //MVector3 centre = bound.getCenter();
+            //MVector3 halfSize = bound.getHalfSize();
 
             for (int plane = 0; plane < 6; ++plane)
             {
                 if (plane == (int)FrustumPlane.FRUSTUM_PLANE_FAR && mFarDist == 0)
                     continue;
 
-                MPlane.Side side = mFrustumPlanes[plane].getSide(ref centre, ref halfSize);
+                //MPlane.Side side = mFrustumPlanes[plane].getSide(ref centre, ref halfSize);
+                MPlane.Side side = mFrustumPlanes[plane].getSide(ref bound);
                 if (side == MPlane.Side.NEGATIVE_SIDE)
                 {
                     //if (culledBy)
@@ -495,7 +496,7 @@ namespace SDK.Lib
                 m_frustumRender.addVertex(mWorldSpaceCorners[0].x, mWorldSpaceCorners[0].y, mWorldSpaceCorners[0].z);
 
                 // µ×Ãæ
-                m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
+                m_frustumRender.addVertex(mWorldSpaceCorners[6].x, mWorldSpaceCorners[6].y, mWorldSpaceCorners[6].z);
                 m_frustumRender.addVertex(mWorldSpaceCorners[2].x, mWorldSpaceCorners[2].y, mWorldSpaceCorners[2].z);
                 m_frustumRender.addVertex(mWorldSpaceCorners[3].x, mWorldSpaceCorners[3].y, mWorldSpaceCorners[3].z);
                 m_frustumRender.addVertex(mWorldSpaceCorners[7].x, mWorldSpaceCorners[7].y, mWorldSpaceCorners[7].z);
