@@ -59,7 +59,9 @@ namespace SDK.Lib
             //m_terrain.updateClip();
 
             Ctx.m_instance.m_terrainGroup.defineTerrain(0, 0);
+            MTerrainSlot slot = Ctx.m_instance.m_terrainGroup.getTerrainSlot(0, 0, false);
             Ctx.m_instance.m_terrainGroup.loadTerrain(0, 0, true);
+            slot.instance.setPosition(new MVector3(0, 0, 0));
             Ctx.m_instance.m_terrainGroup.updateAABB(0, 0);
             //Ctx.m_instance.m_terrainGroup.showTerrain(0, 0);
 

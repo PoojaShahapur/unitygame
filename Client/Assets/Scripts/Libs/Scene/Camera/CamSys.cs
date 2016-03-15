@@ -40,6 +40,8 @@ namespace SDK.Lib
                 m_localCamera.setFarClipDistance(cam.farClipPlane);
                 m_localCamera.setNearClipDistance(cam.nearClipPlane);
                 m_localCamera.setAspectRatio(cam.aspect);
+
+                testAABB();
             }
         }
 
@@ -107,6 +109,20 @@ namespace SDK.Lib
             if (m_localCamera != null)
             {
                 m_localCamera.invalid();
+            }
+        }
+
+        protected void testAABB()
+        {
+            MAxisAlignedBox aabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+            aabb.setMinimum(new MVector3(187.5f, -10, 0));
+            aabb.setMaximum(new MVector3(375, 10, 187.5f));
+
+            FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+            if (m_localCamera.isVisible(ref aabb, ref plane))
+            {
+                Debug.Log("aaaa");
+                m_localCamera.isVisible(ref aabb, ref plane);
             }
         }
     }

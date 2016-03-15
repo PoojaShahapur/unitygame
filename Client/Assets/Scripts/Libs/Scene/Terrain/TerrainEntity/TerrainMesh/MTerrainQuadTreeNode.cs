@@ -94,8 +94,7 @@ namespace SDK.Lib
 
             if (terrain.getMaxBatchSize() == size)
             {
-                mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
-                mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+                updateWorldAABB();
             }
         }
 
@@ -197,8 +196,7 @@ namespace SDK.Lib
                 MVector3 localPos = pos - mLocalCentre;
                 mAABB.merge(ref localPos);
 
-                mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
-                mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+                updateWorldAABB();
 
                 mBoundingRadius = UtilMath.max(mBoundingRadius, localPos.length());
 
@@ -402,9 +400,12 @@ namespace SDK.Lib
                     //MMatrix4 worldMat = new MMatrix4();
                     //mWorldAabb.transformAffine(ref worldMat);
 
-                    mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
-                    mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+                    updateWorldAABB();
                 }
+            }
+            else
+            {
+                updateWorldAABB();
             }
         }
 
@@ -435,6 +436,12 @@ namespace SDK.Lib
         public string getLayerStr()
         {
             return mTerrain.getLayerStr();
+        }
+
+        public void updateWorldAABB()
+        {
+            mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre + mTerrain.getPosition());
+            mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre + mTerrain.getPosition());
         }
     }
 }
