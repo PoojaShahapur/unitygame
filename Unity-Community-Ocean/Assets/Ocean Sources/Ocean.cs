@@ -611,24 +611,22 @@ public class Ocean : MonoBehaviour
         //For debugging shaders, it can be handy to display the output. Not so cool for actual demos,
         //though.
 
+        /*
+        if (reflectionTexture != null)
+            GUI.DrawTexture (new Rect(0, 0, 128, 128), reflectionTexture, ScaleMode.StretchToFill, false);
 
-        /*	if (reflectionTexture != null)
-                GUI.DrawTexture (new Rect(0, 0, 128, 128), reflectionTexture, ScaleMode.StretchToFill, false);
+        if (refractionTexture != null)
+            GUI.DrawTexture (new Rect(0, 128, 128, 128), refractionTexture, ScaleMode.StretchToFill, false);
 
-            if (refractionTexture != null)
-                GUI.DrawTexture (new Rect(0, 128, 128, 128), refractionTexture, ScaleMode.StretchToFill, false);
+        if (underwaterRefractionTexture != null)
+            GUI.DrawTexture (new Rect(128, 0, 128, 128), underwaterRefractionTexture, ScaleMode.StretchToFill, false);
+	
+        GUI.DrawTexture (new Rect(128, 0, 128, 128), textureA, ScaleMode.StretchToFill, false);
+        GUI.DrawTexture (new Rect(128, 128, 128, 128), textureB, ScaleMode.StretchToFill, false);
 
-            if (underwaterRefractionTexture != null)
-                GUI.DrawTexture (new Rect(128, 0, 128, 128), underwaterRefractionTexture, ScaleMode.StretchToFill, false);
+        GUI.DrawTexture (new Rect(0, 0, 128, 128), waterHeightTexture, ScaleMode.StretchToFill, false);
+        GUI.DrawTexture (new Rect(0, 128, 128, 128), underwaterTexture, ScaleMode.StretchToFill, false);
         */
-
-        /*		
-            GUI.DrawTexture (new Rect(128, 0, 128, 128), textureA, ScaleMode.StretchToFill, false);
-            GUI.DrawTexture (new Rect(128, 128, 128, 128), textureB, ScaleMode.StretchToFill, false);
-        */
-
-        //	GUI.DrawTexture (new Rect(0, 0, 128, 128), waterHeightTexture, ScaleMode.StretchToFill, false);
-        //	GUI.DrawTexture (new Rect(0, 128, 128, 128), underwaterTexture, ScaleMode.StretchToFill, false);
 
         GUI.Label(new Rect(10, 10, 100, 20), "Waveheight");
         scale = GUI.HorizontalSlider(new Rect(120, 10, 200, 20), scale, 0.05f, 3.0f);
@@ -973,11 +971,13 @@ public class Ocean : MonoBehaviour
 
         //TODO: Use local plane here, not global!
 
-        float d = -transform.position.y;
+        //float d = -transform.position.y;
+		float d = transform.position.y;
 
         CameraHelper.CalculateReflectionMatrix(ref reflection, new Vector4(0, 1, 0, d));
 
-        offscreenCam.transform.position = reflection.MultiplyPoint(renderCamera.transform.position);
+        //offscreenCam.transform.position = reflection.MultiplyPoint(renderCamera.transform.position);
+        offscreenCam.transform.position = renderCamera.transform.position;
         offscreenCam.transform.rotation = renderCamera.transform.rotation;
         offscreenCam.worldToCameraMatrix = originalWorldToCam * reflection;
 
