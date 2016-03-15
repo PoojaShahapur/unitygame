@@ -312,7 +312,7 @@ namespace SDK.Lib
                 m_renderer.sharedMaterials = new Material[] { };
             }
 
-            NGUITools.DestroyImmediate(m_dynamicMat);
+            UtilApi.DestroyImmediate(m_dynamicMat);
             m_dynamicMat = null;
 
             UtilApi.DestroyImmediate(m_mesh);
