@@ -183,8 +183,8 @@ namespace SDK.Lib
             m_memoryCheck = new MemoryCheck();
             m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
-            m_terrainGroup = new MTerrainGroup(513, 3000);
-            //m_terrainGroup = new MTerrainGroup(1025, 3000);
+            //m_terrainGroup = new MTerrainGroup(513, 3000);
+            m_terrainGroup = new MTerrainGroup(1025, 3000);
         }
 
         protected void interInit()

@@ -36,7 +36,7 @@ namespace SDK.Lib
             m_treeNode = treeNode;
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
-            //m_isAutoBuildNormal = true;
+            m_isAutoBuildNormal = false;
             m_isBuildGromAndMat = false;
         }
 
