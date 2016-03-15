@@ -67,6 +67,7 @@ namespace SDK.Lib
 
             m_heightMapData = new HeightMapData();
             mTerrainMat = new TerrainMat();
+            mRootNode = new MSceneNode("Terrain");
         }
 
         public MVector3 getPosition()
@@ -169,6 +170,11 @@ namespace SDK.Lib
             }
         }
 
+        public MSceneNode _getRootSceneNode()
+        {
+            return mRootNode;
+        }
+
         public void updateBaseScale()
         {
             //mBase = -mWorldSize * 0.5f;
@@ -193,6 +199,7 @@ namespace SDK.Lib
             UtilApi.assert(x >= 0 && x < mSize && y >= 0 && y < mSize);
             return mHeightData[y * mSize + x];
         }
+
         public float getHeightAtPoint(long x, long y)
         {
             x = UtilMath.min(x, (long)mSize - 1L);

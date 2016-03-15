@@ -82,7 +82,8 @@ namespace SDK.Lib
                 mBaseLod = 0;
                 mVertexDataRecord = new MVertexDataRecord();
                 mTileRender = new TerrainTileRender(this);
-                mTileRender.setCopyMaterial(mTerrain.getMatTmpl());
+                mTileRender.pntGo = mTerrain._getRootSceneNode().selfGo;
+                mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
             }
 
             ushort midoffset = (ushort)((size - 1) / 2);
@@ -256,7 +257,7 @@ namespace SDK.Lib
             {
                 for (ushort x = (ushort)rect.left; x < rect.right; x += inc)
                 {
-                    height = mTerrain.getHeightData(x, y);
+                    height = mTerrain.getHeightAtPoint(x, y);
                     mTerrain.getPoint(x, y, height, ref pos);
                     mergeIntoBounds(x, y, ref pos);
                     pos -= mLocalCentre;

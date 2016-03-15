@@ -4,6 +4,9 @@ namespace SDK.Lib
 {
     public class MSceneNode : MNode
     {
-        public GameObject mGo;
+        public MSceneNode(string name = "")
+        {
+            selfGo = UtilApi.createGameObject(name);
+        }
     }
 }

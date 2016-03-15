@@ -319,7 +319,7 @@ namespace SDK.Lib
             m_mesh = null;
         }
 
-        void createCopyMaterial()
+        void createInsMaterial()
         {
             // 直接拷贝共享材质
             if (m_material != null)
@@ -345,7 +345,7 @@ namespace SDK.Lib
             }
         }
 
-        public void setCopyMaterial(Material mat)
+        public void setTmplMaterial(Material mat)
         {
             m_material = mat;
         }
@@ -367,15 +367,10 @@ namespace SDK.Lib
                 if (!m_isBuildGromAndMat)
                 {
                     UpdateGeometry();
-                    createCopyMaterial();
+                    createInsMaterial();
                     m_isBuildGromAndMat = true;
                 }
             }
-        }
-
-        override protected void onPntChanged()
-        {
-            linkSelf2Parent();
         }
 
         // 如果改变

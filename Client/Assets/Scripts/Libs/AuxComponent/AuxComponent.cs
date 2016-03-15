@@ -115,13 +115,13 @@ namespace SDK.Lib
         // 父节点发生改变
         virtual protected void onPntChanged()
         {
-
+            linkSelf2Parent();
         }
 
         // 自己发生改变
         virtual protected void onSelfChanged()
         {
-
+            linkSelf2Parent();
         }
 
         public void linkPlaceHolder2Parent()
