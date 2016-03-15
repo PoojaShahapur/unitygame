@@ -122,7 +122,6 @@ namespace SDK.Lib
             if(this.selfGo == null)
             {
                 this.selfGo = UtilApi.createGameObject("QuadMeshRender" + "_" + m_xTile + "_" + m_zTile);
-
             }
             // 清除mesh信息，下面可以做相应的mesh动画
             if(m_mesh == null)

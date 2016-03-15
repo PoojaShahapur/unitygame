@@ -44,7 +44,7 @@ namespace UnitTest
 			MTerrainMulti terPage = new MTerrainMulti();
             terPage.buildPage();        // 生成地形
             terPage.buildQuadTree();    // 生成四叉树
-            Ctx.m_instance.m_camSys.setMCamera(Camera.main);
+            Ctx.m_instance.m_camSys.setLocalCamera(Camera.main);
             terPage.updateClip();
         }
 
