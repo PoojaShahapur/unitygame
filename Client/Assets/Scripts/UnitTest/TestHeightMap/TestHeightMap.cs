@@ -13,7 +13,7 @@ namespace UnitTest
             //testHeightMap();
             //testTerrainPageOne();
             //testTerrainPageMulti();
-            // testProjectMatrix();
+            //testProjectMatrix();
             //testPrint();
 
             restNewTerrain();
@@ -105,11 +105,14 @@ namespace UnitTest
 
         public void onNewResLoadScene(Scene scene)
         {
-            //MTerrainGroup terrainGroup = new MTerrainGroup(1025, 3000);
-            MTerrainGroup terrainGroup = new MTerrainGroup(513, 3000);
-            terrainGroup.defineTerrain(0, 0);
-            terrainGroup.loadTerrain(0, 0, true);
-            terrainGroup.showTerrain(0, 0);
+            Ctx.m_instance.m_sceneSys.createTerrain();
+
+            // 操作摄像机
+            GameObject camera = UtilApi.GoFindChildByName("MainCamera");
+            GameObject man = UtilApi.GoFindChildByName("Cube");
+            UtilApi.setPos(man.transform, Vector3.zero);
+            Ctx.m_instance.m_camSys.setMainCamera(camera.GetComponent<Camera>());
+            Ctx.m_instance.m_camSys.setCameraActor(man);
         }
     }
 }

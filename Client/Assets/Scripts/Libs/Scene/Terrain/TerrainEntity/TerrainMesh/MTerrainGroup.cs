@@ -115,5 +115,15 @@ namespace SDK.Lib
                 terrain.instance.show();
             }
         }
+
+        public void cullTerrain(long x, long y, MFrustum frustum)
+        {
+            return;
+            MTerrainSlot slot = getTerrainSlot(x, y, false);
+            if (slot != null && slot.instance != null)
+            {
+                slot.instance.cullNode(frustum);
+            }
+        }
     }
 }

@@ -112,6 +112,7 @@ namespace SDK.Lib
         public MemoryCheck m_memoryCheck;       // 内存查找
         public TwoDSceneMgr m_twoDSceneMgr;     // 2d 场景管理器
         public DepResMgr m_depResMgr;
+        public MTerrainGroup m_terrainGroup;
 
         public Ctx()
         {
@@ -182,6 +183,8 @@ namespace SDK.Lib
             m_memoryCheck = new MemoryCheck();
             m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
+            m_terrainGroup = new MTerrainGroup(513, 3000);
+            //m_terrainGroup = new MTerrainGroup(1025, 3000);
         }
 
         protected void interInit()

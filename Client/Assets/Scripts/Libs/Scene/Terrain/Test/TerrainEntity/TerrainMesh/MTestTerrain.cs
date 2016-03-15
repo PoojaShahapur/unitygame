@@ -46,7 +46,12 @@
 
         public void updateClip()
         {
-            MList<MPlane> planes = Ctx.m_instance.m_camSys.getFrustumPlanes();
+            MList<MPlane> planes = new MList<MPlane>();
+            MPlane[] planesArray = Ctx.m_instance.m_camSys.getFrustumPlanes();
+            for (int idx = 0; idx < planesArray.Length; ++idx)
+            {
+                planes.Add(planesArray[idx]);
+            }
             m_quadTree.updateClip(planes);
         }
 

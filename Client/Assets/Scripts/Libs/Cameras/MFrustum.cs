@@ -240,7 +240,6 @@ namespace SDK.Lib
                     culledBy = (FrustumPlane)plane;
                     return false;
                 }
-
             }
 
             return true;
@@ -261,7 +260,6 @@ namespace SDK.Lib
                     culledBy = (FrustumPlane)plane;
                     return false;
                 }
-
             }
 
             return true;
@@ -282,7 +280,6 @@ namespace SDK.Lib
                 top = topLeft.y;
                 right = bottomRight.x;
                 bottom = bottomRight.y;
-
             }
             else
             {
@@ -881,7 +878,7 @@ namespace SDK.Lib
 
         virtual protected void preInit(Transform parentNode)
         {
-            m_bShowBoundBox = false;
+            m_bShowBoundBox = true;
             m_frustumRender = new QuadMeshRender(24);
             mParentNode = parentNode;
             mFrustumPlanes = new MPlane[6];

@@ -147,7 +147,7 @@ namespace SDK.Lib
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
             mQuadTree.prepare();
-            distributeVertexData();
+            //distributeVertexData();
 
             mModified = true;
             mHeightDataModified = true;
@@ -176,6 +176,11 @@ namespace SDK.Lib
 
             mBase = mWorldSize * 0.5f;
             mScale = mWorldSize / (float)(mSize - 1);
+        }
+
+        public float getMaxBatchWorldSize()
+        {
+            return (mMaxBatchSize - 1) * mScale;
         }
 
         public float[] getHeightData()
@@ -961,6 +966,11 @@ namespace SDK.Lib
             {
                 y = max;
             }
+        }
+
+        public void cullNode(MFrustum frustum)
+        {
+            mQuadTree.cullNode(frustum);
         }
     }
 }

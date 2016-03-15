@@ -612,5 +612,11 @@ namespace SDK.Lib
             mOrientation = MQuaternion.IDENTITY;
             mPosition = MVector3.ZERO;
         }
+
+        public void invalid()
+        {
+            invalidateFrustum();
+            invalidateView();
+        }
     }
 }

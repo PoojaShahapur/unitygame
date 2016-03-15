@@ -26,6 +26,7 @@ namespace SDK.Lib
         protected ushort mQuadrant;
         protected MVector3 mLocalCentre;
         protected MAxisAlignedBox mAABB;
+        protected MAxisAlignedBox mWorldAabb;
         protected float mBoundingRadius;
         protected int mCurrentLod;
         protected bool mSelfOrChildRendered;
@@ -34,6 +35,7 @@ namespace SDK.Lib
 
         protected MSceneNode mLocalNode;
         protected int mCurIndexBufferIndex;
+        protected bool mIsVertexDataInit;
 
         public MTerrainQuadTreeNode(MTerrain terrain,
         MTerrainQuadTreeNode parent, ushort xoff, ushort yoff, ushort size,
@@ -55,6 +57,10 @@ namespace SDK.Lib
             mLocalNode = null;
             mCurIndexBufferIndex = 0;
 
+            mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+            mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+            mIsVertexDataInit = false;
+
             if (terrain.getMaxBatchSize() < size)
             {
                 mChildren = new MTerrainQuadTreeNode[(int)QuadTreeChildIndex.eTOTAL];
@@ -70,6 +76,11 @@ namespace SDK.Lib
             }
             else
             {
+                mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize(), -10, -mTerrain.getMaxBatchWorldSize()));
+                mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize(), 10, mTerrain.getMaxBatchWorldSize()));
+                mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
+                mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+
                 mBaseLod = 0;
                 mVertexDataRecord = new MVertexDataRecord();
                 mTileRender = new TerrainTileRender(this);
@@ -180,6 +191,10 @@ namespace SDK.Lib
             {
                 MVector3 localPos = pos - mLocalCentre;
                 mAABB.merge(ref localPos);
+
+                mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
+                mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+
                 mBoundingRadius = UtilMath.max(mBoundingRadius, localPos.length());
 
                 if (!isLeaf())
@@ -199,6 +214,8 @@ namespace SDK.Lib
         public void assignVertexData(ushort treeDepthStart, ushort treeDepthEnd, ushort resolution, uint sz)
         {
             //UtilApi.assert(treeDepthStart >= mDepth, "Should not be calling this");
+
+            mIsVertexDataInit = true;
 
             if (this.isLeaf())
             {
@@ -333,6 +350,10 @@ namespace SDK.Lib
         {
             if(isLeaf())
             {
+                if(!mIsVertexDataInit)
+                {
+                    assignVertexData(0, 0, 0, 0);
+                }
                 mTileRender.show();
             }
             else
@@ -341,6 +362,67 @@ namespace SDK.Lib
                 {
                     mChildren[i].show();
                 }
+            }
+        }
+
+        public void hide()
+        {
+            if (isLeaf())
+            {
+                mTileRender.hide();
+            }
+            else
+            {
+                for (int i = 0; i < 4; ++i)
+                {
+                    mChildren[i].hide();
+                }
+            }
+        }
+
+        public void updateAABB()
+        {
+            if (!isLeaf())
+            {
+                for (int i = 0; i < 4; ++i)
+                {
+                    mChildren[i].updateAABB();
+
+                    MAxisAlignedBox childBox = mChildren[i].getAABB();
+                    MVector3 boxoffset = mChildren[i].getLocalCentre() - getLocalCentre();
+                    childBox.setMinimum(childBox.getMinimum() + boxoffset);
+                    childBox.setMaximum(childBox.getMaximum() + boxoffset);
+                    mAABB.merge(childBox);
+
+                    //MMatrix4 worldMat = new MMatrix4();
+                    //mWorldAabb.transformAffine(ref worldMat);
+
+                    mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
+                    mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+                }
+            }
+        }
+
+        public void cullNode(MFrustum frustum)
+        {
+            FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_LEFT;
+            if (frustum.isVisible(ref mWorldAabb, ref culledBy))
+            {
+                if(isLeaf())
+                {
+                    show();
+                }
+                else
+                {
+                    mChildren[0].cullNode(frustum);
+                    mChildren[0].cullNode(frustum);
+                    mChildren[0].cullNode(frustum);
+                    mChildren[0].cullNode(frustum);
+                }
+            }
+            else
+            {
+                hide();
             }
         }
     }
