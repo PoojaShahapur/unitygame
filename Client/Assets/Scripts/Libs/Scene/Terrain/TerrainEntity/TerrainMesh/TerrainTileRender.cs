@@ -360,6 +360,7 @@ namespace SDK.Lib
                 if (m_selfGo == null)
                 {
                     this.selfGo = UtilApi.createGameObject("MeshRender");
+                    this.selfGo.layer = UtilApi.NameToLayer(m_treeNode.getLayerStr());
                 }
 
                 base.show();

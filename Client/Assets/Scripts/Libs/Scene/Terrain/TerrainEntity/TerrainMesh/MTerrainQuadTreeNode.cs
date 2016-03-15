@@ -431,5 +431,10 @@ namespace SDK.Lib
                 hide();
             }
         }
+
+        public string getLayerStr()
+        {
+            return mTerrain.getLayerStr();
+        }
     }
 }

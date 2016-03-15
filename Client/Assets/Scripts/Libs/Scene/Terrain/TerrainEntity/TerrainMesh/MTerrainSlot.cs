@@ -13,5 +13,10 @@
             def = new MTerrainSlotDefinition();
             instance = null;
         }
+
+        public void freeInstance()
+        {
+            instance = null;
+        }
     }
 }

@@ -617,6 +617,11 @@ namespace SDK.Lib
         {
             invalidateFrustum();
             invalidateView();
+
+            if (m_bShowBoundBox)
+            {
+                updateVertexData();
+            }
         }
     }
 }

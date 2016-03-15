@@ -77,6 +77,24 @@ namespace SDK.Lib
             }
         }
 
+        public void unloadTerrain(long x, long y)
+        {
+            MTerrainSlot slot = getTerrainSlot(x, y, false);
+            if (slot != null)
+            {
+                slot.freeInstance();
+            }
+        }
+
+        public void removeTerrain(long x, long y)
+        {
+            uint key = packIndex(x, y);
+            if(mTerrainSlots.ContainsKey((int)key))
+            {
+                mTerrainSlots.Remove((int)key);
+            }
+        }
+
         public uint packIndex(long x, long y)
         {
             short xs16 = (short)(x);

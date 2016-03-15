@@ -47,6 +47,7 @@ namespace SDK.Lib
         protected MTerrain[] mNeighbours;
         protected HeightMapData m_heightMapData;
         protected TerrainMat mTerrainMat;
+        protected string m_layerStr;
 
         public MTerrain()
         {
@@ -68,6 +69,7 @@ namespace SDK.Lib
             m_heightMapData = new HeightMapData();
             mTerrainMat = new TerrainMat();
             mRootNode = new MSceneNode("Terrain");
+            m_layerStr = "Default";
         }
 
         public MVector3 getPosition()
@@ -983,6 +985,11 @@ namespace SDK.Lib
         public void updateAABB()
         {
             mQuadTree.updateAABB();
+        }
+
+        public string getLayerStr()
+        {
+            return m_layerStr;
         }
     }
 }

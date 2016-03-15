@@ -28,10 +28,19 @@ namespace SDK.Lib
         public void setLocalCamera(Camera cam)
         {
             m_localCamera = new MCamera(cam.gameObject.transform);
-            m_localCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(cam.fieldOfView)));
-            m_localCamera.setFarClipDistance(cam.farClipPlane);
-            m_localCamera.setNearClipDistance(cam.nearClipPlane);
-            m_localCamera.setAspectRatio(cam.aspect);
+            if (cam.orthographic)
+            {
+                m_localCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
+                m_localCamera.setOrthoWindow(cam.orthographicSize * 2, cam.orthographicSize * 2);
+            }
+            else
+            {
+                m_localCamera.setProjectionType(ProjectionType.PT_PERSPECTIVE);
+                m_localCamera.setFOVy(new MRadian(UtilMath.DegreesToRadians(cam.fieldOfView)));
+                m_localCamera.setFarClipDistance(cam.farClipPlane);
+                m_localCamera.setNearClipDistance(cam.nearClipPlane);
+                m_localCamera.setAspectRatio(cam.aspect);
+            }
         }
 
         public void setSceneCamera2UICamera()
@@ -98,7 +107,6 @@ namespace SDK.Lib
             if (m_localCamera != null)
             {
                 m_localCamera.invalid();
-                m_localCamera.updateVertexData();
             }
         }
     }
