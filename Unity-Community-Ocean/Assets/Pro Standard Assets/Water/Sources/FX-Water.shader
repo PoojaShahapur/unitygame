@@ -99,7 +99,7 @@ Shader "FX/Water"
 					0, 0.5 * _ProjectionParams.x, 0, 0.5,
 					0, 0, 0, 1
 				);	
-				o.ref = mul (mat, o.pos);
+				o.ref = float4(mul (mat, o.pos), 1.0);
 				#endif
 	
 				return o;
