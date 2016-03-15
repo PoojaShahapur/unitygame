@@ -414,7 +414,7 @@ namespace SDK.Lib
                 return target.activeSelf;
             }
 
-            return true;
+            return false;
         }
 
         public static UnityEngine.Object Instantiate(UnityEngine.Object original)

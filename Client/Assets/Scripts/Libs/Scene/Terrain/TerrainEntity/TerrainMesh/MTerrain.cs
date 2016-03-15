@@ -972,5 +972,10 @@ namespace SDK.Lib
         {
             mQuadTree.cullNode(frustum);
         }
+
+        public void updateAABB()
+        {
+            mQuadTree.updateAABB();
+        }
     }
 }

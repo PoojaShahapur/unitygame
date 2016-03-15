@@ -124,5 +124,14 @@ namespace SDK.Lib
                 slot.instance.cullNode(frustum);
             }
         }
+
+        public void updateAABB(long x, long y)
+        {
+            MTerrainSlot slot = getTerrainSlot(x, y, false);
+            if (slot != null && slot.instance != null)
+            {
+                slot.instance.updateAABB();
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace SDK.Lib
             if (KeyCode.UpArrow == key)
             {
                 m_localPos = m_targetTrans.localPosition;
-                m_localPos.z = m_localPos.z + 0.1f;
+                m_localPos.z = m_localPos.z + 1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
                 m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
@@ -24,7 +24,7 @@ namespace SDK.Lib
             else if (KeyCode.DownArrow == key)
             {
                 m_localPos = m_targetTrans.localPosition;
-                m_localPos.z = m_localPos.z - 0.1f;
+                m_localPos.z = m_localPos.z - 1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
                 m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
@@ -33,7 +33,7 @@ namespace SDK.Lib
             else if (KeyCode.RightArrow == key)
             {
                 m_localPos = m_targetTrans.localPosition;
-                m_localPos.x = m_localPos.x + 0.1f;
+                m_localPos.x = m_localPos.x + 1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
                 m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;
@@ -42,7 +42,7 @@ namespace SDK.Lib
             else if (KeyCode.LeftArrow == key)
             {
                 m_localPos = m_targetTrans.localPosition;
-                m_localPos.x = m_localPos.x - 0.1f;
+                m_localPos.x = m_localPos.x - 1f;
                 float height = Ctx.m_instance.m_sceneSys.getHeightAt(m_localPos.x, m_localPos.z);
                 m_localPos.y = height + 80;
                 m_targetTrans.localPosition = m_localPos;

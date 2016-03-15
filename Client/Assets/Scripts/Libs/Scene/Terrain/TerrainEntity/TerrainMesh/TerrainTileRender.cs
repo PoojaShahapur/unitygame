@@ -28,6 +28,7 @@ namespace SDK.Lib
         protected string m_meshName;            // Mesh 的名字
         protected MTerrainQuadTreeNode m_treeNode;
         protected bool m_isAutoBuildNormal = false;
+        protected bool m_isBuildGromAndMat;
 
         public TerrainTileRender(MTerrainQuadTreeNode treeNode)
             : base(null)
@@ -35,7 +36,8 @@ namespace SDK.Lib
             m_treeNode = treeNode;
             m_matPreStr = "Dyn_";
             m_meshName = "Dyn_Mesh";
-            m_isAutoBuildNormal = true;
+            //m_isAutoBuildNormal = true;
+            m_isBuildGromAndMat = false;
         }
 
         /**
@@ -353,14 +355,22 @@ namespace SDK.Lib
          */
         override public void show()
         {
-            if (m_selfGo == null)
+            if (!this.IsVisible())
             {
-                this.selfGo = UtilApi.createGameObject("MeshRender");
-            }
+                if (m_selfGo == null)
+                {
+                    this.selfGo = UtilApi.createGameObject("MeshRender");
+                }
 
-            base.show();
-            UpdateGeometry();
-            createCopyMaterial();
+                base.show();
+
+                if (!m_isBuildGromAndMat)
+                {
+                    UpdateGeometry();
+                    createCopyMaterial();
+                    m_isBuildGromAndMat = true;
+                }
+            }
         }
 
         override protected void onPntChanged()

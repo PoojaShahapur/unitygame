@@ -151,7 +151,7 @@ namespace SDK.Lib
 
         public void hide()
         {
-            if (m_selfGo != null)
+            if (m_selfGo != null && this.IsVisible())
             {
                 UtilApi.SetActive(m_selfGo, false);
             }

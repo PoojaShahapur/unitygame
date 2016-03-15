@@ -76,10 +76,8 @@ namespace SDK.Lib
             }
             else
             {
-                mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize(), -10, -mTerrain.getMaxBatchWorldSize()));
-                mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize(), 10, mTerrain.getMaxBatchWorldSize()));
-                mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
-                mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+                mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -10, -mTerrain.getMaxBatchWorldSize() / 2));
+                mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, 10, mTerrain.getMaxBatchWorldSize() / 2));
 
                 mBaseLod = 0;
                 mVertexDataRecord = new MVertexDataRecord();
@@ -92,6 +90,12 @@ namespace SDK.Lib
             ushort midpointy = (ushort)(mOffsetY + midoffset);
 
             mTerrain.getPoint(midpointx, midpointy, 0, ref mLocalCentre);
+
+            if (terrain.getMaxBatchSize() == size)
+            {
+                mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre);
+                mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre);
+            }
         }
 
         public bool isLeaf()
@@ -384,12 +388,12 @@ namespace SDK.Lib
         {
             if (!isLeaf())
             {
-                for (int i = 0; i < 4; ++i)
+                for (int index = 0; index < 4; ++index)
                 {
-                    mChildren[i].updateAABB();
+                    mChildren[index].updateAABB();
 
-                    MAxisAlignedBox childBox = mChildren[i].getAABB();
-                    MVector3 boxoffset = mChildren[i].getLocalCentre() - getLocalCentre();
+                    MAxisAlignedBox childBox = mChildren[index].getAABB();
+                    MVector3 boxoffset = mChildren[index].getLocalCentre() - getLocalCentre();
                     childBox.setMinimum(childBox.getMinimum() + boxoffset);
                     childBox.setMaximum(childBox.getMaximum() + boxoffset);
                     mAABB.merge(childBox);
@@ -411,13 +415,14 @@ namespace SDK.Lib
                 if(isLeaf())
                 {
                     show();
+                    frustum.isVisible(ref mWorldAabb, ref culledBy);
                 }
                 else
                 {
-                    mChildren[0].cullNode(frustum);
-                    mChildren[0].cullNode(frustum);
-                    mChildren[0].cullNode(frustum);
-                    mChildren[0].cullNode(frustum);
+                    for (int index = 0; index < 4; ++index)
+                    {
+                        mChildren[index].cullNode(frustum);
+                    }
                 }
             }
             else
