@@ -37,6 +37,9 @@ namespace SDK.Lib
         protected int mCurIndexBufferIndex;
         protected bool mIsVertexDataInit;
 
+        protected bool m_bShowBoundBox;         // 显示 BoundBox
+        protected MAABBMeshRender m_aabbMeshRender;
+
         public MTerrainQuadTreeNode(MTerrain terrain,
         MTerrainQuadTreeNode parent, ushort xoff, ushort yoff, ushort size,
         ushort lod, ushort depth, ushort quadrant)
@@ -60,6 +63,7 @@ namespace SDK.Lib
             mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mIsVertexDataInit = false;
+            m_bShowBoundBox = true;
 
             if (terrain.getMaxBatchSize() < size)
             {
@@ -358,6 +362,7 @@ namespace SDK.Lib
                     assignVertexData(0, 0, 0, 0);
                 }
                 mTileRender.show();
+                showBoundBox();
             }
             else
             {
@@ -373,6 +378,7 @@ namespace SDK.Lib
             if (isLeaf())
             {
                 mTileRender.hide();
+                hideBoundBox();
             }
             else
             {
@@ -442,6 +448,33 @@ namespace SDK.Lib
         {
             mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre + mTerrain.getPosition());
             mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre + mTerrain.getPosition());
+        }
+
+        protected void showBoundBox()
+        {
+            if (m_bShowBoundBox)
+            {
+                if (m_aabbMeshRender == null)
+                {
+                    m_aabbMeshRender = new MAABBMeshRender();
+                }
+
+                m_aabbMeshRender.addVertex(ref mWorldAabb);
+                m_aabbMeshRender.buildIndex();
+                m_aabbMeshRender.uploadGeometry();
+                m_aabbMeshRender.show();
+            }
+        }
+
+        protected void hideBoundBox()
+        {
+            if (m_bShowBoundBox)
+            {
+                if (m_aabbMeshRender != null)
+                {
+                    m_aabbMeshRender.hide();
+                }
+            }
         }
     }
 }
