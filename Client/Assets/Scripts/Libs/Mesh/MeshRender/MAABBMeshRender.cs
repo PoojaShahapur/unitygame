@@ -183,7 +183,7 @@ namespace SDK.Lib
                 m_renderer.enabled = true;
             }
 
-            MatRes mat = Ctx.m_instance.m_matMgr.getAndSyncLoad("Materials/Mesh/TransparentMesh");
+            MatRes mat = Ctx.m_instance.m_matMgr.getAndSyncLoad("Materials/Mesh/AABBMesh");
 
             UtilApi.createMatIns(ref m_dynamicMat, mat.getMat());
 

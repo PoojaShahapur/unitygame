@@ -378,7 +378,7 @@ namespace SDK.Lib
             if (isLeaf())
             {
                 mTileRender.hide();
-                //hideBoundBox();
+                hideBoundBox();
             }
             else
             {
