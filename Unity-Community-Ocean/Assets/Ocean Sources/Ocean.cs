@@ -792,7 +792,8 @@ public class Ocean : MonoBehaviour
                     {
                         tangents[i] = (vertices[i - width + 1] + new Vector3(size.x, 0.0f, 0.0f) - vertices[i]).normalized;
                     }
-                    else {
+                    else
+                    {
                         tangents[i] = (vertices[i + 1] - vertices[i]).normalized;
                     }
 
