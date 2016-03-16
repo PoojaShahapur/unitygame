@@ -20,10 +20,10 @@
             minBatchSize = 33;
             pos = MVector3.ZERO;
             worldSize = 1024;
-            diffusePath = "Materials/Texture/Terrain/TerrainDiffuse_1.png";
-            //diffusePath = "Materials/Texture/Terrain/terrain_diffuse.png";
-            heightPath = "Materials/Texture/Terrain/TerrainHeight_1.png";
-            //heightPath = "Materials/Texture/Terrain/terrain.png";
+            diffusePath = "Materials/Textures/Terrain/TerrainDiffuse_1.png";
+            //diffusePath = "Materials/Textures/Terrain/terrain_diffuse.png";
+            heightPath = "Materials/Textures/Terrain/TerrainHeight_1.png";
+            //heightPath = "Materials/Textures/Terrain/terrain.png";
             inputScale = 1023;
             inputBias = 0;
             deleteInputData = true;

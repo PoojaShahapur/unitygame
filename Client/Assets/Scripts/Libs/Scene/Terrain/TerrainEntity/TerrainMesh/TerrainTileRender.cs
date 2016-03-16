@@ -340,7 +340,8 @@ namespace SDK.Lib
                 // 更新渲染
                 if (m_renderer != null)
                 {
-                    m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+                    //m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+                    m_renderer.material = m_dynamicMat;
                 }
             }
         }

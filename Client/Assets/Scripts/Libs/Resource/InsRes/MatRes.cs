@@ -4,7 +4,7 @@ namespace SDK.Lib
 {
     public class MatRes : InsResBase
     {
-        public Material m_mat;
+        protected Material m_mat;
 
         public MatRes()
         {

@@ -51,7 +51,7 @@ namespace SDK.Lib
         public void loadDiffuseMat()
         {
             m_diffuseMatRes = Ctx.m_instance.m_matMgr.getAndSyncLoad<MatRes>(m_difffuseMatName);
-            m_diffuseMat = m_diffuseMatRes.m_mat;
+            m_diffuseMat = m_diffuseMatRes.getMat();
 
             m_diffuseShader = Shader.Find(m_diffuseShaderName);
             m_diffuseMat.shader = m_diffuseShader;
@@ -66,7 +66,7 @@ namespace SDK.Lib
         public void loadSpecularMat()
         {
             m_specularMatRes = Ctx.m_instance.m_matMgr.getAndSyncLoad<MatRes>(m_specularMatName);
-            m_specularMat = m_specularMatRes.m_mat;
+            m_specularMat = m_specularMatRes.getMat();
 
             m_specularShader = Shader.Find(m_specularShaderName);
             m_specularMat.shader = m_specularShader;
