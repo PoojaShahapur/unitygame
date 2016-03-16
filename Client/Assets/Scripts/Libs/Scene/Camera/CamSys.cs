@@ -109,6 +109,7 @@ namespace SDK.Lib
             if (m_localCamera != null)
             {
                 m_localCamera.invalid();
+                Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
             }
         }
 

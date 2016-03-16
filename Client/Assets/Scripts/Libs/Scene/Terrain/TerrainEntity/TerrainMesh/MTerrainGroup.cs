@@ -136,6 +136,7 @@ namespace SDK.Lib
 
         public void cullTerrain(long x, long y, MFrustum frustum)
         {
+            return;
             MTerrainSlot slot = getTerrainSlot(x, y, false);
             if (slot != null && slot.instance != null)
             {
