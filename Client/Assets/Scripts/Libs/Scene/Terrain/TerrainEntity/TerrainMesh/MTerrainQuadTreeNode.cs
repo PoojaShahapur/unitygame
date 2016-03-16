@@ -80,8 +80,8 @@ namespace SDK.Lib
             }
             else
             {
-                mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -10, -mTerrain.getMaxBatchWorldSize() / 2));
-                mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, 10, mTerrain.getMaxBatchWorldSize() / 2));
+                mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2));
+                mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2));
 
                 mBaseLod = 0;
                 mVertexDataRecord = new MVertexDataRecord();
@@ -174,8 +174,8 @@ namespace SDK.Lib
 
         public bool rectContainsNode(ref MTRectI rect)
         {
-            return (rect.left <= mOffsetX && rect.right > mBoundaryX &&
-                rect.top <= mOffsetY && rect.bottom > mBoundaryY);
+            return (rect.left <= mOffsetX && rect.right >= mBoundaryX &&
+                rect.top <= mOffsetY && rect.bottom >= mBoundaryY);
         }
 
         public void resetBounds(ref MTRectI rect)
@@ -183,6 +183,7 @@ namespace SDK.Lib
             if (rectContainsNode(ref rect))
             {
                 mAABB.setNull();
+                mWorldAabb.setNull();
                 mBoundingRadius = 0;
 
                 if (!isLeaf())
