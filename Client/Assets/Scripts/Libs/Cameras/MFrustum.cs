@@ -78,6 +78,7 @@ namespace SDK.Lib
 
         protected QuadMeshRender m_frustumRender;   // Frustum ‰÷»æ
         protected bool m_bShowBoundBox;             //  «∑Òœ‘ æ
+        protected MPlane[] mTestFrustumPlanes;      // ≤‚ ‘ π”√µƒ≤√ºÙ√Ê∞Â
 
         public MFrustum(Transform parentNode)
         {
@@ -910,6 +911,53 @@ namespace SDK.Lib
             }
 
             return ret;
+        }
+
+        public void testClipPlane()
+        {
+            updateFrustumPlanes();
+            updateWorldSpaceCorners();
+
+            if (mTestFrustumPlanes == null)
+            {
+                mTestFrustumPlanes = new MPlane[6];
+            }
+
+            // Ω¸
+            MVector3 point0 = new MVector3(mWorldSpaceCorners[0]);
+            MVector3 point1 = new MVector3(mWorldSpaceCorners[1]);
+            MVector3 point2 = new MVector3(mWorldSpaceCorners[2]);
+            mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_NEAR] = new MPlane(ref point0, ref point1, ref point2);
+
+            // ‘∂
+            point0 = new MVector3(mWorldSpaceCorners[4]);
+            point1 = new MVector3(mWorldSpaceCorners[7]);
+            point2 = new MVector3(mWorldSpaceCorners[6]);
+            mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_FAR] = new MPlane(ref point0, ref point1, ref point2);
+
+            // ◊Û
+            point0 = new MVector3(mWorldSpaceCorners[2]);
+            point1 = new MVector3(mWorldSpaceCorners[1]);
+            point2 = new MVector3(mWorldSpaceCorners[5]);
+            mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_LEFT] = new MPlane(ref point0, ref point1, ref point2);
+
+            // ”“
+            point0 = new MVector3(mWorldSpaceCorners[0]);
+            point1 = new MVector3(mWorldSpaceCorners[3]);
+            point2 = new MVector3(mWorldSpaceCorners[7]);
+            mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_RIGHT] = new MPlane(ref point0, ref point1, ref point2);
+
+            // ∂•
+            point0 = new MVector3(mWorldSpaceCorners[1]);
+            point1 = new MVector3(mWorldSpaceCorners[0]);
+            point2 = new MVector3(mWorldSpaceCorners[4]);
+            mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_TOP] = new MPlane(ref point0, ref point1, ref point2);
+
+            // µ◊
+            point0 = new MVector3(mWorldSpaceCorners[3]);
+            point1 = new MVector3(mWorldSpaceCorners[2]);
+            point2 = new MVector3(mWorldSpaceCorners[6]);
+            mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_BOTTOM] = new MPlane(ref point0, ref point1, ref point2);
         }
     }
 }

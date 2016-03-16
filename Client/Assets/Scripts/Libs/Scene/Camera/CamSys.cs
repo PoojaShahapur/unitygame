@@ -41,6 +41,7 @@ namespace SDK.Lib
                 m_localCamera.setNearClipDistance(cam.nearClipPlane);
                 m_localCamera.setAspectRatio(cam.aspect);
 
+                m_localCamera.testClipPlane();
                 testAABB();
             }
         }
