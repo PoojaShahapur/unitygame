@@ -150,14 +150,14 @@ Shader "OceanReflectionRefraction"
 	
 				float foamStrength = i.foamStrengthAndDistance.x * 1.8;
 	
-				half4 foam = clamp(tex2D(_Foam, i.bumpTexCoord.xy * 1.0)  - 0.5, 0.0, 1.0) * foamStrength;
+				half4 foam = clamp(tex2D(_Foam, i.bumpTexCoord.xy * 1.0) - 0.5, 0.0, 1.0) * foamStrength;
 
 				float3 halfVec = normalize(normViewDir - normalize(i.lightDir));
 				float specular = pow(saturate(dot(halfVec, tangentNormal.xyz)), 250.0);
 
 				result.rgb = lerp(refraction, reflection, fresnelTerm) + clamp(foam.r, 0.0, 1.0) + specular;
 
-				result.rgb = result.rgb;//*0.001 + fresnelTerm;// * 0.001 + fresnelTerm;
+				//result.rgb = result.rgb;//*0.001 + fresnelTerm;// * 0.001 + fresnelTerm;
 				result.a = 1.0;
 
 				return result;
