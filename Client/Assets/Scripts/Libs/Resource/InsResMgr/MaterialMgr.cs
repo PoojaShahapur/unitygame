@@ -1,3 +1,5 @@
+using System;
+
 namespace SDK.Lib
 {
     public class MaterialMgr : ResMgrBase
@@ -7,6 +9,16 @@ namespace SDK.Lib
         public MaterialMgr()
         {
 
+        }
+
+        public MatRes getAndSyncLoad(string path)
+        {
+            return getAndSyncLoad<MatRes>(path);
+        }
+
+        public MatRes getAndAsyncLoad(string path, Action<IDispatchObject> handle)
+        {
+            return getAndAsyncLoad<MatRes>(path, handle);
         }
     }
 }

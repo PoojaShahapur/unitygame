@@ -11,6 +11,11 @@ namespace SDK.Lib
 
         }
 
+        public Material getMat()
+        {
+            return m_mat;
+        }
+
         override protected void initImpl(ResItem res)
         {
             // 获取资源单独保存

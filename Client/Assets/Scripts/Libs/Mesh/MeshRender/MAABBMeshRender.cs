@@ -10,8 +10,6 @@ namespace SDK.Lib
         protected int m_vertexNum;
         protected int m_vertexIndex;
         protected Vector3[] m_vertices;
-        protected Vector2[] m_uv;
-        protected Color[] m_color;
         protected int[] m_triangles;
 
         protected Mesh m_mesh;
@@ -160,8 +158,6 @@ namespace SDK.Lib
 
             m_mesh.Clear();
             m_mesh.vertices = m_vertices;
-            m_mesh.uv = m_uv;
-            m_mesh.colors = m_color;
             m_mesh.triangles = m_triangles;
             m_mesh.RecalculateNormals();
             m_mesh.RecalculateBounds();
@@ -187,11 +183,13 @@ namespace SDK.Lib
                 m_renderer.enabled = true;
             }
 
-            Shader shader = Shader.Find("Mobile/Diffuse");
-            m_dynamicMat = new Material(shader);
+            MatRes mat = Ctx.m_instance.m_matMgr.getAndSyncLoad("Materials/Mesh/TransparentMesh");
+
+            UtilApi.createMatIns(ref m_dynamicMat, mat.getMat());
+
             if (m_renderer != null)
             {
-                m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+                m_renderer.material = m_dynamicMat;
             }
         }
     }

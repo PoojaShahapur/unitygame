@@ -76,12 +76,12 @@
                 return Side.NO_SIDE;
             if (box.isInfinite())
                 return Side.BOTH_SIDE;
-            /*
+
             MVector3 center = box.getCenter();
             MVector3 half = box.getHalfSize();
             return getSide(ref center, ref half);
-            */
 
+            /*
             MVector3 dmin = new MVector3(0, 0, 0);
             MVector3 dmax = new MVector3(0, 0, 0);
             for (int idx = 0; idx < 3; ++idx)
@@ -110,6 +110,7 @@
             {
                 return Side.BOTH_SIDE;
             }
+            */
         }
 
         public Side getSide(ref MVector3 centre, ref MVector3 halfSize)

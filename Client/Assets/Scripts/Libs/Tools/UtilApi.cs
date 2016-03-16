@@ -1020,5 +1020,19 @@ namespace SDK.Lib
                     return null;
             }
         }
+
+        static public void createMatIns(ref Material insMat, Material matTmpl, string matName = "", HideFlags hideFlags = HideFlags.DontSave | HideFlags.NotEditable)
+        {
+            insMat = new Material(matTmpl);
+            insMat.name = matName;
+            insMat.hideFlags = hideFlags;
+            insMat.CopyPropertiesFromMaterial(matTmpl);
+
+            string[] keywords = matTmpl.shaderKeywords;
+            for (int i = 0; i < keywords.Length; ++i)
+            {
+                insMat.EnableKeyword(keywords[i]);
+            }
+        }
     }
 }

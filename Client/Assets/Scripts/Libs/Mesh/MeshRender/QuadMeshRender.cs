@@ -159,11 +159,15 @@ namespace SDK.Lib
                 m_renderer.enabled = true;
             }
 
-            Shader shader = Shader.Find("Mobile/Diffuse");
-            m_dynamicMat = new Material(shader);
+            //Shader shader = Shader.Find("Mobile/Diffuse");
+            //m_dynamicMat = new Material(shader);
+            MatRes mat = Ctx.m_instance.m_matMgr.getAndSyncLoad("Materials/Mesh/TransparentMesh");
+            UtilApi.createMatIns(ref m_dynamicMat, mat.getMat());
+
             if (m_renderer != null)
             {
-                m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+                //m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
+                m_renderer.material = m_dynamicMat;
             }
         }
     }
