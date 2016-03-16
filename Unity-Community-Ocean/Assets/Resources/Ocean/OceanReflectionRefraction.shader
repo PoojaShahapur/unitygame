@@ -58,9 +58,10 @@ Shader "OceanReflectionRefraction"
   				float4 projSource = float4(v.vertex.x, 0.0, v.vertex.z, 1.0);
 				float4 tmpProj = mul( UNITY_MATRIX_MVP, projSource);
 				o.projTexCoord = tmpProj;
-				/*  
+
+				/*
 				//Bias matrix for converting clip-space vertex positions
-				//to texture coordinates.
+				//to texture coordinates.				
 				float3x4 mat = float3x4(
 				0.5, 0.0, 0.0, 0.5,
 				0.0, 0.5 * _ProjectionParams.x, 0.0, 0.5,
@@ -69,7 +70,21 @@ Shader "OceanReflectionRefraction"
     
 				o.projTexCoord.xy = mul(mat, tmpProj).xy;
 				o.projTexCoord.xy /= tmpProj.w;
-				*/ 
+				*/
+
+				/*
+				float4x4 mat = float4x4(
+				0.5, 0.0, 0.0, 0.5,
+				0.0, 0.5 * _ProjectionParams.x, 0.0, 0.5,
+				0.0, 0.0, 0.5, 0.5,
+				0, 0, 0, 1
+				);
+    
+				o.projTexCoord = mul(mat, tmpProj);
+				o.projTexCoord.xy /= o.projTexCoord.w;
+				//o.projTexCoord /= o.projTexCoord.w;
+				*/
+
 				float3 objSpaceViewDir = ObjSpaceViewDir(v.vertex);
     
 				//o.normal = v.normal;
@@ -103,6 +118,20 @@ Shader "OceanReflectionRefraction"
 				half3 tangentNormal = normalize(tangentNormal0 + tangentNormal1);
 	
 				float2 projTexCoord = 0.5 * i.projTexCoord.xy * float2(1, _ProjectionParams.x) / i.projTexCoord.w + float2(0.5, 0.5);
+				//float2 projTexCoord = i.projTexCoord.xy / i.projTexCoord.w;
+				//float2 projTexCoord = i.projTexCoord.xy;
+
+				/*
+				float4x4 mat = float4x4(
+					0.5, 0.0, 0.0, 0.5,
+					0.0, 0.5 * _ProjectionParams.x, 0.0, 0.5,
+					0.0, 0.0, 0.5, 0.5,
+					0, 0, 0, 1
+					);
+
+				float4 projTexCoord_TexSpace = mul(mat, i.projTexCoord);
+				float2 projTexCoord = projTexCoord_TexSpace.xy / projTexCoord_TexSpace.w;
+				*/
 	
 				half4 result = half4(0, 0, 0, 1);
 	
