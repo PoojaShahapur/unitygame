@@ -16,6 +16,7 @@ namespace SDK.Lib
     {
         public const string TRUE = "true";
         public const string FALSE = "false";
+        public const string PREFAB_DOT_EXT = ".prefab";
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {

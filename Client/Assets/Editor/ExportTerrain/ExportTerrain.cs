@@ -1,3 +1,4 @@
+using SDK.Lib;
 using System;
 using System.IO;
 using System.Text;
@@ -30,7 +31,7 @@ class ExportTerrain : EditorWindow
     int counter;
     int totalCount;
 
-    [MenuItem("Terrain/Export To Obj...")]
+    [MenuItem("My/Terrain/Export To Obj...")]
     static public void Init()
     {
         terrain = null;
@@ -64,6 +65,11 @@ class ExportTerrain : EditorWindow
         if (GUILayout.Button("Export"))
         {
             Export();
+        }
+        if (GUILayout.Button("ExportTexture"))
+        {
+            //exportAlphaTexture();
+            exportSplatTexture();
         }
     }
 
@@ -214,6 +220,51 @@ class ExportTerrain : EditorWindow
         {
             counter = 0;
             EditorUtility.DisplayProgressBar("Saving...", "", Mathf.InverseLerp(0, totalCount, ++tCount));
+        }
+    }
+
+    public void exportAlphaTexture()
+    {
+        string path = Application.streamingAssetsPath;
+        UtilApi.saveTex2Disc(terrain.alphamapTextures[0], path + "/alphamapTextures_0.png");
+    }
+
+    public void exportSplatTexture_NotRun()
+    {
+        string path = Application.streamingAssetsPath;
+        int idx = 0;
+        SplatPrototype splatLayer = null;
+        Texture2D writeTex = null;
+        Color color;
+        for (idx = 0; idx < terrain.splatPrototypes.Length; ++idx)
+        {
+            splatLayer = terrain.splatPrototypes[idx];
+            writeTex = new Texture2D(splatLayer.texture.width, splatLayer.texture.height, TextureFormat.RGB24, false);
+            
+            for(int imageY = 0; imageY < splatLayer.texture.height; ++imageY)
+            {
+                for(int imageX = 0; imageX < splatLayer.texture.width; ++imageX)
+                {
+                    // 这个纹理是不能读写的，需要使用 AssetDatabase.GetAssetPath 读取纹理目录
+                    color = splatLayer.texture.GetPixel(imageX, imageY);
+                    writeTex.SetPixel(imageX, imageY, color);
+                }
+            }
+            UtilApi.saveTex2Disc(splatLayer.texture, path + "/SplatTextures" + idx + ".png");
+        }
+    }
+
+    public void exportSplatTexture()
+    {
+        string path = Application.streamingAssetsPath;
+        int idx = 0;
+        SplatPrototype splatLayer = null;
+        string resPath = "";
+        for (idx = 0; idx < terrain.splatPrototypes.Length; ++idx)
+        {
+            splatLayer = terrain.splatPrototypes[idx];
+            resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
+            // 保存目录
         }
     }
 }
