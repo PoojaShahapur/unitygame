@@ -25,6 +25,13 @@ namespace SDK.Lib
         protected bool mRecalcWindow;
         MFrustum mCullFrustum;
         protected bool mAutoAspectRatio;
+        protected bool mUseRenderingDistance;
+        protected bool mUseMinPixelSize;
+        protected float mPixelDisplayRatio;
+
+        public float mSceneLodFactor;
+        public float mSceneLodFactorInv;
+        public MCamera mLodCamera;
 
         public MCamera(Transform parentNode)
             : base(parentNode)
@@ -385,6 +392,36 @@ namespace SDK.Lib
             return msMovableType;
         }
 
+        public void setLodBias(float factor)
+        {
+            UtilApi.assert(factor > 0.0f, "Bias factor must be > 0!");
+            mSceneLodFactor = factor;
+            mSceneLodFactorInv = 1.0f / factor;
+        }
+
+        public float getLodBias()
+        {
+            return mSceneLodFactor;
+        }
+
+        public float _getLodBiasInverse()
+        {
+            return mSceneLodFactorInv;
+        }
+
+        public void setLodCamera(MCamera lodCam)
+        {
+            if (lodCam == this)
+                mLodCamera = null;
+            else
+                mLodCamera = lodCam;
+        }
+
+        public MCamera getLodCamera()
+        {
+            return mLodCamera != null ? mLodCamera : this;
+        }
+
         public MRay getCameraToViewportRay(float screenX, float screenY)
         {
             MRay ret = new MRay();
@@ -604,6 +641,31 @@ namespace SDK.Lib
             {
                 return getViewMatrix();
             }
+        }
+
+        public virtual void setUseRenderingDistance(bool use)
+        {
+            mUseRenderingDistance = use;
+        }
+
+        public virtual bool getUseRenderingDistance()
+        {
+            return mUseRenderingDistance;
+        }
+
+        public void setUseMinPixelSize(bool enable)
+        {
+            mUseMinPixelSize = enable;
+        }
+
+        public bool getUseMinPixelSize()
+        {
+            return mUseMinPixelSize;
+        }
+
+        public float getPixelDisplayRatio()
+        {
+            return mPixelDisplayRatio;
         }
 
         override protected void preInit(Transform parentNode)

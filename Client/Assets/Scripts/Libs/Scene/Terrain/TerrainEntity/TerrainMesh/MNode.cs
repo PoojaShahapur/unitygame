@@ -209,7 +209,7 @@ namespace SDK.Lib
             return null;
         }
 
-        public void updateFromParentImpl()
+        virtual public void updateFromParentImpl()
         {
             mCachedTransformOutOfDate = true;
 

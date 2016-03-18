@@ -78,140 +78,123 @@ namespace SDK.Lib
             }
         }
 
-    //    public void attachObject(MovableObject* obj)
-    //    {
-    //        if (obj->isAttached())
-    //        {
-    //            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-    //                "Object already attached to a SceneNode or a Bone",
-    //                "SceneNode::attachObject");
-    //        }
+        public void attachObject(MMovableObject obj)
+        {
+            if (obj.isAttached())
+            {
+                // Error
+            }
 
-    //        obj->_notifyAttached(this);
+            obj._notifyAttached(this);
 
-    //        // Also add to name index
-    //        std::pair<ObjectMap::iterator, bool> insresult =
-    //            mObjectsByName.insert(ObjectMap::value_type(obj->getName(), obj));
-    //        assert(insresult.second && "Object was not attached because an object of the "
-    //            "same name was already attached to this node.");
-    //        (void)insresult;
+            if (!mObjectsByName.ContainsKey(obj.getName()))
+            {
+                mObjectsByName.Add(obj.getName(), obj);
+            }
+            else
+            {
+                // Error
+            }
 
-    //        // Make sure bounds get updated (must go right to the top)
-    //        needUpdate();
-    //    }
+            needUpdate();
+        }
 
-    //    public unsigned short SceneNode::numAttachedObjects(void) const
-    //    {
-    //    return static_cast<unsigned short>( mObjectsByName.size() );
-    //}
+        public ushort numAttachedObjects()
+        {
+        return (ushort)(mObjectsByName.Count);
+    }
 
-    //public MovableObject getAttachedObject(unsigned short index)
-    //{
-    //    if (index < mObjectsByName.size())
-    //    {
-    //        ObjectMap::iterator i = mObjectsByName.begin();
-    //        // Increment (must do this one at a time)            
-    //        while (index--) ++i;
+    public MMovableObject getAttachedObject(ushort index)
+    {
+        if (index < mObjectsByName.Count)
+        {
+                Dictionary<string, MMovableObject>.Enumerator iter = mObjectsByName.GetEnumerator();
+            while (index-- > 0) iter.MoveNext();
 
-    //        return i->second;
-    //    }
-    //    else
-    //    {
-    //        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Object index out of bounds.", "SceneNode::getAttachedObject");
-    //    }
-    //}
+            return iter.Current.Value;
+        }
+        else
+        {
+                // Error
+                return null;
+        }
+    }
 
-    //public MovableObject getAttachedObject(const String& name)
-    //{
-    //    // Look up 
-    //    ObjectMap::iterator i = mObjectsByName.find(name);
+    public MMovableObject getAttachedObject(string name)
+    {
+        if (!mObjectsByName.ContainsKey(name))
+        {
+            // Error
+        }
 
-    //    if (i == mObjectsByName.end())
-    //    {
-    //        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "Attached object " +
-    //            name + " not found.", "SceneNode::getAttachedObject");
-    //    }
+        return mObjectsByName[name];
 
-    //    return i->second;
+    }
 
-    //}
+    public MMovableObject detachObject(ushort index)
+    {
+        if (index < mObjectsByName.Count)
+        {
+                Dictionary<string, MMovableObject>.Enumerator iter = mObjectsByName.GetEnumerator();
+            while (index-- > 0) iter.MoveNext();
 
-    //public MovableObject detachObject(unsigned short index)
-    //{
-    //    if (index < mObjectsByName.size())
-    //    {
+            MMovableObject ret = iter.Current.Value;
+            mObjectsByName.Remove(iter.Current.Key);
+            ret._notifyAttached(null);
 
-    //        ObjectMap::iterator i = mObjectsByName.begin();
-    //        // Increment (must do this one at a time)            
-    //        while (index--) ++i;
+            needUpdate();
 
-    //        MovableObject* ret = i->second;
-    //        mObjectsByName.erase(i);
-    //        ret->_notifyAttached((SceneNode*)0);
+            return ret;
+        }
+        else
+        {
+                // Error
+                return null;
+        }
+    }
 
-    //        // Make sure bounds get updated (must go right to the top)
-    //        needUpdate();
+    public MMovableObject detachObject(string name)
+    {
+        if (!mObjectsByName.ContainsKey(name))
+        {
+            // Error
+        }
+        MMovableObject ret = mObjectsByName[name];
+        mObjectsByName.Remove(name);
+        ret._notifyAttached((MSceneNode)null);
 
-    //        return ret;
-    //    }
-    //    else
-    //    {
-    //        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Object index out of bounds.", "SceneNode::getAttchedEntity");
-    //    }
+        needUpdate();
 
-    //}
+        return ret;
+    }
 
-    //public MovableObject detachObject(const String& name)
-    //{
-    //    ObjectMap::iterator it = mObjectsByName.find(name);
-    //    if (it == mObjectsByName.end())
-    //    {
-    //        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "Object " + name + " is not attached "
-    //            "to this node.", "SceneNode::detachObject");
-    //    }
-    //    MovableObject* ret = it->second;
-    //    mObjectsByName.erase(it);
-    //    ret->_notifyAttached((SceneNode*)0);
-    //    // Make sure bounds get updated (must go right to the top)
-    //    needUpdate();
+    public void detachObject(MMovableObject obj)
+    {
+        foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+        {
+            if (kv.Value == obj)
+            {
+                mObjectsByName.Remove(kv.Key);
+                break;
+            }
+        }
+        obj._notifyAttached((MSceneNode)null);
 
-    //    return ret;
+        needUpdate();
+    }
 
-    //}
+    public void detachAllObjects()
+    {
+        foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+        {
+            MMovableObject ret = kv.Value;
+            ret._notifyAttached((MSceneNode)null);
+        }
+        mObjectsByName.Clear();
+        needUpdate();
+    }
 
-    //public void detachObject(MovableObject* obj)
-    //{
-    //    ObjectMap::iterator i, iend;
-    //    iend = mObjectsByName.end();
-    //    for (i = mObjectsByName.begin(); i != iend; ++i)
-    //    {
-    //        if (i->second == obj)
-    //        {
-    //            mObjectsByName.erase(i);
-    //            break;
-    //        }
-    //    }
-    //    obj->_notifyAttached((SceneNode*)0);
-
-    //    // Make sure bounds get updated (must go right to the top)
-    //    needUpdate();
-
-    //}
-
-    //public void detachAllObjects(void)
-    //{
-    //    ObjectMap::iterator itr;
-    //    for (itr = mObjectsByName.begin(); itr != mObjectsByName.end(); ++itr)
-    //    {
-    //        MovableObject* ret = itr->second;
-    //        ret->_notifyAttached((SceneNode*)0);
-    //    }
-    //    mObjectsByName.clear();
-    //    // Make sure bounds get updated (must go right to the top)
-    //    needUpdate();
-    //}
-
-        public virtual bool isInSceneGraph()
+    public virtual bool isInSceneGraph()
         {
             return mIsInSceneGraph;
         }
@@ -253,25 +236,24 @@ public void hideBoundingBox(bool bHide)
     mHideBoundingBox = bHide;
 }
 
-//public void updateFromParentImpl()
-//    {
-//        base.updateFromParentImpl();
+        override public void updateFromParentImpl()
+        {
+            base.updateFromParentImpl();
 
-//        ObjectMap::const_iterator i;
-//        for (i = mObjectsByName.begin(); i != mObjectsByName.end(); ++i)
-//        {
-//            MovableObject* object = i->second;
-//            object->_notifyMoved();
-//        }
-//    }
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            {
+                MMovableObject obj = kv.Value;
+                obj._notifyMoved();
+            }
+        }
 
-    public MNode createChildImpl()
+        override public MNode createChildImpl()
 {
     UtilApi.assert(mCreator != null);
     return mCreator.createSceneNode();
 }
 
-public MNode createChildImpl(string name)
+override public MNode createChildImpl(string name)
 {
     UtilApi.assert(mCreator != null);
     return mCreator.createSceneNode(name);
@@ -454,7 +436,6 @@ public void _autoTrack()
     {
         lookAt(mAutoTrackTarget._getDerivedPosition() + mAutoTrackOffset,
             TransformSpace.TS_WORLD, mAutoTrackLocalDirection);
-        // update self & children
         _update(true, true);
     }
 }
@@ -464,24 +445,20 @@ public MSceneNode getParentSceneNode()
         return (MSceneNode)(getParent());
     }
 
-//    public void setVisible(bool visible, bool cascade)
-//{
-//    ObjectMap::iterator oi, oiend;
-//    oiend = mObjectsByName.end();
-//    for (oi = mObjectsByName.begin(); oi != oiend; ++oi)
-//    {
-//        oi->second->setVisible(visible);
-//    }
+        public void setVisible(bool visible, bool cascade)
+        {
+            foreach (KeyValuePair<string, MMovableObject> kv in mObjectsByName)
+            {
+                kv.Value.setVisible(visible);
+            }
 
-//    if (cascade)
-//    {
-//        ChildNodeMap::iterator i, iend;
-//        iend = mChildren.end();
-//        for (i = mChildren.begin(); i != iend; ++i)
-//        {
-//            static_cast<SceneNode*>(i->second)->setVisible(visible, cascade);
-//        }
-//    }
-//}
+            if (cascade)
+            {
+                foreach (KeyValuePair<string, MNode> kv in mChildren)
+                {
+                    ((MSceneNode)kv.Value).setVisible(visible, cascade);
+                }
+            }
+        }
     }
 }
