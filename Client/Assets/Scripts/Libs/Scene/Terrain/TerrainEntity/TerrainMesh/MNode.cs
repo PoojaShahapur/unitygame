@@ -295,8 +295,8 @@ namespace SDK.Lib
             else
                 return null;
         }
-        //-----------------------------------------------------------------------
-        public MNode removeChild(ushort index)
+
+        virtual public MNode removeChild(ushort index)
         {
             if (index < mChildren.Count)
             {
@@ -316,7 +316,7 @@ namespace SDK.Lib
             return null;
         }
 
-        public MNode removeChild(MNode child)
+        virtual public MNode removeChild(MNode child)
         {
             if (child != null)
             {
