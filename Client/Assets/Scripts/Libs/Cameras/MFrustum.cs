@@ -30,7 +30,7 @@ namespace SDK.Lib
         FRUSTUM_PLANE_BOTTOM = 5
     }
 
-    public class MFrustum
+    public class MFrustum : MMovableObject
     {
         protected ProjectionType mProjType;
         protected MRadian mFOVy;
