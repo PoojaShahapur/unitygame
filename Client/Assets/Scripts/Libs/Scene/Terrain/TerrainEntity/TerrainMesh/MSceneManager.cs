@@ -42,7 +42,6 @@ namespace SDK.Lib
         protected bool mShowBoundingBoxes;
         protected MList<MListener> mListeners;
 
-
         public MSceneManager(string name)
         {
             mName = name;
@@ -51,7 +50,6 @@ namespace SDK.Lib
             mDisplayNodes = false;
             mShowBoundingBoxes = false;
         }
-
 
         public MCamera createCamera(string name)
         {
@@ -104,12 +102,17 @@ namespace SDK.Lib
             }
         }
 
-        public MSceneNode createSceneNodeImpl()
+        virtual public void clearScene()
+        {
+
+        }
+
+        virtual public MSceneNode createSceneNodeImpl()
         {
             return new MSceneNode(this);
         }
 
-        public MSceneNode createSceneNodeImpl(string name)
+        virtual public MSceneNode createSceneNodeImpl(string name)
         {
             return new MSceneNode(this, name);
         }
@@ -134,7 +137,7 @@ namespace SDK.Lib
             return sn;
         }
 
-        public void destroySceneNode(string name)
+        virtual public void destroySceneNode(string name)
         {
             if (!mSceneNodes.ContainsKey(name))
             {
@@ -186,7 +189,7 @@ namespace SDK.Lib
             return (mSceneNodes.ContainsKey(name));
         }
 
-        public void _updateSceneGraph(MCamera cam)
+        virtual public void _updateSceneGraph(MCamera cam)
         {
             firePreUpdateSceneGraph(cam);
 

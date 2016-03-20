@@ -1,7 +1,449 @@
-﻿namespace SDK.Lib
-{
-    public class MOctreeSceneManager
-    {
+﻿using System.Collections.Generic;
 
+namespace SDK.Lib
+{
+    public enum Intersection
+    {
+        OUTSIDE = 0,
+        INSIDE = 1,
+        INTERSECT = 2
+    }
+
+    public class MOctreeSceneManager : MSceneManager
+    {
+        protected static int intersect_call;
+        protected MList<MOctreeNode> mVisible;
+        protected MOctree mOctree;
+        protected int mNumObjects;
+        protected int mMaxDepth;
+        protected MAxisAlignedBox mBox;
+        protected bool mShowBoxes;
+        protected bool mLoose;
+
+        protected float[] mCorners;
+        protected MMatrix4 mScaleFactor;
+
+        public MOctreeSceneManager(string name)
+            : base(name)
+        {
+            MAxisAlignedBox b = new MAxisAlignedBox(-10000, -10000, -10000, 10000, 10000, 10000);
+            int depth = 8;
+            mOctree = null;
+            init(b, depth);
+        }
+
+        public MOctreeSceneManager(string name, MAxisAlignedBox box, int max_depth)
+            : base(name)
+        {
+            mOctree = null;
+            init(box, max_depth);
+        }
+
+        public void init(MAxisAlignedBox box, int depth)
+        {
+            mOctree = new MOctree(null);
+
+            mMaxDepth = depth;
+            mBox = box;
+
+            mOctree.mBox = box;
+
+            MVector3 min = box.getMinimum();
+
+            MVector3 max = box.getMaximum();
+
+            mOctree.mHalfSize = (max - min) / 2;
+
+            mShowBoxes = false;
+
+            mNumObjects = 0;
+
+            MVector3 v = new MVector3(1.5f, 1.5f, 1.5f);
+
+            mScaleFactor.setScale(ref v);
+        }
+
+        public MCamera createCamera(string name)
+        {
+            if (mCameras.ContainsKey(name))
+            {
+                // Error
+            }
+
+            MCamera c = new MOctreeCamera(name, this);
+            mCameras.Add(name, c);
+
+            return c;
+        }
+
+        override public void destroySceneNode(string name)
+        {
+            MOctreeNode on = (MOctreeNode)(getSceneNode(name));
+
+            if (on != null)
+                _removeOctreeNode(on);
+
+            base.destroySceneNode(name);
+        }
+
+        public void _updateOctreeNode(MOctreeNode onode)
+        {
+            MAxisAlignedBox box = onode._getWorldAABB();
+
+            if (box.isNull())
+                return;
+
+            if (mOctree == null)
+                return;
+
+            if (onode.getOctant() == null)
+            {
+                if (!onode._isIn(mOctree.mBox))
+                    mOctree._addNode(onode);
+                else
+                    _addOctreeNode(onode, mOctree);
+                return;
+            }
+
+            if (!onode._isIn(onode.getOctant().mBox))
+            {
+                _removeOctreeNode(onode);
+
+                if (!onode._isIn(mOctree.mBox))
+                    mOctree._addNode(onode);
+                else
+                    _addOctreeNode(onode, mOctree);
+            }
+        }
+
+        public void _removeOctreeNode(MOctreeNode n)
+        {
+            if (mOctree == null)
+                return;
+
+            MOctree oct = n.getOctant();
+
+            if (oct != null)
+            {
+                oct._removeNode(n);
+            }
+
+            n.setOctant(null);
+        }
+
+        public void _addOctreeNode(MOctreeNode n, MOctree octant, int depth = 0)
+        {
+            if (mOctree == null)
+                return;
+
+            MAxisAlignedBox bx = n._getWorldAABB();
+
+            if ((depth < mMaxDepth) && octant._isTwiceSize(bx))
+            {
+                int x = 0, y = 0, z = 0;
+                octant._getChildIndexes(bx, ref x, ref y, ref z);
+
+                if (octant.mChildren[x, y, z] == null)
+                {
+                    octant.mChildren[x, y, z] = new MOctree(octant);
+                    MVector3 octantMin = octant.mBox.getMinimum();
+                    MVector3 octantMax = octant.mBox.getMaximum();
+                    MVector3 min, max;
+
+                    if (x == 0)
+                    {
+                        min.x = octantMin.x;
+                        max.x = (octantMin.x + octantMax.x) / 2;
+                    }
+
+                    else
+                    {
+                        min.x = (octantMin.x + octantMax.x) / 2;
+                        max.x = octantMax.x;
+                    }
+
+                    if (y == 0)
+                    {
+                        min.y = octantMin.y;
+                        max.y = (octantMin.y + octantMax.y) / 2;
+                    }
+
+                    else
+                    {
+                        min.y = (octantMin.y + octantMax.y) / 2;
+                        max.y = octantMax.y;
+                    }
+
+                    if (z == 0)
+                    {
+                        min.z = octantMin.z;
+                        max.z = (octantMin.z + octantMax.z) / 2;
+                    }
+
+                    else
+                    {
+                        min.z = (octantMin.z + octantMax.z) / 2;
+                        max.z = octantMax.z;
+                    }
+
+                    octant.mChildren[x, y, z].mBox.setExtents(ref min, ref max);
+                    octant.mChildren[x, y, z].mHalfSize = (max - min) / 2;
+                }
+
+                _addOctreeNode(n, octant.mChildren[x, y, z], ++depth);
+            }
+            else
+            {
+                octant._addNode(n);
+            }
+        }
+
+        override public MSceneNode createSceneNodeImpl()
+        {
+            return new MOctreeNode(this);
+        }
+
+        override public MSceneNode createSceneNodeImpl(string name)
+        {
+            return new MOctreeNode(this, name);
+        }
+
+        override public void _updateSceneGraph(MCamera cam)
+        {
+            base._updateSceneGraph(cam);
+        }
+
+        public void _alertVisibleObjects()
+        {
+            // Error
+        }
+
+        public void walkOctree(MOctreeCamera camera,
+        MOctree octant)
+        {
+            if (octant.numNodes() == 0)
+                return;
+
+            MOctreeCamera.Visibility v = MOctreeCamera.Visibility.NONE;
+
+            if (octant == mOctree)
+            {
+                v = MOctreeCamera.Visibility.PARTIAL;
+            }
+
+            else
+            {
+                MAxisAlignedBox box = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+                octant._getCullBounds(box);
+                v = camera.getVisibility(box);
+            }
+
+            if (v != MOctreeCamera.Visibility.NONE)
+            {
+                List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
+
+                if (mShowBoxes)
+                {
+                    //
+                }
+
+                bool vis = true;
+
+                while (it.MoveNext())
+                {
+                    MOctreeNode sn = it.Current;
+
+                    if (v == MOctreeCamera.Visibility.PARTIAL)
+                    {
+                        MAxisAlignedBox tmp = sn._getWorldAABB();
+                        FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                        vis = camera.isVisible(ref tmp, ref plane);
+                    }
+
+                    if (vis)
+                    {
+                        mNumObjects++;
+
+                        mVisible.Add(sn);
+
+                        if (mDisplayNodes)
+                        {
+
+                        }
+
+                        if (sn.getShowBoundingBox() || mShowBoundingBoxes)
+                        {
+
+                        }
+                    }
+                }
+
+                MOctree child;
+                bool childfoundvisible = (v == MOctreeCamera.Visibility.FULL);
+                if ((child = octant.mChildren[0, 0, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 0, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[0, 1, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 1, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[0, 0, 1]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 0, 1]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[0, 1, 1]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 1, 1]) != null)
+                    walkOctree(camera, child);
+            }
+        }
+
+        public void _findNodes(MAxisAlignedBox t, ref MList<MSceneNode> list, MSceneNode exclude, bool full, MOctree octant)
+        {
+            if (!full)
+            {
+                MAxisAlignedBox obox = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+                octant._getCullBounds(obox);
+
+                Intersection isect = intersect(t, obox);
+
+                if (isect == Intersection.OUTSIDE)
+                    return;
+
+                full = (isect == Intersection.INSIDE);
+            }
+
+            List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
+
+            while (it.MoveNext())
+            {
+                MOctreeNode on = it.Current;
+
+                if (on != exclude)
+                {
+                    if (full)
+                    {
+                        list.Add(on);
+                    }
+
+                    else
+                    {
+                        Intersection nsect = intersect(t, on._getWorldAABB());
+
+                        if (nsect != Intersection.OUTSIDE)
+                        {
+                            list.Add(on);
+                        }
+                    }
+                }
+            }
+
+            MOctree child = null;
+
+            if ((child = octant.mChildren[0, 0, 0]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[1, 0, 0]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[0, 1, 0]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[1, 1, 0]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[0, 0, 1]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[1, 0, 1]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[0, 1, 1]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+
+            if ((child = octant.mChildren[1, 1, 1]) != null)
+                _findNodes(t, ref list, exclude, full, child);
+        }
+
+        public void findNodesIn(MAxisAlignedBox box, ref MList<MSceneNode> list, MSceneNode exclude)
+        {
+            _findNodes(box, ref list, exclude, false, mOctree);
+        }
+
+        public void resize(MAxisAlignedBox box)
+        {
+            MList<MSceneNode> nodes = new MList<MSceneNode>();
+            List<MSceneNode>.Enumerator it;
+
+            _findNodes(mOctree.mBox, ref nodes, null, true, mOctree);
+
+            mOctree = new MOctree(null);
+            mOctree.mBox = box;
+
+            MVector3 min = box.getMinimum();
+            MVector3 max = box.getMaximum();
+            mOctree.mHalfSize = (max - min) * 0.5f;
+
+            it = nodes.list().GetEnumerator();
+
+            while (it.MoveNext())
+            {
+                MOctreeNode on = (MOctreeNode)(it.Current);
+                on.setOctant(null);
+                _updateOctreeNode(on);
+            }
+        }
+
+        override public void clearScene()
+        {
+            base.clearScene();
+            init(mBox, mMaxDepth);
+        }
+
+        public Intersection intersect(MAxisAlignedBox one, MAxisAlignedBox two)
+        {
+            MOctreeSceneManager.intersect_call++;
+
+            if (one.isNull() || two.isNull()) return Intersection.OUTSIDE;
+            if (one.isInfinite()) return Intersection.INSIDE;
+            if (two.isInfinite()) return Intersection.INTERSECT;
+
+
+            MVector3 insideMin = two.getMinimum();
+            MVector3 insideMax = two.getMaximum();
+
+            MVector3 outsideMin = one.getMinimum();
+            MVector3 outsideMax = one.getMaximum();
+
+            if (insideMax.x < outsideMin.x ||
+                    insideMax.y < outsideMin.y ||
+                    insideMax.z < outsideMin.z ||
+                    insideMin.x > outsideMax.x ||
+                    insideMin.y > outsideMax.y ||
+                    insideMin.z > outsideMax.z)
+            {
+                return Intersection.OUTSIDE;
+            }
+
+            bool full = (insideMin.x > outsideMin.x &&
+                          insideMin.y > outsideMin.y &&
+                          insideMin.z > outsideMin.z &&
+                          insideMax.x < outsideMax.x &&
+                          insideMax.y < outsideMax.y &&
+                          insideMax.z < outsideMax.z);
+
+            if (full)
+                return Intersection.INSIDE;
+            else
+                return Intersection.INTERSECT;
+        }
     }
 }

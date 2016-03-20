@@ -576,7 +576,7 @@ namespace SDK.Lib
             return mDerivedOrientation * localOrientation;
         }
 
-        public void removeAllChildren()
+        virtual public void removeAllChildren()
         {
             foreach (KeyValuePair<string, MNode> i in mChildren)
             {
@@ -685,7 +685,7 @@ namespace SDK.Lib
             return mChildren[name];
         }
 
-        public MNode removeChild(string name)
+        virtual public MNode removeChild(string name)
         {
             if (!mChildren.ContainsKey(name))
             {

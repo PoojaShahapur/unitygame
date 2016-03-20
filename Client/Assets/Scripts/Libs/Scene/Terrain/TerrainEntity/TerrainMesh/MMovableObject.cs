@@ -30,7 +30,6 @@
             }
         }
 
-
         protected string mName;
 
         protected MSceneManager mManager;

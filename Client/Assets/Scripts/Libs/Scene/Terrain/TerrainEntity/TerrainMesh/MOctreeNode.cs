@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using System.Collections.Generic;
+
+namespace SDK.Lib
 {
     public class MOctreeNode : MSceneNode
     {
@@ -6,26 +8,25 @@
         protected MOctree mOctant;
         protected float[] mCorners;
 
-        public MOctreeNode( MSceneManager creator )
+        public MOctreeNode(MSceneManager creator)
             : base(creator)
         {
             mOctant = null;
         }
 
-        public MOctreeNode( MSceneManager creator, string name ) 
-            : base(creator, name )
+        public MOctreeNode(MSceneManager creator, string name)
+            : base(creator, name)
         {
             mOctant = null;
         }
 
         public void _removeNodeAndChildren()
         {
-            (MOctreeSceneManager)(mCreator)._removeOctreeNode(this);
-            ChildNodeMap::iterator it = mChildren.begin();
-            while (it != mChildren.end())
+            ((MOctreeSceneManager)(mCreator))._removeOctreeNode(this);
+            Dictionary<string, MNode>.Enumerator it = mChildren.GetEnumerator();
+            while (it.MoveNext())
             {
-                static_cast<OctreeNode*>(it->second)->_removeNodeAndChildren();
-                ++it;
+                ((MOctreeNode)(it.Current.Value))._removeNodeAndChildren();
             }
         }
 
@@ -43,96 +44,83 @@
             return on;
         }
 
-        public void removeAllChildren()
+        override public void removeAllChildren()
         {
-            ChildNodeMap::iterator i, iend;
-            iend = mChildren.end();
-            for (i = mChildren.begin(); i != iend; ++i)
+            foreach (KeyValuePair<string, MNode> i in mChildren)
             {
-                OctreeNode* on = static_cast<OctreeNode*>(i->second);
-                on->setParent(0);
-                on->_removeNodeAndChildren();
+                MOctreeNode on = (MOctreeNode)(i.Value);
+                on.setParent(null);
+                on._removeNodeAndChildren();
             }
-            mChildren.clear();
-            mChildrenToUpdate.clear();
+            mChildren.Clear();
+            mChildrenToUpdate.Clear();
         }
 
-        public MNode removeChild( string name )
-{
-    OctreeNode* on = static_cast<OctreeNode*>(SceneNode::removeChild(name));
-        on -> _removeNodeAndChildren(); 
-    return on; 
-}
-
-    public void _updateBounds()
-    {
-        mWorldAABB.setNull();
-        mLocalAABB.setNull();
-
-        // Update bounds from own attached objects
-        ObjectMap::iterator i = mObjectsByName.begin();
-        AxisAlignedBox bx;
-
-        while (i != mObjectsByName.end())
+        override public MNode removeChild(string name)
         {
-
-            // Get local bounds of object
-            bx = i->second->getBoundingBox();
-
-            mLocalAABB.merge(bx);
-
-            mWorldAABB.merge(i->second->getWorldBoundingBox(true));
-            ++i;
+            MOctreeNode on = (MOctreeNode)(base.removeChild(name));
+            on._removeNodeAndChildren();
+            return on;
         }
 
-
-        //update the OctreeSceneManager that things might have moved.
-        // if it hasn't been added to the octree, add it, and if has moved
-        // enough to leave it's current node, we'll update it.
-        if (!mWorldAABB.isNull() && mIsInSceneGraph)
+        override public void _updateBounds()
         {
-            static_cast<OctreeSceneManager*>(mCreator)->_updateOctreeNode(this);
+            mWorldAABB.setNull();
+            mLocalAABB.setNull();
+
+            Dictionary<string, MMovableObject>.Enumerator i = mObjectsByName.GetEnumerator();
+            MAxisAlignedBox bx = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+
+            while (i.MoveNext())
+            {
+                bx = i.Current.Value.getBoundingBox();
+
+                mLocalAABB.merge(bx);
+
+                mWorldAABB.merge(i.Current.Value.getWorldBoundingBox(true));
+            }
+
+            if (!mWorldAABB.isNull() && mIsInSceneGraph)
+            {
+                ((MOctreeSceneManager)(mCreator))._updateOctreeNode(this);
+            }
         }
 
-    }
+        public bool _isIn(MAxisAlignedBox box)
+        {
+            if (!mIsInSceneGraph || box.isNull()) return false;
 
-    public bool _isIn(MAxisAlignedBox box )
-    {
-        // Always fail if not in the scene graph or box is null
-        if (!mIsInSceneGraph || box.isNull()) return false;
-
-        // Always succeed if AABB is infinite
-        if (box.isInfinite())
-            return true;
+            if (box.isInfinite())
+                return true;
 
             MVector3 min = mWorldAABB.getMinimum();
-        MVector3 center = mWorldAABB.getMaximum().midPoint(ref min);
+            MVector3 center = mWorldAABB.getMaximum().midPoint(ref min);
 
-        MVector3 bmin = box.getMinimum();
-        MVector3 bmax = box.getMaximum();
+            MVector3 bmin = box.getMinimum();
+            MVector3 bmax = box.getMaximum();
 
-        bool centre = (bmax > center && bmin < center);
-        if (!centre)
-            return false;
+            bool centre = (bmax > center && bmin < center);
+            if (!centre)
+                return false;
 
-        MVector3 octreeSize = bmax - bmin;
-        MVector3 nodeSize = mWorldAABB.getMaximum() - mWorldAABB.getMinimum();
-        return nodeSize < octreeSize;
+            MVector3 octreeSize = bmax - bmin;
+            MVector3 nodeSize = mWorldAABB.getMaximum() - mWorldAABB.getMinimum();
+            return nodeSize < octreeSize;
+        }
+
+        public MOctree getOctant()
+        {
+            return mOctant;
+        }
+
+        public void setOctant(MOctree o)
+        {
+            mOctant = o;
+        }
+
+        public MAxisAlignedBox _getLocalAABB()
+        {
+            return mLocalAABB;
+        }
     }
-
-    public MOctree getOctant()
-    {
-        return mOctant;
-    }
-
-    public void setOctant(MOctree o)
-    {
-        mOctant = o;
-    }
-
-    public MAxisAlignedBox _getLocalAABB()
-    {
-        return mLocalAABB;
-    }
-}
 }

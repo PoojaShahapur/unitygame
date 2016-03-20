@@ -2,11 +2,11 @@
 {
     public class MOctree
     {
-        protected MAxisAlignedBox mBox;
-        protected MVector3 mHalfSize;
-        protected MOctree[,,] mChildren;
+        public MAxisAlignedBox mBox;
+        public MVector3 mHalfSize;
+        public MOctree[,,] mChildren;
 
-        protected MList<MOctreeNode> mNodes;
+        public MList<MOctreeNode> mNodes;
         protected int mNumNodes;
 
         protected MOctree mParent;
