@@ -65,20 +65,38 @@ namespace SDK.Lib
 
         public void setLuaFile(string luaFile)
         {
-            m_luaFile = luaFile;
-            loadTable();
+            if (!string.IsNullOrEmpty(luaFile))
+            {
+                if (m_luaFile != luaFile)
+                {
+                    m_luaFile = luaFile;
+                    loadTable();
+                }
+            }
         }
 
         public void setTableName(string tableName)
         {
-            m_tableName = tableName;
-            loadTable();
+            if (!string.IsNullOrEmpty(tableName))
+            {
+                if (m_tableName != tableName)
+                {
+                    m_tableName = tableName;
+                    loadTable();
+                }
+            }
         }
 
         public void setFunctionName(string funcName)
         {
-            m_funcName = funcName;
-            loadFunction();
+            if (!string.IsNullOrEmpty(funcName))
+            {
+                if (m_funcName != funcName)
+                {
+                    m_funcName = funcName;
+                    loadFunction();
+                }
+            }
         }
 
         public void setTableAndFunctionName(string tableName, string funcName)
@@ -132,7 +150,7 @@ namespace SDK.Lib
          * @example CallMethod("OnClick");  CallMethod("OnClick", GameObject go_);
          * @example 表中需要这么写 TableName.FunctionName()
          */
-        public object[] CallTableMethod(string funcName_, params object[] args)
+        public object[] CallTableMethod(string tableName_, string funcName_, params object[] args)
         {
             /*
             string fullFuncName = "";   // 完全的有表的完全名字
@@ -146,14 +164,10 @@ namespace SDK.Lib
             }
             return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, args);
             */
-            if(m_funcName != funcName_)
-            {
-                m_funcName = funcName_;
-                if (m_luaTable != null)
-                {
-                    m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
-                }
-            }
+
+            setTableName(tableName_);
+            setFunctionName(funcName_);
+
             if(m_luaFunc != null)
             {
                 return m_luaFunc.Call(args);
@@ -166,7 +180,7 @@ namespace SDK.Lib
          * @brief 调用类方法
          * @example 表中需要这么写 TableName:FunctionName()， 需要把这个表作为第二个参数传递进入，在 Lua 函数中就直接可以使用 self 了
          */
-        virtual public object[] CallClassMethod(string funcName_, params object[] args)
+        virtual public object[] CallClassMethod(string tableName_, string funcName_, params object[] args)
         {
             /*
             string fullFuncName = "";               // 完全的有表的完全名字
@@ -187,15 +201,11 @@ namespace SDK.Lib
 
             return null;
             */
-            if (m_funcName != funcName_)
-            {
-                m_funcName = funcName_;
-                if (m_luaTable != null)
-                {
-                    m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
-                }
-            }
-            if(m_luaFunc != null && m_luaTable != null)
+
+            setTableName(tableName_);
+            setFunctionName(funcName_);
+
+            if (m_luaFunc != null && m_luaTable != null)
             {
                 return m_luaFunc.Call(m_luaTable, args);
             }

@@ -24,7 +24,7 @@
         public void handleGlobalEvent(int eventId, IDispatchObject dispObj)
         {
             // 处理各种事件
-            CallTableMethod(LuaCSBridgeDispatch.LUA_DISPATCH_FUNC_NAME, eventId, "bbb");
+            CallTableMethod("", LuaCSBridgeDispatch.LUA_DISPATCH_FUNC_NAME, eventId, "bbb");
         }
     }
 }

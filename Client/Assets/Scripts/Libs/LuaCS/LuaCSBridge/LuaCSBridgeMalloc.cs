@@ -15,7 +15,7 @@ namespace SDK.Lib
 
         public LuaTable malloc(params object[] args)
         {
-            return CallClassMethod("new")[0] as LuaTable;
+            return CallClassMethod("", "new")[0] as LuaTable;
         }
     }
 }

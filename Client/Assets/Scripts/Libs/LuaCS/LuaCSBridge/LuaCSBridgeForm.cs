@@ -86,7 +86,7 @@ namespace SDK.Lib
             // CallGlobalMethod("UISysTest.OnUiMsg", "bbb", "ffff");
         }
 
-        override public object[] CallClassMethod(string funcName_, params object[] args)
+        override public object[] CallClassMethod(string tableName_, string funcName_, params object[] args)
         {
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中

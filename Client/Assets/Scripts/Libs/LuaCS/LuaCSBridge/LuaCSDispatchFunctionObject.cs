@@ -12,7 +12,7 @@
         {
             if(m_luaTable != null && m_luaFunc != null)
             {
-                this.CallClassMethod("", dispObj);
+                this.CallClassMethod("", "", dispObj);
             }
             else if(m_luaFunc != null)
             {

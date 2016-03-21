@@ -15,7 +15,7 @@
         public void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         {
             LuaStringBuffer luaBuffer = new LuaStringBuffer(bu.dynBuff.buff);
-            CallClassMethod("handleMsg", byCmd, byParam, luaBuffer);    // 回调 Lua 函数
+            CallClassMethod("", "handleMsg", byCmd, byParam, luaBuffer);    // 回调 Lua 函数
         }
     }
 }

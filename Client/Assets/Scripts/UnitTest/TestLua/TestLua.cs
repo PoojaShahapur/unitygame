@@ -105,7 +105,7 @@ namespace UnitTest
             LuaCSBridge _luaCSBridge = new LuaCSBridge("", "testTable");
             string path = "Test/TestLuaBind.lua";      // 
             Ctx.m_instance.m_luaSystem.DoFile(path);                      // 添加函数，如果 "TestLuaBind.lua" 文件直接调用了一个函数，例如 luaFunc(10) ，执行 DoFile 后返回值是 null ，注意这一点，但是自己手工调用这个函数却有返回值的。
-            object[] ret = _luaCSBridge.CallTableMethod("tableFunc", 10);
+            object[] ret = _luaCSBridge.CallTableMethod("", "tableFunc", 10);
 
             object member = _luaCSBridge.GetMember("tableData");
         }
@@ -122,14 +122,14 @@ namespace UnitTest
             bu.writeMultiByte("测试啊", GkEncode.UTF8, 16);
             //bu.luaCSBridgeByteBuffer.CallClassMethod("tableFunc");
             bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
-            bu.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
+            bu.luaCSBridgeByteBuffer.CallClassMethod("", "TestOut");
             //bu.luaCSBridgeByteBuffer.CallClassMethod("dumpAllBytes");
 
-            object _int16 = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt16FromCS");
-            object _int32 = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt32FromCS");
-            object _int16Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt16FromCS");
-            object _strEn = bu.luaCSBridgeByteBuffer.CallClassMethod("readMultiByteFromCS");
-            object _strChs = bu.luaCSBridgeByteBuffer.CallClassMethod("readMultiByteFromCS");
+            object _int16 = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt16FromCS");
+            object _int32 = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt32FromCS");
+            object _int16Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt16FromCS");
+            object _strEn = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readMultiByteFromCS");
+            object _strChs = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readMultiByteFromCS");
             int aaa = 0;
         }
 
@@ -144,12 +144,12 @@ namespace UnitTest
             bu.writeInt32(456789132);
             bu.writeInt32(-789445678);
             bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
-            bu.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
+            bu.luaCSBridgeByteBuffer.CallClassMethod("", "TestOut");
 
-            object _int8Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt8FromCS");
-            object _int16Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt16FromCS");
-            object _int32Pos = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt32FromCS");
-            object _int32Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt32FromCS");
+            object _int8Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt8FromCS");
+            object _int16Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt16FromCS");
+            object _int32Pos = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt32FromCS");
+            object _int32Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt32FromCS");
             int aaa = 0;
         }
 
@@ -161,9 +161,9 @@ namespace UnitTest
 
             bu.writeInt32(-789445678);
             bu.luaCSBridgeByteBuffer.updateLuaByteBuffer(bu);
-            bu.luaCSBridgeByteBuffer.CallClassMethod("TestOut");
+            bu.luaCSBridgeByteBuffer.CallClassMethod("", "TestOut");
 
-            object _int32Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("readInt32FromCS");
+            object _int32Neg = bu.luaCSBridgeByteBuffer.CallClassMethod("", "readInt32FromCS");
             int aaa = 0;
         }
 

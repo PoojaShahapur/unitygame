@@ -147,7 +147,7 @@ namespace SDK.Lib
         {
             if(m_luaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.CallClassMethod(LuaCSBridgeForm.ON_INIT);
+                m_luaCSBridgeForm.CallClassMethod("", LuaCSBridgeForm.ON_INIT);
             }
             //if (m_bLoadWidgetRes)
             //{
@@ -161,7 +161,7 @@ namespace SDK.Lib
         {
             if (m_luaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.CallClassMethod(LuaCSBridgeForm.ON_READY);
+                m_luaCSBridgeForm.CallClassMethod("", LuaCSBridgeForm.ON_READY);
             }
 
             m_bReady = true;
@@ -176,7 +176,7 @@ namespace SDK.Lib
 		{
             if (m_luaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.CallClassMethod(LuaCSBridgeForm.ON_SHOW);
+                m_luaCSBridgeForm.CallClassMethod("", LuaCSBridgeForm.ON_SHOW);
             }
 
             if (m_bBlurBg)
@@ -191,7 +191,7 @@ namespace SDK.Lib
 		{
             if (m_luaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.CallClassMethod(LuaCSBridgeForm.ON_HIDE);
+                m_luaCSBridgeForm.CallClassMethod("", LuaCSBridgeForm.ON_HIDE);
             }
 
             if (m_bBlurBg)
@@ -205,7 +205,7 @@ namespace SDK.Lib
 		{
             if (m_luaCSBridgeForm != null)
             {
-                m_luaCSBridgeForm.CallClassMethod(LuaCSBridgeForm.ON_EXIT);
+                m_luaCSBridgeForm.CallClassMethod("", LuaCSBridgeForm.ON_EXIT);
             }
 
             if (m_bBlurBg)

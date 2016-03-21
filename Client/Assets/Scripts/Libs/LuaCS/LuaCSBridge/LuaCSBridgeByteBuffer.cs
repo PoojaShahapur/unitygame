@@ -26,7 +26,7 @@ namespace SDK.Lib
         // 更新 Lua 中表的数据
         public void updateLuaByteBuffer(ByteBuffer bu)
         {
-            CallClassMethod(LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
+            CallClassMethod("", LuaCSBridgeByteBuffer.CLEAR);       // 清除字节缓冲区
             for(int idx = 0; idx < bu.dynBuff.size; ++idx)
             {
                 //m_luaTable[idx] = bu.dynBuff.buff[idx];               // 这样是直接加入表中
@@ -170,7 +170,7 @@ namespace SDK.Lib
 
         public void updateLuaByteBuffer(byte[] bytes, int bytesLen)
         {
-            CallClassMethod(LuaCSBridgeByteBuffer.CLEAR);
+            CallClassMethod("", LuaCSBridgeByteBuffer.CLEAR);
             writeByteArrToLua(m_tableName, WRITEMULTIBYTE, bytes, bytesLen);
         }
     }
