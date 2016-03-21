@@ -1,5 +1,7 @@
 ﻿using LuaInterface;
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace SDK.Lib
 {
@@ -104,6 +106,21 @@ namespace SDK.Lib
             {
                 this.CallLuaFunction("GlobalNS.ProcessSys.advance", m_processSys, delta);
             }
+        }
+
+        /// <summary>
+        /// 添加单击事件
+        /// </summary>
+        public void AddClick(GameObject go, LuaFunction luafunc)
+        {
+            if (go == null) return;
+            //buttons.Add(luafunc);
+            go.GetComponent<Button>().onClick.AddListener(
+                delegate()
+                {
+                    luafunc.Call(go);
+                }
+            );
         }
     }
 }

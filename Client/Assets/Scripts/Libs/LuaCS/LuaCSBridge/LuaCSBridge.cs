@@ -20,10 +20,11 @@ namespace SDK.Lib
         /**
          * @brief 表的名字
          */
-        public LuaCSBridge(string luaFile, string tableName)
+        public LuaCSBridge(string luaFile, string tableName, string funcName = "")
         {
             m_luaFile = luaFile;
             m_tableName = tableName;
+            m_funcName = funcName;
         }
 
         virtual public void init()
@@ -33,7 +34,7 @@ namespace SDK.Lib
                 //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
                 m_luaTable = Ctx.m_instance.m_luaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
             }
-            else
+            else if(!string.IsNullOrEmpty(m_tableName))
             {
                 m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
             }
@@ -55,6 +56,12 @@ namespace SDK.Lib
             m_luaFunc = function;
         }
 
+        public void setFunctor(LuaTable luaTable, LuaFunction function)
+        {
+            m_luaTable = luaTable;
+            m_luaFunc = function;
+        }
+
         public bool isTableEqual(LuaTable luaTable)
         {
             return m_luaTable.Equals(luaTable);
@@ -65,45 +72,14 @@ namespace SDK.Lib
             return m_luaFunc.Equals(luaFunction);
         }
 
+        public bool isFunctorEqual(LuaTable luaTable, LuaFunction function)
+        {
+            return m_luaTable.Equals(luaTable) && m_luaFunc.Equals(function);
+        }
+
         public bool isValid()
         {
             return m_luaTable != null || m_luaFunc != null;
-        }
-
-        /// <summary>
-        /// 添加单击事件
-        /// </summary>
-        public void AddClick(GameObject go, LuaFunction luafunc)
-        {
-            if (go == null) return;
-            //buttons.Add(luafunc);
-            go.GetComponent<Button>().onClick.AddListener(
-                delegate()
-                {
-                    luafunc.Call(go);
-                }
-            );
-        }
-
-        // 直接从 Lua 脚本添加函数或者变量到表中，执行后不会有任何返回值，不知道为什么
-        public object[] DoFile(string fileName)
-        {
-            //if (m_moduleEnv == null)
-            //{
-            //    m_moduleEnv = Ctx.m_instance.m_luaSystem.lua.NewTable();
-            //    // 获取注册表的全局环境 _G 
-            //    int oldTop = LuaDLL.lua_gettop(Ctx.m_instance.m_luaSystem.lua.L);
-            //    int globalIndex = LuaDLL.lua_getmetatable(Ctx.m_instance.m_luaSystem.lua.L, LuaIndexes.LUA_REGISTRYINDEX);
-            //    if (globalIndex != 0)
-            //    {
-            //        LuaTable globalTable = LuaScriptMgr.SelfToLuaTable(Ctx.m_instance.m_luaSystem.lua.L, globalIndex);
-            //        m_moduleEnv.SetMetaTable(globalTable);
-            //        LuaDLL.lua_settop(Ctx.m_instance.m_luaSystem.lua.L, oldTop);
-            //    }
-            //}
-            //return Ctx.m_instance.m_luaSystem.lua.DoFile(fileName, m_moduleEnv);
-            //return Ctx.m_instance.m_luaSystem.lua.DoFile(fileName);
-            return Ctx.m_instance.m_luaSystem.lua.DoFile(fileName);
         }
 
         /**
@@ -112,7 +88,7 @@ namespace SDK.Lib
          * @example CallMethod("OnClick");  CallMethod("OnClick", GameObject go_);
          * @example 表中需要这么写 TableName.FunctionName()
          */
-        public object[] CallMethod(string funcName_, params object[] args)
+        public object[] CallTableMethod(string funcName_, params object[] args)
         {
             string fullFuncName = "";   // 完全的有表的完全名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中

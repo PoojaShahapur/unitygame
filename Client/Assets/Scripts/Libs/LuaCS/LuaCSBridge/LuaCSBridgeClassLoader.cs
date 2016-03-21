@@ -22,7 +22,7 @@ namespace SDK.Lib
 
         public LuaTable loadModule(string file)
         {
-            return this.CallMethod("loadClass", file)[0] as LuaTable;
+            return this.CallTableMethod("loadClass", file)[0] as LuaTable;
         }
     }
 }
