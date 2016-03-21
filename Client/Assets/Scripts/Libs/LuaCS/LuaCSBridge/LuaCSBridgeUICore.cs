@@ -57,7 +57,7 @@ namespace SDK.Lib
             UIAttrItem attrItem;
             while(idTableEnum.MoveNext())
             {
-                if(bIsSystemAttr((string)idTableEnum.Key))
+                if(Ctx.m_instance.m_luaSystem.IsSystemAttr((string)idTableEnum.Key))
                 {
                     continue;
                 }

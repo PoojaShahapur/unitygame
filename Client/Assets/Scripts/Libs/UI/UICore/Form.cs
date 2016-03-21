@@ -288,7 +288,7 @@ namespace SDK.Lib
 
         public void registerWidgetEvent()
         {
-            string[] pathArr = m_luaCSBridgeForm.getTable2StrArray("BtnClickTable");
+            string[] pathArr = Ctx.m_instance.m_luaSystem.getTable2StrArray("BtnClickTable");
             foreach(var path in pathArr)
             {
                 addClick(m_guiWin.m_uiRoot, path);

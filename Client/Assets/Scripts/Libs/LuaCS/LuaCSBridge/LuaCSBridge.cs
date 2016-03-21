@@ -27,25 +27,6 @@ namespace SDK.Lib
             m_funcName = funcName;
         }
 
-        virtual public void init()
-        {
-            if (!string.IsNullOrEmpty(m_luaFile))
-            {
-                //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
-                m_luaTable = Ctx.m_instance.m_luaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
-            }
-            else if(!string.IsNullOrEmpty(m_tableName))
-            {
-                m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
-            }
-        }
-
-        virtual public void dispose()
-        {
-            Util.ClearMemory();
-            Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
-        }
-
         public void setTable(LuaTable luaTable)
         {
             m_luaTable = luaTable;
@@ -82,6 +63,69 @@ namespace SDK.Lib
             return m_luaTable != null || m_luaFunc != null;
         }
 
+        public void setLuaFile(string luaFile)
+        {
+            m_luaFile = luaFile;
+            loadTable();
+        }
+
+        public void setTableName(string tableName)
+        {
+            m_tableName = tableName;
+            loadTable();
+        }
+
+        public void setFunctionName(string funcName)
+        {
+            m_funcName = funcName;
+            loadFunction();
+        }
+
+        public void setTableAndFunctionName(string tableName, string funcName)
+        {
+            m_tableName = tableName;
+            m_funcName = funcName;
+            loadTableAndFunction();
+        }
+
+        virtual public void init()
+        {
+            loadTableAndFunction();
+        }
+
+        public void loadTable()
+        {
+            if (!string.IsNullOrEmpty(m_luaFile))
+            {
+                //this.m_luaTable = this.DoFile(m_luaFile)[0] as LuaTable;        // 加载 lua 脚本
+                m_luaTable = Ctx.m_instance.m_luaSystem.loadModule(m_luaFile);   // 加载 lua 脚本
+            }
+            else if (!string.IsNullOrEmpty(m_tableName))
+            {
+                m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
+            }
+        }
+
+        public void loadFunction()
+        {
+            if (m_luaTable != null && !string.IsNullOrEmpty(m_funcName))
+            {
+                m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+            }
+        }
+
+        public void loadTableAndFunction()
+        {
+            loadTable();
+            loadFunction();
+        }
+
+        virtual public void dispose()
+        {
+            Util.ClearMemory();
+            Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
+        }
+
         /**
          * @brief 执行Lua方法
          * @param funcName_ 函数名字
@@ -90,6 +134,7 @@ namespace SDK.Lib
          */
         public object[] CallTableMethod(string funcName_, params object[] args)
         {
+            /*
             string fullFuncName = "";   // 完全的有表的完全名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -100,6 +145,15 @@ namespace SDK.Lib
                 fullFuncName = m_tableName + "." + funcName_;
             }
             return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, args);
+            */
+            if(m_funcName != funcName_)
+            {
+                m_funcName = funcName_;
+                m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                return m_luaFunc.Call(args);
+            }
+
+            return null;
         }
 
         /**
@@ -108,6 +162,7 @@ namespace SDK.Lib
          */
         virtual public object[] CallClassMethod(string funcName_, params object[] args)
         {
+            /*
             string fullFuncName = "";               // 完全的有表的完全名字
             if (!String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -125,6 +180,15 @@ namespace SDK.Lib
             }
 
             return null;
+            */
+            if (m_funcName != funcName_)
+            {
+                m_funcName = funcName_;
+                m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                return m_luaFunc.Call(m_luaTable, args);
+            }
+
+            return null;
         }
 
         /**
@@ -133,6 +197,7 @@ namespace SDK.Lib
          */
         public object GetMember(string memberName_)
         {
+            /*
             string fullMemberName = "";             // 有表前缀的成员的名字
             if (String.IsNullOrEmpty(m_tableName))  // 如果在 _G 表中
             {
@@ -144,6 +209,13 @@ namespace SDK.Lib
             }
 
             return Ctx.m_instance.m_luaSystem.lua[fullMemberName];
+            */
+            if (m_luaTable != null)
+            {
+                return m_luaTable[memberName_];
+            }
+
+            return null;
         }
 
         /**
@@ -159,59 +231,7 @@ namespace SDK.Lib
          */
         public object GetGlobalMember(string memberName_)
         {
-            return Ctx.m_instance.m_luaSystem.lua[memberName_];
-        }
-
-        // 获取一个表，然后转换成数组
-        public string[] getTable2StrArray(string tableName)
-        {
-            string fullTableName = "";              // 有表前缀的成员名字
-            if(String.IsNullOrEmpty(m_tableName))   // 如果在 _G 表中
-            {
-                fullTableName = tableName;
-            }
-            else        // 在一个 _G 的一个表中
-            {
-                fullTableName = m_tableName + "." + tableName;
-            }
-
-            LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(fullTableName);
-            string[] strArray = luaTable.ToArray<string>();
-            return strArray;
-        }
-
-        // 获取一个表，然后转换成数组
-        public int[] getTable2IntArray(string tableName)
-        {
-            string fullTableName = "";                      // 有表前缀的成员的名字
-            if (String.IsNullOrEmpty(m_tableName))          // 如果在 _G 表中 
-            {
-                fullTableName = tableName;
-            }
-            else            // 在一个 _G 的一个表中
-            {
-                fullTableName = m_tableName + "." + tableName;
-            }
-
-            LuaTable luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(fullTableName);
-            int[] strArray = luaTable.ToArray<int>();
-            return strArray;
-        }
-
-        // 是否是系统属性
-        protected bool bIsSystemAttr(string attrName)
-        {
-            // 这些属性是自己添加到 Lua 表中的，因此遍历的时候，如果有这些属性就不处理了
-            if("ctor" == attrName ||
-               "super" == attrName ||
-               "dataType" == attrName ||
-               "clsCode" == attrName ||
-               "clsName" == attrName)
-            {
-                return true;
-            }
-
-            return false;
+            return Ctx.m_instance.m_luaSystem.GetLuaMember(memberName_);
         }
     }
 }
