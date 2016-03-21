@@ -149,7 +149,13 @@ namespace SDK.Lib
             if(m_funcName != funcName_)
             {
                 m_funcName = funcName_;
-                m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                if (m_luaTable != null)
+                {
+                    m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                }
+            }
+            if(m_luaFunc != null)
+            {
                 return m_luaFunc.Call(args);
             }
 
@@ -184,7 +190,13 @@ namespace SDK.Lib
             if (m_funcName != funcName_)
             {
                 m_funcName = funcName_;
-                m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                if (m_luaTable != null)
+                {
+                    m_luaFunc = m_luaTable[m_funcName] as LuaFunction;
+                }
+            }
+            if(m_luaFunc != null && m_luaTable != null)
+            {
                 return m_luaFunc.Call(m_luaTable, args);
             }
 
