@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 
 namespace SDK.Lib
 {
@@ -53,7 +54,7 @@ namespace SDK.Lib
         }
 
         // 相同的函数只能增加一次
-        virtual public void addEventHandle(Action<IDispatchObject> handle)
+        virtual public void addEventHandle(Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             if (null != handle)
             {
@@ -158,12 +159,12 @@ namespace SDK.Lib
         }
 
         // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-        public bool existEventHandle(Action<IDispatchObject> handle)
+        public bool existEventHandle(Action<IDispatchObject> handle, LuaTable luaTable, LuaFunction luaFunction = null)
         {
             bool bFinded = false;
             foreach (var item in m_handleList.list())
             {
-                if (item.isEqual(handle))
+                if (item.isEqual(handle, luaTable, luaFunction))
                 {
                     bFinded = true;
                     break;

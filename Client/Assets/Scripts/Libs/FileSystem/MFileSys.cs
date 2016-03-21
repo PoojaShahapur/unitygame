@@ -12,6 +12,7 @@ namespace SDK.Lib
     {
         public const string kAssetBundlesPath = "/AssetBundles/";
         static public string BaseDownloadingURL;
+        static public string AssetBundlesPrefixPath = "Assets/Resources/";
 
         protected string m_persistentDataPath;
 
@@ -304,7 +305,7 @@ namespace SDK.Lib
             }
             else if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                param.m_path = "Assets/Resources/" + resPath;
+                param.m_path = AssetBundlesPrefixPath + resPath;
                 param.m_path = param.m_path.ToLower();
             }
             else
@@ -457,6 +458,11 @@ namespace SDK.Lib
             }
             string platformFolderForAssetBundles = UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
             BaseDownloadingURL = relativePath + kAssetBundlesPath + platformFolderForAssetBundles;
+        }
+
+        static public string convResourcesPath2AssetBundlesPath(string resPath)
+        {
+            return "";
         }
     }
 }

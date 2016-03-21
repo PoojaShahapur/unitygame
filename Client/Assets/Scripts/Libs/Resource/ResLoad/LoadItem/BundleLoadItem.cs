@@ -47,7 +47,7 @@ namespace SDK.Lib
         {
             string path;
             //path = Application.dataPath + "/" + m_path;
-            path = MFileSys.BaseDownloadingURL + "/" + m_path;
+            path = MFileSys.BaseDownloadingURL + "/" + m_pathNoExt;
             // UNITY_5_2 没有
             AssetBundleCreateRequest req = null;
 
@@ -66,7 +66,7 @@ namespace SDK.Lib
         {
             string path;
             //path = Application.dataPath + "/" + m_path;
-            path = MFileSys.BaseDownloadingURL + "/" + m_path;
+            path = MFileSys.BaseDownloadingURL + "/" + m_pathNoExt;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             m_assetBundle = AssetBundle.CreateFromFile(path);

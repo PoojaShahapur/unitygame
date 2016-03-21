@@ -1,14 +1,15 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 
 namespace SDK.Lib
 {
     public class AddOnceAndCallOnceEventDispatch : EventDispatch
     {
-        override public void addEventHandle(Action<IDispatchObject> handle)
+        override public void addEventHandle(Action<IDispatchObject> handle, LuaTable luaTable, LuaFunction luaFunction = null)
         {
-            if (!existEventHandle(handle))
+            if (!existEventHandle(handle, luaTable, luaFunction))
             {
-                base.addEventHandle(handle);
+                base.addEventHandle(handle, luaTable, luaFunction);
             }
         }
 

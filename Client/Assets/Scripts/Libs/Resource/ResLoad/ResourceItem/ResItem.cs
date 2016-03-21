@@ -12,6 +12,7 @@ namespace SDK.Lib
         protected string m_path;                // 完整的目录
         protected string m_pathNoExt;           // 不包括扩展名字的路径
         protected string m_extName;             // 扩展名字
+        protected string m_prefabName;      // 预制名字
 
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
@@ -74,6 +75,18 @@ namespace SDK.Lib
             }
         }
 
+        public string prefabName
+        {
+            get
+            {
+                return m_prefabName;
+            }
+            set
+            {
+                m_prefabName = value;
+            }
+        }
+
         public string GetPath()
         {
             return m_path;
@@ -115,9 +128,9 @@ namespace SDK.Lib
             }
         }
 
-        public virtual string getPrefabName()         // 只有 Prefab 资源才实现这个函数
+        public virtual string getPrefabName()
         {
-            return "";
+            return m_prefabName;
         }
 
         virtual public void init(LoadItem item)

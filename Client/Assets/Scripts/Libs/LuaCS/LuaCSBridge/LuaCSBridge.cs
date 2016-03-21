@@ -12,7 +12,9 @@ namespace SDK.Lib
     {
         protected string m_luaFile;         // Lua 文件名字
         protected string m_tableName;       // 表的名字
+        protected string m_funcName;        // 函数名字
         protected LuaTable m_luaTable;       // Lua 中的 Form
+        protected LuaFunction m_luaFunc;    // lua 函数
         //protected LuaTable m_moduleEnv;   // 执行模块的环境
 
         /**
@@ -41,6 +43,31 @@ namespace SDK.Lib
         {
             Util.ClearMemory();
             Ctx.m_instance.m_logSys.log(string.Format("~ {0} was destroy!", m_tableName));
+        }
+
+        public void setTable(LuaTable luaTable)
+        {
+            m_luaTable = luaTable;
+        }
+
+        public void setFunction(LuaFunction function)
+        {
+            m_luaFunc = function;
+        }
+
+        public bool isTableEqual(LuaTable luaTable)
+        {
+            return m_luaTable.Equals(luaTable);
+        }
+
+        public bool isFunctionEqual(LuaFunction luaFunction)
+        {
+            return m_luaFunc.Equals(luaFunction);
+        }
+
+        public bool isValid()
+        {
+            return m_luaTable != null || m_luaFunc != null;
         }
 
         /// <summary>
@@ -110,6 +137,15 @@ namespace SDK.Lib
             {
                 fullFuncName = m_tableName + "." + funcName_;
                 return Ctx.m_instance.m_luaSystem.CallLuaFunction(fullFuncName, m_luaTable, args);
+            }
+            else
+            {
+                LuaFunction luaFunc = m_luaTable["call"] as LuaFunction;
+                if(luaFunc != null)
+                {
+                    luaFunc.Call(args);
+                    luaFunc.Dispose();
+                }
             }
 
             return null;

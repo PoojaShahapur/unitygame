@@ -66,7 +66,8 @@ namespace SDK.Lib
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
-            yield return null;
+            //yield return null;
+            yield break;
         }
 
         override public void reset()

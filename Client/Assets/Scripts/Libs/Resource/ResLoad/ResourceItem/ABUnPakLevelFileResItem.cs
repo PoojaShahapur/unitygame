@@ -77,7 +77,7 @@ namespace SDK.Lib
                 refCountResLoadResultNotify.resLoadState.setFailed();
             }
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
-            yield return null;
+            //yield return null;
         }
     }
 }

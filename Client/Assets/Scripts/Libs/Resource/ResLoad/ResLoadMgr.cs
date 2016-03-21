@@ -139,7 +139,7 @@ namespace SDK.Lib
                 param.m_resLoadType = ResLoadType.eStreamingAssets;
                 load(param);
 
-                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_path)))
+                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_pathNoExt)))
                 {
                     loadBundle(param);
                 }
@@ -167,6 +167,8 @@ namespace SDK.Lib
                 {
                     resItem = new BundleResItem();
                 }
+
+                (resItem as BundleResItem).prefabName = param.prefabName;
             }
             else if (ResPackType.eResourcesType == param.m_resPackType)
             {
