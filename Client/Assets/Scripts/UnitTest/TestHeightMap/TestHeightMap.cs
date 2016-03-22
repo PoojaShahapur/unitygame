@@ -16,7 +16,7 @@ namespace UnitTest
             //testProjectMatrix();
             //testPrint();
 
-            restNewTerrain();
+            testNewTerrain();
         }
 
         protected void testHeightMap()
@@ -98,7 +98,7 @@ namespace UnitTest
 
         }
 
-        protected void restNewTerrain()
+        protected void testNewTerrain()
         {
             Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onNewResLoadScene);
         }

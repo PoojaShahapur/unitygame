@@ -89,6 +89,7 @@ namespace SDK.Lib
             mListener = null;
 
             mName = "";
+            mChildrenToUpdate = new HashSet<MNode>();
 
             needUpdate();
         }
