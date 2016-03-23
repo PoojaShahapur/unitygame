@@ -880,7 +880,7 @@ namespace SDK.Lib
 
         virtual protected void preInit(Transform parentNode)
         {
-            m_bShowBoundBox = true;
+            m_bShowBoundBox = false;
             m_frustumRender = new QuadMeshRender(24);
             mParentNode = parentNode;
             mFrustumPlanes = new MPlane[6];

@@ -63,7 +63,7 @@ namespace SDK.Lib
             mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mIsVertexDataInit = false;
-            m_bShowBoundBox = true;
+            m_bShowBoundBox = false;
 
             if (terrain.getMaxBatchSize() < size)
             {

@@ -594,5 +594,53 @@ namespace SDK.Lib
         {
             return (float)(Mathf.Log(fValue) / LOG2);
         }
+
+        static public float TILE_WIDTH = 2.5f;
+        static public float TILE_HEIGHT = 2.5f;
+        static public float MAP_WIDTH = 256f;
+        static public float MAP_HEIGHT = 256f;
+
+        static public MPointF convOrthoTile2IsoPt(MPointF orthoPt)
+        {
+            float xOffset = calcXOffset(new MPointF(0, MAP_HEIGHT));
+            MPointF isoPt = new MPointF(0, 0);
+            // orthoPt.x += xOffset; 先变换，然后再移动，先移动后变换是错误的
+            isoPt.x = (orthoPt.x - orthoPt.y) * TILE_WIDTH / 2;
+            isoPt.y = (orthoPt.x + orthoPt.y) * TILE_HEIGHT / 2;
+            //isoPt.x += xOffset;
+            return isoPt;
+        }
+
+        static public MPointF convIsoPt2OrthoTile(MPointF isoPt)
+        {
+            MPointF orthoPt = new MPointF(0, 0);
+            orthoPt.x = isoPt.x / TILE_WIDTH + isoPt.y / TILE_HEIGHT;
+            orthoPt.y = isoPt.y / TILE_HEIGHT - isoPt.x / TILE_WIDTH;
+            return orthoPt;
+        }
+
+        static public float calcXOffset(MPointF orthoPt)
+        {
+            MPointF isoPt = new MPointF(0, 0);
+            isoPt.x = (orthoPt.x - orthoPt.y) * TILE_WIDTH / 2;
+            isoPt.y = (orthoPt.x + orthoPt.y) * TILE_HEIGHT / 2;
+            return -isoPt.x;
+        }
+
+        static public MPointF convOrthoPt2IsoPt(MPointF orthoPt)
+        {
+            MPointF isoPt = new MPointF(0, 0);
+            isoPt.x = 0.7071f * orthoPt.x - 0.7071f * orthoPt.y;
+            isoPt.y = 0.7071f * orthoPt.x + 0.3535f * orthoPt.y;
+            return isoPt;
+        }
+
+        static public MPointF convIsoPt2OrthoPt(MPointF isoPt)
+        {
+            MPointF orthoPt = new MPointF(0, 0);
+            orthoPt.x = 0.7071f * isoPt.x + 0.7071f * isoPt.y;
+            orthoPt.y = -0.7071f * isoPt.y + 1.4142f * isoPt.x;
+            return orthoPt;
+        }
     }
 }
