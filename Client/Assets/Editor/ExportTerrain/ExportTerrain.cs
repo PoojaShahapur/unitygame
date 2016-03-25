@@ -24,7 +24,7 @@ class ExportTerrain : EditorWindow
 {
     SaveFormat saveFormat = SaveFormat.Triangles;
     SaveResolution saveResolution = SaveResolution.Half;
-    static TerrainData terrain;
+    static TerrainData terrainData;
     static Vector3 terrainPos;
 
     int tCount;
@@ -34,7 +34,7 @@ class ExportTerrain : EditorWindow
     [MenuItem("My/Terrain/Export To Obj...")]
     static public void Init()
     {
-        terrain = null;
+        terrainData = null;
         Terrain terrainObject = Selection.activeObject as Terrain;
         if (!terrainObject)
         {
@@ -42,7 +42,7 @@ class ExportTerrain : EditorWindow
         }
         if (terrainObject)
         {
-            terrain = terrainObject.terrainData;
+            terrainData = terrainObject.terrainData;
             terrainPos = terrainObject.transform.position;
         }
         EditorWindow.GetWindow(typeof(ExportTerrain)).Show();
@@ -50,7 +50,7 @@ class ExportTerrain : EditorWindow
 
     public void OnGUI()
     {
-        if (!terrain)
+        if (!terrainData)
         {
             GUILayout.Label("No terrain found");
             if (GUILayout.Button("Cancel"))
@@ -71,18 +71,26 @@ class ExportTerrain : EditorWindow
             //exportAlphaTexture();
             exportSplatTexture();
         }
+        if (GUILayout.Button("ExportHeightMap"))
+        {
+            exportHeightMap();
+        }
+        if (GUILayout.Button("ExportAlphaMap"))
+        {
+            exportAlphaMap();
+        }
     }
 
     public void Export()
     {
         string fileName = EditorUtility.SaveFilePanel("Export .obj file", "", "Terrain", "obj");
-        int w = terrain.heightmapWidth;
-        int h = terrain.heightmapHeight;
-        Vector3 meshScale = terrain.size;
+        int w = terrainData.heightmapWidth;
+        int h = terrainData.heightmapHeight;
+        Vector3 meshScale = terrainData.size;
         var tRes = Mathf.Pow(2, (int)(saveResolution));
         meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
         Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
-        float[,] tData = terrain.GetHeights(0, 0, w, h);
+        float[,] tData = terrainData.GetHeights(0, 0, w, h);
 
         w = (int)((w - 1) / tRes + 1);
         h = (int)((h - 1) / tRes + 1);
@@ -209,7 +217,7 @@ class ExportTerrain : EditorWindow
         }
         sw.Close();
 
-        terrain = null;
+        terrainData = null;
         EditorUtility.ClearProgressBar();
         EditorWindow.GetWindow(typeof(ExportTerrain)).Close();
     }
@@ -226,7 +234,7 @@ class ExportTerrain : EditorWindow
     public void exportAlphaTexture()
     {
         string path = Application.streamingAssetsPath;
-        UtilApi.saveTex2Disc(terrain.alphamapTextures[0], path + "/alphamapTextures_0.png");
+        UtilApi.saveTex2Disc(terrainData.alphamapTextures[0], path + "/alphamapTextures_0.png");
     }
 
     public void exportSplatTexture_NotRun()
@@ -236,9 +244,9 @@ class ExportTerrain : EditorWindow
         SplatPrototype splatLayer = null;
         Texture2D writeTex = null;
         Color color;
-        for (idx = 0; idx < terrain.splatPrototypes.Length; ++idx)
+        for (idx = 0; idx < terrainData.splatPrototypes.Length; ++idx)
         {
-            splatLayer = terrain.splatPrototypes[idx];
+            splatLayer = terrainData.splatPrototypes[idx];
             writeTex = new Texture2D(splatLayer.texture.width, splatLayer.texture.height, TextureFormat.RGB24, false);
             
             for(int imageY = 0; imageY < splatLayer.texture.height; ++imageY)
@@ -260,11 +268,107 @@ class ExportTerrain : EditorWindow
         int idx = 0;
         SplatPrototype splatLayer = null;
         string resPath = "";
-        for (idx = 0; idx < terrain.splatPrototypes.Length; ++idx)
+        for (idx = 0; idx < terrainData.splatPrototypes.Length; ++idx)
         {
-            splatLayer = terrain.splatPrototypes[idx];
+            splatLayer = terrainData.splatPrototypes[idx];
             resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
             // 保存目录
+        }
+    }
+
+    public void exportHeightMap()
+    {
+        string fileName = string.Format("{0}/{1}.png", Application.dataPath, "heightmap");
+        int w = terrainData.heightmapWidth;
+        int h = terrainData.heightmapHeight;
+        Vector3 meshScale = terrainData.size;
+        float[,] tData = terrainData.GetHeights(0, 0, w, h);
+
+        Color color = new Color(0, 0, 0, 0);
+        float height = 0;
+        Texture2D heightMap = new Texture2D(w, h, TextureFormat.BGRA32, true);
+        for(int idy = 0; idy < h; ++idy)
+        {
+            for(int idx = 0; idx < w; ++idx)
+            {
+                height = tData[idx, idy];
+                color = new Color(height, height, height, height);
+                heightMap.SetPixel(idx, idy, color);
+            }
+        }
+
+        UtilApi.saveTex2Disc(heightMap, fileName);
+    }
+
+    // 导出 AlphaMap
+    public void exportAlphaMap_a()
+    {
+        string fileName = "";
+        Texture2D[] alphamapTextures = terrainData.alphamapTextures;
+        for(int idx = 0; idx < alphamapTextures.Length; ++idx)
+        {
+            fileName = string.Format("{0}/{1}_{2}.png", Application.dataPath, "AlphaMap", idx);
+            UtilApi.saveTex2Disc(alphamapTextures[idx], fileName);
+        }
+    }
+
+    public void exportAlphaMap()
+    {
+        float[,,] splatmapData = terrainData.GetAlphamaps(0, 0, terrainData.alphamapWidth, terrainData.alphamapHeight);
+
+        int alphamapWidth = terrainData.alphamapWidth;
+        int alphamapHeight = terrainData.alphamapHeight;
+        int alphamapLayers = terrainData.alphamapLayers;
+
+        int channel = 4;
+        int channelIdx = 0;
+
+        float r = 0;
+        float g = 0;
+        float b = 0;
+        float a = 0;
+
+        string fileName = "";
+        Color color = new Color(0, 0, 0, 0);
+        Texture2D alphaMap = new Texture2D(alphamapWidth, alphamapHeight, TextureFormat.BGRA32, true);
+
+        int imageIdx = 0;
+
+        while (channelIdx < alphamapLayers)
+        {
+            r = 0;
+            g = 0;
+            b = 0;
+            a = 0;
+
+            for (int idy = 0; idy < alphamapHeight; ++idy)
+            {
+                for(int idx = 0; idx < alphamapWidth; ++idx)
+                {
+                    r = splatmapData[idx, idy, channelIdx];
+                    if(channelIdx + 1 < alphamapLayers)
+                    {
+                        g = splatmapData[idx, idy, channelIdx + 1];
+                    }
+                    if (channelIdx + 2 < alphamapLayers)
+                    {
+                        b = splatmapData[idx, idy, channelIdx + 2];
+                    }
+                    if (channelIdx + 3 < alphamapLayers)
+                    {
+                        a = splatmapData[idx, idy, channelIdx + 3];
+                    }
+
+                    color = new Color(r, g, b, a);
+                    alphaMap.SetPixel(idx, idy, color);
+                }
+            }
+
+            fileName = string.Format("{0}/{1}_{2}.png", Application.dataPath, "AlphaMap", imageIdx);
+            UtilApi.saveTex2Disc(alphaMap, fileName);
+
+            imageIdx += 1;
+            channelIdx += channel;
         }
     }
 }
