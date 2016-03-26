@@ -49,6 +49,7 @@ namespace SDK.Lib
         protected TerrainMat mTerrainMat;
         protected string m_layerStr;
         protected MImportData mImportData;
+        protected float mUVMultiplier;
 
         public MTerrain()
         {
@@ -186,6 +187,7 @@ namespace SDK.Lib
 
             mBase = mWorldSize * 0.5f;
             mScale = mWorldSize / (float)(mSize - 1);
+            mUVMultiplier = mWorldSize / mImportData.detailWorldSize;
         }
 
         public float getMaxBatchWorldSize()
@@ -228,7 +230,7 @@ namespace SDK.Lib
 
         public void setHeightAtPoint(long x, long y, float h)
         {
-            
+
         }
 
         public float getHeightAtTerrainPosition(float x, float y)
@@ -515,34 +517,40 @@ namespace SDK.Lib
         public void getUV(long x, long y, ref MVector2 uv)
         {
             float uvScale = 1.0f / (this.getSize() - 1);
-            uv.x = x * uvScale;
-            uv.y = 1.0f - (y * uvScale);
+            if (mImportData.isUseSplatMap)
+            {
+                uv.x = x * uvScale * mUVMultiplier;
+                uv.y = (1.0f - (y * uvScale) * mUVMultiplier);
+            }
+            else
+            {
+                uv.x = x * uvScale;
+                uv.y = 1.0f - (y * uvScale);
+            }
         }
 
         public float getU(long x)
         {
+            float uvScale = 1.0f / (this.getSize() - 1);
             if (mImportData.isUseSplatMap)
             {
-                float worldX = x * mScale;
-                return (worldX % mImportData.detailWorldSize) / mImportData.detailWorldSize;
+                return x * uvScale * mUVMultiplier;
             }
             else
             {
-                float uvScale = 1.0f / (this.getSize() - 1);
                 return x * uvScale;
             }
         }
 
         public float getV(long y)
         {
+            float uvScale = 1.0f / (this.getSize() - 1);
             if (mImportData.isUseSplatMap)
             {
-                float worldY = y * mScale;
-                return (worldY % mImportData.detailWorldSize) / mImportData.detailWorldSize;
+                return (1.0f - (y * uvScale)) * mUVMultiplier;
             }
             else
             {
-                float uvScale = 1.0f / (this.getSize() - 1);
                 return 1.0f - (y * uvScale);
             }
         }
@@ -623,7 +631,7 @@ namespace SDK.Lib
             }
             else
             {
-                
+
             }
         }
 
@@ -968,11 +976,11 @@ namespace SDK.Lib
 
         public void checkPoint(ref long x, ref long y)
         {
-            if(x < 0)
+            if (x < 0)
             {
                 x = 0;
             }
-            if(x >= mSize)
+            if (x >= mSize)
             {
                 x = mSize - 1;
             }
