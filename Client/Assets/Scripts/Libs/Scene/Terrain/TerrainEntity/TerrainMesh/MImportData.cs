@@ -30,7 +30,7 @@
             inputBias = 0;
             deleteInputData = true;
             detailWorldSize = 16;
-            isUseSplatMap = true;
+            isUseSplatMap = false;
         }
 
         public void assignFrom(MImportData rhs)
