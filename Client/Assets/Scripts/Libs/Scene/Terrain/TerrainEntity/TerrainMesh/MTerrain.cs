@@ -48,6 +48,7 @@ namespace SDK.Lib
         protected HeightMapData m_heightMapData;
         protected TerrainMat mTerrainMat;
         protected string m_layerStr;
+        protected MImportData mImportData;
 
         public MTerrain()
         {
@@ -113,6 +114,7 @@ namespace SDK.Lib
 
         public bool prepare(MImportData importData)
         {
+            mImportData = importData;
             mPrepareInProgress = true;
 
             mSize = importData.terrainSize;
@@ -515,6 +517,34 @@ namespace SDK.Lib
             float uvScale = 1.0f / (this.getSize() - 1);
             uv.x = x * uvScale;
             uv.y = 1.0f - (y * uvScale);
+        }
+
+        public float getU(long x)
+        {
+            if (mImportData.isUseSplatMap)
+            {
+                float worldX = x * mScale;
+                return (worldX % mImportData.detailWorldSize) / mImportData.detailWorldSize;
+            }
+            else
+            {
+                float uvScale = 1.0f / (this.getSize() - 1);
+                return x * uvScale;
+            }
+        }
+
+        public float getV(long y)
+        {
+            if (mImportData.isUseSplatMap)
+            {
+                float worldY = y * mScale;
+                return (worldY % mImportData.detailWorldSize) / mImportData.detailWorldSize;
+            }
+            else
+            {
+                float uvScale = 1.0f / (this.getSize() - 1);
+                return 1.0f - (y * uvScale);
+            }
         }
 
         public Alignment getAlignment()

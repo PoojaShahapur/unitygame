@@ -276,8 +276,11 @@ namespace SDK.Lib
             mVertexDataRecord.cpuVertexData.m_vertexs[vertexIndex].y = pos.y;
             mVertexDataRecord.cpuVertexData.m_vertexs[vertexIndex].z = pos.z;
 
-            mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].x = x * uvScale;
-            mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].y = 1.0f - (y * uvScale);
+            //mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].x = x * uvScale;
+            //mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].y = 1.0f - (y * uvScale);
+
+            mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].x = mTerrain.getU(x);
+            mVertexDataRecord.cpuVertexData.m_uvs[vertexIndex].y = mTerrain.getV(y);
 
             if (x != mBoundaryX - 1 && y != mBoundaryY - 1)
             {

@@ -12,6 +12,8 @@
         public float inputScale;
         public float inputBias;
         public bool deleteInputData;
+        public int detailWorldSize;
+        public bool isUseSplatMap;
 
         public MImportData()
         {
@@ -27,6 +29,8 @@
             inputScale = 1023;
             inputBias = 0;
             deleteInputData = true;
+            detailWorldSize = 16;
+            isUseSplatMap = true;
         }
 
         public void assignFrom(MImportData rhs)

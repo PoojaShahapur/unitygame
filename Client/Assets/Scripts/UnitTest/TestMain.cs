@@ -66,7 +66,7 @@ namespace UnitTest
             //m_testTime.run();
             //m_testCameraMan.run();
             //m_testIOControl.run();
-            m_testIsometric.run();
+            //m_testIsometric.run();
         }
     }
 }
