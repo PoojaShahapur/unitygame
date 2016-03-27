@@ -148,6 +148,12 @@ namespace ICSharpCode.SharpZipLib.Core
 
 			if ( result ) {
 				FileInfo fileInfo = new FileInfo(name);
+				result = 
+					(MinSize <= fileInfo.Length) &&
+					(MaxSize >= fileInfo.Length) &&
+					(MinDate <= fileInfo.LastWriteTime) &&
+					(MaxDate >= fileInfo.LastWriteTime)
+					;
 			}
 			return result;
 		}
@@ -281,7 +287,7 @@ namespace ICSharpCode.SharpZipLib.Core
 
 			if ( result ) {
 				FileInfo fileInfo = new FileInfo(name);
-				long length = 0;
+				long length = fileInfo.Length;
 				result = 
 					(MinSize <= length) &&
 					(MaxSize >= length);
