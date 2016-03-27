@@ -68,13 +68,13 @@ namespace UnitTest
 
         public virtual void onUIPrefabLoadEventHandle(IDispatchObject dispObj)
         {
-            UIPrefabRes uiPrefab = dispObj as UIPrefabRes;
+            PrefabRes uiPrefab = dispObj as PrefabRes;
         }
 
         public void testSyncLoadRefCount()
         {
-            UIPrefabRes aaa = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>("UI/UIChat/UIChat.prefab");
-            UIPrefabRes bbb = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>("UI/UIChat/UIChat.prefab");
+            PrefabRes aaa = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
+            PrefabRes bbb = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>("UI/UIChat/UIChat.prefab");
         }
 
         public void testAsyncLoadUIPrefabRefCount()
@@ -83,18 +83,18 @@ namespace UnitTest
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             MFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
-            UIPrefabRes aaa = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
+            PrefabRes aaa = Ctx.m_instance.m_prefabMgr.getAndLoad<PrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
-            Ctx.m_instance.m_uiPrefabMgr.unload(aaa.GetPath(), onUIPrefabLoadEventHandle);
+            Ctx.m_instance.m_prefabMgr.unload(aaa.GetPath(), onUIPrefabLoadEventHandle);
 
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             MFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
-            UIPrefabRes bbb = Ctx.m_instance.m_uiPrefabMgr.getAndLoad<UIPrefabRes>(param);
+            PrefabRes bbb = Ctx.m_instance.m_prefabMgr.getAndLoad<PrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
-            Ctx.m_instance.m_uiPrefabMgr.unload(bbb.GetPath(), onUIPrefabLoadEventHandle);
+            Ctx.m_instance.m_prefabMgr.unload(bbb.GetPath(), onUIPrefabLoadEventHandle);
         }
 
         public void testAsyncLoadAtlasRefCount()

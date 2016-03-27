@@ -140,7 +140,7 @@ namespace SDK.Lib
             m_texMgr = new TextureMgr();
             m_skelAniMgr = new SkelAniMgr();
             m_skinResMgr = new SkinResMgr();
-            m_uiPrefabMgr = new UIPrefabMgr();
+            m_prefabMgr = new PrefabMgr();
             m_controllerMgr = new ControllerMgr();
             m_bytesResMgr = new BytesResMgr();
 

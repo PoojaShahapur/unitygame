@@ -278,14 +278,14 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_uiPrefabMgr.load<UIPrefabRes>(param);
+            Ctx.m_instance.m_prefabMgr.load<PrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 		
 		// 代码资源加载处理
         public void onCodeLoadEventHandle(IDispatchObject dispObj)
 		{
-            UIPrefabRes res = dispObj as UIPrefabRes;
+            PrefabRes res = dispObj as PrefabRes;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onCodeloadedByRes(res);
@@ -300,7 +300,7 @@ namespace SDK.Lib
         // 窗口控件资源加载处理
         public void onWidgetLoadEventHandle(IDispatchObject dispObj)
         {
-            UIPrefabRes res = dispObj as UIPrefabRes;
+            PrefabRes res = dispObj as PrefabRes;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onWidgetloadedByRes(res);
@@ -370,7 +370,7 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_uiPrefabMgr.unload(path, onWidgetLoadEventHandle);
+            Ctx.m_instance.m_prefabMgr.unload(path, onWidgetLoadEventHandle);
         }
 
         // 大小发生变化后，调用此函数

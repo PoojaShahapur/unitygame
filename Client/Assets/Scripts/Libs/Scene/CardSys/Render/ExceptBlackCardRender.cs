@@ -57,10 +57,10 @@ namespace SDK.Lib
                 m_model = null;
             }
 
-            if (m_uiPrefabRes != null)
+            if (m_prefabRes != null)
             {
-                Ctx.m_instance.m_uiPrefabMgr.unload(m_uiPrefabRes.GetPath(), null);
-                m_uiPrefabRes = null;
+                Ctx.m_instance.m_prefabMgr.unload(m_prefabRes.GetPath(), null);
+                m_prefabRes = null;
             }
             if (m_boxModel != null)
             {
@@ -103,10 +103,10 @@ namespace SDK.Lib
 
         virtual protected void addUIAndBox()
         {
-            if (m_uiPrefabRes == null)
+            if (m_prefabRes == null)
             {
-                m_uiPrefabRes = Ctx.m_instance.m_uiPrefabMgr.getAndSyncLoad<UIPrefabRes>(m_uiPrefabPath);
-                GameObject _go = m_uiPrefabRes.InstantiateObject(m_uiPrefabPath);
+                m_prefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoad<PrefabRes>(m_uiPrefabPath);
+                GameObject _go = m_prefabRes.InstantiateObject(m_uiPrefabPath);
                 _go.name = "UIRoot";
                 UtilApi.SetParent(_go, gameObject(), false);
             }
