@@ -15,7 +15,7 @@ namespace SDK.Lib
 
         // 目前 UIPrefab 和 BoxModel 是不会改变的，只有空值的时候才更新
         protected string m_uiPrefabPath;            // UI 预制目录
-        protected UIPrefabRes m_uiPrefabRes;        // 这个是 UI 资源
+        protected PrefabRes m_prefabRes;        // 这个是 UI 资源
 
         protected string m_boxModelPath;            // 碰撞盒目录
         protected ModelRes m_boxModel;              // 这个是碰撞盒子模型

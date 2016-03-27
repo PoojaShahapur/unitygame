@@ -5,7 +5,7 @@ namespace SDK.Lib
     public class AuxDynTexDynGOImage : AuxDynTexImage
     {
         protected string m_prefabPath;      // Prefab 目录
-        protected UIPrefabRes m_prefabRes;  // Prefab 资源
+        protected PrefabRes m_prefabRes;  // Prefab 资源
         protected bool m_bNeedReload = false;
 
         public AuxDynTexDynGOImage(bool bNeedPlaceHolderGo = false)

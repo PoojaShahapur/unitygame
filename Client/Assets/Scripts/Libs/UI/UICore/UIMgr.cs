@@ -314,7 +314,7 @@ namespace SDK.Lib
         }
 
         // 代码资源加载完成处理
-        public void onCodeloadedByRes(UIPrefabRes res)
+        public void onCodeloadedByRes(PrefabRes res)
         {
             UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
             m_ID2CodeLoadingItemDic.Remove(ID);
@@ -331,7 +331,7 @@ namespace SDK.Lib
         }
 
         // 窗口控件资源加载完成处理
-        public void onWidgetloadedByRes(UIPrefabRes res)
+        public void onWidgetloadedByRes(PrefabRes res)
         {
             string path = res.GetPath();
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID

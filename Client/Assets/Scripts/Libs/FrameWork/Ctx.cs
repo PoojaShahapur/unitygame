@@ -64,7 +64,7 @@ namespace SDK.Lib
         public TextureMgr m_texMgr;
         public SkelAniMgr m_skelAniMgr;
         public SkinResMgr m_skinResMgr;
-        public UIPrefabMgr m_uiPrefabMgr;
+        public PrefabMgr m_prefabMgr;
         public ControllerMgr m_controllerMgr;
         public BytesResMgr m_bytesResMgr;
 
