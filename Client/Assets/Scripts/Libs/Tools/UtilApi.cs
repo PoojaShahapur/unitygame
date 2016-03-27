@@ -1035,5 +1035,13 @@ namespace SDK.Lib
                 insMat.EnableKeyword(keywords[i]);
             }
         }
+
+        // 转换二维索引到一维索引
+        static public uint convTIdx2OIdx(short x, short y)
+        {
+            uint key = 0;
+            key = (uint)(((ushort)y << 16) | (ushort)x);
+            return key;
+        }
     }
 }

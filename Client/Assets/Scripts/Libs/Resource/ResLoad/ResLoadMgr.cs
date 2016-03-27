@@ -135,9 +135,9 @@ namespace SDK.Lib
             else
             {
                 // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
-                param.m_resPackType = ResPackType.eUnPakType;
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
-                load(param);
+                //param.m_resPackType = ResPackType.eUnPakType;
+                //param.m_resLoadType = ResLoadType.eStreamingAssets;
+                //load(param);
 
                 if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_pathNoExt)))
                 {

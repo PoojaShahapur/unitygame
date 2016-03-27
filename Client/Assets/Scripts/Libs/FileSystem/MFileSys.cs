@@ -462,7 +462,27 @@ namespace SDK.Lib
 
         static public string convResourcesPath2AssetBundlesPath(string resPath)
         {
-            return "";
+            if(MacroDef.ASSETBUNDLES_LOAD)
+            {
+                return "Assets/Resources/" + resPath;
+            }
+
+            return resPath;
+        }
+
+        static public string convAssetBundlesPath2ResourcesPath(string assetBundlesPath)
+        {
+            if(MacroDef.ASSETBUNDLES_LOAD)
+            {
+                int idx = assetBundlesPath.IndexOf(AssetBundlesPrefixPath);
+                // 如果有前缀
+                if(-1 != idx)
+                {
+                    return assetBundlesPath.Substring(AssetBundlesPrefixPath.Length);
+                }
+            }
+
+            return assetBundlesPath;
         }
     }
 }

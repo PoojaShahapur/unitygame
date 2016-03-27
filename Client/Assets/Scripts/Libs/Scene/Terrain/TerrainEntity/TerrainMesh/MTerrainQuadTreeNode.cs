@@ -107,6 +107,12 @@ namespace SDK.Lib
             //return mChildren[0] == null;
             return mChildren == null;
         }
+
+        public bool isRoot()
+        {
+            return mDepth == 0;
+        }
+
         public MTerrainQuadTreeNode getChild(ushort child)
         {
             if (isLeaf() || child >= 4)
@@ -463,6 +469,7 @@ namespace SDK.Lib
                     m_aabbMeshRender = new MAABBMeshRender();
                 }
 
+                m_aabbMeshRender.setName(getNameStr());
                 m_aabbMeshRender.addVertex(ref mWorldAabb);
                 m_aabbMeshRender.buildIndex();
                 m_aabbMeshRender.uploadGeometry();
@@ -478,6 +485,18 @@ namespace SDK.Lib
                 {
                     m_aabbMeshRender.hide();
                 }
+            }
+        }
+
+        public string getNameStr()
+        {
+            if(isRoot())
+            {
+                return mQuadrant.ToString();
+            }
+            else
+            {
+                return mParent.getNameStr() + "_" + mQuadrant.ToString();
             }
         }
     }

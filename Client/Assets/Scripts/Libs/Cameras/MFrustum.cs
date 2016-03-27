@@ -913,6 +913,11 @@ namespace SDK.Lib
             return ret;
         }
 
+        public Transform getTrans()
+        {
+            return mParentNode;
+        }
+
         public void testClipPlane()
         {
             updateFrustumPlanes();

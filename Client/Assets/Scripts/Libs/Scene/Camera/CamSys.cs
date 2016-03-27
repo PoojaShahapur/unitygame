@@ -44,6 +44,8 @@ namespace SDK.Lib
                 m_localCamera.testClipPlane();
                 testAABB();
             }
+
+            //testCameraCull();
         }
 
         public void setSceneCamera2UICamera()
@@ -126,6 +128,18 @@ namespace SDK.Lib
                 Debug.Log("aaaa");
                 m_localCamera.isVisible(ref aabb, ref plane);
             }
+        }
+
+        protected void testCameraCull()
+        {
+            UtilApi.setPos(m_localCamera.getTrans(), new Vector3(780, 41, 620));
+
+            MAxisAlignedBox aabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+            aabb.setMaximum(937.5f, -206.5529f, 1312.5f);
+            aabb.setMinimum(750, -270.7412f, 1125);
+            FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+            m_localCamera.isVisible(ref aabb, ref plane);
+            Debug.Log("aaa");
         }
     }
 }

@@ -24,6 +24,8 @@ namespace SDK.Lib
         protected int m_xTile;      // Tile 的 X 位置，调试使用
         protected int m_zTile;      // Tile 的 Z 位置，调试使用
 
+        protected string m_name;
+
         public MAABBMeshRender()
         {
             m_vertexNum = 8;
@@ -37,6 +39,11 @@ namespace SDK.Lib
         {
             m_xTile = xTile;
             m_zTile = zTile;
+        }
+
+        public void setName(string value)
+        {
+            m_name = value;
         }
 
         public void moveToPos(float xPos, float zPos)
