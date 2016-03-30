@@ -13,13 +13,13 @@ namespace SDK.Lib
             mDirection = MVector3.UNIT_Z;
         }
 
-        public MRay(ref MVector3 origin, ref MVector3 direction)
+        public MRay(MVector3 origin, MVector3 direction)
         {
             mOrigin = origin;
             mDirection = direction;
         }
 
-        public void setOrigin(ref MVector3 origin)
+        public void setOrigin(MVector3 origin)
         {
             mOrigin = origin;
         }
@@ -29,7 +29,7 @@ namespace SDK.Lib
             return mOrigin;
         }
 
-        public void setDirection(ref MVector3 dir)
+        public void setDirection(MVector3 dir)
         {
             mDirection = dir;
         }
@@ -49,9 +49,9 @@ namespace SDK.Lib
             return lhs.getPoint(t);
         }
 
-        public KeyValuePair<bool, float> intersects(ref MPlane p)
+        public MKeyValuePair<bool, float> intersects(ref MPlane p)
         {
-            return UtilMath.intersects(this, ref p);
+            return UtilMath.intersects(this, p);
         }
 
         public KeyValuePair<bool, float> intersects(ref MAxisAlignedBox box)

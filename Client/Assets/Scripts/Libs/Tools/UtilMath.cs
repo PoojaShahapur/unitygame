@@ -271,7 +271,7 @@ namespace SDK.Lib
             return Mathf.Acos(f);
         }
 
-        static public bool RealEqual(float a, float b, float tolerance)
+        static public bool RealEqual(float a, float b, float tolerance = 1e-04f)
         {
             if (Mathf.Abs(b - a) <= tolerance)
                 return true;
@@ -359,7 +359,7 @@ namespace SDK.Lib
             return fValue * fValue;
         }
 
-        static public bool intersects(ref MPlane plane, ref MAxisAlignedBox box)
+        static public bool intersects(MPlane plane, MAxisAlignedBox box)
         {
             return (plane.getSide(ref box) == MPlane.Side.BOTH_SIDE);
         }
@@ -413,20 +413,20 @@ namespace SDK.Lib
             return viewMatrix;
         }
 
-        static public KeyValuePair<bool, float> intersects(MRay ray, ref MPlane plane)
+        static public MKeyValuePair<bool, float> intersects(MRay ray, MPlane plane)
         {
             MVector3 dir = ray.getDirection();
             float denom = plane.normal.dotProduct(ref dir);
             if (UtilMath.Abs(denom) < EPSILON)
             {
-                return new KeyValuePair<bool, float>(false, (float)0);
+                return new MKeyValuePair<bool, float>(false, (float)0);
             }
             else
             {
                 MVector3 orig = ray.getOrigin();
                 float nom = plane.normal.dotProduct(ref orig) + plane.d;
                 float t = -(nom / denom);
-                return new KeyValuePair<bool, float>(t >= 0, (float)t);
+                return new MKeyValuePair<bool, float>(t >= 0, (float)t);
             }
         }
 
@@ -641,6 +641,11 @@ namespace SDK.Lib
             orthoPt.x = 0.7071f * isoPt.x + 0.7071f * isoPt.y;
             orthoPt.y = -0.7071f * isoPt.y + 1.4142f * isoPt.x;
             return orthoPt;
+        }
+
+        static public float floor(float f)
+        {
+            return Mathf.Floor(f);
         }
     }
 }

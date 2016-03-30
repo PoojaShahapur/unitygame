@@ -37,7 +37,7 @@
             d = _d;
         }
 
-        public MPlane(ref MVector3 rkNormal, ref MVector3 rkPoint)
+        public MPlane(MVector3 rkNormal, MVector3 rkPoint)
         {
             normal = MVector3.ZERO;
             d = 0.0f;

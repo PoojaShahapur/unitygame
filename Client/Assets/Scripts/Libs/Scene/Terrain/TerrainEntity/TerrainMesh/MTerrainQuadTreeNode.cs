@@ -244,6 +244,11 @@ namespace SDK.Lib
             }
         }
 
+        public void updateVertexData(bool positions, bool deltas, MTRectI rect, bool cpuData)
+        {
+
+        }
+
         public void createCpuVertexData()
         {
             mCurIndexBufferIndex = 0;
@@ -365,9 +370,9 @@ namespace SDK.Lib
 
         public void show()
         {
-            if(isLeaf())
+            if (isLeaf())
             {
-                if(!mIsVertexDataInit)
+                if (!mIsVertexDataInit)
                 {
                     assignVertexData(0, 0, 0, 0);
                 }
@@ -430,7 +435,7 @@ namespace SDK.Lib
             FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_LEFT;
             if (frustum.isVisible(ref mWorldAabb, ref culledBy))
             {
-                if(isLeaf())
+                if (isLeaf())
                 {
                     show();
                     frustum.isVisible(ref mWorldAabb, ref culledBy);
@@ -490,7 +495,7 @@ namespace SDK.Lib
 
         public string getNameStr()
         {
-            if(isRoot())
+            if (isRoot())
             {
                 return mQuadrant.ToString();
             }
