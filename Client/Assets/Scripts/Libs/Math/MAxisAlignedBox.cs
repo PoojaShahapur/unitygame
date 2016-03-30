@@ -478,7 +478,7 @@ namespace SDK.Lib
 
         public bool intersects(ref MPlane p)
         {
-            return UtilMath.intersects(ref p, ref this);
+            return UtilMath.intersects(p, this);
         }
 
         public bool intersects(ref MVector3 v)

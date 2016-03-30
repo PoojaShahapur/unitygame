@@ -446,8 +446,8 @@ namespace SDK.Lib
             MVector3 rayDirection = rayTarget - rayOrigin;
             rayDirection.normalise();
 
-            outRay.setOrigin(ref rayOrigin);
-            outRay.setDirection(ref rayDirection);
+            outRay.setOrigin(rayOrigin);
+            outRay.setDirection(rayDirection);
         }
 
         public void setWindow(float Left, float Top, float Right, float Bottom)
@@ -509,12 +509,10 @@ namespace SDK.Lib
                 MVector3 y_axis = new MVector3(inv[1, 0], inv[1, 1], inv[1, 2]);
                 x_axis.normalise();
                 y_axis.normalise();
-                mWindowClipPlanes.Add(new MPlane(ref x_axis, ref vw_bl));
-                MVector3 tmp = -x_axis;
-                mWindowClipPlanes.Add(new MPlane(ref tmp, ref vw_ur));
-                mWindowClipPlanes.Add(new MPlane(ref y_axis, ref vw_bl));
-                tmp = -y_axis;
-                mWindowClipPlanes.Add(new MPlane(ref tmp, ref vw_ur));
+                mWindowClipPlanes.Add(new MPlane(x_axis, vw_bl));
+                mWindowClipPlanes.Add(new MPlane(-x_axis, vw_ur));
+                mWindowClipPlanes.Add(new MPlane(y_axis, vw_bl));
+                mWindowClipPlanes.Add(new MPlane(-y_axis, vw_ur));
             }
 
             mRecalcWindow = false;
