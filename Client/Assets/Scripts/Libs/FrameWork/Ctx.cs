@@ -184,7 +184,7 @@ namespace SDK.Lib
             m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
             //m_terrainGroup = new MTerrainGroup(513, 3000);
-            m_terrainGroup = new MTerrainGroup(513, 3000);
+            m_terrainGroup = new MTerrainGroup(513, 30000);
         }
 
         protected void interInit()

@@ -46,6 +46,7 @@ namespace SDK.Lib
             }
 
             //testCameraCull();
+            //testFrustumDir();
         }
 
         public void setSceneCamera2UICamera()
@@ -113,6 +114,8 @@ namespace SDK.Lib
             {
                 m_localCamera.invalid();
                 Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
+
+                //testFrustumDir();
             }
         }
 
@@ -140,6 +143,18 @@ namespace SDK.Lib
             FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
             m_localCamera.isVisible(ref aabb, ref plane);
             Debug.Log("aaa");
+        }
+
+        public void testFrustumDir()
+        {
+            Transform trans = m_localCamera.getTrans();
+            GameObject cube = UtilApi.TransFindChildByPObjAndPath(trans.gameObject, "Cube");
+            MVector3 pos = MVector3.fromNative(cube.transform.position);
+            FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+            if(!m_localCamera.isVisible(ref pos, ref plane))
+            {
+                Debug.Log("Error");
+            }
         }
     }
 }

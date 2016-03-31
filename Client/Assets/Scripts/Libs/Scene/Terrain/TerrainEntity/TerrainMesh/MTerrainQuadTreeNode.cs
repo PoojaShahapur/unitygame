@@ -388,18 +388,24 @@ namespace SDK.Lib
             }
         }
 
-        public void hide()
+        public void hide(MFrustum frustum)
         {
             if (isLeaf())
             {
                 mTileRender.hide();
                 hideBoundBox();
+
+                //FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_LEFT;
+                //if (frustum.isVisible(ref mWorldAabb, ref culledBy))
+                //{
+                //    Debug.Log("aaaaa");
+                //}
             }
             else
             {
                 for (int i = 0; i < 4; ++i)
                 {
-                    mChildren[i].hide();
+                    mChildren[i].hide(frustum);
                 }
             }
         }
@@ -450,7 +456,7 @@ namespace SDK.Lib
             }
             else
             {
-                hide();
+                hide(frustum);
             }
         }
 
