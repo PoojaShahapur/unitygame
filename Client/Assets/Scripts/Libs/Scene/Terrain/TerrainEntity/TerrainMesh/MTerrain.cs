@@ -192,7 +192,8 @@ namespace SDK.Lib
             }
 
             mTerrainMat.setDiffuseMap(importData.diffusePath);
-            mTerrainMat.loadDiffuseMat();
+            //mTerrainMat.loadDiffuseMat();
+            mTerrainMat.loadSplatDiffuseMat();
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
             mQuadTree.prepare();
@@ -1706,7 +1707,8 @@ namespace SDK.Lib
 
         public Material getMatTmpl()
         {
-            return mTerrainMat.getDiffuseMaterial();
+            //return mTerrainMat.getDiffuseMaterial();
+            return mTerrainMat.getSplatMaterial();
         }
 
         public void checkPoint(ref long x, ref long y)

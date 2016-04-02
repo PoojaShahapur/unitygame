@@ -33,6 +33,7 @@ namespace SDK.Lib
         protected TextureRes m_splat1TexRes;
         protected TextureRes m_splat2TexRes;
         protected TextureRes m_splat3TexRes;
+        protected TextureRes m_controlTexRes;
 
         protected string m_matPreStr;               // 材质前缀字符
         protected string m_difffuseMatName;         // 材质的名字
@@ -68,7 +69,7 @@ namespace SDK.Lib
             m_splat1TexName = "Materials/Textures/Terrain/TerrainSplat_1.jpg";
             m_splat2TexName = "Materials/Textures/Terrain/TerrainSplat_2.jpg";
             m_splat3TexName = "Materials/Textures/Terrain/TerrainSplat_3.jpg";
-            m_controlTexName = "Materials/Textures/Terrain/TerrainControl.jpg";
+            m_controlTexName = "Materials/Textures/Terrain/TerrainControl.png";
         }
 
         public void setDiffuseMap(string path)
@@ -119,8 +120,12 @@ namespace SDK.Lib
 
             m_splat0TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
             m_splat0Tex = m_splat0TexRes.getTexture();
-            m_splatMat.SetTexture("_Splat0", m_splat0Tex);
+            if (m_splatMat.HasProperty("_MainTex"))
+            {
+                m_splatMat.SetTexture("_MainTex", m_splat0Tex);
+            }
 
+            /*
             m_splat1TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
             m_splat1Tex = m_splat1TexRes.getTexture();
             m_splatMat.SetTexture("_Splat1", m_splat1Tex);
@@ -132,6 +137,14 @@ namespace SDK.Lib
             m_splat3TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat3TexName);
             m_splat3Tex = m_splat3TexRes.getTexture();
             m_splatMat.SetTexture("_Splat3", m_splat3Tex);
+            */
+
+            m_controlTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_controlTexName);
+            m_controlTex = m_controlTexRes.getTexture();
+            if (m_splatMat.HasProperty("_Control"))
+            {
+                m_splatMat.SetTexture("_Control", m_controlTex);
+            }
         }
 
         public Material getDiffuseMaterial()
