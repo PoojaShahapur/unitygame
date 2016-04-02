@@ -66,7 +66,8 @@ public class ExportTerrain : EditorWindow
         }
         if (GUILayout.Button("ExportHeightMap"))
         {
-            exportHeightMap();
+            //exportHeightMap();
+            exportScaleHeightMap();
         }
         if (GUILayout.Button("ExportAlphaMap"))
         {
@@ -159,6 +160,38 @@ public class ExportTerrain : EditorWindow
         UtilApi.saveTex2Disc(heightMap, fileName);
     }
 
+    public void exportScaleHeightMap()
+    {
+        string fileName = string.Format("{0}/{1}.png", Application.dataPath, "heightmap");
+        int w = terrainData.heightmapWidth;
+        int h = terrainData.heightmapHeight;
+        Vector3 meshScale = terrainData.size;
+        var tRes = Mathf.Pow(2, (int)(saveResolution));
+        meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
+        Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
+        float[,] tData = terrainData.GetHeights(0, 0, w, h);
+
+        w = (int)((w - 1) / tRes + 1);
+        h = (int)((h - 1) / tRes + 1);
+        Vector3[] tVertices = new Vector3[w * h];
+        float height = 0;
+        Texture2D heightMap = new Texture2D(w, h, TextureFormat.BGRA32, true);
+        Color color = new Color(0, 0, 0, 0);
+
+        for (int idy = 0; idy < h; idy++)
+        {
+            for (int idx = 0; idx < w; idx++)
+            {
+                //tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, (int)(tData[(int)(x * tRes), (int)(y * tRes)]), y)) + terrainPos;
+                height = tData[(int)(idx * tRes), (int)(idy * tRes)];
+                color = new Color(height, height, height, height);
+                heightMap.SetPixel(idx, idy, color);
+            }
+        }
+
+        UtilApi.saveTex2Disc(heightMap, fileName);
+    }
+
     // µ¼³ö AlphaMap
     public void exportAlphaMap_a()
     {
@@ -200,22 +233,22 @@ public class ExportTerrain : EditorWindow
             b = 0;
             a = 0;
 
-            for (int idy = alphamapHeight - 1; idy >= 0; --idy)
+            for (int idy = 0; idy < alphamapHeight; ++idy)
             {
-                for(int idx = alphamapWidth - 1; idx >= 0; --idx)
+                for(int idx = 0; idx < alphamapWidth; ++idx)
                 {
-                    r = splatmapData[idx, idy, channelIdx];
+                    r = splatmapData[idx, alphamapHeight - 1 - idy, channelIdx];
                     if(channelIdx + 1 < alphamapLayers)
                     {
-                        g = splatmapData[idx, idy, channelIdx + 1];
+                        g = splatmapData[idx, alphamapHeight - 1 - idy, channelIdx + 1];
                     }
                     if (channelIdx + 2 < alphamapLayers)
                     {
-                        b = splatmapData[idx, idy, channelIdx + 2];
+                        b = splatmapData[idx, alphamapHeight - 1 - idy, channelIdx + 2];
                     }
                     if (channelIdx + 3 < alphamapLayers)
                     {
-                        a = splatmapData[idx, idy, channelIdx + 3];
+                        a = splatmapData[idx, alphamapHeight - 1 - idy, channelIdx + 3];
                     }
 
                     color = new Color(r, g, b, a);

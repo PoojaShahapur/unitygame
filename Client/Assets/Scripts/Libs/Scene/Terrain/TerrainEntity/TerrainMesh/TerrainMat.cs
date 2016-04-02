@@ -52,6 +52,8 @@ namespace SDK.Lib
         protected string m_splat3TexName;
         protected string m_controlTexName;
 
+        protected Vector4 mUVMultiplier;
+
         public TerrainMat()
         {
             m_difffuseMatName = "Materials/Terrain/TerrainDiffuse";
@@ -72,6 +74,16 @@ namespace SDK.Lib
             m_controlTexName = "Materials/Textures/Terrain/TerrainControl.png";
         }
 
+        public void setUVMultiplier(float value)
+        {
+            mUVMultiplier = new Vector4(value, value, value, value);
+        }
+
+        public void setUVMultiplier(Vector4 value)
+        {
+            mUVMultiplier = value;
+        }
+
         public void setDiffuseMap(string path)
         {
             m_diffuseTexName = path;
@@ -89,7 +101,10 @@ namespace SDK.Lib
             m_diffuseTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
             m_diffuseTex = m_diffuseTexRes.getTexture();
 
-            m_diffuseMat.SetTexture("_MainTex", m_diffuseTex);
+            if (m_splatMat.HasProperty("_MainTex"))
+            {
+                m_diffuseMat.SetTexture("_MainTex", m_diffuseTex);
+            }
         }
 
         // 加载高光材质
@@ -103,11 +118,17 @@ namespace SDK.Lib
 
             m_diffuseTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
             m_diffuseTex = m_diffuseTexRes.getTexture();
-            m_specularMat.SetTexture("_MainTex", m_diffuseTex);
+            if (m_splatMat.HasProperty("_MainTex"))
+            {
+                m_specularMat.SetTexture("_MainTex", m_diffuseTex);
+            }
 
             m_normalTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_normalTexName);
             m_normalTex = m_normalTexRes.getTexture();
-            m_specularMat.SetTexture("_BumpMap", m_normalTex);
+            if (m_splatMat.HasProperty("_BumpMap"))
+            {
+                m_specularMat.SetTexture("_BumpMap", m_normalTex);
+            }
         }
 
         public void loadSplatDiffuseMat()
@@ -120,16 +141,19 @@ namespace SDK.Lib
 
             m_splat0TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
             m_splat0Tex = m_splat0TexRes.getTexture();
-            if (m_splatMat.HasProperty("_MainTex"))
+            if (m_splatMat.HasProperty("_Splat0"))
             {
-                m_splatMat.SetTexture("_MainTex", m_splat0Tex);
+                m_splatMat.SetTexture("_Splat0", m_splat0Tex);
+            }
+
+            m_splat1TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
+            m_splat1Tex = m_splat1TexRes.getTexture();
+            if (m_splatMat.HasProperty("_Splat1"))
+            {
+                m_splatMat.SetTexture("_Splat1", m_splat1Tex);
             }
 
             /*
-            m_splat1TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
-            m_splat1Tex = m_splat1TexRes.getTexture();
-            m_splatMat.SetTexture("_Splat1", m_splat1Tex);
-
             m_splat2TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat2TexName);
             m_splat2Tex = m_splat2TexRes.getTexture();
             m_splatMat.SetTexture("_Splat2", m_splat2Tex);
@@ -144,6 +168,11 @@ namespace SDK.Lib
             if (m_splatMat.HasProperty("_Control"))
             {
                 m_splatMat.SetTexture("_Control", m_controlTex);
+            }
+
+            if (m_splatMat.HasProperty("_UVMultiplier"))
+            {
+                m_splatMat.SetVector("_UVMultiplier", mUVMultiplier);
             }
         }
 

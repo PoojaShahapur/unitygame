@@ -193,6 +193,7 @@ namespace SDK.Lib
 
             mTerrainMat.setDiffuseMap(importData.diffusePath);
             //mTerrainMat.loadDiffuseMat();
+            mTerrainMat.setUVMultiplier(mUVMultiplier);
             mTerrainMat.loadSplatDiffuseMat();
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
@@ -691,42 +692,42 @@ namespace SDK.Lib
         public void getUV(long x, long y, ref MVector2 uv)
         {
             float uvScale = 1.0f / (this.getSize() - 1);
-            if (mImportData.isUseSplatMap)
-            {
-                uv.x = x * uvScale * mUVMultiplier;
-                uv.y = (1.0f - (y * uvScale) * mUVMultiplier);
-            }
-            else
-            {
+            //if (mImportData.isUseSplatMap)
+            //{
+            //    uv.x = x * uvScale * mUVMultiplier;
+            //    uv.y = (1.0f - (y * uvScale) * mUVMultiplier);
+            //}
+            //else
+            //{
                 uv.x = x * uvScale;
                 uv.y = 1.0f - (y * uvScale);
-            }
+            //}
         }
 
         public float getU(long x)
         {
             float uvScale = 1.0f / (this.getSize() - 1);
-            if (mImportData.isUseSplatMap)
-            {
-                return x * uvScale * mUVMultiplier;
-            }
-            else
-            {
+            //if (mImportData.isUseSplatMap)
+            //{
+            //    return x * uvScale * mUVMultiplier;
+            //}
+            //else
+            //{
                 return x * uvScale;
-            }
+            //}
         }
 
         public float getV(long y)
         {
             float uvScale = 1.0f / (this.getSize() - 1);
-            if (mImportData.isUseSplatMap)
-            {
-                return (1.0f - (y * uvScale)) * mUVMultiplier;
-            }
-            else
-            {
+            //if (mImportData.isUseSplatMap)
+            //{
+            //    return (1.0f - (y * uvScale)) * mUVMultiplier;
+            //}
+            //else
+            //{
                 return 1.0f - (y * uvScale);
-            }
+            //}
         }
 
         public Alignment getAlignment()
