@@ -17,13 +17,13 @@ Shader "Test/GameCore/Mobile/Refraction/Mirror"
 			#include "UnityCG.cginc"
 
 			uniform float4x4 _ProjMatrix;
-			uniform sampler2D _RefractionTex;
+			sampler2D _RefractionTex;
 			float4 _RefractionColor;
 			struct outvertex 
 			{
 				float4 pos : SV_POSITION;
 				float3 uv : TEXCOORD0;
-				float4 posProj;
+				float4 posProj : TEXCOORD1;
 			};
 			outvertex vert(appdata_tan v) 
 			{
