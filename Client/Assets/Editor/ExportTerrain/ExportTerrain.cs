@@ -1,27 +1,28 @@
 using SDK.Lib;
 using System;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public enum SaveFormat
-{
-    Triangles,
-    Quads,
-}
-
-public enum SaveResolution
-{
-    Full,
-    Half,
-    Quarter,
-    Eighth,
-    Sixteenth,
-}
-
 public class ExportTerrain : EditorWindow
 {
+    public enum SaveFormat
+    {
+        Triangles,
+        Quads,
+    }
+
+    public enum SaveResolution
+    {
+        Full,
+        Half,
+        Quarter,
+        Eighth,
+        Sixteenth,
+    }
+
     SaveFormat saveFormat = SaveFormat.Triangles;
-    SaveResolution saveResolution = SaveResolution.Half;
+    SaveResolution saveResolution = SaveResolution.Full;
     static TerrainData terrainData;
     static Vector3 terrainPos;
 
@@ -74,14 +75,9 @@ public class ExportTerrain : EditorWindow
             exportAlphaTexture();
             //exportAlphaMap();
         }
-    }
-
-    public void UpdateProgress()
-    {
-        if (counter++ == 1000)
+        if (GUILayout.Button("ExportXml"))
         {
-            counter = 0;
-            EditorUtility.DisplayProgressBar("Saving...", "", Mathf.InverseLerp(0, totalCount, ++tCount));
+            exportXml();
         }
     }
 
@@ -92,7 +88,7 @@ public class ExportTerrain : EditorWindow
         while (idx < terrainData.alphamapTextures.Length)
         {
             path = string.Format("{0}{1}_{2}.png", Application.dataPath, "/alphamapTextures", idx);
-            UtilApi.saveTex2Disc(terrainData.alphamapTextures[0], path);
+            UtilApi.saveTex2File(terrainData.alphamapTextures[0], path);
             ++idx;
         }
     }
@@ -118,7 +114,7 @@ public class ExportTerrain : EditorWindow
                     writeTex.SetPixel(imageX, imageY, color);
                 }
             }
-            UtilApi.saveTex2Disc(splatLayer.texture, path + "/SplatTextures" + idx + ".png");
+            UtilApi.saveTex2File(splatLayer.texture, path + "/SplatTextures" + idx + ".png");
         }
     }
 
@@ -157,7 +153,7 @@ public class ExportTerrain : EditorWindow
             }
         }
 
-        UtilApi.saveTex2Disc(heightMap, fileName);
+        UtilApi.saveTex2File(heightMap, fileName);
     }
 
     public void exportScaleHeightMap()
@@ -168,7 +164,6 @@ public class ExportTerrain : EditorWindow
         Vector3 meshScale = terrainData.size;
         var tRes = Mathf.Pow(2, (int)(saveResolution));
         meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
-        Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
         float[,] tData = terrainData.GetHeights(0, 0, w, h);
 
         w = (int)((w - 1) / tRes + 1);
@@ -189,7 +184,7 @@ public class ExportTerrain : EditorWindow
             }
         }
 
-        UtilApi.saveTex2Disc(heightMap, fileName);
+        UtilApi.saveTex2File(heightMap, fileName);
     }
 
     // 导出 AlphaMap
@@ -200,7 +195,7 @@ public class ExportTerrain : EditorWindow
         for(int idx = 0; idx < alphamapTextures.Length; ++idx)
         {
             fileName = string.Format("{0}/{1}_{2}.png", Application.dataPath, "AlphaMap", idx);
-            UtilApi.saveTex2Disc(alphamapTextures[idx], fileName);
+            UtilApi.saveTex2File(alphamapTextures[idx], fileName);
         }
     }
 
@@ -257,10 +252,42 @@ public class ExportTerrain : EditorWindow
             }
 
             fileName = string.Format("{0}/{1}_{2}.png", Application.dataPath, "AlphaMap", imageIdx);
-            UtilApi.saveTex2Disc(alphaMap, fileName);
+            UtilApi.saveTex2File(alphaMap, fileName);
 
             imageIdx += 1;
             channelIdx += channel;
         }
+    }
+
+    // 导出地形 Xml 配置文件
+    public void exportXml()
+    {
+        string path = Application.streamingAssetsPath + "/1000.xml";
+        int idx = 0;
+        string fileName = "";
+        SplatPrototype splatLayer = null;
+        string resPath = "";
+        string xmlStr = "";
+        string tmp = "";
+        xmlStr += "<?xml version='1.0' encoding='utf-8' ?>\r\n";
+        xmlStr += "<Config>\r\n";
+        // 输出 Splat 贴图名字
+        for (idx = 0; idx < terrainData.splatPrototypes.Length; ++idx)
+        {
+            splatLayer = terrainData.splatPrototypes[idx];
+            resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
+            // 保存目录
+            fileName = UtilApi.getFileNameNoPath(resPath);
+            tmp = string.Format("\t<SplatName name=\"{0}\" />\r\n", fileName);
+            xmlStr += tmp;
+        }
+        // 输出 Alpha Map
+        for(idx = 0; idx < terrainData.alphamapTextures.Length; ++idx)
+        {
+            tmp = string.Format("\t<AlphaName name=\"{0}_{1}.png\" />\r\n", "AlphaMap", idx);
+            xmlStr += tmp;
+        }
+        xmlStr += "</Config>";
+        UtilApi.saveStr2File(xmlStr, path, Encoding.UTF8);
     }
 }

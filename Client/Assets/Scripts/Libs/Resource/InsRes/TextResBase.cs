@@ -29,5 +29,10 @@ namespace SDK.Lib
                 m_text = value;
             }
         }
+
+        public string getText(string path)
+        {
+            return m_text;
+        }
     }
 }

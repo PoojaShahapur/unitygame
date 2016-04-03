@@ -1,5 +1,20 @@
-﻿namespace SDK.Lib
+﻿using Mono.Xml;
+using System.Collections;
+using System.Security;
+
+namespace SDK.Lib
 {
+    public class LayerInstance
+	{
+		public float worldSize;
+        public string textureName;
+
+        public LayerInstance()
+        {
+            worldSize = 16;
+        }
+    }
+
     public class MImportData
     {
         public ushort terrainSize;
@@ -14,6 +29,10 @@
         public bool deleteInputData;
         public int detailWorldSize;
         public bool isUseSplatMap;
+        public MList<LayerInstance> layerList;
+        public string mAlphaTexName;
+        public string mFileName;
+        public TextRes m_textRes;
 
         public MImportData()
         {
@@ -30,7 +49,10 @@
             inputBias = 0;
             deleteInputData = true;
             detailWorldSize = 16;
-            isUseSplatMap = true;
+            isUseSplatMap = false;
+            layerList = new MList<LayerInstance>();
+
+            //parseXml();
         }
 
         public void assignFrom(MImportData rhs)
@@ -45,6 +67,35 @@
             inputScale = rhs.inputScale;
             inputBias = rhs.inputBias;
             deleteInputData = rhs.deleteInputData;
+        }
+
+        public void parseXml()
+        {
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes("XmlConfig/1000.xml");
+            if (m_textRes != null)
+            {
+                string text = m_textRes.getText("");
+                SecurityParser xmlDoc = new SecurityParser();
+                xmlDoc.LoadXml(text);
+                SecurityElement config = xmlDoc.ToXml();
+                ArrayList itemNodeList = new ArrayList();
+                UtilXml.getXmlChildList(config, "SplatName", ref itemNodeList);
+
+                LayerInstance ins = null;
+                foreach (SecurityElement itemElem in itemNodeList)
+                {
+                    ins = new LayerInstance();
+                    layerList.Add(ins);
+                    UtilXml.getXmlAttrStr(itemElem, "name", ref ins.textureName);
+                }
+
+                itemNodeList.Clear();
+                UtilXml.getXmlChildList(config, "AlphaName", ref itemNodeList);
+                foreach (SecurityElement itemElem in itemNodeList)
+                {
+                    UtilXml.getXmlAttrStr(itemElem, "name", ref mAlphaTexName);
+                }
+            }
         }
     }
 }

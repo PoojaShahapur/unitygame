@@ -2,25 +2,25 @@ using System;
 
 namespace SDK.Lib
 {
-    public class BytesResMgr : ResMgrBase
+    public class TextResMgr : ResMgrBase
     {
-        public BytesResMgr()
+        public TextResMgr()
         {
 
         }
 
-        public BytesRes getAndSyncLoadRes(string path)
+        public TextRes getAndSyncLoadRes(string path)
         {
             path = MFileSys.convResourcesPath2AssetBundlesPath(path);
             path = path + UtilApi.PREFAB_DOT_EXT;
-            return getAndSyncLoad<BytesRes>(path);
+            return getAndSyncLoad<TextRes>(path);
         }
 
-        public BytesRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public TextRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
         {
             path = MFileSys.convResourcesPath2AssetBundlesPath(path);
             path = path + UtilApi.PREFAB_DOT_EXT;
-            return getAndAsyncLoad<BytesRes>(path, handle);
+            return getAndAsyncLoad<TextRes>(path, handle);
         }
     }
 }

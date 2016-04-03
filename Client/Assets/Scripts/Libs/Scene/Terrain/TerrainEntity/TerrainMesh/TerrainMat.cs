@@ -101,7 +101,7 @@ namespace SDK.Lib
             m_diffuseTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_diffuseTexName);
             m_diffuseTex = m_diffuseTexRes.getTexture();
 
-            if (m_splatMat.HasProperty("_MainTex"))
+            if (m_diffuseMat.HasProperty("_MainTex"))
             {
                 m_diffuseMat.SetTexture("_MainTex", m_diffuseTex);
             }

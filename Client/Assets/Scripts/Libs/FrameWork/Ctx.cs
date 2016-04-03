@@ -113,6 +113,7 @@ namespace SDK.Lib
         public TwoDSceneMgr m_twoDSceneMgr;     // 2d 场景管理器
         public DepResMgr m_depResMgr;
         public MTerrainGroup m_terrainGroup;
+        public TextResMgr m_textResMgr;
 
         public Ctx()
         {
@@ -184,6 +185,7 @@ namespace SDK.Lib
             m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
             //m_terrainGroup = new MTerrainGroup(513, 3000);
+            m_textResMgr = new TextResMgr();
             m_terrainGroup = new MTerrainGroup(513, 3000);
         }
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -851,12 +852,17 @@ namespace SDK.Lib
             }
         }
 
-        static public void saveTex2Disc(Texture2D tex, string filePath)
+        static public void saveTex2File(Texture2D tex, string filePath)
         {
             //将图片信息编码为字节信息
             byte[] bytes = tex.EncodeToPNG();
             //保存
             System.IO.File.WriteAllBytes(filePath, bytes);
+        }
+
+        static public void saveStr2File(string str, string filePath, Encoding encoding)
+        {
+            System.IO.File.WriteAllText(filePath, str, encoding);
         }
 
         static public string getDataPath()
@@ -1042,6 +1048,88 @@ namespace SDK.Lib
             uint key = 0;
             key = (uint)(((ushort)y << 16) | (ushort)x);
             return key;
+        }
+
+        // 获取文件名字，没有路径，但是有扩展名字
+        static public string getFileNameNoPath(string fullPath)
+        {
+            int index = fullPath.LastIndexOf('/');
+            string ret = "";
+            if(index == -1)
+            {
+                index = fullPath.LastIndexOf('\\');
+            }
+            if (index != -1)
+            {
+                ret = fullPath.Substring(index + 1);
+            }
+            else
+            {
+                ret = fullPath;
+            }
+
+            return ret;
+        }
+
+        // 获取文件扩展名字
+        static public string getFileExt(string fullPath)
+        {
+            int index = fullPath.LastIndexOf('.');
+            string ret = "";
+            if (index != -1)
+            {
+                ret = fullPath.Substring(index + 1);
+            }
+
+            return ret;
+        }
+
+        // 获取文件名字，没有扩展名字
+        static public string getFileNameNoExt(string fullPath)
+        {
+            int index = fullPath.LastIndexOf('/');
+            string ret = "";
+            if (index == -1)
+            {
+                index = fullPath.LastIndexOf('\\');
+            }
+            if (index != -1)
+            {
+                ret = fullPath.Substring(index + 1);
+            }
+            else
+            {
+                ret = fullPath;
+            }
+
+            index = ret.LastIndexOf('.');
+            if (index != -1)
+            {
+                ret = ret.Substring(0, index);
+            }
+
+            return ret;
+        }
+
+        // 获取文件路径，没有文件名字
+        static public string getFilePathNoName(string fullPath)
+        {
+            int index = fullPath.LastIndexOf('/');
+            string ret = "";
+            if (index == -1)
+            {
+                index = fullPath.LastIndexOf('\\');
+            }
+            if (index != -1)
+            {
+                ret = fullPath.Substring(0, index);
+            }
+            else
+            {
+                ret = fullPath;
+            }
+
+            return ret;
         }
     }
 }
