@@ -46,6 +46,7 @@ namespace SDK.Lib
 
     public class MTerrain
     {
+        protected MSceneManager mSceneMgr;
         protected MSceneNode mRootNode;
         protected bool mIsLoaded;
         protected bool mModified;
@@ -79,8 +80,9 @@ namespace SDK.Lib
         protected const byte DERIVED_DATA_NORMALS = 2;
         protected const byte DERIVED_DATA_ALL = 7;
 
-        public MTerrain()
+        public MTerrain(MSceneManager sm)
         {
+            mSceneMgr = sm;
             mIsLoaded = false;
             mModified = false;
             mHeightDataModified = false;
@@ -98,7 +100,8 @@ namespace SDK.Lib
 
             m_heightMapData = new HeightMapData();
             mTerrainMat = new TerrainMat();
-            mRootNode = new MSceneNode("Terrain");
+            //mRootNode = new MSceneNode("Terrain");
+            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode(MVector3.ZERO, MQuaternion.IDENTITY);
             m_layerStr = "Default";
         }
 

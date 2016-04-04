@@ -51,6 +51,7 @@
 
         protected MAxisAlignedBox mWorldDarkCapBounds;
         protected MListener mListener;
+        protected static MNameGenerator msMovableNameGenerator = new MNameGenerator("MO_");
 
         public MMovableObject()
         {
@@ -63,6 +64,8 @@
             mSquaredUpperDistance = 0;
             mMinPixelSize = 0;
             mBeyondFarDistance = false;
+
+            mName = msMovableNameGenerator.generate();
         }
 
         public MMovableObject(string name)
@@ -76,6 +79,8 @@
             mSquaredUpperDistance = 0;
             mMinPixelSize = 0;
             mBeyondFarDistance = false;
+
+            mName = msMovableNameGenerator.generate();
         }
 
         public void _notifyAttached(MNode parent, bool isTagPoint = false)
@@ -248,7 +253,6 @@
         {
             return mMinPixelSize;
         }
-
 
         public virtual void _notifyManager(MSceneManager man)
         {

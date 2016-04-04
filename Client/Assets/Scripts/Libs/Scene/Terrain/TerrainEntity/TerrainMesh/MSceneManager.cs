@@ -49,6 +49,9 @@ namespace SDK.Lib
 
             mDisplayNodes = false;
             mShowBoundingBoxes = false;
+            mSceneNodes = new Dictionary<string, MSceneNode>();
+            mAutoTrackingSceneNodes = new HashSet<MSceneNode>();
+            mCameras = new Dictionary<string, MCamera>();
         }
 
         public MCamera createCamera(string name)
@@ -167,7 +170,7 @@ namespace SDK.Lib
         {
             if (mSceneRoot == null)
             {
-                mSceneRoot = createSceneNodeImpl("Ogre/SceneRoot");
+                mSceneRoot = createSceneNodeImpl("SM/SceneRoot");
                 mSceneRoot._notifyRootNode();
             }
 

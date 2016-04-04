@@ -59,7 +59,7 @@ namespace SDK.Lib
             mNumObjects = 0;
 
             MVector3 v = new MVector3(1.5f, 1.5f, 1.5f);
-
+            mScaleFactor = new MMatrix4(0);
             mScaleFactor.setScale(ref v);
         }
 

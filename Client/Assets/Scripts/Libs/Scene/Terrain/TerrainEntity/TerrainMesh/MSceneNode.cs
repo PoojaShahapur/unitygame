@@ -18,7 +18,7 @@ namespace SDK.Lib
 
         public MSceneNode(string name = "")
         {
-            selfGo = UtilApi.createGameObject(name);
+            mObjectsByName = new Dictionary<string, MMovableObject>();
         }
 
         public MSceneNode(MSceneManager creator)
@@ -29,7 +29,7 @@ namespace SDK.Lib
             mYawFixed = false;
             mAutoTrackTarget = null;
             mIsInSceneGraph = false;
-
+            mObjectsByName = new Dictionary<string, MMovableObject>();
             needUpdate();
         }
 
@@ -52,7 +52,7 @@ namespace SDK.Lib
 
         override public void setParent(MNode parent)
         {
-            setParent(parent);
+            base.setParent(parent);
 
             if (parent != null)
             {

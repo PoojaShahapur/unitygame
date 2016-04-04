@@ -39,7 +39,8 @@ namespace SDK.Lib
             }
         }
 
-        protected static MList<MNode> msQueuedUpdates;
+        static MNameGenerator msNameGenerator = new MNameGenerator("Unnamed_");
+        protected static MList<MNode> msQueuedUpdates = new MList<MNode>();
         protected MNode mParent;
         protected Dictionary<string, MNode> mChildren;
 
@@ -88,8 +89,10 @@ namespace SDK.Lib
             mCachedTransformOutOfDate = true;
             mListener = null;
 
-            mName = "";
+            mName = msNameGenerator.generate();
+            mChildren = new Dictionary<string, MNode>();
             mChildrenToUpdate = new HashSet<MNode>();
+            selfGo = UtilApi.createGameObject(mName);
 
             needUpdate();
         }
@@ -115,6 +118,7 @@ namespace SDK.Lib
             mInitialScale = MVector3.UNIT_SCALE;
             mCachedTransformOutOfDate = true;
             mListener = null;
+            selfGo = UtilApi.createGameObject(mName);
             needUpdate();
         }
 

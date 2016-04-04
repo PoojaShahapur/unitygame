@@ -11,7 +11,7 @@ namespace SDK.Lib
         eTOTAL,
     }
 
-    public class MTerrainQuadTreeNode
+    public class MTerrainQuadTreeNode : MMovableObject
     {
         protected MTerrain mTerrain;
         protected MTerrainQuadTreeNode mParent;
@@ -374,6 +374,15 @@ namespace SDK.Lib
             {
                 if (!mIsVertexDataInit)
                 {
+                    if (mLocalNode == null)
+                    {
+                        mLocalNode = mTerrain._getRootSceneNode().createChildSceneNode(mLocalCentre, MQuaternion.IDENTITY);
+                    }
+
+                    if (!this.isAttached())
+                    {
+                        mLocalNode.attachObject(this);
+                    }
                     assignVertexData(0, 0, 0, 0);
                 }
                 mTileRender.show();

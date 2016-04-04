@@ -14,7 +14,7 @@
         public MOctree(MOctree parent)
         {
             mHalfSize = new MVector3(0, 0, 0);
-
+            mChildren = new MOctree[2, 2, 2];
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 2; j++)

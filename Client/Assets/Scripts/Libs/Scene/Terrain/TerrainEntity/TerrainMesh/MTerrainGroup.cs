@@ -120,7 +120,7 @@ namespace SDK.Lib
         {
             if (slot.instance == null && (!string.IsNullOrEmpty(slot.def.filename) || slot.def.importData != null))
             {
-                slot.instance = new MTerrain();
+                slot.instance = new MTerrain(Ctx.m_instance.m_sceneManager);
                 slot.instance.prepare(slot.def.importData);
             }
         }
