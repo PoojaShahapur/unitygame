@@ -70,6 +70,7 @@ namespace SDK.Lib
 
         public MNode()
         {
+            mCachedTransform = new MMatrix4(0);
             mParent = null;
             mNeedParentUpdate = false;
             mNeedChildUpdate = false;
@@ -99,6 +100,7 @@ namespace SDK.Lib
 
         public MNode(string name)
         {
+            mCachedTransform = new MMatrix4(0);
             mParent = null;
             mNeedParentUpdate = false;
             mNeedChildUpdate = false;

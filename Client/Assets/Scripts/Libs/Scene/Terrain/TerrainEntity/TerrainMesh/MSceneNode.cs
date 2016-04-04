@@ -41,12 +41,13 @@ namespace SDK.Lib
             mYawFixed = false;
             mAutoTrackTarget = null;
             mIsInSceneGraph = false;
+            mObjectsByName = new Dictionary<string, MMovableObject>();
             needUpdate();
         }
 
         override public void _update(bool updateChildren, bool parentHasChanged)
         {
-            _update(updateChildren, parentHasChanged);
+            base._update(updateChildren, parentHasChanged);
             _updateBounds();
         }
 

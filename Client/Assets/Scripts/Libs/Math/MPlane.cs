@@ -117,8 +117,8 @@
         {
             float dist = getDistance(ref centre);
 
-            //float maxAbsDist = normal.absDotProduct(ref halfSize);
-            float maxAbsDist = halfSize.length();
+            float maxAbsDist = normal.absDotProduct(ref halfSize);
+            //float maxAbsDist = halfSize.length();
 
             if (dist < -maxAbsDist)
                 return Side.NEGATIVE_SIDE;

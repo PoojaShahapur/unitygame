@@ -52,6 +52,7 @@ namespace SDK.Lib
             mSceneNodes = new Dictionary<string, MSceneNode>();
             mAutoTrackingSceneNodes = new HashSet<MSceneNode>();
             mCameras = new Dictionary<string, MCamera>();
+            mListeners = new MList<MListener>();
         }
 
         public MCamera createCamera(string name)
@@ -123,7 +124,7 @@ namespace SDK.Lib
         public MSceneNode createSceneNode()
         {
             MSceneNode sn = createSceneNodeImpl();
-            UtilApi.assert(mSceneNodes.ContainsKey(sn.getName()));
+            UtilApi.assert(!mSceneNodes.ContainsKey(sn.getName()));
             mSceneNodes[sn.getName()] = sn;
             return sn;
         }

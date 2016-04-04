@@ -23,7 +23,7 @@
         public string generate()
         {
             string ret = "";
-            ret = string.Format("{0}(1)", mPrefix , mNext);
+            ret = string.Format("{0}{1}", mPrefix , mNext);
             mNext++;
             return ret;
         }
