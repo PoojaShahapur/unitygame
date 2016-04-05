@@ -22,6 +22,7 @@ namespace SDK.Lib
         }
 
         public MSceneNode(MSceneManager creator)
+            : base()
         {
             mShowBoundingBox = false;
             mHideBoundingBox = false;
@@ -34,6 +35,7 @@ namespace SDK.Lib
         }
 
         public MSceneNode(MSceneManager creator, string name)
+            : base(name)
         {
             mShowBoundingBox = false;
             mHideBoundingBox = false;
@@ -217,6 +219,38 @@ namespace SDK.Lib
             {
                 MSceneNode sceneChild = (MSceneNode)(kv.Value);
                 mWorldAABB.merge(sceneChild.mWorldAABB);
+            }
+        }
+
+        public void _findVisibleObjects(MCamera cam, bool includeChildren)
+        {
+            FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+            if (!cam.isVisible(ref mWorldAABB, ref culledBy))
+                return;
+
+            foreach (MMovableObject mo in mObjectsByName.Values)
+            {
+                bool vis = false;
+                MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
+                FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                vis = cam.isVisible(ref tmp, ref plane);
+                if (vis)
+                {
+                    mo.show(cam);
+                }
+                else
+                {
+                    mo.hide(cam);
+                }
+            }
+
+            if (includeChildren)
+            {
+                foreach (MNode node in mChildren.Values)
+                {
+                    MSceneNode sceneChild = node as MSceneNode;
+                    sceneChild._findVisibleObjects(cam, includeChildren);
+                }
             }
         }
 

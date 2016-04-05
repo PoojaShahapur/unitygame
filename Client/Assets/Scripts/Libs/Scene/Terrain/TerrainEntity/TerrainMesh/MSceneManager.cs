@@ -55,7 +55,7 @@ namespace SDK.Lib
             mListeners = new MList<MListener>();
         }
 
-        public MCamera createCamera(string name)
+        virtual public MCamera createCamera(string name)
         {
             if (mCameras != null)
             {
@@ -171,7 +171,7 @@ namespace SDK.Lib
         {
             if (mSceneRoot == null)
             {
-                mSceneRoot = createSceneNodeImpl("SM/SceneRoot");
+                mSceneRoot = createSceneNodeImpl("SceneRoot");
                 mSceneRoot._notifyRootNode();
             }
 
@@ -202,6 +202,11 @@ namespace SDK.Lib
             getRootSceneNode()._update(true, false);
 
             firePostUpdateSceneGraph(cam);
+        }
+
+        virtual public void _findVisibleObjects(MCamera cam)
+        {
+            this.getRootSceneNode()._findVisibleObjects(cam, true);
         }
 
         public void addListener(MSceneManager.MListener newListener)

@@ -27,7 +27,8 @@ namespace SDK.Lib
 
         public void setLocalCamera(Camera cam)
         {
-            m_localCamera = new MCamera(cam.gameObject.transform);
+            //m_localCamera = new MCamera(cam.gameObject.transform);
+            m_localCamera = new MOctreeCamera("OctreeCamera", Ctx.m_instance.m_sceneManager, cam.gameObject.transform);
             if (cam.orthographic)
             {
                 m_localCamera.setProjectionType(ProjectionType.PT_ORTHOGRAPHIC);
@@ -114,8 +115,8 @@ namespace SDK.Lib
             {
                 m_localCamera.invalid();
                 //Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
-                Ctx.m_instance.m_sceneManager._updateSceneGraph(m_localCamera);
-
+                //Ctx.m_instance.m_sceneManager._updateSceneGraph(m_localCamera);
+                //Ctx.m_instance.m_sceneManager._findVisibleObjects(m_localCamera);
                 //testFrustumDir();
             }
         }

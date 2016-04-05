@@ -46,7 +46,6 @@ namespace SDK.Lib
         {
             m_coord.updateCoord();
             Ctx.m_instance.m_camSys.invalidCamera();
-            Ctx.m_instance.m_sceneSys.updateClip();
         }
     }
 }

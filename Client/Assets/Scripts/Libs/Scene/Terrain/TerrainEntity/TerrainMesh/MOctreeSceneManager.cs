@@ -29,6 +29,7 @@ namespace SDK.Lib
             MAxisAlignedBox b = new MAxisAlignedBox(-10000, -10000, -10000, 10000, 10000, 10000);
             int depth = 8;
             mOctree = null;
+            mVisible = new MList<MOctreeNode>();
             init(b, depth);
         }
 
@@ -36,6 +37,7 @@ namespace SDK.Lib
             : base(name)
         {
             mOctree = null;
+            mVisible = new MList<MOctreeNode>();
             init(box, max_depth);
         }
 
@@ -63,14 +65,14 @@ namespace SDK.Lib
             mScaleFactor.setScale(ref v);
         }
 
-        public MCamera createCamera(string name)
+        override public MCamera createCamera(string name)
         {
             if (mCameras.ContainsKey(name))
             {
                 // Error
             }
 
-            MCamera c = new MOctreeCamera(name, this);
+            MCamera c = new MOctreeCamera(name, this, null);
             mCameras.Add(name, c);
 
             return c;
@@ -155,7 +157,6 @@ namespace SDK.Lib
                         min.x = octantMin.x;
                         max.x = (octantMin.x + octantMax.x) / 2;
                     }
-
                     else
                     {
                         min.x = (octantMin.x + octantMax.x) / 2;
@@ -167,7 +168,6 @@ namespace SDK.Lib
                         min.y = octantMin.y;
                         max.y = (octantMin.y + octantMax.y) / 2;
                     }
-
                     else
                     {
                         min.y = (octantMin.y + octantMax.y) / 2;
@@ -179,7 +179,6 @@ namespace SDK.Lib
                         min.z = octantMin.z;
                         max.z = (octantMin.z + octantMax.z) / 2;
                     }
-
                     else
                     {
                         min.z = (octantMin.z + octantMax.z) / 2;
@@ -218,6 +217,15 @@ namespace SDK.Lib
             // Error
         }
 
+        override public void _findVisibleObjects(MCamera cam)
+        {
+            mVisible.Clear();
+
+            mNumObjects = 0;
+
+            walkOctree((MOctreeCamera)(cam), mOctree);
+        }
+
         public void walkOctree(MOctreeCamera camera,
         MOctree octant)
         {
@@ -230,14 +238,14 @@ namespace SDK.Lib
             {
                 v = MOctreeCamera.Visibility.PARTIAL;
             }
-
             else
             {
                 MAxisAlignedBox box = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
-                octant._getCullBounds(box);
+                octant._getCullBounds(ref box);
                 v = camera.getVisibility(box);
             }
 
+            // 如果可见
             if (v != MOctreeCamera.Visibility.NONE)
             {
                 List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
@@ -263,7 +271,7 @@ namespace SDK.Lib
                     if (vis)
                     {
                         mNumObjects++;
-
+                        sn._addToRenderQueue(camera);
                         mVisible.Add(sn);
 
                         if (mDisplayNodes)
@@ -304,6 +312,43 @@ namespace SDK.Lib
                 if ((child = octant.mChildren[1, 1, 1]) != null)
                     walkOctree(camera, child);
             }
+            else
+            {
+                // 如果不可见，就隐藏所有不可见的内容
+                List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
+
+                while (it.MoveNext())
+                {
+                    MOctreeNode sn = it.Current;
+                    sn._removeToRenderQueue(camera);
+                }
+
+                MOctree child;
+                bool childfoundvisible = (v == MOctreeCamera.Visibility.FULL);
+                if ((child = octant.mChildren[0, 0, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 0, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[0, 1, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 1, 0]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[0, 0, 1]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 0, 1]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[0, 1, 1]) != null)
+                    walkOctree(camera, child);
+
+                if ((child = octant.mChildren[1, 1, 1]) != null)
+                    walkOctree(camera, child);
+            }
         }
 
         public void _findNodes(MAxisAlignedBox t, ref MList<MSceneNode> list, MSceneNode exclude, bool full, MOctree octant)
@@ -311,7 +356,7 @@ namespace SDK.Lib
             if (!full)
             {
                 MAxisAlignedBox obox = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
-                octant._getCullBounds(obox);
+                octant._getCullBounds(ref obox);
 
                 Intersection isect = intersect(t, obox);
 

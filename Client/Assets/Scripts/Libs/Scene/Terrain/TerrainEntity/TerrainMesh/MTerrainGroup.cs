@@ -93,6 +93,9 @@ namespace SDK.Lib
             MTerrainSlot slot = getTerrainSlot(x, y, true);
             slot.def.useImportData();
             slot.def.importData.assignFrom(mDefaultImportData);
+            slot.def.importData.x = slot.x;
+            slot.def.importData.y = slot.y;
+            slot.def.importData.pos = new MVector3(x * mTerrainWorldSize, 0, y * mTerrainWorldSize);
 
             slot.def.importData.terrainSize = (ushort)mTerrainSize;
             slot.def.importData.worldSize = mTerrainWorldSize;
@@ -480,7 +483,7 @@ namespace SDK.Lib
             MTerrainSlot terrain = getTerrainSlot(x, y, false);
             if (terrain.instance != null)
             {
-                terrain.instance.show();
+                terrain.instance.showAllNode();
             }
         }
 

@@ -34,6 +34,8 @@ namespace SDK.Lib
         public string mFileName;
         public TextRes m_textRes;
 
+        public long x, y;
+
         public MImportData()
         {
             terrainSize = 1025;

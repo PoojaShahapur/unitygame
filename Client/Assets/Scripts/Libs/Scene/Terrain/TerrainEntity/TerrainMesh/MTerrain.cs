@@ -44,10 +44,11 @@ namespace SDK.Lib
         ALIGN_Y_Z = 2
     }
 
-    public class MTerrain
+    public class MTerrain : MMovableObject
     {
         protected MSceneManager mSceneMgr;
         protected MSceneNode mRootNode;
+        protected MSceneNode mTerrainEntityNode;    // 仅仅关联 Terrain
         protected bool mIsLoaded;
         protected bool mModified;
         protected bool mHeightDataModified;
@@ -80,6 +81,12 @@ namespace SDK.Lib
         protected const byte DERIVED_DATA_NORMALS = 2;
         protected const byte DERIVED_DATA_ALL = 7;
 
+        protected MAxisAlignedBox mAABB;
+        protected MAxisAlignedBox mWorldAabb;
+        protected bool mIsInit;
+        protected long mX;
+        protected long mY;
+
         public MTerrain(MSceneManager sm)
         {
             mSceneMgr = sm;
@@ -101,8 +108,10 @@ namespace SDK.Lib
             m_heightMapData = new HeightMapData();
             mTerrainMat = new TerrainMat();
             //mRootNode = new MSceneNode("Terrain");
-            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode(MVector3.ZERO, MQuaternion.IDENTITY);
             m_layerStr = "Default";
+
+            this.mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+            this.mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
         }
 
         public void dispose()
@@ -164,11 +173,25 @@ namespace SDK.Lib
             mImportData = importData;
             mImportData.parseXml();
             mPrepareInProgress = true;
+            this.mX = importData.x;
+            this.mY = importData.y;
 
             mSize = importData.terrainSize;
             mWorldSize = importData.worldSize;
             mMaxBatchSize = importData.maxBatchSize;
             mMinBatchSize = importData.minBatchSize;
+
+            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("Terrain_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
+            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
+
+            mAABB.setMinimum(new MVector3(0, -100, 0));
+            mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
+
+            if (!this.isAttached())
+            {
+                mTerrainEntityNode.attachObject(this);
+            }
+
             setPosition(importData.pos);
 
             updateBaseScale();
@@ -736,7 +759,8 @@ namespace SDK.Lib
             //}
             //else
             //{
-                return 1.0f - (y * uvScale);
+            //return 1.0f - (y * uvScale);
+            return y * uvScale;
             //}
         }
 
@@ -771,6 +795,7 @@ namespace SDK.Lib
             {
                 mPos = pos;
                 mRootNode.setPosition(pos);
+                mTerrainEntityNode.setPosition(pos);
 
                 updateBaseScale();
                 mModified = true;
@@ -1711,9 +1736,19 @@ namespace SDK.Lib
 
         }
 
-        public void show()
+        public void showAllNode()
         {
-            mQuadTree.show();
+            mQuadTree.show(null);
+        }
+
+        override public void show(MFrustum frustum)
+        {
+            //this.cullNode(frustum);
+            if(!mIsInit)
+            {
+                mIsInit = true;
+                mQuadTree.attachMO();
+            }
         }
 
         public Material getMatTmpl()
@@ -1782,6 +1817,19 @@ namespace SDK.Lib
         public string getLayerStr()
         {
             return m_layerStr;
+        }
+
+        override public MAxisAlignedBox getBoundingBox()
+        {
+            return this.mAABB;
+        }
+
+        override public MAxisAlignedBox getWorldBoundingBox(bool derive)
+        {
+            mWorldAabb.setMinimum(mAABB.getMinimum() + getPosition());
+            mWorldAabb.setMaximum(mAABB.getMaximum() + getPosition());
+
+            return this.mWorldAabb;
         }
     }
 }

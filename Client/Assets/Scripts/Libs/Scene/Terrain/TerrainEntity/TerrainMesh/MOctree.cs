@@ -48,7 +48,7 @@
             _unref();
         }
 
-        public void _getCullBounds(MAxisAlignedBox b)
+        public void _getCullBounds(ref MAxisAlignedBox b)
         {
             MVector3 min = mBox.getMinimum() - mHalfSize;
             MVector3 max = mBox.getMaximum() + mHalfSize;

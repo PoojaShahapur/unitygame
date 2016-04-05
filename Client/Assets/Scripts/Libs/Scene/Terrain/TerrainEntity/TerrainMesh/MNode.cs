@@ -119,6 +119,8 @@ namespace SDK.Lib
             mInitialOrientation = MQuaternion.IDENTITY;
             mInitialScale = MVector3.UNIT_SCALE;
             mCachedTransformOutOfDate = true;
+            mChildren = new Dictionary<string, MNode>();
+            mChildrenToUpdate = new HashSet<MNode>();
             mListener = null;
             selfGo = UtilApi.createGameObject(mName);
             needUpdate();
@@ -131,6 +133,8 @@ namespace SDK.Lib
 
         virtual public void setParent(MNode parent)
         {
+            // 关联真正的场景结点
+            UtilApi.SetParent(this.selfGo, parent.selfGo, false);
             bool different = (parent != mParent);
 
             mParent = parent;
@@ -188,7 +192,6 @@ namespace SDK.Lib
                         MNode child = elem;
                         child._update(true, false);
                     }
-
                 }
 
                 mChildrenToUpdate.Clear();
@@ -350,6 +353,7 @@ namespace SDK.Lib
             UtilApi.assert(!q.isNaN(), "Invalid orientation supplied as parameter");
             mOrientation = q;
             mOrientation.normalise();
+            UtilApi.setRot(selfGo.transform, mOrientation.toNative());
             needUpdate();
         }
 
@@ -361,6 +365,7 @@ namespace SDK.Lib
         public void resetOrientation()
         {
             mOrientation = MQuaternion.IDENTITY;
+            UtilApi.setRot(selfGo.transform, mOrientation.toNative());
             needUpdate();
         }
 
@@ -368,6 +373,7 @@ namespace SDK.Lib
         {
             UtilApi.assert(!pos.isNaN(), "Invalid vector supplied as parameter");
             mPosition = pos;
+            UtilApi.setPos(selfGo.transform, mPosition.toNative());
             needUpdate();
         }
 
@@ -597,6 +603,7 @@ namespace SDK.Lib
         {
             UtilApi.assert(!inScale.isNaN(), "Invalid vector supplied as parameter");
             mScale = inScale;
+            UtilApi.setScale(selfGo.transform, mScale.toNative());
             needUpdate();
         }
 

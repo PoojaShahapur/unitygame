@@ -108,6 +108,44 @@ namespace SDK.Lib
             return nodeSize < octreeSize;
         }
 
+        public void _addToRenderQueue(MCamera cam)
+        {
+            foreach (MMovableObject mo in mObjectsByName.Values)
+            {
+                bool vis = false;
+                MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
+                FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                vis = cam.isVisible(ref tmp, ref plane);
+                if(vis)
+                {
+                    mo.show(cam);
+                }
+                else
+                {
+                    mo.hide(cam);
+                }
+            }
+        }
+
+        public void _removeToRenderQueue(MCamera cam)
+        {
+            foreach (MMovableObject mo in mObjectsByName.Values)
+            {
+                //bool vis = false;
+                //MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
+                //FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                //vis = cam.isVisible(ref tmp, ref plane);
+                //if (vis)
+                //{
+                //    mo.show(cam);
+                //}
+                //else
+                //{
+                    mo.hide(cam);
+                //}
+            }
+        }
+
         public MOctree getOctant()
         {
             return mOctant;

@@ -185,10 +185,10 @@ namespace SDK.Lib
             m_memoryCheck = new MemoryCheck();
             m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
-            //m_terrainGroup = new MTerrainGroup(513, 3000);
+            m_terrainGroup = new MTerrainGroup(513, 3000);
             m_textResMgr = new TextResMgr();
             m_sceneManager = new MOctreeSceneManager("DummyScene");
-            m_terrainGroup = new MTerrainGroup(513, 512);
+            //m_terrainGroup = new MTerrainGroup(513, 512);
         }
 
         protected void interInit()

@@ -30,6 +30,8 @@
             }
         }
 
+        protected static MNameGenerator msMovableNameGenerator = new MNameGenerator("MO_");
+
         protected string mName;
 
         protected MSceneManager mManager;
@@ -51,7 +53,8 @@
 
         protected MAxisAlignedBox mWorldDarkCapBounds;
         protected MListener mListener;
-        protected static MNameGenerator msMovableNameGenerator = new MNameGenerator("MO_");
+
+        protected bool mCullVisible;    // 裁剪可视化
 
         public MMovableObject()
         {
@@ -64,6 +67,7 @@
             mSquaredUpperDistance = 0;
             mMinPixelSize = 0;
             mBeyondFarDistance = false;
+            mCullVisible = false;
 
             mName = msMovableNameGenerator.generate();
         }
@@ -79,6 +83,7 @@
             mSquaredUpperDistance = 0;
             mMinPixelSize = 0;
             mBeyondFarDistance = false;
+            mCullVisible = false;
 
             mName = msMovableNameGenerator.generate();
         }
@@ -222,7 +227,7 @@
             return MMatrix4.IDENTITY;
         }
 
-        public MAxisAlignedBox getWorldBoundingBox(bool derive)
+        virtual public MAxisAlignedBox getWorldBoundingBox(bool derive)
         {
             if (derive)
             {
@@ -282,6 +287,16 @@
         public virtual string getName()
         {
             return mName;
+        }
+
+        virtual public void show(MFrustum frustum)
+        {
+
+        }
+
+        virtual public void hide(MFrustum frustum)
+        {
+
         }
     }
 }

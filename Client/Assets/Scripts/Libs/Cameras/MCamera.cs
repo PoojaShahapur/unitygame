@@ -118,7 +118,6 @@ namespace SDK.Lib
             }
             else
             {
-
                 MVector3[] axes = new MVector3[3];
                 updateView();
                 mRealOrientation.ToAxes(ref axes);

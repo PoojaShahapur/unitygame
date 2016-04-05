@@ -86,7 +86,7 @@ namespace SDK.Lib
                 mBaseLod = 0;
                 mVertexDataRecord = new MVertexDataRecord();
                 mTileRender = new TerrainTileRender(this);
-                mTileRender.pntGo = mTerrain._getRootSceneNode().selfGo;
+                //mTileRender.pntGo = mTerrain._getRootSceneNode().selfGo;
                 mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
             }
 
@@ -138,6 +138,16 @@ namespace SDK.Lib
                 for (int i = 0; i < 4; ++i)
                     mChildren[i].prepare();
             }
+        }
+
+        override public MAxisAlignedBox getBoundingBox()
+        {
+            return this.mAABB;
+        }
+
+        override public MAxisAlignedBox getWorldBoundingBox(bool derive)
+        {
+            return this.mWorldAabb;
         }
 
         public MAxisAlignedBox getAABB()
@@ -368,7 +378,7 @@ namespace SDK.Lib
             return mLocalCentre;
         }
 
-        public void show()
+        override public void show(MFrustum frustum)
         {
             if (isLeaf())
             {
@@ -376,7 +386,9 @@ namespace SDK.Lib
                 {
                     if (mLocalNode == null)
                     {
-                        mLocalNode = mTerrain._getRootSceneNode().createChildSceneNode(mLocalCentre, MQuaternion.IDENTITY);
+                        // tree Node 不创建 Scene Node，使用 Terrain 的 Scene Node
+                        //mLocalNode = mTerrain._getRootSceneNode().createChildSceneNode(mLocalCentre, MQuaternion.IDENTITY);
+                        mLocalNode = mTerrain._getRootSceneNode();
                     }
 
                     if (!this.isAttached())
@@ -385,6 +397,8 @@ namespace SDK.Lib
                     }
                     assignVertexData(0, 0, 0, 0);
                 }
+
+                mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
                 mTileRender.show();
                 showBoundBox();
             }
@@ -392,12 +406,12 @@ namespace SDK.Lib
             {
                 for (int i = 0; i < 4; ++i)
                 {
-                    mChildren[i].show();
+                    mChildren[i].show(frustum);
                 }
             }
         }
 
-        public void hide(MFrustum frustum)
+        override public void hide(MFrustum frustum)
         {
             if (isLeaf())
             {
@@ -452,8 +466,8 @@ namespace SDK.Lib
             {
                 if (isLeaf())
                 {
-                    show();
-                    frustum.isVisible(ref mWorldAabb, ref culledBy);
+                    show(frustum);
+                    //frustum.isVisible(ref mWorldAabb, ref culledBy);
                 }
                 else
                 {
@@ -517,6 +531,29 @@ namespace SDK.Lib
             else
             {
                 return mParent.getNameStr() + "_" + mQuadrant.ToString();
+            }
+        }
+
+        public void attachMO()
+        {
+            if (isLeaf())
+            {
+                if (mLocalNode == null)
+                {
+                    mLocalNode = mTerrain._getRootSceneNode();
+                }
+
+                if (!this.isAttached())
+                {
+                    mLocalNode.attachObject(this);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; ++i)
+                {
+                    mChildren[i].attachMO();
+                }
             }
         }
     }

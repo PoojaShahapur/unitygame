@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using UnityEngine;
+
+namespace SDK.Lib
 {
     public class MOctreeCamera : MCamera
     {
@@ -9,8 +11,8 @@
             FULL
         }
 
-        public MOctreeCamera(string name, MSceneManager sm)
-            : base(null)//: base(name, sm )
+        public MOctreeCamera(string name, MSceneManager sm, Transform trans)
+            : base(trans)//: base(name, sm )
         {
 
         }
