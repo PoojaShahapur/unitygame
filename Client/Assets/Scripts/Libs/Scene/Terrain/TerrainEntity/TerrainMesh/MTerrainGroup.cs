@@ -504,5 +504,14 @@ namespace SDK.Lib
                 slot.instance.updateAABB();
             }
         }
+
+        public void serializeTerrain(long x, long y)
+        {
+            MTerrainSlot slot = getTerrainSlot(x, y, false);
+            if (slot != null && slot.instance != null)
+            {
+                slot.instance.serialize();
+            }
+        }
     }
 }

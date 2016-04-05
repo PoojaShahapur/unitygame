@@ -39,6 +39,10 @@ namespace SDK.Lib
             {
                 return m_iMaxCapacity;
             }
+            set
+            {
+                m_iMaxCapacity = value;
+            }
         }
 
         public uint capacity

@@ -29,11 +29,14 @@ namespace SDK.Lib
         public int calcTotalByte()
         {
             // 顶点， UV，法向量，切向量，索引
-            return mMaxBatchSize * mMaxBatchSize * sizeof(float) * 3 + mMaxBatchSize * mMaxBatchSize * sizeof(float) * 2 + mMaxBatchSize * mMaxBatchSize * sizeof(float) * 3 + mMaxBatchSize * mMaxBatchSize * sizeof(float) * 4 + (mMaxBatchSize - 1) * (mMaxBatchSize - 1) * 6 * sizeof(int) * 2;
+            return mMaxBatchSize * mMaxBatchSize * sizeof(float) * 3 + mMaxBatchSize * mMaxBatchSize * sizeof(float) * 2 + mMaxBatchSize * mMaxBatchSize * sizeof(float) * 3 + mMaxBatchSize * mMaxBatchSize * sizeof(float) * 4 + (mMaxBatchSize - 1) * (mMaxBatchSize - 1) * 6 * sizeof(int);
         }
 
         public void writeVertData(ByteBuffer buffer)
         {
+            long count = calcTotalByte();
+            long aaaa = sizeof(float);
+
             for (int idx = 0; idx < mMaxBatchSize * mMaxBatchSize; ++idx)
             {
                 buffer.writeVector3(m_vertexs[idx]);
