@@ -115,6 +115,7 @@ namespace SDK.Lib
         public MTerrainGroup m_terrainGroup;
         public TextResMgr m_textResMgr;
         public MSceneManager m_sceneManager;
+        public TerrainBufferSys m_terrainBufferSys;
 
         public Ctx()
         {
@@ -187,6 +188,7 @@ namespace SDK.Lib
             m_depResMgr = new DepResMgr();
             m_terrainGroup = new MTerrainGroup(513, 3000);
             m_textResMgr = new TextResMgr();
+            m_terrainBufferSys = new TerrainBufferSys();
             m_sceneManager = new MOctreeSceneManager("DummyScene");
             //m_terrainGroup = new MTerrainGroup(513, 512);
         }

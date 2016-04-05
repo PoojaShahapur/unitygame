@@ -87,6 +87,8 @@ namespace SDK.Lib
         protected long mX;
         protected long mY;
 
+        public SerializeData mSerializeData;
+
         public MTerrain(MSceneManager sm)
         {
             mSceneMgr = sm;
@@ -117,6 +119,22 @@ namespace SDK.Lib
         public void dispose()
         {
 
+        }
+
+        // 序列化输出数据
+        public void serialize()
+        {
+            if(mSerializeData == null)
+            {
+                mSerializeData = new SerializeData();
+            }
+            ByteBuffer vertexBuffer = new ByteBuffer();
+            ByteBuffer headerBuffer = new ByteBuffer();
+            // 每一个头部一个 UniqueId， 一个偏移
+            mSerializeData.mHeaderSize = (mSize / mMaxBatchSize) * (mSize / mMaxBatchSize);     // 计算总共的 Node 的个数
+            mSerializeData.calcHeaderSize();
+
+            mQuadTree.serialize(headerBuffer, vertexBuffer);
         }
 
         public bool isLoaded()
@@ -167,6 +185,8 @@ namespace SDK.Lib
             else
                 return mQuadTree.getMaxHeight();
         }
+
+
 
         public bool prepare(MImportData importData)
         {

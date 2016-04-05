@@ -1046,6 +1046,7 @@ public class UICamera : MonoBehaviour
 
 	void Update ()
 	{
+        return;
         if(cachedCamera == null)
         {
             return;

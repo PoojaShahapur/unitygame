@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -63,7 +64,7 @@ namespace SDK.Lib
             mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mIsVertexDataInit = false;
-            m_bShowBoundBox = false;
+            m_bShowBoundBox = true;
 
             if (terrain.getMaxBatchSize() < size)
             {
@@ -99,6 +100,27 @@ namespace SDK.Lib
             if (terrain.getMaxBatchSize() == size)
             {
                 updateWorldAABB();
+            }
+        }
+
+        public void serialize(ByteBuffer headerBuffer, ByteBuffer vertexBuffer)
+        {
+            if(isLeaf())
+            {
+                SerializeHeader header = mTerrain.mSerializeData.getSerialHeader(getNameStr());
+                header.mUniqueId = getNameStr();
+                header.mOffset = (int)vertexBuffer.length + mTerrain.mSerializeData.mTotalHeaderSize;
+                mVertexDataRecord.cpuVertexData.writeVertData(vertexBuffer);
+                vertexBuffer.writeAABB(mAABB);
+                headerBuffer.writeMultiByte(header.mUniqueId, Encoding.UTF8, mTerrain.mSerializeData.mUniqueIdSize);
+                headerBuffer.writeInt32(header.mOffset);
+            }
+            else
+            {
+                for(int idx = 0; idx < 4; ++idx)
+                {
+                    mChildren[idx].serialize(headerBuffer, vertexBuffer);
+                }
             }
         }
 
@@ -155,7 +177,7 @@ namespace SDK.Lib
             return mAABB;
         }
 
-        public float getBoundingRadius()
+        override public float getBoundingRadius()
         {
             return mBoundingRadius;
         }
@@ -261,9 +283,28 @@ namespace SDK.Lib
 
         public void createCpuVertexData()
         {
-            mCurIndexBufferIndex = 0;
-            MTRectI updateRect = new MTRectI((int)mOffsetX, (int)mOffsetY, (int)mBoundaryX, (int)mBoundaryY);
-            updateVertexBuffer(null, null, ref updateRect);
+            mVertexDataRecord = Ctx.m_instance.m_terrainBufferSys.getVertData(getNameStr());
+            if (mVertexDataRecord == null)
+            {
+                mVertexDataRecord = new MVertexDataRecord();
+                mCurIndexBufferIndex = 0;
+                MTRectI updateRect = new MTRectI((int)mOffsetX, (int)mOffsetY, (int)mBoundaryX, (int)mBoundaryY);
+                updateVertexBuffer(null, null, ref updateRect);
+
+                Ctx.m_instance.m_terrainBufferSys.addVertData(getNameStr(), mVertexDataRecord);
+                Ctx.m_instance.m_terrainBufferSys.addAABB(getNameStr(), ref mAABB);
+            }
+            else
+            {
+                mAABB.setNull();
+                mWorldAabb.setNull();
+                mBoundingRadius = 0;
+
+                Ctx.m_instance.m_terrainBufferSys.getAABB(getNameStr(), ref mAABB);
+                updateWorldAABB();
+
+                mBoundingRadius = mAABB.getHalfSize().length();
+            }
         }
 
         public void updateVertexBuffer(float[] posbuf, float[] deltabuf, ref MTRectI rect)

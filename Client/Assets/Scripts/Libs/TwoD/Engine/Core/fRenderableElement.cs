@@ -22,7 +22,7 @@ namespace SDK.Lib
 		// KBEN: 可渲染元素，必然有资源，字典中存放一个数组，里面存放是的每一个方向的资源      
 		public Dictionary<int, TextureRes> _resDic;	//[act,Dictionary]的集合。其中Dictionary的是[direction, ]
 		// fObjectDefinition 是否初始化
-		public TextRes m_ObjDefRes;
+		public BytesRes m_ObjDefRes;
 		
 		// KBEN: 可绘制的元素属于的 fFloor 索引 
 		//public var m_floorIdx:int = -1;	// -1 表示没有 floor ，按一行一行

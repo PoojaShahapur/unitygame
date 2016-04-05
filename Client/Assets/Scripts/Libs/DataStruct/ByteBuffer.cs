@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -813,5 +814,62 @@ namespace SDK.Lib
 
         //    return true;
         //}
+
+        public void writeVector2(Vector2 vec)
+        {
+            this.writeFloat(vec.x);
+            this.writeFloat(vec.y);
+        }
+
+        public void writeVector3(Vector3 vec)
+        {
+            this.writeFloat(vec.x);
+            this.writeFloat(vec.y);
+            this.writeFloat(vec.z);
+        }
+
+        public void writeVector4(Vector4 vec)
+        {
+            this.writeFloat(vec.x);
+            this.writeFloat(vec.y);
+            this.writeFloat(vec.z);
+            this.writeFloat(vec.w);
+        }
+
+        public void readVector2(ref Vector2 vec)
+        {
+            this.readFloat(ref vec.x);
+            this.readFloat(ref vec.y);
+        }
+
+        public void readVector3(ref Vector3 vec)
+        {
+            this.readFloat(ref vec.x);
+            this.readFloat(ref vec.y);
+            this.readFloat(ref vec.z);
+        }
+
+        public void readVector4(ref Vector4 vec)
+        {
+            this.readFloat(ref vec.x);
+            this.readFloat(ref vec.y);
+            this.readFloat(ref vec.z);
+            this.readFloat(ref vec.w);
+        }
+
+        public void writeAABB(MAxisAlignedBox aabb)
+        {
+            writeVector3(aabb.getMinimum().toNative());
+            writeVector3(aabb.getMinimum().toNative());
+        }
+
+        public void readAABB(ref MAxisAlignedBox aabb)
+        {
+            Vector3 tmp = new Vector3();
+            readVector3(ref tmp);
+            aabb.setMinimum(MVector3.fromNative(tmp));
+            readVector3(ref tmp);
+            aabb.setMaximum(MVector3.fromNative(tmp));
+        }
     }
 }

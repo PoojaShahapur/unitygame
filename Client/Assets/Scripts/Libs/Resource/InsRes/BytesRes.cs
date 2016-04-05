@@ -21,7 +21,7 @@ namespace SDK.Lib
             base.initImpl(res);
         }
 
-        public byte[] getBytes()
+        public byte[] getBytes(string name)
         {
             return m_bytes;
         }
