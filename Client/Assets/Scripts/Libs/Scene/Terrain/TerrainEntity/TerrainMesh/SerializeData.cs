@@ -136,8 +136,8 @@ namespace SDK.Lib
                 }
 
                 fileStream = new FileStream(path, FileMode.Create);
-                fileStream.Write(headerBuffer.dynBuff.buff, 0, headerBuffer.dynBuff.buff.Length);
-                fileStream.Write(vertexBuffer.dynBuff.buff, 0, vertexBuffer.dynBuff.buff.Length);
+                fileStream.Write(headerBuffer.dynBuff.buff, 0, (int)headerBuffer.length);
+                fileStream.Write(vertexBuffer.dynBuff.buff, 0, (int)vertexBuffer.length);
                 fileStream.Close();
                 fileStream.Dispose();
             }

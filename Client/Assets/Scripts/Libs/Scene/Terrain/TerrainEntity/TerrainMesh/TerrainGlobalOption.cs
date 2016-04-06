@@ -31,6 +31,12 @@
             mIsReadFile = true;
             mNeedCull = false;
             mNeedSaveScene = false;
+
+            // 设置默认的关系
+            if(mIsReadFile)
+            {
+                mNeedSaveScene = false;
+            }
         }
     }
 }
