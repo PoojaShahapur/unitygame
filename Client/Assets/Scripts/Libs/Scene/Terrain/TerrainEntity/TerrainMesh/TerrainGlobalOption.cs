@@ -14,7 +14,9 @@
         public float mInputScale;
         public float mInputBias;
 
-        public bool mIsReadFile; // 是否从文件读取所有的数据
+        public bool mIsReadFile;    // 是否从文件读取所有的数据
+        public bool mNeedCull;      // 是否需要裁剪
+        public bool mNeedSaveScene; // 是否需要保存场景，如果要保存场景，一定不要从文件读取场景
 
         public TerrainGlobalOption()
         {
@@ -26,7 +28,9 @@
             mInputScale = 200;
             mInputBias = 0;
 
-            mIsReadFile = false;
+            mIsReadFile = true;
+            mNeedCull = false;
+            mNeedSaveScene = false;
         }
     }
 }

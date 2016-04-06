@@ -114,10 +114,13 @@ namespace SDK.Lib
             if (m_localCamera != null)
             {
                 m_localCamera.invalid();
-                //Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
-                Ctx.m_instance.m_sceneManager._updateSceneGraph(m_localCamera);
-                Ctx.m_instance.m_sceneManager._findVisibleObjects(m_localCamera);
-                //testFrustumDir();
+                if (Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+                {
+                    //Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
+                    Ctx.m_instance.m_sceneManager._updateSceneGraph(m_localCamera);
+                    Ctx.m_instance.m_sceneManager._findVisibleObjects(m_localCamera);
+                    //testFrustumDir();
+                }
             }
         }
 
