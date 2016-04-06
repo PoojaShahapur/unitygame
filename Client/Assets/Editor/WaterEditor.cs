@@ -6,8 +6,6 @@ using UnityEditor;
 [CustomEditor(typeof(Water))]
 public class WaterEditor : Editor
 {
-
-
     GUIContent[] _renderTextureOptions = new GUIContent[8] {new GUIContent("16"), new GUIContent("32"), new GUIContent("64"), new GUIContent("128"),
             new GUIContent("256"), new GUIContent("512"), new GUIContent("1024"), new GUIContent("2048") };
     int[] _renderTextureSize = new int[8] { 16, 32, 64, 128, 256, 512, 1024, 2048 };

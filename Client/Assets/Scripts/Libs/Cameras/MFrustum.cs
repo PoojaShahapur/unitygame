@@ -74,7 +74,7 @@ namespace SDK.Lib
 
         protected string msMovableType = "Frustum";
         protected float INFINITE_FAR_PLANE_ADJUST = 0.00001f;
-        protected Transform mParentNode;
+        new protected Transform mParentNode;
 
         protected QuadMeshRender m_frustumRender;   // Frustum ‰÷»æ
         protected bool m_bShowBoundBox;             //  «∑Òœ‘ æ

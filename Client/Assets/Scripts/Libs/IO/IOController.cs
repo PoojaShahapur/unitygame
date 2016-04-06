@@ -2191,7 +2191,8 @@ namespace SDK.Lib
         /// </summary>
         static public bool HideTooltip() { return ShowTooltip(null); }
 
-#if !UNITY_EDITOR
+        //#if !UNITY_EDITOR
+#if false
 	/// <summary>
 	/// Clear all active press states when the application gets paused.
 	/// </summary>

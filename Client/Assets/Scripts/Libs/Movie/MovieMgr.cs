@@ -13,7 +13,9 @@ namespace SDK.Lib
     public class MovieMgr
     {
         protected bool m_bPlaying;
+#if UNITY_STANDALONE || UNITY_EDITOR
         protected MovieTexture m_movieTexture;
+#endif
         protected TimerItemBase m_timer;
         protected Action m_handle;
 
@@ -33,7 +35,7 @@ namespace SDK.Lib
                 m_movieTexture = o as MovieTexture;
                 m_movieTexture.Play();
             }
-#else
+#elif UNITY_STANDALONE
             UnityEngine.Handheld.PlayFullScreenMovie("Movie/" + movieName + ".mp4", Color.black, FullScreenMovieControlMode.Full | FullScreenMovieControlMode.Hidden);
 #endif
 
@@ -57,12 +59,13 @@ namespace SDK.Lib
             {
                 m_handle();
             }
-
+#if UNITY_STANDALONE || UNITY_EDITOR
             if (m_movieTexture != null)
             {
                 m_movieTexture.Stop();
                 m_movieTexture = null;
             }
+#endif
         }
 
         // 绘制视频纹理到窗口上
