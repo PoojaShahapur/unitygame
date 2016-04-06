@@ -23,10 +23,10 @@
 
         public TerrainGlobalOption()
         {
-            mTerrainWorldSizeInAll = 3000;
+            mTerrainWorldSizeInAll = 400;
             mTerrainSize = 65;
             mTerrainWorldSize = 200;
-            mTerrainPageCount = 3000 / 200;
+            mTerrainPageCount = (int)(mTerrainWorldSizeInAll / mTerrainWorldSize);
 
             mMaxBatchSize = 17;
             mMinBatchSize = 9;
