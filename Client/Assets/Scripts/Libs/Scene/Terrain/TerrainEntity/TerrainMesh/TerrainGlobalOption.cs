@@ -6,6 +6,7 @@
     public class TerrainGlobalOption
     {
         public float mTerrainWorldSizeInAll;    // 所有地形页的大小，一定要是地形页大小的倍数
+        public int mTerrainPageCount;               // 地形 Page 的数量
 
         public ushort mTerrainSize;         // 地形大小，每一页的大小
         public float mTerrainWorldSize;     // 地形世界大小，每一页的大小
@@ -25,6 +26,7 @@
             mTerrainWorldSizeInAll = 3000;
             mTerrainSize = 65;
             mTerrainWorldSize = 200;
+            mTerrainPageCount = 3000 / 200;
 
             mMaxBatchSize = 17;
             mMinBatchSize = 9;

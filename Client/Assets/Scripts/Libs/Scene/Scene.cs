@@ -59,24 +59,34 @@ namespace SDK.Lib
             //m_terrain.updateClip();
 
             Ctx.m_instance.m_terrainBufferSys.loadNeedRes();
-            Ctx.m_instance.m_terrainGroup.defineTerrain(0, 0);
-            //Ctx.m_instance.m_terrainGroup.defineTerrain(1, 0);
-            Ctx.m_instance.m_terrainGroup.loadTerrain(0, 0, true);
-            //Ctx.m_instance.m_terrainGroup.loadTerrain(1, 0, true);
-            Ctx.m_instance.m_terrainGroup.updateAABB(0, 0);
-            //Ctx.m_instance.m_terrainGroup.updateAABB(1, 0);
-            if (!Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+
+            int pageIdx = 0;
+            int pageIdy = 0;
+            while(pageIdy < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
             {
-                Ctx.m_instance.m_terrainGroup.showTerrain(0, 0);
-            }
-            //Ctx.m_instance.m_terrainGroup.showTerrain(1, 0);
-            if (Ctx.m_instance.mTerrainGlobalOption.mNeedSaveScene)
-            {
-                Ctx.m_instance.m_terrainGroup.serializeTerrain(0, 0);
+                while (pageIdx < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
+                {
+                    Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy);
+                    Ctx.m_instance.m_terrainGroup.loadTerrain(pageIdx, pageIdy, true);
+                    Ctx.m_instance.m_terrainGroup.updateAABB(pageIdx, pageIdy);
+                    if (!Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+                    {
+                        Ctx.m_instance.m_terrainGroup.showTerrain(pageIdx, pageIdy);
+                    }
+                    if (Ctx.m_instance.mTerrainGlobalOption.mNeedSaveScene)
+                    {
+                        Ctx.m_instance.m_terrainGroup.serializeTerrain(pageIdx, pageIdy);
+                    }
+                    ++pageIdx;
+                }
+                ++pageIdy;
             }
 
             Ctx.m_instance.m_camSys.setLocalCamera(Camera.main);
-            //Ctx.m_instance.m_terrainGroup.cullTerrain(0, 0, Ctx.m_instance.m_camSys.getLocalCamera());
+            if(Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
+            {
+                Ctx.m_instance.m_camSys.invalidCamera();
+            }
         }
 
         public void updateClip()
