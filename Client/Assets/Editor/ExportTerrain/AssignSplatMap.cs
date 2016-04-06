@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Linq; // used for Sum of array
 
 public class AssignSplatMap : MonoBehaviour
@@ -7,7 +6,8 @@ public class AssignSplatMap : MonoBehaviour
 	public Terrain terrain;
 
 	public Terrain terrain2;
-	void Start () {
+	void Start ()
+    {
 		// Get the attached terrain component
 		//Terrain terrain = GetComponent();
 		
