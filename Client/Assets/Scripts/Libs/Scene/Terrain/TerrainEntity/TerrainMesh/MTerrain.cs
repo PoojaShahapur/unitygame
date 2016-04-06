@@ -131,13 +131,19 @@ namespace SDK.Lib
             ByteBuffer vertexBuffer = new ByteBuffer();
             ByteBuffer headerBuffer = new ByteBuffer();
             // 每一个头部一个 UniqueId， 一个偏移
-            mSerializeData.mHeaderSize = (mSize / mMaxBatchSize) * (mSize / mMaxBatchSize);     // 计算总共的 Node 的个数
+            mSerializeData.setHeaderSize(((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));     // 计算总共的 Node 的个数
             mSerializeData.calcHeaderSize();
             headerBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
             vertexBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
 
             mQuadTree.serialize(headerBuffer, vertexBuffer);
             mSerializeData.save(headerBuffer, vertexBuffer);
+        }
+
+        public void deserialize()
+        {
+            Ctx.m_instance.m_terrainBufferSys.setHeaderSize(((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));
+            Ctx.m_instance.m_terrainBufferSys.deserialize();
         }
 
         public bool isLoaded()
@@ -189,9 +195,7 @@ namespace SDK.Lib
                 return mQuadTree.getMaxHeight();
         }
 
-
-
-        public bool prepare(MImportData importData)
+        public bool prepareOrig(MImportData importData)
         {
             mImportData = importData;
             mImportData.parseXml();
@@ -251,6 +255,51 @@ namespace SDK.Lib
                 mTerrainMat.setUVMultiplier(mUVMultiplier);
                 mTerrainMat.loadSplatDiffuseMat();
             }
+
+            mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
+            mQuadTree.prepare();
+            //distributeVertexData();
+
+            mModified = true;
+            mHeightDataModified = true;
+
+            mPrepareInProgress = false;
+
+            return true;
+        }
+
+        public bool prepareFile(MImportData importData)
+        {
+            mImportData = importData;
+            mImportData.parseXml();
+            mPrepareInProgress = true;
+            this.mX = importData.x;
+            this.mY = importData.y;
+
+            mSize = importData.terrainSize;
+            mWorldSize = importData.worldSize;
+            mMaxBatchSize = importData.maxBatchSize;
+            mMinBatchSize = importData.minBatchSize;
+
+            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("Terrain_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
+            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
+
+            mAABB.setMinimum(new MVector3(0, -100, 0));
+            mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
+
+            if (!this.isAttached())
+            {
+                mTerrainEntityNode.attachObject(this);
+            }
+
+            setPosition(importData.pos);
+
+            updateBaseScale();
+            determineLodLevels();
+
+            int numVertices = mSize * mSize;
+
+            Ctx.m_instance.m_terrainBufferSys.getTerrainMat(ref mTerrainMat);
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
             mQuadTree.prepare();

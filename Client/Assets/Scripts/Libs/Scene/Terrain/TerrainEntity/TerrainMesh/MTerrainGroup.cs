@@ -124,7 +124,14 @@ namespace SDK.Lib
             if (slot.instance == null && (!string.IsNullOrEmpty(slot.def.filename) || slot.def.importData != null))
             {
                 slot.instance = new MTerrain(Ctx.m_instance.m_sceneManager);
-                slot.instance.prepare(slot.def.importData);
+                if (!Ctx.m_instance.m_terrainBufferSys.IsReadFile())
+                {
+                    slot.instance.prepareOrig(slot.def.importData);
+                }
+                else
+                {
+                    slot.instance.prepareFile(slot.def.importData);
+                }
             }
         }
 
@@ -434,7 +441,6 @@ namespace SDK.Lib
                 if (i.Value.instance != null)
                     i.Value.instance.updateGeometry();
             }
-
         }
 
         public void updateDerivedData(bool synchronous, byte typeMask)
@@ -444,7 +450,6 @@ namespace SDK.Lib
                 if (i.Value.instance != null)
                     i.Value.instance.updateDerivedData(true, 0);
             }
-
         }
 
         public void setTerrainWorldSize(float newWorldSize)

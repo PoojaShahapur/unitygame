@@ -38,7 +38,7 @@ namespace SDK.Lib
 
         public MImportData()
         {
-            terrainSize = 1025;
+            terrainSize = 513;
             maxBatchSize = 65;
             minBatchSize = 33;
             pos = MVector3.ZERO;
@@ -51,7 +51,7 @@ namespace SDK.Lib
             inputBias = 0;
             deleteInputData = true;
             detailWorldSize = 16;
-            isUseSplatMap = false;
+            isUseSplatMap = true;
             layerList = new MList<LayerInstance>();
 
             //parseXml();
@@ -69,6 +69,12 @@ namespace SDK.Lib
             inputScale = rhs.inputScale;
             inputBias = rhs.inputBias;
             deleteInputData = rhs.deleteInputData;
+        }
+
+        public int calcTotalByte()
+        {
+            // 顶点， UV，法向量，切向量，索引
+            return maxBatchSize * maxBatchSize * sizeof(float) * 3 + maxBatchSize * maxBatchSize * sizeof(float) * 2 + maxBatchSize * maxBatchSize * sizeof(float) * 3 + maxBatchSize * maxBatchSize * sizeof(float) * 4 + (maxBatchSize - 1) * (maxBatchSize - 1) * 6 * sizeof(int);
         }
 
         public void parseXml()

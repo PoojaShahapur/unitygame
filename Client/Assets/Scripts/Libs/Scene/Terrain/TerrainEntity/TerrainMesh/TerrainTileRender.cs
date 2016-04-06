@@ -40,6 +40,11 @@ namespace SDK.Lib
             m_isBuildGromAndMat = false;
         }
 
+        public void setTreeNode(MTerrainQuadTreeNode treeNode)
+        {
+            m_treeNode = treeNode;
+        }
+
         /**
          * @brief 渲染队列
          */

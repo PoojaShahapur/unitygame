@@ -18,6 +18,16 @@ namespace SDK.Lib
         {
             buffer.readMultiByte(ref mUniqueId, (uint)uniqueIdSize, Encoding.UTF8);
             buffer.readInt32(ref mOffset);
+
+            //Debug.Log(mUniqueId);
+            //Debug.Log(mUniqueId.Length);
+            //Debug.Log(mUniqueId[4]);
+            int idx = 0;
+            idx = mUniqueId.IndexOf("\0");
+            if(idx != -1)
+            {
+                mUniqueId = mUniqueId.Substring(0, idx);
+            }
         }
     }
 
@@ -44,6 +54,11 @@ namespace SDK.Lib
             mSizePerHeader = 16;    // 12 个 UniqueId 4 个 offset
         }
 
+        public void setHeaderSize(int size)
+        {
+            mHeaderSize = size;
+        }
+
         public SerializeHeader getSerialHeader(string uniqueId)
         {
             if(!m_headerDic.ContainsKey(uniqueId))
@@ -64,15 +79,17 @@ namespace SDK.Lib
             if (mByteBuffer == null)
             {
                 mByteBuffer = new ByteBuffer();
+                mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
+                string path = string.Format("TerrainData/{0}.bytes", "map");
+                m_byteRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
             }
-
-            m_byteRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes("XmlConfig/1000.xml");
 
             byte[] bytes = m_byteRes.getBytes("");
             if (bytes != null)
             {
                 mByteBuffer.clear();
                 mByteBuffer.writeBytes(bytes, 0, (uint)bytes.Length);
+                mByteBuffer.setPos(0);
             }
 
             int idx = 0;
@@ -89,19 +106,27 @@ namespace SDK.Lib
             }
         }
 
-        public void deserializeVertexData(string uniqueId, ref MVertexDataRecord record, ref MAxisAlignedBox aabb)
+        public void deserializeVertexData(string uniqueId, ref MVertexDataRecord record)
         {
             if(m_headerDic.ContainsKey(uniqueId))
             {
                 mByteBuffer.setPos((uint)m_headerDic[uniqueId].mOffset);
                 record.cpuVertexData.readVertData(mByteBuffer);
+            }
+        }
+
+        public void deserializeAABB(string uniqueId, int offset, ref MAxisAlignedBox aabb)
+        {
+            if (m_headerDic.ContainsKey(uniqueId))
+            {
+                mByteBuffer.setPos((uint)(m_headerDic[uniqueId].mOffset + offset));
                 mByteBuffer.readAABB(ref aabb);
             }
         }
 
         public void save(ByteBuffer headerBuffer, ByteBuffer vertexBuffer)
         {
-            string path = string.Format("{0}/{1}.data", Application.dataPath, "map");
+            string path = string.Format("{0}/Resources/TerrainData/{1}.bytes", Application.dataPath, "map");
             FileStream fileStream;
             try
             {
@@ -113,6 +138,8 @@ namespace SDK.Lib
                 fileStream = new FileStream(path, FileMode.Create);
                 fileStream.Write(headerBuffer.dynBuff.buff, 0, headerBuffer.dynBuff.buff.Length);
                 fileStream.Write(vertexBuffer.dynBuff.buff, 0, vertexBuffer.dynBuff.buff.Length);
+                fileStream.Close();
+                fileStream.Dispose();
             }
             catch (Exception e)
             {

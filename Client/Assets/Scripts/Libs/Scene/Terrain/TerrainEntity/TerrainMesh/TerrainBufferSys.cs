@@ -10,32 +10,76 @@ namespace SDK.Lib
     {
         protected Dictionary<string, MVertexDataRecord> mVertBuff;
         protected Dictionary<string, MAxisAlignedBox> mVertAABB;
+        protected Dictionary<string, TerrainTileRender> mTerrainTileRenderDic;
+        protected TerrainMat mTerrainMat;
 
         protected SerializeData mSerializeData;
+        protected bool mIsReadHeader;       // 是否读取了头部
+        protected MImportData mMImportData;
+
+        protected bool mIsReadFile; // 是否从文件读取所有的数据
 
         public TerrainBufferSys()
         {
             mVertBuff = new Dictionary<string, MVertexDataRecord>();
             mVertAABB = new Dictionary<string, MAxisAlignedBox>();
+            mTerrainTileRenderDic = new Dictionary<string, TerrainTileRender>();
+            mTerrainMat = new TerrainMat();
+            mIsReadHeader = false;
+            mIsReadFile = true;
+            mMImportData = new MImportData();
+            setHeaderSize(((mMImportData.terrainSize - 1) / (mMImportData.maxBatchSize - 1)) * ((mMImportData.terrainSize - 1) / (mMImportData.maxBatchSize - 1)));
         }
 
-        public MVertexDataRecord getVertData(string key)
+        public bool IsReadFile()
         {
-            if(mVertBuff.ContainsKey(key))
+            return mIsReadFile;
+        }
+
+        public void loadNeedRes()
+        {
+            deserialize();
+            loadMat();
+        }
+
+        public void loadMat()
+        {
+            mTerrainMat = new TerrainMat();
+            mTerrainMat.setDiffuseMap(mMImportData.diffusePath);
+            if (!mMImportData.isUseSplatMap)
             {
-                return mVertBuff[key];
+                mTerrainMat.loadDiffuseMat();
             }
             else
             {
-                MVertexDataRecord record = new MVertexDataRecord();
-                MAxisAlignedBox aabb = new MAxisAlignedBox();
+                float mUVMultiplier = mMImportData.worldSize / mMImportData.detailWorldSize;
+                mTerrainMat.setUVMultiplier(mUVMultiplier);
+                mTerrainMat.loadSplatDiffuseMat();
+            }
+        }
 
-                //mSerializeData.deserializeVertexData(key, ref record, ref aabb);
-                //mVertBuff[key] = record;
-                //mVertAABB[key] = aabb;
+        public bool getVertData(string key, ref MVertexDataRecord record)
+        {
+            if (!mIsReadFile)
+            {
+                return false;
             }
 
-            return null;
+            if (mVertBuff.ContainsKey(key))
+            {
+                record = mVertBuff[key];
+                return true;
+            }
+            else
+            {
+                record = new MVertexDataRecord();
+
+                mSerializeData.deserializeVertexData(key, ref record);
+                mVertBuff[key] = record;
+                return true;
+            }
+
+            //return false;
         }
 
         public void addVertData(string key, MVertexDataRecord vertData)
@@ -52,13 +96,24 @@ namespace SDK.Lib
 
         public bool getAABB(string key, ref MAxisAlignedBox aabb)
         {
+            if(!mIsReadFile)
+            {
+                return false;
+            }
             if (mVertAABB.ContainsKey(key))
             {
                 aabb = mVertAABB[key];
                 return true;
             }
+            else
+            {
+                aabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+                mSerializeData.deserializeAABB(key, mMImportData.calcTotalByte(), ref aabb);
+                mVertAABB[key] = aabb;
+                return true;
+            }
 
-            return false;
+            //return false;
         }
 
         public void addAABB(string key, ref MAxisAlignedBox aabb)
@@ -73,14 +128,106 @@ namespace SDK.Lib
             }
         }
 
+        public bool getTerrainTileRender(string key, ref TerrainTileRender render)
+        {
+            if(!mIsReadFile)
+            {
+                return false;
+            }
+            if (mTerrainTileRenderDic.ContainsKey(key))
+            {
+                render = mTerrainTileRenderDic[key];
+                mTerrainTileRenderDic.Remove(key);
+                return true;
+            }
+            else
+            {
+                render = new TerrainTileRender(null);
+                render.setTmplMaterial(getMatTmpl());
+            }
+
+            return false;
+        }
+
+        public void addTerrainTileRender(string key, ref TerrainTileRender render)
+        {
+            if (!mIsReadFile)
+            {
+                return;
+            }
+
+            if (!mTerrainTileRenderDic.ContainsKey(key))
+            {
+                mTerrainTileRenderDic[key] = render;
+                render = null;
+            }
+            else
+            {
+                Debug.Log("Error");
+            }
+        }
+
+        public bool getTerrainMat(ref TerrainMat mat)
+        {
+            if (!mIsReadFile)
+            {
+                return false;
+            }
+
+            if (mTerrainMat != null)
+            {
+                mat = mTerrainMat;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void addTerrainMat(ref TerrainMat mat)
+        {
+            if (mTerrainMat == null)
+            {
+                mTerrainMat = mat;
+            }
+            else
+            {
+                Debug.Log("Error");
+            }
+        }
+
         public void deserialize()
         {
-            if(mSerializeData == null)
+            if (!mIsReadHeader)
+            {
+                if (mSerializeData == null)
+                {
+                    mSerializeData = new SerializeData();
+                }
+
+                mSerializeData.deserializeHeader();
+                mIsReadHeader = true;
+            }
+        }
+
+        public void setHeaderSize(int size)
+        {
+            if (mSerializeData == null)
             {
                 mSerializeData = new SerializeData();
             }
+            mSerializeData.setHeaderSize(size);
+        }
 
-            mSerializeData.deserializeHeader();
+        public Material getMatTmpl()
+        {
+            if (!mMImportData.isUseSplatMap)
+            {
+                return mTerrainMat.getDiffuseMaterial();
+            }
+            else
+            {
+                return mTerrainMat.getSplatMaterial();
+            }
         }
     }
 }

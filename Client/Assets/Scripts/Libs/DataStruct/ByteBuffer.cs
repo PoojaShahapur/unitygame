@@ -860,7 +860,7 @@ namespace SDK.Lib
         public void writeAABB(MAxisAlignedBox aabb)
         {
             writeVector3(aabb.getMinimum().toNative());
-            writeVector3(aabb.getMinimum().toNative());
+            writeVector3(aabb.getMaximum().toNative());
         }
 
         public void readAABB(ref MAxisAlignedBox aabb)

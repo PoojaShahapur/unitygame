@@ -64,7 +64,7 @@ namespace SDK.Lib
             mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mIsVertexDataInit = false;
-            m_bShowBoundBox = true;
+            m_bShowBoundBox = false;
 
             if (terrain.getMaxBatchSize() < size)
             {
@@ -81,14 +81,17 @@ namespace SDK.Lib
             }
             else
             {
-                mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2));
-                mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2));
+                if(!Ctx.m_instance.m_terrainBufferSys.getAABB(getNameStr(), ref mAABB))
+                {
+                    mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2));
+                    mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2));
+                }
 
                 mBaseLod = 0;
-                mVertexDataRecord = new MVertexDataRecord();
-                mTileRender = new TerrainTileRender(this);
+                //mVertexDataRecord = new MVertexDataRecord();
+                //mTileRender = new TerrainTileRender(this);
                 //mTileRender.pntGo = mTerrain._getRootSceneNode().selfGo;
-                mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
+                //mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
             }
 
             ushort midoffset = (ushort)((size - 1) / 2);
@@ -283,16 +286,12 @@ namespace SDK.Lib
 
         public void createCpuVertexData()
         {
-            mVertexDataRecord = Ctx.m_instance.m_terrainBufferSys.getVertData(getNameStr());
-            if (mVertexDataRecord == null)
+            if (!Ctx.m_instance.m_terrainBufferSys.getVertData(getNameStr(), ref mVertexDataRecord))
             {
                 mVertexDataRecord = new MVertexDataRecord();
                 mCurIndexBufferIndex = 0;
                 MTRectI updateRect = new MTRectI((int)mOffsetX, (int)mOffsetY, (int)mBoundaryX, (int)mBoundaryY);
                 updateVertexBuffer(null, null, ref updateRect);
-
-                Ctx.m_instance.m_terrainBufferSys.addVertData(getNameStr(), mVertexDataRecord);
-                Ctx.m_instance.m_terrainBufferSys.addAABB(getNameStr(), ref mAABB);
             }
             else
             {
@@ -439,8 +438,9 @@ namespace SDK.Lib
                     assignVertexData(0, 0, 0, 0);
                 }
 
-                mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
-                mTileRender.show();
+                //mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
+                //mTileRender.show();
+                attachRender();
                 showBoundBox();
             }
             else
@@ -456,7 +456,8 @@ namespace SDK.Lib
         {
             if (isLeaf())
             {
-                mTileRender.hide();
+                //mTileRender.hide();
+                detachRender();
                 hideBoundBox();
 
                 //FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_LEFT;
@@ -595,6 +596,36 @@ namespace SDK.Lib
                 {
                     mChildren[i].attachMO();
                 }
+            }
+        }
+
+        public void attachRender()
+        {
+            if (mTileRender == null)
+            {
+                if (!Ctx.m_instance.m_terrainBufferSys.getTerrainTileRender(this.getNameStr(), ref mTileRender))
+                {
+                    mTileRender = new TerrainTileRender(this);
+                    mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
+
+                    mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
+                    mTileRender.show();
+                }
+                else
+                {
+                    mTileRender.setTreeNode(this);
+                    mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
+                    mTileRender.show();
+                }
+            }
+        }
+
+        public void detachRender()
+        {
+            if(mTileRender != null)
+            {
+                mTileRender.hide();
+                Ctx.m_instance.m_terrainBufferSys.addTerrainTileRender(this.getNameStr(), ref mTileRender);
             }
         }
     }
