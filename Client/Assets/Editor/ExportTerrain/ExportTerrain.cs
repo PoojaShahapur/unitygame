@@ -67,8 +67,8 @@ public class ExportTerrain : EditorWindow
         }
         if (GUILayout.Button("ExportHeightMap"))
         {
-            //exportHeightMap();
-            exportScaleHeightMap();
+            exportHeightMap();
+            //exportScaleHeightMap();
         }
         if (GUILayout.Button("ExportAlphaMap"))
         {
@@ -87,7 +87,7 @@ public class ExportTerrain : EditorWindow
         int idx = 0;
         while (idx < terrainData.alphamapTextures.Length)
         {
-            path = string.Format("{0}{1}_{2}.png", Application.dataPath, "/alphamapTextures", idx);
+            path = string.Format("{0}/{1}_{2}.png", Application.dataPath, "alphamapTextures", idx);
             UtilApi.saveTex2File(terrainData.alphamapTextures[0], path);
             ++idx;
         }

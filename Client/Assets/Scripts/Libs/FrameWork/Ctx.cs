@@ -116,6 +116,7 @@ namespace SDK.Lib
         public TextResMgr m_textResMgr;
         public MSceneManager m_sceneManager;
         public TerrainBufferSys m_terrainBufferSys;
+        public TerrainGlobalOption mTerrainGlobalOption;
 
         public Ctx()
         {
@@ -133,6 +134,7 @@ namespace SDK.Lib
 
         protected void preInit()
         {
+            mTerrainGlobalOption = new TerrainGlobalOption();
             m_netDispList = new NetDispList();
             m_msgRouteList = new MsgRouteDispList();
 
@@ -186,7 +188,7 @@ namespace SDK.Lib
             m_memoryCheck = new MemoryCheck();
             m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
-            m_terrainGroup = new MTerrainGroup(513, 3000);
+            m_terrainGroup = new MTerrainGroup(mTerrainGlobalOption.mTerrainSize, mTerrainGlobalOption.mTerrainWorldSize);
             m_textResMgr = new TextResMgr();
             m_terrainBufferSys = new TerrainBufferSys();
             m_sceneManager = new MOctreeSceneManager("DummyScene");

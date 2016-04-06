@@ -198,7 +198,6 @@ namespace SDK.Lib
         public bool prepareOrig(MImportData importData)
         {
             mImportData = importData;
-            mImportData.parseXml();
             mPrepareInProgress = true;
             this.mX = importData.x;
             this.mY = importData.y;
@@ -252,6 +251,8 @@ namespace SDK.Lib
             }
             else
             {
+                mImportData.parseXml();
+                mTerrainMat.initSplatPath(mImportData);
                 mTerrainMat.setUVMultiplier(mUVMultiplier);
                 mTerrainMat.loadSplatDiffuseMat();
             }
@@ -271,7 +272,6 @@ namespace SDK.Lib
         public bool prepareFile(MImportData importData)
         {
             mImportData = importData;
-            mImportData.parseXml();
             mPrepareInProgress = true;
             this.mX = importData.x;
             this.mY = importData.y;

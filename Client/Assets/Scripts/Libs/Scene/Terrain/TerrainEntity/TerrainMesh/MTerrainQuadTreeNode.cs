@@ -618,6 +618,10 @@ namespace SDK.Lib
                     mTileRender.show();
                 }
             }
+            else
+            {
+                mTileRender.show();
+            }
         }
 
         public void detachRender()

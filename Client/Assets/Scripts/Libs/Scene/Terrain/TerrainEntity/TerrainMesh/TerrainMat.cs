@@ -74,6 +74,29 @@ namespace SDK.Lib
             m_controlTexName = "Materials/Textures/Terrain/TerrainControl.png";
         }
 
+        public void initSplatPath(MImportData importData)
+        {
+            if(importData.layerList.length() > 0)
+            {
+                m_splat0TexName = importData.layerList[0].textureName;
+                setUVMultiplier(Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[0].worldSize);
+            }
+            if (importData.layerList.length() > 1)
+            {
+                m_splat1TexName = importData.layerList[1].textureName;
+            }
+            if (importData.layerList.length() > 2)
+            {
+                m_splat2TexName = importData.layerList[2].textureName;
+            }
+            if (importData.layerList.length() > 3)
+            {
+                m_splat3TexName = importData.layerList[3].textureName;
+            }
+
+            m_controlTexName = importData.mAlphaTexName;
+        }
+
         public void setUVMultiplier(float value)
         {
             mUVMultiplier = new Vector4(value, value, value, value);
@@ -153,7 +176,6 @@ namespace SDK.Lib
                 m_splatMat.SetTexture("_Splat1", m_splat1Tex);
             }
 
-            /*
             m_splat2TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat2TexName);
             m_splat2Tex = m_splat2TexRes.getTexture();
             m_splatMat.SetTexture("_Splat2", m_splat2Tex);
@@ -161,7 +183,6 @@ namespace SDK.Lib
             m_splat3TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat3TexName);
             m_splat3Tex = m_splat3TexRes.getTexture();
             m_splatMat.SetTexture("_Splat3", m_splat3Tex);
-            */
 
             m_controlTexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_controlTexName);
             m_controlTex = m_controlTexRes.getTexture();

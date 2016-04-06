@@ -17,8 +17,6 @@ namespace SDK.Lib
         protected bool mIsReadHeader;       // 是否读取了头部
         protected MImportData mMImportData;
 
-        protected bool mIsReadFile; // 是否从文件读取所有的数据
-
         public TerrainBufferSys()
         {
             mVertBuff = new Dictionary<string, MVertexDataRecord>();
@@ -26,25 +24,22 @@ namespace SDK.Lib
             mTerrainTileRenderDic = new Dictionary<string, TerrainTileRender>();
             mTerrainMat = new TerrainMat();
             mIsReadHeader = false;
-            mIsReadFile = true;
             mMImportData = new MImportData();
             setHeaderSize(((mMImportData.terrainSize - 1) / (mMImportData.maxBatchSize - 1)) * ((mMImportData.terrainSize - 1) / (mMImportData.maxBatchSize - 1)));
         }
 
-        public bool IsReadFile()
-        {
-            return mIsReadFile;
-        }
-
         public void loadNeedRes()
         {
+            mTerrainMat = new TerrainMat();
+
+            mMImportData.parseXml();
+            mTerrainMat.initSplatPath(mMImportData);
             deserialize();
             loadMat();
         }
 
         public void loadMat()
         {
-            mTerrainMat = new TerrainMat();
             mTerrainMat.setDiffuseMap(mMImportData.diffusePath);
             if (!mMImportData.isUseSplatMap)
             {
@@ -60,7 +55,7 @@ namespace SDK.Lib
 
         public bool getVertData(string key, ref MVertexDataRecord record)
         {
-            if (!mIsReadFile)
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -96,7 +91,7 @@ namespace SDK.Lib
 
         public bool getAABB(string key, ref MAxisAlignedBox aabb)
         {
-            if(!mIsReadFile)
+            if(!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -130,7 +125,7 @@ namespace SDK.Lib
 
         public bool getTerrainTileRender(string key, ref TerrainTileRender render)
         {
-            if(!mIsReadFile)
+            if(!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }
@@ -151,7 +146,7 @@ namespace SDK.Lib
 
         public void addTerrainTileRender(string key, ref TerrainTileRender render)
         {
-            if (!mIsReadFile)
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
             {
                 return;
             }
@@ -169,7 +164,7 @@ namespace SDK.Lib
 
         public bool getTerrainMat(ref TerrainMat mat)
         {
-            if (!mIsReadFile)
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
             {
                 return false;
             }

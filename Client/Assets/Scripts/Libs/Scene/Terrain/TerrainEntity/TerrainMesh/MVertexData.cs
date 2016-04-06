@@ -34,9 +34,6 @@ namespace SDK.Lib
 
         public void writeVertData(ByteBuffer buffer)
         {
-            long count = calcTotalByte();
-            long aaaa = sizeof(float);
-
             for (int idx = 0; idx < mMaxBatchSize * mMaxBatchSize; ++idx)
             {
                 buffer.writeVector3(m_vertexs[idx]);

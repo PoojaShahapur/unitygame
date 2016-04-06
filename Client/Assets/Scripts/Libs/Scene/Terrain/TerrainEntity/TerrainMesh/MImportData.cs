@@ -38,17 +38,17 @@ namespace SDK.Lib
 
         public MImportData()
         {
-            terrainSize = 513;
-            maxBatchSize = 65;
-            minBatchSize = 33;
+            terrainSize = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize;
+            maxBatchSize = Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize;
+            minBatchSize = Ctx.m_instance.mTerrainGlobalOption.mMinBatchSize;
             pos = MVector3.ZERO;
-            worldSize = 1024;
+            worldSize = Ctx.m_instance.mTerrainGlobalOption.mTerrainWorldSize;
             diffusePath = "Materials/Textures/Terrain/TerrainDiffuse_1.png";
             //diffusePath = "Materials/Textures/Terrain/terrain_diffuse.png";
             heightPath = "Materials/Textures/Terrain/TerrainHeight_1.png";
             //heightPath = "Materials/Textures/Terrain/terrain.png";
-            inputScale = 1023;
-            inputBias = 0;
+            inputScale = Ctx.m_instance.mTerrainGlobalOption.mInputScale;
+            inputBias = Ctx.m_instance.mTerrainGlobalOption.mInputBias;
             deleteInputData = true;
             detailWorldSize = 16;
             isUseSplatMap = true;
