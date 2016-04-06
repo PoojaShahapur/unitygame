@@ -226,8 +226,7 @@ namespace SDK.Lib
             walkOctree((MOctreeCamera)(cam), mOctree);
         }
 
-        public void walkOctree(MOctreeCamera camera,
-        MOctree octant)
+        public void walkOctree(MOctreeCamera camera, MOctree octant)
         {
             if (octant.numNodes() == 0)
                 return;
@@ -284,6 +283,10 @@ namespace SDK.Lib
 
                         }
                     }
+                    else
+                    {
+                        sn._removeFromRenderQueue(camera);
+                    }
                 }
 
                 MOctree child;
@@ -320,7 +323,7 @@ namespace SDK.Lib
                 while (it.MoveNext())
                 {
                     MOctreeNode sn = it.Current;
-                    sn._removeToRenderQueue(camera);
+                    sn._removeFromRenderQueue(camera);
                 }
 
                 MOctree child;

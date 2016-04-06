@@ -127,7 +127,7 @@ namespace SDK.Lib
             }
         }
 
-        public void _removeToRenderQueue(MCamera cam)
+        public void _removeFromRenderQueue(MCamera cam)
         {
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
