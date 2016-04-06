@@ -64,6 +64,7 @@ namespace SDK.Lib
             int pageIdy = 0;
             while(pageIdy < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
             {
+                pageIdx = 0;
                 while (pageIdx < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
                 {
                     Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy);
