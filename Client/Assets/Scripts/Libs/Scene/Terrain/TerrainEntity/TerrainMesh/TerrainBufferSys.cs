@@ -154,13 +154,12 @@ namespace SDK.Lib
             if (!mTerrainTileRenderDic.ContainsKey(key))
             {
                 mTerrainTileRenderDic[key] = new MList<TerrainTileRender>();
-                mTerrainTileRenderDic[key].Add(render);
-                render = null;
             }
-            else
+            if (mTerrainTileRenderDic[key].IndexOf(render) == -1)
             {
-                Debug.Log("Error");
+                mTerrainTileRenderDic[key].Add(render);
             }
+            render = null;
         }
 
         public bool getTerrainMat(ref TerrainMat mat)
