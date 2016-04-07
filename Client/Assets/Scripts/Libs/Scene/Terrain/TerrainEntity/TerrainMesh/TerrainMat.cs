@@ -76,24 +76,28 @@ namespace SDK.Lib
 
         public void initSplatPath(MImportData importData)
         {
-            if(importData.layerList.length() > 0)
+            Vector4 vec = new Vector4(0, 0, 0, 0);
+            if (importData.layerList.length() > 0)
             {
                 m_splat0TexName = importData.layerList[0].textureName;
-                setUVMultiplier(Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[0].worldSize);
+                vec.x = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[0].worldSize;
             }
             if (importData.layerList.length() > 1)
             {
                 m_splat1TexName = importData.layerList[1].textureName;
+                vec.y = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[1].worldSize;
             }
             if (importData.layerList.length() > 2)
             {
                 m_splat2TexName = importData.layerList[2].textureName;
+                vec.z = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[2].worldSize;
             }
             if (importData.layerList.length() > 3)
             {
                 m_splat3TexName = importData.layerList[3].textureName;
+                vec.w = Ctx.m_instance.mTerrainGlobalOption.mTerrainSize / importData.layerList[3].worldSize;
             }
-
+            setUVMultiplier(vec);
             m_controlTexName = importData.mAlphaTexName;
         }
 

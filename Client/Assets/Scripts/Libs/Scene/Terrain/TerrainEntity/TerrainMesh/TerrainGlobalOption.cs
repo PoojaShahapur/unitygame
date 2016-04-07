@@ -23,7 +23,7 @@
 
         public TerrainGlobalOption()
         {
-            mTerrainWorldSizeInAll = 3000;
+            mTerrainWorldSizeInAll = 400;
             mTerrainSize = 65;
             mTerrainWorldSize = 200;
             mTerrainPageCount = (int)(mTerrainWorldSizeInAll / mTerrainWorldSize);
@@ -33,7 +33,7 @@
             mInputScale = 200;
             mInputBias = 0;
 
-            mIsReadFile = false;
+            mIsReadFile = true;
             mNeedCull = true;
             mNeedSaveScene = false;
 

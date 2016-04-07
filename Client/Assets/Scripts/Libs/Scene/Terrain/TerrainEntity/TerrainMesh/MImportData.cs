@@ -95,6 +95,7 @@ namespace SDK.Lib
                     ins = new LayerInstance();
                     layerList.Add(ins);
                     UtilXml.getXmlAttrStr(itemElem, "name", ref ins.textureName);
+                    UtilXml.getXmlAttrFloat(itemElem, "worldSize", ref ins.worldSize);
                 }
 
                 itemNodeList.Clear();

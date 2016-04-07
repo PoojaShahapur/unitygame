@@ -10,7 +10,7 @@ namespace SDK.Lib
     {
         protected Dictionary<string, MVertexDataRecord> mVertBuff;
         protected Dictionary<string, MAxisAlignedBox> mVertAABB;
-        protected Dictionary<string, TerrainTileRender> mTerrainTileRenderDic;
+        protected Dictionary<string, MList<TerrainTileRender> > mTerrainTileRenderDic;
         protected TerrainMat mTerrainMat;
 
         protected SerializeData mSerializeData;
@@ -21,7 +21,7 @@ namespace SDK.Lib
         {
             mVertBuff = new Dictionary<string, MVertexDataRecord>();
             mVertAABB = new Dictionary<string, MAxisAlignedBox>();
-            mTerrainTileRenderDic = new Dictionary<string, TerrainTileRender>();
+            mTerrainTileRenderDic = new Dictionary<string, MList<TerrainTileRender>>();
             mTerrainMat = new TerrainMat();
             mIsReadHeader = false;
             mMImportData = new MImportData();
@@ -129,10 +129,10 @@ namespace SDK.Lib
             {
                 return false;
             }
-            if (mTerrainTileRenderDic.ContainsKey(key))
+            if (mTerrainTileRenderDic.ContainsKey(key) && mTerrainTileRenderDic[key].length() > 0)
             {
-                render = mTerrainTileRenderDic[key];
-                mTerrainTileRenderDic.Remove(key);
+                render = mTerrainTileRenderDic[key][0];
+                mTerrainTileRenderDic[key].Remove(render);
                 return true;
             }
             else
@@ -153,7 +153,8 @@ namespace SDK.Lib
 
             if (!mTerrainTileRenderDic.ContainsKey(key))
             {
-                mTerrainTileRenderDic[key] = render;
+                mTerrainTileRenderDic[key] = new MList<TerrainTileRender>();
+                mTerrainTileRenderDic[key].Add(render);
                 render = null;
             }
             else
