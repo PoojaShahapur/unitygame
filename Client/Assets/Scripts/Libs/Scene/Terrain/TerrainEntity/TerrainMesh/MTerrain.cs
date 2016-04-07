@@ -335,7 +335,9 @@ namespace SDK.Lib
             x = UtilMath.max(x, 0L);
             y = UtilMath.min(y, (long)mSize - 1L);
             y = UtilMath.max(y, 0L);
+            return getHeightData(x, y);
 
+            /*
             long skip = 1;
             long x1 = UtilMath.min((x / skip) * skip, (long)mSize - 1L);
             long x2 = UtilMath.min(((x + skip) / skip) * skip, (long)mSize - 1L);
@@ -349,6 +351,7 @@ namespace SDK.Lib
                 + getHeightData(x2, y1) * rx * (1.0f - ry)
                 + getHeightData(x1, y2) * (1.0f - rx) * ry
                 + getHeightData(x2, y2) * rx * ry;
+            */
         }
 
         public void setHeightAtPoint(long x, long y, float h)
