@@ -59,9 +59,9 @@ public class ExportTerrain : EditorWindow
             }
             return;
         }
-        saveFormat = (SaveFormat)EditorGUILayout.EnumPopup("Export Format", (Enum)saveFormat);
-        saveResolution = (SaveResolution)EditorGUILayout.EnumPopup("Resolution", (Enum)saveResolution);
 
+        GUILayout.Label("map name, please use number");
+        string num = GUILayout.TextField("1000");
         if (GUILayout.Button("ExportTexture"))
         {
             exportSplatTexture();
@@ -141,6 +141,9 @@ public class ExportTerrain : EditorWindow
         int h = terrainData.heightmapHeight;
         Vector3 meshScale = terrainData.size;
         float[,] tData = terrainData.GetHeights(0, 0, w, h);
+
+        float fx = 0;
+        float fy = 0;
 
         Color color = new Color(0, 0, 0, 0);
         float height = 0;
