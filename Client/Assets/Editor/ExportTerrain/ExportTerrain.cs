@@ -1,5 +1,6 @@
 using SDK.Lib;
 using System;
+using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -67,8 +68,9 @@ public class ExportTerrain : EditorWindow
         }
         if (GUILayout.Button("ExportHeightMap"))
         {
-            //exportHeightMap();
-            exportScaleHeightMap();
+            exportHeightMap();
+            //exportScaleHeightMap();
+            //exportHeightData();
         }
         if (GUILayout.Button("ExportAlphaMap"))
         {
@@ -147,7 +149,7 @@ public class ExportTerrain : EditorWindow
         {
             for(int idx = 0; idx < w; ++idx)
             {
-                height = tData[idx, idy];
+                height = tData[idy, idx];
                 color = new Color(height, height, height, height);
                 heightMap.SetPixel(idx, idy, color);
             }
@@ -159,10 +161,11 @@ public class ExportTerrain : EditorWindow
     public void exportScaleHeightMap()
     {
         string fileName = string.Format("{0}/{1}.png", Application.dataPath, "heightmap");
+
         int w = terrainData.heightmapWidth;
         int h = terrainData.heightmapHeight;
         Vector3 meshScale = terrainData.size;
-        var tRes = Mathf.Pow(2, (int)(saveResolution));
+        float tRes = Mathf.Pow(2, (int)saveResolution);
         meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
         float[,] tData = terrainData.GetHeights(0, 0, w, h);
 
@@ -178,13 +181,54 @@ public class ExportTerrain : EditorWindow
             for (int idx = 0; idx < w; idx++)
             {
                 //tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, (int)(tData[(int)(x * tRes), (int)(y * tRes)]), y)) + terrainPos;
-                height = tData[(int)(idx * tRes), (int)(idy * tRes)];
+                height = tData[(int)(idy * tRes), (int)(idx * tRes)];
                 color = new Color(height, height, height, height);
                 heightMap.SetPixel(idx, idy, color);
             }
         }
 
         UtilApi.saveTex2File(heightMap, fileName);
+    }
+
+    // 导出高度数据
+    public void exportHeightData()
+    {
+        string fileName = string.Format("{0}/{1}.bytes", Application.dataPath, "heightmap");
+
+        int w = terrainData.heightmapWidth;
+        int h = terrainData.heightmapHeight;
+        Vector3 meshScale = terrainData.size;
+        float tRes = Mathf.Pow(2, (int)saveResolution);
+        meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
+        Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
+        float[,] tData = terrainData.GetHeights(0, 0, w, h);
+
+        w = (int)((w - 1) / tRes + 1);
+        h = (int)((h - 1) / tRes + 1);
+        Vector3[] tVertices = new Vector3[w * h];
+        Vector2[] tUV = new Vector2[w * h];
+        int[] tPolys = null;
+        if (saveFormat == SaveFormat.Triangles)
+        {
+            tPolys = new int[(w - 1) * (h - 1) * 6];
+        }
+        else
+        {
+            tPolys = new int[(w - 1) * (h - 1) * 4];
+        }
+
+        float height = 0;
+        ByteBuffer buffer = new ByteBuffer();
+        for (int y = 0; y < h; y++)
+        {
+            for (int x = 0; x < w; x++)
+            {
+                height = tData[(int)(y * tRes), (int)(x * tRes)];
+                buffer.writeFloat(height);
+            }
+        }
+
+        UtilApi.saveByte2File(fileName, buffer.dynBuff.buff);
     }
 
     // 导出 AlphaMap

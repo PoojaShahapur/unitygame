@@ -865,6 +865,11 @@ namespace SDK.Lib
             System.IO.File.WriteAllText(filePath, str, encoding);
         }
 
+        static public void saveByte2File(string path, byte[] bytes)
+        {
+            System.IO.File.WriteAllBytes(path, bytes);
+        }
+
         static public string getDataPath()
         {
             return Application.dataPath;

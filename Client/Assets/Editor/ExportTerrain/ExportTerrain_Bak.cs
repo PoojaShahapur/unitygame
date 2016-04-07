@@ -4,7 +4,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-class ExportTerrain_bak : EditorWindow
+public class ExportTerrain_bak : EditorWindow
 {
     enum SaveFormat_bak
     {
