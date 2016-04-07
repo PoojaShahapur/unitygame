@@ -67,8 +67,8 @@ public class ExportTerrain : EditorWindow
         }
         if (GUILayout.Button("ExportHeightMap"))
         {
-            exportHeightMap();
-            //exportScaleHeightMap();
+            //exportHeightMap();
+            exportScaleHeightMap();
         }
         if (GUILayout.Button("ExportAlphaMap"))
         {

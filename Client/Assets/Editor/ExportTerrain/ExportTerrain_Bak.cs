@@ -4,21 +4,20 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class ExportTerrain_Bak : EditorWindow
+class ExportTerrain_bak : EditorWindow
 {
-    public enum SaveFormat_bak
+    enum SaveFormat_bak
     {
         Triangles,
-        Quads,
+        Quads
     }
-
-    public enum SaveResolution_bak
+    enum SaveResolution_bak
     {
         Full,
         Half,
         Quarter,
         Eighth,
-        Sixteenth,
+        Sixteenth
     }
 
     SaveFormat_bak saveFormat = SaveFormat_bak.Triangles;
@@ -30,8 +29,8 @@ public class ExportTerrain_Bak : EditorWindow
     int counter;
     int totalCount;
 
-    //[MenuItem("Terrain/Export To Obj...")]
-    static public void Init()
+    [MenuItem("My/Terrain/Export To Obj...")]
+    static void Init ()
     {
         terrain = null;
         Terrain terrainObject = Selection.activeObject as Terrain;
@@ -44,22 +43,22 @@ public class ExportTerrain_Bak : EditorWindow
             terrain = terrainObject.terrainData;
             terrainPos = terrainObject.transform.position;
         }
-        EditorWindow.GetWindow(typeof(ExportTerrain)).Show();
+        EditorWindow.GetWindow(typeof(ExportTerrain_bak)).Show();
     }
 
-    public void OnGUI()
+    void OnGUI ()
     {
         if (!terrain)
         {
             GUILayout.Label("No terrain found");
             if (GUILayout.Button("Cancel"))
             {
-                EditorWindow.GetWindow(typeof(ExportTerrain)).Close();
+                EditorWindow.GetWindow(typeof(ExportTerrain_bak)).Close();
             }
             return;
         }
-        saveFormat = (SaveFormat_bak)EditorGUILayout.EnumPopup("Export Format", (Enum)saveFormat);
-        saveResolution = (SaveResolution_bak)EditorGUILayout.EnumPopup("Resolution", (Enum)saveResolution);
+        saveFormat = (SaveFormat_bak)(EditorGUILayout.EnumPopup("Export Format", saveFormat));
+        saveResolution = (SaveResolution_bak)(EditorGUILayout.EnumPopup("Resolution", saveResolution));
 
         if (GUILayout.Button("Export"))
         {
@@ -67,21 +66,21 @@ public class ExportTerrain_Bak : EditorWindow
         }
     }
 
-    public void Export()
+    void Export ()
     {
         string fileName = EditorUtility.SaveFilePanel("Export .obj file", "", "Terrain", "obj");
         int w = terrain.heightmapWidth;
         int h = terrain.heightmapHeight;
         Vector3 meshScale = terrain.size;
-        var tRes = Mathf.Pow(2, (int)(saveResolution));
+        float tRes = Mathf.Pow(2, (int)saveResolution);
         meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
         Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
         float[,] tData = terrain.GetHeights(0, 0, w, h);
 
         w = (int)((w - 1) / tRes + 1);
         h = (int)((h - 1) / tRes + 1);
-        var tVertices = new Vector3[w * h];
-        var tUV = new Vector2[w * h];
+        Vector3[] tVertices = new Vector3[w * h];
+        Vector2[] tUV = new Vector2[w * h];
         int[] tPolys = null;
         if (saveFormat == SaveFormat_bak.Triangles)
         {
@@ -97,7 +96,7 @@ public class ExportTerrain_Bak : EditorWindow
         {
             for (int x = 0; x < w; x++)
             {
-                tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, (int)(tData[(int)(x * tRes), (int)(y * tRes)]), y)) + terrainPos;
+                tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, tData[(int)(x * tRes), (int)(y * tRes)], y)) + terrainPos;
                 tUV[y * w + x] = Vector2.Scale(new Vector2(x * tRes, y * tRes), uvScale);
             }
         }
@@ -156,8 +155,8 @@ public class ExportTerrain_Bak : EditorWindow
                 // StringBuilder stuff is done this way because it's faster than using the "{0} {1} {2}"etc. format
                 // Which is important when you're exporting huge terrains.
                 sb.Append(tVertices[i].x.ToString()).Append(" ").
-                   Append(tVertices[i].y.ToString()).Append(" ").
-                   Append(tVertices[i].z.ToString());
+                Append(tVertices[i].y.ToString()).Append(" ").
+                Append(tVertices[i].z.ToString());
                 sw.WriteLine(sb);
             }
             // Write UVs
@@ -166,7 +165,7 @@ public class ExportTerrain_Bak : EditorWindow
                 UpdateProgress();
                 sb = new StringBuilder("vt ", 22);
                 sb.Append(tUV[i].x.ToString()).Append(" ").
-                   Append(tUV[i].y.ToString());
+                Append(tUV[i].y.ToString());
                 sw.WriteLine(sb);
             }
             if (saveFormat == SaveFormat_bak.Triangles)
@@ -177,8 +176,8 @@ public class ExportTerrain_Bak : EditorWindow
                     UpdateProgress();
                     sb = new StringBuilder("f ", 43);
                     sb.Append(tPolys[i] + 1).Append("/").Append(tPolys[i] + 1).Append(" ").
-                       Append(tPolys[i + 1] + 1).Append("/").Append(tPolys[i + 1] + 1).Append(" ").
-                       Append(tPolys[i + 2] + 1).Append("/").Append(tPolys[i + 2] + 1);
+                    Append(tPolys[i + 1] + 1).Append("/").Append(tPolys[i + 1] + 1).Append(" ").
+                    Append(tPolys[i + 2] + 1).Append("/").Append(tPolys[i + 2] + 1);
                     sw.WriteLine(sb);
                 }
             }
@@ -190,9 +189,9 @@ public class ExportTerrain_Bak : EditorWindow
                     UpdateProgress();
                     sb = new StringBuilder("f ", 57);
                     sb.Append(tPolys[i] + 1).Append("/").Append(tPolys[i] + 1).Append(" ").
-                       Append(tPolys[i + 1] + 1).Append("/").Append(tPolys[i + 1] + 1).Append(" ").
-                       Append(tPolys[i + 2] + 1).Append("/").Append(tPolys[i + 2] + 1).Append(" ").
-                       Append(tPolys[i + 3] + 1).Append("/").Append(tPolys[i + 3] + 1);
+                    Append(tPolys[i + 1] + 1).Append("/").Append(tPolys[i + 1] + 1).Append(" ").
+                    Append(tPolys[i + 2] + 1).Append("/").Append(tPolys[i + 2] + 1).Append(" ").
+                    Append(tPolys[i + 3] + 1).Append("/").Append(tPolys[i + 3] + 1);
                     sw.WriteLine(sb);
                 }
             }
@@ -205,10 +204,10 @@ public class ExportTerrain_Bak : EditorWindow
 
         terrain = null;
         EditorUtility.ClearProgressBar();
-        EditorWindow.GetWindow(typeof(ExportTerrain)).Close();
+        EditorWindow.GetWindow(typeof(ExportTerrain_bak)).Close();
     }
 
-    public void UpdateProgress()
+    void UpdateProgress ()
     {
         if (counter++ == 1000)
         {

@@ -7,7 +7,7 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 		_Splat2 ("Layer 2 (B)", 2D) = "white" {}
 		_Splat3 ("Layer 3 (A)", 2D) = "white" {}
 		_Control ("Control (RGBA)", 2D) = "red" {}
-		_UVMultiplier("UVMultiplier", Vector) = (32 , 32, 32, 32)
+		_UVMultiplier("UVMultiplier", Vector) = (32, 32, 32, 32)
 	}
 	SubShader 
 	{
