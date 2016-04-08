@@ -5,7 +5,7 @@ namespace SDK.Lib
 {
     public class AddOnceAndCallOnceEventDispatch : EventDispatch
     {
-        override public void addEventHandle(Action<IDispatchObject> handle, LuaTable luaTable, LuaFunction luaFunction = null)
+        override public void addEventHandle(Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             if (!existEventHandle(handle, luaTable, luaFunction))
             {

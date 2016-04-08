@@ -63,10 +63,10 @@ namespace SDK.Lib
 
         public bool isValid()
         {
-            return m_handle != null || (m_luaCSDispatchFunctionObject != null && m_luaCSDispatchFunctionObject .isValid());
+            return m_handle != null || (m_luaCSDispatchFunctionObject != null && m_luaCSDispatchFunctionObject.isValid());
         }
 
-        public bool isEqual(Action<IDispatchObject> handle, LuaTable luaTable, LuaFunction luaFunction)
+        public bool isEqual(Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool ret = false;
             if(handle != null)

@@ -34,7 +34,7 @@ namespace SDK.Lib
 
         public void setLuaTable(LuaTable luaTable)
         {
-            if (m_luaCSDispatchFunctionObject == null)
+            if(m_luaCSDispatchFunctionObject == null)
             {
                 m_luaCSDispatchFunctionObject = new LuaCSDispatchFunctionObject();
             }
@@ -44,7 +44,7 @@ namespace SDK.Lib
 
         public void setLuaFunction(LuaFunction function)
         {
-            if (m_luaCSDispatchFunctionObject == null)
+            if(m_luaCSDispatchFunctionObject == null)
             {
                 m_luaCSDispatchFunctionObject = new LuaCSDispatchFunctionObject();
             }
@@ -54,7 +54,7 @@ namespace SDK.Lib
 
         public void setLuaFunctor(LuaTable luaTable, LuaFunction function)
         {
-            if (m_luaCSDispatchFunctionObject == null)
+            if(m_luaCSDispatchFunctionObject == null)
             {
                 m_luaCSDispatchFunctionObject = new LuaCSDispatchFunctionObject();
             }
@@ -74,23 +74,23 @@ namespace SDK.Lib
             if (handle != null)
             {
                 ret = UtilApi.isAddressEqual(this.m_handle, handle);
-                if (!ret)
+                if(!ret)
                 {
                     return ret;
                 }
             }
-            if (luaTable != null)
+            if(luaTable != null)
             {
                 ret = m_luaCSDispatchFunctionObject.isTableEqual(luaTable);
-                if (!ret)
+                if(!ret)
                 {
                     return ret;
                 }
             }
-            if (luaTable != null)
+            if (luaFunction != null)
             {
                 ret = m_luaCSDispatchFunctionObject.isFunctionEqual(luaFunction);
-                if (!ret)
+                if(!ret)
                 {
                     return ret;
                 }
@@ -101,12 +101,12 @@ namespace SDK.Lib
 
         public void call(IDispatchObject dispObj)
         {
-            if (null !=  m_handle)
+            if(null !=  m_handle)
             {
                 m_handle(dispObj);
             }
 
-            if (m_luaCSDispatchFunctionObject != null)
+            if(m_luaCSDispatchFunctionObject != null)
             {
                 m_luaCSDispatchFunctionObject.call(dispObj);
             }

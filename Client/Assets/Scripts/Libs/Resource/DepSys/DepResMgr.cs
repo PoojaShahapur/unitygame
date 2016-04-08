@@ -46,12 +46,14 @@ namespace SDK.Lib
 
             string platformFolderForAssetBundles =
 			UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
-            // 必须同步加载
+            // AssetBundleManifest 必须同步加载，加载完成这个以后再加载其它资源
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = platformFolderForAssetBundles;
             param.m_loadEventHandle = onLoadEventHandle;
-            param.m_loadNeedCoroutine = true;
-            param.m_resNeedCoroutine = true;
+
+            param.m_loadNeedCoroutine = false;
+            param.m_resNeedCoroutine = false;
+
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
@@ -106,6 +108,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
         }
 
+        // 只检查是否有依赖资源，如果有依赖的资源，就算是有依赖的资源
         public bool hasDep(string assetBundleName)
         {
             if (m_AssetBundleManifest == null)
@@ -129,6 +132,7 @@ namespace SDK.Lib
             return true;
         }
 
+        // 检查是否所有的依赖都加载完成，加载失败也算是加载完成
         public bool checkIfAllDepLoaded(string[] depList)
         {
             foreach(string depName in depList)
@@ -138,16 +142,17 @@ namespace SDK.Lib
                 {
                     return false;
                 }
-                else if(res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded() ||
-                    res.refCountResLoadResultNotify.resLoadState.hasFailed())
+                else if(!res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded() &&
+                    !res.refCountResLoadResultNotify.resLoadState.hasFailed())
                 {
                     return false;
                 }
             }
 
-            return true;    // 所有的依赖都加载完成
+            return true;    // 所有的依赖都已经加载完成了
         }
 
+        // 是否所有的依赖的资源都加载完成
         public bool isDepResLoaded(string assetBundleName)
         {
             if (m_AssetBundleManifest == null)
@@ -176,12 +181,13 @@ namespace SDK.Lib
             m_resAndDepItemDic[loadParam.m_path] = new ResAndDepItem();
             m_resAndDepItemDic[loadParam.m_path].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             m_resAndDepItemDic[loadParam.m_path].m_loadParam.copyFrom(loadParam);
-            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_path];
+            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_pathNoExt];
             m_resAndDepItemDic[loadParam.m_path].loadDep();
         }
 
         public void unLoadDep(string assetBundleName)
         {
+            // 主动加载的资源
             if(m_resAndDepItemDic.ContainsKey(assetBundleName))
             {
                 m_resAndDepItemDic[assetBundleName].unloadDep();
@@ -189,6 +195,7 @@ namespace SDK.Lib
             }
             else
             {
+                // 被动依赖的资源
                 Debug.Log("Error");
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 
 namespace SDK.Lib
 {
@@ -200,6 +201,11 @@ namespace SDK.Lib
         public bool getClientDispose()
         {
             return false;
+        }
+
+        public void setLuaFunctor(LuaTable luaTable, LuaFunction function)
+        {
+            m_timerDisp.setLuaFunctor(luaTable, function);
         }
     }
 }

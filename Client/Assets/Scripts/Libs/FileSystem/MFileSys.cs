@@ -460,6 +460,7 @@ namespace SDK.Lib
             BaseDownloadingURL = relativePath + kAssetBundlesPath + platformFolderForAssetBundles;
         }
 
+        // 转换 Resources 中的目录到 AssetBundle 中的目录
         static public string convResourcesPath2AssetBundlesPath(string resPath)
         {
             if(MacroDef.ASSETBUNDLES_LOAD)

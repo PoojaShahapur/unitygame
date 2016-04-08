@@ -126,19 +126,22 @@ namespace SDK.Lib
                 }
                 load(param);
             }
-            else if (!MacroDef.UNPKG_RES_LOAD)
+            else if(MacroDef.UNPKG_RES_LOAD)
+            {
+                // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
+                param.m_resPackType = ResPackType.eUnPakType;
+                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                load(param);
+            }
+            else if (!MacroDef.ASSETBUNDLES_LOAD)
             {
                 param.m_resPackType = ResPackType.eResourcesType;
                 param.m_resLoadType = ResLoadType.eLoadResource;
+
                 load(param);
             }
             else
             {
-                // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
-                //param.m_resPackType = ResPackType.eUnPakType;
-                //param.m_resLoadType = ResLoadType.eStreamingAssets;
-                //load(param);
-
                 if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_pathNoExt)))
                 {
                     loadBundle(param);

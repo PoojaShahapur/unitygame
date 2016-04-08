@@ -53,17 +53,17 @@ namespace SDK.Lib
 
             if(m_nextFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.delObject(m_nextFrametimer);
+                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(m_nextFrametimer);
                 m_nextFrametimer = null;
             }
             if (m_idleStateFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.delObject(m_idleStateFrametimer);
+                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(m_idleStateFrametimer);
                 m_idleStateFrametimer = null;
             }
             if (m_oneAniEndTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_oneAniEndTimer);
+                Ctx.m_instance.m_timerMgr.removeTimer(m_oneAniEndTimer);
                 m_oneAniEndTimer = null;
             }
 
@@ -253,7 +253,7 @@ namespace SDK.Lib
             }
 
             m_bIdleStateDetect = true;
-            Ctx.m_instance.m_frameTimerMgr.addObject(m_idleStateFrametimer);
+            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(m_idleStateFrametimer);
         }
 
         // 启动下一帧定时器
@@ -271,7 +271,7 @@ namespace SDK.Lib
                 m_nextFrametimer.reset();
             }
 
-            Ctx.m_instance.m_frameTimerMgr.addObject(m_nextFrametimer);
+            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(m_nextFrametimer);
         }
 
         protected void startOneAniEndTimer()
@@ -292,7 +292,7 @@ namespace SDK.Lib
             m_oneAniEndTimer.m_internal = state.length;
             m_oneAniEndTimer.m_totalTime = m_oneAniEndTimer.m_internal;
 
-            Ctx.m_instance.m_timerMgr.addObject(m_oneAniEndTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_oneAniEndTimer);
         }
 
         // 默认状态监测处理器

@@ -10,7 +10,7 @@ namespace SDK.Lib
         public string m_path = "";                  // 资源路径，传递进来都是完成的路径，都是相对 Resources 开始的，例如 Table\CardBase_client.txt，然后内部解析后
         public string m_subPath = "";               // 子目录，可能一个包中有多个资源
         public string m_pathNoExt = "";             // 这个数据变成了从 Resources 目录开始，没有扩展名字，打包的包名字在包加载的时候判断
-        protected string m_prefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的路径和名字
+        protected string m_prefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的资源目录和名字
         protected string m_extName = "prefab";      // 加载的资源的扩展名字
 
         public string m_version = "";               // 加载的资源的版本号

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LuaInterface;
+using System;
+using System.Collections.Generic;
 
 /**
  * @brief 定时器管理器
@@ -54,9 +56,27 @@ namespace SDK.Lib
             }
         }
 
-        public void addTimer(IDelayHandleItem delayObject, float priority = 0.0f)
+        // 从 Lua 中添加定时器，这种定时器尽量这个定时器周期只与 Lua 通信一次
+        public void addTimer(TimerItemBase delayObject, float priority = 0.0f)
         {
             this.addObject(delayObject, priority);
+        }
+
+        public void addTimer(LuaTable luaTimer)
+        {
+            LuaTable table = luaTimer["pThis"] as LuaTable;
+            LuaFunction function = luaTimer["func"] as LuaFunction;
+
+            TimerItemBase timer = new TimerItemBase();
+            timer.m_totalTime = Convert.ToSingle(luaTimer["totaltime"]);
+            timer.setLuaFunctor(table, function);
+
+            this.addTimer(timer);
+        }
+
+        public void removeTimer(TimerItemBase timer)
+        {
+            this.delObject(timer);
         }
 
         public void Advance(float delta)

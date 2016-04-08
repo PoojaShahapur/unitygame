@@ -154,7 +154,7 @@ namespace SDK.Lib
 
             if (!hasNoLoop)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_timer);
+                Ctx.m_instance.m_timerMgr.removeTimer(m_timer);
             }
         }
 
@@ -169,7 +169,7 @@ namespace SDK.Lib
             }
 
             // 检查是否要加入定时器
-            Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
         }
 
         protected bool isPrefab(string path)
@@ -187,7 +187,7 @@ namespace SDK.Lib
         {
             if (m_timer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_timer);
+                Ctx.m_instance.m_timerMgr.removeTimer(m_timer);
             }
 
             // 遍历看有没有播放完成的

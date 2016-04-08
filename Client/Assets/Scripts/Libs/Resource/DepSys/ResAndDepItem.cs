@@ -1,11 +1,9 @@
-﻿using System.IO;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class ResAndDepItem
     {
-        public LoadParam m_loadParam;
-        public string[] m_depNameArr;
+        public LoadParam m_loadParam;           // 保存资源加载的参数
+        public string[] m_depNameArr;           // 依赖的名字数组
 
         public void loadDep()
         {
@@ -14,8 +12,8 @@ namespace SDK.Lib
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_path = m_depNameArr[i];
                 param.m_loadEventHandle = onLoadEventHandle;
-                param.m_loadNeedCoroutine = true;
-                param.m_resNeedCoroutine = true;
+                param.m_loadNeedCoroutine = m_loadParam.m_loadNeedCoroutine;
+                param.m_resNeedCoroutine = m_loadParam.m_resNeedCoroutine;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);       // 依赖加载也需要检查依赖
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
@@ -34,6 +32,7 @@ namespace SDK.Lib
             if(Ctx.m_instance.m_depResMgr.checkIfAllDepLoaded(m_depNameArr))
             {
                 Ctx.m_instance.m_resLoadMgr.loadResources(m_loadParam, false);    // 直接加载，不检查依赖
+                Ctx.m_instance.m_poolSys.deleteObj(m_loadParam);
             }
         }
     }
