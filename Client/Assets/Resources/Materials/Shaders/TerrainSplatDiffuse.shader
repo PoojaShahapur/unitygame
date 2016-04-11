@@ -17,10 +17,13 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#include "UnityCG.cginc"
-			//#pragma surface surf Lambert noforwardadd
+			//#pragma vertex vert
+			//#pragma fragment frag
+
+			//#include "UnityCG.cginc"
+			#include "Lighting.cginc"
+
+			#pragma surface surf BlinnPhong
 
 			sampler2D _Splat0;
 			sampler2D _Splat1;
@@ -59,8 +62,8 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 			{
 				Vertex2Frag o;
 				o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
-				//o.tangent = v.tangent;
-				//o.normal = v.normal;
+				o.tangent = v.tangent;
+				o.normal = v.normal;
 				o.uv = v.texcoord;
 				return o;
 			}
@@ -72,13 +75,33 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 				return mixedDiffuse;
 			}
 
-			//void surf(Vertex2Frag IN, inout SurfaceOutput o)
-			//{
-			//	fixed4 mixedDiffuse;
-			//	SplatmapMix(IN, mixedDiffuse);
-			//	o.Albedo = mixedDiffuse.rgb;
-			//	o.Alpha = mixedDiffuse.a;
-			//}
+			struct Vertex2Surf
+			{
+				float3 uv : TEXCOORD0;
+				float4 tangent : TANGENT;
+				float3 normal : NORMAL;
+			};
+
+			void SplatmapMixSurf(Vertex2Surf V2F, out fixed4 mixedDiffuse)
+			{
+				half4 splat_control = tex2D(_Control, V2F.uv);
+				mixedDiffuse = 0.0f;
+				mixedDiffuse += splat_control.r * tex2D(_Splat0, V2F.uv * _UVMultiplier.x);
+				mixedDiffuse += splat_control.g * tex2D(_Splat1, V2F.uv * _UVMultiplier.y);
+				mixedDiffuse += splat_control.b * tex2D(_Splat2, V2F.uv * _UVMultiplier.z);
+				mixedDiffuse += splat_control.a * tex2D(_Splat3, V2F.uv * _UVMultiplier.w);
+			}
+
+			void surf(Vertex2Surf IN, inout SurfaceOutput o)
+			{
+				fixed4 mixedDiffuse;
+				SplatmapMixSurf(IN, mixedDiffuse);
+				o.Albedo = mixedDiffuse.rgb;
+				//o.Gloss = tex.a;
+				o.Alpha = mixedDiffuse.a;
+				//o.Specular = _Shininess;
+				o.Normal = IN.normal;
+			}
 
 			ENDCG
 		}
