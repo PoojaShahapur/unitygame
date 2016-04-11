@@ -32,8 +32,8 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 			struct VertexInput
 			{
 				float4 vertex : POSITION;
-				//float4 tangent : TANGENT;
-				//float3 normal : NORMAL;
+				float4 tangent : TANGENT;
+				float3 normal : NORMAL;
 				float4 texcoord : TEXCOORD0;
 			};
 
@@ -41,8 +41,8 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 			{
 				float4 pos : SV_POSITION;
 				float3 uv : TEXCOORD0;
-				//float4 tangent : TANGENT;
-				//float3 normal : NORMAL;
+				float4 tangent : TANGENT;
+				float3 normal : NORMAL;
 			};
 
 			void SplatmapMix(Vertex2Frag V2F, out fixed4 mixedDiffuse)

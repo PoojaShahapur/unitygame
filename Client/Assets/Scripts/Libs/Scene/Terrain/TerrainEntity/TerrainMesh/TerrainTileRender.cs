@@ -21,13 +21,13 @@ namespace SDK.Lib
         protected Material m_dynamicMat;       // 实例化的动态材质，显示使用的材质
 
         protected bool m_rebuildMat = true;    // 是否重新生成材质
-        protected int m_renderQueue = 3000;    // 渲染队列
+        protected int m_renderQueue = -00;    // 渲染队列
         protected int m_triangles = 0;         // 渲染的三角形的数量
 
         protected string m_matPreStr;           // 材质前缀字符
         protected string m_meshName;            // Mesh 的名字
         protected MTerrainQuadTreeNode m_treeNode;
-        protected bool m_isAutoBuildNormal = false;
+        protected bool m_isAutoBuildNormal;
         protected bool m_isBuildGromAndMat;
 
         public TerrainTileRender(MTerrainQuadTreeNode treeNode)

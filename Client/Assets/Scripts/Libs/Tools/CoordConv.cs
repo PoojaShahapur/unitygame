@@ -29,7 +29,7 @@ namespace SDK.Lib
                 mPlane = new Plane(Vector3.up, Vector3.zero);
             }
 
-            // 这个地方时能获取鼠标每时每刻的位置，触碰是不能获取到的
+            // 这个地方是能获取鼠标每时每刻的位置，触碰是不能获取到的
             m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //m_ray = UICamera.currentRay;
 
