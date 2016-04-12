@@ -59,7 +59,7 @@ namespace SDK.Lib
             m_difffuseMatName = "Materials/Terrain/TerrainDiffuse";
             m_specularMatName = "Materials/Terrain/TerrainBumpSpecular";
             m_matPreStr = "Dyn_";
-            m_diffuseShaderName = "Mobile/Diffuse";
+            m_diffuseShaderName = "My/Terrain/Diffuse";
             m_specularShaderName = "Mobile/Bumped Specular (1 Directional Light)";
             m_diffuseTexName = "Materials/Textures/Terrain/TerrainDiffuse_1.jpg";
             m_heightTexName = "Materials/Textures/Terrain/terrain.png";
@@ -168,9 +168,9 @@ namespace SDK.Lib
 
             m_splat0TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
             m_splat0Tex = m_splat0TexRes.getTexture();
-            if (m_splatMat.HasProperty("_Splat0"))
+            if (m_splatMat.HasProperty("_MainTex"))
             {
-                m_splatMat.SetTexture("_Splat0", m_splat0Tex);
+                m_splatMat.SetTexture("_MainTex", m_splat0Tex);
             }
 
             m_splat1TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat1TexName);
