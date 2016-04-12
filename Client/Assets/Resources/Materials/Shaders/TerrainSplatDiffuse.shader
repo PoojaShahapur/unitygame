@@ -17,6 +17,7 @@ Shader "My/Terrain/TerrainSplatDiffuse"
 
 		CGPROGRAM
 		#pragma surface surf Lambert noforwardadd
+		//#pragma surface surf BlinnPhong noforwardadd
 
 		sampler2D _MainTex;
 		sampler2D _Splat1;
