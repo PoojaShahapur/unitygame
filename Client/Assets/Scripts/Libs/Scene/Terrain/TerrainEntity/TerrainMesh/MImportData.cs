@@ -51,7 +51,7 @@ namespace SDK.Lib
             inputBias = Ctx.m_instance.mTerrainGlobalOption.mInputBias;
             deleteInputData = true;
             detailWorldSize = 8;
-            isUseSplatMap = false;
+            isUseSplatMap = true;
             layerList = new MList<LayerInstance>();
 
             //parseXml();
