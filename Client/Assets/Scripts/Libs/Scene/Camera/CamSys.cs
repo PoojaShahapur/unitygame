@@ -14,10 +14,11 @@ namespace SDK.Lib
         protected Camera m_uguiCam;             // UGUI 相机
         protected ThirdCameraController m_cameraController; // 摄像机控制器
         protected CameraMan m_cameraMan;        // 摄像机玩家
+        protected bool m_bFirst;
 
         public CamSys()
         {
-            
+            m_bFirst = true;
         }
 
         public MCamera getLocalCamera()
@@ -120,6 +121,14 @@ namespace SDK.Lib
                     Ctx.m_instance.m_sceneManager._updateSceneGraph(m_localCamera);
                     Ctx.m_instance.m_sceneManager._findVisibleObjects(m_localCamera);
                     //testFrustumDir();
+                }
+
+                // 如果是第一次， Tree 刚把 TreeNode 添加到场景管理器中，需要再次更新才能裁剪，才能显示，不是第一次就不用更新了，因为移动会很小，不会有太大问题
+                if(m_bFirst)
+                {
+                    m_bFirst = false;
+                    Ctx.m_instance.m_sceneManager._updateSceneGraph(m_localCamera);
+                    Ctx.m_instance.m_sceneManager._findVisibleObjects(m_localCamera);
                 }
             }
         }
