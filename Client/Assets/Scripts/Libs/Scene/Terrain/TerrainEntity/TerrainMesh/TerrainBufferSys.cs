@@ -2,10 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security;
-using UnityEngine;
 
 namespace SDK.Lib
 {
+    /**
+     * @brief 
+     */
+    public class ScenePageItem
+    {
+        public string mId;
+    }
+
     /**
      * @brief 地形缓冲系统
      */
@@ -13,6 +20,7 @@ namespace SDK.Lib
     {
         protected Dictionary<string, TerrainBuffer> mTerrainBufferDic;
         public TextRes m_textRes;
+        public Dictionary<int, Dictionary<int, ScenePageItem>> m_scenePageCfg;
 
         public TerrainBufferSys()
         {
@@ -98,6 +106,58 @@ namespace SDK.Lib
                 mTerrainBufferDic[terrainId] = new TerrainBuffer();
             }
             mTerrainBufferDic[terrainId].deserialize();
+        }
+
+        public void loadSceneCfg(string path)
+        {
+            if(m_scenePageCfg == null)
+            {
+                m_scenePageCfg = new Dictionary<int, Dictionary<int, ScenePageItem>>();
+            }
+            else
+            {
+                m_scenePageCfg.Clear();
+            }
+
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("XmlConfig/{0}.xml", path));
+            if (m_textRes != null)
+            {
+                string text = m_textRes.getText("");
+                SecurityParser xmlDoc = new SecurityParser();
+                xmlDoc.LoadXml(text);
+                SecurityElement config = xmlDoc.ToXml();
+                ArrayList itemNodeList = new ArrayList();
+                UtilXml.getXmlChildList(config, "Page", ref itemNodeList);
+                string id = "";
+                int x = 0;
+                int y = 0;
+
+                foreach (SecurityElement itemElem in itemNodeList)
+                {
+                    UtilXml.getXmlAttrStr(itemElem, "id", ref id);
+                    UtilXml.getXmlAttrInt(itemElem, "x", ref x);
+                    UtilXml.getXmlAttrInt(itemElem, "y", ref y);
+                    if(!m_scenePageCfg.ContainsKey(y))
+                    {
+                        m_scenePageCfg[y] = new Dictionary<int, ScenePageItem>();
+                    }
+                    if (!m_scenePageCfg[y].ContainsKey(x))
+                    {
+                        m_scenePageCfg[y][x] = new ScenePageItem();
+                    }
+                    m_scenePageCfg[y][x].mId = id;
+                }
+            }
+        }
+
+        public string getTerrainId(int x, int y)
+        {
+            if(m_scenePageCfg.ContainsKey(y) && m_scenePageCfg[y].ContainsKey(x))
+            {
+                return m_scenePageCfg[y][x].mId;
+            }
+
+            return "";
         }
     }
 }

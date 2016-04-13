@@ -57,8 +57,13 @@ namespace SDK.Lib
 
             //Ctx.m_instance.m_camSys.setMCamera(Camera.main);
             //m_terrain.updateClip();
+            Ctx.m_instance.m_terrainBufferSys.loadSceneCfg("1000");
+            string terrainId = "";
 
-            Ctx.m_instance.m_terrainBufferSys.loadNeedRes();
+            if (Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            {
+                Ctx.m_instance.m_terrainBufferSys.loadNeedRes();
+            }
 
             int pageIdx = 0;
             int pageIdy = 0;
@@ -67,7 +72,12 @@ namespace SDK.Lib
                 pageIdx = 0;
                 while (pageIdx < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
                 {
-                    Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy, "1000");
+                    terrainId = Ctx.m_instance.m_terrainBufferSys.getTerrainId(pageIdx, pageIdy);
+                    if(string.IsNullOrEmpty(terrainId))
+                    {
+                        terrainId = "1000";
+                    }
+                    Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy, terrainId);
                     Ctx.m_instance.m_terrainGroup.loadTerrain(pageIdx, pageIdy, true);
                     Ctx.m_instance.m_terrainGroup.updateAABB(pageIdx, pageIdy);
                     if (!Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
