@@ -91,7 +91,7 @@ public class ExportTerrain_bak : EditorWindow
             tPolys = new int[(w - 1) * (h - 1) * 4];
         }
 
-        float[] tOrigVertices = new float[w * h];
+        //float[] tOrigVertices = new float[w * h];
         // Build vertices and UVs
         for (int y = 0; y < h; y++)
         {
@@ -99,7 +99,7 @@ public class ExportTerrain_bak : EditorWindow
             {
                 tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, tData[(int)(y * tRes), (int)(x * tRes)], y)) + terrainPos;
                 tUV[y * w + x] = Vector2.Scale(new Vector2(x * tRes, y * tRes), uvScale);
-                tOrigVertices[y * w + x] = tData[(int)(y * tRes), (int)(x * tRes)];
+                //tOrigVertices[y * w + x] = tData[(int)(y * tRes), (int)(x * tRes)];
             }
         }
 
@@ -158,7 +158,8 @@ public class ExportTerrain_bak : EditorWindow
                 // Which is important when you're exporting huge terrains.
                 sb.Append(tVertices[i].x.ToString()).Append(" ").
                 Append(tVertices[i].y.ToString()).Append(" ").
-                Append(tVertices[i].z.ToString()).Append(" ").Append(tOrigVertices[i]);
+                Append(tVertices[i].z.ToString());
+                //Append(tVertices[i].z.ToString()).Append(" ").Append(tOrigVertices[i]);
                 sw.WriteLine(sb);
             }
             // Write UVs
