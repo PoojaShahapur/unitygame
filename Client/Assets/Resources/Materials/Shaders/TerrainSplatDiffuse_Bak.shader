@@ -2,7 +2,7 @@ Shader "My/Terrain/TerrainSplatDiffuse_Bak"
 {
 	Properties 
 	{
-		_Splat0 ("Layer 0 (R)", 2D) = "white" {}
+		_MainTex("Layer 0 (R)", 2D) = "white" {}
 		_Splat1 ("Layer 1 (G)", 2D) = "white" {}
 		_Splat2 ("Layer 2 (B)", 2D) = "white" {}
 		_Splat3 ("Layer 3 (A)", 2D) = "white" {}
@@ -22,7 +22,7 @@ Shader "My/Terrain/TerrainSplatDiffuse_Bak"
 			#include "UnityCG.cginc"
 			//#pragma surface surf Lambert noforwardadd
 
-			sampler2D _Splat0;
+			sampler2D _MainTex;
 			sampler2D _Splat1;
 			sampler2D _Splat2;
 			sampler2D _Splat3;
@@ -49,7 +49,7 @@ Shader "My/Terrain/TerrainSplatDiffuse_Bak"
 			{
 				half4 splat_control = tex2D(_Control, V2F.uv);
 				mixedDiffuse = 0.0f;
-				mixedDiffuse += splat_control.r * tex2D(_Splat0, V2F.uv * _UVMultiplier.x);
+				mixedDiffuse += splat_control.r * tex2D(_MainTex, V2F.uv * _UVMultiplier.x);
 				mixedDiffuse += splat_control.g * tex2D(_Splat1, V2F.uv * _UVMultiplier.y);
 				mixedDiffuse += splat_control.b * tex2D(_Splat2, V2F.uv * _UVMultiplier.z);
 				mixedDiffuse += splat_control.a * tex2D(_Splat3, V2F.uv * _UVMultiplier.w);
