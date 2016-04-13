@@ -37,7 +37,7 @@ namespace SDK.Lib
     public class SerializeData
     {
         public Dictionary<string, SerializeHeader> m_headerDic;
-        public int mHeaderSize;     // 总动的 Node 的个数
+        public int mHeaderSize;     // 总共的 Node 的个数
         public int mSizePerHeader;  // 每一个头部大小
         public int mTotalHeaderSize;// 总共头部的字节数
         public int mUniqueIdSize;

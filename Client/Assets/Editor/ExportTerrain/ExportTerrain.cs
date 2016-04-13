@@ -152,11 +152,12 @@ public class ExportTerrain : EditorWindow
         {
             for(int idx = 0; idx < w; ++idx)
             {
-                //height = tData[idy, idx];
-                fx = ((float)idx) / w;
-                fy = ((float)idy) / h;
-                height = terrainData.GetInterpolatedHeight(fx, fy);
-                height /= meshScale.z;
+                height = tData[idy, idx];
+                // 这个是插值的高度
+                //fx = ((float)idx) / w;
+                //fy = ((float)idy) / h;
+                //height = terrainData.GetInterpolatedHeight(fx, fy);
+                //height /= meshScale.z;
                 color = new Color(height, height, height, height);
                 heightMap.SetPixel(idx, idy, color);
             }

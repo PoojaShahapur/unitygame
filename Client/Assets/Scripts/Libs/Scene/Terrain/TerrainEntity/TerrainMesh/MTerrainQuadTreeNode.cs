@@ -81,7 +81,7 @@ namespace SDK.Lib
             }
             else
             {
-                if(!Ctx.m_instance.m_terrainBufferSys.getAABB(getNameStr(), ref mAABB))
+                if(!Ctx.m_instance.m_terrainBufferSys.getAABB(mTerrain.getTerrainId(), getNameStr(), ref mAABB))
                 {
                     mAABB.setMinimum(new MVector3(-mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2, -mTerrain.getMaxBatchWorldSize() / 2));
                     mAABB.setMaximum(new MVector3(mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2, mTerrain.getMaxBatchWorldSize() / 2));
@@ -286,7 +286,7 @@ namespace SDK.Lib
 
         public void createCpuVertexData()
         {
-            if (!Ctx.m_instance.m_terrainBufferSys.getVertData(getNameStr(), ref mVertexDataRecord))
+            if (!Ctx.m_instance.m_terrainBufferSys.getVertData(mTerrain.getTerrainId(), getNameStr(), ref mVertexDataRecord))
             {
                 mVertexDataRecord = new MVertexDataRecord();
                 mCurIndexBufferIndex = 0;
@@ -299,7 +299,7 @@ namespace SDK.Lib
                 mWorldAabb.setNull();
                 mBoundingRadius = 0;
 
-                Ctx.m_instance.m_terrainBufferSys.getAABB(getNameStr(), ref mAABB);
+                Ctx.m_instance.m_terrainBufferSys.getAABB(mTerrain.getTerrainId(), getNameStr(), ref mAABB);
                 updateWorldAABB();
 
                 mBoundingRadius = mAABB.getHalfSize().length();
@@ -603,7 +603,7 @@ namespace SDK.Lib
         {
             if (mTileRender == null)
             {
-                if (!Ctx.m_instance.m_terrainBufferSys.getTerrainTileRender(this.getNameStr(), ref mTileRender))
+                if (!Ctx.m_instance.m_terrainBufferSys.getTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender))
                 {
                     mTileRender = new TerrainTileRender(this);
                     mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
@@ -629,7 +629,7 @@ namespace SDK.Lib
             if(mTileRender != null)
             {
                 mTileRender.hide();
-                Ctx.m_instance.m_terrainBufferSys.addTerrainTileRender(this.getNameStr(), ref mTileRender);
+                Ctx.m_instance.m_terrainBufferSys.addTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender);
             }
         }
     }

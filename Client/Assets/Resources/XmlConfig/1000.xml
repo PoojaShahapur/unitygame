@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8' ?>
-<Config>
-	<SplatName name="Materials/Textures/Terrain/haidi02.png" worldSize="8" />
-	<SplatName name="Materials/Textures/Terrain/sazi01.png" worldSize="200" />
-	<SplatName name="Materials/Textures/Terrain/sazi02.png" worldSize="8" />
-	<SplatName name="Materials/Textures/Terrain/dimian01.png" worldSize="7" />
-	<AlphaName name="Materials/Textures/Terrain/alphamapTextures_0.png" />
-</Config>

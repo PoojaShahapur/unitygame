@@ -33,7 +33,7 @@
             mInputScale = 200;
             mInputBias = 0;
 
-            mIsReadFile = false;
+            mIsReadFile = true;
             mNeedCull = true;
             mNeedSaveScene = false;
 

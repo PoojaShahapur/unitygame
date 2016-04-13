@@ -142,8 +142,8 @@ namespace SDK.Lib
 
         public void deserialize()
         {
-            Ctx.m_instance.m_terrainBufferSys.setHeaderSize(((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));
-            Ctx.m_instance.m_terrainBufferSys.deserialize();
+            Ctx.m_instance.m_terrainBufferSys.setHeaderSize(mImportData.mTerrainId, ((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));
+            Ctx.m_instance.m_terrainBufferSys.deserialize(mImportData.mTerrainId);
         }
 
         public bool isLoaded()
@@ -253,7 +253,7 @@ namespace SDK.Lib
             {
                 mImportData.parseXml();
                 mTerrainMat.initSplatPath(mImportData);
-                mTerrainMat.setUVMultiplier(mUVMultiplier);
+                //mTerrainMat.setUVMultiplier(mUVMultiplier);
                 mTerrainMat.loadSplatDiffuseMat();
             }
 
@@ -299,7 +299,7 @@ namespace SDK.Lib
 
             int numVertices = mSize * mSize;
 
-            Ctx.m_instance.m_terrainBufferSys.getTerrainMat(ref mTerrainMat);
+            Ctx.m_instance.m_terrainBufferSys.getTerrainMat(mImportData.mTerrainId, ref mTerrainMat);
 
             mQuadTree = new MTerrainQuadTreeNode(this, null, 0, 0, mSize, (ushort)(mNumLodLevels - 1), 0, 0);
             mQuadTree.prepare();
@@ -1905,6 +1905,11 @@ namespace SDK.Lib
             mWorldAabb.setMaximum(mAABB.getMaximum() + getPosition());
 
             return this.mWorldAabb;
+        }
+
+        public string getTerrainId()
+        {
+            return mImportData.mTerrainId;
         }
     }
 }

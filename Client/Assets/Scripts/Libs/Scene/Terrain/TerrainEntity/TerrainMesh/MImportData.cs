@@ -17,6 +17,7 @@ namespace SDK.Lib
 
     public class MImportData
     {
+        public string mTerrainId;   // 地图配置文件唯一 ID
         public ushort terrainSize;
         public ushort maxBatchSize;
         public ushort minBatchSize;
@@ -33,6 +34,7 @@ namespace SDK.Lib
         public string mAlphaTexName;
         public string mFileName;
         public TextRes m_textRes;
+        public string m_terrainId;
 
         public long x, y;
 
@@ -53,8 +55,14 @@ namespace SDK.Lib
             detailWorldSize = 8;
             isUseSplatMap = true;
             layerList = new MList<LayerInstance>();
+            m_terrainId = "1000";
 
             //parseXml();
+        }
+
+        public void setTerrainId(string terrainId)
+        {
+            m_terrainId = terrainId;
         }
 
         public void assignFrom(MImportData rhs)
@@ -79,31 +87,36 @@ namespace SDK.Lib
 
         public void parseXml()
         {
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes("XmlConfig/1000.xml");
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("XmlConfig/{0}.xml", m_terrainId));
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");
                 SecurityParser xmlDoc = new SecurityParser();
                 xmlDoc.LoadXml(text);
                 SecurityElement config = xmlDoc.ToXml();
-                ArrayList itemNodeList = new ArrayList();
-                UtilXml.getXmlChildList(config, "SplatName", ref itemNodeList);
+                parseXmlNode(config);
+            }
+        }
 
-                LayerInstance ins = null;
-                foreach (SecurityElement itemElem in itemNodeList)
-                {
-                    ins = new LayerInstance();
-                    layerList.Add(ins);
-                    UtilXml.getXmlAttrStr(itemElem, "name", ref ins.textureName);
-                    UtilXml.getXmlAttrFloat(itemElem, "worldSize", ref ins.worldSize);
-                }
+        public void parseXmlNode(SecurityElement terrain)
+        {
+            ArrayList itemNodeList = new ArrayList();
+            UtilXml.getXmlChildList(terrain, "SplatName", ref itemNodeList);
 
-                itemNodeList.Clear();
-                UtilXml.getXmlChildList(config, "AlphaName", ref itemNodeList);
-                foreach (SecurityElement itemElem in itemNodeList)
-                {
-                    UtilXml.getXmlAttrStr(itemElem, "name", ref mAlphaTexName);
-                }
+            LayerInstance ins = null;
+            foreach (SecurityElement itemElem in itemNodeList)
+            {
+                ins = new LayerInstance();
+                layerList.Add(ins);
+                UtilXml.getXmlAttrStr(itemElem, "name", ref ins.textureName);
+                UtilXml.getXmlAttrFloat(itemElem, "worldSize", ref ins.worldSize);
+            }
+
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "AlphaName", ref itemNodeList);
+            foreach (SecurityElement itemElem in itemNodeList)
+            {
+                UtilXml.getXmlAttrStr(itemElem, "name", ref mAlphaTexName);
             }
         }
     }
