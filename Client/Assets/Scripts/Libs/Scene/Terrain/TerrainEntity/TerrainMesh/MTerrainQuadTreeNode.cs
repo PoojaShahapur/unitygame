@@ -316,6 +316,7 @@ namespace SDK.Lib
             float uvScale = 1.0f / (mTerrain.getSize() - 1);
             ushort inc = 1;
             float height = 0;
+            float heightData = 0;
             MVector3 pos = new MVector3(0, 0, 0);
             Ctx.m_instance.m_terrainBufferSys.openFile();
             for (ushort y = (ushort)rect.top; y < rect.bottom; y += inc)
@@ -323,8 +324,9 @@ namespace SDK.Lib
                 for (ushort x = (ushort)rect.left; x < rect.right; x += inc)
                 {
                     height = mTerrain.getHeightAtPoint(x, y);
+                    heightData = mTerrain.getOrigHeightData(x, y);
                     mTerrain.getPoint(x, y, height, ref pos);
-                    Ctx.m_instance.m_terrainBufferSys.writeVertex(pos);
+                    Ctx.m_instance.m_terrainBufferSys.writeVertex(pos, heightData);
                     mergeIntoBounds(x, y, ref pos);
                     pos -= mLocalCentre;
                     writePosVertex(x, y, ref pos, uvScale);

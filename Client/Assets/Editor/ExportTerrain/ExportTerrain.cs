@@ -68,9 +68,9 @@ public class ExportTerrain : EditorWindow
         }
         if (GUILayout.Button("ExportHeightMap"))
         {
-            exportHeightMap();
+            //exportHeightMap();
             //exportScaleHeightMap();
-            //exportHeightData();
+            exportHeightData();
         }
         if (GUILayout.Button("ExportAlphaMap"))
         {
@@ -142,8 +142,8 @@ public class ExportTerrain : EditorWindow
         Vector3 meshScale = terrainData.size;
         float[,] tData = terrainData.GetHeights(0, 0, w, h);
 
-        float fx = 0;
-        float fy = 0;
+        //float fx = 0;
+        //float fy = 0;
 
         Color color = new Color(0, 0, 0, 0);
         float height = 0;
@@ -214,16 +214,6 @@ public class ExportTerrain : EditorWindow
         w = (int)((w - 1) / tRes + 1);
         h = (int)((h - 1) / tRes + 1);
         Vector3[] tVertices = new Vector3[w * h];
-        Vector2[] tUV = new Vector2[w * h];
-        int[] tPolys = null;
-        if (saveFormat == SaveFormat.Triangles)
-        {
-            tPolys = new int[(w - 1) * (h - 1) * 6];
-        }
-        else
-        {
-            tPolys = new int[(w - 1) * (h - 1) * 4];
-        }
 
         float height = 0;
         ByteBuffer buffer = new ByteBuffer();

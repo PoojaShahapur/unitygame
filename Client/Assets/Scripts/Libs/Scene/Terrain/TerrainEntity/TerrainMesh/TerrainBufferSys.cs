@@ -186,13 +186,13 @@ namespace SDK.Lib
             mStreamWriter = new StreamWriter(fileName);
         }
 
-        public void writeVertex(MVector3 vert)
+        public void writeVertex(MVector3 vert, float height)
         {
             StringBuilder sb = null;
             sb = new StringBuilder("v ", 20);
             sb.Append(vert.x.ToString()).Append(" ").
             Append(vert.y.ToString()).Append(" ").
-            Append(vert.z.ToString());
+            Append(vert.z.ToString()).Append(" ").Append(height);
             mStreamWriter.WriteLine(sb);
         }
 

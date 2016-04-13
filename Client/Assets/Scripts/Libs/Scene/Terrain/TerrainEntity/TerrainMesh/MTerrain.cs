@@ -227,6 +227,7 @@ namespace SDK.Lib
 
             mHeightData = new float[numVertices];
 
+            /*
             if (!string.IsNullOrEmpty(importData.heightPath))
             {
                 m_heightMapData.loadHeightMap(importData.heightPath);
@@ -235,10 +236,25 @@ namespace SDK.Lib
                 float height = 0;
                 for (int idy = 0; idy < mSize; ++idy)
                 {
-                    srcy = mSize - idy - 1;
                     for (int idx = 0; idx < mSize; ++idx)
                     {
                         height = m_heightMapData.getOrigHeight(idx, idy);
+                        mHeightData[idy * mSize + idx] = height * importData.inputScale + importData.inputBias;
+                    }
+                }
+            }
+            */
+            //if (!string.IsNullOrEmpty(importData.heightPath))
+            {
+                m_heightMapData.setSize(mSize);
+                m_heightMapData.loadOrigHeight();
+
+                float height = 0;
+                for (int idy = 0; idy < mSize; ++idy)
+                {
+                    for (int idx = 0; idx < mSize; ++idx)
+                    {
+                        height = m_heightMapData.getOrigHeightData(idx, idy);
                         mHeightData[idy * mSize + idx] = height * importData.inputScale + importData.inputBias;
                     }
                 }
@@ -1910,6 +1926,16 @@ namespace SDK.Lib
         public string getTerrainId()
         {
             return mImportData.mTerrainId;
+        }
+
+        public float getOrigHeight(int idx, int idy)
+        {
+            return m_heightMapData.getOrigHeight(idx, idy);
+        }
+
+        public float getOrigHeightData(int idx, int idy)
+        {
+            return m_heightMapData.getOrigHeightData(idx, idy);
         }
     }
 }

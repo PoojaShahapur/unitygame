@@ -10,7 +10,12 @@ namespace SDK.Lib
         protected TextureRes m_texRes;          // 原始的资源
         protected Texture2D m_heightMap;        // 高度图
         protected bool m_bEnableInterpolate;     // 开启插值
-        protected MList<float> m_tmpHeightList;       // 临时的高度数组 
+        protected MList<float> m_tmpHeightList;       // 临时的高度数组
+        protected float[] mHeightOrigData;
+        protected int mSize;        // 大小
+        protected BytesRes mBytesRes;
+        protected ByteBuffer mByteBuffer;
+        protected bool mFlipHeightY;
 
         public HeightMapData(TextureRes tex = null)
         {
@@ -18,6 +23,7 @@ namespace SDK.Lib
             m_texRes = null;
             m_heightMap = null;
             m_bEnableInterpolate = true;
+            mFlipHeightY = false;
             setHeightMapData(tex);
         }
 
@@ -96,6 +102,10 @@ namespace SDK.Lib
 
         public float getOrigHeight(int x, int z)
         {
+            if (mFlipHeightY)
+            {
+                z = m_heightMap.height - z - 1;
+            }
             Color color = m_heightMap.GetPixel(x, z);
             return color.r;
         }
@@ -251,6 +261,51 @@ namespace SDK.Lib
         public bool LoadImage(byte[] data)
         {
             return m_heightMap.LoadImage(null);
+        }
+
+        public void setSize(int size)
+        {
+            mSize = size;
+        }
+
+        public float getOrigHeightData(int x, int z)
+        {
+            if (mFlipHeightY)
+            {
+                z = mSize - z - 1;
+            }
+            return mHeightOrigData[z * mSize + x];
+        }
+
+        public void loadOrigHeight()
+        {
+            if(mHeightOrigData == null)
+            {
+                mHeightOrigData = new float[mSize * mSize];
+            }
+            if(mByteBuffer == null)
+            {
+                mByteBuffer = new ByteBuffer();
+                mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
+                string path = string.Format("TerrainData/{0}.bytes", "heightmap");
+                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
+            }
+
+            byte[] bytes = mBytesRes.getBytes("");
+            if (bytes != null)
+            {
+                mByteBuffer.clear();
+                mByteBuffer.writeBytes(bytes, 0, (uint)bytes.Length);
+                mByteBuffer.setPos(0);
+            }
+
+            for(int idy = 0; idy < mSize; ++idy)
+            {
+                for(int idx = 0; idx < mSize; ++idx)
+                {
+                    mByteBuffer.readFloat(ref mHeightOrigData[idy * mSize + idx]);
+                }
+            }
         }
 
         /**
