@@ -67,7 +67,7 @@ namespace SDK.Lib
                 pageIdx = 0;
                 while (pageIdx < Ctx.m_instance.mTerrainGlobalOption.mTerrainPageCount)
                 {
-                    Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy);
+                    Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy, "1000");
                     Ctx.m_instance.m_terrainGroup.loadTerrain(pageIdx, pageIdy, true);
                     Ctx.m_instance.m_terrainGroup.updateAABB(pageIdx, pageIdy);
                     if (!Ctx.m_instance.mTerrainGlobalOption.mNeedCull)

@@ -88,7 +88,7 @@ namespace SDK.Lib
             mFilenameExtension = extension;
         }
 
-        public void defineTerrain(long x, long y)
+        public void defineTerrain(long x, long y, string terrainId)
         {
             MTerrainSlot slot = getTerrainSlot(x, y, true);
             slot.def.useImportData();
@@ -96,6 +96,7 @@ namespace SDK.Lib
             slot.def.importData.x = slot.x;
             slot.def.importData.y = slot.y;
             slot.def.importData.pos = new MVector3(x * mTerrainWorldSize, 0, y * mTerrainWorldSize);
+            slot.def.importData.setTerrainId(terrainId);
 
             slot.def.importData.terrainSize = (ushort)mTerrainSize;
             slot.def.importData.worldSize = mTerrainWorldSize;

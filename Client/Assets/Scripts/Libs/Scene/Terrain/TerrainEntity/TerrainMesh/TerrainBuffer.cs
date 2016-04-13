@@ -52,15 +52,15 @@ namespace SDK.Lib
 
         public void loadMat()
         {
-            mTerrainMat.setDiffuseMap(mMImportData.diffusePath);
             if (!mMImportData.isUseSplatMap)
             {
+                mTerrainMat.setDiffuseMap(mMImportData.diffusePath);
                 mTerrainMat.loadDiffuseMat();
             }
             else
             {
-                float mUVMultiplier = mMImportData.worldSize / mMImportData.detailWorldSize;
-                mTerrainMat.setUVMultiplier(mUVMultiplier);
+                //float mUVMultiplier = mMImportData.worldSize / mMImportData.detailWorldSize;
+                //mTerrainMat.setUVMultiplier(mUVMultiplier);
                 mTerrainMat.loadSplatDiffuseMat();
             }
         }

@@ -55,14 +55,13 @@ namespace SDK.Lib
             detailWorldSize = 8;
             isUseSplatMap = true;
             layerList = new MList<LayerInstance>();
-            m_terrainId = "1000";
 
             //parseXml();
         }
 
         public void setTerrainId(string terrainId)
         {
-            m_terrainId = terrainId;
+            mTerrainId = terrainId;
         }
 
         public void assignFrom(MImportData rhs)
