@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Config>
-	<Terrain id="1000">
+	<Terrain id="t1000">
 		<SplatName name="Materials/Textures/Terrain/haidi02.png" worldSize="4" />
 		<SplatName name="Materials/Textures/Terrain/sazi01.png" worldSize="10" />
 		<SplatName name="Materials/Textures/Terrain/sazi02.png" worldSize="4" />

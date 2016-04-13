@@ -34,7 +34,6 @@ namespace SDK.Lib
         public string mAlphaTexName;
         public string mFileName;
         public TextRes m_textRes;
-        public string m_terrainId;
 
         public long x, y;
 
@@ -86,7 +85,7 @@ namespace SDK.Lib
 
         public void parseXml()
         {
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("XmlConfig/{0}.xml", m_terrainId));
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("XmlConfig/{0}.xml", mTerrainId));
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");

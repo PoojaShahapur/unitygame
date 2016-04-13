@@ -28,13 +28,13 @@
             mTerrainWorldSize = 200;
             mTerrainPageCount = (int)(mTerrainWorldSizeInAll / mTerrainWorldSize);
 
-            mMaxBatchSize = 17;
-            mMinBatchSize = 9;
+            mMaxBatchSize = 65;
+            mMinBatchSize = 33;
             mInputScale = 200;
             mInputBias = 0;
 
-            mIsReadFile = true;
-            mNeedCull = true;
+            mIsReadFile = false;
+            mNeedCull = false;
             mNeedSaveScene = false;
 
             // 设置默认的关系

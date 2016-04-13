@@ -1,7 +1,10 @@
 ﻿using Mono.Xml;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Security;
+using System.Text;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -21,6 +24,7 @@ namespace SDK.Lib
         protected Dictionary<string, TerrainBuffer> mTerrainBufferDic;
         public TextRes m_textRes;
         public Dictionary<int, Dictionary<int, ScenePageItem>> m_scenePageCfg;
+        public StreamWriter mStreamWriter;
 
         public TerrainBufferSys()
         {
@@ -51,6 +55,10 @@ namespace SDK.Lib
 
         public bool getVertData(string terrainId, string key, ref MVertexDataRecord record)
         {
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            {
+                return false;
+            }
             return mTerrainBufferDic[terrainId].getVertData(key, ref record);
         }
 
@@ -61,6 +69,10 @@ namespace SDK.Lib
 
         public bool getAABB(string terrainId, string key, ref MAxisAlignedBox aabb)
         {
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            {
+                return false;
+            }
             return mTerrainBufferDic[terrainId].getAABB(key, ref aabb);
         }
 
@@ -71,6 +83,10 @@ namespace SDK.Lib
 
         public bool getTerrainTileRender(string terrainId, string key, ref TerrainTileRender render)
         {
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            {
+                return false;
+            }
             return mTerrainBufferDic[terrainId].getTerrainTileRender(key, ref render);
         }
 
@@ -81,6 +97,10 @@ namespace SDK.Lib
 
         public bool getTerrainMat(string terrainId, ref TerrainMat mat)
         {
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            {
+                return false;
+            }
             return mTerrainBufferDic[terrainId].getTerrainMat(ref mat);
         }
 
@@ -158,6 +178,27 @@ namespace SDK.Lib
             }
 
             return "";
+        }
+
+        public void openFile()
+        {
+            string fileName = string.Format("{0}/{1}.txt", Application.dataPath, "aaa");
+            mStreamWriter = new StreamWriter(fileName);
+        }
+
+        public void writeVertex(MVector3 vert)
+        {
+            StringBuilder sb = null;
+            sb = new StringBuilder("v ", 20);
+            sb.Append(vert.x.ToString()).Append(" ").
+            Append(vert.y.ToString()).Append(" ").
+            Append(vert.z.ToString());
+            mStreamWriter.WriteLine(sb);
+        }
+
+        public void closeFile()
+        {
+            mStreamWriter.Close();
         }
     }
 }

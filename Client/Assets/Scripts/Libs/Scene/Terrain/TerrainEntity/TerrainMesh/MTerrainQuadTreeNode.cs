@@ -317,17 +317,20 @@ namespace SDK.Lib
             ushort inc = 1;
             float height = 0;
             MVector3 pos = new MVector3(0, 0, 0);
+            Ctx.m_instance.m_terrainBufferSys.openFile();
             for (ushort y = (ushort)rect.top; y < rect.bottom; y += inc)
             {
                 for (ushort x = (ushort)rect.left; x < rect.right; x += inc)
                 {
                     height = mTerrain.getHeightAtPoint(x, y);
                     mTerrain.getPoint(x, y, height, ref pos);
+                    Ctx.m_instance.m_terrainBufferSys.writeVertex(pos);
                     mergeIntoBounds(x, y, ref pos);
                     pos -= mLocalCentre;
                     writePosVertex(x, y, ref pos, uvScale);
                 }
             }
+            Ctx.m_instance.m_terrainBufferSys.closeFile();
         }
 
         protected void writePosVertex(ushort x, ushort y, ref MVector3 pos, float uvScale)
