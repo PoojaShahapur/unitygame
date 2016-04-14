@@ -224,7 +224,6 @@ namespace SDK.Lib
             determineLodLevels();
 
             int numVertices = mSize * mSize;
-
             mHeightData = new float[numVertices];
 
             /*
@@ -247,6 +246,7 @@ namespace SDK.Lib
             //if (!string.IsNullOrEmpty(importData.heightPath))
             {
                 m_heightMapData.setSize(mSize);
+                m_heightMapData.setHeightDataPath(mImportData.mHeightDataPath);
                 m_heightMapData.loadOrigHeight();
 
                 float height = 0;
@@ -260,14 +260,13 @@ namespace SDK.Lib
                 }
             }
 
-            mTerrainMat.setDiffuseMap(importData.diffusePath);
             if (!mImportData.isUseSplatMap)
             {
+                mTerrainMat.setDiffuseMap(importData.diffusePath);
                 mTerrainMat.loadDiffuseMat();
             }
             else
             {
-                mImportData.parseXml();
                 mTerrainMat.initSplatPath(mImportData);
                 //mTerrainMat.setUVMultiplier(mUVMultiplier);
                 mTerrainMat.loadSplatDiffuseMat();

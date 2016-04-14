@@ -11,6 +11,8 @@ namespace SDK.Lib
         protected Texture2D m_heightMap;        // 高度图
         protected bool m_bEnableInterpolate;     // 开启插值
         protected MList<float> m_tmpHeightList;       // 临时的高度数组
+
+        protected string mHeightDataPath;
         protected float[] mHeightOrigData;
         protected int mSize;        // 大小
         protected BytesRes mBytesRes;
@@ -263,6 +265,11 @@ namespace SDK.Lib
             return m_heightMap.LoadImage(null);
         }
 
+        public void setHeightDataPath(string path)
+        {
+            mHeightDataPath = path;
+        }
+
         public void setSize(int size)
         {
             mSize = size;
@@ -287,8 +294,7 @@ namespace SDK.Lib
             {
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
-                string path = string.Format("TerrainData/{0}.bytes", "heightmap");
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
+                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(mHeightDataPath);
             }
 
             byte[] bytes = mBytesRes.getBytes("");

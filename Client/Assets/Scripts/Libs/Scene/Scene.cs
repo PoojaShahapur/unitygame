@@ -57,7 +57,7 @@ namespace SDK.Lib
 
             //Ctx.m_instance.m_camSys.setMCamera(Camera.main);
             //m_terrain.updateClip();
-            Ctx.m_instance.m_terrainBufferSys.loadSceneCfg("s1000");
+            Ctx.m_instance.m_terrainBufferSys.loadSceneCfg("S1000");
             string terrainId = "";
 
             if (Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
@@ -75,7 +75,7 @@ namespace SDK.Lib
                     terrainId = Ctx.m_instance.m_terrainBufferSys.getTerrainId(pageIdx, pageIdy);
                     if(string.IsNullOrEmpty(terrainId))
                     {
-                        terrainId = "t1000";
+                        terrainId = "T1000";
                     }
                     Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy, terrainId);
                     Ctx.m_instance.m_terrainGroup.loadTerrain(pageIdx, pageIdy, true);

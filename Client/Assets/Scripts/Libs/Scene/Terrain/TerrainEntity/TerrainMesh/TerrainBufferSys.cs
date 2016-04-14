@@ -33,7 +33,7 @@ namespace SDK.Lib
 
         public void loadNeedRes()
         {
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes("XmlConfig/Terrain.xml");
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes("TerrainData/Terrain.xml");
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");
@@ -139,7 +139,7 @@ namespace SDK.Lib
                 m_scenePageCfg.Clear();
             }
 
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("XmlConfig/{0}.xml", path));
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", path));
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");

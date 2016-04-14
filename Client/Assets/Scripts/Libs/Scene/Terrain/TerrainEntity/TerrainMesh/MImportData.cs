@@ -25,6 +25,7 @@ namespace SDK.Lib
         public float worldSize;
         public string diffusePath;
         public string heightPath;
+        public string mHeightDataPath;  // 高度数据目录
         public float inputScale;
         public float inputBias;
         public bool deleteInputData;
@@ -32,7 +33,6 @@ namespace SDK.Lib
         public bool isUseSplatMap;
         public MList<LayerInstance> layerList;
         public string mAlphaTexName;
-        public string mFileName;
         public TextRes m_textRes;
 
         public long x, y;
@@ -85,7 +85,7 @@ namespace SDK.Lib
 
         public void parseXml()
         {
-            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("XmlConfig/{0}.xml", mTerrainId));
+            m_textRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(string.Format("TerrainData/{0}.xml", mTerrainId));
             if (m_textRes != null)
             {
                 string text = m_textRes.getText("");
@@ -99,8 +99,9 @@ namespace SDK.Lib
         public void parseXmlNode(SecurityElement terrain)
         {
             ArrayList itemNodeList = new ArrayList();
-            UtilXml.getXmlChildList(terrain, "SplatName", ref itemNodeList);
+            UtilXml.getXmlChildList(terrain, "SplatMapName", ref itemNodeList);
 
+            // 获取 Splat 数据
             LayerInstance ins = null;
             foreach (SecurityElement itemElem in itemNodeList)
             {
@@ -110,11 +111,36 @@ namespace SDK.Lib
                 UtilXml.getXmlAttrFloat(itemElem, "worldSize", ref ins.worldSize);
             }
 
+            // 获取 Alpha 数据
             itemNodeList.Clear();
-            UtilXml.getXmlChildList(terrain, "AlphaName", ref itemNodeList);
+            UtilXml.getXmlChildList(terrain, "AlphaMapName", ref itemNodeList);
             foreach (SecurityElement itemElem in itemNodeList)
             {
                 UtilXml.getXmlAttrStr(itemElem, "name", ref mAlphaTexName);
+            }
+
+            // 获取高度数据
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "HeightDataName", ref itemNodeList);
+            if (itemNodeList.Count > 0)
+            {
+                UtilXml.getXmlAttrStr(itemNodeList[0] as SecurityElement, "name", ref mHeightDataPath);
+            }
+
+            // 获取高度贴图
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "HeightMapName", ref itemNodeList);
+            if (itemNodeList.Count > 0)
+            {
+                UtilXml.getXmlAttrStr(itemNodeList[0] as SecurityElement, "name", ref heightPath);
+            }
+
+            // 获取 Diffuse 贴图数据
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "DiffuseMapName", ref itemNodeList);
+            if (itemNodeList.Count > 0)
+            {
+                UtilXml.getXmlAttrStr(itemNodeList[0] as SecurityElement, "name", ref diffusePath);
             }
         }
     }

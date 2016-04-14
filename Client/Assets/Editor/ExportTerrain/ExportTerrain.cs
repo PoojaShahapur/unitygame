@@ -1,6 +1,4 @@
 using SDK.Lib;
-using System;
-using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -27,9 +25,12 @@ public class ExportTerrain : EditorWindow
     static TerrainData terrainData;
     static Vector3 terrainPos;
 
-    int tCount;
-    int counter;
-    int totalCount;
+    protected int tCount;
+    protected int counter;
+    protected int totalCount;
+    protected string mTerrainId;   // 地形唯一 Id
+    protected string mHeightMapNamePrefix = "HeightMap"; // 地形高度文件名字前缀
+    protected string mAlphaMapNamePrefix = "AlphaMap";   // Alpha 贴图文件名字前缀
 
     [MenuItem("My/Terrain/Export Terrain")]
     static public void Init()
@@ -61,15 +62,19 @@ public class ExportTerrain : EditorWindow
         }
 
         GUILayout.Label("map name, please use number");
-        string num = GUILayout.TextField("1000");
+        mTerrainId = GUILayout.TextField("1000");
+        mTerrainId = string.Format("T{0}", mTerrainId);
         if (GUILayout.Button("ExportTexture"))
         {
             exportSplatTexture();
         }
         if (GUILayout.Button("ExportHeightMap"))
         {
-            //exportHeightMap();
+            exportHeightMap();
             //exportScaleHeightMap();
+        }
+        if (GUILayout.Button("ExportHeightData"))
+        {
             exportHeightData();
         }
         if (GUILayout.Button("ExportAlphaMap"))
@@ -81,6 +86,16 @@ public class ExportTerrain : EditorWindow
         {
             exportXml();
         }
+        if (GUILayout.Button("ExportSplatXml"))
+        {
+            exportSplatXml();
+        }
+        if (GUILayout.Button("ExportTerrain"))
+        {
+            exportSplatXml();
+            exportAlphaTexture();
+            exportHeightData();
+        }
     }
 
     public void exportAlphaTexture()
@@ -89,7 +104,7 @@ public class ExportTerrain : EditorWindow
         int idx = 0;
         while (idx < terrainData.alphamapTextures.Length)
         {
-            path = string.Format("{0}/{1}_{2}.png", Application.dataPath, "alphamapTextures", idx);
+            path = string.Format("{0}/Resources/Materials/Textures/Terrain/{1}_{2}_{3}.png", Application.dataPath, mAlphaMapNamePrefix, mTerrainId, idx);
             UtilApi.saveTex2File(terrainData.alphamapTextures[0], path);
             ++idx;
         }
@@ -136,7 +151,7 @@ public class ExportTerrain : EditorWindow
 
     public void exportHeightMap()
     {
-        string fileName = string.Format("{0}/{1}.png", Application.dataPath, "heightmap");
+        string fileName = string.Format("{0}/Resources/Materials/Textures/Terrain/{1}_{2}.png", Application.dataPath, mHeightMapNamePrefix, mTerrainId);
         int w = terrainData.heightmapWidth;
         int h = terrainData.heightmapHeight;
         Vector3 meshScale = terrainData.size;
@@ -201,7 +216,7 @@ public class ExportTerrain : EditorWindow
     // 导出高度数据
     public void exportHeightData()
     {
-        string fileName = string.Format("{0}/{1}.bytes", Application.dataPath, "heightmap");
+        string fileName = string.Format("{0}/Resources/TerrainData/{1}_{2}.bytes", Application.dataPath, mHeightMapNamePrefix, mTerrainId);
 
         int w = terrainData.heightmapWidth;
         int h = terrainData.heightmapHeight;
@@ -304,14 +319,52 @@ public class ExportTerrain : EditorWindow
     // 导出地形 Xml 配置文件
     public void exportXml()
     {
-        string path = Application.streamingAssetsPath + "/1000.xml";
-        int idx = 0;
+        string path = string.Format("{0}/{1}/{2}.xml", Application.dataPath, "Resources/TerrainData", mTerrainId);
         string fileName = "";
         SplatPrototype splatLayer = null;
         string resPath = "";
         string xmlStr = "";
         string tmp = "";
+        // 头信息
         xmlStr += "<?xml version='1.0' encoding='utf-8' ?>\r\n";
+        // 开始标签
+        xmlStr += "<Config>\r\n";
+
+        // 输出 Diffuse 贴图名字
+        if(terrainData.splatPrototypes.Length > 0)
+        {
+            splatLayer = terrainData.splatPrototypes[0];
+            resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
+            // 保存目录
+            fileName = UtilApi.getFileNameNoPath(resPath);
+            tmp = string.Format("\t<SplatMapName name=\"Materials/Textures/Terrain/{0}\" />\r\n", fileName);
+            xmlStr += tmp;
+        }
+
+        // 输出高度数据
+        tmp = string.Format("\t<HeightMapName name=\"Materials/Textures/Terrain/{0}_{1}.png\" />\r\n", mHeightMapNamePrefix, mTerrainId);
+        xmlStr += tmp;
+
+        // 结束标签
+        xmlStr += "</Config>";
+
+        UtilApi.saveStr2File(xmlStr, path, Encoding.UTF8);
+    }
+
+    // 导出 Splat 地形 Xml 配置文件
+    public void exportSplatXml()
+    {
+        string path = string.Format("{0}/{1}/{2}.xml", Application.dataPath, "Resources/TerrainData", mTerrainId);
+        int idx = 0;
+        string fileName = "";
+        SplatPrototype splatLayer = null;
+        Vector2 tileSize;
+        string resPath = "";
+        string xmlStr = "";
+        string tmp = "";
+        // 头信息
+        xmlStr += "<?xml version='1.0' encoding='utf-8' ?>\r\n";
+        // 开始标签
         xmlStr += "<Config>\r\n";
         // 输出 Splat 贴图名字
         for (idx = 0; idx < terrainData.splatPrototypes.Length; ++idx)
@@ -320,16 +373,23 @@ public class ExportTerrain : EditorWindow
             resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
             // 保存目录
             fileName = UtilApi.getFileNameNoPath(resPath);
-            tmp = string.Format("\t<SplatName name=\"{0}\" />\r\n", fileName);
+            tileSize = splatLayer.tileSize;
+            tmp = string.Format("\t<SplatMapName name=\"Materials/Textures/Terrain/{0}\" worldSize=\"{1}\" />\r\n", fileName, tileSize.x);
             xmlStr += tmp;
         }
         // 输出 Alpha Map
         for(idx = 0; idx < terrainData.alphamapTextures.Length; ++idx)
         {
-            tmp = string.Format("\t<AlphaName name=\"{0}_{1}.png\" />\r\n", "AlphaMap", idx);
+            tmp = string.Format("\t<AlphaMapName name=\"Materials/Textures/Terrain/{0}_{1}_{2}.png\" />\r\n", "AlphaMap", mTerrainId, idx);
             xmlStr += tmp;
         }
+        // 输出高度数据
+        tmp = string.Format("\t<HeightDataName name=\"TerrainData/{0}_{1}.bytes\" />\r\n", mHeightMapNamePrefix, mTerrainId);
+        xmlStr += tmp;
+
+        // 结束标签
         xmlStr += "</Config>";
+
         UtilApi.saveStr2File(xmlStr, path, Encoding.UTF8);
     }
 }
