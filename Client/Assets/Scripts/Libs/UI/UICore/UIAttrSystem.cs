@@ -151,6 +151,13 @@ namespace SDK.Lib
             m_id2AttrDic[UIFormID.eUIMaze].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIMaze", "UIMaze", ".prefab");
             m_id2AttrDic[UIFormID.eUIMaze].m_scriptTypeName = "Game.UI.UIMaze";
 
+            m_id2AttrDic[UIFormID.eUIMaze] = new UIAttrItem();
+            m_id2AttrDic[UIFormID.eUIMaze].m_canvasID = UICanvasID.eCanvas_100;
+            m_id2AttrDic[UIFormID.eUIMaze].m_LayerID = UILayerID.eSecondLayer;
+            m_id2AttrDic[UIFormID.eUIMaze].addUISceneType(UISceneType.eUIScene_Game);
+            m_id2AttrDic[UIFormID.eUIMaze].m_widgetPath = string.Format("{0}{1}/{2}{3}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathComUI], "UIMaze", "UIMaze", ".prefab");
+            m_id2AttrDic[UIFormID.eUIMaze].m_scriptTypeName = "Game.UI.UIMaze";
+
             // ****************** 第二层结束 ***********************
 
             // ****************** 第四层开始 ***********************

@@ -24,6 +24,7 @@ namespace SDK.Lib
         eUIShop,         // 商店
         eUITask,         // 任务
         eUIMaze,         // 迷宫
+        eUITerrainEdit,     // 地形编辑器窗口
 
         // 第四层
         eUIInfo,             // 信息窗口
