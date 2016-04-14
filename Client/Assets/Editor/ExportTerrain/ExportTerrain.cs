@@ -1,4 +1,5 @@
 using SDK.Lib;
+using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -137,15 +138,30 @@ public class ExportTerrain : EditorWindow
 
     public void exportSplatTexture()
     {
-        string path = Application.streamingAssetsPath;
+        string fileAllPath = "";
+
         int idx = 0;
         SplatPrototype splatLayer = null;
         string resPath = "";
+        string fileName = "";
+        int slashIdx = 0;
+        string srcPath = "";
         for (idx = 0; idx < terrainData.splatPrototypes.Length; ++idx)
         {
             splatLayer = terrainData.splatPrototypes[idx];
             resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
             // ±£´æÄ¿Â¼
+            slashIdx = resPath.LastIndexOf("/");
+            fileName = resPath.Substring(slashIdx + 1);
+            fileAllPath = string.Format("{0}/Resources/Materials/Textures/Terrain/{1}", Application.dataPath, fileName);
+
+            if(!File.Exists(fileAllPath))
+            {
+                slashIdx = Application.dataPath.LastIndexOf("/");
+                srcPath = Application.dataPath.Substring(0, slashIdx);
+                srcPath = string.Format("{0}/{1}",srcPath , resPath);
+                File.Copy(srcPath, fileAllPath);
+            }
         }
     }
 

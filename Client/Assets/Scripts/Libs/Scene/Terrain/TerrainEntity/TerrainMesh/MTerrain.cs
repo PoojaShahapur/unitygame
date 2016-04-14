@@ -223,6 +223,8 @@ namespace SDK.Lib
             updateBaseScale();
             determineLodLevels();
 
+            mImportData.parseXml();
+
             int numVertices = mSize * mSize;
             mHeightData = new float[numVertices];
 

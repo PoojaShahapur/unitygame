@@ -97,7 +97,6 @@ namespace SDK.Lib
             slot.def.importData.y = slot.y;
             slot.def.importData.pos = new MVector3(x * mTerrainWorldSize, 0, y * mTerrainWorldSize);
             slot.def.importData.setTerrainId(terrainId);
-            slot.def.importData.parseXml();
 
             slot.def.importData.terrainSize = (ushort)mTerrainSize;
             slot.def.importData.worldSize = mTerrainWorldSize;
