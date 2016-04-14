@@ -34,7 +34,7 @@
             mInputBias = 0;
 
             mIsReadFile = false;
-            mNeedCull = false;
+            mNeedCull = true;
             mNeedSaveScene = false;
 
             // 设置默认的关系

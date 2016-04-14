@@ -92,6 +92,11 @@ namespace SDK.Lib
 
         public void addTerrainTileRender(string terrainId, string key, ref TerrainTileRender render)
         {
+            if (!Ctx.m_instance.mTerrainGlobalOption.mIsReadFile)
+            {
+                return;
+            }
+
             mTerrainBufferDic[terrainId].addTerrainTileRender(key, ref render);
         }
 
