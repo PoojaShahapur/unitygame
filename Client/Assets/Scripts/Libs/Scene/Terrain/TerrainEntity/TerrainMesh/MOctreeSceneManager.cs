@@ -270,7 +270,7 @@ namespace SDK.Lib
                     if (vis)
                     {
                         mNumObjects++;
-                        sn._addToRenderQueue(camera);
+                        sn._addToRenderQueue(camera, v);
                         mVisible.Add(sn);
 
                         if (mDisplayNodes)
@@ -317,41 +317,45 @@ namespace SDK.Lib
             }
             else
             {
-                // 如果不可见，就隐藏所有不可见的内容
-                List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
-
-                while (it.MoveNext())
-                {
-                    MOctreeNode sn = it.Current;
-                    sn._removeFromRenderQueue(camera);
-                }
-
-                MOctree child;
-                bool childfoundvisible = (v == MOctreeCamera.Visibility.FULL);
-                if ((child = octant.mChildren[0, 0, 0]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[1, 0, 0]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[0, 1, 0]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[1, 1, 0]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[0, 0, 1]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[1, 0, 1]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[0, 1, 1]) != null)
-                    walkOctree(camera, child);
-
-                if ((child = octant.mChildren[1, 1, 1]) != null)
-                    walkOctree(camera, child);
+                walkOctreeHide(camera, octant);
             }
+        }
+
+        public void walkOctreeHide(MOctreeCamera camera, MOctree octant)
+        {
+            // 如果不可见，就隐藏所有不可见的内容
+            List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
+
+            while (it.MoveNext())
+            {
+                MOctreeNode sn = it.Current;
+                sn._removeFromRenderQueue(camera);
+            }
+
+            MOctree child;
+            if ((child = octant.mChildren[0, 0, 0]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[1, 0, 0]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[0, 1, 0]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[1, 1, 0]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[0, 0, 1]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[1, 0, 1]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[0, 1, 1]) != null)
+                walkOctreeHide(camera, child);
+
+            if ((child = octant.mChildren[1, 1, 1]) != null)
+                walkOctreeHide(camera, child);
         }
 
         public void _findNodes(MAxisAlignedBox t, ref MList<MSceneNode> list, MSceneNode exclude, bool full, MOctree octant)

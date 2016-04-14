@@ -1136,5 +1136,37 @@ namespace SDK.Lib
 
             return ret;
         }
+
+        static public void setStatic(GameObject go, bool isStatic)
+        {
+            go.isStatic = isStatic;
+        }
+
+        static public bool isStatic(GameObject go)
+        {
+            return go.isStatic;
+        }
+
+        static public void setHideFlags(UnityEngine.Object obj, HideFlags flags)
+        {
+            obj.hideFlags = flags;
+        }
+
+        static public HideFlags getHideFlags(UnityEngine.Object obj)
+        {
+            return obj.hideFlags;
+        }
+
+        // 静态批次合并
+        static public void drawCombine(GameObject staticBatchRoot)
+        {
+            StaticBatchingUtility.Combine(staticBatchRoot);
+        }
+
+        // 静态批次合并
+        static public void drawCombine(GameObject[] gos, GameObject staticBatchRoot)
+        {
+            StaticBatchingUtility.Combine(gos, staticBatchRoot);
+        }
     }
 }

@@ -108,14 +108,17 @@ namespace SDK.Lib
             return nodeSize < octreeSize;
         }
 
-        public void _addToRenderQueue(MCamera cam)
+        public void _addToRenderQueue(MCamera cam, MOctreeCamera.Visibility visibleLevel)
         {
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
-                bool vis = false;
+                bool vis = true;
                 MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
                 FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
-                vis = cam.isVisible(ref tmp, ref plane);
+                if (visibleLevel == MOctreeCamera.Visibility.PARTIAL)
+                {
+                    vis = cam.isVisible(ref tmp, ref plane);
+                }
                 if(vis)
                 {
                     mo.show(cam);

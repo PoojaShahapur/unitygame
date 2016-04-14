@@ -314,7 +314,8 @@ namespace SDK.Lib
 
             if (m_renderer != null)
             {
-                m_renderer.sharedMaterials = new Material[] { };
+                //m_renderer.sharedMaterials = new Material[] { };
+                m_renderer.sharedMaterial = null;
             }
 
             UtilApi.DestroyImmediate(m_dynamicMat);
@@ -346,7 +347,8 @@ namespace SDK.Lib
                 if (m_renderer != null)
                 {
                     //m_renderer.sharedMaterials = new Material[] { m_dynamicMat };
-                    m_renderer.material = m_dynamicMat;
+                    //m_renderer.material = m_dynamicMat;
+                    m_renderer.sharedMaterial = m_dynamicMat;
                 }
             }
         }
