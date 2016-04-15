@@ -75,6 +75,7 @@ namespace Game.Game
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITuJianTop", typeof(UITuJianTop));
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITask", typeof(UITask));
             Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UIMaze", typeof(UIMaze));
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
         }
     }
 }

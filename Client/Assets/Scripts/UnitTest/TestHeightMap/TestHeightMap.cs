@@ -1,4 +1,5 @@
-﻿using SDK.Lib;
+﻿using Game.UI;
+using SDK.Lib;
 using UnityEngine;
 
 namespace UnitTest
@@ -16,6 +17,7 @@ namespace UnitTest
             //testProjectMatrix();
             //testPrint();
 
+            Ctx.m_instance.m_scriptDynLoad.registerScriptType("Game.UI.UITerrainEdit", typeof(UITerrainEdit));
             testNewTerrain();
         }
 
@@ -113,6 +115,8 @@ namespace UnitTest
             UtilApi.setPos(man.transform, Vector3.zero);
             Ctx.m_instance.m_camSys.setMainCamera(camera.GetComponent<Camera>());
             Ctx.m_instance.m_camSys.setCameraActor(man);
+
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITerrainEdit);
         }
     }
 }

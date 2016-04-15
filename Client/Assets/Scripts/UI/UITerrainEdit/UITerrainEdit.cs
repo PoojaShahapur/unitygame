@@ -38,7 +38,7 @@ namespace Game.UI
 
         protected void exportScene()
         {
-            
+            Ctx.m_instance.m_terrainGroup.serializeTerrain(0, 0);
         }
     }
 }
