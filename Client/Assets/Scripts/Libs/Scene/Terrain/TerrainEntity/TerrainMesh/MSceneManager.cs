@@ -269,6 +269,7 @@ namespace SDK.Lib
         {
             if(MacroDef.MULTITHREADING_CULL)
             {
+                mRequestType = RequestType.SCENE_CULL;
                 fireWorkerThreadsAndWait();
             }
             else

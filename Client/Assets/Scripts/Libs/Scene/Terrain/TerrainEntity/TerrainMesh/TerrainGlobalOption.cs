@@ -28,12 +28,12 @@
             mTerrainWorldSize = 200;
             mTerrainPageCount = (int)(mTerrainWorldSizeInAll / mTerrainWorldSize);
 
-            mMaxBatchSize = 65;
-            mMinBatchSize = 33;
+            mMaxBatchSize = 17;
+            mMinBatchSize = 9;
             mInputScale = 200;
             mInputBias = 0;
 
-            mIsReadFile = false;
+            mIsReadFile = true;
             mNeedCull = true;
             mNeedSaveScene = false;
 
