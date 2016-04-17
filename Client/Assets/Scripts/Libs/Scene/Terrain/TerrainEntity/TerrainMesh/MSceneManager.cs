@@ -27,6 +27,12 @@ namespace SDK.Lib
             }
         }
 
+        public enum RequestType
+        {
+            SCENE_CULL,
+            NUM_REQUESTS
+        }
+
         protected string mName;
         protected Dictionary<string, MSceneNode> mSceneNodes;
         protected MSceneNode mSceneRoot;
@@ -42,6 +48,12 @@ namespace SDK.Lib
         protected bool mShowBoundingBoxes;
         protected MList<MListener> mListeners;
 
+        protected uint mNumWorkerThreads;
+        MBarrier mWorkerThreadsBarrier;
+        protected MList<MThread> mWorkerThreads;
+        protected RequestType mRequestType;
+        protected MUpdateTransformRequest mUpdateTransformRequest;
+
         public MSceneManager(string name)
         {
             mName = name;
@@ -53,6 +65,14 @@ namespace SDK.Lib
             mAutoTrackingSceneNodes = new HashSet<MSceneNode>();
             mCameras = new Dictionary<string, MCamera>();
             mListeners = new MList<MListener>();
+
+            if (MacroDef.MULTITHREADING_CULL)
+            {
+                mNumWorkerThreads = 1;
+                mWorkerThreads = new MList<MThread>();
+                mUpdateTransformRequest = new MUpdateTransformRequest();
+                startWorkerThreads();
+            }
         }
 
         virtual public MCamera createCamera(string name)
@@ -243,6 +263,85 @@ namespace SDK.Lib
         public bool getShowBoundingBoxes()
         {
             return mShowBoundingBoxes;
+        }
+
+        public void cullScene()
+        {
+            if(MacroDef.MULTITHREADING_CULL)
+            {
+                fireWorkerThreadsAndWait();
+            }
+            else
+            {
+                cullSceneThread(null, 0);
+            }
+        }
+
+        public void cullSceneThread(MUpdateTransformRequest request, int threadIdx)
+        {
+            _updateSceneGraph(Ctx.m_instance.m_camSys.getLocalCamera());
+            _findVisibleObjects(Ctx.m_instance.m_camSys.getLocalCamera());
+        }
+
+        public long updateWorkerThread(MSceneThread threadHandle)
+        {
+            MSceneManager sceneManager = threadHandle.getSceneManager();
+            return sceneManager._updateWorkerThread(threadHandle);
+        }
+
+        public void fireWorkerThreadsAndWait()
+        {
+            mWorkerThreadsBarrier.sync();
+            mWorkerThreadsBarrier.sync();
+        }
+
+        public void startWorkerThreads()
+        {
+            mWorkerThreadsBarrier = new MBarrier( mNumWorkerThreads+1 );
+            MThread thread = null;
+            for( int i = 0; i< mNumWorkerThreads; ++i )
+            {
+                thread = new MSceneThread(updateWorkerThread, i, this);
+                thread.start();
+                mWorkerThreads.Add(thread);
+            }
+        }
+
+        public void stopWorkerThreads()
+        {
+            int idx = 0;
+            while(idx < mWorkerThreads.length())
+            {
+                mWorkerThreads[idx].ExitFlag = true;
+                ++idx;
+            }
+            fireWorkerThreadsAndWait();
+
+            idx = 0;
+            while(idx < mWorkerThreads.length())
+            {
+                mWorkerThreads[idx].join();
+                ++idx;
+            }
+
+            mWorkerThreadsBarrier = null;
+        }
+
+        public long _updateWorkerThread(MSceneThread threadHandle)
+        {
+            int threadIdx = threadHandle.getThreadIdx();
+            mWorkerThreadsBarrier.sync();
+            switch (mRequestType)
+            {
+                case RequestType.SCENE_CULL:
+                    cullSceneThread(mUpdateTransformRequest, threadIdx);
+                    break;
+                default:
+                    break;
+            }
+            mWorkerThreadsBarrier.sync();
+
+            return 0;
         }
     }
 }

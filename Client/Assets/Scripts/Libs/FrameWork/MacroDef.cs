@@ -52,10 +52,13 @@
         static public bool UNIT_TEST = true;
 
         // 外网测试
-        static public bool KOKSERVER_TEST = false;
+        static public bool KOKSERVER_TEST = true;
 
         // 不使用的代码
         static public bool DEPRECATE_CODE = false;
+
+        // 多线程裁剪场景
+        static public bool MULTITHREADING_CULL = true;
 
         // 宏定义结束
     }
