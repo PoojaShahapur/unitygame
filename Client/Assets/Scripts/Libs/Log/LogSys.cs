@@ -27,6 +27,7 @@ namespace SDK.Lib
 #endif
 
             registerDevice();
+            registerFileLogDevice();
         }
 
         protected void registerDevice()
@@ -53,6 +54,7 @@ namespace SDK.Lib
         // 注册文件日志，因为需要账号，因此需要等待输入账号后才能注册，可能多次注册
         public void registerFileLogDevice()
         {
+            Ctx.m_instance.m_dataPlayer.m_accountData.m_account = "A1000";
             if (MacroDef.ENABLE_FILELOG)
             {
                 unRegisterFileLogDevice();

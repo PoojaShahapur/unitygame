@@ -28,7 +28,7 @@
         static public bool ENABLE_WINLOG = true;
 
         // 开启网络日志
-        static public bool ENABLE_NETLOG = true;
+        static public bool ENABLE_NETLOG = false;
 
         // 开启文件日志
         static public bool ENABLE_FILELOG = true;
@@ -58,7 +58,7 @@
         static public bool DEPRECATE_CODE = false;
 
         // 多线程裁剪场景
-        static public bool MULTITHREADING_CULL = false;
+        static public bool MULTITHREADING_CULL = true;
 
         // 宏定义结束
     }

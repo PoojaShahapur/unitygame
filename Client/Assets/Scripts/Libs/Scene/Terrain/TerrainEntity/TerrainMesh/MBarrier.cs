@@ -35,6 +35,8 @@
 
         public void sync()
         {
+            Ctx.m_instance.m_logSys.log("10000  MBarrier sync");
+            Ctx.m_instance.m_logSys.log("10000  MBarrier mMutex WaitOne");
             mMutex.WaitOne();
             uint idx = mIndex;
 
@@ -50,6 +52,7 @@
 
             if (oldLockCount != mNumThreads - 1)
             {
+                Ctx.m_instance.m_logSys.log("10000  MBarrier mSemaphores WaitOne");
                 mMutex.ReleaseMutex();
                 mSemaphores[idx].WaitOne();
             }
@@ -59,10 +62,11 @@
                 mLockCount = 0;
                 if (mNumThreads > 1)
                 {
+                    Ctx.m_instance.m_logSys.log("10000  MBarrier mSemaphores Set");
+                    mMutex.ReleaseMutex();
                     mSemaphores[idx].Set();
                     mIsReset = false;
                 }
-                mMutex.ReleaseMutex();
             }
         }
     }

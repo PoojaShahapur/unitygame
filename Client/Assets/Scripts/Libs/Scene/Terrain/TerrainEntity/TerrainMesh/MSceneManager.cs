@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -226,6 +228,7 @@ namespace SDK.Lib
 
         virtual public void _findVisibleObjects(MCamera cam)
         {
+            Ctx.m_instance.m_logSys.log("10000  _findVisibleObjects");
             this.getRootSceneNode()._findVisibleObjects(cam, true);
         }
 
@@ -292,7 +295,10 @@ namespace SDK.Lib
 
         public void fireWorkerThreadsAndWait()
         {
+            Ctx.m_instance.m_logSys.log("10000  fireWorkerThreadsAndWait");
+            Ctx.m_instance.m_logSys.log("10000  fireWorkerThreadsAndWait mWorkerThreadsBarrier.sync_1");
             mWorkerThreadsBarrier.sync();
+            Ctx.m_instance.m_logSys.log("10000  fireWorkerThreadsAndWait mWorkerThreadsBarrier.sync_2");
             mWorkerThreadsBarrier.sync();
         }
 
@@ -331,15 +337,25 @@ namespace SDK.Lib
         public long _updateWorkerThread(MSceneThread threadHandle)
         {
             int threadIdx = threadHandle.getThreadIdx();
+            Ctx.m_instance.m_logSys.log("10000  _updateWorkerThread mWorkerThreadsBarrier.sync_1");
             mWorkerThreadsBarrier.sync();
             switch (mRequestType)
             {
                 case RequestType.SCENE_CULL:
-                    cullSceneThread(mUpdateTransformRequest, threadIdx);
+                    try
+                    {
+                        Ctx.m_instance.m_logSys.log("10000  _updateWorkerThread cullSceneThread");
+                        cullSceneThread(mUpdateTransformRequest, threadIdx);
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.Log(e.Message);
+                    }
                     break;
                 default:
                     break;
             }
+            Ctx.m_instance.m_logSys.log("10000  _updateWorkerThread mWorkerThreadsBarrier.sync_2");
             mWorkerThreadsBarrier.sync();
 
             return 0;

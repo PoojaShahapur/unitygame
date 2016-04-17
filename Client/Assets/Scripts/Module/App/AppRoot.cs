@@ -97,73 +97,12 @@ public class AppRoot : MonoBehaviour
 
     public void constructAll()
     {
-        UtilByte.checkEndian();     // 检查系统大端小端
-
-        Ctx.m_instance.m_cfg = new Config();
-        Ctx.m_instance.m_factoryBuild = new FactoryBuild();
-
-        Ctx.m_instance.m_netMgr = new NetworkMgr();
-        Ctx.m_instance.m_logSys = new LogSys();
-        Ctx.m_instance.m_resLoadMgr = new ResLoadMgr();
-        Ctx.m_instance.m_inputMgr = new InputMgr();
-
-        Ctx.m_instance.m_processSys = new ProcessSys();
-        Ctx.m_instance.m_tickMgr = new TickMgr();
-        Ctx.m_instance.m_timerMgr = new TimerMgr();
-        Ctx.m_instance.m_frameTimerMgr = new FrameTimerMgr();
-        Ctx.m_instance.m_coroutineMgr = new CoroutineMgr();
-        Ctx.m_instance.m_shareData = new ShareData();
-        Ctx.m_instance.m_sceneSys = new SceneSys();
-        Ctx.m_instance.m_layerMgr = new LayerMgr();
-
-        Ctx.m_instance.m_uiMgr = new UIMgr();
-        Ctx.m_instance.m_uiSceneMgr = new UISceneMgr();
-        Ctx.m_instance.m_engineLoop = new EngineLoop();
-        Ctx.m_instance.m_resizeMgr = new ResizeMgr();
-
-        Ctx.m_instance.m_playerMgr = new PlayerMgr();
-        Ctx.m_instance.m_monsterMgr = new MonsterMgr();
-        Ctx.m_instance.m_fObjectMgr = new FObjectMgr();
-        Ctx.m_instance.m_npcMgr = new NpcMgr();
-        Ctx.m_instance.m_spriteAniMgr = new SpriteAniMgr();
-
-        Ctx.m_instance.m_camSys = new CamSys();
-        Ctx.m_instance.m_aiSystem = new AISystem();
-        Ctx.m_instance.m_sysMsgRoute = new SysMsgRoute("SysMsgRoute");
-        Ctx.m_instance.m_moduleSys = new ModuleSys();
-        Ctx.m_instance.m_tableSys = new TableSys();
-        Ctx.m_instance.m_fileSys = new MFileSys();
-        Ctx.m_instance.m_langMgr = new LangMgr();
-        //Ctx.m_instance.m_pWebSocketMgr = new WebSocketMgr();
-        Ctx.m_instance.m_sceneCardMgr = new SceneCardMgr();
-        Ctx.m_instance.m_sceneEffectMgr = new SceneEffectMgr();
+        
     }
 
     public void PostInit()
     {
-        Ctx.m_instance.m_resizeMgr.addResizeObject(Ctx.m_instance.m_uiMgr as IResizeObject);
-        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_inputMgr as ITickedObject);
-        Ctx.m_instance.m_inputMgr.postInit();
-        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_playerMgr as ITickedObject);
-        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_monsterMgr as ITickedObject);
-        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_fObjectMgr as ITickedObject);
-        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_npcMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_spriteAniMgr as ITickedObject);
-        Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_sceneEffectMgr as ITickedObject);
-        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_sceneCardMgr as ITickedObject);
-        //Ctx.m_instance.m_tickMgr.addTick(Ctx.m_instance.m_aiSystem.aiControllerMgr as ITickedObject);
-
-        Ctx.m_instance.m_uiMgr.findCanvasGO();
-        Ctx.m_instance.m_dataPlayer.m_dataPack.postConstruct();
-        Ctx.m_instance.m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
-        Ctx.m_instance.m_resLoadMgr.postInit();
-
-        Ctx.m_instance.m_TaskQueue.m_pTaskThreadPool = Ctx.m_instance.m_TaskThreadPool;
-        Ctx.m_instance.m_TaskThreadPool.initThreadPool(2, Ctx.m_instance.m_TaskQueue);
-
-        Ctx.m_instance.m_depResMgr.initialize();
-        // 获取主线程 ID
-        MThread.getMainThreadID();
+        Ctx.m_instance.postInit();
     }
 
     public void setNoDestroyObject()

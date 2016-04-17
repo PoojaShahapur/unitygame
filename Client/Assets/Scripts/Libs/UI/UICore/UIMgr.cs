@@ -34,6 +34,11 @@ namespace SDK.Lib
             createCanvas();
 		}
 
+        public void init()
+        {
+            m_UIAttrs.init();
+        }
+
         protected void createCanvas()
         {
             m_canvasList = new List<UICanvas>();

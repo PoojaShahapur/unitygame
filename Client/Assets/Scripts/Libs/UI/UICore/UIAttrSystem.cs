@@ -180,7 +180,10 @@ namespace SDK.Lib
             m_id2AttrDic[UIFormID.eUIGM].m_scriptTypeName = "Game.UI.UIGM";
             // ****************** 顶层结束 ***********************
             // ****************** Canvas_100 结束 **********************
+        }
 
+        public void init()
+        {
             m_luaCSBridgeUICore = new LuaCSBridgeUICore(this);
             Ctx.m_instance.m_luaSystem.DoFile("MyLua/Libs/UI/UICore/UIAttrSystem.lua");
             m_luaCSBridgeUICore.loadLuaCfg();

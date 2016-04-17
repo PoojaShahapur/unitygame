@@ -134,11 +134,14 @@ namespace SDK.Lib
 
         protected void preInit()
         {
+            UtilByte.checkEndian();     // 检查系统大端小端
+            MThread.getMainThreadID();  // 获取主线程 ID
+
             mTerrainGlobalOption = new TerrainGlobalOption();
+
             m_netDispList = new NetDispList();
             m_msgRouteList = new MsgRouteDispList();
 
-            m_dataPlayer = new DataPlayer();
             m_xmlCfgMgr = new XmlCfgMgr();
             m_matMgr = new MaterialMgr();
             m_modelMgr = new ModelMgr();
@@ -191,25 +194,87 @@ namespace SDK.Lib
             m_terrainGroup = new MTerrainGroup(mTerrainGlobalOption.mTerrainSize, mTerrainGlobalOption.mTerrainWorldSize);
             m_textResMgr = new TextResMgr();
             m_terrainBufferSys = new TerrainBufferSys();
-            m_sceneManager = new MOctreeSceneManager("DummyScene");
             //m_terrainGroup = new MTerrainGroup(513, 512);
+
+            m_cfg = new Config();
+            m_dataPlayer = new DataPlayer();
+            m_factoryBuild = new FactoryBuild();
+
+            m_netMgr = new NetworkMgr();
+            m_resLoadMgr = new ResLoadMgr();
+            m_inputMgr = new InputMgr();
+
+            m_processSys = new ProcessSys();
+            m_tickMgr = new TickMgr();
+            m_timerMgr = new TimerMgr();
+            m_frameTimerMgr = new FrameTimerMgr();
+            m_coroutineMgr = new CoroutineMgr();
+            m_shareData = new ShareData();
+            m_sceneSys = new SceneSys();
+            m_layerMgr = new LayerMgr();
+
+            m_uiMgr = new UIMgr();
+            m_uiSceneMgr = new UISceneMgr();
+            m_engineLoop = new EngineLoop();
+            m_resizeMgr = new ResizeMgr();
+
+            m_playerMgr = new PlayerMgr();
+            m_monsterMgr = new MonsterMgr();
+            m_fObjectMgr = new FObjectMgr();
+            m_npcMgr = new NpcMgr();
+            m_spriteAniMgr = new SpriteAniMgr();
+
+            m_camSys = new CamSys();
+            m_aiSystem = new AISystem();
+            m_sysMsgRoute = new SysMsgRoute("SysMsgRoute");
+            m_moduleSys = new ModuleSys();
+            m_tableSys = new TableSys();
+            m_fileSys = new MFileSys();
+            m_logSys = new LogSys();
+            m_langMgr = new LangMgr();
+            //m_pWebSocketMgr = new WebSocketMgr();
+            m_sceneCardMgr = new SceneCardMgr();
+            m_sceneEffectMgr = new SceneEffectMgr();
+
+            m_sceneManager = new MOctreeSceneManager("DummyScene");
         }
 
         protected void interInit()
         {
             m_luaSystem.init();
+            m_uiMgr.init();
         }
 
-        protected void postInit()
+        public void postInit()
         {
+            m_resizeMgr.addResizeObject(m_uiMgr as IResizeObject);
+            m_tickMgr.addTick(m_inputMgr as ITickedObject);
+            m_inputMgr.postInit();
+            //m_tickMgr.addTick(m_playerMgr as ITickedObject);
+            //m_tickMgr.addTick(m_monsterMgr as ITickedObject);
+            //m_tickMgr.addTick(m_fObjectMgr as ITickedObject);
+            //m_tickMgr.addTick(m_npcMgr as ITickedObject);
+            m_tickMgr.addTick(m_spriteAniMgr as ITickedObject);
+            m_tickMgr.addTick(m_sceneEffectMgr as ITickedObject);
+            //m_tickMgr.addTick(m_sceneCardMgr as ITickedObject);
+            //m_tickMgr.addTick(m_aiSystem.aiControllerMgr as ITickedObject);
 
+            m_uiMgr.findCanvasGO();
+            m_dataPlayer.m_dataPack.postConstruct();
+            m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
+            m_resLoadMgr.postInit();
+
+            m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
+            m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
+
+            m_depResMgr.initialize();
         }
 
         public void init()
         {
             preInit();
             interInit();
-            postInit();
+            //postInit();
         }
 
         // 卸载所有的资源
