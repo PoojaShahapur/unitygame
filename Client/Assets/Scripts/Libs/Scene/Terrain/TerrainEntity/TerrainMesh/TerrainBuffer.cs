@@ -211,6 +211,7 @@ namespace SDK.Lib
                     mSerializeData = new SerializeData();
                 }
 
+                mSerializeData.setTerrainId(mMImportData.mTerrainId);
                 mSerializeData.deserializeHeader();
                 mIsReadHeader = true;
             }

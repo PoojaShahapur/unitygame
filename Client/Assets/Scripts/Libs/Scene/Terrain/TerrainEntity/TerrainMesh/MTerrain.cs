@@ -137,7 +137,7 @@ namespace SDK.Lib
             vertexBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
 
             mQuadTree.serialize(headerBuffer, vertexBuffer);
-            mSerializeData.save(headerBuffer, vertexBuffer);
+            mSerializeData.save(mImportData.mTerrainId, headerBuffer, vertexBuffer);
         }
 
         public void deserialize()

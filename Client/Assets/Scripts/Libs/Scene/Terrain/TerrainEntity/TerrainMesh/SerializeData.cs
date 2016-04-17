@@ -42,6 +42,7 @@ namespace SDK.Lib
         public int mTotalHeaderSize;// 总共头部的字节数
         public int mUniqueIdSize;
         public int mOffsetSize;
+        public string mTerrainId;
 
         public ByteBuffer mByteBuffer;
         public BytesRes m_byteRes;
@@ -57,6 +58,11 @@ namespace SDK.Lib
         public void setHeaderSize(int size)
         {
             mHeaderSize = size;
+        }
+
+        public void setTerrainId(string terrainId)
+        {
+            mTerrainId = terrainId;
         }
 
         public SerializeHeader getSerialHeader(string uniqueId)
@@ -80,7 +86,7 @@ namespace SDK.Lib
             {
                 mByteBuffer = new ByteBuffer();
                 mByteBuffer.dynBuff.maxCapacity = 1000 * 1024 * 1024;
-                string path = string.Format("TerrainData/{0}.bytes", "map");
+                string path = string.Format("TerrainData/{0}_{1}.bytes", "Map", mTerrainId);
                 m_byteRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
             }
 
@@ -124,9 +130,9 @@ namespace SDK.Lib
             }
         }
 
-        public void save(ByteBuffer headerBuffer, ByteBuffer vertexBuffer)
+        public void save(string terrainId, ByteBuffer headerBuffer, ByteBuffer vertexBuffer)
         {
-            string path = string.Format("{0}/Resources/TerrainData/{1}.bytes", Application.dataPath, "map");
+            string path = string.Format("{0}/Resources/TerrainData/{1}_{2}.bytes", Application.dataPath, "Map", terrainId);
             FileStream fileStream;
             try
             {
