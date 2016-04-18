@@ -23,7 +23,7 @@
 
         public TerrainGlobalOption()
         {
-            mTerrainWorldSizeInAll = 200;
+            mTerrainWorldSizeInAll = 3000;
             mTerrainSize = 33;
             mTerrainWorldSize = 200;
             mTerrainPageCount = (int)(mTerrainWorldSizeInAll / mTerrainWorldSize);
@@ -33,8 +33,8 @@
             mInputScale = 200;
             mInputBias = 0;
 
-            mIsReadFile = false;
-            mNeedCull = false;
+            mIsReadFile = true;
+            mNeedCull = true;
             mNeedSaveScene = false;
 
             // 设置默认的关系

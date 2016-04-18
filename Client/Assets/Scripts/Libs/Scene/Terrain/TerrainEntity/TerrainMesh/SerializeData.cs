@@ -7,6 +7,49 @@ using UnityEngine;
 namespace SDK.Lib
 {
     /**
+     * @brief 基本信息
+     */
+    public class SerializeBasic
+    {
+        public float mWorldSize;
+        public ushort mTerrainSize;
+        public float mInputScale;
+        public float mInputBias;
+        public ushort mMaxBatchSize;
+        public ushort mMinBatchSize;
+
+        public int getBadicSize()
+        {
+            return sizeof(float) +
+                   sizeof(ushort) +
+                   sizeof(float) +
+                   sizeof(float) +
+                   sizeof(ushort) +
+                   sizeof(ushort);
+        }
+
+        public void serialize(ByteBuffer buffer)
+        {
+            buffer.writeFloat(mWorldSize);
+            buffer.writeUnsignedInt16(mTerrainSize);
+            buffer.writeFloat(mInputScale);
+            buffer.writeFloat(mInputBias);
+            buffer.writeUnsignedInt16(mMaxBatchSize);
+            buffer.writeUnsignedInt16(mMinBatchSize);
+        }
+
+        public void deserialize(ByteBuffer buffer)
+        {
+            buffer.readFloat(ref mWorldSize);
+            buffer.readUnsignedInt16(ref mTerrainSize);
+            buffer.readFloat(ref mInputScale);
+            buffer.readFloat(ref mInputBias);
+            buffer.readUnsignedInt16(ref mMaxBatchSize);
+            buffer.readUnsignedInt16(ref mMinBatchSize);
+        }
+    }
+
+    /**
      * @breif 序列化头
      */
     public class SerializeHeader
@@ -14,7 +57,13 @@ namespace SDK.Lib
         public string mUniqueId;
         public int mOffset;
 
-        public void deserilize(ByteBuffer buffer, int uniqueIdSize, int offsetSize)
+        public void serialize(ByteBuffer buffer, int uniqueIdSize)
+        {
+            buffer.writeMultiByte(mUniqueId, Encoding.UTF8, uniqueIdSize);
+            buffer.writeInt32(mOffset);
+        }
+
+        public void deserialize(ByteBuffer buffer, int uniqueIdSize, int offsetSize)
         {
             buffer.readMultiByte(ref mUniqueId, (uint)uniqueIdSize, Encoding.UTF8);
             buffer.readInt32(ref mOffset);
@@ -46,6 +95,7 @@ namespace SDK.Lib
 
         public ByteBuffer mByteBuffer;
         public BytesRes m_byteRes;
+        public SerializeBasic mSerializeBasic;
 
         public SerializeData()
         {
@@ -53,6 +103,7 @@ namespace SDK.Lib
             mOffsetSize = 4;
             m_headerDic = new Dictionary<string, SerializeHeader>();
             mSizePerHeader = 16;    // 12 个 UniqueId 4 个 offset
+            mSerializeBasic = new SerializeBasic();
         }
 
         public void setHeaderSize(int size)
@@ -80,6 +131,12 @@ namespace SDK.Lib
             mTotalHeaderSize = mHeaderSize * mSizePerHeader;
         }
 
+        public int getBasicAndHeaderSize()
+        {
+            //return mSerializeBasic.getBadicSize() + mTotalHeaderSize;
+            return mTotalHeaderSize;
+        }
+
         public void deserializeHeader()
         {
             if (mByteBuffer == null)
@@ -103,7 +160,7 @@ namespace SDK.Lib
             while (idx < mHeaderSize)
             {
                 serializeHeader = new SerializeHeader();
-                serializeHeader.deserilize(mByteBuffer, mUniqueIdSize, mOffsetSize);
+                serializeHeader.deserialize(mByteBuffer, mUniqueIdSize, mOffsetSize);
                 if(!m_headerDic.ContainsKey(serializeHeader.mUniqueId))
                 {
                     m_headerDic[serializeHeader.mUniqueId] = serializeHeader;

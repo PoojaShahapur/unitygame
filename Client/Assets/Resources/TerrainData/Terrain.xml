@@ -1,11 +1,14 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Config>
 	<Terrain id="T1000">
-		<SplatMapName name="Materials/Textures/Terrain/haidi02.png" worldSize="8" />
-		<SplatMapName name="Materials/Textures/Terrain/sazi01.png" worldSize="20" />
-		<SplatMapName name="Materials/Textures/Terrain/sazi02.png" worldSize="8" />
-		<SplatMapName name="Materials/Textures/Terrain/dimian01.png" worldSize="7" />
+		<SplatMapName name="Materials/Textures/Terrain/haidi02.png" worldSize="4" />
+		<SplatMapName name="Materials/Textures/Terrain/sazi01.png" worldSize="10" />
+		<SplatMapName name="Materials/Textures/Terrain/sazi02.png" worldSize="4" />
+		<SplatMapName name="Materials/Textures/Terrain/haidi01.png" worldSize="3" />
 		<AlphaMapName name="Materials/Textures/Terrain/AlphaMap_T1000_0.png" />
 		<HeightDataName name="TerrainData/HeightMap_T1000.bytes" />
+		<WorldSize Width="200" Depth="200" Height="200" />
+		<BatchSize Max="9" Min="5" />
+		<HeightMapResolution Size="33" />
 	</Terrain>
 </Config>

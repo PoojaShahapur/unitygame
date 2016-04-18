@@ -112,7 +112,7 @@ namespace SDK.Lib
             {
                 SerializeHeader header = mTerrain.mSerializeData.getSerialHeader(getNameStr());
                 header.mUniqueId = getNameStr();
-                header.mOffset = (int)vertexBuffer.length + mTerrain.mSerializeData.mTotalHeaderSize;
+                header.mOffset = (int)vertexBuffer.length + mTerrain.mSerializeData.getBasicAndHeaderSize();
                 mVertexDataRecord.cpuVertexData.writeVertData(vertexBuffer);
                 vertexBuffer.writeAABB(mAABB);
                 headerBuffer.writeMultiByte(header.mUniqueId, Encoding.UTF8, mTerrain.mSerializeData.mUniqueIdSize);

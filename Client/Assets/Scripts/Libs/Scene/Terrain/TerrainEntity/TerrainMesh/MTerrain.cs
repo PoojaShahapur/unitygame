@@ -128,8 +128,13 @@ namespace SDK.Lib
             {
                 mSerializeData = new SerializeData();
             }
+
+            ByteBuffer basicBuffer = new ByteBuffer();
             ByteBuffer vertexBuffer = new ByteBuffer();
             ByteBuffer headerBuffer = new ByteBuffer();
+
+            //mSerializeData.
+
             // 每一个头部一个 UniqueId， 一个偏移
             mSerializeData.setHeaderSize(((mSize - 1) / (mMaxBatchSize - 1)) * ((mSize - 1) / (mMaxBatchSize - 1)));     // 计算总共的 Node 的个数
             mSerializeData.calcHeaderSize();
