@@ -58,7 +58,7 @@
         static public bool DEPRECATE_CODE = false;
 
         // 多线程裁剪场景
-        static public bool MULTITHREADING_CULL = true;
+        static public bool MULTITHREADING_CULL = false;
 
         // 宏定义结束
     }
