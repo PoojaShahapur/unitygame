@@ -145,6 +145,14 @@ namespace SDK.Lib
                 UtilXml.getXmlAttrUShort(itemNodeList[0] as SecurityElement, "Min", ref minBatchSize);
             }
 
+            // 获取高度图分辨率
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "HeightMapResolution", ref itemNodeList);
+            if (itemNodeList.Count > 0)
+            {
+                UtilXml.getXmlAttrUShort(itemNodeList[0] as SecurityElement, "Size", ref terrainSize);
+            }
+
             // 获取高度贴图
             itemNodeList.Clear();
             UtilXml.getXmlChildList(terrain, "HeightMapName", ref itemNodeList);
