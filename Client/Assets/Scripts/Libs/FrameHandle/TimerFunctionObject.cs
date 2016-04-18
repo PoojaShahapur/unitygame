@@ -52,7 +52,7 @@ namespace SDK.Lib
 
         public void setLuaFunctor(LuaTable luaTable, LuaFunction function)
         {
-            if (m_luaCSDispatchFunctionObject == null)
+            if(m_luaCSDispatchFunctionObject == null)
             {
                 m_luaCSDispatchFunctionObject = new LuaCSDispatchFunctionObject();
             }

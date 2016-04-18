@@ -1839,6 +1839,7 @@ namespace SDK.Lib
             if(!mIsInit)
             {
                 mIsInit = true;
+                mQuadTree.updateAABB();
                 mQuadTree.attachMO();
             }
         }

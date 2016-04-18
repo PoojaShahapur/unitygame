@@ -18,6 +18,7 @@ namespace SDK.Lib
         public const string TRUE = "true";
         public const string FALSE = "false";
         public const string PREFAB_DOT_EXT = ".prefab";
+        public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -409,6 +410,14 @@ namespace SDK.Lib
             target.SetActive(bshow);
         }
 
+        public static void fakeSetActive(GameObject target, bool bshow)
+        {
+            if(!bshow)
+            {
+                target.transform.position = UtilApi.FAKE_POS;
+            }
+        }
+
         public static bool IsActive(GameObject target)
         {
             if (target != null)
@@ -538,9 +547,16 @@ namespace SDK.Lib
 
         public static void SetParent(GameObject child, GameObject parent, bool worldPositionStays = true)
         {
-            if (child.transform.parent != parent.transform)
+            if (child != null && parent != null)
             {
-                child.transform.SetParent(parent.transform, worldPositionStays);
+                if (child.transform.parent != parent.transform)
+                {
+                    child.transform.SetParent(parent.transform, worldPositionStays);
+                }
+            }
+            else if(child != null && parent == null)
+            {
+                child.transform.SetParent(null, worldPositionStays);
             }
         }
 

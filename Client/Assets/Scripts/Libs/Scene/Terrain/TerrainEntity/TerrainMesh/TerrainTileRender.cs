@@ -21,7 +21,7 @@ namespace SDK.Lib
         protected Material m_dynamicMat;       // 实例化的动态材质，显示使用的材质
 
         protected bool m_rebuildMat = true;    // 是否重新生成材质
-        protected int m_renderQueue = -00;    // 渲染队列
+        protected int m_renderQueue = 100;    // 渲染队列
         protected int m_triangles = 0;         // 渲染的三角形的数量
 
         protected string m_matPreStr;           // 材质前缀字符
@@ -29,6 +29,7 @@ namespace SDK.Lib
         protected MTerrainQuadTreeNode m_treeNode;
         protected bool m_isAutoBuildNormal;
         protected bool m_isBuildGromAndMat;
+        protected bool m_needPhysicsCollide;    // 是否需要物理碰撞
 
         public TerrainTileRender(MTerrainQuadTreeNode treeNode)
             : base(null)
@@ -38,6 +39,7 @@ namespace SDK.Lib
             m_meshName = "Dyn_Mesh";
             m_isAutoBuildNormal = false;
             m_isBuildGromAndMat = false;
+            m_needPhysicsCollide = true;
         }
 
         public void setTreeNode(MTerrainQuadTreeNode treeNode)
@@ -293,6 +295,14 @@ namespace SDK.Lib
 #endif
             }
 
+            if(m_needPhysicsCollide)
+            {
+                if(this.selfGo.GetComponent<MeshCollider>() == null)
+                {
+                    this.selfGo.AddComponent<MeshCollider>();
+                }
+            }
+
             m_treeNode.clear();
         }
 
@@ -369,6 +379,7 @@ namespace SDK.Lib
                 {
                     //this.selfGo = UtilApi.createGameObject("MeshRender");
                     this.selfGo = UtilApi.createGameObject("MeshRender" + "_" + m_treeNode.getNameStr());
+                    //UtilApi.setStatic(this.selfGo, true);
                     this.selfGo.layer = UtilApi.NameToLayer(m_treeNode.getLayerStr());
                 }
 

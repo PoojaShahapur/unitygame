@@ -134,7 +134,14 @@ namespace SDK.Lib
         virtual public void setParent(MNode parent)
         {
             // 关联真正的场景结点
-            UtilApi.SetParent(this.selfGo, parent.selfGo, false);
+            if (parent == null)
+            {
+                UtilApi.SetParent(this.selfGo, null, false);
+            }
+            else
+            {
+                UtilApi.SetParent(this.selfGo, parent.selfGo, false);
+            }
             bool different = (parent != mParent);
 
             mParent = parent;

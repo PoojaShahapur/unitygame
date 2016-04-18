@@ -56,7 +56,7 @@ namespace SDK.Lib
             }
         }
 
-        // 从 Lua 中添加定时器，这种定时器尽量这个定时器周期只与 Lua 通信一次
+        // 从 Lua 中添加定时器，这种定时器尽量整个定时器周期只与 Lua 通信一次
         public void addTimer(TimerItemBase delayObject, float priority = 0.0f)
         {
             this.addObject(delayObject, priority);
@@ -64,7 +64,7 @@ namespace SDK.Lib
 
         public void addTimer(LuaTable luaTimer)
         {
-            LuaTable table = luaTimer["pThis"] as LuaTable;
+            LuaTable table = luaTimer["pthis"] as LuaTable;
             LuaFunction function = luaTimer["func"] as LuaFunction;
 
             TimerItemBase timer = new TimerItemBase();

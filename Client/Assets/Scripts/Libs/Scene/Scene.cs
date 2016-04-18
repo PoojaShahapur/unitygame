@@ -79,9 +79,9 @@ namespace SDK.Lib
                     }
                     Ctx.m_instance.m_terrainGroup.defineTerrain(pageIdx, pageIdy, terrainId);
                     Ctx.m_instance.m_terrainGroup.loadTerrain(pageIdx, pageIdy, true);
-                    Ctx.m_instance.m_terrainGroup.updateAABB(pageIdx, pageIdy);
                     if (!Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
                     {
+                        Ctx.m_instance.m_terrainGroup.updateAABB(pageIdx, pageIdy);
                         Ctx.m_instance.m_terrainGroup.showTerrain(pageIdx, pageIdy);
                     }
                     if (Ctx.m_instance.mTerrainGlobalOption.mNeedSaveScene)

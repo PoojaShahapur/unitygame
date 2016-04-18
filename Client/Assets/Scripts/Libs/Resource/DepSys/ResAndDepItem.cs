@@ -5,6 +5,11 @@
         public LoadParam m_loadParam;           // 保存资源加载的参数
         public string[] m_depNameArr;           // 依赖的名字数组
 
+        public ResAndDepItem()
+        {
+
+        }
+
         public void loadDep()
         {
             for(int i = 0; i < m_depNameArr.Length; ++i)

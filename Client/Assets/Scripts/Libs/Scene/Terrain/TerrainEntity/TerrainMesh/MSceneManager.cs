@@ -130,7 +130,8 @@ namespace SDK.Lib
 
         virtual public void clearScene()
         {
-
+            getRootSceneNode().removeAllChildren();
+            getRootSceneNode().detachAllObjects();
         }
 
         virtual public MSceneNode createSceneNodeImpl()
