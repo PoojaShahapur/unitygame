@@ -390,7 +390,7 @@ public class ExportTerrain : EditorWindow
             // 保存目录
             fileName = UtilApi.getFileNameNoPath(resPath);
             tileSize = splatLayer.tileSize;
-            tmp = string.Format("\t<SplatMapName name=\"Materials/Textures/Terrain/{0}\" worldSize=\"{1}\" />\r\n", fileName, tileSize.x);
+            tmp = string.Format("\t<SplatMapName name=\"Materials/Textures/Terrain/{0}\" worldSize=\"{1}\" />\r\n", fileName, tileSize.x / 2);
             xmlStr += tmp;
         }
         // 输出 Alpha Map
@@ -401,6 +401,14 @@ public class ExportTerrain : EditorWindow
         }
         // 输出高度数据
         tmp = string.Format("\t<HeightDataName name=\"TerrainData/{0}_{1}.bytes\" />\r\n", mHeightMapNamePrefix, mTerrainId);
+        xmlStr += tmp;
+
+        // 输出地形大小信息
+        tmp = string.Format("\t<WorldSize Width=\"{0}\" Depth=\"{1}\" Height=\"{2}\" />\r\n", terrainData.size.x, terrainData.size.z, terrainData.size.y);
+
+        // 输出批次大小
+        tmp = string.Format("\t<BatchSize Max=\"{0}\" Min=\"{1}\" />\r\n", 9, 5);
+
         xmlStr += tmp;
 
         // 结束标签

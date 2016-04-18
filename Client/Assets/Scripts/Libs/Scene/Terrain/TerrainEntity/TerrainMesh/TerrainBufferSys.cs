@@ -28,7 +28,17 @@ namespace SDK.Lib
 
         public TerrainBufferSys()
         {
+            init();
+        }
+
+        public void init()
+        {
             mTerrainBufferDic = new Dictionary<string, TerrainBuffer>();
+        }
+
+        public void clearBuffer()
+        {
+            init();
         }
 
         public void loadNeedRes()

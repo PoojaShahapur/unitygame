@@ -127,6 +127,24 @@ namespace SDK.Lib
                 UtilXml.getXmlAttrStr(itemNodeList[0] as SecurityElement, "name", ref mHeightDataPath);
             }
 
+            // 获取世界大小
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "WorldSize", ref itemNodeList);
+            if (itemNodeList.Count > 0)
+            {
+                UtilXml.getXmlAttrUShort(itemNodeList[0] as SecurityElement, "Width", ref terrainSize);
+                UtilXml.getXmlAttrFloat(itemNodeList[0] as SecurityElement, "Height", ref inputScale);
+            }
+
+            // 获取批次大小
+            itemNodeList.Clear();
+            UtilXml.getXmlChildList(terrain, "BatchSize", ref itemNodeList);
+            if (itemNodeList.Count > 0)
+            {
+                UtilXml.getXmlAttrUShort(itemNodeList[0] as SecurityElement, "Max", ref maxBatchSize);
+                UtilXml.getXmlAttrUShort(itemNodeList[0] as SecurityElement, "Min", ref minBatchSize);
+            }
+
             // 获取高度贴图
             itemNodeList.Clear();
             UtilXml.getXmlChildList(terrain, "HeightMapName", ref itemNodeList);

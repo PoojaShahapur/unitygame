@@ -321,6 +321,7 @@ namespace SDK.Lib
             }
         }
 
+        // 遍历隐藏树
         public void walkOctreeHide(MOctreeCamera camera, MOctree octant)
         {
             // 如果不可见，就隐藏所有不可见的内容

@@ -44,6 +44,30 @@ namespace SDK.Lib
             return XML_FAIL;
         }
 
+        static public int getXmlAttrUShort(SecurityElement attr, string name, ref ushort ret)
+        {
+            if (attr != null && attr.Attributes.ContainsKey(name))
+            {
+                ushort.TryParse(attr.Attribute(name), out ret);
+                return XML_OK;
+            }
+
+            ret = 0;
+            return XML_FAIL;
+        }
+
+        static public int getXmlAttrInt(SecurityElement attr, string name, ref short ret)
+        {
+            if (attr != null && attr.Attributes.ContainsKey(name))
+            {
+                short.TryParse(attr.Attribute(name), out ret);
+                return XML_OK;
+            }
+
+            ret = 0;
+            return XML_FAIL;
+        }
+
         static public int getXmlAttrUInt(SecurityElement attr, string name, ref uint ret)
         {
             if (attr != null && attr.Attributes.ContainsKey(name))
