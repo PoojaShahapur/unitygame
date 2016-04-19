@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 
 namespace SDK.Lib
 {
@@ -25,6 +26,8 @@ namespace SDK.Lib
 
         public ResItem m_loadRes = null;
         public InsResBase m_loadInsRes = null;
+        public LuaTable mLuaTable;
+        public LuaFunction mLuaFunction;
 
         public LoadParam()
         {

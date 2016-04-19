@@ -56,10 +56,17 @@ namespace SDK.Lib
         // 相同的函数只能增加一次
         virtual public void addEventHandle(Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            if (null != handle)
+            if (null != handle || null != luaTable || null != luaFunction)
             {
                 EventDispatchFunctionObject funcObject = new EventDispatchFunctionObject();
-                funcObject.setFuncObject(handle);
+                if (null != handle)
+                {
+                    funcObject.setFuncObject(handle);
+                }
+                if(null != luaTable || null != luaFunction)
+                {
+                    funcObject.setLuaFunctor(luaTable, luaFunction);
+                }
                 addObject(funcObject);
             }
             else

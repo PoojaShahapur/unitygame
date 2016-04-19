@@ -78,12 +78,20 @@ namespace SDK.Lib
                 {
                     param.m_loadEventHandle(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
                 }
+                else if(null != param.mLuaTable && null != param.mLuaFunction)
+                {
+                    param.mLuaFunction.Call(param.mLuaTable, m_path2ResDic[param.m_path]);
+                }
+                else if(null != param.mLuaFunction)
+                {
+                    param.mLuaFunction.Call(m_path2ResDic[param.m_path]);
+                }
             }
             else
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
                 }
             }
         }
