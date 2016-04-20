@@ -31,18 +31,41 @@ namespace SDK.Lib
 
         public bool isEmpty()
         {
-            return mCoroutineTaskList.length() > 0;
+            return mCoroutineTaskList.length() == 0;
         }
 
         public void start()
         {
-            mState = eCoroutineTaskState.eRunning;
-            Ctx.m_instance.m_coroutineMgr.StartCoroutine(run());
+            if (!isRuning())
+            {
+                mState = eCoroutineTaskState.eRunning;
+                Ctx.m_instance.m_coroutineMgr.StartCoroutine(run());
+            }
+        }
+
+        public void pause()
+        {
+            if(!isPause())
+            {
+                mState = eCoroutineTaskState.ePaused;
+            }
+        }
+
+        public void stop()
+        {
+            if (!isStop())
+            {
+                mState = eCoroutineTaskState.eStopped;
+                mCoroutineTaskList.Clear();
+            }
         }
 
         public void addTask(CoroutineTaskBase task)
         {
-            mCoroutineTaskList.Add(task);
+            if (mCoroutineTaskList.IndexOf(task) == -1)
+            {
+                mCoroutineTaskList.Add(task);
+            }
         }
 
         protected IEnumerator run()
@@ -53,8 +76,7 @@ namespace SDK.Lib
                 {
                     if(mCoroutineTaskList[0].isRuning())
                     {
-                        mCoroutineTaskList[0].runTask();
-                        mCoroutineTaskList[0].handleResult();
+                        mCoroutineTaskList[0].run();
                     }
                     if (mCoroutineTaskList[0].isNeedRemove())
                     {

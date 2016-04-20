@@ -70,7 +70,7 @@ namespace UnitTest
             //m_testIOControl.run();
             //m_testIsometric.run();
             //mTestCoroutinePrefabIns.run();
-            mTestCoroutineTask.run();
+            //mTestCoroutineTask.run();
         }
     }
 }

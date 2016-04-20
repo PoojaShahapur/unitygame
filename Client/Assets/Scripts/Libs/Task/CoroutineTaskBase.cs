@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class CoroutineTaskBase
     {
@@ -47,12 +45,7 @@ namespace SDK.Lib
             mState = eCoroutineTaskState.eStopped;
         }
 
-        virtual public void runTask()
-        {
-
-        }
-
-        virtual public void handleResult()
+        virtual public void run()
         {
             mState = eCoroutineTaskState.eStopped;
         }

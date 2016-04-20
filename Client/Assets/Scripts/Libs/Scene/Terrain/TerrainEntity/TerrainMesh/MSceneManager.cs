@@ -55,6 +55,7 @@ namespace SDK.Lib
         protected MList<MThread> mWorkerThreads;
         protected RequestType mRequestType;
         protected MUpdateTransformRequest mUpdateTransformRequest;
+        protected CoroutineSceneUpdateTask mCoroutineSceneUpdateTask;
 
         public MSceneManager(string name)
         {
@@ -360,6 +361,17 @@ namespace SDK.Lib
             mWorkerThreadsBarrier.sync();
 
             return 0;
+        }
+
+        public void addUpdateTask()
+        {
+            mCoroutineSceneUpdateTask = new CoroutineSceneUpdateTask();
+            Ctx.m_instance.mCoroutineTaskMgr.addTask(mCoroutineSceneUpdateTask);
+        }
+
+        public void runUpdateTask()
+        {
+            mCoroutineSceneUpdateTask.Start();
         }
     }
 }

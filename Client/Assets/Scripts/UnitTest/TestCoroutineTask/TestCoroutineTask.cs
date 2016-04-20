@@ -5,9 +5,14 @@ namespace UnitTest
 {
     public class CoroutineTaskOut : CoroutineTaskBase
     {
-        override public void runTask()
+        override public void run()
         {
-            Debug.Log("CoroutineTaskOut::CoroutineTaskOut");
+            //base.run();
+            for (int idx = 0; idx < 10; ++idx)
+            {
+                Debug.Log("CoroutineTaskOut::CoroutineTaskOut");
+            }
+            //Ctx.m_instance.mCoroutineTaskMgr.stop();
         }
     }
 
@@ -21,6 +26,7 @@ namespace UnitTest
         protected void testTask()
         {
             CoroutineTaskOut task = new CoroutineTaskOut();
+            task.setNeedRemove(false);
             Ctx.m_instance.mCoroutineTaskMgr.addTask(task);
         }
     }

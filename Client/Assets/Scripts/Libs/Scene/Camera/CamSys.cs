@@ -117,14 +117,16 @@ namespace SDK.Lib
                 m_localCamera.invalid();
                 if (Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
                 {
-                    Ctx.m_instance.m_sceneManager.cullScene();
+                    //Ctx.m_instance.m_sceneManager.cullScene();
+                    Ctx.m_instance.m_sceneManager.runUpdateTask();
                     //testFrustumDir();
 
                     // 如果是第一次， Tree 刚把 TreeNode 添加到场景管理器中，需要再次更新才能裁剪，才能显示，不是第一次就不用更新了，因为移动会很小，不会有太大问题
                     if (m_bFirst)
                     {
                         m_bFirst = false;
-                        Ctx.m_instance.m_sceneManager.cullScene();
+                        //Ctx.m_instance.m_sceneManager.cullScene();
+                        Ctx.m_instance.m_sceneManager.runUpdateTask();
                     }
                 }
             }
