@@ -158,7 +158,17 @@ namespace SDK.Lib
 
         }
 
+        virtual public void InstantiateObject(string resName, ResInsEventDispatch evtHandle)
+        {
+
+        }
+
         virtual public GameObject InstantiateObject(string resName)
+        {
+            return null;
+        }
+
+        virtual public IEnumerator asyncInstantiateObject(string resName, ResInsEventDispatch evtHandle)
         {
             return null;
         }

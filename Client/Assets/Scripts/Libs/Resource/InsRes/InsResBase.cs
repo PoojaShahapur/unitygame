@@ -75,5 +75,15 @@
                 m_refCountResLoadResultNotify = value;
             }
         }
+
+        public bool hasSuccessLoaded()
+        {
+            return m_refCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+        }
+
+        public bool hasFailed()
+        {
+            return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+        }
     }
 }

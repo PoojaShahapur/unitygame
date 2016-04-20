@@ -33,6 +33,7 @@ namespace UnitTest
         protected TestCameraMan m_testCameraMan = new TestCameraMan();
         protected TestIOControl m_testIOControl = new TestIOControl();
         protected TestIsometric m_testIsometric = new TestIsometric();
+        protected TestCoroutinePrefabIns mTestCoroutinePrefabIns = new TestCoroutinePrefabIns();
 
         public void run()
         {
@@ -67,6 +68,7 @@ namespace UnitTest
             //m_testCameraMan.run();
             //m_testIOControl.run();
             //m_testIsometric.run();
+            //mTestCoroutinePrefabIns.run();
         }
     }
 }

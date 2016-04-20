@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -35,6 +36,33 @@ namespace SDK.Lib
                 }
             }
             return m_retGO;
+        }
+
+        public void InstantiateObject(string resName, ResInsEventDispatch evtHandle)
+        {
+            Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncInstantiateObject(resName, evtHandle));
+        }
+
+        public IEnumerator asyncInstantiateObject(string resName, ResInsEventDispatch evtHandle)
+        {
+            GameObject retGO = null;
+
+            if (null == m_go)
+            {
+                Ctx.m_instance.m_logSys.log("prefab 为 null");
+            }
+            else
+            {
+                retGO = GameObject.Instantiate(m_go) as GameObject;
+                if (null == retGO)
+                {
+                    Ctx.m_instance.m_logSys.log("不能实例化数据");
+                }
+            }
+
+            yield return null;
+            evtHandle.setInsGO(retGO);
+            evtHandle.dispatchEvent(evtHandle);
         }
 
         public GameObject getObject()
