@@ -34,6 +34,7 @@ namespace UnitTest
         protected TestIOControl m_testIOControl = new TestIOControl();
         protected TestIsometric m_testIsometric = new TestIsometric();
         protected TestCoroutinePrefabIns mTestCoroutinePrefabIns = new TestCoroutinePrefabIns();
+        protected TestCoroutineTask mTestCoroutineTask = new TestCoroutineTask();
 
         public void run()
         {
@@ -69,6 +70,7 @@ namespace UnitTest
             //m_testIOControl.run();
             //m_testIsometric.run();
             //mTestCoroutinePrefabIns.run();
+            mTestCoroutineTask.run();
         }
     }
 }

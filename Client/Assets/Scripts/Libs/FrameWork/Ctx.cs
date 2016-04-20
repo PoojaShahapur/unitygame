@@ -117,6 +117,7 @@ namespace SDK.Lib
         public MSceneManager m_sceneManager;
         public TerrainBufferSys m_terrainBufferSys;
         public TerrainGlobalOption mTerrainGlobalOption;
+        public CoroutineTaskMgr mCoroutineTaskMgr;
 
         public Ctx()
         {
@@ -237,6 +238,7 @@ namespace SDK.Lib
             m_sceneEffectMgr = new SceneEffectMgr();
 
             m_sceneManager = new MOctreeSceneManager("DummyScene");
+            mCoroutineTaskMgr = new CoroutineTaskMgr();
         }
 
         protected void interInit()
@@ -268,6 +270,7 @@ namespace SDK.Lib
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
 
             m_depResMgr.initialize();
+            mCoroutineTaskMgr.start();
         }
 
         public void init()
