@@ -41,6 +41,10 @@ namespace SDK.Lib
             {
                 base.dispatchEvent(dispatchObject);
             }
+            else
+            {
+                UtilApi.Destroy(mInsGO);
+            }
         }
     }
 }

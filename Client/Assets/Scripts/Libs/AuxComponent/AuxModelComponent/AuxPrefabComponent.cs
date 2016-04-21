@@ -10,11 +10,12 @@ namespace SDK.Lib
         protected PrefabRes mPrefabRes;
         protected Action<IDispatchObject> mEvtHandle;
         protected ResInsEventDispatch mResInsEventDispatch;
+        protected bool mIsSuccess;      // 是否成功
 
         public AuxPrefabComponent()
             : base(null)
         {
-            
+            mIsSuccess = false;
         }
 
         override public void dispose()
@@ -25,6 +26,16 @@ namespace SDK.Lib
                 UtilApi.Destroy(this.selfGo);
             }
             base.dispose();
+        }
+
+        public bool hasSuccessLoaded()
+        {
+            return mIsSuccess;
+        }
+
+        public bool hasFailed()
+        {
+            return !mIsSuccess;
         }
 
         // 异步加载对象
@@ -39,23 +50,39 @@ namespace SDK.Lib
             //mPrefabRes = dispObj as PrefabRes;
             if(mPrefabRes.hasSuccessLoaded())
             {
+                mIsSuccess = true;
                 mResInsEventDispatch = new ResInsEventDispatch();
                 mResInsEventDispatch.addEventHandle(onPrefabIns);
                 mPrefabRes.InstantiateObject(mPrefabRes.GetPath(), mResInsEventDispatch);
-                mResInsEventDispatch.setIsValid(false);
             }
             else if (mPrefabRes.hasFailed())
             {
+                mIsSuccess = false;
                 Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.GetPath(), onPrefabLoaded);
+
+                if (mEvtHandle != null)
+                {
+                    mEvtHandle(this);
+                }
             }
         }
 
         public void onPrefabIns(IDispatchObject dispObj)
         {
+            mResInsEventDispatch = dispObj as ResInsEventDispatch;
             this.selfGo = mResInsEventDispatch.getInsGO();
+            if(this.selfGo != null)
+            {
+                mIsSuccess = true;
+            }
+            else
+            {
+                mIsSuccess = false;
+            }
+
             if(mEvtHandle != null)
             {
-                mEvtHandle(dispObj);
+                mEvtHandle(this);
             }
         }
 

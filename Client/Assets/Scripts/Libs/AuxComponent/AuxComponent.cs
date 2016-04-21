@@ -94,6 +94,11 @@ namespace SDK.Lib
             }
         }
 
+        public bool isSelfValid()
+        {
+            return this.m_selfGo != null;
+        }
+
         virtual public void dispose()
         {
             if (m_bNeedPlaceHolderGo && m_placeHolderGo != null)
