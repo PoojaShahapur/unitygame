@@ -11,11 +11,13 @@ namespace SDK.Lib
         protected Action<IDispatchObject> mEvtHandle;
         protected ResInsEventDispatch mResInsEventDispatch;
         protected bool mIsSuccess;      // 是否成功
+        protected string mPath;
 
         public AuxPrefabComponent()
             : base(null)
         {
             mIsSuccess = false;
+            mPath = "";
         }
 
         override public void dispose()
@@ -38,11 +40,27 @@ namespace SDK.Lib
             return !mIsSuccess;
         }
 
+        public string GetPath()
+        {
+            if(mPrefabRes != null)
+            {
+                return mPrefabRes.GetPath();
+            }
+
+            return mPath;
+        }
+
         // 异步加载对象
         public void asyncLoad(string path, Action<IDispatchObject> dispObj)
         {
-            mEvtHandle = dispObj;
-            mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+            if(mPath != path)
+            {
+                unload();
+                mPath = path;
+
+                mEvtHandle = dispObj;
+                mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+            }
         }
 
         public void onPrefabLoaded(IDispatchObject dispObj)
@@ -59,6 +77,7 @@ namespace SDK.Lib
             {
                 mIsSuccess = false;
                 Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.GetPath(), onPrefabLoaded);
+                mPrefabRes = null;
 
                 if (mEvtHandle != null)
                 {
