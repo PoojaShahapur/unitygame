@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 using System.Collections.Generic;
 
 namespace SDK.Lib
@@ -23,6 +24,21 @@ namespace SDK.Lib
         {
             syncLoad<T>(path);
             return getRes(path) as T;
+        }
+
+        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null) where T : InsResBase, new()
+        {
+            T ret = null;
+            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            MFileSys.modifyLoadParam(path, param);
+            param.m_loadNeedCoroutine = true;
+            param.m_resNeedCoroutine = true;
+            param.mLuaTable = luaTable;
+            param.mLuaFunction = luaFunction;
+            ret = getAndLoad<T>(param);
+            Ctx.m_instance.m_poolSys.deleteObj(param);
+
+            return ret;
         }
 
         public T getAndAsyncLoad<T>(string path, Action<IDispatchObject> handle) where T : InsResBase, new()
@@ -64,7 +80,7 @@ namespace SDK.Lib
             ret.refCountResLoadResultNotify.refCount.incRef();
             ret.m_path = param.m_path;
 
-            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
+            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
 
             return ret;
         }

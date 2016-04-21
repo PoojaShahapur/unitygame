@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 
 namespace SDK.Lib
 {
@@ -19,6 +20,13 @@ namespace SDK.Lib
             path = MFileSys.convResourcesPath2AssetBundlesPath(path);
             path = path + UtilApi.PREFAB_DOT_EXT;
             return getAndAsyncLoad<PrefabRes>(path, handle);
+        }
+
+        public PrefabRes getAndAsyncLoadRes(string path, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            path = MFileSys.convResourcesPath2AssetBundlesPath(path);
+            path = path + UtilApi.PREFAB_DOT_EXT;
+            return getAndAsyncLoad<PrefabRes>(path, luaTable, luaFunction);
         }
     }
 }

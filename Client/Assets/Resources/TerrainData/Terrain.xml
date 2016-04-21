@@ -8,7 +8,7 @@
 		<AlphaMapName name="Materials/Textures/Terrain/AlphaMap_T1000_0.png" />
 		<HeightDataName name="TerrainData/HeightMap_T1000.bytes" />
 		<WorldSize Width="200" Depth="200" Height="200" />
-		<BatchSize Max="9" Min="5" />
+		<BatchSize Max="33" Min="17" />
 		<HeightMapResolution Size="33" />
 	</Terrain>
 </Config>
