@@ -65,7 +65,8 @@ namespace SDK.Lib
 
         public void onPrefabLoaded(IDispatchObject dispObj)
         {
-            //mPrefabRes = dispObj as PrefabRes;
+            // 一定要从这里再次取值，因为如果这个资源已经加载，可能在返回之前就先调用这个函数，因此这个时候 mPrefabRes 还是空值
+            mPrefabRes = dispObj as PrefabRes;
             if(mPrefabRes.hasSuccessLoaded())
             {
                 mIsSuccess = true;
