@@ -128,50 +128,70 @@ namespace SDK.Lib
             }
         }
 
-        public void log(string message)
+        protected bool isInFilter(LogTypeId logTypeId)
+        {
+            if(logTypeId == LogTypeId.eLogCommon ||
+               logTypeId == LogTypeId.eLogTest)
+            {
+                return false;
+            }
+
+            return false;
+        }
+
+        public void log(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
             //StackTrace stackTrace = new StackTrace(true);
             //string traceStr = stackTrace.ToString();
             //message = string.Format("{0}\n{1}", message, traceStr);
-            if (MThread.isMainThread())
+            if (isInFilter(logTypeId))
             {
-                logout(message, LogColor.LOG);
-            }
-            else
-            {
-                asyncLog(message);
+                if (MThread.isMainThread())
+                {
+                    logout(message, LogColor.LOG);
+                }
+                else
+                {
+                    asyncLog(message);
+                }
             }
         }
 
-        public void warn(string message)
+        public void warn(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
-            StackTrace stackTrace = new StackTrace(true);
-            string traceStr = stackTrace.ToString();
-            message = string.Format("{0}\n{1}", message, traceStr);
+            if (isInFilter(logTypeId))
+            {
+                StackTrace stackTrace = new StackTrace(true);
+                string traceStr = stackTrace.ToString();
+                message = string.Format("{0}\n{1}", message, traceStr);
 
-            if (MThread.isMainThread())
-            {
-                logout(message, LogColor.WARN);
-            }
-            else
-            {
-                asyncWarn(message);
+                if (MThread.isMainThread())
+                {
+                    logout(message, LogColor.WARN);
+                }
+                else
+                {
+                    asyncWarn(message);
+                }
             }
         }
         
-        public void error(string message)
+        public void error(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
-            StackTrace stackTrace = new StackTrace(true);
-            string traceStr = stackTrace.ToString();
-            message = string.Format("{0}\n{1}", message, traceStr);
+            if (isInFilter(logTypeId))
+            {
+                StackTrace stackTrace = new StackTrace(true);
+                string traceStr = stackTrace.ToString();
+                message = string.Format("{0}\n{1}", message, traceStr);
 
-            if (MThread.isMainThread())
-            {
-			    logout(message, LogColor.ERROR);
-            }
-            else
-            {
-                asyncError(message);
+                if (MThread.isMainThread())
+                {
+                    logout(message, LogColor.ERROR);
+                }
+                else
+                {
+                    asyncError(message);
+                }
             }
         }
 

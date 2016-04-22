@@ -447,6 +447,8 @@ namespace SDK.Lib
                 //mTileRender.show();
                 attachRender();
                 showBoundBox();
+
+                Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addVisibleTreeNode(this);
             }
             else
             {

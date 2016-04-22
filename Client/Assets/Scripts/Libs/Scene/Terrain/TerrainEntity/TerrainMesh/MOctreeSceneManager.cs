@@ -22,6 +22,7 @@ namespace SDK.Lib
 
         protected float[] mCorners;
         protected MMatrix4 mScaleFactor;
+        protected bool mIsCheckInVisible;   // 是否检查不可见
 
         public MOctreeSceneManager(string name)
             : base(name)
@@ -30,6 +31,7 @@ namespace SDK.Lib
             int depth = 8;
             mOctree = null;
             mVisible = new MList<MOctreeNode>();
+            mIsCheckInVisible = false;
             init(b, depth);
         }
 
@@ -38,6 +40,7 @@ namespace SDK.Lib
         {
             mOctree = null;
             mVisible = new MList<MOctreeNode>();
+            mIsCheckInVisible = false;
             init(box, max_depth);
         }
 
@@ -317,7 +320,10 @@ namespace SDK.Lib
             }
             else
             {
-                walkOctreeHide(camera, octant);
+                if (mIsCheckInVisible)
+                {
+                    walkOctreeHide(camera, octant);
+                }
             }
         }
 

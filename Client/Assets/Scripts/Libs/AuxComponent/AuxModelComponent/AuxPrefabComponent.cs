@@ -7,15 +7,17 @@ namespace SDK.Lib
      */
     public class AuxPrefabComponent : AuxComponent
     {
-        protected PrefabRes mPrefabRes;
-        protected Action<IDispatchObject> mEvtHandle;
-        protected ResInsEventDispatch mResInsEventDispatch;
+        protected PrefabRes mPrefabRes;                     // 预制资源
+        protected ResEventDispatch mEvtHandle;              // 事件分发器
+        protected ResInsEventDispatch mResInsEventDispatch; // 实例化的时候使用的分发器
         protected bool mIsSuccess;      // 是否成功
-        protected string mPath;
+        protected string mPath;         // 加载的资源目录
+        protected bool mIsInsNeedCoroutine; // 实例化是否需要协程
 
-        public AuxPrefabComponent()
+        public AuxPrefabComponent(bool isInsNeedCoroutine = true)
             : base(null)
         {
+            mIsInsNeedCoroutine = isInsNeedCoroutine;
             mIsSuccess = false;
             mPath = "";
         }
@@ -57,8 +59,8 @@ namespace SDK.Lib
             {
                 unload();
                 mPath = path;
-
-                mEvtHandle = dispObj;
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(dispObj);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }
@@ -70,9 +72,17 @@ namespace SDK.Lib
             if(mPrefabRes.hasSuccessLoaded())
             {
                 mIsSuccess = true;
-                mResInsEventDispatch = new ResInsEventDispatch();
-                mResInsEventDispatch.addEventHandle(onPrefabIns);
-                mPrefabRes.InstantiateObject(mPrefabRes.GetPath(), mResInsEventDispatch);
+                if (mIsInsNeedCoroutine)
+                {
+                    mResInsEventDispatch = new ResInsEventDispatch();
+                    mResInsEventDispatch.addEventHandle(onPrefabIns);
+                    mPrefabRes.InstantiateObject(mPrefabRes.GetPath(), mResInsEventDispatch);
+                }
+                else
+                {
+                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.GetPath());
+                    onAllFinish();
+                }
             }
             else if (mPrefabRes.hasFailed())
             {
@@ -82,7 +92,7 @@ namespace SDK.Lib
 
                 if (mEvtHandle != null)
                 {
-                    mEvtHandle(this);
+                    mEvtHandle.dispatchEvent(this);
                 }
             }
         }
@@ -91,7 +101,13 @@ namespace SDK.Lib
         {
             mResInsEventDispatch = dispObj as ResInsEventDispatch;
             this.selfGo = mResInsEventDispatch.getInsGO();
-            if(this.selfGo != null)
+            onAllFinish();
+        }
+
+        // 所有的资源都加载完成
+        public void onAllFinish()
+        {
+            if (this.selfGo != null)
             {
                 mIsSuccess = true;
             }
@@ -100,9 +116,9 @@ namespace SDK.Lib
                 mIsSuccess = false;
             }
 
-            if(mEvtHandle != null)
+            if (mEvtHandle != null)
             {
-                mEvtHandle(this);
+                mEvtHandle.dispatchEvent(this);
             }
         }
 
@@ -120,7 +136,11 @@ namespace SDK.Lib
                 mResInsEventDispatch = null;
             }
 
-            mEvtHandle = null;
+            if (mEvtHandle != null)
+            {
+                mEvtHandle.clearEventHandle();
+                mEvtHandle = null;
+            }
         }
     }
 }

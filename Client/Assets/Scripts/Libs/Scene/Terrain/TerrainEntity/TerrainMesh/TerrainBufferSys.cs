@@ -26,6 +26,8 @@ namespace SDK.Lib
         public Dictionary<int, Dictionary<int, ScenePageItem>> m_scenePageCfg;
         public StreamWriter mStreamWriter;
 
+        public TerrainVisibleCheck mTerrainVisibleCheck;
+
         public TerrainBufferSys()
         {
             init();
@@ -34,6 +36,7 @@ namespace SDK.Lib
         public void init()
         {
             mTerrainBufferDic = new Dictionary<string, TerrainBuffer>();
+            mTerrainVisibleCheck = new TerrainVisibleCheck();
         }
 
         public void clearBuffer()
