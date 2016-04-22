@@ -7,7 +7,7 @@
         protected long mLockCount;
         protected MEvent[] mSemaphores;
         protected MMutex mMutex;
-        protected bool mIsReset;
+        //protected bool mIsReset;
 
         public MBarrier(uint threadCount )
         {
@@ -22,7 +22,7 @@
             }
 
             mMutex = new MMutex(false, "MBarrierMutex");
-            mIsReset = false;
+            //mIsReset = false;
         }
 
         public void disopse()
@@ -43,12 +43,12 @@
             long oldLockCount = mLockCount;
             mLockCount += 1;
 
-            if(!mIsReset)
-            {
-                int preIndex = (int)((idx + 1) % 2);
-                mSemaphores[preIndex].Reset();
-                mIsReset = true;
-            }
+            //if(!mIsReset)
+            //{
+            //    int preIndex = (int)((idx + 1) % 2);
+            //    mSemaphores[preIndex].Reset();
+            //    mIsReset = true;
+            //}
 
             if (oldLockCount != mNumThreads - 1)
             {
@@ -64,8 +64,10 @@
                 {
                     Ctx.m_instance.m_logSys.log("10000  MBarrier mSemaphores Set");
                     mMutex.ReleaseMutex();
+                    // 线程一定要都唤醒后再设置同步对象无信号
+                    mSemaphores[mIndex].Reset();
                     mSemaphores[idx].Set();
-                    mIsReset = false;
+                    //mIsReset = false;
                 }
             }
         }

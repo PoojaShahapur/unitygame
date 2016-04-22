@@ -133,7 +133,7 @@ namespace SDK.Lib
             if(logTypeId == LogTypeId.eLogCommon ||
                logTypeId == LogTypeId.eLogTest)
             {
-                return false;
+                return true;
             }
 
             return false;

@@ -115,6 +115,7 @@ namespace SDK.Lib
             if (m_localCamera != null)
             {
                 m_localCamera.invalid();
+                //m_localCamera.updateTmpPosOrient();
                 if (Ctx.m_instance.mTerrainGlobalOption.mNeedCull)
                 {
                     //Ctx.m_instance.m_sceneManager.cullScene();

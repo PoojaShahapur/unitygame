@@ -8,6 +8,7 @@
         public CoroutineSceneUpdateTask()
         {
             mNeedRemove = false;
+            Stop();
         }
 
         override public void run()

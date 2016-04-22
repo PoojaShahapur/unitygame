@@ -80,6 +80,9 @@ namespace SDK.Lib
         protected bool m_bShowBoundBox;             // 是否显示
         protected MPlane[] mTestFrustumPlanes;      // 测试使用的裁剪面板
 
+        protected MQuaternion mTmpDerivedOrient;
+        protected MVector3 mTmpDerivedPos;
+
         public MFrustum(Transform parentNode)
         {
             preInit(parentNode);
@@ -511,8 +514,19 @@ namespace SDK.Lib
         {
             if (mParentNode != null)
             {
-                MQuaternion derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
-                MVector3 derivedPos = MVector3.fromNative(mParentNode.position);
+                MQuaternion derivedOrient;
+                MVector3 derivedPos;
+
+                if (!MacroDef.MULTITHREADING_CULL)
+                {
+                    derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
+                    derivedPos = MVector3.fromNative(mParentNode.position);
+                }
+                else
+                {
+                    derivedOrient = mTmpDerivedOrient;
+                    derivedPos = mTmpDerivedPos;
+                }
 
                 if (mRecalcView ||
                     derivedOrient != mLastParentOrientation ||
@@ -963,6 +977,12 @@ namespace SDK.Lib
             point1 = new MVector3(mWorldSpaceCorners[2]);
             point2 = new MVector3(mWorldSpaceCorners[6]);
             mTestFrustumPlanes[(int)FrustumPlane.FRUSTUM_PLANE_BOTTOM] = new MPlane(ref point0, ref point1, ref point2);
+        }
+
+        public void updateTmpPosOrient()
+        {
+            mTmpDerivedOrient = MQuaternion.fromNative(mParentNode.rotation);
+            mTmpDerivedPos = MVector3.fromNative(mParentNode.position);
         }
     }
 }

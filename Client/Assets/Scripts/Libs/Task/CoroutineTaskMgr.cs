@@ -72,6 +72,9 @@ namespace SDK.Lib
         {
             while (isRuning())
             {
+                //yield return null;
+                yield return 1;
+
                 if (!isEmpty())
                 {
                     if(mCoroutineTaskList[0].isRuning())
@@ -94,7 +97,8 @@ namespace SDK.Lib
                     }
                 }
 
-                yield return null;
+                //yield return null;
+                yield return 1;
             }
 
             yield break;

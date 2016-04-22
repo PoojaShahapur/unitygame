@@ -219,8 +219,22 @@ namespace SDK.Lib
 
         override public bool isViewOutOfDate()
         {
-            MQuaternion derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
-            MVector3 derivedPos = MVector3.fromNative(mParentNode.position);
+            //MQuaternion derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
+            //MVector3 derivedPos = MVector3.fromNative(mParentNode.position);
+
+            MQuaternion derivedOrient;
+            MVector3 derivedPos;
+
+            if (!MacroDef.MULTITHREADING_CULL)
+            {
+                derivedOrient = MQuaternion.fromNative(mParentNode.rotation);
+                derivedPos = MVector3.fromNative(mParentNode.position);
+            }
+            else
+            {
+                derivedOrient = mTmpDerivedOrient;
+                derivedPos = mTmpDerivedPos;
+            }
 
             if (mRecalcView ||
                 derivedOrient != mLastParentOrientation ||
