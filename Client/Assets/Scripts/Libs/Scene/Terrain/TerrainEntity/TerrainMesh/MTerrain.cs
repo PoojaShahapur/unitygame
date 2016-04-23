@@ -166,7 +166,7 @@ namespace SDK.Lib
 
         public MVector3 getWorldPos()
         {
-            return mRootNode.getDerivedPosition();
+            return mRootNode._getDerivedPosition();
         }
 
         public MAxisAlignedBox getAABB()
@@ -219,7 +219,7 @@ namespace SDK.Lib
             mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
 
             setPosition(importData.pos);
-            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
+            mRootNode = mSceneMgr.getSceneNode(SceneNodeGraph.SceneTerrainRootName).createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
             if (!this.isAttached())
             {
                 mRootNode.attachObject(this);
@@ -307,7 +307,7 @@ namespace SDK.Lib
             mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
 
             setPosition(importData.pos);
-            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
+            mRootNode = mSceneMgr.getSceneNode(SceneNodeGraph.SceneTerrainRootName).createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
             if (!this.isAttached())
             {
                 mRootNode.attachObject(this);

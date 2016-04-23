@@ -13,6 +13,10 @@ namespace SDK.Lib
 
     public class SceneNodeGraph
     {
+        public const string SceneRootNodeName = "SceneRootNode";
+        public const string SceneTerrainRootName = "SceneTerrainRoot";
+        public const string SceneEntityRootName = "SceneEntityRoot";
+
         public GameObject[] mSceneNodes;
 
         public SceneNodeGraph()
@@ -23,12 +27,15 @@ namespace SDK.Lib
         public void init()
         {
             mSceneNodes = new GameObject[(int)eSceneNodeId.eSceneTotal];
-            mSceneNodes[(int)eSceneNodeId.eSceneRootNode] = UtilApi.createGameObject("SceneRootNode");
-            mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot] = UtilApi.createGameObject("SceneTerrainRoot");
-            mSceneNodes[(int)eSceneNodeId.eSceneEntityRoot] = UtilApi.createGameObject("SceneEntityRoot");
+            mSceneNodes[(int)eSceneNodeId.eSceneRootNode] = UtilApi.createGameObject(SceneRootNodeName);
+            mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot] = UtilApi.createGameObject(SceneTerrainRootName);
+            mSceneNodes[(int)eSceneNodeId.eSceneEntityRoot] = UtilApi.createGameObject(SceneEntityRootName);
 
             UtilApi.SetParent(mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot], mSceneNodes[(int)eSceneNodeId.eSceneRootNode]);
             UtilApi.SetParent(mSceneNodes[(int)eSceneNodeId.eSceneEntityRoot], mSceneNodes[(int)eSceneNodeId.eSceneRootNode]);
+
+            Ctx.m_instance.m_sceneManager.getRootSceneNode().createChildSceneNode(SceneTerrainRootName, new MVector3(0, -10, 0), MQuaternion.IDENTITY);
+            Ctx.m_instance.m_sceneManager.getRootSceneNode().createChildSceneNode(SceneEntityRootName, new MVector3(0, 0, 0), MQuaternion.IDENTITY);
         }
     }
 }
