@@ -236,5 +236,13 @@ namespace SDK.Lib
         {
             return mLocalAABB;
         }
+
+        override public void setWorldBoxNeedUpdate()
+        {
+            if (mOctant != null)
+            {
+                mOctant.setEntityWorldBoxNeedUpdate(true);
+            }
+        }
     }
 }

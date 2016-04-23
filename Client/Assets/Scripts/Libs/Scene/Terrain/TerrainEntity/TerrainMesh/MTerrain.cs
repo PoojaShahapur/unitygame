@@ -215,7 +215,8 @@ namespace SDK.Lib
             mMinBatchSize = importData.minBatchSize;
 
             mAABB.setMinimum(new MVector3(0, 0, 0));
-            mAABB.setMaximum(new MVector3(getWorldSize(), getWorldSize(), getWorldSize()));
+            //mAABB.setMaximum(new MVector3(getWorldSize(), getWorldSize(), getWorldSize()));
+            mAABB.setMaximum(new MVector3(getWorldSize(), 20, getWorldSize()));
 
             setPosition(importData.pos);
             mRootNode = mSceneMgr.getSceneNode(SceneNodeGraph.SceneTerrainRootName).createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
@@ -303,7 +304,8 @@ namespace SDK.Lib
             mMinBatchSize = importData.minBatchSize;
 
             mAABB.setMinimum(new MVector3(0, 0, 0));
-            mAABB.setMaximum(new MVector3(getWorldSize(), getWorldSize(), getWorldSize()));
+            //mAABB.setMaximum(new MVector3(getWorldSize(), getWorldSize(), getWorldSize()));
+            mAABB.setMaximum(new MVector3(getWorldSize(), 20, getWorldSize()));
 
             setPosition(importData.pos);
             mRootNode = mSceneMgr.getSceneNode(SceneNodeGraph.SceneTerrainRootName).createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
@@ -1836,6 +1838,7 @@ namespace SDK.Lib
         {
             //onFirstShow();
             Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addWillRemoveTerrain(this);
+            //this.getParentSceneNode().setWorldBoxNeedUpdate();
         }
 
         public void onFirstShow()

@@ -231,14 +231,15 @@ namespace SDK.Lib
 
             MVector3 centre = bound.getCenter();
             MVector3 halfSize = bound.getHalfSize();
+            MPlane.Side side;
 
             for (int plane = 0; plane < 6; ++plane)
             {
                 if (plane == (int)FrustumPlane.FRUSTUM_PLANE_FAR && mFarDist == 0)
                     continue;
 
-                MPlane.Side side = mFrustumPlanes[plane].getSide(ref centre, ref halfSize);
-                //MPlane.Side side = mFrustumPlanes[plane].getSide(ref bound);
+                side = mFrustumPlanes[plane].getSide(ref centre, ref halfSize);
+                //side = mFrustumPlanes[plane].getSide(ref bound);
                 if (side == MPlane.Side.NEGATIVE_SIDE)
                 {
                     //if (culledBy)
