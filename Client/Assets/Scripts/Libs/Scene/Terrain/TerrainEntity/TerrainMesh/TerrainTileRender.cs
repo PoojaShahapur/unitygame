@@ -391,14 +391,9 @@ namespace SDK.Lib
                     createInsMaterial();
                     m_isBuildGromAndMat = true;
                 }
-            }
-        }
 
-        // 如果改变
-        override protected void onSelfChanged()
-        {
-            base.onSelfChanged();
-            moveToPos();
+                moveToPos();
+            }
         }
 
         /**
@@ -408,7 +403,8 @@ namespace SDK.Lib
         {
             if (this.selfGo != null)
             {
-                UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(m_treeNode.getLocalCentre().x, 0, m_treeNode.getLocalCentre().z));
+                //UtilApi.setPos(this.selfGo.transform, new UnityEngine.Vector3(m_treeNode.getLocalCentre().x, 0, m_treeNode.getLocalCentre().z));
+                UtilApi.setPos(this.selfGo.transform, m_treeNode.getWorldPos().toNative());
             }
         }
     }

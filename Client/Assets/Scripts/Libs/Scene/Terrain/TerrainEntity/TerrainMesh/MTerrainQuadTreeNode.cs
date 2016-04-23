@@ -423,6 +423,11 @@ namespace SDK.Lib
             return mLocalCentre;
         }
 
+        public MVector3 getWorldPos()
+        {
+            return mLocalCentre + mTerrain.getWorldPos();
+        }
+
         override public void show(MFrustum frustum)
         {
             if (isLeaf())
@@ -615,13 +620,12 @@ namespace SDK.Lib
                     mTileRender = new TerrainTileRender(this);
                     mTileRender.setTmplMaterial(mTerrain.getMatTmpl());
 
-                    mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
+                    mTileRender.pntGo = Ctx.m_instance.mSceneNodeGraph.mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot];
                     mTileRender.show();
                 }
                 else
                 {
                     mTileRender.setTreeNode(this);
-                    mTileRender.pntGo = this.mParentNode.selfGo;    // 从移动对象中直接取值
                     mTileRender.show();
                 }
             }

@@ -539,35 +539,62 @@ namespace SDK.Lib
         // 这个设置 Child 位置信息需要是 Transform 
         public static void SetParent(Transform child, Transform parent, bool worldPositionStays = true)
         {
-            if (child.parent != parent)
+            if (child != null && parent != null)
             {
-                child.SetParent(parent, worldPositionStays);
+                if (child.parent != parent)
+                {
+                    child.SetParent(parent, worldPositionStays);
+                }
+            }
+            else if (child != null && parent == null)
+            {
+                child.SetParent(null, worldPositionStays);
             }
         }
 
         public static void SetParent(GameObject child, GameObject parent, bool worldPositionStays = true)
         {
+            Transform childTrans = null;
+            Transform parentTrans = null;
+
             if (child != null && parent != null)
             {
-                if (child.transform.parent != parent.transform)
+                childTrans = child.GetComponent<Transform>();
+                if(childTrans == null)
                 {
-                    child.transform.SetParent(parent.transform, worldPositionStays);
+                    childTrans = child.GetComponent<RectTransform>();
+                }
+                parentTrans = parent.GetComponent<Transform>();
+                if (parentTrans == null)
+                {
+                    parentTrans = parent.GetComponent<RectTransform>();
+                }
+
+                if (childTrans.parent != parentTrans)
+                {
+                    childTrans.SetParent(parentTrans, worldPositionStays);
                 }
             }
             else if(child != null && parent == null)
             {
-                child.transform.SetParent(null, worldPositionStays);
+                childTrans = child.GetComponent<Transform>();
+                if (childTrans == null)
+                {
+                    childTrans = child.GetComponent<RectTransform>();
+                }
+                childTrans.SetParent(null, worldPositionStays);
             }
         }
 
         // 这个设置 Child 位置信息需要是 RectTransform ，这个时候取 Child 的 Transform 不能使用 child.transform ，会报错误
         public static void SetRectTransParent(GameObject child, GameObject parent, bool worldPositionStays = true)
         {
-            RectTransform rectTrans = child.GetComponent<RectTransform>();
+            RectTransform childRectTrans = child.GetComponent<RectTransform>();
+            RectTransform parentRectTrans = parent.GetComponent<RectTransform>();
 
-            if (rectTrans != null && rectTrans.parent != parent.transform)
+            if (childRectTrans != null && childRectTrans.parent != parentRectTrans)
             {
-                rectTrans.SetParent(parent.transform, worldPositionStays);
+                childRectTrans.SetParent(parentRectTrans, worldPositionStays);
             }
         }
 

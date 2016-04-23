@@ -9,7 +9,7 @@ namespace SDK.Lib
         TS_WORLD,
     }
 
-    public class MNode : AuxComponent
+    public class MNode
     {
         public class Listener
         {
@@ -93,7 +93,6 @@ namespace SDK.Lib
             mName = msNameGenerator.generate();
             mChildren = new Dictionary<string, MNode>();
             mChildrenToUpdate = new HashSet<MNode>();
-            selfGo = UtilApi.createGameObject(mName);
 
             needUpdate();
         }
@@ -122,7 +121,6 @@ namespace SDK.Lib
             mChildren = new Dictionary<string, MNode>();
             mChildrenToUpdate = new HashSet<MNode>();
             mListener = null;
-            selfGo = UtilApi.createGameObject(mName);
             needUpdate();
         }
 
@@ -133,15 +131,6 @@ namespace SDK.Lib
 
         virtual public void setParent(MNode parent)
         {
-            // 关联真正的场景结点
-            if (parent == null)
-            {
-                UtilApi.SetParent(this.selfGo, null, false);
-            }
-            else
-            {
-                UtilApi.SetParent(this.selfGo, parent.selfGo, false);
-            }
             bool different = (parent != mParent);
 
             mParent = parent;
@@ -360,7 +349,6 @@ namespace SDK.Lib
             UtilApi.assert(!q.isNaN(), "Invalid orientation supplied as parameter");
             mOrientation = q;
             mOrientation.normalise();
-            UtilApi.setRot(selfGo.transform, mOrientation.toNative());
             needUpdate();
         }
 
@@ -372,7 +360,6 @@ namespace SDK.Lib
         public void resetOrientation()
         {
             mOrientation = MQuaternion.IDENTITY;
-            UtilApi.setRot(selfGo.transform, mOrientation.toNative());
             needUpdate();
         }
 
@@ -380,7 +367,6 @@ namespace SDK.Lib
         {
             UtilApi.assert(!pos.isNaN(), "Invalid vector supplied as parameter");
             mPosition = pos;
-            UtilApi.setPos(selfGo.transform, mPosition.toNative());
             needUpdate();
         }
 
@@ -610,7 +596,6 @@ namespace SDK.Lib
         {
             UtilApi.assert(!inScale.isNaN(), "Invalid vector supplied as parameter");
             mScale = inScale;
-            UtilApi.setScale(selfGo.transform, mScale.toNative());
             needUpdate();
         }
 

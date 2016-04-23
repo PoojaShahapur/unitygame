@@ -22,7 +22,6 @@ namespace SDK.Lib
 
         protected float[] mCorners;
         protected MMatrix4 mScaleFactor;
-        protected bool mIsCheckInVisible;   // 是否检查不可见
 
         public MOctreeSceneManager(string name)
             : base(name)
@@ -31,7 +30,6 @@ namespace SDK.Lib
             int depth = 8;
             mOctree = null;
             mVisible = new MList<MOctreeNode>();
-            mIsCheckInVisible = false;
             init(b, depth);
         }
 
@@ -40,7 +38,6 @@ namespace SDK.Lib
         {
             mOctree = null;
             mVisible = new MList<MOctreeNode>();
-            mIsCheckInVisible = false;
             init(box, max_depth);
         }
 
@@ -52,15 +49,11 @@ namespace SDK.Lib
             mBox = box;
 
             mOctree.mBox = box;
-
             MVector3 min = box.getMinimum();
-
             MVector3 max = box.getMaximum();
 
             mOctree.mHalfSize = (max - min) / 2;
-
             mShowBoxes = false;
-
             mNumObjects = 0;
 
             MVector3 v = new MVector3(1.5f, 1.5f, 1.5f);
@@ -350,15 +343,6 @@ namespace SDK.Lib
 
                         }
                     }
-                    else
-                    {
-                        if (mIsCheckInVisible)
-                        {
-                            Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node No Visible", LogTypeId.eLogCommon);
-
-                            sn._removeFromRenderQueue(camera);
-                        }
-                    }
 
                     ++idx;
                 }
@@ -435,63 +419,8 @@ namespace SDK.Lib
                     Ctx.m_instance.m_logSys.log("walkOctree Exit Child 1, 1, 1", LogTypeId.eLogCommon);
                 }
             }
-            else
-            {
-                if (mIsCheckInVisible)
-                {
-                    walkOctreeHide(camera, octant);
-                }
-            }
 
             Ctx.m_instance.m_logSys.log("walkOctree Exit", LogTypeId.eLogCommon);
-        }
-
-        // 遍历隐藏树
-        public void walkOctreeHide(MOctreeCamera camera, MOctree octant)
-        {
-            // 如果不可见，就隐藏所有不可见的内容
-            /*
-            List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
-
-            while (it.MoveNext())
-            {
-                MOctreeNode sn = it.Current;
-                sn._removeFromRenderQueue(camera);
-            }
-            */
-
-            int idx = 0;
-            int len = octant.mNodes.Count();
-            while (idx < len)
-            {
-                octant.mNodes[idx]._removeFromRenderQueue(camera);
-                ++idx;
-            }
-
-            MOctree child;
-            if ((child = octant.mChildren[0, 0, 0]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[1, 0, 0]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[0, 1, 0]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[1, 1, 0]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[0, 0, 1]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[1, 0, 1]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[0, 1, 1]) != null)
-                walkOctreeHide(camera, child);
-
-            if ((child = octant.mChildren[1, 1, 1]) != null)
-                walkOctreeHide(camera, child);
         }
 
         public void _findNodes(MAxisAlignedBox t, ref MList<MSceneNode> list, MSceneNode exclude, bool full, MOctree octant)

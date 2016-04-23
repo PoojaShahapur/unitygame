@@ -150,6 +150,7 @@ namespace SDK.Lib
             else
             {
                 render = new TerrainTileRender(null);
+                render.pntGo = Ctx.m_instance.mSceneNodeGraph.mSceneNodes[(int)eSceneNodeId.eSceneTerrainRoot];
                 render.setTmplMaterial(getMatTmpl());
             }
 

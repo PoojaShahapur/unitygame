@@ -57,6 +57,7 @@ namespace SDK.Lib
 
             //Ctx.m_instance.m_camSys.setMCamera(Camera.main);
             //m_terrain.updateClip();
+            Ctx.m_instance.mSceneNodeGraph.init();
             Ctx.m_instance.m_sceneManager.addUpdateTask();
             Ctx.m_instance.m_terrainBufferSys.loadSceneCfg("S1000");
             string terrainId = "";

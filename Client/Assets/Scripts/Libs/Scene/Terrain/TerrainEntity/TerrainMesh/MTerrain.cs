@@ -58,7 +58,7 @@ namespace SDK.Lib
         protected ushort mSize;
         protected ushort mMaxBatchSize;
         protected ushort mMinBatchSize;
-        protected MVector3 mPos;
+        protected MVector3 mPos;        // 局部空间位置
         protected MTerrainQuadTreeNode mQuadTree;
         protected ushort mNumLodLevels;
         protected ushort mNumLodLevelsPerLeafNode;
@@ -164,6 +164,11 @@ namespace SDK.Lib
         public MVector3 getPosition()
         {
             return mPos;
+        }
+
+        public MVector3 getWorldPos()
+        {
+            return mTerrainEntityNode._getDerivedPosition();
         }
 
         public MAxisAlignedBox getAABB()
