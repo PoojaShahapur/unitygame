@@ -68,6 +68,7 @@ namespace SDK.Lib
             mWorldAABB.setNull();
             mLocalAABB.setNull();
 
+            /*
             Dictionary<string, MMovableObject>.Enumerator i = mObjectsByName.GetEnumerator();
             MAxisAlignedBox bx = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
 
@@ -78,6 +79,21 @@ namespace SDK.Lib
                 mLocalAABB.merge(bx);
 
                 mWorldAABB.merge(i.Current.Value.getWorldBoundingBox(true));
+            }
+            */
+
+            MAxisAlignedBox bx = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+
+            int idx = 0;
+            int len = mObjectsList.Count();
+
+            while(idx < len)
+            {
+                bx = mObjectsList[idx].getBoundingBox();
+                mLocalAABB.merge(bx);
+                mWorldAABB.merge(mObjectsList[idx].getWorldBoundingBox(true));
+
+                ++idx;
             }
 
             if (!mWorldAABB.isNull() && mIsInSceneGraph)
@@ -183,21 +199,22 @@ namespace SDK.Lib
 
         public void _removeFromRenderQueue(MCamera cam)
         {
+            /*
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
-                //bool vis = false;
-                //MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
-                //FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
-                //vis = cam.isVisible(ref tmp, ref plane);
-                //if (vis)
-                //{
-                //    mo.show(cam);
-                //}
-                //else
-                //{
                 Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eLogCommon);
                 mo.hide(cam);
-                //}
+            }
+            */
+
+            int idx = 0;
+            int len = mObjectsList.Count();
+            while (idx < len)
+            {
+                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eLogCommon);
+                mObjectsList[idx].hide(cam);
+
+                ++idx;
             }
         }
 
@@ -209,6 +226,10 @@ namespace SDK.Lib
         public void setOctant(MOctree o)
         {
             mOctant = o;
+            if(mOctant != null)
+            {
+                mOctant.setEntityWorldBoxNeedUpdate(true);
+            }
         }
 
         public MAxisAlignedBox _getLocalAABB()

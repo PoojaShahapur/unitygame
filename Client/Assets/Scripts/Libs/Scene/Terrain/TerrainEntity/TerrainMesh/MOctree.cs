@@ -11,6 +11,9 @@
 
         protected MOctree mParent;
 
+        protected MAxisAlignedBox mEntityWorldBox;
+        protected bool mEntityWorldBoxNeedUpdate;
+
         public MOctree(MOctree parent)
         {
             mNodes = new MList<MOctreeNode>();
@@ -29,6 +32,9 @@
 
             mParent = parent;
             mNumNodes = 0;
+
+            mEntityWorldBox = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
+            mEntityWorldBoxNeedUpdate = false;
         }
 
         public void _addNode(MOctreeNode n)
@@ -105,6 +111,63 @@
                 z = 1;
             else
                 z = 0;
+        }
+
+        public bool getEntityWorldBoxNeedUpdate()
+        {
+            return mEntityWorldBoxNeedUpdate;
+        }
+
+        public void setEntityWorldBoxNeedUpdate(bool value)
+        {
+            mEntityWorldBoxNeedUpdate = value;
+        }
+
+        public MAxisAlignedBox getEntityWorldBox()
+        {
+            return mEntityWorldBox;
+        }
+
+        public void updateEntityWorldBox()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    for (int k = 0; k < 2; k++)
+                    {
+                        if (mChildren[i, j, k] != null)
+                        {
+                            mChildren[i, j, k].updateEntityWorldBox();
+                        }
+                    }
+                }
+            }
+
+            mEntityWorldBox.setNull();
+
+            int idx = 0;
+            int len = 0;
+            len = mNodes.Count();
+            while(idx < len)
+            {
+                mEntityWorldBox.merge(mNodes[idx]._getWorldAABB());
+                ++idx;
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    for (int k = 0; k < 2; k++)
+                    {
+                        if (mChildren[i, j, k] != null)
+                        {
+                            mEntityWorldBox.merge(mChildren[i, j, k].getEntityWorldBox());
+                        }
+                    }
+                }
+            }
         }
     }
 }

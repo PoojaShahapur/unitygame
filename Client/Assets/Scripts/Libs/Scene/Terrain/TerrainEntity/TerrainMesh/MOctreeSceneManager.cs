@@ -206,6 +206,7 @@ namespace SDK.Lib
         override public void _updateSceneGraph(MCamera cam)
         {
             base._updateSceneGraph(cam);
+            updateEntityWorldBox();
         }
 
         public void _alertVisibleObjects()
@@ -569,6 +570,14 @@ namespace SDK.Lib
                 return Intersection.INSIDE;
             else
                 return Intersection.INTERSECT;
+        }
+
+        public void updateEntityWorldBox()
+        {
+            if(mOctree.getEntityWorldBoxNeedUpdate())
+            {
+                mOctree.updateEntityWorldBox();
+            }
         }
     }
 }

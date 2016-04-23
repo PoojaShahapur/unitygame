@@ -359,7 +359,7 @@ namespace SDK.Lib
             mYawFixedAxis = fixedAxis;
         }
 
-        public void yaw(MRadian angle, TransformSpace relativeTo)
+        override public void yaw(MRadian angle, TransformSpace relativeTo)
         {
             if (mYawFixed)
             {

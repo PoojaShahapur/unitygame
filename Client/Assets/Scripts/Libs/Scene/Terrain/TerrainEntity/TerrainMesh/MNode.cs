@@ -449,7 +449,7 @@ namespace SDK.Lib
             rotate(MVector3.UNIT_X, angle, relativeTo);
         }
 
-        public void yaw(MRadian angle, TransformSpace relativeTo = TransformSpace.TS_PARENT)
+        virtual public void yaw(MRadian angle, TransformSpace relativeTo = TransformSpace.TS_PARENT)
         {
             rotate(MVector3.UNIT_Y, angle, relativeTo);
 
