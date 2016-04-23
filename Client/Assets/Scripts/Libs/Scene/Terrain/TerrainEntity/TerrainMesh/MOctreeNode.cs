@@ -110,27 +110,74 @@ namespace SDK.Lib
 
         public void _addToRenderQueue(MCamera cam, MOctreeCamera.Visibility visibleLevel)
         {
+            MAxisAlignedBox tmp;
+            FrustumPlane plane;
+
+            /*
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
                 Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eLogCommon);
 
                 bool vis = true;
-                MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
-                FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                tmp = mo.getWorldBoundingBox(false);
+                plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
                 if (visibleLevel == MOctreeCamera.Visibility.PARTIAL)
                 {
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eLogCommon);
+
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eLogCommon);
+
                     vis = cam.isVisible(ref tmp, ref plane);
                 }
                 if(vis)
                 {
                     Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eLogCommon);
+
                     mo.show(cam);
                 }
-                else
+                //else
+                //{
+                //    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eLogCommon);
+                //    mo.hide(cam);
+                //}
+            }
+            */
+
+            int idx = 0;
+            int len = mObjectsList.Count();
+            MMovableObject mo;
+
+            while (idx < len)
+            {
+                mo = mObjectsList[idx];
+                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eLogCommon);
+
+                bool vis = true;
+                tmp = mo.getWorldBoundingBox(false);
+                plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                if (visibleLevel == MOctreeCamera.Visibility.PARTIAL)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eLogCommon);
-                    mo.hide(cam);
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eLogCommon);
+
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eLogCommon);
+
+                    vis = cam.isVisible(ref tmp, ref plane);
                 }
+                if (vis)
+                {
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eLogCommon);
+
+                    mo.show(cam);
+                }
+                //else
+                //{
+                //    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eLogCommon);
+                //    mo.hide(cam);
+                //}
+
+                ++idx;
             }
         }
 

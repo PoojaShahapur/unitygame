@@ -243,9 +243,15 @@ namespace SDK.Lib
             else
             {
                 Ctx.m_instance.m_logSys.log("walkOctree Child Octree Check Visible", LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Min {0}", octant.mBox.getMinimum()), LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Max {0}", octant.mBox.getMaximum()), LogTypeId.eLogCommon);
 
                 MAxisAlignedBox box = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
                 octant._getCullBounds(ref box);
+
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Cull Min {0}", box.getMinimum()), LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Cull Max {0}", box.getMaximum()), LogTypeId.eLogCommon);
+
                 v = camera.getVisibility(box);
             }
 
@@ -319,6 +325,8 @@ namespace SDK.Lib
                     if (v == MOctreeCamera.Visibility.PARTIAL)
                     {
                         Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node Check Visible", LogTypeId.eLogCommon);
+                        Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", sn._getWorldAABB().getMinimum()), LogTypeId.eLogCommon);
+                        Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", sn._getWorldAABB().getMaximum()), LogTypeId.eLogCommon);
 
                         MAxisAlignedBox tmp = sn._getWorldAABB();
                         FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;

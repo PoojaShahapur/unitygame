@@ -107,7 +107,6 @@ namespace SDK.Lib
 
             m_heightMapData = new HeightMapData();
             mTerrainMat = new TerrainMat();
-            //mRootNode = new MSceneNode("Terrain");
             m_layerStr = "Default";
 
             this.mAABB = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
