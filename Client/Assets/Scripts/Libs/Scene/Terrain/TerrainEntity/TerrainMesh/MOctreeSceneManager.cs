@@ -244,8 +244,11 @@ namespace SDK.Lib
             else
             {
                 Ctx.m_instance.m_logSys.log("walkOctree Child Octree Check Visible", LogTypeId.eLogCommon);
-                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Min {0}", octant.mBox.getMinimum()), LogTypeId.eLogCommon);
-                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Max {0}", octant.mBox.getMaximum()), LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree World Min {0}", octant.mBox.getMinimum()), LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree World Max {0}", octant.mBox.getMaximum()), LogTypeId.eLogCommon);
+
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Entity Min {0}", octant.mEntityWorldBox.getMinimum()), LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Entity Max {0}", octant.mEntityWorldBox.getMaximum()), LogTypeId.eLogCommon);
 
                 MAxisAlignedBox box = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
                 octant._getCullBounds(ref box);

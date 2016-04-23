@@ -214,8 +214,8 @@ namespace SDK.Lib
             mMaxBatchSize = importData.maxBatchSize;
             mMinBatchSize = importData.minBatchSize;
 
-            mAABB.setMinimum(new MVector3(0, -100, 0));
-            mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
+            mAABB.setMinimum(new MVector3(0, 0, 0));
+            mAABB.setMaximum(new MVector3(getWorldSize(), getWorldSize(), getWorldSize()));
 
             setPosition(importData.pos);
             mRootNode = mSceneMgr.getSceneNode(SceneNodeGraph.SceneTerrainRootName).createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
@@ -302,8 +302,8 @@ namespace SDK.Lib
             mMaxBatchSize = importData.maxBatchSize;
             mMinBatchSize = importData.minBatchSize;
 
-            mAABB.setMinimum(new MVector3(0, -100, 0));
-            mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
+            mAABB.setMinimum(new MVector3(0, 0, 0));
+            mAABB.setMaximum(new MVector3(getWorldSize(), getWorldSize(), getWorldSize()));
 
             setPosition(importData.pos);
             mRootNode = mSceneMgr.getSceneNode(SceneNodeGraph.SceneTerrainRootName).createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
@@ -1919,8 +1919,8 @@ namespace SDK.Lib
 
         override public MAxisAlignedBox getWorldBoundingBox(bool derive)
         {
-            mWorldAabb.setMinimum(mAABB.getMinimum() + getPosition());
-            mWorldAabb.setMaximum(mAABB.getMaximum() + getPosition());
+            mWorldAabb.setMinimum(mAABB.getMinimum() + getWorldPos());
+            mWorldAabb.setMaximum(mAABB.getMaximum() + getWorldPos());
 
             return this.mWorldAabb;
         }

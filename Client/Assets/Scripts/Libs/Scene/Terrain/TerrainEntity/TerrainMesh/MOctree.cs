@@ -11,7 +11,8 @@
 
         protected MOctree mParent;
 
-        protected MAxisAlignedBox mEntityWorldBox;
+        public MAxisAlignedBox mEntityWorldBox;
+        public MVector3 mEntityWorldBoxHalfSize;
         protected bool mEntityWorldBoxNeedUpdate;
 
         public MOctree(MOctree parent)
@@ -56,9 +57,19 @@
 
         public void _getCullBounds(ref MAxisAlignedBox b)
         {
+            /*
             MVector3 min = mBox.getMinimum() - mHalfSize;
             MVector3 max = mBox.getMaximum() + mHalfSize;
             b.setExtents(ref min, ref max);
+            */
+
+            /*
+            MVector3 min = mEntityWorldBox.getMinimum() - mEntityWorldBoxHalfSize;
+            MVector3 max = mEntityWorldBox.getMaximum() + mEntityWorldBoxHalfSize;
+            b.setExtents(ref min, ref max);
+            */
+
+            b = mEntityWorldBox;
         }
 
         public int numNodes()
@@ -121,6 +132,10 @@
         public void setEntityWorldBoxNeedUpdate(bool value)
         {
             mEntityWorldBoxNeedUpdate = value;
+            if(mParent != null)
+            {
+                mParent.setEntityWorldBoxNeedUpdate(mEntityWorldBoxNeedUpdate);
+            }
         }
 
         public MAxisAlignedBox getEntityWorldBox()
@@ -130,6 +145,8 @@
 
         public void updateEntityWorldBox()
         {
+            mEntityWorldBoxNeedUpdate = false;
+
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 2; j++)
@@ -168,6 +185,8 @@
                     }
                 }
             }
+
+            mEntityWorldBoxHalfSize = (mEntityWorldBox.getMaximum() - mEntityWorldBox.getMinimum()) / 2;
         }
     }
 }
