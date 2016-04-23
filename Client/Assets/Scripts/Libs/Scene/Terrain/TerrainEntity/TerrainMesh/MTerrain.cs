@@ -48,7 +48,6 @@ namespace SDK.Lib
     {
         protected MSceneManager mSceneMgr;
         protected MSceneNode mRootNode;
-        protected MSceneNode mTerrainEntityNode;    // 仅仅关联 Terrain
         protected bool mIsLoaded;
         protected bool mModified;
         protected bool mHeightDataModified;
@@ -83,7 +82,6 @@ namespace SDK.Lib
 
         protected MAxisAlignedBox mAABB;
         protected MAxisAlignedBox mWorldAabb;
-        protected bool mIsInit;
         protected long mX;
         protected long mY;
 
@@ -168,7 +166,7 @@ namespace SDK.Lib
 
         public MVector3 getWorldPos()
         {
-            return mTerrainEntityNode._getDerivedPosition();
+            return mRootNode.getDerivedPosition();
         }
 
         public MAxisAlignedBox getAABB()
@@ -221,10 +219,10 @@ namespace SDK.Lib
             mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
 
             setPosition(importData.pos);
-            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
+            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
             if (!this.isAttached())
             {
-                mTerrainEntityNode.attachObject(this);
+                mRootNode.attachObject(this);
             }
 
             updateBaseScale();
@@ -309,10 +307,10 @@ namespace SDK.Lib
             mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
 
             setPosition(importData.pos);
-            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
+            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
             if (!this.isAttached())
             {
-                mTerrainEntityNode.attachObject(this);
+                mRootNode.attachObject(this);
             }
 
             updateBaseScale();
@@ -1837,14 +1835,14 @@ namespace SDK.Lib
 
         override public void show(MFrustum frustum)
         {
-            //this.cullNode(frustum);
-            if(!mIsInit)
-            {
-                mIsInit = true;
-                mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("Terrain_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
-                mQuadTree.updateAABB();
-                mQuadTree.attachMO();
-            }
+            //onFirstShow();
+            Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addWillRemoveTerrain(this);
+        }
+
+        public void onFirstShow()
+        {
+            mQuadTree.updateAABB();
+            mQuadTree.attachMO();
         }
 
         public Material getMatTmpl()

@@ -544,8 +544,8 @@ namespace SDK.Lib
 
         public void updateWorldAABB()
         {
-            mWorldAabb.setMinimum(mAABB.getMinimum() + mLocalCentre + mTerrain.getPosition());
-            mWorldAabb.setMaximum(mAABB.getMaximum() + mLocalCentre + mTerrain.getPosition());
+            mWorldAabb.setMinimum(mAABB.getMinimum() + getWorldPos());
+            mWorldAabb.setMaximum(mAABB.getMaximum() + getWorldPos());
         }
 
         protected void showBoundBox()

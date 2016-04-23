@@ -11,6 +11,7 @@ namespace SDK.Lib
         protected int mPreIndex;        // 之前的索引
         protected Dictionary<MTerrainQuadTreeNode, bool>[] mTreeNode2VisibleDic;
         protected MList<MTerrainQuadTreeNode>[] mVisibleTreeNodeList;       // 当前可视化 TreeNode 列表
+        protected MList<MTerrain> mWillRemoveTerrainList;
 
         public TerrainVisibleCheck()
         {
@@ -31,6 +32,8 @@ namespace SDK.Lib
                 mVisibleTreeNodeList[idx] = new MList<MTerrainQuadTreeNode>();
                 ++idx;
             }
+
+            mWillRemoveTerrainList = new MList<MTerrain>();
         }
 
         public void addVisibleTreeNode(MTerrainQuadTreeNode treeNode)
@@ -77,6 +80,25 @@ namespace SDK.Lib
 
             mPreIndex = mCurIndex;
             mCurIndex = (mCurIndex + 1) % 2;
+        }
+
+        public void addWillRemoveTerrain(MTerrain ter)
+        {
+            mWillRemoveTerrainList.Add(ter);
+        }
+
+        public void delayRemoveTerrain()
+        {
+            int idx = 0;
+            int len = mWillRemoveTerrainList.Count();
+            while (idx < len)
+            {
+                mWillRemoveTerrainList[idx].getParentSceneNode().detachObject(mWillRemoveTerrainList[idx].getName());
+                mWillRemoveTerrainList[idx].onFirstShow();
+                ++idx;
+            }
+
+            mWillRemoveTerrainList.Clear();
         }
     }
 }
