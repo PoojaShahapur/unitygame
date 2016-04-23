@@ -132,29 +132,29 @@ namespace SDK.Lib
             /*
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
-                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eSceneCull);
 
                 bool vis = true;
                 tmp = mo.getWorldBoundingBox(false);
                 plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
                 if (visibleLevel == MOctreeCamera.Visibility.PARTIAL)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eSceneCull);
 
-                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eLogCommon);
-                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eSceneCull);
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eSceneCull);
 
                     vis = cam.isVisible(ref tmp, ref plane);
                 }
                 if(vis)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eSceneCull);
 
                     mo.show(cam);
                 }
                 //else
                 //{
-                //    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eLogCommon);
+                //    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eSceneCull);
                 //    mo.hide(cam);
                 //}
             }
@@ -167,29 +167,29 @@ namespace SDK.Lib
             while (idx < len)
             {
                 mo = mObjectsList[idx];
-                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eSceneCull);
 
                 bool vis = true;
                 tmp = mo.getWorldBoundingBox(false);
                 plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
                 if (visibleLevel == MOctreeCamera.Visibility.PARTIAL)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eSceneCull);
 
-                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eLogCommon);
-                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eSceneCull);
+                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eSceneCull);
 
                     vis = cam.isVisible(ref tmp, ref plane);
                 }
                 if (vis)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eLogCommon);
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eSceneCull);
 
                     mo.show(cam);
                 }
                 //else
                 //{
-                //    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eLogCommon);
+                //    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eSceneCull);
                 //    mo.hide(cam);
                 //}
 
@@ -202,7 +202,7 @@ namespace SDK.Lib
             /*
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
-                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eSceneCull);
                 mo.hide(cam);
             }
             */
@@ -211,7 +211,7 @@ namespace SDK.Lib
             int len = mObjectsList.Count();
             while (idx < len)
             {
-                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eLogCommon);
+                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eSceneCull);
                 mObjectsList[idx].hide(cam);
 
                 ++idx;
