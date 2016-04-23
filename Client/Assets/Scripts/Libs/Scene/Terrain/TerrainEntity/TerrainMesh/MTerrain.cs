@@ -217,18 +217,15 @@ namespace SDK.Lib
             mMaxBatchSize = importData.maxBatchSize;
             mMinBatchSize = importData.minBatchSize;
 
-            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("Terrain_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
-            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
-
             mAABB.setMinimum(new MVector3(0, -100, 0));
             mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
 
+            setPosition(importData.pos);
+            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
             if (!this.isAttached())
             {
                 mTerrainEntityNode.attachObject(this);
             }
-
-            setPosition(importData.pos);
 
             updateBaseScale();
             determineLodLevels();
@@ -308,18 +305,15 @@ namespace SDK.Lib
             mMaxBatchSize = importData.maxBatchSize;
             mMinBatchSize = importData.minBatchSize;
 
-            mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("Terrain_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
-            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, MVector3.ZERO, MQuaternion.IDENTITY);
-
             mAABB.setMinimum(new MVector3(0, -100, 0));
             mAABB.setMaximum(new MVector3(getWorldSize(), 100, getWorldSize()));
 
+            setPosition(importData.pos);
+            mTerrainEntityNode = mSceneMgr.getRootSceneNode().createChildSceneNode("TerrainEntity_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
             if (!this.isAttached())
             {
                 mTerrainEntityNode.attachObject(this);
             }
-
-            setPosition(importData.pos);
 
             updateBaseScale();
             determineLodLevels();
@@ -896,8 +890,6 @@ namespace SDK.Lib
             if (pos != mPos)
             {
                 mPos = pos;
-                mRootNode.setPosition(pos);
-                mTerrainEntityNode.setPosition(pos);
 
                 updateBaseScale();
                 mModified = true;
@@ -1849,6 +1841,7 @@ namespace SDK.Lib
             if(!mIsInit)
             {
                 mIsInit = true;
+                mRootNode = mSceneMgr.getRootSceneNode().createChildSceneNode("Terrain_" + mX + "_" + mY, mPos, MQuaternion.IDENTITY);
                 mQuadTree.updateAABB();
                 mQuadTree.attachMO();
             }
