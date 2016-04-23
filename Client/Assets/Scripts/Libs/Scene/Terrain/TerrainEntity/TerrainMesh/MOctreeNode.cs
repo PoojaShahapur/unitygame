@@ -167,23 +167,23 @@ namespace SDK.Lib
             while (idx < len)
             {
                 mo = mObjectsList[idx];
-                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eSceneCull);
+                //Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eSceneCull);
 
                 bool vis = true;
                 tmp = mo.getWorldBoundingBox(false);
                 plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
                 if (visibleLevel == MOctreeCamera.Visibility.PARTIAL)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eSceneCull);
+                    //Ctx.m_instance.m_logSys.log("_addToRenderQueue Check Visible", LogTypeId.eSceneCull);
 
-                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eSceneCull);
-                    Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eSceneCull);
+                    //Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", tmp.getMinimum()), LogTypeId.eSceneCull);
+                    //Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", tmp.getMaximum()), LogTypeId.eSceneCull);
 
                     vis = cam.isVisible(ref tmp, ref plane);
                 }
                 if (vis)
                 {
-                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eSceneCull);
+                    //Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eSceneCull);
 
                     mo.show(cam);
                 }
@@ -211,7 +211,7 @@ namespace SDK.Lib
             int len = mObjectsList.Count();
             while (idx < len)
             {
-                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eSceneCull);
+                //Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eSceneCull);
                 mObjectsList[idx].hide(cam);
 
                 ++idx;
