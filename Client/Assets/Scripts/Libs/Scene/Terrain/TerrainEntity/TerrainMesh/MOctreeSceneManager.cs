@@ -27,7 +27,7 @@ namespace SDK.Lib
         public MOctreeSceneManager(string name)
             : base(name)
         {
-            MAxisAlignedBox b = new MAxisAlignedBox(-10000, -10000, -10000, 10000, 10000, 10000);
+            MAxisAlignedBox b = new MAxisAlignedBox(-60000, -60000, -60000, 60000, 60000, 60000);
             int depth = 8;
             mOctree = null;
             mVisible = new MList<MOctreeNode>();
@@ -231,17 +231,26 @@ namespace SDK.Lib
 
         public void walkOctree(MOctreeCamera camera, MOctree octant)
         {
+            Ctx.m_instance.m_logSys.log("walkOctree Enter", LogTypeId.eLogCommon);
+
             if (octant.numNodes() == 0)
+            {
+                Ctx.m_instance.m_logSys.log("walkOctree Exit", LogTypeId.eLogCommon);
                 return;
+            }
 
             MOctreeCamera.Visibility v = MOctreeCamera.Visibility.NONE;
 
             if (octant == mOctree)
             {
+                Ctx.m_instance.m_logSys.log("walkOctree Root Octree", LogTypeId.eLogCommon);
+
                 v = MOctreeCamera.Visibility.PARTIAL;
             }
             else
             {
+                Ctx.m_instance.m_logSys.log("walkOctree Child Octree Check Visible", LogTypeId.eLogCommon);
+
                 MAxisAlignedBox box = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
                 octant._getCullBounds(ref box);
                 v = camera.getVisibility(box);
@@ -250,7 +259,7 @@ namespace SDK.Lib
             // 如果可见
             if (v != MOctreeCamera.Visibility.NONE)
             {
-                List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
+                Ctx.m_instance.m_logSys.log("walkOctree Child Octree Visible", LogTypeId.eLogCommon);
 
                 if (mShowBoxes)
                 {
@@ -258,13 +267,18 @@ namespace SDK.Lib
                 }
 
                 bool vis = true;
-
+                /*
+                List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
                 while (it.MoveNext())
                 {
+                    Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node", LogTypeId.eLogCommon);
+
                     MOctreeNode sn = it.Current;
 
                     if (v == MOctreeCamera.Visibility.PARTIAL)
                     {
+                        Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node Check Visible", LogTypeId.eLogCommon);
+
                         MAxisAlignedBox tmp = sn._getWorldAABB();
                         FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
                         vis = camera.isVisible(ref tmp, ref plane);
@@ -272,6 +286,8 @@ namespace SDK.Lib
 
                     if (vis)
                     {
+                        Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node  Visible", LogTypeId.eLogCommon);
+
                         mNumObjects++;
                         sn._addToRenderQueue(camera, v);
                         mVisible.Add(sn);
@@ -288,35 +304,136 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        sn._removeFromRenderQueue(camera);
+                        if (mIsCheckInVisible)
+                        {
+                            Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node No Visible", LogTypeId.eLogCommon);
+
+                            sn._removeFromRenderQueue(camera);
+                        }
                     }
+                }
+                */
+
+                int idx = 0;
+                int len = octant.mNodes.Count();
+                MOctreeNode sn = null;
+                while (idx < len)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node", LogTypeId.eLogCommon);
+
+                    sn = octant.mNodes[idx];
+
+                    if (v == MOctreeCamera.Visibility.PARTIAL)
+                    {
+                        Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node Check Visible", LogTypeId.eLogCommon);
+
+                        MAxisAlignedBox tmp = sn._getWorldAABB();
+                        FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                        vis = camera.isVisible(ref tmp, ref plane);
+                    }
+
+                    if (vis)
+                    {
+                        Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node  Visible", LogTypeId.eLogCommon);
+
+                        mNumObjects++;
+                        sn._addToRenderQueue(camera, v);
+                        mVisible.Add(sn);
+
+                        if (mDisplayNodes)
+                        {
+
+                        }
+
+                        if (sn.getShowBoundingBox() || mShowBoundingBoxes)
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        if (mIsCheckInVisible)
+                        {
+                            Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node No Visible", LogTypeId.eLogCommon);
+
+                            sn._removeFromRenderQueue(camera);
+                        }
+                    }
+
+                    ++idx;
                 }
 
                 MOctree child;
                 bool childfoundvisible = (v == MOctreeCamera.Visibility.FULL);
                 if ((child = octant.mChildren[0, 0, 0]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 0, 0, 0", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 0, 0, 0", LogTypeId.eLogCommon);
+                }
 
                 if ((child = octant.mChildren[1, 0, 0]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 1, 0, 0", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 1, 0, 0", LogTypeId.eLogCommon);
+                }
 
                 if ((child = octant.mChildren[0, 1, 0]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 0, 1, 0", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+                }
 
                 if ((child = octant.mChildren[1, 1, 0]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 1, 1, 0", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 1, 1, 0", LogTypeId.eLogCommon);
+                }
 
                 if ((child = octant.mChildren[0, 0, 1]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 0, 0, 1", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 0, 0, 1", LogTypeId.eLogCommon);
+                }
 
                 if ((child = octant.mChildren[1, 0, 1]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 1, 0, 1", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 1, 0, 1", LogTypeId.eLogCommon);
+                }
 
                 if ((child = octant.mChildren[0, 1, 1]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 0, 1, 1", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
 
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 0, 1, 1", LogTypeId.eLogCommon);
+                }
+
                 if ((child = octant.mChildren[1, 1, 1]) != null)
+                {
+                    Ctx.m_instance.m_logSys.log("walkOctree Enter Child 1, 1, 1", LogTypeId.eLogCommon);
+
                     walkOctree(camera, child);
+
+                    Ctx.m_instance.m_logSys.log("walkOctree Exit Child 1, 1, 1", LogTypeId.eLogCommon);
+                }
             }
             else
             {
@@ -325,18 +442,30 @@ namespace SDK.Lib
                     walkOctreeHide(camera, octant);
                 }
             }
+
+            Ctx.m_instance.m_logSys.log("walkOctree Exit", LogTypeId.eLogCommon);
         }
 
         // 遍历隐藏树
         public void walkOctreeHide(MOctreeCamera camera, MOctree octant)
         {
             // 如果不可见，就隐藏所有不可见的内容
+            /*
             List<MOctreeNode>.Enumerator it = octant.mNodes.list().GetEnumerator();
 
             while (it.MoveNext())
             {
                 MOctreeNode sn = it.Current;
                 sn._removeFromRenderQueue(camera);
+            }
+            */
+
+            int idx = 0;
+            int len = octant.mNodes.Count();
+            while (idx < len)
+            {
+                octant.mNodes[idx]._removeFromRenderQueue(camera);
+                ++idx;
             }
 
             MOctree child;

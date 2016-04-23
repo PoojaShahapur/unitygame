@@ -112,6 +112,8 @@ namespace SDK.Lib
         {
             foreach (MMovableObject mo in mObjectsByName.Values)
             {
+                Ctx.m_instance.m_logSys.log("_addToRenderQueue", LogTypeId.eLogCommon);
+
                 bool vis = true;
                 MAxisAlignedBox tmp = mo.getWorldBoundingBox(false);
                 FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
@@ -121,10 +123,12 @@ namespace SDK.Lib
                 }
                 if(vis)
                 {
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Show", LogTypeId.eLogCommon);
                     mo.show(cam);
                 }
                 else
                 {
+                    Ctx.m_instance.m_logSys.log("_addToRenderQueue Hide", LogTypeId.eLogCommon);
                     mo.hide(cam);
                 }
             }
@@ -144,7 +148,8 @@ namespace SDK.Lib
                 //}
                 //else
                 //{
-                    mo.hide(cam);
+                Ctx.m_instance.m_logSys.log("_removeFromRenderQueue", LogTypeId.eLogCommon);
+                mo.hide(cam);
                 //}
             }
         }

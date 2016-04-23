@@ -29,6 +29,7 @@ namespace Game.UI
         protected void addEventHandle()
         {
             UtilApi.addEventHandle(m_guiWin.m_uiRoot, TerrainEditPath.BtnExportScene, onBtnExportSceneClk);
+            UtilApi.addEventHandle(m_guiWin.m_uiRoot, TerrainEditPath.BtnEnableLog, onBtnEnableLogClk);
         }
 
         protected void onBtnExportSceneClk()
@@ -39,6 +40,11 @@ namespace Game.UI
         protected void exportScene()
         {
             Ctx.m_instance.m_terrainGroup.serializeTerrain(0, 0);
+        }
+
+        protected void onBtnEnableLogClk()
+        {
+            Ctx.m_instance.m_logSys.setEnableLog(true);
         }
     }
 }

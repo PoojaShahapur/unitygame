@@ -15,10 +15,12 @@ namespace SDK.Lib
         protected MVector3 mAutoTrackLocalDirection;
         protected bool mIsInSceneGraph;
         protected Dictionary<string, MMovableObject> mObjectsByName;
+        protected MList<MMovableObject> mObjectsList;
 
         public MSceneNode(string name = "")
         {
             mObjectsByName = new Dictionary<string, MMovableObject>();
+            mObjectsList = new MList<MMovableObject>();
         }
 
         public MSceneNode(MSceneManager creator)
@@ -31,6 +33,7 @@ namespace SDK.Lib
             mAutoTrackTarget = null;
             mIsInSceneGraph = false;
             mObjectsByName = new Dictionary<string, MMovableObject>();
+            mObjectsList = new MList<MMovableObject>();
             needUpdate();
         }
 
@@ -44,6 +47,7 @@ namespace SDK.Lib
             mAutoTrackTarget = null;
             mIsInSceneGraph = false;
             mObjectsByName = new Dictionary<string, MMovableObject>();
+            mObjectsList = new MList<MMovableObject>();
             needUpdate();
         }
 
@@ -93,6 +97,7 @@ namespace SDK.Lib
             if (!mObjectsByName.ContainsKey(obj.getName()))
             {
                 mObjectsByName.Add(obj.getName(), obj);
+                mObjectsList.Add(obj);
             }
             else
             {
@@ -142,6 +147,7 @@ namespace SDK.Lib
 
                 MMovableObject ret = iter.Current.Value;
                 mObjectsByName.Remove(iter.Current.Key);
+                mObjectsList.Remove(ret);
                 ret._notifyAttached(null);
 
                 needUpdate();
@@ -163,6 +169,7 @@ namespace SDK.Lib
             }
             MMovableObject ret = mObjectsByName[name];
             mObjectsByName.Remove(name);
+            mObjectsList.Remove(ret);
             ret._notifyAttached((MSceneNode)null);
 
             needUpdate();
@@ -177,6 +184,7 @@ namespace SDK.Lib
                 if (kv.Value == obj)
                 {
                     mObjectsByName.Remove(kv.Key);
+                    mObjectsList.Remove(kv.Value);
                     break;
                 }
             }
@@ -193,6 +201,7 @@ namespace SDK.Lib
                 ret._notifyAttached((MSceneNode)null);
             }
             mObjectsByName.Clear();
+            mObjectsList.Clear();
             needUpdate();
         }
 

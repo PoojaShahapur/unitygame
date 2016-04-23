@@ -284,9 +284,15 @@ namespace SDK.Lib
 
         public void cullSceneThread(MUpdateTransformRequest request, int threadIdx)
         {
+            Ctx.m_instance.m_logSys.log("cullSceneThread Start", LogTypeId.eLogCommon);
+
             _updateSceneGraph(Ctx.m_instance.m_camSys.getLocalCamera());
             _findVisibleObjects(Ctx.m_instance.m_camSys.getLocalCamera());
             Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.checkVisible();
+
+            Ctx.m_instance.m_logSys.log("cullSceneThread End", LogTypeId.eLogCommon);
+
+            Ctx.m_instance.m_logSys.setEnableLog(false);
         }
 
         public long updateWorkerThread(MSceneThread threadHandle)

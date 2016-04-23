@@ -16,6 +16,8 @@ namespace SDK.Lib
         protected List<LogDeviceBase> m_logDeviceList = new List<LogDeviceBase>();
         protected List<LogDeviceBase> m_fightLogDeviceList = new List<LogDeviceBase>();
 
+        protected bool mEnableLog;
+
         public LogSys()
         {
 #if UNITY_5
@@ -25,9 +27,14 @@ namespace SDK.Lib
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
-
+            mEnableLog = false;
             registerDevice();
             registerFileLogDevice();
+        }
+
+        public void setEnableLog(bool value)
+        {
+            mEnableLog = value;
         }
 
         protected void registerDevice()
@@ -133,7 +140,7 @@ namespace SDK.Lib
             if(logTypeId == LogTypeId.eLogCommon ||
                logTypeId == LogTypeId.eLogTest)
             {
-                return true;
+                return mEnableLog;
             }
 
             return false;
