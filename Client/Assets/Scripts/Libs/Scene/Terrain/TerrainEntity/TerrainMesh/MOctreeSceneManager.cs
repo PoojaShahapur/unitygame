@@ -323,6 +323,9 @@ namespace SDK.Lib
                 int idx = 0;
                 int len = octant.mNodes.Count();
                 MOctreeNode sn = null;
+                MAxisAlignedBox tmp;
+                FrustumPlane plane;
+
                 while (idx < len)
                 {
                     //Ctx.m_instance.m_logSys.log("walkOctree Child Octree Node", LogTypeId.eSceneCull);
@@ -335,8 +338,8 @@ namespace SDK.Lib
                         //Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Min {0}", sn._getWorldAABB().getMinimum()), LogTypeId.eSceneCull);
                         //Ctx.m_instance.m_logSys.log(string.Format("walkOctree Child Octree Node Max {0}", sn._getWorldAABB().getMaximum()), LogTypeId.eSceneCull);
 
-                        MAxisAlignedBox tmp = sn._getWorldAABB();
-                        FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
+                        tmp = sn._getWorldAABB();
+                        plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
                         vis = camera.isVisible(ref tmp, ref plane);
                     }
 
