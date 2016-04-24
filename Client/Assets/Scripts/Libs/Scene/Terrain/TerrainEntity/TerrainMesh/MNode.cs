@@ -10,7 +10,7 @@ namespace SDK.Lib
     }
 
     //public class MNode : AuxComponent
-    public class MNode : AuxComponent
+    public class MNode
     {
         public class Listener
         {
