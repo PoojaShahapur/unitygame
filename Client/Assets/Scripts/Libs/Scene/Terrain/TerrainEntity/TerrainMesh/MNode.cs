@@ -434,7 +434,6 @@ namespace SDK.Lib
                     break;
             }
             needUpdate();
-
         }
 
         public void translate(float x, float y, float z, TransformSpace relativeTo = TransformSpace.TS_PARENT)
@@ -468,7 +467,6 @@ namespace SDK.Lib
         virtual public void yaw(MRadian angle, TransformSpace relativeTo = TransformSpace.TS_PARENT)
         {
             rotate(MVector3.UNIT_Y, angle, relativeTo);
-
         }
 
         public void rotate(MVector3 axis, MRadian angle, TransformSpace relativeTo = TransformSpace.TS_PARENT)
