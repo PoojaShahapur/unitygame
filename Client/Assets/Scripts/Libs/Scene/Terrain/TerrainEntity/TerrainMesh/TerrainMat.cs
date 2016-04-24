@@ -29,11 +29,17 @@ namespace SDK.Lib
         protected Texture m_controlTex;
         protected Shader m_splatShader;
         protected MatRes m_splatMatRes;
-        protected TextureRes m_splat0TexRes;
-        protected TextureRes m_splat1TexRes;
-        protected TextureRes m_splat2TexRes;
-        protected TextureRes m_splat3TexRes;
-        protected TextureRes m_controlTexRes;
+        //protected TextureRes m_splat0TexRes;
+        //protected TextureRes m_splat1TexRes;
+        //protected TextureRes m_splat2TexRes;
+        //protected TextureRes m_splat3TexRes;
+        //protected TextureRes m_controlTexRes;
+
+        protected AuxTexComponent mSplat0TexRes;
+        protected AuxTexComponent mSplat1TexRes;
+        protected AuxTexComponent mSplat2TexRes;
+        protected AuxTexComponent mSplat3TexRes;
+        protected AuxTexComponent mControlTexRes;
 
         protected string m_matPreStr;               // 材质前缀字符
         protected string m_difffuseMatName;         // 材质的名字
@@ -166,6 +172,7 @@ namespace SDK.Lib
             m_splatShader = Shader.Find(m_splatShaderName);
             m_splatMat.shader = m_splatShader;
 
+            /*
             m_splat0TexRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_splat0TexName);
             m_splat0Tex = m_splat0TexRes.getTexture();
             if (m_splatMat.HasProperty("_MainTex"))
@@ -194,11 +201,27 @@ namespace SDK.Lib
             {
                 m_splatMat.SetTexture("_Control", m_controlTex);
             }
+            */
 
             if (m_splatMat.HasProperty("_UVMultiplier"))
             {
                 m_splatMat.SetVector("_UVMultiplier", mUVMultiplier);
             }
+
+            mSplat0TexRes = new AuxTexComponent();
+            mSplat0TexRes.asyncLoad(m_splat0TexName, onSplat0TexResLoaded);
+
+            mSplat1TexRes = new AuxTexComponent();
+            mSplat1TexRes.asyncLoad(m_splat1TexName, onSplat1TexResLoaded);
+
+            mSplat2TexRes = new AuxTexComponent();
+            mSplat2TexRes.asyncLoad(m_splat2TexName, onSplat2TexResLoaded);
+
+            mSplat3TexRes = new AuxTexComponent();
+            mSplat3TexRes.asyncLoad(m_splat3TexName, onSplat3TexResLoaded);
+
+            mControlTexRes = new AuxTexComponent();
+            mControlTexRes.asyncLoad(m_controlTexName, onControlTexResLoaded);
         }
 
         public Material getDiffuseMaterial()
@@ -214,6 +237,51 @@ namespace SDK.Lib
         public Material getSplatMaterial()
         {
             return m_splatMat;
+        }
+
+        public void onSplat0TexResLoaded(IDispatchObject dispObj)
+        {
+            mSplat0TexRes = dispObj as AuxTexComponent;
+            if(m_splatMat.HasProperty("_MainTex"))
+            {
+                m_splatMat.SetTexture("_MainTex", mSplat0TexRes.getTexture());
+            }
+        }
+
+        public void onSplat1TexResLoaded(IDispatchObject dispObj)
+        {
+            mSplat1TexRes = dispObj as AuxTexComponent;
+            if (m_splatMat.HasProperty("_Splat1"))
+            {
+                m_splatMat.SetTexture("_Splat1", mSplat1TexRes.getTexture());
+            }
+        }
+
+        public void onSplat2TexResLoaded(IDispatchObject dispObj)
+        {
+            mSplat2TexRes = dispObj as AuxTexComponent;
+            if (m_splatMat.HasProperty("_Splat2"))
+            {
+                m_splatMat.SetTexture("_Splat2", mSplat2TexRes.getTexture());
+            }
+        }
+
+        public void onSplat3TexResLoaded(IDispatchObject dispObj)
+        {
+            mSplat3TexRes = dispObj as AuxTexComponent;
+            if (m_splatMat.HasProperty("_Splat3"))
+            {
+                m_splatMat.SetTexture("_Splat3", mSplat3TexRes.getTexture());
+            }
+        }
+
+        public void onControlTexResLoaded(IDispatchObject dispObj)
+        {
+            mControlTexRes = dispObj as AuxTexComponent;
+            if (m_splatMat.HasProperty("_Control"))
+            {
+                m_splatMat.SetTexture("_Control", mControlTexRes.getTexture());
+            }
         }
     }
 }
