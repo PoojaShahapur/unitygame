@@ -317,7 +317,7 @@ namespace Fight
             TimerItemBase timer = new TimerItemBase();
             timer.m_internal = 1;
             timer.m_timerDisp.setFuncObject(endSelfFullTip);
-            Ctx.m_instance.m_timerMgr.addObject(timer);
+            Ctx.m_instance.m_timerMgr.addTimer(timer);
         }
 
         public void endSelfFullTip(TimerItemBase timer)

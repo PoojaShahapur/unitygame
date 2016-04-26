@@ -16,7 +16,7 @@ namespace SDK.Lib
             
         }
 
-        public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        protected override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中
             if (m_timerList.IndexOf(delayObject as TimerItemBase) == -1)
@@ -32,7 +32,7 @@ namespace SDK.Lib
             }
         }
 
-        public override void delObject(IDelayHandleItem delayObject)
+        protected override void removeObject(IDelayHandleItem delayObject)
         {
             // 检查当前是否在队列中
             if (m_timerList.IndexOf(delayObject as TimerItemBase) != -1)
@@ -40,7 +40,7 @@ namespace SDK.Lib
                 (delayObject as TimerItemBase).m_disposed = true;
                 if (bInDepth())
                 {
-                    base.delObject(delayObject);
+                    base.removeObject(delayObject);
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace SDK.Lib
 
         public void removeTimer(TimerItemBase timer)
         {
-            this.delObject(timer);
+            this.removeObject(timer);
         }
 
         public void Advance(float delta)
@@ -92,7 +92,7 @@ namespace SDK.Lib
 
                 if (timerItem.m_disposed)        // 如果已经结束
                 {
-                    delObject(timerItem);
+                    removeObject(timerItem);
                 }
             }
 

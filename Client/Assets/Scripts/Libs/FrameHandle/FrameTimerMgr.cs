@@ -14,7 +14,7 @@ namespace SDK.Lib
             m_timerLists = new List<FrameTimerItem>();
         }
 
-        public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             // 检查当前是否已经在队列中
             if (m_timerLists.IndexOf(delayObject as FrameTimerItem) == -1)
@@ -30,7 +30,7 @@ namespace SDK.Lib
             }
         }
 
-        public override void delObject(IDelayHandleItem delayObject)
+        override protected void removeObject(IDelayHandleItem delayObject)
         {
             // 检查当前是否在队列中
             if (m_timerLists.IndexOf(delayObject as FrameTimerItem) != -1)
@@ -61,7 +61,7 @@ namespace SDK.Lib
 
         public void removeFrameTimer(FrameTimerItem timer)
         {
-            this.delObject(timer);
+            this.removeObject(timer);
         }
 
         public void Advance(float delta)
@@ -76,7 +76,7 @@ namespace SDK.Lib
                 }
                 if (timerItem.m_disposed)
                 {
-                    delObject(timerItem);
+                    removeObject(timerItem);
                 }
             }
 

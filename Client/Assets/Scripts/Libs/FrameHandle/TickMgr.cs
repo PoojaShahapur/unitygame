@@ -19,7 +19,7 @@ namespace SDK.Lib
             addObject(tickObj as IDelayHandleItem, priority);
         }
 
-        public override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (bInDepth())
             {
@@ -62,14 +62,14 @@ namespace SDK.Lib
 
         public void delTick(ITickedObject tickObj)
         {
-            this.delObject(tickObj as IDelayHandleItem);
+            this.removeObject(tickObj as IDelayHandleItem);
         }
 
-        public override void delObject(IDelayHandleItem delayObject)
+        override protected void removeObject(IDelayHandleItem delayObject)
         {
             if (bInDepth())
             {
-                base.delObject(delayObject);
+                base.removeObject(delayObject);
             }
             else
             {

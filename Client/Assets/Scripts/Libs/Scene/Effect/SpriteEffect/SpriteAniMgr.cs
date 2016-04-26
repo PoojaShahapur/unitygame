@@ -19,7 +19,7 @@ namespace SDK.Lib
             addObject(entity);
         }
 
-        override public void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (bInDepth())
             {
@@ -33,14 +33,14 @@ namespace SDK.Lib
 
         public void removeFromList(ImageSpriteAni entity)
         {
-            delObject(entity);
+            removeObject(entity);
         }
 
-        override public void delObject(IDelayHandleItem delayObject)
+        override protected void removeObject(IDelayHandleItem delayObject)
         {
             if (bInDepth())
             {
-                base.delObject(delayObject);
+                base.removeObject(delayObject);
             }
             else
             {

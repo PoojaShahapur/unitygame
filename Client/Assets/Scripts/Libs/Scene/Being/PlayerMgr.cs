@@ -35,7 +35,7 @@ namespace SDK.Lib
 
         public void removePlayer(BeingEntity being)
         {
-            this.delObject(being);
+            this.removeObject(being);
         }
 
         public PlayerMain getHero()

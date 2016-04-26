@@ -106,7 +106,7 @@ namespace SDK.Lib
             m_bigStartTimer.m_totalTime = 0.5f;
             m_bigStartTimer.m_timerDisp.setFuncObject(onBigStartTimerEndHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_bigStartTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_bigStartTimer);
         }
 
         protected void startSmallStar0fTimer()
@@ -124,7 +124,7 @@ namespace SDK.Lib
             m_smallStar0fTimer.m_totalTime = 1.0f;
             m_smallStar0fTimer.m_timerDisp.setFuncObject(onSmallStar0fTimerEndHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_smallStar0fTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_smallStar0fTimer);
         }
 
         protected void startSmallStar1fTimer()
@@ -142,7 +142,7 @@ namespace SDK.Lib
             m_smallStar1fTimer.m_totalTime = 1.5f;
             m_smallStar1fTimer.m_timerDisp.setFuncObject(onSmallStar1fTimerEndHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_smallStar1fTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_smallStar1fTimer);
         }
 
         protected void startSmallStar2fTimer()
@@ -160,7 +160,7 @@ namespace SDK.Lib
             m_smallStar2fTimer.m_totalTime = 2.0f;
             m_smallStar2fTimer.m_timerDisp.setFuncObject(onSmallStar2fTimerEndHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_smallStar2fTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_smallStar2fTimer);
         }
 
         protected void startEnterTimer()
@@ -178,26 +178,26 @@ namespace SDK.Lib
             m_enterTimer.m_totalTime = 15.0f;
             m_enterTimer.m_timerDisp.setFuncObject(onEnterTimerEndHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_enterTimer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_enterTimer);
         }
 
         protected void stopTimer()
         {
             if (m_bigStartTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_bigStartTimer);
+                Ctx.m_instance.m_timerMgr.addTimer(m_bigStartTimer);
             }
             if(m_smallStar0fTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_smallStar0fTimer);
+                Ctx.m_instance.m_timerMgr.addTimer(m_smallStar0fTimer);
             }
             if (m_smallStar1fTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_smallStar1fTimer);
+                Ctx.m_instance.m_timerMgr.addTimer(m_smallStar1fTimer);
             }
             if (m_smallStar2fTimer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_smallStar2fTimer);
+                Ctx.m_instance.m_timerMgr.removeTimer(m_smallStar2fTimer);
             }
         }
 

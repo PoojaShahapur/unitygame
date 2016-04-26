@@ -78,12 +78,12 @@ namespace FightCore
             m_timer.m_totalTime = 0.5f;
             m_timer.m_timerDisp.setFuncObject(onTimerEndHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
         }
 
         protected void stopTimer()
         {
-            Ctx.m_instance.m_timerMgr.delObject(m_timer);
+            Ctx.m_instance.m_timerMgr.removeTimer(m_timer);
         }
 
         // 开始卡牌倒计时

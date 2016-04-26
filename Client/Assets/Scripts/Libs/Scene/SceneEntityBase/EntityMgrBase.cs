@@ -9,7 +9,7 @@
             m_sceneEntityList = new MList<SceneEntityBase>();
         }
 
-        override public void addObject(IDelayHandleItem entity, float priority = 0.0f)
+        override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
         {
             if (bInDepth())
             {
@@ -21,11 +21,11 @@
             }
         }
 
-        override public void delObject(IDelayHandleItem entity)
+        override protected void removeObject(IDelayHandleItem entity)
         {
             if (bInDepth())
             {
-                base.delObject(entity);
+                base.removeObject(entity);
             }
             else
             {

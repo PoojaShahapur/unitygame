@@ -39,7 +39,7 @@ namespace FightCore
                 m_timer.m_totalTime = 15;
                 m_timer.m_timerDisp.setFuncObject(onTimerHandle);
 
-                Ctx.m_instance.m_timerMgr.addObject(m_timer);
+                Ctx.m_instance.m_timerMgr.addTimer(m_timer);
             }
             else
             {
@@ -59,7 +59,7 @@ namespace FightCore
 
             if (m_timer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_timer);
+                Ctx.m_instance.m_timerMgr.addTimer(m_timer);
             }
         }
 

@@ -30,7 +30,7 @@ namespace SDK.Lib
         {
             if (m_nextFrametimer != null)
             {
-                Ctx.m_instance.m_frameTimerMgr.delObject(m_nextFrametimer);
+                Ctx.m_instance.m_frameTimerMgr.removeFrameTimer(m_nextFrametimer);
                 m_nextFrametimer = null;
             }
         }
@@ -98,7 +98,7 @@ namespace SDK.Lib
                 m_nextFrametimer.reset();
             }
 
-            Ctx.m_instance.m_frameTimerMgr.addObject(m_nextFrametimer);
+            Ctx.m_instance.m_frameTimerMgr.addFrameTimer(m_nextFrametimer);
         }
 
         public void onNextFrameHandle(FrameTimerItem timer)

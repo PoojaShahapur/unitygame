@@ -22,7 +22,7 @@ namespace SDK.Lib
 
         public void removeFObject(BeingEntity being)
         {
-            this.delObject(being);
+            this.removeObject(being);
         }
 	}
 }

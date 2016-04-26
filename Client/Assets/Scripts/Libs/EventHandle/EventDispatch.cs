@@ -75,7 +75,7 @@ namespace SDK.Lib
             }
         }
 
-        override public void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (bInDepth())
             {
@@ -100,7 +100,7 @@ namespace SDK.Lib
             }
             if (idx < m_handleList.Count())
             {
-                delObject(m_handleList[idx]);
+                removeObject(m_handleList[idx]);
             }
             else
             {
@@ -108,11 +108,11 @@ namespace SDK.Lib
             }
         }
 
-        override public void delObject(IDelayHandleItem delayObject)
+        override protected void removeObject(IDelayHandleItem delayObject)
         {
             if (bInDepth())
             {
-                base.delObject(delayObject);
+                base.removeObject(delayObject);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace SDK.Lib
             {
                 foreach (var item in m_handleList.list())
                 {
-                    delObject(item);
+                    removeObject(item);
                 }
             }
             else

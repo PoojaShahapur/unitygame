@@ -61,7 +61,7 @@
 
         public void removeMonster(BeingEntity being)
         {
-            this.delObject(being);
+            this.removeObject(being);
         }
     }
 }

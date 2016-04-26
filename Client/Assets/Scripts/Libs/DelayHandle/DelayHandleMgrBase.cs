@@ -18,7 +18,7 @@
             m_loopDepth = 0;
         }
 
-        virtual public void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        virtual protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
         {
             if (m_loopDepth > 0)
             {
@@ -39,7 +39,7 @@
             }
         }
 
-        virtual public void delObject(IDelayHandleItem delayObject)
+        virtual protected void removeObject(IDelayHandleItem delayObject)
         {
             if (m_loopDepth > 0)
             {
@@ -130,7 +130,7 @@
                 {
                     for (int idx = 0; idx < m_deferredDelQueue.Count(); idx++)
                     {
-                        delObject(m_deferredDelQueue[idx].m_delayObject);
+                        removeObject(m_deferredDelQueue[idx].m_delayObject);
                     }
 
                     m_deferredDelQueue.Clear();

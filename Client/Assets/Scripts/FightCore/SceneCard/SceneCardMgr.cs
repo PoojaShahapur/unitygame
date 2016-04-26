@@ -143,7 +143,7 @@ namespace FightCore
 
         public void remove(SceneCardBase card)
         {
-            this.delObject(card);
+            this.removeObject(card);
         }
 
         // 提供全部释放的接口
@@ -154,6 +154,16 @@ namespace FightCore
             {
                 m_sceneEntityList[idx].dispose();
             }
+        }
+
+        public void addCard(SceneCardBase entity, float priority = 0.0f)
+        {
+            this.addObject(entity, priority);
+        }
+
+        public void removeCard(SceneCardBase entity)
+        {
+            this.removeObject(entity);
         }
     }
 }

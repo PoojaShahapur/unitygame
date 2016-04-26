@@ -7,6 +7,16 @@ namespace SDK.Lib
      */
     public class SceneEffectMgr : EntityMgrBase
     {
+        public void addEffect(EffectBase effect, float priority = 0.0f)
+        {
+            this.addObject(effect, priority);
+        }
+
+        public void removeEffect(EffectBase effect)
+        {
+            this.removeObject(effect);
+        }
+
         override protected void onTickExec(float delta)
         {
             base.onTickExec(delta);

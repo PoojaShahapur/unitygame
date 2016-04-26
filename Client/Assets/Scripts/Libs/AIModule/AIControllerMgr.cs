@@ -19,7 +19,7 @@ namespace BehaviorLibrary
 
         public void removeController(AIController ai)
         {
-            this.delObject(ai);
+            this.removeObject(ai);
         }
     }
 }

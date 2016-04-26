@@ -52,7 +52,7 @@ namespace FightCore
             m_timer.m_totalTime = m_timer.m_internal;
             m_timer.m_timerDisp.setFuncObject(onTimerInitCardHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
         }
 
         // 开始对战定时器
@@ -73,7 +73,7 @@ namespace FightCore
             m_timer.m_totalTime = m_timer.m_internal;
             m_timer.m_timerDisp.setFuncObject(onTimerDZHandle);
 
-            Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
         }
 
         // 停止定时器
@@ -83,7 +83,7 @@ namespace FightCore
 
             if (m_timer != null)
             {
-                Ctx.m_instance.m_timerMgr.delObject(m_timer);
+                Ctx.m_instance.m_timerMgr.removeTimer(m_timer);
             }
 
             if (m_DJSNum != null)

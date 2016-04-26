@@ -262,7 +262,7 @@ namespace FightCore
         override public void dispose()
         {
             // 从管理器中删除
-            Ctx.m_instance.m_sceneCardMgr.delObject(this);
+            Ctx.m_instance.m_sceneCardMgr.removeCard(this);
             removeRef();
             disposeBaseData();
             m_render.dispose();

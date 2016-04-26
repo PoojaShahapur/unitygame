@@ -49,7 +49,7 @@ namespace SDK.Lib
             }
             m_timer.m_internal = time;        // 一分钟遍历一次
             m_timer.m_timerDisp.setFuncObject(OnPlayEnd);
-            Ctx.m_instance.m_timerMgr.addObject(m_timer);
+            Ctx.m_instance.m_timerMgr.addTimer(m_timer);
         }
 
         // 视频结束，定时器回调

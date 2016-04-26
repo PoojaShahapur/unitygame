@@ -30,14 +30,14 @@ namespace FightCore
         // 开始显示箭头
         public void startArrow()
         {
-            Ctx.m_instance.m_tickMgr.addObject(this);
+            Ctx.m_instance.m_tickMgr.addTick(this);
             updatePos();
         }
 
         // 停止显示箭头
         public void stopArrow()
         {
-            Ctx.m_instance.m_tickMgr.delObject(this);
+            Ctx.m_instance.m_tickMgr.delTick(this);
             delArrow();
         }
 
