@@ -1946,7 +1946,8 @@ namespace SDK.Lib
         // 获取 Tree 在二维数组中的索引
         public bool getTreeIndex(ref int idx, ref int idz)
         {
-            idx = 
+            idx = (int)mImportData.x;
+            idx = (int)mImportData.y;
             return true;
         }
     }

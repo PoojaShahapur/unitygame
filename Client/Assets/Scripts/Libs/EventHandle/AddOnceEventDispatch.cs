@@ -22,5 +22,10 @@ namespace SDK.Lib
                 base.addEventHandle(handle, luaTable, luaFunction);
             }
         }
+
+        internal void addEventHandle(Action<MTreeNodeStateNotify> onTerrainNodeShow)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

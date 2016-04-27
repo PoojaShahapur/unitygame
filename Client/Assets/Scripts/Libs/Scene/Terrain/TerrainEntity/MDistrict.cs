@@ -42,5 +42,17 @@
                 Ctx.m_instance.m_logSys.log("SceneEntityBase not Exist", LogTypeId.eLogMSceneManager);
             }
         }
+
+        // 一个地形节点显示
+        public void onTerrainNodeShow(MTerrainQuadTreeNode treeNode)
+        {
+
+        }
+
+        // 一个地形节点隐藏
+        public void onTerrainNodeHide(MTerrainQuadTreeNode treeNode)
+        {
+
+        }
     }
 }

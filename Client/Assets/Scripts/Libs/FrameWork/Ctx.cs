@@ -119,6 +119,7 @@ namespace SDK.Lib
         public TerrainGlobalOption mTerrainGlobalOption;
         public CoroutineTaskMgr mCoroutineTaskMgr;
         public SceneNodeGraph mSceneNodeGraph;
+        public TerrainEntityMgr mTerrainEntityMgr;
 
         public Ctx()
         {
@@ -241,6 +242,7 @@ namespace SDK.Lib
             m_sceneManager = new MOctreeSceneManager("DummyScene");
             mCoroutineTaskMgr = new CoroutineTaskMgr();
             mSceneNodeGraph = new SceneNodeGraph();
+            mTerrainEntityMgr = new TerrainEntityMgr();
         }
 
         protected void interInit()

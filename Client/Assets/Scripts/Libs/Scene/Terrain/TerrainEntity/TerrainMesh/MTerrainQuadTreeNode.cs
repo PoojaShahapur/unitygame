@@ -40,6 +40,8 @@ namespace SDK.Lib
 
         protected bool m_bShowBoundBox;         // 显示 BoundBox
         protected MAABBMeshRender m_aabbMeshRender;
+        protected MTreeNodeStateNotify mTreeNodeStateNotify;
+        protected bool mIsSceneGraphVisible;
 
         public MTerrainQuadTreeNode(MTerrain terrain,
         MTerrainQuadTreeNode parent, ushort xoff, ushort yoff, ushort size,
@@ -65,6 +67,8 @@ namespace SDK.Lib
             mWorldAabb = new MAxisAlignedBox(MAxisAlignedBox.Extent.EXTENT_FINITE);
             mIsVertexDataInit = false;
             m_bShowBoundBox = false;
+            mTreeNodeStateNotify = new MTreeNodeStateNotify(this);
+            mIsSceneGraphVisible = false;
 
             if (terrain.getMaxBatchSize() < size)
             {
@@ -454,6 +458,8 @@ namespace SDK.Lib
                 showBoundBox();
 
                 Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addVisibleTreeNode(this);
+                mIsVisible = true;
+                mTreeNodeStateNotify.onShow();
             }
             else
             {
@@ -471,6 +477,8 @@ namespace SDK.Lib
                 //mTileRender.hide();
                 detachRender();
                 hideBoundBox();
+                mIsVisible = false;
+                mTreeNodeStateNotify.onHide();
 
                 //FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_LEFT;
                 //if (frustum.isVisible(ref mWorldAabb, ref culledBy))
@@ -650,6 +658,11 @@ namespace SDK.Lib
             idx = (mOffsetX - 1) / (Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize - 1);
             idz = (mOffsetY - 1) / (Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize - 1);
             return true;
+        }
+
+        public bool isSceneGraphVisible()
+        {
+            return mIsSceneGraphVisible;
         }
     }
 }

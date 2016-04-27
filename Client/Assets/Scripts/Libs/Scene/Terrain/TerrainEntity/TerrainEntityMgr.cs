@@ -19,18 +19,6 @@ namespace SDK.Lib
             mId2TerrainEntityDic = new Dictionary<uint, TerrainEntity>();
         }
 
-        // 一个地形节点显示
-        public void onTerrainNodeShow(MTerrainQuadTreeNode treeNode)
-        {
-
-        }
-
-        // 一个地形节点隐藏
-        public void onTerrainNodeHide(MTerrainQuadTreeNode treeNode)
-        {
-
-        }
-
         // 添加一个 Entity
         public void addEntity(SceneEntityBase entity)
         {
@@ -71,6 +59,18 @@ namespace SDK.Lib
             }
 
             return mId2TerrainEntityDic[key];
+        }
+
+        // 一个地形节点显示
+        public void onTerrainNodeShow(MTreeNodeStateNotify treeNode)
+        {
+            
+        }
+
+        // 一个地形节点隐藏
+        public void onTerrainNodeHide(MTreeNodeStateNotify treeNode)
+        {
+
         }
     }
 }
