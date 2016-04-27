@@ -1211,5 +1211,30 @@ namespace SDK.Lib
         {
             StaticBatchingUtility.Combine(gos, staticBatchRoot);
         }
+
+        // 注意最大不能超过 65536
+        static public uint packIndex(long x, long y)
+        {
+            short xs16 = (short)(x);
+            short ys16 = (short)(y);
+
+            ushort x16 = (ushort)(xs16);
+            ushort y16 = (ushort)(ys16);
+
+            uint key = 0;
+            key = (uint)((x16 << 16) | y16);
+
+            return key;
+        }
+
+        // 注意最大不能超过 65536
+        static public void unpackIndex(uint key, ref long x, ref long y)
+        {
+            ushort y16 = (ushort)(key & 0xFFFF);
+            ushort x16 = (ushort)((key >> 16) & 0xFFFF);
+
+            x = (short)(x16);
+            y = (short)(y16);
+        }
     }
 }

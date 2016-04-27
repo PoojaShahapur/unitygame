@@ -43,5 +43,11 @@
                 mNeedSaveScene = false;
             }
         }
+
+        // 获取最终节点一边的个数
+        public int getTreeNodeSize()
+        {
+            return (mTerrainSize - 1) / (mMaxBatchSize - 1);
+        }
     }
 }

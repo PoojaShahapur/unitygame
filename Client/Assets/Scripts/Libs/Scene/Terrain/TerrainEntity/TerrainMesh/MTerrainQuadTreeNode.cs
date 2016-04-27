@@ -643,5 +643,13 @@ namespace SDK.Lib
                 Ctx.m_instance.m_terrainBufferSys.addTerrainTileRender(mTerrain.getTerrainId(), this.getNameStr(), ref mTileRender);
             }
         }
+
+        // 节点在二维数组中的索引
+        public bool getNodeIndex(ref int idx, ref int idz)
+        {
+            idx = (mOffsetX - 1) / (Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize - 1);
+            idz = (mOffsetY - 1) / (Ctx.m_instance.mTerrainGlobalOption.mMaxBatchSize - 1);
+            return true;
+        }
     }
 }

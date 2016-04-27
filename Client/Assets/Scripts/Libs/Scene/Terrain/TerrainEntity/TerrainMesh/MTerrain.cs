@@ -1942,5 +1942,12 @@ namespace SDK.Lib
         {
             return m_heightMapData.getOrigHeightData(idx, idy);
         }
+
+        // 获取 Tree 在二维数组中的索引
+        public bool getTreeIndex(ref int idx, ref int idz)
+        {
+            idx = 
+            return true;
+        }
     }
 }

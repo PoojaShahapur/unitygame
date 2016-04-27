@@ -647,5 +647,10 @@ namespace SDK.Lib
         {
             return Mathf.Floor(f);
         }
+
+        static public int floorToInt(float f)
+        {
+            return Mathf.FloorToInt(f);
+        }
     }
 }
