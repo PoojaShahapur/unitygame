@@ -20,8 +20,7 @@ namespace SDK.Lib
 
         public void init()
         {
-            mShowDispatch.addEventHandle(Ctx.m_instance.mTerrainEntityMgr.onTerrainNodeShow);
-            mHideDispatch.addEventHandle(Ctx.m_instance.mTerrainEntityMgr.onTerrainNodeHide);
+
         }
 
         public void onInit()

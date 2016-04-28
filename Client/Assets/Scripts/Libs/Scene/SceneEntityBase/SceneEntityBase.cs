@@ -10,7 +10,7 @@ namespace SDK.Lib
         protected EntityRenderBase m_render;
         protected bool m_bClientDispose;        // 客户端已经释放这个对象，但是由于在遍历中，等着遍历结束再删除，所有多这个对象的操作都是无效的
         protected float mWorldPosX;    // 世界空间 X
-        protected float mWorldPosZ;    // 世界空间 Z
+        protected float mWorldPosY;    // 世界空间 Z
 
         public SceneEntityBase()
         {
@@ -123,9 +123,9 @@ namespace SDK.Lib
             return mWorldPosX;
         }
 
-        virtual public float getWorldPosZ()
+        virtual public float getWorldPosY()
         {
-            return mWorldPosZ;
+            return mWorldPosY;
         }
     }
 }

@@ -55,7 +55,7 @@
         // 添加一个 Entity
         public void addEntity(SceneEntityBase entity)
         {
-            MDistrict district = getTerrainDistrictByPos(entity.getWorldPosX(), entity.getWorldPosZ());
+            MDistrict district = getTerrainDistrictByPos(entity.getWorldPosX(), entity.getWorldPosY());
             if (district != null)
             {
                 district.addEntity(entity);
@@ -69,7 +69,7 @@
         // 移除一个 Entity
         public void removeEntity(SceneEntityBase entity)
         {
-            MDistrict district = getTerrainDistrictByPos(entity.getWorldPosX(), entity.getWorldPosZ());
+            MDistrict district = getTerrainDistrictByPos(entity.getWorldPosX(), entity.getWorldPosY());
             if (district != null)
             {
                 district.removeEntity(entity);

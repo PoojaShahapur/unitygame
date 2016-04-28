@@ -458,7 +458,7 @@ namespace SDK.Lib
                 showBoundBox();
 
                 Ctx.m_instance.m_terrainBufferSys.mTerrainVisibleCheck.addVisibleTreeNode(this);
-                mIsVisible = true;
+                mIsSceneGraphVisible = true;
                 mTreeNodeStateNotify.onShow();
             }
             else
@@ -477,7 +477,7 @@ namespace SDK.Lib
                 //mTileRender.hide();
                 detachRender();
                 hideBoundBox();
-                mIsVisible = false;
+                mIsSceneGraphVisible = false;
                 mTreeNodeStateNotify.onHide();
 
                 //FrustumPlane culledBy = FrustumPlane.FRUSTUM_PLANE_LEFT;

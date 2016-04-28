@@ -22,7 +22,7 @@ namespace SDK.Lib
         // 添加一个 Entity
         public void addEntity(SceneEntityBase entity)
         {
-            TerrainEntity terrainEntity = getTerrainEntityByPos(entity.getWorldPosX(), entity.getWorldPosZ());
+            TerrainEntity terrainEntity = getTerrainEntityByPos(entity.getWorldPosX(), entity.getWorldPosY());
             if(terrainEntity != null)
             {
                 terrainEntity.addEntity(entity);
@@ -36,7 +36,7 @@ namespace SDK.Lib
         // 移除一个 Entity
         public void removeEntity(SceneEntityBase entity)
         {
-            TerrainEntity terrainEntity = getTerrainEntityByPos(entity.getWorldPosX(), entity.getWorldPosZ());
+            TerrainEntity terrainEntity = getTerrainEntityByPos(entity.getWorldPosX(), entity.getWorldPosY());
             if (terrainEntity != null)
             {
                 terrainEntity.removeEntity(entity);
