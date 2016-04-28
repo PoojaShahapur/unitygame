@@ -664,5 +664,51 @@ namespace SDK.Lib
         {
             return mIsSceneGraphVisible;
         }
+
+        // 获取四叉树节点，posX 是图像空间的位置
+        public MTerrainQuadTreeNode getTerrainQuadTreeNode(int posX, int posY)
+        {
+            if (isLeaf())
+            {
+                return this;
+            }
+            else
+            {
+                if(mChildren[(int)QuadTreeChildIndex.eLEFT_BOTTOM].isInBound(posX, posY))
+                {
+                    return mChildren[(int)QuadTreeChildIndex.eLEFT_BOTTOM].getTerrainQuadTreeNode(posX, posY);
+                }
+                else if(mChildren[(int)QuadTreeChildIndex.eRIGHT_BOTTOM].isInBound(posX, posY))
+                {
+                    return mChildren[(int)QuadTreeChildIndex.eRIGHT_BOTTOM].getTerrainQuadTreeNode(posX, posY);
+                }
+                else if (mChildren[(int)QuadTreeChildIndex.eLEFT_TOP].isInBound(posX, posY))
+                {
+                    return mChildren[(int)QuadTreeChildIndex.eLEFT_TOP].getTerrainQuadTreeNode(posX, posY);
+                }
+                else
+                {
+                    return mChildren[(int)QuadTreeChildIndex.eRIGHT_TOP].getTerrainQuadTreeNode(posX, posY);
+                }
+            }
+        }
+
+        public bool isInBound(int posX, int posY)
+        {
+            if(mOffsetX <= posX && 
+               posX <= mBoundaryX &&
+               mOffsetY <= posY &&
+               posY <= mBoundaryY)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public MTreeNodeStateNotify getTreeNodeStateNotify()
+        {
+            return mTreeNodeStateNotify;
+        }
     }
 }

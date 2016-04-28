@@ -45,9 +45,20 @@
         }
 
         // 获取最终节点一边的个数
-        public int getTreeNodeSize()
+        public int getTreeNodeCount()
         {
             return (mTerrainSize - 1) / (mMaxBatchSize - 1);
+        }
+
+        public float getTreeNodeWorldSize()
+        {
+            return mTerrainWorldSize / getTreeNodeCount();
+        }
+
+        // 获取 Tree Node 的一般大小
+        public int getTreeNodeHalfSize()
+        {
+            return (mTerrainSize - 1) / getTreeNodeCount();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using System;
+
+namespace SDK.Lib
 {
     /**
      * @breif Tree Node 状态变化通知
@@ -40,6 +42,16 @@
         public void onExit()
         {
 
+        }
+
+        public void addShowEventHandle(Action<IDispatchObject> handle)
+        {
+            mShowDispatch.addEventHandle(handle);
+        }
+
+        public void addHideEventHandle(Action<IDispatchObject> handle)
+        {
+            mHideDispatch.addEventHandle(handle);
         }
     }
 }

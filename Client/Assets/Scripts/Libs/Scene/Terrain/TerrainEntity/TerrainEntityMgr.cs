@@ -55,22 +55,10 @@ namespace SDK.Lib
 
             if (!mId2TerrainEntityDic.ContainsKey(key))
             {
-                mId2TerrainEntityDic[key] = new TerrainEntity();
+                mId2TerrainEntityDic[key] = new TerrainEntity(idx, idy);
             }
 
             return mId2TerrainEntityDic[key];
-        }
-
-        // 一个地形节点显示
-        public void onTerrainNodeShow(MTreeNodeStateNotify treeNode)
-        {
-            
-        }
-
-        // 一个地形节点隐藏
-        public void onTerrainNodeHide(MTreeNodeStateNotify treeNode)
-        {
-
         }
     }
 }

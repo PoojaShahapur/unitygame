@@ -1950,5 +1950,11 @@ namespace SDK.Lib
             idx = (int)mImportData.y;
             return true;
         }
+
+        // 获取一个
+        public MTerrainQuadTreeNode getTerrainQuadTreeNode(int posX, int posY)
+        {
+            return mQuadTree.getTerrainQuadTreeNode(posX, posY);
+        }
     }
 }
