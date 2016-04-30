@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 地形实体管理器
      */
-    public class TerrainEntityMgr
+    public class TerrainEntityMgr : GObject
     {
         protected Dictionary<uint, TerrainEntity> mId2TerrainEntityDic;     // 地图 Id 到 TerrainEntity Dic
 

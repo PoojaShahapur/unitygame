@@ -3,7 +3,7 @@
     /**
      * @brief 场景实体
      */
-    public class TerrainEntity
+    public class TerrainEntity : GObject
     {
         protected int mPosX;
         protected int mPosY;
