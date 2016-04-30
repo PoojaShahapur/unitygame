@@ -1,12 +1,17 @@
-﻿namespace SDK.Lib
+﻿using System.Collections.Generic;
+
+namespace SDK.Lib
 {
     public class EntityMgrBase : DelayHandleMgrBase, ITickedObject, IDelayHandleItem
     {
         protected MList<SceneEntityBase> m_sceneEntityList;
+        protected Dictionary<uint, SceneEntityBase> mId2EntityDic;
+        protected MList<SceneEntityBase> mBufferPool;
 
         public EntityMgrBase()
         {
             m_sceneEntityList = new MList<SceneEntityBase>();
+            mBufferPool = new MList<SceneEntityBase>();
         }
 
         override protected void addObject(IDelayHandleItem entity, float priority = 0.0f)
@@ -17,7 +22,10 @@
             }
             else
             {
-                m_sceneEntityList.Add(entity as SceneEntityBase);
+                if (m_sceneEntityList.IndexOf(entity as SceneEntityBase) == -1)
+                {
+                    m_sceneEntityList.Add(entity as SceneEntityBase);
+                }
             }
         }
 
@@ -29,8 +37,22 @@
             }
             else
             {
-                m_sceneEntityList.Remove(entity as SceneEntityBase);
+                if (m_sceneEntityList.IndexOf(entity as SceneEntityBase) != -1)
+                {
+                    m_sceneEntityList.Remove(entity as SceneEntityBase);
+                }
             }
+        }
+
+        virtual public void addEntity(SceneEntityBase entity)
+        {
+            this.addObject(entity);
+        }
+
+        public void removeEntity(SceneEntityBase entity)
+        {
+            this.removeObject(entity);
+            this.mBufferPool.Add(entity);
         }
 
         virtual public void onTick(float delta)
@@ -65,7 +87,23 @@
 
         public SceneEntityBase getEntityByThisId(uint thisId)
         {
+            if(mId2EntityDic.ContainsKey(thisId))
+            {
+                return mId2EntityDic[thisId];
+            }
             return null;
+        }
+
+        public SceneEntityBase getBufferEntity()
+        {
+            SceneEntityBase entity = null;
+            if (mBufferPool.Count() > 0)
+            {
+                entity = mBufferPool[0];
+                mBufferPool.Remove(entity);
+            }
+
+            return entity;
         }
     }
 }

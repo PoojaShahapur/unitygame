@@ -3,10 +3,11 @@ namespace SDK.Lib
 	/**
 	 * @biref 掉落物
 	 */
-	public class FallObjectEntity
-	{
+	public class FallObjectEntity : SceneEntityBase
+    {
 		public FallObjectEntity()
 		{
-		}
+            mName = "FallObjectEntity";
+        }
 	}
 }

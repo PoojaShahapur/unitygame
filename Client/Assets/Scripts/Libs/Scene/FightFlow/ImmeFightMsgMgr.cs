@@ -19,8 +19,8 @@
 
             uint attackThisId = 1000;   // 攻击者 ThisId
             uint hurtThisId = 1000;     // 被击者 ThisId
-            Player attackPlayer = Ctx.m_instance.m_playerMgr.getPlayerByThisId(attackThisId);   // 获取攻击者
-            Player hurtPlayer = Ctx.m_instance.m_playerMgr.getPlayerByThisId(hurtThisId);       // 获取受伤者
+            Player attackPlayer = Ctx.m_instance.m_playerMgr.getEntityByThisId(attackThisId) as Player;   // 获取攻击者
+            Player hurtPlayer = Ctx.m_instance.m_playerMgr.getEntityByThisId(hurtThisId) as Player;       // 获取受伤者
 
             ImmeSkillAttackItem attackItem = new ImmeSkillAttackItem(EImmeAttackType.eSkill);        // 保存客户端的攻击数据
             attackSeq.attackItem = attackItem;

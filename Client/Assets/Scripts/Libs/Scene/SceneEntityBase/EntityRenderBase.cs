@@ -61,6 +61,11 @@ namespace SDK.Lib
 
         virtual public void dispose()
         {
+            onDestroy();
+        }
+
+        virtual public void onDestroy()
+        {
 
         }
 

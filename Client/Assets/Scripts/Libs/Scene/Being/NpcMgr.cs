@@ -14,15 +14,5 @@ namespace SDK.Lib
         {
             base.onTickExec(delta);
         }
-
-        public void addNpc(BeingEntity being)
-        {
-            this.addObject(being);
-        }
-
-        public void removeNpc(BeingEntity being)
-        {
-            this.removeObject(being);
-        }
 	}
 }

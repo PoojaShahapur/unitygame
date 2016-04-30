@@ -25,27 +25,12 @@ namespace SDK.Lib
         public void addHero(PlayerMain hero)
         {
             m_hero = hero as PlayerMain;
-            addPlayer(m_hero);
-        }
-
-        public void addPlayer(BeingEntity being)
-        {
-            this.addObject(being);
-        }
-
-        public void removePlayer(BeingEntity being)
-        {
-            this.removeObject(being);
+            addEntity(m_hero);
         }
 
         public PlayerMain getHero()
         {
             return m_hero;
-        }
-
-        public Player getPlayerByThisId(uint thisId)
-        {
-            return getEntityByThisId(thisId) as Player;
         }
 	}
 }

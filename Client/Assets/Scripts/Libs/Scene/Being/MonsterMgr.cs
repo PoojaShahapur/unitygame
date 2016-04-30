@@ -53,15 +53,5 @@
             //    ++idx;
             //}
         }
-
-        public void addMonster(BeingEntity being)
-        {
-            this.addObject(being);
-        }
-
-        public void removeMonster(BeingEntity being)
-        {
-            this.removeObject(being);
-        }
     }
 }

@@ -5,15 +5,13 @@ namespace SDK.Lib
     /**
      * @brief 场景区域
      */
-    public class MDistrict
+    public class MDistrict : EntityMgrBase
     {
         protected int mPosX;
         protected int mPosY;
         protected TerrainEntity mTerrainEntity;
         protected MTerrainQuadTreeNode mTreeNode;
         protected bool mIsVisible;    // 是否可视
-
-        protected MList<SceneEntityBase> mEntityList;   // Entity 列表
 
         public MDistrict(TerrainEntity terrainEntity, int posX, int posY)
         {
@@ -27,40 +25,21 @@ namespace SDK.Lib
         public void init()
         {
             mIsVisible = false;
-            mEntityList = new MList<SceneEntityBase>();
         }
 
         // 添加一个 Entity
-        public void addEntity(SceneEntityBase entity)
+        override public void addEntity(SceneEntityBase entity)
         {
-            if(mEntityList.IndexOf(entity) == -1)
-            {
-                mEntityList.Add(entity);
-                if(mIsVisible)
-                {
-                    entity.show();
-                }
-                else
-                {
-                    entity.hide();
-                }
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log("SceneEntityBase already Exist", LogTypeId.eLogMSceneManager);
-            }
-        }
+            base.addEntity(entity);
 
-        // 移除一个 Entity
-        public void removeEntity(SceneEntityBase entity)
-        {
-            if (mEntityList.IndexOf(entity) != -1)
+            entity.setDistrict(this);
+            if (mIsVisible)
             {
-                mEntityList.Remove(entity);
+                entity.show();
             }
             else
             {
-                Ctx.m_instance.m_logSys.log("SceneEntityBase not Exist", LogTypeId.eLogMSceneManager);
+                entity.hide();
             }
         }
 

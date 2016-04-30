@@ -7,6 +7,8 @@
         public Monster()
             : base()
         {
+            mName = "Monster";
+
             //m_skinAniModel.m_modelList = new SkinSubModel[(int)eMonstersModelType.eModelTotal];
             //int idx = 0;
             //while (idx < (int)eMonstersModelType.eModelTotal)
@@ -26,6 +28,12 @@
             {
                 m_groupID = value;
             }
+        }
+
+        override public void dispose()
+        {
+            base.dispose();
+            Ctx.m_instance.m_monsterMgr.removeEntity(this);
         }
 
         override protected void initSteerings()

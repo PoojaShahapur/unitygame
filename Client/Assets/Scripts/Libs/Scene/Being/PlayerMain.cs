@@ -9,8 +9,8 @@ namespace SDK.Lib
 	{
 		public PlayerMain()
 		{
-            
-		}
+            mName = "PlayerMain";
+        }
 
         public override void onSkeletonLoaded()
         {

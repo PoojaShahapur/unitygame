@@ -14,15 +14,5 @@ namespace SDK.Lib
         {
             base.onTickExec(delta);
         }
-
-        public void addFObject(BeingEntity being)
-        {
-            this.addObject(being);
-        }
-
-        public void removeFObject(BeingEntity being)
-        {
-            this.removeObject(being);
-        }
 	}
 }

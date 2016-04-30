@@ -144,7 +144,7 @@ namespace SDK.Lib
                             {
                                 Ctx.m_instance.m_logSys.fightLog("[Fight] 技能攻击播放攻击特效");
 
-                                Player _player = Ctx.m_instance.m_playerMgr.getPlayerByThisId(thisId);
+                                Player _player = Ctx.m_instance.m_playerMgr.getEntityByThisId(thisId) as Player;
                                 m_being.effectControl.addMoveEffect((int)item.skillTableItem.m_skillAttackEffect, m_being.transform().localPosition, _player.transform().localPosition, item.skillTableItem.m_effectMoveTime);  // 攻击特效
                             }
                         }

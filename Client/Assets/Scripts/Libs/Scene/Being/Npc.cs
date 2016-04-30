@@ -16,5 +16,11 @@ namespace SDK.Lib
             //    ++idx;
             //}
 		}
-	}
+
+        override public void dispose()
+        {
+            base.dispose();
+            Ctx.m_instance.m_npcMgr.removeEntity(this);
+        }
+    }
 }
