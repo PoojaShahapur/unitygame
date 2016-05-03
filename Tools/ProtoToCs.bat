@@ -1,4 +1,7 @@
+cd %~dp0
 %~d0
 
-..\Tools\ProtoGen\protogen.exe -i:Cmd\msg_enum.proto -o:..\Client\msg_enum.cs
-..\Tools\protoc.exe --proto_path=Cmd -o ..\Client\BaseType.pb Cmd\BaseType.proto
+ProtoGen\protogen.exe -i:..\Msg\Proto\User.proto -o:..\Msg\Cs\User.cs
+ProtoGen\protoc.exe --proto_path=. -o ..\Msg\Pb\User.pb ..\Msg\Proto\User.proto
+
+pause
