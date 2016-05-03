@@ -12,7 +12,7 @@ function M.registerAll()
 end
 
 function M.registerPB(file)
-    local buffer = MsgLocalStorage.readLuaBufferFile(file);
+    local buffer = GCtx.mCSSystem.mMsgLocalStorage.readLuaBufferFile(file);
     protobuf.register(buffer);
 end
 

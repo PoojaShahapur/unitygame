@@ -13,6 +13,7 @@ end
 
 function M:init()
     self.mCtx = SDK.Lib.Ctx;
+    self.mMsgLocalStorage = SDK.Lib.MsgLocalStorage;
 end
 
 function M:setNeedUpdate(value)

@@ -8,10 +8,10 @@ public static class WrapFile {
     {
         _GT(typeof(object)),
         _GT(typeof(System.String)),
-        _GT(typeof(System.Enum)),   
+        _GT(typeof(System.Enum)),
         _GT(typeof(IEnumerator)),
-        _GT(typeof(System.Delegate)),        
-        _GT(typeof(Type)).SetBaseName("System.Object"),                                                     
+        _GT(typeof(System.Delegate)),
+        _GT(typeof(Type)).SetBaseName("System.Object"),
         _GT(typeof(UnityEngine.Object)),
         
         //测试模板
@@ -19,8 +19,8 @@ public static class WrapFile {
         
         //custom    
 		_GT(typeof(WWW)),
-		_GT(typeof(Util)),
-		_GT(typeof(AppConst)),
+        _GT(typeof(Util)),
+        _GT(typeof(AppConst)),
         _GT(typeof(LuaEnumType)),
         _GT(typeof(Debugger)),
         _GT(typeof(DelegateFactory)),
@@ -31,55 +31,55 @@ public static class WrapFile {
         //unity                        
         _GT(typeof(Component)),
         _GT(typeof(Behaviour)),
-        _GT(typeof(MonoBehaviour)),        
+        _GT(typeof(MonoBehaviour)),
         _GT(typeof(GameObject)),
         _GT(typeof(Transform)),
         _GT(typeof(Space)),
 
-        _GT(typeof(Camera)),   
-        _GT(typeof(CameraClearFlags)),           
+        _GT(typeof(Camera)),
+        _GT(typeof(CameraClearFlags)),
         _GT(typeof(Material)),
-        _GT(typeof(Renderer)),        
+        _GT(typeof(Renderer)),
         _GT(typeof(MeshRenderer)),
         _GT(typeof(SkinnedMeshRenderer)),
         _GT(typeof(Light)),
-        _GT(typeof(LightType)),     
+        _GT(typeof(LightType)),
         _GT(typeof(ParticleEmitter)),
         _GT(typeof(ParticleRenderer)),
-        _GT(typeof(ParticleAnimator)),        
-                
+        _GT(typeof(ParticleAnimator)),
+
         _GT(typeof(Physics)),
         _GT(typeof(Collider)),
         _GT(typeof(BoxCollider)),
         _GT(typeof(MeshCollider)),
         _GT(typeof(SphereCollider)),
-        
+
         _GT(typeof(CharacterController)),
 
-        _GT(typeof(Animation)),             
+        _GT(typeof(Animation)),
         _GT(typeof(AnimationClip)).SetBaseName("UnityEngine.Object"),
         _GT(typeof(TrackedReference)),
-        _GT(typeof(AnimationState)),  
-        _GT(typeof(QueueMode)),  
-        _GT(typeof(PlayMode)),                  
-        
+        _GT(typeof(AnimationState)),
+        _GT(typeof(QueueMode)),
+        _GT(typeof(PlayMode)),
+
         _GT(typeof(AudioClip)),
-        _GT(typeof(AudioSource)),                
-        
+        _GT(typeof(AudioSource)),
+
         _GT(typeof(Application)),
-        _GT(typeof(Input)),    
-        _GT(typeof(TouchPhase)),            
-        _GT(typeof(KeyCode)),             
+        _GT(typeof(Input)),
+        _GT(typeof(TouchPhase)),
+        _GT(typeof(KeyCode)),
         _GT(typeof(Screen)),
         _GT(typeof(Time)),
         _GT(typeof(RenderSettings)),
-        _GT(typeof(SleepTimeout)),        
+        _GT(typeof(SleepTimeout)),
 
         _GT(typeof(AsyncOperation)).SetBaseName("System.Object"),
-        _GT(typeof(AssetBundle)),   
-        _GT(typeof(BlendWeights)),   
-        _GT(typeof(QualitySettings)),          
-        _GT(typeof(AnimationBlendMode)),    
+        _GT(typeof(AssetBundle)),
+        _GT(typeof(BlendWeights)),
+        _GT(typeof(QualitySettings)),
+        _GT(typeof(AnimationBlendMode)),
         _GT(typeof(Texture)),
         _GT(typeof(RenderTexture)),
         _GT(typeof(ParticleSystem)),
@@ -110,7 +110,10 @@ public static class WrapFile {
         _GT(typeof(TweenPosition)),
         _GT(typeof(TweenScale)),
         _GT(typeof(UICenterOnChild)),    
-        _GT(typeof(UIAtlas)),*/         
+        _GT(typeof(UIAtlas)),*/
+
+        _GT(typeof(SDK.Lib.Ctx)),
+        _GT(typeof(SDK.Lib.MsgLocalStorage)),
     };
 
     public static BindType _GT(Type t) {

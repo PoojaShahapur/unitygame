@@ -1,5 +1,5 @@
-require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.Network.CommandID"
+require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.Network.ProtobufUtil"
 
 local M = {};
@@ -19,7 +19,7 @@ function M.postCommand(id, data)
         if(command ~= nil) then
             print("Send message id: " .. id .. " Proto: " .. command.proto);
             local buffer = ProtobufUtil:encode(command.proto, data);
-            GCtx.m_csSystem.mCtx.m_luaSystem.SendFromLua(id, buffer);
+            GCtx.mCSSystem.mCtx.m_luaSystem.SendFromLua(id, buffer);
         end
     end
 end
