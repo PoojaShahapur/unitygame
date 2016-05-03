@@ -27,10 +27,9 @@ namespace SDK.Lib
         public void init()
         {
             m_luaScriptMgr.Start();
-            DoFile("MyLua.Libs.Core.Prequisites");  // 一次性加载所有文件
+            m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
             m_luaClassLoader = new LuaCSBridgeClassLoader();
             m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
-            m_luaCtx = loadModule("MyLua.Libs.FrameWork.GCtx");     // 初始化 Lua 脚本
             m_processSys = m_luaCtx["m_processSys"] as LuaTable;
         }
 
@@ -113,9 +112,7 @@ namespace SDK.Lib
             }
         }
 
-        /// <summary>
-        /// 添加单击事件
-        /// </summary>
+        // 添加单击事件
         public void AddClick(GameObject go, LuaFunction luafunc)
         {
             if (go == null) return;
