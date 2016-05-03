@@ -3,20 +3,17 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
 -- CS 中的绑定
-local M = GlobalNS.Class(GlobalNS.GObject);
+local M = {};
 M.clsName = "CSSystem";
 GlobalNS[M.clsName] = M;
+local this = M;
 
-function M:ctor()
-    
+function M.init()
+    this.Ctx = SDK.Lib.Ctx;
+    this.MsgLocalStorage = SDK.Lib.MsgLocalStorage;
 end
 
-function M:init()
-    self.mCtx = SDK.Lib.Ctx;
-    self.mMsgLocalStorage = SDK.Lib.MsgLocalStorage;
-end
-
-function M:setNeedUpdate(value)
+function M.setNeedUpdate(value)
     
 end
 

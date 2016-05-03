@@ -12,7 +12,7 @@ function M.registerAll()
 end
 
 function M.registerPB(file)
-    local buffer = GCtx.mCSSystem.mMsgLocalStorage.readLuaBufferFile(file);
+    local buffer = GlobalNS.CSSystem.MsgLocalStorage.readLuaBufferToFile(file);
     protobuf.register(buffer);
 end
 
@@ -40,3 +40,5 @@ function M.PBC(enObj)
     end
     return enObj;
 end
+
+return M;
