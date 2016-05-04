@@ -1236,5 +1236,66 @@ namespace SDK.Lib
             x = (short)(x16);
             y = (short)(y16);
         }
+
+        static public void CopyDirectory(string srcDir, string tgtDir)
+        {
+            DirectoryInfo source = new DirectoryInfo(srcDir);
+            DirectoryInfo target = new DirectoryInfo(tgtDir);
+
+            if (target.FullName.StartsWith(source.FullName, StringComparison.CurrentCultureIgnoreCase))
+            {
+                throw new Exception("父目录不能拷贝到子目录！");
+            }
+
+            if (!source.Exists)
+            {
+                return;
+            }
+
+            if (!target.Exists)
+            {
+                target.Create();
+            }
+
+            FileInfo[] files = source.GetFiles();
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                File.Copy(files[i].FullName, target.FullName + "/" + files[i].Name, true);
+            }
+
+            DirectoryInfo[] dirs = source.GetDirectories();
+
+            for (int j = 0; j < dirs.Length; j++)
+            {
+                CopyDirectory(dirs[j].FullName, target.FullName + "/" + dirs[j].Name);
+            }
+        }
+
+        public void DeleteFiles(string str)
+        {
+            DirectoryInfo fatherFolder = new DirectoryInfo(str);
+            //删除当前文件夹内文件
+            FileInfo[] files = fatherFolder.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string fileName = file.Name;
+                try
+                {
+                    if (!fileName.Equals("index.dat"))
+                    {
+                        File.Delete(file.FullName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            //递归删除子文件夹内文件
+            foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
+            {
+                DeleteFiles(childFolder.FullName);
+            }
+        }
     }
 }
