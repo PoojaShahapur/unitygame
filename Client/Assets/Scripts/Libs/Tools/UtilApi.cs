@@ -19,6 +19,8 @@ namespace SDK.Lib
         public const string FALSE = "false";
         public const string PREFAB_DOT_EXT = ".prefab";
         public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
+        public const string DOTUNITY3d = ".unity3d";
+        public const string DOTPNF = ".png";
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1074,6 +1076,11 @@ namespace SDK.Lib
                 default:
                     return null;
             }
+        }
+
+        static public string getManifestName()
+        {
+            return GetPlatformFolderForAssetBundles(Application.platform) + UtilApi.DOTUNITY3d;
         }
 
         static public void createMatIns(ref Material insMat, Material matTmpl, string matName = "", HideFlags hideFlags = HideFlags.DontSave | HideFlags.NotEditable)

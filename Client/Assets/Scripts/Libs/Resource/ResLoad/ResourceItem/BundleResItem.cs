@@ -137,6 +137,18 @@ namespace SDK.Lib
             return assets;
         }
 
+        override public UnityEngine.Object[] getAllObject()
+        {
+            UnityEngine.Object[] ret = m_bundle.LoadAllAssets<UnityEngine.Object>();
+            return ret;
+        }
+
+        override public T[] loadAllAssets<T>()
+        {
+            T[] ret = m_bundle.LoadAllAssets<T>();
+            return ret;
+        }
+
         override public void unload()
         {
             // 如果是用了 Unload(true) ，就不用 Resources.UnloadUnusedAssets() ，如果使用了 Unload(false) ，就需要使用 Resources.UnloadUnusedAssets()

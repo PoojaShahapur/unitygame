@@ -13,6 +13,7 @@ namespace SDK.Lib
         public string m_pathNoExt = "";             // 这个数据变成了从 Resources 目录开始，没有扩展名字，打包的包名字在包加载的时候判断
         protected string m_prefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的资源目录和名字
         protected string m_extName = "prefab";      // 加载的资源的扩展名字
+        public string m_assetBundlePath;            // AssetBundles 对应的目录和文件名字和扩展名字
 
         public string m_version = "";               // 加载的资源的版本号
         protected string m_lvlName = "";               // 关卡名字
@@ -28,10 +29,12 @@ namespace SDK.Lib
         public InsResBase m_loadInsRes = null;
         public LuaTable mLuaTable;
         public LuaFunction mLuaFunction;
+        public bool mIsLoadAll;                 // 是否一次性加载所有的内容
 
         public LoadParam()
         {
             m_path = "";
+            mIsLoadAll = false;
         }
 
         public string prefabName
@@ -93,6 +96,8 @@ namespace SDK.Lib
             {
                 m_prefabName = m_pathNoExt + "." + m_extName;
             }
+
+            m_assetBundlePath = m_pathNoExt + UtilApi.DOTUNITY3d;
         }
 
         public void resolveLevel()

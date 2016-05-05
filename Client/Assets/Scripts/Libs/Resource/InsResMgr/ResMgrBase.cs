@@ -20,13 +20,13 @@ namespace SDK.Lib
             m_loadingDepth = 0;
         }
 
-        public T getAndSyncLoad<T>(string path) where T : InsResBase, new()
+        public T getAndSyncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
-            syncLoad<T>(path);
+            syncLoad<T>(path, isLoadAll);
             return getRes(path) as T;
         }
 
-        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null) where T : InsResBase, new()
+        public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -35,13 +35,14 @@ namespace SDK.Lib
             param.m_resNeedCoroutine = true;
             param.mLuaTable = luaTable;
             param.mLuaFunction = luaFunction;
+            param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
             return ret;
         }
 
-        public T getAndAsyncLoad<T>(string path, Action<IDispatchObject> handle) where T : InsResBase, new()
+        public T getAndAsyncLoad<T>(string path, Action<IDispatchObject> handle, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -49,6 +50,7 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
             param.m_loadEventHandle = handle;
+            param.mIsLoadAll = isLoadAll;
             ret = getAndLoad<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
@@ -62,7 +64,7 @@ namespace SDK.Lib
         }
 
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
-        public void syncLoad<T>(string path) where T : InsResBase, new()
+        public void syncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -70,6 +72,7 @@ namespace SDK.Lib
             // param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.m_loadEventHandle = onLoadEventHandle ，内部会自动调用
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
+            param.mIsLoadAll = isLoadAll;
             load<T>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }

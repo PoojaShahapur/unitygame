@@ -19,9 +19,11 @@ namespace SDK.Lib
         protected AssetBundle m_assetBundle;
 
         protected NonRefCountResLoadResultNotify m_nonRefCountResLoadResultNotify;
+        protected bool mIsLoaded;               // 是否加载所有的内容
 
         public LoadItem()
         {
+            mIsLoaded = false;
             m_nonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
         }
 
@@ -127,6 +129,16 @@ namespace SDK.Lib
             {
                 m_nonRefCountResLoadResultNotify = value;
             }
+        }
+
+        public void setLoadAll(bool value)
+        {
+            mIsLoaded = value;
+        }
+
+        public bool getLoadAll()
+        {
+            return mIsLoaded;
         }
 
         virtual public void load()

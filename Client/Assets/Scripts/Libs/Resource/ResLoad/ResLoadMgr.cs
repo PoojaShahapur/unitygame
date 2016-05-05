@@ -39,6 +39,38 @@ namespace SDK.Lib
             loadParam.m_resNeedCoroutine = true;
         }
 
+        // 资源是否已经加载，包括成功和失败
+        public bool isResLoaded(string path)
+        {
+            ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(path);
+            if (res == null)
+            {
+                return false;
+            }
+            else if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded() ||
+                res.refCountResLoadResultNotify.resLoadState.hasFailed())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool isResSuccessLoaded(string path)
+        {
+            ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(path);
+            if (res == null)
+            {
+                return false;
+            }
+            else if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public ResItem getResource(string path)
         {
             // 如果 path == null ，程序会宕机
@@ -142,7 +174,7 @@ namespace SDK.Lib
             }
             else
             {
-                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_pathNoExt)))
+                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_assetBundlePath)))
                 {
                     loadBundle(param);
                 }
@@ -243,6 +275,7 @@ namespace SDK.Lib
             resItem.resLoadType = param.m_resLoadType;
             resItem.path = param.m_path;
             resItem.pathNoExt = param.m_pathNoExt;
+            resItem.setLoadAll(param.mIsLoadAll);
             resItem.extName = param.extName;
 
             if (param.m_loadEventHandle != null)
@@ -310,6 +343,7 @@ namespace SDK.Lib
             loadItem.pathNoExt = param.m_pathNoExt;
             loadItem.extName = param.extName;
             loadItem.loadNeedCoroutine = param.m_loadNeedCoroutine;
+            loadItem.setLoadAll(param.mIsLoadAll);
             loadItem.nonRefCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onLoadEventHandle);
 
             return loadItem;
@@ -345,9 +379,10 @@ namespace SDK.Lib
 
             if (m_curNum < m_maxParral)
             {
+                // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
+                ++m_curNum;
                 m_LoadData.m_path2LDItem[param.m_path] = loadItem;
                 m_LoadData.m_path2LDItem[param.m_path].load();
-                ++m_curNum;
             }
             else
             {

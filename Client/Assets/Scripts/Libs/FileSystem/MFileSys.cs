@@ -264,10 +264,10 @@ namespace SDK.Lib
 
         public static void modifyLoadParam(string resPath, LoadParam param)
         {
+            param.m_origPath = resPath;             // 记录原始的资源名字
+
             if (MacroDef.PKG_RES_LOAD)
             {
-                param.m_origPath = resPath;             // 记录原始的资源名字
-
                 string retPath = resPath;
 
                 if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
@@ -305,8 +305,9 @@ namespace SDK.Lib
             }
             else if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                param.m_path = AssetBundlesPrefixPath + resPath;
-                param.m_path = param.m_path.ToLower();
+                //param.m_path = AssetBundlesPrefixPath + resPath;
+                //param.m_path = param.m_path.ToLower();
+                param.m_path = resPath;
             }
             else
             {
@@ -463,12 +464,14 @@ namespace SDK.Lib
         // 转换 Resources 中的目录到 AssetBundles 中的目录
         static public string convResourcesPath2AssetBundlesPath(string resPath)
         {
-            if(MacroDef.ASSETBUNDLES_LOAD)
+            string ret = resPath;
+            if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                return "Assets/Resources/" + resPath;
+                ret = AssetBundlesPrefixPath + resPath;
             }
 
-            return resPath;
+            ret = ret.ToLower();
+            return ret;
         }
 
         static public string convAssetBundlesPath2ResourcesPath(string assetBundlesPath)

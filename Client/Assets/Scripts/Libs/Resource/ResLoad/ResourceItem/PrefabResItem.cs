@@ -9,12 +9,20 @@ namespace SDK.Lib
     public class PrefabResItem : ResItem
     {
         protected UnityEngine.Object m_prefabObj;   // 加载完成的 Prefab 对象
+        protected UnityEngine.Object[] mAllPrefabObj;   // 所有的 Prefab 对象
         protected GameObject m_retGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
             base.init(item);
-            m_prefabObj = (item as ResourceLoadItem).prefabObj;
+            if (!mIsLoaded)
+            {
+                m_prefabObj = (item as ResourceLoadItem).prefabObj;
+            }
+            else
+            {
+                mAllPrefabObj = (item as ResourceLoadItem).getAllPrefabObject();
+            }
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
@@ -33,6 +41,7 @@ namespace SDK.Lib
         {
             //Resources.UnloadAsset(m_prefabObj);   // 这个是同步卸载
             m_prefabObj = null;
+            mAllPrefabObj = null;
             //Resources.UnloadUnusedAssets();         // 这个事异步卸载
             //GC.Collect();
         }
@@ -86,6 +95,27 @@ namespace SDK.Lib
         override public UnityEngine.Object getObject(string resName)
         {
             return m_prefabObj;
+        }
+
+        override public UnityEngine.Object[] getAllObject()
+        {
+            return mAllPrefabObj;
+        }
+
+        override public T[] loadAllAssets<T>()
+        {
+            ArrayList list = new ArrayList(mAllPrefabObj);
+            int idx = mAllPrefabObj.Length - 1;
+            while(idx >= 0)
+            {
+                if(mAllPrefabObj[idx] is T)
+                {
+                    list.Remove(mAllPrefabObj[idx]);
+                }
+
+                --idx;
+            }
+            return list.ToArray() as T[];
         }
 
         override public byte[] getBytes(string resName)            // 获取字节数据

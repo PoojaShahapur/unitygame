@@ -44,8 +44,7 @@ namespace SDK.Lib
         {
             MFileSys.initABRootPath();
 
-            string platformFolderForAssetBundles =
-			UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
+            string platformFolderForAssetBundles = UtilApi.getManifestName();
             // AssetBundleManifest 必须同步加载，加载完成这个以后再加载其它资源
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.m_path = platformFolderForAssetBundles;
@@ -181,7 +180,7 @@ namespace SDK.Lib
             m_resAndDepItemDic[loadParam.m_path] = new ResAndDepItem();
             m_resAndDepItemDic[loadParam.m_path].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             m_resAndDepItemDic[loadParam.m_path].m_loadParam.copyFrom(loadParam);
-            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_pathNoExt];
+            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_assetBundlePath];
             m_resAndDepItemDic[loadParam.m_path].loadDep();
         }
 

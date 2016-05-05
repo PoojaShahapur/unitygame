@@ -16,9 +16,11 @@ namespace SDK.Lib
 
         protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected bool mIsLoaded;               // 是否加载所有的内容
 
         public ResItem()
         {
+            mIsLoaded = false;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
@@ -128,6 +130,16 @@ namespace SDK.Lib
             }
         }
 
+        public void setLoadAll(bool value)
+        {
+            mIsLoaded = value;
+        }
+
+        public bool getLoadAll()
+        {
+            return mIsLoaded;
+        }
+
         public virtual string getPrefabName()
         {
             return m_prefabName;
@@ -174,6 +186,16 @@ namespace SDK.Lib
         }
 
         virtual public UnityEngine.Object getObject(string resName)
+        {
+            return null;
+        }
+
+        virtual public UnityEngine.Object[] getAllObject()
+        {
+            return null;
+        }
+
+        virtual public T[] loadAllAssets<T>() where T : UnityEngine.Object
         {
             return null;
         }

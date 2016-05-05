@@ -9,6 +9,7 @@ namespace SDK.Lib
     public class ResourceLoadItem : LoadItem
     {
         protected UnityEngine.Object m_prefabObj;
+        protected UnityEngine.Object[] mAllPrefabObj;
 
         public UnityEngine.Object prefabObj
         {
@@ -20,6 +21,11 @@ namespace SDK.Lib
             {
                 m_prefabObj = value;
             }
+        }
+
+        public UnityEngine.Object[] getAllPrefabObject()
+        {
+            return mAllPrefabObj;
         }
 
         override public void load()
@@ -49,9 +55,25 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
         protected void loadFromDefaultAssetBundle()
         {
-            m_prefabObj = Resources.Load<Object>(m_pathNoExt);
+            bool isSuccess = false;
+            if (!mIsLoaded)
+            {
+                m_prefabObj = Resources.Load<Object>(m_pathNoExt);
+                if (m_prefabObj != null)
+                {
+                    isSuccess = true;
+                }
+            }
+            else
+            {
+                mAllPrefabObj = Resources.LoadAll<Object>(m_pathNoExt);
+                if (mAllPrefabObj != null)
+                {
+                    isSuccess = true;
+                }
+            }
 
-            if (m_prefabObj != null)
+            if (isSuccess)
             {
                 nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
@@ -64,17 +86,35 @@ namespace SDK.Lib
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
         {
-            ResourceRequest req = Resources.LoadAsync<Object>(m_pathNoExt);
-            yield return req;
-
-            if (req.asset != null && req.isDone)
+            if (!mIsLoaded)
             {
-                m_prefabObj = req.asset;
-                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                ResourceRequest req = Resources.LoadAsync<Object>(m_pathNoExt);
+                yield return req;
+
+                if (req.asset != null && req.isDone)
+                {
+                    m_prefabObj = req.asset;
+                    nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                }
+                else
+                {
+                    nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                }
             }
             else
             {
-                nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                mAllPrefabObj = Resources.LoadAll<Object>(m_pathNoExt);
+
+                if (mAllPrefabObj != null)
+                {
+                    nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                }
+                else
+                {
+                    nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                }
+
+                yield return null;
             }
 
             nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
