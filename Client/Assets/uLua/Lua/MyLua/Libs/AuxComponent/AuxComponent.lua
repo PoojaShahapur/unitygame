@@ -1,170 +1,119 @@
-﻿using UnityEngine;
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "AuxComponent";
+GlobalNS[M.clsName] = M;
 
-namespace SDK.Lib
-{
-    /**
-     * @brief 辅助基类
-     */
-    public class AuxComponent : IDispatchObject
-    {
-        protected GameObject m_selfGo;      // 自己节点
-        protected GameObject m_pntGo;       // 指向父节点
-        protected GameObject m_placeHolderGo;      // 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
-        protected bool m_bNeedPlaceHolderGo;    // 是否需要占位 GameObject
-        protected LuaCSBridge m_luaCSBridge;
+function M:AuxComponent()
+    self.m_selfGo = nil;                  -- 自己节点
+    self.m_pntGo = nil;                   -- 指向父节点
+    self.m_placeHolderGo = nil;           -- 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
+    self.m_bNeedPlaceHolderGo = nil;      -- 是否需要占位 GameObject
+    self.m_visible = true;
+end
 
-        public AuxComponent(LuaCSBridge luaCSBridge_ = null)
-        {
-            m_luaCSBridge = luaCSBridge_;
-            m_bNeedPlaceHolderGo = false;
-        }
+function M:setSelfName(name_)
+    this.selfGo.name = name_;
+end
 
-        public void setSelfName(string name_)
-        {
-            this.selfGo.name = name_;
-        }
+function setSelfGo(go)
+    local bPntChange = self:bChange(m_selfGo, value);
+    m_selfGo = value;
+    if (bPntChange) then
+        self:onSelfChanged();
+    end
+    
+    GlobalNS.UtilApi.SetActive(self.m_sekfGo, self.m_visible);
+end
 
-        public GameObject selfGo
-        {
-            get
-            {
-                return m_selfGo;
-            }
-            set
-            {
-                bool bPntChange = bChange(m_selfGo, value);
-                m_selfGo = value;
-                if (bPntChange)
-                {
-                    onSelfChanged();
-                }
-            }
-        }
+function getSelfGo()
+    return self.m_selfGo;
+end
 
-        public GameObject pntGo
-        {
-            get
-            {
-                return m_pntGo;
-            }
-            set
-            {
-                bool bPntChange = bChange(m_pntGo, value);
-                m_pntGo = value;
-                if (bPntChange)
-                {
-                    onPntChanged();
-                }
-            }
-        }
+function setPntGo(go)
+    local bPntChange = self:bChange(m_pntGo, value);
+    m_pntGo = value;
+    if (bPntChange) then
+        self:onPntChanged();
+    end
+end
 
-        public virtual void setPntGo(GameObject go)
-        {
-            m_pntGo = go;
-        }
+function M:getPntGo()
+    return self.m_pntGo;
+end
 
-        public bool bNeedPlaceHolderGo
-        {
-            get
-            {
-                return m_bNeedPlaceHolderGo;
-            }
-            set
-            {
-                m_bNeedPlaceHolderGo = value;
-                if(m_bNeedPlaceHolderGo)
-                {
-                    if (m_placeHolderGo == null)
-                    {
-                        m_placeHolderGo = UtilApi.createGameObject("PlaceHolderGO");
-                    }
-                }
-            }
-        }
+function M:getNeedPlaceHolderGo()
+    return m_bNeedPlaceHolderGo;
+end
 
-        public GameObject placeHolderGo
-        {
-            get
-            {
-                return m_placeHolderGo;
-            }
-            set
-            {
-                m_placeHolderGo = value;
-            }
-        }
+function M:setNeedPlaceHolderGo(value)
+    self.m_bNeedPlaceHolderGo = value;
+    if(self.m_bNeedPlaceHolderGo) then
+        if (self.m_placeHolderGo == nil) then
+            self.m_placeHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
+        end
+    end
+end
 
-        public bool isSelfValid()
-        {
-            return this.m_selfGo != null;
-        }
+function getPlaceHolderGo()
+    return m_placeHolderGo;
+end
 
-        virtual public void dispose()
-        {
-            if (m_bNeedPlaceHolderGo && m_placeHolderGo != null)
-            {
-                UtilApi.Destroy(m_placeHolderGo);
-            }
-        }
+function setPlaceHolderGo(value)
+    m_placeHolderGo = value;
+end
 
-        protected bool bChange(GameObject srcGO, GameObject destGO)
-        {
-            if (srcGO == null || !srcGO.Equals(destGO))
-            {
-                return true;
-            }
+function M:isSelfValid()
+    return self.m_selfGo ~= nil;
+end
 
-            return false;
-        }
+function M:dispose()
+    if (self.m_bNeedPlaceHolderGo ~= nil and self.m_placeHolderGo ~= nil) then
+        GlobalNS.UtilApi.Destroy(self.m_placeHolderGo);
+    end
+end
 
-        // 父节点发生改变
-        virtual protected void onPntChanged()
-        {
-            linkSelf2Parent();
-        }
+function bChange(srcGO, destGO)
+    if (srcGO == null or srcGO ~= destGO) then
+        return true;
+    end
 
-        // 自己发生改变
-        virtual protected void onSelfChanged()
-        {
-            linkSelf2Parent();
-        }
+    return false;
+end
 
-        public void linkPlaceHolder2Parent()
-        {
-            if (m_placeHolderGo == null)
-            {
-                m_placeHolderGo = UtilApi.createGameObject("PlaceHolderGO");
-            }
-            UtilApi.SetParent(m_placeHolderGo, m_pntGo, false);
-        }
+-- 父节点发生改变
+function M:onPntChanged()
+    self:linkSelf2Parent();
+end
 
-        public void linkSelf2Parent()
-        {
-            if (m_selfGo != null && m_pntGo != null)   // 现在可能还没有创建
-            {
-                UtilApi.SetParent(m_selfGo, m_pntGo, false);
-            }
-        }
+-- 自己发生改变
+function M:onSelfChanged()
+    self:linkSelf2Parent();
+end
 
-        virtual public void show()
-        {
-            if (m_selfGo != null)
-            {
-                UtilApi.SetActive(m_selfGo, true);
-            }
-        }
+function M:linkPlaceHolder2Parent()
+    if (m_placeHolderGo == nil) then
+        self.m_placeHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
+    end
+    GlobalNS.UtilApi.SetParent(self.m_placeHolderGo, self.m_pntGo, false);
+end
 
-        public void hide()
-        {
-            if (m_selfGo != null && this.IsVisible())
-            {
-                UtilApi.SetActive(m_selfGo, false);
-            }
-        }
+function M:linkSelf2Parent()
+    if (m_selfGo ~= nil and m_pntGo ~= nil) then   -- 现在可能还没有创建
+        GlobalNS.UtilApi.SetParent(self.m_selfGo, self.m_pntGo, false);
+    end
+end
 
-        public bool IsVisible()
-        {
-            return UtilApi.IsActive(m_selfGo);
-        }
-    }
-}
+function M:show()
+    if (self.m_selfGo ~= nil) then
+        GlobalNS.UtilApi.SetActive(self.m_selfGo, true);
+    end
+end
+
+function M:hide()
+    if (self.m_selfGo ~= nil and self:IsVisible()) then
+        GlobalNS.UtilApi.SetActive(m_selfGo, false);
+    end
+end
+
+function M:IsVisible()
+    return GlobalNS.UtilApi.IsActive(self.m_selfGo);
+end

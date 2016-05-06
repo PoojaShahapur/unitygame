@@ -10,6 +10,126 @@ function M.ctor()
 
 end
 
+function M.getInputFieldText(inputField)
+    return inputField.m_Text;
+end
+
+function M.getInputFieldComp(go, path)
+    return this.getComp(go, path, 'InputField');
+end
+
+function M.getTextComp(go, path)
+    return this.getComp(go, path, 'Text');
+end
+
+function M.getComp(go, path, comptName)
+    local retgo = uiMgr:TransFindChildByPath(go, path);
+    return retgo:GetComponent(comptName);
+end
+
+function M.setTextStr(go, str)
+    go:GetComponent('Text').text = str;
+end
+
+function M.setTextColor(go, r, g, b)
+    go:GetComponent('Text').color = Color.New(r, g, b);
+end
+
+function M.setTextColorInOne(go, color)
+    go:GetComponent('Text').color = color;
+end
+
+function M.setImageColor(go, r, g, b)
+    go:GetComponent('Image').color = Color.New(r, g, b);
+end
+
+function M.getText(textComp)
+    return textComp.text;
+end
+
+function M.Destroy(Obj)
+    UnityEngine.Object.Destroy(Obj);
+end
+
+function M.DestroyImmediate(Obj)
+    UnityEngine.Object.DestroyImmediate(Obj);
+end
+
+function M.Instantiate(orig)
+    return UnityEngine.Object.Instantiate(orig);
+end
+
+function M.SetParentByTrans(child, parent, worldPositionStays)
+    child:SetParent(parent, worldPositionStays);
+end
+
+function M.SetParent(child, parent, worldPositionStays)
+    child.transform:SetParent(parent.transform, worldPositionStays);
+end
+
+function M.SetParentByGo(child, parent, worldPositionStays)
+    uiMgr:SetRectTransformParent(child, parent, worldPositionStays);
+end
+
+function M.SetActive(target, bShow)
+    target:SetActive(bShow);
+end
+
+function M.IsActive(target)
+    return target.activeSelf;
+end
+
+function M.AddComponent(target, name)
+    target:AddComponent(name);
+end
+
+function M:setImageSprite(go, path)
+    go:GetComponent('Image').sprite = uiMgr:LoadSprite(path);
+end
+
+function M.setSpriteRenderSprite(go, path)
+    local sprite = uiMgr:LoadSprite(path);
+    go:GetComponent('SpriteRenderer').sprite = sprite;
+end
+
+function M.setSpriteRenderSpriteByGo(go, goPath, spritePath)
+    local sprite = uiMgr:LoadSprite(spritePath);
+    local spriteGo = uiMgr:TransFindChildByPath(goPath);
+    spriteGo:GetComponent('SpriteRenderer').sprite = sprite;
+end
+
+function M.setLayoutElementPreferredHeight(go, preferredHeight)
+    local layoutElem = go:GetDComponent('LayoutElement');
+    if(layoutElem ~= nil) then
+        layoutElem.preferredHeight = preferredHeight;
+    end
+end
+
+function M.SetSiblingIndex(trans, index)
+    trans:SetSiblingIndex(index);
+end
+
+function M.SetSiblingIndexByGo(go, index)
+    go.transform:SetSiblingIndex(index);
+end
+
+function M.SetSiblingIndexToLastTwoByGo(go, index)
+    go.transform:SetSiblingIndex(go.transform.parent.childCount - 1);
+end
+
+function M.getChildCount(trans)
+    return trans.childCount;
+end
+
+function M.setRectRotate(go, rotateX, rotateY, rotateZ)
+    local rectTransform = go:GetComponent('RectTransform');
+    local rot = rectTransform.localEulerAngles;
+    rot.x = rotateX;
+    rot.y = rotateY;
+    rot.z = rotateZ;
+    rectTransform.localEulerAngles = rot;
+end
+
 function M.getComponent(go, name)
 	return go:getComponent(name);
 end
@@ -18,14 +138,6 @@ function M.notBool(value)
 	local ret = value;
 	ret = not value;
 	return ret;
-end
-
-function M.setTextStr(go, str)
-    go:getComponent('Text').text = str;
-end
-
-function M.setImageSprite(go, path)
-    go:getComponent('Image').sprite = loadSprite(path);
 end
 
 function M.modifyListByList(srcList, destList, cls)
@@ -48,8 +160,45 @@ function M.modifyListByList(srcList, destList, cls)
     end
 end
 
-function M.enableWidget()
+function M.setRectTransformSizeDelta(go, width, height)
+    local rectTransform = go:GetComponent('RectTransform');
+    local sizeDelta = rectTransform.sizeDela;
+    sizeDelta.x = width;
+    sizeDelta.y = height;
+end
 
+function M.enableBtn(go)
+    local btn = go:GetComponent('Button');
+    if(btn ~= nil) then
+        btn.interactable = true;
+    end
+end
+
+function M.disableBtn()
+    local btn = go:GetComponent('Button');
+    if(btn ~= nil) then
+        btn.interactable = false;
+    end
+end
+
+function M.setSliderPos(go, value)
+    local slider = go:GetComponent('Slider');
+    if(slider ~= nil) then
+        slider.Value = value;
+    end
+end
+
+function M.createGameObject(name)
+    local ret = UnityEngine.GameObject.New(name);
+    return ret;
+end
+
+function M.isTableEmpty(tbl)
+    for _, _ in paors(tbl) do
+        return false;
+    end
+    
+    return true;
 end
 
 -- 格式化时间，显示格式为 00年00天00时00分00秒
@@ -124,6 +273,22 @@ end
 
 function M.isNullOrEmpty(str)
     return str == nil or str == '';
+end
+
+function M.toString(...)
+    local arg = {...};
+    local t = {};
+    
+    for i, k in ipairs(arg) do
+        table.insert(t, tostring(k));
+    end
+    
+    local str = table.concat(t);
+    return str;
+end
+
+function M.formatStr(format, ...)
+    return string.format(format, ...);
 end
 
 M.ctor()        -- 构造

@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "NetDispList";
+GlobalNS[M.clsName] = M;
 
-namespace SDK.Lib
-{
-    public class NetCmdHandleBase
-    {
-        public Dictionary<int, Action<ByteBuffer>> m_id2HandleDic;
+function M:ctor()
+    self.m_id2HandleDic = GlobalNS.new(GlobalNS.Dictionary);
+end
 
-        public NetCmdHandleBase()
-        {
-            m_id2HandleDic = new Dictionary<int, Action<ByteBuffer>>();
-        }
-
-        public virtual void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
-        {
-            if(m_id2HandleDic.ContainsKey(byParam))
-            {
-                m_id2HandleDic[byParam](bu);
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("消息没有处理: byCmd = {0},  byParam = {1}", byCmd, byParam));
-            }
-        }
-    }
-}
+function M:handleMsg(bu, byCmd, byParam)
+    if(self.m_id2HandleDic:ContainsKey(byParam)) then
+        self.m_id2HandleDic:key(byParam)(bu);
+    else
+        
+    end
+end

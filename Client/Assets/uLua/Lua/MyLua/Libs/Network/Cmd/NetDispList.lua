@@ -1,86 +1,56 @@
-﻿using System.Collections.Generic;
+require "MyLua.Libs.Network.Cmd.NetDispHandle"
 
-namespace SDK.Lib
-{
-    public class NetDispList
-    {
-        protected int m_revMsgCnt;      // 接收到消息的数量
-        protected int m_handleMsgCnt;   // 处理的消息的数量
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "NetDispList";
+GlobalNS[M.clsName] = M;
 
-        protected List<NetDispHandle> m_netDispList;
-        protected bool m_bStopNetHandle;       // 是否停止网络消息处理
+function M:ctor()
+    self.m_revMsgCnt = 0;
+    self.m_handleMsgCnt = 0;
+    self.m_netDispList = GlobalNS.new(GlobalNS.MList);
+    self.m_bStopNetHandle = false;
+end
 
-        public NetDispList()
-        {
-            m_revMsgCnt = 0;
-            m_handleMsgCnt = 0;
-            m_netDispList = new List<NetDispHandle>();
-            m_bStopNetHandle = false;
-        }
+function M:getStopNetHandle()
+    return self.m_bStopNetHandle;
+end
 
-        public bool bStopNetHandle
-        {
-            get
-            {
-                return m_bStopNetHandle;
-            }
-            set
-            {
-                m_bStopNetHandle = value;
-            }
-        }
+function M:setStopNetHandle(value)
+    self.m_bStopNetHandle = value;
+end
 
-        public void addOneDisp(NetDispHandle disp)
-        {
-            if (m_netDispList.IndexOf(disp) == -1)
-            {
-                m_netDispList.Add(disp);
-            }
-        }
+function M:addOneDisp(disp)
+    if(self.m_netDispList:IndexOf(disp) == -1) then
+        self.m_netDispList:Add(disp);
+    end
+end
 
-        public void removeOneDisp(NetDispHandle disp)
-        {
-            if (m_netDispList.IndexOf(disp) != -1)
-            {
-                m_netDispList.Remove(disp);
-            }
-        }
+function M:removeOneDisp(disp)
+    if(self.m_netDispList:IndexOf(disp) ~= -1) then
+        self.m_netDispList:Remove(disp);
+    end
+end
 
-        public void handleMsg(ByteBuffer msg)
-        {
-            //if (false == m_bStopNetHandle)  // 如果没有停止网络处理
-            //{
-                foreach (var item in m_netDispList)
-                {
-                    item.handleMsg(msg);
-                }
-            //}
-        }
+function M:handleMsg(msg)
+    --if (false == m_bStopNetHandle) then -- 如果没有停止网络处理
+        for _, item in pairs(self.m_netDispList:list()) do
+            item:handleMsg(msg);
+        end
+    --end
+end
 
-        public void addOneRevMsg()
-        {
-            ++m_revMsgCnt;
+function M:addOneRevMsg()
+    self.m_revMsgCnt = self.m_revMsgCnt + 1;
+end
 
-            Ctx.m_instance.m_logSys.log(string.Format("接收到消息数量 {0}", m_revMsgCnt));
-        }
+function M:addOneHandleMsg()
+    self.m_handleMsgCnt = self.m_handleMsgCnt + 1;
+end
 
-        public void addOneHandleMsg()
-        {
-            ++m_handleMsgCnt;
+function M:clearOneRevMsg()
+    self.m_revMsgCnt = 0;
+end
 
-            Ctx.m_instance.m_logSys.log(string.Format("处理消息数量 {0}", m_handleMsgCnt));
-        }
-
-        public void clearOneRevMsg()
-        {
-            m_revMsgCnt = 0;
-            Ctx.m_instance.m_logSys.log("清理接收消息数量");
-        }
-
-        public void clearOneHandleMsg()
-        {
-            m_handleMsgCnt = 0;
-            Ctx.m_instance.m_logSys.log("清理处理消息数量");
-        }
-    }
-}
+function M:clearOneHandleMsg()
+    self.m_handleMsgCnt = 0;
+end
