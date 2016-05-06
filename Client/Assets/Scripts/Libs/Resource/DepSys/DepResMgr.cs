@@ -180,7 +180,7 @@ namespace SDK.Lib
             m_resAndDepItemDic[loadParam.m_path] = new ResAndDepItem();
             m_resAndDepItemDic[loadParam.m_path].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             m_resAndDepItemDic[loadParam.m_path].m_loadParam.copyFrom(loadParam);
-            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_assetBundlePath];
+            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_path];
             m_resAndDepItemDic[loadParam.m_path].loadDep();
         }
 

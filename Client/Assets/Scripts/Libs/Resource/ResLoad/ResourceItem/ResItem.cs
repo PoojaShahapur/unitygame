@@ -12,11 +12,12 @@ namespace SDK.Lib
         protected string m_path;                // 完整的目录
         protected string m_pathNoExt;           // 不包括扩展名字的路径
         protected string m_extName;             // 扩展名字
-        protected string m_prefabName;      // 预制名字
+        protected string m_prefabName;          // 预制名字
 
-        protected bool m_resNeedCoroutine;     // 资源是否需要协同程序
+        protected bool m_resNeedCoroutine;      // 资源是否需要协同程序
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
         protected bool mIsLoaded;               // 是否加载所有的内容
+        protected string mResUniqueId;             // 资源唯一 Id，查找资源的索引
 
         public ResItem()
         {
@@ -138,6 +139,16 @@ namespace SDK.Lib
         public bool getLoadAll()
         {
             return mIsLoaded;
+        }
+
+        public void setResUniqueId(string value)
+        {
+            mResUniqueId = value;
+        }
+
+        public string getResUniqueId()
+        {
+            return mResUniqueId;
         }
 
         public virtual string getPrefabName()

@@ -20,6 +20,7 @@ namespace SDK.Lib
 
         protected NonRefCountResLoadResultNotify m_nonRefCountResLoadResultNotify;
         protected bool mIsLoaded;               // 是否加载所有的内容
+        protected string mResUniqueId;
 
         public LoadItem()
         {
@@ -139,6 +140,16 @@ namespace SDK.Lib
         public bool getLoadAll()
         {
             return mIsLoaded;
+        }
+
+        public void setResUniqueId(string value)
+        {
+            mResUniqueId = value;
+        }
+
+        public string getResUniqueId()
+        {
+            return mResUniqueId;
         }
 
         virtual public void load()

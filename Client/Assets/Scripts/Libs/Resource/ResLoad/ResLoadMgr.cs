@@ -174,7 +174,7 @@ namespace SDK.Lib
             }
             else
             {
-                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_assetBundlePath)))
+                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_path)))
                 {
                     loadBundle(param);
                 }

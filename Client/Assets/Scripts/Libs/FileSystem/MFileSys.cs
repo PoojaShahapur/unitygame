@@ -468,9 +468,9 @@ namespace SDK.Lib
             if (MacroDef.ASSETBUNDLES_LOAD)
             {
                 ret = AssetBundlesPrefixPath + resPath;
+                ret = ret.ToLower();
             }
 
-            ret = ret.ToLower();
             return ret;
         }
 

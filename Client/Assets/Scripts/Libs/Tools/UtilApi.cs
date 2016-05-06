@@ -20,6 +20,7 @@ namespace SDK.Lib
         public const string PREFAB_DOT_EXT = ".prefab";
         public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
         public const string DOTUNITY3d = ".unity3d";
+        public const string UNITY3d = "unity3d";
         public const string DOTPNG = ".png";
 
         public static GameObject[] FindGameObjectsWithTag(string tag)

@@ -13,7 +13,9 @@ namespace SDK.Lib
         public string m_pathNoExt = "";             // 这个数据变成了从 Resources 目录开始，没有扩展名字，打包的包名字在包加载的时候判断
         protected string m_prefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的资源目录和名字
         protected string m_extName = "prefab";      // 加载的资源的扩展名字
-        public string m_assetBundlePath;            // AssetBundles 对应的目录和文件名字和扩展名字
+        public string m_origPath = "";                   // 原始资源加载目录，主要是打包的时候使用
+        public string m_pakPath = "";                   // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
+        public string mResUniqueId;                 // 资源唯一 Id，查找资源的索引
 
         public string m_version = "";               // 加载的资源的版本号
         protected string m_lvlName = "";               // 关卡名字
@@ -21,9 +23,6 @@ namespace SDK.Lib
 
         public bool m_resNeedCoroutine = true;      // 资源是否需要协同程序
         public bool m_loadNeedCoroutine = true;     // 加载是否需要协同程序
-
-        public string m_origPath = "";                   // 原始资源加载目录，主要是打包的时候使用
-        public string m_pakPath = "";                   // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
 
         public ResItem m_loadRes = null;
         public InsResBase m_loadInsRes = null;
@@ -88,6 +87,7 @@ namespace SDK.Lib
                 m_pathNoExt = m_path.Substring(0, dotIdx);
             }
 
+            /*
             if(m_extName.Length == 0)
             {
                 m_prefabName = m_pathNoExt;
@@ -96,8 +96,8 @@ namespace SDK.Lib
             {
                 m_prefabName = m_pathNoExt + "." + m_extName;
             }
-
-            m_assetBundlePath = m_pathNoExt + UtilApi.DOTUNITY3d;
+            */
+            m_prefabName = m_path;
         }
 
         public void resolveLevel()
@@ -144,5 +144,46 @@ namespace SDK.Lib
             this.m_origPath = rhs.m_origPath;
             this.m_pakPath = rhs.m_pakPath;
         }
+
+        public void setPath(string path)
+        {
+            m_path = path;
+
+            int dotIdx = m_path.IndexOf(".");
+            if (-1 == dotIdx)
+            {
+                m_extName = "";
+            }
+            else
+            {
+                m_extName = m_path.Substring(dotIdx + 1);
+            }
+
+            // 如果直接加载的就是 AssetBundles 资源
+            if(m_extName != UtilApi.UNITY3d)
+            {
+                m_path = MFileSys.convResourcesPath2AssetBundlesPath(path);
+            }
+
+            if(-1 == dotIdx)
+            {
+                m_pathNoExt = m_path;
+            }
+            else
+            {
+                m_pathNoExt = m_path.Substring(0, dotIdx);
+            }
+
+            if(MacroDef.ASSETBUNDLES_LOAD)
+            {
+                m_path = m_pathNoExt + UtilApi.DOTUNITY3d;
+            }
+            else
+            {
+                m_path = m_pathNoExt;
+            }
+            mResUniqueId = m_pathNoExt;
+        }
     }
 }
+ 
