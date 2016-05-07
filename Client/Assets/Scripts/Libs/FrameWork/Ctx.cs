@@ -273,7 +273,10 @@ namespace SDK.Lib
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
 
-            m_depResMgr.initialize();
+            if (MacroDef.ASSETBUNDLES_LOAD)
+            {
+                m_depResMgr.initialize();
+            }
             mCoroutineTaskMgr.start();
         }
 

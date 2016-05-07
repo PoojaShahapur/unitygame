@@ -1,3 +1,5 @@
+using System;
+
 namespace SDK.Lib
 {
     public class ModelMgr : ResMgrBase
@@ -8,6 +10,16 @@ namespace SDK.Lib
         public ModelMgr()
         {
 
+        }
+
+        public ModelRes getAndSyncLoadRes(string path)
+        {
+            return getAndSyncLoad<ModelRes>(path);
+        }
+
+        public ModelRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        {
+            return getAndAsyncLoad<ModelRes>(path, handle);
         }
 
         //public string[] getBonesListByName(string name)

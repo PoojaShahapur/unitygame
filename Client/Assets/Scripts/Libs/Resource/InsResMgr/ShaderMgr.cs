@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,16 @@ namespace SDK.Lib
         public ShaderMgr()
         {
 
+        }
+
+        public ShaderRes getAndSyncLoadRes(string path)
+        {
+            return getAndSyncLoad<ShaderRes>(path);
+        }
+
+        public ShaderRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        {
+            return getAndAsyncLoad<ShaderRes>(path, handle);
         }
     }
 }

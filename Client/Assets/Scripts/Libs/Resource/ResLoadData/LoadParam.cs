@@ -149,6 +149,7 @@ namespace SDK.Lib
 
         public void setPath(string path)
         {
+            string fullPath = "";
             m_origPath = path;
 
             int dotIdx = m_origPath.IndexOf(".");
@@ -160,25 +161,38 @@ namespace SDK.Lib
             else
             {
                 m_extName = m_origPath.Substring(dotIdx + 1);
-                mLogicPath = m_origPath.Substring(0, dotIdx);
+                //mLogicPath = m_origPath.Substring(0, dotIdx);     // mLogicPath 没有扩展名字
+                mLogicPath = m_origPath;        // mLogicPath 有扩展名字
             }
 
             // 如果直接加载的就是 AssetBundles 资源
             if(m_extName != UtilApi.UNITY3d)
             {
-                mLoadPath = ResPathResolve.convResourcesPath2AssetBundlesPath(m_origPath);
-            }
-
-            if(-1 == dotIdx)
-            {
-                m_pathNoExt = mLoadPath;
+                fullPath = ResPathResolve.convResourcesPath2AssetBundlesPath(m_origPath);
             }
             else
             {
-                m_pathNoExt = mLoadPath.Substring(0, dotIdx);
+                fullPath = m_origPath;
             }
 
-            m_prefabName = m_pathNoExt + "." + m_extName;
+            if (-1 == dotIdx)
+            {
+                m_pathNoExt = fullPath;
+            }
+            else
+            {
+                m_pathNoExt = fullPath.Substring(0, dotIdx);
+            }
+
+            if (m_extName != UtilApi.UNITY3d)
+            {
+                m_prefabName = m_pathNoExt + "." + m_extName;
+            }
+            else
+            {
+                // 如果直接加载一个 .unity3d 文件，必然是一个被依赖的 AssetBundles ，这个时候不会从 AssetBundles 里面获取任何东西，因此 m_prefabName 设置为空， AssetBundleManifest 这个 .unity3d 除外
+                m_prefabName = "";
+            }
 
             if (MacroDef.ASSETBUNDLES_LOAD)
             {
@@ -188,6 +202,7 @@ namespace SDK.Lib
             {
                 mLoadPath = m_pathNoExt;
             }
+
             mResUniqueId = m_pathNoExt;
         }
     }

@@ -249,6 +249,7 @@ namespace SDK.Lib
             this.loadNeedCoroutine = param.m_loadNeedCoroutine;
             this.setLoadAll(param.mIsLoadAll);
             this.setLogicPath(param.mLogicPath);
+            this.setResUniqueId(param.mResUniqueId);
         }
     }
 }

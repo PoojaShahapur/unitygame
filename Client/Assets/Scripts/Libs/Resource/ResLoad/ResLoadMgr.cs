@@ -144,7 +144,7 @@ namespace SDK.Lib
         // eResourcesType 打包类型资源加载
         public void loadResources(LoadParam param, bool bCheckDep = true)
         {
-            param.resolvePath();
+            //param.resolvePath();
 
             if (MacroDef.PKG_RES_LOAD)
             {

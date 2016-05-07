@@ -63,5 +63,24 @@ namespace SDK.Lib
 
             return null;
         }
+
+        // 获取屏幕中心点与 Plane 相交的点
+        public Vector3 getScreenCenterInPlanePos()
+        {
+            if (!m_initPanel)
+            {
+                m_initPanel = true;
+                mPlane = new Plane(Vector3.up, Vector3.zero);
+            }
+
+            m_ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+            if (mPlane.Raycast(m_ray, out m_dist))
+            {
+                m_currentPos = m_ray.GetPoint(m_dist);
+            }
+
+            return m_currentPos;
+        }
     }
 }
