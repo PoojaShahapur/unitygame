@@ -37,7 +37,7 @@ namespace EditorTool
         public void packPack()
         {
             string path = ExportUtil.getStreamingDataPath(m_packParam.m_outPath);
-            ExportUtil.CreateDirectory(path);
+            UtilApi.CreateDirectory(path);
 
             if (m_packParam.m_packAllFiles)
             {
@@ -77,7 +77,7 @@ namespace EditorTool
             UnityEngine.Object go;
 
             List<string> pathList = new List<string>();
-            List<string> filesList = ExportUtil.GetAll(ExportUtil.getDataPath(m_packParam.m_inPath));
+            List<string> filesList = UtilApi.GetAll(ExportUtil.getDataPath(m_packParam.m_inPath));
             string ext = "";
             string nameNoExt = "";
 #if UNITY_4_6
@@ -89,8 +89,8 @@ namespace EditorTool
             {
                 objList.Clear();
                 assetNamesList.Clear();
-                ext = ExportUtil.getFileExt(filePath);
-                nameNoExt = ExportUtil.getFileNameNoExt(filePath);
+                ext = UtilApi.getFileExt(filePath);
+                nameNoExt = UtilApi.getFileNameNoExt(filePath);
                 if (ExportUtil.isArrContainElem(ext, m_packParam.m_extArr))
                 {
                     resPath = ExportUtil.convFullPath2AssetsPath(filePath);
@@ -107,7 +107,7 @@ namespace EditorTool
                         bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
                         pathList.Clear();
                         pathList.Add(m_packParam.m_outPath);
-                        bundleParam.m_pathName = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+                        bundleParam.m_pathName = ExportUtil.getStreamingDataPath(UtilApi.combine(pathList.ToArray()));
 #elif UNITY_4_6 || UNITY_4_5
                         bundleParam.m_assets = objList.ToArray();
                         pathList.Clear();
@@ -132,7 +132,7 @@ namespace EditorTool
             List<string> nameList = new List<string>();
             List<string> pathList = new List<string>();
 
-            List<string> filesList = ExportUtil.GetAll(ExportUtil.getDataPath(m_packParam.m_inPath));
+            List<string> filesList = UtilApi.GetAll(ExportUtil.getDataPath(m_packParam.m_inPath));
             string ext = "";
             string nameNoExt = "";
             string tmpStr = "";
@@ -140,8 +140,8 @@ namespace EditorTool
 
             foreach (string filePath in filesList)
             {
-                ext = ExportUtil.getFileExt(filePath);
-                nameNoExt = ExportUtil.getFileNameNoExt(filePath);
+                ext = UtilApi.getFileExt(filePath);
+                nameNoExt = UtilApi.getFileNameNoExt(filePath);
                 if (ExportUtil.isArrContainElem(ext, m_packParam.m_extArr))
                 {
                     resPath = ExportUtil.convFullPath2AssetsPath(filePath);
@@ -151,7 +151,7 @@ namespace EditorTool
                     pathList.Add(m_packParam.m_outPath);
                     tmpStr = string.Format("{0}{1}", nameNoExt, ExportUtil.DOTUNITY3D);
                     pathList.Add(tmpStr);
-                    bundleParam.m_locationPath = ExportUtil.getStreamingDataPath(ExportUtil.combine(pathList.ToArray()));
+                    bundleParam.m_locationPath = ExportUtil.getStreamingDataPath(UtilApi.combine(pathList.ToArray()));
 
                     ExportUtil.BuildStreamedSceneAssetBundle(bundleParam);
                 }

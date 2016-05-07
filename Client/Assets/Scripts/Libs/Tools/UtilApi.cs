@@ -804,7 +804,7 @@ namespace SDK.Lib
         // 递归创建子目录
         public static void recureCreateSubDir(string rootPath, string subPath, bool includeLast = false)
         {
-            normalPath(ref subPath);
+            subPath = normalPath(subPath);
             if(!includeLast)
             {
                 if(subPath.IndexOf('/') == -1)
@@ -835,9 +835,175 @@ namespace SDK.Lib
             Directory.CreateDirectory(Path.Combine(rootPath, subPath));
         }
 
-        public static void normalPath(ref string path)
+        public static string normalPath(string path)
         {
-            path = path.Replace('\\', '/');
+            return path.Replace('\\', '/');
+        }
+
+        static public void CreateDirectory(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception err)
+                {
+                    Debug.Log(string.Format("{0}{1}", "CreateDirectory Error: ", err.Message));
+                }
+            }
+        }
+
+        // 删除目录的时候，一定要关闭这个文件夹，否则删除文件夹可能出错
+        static public void DeleteDirectory(string path, bool recursive = true)
+        {
+            if (Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.Delete(path, recursive);
+                }
+                catch (Exception err)
+                {
+                    Debug.Log(string.Format("{0}{1}", "DeleteDirectory Error: ", err.Message));
+                }
+            }
+        }
+
+        // 目录是否存在
+        static public bool ExistDirectory(string path)
+        {
+            return Directory.Exists(path);
+        }
+
+        static public void recurseCreateDirectory(string pathAndName)
+        {
+            string normPath = normalPath(pathAndName);
+            string[] pathArr = normPath.Split(new[] { '/' });
+
+            string curCreatePath = "";
+            int idx = 0;
+            for (; idx < pathArr.Length; ++idx)
+            {
+                if (curCreatePath.Length == 0)
+                {
+                    curCreatePath = pathArr[idx];
+                }
+                else
+                {
+                    curCreatePath = string.Format("{0}/{1}", curCreatePath, pathArr[idx]);
+                }
+
+                CreateDirectory(curCreatePath);
+            }
+        }
+
+        static public string combine(params string[] pathList)
+        {
+            int idx = 0;
+            string ret = "";
+            while (idx < pathList.Length)
+            {
+                if (ret.Length > 0)
+                {
+                    if (pathList[idx].Length > 0)
+                    {
+                        if (ret[ret.Length - 1] != '/' || pathList[idx][pathList[idx].Length - 1] != '/')
+                        {
+                            ret += "/";
+                        }
+                        ret += pathList[idx];
+                    }
+                }
+                else
+                {
+                    if (pathList[idx].Length > 0)
+                    {
+                        ret += pathList[idx];
+                    }
+                }
+                ++idx;
+            }
+            ret.Replace("//", "/");
+            return ret;
+        }
+
+        static public List<string> GetAll(string path, bool recursion = false)//搜索文件夹中的文件
+        {
+            DirectoryInfo dir = new DirectoryInfo(path);
+            List<string> FileList = new List<string>();
+
+            FileInfo[] allFile = dir.GetFiles();
+            foreach (FileInfo fi in allFile)
+            {
+                //FileList.Add(fi.Name);
+                FileList.Add(normalPath(fi.FullName));
+            }
+
+            if (recursion)
+            {
+                DirectoryInfo[] allDir = dir.GetDirectories();
+                foreach (DirectoryInfo d in allDir)
+                {
+                    GetAll(d.FullName, recursion);
+                }
+            }
+            return FileList;
+        }
+
+        static public string getFileExt(string path)
+        {
+            int dotIdx = path.LastIndexOf('.');
+            if (-1 != dotIdx)
+            {
+                return path.Substring(dotIdx + 1);
+            }
+
+            return "";
+        }
+
+        static public string getFileNameNoExt(string path)
+        {
+            path = normalPath(path);
+            int dotIdx = path.LastIndexOf('.');
+            int slashIdx = path.LastIndexOf('/');
+            if (-1 != dotIdx)
+            {
+                if (-1 != slashIdx)
+                {
+                    return path.Substring(slashIdx + 1, dotIdx - slashIdx - 1);
+                }
+                else
+                {
+                    return path.Substring(0, dotIdx);
+                }
+            }
+            else
+            {
+                if (-1 != slashIdx)
+                {
+                    return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
+                }
+                else
+                {
+                    return path;
+                }
+            }
+        }
+
+        static public string getFileNameWithExt(string path)
+        {
+            path = normalPath(path);
+            int slashIdx = path.LastIndexOf('/');
+            if (-1 != slashIdx)
+            {
+                return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
+            }
+            else
+            {
+                return path;
+            }
         }
 
         // 添加版本的文件名，例如 E:/aaa/bbb/ccc.txt?v=1024
@@ -856,7 +1022,7 @@ namespace SDK.Lib
         // 删除所有除去版本号外相同的文件，例如 E:/aaa/bbb/ccc.txt?v=1024 ，只要 E:/aaa/bbb/ccc.txt 一样就删除，参数就是 E:/aaa/bbb/ccc.txt ，没有版本号的文件
         public static void delFileNoVer(string path)
         {
-            normalPath(ref path);
+            path = normalPath(path);
             DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
             FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
             foreach (var item in allFiles)
@@ -867,7 +1033,7 @@ namespace SDK.Lib
 
         public static bool fileExistNoVer(string path)
         {
-            normalPath(ref path);
+            path = normalPath(path);
             DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
             FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
 
@@ -1128,45 +1294,45 @@ namespace SDK.Lib
             return ret;
         }
 
-        // 获取文件扩展名字
-        static public string getFileExt(string fullPath)
-        {
-            int index = fullPath.LastIndexOf('.');
-            string ret = "";
-            if (index != -1)
-            {
-                ret = fullPath.Substring(index + 1);
-            }
+        //// 获取文件扩展名字
+        //static public string getFileExt(string fullPath)
+        //{
+        //    int index = fullPath.LastIndexOf('.');
+        //    string ret = "";
+        //    if (index != -1)
+        //    {
+        //        ret = fullPath.Substring(index + 1);
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        // 获取文件名字，没有扩展名字
-        static public string getFileNameNoExt(string fullPath)
-        {
-            int index = fullPath.LastIndexOf('/');
-            string ret = "";
-            if (index == -1)
-            {
-                index = fullPath.LastIndexOf('\\');
-            }
-            if (index != -1)
-            {
-                ret = fullPath.Substring(index + 1);
-            }
-            else
-            {
-                ret = fullPath;
-            }
+        //// 获取文件名字，没有扩展名字
+        //static public string getFileNameNoExt(string fullPath)
+        //{
+        //    int index = fullPath.LastIndexOf('/');
+        //    string ret = "";
+        //    if (index == -1)
+        //    {
+        //        index = fullPath.LastIndexOf('\\');
+        //    }
+        //    if (index != -1)
+        //    {
+        //        ret = fullPath.Substring(index + 1);
+        //    }
+        //    else
+        //    {
+        //        ret = fullPath;
+        //    }
 
-            index = ret.LastIndexOf('.');
-            if (index != -1)
-            {
-                ret = ret.Substring(0, index);
-            }
+        //    index = ret.LastIndexOf('.');
+        //    if (index != -1)
+        //    {
+        //        ret = ret.Substring(0, index);
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         // 获取文件路径，没有文件名字
         static public string getFilePathNoName(string fullPath)

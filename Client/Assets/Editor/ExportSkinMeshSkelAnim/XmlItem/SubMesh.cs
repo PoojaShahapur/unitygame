@@ -29,7 +29,7 @@ namespace EditorTool
             pathList.Add(param.m_inPath);
             pathList.Add(param.m_name);
 
-            string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            string resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
             GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_resType)) as GameObject;
             string ret = "";
 
@@ -58,7 +58,7 @@ namespace EditorTool
             pathList.Add(param.m_inPath);
             pathList.Add(param.m_name);
 
-            string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            string resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
             GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_resType)) as GameObject;
             string ret = "";
 
@@ -87,7 +87,7 @@ namespace EditorTool
             pathList.Add(param.m_inPath);
             pathList.Add(param.m_name);
 
-            string resPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+            string resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
             GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_resType)) as GameObject;
             GameObject subMeshGo = null;
             //GameObject insSubMeshGo = null;
@@ -119,7 +119,7 @@ namespace EditorTool
                     //pathList.Add(SkinAnimSys.m_instance.m_xmlSubMeshRoot.m_modelTypes.modelTypeDic[m_modelType].subPath);
                     pathList.Add(subMeshName + ".prefab");
 
-                    outPrefabPath = ExportUtil.getRelDataPath(ExportUtil.combine(pathList.ToArray()));
+                    outPrefabPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
                     assetNamesList.Add(outPrefabPath);
                     //AssetDatabase.CreateAsset(insSubMeshGo, tmpPrefabPath);
                     //PrefabUtility.CreatePrefab(tmpPrefabPath, insSubMeshGo);

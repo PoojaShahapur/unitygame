@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using EditorTool;
+using SDK.Lib;
 
 public class BuildScriptTest
 {
@@ -54,7 +55,7 @@ public class BuildScriptTest
         string fileName = "";
         string extName = "";
 
-        path = ExportUtil.normalPath(path);
+        path = UtilApi.normalPath(path);
 
         int lastSlashIdx = 0;
         int dotIdx = 0;

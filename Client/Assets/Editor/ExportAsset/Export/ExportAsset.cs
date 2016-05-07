@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Lib;
 using UnityEditor;
-using UnityEngine;
 
 namespace EditorTool
 {
@@ -14,9 +13,9 @@ namespace EditorTool
             ResExportSys.m_instance.m_targetPlatform = BuildTarget.StandaloneWindows;
 
             ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
-            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            ExportUtil.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            ExportUtil.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = UtilApi.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilApi.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilApi.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
 
             ResExportSys.m_instance.parseResourceXml();
             ResExportSys.m_instance.packResourceList();

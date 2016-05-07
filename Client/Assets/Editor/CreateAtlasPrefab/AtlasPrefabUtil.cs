@@ -1,12 +1,10 @@
 ﻿using EditorTool;
+using SDK.Lib;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEditor.Animations;
-using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +19,7 @@ namespace AtlasPrefabSys
             string prefabExtName = "prefab";
 
             string resFullPath = string.Format("{0}.{1}", Path.Combine(path, prefabName), prefabExtName);
-            resFullPath = ExportUtil.normalPath(resFullPath);
+            resFullPath = UtilApi.normalPath(resFullPath);
 
             Type[] comArr = new Type[1];
             comArr[0] = typeof(Image);

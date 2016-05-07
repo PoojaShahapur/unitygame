@@ -132,43 +132,6 @@ namespace EditorTool
             return Path.Combine("Assets/", path);
         }
 
-        static public void CreateDirectory(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                try
-                {
-                    Directory.CreateDirectory(path);
-                }
-                catch(Exception err)
-                {
-                    Debug.Log(string.Format("{0}{1}", "CreateDirectory Error: ", err.Message));
-                }
-            }
-        }
-
-        // 删除目录的时候，一定要关闭这个文件夹，否则删除文件夹可能出错
-        static public void DeleteDirectory(string path, bool recursive = true)
-        {
-            if (Directory.Exists(path))
-            {
-                try
-                {
-                    Directory.Delete(path, recursive);
-                }
-                catch(Exception err)
-                {
-                    Debug.Log(string.Format("{0}{1}", "DeleteDirectory Error: ", err.Message));
-                }
-            }
-        }
-
-        // 目录是否存在
-        static public bool bDirExist(string path)
-        {
-            return Directory.Exists(path);
-        }
-
         // 递归创建目录
         static public void recurseCreateStreamDirectory(string pathAndName)
         {
@@ -189,62 +152,10 @@ namespace EditorTool
                 leftpath = leftpath.Substring(slashIdx + 1, leftpath.Length - slashIdx - 1);
 
                 fullpath = getStreamingDataPath(curpath);
-                CreateDirectory(fullpath);
+                UtilApi.CreateDirectory(fullpath);
 
                 slashIdx = leftpath.IndexOf("/");
             }
-        }
-
-        static public void recurseCreateDirectory(string pathAndName)
-        {
-            string normPath = ExportUtil.normalPath(pathAndName);
-            string[] pathArr = normPath.Split(new []{'/'});
-
-            string curCreatePath = "";
-            int idx = 0;
-            for(; idx < pathArr.Length; ++idx)
-            {
-                if(curCreatePath.Length == 0)
-                {
-                    curCreatePath = pathArr[idx];
-                }
-                else
-                {
-                    curCreatePath = string.Format("{0}/{1}", curCreatePath, pathArr[idx]);
-                }
-
-                CreateDirectory(curCreatePath);
-            }
-        }
-
-        static public string combine(params string[] pathList)
-        {
-            int idx = 0;
-            string ret = "";
-            while(idx < pathList.Length)
-            {
-                if (ret.Length > 0)
-                {
-                    if (pathList[idx].Length > 0)
-                    {
-                        if (ret[ret.Length - 1] != '/' || pathList[idx][pathList[idx].Length - 1] != '/')
-                        {
-                            ret += "/";
-                        }
-                        ret += pathList[idx];
-                    }
-                }
-                else
-                {
-                    if (pathList[idx].Length > 0)
-                    {
-                        ret += pathList[idx];
-                    }
-                }
-                ++idx;
-            }
-            ret.Replace("//", "/");
-            return ret;
         }
 
         static public Type convResStr2Type(string resStr)
@@ -283,88 +194,6 @@ namespace EditorTool
             }
 
             return ret;
-        }
-
-        static public List<string> GetAll(string path, bool recursion = false)//搜索文件夹中的文件
-        {
-            DirectoryInfo dir = new DirectoryInfo(path);
-            List<string> FileList = new List<string>();
-
-            FileInfo[] allFile = dir.GetFiles();
-            foreach (FileInfo fi in allFile)
-            {
-                //FileList.Add(fi.Name);
-                FileList.Add(normalPath(fi.FullName));
-            }
-
-            if (recursion)
-            {
-                DirectoryInfo[] allDir = dir.GetDirectories();
-                foreach (DirectoryInfo d in allDir)
-                {
-                    GetAll(d.FullName, recursion);
-                }
-            }
-            return FileList;
-        }
-
-        static public string normalPath(string path)
-        {
-            return path.Replace("\\", "/");
-        }
-
-        static public string getFileExt(string path)
-        {
-            int dotIdx = path.LastIndexOf('.');
-            if(-1 != dotIdx)
-            {
-                return path.Substring(dotIdx + 1);
-            }
-
-            return "";
-        }
-
-        static public string getFileNameNoExt(string path)
-        {
-            path = normalPath(path);
-            int dotIdx = path.LastIndexOf('.');
-            int slashIdx = path.LastIndexOf('/');
-            if (-1 != dotIdx)
-            {
-                if (-1 != slashIdx)
-                {
-                    return path.Substring(slashIdx + 1, dotIdx - slashIdx - 1);
-                }
-                else
-                {
-                    return path.Substring(0, dotIdx);
-                }
-            }
-            else
-            {
-                if (-1 != slashIdx)
-                {
-                    return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
-                }
-                else
-                {
-                    return path;
-                }
-            }
-        }
-
-        static public string getFileNameWithExt(string path)
-        {
-            path = normalPath(path);
-            int slashIdx = path.LastIndexOf('/');
-            if (-1 != slashIdx)
-            {
-                return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
-            }
-            else
-            {
-                return path;
-            }
         }
 
         static public string convFullPath2AssetsPath(string fullpath)
@@ -570,8 +399,8 @@ namespace EditorTool
         public static void CopyAssetBundlesTo(string srcPath, BuildTarget target)
         {
             string platForm = GetPlatformFolderForAssetBundles(target);
-            DeleteDirectory(Application.streamingAssetsPath);
-            CreateDirectory(Application.streamingAssetsPath);
+            UtilApi.DeleteDirectory(Application.streamingAssetsPath);
+            UtilApi.CreateDirectory(Application.streamingAssetsPath);
             // 放入平台单独的目录下
             //CreateDirectory(Path.Combine(Application.streamingAssetsPath, platForm));
             //copyDirectory(srcPath, Path.Combine(Application.streamingAssetsPath, platForm));

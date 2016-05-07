@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using SDK.Lib;
+using System.Xml;
 using UnityEditor.Animations;
 
 namespace EditorTool
@@ -177,9 +178,9 @@ namespace EditorTool
             {
                 string path = "";
                 path = ExportUtil.getWorkPath(m_assetOutPath);
-                if (!ExportUtil.bDirExist(path))
+                if (!UtilApi.ExistDirectory(path))
                 {
-                    ExportUtil.recurseCreateDirectory(path);
+                    UtilApi.recurseCreateDirectory(path);
                 }
             }
 
@@ -187,9 +188,9 @@ namespace EditorTool
             {
                 string path = "";
                 path = ExportUtil.getWorkPath(m_controllerOutPath);
-                if (!ExportUtil.bDirExist(path))
+                if (!UtilApi.ExistDirectory(path))
                 {
-                    ExportUtil.recurseCreateDirectory(path);
+                    UtilApi.recurseCreateDirectory(path);
                 }
             }
         }

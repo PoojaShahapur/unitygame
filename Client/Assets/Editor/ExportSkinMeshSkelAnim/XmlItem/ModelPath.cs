@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Lib;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace EditorTool
@@ -38,10 +39,10 @@ namespace EditorTool
 
         protected void onFindOneFile(string fullPath)
         {
-            string ext = ExportUtil.getFileExt(fullPath);
+            string ext = UtilApi.getFileExt(fullPath);
             if (m_ignoreExtList.IndexOf(ext) == -1)
             {
-                string fileName = ExportUtil.getFileNameWithExt(fullPath);
+                string fileName = UtilApi.getFileNameWithExt(fullPath);
                 Mesh mesh = new Mesh();
                 mesh.skelMeshParam.m_name = fileName;
                 mesh.skelMeshParam.m_inPath = m_inPath;

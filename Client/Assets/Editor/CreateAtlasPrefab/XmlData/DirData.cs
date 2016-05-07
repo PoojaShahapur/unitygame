@@ -1,7 +1,6 @@
 ﻿using EditorTool;
 using SDK.Lib;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace AtlasPrefabSys
@@ -19,7 +18,7 @@ namespace AtlasPrefabSys
             m_dirPath = path;
             m_xmlPath = xmlPath;
             m_fullDirPath = ExportUtil.getDataPath(m_dirPath);
-            m_fullDirPath = ExportUtil.normalPath(m_fullDirPath);
+            m_fullDirPath = UtilApi.normalPath(m_fullDirPath);
             m_filesList = new List<FileData>();
         }
 
@@ -54,8 +53,8 @@ namespace AtlasPrefabSys
 
         protected void onFindFile(string path)
         {
-            path = ExportUtil.normalPath(path);
-            string extName = ExportUtil.getFileExt(path);
+            path = UtilApi.normalPath(path);
+            string extName = UtilApi.getFileExt(path);
             if (m_xmlPath.ignoreExtList.IndexOf(extName) == -1)         // 如果没有在或略的扩展名列表中
             {
                 FileData file = new FileData(path, this);

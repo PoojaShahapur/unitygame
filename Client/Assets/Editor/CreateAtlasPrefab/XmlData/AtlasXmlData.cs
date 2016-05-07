@@ -158,7 +158,7 @@ namespace AtlasPrefabSys
             m_resType = ExportUtil.getXmlAttrUInt(packElem.Attributes["restype"]);
 
             m_fullDirPath = ExportUtil.getDataPath(m_inPath);
-            m_fullDirPath = ExportUtil.normalPath(m_fullDirPath);
+            m_fullDirPath = UtilApi.normalPath(m_fullDirPath);
 
             findAllFiles();
         }

@@ -60,14 +60,14 @@ namespace EditorTool
             }
 
             m_srcFullPath = Path.Combine(System.Environment.CurrentDirectory, m_srcRoot);
-            m_srcFullPath = ExportUtil.normalPath(m_srcFullPath);
+            m_srcFullPath = UtilApi.normalPath(m_srcFullPath);
         }
 
         public void packPack()
         {
             if (!string.IsNullOrEmpty(m_destRoot))
             {
-                ExportUtil.CreateDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
+                UtilApi.CreateDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
             }
             ExportUtil.recursiveTraversalDir(m_srcFullPath, handleFile, handleDir);
         }
@@ -75,14 +75,14 @@ namespace EditorTool
         // 遍历一个文件的时候处理
         public void handleFile(string fullFileName)
         {
-            fullFileName = ExportUtil.normalPath(fullFileName);
-            if (m_ignoreExtList.IndexOf(ExportUtil.getFileExt(fullFileName)) == -1)
+            fullFileName = UtilApi.normalPath(fullFileName);
+            if (m_ignoreExtList.IndexOf(UtilApi.getFileExt(fullFileName)) == -1)
             {
-                string fineNameNoExt = ExportUtil.getFileNameNoExt(fullFileName);
+                string fineNameNoExt = UtilApi.getFileNameNoExt(fullFileName);
                 string assetPath = fullFileName.Substring(fullFileName.IndexOf(ExportUtil.ASSETS));
                 string destPath = "";
 
-                if (m_unity3dExtNameList.IndexOf(ExportUtil.getFileExt(fullFileName)) != -1)
+                if (m_unity3dExtNameList.IndexOf(UtilApi.getFileExt(fullFileName)) != -1)
                 {
                     if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length)
                     {
@@ -154,12 +154,12 @@ namespace EditorTool
                 else
                 {
                     destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, destPath);
-                    ExportUtil.CreateDirectory(destPath);
+                    UtilApi.CreateDirectory(destPath);
                 }
             }
             else
             {
-                ExportUtil.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+                UtilApi.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
             }
         }
 
@@ -168,7 +168,7 @@ namespace EditorTool
             ResListItem item = new ResListItem();
 
             item.m_srcName = ExportUtil.rightSubStr(srcFullPath, m_srcRoot);
-            if (m_unity3dExtNameList.IndexOf(ExportUtil.getFileExt(srcFullPath)) != -1)     // 如果需要打包成 unity3d
+            if (m_unity3dExtNameList.IndexOf(UtilApi.getFileExt(srcFullPath)) != -1)     // 如果需要打包成 unity3d
             {
                 item.m_destName = string.Format("{0}{1}", item.m_srcName.Substring(0, item.m_srcName.IndexOf('.')), ExportUtil.DOTUNITY3D);
             }
@@ -183,7 +183,7 @@ namespace EditorTool
             }
 
             // 如果是 unity 扩展名字的场景文件，需要在原始文件名字前面添加 Scenes 子目录
-            if (ExportUtil.getFileExt(item.m_srcName) == "unity")
+            if (UtilApi.getFileExt(item.m_srcName) == "unity")
             {
                 item.m_srcName = string.Format("Scenes/{0}", item.m_srcName);
             }

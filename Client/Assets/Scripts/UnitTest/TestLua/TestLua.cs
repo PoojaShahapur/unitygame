@@ -35,7 +35,7 @@ namespace UnitTest
 
             LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript");
-            UtilApi.normalPath(ref luaPath);
+            luaPath = UtilApi.normalPath(luaPath);
             object[] ret = reflf.Call(luaPath);
 
             luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Plugins/x86_64");
@@ -70,7 +70,7 @@ namespace UnitTest
 
             LuaFunction reflf = Ctx.m_instance.m_luaSystem.lua.GetFunction("regPath");
             string luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Resources/LuaScript");
-            UtilApi.normalPath(ref luaPath);
+            luaPath = UtilApi.normalPath(luaPath);
             object[] ret = reflf.Call(luaPath);
 
             luaPath = string.Format("{0}/{1}", UtilApi.getDataPath(), "Plugins/x86_64");

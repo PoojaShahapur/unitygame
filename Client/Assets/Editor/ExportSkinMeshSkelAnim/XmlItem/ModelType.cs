@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Lib;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -135,9 +136,9 @@ namespace EditorTool
             string path = "";
             //path = ExportUtil.getDataPath(string.Format("{0}/{1}", parentPath, m_subPath));
             path = ExportUtil.getDataPath(m_subPath);
-            if(!ExportUtil.bDirExist(path))
+            if(!UtilApi.ExistDirectory(path))
             {
-                ExportUtil.recurseCreateDirectory(path);
+                UtilApi.recurseCreateDirectory(path);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using SDK.Lib;
+using System.Xml;
 
 namespace EditorTool
 {
@@ -32,8 +33,8 @@ namespace EditorTool
 
         protected void onFindOneFile(string fullPath)
         {
-            string ext = ExportUtil.getFileExt(fullPath);
-            string nameNoExt = ExportUtil.getFileNameNoExt(fullPath);
+            string ext = UtilApi.getFileExt(fullPath);
+            string nameNoExt = UtilApi.getFileNameNoExt(fullPath);
 
             XmlAnimatorController controller = null;
             if (ExportUtil.FBX == ext)
