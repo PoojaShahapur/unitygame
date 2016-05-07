@@ -101,7 +101,7 @@ namespace SDK.Lib
 
             if (m_texRes != null)
             {
-                if (m_texRes.GetPath() != m_texPath)
+                if (m_texRes.getLogicPath() != m_texPath)
                 {
                     unloadTex();
                 }
@@ -116,7 +116,7 @@ namespace SDK.Lib
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                    param.m_path = m_texPath;
+                    param.setPath(m_texPath);
                     param.m_loadEventHandle = onTexLoadEventHandle;
                     Ctx.m_instance.m_texMgr.load<TextureRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);

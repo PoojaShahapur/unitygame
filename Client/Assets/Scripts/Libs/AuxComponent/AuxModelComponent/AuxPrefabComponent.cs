@@ -42,15 +42,15 @@ namespace SDK.Lib
             return !mIsSuccess;
         }
 
-        public string GetPath()
-        {
-            if(mPrefabRes != null)
-            {
-                return mPrefabRes.GetPath();
-            }
+        //public string GetPath()
+        //{
+        //    if(mPrefabRes != null)
+        //    {
+        //        return mPrefabRes.GetPath();
+        //    }
 
-            return mPath;
-        }
+        //    return mPath;
+        //}
 
         // 异步加载对象
         public void asyncLoad(string path, Action<IDispatchObject> dispObj)
@@ -76,18 +76,18 @@ namespace SDK.Lib
                 {
                     mResInsEventDispatch = new ResInsEventDispatch();
                     mResInsEventDispatch.addEventHandle(onPrefabIns);
-                    mPrefabRes.InstantiateObject(mPrefabRes.GetPath(), mResInsEventDispatch);
+                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mResInsEventDispatch);
                 }
                 else
                 {
-                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.GetPath());
+                    this.selfGo = mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName());
                     onAllFinish();
                 }
             }
             else if (mPrefabRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.GetPath(), onPrefabLoaded);
+                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
                 mPrefabRes = null;
 
                 if (mEvtHandle != null)
@@ -126,7 +126,7 @@ namespace SDK.Lib
         {
             if(mPrefabRes != null)
             {
-                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.GetPath(), onPrefabLoaded);
+                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.getResUniqueId(), onPrefabLoaded);
                 mPrefabRes = null;
             }
 

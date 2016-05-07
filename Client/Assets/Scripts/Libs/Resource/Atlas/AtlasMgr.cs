@@ -20,7 +20,7 @@ namespace SDK.Lib
         // 加载图像
         public void loadImage(LoadParam param)
         {
-            if (!m_path2ResDic.ContainsKey(param.m_path))
+            if (!m_path2ResDic.ContainsKey(param.mResUniqueId))
             {
                 // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
                 Action<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
@@ -41,21 +41,21 @@ namespace SDK.Lib
             }
             else
             {
-                (m_path2ResDic[param.m_path] as AtlasScriptRes).loadImage(param);
+                (m_path2ResDic[param.mResUniqueId] as AtlasScriptRes).loadImage(param);
             }
         }
 
         public ImageItem getAndLoadImage(LoadParam param)
         {
             loadImage(param);
-            return getImage(param.m_path, param.m_subPath);
+            return getImage(param.mResUniqueId, param.m_subPath);
         }
 
         public void syncLoadImage(string atlasName, string spriteName)
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(atlasName, param);
+            param.setPath(atlasName);
             param.m_subPath = spriteName;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
@@ -102,7 +102,7 @@ namespace SDK.Lib
         {
             if (imageItem != null && imageItem.atlasScriptRes != null)
             {
-                unloadImage(imageItem.atlasScriptRes.GetPath(), imageItem.spriteName, loadEventHandle);
+                unloadImage(imageItem.atlasScriptRes.getResUniqueId(), imageItem.spriteName, loadEventHandle);
             }
             else
             {

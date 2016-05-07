@@ -40,7 +40,7 @@ namespace SDK.Lib
 
         override protected void initImpl(ResItem res)
         {
-            m_atlasPath = res.GetPath();
+            m_atlasPath = res.getLogicPath();
             m_soSpriteList = res.getObject(res.getPrefabName()) as SOSpriteList;
 
             initImage();

@@ -12,7 +12,7 @@ namespace SDK.Lib
         override public void initByPakRes()
         {
             base.initByPakRes();
-            initByBytes(m_resItem.getBytes(m_path), SCENE_PRE_PATH);
+            initByBytes(m_resItem.getBytes(m_loadPath), SCENE_PRE_PATH);
         }
     }
 }

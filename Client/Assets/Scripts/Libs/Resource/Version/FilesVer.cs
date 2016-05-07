@@ -36,7 +36,7 @@ namespace SDK.Lib
         virtual public void loadMiniVerFile(string ver = "")
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = MINIFILENAME;
+            param.setPath(MINIFILENAME);
 
             if (FilesVerType.eStreamingAssetsVer == m_type)
             {
@@ -93,7 +93,7 @@ namespace SDK.Lib
         public void loadVerFile(string ver = "")
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = FILENAME;
+            param.setPath(FILENAME);
 
             if (FilesVerType.eStreamingAssetsVer == m_type)
             {
@@ -122,7 +122,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
                 byte[] textAsset = (res as DataResItem).getBytes();
                 if (textAsset != null)
@@ -136,7 +136,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
                 // 卸载
                 Ctx.m_instance.m_resLoadMgr.unload(FILENAME, onLoadEventHandle);
                 m_FailedDisp();

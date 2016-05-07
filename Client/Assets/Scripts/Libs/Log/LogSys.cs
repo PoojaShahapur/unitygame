@@ -324,11 +324,11 @@ namespace SDK.Lib
         {
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                log(string.Format("{0} Loaded", res.GetPath()));
+                log(string.Format("{0} Loaded", res.getLoadPath()));
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                log(string.Format("{0} Failed", res.GetPath()));
+                log(string.Format("{0} Failed", res.getLoadPath()));
             }
         }
     }

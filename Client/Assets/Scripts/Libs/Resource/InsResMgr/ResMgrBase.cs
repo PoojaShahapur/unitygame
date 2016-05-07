@@ -23,14 +23,15 @@ namespace SDK.Lib
         public T getAndSyncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
             syncLoad<T>(path, isLoadAll);
-            return getRes(path) as T;
+            string resUniqueId = ResPathResolve.convOrigPathToUniqueId(path);
+            return getRes(resUniqueId) as T;
         }
 
         public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(path, param);
+            param.setPath(path);
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
             param.mLuaTable = luaTable;
@@ -46,7 +47,7 @@ namespace SDK.Lib
         {
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(path, param);
+            param.setPath(path);
             param.m_loadNeedCoroutine = true;
             param.m_resNeedCoroutine = true;
             param.m_loadEventHandle = handle;
@@ -60,7 +61,7 @@ namespace SDK.Lib
         public T getAndLoad<T>(LoadParam param) where T : InsResBase, new()
         {
             load<T>(param);
-            return getRes(param.m_path) as T;
+            return getRes(param.mResUniqueId) as T;
         }
 
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
@@ -68,7 +69,7 @@ namespace SDK.Lib
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = path;
+            param.setPath(path);
             // param.m_loadEventHandle = onLoadEventHandle;        // 这个地方是同步加载，因此不需要回调，如果写了，就会形成死循环， InsResBase 中的 init 又会调用 onLoadEventHandle 这个函数，这个函数是外部回调的函数，由于同步加载，没有回调，因此不要设置这个 param.m_loadEventHandle = onLoadEventHandle ，内部会自动调用
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
@@ -81,7 +82,7 @@ namespace SDK.Lib
         {
             T ret = new T();
             ret.refCountResLoadResultNotify.refCount.incRef();
-            ret.m_path = param.m_path;
+            ret.setLoadParam(param);
 
             ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
 
@@ -90,35 +91,35 @@ namespace SDK.Lib
 
         protected void loadWithResCreatedAndLoad(LoadParam param)
         {
-            m_path2ResDic[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-            if (m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
+            m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
+            if (m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    param.m_loadEventHandle(m_path2ResDic[param.m_path]);        // 直接通知上层完成加载
+                    param.m_loadEventHandle(m_path2ResDic[param.mResUniqueId]);        // 直接通知上层完成加载
                 }
                 else if(null != param.mLuaTable && null != param.mLuaFunction)
                 {
-                    param.mLuaFunction.Call(param.mLuaTable, m_path2ResDic[param.m_path]);
+                    param.mLuaFunction.Call(param.mLuaTable, m_path2ResDic[param.mResUniqueId]);
                 }
                 else if(null != param.mLuaFunction)
                 {
-                    param.mLuaFunction.Call(m_path2ResDic[param.m_path]);
+                    param.mLuaFunction.Call(m_path2ResDic[param.mResUniqueId]);
                 }
             }
             else
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_path2ResDic[param.m_path].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
+                    m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
                 }
             }
         }
 
         protected void loadWithResCreatedAndNotLoad<T>(LoadParam param, T resItem) where T : InsResBase, new()
         {
-            m_path2ResDic[param.m_path] = resItem;
-            m_path2ResDic[param.m_path].refCountResLoadResultNotify.resLoadState.setLoading();
+            m_path2ResDic[param.mResUniqueId] = resItem;
+            m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
             param.m_loadEventHandle = onLoadEventHandle;
             Ctx.m_instance.m_resLoadMgr.loadResources(param);
         }
@@ -132,7 +133,7 @@ namespace SDK.Lib
         public virtual void load<T>(LoadParam param) where T : InsResBase, new()
         {
             ++m_loadingDepth;
-            if (m_path2ResDic.ContainsKey(param.m_path))
+            if (m_path2ResDic.ContainsKey(param.mResUniqueId))
             {
                 loadWithResCreatedAndLoad(param);
             }
@@ -203,7 +204,7 @@ namespace SDK.Lib
         public virtual void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            string path = res.GetPath();
+            string path = res.getResUniqueId();
 
             if (m_path2ResDic.ContainsKey(path))
             {

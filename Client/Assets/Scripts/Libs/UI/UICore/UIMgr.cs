@@ -279,7 +279,7 @@ namespace SDK.Lib
         protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoadEventHandle)
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(reaPath, param);
+            param.setPath(reaPath);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             param.m_loadEventHandle = onLoadEventHandle;
@@ -297,7 +297,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
+                UIFormID ID = m_UIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathCodePath);  // 获取 FormID
                 m_ID2CodeLoadingItemDic.Remove(ID);
             }
 		}
@@ -312,7 +312,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathComUI);  // 获取 FormID
+                UIFormID ID = m_UIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathComUI);  // 获取 FormID
                 m_ID2WidgetLoadingItemDic.Remove(ID);
                 Ctx.m_instance.m_logSys.log("UIFormID =  ， Failed Prefab");
             }
@@ -321,7 +321,7 @@ namespace SDK.Lib
         // 代码资源加载完成处理
         public void onCodeloadedByRes(PrefabRes res)
         {
-            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.GetPath(), ResPathType.ePathCodePath);  // 获取 FormID
+            UIFormID ID = m_UIAttrs.GetFormIDByPath(res.getLogicPath(), ResPathType.ePathCodePath);  // 获取 FormID
             m_ID2CodeLoadingItemDic.Remove(ID);
             addFormNoReady(m_id2FormDic[ID]);
             onCodeLoadedByForm(m_id2FormDic[ID]);
@@ -338,7 +338,8 @@ namespace SDK.Lib
         // 窗口控件资源加载完成处理
         public void onWidgetloadedByRes(PrefabRes res)
         {
-            string path = res.GetPath();
+            string resUniqueId = res.getResUniqueId();
+            string path = res.getLogicPath();
             UIFormID ID = m_UIAttrs.GetFormIDByPath(path, ResPathType.ePathComUI);  // 获取 FormID
             m_ID2WidgetLoadingItemDic.Remove(ID);
 
@@ -375,7 +376,7 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_prefabMgr.unload(path, onWidgetLoadEventHandle);
+            Ctx.m_instance.m_prefabMgr.unload(resUniqueId, onWidgetLoadEventHandle);
         }
 
         // 大小发生变化后，调用此函数

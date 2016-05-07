@@ -77,7 +77,7 @@ namespace SDK.Lib
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
-                MFileSys.modifyLoadParam(m_ID2FileName[m_langID].m_filePath, param);
+                param.setPath(m_ID2FileName[m_langID].m_filePath);
                 param.m_loadEventHandle = onLoadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -101,16 +101,16 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         public void onFailed(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
     }
 }

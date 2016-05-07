@@ -275,7 +275,7 @@ namespace SDK.Lib
 
             if (res != null)
             {
-                if (res.GetPath() != path)
+                if (res.getLogicPath() != path)
                 {
                     unload();
                 }
@@ -290,7 +290,7 @@ namespace SDK.Lib
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                    param.m_path = path;
+                    param.setPath(path);
                     param.m_loadEventHandle = onload;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -417,19 +417,19 @@ namespace SDK.Lib
         public static void onLoaded(IDispatchObject dispObj, Action<IDispatchObject> loadEventHandle)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), loadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
         }
 
         public static void onFailed(IDispatchObject dispObj, Action<IDispatchObject> loadEventHandle)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), loadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
         }
 
         // 通过下划线获取最后的数字，例如 asdf_23 获取 23

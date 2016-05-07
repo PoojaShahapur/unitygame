@@ -40,7 +40,7 @@ namespace SDK.Lib
         {
             if(m_texRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texRes.GetPath(), null);
+                Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
             }
             if (tex != null)
             {

@@ -49,7 +49,7 @@
         {
             if (m_skelAnim != null)
             {
-                Ctx.m_instance.m_skelAniMgr.unload(m_skelAnim.GetPath(), onLoaded);
+                Ctx.m_instance.m_skelAniMgr.unload(m_skelAnim.getResUniqueId(), onLoaded);
                 m_skelAnim = null;
             }
 
@@ -62,7 +62,7 @@
             {
                 if (m_skelAnim != null)
                 {
-                    Ctx.m_instance.m_skelAniMgr.unload(m_skelAnim.GetPath(), onLoaded);
+                    Ctx.m_instance.m_skelAniMgr.unload(m_skelAnim.getResUniqueId(), onLoaded);
                     m_skelAnim = null;
                 }
 
@@ -78,12 +78,12 @@
 
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                this.selfGo = res.InstantiateObject(res.GetPath());
+                this.selfGo = res.InstantiateObject(res.getPrefabName());
                 m_skelLoadDisp.dispatchEvent(this);
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_skelAniMgr.unload(res.GetPath(), onLoaded);
+                Ctx.m_instance.m_skelAniMgr.unload(res.getResUniqueId(), onLoaded);
                 m_skelAnim = null;
             }
         }

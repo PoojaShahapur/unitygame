@@ -14,7 +14,7 @@ namespace BehaviorLibrary
 
         override protected void initImpl(ResItem res)
         {
-            string text = res.getText(GetPath());
+            string text = res.getText(this.getPrefabName());
             Ctx.m_instance.m_aiSystem.behaviorTreeMgr.parseXml(text);
 
             base.initImpl(res);

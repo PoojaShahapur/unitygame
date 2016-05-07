@@ -70,7 +70,7 @@ namespace SDK.Lib
 			TableBase table = m_dicTable[tableID];
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], table.m_resName), param);
+            param.setPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathTablePath], table.m_resName));
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
@@ -84,7 +84,7 @@ namespace SDK.Lib
             m_res = dispObj as ResItem;
             if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
 
                 byte[] bytes = m_res.getBytes("");
                 if (bytes != null)
@@ -93,16 +93,16 @@ namespace SDK.Lib
                     m_byteArray.clear();
                     m_byteArray.writeBytes(bytes, 0, (uint)bytes.Length);
                     m_byteArray.setPos(0);
-                    readTable(getTableIDByPath(m_res.GetPath()), m_byteArray);
+                    readTable(getTableIDByPath(m_res.getLogicPath()), m_byteArray);
                 }
             }
             else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.getResUniqueId(), onLoadEventHandle);
         }
 
         // 根据路径查找表的 ID

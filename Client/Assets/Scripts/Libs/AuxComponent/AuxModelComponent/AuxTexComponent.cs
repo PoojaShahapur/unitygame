@@ -37,15 +37,15 @@ namespace SDK.Lib
             return !mIsSuccess;
         }
 
-        public string GetPath()
-        {
-            if(mTexture != null)
-            {
-                return mTextureRes.GetPath();
-            }
+        //public string GetPath()
+        //{
+        //    if(mTexture != null)
+        //    {
+        //        return mTextureRes.GetPath();
+        //    }
 
-            return mPath;
-        }
+        //    return mPath;
+        //}
 
         // 异步加载对象
         public void asyncLoad(string path, Action<IDispatchObject> dispObj)
@@ -72,7 +72,7 @@ namespace SDK.Lib
             else if (mTextureRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.GetPath(), onTexLoaded);
+                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
                 mTextureRes = null;
 
                 if (mEvtHandle != null)
@@ -105,7 +105,7 @@ namespace SDK.Lib
         {
             if(mTextureRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.GetPath(), onTexLoaded);
+                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
                 mTextureRes = null;
             }
 

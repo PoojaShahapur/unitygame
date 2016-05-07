@@ -51,13 +51,13 @@ namespace FightCore
 
             if(m_selfTex != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_selfTex.GetPath(), null);
+                Ctx.m_instance.m_texMgr.unload(m_selfTex.getResUniqueId(), null);
                 m_selfTex = null;
             }
 
             if (m_enemyTex != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_enemyTex.GetPath(), null);
+                Ctx.m_instance.m_texMgr.unload(m_enemyTex.getResUniqueId(), null);
                 m_enemyTex = null;
             }
 

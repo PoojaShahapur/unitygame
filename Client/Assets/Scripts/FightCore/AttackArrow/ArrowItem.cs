@@ -36,7 +36,7 @@ namespace FightCore
             {
                 LoadParam param;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.m_path = m_path;
+                param.setPath(m_path);
                 param.m_loadEventHandle = onLoadEventHandle;
 
                 // 这个需要立即加载

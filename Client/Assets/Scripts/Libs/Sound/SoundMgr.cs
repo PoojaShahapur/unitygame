@@ -50,7 +50,7 @@ namespace SDK.Lib
                 m_path2SoundDic[soundParam.m_path].initParam(soundParam);
 
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.m_path = soundParam.m_path;
+                param.setPath(soundParam.m_path);
                 param.m_loadEventHandle = onLoadEventHandle;
                 param.m_loadNeedCoroutine = false;
                 param.m_resNeedCoroutine = false;
@@ -87,29 +87,29 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
-                if (m_path2SoundDic.ContainsKey(res.GetPath()))      // 如果有，说明还没被停止
+                if (m_path2SoundDic.ContainsKey(res.getResUniqueId()))      // 如果有，说明还没被停止
                 {
-                    if (m_path2SoundDic[res.GetPath()].m_soundResType == SoundResType.eSRT_Prefab)
+                    if (m_path2SoundDic[res.getResUniqueId()].m_soundResType == SoundResType.eSRT_Prefab)
                     {
-                        m_path2SoundDic[res.GetPath()].setResObj(res.InstantiateObject(res.GetPath()));
+                        m_path2SoundDic[res.getResUniqueId()].setResObj(res.InstantiateObject(res.getPrefabName()));
                     }
                     else
                     {
-                        m_path2SoundDic[res.GetPath()].setResObj(res.getObject(res.GetPath()));
+                        m_path2SoundDic[res.getResUniqueId()].setResObj(res.getObject(res.getPrefabName()));
                     }
                 }
                 // 播放音乐
-                play(res.GetPath());
+                play(res.getResUniqueId());
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
-                delSoundItem(m_path2SoundDic[res.GetPath()]);
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
+                delSoundItem(m_path2SoundDic[res.getResUniqueId()]);
             }
             // 卸载数据
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         protected void unload(string path)

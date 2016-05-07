@@ -8,17 +8,19 @@ namespace SDK.Lib
         public ResPackType m_resPackType;           // 加载资源的类型
         public ResLoadType m_resLoadType;           // 资源加载类型
 
-        public string m_path = "";                  // 资源路径，传递进来都是完成的路径，都是相对 Resources 开始的，例如 Table\CardBase_client.txt，然后内部解析后
-        public string m_subPath = "";               // 子目录，可能一个包中有多个资源
-        public string m_pathNoExt = "";             // 这个数据变成了从 Resources 目录开始，没有扩展名字，打包的包名字在包加载的时候判断
+        public string mLoadPath = "";               // 真正的资源加载目录
+        public string m_origPath = "";              // 原始资源加载目录，就是直接传递进来的目录
         protected string m_prefabName = "";         // 预设的名字，就是在 AssetBundle 里面完整的资源目录和名字
-        protected string m_extName = "prefab";      // 加载的资源的扩展名字
-        public string m_origPath = "";                   // 原始资源加载目录，主要是打包的时候使用
-        public string m_pakPath = "";                   // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
+        protected string m_extName = "prefab";      // 加载的原始资源的扩展名字，不是 AssetBundles 的扩展名字
+        public string m_pathNoExt = "";             // mLoadPath 的没有扩展名字的路径
+        public string mLogicPath;                   // 逻辑传递进来的目录，这个目录可能是没有扩展名字的，而 m_origPath 就是有扩展名字的，如果 mLogicPath 有扩展名字，就是和 m_origPath 完全一样了
+
+        public string m_subPath = "";               // 子目录，可能一个包中有多个资源
+        public string m_pakPath = "";               // 打包的资源目录，如果打包， m_pakPath 应该就是 m_path
         public string mResUniqueId;                 // 资源唯一 Id，查找资源的索引
 
         public string m_version = "";               // 加载的资源的版本号
-        protected string m_lvlName = "";               // 关卡名字
+        protected string m_lvlName = "";            // 关卡名字
         public Action<IDispatchObject> m_loadEventHandle;    // 加载事件回调函数
 
         public bool m_resNeedCoroutine = true;      // 资源是否需要协同程序
@@ -32,7 +34,7 @@ namespace SDK.Lib
 
         public LoadParam()
         {
-            m_path = "";
+            mLoadPath = "";
             mIsLoadAll = false;
         }
 
@@ -74,17 +76,17 @@ namespace SDK.Lib
         // 解析目录
         public void resolvePath()
         {
-            int dotIdx = m_path.IndexOf(".");
+            int dotIdx = mLoadPath.IndexOf(".");
 
             if (-1 == dotIdx)
             {
                 m_extName = "";
-                m_pathNoExt = m_path;
+                m_pathNoExt = mLoadPath;
             }
             else
             {
-                m_extName = m_path.Substring(dotIdx + 1);
-                m_pathNoExt = m_path.Substring(0, dotIdx);
+                m_extName = mLoadPath.Substring(dotIdx + 1);
+                m_pathNoExt = mLoadPath.Substring(0, dotIdx);
             }
 
             /*
@@ -97,7 +99,7 @@ namespace SDK.Lib
                 m_prefabName = m_pathNoExt + "." + m_extName;
             }
             */
-            m_prefabName = m_path;
+            m_prefabName = mLoadPath;
         }
 
         public void resolveLevel()
@@ -128,7 +130,7 @@ namespace SDK.Lib
             this.m_resPackType = rhs.m_resPackType;
             this.m_resLoadType = rhs.m_resLoadType;
 
-            this.m_path = rhs.m_path;
+            this.mLoadPath = rhs.mLoadPath;
             this.m_subPath = rhs.m_subPath;
             this.m_pathNoExt = rhs.m_pathNoExt;
             this.m_prefabName = rhs.m_prefabName;
@@ -147,40 +149,44 @@ namespace SDK.Lib
 
         public void setPath(string path)
         {
-            m_path = path;
+            m_origPath = path;
 
-            int dotIdx = m_path.IndexOf(".");
+            int dotIdx = m_origPath.IndexOf(".");
             if (-1 == dotIdx)
             {
                 m_extName = "";
+                mLogicPath = m_origPath;
             }
             else
             {
-                m_extName = m_path.Substring(dotIdx + 1);
+                m_extName = m_origPath.Substring(dotIdx + 1);
+                mLogicPath = m_origPath.Substring(0, dotIdx);
             }
 
             // 如果直接加载的就是 AssetBundles 资源
             if(m_extName != UtilApi.UNITY3d)
             {
-                m_path = MFileSys.convResourcesPath2AssetBundlesPath(path);
+                mLoadPath = ResPathResolve.convResourcesPath2AssetBundlesPath(m_origPath);
             }
 
             if(-1 == dotIdx)
             {
-                m_pathNoExt = m_path;
+                m_pathNoExt = mLoadPath;
             }
             else
             {
-                m_pathNoExt = m_path.Substring(0, dotIdx);
+                m_pathNoExt = mLoadPath.Substring(0, dotIdx);
             }
 
-            if(MacroDef.ASSETBUNDLES_LOAD)
+            m_prefabName = m_pathNoExt + "." + m_extName;
+
+            if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                m_path = m_pathNoExt + UtilApi.DOTUNITY3d;
+                mLoadPath = m_pathNoExt + UtilApi.DOTUNITY3d;
             }
             else
             {
-                m_path = m_pathNoExt;
+                mLoadPath = m_pathNoExt;
             }
             mResUniqueId = m_pathNoExt;
         }

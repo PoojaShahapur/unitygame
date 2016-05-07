@@ -26,7 +26,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = "Model/log.prefab";
+            param.setPath("Model/log.prefab");
             param.m_loadEventHandle = onLoadEventHandle;
             Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -54,7 +54,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.setPath(CVAtlasName.TuJianDyn);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
@@ -81,34 +81,34 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
+            param.setPath("UI/UIChat/UIChat.prefab");
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
             PrefabRes aaa = Ctx.m_instance.m_prefabMgr.getAndLoad<PrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
-            Ctx.m_instance.m_prefabMgr.unload(aaa.GetPath(), onUIPrefabLoadEventHandle);
+            Ctx.m_instance.m_prefabMgr.unload(aaa.getResUniqueId(), onUIPrefabLoadEventHandle);
 
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam("UI/UIChat/UIChat.prefab", param);
+            param.setPath("UI/UIChat/UIChat.prefab");
             param.m_loadEventHandle = onUIPrefabLoadEventHandle;
             PrefabRes bbb = Ctx.m_instance.m_prefabMgr.getAndLoad<PrefabRes>(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
-            Ctx.m_instance.m_prefabMgr.unload(bbb.GetPath(), onUIPrefabLoadEventHandle);
+            Ctx.m_instance.m_prefabMgr.unload(bbb.getResUniqueId(), onUIPrefabLoadEventHandle);
         }
 
         public void testAsyncLoadAtlasRefCount()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.setPath(CVAtlasName.TuJianDyn);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             ImageItem aaa = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
 
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(CVAtlasName.TuJianDyn, param);
+            param.setPath(CVAtlasName.TuJianDyn);
             param.m_subPath = "ka1_paizu";
             param.m_loadEventHandle = onImageLoadEventHandle;
             ImageItem bbb = Ctx.m_instance.m_atlasMgr.getAndLoadImage(param);
@@ -121,14 +121,14 @@ namespace UnitTest
         public void testLoadBT()
         {
             BehaviorTreeRes bt = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndSyncLoadBT(BTID.e1000);
-            Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(bt.GetPath(), null);
+            Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(bt.getResUniqueId(), null);
         }
 
         protected void testLoadAnimatorController()
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam("Animation/Scene/CommonCard.controller", param);
+            param.setPath("Animation/Scene/CommonCard.controller");
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             ResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param);
@@ -145,7 +145,7 @@ namespace UnitTest
         {
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam("Animation/Scene/Control.prefab", param);
+            param.setPath("Animation/Scene/Control.prefab");
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
@@ -167,7 +167,7 @@ namespace UnitTest
             string path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSceneAnimatorController], "SelfCardAni.asset");
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(path, param);
+            param.setPath(path);
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
             PrefabResItem bbb = Ctx.m_instance.m_resLoadMgr.getAndLoad(param) as PrefabResItem;
@@ -180,7 +180,7 @@ namespace UnitTest
             ControllerRes res = Ctx.m_instance.m_controllerMgr.getAndSyncLoad<ControllerRes>(path);
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
-            Ctx.m_instance.m_controllerMgr.unload(res.GetPath(), null);
+            Ctx.m_instance.m_controllerMgr.unload(res.getResUniqueId(), null);
         }
 
         protected void testLoadSkillAction()

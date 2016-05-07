@@ -3,7 +3,12 @@
     public class InsResBase : IDispatchObject
     {
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
-        public string m_path;
+        public string mLoadPath;
+        public string m_origPath;
+        public string m_prefabName;
+        protected string mResUniqueId;
+        protected string mLogicPath;
+
         protected bool m_bOrigResNeedImmeUnload;        // 原始资源是否需要立刻卸载
 
         public InsResBase()
@@ -31,14 +36,38 @@
             }
         }
 
-        public string GetPath()
+        public string getLoadPath()
         {
-            return m_path;
+            return mLoadPath;
         }
 
-        public string getPrefabName()         // 只有 Prefab 资源才实现这个函数
+        public string getOrigPath()
         {
-            return "";
+            return m_origPath;
+        }
+        public string getPrefabName()
+        {
+            return m_prefabName;
+        }
+
+        public void setResUniqueId(string value)
+        {
+            mResUniqueId = value;
+        }
+
+        public string getResUniqueId()
+        {
+            return mResUniqueId;
+        }
+
+        public void setLogicPath(string value)
+        {
+            mLogicPath = value;
+        }
+
+        public string getLogicPath()
+        {
+            return mLogicPath;
         }
 
         public void init(ResItem res)
@@ -84,6 +113,15 @@
         public bool hasFailed()
         {
             return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+        }
+
+        public void setLoadParam(LoadParam param)
+        {
+            this.mLoadPath = param.mLoadPath;
+            this.mResUniqueId = param.mResUniqueId;
+            this.m_origPath = param.m_origPath;
+            this.m_prefabName = param.prefabName;
+            this.mLogicPath = param.mLogicPath;
         }
     }
 }

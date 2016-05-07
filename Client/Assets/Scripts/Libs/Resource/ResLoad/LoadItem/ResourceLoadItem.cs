@@ -58,7 +58,7 @@ namespace SDK.Lib
             bool isSuccess = false;
             if (!mIsLoaded)
             {
-                m_prefabObj = Resources.Load<Object>(m_pathNoExt);
+                m_prefabObj = Resources.Load<Object>(m_loadPath);
                 if (m_prefabObj != null)
                 {
                     isSuccess = true;
@@ -66,7 +66,7 @@ namespace SDK.Lib
             }
             else
             {
-                mAllPrefabObj = Resources.LoadAll<Object>(m_pathNoExt);
+                mAllPrefabObj = Resources.LoadAll<Object>(m_loadPath);
                 if (mAllPrefabObj != null)
                 {
                     isSuccess = true;
@@ -88,7 +88,7 @@ namespace SDK.Lib
         {
             if (!mIsLoaded)
             {
-                ResourceRequest req = Resources.LoadAsync<Object>(m_pathNoExt);
+                ResourceRequest req = Resources.LoadAsync<Object>(m_loadPath);
                 yield return req;
 
                 if (req.asset != null && req.isDone)
@@ -103,7 +103,7 @@ namespace SDK.Lib
             }
             else
             {
-                mAllPrefabObj = Resources.LoadAll<Object>(m_pathNoExt);
+                mAllPrefabObj = Resources.LoadAll<Object>(m_loadPath);
 
                 if (mAllPrefabObj != null)
                 {

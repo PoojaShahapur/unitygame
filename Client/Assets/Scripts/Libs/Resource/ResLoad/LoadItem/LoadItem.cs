@@ -9,9 +9,10 @@ namespace SDK.Lib
         protected ResPackType m_resPackType;
         protected ResLoadType m_resLoadType;   // 资源加载类型
 
-        protected string m_path;                // 完整的目录
-        protected string m_pathNoExt;           // 不包括扩展名字的路径
+        protected string m_loadPath;            // 完整的目录
+        protected string m_origPath;            // 原始的资源目录
         protected string m_extName;             // 扩展名字
+        protected string mLogicPath;
 
         protected WWW m_w3File;
         protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
@@ -40,27 +41,27 @@ namespace SDK.Lib
             }
         }
 
-        public string path
+        public string loadPath
         {
             get
             {
-                return m_path;
+                return m_loadPath;
             }
             set
             {
-                m_path = value;
+                m_loadPath = value;
             }
         }
 
-        public string pathNoExt
+        public string origPath
         {
             get
             {
-                return m_pathNoExt;
+                return m_origPath;
             }
             set
             {
-                m_pathNoExt = value;
+                m_origPath = value;
             }
         }
 
@@ -120,6 +121,16 @@ namespace SDK.Lib
             }
         }
 
+        public void setLogicPath(string value)
+        {
+            mLogicPath = value;
+        }
+
+        public string getLogicPath()
+        {
+            return mLogicPath;
+        }
+
         public NonRefCountResLoadResultNotify nonRefCountResLoadResultNotify
         {
             get
@@ -166,7 +177,7 @@ namespace SDK.Lib
         virtual public void reset()
         {
             //m_type = ResType.eNoneType;
-            m_path = "";
+            m_loadPath = "";
             //m_loadNeedCoroutine = false;
             m_w3File = null;
             m_loadNeedCoroutine = false;
@@ -177,11 +188,11 @@ namespace SDK.Lib
             string path = "";
             if (m_resLoadType == ResLoadType.eLoadDicWeb)
             {
-                path = "file://" + Application.dataPath + "/" + m_path;
+                path = "file://" + Application.dataPath + "/" + m_loadPath;
             }
             else if (m_resLoadType == ResLoadType.eLoadWeb)
             {
-                path = Ctx.m_instance.m_cfg.m_webIP + m_path;
+                path = Ctx.m_instance.m_cfg.m_webIP + m_loadPath;
             }
             deleteFromCache(path);
             m_w3File = WWW.LoadFromCacheOrDownload(path, 1);
@@ -226,6 +237,18 @@ namespace SDK.Lib
                 //Caching.DeleteFromCache(path);
                 Caching.CleanCache();
             }
+        }
+
+        public void setLoadParam(LoadParam param)
+        {
+            this.resPackType = param.m_resPackType;
+            this.resLoadType = param.m_resLoadType;
+            this.loadPath = param.mLoadPath;
+            this.origPath = param.m_origPath;
+            this.extName = param.extName;
+            this.loadNeedCoroutine = param.m_loadNeedCoroutine;
+            this.setLoadAll(param.mIsLoadAll);
+            this.setLogicPath(param.mLogicPath);
         }
     }
 }

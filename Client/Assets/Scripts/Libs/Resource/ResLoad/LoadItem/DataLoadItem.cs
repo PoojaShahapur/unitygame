@@ -53,22 +53,22 @@ namespace SDK.Lib
             {
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
-                m_localPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_path));
+                m_localPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
                 if (!string.IsNullOrEmpty(m_version))
                 {
                     m_localPath = UtilLogic.combineVerPath(m_localPath, m_version);
                 }
 
-                Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", m_path));
+                Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", m_loadPath));
                 Ctx.m_instance.m_TaskQueue.push(this);
             }
         }
 
         protected void loadFromStreamingAssets()
         {
-            if (Ctx.m_instance.m_fileSys.isFileExist(m_path))
+            if (Ctx.m_instance.m_fileSys.isFileExist(m_loadPath))
             {
-                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(m_path);
+                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(m_loadPath);
             }
 
             if (m_bytes != null)
@@ -83,10 +83,10 @@ namespace SDK.Lib
 
         protected void loadFromPersistentData()
         {
-            string verPath = m_path;
+            string verPath = m_loadPath;
             if(!string.IsNullOrEmpty(m_version))
             {
-                verPath = UtilLogic.combineVerPath(m_path, m_version);
+                verPath = UtilLogic.combineVerPath(m_loadPath, m_version);
             }
             if (Ctx.m_instance.m_fileSys.isFileExist(verPath))
             {
@@ -107,8 +107,8 @@ namespace SDK.Lib
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100
         override protected IEnumerator downloadAsset()
         {
-            deleteFromCache(m_path);
-            m_w3File = WWW.LoadFromCacheOrDownload(m_path, Int32.Parse(m_version));
+            deleteFromCache(m_loadPath);
+            m_w3File = WWW.LoadFromCacheOrDownload(m_loadPath, Int32.Parse(m_version));
             yield return m_w3File;
 
             onWWWEnd();
@@ -133,8 +133,8 @@ namespace SDK.Lib
         // 协程下载
         protected IEnumerator coroutWebDown()
         {
-            string uri = UtilLogic.webFullPath(m_path);
-            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), m_path);
+            string uri = UtilLogic.webFullPath(m_loadPath);
+            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), m_loadPath);
 
             //try
             {
@@ -207,9 +207,9 @@ namespace SDK.Lib
         // 线程下载
         public void runTask()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("线程开始下载下载任务 {0}", m_path));
+            Ctx.m_instance.m_logSys.log(string.Format("线程开始下载下载任务 {0}", m_loadPath));
 
-            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_path));
+            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
             string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
             bool bNeedReName = false;
             if (!string.IsNullOrEmpty(m_version))
@@ -223,11 +223,11 @@ namespace SDK.Lib
                 string webPath;
                 if (!string.IsNullOrEmpty(m_version))
                 {
-                    webPath = string.Format("{0}?v={1}", m_path, m_version);
+                    webPath = string.Format("{0}?v={1}", m_loadPath, m_version);
                 }
                 else
                 {
-                    webPath = m_path;
+                    webPath = m_loadPath;
                 }
 
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(webPath);
@@ -303,7 +303,7 @@ namespace SDK.Lib
                     fileStream.Write(m_bytes, 0, nReadSize);
                     readedLength += nReadSize;
                     //logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
-                    logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", m_path, fileStream.Length, contentLength);
+                    logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", m_loadPath, fileStream.Length, contentLength);
                     Ctx.m_instance.m_logSys.log(logStr);
 
                     if (isBytesValid)
@@ -354,12 +354,12 @@ namespace SDK.Lib
 
         protected void onRunTaskEnd()
         {
-            Ctx.m_instance.m_logSys.log(string.Format("线程结束下载下载任务 {0}", m_path));
+            Ctx.m_instance.m_logSys.log(string.Format("线程结束下载下载任务 {0}", m_loadPath));
 
             LoadedWebResMR pRoute = Ctx.m_instance.m_poolSys.newObject<LoadedWebResMR>();
             pRoute.m_task = this;
 
-            Ctx.m_instance.m_logSys.log(string.Format("线程下载结果推动给主线程 {0}", m_path));
+            Ctx.m_instance.m_logSys.log(string.Format("线程下载结果推动给主线程 {0}", m_loadPath));
 
             Ctx.m_instance.m_sysMsgRoute.push(pRoute);
         }

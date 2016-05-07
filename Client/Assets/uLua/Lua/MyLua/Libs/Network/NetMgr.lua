@@ -7,7 +7,7 @@ M.clsName = "NetMgr";
 GlobalNS[M.clsName] = M;
 
 function M:init()
-    GlobalNS.ProtobufUtil.registerAll();
+    --GlobalNS.ProtobufUtil.registerAll();
 end
 
 function M:postCommand(id, data)

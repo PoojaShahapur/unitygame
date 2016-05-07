@@ -59,12 +59,12 @@ namespace SDK.Lib
         {
             if (m_modelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), onSubModelLoaded);
+                Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), onSubModelLoaded);
                 m_modelRes = null;
             }
             if (m_skinRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_skinRes.GetPath(), onSubModelLoaded);
+                Ctx.m_instance.m_modelMgr.unload(m_skinRes.getResUniqueId(), onSubModelLoaded);
                 m_skinRes = null;
             }
         }
@@ -127,7 +127,7 @@ namespace SDK.Lib
             {
                 if(m_modelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), onSubModelLoaded);
+                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), onSubModelLoaded);
                     m_modelRes = null;
                 }
 
@@ -150,7 +150,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_modelMgr.unload(res.GetPath(), onSubModelLoaded);
+                Ctx.m_instance.m_modelMgr.unload(res.getResUniqueId(), onSubModelLoaded);
                 m_modelRes = null;
             }
         }
@@ -161,7 +161,7 @@ namespace SDK.Lib
             {
                 if (m_skinRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_skinRes.GetPath(), onSubModelLoaded);
+                    Ctx.m_instance.m_modelMgr.unload(m_skinRes.getResUniqueId(), onSubModelLoaded);
                     m_skinRes = null;
                 }
 
@@ -187,14 +187,14 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_modelMgr.unload(res.GetPath(), onSkinLoaded);
+                Ctx.m_instance.m_modelMgr.unload(res.getResUniqueId(), onSkinLoaded);
                 m_skinRes = null;
             }
         }
 
         public void linkSkelModel()
         {
-            m_modelGo = m_modelRes.InstantiateObject(m_modelRes.GetPath());
+            m_modelGo = m_modelRes.InstantiateObject(m_modelRes.getPrefabName());
             UtilApi.SetParent(m_modelGo, m_skelRootGo);
             if (m_skinRes.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {

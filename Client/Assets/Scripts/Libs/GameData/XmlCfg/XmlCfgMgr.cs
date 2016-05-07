@@ -13,7 +13,7 @@ namespace SDK.Lib
             m_id2CfgDic[id] = item;
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(item.m_path, param);
+            param.setPath(item.m_path);
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
@@ -27,20 +27,20 @@ namespace SDK.Lib
             m_res = dispObj as ResItem;
             if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
 
                 string text = m_res.getText("");
                 if (text != null)
                 {
-                    m_id2CfgDic[getXmlCfgIDByPath(m_res.GetPath())].parseXml(text);
+                    m_id2CfgDic[getXmlCfgIDByPath(m_res.getLogicPath())].parseXml(text);
                 }
             }
             else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
             }
 
-            Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(m_res.getResUniqueId(), onLoadEventHandle);
         }
 
         protected XmlCfgID getXmlCfgIDByPath(string path)

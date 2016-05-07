@@ -29,12 +29,12 @@ namespace UnitTest
                 {
                     evt = new ResInsEventDispatch();
                     evt.addEventHandle(onResIns);
-                    mPrefabRes.InstantiateObject(mPrefabRes.GetPath(), evt);
+                    mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), evt);
                 }
             }
             else if(mPrefabRes.hasFailed())
             {
-                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.GetPath(), onResLoaded);
+                Ctx.m_instance.m_prefabMgr.unload(mPrefabRes.getResUniqueId(), onResLoaded);
             }
         }
 

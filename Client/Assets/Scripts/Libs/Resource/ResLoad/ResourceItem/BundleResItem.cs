@@ -33,7 +33,7 @@ namespace SDK.Lib
 
         protected void initAsset()
         {
-            if (!string.IsNullOrEmpty(m_path))
+            if (!string.IsNullOrEmpty(m_loadPath))
             {
                 // Unity5
                 //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
@@ -48,11 +48,11 @@ namespace SDK.Lib
 
         protected IEnumerator initAssetByCoroutine()
         {
-            if (!string.IsNullOrEmpty(m_path))
+            if (!string.IsNullOrEmpty(m_loadPath))
             {
 #if UNITY_5
                 // Unity5
-                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_path);
+                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_loadPath);
 #elif UNITY_4_6 || UNITY_4_5
                 // Unity4
                 AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));

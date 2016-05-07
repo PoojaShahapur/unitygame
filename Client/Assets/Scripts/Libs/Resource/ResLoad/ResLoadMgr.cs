@@ -90,15 +90,15 @@ namespace SDK.Lib
             
             if (ResLoadType.eStreamingAssets == param.m_resLoadType)
             {
-                param.m_path = Path.Combine(Ctx.m_instance.m_fileSys.getLocalReadDir(), param.m_path);
+                param.mLoadPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalReadDir(), param.mLoadPath);
             }
             else if (ResLoadType.ePersistentData == param.m_resLoadType)
             {
-                param.m_path = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), param.m_path);
+                param.mLoadPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), param.mLoadPath);
             }
             else if (ResLoadType.eLoadWeb == param.m_resLoadType)
             {
-                param.m_path = Path.Combine(Ctx.m_instance.m_cfg.m_webIP, param.m_path);
+                param.mLoadPath = Path.Combine(Ctx.m_instance.m_cfg.m_webIP, param.mLoadPath);
             }
             //if (!string.IsNullOrEmpty(param.m_version))
             //{
@@ -148,7 +148,7 @@ namespace SDK.Lib
 
             if (MacroDef.PKG_RES_LOAD)
             {
-                if (param.m_path.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
+                if (param.mLoadPath.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件
                 {
                     param.m_resPackType = ResPackType.ePakType;
                 }
@@ -174,7 +174,7 @@ namespace SDK.Lib
             }
             else
             {
-                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.m_path)))
+                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.mLoadPath)))
                 {
                     loadBundle(param);
                 }
@@ -270,13 +270,7 @@ namespace SDK.Lib
             //}
 
             resItem.refCountResLoadResultNotify.refCount.incRef();
-            resItem.resNeedCoroutine = param.m_resNeedCoroutine;
-            resItem.resPackType = param.m_resPackType;
-            resItem.resLoadType = param.m_resLoadType;
-            resItem.path = param.m_path;
-            resItem.pathNoExt = param.m_pathNoExt;
-            resItem.setLoadAll(param.mIsLoadAll);
-            resItem.extName = param.extName;
+            resItem.setLoadParam(param);
 
             if (param.m_loadEventHandle != null)
             {
@@ -337,13 +331,7 @@ namespace SDK.Lib
                 }
             }
 
-            loadItem.resPackType = param.m_resPackType;
-            loadItem.resLoadType = param.m_resLoadType;
-            loadItem.path = param.m_path;
-            loadItem.pathNoExt = param.m_pathNoExt;
-            loadItem.extName = param.extName;
-            loadItem.loadNeedCoroutine = param.m_loadNeedCoroutine;
-            loadItem.setLoadAll(param.mIsLoadAll);
+            loadItem.setLoadParam(param);
             loadItem.nonRefCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onLoadEventHandle);
 
             return loadItem;
@@ -352,19 +340,19 @@ namespace SDK.Lib
         // 资源创建并且正在被加载
         protected void loadWithResCreatedAndLoad(LoadParam param)
         {
-            m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.refCount.incRef();
-            if (m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.resLoadState.hasLoaded())
+            m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
+            if (m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    param.m_loadEventHandle(m_LoadData.m_path2Res[param.m_path]);
+                    param.m_loadEventHandle(m_LoadData.m_path2Res[param.mResUniqueId]);
                 }
             }
             else
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
                 }
             }
 
@@ -373,16 +361,16 @@ namespace SDK.Lib
 
         protected void loadWithResCreatedAndNotLoad(LoadParam param, ResItem resItem)
         {
-            m_LoadData.m_path2Res[param.m_path] = resItem;
-            m_LoadData.m_path2Res[param.m_path].refCountResLoadResultNotify.resLoadState.setLoading();
+            m_LoadData.m_path2Res[param.mResUniqueId] = resItem;
+            m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
             LoadItem loadItem = createLoadItem(param);
 
             if (m_curNum < m_maxParral)
             {
                 // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
                 ++m_curNum;
-                m_LoadData.m_path2LDItem[param.m_path] = loadItem;
-                m_LoadData.m_path2LDItem[param.m_path].load();
+                m_LoadData.m_path2LDItem[param.mResUniqueId] = loadItem;
+                m_LoadData.m_path2LDItem[param.mResUniqueId].load();
             }
             else
             {
@@ -402,13 +390,13 @@ namespace SDK.Lib
         public void load(LoadParam param)
         {
             ++m_loadingDepth;
-            if (m_LoadData.m_path2Res.ContainsKey(param.m_path))
+            if (m_LoadData.m_path2Res.ContainsKey(param.mResUniqueId))
             {
                 loadWithResCreatedAndLoad(param);
             }
             else if(param.m_loadRes != null)
             {
-                loadWithResCreatedAndNotLoad(param, m_LoadData.m_path2Res[param.m_path]);
+                loadWithResCreatedAndNotLoad(param, m_LoadData.m_path2Res[param.mResUniqueId]);
             }
             else
             {
@@ -426,7 +414,7 @@ namespace SDK.Lib
         {
             param.resolvePath();
             load(param);
-            return getResource(param.m_path);
+            return getResource(param.mResUniqueId);
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
@@ -515,9 +503,9 @@ namespace SDK.Lib
 
         public void onLoaded(LoadItem item)
         {
-            if (m_LoadData.m_path2Res.ContainsKey(item.path))
+            if (m_LoadData.m_path2Res.ContainsKey(item.getResUniqueId()))
             {
-                m_LoadData.m_path2Res[item.path].init(m_LoadData.m_path2LDItem[item.path]);
+                m_LoadData.m_path2Res[item.getResUniqueId()].init(m_LoadData.m_path2LDItem[item.getResUniqueId()]);
             }
             else        // 如果资源已经没有使用的地方了
             {
@@ -527,10 +515,10 @@ namespace SDK.Lib
 
         public void onFailed(LoadItem item)
         {
-            string path = item.path;
-            if (m_LoadData.m_path2Res.ContainsKey(path))
+            string resUniqueId = item.getResUniqueId();
+            if (m_LoadData.m_path2Res.ContainsKey(resUniqueId))
             {
-                m_LoadData.m_path2Res[path].failed(m_LoadData.m_path2LDItem[path]);
+                m_LoadData.m_path2Res[resUniqueId].failed(m_LoadData.m_path2LDItem[resUniqueId]);
             }
         }
 
@@ -538,7 +526,7 @@ namespace SDK.Lib
         {
             item.reset();
             m_LoadData.m_noUsedLDItem.Add(item);
-            m_LoadData.m_path2LDItem.Remove(item.path);
+            m_LoadData.m_path2LDItem.Remove(item.getResUniqueId());
         }
 
         protected void loadNextItem()
@@ -547,10 +535,10 @@ namespace SDK.Lib
             {
                 if (m_LoadData.m_willLDItem.Count > 0)
                 {
-                    string path = (m_LoadData.m_willLDItem[0] as LoadItem).path;
-                    m_LoadData.m_path2LDItem[path] = m_LoadData.m_willLDItem[0] as LoadItem;
+                    string resUniqueId = (m_LoadData.m_willLDItem[0] as LoadItem).getResUniqueId();
+                    m_LoadData.m_path2LDItem[resUniqueId] = m_LoadData.m_willLDItem[0] as LoadItem;
                     m_LoadData.m_willLDItem.RemoveAt(0);
-                    m_LoadData.m_path2LDItem[path].load();
+                    m_LoadData.m_path2LDItem[resUniqueId].load();
 
                     ++m_curNum;
                 }

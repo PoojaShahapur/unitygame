@@ -52,7 +52,7 @@ namespace SDK.Lib
             m_res = dispObj as ModelRes;
             if (m_res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, m_res.getLoadPath());
 
                 m_selfGo = m_res.InstantiateObject(m_path);
                 m_selfGo.transform.SetParent(m_selfLocalGo.transform, false);
@@ -64,7 +64,7 @@ namespace SDK.Lib
             else if (m_res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
                 m_res = dispObj as ModelRes;
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, m_res.getLoadPath());
 
                 // 卸载资源
                 //Ctx.m_instance.m_resLoadMgr.unload(m_res.GetPath());
@@ -88,7 +88,7 @@ namespace SDK.Lib
 
             if (m_res != null)
             {
-                if (m_res.GetPath() != m_path)
+                if (m_res.getLogicPath() != m_path)
                 {
                     unload();
                 }
@@ -103,7 +103,7 @@ namespace SDK.Lib
                 {
                     LoadParam param;
                     param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                    param.m_path = m_path;
+                    param.setPath(m_path);
                     param.m_loadEventHandle = onLoadEventHandle;
                     Ctx.m_instance.m_modelMgr.load<ModelRes>(param);
                     Ctx.m_instance.m_poolSys.deleteObj(param);

@@ -37,7 +37,7 @@
 
             if(m_modelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), null);
+                Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
                 m_modelRes = null;
             }
             
@@ -50,7 +50,7 @@
             {
                 if(m_modelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), null);
+                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
                     m_modelRes = null;
                 }
                 if(m_selfGo != null)
@@ -61,7 +61,7 @@
 
                 LoadParam param;
                 param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.m_path = m_resPath;
+                param.setPath(m_resPath);
 
                 // 这个需要立即加载
                 param.m_loadNeedCoroutine = false;

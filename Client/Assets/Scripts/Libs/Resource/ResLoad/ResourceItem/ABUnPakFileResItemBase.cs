@@ -15,7 +15,7 @@ namespace SDK.Lib
         public void initByBytes(byte[] bytes, string prefixPath)
         {
             m_bytes = bytes;
-            m_bundlePath = Path.Combine(prefixPath, m_path);
+            m_bundlePath = Path.Combine(prefixPath, m_loadPath);
 
             // 检查是否资源打包成 unity3d 
             if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)

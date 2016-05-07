@@ -63,7 +63,7 @@ namespace SDK.Lib
             {
                 if (m_texRes != null)
                 {
-                    Ctx.m_instance.m_texMgr.unload(m_texRes.GetPath(), null);
+                    Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
                     m_texRes = null;
                 }
                 m_texRes = Ctx.m_instance.m_texMgr.getAndSyncLoad<TextureRes>(m_texPath);
@@ -87,7 +87,7 @@ namespace SDK.Lib
             base.dispose();
             if (m_texRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(m_texRes.GetPath(), null);
+                Ctx.m_instance.m_texMgr.unload(m_texRes.getResUniqueId(), null);
                 m_texRes = null;
             }
         }

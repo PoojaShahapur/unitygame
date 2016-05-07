@@ -14,7 +14,7 @@
 
         override protected void initImpl(ResItem res)
         {
-            string text = res.getText(GetPath());
+            string text = res.getText(this.getPrefabName());
             m_attackActionSeq = new AttackActionSeq();
             m_attackActionSeq.parseXml(text);
 

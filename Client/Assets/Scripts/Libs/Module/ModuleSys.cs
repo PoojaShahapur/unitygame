@@ -47,7 +47,7 @@ namespace SDK.Lib
             {
                 // 初始化完成，开始加载自己的游戏场景
                 LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                MFileSys.modifyLoadParam(m_type2ItemDic[moduleID].m_path, param);
+                param.setPath(m_type2ItemDic[moduleID].m_path);
                 param.m_loadEventHandle = m_type2ItemDic[moduleID].m_loadEventHandle;
                 Ctx.m_instance.m_resLoadMgr.loadResources(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
@@ -130,7 +130,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.AUTOUPDATEMN] = res.InstantiateObject(m_type2ItemDic[ModuleID.AUTOUPDATEMN].m_path);
                 Ctx.m_instance.m_layerMgr.m_path2Go[ModulePath.AUTOUPDATEMN].name = ModuleName.AUTOUPDATEMN;
@@ -148,9 +148,9 @@ namespace SDK.Lib
         public void onModuleFailed(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+            Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
 
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoginLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoginLoadEventHandle);
         }
     }
 }

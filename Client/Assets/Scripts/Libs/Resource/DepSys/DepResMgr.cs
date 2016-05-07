@@ -42,12 +42,12 @@ namespace SDK.Lib
 
         public void initialize()
         {
-            MFileSys.initABRootPath();
+            ResPathResolve.initABRootPath();
 
             string platformFolderForAssetBundles = UtilApi.getManifestName();
             // AssetBundleManifest 必须同步加载，加载完成这个以后再加载其它资源
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = platformFolderForAssetBundles;
+            param.setPath(platformFolderForAssetBundles);
             param.m_loadEventHandle = onLoadEventHandle;
 
             param.m_loadNeedCoroutine = false;
@@ -104,7 +104,7 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         // 只检查是否有依赖资源，如果有依赖的资源，就算是有依赖的资源
@@ -177,11 +177,11 @@ namespace SDK.Lib
 
         public void loadRes(LoadParam loadParam)
         {
-            m_resAndDepItemDic[loadParam.m_path] = new ResAndDepItem();
-            m_resAndDepItemDic[loadParam.m_path].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            m_resAndDepItemDic[loadParam.m_path].m_loadParam.copyFrom(loadParam);
-            m_resAndDepItemDic[loadParam.m_path].m_depNameArr = m_Dependencies[loadParam.m_path];
-            m_resAndDepItemDic[loadParam.m_path].loadDep();
+            m_resAndDepItemDic[loadParam.mResUniqueId] = new ResAndDepItem();
+            m_resAndDepItemDic[loadParam.mResUniqueId].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
+            m_resAndDepItemDic[loadParam.mResUniqueId].m_loadParam.copyFrom(loadParam);
+            m_resAndDepItemDic[loadParam.mResUniqueId].m_depNameArr = m_Dependencies[loadParam.mLoadPath];
+            m_resAndDepItemDic[loadParam.mResUniqueId].loadDep();
         }
 
         public void unLoadDep(string assetBundleName)

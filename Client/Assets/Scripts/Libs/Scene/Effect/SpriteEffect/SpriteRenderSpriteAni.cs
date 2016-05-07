@@ -37,7 +37,7 @@ namespace SDK.Lib
 
             if (m_effectPrefab != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_effectPrefab.GetPath(), null);
+                Ctx.m_instance.m_modelMgr.unload(m_effectPrefab.getResUniqueId(), null);
                 m_effectPrefab = null;
             }
         }

@@ -42,7 +42,7 @@ namespace SDK.Lib
         {
             if (m_controlRes != null)
             {
-                Ctx.m_instance.m_controllerMgr.unload(m_controlRes.GetPath(), null);
+                Ctx.m_instance.m_controllerMgr.unload(m_controlRes.getResUniqueId(), null);
                 m_controlRes = null;
             }
 
@@ -143,7 +143,7 @@ namespace SDK.Lib
             {
                 if (m_controlRes != null)
                 {
-                    Ctx.m_instance.m_controllerMgr.unload(m_controlRes.GetPath(), null);
+                    Ctx.m_instance.m_controllerMgr.unload(m_controlRes.getResUniqueId(), null);
                     m_controlRes = null;
 
                     if (m_animator != null)

@@ -82,7 +82,7 @@ namespace SDK.Lib
             //UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
 
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.m_path = path;
+            param.setPath(path);
 
             param.m_resLoadType = ResLoadType.eLoadWeb;
             param.m_version = fileInfo.m_fileMd5;
@@ -98,10 +98,10 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (dispObj as DataResItem).path));
+                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件成功 {0}", (dispObj as DataResItem).getLoadPath()));
 
-                m_loadedPath.Add((dispObj as DataResItem).path);
-                m_loadingPath.Remove((dispObj as DataResItem).path);
+                m_loadedPath.Add((dispObj as DataResItem).getResUniqueId());
+                m_loadingPath.Remove((dispObj as DataResItem).getResUniqueId());
 
                 if (m_loadingPath.Count == 0)
                 {
@@ -110,10 +110,10 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (dispObj as DataResItem).path));
+                Ctx.m_instance.m_logSys.log(string.Format("更新下载文件失败 {0}", (dispObj as DataResItem).getLoadPath()));
 
-                m_failedPath.Add((dispObj as DataResItem).path);
-                m_loadingPath.Remove((dispObj as DataResItem).path);
+                m_failedPath.Add((dispObj as DataResItem).getResUniqueId());
+                m_loadingPath.Remove((dispObj as DataResItem).getResUniqueId());
 
                 if (m_loadingPath.Count == 0)
                 {

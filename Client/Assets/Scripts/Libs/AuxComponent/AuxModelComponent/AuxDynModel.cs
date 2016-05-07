@@ -54,7 +54,7 @@
 
             if(m_modelRes != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), null);
+                Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
                 m_modelRes = null;
             }
 
@@ -90,7 +90,7 @@
             {
                 if(m_modelRes != null)
                 {
-                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.GetPath(), null);
+                    Ctx.m_instance.m_modelMgr.unload(m_modelRes.getResUniqueId(), null);
                     m_modelRes = null;
                 }
                 if(m_selfGo != null)

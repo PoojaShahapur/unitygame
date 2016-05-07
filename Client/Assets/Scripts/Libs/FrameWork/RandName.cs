@@ -25,7 +25,7 @@ namespace SDK.Lib
         {
             string name = "RandName.txt";
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            MFileSys.modifyLoadParam(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name), param);
+            param.setPath(Path.Combine(Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathWord], name));
             param.m_loadEventHandle = onLoadEventHandle;
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
@@ -39,7 +39,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
                 string text = res.getText("");
 
@@ -51,11 +51,11 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.GetPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.GetPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getLoadPath(), onLoadEventHandle);
         }
     }
 }

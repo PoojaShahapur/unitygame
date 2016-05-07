@@ -26,7 +26,7 @@
                 else
                 {
                     LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                    param.m_path = m_depNameArr[i];
+                    param.setPath(m_depNameArr[i]);
                     param.m_loadEventHandle = onLoadEventHandle;
                     param.m_loadNeedCoroutine = m_loadParam.m_loadNeedCoroutine;
                     param.m_resNeedCoroutine = m_loadParam.m_resNeedCoroutine;
@@ -49,7 +49,7 @@
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            mLoadedDepList.Add(res.GetPath());
+            mLoadedDepList.Add(res.getResUniqueId());
 
             loadMainRes();
         }

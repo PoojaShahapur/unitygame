@@ -160,7 +160,7 @@
         {
             if (m_atlasScriptRes != null)
             {
-                Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.GetPath(), null);
+                Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.getResUniqueId(), null);
                 m_atlasScriptRes = null;
             }
             m_playEndEventDispatch.clearEventHandle();
@@ -220,7 +220,7 @@
             {
                 if(m_atlasScriptRes != null)
                 {
-                    Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.GetPath(), null);
+                    Ctx.m_instance.m_atlasMgr.unload(m_atlasScriptRes.getResUniqueId(), null);
                     m_atlasScriptRes = null;
                 }
                 m_atlasScriptRes = Ctx.m_instance.m_atlasMgr.getAndSyncLoad<AtlasScriptRes>(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSpriteAni], m_tableBody.m_aniResName));

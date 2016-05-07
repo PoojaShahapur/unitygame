@@ -84,7 +84,7 @@ namespace BehaviorLibrary
         {
             if(m_btRes != null)
             {
-                Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(m_btRes.GetPath(), null);
+                Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(m_btRes.getResUniqueId(), null);
                 m_btRes = null;
             }
 

@@ -59,12 +59,12 @@ namespace SDK.Lib
 
             if (m_prefabRes != null)
             {
-                Ctx.m_instance.m_prefabMgr.unload(m_prefabRes.GetPath(), null);
+                Ctx.m_instance.m_prefabMgr.unload(m_prefabRes.getResUniqueId(), null);
                 m_prefabRes = null;
             }
             if (m_boxModel != null)
             {
-                Ctx.m_instance.m_modelMgr.unload(m_boxModel.GetPath(), null);
+                Ctx.m_instance.m_modelMgr.unload(m_boxModel.getResUniqueId(), null);
                 m_boxModel = null;
             }
         }
