@@ -22,6 +22,7 @@ namespace SDK.Lib
         public const string DOTUNITY3d = ".unity3d";
         public const string UNITY3d = "unity3d";
         public const string DOTPNG = ".png";
+        public const string kAssetBundlesOutputPath = "AssetBundles";
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {
@@ -1245,7 +1246,8 @@ namespace SDK.Lib
             y = (short)(y16);
         }
 
-        static public void CopyDirectory(string srcDir, string tgtDir)
+        // 递归拷贝目录
+        static public void recurseCopyDirectory(string srcDir, string tgtDir)
         {
             DirectoryInfo source = new DirectoryInfo(srcDir);
             DirectoryInfo target = new DirectoryInfo(tgtDir);
@@ -1276,33 +1278,56 @@ namespace SDK.Lib
 
             for (int j = 0; j < dirs.Length; j++)
             {
-                CopyDirectory(dirs[j].FullName, target.FullName + "/" + dirs[j].Name);
+                recurseCopyDirectory(dirs[j].FullName, target.FullName + "/" + dirs[j].Name);
             }
         }
 
-        public void DeleteFiles(string str)
+        public void recurseDeleteFiles(string str, MList<string> fileList, MList<string> extNameList)
         {
             DirectoryInfo fatherFolder = new DirectoryInfo(str);
             //删除当前文件夹内文件
             FileInfo[] files = fatherFolder.GetFiles();
+            int dotIdx = 0;
+            string extName = "";
+
             foreach (FileInfo file in files)
             {
                 string fileName = file.Name;
                 try
                 {
-                    if (!fileName.Equals("index.dat"))
+                    if (fileList != null)
                     {
-                        File.Delete(file.FullName);
+                        //if (!fileName.Equals("delFileName.dat"))
+                        //{
+                        //    File.Delete(file.FullName);
+                        //}
+                        if(fileList.IndexOf(fileName) != -1)
+                        {
+                            File.Delete(file.FullName);
+                        }
+                    }
+                    if(extNameList != null)
+                    {
+                        dotIdx = fileName.LastIndexOf(".");
+                        if(dotIdx != -1)
+                        {
+                            extName = fileName.Substring(dotIdx + 1);
+                            if(extNameList.IndexOf(extName) != -1)
+                            {
+                                File.Delete(file.FullName);
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
+                    Ctx.m_instance.m_logSys.log(ex.Message, LogTypeId.eLogCommon);
                 }
             }
             //递归删除子文件夹内文件
             foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
             {
-                DeleteFiles(childFolder.FullName);
+                recurseDeleteFiles(childFolder.FullName, fileList, extNameList);
             }
         }
     }

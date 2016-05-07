@@ -179,7 +179,7 @@ namespace EditorTool
                 path = ExportUtil.getWorkPath(m_assetOutPath);
                 if (!ExportUtil.bDirExist(path))
                 {
-                    ExportUtil.RecurCreateDirectory(path);
+                    ExportUtil.recurseCreateDirectory(path);
                 }
             }
 
@@ -189,7 +189,7 @@ namespace EditorTool
                 path = ExportUtil.getWorkPath(m_controllerOutPath);
                 if (!ExportUtil.bDirExist(path))
                 {
-                    ExportUtil.RecurCreateDirectory(path);
+                    ExportUtil.recurseCreateDirectory(path);
                 }
             }
         }

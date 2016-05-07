@@ -170,7 +170,7 @@ namespace EditorTool
         }
 
         // 递归创建目录
-        static public void RecurCreateStreamDirectory(string pathAndName)
+        static public void recurseCreateStreamDirectory(string pathAndName)
         {
             string curpath = "";
             string leftpath = "";
@@ -195,7 +195,7 @@ namespace EditorTool
             }
         }
 
-        static public void RecurCreateDirectory(string pathAndName)
+        static public void recurseCreateDirectory(string pathAndName)
         {
             string normPath = ExportUtil.normalPath(pathAndName);
             string[] pathArr = normPath.Split(new []{'/'});
@@ -440,7 +440,6 @@ namespace EditorTool
             return levels.ToArray();
         }
 
-#if UNITY_EDITOR
         public static string GetPlatformFolderForAssetBundles(BuildTarget target)
         {
             switch (target)
@@ -460,33 +459,6 @@ namespace EditorTool
                     return "OSX";
                 // Add more build targets for your own.
                 // If you add more targets, don't forget to add the same platforms to GetPlatformFolderForAssetBundles(RuntimePlatform) function.
-                default:
-                    return null;
-            }
-        }
-#endif
-
-        static string GetPlatformFolderForAssetBundles(RuntimePlatform platform)
-        {
-            platform = Application.platform;
-
-            switch (platform)
-            {
-                case RuntimePlatform.Android:
-                    return "Android";
-                case RuntimePlatform.IPhonePlayer:
-                    return "iOS";
-                case RuntimePlatform.WindowsWebPlayer:
-                case RuntimePlatform.OSXWebPlayer:
-                    return "WebPlayer";
-                case RuntimePlatform.WindowsEditor:
-                case RuntimePlatform.WindowsPlayer:
-                    return "Windows";
-                case RuntimePlatform.OSXEditor:
-                case RuntimePlatform.OSXPlayer:
-                    return "OSX";
-                // Add more build platform for your own.
-                // If you add more platforms, don't forget to add the same targets to GetPlatformFolderForAssetBundles(BuildTarget) function.
                 default:
                     return null;
             }
@@ -598,7 +570,6 @@ namespace EditorTool
         public static void CopyAssetBundlesTo(string srcPath, BuildTarget target)
         {
             string platForm = GetPlatformFolderForAssetBundles(target);
-            // Clear streaming assets folder.
             DeleteDirectory(Application.streamingAssetsPath);
             CreateDirectory(Application.streamingAssetsPath);
             // 放入平台单独的目录下

@@ -250,7 +250,6 @@ namespace SDK.Lib
                     resItem = new ABPakLevelFileResItem();
                 }
                 (resItem as ABPakLevelFileResItem).levelName = param.lvlName;
-                (resItem as ABPakLevelFileResItem).m_origPath = param.m_origPath;
             }
             //else if (ResPackType.ePakMemType == param.m_resPackType)
             //{

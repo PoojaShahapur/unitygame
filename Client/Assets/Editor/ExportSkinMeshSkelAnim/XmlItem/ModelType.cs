@@ -137,7 +137,7 @@ namespace EditorTool
             path = ExportUtil.getDataPath(m_subPath);
             if(!ExportUtil.bDirExist(path))
             {
-                ExportUtil.RecurCreateDirectory(path);
+                ExportUtil.recurseCreateDirectory(path);
             }
         }
 
