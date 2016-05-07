@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 打包的 Level stream 系统
@@ -10,7 +6,6 @@ namespace SDK.Lib
     public class ABPakLevelFileResItem : ABPakFileResItemBase
     {
         protected string m_levelName = "";
-        public string m_origPath = "";
 
         public string levelName
         {

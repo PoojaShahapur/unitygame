@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 打包的资源系统 base
