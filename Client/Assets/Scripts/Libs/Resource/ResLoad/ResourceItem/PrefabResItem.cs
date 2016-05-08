@@ -104,6 +104,8 @@ namespace SDK.Lib
 
         override public T[] loadAllAssets<T>()
         {
+            /*
+            // 使用 ArrayList，即使 ArrayList 中所有的类型都是 UnityEngine.Sprite ，也会导致不能使用 ToArray 转换成 UnityEngine.Sprite[] 数组形式
             ArrayList list = new ArrayList(mAllPrefabObj);
             int idx = mAllPrefabObj.Length - 1;
             while(idx >= 0)
@@ -116,6 +118,22 @@ namespace SDK.Lib
                 --idx;
             }
             return list.ToArray() as T[];
+            */
+
+            MList<T> list = new MList<T>();
+            int idx = 0;
+            int len = mAllPrefabObj.Length;
+            while(idx < len)
+            {
+                if(mAllPrefabObj[idx] is T)
+                {
+                    list.Add(mAllPrefabObj[idx] as T);
+                }
+
+                ++idx;
+            }
+
+            return list.ToArray();
         }
 
         override public byte[] getBytes(string resName)            // 获取字节数据
