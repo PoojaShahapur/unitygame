@@ -16,13 +16,13 @@ namespace SDK.Lib
 
         protected bool m_resNeedCoroutine;      // 资源是否需要协同程序
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
-        protected bool mIsLoaded;               // 是否加载所有的内容
+        protected bool mIsLoadedAll;               // 是否加载所有的内容
         protected string mResUniqueId;          // 资源唯一 Id，查找资源的索引
         protected string mLogicPath;
 
         public ResItem()
         {
-            mIsLoaded = false;
+            mIsLoadedAll = false;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
@@ -144,12 +144,12 @@ namespace SDK.Lib
 
         public void setLoadAll(bool value)
         {
-            mIsLoaded = value;
+            mIsLoadedAll = value;
         }
 
         public bool getLoadAll()
         {
-            return mIsLoaded;
+            return mIsLoadedAll;
         }
 
         public void setResUniqueId(string value)

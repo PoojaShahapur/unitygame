@@ -20,12 +20,12 @@ namespace SDK.Lib
         protected AssetBundle m_assetBundle;
 
         protected NonRefCountResLoadResultNotify m_nonRefCountResLoadResultNotify;
-        protected bool mIsLoaded;               // 是否加载所有的内容
+        protected bool mIsLoadedAll;               // 是否加载所有的内容
         protected string mResUniqueId;
 
         public LoadItem()
         {
-            mIsLoaded = false;
+            mIsLoadedAll = false;
             m_nonRefCountResLoadResultNotify = new NonRefCountResLoadResultNotify();
         }
 
@@ -145,12 +145,12 @@ namespace SDK.Lib
 
         public void setLoadAll(bool value)
         {
-            mIsLoaded = value;
+            mIsLoadedAll = value;
         }
 
         public bool getLoadAll()
         {
-            return mIsLoaded;
+            return mIsLoadedAll;
         }
 
         public void setResUniqueId(string value)

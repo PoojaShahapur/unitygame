@@ -56,7 +56,7 @@ namespace SDK.Lib
 
         public void syncLoad(string path)
         {
-            if(mPath != path && !string.IsNullOrEmpty(mPath))
+            if(mPath != path && !string.IsNullOrEmpty(path))
             {
                 unload();
                 mPath = path;
@@ -68,7 +68,7 @@ namespace SDK.Lib
         // 异步加载对象
         public void asyncLoad(string path, Action<IDispatchObject> dispObj)
         {
-            if(mPath != path && !string.IsNullOrEmpty(mPath))
+            if(mPath != path && !string.IsNullOrEmpty(path))
             {
                 unload();
                 mPath = path;
@@ -80,7 +80,7 @@ namespace SDK.Lib
 
         public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
         {
-            if (mPath != path && !string.IsNullOrEmpty(mPath))
+            if (mPath != path && !string.IsNullOrEmpty(path))
             {
                 unload();
                 mPath = path;

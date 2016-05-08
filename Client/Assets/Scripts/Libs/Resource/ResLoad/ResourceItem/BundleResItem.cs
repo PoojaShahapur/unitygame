@@ -136,6 +136,7 @@ namespace SDK.Lib
             return assets;
         }
 
+        // 这个是返回所有的对象，例如如果一个有纹理的精灵图集，如果使用这个接口，就会返回一个 Texture2D 和所有的 Sprite 列表，这个时候如果强制转换成 Sprite[]，就会失败
         override public UnityEngine.Object[] getAllObject()
         {
             UnityEngine.Object[] ret = m_bundle.LoadAllAssets<UnityEngine.Object>();

@@ -53,7 +53,7 @@ namespace SDK.Lib
             }
 
             // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getLoadPath(), onLoadEventHandle);
+            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         public bool doFilter(ref string str)

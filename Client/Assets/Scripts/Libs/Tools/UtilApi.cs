@@ -19,8 +19,8 @@ namespace SDK.Lib
         public const string FALSE = "false";
         public const string PREFAB_DOT_EXT = ".prefab";
         public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
-        public const string DOTUNITY3d = ".unity3d";
-        public const string UNITY3d = "unity3d";
+        public const string DOTUNITY3D = ".unity3d";
+        public const string UNITY3D = "unity3d";
         public const string DOTPNG = ".png";
         public const string kAssetBundlesOutputPath = "AssetBundles";
 
@@ -1248,7 +1248,7 @@ namespace SDK.Lib
 
         static public string getManifestName()
         {
-            return GetPlatformFolderForAssetBundles(Application.platform) + UtilApi.DOTUNITY3d;
+            return GetPlatformFolderForAssetBundles(Application.platform) + UtilApi.DOTUNITY3D;
         }
 
         static public void createMatIns(ref Material insMat, Material matTmpl, string matName = "", HideFlags hideFlags = HideFlags.DontSave | HideFlags.NotEditable)
@@ -1448,7 +1448,7 @@ namespace SDK.Lib
             }
         }
 
-        public void recurseDeleteFiles(string str, MList<string> fileList, MList<string> extNameList)
+        static public void recurseDeleteFiles(string str, MList<string> fileList, MList<string> extNameList)
         {
             DirectoryInfo fatherFolder = new DirectoryInfo(str);
             //删除当前文件夹内文件

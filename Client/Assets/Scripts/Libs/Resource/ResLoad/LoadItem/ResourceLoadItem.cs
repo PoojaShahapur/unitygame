@@ -56,7 +56,7 @@ namespace SDK.Lib
         protected void loadFromDefaultAssetBundle()
         {
             bool isSuccess = false;
-            if (!mIsLoaded)
+            if(!mIsLoadedAll)
             {
                 m_prefabObj = Resources.Load<Object>(m_loadPath);
                 if (m_prefabObj != null)
@@ -86,7 +86,7 @@ namespace SDK.Lib
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
         {
-            if (!mIsLoaded)
+            if(!mIsLoadedAll)
             {
                 ResourceRequest req = Resources.LoadAsync<Object>(m_loadPath);
                 yield return req;

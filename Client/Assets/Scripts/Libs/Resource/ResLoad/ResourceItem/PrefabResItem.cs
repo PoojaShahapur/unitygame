@@ -15,7 +15,7 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
-            if (!mIsLoaded)
+            if (!mIsLoadedAll)
             {
                 m_prefabObj = (item as ResourceLoadItem).prefabObj;
             }

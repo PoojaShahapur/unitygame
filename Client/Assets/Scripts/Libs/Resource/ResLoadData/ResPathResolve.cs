@@ -66,16 +66,11 @@ namespace SDK.Lib
         static public void initABRootPath()
         {
             string relativePath = "";
-            if (MacroDef.ASSETBUNDLES_LOAD)
-            {
-                relativePath = Application.streamingAssetsPath;
-            }
-            else
-            {
-                relativePath = Application.streamingAssetsPath;
-            }
-            string platformFolderForAssetBundles = UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
-            BaseDownloadingURL = relativePath + kAssetBundlesPath + platformFolderForAssetBundles;
+            //relativePath = Application.persistentDataPath;
+            relativePath = Application.streamingAssetsPath;
+            //string platformFolderForAssetBundles = UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
+            //BaseDownloadingURL = relativePath + kAssetBundlesPath + platformFolderForAssetBundles;
+            BaseDownloadingURL = relativePath;
         }
 
         // 转换 Resources 中的目录到 AssetBundles 中的目录

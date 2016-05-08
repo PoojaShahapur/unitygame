@@ -166,7 +166,7 @@ namespace SDK.Lib
             }
 
             // 如果直接加载的就是 AssetBundles 资源
-            if(m_extName != UtilApi.UNITY3d)
+            if(m_extName != UtilApi.UNITY3D)
             {
                 fullPath = ResPathResolve.convResourcesPath2AssetBundlesPath(m_origPath);
             }
@@ -184,7 +184,7 @@ namespace SDK.Lib
                 m_pathNoExt = fullPath.Substring(0, dotIdx);
             }
 
-            if (m_extName != UtilApi.UNITY3d)
+            if (m_extName != UtilApi.UNITY3D)
             {
                 m_prefabName = m_pathNoExt + "." + m_extName;
             }
@@ -196,7 +196,7 @@ namespace SDK.Lib
 
             if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                mLoadPath = m_pathNoExt + UtilApi.DOTUNITY3d;
+                mLoadPath = m_pathNoExt + UtilApi.DOTUNITY3D;
             }
             else
             {
