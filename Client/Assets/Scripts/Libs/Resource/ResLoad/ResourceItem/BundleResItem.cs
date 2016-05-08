@@ -9,6 +9,11 @@ namespace SDK.Lib
     public class BundleResItem : ResItem
     {
         protected AssetBundle m_bundle;
+        protected UnityEngine.Object m_prefabObj;       // 加载完成的 Prefab 对象
+        protected UnityEngine.Object[] mAllPrefabObj;   // 所有的 Prefab 对象
+
+        protected ResAndDepItem mResAndDepItem;
+        protected bool m_loadNeedCoroutine;
 
         public BundleResItem()
         {
@@ -20,6 +25,19 @@ namespace SDK.Lib
             base.init(item);
 
             m_bundle = item.assetBundle;
+            if(!hasDep())
+            {
+                onResLoaded();
+            }
+            else
+            {
+                loadDep();
+            }
+        }
+
+        // 资源加载完成调用
+        protected void onResLoaded()
+        {
             if (m_resNeedCoroutine)
             {
                 Ctx.m_instance.m_coroutineMgr.StartCoroutine(initAssetByCoroutine());
@@ -32,38 +50,75 @@ namespace SDK.Lib
 
         protected void initAsset()
         {
-            if (!string.IsNullOrEmpty(m_prefabName))
+            if (!string.IsNullOrEmpty(m_prefabName) && m_bundle.Contains(m_prefabName))
             {
                 // Unity5
                 //GameObject.Instantiate(m_bundle.LoadAsset(m_prefabName));
                 // Unity4
                 //GameObject.Instantiate(m_bundle.Load(m_prefabName));
                 //m_bundle.Unload(false);
+
+                if(!mIsLoadAll)
+                {
+#if UNITY_5
+                    // Unty5
+                    m_prefabObj = m_bundle.LoadAsset(m_prefabName);
+#elif UNITY_4_6
+                    // Unity4
+                    m_prefabObj = m_bundle.Load(m_prefabName);
+#endif
+                }
+                else
+                {
+#if UNITY_5
+                    mAllPrefabObj = m_bundle.LoadAllAssets<UnityEngine.Object>();
+#endif
+                }
             }
 
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
         {
-            if (!string.IsNullOrEmpty(m_prefabName))
+            if (!string.IsNullOrEmpty(m_prefabName) && m_bundle.Contains(m_prefabName))
             {
+                // 加载 Prefab 资源
+                AssetBundleRequest req = null;
+                if (!mIsLoadAll)
+                {
 #if UNITY_5
-                // Unity5
-                AssetBundleRequest req = m_bundle.LoadAssetAsync(m_prefabName);
+                    // Unity5
+                    req = m_bundle.LoadAssetAsync(m_prefabName);
 #elif UNITY_4_6 || UNITY_4_5
-                // Unity4
-                AssetBundleRequest req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
+                    // Unity4
+                    req = m_bundle.LoadAsync(m_prefabName, typeof(GameObject));
 #endif
-                yield return req;
+                    yield return req;
+
+                    m_prefabObj = req.asset;
+                }
+                else
+                {
+#if UNITY_5
+                    // Unity5
+                    req = m_bundle.LoadAllAssetsAsync<UnityEngine.Object>();
+#elif UNITY_4_6 || UNITY_4_5
+                    // Unity4
+                    req = m_bundle.LoadAllAsync<UnityEngine.Object>();
+#endif
+                    yield return req;
+
+                    mAllPrefabObj = req.allAssets;
+                }
 
                 //GameObject.Instantiate(req.asset);
                 //m_bundle.Unload(false);
             }
 
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             //yield return null;
             yield break;
@@ -75,9 +130,30 @@ namespace SDK.Lib
             m_bundle = null;
         }
 
-        override public void checkAndLoadDep()
+        protected bool hasDep()
         {
+            return Ctx.m_instance.m_depResMgr.hasDep(this.m_loadPath);
+        }
 
+        // 如果有依赖返回 true，没有就返回 false
+        protected void loadDep()
+        {
+            if(mResAndDepItem == null)
+            {
+                mResAndDepItem = new ResAndDepItem();
+            }
+
+            mResAndDepItem.addEventHandle(onDepResLoaded);
+            mResAndDepItem.mLoadPath = this.m_loadPath;
+            mResAndDepItem.m_loadNeedCoroutine = this.m_loadNeedCoroutine;
+            mResAndDepItem.m_resNeedCoroutine = this.m_resNeedCoroutine;
+            mResAndDepItem.loadDep();
+        }
+
+        // 依赖的资源加载完成
+        protected void onDepResLoaded(IDispatchObject dispObj)
+        {
+            onResLoaded();
         }
 
         override public GameObject InstantiateObject(string resName)
@@ -127,31 +203,56 @@ namespace SDK.Lib
             //string[] allName = m_bundle.AllAssetNames();
 
             //return m_bundle.Load(resName);
-            UnityEngine.Object assets = null;
-            if (m_bundle.Contains(resName))
+
+            if (resName == m_prefabName)
             {
+                return m_prefabObj;
+            }
+            else
+            {
+                UnityEngine.Object assets = null;
+                if (m_bundle.Contains(resName))
+                {
 #if UNITY_5
-                // Unty5
-                assets = m_bundle.LoadAsset(resName);
+                    // Unty5
+                    assets = m_bundle.LoadAsset(resName);
 #elif UNITY_4_6
                 // Unity4
                 assets = m_bundle.Load(resName);
 #endif
+                }
+                return assets;
             }
-            return assets;
         }
 
         // 这个是返回所有的对象，例如如果一个有纹理的精灵图集，如果使用这个接口，就会返回一个 Texture2D 和所有的 Sprite 列表，这个时候如果强制转换成 Sprite[]，就会失败
         override public UnityEngine.Object[] getAllObject()
         {
-            UnityEngine.Object[] ret = m_bundle.LoadAllAssets<UnityEngine.Object>();
-            return ret;
+            //UnityEngine.Object[] ret = m_bundle.LoadAllAssets<UnityEngine.Object>();
+            //return ret;
+
+            return mAllPrefabObj;
         }
 
         override public T[] loadAllAssets<T>()
         {
-            T[] ret = m_bundle.LoadAllAssets<T>();
-            return ret;
+            //T[] ret = m_bundle.LoadAllAssets<T>();
+            //return ret;
+
+            MList<T> list = new MList<T>();
+            int idx = 0;
+            int len = mAllPrefabObj.Length;
+            while (idx < len)
+            {
+                if (mAllPrefabObj[idx] is T)
+                {
+                    list.Add(mAllPrefabObj[idx] as T);
+                }
+
+                ++idx;
+            }
+
+            return list.ToArray();
         }
 
         override public void unload()
@@ -161,6 +262,17 @@ namespace SDK.Lib
             //Resources.UnloadUnusedAssets();
             //GC.Collect();
             m_bundle.Unload(false);
+
+            if(mResAndDepItem != null)
+            {
+                mResAndDepItem.unloadDep();
+            }
+        }
+
+        override public void setLoadParam(LoadParam param)
+        {
+            base.setLoadParam(param);
+            this.m_loadNeedCoroutine = param.m_loadNeedCoroutine;
         }
     }
 }

@@ -159,7 +159,7 @@ namespace SDK.Lib
             {
                 m_path2ResDic[path].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
                 m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
-                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.bNoRef())
+                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     if (m_loadingDepth != 0)       // 如果加载深度不是 0 的，说明正在加载，不能卸载对象
                     {
@@ -184,7 +184,7 @@ namespace SDK.Lib
         {
             foreach (string path in m_zeroRefResIDList)
             {
-                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.bNoRef())
+                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     unloadNoRef(path);
                 }

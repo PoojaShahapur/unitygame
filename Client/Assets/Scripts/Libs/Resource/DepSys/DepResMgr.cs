@@ -11,11 +11,9 @@ namespace SDK.Lib
         protected AssetBundleManifest m_AssetBundleManifest;
         protected string[] m_Variants = { };
         protected Dictionary<string, string[]> m_Dependencies;
-        protected Dictionary<string, ResAndDepItem> m_resAndDepItemDic;
 
         public DepResMgr()
         {
-            m_resAndDepItemDic = new Dictionary<string, ResAndDepItem>();
             m_AssetBundleManifest = null;
             m_Dependencies = new Dictionary<string, string[]>();
         }
@@ -53,8 +51,37 @@ namespace SDK.Lib
             param.m_loadNeedCoroutine = false;
             param.m_resNeedCoroutine = false;
 
-            Ctx.m_instance.m_resLoadMgr.loadResources(param, false);
+            Ctx.m_instance.m_resLoadMgr.loadResources(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
+        }
+
+        public string[] getDep(string assetBundleName)
+        {
+            if (m_Dependencies.ContainsKey(assetBundleName))
+            {
+                return m_Dependencies[assetBundleName];
+            }
+
+            return null;
+        }
+
+        public void loadDep(string assetBundleName)
+        {
+            if (!m_Dependencies.ContainsKey(assetBundleName))
+            {
+                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
+                if (dependencies.Length == 0)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < dependencies.Length; i++)
+                {
+                    dependencies[i] = RemapVariantName(dependencies[i]);
+                }
+
+                m_Dependencies.Add(assetBundleName, dependencies);
+            }
         }
 
         protected string RemapVariantName(string assetBundleName)
@@ -62,7 +89,9 @@ namespace SDK.Lib
             string[] bundlesWithVariant = m_AssetBundleManifest.GetAllAssetBundlesWithVariant();
 
             if (System.Array.IndexOf(bundlesWithVariant, assetBundleName) < 0)
+            {
                 return assetBundleName;
+            }
 
             string[] split = assetBundleName.Split('.');
 
@@ -73,7 +102,9 @@ namespace SDK.Lib
             {
                 string[] curSplit = bundlesWithVariant[i].Split('.');
                 if (curSplit[0] != split[0])
+                {
                     continue;
+                }
 
                 int found = System.Array.IndexOf(m_Variants, curSplit[1]);
                 if (found != -1 && found < bestFit)
@@ -84,9 +115,13 @@ namespace SDK.Lib
             }
 
             if (bestFitIndex != -1)
+            {
                 return bundlesWithVariant[bestFitIndex];
+            }
             else
+            {
                 return assetBundleName;
+            }
         }
 
         public void onLoadEventHandle(IDispatchObject dispObj)
@@ -100,7 +135,7 @@ namespace SDK.Lib
             }
             else if (res.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                
+                Ctx.m_instance.m_logSys.log("AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
             }
 
             // 卸载资源
@@ -116,16 +151,10 @@ namespace SDK.Lib
                 return false;
             }
 
+            loadDep(assetBundleName);
             if (!m_Dependencies.ContainsKey(assetBundleName))
             {
-                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
-                if (dependencies.Length == 0)
-                    return false;
-
-                for (int i = 0; i < dependencies.Length; i++)
-                    dependencies[i] = RemapVariantName(dependencies[i]);
-
-                m_Dependencies.Add(assetBundleName, dependencies);
+                return false;
             }
 
             return true;
@@ -136,13 +165,7 @@ namespace SDK.Lib
         {
             foreach(string depName in depList)
             {
-                ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(depName);
-                if(res == null)
-                {
-                    return false;
-                }
-                else if(!res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded() &&
-                    !res.refCountResLoadResultNotify.resLoadState.hasFailed())
+                if(!Ctx.m_instance.m_resLoadMgr.isResLoaded(depName))
                 {
                     return false;
                 }
@@ -160,43 +183,13 @@ namespace SDK.Lib
                 return true;
             }
 
-            if(!m_Dependencies.ContainsKey(assetBundleName))
+            loadDep(assetBundleName);
+            if (!m_Dependencies.ContainsKey(assetBundleName))
             {
-                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(assetBundleName);
-                if (dependencies.Length == 0)
-                    return true;
-
-                for (int i = 0; i < dependencies.Length; i++)
-                    dependencies[i] = RemapVariantName(dependencies[i]);
-
-                m_Dependencies.Add(assetBundleName, dependencies);
+                return true;
             }
 
             return checkIfAllDepLoaded(m_Dependencies[assetBundleName]);
-        }
-
-        public void loadRes(LoadParam loadParam)
-        {
-            m_resAndDepItemDic[loadParam.mResUniqueId] = new ResAndDepItem();
-            m_resAndDepItemDic[loadParam.mResUniqueId].m_loadParam = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            m_resAndDepItemDic[loadParam.mResUniqueId].m_loadParam.copyFrom(loadParam);
-            m_resAndDepItemDic[loadParam.mResUniqueId].m_depNameArr = m_Dependencies[loadParam.mLoadPath];
-            m_resAndDepItemDic[loadParam.mResUniqueId].loadDep();
-        }
-
-        public void unLoadDep(string assetBundleName)
-        {
-            // 主动加载的资源
-            if(m_resAndDepItemDic.ContainsKey(assetBundleName))
-            {
-                m_resAndDepItemDic[assetBundleName].unloadDep();
-                m_resAndDepItemDic.Remove(assetBundleName);
-            }
-            else
-            {
-                // 被动依赖的资源
-                Debug.Log("Error");
-            }
         }
     }
 }

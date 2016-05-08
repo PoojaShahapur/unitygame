@@ -125,7 +125,7 @@ namespace SDK.Lib
             {
                 m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
                 m_path2Image[spriteName].refCountResLoadResultNotify.refCount.decRef();
-                if(m_path2Image[spriteName].refCountResLoadResultNotify.refCount.bNoRef())
+                if(m_path2Image[spriteName].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     m_path2Image[spriteName].unloadImage();
                     m_path2Image.Remove(spriteName);

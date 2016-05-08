@@ -39,7 +39,7 @@
             --m_refNum;
         }
 
-        public bool bNoRef()
+        public bool isNoRef()
         {
             return m_refNum == 0;
         }

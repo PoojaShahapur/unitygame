@@ -8,14 +8,14 @@ namespace SDK.Lib
      */
     public class PrefabResItem : ResItem
     {
-        protected UnityEngine.Object m_prefabObj;   // 加载完成的 Prefab 对象
+        protected UnityEngine.Object m_prefabObj;       // 加载完成的 Prefab 对象
         protected UnityEngine.Object[] mAllPrefabObj;   // 所有的 Prefab 对象
         protected GameObject m_retGO;       // 方便调试的临时对象
 
         override public void init(LoadItem item)
         {
             base.init(item);
-            if (!mIsLoadedAll)
+            if (!mIsLoadAll)
             {
                 m_prefabObj = (item as ResourceLoadItem).prefabObj;
             }

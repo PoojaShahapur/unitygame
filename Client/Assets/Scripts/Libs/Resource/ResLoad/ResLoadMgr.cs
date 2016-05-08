@@ -142,7 +142,7 @@ namespace SDK.Lib
         }
 
         // eResourcesType 打包类型资源加载
-        public void loadResources(LoadParam param, bool bCheckDep = true)
+        public void loadResources(LoadParam param)
         {
             //param.resolvePath();
 
@@ -174,14 +174,7 @@ namespace SDK.Lib
             }
             else
             {
-                if (!bCheckDep || (bCheckDep && !Ctx.m_instance.m_depResMgr.hasDep(param.mLoadPath)))
-                {
-                    loadBundle(param);
-                }
-                else
-                {
-                    Ctx.m_instance.m_depResMgr.loadRes(param);
-                }
+                loadBundle(param);
             }
         }
 
@@ -419,20 +412,12 @@ namespace SDK.Lib
         // 这个卸载有引用计数，如果有引用计数就卸载不了
         public void unload(string path, Action<IDispatchObject> loadEventHandle)
         {
-            // 如果是 AssetBundles 加载，需要检查依赖性
-            if (MacroDef.ASSETBUNDLES_LOAD)
-            {
-                if(Ctx.m_instance.m_depResMgr.hasDep(path))
-                {
-                    Ctx.m_instance.m_depResMgr.unLoadDep(path);
-                }
-            }
-
             if (m_LoadData.m_path2Res.ContainsKey(path))
             {
+                // 移除事件监听器，因为很有可能移除的时候，资源还没加载完成，这个时候事件监听器中的处理函数列表还没有清理
                 m_LoadData.m_path2Res[path].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
                 m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.decRef();
-                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.bNoRef())
+                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     if (m_loadingDepth != 0)
                     {
@@ -457,7 +442,7 @@ namespace SDK.Lib
         {
             foreach(string path in m_zeroRefResIDList)
             {
-                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.bNoRef())
+                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     unloadNoRef(path);
                 }

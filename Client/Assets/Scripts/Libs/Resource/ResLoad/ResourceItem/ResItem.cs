@@ -16,13 +16,13 @@ namespace SDK.Lib
 
         protected bool m_resNeedCoroutine;      // 资源是否需要协同程序
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
-        protected bool mIsLoadedAll;               // 是否加载所有的内容
+        protected bool mIsLoadAll;               // 是否加载所有的内容
         protected string mResUniqueId;          // 资源唯一 Id，查找资源的索引
         protected string mLogicPath;
 
         public ResItem()
         {
-            mIsLoadedAll = false;
+            mIsLoadAll = false;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
@@ -144,12 +144,12 @@ namespace SDK.Lib
 
         public void setLoadAll(bool value)
         {
-            mIsLoadedAll = value;
+            mIsLoadAll = value;
         }
 
         public bool getLoadAll()
         {
-            return mIsLoadedAll;
+            return mIsLoadAll;
         }
 
         public void setResUniqueId(string value)
@@ -243,7 +243,7 @@ namespace SDK.Lib
             m_refCountResLoadResultNotify.copyFrom(rhv.refCountResLoadResultNotify);
         }
 
-        public void setLoadParam(LoadParam param)
+        virtual public void setLoadParam(LoadParam param)
         {
             this.resNeedCoroutine = param.m_resNeedCoroutine;
             this.resPackType = param.m_resPackType;
@@ -264,11 +264,6 @@ namespace SDK.Lib
         public bool hasFailed()
         {
             return m_refCountResLoadResultNotify.resLoadState.hasFailed();
-        }
-
-        virtual public void checkAndLoadDep()
-        {
-
         }
     }
 }
