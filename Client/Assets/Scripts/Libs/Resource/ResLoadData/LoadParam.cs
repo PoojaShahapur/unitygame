@@ -135,6 +135,8 @@ namespace SDK.Lib
             this.m_pathNoExt = rhs.m_pathNoExt;
             this.m_prefabName = rhs.m_prefabName;
             this.m_extName = rhs.m_extName;
+            this.mLogicPath = rhs.mLogicPath;
+            this.mResUniqueId = rhs.mResUniqueId;
 
             this.m_version = rhs.m_version;
             this.m_lvlName = rhs.m_lvlName;
@@ -175,6 +177,7 @@ namespace SDK.Lib
                 fullPath = m_origPath;
             }
 
+            dotIdx = fullPath.IndexOf(".");
             if (-1 == dotIdx)
             {
                 m_pathNoExt = fullPath;

@@ -44,15 +44,15 @@ namespace SDK.Lib
             return !mIsSuccess;
         }
 
-        //public string GetPath()
-        //{
-        //    if(mPrefabRes != null)
-        //    {
-        //        return mPrefabRes.GetPath();
-        //    }
+        public string getLogicPath()
+        {
+            if (mPrefabRes != null)
+            {
+                return mPrefabRes.getLogicPath();
+            }
 
-        //    return mPath;
-        //}
+            return mPath;
+        }
 
         public void syncLoad(string path)
         {
