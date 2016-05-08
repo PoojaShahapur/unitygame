@@ -7,12 +7,6 @@ namespace EditorTool
 {
     public class BuildScript
     {
-        [MenuItem("My/ExportPlayer/Window")]
-        public static void BuildWindowDebug()
-        {
-            BuildPlayer(BuildTarget.StandaloneWindows, false);
-        }
-
         public static void BuildAssetBundles(BuildTarget target)
         {
             string outputPath = Path.Combine(UtilApi.kAssetBundlesOutputPath, ExportUtil.GetPlatformFolderForAssetBundles(target));
