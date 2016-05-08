@@ -255,5 +255,15 @@ namespace SDK.Lib
             this.setResUniqueId(param.mResUniqueId);
             this.setLogicPath(param.mLogicPath);
         }
+
+        public bool hasSuccessLoaded()
+        {
+            return m_refCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+        }
+
+        public bool hasFailed()
+        {
+            return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+        }
     }
 }

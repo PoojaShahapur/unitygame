@@ -1,16 +1,42 @@
-﻿namespace SDK.Lib
+﻿using System;
+
+namespace SDK.Lib
 {
-    public class ResAndDepItem
+    public class ResAndDepItem : IDispatchObject
     {
         public LoadParam m_loadParam;           // 保存资源加载的参数
         public string[] m_depNameArr;           // 依赖的名字数组
-        public MList<string> mLoadedDepList;    // 加载的依赖列表
+        public MList<string> mLoadedDepList;    // 加载成功的依赖列表
+        public MList<string> mFailedDepList;    // 加载失败的依赖列表
         public bool mIsLoaded;                  // 是否已经加载
+        public ResEventDispatch mResEventDispatch;  // 资源加载完成事件分发
 
         public ResAndDepItem()
         {
             mIsLoaded = false;
             mLoadedDepList = new MList<string>();
+            mFailedDepList = new MList<string>();
+            mResEventDispatch = new ResEventDispatch();
+        }
+
+        public void addEventHandle(Action<IDispatchObject> handle)
+        {
+            mResEventDispatch.addEventHandle(handle);
+        }
+
+        public bool hasLoaded()
+        {
+            return mLoadedDepList.Count() + mFailedDepList.Count() == m_depNameArr.Length;
+        }
+
+        public bool hasSuccessLoaded()
+        {
+            return mLoadedDepList.Count() == m_depNameArr.Length;
+        }
+
+        public bool hasFailed()
+        {
+            return mFailedDepList.Count() > 0;
         }
 
         public void loadDep()
@@ -49,7 +75,14 @@
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             ResItem res = dispObj as ResItem;
-            mLoadedDepList.Add(res.getResUniqueId());
+            if (res.hasSuccessLoaded())
+            {
+                mLoadedDepList.Add(res.getResUniqueId());
+            }
+            else
+            {
+                mFailedDepList.Add(res.getResUniqueId());
+            }
 
             loadMainRes();
         }
@@ -58,12 +91,14 @@
         {
             if(!mIsLoaded)
             {
-                if (mLoadedDepList.Count() == m_depNameArr.Length)      // 如果依赖都加载完成
+                if (hasLoaded())      // 如果依赖都加载完成
                 {
                     mIsLoaded = true;
-                    Ctx.m_instance.m_resLoadMgr.loadResources(m_loadParam, false);    // 直接加载，不检查依赖
+                    //Ctx.m_instance.m_resLoadMgr.loadResources(m_loadParam, false);    // 直接加载，不检查依赖
                     Ctx.m_instance.m_poolSys.deleteObj(m_loadParam);
                     m_loadParam = null;
+
+                    mResEventDispatch.dispatchEvent(this);
                 }
             }
         }
