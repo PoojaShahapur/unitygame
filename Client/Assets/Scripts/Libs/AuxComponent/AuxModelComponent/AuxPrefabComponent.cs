@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -52,15 +54,38 @@ namespace SDK.Lib
         //    return mPath;
         //}
 
+        public void syncLoad(string path)
+        {
+            if(mPath != path && !string.IsNullOrEmpty(mPath))
+            {
+                unload();
+                mPath = path;
+                mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoadRes(path);
+                onPrefabLoaded(mPrefabRes);
+            }
+        }
+
         // 异步加载对象
         public void asyncLoad(string path, Action<IDispatchObject> dispObj)
         {
-            if(mPath != path)
+            if(mPath != path && !string.IsNullOrEmpty(mPath))
             {
                 unload();
                 mPath = path;
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(dispObj);
+                mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
+            }
+        }
+
+        public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
+        {
+            if (mPath != path && !string.IsNullOrEmpty(mPath))
+            {
+                unload();
+                mPath = path;
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, luaTable, luaFunction);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }
@@ -141,6 +166,21 @@ namespace SDK.Lib
                 mEvtHandle.clearEventHandle();
                 mEvtHandle = null;
             }
+        }
+
+        public GameObject getGameObject()
+        {
+            return this.m_selfGo;
+        }
+
+        public void setClientDispose()
+        {
+
+        }
+
+        public bool getClientDispose()
+        {
+            return false;
         }
     }
 }
