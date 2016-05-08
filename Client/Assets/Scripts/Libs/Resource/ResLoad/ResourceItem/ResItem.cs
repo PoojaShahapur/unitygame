@@ -265,5 +265,10 @@ namespace SDK.Lib
         {
             return m_refCountResLoadResultNotify.resLoadState.hasFailed();
         }
+
+        virtual public void checkAndLoadDep()
+        {
+
+        }
     }
 }

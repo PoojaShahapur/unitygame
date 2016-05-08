@@ -75,6 +75,11 @@ namespace SDK.Lib
             m_bundle = null;
         }
 
+        override public void checkAndLoadDep()
+        {
+
+        }
+
         override public GameObject InstantiateObject(string resName)
         {
             // Test 查看包内部资源
