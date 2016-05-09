@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class ScriptDynLoad : ResMgrBase
+    public class ScriptDynLoad : InsResMgrBase
     {
         public void registerScriptType(string path, System.Type scriptType)
         {

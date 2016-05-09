@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 地图集系统
      */
-    public class AtlasMgr : ResMgrBase
+    public class AtlasMgr : InsResMgrBase
     {
         public AtlasMgr()
         { 

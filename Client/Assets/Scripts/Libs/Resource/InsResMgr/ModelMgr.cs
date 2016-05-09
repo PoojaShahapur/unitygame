@@ -2,7 +2,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class ModelMgr : ResMgrBase
+    public class ModelMgr : InsResMgrBase
     {
         // ¼ÇÂ¼ÃÉÆ¤ÐÅÏ¢
         //protected Dictionary<string, Dictionary<string, string[]> > m_skinDic = new Dictionary<string,Dictionary<string,string[]>>();

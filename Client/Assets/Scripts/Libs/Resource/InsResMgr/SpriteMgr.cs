@@ -3,7 +3,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class SpriteMgr : ResMgrBase
+    public class SpriteMgr : InsResMgrBase
     {
         public SpriteAtlasRes getAndSyncLoadRes(string path)
         {

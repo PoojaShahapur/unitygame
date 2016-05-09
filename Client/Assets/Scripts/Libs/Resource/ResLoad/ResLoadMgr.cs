@@ -32,6 +32,28 @@ namespace SDK.Lib
             Ctx.m_instance.m_msgRouteList.addOneDisp(m_resMsgRouteCB);
         }
 
+        // 是否有正在加载的 LoadItem
+        public bool hasLoadItem(string resUniqueId)
+        {
+            foreach(LoadItem loadItem in m_LoadData.m_path2LDItem.Values)
+            {
+                if(loadItem.getResUniqueId() == resUniqueId)
+                {
+                    return true;
+                }
+            }
+
+            foreach(LoadItem loadItem in m_LoadData.m_willLDItem)
+            {
+                if (loadItem.getResUniqueId() == resUniqueId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         // 重置加载设置
         protected void resetLoadParam(LoadParam loadParam)
         {
@@ -141,8 +163,8 @@ namespace SDK.Lib
             }
         }
 
-        // eResourcesType 打包类型资源加载
-        public void loadResources(LoadParam param)
+        // eResourcesType 打包类型资源加载，isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
+        public void loadResources(LoadParam param, bool isCheckDep = true)
         {
             //param.resolvePath();
 
@@ -174,6 +196,7 @@ namespace SDK.Lib
             }
             else
             {
+                param.mIsCheckDep = isCheckDep;
                 loadBundle(param);
             }
         }
@@ -355,18 +378,22 @@ namespace SDK.Lib
         {
             m_LoadData.m_path2Res[param.mResUniqueId] = resItem;
             m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
-            LoadItem loadItem = createLoadItem(param);
+            // 如果不存在 LoadItem ，这个时候才需要创建，如果已经存在 LoadItem，这个时候不需要再次创建，这种情况通常发生在在加载一个资源，当 LoadItem 还没有加载完成，然后卸载了 ResItem，这个时候再次加载的时候，如果不判断，就会再次生成一个 LoadItem，这样 m_path2LDItem 字典里就会覆盖之前的 LoadItem，但是可能回调事件仍然存在，导致回调好几次
+            if (!hasLoadItem(param.mResUniqueId))
+            {
+                LoadItem loadItem = createLoadItem(param);
 
-            if (m_curNum < m_maxParral)
-            {
-                // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
-                ++m_curNum;
-                m_LoadData.m_path2LDItem[param.mResUniqueId] = loadItem;
-                m_LoadData.m_path2LDItem[param.mResUniqueId].load();
-            }
-            else
-            {
-                m_LoadData.m_willLDItem.Add(loadItem);
+                if (m_curNum < m_maxParral)
+                {
+                    // 先增加，否则退出的时候可能是先减 1 ，导致越界出现很大的值
+                    ++m_curNum;
+                    m_LoadData.m_path2LDItem[param.mResUniqueId] = loadItem;
+                    m_LoadData.m_path2LDItem[param.mResUniqueId].load();
+                }
+                else
+                {
+                    m_LoadData.m_willLDItem.Add(loadItem);
+                }
             }
 
             resetLoadParam(param);
@@ -410,31 +437,31 @@ namespace SDK.Lib
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
-        public void unload(string path, Action<IDispatchObject> loadEventHandle)
+        public void unload(string resUniqueId, Action<IDispatchObject> loadEventHandle)
         {
-            if (m_LoadData.m_path2Res.ContainsKey(path))
+            if (m_LoadData.m_path2Res.ContainsKey(resUniqueId))
             {
                 // 移除事件监听器，因为很有可能移除的时候，资源还没加载完成，这个时候事件监听器中的处理函数列表还没有清理
-                m_LoadData.m_path2Res[path].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
-                m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.decRef();
-                if (m_LoadData.m_path2Res[path].refCountResLoadResultNotify.refCount.isNoRef())
+                m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
+                m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
+                if (m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     if (m_loadingDepth != 0)
                     {
-                        addNoRefResID2List(path);
+                        addNoRefResID2List(resUniqueId);
                     }
                     else
                     {
-                        unloadNoRef(path);
+                        unloadNoRef(resUniqueId);
                     }
                 }
             }
         }
 
         // 添加无引用资源到 List
-        protected void addNoRefResID2List(string path)
+        protected void addNoRefResID2List(string resUniqueId)
         {
-            m_zeroRefResIDList.Add(path);
+            m_zeroRefResIDList.Add(resUniqueId);
         }
 
         // 卸载没有引用的资源列表中的资源
@@ -451,19 +478,33 @@ namespace SDK.Lib
         }
 
         // 不考虑引用计数，直接卸载
-        protected void unloadNoRef(string path)
+        protected void unloadNoRef(string resUniqueId)
         {
-            if (m_LoadData.m_path2Res.ContainsKey(path))
+            if (m_LoadData.m_path2Res.ContainsKey(resUniqueId))
             {
-                m_LoadData.m_path2Res[path].unload();
-                m_LoadData.m_path2Res[path].reset();
-                m_LoadData.m_noUsedResItem.Add(m_LoadData.m_path2Res[path]);
+                m_LoadData.m_path2Res[resUniqueId].unload();
+                m_LoadData.m_path2Res[resUniqueId].reset();
+                m_LoadData.m_noUsedResItem.Add(m_LoadData.m_path2Res[resUniqueId]);
+                m_LoadData.m_path2Res.Remove(resUniqueId);
 
-                m_LoadData.m_path2Res.Remove(path);
+                // 检查是否存在还没有执行的 LoadItem，如果存在就直接移除
+                removeWillLoadItem(resUniqueId);
             }
             else
             {
-                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", path));
+                Ctx.m_instance.m_logSys.log(string.Format("路径不能查找到 {0}", resUniqueId));
+            }
+        }
+
+        public void removeWillLoadItem(string resUniqueId)
+        {
+            foreach(LoadItem loadItem in m_LoadData.m_willLDItem)
+            {
+                if(loadItem.getResUniqueId() == resUniqueId)
+                {
+                    releaseLoadItem(loadItem);      // 必然只有一个，如果有多个就是错误
+                    break;
+                }
             }
         }
 
@@ -510,6 +551,7 @@ namespace SDK.Lib
         {
             item.reset();
             m_LoadData.m_noUsedLDItem.Add(item);
+            m_LoadData.m_willLDItem.Remove(item);
             m_LoadData.m_path2LDItem.Remove(item.getResUniqueId());
         }
 

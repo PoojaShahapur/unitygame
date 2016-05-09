@@ -2,7 +2,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class TextResMgr : ResMgrBase
+    public class TextResMgr : InsResMgrBase
     {
         public TextResMgr()
         {

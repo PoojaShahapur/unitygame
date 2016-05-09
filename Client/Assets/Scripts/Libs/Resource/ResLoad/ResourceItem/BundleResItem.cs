@@ -14,10 +14,11 @@ namespace SDK.Lib
 
         protected ResAndDepItem mResAndDepItem;
         protected bool m_loadNeedCoroutine;
+        protected bool mIsCheckDep;
 
         public BundleResItem()
         {
-
+            mIsCheckDep = false;
         }
 
         override public void init(LoadItem item)
@@ -25,7 +26,7 @@ namespace SDK.Lib
             base.init(item);
 
             m_bundle = item.assetBundle;
-            if(!hasDep())
+            if(!this.mIsCheckDep || !hasDep())  // 如果不检查依赖，或者没有依赖，直接进入加载完成
             {
                 onResLoaded();
             }
@@ -50,6 +51,8 @@ namespace SDK.Lib
 
         protected void initAsset()
         {
+            // 加载完成获取资源，目前用到的时候再获取
+            /*
             if (!string.IsNullOrEmpty(m_prefabName) && m_bundle.Contains(m_prefabName))
             {
                 // Unity5
@@ -75,6 +78,7 @@ namespace SDK.Lib
 #endif
                 }
             }
+            */
 
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
@@ -82,6 +86,8 @@ namespace SDK.Lib
 
         protected IEnumerator initAssetByCoroutine()
         {
+            // 加载完成获取资源，目前用到的时候再获取
+            /*
             if (!string.IsNullOrEmpty(m_prefabName) && m_bundle.Contains(m_prefabName))
             {
                 // 加载 Prefab 资源
@@ -116,6 +122,7 @@ namespace SDK.Lib
                 //GameObject.Instantiate(req.asset);
                 //m_bundle.Unload(false);
             }
+            */
 
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
@@ -128,6 +135,11 @@ namespace SDK.Lib
         {
             base.reset();
             m_bundle = null;
+            m_prefabObj = null;
+            mAllPrefabObj = null;
+            mResAndDepItem = null;
+            m_loadNeedCoroutine = false;
+            mIsCheckDep = false;
         }
 
         protected bool hasDep()
@@ -138,7 +150,8 @@ namespace SDK.Lib
         // 如果有依赖返回 true，没有就返回 false
         protected void loadDep()
         {
-            if(mResAndDepItem == null)
+            // 这个地方只有当资源从来没有加载过的时候，才会加载一次，如果已经加载不会再次进来，ResItem 的引用计数可能是多个，但是 ResItem 的 mResAndDepItem 中资源的引用计数就是 1，只有当 ResItem 卸载的时候，才会卸载 mResAndDepItem
+            if (mResAndDepItem == null)
             {
                 mResAndDepItem = new ResAndDepItem();
             }
@@ -204,7 +217,7 @@ namespace SDK.Lib
 
             //return m_bundle.Load(resName);
 
-            if (resName == m_prefabName)
+            if (resName == m_prefabName && m_prefabObj != null)
             {
                 return m_prefabObj;
             }
@@ -228,8 +241,10 @@ namespace SDK.Lib
         // 这个是返回所有的对象，例如如果一个有纹理的精灵图集，如果使用这个接口，就会返回一个 Texture2D 和所有的 Sprite 列表，这个时候如果强制转换成 Sprite[]，就会失败
         override public UnityEngine.Object[] getAllObject()
         {
-            //UnityEngine.Object[] ret = m_bundle.LoadAllAssets<UnityEngine.Object>();
-            //return ret;
+            if (mAllPrefabObj == null)
+            {
+                mAllPrefabObj = m_bundle.LoadAllAssets<UnityEngine.Object>();
+            }
 
             return mAllPrefabObj;
         }
@@ -238,6 +253,11 @@ namespace SDK.Lib
         {
             //T[] ret = m_bundle.LoadAllAssets<T>();
             //return ret;
+
+            if(mAllPrefabObj == null)
+            {
+                getAllObject();
+            }
 
             MList<T> list = new MList<T>();
             int idx = 0;
@@ -261,7 +281,14 @@ namespace SDK.Lib
             //m_bundle.Unload(true);
             //Resources.UnloadUnusedAssets();
             //GC.Collect();
-            m_bundle.Unload(false);
+            //m_bundle.Unload(false);
+
+            if (m_bundle != null)
+            {
+                UtilApi.UnloadAssetBundles(m_bundle, true);
+                //UtilApi.UnloadAssetBundles(m_bundle, false);
+                m_bundle = null;
+            }
 
             if(mResAndDepItem != null)
             {
@@ -273,6 +300,7 @@ namespace SDK.Lib
         {
             base.setLoadParam(param);
             this.m_loadNeedCoroutine = param.m_loadNeedCoroutine;
+            this.mIsCheckDep = param.mIsCheckDep;
         }
     }
 }

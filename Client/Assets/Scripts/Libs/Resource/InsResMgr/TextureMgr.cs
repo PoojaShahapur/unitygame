@@ -3,7 +3,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class TextureMgr : ResMgrBase
+    public class TextureMgr : InsResMgrBase
     {
         public TextureMgr()
         {

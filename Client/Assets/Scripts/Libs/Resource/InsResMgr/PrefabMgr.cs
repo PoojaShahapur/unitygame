@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 主要管理各种 Prefab 元素
      */
-    public class PrefabMgr : ResMgrBase
+    public class PrefabMgr : InsResMgrBase
     {
         public PrefabRes getAndSyncLoadRes(string path)
         {

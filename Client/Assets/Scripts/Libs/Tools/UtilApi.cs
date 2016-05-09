@@ -528,10 +528,21 @@ namespace SDK.Lib
             GC.Collect();
         }
 
-        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的指导释放哪个资源
+        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源
         public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
             Resources.UnloadAsset(assetToUnload);
+        }
+
+        // 卸载整个 AssetBundles
+        static public void UnloadAssetBundles(AssetBundle assetBundle, bool unloadAllLoadedObjects)
+        {
+            assetBundle.Unload(unloadAllLoadedObjects);
+
+            if (unloadAllLoadedObjects)
+            {
+                UtilApi.UnloadUnusedAssets();
+            }
         }
 
         // 从场景图中移除,  worldPositionStays 是否在两个 local 中移动保持 world 信息不变，如果要保持 local 信息不变，就设置成 false ，通常 UI 需要设置成  false ，如果 worldPositionStays 为 true ，就是从当前局部空间变换到另外一个局部空间变换，父节点的变换会应用到对象上， worldPositionStays 为 false ，就是局部变换直接移动到另外一个局部空间，直接应用目的局部空间父变换

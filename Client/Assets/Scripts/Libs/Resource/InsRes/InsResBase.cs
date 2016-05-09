@@ -19,7 +19,7 @@
             }
             else
             {
-                m_bOrigResNeedImmeUnload = true;
+                m_bOrigResNeedImmeUnload = false;
             }
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }

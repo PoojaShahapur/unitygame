@@ -76,7 +76,7 @@ namespace SDK.Lib
             {
                 //UtilApi.UnloadAsset(m_go);      // 强制卸载资源数据
                 //UtilApi.DestroyImmediate(m_go, true);
-                UtilApi.UnloadUnusedAssets();
+                //UtilApi.UnloadUnusedAssets();   // 卸载的时候， AssetBundles 完全卸载掉 AssetBundles 资源
                 m_go = null;
             }
             m_retGO = null;

@@ -124,6 +124,21 @@ namespace SDK.Lib
             return uniqueId;
         }
 
+        static  public string convLoadPathToUniqueId(string loadPath)
+        {
+            string uniqueId = "";
 
+            int dotIdx = loadPath.IndexOf(".");
+            if (-1 == dotIdx)
+            {
+                uniqueId = loadPath;
+            }
+            else
+            {
+                uniqueId = loadPath.Substring(0, dotIdx);
+            }
+
+            return uniqueId;
+        }
     }
 }

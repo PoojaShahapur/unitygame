@@ -138,8 +138,8 @@ namespace SDK.Lib
                 Ctx.m_instance.m_logSys.log("AssetBundleManifest AssetBundles Can not Load", LogTypeId.eLogCommon);
             }
 
-            // 卸载资源
-            Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
+            // 卸载资源，AssetBundles 现在只有不使用的时候一次性全部卸载掉
+            //Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), onLoadEventHandle);
         }
 
         // 只检查是否有依赖资源，如果有依赖的资源，就算是有依赖的资源

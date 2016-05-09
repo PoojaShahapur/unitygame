@@ -1,6 +1,6 @@
 ﻿namespace SDK.Lib
 {
-    public class SkinResMgr : ResMgrBase
+    public class SkinResMgr : InsResMgrBase
     {
 
     }

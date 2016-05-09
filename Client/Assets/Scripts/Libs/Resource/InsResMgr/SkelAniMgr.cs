@@ -2,7 +2,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class SkelAniMgr : ResMgrBase
+    public class SkelAniMgr : InsResMgrBase
     {
         public SkelAniMgr()
         {

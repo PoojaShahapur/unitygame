@@ -7,13 +7,13 @@ namespace SDK.Lib
     /**
      * @brief 资源管理器，不包括资源加载
      */
-    public class ResMgrBase
+    public class InsResMgrBase
     {
         public Dictionary<string, InsResBase> m_path2ResDic;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int m_loadingDepth;          // 加载深度
 
-        public ResMgrBase()
+        public InsResMgrBase()
         {
             m_path2ResDic = new Dictionary<string, InsResBase>();
             m_zeroRefResIDList = new List<string>();
@@ -153,30 +153,30 @@ namespace SDK.Lib
             }
         }
 
-        virtual public void unload(string path, Action<IDispatchObject> loadEventHandle)
+        virtual public void unload(string resUniqueId, Action<IDispatchObject> loadEventHandle)
         {
-            if (m_path2ResDic.ContainsKey(path))
+            if (m_path2ResDic.ContainsKey(resUniqueId))
             {
-                m_path2ResDic[path].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
-                m_path2ResDic[path].refCountResLoadResultNotify.refCount.decRef();
-                if (m_path2ResDic[path].refCountResLoadResultNotify.refCount.isNoRef())
+                m_path2ResDic[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
+                m_path2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
+                if (m_path2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
                     if (m_loadingDepth != 0)       // 如果加载深度不是 0 的，说明正在加载，不能卸载对象
                     {
-                        addNoRefResID2List(path);
+                        addNoRefResID2List(resUniqueId);
                     }
                     else
                     {
-                        unloadNoRef(path);
+                        unloadNoRef(resUniqueId);
                     }
                 }
             }
         }
 
         // 添加无引用资源到 List
-        protected void addNoRefResID2List(string path)
+        protected void addNoRefResID2List(string resUniqueId)
         {
-            m_zeroRefResIDList.Add(path);
+            m_zeroRefResIDList.Add(resUniqueId);
         }
 
         // 卸载没有引用的资源列表中的资源
@@ -192,12 +192,12 @@ namespace SDK.Lib
             m_zeroRefResIDList.Clear();
         }
 
-        protected void unloadNoRef(string path)
+        protected void unloadNoRef(string resUniqueId)
         {
-            m_path2ResDic[path].unload();
+            m_path2ResDic[resUniqueId].unload();
             // 卸载加载的原始资源
-            Ctx.m_instance.m_resLoadMgr.unload(path, onLoadEventHandle);
-            m_path2ResDic.Remove(path);
+            Ctx.m_instance.m_resLoadMgr.unload(resUniqueId, onLoadEventHandle);
+            m_path2ResDic.Remove(resUniqueId);
             //UtilApi.UnloadUnusedAssets();           // 异步卸载共用资源
         }
 

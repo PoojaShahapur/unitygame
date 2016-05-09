@@ -37,6 +37,14 @@ namespace SDK.Lib
             return m_prefabName;
         }
 
+        public override void reset()
+        {
+            base.reset();
+            m_prefabName = null;
+            mAllPrefabObj = null;
+            m_retGO = null;
+        }
+
         override public void unload()
         {
             //Resources.UnloadAsset(m_prefabObj);   // 这个是同步卸载

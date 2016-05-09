@@ -2,7 +2,7 @@ using System;
 
 namespace SDK.Lib
 {
-    public class BytesResMgr : ResMgrBase
+    public class BytesResMgr : InsResMgrBase
     {
         public BytesResMgr()
         {

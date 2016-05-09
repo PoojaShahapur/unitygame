@@ -28,6 +28,14 @@ namespace SDK.Lib
             return mAllPrefabObj;
         }
 
+        public override void reset()
+        {
+            m_prefabObj = null;
+            mAllPrefabObj = null;
+
+            base.reset();
+        }
+
         override public void load()
         {
             base.load();

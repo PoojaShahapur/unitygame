@@ -31,6 +31,7 @@ namespace SDK.Lib
         public LuaTable mLuaTable;
         public LuaFunction mLuaFunction;
         public bool mIsLoadAll;                 // 是否一次性加载所有的内容
+        public bool mIsCheckDep;                // 是否检查依赖
 
         public LoadParam()
         {
@@ -194,8 +195,8 @@ namespace SDK.Lib
             }
             else
             {
-                // 如果直接加载一个 .unity3d 文件，必然是一个被依赖的 AssetBundles ，这个时候不会从 AssetBundles 里面获取任何东西，因此 m_prefabName 设置为空， AssetBundleManifest 这个 .unity3d 除外
-                m_prefabName = "";
+                // 如果直接加载一个 .unity3d 文件，可能是一个仅仅被依赖的 AssetBundles ，也可能是一个其它被引用的 AssetBundles ，这个时候可能从 AssetBundles 里面获取任何东西，也可能不获取，因此 m_PrefabName 也需要设置对应的在 AssetBundles 中的路径。 所有依赖的 unity3d 这个文件不太一样，它在 AssetBundles 中的名字是  AssetBundleManifest ，不是 unity3d 的名字，这个需要注意
+                m_prefabName = m_pathNoExt + "." + m_extName;
             }
 
             if (MacroDef.ASSETBUNDLES_LOAD)
