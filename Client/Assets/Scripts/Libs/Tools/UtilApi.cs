@@ -910,6 +910,26 @@ namespace SDK.Lib
             }
         }
 
+        static public bool modifyFileName(string srcPath, string destPath)
+        {
+            try
+            {
+                if(File.Exists(srcPath))
+                {
+                    File.Move(srcPath, destPath);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception excep)
+            {
+                return false;
+            }
+        }
+
         static public string combine(params string[] pathList)
         {
             int idx = 0;
