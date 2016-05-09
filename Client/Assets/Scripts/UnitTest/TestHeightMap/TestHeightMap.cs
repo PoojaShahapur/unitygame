@@ -117,6 +117,9 @@ namespace UnitTest
             Ctx.m_instance.m_camSys.setCameraActor(man);
 
             Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITerrainEdit);
+
+            //AuxTextLoader auxTextLoader = new AuxTextLoader();
+            //auxTextLoader.syncLoad("Table/FrameTimerMgr.lua");
         }
     }
 }
