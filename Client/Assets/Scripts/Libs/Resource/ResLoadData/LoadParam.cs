@@ -136,6 +136,7 @@ namespace SDK.Lib
             this.m_prefabName = rhs.m_prefabName;
             this.m_extName = rhs.m_extName;
             this.mLogicPath = rhs.mLogicPath;
+            this.mLogicPath = rhs.mLogicPath;
             this.mResUniqueId = rhs.mResUniqueId;
 
             this.m_version = rhs.m_version;
