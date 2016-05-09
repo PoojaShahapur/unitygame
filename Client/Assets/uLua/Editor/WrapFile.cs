@@ -114,6 +114,7 @@ public static class WrapFile {
 
         _GT(typeof(SDK.Lib.Ctx)),
         _GT(typeof(SDK.Lib.MsgLocalStorage)),
+        _GT(typeof(SDK.Lib.LuaToCS)),
     };
 
     public static BindType _GT(Type t) {

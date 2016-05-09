@@ -11,6 +11,7 @@ local this = M;
 function M.init()
     this.Ctx = SDK.Lib.Ctx;
     this.MsgLocalStorage = SDK.Lib.MsgLocalStorage;
+    this.LuaToCS = SDK.Lib.LuaToCS;
 end
 
 function M.setNeedUpdate(value)
