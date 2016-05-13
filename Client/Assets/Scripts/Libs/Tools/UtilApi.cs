@@ -1444,10 +1444,10 @@ namespace SDK.Lib
         }
 
         // 递归拷贝目录
-        static public void recurseCopyDirectory(string srcDir, string tgtDir)
+        static public void recurseCopyDirectory(string srcDir, string destDir)
         {
             DirectoryInfo source = new DirectoryInfo(srcDir);
-            DirectoryInfo target = new DirectoryInfo(tgtDir);
+            DirectoryInfo target = new DirectoryInfo(destDir);
 
             if (target.FullName.StartsWith(source.FullName, StringComparison.CurrentCultureIgnoreCase))
             {
@@ -1479,9 +1479,9 @@ namespace SDK.Lib
             }
         }
 
-        static public void recurseDeleteFiles(string str, MList<string> fileList, MList<string> extNameList)
+        static public void recurseDeleteFiles(string dir, MList<string> fileList, MList<string> extNameList)
         {
-            DirectoryInfo fatherFolder = new DirectoryInfo(str);
+            DirectoryInfo fatherFolder = new DirectoryInfo(dir);
             //删除当前文件夹内文件
             FileInfo[] files = fatherFolder.GetFiles();
             int dotIdx = 0;
@@ -1525,6 +1525,32 @@ namespace SDK.Lib
             foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
             {
                 recurseDeleteFiles(childFolder.FullName, fileList, extNameList);
+            }
+        }
+
+        // 删除一个文件夹，但是不删除文件夹自己，包括这个文件夹中的所有文件和目录
+        static public void deleteSubDirsAndFiles(string curDir)
+        {
+            DirectoryInfo fatherFolder = new DirectoryInfo(curDir);
+            //删除当前文件夹内文件
+            FileInfo[] files = fatherFolder.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string fileName = file.Name;
+                try
+                {
+                    File.Delete(file.FullName);
+                }
+                catch (Exception ex)
+                {
+                    Ctx.m_instance.m_logSys.log(ex.Message, LogTypeId.eLogCommon);
+                }
+            }
+
+            // 删除子文件夹
+            foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
+            {
+                UtilApi.DeleteDirectory(childFolder.FullName, true);
             }
         }
     }
