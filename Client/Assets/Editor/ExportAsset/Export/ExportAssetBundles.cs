@@ -10,11 +10,11 @@ namespace EditorTool
         public static void BuildAssetBundles(BuildTarget target)
         {
             string outputPath = Path.Combine(UtilApi.kAssetBundlesOutputPath, ExportUtil.GetPlatformFolderForAssetBundles(target));
-            if (UtilApi.ExistDirectory(outputPath))
+            if (UtilPath.ExistDirectory(outputPath))
             {
-                UtilApi.DeleteDirectory(outputPath);
+                UtilPath.DeleteDirectory(outputPath);
             }
-            if (!UtilApi.ExistDirectory(outputPath))
+            if (!UtilPath.ExistDirectory(outputPath))
             {
                 Directory.CreateDirectory(outputPath);
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SDK.Lib;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -54,8 +55,8 @@ namespace EditorTool
             if (assetIndex != -1)
             {
                 // AssetBundles 的 Label 都是从 Assets 目录下开始的，为了保持相同目录结构
-                m_abSetPath = m_abPath.Substring(0, assetIndex) + ExportUtil.DOTUNITY3D;
-                m_abSetPath = ExportUtil.toLower(m_abSetPath);
+                m_abSetPath = m_abPath.Substring(0, assetIndex) + UtilApi.DOTUNITY3D;
+                m_abSetPath = UtilPath.toLower(m_abSetPath);
             }
         }
 

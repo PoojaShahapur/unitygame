@@ -36,7 +36,7 @@ public class BuildScriptTest
         AssetBundleParam param = new AssetBundleParam();
         param.m_buildList = new AssetBundleBuild[1];
         param.m_buildList[0].assetBundleName = "TestExportPrefab";
-        param.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+        param.m_buildList[0].assetBundleVariant = UtilApi.UNITY3D;
         param.m_buildList[0].assetNames = new string[1];
         param.m_buildList[0].assetNames[0] = "Assets/TestAssets/TestPrefab.prefab";     // 这个目录一定要是 Assets 下面写，并且加上扩展名字
         param.m_pathName = outputPath;
@@ -45,7 +45,7 @@ public class BuildScriptTest
         ExportUtil.BuildAssetBundle(param);
 
         // 打包成 unity3d 后文件名字会变成小写，这里修改一下
-        ExportUtil.modifyFileName(outputPath, "TestExportPrefab");
+        UtilPath.modifyFileNameToCapital(outputPath, "TestExportPrefab");
 	}
 
     // 打包自己在 Project 窗口中选择的资源
@@ -55,7 +55,7 @@ public class BuildScriptTest
         string fileName = "";
         string extName = "";
 
-        path = UtilApi.normalPath(path);
+        path = UtilPath.normalPath(path);
 
         int lastSlashIdx = 0;
         int dotIdx = 0;
@@ -97,7 +97,7 @@ public class BuildScriptTest
         AssetBundleParam param = new AssetBundleParam();
         param.m_buildList = new AssetBundleBuild[1];
         param.m_buildList[0].assetBundleName = "TestExportScene";
-        param.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+        param.m_buildList[0].assetBundleVariant = UtilApi.UNITY3D;
         param.m_buildList[0].assetNames = new string[1];
         param.m_buildList[0].assetNames[0] = levels[3];     // 这个目录一定要是 Assets 下面写，并且加上扩展名字
         param.m_pathName = outputPath;

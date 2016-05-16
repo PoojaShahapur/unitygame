@@ -13,9 +13,9 @@ namespace EditorTool
             ResExportSys.m_instance.m_targetPlatform = BuildTarget.StandaloneWindows;
 
             ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
-            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = UtilApi.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            UtilApi.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            UtilApi.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = UtilPath.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilPath.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilPath.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
 
             ResExportSys.m_instance.parseResourceXml();
             ResExportSys.m_instance.packResourceList();

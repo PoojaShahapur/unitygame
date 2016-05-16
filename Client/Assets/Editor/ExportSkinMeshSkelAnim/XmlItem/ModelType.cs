@@ -136,9 +136,9 @@ namespace EditorTool
             string path = "";
             //path = ExportUtil.getDataPath(string.Format("{0}/{1}", parentPath, m_subPath));
             path = ExportUtil.getDataPath(m_subPath);
-            if(!UtilApi.ExistDirectory(path))
+            if(!UtilPath.ExistDirectory(path))
             {
-                UtilApi.recurseCreateDirectory(path);
+                UtilPath.recurseCreateDirectory(path);
             }
         }
 
@@ -160,7 +160,7 @@ namespace EditorTool
             //path = ExportUtil.getDataPath(string.Format("{0}/{1}/{2}.xml", parentPath, m_subPath, m_outFileName));
             path = ExportUtil.getDataPath(string.Format("{0}/{1}.xml", parentPath, m_outFileName));
 
-            ExportUtil.deleteFile(path);
+            UtilPath.deleteFile(path);
             FileStream fileStream = new FileStream(path, FileMode.CreateNew);
             byte[] data = new UTF8Encoding().GetBytes(m_content);
             //开始写入

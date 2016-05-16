@@ -60,14 +60,14 @@ namespace EditorTool
             }
 
             m_srcFullPath = Path.Combine(System.Environment.CurrentDirectory, m_srcRoot);
-            m_srcFullPath = UtilApi.normalPath(m_srcFullPath);
+            m_srcFullPath = UtilPath.normalPath(m_srcFullPath);
         }
 
         public void packPack()
         {
             if (!string.IsNullOrEmpty(m_destRoot))
             {
-                UtilApi.CreateDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
+                UtilPath.CreateDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
             }
             ExportUtil.recursiveTraversalDir(m_srcFullPath, handleFile, handleDir);
         }
@@ -75,14 +75,14 @@ namespace EditorTool
         // 遍历一个文件的时候处理
         public void handleFile(string fullFileName)
         {
-            fullFileName = UtilApi.normalPath(fullFileName);
-            if (m_ignoreExtList.IndexOf(UtilApi.getFileExt(fullFileName)) == -1)
+            fullFileName = UtilPath.normalPath(fullFileName);
+            if (m_ignoreExtList.IndexOf(UtilPath.getFileExt(fullFileName)) == -1)
             {
-                string fineNameNoExt = UtilApi.getFileNameNoExt(fullFileName);
+                string fineNameNoExt = UtilPath.getFileNameNoExt(fullFileName);
                 string assetPath = fullFileName.Substring(fullFileName.IndexOf(ExportUtil.ASSETS));
                 string destPath = "";
 
-                if (m_unity3dExtNameList.IndexOf(UtilApi.getFileExt(fullFileName)) != -1)
+                if (m_unity3dExtNameList.IndexOf(UtilPath.getFileExt(fullFileName)) != -1)
                 {
                     if (fullFileName.LastIndexOf('/') != m_srcFullPath.Length)
                     {
@@ -102,7 +102,7 @@ namespace EditorTool
 #if UNITY_5
                     bundleParam.m_buildList = new AssetBundleBuild[1];
                     bundleParam.m_buildList[0].assetBundleName = fineNameNoExt;
-                    bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+                    bundleParam.m_buildList[0].assetBundleVariant = UtilApi.UNITY3D;
                     bundleParam.m_buildList[0].assetNames = new string[1];
                     bundleParam.m_buildList[0].assetNames[0] = assetPath;
                     bundleParam.m_targetPlatform = ResExportSys.m_instance.m_targetPlatform;
@@ -116,7 +116,7 @@ namespace EditorTool
 #endif
                     ExportUtil.BuildAssetBundle(bundleParam);
                     // 打包成 unity3d 后文件名字会变成小写，这里修改一下
-                    ExportUtil.modifyFileName(destPath, fineNameNoExt);
+                    UtilPath.modifyFileNameToCapital(destPath, fineNameNoExt);
                 }
                 else        // 直接拷贝过去
                 {
@@ -154,12 +154,12 @@ namespace EditorTool
                 else
                 {
                     destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, destPath);
-                    UtilApi.CreateDirectory(destPath);
+                    UtilPath.CreateDirectory(destPath);
                 }
             }
             else
             {
-                UtilApi.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+                UtilPath.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
             }
         }
 
@@ -168,9 +168,9 @@ namespace EditorTool
             ResListItem item = new ResListItem();
 
             item.m_srcName = ExportUtil.rightSubStr(srcFullPath, m_srcRoot);
-            if (m_unity3dExtNameList.IndexOf(UtilApi.getFileExt(srcFullPath)) != -1)     // 如果需要打包成 unity3d
+            if (m_unity3dExtNameList.IndexOf(UtilPath.getFileExt(srcFullPath)) != -1)     // 如果需要打包成 unity3d
             {
-                item.m_destName = string.Format("{0}{1}", item.m_srcName.Substring(0, item.m_srcName.IndexOf('.')), ExportUtil.DOTUNITY3D);
+                item.m_destName = string.Format("{0}{1}", item.m_srcName.Substring(0, item.m_srcName.IndexOf('.')), UtilApi.DOTUNITY3D);
             }
             else
             {
@@ -183,7 +183,7 @@ namespace EditorTool
             }
 
             // 如果是 unity 扩展名字的场景文件，需要在原始文件名字前面添加 Scenes 子目录
-            if (UtilApi.getFileExt(item.m_srcName) == "unity")
+            if (UtilPath.getFileExt(item.m_srcName) == "unity")
             {
                 item.m_srcName = string.Format("Scenes/{0}", item.m_srcName);
             }

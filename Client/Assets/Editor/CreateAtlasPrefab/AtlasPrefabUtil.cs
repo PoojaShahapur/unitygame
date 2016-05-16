@@ -19,7 +19,7 @@ namespace AtlasPrefabSys
             string prefabExtName = "prefab";
 
             string resFullPath = string.Format("{0}.{1}", Path.Combine(path, prefabName), prefabExtName);
-            resFullPath = UtilApi.normalPath(resFullPath);
+            resFullPath = UtilPath.normalPath(resFullPath);
 
             Type[] comArr = new Type[1];
             comArr[0] = typeof(Image);

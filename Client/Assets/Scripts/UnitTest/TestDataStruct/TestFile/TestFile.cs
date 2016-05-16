@@ -13,9 +13,9 @@ namespace UnitTest
 
         protected void testApi()
         {
-            UtilApi.recureCreateSubDir("E:", "aaa\\bbb\\ccc.txt");
-            string path = UtilApi.versionPath("E:\\aaa\\bbb\\ccc.txt", "2011");
-            UtilApi.delFileNoVer("E:\\aaa\\bbb\\ccc.txt");
+            UtilPath.recureCreateSubDir("E:", "aaa\\bbb\\ccc.txt");
+            string path = UtilPath.versionPath("E:\\aaa\\bbb\\ccc.txt", "2011");
+            UtilPath.delFileNoVer("E:\\aaa\\bbb\\ccc.txt");
         }
 
         protected void testLoadFile()

@@ -178,9 +178,9 @@ namespace EditorTool
             {
                 string path = "";
                 path = ExportUtil.getWorkPath(m_assetOutPath);
-                if (!UtilApi.ExistDirectory(path))
+                if (!UtilPath.ExistDirectory(path))
                 {
-                    UtilApi.recurseCreateDirectory(path);
+                    UtilPath.recurseCreateDirectory(path);
                 }
             }
 
@@ -188,9 +188,9 @@ namespace EditorTool
             {
                 string path = "";
                 path = ExportUtil.getWorkPath(m_controllerOutPath);
-                if (!UtilApi.ExistDirectory(path))
+                if (!UtilPath.ExistDirectory(path))
                 {
-                    UtilApi.recurseCreateDirectory(path);
+                    UtilPath.recurseCreateDirectory(path);
                 }
             }
         }

@@ -119,12 +119,12 @@ namespace EditorTool
 
                 xmlStr += "</Root>";
 
-                string xmlName = string.Format("{0}.xml", UtilApi.getFileNameNoExt(mesh.skelMeshParam.m_name));
+                string xmlName = string.Format("{0}.xml", UtilPath.getFileNameNoExt(mesh.skelMeshParam.m_name));
                 //string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
                 string xmlPath = string.Format("{0}/{1}", m_outPath, xmlName);
                 xmlPath = ExportUtil.getDataPath(xmlPath);
 
-                ExportUtil.deleteFile(xmlPath);
+                UtilPath.deleteFile(xmlPath);
                 FileStream fileStream = new FileStream(xmlPath, FileMode.CreateNew);
                 byte[] data = new UTF8Encoding().GetBytes(xmlStr);
                 //开始写入
@@ -144,7 +144,7 @@ namespace EditorTool
                 foreach (SubMesh subMesh in mesh.m_subMeshList)
                 {
                     string xmlStr = "<?xml version='1.0' encoding='utf-8' ?>\n<Root>\n";
-                    xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", UtilApi.getFileNameNoExt(mesh.skelMeshParam.m_name));
+                    xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", UtilPath.getFileNameNoExt(mesh.skelMeshParam.m_name));
 
                     subMesh.exportSubMeshBoneFile(mesh.skelMeshParam, ref xmlStr);
 
@@ -152,12 +152,12 @@ namespace EditorTool
 
                     xmlStr += "</Root>";
 
-                    string xmlName = string.Format("{0}.xml", UtilApi.getFileNameNoExt(subMesh.m_part));
+                    string xmlName = string.Format("{0}.xml", UtilPath.getFileNameNoExt(subMesh.m_part));
                     //string xmlPath = string.Format("{0}/{1}/{2}", m_outPath, m_modelTypes.modelTypeDic[mesh.skelMeshParam.m_modelType].subPath, xmlName);
                     string xmlPath = string.Format("{0}/{1}", m_outPath, xmlName);
                     xmlPath = ExportUtil.getDataPath(xmlPath);
 
-                    ExportUtil.deleteFile(xmlPath);
+                    UtilPath.deleteFile(xmlPath);
                     FileStream fileStream = new FileStream(xmlPath, FileMode.CreateNew);
                     byte[] data = new UTF8Encoding().GetBytes(xmlStr);
                     //开始写入

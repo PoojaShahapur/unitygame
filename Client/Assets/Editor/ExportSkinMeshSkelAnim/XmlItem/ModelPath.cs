@@ -39,10 +39,10 @@ namespace EditorTool
 
         protected void onFindOneFile(string fullPath)
         {
-            string ext = UtilApi.getFileExt(fullPath);
+            string ext = UtilPath.getFileExt(fullPath);
             if (m_ignoreExtList.IndexOf(ext) == -1)
             {
-                string fileName = UtilApi.getFileNameWithExt(fullPath);
+                string fileName = UtilPath.getFileNameWithExt(fullPath);
                 Mesh mesh = new Mesh();
                 mesh.skelMeshParam.m_name = fileName;
                 mesh.skelMeshParam.m_inPath = m_inPath;

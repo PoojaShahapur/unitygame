@@ -33,8 +33,8 @@ namespace EditorTool
 
         protected void onFindOneFile(string fullPath)
         {
-            string ext = UtilApi.getFileExt(fullPath);
-            string nameNoExt = UtilApi.getFileNameNoExt(fullPath);
+            string ext = UtilPath.getFileExt(fullPath);
+            string nameNoExt = UtilPath.getFileNameNoExt(fullPath);
 
             XmlAnimatorController controller = null;
             if (ExportUtil.FBX == ext)

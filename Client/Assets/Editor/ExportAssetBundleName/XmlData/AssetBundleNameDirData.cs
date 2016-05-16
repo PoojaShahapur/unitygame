@@ -16,7 +16,7 @@ namespace EditorTool
             m_dirPath = path;
             m_xmlPath = xmlPath;
             m_fullDirPath = ExportUtil.getDataPath(m_dirPath);
-            m_fullDirPath = UtilApi.normalPath(m_fullDirPath);
+            m_fullDirPath = UtilPath.normalPath(m_fullDirPath);
             m_filesList = new List<AssetBundleNameFileData>();
         }
 
@@ -51,8 +51,8 @@ namespace EditorTool
 
         protected void onFindFile(string path)
         {
-            path = UtilApi.normalPath(path);
-            string extName = UtilApi.getFileExt(path);
+            path = UtilPath.normalPath(path);
+            string extName = UtilPath.getFileExt(path);
             if (m_xmlPath.includeExtList.IndexOf(extName) != -1)         // 如果在包含的扩展名列表中
             {
                 AssetBundleNameFileData file = new AssetBundleNameFileData(path, this);

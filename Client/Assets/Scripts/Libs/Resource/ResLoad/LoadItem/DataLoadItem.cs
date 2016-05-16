@@ -327,7 +327,7 @@ namespace SDK.Lib
                 // 修改文件名字
                 if (bNeedReName)
                 {
-                    UtilApi.renameFile(origFile, saveFile);
+                    UtilPath.renameFile(origFile, saveFile);
                 }
 
                 if (!isBytesValid)

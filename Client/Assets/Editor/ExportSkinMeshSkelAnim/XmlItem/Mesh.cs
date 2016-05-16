@@ -55,7 +55,7 @@ namespace EditorTool
             pathList.Add(m_skelMeshParam.m_name);
 
             // 目录一定是以 "Assets" 开头的相对目录
-            string resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
+            string resPath = ExportUtil.getRelDataPath(UtilPath.combine(pathList.ToArray()));
             UnityEngine.Object go_ = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_skelMeshParam.m_resType));
             GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(m_skelMeshParam.m_resType)) as GameObject;
 
@@ -88,7 +88,7 @@ namespace EditorTool
         {
             XmlElement meshXml = xmlDocSave.CreateElement("Mesh");
             root.AppendChild(meshXml);
-            meshXml.SetAttribute("name", UtilApi.getFileNameNoExt(m_skelMeshParam.m_name));
+            meshXml.SetAttribute("name", UtilPath.getFileNameNoExt(m_skelMeshParam.m_name));
 
             foreach (SubMesh subMesh in m_subMeshList)
             {
@@ -103,7 +103,7 @@ namespace EditorTool
                 addSubMesh();
             }
 
-            xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", UtilApi.getFileNameNoExt(m_skelMeshParam.m_name));
+            xmlStr += string.Format("    <Mesh name=\"{0}\" >\n", UtilPath.getFileNameNoExt(m_skelMeshParam.m_name));
             foreach (SubMesh subMesh in m_subMeshList)
             {
                 subMesh.exportSubMeshBoneFile(m_skelMeshParam, ref xmlStr);
@@ -135,11 +135,11 @@ namespace EditorTool
             pathList.Add(m_skelMeshParam.m_inPath);
             pathList.Add(m_skelMeshParam.m_name);
 
-            string resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
+            string resPath = ExportUtil.getRelDataPath(UtilPath.combine(pathList.ToArray()));
             GameObject go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type("prefab")) as GameObject;
             GameObject subMeshGo = null;
 
-            string skelNoExt = UtilApi.getFileNameNoExt(m_skelMeshParam.m_name);
+            string skelNoExt = UtilPath.getFileNameNoExt(m_skelMeshParam.m_name);
             string outPrefabPath = "";
             List<Object> objList = new List<Object>();
             List<string> assetNamesList = new List<string>();
@@ -158,7 +158,7 @@ namespace EditorTool
             //pathList.Add(SkinAnimSys.m_instance.m_xmlSkeletonRoot.m_modelTypes.modelTypeDic[m_skelMeshParam.m_modelType].subPath);
             pathList.Add(skelNoExt + ".prefab");
 
-            outPrefabPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
+            outPrefabPath = ExportUtil.getRelDataPath(UtilPath.combine(pathList.ToArray()));
             assetNamesList.Add(outPrefabPath);
 
             // 原始的资源是不能修改的，必须要 Instantiate 后才能修改，因此这里 Instantiate 一个 GameObject

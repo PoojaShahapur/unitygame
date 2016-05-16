@@ -17,9 +17,6 @@ namespace EditorTool
         public const string PREFAB = "prefab";
         public const string TEXTASSET = "textasset";
 
-        public const string DOTUNITY3D = ".unity3d";
-        public const string UNITY3D = "unity3d";
-
         public const string ASSET_BUNDLES_OUTPUT_PATH = "AssetBundles";
         public const string IMAGE_PATH = "Image";
         public const string ASSETS = "Assets";
@@ -152,7 +149,7 @@ namespace EditorTool
                 leftpath = leftpath.Substring(slashIdx + 1, leftpath.Length - slashIdx - 1);
 
                 fullpath = getStreamingDataPath(curpath);
-                UtilApi.CreateDirectory(fullpath);
+                UtilPath.CreateDirectory(fullpath);
 
                 slashIdx = leftpath.IndexOf("/");
             }
@@ -399,8 +396,8 @@ namespace EditorTool
         public static void CopyAssetBundlesTo(string srcPath, BuildTarget target)
         {
             string platForm = GetPlatformFolderForAssetBundles(target);
-            UtilApi.DeleteDirectory(Application.streamingAssetsPath);
-            UtilApi.CreateDirectory(Application.streamingAssetsPath);
+            UtilPath.DeleteDirectory(Application.streamingAssetsPath);
+            UtilPath.CreateDirectory(Application.streamingAssetsPath);
             // 放入平台单独的目录下
             //CreateDirectory(Path.Combine(Application.streamingAssetsPath, platForm));
             //copyDirectory(srcPath, Path.Combine(Application.streamingAssetsPath, platForm));
@@ -489,49 +486,6 @@ namespace EditorTool
             }
 
             return "";
-        }
-
-        // 打包成 unity3d 后文件名字会变成小写，这里修改一下
-        static public void modifyFileName(string path, string fileNameNoExt)
-        {
-            string srcFullPath = string.Format("{0}/{1}.{2}", path, fileNameNoExt.ToLower(), ExportUtil.UNITY3D);
-            string destFullPath = string.Format("{0}/{1}.{2}", path, fileNameNoExt, ExportUtil.UNITY3D);
-
-            if (File.Exists(srcFullPath))
-            {
-                File.Move(srcFullPath, destFullPath);
-            }
-            else
-            {
-                Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
-            }
-
-            srcFullPath = string.Format("{0}/{1}.{2}.manifest", path, fileNameNoExt.ToLower(), ExportUtil.UNITY3D);
-            destFullPath = string.Format("{0}/{1}.{2}.manifest", path, fileNameNoExt, ExportUtil.UNITY3D);
-
-            if (File.Exists(srcFullPath))
-            {
-                File.Move(srcFullPath, destFullPath);
-            }
-            else
-            {
-                Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
-            }
-        }
-
-        // 删除一个文件
-        static public void deleteFile(string path)
-        {
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-        }
-
-        // 大写转换成小写
-        static public string toLower(string src)
-        {
-            return src.ToLower();
         }
 
         static public void encodeLuaFile(string srcFile, string outFile, bool isWin)

@@ -34,7 +34,7 @@ namespace EditorTool
             List<string> pathList = new List<string>();
             pathList.Add(param.m_outPath);
             pathList.Add(m_name);
-            string path = ExportUtil.getStreamingDataPath(UtilApi.combine(pathList.ToArray()));
+            string path = ExportUtil.getStreamingDataPath(UtilPath.combine(pathList.ToArray()));
             ExportUtil.recurseCreateStreamDirectory(path);
 
             if (ExportUtil.BUNDLE == param.m_type)
@@ -61,7 +61,7 @@ namespace EditorTool
                 pathList.Add(param.m_inPath);
                 pathList.Add(packItem.m_path);
 
-                resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
+                resPath = ExportUtil.getRelDataPath(UtilPath.combine(pathList.ToArray()));
                 assetNamesList.Add(resPath);
                 go = AssetDatabase.LoadAssetAtPath(resPath, ExportUtil.convResStr2Type(packItem.m_resType));
                 if (go)
@@ -79,11 +79,11 @@ namespace EditorTool
 #if UNITY_5
             bundleParam.m_buildList = new AssetBundleBuild[1];
             bundleParam.m_buildList[0].assetBundleName = m_name;
-            bundleParam.m_buildList[0].assetBundleVariant = ExportUtil.UNITY3D;
+            bundleParam.m_buildList[0].assetBundleVariant = UtilApi.UNITY3D;
             bundleParam.m_buildList[0].assetNames = assetNamesList.ToArray();
             pathList.Clear();
             pathList.Add(param.m_outPath);
-            bundleParam.m_pathName = ExportUtil.getStreamingDataPath(UtilApi.combine(pathList.ToArray()));
+            bundleParam.m_pathName = ExportUtil.getStreamingDataPath(UtilPath.combine(pathList.ToArray()));
 #elif UNITY_4_6 || UNITY_4_5
             bundleParam.m_assets = objList.ToArray();
             pathList.Clear();
@@ -106,7 +106,7 @@ namespace EditorTool
                 pathList.Clear();
                 pathList.Add(param.m_inPath);
                 pathList.Add(packItem.m_path);
-                resPath = ExportUtil.getRelDataPath(UtilApi.combine(pathList.ToArray()));
+                resPath = ExportUtil.getRelDataPath(UtilPath.combine(pathList.ToArray()));
                 nameList.Add(resPath);
             }
 
@@ -115,7 +115,7 @@ namespace EditorTool
             pathList.Clear();
             pathList.Add(param.m_outPath);
             pathList.Add(m_name);
-            bundleParam.m_locationPath = ExportUtil.getStreamingDataPath(UtilApi.combine(pathList.ToArray()));
+            bundleParam.m_locationPath = ExportUtil.getStreamingDataPath(UtilPath.combine(pathList.ToArray()));
 
             ExportUtil.BuildStreamedSceneAssetBundle(bundleParam);
         }

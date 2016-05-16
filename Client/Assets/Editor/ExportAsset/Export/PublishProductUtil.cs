@@ -11,9 +11,9 @@ namespace EditorTool
         public static void createPublishProductOutputPath()
         {
             // 删除输出目录
-            UtilApi.DeleteDirectory(ExportUtil.getPkgOutPath());
+            UtilPath.DeleteDirectory(ExportUtil.getPkgOutPath());
             // 创建输出目录
-            UtilApi.CreateDirectory(ExportUtil.getPkgOutPath());
+            UtilPath.CreateDirectory(ExportUtil.getPkgOutPath());
         }
 
         public static void pkgResources()
@@ -21,9 +21,9 @@ namespace EditorTool
             ResExportSys.m_instance.m_targetPlatform = BuildTarget.StandaloneWindows;
 
             ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
-            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = UtilApi.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            UtilApi.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            UtilApi.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = UtilPath.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilPath.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilPath.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
 
             ResExportSys.m_instance.parseResourceXml();
             ResExportSys.m_instance.packResourceList();
@@ -38,17 +38,17 @@ namespace EditorTool
         {
             string delPath = ExportUtil.getDataPath("");
             string bakPath = ExportUtil.getPkgWorkPath("");
-            UtilApi.DeleteDirectory(bakPath);
-            UtilApi.CreateDirectory(bakPath);
+            UtilPath.DeleteDirectory(bakPath);
+            UtilPath.CreateDirectory(bakPath);
             ExportUtil.copyDirectory(delPath, bakPath);
-            UtilApi.DeleteDirectory(delPath);
+            UtilPath.DeleteDirectory(delPath);
         }
 
         public static void buildImage(BuildOptions option = BuildOptions.None)
         {
             string outputImagePath = ExportUtil.getImagePath("", ResExportSys.m_instance.m_targetPlatform);
-            UtilApi.DeleteDirectory(outputImagePath);
-            UtilApi.CreateDirectory(outputImagePath);
+            UtilPath.DeleteDirectory(outputImagePath);
+            UtilPath.CreateDirectory(outputImagePath);
 
             string[] levelsPath = new string[1];    // 打包第一个启动场景目录
             levelsPath[0] = "Assets/Scenes/Start.unity";
@@ -73,9 +73,9 @@ namespace EditorTool
         {
             string restorePath = ExportUtil.getDataPath("");
             string bakPath = ExportUtil.getPkgWorkPath("");
-            UtilApi.CreateDirectory(restorePath);
+            UtilPath.CreateDirectory(restorePath);
             ExportUtil.copyDirectory(bakPath, restorePath);
-            UtilApi.DeleteDirectory(bakPath);
+            UtilPath.DeleteDirectory(bakPath);
         }
     }
 }
