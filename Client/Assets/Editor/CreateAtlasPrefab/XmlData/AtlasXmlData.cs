@@ -165,7 +165,7 @@ namespace AtlasPrefabSys
 
         public void findAllFiles()
         {
-            ExportUtil.traverseSubDirInOneDir(m_fullDirPath, onFindDir);
+            UtilPath.traverseSubDirInOneDir(m_fullDirPath, onFindDir);
         }
 
         protected void onFindDir(DirectoryInfo dirInfo)

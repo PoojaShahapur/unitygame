@@ -136,7 +136,7 @@ namespace EditorTool
             string path = "";
             //path = ExportUtil.getDataPath(string.Format("{0}/{1}", parentPath, m_subPath));
             path = ExportUtil.getDataPath(m_subPath);
-            if(!UtilPath.ExistDirectory(path))
+            if(!UtilPath.existDirectory(path))
             {
                 UtilPath.recurseCreateDirectory(path);
             }

@@ -149,7 +149,7 @@ namespace EditorTool
                 leftpath = leftpath.Substring(slashIdx + 1, leftpath.Length - slashIdx - 1);
 
                 fullpath = getStreamingDataPath(curpath);
-                UtilPath.CreateDirectory(fullpath);
+                UtilPath.createDirectory(fullpath);
 
                 slashIdx = leftpath.IndexOf("/");
             }
@@ -290,118 +290,16 @@ namespace EditorTool
             }
         }
 
-        // 递归深度优先遍历目录
-        public static void recursiveTraversalDir(string rootPath, Action<string> dispFile, Action<string> dispDir)
-        {
-            // 遍历目录回调
-            if (dispDir != null)
-            {
-                dispDir(rootPath);
-            }
-
-            // 遍历所有文件
-            traverseFilesInOneDir(rootPath, dispFile);
-
-            // 遍历当前目录下的所有的文件夹
-            DirectoryInfo theFolder = new DirectoryInfo(rootPath);
-            DirectoryInfo[] dirInfo = theFolder.GetDirectories();
-            foreach (DirectoryInfo NextFolder in dirInfo)
-            {
-                recursiveTraversalDir(NextFolder.FullName, dispFile, dispDir);
-            }
-        }
-
-        // 处理当前目录下的所有文件
-        public static void traverseFilesInOneDir(string dirPath, Action<string> dispFile)
-        {
-            DirectoryInfo theFolder = new DirectoryInfo(dirPath);
-
-            //遍历文件
-            FileInfo[] fileInfo = theFolder.GetFiles();
-            foreach (FileInfo NextFile in fileInfo)  //遍历文件
-            {
-                if (dispFile != null)
-                {
-                    dispFile(NextFile.FullName);
-                }
-            }
-        }
-
-        // 遍历一个目录下的直属子目录
-        public static void traverseSubDirInOneDir(string dirPath, Action<DirectoryInfo> dispDir)
-        {
-            // 遍历当前目录下的所有的所有子文件夹
-            DirectoryInfo theFolder = new DirectoryInfo(dirPath);
-            DirectoryInfo[] dirInfo = theFolder.GetDirectories();
-            foreach (DirectoryInfo NextFolder in dirInfo)
-            {
-                if (dispDir != null)
-                {
-                    dispDir(NextFolder);
-                }
-            }
-        }
-
-        public static void copyDirectory(string sourceDirectory, string destDirectory)
-        {
-            //判断源目录和目标目录是否存在，如果不存在，则创建一个目录
-            if (!Directory.Exists(sourceDirectory))
-            {
-                Directory.CreateDirectory(sourceDirectory);
-            }
-            if (!Directory.Exists(destDirectory))
-            {
-                Directory.CreateDirectory(destDirectory);
-            }
-            //拷贝文件
-            copyFile(sourceDirectory, destDirectory);
-           
-            //拷贝子目录       
-            //获取所有子目录名称
-            string[] directionName = Directory.GetDirectories(sourceDirectory);
-           
-            foreach (string directionPath in directionName)
-            {
-                //根据每个子目录名称生成对应的目标子目录名称
-                string directionPathTemp = destDirectory + "\\" + directionPath.Substring(sourceDirectory.Length + 1);
-               
-                //递归下去
-                copyDirectory(directionPath, directionPathTemp);
-            }                     
-        }
-
-        public static void copyFile(string sourceDirectory, string destDirectory)
-        {
-            //获取所有文件名称
-            string[] fileName = Directory.GetFiles(sourceDirectory);
-           
-            foreach (string filePath in fileName)
-            {
-                //根据每个文件名称生成对应的目标文件名称
-                string filePathTemp = destDirectory + "\\" + filePath.Substring(sourceDirectory.Length + 1);
-               
-                //若不存在，直接复制文件；若存在，覆盖复制
-                if (File.Exists(filePathTemp))
-                {
-                    File.Copy(filePath, filePathTemp, true);
-                }
-                else
-                {
-                    File.Copy(filePath, filePathTemp);
-                }
-            }
-        } 
-
         // 拷贝文件到 StreamingAssets 目录下
         public static void CopyAssetBundlesTo(string srcPath, BuildTarget target)
         {
             string platForm = GetPlatformFolderForAssetBundles(target);
-            UtilPath.DeleteDirectory(Application.streamingAssetsPath);
-            UtilPath.CreateDirectory(Application.streamingAssetsPath);
+            UtilPath.deleteDirectory(Application.streamingAssetsPath);
+            UtilPath.createDirectory(Application.streamingAssetsPath);
             // 放入平台单独的目录下
             //CreateDirectory(Path.Combine(Application.streamingAssetsPath, platForm));
             //copyDirectory(srcPath, Path.Combine(Application.streamingAssetsPath, platForm));
-            copyDirectory(srcPath, Application.streamingAssetsPath);
+            UtilPath.recurseCopyOrConvDirectory(srcPath, Application.streamingAssetsPath);
         }
 
         static public bool getXmlAttrBool(XmlAttribute attr)

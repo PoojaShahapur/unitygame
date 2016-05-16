@@ -34,10 +34,10 @@ namespace EditorTool
         protected void addMesh()
         {
             string fullPath = ExportUtil.getDataPath(m_inPath);
-            ExportUtil.traverseFilesInOneDir(fullPath, onFindOneFile);
+            UtilPath.traverseFilesInOneDir(fullPath, onFindOneFile);
         }
 
-        protected void onFindOneFile(string fullPath)
+        protected void onFindOneFile(string fullPath, string name)
         {
             string ext = UtilPath.getFileExt(fullPath);
             if (m_ignoreExtList.IndexOf(ext) == -1)

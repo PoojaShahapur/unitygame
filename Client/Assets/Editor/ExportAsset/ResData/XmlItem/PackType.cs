@@ -37,7 +37,7 @@ namespace EditorTool
         public void packPack()
         {
             string path = ExportUtil.getStreamingDataPath(m_packParam.m_outPath);
-            UtilPath.CreateDirectory(path);
+            UtilPath.createDirectory(path);
 
             if (m_packParam.m_packAllFiles)
             {

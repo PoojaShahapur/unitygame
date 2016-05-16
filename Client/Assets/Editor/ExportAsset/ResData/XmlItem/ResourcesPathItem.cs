@@ -67,13 +67,13 @@ namespace EditorTool
         {
             if (!string.IsNullOrEmpty(m_destRoot))
             {
-                UtilPath.CreateDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
+                UtilPath.createDirectory(Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, m_destRoot));
             }
-            ExportUtil.recursiveTraversalDir(m_srcFullPath, handleFile, handleDir);
+            UtilPath.recursiveTraversalDir(m_srcFullPath, handleFile, handleDir);
         }
 
         // 遍历一个文件的时候处理
-        public void handleFile(string fullFileName)
+        public void handleFile(string fullFileName, string name)
         {
             fullFileName = UtilPath.normalPath(fullFileName);
             if (m_ignoreExtList.IndexOf(UtilPath.getFileExt(fullFileName)) == -1)
@@ -141,7 +141,7 @@ namespace EditorTool
         }
 
         // 遍历一个文件夹的时候处理
-        public void handleDir(string fullDirName)
+        public void handleDir(string fullDirName, string name)
         {
             if (m_srcFullPath != fullDirName)
             {
@@ -154,12 +154,12 @@ namespace EditorTool
                 else
                 {
                     destPath = Path.Combine(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath, destPath);
-                    UtilPath.CreateDirectory(destPath);
+                    UtilPath.createDirectory(destPath);
                 }
             }
             else
             {
-                UtilPath.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+                UtilPath.createDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
             }
         }
 

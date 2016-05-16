@@ -178,7 +178,7 @@ namespace EditorTool
             {
                 string path = "";
                 path = ExportUtil.getWorkPath(m_assetOutPath);
-                if (!UtilPath.ExistDirectory(path))
+                if (!UtilPath.existDirectory(path))
                 {
                     UtilPath.recurseCreateDirectory(path);
                 }
@@ -188,7 +188,7 @@ namespace EditorTool
             {
                 string path = "";
                 path = ExportUtil.getWorkPath(m_controllerOutPath);
-                if (!UtilPath.ExistDirectory(path))
+                if (!UtilPath.existDirectory(path))
                 {
                     UtilPath.recurseCreateDirectory(path);
                 }

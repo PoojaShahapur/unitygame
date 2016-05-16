@@ -28,10 +28,10 @@ namespace EditorTool
         public void addController()
         {
             string fullPath = ExportUtil.getWorkPath(m_inPath);
-            ExportUtil.traverseFilesInOneDir(fullPath, onFindOneFile);
+            UtilPath.traverseFilesInOneDir(fullPath, onFindOneFile);
         }
 
-        protected void onFindOneFile(string fullPath)
+        protected void onFindOneFile(string fullPath, string name)
         {
             string ext = UtilPath.getFileExt(fullPath);
             string nameNoExt = UtilPath.getFileNameNoExt(fullPath);

@@ -14,8 +14,8 @@ namespace EditorTool
 
             ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = ExportUtil.getStreamingDataPath("");
             ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath = UtilPath.normalPath(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            UtilPath.DeleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
-            UtilPath.CreateDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilPath.deleteDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
+            UtilPath.createDirectory(ResExportSys.m_instance.m_pResourcesCfgPackData.m_destFullPath);
 
             ResExportSys.m_instance.parseResourceXml();
             ResExportSys.m_instance.packResourceList();
