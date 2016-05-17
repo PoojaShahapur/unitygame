@@ -65,10 +65,11 @@ namespace SDK.Lib
         // 异步加载对象
         override public void asyncLoad(string path, Action<IDispatchObject> dispObj)
         {
-            if(mPath != path && !string.IsNullOrEmpty(path))
+            this.setPath(path);
+
+            if(this.isInvalid())
             {
                 unload();
-                mPath = path;
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(dispObj);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
@@ -77,10 +78,11 @@ namespace SDK.Lib
 
         override public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
         {
-            if (mPath != path && !string.IsNullOrEmpty(path))
+            this.setPath(path);
+
+            if (this.isInvalid())
             {
                 unload();
-                mPath = path;
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, luaTable, luaFunction);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);

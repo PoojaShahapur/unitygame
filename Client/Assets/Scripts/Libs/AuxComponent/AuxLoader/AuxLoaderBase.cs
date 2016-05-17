@@ -9,13 +9,17 @@ namespace SDK.Lib
     public class AuxLoaderBase : IDispatchObject
     {
         protected bool mIsSuccess;      // 是否成功
+        protected string mPrePath;      // 之前加载的资源目录
         protected string mPath;         // 加载的资源目录
         protected ResEventDispatch mEvtHandle;              // 事件分发器
+        protected bool mIsInvalid;       // 加载器是否无效
 
         public AuxLoaderBase()
         {
             mIsSuccess = false;
+            mPrePath = "";
             mPath = "";
+            mIsInvalid = true;
         }
 
         virtual public void dispose()
@@ -31,6 +35,26 @@ namespace SDK.Lib
         public bool hasFailed()
         {
             return !mIsSuccess;
+        }
+
+        public void setPath(string path)
+        {
+            mPrePath = mPath;
+            mPath = path;
+
+            if(mPrePath != mPath && string.IsNullOrEmpty(mPath))
+            {
+                mIsInvalid = true;
+            }
+            else
+            {
+                mIsInvalid = false;
+            }
+        }
+
+        public bool isInvalid()
+        {
+            return mIsInvalid;
         }
 
         virtual public string getLogicPath()
@@ -55,7 +79,11 @@ namespace SDK.Lib
 
         virtual public void unload()
         {
-
+            if (mEvtHandle != null)
+            {
+                mEvtHandle.clearEventHandle();
+                mEvtHandle = null;
+            }
         }
     }
 }

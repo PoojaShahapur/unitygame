@@ -67,6 +67,7 @@ namespace SDK.Lib
         public PrefabMgr m_prefabMgr;
         public ControllerMgr m_controllerMgr;
         public BytesResMgr m_bytesResMgr;
+        public SpriteMgr mSpriteMgr;
 
         public SystemSetting m_systemSetting;
         public CoordConv m_coordConv;
@@ -154,6 +155,7 @@ namespace SDK.Lib
             m_prefabMgr = new PrefabMgr();
             m_controllerMgr = new ControllerMgr();
             m_bytesResMgr = new BytesResMgr();
+            mSpriteMgr = new SpriteMgr();
 
             m_systemSetting = new SystemSetting();
             m_coordConv = new CoordConv();

@@ -1,17 +1,14 @@
 ﻿using System;
-using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class AuxTexLoader : AuxLoaderBase
+    public class AuxSpriteAtlasLoader : AuxLoaderBase
     {
-        protected TextureRes mTextureRes;       // 纹理资源
-        protected Texture mTexture;
+        protected SpriteAtlasRes mSpriteAtlasRes;
 
-        public AuxTexLoader()
+        public AuxSpriteAtlasLoader()
         {
-            mTextureRes = null;
-            mTexture = null;
+            mSpriteAtlasRes = null;
         }
 
         override public void dispose()
@@ -19,16 +16,16 @@ namespace SDK.Lib
             base.dispose();
         }
 
-        public Texture getTexture()
+        public UnityEngine.Sprite getSprite(string spriteName)
         {
-            return mTexture;
+            return mSpriteAtlasRes.getSprite(spriteName);
         }
 
         override public string getLogicPath()
         {
-            if (mTexture != null)
+            if (mSpriteAtlasRes != null)
             {
-                return mTextureRes.getLogicPath();
+                return mSpriteAtlasRes.getLogicPath();
             }
 
             return mPath;
@@ -44,23 +41,22 @@ namespace SDK.Lib
                 unload();
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(dispObj);
-                mTextureRes = Ctx.m_instance.m_texMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mSpriteAtlasRes = Ctx.m_instance.mSpriteMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }
 
         public void onTexLoaded(IDispatchObject dispObj)
         {
-            mTextureRes = dispObj as TextureRes;
-            if (mTextureRes.hasSuccessLoaded())
+            mSpriteAtlasRes = dispObj as SpriteAtlasRes;
+            if (mSpriteAtlasRes.hasSuccessLoaded())
             {
                 mIsSuccess = true;
-                this.mTexture = mTextureRes.getTexture();
             }
-            else if (mTextureRes.hasFailed())
+            else if (mSpriteAtlasRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
-                mTextureRes = null;
+                Ctx.m_instance.mSpriteMgr.unload(mSpriteAtlasRes.getResUniqueId(), onTexLoaded);
+                mSpriteAtlasRes = null;
             }
 
             if (mEvtHandle != null)
@@ -71,10 +67,10 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            if(mTextureRes != null)
+            if(mSpriteAtlasRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
-                mTextureRes = null;
+                Ctx.m_instance.m_texMgr.unload(mSpriteAtlasRes.getResUniqueId(), onTexLoaded);
+                mSpriteAtlasRes = null;
             }
 
             base.unload();

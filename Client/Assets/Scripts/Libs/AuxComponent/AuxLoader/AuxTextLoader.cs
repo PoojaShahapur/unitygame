@@ -1,17 +1,14 @@
 ﻿using System;
-using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class AuxTexLoader : AuxLoaderBase
+    public class AuxTextLoader : AuxLoaderBase
     {
-        protected TextureRes mTextureRes;       // 纹理资源
-        protected Texture mTexture;
+        protected TextRes mTextRes;
 
-        public AuxTexLoader()
+        public AuxTextLoader()
         {
-            mTextureRes = null;
-            mTexture = null;
+            mTextRes = null;
         }
 
         override public void dispose()
@@ -19,16 +16,16 @@ namespace SDK.Lib
             base.dispose();
         }
 
-        public Texture getTexture()
+        public string getText()
         {
-            return mTexture;
+            return mTextRes.getText(mTextRes.getPrefabName());
         }
 
         override public string getLogicPath()
         {
-            if (mTexture != null)
+            if (mTextRes != null)
             {
-                return mTextureRes.getLogicPath();
+                return mTextRes.getLogicPath();
             }
 
             return mPath;
@@ -44,23 +41,22 @@ namespace SDK.Lib
                 unload();
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(dispObj);
-                mTextureRes = Ctx.m_instance.m_texMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mTextRes = Ctx.m_instance.m_textResMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }
 
         public void onTexLoaded(IDispatchObject dispObj)
         {
-            mTextureRes = dispObj as TextureRes;
-            if (mTextureRes.hasSuccessLoaded())
+            mTextRes = dispObj as TextRes;
+            if (mTextRes.hasSuccessLoaded())
             {
                 mIsSuccess = true;
-                this.mTexture = mTextureRes.getTexture();
             }
-            else if (mTextureRes.hasFailed())
+            else if (mTextRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
-                mTextureRes = null;
+                Ctx.m_instance.m_texMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
+                mTextRes = null;
             }
 
             if (mEvtHandle != null)
@@ -71,10 +67,10 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            if(mTextureRes != null)
+            if(mTextRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mTextureRes.getResUniqueId(), onTexLoaded);
-                mTextureRes = null;
+                Ctx.m_instance.m_texMgr.unload(mTextRes.getResUniqueId(), onTexLoaded);
+                mTextRes = null;
             }
 
             base.unload();
