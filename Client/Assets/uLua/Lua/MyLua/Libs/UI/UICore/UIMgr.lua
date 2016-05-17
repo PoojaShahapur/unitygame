@@ -85,13 +85,13 @@ function M:loadFormScript(formId, data)
 end
 
 -- 加载脚本并且加载资源
-function M:loadForm(formId, data)
+function M:loadForm(formId, param)
     if(uiRootObj ~= nil) then
         return;
     end
     
-    if(self.m_formArr[formid] == nil) then
-        self:loadFormScript(formId, data);
+    if(self.m_formArr[formId] == nil) then
+        self:loadFormScript(formId, param);
     end
     
     if(not self.m_formArr[formId]:isReady()) then
@@ -102,14 +102,14 @@ function M:loadForm(formId, data)
             self.m_formArr[formId]:onReady();
         else
             -- 应该是错误的，必然要加载
-            error('load error');
+            GlobalNS.UtilApi.error('load error');
         end
     end
 end
 
-function M:loadAndShow(formId, data)
+function M:loadAndShow(formId, param)
     if(self.m_formArr[formId] == nil or not self.m_formArr[formId]:isReady()) then
-        self:loadForm(formId, data);
+        self:loadForm(formId, param);
     end
     self:showForm(formId);
     return self.m_formArr[formId];

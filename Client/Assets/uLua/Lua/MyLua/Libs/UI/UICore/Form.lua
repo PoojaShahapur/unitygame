@@ -11,12 +11,18 @@ function M:ctor(...)
     self.m_id = 0;              -- 自己的 Id
     self.m_bExit = true;        -- 点击返回按钮的时候退出还是隐藏
     self.m_bReady = false;      -- 是否 onReady 函数被调用
-    self.m_bVisible = false;
-    self.m_data = ...;
+    self.m_bVisible = false;    -- 是否可见
+    self.mIsShowAfterLoaded = true;    -- 加载完成是否立马显示 
+    self.mParam = ...;          -- 参数值，当前只能传递一个参数进来，尽量使用表传递进来所有需要的参数
 end
 
 function M:dtor()
 
+end
+
+-- 加载完成是否立刻显示，如果不是立刻显示，就需要自己再次手工调用 show 函数才行
+function M:IsShowAfterLoaded()
+    return self.mIsShowAfterLoaded;
 end
 
 -- 加载
@@ -30,8 +36,8 @@ function M:show()
 end
 
 -- 加载并显示
-function M:loadAndShow(data)
-    GCtx.m_uiMgr:loadAndShow(self.m_id, data);
+function M:loadAndShow(param)
+    GCtx.m_uiMgr:loadAndShow(self.m_id, param);
 end
 
 -- 隐藏

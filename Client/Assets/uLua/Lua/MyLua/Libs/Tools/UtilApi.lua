@@ -291,6 +291,10 @@ function M.formatStr(format, ...)
     return string.format(format, ...);
 end
 
+function M.error(str)
+    error(str);
+end
+
 M.ctor()        -- 构造
 
 return M;
