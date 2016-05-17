@@ -7,26 +7,21 @@ namespace SDK.Lib
     /**
      * @brief 移动
      */
-    public class AuxPrefabComponent : AuxComponent
+    public class AuxPrefabLoader : AuxLoaderBase
     {
+        protected GameObject mSelfGo;                       // 加载的 GameObject
         protected PrefabRes mPrefabRes;                     // 预制资源
-        protected ResEventDispatch mEvtHandle;              // 事件分发器
         protected ResInsEventDispatch mResInsEventDispatch; // 实例化的时候使用的分发器
-        protected bool mIsSuccess;      // 是否成功
-        protected string mPath;         // 加载的资源目录
         protected bool mIsInsNeedCoroutine; // 实例化是否需要协程
 
-        public AuxPrefabComponent(bool isInsNeedCoroutine = true)
-            : base(null)
+        public AuxPrefabLoader(bool isInsNeedCoroutine = true)
+            : base()
         {
             mIsInsNeedCoroutine = isInsNeedCoroutine;
-            mIsSuccess = false;
-            mPath = "";
         }
 
         override public void dispose()
         {
-            unload();
             if(this.selfGo != null)
             {
                 UtilApi.Destroy(this.selfGo);
@@ -34,17 +29,19 @@ namespace SDK.Lib
             base.dispose();
         }
 
-        public bool hasSuccessLoaded()
+        public GameObject selfGo
         {
-            return mIsSuccess;
+            get
+            {
+                return mSelfGo;
+            }
+            set
+            {
+                mSelfGo = value;
+            }
         }
 
-        public bool hasFailed()
-        {
-            return !mIsSuccess;
-        }
-
-        public string getLogicPath()
+        override public string getLogicPath()
         {
             if (mPrefabRes != null)
             {
@@ -54,7 +51,7 @@ namespace SDK.Lib
             return mPath;
         }
 
-        public void syncLoad(string path)
+        override public void syncLoad(string path)
         {
             if(mPath != path && !string.IsNullOrEmpty(path))
             {
@@ -66,7 +63,7 @@ namespace SDK.Lib
         }
 
         // 异步加载对象
-        public void asyncLoad(string path, Action<IDispatchObject> dispObj)
+        override public void asyncLoad(string path, Action<IDispatchObject> dispObj)
         {
             if(mPath != path && !string.IsNullOrEmpty(path))
             {
@@ -78,7 +75,7 @@ namespace SDK.Lib
             }
         }
 
-        public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
+        override public void asyncLoad(string path, LuaTable luaTable, LuaFunction luaFunction)
         {
             if (mPath != path && !string.IsNullOrEmpty(path))
             {
@@ -147,7 +144,7 @@ namespace SDK.Lib
             }
         }
 
-        public void unload()
+        override public void unload()
         {
             if(mPrefabRes != null)
             {
@@ -170,7 +167,7 @@ namespace SDK.Lib
 
         public GameObject getGameObject()
         {
-            return this.m_selfGo;
+            return this.mSelfGo;
         }
 
         public void setClientDispose()

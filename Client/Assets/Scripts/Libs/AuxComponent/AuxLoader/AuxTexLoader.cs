@@ -3,23 +3,20 @@ using UnityEngine;
 
 namespace SDK.Lib
 {
-    public class AuxTexComponent : IDispatchObject
+    public class AuxTexLoader : AuxLoaderBase
     {
         protected TextureRes mTextureRes;       // 纹理资源
-        protected ResEventDispatch mEvtHandle;   // 事件分发器
-        protected bool mIsSuccess;              // 是否成功
-        protected string mPath;                 // 加载的资源目录
         protected Texture mTexture;
 
-        public AuxTexComponent()
+        public AuxTexLoader()
         {
             mIsSuccess = false;
             mPath = "";
         }
 
-        public void dispose()
+        override public void dispose()
         {
-            unload();
+            base.dispose();
         }
 
         public Texture getTexture()

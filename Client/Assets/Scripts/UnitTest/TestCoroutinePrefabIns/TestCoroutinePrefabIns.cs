@@ -5,7 +5,7 @@ namespace UnitTest
     public class TestCoroutinePrefabIns
     {
         protected PrefabRes mPrefabRes;
-        protected AuxPrefabComponent mAuxPrefabComponent;
+        protected AuxPrefabLoader mAuxPrefabLoader;
 
         public void run()
         {
@@ -45,14 +45,14 @@ namespace UnitTest
 
         public void testPrefabComponent()
         {
-            mAuxPrefabComponent = new AuxPrefabComponent();
+            mAuxPrefabLoader = new AuxPrefabLoader();
             string path = "Model/Character/ChangCard";
-            mAuxPrefabComponent.asyncLoad(path, onPrefabComLoaded);
+            mAuxPrefabLoader.asyncLoad(path, onPrefabComLoaded);
         }
 
         public void onPrefabComLoaded(IDispatchObject dispObj)
         {
-            mAuxPrefabComponent = dispObj as AuxPrefabComponent;
+            mAuxPrefabLoader = dispObj as AuxPrefabLoader;
         }
     }
 }

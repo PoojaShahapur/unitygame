@@ -40,7 +40,7 @@ namespace EditorTool
             string bakPath = ExportUtil.getPkgWorkPath("");
             UtilPath.deleteDirectory(bakPath);
             UtilPath.createDirectory(bakPath);
-            UtilPath.copyDirectory(delPath, bakPath);
+            UtilPath.recurseCopyDirectory(delPath, bakPath);
             UtilPath.deleteDirectory(delPath);
         }
 
@@ -74,7 +74,7 @@ namespace EditorTool
             string restorePath = ExportUtil.getDataPath("");
             string bakPath = ExportUtil.getPkgWorkPath("");
             UtilPath.createDirectory(restorePath);
-            UtilPath.copyDirectory(bakPath, restorePath);
+            UtilPath.recurseCopyDirectory(bakPath, restorePath);
             UtilPath.deleteDirectory(bakPath);
         }
     }
