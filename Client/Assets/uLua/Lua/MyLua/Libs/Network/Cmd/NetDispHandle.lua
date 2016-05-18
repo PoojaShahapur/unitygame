@@ -19,3 +19,5 @@ function M:handleMsg(msg)
         
     end
 end
+
+return M;

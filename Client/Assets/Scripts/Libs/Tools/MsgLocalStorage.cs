@@ -8,7 +8,7 @@ namespace SDK.Lib
 #if UNITY_EDITOR
         static string streamPath = Application.streamingAssetsPath;
 #else
-    static string streamPath = Application.persistentDataPath;
+        static string streamPath = Application.persistentDataPath;
 #endif
 
         static public byte[] readFileAllBytes(string fileName)

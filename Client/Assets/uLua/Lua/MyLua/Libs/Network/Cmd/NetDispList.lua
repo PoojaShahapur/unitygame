@@ -54,3 +54,5 @@ end
 function M:clearOneHandleMsg()
     self.m_handleMsgCnt = 0;
 end
+
+return M;

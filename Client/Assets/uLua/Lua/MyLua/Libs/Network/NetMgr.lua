@@ -7,7 +7,7 @@ M.clsName = "NetMgr";
 GlobalNS[M.clsName] = M;
 
 function M:init()
-    --GlobalNS.ProtobufUtil.registerAll();
+    GlobalNS.ProtobufUtil.registerAll();
 end
 
 function M:postCommand(id, data)
@@ -17,7 +17,7 @@ function M:postCommand(id, data)
             data = {};
         end
         if(command ~= nil) then
-            print("Send message id: " .. id .. " Proto: " .. command.proto);
+            GCtx.mLogSys:log("Send message id: " .. id .. " Proto: " .. command.proto);
             local buffer = ProtobufUtil:encode(command.proto, data);
             GlobalNS.CSSystem.Ctx.m_luaSystem.SendFromLua(id, buffer);
         end
@@ -25,7 +25,7 @@ function M:postCommand(id, data)
 end
 
 function M:receiveMsg(id, buffer)
-    print("---------------- NetManager.receiveMsg id: ", id);
+    GCtx.mLogSys:log("---------------- NetManager.receiveMsg id: ", id);
     if(not SINGLE_MODE) then
         local msg = NetMessage[id];
         if(msg ~= nil) then

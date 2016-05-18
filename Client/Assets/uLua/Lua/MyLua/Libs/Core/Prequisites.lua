@@ -62,3 +62,6 @@ require "MyLua.Libs.FrameWork.UniqueIdGentor"
 
 -- 工具
 require "MyLua.Libs.Tools.UtilApi"
+
+-- 日志
+require "MyLua.Libs.Log.LogSys"

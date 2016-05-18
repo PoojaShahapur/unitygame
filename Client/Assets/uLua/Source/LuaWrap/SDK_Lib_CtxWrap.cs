@@ -65,6 +65,7 @@ public class SDK_Lib_CtxWrap
 			new LuaField("m_prefabMgr", get_m_prefabMgr, set_m_prefabMgr),
 			new LuaField("m_controllerMgr", get_m_controllerMgr, set_m_controllerMgr),
 			new LuaField("m_bytesResMgr", get_m_bytesResMgr, set_m_bytesResMgr),
+			new LuaField("mSpriteMgr", get_mSpriteMgr, set_mSpriteMgr),
 			new LuaField("m_systemSetting", get_m_systemSetting, set_m_systemSetting),
 			new LuaField("m_coordConv", get_m_coordConv, set_m_coordConv),
 			new LuaField("m_pFlyNumMgr", get_m_pFlyNumMgr, set_m_pFlyNumMgr),
@@ -1275,6 +1276,30 @@ public class SDK_Lib_CtxWrap
 		}
 
 		LuaScriptMgr.PushObject(L, obj.m_bytesResMgr);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_mSpriteMgr(IntPtr L)
+	{
+		object o = LuaScriptMgr.GetLuaObject(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
+
+		if (obj == null)
+		{
+			LuaTypes types = LuaDLL.lua_type(L, 1);
+
+			if (types == LuaTypes.LUA_TTABLE)
+			{
+				LuaDLL.luaL_error(L, "unknown member name mSpriteMgr");
+			}
+			else
+			{
+				LuaDLL.luaL_error(L, "attempt to index mSpriteMgr on a nil value");
+			}
+		}
+
+		LuaScriptMgr.PushObject(L, obj.mSpriteMgr);
 		return 1;
 	}
 
@@ -3490,6 +3515,30 @@ public class SDK_Lib_CtxWrap
 		}
 
 		obj.m_bytesResMgr = (SDK.Lib.BytesResMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.BytesResMgr));
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_mSpriteMgr(IntPtr L)
+	{
+		object o = LuaScriptMgr.GetLuaObject(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
+
+		if (obj == null)
+		{
+			LuaTypes types = LuaDLL.lua_type(L, 1);
+
+			if (types == LuaTypes.LUA_TTABLE)
+			{
+				LuaDLL.luaL_error(L, "unknown member name mSpriteMgr");
+			}
+			else
+			{
+				LuaDLL.luaL_error(L, "attempt to index mSpriteMgr on a nil value");
+			}
+		}
+
+		obj.mSpriteMgr = (SDK.Lib.SpriteMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SpriteMgr));
 		return 0;
 	}
 

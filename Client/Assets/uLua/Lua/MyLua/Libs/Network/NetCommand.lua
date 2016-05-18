@@ -12,5 +12,5 @@ NetMessage =
 
 PBFileList = 
 {
-    "pb/Test.pb",
+    "Pb/Test.pb",
 };

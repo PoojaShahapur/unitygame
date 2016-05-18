@@ -13,3 +13,5 @@ function M:handleMsg(bu, byCmd, byParam)
         
     end
 end
+
+return M;

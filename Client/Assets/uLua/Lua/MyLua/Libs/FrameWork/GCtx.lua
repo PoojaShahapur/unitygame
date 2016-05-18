@@ -20,6 +20,7 @@ function M.preInit()
     this.m_processSys = GlobalNS.new(GlobalNS.ProcessSys);
     this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
     this.mNetMgr = GlobalNS.NetMgr;     -- Net 使用原始的表
+    this.mLogSys = GlobalNS.new(GlobalNS.LogSys);
 end
 
 function M.interInit()
