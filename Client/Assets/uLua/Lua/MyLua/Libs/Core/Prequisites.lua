@@ -73,6 +73,7 @@ require "MyLua.Libs.Network.Cmd.NetDispHandle"
 require "MyLua.Libs.Network.Cmd.NetCmdNotify"
 require "MyLua.Libs.Network.Cmd.CmdDispInfo"
 
+require "MyLua.Libs.Network.PBFileList"
 require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.Network.NetMgr"

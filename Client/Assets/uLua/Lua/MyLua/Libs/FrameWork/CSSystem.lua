@@ -42,7 +42,7 @@ function M.sendFromLua(id, buffer)
 end
 
 function M.readLuaBufferToFile(file)
-    this.MsgLocalStorage.readLuaBufferToFile(file);
+    return this.MsgLocalStorage.readLuaBufferToFile(file);
 end
 
 return M;
