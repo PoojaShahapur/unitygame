@@ -3,7 +3,8 @@ M.clsName = "GameNetHandleCB";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_id2DispDic[MSG_ReqTest] = GameDataUserCmdHandle();
+    local cmdHandle = GlobalNS.new(GlobanNS.GameTestCmdHandle);
+    self.addCmdHandle(MSG_ReqTest, cmdHandle, cmdHandle.call);
 end
 
 function M:dtor()

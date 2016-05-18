@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SDK.Lib
 {
@@ -14,14 +15,14 @@ namespace SDK.Lib
             mCmdDispInfo = new CmdDispInfo();
         }
 
-        public void addCmdHandle(int cmdId, NetCmdHandleBase callee)
+        public void addCmdHandle(int cmdId, NetCmdHandleBase callee, Action<IDispatchObject> handle)
         {
             if (!m_id2DispDic.ContainsKey(cmdId))
             {
                 m_id2DispDic[cmdId] = new AddOnceEventDispatch();
             }
 
-            m_id2DispDic[cmdId].addEventHandle(callee, null);
+            m_id2DispDic[cmdId].addEventHandle(callee, handle);
         }
 
         public void removeCmdHandle(int cmdId, NetCmdHandleBase calleeObj = null)

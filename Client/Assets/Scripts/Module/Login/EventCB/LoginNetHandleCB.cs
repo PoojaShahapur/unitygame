@@ -9,10 +9,15 @@ namespace Game.Login
     {
         public LoginNetHandleCB()
         {
-            this.addCmdHandle(stNullUserCmd.TIME_USERCMD, new LoginTimerUserCmdHandle());
-            this.addCmdHandle(stNullUserCmd.DATA_USERCMD, new LoginDataUserCmdHandle());
-            this.addCmdHandle(stNullUserCmd.SELECT_USERCMD, new LoginSelectUserCmdHandle());
-            this.addCmdHandle(stNullUserCmd.LOGON_USERCMD, new LoginLogonUserCmdHandle());
+            NetCmdHandleBase cmdHandle;
+            cmdHandle = new LoginTimerUserCmdHandle();
+            this.addCmdHandle(stNullUserCmd.TIME_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new LoginDataUserCmdHandle();
+            this.addCmdHandle(stNullUserCmd.DATA_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new LoginSelectUserCmdHandle();
+            this.addCmdHandle(stNullUserCmd.SELECT_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new LoginLogonUserCmdHandle();
+            this.addCmdHandle(stNullUserCmd.LOGON_USERCMD, cmdHandle, cmdHandle.call);
         }
 
         // 如果要调试可以重载，方便调试

@@ -9,11 +9,17 @@ namespace Game.Game
     {
         public GameNetHandleCB()
         {
-            this.addCmdHandle(stNullUserCmd.DATA_USERCMD, new GameDataUserCmdHandle());
-            this.addCmdHandle(stNullUserCmd.PROPERTY_USERCMD, new GamePropertyUserCmdHandle());
-            this.addCmdHandle(stNullUserCmd.HERO_CARD_USERCMD, new GameHeroCardCmdHandle());
-            this.addCmdHandle(stNullUserCmd.CHAT_USERCMD, new GameChatCmdHandle());
-            this.addCmdHandle(stNullUserCmd.TIME_USERCMD, new GameTimeCmdHandle());
+            NetCmdHandleBase cmdHandle;
+            cmdHandle = new GameDataUserCmdHandle();
+            this.addCmdHandle(stNullUserCmd.DATA_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new GamePropertyUserCmdHandle();
+            this.addCmdHandle(stNullUserCmd.PROPERTY_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new GameHeroCardCmdHandle();
+            this.addCmdHandle(stNullUserCmd.HERO_CARD_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new GameChatCmdHandle();
+            this.addCmdHandle(stNullUserCmd.CHAT_USERCMD, cmdHandle, cmdHandle.call);
+            cmdHandle = new GameTimeCmdHandle();
+            this.addCmdHandle(stNullUserCmd.TIME_USERCMD, cmdHandle, cmdHandle.call);
         }
     }
 }

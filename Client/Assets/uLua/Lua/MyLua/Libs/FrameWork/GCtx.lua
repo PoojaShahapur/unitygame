@@ -21,11 +21,14 @@ function M.preInit()
     this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
     this.mNetMgr = GlobalNS.NetMgr;     -- Net 使用原始的表
     this.mLogSys = GlobalNS.new(GlobalNS.LogSys);
+    this.m_netDispList = nil;
+    this.m_gameSys = GlobalNS.new(GlobalNS.GameSys);
 end
 
 function M.interInit()
     GlobalNS.CSSystem.init();
     this.mNetMgr:init();
+    this.m_gameSys:init();
 end
 
 function M.postInit()
@@ -36,6 +39,10 @@ function M.init()
     this.preInit();
     this.interInit();
     this.postInit();
+end
+
+function M.setNetDispList(value)
+    this.m_netDispList = value;
 end
 
 M.ctor();

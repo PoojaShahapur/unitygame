@@ -3,7 +3,7 @@ M.clsName = "GameTestCmdHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_id2HandleDic[MSG_ReqTest] = handleTest;
+    this.addParamHandle(MSG_ReqTest, self, self.handleTest);
 end
 
 function M:dtor()

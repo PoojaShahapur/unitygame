@@ -10,8 +10,8 @@ function M:init()
     GlobalNS.ProtobufUtil.registerAll();
 end
 
-function M:postCommand(id, data)
-    if(not SINGLE_MODE) then
+function M:postCommand(id, data, isNetSend)
+    if(isNetSend == true) then
         local command = NetCommand[id];
         if(data == nil) then
             data = {};
@@ -26,10 +26,11 @@ end
 
 function M:receiveMsg(id, buffer)
     GCtx.mLogSys:log("---------------- NetManager.receiveMsg id: ", id);
-    if(not SINGLE_MODE) then
-        local msg = NetMessage[id];
-        if(msg ~= nil) then
-            local data = ProtobufUtil:decode(msg.proto, buffer);
+    local msg = NetMessage[id];
+    if(msg ~= nil) then
+        local data = ProtobufUtil:decode(msg.proto, buffer);
+        if(data ~= nil) then
+            GCtx.m_netDispList:handleMsg(data);
         end
     end
 end
