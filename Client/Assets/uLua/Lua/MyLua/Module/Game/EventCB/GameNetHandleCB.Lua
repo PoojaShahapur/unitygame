@@ -7,7 +7,7 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     local cmdHandle = GlobalNS.new(GlobalNS.GameTestCmdHandle);
-    self.addCmdHandle(MSG_ReqTest, cmdHandle, cmdHandle.call);
+    self:addCmdHandle(MSG_ReqTest, cmdHandle, cmdHandle.call);
 end
 
 function M:dtor()

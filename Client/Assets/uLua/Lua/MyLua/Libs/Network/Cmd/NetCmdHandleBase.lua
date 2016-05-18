@@ -1,5 +1,5 @@
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "NetDispList";
+M.clsName = "NetCmdHandleBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
@@ -8,7 +8,7 @@ end
 
 function M:addParamHandle(paramId, pThis, func)
     if(not self.m_id2HandleDic:ContainsKey(paramId)) then
-        self.m_id2HandleDic[paramId] = new AddOnceEventDispatch();   
+        self.m_id2HandleDic[paramId] = GlobalNS.new(GlobalNS.AddOnceEventDispatch);   
     else
         GCtx.mLogSys.log("Msg Id Already Register");
     end

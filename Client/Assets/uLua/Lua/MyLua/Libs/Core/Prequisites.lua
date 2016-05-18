@@ -64,6 +64,7 @@ require "MyLua.Libs.FrameWork.UniqueIdGentor"
 require "MyLua.Libs.Tools.UtilApi"
 
 -- 日志
+require "MyLua.Libs.Log.LogTypeId"
 require "MyLua.Libs.Log.LogSys"
 
 -- 网络

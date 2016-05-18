@@ -22,21 +22,21 @@ end
 function M:log(message, logTypeId)
     -- 输出日志信息
     if(self:isInFilter(logTypeId)) then
-        GlobalNS.CSSystem.Ctx.m_logSys:log(message, logTypeId);    
+        GlobalNS.CSSystem.log(message, logTypeId);    
     end
 end
 
 function M:warn(message, logTypeId)
     -- 输出日志信息
     if(self:isInFilter(logTypeId)) then
-        GlobalNS.CSSystem.Ctx.m_logSys:warn(message, logTypeId);    
+        GlobalNS.CSSystem.warn(message, logTypeId);    
     end
 end
 
 function M:error(message, logTypeId)
     -- 输出日志信息
     if(self:isInFilter(logTypeId)) then
-        GlobalNS.CSSystem.Ctx.m_logSys:error(message, logTypeId);    
+        GlobalNS.CSSystem.error(message, logTypeId);    
     end
 end
 

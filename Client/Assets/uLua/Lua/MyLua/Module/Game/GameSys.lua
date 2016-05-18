@@ -14,7 +14,8 @@ function M:dtor()
 end
 
 function M:init()
-    GCtx.setNetDispList(GlobalNS.new(GlobalNS.GameNetHandleCB));    -- 设置网络模块处理
+    local gameNetHandleCB = GlobalNS.new(GlobalNS.GameNetHandleCB);
+    GCtx.setNetDispList(gameNetHandleCB);    -- 设置网络模块处理
 end
 
 return M;

@@ -18,4 +18,31 @@ function M.setNeedUpdate(value)
     
 end
 
+-- 日志区域
+function M.log(message, logTypeId)
+    this.Ctx.m_logSys:log(message, logTypeId);
+end
+
+function M.warn(message, logTypeId)
+    this.Ctx.m_logSys:warn(message, logTypeId);
+end
+
+function M.error(message, logTypeId)
+    this.Ctx.m_logSys:error(message, logTypeId);
+end
+
+-- lua cs 交互区域
+function M.onTestProtoBuf(msg)
+    this.LuaToCS.onTestProtoBuf(msg);
+end
+
+-- 网络区域
+function M.sendFromLua(id, buffer)
+    this.Ctx.m_luaSystem.sendFromLua(id, buffer);
+end
+
+function M.readLuaBufferToFile(file)
+    this.MsgLocalStorage.readLuaBufferToFile(file);
+end
+
 return M;

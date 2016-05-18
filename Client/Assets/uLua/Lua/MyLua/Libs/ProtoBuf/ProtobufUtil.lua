@@ -12,7 +12,7 @@ function M.registerAll()
 end
 
 function M.registerPB(file)
-    local buffer = GlobalNS.CSSystem.MsgLocalStorage.readLuaBufferToFile(file);
+    local buffer = GlobalNS.CSSystem.readLuaBufferToFile(file);
     protobuf.register(buffer);
 end
 

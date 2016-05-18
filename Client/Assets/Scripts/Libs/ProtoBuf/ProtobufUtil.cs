@@ -7,7 +7,7 @@ namespace SDK.Lib
     /**
      * @brief Protobuf 辅助函数
      */
-    public class ProtobufHelper
+    public class ProtobufUtil
     {
         /**
          * @brief 序列化成字符串

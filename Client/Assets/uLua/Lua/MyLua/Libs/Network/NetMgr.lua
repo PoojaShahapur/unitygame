@@ -1,6 +1,6 @@
 require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
-require "MyLua.Libs.Network.ProtobufUtil"
+require "MyLua.Libs.ProtoBuf.ProtobufUtil"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "NetMgr";
@@ -19,13 +19,13 @@ function M:sendCmd(id, data, isNetSend)
         if(command ~= nil) then
             GCtx.mLogSys:log("Send message id: " .. id .. " Proto: " .. command.proto);
             local buffer = ProtobufUtil:encode(command.proto, data);
-            GlobalNS.CSSystem.Ctx.m_luaSystem.sendFromLua(id, buffer);
+            GlobalNS.CSSystem.sendFromLua(id, buffer);
         end
     end
 end
 
 function M:receiveCmd(id, buffer)
-    GCtx.mLogSys:log("---------------- NetManager.receiveCmd id: ", id);
+    GCtx.mLogSys:log("---------------- NetManager.receiveCmd id: " .. id, GlobalNS.LogTypeId.eLogCommon);
     local msg = NetMessage[id];
     if(msg ~= nil) then
         local data = ProtobufUtil:decode(msg.proto, buffer);

@@ -21,7 +21,7 @@ function M.preInit()
     this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
     this.mNetMgr = GlobalNS.NetMgr;     -- Net 使用原始的表
     this.mLogSys = GlobalNS.new(GlobalNS.LogSys);
-    this.m_netDispList = nil;
+    --this.m_netDispList = nil;
     this.m_gameSys = GlobalNS.new(GlobalNS.GameSys);
 end
 
@@ -32,7 +32,8 @@ function M.interInit()
 end
 
 function M.postInit()
-    
+    -- 加载逻辑处理
+    GlobalNS.ClassLoader.loadClass("MyLua.Libs.FrameWork.GlobalEventMgr");
 end
 
 function M.init()
