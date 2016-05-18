@@ -1,6 +1,15 @@
-message Test
+package msg;
+
+message MSG_ReqTest
 {
-	required int32     uid  = 1;
-	optional int64     guid = 2;
-	optional string    account = 4;
+	required int32     requid  = 1;
+	optional int64     reqguid = 2;
+	optional string    reqaccount = 3;
+}
+
+message MSG_RetTest
+{
+	required int32     retuid  = 1;
+	optional int64     retguid = 2;
+	optional string    retaccount = 3;
 }
