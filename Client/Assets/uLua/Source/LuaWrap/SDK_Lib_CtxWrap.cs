@@ -48,8 +48,8 @@ public class SDK_Lib_CtxWrap
 			new LuaField("m_sceneLogic", get_m_sceneLogic, set_m_sceneLogic),
 			new LuaField("m_aiSystem", get_m_aiSystem, set_m_aiSystem),
 			new LuaField("m_sysMsgRoute", get_m_sysMsgRoute, set_m_sysMsgRoute),
-			new LuaField("m_netDispList", get_m_netDispList, set_m_netDispList),
-			new LuaField("m_msgRouteList", get_m_msgRouteList, set_m_msgRouteList),
+			new LuaField("m_netCmdNotify", get_m_netCmdNotify, set_m_netCmdNotify),
+			new LuaField("m_msgRouteNotify", get_m_msgRouteNotify, set_m_msgRouteNotify),
 			new LuaField("m_moduleSys", get_m_moduleSys, set_m_moduleSys),
 			new LuaField("m_tableSys", get_m_tableSys, set_m_tableSys),
 			new LuaField("m_fileSys", get_m_fileSys, set_m_fileSys),
@@ -872,7 +872,7 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_netDispList(IntPtr L)
+	static int get_m_netCmdNotify(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
@@ -883,20 +883,20 @@ public class SDK_Lib_CtxWrap
 
 			if (types == LuaTypes.LUA_TTABLE)
 			{
-				LuaDLL.luaL_error(L, "unknown member name m_netDispList");
+				LuaDLL.luaL_error(L, "unknown member name m_netCmdNotify");
 			}
 			else
 			{
-				LuaDLL.luaL_error(L, "attempt to index m_netDispList on a nil value");
+				LuaDLL.luaL_error(L, "attempt to index m_netCmdNotify on a nil value");
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_netDispList);
+		LuaScriptMgr.PushObject(L, obj.m_netCmdNotify);
 		return 1;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_msgRouteList(IntPtr L)
+	static int get_m_msgRouteNotify(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
@@ -907,15 +907,15 @@ public class SDK_Lib_CtxWrap
 
 			if (types == LuaTypes.LUA_TTABLE)
 			{
-				LuaDLL.luaL_error(L, "unknown member name m_msgRouteList");
+				LuaDLL.luaL_error(L, "unknown member name m_msgRouteNotify");
 			}
 			else
 			{
-				LuaDLL.luaL_error(L, "attempt to index m_msgRouteList on a nil value");
+				LuaDLL.luaL_error(L, "attempt to index m_msgRouteNotify on a nil value");
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_msgRouteList);
+		LuaScriptMgr.PushObject(L, obj.m_msgRouteNotify);
 		return 1;
 	}
 
@@ -3111,7 +3111,7 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_netDispList(IntPtr L)
+	static int set_m_netCmdNotify(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
@@ -3122,20 +3122,20 @@ public class SDK_Lib_CtxWrap
 
 			if (types == LuaTypes.LUA_TTABLE)
 			{
-				LuaDLL.luaL_error(L, "unknown member name m_netDispList");
+				LuaDLL.luaL_error(L, "unknown member name m_netCmdNotify");
 			}
 			else
 			{
-				LuaDLL.luaL_error(L, "attempt to index m_netDispList on a nil value");
+				LuaDLL.luaL_error(L, "attempt to index m_netCmdNotify on a nil value");
 			}
 		}
 
-		obj.m_netDispList = (SDK.Lib.NetDispList)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.NetDispList));
+		obj.m_netCmdNotify = (SDK.Lib.NetCmdNotify)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.NetCmdNotify));
 		return 0;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_msgRouteList(IntPtr L)
+	static int set_m_msgRouteNotify(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
@@ -3146,15 +3146,15 @@ public class SDK_Lib_CtxWrap
 
 			if (types == LuaTypes.LUA_TTABLE)
 			{
-				LuaDLL.luaL_error(L, "unknown member name m_msgRouteList");
+				LuaDLL.luaL_error(L, "unknown member name m_msgRouteNotify");
 			}
 			else
 			{
-				LuaDLL.luaL_error(L, "attempt to index m_msgRouteList on a nil value");
+				LuaDLL.luaL_error(L, "attempt to index m_msgRouteNotify on a nil value");
 			}
 		}
 
-		obj.m_msgRouteList = (SDK.Lib.MsgRouteDispList)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.MsgRouteDispList));
+		obj.m_msgRouteNotify = (SDK.Lib.MsgRouteNotify)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.MsgRouteNotify));
 		return 0;
 	}
 

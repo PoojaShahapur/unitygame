@@ -15,7 +15,7 @@ namespace SDK.Lib
             mCmdDispInfo = new CmdDispInfo();
         }
 
-        public void addCmdHandle(int cmdId, NetCmdHandleBase callee, Action<IDispatchObject> handle)
+        public void addCmdHandle(int cmdId, NetCmdHandleBase callee, MAction<IDispatchObject> handle)
         {
             if (!m_id2DispDic.ContainsKey(cmdId))
             {

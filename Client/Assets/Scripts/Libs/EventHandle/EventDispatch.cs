@@ -54,7 +54,7 @@ namespace SDK.Lib
         }
 
         // 相同的函数只能增加一次
-        virtual public void addEventHandle(ICalleeObject pThis, Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        virtual public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             if (null != pThis || null != handle || null != luaTable || null != luaFunction)
             {
@@ -88,7 +88,7 @@ namespace SDK.Lib
             }
         }
 
-        public void removeEventHandle(ICalleeObject pThis, Action<IDispatchObject> handle)
+        public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle)
         {
             int idx = 0;
             for (idx = 0; idx < m_handleList.Count(); ++idx)
@@ -166,7 +166,7 @@ namespace SDK.Lib
         }
 
         // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-        public bool existEventHandle(ICalleeObject pThis, Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public bool existEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool bFinded = false;
             foreach (var item in m_handleList.list())

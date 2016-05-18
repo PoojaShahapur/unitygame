@@ -43,7 +43,7 @@ namespace SDK.Lib
             return ret;
         }
 
-        public T getAndAsyncLoad<T>(string path, Action<IDispatchObject> handle, bool isLoadAll = false) where T : InsResBase, new()
+        public T getAndAsyncLoad<T>(string path, MAction<IDispatchObject> handle, bool isLoadAll = false) where T : InsResBase, new()
         {
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
@@ -153,7 +153,7 @@ namespace SDK.Lib
             }
         }
 
-        virtual public void unload(string resUniqueId, Action<IDispatchObject> loadEventHandle)
+        virtual public void unload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
         {
             if (m_path2ResDic.ContainsKey(resUniqueId))
             {

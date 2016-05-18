@@ -24,9 +24,9 @@ namespace Game.Login
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new LoginUIEventCB();
             m_loginNetHandleCB = new LoginNetHandleCB();
-            Ctx.m_instance.m_netDispList.addOneDisp(m_loginNetHandleCB);
+            Ctx.m_instance.m_netCmdNotify.addOneDisp(m_loginNetHandleCB);
             m_loginRouteCB = new LoginRouteCB();
-            Ctx.m_instance.m_msgRouteList.addOneDisp(m_loginRouteCB);
+            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_loginRouteCB);
         }
 
         // 加载登陆常见
@@ -61,8 +61,8 @@ namespace Game.Login
         // 卸载模块
         public void unload()
         {
-            Ctx.m_instance.m_netDispList.removeOneDisp(m_loginNetHandleCB);
-            Ctx.m_instance.m_msgRouteList.removeOneDisp(m_loginRouteCB);
+            Ctx.m_instance.m_netCmdNotify.removeOneDisp(m_loginNetHandleCB);
+            Ctx.m_instance.m_msgRouteNotify.removeOneDisp(m_loginRouteCB);
         }
 
         public uint getUserID()

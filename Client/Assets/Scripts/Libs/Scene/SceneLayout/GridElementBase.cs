@@ -108,7 +108,7 @@ namespace SDK.Lib
 
         }
 
-        public void addUpdateHandle(Action<IDispatchObject> handle)
+        public void addUpdateHandle(MAction<IDispatchObject> handle)
         {
             m_needUpdateDisp.addEventHandle(null, handle);
         }

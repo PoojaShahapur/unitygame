@@ -29,7 +29,7 @@ namespace SDK.Lib
         {
             // 游戏逻辑处理
             m_resMsgRouteCB = new ResMsgRouteCB();
-            Ctx.m_instance.m_msgRouteList.addOneDisp(m_resMsgRouteCB);
+            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_resMsgRouteCB);
         }
 
         // 是否有正在加载的 LoadItem
@@ -437,7 +437,7 @@ namespace SDK.Lib
         }
 
         // 这个卸载有引用计数，如果有引用计数就卸载不了
-        public void unload(string resUniqueId, Action<IDispatchObject> loadEventHandle)
+        public void unload(string resUniqueId, MAction<IDispatchObject> loadEventHandle)
         {
             if (m_LoadData.m_path2Res.ContainsKey(resUniqueId))
             {

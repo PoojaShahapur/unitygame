@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class NetDispList
+    public class NetCmdNotify
     {
         protected int m_revMsgCnt;      // 接收到消息的数量
         protected int m_handleMsgCnt;   // 处理的消息的数量
@@ -10,7 +10,7 @@ namespace SDK.Lib
         protected List<NetDispHandle> m_netDispList;
         protected bool m_bStopNetHandle;       // 是否停止网络消息处理
 
-        public NetDispList()
+        public NetCmdNotify()
         {
             m_revMsgCnt = 0;
             m_handleMsgCnt = 0;

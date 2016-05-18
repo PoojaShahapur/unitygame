@@ -86,8 +86,8 @@ namespace UnitTest
             pUnitTesNumtCmd.derialize(bu);
             UAssert.DebugAssert(pUnitTesNumtCmd.num == 2001);
 
-            Ctx.m_instance.m_netDispList.clearOneRevMsg();
-            Ctx.m_instance.m_netDispList.clearOneHandleMsg();
+            Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
+            Ctx.m_instance.m_netCmdNotify.clearOneHandleMsg();
         }
 
         protected void testBA()
@@ -132,22 +132,22 @@ namespace UnitTest
             pDataBuffer.moveRaw2Msg();
 
             GameNetHandleCB gameNetHandleCB = new GameNetHandleCB();
-            Ctx.m_instance.m_netDispList.addOneDisp(gameNetHandleCB);
+            Ctx.m_instance.m_netCmdNotify.addOneDisp(gameNetHandleCB);
 
             ByteBuffer buff;
             stNullUserCmd cmd = new stNullUserCmd();
             while((buff = pDataBuffer.getMsg()) != null)
             {
-                if (null != Ctx.m_instance.m_netDispList)
+                if (null != Ctx.m_instance.m_netCmdNotify)
                 {
                     //Ctx.m_instance.m_netDispList.handleMsg(buff);
                     cmd.derialize(buff);
                 }
             }
 
-            Ctx.m_instance.m_netDispList.removeOneDisp(gameNetHandleCB);
-            Ctx.m_instance.m_netDispList.clearOneRevMsg();
-            Ctx.m_instance.m_netDispList.clearOneHandleMsg();   
+            Ctx.m_instance.m_netCmdNotify.removeOneDisp(gameNetHandleCB);
+            Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
+            Ctx.m_instance.m_netCmdNotify.clearOneHandleMsg();   
         }
 
         protected void testReceiveMsg()
@@ -196,8 +196,8 @@ namespace UnitTest
                 pDataBuffer.moveRaw2Msg();
             }
 
-            Ctx.m_instance.m_netDispList.clearOneRevMsg();
-            Ctx.m_instance.m_netDispList.clearOneHandleMsg();
+            Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
+            Ctx.m_instance.m_netCmdNotify.clearOneHandleMsg();
         }
     }
 }

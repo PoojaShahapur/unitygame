@@ -12,7 +12,7 @@ namespace SDK.Lib
             return getAndSyncLoad<ControllerRes>(path);
         }
 
-        public ControllerRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public ControllerRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<ControllerRes>(path, handle);
         }

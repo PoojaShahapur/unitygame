@@ -25,7 +25,7 @@ namespace SDK.Lib
             m_auxDynImageDynGOImage.setImageInfo(atlasName, imageName);
         }
 
-        public void addImageLoadedHandle(Action<IDispatchObject> imageLoadedHandle)
+        public void addImageLoadedHandle(MAction<IDispatchObject> imageLoadedHandle)
         {
             m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(null, imageLoadedHandle);
         }

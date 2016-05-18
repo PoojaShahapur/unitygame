@@ -78,7 +78,7 @@ namespace SDK.Lib
             return m_spriteRender.bPlay();
         }
 
-        override public void addPlayEndEventHandle(Action<IDispatchObject> handle)
+        override public void addPlayEndEventHandle(MAction<IDispatchObject> handle)
         {
             m_spriteRender.playEndEventDispatch.addEventHandle(null, handle);
         }

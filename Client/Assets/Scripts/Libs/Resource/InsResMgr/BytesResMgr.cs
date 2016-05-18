@@ -14,7 +14,7 @@ namespace SDK.Lib
             return getAndSyncLoad<BytesRes>(path);
         }
 
-        public BytesRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public BytesRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<BytesRes>(path, handle);
         }

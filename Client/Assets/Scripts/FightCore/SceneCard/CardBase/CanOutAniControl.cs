@@ -81,7 +81,7 @@ namespace FightCore
             m_onEnterHandleEntryDisp.dispatchEvent(this.m_card);
         }
 
-        override public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
+        override public void addEnterHandleEntryDisp(MAction<IDispatchObject> eventHandle)
         {
             m_onEnterHandleEntryDisp.addEventHandle(null, eventHandle);
         }

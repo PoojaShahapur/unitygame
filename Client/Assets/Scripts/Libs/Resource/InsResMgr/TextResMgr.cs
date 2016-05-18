@@ -15,7 +15,7 @@ namespace SDK.Lib
             return getAndSyncLoad<TextRes>(path);
         }
 
-        public TextRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public TextRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             //path = path + UtilApi.PREFAB_DOT_EXT;
             return getAndAsyncLoad<TextRes>(path, handle);

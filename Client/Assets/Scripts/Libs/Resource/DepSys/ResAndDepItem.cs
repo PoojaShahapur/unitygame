@@ -21,7 +21,7 @@ namespace SDK.Lib
             mResEventDispatch = new ResEventDispatch();
         }
 
-        public void addEventHandle(Action<IDispatchObject> handle)
+        public void addEventHandle(MAction<IDispatchObject> handle)
         {
             mResEventDispatch.addEventHandle(null, handle);
         }

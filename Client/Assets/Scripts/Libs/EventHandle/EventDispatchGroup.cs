@@ -23,7 +23,7 @@ namespace SDK.Lib
             }
         }
 
-        public void addEventHandle(int groupID, Action<IDispatchObject> handle)
+        public void addEventHandle(int groupID, MAction<IDispatchObject> handle)
         {
             // 如果没有就创建一个
             if (!m_groupID2DispatchDic.ContainsKey(groupID))
@@ -33,7 +33,7 @@ namespace SDK.Lib
             m_groupID2DispatchDic[groupID].addEventHandle(null, handle);
         }
 
-        public void removeEventHandle(int groupID, Action<IDispatchObject> handle)
+        public void removeEventHandle(int groupID, MAction<IDispatchObject> handle)
         {
             if (m_groupID2DispatchDic.ContainsKey(groupID))
             {

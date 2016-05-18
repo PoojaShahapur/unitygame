@@ -394,7 +394,7 @@
                 }
 
                 Ctx.m_instance.m_logSys.log(string.Format("解压解密后消息起始索引 {0}, 消息长度　{1}, 消息 position 位置 {2}, 消息 size {3}", m_rawBuffer.msgBodyBA.position - msglen, msglen, m_rawBuffer.msgBodyBA.position, m_rawBuffer.msgBodyBA.length));
-                Ctx.m_instance.m_netDispList.addOneRevMsg();
+                Ctx.m_instance.m_netCmdNotify.addOneRevMsg();
 
                 // Test 读取消息头
                 // ByteBuffer buff = getMsg();

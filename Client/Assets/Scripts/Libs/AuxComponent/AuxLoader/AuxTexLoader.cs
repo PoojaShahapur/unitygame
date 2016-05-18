@@ -35,7 +35,7 @@ namespace SDK.Lib
         }
 
         // 异步加载对象
-        override public void asyncLoad(string path, Action<IDispatchObject> dispObj)
+        override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
         {
             this.setPath(path);
 

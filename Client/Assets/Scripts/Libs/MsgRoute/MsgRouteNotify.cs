@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class MsgRouteDispList
+    public class MsgRouteNotify
     {
         protected List<MsgRouteDispHandle> m_dispList = new List<MsgRouteDispHandle>();
 

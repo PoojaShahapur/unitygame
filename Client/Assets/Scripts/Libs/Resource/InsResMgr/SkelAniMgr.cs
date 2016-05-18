@@ -14,7 +14,7 @@ namespace SDK.Lib
             return getAndSyncLoad<SkelAnimRes>(path);
         }
 
-        public SkelAnimRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public SkelAnimRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<SkelAnimRes>(path, handle);
         }

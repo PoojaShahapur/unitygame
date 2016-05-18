@@ -272,7 +272,7 @@ namespace FightCore
 
         }
 
-        virtual public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
+        virtual public void addEnterHandleEntryDisp(MAction<IDispatchObject> eventHandle)
         {
 
         }

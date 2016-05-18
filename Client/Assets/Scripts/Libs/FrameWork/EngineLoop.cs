@@ -15,15 +15,15 @@
             //}
 
             // 处理网络
-            //if (!Ctx.m_instance.m_netDispList.bStopNetHandle)
+            //if (!Ctx.m_instance.m_netCmdNotify.bStopNetHandle)
             //{
             //    ByteBuffer ret = null;
             //    while ((ret = Ctx.m_instance.m_netMgr.getMsg()) != null)
             //    {
-            //        if (null != Ctx.m_instance.m_netDispList)
+            //        if (null != Ctx.m_instance.m_netCmdNotify)
             //        {
-            //            Ctx.m_instance.m_netDispList.addOneHandleMsg();
-            //            Ctx.m_instance.m_netDispList.handleMsg(ret);
+            //            Ctx.m_instance.m_netCmdNotify.addOneHandleMsg();
+            //            Ctx.m_instance.m_netCmdNotify.handleMsg(ret);
             //        }
             //    }
             //}

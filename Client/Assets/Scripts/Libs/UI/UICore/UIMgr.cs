@@ -276,7 +276,7 @@ namespace SDK.Lib
         }
 
         // 从本地磁盘或者网络加载资源
-        protected void loadFromFile(string reaPath, Action<IDispatchObject> onLoadEventHandle)
+        protected void loadFromFile(string reaPath, MAction<IDispatchObject> onLoadEventHandle)
         {
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.setPath(reaPath);

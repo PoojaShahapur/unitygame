@@ -12,7 +12,7 @@ namespace SDK.Lib
             m_id2HandleDic = new Dictionary<int, AddOnceEventDispatch>();
         }
 
-        public void addParamHandle(int paramId, Action<IDispatchObject> handle)
+        public void addParamHandle(int paramId, MAction<IDispatchObject> handle)
         {
             if(!m_id2HandleDic.ContainsKey(paramId))
             {
@@ -26,7 +26,7 @@ namespace SDK.Lib
             m_id2HandleDic[paramId].addEventHandle(null, handle);
         }
 
-        public void removeParamHandle(int paramId, Action<IDispatchObject> handle)
+        public void removeParamHandle(int paramId, MAction<IDispatchObject> handle)
         {
             if(m_id2HandleDic.ContainsKey(paramId))
             {

@@ -7,6 +7,7 @@ public class SDK_Lib_LuaToCSWrap
 	{
 		LuaMethod[] regs = new LuaMethod[]
 		{
+			new LuaMethod("onTestProtoBuf", onTestProtoBuf),
 			new LuaMethod("New", _CreateSDK_Lib_LuaToCS),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -44,6 +45,15 @@ public class SDK_Lib_LuaToCSWrap
 	{
 		LuaScriptMgr.Push(L, classType);
 		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int onTestProtoBuf(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		LuaTable arg0 = LuaScriptMgr.GetLuaTable(L, 1);
+		SDK.Lib.LuaToCS.onTestProtoBuf(arg0);
+		return 0;
 	}
 }
 

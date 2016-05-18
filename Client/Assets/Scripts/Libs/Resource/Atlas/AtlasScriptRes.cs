@@ -119,7 +119,7 @@ namespace SDK.Lib
         }
 
         // 卸载一个 Image
-        public void unloadImage(string spriteName, Action<IDispatchObject> loadEventHandle)
+        public void unloadImage(string spriteName, MAction<IDispatchObject> loadEventHandle)
         {
             if(m_path2Image.ContainsKey(spriteName))
             {

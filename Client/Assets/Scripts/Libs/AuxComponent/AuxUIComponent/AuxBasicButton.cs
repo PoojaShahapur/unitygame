@@ -50,7 +50,7 @@ namespace SDK.Lib
             m_eventDisp.dispatchEvent(this);
         }
 
-        public void addEventHandle(Action<IDispatchObject> btnClk)
+        public void addEventHandle(MAction<IDispatchObject> btnClk)
         {
             m_eventDisp.addEventHandle(null, btnClk);
         }

@@ -73,7 +73,7 @@ namespace FightCore
             }
         }
 
-        public void addOneAttackAndHurtEndHandle(System.Action<IDispatchObject> dispObj)
+        public void addOneAttackAndHurtEndHandle(MAction<IDispatchObject> dispObj)
         {
             m_OneAttackAndHurtEndDisp.addEventHandle(null, dispObj);
         }

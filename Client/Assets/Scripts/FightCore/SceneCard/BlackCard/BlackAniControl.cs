@@ -48,7 +48,7 @@ namespace FightCore
             Ctx.m_instance.m_logSys.log("Enemy 卡牌从发牌区域到手牌区域动画结束");
         }
 
-        override public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
+        override public void addEnterHandleEntryDisp(MAction<IDispatchObject> eventHandle)
         {
             m_onEnterHandleEntryDisp.addEventHandle(null, eventHandle);
         }

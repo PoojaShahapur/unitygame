@@ -11,7 +11,7 @@ namespace SDK.Lib
             
         }
 
-        virtual public void addPlayEndEventHandle(Action<IDispatchObject> handle)
+        virtual public void addPlayEndEventHandle(MAction<IDispatchObject> handle)
         {
 
         }

@@ -18,9 +18,9 @@ namespace UnitTest
             pSource.name = "asdf";
             pSource.id = 123;
             pSource.email = "qwer";
-            string content = ProtobufHelper.SerializeTString<Person>(pSource);
+            string content = ProtobufUtil.SerializeTString<Person>(pSource);
 
-            Person pResult = ProtobufHelper.DeSerializeFString<Person>(content);
+            Person pResult = ProtobufUtil.DeSerializeFString<Person>(content);
         }
 
         public void testProtoBufBytes()
@@ -30,8 +30,8 @@ namespace UnitTest
             pSource.id = 123;
             pSource.email = "qwer";
 
-            byte[] bytes = ProtobufHelper.SerializeTBytes<Person>(pSource);
-            Person pFBytes = ProtobufHelper.DeSerializeFBytes<Person>(bytes);
+            byte[] bytes = ProtobufUtil.SerializeTBytes<Person>(pSource);
+            Person pFBytes = ProtobufUtil.DeSerializeFBytes<Person>(bytes);
         }
 
         public void testNet()
@@ -41,7 +41,7 @@ namespace UnitTest
             pSource.id = 123;
             pSource.email = "qwer";
 
-            byte[] bytes = ProtobufHelper.SerializeTBytes<Person>(pSource);
+            byte[] bytes = ProtobufUtil.SerializeTBytes<Person>(pSource);
             Ctx.m_instance.m_luaSystem.receiveToLua(bytes);
         }
     }

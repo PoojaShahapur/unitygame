@@ -16,7 +16,7 @@ namespace SDK.Lib
             return getAndSyncLoad<TextureRes>(path);
         }
 
-        public TextureRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public TextureRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             //path = path + UtilApi.PREFAB_DOT_EXT;
             return getAndAsyncLoad<TextureRes>(path, handle);

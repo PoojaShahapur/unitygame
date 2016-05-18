@@ -100,7 +100,7 @@ namespace SDK.Lib
             m_moveDestEventDispatch.dispatchEvent(this);
         }
 
-        override public void addMoveDestEventHandle(Action<IDispatchObject> dispObj)
+        override public void addMoveDestEventHandle(MAction<IDispatchObject> dispObj)
         {
             m_moveDestEventDispatch.addEventHandle(null, dispObj);
         }

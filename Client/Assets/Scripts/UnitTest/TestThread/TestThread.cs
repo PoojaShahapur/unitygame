@@ -21,7 +21,7 @@ namespace UnitTest
         protected void testThreadTask()
         {
             GameRouteCB m_gameRouteCB = new GameRouteCB();
-            Ctx.m_instance.m_msgRouteList.addOneDisp(m_gameRouteCB);
+            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_gameRouteCB);
         }
     }
 }

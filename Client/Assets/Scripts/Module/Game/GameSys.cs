@@ -23,10 +23,10 @@ namespace Game.Game
             // 游戏逻辑处理
             Ctx.m_instance.m_cbUIEvent = new GameUIEventCB();
             m_gameNetHandleCB = new GameNetHandleCB();
-            Ctx.m_instance.m_netDispList.addOneDisp(m_gameNetHandleCB);
+            Ctx.m_instance.m_netCmdNotify.addOneDisp(m_gameNetHandleCB);
             m_gameRouteCB = new GameRouteCB();
-            Ctx.m_instance.m_msgRouteList.addOneDisp(m_gameRouteCB);
-            Ctx.m_instance.m_netDispList.bStopNetHandle = false;     // 停止网络消息处理
+            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_gameRouteCB);
+            Ctx.m_instance.m_netCmdNotify.bStopNetHandle = false;     // 停止网络消息处理
             Ctx.m_instance.m_sceneEventCB = new GameSceneEventCB();
             Ctx.m_instance.m_sceneLogic = new GameSceneLogic();
 

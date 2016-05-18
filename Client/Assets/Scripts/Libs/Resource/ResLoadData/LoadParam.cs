@@ -21,7 +21,7 @@ namespace SDK.Lib
 
         public string m_version = "";               // 加载的资源的版本号
         protected string m_lvlName = "";            // 关卡名字
-        public Action<IDispatchObject> m_loadEventHandle;    // 加载事件回调函数
+        public MAction<IDispatchObject> m_loadEventHandle;    // 加载事件回调函数
 
         public bool m_resNeedCoroutine = true;      // 资源是否需要协同程序
         public bool m_loadNeedCoroutine = true;     // 加载是否需要协同程序

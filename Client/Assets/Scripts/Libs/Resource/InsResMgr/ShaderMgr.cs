@@ -18,7 +18,7 @@ namespace SDK.Lib
             return getAndSyncLoad<ShaderRes>(path);
         }
 
-        public ShaderRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public ShaderRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             return getAndAsyncLoad<ShaderRes>(path, handle);
         }

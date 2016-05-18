@@ -11,7 +11,7 @@ namespace SDK.Lib
             return getAndSyncLoad<SpriteAtlasRes>(path, true);
         }
 
-        public SpriteAtlasRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public SpriteAtlasRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             //path = path + UtilApi.DOTPNG;
             return getAndAsyncLoad<SpriteAtlasRes>(path, handle, true);

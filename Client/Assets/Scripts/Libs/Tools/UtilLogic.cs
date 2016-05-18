@@ -269,7 +269,7 @@ namespace SDK.Lib
             text.text = cardTableItem.m_hp.ToString();
         }
 
-        public static void loadRes<T>(string path, System.Action<IDispatchObject> onload, System.Action unload, InsResBase res)
+        public static void loadRes<T>(string path, MAction<IDispatchObject> onload, System.Action unload, InsResBase res)
         {
             bool needLoad = true;
 
@@ -414,7 +414,7 @@ namespace SDK.Lib
         }
 
         // 加载一个表完成
-        public static void onLoaded(IDispatchObject dispObj, Action<IDispatchObject> loadEventHandle)
+        public static void onLoaded(IDispatchObject dispObj, MAction<IDispatchObject> loadEventHandle)
         {
             ResItem res = dispObj as ResItem;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
@@ -423,7 +423,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_resLoadMgr.unload(res.getResUniqueId(), loadEventHandle);
         }
 
-        public static void onFailed(IDispatchObject dispObj, Action<IDispatchObject> loadEventHandle)
+        public static void onFailed(IDispatchObject dispObj, MAction<IDispatchObject> loadEventHandle)
         {
             ResItem res = dispObj as ResItem;
             Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, res.getLoadPath());

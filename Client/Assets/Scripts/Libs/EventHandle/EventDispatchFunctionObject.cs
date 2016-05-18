@@ -7,7 +7,7 @@ namespace SDK.Lib
     {
         public bool m_bClientDispose;       // 是否释放了资源
         public ICalleeObject mThis;
-        public Action<IDispatchObject> m_handle;
+        public MAction<IDispatchObject> m_handle;
 
         protected LuaCSDispatchFunctionObject m_luaCSDispatchFunctionObject;
 
@@ -28,7 +28,7 @@ namespace SDK.Lib
             }
         }
 
-        public void setFuncObject(ICalleeObject pThis, Action<IDispatchObject> func)
+        public void setFuncObject(ICalleeObject pThis, MAction<IDispatchObject> func)
         {
             this.mThis = pThis;
             this.m_handle = func;
@@ -70,7 +70,7 @@ namespace SDK.Lib
             return mThis != null || m_handle != null || (m_luaCSDispatchFunctionObject != null && m_luaCSDispatchFunctionObject.isValid());
         }
 
-        public bool isEqual(ICalleeObject pThis, Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public bool isEqual(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool ret = false;
             if(pThis != null)

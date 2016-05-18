@@ -14,7 +14,7 @@ namespace SDK.Lib
             return getAndSyncLoad<PrefabRes>(path);
         }
 
-        public PrefabRes getAndAsyncLoadRes(string path, Action<IDispatchObject> handle)
+        public PrefabRes getAndAsyncLoadRes(string path, MAction<IDispatchObject> handle)
         {
             //path = path + UtilApi.PREFAB_DOT_EXT;
             return getAndAsyncLoad<PrefabRes>(path, handle);

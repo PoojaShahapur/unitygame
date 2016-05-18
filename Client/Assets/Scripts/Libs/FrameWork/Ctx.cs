@@ -49,8 +49,8 @@ namespace SDK.Lib
         public ISceneLogic m_sceneLogic;
         public AISystem m_aiSystem;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
-        public NetDispList m_netDispList;           // 网络处理器
-        public MsgRouteDispList m_msgRouteList;           // RouteMsg 客户端自己消息流程
+        public NetCmdNotify m_netCmdNotify;           // 网络处理器
+        public MsgRouteNotify m_msgRouteNotify;           // RouteMsg 客户端自己消息流程
         public IModuleSys m_moduleSys;              // 模块
         public TableSys m_tableSys;                // 表格
         public MFileSys m_fileSys;        // 文件系统
@@ -143,8 +143,8 @@ namespace SDK.Lib
 
             mTerrainGlobalOption = new TerrainGlobalOption();
 
-            m_netDispList = new NetDispList();
-            m_msgRouteList = new MsgRouteDispList();
+            m_netCmdNotify = new NetCmdNotify();
+            m_msgRouteNotify = new MsgRouteNotify();
 
             m_xmlCfgMgr = new XmlCfgMgr();
             m_matMgr = new MaterialMgr();

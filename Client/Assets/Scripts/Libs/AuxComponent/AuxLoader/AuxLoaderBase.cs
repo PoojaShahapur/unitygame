@@ -67,7 +67,7 @@ namespace SDK.Lib
 
         }
 
-        virtual public void asyncLoad(string path, Action<IDispatchObject> dispObj)
+        virtual public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
         {
 
         }

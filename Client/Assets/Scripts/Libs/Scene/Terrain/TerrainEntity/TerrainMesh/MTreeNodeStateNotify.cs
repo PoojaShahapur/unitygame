@@ -43,12 +43,12 @@ namespace SDK.Lib
 
         }
 
-        public void addShowEventHandle(Action<IDispatchObject> handle)
+        public void addShowEventHandle(MAction<IDispatchObject> handle)
         {
             mShowDispatch.addEventHandle(null, handle);
         }
 
-        public void addHideEventHandle(Action<IDispatchObject> handle)
+        public void addHideEventHandle(MAction<IDispatchObject> handle)
         {
             mHideDispatch.addEventHandle(null, handle);
         }

@@ -23,7 +23,7 @@ namespace SDK.Lib
             if (!m_path2ResDic.ContainsKey(param.mResUniqueId))
             {
                 // 保存加载事件处理，因为这个时候资源还没有加载，这次调用仅仅是想加载 AtlasScriptRes ，不想直接回调事件处理函数
-                Action<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
+                MAction<IDispatchObject> tmpLoadEventHandle = param.m_loadEventHandle;
                 param.m_loadEventHandle = null;
 
                 AtlasScriptRes atlasRes = createResItem<AtlasScriptRes>(param);
@@ -81,7 +81,7 @@ namespace SDK.Lib
         }
 
         // 暂时没有实现
-        public void unloadImage(string atlasName, string spriteName, Action<IDispatchObject> loadEventHandle)
+        public void unloadImage(string atlasName, string spriteName, MAction<IDispatchObject> loadEventHandle)
         {
             if(m_path2ResDic.ContainsKey(atlasName))
             {
@@ -98,7 +98,7 @@ namespace SDK.Lib
         }
 
         // 暂时没有实现
-        public void unloadImage(ImageItem imageItem, Action<IDispatchObject> loadEventHandle)
+        public void unloadImage(ImageItem imageItem, MAction<IDispatchObject> loadEventHandle)
         {
             if (imageItem != null && imageItem.atlasScriptRes != null)
             {
