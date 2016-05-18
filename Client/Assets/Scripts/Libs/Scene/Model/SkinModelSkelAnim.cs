@@ -15,7 +15,7 @@ namespace SDK.Lib
         public SkinModelSkelAnim(int subModelNum)
         {
             m_skeletonAnim = new SkeletonAnim();
-            m_skeletonAnim.skelLoadDisp.addEventHandle(onSkelAnimLoadedHandle);
+            m_skeletonAnim.skelLoadDisp.addEventHandle(null, onSkelAnimLoadedHandle);
             m_skinModel = new SkinModel(subModelNum);
             m_animControl = new AnimControl();
             m_boneSockets = new BoneSockets(1);

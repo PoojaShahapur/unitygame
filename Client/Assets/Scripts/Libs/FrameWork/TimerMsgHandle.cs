@@ -8,8 +8,10 @@ namespace SDK.Lib
         public ulong qwGameTime;
 
         // 步骤 7 ，接收消息
-        public void receiveMsg7f(ByteBuffer msg)
+        public void receiveMsg7f(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem10));
 
             stGameTimeTimerUserCmd cmd = new stGameTimeTimerUserCmd();
@@ -18,8 +20,10 @@ namespace SDK.Lib
         }
 
         // 步骤 8 ，接收消息
-        public void receiveMsg8f(ByteBuffer msg)
+        public void receiveMsg8f(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem11));
 
             stRequestUserGameTimeTimerUserCmd cmd = new stRequestUserGameTimeTimerUserCmd();

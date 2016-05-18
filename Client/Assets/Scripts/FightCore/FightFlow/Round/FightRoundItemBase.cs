@@ -75,7 +75,7 @@ namespace FightCore
 
         public void addOneAttackAndHurtEndHandle(System.Action<IDispatchObject> dispObj)
         {
-            m_OneAttackAndHurtEndDisp.addEventHandle(dispObj);
+            m_OneAttackAndHurtEndDisp.addEventHandle(null, dispObj);
         }
 
         virtual public void psstNotifyBattleCardPropertyUserCmd(stNotifyBattleCardPropertyUserCmd msg)

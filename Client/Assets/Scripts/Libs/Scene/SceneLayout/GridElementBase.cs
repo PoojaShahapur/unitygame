@@ -110,7 +110,7 @@ namespace SDK.Lib
 
         public void addUpdateHandle(Action<IDispatchObject> handle)
         {
-            m_needUpdateDisp.addEventHandle(handle);
+            m_needUpdateDisp.addEventHandle(null, handle);
         }
     }
 }

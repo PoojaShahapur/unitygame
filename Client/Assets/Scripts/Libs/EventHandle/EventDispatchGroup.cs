@@ -30,14 +30,14 @@ namespace SDK.Lib
             {
                 addEventDispatch(groupID, new EventDispatch());
             }
-            m_groupID2DispatchDic[groupID].addEventHandle(handle);
+            m_groupID2DispatchDic[groupID].addEventHandle(null, handle);
         }
 
         public void removeEventHandle(int groupID, Action<IDispatchObject> handle)
         {
             if (m_groupID2DispatchDic.ContainsKey(groupID))
             {
-                m_groupID2DispatchDic[groupID].removeEventHandle(handle);
+                m_groupID2DispatchDic[groupID].removeEventHandle(null, handle);
 
                 // 如果已经没有了
                 if (m_groupID2DispatchDic[groupID].getHandleCount() == 0)

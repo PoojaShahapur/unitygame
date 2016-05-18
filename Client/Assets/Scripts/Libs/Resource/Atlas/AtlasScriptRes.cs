@@ -113,7 +113,7 @@ namespace SDK.Lib
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    retImage.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    retImage.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace SDK.Lib
         {
             if(m_path2Image.ContainsKey(spriteName))
             {
-                m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
+                m_path2Image[spriteName].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
                 m_path2Image[spriteName].refCountResLoadResultNotify.refCount.decRef();
                 if(m_path2Image[spriteName].refCountResLoadResultNotify.refCount.isNoRef())
                 {

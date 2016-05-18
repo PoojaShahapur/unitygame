@@ -28,7 +28,7 @@ namespace UnitTest
                 for (int idx = 0; idx < 1000; ++idx)
                 {
                     evt = new ResInsEventDispatch();
-                    evt.addEventHandle(onResIns);
+                    evt.addEventHandle(null, onResIns);
                     mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), evt);
                 }
             }

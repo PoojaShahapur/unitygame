@@ -69,8 +69,9 @@ namespace Game.Login
         }
 
         // 步骤 2 ，接收返回的消息
-        public void receiveMsg2f(ByteBuffer msg)
+        public void receiveMsg2f(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem3));
             stReturnClientIP cmd = new stReturnClientIP();
             cmd.derialize(msg);
@@ -110,8 +111,10 @@ namespace Game.Login
         }
 
         // 步骤 4 ，服务器返回消息
-        public void receiveMsg4f(ByteBuffer msg)
+        public void receiveMsg4f(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             stServerReturnLoginSuccessCmd cmd = new stServerReturnLoginSuccessCmd();
             cmd.derialize(msg);
 
@@ -171,8 +174,10 @@ namespace Game.Login
         }
 
         // 步骤 6 ，接收消息
-        public void receiveMsg6f(ByteBuffer msg)
+        public void receiveMsg6f(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             Ctx.m_instance.m_logSys.log(Ctx.m_instance.m_langMgr.getText(LangTypeId.eLTLog0, LangItemID.eItem9));
 
             stMergeVersionCheckUserCmd cmd = new stMergeVersionCheckUserCmd();
@@ -180,8 +185,10 @@ namespace Game.Login
         }
 
         // 收到这条消息，就说明客户端没有创建角色，弹出创建角色界面
-        public void psstServerReturnLoginFailedCmd(ByteBuffer msg)
+        public void psstServerReturnLoginFailedCmd(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             stServerReturnLoginFailedCmd cmd = new stServerReturnLoginFailedCmd();
             cmd.derialize(msg);
 
@@ -257,8 +264,9 @@ namespace Game.Login
         }
 
         // 返回基本角色信息
-        public void psstUserInfoUserCmd(ByteBuffer bu)
+        public void psstUserInfoUserCmd(IDispatchObject dispObj)
         {
+            ByteBuffer bu = dispObj as ByteBuffer;
             // 发送选择角色登陆进入游戏
             stLoginSelectUserCmd cmd1f = new stLoginSelectUserCmd();
             cmd1f.charNo = 0;
@@ -269,8 +277,10 @@ namespace Game.Login
         }
 
         // 终于登陆成功了
-        public void psstLoginSelectSuccessUserCmd(ByteBuffer bu)
+        public void psstLoginSelectSuccessUserCmd(IDispatchObject dispObj)
         {
+            ByteBuffer bu = dispObj as ByteBuffer;
+
             stLoginSelectSuccessUserCmd cmd = new stLoginSelectSuccessUserCmd();
             cmd.derialize(bu);
 

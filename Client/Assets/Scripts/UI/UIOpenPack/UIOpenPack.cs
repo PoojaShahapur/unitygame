@@ -216,7 +216,7 @@ namespace Game.UI
             m_spriteAni.selfGo = m_openEffImg;
             m_spriteAni.tableID = 6;
             m_spriteAni.bLoop = false;
-            m_spriteAni.playEndEventDispatch.addEventHandle(effcPlayEnd);
+            m_spriteAni.playEndEventDispatch.addEventHandle(null, effcPlayEnd);
             m_spriteAni.play();
         }
 

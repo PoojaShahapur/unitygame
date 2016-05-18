@@ -84,7 +84,7 @@ namespace SDK.Lib
             ret.refCountResLoadResultNotify.refCount.incRef();
             ret.setLoadParam(param);
 
-            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
+            ret.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
 
             return ret;
         }
@@ -111,7 +111,7 @@ namespace SDK.Lib
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
+                    m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle, param.mLuaTable, param.mLuaFunction);
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace SDK.Lib
         {
             if (m_path2ResDic.ContainsKey(resUniqueId))
             {
-                m_path2ResDic[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
+                m_path2ResDic[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
                 m_path2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
                 if (m_path2ResDic[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {

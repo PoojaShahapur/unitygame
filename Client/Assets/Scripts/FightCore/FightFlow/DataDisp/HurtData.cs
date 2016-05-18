@@ -145,7 +145,7 @@ namespace FightCore
             }
 
             m_hurtList.Add(ret);
-            ret.hurtExecEndDisp.addEventHandle(onOneHurtExecEnd);
+            ret.hurtExecEndDisp.addEventHandle(null, onOneHurtExecEnd);
 
             return ret;
         }

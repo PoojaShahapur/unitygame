@@ -90,7 +90,7 @@ namespace Game.UI
                 newCardSet(groupItem, false);
             }
 
-            Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetChangedDisp.addEventHandle(updateCardSetCardCntText);
+            Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetChangedDisp.addEventHandle(null, updateCardSetCardCntText);
             updateCardSetCardCntText();
         }
 
@@ -98,7 +98,7 @@ namespace Game.UI
         {
             delAllCardGroup();
             releaseLeftCardList();
-            Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetChangedDisp.removeEventHandle(updateCardSetCardCntText);
+            Ctx.m_instance.m_dataPlayer.m_dataCard.m_cardSetChangedDisp.removeEventHandle(null, updateCardSetCardCntText);
         }
 
         protected void updateRetBtnImage(bool bRet)

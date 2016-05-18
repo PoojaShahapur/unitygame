@@ -83,7 +83,7 @@ namespace FightCore
 
         public void addRoundEndHandle(System.Action<IDispatchObject> dispObj)
         {
-            m_roundEndDisp.addEventHandle(dispObj);
+            m_roundEndDisp.addEventHandle(null, dispObj);
         }
 
         public void onOneAttackAndHurtEndHandle(IDispatchObject dispObj)

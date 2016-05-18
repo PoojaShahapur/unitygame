@@ -7,11 +7,13 @@ namespace Game.Game
     {
         public GameChatCmdHandle()
         {
-            m_id2HandleDic[stChatUserCmd.CHAT_USERCMD_PARAMETER] = psstKokChatUserCmd;
+            this.addParamHandle(stChatUserCmd.CHAT_USERCMD_PARAMETER,  psstKokChatUserCmd);
         }
 
-        public void psstKokChatUserCmd(ByteBuffer msg)
+        public void psstKokChatUserCmd(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             stKokChatUserCmd cmd = new stKokChatUserCmd();
             cmd.derialize(msg);
 

@@ -18,7 +18,7 @@
             }
             else
             {
-                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onPakResLoadEventHandle);
+                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, onPakResLoadEventHandle);
             }
         }
 

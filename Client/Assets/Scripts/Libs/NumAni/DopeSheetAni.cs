@@ -13,7 +13,7 @@ namespace SDK.Lib
         public DopeSheetAni()
         {
             m_animatorControl = new AnimatorControl();
-            m_animatorControl.oneAniPlayEndDisp.addEventHandle(onOneAniPlayEnd);
+            m_animatorControl.oneAniPlayEndDisp.addEventHandle(null, onOneAniPlayEnd);
             m_stateId = 0;
         }
 

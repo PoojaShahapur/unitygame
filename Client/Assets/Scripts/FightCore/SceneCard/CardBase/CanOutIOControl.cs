@@ -26,10 +26,10 @@ namespace FightCore
         {
             base.init();
 
-            this.m_card.downEntityDisp.addEventHandle(onCardDown);
-            this.m_card.upEntityDisp.addEventHandle(onCardUp);
-            this.m_card.dragOverEntityDisp.addEventHandle(onDragOver);
-            this.m_card.dragOutEntityDisp.addEventHandle(onDragOut);
+            this.m_card.downEntityDisp.addEventHandle(null, onCardDown);
+            this.m_card.upEntityDisp.addEventHandle(null, onCardUp);
+            this.m_card.dragOverEntityDisp.addEventHandle(null, onDragOver);
+            this.m_card.dragOutEntityDisp.addEventHandle(null, onDragOut);
 
             if (!m_card.m_sceneDZData.m_gameRunState.isInState(GameRunState.INITCARD))     // 初始化卡牌阶段是不能拖动的
             {
@@ -410,16 +410,16 @@ namespace FightCore
 
             if (0 == type)      // 转换到手牌需要能滑动
             {
-                this.m_card.dragOverEntityDisp.addEventHandle(onDragOver);
-                this.m_card.dragOutEntityDisp.addEventHandle(onDragOut);
+                this.m_card.dragOverEntityDisp.addEventHandle(null, onDragOver);
+                this.m_card.dragOutEntityDisp.addEventHandle(null, onDragOut);
 
-                this.m_card.downEntityDisp.addEventHandle(onCardDown);  // 判断是否鼠标在手牌的手牌上按下
-                this.m_card.upEntityDisp.addEventHandle(onCardUp);
+                this.m_card.downEntityDisp.addEventHandle(null, onCardDown);  // 判断是否鼠标在手牌的手牌上按下
+                this.m_card.upEntityDisp.addEventHandle(null, onCardUp);
             }
             else if (1 == type)       // 转换到场牌需要开启按下和起来事件
             {
-                this.m_card.downEntityDisp.addEventHandle(onCardDown);
-                this.m_card.upEntityDisp.addEventHandle(onCardUp);
+                this.m_card.downEntityDisp.addEventHandle(null, onCardDown);
+                this.m_card.upEntityDisp.addEventHandle(null, onCardUp);
             }
         }
     }

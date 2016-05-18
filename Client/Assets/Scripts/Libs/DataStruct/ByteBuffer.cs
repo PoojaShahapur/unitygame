@@ -7,7 +7,7 @@ namespace SDK.Lib
     /**
      *@brief ByteBuffer 功能
      */
-    public class ByteBuffer
+    public class ByteBuffer : IDispatchObject
     {
         //public int m_id;        // 测试使用
         //public bool m_startTest;        // 开始测试使用

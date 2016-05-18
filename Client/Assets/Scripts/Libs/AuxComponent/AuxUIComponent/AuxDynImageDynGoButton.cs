@@ -9,7 +9,7 @@ namespace SDK.Lib
         public AuxDynImageDynGoButton()
         {
             m_auxDynImageDynGOImage = new AuxDynImageDynGOImage();
-            m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(updateBtnCom);
+            m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(null, updateBtnCom);
         }
 
         public string prefabPath
@@ -27,7 +27,7 @@ namespace SDK.Lib
 
         public void addImageLoadedHandle(Action<IDispatchObject> imageLoadedHandle)
         {
-            m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(imageLoadedHandle);
+            m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(null, imageLoadedHandle);
         }
 
         override protected void updateBtnCom(IDispatchObject dispObj)
@@ -52,7 +52,7 @@ namespace SDK.Lib
         public override void dispose()
         {
             base.dispose();
-            m_auxDynImageDynGOImage.imageLoadedDisp.removeEventHandle(updateBtnCom);
+            m_auxDynImageDynGOImage.imageLoadedDisp.removeEventHandle(null, updateBtnCom);
             m_auxDynImageDynGOImage.dispose();
         }
 

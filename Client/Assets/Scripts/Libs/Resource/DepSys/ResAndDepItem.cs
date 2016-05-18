@@ -23,7 +23,7 @@ namespace SDK.Lib
 
         public void addEventHandle(Action<IDispatchObject> handle)
         {
-            mResEventDispatch.addEventHandle(handle);
+            mResEventDispatch.addEventHandle(null, handle);
         }
 
         public bool hasLoaded()

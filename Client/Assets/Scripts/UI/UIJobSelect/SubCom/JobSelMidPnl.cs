@@ -215,7 +215,7 @@ namespace Game.UI
             m_spriteAni.tableID = 10;
             m_spriteAni.bLoop = false;
             m_spriteAni.play();
-            m_spriteAni.playEndEventDispatch.addEventHandle(gotoBattle);
+            m_spriteAni.playEndEventDispatch.addEventHandle(null, gotoBattle);
         }
 
         public void gotoBattle(IDispatchObject dispObj)

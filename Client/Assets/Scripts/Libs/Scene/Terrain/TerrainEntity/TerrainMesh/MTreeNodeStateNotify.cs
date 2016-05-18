@@ -45,12 +45,12 @@ namespace SDK.Lib
 
         public void addShowEventHandle(Action<IDispatchObject> handle)
         {
-            mShowDispatch.addEventHandle(handle);
+            mShowDispatch.addEventHandle(null, handle);
         }
 
         public void addHideEventHandle(Action<IDispatchObject> handle)
         {
-            mHideDispatch.addEventHandle(handle);
+            mHideDispatch.addEventHandle(null, handle);
         }
     }
 }

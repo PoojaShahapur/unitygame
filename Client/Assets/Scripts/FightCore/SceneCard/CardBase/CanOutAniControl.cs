@@ -83,7 +83,7 @@ namespace FightCore
 
         override public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
         {
-            m_onEnterHandleEntryDisp.addEventHandle(eventHandle);
+            m_onEnterHandleEntryDisp.addEventHandle(null, eventHandle);
         }
 
         protected int convIdx2StateId(int type)

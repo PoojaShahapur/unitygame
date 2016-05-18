@@ -71,7 +71,7 @@ namespace SDK.Lib
             {
                 unload();
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(dispObj);
+                mEvtHandle.addEventHandle(null, dispObj);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }
@@ -84,7 +84,7 @@ namespace SDK.Lib
             {
                 unload();
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(null, luaTable, luaFunction);
+                mEvtHandle.addEventHandle(null, null, luaTable, luaFunction);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndAsyncLoadRes(path, onPrefabLoaded);
             }
         }
@@ -99,7 +99,7 @@ namespace SDK.Lib
                 if (mIsInsNeedCoroutine)
                 {
                     mResInsEventDispatch = new ResInsEventDispatch();
-                    mResInsEventDispatch.addEventHandle(onPrefabIns);
+                    mResInsEventDispatch.addEventHandle(null, onPrefabIns);
                     mPrefabRes.InstantiateObject(mPrefabRes.getPrefabName(), mResInsEventDispatch);
                 }
                 else

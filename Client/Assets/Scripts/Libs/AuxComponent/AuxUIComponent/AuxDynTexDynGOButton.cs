@@ -7,7 +7,7 @@
         public AuxDynTexDynGOButton()
         {
             m_auxDynTexDynGOImage = new AuxDynTexDynGOImage();
-            m_auxDynTexDynGOImage.texLoadedDisp.addEventHandle(updateBtnCom);
+            m_auxDynTexDynGOImage.texLoadedDisp.addEventHandle(null, updateBtnCom);
         }
 
         public string prefabPath
@@ -56,7 +56,7 @@
         public override void dispose()
         {
             base.dispose();
-            m_auxDynTexDynGOImage.texLoadedDisp.removeEventHandle(updateBtnCom);
+            m_auxDynTexDynGOImage.texLoadedDisp.removeEventHandle(null, updateBtnCom);
             m_auxDynTexDynGOImage.dispose();
         }
 

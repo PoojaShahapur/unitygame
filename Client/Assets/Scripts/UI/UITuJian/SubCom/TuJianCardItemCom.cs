@@ -32,7 +32,7 @@ namespace Game.UI
         protected void addEventHandle()
         {
             //UtilApi.addEventHandle(m_model.selfGo, onBtnClkOpen);
-            this.clickEntityDisp.addEventHandle(onBtnClkOpen);
+            this.clickEntityDisp.addEventHandle(null, onBtnClkOpen);
         }
 
         // 点击开包按钮

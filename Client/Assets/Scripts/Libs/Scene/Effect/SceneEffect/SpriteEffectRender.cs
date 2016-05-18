@@ -80,7 +80,7 @@ namespace SDK.Lib
 
         override public void addPlayEndEventHandle(Action<IDispatchObject> handle)
         {
-            m_spriteRender.playEndEventDispatch.addEventHandle(handle);
+            m_spriteRender.playEndEventDispatch.addEventHandle(null, handle);
         }
 
         override public void setSelfGo(GameObject go_)

@@ -40,7 +40,7 @@ namespace SDK.Lib
             {
                 unload();
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(dispObj);
+                mEvtHandle.addEventHandle(null, dispObj);
                 mSpriteAtlasRes = Ctx.m_instance.mSpriteMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }

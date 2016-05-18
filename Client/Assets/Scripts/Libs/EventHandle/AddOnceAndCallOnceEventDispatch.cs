@@ -5,11 +5,11 @@ namespace SDK.Lib
 {
     public class AddOnceAndCallOnceEventDispatch : EventDispatch
     {
-        override public void addEventHandle(Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        override public void addEventHandle(ICalleeObject pThis, Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            if (!existEventHandle(handle, luaTable, luaFunction))
+            if (!existEventHandle(pThis, handle, luaTable, luaFunction))
             {
-                base.addEventHandle(handle, luaTable, luaFunction);
+                base.addEventHandle(pThis, handle, luaTable, luaFunction);
             }
         }
 

@@ -21,7 +21,7 @@ namespace Game.UI
 
         public void addEventHandle()
         {
-            this.clickEntityDisp.addEventHandle(onClick);
+            this.clickEntityDisp.addEventHandle(null, onClick);
         }
 
         public override void dispose()
@@ -62,7 +62,7 @@ namespace Game.UI
             else
                 m_spriteAni.tableID = 22;
             m_spriteAni.bLoop = true;
-            m_spriteAni.playEndEventDispatch.addEventHandle(guangYunPlayEnd);
+            m_spriteAni.playEndEventDispatch.addEventHandle(null, guangYunPlayEnd);
             m_spriteAni.syncUpdateCom();
             m_spriteAni.updateImage();
         }
@@ -117,7 +117,7 @@ namespace Game.UI
             if (m_bOpened) return;
             m_spriteAni.play();
             m_guangyunImg.SetActive(true);
-            this.clickEntityDisp.removeEventHandle(onClick);
+            this.clickEntityDisp.removeEventHandle(null, onClick);
             playFanPaiAni();
         }
 

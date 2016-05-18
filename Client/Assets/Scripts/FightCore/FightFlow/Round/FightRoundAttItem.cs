@@ -143,7 +143,7 @@ namespace FightCore
                 HurtItemBase hurtItem = null;
                 hurtItem = def.fightData.hurtData.createItem((EHurtType)attackType);
                 hurtItem.initItemData(att, def, msg);
-                def.fightData.hurtData.allHurtExecEndDisp.addEventHandle(onOneAttackAndHurtEndHandle);
+                def.fightData.hurtData.allHurtExecEndDisp.addEventHandle(null, onOneAttackAndHurtEndHandle);
 
                 m_hurtList.Add(def.fightData.hurtData);
             }

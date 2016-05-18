@@ -108,7 +108,7 @@ namespace SDK.Lib
         // 添加特效播放结束处理
         public void addEffectPlayEndHandle(Action<IDispatchObject> handle)
         {
-            m_playEndEventDispatch.addEventHandle(handle);
+            m_playEndEventDispatch.addEventHandle(null, handle);
         }
 
         virtual public void addMoveDestEventHandle(Action<IDispatchObject> dispObj)

@@ -40,7 +40,7 @@ namespace SDK.Lib
             {
                 unload();
                 mEvtHandle = new ResEventDispatch();
-                mEvtHandle.addEventHandle(dispObj);
+                mEvtHandle.addEventHandle(null, dispObj);
                 mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onTexLoaded);
             }
         }

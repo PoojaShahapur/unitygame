@@ -15,7 +15,7 @@ namespace FightCore
         public override void init()
         {
             base.init();
-            this.m_card.clickEntityDisp.addEventHandle(onCardClick);
+            this.m_card.clickEntityDisp.addEventHandle(null, onCardClick);
         }
 
         // 英雄卡、随从卡即可以作为攻击者也可以作为被击者，法术卡、技能卡、装备卡只能作为攻击者
@@ -116,7 +116,7 @@ namespace FightCore
         // 结束转换模型
         override public void endConvModel(int type)
         {
-            this.m_card.clickEntityDisp.addEventHandle(onCardClick);
+            this.m_card.clickEntityDisp.addEventHandle(null, onCardClick);
         }
     }
 }

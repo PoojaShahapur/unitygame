@@ -39,7 +39,7 @@ namespace FightCore
             dieItem = m_card.fightData.hurtData.createItem(EHurtType.eDie) as DieItem;
             dieItem.initDieItemData(m_card, m_msg);
             m_card.fightData.hurtData.allHurtExecEndDisp.uniqueId = UniqueId.DEBUG_ID_1;
-            m_card.fightData.hurtData.allHurtExecEndDisp.addEventHandle(onDieEndHandle);
+            m_card.fightData.hurtData.allHurtExecEndDisp.addEventHandle(null, onDieEndHandle);
         }
 
         protected void onDieEndHandle(IDispatchObject dispObj)

@@ -52,7 +52,7 @@ namespace SDK.Lib
 
         public void addEventHandle(Action<IDispatchObject> btnClk)
         {
-            m_eventDisp.addEventHandle(btnClk);
+            m_eventDisp.addEventHandle(null, btnClk);
         }
 
         virtual public void syncUpdateCom()

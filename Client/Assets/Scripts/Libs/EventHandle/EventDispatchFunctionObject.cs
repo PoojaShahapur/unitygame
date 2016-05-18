@@ -6,6 +6,7 @@ namespace SDK.Lib
     public class EventDispatchFunctionObject : IDelayHandleItem
     {
         public bool m_bClientDispose;       // 是否释放了资源
+        public ICalleeObject mThis;
         public Action<IDispatchObject> m_handle;
 
         protected LuaCSDispatchFunctionObject m_luaCSDispatchFunctionObject;
@@ -27,8 +28,9 @@ namespace SDK.Lib
             }
         }
 
-        public void setFuncObject(Action<IDispatchObject> func)
+        public void setFuncObject(ICalleeObject pThis, Action<IDispatchObject> func)
         {
+            this.mThis = pThis;
             this.m_handle = func;
         }
 
@@ -65,12 +67,20 @@ namespace SDK.Lib
 
         public bool isValid()
         {
-            return m_handle != null || (m_luaCSDispatchFunctionObject != null && m_luaCSDispatchFunctionObject.isValid());
+            return mThis != null || m_handle != null || (m_luaCSDispatchFunctionObject != null && m_luaCSDispatchFunctionObject.isValid());
         }
 
-        public bool isEqual(Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        public bool isEqual(ICalleeObject pThis, Action<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool ret = false;
+            if(pThis != null)
+            {
+                ret = UtilApi.isAddressEqual(this.mThis, pThis);
+                if (!ret)
+                {
+                    return ret;
+                }
+            }
             if (handle != null)
             {
                 ret = UtilApi.isAddressEqual(this.m_handle, handle);
@@ -101,7 +111,12 @@ namespace SDK.Lib
 
         public void call(IDispatchObject dispObj)
         {
-            if(null !=  m_handle)
+            if(mThis != null)
+            {
+                mThis.call(dispObj);
+            }
+
+            if(null != m_handle)
             {
                 m_handle(dispObj);
             }

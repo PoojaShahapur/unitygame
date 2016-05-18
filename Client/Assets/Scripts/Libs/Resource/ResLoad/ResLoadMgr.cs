@@ -289,7 +289,7 @@ namespace SDK.Lib
 
             if (param.m_loadEventHandle != null)
             {
-                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
+                resItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
             }
 
             return resItem;
@@ -347,7 +347,7 @@ namespace SDK.Lib
             }
 
             loadItem.setLoadParam(param);
-            loadItem.nonRefCountResLoadResultNotify.loadResEventDispatch.addEventHandle(onLoadEventHandle);
+            loadItem.nonRefCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, onLoadEventHandle);
 
             return loadItem;
         }
@@ -367,7 +367,7 @@ namespace SDK.Lib
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(param.m_loadEventHandle);
+                    m_LoadData.m_path2Res[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
                 }
             }
 
@@ -442,7 +442,7 @@ namespace SDK.Lib
             if (m_LoadData.m_path2Res.ContainsKey(resUniqueId))
             {
                 // 移除事件监听器，因为很有可能移除的时候，资源还没加载完成，这个时候事件监听器中的处理函数列表还没有清理
-                m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(loadEventHandle);
+                m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, loadEventHandle);
                 m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.refCount.decRef();
                 if (m_LoadData.m_path2Res[resUniqueId].refCountResLoadResultNotify.refCount.isNoRef())
                 {
@@ -511,7 +511,7 @@ namespace SDK.Lib
         public void onLoadEventHandle(IDispatchObject dispObj)
         {
             LoadItem item = dispObj as LoadItem;
-            item.nonRefCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(onLoadEventHandle);
+            item.nonRefCountResLoadResultNotify.loadResEventDispatch.removeEventHandle(null, onLoadEventHandle);
             if (item.nonRefCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
                 onLoaded(item);

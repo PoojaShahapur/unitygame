@@ -9,11 +9,11 @@ namespace Game.Game
     {
         public GameNetHandleCB()
         {
-            m_id2DispDic[stNullUserCmd.DATA_USERCMD] = new GameDataUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.PROPERTY_USERCMD] = new GamePropertyUserCmdHandle();
-            m_id2DispDic[stNullUserCmd.HERO_CARD_USERCMD] = new GameHeroCardCmdHandle();
-            m_id2DispDic[stNullUserCmd.CHAT_USERCMD] = new GameChatCmdHandle();
-            m_id2DispDic[stNullUserCmd.TIME_USERCMD] = new GameTimeCmdHandle();
+            this.addCmdHandle(stNullUserCmd.DATA_USERCMD, new GameDataUserCmdHandle());
+            this.addCmdHandle(stNullUserCmd.PROPERTY_USERCMD, new GamePropertyUserCmdHandle());
+            this.addCmdHandle(stNullUserCmd.HERO_CARD_USERCMD, new GameHeroCardCmdHandle());
+            this.addCmdHandle(stNullUserCmd.CHAT_USERCMD, new GameChatCmdHandle());
+            this.addCmdHandle(stNullUserCmd.TIME_USERCMD, new GameTimeCmdHandle());
         }
     }
 }

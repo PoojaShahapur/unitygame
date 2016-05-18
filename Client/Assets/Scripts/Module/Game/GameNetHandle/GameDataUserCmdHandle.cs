@@ -7,7 +7,7 @@ namespace Game.Game
     {
         public GameDataUserCmdHandle()
         {
-            m_id2HandleDic[stDataUserCmd.MAIN_USER_DATA_USERCMD_PARA] = psstMainUserDataUserCmd;
+            this.addParamHandle(stDataUserCmd.MAIN_USER_DATA_USERCMD_PARA, psstMainUserDataUserCmd);
         }
 
         // 如果要调试，可以重载，方便调试
@@ -16,8 +16,10 @@ namespace Game.Game
         //
         //}
 
-        protected void psstMainUserDataUserCmd(ByteBuffer msg)
+        protected void psstMainUserDataUserCmd(IDispatchObject dispObj)
         {
+            ByteBuffer msg = dispObj as ByteBuffer;
+
             stMainUserDataUserCmd cmd = new stMainUserDataUserCmd();
             cmd.derialize(msg);
             Ctx.m_instance.m_dataPlayer.m_dataMain = cmd.data;

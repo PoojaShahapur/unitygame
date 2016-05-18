@@ -50,7 +50,7 @@ namespace FightCore
 
         override public void addEnterHandleEntryDisp(System.Action<IDispatchObject> eventHandle)
         {
-            m_onEnterHandleEntryDisp.addEventHandle(eventHandle);
+            m_onEnterHandleEntryDisp.addEventHandle(null, eventHandle);
         }
 
         // Enemy 卡牌初始位置，这个和自己卡牌手里的初始信息是不一样的
