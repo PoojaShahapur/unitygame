@@ -32,5 +32,16 @@ namespace UnitTest
             byte[] bytes = ProtobufHelper.SerializeTBytes<Person>(pSource);
             Person pFBytes = ProtobufHelper.DeSerializeFBytes<Person>(bytes);
         }
+
+        public void testNet()
+        {
+            Person pSource = new Person();
+            pSource.name = "asdf";
+            pSource.id = 123;
+            pSource.email = "qwer";
+
+            byte[] bytes = ProtobufHelper.SerializeTBytes<Person>(pSource);
+            Ctx.m_instance.m_luaSystem.receiveToLua(bytes);
+        }
     }
 }

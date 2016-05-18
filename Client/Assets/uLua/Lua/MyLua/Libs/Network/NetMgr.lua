@@ -10,7 +10,7 @@ function M:init()
     GlobalNS.ProtobufUtil.registerAll();
 end
 
-function M:postCommand(id, data, isNetSend)
+function M:sendCmd(id, data, isNetSend)
     if(isNetSend == true) then
         local command = NetCommand[id];
         if(data == nil) then
@@ -19,13 +19,13 @@ function M:postCommand(id, data, isNetSend)
         if(command ~= nil) then
             GCtx.mLogSys:log("Send message id: " .. id .. " Proto: " .. command.proto);
             local buffer = ProtobufUtil:encode(command.proto, data);
-            GlobalNS.CSSystem.Ctx.m_luaSystem.SendFromLua(id, buffer);
+            GlobalNS.CSSystem.Ctx.m_luaSystem.sendFromLua(id, buffer);
         end
     end
 end
 
-function M:receiveMsg(id, buffer)
-    GCtx.mLogSys:log("---------------- NetManager.receiveMsg id: ", id);
+function M:receiveCmd(id, buffer)
+    GCtx.mLogSys:log("---------------- NetManager.receiveCmd id: ", id);
     local msg = NetMessage[id];
     if(msg ~= nil) then
         local data = ProtobufUtil:decode(msg.proto, buffer);

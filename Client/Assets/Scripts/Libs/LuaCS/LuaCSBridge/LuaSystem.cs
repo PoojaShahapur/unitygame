@@ -82,16 +82,22 @@ namespace SDK.Lib
         }
 
         // 从 Lua 中发送 pb 消息
-        public void SendFromLua(UInt16 commandID, LuaStringBuffer buffer)
+        public void sendFromLua(UInt16 commandID, LuaStringBuffer buffer)
         {
             Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
             Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
         }
 
-        public void ReceiveViaLua(ByteBuffer msg)
+        public void receiveToLua(ByteBuffer msg)
         {
             LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
-            this.CallLuaFunction("NetManager.receiveMsg", 0, buffer);
+            this.CallLuaFunction("NetMgr.receiveCmd", 0, buffer);
+        }
+
+        public void receiveToLua(Byte[] msg)
+        {
+            LuaStringBuffer buffer = new LuaStringBuffer(msg);
+            this.CallLuaFunction("NetMgr.receiveCmd", 0, buffer);
         }
 
         public LuaTable loadModule(string file)
