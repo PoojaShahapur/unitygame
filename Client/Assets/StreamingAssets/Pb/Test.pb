@@ -1,7 +1,13 @@
 
-F
-Proto/Test.proto"2
-Test
-uid (
-guid (
-account (	
+Ÿ
+Proto/Test.protomsg"B
+MSG_ReqTest
+requid (
+reqguid (
+
+reqaccount (	"B
+MSG_RetTest
+retuid (
+retguid (
+
+retaccount (	

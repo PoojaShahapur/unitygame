@@ -98,7 +98,7 @@ namespace SDK.Lib
         {
             LuaStringBuffer buffer = new LuaStringBuffer(msg);
             //this.CallLuaFunction("NetMgr.receiveCmd", 0, buffer);
-            this.CallLuaFunction("GlobalNS.GlobalEventMgr.onReceiveToLua", 0, buffer);
+            this.CallLuaFunction("GlobalNS.GlobalEventMgr.onReceiveToLua", 1000, buffer);
         }
 
         public LuaTable loadModule(string file)
