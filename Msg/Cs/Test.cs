@@ -7,13 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: Proto/User.proto
-namespace Proto.User
+// Generated from: Proto/Test.proto
+namespace Proto.Test
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"User")]
-  public partial class User : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Test")]
+  public partial class Test : global::ProtoBuf.IExtensible
   {
-    public User() {}
+    public Test() {}
     
     private int _uid;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"uid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]

@@ -1,7 +1,7 @@
 
 F
-Proto/User.proto"2
-User
+Proto/Test.proto"2
+Test
 uid (
 guid (
 account (	
