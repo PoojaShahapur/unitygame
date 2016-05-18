@@ -4,6 +4,23 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_id2DispDic = GlobalNS.new(GlobalNS.Dictionary);
+    self.mCmdDispInfo = GlobalNS.new(GlobalNS.CmdDispInfo);
+end
+
+function M:addCmdHandle(cmdId, pThis, func)
+    if (not self.m_id2DispDic:ContainsKey(cmdId)) then
+        self.m_id2DispDic[cmdId] = GlobalNS.new(GlobalNS.AddOnceEventDispatch);
+    end
+
+    self.m_id2DispDic[cmdId]:addEventHandle(pThis, func);
+end
+
+function M:removeCmdHandle(cmdId, pThis, func)
+    if(not self.m_id2DispDic.ContainsKey(cmdId)) then
+        GCtx.mLogSys:log("Cmd Handle Not Register");
+    end
+
+    self.m_id2DispDic[cmdId]:removeEventHandle(pThis, func);
 end
 
 function M:handleMsg(msg)
@@ -14,7 +31,10 @@ function M:handleMsg(msg)
     msg.setPos(0);
 
     if(self.m_id2DispDic.ContainsKey(byCmd)) then
-        self.m_id2DispDic[byCmd].handleMsg(msg, byCmd, byParam);
+        self.mCmdDispInfo.bu = msg;
+        self.mCmdDispInfo.byCmd = byCmd;
+        self.mCmdDispInfo.byParam = byParam;
+        self.m_id2DispDic[byCmd].dispatchEvent(self.mCmdDispInfo);
     else
         
     end

@@ -67,9 +67,11 @@ require "MyLua.Libs.Tools.UtilApi"
 require "MyLua.Libs.Log.LogSys"
 
 -- 网络
-require "MyLua.Libs.Network.NetCmdHandleBase"
-require "MyLua.Libs.Network.NetDispHandle"
-require "MyLua.Libs.Network.NetDispList"
+require "MyLua.Libs.Network.Cmd.NetCmdHandleBase"
+require "MyLua.Libs.Network.Cmd.NetDispHandle"
+require "MyLua.Libs.Network.Cmd.NetDispList"
+require "MyLua.Libs.Network.Cmd.CmdDispInfo"
+
 require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.Network.NetMgr"

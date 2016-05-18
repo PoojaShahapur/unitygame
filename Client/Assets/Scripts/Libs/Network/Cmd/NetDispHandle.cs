@@ -14,14 +14,14 @@ namespace SDK.Lib
             mCmdDispInfo = new CmdDispInfo();
         }
 
-        public void addCmdHandle(int cmdId, NetCmdHandleBase handle)
+        public void addCmdHandle(int cmdId, NetCmdHandleBase callee)
         {
             if (!m_id2DispDic.ContainsKey(cmdId))
             {
                 m_id2DispDic[cmdId] = new AddOnceEventDispatch();
             }
 
-            m_id2DispDic[cmdId].addEventHandle(handle, null);
+            m_id2DispDic[cmdId].addEventHandle(callee, null);
         }
 
         public void removeCmdHandle(int cmdId, NetCmdHandleBase calleeObj = null)

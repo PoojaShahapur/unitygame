@@ -40,7 +40,8 @@ namespace SDK.Lib
 
         public void call(IDispatchObject dispObj)
         {
-
+            CmdDispInfo cmd = dispObj as CmdDispInfo;
+            handleMsg(cmd.bu, cmd.byCmd, cmd.byParam);
         }
 
         public virtual void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
