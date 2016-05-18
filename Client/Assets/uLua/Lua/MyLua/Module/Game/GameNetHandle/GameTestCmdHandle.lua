@@ -1,9 +1,11 @@
+require "MyLua.Libs.Network.Cmd.NetCmdHandleBase"
+
 ﻿local M = GlobalNS.Class(GlobalNS.NetCmdHandleBase);
 M.clsName = "GameTestCmdHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    this.addParamHandle(MSG_ReqTest, self, self.handleTest);
+    self:addParamHandle(MSG_ReqTest, self, self.handleTest);
 end
 
 function M:dtor()

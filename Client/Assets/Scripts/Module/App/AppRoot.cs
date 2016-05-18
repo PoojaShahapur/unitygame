@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using SDK.Lib;
-using BehaviorLibrary;
-using FightCore;
 
 #if UNIT_TEST
 using UnitTest;

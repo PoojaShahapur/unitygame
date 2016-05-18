@@ -78,4 +78,4 @@ require "MyLua.Libs.Network.NetMgr"
 
 -- 模块系统
 require "MyLua.Libs.Module.IGameSys"
-require "MyLua.Libs.Module.GameSys"
+require "MyLua.Module.Game.GameSys"

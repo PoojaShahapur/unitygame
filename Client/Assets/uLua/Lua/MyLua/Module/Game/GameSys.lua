@@ -1,5 +1,5 @@
 require "MyLua.Libs.Module.IGameSys"
-require "MyLua.Module.GameNetHandleCB"
+require "MyLua.Module.Game.EventCB.GameNetHandleCB"
 
 local M = GlobalNS.Class(GlobalNS.IGameSys);
 M.clsName = "GameSys";

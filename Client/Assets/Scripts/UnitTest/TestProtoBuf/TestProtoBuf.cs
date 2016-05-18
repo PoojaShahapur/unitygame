@@ -7,8 +7,9 @@ namespace UnitTest
     {
         public void run()
         {
-            testProtoBufStr();
-            testProtoBufBytes();
+            //testProtoBufStr();
+            //testProtoBufBytes();
+            testNet();
         }
 
         public void testProtoBufStr()
