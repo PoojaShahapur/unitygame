@@ -1,7 +1,7 @@
 require "MyLua.Libs.Network.Cmd.NetDispHandle"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "NetDispList";
+M.clsName = "NetCmdNotify";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()

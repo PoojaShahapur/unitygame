@@ -30,7 +30,7 @@ function M:receiveCmd(id, buffer)
     if(msg ~= nil) then
         local data = ProtobufUtil:decode(msg.proto, buffer);
         if(data ~= nil) then
-            GCtx.m_netDispList:handleMsg(data);
+            GCtx.m_netCmdNotify:handleMsg(data);
         end
     end
 end

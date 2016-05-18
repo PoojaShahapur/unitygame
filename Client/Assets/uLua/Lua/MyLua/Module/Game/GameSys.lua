@@ -15,7 +15,7 @@ end
 
 function M:init()
     local gameNetHandleCB = GlobalNS.new(GlobalNS.GameNetHandleCB);
-    GCtx.setNetDispList(gameNetHandleCB);    -- 设置网络模块处理
+    GCtx.setNetCmdNotify(gameNetHandleCB);    -- 设置网络模块处理
 end
 
 return M;
