@@ -1,0 +1,83 @@
+-- 所有全局类都在这里加载
+
+require("mobdebug").start()
+
+require "MyLua.Libs.Core.GlobalNS"      -- 加载自己的全局表
+
+-- 基础
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.StaticClass"
+require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.Core.ClassLoader"
+require "MyLua.Libs.Core.Malloc"
+--require "MyLua.Libs.Core.CSImportToLua"
+
+-- 数据结构
+require "MyLua.Libs.DataStruct.MList"
+require "MyLua.Libs.DataStruct.Dictionary"
+
+
+-- 延迟处理器
+require "MyLua.Libs.DelayHandle.IDelayHandleItem"
+require "MyLua.Libs.DelayHandle.DelayHandleObject"
+require "MyLua.Libs.DelayHandle.DelayHandleParamBase"
+require "MyLua.Libs.DelayHandle.DelayAddParam"
+require "MyLua.Libs.DelayHandle.DelayDelParam"
+require "MyLua.Libs.DelayHandle.DelayHandleMgrBase"
+
+
+-- 事件分发器
+require "MyLua.Libs.EventHandle.EventDispatchFunctionObject"
+require "MyLua.Libs.EventHandle.IDispatchObject"
+require "MyLua.Libs.EventHandle.EventDispatch"
+require "MyLua.Libs.EventHandle.EventDispatchGroup"
+require "MyLua.Libs.EventHandle.AddOnceAndCallOnceEventDispatch"
+require "MyLua.Libs.EventHandle.AddOnceEventDispatch"
+require "MyLua.Libs.EventHandle.CallOnceEventDispatch"
+require "MyLua.Libs.EventHandle.ResEventDispatch"
+
+
+-- 帧处理事件
+require "MyLua.Libs.FrameHandle.ITickedObject"
+require "MyLua.Libs.FrameHandle.TimerItemBase"
+require "MyLua.Libs.FrameHandle.FrameTimerItem"
+require "MyLua.Libs.FrameHandle.DaoJiShiTimer"
+require "MyLua.Libs.FrameHandle.SystemTimeData"
+require "MyLua.Libs.FrameHandle.SystemFrameData"
+require "MyLua.Libs.FrameHandle.TickProcessObject"
+require "MyLua.Libs.FrameHandle.TimerMgr"
+require "MyLua.Libs.FrameHandle.FrameTimerMgr"
+require "MyLua.Libs.FrameHandle.TickMgr"
+require "MyLua.Libs.FrameHandle.TimerFunctionObject"
+
+-- UI
+require "MyLua.Libs.UI.UICore.Form"
+require "MyLua.Libs.UI.UICore.UIAttrSystem"
+
+-- FrameWork 脚本
+require "MyLua.Libs.FrameWork.ProcessSys"
+require "MyLua.Libs.FrameWork.CSSystem"
+require "MyLua.Libs.FrameWork.Config"
+require "MyLua.Libs.FrameWork.UniqueIdGentor"
+
+-- 工具
+require "MyLua.Libs.Tools.UtilApi"
+
+-- 日志
+require "MyLua.Libs.Log.LogTypeId"
+require "MyLua.Libs.Log.LogSys"
+
+-- 网络
+require "MyLua.Libs.Network.Cmd.NetCmdHandleBase"
+require "MyLua.Libs.Network.Cmd.NetDispHandle"
+require "MyLua.Libs.Network.Cmd.NetCmdNotify"
+require "MyLua.Libs.Network.Cmd.CmdDispInfo"
+
+require "MyLua.Libs.Network.PBFileList"
+require "MyLua.Libs.Network.CommandID"
+require "MyLua.Libs.Network.NetCommand"
+require "MyLua.Libs.Network.NetMgr"
+
+-- 模块系统
+require "MyLua.Libs.Module.IGameSys"
+require "MyLua.Module.Game.GameSys"

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- parentpath 说明这个是父目录，获取子目录，否则就是当前目录 -->
+<Root>
+	<path inpath="Res/Image/UI/DynImage" outpath="Resources/Atlas" ignoreext="meta,mat" parentpath="true" restype="0" />
+	<path inpath="Res/Image/UI/StaticImage/Info" outpath="Resources/Atlas/Info.asset" ignoreext="meta,mat" restype="0" />
+	<path inpath="Res/Image/Effect/SpriteEffect" outpath="Resources/Effect/SpriteEffect" ignoreext="meta,mat" parentpath="true" restype="0" />
+</Root>
