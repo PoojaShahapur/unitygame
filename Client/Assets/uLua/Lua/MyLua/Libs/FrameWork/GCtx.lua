@@ -33,7 +33,7 @@ end
 
 function M.postInit()
     -- 加载逻辑处理
-    GlobalNS.ClassLoader.loadClass("MyLua.Libs.FrameWork.GlobalEventMgr");
+    GlobalNS.ClassLoader.loadClass("MyLua.Libs.FrameWork.GlobalEventCmd");
 end
 
 function M.init()

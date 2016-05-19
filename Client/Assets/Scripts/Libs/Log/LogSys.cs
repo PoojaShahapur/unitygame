@@ -27,7 +27,7 @@ namespace SDK.Lib
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
-            mEnableLog = false;
+            mEnableLog = true;
             registerDevice();
             registerFileLogDevice();
         }

@@ -332,8 +332,6 @@ namespace SDK.Lib
                 string worldCornerStr = "";
                 worldCornerStr = m_lens.getWorldCornerStr();
                 worldCornerStr = camera.getWorldCornerStr();
-
-                Debug.Log("aaaa");
             }
         }
 

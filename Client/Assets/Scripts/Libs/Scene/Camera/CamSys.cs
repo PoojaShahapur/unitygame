@@ -142,7 +142,6 @@ namespace SDK.Lib
             FrustumPlane plane = FrustumPlane.FRUSTUM_PLANE_BOTTOM;
             if (m_localCamera.isVisible(ref aabb, ref plane))
             {
-                Debug.Log("aaaa");
                 m_localCamera.isVisible(ref aabb, ref plane);
             }
         }

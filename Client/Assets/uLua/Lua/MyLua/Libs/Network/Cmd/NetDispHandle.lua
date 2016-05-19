@@ -9,10 +9,11 @@ end
 
 function M:addCmdHandle(cmdId, pThis, func)
     if (not self.m_id2DispDic:ContainsKey(cmdId)) then
-        self.m_id2DispDic[cmdId] = GlobalNS.new(GlobalNS.AddOnceEventDispatch);
+        local disp = GlobalNS.new(GlobalNS.AddOnceEventDispatch);
+        self.m_id2DispDic:Add(cmdId, disp);
     end
 
-    self.m_id2DispDic[cmdId]:addEventHandle(pThis, func);
+    self.m_id2DispDic:value(cmdId):addEventHandle(pThis, func);
 end
 
 function M:removeCmdHandle(cmdId, pThis, func)
@@ -35,7 +36,7 @@ function M:handleMsg(msg)
         self.mCmdDispInfo.bu = msg;
         self.mCmdDispInfo.byCmd = byCmd;
         self.mCmdDispInfo.byParam = byParam;
-        self.m_id2DispDic[byCmd]:dispatchEvent(self.mCmdDispInfo);
+        self.m_id2DispDic:value(byCmd):dispatchEvent(self.mCmdDispInfo);
     else
         
     end
