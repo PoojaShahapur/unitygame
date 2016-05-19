@@ -23,5 +23,5 @@ function M:addNpc(being)
 end
 
 function M:removeNpc(being)
-    self:delObject(being);
+    self:removeObject(being);
 end

@@ -53,9 +53,9 @@ function M:addObject(delayObject, priority)
     end
 end
 
-function M:delObject(delayObject)
+function M:removeObject(delayObject)
     if self:bInDepth() then
-        M.super.delObject(self, delayObject);
+        M.super.removeObject(self, delayObject);
     else
         for key, item in ipairs(self.m_tickLst:list()) do
             if item.m_tickObject == delayObject then

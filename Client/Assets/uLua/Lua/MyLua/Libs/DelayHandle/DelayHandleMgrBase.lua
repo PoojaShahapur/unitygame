@@ -38,7 +38,7 @@ function M:addObject(delayObject, priority)
     end
 end
 
-function M:delObject(delayObject)
+function M:removeObject(delayObject)
     if (self.m_loopDepth > 0) then
         if (not self:existDelList(delayObject)) then
             if (self:existAddList(delayObject)) then    -- 如果已经添加到删除列表中
@@ -109,7 +109,7 @@ function M:processDelayObjects()
         if (self.m_deferredDelQueue:Count() > 0) then
             local idx = 0;
             for idx = 0, self.m_deferredDelQueue:Count() - 1, 1 do
-                self:delObject(self.m_deferredDelQueue:at(idx).m_delayObject);
+                self:removeObject(self.m_deferredDelQueue:at(idx).m_delayObject);
             end
 
             self.m_deferredDelQueue:Clear();

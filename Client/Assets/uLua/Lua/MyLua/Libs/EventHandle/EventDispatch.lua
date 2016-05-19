@@ -62,15 +62,15 @@ function M:removeEventHandle(handle, pThis)
         end
     end
     if (idx < self.m_handleList:Count()) then
-        self:delObject(self.m_handleList[idx]);
+        self:removeObject(self.m_handleList[idx]);
     else
         -- 日志
     end
 end
 
-function M:delObject(delayObject)
+function M:removeObject(delayObject)
     if (self:bInDepth()) then
-        M.super.delObject(self, delayObject);
+        M.super.removeObject(self, delayObject);
     else
         if (self.m_handleList:Remove(delayObject) == false) then
             -- 日志
@@ -93,7 +93,7 @@ end
 function M:clearEventHandle()
     if (self:bInDepth()) then
         for _, item in ipairs(self.m_handleList:list()) do
-            self:delObject(item);
+            self:removeObject(item);
         end
     else
         self.m_handleList:Clear();

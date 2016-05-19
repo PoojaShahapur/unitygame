@@ -32,7 +32,7 @@ function M:addPlayer(being)
 end
 
 function M:removePlayer(being)
-    self:delObject(being);
+    self:removeObject(being);
 end
 
 function M:getHero()

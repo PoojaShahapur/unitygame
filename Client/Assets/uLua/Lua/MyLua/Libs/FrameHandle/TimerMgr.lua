@@ -32,12 +32,12 @@ function M:addObject(delayObject, priority)
     GCtx.m_processSys:refreshUpdateFlag();
 end
 
-function M:delObject(delayObject)
+function M:removeObject(delayObject)
     -- 检查当前是否在队列中
     if (self.m_timerList:IndexOf(delayObject) ~= -1) then
         delayObject.m_disposed = true;
         if (self:bInDepth()) then
-            M.super.delObject(self, delayObject);
+            M.super.removeObject(self, delayObject);
         else
             for key, item in ipairs(self.m_timerList:list()) do
                 if (item == delayObject) then
@@ -66,7 +66,7 @@ function M:Advance(delta)
         end
 
         if (timerItem.m_disposed) then       -- 如果已经结束
-            self:delObject(timerItem);
+            self:removeObject(timerItem);
         end
     end
 

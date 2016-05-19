@@ -23,7 +23,7 @@ function M:addObject(delayObject, priority)
     end
 end
 
-function M:delObject(delayObject)
+function M:removeObject(delayObject)
     -- 检查当前是否在队列中
     if not self.m_timerLists:IndexOf(delayObject) == -1 then
         delayObject.m_disposed = true;
@@ -48,7 +48,7 @@ function M:Advance(delta)
             timerItem:OnFrameTimer();
         end
         if timerItem.m_disposed then
-            self:delObject(timerItem);
+            self:removeObject(timerItem);
         end
     end
 

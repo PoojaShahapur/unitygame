@@ -27,5 +27,5 @@ function M:addMonster(being)
 end
 
 function M:removeMonster(being)
-    self:delObject(being);
+    self:removeObject(being);
 end

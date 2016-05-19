@@ -32,7 +32,6 @@ function M:receiveCmd(id, buffer)
         if(data ~= nil) then
             GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
             GCtx.m_netCmdNotify:handleMsg(data);
-            --GlobalNS.CSSystem.onTestProtoBuf(data);
         end
     end
 end

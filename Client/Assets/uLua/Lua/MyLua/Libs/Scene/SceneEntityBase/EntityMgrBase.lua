@@ -22,9 +22,9 @@ function M:addObject(entity, priority)
     end
 end
 
-function M:delObject(entity)
+function M:removeObject(entity)
     if (self:bInDepth()) then
-        M.super.delObject(self, entity);
+        M.super.removeObject(self, entity);
     else
         self.m_sceneEntityList:Remove(entity);
     end

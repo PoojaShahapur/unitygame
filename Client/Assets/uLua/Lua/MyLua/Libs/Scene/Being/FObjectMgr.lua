@@ -23,5 +23,5 @@ function M:addFObject(being)
 end
 
 function M:removeFObject(being)
-    self:delObject(being);
+    self:removeObject(being);
 end
