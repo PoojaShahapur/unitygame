@@ -12,6 +12,7 @@ function M.init()
     this.Ctx = SDK.Lib.Ctx;
     this.UtilPath = SDK.Lib.UtilPath;
     this.GlobalEventCmd = SDK.Lib.GlobalEventCmd;
+    this.AuxPrefabLoader = SDK.Lib.AuxPrefabLoader;
 end
 
 --[[

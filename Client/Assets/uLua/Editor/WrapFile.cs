@@ -116,6 +116,7 @@ public static class WrapFile {
         _GT(typeof(SDK.Lib.UtilPath)),
         _GT(typeof(SDK.Lib.GlobalEventCmd)),
         _GT(typeof(SDK.Lib.LogSys)),
+        _GT(typeof(SDK.Lib.AuxPrefabLoader)),
     };
 
     public static BindType _GT(Type t) {

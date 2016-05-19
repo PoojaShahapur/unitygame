@@ -1,5 +1,5 @@
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "AuxPrefabComponent";
+M.clsName = "AuxPrefabLoader";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
@@ -11,21 +11,21 @@ function M:dtor()
 end
 
 function M:dispose()
-    if(self.nativePrefabComponent ~= nil) then
-        self.nativePrefabComponent:dispose();
-        self.nativePrefabComponent = nil;
+    if(self.nativePrefabLoader ~= nil) then
+        self.nativePrefabLoader:dispose();
+        self.nativePrefabLoader = nil;
     end
 end
 
 function M:asyncLoad(path, pThis, handle)
     self.mEvtHandle = GLobalNS.new(GlobalNS.ResEventDispatch);
     self.mEvtHandle.addEventHandle(pThis, handle);
-    self.nativePrefabComponent = SDK.Lib.AuxPrefabComponent.New(false);
-    self.nativePrefabComponent:asyncLoad(path, self, self.onPrefabLoaded);
+    self.nativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New(false);
+    self.nativePrefabLoader:asyncLoad(path, self, self.onPrefabLoaded);
 end
 
 function M:onPrefabLoaded(dispObj)
-    self:setSelfGo(self.nativePrefabComponent:getGameObject());
+    self:setSelfGo(self.nativePrefabLoader:getGameObject());
     self.mEvtHandle:dispatchEvent(self);
 end
 
