@@ -13,8 +13,11 @@ public class SDK_Lib_LogSysWrap
 			new LuaMethod("formatLog", formatLog),
 			new LuaMethod("catchLog", catchLog),
 			new LuaMethod("fightLog", fightLog),
+			new LuaMethod("lua_log", lua_log),
 			new LuaMethod("log", log),
+			new LuaMethod("lua_warn", lua_warn),
 			new LuaMethod("warn", warn),
+			new LuaMethod("lua_error", lua_error),
 			new LuaMethod("error", error),
 			new LuaMethod("logout", logout),
 			new LuaMethod("updateLog", updateLog),
@@ -220,6 +223,17 @@ public class SDK_Lib_LogSysWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int lua_log(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 3);
+		SDK.Lib.LogSys obj = (SDK.Lib.LogSys)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.LogSys");
+		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
+		int arg1 = (int)LuaScriptMgr.GetNumber(L, 3);
+		obj.lua_log(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int log(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 3);
@@ -231,6 +245,17 @@ public class SDK_Lib_LogSysWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int lua_warn(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 3);
+		SDK.Lib.LogSys obj = (SDK.Lib.LogSys)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.LogSys");
+		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
+		int arg1 = (int)LuaScriptMgr.GetNumber(L, 3);
+		obj.lua_warn(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int warn(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 3);
@@ -238,6 +263,17 @@ public class SDK_Lib_LogSysWrap
 		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
 		SDK.Lib.LogTypeId arg1 = (SDK.Lib.LogTypeId)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.LogTypeId));
 		obj.warn(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int lua_error(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 3);
+		SDK.Lib.LogSys obj = (SDK.Lib.LogSys)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.LogSys");
+		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
+		int arg1 = (int)LuaScriptMgr.GetNumber(L, 3);
+		obj.lua_error(arg0,arg1);
 		return 0;
 	}
 

@@ -13,7 +13,7 @@ end
 function M:isInFilter(logTypeId)
     if(logTypeId == GlobalNS.LogTypeId.eLogCommon or
        logTypeId == GlobalNS.LogTypeId.eLogTest) then
-        return false;
+        return true;
     end
     
     return true;

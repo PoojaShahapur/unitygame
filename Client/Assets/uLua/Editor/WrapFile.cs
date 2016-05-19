@@ -113,8 +113,8 @@ public static class WrapFile {
         _GT(typeof(UIAtlas)),*/
 
         _GT(typeof(SDK.Lib.Ctx)),
-        _GT(typeof(SDK.Lib.MsgLocalStorage)),
-        _GT(typeof(SDK.Lib.LuaToCS)),
+        _GT(typeof(SDK.Lib.UtilPath)),
+        _GT(typeof(SDK.Lib.GlobalEventCmd)),
         _GT(typeof(SDK.Lib.LogSys)),
     };
 

@@ -10,30 +10,40 @@ local this = M;
 
 function M.init()
     this.Ctx = SDK.Lib.Ctx;
-    this.MsgLocalStorage = SDK.Lib.MsgLocalStorage;
-    this.LuaToCS = SDK.Lib.LuaToCS;
+    this.UtilPath = SDK.Lib.UtilPath;
+    this.GlobalEventCmd = SDK.Lib.GlobalEventCmd;
 end
 
+--[[
 function M.setNeedUpdate(value)
     
 end
+]]
 
 -- 日志区域
 function M.log(message, logTypeId)
-    this.Ctx.m_logSys:log(message, logTypeId);
+    if(this.Ctx.m_instance.m_logSys ~= nil) then
+        if(logTypeId == nil) then
+            GlobalNS.UtilApi.error("CSSystem logTypeId is nil");
+        else
+            this.Ctx.m_instance.m_logSys:lua_log(message, logTypeId);
+        end
+    else
+        GlobalNS.UtilApi.error("CSSystem LogSys is nil");
+    end
 end
 
 function M.warn(message, logTypeId)
-    this.Ctx.m_logSys:warn(message, logTypeId);
+    this.Ctx.m_instance.m_logSys:lua_warn(message, logTypeId);
 end
 
 function M.error(message, logTypeId)
-    this.Ctx.m_logSys:error(message, logTypeId);
+    this.Ctx.m_instance.m_logSys:lua_error(message, logTypeId);
 end
 
 -- lua cs 交互区域
 function M.onTestProtoBuf(msg)
-    this.LuaToCS.onTestProtoBuf(msg);
+    this.GlobalEventCmd.onTestProtoBuf(msg);
 end
 
 -- 网络区域
@@ -42,7 +52,7 @@ function M.sendFromLua(id, buffer)
 end
 
 function M.readLuaBufferToFile(file)
-    return this.MsgLocalStorage.readLuaBufferToFile(file);
+    return this.UtilPath.readLuaBufferToFile(file);
 end
 
 return M;

@@ -17,7 +17,7 @@ function M:sendCmd(id, data, isNetSend)
             data = {};
         end
         if(command ~= nil) then
-            GCtx.mLogSys:log("Send message id: " .. id .. " Proto: " .. command.proto, GlobalNS.LogTypeId.eLogCommon);
+            GCtx.mLogSys:log("NetMgr::sendCmd id = " .. id .. " Proto: " .. command.proto, GlobalNS.LogTypeId.eLogCommon);
             local buffer = GlobalNS.ProtobufUtil.encode(command.proto, data);
             GlobalNS.CSSystem.sendFromLua(id, buffer);
         end
@@ -25,11 +25,12 @@ function M:sendCmd(id, data, isNetSend)
 end
 
 function M:receiveCmd(id, buffer)
-    GCtx.mLogSys:log("---------------- NetManager.receiveCmd id: " .. id, GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mLogSys:log("NetMgr::receiveCmd id = " .. id, GlobalNS.LogTypeId.eLogCommon);
     local msg = NetMessage[id];
     if(msg ~= nil) then
         local data = GlobalNS.ProtobufUtil.decode(msg.proto, buffer);
         if(data ~= nil) then
+            GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
             GCtx.m_netCmdNotify:handleMsg(data);
             --GlobalNS.CSSystem.onTestProtoBuf(data);
         end

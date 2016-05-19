@@ -146,6 +146,12 @@ namespace SDK.Lib
             return false;
         }
 
+        // Lua 调用 Log 这个函数的时候， LogTypeId 类型转换会报错，不能使用枚举类型
+        public void lua_log(string message, int logTypeId = 0)
+        {
+            this.log(message, (LogTypeId)logTypeId);
+        }
+
         public void log(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
             //StackTrace stackTrace = new StackTrace(true);
@@ -162,6 +168,11 @@ namespace SDK.Lib
                     asyncLog(message);
                 }
             }
+        }
+
+        public void lua_warn(string message, int logTypeId = 0)
+        {
+            this.warn(message, (LogTypeId)logTypeId);
         }
 
         public void warn(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
@@ -182,7 +193,12 @@ namespace SDK.Lib
                 }
             }
         }
-        
+
+        public void lua_error(string message, int logTypeId = 0)
+        {
+            this.error(message, (LogTypeId)logTypeId);
+        }
+
         public void error(string message, LogTypeId logTypeId = LogTypeId.eLogCommon)
         {
             if (isInFilter(logTypeId))

@@ -104,7 +104,6 @@ namespace SDK.Lib
         public ScenePlaceHolder m_scenePlaceHolder;
         public SkillAttackFlowMgr m_skillAttackFlowMgr;
         public Maze m_maze;
-        public GlobalEventMgr m_globalEventMgr;
 
         public LuaSystem m_luaSystem;
         public MovieMgr m_movieMgr;    // 视频 Clip 播放
@@ -187,7 +186,6 @@ namespace SDK.Lib
             m_scenePlaceHolder = new ScenePlaceHolder();
             m_skillAttackFlowMgr = new SkillAttackFlowMgr();
             m_maze = new Maze();
-            m_globalEventMgr = new GlobalEventMgr();
 
             m_luaSystem = new LuaSystem();
             m_movieMgr = new MovieMgr();
