@@ -458,6 +458,27 @@ namespace SDK.Lib
             }
         }
 
+        // 卸载所有的资源
+        public void unloadAll()
+        {
+            MList<string> resUniqueIdList = new MList<string>();
+            foreach(string resUniqueId in m_LoadData.m_path2Res.Keys)
+            {
+                resUniqueIdList.Add(resUniqueId);
+            }
+
+            int idx = 0;
+            int len = resUniqueIdList.length();
+            while(idx < len)
+            {
+                this.unloadNoRef(resUniqueIdList[idx]);
+                ++idx;
+            }
+
+            resUniqueIdList.Clear();
+            resUniqueIdList = null;
+        }
+
         // 添加无引用资源到 List
         protected void addNoRefResID2List(string resUniqueId)
         {
