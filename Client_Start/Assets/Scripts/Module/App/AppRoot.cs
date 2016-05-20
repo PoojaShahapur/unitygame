@@ -46,7 +46,7 @@ public class AppRoot : MonoBehaviour
     // unity 自己产生的 bug ，DontDestroyOnLoad 的对象，加载 Level 后会再产生一个
     private void BugResolve()
     {
-        GameObject[] nodestroy = GameObject.FindGameObjectsWithTag("App");  //得到存在的实例列表
+        GameObject[] nodestroy = GameObject.FindGameObjectsWithTag("AppGo");  //得到存在的实例列表
         if (nodestroy.Length > 1)
         {
             // 将后产生的毁掉，保留第一个

@@ -14,7 +14,6 @@ namespace Game.Game
             registerScriptType();
             initGVar();
             loadGameScene();
-
         }
 
         public void initGVar()

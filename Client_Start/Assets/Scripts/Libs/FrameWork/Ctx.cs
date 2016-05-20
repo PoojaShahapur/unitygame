@@ -275,7 +275,6 @@
             m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
             UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
 
-            /*
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondCanvas, NotDestroyPath.ND_CV_Root);
@@ -295,13 +294,12 @@
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
-            */
         }
 
         protected void setNoDestroyObject_impl(string child, string parent)
         {
             m_layerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[parent], child);
-            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[child]);
+            //UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[child]);
         }
 
         protected void initBasicCfg()

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Game.Game;
+using Game.Login;
+using System.Collections.Generic;
 
 namespace SDK.Lib
 {
@@ -45,12 +47,19 @@ namespace SDK.Lib
         {
             if (!m_type2ItemDic[moduleID].m_isLoaded)
             {
-                // 初始化完成，开始加载自己的游戏场景
-                LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-                param.setPath(m_type2ItemDic[moduleID].m_path);
-                param.m_loadEventHandle = m_type2ItemDic[moduleID].m_loadEventHandle;
-                Ctx.m_instance.m_resLoadMgr.loadResources(param);
-                Ctx.m_instance.m_poolSys.deleteObj(param);
+                m_type2ItemDic[moduleID].m_isLoaded = true;
+
+                if (ModuleID.LOGINMN == moduleID)
+                {
+                    Ctx.m_instance.m_loginSys = new LoginSys();
+                    ((Ctx.m_instance.m_loginSys) as LoginSys).m_loginFlowHandle = new LoginFlowHandle();
+                    ((Ctx.m_instance.m_loginSys) as LoginSys).Start();
+                }
+                else if(ModuleID.GAMEMN == moduleID)
+                {
+                    Ctx.m_instance.m_gameSys = new GameSys();
+                    Ctx.m_instance.m_gameSys.Start();
+                }
             }
             else
             {
