@@ -152,52 +152,7 @@ namespace UnitTest
 
         protected void testReceiveMsg()
         {
-            ClientBuffer pDataBuffer = new ClientBuffer();
-            stAddBattleCardPropertyUserCmd pCmd = new stAddBattleCardPropertyUserCmd();
-
-            for (int idx = 0; idx < 6; ++idx)
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("接收缓冲区测试索引 {0}", idx));
-
-                pDataBuffer.sendData.clear();
-                pCmd.serialize(pDataBuffer.sendData);
-                pDataBuffer.send();
-                pDataBuffer.getSocketSendData();
-                pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
-                Array.Copy(pDataBuffer.sendBuffer.dynBuff.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
-                pDataBuffer.moveDyn2Raw();
-                pDataBuffer.moveRaw2Msg();
-            }
-
-            Ctx.m_instance.m_logSys.log(string.Format("接收缓冲区测试索引 {0}", 6));
-
-            stRetRemoveBattleCardUserCmd pCmd_1 = new stRetRemoveBattleCardUserCmd();
-
-            pDataBuffer.sendData.clear();
-            pCmd_1.serialize(pDataBuffer.sendData);
-            pDataBuffer.send();
-            pDataBuffer.getSocketSendData();
-            pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
-            Array.Copy(pDataBuffer.sendBuffer.dynBuff.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
-            pDataBuffer.moveDyn2Raw();
-            pDataBuffer.moveRaw2Msg();
-
-            for (int idx = 7; idx < 13; ++idx)
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("接收缓冲区测试索引 {0}", idx));
-
-                pDataBuffer.sendData.clear();
-                pCmd.serialize(pDataBuffer.sendData);
-                pDataBuffer.send();
-                pDataBuffer.getSocketSendData();
-                pDataBuffer.dynBuff.size = pDataBuffer.sendBuffer.length;
-                Array.Copy(pDataBuffer.sendBuffer.dynBuff.buff, 0, pDataBuffer.dynBuff.buff, 0, pDataBuffer.sendBuffer.length);
-                pDataBuffer.moveDyn2Raw();
-                pDataBuffer.moveRaw2Msg();
-            }
-
-            Ctx.m_instance.m_netCmdNotify.clearOneRevMsg();
-            Ctx.m_instance.m_netCmdNotify.clearOneHandleMsg();
+            
         }
     }
 }

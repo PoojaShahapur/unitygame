@@ -21,12 +21,6 @@ namespace SDK.Lib
                 m_objList.Add(dataItemShop);
                 dataItemShop.m_xmlItemMarket = marketCfg.getXmlItem(id) as XmlItemMarket;
             }
-
-            IUIShop uiShop = Ctx.m_instance.m_uiMgr.getForm(UIFormID.eUIShop) as IUIShop;
-            if(uiShop != null)
-            {
-                //uiShop.updateShopData();
-            }
         }
     }
 }

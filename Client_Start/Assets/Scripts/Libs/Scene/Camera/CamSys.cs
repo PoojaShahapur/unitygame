@@ -4,9 +4,6 @@ namespace SDK.Lib
 {
     public class CamSys
     {
-        public BoxCam m_boxCam;
-        public DzCam m_dzCam;
-
         public UICamera m_uiCam;            // 这个不是 UI 相机，这个是场景相机
 
         protected MCamera m_localCamera;         // 这个是系统摄像机，主要进行裁剪使用的

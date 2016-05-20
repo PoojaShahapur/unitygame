@@ -1,5 +1,4 @@
-﻿using Game.Msg;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SDK.Lib
 {
@@ -15,8 +14,7 @@ namespace SDK.Lib
 
         public void reqAllHero()
         {
-            stReqAllHeroInfoUserCmd cmd = new stReqAllHeroInfoUserCmd();
-            UtilMsg.sendMsg(cmd);
+            
         }
 
         // 所有 hero 的数据

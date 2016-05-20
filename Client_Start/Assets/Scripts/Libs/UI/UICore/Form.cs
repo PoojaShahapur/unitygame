@@ -181,7 +181,7 @@ namespace SDK.Lib
 
             if (m_bBlurBg)
             {
-                Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
+                //Ctx.m_instance.m_uiMgr.showForm(UIFormID.eUIBlurBg);        // 显示模糊背景界面
             }
 		    //adjustPosWithAlign();
 		}
@@ -196,7 +196,7 @@ namespace SDK.Lib
 
             if (m_bBlurBg)
             {
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+                //Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
             }
 		}
 
@@ -210,7 +210,7 @@ namespace SDK.Lib
 
             if (m_bBlurBg)
             {
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
+                //Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIBlurBg);
             }
 		}
 

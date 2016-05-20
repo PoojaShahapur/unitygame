@@ -11,22 +11,8 @@ namespace SDK.Lib
         protected float m_width = 0.3f;      // 宽度
         protected float m_height = 0.3f;     // 高度
 
-        protected stRetBattleHistoryInfoUserCmd m_data;
-
         protected string m_texPath;                          // 目录
         protected TextureRes m_texRes;
-
-        public stRetBattleHistoryInfoUserCmd data
-        {
-            get
-            {
-                return m_data;
-            }
-            set
-            {
-                m_data = value;
-            }
-        }
 
         public float height
         {
@@ -71,15 +57,7 @@ namespace SDK.Lib
         // 显示基本信息
         public void OnMouseHover(GameObject go, bool state)
         {
-            if (state)
-            {
-                UISceneTips tips = Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneTips>(UISceneFormID.eUISceneTips) as UISceneTips;
-                tips.showTips(Ctx.m_instance.m_coordConv.getCurTouchScenePos(), m_data);
-            }
-            else
-            {
-                Ctx.m_instance.m_uiSceneMgr.hideSceneForm(UISceneFormID.eUISceneTips);
-            }
+
         }
 
         public void onTexLoadEventHandle(IDispatchObject dispObj)

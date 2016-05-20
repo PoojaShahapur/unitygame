@@ -22,7 +22,7 @@ namespace Game.Game
             }
             else if (Input.GetKeyDown(KeyCode.K))  // 加载 UI 资源
             {
-                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIPack);
+                Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUITest);
             }
         }
 
@@ -83,12 +83,12 @@ namespace Game.Game
             //param.m_loadNeedCoroutine = true;
             //Ctx.m_instance.m_resLoadMgr.load(param);
 
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIPack);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUITest);
         }
 
         protected void onShopClk()
         {
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIPack);
+            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUITest);
         }
 
         //protected void onClkBtn(RaycastHit hit)

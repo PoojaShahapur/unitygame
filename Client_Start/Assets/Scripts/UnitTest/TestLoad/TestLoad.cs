@@ -1,5 +1,4 @@
-﻿using BehaviorLibrary;
-using SDK.Lib;
+﻿using SDK.Lib;
 using UnityEngine;
 
 namespace UnitTest
@@ -19,7 +18,6 @@ namespace UnitTest
             //testLoadAnimatorControllerPrefab();
             //testLoadScriptAnimatorControllerPrefab();
             //testScriptController();
-            testLoadSkillAction();
         }
 
         protected void testModelLoad()
@@ -118,12 +116,6 @@ namespace UnitTest
             Ctx.m_instance.m_atlasMgr.unloadImage(bbb, onImageLoadEventHandle);
         }
 
-        public void testLoadBT()
-        {
-            BehaviorTreeRes bt = Ctx.m_instance.m_aiSystem.behaviorTreeMgr.getAndSyncLoadBT(BTID.e1000);
-            Ctx.m_instance.m_aiSystem.behaviorTreeMgr.unload(bt.getResUniqueId(), null);
-        }
-
         protected void testLoadAnimatorController()
         {
             LoadParam param;
@@ -181,12 +173,6 @@ namespace UnitTest
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
             Ctx.m_instance.m_controllerMgr.unload(res.getResUniqueId(), null);
-        }
-
-        protected void testLoadSkillAction()
-        {
-            string _path = string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathSkillAction], "1000.xml");
-            Ctx.m_instance.m_skillActionMgr.getAndSyncLoad<SkillActionRes>(_path);
         }
     }
 }

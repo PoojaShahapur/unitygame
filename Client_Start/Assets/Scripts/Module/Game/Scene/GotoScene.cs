@@ -1,7 +1,4 @@
-﻿using Fight;
-using FightCore;
-using SDK.Lib;
-using UnityEngine;
+﻿using SDK.Lib;
 
 namespace Game.Game
 {
@@ -68,97 +65,18 @@ namespace Game.Game
 
         protected void testLoadModel()
         {
-            /*
-            // 加载骨骼动画
-            string path = "Scene/Man/Skeleton/DefaultAvatar.prefab";
-            SkelAnimRes skelAnim = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<SkelAnimRes>(path) as SkelAnimRes;
-            // 加载模型
-            path = "Scene/Man/SubMesh/DefaultAvatar_Lw_Teeth_Mesh.prefab";
-            ModelRes lowTeethModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
-            path = "Scene/Man/SubMesh/DefaultAvatar_Tounge_Mesh.prefab";
-            ModelRes toungeModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
-            path = "Scene/Man/SubMesh/DefaultAvatar_Unity_Body_Mesh.prefab";
-            ModelRes bodyModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
-            path = "Scene/Man/SubMesh/DefaultAvatar_Up_Teeth_Mesh.prefab";
-            ModelRes upTeethModel = Ctx.m_instance.m_skelAniMgr.getAndSyncLoad<ModelRes>(path) as ModelRes;
-            // 加载蒙皮
-            path = "Scene/Man/Skin/lwteeth.xml";
-            SkinRes lowTeethSkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
-            path = "Scene/Man/Skin/tounge.xml";
-            SkinRes toungeSkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
-            path = "Scene/Man/Skin/body.xml";
-            SkinRes bodySkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
-            path = "Scene/Man/Skin/upteeth.xml";
-            SkinRes upTeethSkinRes = Ctx.m_instance.m_skinResMgr.getAndSyncLoad<SkinRes>(path) as SkinRes;
-
-            GameObject skelAnimGo = skelAnim.InstantiateObject(skelAnim.GetPath());
-            GameObject lowTeethGo = lowTeethModel.InstantiateObject(lowTeethModel.GetPath());
-            GameObject toungeGo = toungeModel.InstantiateObject(skelAnim.GetPath());
-            GameObject bodyGo = bodyModel.InstantiateObject(skelAnim.GetPath());
-            GameObject upTeethGo = upTeethModel.InstantiateObject(skelAnim.GetPath());
-
-            UtilApi.SetParent(lowTeethGo, skelAnimGo);
-            UtilApi.SetParent(toungeGo, skelAnimGo);
-            UtilApi.SetParent(bodyGo, skelAnimGo);
-            UtilApi.SetParent(upTeethGo, skelAnimGo);
-
-            UtilSkin.skinSkel(lowTeethGo, skelAnimGo, lowTeethSkinRes.boneArr);
-            UtilSkin.skinSkel(toungeGo, skelAnimGo, toungeSkinRes.boneArr);
-            UtilSkin.skinSkel(bodyGo, skelAnimGo, bodySkinRes.boneArr);
-            UtilSkin.skinSkel(upTeethGo, skelAnimGo, upTeethSkinRes.boneArr);
-
-            // 挂在相机跟随
-            Transform hips = UtilApi.TransFindChildByPObjAndPath(skelAnimGo, "Reference/Hips").transform;
-            SmoothFollow sm = Camera.main.GetComponent<SmoothFollow>();
-            sm.target = hips;
-            */
-
-            SkinModelSkelAnim skinModelSkelAnim = new SkinModelSkelAnim(4);
-            skinModelSkelAnim.skeletonAnim.skelAnimPath = "Scene/Man/Skeleton/DefaultAvatar.prefab";
-            skinModelSkelAnim.skeletonAnim.loadSkelAnim();
-
-            skinModelSkelAnim.skinModel.skinSubModelArr[0].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Lw_Teeth_Mesh.prefab";
-            skinModelSkelAnim.skinModel.skinSubModelArr[0].skinPath = "Scene/Man/Skin/lwteeth.xml";
-            skinModelSkelAnim.skinModel.skinSubModelArr[0].loadSubModel();
-            skinModelSkelAnim.skinModel.skinSubModelArr[0].loadSkin();
-
-            skinModelSkelAnim.skinModel.skinSubModelArr[1].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Tounge_Mesh.prefab";
-            skinModelSkelAnim.skinModel.skinSubModelArr[1].skinPath = "Scene/Man/Skin/tounge.xml";
-            skinModelSkelAnim.skinModel.skinSubModelArr[1].loadSubModel();
-            skinModelSkelAnim.skinModel.skinSubModelArr[1].loadSkin();
-
-            skinModelSkelAnim.skinModel.skinSubModelArr[2].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Unity_Body_Mesh.prefab";
-            skinModelSkelAnim.skinModel.skinSubModelArr[2].skinPath = "Scene/Man/Skin/body.xml";
-            skinModelSkelAnim.skinModel.skinSubModelArr[2].loadSubModel();
-            skinModelSkelAnim.skinModel.skinSubModelArr[2].loadSkin();
-
-            skinModelSkelAnim.skinModel.skinSubModelArr[3].modelPath = "Scene/Man/SubMesh/DefaultAvatar_Up_Teeth_Mesh.prefab";
-            skinModelSkelAnim.skinModel.skinSubModelArr[3].skinPath = "Scene/Man/Skin/upteeth.xml";
-            skinModelSkelAnim.skinModel.skinSubModelArr[3].loadSubModel();
-            skinModelSkelAnim.skinModel.skinSubModelArr[3].loadSkin();
-
-            Transform hips = skinModelSkelAnim.boneSockets.getSocket(0).placeHolderGo.transform;
-            SmoothFollow sm = Camera.main.GetComponent<SmoothFollow>();
-            sm.target = hips;
+            
         }
 
         // 加载 Main Scene UI
         protected void loadAllUIScene()
         {
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIMain);
-
-            Ctx.m_instance.m_uiMgr.m_UIAttrs.m_id2AttrDic[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_Game);
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIGM);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITest);
         }
 
         protected void loadAllDZUIScene()
         {
-            //Ctx.m_instance.m_uiMgr.loadForm<UITest>(UIFormID.eUITest);
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIDZ);      // 显示对战场景界面
-            Ctx.m_instance.m_uiMgr.loadForm(UIFormID.eUIChat);      // 显示聊天
-            Ctx.m_instance.m_uiSceneMgr.loadAndShowForm<UISceneDZ>(UISceneFormID.eUISceneDZ);      // 显示对战场景界面
-            Ctx.m_instance.m_uiMgr.m_UIAttrs.m_id2AttrDic[UIFormID.eUIGM].addUISceneType(UISceneType.eUIScene_DZ);
-            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUIGM);
+            Ctx.m_instance.m_uiMgr.loadAndShow(UIFormID.eUITest);
         }
 
         // 第一次进入游戏场景初始化
@@ -166,16 +84,8 @@ namespace Game.Game
         {
             if (Ctx.m_instance.m_gameRunStage.ePreGameStage == EGameStage.eStage_Login)
             {
-                Ctx.m_instance.m_camSys.m_boxCam = new SDK.Lib.BoxCam();
-
                 // 卸载登陆模块，关闭登陆界面
                 Ctx.m_instance.m_moduleSys.unloadModule(ModuleID.LOGINMN);
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUILogin);
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIHeroSelect);
-                Ctx.m_instance.m_uiMgr.exitForm(UIFormID.eUIChat);      // 退出聊天
-
-                // 请求主角基本数据
-                //Ctx.m_instance.m_dataPlayer.reqMainData();
             }
         }
 
@@ -183,17 +93,6 @@ namespace Game.Game
         public void quitingAndEnteringStageHandle(EGameStage srcGameState, EGameStage destGameState)
         {
             //Ctx.m_instance.m_soundMgr.unloadAll();          // 卸载所有的音频
-
-            if (EGameStage.eStage_Game == srcGameState)
-            {
-                // 必然是从游戏场景进入战斗场景
-                Ctx.m_instance.m_uiMgr.unloadUIBySceneType(UISceneType.eUIScene_Game, UISceneType.eUIScene_DZ);
-            }
-            else if (EGameStage.eStage_DZ == srcGameState)
-            {
-                Ctx.m_instance.m_uiMgr.unloadUIBySceneType(UISceneType.eUIScene_DZ, UISceneType.eUIScene_Game);        // 退出测试
-                Ctx.m_instance.m_uiSceneMgr.unloadAll();
-            }
         }
 
         // 进入场景，场景资源加载成功
@@ -208,24 +107,6 @@ namespace Game.Game
             if (EGameStage.eStage_Login == srcGameState)
             {
                 initOnFirstEnterGameScene();
-            }
-
-            if (EGameStage.eStage_Game == destGameState)
-            {
-                Ctx.m_instance.m_logSys.log("场景加载成功");
-                loadAllUIScene();
-                Ctx.m_instance.m_camSys.m_boxCam.setGameObject(UtilApi.GoFindChildByName("mcam"));
-                Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
-                Ctx.m_instance.m_camSys.setSceneCamera2UICamera();
-            }
-            else if (EGameStage.eStage_DZ == destGameState)
-            {
-                Ctx.m_instance.m_camSys.setSceneCamera2MainCamera();
-
-                Ctx.m_instance.m_dataPlayer.m_dzData.clear();
-                Ctx.m_instance.m_dataPlayer.m_dzData.m_canReqDZ = true;         // 进入对战就设置这个标示位为可以继续战斗
-                Ctx.m_instance.m_camSys.m_dzCam = new DzCam();
-                loadAllDZUIScene();
             }
         }
     }

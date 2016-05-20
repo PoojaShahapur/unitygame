@@ -7,6 +7,5 @@
     {
         eUIScene_Login,     // 登陆场景
         eUIScene_Game,      // 游戏场景
-        eUIScene_DZ,        // 对战场景
     }
 }

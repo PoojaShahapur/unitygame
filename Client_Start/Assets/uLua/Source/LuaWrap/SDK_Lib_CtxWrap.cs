@@ -458,7 +458,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_uiSceneMgr);
+		//LuaScriptMgr.PushObject(L, obj.m_uiSceneMgr);
 		return 1;
 	}
 
@@ -842,7 +842,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_aiSystem);
+		// LuaScriptMgr.PushObject(L, obj.m_aiSystem);
 		return 1;
 	}
 
@@ -1802,7 +1802,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_sceneCardMgr);
+		//LuaScriptMgr.PushObject(L, obj.m_sceneCardMgr);
 		return 1;
 	}
 
@@ -1922,7 +1922,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_skillActionMgr);
+		//LuaScriptMgr.PushObject(L, obj.m_skillActionMgr);
 		return 1;
 	}
 
@@ -1970,7 +1970,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_skillAttackFlowMgr);
+		//LuaScriptMgr.PushObject(L, obj.m_skillAttackFlowMgr);
 		return 1;
 	}
 
@@ -1994,7 +1994,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_maze);
+		//LuaScriptMgr.PushObject(L, obj.m_maze);
 		return 1;
 	}
 
@@ -2138,7 +2138,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_twoDSceneMgr);
+		//LuaScriptMgr.PushObject(L, obj.m_twoDSceneMgr);
 		return 1;
 	}
 
@@ -2673,7 +2673,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_uiSceneMgr = (FightCore.UISceneMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(FightCore.UISceneMgr));
+		//obj.m_uiSceneMgr = (FightCore.UISceneMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(FightCore.UISceneMgr));
 		return 0;
 	}
 
@@ -3057,7 +3057,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_aiSystem = (BehaviorLibrary.AISystem)LuaScriptMgr.GetNetObject(L, 3, typeof(BehaviorLibrary.AISystem));
+		//obj.m_aiSystem = (BehaviorLibrary.AISystem)LuaScriptMgr.GetNetObject(L, 3, typeof(BehaviorLibrary.AISystem));
 		return 0;
 	}
 
@@ -4017,7 +4017,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_sceneCardMgr = (FightCore.SceneCardMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(FightCore.SceneCardMgr));
+		//obj.m_sceneCardMgr = (FightCore.SceneCardMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(FightCore.SceneCardMgr));
 		return 0;
 	}
 
@@ -4137,7 +4137,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_skillActionMgr = (SDK.Lib.SkillActionMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SkillActionMgr));
+		//obj.m_skillActionMgr = (SDK.Lib.SkillActionMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SkillActionMgr));
 		return 0;
 	}
 
@@ -4185,7 +4185,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_skillAttackFlowMgr = (SDK.Lib.SkillAttackFlowMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SkillAttackFlowMgr));
+		//obj.m_skillAttackFlowMgr = (SDK.Lib.SkillAttackFlowMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SkillAttackFlowMgr));
 		return 0;
 	}
 
@@ -4209,7 +4209,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_maze = (SDK.Lib.Maze)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.Maze));
+		//obj.m_maze = (SDK.Lib.Maze)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.Maze));
 		return 0;
 	}
 
@@ -4353,7 +4353,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_twoDSceneMgr = (SDK.Lib.TwoDSceneMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.TwoDSceneMgr));
+		//obj.m_twoDSceneMgr = (SDK.Lib.TwoDSceneMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.TwoDSceneMgr));
 		return 0;
 	}
 

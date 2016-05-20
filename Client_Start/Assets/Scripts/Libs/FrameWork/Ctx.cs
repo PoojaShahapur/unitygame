@@ -1,6 +1,4 @@
-﻿using BehaviorLibrary;
-
-#if UNIT_TEST
+﻿#if UNIT_TEST
 using UnitTest;
 #endif
 
@@ -27,7 +25,6 @@ namespace SDK.Lib
         public TimerMgr m_timerMgr;                // 定时器系统
         public FrameTimerMgr m_frameTimerMgr;                // 定时器系统
         public UIMgr m_uiMgr;                      // UI 管理器
-        public UISceneMgr m_uiSceneMgr;            // UIScene 管理器
         public ResizeMgr m_resizeMgr;              // 窗口大小修改管理器
         public IUIEvent m_cbUIEvent;               // UI 事件回调
         public CoroutineMgr m_coroutineMgr;        // 协程管理器
@@ -46,7 +43,6 @@ namespace SDK.Lib
         public CamSys m_camSys;
 
         public ISceneLogic m_sceneLogic;
-        public AISystem m_aiSystem;
         public SysMsgRoute m_sysMsgRoute;           // 消息分发
         public NetCmdNotify m_netCmdNotify;           // 网络处理器
         public MsgRouteNotify m_msgRouteNotify;           // RouteMsg 客户端自己消息流程
@@ -174,18 +170,13 @@ namespace SDK.Lib
             m_systemFrameData = new SystemFrameData();
             m_systemTimeData = new SystemTimeData();
             m_scriptDynLoad = new ScriptDynLoad();
-
-            m_skillActionMgr = new SkillActionMgr();
             m_scenePlaceHolder = new ScenePlaceHolder();
-            m_skillAttackFlowMgr = new SkillAttackFlowMgr();
-            m_maze = new Maze();
 
             m_luaSystem = new LuaSystem();
             m_movieMgr = new MovieMgr();
             m_nativeInterface = new NativeInterface();
             m_gcAutoCollect = new GCAutoCollect();
             m_memoryCheck = new MemoryCheck();
-            m_twoDSceneMgr = new TwoDSceneMgr();
             m_depResMgr = new DepResMgr();
             m_terrainGroup = new MTerrainGroup(mTerrainGlobalOption.mTerrainSize, mTerrainGlobalOption.mTerrainWorldSize);
             m_textResMgr = new TextResMgr();
@@ -210,7 +201,6 @@ namespace SDK.Lib
             m_layerMgr = new LayerMgr();
 
             m_uiMgr = new UIMgr();
-            m_uiSceneMgr = new UISceneMgr();
             m_engineLoop = new EngineLoop();
             m_resizeMgr = new ResizeMgr();
 
@@ -221,15 +211,12 @@ namespace SDK.Lib
             m_spriteAniMgr = new SpriteAniMgr();
 
             m_camSys = new CamSys();
-            m_aiSystem = new AISystem();
             m_sysMsgRoute = new SysMsgRoute("SysMsgRoute");
             m_moduleSys = new ModuleSys();
             m_tableSys = new TableSys();
             m_fileSys = new MFileSys();
             m_logSys = new LogSys();
             m_langMgr = new LangMgr();
-            //m_pWebSocketMgr = new WebSocketMgr();
-            m_sceneCardMgr = new SceneCardMgr();
             m_sceneEffectMgr = new SceneEffectMgr();
 
             m_sceneManager = new MOctreeSceneManager("DummyScene");
@@ -260,7 +247,7 @@ namespace SDK.Lib
 
             m_uiMgr.findCanvasGO();
             m_dataPlayer.m_dataPack.postConstruct();
-            m_dataPlayer.m_dataCard.registerCardAttr();     // 注册卡牌组属性
+
             m_resLoadMgr.postInit();
 
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;

@@ -20,7 +20,7 @@ namespace EditorTool
         [MenuItem("MyNew/ExportWindowDebugPackage")]
         public static void BuildWindowDebug()
         {
-            BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
+            //BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
         }
     }
 }

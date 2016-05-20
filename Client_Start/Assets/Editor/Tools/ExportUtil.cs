@@ -28,39 +28,6 @@ namespace EditorTool
         static public string RESOURCES = "Resources";
         static public string SLASH = "/";
 
-        static public void BuildAssetBundle(AssetBundleParam param)
-        {
-#if UNITY_5
-            if (param.m_buildList != null)
-            {
-                BuildPipeline.BuildAssetBundles(param.m_pathName, param.m_buildList, param.m_assetBundleOptions, param.m_targetPlatform);
-            }
-            else
-            {
-                // BuildAssetBundleOptions None 是压缩的，如果不需要压缩，需要添加 UncompressedAssetBundle 
-                BuildPipeline.BuildAssetBundles(param.m_pathName, param.m_assetBundleOptions, param.m_targetPlatform);
-            }
-#elif UNITY_4_6 || UNITY_4_5
-            BuildPipeline.BuildAssetBundle(param.m_mainAsset, param.m_assets, param.m_pathName, param.m_assetBundleOptions, param.m_targetPlatform);
-#endif
-        }
-
-        static public void BuildStreamedSceneAssetBundle(StreamedSceneAssetBundleParam param)
-        {
-#if UNITY_5
-            BuildPipeline.BuildPlayer(param.m_levels, param.m_locationPath, param.m_target, param.m_options);
-#elif UNITY_4_6 || UNITY_4_5
-            BuildPipeline.BuildStreamedSceneAssetBundle(param.m_levels, param.m_locationPath, param.m_target, param.m_options);
-#endif
-        }
-
-        static public void BuildPlayer(PlayerParam param)
-        {
-#if UNITY_5
-            BuildPipeline.BuildPlayer(param.m_levels, param.m_locationPath, param.m_target, param.m_options);
-#endif
-        }
-
         // 获取 Data 目录
         static public string getDataPath(string path)
         {
