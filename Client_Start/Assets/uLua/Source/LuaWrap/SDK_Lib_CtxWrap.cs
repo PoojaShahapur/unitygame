@@ -10,6 +10,7 @@ public class SDK_Lib_CtxWrap
 			new LuaMethod("instance", instance),
 			new LuaMethod("postInit", postInit),
 			new LuaMethod("init", init),
+			new LuaMethod("setNoDestroyObject", setNoDestroyObject),
 			new LuaMethod("unloadAll", unloadAll),
 			new LuaMethod("New", _CreateSDK_Lib_Ctx),
 			new LuaMethod("GetClassType", GetClassType),
@@ -30,7 +31,6 @@ public class SDK_Lib_CtxWrap
 			new LuaField("m_timerMgr", get_m_timerMgr, set_m_timerMgr),
 			new LuaField("m_frameTimerMgr", get_m_frameTimerMgr, set_m_frameTimerMgr),
 			new LuaField("m_uiMgr", get_m_uiMgr, set_m_uiMgr),
-			new LuaField("m_uiSceneMgr", get_m_uiSceneMgr, set_m_uiSceneMgr),
 			new LuaField("m_resizeMgr", get_m_resizeMgr, set_m_resizeMgr),
 			new LuaField("m_cbUIEvent", get_m_cbUIEvent, set_m_cbUIEvent),
 			new LuaField("m_coroutineMgr", get_m_coroutineMgr, set_m_coroutineMgr),
@@ -46,7 +46,6 @@ public class SDK_Lib_CtxWrap
 			new LuaField("m_sceneEventCB", get_m_sceneEventCB, set_m_sceneEventCB),
 			new LuaField("m_camSys", get_m_camSys, set_m_camSys),
 			new LuaField("m_sceneLogic", get_m_sceneLogic, set_m_sceneLogic),
-			new LuaField("m_aiSystem", get_m_aiSystem, set_m_aiSystem),
 			new LuaField("m_sysMsgRoute", get_m_sysMsgRoute, set_m_sysMsgRoute),
 			new LuaField("m_netCmdNotify", get_m_netCmdNotify, set_m_netCmdNotify),
 			new LuaField("m_msgRouteNotify", get_m_msgRouteNotify, set_m_msgRouteNotify),
@@ -86,21 +85,16 @@ public class SDK_Lib_CtxWrap
 			new LuaField("m_atlasMgr", get_m_atlasMgr, set_m_atlasMgr),
 			new LuaField("m_auxUIHelp", get_m_auxUIHelp, set_m_auxUIHelp),
 			new LuaField("m_widgetStyleMgr", get_m_widgetStyleMgr, set_m_widgetStyleMgr),
-			new LuaField("m_sceneCardMgr", get_m_sceneCardMgr, set_m_sceneCardMgr),
 			new LuaField("m_sceneEffectMgr", get_m_sceneEffectMgr, set_m_sceneEffectMgr),
 			new LuaField("m_systemFrameData", get_m_systemFrameData, set_m_systemFrameData),
 			new LuaField("m_systemTimeData", get_m_systemTimeData, set_m_systemTimeData),
 			new LuaField("m_scriptDynLoad", get_m_scriptDynLoad, set_m_scriptDynLoad),
-			new LuaField("m_skillActionMgr", get_m_skillActionMgr, set_m_skillActionMgr),
 			new LuaField("m_scenePlaceHolder", get_m_scenePlaceHolder, set_m_scenePlaceHolder),
-			new LuaField("m_skillAttackFlowMgr", get_m_skillAttackFlowMgr, set_m_skillAttackFlowMgr),
-			new LuaField("m_maze", get_m_maze, set_m_maze),
 			new LuaField("m_luaSystem", get_m_luaSystem, set_m_luaSystem),
 			new LuaField("m_movieMgr", get_m_movieMgr, set_m_movieMgr),
 			new LuaField("m_nativeInterface", get_m_nativeInterface, set_m_nativeInterface),
 			new LuaField("m_gcAutoCollect", get_m_gcAutoCollect, set_m_gcAutoCollect),
 			new LuaField("m_memoryCheck", get_m_memoryCheck, set_m_memoryCheck),
-			new LuaField("m_twoDSceneMgr", get_m_twoDSceneMgr, set_m_twoDSceneMgr),
 			new LuaField("m_depResMgr", get_m_depResMgr, set_m_depResMgr),
 			new LuaField("m_terrainGroup", get_m_terrainGroup, set_m_terrainGroup),
 			new LuaField("m_textResMgr", get_m_textResMgr, set_m_textResMgr),
@@ -435,30 +429,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		LuaScriptMgr.PushObject(L, obj.m_uiMgr);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_uiSceneMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_uiSceneMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_uiSceneMgr on a nil value");
-			}
-		}
-
-		//LuaScriptMgr.PushObject(L, obj.m_uiSceneMgr);
 		return 1;
 	}
 
@@ -819,30 +789,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		LuaScriptMgr.PushObject(L, obj.m_sceneLogic);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_aiSystem(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_aiSystem");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_aiSystem on a nil value");
-			}
-		}
-
-		// LuaScriptMgr.PushObject(L, obj.m_aiSystem);
 		return 1;
 	}
 
@@ -1783,30 +1729,6 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_sceneCardMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_sceneCardMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_sceneCardMgr on a nil value");
-			}
-		}
-
-		//LuaScriptMgr.PushObject(L, obj.m_sceneCardMgr);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_m_sceneEffectMgr(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
@@ -1903,30 +1825,6 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_skillActionMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_skillActionMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_skillActionMgr on a nil value");
-			}
-		}
-
-		//LuaScriptMgr.PushObject(L, obj.m_skillActionMgr);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_m_scenePlaceHolder(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
@@ -1947,54 +1845,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		LuaScriptMgr.PushObject(L, obj.m_scenePlaceHolder);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_skillAttackFlowMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_skillAttackFlowMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_skillAttackFlowMgr on a nil value");
-			}
-		}
-
-		//LuaScriptMgr.PushObject(L, obj.m_skillAttackFlowMgr);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_maze(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_maze");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_maze on a nil value");
-			}
-		}
-
-		//LuaScriptMgr.PushObject(L, obj.m_maze);
 		return 1;
 	}
 
@@ -2115,30 +1965,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		LuaScriptMgr.PushObject(L, obj.m_memoryCheck);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_m_twoDSceneMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_twoDSceneMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_twoDSceneMgr on a nil value");
-			}
-		}
-
-		//LuaScriptMgr.PushObject(L, obj.m_twoDSceneMgr);
 		return 1;
 	}
 
@@ -2654,30 +2480,6 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_uiSceneMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_uiSceneMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_uiSceneMgr on a nil value");
-			}
-		}
-
-		//obj.m_uiSceneMgr = (FightCore.UISceneMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(FightCore.UISceneMgr));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_m_resizeMgr(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
@@ -3034,30 +2836,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		obj.m_sceneLogic = (SDK.Lib.ISceneLogic)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.ISceneLogic));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_aiSystem(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_aiSystem");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_aiSystem on a nil value");
-			}
-		}
-
-		//obj.m_aiSystem = (BehaviorLibrary.AISystem)LuaScriptMgr.GetNetObject(L, 3, typeof(BehaviorLibrary.AISystem));
 		return 0;
 	}
 
@@ -3998,30 +3776,6 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_sceneCardMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_sceneCardMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_sceneCardMgr on a nil value");
-			}
-		}
-
-		//obj.m_sceneCardMgr = (FightCore.SceneCardMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(FightCore.SceneCardMgr));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_m_sceneEffectMgr(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
@@ -4118,30 +3872,6 @@ public class SDK_Lib_CtxWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_skillActionMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_skillActionMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_skillActionMgr on a nil value");
-			}
-		}
-
-		//obj.m_skillActionMgr = (SDK.Lib.SkillActionMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SkillActionMgr));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_m_scenePlaceHolder(IntPtr L)
 	{
 		object o = LuaScriptMgr.GetLuaObject(L, 1);
@@ -4162,54 +3892,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		obj.m_scenePlaceHolder = (SDK.Lib.ScenePlaceHolder)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.ScenePlaceHolder));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_skillAttackFlowMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_skillAttackFlowMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_skillAttackFlowMgr on a nil value");
-			}
-		}
-
-		//obj.m_skillAttackFlowMgr = (SDK.Lib.SkillAttackFlowMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.SkillAttackFlowMgr));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_maze(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_maze");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_maze on a nil value");
-			}
-		}
-
-		//obj.m_maze = (SDK.Lib.Maze)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.Maze));
 		return 0;
 	}
 
@@ -4330,30 +4012,6 @@ public class SDK_Lib_CtxWrap
 		}
 
 		obj.m_memoryCheck = (SDK.Lib.MemoryCheck)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.MemoryCheck));
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_m_twoDSceneMgr(IntPtr L)
-	{
-		object o = LuaScriptMgr.GetLuaObject(L, 1);
-		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)o;
-
-		if (obj == null)
-		{
-			LuaTypes types = LuaDLL.lua_type(L, 1);
-
-			if (types == LuaTypes.LUA_TTABLE)
-			{
-				LuaDLL.luaL_error(L, "unknown member name m_twoDSceneMgr");
-			}
-			else
-			{
-				LuaDLL.luaL_error(L, "attempt to index m_twoDSceneMgr on a nil value");
-			}
-		}
-
-		//obj.m_twoDSceneMgr = (SDK.Lib.TwoDSceneMgr)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.TwoDSceneMgr));
 		return 0;
 	}
 
@@ -4597,6 +4255,15 @@ public class SDK_Lib_CtxWrap
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.Ctx");
 		obj.init();
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int setNoDestroyObject(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		SDK.Lib.Ctx obj = (SDK.Lib.Ctx)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.Ctx");
+		obj.setNoDestroyObject();
 		return 0;
 	}
 
