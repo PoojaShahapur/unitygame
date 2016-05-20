@@ -111,10 +111,10 @@ namespace SDK.Lib
 
         public void call(IDispatchObject dispObj)
         {
-            if(mThis != null)
-            {
-                mThis.call(dispObj);
-            }
+            //if(mThis != null)
+            //{
+            //    mThis.call(dispObj);
+            //}
 
             if(null != m_handle)
             {

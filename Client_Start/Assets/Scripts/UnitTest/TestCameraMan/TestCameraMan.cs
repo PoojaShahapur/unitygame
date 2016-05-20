@@ -15,8 +15,9 @@ namespace UnitTest
             Ctx.m_instance.m_sceneSys.loadScene("TestCameraControl.unity", onResLoadScene);
         }
 
-        public void onResLoadScene(Scene scene)
+        public void onResLoadScene(IDispatchObject dispObj)
         {
+            Scene scene = dispObj as Scene;
             GameObject camera = UtilApi.GoFindChildByName("MainCamera");
             GameObject man = UtilApi.GoFindChildByName("Cube");
             Ctx.m_instance.m_camSys.setMainCamera(camera.GetComponent<Camera>());

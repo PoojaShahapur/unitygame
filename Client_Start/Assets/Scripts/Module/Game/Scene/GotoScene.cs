@@ -1,5 +1,9 @@
 ﻿using SDK.Lib;
 
+#if UNIT_TEST
+using UnitTest;
+#endif
+
 namespace Game.Game
 {
     /**
@@ -22,34 +26,10 @@ namespace Game.Game
             }
         }
 
-        public void loadDZScene(uint sceneNumber)
-        {
-            // 查找场景配置文件
-            MapXmlItem xmlItem = Ctx.m_instance.m_mapCfg.getXmlItem(sceneNumber);
-
-            if (xmlItem != null)
-            {
-                if (!Ctx.m_instance.m_gameRunStage.isCurInStage(EGameStage.eStage_DZ))
-                {
-                    Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_DZ);
-                    Ctx.m_instance.m_sceneSys.loadScene(xmlItem.m_levelName, onDZResLoadScene);
-                }
-            }
-            else
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("xml 中没有匹配的场景 id {0} ", sceneNumber));
-            }
-        }
-
         // 这个是操作场景资源加载完成回调
-        public void onGameResLoadScene(Scene scene)
+        public void onGameResLoadScene(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_gameRunStage.quitedAndEnteredCurStage();
-        }
-
-        // 这个是对战场景资源加载完成回调
-        public void onDZResLoadScene(Scene scene)
-        {
+            Scene scene = dispObj as Scene;
             Ctx.m_instance.m_gameRunStage.quitedAndEnteredCurStage();
         }
 
@@ -58,14 +38,19 @@ namespace Game.Game
             Ctx.m_instance.m_sceneSys.loadScene(sceneName, onLoadScene);
         }
 
-        public void onLoadScene(Scene scene)
+        public void onLoadScene(IDispatchObject dispObj)
         {
+            Scene scene = dispObj as Scene;
             testLoadModel();
         }
 
         protected void testLoadModel()
         {
-            
+            // 运行单元测试
+#if UNIT_TEST
+            UnitTestMain pUnitTestMain = new UnitTestMain();
+            pUnitTestMain.run();
+#endif
         }
 
         // 加载 Main Scene UI

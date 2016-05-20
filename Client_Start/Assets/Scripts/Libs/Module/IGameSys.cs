@@ -4,6 +4,5 @@
     {
         void Start();
         void loadGameScene();
-        void loadDZScene(uint sceneNumber);
     }
 }

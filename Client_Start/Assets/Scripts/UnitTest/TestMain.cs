@@ -38,38 +38,38 @@ namespace UnitTest
 
         public void run()
         {
-            m_pTestFile.run();
-            m_pThreadTest.run();
-            m_pUnitTestBuffer.run();
-            m_pTestZip.run();
-            m_pTestEncrypt.run();
-            m_filterTest.run();
+            //m_pTestFile.run();
+            //m_pThreadTest.run();
+            //m_pUnitTestBuffer.run();
+            //m_pTestZip.run();
+            //m_pTestEncrypt.run();
+            //m_filterTest.run();
             //m_testVersion.run();
-            m_pTestAutoUpdate.run();
-            m_pTestAssetBundles.run();
+            //m_pTestAutoUpdate.run();
+            //m_pTestAssetBundles.run();
 
-            m_pTestDataStruct.run();
-            m_pTestTable.run();
-            m_pTestXml.run();
-            m_pTestResources.run();
-            m_pTestLoad.run();
-            m_pTestNet.run();
-            m_pTestAni.run();
+            //m_pTestDataStruct.run();
+            //m_pTestTable.run();
+            //m_pTestXml.run();
+            //m_pTestResources.run();
+            //m_pTestLoad.run();
+            //m_pTestNet.run();
+            //m_pTestAni.run();
 
-            m_pTestLogic.run();
-            m_pTestLua.run();
+            //m_pTestLogic.run();
+            //m_pTestLua.run();
             //m_pTestNavMesh.run();
-            m_pTestAStar.run();
+            //m_pTestAStar.run();
             m_pTestProtoBuf.run();
 
             //m_pTestDraw.run();
-            m_testHeightMap.run();
+            //m_testHeightMap.run();
             //m_testCoordinateConv.run();
             //m_testTime.run();
             //m_testCameraMan.run();
             //m_testIOControl.run();
             //m_testIsometric.run();
-            mTestCoroutinePrefabIns.run();
+            //mTestCoroutinePrefabIns.run();
             //mTestCoroutineTask.run();
         }
     }

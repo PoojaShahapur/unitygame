@@ -35,8 +35,9 @@ namespace Game.Login
             Ctx.m_instance.m_sceneSys.loadScene("login.unity", onResLoadScene);
         }
 
-        public void onResLoadScene(Scene scene)
+        public void onResLoadScene(IDispatchObject dispObj)
         {
+            Scene scene = dispObj as Scene;
             Ctx.m_instance.m_gameRunStage.toggleGameStage(EGameStage.eStage_Login);
             Ctx.m_instance.m_logSys.log("加载场景");
         }

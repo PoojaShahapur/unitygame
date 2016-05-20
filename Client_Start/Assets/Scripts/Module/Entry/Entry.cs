@@ -18,7 +18,7 @@ public class Entry : MonoBehaviour
         long curTime = System.DateTime.Now.Ticks;
         System.TimeSpan timeSpan = new System.TimeSpan(curTime);
 
-        WWW www = WWW.LoadFromCacheOrDownload("http://127.0.0.1/UnityServer/Start.unity3d", (int)timeSpan.TotalSeconds);
+        WWW www = WWW.LoadFromCacheOrDownload("http://127.0.0.1/UnityServer/Main.unity3d", (int)timeSpan.TotalSeconds);
         yield return www;
 
         // 使用预设加载

@@ -21,7 +21,6 @@ namespace SDK.Lib
         private Dictionary<UIFormID, UILoadingItem> m_ID2WidgetLoadingItemDic;         // 记录当前窗口控件正在加载的项
 
         private List<UIFormID> m_tmpList;
-        public GameObject m_sceneUIRootGo;           // 每一个场景都会有一个这样的节点，专门放一些 Scene 中 UI 的一些信息
 
 		public UIMgr()
 		{
@@ -406,11 +405,6 @@ namespace SDK.Lib
                 exitForm(id);
             }
             m_tmpList.Clear();
-        }
-
-        public void findSceneUIRootGo()
-        {
-            m_sceneUIRootGo = UtilApi.GoFindChildByName("SceneUIRootGo");
         }
 
         // 根据场景类型卸载 UI，强制卸载

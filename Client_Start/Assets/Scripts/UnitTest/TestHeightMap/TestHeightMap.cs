@@ -60,8 +60,9 @@ namespace UnitTest
             Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onResLoadScene);
         }
 
-        public void onResLoadScene(Scene scene)
+        public void onResLoadScene(IDispatchObject dispObj)
         {
+            Scene scene = dispObj as Scene;
             //checkCamera();
             //Ctx.m_instance.m_uiMgr.loadAndShow((UIFormID)100);
             testSceneTerrain();
@@ -83,8 +84,9 @@ namespace UnitTest
             Ctx.m_instance.m_sceneSys.loadScene("TestHeightMap.unity", onNewResLoadScene);
         }
 
-        public void onNewResLoadScene(Scene scene)
+        public void onNewResLoadScene(IDispatchObject dispObj)
         {
+            Scene scene = dispObj as Scene;
             Ctx.m_instance.m_sceneSys.createTerrain();
 
             // 操作摄像机

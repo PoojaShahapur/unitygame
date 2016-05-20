@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 namespace SDK.Lib
@@ -56,7 +55,11 @@ namespace SDK.Lib
         {
             //string path = Application.dataPath + "/" + m_path;
             //string path = m_path;       // 注意这个是场景打包的时候场景的名字，不是目录，这个场景一定要 To add a level to the build settings use the menu File->Build Settings...
+#if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             Application.LoadLevel(m_levelName);
+#else
+            UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
+#endif
 
             refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
@@ -65,7 +68,11 @@ namespace SDK.Lib
         // 奇怪，Level 加载完成后立马获取里面的 GameObject ，有的时候可以，有的时候获取不到，因此间隔一帧后再获取
         protected IEnumerator initAssetNextFrame()
         {
+#if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             Application.LoadLevel(m_levelName);
+#else
+            UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
+#endif
 
             yield return new WaitForEndOfFrame();
 
@@ -76,7 +83,11 @@ namespace SDK.Lib
         protected IEnumerator initAssetByCoroutine()
         {
             //string path = Application.dataPath + "/" + m_path;
+#if UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             AsyncOperation asyncOpt = Application.LoadLevelAsync(m_levelName);
+#else
+            AsyncOperation asyncOpt = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_levelName);
+#endif
             yield return asyncOpt;
 
             // 确保场景资源都创建出来

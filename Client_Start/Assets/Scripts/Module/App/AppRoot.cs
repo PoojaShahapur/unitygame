@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using SDK.Lib;
 
-#if UNIT_TEST
-using UnitTest;
-#endif
-
 /**
  * @brief 这个模块主要是代码，启动必要的核心代码都在这里，可能某些依赖模块延迟加载
  */
@@ -18,8 +14,6 @@ public class AppRoot : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        Ctx.instance();
-        Ctx.m_instance.init();
         init();
 	}
 	
@@ -66,14 +60,9 @@ public class AppRoot : MonoBehaviour
 
     public void init()
     {
-        // 构造所有的数据
-        constructAll();
-        // 设置不释放 GameObject
-        setNoDestroyObject();
-        // 交叉引用的对象初始化
-        PostInit();
-        // Unity 编辑器设置的基本数据
-        initBasicCfg();
+        // 初始化全局数据
+        Ctx.instance();
+        Ctx.m_instance.init();
 
         // 加载模块
         if (MacroDef.PKG_RES_LOAD)
@@ -84,64 +73,7 @@ public class AppRoot : MonoBehaviour
         {
             //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.LOGINMN);
             //Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
+            Ctx.m_instance.m_moduleSys.loadModule(ModuleID.GAMEMN);
         }
-
-        // 运行单元测试
-#if UNIT_TEST
-        UnitTestMain pUnitTestMain = new UnitTestMain();
-        pUnitTestMain.run();
-#endif
-    }
-
-    public void constructAll()
-    {
-        
-    }
-
-    public void PostInit()
-    {
-        Ctx.m_instance.postInit();
-    }
-
-    public void setNoDestroyObject()
-    {
-        Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
-        //UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
-
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_50, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_100, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICamera, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_EventSystem, NotDestroyPath.ND_CV_Root);
-        // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIModel, NotDestroyPath.ND_CV_Root);
-        setNoDestroyObject_impl(NotDestroyPath.ND_CV_UILight, NotDestroyPath.ND_CV_Root);
-    }
-
-    protected void setNoDestroyObject_impl(string child, string parent)
-    {
-        Ctx.m_instance.m_layerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(Ctx.m_instance.m_layerMgr.m_path2Go[parent], child);
-        UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[child]);
-    }
-
-    protected void initBasicCfg()
-    {
-        BasicConfig basicCfg = Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
-        //Ctx.m_instance.m_cfg.m_ip = basicCfg.getIp();
-        Ctx.m_instance.m_cfg.m_zone = basicCfg.getPort();
     }
 }

@@ -14,6 +14,7 @@ namespace Game.Game
             registerScriptType();
             initGVar();
             loadGameScene();
+
         }
 
         public void initGVar()
@@ -35,13 +36,7 @@ namespace Game.Game
 
         public void loadGameScene()
         {
-            //m_gotoScene.loadGameScene();
-            m_gotoScene.loadScene("TestAnimScene.unity");
-        }
-
-        public void loadDZScene(uint sceneNumber)
-        {
-            m_gotoScene.loadDZScene(sceneNumber);
+            m_gotoScene.loadScene("TestScene.unity");
         }
 
         protected void registerScriptType()

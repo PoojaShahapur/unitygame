@@ -14,9 +14,9 @@ namespace UnitTest
             Ctx.m_instance.m_sceneSys.loadScene("TestNavMesh.unity", onResLoadScene);
         }
 
-        public void onResLoadScene(Scene scene)
+        public void onResLoadScene(IDispatchObject dispObj)
         {
-
+            Scene scene = dispObj as Scene;
         }
     }
 }

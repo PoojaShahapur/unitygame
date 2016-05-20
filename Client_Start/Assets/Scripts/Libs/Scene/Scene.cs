@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class Scene
+    public class Scene : IDispatchObject
     {
         protected SceneCfg m_sceneCfg;
         protected string m_file;

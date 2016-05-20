@@ -8,7 +8,7 @@ namespace SDK.Lib
      */
     public class SceneSys
     {
-        protected Action<Scene> onSceneLoaded;
+        protected AddOnceAndCallOnceEventDispatch mOnSceneLoadedDisp;
 
         protected SceneParse m_sceneParse;
         protected Scene m_scene;
@@ -16,6 +16,7 @@ namespace SDK.Lib
         public SceneSys()
         {
             m_sceneParse = new SceneParse();
+            mOnSceneLoadedDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         public Scene scene
@@ -30,7 +31,7 @@ namespace SDK.Lib
             }
         }
 
-        public void loadScene(string filename, Action<Scene> func)
+        public void loadScene(string filename, MAction<IDispatchObject> func)
         {
             // 卸载之前的场景
             unloadScene();
@@ -40,7 +41,7 @@ namespace SDK.Lib
             m_scene.file = Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene] + filename;
             if(func != null)
             {
-                onSceneLoaded += func;
+                mOnSceneLoadedDisp.addEventHandle(null, func);
             }
             //loadSceneCfg(filename);
             loadSceneRes(filename);
@@ -87,15 +88,9 @@ namespace SDK.Lib
 
         public void onSceneResLoadded(IDispatchObject dispObj)
         {
-            Ctx.m_instance.m_uiMgr.findSceneUIRootGo();                 // 场景 UI 根节点
-
             //ResItem res = dispObj as ResItem;
-            if(onSceneLoaded != null)
-            {
-                onSceneLoaded(m_scene);
-            }
+            mOnSceneLoadedDisp.dispatchEvent(m_scene);
 
-            onSceneLoaded = null;           // 清除所有的监听器
             Ctx.m_instance.m_netCmdNotify.bStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
             Ctx.m_instance.m_resLoadMgr.unload(m_scene.file, onSceneResLoadded);

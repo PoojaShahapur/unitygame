@@ -1,8 +1,4 @@
-﻿#if UNIT_TEST
-using UnitTest;
-#endif
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 全局数据区
@@ -264,7 +260,56 @@ namespace SDK.Lib
         {
             preInit();
             interInit();
-            //postInit();
+
+            // 设置不释放 GameObject
+            setNoDestroyObject();
+
+            postInit();
+            // 交叉引用的对象初始化
+            // Unity 编辑器设置的基本数据
+            initBasicCfg();
+        }
+
+        public void setNoDestroyObject()
+        {
+            m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root] = UtilApi.GoFindChildByName(NotDestroyPath.ND_CV_Root);
+            //UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
+
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICamera, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_EventSystem, NotDestroyPath.ND_CV_Root);
+            // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
+
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIModel, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UILight, NotDestroyPath.ND_CV_Root);
+        }
+
+        protected void setNoDestroyObject_impl(string child, string parent)
+        {
+            m_layerMgr.m_path2Go[child] = UtilApi.TransFindChildByPObjAndPath(m_layerMgr.m_path2Go[parent], child);
+            UtilApi.DontDestroyOnLoad(m_layerMgr.m_path2Go[child]);
+        }
+
+        protected void initBasicCfg()
+        {
+            BasicConfig basicCfg = m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root].GetComponent<BasicConfig>();
+            //m_cfg.m_ip = basicCfg.getIp();
+            m_cfg.m_zone = basicCfg.getPort();
         }
 
         // 卸载所有的资源

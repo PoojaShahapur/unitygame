@@ -18,8 +18,9 @@ namespace UnitTest
             Ctx.m_instance.m_sceneSys.loadScene("TestCoordinateConv.unity", onResLoadScene);
         }
 
-        protected void onResLoadScene(Scene scene)
+        protected void onResLoadScene(IDispatchObject dispObj)
         {
+            Scene scene = dispObj as Scene;
             // 获取主摄像机
             Ctx.m_instance.m_camSys.setUGuiCamera(UtilApi.GoFindChildByName("NoDestroy/UICamera").GetComponent<Camera>());
             Ctx.m_instance.m_camSys.setMainCamera(UtilApi.GoFindChildByName("MainCamera").GetComponent<Camera>());
