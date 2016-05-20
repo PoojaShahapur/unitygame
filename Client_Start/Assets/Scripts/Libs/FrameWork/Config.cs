@@ -13,7 +13,6 @@ namespace SDK.Lib
     public class Config
     {
         public static string StreamingAssets;
-        public static string UIModelLayer;
 
 #if KOKSERVER_TEST
         public string m_ip = "222.73.30.21";
@@ -37,7 +36,6 @@ namespace SDK.Lib
         public Config()
         {
             StreamingAssets = "StreamingAssets/";
-            UIModelLayer = "UIModel";
 
             m_ip = "192.168.122.253";
             m_port = 10002;

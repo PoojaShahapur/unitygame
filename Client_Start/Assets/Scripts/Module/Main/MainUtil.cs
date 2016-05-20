@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace Game.Start
+namespace Game.Main
 {
     public class MainUtil
     {

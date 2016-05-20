@@ -276,27 +276,24 @@
             //UtilApi.DontDestroyOnLoad(Ctx.m_instance.m_layerMgr.m_path2Go[NotDestroyPath.ND_CV_Root]);
 
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_App, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_50, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICanvas_100, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondCanvas, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_UICamera, NotDestroyPath.ND_CV_Root);
             setNoDestroyObject_impl(NotDestroyPath.ND_CV_EventSystem, NotDestroyPath.ND_CV_Root);
             // NGUI 2.7.0 之前的版本，编辑器会将 width and height 作为 transform 的 local scale ，因此需要手工重置
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_50, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_FirstCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_FirstCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_FirstCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_FirstCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_FirstCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_FirstCanvas, NotDestroyPath.ND_CV_Root);
 
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_Canvas_100, NotDestroyPath.ND_CV_Root);
-
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIModel, NotDestroyPath.ND_CV_Root);
-            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UILight, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIBtmLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIFirstLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UISecondLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIThirdLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UIForthLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
+            setNoDestroyObject_impl(NotDestroyPath.ND_CV_UITopLayer_SecondCanvas, NotDestroyPath.ND_CV_Root);
         }
 
         protected void setNoDestroyObject_impl(string child, string parent)

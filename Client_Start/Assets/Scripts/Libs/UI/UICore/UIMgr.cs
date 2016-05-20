@@ -47,8 +47,8 @@ namespace SDK.Lib
                 m_canvasList.Add(new UICanvas((UICanvasID)idx));
             }
 
-            m_canvasList[(int)UICanvasID.eCanvas_50].goName = NotDestroyPath.ND_CV_UICanvas_50;
-            m_canvasList[(int)UICanvasID.eCanvas_100].goName = NotDestroyPath.ND_CV_UICanvas_100;
+            m_canvasList[(int)UICanvasID.eFirstCanvas].goName = NotDestroyPath.ND_CV_UIFirstCanvas;
+            m_canvasList[(int)UICanvasID.eSecondCanvas].goName = NotDestroyPath.ND_CV_UISecondCanvas;
         }
 
         // 关联每一层的对象
@@ -167,7 +167,7 @@ namespace SDK.Lib
         {
             UILayer layer = null;
 
-            if (UICanvasID.eCanvas_50 <= canvasID && canvasID <= UICanvasID.eCanvas_100)
+            if (UICanvasID.eFirstCanvas <= canvasID && canvasID <= UICanvasID.eSecondCanvas)
             {
                 if (UILayerID.eBtmLayer <= layerID && layerID <= UILayerID.eTopLayer)
                 {

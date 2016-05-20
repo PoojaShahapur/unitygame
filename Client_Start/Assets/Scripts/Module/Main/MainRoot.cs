@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;
 using SDK.Lib;
 
-namespace Game.Start
+namespace Game.Main
 {
     /**
      * @brief 这个模块主要是加载代码基础模块，然后加载游戏功能模块，然后加载资源
