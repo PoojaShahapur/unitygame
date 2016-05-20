@@ -8,11 +8,13 @@ public class AppRoot : MonoBehaviour
 {
     void Awake()
     {
-        //Application.targetFrameRate = 24;
+        // Application.targetFrameRate = 24;
+        // QualitySettings.vSyncCount = 2;
+        // Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start () 
     {
         init();
 	}

@@ -1,3 +1,4 @@
+using Game.Main;
 using System.Collections;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ public class Entry : MonoBehaviour
     void Start()
     {
         // 必然从服务器下载第一个模块
-        StartCoroutine(downloadStart());
+        //StartCoroutine(downloadStart());
+        execute();
     }
 
     // 下载 Start 模块
@@ -35,5 +37,19 @@ public class Entry : MonoBehaviour
         bundle = null;
         www.Dispose();
         www = null;
+    }
+
+    // 加载 Main 模块
+    protected void loadMainModule()
+    {
+
+    }
+
+    // 执行模块
+    protected void execute()
+    {
+        MainModule mainModule = new MainModule();
+        mainModule.mEntry = this;
+        mainModule.run();
     }
 }

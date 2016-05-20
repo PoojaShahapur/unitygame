@@ -8,22 +8,15 @@ namespace Game.Main
     /**
      * @brief 这个模块主要是加载代码基础模块，然后加载游戏功能模块，然后加载资源
      */
-    public class MainRoot : MonoBehaviour
+    public class MainModule
     {
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
-        private string m_appName = "App";
+        private string m_appName = "NoDestroy";
         private string m_appPath = "Assets/Resources/Module/App.prefab";
         private int m_loadType;
+        public MonoBehaviour mEntry;
 
-        void Awake()
-        {
-            // Application.targetFrameRate = 24;
-            // QualitySettings.vSyncCount = 2;
-            // Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        }
-
-        // Use this for initialization
-        void Start()
+        public void run()
         {
             if (MacroDef.PKG_RES_LOAD)
             {
@@ -44,7 +37,7 @@ namespace Game.Main
             }
             else if (m_loadType == 2)
             {
-                StartCoroutine(DownloadAppAsset());
+                mEntry.StartCoroutine(DownloadAppAsset());
             }
         }
 
@@ -80,16 +73,15 @@ namespace Game.Main
 
         protected void loadFromDefaultAssetBundle()
         {
-            m_appURL = "Module/App";
+            m_appURL = "Module/MainModule";
 
             UnityEngine.Object prefabObj = Resources.Load(m_appURL);
             if (prefabObj)
             {
-                GameObject appGo = Instantiate(prefabObj) as GameObject;
-                appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
-                GameObject noDestroy = GameObject.Find("NoDestroy");
-                Object.DontDestroyOnLoad(noDestroy);
-                appGo.transform.parent = noDestroy.transform;
+                GameObject noDestroy = UnityEngine.Object.Instantiate(prefabObj) as GameObject;
+                noDestroy.name = m_appName;            // 程序里面获取都是按照 "NoDestroy" 获取名字的
+                GameObject appGo = noDestroy.transform.Find("AppGo").gameObject;
+                appGo.AddComponent<AppRoot>();
             }
         }
 
@@ -113,7 +105,7 @@ namespace Game.Main
                 // Unity4
                 Object bt = assetBundle.Load(m_appPath);
 #endif
-                GameObject appGo = Instantiate(bt) as GameObject;
+                GameObject appGo = UnityEngine.Object.Instantiate(bt) as GameObject;
                 appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
                 GameObject noDestroy = GameObject.Find("NoDestroy");
                 Object.DontDestroyOnLoad(noDestroy);
@@ -144,13 +136,25 @@ namespace Game.Main
             // Unity4
             Object bt = bundle.Load(m_appName);
 #endif
-            GameObject appGo = Instantiate(bt) as GameObject;
+            GameObject appGo = UnityEngine.Object.Instantiate(bt) as GameObject;
             appGo.name = m_appName;            // 程序里面获取都是按照 "App" 获取名字的
             GameObject noDestroy = GameObject.Find("NoDestroy");
             Object.DontDestroyOnLoad(noDestroy);
             appGo.transform.parent = noDestroy.transform;
             bundle.Unload(false);
             yield return null;
+        }
+
+        // 加载所有的模块
+        protected void loadAllModule()
+        {
+
+        }
+
+        // 加载主要场景
+        protected void loadMainScene()
+        {
+
         }
     }
 }
