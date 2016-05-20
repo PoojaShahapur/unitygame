@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Start
 {
-    public class StartUtil
+    public class MainUtil
     {
         // 获取本地可以读取的目录，但是不能写
         public static string getLocalReadDir()

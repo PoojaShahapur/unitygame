@@ -4,7 +4,7 @@ using UnityEngine;
 /**
  * @brief 这个模块永远也不动态更新，一旦修改必须重新下载客户端，包括最基本的启动代码
  */
-public class MiniScene : MonoBehaviour
+public class Entry : MonoBehaviour
 {
     void Start()
     {

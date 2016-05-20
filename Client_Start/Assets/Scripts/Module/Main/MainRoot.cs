@@ -8,7 +8,7 @@ namespace Game.Start
     /**
      * @brief 这个模块主要是加载代码基础模块，然后加载游戏功能模块，然后加载资源
      */
-    public class StartRoot : MonoBehaviour
+    public class MainRoot : MonoBehaviour
     {
         private string m_appURL = "http://127.0.0.1/StreamingAssets/Module/App.unity3d";
         private string m_appName = "App";
@@ -97,10 +97,10 @@ namespace Game.Start
         // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的
         protected void loadFromAssetBundle()
         {
-            m_appURL = Path.Combine(StartUtil.getLocalReadDir(), "Module/App.unity3d");
+            m_appURL = Path.Combine(MainUtil.getLocalReadDir(), "Module/App.unity3d");
 
             //AssetBundle assetBundle = AssetBundle.CreateFromFile(m_appURL);
-            byte[] bytes = StartUtil.LoadFileByte(m_appURL);
+            byte[] bytes = MainUtil.LoadFileByte(m_appURL);
             AssetBundle assetBundle = AssetBundle.LoadFromMemory(bytes);
 
             if (assetBundle != null)
