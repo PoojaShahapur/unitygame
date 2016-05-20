@@ -12,11 +12,13 @@ namespace SDK.Lib
 
         protected SceneParse m_sceneParse;
         protected Scene m_scene;
+        protected AuxLevelLoader mAuxLevelLoader;
 
         public SceneSys()
         {
             m_sceneParse = new SceneParse();
             mOnSceneLoadedDisp = new AddOnceAndCallOnceEventDispatch();
+            mAuxLevelLoader = new AuxLevelLoader();
         }
 
         public Scene scene
@@ -77,13 +79,7 @@ namespace SDK.Lib
         {
             Ctx.m_instance.m_netCmdNotify.bStopNetHandle = true;        // 加载场景需要停止处理消息，因为很多资源都要等到场景加载完成才初始化
 
-            LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
-            param.setPath(string.Format("{0}{1}", Ctx.m_instance.m_cfg.m_pathLst[(int)ResPathType.ePathScene], filename));
-            param.m_loadEventHandle = onSceneResLoadded;
-            param.m_resNeedCoroutine = true;
-            param.m_loadNeedCoroutine = true;
-            Ctx.m_instance.m_resLoadMgr.loadLevel(param);
-            Ctx.m_instance.m_poolSys.deleteObj(param);
+            mAuxLevelLoader.asyncLoad(filename, onSceneResLoadded);
         }
 
         public void onSceneResLoadded(IDispatchObject dispObj)
@@ -93,7 +89,7 @@ namespace SDK.Lib
 
             Ctx.m_instance.m_netCmdNotify.bStopNetHandle = false;        // 加载场景完成需要处理处理消息
 
-            Ctx.m_instance.m_resLoadMgr.unload(m_scene.file, onSceneResLoadded);
+            mAuxLevelLoader.unload();
         }
 
         // 卸载多有的场景

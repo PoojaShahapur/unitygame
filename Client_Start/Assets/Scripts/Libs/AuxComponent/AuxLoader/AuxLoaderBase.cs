@@ -1,5 +1,4 @@
 ﻿using LuaInterface;
-using System;
 
 namespace SDK.Lib
 {
@@ -15,6 +14,11 @@ namespace SDK.Lib
         protected bool mIsInvalid;       // 加载器是否无效
 
         public AuxLoaderBase()
+        {
+            this.reset();
+        }
+
+        protected void reset()
         {
             mIsSuccess = false;
             mPrePath = "";
@@ -84,6 +88,8 @@ namespace SDK.Lib
                 mEvtHandle.clearEventHandle();
                 mEvtHandle = null;
             }
+
+            this.reset();
         }
     }
 }
