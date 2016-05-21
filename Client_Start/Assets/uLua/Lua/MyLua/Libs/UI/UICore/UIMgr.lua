@@ -23,7 +23,7 @@ function M:dtor()
 end
 
 function M:init()
-	
+	self:initCanvas();
 end
 
 function M:initCanvas()
@@ -32,15 +32,15 @@ function M:initCanvas()
         
         local canvas;
         -- eBtnCanvas，原来默认的放在这个上
-        cancas = GlobalNS.new(GlobalNS.UICanvas);
+        canvas = GlobalNS.new(GlobalNS.UICanvas);
         self.m_canvasList:add(canvas);
-        canvas:setGoName('MainUIRoot');
+        canvas:setGoName(GlobalNS.NoDestroyId.ND_CV_UIFirstCanvas);
         canvas:init();
         
         -- eFirstCanvas
         canvas = GlobalNS.new(GlobalNS.UICanvas);
         self.m_canvasList:add(canvas);
-        canvas:setGoName('MainUIRoot_1')
+        canvas:setGoName(GlobalNS.NoDestroyId.ND_CV_UISecondCanvas);
         canvas:init();
     end
 end
@@ -53,7 +53,7 @@ function M:getLayerGo(canvasId, layerId)
     if(layerId == nil) then
         layerId = GlobalNS.UILayerId.eSecondLayer;
     end
-    assert(canvasId < self.m_canvasList:Count());
+    GlobalNS.UtilApo.assert(canvasId < self.m_canvasList:Count());
     return self.m_canvasList:at(0):getLayerGo(layerId);
 end
 
@@ -218,7 +218,7 @@ end
 function M:onFormPrefabLoaded(dispObj)
 	local formId = dispObj:getFormId();
 	if(self.m_formArr[formId] ~= nil) then
-		local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.m_formAttr[formId].m_id].m_canvasId, GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_layerId);
+		local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_canvasId, GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_layerId);
         self.m_formArr[formId].m_guiWin = self.mFormId2LoadItemDic:value(formId):getSelfGo();
 		GlobalNS.UtilApi.SetParent(self.m_formArr[formId].m_guiWin, parent, false)
         GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, false);     -- 加载完成后先隐藏，否则后面 showForm 判断会有问题

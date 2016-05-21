@@ -47,6 +47,14 @@ function M.getText(textComp)
     return textComp.text;
 end
 
+function M.GoFindChildByName(name)
+	return GlobalNS.CSSystem.UtilApi.GoFindChildByName(name);
+end
+
+function M.TransFindChildByPObjAndPath(pObject, path)
+	return GlobalNS.CSSystem.UtilApi.TransFindChildByPObjAndPath(pObject, path);
+end
+
 function M.Destroy(Obj)
     UnityEngine.Object.Destroy(Obj);
 end
@@ -289,6 +297,10 @@ end
 
 function M.error(str)
     error(str);
+end
+
+function M.assert(condition)
+	assert(condition);
 end
 
 M.ctor()        -- 构造

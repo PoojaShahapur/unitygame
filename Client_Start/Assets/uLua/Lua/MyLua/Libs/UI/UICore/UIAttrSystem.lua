@@ -8,9 +8,11 @@ GlobalNS[M.clsName] = M;
 
 function M.ctor()
     M[GlobalNS.UIFormID.eUITest] = {
-            m_widgetPath = "UI/UILua/UITest.prefab",
-            m_luaScriptPath = "MyLua/UI/UITest/UITest",
+            m_widgetPath = "UI/UITest/UITest.prefab",
+            m_luaScriptPath = "MyLua.UI.UITest.UITest",
 			m_luaScriptTableName = "GlobalNS.UILua",
+			m_canvasId = GlobalNS.UICanvasID.eFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eSecondLayer,
         };
 end
 

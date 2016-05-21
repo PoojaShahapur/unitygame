@@ -31,6 +31,8 @@ function M.interInit()
     GlobalNS.CSSystem.init();
     this.mNetMgr:init();
     this.m_gameSys:init();
+	GlobalNS.NoDestroyGo.init();
+	this.mUIMgr:init();
 end
 
 function M.postInit()
