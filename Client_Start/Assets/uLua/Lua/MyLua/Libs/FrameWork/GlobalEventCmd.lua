@@ -17,7 +17,7 @@ end
 
 -- 场景加载完成
 function M.onSceneLoaded()
-	GCtx.mUIMgr:loadAndShow(GlobalNS.UIFormID.eUIFormTest);
+	GCtx.mUIMgr:loadAndShow(GlobalNS.UIFormID.eUITest);
 end
 
 return M;

@@ -59,16 +59,12 @@ function M.Instantiate(orig)
     return UnityEngine.Object.Instantiate(orig);
 end
 
-function M.SetParentByTrans(child, parent, worldPositionStays)
-    child:SetParent(parent, worldPositionStays);
-end
-
 function M.SetParent(child, parent, worldPositionStays)
-    child.transform:SetParent(parent.transform, worldPositionStays);
+	GlobalNS.CSSystem.UtilApi.SetParent(child, parent, worldPositionStays);
 end
 
-function M.SetParentByGo(child, parent, worldPositionStays)
-    uiMgr:SetRectTransformParent(child, parent, worldPositionStays);
+function M.SetRectTransformParent(child, parent, worldPositionStays)
+	GlobalNS.CSSystem.UtilApi.SetRectTransParent(child, parent, worldPositionStays);
 end
 
 function M.SetActive(target, bShow)

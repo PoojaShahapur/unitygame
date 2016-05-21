@@ -62,14 +62,19 @@ namespace SDK.Lib
                     continue;
                 }
                 id = Convert.ToInt32(idTableEnum.Value);
-                attrItem = new UIAttrItem();
-                m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
                 luaAttrsItemTable = luaAttrsTable[id] as LuaTable;
 
-                attrItem.m_bNeedLua = true;
-                attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
-                attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
-                attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+                // 有个 eUICount 是个数，这个是没有 FormId 的
+                if (luaAttrsItemTable != null)
+                {
+                    attrItem = new UIAttrItem();
+                    m_uiAttrs.m_id2AttrDic[(UIFormID)id] = attrItem;
+
+                    attrItem.m_bNeedLua = true;
+                    attrItem.m_widgetPath = luaAttrsItemTable["m_widgetPath"] as string;
+                    attrItem.m_luaScriptPath = luaAttrsItemTable["m_luaScriptPath"] as string;
+                    attrItem.m_luaScriptTableName = luaAttrsItemTable["m_luaScriptTableName"] as string;
+                }
             }
         }
     }

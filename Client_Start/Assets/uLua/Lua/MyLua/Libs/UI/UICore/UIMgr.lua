@@ -3,7 +3,9 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Core.ClassLoader"
 require "MyLua.Libs.DataStruct.MStack"
+require "MyLua.Libs.DataStruct.Dictionary"
 require "MyLua.Libs.UI.UICore.UICanvas"
+require "MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "UIMgr";
@@ -13,10 +15,15 @@ function M:ctor()
     self.m_formArr = {};
     self.m_curFormIndex = -1;
     self.m_formIdStack = GlobalNS.new(GlobalNS.MStack);
+	self.mFormId2LoadItemDic = GlobalNS.new(GlobalNS.Dictionary);
 end
 
 function M:dtor()
 
+end
+
+function M:init()
+	
 end
 
 function M:initCanvas()
@@ -75,35 +82,26 @@ function M:showFormNoClosePreForm(formId)
 end
 
 -- 仅仅加载 lua 脚本，不加载资源
-function M:loadFormScript(formId, data)
+function M:loadFormScript(formId, param)
     if(self.m_formArr[formId] == nil) then
         local codePath = GlobalNS.UIAttrSystem[formId].m_luaScriptPath;
         local formCls = GlobalNS.ClassLoader.loadClass(codePath);
-        self.m_formArr[formId] = GlobalNS.new(formCls, data);
+        self.m_formArr[formId] = GlobalNS.new(formCls, param);
         self.m_formArr[formId]:onInit();
     end
 end
 
 -- 加载脚本并且加载资源
 function M:loadForm(formId, param)
-    if(uiRootObj ~= nil) then
-        return;
-    end
-    
     if(self.m_formArr[formId] == nil) then
         self:loadFormScript(formId, param);
     end
     
     if(not self.m_formArr[formId]:isReady()) then
-        if(not uiManager:checkWindowIsExist(GlobalNS.UIAttrSystem[formId].m_windowName)) then
-            local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.m_formAttr[formId].m_id].m_canvasId, GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_layerId);
-            self.m_formArr[formId].m_guiWin = uiManager:createWindow(parent, GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_prefabPath);
-            GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, false);     -- 加载完成后先隐藏，否则后面 showForm 判断会有问题
-            self.m_formArr[formId]:onReady();
-        else
-            -- 应该是错误的，必然要加载
-            GlobalNS.UtilApi.error('load error');
-        end
+		local uiPrefabLoader = GlobalNS.new(GlobalNS.AuxUIPrefabLoader);
+		self.mFormId2LoadItemDic:Add(formId, uiPrefabLoader);
+		uiPrefabLoader:setFormId(formId);
+		uiPrefabLoader:asyncLoad(GlobalNS.UIAttrSystem[formId].m_widgetPath, self, self.onFormPrefabLoaded);
     end
 end
 
@@ -214,6 +212,21 @@ function M:hasForm(formId)
     end
     
     return has;
+end
+
+-- dispObj : AuxUIPrefabLoader
+function M:onFormPrefabLoaded(dispObj)
+	local formId = dispObj:getFormId();
+	if(self.m_formArr[formId] ~= nil) then
+		local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.m_formAttr[formId].m_id].m_canvasId, GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_layerId);
+        self.m_formArr[formId].m_guiWin = self.mFormId2LoadItemDic:value(formId):getSelfGo();
+		GlobalNS.UtilApi.SetParent(self.m_formArr[formId].m_guiWin, parent, false)
+        GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, false);     -- 加载完成后先隐藏，否则后面 showForm 判断会有问题
+        self.m_formArr[formId]:onReady();
+	else
+		self.mFormId2LoadItemDic:value(formId):dispose();
+		self.mFormId2LoadItemDic:Remove(formId);
+	end
 end
 
 return M;
