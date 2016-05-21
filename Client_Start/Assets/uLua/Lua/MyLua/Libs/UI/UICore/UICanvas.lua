@@ -70,4 +70,8 @@ function M:init()
 	layer:init();
 end
 
+function M:getLayerGo(layerId)
+	return self.mLayerList:at(0):getLayerGo();
+end
+
 return M;

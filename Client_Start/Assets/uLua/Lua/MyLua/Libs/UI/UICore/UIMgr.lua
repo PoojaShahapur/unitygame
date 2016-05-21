@@ -48,12 +48,12 @@ end
 function M:getLayerGo(canvasId, layerId)
     -- 默认放在最底下的 Canvas，第二层
     if(canvasId == nil) then
-        canvasId = GlobalNS.UICanvasID.eBtmCanvas;
+        canvasId = GlobalNS.UICanvasID.eUIFirstCanvas;
     end
     if(layerId == nil) then
-        layerId = GlobalNS.UILayerId.eSecondLayer;
+        layerId = GlobalNS.UILayerID.eUISecondLayer;
     end
-    GlobalNS.UtilApo.assert(canvasId < self.m_canvasList:Count());
+    GlobalNS.UtilApi.assert(canvasId < self.m_canvasList:Count());
     return self.m_canvasList:at(0):getLayerGo(layerId);
 end
 

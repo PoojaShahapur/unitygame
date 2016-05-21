@@ -11,8 +11,8 @@ function M.ctor()
             m_widgetPath = "UI/UITest/UITest.prefab",
             m_luaScriptPath = "MyLua.UI.UITest.UITest",
 			m_luaScriptTableName = "GlobalNS.UILua",
-			m_canvasId = GlobalNS.UICanvasID.eFirstCanvas,
-			m_layerId = GlobalNS.UILayerID.eSecondLayer,
+			m_canvasId = GlobalNS.UICanvasID.eUIFirstCanvas,
+			m_layerId = GlobalNS.UILayerID.eUISecondLayer,
         };
 end
 
