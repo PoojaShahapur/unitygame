@@ -101,6 +101,11 @@ namespace SDK.Lib
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 1000, buffer);
         }
 
+        public void onSceneLoaded()
+        {
+            this.CallLuaFunction("GlobalNS.GlobalEventCmd.onSceneLoaded");
+        }
+
         public LuaTable loadModule(string file)
         {
             return m_luaClassLoader.loadModule(file);

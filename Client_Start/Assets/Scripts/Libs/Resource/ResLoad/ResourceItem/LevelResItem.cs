@@ -110,5 +110,12 @@ namespace SDK.Lib
 
             refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
+
+        public override void unload()
+        {
+            UtilApi.UnloadUnusedAssets();           // 卸载共享资源
+
+            base.unload();
+        }
     }
 }

@@ -58,9 +58,11 @@
 
         override public void unload()
         {
-            Ctx.m_instance.m_resLoadMgr.unload(mLevelResItem.getResUniqueId(), null);
-            UtilApi.UnloadUnusedAssets();           // 卸载共享资源
-            base.unload();
+            if (mLevelResItem != null)
+            {
+                Ctx.m_instance.m_resLoadMgr.unload(mLevelResItem.getResUniqueId(), null);
+                base.unload();
+            }
         }
     }
 }

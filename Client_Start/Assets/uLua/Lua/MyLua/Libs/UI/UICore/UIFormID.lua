@@ -3,7 +3,7 @@ local UIFormID =
     
 }
 
-GlobalNS['UIFOrmID'] = UIFormID;
+GlobalNS['UIFormID'] = UIFormID;
 
 GlobalNS['FormUIDBase'] = 0;
 
@@ -12,6 +12,6 @@ local addFormId = function(curId)
     GlobalNS['FormUIDBase'] = GlobalNS['FormUIDBase'] + 1;
 end
 
-addFormId('eUIFormTest');
+addFormId('eUITest');
 
 addFormId('eUICount');

@@ -51,8 +51,12 @@ require "MyLua.Libs.FrameHandle.TickMgr"
 require "MyLua.Libs.FrameHandle.TimerFunctionObject"
 
 -- UI
+require "MyLua.Libs.UI.UICore.UIFormID"
+require "MyLua.Libs.UI.UICore.UILayer"
+require "MyLua.Libs.UI.UICore.UICanvas"
 require "MyLua.Libs.UI.UICore.Form"
 require "MyLua.Libs.UI.UICore.UIAttrSystem"
+require "MyLua.Libs.UI.UICore.UIMgr"
 
 -- FrameWork 脚本
 require "MyLua.Libs.FrameWork.ProcessSys"

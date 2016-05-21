@@ -1,9 +1,5 @@
 ﻿using SDK.Lib;
 
-#if UNIT_TEST
-using UnitTest;
-#endif
-
 namespace Game.Game
 {
     /**
@@ -41,16 +37,7 @@ namespace Game.Game
         public void onLoadScene(IDispatchObject dispObj)
         {
             Scene scene = dispObj as Scene;
-            testLoadModel();
-        }
-
-        protected void testLoadModel()
-        {
-            // 运行单元测试
-#if UNIT_TEST
-            UnitTestMain pUnitTestMain = new UnitTestMain();
-            pUnitTestMain.run();
-#endif
+            Ctx.m_instance.m_sceneEventCB.onLevelLoaded();
         }
 
         // 加载 Main Scene UI

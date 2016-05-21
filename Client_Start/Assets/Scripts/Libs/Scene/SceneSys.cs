@@ -53,8 +53,7 @@ namespace SDK.Lib
         {
             if(null != m_scene)
             {
-                //Ctx.m_instance.m_resLoadMgr.unload(m_scene.file);
-                UtilApi.UnloadUnusedAssets();           // 卸载共享资源
+                mAuxLevelLoader.unload();
             }
         }
 

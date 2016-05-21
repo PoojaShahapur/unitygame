@@ -46,7 +46,7 @@ namespace SDK.Lib
             mPrePath = mPath;
             mPath = path;
 
-            if(mPrePath != mPath && string.IsNullOrEmpty(mPath))
+            if(mPrePath != mPath && !string.IsNullOrEmpty(mPath))
             {
                 mIsInvalid = true;
             }
