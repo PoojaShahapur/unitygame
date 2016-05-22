@@ -3,15 +3,12 @@ require "MyLua.Libs.Core.StaticClass"
 
 local M = GlobalNS.StaticClass();
 local this = M;
-M.clsName = "AuxUITypeId";
+M.clsName = "BtnStyleID";
 GlobalNS[M.clsName] = M;
 
 function M.ctor()
-    M.Button = 'Button';
-    M.InputField = 'InputField';
-    M.Label = 'Text';
+    M.eBSID_None = 0;
+    M.eTotal = 1;
 end
 
 M.ctor();
-
-return M;

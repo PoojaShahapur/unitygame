@@ -2,6 +2,7 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxUITypeId"
 
 local M = GlobalNS.Class(GlobalNS.AuxWindow);
 M.clsName = "AuxBasicButton";
@@ -17,7 +18,7 @@ end
 
 function M:dispose()
 	if (self.m_eventDisp ~= nil) then
-        GlobalNS.UtilApi.RemoveListener(m_btn, onBtnClk);
+        GlobalNS.UtilApi.RemoveListener(self.m_btn, self.onBtnClk);
     end
     M.super.dispose(self);
 end
@@ -28,7 +29,7 @@ function M:AuxBasicButton_1(...)
         path = '';
     end
     if(styleId == nil) then
-        styleId = BtnStyleID.eBSID_None;
+        styleId = GlobalNS.BtnStyleID.eBSID_None;
     end
     
     self.m_eventDisp = GlobalNS.new(GlobalNS.EventDispatch);
@@ -39,7 +40,7 @@ function M:AuxBasicButton_1(...)
 end
 
 function M:updateBtnCom(dispObj)
-    self.m_btn = GlobalNS.UtilApi.getComByP<Button>(self.m_selfGo);
+    self.m_btn = GlobalNS.UtilApi.getComFromSelf(self.m_selfGo, GlobalNS.AuxUITypeId.Button);
     GlobalNS.UtilApi.addEventHandle(self.m_btn, self.onBtnClk);
 end
 

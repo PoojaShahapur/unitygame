@@ -243,6 +243,10 @@ function M.isTypeEqual(a, b)
     return type(a) == type(b);
 end
 
+function M.isType(a, TypeName)
+    return type(a) == TypeName;
+end
+
 function M.isNumber(a)
     return type(a) == "number";
 end

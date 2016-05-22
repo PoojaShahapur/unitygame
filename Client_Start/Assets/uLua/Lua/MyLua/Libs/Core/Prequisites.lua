@@ -58,6 +58,15 @@ require "MyLua.Libs.UI.UICore.Form"
 require "MyLua.Libs.UI.UICore.UIAttrSystem"
 require "MyLua.Libs.UI.UICore.UIMgr"
 
+-- 组件类型
+require "MyLua.Libs.UI.UICore.ComponentStyle.LabelStyleID"
+require "MyLua.Libs.UI.UICore.ComponentStyle.BtnStyleID"
+require "MyLua.Libs.UI.UICore.ComponentStyle.WidgetStyleID"
+require "MyLua.Libs.UI.UICore.ComponentStyle.WidgetStyle"
+require "MyLua.Libs.UI.UICore.ComponentStyle.LabelStyleBase"
+require "MyLua.Libs.UI.UICore.ComponentStyle.ButtonStyleBase"
+require "MyLua.Libs.UI.UICore.ComponentStyle.WidgetStyleMgr"
+
 -- Aux 组件
 require "MyLua.Libs.AuxComponent.AuxComponent"
 require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow"

@@ -21,6 +21,7 @@ function M.preInit()
     this.m_timerMgr = GlobalNS.new(GlobalNS.TimerMgr);
     this.mNetMgr = GlobalNS.NetMgr;     -- Net 使用原始的表
     this.mLogSys = GlobalNS.new(GlobalNS.LogSys);
+    this.m_widgetStyleMgr = GlobalNS.new(GlobalNS.WidgetStyleMgr);
 	this.mUIMgr = GlobalNS.new(GlobalNS.UIMgr);
 	
     this.m_netCmdNotify = GlobalNS.new(GlobalNS.NetCmdNotify);

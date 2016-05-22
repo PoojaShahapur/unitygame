@@ -2,6 +2,7 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxUITypeId"
 
 local M = GlobalNS.Class(GlobalNS.AuxWindow);
 M.clsName = "AuxLabel";
@@ -11,7 +12,7 @@ function M:ctor(...)
     local params = {...};
     if(GlobalNS.UtilApi.isString(params[2])) then
         self:AuxLabel_1(...);
-    elseif(type(params[2]) == 'LabelStyleID') then
+    elseif(GlobalNS.UtilApi.isType(params[2], 'LabelStyleID')) then
         self:AuxLabel_2(...);
     else
         self:AuxLabel_3(...);
@@ -21,12 +22,12 @@ end
 function M:AuxLabel_1(...)
     local pntNode, path, styleId = ...;
     if(styleId == nil) then
-        styleId = LabelStyleID.eLSID_None;
+        styleId = GlobalNS.LabelStyleID.eLSID_None;
     end
     
     self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-    self.m_text = GlobalNS.UtilApi.getComByP(pntNode, path, 'Text');
-    --self.m_labelStyle = Ctx.m_instance.m_widgetStyleMgr.GetWidgetStyle<LabelStyleBase>(WidgetStyleID.eWSID_Text, (int)styleId);
+    self.m_text = GlobalNS.UtilApi.getComByPath(pntNode, path, GlobalNS.AuxUITypeId.Label);
+    self.m_labelStyle = GCtx.m_widgetStyleMgr:GetWidgetStyle(GlobalNS.WidgetStyleID.eWSID_Text, styleId);
     if(self.m_labelStyle:needClearText()) then
         self.m_text.text = "";
     end
@@ -35,23 +36,23 @@ end
 function M:AuxLabel_2(...)
     local selfNode, styleId = ...;
     if(styleId == nil) then
-        styleId = LabelStyleID.eLSID_None;
+        styleId = GlobalNS.LabelStyleID.eLSID_None;
     end
     
     self.m_selfGo = selfNode;
-    self.m_text = GlobalNS.UtilApi.getComByP(selfNode, 'Text');
+    self.m_text = GlobalNS.UtilApi.getComByPath(selfNode, GlobalNS.AuxUITypeId.Label);
 end
 
 function M:AuxLabel_3(...)
     local styleId = ...;
     if(styleId == nil) then
-        styleId = LabelStyleID.eLSID_None;
+        styleId = GlobalNS.LabelStyleID.eLSID_None;
     end
 end
 
 function M:setSelfGo(pntNode, path)
-    m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-    m_text = GlobalNS.UtilApi.getComByP(pntNode, path, 'Text');
+    self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+    self.m_text = GlobalNS.UtilApi.getComByP(pntNode, path, GlobalNS.AuxUITypeId.Label);
 end
 
 function M:setText(value)

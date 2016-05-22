@@ -1,16 +1,19 @@
-﻿namespace SDK.Lib
-{
-    public class LabelStyleBase : WidgetStyle
-    {
-        public LabelStyleBase()
-        {
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.UI.UICore.ComponentStyle.WidgetStyle"
 
-        }
+local M = GlobalNS.Class(GlobalNS.WidgetStyle);
+local this = M;
+M.clsName = "LabelStyleBase";
+GlobalNS[M.clsName] = M;
 
-        // 是否需要清除文本
-        virtual public bool needClearText()
-        {
-            return true;
-        }
-    }
-}
+function M:ctor()
+
+end
+
+function M:needClearText()
+    return true;
+end
+
+return M;

@@ -1,38 +1,34 @@
-﻿using System.Collections.Generic;
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
 
-namespace SDK.Lib
-{
-    public class WidgetStyleMgr
-    {
-        protected Dictionary<WidgetStyleID, Dictionary<int, WidgetStyle>> m_style2Dic;
+local M = GlobalNS.Class(GlobalNS.GObject);
+M.clsName = "WidgetStyleMgr";
+GlobalNS[M.clsName] = M;
 
-        public WidgetStyleMgr()
-        {
-            m_style2Dic = new Dictionary<WidgetStyleID, Dictionary<int, WidgetStyle>>();
-            registerStype();
-        }
+function M:ctor()
+    self.m_style2Dic = GlobalNS.new(GlobalNS.Dictionary);
+    self:registerStype();
+end
 
-        public void addWidgetStype(WidgetStyleID widgetId, int comId, WidgetStyle style)
-        {
-            if(!m_style2Dic.ContainsKey(widgetId))
-            {
-                m_style2Dic[widgetId] = new Dictionary<int, WidgetStyle>();
-            }
-            m_style2Dic[widgetId][comId] = style;
-        }
+function M:addWidgetStype(widgetId, comId, style)
+    if(not self.m_style2Dic:ContainsKey(widgetId)) then
+        local styleDic = GlobalNS.new(GlobalNS.Dictionary);
+        self.m_style2Dic:Add(widgetId, styleDic);
+    end
+    self.m_style2Dic:value(widgetId):Add(comId, style);
+end
 
-        public T GetWidgetStyle<T>(WidgetStyleID widgetId, int comId) where T : WidgetStyle
-        {
-            return m_style2Dic[widgetId][comId] as T;
-        }
+function M:GetWidgetStyle(widgetId, comId)
+    return self.m_style2Dic:value(widgetId):value(comId);
+end
 
-        protected void registerStype()
-        {
-            LabelStyleBase lblStyle = new LabelStyleBase();
-            addWidgetStype(WidgetStyleID.eWSID_Text, (int)LabelStyleID.eLSID_None, lblStyle);
+function M:registerStype()
+    local lblStyle = GlobalNS.new(GlobalNS.LabelStyleBase);
+    self:addWidgetStype(GlobalNS.WidgetStyleID.eWSID_Text, GlobalNS.LabelStyleID.eLSID_None, lblStyle);
 
-            ButtonStyleBase btnStyle = new ButtonStyleBase();
-            addWidgetStype(WidgetStyleID.eWSID_Button, (int)BtnStyleID.eBSID_None, btnStyle);
-        }
-    }
-}
+    local btnStyle = GlobalNS.new(GlobalNS.ButtonStyleBase);
+    self:addWidgetStype(GlobalNS.WidgetStyleID.eWSID_Button, GlobalNS.BtnStyleID.eBSID_None, btnStyle);
+end
+
+return M;
