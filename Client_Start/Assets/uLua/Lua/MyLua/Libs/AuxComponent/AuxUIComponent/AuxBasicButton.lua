@@ -18,7 +18,7 @@ end
 
 function M:dispose()
 	if (self.m_eventDisp ~= nil) then
-        GlobalNS.UtilApi.RemoveListener(self.m_btn, self.onBtnClk);
+        GlobalNS.UtilApi.RemoveListener(self.m_btn, self, self.onBtnClk);
     end
     M.super.dispose(self);
 end
@@ -41,7 +41,7 @@ end
 
 function M:updateBtnCom(dispObj)
     self.m_btn = GlobalNS.UtilApi.getComFromSelf(self.m_selfGo, GlobalNS.AuxUITypeId.Button);
-    GlobalNS.UtilApi.addEventHandle(self.m_btn, self.onBtnClk);
+    GlobalNS.UtilApi.addEventHandle(self.m_btn, self, self.onBtnClk);
 end
 
 function M:enable()

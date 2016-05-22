@@ -182,7 +182,7 @@ namespace SDK.Lib
             unityEvent.AddListener(unityAction);
         }
 
-        public static void addEventHandle(GameObject go, string path, LuaFunction func)
+        public static void addEventHandle(GameObject go, string path, LuaFunction luaTable, LuaFunction func)
         {
             Button.ButtonClickedEvent btnEvent = go.transform.Find(path).GetComponent<Button>().onClick;
             if (btnEvent != null)
@@ -191,13 +191,20 @@ namespace SDK.Lib
                 btnEvent.AddListener(
                     () =>
                     {
-                        func.Call(go);
+                        if (luaTable != null)
+                        {
+                            func.Call(luaTable, go);
+                        }
+                        else
+                        {
+                            func.Call(go);
+                        }
                     }
                 );
             }
         }
 
-        public static void addEventHandle(GameObject go, LuaFunction func)
+        public static void addEventHandle(GameObject go, LuaFunction luaTable, LuaFunction func)
         {
             Button.ButtonClickedEvent btnEvent = go.GetComponent<Button>().onClick;
             if (btnEvent != null)
@@ -206,7 +213,14 @@ namespace SDK.Lib
                 btnEvent.AddListener(
                     () =>
                     {
-                        func.Call(go);
+                        if (luaTable != null)
+                        {
+                            func.Call(luaTable, go);
+                        }
+                        else
+                        {
+                            func.Call(go);
+                        }
                     }
                  );
             }

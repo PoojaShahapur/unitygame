@@ -57,4 +57,25 @@ function M.readLuaBufferToFile(file)
     return this.UtilPath.readLuaBufferToFile(file);
 end
 
+-- UtilApi 接口
+function M.addEventHandle(go, luaTable, func)
+    this.UtilApi.addEventHandle(go, luaTable, func);
+end
+
+function M.GoFindChildByName(name)
+    return this.UtilApi.GoFindChildByName(name);
+end
+
+function M.TransFindChildByPObjAndPath(pObject, path)
+    return this.UtilApi.TransFindChildByPObjAndPath(pObject, path);
+end
+
+function M.SetParent(child, parent, worldPositionStays)
+    this.UtilApi.SetParent(child, parent, worldPositionStays);
+end
+
+function M.SetRectTransformParent(child, parent, worldPositionStays)
+    this.UtilApi.SetRectTransParent(child, parent, worldPositionStays);
+end
+
 return M;

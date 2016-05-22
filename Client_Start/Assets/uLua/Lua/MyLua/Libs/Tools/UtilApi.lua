@@ -48,11 +48,11 @@ function M.getText(textComp)
 end
 
 function M.GoFindChildByName(name)
-	return GlobalNS.CSSystem.UtilApi.GoFindChildByName(name);
+	return GlobalNS.CSSystem.GoFindChildByName(name);
 end
 
 function M.TransFindChildByPObjAndPath(pObject, path)
-	return GlobalNS.CSSystem.UtilApi.TransFindChildByPObjAndPath(pObject, path);
+	return GlobalNS.CSSystem.TransFindChildByPObjAndPath(pObject, path);
 end
 
 function M.Destroy(Obj)
@@ -68,11 +68,11 @@ function M.Instantiate(orig)
 end
 
 function M.SetParent(child, parent, worldPositionStays)
-	GlobalNS.CSSystem.UtilApi.SetParent(child, parent, worldPositionStays);
+	GlobalNS.CSSystem.SetParent(child, parent, worldPositionStays);
 end
 
 function M.SetRectTransformParent(child, parent, worldPositionStays)
-	GlobalNS.CSSystem.UtilApi.SetRectTransParent(child, parent, worldPositionStays);
+	GlobalNS.CSSystem.SetRectTransParent(child, parent, worldPositionStays);
 end
 
 function M.SetActive(target, bShow)
@@ -322,6 +322,14 @@ end
 -- 从 Parent 获取一个组件
 function M.getComFromSelf(go, typeName)
     return go.GetComponent(typeName);
+end
+
+function M.addEventHandle(go, luaTable, func)
+    GlobalNS.CSSystem.addEventHandle(go, luaTable, func);
+end
+
+function M.RemoveListener(go, luaTable, func)
+    
 end
 
 M.ctor()        -- 构造

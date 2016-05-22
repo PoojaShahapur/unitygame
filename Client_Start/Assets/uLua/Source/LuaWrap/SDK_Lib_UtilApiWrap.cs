@@ -267,7 +267,51 @@ public class SDK_Lib_UtilApiWrap
 	{
 		int count = LuaDLL.lua_gettop(L);
 
-		if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent<GameObject>), typeof(UnityEngine.Events.UnityAction<GameObject>)))
+		if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button.ButtonClickedEvent), typeof(UnityEngine.Events.UnityAction)))
+		{
+			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
+			UnityEngine.Events.UnityAction arg1 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
+				arg1 = () =>
+				{
+					func.Call();
+				};
+			}
+
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
+			return 0;
+		}
+		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent), typeof(UnityEngine.Events.UnityAction)))
+		{
+			UnityEngine.Events.UnityEvent arg0 = (UnityEngine.Events.UnityEvent)LuaScriptMgr.GetLuaObject(L, 1);
+			UnityEngine.Events.UnityAction arg1 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
+				arg1 = () =>
+				{
+					func.Call();
+				};
+			}
+
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
+			return 0;
+		}
+		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent<GameObject>), typeof(UnityEngine.Events.UnityAction<GameObject>)))
 		{
 			UnityEngine.Events.UnityEvent<GameObject> arg0 = (UnityEngine.Events.UnityEvent<GameObject>)LuaScriptMgr.GetLuaObject(L, 1);
 			UnityEngine.Events.UnityAction<GameObject> arg1 = null;
@@ -292,35 +336,6 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button.ButtonClickedEvent), typeof(UnityEngine.Events.UnityAction)))
-		{
-			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
-			UnityEngine.Events.UnityAction arg1 = null;
-			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
-
-			if (funcType2 != LuaTypes.LUA_TFUNCTION)
-			{
-				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
-			}
-			else
-			{
-				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-				arg1 = () =>
-				{
-					func.Call();
-				};
-			}
-
-			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
-			return 0;
-		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(LuaInterface.LuaFunction)))
-		{
-			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
-			LuaFunction arg1 = LuaScriptMgr.ToLuaFunction(L, 2);
-			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
-			return 0;
-		}
 		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent<bool>), typeof(LuaInterface.LuaFunction)))
 		{
 			UnityEngine.Events.UnityEvent<bool> arg0 = (UnityEngine.Events.UnityEvent<bool>)LuaScriptMgr.GetLuaObject(L, 1);
@@ -332,28 +347,6 @@ public class SDK_Lib_UtilApiWrap
 		{
 			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
 			LuaFunction arg1 = LuaScriptMgr.ToLuaFunction(L, 2);
-			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
-			return 0;
-		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent), typeof(UnityEngine.Events.UnityAction)))
-		{
-			UnityEngine.Events.UnityEvent arg0 = (UnityEngine.Events.UnityEvent)LuaScriptMgr.GetLuaObject(L, 1);
-			UnityEngine.Events.UnityAction arg1 = null;
-			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
-
-			if (funcType2 != LuaTypes.LUA_TFUNCTION)
-			{
-				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
-			}
-			else
-			{
-				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-				arg1 = () =>
-				{
-					func.Call();
-				};
-			}
-
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
@@ -426,6 +419,37 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
+		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(LuaInterface.LuaFunction), typeof(LuaInterface.LuaFunction)))
+		{
+			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
+			LuaFunction arg1 = LuaScriptMgr.ToLuaFunction(L, 2);
+			LuaFunction arg2 = LuaScriptMgr.ToLuaFunction(L, 3);
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
+			return 0;
+		}
+		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(UnityEngine.Events.UnityAction)))
+		{
+			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
+			string arg1 = LuaScriptMgr.GetString(L, 2);
+			UnityEngine.Events.UnityAction arg2 = null;
+			LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
+
+			if (funcType3 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg2 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 3);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
+				arg2 = () =>
+				{
+					func.Call();
+				};
+			}
+
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
+			return 0;
+		}
 		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(UIEventListener.VoidDelegate)))
 		{
 			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
@@ -452,35 +476,13 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
 			return 0;
 		}
-		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(LuaInterface.LuaFunction)))
+		else if (count == 4)
 		{
-			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
-			string arg1 = LuaScriptMgr.GetString(L, 2);
-			LuaFunction arg2 = LuaScriptMgr.ToLuaFunction(L, 3);
-			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
-			return 0;
-		}
-		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(UnityEngine.Events.UnityAction)))
-		{
-			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
-			string arg1 = LuaScriptMgr.GetString(L, 2);
-			UnityEngine.Events.UnityAction arg2 = null;
-			LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
-
-			if (funcType3 != LuaTypes.LUA_TFUNCTION)
-			{
-				 arg2 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 3);
-			}
-			else
-			{
-				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
-				arg2 = () =>
-				{
-					func.Call();
-				};
-			}
-
-			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
+			GameObject arg0 = (GameObject)LuaScriptMgr.GetUnityObject(L, 1, typeof(GameObject));
+			string arg1 = LuaScriptMgr.GetLuaString(L, 2);
+			LuaFunction arg2 = LuaScriptMgr.GetLuaFunction(L, 3);
+			LuaFunction arg3 = LuaScriptMgr.GetLuaFunction(L, 4);
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2,arg3);
 			return 0;
 		}
 		else
