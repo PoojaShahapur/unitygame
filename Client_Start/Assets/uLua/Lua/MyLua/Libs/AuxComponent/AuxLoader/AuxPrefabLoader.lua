@@ -8,6 +8,7 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.mSelfGo = nil;
+	self.mNativePrefabLoader = nil;
 end
 
 function M:dtor()
@@ -15,9 +16,9 @@ function M:dtor()
 end
 
 function M:dispose()
-    if(self.nativePrefabLoader ~= nil) then
-        self.nativePrefabLoader:dispose();
-        self.nativePrefabLoader = nil;
+    if(self.mNativePrefabLoader ~= nil) then
+        self.mNativePrefabLoader:dispose();
+        self.mNativePrefabLoader = nil;
     end
 	
 	self.mSelfGo = nil;
@@ -34,12 +35,15 @@ end
 function M:asyncLoad(path, pThis, handle)
     self.mEvtHandle = GlobalNS.new(GlobalNS.ResEventDispatch);
     self.mEvtHandle:addEventHandle(pThis, handle);
-    self.nativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New(false);
-    self.nativePrefabLoader:asyncLoad(path, self, self.onPrefabLoaded);
+    self.mNativePrefabLoader = GlobalNS.CSSystem.AuxPrefabLoader.New(false);
+    self.mNativePrefabLoader:asyncLoad(path, self, self.onPrefabLoaded);
 end
 
 function M:onPrefabLoaded(dispObj)
-    self:setSelfGo(self.nativePrefabLoader:getGameObject());
+	self.mNativePrefabLoader = dispObj;
+	local typeId = self.mNativePrefabLoader:getTypeId();
+	
+    self:setSelfGo(self.mNativePrefabLoader:getGameObject());
     self.mEvtHandle:dispatchEvent(self);
 end
 

@@ -18,6 +18,7 @@ namespace SDK.Lib
         public AuxPrefabLoader(bool isInsNeedCoroutine = true)
             : base()
         {
+            this.mTypeId = "AuxPrefabLoader";
             mIsInsNeedCoroutine = isInsNeedCoroutine;
             mIsDestroySelf = true;
         }

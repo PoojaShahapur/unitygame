@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 资源加载器
      */
-    public class AuxLoaderBase : IDispatchObject
+    public class AuxLoaderBase : GObject, IDispatchObject
     {
         protected bool mIsSuccess;      // 是否成功
         protected string mPrePath;      // 之前加载的资源目录

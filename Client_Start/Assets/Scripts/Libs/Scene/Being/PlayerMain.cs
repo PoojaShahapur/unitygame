@@ -9,7 +9,7 @@ namespace SDK.Lib
 	{
 		public PlayerMain()
 		{
-            mName = "PlayerMain";
+            mTypeId = "PlayerMain";
         }
 
         public override void onSkeletonLoaded()

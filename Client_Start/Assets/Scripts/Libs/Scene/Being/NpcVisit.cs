@@ -7,7 +7,7 @@ namespace SDK.Lib
 	{
 		public NpcVisit()
 		{
-            mName = "NpcVisit";
+            mTypeId = "NpcVisit";
         }
 	}
 }

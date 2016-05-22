@@ -5,7 +5,7 @@
         public Monster()
             : base()
         {
-            mName = "Monster";
+            mTypeId = "Monster";
         }
 
         override public void dispose()

@@ -112,6 +112,7 @@ public static class WrapFile {
         _GT(typeof(UICenterOnChild)),    
         _GT(typeof(UIAtlas)),*/
 
+        _GT(typeof(SDK.Lib.GObject)),
         _GT(typeof(SDK.Lib.Ctx)),
         _GT(typeof(SDK.Lib.UtilPath)),
         _GT(typeof(SDK.Lib.UtilApi)),

@@ -2,16 +2,16 @@
 {
     public class GObject
     {
-        protected string mName;     // 名字
+        protected string mTypeId;     // 名字
 
         public GObject()
         {
-            mName = "GObject";
+            mTypeId = "GObject";
         }
 
-        public string getName()
+        public string getTypeId()
         {
-            return mName;
+            return mTypeId;
         }
     }
 }

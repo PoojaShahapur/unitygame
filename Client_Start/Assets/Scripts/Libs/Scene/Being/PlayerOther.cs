@@ -7,7 +7,7 @@ namespace SDK.Lib
 	{
 		public PlayerOther()
 		{
-            mName = "PlayerOther";
+            mTypeId = "PlayerOther";
         }
 	}
 }

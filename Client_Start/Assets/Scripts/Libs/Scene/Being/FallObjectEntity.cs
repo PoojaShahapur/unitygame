@@ -7,7 +7,7 @@ namespace SDK.Lib
     {
 		public FallObjectEntity()
 		{
-            mName = "FallObjectEntity";
+            mTypeId = "FallObjectEntity";
         }
 	}
 }

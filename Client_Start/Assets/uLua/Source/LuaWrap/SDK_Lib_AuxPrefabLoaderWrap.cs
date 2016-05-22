@@ -9,6 +9,8 @@ public class SDK_Lib_AuxPrefabLoaderWrap
 		LuaMethod[] regs = new LuaMethod[]
 		{
 			new LuaMethod("dispose", dispose),
+			new LuaMethod("isDestroySelf", isDestroySelf),
+			new LuaMethod("setDestroySelf", setDestroySelf),
 			new LuaMethod("getLogicPath", getLogicPath),
 			new LuaMethod("syncLoad", syncLoad),
 			new LuaMethod("asyncLoad", asyncLoad),
@@ -114,6 +116,26 @@ public class SDK_Lib_AuxPrefabLoaderWrap
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		SDK.Lib.AuxPrefabLoader obj = (SDK.Lib.AuxPrefabLoader)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.AuxPrefabLoader");
 		obj.dispose();
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int isDestroySelf(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		SDK.Lib.AuxPrefabLoader obj = (SDK.Lib.AuxPrefabLoader)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.AuxPrefabLoader");
+		bool o = obj.isDestroySelf();
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int setDestroySelf(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		SDK.Lib.AuxPrefabLoader obj = (SDK.Lib.AuxPrefabLoader)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.AuxPrefabLoader");
+		bool arg0 = LuaScriptMgr.GetBoolean(L, 2);
+		obj.setDestroySelf(arg0);
 		return 0;
 	}
 
