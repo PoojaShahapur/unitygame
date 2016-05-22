@@ -303,6 +303,14 @@ function M.assert(condition)
 	assert(condition);
 end
 
+function LuaGC()
+  local c = collectgarbage("count")
+  --Debugger.Log("Begin gc count = {0} kb", c)
+  collectgarbage("collect")
+  c = collectgarbage("count")
+  --Debugger.Log("End gc count = {0} kb", c)
+end
+
 M.ctor()        -- 构造
 
 return M;

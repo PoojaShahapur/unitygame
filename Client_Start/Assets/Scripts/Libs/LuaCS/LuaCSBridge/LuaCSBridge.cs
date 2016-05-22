@@ -207,7 +207,18 @@ namespace SDK.Lib
 
             if (m_luaFunc != null && m_luaTable != null)
             {
+                // 如果这样调用，args 将会以 Array 的形式传递近 lua
                 return m_luaFunc.Call(m_luaTable, args);
+                // 如果这样调用，args 将会以 object 的形式传递近 lua
+                //object[] oneArgs = new object[args.Length + 1];
+                //oneArgs[0] = m_luaTable;
+                //int idx = 0;
+                //while(idx < args.Length)
+                //{
+                //    oneArgs[idx + 1] = args[idx];
+                //    ++idx;
+                //}
+                //return m_luaFunc.Call(oneArgs);
             }
 
             return null;

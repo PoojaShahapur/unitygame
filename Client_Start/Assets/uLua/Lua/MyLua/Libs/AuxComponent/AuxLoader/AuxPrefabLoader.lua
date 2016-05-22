@@ -40,9 +40,9 @@ function M:asyncLoad(path, pThis, handle)
 end
 
 function M:onPrefabLoaded(dispObj)
-	self.mNativePrefabLoader = dispObj;
-	local typeId = self.mNativePrefabLoader:getTypeId();
-	
+	self.mNativePrefabLoader = dispObj[0];
+	--self.mNativePrefabLoader = dispObj;
+	--local typeId = self.mNativePrefabLoader:getTypeId();
     self:setSelfGo(self.mNativePrefabLoader:getGameObject());
     self.mEvtHandle:dispatchEvent(self);
 end
