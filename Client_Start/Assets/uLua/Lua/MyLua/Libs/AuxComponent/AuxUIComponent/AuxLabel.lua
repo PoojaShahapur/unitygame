@@ -8,16 +8,14 @@ M.clsName = "AuxLabel";
 GlobalNS[M.clsName] = M;
 
 function M:ctor(...)
-	--[[
     local params = {...};
     if(GlobalNS.UtilApi.isString(params[2])) then
         self:AuxLabel_1(...);
-    else if(type(params[2]) == 'LabelStyleID') then
+    elseif(type(params[2]) == 'LabelStyleID') then
         self:AuxLabel_2(...);
     else
         self:AuxLabel_3(...);
     end
-	]]
 end
 
 function M:AuxLabel_1(...)

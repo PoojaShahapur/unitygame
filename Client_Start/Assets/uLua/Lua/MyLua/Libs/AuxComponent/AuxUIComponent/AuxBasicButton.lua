@@ -53,7 +53,7 @@ end
 
 -- 点击回调
 function M:onBtnClk()
-    self.m_eventDisp.dispatchEvent(this);
+    self.m_eventDisp.dispatchEvent(self);
 end
 
 function M:addEventHandle(btnClk)
