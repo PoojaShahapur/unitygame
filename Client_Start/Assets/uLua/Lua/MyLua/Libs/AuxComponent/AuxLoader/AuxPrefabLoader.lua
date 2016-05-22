@@ -19,6 +19,8 @@ function M:dispose()
         self.nativePrefabLoader:dispose();
         self.nativePrefabLoader = nil;
     end
+	
+	self.mSelfGo = nil;
 end
 
 function M:setSelfGo(value)

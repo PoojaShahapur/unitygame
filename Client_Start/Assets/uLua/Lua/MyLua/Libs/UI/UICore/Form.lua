@@ -12,8 +12,9 @@ function M:ctor(...)
     self.m_bExit = true;        -- 点击返回按钮的时候退出还是隐藏
     self.m_bReady = false;      -- 是否 onReady 函数被调用
     self.m_bVisible = false;    -- 是否可见
-    self.mIsShowAfterLoaded = true;    -- 加载完成是否立马显示 
     self.mParam = ...;          -- 参数值，当前只能传递一个参数进来，尽量使用表传递进来所有需要的参数
+	--self.mWillVisible = false; 	-- 是否是调用显示接口，但是资源还没有加载完成
+	self.mHideOnCreate = false; -- 是否创建之后隐藏
 end
 
 function M:dtor()
@@ -21,8 +22,8 @@ function M:dtor()
 end
 
 -- 加载完成是否立刻显示，如果不是立刻显示，就需要自己再次手工调用 show 函数才行
-function M:IsShowAfterLoaded()
-    return self.mIsShowAfterLoaded;
+function M:isHideOnCreate()
+    return self.mHideOnCreate;
 end
 
 -- 加载
@@ -73,6 +74,7 @@ end
 -- 每一次关闭都会调用一次
 function M:onExit()
     self.m_bReady = false;
+	self.m_bVisible = false;
 end
 
 function M:isReady()

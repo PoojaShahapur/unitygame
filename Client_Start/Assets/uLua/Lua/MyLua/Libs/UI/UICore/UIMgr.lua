@@ -59,22 +59,27 @@ end
 
 function M:showForm(formId)
     -- 如果当前显示的不是需要显示的
-    if(self.m_curFormIndex ~= formId) then
-        local curFormIndex_ = self.m_curFormIndex;
-        self:showFormNoClosePreForm(formId);
-        self.m_curFormIndex = curFormIndex_;
-        
-        self:pushAndHideForm(formId);
-        self.m_curFormIndex = formId;
-    end
+	-- 保证没有在显示之前删除
+	if(self.m_formArr[formId] ~= nil) then
+		if(self.m_curFormIndex ~= formId) then
+			local curFormIndex_ = self.m_curFormIndex;
+			self:showFormNoClosePreForm(formId);
+			self.m_curFormIndex = curFormIndex_;
+			
+			self:pushAndHideForm(formId);
+			self.m_curFormIndex = formId;
+		end
+	end
 end
 
 function M:showFormNoClosePreForm(formId)
     if(self.m_formArr[formId] ~= nil) then
-        if(self.m_formArr[formId].m_guiWin ~= nil and not GlobalNS.UtilApi.IsActive(self.m_formArr[formId].m_guiWin)) then
-            GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, true);
-            self.m_formArr[formId]:onShow();
-        end
+		if(not self.m_formArr[formId]:isVisible()) then
+			self.m_formArr[formId]:onShow();
+			if(self.m_formArr[formId]:isReady()) then
+				GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, true);
+			end
+		end
         self.m_curFormIndex = formId;
     end
     
@@ -97,7 +102,7 @@ function M:loadForm(formId, param)
         self:loadFormScript(formId, param);
     end
     
-    if(not self.m_formArr[formId]:isReady()) then
+    if(not self:hasLoadItem(formId)) then
 		local uiPrefabLoader = GlobalNS.new(GlobalNS.AuxUIPrefabLoader);
 		self.mFormId2LoadItemDic:Add(formId, uiPrefabLoader);
 		uiPrefabLoader:setFormId(formId);
@@ -106,10 +111,12 @@ function M:loadForm(formId, param)
 end
 
 function M:loadAndShow(formId, param)
-    if(self.m_formArr[formId] == nil or not self.m_formArr[formId]:isReady()) then
+    if(self.m_formArr[formId] == nil or not self:hasLoadItem(formId)) then
         self:loadForm(formId, param);
     end
-    self:showForm(formId);
+	if(self.m_formArr[formId] ~= nil and not self.m_formArr[formId]:isHideOnCreate()) then
+		self:showForm(formId);
+	end
     return self.m_formArr[formId];
 end
 
@@ -162,7 +169,7 @@ function M:exitFormNoOpenPreForm(formId)
         form:onHide();
         form:onExit();
         GlobalNS.delete(form);
-        uiManager:destroyWindowImmediate(GlobalNS.UIAttrSystem[form.m_id].m_windowName);
+        self:unloadLoadItem(formId);
         self.m_formArr[formId] = nil;
         self.m_curFormIndex = -1;
     end
@@ -214,15 +221,29 @@ function M:hasForm(formId)
     return has;
 end
 
+function M:hasLoadItem(formId)
+	return self.mFormId2LoadItemDic:ContainsKey(formId);
+end
+
+function M:unloadLoadItem(formId)
+	if(self.mFormId2LoadItemDic:ContainsKey(formId)) then
+		self.mFormId2LoadItemDic:value(formId):dispose();
+		self.mFormId2LoadItemDic:Remove(formId);
+	end
+end
+
 -- dispObj : AuxUIPrefabLoader
 function M:onFormPrefabLoaded(dispObj)
 	local formId = dispObj:getFormId();
 	if(self.m_formArr[formId] ~= nil) then
 		local parent = self:getLayerGo(GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_canvasId, GlobalNS.UIAttrSystem[self.m_formArr[formId].m_id].m_layerId);
         self.m_formArr[formId].m_guiWin = self.mFormId2LoadItemDic:value(formId):getSelfGo();
-		GlobalNS.UtilApi.SetParent(self.m_formArr[formId].m_guiWin, parent, false)
+		GlobalNS.UtilApi.SetParent(self.m_formArr[formId].m_guiWin, parent, false);
         GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, false);     -- 加载完成后先隐藏，否则后面 showForm 判断会有问题
         self.m_formArr[formId]:onReady();
+		if(self.m_formArr[formId]:isVisible()) then
+			GlobalNS.UtilApi.SetActive(self.m_formArr[formId].m_guiWin, true);
+		end
 	else
 		self.mFormId2LoadItemDic:value(formId):dispose();
 		self.mFormId2LoadItemDic:Remove(formId);

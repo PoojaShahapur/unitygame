@@ -13,18 +13,23 @@ namespace SDK.Lib
         protected PrefabRes mPrefabRes;                     // 预制资源
         protected ResInsEventDispatch mResInsEventDispatch; // 实例化的时候使用的分发器
         protected bool mIsInsNeedCoroutine; // 实例化是否需要协程
+        protected bool mIsDestroySelf;      // 是否释放自己
 
         public AuxPrefabLoader(bool isInsNeedCoroutine = true)
             : base()
         {
             mIsInsNeedCoroutine = isInsNeedCoroutine;
+            mIsDestroySelf = true;
         }
 
         override public void dispose()
         {
-            if(this.selfGo != null)
+            if (this.mIsDestroySelf)
             {
-                UtilApi.Destroy(this.selfGo);
+                if (this.mSelfGo != null)
+                {
+                    UtilApi.DestroyImmediate(this.mSelfGo);
+                }
             }
             base.dispose();
         }
@@ -39,6 +44,16 @@ namespace SDK.Lib
             {
                 mSelfGo = value;
             }
+        }
+
+        public bool isDestroySelf()
+        {
+            return this.mIsDestroySelf;
+        }
+
+        public void setDestroySelf(bool value)
+        {
+            this.mIsDestroySelf = value;
         }
 
         override public string getLogicPath()
