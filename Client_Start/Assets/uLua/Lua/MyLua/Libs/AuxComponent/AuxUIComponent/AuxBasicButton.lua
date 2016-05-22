@@ -1,63 +1,67 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.Class"
+require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow"
 
-namespace SDK.Lib
-{
-    public class AuxBasicButton : AuxComponent
-    {
-        protected EventDispatch m_eventDisp;      // 分发
-        protected Button m_btn;
+local M = GlobalNS.Class(GlobalNS.AuxWindow);
+M.clsName = "AuxBasicButton";
+GlobalNS[M.clsName] = M;
 
-        public AuxBasicButton(GameObject pntNode = null, string path = "", BtnStyleID styleId = BtnStyleID.eBSID_None)
-        {
-            m_eventDisp = new EventDispatch();
-            if (pntNode != null)
-            {
-                m_selfGo = UtilApi.TransFindChildByPObjAndPath(pntNode, path);
-                updateBtnCom(null);
-            }
-        }
+function M:ctor(...)
+    self:AuxBasicButton_1(...);
+end
 
-        override public void dispose()
-        {
-            if (m_eventDisp != null)
-            {
-                UtilApi.RemoveListener(m_btn, onBtnClk);
-            }
-            base.dispose();
-        }
+function M:dtor()
+	
+end
 
-        virtual protected void updateBtnCom(IDispatchObject dispObj)
-        {
-            m_btn = UtilApi.getComByP<Button>(m_selfGo);
-            UtilApi.addEventHandle(m_btn, onBtnClk);
-        }
+function M:dispose()
+	if (self.m_eventDisp ~= nil) then
+        GlobalNS.UtilApi.RemoveListener(m_btn, onBtnClk);
+    end
+    M.super.dispose(self);
+end
 
-        public void enable()
-        {
-            m_btn.interactable = true;
-        }
+function M:AuxBasicButton_1(...)
+    local pntNode, path, styleId = ...;
+    if(path == nil) then
+        path = '';
+    end
+    if(styleId == nil) then
+        styleId = BtnStyleID.eBSID_None;
+    end
+    
+    self.m_eventDisp = GlobalNS.new(GlobalNS.EventDispatch);
+    if (pntNode ~= nil) then
+        self.m_selfGo = GlobalNS.UtilApi.TransFindChildByPObjAndPath(pntNode, path);
+        self:updateBtnCom(nil);
+    end
+end
 
-        public void disable()
-        {
-            m_btn.interactable = false;
-        }
+function M:updateBtnCom(dispObj)
+    self.m_btn = GlobalNS.UtilApi.getComByP<Button>(self.m_selfGo);
+    GlobalNS.UtilApi.addEventHandle(self.m_btn, self.onBtnClk);
+end
 
-        // 点击回调
-        protected void onBtnClk()
-        {
-            m_eventDisp.dispatchEvent(this);
-        }
+function M:enable()
+    self.m_btn.interactable = true;
+end
 
-        public void addEventHandle(Action<IDispatchObject> btnClk)
-        {
-            m_eventDisp.addEventHandle(btnClk);
-        }
+function M:disable()
+    self.m_btn.interactable = false;
+end
 
-        virtual public void syncUpdateCom()
-        {
+-- 点击回调
+function M:onBtnClk()
+    self.m_eventDisp.dispatchEvent(this);
+end
 
-        }
-    }
-}
+function M:addEventHandle(btnClk)
+    self.m_eventDisp.addEventHandle(btnClk);
+end
+
+function M:syncUpdateCom()
+
+end
+
+return M;

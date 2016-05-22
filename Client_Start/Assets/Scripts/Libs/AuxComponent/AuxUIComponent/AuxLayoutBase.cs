@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class AuxLayoutBase : AuxComponent
+    public class AuxLayoutBase : AuxWindow
     {
         protected int m_elemWidth;          // 元素宽度
         protected int m_elemHeight;         // 元素高度

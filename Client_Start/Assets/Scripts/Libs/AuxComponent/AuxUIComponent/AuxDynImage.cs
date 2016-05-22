@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class AuxDynImage : AuxComponent
+    public class AuxDynImage : AuxWindow
     {
         protected string m_goName;          // 场景中有 Image 的 GameObject 的名字
         protected Image m_image;            // 图像

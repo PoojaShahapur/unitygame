@@ -5,7 +5,7 @@ namespace SDK.Lib
     /**
      * @brief 动态 UI Image，但是 Image 使用的是一张单独的图片，不是地图集
      */
-    public class AuxDynTexImage : AuxComponent
+    public class AuxDynTexImage : AuxWindow
     {
         protected string m_goName;          // 场景中有 Image 的 GameObject 的名字
         protected Image m_image;            // 图像

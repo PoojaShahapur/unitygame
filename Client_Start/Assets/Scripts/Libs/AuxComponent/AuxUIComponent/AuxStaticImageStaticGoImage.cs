@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace SDK.Lib
 {
-    public class AuxStaticImageStaticGoImage : AuxComponent
+    public class AuxStaticImageStaticGoImage : AuxWindow
     {
         protected Image m_image;
 

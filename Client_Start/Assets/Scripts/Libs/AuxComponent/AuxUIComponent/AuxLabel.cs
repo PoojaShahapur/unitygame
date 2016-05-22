@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief ¸¨Öú Label
      */
-    public class AuxLabel : AuxComponent
+    public class AuxLabel : AuxWindow
     {
         protected Text m_text;
         protected LabelStyleBase m_labelStyle;

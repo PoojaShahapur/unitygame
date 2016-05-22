@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace SDK.Lib
 {
-    public class AuxInputField : AuxComponent
+    public class AuxInputField : AuxWindow
     {
         protected InputField m_inputField;     // 输入
 

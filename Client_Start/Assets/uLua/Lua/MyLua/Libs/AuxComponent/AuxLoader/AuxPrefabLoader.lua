@@ -1,8 +1,9 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.AuxComponent.AuxLoader.AuxLoaderBase"
 
-local M = GlobalNS.Class(GlobalNS.GObject);
+local M = GlobalNS.Class(GlobalNS.AuxLoaderBase);
 M.clsName = "AuxPrefabLoader";
 GlobalNS[M.clsName] = M;
 
@@ -12,7 +13,7 @@ function M:ctor()
 end
 
 function M:dtor()
-    
+    self:dispose();
 end
 
 function M:dispose()

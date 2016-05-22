@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SDK.Lib
 {
-    public class AuxBasicButton : AuxComponent
+    public class AuxBasicButton : AuxWindow
     {
         protected EventDispatch m_eventDisp;      // 分发
         protected Button m_btn;

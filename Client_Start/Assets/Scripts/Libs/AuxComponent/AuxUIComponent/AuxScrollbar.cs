@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace SDK.Lib
 {
-    public class AuxScrollbar : AuxComponent
+    public class AuxScrollbar : AuxWindow
     {
         protected Scrollbar m_scrollbar;       // 滚动条
 

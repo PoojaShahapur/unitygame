@@ -14,9 +14,9 @@ function M:setSelfName(name_)
     this.selfGo.name = name_;
 end
 
-function setSelfGo(go)
-    local bPntChange = self:bChange(m_selfGo, value);
-    m_selfGo = value;
+function M:setSelfGo(value)
+    local bPntChange = self:bChange(self.m_selfGo, value);
+    self.m_selfGo = value;
     if (bPntChange) then
         self:onSelfChanged();
     end
@@ -24,13 +24,13 @@ function setSelfGo(go)
     GlobalNS.UtilApi.SetActive(self.m_sekfGo, self.m_visible);
 end
 
-function getSelfGo()
+function M:getSelfGo()
     return self.m_selfGo;
 end
 
-function setPntGo(go)
-    local bPntChange = self:bChange(m_pntGo, value);
-    m_pntGo = value;
+function M:setPntGo(value)
+    local bPntChange = self:bChange(self.m_pntGo, value);
+    self.m_pntGo = value;
     if (bPntChange) then
         self:onPntChanged();
     end
@@ -41,7 +41,7 @@ function M:getPntGo()
 end
 
 function M:getNeedPlaceHolderGo()
-    return m_bNeedPlaceHolderGo;
+    return self.m_bNeedPlaceHolderGo;
 end
 
 function M:setNeedPlaceHolderGo(value)
@@ -53,12 +53,12 @@ function M:setNeedPlaceHolderGo(value)
     end
 end
 
-function getPlaceHolderGo()
-    return m_placeHolderGo;
+function M:getPlaceHolderGo()
+    return self.m_placeHolderGo;
 end
 
-function setPlaceHolderGo(value)
-    m_placeHolderGo = value;
+function M:setPlaceHolderGo(value)
+    self.m_placeHolderGo = value;
 end
 
 function M:isSelfValid()
@@ -71,8 +71,8 @@ function M:dispose()
     end
 end
 
-function bChange(srcGO, destGO)
-    if (srcGO == null or srcGO ~= destGO) then
+function M:bChange(srcGO, destGO)
+    if (srcGO == nil or srcGO ~= destGO) then
         return true;
     end
 
@@ -90,14 +90,14 @@ function M:onSelfChanged()
 end
 
 function M:linkPlaceHolder2Parent()
-    if (m_placeHolderGo == nil) then
+    if (self.m_placeHolderGo == nil) then
         self.m_placeHolderGo = GlobalNS.UtilApi.createGameObject("PlaceHolderGO");
     end
     GlobalNS.UtilApi.SetParent(self.m_placeHolderGo, self.m_pntGo, false);
 end
 
 function M:linkSelf2Parent()
-    if (m_selfGo ~= nil and m_pntGo ~= nil) then   -- 现在可能还没有创建
+    if (self.m_selfGo ~= nil and self.m_pntGo ~= nil) then   -- 现在可能还没有创建
         GlobalNS.UtilApi.SetParent(self.m_selfGo, self.m_pntGo, false);
     end
 end
@@ -110,7 +110,7 @@ end
 
 function M:hide()
     if (self.m_selfGo ~= nil and self:IsVisible()) then
-        GlobalNS.UtilApi.SetActive(m_selfGo, false);
+        GlobalNS.UtilApi.SetActive(self.m_selfGo, false);
     end
 end
 

@@ -103,7 +103,7 @@ function M.setSpriteRenderSpriteByGo(go, goPath, spritePath)
 end
 
 function M.setLayoutElementPreferredHeight(go, preferredHeight)
-    local layoutElem = go:GetDComponent('LayoutElement');
+    local layoutElem = go:GetComponent('LayoutElement');
     if(layoutElem ~= nil) then
         layoutElem.preferredHeight = preferredHeight;
     end
@@ -303,12 +303,21 @@ function M.assert(condition)
 	assert(condition);
 end
 
-function LuaGC()
+function M.LuaGC()
   local c = collectgarbage("count")
   --Debugger.Log("Begin gc count = {0} kb", c)
   collectgarbage("collect")
   c = collectgarbage("count")
   --Debugger.Log("End gc count = {0} kb", c)
+end
+
+function M.getComByPath(go, path, typeName)
+    return go.transform:Find(path):GetComponent(typeName);
+end
+
+-- 从 Parent 获取一个组件
+function M.getComFromSelf(go, typeName)
+    return go.GetComponent(typeName);
 end
 
 M.ctor()        -- 构造

@@ -58,6 +58,16 @@ require "MyLua.Libs.UI.UICore.Form"
 require "MyLua.Libs.UI.UICore.UIAttrSystem"
 require "MyLua.Libs.UI.UICore.UIMgr"
 
+-- Aux 组件
+require "MyLua.Libs.AuxComponent.AuxComponent"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxWindow"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxBasicButton"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxInputField"
+require "MyLua.Libs.AuxComponent.AuxUIComponent.AuxLabel"
+require "MyLua.Libs.AuxComponent.AuxLoader.AuxLoaderBase"
+require "MyLua.Libs.AuxComponent.AuxLoader.AuxPrefabLoader"
+require "MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader"
+
 -- FrameWork 脚本
 require "MyLua.Libs.FrameWork.ProcessSys"
 require "MyLua.Libs.FrameWork.CSSystem"
