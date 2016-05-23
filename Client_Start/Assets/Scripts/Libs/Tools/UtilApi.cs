@@ -540,7 +540,7 @@ namespace SDK.Lib
             GC.Collect();
         }
 
-        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源
+        // 小心使用这个资源，这个函数把共享资源卸载掉了，如果有引用，就会有问题，确切的知道释放哪个资源，这个卸载除了 GameObject 之外的资源
         public static void UnloadAsset(UnityEngine.Object assetToUnload)
         {
             Resources.UnloadAsset(assetToUnload);

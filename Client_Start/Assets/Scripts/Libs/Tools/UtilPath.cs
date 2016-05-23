@@ -386,7 +386,7 @@ namespace SDK.Lib
             }
         }
 
-        static public void recurseConvDirectory(string srcPath, string destPath, Action<string, string> convHandle = null)
+        static public void recurseTraverseDirectory(string srcPath, string destPath, Action<string, string> convHandle = null)
         {
             DirectoryInfo sourceDirInfo = new DirectoryInfo(srcPath);
             DirectoryInfo targetDirInfo = new DirectoryInfo(destPath);
@@ -420,7 +420,7 @@ namespace SDK.Lib
 
             for (int j = 0; j < dirs.Length; j++)
             {
-                recurseConvDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name);
+                recurseTraverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name);
             }
         }
 
