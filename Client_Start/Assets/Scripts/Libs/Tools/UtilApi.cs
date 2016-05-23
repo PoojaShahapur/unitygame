@@ -1070,5 +1070,15 @@ namespace SDK.Lib
             x = (short)(x16);
             y = (short)(y16);
         }
+
+        static public int getScreenWidth()
+        {
+            return Screen.width;
+        }
+
+        static public int getScteedHeight()
+        {
+            return Screen.height;
+        }
     }
 }
