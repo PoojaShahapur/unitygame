@@ -32,7 +32,7 @@ public class SDK_Lib_UtilPathWrap
 			new LuaMethod("getFileNameNoExt", getFileNameNoExt),
 			new LuaMethod("getFilePathNoName", getFilePathNoName),
 			new LuaMethod("recurseCopyDirectory", recurseCopyDirectory),
-			new LuaMethod("recurseConvDirectory", recurseConvDirectory),
+			new LuaMethod("recurseTraverseDirectory", recurseTraverseDirectory),
 			new LuaMethod("recurseDeleteFiles", recurseDeleteFiles),
 			new LuaMethod("deleteSubDirsAndFiles", deleteSubDirsAndFiles),
 			new LuaMethod("isSubStrInList", isSubStrInList),
@@ -322,7 +322,7 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int recurseConvDirectory(IntPtr L)
+	static int recurseTraverseDirectory(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 3);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
@@ -347,7 +347,7 @@ public class SDK_Lib_UtilPathWrap
 			};
 		}
 
-		SDK.Lib.UtilPath.recurseConvDirectory(arg0,arg1,arg2);
+		SDK.Lib.UtilPath.recurseTraverseDirectory(arg0,arg1,arg2);
 		return 0;
 	}
 
