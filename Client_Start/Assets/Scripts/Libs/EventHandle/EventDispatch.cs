@@ -53,7 +53,7 @@ namespace SDK.Lib
             }
         }
 
-        // 相同的函数只能增加一次
+        // 相同的函数只能增加一次，Lua ，Python 这些语言不支持同时存在几个相同名字的函数，只支持参数可以赋值，因此不单独提供同一个名字不同参数的接口了
         virtual public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             if (null != pThis || null != handle || null != luaTable || null != luaFunction)
@@ -75,25 +75,12 @@ namespace SDK.Lib
             }
         }
 
-        override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
-        {
-            if (bInDepth())
-            {
-                base.addObject(delayObject, priority);
-            }
-            else
-            {
-                // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
-                m_handleList.Add(delayObject as EventDispatchFunctionObject);
-            }
-        }
-
-        public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle)
+        public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             int idx = 0;
             for (idx = 0; idx < m_handleList.Count(); ++idx)
             {
-                if (m_handleList[idx].isEqual(pThis, handle))
+                if (m_handleList[idx].isEqual(pThis, handle, luaTable, luaFunction))
                 {
                     break;
                 }
@@ -105,6 +92,19 @@ namespace SDK.Lib
             else
             {
                 Ctx.m_instance.m_logSys.log("Event Handle not exist");
+            }
+        }
+
+        override protected void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
+        {
+            if (bInDepth())
+            {
+                base.addObject(delayObject, priority);
+            }
+            else
+            {
+                // 这个判断说明相同的函数只能加一次，但是如果不同资源使用相同的回调函数就会有问题，但是这个判断可以保证只添加一次函数，值得，因此不同资源需要不同回调函数
+                m_handleList.Add(delayObject as EventDispatchFunctionObject);
             }
         }
 

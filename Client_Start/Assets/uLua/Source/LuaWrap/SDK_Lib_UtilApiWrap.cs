@@ -102,6 +102,8 @@ public class SDK_Lib_UtilApiWrap
 			new LuaMethod("drawCombine", drawCombine),
 			new LuaMethod("packIndex", packIndex),
 			new LuaMethod("unpackIndex", unpackIndex),
+			new LuaMethod("getScreenWidth", getScreenWidth),
+			new LuaMethod("getScteedHeight", getScteedHeight),
 			new LuaMethod("New", _CreateSDK_Lib_UtilApi),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -267,9 +269,9 @@ public class SDK_Lib_UtilApiWrap
 	{
 		int count = LuaDLL.lua_gettop(L);
 
-		if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button.ButtonClickedEvent), typeof(UnityEngine.Events.UnityAction)))
+		if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent), typeof(UnityEngine.Events.UnityAction)))
 		{
-			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
+			UnityEngine.Events.UnityEvent arg0 = (UnityEngine.Events.UnityEvent)LuaScriptMgr.GetLuaObject(L, 1);
 			UnityEngine.Events.UnityAction arg1 = null;
 			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
 
@@ -289,22 +291,25 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent), typeof(UnityEngine.Events.UnityAction)))
+		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button), typeof(SDK.Lib.MAction<SDK.Lib.IDispatchObject>)))
 		{
-			UnityEngine.Events.UnityEvent arg0 = (UnityEngine.Events.UnityEvent)LuaScriptMgr.GetLuaObject(L, 1);
-			UnityEngine.Events.UnityAction arg1 = null;
+			Button arg0 = (Button)LuaScriptMgr.GetLuaObject(L, 1);
+			SDK.Lib.MAction<SDK.Lib.IDispatchObject> arg1 = null;
 			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
 
 			if (funcType2 != LuaTypes.LUA_TFUNCTION)
 			{
-				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
+				 arg1 = (SDK.Lib.MAction<SDK.Lib.IDispatchObject>)LuaScriptMgr.GetLuaObject(L, 2);
 			}
 			else
 			{
 				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-				arg1 = () =>
+				arg1 = (param0) =>
 				{
-					func.Call();
+					int top = func.BeginPCall();
+					LuaScriptMgr.PushObject(L, param0);
+					func.PCall(top, 1);
+					func.EndPCall(top);
 				};
 			}
 
@@ -336,17 +341,47 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent<bool>), typeof(LuaInterface.LuaFunction)))
+		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button.ButtonClickedEvent), typeof(UnityEngine.Events.UnityAction)))
 		{
-			UnityEngine.Events.UnityEvent<bool> arg0 = (UnityEngine.Events.UnityEvent<bool>)LuaScriptMgr.GetLuaObject(L, 1);
-			LuaFunction arg1 = LuaScriptMgr.ToLuaFunction(L, 2);
+			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
+			UnityEngine.Events.UnityAction arg1 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
+				arg1 = () =>
+				{
+					func.Call();
+				};
+			}
+
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button.ButtonClickedEvent), typeof(LuaInterface.LuaFunction)))
+		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button), typeof(UnityEngine.Events.UnityAction)))
 		{
-			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
-			LuaFunction arg1 = LuaScriptMgr.ToLuaFunction(L, 2);
+			Button arg0 = (Button)LuaScriptMgr.GetLuaObject(L, 1);
+			UnityEngine.Events.UnityAction arg1 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
+				arg1 = () =>
+				{
+					func.Call();
+				};
+			}
+
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
@@ -397,56 +432,19 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
 			return 0;
 		}
-		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button), typeof(UnityEngine.Events.UnityAction)))
+		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button.ButtonClickedEvent), typeof(LuaInterface.LuaTable), typeof(LuaInterface.LuaFunction)))
 		{
-			Button arg0 = (Button)LuaScriptMgr.GetLuaObject(L, 1);
-			UnityEngine.Events.UnityAction arg1 = null;
-			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
-
-			if (funcType2 != LuaTypes.LUA_TFUNCTION)
-			{
-				 arg1 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 2);
-			}
-			else
-			{
-				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-				arg1 = () =>
-				{
-					func.Call();
-				};
-			}
-
-			SDK.Lib.UtilApi.addEventHandle(arg0,arg1);
-			return 0;
-		}
-		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(LuaInterface.LuaFunction), typeof(LuaInterface.LuaFunction)))
-		{
-			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
-			LuaFunction arg1 = LuaScriptMgr.ToLuaFunction(L, 2);
-			LuaFunction arg2 = LuaScriptMgr.ToLuaFunction(L, 3);
+			Button.ButtonClickedEvent arg0 = (Button.ButtonClickedEvent)LuaScriptMgr.GetLuaObject(L, 1);
+			LuaTable arg1 = LuaScriptMgr.GetLuaTable(L, 2);
+			LuaFunction arg2 = LuaScriptMgr.GetLuaFunction(L, 3);
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
 			return 0;
 		}
-		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(UnityEngine.Events.UnityAction)))
+		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(UnityEngine.Events.UnityEvent<bool>), typeof(LuaInterface.LuaTable), typeof(LuaInterface.LuaFunction)))
 		{
-			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
-			string arg1 = LuaScriptMgr.GetString(L, 2);
-			UnityEngine.Events.UnityAction arg2 = null;
-			LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
-
-			if (funcType3 != LuaTypes.LUA_TFUNCTION)
-			{
-				 arg2 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 3);
-			}
-			else
-			{
-				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
-				arg2 = () =>
-				{
-					func.Call();
-				};
-			}
-
+			UnityEngine.Events.UnityEvent<bool> arg0 = (UnityEngine.Events.UnityEvent<bool>)LuaScriptMgr.GetLuaObject(L, 1);
+			LuaTable arg1 = LuaScriptMgr.GetLuaTable(L, 2);
+			LuaFunction arg2 = LuaScriptMgr.GetLuaFunction(L, 3);
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
 			return 0;
 		}
@@ -476,12 +474,44 @@ public class SDK_Lib_UtilApiWrap
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
 			return 0;
 		}
-		else if (count == 4)
+		else if (count == 3 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(UnityEngine.Events.UnityAction)))
 		{
-			GameObject arg0 = (GameObject)LuaScriptMgr.GetUnityObject(L, 1, typeof(GameObject));
-			string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-			LuaFunction arg2 = LuaScriptMgr.GetLuaFunction(L, 3);
+			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
+			string arg1 = LuaScriptMgr.GetString(L, 2);
+			UnityEngine.Events.UnityAction arg2 = null;
+			LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
+
+			if (funcType3 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg2 = (UnityEngine.Events.UnityAction)LuaScriptMgr.GetLuaObject(L, 3);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
+				arg2 = () =>
+				{
+					func.Call();
+				};
+			}
+
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2);
+			return 0;
+		}
+		else if (count == 4 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(string), typeof(LuaInterface.LuaTable), typeof(LuaInterface.LuaFunction)))
+		{
+			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
+			string arg1 = LuaScriptMgr.GetString(L, 2);
+			LuaTable arg2 = LuaScriptMgr.GetLuaTable(L, 3);
 			LuaFunction arg3 = LuaScriptMgr.GetLuaFunction(L, 4);
+			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2,arg3);
+			return 0;
+		}
+		else if (count == 4 && LuaScriptMgr.CheckTypes(L, 1, typeof(GameObject), typeof(LuaInterface.LuaTable), typeof(LuaInterface.LuaFunction), typeof(bool)))
+		{
+			GameObject arg0 = (GameObject)LuaScriptMgr.GetLuaObject(L, 1);
+			LuaTable arg1 = LuaScriptMgr.GetLuaTable(L, 2);
+			LuaFunction arg2 = LuaScriptMgr.GetLuaFunction(L, 3);
+			bool arg3 = LuaDLL.lua_toboolean(L, 4);
 			SDK.Lib.UtilApi.addEventHandle(arg0,arg1,arg2,arg3);
 			return 0;
 		}
@@ -648,6 +678,31 @@ public class SDK_Lib_UtilApiWrap
 				arg1 = () =>
 				{
 					func.Call();
+				};
+			}
+
+			SDK.Lib.UtilApi.RemoveListener(arg0,arg1);
+			return 0;
+		}
+		else if (count == 2 && LuaScriptMgr.CheckTypes(L, 1, typeof(Button), typeof(SDK.Lib.MAction<SDK.Lib.IDispatchObject>)))
+		{
+			Button arg0 = (Button)LuaScriptMgr.GetLuaObject(L, 1);
+			SDK.Lib.MAction<SDK.Lib.IDispatchObject> arg1 = null;
+			LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
+
+			if (funcType2 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg1 = (SDK.Lib.MAction<SDK.Lib.IDispatchObject>)LuaScriptMgr.GetLuaObject(L, 2);
+			}
+			else
+			{
+				LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
+				arg1 = (param0) =>
+				{
+					int top = func.BeginPCall();
+					LuaScriptMgr.PushObject(L, param0);
+					func.PCall(top, 1);
+					func.EndPCall(top);
 				};
 			}
 
@@ -1579,6 +1634,24 @@ public class SDK_Lib_UtilApiWrap
 		LuaScriptMgr.Push(L, arg1);
 		LuaScriptMgr.Push(L, arg2);
 		return 2;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getScreenWidth(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 0);
+		int o = SDK.Lib.UtilApi.getScreenWidth();
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getScteedHeight(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 0);
+		int o = SDK.Lib.UtilApi.getScteedHeight();
+		LuaScriptMgr.Push(L, o);
+		return 1;
 	}
 }
 

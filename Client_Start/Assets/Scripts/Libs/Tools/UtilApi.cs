@@ -152,9 +152,35 @@ namespace SDK.Lib
             btn.onClick.AddListener(handle);
         }
 
+        public static void addEventHandle(Button btn, MAction<IDispatchObject> handle)
+        {
+            AuxUserData userData = btn.gameObject.GetComponent<AuxUserData>();
+            if (userData != null)
+            {
+                AuxBasicButton auxBtn = userData.getButtonData();
+                if (auxBtn != null)
+                {
+                    auxBtn.addEventHandle(null, handle, null, null);
+                }
+            }
+        }
+
         public static void RemoveListener(Button btn, UnityAction handle)
         {
             btn.onClick.RemoveListener(handle);
+        }
+
+        public static void RemoveListener(Button btn, MAction<IDispatchObject> handle)
+        {
+            AuxUserData userData = btn.gameObject.GetComponent<AuxUserData>();
+            if (userData != null)
+            {
+                AuxBasicButton auxBtn = userData.getButtonData();
+                if (auxBtn != null)
+                {
+                    auxBtn.addEventHandle(null, handle, null, null);
+                }
+            }
         }
 
         public static void addEventHandle(UnityEvent unityEvent, UnityAction unityAction)
@@ -182,51 +208,64 @@ namespace SDK.Lib
             unityEvent.AddListener(unityAction);
         }
 
-        public static void addEventHandle(GameObject go, string path, LuaFunction luaTable, LuaFunction func)
+        public static void addEventHandle(GameObject go, string path, LuaTable luaTable, LuaFunction luaFunction)
         {
-            Button.ButtonClickedEvent btnEvent = go.transform.Find(path).GetComponent<Button>().onClick;
-            if (btnEvent != null)
+            Transform goTrans = go.GetComponent<Transform>();
+            if(goTrans == null)
             {
-                btnEvent.RemoveAllListeners();
-                btnEvent.AddListener(
-                    () =>
-                    {
-                        if (luaTable != null)
-                        {
-                            func.Call(luaTable, go);
-                        }
-                        else
-                        {
-                            func.Call(go);
-                        }
-                    }
-                );
+                goTrans = go.GetComponent<RectTransform>();
+            }
+
+            if(goTrans != null)
+            {
+                Transform evtTrans = goTrans.Find(path);
+                if (evtTrans != null)
+                {
+                    GameObject evtGo = evtTrans.gameObject;
+                    UtilApi.addEventHandle(evtGo, luaTable, luaFunction);
+                }
             }
         }
 
-        public static void addEventHandle(GameObject go, LuaFunction luaTable, LuaFunction func)
+        public static void addEventHandle(GameObject go, LuaTable luaTable, LuaFunction luaFunction, bool isAddToRoot = false)
         {
             Button.ButtonClickedEvent btnEvent = go.GetComponent<Button>().onClick;
             if (btnEvent != null)
             {
-                btnEvent.RemoveAllListeners();
-                btnEvent.AddListener(
-                    () =>
-                    {
-                        if (luaTable != null)
+                // 添加到根节点，就使用闭包模拟类保存数据
+                if (isAddToRoot)
+                {
+                    btnEvent.RemoveAllListeners();
+                    btnEvent.AddListener(
+                        () =>
                         {
-                            func.Call(luaTable, go);
+                            if (luaTable != null)
+                            {
+                                luaFunction.Call(luaTable, go);
+                            }
+                            else
+                            {
+                                luaFunction.Call(go);
+                            }
                         }
-                        else
+                     );
+                }
+                else
+                {
+                    AuxUserData userData = go.GetComponent<AuxUserData>();
+                    if (userData != null)
+                    {
+                        AuxBasicButton auxBtn = userData.getButtonData();
+                        if (auxBtn != null)
                         {
-                            func.Call(go);
+                            auxBtn.addEventHandle(null, null, luaTable, luaFunction);
                         }
                     }
-                 );
+                }
             }
         }
 
-        public static void addEventHandle(Button.ButtonClickedEvent btnEvent, LuaFunction func)
+        public static void addEventHandle(Button.ButtonClickedEvent btnEvent, LuaTable luaTable, LuaFunction luaFunction)
         {
             if (btnEvent != null)
             {
@@ -234,18 +273,32 @@ namespace SDK.Lib
                 btnEvent.AddListener(
                     () =>
                     {
-                        func.Call();
+                        if (luaTable != null)
+                        {
+                            luaFunction.Call(luaTable);
+                        }
+                        else
+                        {
+                            luaFunction.Call();
+                        }
                     }
                 );
             }
         }
 
-        public static void addEventHandle(UnityEvent<bool> unityEvent, LuaFunction func)
+        public static void addEventHandle(UnityEvent<bool> unityEvent, LuaTable luaTable, LuaFunction luaFunction)
         {
             unityEvent.AddListener(
                 (param) => 
                 {
-                    func.Call(param);
+                    if (luaTable != null)
+                    {
+                        luaFunction.Call(luaTable, param);
+                    }
+                    else
+                    {
+                        luaFunction.Call(param);
+                    }
                 }
             );
         }

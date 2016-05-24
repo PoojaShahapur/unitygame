@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuaInterface;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,9 +51,14 @@ namespace SDK.Lib
             m_eventDisp.dispatchEvent(this);
         }
 
-        public void addEventHandle(MAction<IDispatchObject> btnClk)
+        public void addEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
-            m_eventDisp.addEventHandle(null, btnClk);
+            m_eventDisp.addEventHandle(pThis, btnClk, luaTable, luaFunction);
+        }
+
+        public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> btnClk, LuaTable luaTable = null, LuaFunction luaFunction = null)
+        {
+            m_eventDisp.removeEventHandle(pThis, btnClk, luaTable, luaFunction);
         }
 
         virtual public void syncUpdateCom()
