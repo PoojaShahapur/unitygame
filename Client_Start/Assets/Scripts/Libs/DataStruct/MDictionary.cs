@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class MDictionary<TKey, TValue>
+    public class MDictionary<TKey, TValue> where TValue : IComparer<TValue>
     {
         protected Dictionary<TKey, TValue> m_data;
 
@@ -36,6 +36,7 @@ namespace SDK.Lib
             foreach (KeyValuePair<TKey, TValue> kv in this.m_data)
             {
                 if (kv.Value.Equals(value))
+                //if (kv.Value == value)
                 {
                     return kv.Key;
                 }
@@ -68,6 +69,7 @@ namespace SDK.Lib
             foreach (KeyValuePair<TKey, TValue> kv in this.m_data)
             {
                 if (kv.Value.Equals(value))
+                //if (kv.Value == value)
                 {
                     return true;
                 }
