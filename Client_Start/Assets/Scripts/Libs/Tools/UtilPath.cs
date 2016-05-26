@@ -71,6 +71,18 @@ namespace SDK.Lib
             return true;
         }
 
+        public static void copyFile(string sourceFileName, string destFileName, bool overwrite = false)
+        {
+            try
+            {
+                File.Copy(sourceFileName, destFileName, overwrite);
+            }
+            catch (Exception err)
+            {
+                Debug.Log(string.Format("{0}", "copyFile Error: ", err.Message));
+            }
+        }
+
         static public void createDirectory(string pathAndName, bool isRecurse = false)
         {
             if (isRecurse)
@@ -324,14 +336,15 @@ namespace SDK.Lib
         }
 
         // 递归拷贝目录
-        static public void recurseCopyDirectory(string srcPath, string destPath, bool isRecurse = false)
+        static public void copyDirectory(string srcPath, string destPath, bool isRecurse = false)
         {
             DirectoryInfo sourceDirInfo = new DirectoryInfo(srcPath);
             DirectoryInfo targetDirInfo = new DirectoryInfo(destPath);
 
             if (targetDirInfo.FullName.StartsWith(sourceDirInfo.FullName, StringComparison.CurrentCultureIgnoreCase))
             {
-                throw new Exception("父目录不能拷贝到子目录！");
+                Debug.Log("destPath is srcPath subDir, can not copy");
+                return;
             }
 
             if (!sourceDirInfo.Exists)
@@ -348,7 +361,7 @@ namespace SDK.Lib
 
             for (int i = 0; i < files.Length; i++)
             {
-                File.Copy(files[i].FullName, targetDirInfo.FullName + "/" + files[i].Name, true);
+                UtilPath.copyFile(files[i].FullName, targetDirInfo.FullName + "/" + files[i].Name, true);
             }
 
             DirectoryInfo[] dirs = sourceDirInfo.GetDirectories();
@@ -357,7 +370,7 @@ namespace SDK.Lib
             {
                 for (int j = 0; j < dirs.Length; j++)
                 {
-                    recurseCopyDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, isRecurse);
+                    copyDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, isRecurse);
                 }
             }
         }
@@ -369,7 +382,8 @@ namespace SDK.Lib
 
             if (targetDirInfo.FullName.StartsWith(sourceDirInfo.FullName, StringComparison.CurrentCultureIgnoreCase))
             {
-                throw new Exception("父目录不能拷贝到子目录！");
+                Debug.Log("destPath is srcPath subDir, can not copy");
+                return;
             }
 
             if (!sourceDirInfo.Exists)
@@ -403,9 +417,9 @@ namespace SDK.Lib
             }
         }
 
-        static public void recurseDeleteFiles(string dir, MList<string> fileList, MList<string> extNameList)
+        static public void deleteFiles(string srcPath, MList<string> fileList, MList<string> extNameList, bool isRecurse = false)
         {
-            DirectoryInfo fatherFolder = new DirectoryInfo(dir);
+            DirectoryInfo fatherFolder = new DirectoryInfo(srcPath);
             //删除当前文件夹内文件
             FileInfo[] files = fatherFolder.GetFiles();
             int dotIdx = 0;
@@ -414,41 +428,38 @@ namespace SDK.Lib
             foreach (FileInfo file in files)
             {
                 string fileName = file.Name;
-                try
+
+                if (fileList != null)
                 {
-                    if (fileList != null)
+                    //if (!fileName.Equals("delFileName.dat"))
+                    //{
+                    //    File.Delete(file.FullName);
+                    //}
+                    if (fileList.IndexOf(fileName) != -1)
                     {
-                        //if (!fileName.Equals("delFileName.dat"))
-                        //{
-                        //    File.Delete(file.FullName);
-                        //}
-                        if (fileList.IndexOf(fileName) != -1)
-                        {
-                            File.Delete(file.FullName);
-                        }
-                    }
-                    if (extNameList != null)
-                    {
-                        dotIdx = fileName.LastIndexOf(".");
-                        if (dotIdx != -1)
-                        {
-                            extName = fileName.Substring(dotIdx + 1);
-                            if (extNameList.IndexOf(extName) != -1)
-                            {
-                                File.Delete(file.FullName);
-                            }
-                        }
+                        UtilPath.deleteFile(file.FullName);
                     }
                 }
-                catch (Exception ex)
+                if (extNameList != null)
                 {
-                    Ctx.m_instance.m_logSys.log(ex.Message, LogTypeId.eLogCommon);
+                    dotIdx = fileName.LastIndexOf(".");
+                    if (dotIdx != -1)
+                    {
+                        extName = fileName.Substring(dotIdx + 1);
+                        if (extNameList.IndexOf(extName) != -1)
+                        {
+                            UtilPath.deleteFile(file.FullName);
+                        }
+                    }
                 }
             }
-            //递归删除子文件夹内文件
-            foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
+            if (isRecurse)
             {
-                recurseDeleteFiles(childFolder.FullName, fileList, extNameList);
+                //递归删除子文件夹内文件
+                foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
+                {
+                    deleteFiles(childFolder.FullName, fileList, extNameList);
+                }
             }
         }
 
@@ -463,17 +474,10 @@ namespace SDK.Lib
             foreach (FileInfo file in files)
             {
                 string fileName = file.Name;
-                try
+                normalPath = UtilPath.normalPath(file.FullName);
+                if (!UtilPath.isEqualStrInList(normalPath, excludeFileList))
                 {
-                    normalPath = UtilPath.normalPath(file.FullName);
-                    if (!UtilPath.isEqualStrInList(normalPath, excludeFileList))
-                    {
-                        File.Delete(file.FullName);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Ctx.m_instance.m_logSys.log(ex.Message, LogTypeId.eLogCommon);
+                    UtilPath.deleteFile(file.FullName);
                 }
             }
 
@@ -555,27 +559,11 @@ namespace SDK.Lib
         {
             string srcFullPath = string.Format("{0}/{1}.{2}", path, fileNameNoExt.ToLower(), UtilApi.UNITY3D);
             string destFullPath = string.Format("{0}/{1}.{2}", path, fileNameNoExt, UtilApi.UNITY3D);
-
-            if (File.Exists(srcFullPath))
-            {
-                File.Move(srcFullPath, destFullPath);
-            }
-            else
-            {
-                Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
-            }
+            UtilPath.move(srcFullPath, destFullPath);
 
             srcFullPath = string.Format("{0}/{1}.{2}.manifest", path, fileNameNoExt.ToLower(), UtilApi.UNITY3D);
             destFullPath = string.Format("{0}/{1}.{2}.manifest", path, fileNameNoExt, UtilApi.UNITY3D);
-
-            if (File.Exists(srcFullPath))
-            {
-                File.Move(srcFullPath, destFullPath);
-            }
-            else
-            {
-                Debug.Log(string.Format("{0} 文件不存在", srcFullPath));
-            }
+            UtilPath.move(srcFullPath, destFullPath);
         }
 
         // 大写转换成小写
@@ -650,7 +638,7 @@ namespace SDK.Lib
                 subPath = subPath.Substring(0, subPath.LastIndexOf('/'));
             }
 
-            if (Directory.Exists(Path.Combine(rootPath, subPath)))
+            if (UtilPath.existDirectory(UtilPath.combine(rootPath, subPath)))
             {
                 return;
             }
@@ -659,74 +647,16 @@ namespace SDK.Lib
             int splitIdx = 0;
             while ((splitIdx = subPath.IndexOf('/', startIdx)) != -1)
             {
-                if (!Directory.Exists(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx))))
+                if (!UtilPath.existDirectory(UtilPath.combine(rootPath, subPath.Substring(0, startIdx + splitIdx))))
                 {
-                    Directory.CreateDirectory(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx)));
+                    UtilPath.createDirectory(UtilPath.combine(rootPath, subPath.Substring(0, startIdx + splitIdx)));
                 }
 
                 startIdx += splitIdx;
                 startIdx += 1;
             }
 
-            Directory.CreateDirectory(Path.Combine(rootPath, subPath));
-        }
-
-#if UNITY_EDITOR
-        static string streamPath = Application.streamingAssetsPath;
-#else
-        static string streamPath = Application.persistentDataPath;
-#endif
-
-        static public byte[] readFileAllBytes(string fileName)
-        {
-            byte[] ret = null;
-            try
-            {
-                ret = File.ReadAllBytes(streamPath + "/" + fileName);
-            }
-            catch
-            {
-                Debug.Log("Not Find File " + fileName);
-            }
-
-            return ret;
-        }
-
-        static public void writeBytesToFile(string fileName, byte[] buf)
-        {
-            File.WriteAllBytes(streamPath + "/" + fileName, buf);
-        }
-
-        static public string readFileAllText(string fileName)
-        {
-            string ret = null;
-            try
-            {
-                ret = File.ReadAllText(streamPath + "/" + fileName);
-            }
-            catch
-            {
-                Debug.Log("Not Find File " + fileName);
-            }
-
-            return ret;
-        }
-
-        static public void writeTextToFile(string fileName, string text)
-        {
-            File.WriteAllText(streamPath + "/" + fileName, text);
-        }
-
-        static public LuaStringBuffer readLuaBufferToFile(string fileName)
-        {
-            byte[] ret = readFileAllBytes(fileName.ToString());
-            LuaStringBuffer buffer = new LuaStringBuffer(ret);
-            return buffer;
-        }
-
-        static public void writeLuaBufferToFile(string fileName, LuaStringBuffer text)
-        {
-            writeBytesToFile(fileName, text.buffer);
+            UtilPath.createDirectory(UtilPath.combine(rootPath, subPath));
         }
     }
 }

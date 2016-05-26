@@ -266,7 +266,7 @@ namespace EditorTool
             // 放入平台单独的目录下
             //CreateDirectory(Path.Combine(Application.streamingAssetsPath, platForm));
             //copyDirectory(srcPath, Path.Combine(Application.streamingAssetsPath, platForm));
-            UtilPath.recurseCopyDirectory(srcPath, Application.streamingAssetsPath);
+            UtilPath.copyDirectory(srcPath, Application.streamingAssetsPath, true);
         }
 
         static public bool getXmlAttrBool(XmlAttribute attr)
