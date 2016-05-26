@@ -63,7 +63,7 @@
         // 只有没有添加到列表中的才能添加
         protected bool existAddList(IDelayHandleItem delayObject)
         {
-            foreach(var item in m_deferredAddQueue.list())
+            foreach(DelayHandleObject item in m_deferredAddQueue.list())
             {
                 if(UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -77,7 +77,7 @@
         // 只有没有添加到列表中的才能添加
         protected bool existDelList(IDelayHandleItem delayObject)
         {
-            foreach (var item in m_deferredDelQueue.list())
+            foreach (DelayHandleObject item in m_deferredDelQueue.list())
             {
                 if (UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -91,7 +91,7 @@
         // 从延迟添加列表删除一个 Item
         protected void delFromDelayAddList(IDelayHandleItem delayObject)
         {
-            foreach (var item in m_deferredAddQueue.list())
+            foreach (DelayHandleObject item in m_deferredAddQueue.list())
             {
                 if (UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -103,7 +103,7 @@
         // 从延迟删除列表删除一个 Item
         protected void delFromDelayDelList(IDelayHandleItem delayObject)
         {
-            foreach (var item in m_deferredDelQueue.list())
+            foreach (DelayHandleObject item in m_deferredDelQueue.list())
             {
                 if(UtilApi.isAddressEqual(item.m_delayObject, delayObject))
                 {
@@ -114,13 +114,20 @@
 
         private void processDelayObjects()
         {
+            int idx = 0;
+            // len 是 Python 的关键字
+            int elemLen = 0;
             if (0 == m_loopDepth)       // 只有全部退出循环后，才能处理添加删除
             {
                 if (m_deferredAddQueue.Count() > 0)
                 {
-                    for (int idx = 0; idx < m_deferredAddQueue.Count(); idx++)
+                    idx = 0;
+                    elemLen = m_deferredAddQueue.Count();
+                    while(idx < elemLen)
                     {
                         addObject(m_deferredAddQueue[idx].m_delayObject, (m_deferredAddQueue[idx].m_delayParam as DelayAddParam).m_priority);
+
+                        idx += 1;
                     }
 
                     m_deferredAddQueue.Clear();
@@ -128,9 +135,13 @@
 
                 if (m_deferredDelQueue.Count() > 0)
                 {
-                    for (int idx = 0; idx < m_deferredDelQueue.Count(); idx++)
+                    idx = 0;
+                    elemLen = m_deferredDelQueue.Count();
+                    while(idx < elemLen)
                     {
                         removeObject(m_deferredDelQueue[idx].m_delayObject);
+
+                        idx += 1;
                     }
 
                     m_deferredDelQueue.Clear();

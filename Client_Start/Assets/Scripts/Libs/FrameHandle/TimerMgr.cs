@@ -1,6 +1,5 @@
 ﻿using LuaInterface;
 using System;
-using System.Collections.Generic;
 
 /**
  * @brief 定时器管理器
@@ -9,11 +8,11 @@ namespace SDK.Lib
 {
     public class TimerMgr : DelayHandleMgrBase
     {
-        protected List<TimerItemBase> m_timerList = new List<TimerItemBase>();     // 当前所有的定时器列表
+        protected MList<TimerItemBase> m_timerList;     // 当前所有的定时器列表
 
         public TimerMgr()
         {
-            
+            m_timerList = new MList<TimerItemBase>();
         }
 
         protected override void addObject(IDelayHandleItem delayObject, float priority = 0.0f)
@@ -44,7 +43,7 @@ namespace SDK.Lib
                 }
                 else
                 {
-                    foreach (TimerItemBase item in m_timerList)
+                    foreach (TimerItemBase item in m_timerList.list())
                     {
                         if (UtilApi.isAddressEqual(item, delayObject))
                         {
@@ -83,7 +82,7 @@ namespace SDK.Lib
         {
             incDepth();
 
-            foreach (TimerItemBase timerItem in m_timerList)
+            foreach (TimerItemBase timerItem in m_timerList.list())
             {
                 if (!timerItem.getClientDispose())
                 {

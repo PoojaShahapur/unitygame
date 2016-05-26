@@ -4,7 +4,12 @@ namespace SDK.Lib
 {
     public class MsgRouteDispHandle
     {
-        public Dictionary<int, MsgRouteHandleBase> m_id2DispDic = new Dictionary<int, MsgRouteHandleBase>();
+        public Dictionary<int, MsgRouteHandleBase> m_id2DispDic;
+
+        public MsgRouteDispHandle()
+        {
+            m_id2DispDic = new Dictionary<int, MsgRouteHandleBase>();
+        }
 
         public virtual void handleMsg(MsgRouteBase msg)
         {

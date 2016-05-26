@@ -1,17 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    public class MsgRouteHandleBase
+    public class MsgRouteHandleBase : GObject
     {
-        public Dictionary<int, Action<MsgRouteBase>> m_id2HandleDic = new Dictionary<int, Action<MsgRouteBase>>();
+        public Dictionary<int, AddOnceEventDispatch> m_id2HandleDic;
+
+        public MsgRouteHandleBase()
+        {
+            this.mTypeId = "MsgRouteHandleBase";
+
+            m_id2HandleDic = new Dictionary<int, AddOnceEventDispatch>();
+        }
+
+        public void addMsgRouteHandle(MsgRouteID msgRouteID, MAction<IDispatchObject> handle)
+        {
+            if(!m_id2HandleDic.ContainsKey((int)msgRouteID))
+            {
+                m_id2HandleDic[(int)msgRouteID] = new AddOnceEventDispatch();
+            }
+
+            m_id2HandleDic[(int)msgRouteID].addEventHandle(null, handle);
+        }
+
+        public void removeMsgRouteHandle(MsgRouteID msgRouteID, MAction<IDispatchObject> handle)
+        {
+            if (m_id2HandleDic.ContainsKey((int)msgRouteID))
+            {
+                m_id2HandleDic[(int)msgRouteID].removeEventHandle(null, handle);
+            }
+        }
 
         public virtual void handleMsg(MsgRouteBase msg)
         {
             if (m_id2HandleDic.ContainsKey((int)msg.m_msgID))
             {
-                m_id2HandleDic[(int)msg.m_msgID](msg);
+                m_id2HandleDic[(int)msg.m_msgID].dispatchEvent(msg);
             }
             else
             {

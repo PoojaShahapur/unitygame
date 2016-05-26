@@ -6,12 +6,13 @@ namespace Game.Login
     {
         public LoginRouteHandle()
         {
-            m_id2HandleDic[(int)MsgRouteID.eMRIDSocketOpened] = handleSocketOpened;
-            m_id2HandleDic[(int)MsgRouteID.eMRIDThreadLog] = threadLog;
+            this.addMsgRouteHandle(MsgRouteID.eMRIDSocketOpened, handleSocketOpened);
+            this.addMsgRouteHandle(MsgRouteID.eMRIDThreadLog, threadLog);
         }
 
-        protected void handleSocketOpened(MsgRouteBase msg)
+        protected void handleSocketOpened(IDispatchObject dispObj)
         {
+            MsgRouteBase msg = dispObj as MsgRouteBase;
             if (Ctx.m_instance.m_loginSys.get_LoginState() == LoginState.eLoginingLoginServer)
             {
                 (Ctx.m_instance.m_loginSys as LoginSys).m_loginFlowHandle.onLoginServerSocketOpened();
@@ -22,8 +23,9 @@ namespace Game.Login
             }
         }
 
-        protected void threadLog(MsgRouteBase msg)
+        protected void threadLog(IDispatchObject dispObj)
         {
+            MsgRouteBase msg = dispObj as MsgRouteBase;
             Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).m_logSys);
         }
     }

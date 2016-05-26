@@ -1,7 +1,7 @@
 ﻿namespace SDK.Lib
 {
     /**
-     * @brief 网络线程
+     * @brief 任务线程
      */
     public class TaskThread : MThread
     {

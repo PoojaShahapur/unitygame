@@ -78,12 +78,16 @@ namespace SDK.Lib
         public void removeEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             int idx = 0;
-            for (idx = 0; idx < m_handleList.Count(); ++idx)
+            int elemLen = 0;
+            elemLen = m_handleList.Count();
+            while (idx < elemLen)
             {
                 if (m_handleList[idx].isEqual(pThis, handle, luaTable, luaFunction))
                 {
                     break;
                 }
+
+                idx += 1;
             }
             if (idx < m_handleList.Count())
             {
@@ -129,7 +133,7 @@ namespace SDK.Lib
             //{
                 incDepth();
 
-                foreach (var handle in m_handleList.list())
+                foreach (EventDispatchFunctionObject handle in m_handleList.list())
                 {
                     if (!handle.m_bClientDispose)
                     {
@@ -154,7 +158,7 @@ namespace SDK.Lib
         {
             if (bInDepth())
             {
-                foreach (var item in m_handleList.list())
+                foreach (EventDispatchFunctionObject item in m_handleList.list())
                 {
                     removeObject(item);
                 }
@@ -169,7 +173,7 @@ namespace SDK.Lib
         public bool existEventHandle(ICalleeObject pThis, MAction<IDispatchObject> handle, LuaTable luaTable = null, LuaFunction luaFunction = null)
         {
             bool bFinded = false;
-            foreach (var item in m_handleList.list())
+            foreach (EventDispatchFunctionObject item in m_handleList.list())
             {
                 if (item.isEqual(pThis, handle, luaTable, luaFunction))
                 {
@@ -183,7 +187,7 @@ namespace SDK.Lib
 
         public void copyFrom(EventDispatch rhv)
         {
-            foreach(var handle in rhv.handleList.list())
+            foreach(EventDispatchFunctionObject handle in rhv.handleList.list())
             {
                 m_handleList.Add(handle);
             }

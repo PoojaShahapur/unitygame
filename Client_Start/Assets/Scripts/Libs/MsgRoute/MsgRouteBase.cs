@@ -13,7 +13,7 @@
         eMRIDThreadLog,      // 线程打日志
     }
 
-    public class MsgRouteBase : IRecycle
+    public class MsgRouteBase : IRecycle, IDispatchObject
     {
         public MsgRouteType m_msgType;
         public MsgRouteID m_msgID;          // 只需要一个 ID 就行了

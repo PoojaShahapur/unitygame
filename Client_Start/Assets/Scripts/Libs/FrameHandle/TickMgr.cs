@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-
-/**
+﻿/**
  * @brief 心跳管理器
  */
 namespace SDK.Lib
 {
     public class TickMgr : DelayHandleMgrBase
     {
-        protected List<TickProcessObject> m_tickLst;
+        protected MList<TickProcessObject> m_tickLst;
 
         public TickMgr()
         {
-            m_tickLst = new List<TickProcessObject>();
+            m_tickLst = new MList<TickProcessObject>();
         }
 
         public void addTick(ITickedObject tickObj, float priority = 0.0f)
@@ -28,28 +26,32 @@ namespace SDK.Lib
             else
             {
                 int position = -1;
-                for (int i = 0; i < m_tickLst.Count; i++)
+                int idx = 0;
+                int elemLen = m_tickLst.Count();
+                while(idx < elemLen)
                 {
-                    if (m_tickLst[i] == null)
+                    if (m_tickLst[idx] == null)
                         continue;
 
-                    if (m_tickLst[i].m_tickObject == delayObject)
+                    if (m_tickLst[idx].m_tickObject == delayObject)
                     {
                         return;
                     }
 
-                    if (m_tickLst[i].m_priority < priority)
+                    if (m_tickLst[idx].m_priority < priority)
                     {
-                        position = i;
+                        position = idx;
                         break;
                     }
+
+                    idx += 1;
                 }
 
                 TickProcessObject processObject = new TickProcessObject();
                 processObject.m_tickObject = delayObject as ITickedObject;
                 processObject.m_priority = priority;
 
-                if (position < 0 || position >= m_tickLst.Count)
+                if (position < 0 || position >= m_tickLst.Count())
                 {
                     m_tickLst.Add(processObject);
                 }
@@ -73,7 +75,7 @@ namespace SDK.Lib
             }
             else
             {
-                foreach (TickProcessObject item in m_tickLst)
+                foreach (TickProcessObject item in m_tickLst.list())
                 {
                     if (UtilApi.isAddressEqual(item.m_tickObject, delayObject))
                     {
@@ -88,7 +90,7 @@ namespace SDK.Lib
         {
             incDepth();
 
-            foreach (TickProcessObject tk in m_tickLst)
+            foreach (TickProcessObject tk in m_tickLst.list())
             {
                 if (!(tk.m_tickObject as IDelayHandleItem).getClientDispose())
                 {

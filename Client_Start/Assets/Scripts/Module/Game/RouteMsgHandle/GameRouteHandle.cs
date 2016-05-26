@@ -6,11 +6,12 @@ namespace Game.Game
     {
         public GameRouteHandle()
         {
-            m_id2HandleDic[(int)MsgRouteID.eMRIDThreadLog] = threadLog;
+            this.addMsgRouteHandle(MsgRouteID.eMRIDThreadLog, threadLog);
         }
 
-        protected void threadLog(MsgRouteBase msg)
+        protected void threadLog(IDispatchObject dispObj)
         {
+            MsgRouteBase msg = dispObj as MsgRouteBase;
             Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).m_logSys);
         }
     }

@@ -20,9 +20,10 @@ namespace SDK.Lib
             m_maxParral = 8;
             m_curNum = 0;
             m_LoadData = new ResLoadData();
-            m_id2HandleDic[(int)MsgRouteID.eMRIDLoadedWebRes] = onMsgRouteResLoad;
             m_zeroRefResIDList = new List<string>();
             m_loadingDepth = 0;
+
+            this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
 
         public void postInit()
@@ -625,8 +626,9 @@ namespace SDK.Lib
         }
 
         // 资源加载完成，触发下一次加载
-        protected void onMsgRouteResLoad(MsgRouteBase msg)
+        protected void onMsgRouteResLoad(IDispatchObject dispObj)
         {
+            MsgRouteBase msg = dispObj as MsgRouteBase;
             DataLoadItem loadItem = (msg as LoadedWebResMR).m_task as DataLoadItem;
             loadItem.handleResult();
         }
