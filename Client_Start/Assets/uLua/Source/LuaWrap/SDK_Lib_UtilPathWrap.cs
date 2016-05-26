@@ -9,40 +9,38 @@ public class SDK_Lib_UtilPathWrap
 	{
 		LuaMethod[] regs = new LuaMethod[]
 		{
-			new LuaMethod("recureCreateSubDir", recureCreateSubDir),
 			new LuaMethod("normalPath", normalPath),
-			new LuaMethod("createDirectory", createDirectory),
 			new LuaMethod("deleteDirectory", deleteDirectory),
 			new LuaMethod("existDirectory", existDirectory),
-			new LuaMethod("recurseCreateDirectory", recurseCreateDirectory),
-			new LuaMethod("modifyFileName", modifyFileName),
+			new LuaMethod("existFile", existFile),
+			new LuaMethod("move", move),
+			new LuaMethod("deleteFile", deleteFile),
+			new LuaMethod("createDirectory", createDirectory),
+			new LuaMethod("renameFile", renameFile),
 			new LuaMethod("combine", combine),
-			new LuaMethod("GetAllFile", GetAllFile),
 			new LuaMethod("getFileExt", getFileExt),
 			new LuaMethod("getFileNameWithExt", getFileNameWithExt),
+			new LuaMethod("getFileNameNoExt", getFileNameNoExt),
+			new LuaMethod("getFilePathNoName", getFilePathNoName),
+			new LuaMethod("getAllFile", getAllFile),
 			new LuaMethod("versionPath", versionPath),
 			new LuaMethod("delFileNoVer", delFileNoVer),
 			new LuaMethod("fileExistNoVer", fileExistNoVer),
-			new LuaMethod("delFile", delFile),
-			new LuaMethod("renameFile", renameFile),
 			new LuaMethod("saveTex2File", saveTex2File),
 			new LuaMethod("saveStr2File", saveStr2File),
 			new LuaMethod("saveByte2File", saveByte2File),
-			new LuaMethod("getFileNameNoPath", getFileNameNoPath),
-			new LuaMethod("getFileNameNoExt", getFileNameNoExt),
-			new LuaMethod("getFilePathNoName", getFilePathNoName),
 			new LuaMethod("recurseCopyDirectory", recurseCopyDirectory),
-			new LuaMethod("recurseTraverseDirectory", recurseTraverseDirectory),
+			new LuaMethod("traverseDirectory", traverseDirectory),
 			new LuaMethod("recurseDeleteFiles", recurseDeleteFiles),
 			new LuaMethod("deleteSubDirsAndFiles", deleteSubDirsAndFiles),
 			new LuaMethod("isSubStrInList", isSubStrInList),
 			new LuaMethod("isEqualStrInList", isEqualStrInList),
 			new LuaMethod("modifyFileNameToCapital", modifyFileNameToCapital),
-			new LuaMethod("deleteFile", deleteFile),
 			new LuaMethod("toLower", toLower),
 			new LuaMethod("recursiveTraversalDir", recursiveTraversalDir),
 			new LuaMethod("traverseFilesInOneDir", traverseFilesInOneDir),
 			new LuaMethod("traverseSubDirInOneDir", traverseSubDirInOneDir),
+			new LuaMethod("recureCreateSubDir", recureCreateSubDir),
 			new LuaMethod("readFileAllBytes", readFileAllBytes),
 			new LuaMethod("writeBytesToFile", writeBytesToFile),
 			new LuaMethod("readFileAllText", readFileAllText),
@@ -89,17 +87,6 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int recureCreateSubDir(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 3);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-		bool arg2 = LuaScriptMgr.GetBoolean(L, 3);
-		SDK.Lib.UtilPath.recureCreateSubDir(arg0,arg1,arg2);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int normalPath(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
@@ -107,15 +94,6 @@ public class SDK_Lib_UtilPathWrap
 		string o = SDK.Lib.UtilPath.normalPath(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int createDirectory(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		SDK.Lib.UtilPath.createDirectory(arg0);
-		return 0;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -139,21 +117,52 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int recurseCreateDirectory(IntPtr L)
+	static int existFile(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		SDK.Lib.UtilPath.recurseCreateDirectory(arg0);
-		return 0;
+		bool o = SDK.Lib.UtilPath.existFile(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int modifyFileName(IntPtr L)
+	static int move(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 2);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-		bool o = SDK.Lib.UtilPath.modifyFileName(arg0,arg1);
+		SDK.Lib.UtilPath.move(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int deleteFile(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		bool o = SDK.Lib.UtilPath.deleteFile(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int createDirectory(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
+		SDK.Lib.UtilPath.createDirectory(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int renameFile(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
+		bool o = SDK.Lib.UtilPath.renameFile(arg0,arg1);
 		LuaScriptMgr.Push(L, o);
 		return 1;
 	}
@@ -165,17 +174,6 @@ public class SDK_Lib_UtilPathWrap
 		string[] objs0 = LuaScriptMgr.GetParamsString(L, 1, count);
 		string o = SDK.Lib.UtilPath.combine(objs0);
 		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetAllFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
-		List<string> o = SDK.Lib.UtilPath.getAllFile(arg0,arg1);
-		LuaScriptMgr.PushObject(L, o);
 		return 1;
 	}
 
@@ -196,6 +194,37 @@ public class SDK_Lib_UtilPathWrap
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		string o = SDK.Lib.UtilPath.getFileNameWithExt(arg0);
 		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getFileNameNoExt(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		string o = SDK.Lib.UtilPath.getFileNameNoExt(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getFilePathNoName(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		string o = SDK.Lib.UtilPath.getFilePathNoName(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getAllFile(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
+		List<string> o = SDK.Lib.UtilPath.getAllFile(arg0,arg1);
+		LuaScriptMgr.PushObject(L, o);
 		return 1;
 	}
 
@@ -230,26 +259,6 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int delFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		bool o = SDK.Lib.UtilPath.delFile(arg0);
-		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int renameFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-		SDK.Lib.UtilPath.renameFile(arg0,arg1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int saveTex2File(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 2);
@@ -281,36 +290,6 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int getFileNameNoPath(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string o = SDK.Lib.UtilPath.getFileNameNoPath(arg0);
-		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int getFileNameNoExt(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string o = SDK.Lib.UtilPath.getFileNameNoExt(arg0);
-		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int getFilePathNoName(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string o = SDK.Lib.UtilPath.getFilePathNoName(arg0);
-		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int recurseCopyDirectory(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 2);
@@ -321,7 +300,7 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int recurseTraverseDirectory(IntPtr L)
+	static int traverseDirectory(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 3);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
@@ -346,7 +325,7 @@ public class SDK_Lib_UtilPathWrap
 			};
 		}
 
-		SDK.Lib.UtilPath.recurseTraverseDirectory(arg0,arg1,arg2);
+		SDK.Lib.UtilPath.traverseDirectory(arg0,arg1,arg2);
 		return 0;
 	}
 
@@ -401,15 +380,6 @@ public class SDK_Lib_UtilPathWrap
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
 		SDK.Lib.UtilPath.modifyFileNameToCapital(arg0,arg1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int deleteFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		SDK.Lib.UtilPath.deleteFile(arg0);
 		return 0;
 	}
 
@@ -526,6 +496,17 @@ public class SDK_Lib_UtilPathWrap
 		}
 
 		SDK.Lib.UtilPath.traverseSubDirInOneDir(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int recureCreateSubDir(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 3);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
+		bool arg2 = LuaScriptMgr.GetBoolean(L, 3);
+		SDK.Lib.UtilPath.recureCreateSubDir(arg0,arg1,arg2);
 		return 0;
 	}
 
