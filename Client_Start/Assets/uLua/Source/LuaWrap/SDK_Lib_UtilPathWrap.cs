@@ -17,7 +17,7 @@ public class SDK_Lib_UtilPathWrap
 			new LuaMethod("recurseCreateDirectory", recurseCreateDirectory),
 			new LuaMethod("modifyFileName", modifyFileName),
 			new LuaMethod("combine", combine),
-			new LuaMethod("GetAll", GetAll),
+			new LuaMethod("GetAllFile", GetAllFile),
 			new LuaMethod("getFileExt", getFileExt),
 			new LuaMethod("getFileNameWithExt", getFileNameWithExt),
 			new LuaMethod("versionPath", versionPath),
@@ -43,7 +43,6 @@ public class SDK_Lib_UtilPathWrap
 			new LuaMethod("recursiveTraversalDir", recursiveTraversalDir),
 			new LuaMethod("traverseFilesInOneDir", traverseFilesInOneDir),
 			new LuaMethod("traverseSubDirInOneDir", traverseSubDirInOneDir),
-			new LuaMethod("copyFile", copyFile),
 			new LuaMethod("readFileAllBytes", readFileAllBytes),
 			new LuaMethod("writeBytesToFile", writeBytesToFile),
 			new LuaMethod("readFileAllText", readFileAllText),
@@ -170,12 +169,12 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetAll(IntPtr L)
+	static int GetAllFile(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 2);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
-		List<string> o = SDK.Lib.UtilPath.GetAll(arg0,arg1);
+		List<string> o = SDK.Lib.UtilPath.getAllFile(arg0,arg1);
 		LuaScriptMgr.PushObject(L, o);
 		return 1;
 	}
@@ -527,16 +526,6 @@ public class SDK_Lib_UtilPathWrap
 		}
 
 		SDK.Lib.UtilPath.traverseSubDirInOneDir(arg0,arg1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int copyFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-		SDK.Lib.UtilPath.copyFile(arg0,arg1);
 		return 0;
 	}
 
