@@ -353,7 +353,7 @@ public class ExportTerrain : EditorWindow
             splatLayer = terrainData.splatPrototypes[0];
             resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
             // 保存目录
-            fileName = UtilPath.getFileNameNoPath(resPath);
+            fileName = UtilPath.getFileNameWithExt(resPath);
             tmp = string.Format("\t<SplatMapName name=\"Materials/Textures/Terrain/{0}\" />\r\n", fileName);
             xmlStr += tmp;
         }
@@ -400,7 +400,7 @@ public class ExportTerrain : EditorWindow
             splatLayer = terrainData.splatPrototypes[idx];
             resPath = AssetDatabase.GetAssetPath(splatLayer.texture);
             // 保存目录
-            fileName = UtilPath.getFileNameNoPath(resPath);
+            fileName = UtilPath.getFileNameWithExt(resPath);
             tileSize = splatLayer.tileSize;
             tmp = string.Format("\t<SplatMapName name=\"Materials/Textures/Terrain/{0}\" worldSize=\"{1}\" />\r\n", fileName, tileSize.x / 2);
             xmlStr += tmp;

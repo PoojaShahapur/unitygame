@@ -77,7 +77,7 @@ namespace SDK.Lib
             m_loadingPath.Add(UtilLogic.webFullPath(path));
             if (Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(path))
             {
-                UtilPath.delFile(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
+                UtilPath.deleteFile(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
             }
             //UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
 

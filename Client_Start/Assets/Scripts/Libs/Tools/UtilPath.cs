@@ -8,58 +8,9 @@ namespace SDK.Lib
 {
     public class UtilPath
     {
-        // 递归创建子目录
-        public static void recureCreateSubDir(string rootPath, string subPath, bool includeLast = false)
-        {
-            subPath = normalPath(subPath);
-            if (!includeLast)
-            {
-                if (subPath.IndexOf('/') == -1)
-                {
-                    return;
-                }
-                subPath = subPath.Substring(0, subPath.LastIndexOf('/'));
-            }
-
-            if (Directory.Exists(Path.Combine(rootPath, subPath)))
-            {
-                return;
-            }
-
-            int startIdx = 0;
-            int splitIdx = 0;
-            while ((splitIdx = subPath.IndexOf('/', startIdx)) != -1)
-            {
-                if (!Directory.Exists(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx))))
-                {
-                    Directory.CreateDirectory(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx)));
-                }
-
-                startIdx += splitIdx;
-                startIdx += 1;
-            }
-
-            Directory.CreateDirectory(Path.Combine(rootPath, subPath));
-        }
-
         public static string normalPath(string path)
         {
             return path.Replace('\\', '/');
-        }
-
-        static public void createDirectory(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                try
-                {
-                    Directory.CreateDirectory(path);
-                }
-                catch (Exception err)
-                {
-                    Debug.Log(string.Format("{0}{1}", "CreateDirectory Error: ", err.Message));
-                }
-            }
         }
 
         // 删除目录的时候，一定要关闭这个文件夹，否则删除文件夹可能出错
@@ -73,7 +24,7 @@ namespace SDK.Lib
                 }
                 catch (Exception err)
                 {
-                    Debug.Log(string.Format("{0}{1}", "DeleteDirectory Error: ", err.Message));
+                    Debug.Log(string.Format("{0}", "DeleteDirectory Error: ", err.Message));
                 }
             }
         }
@@ -84,35 +35,95 @@ namespace SDK.Lib
             return Directory.Exists(path);
         }
 
-        static public void recurseCreateDirectory(string pathAndName)
+        // 文件是否存在
+        static public bool existFile(string path)
         {
-            string normPath = normalPath(pathAndName);
-            string[] pathArr = normPath.Split(new[] { '/' });
-
-            string curCreatePath = "";
-            int idx = 0;
-            for (; idx < pathArr.Length; ++idx)
-            {
-                if (curCreatePath.Length == 0)
-                {
-                    curCreatePath = pathArr[idx];
-                }
-                else
-                {
-                    curCreatePath = string.Format("{0}/{1}", curCreatePath, pathArr[idx]);
-                }
-
-                createDirectory(curCreatePath);
-            }
+            return File.Exists(path);
         }
 
-        static public bool modifyFileName(string srcPath, string destPath)
+        // 移动文件
+        static public void move(string srcPath, string destPath)
         {
             try
             {
-                if (File.Exists(srcPath))
+                File.Move(srcPath, destPath);
+            }
+            catch (Exception err)
+            {
+                Debug.Log(string.Format("{0}", "move Error: ", err.Message));
+            }
+        }
+
+        public static bool deleteFile(string path)
+        {
+            if (UtilPath.existFile(path))
+            {
+                try
                 {
-                    File.Move(srcPath, destPath);
+                    File.Delete(path);
+                }
+                catch (Exception err)
+                {
+                    Debug.Log(string.Format("{0}", "deleteFile Error: ", err.Message));
+                }
+            }
+
+            return true;
+        }
+
+        static public void createDirectory(string pathAndName, bool isRecurse = false)
+        {
+            if (isRecurse)
+            {
+                string normPath = normalPath(pathAndName);
+                string[] pathArr = normPath.Split(new[] { '/' });
+
+                string curCreatePath = "";
+                int idx = 0;
+                for (; idx < pathArr.Length; ++idx)
+                {
+                    if (curCreatePath.Length == 0)
+                    {
+                        curCreatePath = pathArr[idx];
+                    }
+                    else
+                    {
+                        curCreatePath = string.Format("{0}/{1}", curCreatePath, pathArr[idx]);
+                    }
+
+                    if (!Directory.Exists(curCreatePath))
+                    {
+                        try
+                        {
+                            Directory.CreateDirectory(curCreatePath);
+                        }
+                        catch (Exception err)
+                        {
+                            Debug.Log(string.Format("{0}", "CreateDirectory Error: ", err.Message));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    Directory.CreateDirectory(pathAndName);
+                }
+                catch (Exception err)
+                {
+                    Debug.Log(string.Format("{0}", "CreateDirectory Error: ", err.Message));
+                }
+            }
+        }
+
+        static public bool renameFile(string srcPath, string destPath)
+        {
+            try
+            {
+                if (UtilPath.existFile(srcPath))
+                {
+                    UtilPath.move(srcPath, destPath);
                     return true;
                 }
                 else
@@ -122,7 +133,7 @@ namespace SDK.Lib
             }
             catch (Exception excep)
             {
-                Debug.Log(string.Format("{0}{1}", "CreateDirectory Error: ", excep.Message));
+                Debug.Log(string.Format("{0}{1}", "renameFile Error: ", excep.Message));
                 return false;
             }
         }
@@ -157,30 +168,6 @@ namespace SDK.Lib
             return ret;
         }
 
-        // 搜索文件夹中的文件
-        static public List<string> getAllFile(string path, bool recursion = false)
-        {
-            DirectoryInfo dir = new DirectoryInfo(path);
-            List<string> FileList = new List<string>();
-
-            FileInfo[] allFile = dir.GetFiles();
-            foreach (FileInfo fi in allFile)
-            {
-                //FileList.Add(fi.Name);
-                FileList.Add(normalPath(fi.FullName));
-            }
-
-            if (recursion)
-            {
-                DirectoryInfo[] allDir = dir.GetDirectories();
-                foreach (DirectoryInfo d in allDir)
-                {
-                    getAllFile(d.FullName, recursion);
-                }
-            }
-            return FileList;
-        }
-
         static public string getFileExt(string path)
         {
             int dotIdx = path.LastIndexOf('.');
@@ -192,99 +179,8 @@ namespace SDK.Lib
             return "";
         }
 
-        static public string getFileNameWithExt(string path)
-        {
-            path = normalPath(path);
-            int slashIdx = path.LastIndexOf('/');
-            if (-1 != slashIdx)
-            {
-                return path.Substring(slashIdx + 1, path.Length - slashIdx - 1);
-            }
-            else
-            {
-                return path;
-            }
-        }
-
-        // 添加版本的文件名，例如 E:/aaa/bbb/ccc.txt?v=1024
-        public static string versionPath(string path, string version)
-        {
-            if (!string.IsNullOrEmpty(version))
-            {
-                return string.Format("{0}?v={1}", path, version);
-            }
-            else
-            {
-                return path;
-            }
-        }
-
-        // 删除所有除去版本号外相同的文件，例如 E:/aaa/bbb/ccc.txt?v=1024 ，只要 E:/aaa/bbb/ccc.txt 一样就删除，参数就是 E:/aaa/bbb/ccc.txt ，没有版本号的文件
-        public static void delFileNoVer(string path)
-        {
-            path = normalPath(path);
-            DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
-            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
-            foreach (var item in allFiles)
-            {
-                item.Delete();
-            }
-        }
-
-        public static bool fileExistNoVer(string path)
-        {
-            path = normalPath(path);
-            DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
-            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
-
-            return allFiles.Length > 0;
-        }
-
-        public static bool delFile(string path)
-        {
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-
-            return true;
-        }
-
-        public static void renameFile(string srcPath, string destPath)
-        {
-            if (File.Exists(srcPath))
-            {
-                try
-                {
-                    File.Move(srcPath, destPath);
-                }
-                catch (Exception /*err*/)
-                {
-                    Ctx.m_instance.m_logSys.catchLog(string.Format("修改文件名字 {0} 改成 {1} 失败", srcPath, destPath));
-                }
-            }
-        }
-
-        static public void saveTex2File(Texture2D tex, string filePath)
-        {
-            //将图片信息编码为字节信息
-            byte[] bytes = tex.EncodeToPNG();
-            //保存
-            System.IO.File.WriteAllBytes(filePath, bytes);
-        }
-
-        static public void saveStr2File(string str, string filePath, Encoding encoding)
-        {
-            System.IO.File.WriteAllText(filePath, str, encoding);
-        }
-
-        static public void saveByte2File(string path, byte[] bytes)
-        {
-            System.IO.File.WriteAllBytes(path, bytes);
-        }
-
         // 获取文件名字，没有路径，但是有扩展名字
-        static public string getFileNameNoPath(string fullPath)
+        static public string getFileNameWithExt(string fullPath)
         {
             int index = fullPath.LastIndexOf('/');
             string ret = "";
@@ -352,8 +248,83 @@ namespace SDK.Lib
             return ret;
         }
 
+        // 搜索文件夹中的文件
+        static public List<string> getAllFile(string path, bool recursion = false)
+        {
+            DirectoryInfo dir = new DirectoryInfo(path);
+            List<string> FileList = new List<string>();
+
+            FileInfo[] allFile = dir.GetFiles();
+            foreach (FileInfo fi in allFile)
+            {
+                FileList.Add(normalPath(fi.FullName));
+            }
+
+            if (recursion)
+            {
+                DirectoryInfo[] allDir = dir.GetDirectories();
+                foreach (DirectoryInfo d in allDir)
+                {
+                    getAllFile(d.FullName, recursion);
+                }
+            }
+            return FileList;
+        }
+
+        // 添加版本的文件名，例如 E:/aaa/bbb/ccc.txt?v=1024
+        public static string versionPath(string path, string version)
+        {
+            if (!string.IsNullOrEmpty(version))
+            {
+                return string.Format("{0}?v={1}", path, version);
+            }
+            else
+            {
+                return path;
+            }
+        }
+
+        // 删除所有除去版本号外相同的文件，例如 E:/aaa/bbb/ccc.txt?v=1024 ，只要 E:/aaa/bbb/ccc.txt 一样就删除，参数就是 E:/aaa/bbb/ccc.txt ，没有版本号的文件
+        public static void delFileNoVer(string path)
+        {
+            path = normalPath(path);
+            DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
+            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
+            foreach (var item in allFiles)
+            {
+                item.Delete();
+            }
+        }
+
+        public static bool fileExistNoVer(string path)
+        {
+            path = normalPath(path);
+            DirectoryInfo TheFolder = new DirectoryInfo(path.Substring(0, path.LastIndexOf('/')));
+            FileInfo[] allFiles = TheFolder.GetFiles(string.Format("{0}*", path));
+
+            return allFiles.Length > 0;
+        }
+
+        static public void saveTex2File(Texture2D tex, string filePath)
+        {
+            //将图片信息编码为字节信息
+            byte[] bytes = tex.EncodeToPNG();
+            //保存
+            System.IO.File.WriteAllBytes(filePath, bytes);
+        }
+
+        static public void saveStr2File(string str, string filePath, Encoding encoding)
+        {
+            System.IO.File.WriteAllText(filePath, str, encoding);
+        }
+
+        static public void saveByte2File(string path, byte[] bytes)
+        {
+            System.IO.File.WriteAllBytes(path, bytes);
+        }
+
         // 递归拷贝目录
-        static public void recurseCopyDirectory(string srcPath, string destPath)
+        static public void recurseCopyDirectory(string srcPath, string destPath, bool isRecurse = false)
         {
             DirectoryInfo sourceDirInfo = new DirectoryInfo(srcPath);
             DirectoryInfo targetDirInfo = new DirectoryInfo(destPath);
@@ -382,13 +353,16 @@ namespace SDK.Lib
 
             DirectoryInfo[] dirs = sourceDirInfo.GetDirectories();
 
-            for (int j = 0; j < dirs.Length; j++)
+            if (isRecurse)
             {
-                recurseCopyDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name);
+                for (int j = 0; j < dirs.Length; j++)
+                {
+                    recurseCopyDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, isRecurse);
+                }
             }
         }
 
-        static public void recurseTraverseDirectory(string srcPath, string destPath, Action<string, string> convHandle = null)
+        static public void traverseDirectory(string srcPath, string destPath, Action<string, string> handle = null, bool isRecurse = false)
         {
             DirectoryInfo sourceDirInfo = new DirectoryInfo(srcPath);
             DirectoryInfo targetDirInfo = new DirectoryInfo(destPath);
@@ -412,17 +386,20 @@ namespace SDK.Lib
 
             for (int i = 0; i < files.Length; i++)
             {
-                if (convHandle != null)
+                if (handle != null)
                 {
-                    convHandle(files[i].FullName, targetDirInfo.FullName + "/" + files[i].Name);
+                    handle(files[i].FullName, targetDirInfo.FullName + "/" + files[i].Name);
                 }
             }
 
             DirectoryInfo[] dirs = sourceDirInfo.GetDirectories();
 
-            for (int j = 0; j < dirs.Length; j++)
+            if (isRecurse)
             {
-                recurseTraverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name);
+                for (int j = 0; j < dirs.Length; j++)
+                {
+                    traverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, handle, isRecurse);
+                }
             }
         }
 
@@ -601,21 +578,11 @@ namespace SDK.Lib
             }
         }
 
-        // 删除一个文件
-        static public void deleteFile(string path)
-        {
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-        }
-
         // 大写转换成小写
         static public string toLower(string src)
         {
             return src.ToLower();
         }
-
 
         // 递归深度优先遍历目录
         public static void recursiveTraversalDir(string rootPath, Action<string, string> dispFile, Action<string, string> dispDir)
@@ -668,6 +635,40 @@ namespace SDK.Lib
                     dispDir(NextFolder);
                 }
             }
+        }
+
+        // 递归创建子目录
+        public static void recureCreateSubDir(string rootPath, string subPath, bool includeLast = false)
+        {
+            subPath = normalPath(subPath);
+            if (!includeLast)
+            {
+                if (subPath.IndexOf('/') == -1)
+                {
+                    return;
+                }
+                subPath = subPath.Substring(0, subPath.LastIndexOf('/'));
+            }
+
+            if (Directory.Exists(Path.Combine(rootPath, subPath)))
+            {
+                return;
+            }
+
+            int startIdx = 0;
+            int splitIdx = 0;
+            while ((splitIdx = subPath.IndexOf('/', startIdx)) != -1)
+            {
+                if (!Directory.Exists(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx))))
+                {
+                    Directory.CreateDirectory(Path.Combine(rootPath, subPath.Substring(0, startIdx + splitIdx)));
+                }
+
+                startIdx += splitIdx;
+                startIdx += 1;
+            }
+
+            Directory.CreateDirectory(Path.Combine(rootPath, subPath));
         }
 
 #if UNITY_EDITOR

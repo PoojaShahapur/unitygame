@@ -74,7 +74,7 @@ namespace SDK.Lib
         public void onWebMiniLoaded()
         {
             // 删除旧 mini 版本，修改新版本文件名字
-            UtilPath.delFile(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.FILENAME));
+            UtilPath.deleteFile(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.FILENAME));
             // 修改新的版本文件名字
             UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.MINIFILENAME), m_miniVer), Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), FilesVer.MINIFILENAME));
 
