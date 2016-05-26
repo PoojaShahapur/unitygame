@@ -113,11 +113,11 @@ namespace SDK.Lib
             
             if (ResLoadType.eStreamingAssets == param.m_resLoadType)
             {
-                param.mLoadPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalReadDir(), param.mLoadPath);
+                param.mLoadPath = Path.Combine(MFileSys.getLocalReadDir(), param.mLoadPath);
             }
             else if (ResLoadType.ePersistentData == param.m_resLoadType)
             {
-                param.mLoadPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), param.mLoadPath);
+                param.mLoadPath = Path.Combine(MFileSys.getLocalWriteDir(), param.mLoadPath);
             }
             else if (ResLoadType.eLoadWeb == param.m_resLoadType)
             {

@@ -37,7 +37,7 @@ namespace SDK.Lib
             curPath = Path.Combine(Application.streamingAssetsPath, m_loadPath);
             curPath = UtilLogic.getPakPathAndExt(curPath, curExt);
 
-            if (Ctx.m_instance.m_fileSys.isFileExist(curPath))
+            if (UtilPath.existFile(curPath))
             {
                 m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(curPath);
             }

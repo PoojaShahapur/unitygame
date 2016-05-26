@@ -121,12 +121,12 @@ namespace SDK.Lib
 
                     if (param != null)
                     {
-                        retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
+                        retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref param.m_resLoadType);
                     }
                     else
                     {
                         ResLoadType tmp = ResLoadType.eStreamingAssets;
-                        retPath = Ctx.m_instance.m_fileSys.getAbsPathByRelPath(ref retPath, ref tmp);
+                        retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
                     }
                 }
                 return retPath;

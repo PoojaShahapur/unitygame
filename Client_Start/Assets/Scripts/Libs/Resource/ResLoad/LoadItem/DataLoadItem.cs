@@ -53,7 +53,7 @@ namespace SDK.Lib
             {
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
                 //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
-                m_localPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
+                m_localPath = Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
                 if (!string.IsNullOrEmpty(m_version))
                 {
                     m_localPath = UtilLogic.combineVerPath(m_localPath, m_version);
@@ -66,7 +66,7 @@ namespace SDK.Lib
 
         protected void loadFromStreamingAssets()
         {
-            if (Ctx.m_instance.m_fileSys.isFileExist(m_loadPath))
+            if (UtilPath.existFile(m_loadPath))
             {
                 m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(m_loadPath);
             }
@@ -88,9 +88,9 @@ namespace SDK.Lib
             {
                 verPath = UtilLogic.combineVerPath(m_loadPath, m_version);
             }
-            if (Ctx.m_instance.m_fileSys.isFileExist(verPath))
+            if (UtilPath.existFile(verPath))
             {
-                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(verPath);
+                //m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(verPath);
             }
 
             if (m_bytes != null)
@@ -134,7 +134,7 @@ namespace SDK.Lib
         protected IEnumerator coroutWebDown()
         {
             string uri = UtilLogic.webFullPath(m_loadPath);
-            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), m_loadPath);
+            string saveFile = Path.Combine(MFileSys.getLocalWriteDir(), m_loadPath);
 
             //try
             {
@@ -209,7 +209,7 @@ namespace SDK.Lib
         {
             Ctx.m_instance.m_logSys.log(string.Format("线程开始下载下载任务 {0}", m_loadPath));
 
-            string saveFile = Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
+            string saveFile = Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
             string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
             bool bNeedReName = false;
             if (!string.IsNullOrEmpty(m_version))

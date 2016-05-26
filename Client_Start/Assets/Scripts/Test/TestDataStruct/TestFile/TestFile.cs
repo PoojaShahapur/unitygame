@@ -20,7 +20,7 @@ namespace UnitTest
 
         protected void testLoadFile()
         {
-            string path = Path.Combine(Ctx.m_instance.m_fileSys.getLocalDataDir(), "Resources/Table/CardBase_client.bytes");
+            string path = Path.Combine(MFileSys.getLocalDataDir(), "Resources/Table/CardBase_client.bytes");
             Ctx.m_instance.m_fileSys.LoadFileByte(path);
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -10,160 +8,20 @@ namespace SDK.Lib
      */
     public class MFileSys
     {
-        protected string m_persistentDataPath;
-
-        public MFileSys()
-        {
-            m_persistentDataPath = Application.persistentDataPath;
-        }
-
-        /**
-        * @param path：文件创建目录
-        * @param name：文件的名称
-        * @param info：写入的内容
-        */
-        void CreateFile(string path, string name, string info)
-        {
-            //文件流信息
-            StreamWriter sw;
-            FileInfo t = new FileInfo(path + "//" + name);
-            if (!t.Exists)
-            {
-                //如果此文件不存在则创建
-                sw = t.CreateText();
-            }
-            else
-            {
-                //如果此文件存在则打开
-                sw = t.AppendText();
-            }
-            //以行的形式写入信息
-            sw.WriteLine(info);
-            //关闭流
-            sw.Close();
-            //销毁流
-            sw.Dispose();
-        }
-
-        /**
-         * @param path：读取文件的路径
-         * @param name：读取文件的名称
-         */
-        public ArrayList LoadFile(string path, string name)
-        {
-            //使用流的形式读取
-            StreamReader sr = null;
-            try
-            {
-                sr = File.OpenText(path + "//" + name);
-            }
-            catch (Exception e)
-            {
-                //路径与名称未找到文件则直接返回空
-                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
-                return null;
-            }
-            string line;
-            ArrayList arrlist = new ArrayList();
-            while ((line = sr.ReadLine()) != null)
-            {
-                //一行一行的读取
-                //将每一行的内容存入数组链表容器中
-                arrlist.Add(line);
-            }
-            //关闭流
-            sr.Close();
-            //销毁流
-            sr.Dispose();
-            //将数组链表容器返回
-            return arrlist;
-        }
-
-        public string LoadFileText(string path, string name)
-        {
-            //使用流的形式读取
-            StreamReader sr = null;
-            try
-            {
-                sr = File.OpenText(path + "//" + name);
-            }
-            catch (Exception e)
-            {
-                //路径与名称未找到文件则直接返回空
-                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
-                return null;
-            }
-            string text = sr.ReadToEnd();
-            
-            //关闭流
-            sr.Close();
-            //销毁流
-            sr.Dispose();
-            //将数组链表容器返回
-            return text;
-        }
-
-        // 加载文件，返回 byte
-        public byte[] LoadFileByte(string path)
-        {
-            byte[] bytes= null;
-            try
-            {
-                bytes = File.ReadAllBytes(path);
-            }
-            catch (Exception e)
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
-                //路径与名称未找到文件则直接返回空
-                return null;
-            }
-
-            return bytes;
-        }
-
-        // 写二进制文件
-        public void writeFileByte(string path, params byte[] bytes)
-        {
-            FileStream fileStream;
-            try
-            {
-                if (File.Exists(@path))                  // 如果文件存在
-                {
-                    File.Delete(@path);
-                }
-
-                fileStream = new FileStream(path, FileMode.Create);
-                fileStream.Write(bytes, 0, bytes.Length);
-            }
-            catch (Exception e)
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
-            }
-        }
-
-        /**
-         * @param path：删除文件的路径
-         * @param name：删除文件的名称
-         */
-        public void DeleteFile(string path, string name)
-        {
-            File.Delete(path + "//" + name);
-        }
-
-        // 文件是否存在
-        public bool isFileExist(string path)
-        {
-            return File.Exists(path);
-        }
+#if UNITY_EDITOR
+        static string msPersistentDataPath = Application.streamingAssetsPath;
+#else
+        static string msPersistentDataPath = Application.persistentDataPath;
+#endif
 
         // 获取本地 Data 目录
-        public string getLocalDataDir()
+        static public string getLocalDataDir()
         {
             return Application.dataPath;
         }
 
         // 获取本地可以读取的目录，但是不能写
-        public string getLocalReadDir()
+        static public string getLocalReadDir()
         {
             #if UNITY_EDITOR
             string filepath = Application.dataPath +"/StreamingAssets";
@@ -183,58 +41,37 @@ namespace SDK.Lib
         }
 
         // 获取本地可以写的目录
-        public string getLocalWriteDir()
+        static public string getLocalWriteDir()
         {
             // get_persistentDataPath can only be called from the main thread
             //return Application.persistentDataPath;      // 这个目录是可读写的
-            return m_persistentDataPath;
+            return msPersistentDataPath;
         }
 
         // 获取编辑器工作目录
-        public string getWorkPath()
+        static public string getWorkPath()
         {
             return System.Environment.CurrentDirectory;
         }
 
         // 获取编辑器工作目录
-        public string getDebugWorkPath()
+        static public string getDebugWorkPath()
         {
             string path = string.Format("{0}{1}", getWorkPath(), "/Debug");
             return path;
         }
 
-        public FileStream openFile(string path)
-        {
-            // 判断文件是否存在
-            if(File.Exists(path))
-            {
-                FileStream fs = null;
-                //fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-                try
-                {
-                    fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);//读取文件设定
-                }
-                catch(Exception /*ex*/)
-                {
-                    return null;
-                }
-                return fs;
-            }
-
-            return null;
-        }
-
-        public string getAbsPathByRelPath(ref string relPath, ref ResLoadType loadType)
+        static public string getAbsPathByRelPath(ref string relPath, ref ResLoadType loadType)
         {
             // 获取版本
             string version = Ctx.m_instance.m_versionSys.getFileVer(relPath);
             string absPath = relPath;
             if (!string.IsNullOrEmpty(version))
             {
-                absPath = UtilLogic.combineVerPath(Path.Combine(Ctx.m_instance.m_fileSys.getLocalWriteDir(), relPath), version);
+                absPath = UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), relPath), version);
                 if (!File.Exists(absPath))
                 {
-                    absPath = Path.Combine(Ctx.m_instance.m_fileSys.getLocalReadDir(), relPath);
+                    absPath = Path.Combine(MFileSys.getLocalReadDir(), relPath);
                     if (!File.Exists(absPath))
                     {
                         absPath = "";
@@ -258,149 +95,12 @@ namespace SDK.Lib
             return absPath;
         }
 
-        public void saveTex2Disc(Texture2D tex, string fileName)
-        {
-            //将图片信息编码为字节信息
-            byte[] bytes = tex.EncodeToPNG();
-            //保存
-            string path = string.Format("{0}/{1}.png", getDebugWorkPath(), fileName);
-            writeFileByte(path, bytes);
-        }
-
-        public void writeStr2File(string fileName, Vector2[] datas)
-        {
-            FileStream fileStream;
-            StreamWriter streamWriter;
-            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
-
-            fileStream = new FileStream(path, FileMode.Create);
-            streamWriter = new StreamWriter(fileStream);
-            int idx = 0;
-            for (idx = 0; idx < datas.Length; idx += 1)
-            {
-                streamWriter.Write(datas[idx].x);
-                streamWriter.Write(" -- ");
-                streamWriter.Write(datas[idx].y);
-                streamWriter.Write("\n");
-            }
-
-            streamWriter.Flush();
-            fileStream.Flush();
-            streamWriter.Close();
-            fileStream.Close();
-            streamWriter.Dispose();
-            fileStream.Dispose();
-        }
-
-        public void writeStr2File(string fileName, Vector3[] datas)
-        {
-            FileStream fileStream;
-            StreamWriter streamWriter;
-            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
-
-            fileStream = new FileStream(path, FileMode.Create);
-            streamWriter = new StreamWriter(fileStream);
-            int idx = 0;
-            for (idx = 0; idx < datas.Length; idx += 1)
-            {
-                streamWriter.Write(datas[idx].x);
-                streamWriter.Write(" -- ");
-                streamWriter.Write(datas[idx].y);
-                streamWriter.Write(" -- ");
-                streamWriter.Write(datas[idx].z);
-                streamWriter.Write("\n");
-            }
-
-            streamWriter.Flush();
-            fileStream.Flush();
-            streamWriter.Close();
-            fileStream.Close();
-            streamWriter.Dispose();
-            fileStream.Dispose();
-        }
-
-        public void writeStr2File(string fileName, Vector4[] datas)
-        {
-            FileStream fileStream;
-            StreamWriter streamWriter;
-            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
-
-            fileStream = new FileStream(path, FileMode.Create);
-            streamWriter = new StreamWriter(fileStream);
-            int idx = 0;
-            for (idx = 0; idx < datas.Length; idx += 1)
-            {
-                streamWriter.Write(datas[idx].x);
-                streamWriter.Write(" -- ");
-                streamWriter.Write(datas[idx].y);
-                streamWriter.Write(" -- ");
-                streamWriter.Write(datas[idx].z);
-                streamWriter.Write("\n");
-            }
-
-            streamWriter.Flush();
-            fileStream.Flush();
-            streamWriter.Close();
-            fileStream.Close();
-            streamWriter.Dispose();
-            fileStream.Dispose();
-        }
-
-        public void serializeArray<T>(string fileName, T[] datas, int stride)
-        {
-            FileStream fileStream;
-            StreamWriter streamWriter;
-            string path = string.Format("{0}/{1}", m_persistentDataPath, fileName);
-            try
-            {
-                if (File.Exists(@path))                  // 如果文件存在
-                {
-                    File.Delete(@path);
-                }
-
-                fileStream = new FileStream(path, FileMode.Create);
-                streamWriter = new StreamWriter(fileStream);
-                int idx = 0;
-                int strideIdx = 0;
-                for (idx = 0; idx < datas.Length; idx += stride)
-                {
-                    for (strideIdx = 0; strideIdx < stride; ++strideIdx)
-                    {
-                        streamWriter.Write(datas[idx + strideIdx].ToString());
-                        if (strideIdx < stride - 1)
-                        {
-                            streamWriter.Write(" -- ");
-                        }
-                    }
-
-                    streamWriter.Write("\n");
-                }
-
-                streamWriter.Flush();
-                streamWriter.Close();
-                streamWriter.Dispose();
-                fileStream.Flush();
-                fileStream.Close();
-                fileStream.Dispose();
-            }
-            catch (Exception e)
-            {
-                Ctx.m_instance.m_logSys.log(string.Format("{0}\n{1}", e.Message, e.StackTrace));
-            }
-        }
-
-#if UNITY_EDITOR
-        static string streamPath = Application.streamingAssetsPath;
-#else
-        static string streamPath = Application.persistentDataPath;
-#endif
-
         static public byte[] readFileAllBytes(string fileName)
         {
             byte[] ret = null;
             try
             {
-                ret = File.ReadAllBytes(streamPath + "/" + fileName);
+                ret = File.ReadAllBytes(msPersistentDataPath + "/" + fileName);
             }
             catch
             {
@@ -412,7 +112,7 @@ namespace SDK.Lib
 
         static public void writeBytesToFile(string fileName, byte[] buf)
         {
-            File.WriteAllBytes(streamPath + "/" + fileName, buf);
+            File.WriteAllBytes(msPersistentDataPath + "/" + fileName, buf);
         }
 
         static public string readFileAllText(string fileName)
@@ -420,7 +120,7 @@ namespace SDK.Lib
             string ret = null;
             try
             {
-                ret = File.ReadAllText(streamPath + "/" + fileName);
+                ret = File.ReadAllText(msPersistentDataPath + "/" + fileName);
             }
             catch
             {
@@ -432,7 +132,7 @@ namespace SDK.Lib
 
         static public void writeTextToFile(string fileName, string text)
         {
-            File.WriteAllText(streamPath + "/" + fileName, text);
+            File.WriteAllText(msPersistentDataPath + "/" + fileName, text);
         }
 
         static public LuaStringBuffer readLuaBufferToFile(string fileName)

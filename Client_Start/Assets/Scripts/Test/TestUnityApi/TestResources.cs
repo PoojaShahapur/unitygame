@@ -23,7 +23,7 @@ namespace UnitTest
                 byte[] bytes = (m_prefabObj as TextAsset).bytes;
 
                 // 输出文件
-                path = Path.Combine(Ctx.m_instance.m_fileSys.getLocalDataDir(), "Resources/Table/CardBase_client_bak.txt");
+                path = Path.Combine(MFileSys.getLocalDataDir(), "Resources/Table/CardBase_client_bak.txt");
                 Ctx.m_instance.m_fileSys.writeFileByte(path, bytes);
             }
         }
