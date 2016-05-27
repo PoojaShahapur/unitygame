@@ -20,9 +20,9 @@ namespace SDK.Lib
             m_frameEffectId = 4;        // 默认是手牌特效 4 
             m_linkEffectList = new MList<LinkEffect>();
 
-            m_stateEffectList = new MList<LinkEffect>((int)StateID.CARD_STATE_MAX);
+            m_stateEffectList = new MList<LinkEffect>((int)10);
             int idx = 0;
-            for(idx = 0; idx < (int)StateID.CARD_STATE_MAX; ++idx)
+            for(idx = 0; idx < (int)10; ++idx)
             {
                 m_stateEffectList.Add(null);
             }
@@ -133,7 +133,7 @@ namespace SDK.Lib
             }
         }
 
-        public LinkEffect startStateEffect(StateID stateId, int effectId)
+        public LinkEffect startStateEffect(int stateId, int effectId)
         {
             if(m_stateEffectList[(int)stateId] == null)
             {
@@ -152,7 +152,7 @@ namespace SDK.Lib
             return m_stateEffectList[(int)stateId];
         }
 
-        public void stopStateEffect(StateID stateId)
+        public void stopStateEffect(int stateId)
         {
             if (m_stateEffectList[(int)stateId] != null)
             {

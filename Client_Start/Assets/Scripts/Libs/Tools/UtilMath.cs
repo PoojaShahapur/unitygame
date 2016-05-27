@@ -80,7 +80,7 @@ namespace SDK.Lib
         }
 
         // 设置状态为
-        static public void setState(StateID stateID, params byte[] stateBytes)
+        static public void setState(int stateID, params byte[] stateBytes)
         {
             if((int)stateID/8 < stateBytes.Length)
             {
@@ -88,7 +88,7 @@ namespace SDK.Lib
             }
         }
 
-        static public void clearState(StateID stateID, params byte[] stateBytes)
+        static public void clearState(int stateID, params byte[] stateBytes)
         {
             if ((int)stateID/8 < stateBytes.Length)
             {
@@ -96,7 +96,7 @@ namespace SDK.Lib
             }
         }
 
-        static public bool checkState(StateID stateID, params byte[] stateBytes)
+        static public bool checkState(int stateID, params byte[] stateBytes)
         {
             if((int)stateID/8 < stateBytes.Length)
             {
@@ -106,7 +106,7 @@ namespace SDK.Lib
             return false;
         }
 
-        static public void clearState(AttackTarget stateID, uint state)
+        static public void clearState(int stateID, uint state)
         {
             if ((uint)stateID < uint.MaxValue)
             {
@@ -114,7 +114,7 @@ namespace SDK.Lib
             }
         }
 
-        static public bool checkAttackState(AttackTarget stateID, uint state)
+        static public bool checkAttackState(int stateID, uint state)
         {
             if ((uint)stateID < uint.MaxValue)
             {
