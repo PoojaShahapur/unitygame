@@ -10,7 +10,7 @@ namespace SDK.Lib
         protected FileMode mMode;
         protected FileAccess mAccess;
         protected bool mIsInValid;
-        protected FileStream mFileStream;
+        public FileStream mFileStream;
 
         public MDataStream(string filePath, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite)
         {
@@ -19,6 +19,13 @@ namespace SDK.Lib
             mMode = mode;
             mAccess = access;
             mIsInValid = true;
+
+            open();
+        }
+
+        public void dispose()
+        {
+            close();
         }
 
         protected void open()
@@ -30,9 +37,20 @@ namespace SDK.Lib
             }
         }
 
-        public void writeStr(string info, Encoding encode = null)
+        protected void close()
+        {
+            if(!mIsInValid && mFileStream != null)
+            {
+                mFileStream.Close();
+                mFileStream.Dispose();
+                mFileStream = null;
+            }
+        }
+
+        public void writeText(string text, Encoding encode = null)
         {
             open();
+
             if (mFileStream.CanWrite)
             {
                 Encoding encodeOrig = GkEncode.UTF8;
@@ -41,7 +59,7 @@ namespace SDK.Lib
                     encodeOrig = encode;
                 }
 
-                byte[] bytes = encode.GetBytes(info);
+                byte[] bytes = encode.GetBytes(text);
                 if (bytes != null)
                 {
                     try
@@ -54,6 +72,60 @@ namespace SDK.Lib
                     }
                 }
             }
+        }
+
+        public void writeByte(byte[] bytes, int offset = 0, int count = 0)
+        {
+            open();
+
+            if (mFileStream.CanWrite)
+            {
+                if (bytes != null)
+                {
+                    if(count == 0)
+                    {
+                        count = bytes.Length;
+                    }
+
+                    if (count != 0)
+                    {
+                        try
+                        {
+                            mFileStream.Write(bytes, offset, count);
+                        }
+                        catch (Exception err)
+                        {
+                            Ctx.m_instance.m_logSys.log(err.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+        public byte[] readByte(int offset = 0, int count = 0)
+        {
+            open();
+
+            if(count == 0)
+            {
+                count = (int)mFileStream.Length;
+            }
+            byte[] bytes = null;
+
+            if (mFileStream.CanRead)
+            {
+                try
+                {
+                    bytes = new byte[count];
+                    mFileStream.Read(bytes, 0, count);
+                }
+                catch (Exception err)
+                {
+                    Ctx.m_instance.m_logSys.log(err.Message);
+                }
+            }
+
+            return bytes;
         }
 
         //public MFileSys()

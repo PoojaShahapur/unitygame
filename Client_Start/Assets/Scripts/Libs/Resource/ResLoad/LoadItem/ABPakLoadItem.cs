@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -8,7 +7,7 @@ namespace SDK.Lib
      */
     public class ABPakLoadItem : LoadItem
     {
-        public FileStream m_fs = null;      // 文件句柄
+        public MDataStream mDataStream = null;      // 文件流
 
         override public void reset()
         {
@@ -28,9 +27,9 @@ namespace SDK.Lib
             {
                 curPath = Path.Combine(MFileSys.getLocalWriteDir(), m_loadPath);
             }
-            m_fs = Ctx.m_instance.m_fileSys.openFile(curPath);
+            mDataStream = new MDataStream(curPath);
 
-            if (m_fs != null)
+            if (mDataStream != null)
             {
                 nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

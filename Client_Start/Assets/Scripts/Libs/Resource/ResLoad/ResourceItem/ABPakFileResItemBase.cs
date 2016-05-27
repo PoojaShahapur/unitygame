@@ -16,7 +16,7 @@ namespace SDK.Lib
             base.init(item);
 
             m_pakItem = new PakItem();
-            m_pakItem.m_fs = (item as ABPakLoadItem).m_fs;
+            m_pakItem.mDataStream = (item as ABPakLoadItem).mDataStream;
             m_pakItem.readArchiveFileHeader();      // 获取打包头部信息
 
             initMemUnPak();

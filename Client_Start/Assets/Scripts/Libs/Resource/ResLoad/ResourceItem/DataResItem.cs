@@ -21,7 +21,10 @@ namespace SDK.Lib
         {
             if(m_bytes == null)
             {
-                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(m_localPath);
+                MDataStream mDataStream = new MDataStream(m_localPath);
+                m_bytes = mDataStream.readByte();
+                mDataStream.dispose();
+                mDataStream = null;
             }
 
             return m_bytes;

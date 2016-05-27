@@ -68,7 +68,10 @@ namespace SDK.Lib
         {
             if (UtilPath.existFile(m_loadPath))
             {
-                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(m_loadPath);
+                MDataStream mDataStream = new MDataStream(m_loadPath);
+                m_bytes = mDataStream.readByte();
+                mDataStream.dispose();
+                mDataStream = null;
             }
 
             if (m_bytes != null)

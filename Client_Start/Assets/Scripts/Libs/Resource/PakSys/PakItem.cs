@@ -8,7 +8,7 @@ namespace SDK.Lib
 		protected ArchiveHeader m_pArchiveHeader;
 		protected uint m_fileSize;			// 文件总共大小
 		protected List<FileHeader> m_pFileVec;		// 整个文件列表
-        public FileStream m_fs = null;      // 文件句柄
+        public MDataStream mDataStream = null;      // 文件句柄
 
 		public PakItem()
 		{
@@ -27,7 +27,7 @@ namespace SDK.Lib
 		{
 			ByteBuffer pMByteBuffer = new ByteBuffer();
 
-            if (m_pArchiveHeader.readArchiveFileHeader(m_fs, pMByteBuffer))		// 检查 magic
+            if (m_pArchiveHeader.readArchiveFileHeader(mDataStream.mFileStream, pMByteBuffer))		// 检查 magic
 			{
 				FileHeader pFileHeader;
 				for (uint idx = 0; idx < m_pArchiveHeader.m_fileCount; ++idx)
@@ -41,7 +41,7 @@ namespace SDK.Lib
 
 		public void readArchiveFile2Bytes(FileHeader fileHeader, ref byte[] bytes)
 		{
-            fileHeader.readArchiveFile2Bytes(m_fs, ref bytes);
+            fileHeader.readArchiveFile2Bytes(mDataStream.mFileStream, ref bytes);
 		}
 
         public FileHeader getFileHeader(string path)
@@ -59,8 +59,8 @@ namespace SDK.Lib
 
         public void dispose()
         {
-            m_fs.Dispose();
-            m_fs.Close();
+            mDataStream.dispose();
+            mDataStream = null;
         }
 	}
 }

@@ -24,7 +24,11 @@ namespace UnitTest
 
                 // 输出文件
                 path = Path.Combine(MFileSys.getLocalDataDir(), "Resources/Table/CardBase_client_bak.txt");
-                Ctx.m_instance.m_fileSys.writeFileByte(path, bytes);
+
+                MDataStream mDataStream = new MDataStream(path);
+                mDataStream.writeByte(bytes);
+                mDataStream.dispose();
+                mDataStream = null;
             }
         }
 

@@ -17,7 +17,7 @@ namespace SDK.Lib
         {
             base.load();
 
-            string curExt;
+            string curExt = "";
 
             // 如果是打包的资源
             if (Ctx.m_instance.m_cfg.m_pakExtNameList.IndexOf(m_extName) != -1)
@@ -39,7 +39,10 @@ namespace SDK.Lib
 
             if (UtilPath.existFile(curPath))
             {
-                m_bytes = Ctx.m_instance.m_fileSys.LoadFileByte(curPath);
+                MDataStream mDataStream = new MDataStream(curPath);
+                m_bytes = mDataStream.readByte();
+                mDataStream.dispose();
+                mDataStream = null;
             }
             else
             {
