@@ -121,6 +121,7 @@ public static class WrapFile {
         _GT(typeof(SDK.Lib.AuxLoaderBase)),
         _GT(typeof(SDK.Lib.AuxPrefabLoader)),
         _GT(typeof(SDK.Lib.MFileSys)),
+        _GT(typeof(SDK.Lib.LuaSystem)),
     };
 
     public static BindType _GT(Type t) {

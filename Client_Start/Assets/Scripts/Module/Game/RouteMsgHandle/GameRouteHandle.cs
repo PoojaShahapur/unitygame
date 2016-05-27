@@ -7,12 +7,18 @@ namespace Game.Game
         public GameRouteHandle()
         {
             this.addMsgRouteHandle(MsgRouteID.eMRIDThreadLog, threadLog);
+            this.addMsgRouteHandle(MsgRouteID.eMRIDSocketOpened, onSocketOpened);
         }
 
         protected void threadLog(IDispatchObject dispObj)
         {
             MsgRouteBase msg = dispObj as MsgRouteBase;
             Ctx.m_instance.m_logSys.log((msg as ThreadLogMR).m_logSys);
+        }
+
+        protected void onSocketOpened(IDispatchObject dispObj)
+        {
+            Ctx.m_instance.m_luaSystem.onSocketConnected();
         }
     }
 }

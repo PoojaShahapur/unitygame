@@ -22,6 +22,7 @@ namespace Game.Game
             UnitTestMain pUnitTestMain = new UnitTestMain();
             pUnitTestMain.run();
 #endif
+            Ctx.m_instance.m_netMgr.openSocket("192.168.123.71", 8001);
         }
     }
 }

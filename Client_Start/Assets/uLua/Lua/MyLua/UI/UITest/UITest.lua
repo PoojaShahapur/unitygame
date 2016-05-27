@@ -33,6 +33,8 @@ function M:onShow()
     --aaa.print();
     
     --error("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	
+	
 end
 
 function M:onHide()
@@ -46,7 +48,15 @@ function M:onExit()
 end
 
 function M:onBtnClk()
+	self:testSendMsg();
+end
 
+function M:testSendMsg()
+	local msg = {};
+	msg.requid = 1000;
+	msg.reqguid = 1000;
+	msg.reqaccount = 1000;
+	GCtx.mNetMgr:sendCmd(1000, msg);
 end
 
 return M

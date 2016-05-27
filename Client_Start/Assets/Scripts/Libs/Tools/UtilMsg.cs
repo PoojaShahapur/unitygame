@@ -26,6 +26,11 @@
             Ctx.m_instance.m_netMgr.send(bnet);
         }
 
+        public static void sendMsg(ByteBuffer byteBuffer, bool bnet = true)
+        {
+            Ctx.m_instance.m_netMgr.send(bnet);
+        }
+
         public static void checkStr(string str)
         {
             if (string.IsNullOrEmpty(str))

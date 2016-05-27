@@ -20,4 +20,12 @@ function M.onSceneLoaded()
 	GCtx.mUIMgr:loadAndShow(GlobalNS.UIFormID.eUITest);
 end
 
+-- 测试发送消息
+function M.testSendMsg()
+	local form = GCtx.mUIMgr:getForm(GlobalNS.UIFormID.eUITest);
+	if(form ~= nil) then
+		form:testSendMsg();
+	end
+end
+
 return M;

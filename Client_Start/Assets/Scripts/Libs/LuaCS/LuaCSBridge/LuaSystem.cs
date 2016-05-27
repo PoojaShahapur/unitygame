@@ -86,6 +86,7 @@ namespace SDK.Lib
         {
             Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
             Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+            UtilMsg.sendMsg(Ctx.m_instance.m_shareData.m_tmpBA);
         }
 
         public void receiveToLua(ByteBuffer msg)
@@ -104,6 +105,11 @@ namespace SDK.Lib
         public void onSceneLoaded()
         {
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onSceneLoaded");
+        }
+
+        public void onSocketConnected()
+        {
+            this.CallLuaFunction("GlobalNS.GlobalEventCmd.testSendMsg");
         }
 
         public LuaTable loadModule(string file)

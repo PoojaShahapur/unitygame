@@ -51,7 +51,7 @@ end
 
 -- 网络区域
 function M.sendFromLua(id, buffer)
-    this.Ctx.m_luaSystem.sendFromLua(id, buffer);
+    this.Ctx.m_instance.m_luaSystem:sendFromLua(id, buffer);
 end
 
 function M.readLuaBufferToFile(file)

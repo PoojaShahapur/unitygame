@@ -11,7 +11,7 @@ function M:init()
 end
 
 function M:sendCmd(id, data, isNetSend)
-    if(isNetSend == true) then
+    if(isNetSend == nil or isNetSend == true) then
         local command = NetCommand[id];
         if(data == nil) then
             data = {};
