@@ -120,6 +120,7 @@ public static class WrapFile {
         _GT(typeof(SDK.Lib.LogSys)),
         _GT(typeof(SDK.Lib.AuxLoaderBase)),
         _GT(typeof(SDK.Lib.AuxPrefabLoader)),
+        _GT(typeof(SDK.Lib.MFileSys)),
     };
 
     public static BindType _GT(Type t) {

@@ -14,6 +14,7 @@ function M.init()
     this.GlobalEventCmd = SDK.Lib.GlobalEventCmd;
     this.AuxPrefabLoader = SDK.Lib.AuxPrefabLoader;
 	this.UtilApi = SDK.Lib.UtilApi;
+	this.MFileSys = SDK.Lib.MFileSys;
 end
 
 --[[
@@ -54,7 +55,7 @@ function M.sendFromLua(id, buffer)
 end
 
 function M.readLuaBufferToFile(file)
-    return this.UtilPath.readLuaBufferToFile(file);
+    return this.MFileSys.readLuaBufferToFile(file);
 end
 
 -- UtilApi 接口
