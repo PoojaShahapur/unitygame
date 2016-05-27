@@ -1,4 +1,4 @@
-require "MyLua.Libs.Network.Cmd.NetDispHandle"
+require "MyLua.Libs.Network.CmdDisp.NetDispHandle"
 require "MyLua.Module.Game.GameNetHandle.GameTestCmdHandle"
 
 local M = GlobalNS.Class(GlobalNS.NetDispHandle);
