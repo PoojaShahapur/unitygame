@@ -26,9 +26,9 @@ end
 
 function M:receiveCmd(id, buffer)
     GCtx.mLogSys:log("NetMgr::receiveCmd id = " .. id, GlobalNS.LogTypeId.eLogCommon);
-    local msg = NetMessage[id];
-    if(msg ~= nil) then
-        local data = GlobalNS.ProtobufUtil.decode(msg.proto, buffer);
+    local command = NetCommand[id];
+    if(command ~= nil) then
+        local data = GlobalNS.ProtobufUtil.decode(command.proto, buffer);
         if(data ~= nil) then
             GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
             GCtx.m_netCmdNotify:handleMsg(data);

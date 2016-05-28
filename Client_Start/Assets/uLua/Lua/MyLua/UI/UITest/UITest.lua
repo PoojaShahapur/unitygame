@@ -33,8 +33,6 @@ function M:onShow()
     --aaa.print();
     
     --error("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	
-	
 end
 
 function M:onHide()

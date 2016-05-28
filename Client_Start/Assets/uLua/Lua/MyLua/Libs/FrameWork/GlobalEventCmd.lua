@@ -1,6 +1,10 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.StaticClass"
 
+if(GlobalNS.MacroDef.UNIT_TEST) then
+	require "MyLua.Test.TestMain"
+end
+
 --[[
     处理 CS 到 Lua 的全局事件
 ]]
@@ -18,7 +22,12 @@ end
 -- 场景加载完成
 function M.onSceneLoaded()
 	GCtx.mUIMgr:loadAndShow(GlobalNS.UIFormID.eUITest);
-	M.testSendMsg();
+	--M.testSendMsg();
+	
+	if(GlobalNS.MacroDef.UNIT_TEST) then
+		pTestMain = GlobalNS.new(GlobalNS.TestMain);
+		pTestMain:run();
+	end
 end
 
 -- 测试发送消息

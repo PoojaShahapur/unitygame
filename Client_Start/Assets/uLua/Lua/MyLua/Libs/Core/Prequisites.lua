@@ -12,6 +12,8 @@ require "MyLua.Libs.Core.ClassLoader"
 require "MyLua.Libs.Core.Malloc"
 --require "MyLua.Libs.Core.CSImportToLua"
 
+require "MyLua.Libs.FrameWork.MacroDef"
+
 -- 数据结构
 require "MyLua.Libs.DataStruct.MList"
 require "MyLua.Libs.DataStruct.Dictionary"
