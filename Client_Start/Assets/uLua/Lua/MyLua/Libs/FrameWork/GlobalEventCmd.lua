@@ -18,6 +18,7 @@ end
 -- 场景加载完成
 function M.onSceneLoaded()
 	GCtx.mUIMgr:loadAndShow(GlobalNS.UIFormID.eUITest);
+	M.testSendMsg();
 end
 
 -- 测试发送消息

@@ -55,7 +55,7 @@ function M:testSendMsg()
 	local msg = {};
 	msg.requid = 1000;
 	msg.reqguid = 1000;
-	msg.reqaccount = 1000;
+	msg.reqaccount = "aaaaa";
 	GCtx.mNetMgr:sendCmd(1000, msg);
 end
 

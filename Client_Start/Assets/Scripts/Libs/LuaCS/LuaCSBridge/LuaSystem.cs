@@ -109,7 +109,7 @@ namespace SDK.Lib
 
         public void onSocketConnected()
         {
-            this.CallLuaFunction("GlobalNS.GlobalEventCmd.testSendMsg");
+            //this.CallLuaFunction("GlobalNS.GlobalEventCmd.testSendMsg");
         }
 
         public LuaTable loadModule(string file)
