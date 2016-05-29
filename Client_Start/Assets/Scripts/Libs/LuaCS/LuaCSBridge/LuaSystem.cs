@@ -85,8 +85,11 @@ namespace SDK.Lib
         public void sendFromLua(UInt16 commandID, LuaStringBuffer buffer)
         {
             Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
-            Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
-            UtilMsg.sendMsg(Ctx.m_instance.m_shareData.m_tmpBA);
+            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
+            {
+                Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                UtilMsg.sendMsg(Ctx.m_instance.m_shareData.m_tmpBA);
+            }
         }
 
         public void receiveToLua(ByteBuffer msg)

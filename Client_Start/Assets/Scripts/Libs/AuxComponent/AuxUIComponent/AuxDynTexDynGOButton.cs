@@ -5,6 +5,7 @@
         protected AuxDynTexDynGOImage m_auxDynTexDynGOImage;        // 这个图片和 Prefab
 
         public AuxDynTexDynGOButton()
+            : base(null, "")
         {
             m_auxDynTexDynGOImage = new AuxDynTexDynGOImage();
             m_auxDynTexDynGOImage.texLoadedDisp.addEventHandle(null, updateBtnCom);

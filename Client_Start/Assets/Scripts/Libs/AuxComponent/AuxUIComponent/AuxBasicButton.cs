@@ -10,7 +10,14 @@ namespace SDK.Lib
         protected EventDispatch m_eventDisp;      // 分发
         protected Button m_btn;
 
-        public AuxBasicButton(GameObject pntNode = null, string path = "", BtnStyleID styleId = BtnStyleID.eBSID_None)
+        public AuxBasicButton(GameObject go_)
+        {
+            m_eventDisp = new EventDispatch();
+            m_selfGo = go_;
+            updateBtnCom(null);
+        }
+
+        public AuxBasicButton(GameObject pntNode, string path, BtnStyleID styleId = BtnStyleID.eBSID_None)
         {
             m_eventDisp = new EventDispatch();
             if (pntNode != null)

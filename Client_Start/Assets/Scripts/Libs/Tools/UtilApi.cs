@@ -128,7 +128,7 @@ namespace SDK.Lib
             EventTrigger trigger = go.GetComponent<EventTrigger>();
             if(trigger == null)
             {
-                trigger = go.AddComponent<EventTrigger>();
+                trigger = UtilApi.AddComponent<EventTrigger>(go);
             }
             if(trigger != null)
             {
@@ -253,9 +253,17 @@ namespace SDK.Lib
                 else
                 {
                     AuxUserData userData = go.GetComponent<AuxUserData>();
+                    if(userData == null)
+                    {
+                        userData = UtilApi.AddComponent<AuxUserData>(go);
+                    }
                     if (userData != null)
                     {
                         AuxBasicButton auxBtn = userData.getButtonData();
+                        if(auxBtn == null)
+                        {
+                            auxBtn = userData.addButtonData();
+                        }
                         if (auxBtn != null)
                         {
                             auxBtn.addEventHandle(null, null, luaTable, luaFunction);
@@ -741,19 +749,23 @@ namespace SDK.Lib
             return GameObject.CreatePrimitive(type);
         }
 
-        public static void AddComponent<T>(GameObject go_) where T : Component
+        public static T AddComponent<T>(GameObject go_) where T : Component
         {
-            if (go_.GetComponent<T>() == null)
+            T ret = null;
+            ret = go_.GetComponent<T>();
+            if (ret == null)
             {
-                go_.AddComponent<T>();
+                ret = go_.AddComponent<T>();
             }
+
+            return ret;
         }
 
         public static void AddAnimatorComponent(GameObject go_, bool applyRootMotion = false)
         {
             if (go_.GetComponent<Animator>() == null)
             {
-                Animator animator = go_.AddComponent<Animator>();
+                Animator animator = UtilApi.AddComponent<Animator>(go_);
                 animator.applyRootMotion = applyRootMotion;
             }
         }
@@ -764,7 +776,7 @@ namespace SDK.Lib
             BoxCollider destBox = dest.GetComponent<BoxCollider>();
             if(destBox == null)
             {
-                destBox = dest.AddComponent<BoxCollider>();
+                destBox = UtilApi.AddComponent<BoxCollider>(dest);
             }
             destBox.center = srcBox.center;
             destBox.size = srcBox.size;

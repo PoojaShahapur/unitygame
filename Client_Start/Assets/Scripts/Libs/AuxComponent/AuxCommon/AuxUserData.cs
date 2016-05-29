@@ -26,8 +26,28 @@ namespace SDK.Lib
             return this.getUserData<AuxBasicButton>();
         }
 
+        public AuxBasicButton addButtonData()
+        {
+            if (mData == null)
+            {
+                mData = new AuxBasicButton(this.gameObject);
+            }
+
+            return mData as AuxBasicButton;
+        }
+
         protected T getUserData<T>() where T : class
         {
+            return mData as T;
+        }
+
+        protected T AddUserData<T>() where T : class, new()
+        {
+            if (mData == null)
+            {
+                mData = new T();
+            }
+
             return mData as T;
         }
     }

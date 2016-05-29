@@ -7,6 +7,7 @@ namespace SDK.Lib
         protected AuxDynImageDynGOImage m_auxDynImageDynGOImage;        // 这个图片和 Prefab
 
         public AuxDynImageDynGoButton()
+            :base(null, "")
         {
             m_auxDynImageDynGOImage = new AuxDynImageDynGOImage();
             m_auxDynImageDynGOImage.imageLoadedDisp.addEventHandle(null, updateBtnCom);

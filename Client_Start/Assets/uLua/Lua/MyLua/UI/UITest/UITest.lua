@@ -2,13 +2,23 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.UI.UICore.Form"
 
+require "MyLua.UI.UITest.TestNS"
+require "MyLua.UI.UITest.TestData"
+require "MyLua.UI.UITest.TestCV"
+
 local M = GlobalNS.Class(GlobalNS.Form)
 M.clsName = "UITest"
-GlobalNS[M.clsName] = M
+GlobalNS.TestNS[M.clsName] = M
 
 function M:ctor()
     print("M:ctor()")
     print(tostring(self))
+	
+	self.mData = GlobalNS.new(GlobalNS.TestNS.TestData);
+end
+
+function M:dtor()
+	
 end
 
 function M:onInit()
@@ -23,6 +33,7 @@ function M:onReady()
     print("M:onReady()")
     --GlobalNS.CSImportToLua.UtilApi.addEventHandle(self.gameObject, self.onBtnClk);
 	--SDK.Lib.UtilApi.addEventHandle(self.gameObject, "Button", self.onBtnClk);
+	GlobalNS.UtilApi.addEventHandleByPath(self.m_guiWin, GlobalNS.TestNS.TestPath.BtnTest, self, self.onBtnClk);
 end
 
 function M:onShow()

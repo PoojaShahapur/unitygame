@@ -62,8 +62,12 @@ function M.readLuaBufferToFile(file)
 end
 
 -- UtilApi 接口
-function M.addEventHandle(go, luaTable, func)
-    this.UtilApi.addEventHandle(go, luaTable, func);
+function M.addEventHandleByPath(go, path, luaTable, luaFunction)
+    this.UtilApi.addEventHandle(go, path, luaTable, luaFunction);
+end
+
+function M.addEventHandleSelf(go, luaTable, luaFunction)
+    this.UtilApi.addEventHandle(go, luaTable, luaFunction);
 end
 
 function M.GoFindChildByName(name)

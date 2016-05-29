@@ -324,8 +324,12 @@ function M.getComFromSelf(go, typeName)
     return go.GetComponent(typeName);
 end
 
-function M.addEventHandle(go, luaTable, func)
-    GlobalNS.CSSystem.addEventHandle(go, luaTable, func);
+function M.addEventHandleByPath(go, path, luaTable, luaFunction)
+    GlobalNS.CSSystem.addEventHandleByPath(go, path, luaTable, luaFunction);
+end
+
+function M.addEventHandleSelf(go, luaTable, luaFunction)
+    GlobalNS.CSSystem.addEventHandle(go, luaTable, luaFunction);
 end
 
 function M.RemoveListener(go, luaTable, func)
