@@ -2,6 +2,10 @@
 using System.Collections;
 using System;
 
+//#if UNIT_TEST
+using UnitTest;
+//#endif
+
 public static class WrapFile {
 
     public static BindType[] binds = new BindType[]
@@ -122,6 +126,10 @@ public static class WrapFile {
         _GT(typeof(SDK.Lib.AuxPrefabLoader)),
         _GT(typeof(SDK.Lib.MFileSys)),
         _GT(typeof(SDK.Lib.LuaSystem)),
+
+        //#if UNIT_TEST
+        _GT(typeof(UnitTest.GlobalEventCmdTest)),
+        //#endif
     };
 
     public static BindType _GT(Type t) {

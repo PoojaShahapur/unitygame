@@ -7,7 +7,7 @@ public class SDK_Lib_GlobalEventCmdWrap
 	{
 		LuaMethod[] regs = new LuaMethod[]
 		{
-			new LuaMethod("onTestProtoBuf", onTestProtoBuf),
+			new LuaMethod("onSample", onSample),
 			new LuaMethod("New", _CreateSDK_Lib_GlobalEventCmd),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -48,11 +48,10 @@ public class SDK_Lib_GlobalEventCmdWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int onTestProtoBuf(IntPtr L)
+	static int onSample(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		LuaTable arg0 = LuaScriptMgr.GetLuaTable(L, 1);
-		SDK.Lib.GlobalEventCmd.onTestProtoBuf(arg0);
+		LuaScriptMgr.CheckArgsCount(L, 0);
+		SDK.Lib.GlobalEventCmd.onSample();
 		return 0;
 	}
 }

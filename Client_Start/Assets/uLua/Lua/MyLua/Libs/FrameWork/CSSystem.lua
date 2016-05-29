@@ -1,9 +1,8 @@
 require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.Class"
-require "MyLua.Libs.Core.GObject"
+require "MyLua.Libs.Core.StaticClass"
 
 -- CS 中的绑定
-local M = {};
+local M = GlobalNS.StaticClass();
 M.clsName = "CSSystem";
 GlobalNS[M.clsName] = M;
 local this = M;
@@ -23,7 +22,7 @@ function M.setNeedUpdate(value)
 end
 ]]
 
--- 日志区域
+-- LogSys 日志区域
 function M.log(message, logTypeId)
     if(this.Ctx.m_instance.m_logSys ~= nil) then
         if(logTypeId == nil) then
@@ -44,9 +43,13 @@ function M.error(message, logTypeId)
     this.Ctx.m_instance.m_logSys:lua_error(message, logTypeId);
 end
 
--- lua cs 交互区域
+-- GlobalEventCmd 交互区域
 function M.onTestProtoBuf(msg)
     this.GlobalEventCmd.onTestProtoBuf(msg);
+end
+
+function M.onTestProtoBufBuffer(commandID, buffer)
+    this.GlobalEventCmd.onTestProtoBufBuffer(commandID, buffer);
 end
 
 -- 网络区域

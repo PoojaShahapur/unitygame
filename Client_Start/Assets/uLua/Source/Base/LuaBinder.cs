@@ -80,6 +80,7 @@ public static class LuaBinder
 			case "TrackedReferenceWrap": TrackedReferenceWrap.Register(L); break;
 			case "TransformWrap": TransformWrap.Register(L); break;
 			case "TypeWrap": TypeWrap.Register(L); break;
+			case "UnitTest_GlobalEventCmdTestWrap": UnitTest_GlobalEventCmdTestWrap.Register(L); break;
 			case "UtilWrap": UtilWrap.Register(L); break;
 			case "WWWWrap": WWWWrap.Register(L); break;
 		}

@@ -1,7 +1,7 @@
-﻿require "MyLua.Libs.Network.CmdDisp.NetCmdHandleBase"
+require "MyLua.Libs.Network.CmdDisp.NetCmdHandleBase"
 
 local M = GlobalNS.Class(GlobalNS.NetCmdHandleBase);
-M.clsName = "GameTestCmdHandle";
+M.clsName = "TestCmdHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
@@ -13,7 +13,7 @@ function M:dtor()
 end
 
 function M:handleTest(cmd)
-    --GlobalNS.CSSystem.onTestProtoBuf(cmd);
+    GlobalNS.CSSystemTest.onTestProtoBuf(cmd);
 end
 
 return M;

@@ -23,10 +23,11 @@ function M:dispose()
 end
 
 function M:run()
-	self:testPB();
+	--self:testLuaPBEncodeDecode();
+	self:testLuaEncodeCSDecode();
 end
 
-function M:testPB()
+function M:testLuaPBEncodeDecode()
 	local msg = {};
 	msg.requid = 1000;
 	msg.reqguid = 1000;
@@ -36,6 +37,19 @@ function M:testPB()
 	if(command ~= nil) then
 		local buffer = GlobalNS.ProtobufUtil.encode(command.proto, msg);
 		local data = GlobalNS.ProtobufUtil.decode(command.proto, buffer);
+	end
+end
+
+function M:testLuaEncodeCSDecode()
+	local msg = {};
+	msg.requid = 1000;
+	msg.reqguid = 1000;
+	msg.reqaccount = "aaaaa";
+	
+	local command = NetCommand[1000];
+	if(command ~= nil) then
+		local buffer = GlobalNS.ProtobufUtil.encode(command.proto, msg);
+		GlobalNS.CSSystemTest.onTestProtoBufBuffer(1000, buffer);
 	end
 end
 
