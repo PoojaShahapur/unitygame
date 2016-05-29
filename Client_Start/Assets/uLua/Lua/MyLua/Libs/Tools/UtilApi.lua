@@ -24,23 +24,23 @@ end
 
 function M.getComp(go, path, comptName)
     local retgo = uiMgr:TransFindChildByPath(go, path);
-    return retgo:GetComponent(comptName);
+    return M.GetComponent(retgo, comptName);
 end
 
 function M.setTextStr(go, str)
-    go:GetComponent('Text').text = str;
+    M.GetComponent(go, 'Text').text = str;
 end
 
 function M.setTextColor(go, r, g, b)
-    go:GetComponent('Text').color = Color.New(r, g, b);
+    M.GetComponent(go, 'Text').color = Color.New(r, g, b);
 end
 
 function M.setTextColorInOne(go, color)
-    go:GetComponent('Text').color = color;
+	M.GetComponent(go, 'Text').color = color;
 end
 
 function M.setImageColor(go, r, g, b)
-    go:GetComponent('Image').color = Color.New(r, g, b);
+    M.GetComponent(go, 'Image').color = Color.New(r, g, b);
 end
 
 function M.getText(textComp)
@@ -88,22 +88,22 @@ function M.AddComponent(target, name)
 end
 
 function M:setImageSprite(go, path)
-    go:GetComponent('Image').sprite = uiMgr:LoadSprite(path);
+    M.GetComponent(go, 'Image').sprite = uiMgr:LoadSprite(path);
 end
 
 function M.setSpriteRenderSprite(go, path)
     local sprite = uiMgr:LoadSprite(path);
-    go:GetComponent('SpriteRenderer').sprite = sprite;
+    M.GetComponent(go, 'SpriteRenderer').sprite = sprite;
 end
 
 function M.setSpriteRenderSpriteByGo(go, goPath, spritePath)
     local sprite = uiMgr:LoadSprite(spritePath);
     local spriteGo = uiMgr:TransFindChildByPath(goPath);
-    spriteGo:GetComponent('SpriteRenderer').sprite = sprite;
+    M.GetComponent(spriteGo, 'SpriteRenderer').sprite = sprite;
 end
 
 function M.setLayoutElementPreferredHeight(go, preferredHeight)
-    local layoutElem = go:GetComponent('LayoutElement');
+    local layoutElem = M.GetComponent(go, 'LayoutElement');
     if(layoutElem ~= nil) then
         layoutElem.preferredHeight = preferredHeight;
     end
@@ -126,7 +126,7 @@ function M.getChildCount(trans)
 end
 
 function M.setRectRotate(go, rotateX, rotateY, rotateZ)
-    local rectTransform = go:GetComponent('RectTransform');
+    local rectTransform = M.GetComponent(go, 'RectTransform');
     local rot = rectTransform.localEulerAngles;
     rot.x = rotateX;
     rot.y = rotateY;
@@ -135,7 +135,7 @@ function M.setRectRotate(go, rotateX, rotateY, rotateZ)
 end
 
 function M.getComponent(go, name)
-	return go:getComponent(name);
+	return go:GetComponent(name);
 end
 
 function M.notBool(value)
@@ -165,28 +165,28 @@ function M.modifyListByList(srcList, destList, cls)
 end
 
 function M.setRectTransformSizeDelta(go, width, height)
-    local rectTransform = go:GetComponent('RectTransform');
+    local rectTransform = M.GetComponent(go, 'RectTransform');
     local sizeDelta = rectTransform.sizeDela;
     sizeDelta.x = width;
     sizeDelta.y = height;
 end
 
 function M.enableBtn(go)
-    local btn = go:GetComponent('Button');
+    local btn = M.GetComponent(go, 'Button');
     if(btn ~= nil) then
         btn.interactable = true;
     end
 end
 
 function M.disableBtn()
-    local btn = go:GetComponent('Button');
+    local btn = M.GetComponent(go, 'Button');
     if(btn ~= nil) then
         btn.interactable = false;
     end
 end
 
 function M.setSliderPos(go, value)
-    local slider = go:GetComponent('Slider');
+    local slider = M.GetComponent(go, 'Slider');
     if(slider ~= nil) then
         slider.Value = value;
     end
@@ -321,7 +321,7 @@ end
 
 -- 从 Parent 获取一个组件
 function M.getComFromSelf(go, typeName)
-    return go:GetComponent(typeName);
+    return M.getComponent(go, typeName);
 end
 
 function M.addEventHandleByPath(go, path, luaTable, luaFunction)
