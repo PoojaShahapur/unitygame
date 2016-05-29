@@ -2,12 +2,16 @@ local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "AuxComponent";
 GlobalNS[M.clsName] = M;
 
-function M:AuxComponent()
+function M:ctor()
     self.m_selfGo = nil;                  -- 自己节点
     self.m_pntGo = nil;                   -- 指向父节点
     self.m_placeHolderGo = nil;           -- 自己节点，资源挂在 m_placeHolderGo 上， m_placeHolderGo 挂在 m_pntGo 上
     self.m_bNeedPlaceHolderGo = nil;      -- 是否需要占位 GameObject
     self.m_visible = true;
+end
+
+function M:dtor()
+	
 end
 
 function M:setSelfName(name_)
@@ -21,7 +25,7 @@ function M:setSelfGo(value)
         self:onSelfChanged();
     end
     
-    GlobalNS.UtilApi.SetActive(self.m_sekfGo, self.m_visible);
+    GlobalNS.UtilApi.SetActive(self.m_selfGo, self.m_visible);
 end
 
 function M:getSelfGo()

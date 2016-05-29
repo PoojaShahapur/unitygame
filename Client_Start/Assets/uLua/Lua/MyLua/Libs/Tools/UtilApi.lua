@@ -321,7 +321,7 @@ end
 
 -- 从 Parent 获取一个组件
 function M.getComFromSelf(go, typeName)
-    return go.GetComponent(typeName);
+    return go:GetComponent(typeName);
 end
 
 function M.addEventHandleByPath(go, path, luaTable, luaFunction)
@@ -329,7 +329,7 @@ function M.addEventHandleByPath(go, path, luaTable, luaFunction)
 end
 
 function M.addEventHandleSelf(go, luaTable, luaFunction)
-    GlobalNS.CSSystem.addEventHandle(go, luaTable, luaFunction);
+    GlobalNS.CSSystem.addEventHandleSelf(go, luaTable, luaFunction);
 end
 
 function M.RemoveListener(go, luaTable, func)

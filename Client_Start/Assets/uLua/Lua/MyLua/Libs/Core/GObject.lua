@@ -11,6 +11,10 @@ function M:ctor()
     --self:addCallMeta();
 end
 
+function M:dtor()
+	
+end
+
 --[[
 function M:addCallMeta()
     self.__call = function(self, ...)

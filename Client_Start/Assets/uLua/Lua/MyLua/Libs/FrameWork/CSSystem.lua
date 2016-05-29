@@ -67,7 +67,7 @@ function M.addEventHandleByPath(go, path, luaTable, luaFunction)
 end
 
 function M.addEventHandleSelf(go, luaTable, luaFunction)
-    this.UtilApi.addEventHandle(go, luaTable, luaFunction);
+    this.UtilApi.addEventHandle(go, luaTable, luaFunction, false);
 end
 
 function M.GoFindChildByName(name)

@@ -39,9 +39,16 @@ function M:AuxBasicButton_1(...)
     end
 end
 
+function M:onSelfChanged()
+	M.super.onSelfChanged(self);
+	
+	self:updateBtnCom(nil);
+end
+
 function M:updateBtnCom(dispObj)
     self.m_btn = GlobalNS.UtilApi.getComFromSelf(self.m_selfGo, GlobalNS.AuxUITypeId.Button);
-    GlobalNS.UtilApi.addEventHandle(self.m_btn, self, self.onBtnClk);
+    --GlobalNS.UtilApi.addEventHandle(self.m_btn, self, self.onBtnClk);
+	GlobalNS.UtilApi.addEventHandleSelf(self.m_selfGo, self, self.onBtnClk);
 end
 
 function M:enable()
@@ -54,11 +61,11 @@ end
 
 -- 点击回调
 function M:onBtnClk()
-    self.m_eventDisp.dispatchEvent(self);
+    self.m_eventDisp:dispatchEvent(self);
 end
 
-function M:addEventHandle(btnClk)
-    self.m_eventDisp.addEventHandle(btnClk);
+function M:addEventHandle(pThis, btnClk)
+    self.m_eventDisp:addEventHandle(pThis, btnClk);
 end
 
 function M:syncUpdateCom()
