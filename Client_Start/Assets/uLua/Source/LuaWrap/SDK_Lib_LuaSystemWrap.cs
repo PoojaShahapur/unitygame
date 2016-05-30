@@ -18,6 +18,7 @@ public class SDK_Lib_LuaSystemWrap
 			new LuaMethod("DoFile", DoFile),
 			new LuaMethod("DoString", DoString),
 			new LuaMethod("sendFromLua", sendFromLua),
+			new LuaMethod("sendFromLuaRpc", sendFromLuaRpc),
 			new LuaMethod("receiveToLua", receiveToLua),
 			new LuaMethod("onSceneLoaded", onSceneLoaded),
 			new LuaMethod("onSocketConnected", onSocketConnected),
@@ -195,6 +196,16 @@ public class SDK_Lib_LuaSystemWrap
 		ushort arg0 = (ushort)LuaScriptMgr.GetNumber(L, 2);
 		LuaStringBuffer arg1 = LuaScriptMgr.GetStringBuffer(L, 3);
 		obj.sendFromLua(arg0,arg1);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int sendFromLuaRpc(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		SDK.Lib.LuaSystem obj = (SDK.Lib.LuaSystem)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.LuaSystem");
+		LuaStringBuffer arg0 = LuaScriptMgr.GetStringBuffer(L, 2);
+		obj.sendFromLuaRpc(arg0);
 		return 0;
 	}
 

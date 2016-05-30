@@ -7,12 +7,39 @@ namespace SDK.Lib
     {
         static public int getTableAttrInt(LuaTable luaTable, string name)
         {
-            return Convert.ToInt32(luaTable[name]);
+            int ret = 0;
+            object obj = luaTable[name];
+            if (obj != null)
+            {
+                ret = Convert.ToInt32(obj);
+            }
+
+            return ret;
+        }
+
+        static public uint getTableAttrUInt(LuaTable luaTable, string name)
+        {
+            uint ret = 0;
+
+            object obj = luaTable[name];
+            if (obj != null)
+            {
+                ret = Convert.ToUInt32(obj);
+            }
+
+            return ret;
         }
 
         static public string getTableAttrStr(LuaTable luaTable, string name)
         {
-            return (string)(luaTable[name]);
+            string ret = "";
+            object obj = luaTable[name];
+            if (obj != null)
+            {
+                ret = (string)(luaTable[name]);
+            }
+
+            return ret;
         }
     }
 }

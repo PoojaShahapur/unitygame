@@ -57,6 +57,10 @@ function M.sendFromLua(id, buffer)
     this.Ctx.m_instance.m_luaSystem:sendFromLua(id, buffer);
 end
 
+function M.sendFromLuaRpc(buffer)
+    this.Ctx.m_instance.m_luaSystem:sendFromLuaRpc(buffer);
+end
+
 function M.readLuaBufferToFile(file)
     return this.MFileSys.readLuaBufferToFile(file);
 end

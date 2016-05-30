@@ -82,14 +82,15 @@ namespace SDK.Lib
         }
 
         // 从 Lua 中发送 pb 消息
-        public void sendFromLua(UInt16 commandID, LuaStringBuffer buffer)
+        public void sendFromLua(ushort commandID, LuaStringBuffer buffer)
         {
-            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
-            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
-            {
-                Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
-                UtilMsg.sendMsg(Ctx.m_instance.m_shareData.m_tmpBA);
-            }
+            UtilMsg.sendMsg(commandID, buffer);
+        }
+
+        //public void sendFromLuaParam(LuaTable luaTable, LuaStringBuffer buffer)
+        public void sendFromLuaRpc(LuaStringBuffer buffer)
+        {
+            UtilMsg.sendMsgRpc(buffer);
         }
 
         public void receiveToLua(ByteBuffer msg)

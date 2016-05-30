@@ -24,6 +24,26 @@ function M:sendCmd(id, data, isNetSend)
     end
 end
 
+function M:sendCmdRpc(id, rpc, data, isNetSend)
+    if(isNetSend == nil or isNetSend == true) then
+        local command = NetCommand[id];
+        if(data == nil) then
+            data = {};
+        end
+        if(command ~= nil) then
+            GCtx.mLogSys:log("NetMgr::sendCmd id = " .. id .. " Proto: " .. command.proto, GlobalNS.LogTypeId.eLogCommon);
+            local buffer = GlobalNS.ProtobufUtil.encode(command.proto, data);
+			rpc.request.content = buffer;
+			
+			command = NetCommand[3];
+			if(command ~= nil) then
+				local rpcBuffer = GlobalNS.ProtobufUtil.encode(command.proto, rpc);
+				GlobalNS.CSSystem.sendFromLuaRpc(rpcBuffer);
+			end
+        end
+    end
+end
+
 function M:receiveCmd(id, buffer)
     GCtx.mLogSys:log("NetMgr::receiveCmd id = " .. id, GlobalNS.LogTypeId.eLogCommon);
     local command = NetCommand[id];

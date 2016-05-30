@@ -151,6 +151,42 @@ namespace SDK.Lib
         }
 
         /**
+         * @brief 转换字节数组成为数字
+         * @param endian bytes 中的字节序
+         */
+        static public bool convBytes2UShort(byte[] bytes, int index, ref ushort ret, EEndian endian = EEndian.eLITTLE_ENDIAN)
+        {
+            if (endian == EEndian.eLITTLE_ENDIAN)
+            {
+                ret = (ushort)(bytes[index + 1] << 8 + bytes[index]);
+            }
+            else
+            {
+                ret = (ushort)(bytes[index] << 8 + bytes[index + 1]);
+            }
+            return true;
+        }
+
+        /**
+         * @brief 转换数字到字节数组
+         * @param endian bytes 中的字节序
+         */
+        static public bool convUShort2Bytes(byte[] bytes, int index, ushort data, EEndian endian = EEndian.eLITTLE_ENDIAN)
+        {
+            if (endian == EEndian.eLITTLE_ENDIAN)
+            {
+                bytes[index] = (byte)(data & 0x00FF);
+                bytes[index + 1] = (byte)((data & 0xFF00) >> 8);
+            }
+            else
+            {
+                bytes[index + 1] = (byte)((data & 0xFF00) >> 8);
+                bytes[index] = (byte)(data & 0x00FF);
+            }
+            return true;
+        }
+
+        /**
          * @brief 转换一个 Color 值到一个 Int 颜色值
          */
         static public int ColorToInt32(Color c)

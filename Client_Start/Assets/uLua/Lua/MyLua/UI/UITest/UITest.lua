@@ -63,7 +63,9 @@ function M:onExit()
 end
 
 function M:onBtnClk()
-	self:testSendMsg();
+	--self:testSendMsg();
+	--self:testLoginMsg();
+	self:testEmptyLoginMsg();
 end
 
 function M:testSendMsg()
@@ -71,7 +73,30 @@ function M:testSendMsg()
 	msg.requid = 1000;
 	msg.reqguid = 1000;
 	msg.reqaccount = "aaaaa";
-	GCtx.mNetMgr:sendCmd(1000, msg);
+	GlobalNS.UtilMsg.sendMsg(1000, msg);
+end
+
+function M:testLoginMsg()
+	local rpc = {};
+	rpc.id = 1002;
+	rpc.service = "Login";
+	rpc.method = "LoginRequest";
+	
+    local msg = {};
+    msg.account = "account";
+    msg.password = "password";
+    GlobalNS.UtilMsg.sendMsgRpc(1002, rpc, msg);
+end
+
+function M:testEmptyLoginMsg()
+	local rpc = {};
+	rpc.request = {};
+	rpc.request.id = 1002;
+	rpc.request.service = "rpc.Login";
+	rpc.request.method = "Login";
+	
+    local msg = {};
+    GlobalNS.UtilMsg.sendMsgRpc(1002, rpc, msg);
 end
 
 return M;

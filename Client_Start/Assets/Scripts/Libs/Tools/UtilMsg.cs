@@ -1,4 +1,7 @@
-﻿namespace SDK.Lib
+﻿using LuaInterface;
+using System.Text;
+
+namespace SDK.Lib
 {
     /**
      * @brief 处理消息工具
@@ -26,9 +29,33 @@
             Ctx.m_instance.m_netMgr.send(bnet);
         }
 
-        public static void sendMsg(ByteBuffer byteBuffer, bool bnet = true)
+        static public void sendMsg(ushort commandID, LuaStringBuffer buffer, bool bnet = true)
         {
-            Ctx.m_instance.m_netMgr.send(bnet);
+            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
+            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
+            {
+                Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                Ctx.m_instance.m_netMgr.send(bnet);
+            }
+        }
+
+        //static public void sendMsgParam(LuaTable luaTable, LuaStringBuffer buffer, bool bnet = true)
+        static public void sendMsgRpc(LuaStringBuffer buffer, bool bnet = true)
+        {
+            //uint id = UtilLua2CS.getTableAttrUInt(luaTable, "id");
+            //string service = UtilLua2CS.getTableAttrStr(luaTable, "service");
+            //string method = UtilLua2CS.getTableAttrStr(luaTable, "method");
+
+            Ctx.m_instance.m_shareData.m_tmpBA = Ctx.m_instance.m_netMgr.getSendBA();
+            if (Ctx.m_instance.m_shareData.m_tmpBA != null)
+            {
+                //Ctx.m_instance.m_shareData.m_tmpBA.writeUnsignedInt32(id);
+                //Ctx.m_instance.m_shareData.m_tmpBA.writeMultiByte(service, Encoding.UTF8, 0);
+                //Ctx.m_instance.m_shareData.m_tmpBA.writeMultiByte(method, Encoding.UTF8, 0);
+
+                Ctx.m_instance.m_shareData.m_tmpBA.writeBytes(buffer.buffer, 0, (uint)buffer.buffer.Length);
+                Ctx.m_instance.m_netMgr.send(bnet);
+            }
         }
 
         public static void checkStr(string str)

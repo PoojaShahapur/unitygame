@@ -317,7 +317,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readInt16Bytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(short));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt16Bytes, 0, sizeof(short));
                     Array.Reverse(m_readInt16Bytes, 0, sizeof(short));
                     tmpShort = System.BitConverter.ToInt16(m_readInt16Bytes, (int)m_pos);
                 }
@@ -338,7 +338,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readInt16Bytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(ushort));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt16Bytes, 0, sizeof(ushort));
                     Array.Reverse(m_readInt16Bytes, 0, sizeof(ushort));
                     tmpUshort = System.BitConverter.ToUInt16(m_readInt16Bytes, (int)m_pos);
                 }
@@ -359,7 +359,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readInt32Bytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(int));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt32Bytes, 0, sizeof(int));
                     Array.Reverse(m_readInt32Bytes, 0, sizeof(int));
                     tmpInt = System.BitConverter.ToInt32(m_readInt32Bytes, (int)m_pos);
                 }
@@ -381,7 +381,7 @@ namespace SDK.Lib
                 // 如果字节序和本地字节序不同，需要转换
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readInt32Bytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(uint));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt32Bytes, 0, sizeof(uint));
                     Array.Reverse(m_readInt32Bytes, 0, sizeof(uint));
                     tmpUint = System.BitConverter.ToUInt32(m_readInt32Bytes, (int)m_pos);
                 }
@@ -402,7 +402,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readInt64Bytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(long));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt64Bytes, 0, sizeof(long));
                     Array.Reverse(m_readInt64Bytes, 0, sizeof(long));
                     tmpLong = System.BitConverter.ToInt64(m_readInt64Bytes, (int)m_pos);
                 }
@@ -423,7 +423,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readInt64Bytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(ulong));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt64Bytes, 0, sizeof(ulong));
                     Array.Reverse(m_readInt64Bytes, 0, sizeof(ulong));
                     tmpUlong = System.BitConverter.ToUInt64(m_readInt64Bytes, (int)m_pos);
                 }
@@ -444,7 +444,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readFloatBytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(float));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readFloatBytes, 0, sizeof(float));
                     Array.Reverse(m_readFloatBytes, 0, sizeof(float));
                     tmpFloat = System.BitConverter.ToSingle(m_readFloatBytes, (int)m_pos);
                 }
@@ -465,7 +465,7 @@ namespace SDK.Lib
             {
                 if (m_endian != SystemEndian.msLocalEndian)
                 {
-                    Array.Copy(m_readDoubleBytes, 0, m_dynBuff.buff, (int)m_pos, sizeof(double));
+                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readDoubleBytes, 0, sizeof(double));
                     Array.Reverse(m_readDoubleBytes, 0, sizeof(double));
                     tmpDouble = System.BitConverter.ToDouble(m_readDoubleBytes, (int)m_pos);
                 }

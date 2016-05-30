@@ -197,8 +197,6 @@
         // 获取数据，然后压缩加密
         public void getSocketSendData()
         {
-            //m_socketSendBA.m_startTest = false;
-
             m_socketSendBA.clear();
 
             // 获取完数据，就解锁
@@ -224,8 +222,6 @@
                 // CompressAndEncryptAllInOne();
             }
             m_socketSendBA.position = 0;        // 设置指针 pos
-
-            //m_socketSendBA.m_startTest = true;
         }
 
         // 压缩加密每一个包
