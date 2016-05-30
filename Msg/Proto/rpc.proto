@@ -1,0 +1,21 @@
+package rpc;
+
+// Rpc request and response messages between client and server.
+
+message RpcRequest {
+    optional uint32 id = 1;
+    optional string service = 2;
+    optional string method = 3;
+    optional bytes content = 4;
+}
+
+message RpcResponse {
+    required uint32 id = 1;  // Equals request id.
+    optional bytes content = 2;
+}
+
+// Rpc package has a request or a response.
+message RpcPackage {
+    optional RpcRequest request = 1;
+    optional RpcResponse response = 2;
+}

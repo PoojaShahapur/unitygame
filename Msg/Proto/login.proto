@@ -1,0 +1,23 @@
+package rpc;
+
+// 登录相关的服务。
+service Login {
+    rpc Login(LoginRequest) returns (LoginResponse);
+}
+
+message LoginRequest {
+    optional string account = 1;
+    optional string password = 2;
+}
+
+message LoginResponse {
+    enum LoginResult {
+        OK = 0;
+        ERR_SERVER_FULL = 1;  // 服务器已满
+        ERR_VERIFY_FAIL = 2;  // 验证失败
+        ERR_MULTI_LOGIN = 3;  // 重复登录
+    }
+    
+    optional LoginResult result = 1;
+    optional string error_str = 2;  // none if success
+}
