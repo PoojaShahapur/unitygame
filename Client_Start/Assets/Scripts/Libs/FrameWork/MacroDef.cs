@@ -19,10 +19,10 @@
         static public bool THREAD_CALLCHECK = true;
 
         // 消息加密
-        static public bool MSG_ENCRIPT = true;
+        static public bool MSG_ENCRIPT = false;
 
         // 消息压缩
-        static public bool MSG_COMPRESS = true;
+        static public bool MSG_COMPRESS = false;
 
         // 开启窗口日志
         static public bool ENABLE_WINLOG = true;

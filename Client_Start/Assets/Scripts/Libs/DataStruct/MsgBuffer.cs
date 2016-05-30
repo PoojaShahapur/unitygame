@@ -38,6 +38,13 @@
             }
         }
 
+        // 设置网络字节序
+        public void setEndian(EEndian end)
+        {
+            m_headerBA.setEndian(end);
+            m_msgBodyBA.setEndian(end);
+        }
+
         /**
          * @brief 检查 CB 中是否有一个完整的消息
          */

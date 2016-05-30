@@ -23,7 +23,7 @@ namespace Game.Game
             TestMain pTestMain = new TestMain();
             pTestMain.run();
 #endif
-            //Ctx.m_instance.m_netMgr.openSocket("192.168.123.71", 8001);
+            Ctx.m_instance.m_netMgr.openSocket("192.168.123.71", 8001);
         }
     }
 }

@@ -35,6 +35,7 @@ namespace SDK.Lib
             m_port = port;
 
             m_clientBuffer = new ClientBuffer();
+            m_clientBuffer.setEndian(SystemEndian.msServerEndian);     // 设置服务器字节序
         }
 
         public ClientBuffer clientBuffer

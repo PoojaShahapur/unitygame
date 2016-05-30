@@ -20,7 +20,7 @@ namespace SDK.Lib
             Ctx.m_instance.m_luaSystem.DoFile(path);
             m_luaTable = Ctx.m_instance.m_luaSystem.GetLuaTable(m_tableName);
             // 设置系统字节序
-            setSysEndian((int)SystemEndian.m_sEndian);
+            setSysEndian((int)SystemEndian.msLocalEndian);
         }
 
         // 更新 Lua 中表的数据

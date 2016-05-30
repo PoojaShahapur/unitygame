@@ -86,6 +86,21 @@
             }
         }
 
+        // 设置 ClientBuffer 字节序
+        public void setEndian(EEndian end)
+        {
+            m_rawBuffer.setEndian(end);
+            m_msgBuffer.setEndian(end);
+
+            m_sendTmpBuffer.setEndian(end);
+            m_socketSendBA.setEndian(end);
+
+            m_unCompressHeaderBA.setEndian(end);
+            m_sendData.setEndian(end);
+            m_tmpData.setEndian(end);
+            m_tmp1fData.setEndian(end);
+        }
+
         public void setCryptKey(byte[] encrypt)
         {
             //m_cryptContext.cryptAlgorithm = CryptAlgorithm.DES;
