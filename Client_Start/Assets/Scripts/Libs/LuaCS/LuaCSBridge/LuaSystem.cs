@@ -96,7 +96,7 @@ namespace SDK.Lib
         public void receiveToLua(ByteBuffer msg)
         {
             LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
-            this.CallLuaFunction("NetMgr.receiveCmd", 0, buffer);
+            this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 0, buffer);
         }
 
         public void receiveToLua(Byte[] msg)
