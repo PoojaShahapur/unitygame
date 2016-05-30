@@ -1,14 +1,14 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
-require "MyLua.Libs.DataStruct.Dictionary"
+require "MyLua.Libs.DataStruct.MDictionary"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "EventDispatchGroup";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_groupID2DispatchDic = GlobalNS.new(GlobalNS.Dictionary);
+    self.m_groupID2DispatchDic = GlobalNS.new(GlobalNS.MDictionary);
     self.m_bInLoop = false;
 end
 

@@ -14,7 +14,7 @@ require "MyLua.Libs.Core.Malloc"
 
 -- 数据结构
 require "MyLua.Libs.DataStruct.MList"
-require "MyLua.Libs.DataStruct.Dictionary"
+require "MyLua.Libs.DataStruct.MDictionary"
 
 
 -- 延迟处理器

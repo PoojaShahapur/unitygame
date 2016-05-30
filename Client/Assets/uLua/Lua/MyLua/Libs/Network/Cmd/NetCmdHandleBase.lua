@@ -3,7 +3,7 @@ M.clsName = "NetCmdHandleBase";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_id2HandleDic = GlobalNS.new(GlobalNS.Dictionary);
+    self.m_id2HandleDic = GlobalNS.new(GlobalNS.MDictionary);
 end
 
 function M:addParamHandle(paramId, pThis, func)

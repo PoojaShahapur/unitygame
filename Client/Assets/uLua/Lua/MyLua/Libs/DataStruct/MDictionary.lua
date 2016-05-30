@@ -7,7 +7,7 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "Dictionary";
+M.clsName = "MDictionary";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
