@@ -13,17 +13,11 @@ namespace SDK.Lib
         }
 
         //c#端创建协议数据
-        public MLuaStringBuffer(byte[] buf, int len)
+        public MLuaStringBuffer(byte[] buf)
         {
             this.buffer = buf;
-            this.mLen = len;
-            if (this.mLen == 0)
-            {
-                this.mLen = this.buffer.Length;
-            }
         }
 
-        public int mLen;
         public byte[] buffer = null;
     }
 }

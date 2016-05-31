@@ -105,11 +105,14 @@ namespace SDK.Lib
             // 拷贝数据，因为 LuaStringBuffer 不支持偏移和长度
             byte[] cmdBuf = new byte[msg.length];
             Array.Copy(msg.dynBuff.m_buff, 0, cmdBuf, 0, msg.length);
-            LuaStringBuffer buffer = new LuaStringBuffer(cmdBuf);
-            //LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff, (int)msg.length);
+            LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
+
+            //LuaStringBuffer buffer = new LuaStringBuffer(cmdBuf);
+            //MLuaStringBuffer buffer = new MLuaStringBuffer(cmdBuf);
             //MLuaStringBuffer buffer = new MLuaStringBuffer(cmdBuf, cmdBuf.Length);
             //MLuaStringBuffer buffer = new MLuaStringBuffer(msg.dynBuff.m_buff, (int)msg.length);
-            this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLuaRpc", buffer);
+
+            this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLuaRpc", buffer, msg.length);
         }
 
         public void receiveToLua(Byte[] msg)
@@ -217,7 +220,7 @@ namespace SDK.Lib
         {
             if (lsb != null && lsb.buffer != null)
             {
-                LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.mLen);
+                //LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.mLen);
             }
             else
             {

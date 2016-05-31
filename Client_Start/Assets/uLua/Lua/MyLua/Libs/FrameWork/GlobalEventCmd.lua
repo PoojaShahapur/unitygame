@@ -19,9 +19,9 @@ function M.onReceiveToLua(id, buffer)
     GCtx.mNetMgr:receiveCmd(id, buffer);
 end
 
-function M.onReceiveToLuaRpc(buffer)
+function M.onReceiveToLuaRpc(buffer, length)
     GCtx.mLogSys:log("GlobalEventCmd::onReceiveToLuaRpc", GlobalNS.LogTypeId.eLogCommon);
-    GCtx.mNetMgr:receiveCmdRpc(buffer);
+    GCtx.mNetMgr:receiveCmdRpc(buffer, length);
 end
 
 

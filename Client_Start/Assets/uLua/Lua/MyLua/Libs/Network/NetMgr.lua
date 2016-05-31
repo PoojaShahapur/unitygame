@@ -58,12 +58,12 @@ function M:receiveCmd(id, buffer)
 end
 
 -- RPC 包
-function M:receiveCmdRpc(buffer)
+function M:receiveCmdRpc(buffer, length)
     GCtx.mLogSys:log("NetMgr::receiveCmdRpc", GlobalNS.LogTypeId.eLogCommon);
     local command = NetCommand[3];
     if(command ~= nil) then
-        --local rpcData = GlobalNS.ProtobufUtil.decode(command.proto, buffer, buffer.mLen);
-		local rpcData = GlobalNS.ProtobufUtil.decode(command.proto, buffer);
+        local rpcData = GlobalNS.ProtobufUtil.decode(command.proto, buffer, length);
+		--local rpcData = GlobalNS.ProtobufUtil.decode(command.proto, buffer);
         if(rpcData ~= nil and rpcData.response ~= nil) then
 			GCtx.mLogSys:log("NetMgr::receiveCmdRpc id = " .. rpcData.response.id, GlobalNS.LogTypeId.eLogCommon);
 			command = NetCommand[rpcData.response.id + 1];

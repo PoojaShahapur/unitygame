@@ -21,17 +21,18 @@ function M.encode(proto, buf)
     return buffer;
 end
 
---[[
+
 function M.decode(proto, buf, length)
     local obj = protobuf.decode(proto, buf, length);
     return obj;
 end
-]]
 
+--[[
 function M.decode(proto, buf)
     local obj = protobuf.decode(proto, buf);
     return obj;
 end
+]]
 
 function M.PBC(enObj)
     local proto = enObj[1];
