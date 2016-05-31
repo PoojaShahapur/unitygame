@@ -25,16 +25,12 @@ function M:removeParamHandle(paramId, pThis, func)
     end
 end
 
-function M:call(dispObj)
-    local cmd = dispObj;
-    self:handleMsg(cmd.bu, cmd.byCmd, cmd.byParam);
-end
-
-function M:handleMsg(bu, byCmd, byParam)
+function M:handleMsg(dispObj)
+	local cmd = dispObj;
     GCtx.mLogSys:log("NetCmdHandleBase Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
-    if(self.m_id2HandleDic:ContainsKey(byParam)) then
+    if(self.m_id2HandleDic:ContainsKey(cmd.byParam)) then
         GCtx.mLogSys:log("NetCmdHandleBase In handleMsg", GlobalNS.LogTypeId.eLogCommon);
-        self.m_id2HandleDic:value(byParam):dispatchEvent(bu);
+        self.m_id2HandleDic:value(cmd.byParam):dispatchEvent(cmd.bu);
     else
         
     end

@@ -1,15 +1,18 @@
-local M = GlobalNS.Class(GlobalNS.IDispatchObject);
+require "MyLua.Libs.Core.GlobalNS"
+require "MyLua.Libs.Core.StaticClass"
+require "MyLua.Libs.EventHandle.IDispatchObject"
+
+--local M = GlobalNS.StaticClass(GlobalNS.IDispatchObject);
+local M = GlobalNS.StaticClass();
 M.clsName = "CmdDispInfo";
 GlobalNS[M.clsName] = M;
 
-function M:ctor()
-    self.bu = nil;
-    self.byCmd = 0;
-    self.byParam = 0;
+function M.init()
+    M.bu = nil;
+    M.byCmd = 0;
+    M.byParam = 0;
 end
 
-function M:dtor()
-
-end
+M.init();
 
 return M;

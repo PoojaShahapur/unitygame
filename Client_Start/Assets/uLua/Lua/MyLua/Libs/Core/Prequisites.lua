@@ -1,7 +1,4 @@
 -- 所有全局类都在这里加载
-
-require("mobdebug").start()
-
 require "MyLua.Libs.Core.GlobalNS"      -- 加载自己的全局表
 
 -- 基础
@@ -107,4 +104,5 @@ require "MyLua.Libs.Tools.UtilMsg"
 
 -- 模块系统
 require "MyLua.Libs.Module.IGameSys"
-require "MyLua.Module.Game.GameSys"
+require "MyLua.Libs.Module.ILoginSys"
+

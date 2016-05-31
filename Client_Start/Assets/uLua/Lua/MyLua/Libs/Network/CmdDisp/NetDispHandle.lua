@@ -4,7 +4,7 @@ GlobalNS[M.clsName] = M;
 
 function M:ctor()
     self.m_id2DispDic = GlobalNS.new(GlobalNS.Dictionary);
-    self.mCmdDispInfo = GlobalNS.new(GlobalNS.CmdDispInfo);
+    --self.mCmdDispInfo = GlobalNS.new(GlobalNS.CmdDispInfo);
 end
 
 function M:addCmdHandle(cmdId, pThis, func)
@@ -25,18 +25,18 @@ function M:removeCmdHandle(cmdId, pThis, func)
 end
 
 function M:handleMsg(msg)
-    local byCmd = msg.response.id;
+    --local byCmd = msg.mByCmd;
     --byCmd = msg.readUnsignedInt8(byCmd);
-    local byParam = 1000;
+    --local byParam = msg.mByParam;
     --byParam = msg.readUnsignedInt8(byParam);
     --msg.setPos(0);
     GCtx.mLogSys:log("NetDispHandle Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
-    if(self.m_id2DispDic:ContainsKey(byCmd)) then
+    if(self.m_id2DispDic:ContainsKey(msg.byCmd)) then
         GCtx.mLogSys:log("NetDispHandle In handleMsg", GlobalNS.LogTypeId.eLogCommon);
-        self.mCmdDispInfo.bu = rpcData.response.msgBody;
-        self.mCmdDispInfo.byCmd = byCmd;
-        self.mCmdDispInfo.byParam = byParam;
-        self.m_id2DispDic:value(byCmd):dispatchEvent(self.mCmdDispInfo);
+        --self.mCmdDispInfo.bu = msg.mMsgBody;
+        --self.mCmdDispInfo.byCmd = byCmd;
+        --self.mCmdDispInfo.byParam = byParam;
+        self.m_id2DispDic:value(msg.byCmd):dispatchEvent(msg);
     else
         
     end

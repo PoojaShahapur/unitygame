@@ -25,13 +25,11 @@ function M.preInit()
 	this.mUIMgr = GlobalNS.new(GlobalNS.UIMgr);
 	
     this.m_netCmdNotify = GlobalNS.new(GlobalNS.NetCmdNotify);
-    this.m_gameSys = GlobalNS.new(GlobalNS.GameSys);
 end
 
 function M.interInit()
     GlobalNS.CSSystem.init();
     this.mNetMgr:init();
-    this.m_gameSys:init();
 	GlobalNS.NoDestroyGo.init();
 	this.mUIMgr:init();
 end

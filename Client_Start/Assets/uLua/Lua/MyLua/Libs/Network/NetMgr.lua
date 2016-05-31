@@ -1,6 +1,9 @@
 require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.ProtoBuf.ProtobufUtil"
+require "MyLua.Libs.Network.CmdDisp.CmdDispInfo"
+
+local g_CmdDispInfo = GlobalNS.CmdDispInfo;
 
 local M = GlobalNS.Class(GlobalNS.GObject);
 M.clsName = "NetMgr";
@@ -69,9 +72,11 @@ function M:receiveCmdRpc(buffer, length)
 			command = NetCommand[rpcData.response.id + 1];
 			if(command ~= nil) then
 				local msgBody = GlobalNS.ProtobufUtil.decode(command.proto, rpcData.response.content);
-				rpcData.response.msgBody = msgBody;
 				GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
-				GCtx.m_netCmdNotify:handleMsg(rpcData);
+				g_CmdDispInfo.byCmd = rpcData.response.id + 1;
+				g_CmdDispInfo.byParam = rpcData.response.id + 1;
+				g_CmdDispInfo.bu = msgBody;
+				GCtx.m_netCmdNotify:handleMsg(g_MsgPacket);
 			end
         end
     end

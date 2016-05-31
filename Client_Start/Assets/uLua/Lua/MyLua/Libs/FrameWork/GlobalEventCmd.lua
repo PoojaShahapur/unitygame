@@ -33,4 +33,9 @@ function M.onSceneLoaded()
 	end
 end
 
+-- 帧循环
+function M.onAdvance(delta)
+	GCtx.m_processSys:advance(delta);
+end
+
 return M;

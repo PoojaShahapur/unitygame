@@ -14,8 +14,8 @@ namespace SDK.Lib
         protected LuaCSBridgeClassLoader m_luaClassLoader;  // Lua 类文件加载器
         protected LuaCSBridgeMalloc m_luaCSBridgeMalloc;
 
-        protected LuaTable m_luaCtx;
-        protected LuaTable m_processSys;
+        //protected LuaTable m_luaCtx;
+        //protected LuaTable m_processSys;
         protected bool m_bNeedUpdate;           // 是否需要更新 Lua
 
         public LuaSystem()
@@ -27,10 +27,11 @@ namespace SDK.Lib
         public void init()
         {
             m_luaScriptMgr.Start();
-            m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
+            //m_luaCtx = DoFile("MyLua.Libs.FrameWork.GCtx")[0] as LuaTable;  // lua 入口
+            DoFile("MyLua.Module.App.AppSys");        // 启动 Lua AppSys
             m_luaClassLoader = new LuaCSBridgeClassLoader();
             m_luaCSBridgeMalloc = new LuaCSBridgeMalloc("MyLua.Libs.Core.Malloc", "GlobalNS");
-            m_processSys = m_luaCtx["m_processSys"] as LuaTable;
+            //m_processSys = m_luaCtx["m_processSys"] as LuaTable;
         }
 
         public LuaScriptMgr getLuaScriptMgr()
@@ -146,7 +147,7 @@ namespace SDK.Lib
         {
             if (m_bNeedUpdate)
             {
-                this.CallLuaFunction("GlobalNS.ProcessSys.advance", m_processSys, delta);
+                this.CallLuaFunction("GlobalNS.GlobalEventCmd.onAdvance", delta);
             }
         }
 
