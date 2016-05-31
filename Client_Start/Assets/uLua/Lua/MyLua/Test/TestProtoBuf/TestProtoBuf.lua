@@ -2,7 +2,6 @@ require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 
-require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.ProtoBuf.ProtobufUtil"
 

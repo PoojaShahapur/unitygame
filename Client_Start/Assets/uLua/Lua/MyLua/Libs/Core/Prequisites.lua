@@ -97,7 +97,6 @@ require "MyLua.Libs.Network.CmdDisp.NetCmdNotify"
 require "MyLua.Libs.Network.CmdDisp.CmdDispInfo"
 
 require "MyLua.Libs.Network.PBFileList"
-require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.Network.NetMgr"
 require "MyLua.Libs.Tools.UtilMsg"

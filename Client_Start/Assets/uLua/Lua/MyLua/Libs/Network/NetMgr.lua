@@ -1,4 +1,3 @@
-require "MyLua.Libs.Network.CommandID"
 require "MyLua.Libs.Network.NetCommand"
 require "MyLua.Libs.ProtoBuf.ProtobufUtil"
 require "MyLua.Libs.Network.CmdDisp.CmdDispInfo"
