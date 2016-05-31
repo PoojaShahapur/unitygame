@@ -3,7 +3,7 @@ using SDK.Lib;
 
 namespace Game.Game
 {
-    public class GameTimeCmdHandle : NetCmdHandleBase
+    public class GameTimeCmdHandle : NetCmdDispHandle
     {
         public GameTimeCmdHandle()
         {

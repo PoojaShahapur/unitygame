@@ -1,5 +1,5 @@
 ﻿local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "NetDispHandle";
+M.clsName = "NetModuleDispHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
@@ -30,9 +30,9 @@ function M:handleMsg(msg)
     --local byParam = msg.mByParam;
     --byParam = msg.readUnsignedInt8(byParam);
     --msg.setPos(0);
-    GCtx.mLogSys:log("NetDispHandle Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mLogSys:log("NetModuleDispHandle Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
     if(self.m_id2DispDic:ContainsKey(msg.byCmd)) then
-        GCtx.mLogSys:log("NetDispHandle In handleMsg", GlobalNS.LogTypeId.eLogCommon);
+        GCtx.mLogSys:log("NetModuleDispHandle In handleMsg", GlobalNS.LogTypeId.eLogCommon);
         --self.mCmdDispInfo.bu = msg.mMsgBody;
         --self.mCmdDispInfo.byCmd = byCmd;
         --self.mCmdDispInfo.byParam = byParam;

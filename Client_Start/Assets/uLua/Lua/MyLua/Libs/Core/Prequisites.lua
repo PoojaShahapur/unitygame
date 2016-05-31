@@ -91,8 +91,8 @@ require "MyLua.Libs.Log.LogTypeId"
 require "MyLua.Libs.Log.LogSys"
 
 -- 网络
-require "MyLua.Libs.Network.CmdDisp.NetCmdHandleBase"
-require "MyLua.Libs.Network.CmdDisp.NetDispHandle"
+require "MyLua.Libs.Network.CmdDisp.NetCmdDispHandle"
+require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
 require "MyLua.Libs.Network.CmdDisp.NetCmdNotify"
 require "MyLua.Libs.Network.CmdDisp.CmdDispInfo"
 

@@ -1,4 +1,4 @@
-require "MyLua.Libs.Network.CmdDisp.NetDispHandle"
+require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
 require "MyLua.Module.Game.GameNetHandle.GameTestCmdHandle"
 
 require "MyLua.Test.TestCmdDisp.TestNetHandleCB"

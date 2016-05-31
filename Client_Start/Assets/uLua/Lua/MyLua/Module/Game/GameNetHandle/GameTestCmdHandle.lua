@@ -1,6 +1,6 @@
-﻿require "MyLua.Libs.Network.CmdDisp.NetCmdHandleBase"
+﻿require "MyLua.Libs.Network.CmdDisp.NetCmdDispHandle"
 
-local M = GlobalNS.Class(GlobalNS.NetCmdHandleBase);
+local M = GlobalNS.Class(GlobalNS.NetCmdDispHandle);
 M.clsName = "GameTestCmdHandle";
 GlobalNS[M.clsName] = M;
 

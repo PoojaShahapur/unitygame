@@ -3,7 +3,7 @@ using SDK.Lib;
 
 namespace Game.Login
 {
-    public class LoginSelectUserCmdHandle : NetCmdHandleBase
+    public class LoginSelectUserCmdHandle : NetCmdDispHandle
     {
         public LoginSelectUserCmdHandle()
         {

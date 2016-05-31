@@ -1,7 +1,7 @@
-require "MyLua.Libs.Network.CmdDisp.NetDispHandle"
+require "MyLua.Libs.Network.CmdDisp.NetModuleDispHandle"
 require "MyLua.Test.TestCmdDisp.TestCmdHandle"
 
-local M = GlobalNS.Class(GlobalNS.NetDispHandle);
+local M = GlobalNS.Class(GlobalNS.NetModuleDispHandle);
 M.clsName = "TestNetHandleCB";
 GlobalNS[M.clsName] = M;
 

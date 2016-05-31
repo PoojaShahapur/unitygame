@@ -7,15 +7,17 @@ namespace SDK.Lib
         protected int m_revMsgCnt;      // 接收到消息的数量
         protected int m_handleMsgCnt;   // 处理的消息的数量
 
-        protected List<NetDispHandle> m_netDispList;
+        protected List<NetModuleDispHandle> m_netModuleDispList;
         protected bool m_bStopNetHandle;       // 是否停止网络消息处理
+        protected CmdDispInfo mCmdDispInfo;
 
         public NetCmdNotify()
         {
             m_revMsgCnt = 0;
             m_handleMsgCnt = 0;
-            m_netDispList = new List<NetDispHandle>();
+            m_netModuleDispList = new List<NetModuleDispHandle>();
             m_bStopNetHandle = false;
+            mCmdDispInfo = new CmdDispInfo();
         }
 
         public bool bStopNetHandle
@@ -30,19 +32,19 @@ namespace SDK.Lib
             }
         }
 
-        public void addOneDisp(NetDispHandle disp)
+        public void addOneDisp(NetModuleDispHandle disp)
         {
-            if (m_netDispList.IndexOf(disp) == -1)
+            if (m_netModuleDispList.IndexOf(disp) == -1)
             {
-                m_netDispList.Add(disp);
+                m_netModuleDispList.Add(disp);
             }
         }
 
-        public void removeOneDisp(NetDispHandle disp)
+        public void removeOneDisp(NetModuleDispHandle disp)
         {
-            if (m_netDispList.IndexOf(disp) != -1)
+            if (m_netModuleDispList.IndexOf(disp) != -1)
             {
-                m_netDispList.Remove(disp);
+                m_netModuleDispList.Remove(disp);
             }
         }
 
@@ -50,10 +52,20 @@ namespace SDK.Lib
         {
             //if (false == m_bStopNetHandle)  // 如果没有停止网络处理
             //{
-                foreach (var item in m_netDispList)
-                {
-                    item.handleMsg(msg);
-                }
+            byte byCmd = 0;
+            msg.readUnsignedInt8(ref byCmd);
+            byte byParam = 0;
+            msg.readUnsignedInt8(ref byParam);
+            msg.setPos(0);
+
+            mCmdDispInfo.bu = msg;
+            mCmdDispInfo.byCmd = byCmd;
+            mCmdDispInfo.byParam = byParam;
+
+            foreach (var item in m_netModuleDispList)
+            {
+                item.handleMsg(mCmdDispInfo);
+            }
             //}
         }
 

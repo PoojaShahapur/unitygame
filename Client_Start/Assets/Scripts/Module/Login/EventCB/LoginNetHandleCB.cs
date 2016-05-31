@@ -5,11 +5,11 @@ namespace Game.Login
     /**
      * @brief 登陆网络处理
      */
-    public class LoginNetHandleCB : NetDispHandle
+    public class LoginNetHandleCB : NetModuleDispHandle
     {
         public LoginNetHandleCB()
         {
-            NetCmdHandleBase cmdHandle;
+            NetCmdDispHandle cmdHandle = null;
             cmdHandle = new LoginTimerUserCmdHandle();
             this.addCmdHandle(stNullUserCmd.TIME_USERCMD, cmdHandle, cmdHandle.call);
             cmdHandle = new LoginDataUserCmdHandle();

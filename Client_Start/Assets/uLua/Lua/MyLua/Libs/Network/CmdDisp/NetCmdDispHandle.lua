@@ -1,5 +1,5 @@
 local M = GlobalNS.Class(GlobalNS.GObject);
-M.clsName = "NetCmdHandleBase";
+M.clsName = "NetCmdDispHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
@@ -27,9 +27,9 @@ end
 
 function M:handleMsg(dispObj)
 	local cmd = dispObj;
-    GCtx.mLogSys:log("NetCmdHandleBase Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mLogSys:log("NetCmdDispHandle Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
     if(self.m_id2HandleDic:ContainsKey(cmd.byParam)) then
-        GCtx.mLogSys:log("NetCmdHandleBase In handleMsg", GlobalNS.LogTypeId.eLogCommon);
+        GCtx.mLogSys:log("NetCmdDispHandle In handleMsg", GlobalNS.LogTypeId.eLogCommon);
         self.m_id2HandleDic:value(cmd.byParam):dispatchEvent(cmd.bu);
     else
         

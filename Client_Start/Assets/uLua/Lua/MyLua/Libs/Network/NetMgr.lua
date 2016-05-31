@@ -76,7 +76,7 @@ function M:receiveCmdRpc(buffer, length)
 				g_CmdDispInfo.byCmd = rpcData.response.id + 1;
 				g_CmdDispInfo.byParam = rpcData.response.id + 1;
 				g_CmdDispInfo.bu = msgBody;
-				GCtx.m_netCmdNotify:handleMsg(g_MsgPacket);
+				GCtx.m_netCmdNotify:handleMsg(g_CmdDispInfo);
 			end
         end
     end

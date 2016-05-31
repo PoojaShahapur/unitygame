@@ -3,7 +3,7 @@ using SDK.Lib;
 
 namespace Game.Login
 {
-    public class LoginTimerUserCmdHandle : NetCmdHandleBase
+    public class LoginTimerUserCmdHandle : NetCmdDispHandle
     {
         public LoginTimerUserCmdHandle()
         {
