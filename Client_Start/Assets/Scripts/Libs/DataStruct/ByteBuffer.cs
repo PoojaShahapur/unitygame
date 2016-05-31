@@ -10,15 +10,9 @@ namespace SDK.Lib
     public class ByteBuffer : IDispatchObject
     {
         // 读写临时缓存，这个如果是单线程其实可以共享的
-        public byte[] m_writeInt16Bytes = null;
-        public byte[] m_writeInt32Bytes = null;
-        public byte[] m_writeInt64Bytes = null;
         public byte[] m_writeFloatBytes = null;
         public byte[] m_writeDoubleBytes = null;
-
-        public byte[] m_readInt16Bytes = null;
-        public byte[] m_readInt32Bytes = null;
-        public byte[] m_readInt64Bytes = null;
+        
         public byte[] m_readFloatBytes = null;
         public byte[] m_readDoubleBytes = null;
 
@@ -34,10 +28,7 @@ namespace SDK.Lib
         {
             m_endian = endian;        // 缓冲区默认是小端的数据，因为服务器是 linux 的
             m_dynBuff = new DynBuffer<byte>(initCapacity, maxCapacity);
-
-            m_readInt16Bytes = new byte[sizeof(short)];
-            m_readInt32Bytes = new byte[sizeof(int)];
-            m_readInt64Bytes = new byte[sizeof(Int64)];
+            
             m_readFloatBytes = new byte[sizeof(float)];
             m_readDoubleBytes = new byte[sizeof(double)];
     }
@@ -175,125 +166,11 @@ namespace SDK.Lib
             m_pos -= (uint)delta;
         }
 
-        // 压缩
-        public uint compress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
-        {
-            len_ = (len_ == 0 ? length : len_);
-
-            byte[] retByte = null;
-            uint retSize = 0;
-            Compress.CompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
-
-            replace(retByte, 0, retSize, position, len_);
-
-            return retSize;
-        }
-
-        // 解压
-        public uint uncompress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
-        {
-            len_ = (len_ == 0 ? length : len_);
-
-            byte[] retByte = null;
-            uint retSize = 0;
-            Compress.DecompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
-
-            replace(retByte, 0, retSize, position, len_);
-
-            return retSize;
-        }
-
-        // 加密，使用 des 对称数字加密算法，加密8字节补齐，可能会导致变长
-        public uint encrypt(CryptContext cryptContext, uint len_ = 0)
-        {
-#if OBSOLETE
-            len_ = (len_ == 0 ? length : len_);
-
-            byte[] retByte = null;
-            // 只有 8 个字节的时候才加密
-            uint leftCnt = len_ % 8;  // 剩余的数量
-            uint cryptCnt = leftCnt;
-
-            if (len_ >= 8)
-            {
-                Crypt.encryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
-                writeBytes(retByte, 0, (uint)retByte.Length, false);
-                cryptCnt += (uint)retByte.Length;
-            }
-
-            if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
-            {
-                position += leftCnt;
-            }
-
-            return cryptCnt;
-#endif
-            len_ = (len_ == 0 ? length : len_);
-            uint alignLen_ = ((len_ + 7) / 8) * 8; // 补齐 8 个字节，因为加密是 8 个字节一次加密，只要是 8 个字节的整数倍，无论多少个都可以任意解压
-            uint leftLen_ = alignLen_ - len_;
-            if(leftLen_ > 0)
-            {
-                if(m_padBytes == null)
-                {
-                    m_padBytes = new byte[8];
-                }
-
-                // 保存数据，然后补 0
-                Array.Copy(m_dynBuff.buff, position + len_, m_padBytes, 0, leftLen_);
-                Array.Clear(m_dynBuff.buff, (int)(position + len_), (int)leftLen_);
-            }
-
-            if (len_ == 0)      // 修正之后还等于 0 
-            {
-                return 0;
-            }
-
-            if (alignLen_ > m_dynBuff.capacity)   // 如果最后加密(由于补齐)的长度大于原始长度
-            {
-                length = alignLen_;
-            }
-
-            byte[] retByte = null;
-
-            Crypt.encryptData(m_dynBuff.buff, position, alignLen_, ref retByte, cryptContext);  // 注意补齐不一定是 0 
-            Array.Copy(m_padBytes, 0, m_dynBuff.buff, position + len_, leftLen_);       // 拷贝回去
-            replace(retByte, 0, alignLen_, position, len_);
-
-            return alignLen_;
-        }
-
-        // 解密，现在必须 8 字节对齐解密
-        public void decrypt(CryptContext cryptContext, uint len_ = 0)
-        {
-            len_ = (len_ == 0 ? length : len_);
-
-            byte[] retByte = null;
-
-            if (0 == len_)
-            {
-                return;
-            }
-
-            Crypt.decryptData(m_dynBuff.buff, position, len_, ref retByte, cryptContext);
-            writeBytes(retByte, 0, (uint)retByte.Length, false);
-        }
-
-        public ByteBuffer readBoolean(ref bool tmpBool)
-        {
-            if (canRead(sizeof(bool)))
-            {
-                tmpBool = System.BitConverter.ToBoolean(m_dynBuff.buff, (int)m_pos);
-                advPos(sizeof(bool));
-            }
-
-            return this;
-        }
-
         public ByteBuffer readInt8(ref byte tmpByte)
         {
             if (canRead(sizeof(char)))
             {
-                tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_pos);
+                tmpByte = m_dynBuff.buff[(int)m_pos];
                 advPos(sizeof(char));
             }
 
@@ -304,7 +181,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(byte)))
             {
-                tmpByte = (byte)System.BitConverter.ToChar(m_dynBuff.buff, (int)m_pos);
+                tmpByte = m_dynBuff.buff[(int)m_pos];
                 advPos(sizeof(byte));
             }
 
@@ -315,16 +192,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(short)))
             {
-                if (m_endian != SystemEndian.msLocalEndian)
-                {
-                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt16Bytes, 0, sizeof(short));
-                    Array.Reverse(m_readInt16Bytes, 0, sizeof(short));
-                    tmpShort = System.BitConverter.ToInt16(m_readInt16Bytes, (int)m_pos);
-                }
-                else
-                {
-                    tmpShort = System.BitConverter.ToInt16(m_dynBuff.buff, (int)m_pos);
-                }
+                tmpShort = MBitConverter.ToInt16(m_dynBuff.buff, (int)m_pos, m_endian);
 
                 advPos(sizeof(short));
             }
@@ -336,16 +204,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(ushort)))
             {
-                if (m_endian != SystemEndian.msLocalEndian)
-                {
-                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt16Bytes, 0, sizeof(ushort));
-                    Array.Reverse(m_readInt16Bytes, 0, sizeof(ushort));
-                    tmpUshort = System.BitConverter.ToUInt16(m_readInt16Bytes, (int)m_pos);
-                }
-                else
-                {
-                    tmpUshort = System.BitConverter.ToUInt16(m_dynBuff.buff, (int)m_pos);
-                }
+                tmpUshort = MBitConverter.ToUInt16(m_dynBuff.buff, (int)m_pos, m_endian);
 
                 advPos(sizeof(ushort));
             }
@@ -357,16 +216,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(int)))
             {
-                if (m_endian != SystemEndian.msLocalEndian)
-                {
-                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt32Bytes, 0, sizeof(int));
-                    Array.Reverse(m_readInt32Bytes, 0, sizeof(int));
-                    tmpInt = System.BitConverter.ToInt32(m_readInt32Bytes, (int)m_pos);
-                }
-                else
-                {
-                    tmpInt = System.BitConverter.ToInt32(m_dynBuff.buff, (int)m_pos);
-                }
+                tmpInt = MBitConverter.ToInt32(m_dynBuff.buff, (int)m_pos, m_endian);
 
                 advPos(sizeof(int));
             }
@@ -379,16 +229,7 @@ namespace SDK.Lib
             if (canRead(sizeof(uint)))
             {
                 // 如果字节序和本地字节序不同，需要转换
-                if (m_endian != SystemEndian.msLocalEndian)
-                {
-                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt32Bytes, 0, sizeof(uint));
-                    Array.Reverse(m_readInt32Bytes, 0, sizeof(uint));
-                    tmpUint = System.BitConverter.ToUInt32(m_readInt32Bytes, (int)m_pos);
-                }
-                else
-                {
-                    tmpUint = System.BitConverter.ToUInt32(m_dynBuff.buff, (int)m_pos);
-                }
+                tmpUint = MBitConverter.ToUInt32(m_dynBuff.buff, (int)m_pos, m_endian);
 
                 advPos(sizeof(uint));
             }
@@ -400,16 +241,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(long)))
             {
-                if (m_endian != SystemEndian.msLocalEndian)
-                {
-                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt64Bytes, 0, sizeof(long));
-                    Array.Reverse(m_readInt64Bytes, 0, sizeof(long));
-                    tmpLong = System.BitConverter.ToInt64(m_readInt64Bytes, (int)m_pos);
-                }
-                else
-                {
-                    tmpLong = System.BitConverter.ToInt64(m_dynBuff.buff, (int)m_pos);
-                }
+                tmpLong = MBitConverter.ToInt64(m_dynBuff.buff, (int)m_pos, m_endian);
 
                 advPos(sizeof(long));
             }
@@ -421,16 +253,7 @@ namespace SDK.Lib
         {
             if (canRead(sizeof(ulong)))
             {
-                if (m_endian != SystemEndian.msLocalEndian)
-                {
-                    Array.Copy(m_dynBuff.buff, (int)m_pos, m_readInt64Bytes, 0, sizeof(ulong));
-                    Array.Reverse(m_readInt64Bytes, 0, sizeof(ulong));
-                    tmpUlong = System.BitConverter.ToUInt64(m_readInt64Bytes, (int)m_pos);
-                }
-                else
-                {
-                    tmpUlong = System.BitConverter.ToUInt64(m_dynBuff.buff, (int)m_pos);
-                }
+                tmpUlong = MBitConverter.ToUInt64(m_dynBuff.buff, (int)m_pos, m_endian);
 
                 advPos(sizeof(ulong));
             }
@@ -531,13 +354,8 @@ namespace SDK.Lib
             {
                 extendDeltaCapicity(sizeof(short));
             }
-
-            m_writeInt16Bytes = System.BitConverter.GetBytes(value);
-            if (m_endian != SystemEndian.msLocalEndian)
-            {
-                Array.Reverse(m_writeInt16Bytes);
-            }
-            Array.Copy(m_writeInt16Bytes, 0, m_dynBuff.buff, m_pos, sizeof(short));
+            
+            MBitConverter.GetBytes(value, m_dynBuff.buff, (int)m_pos, m_endian);
 
             advPosAndLen(sizeof(short));
         }
@@ -549,12 +367,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(ushort));
             }
 
-            m_writeInt16Bytes = System.BitConverter.GetBytes(value);
-            if (m_endian != SystemEndian.msLocalEndian)
-            {
-                Array.Reverse(m_writeInt16Bytes);
-            }
-            Array.Copy(m_writeInt16Bytes, 0, m_dynBuff.buff, m_pos, sizeof(ushort));
+            MBitConverter.GetBytes(value, m_dynBuff.buff, (int)m_pos, m_endian);
 
             advPosAndLen(sizeof(ushort));
         }
@@ -566,12 +379,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(int));
             }
 
-            m_writeInt32Bytes = System.BitConverter.GetBytes(value);
-            if (m_endian != SystemEndian.msLocalEndian)
-            {
-                Array.Reverse(m_writeInt32Bytes);
-            }
-            Array.Copy(m_writeInt32Bytes, 0, m_dynBuff.buff, m_pos, sizeof(int));
+            MBitConverter.GetBytes(value, m_dynBuff.buff, (int)m_pos, m_endian);
 
             advPosAndLen(sizeof(int));
         }
@@ -583,12 +391,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(uint));
             }
 
-            m_writeInt32Bytes = System.BitConverter.GetBytes(value);
-            if (m_endian != SystemEndian.msLocalEndian)
-            {
-                Array.Reverse(m_writeInt32Bytes);
-            }
-            Array.Copy(m_writeInt32Bytes, 0, m_dynBuff.buff, m_pos, sizeof(uint));
+            MBitConverter.GetBytes(value, m_dynBuff.buff, (int)m_pos, m_endian);
 
             if (bchangeLen)
             {
@@ -607,12 +410,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(long));
             }
 
-            m_writeInt64Bytes = System.BitConverter.GetBytes(value);
-            if (m_endian != SystemEndian.msLocalEndian)
-            {
-                Array.Reverse(m_writeInt64Bytes);
-            }
-            Array.Copy(m_writeInt64Bytes, 0, m_dynBuff.buff, m_pos, sizeof(long));
+            MBitConverter.GetBytes(value, m_dynBuff.buff, (int)m_pos, m_endian);
 
             advPosAndLen(sizeof(long));
         }
@@ -624,12 +422,7 @@ namespace SDK.Lib
                 extendDeltaCapicity(sizeof(ulong));
             }
 
-            m_writeInt64Bytes = System.BitConverter.GetBytes(value);
-            if (m_endian != SystemEndian.msLocalEndian)
-            {
-                Array.Reverse(m_writeInt64Bytes);
-            }
-            Array.Copy(m_writeInt64Bytes, 0, m_dynBuff.buff, m_pos, sizeof(ulong));
+            MBitConverter.GetBytes(value, m_dynBuff.buff, (int)m_pos, m_endian);
 
             advPosAndLen(sizeof(ulong));
         }
@@ -822,6 +615,120 @@ namespace SDK.Lib
             aabb.setMinimum(MVector3.fromNative(tmp));
             readVector3(ref tmp);
             aabb.setMaximum(MVector3.fromNative(tmp));
+        }
+
+        // 压缩
+        public uint compress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        {
+            len_ = (len_ == 0 ? length : len_);
+
+            byte[] retByte = null;
+            uint retSize = 0;
+            Compress.CompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
+
+            replace(retByte, 0, retSize, position, len_);
+
+            return retSize;
+        }
+
+        // 解压
+        public uint uncompress(uint len_ = 0, CompressionAlgorithm algorithm = CompressionAlgorithm.ZLIB)
+        {
+            len_ = (len_ == 0 ? length : len_);
+
+            byte[] retByte = null;
+            uint retSize = 0;
+            Compress.DecompressData(m_dynBuff.buff, position, len_, ref retByte, ref retSize, algorithm);
+
+            replace(retByte, 0, retSize, position, len_);
+
+            return retSize;
+        }
+
+        // 加密，使用 des 对称数字加密算法，加密8字节补齐，可能会导致变长
+        public uint encrypt(CryptContext cryptContext, uint len_ = 0)
+        {
+#if OBSOLETE
+            len_ = (len_ == 0 ? length : len_);
+
+            byte[] retByte = null;
+            // 只有 8 个字节的时候才加密
+            uint leftCnt = len_ % 8;  // 剩余的数量
+            uint cryptCnt = leftCnt;
+
+            if (len_ >= 8)
+            {
+                Crypt.encryptData(m_dynBuff.buff, position, len_ - leftCnt, ref retByte, cryptKey);
+                writeBytes(retByte, 0, (uint)retByte.Length, false);
+                cryptCnt += (uint)retByte.Length;
+            }
+
+            if (leftCnt > 0) // 如果还有剩余的字节没有加密，还需要增加长度
+            {
+                position += leftCnt;
+            }
+
+            return cryptCnt;
+#endif
+            len_ = (len_ == 0 ? length : len_);
+            uint alignLen_ = ((len_ + 7) / 8) * 8; // 补齐 8 个字节，因为加密是 8 个字节一次加密，只要是 8 个字节的整数倍，无论多少个都可以任意解压
+            uint leftLen_ = alignLen_ - len_;
+            if (leftLen_ > 0)
+            {
+                if (m_padBytes == null)
+                {
+                    m_padBytes = new byte[8];
+                }
+
+                // 保存数据，然后补 0
+                Array.Copy(m_dynBuff.buff, position + len_, m_padBytes, 0, leftLen_);
+                Array.Clear(m_dynBuff.buff, (int)(position + len_), (int)leftLen_);
+            }
+
+            if (len_ == 0)      // 修正之后还等于 0 
+            {
+                return 0;
+            }
+
+            if (alignLen_ > m_dynBuff.capacity)   // 如果最后加密(由于补齐)的长度大于原始长度
+            {
+                length = alignLen_;
+            }
+
+            byte[] retByte = null;
+
+            Crypt.encryptData(m_dynBuff.buff, position, alignLen_, ref retByte, cryptContext);  // 注意补齐不一定是 0 
+            Array.Copy(m_padBytes, 0, m_dynBuff.buff, position + len_, leftLen_);       // 拷贝回去
+            replace(retByte, 0, alignLen_, position, len_);
+
+            return alignLen_;
+        }
+
+        // 解密，现在必须 8 字节对齐解密
+        public void decrypt(CryptContext cryptContext, uint len_ = 0)
+        {
+            len_ = (len_ == 0 ? length : len_);
+
+            byte[] retByte = null;
+
+            if (0 == len_)
+            {
+                return;
+            }
+
+            Crypt.decryptData(m_dynBuff.buff, position, len_, ref retByte, cryptContext);
+            writeBytes(retByte, 0, (uint)retByte.Length, false);
+        }
+
+        public ByteBuffer readBoolean(ref bool tmpBool)
+        {
+            if (canRead(sizeof(bool)))
+            {
+                tmpBool = System.BitConverter.ToBoolean(m_dynBuff.buff, (int)m_pos);
+                advPos(sizeof(bool));
+            }
+
+            return this;
         }
     }
 }
