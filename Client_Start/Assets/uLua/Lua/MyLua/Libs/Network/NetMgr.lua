@@ -24,6 +24,7 @@ function M:sendCmd(id, data, isNetSend)
     end
 end
 
+-- RPC 包
 function M:sendCmdRpc(id, rpc, data, isNetSend)
     if(isNetSend == nil or isNetSend == true) then
         local command = NetCommand[id];
@@ -48,10 +49,30 @@ function M:receiveCmd(id, buffer)
     GCtx.mLogSys:log("NetMgr::receiveCmd id = " .. id, GlobalNS.LogTypeId.eLogCommon);
     local command = NetCommand[id];
     if(command ~= nil) then
-        local data = GlobalNS.ProtobufUtil.decode(command.proto, buffer);
+        local data = GlobalNS.ProtobufUtil.decode(command.proto, buffer, buffer.mLength);
         if(data ~= nil) then
             GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
             GCtx.m_netCmdNotify:handleMsg(data);
+        end
+    end
+end
+
+-- RPC 包
+function M:receiveCmdRpc(buffer)
+    GCtx.mLogSys:log("NetMgr::receiveCmdRpc", GlobalNS.LogTypeId.eLogCommon);
+    local command = NetCommand[3];
+    if(command ~= nil) then
+        --local rpcData = GlobalNS.ProtobufUtil.decode(command.proto, buffer, buffer.mLength);
+		local rpcData = GlobalNS.ProtobufUtil.decode(command.proto, buffer);
+        if(rpcData ~= nil and rpcData.response ~= nil) then
+			GCtx.mLogSys:log("NetMgr::receiveCmdRpc id = " .. rpcData.response.id, GlobalNS.LogTypeId.eLogCommon);
+			command = NetCommand[rpcData.response.id + 1];
+			if(command ~= nil) then
+				local msgBody = GlobalNS.ProtobufUtil.decode(command.proto, rpcData.response.content);
+				rpcData.response.msgBody = msgBody;
+				GCtx.mLogSys:log("NetMgr handleMsg", GlobalNS.LogTypeId.eLogCommon);
+				GCtx.m_netCmdNotify:handleMsg(rpcData);
+			end
         end
     end
 end

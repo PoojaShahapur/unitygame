@@ -11,7 +11,7 @@ function M:addParamHandle(paramId, pThis, func)
         local disp = GlobalNS.new(GlobalNS.AddOnceEventDispatch);
         self.m_id2HandleDic:Add(paramId, disp);
     else
-        GCtx.mLogSys.log("Msg Id Already Register", GlobalNS.LogTypeId.eLogCommon);
+        GCtx.mLogSys:log("Msg Id Already Register paramId = " .. paramId, GlobalNS.LogTypeId.eLogCommon);
     end
 
     self.m_id2HandleDic:value(paramId):addEventHandle(pThis, func);

@@ -97,7 +97,7 @@ namespace UnitTest
             //m_pTestLua.run();
             //m_pTestNavMesh.run();
             //m_pTestAStar.run();
-            m_pTestProtoBuf.run();
+            //m_pTestProtoBuf.run();
 
             //m_pTestDraw.run();
             //m_testHeightMap.run();

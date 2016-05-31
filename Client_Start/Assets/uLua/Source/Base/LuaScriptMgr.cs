@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Diagnostics;
 using System.Collections;
+using SDK.Lib;
 
 public class LuaScriptMgr
 {
@@ -2537,6 +2538,19 @@ public class LuaScriptMgr
         if (lsb != null && lsb.buffer != null)
         {
             LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.buffer.Length);
+        }
+        else
+        {
+            LuaDLL.lua_pushnil(L);
+        }
+    }
+
+    // 用来传递虚拟机 MLuaStringBuffer 中内容的
+    public static void Push(IntPtr L, MLuaStringBuffer lsb)
+    {
+        if (lsb != null && lsb.buffer != null)
+        {
+            LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.mLength);
         }
         else
         {

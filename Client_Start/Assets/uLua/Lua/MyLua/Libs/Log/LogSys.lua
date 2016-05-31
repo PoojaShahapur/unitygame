@@ -3,7 +3,7 @@ M.clsName = "LogSys";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-
+	self.mEnableLog = true;
 end
 
 function M:dtor()
@@ -11,12 +11,16 @@ function M:dtor()
 end
 
 function M:isInFilter(logTypeId)
+	if(not self.mEnableLog) then
+		return false;
+	end
+	
     if(logTypeId == GlobalNS.LogTypeId.eLogCommon or
        logTypeId == GlobalNS.LogTypeId.eLogTest) then
         return true;
     end
     
-    return true;
+    return false;
 end
 
 function M:log(message, logTypeId)

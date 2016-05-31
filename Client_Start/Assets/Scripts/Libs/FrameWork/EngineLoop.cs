@@ -23,8 +23,8 @@
                     if (null != Ctx.m_instance.m_netCmdNotify)
                     {
                         Ctx.m_instance.m_netCmdNotify.addOneHandleMsg();
-                        Ctx.m_instance.m_netCmdNotify.handleMsg(ret);   // CS 中处理
-                        Ctx.m_instance.m_luaSystem.receiveToLua(ret);   // Lua 中处理
+                        Ctx.m_instance.m_netCmdNotify.handleMsg(ret);       // CS 中处理
+                        Ctx.m_instance.m_luaSystem.receiveToLuaRpc(ret);    // Lua 中处理
                     }
                 }
             }

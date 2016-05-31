@@ -336,6 +336,10 @@ function M.RemoveListener(go, luaTable, func)
     
 end
 
+function getStrLen(str)
+	return string.len(str);
+end
+
 M.ctor()        -- 构造
 
 return M;

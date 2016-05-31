@@ -25,7 +25,7 @@ function M:removeCmdHandle(cmdId, pThis, func)
 end
 
 function M:handleMsg(msg)
-    local byCmd = 1000;
+    local byCmd = msg.response.id;
     --byCmd = msg.readUnsignedInt8(byCmd);
     local byParam = 1000;
     --byParam = msg.readUnsignedInt8(byParam);
@@ -33,7 +33,7 @@ function M:handleMsg(msg)
     GCtx.mLogSys:log("NetDispHandle Start handleMsg", GlobalNS.LogTypeId.eLogCommon);
     if(self.m_id2DispDic:ContainsKey(byCmd)) then
         GCtx.mLogSys:log("NetDispHandle In handleMsg", GlobalNS.LogTypeId.eLogCommon);
-        self.mCmdDispInfo.bu = msg;
+        self.mCmdDispInfo.bu = rpcData.response.msgBody;
         self.mCmdDispInfo.byCmd = byCmd;
         self.mCmdDispInfo.byParam = byParam;
         self.m_id2DispDic:value(byCmd):dispatchEvent(self.mCmdDispInfo);

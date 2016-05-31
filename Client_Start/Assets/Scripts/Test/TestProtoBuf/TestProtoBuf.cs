@@ -10,7 +10,8 @@ namespace UnitTest
         {
             //testProtoBufStr();
             //testProtoBufBytes();
-            testNet();
+            //testNet();
+            testNetRPC();
         }
 
         public void testProtoBufStr()
@@ -36,6 +37,18 @@ namespace UnitTest
         }
 
         public void testNet()
+        {
+            MSG_ReqTest pSource = new MSG_ReqTest();
+            pSource.requid = 123;
+            pSource.reqguid = 456;
+            pSource.reqaccount = "qwer";
+
+            byte[] bytes = ProtobufUtil.SerializeTBytes<MSG_ReqTest>(pSource);
+            Ctx.m_instance.m_luaSystem.receiveToLua(bytes);
+        }
+
+        // 测试 RPC
+        public void testNetRPC()
         {
             MSG_ReqTest pSource = new MSG_ReqTest();
             pSource.requid = 123;

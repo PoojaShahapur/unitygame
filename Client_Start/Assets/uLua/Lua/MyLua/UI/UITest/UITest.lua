@@ -64,8 +64,8 @@ end
 
 function M:onBtnClk()
 	--self:testSendMsg();
-	--self:testLoginMsg();
-	self:testEmptyLoginMsg();
+	self:testLoginMsg();
+	--self:testEmptyLoginMsg();
 end
 
 function M:testSendMsg()
@@ -78,9 +78,10 @@ end
 
 function M:testLoginMsg()
 	local rpc = {};
-	rpc.id = 1002;
-	rpc.service = "Login";
-	rpc.method = "LoginRequest";
+	rpc.request = {};
+	rpc.request.id = 1002;
+	rpc.request.service = "rpc.Login";
+	rpc.request.method = "Login";
 	
     local msg = {};
     msg.account = "account";

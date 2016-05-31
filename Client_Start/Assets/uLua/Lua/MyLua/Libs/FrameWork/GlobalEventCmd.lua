@@ -19,6 +19,12 @@ function M.onReceiveToLua(id, buffer)
     GCtx.mNetMgr:receiveCmd(id, buffer);
 end
 
+function M.onReceiveToLuaRpc(buffer)
+    GCtx.mLogSys:log("GlobalEventCmd::onReceiveToLuaRpc", GlobalNS.LogTypeId.eLogCommon);
+    GCtx.mNetMgr:receiveCmdRpc(buffer);
+end
+
+
 -- 场景加载完成
 function M.onSceneLoaded()
 	if(GlobalNS.MacroDef.UNIT_TEST) then
