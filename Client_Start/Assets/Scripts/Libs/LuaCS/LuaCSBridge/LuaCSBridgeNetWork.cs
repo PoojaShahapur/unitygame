@@ -14,7 +14,7 @@
         // Lua 脚本处理消息
         public void handleMsg(ByteBuffer bu, byte byCmd, byte byParam)
         {
-            MLuaStringBuffer luaBuffer = new MLuaStringBuffer(bu.dynBuff.buff, (int)bu.length);
+            LuaStringBuffer luaBuffer = new LuaStringBuffer(bu.dynBuff.buff);
             CallClassMethod("", "handleMsg", byCmd, byParam, luaBuffer);    // 回调 Lua 函数
         }
     }

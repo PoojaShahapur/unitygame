@@ -2545,19 +2545,6 @@ public class LuaScriptMgr
         }
     }
 
-    // 用来传递虚拟机 MLuaStringBuffer 中内容的
-    public static void Push(IntPtr L, MLuaStringBuffer lsb)
-    {
-        if (lsb != null && lsb.buffer != null)
-        {
-            LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.mLength);
-        }
-        else
-        {
-            LuaDLL.lua_pushnil(L);
-        }
-    }
-
     public static LuaScriptMgr GetMgrFromLuaState(IntPtr L)
     {
 #if MULTI_STATE      

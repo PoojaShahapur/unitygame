@@ -761,6 +761,12 @@ namespace SDK.Lib
             return this;
         }
 
+        // 写入 EOF 结束符
+        public void end()
+        {
+            m_dynBuff.buff[this.length] = 0;
+        }
+
         public void writeVector2(Vector2 vec)
         {
             this.writeFloat(vec.x);

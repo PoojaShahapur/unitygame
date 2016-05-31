@@ -162,7 +162,7 @@ public class SDK_Lib_MFileSysWrap
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-        MLuaStringBuffer o = SDK.Lib.MFileSys.readLuaBufferToFile(arg0);
+        LuaStringBuffer o = SDK.Lib.MFileSys.readLuaBufferToFile(arg0);
         LuaScriptMgr.Push(L, o);
 		return 1;
 	}

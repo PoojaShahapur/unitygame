@@ -135,10 +135,10 @@ namespace SDK.Lib
             File.WriteAllText(msPersistentDataPath + "/" + fileName, text);
         }
 
-        static public MLuaStringBuffer readLuaBufferToFile(string fileName)
+        static public LuaStringBuffer readLuaBufferToFile(string fileName)
         {
             byte[] ret = readFileAllBytes(fileName.ToString());
-            MLuaStringBuffer buffer = new MLuaStringBuffer(ret, ret.Length);
+            LuaStringBuffer buffer = new LuaStringBuffer(ret);
             return buffer;
         }
 

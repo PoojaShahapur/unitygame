@@ -95,23 +95,26 @@ namespace SDK.Lib
 
         public void receiveToLua(ByteBuffer msg)
         {
-            MLuaStringBuffer buffer = new MLuaStringBuffer(msg.dynBuff.m_buff, (int)msg.length);
+            LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff);
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 0, buffer);
         }
 
         public void receiveToLuaRpc(ByteBuffer msg)
         {
+            //msg.end();
             // 拷贝数据，因为 LuaStringBuffer 不支持偏移和长度
             byte[] cmdBuf = new byte[msg.length];
             Array.Copy(msg.dynBuff.m_buff, 0, cmdBuf, 0, msg.length);
             LuaStringBuffer buffer = new LuaStringBuffer(cmdBuf);
+            //LuaStringBuffer buffer = new LuaStringBuffer(msg.dynBuff.m_buff, (int)msg.length);
+            //MLuaStringBuffer buffer = new MLuaStringBuffer(cmdBuf, cmdBuf.Length);
             //MLuaStringBuffer buffer = new MLuaStringBuffer(msg.dynBuff.m_buff, (int)msg.length);
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLuaRpc", buffer);
         }
 
         public void receiveToLua(Byte[] msg)
         {
-            MLuaStringBuffer buffer = new MLuaStringBuffer(msg, (int)msg.Length);
+            LuaStringBuffer buffer = new LuaStringBuffer(msg);
             //this.CallLuaFunction("NetMgr.receiveCmd", 0, buffer);
             this.CallLuaFunction("GlobalNS.GlobalEventCmd.onReceiveToLua", 1000, buffer);
         }
@@ -214,7 +217,7 @@ namespace SDK.Lib
         {
             if (lsb != null && lsb.buffer != null)
             {
-                LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.mLength);
+                LuaDLL.lua_pushlstring(L, lsb.buffer, lsb.mLen);
             }
             else
             {
