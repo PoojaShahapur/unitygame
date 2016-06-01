@@ -81,7 +81,7 @@ namespace SDK.Lib
                 {
                     // Android 平台
                     string path = UtilPath.getRuntimeWWWStreamingAssetsPath(mFilePath);
-                    mWWW = new WWW(path);
+                    mWWW = new WWW(path);   // 同步加载资源
                 }
                 else
                 {
@@ -253,16 +253,13 @@ namespace SDK.Lib
             {
                 if(UtilApi.isWWWNoError(mWWW))
                 {
-                    if (count == 0)
+                    if (mWWW.text != null)
                     {
-                        if (mWWW.text != null)
-                        {
-                            retStr = mWWW.text;
-                        }
-                        else if(mWWW.bytes != null)
-                        {
-                            retStr = encode.GetString(bytes);
-                        }
+                        retStr = mWWW.text;
+                    }
+                    else if(mWWW.bytes != null)
+                    {
+                        retStr = encode.GetString(bytes);
                     }
                 }
             }

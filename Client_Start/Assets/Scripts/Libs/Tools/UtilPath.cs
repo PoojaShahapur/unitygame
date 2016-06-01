@@ -677,20 +677,17 @@ namespace SDK.Lib
             string filepath = "";
             if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor)
             {
-                filepath = path;
-            }
-            else if (Application.platform == RuntimePlatform.Android)
-            {
-                if (path.IndexOf("file:///") != 0)
+                if (path.IndexOf("file://") != 0)
                 {
-                    filepath = "file:///" + path;
+                    filepath = "file://" + path;
                 }
                 else
                 {
                     filepath = path;
                 }
             }
-            else if (Application.platform == RuntimePlatform.Android)
+            else if (Application.platform == RuntimePlatform.Android ||
+                     Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 if (path.IndexOf("file:///") != 0)
                 {

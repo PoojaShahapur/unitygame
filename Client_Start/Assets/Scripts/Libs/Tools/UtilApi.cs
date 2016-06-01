@@ -1150,7 +1150,7 @@ namespace SDK.Lib
         {
             if(www != null)
             {
-                return string.IsNullOrEmpty(www.error);
+                return www.isDone && string.IsNullOrEmpty(www.error);
             }
 
             return true;

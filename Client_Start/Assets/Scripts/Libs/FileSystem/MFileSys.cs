@@ -21,22 +21,22 @@ namespace SDK.Lib
             return Application.dataPath;
         }
 
-        // 获取本地可以读取的目录 StreamingAssets，但是不能写
+        // 获取本地可以读取的 StreamingAssets 目录，不同平台下 StreamingAssets 是不同的，但是不能写
         static public string getLocalReadDir()
         {
             #if UNITY_EDITOR
-            string filepath = Application.dataPath +"/StreamingAssets";
-            #elif UNITY_IPHONE
-              string filepath = Application.dataPath +"/Raw";
-            #elif UNITY_ANDROID
+            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+#elif UNITY_IPHONE
+              string filepath = Application.dataPath +"/Raw/";
+#elif UNITY_ANDROID
               string filepath = "jar:file://" + Application.dataPath + "!/assets/";
-            #elif UNITY_STANDALONE_WIN
-            string filepath = Application.dataPath +"/StreamingAssets";
-            #elif UNITY_WEBPLAYER
-            string filepath = Application.dataPath +"/StreamingAssets";
-            #else
-            string filepath = Application.dataPath +"/StreamingAssets";
-            #endif
+#elif UNITY_STANDALONE_WIN
+            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+#elif UNITY_WEBPLAYER
+            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+#else
+            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+#endif
 
             return filepath;
         }
