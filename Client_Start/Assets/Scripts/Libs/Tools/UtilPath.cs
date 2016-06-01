@@ -658,5 +658,28 @@ namespace SDK.Lib
 
             UtilPath.createDirectory(UtilPath.combine(rootPath, subPath));
         }
+
+        // Android 运行时
+        static public bool isAndroidRuntime()
+        {
+            return Application.platform == RuntimePlatform.Android;
+        }
+
+        // 是否是 StreamingAssetsPath 目录
+        static public bool isStreamingAssetsPath(string path)
+        {
+            path = UtilPath.normalPath(path);
+            return path.IndexOf(MFileSys.msStreamingAssetsPath) == 0;
+        }
+
+        static public string getRuntimeWWWStreamingAssetsPath(string path)
+        {
+            if (path.IndexOf("file:///") != 0)
+            {
+                path = "file:///" + path;
+            }
+
+            return path;
+        }
     }
 }

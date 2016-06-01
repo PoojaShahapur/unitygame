@@ -1145,5 +1145,15 @@ namespace SDK.Lib
         {
             return Screen.height;
         }
+
+        static public bool isWWWNoError(WWW www)
+        {
+            if(www != null)
+            {
+                return string.IsNullOrEmpty(www.error);
+            }
+
+            return true;
+        }
     }
 }

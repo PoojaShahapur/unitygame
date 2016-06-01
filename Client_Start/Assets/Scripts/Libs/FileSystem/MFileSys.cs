@@ -9,10 +9,11 @@ namespace SDK.Lib
     public class MFileSys
     {
 #if UNITY_EDITOR
-        static string msPersistentDataPath = Application.streamingAssetsPath;
+        public static string msPersistentDataPath = Application.streamingAssetsPath;
 #else
-        static string msPersistentDataPath = Application.persistentDataPath;
+        public static string msPersistentDataPath = Application.persistentDataPath;
 #endif
+        public static string msStreamingAssetsPath = Application.streamingAssetsPath;
 
         // 获取本地 Data 目录
         static public string getLocalDataDir()

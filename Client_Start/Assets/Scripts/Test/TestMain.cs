@@ -35,6 +35,7 @@ namespace UnitTest
         protected TestIsometric m_testIsometric;
         protected TestCoroutinePrefabIns mTestCoroutinePrefabIns;
         protected TestCoroutineTask mTestCoroutineTask;
+        protected TestDataStream mTestDataStream;
 
         public TestMain()
         {
@@ -71,6 +72,7 @@ namespace UnitTest
             m_testIsometric = new TestIsometric();
             mTestCoroutinePrefabIns = new TestCoroutinePrefabIns();
             mTestCoroutineTask = new TestCoroutineTask();
+            mTestDataStream = new TestDataStream();
         }
 
         public void run()
@@ -108,6 +110,7 @@ namespace UnitTest
             //m_testIsometric.run();
             //mTestCoroutinePrefabIns.run();
             //mTestCoroutineTask.run();
+            mTestDataStream.run();
         }
     }
 }
