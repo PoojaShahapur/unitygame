@@ -164,8 +164,8 @@ namespace SDK.Lib
             }
         }
 
-        // eResourcesType 打包类型资源加载，isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
-        public void loadResources(LoadParam param, bool isCheckDep = true)
+        // eResourcesType 打包类型资源加载
+        public void loadResources(LoadParam param)
         {
             //param.resolvePath();
 
@@ -188,12 +188,24 @@ namespace SDK.Lib
                 param.m_resLoadType = ResLoadType.eStreamingAssets;
                 load(param);
             }
-            else if (!MacroDef.ASSETBUNDLES_LOAD)
+            else
             {
                 param.m_resPackType = ResPackType.eResourcesType;
                 param.m_resLoadType = ResLoadType.eLoadResource;
 
                 load(param);
+            }
+        }
+
+        // 加载资源，内部决定加载方式，可能从 Resources 下加载或者从 StreamingAssets 下加载，或者从 PersistentDataPath 下加载。isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
+        public void loadAsset(LoadParam param, bool isCheckDep = true)
+        {
+            if (!MacroDef.ASSETBUNDLES_LOAD)
+            {
+                param.m_resPackType = ResPackType.eResourcesType;
+                param.m_resLoadType = ResLoadType.eLoadResource;
+
+                loadResources(param);
             }
             else
             {

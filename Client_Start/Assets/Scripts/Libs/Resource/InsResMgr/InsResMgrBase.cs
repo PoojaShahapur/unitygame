@@ -121,7 +121,7 @@ namespace SDK.Lib
             m_path2ResDic[param.mResUniqueId] = resItem;
             m_path2ResDic[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.setLoading();
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_resLoadMgr.loadResources(param);
+            Ctx.m_instance.m_resLoadMgr.loadAsset(param);
         }
 
         protected void loadWithNotResCreatedAndNotLoad<T>(LoadParam param) where T : InsResBase, new()

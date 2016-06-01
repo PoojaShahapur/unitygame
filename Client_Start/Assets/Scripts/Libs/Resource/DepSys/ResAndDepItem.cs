@@ -60,7 +60,7 @@ namespace SDK.Lib
                     param.m_loadEventHandle = onLoadEventHandle;
                     param.m_loadNeedCoroutine = m_loadNeedCoroutine;
                     param.m_resNeedCoroutine = m_resNeedCoroutine;
-                    Ctx.m_instance.m_resLoadMgr.loadResources(param);       // 依赖加载也需要检查依赖
+                    Ctx.m_instance.m_resLoadMgr.loadAsset(param);       // 依赖加载也需要检查依赖
                     Ctx.m_instance.m_poolSys.deleteObj(param);
                 //}
             }

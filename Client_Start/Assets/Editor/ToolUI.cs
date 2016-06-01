@@ -20,7 +20,14 @@ namespace EditorTool
         [MenuItem("MyNew/ExportWindowDebugPackage")]
         public static void BuildWindowDebug()
         {
-            //BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
+            BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
+        }
+
+        // 导出 AssetBundles
+        [MenuItem("MyNew/ExportAndroidDebugPackage")]
+        public static void BuildAndroidDebug()
+        {
+            BuildScript.BuildPlayer(BuildTarget.Android, false);
         }
     }
 }

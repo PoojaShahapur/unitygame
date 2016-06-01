@@ -79,7 +79,7 @@ namespace SDK.Lib
                 param.m_resNeedCoroutine = false;
                 param.setPath(m_ID2FileName[m_langID].m_filePath);
                 param.m_loadEventHandle = onLoadEventHandle;
-                Ctx.m_instance.m_resLoadMgr.loadResources(param);
+                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }

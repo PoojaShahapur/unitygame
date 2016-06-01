@@ -21,7 +21,7 @@ namespace UnitTest
             string resPath = "Anim/boxcampush";
             param.setPath(resPath);
             param.m_loadEventHandle = onLoadEventHandle;
-            Ctx.m_instance.m_resLoadMgr.loadResources(param);
+            Ctx.m_instance.m_resLoadMgr.loadAsset(param);
             Ctx.m_instance.m_poolSys.deleteObj(param);
         }
 
