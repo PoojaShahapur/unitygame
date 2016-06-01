@@ -21,7 +21,7 @@ namespace SDK.Lib
             return Application.dataPath;
         }
 
-        // 获取本地可以读取的目录，但是不能写
+        // 获取本地可以读取的目录 StreamingAssets，但是不能写
         static public string getLocalReadDir()
         {
             #if UNITY_EDITOR

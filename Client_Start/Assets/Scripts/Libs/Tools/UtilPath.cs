@@ -176,7 +176,7 @@ namespace SDK.Lib
                 }
                 ++idx;
             }
-            ret.Replace("//", "/");
+            ret = ret.Replace("//", "/");
             return ret;
         }
 
@@ -674,12 +674,39 @@ namespace SDK.Lib
 
         static public string getRuntimeWWWStreamingAssetsPath(string path)
         {
-            if (path.IndexOf("file:///") != 0)
+            string filepath = "";
+            if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor)
             {
-                path = "file:///" + path;
+                filepath = path;
+            }
+            else if (Application.platform == RuntimePlatform.Android)
+            {
+                if (path.IndexOf("file:///") != 0)
+                {
+                    filepath = "file:///" + path;
+                }
+                else
+                {
+                    filepath = path;
+                }
+            }
+            else if (Application.platform == RuntimePlatform.Android)
+            {
+                if (path.IndexOf("file:///") != 0)
+                {
+                    filepath = "file:///" + path;
+                }
+                else
+                {
+                    filepath = path;
+                }
+            }
+            else
+            {
+                filepath = path;
             }
 
-            return path;
+            return filepath;
         }
     }
 }
