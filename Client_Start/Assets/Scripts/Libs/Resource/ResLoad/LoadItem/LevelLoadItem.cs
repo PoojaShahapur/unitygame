@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     /**
      * @brief 支持从本地和 Web 服务器加载场景和场景 Bundle 资源 ，采用 WWW 下载
@@ -25,7 +22,7 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
-            if(ResLoadType.eLoadStreamingAssets == m_resLoadType)
+            if(ResLoadType.eLoadResource == m_resLoadType)
             {
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
