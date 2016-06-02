@@ -9,7 +9,11 @@ namespace EditorTool
     {
         public static void BuildAssetBundles(BuildTarget target)
         {
-            string outputPath = Path.Combine(UtilApi.kAssetBundlesOutputPath, ExportUtil.GetPlatformFolderForAssetBundles(target));
+            string targetName = ExportUtil.GetPlatformFolderForAssetBundles(target);
+            string outputPath = UtilPath.combine(UtilPath.getCurrentDirectory(),
+                                                 UtilApi.ASSETBUNDLES,
+                                                 targetName
+                                                );
             if (UtilPath.existDirectory(outputPath))
             {
                 UtilPath.deleteDirectory(outputPath);
@@ -20,6 +24,19 @@ namespace EditorTool
             }
 
             BuildPipeline.BuildAssetBundles(outputPath, BuildAssetBundleOptions.UncompressedAssetBundle, target);
+
+            string manifestSrcName = UtilPath.combine(UtilPath.getCurrentDirectory(),
+                                                 UtilApi.ASSETBUNDLES,
+                                                 targetName,
+                                                 targetName
+                                                );
+
+            string manifestDestName = UtilPath.combine(UtilPath.getCurrentDirectory(),
+                                                 UtilApi.ASSETBUNDLES,
+                                                 targetName,
+                                                 targetName + UtilApi.DOTUNITY3D
+                                                );
+            UtilPath.renameFile(manifestSrcName, manifestDestName);
         }
 
         public static void BuildPlayer(BuildTarget target, bool isRelease)
@@ -37,9 +54,9 @@ namespace EditorTool
 
             BuildScript.BuildAssetBundles(target);
 
-            string sourcePath = Path.Combine(System.Environment.CurrentDirectory, UtilApi.kAssetBundlesOutputPath);
-            string outputPath = Path.Combine(Application.streamingAssetsPath, UtilApi.kAssetBundlesOutputPath);
-            BuildScript.CopyAssetBundlesTo(target, sourcePath, outputPath);
+            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetName);
+            string outputPath = MFileSys.msStreamingAssetsPath;
+            UtilPath.copyDirectory(sourcePath, sourcePath, true);
 
             BuildOptions option = BuildOptions.None;
             if (!isRelease)
@@ -48,7 +65,9 @@ namespace EditorTool
                 option = BuildOptions.AllowDebugging;
                 option = BuildOptions.ConnectWithProfiler;
             }
-            BuildPipeline.BuildPlayer(levels, outputPath + targetName, target, option);
+
+            string pakPath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut", targetName);
+            //BuildPipeline.BuildPlayer(levels, outputPath + targetName, target, option);
         }
 
         static void CopyAssetBundlesTo(BuildTarget target, string sourcePath, string outputPath)
@@ -59,7 +78,7 @@ namespace EditorTool
             string outputFolder = ExportUtil.GetPlatformFolderForAssetBundles(target);
             string source = Path.Combine(sourcePath, outputFolder);
 
-            if (!System.IO.Directory.Exists(source))
+            if (!UtilPath.existDirectory(source))
             {
                 Debug.Log("No assetBundle output folder, try to build the assetBundles first.");
             }

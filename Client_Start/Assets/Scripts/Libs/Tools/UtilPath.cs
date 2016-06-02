@@ -705,5 +705,10 @@ namespace SDK.Lib
 
             return filepath;
         }
+
+        static public string getCurrentDirectory()
+        {
+            return System.Environment.CurrentDirectory;
+        }
     }
 }

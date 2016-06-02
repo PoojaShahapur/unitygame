@@ -31,7 +31,7 @@ namespace SDK.Lib
         public const string DOTPNG = ".png";
 
         public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
-        public const string kAssetBundlesOutputPath = "AssetBundles";
+        public const string ASSETBUNDLES = "AssetBundles";
         public const string CR_LF = "\r\n";     // 回车换行
         public const string SEPARATOR = "=";    // 分隔符
 
@@ -1041,7 +1041,7 @@ namespace SDK.Lib
                 return "file://" + Application.streamingAssetsPath;
         }
 
-        static public string GetPlatformFolderForAssetBundles(RuntimePlatform platform)
+        static public string getRuntimePlatformFolderForAssetBundles(RuntimePlatform platform)
         {
             switch (platform)
             {
@@ -1067,7 +1067,7 @@ namespace SDK.Lib
 
         static public string getManifestName()
         {
-            return GetPlatformFolderForAssetBundles(Application.platform) + UtilApi.DOTUNITY3D;
+            return UtilApi.getRuntimePlatformFolderForAssetBundles(Application.platform) + UtilApi.DOTUNITY3D;
         }
 
         static public void createMatIns(ref Material insMat, Material matTmpl, string matName = "", HideFlags hideFlags = HideFlags.DontSave | HideFlags.NotEditable)

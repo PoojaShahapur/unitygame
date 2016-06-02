@@ -20,7 +20,10 @@ namespace EditorTool
         [MenuItem("MyNew/ExportWindowDebugPackage")]
         public static void BuildWindowDebug()
         {
+            ToolCtx.instance();
+            ToolCtx.m_instance.exportAssetBundleName();
             BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
+            ToolCtx.instance().dispose();
         }
 
         // 导出 AssetBundles

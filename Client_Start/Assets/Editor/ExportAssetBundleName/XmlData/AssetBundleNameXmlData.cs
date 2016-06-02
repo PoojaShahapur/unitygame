@@ -19,7 +19,7 @@ namespace EditorTool
 
         public void parseXml()
         {
-            string path = ExportUtil.getDataPath("Res/Config/Tool/ExportAssetBundleName.xml");
+            string path = ExportUtil.getDataPath("Editor/Config/ExportAssetBundleName.xml");
             AssetBundleNameXmlParse parse = new AssetBundleNameXmlParse();
             parse.parseXml(path, this);
         }

@@ -21,6 +21,11 @@
             init();
         }
 
+        public void dispose()
+        {
+            m_instance = null;
+        }
+
         public void init()
         {
             mExportAssetBundleNameSys.init();
@@ -29,11 +34,6 @@
         public void clear()
         {
             mExportAssetBundleNameSys.clear();
-        }
-
-        public void dispose()
-        {
-
         }
 
         public void exportAssetBundleName()

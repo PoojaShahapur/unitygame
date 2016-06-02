@@ -91,7 +91,7 @@ public class SDK_Lib_UtilApiWrap
 			new LuaMethod("assert", assert),
 			new LuaMethod("rangRandom", rangRandom),
 			new LuaMethod("GetRelativePath", GetRelativePath),
-			new LuaMethod("GetPlatformFolderForAssetBundles", GetPlatformFolderForAssetBundles),
+			new LuaMethod("getRuntimePlatformFolderForAssetBundles", getRuntimePlatformFolderForAssetBundles),
 			new LuaMethod("getManifestName", getManifestName),
 			new LuaMethod("createMatIns", createMatIns),
 			new LuaMethod("convTIdx2OIdx", convTIdx2OIdx),
@@ -196,7 +196,7 @@ public class SDK_Lib_UtilApiWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_kAssetBundlesOutputPath(IntPtr L)
 	{
-		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.kAssetBundlesOutputPath);
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.ASSETBUNDLES);
 		return 1;
 	}
 
@@ -1504,11 +1504,11 @@ public class SDK_Lib_UtilApiWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int GetPlatformFolderForAssetBundles(IntPtr L)
+	static int getRuntimePlatformFolderForAssetBundles(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		RuntimePlatform arg0 = (RuntimePlatform)LuaScriptMgr.GetNetObject(L, 1, typeof(RuntimePlatform));
-		string o = SDK.Lib.UtilApi.GetPlatformFolderForAssetBundles(arg0);
+		string o = SDK.Lib.UtilApi.getRuntimePlatformFolderForAssetBundles(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
 	}
