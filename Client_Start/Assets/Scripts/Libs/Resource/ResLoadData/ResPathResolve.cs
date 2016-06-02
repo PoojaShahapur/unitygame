@@ -4,20 +4,11 @@ namespace SDK.Lib
 {
     public class ResPathResolve
     {
-        static public string kAssetBundlesPath = "/AssetBundles/";
-        static public string BaseDownloadingURL;
-        static public string AssetBundlesPrefixPath = "Assets/Resources/";
+        static public string msAssetBundlesPrefixPath = "Assets/Resources/";
         static public string[] msLoadRootPathList;
 
         static public void initABRootPath()
         {
-            string relativePath = "";
-            //relativePath = Application.persistentDataPath;
-            relativePath = Application.streamingAssetsPath;
-            //string platformFolderForAssetBundles = UtilApi.GetPlatformFolderForAssetBundles(Application.platform);
-            //BaseDownloadingURL = relativePath + kAssetBundlesPath + platformFolderForAssetBundles;
-            BaseDownloadingURL = relativePath;
-
             msLoadRootPathList[(int)ResLoadType.eLoadResource] = "";
             msLoadRootPathList[(int)ResLoadType.eLoadStreamingAssets] = MFileSys.msStreamingAssetsPath;
             msLoadRootPathList[(int)ResLoadType.eLoadLocalPersistentData] = MFileSys.msPersistentDataPath;
@@ -30,7 +21,7 @@ namespace SDK.Lib
             string ret = resPath;
             if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                ret = AssetBundlesPrefixPath + resPath;
+                ret = msAssetBundlesPrefixPath + resPath;
                 ret = ret.ToLower();
             }
 
@@ -41,11 +32,11 @@ namespace SDK.Lib
         {
             if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                int idx = assetBundlesPath.IndexOf(AssetBundlesPrefixPath);
+                int idx = assetBundlesPath.IndexOf(msAssetBundlesPrefixPath);
                 // 如果有前缀
                 if (-1 != idx)
                 {
-                    return assetBundlesPath.Substring(AssetBundlesPrefixPath.Length);
+                    return assetBundlesPath.Substring(msAssetBundlesPrefixPath.Length);
                 }
             }
 
@@ -58,7 +49,7 @@ namespace SDK.Lib
             string uniqueId = "";
             if (MacroDef.ASSETBUNDLES_LOAD)
             {
-                origPath = AssetBundlesPrefixPath + origPath;
+                origPath = msAssetBundlesPrefixPath + origPath;
                 origPath = origPath.ToLower();
             }
 

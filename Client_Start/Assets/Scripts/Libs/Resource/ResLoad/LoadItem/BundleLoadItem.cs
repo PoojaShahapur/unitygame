@@ -46,9 +46,8 @@ namespace SDK.Lib
         // AssetBundle.CreateFromFile 这个函数仅支持未压缩的资源。这是加载资产包的最快方式。自己被这个函数坑了好几次，一定是非压缩的资源，如果压缩式不能加载的，加载后，内容也是空的。目前这个接口各个平台都支持了，包括 Android 和 Mac、Iphone
         protected IEnumerator loadFromAssetBundleByCoroutine()
         {
-            string path;
-            //path = Application.dataPath + "/" + m_path;
-            path = ResPathResolve.BaseDownloadingURL + "/" + m_loadPath;
+            string path = "";
+            path = ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
             // UNITY_5_2 没有
             AssetBundleCreateRequest req = null;
 
@@ -68,8 +67,7 @@ namespace SDK.Lib
         protected void loadFromAssetBundle()
         {
             string path;
-            //path = Application.dataPath + "/" + m_path;
-            path = ResPathResolve.BaseDownloadingURL + "/" + m_loadPath;
+            path = ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             m_assetBundle = AssetBundle.CreateFromFile(path);
@@ -83,14 +81,14 @@ namespace SDK.Lib
         {
             if (m_assetBundle != null)
             {
-                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }
