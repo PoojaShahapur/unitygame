@@ -56,7 +56,11 @@ namespace EditorTool
 
             string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetName);
             string outputPath = MFileSys.msStreamingAssetsPath;
-            UtilPath.copyDirectory(sourcePath, sourcePath, true);
+
+            MList<string> extList = new MList<string>();
+            extList.Add("manifest");
+            UtilPath.deleteFiles(sourcePath, null, extList, true);
+            UtilPath.copyDirectory(sourcePath, outputPath, true);
 
             BuildOptions option = BuildOptions.None;
             if (!isRelease)

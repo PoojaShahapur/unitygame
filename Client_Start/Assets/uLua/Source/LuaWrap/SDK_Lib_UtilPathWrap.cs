@@ -38,10 +38,11 @@ public class SDK_Lib_UtilPathWrap
 			new LuaMethod("isEqualStrInList", isEqualStrInList),
 			new LuaMethod("modifyFileNameToCapital", modifyFileNameToCapital),
 			new LuaMethod("toLower", toLower),
-			new LuaMethod("recursiveTraversalDir", recursiveTraversalDir),
-			new LuaMethod("traverseFilesInOneDir", traverseFilesInOneDir),
-			new LuaMethod("traverseSubDirInOneDir", traverseSubDirInOneDir),
 			new LuaMethod("recureCreateSubDir", recureCreateSubDir),
+			new LuaMethod("isAndroidRuntime", isAndroidRuntime),
+			new LuaMethod("isStreamingAssetsPath", isStreamingAssetsPath),
+			new LuaMethod("getRuntimeWWWStreamingAssetsPath", getRuntimeWWWStreamingAssetsPath),
+			new LuaMethod("getCurrentDirectory", getCurrentDirectory),
 			new LuaMethod("New", _CreateSDK_Lib_UtilPath),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -309,31 +310,54 @@ public class SDK_Lib_UtilPathWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int traverseDirectory(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 4);
+		LuaScriptMgr.CheckArgsCount(L, 6);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-		Action<string,string> arg2 = null;
+		Action<string,string,string> arg2 = null;
 		LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
 
 		if (funcType3 != LuaTypes.LUA_TFUNCTION)
 		{
-			 arg2 = (Action<string,string>)LuaScriptMgr.GetNetObject(L, 3, typeof(Action<string,string>));
+			 arg2 = (Action<string,string,string>)LuaScriptMgr.GetNetObject(L, 3, typeof(Action<string,string,string>));
 		}
 		else
 		{
 			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
-			arg2 = (param0, param1) =>
+			arg2 = (param0, param1, param2) =>
 			{
 				int top = func.BeginPCall();
 				LuaScriptMgr.Push(L, param0);
 				LuaScriptMgr.Push(L, param1);
-				func.PCall(top, 2);
+				LuaScriptMgr.Push(L, param2);
+				func.PCall(top, 3);
 				func.EndPCall(top);
 			};
 		}
 
-		bool arg3 = LuaScriptMgr.GetBoolean(L, 4);
-		SDK.Lib.UtilPath.traverseDirectory(arg0,arg1,arg2,arg3);
+		Action<string,string,string> arg3 = null;
+		LuaTypes funcType4 = LuaDLL.lua_type(L, 4);
+
+		if (funcType4 != LuaTypes.LUA_TFUNCTION)
+		{
+			 arg3 = (Action<string,string,string>)LuaScriptMgr.GetNetObject(L, 4, typeof(Action<string,string,string>));
+		}
+		else
+		{
+			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 4);
+			arg3 = (param0, param1, param2) =>
+			{
+				int top = func.BeginPCall();
+				LuaScriptMgr.Push(L, param0);
+				LuaScriptMgr.Push(L, param1);
+				LuaScriptMgr.Push(L, param2);
+				func.PCall(top, 3);
+				func.EndPCall(top);
+			};
+		}
+
+		bool arg4 = LuaScriptMgr.GetBoolean(L, 5);
+		bool arg5 = LuaScriptMgr.GetBoolean(L, 6);
+		SDK.Lib.UtilPath.traverseDirectory(arg0,arg1,arg2,arg3,arg4,arg5);
 		return 0;
 	}
 
@@ -403,112 +427,6 @@ public class SDK_Lib_UtilPathWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int recursiveTraversalDir(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 3);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		Action<string,string> arg1 = null;
-		LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
-
-		if (funcType2 != LuaTypes.LUA_TFUNCTION)
-		{
-			 arg1 = (Action<string,string>)LuaScriptMgr.GetNetObject(L, 2, typeof(Action<string,string>));
-		}
-		else
-		{
-			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-			arg1 = (param0, param1) =>
-			{
-				int top = func.BeginPCall();
-				LuaScriptMgr.Push(L, param0);
-				LuaScriptMgr.Push(L, param1);
-				func.PCall(top, 2);
-				func.EndPCall(top);
-			};
-		}
-
-		Action<string,string> arg2 = null;
-		LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
-
-		if (funcType3 != LuaTypes.LUA_TFUNCTION)
-		{
-			 arg2 = (Action<string,string>)LuaScriptMgr.GetNetObject(L, 3, typeof(Action<string,string>));
-		}
-		else
-		{
-			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
-			arg2 = (param0, param1) =>
-			{
-				int top = func.BeginPCall();
-				LuaScriptMgr.Push(L, param0);
-				LuaScriptMgr.Push(L, param1);
-				func.PCall(top, 2);
-				func.EndPCall(top);
-			};
-		}
-
-		SDK.Lib.UtilPath.recursiveTraversalDir(arg0,arg1,arg2);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int traverseFilesInOneDir(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		Action<string,string> arg1 = null;
-		LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
-
-		if (funcType2 != LuaTypes.LUA_TFUNCTION)
-		{
-			 arg1 = (Action<string,string>)LuaScriptMgr.GetNetObject(L, 2, typeof(Action<string,string>));
-		}
-		else
-		{
-			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-			arg1 = (param0, param1) =>
-			{
-				int top = func.BeginPCall();
-				LuaScriptMgr.Push(L, param0);
-				LuaScriptMgr.Push(L, param1);
-				func.PCall(top, 2);
-				func.EndPCall(top);
-			};
-		}
-
-		SDK.Lib.UtilPath.traverseFilesInOneDir(arg0,arg1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int traverseSubDirInOneDir(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		Action<System.IO.DirectoryInfo> arg1 = null;
-		LuaTypes funcType2 = LuaDLL.lua_type(L, 2);
-
-		if (funcType2 != LuaTypes.LUA_TFUNCTION)
-		{
-			 arg1 = (Action<System.IO.DirectoryInfo>)LuaScriptMgr.GetNetObject(L, 2, typeof(Action<System.IO.DirectoryInfo>));
-		}
-		else
-		{
-			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 2);
-			arg1 = (param0) =>
-			{
-				int top = func.BeginPCall();
-				LuaScriptMgr.PushObject(L, param0);
-				func.PCall(top, 1);
-				func.EndPCall(top);
-			};
-		}
-
-		SDK.Lib.UtilPath.traverseSubDirInOneDir(arg0,arg1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int recureCreateSubDir(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 3);
@@ -517,6 +435,44 @@ public class SDK_Lib_UtilPathWrap
 		bool arg2 = LuaScriptMgr.GetBoolean(L, 3);
 		SDK.Lib.UtilPath.recureCreateSubDir(arg0,arg1,arg2);
 		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int isAndroidRuntime(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 0);
+		bool o = SDK.Lib.UtilPath.isAndroidRuntime();
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int isStreamingAssetsPath(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		bool o = SDK.Lib.UtilPath.isStreamingAssetsPath(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getRuntimeWWWStreamingAssetsPath(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
+		string o = SDK.Lib.UtilPath.getRuntimeWWWStreamingAssetsPath(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int getCurrentDirectory(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 0);
+		string o = SDK.Lib.UtilPath.getCurrentDirectory();
+		LuaScriptMgr.Push(L, o);
+		return 1;
 	}
 }
 

@@ -20,6 +20,7 @@ public class SDK_Lib_LuaSystemWrap
 			new LuaMethod("sendFromLua", sendFromLua),
 			new LuaMethod("sendFromLuaRpc", sendFromLuaRpc),
 			new LuaMethod("receiveToLua", receiveToLua),
+			new LuaMethod("receiveToLuaRpc", receiveToLuaRpc),
 			new LuaMethod("onSceneLoaded", onSceneLoaded),
 			new LuaMethod("onSocketConnected", onSocketConnected),
 			new LuaMethod("loadModule", loadModule),
@@ -29,6 +30,7 @@ public class SDK_Lib_LuaSystemWrap
 			new LuaMethod("getTable2StrArray", getTable2StrArray),
 			new LuaMethod("getTable2IntArray", getTable2IntArray),
 			new LuaMethod("IsSystemAttr", IsSystemAttr),
+			new LuaMethod("Push", Push),
 			new LuaMethod("New", _CreateSDK_Lib_LuaSystem),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -237,6 +239,16 @@ public class SDK_Lib_LuaSystemWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int receiveToLuaRpc(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		SDK.Lib.LuaSystem obj = (SDK.Lib.LuaSystem)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.LuaSystem");
+		SDK.Lib.ByteBuffer arg0 = (SDK.Lib.ByteBuffer)LuaScriptMgr.GetNetObject(L, 2, typeof(SDK.Lib.ByteBuffer));
+		obj.receiveToLuaRpc(arg0);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int onSceneLoaded(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
@@ -330,6 +342,16 @@ public class SDK_Lib_LuaSystemWrap
 		bool o = obj.IsSystemAttr(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int Push(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		IntPtr arg0 = (IntPtr)LuaScriptMgr.GetNumber(L, 1);
+		SDK.Lib.MLuaStringBuffer arg1 = (SDK.Lib.MLuaStringBuffer)LuaScriptMgr.GetNetObject(L, 2, typeof(SDK.Lib.MLuaStringBuffer));
+		SDK.Lib.LuaSystem.Push(arg0,arg1);
+		return 0;
 	}
 }
 

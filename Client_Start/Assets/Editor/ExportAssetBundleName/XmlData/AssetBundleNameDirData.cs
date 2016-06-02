@@ -46,10 +46,10 @@ namespace EditorTool
 
         public void findAllFiles()
         {
-            UtilPath.recursiveTraversalDir(m_fullDirPath, onFindFile, onFindDir);
+            UtilPath.traverseDirectory(m_fullDirPath, "", onFindFile, onFindDir);
         }
 
-        protected void onFindFile(string path, string name)
+        protected void onFindFile(string path, string name, string destPath)
         {
             path = UtilPath.normalPath(path);
             string extName = UtilPath.getFileExt(path);
@@ -61,7 +61,7 @@ namespace EditorTool
             }
         }
 
-        protected void onFindDir(string path, string name)
+        protected void onFindDir(string path, string name, string destPath)
         {
 
         }

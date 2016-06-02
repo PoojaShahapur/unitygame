@@ -1,6 +1,5 @@
 ﻿using System;
 using LuaInterface;
-using SDK.Lib;
 
 public class SDK_Lib_MFileSysWrap
 {
@@ -26,6 +25,9 @@ public class SDK_Lib_MFileSysWrap
 
 		LuaField[] fields = new LuaField[]
 		{
+			new LuaField("msStreamingAssetsPath", get_msStreamingAssetsPath, set_msStreamingAssetsPath),
+			new LuaField("msPersistentDataPath", get_msPersistentDataPath, set_msPersistentDataPath),
+			new LuaField("msRWDataPath", get_msRWDataPath, set_msRWDataPath),
 		};
 
 		LuaScriptMgr.RegisterLib(L, "SDK.Lib.MFileSys", typeof(SDK.Lib.MFileSys), regs, fields, typeof(object));
@@ -57,6 +59,48 @@ public class SDK_Lib_MFileSysWrap
 	{
 		LuaScriptMgr.Push(L, classType);
 		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_msStreamingAssetsPath(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.MFileSys.msStreamingAssetsPath);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_msPersistentDataPath(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.MFileSys.msPersistentDataPath);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_msRWDataPath(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.MFileSys.msRWDataPath);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_msStreamingAssetsPath(IntPtr L)
+	{
+		SDK.Lib.MFileSys.msStreamingAssetsPath = LuaScriptMgr.GetString(L, 3);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_msPersistentDataPath(IntPtr L)
+	{
+		SDK.Lib.MFileSys.msPersistentDataPath = LuaScriptMgr.GetString(L, 3);
+		return 0;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int set_msRWDataPath(IntPtr L)
+	{
+		SDK.Lib.MFileSys.msRWDataPath = LuaScriptMgr.GetString(L, 3);
+		return 0;
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -162,8 +206,8 @@ public class SDK_Lib_MFileSysWrap
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-        LuaStringBuffer o = SDK.Lib.MFileSys.readLuaBufferToFile(arg0);
-        LuaScriptMgr.Push(L, o);
+		LuaStringBuffer o = SDK.Lib.MFileSys.readLuaBufferToFile(arg0);
+		LuaScriptMgr.Push(L, o);
 		return 1;
 	}
 

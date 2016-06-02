@@ -10,6 +10,7 @@ public class SDK_Lib_AuxLoaderBaseWrap
 			new LuaMethod("dispose", dispose),
 			new LuaMethod("hasSuccessLoaded", hasSuccessLoaded),
 			new LuaMethod("hasFailed", hasFailed),
+			new LuaMethod("needUnload", needUnload),
 			new LuaMethod("setPath", setPath),
 			new LuaMethod("isInvalid", isInvalid),
 			new LuaMethod("getLogicPath", getLogicPath),
@@ -85,6 +86,17 @@ public class SDK_Lib_AuxLoaderBaseWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int needUnload(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 2);
+		SDK.Lib.AuxLoaderBase obj = (SDK.Lib.AuxLoaderBase)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.AuxLoaderBase");
+		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
+		bool o = obj.needUnload(arg0);
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int setPath(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 2);
@@ -117,10 +129,29 @@ public class SDK_Lib_AuxLoaderBaseWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int syncLoad(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
+		LuaScriptMgr.CheckArgsCount(L, 3);
 		SDK.Lib.AuxLoaderBase obj = (SDK.Lib.AuxLoaderBase)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.AuxLoaderBase");
 		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
-		obj.syncLoad(arg0);
+		SDK.Lib.MAction<SDK.Lib.IDispatchObject> arg1 = null;
+		LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
+
+		if (funcType3 != LuaTypes.LUA_TFUNCTION)
+		{
+			 arg1 = (SDK.Lib.MAction<SDK.Lib.IDispatchObject>)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.MAction<SDK.Lib.IDispatchObject>));
+		}
+		else
+		{
+			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
+			arg1 = (param0) =>
+			{
+				int top = func.BeginPCall();
+				LuaScriptMgr.PushObject(L, param0);
+				func.PCall(top, 1);
+				func.EndPCall(top);
+			};
+		}
+
+		obj.syncLoad(arg0,arg1);
 		return 0;
 	}
 

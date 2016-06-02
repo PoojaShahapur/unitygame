@@ -152,10 +152,29 @@ public class SDK_Lib_AuxPrefabLoaderWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int syncLoad(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
+		LuaScriptMgr.CheckArgsCount(L, 3);
 		SDK.Lib.AuxPrefabLoader obj = (SDK.Lib.AuxPrefabLoader)LuaScriptMgr.GetNetObjectSelf(L, 1, "SDK.Lib.AuxPrefabLoader");
 		string arg0 = LuaScriptMgr.GetLuaString(L, 2);
-		obj.syncLoad(arg0);
+		SDK.Lib.MAction<SDK.Lib.IDispatchObject> arg1 = null;
+		LuaTypes funcType3 = LuaDLL.lua_type(L, 3);
+
+		if (funcType3 != LuaTypes.LUA_TFUNCTION)
+		{
+			 arg1 = (SDK.Lib.MAction<SDK.Lib.IDispatchObject>)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.MAction<SDK.Lib.IDispatchObject>));
+		}
+		else
+		{
+			LuaFunction func = LuaScriptMgr.GetLuaFunction(L, 3);
+			arg1 = (param0) =>
+			{
+				int top = func.BeginPCall();
+				LuaScriptMgr.PushObject(L, param0);
+				func.PCall(top, 1);
+				func.EndPCall(top);
+			};
+		}
+
+		obj.syncLoad(arg0,arg1);
 		return 0;
 	}
 

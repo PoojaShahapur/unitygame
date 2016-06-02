@@ -104,6 +104,7 @@ public class SDK_Lib_UtilApiWrap
 			new LuaMethod("unpackIndex", unpackIndex),
 			new LuaMethod("getScreenWidth", getScreenWidth),
 			new LuaMethod("getScteedHeight", getScteedHeight),
+			new LuaMethod("isWWWNoError", isWWWNoError),
 			new LuaMethod("New", _CreateSDK_Lib_UtilApi),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -113,10 +114,20 @@ public class SDK_Lib_UtilApiWrap
 			new LuaField("TRUE", get_TRUE, null),
 			new LuaField("FALSE", get_FALSE, null),
 			new LuaField("PREFAB_DOT_EXT", get_PREFAB_DOT_EXT, null),
+			new LuaField("PREFAB", get_PREFAB, null),
+			new LuaField("PNG", get_PNG, null),
+			new LuaField("JPG", get_JPG, null),
+			new LuaField("TGA", get_TGA, null),
+			new LuaField("MAT", get_MAT, null),
+			new LuaField("UNITY", get_UNITY, null),
+			new LuaField("TXT", get_TXT, null),
+			new LuaField("BYTES", get_BYTES, null),
 			new LuaField("DOTUNITY3D", get_DOTUNITY3D, null),
 			new LuaField("UNITY3D", get_UNITY3D, null),
 			new LuaField("DOTPNG", get_DOTPNG, null),
-			new LuaField("kAssetBundlesOutputPath", get_kAssetBundlesOutputPath, null),
+			new LuaField("ASSETBUNDLES", get_ASSETBUNDLES, null),
+			new LuaField("CR_LF", get_CR_LF, null),
+			new LuaField("SEPARATOR", get_SEPARATOR, null),
 			new LuaField("FAKE_POS", get_FAKE_POS, set_FAKE_POS),
 		};
 
@@ -173,6 +184,62 @@ public class SDK_Lib_UtilApiWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_PREFAB(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.PREFAB);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_PNG(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.PNG);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_JPG(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.JPG);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_TGA(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.TGA);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_MAT(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.MAT);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_UNITY(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.UNITY);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_TXT(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.TXT);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_BYTES(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.BYTES);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_DOTUNITY3D(IntPtr L)
 	{
 		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.DOTUNITY3D);
@@ -194,9 +261,23 @@ public class SDK_Lib_UtilApiWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_kAssetBundlesOutputPath(IntPtr L)
+	static int get_ASSETBUNDLES(IntPtr L)
 	{
 		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.ASSETBUNDLES);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_CR_LF(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.CR_LF);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_SEPARATOR(IntPtr L)
+	{
+		LuaScriptMgr.Push(L, SDK.Lib.UtilApi.SEPARATOR);
 		return 1;
 	}
 
@@ -1650,6 +1731,16 @@ public class SDK_Lib_UtilApiWrap
 	{
 		LuaScriptMgr.CheckArgsCount(L, 0);
 		int o = SDK.Lib.UtilApi.getScteedHeight();
+		LuaScriptMgr.Push(L, o);
+		return 1;
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int isWWWNoError(IntPtr L)
+	{
+		LuaScriptMgr.CheckArgsCount(L, 1);
+		WWW arg0 = (WWW)LuaScriptMgr.GetNetObject(L, 1, typeof(WWW));
+		bool o = SDK.Lib.UtilApi.isWWWNoError(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
 	}

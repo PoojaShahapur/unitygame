@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <Root>
-	<path inpath="Resources/UI" includeext="prefab,aaa" />
-	<path inpath="Resources/Model" includeext="prefab,aaa" />
+	<path inpath="Resources/UI" includeext="prefab" />
+	<path inpath="Resources/Model" includeext="prefab" />
+	<path inpath="Resources/Materials" includeext="prefab,mat,shader" />
 </Root>

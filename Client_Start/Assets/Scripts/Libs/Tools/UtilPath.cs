@@ -375,7 +375,14 @@ namespace SDK.Lib
             }
         }
 
-        static public void traverseDirectory(string srcPath, string destPath, Action<string, string> handle = null, bool isRecurse = false)
+        static public void traverseDirectory(
+            string srcPath,
+            string destPath,
+            Action<string, string, string> dirHandle = null,
+            Action<string, string, string> fileHandle = null,
+            bool isRecurse = false,
+            bool isCreateDestPath = false
+            )
         {
             DirectoryInfo sourceDirInfo = new DirectoryInfo(srcPath);
             DirectoryInfo targetDirInfo = new DirectoryInfo(destPath);
@@ -393,16 +400,24 @@ namespace SDK.Lib
 
             if (!targetDirInfo.Exists)
             {
-                targetDirInfo.Create();
+                if (isCreateDestPath)
+                {
+                    targetDirInfo.Create();
+                }
+            }
+
+            if (dirHandle != null)
+            {
+                dirHandle(sourceDirInfo.FullName, sourceDirInfo.Name, targetDirInfo.FullName);
             }
 
             FileInfo[] files = sourceDirInfo.GetFiles();
 
             for (int i = 0; i < files.Length; i++)
             {
-                if (handle != null)
+                if (fileHandle != null)
                 {
-                    handle(files[i].FullName, targetDirInfo.FullName + "/" + files[i].Name);
+                    fileHandle(files[i].FullName, files[i].Name, targetDirInfo.FullName + "/" + files[i].Name);
                 }
             }
 
@@ -412,7 +427,7 @@ namespace SDK.Lib
             {
                 for (int j = 0; j < dirs.Length; j++)
                 {
-                    traverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, handle, isRecurse);
+                    traverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, dirHandle, fileHandle, isRecurse, isCreateDestPath);
                 }
             }
         }
@@ -431,10 +446,6 @@ namespace SDK.Lib
 
                 if (fileList != null)
                 {
-                    //if (!fileName.Equals("delFileName.dat"))
-                    //{
-                    //    File.Delete(file.FullName);
-                    //}
                     if (fileList.IndexOf(fileName) != -1)
                     {
                         UtilPath.deleteFile(file.FullName);
@@ -570,59 +581,6 @@ namespace SDK.Lib
         static public string toLower(string src)
         {
             return src.ToLower();
-        }
-
-        // 递归深度优先遍历目录
-        public static void recursiveTraversalDir(string rootPath, Action<string, string> dispFile, Action<string, string> dispDir)
-        {
-            DirectoryInfo rootDir = new DirectoryInfo(rootPath);
-            // 遍历目录回调
-            if (dispDir != null)
-            {
-                dispDir(rootDir.FullName, rootDir.Name);
-            }
-
-            // 遍历所有文件
-            traverseFilesInOneDir(rootPath, dispFile);
-
-            // 遍历当前目录下的所有的文件夹
-            DirectoryInfo theFolder = new DirectoryInfo(rootPath);
-            DirectoryInfo[] dirInfo = theFolder.GetDirectories();
-            foreach (DirectoryInfo NextFolder in dirInfo)
-            {
-                recursiveTraversalDir(NextFolder.FullName, dispFile, dispDir);
-            }
-        }
-
-        // 处理当前目录下的所有文件
-        public static void traverseFilesInOneDir(string dirPath, Action<string, string> dispFile)
-        {
-            DirectoryInfo theFolder = new DirectoryInfo(dirPath);
-
-            //遍历文件
-            FileInfo[] fileInfo = theFolder.GetFiles();
-            foreach (FileInfo NextFile in fileInfo)  //遍历文件
-            {
-                if (dispFile != null)
-                {
-                    dispFile(NextFile.FullName, NextFile.Name);
-                }
-            }
-        }
-
-        // 遍历一个目录下的直属子目录
-        public static void traverseSubDirInOneDir(string dirPath, Action<DirectoryInfo> dispDir)
-        {
-            // 遍历当前目录下的所有的所有子文件夹
-            DirectoryInfo theFolder = new DirectoryInfo(dirPath);
-            DirectoryInfo[] dirInfo = theFolder.GetDirectories();
-            foreach (DirectoryInfo NextFolder in dirInfo)
-            {
-                if (dispDir != null)
-                {
-                    dispDir(NextFolder);
-                }
-            }
         }
 
         // 递归创建子目录
