@@ -1,4 +1,6 @@
-﻿namespace SDK.Lib
+﻿using System;
+
+namespace SDK.Lib
 {
     public class MBitConverter
     {
@@ -228,6 +230,11 @@
                 bytes[startIndex + 6] = (byte)(data << 48 >> 56);
                 bytes[startIndex + 7] = (byte)(data << 56 >> 56);
             }
+        }
+
+        static public int ToInt32(string value)
+        {
+            return Convert.ToInt32(value);
         }
     }
 }

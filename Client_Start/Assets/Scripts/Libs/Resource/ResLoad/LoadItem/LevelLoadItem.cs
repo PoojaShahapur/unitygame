@@ -25,11 +25,17 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
-            if (ResLoadType.eLoadStreamingAssets == m_resLoadType ||
+            if(ResLoadType.eLoadStreamingAssets == m_resLoadType)
+            {
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            }
+            else if (ResLoadType.eLoadStreamingAssets == m_resLoadType ||
                 ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
-                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+                // 暂时没有实现，需要加载 AssetBundles 加载
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {

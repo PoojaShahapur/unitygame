@@ -18,6 +18,8 @@ namespace UnitTest
             //testLoadAnimatorControllerPrefab();
             //testLoadScriptAnimatorControllerPrefab();
             //testScriptController();
+
+            testLoadPreafab();
         }
 
         protected void testModelLoad()
@@ -173,6 +175,11 @@ namespace UnitTest
             RuntimeAnimatorController copyCom = res.InstantiateController();
             res.DestroyControllerInstance(copyCom);
             Ctx.m_instance.m_controllerMgr.unload(res.getResUniqueId(), null);
+        }
+
+        protected void testLoadPreafab()
+        {
+            Debug.Log("aaaa");
         }
     }
 }

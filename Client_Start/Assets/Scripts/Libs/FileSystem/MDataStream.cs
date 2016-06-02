@@ -30,7 +30,7 @@ namespace SDK.Lib
         protected AddOnceEventDispatch mEvtDisp;
 
         /**
-         * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp
+         * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp。FileMode.CreateNew 如果文件已经存在就抛出异常
          */
         public MDataStream(string filePath, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite, bool isSyncMode = true, MAction<IDispatchObject> evtDisp = null)
         {

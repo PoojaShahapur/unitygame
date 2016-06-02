@@ -83,13 +83,13 @@ namespace SDK.Lib
 
             if (isSuccess)
             {
-                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
-            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
@@ -102,11 +102,11 @@ namespace SDK.Lib
                 if (req.asset != null && req.isDone)
                 {
                     m_prefabObj = req.asset;
-                    nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                    m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                    m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
             }
             else
@@ -115,17 +115,17 @@ namespace SDK.Lib
 
                 if (mAllPrefabObj != null)
                 {
-                    nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                    m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                    m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
                 }
 
                 yield return null;
             }
 
-            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

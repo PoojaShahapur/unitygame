@@ -165,7 +165,7 @@ namespace SDK.Lib
 
         virtual public void load()
         {
-            nonRefCountResLoadResultNotify.resLoadState.setLoading();
+            m_nonRefCountResLoadResultNotify.resLoadState.setLoading();
         }
 
         // 这个是卸载，因为有时候资源加载进来可能已经不用了，需要直接卸载掉
@@ -220,14 +220,14 @@ namespace SDK.Lib
             {
                 m_assetBundle = m_w3File.assetBundle;
 
-                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected void deleteFromCache(string path)

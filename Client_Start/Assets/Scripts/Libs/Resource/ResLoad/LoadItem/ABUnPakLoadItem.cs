@@ -51,14 +51,14 @@ namespace SDK.Lib
 
             if (m_bytes != null)
             {
-                nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

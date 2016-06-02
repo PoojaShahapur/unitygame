@@ -21,6 +21,8 @@ namespace SDK.Lib
         public const string UNITY3D = "unity3d";
         public const string DOTPNG = ".png";
         public const string kAssetBundlesOutputPath = "AssetBundles";
+        public const string CR_LF = "\r\n";     // 回车换行
+        public const string SEPARATOR = "=";    // 分隔符
 
         public static GameObject[] FindGameObjectsWithTag(string tag)
         {

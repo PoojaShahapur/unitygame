@@ -79,7 +79,7 @@ namespace SDK.Lib
 
         protected void loadFormText(string text, Dictionary<string, ResListItem> dic)
         {
-            string[] lineSplitStr = { "\r\n" };
+            string[] lineSplitStr = { UtilApi.CR_LF };
             string[] equalSplitStr = { "=" };
             string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
             int lineIdx = 0;

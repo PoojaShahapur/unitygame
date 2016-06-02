@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace SDK.Lib
 {
@@ -20,7 +22,7 @@ namespace SDK.Lib
         public string mResUniqueId;                     // 资源唯一 Id
         public eResRedirectDir mResRedirectDir;         // 资源目录
 
-        public ResRedirectItem(string resUniqueId, int redirect)
+        public ResRedirectItem(string resUniqueId = "", int redirect = (int)eResRedirectDir.eResources)
         {
             mResUniqueId = resUniqueId;
             mResRedirectDir = (eResRedirectDir)redirect;
@@ -48,26 +50,62 @@ namespace SDK.Lib
     public class ResRedirect
     {
         protected Dictionary<string, ResRedirectItem> mUniqueId2ItemDic;
+        protected string mRedirectFileName;
 
         public ResRedirect()
         {
             mUniqueId2ItemDic = new Dictionary<string, ResRedirectItem>();
+            mRedirectFileName = UtilPath.combine(MFileSys.msPersistentDataPath, "Redirect.txt");
         }
 
         public void postInit()
         {
             checkOrWriteRedirectFile();
+            loadRedirectFile();
         }
 
-        // 写入 persistentDataPath 一个固定的版本文件
+        // 写入 persistentDataPath 一个固定的版本文件，以后可能放到配置文件
         protected void checkOrWriteRedirectFile()
         {
-            string fileName = UtilPath.combine(MFileSys.msPersistentDataPath, "Redirect.txt");
-            if (!UtilPath.existFile(fileName))
+            if (!UtilPath.existFile(mRedirectFileName))
             {
-                MDataStream dataStream = new MDataStream(fileName);
-                string content = "Version_R.txt=0\r\nVersion_S.txt=1\r\nVersion_P.txt=2";
+                MDataStream dataStream = new MDataStream(mRedirectFileName);
+                string content = "Version_R.txt=0" + UtilApi.CR_LF + "Version_S.txt=1" + UtilApi.CR_LF  + "Version_P.txt=2";
                 dataStream.writeText(content);
+                dataStream.dispose();
+                dataStream = null;
+            }
+        }
+
+        public void loadRedirectFile()
+        {
+            // 这个文件必须使用文件系统去读取
+            if (UtilPath.existFile(mRedirectFileName))
+            {
+                MDataStream dataStream = new MDataStream(mRedirectFileName, FileMode.Open);
+
+                if (dataStream.isValid())
+                {
+                    string text = dataStream.readText();
+
+                    string[] lineSplitStr = { UtilApi.CR_LF };
+                    string[] equalSplitStr = { UtilApi.SEPARATOR };
+                    string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
+                    int lineIdx = 0;
+                    string[] equalList = null;
+
+                    ResRedirectItem item;
+                    while (lineIdx < lineList.Length)
+                    {
+                        equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
+                        item = new ResRedirectItem();
+                        item.mResUniqueId = equalList[0];
+                        item.mResRedirectDir = (eResRedirectDir)MBitConverter.ToInt32(equalList[1]);
+                        mUniqueId2ItemDic[item.mResUniqueId] = item;
+                        ++lineIdx;
+                    }
+                }
+
                 dataStream.dispose();
                 dataStream = null;
             }
