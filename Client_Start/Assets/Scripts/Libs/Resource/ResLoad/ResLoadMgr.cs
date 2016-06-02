@@ -13,7 +13,8 @@ namespace SDK.Lib
         protected ResItem m_retResItem;
         protected ResMsgRouteCB m_resMsgRouteCB;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
-        protected int m_loadingDepth;      // 加载深度
+        protected int m_loadingDepth;                   // 加载深度
+        protected ResRedirect mResRedirect;             // 重定向
 
         public ResLoadMgr()
         {
@@ -22,6 +23,7 @@ namespace SDK.Lib
             m_LoadData = new ResLoadData();
             m_zeroRefResIDList = new List<string>();
             m_loadingDepth = 0;
+            mResRedirect = new ResRedirect();
 
             this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
@@ -31,6 +33,9 @@ namespace SDK.Lib
             // 游戏逻辑处理
             m_resMsgRouteCB = new ResMsgRouteCB();
             Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_resMsgRouteCB);
+
+            // 初始化重定向
+            mResRedirect.postInit();
         }
 
         // 是否有正在加载的 LoadItem
