@@ -4,7 +4,6 @@ namespace SDK.Lib
 {
     public class TextResBase : InsResBase
     {
-        protected TextAsset mTextAsset;
         protected string m_text;
 
         public TextResBase()
@@ -15,15 +14,13 @@ namespace SDK.Lib
         override protected void initImpl(ResItem res)
         {
             // 获取资源单独保存
-            mTextAsset = res.getObject(res.getPrefabName()) as TextAsset;
-            m_text = mTextAsset.text;
+            m_text = res.getText(res.getPrefabName());
             base.initImpl(res);
         }
 
         override public void unload()
         {
-            UtilApi.UnloadAsset(mTextAsset);
-
+            m_text = null;
             base.unload();
         }
 

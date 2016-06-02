@@ -41,6 +41,12 @@ namespace SDK.Lib
             return !mIsSuccess;
         }
 
+        // 是否需要卸载资源
+        public bool needUnload(string path)
+        {
+            return mPath != path && !string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(mPath);
+        }
+
         public void setPath(string path)
         {
             mPrePath = mPath;
@@ -66,7 +72,7 @@ namespace SDK.Lib
             return mPath;
         }
 
-        virtual public void syncLoad(string path)
+        virtual public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
         {
 
         }

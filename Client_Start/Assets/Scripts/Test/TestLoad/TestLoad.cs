@@ -19,7 +19,8 @@ namespace UnitTest
             //testLoadScriptAnimatorControllerPrefab();
             //testScriptController();
 
-            testLoadPreafab();
+            //testLoadPreafab();
+            testLoadText();
         }
 
         protected void testModelLoad()
@@ -181,6 +182,12 @@ namespace UnitTest
         {
             AuxPrefabLoader loader = new AuxPrefabLoader(false);
             loader.syncLoad("Model/TestCube.prefab");
+        }
+
+        protected void testLoadText()
+        {
+            AuxTextLoader loader = new AuxTextLoader();
+            loader.syncLoad("XmlConfig/ReamMe.txt");
         }
     }
 }

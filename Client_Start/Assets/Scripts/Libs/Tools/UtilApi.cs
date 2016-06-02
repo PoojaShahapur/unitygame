@@ -23,6 +23,8 @@ namespace SDK.Lib
         public const string TGA = "tga";
         public const string MAT = "mat";
         public const string UNITY = "unity";
+        public const string TXT = "txt";
+        public const string BYTES = "bytes";
 
         public const string DOTUNITY3D = ".unity3d";
         public const string UNITY3D = "unity3d";

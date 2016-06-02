@@ -61,8 +61,8 @@ namespace SDK.Lib
             UnityEngine.SceneManagement.SceneManager.LoadScene(m_levelName);
 #endif
 
-            refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         // 奇怪，Level 加载完成后立马获取里面的 GameObject ，有的时候可以，有的时候获取不到，因此间隔一帧后再获取
@@ -76,8 +76,8 @@ namespace SDK.Lib
 
             yield return new WaitForEndOfFrame();
 
-            refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         protected IEnumerator initAssetByCoroutine()
@@ -101,14 +101,14 @@ namespace SDK.Lib
             // asyncOpt.progress == 1.0f
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                refCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public override void unload()

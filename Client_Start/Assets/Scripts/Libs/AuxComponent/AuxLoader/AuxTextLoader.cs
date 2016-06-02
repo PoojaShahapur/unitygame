@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class AuxTextLoader : AuxLoaderBase
     {
@@ -29,6 +27,24 @@ namespace SDK.Lib
             }
 
             return mPath;
+        }
+
+        // 同步加载
+        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        {
+            if(needUnload(path))
+            {
+                unload();
+            }
+
+            this.setPath(path);
+
+            if (this.isInvalid())
+            {
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, dispObj);
+                mTextRes = Ctx.m_instance.m_textResMgr.getAndSyncLoadRes(path);
+            }
         }
 
         // 异步加载对象

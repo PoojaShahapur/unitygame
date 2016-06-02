@@ -67,12 +67,15 @@ namespace SDK.Lib
             return mPath;
         }
 
-        override public void syncLoad(string path)
+        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
         {
-            if(mPath != path && !string.IsNullOrEmpty(path))
+            this.setPath(path);
+
+            if (this.isInvalid())
             {
                 unload();
-                mPath = path;
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, dispObj);
                 mPrefabRes = Ctx.m_instance.m_prefabMgr.getAndSyncLoadRes(path);
                 onPrefabLoaded(mPrefabRes);
             }

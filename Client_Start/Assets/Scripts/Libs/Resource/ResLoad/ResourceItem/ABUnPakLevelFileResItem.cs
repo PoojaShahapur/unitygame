@@ -30,13 +30,13 @@ namespace SDK.Lib
             {
                 m_bundle.LoadAsset<GameObject>(m_bundlePath);
                 Application.LoadLevel(m_levelName);
-                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                refCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override protected IEnumerator initAssetByCoroutine()
@@ -69,13 +69,13 @@ namespace SDK.Lib
 
             if (null != asyncOpt && asyncOpt.isDone)
             {
-                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                refCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             //yield return null;
         }
     }

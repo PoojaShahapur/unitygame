@@ -24,13 +24,13 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                refCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override protected IEnumerator initAssetByCoroutine()
@@ -46,14 +46,14 @@ namespace SDK.Lib
 
             if (m_bundle != null)
             {
-                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                refCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
 
             clearInstanceListener();
         }
@@ -103,14 +103,14 @@ namespace SDK.Lib
             {
                 m_object = req.asset;
 
-                refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                refCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
 
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         override public GameObject InstantiateObject(string resName)

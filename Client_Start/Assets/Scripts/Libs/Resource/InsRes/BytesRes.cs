@@ -17,8 +17,14 @@ namespace SDK.Lib
         override protected void initImpl(ResItem res)
         {
             // 获取资源单独保存
-            m_bytes = (res.getObject(res.getPrefabName()) as TextAsset).bytes;
+            m_bytes = res.getBytes(res.getPrefabName());
             base.initImpl(res);
+        }
+
+        override public void unload()
+        {
+            m_bytes = null;
+            base.unload();
         }
 
         public byte[] getBytes(string name)

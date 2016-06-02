@@ -50,7 +50,7 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
-                byte[] textAsset = (res as DataResItem).getBytes();
+                byte[] textAsset = (res as DataResItem).getBytes("");
                 if (textAsset != null)
                 {
                     loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2PakDic);

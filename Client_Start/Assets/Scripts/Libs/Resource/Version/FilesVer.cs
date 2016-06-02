@@ -66,7 +66,7 @@ namespace SDK.Lib
             ResItem res = dispObj as ResItem;
             if (res.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
             {
-                byte[] textAsset = (res as DataResItem).getBytes();
+                byte[] textAsset = (res as DataResItem).getBytes("");
                 if (textAsset != null)
                 {
                     // Lzma 解压缩
@@ -124,7 +124,7 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, res.getLoadPath());
 
-                byte[] textAsset = (res as DataResItem).getBytes();
+                byte[] textAsset = (res as DataResItem).getBytes("");
                 if (textAsset != null)
                 {
                     loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2HashDic);

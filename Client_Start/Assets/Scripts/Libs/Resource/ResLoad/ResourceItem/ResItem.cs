@@ -169,8 +169,7 @@ namespace SDK.Lib
 
         virtual public void init(LoadItem item)
         {
-            // 这个状态一定要在事件分发之前设置这个状态，如果在使用协程之前就设置，几个协程的执行完成的顺序可能是不同的
-            //m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            
         }
 
         virtual public void failed(LoadItem item)

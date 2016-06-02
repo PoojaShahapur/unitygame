@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace SDK.Lib
+﻿namespace SDK.Lib
 {
     public class DataResItem : ResItem
     {
@@ -10,24 +8,25 @@ namespace SDK.Lib
         override public void init(LoadItem item)
         {
             base.init(item);
-
-            m_bytes = (item as DataLoadItem).m_bytes;
-            m_localPath = (item as DataLoadItem).m_localPath;
-
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_bytes = (item as DataLoadItem).mBytes;
+            m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
-        public byte[] getBytes()
+        override public byte[] getBytes(string resName)
         {
-            if(m_bytes == null)
+            return m_bytes;
+        }
+
+        override public string getText(string resName)
+        {
+            string text = "";
+            if(m_bytes != null)
             {
-                MDataStream mDataStream = new MDataStream(m_localPath);
-                m_bytes = mDataStream.readByte();
-                mDataStream.dispose();
-                mDataStream = null;
+                text = GkEncode.UTF8.GetString(m_bytes);
             }
 
-            return m_bytes;
+            return text;
         }
     }
 }

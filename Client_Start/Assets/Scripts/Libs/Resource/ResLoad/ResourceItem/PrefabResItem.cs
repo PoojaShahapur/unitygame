@@ -24,7 +24,7 @@ namespace SDK.Lib
                 mAllPrefabObj = (item as ResourceLoadItem).getAllPrefabObject();
             }
             m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
 
         public UnityEngine.Object prefabObj()
@@ -47,11 +47,16 @@ namespace SDK.Lib
 
         override public void unload()
         {
-            //Resources.UnloadAsset(m_prefabObj);   // 这个是同步卸载
+            if(m_prefabObj is GameObject)
+            {
+                UtilApi.Destroy(m_prefabObj);
+            }
+            else
+            {
+                UtilApi.UnloadAsset(m_prefabObj);
+            }
             m_prefabObj = null;
             mAllPrefabObj = null;
-            //Resources.UnloadUnusedAssets();         // 这个事异步卸载
-            //GC.Collect();
         }
 
         override public void InstantiateObject(string resName, ResInsEventDispatch evtHandle)

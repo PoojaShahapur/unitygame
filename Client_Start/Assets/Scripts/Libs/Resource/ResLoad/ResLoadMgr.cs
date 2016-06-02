@@ -140,8 +140,6 @@ namespace SDK.Lib
 
         public void loadData(LoadParam param)
         {
-            param.m_resPackType = ResPackType.eDataType;
-            
             if (ResLoadType.eLoadStreamingAssets == param.m_resLoadType)
             {
                 param.mLoadPath = Path.Combine(MFileSys.getLocalReadDir(), param.mLoadPath);
@@ -374,8 +372,6 @@ namespace SDK.Lib
                 {
                     loadItem = new DataLoadItem();
                 }
-
-                (loadItem as DataLoadItem).m_version = param.m_version;
             }
             else if (ResPackType.eUnPakType == param.m_resPackType || ResPackType.eUnPakLevelType == param.m_resPackType)
             {
@@ -674,7 +670,7 @@ namespace SDK.Lib
         protected void onMsgRouteResLoad(IDispatchObject dispObj)
         {
             MsgRouteBase msg = dispObj as MsgRouteBase;
-            DataLoadItem loadItem = (msg as LoadedWebResMR).m_task as DataLoadItem;
+            DownloadItem loadItem = (msg as LoadedWebResMR).m_task as DownloadItem;
             loadItem.handleResult();
         }
     }
