@@ -179,7 +179,8 @@ namespace UnitTest
 
         protected void testLoadPreafab()
         {
-            Debug.Log("aaaa");
+            AuxPrefabLoader loader = new AuxPrefabLoader(false);
+            loader.syncLoad("Model/TestCube.prefab");
         }
     }
 }

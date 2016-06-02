@@ -214,7 +214,7 @@ namespace SDK.Lib
 
                 loadResources(param);
             }
-            else
+            else if (redirectItem.isRedirectR())
             {
                 param.mIsCheckDep = isCheckDep;
                 loadBundle(param);
