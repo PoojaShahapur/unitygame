@@ -3,7 +3,7 @@ M.clsName = "NetModuleDispHandle";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_id2DispDic = GlobalNS.new(GlobalNS.Dictionary);
+    self.m_id2DispDic = GlobalNS.new(GlobalNS.MDictionary);
     --self.mCmdDispInfo = GlobalNS.new(GlobalNS.CmdDispInfo);
 end
 

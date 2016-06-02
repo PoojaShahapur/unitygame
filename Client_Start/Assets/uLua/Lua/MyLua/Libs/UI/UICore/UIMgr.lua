@@ -3,7 +3,7 @@ require "MyLua.Libs.Core.Class"
 require "MyLua.Libs.Core.GObject"
 require "MyLua.Libs.Core.ClassLoader"
 require "MyLua.Libs.DataStruct.MStack"
-require "MyLua.Libs.DataStruct.Dictionary"
+require "MyLua.Libs.DataStruct.MDictionary"
 require "MyLua.Libs.UI.UICore.UICanvas"
 require "MyLua.Libs.AuxComponent.AuxLoader.AuxUIPrefabLoader"
 
@@ -15,7 +15,7 @@ function M:ctor()
     self.m_formArr = {};
     self.m_curFormIndex = -1;
     self.m_formIdStack = GlobalNS.new(GlobalNS.MStack);
-	self.mFormId2LoadItemDic = GlobalNS.new(GlobalNS.Dictionary);
+	self.mFormId2LoadItemDic = GlobalNS.new(GlobalNS.MDictionary);
 end
 
 function M:dtor()

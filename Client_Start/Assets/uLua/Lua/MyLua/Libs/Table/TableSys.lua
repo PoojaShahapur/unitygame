@@ -15,7 +15,7 @@ M.clsName = "TableSys";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-	self.m_dicTable = GlobalNS.new(GlobalNS.Dictionary);
+	self.m_dicTable = GlobalNS.new(GlobalNS.MDictionary);
     self.m_dicTable.Add(GlobalNS.TableID.TABLE_OBJECT, GlobalNS.TableBase:new("ObjectBase_client.bytes", "ObjectBase_client"));
     self.m_dicTable.Add(GlobalNS.TableID.TABLE_CARD, GlobalNS.TableBase:new("CardBase_client.bytes", "CardBase_client"));
     self.m_dicTable.Add(GlobalNS.TableID.TABLE_SKILL, GlobalNS.TableBase:new("SkillBase_client.bytes", "SkillBase_client"));    -- 添加一个表的步骤三

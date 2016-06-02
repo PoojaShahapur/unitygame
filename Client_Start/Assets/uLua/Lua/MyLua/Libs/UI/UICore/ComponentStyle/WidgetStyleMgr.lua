@@ -7,13 +7,13 @@ M.clsName = "WidgetStyleMgr";
 GlobalNS[M.clsName] = M;
 
 function M:ctor()
-    self.m_style2Dic = GlobalNS.new(GlobalNS.Dictionary);
+    self.m_style2Dic = GlobalNS.new(GlobalNS.MDictionary);
     self:registerStype();
 end
 
 function M:addWidgetStype(widgetId, comId, style)
     if(not self.m_style2Dic:ContainsKey(widgetId)) then
-        local styleDic = GlobalNS.new(GlobalNS.Dictionary);
+        local styleDic = GlobalNS.new(GlobalNS.MDictionary);
         self.m_style2Dic:Add(widgetId, styleDic);
     end
     self.m_style2Dic:value(widgetId):Add(comId, style);
