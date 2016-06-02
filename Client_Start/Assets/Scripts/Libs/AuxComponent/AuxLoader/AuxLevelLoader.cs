@@ -33,7 +33,7 @@
                 param.m_loadEventHandle = onLevelLoaded;
                 param.m_resNeedCoroutine = true;
                 param.m_loadNeedCoroutine = true;
-                Ctx.m_instance.m_resLoadMgr.loadLevel(param);
+                Ctx.m_instance.m_resLoadMgr.loadAsset(param);
                 Ctx.m_instance.m_poolSys.deleteObj(param);
             }
         }

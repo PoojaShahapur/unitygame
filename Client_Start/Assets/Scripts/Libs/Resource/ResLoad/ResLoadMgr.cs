@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace SDK.Lib
@@ -38,6 +37,33 @@ namespace SDK.Lib
             mResRedirect.postInit();
         }
 
+        // 设置资源加载和打包类型
+        protected void setPackAndLoadType(LoadParam loadParam)
+        {
+            ResRedirectItem redirectItem = mResRedirect.getResRedirectItem(loadParam.mResUniqueId);
+            loadParam.m_resLoadType = redirectItem.mResLoadType;
+
+            if (loadParam.isLevelType())
+            {
+                loadParam.m_resPackType = ResPackType.eLevelType;
+            }
+            else if (loadParam.isResType())
+            {
+                if (loadParam.m_resLoadType == ResLoadType.eLoadResource)
+                {
+                    loadParam.m_resPackType = ResPackType.eResourcesType;
+                }
+                else
+                {
+                    loadParam.m_resPackType = ResPackType.eBundleType;
+                }
+            }
+            else
+            {
+                loadParam.m_resPackType = ResPackType.eDataType;
+            }
+        }
+
         // 是否有正在加载的 LoadItem
         public bool hasLoadItem(string resUniqueId)
         {
@@ -70,7 +96,7 @@ namespace SDK.Lib
         // 资源是否已经加载，包括成功和失败
         public bool isResLoaded(string path)
         {
-            ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(path);
+            ResItem res = this.getResource(path);
             if (res == null)
             {
                 return false;
@@ -86,7 +112,7 @@ namespace SDK.Lib
 
         public bool isResSuccessLoaded(string path)
         {
-            ResItem res = Ctx.m_instance.m_resLoadMgr.getResource(path);
+            ResItem res = this.getResource(path);
             if (res == null)
             {
                 return false;
@@ -135,40 +161,6 @@ namespace SDK.Lib
             load(param);
         }
 
-        // eBundleType 打包类型资源加载
-        public void loadBundle(LoadParam param)
-        {
-            param.m_resPackType = ResPackType.eBundleType;
-            param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-
-            load(param);
-        }
-
-        // eLevelType 打包类型资源加载，都用协程加载
-        public void loadLevel(LoadParam param)
-        {
-            param.resolveLevel();
-
-            if (MacroDef.PKG_RES_LOAD)
-            {
-                param.m_resPackType = ResPackType.ePakLevelType;
-                param.resolvePath();
-                load(param);
-            }
-            else if (MacroDef.UNPKG_RES_LOAD)
-            {
-                param.m_resPackType = ResPackType.eUnPakLevelType;
-                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
-                load(param);
-            }
-            else
-            {
-                param.m_resPackType = ResPackType.eLevelType;
-                param.m_resLoadType = Ctx.m_instance.m_cfg.m_resLoadType;
-                load(param);
-            }
-        }
-
         // eResourcesType 打包类型资源加载
         public void loadResources(LoadParam param)
         {
@@ -186,7 +178,7 @@ namespace SDK.Lib
                 }
                 load(param);
             }
-            else if(MacroDef.UNPKG_RES_LOAD)
+            else if (MacroDef.UNPKG_RES_LOAD)
             {
                 // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
                 param.m_resPackType = ResPackType.eUnPakType;
@@ -195,9 +187,35 @@ namespace SDK.Lib
             }
             else
             {
-                param.m_resPackType = ResPackType.eResourcesType;
-                param.m_resLoadType = ResLoadType.eLoadResource;
+                load(param);
+            }
+        }
 
+        // eBundleType 打包类型资源加载
+        public void loadBundle(LoadParam param)
+        {
+            load(param);
+        }
+
+        // eLevelType 打包类型资源加载，都用协程加载
+        protected void loadLevel(LoadParam param)
+        {
+            param.resolveLevel();
+
+            if (MacroDef.PKG_RES_LOAD)
+            {
+                param.m_resPackType = ResPackType.ePakLevelType;
+                param.resolvePath();
+                load(param);
+            }
+            else if (MacroDef.UNPKG_RES_LOAD)
+            {
+                param.m_resPackType = ResPackType.eUnPakLevelType;
+                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
+                load(param);
+            }
+            else
+            {
                 load(param);
             }
         }
@@ -205,19 +223,27 @@ namespace SDK.Lib
         // 加载资源，内部决定加载方式，可能从 Resources 下加载或者从 StreamingAssets 下加载，或者从 PersistentDataPath 下加载。isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
         public void loadAsset(LoadParam param, bool isCheckDep = true)
         {
-            ResRedirectItem redirectItem = mResRedirect.getResRedirectItem(param.mResUniqueId);
+            setPackAndLoadType(param);
 
-            if (redirectItem.isRedirectR())
+            if (param.m_resPackType == ResPackType.eResourcesType)
             {
                 param.m_resPackType = ResPackType.eResourcesType;
                 param.m_resLoadType = ResLoadType.eLoadResource;
 
                 loadResources(param);
             }
-            else if (redirectItem.isRedirectR())
+            else if (param.m_resPackType == ResPackType.eBundleType)
             {
                 param.mIsCheckDep = isCheckDep;
                 loadBundle(param);
+            }
+            else if (param.m_resPackType == ResPackType.eLevelType)
+            {
+                loadLevel(param);
+            }
+            else
+            {
+                loadData(param);
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using LuaInterface;
-using System;
 
 namespace SDK.Lib
 {
@@ -90,16 +89,6 @@ namespace SDK.Lib
                 m_pathNoExt = mLoadPath.Substring(0, dotIdx);
             }
 
-            /*
-            if(m_extName.Length == 0)
-            {
-                m_prefabName = m_pathNoExt;
-            }
-            else
-            {
-                m_prefabName = m_pathNoExt + "." + m_extName;
-            }
-            */
             m_prefabName = mLoadPath;
         }
 
@@ -210,6 +199,24 @@ namespace SDK.Lib
 
             mResUniqueId = m_pathNoExt;
         }
+
+        public bool isLevelType()
+        {
+            return m_extName == UtilApi.UNITY;
+        }
+
+        public bool isResType()
+        {
+            return m_extName == UtilApi.PREFAB ||
+                   m_extName == UtilApi.MAT ||
+                   m_extName == UtilApi.PNG ||
+                   m_extName == UtilApi.JPG ||
+                   m_extName == UtilApi.TGA;
+        }
+
+        public bool isDataType()
+        {
+            return !isLevelType() && !isResType();
+        }
     }
 }
- 

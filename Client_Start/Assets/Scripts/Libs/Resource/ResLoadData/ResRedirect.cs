@@ -5,42 +5,37 @@ using System.IO;
 namespace SDK.Lib
 {
     /**
-     * @brief 资源目录
-     */
-    public enum eResRedirectDir
-    {
-        eResources = 0,     // Resources 目录下
-        eStreaming = 1,     // StreamingAssets 目录下
-        ePersistent = 2,    // persistentDataPath 目录下
-    }
-
-    /**
      *@brief 资源重定向 Item
      */
     public class ResRedirectItem
     {
         public string mResUniqueId;                     // 资源唯一 Id
-        public eResRedirectDir mResRedirectDir;         // 资源目录
+        public ResLoadType mResLoadType;         // 资源目录
 
-        public ResRedirectItem(string resUniqueId = "", int redirect = (int)eResRedirectDir.eResources)
+        public ResRedirectItem(string resUniqueId = "", int redirect = (int)ResLoadType.eLoadResource)
         {
             mResUniqueId = resUniqueId;
-            mResRedirectDir = (eResRedirectDir)redirect;
+            mResLoadType = (ResLoadType)redirect;
         }
 
         public bool isRedirectR()
         {
-            return mResRedirectDir == eResRedirectDir.eResources;
+            return mResLoadType == ResLoadType.eLoadResource;
         }
 
         public bool isRedirectS()
         {
-            return mResRedirectDir == eResRedirectDir.eStreaming;
+            return mResLoadType == ResLoadType.eLoadStreamingAssets;
         }
 
         public bool isRedirectP()
         {
-            return mResRedirectDir == eResRedirectDir.ePersistent;
+            return mResLoadType == ResLoadType.eLoadLocalPersistentData;
+        }
+
+        public bool isRedirectW()
+        {
+            return mResLoadType == ResLoadType.eLoadWeb;
         }
     }
 
@@ -100,7 +95,7 @@ namespace SDK.Lib
                         equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
                         item = new ResRedirectItem();
                         item.mResUniqueId = equalList[0];
-                        item.mResRedirectDir = (eResRedirectDir)MBitConverter.ToInt32(equalList[1]);
+                        item.mResLoadType = (ResLoadType)MBitConverter.ToInt32(equalList[1]);
                         mUniqueId2ItemDic[item.mResUniqueId] = item;
                         ++lineIdx;
                     }
@@ -117,12 +112,12 @@ namespace SDK.Lib
             int dir = 0;
             if(mUniqueId2ItemDic.ContainsKey(resUniqueId))
             {
-                dir = (int)mUniqueId2ItemDic[resUniqueId].mResRedirectDir;
+                dir = (int)mUniqueId2ItemDic[resUniqueId].mResLoadType;
             }
             else
             {
                 // 自己暂时模拟代码
-                dir = (int)eResRedirectDir.eResources;
+                dir = (int)ResLoadType.eLoadResource;
             }
 
             return dir;
@@ -138,7 +133,7 @@ namespace SDK.Lib
             else
             {
                 // 自己暂时模拟代码
-                item = new ResRedirectItem(resUniqueId, (int)eResRedirectDir.eResources);
+                item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadResource);
             }
 
             return item;
