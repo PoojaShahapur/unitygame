@@ -109,7 +109,7 @@ namespace SDK.Lib
 
                 if ("Module/AutoUpdate.prefab" == resPath)       // 自动更新模块更新还没有实现
                 {
-                    param.m_resLoadType = ResLoadType.eStreamingAssets;
+                    param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        ResLoadType tmp = ResLoadType.eStreamingAssets;
+                        ResLoadType tmp = ResLoadType.eLoadStreamingAssets;
                         retPath = MFileSys.getAbsPathByRelPath(ref retPath, ref tmp);
                     }
                 }
@@ -135,7 +135,7 @@ namespace SDK.Lib
             {
                 if (param != null)
                 {
-                    param.m_resLoadType = ResLoadType.eStreamingAssets;
+                    param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
                 }
                 return resPath;
             }

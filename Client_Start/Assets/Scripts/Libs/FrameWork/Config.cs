@@ -46,7 +46,7 @@ namespace SDK.Lib
             m_netLogPhp = "/netlog/NetLog.php";
             m_pakExtNameList = new List<string>();
 
-            m_resLoadType = ResLoadType.eLoadDisc;
+            m_resLoadType = ResLoadType.eLoadResource;
             m_pathLst = new string[(int)ResPathType.eTotal];
             m_pathLst[(int)ResPathType.ePathScene] = "Scenes/";
             m_pathLst[(int)ResPathType.ePathSceneXml] = "Scenes/Xml/";

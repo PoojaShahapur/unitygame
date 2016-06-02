@@ -8,13 +8,14 @@ namespace SDK.Lib
      */
     public class MFileSys
     {
-#if UNITY_EDITOR
-        public static string msPersistentDataPath = Application.streamingAssetsPath;
-#else
-        public static string msPersistentDataPath = Application.persistentDataPath;
-#endif
         public static string msStreamingAssetsPath = Application.streamingAssetsPath;
-
+        public static string msPersistentDataPath = Application.persistentDataPath;
+        // 可读写目录
+#if UNITY_EDITOR
+        public static string msRWDataPath = msStreamingAssetsPath;
+#else
+        public static string msRWDataPath = msPersistentDataPath;
+#endif
         // 获取本地 Data 目录
         static public string getLocalDataDir()
         {
@@ -24,7 +25,7 @@ namespace SDK.Lib
         // 获取本地可以读取的 StreamingAssets 目录，不同平台下 StreamingAssets 是不同的，但是不能写
         static public string getLocalReadDir()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
 #elif UNITY_IPHONE
               string filepath = Application.dataPath +"/Raw/";
@@ -79,18 +80,18 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        loadType = ResLoadType.eStreamingAssets;
+                        loadType = ResLoadType.eLoadStreamingAssets;
                     }
                 }
                 else
                 {
                     relPath = UtilLogic.combineVerPath(relPath, version);         // 在可写目录下，文件名字是有版本号的
-                    loadType = ResLoadType.ePersistentData;
+                    loadType = ResLoadType.eLoadLocalPersistentData;
                 }
             }
             else
             {
-                loadType = ResLoadType.eStreamingAssets;
+                loadType = ResLoadType.eLoadStreamingAssets;
             }
 
             return absPath;
@@ -101,7 +102,7 @@ namespace SDK.Lib
             byte[] ret = null;
             try
             {
-                ret = File.ReadAllBytes(msPersistentDataPath + "/" + fileName);
+                ret = File.ReadAllBytes(msRWDataPath + "/" + fileName);
             }
             catch
             {
@@ -113,7 +114,7 @@ namespace SDK.Lib
 
         static public void writeBytesToFile(string fileName, byte[] buf)
         {
-            File.WriteAllBytes(msPersistentDataPath + "/" + fileName, buf);
+            File.WriteAllBytes(msRWDataPath + "/" + fileName, buf);
         }
 
         static public string readFileAllText(string fileName)
@@ -121,7 +122,7 @@ namespace SDK.Lib
             string ret = null;
             try
             {
-                ret = File.ReadAllText(msPersistentDataPath + "/" + fileName);
+                ret = File.ReadAllText(msRWDataPath + "/" + fileName);
             }
             catch
             {
@@ -133,7 +134,7 @@ namespace SDK.Lib
 
         static public void writeTextToFile(string fileName, string text)
         {
-            File.WriteAllText(msPersistentDataPath + "/" + fileName, text);
+            File.WriteAllText(msRWDataPath + "/" + fileName, text);
         }
 
         static public LuaStringBuffer readLuaBufferToFile(string fileName)

@@ -116,11 +116,11 @@ namespace SDK.Lib
         {
             param.m_resPackType = ResPackType.eDataType;
             
-            if (ResLoadType.eStreamingAssets == param.m_resLoadType)
+            if (ResLoadType.eLoadStreamingAssets == param.m_resLoadType)
             {
                 param.mLoadPath = Path.Combine(MFileSys.getLocalReadDir(), param.mLoadPath);
             }
-            else if (ResLoadType.ePersistentData == param.m_resLoadType)
+            else if (ResLoadType.eLoadLocalPersistentData == param.m_resLoadType)
             {
                 param.mLoadPath = Path.Combine(MFileSys.getLocalWriteDir(), param.mLoadPath);
             }
@@ -158,7 +158,7 @@ namespace SDK.Lib
             else if (MacroDef.UNPKG_RES_LOAD)
             {
                 param.m_resPackType = ResPackType.eUnPakLevelType;
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
                 load(param);
             }
             else
@@ -190,7 +190,7 @@ namespace SDK.Lib
             {
                 // 判断资源所在的目录，是在 StreamingAssets 目录还是在 persistentData 目录下，目前由于没有完成，只能从 StreamingAssets 目录下加载
                 param.m_resPackType = ResPackType.eUnPakType;
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
                 load(param);
             }
             else
@@ -205,7 +205,9 @@ namespace SDK.Lib
         // 加载资源，内部决定加载方式，可能从 Resources 下加载或者从 StreamingAssets 下加载，或者从 PersistentDataPath 下加载。isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
         public void loadAsset(LoadParam param, bool isCheckDep = true)
         {
-            if (!MacroDef.ASSETBUNDLES_LOAD)
+            ResRedirectItem redirectItem = mResRedirect.getResRedirectItem(param.mResUniqueId);
+
+            if (redirectItem.isRedirectR())
             {
                 param.m_resPackType = ResPackType.eResourcesType;
                 param.m_resLoadType = ResLoadType.eLoadResource;

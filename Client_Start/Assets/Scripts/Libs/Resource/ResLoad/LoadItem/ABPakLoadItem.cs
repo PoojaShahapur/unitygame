@@ -19,11 +19,11 @@ namespace SDK.Lib
             base.load();
 
             string curPath = "";
-            if (ResLoadType.eStreamingAssets == m_resLoadType)
+            if (ResLoadType.eLoadStreamingAssets == m_resLoadType)
             {
                 curPath = Path.Combine(MFileSys.getLocalReadDir(), m_loadPath);
             }
-            else if (ResLoadType.ePersistentData == m_resLoadType)
+            else if (ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
                 curPath = Path.Combine(MFileSys.getLocalWriteDir(), m_loadPath);
             }

@@ -186,7 +186,7 @@ namespace SDK.Lib
         virtual protected IEnumerator downloadAsset()
         {
             string path = "";
-            if (m_resLoadType == ResLoadType.eLoadDicWeb)
+            if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
             {
                 path = "file://" + Application.dataPath + "/" + m_loadPath;
             }

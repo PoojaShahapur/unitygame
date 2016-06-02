@@ -40,11 +40,11 @@ namespace SDK.Lib
 
             if (FilesVerType.eStreamingAssetsVer == m_type)
             {
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
             }
             else if (FilesVerType.ePersistentDataVer == m_type)
             {
-                param.m_resLoadType = ResLoadType.ePersistentData;
+                param.m_resLoadType = ResLoadType.eLoadLocalPersistentData;
                 param.m_version = ver;
             }
             else if (FilesVerType.eWebVer == m_type)
@@ -97,11 +97,11 @@ namespace SDK.Lib
 
             if (FilesVerType.eStreamingAssetsVer == m_type)
             {
-                param.m_resLoadType = ResLoadType.eStreamingAssets;
+                param.m_resLoadType = ResLoadType.eLoadStreamingAssets;
             }
             else if (FilesVerType.ePersistentDataVer == m_type)
             {
-                param.m_resLoadType = ResLoadType.ePersistentData;
+                param.m_resLoadType = ResLoadType.eLoadLocalPersistentData;
                 param.m_version = ver;
             }
             else if (FilesVerType.eWebVer == m_type)

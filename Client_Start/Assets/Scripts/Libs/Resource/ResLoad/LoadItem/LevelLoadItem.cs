@@ -25,12 +25,13 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
-            if (ResLoadType.eLoadDisc == m_resLoadType)
+            if (ResLoadType.eLoadStreamingAssets == m_resLoadType ||
+                ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
                 nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
-            else if (ResLoadType.eLoadDicWeb == m_resLoadType || ResLoadType.eLoadWeb == m_resLoadType)
+            else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
                 Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
             }

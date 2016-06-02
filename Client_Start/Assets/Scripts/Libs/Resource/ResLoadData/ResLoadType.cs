@@ -5,13 +5,10 @@
      */
     public enum ResLoadType
     {
-        eLoadResource,  // Resource 缺省打进程序包里的AssetBundle里加载资源
-        eLoadDisc,      // 从本地磁盘加载 AssetBundle 或者 Level
-        eLoadDicWeb,    // 从本地磁盘加载，但是使用 www Web 接口
-        eLoadWeb,       // 从 Web 加载
-
-        eStreamingAssets,   // 从 StreamingAssets 加载
-        ePersistentData,
+        eLoadResource,              // Resources 缺省打进程序包里的AssetBundle里加载资源
+        eLoadStreamingAssets,       // 从 StreamingAssets 目录加载
+        eLoadLocalPersistentData,   // 从 persistentDataPath 本地目录加载
+        eLoadWeb,                   // 从 Web 加载
         eLoadNum
     }
 }

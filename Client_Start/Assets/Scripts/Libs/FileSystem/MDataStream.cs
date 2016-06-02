@@ -68,8 +68,11 @@ namespace SDK.Lib
 
         public bool isWWWStream()
         {
+            /*
             return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath ||
                    mFilePlatformAndPath == eFilePlatformAndPath.eOther;
+            */
+            return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath;
         }
 
         protected void open()
@@ -175,10 +178,9 @@ namespace SDK.Lib
             {
                 if (mFileStream.CanWrite)
                 {
-                    Encoding encodeOrig = GkEncode.UTF8;
-                    if (encode != null)
+                    if (encode == null)
                     {
-                        encodeOrig = encode;
+                        encode = GkEncode.UTF8;
                     }
 
                     byte[] bytes = encode.GetBytes(text);

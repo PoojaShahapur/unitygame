@@ -41,11 +41,11 @@ namespace SDK.Lib
         {
             //parsePath();
             base.load();
-            if (ResLoadType.eStreamingAssets == m_resLoadType)
+            if (ResLoadType.eLoadStreamingAssets == m_resLoadType)
             {
                 loadFromStreamingAssets();
             }
-            else if (ResLoadType.ePersistentData == m_resLoadType)
+            else if (ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
                 loadFromPersistentData();
             }
