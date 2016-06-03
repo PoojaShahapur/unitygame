@@ -33,21 +33,26 @@ namespace SDK.Lib
         /**
          * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp。FileMode.CreateNew 如果文件已经存在就抛出异常
          */
-        public MDataStream(string filePath, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite, bool isSyncMode = true, MAction<IDispatchObject> openedDisp = null)
+        public MDataStream(string filePath, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite, bool isSyncMode = true)
         {
             this.mTypeId = "MDataStream";
+
             mFilePath = filePath;
             mMode = mode;
             mAccess = access;
             mIsValid = false;
             mIsSyncMode = isSyncMode;
 
-            mOpenedEvtDisp = new AddOnceAndCallOnceEventDispatch();
-            mOpenedEvtDisp.addEventHandle(null, openedDisp);
-
             checkPlatformAndPath(mFilePath);
+        }
 
-
+        public void addOpenedHandle(MAction<IDispatchObject> openedDisp = null)
+        {
+            if (mOpenedEvtDisp == null)
+            {
+                mOpenedEvtDisp = new AddOnceAndCallOnceEventDispatch();
+            }
+            mOpenedEvtDisp.addEventHandle(null, openedDisp);
         }
 
         public void dispose()
@@ -69,14 +74,13 @@ namespace SDK.Lib
 
         public bool isWWWStream()
         {
-            /*
             return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath ||
                    mFilePlatformAndPath == eFilePlatformAndPath.eOther;
-            */
-            return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath;
+
+            //return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath;
         }
 
-        protected void syncopen()
+        protected void syncOpen()
         {
             if (!mIsValid)
             {
@@ -85,6 +89,8 @@ namespace SDK.Lib
                 {
                     mFileStream = new FileStream(mFilePath, mMode, mAccess);
                 }
+
+                onAsyncOpened();
             }
         }
 
@@ -124,7 +130,7 @@ namespace SDK.Lib
             {
                 if (!isWWWStream())
                 {
-                    syncopen();
+                    syncOpen();
                 }
                 else
                 {

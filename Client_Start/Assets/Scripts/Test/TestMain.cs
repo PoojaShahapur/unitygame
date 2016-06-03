@@ -91,7 +91,7 @@ namespace UnitTest
             //m_pTestTable.run();
             //m_pTestXml.run();
             //m_pTestResources.run();
-            m_pTestLoad.run();
+            //m_pTestLoad.run();
             //m_pTestNet.run();
             //m_pTestAni.run();
 
@@ -110,7 +110,7 @@ namespace UnitTest
             //m_testIsometric.run();
             //mTestCoroutinePrefabIns.run();
             //mTestCoroutineTask.run();
-            //mTestDataStream.run();
+            mTestDataStream.run();
         }
     }
 }

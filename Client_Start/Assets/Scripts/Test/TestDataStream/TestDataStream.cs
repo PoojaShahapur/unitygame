@@ -9,12 +9,22 @@ namespace UnitTest
 
         public TestDataStream()
         {
-            mStream = new MDataStream(UtilPath.combine(MFileSys.msStreamingAssetsPath, "Test.txt"), FileMode.Open);
+            
         }
 
         public void run()
         {
-            testEditor();
+            //testEditor();
+
+            mStream = new MDataStream(UtilPath.combine(MFileSys.msStreamingAssetsPath, "Test.txt"), FileMode.Open);
+            mStream.addOpenedHandle(onFileOpened);
+            mStream.checkAndOpen();
+        }
+
+        public void onFileOpened(IDispatchObject dispObj)
+        {
+            string text = mStream.readText();
+            Ctx.m_instance.m_logSys.log("Text = " + text);
         }
 
         protected void testEditor()
