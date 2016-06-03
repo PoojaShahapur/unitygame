@@ -257,6 +257,7 @@
 
             m_depResMgr.init();
             mCoroutineTaskMgr.start();
+            m_versionSys.loadLocalVer();
         }
 
         public void init()

@@ -23,7 +23,7 @@ namespace SDK.Lib
         public T getAndSyncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
             syncLoad<T>(path, isLoadAll);
-            string resUniqueId = ResPathResolve.convOrigPathToUniqueId(path);
+            string resUniqueId = LoadParam.convOrigPathToUniqueId(path);
             return getRes(resUniqueId) as T;
         }
 

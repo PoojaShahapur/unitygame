@@ -9,8 +9,9 @@ namespace SDK.Lib
      */
     public class ResRedirectItem
     {
-        public string mResUniqueId;                     // 资源唯一 Id
-        public ResLoadType mResLoadType;         // 资源目录
+        public string mResUniqueId;             // 资源唯一 Id
+        public ResLoadType mResLoadType;        // 资源目录
+        public FileVerInfo mFileVerInfo;        // 文件的基本信息
 
         public ResRedirectItem(string resUniqueId = "", int redirect = (int)ResLoadType.eLoadResource)
         {
@@ -62,10 +63,14 @@ namespace SDK.Lib
         // 写入 persistentDataPath 一个固定的版本文件，以后可能放到配置文件
         protected void checkOrWriteRedirectFile()
         {
+            if (UtilPath.existFile(mRedirectFileName))
+            {
+                UtilPath.deleteFile(mRedirectFileName);
+            }
             if (!UtilPath.existFile(mRedirectFileName))
             {
                 MDataStream dataStream = new MDataStream(mRedirectFileName);
-                string content = "Version_R.txt=0" + UtilApi.CR_LF + "Version_S.txt=1" + UtilApi.CR_LF  + "Version_P.txt=2";
+                string content = "Version_R=0" + UtilApi.CR_LF + "Version_S=1" + UtilApi.CR_LF  + "Version_P=2";
                 dataStream.writeText(content);
                 dataStream.dispose();
                 dataStream = null;
@@ -78,6 +83,7 @@ namespace SDK.Lib
             if (UtilPath.existFile(mRedirectFileName))
             {
                 MDataStream dataStream = new MDataStream(mRedirectFileName, FileMode.Open);
+                dataStream.checkAndOpen();
 
                 if (dataStream.isValid())
                 {
@@ -94,6 +100,7 @@ namespace SDK.Lib
                     {
                         equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
                         item = new ResRedirectItem();
+                        item.mFileVerInfo = new FileVerInfo();
                         item.mResUniqueId = equalList[0];
                         item.mResLoadType = (ResLoadType)MBitConverter.ToInt32(equalList[1]);
                         mUniqueId2ItemDic[item.mResUniqueId] = item;
@@ -134,6 +141,21 @@ namespace SDK.Lib
             {
                 // 自己暂时模拟代码
                 item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadStreamingAssets);
+            }
+
+            return item;
+        }
+
+        public ResRedirectItem getResRedirectItemByOrigPath(string origPath)
+        {
+            ResRedirectItem item = null;
+            foreach(KeyValuePair<string, ResRedirectItem> kv in mUniqueId2ItemDic)
+            {
+                if(kv.Value.mFileVerInfo.mOrigPath == origPath)
+                {
+                    item = kv.Value;
+                    break;
+                }
             }
 
             return item;

@@ -10,6 +10,7 @@ namespace SDK.Lib
     {
         public FilesVer m_webVer = new FilesVer();
         public FilesVer m_localVer = new FilesVer();
+        public LocalVer m_localVersion = new LocalVer();
 
         public Action m_miniLoadResultDisp;
         public Action m_LoadResultDisp;
@@ -21,6 +22,8 @@ namespace SDK.Lib
         {
             m_webVer.m_type = FilesVerType.eWebVer;
             m_miniVer = UtilApi.Range(0, int.MaxValue).ToString();
+
+            m_localVersion = new LocalVer();
         }
 
         public void loadMiniVerFile()
@@ -146,6 +149,11 @@ namespace SDK.Lib
             }
 
             return "";
+        }
+
+        public void loadLocalVer()
+        {
+            m_localVersion.load();
         }
     }
 }

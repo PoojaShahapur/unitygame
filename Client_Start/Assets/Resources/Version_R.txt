@@ -1,0 +1,1 @@
+Model/TestCube.prefab=Model/TestCube=Model/TestCube=1234566=12

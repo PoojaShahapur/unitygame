@@ -73,7 +73,7 @@ namespace SDK.Lib
             string resUniqueId = "";
             foreach (string path in m_depNameArr)
             {
-                resUniqueId = ResPathResolve.convLoadPathToUniqueId(path);
+                resUniqueId = LoadParam.convLoadPathToUniqueId(path);
                 Ctx.m_instance.m_resLoadMgr.unload(resUniqueId, onLoadEventHandle);
             }
         }

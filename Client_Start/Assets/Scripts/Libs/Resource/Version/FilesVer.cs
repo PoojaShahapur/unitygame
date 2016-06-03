@@ -3,23 +3,16 @@ using System.Collections.Generic;
 
 namespace SDK.Lib
 {
-    public enum FilesVerType
-    {
-        eStreamingAssetsVer,
-        ePersistentDataVer,
-        eWebVer,
-    }
-
     /**
-     * @brief 一个位置的所有版本，StreamingAssets 、Application.persistentDataPath、web 
+     * @brief 一个位置的所有版本 Resources，StreamingAssets 、Application.persistentDataPath、web 
      */
     public class FilesVer
     {
         // MiniVersion 必须每一次从服务器上下载
-        public const string MINIFILENAME = "VerMini.bytes";
+        public const string MINIFILENAME = "VerMini.txt";
         public const string MINIFILENAMENOEXT = "VerMini";
 
-        public const string FILENAME = "VerFile.bytes";
+        public const string FILENAME = "VerFile.txt";
         public const string FILENAMENOEXT = "VerFile";
 
         public Dictionary<string, FileVerInfo> m_miniPath2HashDic = new Dictionary<string, FileVerInfo>();
