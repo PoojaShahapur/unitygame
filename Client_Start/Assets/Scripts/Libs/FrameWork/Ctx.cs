@@ -256,7 +256,7 @@
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
 
-            //m_depResMgr.init();
+            m_depResMgr.init();
             mCoroutineTaskMgr.start();
             m_versionSys.loadLocalVer();
         }

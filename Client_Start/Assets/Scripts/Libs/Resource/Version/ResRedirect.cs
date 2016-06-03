@@ -113,23 +113,6 @@ namespace SDK.Lib
             }
         }
 
-        // 根据 reqUniqueId 返回，为了绑定到 Lua，尽量返回类型不使用 Enum
-        public int getResRedirectDir(string resUniqueId)
-        {
-            int dir = 0;
-            if(mUniqueId2ItemDic.ContainsKey(resUniqueId))
-            {
-                dir = (int)mUniqueId2ItemDic[resUniqueId].mResLoadType;
-            }
-            else
-            {
-                // 自己暂时模拟代码
-                dir = (int)ResLoadType.eLoadResource;
-            }
-
-            return dir;
-        }
-
         public ResRedirectItem getResRedirectItem(string resUniqueId)
         {
             ResRedirectItem item = null;
@@ -140,7 +123,7 @@ namespace SDK.Lib
             else
             {
                 // 自己暂时模拟代码
-                item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadResource);
+                item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadStreamingAssets);
             }
 
             return item;
