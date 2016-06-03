@@ -124,8 +124,10 @@ namespace SDK.Lib
             mOpenedEvtDisp.dispatchEvent(this);
         }
 
-        public void checkAndOpen()
+        public void checkAndOpen(MAction<IDispatchObject> openedDisp = null)
         {
+            this.addOpenedHandle(openedDisp);
+
             if(!mIsValid)
             {
                 if (!isWWWStream())
