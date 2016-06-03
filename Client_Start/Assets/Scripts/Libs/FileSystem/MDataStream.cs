@@ -74,10 +74,10 @@ namespace SDK.Lib
 
         public bool isWWWStream()
         {
-            return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath ||
-                   mFilePlatformAndPath == eFilePlatformAndPath.eOther;
+            //return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath ||
+            //       mFilePlatformAndPath == eFilePlatformAndPath.eOther;
 
-            //return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath;
+            return mFilePlatformAndPath == eFilePlatformAndPath.eAndroidStreamingAssetsPath;
         }
 
         protected void syncOpen()

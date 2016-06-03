@@ -200,12 +200,38 @@ namespace SDK.Lib
             mResUniqueId = m_pathNoExt;
         }
 
-        public bool isLevelType()
+        // 设置资源加载和打包类型
+        protected void setPackAndLoadType()
         {
-            return m_extName == UtilApi.UNITY;
+            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(mResUniqueId);
+            m_resLoadType = redirectItem.mResLoadType;
+
+            if (isLevelType())
+            {
+                m_resPackType = ResPackType.eLevelType;
+            }
+            else if (isPrefabType())
+            {
+                if (m_resLoadType == ResLoadType.eLoadResource)
+                {
+                    m_resPackType = ResPackType.eResourcesType;
+                }
+                else
+                {
+                    m_resPackType = ResPackType.eBundleType;
+                }
+            }
+            else if (isAssetBundleType())
+            {
+                m_resPackType = ResPackType.eBundleType;
+            }
+            else
+            {
+                m_resPackType = ResPackType.eDataType;
+            }
         }
 
-        public bool isResType()
+        public bool isPrefabType()
         {
             return m_extName == UtilApi.PREFAB ||
                    m_extName == UtilApi.MAT ||
@@ -214,9 +240,19 @@ namespace SDK.Lib
                    m_extName == UtilApi.TGA;
         }
 
+        public bool isAssetBundleType()
+        {
+            return m_extName == UtilApi.UNITY3D;
+        }
+
+        public bool isLevelType()
+        {
+            return m_extName == UtilApi.UNITY;
+        }
+
         public bool isDataType()
         {
-            return !isLevelType() && !isResType();
+            return !isLevelType() && !isPrefabType() && !isAssetBundleType();
         }
     }
 }

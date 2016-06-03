@@ -9,6 +9,6 @@
         eLoadStreamingAssets,       // 从 StreamingAssets 目录加载
         eLoadLocalPersistentData,   // 从 persistentDataPath 本地目录加载
         eLoadWeb,                   // 从 Web 加载
-        eLoadNum
+        eLoadTotal
     }
 }

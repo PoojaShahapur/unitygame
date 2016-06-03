@@ -106,6 +106,8 @@
         public SceneNodeGraph mSceneNodeGraph;
         public TerrainEntityMgr mTerrainEntityMgr;
 
+        public ResRedirect mResRedirect;             // 重定向
+
         public Ctx()
         {
             
@@ -219,6 +221,8 @@
             mCoroutineTaskMgr = new CoroutineTaskMgr();
             mSceneNodeGraph = new SceneNodeGraph();
             mTerrainEntityMgr = new TerrainEntityMgr();
+
+            mResRedirect = new ResRedirect();
         }
 
         protected void interInit()
@@ -244,15 +248,14 @@
             m_uiMgr.findCanvasGO();
             m_dataPlayer.m_dataPack.postConstruct();
 
+            // 初始化重定向
+            mResRedirect.postInit();
             m_resLoadMgr.postInit();
 
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
 
-            if (MacroDef.ASSETBUNDLES_LOAD)
-            {
-                m_depResMgr.initialize();
-            }
+            m_depResMgr.init();
             mCoroutineTaskMgr.start();
         }
 

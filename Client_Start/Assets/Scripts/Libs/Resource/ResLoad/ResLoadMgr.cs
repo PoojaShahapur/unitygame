@@ -13,7 +13,6 @@ namespace SDK.Lib
         protected ResMsgRouteCB m_resMsgRouteCB;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int m_loadingDepth;                   // 加载深度
-        protected ResRedirect mResRedirect;             // 重定向
 
         public ResLoadMgr()
         {
@@ -22,7 +21,6 @@ namespace SDK.Lib
             m_LoadData = new ResLoadData();
             m_zeroRefResIDList = new List<string>();
             m_loadingDepth = 0;
-            mResRedirect = new ResRedirect();
 
             this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
@@ -32,36 +30,6 @@ namespace SDK.Lib
             // 游戏逻辑处理
             m_resMsgRouteCB = new ResMsgRouteCB();
             Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_resMsgRouteCB);
-
-            // 初始化重定向
-            mResRedirect.postInit();
-        }
-
-        // 设置资源加载和打包类型
-        protected void setPackAndLoadType(LoadParam loadParam)
-        {
-            ResRedirectItem redirectItem = mResRedirect.getResRedirectItem(loadParam.mResUniqueId);
-            loadParam.m_resLoadType = redirectItem.mResLoadType;
-
-            if (loadParam.isLevelType())
-            {
-                loadParam.m_resPackType = ResPackType.eLevelType;
-            }
-            else if (loadParam.isResType())
-            {
-                if (loadParam.m_resLoadType == ResLoadType.eLoadResource)
-                {
-                    loadParam.m_resPackType = ResPackType.eResourcesType;
-                }
-                else
-                {
-                    loadParam.m_resPackType = ResPackType.eBundleType;
-                }
-            }
-            else
-            {
-                loadParam.m_resPackType = ResPackType.eDataType;
-            }
         }
 
         // 是否有正在加载的 LoadItem
@@ -221,8 +189,6 @@ namespace SDK.Lib
         // 加载资源，内部决定加载方式，可能从 Resources 下加载或者从 StreamingAssets 下加载，或者从 PersistentDataPath 下加载。isCheckDep 是否检查依赖， "AssetBundleManifest" 这个依赖文件是不需要检查依赖的
         public void loadAsset(LoadParam param, bool isCheckDep = true)
         {
-            setPackAndLoadType(param);
-
             if (param.m_resPackType == ResPackType.eResourcesType)
             {
                 param.m_resPackType = ResPackType.eResourcesType;
