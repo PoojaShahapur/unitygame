@@ -126,6 +126,7 @@
         {
             UtilByte.checkEndian();     // 检查系统大端小端
             MThread.getMainThreadID();  // 获取主线程 ID
+            ResPathResolve.initRootPath();
 
             mTerrainGlobalOption = new TerrainGlobalOption();
 
@@ -255,7 +256,7 @@
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
 
-            m_depResMgr.init();
+            //m_depResMgr.init();
             mCoroutineTaskMgr.start();
             m_versionSys.loadLocalVer();
         }

@@ -1,5 +1,6 @@
 ﻿
 using System.Collections;
+using System.IO;
 using UnityEngine;
 
 namespace SDK.Lib
@@ -11,6 +12,7 @@ namespace SDK.Lib
     {
         public byte[] mBytes;
         protected TextAsset mTextAsset;
+        protected MDataStream mDataStream;
 
         public override void reset()
         {
@@ -21,13 +23,32 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
-            if (m_loadNeedCoroutine)
+            if (ResLoadType.eLoadResource == m_resLoadType)  // 如果从 Resources 加载
             {
-                Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadFromDefaultAssetBundleByCoroutine());
+                if (m_loadNeedCoroutine)
+                {
+                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(loadFromDefaultAssetBundleByCoroutine());
+                }
+                else
+                {
+                    loadFromDefaultAssetBundle();
+                }
             }
-            else
+            else if((ResLoadType.eLoadStreamingAssets == m_resLoadType))
             {
-                loadFromDefaultAssetBundle();
+                // 暂时只支持同步加载
+                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, FileMode.Open);
+                mDataStream.checkAndOpen(onFileOpened);
+            }
+            else if ((ResLoadType.eLoadLocalPersistentData == m_resLoadType))
+            {
+                // 暂时只支持同步加载
+                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, FileMode.Open);
+                mDataStream.checkAndOpen(onFileOpened);
+            }
+            else if ((ResLoadType.eLoadWeb == m_resLoadType))
+            {
+                // Web 服务器加载
             }
         }
 
@@ -81,6 +102,24 @@ namespace SDK.Lib
                 m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
           
+            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+        }
+
+        protected void onFileOpened(IDispatchObject dispObj)
+        {
+            mBytes = mDataStream.readByte();
+            mDataStream.dispose();
+            mDataStream = null;
+
+            if(mBytes != null)
+            {
+                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+            }
+            else
+            {
+                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+            }
+
             m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }

@@ -124,7 +124,7 @@ namespace SDK.Lib
             else
             {
                 // 自己暂时模拟代码
-                dir = (int)ResLoadType.eLoadStreamingAssets;
+                dir = (int)ResLoadType.eLoadResource;
             }
 
             return dir;
@@ -140,7 +140,7 @@ namespace SDK.Lib
             else
             {
                 // 自己暂时模拟代码
-                item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadStreamingAssets);
+                item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadResource);
             }
 
             return item;

@@ -39,12 +39,24 @@ namespace SDK.Lib
 
         public void loadLocalSVer()
         {
+            AuxTextLoader textLoader = new AuxTextLoader();
+            textLoader.syncLoad("Version_S.txt");
 
+            loadFormText(textLoader.getText(), m_path2Ver_S_Dic);
+
+            textLoader.dispose();
+            textLoader = null;
         }
 
         public void loadLocalPVer()
         {
+            AuxTextLoader textLoader = new AuxTextLoader();
+            textLoader.syncLoad("Version_P.txt");
 
+            loadFormText(textLoader.getText(), m_path2Ver_P_Dic);
+
+            textLoader.dispose();
+            textLoader = null;
         }
 
         protected void loadFormText(string text, Dictionary<string, FileVerInfo> dic)

@@ -108,22 +108,6 @@ namespace SDK.Lib
 
         public void loadData(LoadParam param)
         {
-            if (ResLoadType.eLoadStreamingAssets == param.m_resLoadType)
-            {
-                param.mLoadPath = Path.Combine(MFileSys.getLocalReadDir(), param.mLoadPath);
-            }
-            else if (ResLoadType.eLoadLocalPersistentData == param.m_resLoadType)
-            {
-                param.mLoadPath = Path.Combine(MFileSys.getLocalWriteDir(), param.mLoadPath);
-            }
-            else if (ResLoadType.eLoadWeb == param.m_resLoadType)
-            {
-                param.mLoadPath = Path.Combine(Ctx.m_instance.m_cfg.m_webIP, param.mLoadPath);
-            }
-            //if (!string.IsNullOrEmpty(param.m_version))
-            //{
-            //    param.m_path = string.Format("{0}?v={1}", param.m_path, param.m_version);
-            //}
             load(param);
         }
 

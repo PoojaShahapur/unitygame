@@ -40,8 +40,6 @@ namespace SDK.Lib
 
         public void init()
         {
-            ResPathResolve.initRootPath();
-
             string platformFolderForAssetBundles = UtilApi.getManifestName();
             // AssetBundleManifest 必须同步加载，加载完成这个以后再加载其它资源
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();

@@ -144,6 +144,7 @@ namespace SDK.Lib
         {
             string fullPath = "";
             m_origPath = path;
+            mResUniqueId = convOrigPathToUniqueId(m_origPath);
 
             int dotIdx = m_origPath.IndexOf(".");
             if (-1 == dotIdx)
@@ -158,10 +159,13 @@ namespace SDK.Lib
                 mLogicPath = m_origPath;        // mLogicPath 有扩展名字
             }
 
+            // 解析加载方式
+            setPackAndLoadType();
+
             // 如果直接加载的就是 AssetBundles 资源
-            if(m_extName != UtilApi.UNITY3D)
+            if (m_extName != UtilApi.UNITY3D)
             {
-                fullPath = ResPathResolve.convResourcesPath2AssetBundlesPath(m_origPath);
+                fullPath = convResourcesPath2AssetBundlesPath(m_origPath);
             }
             else
             {
@@ -188,16 +192,22 @@ namespace SDK.Lib
                 m_prefabName = m_pathNoExt + "." + m_extName;
             }
 
-            if (MacroDef.ASSETBUNDLES_LOAD)
+            if (m_resLoadType == ResLoadType.eLoadStreamingAssets ||
+                m_resLoadType == ResLoadType.eLoadLocalPersistentData)
             {
-                mLoadPath = m_pathNoExt + UtilApi.DOTUNITY3D;
+                if (m_resPackType == ResPackType.eBundleType)
+                {
+                    mLoadPath = m_pathNoExt + UtilApi.DOTUNITY3D;
+                }
+                else if(m_resPackType == ResPackType.eDataType)
+                {
+                    mLoadPath = m_pathNoExt + "." + m_extName;
+                }
             }
-            else
+            else if(m_resLoadType == ResLoadType.eLoadResource)
             {
                 mLoadPath = m_pathNoExt;
             }
-
-            mResUniqueId = m_pathNoExt;
         }
 
         // 设置资源加载和打包类型
@@ -206,11 +216,11 @@ namespace SDK.Lib
             ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(mResUniqueId);
             m_resLoadType = redirectItem.mResLoadType;
 
-            if (isLevelType())
+            if (isLevelType(m_extName))
             {
                 m_resPackType = ResPackType.eLevelType;
             }
-            else if (isPrefabType())
+            else if (isPrefabType(m_extName))
             {
                 if (m_resLoadType == ResLoadType.eLoadResource)
                 {
@@ -221,7 +231,7 @@ namespace SDK.Lib
                     m_resPackType = ResPackType.eBundleType;
                 }
             }
-            else if (isAssetBundleType())
+            else if (isAssetBundleType(m_extName))
             {
                 m_resPackType = ResPackType.eBundleType;
             }
@@ -231,28 +241,100 @@ namespace SDK.Lib
             }
         }
 
-        public bool isPrefabType()
+        static public bool isPrefabType(string extName)
         {
-            return m_extName == UtilApi.PREFAB ||
-                   m_extName == UtilApi.MAT ||
-                   m_extName == UtilApi.PNG ||
-                   m_extName == UtilApi.JPG ||
-                   m_extName == UtilApi.TGA;
+            return extName == UtilApi.PREFAB ||
+                   extName == UtilApi.MAT ||
+                   extName == UtilApi.PNG ||
+                   extName == UtilApi.JPG ||
+                   extName == UtilApi.TGA;
         }
 
-        public bool isAssetBundleType()
+        static public bool isAssetBundleType(string extName)
         {
-            return m_extName == UtilApi.UNITY3D;
+            return extName == UtilApi.UNITY3D;
         }
 
-        public bool isLevelType()
+        static public bool isLevelType(string extName)
         {
-            return m_extName == UtilApi.UNITY;
+            return extName == UtilApi.UNITY;
         }
 
-        public bool isDataType()
+        static public bool isDataType(string extName)
         {
-            return !isLevelType() && !isPrefabType() && !isAssetBundleType();
+            return !isLevelType(extName) && !isPrefabType(extName) && !isAssetBundleType(extName);
+        }
+
+        // 转换 Resources 中的目录到 AssetBundles 中的目录
+        static public string convResourcesPath2AssetBundlesPath(string resPath)
+        {
+            string ret = resPath;
+            string extName = UtilPath.getFileExt(resPath);
+
+            if (isAssetBundleType(extName))
+            {
+                ret = ResPathResolve.msAssetBundlesPrefixPath + resPath;
+                ret = ret.ToLower();
+            }
+
+            return ret;
+        }
+
+        static public string convAssetBundlesPath2ResourcesPath(string assetBundlesPath)
+        {
+            //if (MacroDef.ASSETBUNDLES_LOAD)
+            {
+                int idx = assetBundlesPath.IndexOf(ResPathResolve.msAssetBundlesPrefixPath);
+                // 如果有前缀
+                if (-1 != idx)
+                {
+                    return assetBundlesPath.Substring(ResPathResolve.msAssetBundlesPrefixPath.Length);
+                }
+            }
+
+            return assetBundlesPath;
+        }
+
+        // 转换原始的资源加载目录到资源唯一Id
+        static public string convOrigPathToUniqueId(string origPath)
+        {
+            string uniqueId = "";
+            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItemByOrigPath(origPath);
+            if (redirectItem != null)
+            {
+                uniqueId = redirectItem.mFileVerInfo.mResUniqueId;
+            }
+            else
+            {
+                int dotIdx = origPath.IndexOf(".");
+                if (-1 == dotIdx)
+                {
+                    uniqueId = origPath;
+                }
+                else
+                {
+                    uniqueId = origPath.Substring(0, dotIdx);
+                }
+            }
+
+            return uniqueId;
+        }
+
+        static public string convLoadPathToUniqueId(string loadPath)
+        {
+            string uniqueId = "";
+
+            int dotIdx = loadPath.IndexOf(".");
+            if (-1 == dotIdx)
+            {
+                uniqueId = loadPath;
+            }
+            else
+            {
+                uniqueId = loadPath.Substring(0, dotIdx);
+            }
+
+            return uniqueId;
         }
     }
 }
