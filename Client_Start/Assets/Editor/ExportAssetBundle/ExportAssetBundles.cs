@@ -48,13 +48,13 @@ namespace EditorTool
                 return;
             }
 
-            string targetName = ExportUtil.GetBuildTargetName(target);
-            if (targetName == null)
+            string targetFolder = ExportUtil.GetPlatformFolderForAssetBundles(target);
+            if (targetFolder == null)
                 return;
 
             BuildScript.BuildAssetBundles(target);
 
-            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetName);
+            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetFolder);
             string outputPath = MFileSys.msStreamingAssetsPath;
 
             MList<string> extList = new MList<string>();
@@ -70,8 +70,12 @@ namespace EditorTool
                 option = BuildOptions.ConnectWithProfiler;
             }
 
-            string pakPath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut", targetName);
-            //BuildPipeline.BuildPlayer(levels, outputPath + targetName, target, option);
+            string pakPath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut", targetFolder);
+            UtilPath.createDirectory(pakPath, true);
+            string targetName = ExportUtil.GetBuildTargetName(target);
+            if (targetName == null)
+                return;
+            //BuildPipeline.BuildPlayer(levels, pakPath + "/" + targetName, target, option);
         }
 
         static void CopyAssetBundlesTo(BuildTarget target, string sourcePath, string outputPath)

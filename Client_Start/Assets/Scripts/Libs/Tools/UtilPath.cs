@@ -385,12 +385,18 @@ namespace SDK.Lib
             )
         {
             DirectoryInfo sourceDirInfo = new DirectoryInfo(srcPath);
-            DirectoryInfo targetDirInfo = new DirectoryInfo(destPath);
+            DirectoryInfo targetDirInfo = null;
 
-            if (targetDirInfo.FullName.StartsWith(sourceDirInfo.FullName, StringComparison.CurrentCultureIgnoreCase))
+            // 如果不是目录规则的字符串，执行 new DirectoryInfo(destPath); 会报错
+            if (!string.IsNullOrEmpty(destPath))
             {
-                Debug.Log("destPath is srcPath subDir, can not copy");
-                return;
+                targetDirInfo = new DirectoryInfo(destPath);
+
+                if (targetDirInfo.FullName.StartsWith(sourceDirInfo.FullName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Debug.Log("destPath is srcPath subDir, can not copy");
+                    return;
+                }
             }
 
             if (!sourceDirInfo.Exists)
@@ -398,17 +404,25 @@ namespace SDK.Lib
                 return;
             }
 
-            if (!targetDirInfo.Exists)
+            if (!string.IsNullOrEmpty(destPath))
             {
                 if (isCreateDestPath)
                 {
-                    targetDirInfo.Create();
+                    UtilPath.createDirectory(destPath);
+                    targetDirInfo = new DirectoryInfo(destPath);
                 }
             }
 
             if (dirHandle != null)
             {
-                dirHandle(sourceDirInfo.FullName, sourceDirInfo.Name, targetDirInfo.FullName);
+                if (string.IsNullOrEmpty(destPath))
+                {
+                    dirHandle(sourceDirInfo.FullName, sourceDirInfo.Name, "");
+                }
+                else
+                {
+                    dirHandle(sourceDirInfo.FullName, sourceDirInfo.Name, targetDirInfo.FullName);
+                }
             }
 
             FileInfo[] files = sourceDirInfo.GetFiles();
@@ -417,7 +431,14 @@ namespace SDK.Lib
             {
                 if (fileHandle != null)
                 {
-                    fileHandle(files[i].FullName, files[i].Name, targetDirInfo.FullName + "/" + files[i].Name);
+                    if (string.IsNullOrEmpty(destPath))
+                    {
+                        fileHandle(files[i].FullName, files[i].Name, "");
+                    }
+                    else
+                    {
+                        fileHandle(files[i].FullName, files[i].Name, targetDirInfo.FullName + "/" + files[i].Name);
+                    }
                 }
             }
 
@@ -427,7 +448,14 @@ namespace SDK.Lib
             {
                 for (int j = 0; j < dirs.Length; j++)
                 {
-                    traverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, dirHandle, fileHandle, isRecurse, isCreateDestPath);
+                    if (string.IsNullOrEmpty(destPath))
+                    {
+                        traverseDirectory(dirs[j].FullName, "", dirHandle, fileHandle, isRecurse, isCreateDestPath);
+                    }
+                    else
+                    {
+                        traverseDirectory(dirs[j].FullName, targetDirInfo.FullName + "/" + dirs[j].Name, dirHandle, fileHandle, isRecurse, isCreateDestPath);
+                    }
                 }
             }
         }
@@ -437,7 +465,6 @@ namespace SDK.Lib
             DirectoryInfo fatherFolder = new DirectoryInfo(srcPath);
             //删除当前文件夹内文件
             FileInfo[] files = fatherFolder.GetFiles();
-            int dotIdx = 0;
             string extName = "";
 
             foreach (FileInfo file in files)
@@ -453,14 +480,10 @@ namespace SDK.Lib
                 }
                 if (extNameList != null)
                 {
-                    dotIdx = fileName.LastIndexOf(".");
-                    if (dotIdx != -1)
+                    extName = UtilPath.getFileExt(file.FullName);
+                    if (extNameList.IndexOf(extName) != -1)
                     {
-                        extName = fileName.Substring(dotIdx + 1);
-                        if (extNameList.IndexOf(extName) != -1)
-                        {
-                            UtilPath.deleteFile(file.FullName);
-                        }
+                        UtilPath.deleteFile(file.FullName);
                     }
                 }
             }
@@ -469,7 +492,7 @@ namespace SDK.Lib
                 //递归删除子文件夹内文件
                 foreach (DirectoryInfo childFolder in fatherFolder.GetDirectories())
                 {
-                    deleteFiles(childFolder.FullName, fileList, extNameList);
+                    deleteFiles(childFolder.FullName, fileList, extNameList, isRecurse);
                 }
             }
         }
