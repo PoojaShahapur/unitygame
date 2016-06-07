@@ -145,6 +145,19 @@ namespace SDK.Lib
             string fullPath = "";
             m_origPath = path;
 
+            int dotIdx = m_origPath.IndexOf(".");
+            if (-1 == dotIdx)
+            {
+                m_extName = "";
+                mLogicPath = m_origPath;
+            }
+            else
+            {
+                m_extName = m_origPath.Substring(dotIdx + 1);
+                //mLogicPath = m_origPath.Substring(0, dotIdx);     // mLogicPath 没有扩展名字
+                mLogicPath = m_origPath;        // mLogicPath 有扩展名字
+            }
+
             ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(m_origPath);
             if(redirectItem != null && redirectItem.mFileVerInfo != null)
             {
@@ -161,19 +174,6 @@ namespace SDK.Lib
                 m_resPackType = ResPackType.eResourcesType;
                 mResUniqueId = UtilPath.getFileNameNoExt(m_origPath);
                 mLoadPath = mResUniqueId;
-            }
-
-            int dotIdx = m_origPath.IndexOf(".");
-            if (-1 == dotIdx)
-            {
-                m_extName = "";
-                mLogicPath = m_origPath;
-            }
-            else
-            {
-                m_extName = m_origPath.Substring(dotIdx + 1);
-                //mLogicPath = m_origPath.Substring(0, dotIdx);     // mLogicPath 没有扩展名字
-                mLogicPath = m_origPath;        // mLogicPath 有扩展名字
             }
 
             fullPath = mLoadPath;

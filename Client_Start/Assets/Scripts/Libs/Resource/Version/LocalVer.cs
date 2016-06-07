@@ -78,7 +78,8 @@ namespace SDK.Lib
                 fileInfo.m_fileMd5 = equalList[3];
                 fileInfo.m_fileSize = Int32.Parse(equalList[4]);
 
-                dic[fileInfo.mResUniqueId] = fileInfo;
+                //dic[fileInfo.mResUniqueId] = fileInfo;
+                dic[fileInfo.mOrigPath] = fileInfo;
                 ++lineIdx;
             }
         }
