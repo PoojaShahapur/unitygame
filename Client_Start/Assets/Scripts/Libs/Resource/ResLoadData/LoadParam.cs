@@ -144,7 +144,24 @@ namespace SDK.Lib
         {
             string fullPath = "";
             m_origPath = path;
-            mResUniqueId = convOrigPathToUniqueId(m_origPath);
+
+            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(m_origPath);
+            if(redirectItem != null && redirectItem.mFileVerInfo != null)
+            {
+                mResUniqueId = redirectItem.mFileVerInfo.mResUniqueId;
+                mLoadPath = redirectItem.mFileVerInfo.mLoadPath;
+                m_resLoadType = redirectItem.mResLoadType;
+                // 解析加载方式
+                setPackAndLoadType(redirectItem);
+            }
+            else
+            {
+                // 如果没有就从 Resources 文件夹下加载
+                m_resLoadType = ResLoadType.eLoadResource;
+                m_resPackType = ResPackType.eResourcesType;
+                mResUniqueId = UtilPath.getFileNameNoExt(m_origPath);
+                mLoadPath = mResUniqueId;
+            }
 
             int dotIdx = m_origPath.IndexOf(".");
             if (-1 == dotIdx)
@@ -159,18 +176,7 @@ namespace SDK.Lib
                 mLogicPath = m_origPath;        // mLogicPath 有扩展名字
             }
 
-            // 解析加载方式
-            setPackAndLoadType();
-
-            // 如果直接加载的就是 AssetBundles 资源
-            if (m_extName != UtilApi.UNITY3D)
-            {
-                fullPath = convResourcesPath2AssetBundlesPath(m_origPath);
-            }
-            else
-            {
-                fullPath = m_origPath;
-            }
+            fullPath = mLoadPath;
 
             dotIdx = fullPath.IndexOf(".");
             if (-1 == dotIdx)
@@ -191,31 +197,11 @@ namespace SDK.Lib
                 // 如果直接加载一个 .unity3d 文件，可能是一个仅仅被依赖的 AssetBundles ，也可能是一个其它被引用的 AssetBundles ，这个时候可能从 AssetBundles 里面获取任何东西，也可能不获取，因此 m_PrefabName 也需要设置对应的在 AssetBundles 中的路径。 所有依赖的 unity3d 这个文件不太一样，它在 AssetBundles 中的名字是  AssetBundleManifest ，不是 unity3d 的名字，这个需要注意
                 m_prefabName = m_pathNoExt + "." + m_extName;
             }
-
-            if (m_resLoadType == ResLoadType.eLoadStreamingAssets ||
-                m_resLoadType == ResLoadType.eLoadLocalPersistentData)
-            {
-                if (m_resPackType == ResPackType.eBundleType)
-                {
-                    mLoadPath = m_pathNoExt + UtilApi.DOTUNITY3D;
-                }
-                else if(m_resPackType == ResPackType.eDataType)
-                {
-                    mLoadPath = m_pathNoExt + "." + m_extName;
-                }
-            }
-            else if(m_resLoadType == ResLoadType.eLoadResource)
-            {
-                mLoadPath = m_pathNoExt;
-            }
         }
 
         // 设置资源加载和打包类型
-        protected void setPackAndLoadType()
+        protected void setPackAndLoadType(ResRedirectItem redirectItem)
         {
-            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(mResUniqueId);
-            m_resLoadType = redirectItem.mResLoadType;
-
             if (isLevelType(m_extName))
             {
                 m_resPackType = ResPackType.eLevelType;
@@ -265,76 +251,26 @@ namespace SDK.Lib
             return !isLevelType(extName) && !isPrefabType(extName) && !isAssetBundleType(extName);
         }
 
-        // 转换 Resources 中的目录到 AssetBundles 中的目录
-        static public string convResourcesPath2AssetBundlesPath(string resPath)
-        {
-            string ret = resPath;
-            string extName = UtilPath.getFileExt(resPath);
-
-            if (isAssetBundleType(extName))
-            {
-                ret = ResPathResolve.msAssetBundlesPrefixPath + resPath;
-                ret = ret.ToLower();
-            }
-
-            return ret;
-        }
-
-        static public string convAssetBundlesPath2ResourcesPath(string assetBundlesPath)
-        {
-            //if (MacroDef.ASSETBUNDLES_LOAD)
-            {
-                int idx = assetBundlesPath.IndexOf(ResPathResolve.msAssetBundlesPrefixPath);
-                // 如果有前缀
-                if (-1 != idx)
-                {
-                    return assetBundlesPath.Substring(ResPathResolve.msAssetBundlesPrefixPath.Length);
-                }
-            }
-
-            return assetBundlesPath;
-        }
-
-        // 转换原始的资源加载目录到资源唯一Id
-        static public string convOrigPathToUniqueId(string origPath)
-        {
-            string uniqueId = "";
-            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItemByOrigPath(origPath);
-            if (redirectItem != null)
-            {
-                uniqueId = redirectItem.mFileVerInfo.mResUniqueId;
-            }
-            else
-            {
-                int dotIdx = origPath.IndexOf(".");
-                if (-1 == dotIdx)
-                {
-                    uniqueId = origPath;
-                }
-                else
-                {
-                    uniqueId = origPath.Substring(0, dotIdx);
-                }
-            }
-
-            return uniqueId;
-        }
-
         static public string convLoadPathToUniqueId(string loadPath)
         {
-            string uniqueId = "";
+            string resUniqueId = UtilPath.getFileNameNoExt(loadPath);
+            return resUniqueId;
+        }
 
-            int dotIdx = loadPath.IndexOf(".");
-            if (-1 == dotIdx)
+        static public string convOrigPathToUniqueId(string origPath)
+        {
+            string resUniqueId = "";
+            ResRedirectItem redirectItem = Ctx.m_instance.mResRedirect.getResRedirectItem(origPath);
+            if (redirectItem != null && redirectItem.mFileVerInfo != null)
             {
-                uniqueId = loadPath;
+                resUniqueId = redirectItem.mFileVerInfo.mResUniqueId;
             }
             else
             {
-                uniqueId = loadPath.Substring(0, dotIdx);
+                resUniqueId = UtilPath.getFileNameNoExt(origPath);
             }
 
-            return uniqueId;
+            return resUniqueId;
         }
     }
 }

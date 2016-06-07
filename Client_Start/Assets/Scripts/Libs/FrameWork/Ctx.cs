@@ -261,9 +261,9 @@
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);
 
-            m_depResMgr.init();
+            m_versionSys.loadLocalVer();    // 加载版本文件
+            m_depResMgr.init();             // 加载依赖文件
             mCoroutineTaskMgr.start();
-            m_versionSys.loadLocalVer();
         }
 
         public void init()

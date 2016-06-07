@@ -9,13 +9,13 @@ namespace SDK.Lib
      */
     public class ResRedirectItem
     {
-        public string mResUniqueId;             // 资源唯一 Id
+        public string mOrigPath;             // 资源原始目录，就是逻辑加载资源的目录
         public ResLoadType mResLoadType;        // 资源目录
         public FileVerInfo mFileVerInfo;        // 文件的基本信息
 
-        public ResRedirectItem(string resUniqueId = "", int redirect = (int)ResLoadType.eLoadResource)
+        public ResRedirectItem(string origPath = "", int redirect = (int)ResLoadType.eLoadResource)
         {
-            mResUniqueId = resUniqueId;
+            mOrigPath = origPath;
             mResLoadType = (ResLoadType)redirect;
         }
 
@@ -45,12 +45,12 @@ namespace SDK.Lib
      */
     public class ResRedirect
     {
-        protected Dictionary<string, ResRedirectItem> mUniqueId2ItemDic;
+        protected Dictionary<string, ResRedirectItem> mOrigPath2ItemDic;
         protected string mRedirectFileName;
 
         public ResRedirect()
         {
-            mUniqueId2ItemDic = new Dictionary<string, ResRedirectItem>();
+            mOrigPath2ItemDic = new Dictionary<string, ResRedirectItem>();
             mRedirectFileName = UtilPath.combine(MFileSys.msPersistentDataPath, "Redirect.txt");
         }
 
@@ -70,7 +70,7 @@ namespace SDK.Lib
             if (!UtilPath.existFile(mRedirectFileName))
             {
                 MDataStream dataStream = new MDataStream(mRedirectFileName);
-                string content = "Version_R=0" + UtilApi.CR_LF + "Version_S=1" + UtilApi.CR_LF  + "Version_P=2";
+                string content = "Version_R.txt=0" + UtilApi.CR_LF + "Version_S.txt=1" + UtilApi.CR_LF  + "Version_P.txt=2";
                 dataStream.writeText(content);
                 dataStream.dispose();
                 dataStream = null;
@@ -101,9 +101,22 @@ namespace SDK.Lib
                         equalList = lineList[lineIdx].Split(equalSplitStr, StringSplitOptions.RemoveEmptyEntries);
                         item = new ResRedirectItem();
                         item.mFileVerInfo = new FileVerInfo();
-                        item.mResUniqueId = equalList[0];
+                        item.mOrigPath = equalList[0];
                         item.mResLoadType = (ResLoadType)MBitConverter.ToInt32(equalList[1]);
-                        mUniqueId2ItemDic[item.mResUniqueId] = item;
+
+                        item.mFileVerInfo.mOrigPath = equalList[0];
+                        if (item.mResLoadType == ResLoadType.eLoadResource)
+                        {
+                            item.mFileVerInfo.mResUniqueId = UtilPath.getFileNameNoExt(equalList[0]);
+                            item.mFileVerInfo.mLoadPath = item.mFileVerInfo.mResUniqueId;
+                        }
+                        else
+                        {
+                            item.mFileVerInfo.mResUniqueId = equalList[0];
+                            item.mFileVerInfo.mLoadPath = equalList[0];
+                        }
+
+                        mOrigPath2ItemDic[item.mOrigPath] = item;
                         ++lineIdx;
                     }
                 }
@@ -113,32 +126,21 @@ namespace SDK.Lib
             }
         }
 
-        public ResRedirectItem getResRedirectItem(string resUniqueId)
+        public ResRedirectItem getResRedirectItem(string origPath)
         {
             ResRedirectItem item = null;
-            if (mUniqueId2ItemDic.ContainsKey(resUniqueId))
+            if (mOrigPath2ItemDic.ContainsKey(origPath))
             {
-                item = mUniqueId2ItemDic[resUniqueId];
+                item = mOrigPath2ItemDic[origPath];
             }
             else
             {
-                // 自己暂时模拟代码
-                item = new ResRedirectItem(resUniqueId, (int)ResLoadType.eLoadStreamingAssets);
-            }
-
-            return item;
-        }
-
-        public ResRedirectItem getResRedirectItemByOrigPath(string origPath)
-        {
-            ResRedirectItem item = null;
-            foreach(KeyValuePair<string, ResRedirectItem> kv in mUniqueId2ItemDic)
-            {
-                if(kv.Value.mFileVerInfo.mOrigPath == origPath)
-                {
-                    item = kv.Value;
-                    break;
-                }
+                // 从版本系统中获取
+                item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
+                FileVerInfo fileVerInfo = null;
+                item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.m_localVersion.getFileVerInfo(origPath, ref fileVerInfo);
+                item.mFileVerInfo = fileVerInfo;
+                mOrigPath2ItemDic[origPath] = item;
             }
 
             return item;
