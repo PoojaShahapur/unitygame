@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using LuaInterface;
 
@@ -227,10 +226,12 @@ public class SDK_Lib_UtilPathWrap
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int getAllFile(IntPtr L)
 	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
+		LuaScriptMgr.CheckArgsCount(L, 4);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		bool arg1 = LuaScriptMgr.GetBoolean(L, 2);
-		List<string> o = SDK.Lib.UtilPath.getAllFile(arg0,arg1);
+		SDK.Lib.MList<string> arg1 = (SDK.Lib.MList<string>)LuaScriptMgr.GetNetObject(L, 2, typeof(SDK.Lib.MList<string>));
+		SDK.Lib.MList<string> arg2 = (SDK.Lib.MList<string>)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.MList<string>));
+		bool arg3 = LuaScriptMgr.GetBoolean(L, 4);
+		SDK.Lib.MList<string> o = SDK.Lib.UtilPath.getAllFile(arg0,arg1,arg2,arg3);
 		LuaScriptMgr.PushObject(L, o);
 		return 1;
 	}
