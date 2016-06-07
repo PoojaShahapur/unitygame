@@ -26,6 +26,16 @@ namespace EditorTool
             ToolCtx.instance().dispose();
         }
 
+        [MenuItem("MyNew/ExportWindowAssetBundlesList")]
+        public static void BuildWindowAssetBundlesList()
+        {
+            ExportAssetRelation exportAssetRelation = new ExportAssetRelation();
+            exportAssetRelation.setBuildTarget(BuildTarget.StandaloneWindows);
+            exportAssetRelation.setCurPath(UtilEditor.getAssetBundlesOutpath(BuildTarget.StandaloneWindows));
+            exportAssetRelation.setOutFileName(UtilEditor.getBuildOutPath() + "/AssetBundlesList.txt");
+            exportAssetRelation.buildOutFile();
+        }
+
         // 导出 AssetBundles
         [MenuItem("MyNew/ExportAndroidDebugPackage")]
         public static void BuildAndroidDebug()

@@ -365,5 +365,11 @@ namespace SDK.Lib
                 }
             }
         }
+
+        public void writeLine(string text, Encoding encode = null)
+        {
+            text = text + UtilApi.CR_LF;
+            writeText(text, encode);
+        }
     }
 }

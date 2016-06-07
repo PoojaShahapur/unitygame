@@ -33,10 +33,10 @@ namespace EditorTool
             separator[0] = '/';
             m_pathArr = pathNoExt.Split(separator);
 
-            int resIndex = m_fullPath.IndexOf(ExportUtil.RESOURCES);
+            int resIndex = m_fullPath.IndexOf(UtilEditor.RESOURCES);
             if (resIndex != -1)
             {
-                m_resPath = m_fullPath.Substring(resIndex + ExportUtil.RESOURCES.Length + 1);
+                m_resPath = m_fullPath.Substring(resIndex + UtilEditor.RESOURCES.Length + 1);
 
                 dotIdx = m_resPath.IndexOf(".");
                 if(dotIdx != -1)
@@ -45,7 +45,7 @@ namespace EditorTool
                 }
             }
 
-            int assetIndex = m_fullPath.IndexOf(ExportUtil.ASSETS);
+            int assetIndex = m_fullPath.IndexOf(UtilEditor.ASSETS);
             if (assetIndex != -1)
             {
                 m_abPath = m_fullPath.Substring(assetIndex);

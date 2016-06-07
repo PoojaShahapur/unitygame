@@ -15,7 +15,7 @@ namespace EditorTool
         {
             m_dirPath = path;
             m_xmlPath = xmlPath;
-            m_fullDirPath = ExportUtil.getDataPath(m_dirPath);
+            m_fullDirPath = UtilEditor.getDataPath(m_dirPath);
             m_fullDirPath = UtilPath.normalPath(m_fullDirPath);
             m_filesList = new List<AssetBundleNameFileData>();
         }

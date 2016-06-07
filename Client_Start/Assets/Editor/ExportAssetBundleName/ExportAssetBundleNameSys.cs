@@ -38,7 +38,7 @@ namespace EditorTool
             List<string> m_list = new List<string>();
             m_abNameXmlData.exportResABKV(m_list);
 
-            writeFile(ExportUtil.getWorkPath("AssetBundlePath.txt"), m_list);
+            writeFile(UtilEditor.getWorkPath("AssetBundlePath.txt"), m_list);
         }
 
         public void writeFile(string path, List<string> list)

@@ -9,7 +9,7 @@ namespace EditorTool
     {
         public static void BuildAssetBundles(BuildTarget target)
         {
-            string targetName = ExportUtil.GetPlatformFolderForAssetBundles(target);
+            string targetName = UtilEditor.GetPlatformFolderForAssetBundles(target);
             string outputPath = UtilPath.combine(UtilPath.getCurrentDirectory(),
                                                  UtilApi.ASSETBUNDLES,
                                                  targetName
@@ -41,14 +41,14 @@ namespace EditorTool
 
         public static void BuildPlayer(BuildTarget target, bool isRelease)
         {
-            string[] levels = ExportUtil.GetLevelsFromBuildSettings();
+            string[] levels = UtilEditor.GetLevelsFromBuildSettings();
             if (levels.Length == 0)
             {
                 Debug.Log("Nothing to build.");
                 return;
             }
 
-            string targetFolder = ExportUtil.GetPlatformFolderForAssetBundles(target);
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
             if (targetFolder == null)
                 return;
 
@@ -59,8 +59,9 @@ namespace EditorTool
 
             MList<string> extList = new MList<string>();
             extList.Add("manifest");
-            UtilPath.deleteFiles(sourcePath, null, extList, true);
+
             UtilPath.copyDirectory(sourcePath, outputPath, true);
+            UtilPath.deleteFiles(outputPath, null, extList, true);
 
             BuildOptions option = BuildOptions.None;
             if (!isRelease)
@@ -72,7 +73,7 @@ namespace EditorTool
 
             string pakPath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut", targetFolder);
             UtilPath.createDirectory(pakPath, true);
-            string targetName = ExportUtil.GetBuildTargetName(target);
+            string targetName = UtilEditor.GetBuildTargetName(target);
             if (targetName == null)
                 return;
             //BuildPipeline.BuildPlayer(levels, pakPath + "/" + targetName, target, option);
@@ -83,7 +84,7 @@ namespace EditorTool
             FileUtil.DeleteFileOrDirectory(outputPath);
             Directory.CreateDirectory(outputPath);
 
-            string outputFolder = ExportUtil.GetPlatformFolderForAssetBundles(target);
+            string outputFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
             string source = Path.Combine(sourcePath, outputFolder);
 
             if (!UtilPath.existDirectory(source))

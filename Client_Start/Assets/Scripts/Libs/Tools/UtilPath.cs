@@ -261,26 +261,39 @@ namespace SDK.Lib
         }
 
         // 搜索文件夹中的文件
-        static public List<string> getAllFile(string path, bool recursion = false)
+        static public MList<string> getAllFile(string path, MList<string> includeExtList = null, MList<string> excludeExtList = null, bool recursion = false)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
-            List<string> FileList = new List<string>();
+            MList<string> fileList = new MList<string>();
 
+            string extName = "";
             FileInfo[] allFile = dir.GetFiles();
-            foreach (FileInfo fi in allFile)
+            foreach (FileInfo file in allFile)
             {
-                FileList.Add(normalPath(fi.FullName));
+                extName = UtilPath.getFileExt(file.FullName);
+                if (includeExtList != null && includeExtList.IndexOf(extName) != -1)
+                {
+                    fileList.Add(normalPath(file.FullName));
+                }
+                else if(excludeExtList != null && excludeExtList.IndexOf(extName) == -1)
+                {
+                    fileList.Add(normalPath(file.FullName));
+                }
+                else if(includeExtList == null && excludeExtList == null)
+                {
+                    fileList.Add(normalPath(file.FullName));
+                }
             }
 
             if (recursion)
             {
                 DirectoryInfo[] allDir = dir.GetDirectories();
-                foreach (DirectoryInfo d in allDir)
+                foreach (DirectoryInfo dirItem in allDir)
                 {
-                    getAllFile(d.FullName, recursion);
+                    fileList.merge(getAllFile(dirItem.FullName, includeExtList, excludeExtList, recursion));
                 }
             }
-            return FileList;
+            return fileList;
         }
 
         // 添加版本的文件名，例如 E:/aaa/bbb/ccc.txt?v=1024
@@ -406,7 +419,7 @@ namespace SDK.Lib
 
             if (!string.IsNullOrEmpty(destPath))
             {
-                if (isCreateDestPath)
+                if (!UtilPath.existDirectory(destPath) && isCreateDestPath)
                 {
                     UtilPath.createDirectory(destPath);
                     targetDirInfo = new DirectoryInfo(destPath);

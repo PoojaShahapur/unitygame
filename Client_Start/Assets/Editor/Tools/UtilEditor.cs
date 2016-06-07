@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace EditorTool
 {
-    class ExportUtil
+    class UtilEditor
     {
         public const string BUNDLE = "bundle";
         public const string LEVEL = "level";
@@ -56,8 +56,8 @@ namespace EditorTool
             }
 
             string outputPath;
-            outputPath = Path.Combine(getPkgOutPath(), ExportUtil.IMAGE_PATH);
-            outputPath = Path.Combine(outputPath, ExportUtil.GetPlatformFolderForAssetBundles(buildTarget));
+            outputPath = Path.Combine(getPkgOutPath(), UtilEditor.IMAGE_PATH);
+            outputPath = Path.Combine(outputPath, UtilEditor.GetPlatformFolderForAssetBundles(buildTarget));
             if (string.IsNullOrEmpty(path))
             {
                 outputPath = Path.Combine(outputPath, path);
@@ -74,9 +74,9 @@ namespace EditorTool
             //return Application.streamingAssetsPath + "/" + path;
             //string outputPath = Application.dataPath.Substring(0, Application.dataPath.IndexOf("Assets"));
             string outputPath;
-            //outputPath = Path.Combine(System.Environment.CurrentDirectory, ExportUtil.ASSET_BUNDLES_OUTPUT_PATH);
-            outputPath = Path.Combine(getPkgOutPath(), ExportUtil.ASSET_BUNDLES_OUTPUT_PATH);
-            outputPath = Path.Combine(outputPath, ExportUtil.GetPlatformFolderForAssetBundles(buildTarget));
+            //outputPath = Path.Combine(System.Environment.CurrentDirectory, UtilEditor.ASSET_BUNDLES_OUTPUT_PATH);
+            outputPath = Path.Combine(getPkgOutPath(), UtilEditor.ASSET_BUNDLES_OUTPUT_PATH);
+            outputPath = Path.Combine(outputPath, UtilEditor.GetPlatformFolderForAssetBundles(buildTarget));
             //outputPath = Path.Combine(outputPath, "StreamingAssets");
             //outputPath = Path.Combine(outputPath, Application.streamingAssetsPath);
             if (string.IsNullOrEmpty(path))
@@ -88,7 +88,7 @@ namespace EditorTool
 
         public static string getPkgOutPath()
         {
-            return Path.Combine(System.Environment.CurrentDirectory, ExportUtil.PKG_OUTPATH);
+            return Path.Combine(System.Environment.CurrentDirectory, UtilEditor.PKG_OUTPATH);
         }
 
         static public string getRelDataPath(string path)
@@ -388,6 +388,31 @@ namespace EditorTool
             System.Diagnostics.Process pro = System.Diagnostics.Process.Start(info);
             pro.WaitForExit();
             Directory.SetCurrentDirectory(currDir);
+        }
+
+        static public string getAssetBundlesOutpath(BuildTarget target)
+        {
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+
+            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetFolder);
+
+            return sourcePath;
+        }
+
+        static public string getAssetBundlesManifestPath(BuildTarget target)
+        {
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+
+            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetFolder);
+            sourcePath = sourcePath + "/" + targetFolder + UtilApi.DOTUNITY3D;
+
+            return sourcePath;
+        }
+
+        static public string getBuildOutPath()
+        {
+            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut");
+            return sourcePath;
         }
     }
 }

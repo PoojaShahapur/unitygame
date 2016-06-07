@@ -19,7 +19,7 @@ namespace EditorTool
 
         public void parseXml()
         {
-            string path = ExportUtil.getDataPath("Editor/Config/ExportAssetBundleName.xml");
+            string path = UtilEditor.getDataPath("Editor/Config/ExportAssetBundleName.xml");
             AssetBundleNameXmlParse parse = new AssetBundleNameXmlParse();
             parse.parseXml(path, this);
         }
@@ -59,9 +59,9 @@ namespace EditorTool
 
         public void parseXml(XmlElement packElem)
         {
-            m_inPath = ExportUtil.getXmlAttrStr(packElem.Attributes["inpath"]);
+            m_inPath = UtilEditor.getXmlAttrStr(packElem.Attributes["inpath"]);
 
-            string includeext = ExportUtil.getXmlAttrStr(packElem.Attributes["includeext"]);
+            string includeext = UtilEditor.getXmlAttrStr(packElem.Attributes["includeext"]);
             char[] separator = new char[1];
             separator[0] = ',';
             string[] strArr = includeext.Split(separator);

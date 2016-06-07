@@ -162,5 +162,16 @@ namespace SDK.Lib
         {
             m_list.Sort(comparer);
         }
+
+        public void merge(MList<T> appendList)
+        {
+            if(appendList != null)
+            {
+                foreach(T item in appendList.list())
+                {
+                    m_list.Add(item);
+                }
+            }
+        }
     }
 }
