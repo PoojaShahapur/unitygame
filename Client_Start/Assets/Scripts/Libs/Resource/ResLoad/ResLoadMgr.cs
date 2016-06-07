@@ -114,8 +114,6 @@ namespace SDK.Lib
         // eResourcesType 打包类型资源加载
         public void loadResources(LoadParam param)
         {
-            //param.resolvePath();
-
             if (MacroDef.PKG_RES_LOAD)
             {
                 if (param.mLoadPath.IndexOf(PakSys.PAK_EXT) != -1)     // 如果加载的是打包文件

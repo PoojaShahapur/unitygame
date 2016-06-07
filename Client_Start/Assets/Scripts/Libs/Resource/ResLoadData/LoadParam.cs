@@ -94,8 +94,6 @@ namespace SDK.Lib
 
         public void resolveLevel()
         {
-            //resolvePath();
-
             int slashIdx = 0;
             if (string.IsNullOrEmpty(m_origPath))
             {

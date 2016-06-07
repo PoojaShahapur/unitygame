@@ -137,10 +137,10 @@ namespace SDK.Lib
             {
                 // 从版本系统中获取
                 item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
+                mOrigPath2ItemDic[origPath] = item;
                 FileVerInfo fileVerInfo = null;
                 item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.m_localVersion.getFileVerInfo(origPath, ref fileVerInfo);
                 item.mFileVerInfo = fileVerInfo;
-                mOrigPath2ItemDic[origPath] = item;
             }
 
             return item;
