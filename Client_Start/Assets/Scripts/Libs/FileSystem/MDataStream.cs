@@ -121,12 +121,18 @@ namespace SDK.Lib
         // 异步打开结束
         public void onAsyncOpened()
         {
-            mOpenedEvtDisp.dispatchEvent(this);
+            if (mOpenedEvtDisp != null)
+            {
+                mOpenedEvtDisp.dispatchEvent(this);
+            }
         }
 
         public void checkAndOpen(MAction<IDispatchObject> openedDisp = null)
         {
-            this.addOpenedHandle(openedDisp);
+            if (openedDisp != null)
+            {
+                this.addOpenedHandle(openedDisp);
+            }
 
             if(!mIsValid)
             {

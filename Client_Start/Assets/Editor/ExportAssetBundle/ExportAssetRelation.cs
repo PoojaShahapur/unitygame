@@ -12,6 +12,7 @@ namespace EditorTool
         protected string mCurPath;      // 当前目录
         protected string mOutFileName;  // 输出配置文件名字
         protected BuildTarget mBuildTarget; // 编译平台
+        protected string mMainfestName;
         protected MDataStream mDataStream;
         protected AssetBundleManifest mAssetBundleManifest;
         protected AssetBundle mManifestAB;
@@ -29,6 +30,7 @@ namespace EditorTool
         public void setBuildTarget(BuildTarget buildTarget)
         {
             mBuildTarget = buildTarget;
+            mMainfestName = UtilEditor.GetPlatformFolderForAssetBundles(buildTarget) + UtilApi.DOTUNITY3D;
         }
 
         public void buildOutFile()
@@ -42,6 +44,7 @@ namespace EditorTool
                 UtilPath.deleteFile(mOutFileName);
             }
             mDataStream = new MDataStream(mOutFileName);
+            mDataStream.checkAndOpen();
 
             UtilPath.traverseDirectory(mCurPath, "", null, onFileHandle, true);
 
@@ -51,6 +54,12 @@ namespace EditorTool
 
         public void onFileHandle(string fullPath, string fileName, string destFullPath)
         {
+            // 如果是清单文件名字，直接返回
+            if(fileName == mMainfestName)
+            {
+                return;
+            }
+
             fullPath = UtilPath.normalPath(fullPath);
 
             string strContent = "";
@@ -62,29 +71,32 @@ namespace EditorTool
             string assetListName = "";
             string depListName = "";
 
-            abName = fullPath.Replace(mCurPath + "/", "");
-            depNameArr = mAssetBundleManifest.GetAllDependencies(abName);
-            foreach(string item in depNameArr)
-            {
-                if (depListName.Length > 0)
-                {
-                    depListName = depListName + ",";
-                }
-                depListName = depListName + item;
-            }
-
             if (extName == UtilApi.UNITY3D)
             {
+                abName = fullPath.Replace(mCurPath + "/", "");
+                depNameArr = mAssetBundleManifest.GetAllDependencies(abName);
+                foreach (string item in depNameArr)
+                {
+                    if (depListName.Length > 0)
+                    {
+                        depListName = depListName + ",";
+                    }
+                    depListName = depListName + item;
+                }
+
                 ab = AssetBundle.LoadFromFile(fullPath);
                 nameArr = ab.GetAllAssetNames();
+                ab.Unload(true);
 
-                foreach(string assetNameItem in nameArr)
+                string replaceItemName = "";
+                foreach (string assetNameItem in nameArr)
                 {
-                    if(assetListName.Length > 0)
+                    replaceItemName = assetNameItem.Replace("assets/resources/", "");
+                    if (assetListName.Length > 0)
                     {
                         assetListName = assetListName + ",";
                     }
-                    assetListName = assetListName + assetNameItem;
+                    assetListName = assetListName + replaceItemName;
                 }
             }
 

@@ -122,6 +122,11 @@
             return m_instance;
         }
 
+        public void dispose()
+        {
+            m_instance = null;
+        }
+
         protected void preInit()
         {
             UtilByte.checkEndian();     // 检查系统大端小端

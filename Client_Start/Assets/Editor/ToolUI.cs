@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using SDK.Lib;
+using UnityEditor;
 
 namespace EditorTool
 {
@@ -21,9 +22,12 @@ namespace EditorTool
         public static void BuildWindowDebug()
         {
             ToolCtx.instance();
+            Ctx.instance();
+            Ctx.instance().init();
             ToolCtx.m_instance.exportAssetBundleName();
             BuildScript.BuildPlayer(BuildTarget.StandaloneWindows, false);
             ToolCtx.instance().dispose();
+            Ctx.instance().dispose();
         }
 
         [MenuItem("MyNew/ExportWindowAssetBundlesList")]
