@@ -1,10 +1,5 @@
-﻿using EditorTool;
-using SDK.Lib;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Xml;
-using UnityEditor;
-using UnityEngine;
 
 namespace EditorTool
 {

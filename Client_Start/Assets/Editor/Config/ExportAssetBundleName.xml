@@ -3,4 +3,5 @@
 	<path inpath="Resources/UI" includeext="prefab" />
 	<path inpath="Resources/Model" includeext="prefab" />
 	<path inpath="Resources/Materials" includeext="prefab,mat,shader" />
+  <path inpath="Scenes" includeext="unity" />
 </Root>
