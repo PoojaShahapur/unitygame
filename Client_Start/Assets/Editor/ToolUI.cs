@@ -43,5 +43,12 @@ namespace EditorTool
         {
             BuildScript.BuildPlayer(BuildTarget.Android, false);
         }
+
+        // 测试命令行
+        [MenuItem("MyNew/TestCmdSys")]
+        public static void TestCmdSys()
+        {
+            CmdSys.cmdMain();
+        }
     }
 }

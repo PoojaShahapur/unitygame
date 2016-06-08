@@ -18,6 +18,7 @@
         public ToolCtx()
         {
             mExportAssetBundleNameSys = new ExportAssetBundleNameSys();
+
             init();
         }
 
