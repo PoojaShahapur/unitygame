@@ -28,6 +28,12 @@ namespace EditorTool
         public void start()
         {
             mProgramOptions.parseCmdline();
+
+            string logPath = "E:/Self/Self/unity/unitygame/Client_Start/BuildOut/aaa/bbb";
+            if (!UtilPath.existDirectory(logPath))
+            {
+                UtilPath.createDirectory(logPath);
+            }
         }
 
         public void testLog()

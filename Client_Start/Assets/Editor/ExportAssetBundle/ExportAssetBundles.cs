@@ -9,11 +9,9 @@ namespace EditorTool
     {
         public static void BuildAssetBundles(BuildTarget target)
         {
-            string targetName = UtilEditor.GetPlatformFolderForAssetBundles(target);
-            string outputPath = UtilPath.combine(UtilPath.getCurrentDirectory(),
-                                                 UtilApi.ASSETBUNDLES,
-                                                 targetName
-                                                );
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+            string outputPath = UtilEditor.getAssetBundlesPath(target);
+
             if (UtilPath.existDirectory(outputPath))
             {
                 UtilPath.deleteDirectory(outputPath);
@@ -27,14 +25,14 @@ namespace EditorTool
 
             string manifestSrcName = UtilPath.combine(UtilPath.getCurrentDirectory(),
                                                  UtilApi.ASSETBUNDLES,
-                                                 targetName,
-                                                 targetName
+                                                 targetFolder,
+                                                 targetFolder
                                                 );
 
             string manifestDestName = UtilPath.combine(UtilPath.getCurrentDirectory(),
                                                  UtilApi.ASSETBUNDLES,
-                                                 targetName,
-                                                 targetName + UtilApi.DOTUNITY3D
+                                                 targetFolder,
+                                                 targetFolder + UtilApi.DOTUNITY3D
                                                 );
             UtilPath.renameFile(manifestSrcName, manifestDestName);
         }
@@ -54,7 +52,7 @@ namespace EditorTool
 
             BuildScript.BuildAssetBundles(target);
 
-            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetFolder);
+            string sourcePath = UtilEditor.getAssetBundlesPath(target);
             string outputPath = MFileSys.msStreamingAssetsPath;
 
             MList<string> extList = new MList<string>();
@@ -71,12 +69,12 @@ namespace EditorTool
                 option = BuildOptions.ConnectWithProfiler;
             }
 
-            string pakPath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut", targetFolder);
+            string pakPath = UtilPath.combine(UtilEditor.getOutPutRootPath(), "BuildOut", targetFolder);
             UtilPath.createDirectory(pakPath, true);
             string targetName = UtilEditor.GetBuildTargetName(target);
             if (targetName == null)
                 return;
-            //BuildPipeline.BuildPlayer(levels, pakPath + "/" + targetName, target, option);
+            BuildPipeline.BuildPlayer(levels, pakPath + "/" + targetName, target, option);
         }
 
         static void CopyAssetBundlesTo(BuildTarget target, string sourcePath, string outputPath)

@@ -120,6 +120,7 @@ namespace SDK.Lib
             {
                 try
                 {
+                    // 这个接口默认就支持创建所有没有的目录
                     Directory.CreateDirectory(pathAndName);
                 }
                 catch (Exception err)

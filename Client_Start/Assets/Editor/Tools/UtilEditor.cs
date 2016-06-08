@@ -399,11 +399,26 @@ namespace EditorTool
             return sourcePath;
         }
 
+        // 获取输出根目录，所有自己写的文件都要放在这个文件的子文件夹下
+        static public string getOutPutRootPath()
+        {
+            return UtilPath.combine(UtilPath.getCurrentDirectory(), "OutPut");
+        }
+
+        static public string getAssetBundlesPath(BuildTarget target)
+        {
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+
+            string sourcePath = UtilPath.combine(getOutPutRootPath(), UtilApi.ASSETBUNDLES, targetFolder);
+
+            return sourcePath;
+        }
+
         static public string getAssetBundlesManifestPath(BuildTarget target)
         {
             string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
 
-            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetFolder);
+            string sourcePath = UtilPath.combine(getOutPutRootPath(), UtilApi.ASSETBUNDLES, targetFolder);
             sourcePath = sourcePath + "/" + targetFolder + UtilApi.DOTUNITY3D;
 
             return sourcePath;
@@ -411,7 +426,7 @@ namespace EditorTool
 
         static public string getBuildOutPath()
         {
-            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), "BuildOut");
+            string sourcePath = UtilPath.combine(UtilEditor.getOutPutRootPath(), "BuildOut");
             return sourcePath;
         }
     }
