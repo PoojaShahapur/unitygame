@@ -124,11 +124,11 @@ namespace EditorTool
                     }
                     assetListName = assetListName + replaceItemName;
                 }
+
+                strContent = string.Format("{0}={1}={2}", abName, assetListName, depListName);
+
+                mDataStream.writeLine(strContent);
             }
-
-            strContent = string.Format("{0}={1}={2}", abName, assetListName, depListName);
-
-            mDataStream.writeLine(strContent);
         }
     }
 }
