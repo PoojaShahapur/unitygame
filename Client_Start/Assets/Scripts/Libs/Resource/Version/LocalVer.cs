@@ -86,20 +86,31 @@ namespace SDK.Lib
 
         public int getFileVerInfo(string origPath, ref FileVerInfo fileVerInfo)
         {
-            if(m_path2Ver_R_Dic.ContainsKey(origPath))
+            string lowerOrigPath = origPath.ToLower();
+            if (m_path2Ver_P_Dic.ContainsKey(origPath))
             {
-                fileVerInfo = m_path2Ver_R_Dic[origPath];
-                return (int)ResLoadType.eLoadResource;
+                fileVerInfo = m_path2Ver_P_Dic[origPath];
+                return (int)ResLoadType.eLoadLocalPersistentData;
+            }
+            else if (m_path2Ver_P_Dic.ContainsKey(lowerOrigPath))
+            {
+                fileVerInfo = m_path2Ver_P_Dic[lowerOrigPath];
+                return (int)ResLoadType.eLoadLocalPersistentData;
             }
             else if (m_path2Ver_S_Dic.ContainsKey(origPath))
             {
                 fileVerInfo = m_path2Ver_S_Dic[origPath];
                 return (int)ResLoadType.eLoadStreamingAssets;
             }
-            else if (m_path2Ver_P_Dic.ContainsKey(origPath))
+            else if (m_path2Ver_S_Dic.ContainsKey(lowerOrigPath))
             {
-                fileVerInfo = m_path2Ver_P_Dic[origPath];
-                return (int)ResLoadType.eLoadLocalPersistentData;
+                fileVerInfo = m_path2Ver_S_Dic[lowerOrigPath];
+                return (int)ResLoadType.eLoadStreamingAssets;
+            }
+            else if (m_path2Ver_R_Dic.ContainsKey(origPath))
+            {
+                fileVerInfo = m_path2Ver_R_Dic[origPath];
+                return (int)ResLoadType.eLoadResource;
             }
 
             return (int)ResLoadType.eLoadResource;

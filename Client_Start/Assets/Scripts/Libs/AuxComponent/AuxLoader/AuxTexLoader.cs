@@ -36,11 +36,15 @@ namespace SDK.Lib
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
         {
+            if (needUnload(path))
+            {
+                unload();
+            }
+
             this.setPath(path);
 
             if (this.isInvalid())
             {
-                unload();
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, dispObj);
                 mTextureRes = Ctx.m_instance.m_texMgr.getAndAsyncLoadRes(path, onTexLoaded);
