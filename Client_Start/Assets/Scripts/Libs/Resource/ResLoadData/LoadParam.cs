@@ -231,7 +231,8 @@ namespace SDK.Lib
                    extName == UtilApi.MAT ||
                    extName == UtilApi.PNG ||
                    extName == UtilApi.JPG ||
-                   extName == UtilApi.TGA;
+                   extName == UtilApi.TGA ||
+                   extName == UtilApi.SHADER;
         }
 
         static public bool isAssetBundleType(string extName)

@@ -17,6 +17,7 @@ namespace SDK.Lib
         public const string FALSE = "false";
         public const string PREFAB_DOT_EXT = ".prefab";
         public const string PREFAB = "prefab";
+        public const string SHADER = "shader";
 
         public const string PNG = "png";
         public const string JPG = "jpg";

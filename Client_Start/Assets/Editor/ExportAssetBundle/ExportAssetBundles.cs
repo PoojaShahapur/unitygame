@@ -59,7 +59,7 @@ namespace EditorTool
             string targetName = UtilEditor.GetBuildTargetName(target);
             if (targetName == null)
                 return;
-            //BuildPipeline.BuildPlayer(levels, binPath + "/" + targetName, target, option);
+            BuildPipeline.BuildPlayer(levels, binPath + "/" + targetName, target, option);
         }
 
         static void CopyAssetBundlesTo(BuildTarget target, string sourcePath, string outputPath)
