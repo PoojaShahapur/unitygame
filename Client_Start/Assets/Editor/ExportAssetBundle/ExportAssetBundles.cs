@@ -43,8 +43,12 @@ namespace EditorTool
             MList<string> extList = new MList<string>();
             extList.Add("manifest");
 
+            // 将原始文件夹中的 manifest 扩展名的文件删除
+            UtilPath.deleteFiles(sourcePath, null, extList, true);
+
             UtilPath.copyDirectory(sourcePath, outputPath, true);
-            UtilPath.deleteFiles(outputPath, null, extList, true);
+            // 将拷贝的文件夹中的 manifest 扩展名的文件删除
+            //UtilPath.deleteFiles(outputPath, null, extList, true);
 
             BuildOptions option = BuildOptions.None;
             if (!isRelease)
