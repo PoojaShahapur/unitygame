@@ -64,8 +64,9 @@ end
 
 function M:onBtnClk()
 	--self:testSendMsg();
-	self:testLoginMsg();
+	--self:testLoginMsg();
 	--self:testEmptyLoginMsg();
+	self:testEnumLoginMsg();
 end
 
 function M:testSendMsg()
@@ -98,6 +99,20 @@ function M:testEmptyLoginMsg()
 	
     local msg = {};
     GlobalNS.UtilMsg.sendMsgRpc(1002, rpc, msg);
+end
+
+function M:testEnumLoginMsg()
+	local rpc = {};
+	rpc.request = {};
+	rpc.request.id = 1002;
+	rpc.request.service = "rpc.Login";
+	rpc.request.method = "Login";
+	
+    local msg = {};
+    msg.result = "ERR_SERVER_FULL";
+	--msg.result = 2;
+    msg.error_str = "password";
+    GlobalNS.UtilMsg.sendMsgRpc(1003, rpc, msg);
 end
 
 return M;
