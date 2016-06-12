@@ -37,4 +37,3 @@ Word/RandName.txt=Word/RandName=Word/RandName=d91d739e29bd4095d9659eec783db669=1
 XmlConfig/marketconfig.xml=XmlConfig/marketconfig=XmlConfig/marketconfig=d8bc3fe8828f4899240bf725c1ef4abf=668
 XmlConfig/ReamMe.txt=XmlConfig/ReamMe=XmlConfig/ReamMe=7d87ca3cd6216730e078f7abefe6600f=84
 XmlConfig/Test.txt=XmlConfig/Test=XmlConfig/Test=7ffe5dc0524a2f705c1d4ae44a658665=16
-Scenes/TestScene.unity=Scenes/TestScene=Scenes/TestScene=7ffe5dc0524a2f705c1d4ae44a658665=16

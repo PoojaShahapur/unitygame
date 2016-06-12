@@ -261,6 +261,20 @@ namespace SDK.Lib
             return ret;
         }
 
+        // 获取文件路径，没有文件名字扩展
+        static public string getFilePathNoExt(string fullPath)
+        {
+            int index = 0;
+            string ret = fullPath;
+            index = fullPath.LastIndexOf('.');
+            if (index != -1)
+            {
+                ret = fullPath.Substring(0, index);
+            }
+
+            return ret;
+        }
+
         // 搜索文件夹中的文件
         static public MList<string> getAllFile(string path, MList<string> includeExtList = null, MList<string> excludeExtList = null, bool recursion = false)
         {
@@ -716,7 +730,10 @@ namespace SDK.Lib
 
         static public string getCurrentDirectory()
         {
-            return System.Environment.CurrentDirectory;
+            string curPath = System.Environment.CurrentDirectory;
+            curPath = UtilPath.normalPath(curPath);
+
+            return curPath;
         }
     }
 }

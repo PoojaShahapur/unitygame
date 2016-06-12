@@ -29,6 +29,7 @@ namespace SDK.Lib
         public const string DOTUNITY3D = ".unity3d";
         public const string UNITY3D = "unity3d";
         public const string DOTPNG = ".png";
+        public const string DOTUNITY = ".unity";
 
         public static Vector3 FAKE_POS = new Vector3(-1000, 0, -1000);  // 默认隐藏到这个位置
         public const string ASSETBUNDLES = "AssetBundles";

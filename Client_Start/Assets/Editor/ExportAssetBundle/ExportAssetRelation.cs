@@ -91,11 +91,13 @@ namespace EditorTool
             string strContent = "";
             string extName = UtilPath.getFileExt(fullPath);
             AssetBundle ab = null;
-            string[] nameArr = null;
+            string[] includeAssetArr = null;
             string[] depNameArr = null;
             string abName = "";
             string assetListName = "";
             string depListName = "";
+
+            string assetPathPrefix = UtilEditor.getAssetBundlesOutpath(mBuildTarget) + "/assets/";
 
             if (extName == UtilApi.UNITY3D)
             {
@@ -111,11 +113,11 @@ namespace EditorTool
                 }
 
                 ab = AssetBundle.LoadFromFile(fullPath);
-                nameArr = ab.GetAllAssetNames();
+                includeAssetArr = ab.GetAllAssetNames();
                 ab.Unload(true);
 
                 string replaceItemName = "";
-                foreach (string assetNameItem in nameArr)
+                foreach (string assetNameItem in includeAssetArr)
                 {
                     replaceItemName = assetNameItem.Replace("assets/resources/", "");
                     if (assetListName.Length > 0)
@@ -125,7 +127,19 @@ namespace EditorTool
                     assetListName = assetListName + replaceItemName;
                 }
 
-                strContent = string.Format("{0}={1}={2}", abName, assetListName, depListName);
+                // 如果有资源，就是正常的 AssetBundles 包
+                if (!string.IsNullOrEmpty(assetListName))
+                {
+                    strContent = string.Format("{0}={1}={2}", abName, assetListName, depListName);
+                }
+                else
+                {
+                    // 如果是空，就是场景的 AssetBundles 包，这个时候， AB 包中资源的名字是空值
+                    fullPath = fullPath.Replace(assetPathPrefix, "");
+                    fullPath = UtilPath.getFilePathNoExt(fullPath);
+                    assetListName = fullPath + UtilApi.DOTUNITY;
+                    strContent = string.Format("{0}={1}={2}", abName, assetListName, depListName);
+                }
 
                 mDataStream.writeLine(strContent);
             }
