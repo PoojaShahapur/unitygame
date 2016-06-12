@@ -46,7 +46,7 @@ namespace EditorTool
 
         public void findAllFiles()
         {
-            UtilPath.traverseDirectory(m_fullDirPath, "", onFindDir, onFindFile);
+            UtilPath.traverseDirectory(m_fullDirPath, "", onFindDir, onFindFile, true);
         }
 
         protected void onFindFile(string path, string name, string destPath)

@@ -465,7 +465,7 @@ namespace SDK.Lib
                     }
                     else
                     {
-                        fileHandle(files[i].FullName, files[i].Name, targetDirInfo.FullName + "/" + files[i].Name);
+                        fileHandle(files[i].FullName, files[i].Name, targetDirInfo.FullName);
                     }
                 }
             }
