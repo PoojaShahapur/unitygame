@@ -394,7 +394,7 @@ namespace EditorTool
         {
             string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
 
-            string sourcePath = UtilPath.combine(UtilPath.getCurrentDirectory(), UtilApi.ASSETBUNDLES, targetFolder);
+            string sourcePath = UtilPath.combine(UtilEditor.getOutPutRootPath(), UtilApi.ASSETBUNDLES, targetFolder);
 
             return sourcePath;
         }
@@ -428,6 +428,32 @@ namespace EditorTool
         {
             string sourcePath = UtilPath.combine(UtilEditor.getOutPutRootPath(), "BuildOut");
             return sourcePath;
+        }
+
+        // 获取克执行的二进制文件的输出目录
+        static public string getBinPath(BuildTarget target)
+        {
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+            string sourcePath = UtilPath.combine(getOutPutRootPath(), "Bin", targetFolder);
+
+            return sourcePath;
+        }
+
+        static public void renameManifestFile(BuildTarget target)
+        {
+            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
+            string manifestSrcName = UtilPath.combine(UtilEditor.getOutPutRootPath(),
+                                     UtilApi.ASSETBUNDLES,
+                                     targetFolder,
+                                     targetFolder
+                                    );
+
+            string manifestDestName = UtilPath.combine(UtilEditor.getOutPutRootPath(),
+                                                 UtilApi.ASSETBUNDLES,
+                                                 targetFolder,
+                                                 targetFolder + UtilApi.DOTUNITY3D
+                                                );
+            UtilPath.renameFile(manifestSrcName, manifestDestName);
         }
     }
 }

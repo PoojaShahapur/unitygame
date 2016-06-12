@@ -23,18 +23,7 @@ namespace EditorTool
 
             BuildPipeline.BuildAssetBundles(outputPath, BuildAssetBundleOptions.UncompressedAssetBundle, target);
 
-            string manifestSrcName = UtilPath.combine(UtilPath.getCurrentDirectory(),
-                                                 UtilApi.ASSETBUNDLES,
-                                                 targetFolder,
-                                                 targetFolder
-                                                );
-
-            string manifestDestName = UtilPath.combine(UtilPath.getCurrentDirectory(),
-                                                 UtilApi.ASSETBUNDLES,
-                                                 targetFolder,
-                                                 targetFolder + UtilApi.DOTUNITY3D
-                                                );
-            UtilPath.renameFile(manifestSrcName, manifestDestName);
+            UtilEditor.renameManifestFile(target);
         }
 
         public static void BuildPlayer(BuildTarget target, bool isRelease)
@@ -45,10 +34,6 @@ namespace EditorTool
                 Debug.Log("Nothing to build.");
                 return;
             }
-
-            string targetFolder = UtilEditor.GetPlatformFolderForAssetBundles(target);
-            if (targetFolder == null)
-                return;
 
             BuildScript.BuildAssetBundles(target);
 
@@ -69,12 +54,12 @@ namespace EditorTool
                 option = BuildOptions.ConnectWithProfiler;
             }
 
-            string pakPath = UtilPath.combine(UtilEditor.getOutPutRootPath(), "BuildOut", targetFolder);
-            UtilPath.createDirectory(pakPath, true);
+            string binPath = UtilEditor.getBinPath(target);
+            UtilPath.createDirectory(binPath, true);
             string targetName = UtilEditor.GetBuildTargetName(target);
             if (targetName == null)
                 return;
-            BuildPipeline.BuildPlayer(levels, pakPath + "/" + targetName, target, option);
+            //BuildPipeline.BuildPlayer(levels, binPath + "/" + targetName, target, option);
         }
 
         static void CopyAssetBundlesTo(BuildTarget target, string sourcePath, string outputPath)

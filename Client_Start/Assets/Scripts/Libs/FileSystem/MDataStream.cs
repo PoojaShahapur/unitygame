@@ -209,6 +209,8 @@ namespace SDK.Lib
                         mFileStream = null;
                     }
                 }
+
+                mIsValid = false;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using SDK.Lib;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,18 +39,43 @@ namespace EditorTool
             string mainfestPath = UtilEditor.getAssetBundlesManifestPath(mBuildTarget);
             mManifestAB = AssetBundle.LoadFromFile(mainfestPath);
             mAssetBundleManifest = mManifestAB.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            //mManifestAB.Unload(true);       // 立即卸载掉，数据会丢失
 
-            if (UtilPath.existFile(mOutFileName))
+            try
             {
-                UtilPath.deleteFile(mOutFileName);
+                if (UtilPath.existFile(mOutFileName))
+                {
+                    UtilPath.deleteFile(mOutFileName);
+                }
+                else
+                {
+                    // 确保写入的目录是存在的
+                    string outPath = UtilPath.getFilePathNoName(mOutFileName);
+                    if (!UtilPath.existDirectory(outPath))
+                    {
+                        UtilPath.createDirectory(outPath);
+                    }
+                }
+
+                mDataStream = new MDataStream(mOutFileName);
+                mDataStream.checkAndOpen();
+
+                UtilPath.traverseDirectory(mCurPath, "", null, onFileHandle, true);
+
+                mDataStream.dispose();
+                mDataStream = null;
+                mManifestAB.Unload(true);
             }
-            mDataStream = new MDataStream(mOutFileName);
-            mDataStream.checkAndOpen();
-
-            UtilPath.traverseDirectory(mCurPath, "", null, onFileHandle, true);
-
-            mDataStream.dispose();
-            mManifestAB.Unload(true);
+            catch(Exception exp)
+            {
+                Debug.Log("Exception " + exp.Message);
+                if(mDataStream != null)
+                {
+                    mDataStream.dispose();
+                    mDataStream = null;
+                }
+                mManifestAB.Unload(true);
+            }
         }
 
         public void onFileHandle(string fullPath, string fileName, string destFullPath)
