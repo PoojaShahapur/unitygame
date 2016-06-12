@@ -37,3 +37,8 @@ Word/RandName.txt=Word/RandName=Word/RandName=d91d739e29bd4095d9659eec783db669=1
 XmlConfig/marketconfig.xml=XmlConfig/marketconfig=XmlConfig/marketconfig=d8bc3fe8828f4899240bf725c1ef4abf=668
 XmlConfig/ReamMe.txt=XmlConfig/ReamMe=XmlConfig/ReamMe=7d87ca3cd6216730e078f7abefe6600f=84
 XmlConfig/Test.txt=XmlConfig/Test=XmlConfig/Test=7ffe5dc0524a2f705c1d4ae44a658665=16
+Scenes/Entry.unity=Scenes/Entry=Scenes/Entry=28870e098c374e50be617e605a2ff7c1=8044
+Scenes/Game.unity=Scenes/Game=Scenes/Game=9b9cc9b16305fcc860dc75b687cf5b4c=15540
+Scenes/Login.unity=Scenes/Login=Scenes/Login=be0bc49b9029c3dd0481790d56e36681=20892
+Scenes/Main.unity=Scenes/Main=Scenes/Main=339eb1188ff956ad289a149512f877c3=6700
+Scenes/TestScene.unity=Scenes/TestScene=Scenes/TestScene=b302204758e712c16eacb3d57a0666a1=8916
