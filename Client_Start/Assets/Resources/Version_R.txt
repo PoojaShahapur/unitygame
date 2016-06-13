@@ -9,8 +9,8 @@ Materials/Mesh/FrustumMesh.mat=Materials/Mesh/FrustumMesh=Materials/Mesh/Frustum
 Materials/Shaders/TerrainDiffuse.shader=Materials/Shaders/TerrainDiffuse=Materials/Shaders/TerrainDiffuse=b9363afbe1b57a9b1082d230f088baa4=496
 Materials/Shaders/TerrainSplatDiffuse.shader=Materials/Shaders/TerrainSplatDiffuse=Materials/Shaders/TerrainSplatDiffuse=07b75d130671582938a4351f4746ed4a=1457
 Materials/Shaders/TerrainSplatDiffuse_Bak.shader=Materials/Shaders/TerrainSplatDiffuse_Bak=Materials/Shaders/TerrainSplatDiffuse_Bak=a9777a03444dc45a3d32a1b4bac2c552=2139
-Materials/Terrain/TerrainBumpSpecular.mat=Materials/Terrain/TerrainBumpSpecular=Materials/Terrain/TerrainBumpSpecular=d62d5e9aa77561e17bfb96876bf069cb=4924
-Materials/Terrain/TerrainDiffuse.mat=Materials/Terrain/TerrainDiffuse=Materials/Terrain/TerrainDiffuse=c46dd26616d3b068f0568090dcc15c75=4900
+Materials/Terrain/TerrainBumpSpecular.mat=Materials/Terrain/TerrainBumpSpecular=Materials/Terrain/TerrainBumpSpecular=0a163c58ba898ef6cdf3d0ac3717f8ca=4924
+Materials/Terrain/TerrainDiffuse.mat=Materials/Terrain/TerrainDiffuse=Materials/Terrain/TerrainDiffuse=00ef98cd458e1d62b89b8b75a8c10e8f=4900
 Materials/Terrain/TerrainSplatDiffuse.mat=Materials/Terrain/TerrainSplatDiffuse=Materials/Terrain/TerrainSplatDiffuse=65388d6b795f9ec0f619f673979b46a0=5140
 Materials/Textures/Terrain/AlphaMap_T1000_0.png=Materials/Textures/Terrain/AlphaMap_T1000_0=Materials/Textures/Terrain/AlphaMap_T1000_0=720029a7b9e625ee94a8476136f55246=66878
 Materials/Textures/Terrain/haidi01.png=Materials/Textures/Terrain/haidi01=Materials/Textures/Terrain/haidi01=e177fffd48dd236dfda9920f38e863b8=147966
@@ -21,7 +21,7 @@ Materials/Textures/Terrain/sazi02.png=Materials/Textures/Terrain/sazi02=Material
 Materials/Textures/Terrain/terrain.png=Materials/Textures/Terrain/terrain=Materials/Textures/Terrain/terrain=ce3f700c937a842b1c2b32415b4d0996=103088
 Materials/Textures/Terrain/TerrainControl.png=Materials/Textures/Terrain/TerrainControl=Materials/Textures/Terrain/TerrainControl=844207cc28df48250fcd5417911e6ab4=24029
 Materials/Textures/Terrain/TerrainDiffuse_1.png=Materials/Textures/Terrain/TerrainDiffuse_1=Materials/Textures/Terrain/TerrainDiffuse_1=77dfb8bdec5bdcd2d395d65dc6a767b1=103811
-Materials/Textures/Terrain/terrain_diffuse.jpg=Materials/Textures/Terrain/terrain_diffuse=Materials/Textures/Terrain/terrain_diffuse=error=917915
+Materials/Textures/Terrain/terrain_diffuse.jpg=Materials/Textures/Terrain/terrain_diffuse=Materials/Textures/Terrain/terrain_diffuse=9860461b1181b41691d01affa9adfddd=917915
 Model/TestCube.prefab=Model/TestCube=Model/TestCube=48f151123ef9137ac63789ca7c995a5c=6540
 Module/MainModule.prefab=Module/MainModule=Module/MainModule=4c04906d7e4ac2465f1ec3af73dabb20=21364
 TerrainData/HeightMap_T1000.bytes=TerrainData/HeightMap_T1000=TerrainData/HeightMap_T1000=51ad0e59cf4115b514a0124666924021=8192
@@ -40,5 +40,5 @@ XmlConfig/Test.txt=XmlConfig/Test=XmlConfig/Test=7ffe5dc0524a2f705c1d4ae44a65866
 Scenes/Entry.unity=Scenes/Entry=Scenes/Entry=28870e098c374e50be617e605a2ff7c1=8044
 Scenes/Game.unity=Scenes/Game=Scenes/Game=9b9cc9b16305fcc860dc75b687cf5b4c=15540
 Scenes/Login.unity=Scenes/Login=Scenes/Login=be0bc49b9029c3dd0481790d56e36681=20892
-Scenes/Main.unity=Scenes/Main=Scenes/Main=339eb1188ff956ad289a149512f877c3=6700
+Scenes/Main.unity=Scenes/Main=Scenes/Main=3642803b221484136b20cd8ee17902bb=6700
 Scenes/TestScene.unity=Scenes/TestScene=Scenes/TestScene=b302204758e712c16eacb3d57a0666a1=8916
