@@ -58,7 +58,6 @@ namespace EditorTool
                 }
 
                 mDataStream = new MDataStream(mOutFileName);
-                mDataStream.checkAndOpen();
 
                 UtilPath.traverseDirectory(mCurPath, "", null, onFileHandle, true);
 

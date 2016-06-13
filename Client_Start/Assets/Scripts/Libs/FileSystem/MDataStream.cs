@@ -33,7 +33,7 @@ namespace SDK.Lib
         /**
          * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp。FileMode.CreateNew 如果文件已经存在就抛出异常
          */
-        public MDataStream(string filePath, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite, bool isSyncMode = true)
+        public MDataStream(string filePath, MAction<IDispatchObject> openedDisp = null, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite, bool isSyncMode = true)
         {
             this.mTypeId = "MDataStream";
 
@@ -44,6 +44,8 @@ namespace SDK.Lib
             mIsSyncMode = isSyncMode;
 
             checkPlatformAndPath(mFilePath);
+
+            checkAndOpen(openedDisp);
         }
 
         public void addOpenedHandle(MAction<IDispatchObject> openedDisp = null)
@@ -127,7 +129,7 @@ namespace SDK.Lib
             }
         }
 
-        public void checkAndOpen(MAction<IDispatchObject> openedDisp = null)
+        protected void checkAndOpen(MAction<IDispatchObject> openedDisp = null)
         {
             if (openedDisp != null)
             {

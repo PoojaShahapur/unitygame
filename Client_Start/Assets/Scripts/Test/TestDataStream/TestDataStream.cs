@@ -16,8 +16,7 @@ namespace UnitTest
         {
             //testEditor();
 
-            mStream = new MDataStream(UtilPath.combine(MFileSys.msStreamingAssetsPath, "Test.txt"), FileMode.Open);
-            mStream.checkAndOpen(onFileOpened);
+            mStream = new MDataStream(UtilPath.combine(MFileSys.msStreamingAssetsPath, "Test.txt"), onFileOpened, FileMode.Open);
         }
 
         public void onFileOpened(IDispatchObject dispObj)

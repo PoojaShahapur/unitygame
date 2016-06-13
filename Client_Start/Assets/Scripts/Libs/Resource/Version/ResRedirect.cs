@@ -82,8 +82,7 @@ namespace SDK.Lib
             // 这个文件必须使用文件系统去读取
             if (UtilPath.existFile(mRedirectFileName))
             {
-                MDataStream dataStream = new MDataStream(mRedirectFileName, FileMode.Open);
-                dataStream.checkAndOpen();
+                MDataStream dataStream = new MDataStream(mRedirectFileName, null, FileMode.Open);
 
                 if (dataStream.isValid())
                 {
