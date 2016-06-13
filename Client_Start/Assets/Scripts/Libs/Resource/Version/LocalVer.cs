@@ -86,34 +86,59 @@ namespace SDK.Lib
 
         public int getFileVerInfo(string origPath, ref FileVerInfo fileVerInfo)
         {
+            // 在 Resources 中资源是大写，在 AssetBundles 中包含的资源名字是小写，但是 StreamingAssets 或者 Persistent 中不是 AssetBundles 形式的资源，仍然是大写
             string lowerOrigPath = origPath.ToLower();
+            string md5 = "";
+            ResLoadType resLoadType = ResLoadType.eLoadResource;
+
+            // 这个目录只要有就记录
             if (m_path2Ver_P_Dic.ContainsKey(origPath))
             {
-                fileVerInfo = m_path2Ver_P_Dic[origPath];
-                return (int)ResLoadType.eLoadLocalPersistentData;
+                analyzeHash(m_path2Ver_P_Dic[origPath], ResLoadType.eLoadLocalPersistentData, ref fileVerInfo, ref md5, ref resLoadType);
             }
             else if (m_path2Ver_P_Dic.ContainsKey(lowerOrigPath))
             {
-                fileVerInfo = m_path2Ver_P_Dic[lowerOrigPath];
-                return (int)ResLoadType.eLoadLocalPersistentData;
+                analyzeHash(m_path2Ver_P_Dic[lowerOrigPath], ResLoadType.eLoadLocalPersistentData, ref fileVerInfo, ref md5, ref resLoadType);
             }
-            else if (m_path2Ver_S_Dic.ContainsKey(origPath))
+
+            if (m_path2Ver_S_Dic.ContainsKey(origPath))
             {
-                fileVerInfo = m_path2Ver_S_Dic[origPath];
-                return (int)ResLoadType.eLoadStreamingAssets;
+                // 如果两个 Hash 码是相同，就说明资源定向在 StreamAsset 目录里面
+                analyzeHash(m_path2Ver_S_Dic[origPath], ResLoadType.eLoadStreamingAssets, ref fileVerInfo, ref md5, ref resLoadType);
             }
             else if (m_path2Ver_S_Dic.ContainsKey(lowerOrigPath))
             {
-                fileVerInfo = m_path2Ver_S_Dic[lowerOrigPath];
-                return (int)ResLoadType.eLoadStreamingAssets;
-            }
-            else if (m_path2Ver_R_Dic.ContainsKey(origPath))
-            {
-                fileVerInfo = m_path2Ver_R_Dic[origPath];
-                return (int)ResLoadType.eLoadResource;
+                analyzeHash(m_path2Ver_S_Dic[lowerOrigPath], ResLoadType.eLoadStreamingAssets, ref fileVerInfo, ref md5, ref resLoadType);
             }
 
-            return (int)ResLoadType.eLoadResource;
+            if (m_path2Ver_R_Dic.ContainsKey(origPath))
+            {
+                analyzeHash(m_path2Ver_R_Dic[origPath], ResLoadType.eLoadResource, ref fileVerInfo, ref md5, ref resLoadType);
+            }
+
+            return (int)resLoadType;
+        }
+
+        // 比较 Hash 码
+        protected void analyzeHash(
+            FileVerInfo srcFileVerInfo, 
+            ResLoadType defaultResLoadType, 
+            ref FileVerInfo fileVerInfo, 
+            ref string md5, 
+            ref ResLoadType resLoadType
+            )
+        {
+            if (md5 == srcFileVerInfo.m_fileMd5)
+            {
+                fileVerInfo = srcFileVerInfo;
+                resLoadType = defaultResLoadType;
+            }
+            else if (string.IsNullOrEmpty(md5))
+            {
+                fileVerInfo = srcFileVerInfo;
+                md5 = fileVerInfo.m_fileMd5;
+                resLoadType = defaultResLoadType;
+            }
         }
     }
 }
