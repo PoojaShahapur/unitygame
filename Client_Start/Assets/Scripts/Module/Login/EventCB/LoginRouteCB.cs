@@ -6,7 +6,8 @@ namespace Game.Login
     {
         public LoginRouteCB()
         {
-            m_id2DispDic[(int)MsgRouteType.eMRT_BASIC] = new LoginRouteHandle();
+            LoginRouteHandle loginRouteHandle = new LoginRouteHandle();
+            this.addRouteHandle((int)MsgRouteType.eMRT_BASIC, loginRouteHandle, loginRouteHandle.handleMsg);
         }
     }
 }

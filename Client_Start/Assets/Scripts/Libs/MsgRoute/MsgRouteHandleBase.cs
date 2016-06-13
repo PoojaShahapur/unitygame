@@ -2,7 +2,7 @@
 
 namespace SDK.Lib
 {
-    public class MsgRouteHandleBase : GObject
+    public class MsgRouteHandleBase : GObject, ICalleeObject
     {
         public Dictionary<int, AddOnceEventDispatch> m_id2HandleDic;
 
@@ -31,8 +31,9 @@ namespace SDK.Lib
             }
         }
 
-        public virtual void handleMsg(MsgRouteBase msg)
+        public virtual void handleMsg(IDispatchObject dispObj)
         {
+            MsgRouteBase msg = dispObj as MsgRouteBase;
             if (m_id2HandleDic.ContainsKey((int)msg.m_msgID))
             {
                 m_id2HandleDic[(int)msg.m_msgID].dispatchEvent(msg);
@@ -41,6 +42,11 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.log(string.Format(Ctx.m_instance.m_langMgr.getText(LangTypeId.eMsgRoute1, LangItemID.eItem1), (int)msg.m_msgID));
             }
+        }
+
+        public void call(IDispatchObject dispObj)
+        {
+
         }
     }
 }

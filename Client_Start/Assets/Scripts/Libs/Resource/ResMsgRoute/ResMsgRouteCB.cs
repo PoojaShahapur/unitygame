@@ -4,7 +4,7 @@
     {
         public ResMsgRouteCB()
         {
-            m_id2DispDic[(int)MsgRouteType.eMRT_BASIC] = new DownloadMgr();
+            this.addRouteHandle((int)MsgRouteType.eMRT_BASIC, Ctx.m_instance.mDownloadMgr, Ctx.m_instance.mDownloadMgr.handleMsg);
         }
     }
 }

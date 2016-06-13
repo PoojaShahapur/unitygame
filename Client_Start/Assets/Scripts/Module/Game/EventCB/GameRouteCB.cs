@@ -6,7 +6,8 @@ namespace Game.Game
     {
         public GameRouteCB()
         {
-            m_id2DispDic[(int)MsgRouteType.eMRT_BASIC] = new GameRouteHandle();
+            GameRouteHandle gameRouteHandle = new GameRouteHandle();
+            this.addRouteHandle((int)MsgRouteType.eMRT_BASIC, gameRouteHandle, gameRouteHandle.handleMsg);
         }
     }
 }

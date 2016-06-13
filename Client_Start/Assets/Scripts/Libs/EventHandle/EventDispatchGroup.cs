@@ -23,21 +23,21 @@ namespace SDK.Lib
             }
         }
 
-        public void addEventHandle(int groupID, MAction<IDispatchObject> handle)
+        public void addEventHandle(int groupID, ICalleeObject pThis, MAction<IDispatchObject> handle)
         {
             // 如果没有就创建一个
             if (!m_groupID2DispatchDic.ContainsKey(groupID))
             {
                 addEventDispatch(groupID, new EventDispatch());
             }
-            m_groupID2DispatchDic[groupID].addEventHandle(null, handle);
+            m_groupID2DispatchDic[groupID].addEventHandle(pThis, handle);
         }
 
-        public void removeEventHandle(int groupID, MAction<IDispatchObject> handle)
+        public void removeEventHandle(int groupID, ICalleeObject pThis, MAction<IDispatchObject> handle)
         {
             if (m_groupID2DispatchDic.ContainsKey(groupID))
             {
-                m_groupID2DispatchDic[groupID].removeEventHandle(null, handle);
+                m_groupID2DispatchDic[groupID].removeEventHandle(pThis, handle);
 
                 // 如果已经没有了
                 if (m_groupID2DispatchDic[groupID].getHandleCount() == 0)
@@ -100,6 +100,16 @@ namespace SDK.Lib
             {
                 Ctx.m_instance.m_logSys.log("looping cannot delete element");
             }
+        }
+
+        public bool hasEventHandle(int groupID)
+        {
+            if(m_groupID2DispatchDic.ContainsKey(groupID))
+            {
+                return m_groupID2DispatchDic[groupID].hasEventHandle();
+            }
+
+            return false;
         }
     }
 }
