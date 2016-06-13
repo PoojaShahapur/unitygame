@@ -138,7 +138,7 @@ namespace SDK.Lib
                 item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
                 mOrigPath2ItemDic[origPath] = item;
                 FileVerInfo fileVerInfo = null;
-                item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.m_localVersion.getFileVerInfo(origPath, ref fileVerInfo);
+                item.mResLoadType = (ResLoadType)Ctx.m_instance.m_versionSys.m_localVer.getFileVerInfo(origPath, ref fileVerInfo);
                 item.mFileVerInfo = fileVerInfo;
             }
 

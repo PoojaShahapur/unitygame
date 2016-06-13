@@ -75,7 +75,11 @@ namespace SDK.Lib
                 //    Ctx.m_instance.m_logSys.asynclog("error");
                 //}
 
-
+                // 获取响应
+                //response = (HttpWebResponse)request.GetResponse();
+                // 向服务器请求，获得服务器回应数据流 
+                //retStream = response.GetResponseStream();
+                // 千万不能获取长度，一旦获取长度，整个数据都会下载下来
                 //long contentLength = response.ContentLength;
                 //long contentLength = retStream.Length;
                 long readedLength = 0;
@@ -126,7 +130,6 @@ namespace SDK.Lib
                     //contentLength -= startPos;
                 }
 
-
                 // 获取响应
                 response = (HttpWebResponse)request.GetResponse();
                 // 向服务器请求，获得服务器回应数据流 
@@ -135,8 +138,8 @@ namespace SDK.Lib
                 int len = 1024 * 8;
                 mBytes = new byte[len];
                 int readSize = 0;
-                string logStr = "";
-                bool isBytesValid = false;        // m_bytes 中数据是否有效
+                //string logStr = "";
+                //bool isBytesValid = false;        // m_bytes 中数据是否有效
 
                 // Not Support，会抛出异常
                 // retStream.Seek(startPos, SeekOrigin.Begin);

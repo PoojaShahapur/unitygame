@@ -8,9 +8,8 @@ namespace SDK.Lib
      */
     public class VersionSys
     {
-        public FilesVer m_webVer = new FilesVer();
-        public FilesVer m_localVer = new FilesVer();
-        public LocalVer m_localVersion = new LocalVer();
+        public ServerVer m_serverVer = new ServerVer();
+        public LocalVer m_localVer;
 
         public Action m_miniLoadResultDisp;
         public Action m_LoadResultDisp;
@@ -20,23 +19,15 @@ namespace SDK.Lib
 
         public VersionSys()
         {
-            m_webVer.m_type = FilesVerType.eWebVer;
+            m_serverVer.m_type = FilesVerType.eWebVer;
             m_miniVer = UtilApi.Range(0, int.MaxValue).ToString();
 
-            m_localVersion = new LocalVer();
+            m_serverVer = new ServerVer();
+            m_localVer = new LocalVer();
         }
 
         public void loadMiniVerFile()
         {
-            if (UtilPath.fileExistNoVer(Path.Combine(MFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME)))
-            {
-                m_localVer.m_type = FilesVerType.ePersistentDataVer;
-            }
-            else
-            {
-                m_localVer.m_type = FilesVerType.eStreamingAssetsVer;
-            }
-
             m_localVer.m_miniLoadedDisp = onLocalMiniLoaded;
             m_localVer.m_miniFailedDisp = onLocalMiniFailed;
             m_localVer.loadMiniVerFile();
@@ -44,44 +35,35 @@ namespace SDK.Lib
 
         public void loadVerFile()
         {
-            if (UtilPath.fileExistNoVer(Path.Combine(MFileSys.getLocalWriteDir(), FilesVer.FILENAME)))
-            {
-                m_localVer.m_type = FilesVerType.ePersistentDataVer;
-            }
-            else
-            {
-                m_localVer.m_type = FilesVerType.eStreamingAssetsVer;
-            }
-
             m_localVer.m_LoadedDisp = onVerLoaded;
             m_localVer.m_FailedDisp = onVerFailed;
 
-            string ver = m_localVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5;
-            m_localVer.loadVerFile(ver);
+            string ver = m_localVer.m_path2Ver_P_Dic[ServerVer.FILENAME].m_fileMd5;
+            m_localVer.loadVerFile();
         }
 
         public void onLocalMiniLoaded()
         {
-            m_webVer.m_miniLoadedDisp = onWebMiniLoaded;
-            m_webVer.m_miniFailedDisp = onWebMiniFailed;
-            m_webVer.loadMiniVerFile(m_miniVer);
+            m_serverVer.m_miniLoadedDisp = onWebMiniLoaded;
+            m_serverVer.m_miniFailedDisp = onWebMiniFailed;
+            m_serverVer.loadMiniVerFile(m_miniVer);
         }
 
         public void onLocalMiniFailed()
         {
-            m_webVer.m_miniLoadedDisp = onWebMiniLoaded;
-            m_webVer.m_miniFailedDisp = onWebMiniFailed;
-            m_webVer.loadMiniVerFile(m_miniVer);
+            m_serverVer.m_miniLoadedDisp = onWebMiniLoaded;
+            m_serverVer.m_miniFailedDisp = onWebMiniFailed;
+            m_serverVer.loadMiniVerFile(m_miniVer);
         }
 
         public void onWebMiniLoaded()
         {
             // 删除旧 mini 版本，修改新版本文件名字
-            UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), FilesVer.FILENAME));
+            UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), ServerVer.FILENAME));
             // 修改新的版本文件名字
-            UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), FilesVer.MINIFILENAME));
+            UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME));
 
-            m_needUpdateVerFile = (m_localVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5 != m_webVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5);      // 如果版本不一致，需要重新加载
+            m_needUpdateVerFile = (m_localVer.m_path2Ver_P_Dic[ServerVer.FILENAME].m_fileMd5 != m_serverVer.m_miniPath2HashDic[ServerVer.FILENAME].m_fileMd5);      // 如果版本不一致，需要重新加载
             //m_needUpdateVerFile = true;         // 测试强制更新
             m_miniLoadResultDisp();
         }
@@ -95,10 +77,10 @@ namespace SDK.Lib
         {
             if (m_needUpdateVerFile)
             {
-                m_webVer.m_LoadedDisp = onWebVerLoaded;
-                m_webVer.m_FailedDisp = onWebVerFailed;
-                string ver = m_webVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5;
-                m_webVer.loadVerFile(ver);
+                m_serverVer.m_LoadedDisp = onWebVerLoaded;
+                m_serverVer.m_FailedDisp = onWebVerFailed;
+                string ver = m_serverVer.m_miniPath2HashDic[ServerVer.FILENAME].m_fileMd5;
+                m_serverVer.loadVerFile(ver);
             }
             else
             {
@@ -110,10 +92,10 @@ namespace SDK.Lib
         {
             if (m_needUpdateVerFile)
             {
-                m_webVer.m_LoadedDisp = onWebVerLoaded;
-                m_webVer.m_FailedDisp = onWebVerFailed;
-                string ver = m_webVer.m_miniPath2HashDic[FilesVer.FILENAME].m_fileMd5;
-                m_webVer.loadVerFile(ver);
+                m_serverVer.m_LoadedDisp = onWebVerLoaded;
+                m_serverVer.m_FailedDisp = onWebVerFailed;
+                string ver = m_serverVer.m_miniPath2HashDic[ServerVer.FILENAME].m_fileMd5;
+                m_serverVer.loadVerFile(ver);
             }
             else
             {
@@ -135,16 +117,16 @@ namespace SDK.Lib
         {
             if(m_needUpdateVerFile)
             {
-                if (m_webVer.m_path2HashDic.ContainsKey(path))
+                if (m_serverVer.m_path2HashDic.ContainsKey(path))
                 {
-                    return m_webVer.m_path2HashDic[path].m_fileMd5;
+                    return m_serverVer.m_path2HashDic[path].m_fileMd5;
                 }
             }
             else
             {
-                if (m_localVer.m_path2HashDic.ContainsKey(path))
+                if (m_localVer.m_path2Ver_P_Dic.ContainsKey(path))
                 {
-                    return m_localVer.m_path2HashDic[path].m_fileMd5;
+                    return m_localVer.m_path2Ver_P_Dic[path].m_fileMd5;
                 }
             }
 
@@ -153,7 +135,7 @@ namespace SDK.Lib
 
         public void loadLocalVer()
         {
-            m_localVersion.load();
+            m_localVer.load();
         }
     }
 }

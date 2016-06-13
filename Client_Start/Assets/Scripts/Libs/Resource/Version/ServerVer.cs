@@ -6,7 +6,7 @@ namespace SDK.Lib
     /**
      * @brief 一个位置的所有版本 Resources，StreamingAssets 、Application.persistentDataPath、web 
      */
-    public class FilesVer
+    public class ServerVer
     {
         // MiniVersion 必须每一次从服务器上下载
         public const string MINIFILENAME = "VerMini.txt";

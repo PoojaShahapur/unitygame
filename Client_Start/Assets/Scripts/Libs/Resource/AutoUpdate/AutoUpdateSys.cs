@@ -54,11 +54,11 @@ namespace SDK.Lib
 
         public void loadAllUpdateFile()
         {
-            foreach (KeyValuePair<string, FileVerInfo> kv in Ctx.m_instance.m_versionSys.m_webVer.m_path2HashDic)
+            foreach (KeyValuePair<string, FileVerInfo> kv in Ctx.m_instance.m_versionSys.m_serverVer.m_path2HashDic)
             {
-                if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(kv.Key))
+                if(Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic.ContainsKey(kv.Key))
                 {
-                    if(Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
+                    if(Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic[kv.Key].m_fileMd5 != kv.Value.m_fileMd5)
                     {
                         loadOneUpdateFile(kv.Key, kv.Value);
                     }
@@ -75,9 +75,9 @@ namespace SDK.Lib
             //string loadPath = UtilApi.combineVerPath(path, fileInfo.m_fileMd5);
             //m_loadingPath.Add(loadPath);
             m_loadingPath.Add(UtilLogic.webFullPath(path));
-            if (Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic.ContainsKey(path))
+            if (Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic.ContainsKey(path))
             {
-                UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2HashDic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
+                UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.combineVerPath(path, Ctx.m_instance.m_versionSys.m_localVer.m_path2Ver_P_Dic[path].m_fileMd5)));     // 删除当前目录下已经有的 old 文件
             }
             //UtilApi.delFileNoVer(path);     // 删除当前目录下已经有的 old 文件
 

@@ -12,6 +12,12 @@ namespace SDK.Lib
         public Dictionary<string, FileVerInfo> m_path2Ver_S_Dic;
         public Dictionary<string, FileVerInfo> m_path2Ver_P_Dic;
 
+        public Action m_miniLoadedDisp;
+        public Action m_miniFailedDisp;
+
+        public Action m_LoadedDisp;
+        public Action m_FailedDisp;
+
         public LocalVer()
         {
             m_path2Ver_R_Dic = new Dictionary<string, FileVerInfo>();
@@ -24,6 +30,36 @@ namespace SDK.Lib
             loadLocalRVer();
             loadLocalSVer();
             //loadLocalPVer();
+        }
+
+        public void loadMiniVerFile()
+        {
+            FilesVerType filesVerType = FilesVerType.ePersistentDataVer;
+
+            if (UtilPath.fileExistNoVer(UtilPath.combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME)))
+            {
+                filesVerType = FilesVerType.ePersistentDataVer;
+            }
+            else
+            {
+                filesVerType = FilesVerType.eStreamingAssetsVer;
+            }
+        }
+
+        public void loadVerFile()
+        {
+            FilesVerType filesVerType = FilesVerType.ePersistentDataVer;
+
+            if (UtilPath.fileExistNoVer(UtilPath.combine(MFileSys.getLocalWriteDir(), ServerVer.FILENAME)))
+            {
+                filesVerType = FilesVerType.ePersistentDataVer;
+            }
+            else
+            {
+                filesVerType = FilesVerType.eStreamingAssetsVer;
+            }
+
+            loadLocalPVer();
         }
 
         public void loadLocalRVer()
