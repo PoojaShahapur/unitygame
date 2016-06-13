@@ -80,13 +80,13 @@ namespace SDK.Lib
                 fileStream.Close();
                 if (readedLength == contentLength)
                 {
-                    m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                    m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                    m_refCountResLoadResultNotify.resLoadState.setFailed();
                 }
-                m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+                m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
             //catch (Exception)
             //{
@@ -262,13 +262,13 @@ namespace SDK.Lib
         {
             if (m_isRunSuccess)
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
+                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
-                m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
             }
-            m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
+            m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }
 }

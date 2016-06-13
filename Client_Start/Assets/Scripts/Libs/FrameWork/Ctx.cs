@@ -106,7 +106,8 @@
         public SceneNodeGraph mSceneNodeGraph;
         public TerrainEntityMgr mTerrainEntityMgr;
 
-        public ResRedirect mResRedirect;             // 重定向
+        public ResRedirect mResRedirect;            // 重定向
+        public DownloadMgr mDownloadMgr;            // 下载管理器
 
         public Ctx()
         {
@@ -229,6 +230,7 @@
             mTerrainEntityMgr = new TerrainEntityMgr();
 
             mResRedirect = new ResRedirect();
+            mDownloadMgr = new DownloadMgr();
         }
 
         protected void interInit()

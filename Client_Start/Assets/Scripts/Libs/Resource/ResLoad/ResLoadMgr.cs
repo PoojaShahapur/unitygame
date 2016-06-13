@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 namespace SDK.Lib
 {
@@ -62,9 +61,9 @@ namespace SDK.Lib
         }
 
         // 资源是否已经加载，包括成功和失败
-        public bool isResLoaded(string path)
+        public bool isResLoaded(string resUniqueId)
         {
-            ResItem res = this.getResource(path);
+            ResItem res = this.getResource(resUniqueId);
             if (res == null)
             {
                 return false;
@@ -78,9 +77,9 @@ namespace SDK.Lib
             return false;
         }
 
-        public bool isResSuccessLoaded(string path)
+        public bool isResSuccessLoaded(string resUniqueId)
         {
-            ResItem res = this.getResource(path);
+            ResItem res = this.getResource(resUniqueId);
             if (res == null)
             {
                 return false;
@@ -93,12 +92,12 @@ namespace SDK.Lib
             return false;
         }
 
-        public ResItem getResource(string path)
+        public ResItem getResource(string resUniqueId)
         {
             // 如果 path == null ，程序会宕机
-            if (m_LoadData.m_path2Res.ContainsKey(path))
+            if (m_LoadData.m_path2Res.ContainsKey(resUniqueId))
             {
-                return m_LoadData.m_path2Res[path];
+                return m_LoadData.m_path2Res[resUniqueId];
             }
             else
             {
