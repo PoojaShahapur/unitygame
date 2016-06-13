@@ -2,14 +2,13 @@
 
 namespace SDK.Lib
 {
-    public class ResLoadMgr : MsgRouteHandleBase
+    public class ResLoadMgr
     {
         protected uint m_maxParral;                             // 最多同时加载的内容
         protected uint m_curNum;                                // 当前加载的数量
         protected ResLoadData m_LoadData;
         protected LoadItem m_retLoadItem;
         protected ResItem m_retResItem;
-        protected ResMsgRouteCB m_resMsgRouteCB;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int m_loadingDepth;                   // 加载深度
 
@@ -20,15 +19,11 @@ namespace SDK.Lib
             m_LoadData = new ResLoadData();
             m_zeroRefResIDList = new List<string>();
             m_loadingDepth = 0;
-
-            this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
 
         public void postInit()
         {
-            // 游戏逻辑处理
-            m_resMsgRouteCB = new ResMsgRouteCB();
-            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_resMsgRouteCB);
+
         }
 
         // 是否有正在加载的 LoadItem
@@ -611,14 +606,6 @@ namespace SDK.Lib
             }
 
             return m_retLoadItem;
-        }
-
-        // 资源加载完成，触发下一次加载
-        protected void onMsgRouteResLoad(IDispatchObject dispObj)
-        {
-            MsgRouteBase msg = dispObj as MsgRouteBase;
-            DownloadItem loadItem = (msg as LoadedWebResMR).m_task as DownloadItem;
-            loadItem.handleResult();
         }
     }
 }

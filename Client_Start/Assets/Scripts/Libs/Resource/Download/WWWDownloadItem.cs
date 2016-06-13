@@ -24,8 +24,8 @@ namespace SDK.Lib
         // m_path 是这个格式 http://127.0.0.1/UnityServer/Version.txt?ver=100
         override protected IEnumerator downloadAsset()
         {
-            deleteFromCache(m_loadPath);
-            m_w3File = WWW.LoadFromCacheOrDownload(m_loadPath, Int32.Parse(m_version));
+            deleteFromCache(mLoadPath);
+            m_w3File = WWW.LoadFromCacheOrDownload(mLoadPath, Int32.Parse(mVersion));
             yield return m_w3File;
 
             onWWWEnd();
@@ -36,7 +36,7 @@ namespace SDK.Lib
         {
             if (isLoadedSuccess(m_w3File))
             {
-                m_bytes = m_w3File.bytes;
+                mBytes = m_w3File.bytes;
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

@@ -9,18 +9,17 @@ namespace SDK.Lib
     */
     public class DownloadItem : ITask, IDispatchObject
     {
-        protected byte[] m_bytes;
-        protected string m_version = "";
-        protected bool m_isRunSuccess = true;
-        protected string m_localPath;
+        protected byte[] mBytes;
+        protected string mVersion = "";
+        protected bool mIsRunSuccess = true;
+        protected string mLocalPath;
 
-        protected string m_loadPath;            // 完整的目录
-        protected string m_origPath;            // 原始的资源目录
-        protected string m_extName;             // 扩展名字
+        protected string mLoadPath;            // 完整的目录
+        protected string mOrigPath;            // 原始的资源目录
         protected string mLogicPath;
 
         protected WWW m_w3File;
-        protected bool m_loadNeedCoroutine;     // 加载是否需要协同程序
+        protected DownloadType mDownloadType;     // 加载类型
         protected string mResUniqueId;
 
 
@@ -45,22 +44,22 @@ namespace SDK.Lib
 
         virtual public void reset()
         {
-            m_loadPath = "";
+            mLoadPath = "";
             m_w3File = null;
-            m_loadNeedCoroutine = false;
+            mDownloadType = DownloadType.eHttpWeb;
 
-            m_bytes = null;
+            mBytes = null;
         }
 
         public string loadPath
         {
             get
             {
-                return m_loadPath;
+                return mLoadPath;
             }
             set
             {
-                m_loadPath = value;
+                mLoadPath = value;
             }
         }
 
@@ -68,23 +67,11 @@ namespace SDK.Lib
         {
             get
             {
-                return m_origPath;
+                return mOrigPath;
             }
             set
             {
-                m_origPath = value;
-            }
-        }
-
-        public string extName
-        {
-            get
-            {
-                return m_extName;
-            }
-            set
-            {
-                m_extName = value;
+                mOrigPath = value;
             }
         }
 
@@ -96,15 +83,15 @@ namespace SDK.Lib
             }
         }
 
-        public bool loadNeedCoroutine
+        public DownloadType downloadType
         {
             get
             {
-                return m_loadNeedCoroutine;
+                return mDownloadType;
             }
             set
             {
-                m_loadNeedCoroutine = value;
+                mDownloadType = value;
             }
         }
 
@@ -177,10 +164,8 @@ namespace SDK.Lib
         public void setLoadParam(DownloadParam param)
         {
             this.loadPath = param.mLoadPath;
-            this.origPath = param.m_origPath;
-            //this.extName = param.extName;
-            this.loadNeedCoroutine = param.m_loadNeedCoroutine;
-            //this.setLoadAll(param.mIsLoadAll);
+            this.origPath = param.mOrigPath;
+            this.mDownloadType = param.mDownloadType;
             this.setLogicPath(param.mLogicPath);
             this.setResUniqueId(param.mResUniqueId);
         }
@@ -189,13 +174,13 @@ namespace SDK.Lib
         {
             m_refCountResLoadResultNotify.resLoadState.setLoading();
 
-            m_localPath = Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.getRelPath(m_loadPath));
-            if (!string.IsNullOrEmpty(m_version))
+            mLocalPath = Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.getRelPath(mLoadPath));
+            if (!string.IsNullOrEmpty(mVersion))
             {
-                m_localPath = UtilLogic.combineVerPath(m_localPath, m_version);
+                mLocalPath = UtilLogic.combineVerPath(mLocalPath, mVersion);
             }
 
-            Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", m_loadPath));
+            Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", mLoadPath));
         }
 
         public virtual void runTask()

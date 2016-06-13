@@ -5,12 +5,13 @@ namespace SDK.Lib
     /**
      * @brief 数据下载管理器
      */
-    public class DownloadMgr
+    public class DownloadMgr : MsgRouteHandleBase
     {
         protected uint m_maxParral;                             // 最多同时加载的内容
         protected uint m_curNum;                                // 当前加载的数量
         protected DownloadData m_LoadData;
         protected DownloadItem m_retLoadItem;
+        protected ResMsgRouteCB m_resMsgRouteCB;
         protected List<string> m_zeroRefResIDList;      // 没有引用的资源 ID 列表
         protected int m_loadingDepth;                   // 加载深度
 
@@ -20,20 +21,24 @@ namespace SDK.Lib
             m_curNum = 0;
             m_zeroRefResIDList = new List<string>();
             m_loadingDepth = 0;
+
+            this.addMsgRouteHandle(MsgRouteID.eMRIDLoadedWebRes, onMsgRouteResLoad);
         }
 
         public void postInit()
         {
-
+            // 游戏逻辑处理
+            m_resMsgRouteCB = new ResMsgRouteCB();
+            Ctx.m_instance.m_msgRouteNotify.addOneDisp(m_resMsgRouteCB);
         }
 
         protected void resetLoadParam(DownloadParam loadParam)
         {
-
+            loadParam.reset();
         }
 
         // 是否有正在加载的 DownloadItem
-        public bool hasLoadItem(string resUniqueId)
+        public bool hasDownloadItem(string resUniqueId)
         {
             foreach (DownloadItem loadItem in m_LoadData.m_path2LDItem.Values)
             {
@@ -43,7 +48,7 @@ namespace SDK.Lib
                 }
             }
 
-            foreach (LoadItem loadItem in m_LoadData.m_willLDItem)
+            foreach (DownloadItem loadItem in m_LoadData.m_willLDItem)
             {
                 if (loadItem.getResUniqueId() == resUniqueId)
                 {
@@ -57,8 +62,7 @@ namespace SDK.Lib
         // 重置加载设置
         protected void resetDownloadParam(DownloadParam loadParam)
         {
-            loadParam.m_loadNeedCoroutine = true;
-            loadParam.m_resNeedCoroutine = true;
+            loadParam.reset();
         }
 
         // 资源是否已经加载，包括成功和失败
@@ -116,7 +120,7 @@ namespace SDK.Lib
 
         protected DownloadItem createDownloadItem(DownloadParam param)
         {
-            DownloadItem loadItem = findDownloadItemFormPool(param.m_resPackType);
+            DownloadItem loadItem = findDownloadItemFormPool();
             if (loadItem == null)
             {
                 loadItem = new DownloadItem();
@@ -127,7 +131,7 @@ namespace SDK.Lib
             return loadItem;
         }
 
-        protected void loadWithLoading(DownloadParam param)
+        protected void downloadWithDownloading(DownloadParam param)
         {
             m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.refCount.incRef();
             if (m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.resLoadState.hasLoaded())
@@ -148,9 +152,9 @@ namespace SDK.Lib
             resetLoadParam(param);
         }
 
-        protected void loadWithNotLoad(DownloadParam param)
+        protected void downloadWithNotDownload(DownloadParam param)
         {
-            if (!hasLoadItem(param.mResUniqueId))
+            if (!hasDownloadItem(param.mResUniqueId))
             {
                 DownloadItem loadItem = createDownloadItem(param);
 
@@ -176,11 +180,11 @@ namespace SDK.Lib
             ++m_loadingDepth;
             if (m_LoadData.m_path2LDItem.ContainsKey(param.mResUniqueId))
             {
-                loadWithLoading(param);
+                downloadWithDownloading(param);
             }
             else
             {
-                loadWithNotLoad(param);
+                downloadWithNotDownload(param);
             }
             --m_loadingDepth;
 
@@ -353,7 +357,7 @@ namespace SDK.Lib
             }
         }
 
-        protected DownloadItem findDownloadItemFormPool(ResPackType type)
+        protected DownloadItem findDownloadItemFormPool()
         {
             m_retLoadItem = null;
             foreach (DownloadItem item in m_LoadData.m_noUsedLDItem)
@@ -364,6 +368,14 @@ namespace SDK.Lib
             }
 
             return m_retLoadItem;
+        }
+
+        // 资源加载完成，触发下一次加载
+        protected void onMsgRouteResLoad(IDispatchObject dispObj)
+        {
+            MsgRouteBase msg = dispObj as MsgRouteBase;
+            DownloadItem loadItem = (msg as LoadedWebResMR).m_task as DownloadItem;
+            loadItem.handleResult();
         }
     }
 }
