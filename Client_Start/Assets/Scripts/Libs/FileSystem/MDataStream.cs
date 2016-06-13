@@ -31,9 +31,9 @@ namespace SDK.Lib
         protected AddOnceAndCallOnceEventDispatch mOpenedEvtDisp;   // 文件打开结束分发，主要是 WWW 是异步读取本地文件的，因此需要确保文件被打开成功
 
         /**
-         * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp。FileMode.CreateNew 如果文件已经存在就抛出异常
+         * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp。FileMode.CreateNew 如果文件已经存在就抛出异常，FileMode.Append 和 FileAccess.Write 要同时使用
          */
-        public MDataStream(string filePath, MAction<IDispatchObject> openedDisp = null, FileMode mode = FileMode.CreateNew, FileAccess access = FileAccess.ReadWrite, bool isSyncMode = true)
+        public MDataStream(string filePath, MAction<IDispatchObject> openedDisp = null, FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read, bool isSyncMode = true)
         {
             this.mTypeId = "MDataStream";
 

@@ -220,7 +220,7 @@ namespace SDK.Lib
                         UtilPath.createDirectory(path);
                     }
                 }
-                MDataStream dataStream = new MDataStream(mLocalPath);
+                MDataStream dataStream = new MDataStream(mLocalPath, null, FileMode.CreateNew, FileAccess.Write);
                 dataStream.writeByte(mBytes);
                 dataStream.dispose();
             }

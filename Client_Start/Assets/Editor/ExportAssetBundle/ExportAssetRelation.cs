@@ -1,5 +1,6 @@
 ﻿using SDK.Lib;
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -57,7 +58,7 @@ namespace EditorTool
                     }
                 }
 
-                mDataStream = new MDataStream(mOutFileName);
+                mDataStream = new MDataStream(mOutFileName, null, FileMode.CreateNew, FileAccess.Write);
 
                 UtilPath.traverseDirectory(mCurPath, "", null, onFileHandle, true);
 

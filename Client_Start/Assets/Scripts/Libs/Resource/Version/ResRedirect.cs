@@ -69,7 +69,7 @@ namespace SDK.Lib
             }
             if (!UtilPath.existFile(mRedirectFileName))
             {
-                MDataStream dataStream = new MDataStream(mRedirectFileName);
+                MDataStream dataStream = new MDataStream(mRedirectFileName, null, FileMode.CreateNew, FileAccess.Write);
                 string content = "Version_R.txt=0" + UtilApi.CR_LF + "Version_S.txt=1" + UtilApi.CR_LF  + "Version_P.txt=2";
                 dataStream.writeText(content);
                 dataStream.dispose();
@@ -82,7 +82,7 @@ namespace SDK.Lib
             // 这个文件必须使用文件系统去读取
             if (UtilPath.existFile(mRedirectFileName))
             {
-                MDataStream dataStream = new MDataStream(mRedirectFileName, null, FileMode.Open);
+                MDataStream dataStream = new MDataStream(mRedirectFileName);
 
                 if (dataStream.isValid())
                 {

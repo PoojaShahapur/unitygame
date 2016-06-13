@@ -19,8 +19,8 @@ namespace SDK.Lib
         {
             base.load();
 
-            //Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
-            Ctx.m_instance.m_TaskQueue.push(this);
+            Ctx.m_instance.m_coroutineMgr.StartCoroutine(coroutWebDown());
+            //Ctx.m_instance.m_TaskQueue.push(this);
         }
 
         // 协程下载
@@ -83,31 +83,36 @@ namespace SDK.Lib
 
                 if (UtilPath.existFile(saveFile))
                 {
-                    fileStream = new MDataStream(saveFile, null, FileMode.Append);
+                    fileStream = new MDataStream(saveFile, null, FileMode.Append, FileAccess.Write);
                     startPos = fileStream.getLength();
+
                     if (contentLength - startPos <= 0)     // 文件已经完成
                     {
                         fileStream.dispose();
                         fileStream = null;
 
-                        onRunTaskEnd();
                         Ctx.m_instance.m_logSys.log("之前文件已经下载完成，不用重新下载");
+                        onRunTaskEnd();
 
                         return;
                     }
+
                     fileStream.seek(startPos, SeekOrigin.Current); //移动文件流中的当前指针 
                 }
                 else
                 {
                     bNeedReName = true;
+
                     try
                     {
                         string path = UtilPath.getFilePathNoName(origFile);
+
                         if(!UtilPath.existDirectory(path))
                         {
                             UtilPath.createDirectory(path);
                         }
-                        fileStream = new MDataStream(origFile);
+
+                        fileStream = new MDataStream(origFile, null, FileMode.CreateNew, FileAccess.Write);
                     }
                     catch (Exception exp)
                     {
@@ -128,7 +133,9 @@ namespace SDK.Lib
                 mBytes = new byte[len];
                 int readSize = 0;
                 string logStr = "";
-                bool isBytesValid = true;        // m_bytes 中数据是否有效
+                bool isBytesValid = false;        // m_bytes 中数据是否有效
+
+                retStream.Seek(startPos, SeekOrigin.Begin);
 
                 while (readedLength != contentLength)
                 {
@@ -139,12 +146,9 @@ namespace SDK.Lib
                     logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", mLoadPath, fileStream.getLength(), contentLength);
                     Ctx.m_instance.m_logSys.log(logStr);
 
-                    if (isBytesValid)
+                    if (readedLength == contentLength)
                     {
-                        if (readedLength != contentLength)
-                        {
-                            isBytesValid = false;
-                        }
+                        isBytesValid = true;
                     }
                 }
 

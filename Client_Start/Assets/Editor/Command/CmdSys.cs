@@ -1,5 +1,6 @@
 ﻿using SDK.Lib;
 using System;
+using System.IO;
 
 namespace EditorTool
 {
@@ -50,7 +51,7 @@ namespace EditorTool
                 UtilPath.deleteFile(logFileName);
             }
 
-            MDataStream logFile = new MDataStream(logFileName);
+            MDataStream logFile = new MDataStream(logFileName, null, FileMode.CreateNew, FileAccess.Write);
             logFile.writeLine(Environment.CommandLine);
             string[] cmdArr = Environment.GetCommandLineArgs();
             foreach (string cmd in cmdArr)

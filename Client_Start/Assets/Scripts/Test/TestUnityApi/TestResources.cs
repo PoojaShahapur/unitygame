@@ -25,7 +25,7 @@ namespace UnitTest
                 // 输出文件
                 path = Path.Combine(MFileSys.getLocalDataDir(), "Resources/Table/CardBase_client_bak.txt");
 
-                MDataStream mDataStream = new MDataStream(path);
+                MDataStream mDataStream = new MDataStream(path, null, FileMode.CreateNew, FileAccess.Write);
                 mDataStream.writeByte(bytes);
                 mDataStream.dispose();
                 mDataStream = null;

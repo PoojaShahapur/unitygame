@@ -37,12 +37,12 @@ namespace SDK.Lib
             else if((ResLoadType.eLoadStreamingAssets == m_resLoadType))
             {
                 // 暂时只支持同步加载
-                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened, FileMode.Open);
+                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened);
             }
             else if ((ResLoadType.eLoadLocalPersistentData == m_resLoadType))
             {
                 // 暂时只支持同步加载
-                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened, FileMode.Open);
+                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened);
             }
             else if ((ResLoadType.eLoadWeb == m_resLoadType))
             {
