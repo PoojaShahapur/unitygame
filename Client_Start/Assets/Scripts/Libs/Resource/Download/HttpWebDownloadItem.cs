@@ -75,9 +75,9 @@ namespace SDK.Lib
                 //    Ctx.m_instance.m_logSys.asynclog("error");
                 //}
 
-                response = (HttpWebResponse)request.GetResponse();
 
-                long contentLength = response.ContentLength;
+                //long contentLength = response.ContentLength;
+                //long contentLength = retStream.Length;
                 long readedLength = 0;
                 long startPos = 0;
 
@@ -86,16 +86,16 @@ namespace SDK.Lib
                     fileStream = new MDataStream(saveFile, null, FileMode.Append, FileAccess.Write);
                     startPos = fileStream.getLength();
 
-                    if (contentLength - startPos <= 0)     // 文件已经完成
-                    {
-                        fileStream.dispose();
-                        fileStream = null;
+                    //if (contentLength - startPos <= 0)     // 文件已经完成
+                    //{
+                    //    fileStream.dispose();
+                    //    fileStream = null;
 
-                        Ctx.m_instance.m_logSys.log("之前文件已经下载完成，不用重新下载");
-                        onRunTaskEnd();
+                    //    Ctx.m_instance.m_logSys.log("之前文件已经下载完成，不用重新下载");
+                    //    onRunTaskEnd();
 
-                        return;
-                    }
+                    //    return;
+                    //}
 
                     fileStream.seek(startPos, SeekOrigin.Current); //移动文件流中的当前指针 
                 }
@@ -123,10 +123,13 @@ namespace SDK.Lib
                 if (startPos > 0)
                 {
                     request.AddRange((int)startPos); //设置Range值
-                    contentLength -= startPos;
+                    //contentLength -= startPos;
                 }
 
-                //向服务器请求，获得服务器回应数据流 
+
+                // 获取响应
+                response = (HttpWebResponse)request.GetResponse();
+                // 向服务器请求，获得服务器回应数据流 
                 retStream = response.GetResponseStream();
 
                 int len = 1024 * 8;
@@ -135,21 +138,26 @@ namespace SDK.Lib
                 string logStr = "";
                 bool isBytesValid = false;        // m_bytes 中数据是否有效
 
-                retStream.Seek(startPos, SeekOrigin.Begin);
+                // Not Support，会抛出异常
+                // retStream.Seek(startPos, SeekOrigin.Begin);
+                // retStream.Position = startPos;
 
-                while (readedLength != contentLength)
+                readSize = retStream.Read(mBytes, 0, len);
+
+                while (readSize > 0)
                 {
-                    readSize = retStream.Read(mBytes, 0, len);
                     fileStream.writeByte(mBytes, 0, readSize);
                     readedLength += readSize;
 
-                    logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", mLoadPath, fileStream.getLength(), contentLength);
-                    Ctx.m_instance.m_logSys.log(logStr);
+                    //logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", mLoadPath, fileStream.getLength(), contentLength);
+                    //Ctx.m_instance.m_logSys.log(logStr);
 
-                    if (readedLength == contentLength)
-                    {
-                        isBytesValid = true;
-                    }
+                    //if (readedLength == contentLength)
+                    //{
+                    //    isBytesValid = true;
+                    //}
+
+                    readSize = retStream.Read(mBytes, 0, len);
                 }
 
                 // 释放资源
@@ -169,19 +177,19 @@ namespace SDK.Lib
                     UtilPath.renameFile(origFile, saveFile);
                 }
 
-                if (!isBytesValid)
-                {
-                    mBytes = null;
-                }
+                //if (!isBytesValid)
+                //{
+                //    mBytes = null;
+                //}
 
-                if (readedLength == contentLength)
+                //if (readedLength == contentLength)
                 {
                     m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
-                else
-                {
-                    m_refCountResLoadResultNotify.resLoadState.setFailed();
-                }
+                //else
+                //{
+                //    m_refCountResLoadResultNotify.resLoadState.setFailed();
+                //}
 
                 onRunTaskEnd();
             }
