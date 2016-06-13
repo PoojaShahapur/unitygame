@@ -259,6 +259,7 @@
             // 初始化重定向
             mResRedirect.postInit();
             m_resLoadMgr.postInit();
+            mDownloadMgr.postInit();
 
             m_TaskQueue.m_pTaskThreadPool = m_TaskThreadPool;
             m_TaskThreadPool.initThreadPool(2, m_TaskQueue);

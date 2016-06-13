@@ -36,5 +36,10 @@ namespace SDK.Lib
         {
             mDownloadType = DownloadType.eHttpWeb;
         }
+
+        public void setPath(string origPath)
+        {
+
+        }
     }
 }

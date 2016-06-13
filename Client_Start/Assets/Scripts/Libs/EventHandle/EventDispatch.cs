@@ -193,11 +193,6 @@ namespace SDK.Lib
             }
         }
 
-        public int getHandleCount()
-        {
-            return m_handleList.Count();
-        }
-
         public bool hasEventHandle()
         {
             return m_handleList.Count() > 0;

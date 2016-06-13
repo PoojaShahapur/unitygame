@@ -20,7 +20,8 @@ namespace UnitTest
             //testScriptController();
 
             //testLoadPreafab();
-            testLoadText();
+            //testLoadText();
+            testDownload();
         }
 
         protected void testModelLoad()
@@ -188,6 +189,12 @@ namespace UnitTest
         {
             AuxTextLoader loader = new AuxTextLoader();
             loader.syncLoad("XmlConfig/ReamMe.txt");
+        }
+
+        protected void testDownload()
+        {
+            AuxDownload auxDownload = new AuxDownload();
+            auxDownload.load("aaaa", null);
         }
     }
 }

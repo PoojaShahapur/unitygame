@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SDK.Lib
 {
@@ -40,7 +39,7 @@ namespace SDK.Lib
                 m_groupID2DispatchDic[groupID].removeEventHandle(pThis, handle);
 
                 // 如果已经没有了
-                if (m_groupID2DispatchDic[groupID].getHandleCount() == 0)
+                if (!m_groupID2DispatchDic[groupID].hasEventHandle())
                 {
                     m_groupID2DispatchDic.Remove(groupID);
                 }
