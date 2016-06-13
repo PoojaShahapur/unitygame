@@ -61,8 +61,8 @@ namespace SDK.Lib
 
         protected void loadFormText(string text, Dictionary<string, FileVerInfo> dic)
         {
-            string[] lineSplitStr = { "\r\n" };
-            string[] equalSplitStr = { "=" };
+            string[] lineSplitStr = { UtilApi.CR_LF };
+            string[] equalSplitStr = { UtilApi.SEPARATOR };
             string[] lineList = text.Split(lineSplitStr, StringSplitOptions.RemoveEmptyEntries);
             int lineIdx = 0;
             string[] equalList = null;

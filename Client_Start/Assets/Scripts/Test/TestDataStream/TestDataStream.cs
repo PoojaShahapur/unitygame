@@ -21,6 +21,7 @@ namespace UnitTest
 
         public void onFileOpened(IDispatchObject dispObj)
         {
+            mStream = dispObj as MDataStream;
             string text = mStream.readText();
             Ctx.m_instance.m_logSys.log("Text = " + text);
         }

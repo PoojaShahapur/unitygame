@@ -105,6 +105,7 @@ namespace SDK.Lib
 
         protected void onFileOpened(IDispatchObject dispObj)
         {
+            mDataStream = dispObj as MDataStream;   // 因为返回之前就回调了，因此这里需要赋值一下，然后才能使用 mDataStream
             mBytes = mDataStream.readByte();
             mDataStream.dispose();
             mDataStream = null;
