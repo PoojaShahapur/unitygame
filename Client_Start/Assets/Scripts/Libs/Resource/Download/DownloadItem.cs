@@ -27,6 +27,7 @@ namespace SDK.Lib
         protected ResPackType mResPackType;
 
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected bool mIsWriteFile;
 
         public DownloadItem()
         {
@@ -119,6 +120,21 @@ namespace SDK.Lib
             return mResUniqueId;
         }
 
+        public string getLoadPath()
+        {
+            return mLoadPath;
+        }
+
+        public byte[] getBytes()
+        {
+            return mBytes;
+        }
+
+        public string getText()
+        {
+            return mText;
+        }
+
         virtual public void init()
         {
 
@@ -173,6 +189,7 @@ namespace SDK.Lib
             this.mResLoadType = param.mResLoadType;
             this.mResPackType = param.mResPackType;
             this.mVersion = param.mVersion;
+            this.mIsWriteFile = param.mIsWriteFile;
             this.setLogicPath(param.mLogicPath);
             this.setResUniqueId(param.mResUniqueId);
         }

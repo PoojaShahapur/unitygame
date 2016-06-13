@@ -13,7 +13,8 @@ namespace SDK.Lib
     {
         public enum eFilePlatformAndPath
         {
-            eAndroidStreamingAssetsPath = 0,    // Android 平台下 StreamingAssetsPath 目录下
+            eResourcesPath = 0,
+            eAndroidStreamingAssetsPath = 1,    // Android 平台下 StreamingAssetsPath 目录下
             eOther,                             // 其它
         }
 
@@ -29,6 +30,9 @@ namespace SDK.Lib
 
         protected bool mIsSyncMode;
         protected AddOnceAndCallOnceEventDispatch mOpenedEvtDisp;   // 文件打开结束分发，主要是 WWW 是异步读取本地文件的，因此需要确保文件被打开成功
+
+        protected string mText;
+        protected byte[] mBytes;
 
         /**
          * @brief 仅支持同步操作，目前无视参数 isSyncMode 和 evtDisp。FileMode.CreateNew 如果文件已经存在就抛出异常，FileMode.Append 和 FileAccess.Write 要同时使用
@@ -52,7 +56,11 @@ namespace SDK.Lib
         {
             if(mIsValid)
             {
-                if (isWWWStream())
+                if(isResourcesFile())
+                {
+
+                }
+                else if (isWWWStream())
                 {
 
                 }
@@ -79,7 +87,11 @@ namespace SDK.Lib
 
         public void checkPlatformAndPath(string path)
         {
-            if (UtilPath.isAndroidRuntime() && UtilPath.isStreamingAssetsPath(path))
+            if(isResourcesFile())
+            {
+                mFilePlatformAndPath = eFilePlatformAndPath.eResourcesPath;
+            }
+            else if (UtilPath.isAndroidRuntime() && UtilPath.isStreamingAssetsPath(path))
             {
                 mFilePlatformAndPath = eFilePlatformAndPath.eAndroidStreamingAssetsPath;
             }
@@ -87,6 +99,17 @@ namespace SDK.Lib
             {
                 mFilePlatformAndPath = eFilePlatformAndPath.eOther;
             }
+        }
+
+        public bool isResourcesFile()
+        {
+            if(mFilePath.IndexOf(MFileSys.msPersistentDataPath) != 0 && 
+               mFilePath.IndexOf(MFileSys.msStreamingAssetsPath) != 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool isWWWStream()
@@ -135,6 +158,24 @@ namespace SDK.Lib
             yield break;
         }
 
+        public void syncOpenResourcesFile()
+        {
+            TextAsset textAsset = null;
+            try
+            {
+                textAsset = Resources.Load<TextAsset>(mFilePath);
+                mText = textAsset.text;
+                mBytes = textAsset.bytes;
+                Resources.UnloadAsset(textAsset);
+            }
+            catch(Exception exp)
+            {
+                mIsValid = false;
+            }
+
+            onAsyncOpened();
+        }
+
         // 异步打开结束
         public void onAsyncOpened()
         {
@@ -153,13 +194,17 @@ namespace SDK.Lib
 
             if(!mIsValid)
             {
-                if (!isWWWStream())
+                if(isResourcesFile())
                 {
-                    syncOpen();
+                    syncOpenResourcesFile();
+                }
+                if (isWWWStream())
+                {
+                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncOpen());
                 }
                 else
                 {
-                    Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncOpen());
+                    syncOpen();
                 }
             }
         }
@@ -175,7 +220,18 @@ namespace SDK.Lib
             int len = 0;
             if (mIsValid)
             {
-                if (isWWWStream())
+                if(isResourcesFile())
+                {
+                    if (mText != null)
+                    {
+                        len = mText.Length;
+                    }
+                    else if(mBytes != null)
+                    {
+                        len = mBytes.Length;
+                    }
+                }
+                else if (isWWWStream())
                 {
                     if (mWWW != null)
                     {
@@ -212,7 +268,11 @@ namespace SDK.Lib
         {
             if (mIsValid)
             {
-                if (isWWWStream())
+                if (isResourcesFile())
+                {
+
+                }
+                else if (isWWWStream())
                 {
                     if(mWWW != null)
                     {
@@ -251,7 +311,11 @@ namespace SDK.Lib
                 count = getLength();
             }
 
-            if (isWWWStream())
+            if (isResourcesFile())
+            {
+                retStr = mText;
+            }
+            else if (isWWWStream())
             {
                 if (UtilApi.isWWWNoError(mWWW))
                 {
@@ -297,7 +361,11 @@ namespace SDK.Lib
 
             byte[] bytes = null;
 
-            if (isWWWStream())
+            if (isResourcesFile())
+            {
+                bytes = mBytes;
+            }
+            else if (isWWWStream())
             {
                 if (UtilApi.isWWWNoError(mWWW))
                 {
@@ -330,7 +398,11 @@ namespace SDK.Lib
         {
             checkAndOpen();
 
-            if (isWWWStream())
+            if (isResourcesFile())
+            {
+
+            }
+            else if (isWWWStream())
             {
                 Ctx.m_instance.m_logSys.log("Current Path Cannot Write Content", LogTypeId.eLogCommon);
             }
@@ -363,7 +435,11 @@ namespace SDK.Lib
         {
             checkAndOpen();
 
-            if (isWWWStream())
+            if (isResourcesFile())
+            {
+
+            }
+            else if (isWWWStream())
             {
                 Ctx.m_instance.m_logSys.log("Current Path Cannot Write Content", LogTypeId.eLogCommon);
             }

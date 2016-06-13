@@ -55,7 +55,10 @@ namespace SDK.Lib
                     }
                 }
 
-                writeFile();
+                if (mIsWriteFile)
+                {
+                    writeFile();
+                }
 
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }

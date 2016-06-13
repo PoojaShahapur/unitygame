@@ -28,6 +28,7 @@ namespace SDK.Lib
 
         public LuaTable mLuaTable;
         public LuaFunction mLuaFunction;
+        public bool mIsWriteFile;
 
         public DownloadParam()
         {
