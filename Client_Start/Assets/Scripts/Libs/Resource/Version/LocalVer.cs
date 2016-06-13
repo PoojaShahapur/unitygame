@@ -12,6 +12,11 @@ namespace SDK.Lib
         public Dictionary<string, FileVerInfo> m_path2Ver_S_Dic;
         public Dictionary<string, FileVerInfo> m_path2Ver_P_Dic;
 
+        protected MDataStream mMiniDataStream;
+        protected MDataStream mRDataStream;
+        protected MDataStream mSDataStream;
+        protected MDataStream mPDataStream;
+
         public Action m_miniLoadedDisp;
         public Action m_miniFailedDisp;
 
@@ -34,31 +39,16 @@ namespace SDK.Lib
 
         public void loadMiniVerFile()
         {
-            FilesVerType filesVerType = FilesVerType.ePersistentDataVer;
+            mMiniDataStream = new MDataStream(UtilPath.combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME), onMiniLoadEventHandle);
+        }
 
-            if (UtilPath.fileExistNoVer(UtilPath.combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME)))
-            {
-                filesVerType = FilesVerType.ePersistentDataVer;
-            }
-            else
-            {
-                filesVerType = FilesVerType.eStreamingAssetsVer;
-            }
+        protected void onMiniLoadEventHandle(IDispatchObject dispObj)
+        {
+            m_miniLoadedDisp();
         }
 
         public void loadVerFile()
         {
-            FilesVerType filesVerType = FilesVerType.ePersistentDataVer;
-
-            if (UtilPath.fileExistNoVer(UtilPath.combine(MFileSys.getLocalWriteDir(), ServerVer.FILENAME)))
-            {
-                filesVerType = FilesVerType.ePersistentDataVer;
-            }
-            else
-            {
-                filesVerType = FilesVerType.eStreamingAssetsVer;
-            }
-
             loadLocalPVer();
         }
 
@@ -93,6 +83,8 @@ namespace SDK.Lib
 
             textLoader.dispose();
             textLoader = null;
+
+            m_LoadedDisp();
         }
 
         public int getFileVerInfo(string origPath, ref FileVerInfo fileVerInfo)
