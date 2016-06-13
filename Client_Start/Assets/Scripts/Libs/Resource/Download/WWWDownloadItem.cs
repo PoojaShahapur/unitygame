@@ -56,6 +56,7 @@ namespace SDK.Lib
                 }
 
                 writeFile();
+
                 m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else

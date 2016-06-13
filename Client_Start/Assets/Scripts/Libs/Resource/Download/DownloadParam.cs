@@ -37,7 +37,7 @@ namespace SDK.Lib
         public void reset()
         {
             mResLoadType = ResLoadType.eLoadWeb;
-            mDownloadType = DownloadType.eWWW;
+            mDownloadType = DownloadType.eHttpWeb;
         }
 
         public void setPath(string origPath)

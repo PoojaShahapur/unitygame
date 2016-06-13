@@ -26,75 +26,9 @@ namespace SDK.Lib
         // 协程下载
         protected IEnumerator coroutWebDown()
         {
-            string uri = ResPathResolve.msLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
-            string saveFile = Path.Combine(MFileSys.getLocalWriteDir(), mLoadPath);
+            runTask();
 
-            //try
-            {
-                //打开网络连接 
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                long contentLength = response.ContentLength;
-                long readedLength = 0;
-
-                long lStartPos = 0;
-                FileStream fileStream;
-                if (File.Exists(saveFile))
-                {
-                    fileStream = System.IO.File.OpenWrite(saveFile);
-                    lStartPos = fileStream.Length;
-                    if (contentLength - lStartPos <= 0)     // 文件已经完成
-                    {
-                        fileStream.Close();
-                        yield break;
-                    }
-                    fileStream.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
-                }
-                else
-                {
-                    fileStream = new FileStream(saveFile, System.IO.FileMode.Create);
-                }
-
-                if (lStartPos > 0)
-                {
-                    request.AddRange((int)lStartPos); //设置Range值
-                    contentLength -= lStartPos;
-                }
-
-                //向服务器请求，获得服务器回应数据流 
-                System.IO.Stream retStream = response.GetResponseStream();
-                int len = 1024 * 8;
-                mBytes = new byte[len];
-                int nReadSize = 0;
-                string logStr;
-                while (readedLength != contentLength)
-                {
-                    nReadSize = retStream.Read(mBytes, 0, len);
-                    fileStream.Write(mBytes, 0, nReadSize);
-                    readedLength += nReadSize;
-                    logStr = "已下载:" + fileStream.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
-                    Ctx.m_instance.m_logSys.log(logStr);
-                    yield return false;
-                }
-                retStream.Close();
-                fileStream.Close();
-                if (readedLength == contentLength)
-                {
-                    m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-                }
-                else
-                {
-                    m_refCountResLoadResultNotify.resLoadState.setFailed();
-                }
-                m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
-            }
-            //catch (Exception)
-            //{
-            //    if (onFailed != null)
-            //    {
-            //        onFailed(this);
-            //    }
-            //}
+            yield return null;
         }
 
         // 线程下载
@@ -102,7 +36,7 @@ namespace SDK.Lib
         {
             Ctx.m_instance.m_logSys.log(string.Format("线程开始下载下载任务 {0}", mLoadPath));
 
-            string saveFile = Path.Combine(MFileSys.getLocalWriteDir(), UtilLogic.getRelPath(mLoadPath));
+            string saveFile = mLocalPath;
             string origFile = saveFile;     // 没有版本号的文件名字，如果本地没有这个文件，需要先建立这个文件，等下载完成后，然后再改名字，保证下载的文件除了网络传输因素外，肯定正确
             bool bNeedReName = false;
             if (!string.IsNullOrEmpty(mVersion))
@@ -110,20 +44,15 @@ namespace SDK.Lib
                 saveFile = UtilLogic.combineVerPath(saveFile, mVersion);
             }
 
+            HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            System.IO.Stream retStream = null;
+            MDataStream fileStream = null;
+
             try
             {
                 //打开网络连接
-                string webPath;
-                if (!string.IsNullOrEmpty(mVersion))
-                {
-                    webPath = string.Format("{0}?v={1}", mLoadPath, mVersion);
-                }
-                else
-                {
-                    webPath = mLoadPath;
-                }
-
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(webPath);
+                request = (HttpWebRequest)HttpWebRequest.Create(mDownloadVerPath);
                 request.Method = "GET";
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.KeepAlive = false;
@@ -145,58 +74,69 @@ namespace SDK.Lib
                 //{
                 //    Ctx.m_instance.m_logSys.asynclog("error");
                 //}
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                response = (HttpWebResponse)request.GetResponse();
+
                 long contentLength = response.ContentLength;
                 long readedLength = 0;
+                long startPos = 0;
 
-                long lStartPos = 0;
-                FileStream fileStream = null;
-                if (File.Exists(saveFile))
+                if (UtilPath.existFile(saveFile))
                 {
-                    fileStream = File.OpenWrite(saveFile);
-                    lStartPos = fileStream.Length;
-                    if (contentLength - lStartPos <= 0)     // 文件已经完成
+                    fileStream = new MDataStream(saveFile, null, FileMode.Append);
+                    startPos = fileStream.getLength();
+                    if (contentLength - startPos <= 0)     // 文件已经完成
                     {
-                        fileStream.Close();
+                        fileStream.dispose();
+                        fileStream = null;
+
                         onRunTaskEnd();
                         Ctx.m_instance.m_logSys.log("之前文件已经下载完成，不用重新下载");
+
                         return;
                     }
-                    fileStream.Seek(lStartPos, SeekOrigin.Current); //移动文件流中的当前指针 
+                    fileStream.seek(startPos, SeekOrigin.Current); //移动文件流中的当前指针 
                 }
                 else
                 {
                     bNeedReName = true;
                     try
                     {
-                        fileStream = new FileStream(origFile, System.IO.FileMode.Create);
+                        string path = UtilPath.getFilePathNoName(origFile);
+                        if(!UtilPath.existDirectory(path))
+                        {
+                            UtilPath.createDirectory(path);
+                        }
+                        fileStream = new MDataStream(origFile);
                     }
-                    catch (Exception /*ex2*/)
+                    catch (Exception exp)
                     {
-                        Ctx.m_instance.m_logSys.error(string.Format("{0} 文件创建失败", saveFile));
+                        Ctx.m_instance.m_logSys.error(string.Format("{0} 文件创建失败 {1}", saveFile, exp.Message));
                     }
                 }
 
-                if (lStartPos > 0)
+                if (startPos > 0)
                 {
-                    request.AddRange((int)lStartPos); //设置Range值
-                    contentLength -= lStartPos;
+                    request.AddRange((int)startPos); //设置Range值
+                    contentLength -= startPos;
                 }
 
                 //向服务器请求，获得服务器回应数据流 
-                System.IO.Stream retStream = response.GetResponseStream();
+                retStream = response.GetResponseStream();
+
                 int len = 1024 * 8;
                 mBytes = new byte[len];
-                int nReadSize = 0;
-                string logStr;
+                int readSize = 0;
+                string logStr = "";
                 bool isBytesValid = true;        // m_bytes 中数据是否有效
+
                 while (readedLength != contentLength)
                 {
-                    nReadSize = retStream.Read(mBytes, 0, len);
-                    fileStream.Write(mBytes, 0, nReadSize);
-                    readedLength += nReadSize;
-                    //logStr = "已下载:" + fs.Length / 1024 + "kb /" + contentLength / 1024 + "kb";
-                    logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", mLoadPath, fileStream.Length, contentLength);
+                    readSize = retStream.Read(mBytes, 0, len);
+                    fileStream.writeByte(mBytes, 0, readSize);
+                    readedLength += readSize;
+
+                    logStr = string.Format("文件 {0} 已下载: {1} b / {2} b", mLoadPath, fileStream.getLength(), contentLength);
                     Ctx.m_instance.m_logSys.log(logStr);
 
                     if (isBytesValid)
@@ -211,11 +151,13 @@ namespace SDK.Lib
                 // 释放资源
                 request.Abort();
                 request = null;
+
                 response.Close();
                 response = null;
 
                 retStream.Close();
-                fileStream.Close();
+                fileStream.dispose();
+                fileStream = null;
 
                 // 修改文件名字
                 if (bNeedReName)
@@ -230,17 +172,46 @@ namespace SDK.Lib
 
                 if (readedLength == contentLength)
                 {
-                    mIsRunSuccess = true;
+                    m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 }
                 else
                 {
-                    mIsRunSuccess = false;
+                    m_refCountResLoadResultNotify.resLoadState.setFailed();
                 }
+
                 onRunTaskEnd();
             }
-            catch (Exception /*err*/)
+            catch (Exception excep)
             {
-                mIsRunSuccess = false;
+                Ctx.m_instance.m_logSys.log("Download File Error, FileName Is " + mLocalPath + excep.Message);
+
+                // 释放资源
+                if (request != null)
+                {
+                    request.Abort();
+                    request = null;
+                }
+
+                if (response != null)
+                {
+                    response.Close();
+                    response = null;
+                }
+
+                if (retStream != null)
+                {
+                    retStream.Close();
+                    retStream = null;
+                }
+
+                if (fileStream != null)
+                {
+                    fileStream.dispose();
+                    fileStream = null;
+                }
+
+                m_refCountResLoadResultNotify.resLoadState.setFailed();
+
                 onRunTaskEnd();
             }
         }
@@ -260,14 +231,6 @@ namespace SDK.Lib
         // 处理结果在这回调，然后分发给资源处理器，如果资源提前释放，就自动断开资源和加载器的事件分发就行了，不用在线程中处理了
         override public void handleResult()
         {
-            if (mIsRunSuccess)
-            {
-                m_refCountResLoadResultNotify.resLoadState.setSuccessLoaded();
-            }
-            else
-            {
-                m_refCountResLoadResultNotify.resLoadState.setFailed();
-            }
             m_refCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
         }
     }

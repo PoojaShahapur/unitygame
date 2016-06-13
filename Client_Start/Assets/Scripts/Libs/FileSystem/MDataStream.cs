@@ -48,6 +48,21 @@ namespace SDK.Lib
             checkAndOpen(openedDisp);
         }
 
+        public void seek(long offset, SeekOrigin origin)
+        {
+            if(mIsValid)
+            {
+                if (isWWWStream())
+                {
+
+                }
+                else
+                {
+                    mFileStream.Seek(offset, origin);
+                }
+            }
+        }
+
         public void addOpenedHandle(MAction<IDispatchObject> openedDisp = null)
         {
             if (mOpenedEvtDisp == null)
@@ -158,33 +173,36 @@ namespace SDK.Lib
         public int getLength()
         {
             int len = 0;
-            if(isWWWStream())
+            if (mIsValid)
             {
-                if(mWWW != null)
+                if (isWWWStream())
                 {
-                    len = mWWW.size;
-                }
-            }
-            else
-            {
-                if (mFileStream != null)
-                {
-                    len = (int)mFileStream.Length;
-                }
-                /*
-                if (mFileStream != null && mFileStream.CanSeek)
-                {
-                    try
+                    if (mWWW != null)
                     {
-                        len = (int)mFileStream.Seek(0, SeekOrigin.End);     // 移动到文件结束，返回长度
-                        len = (int)mFileStream.Position;                    // Position 移动到 Seek 位置
-                    }
-                    catch(Exception exp)
-                    {
-                        Ctx.m_instance.m_logSys.log("FileSeek Failed" + exp.Message, LogTypeId.eLogCommon);
+                        len = mWWW.size;
                     }
                 }
-                */
+                else
+                {
+                    if (mFileStream != null)
+                    {
+                        len = (int)mFileStream.Length;
+                    }
+                    /*
+                    if (mFileStream != null && mFileStream.CanSeek)
+                    {
+                        try
+                        {
+                            len = (int)mFileStream.Seek(0, SeekOrigin.End);     // 移动到文件结束，返回长度
+                            len = (int)mFileStream.Position;                    // Position 移动到 Seek 位置
+                        }
+                        catch(Exception exp)
+                        {
+                            Ctx.m_instance.m_logSys.log("FileSeek Failed" + exp.Message, LogTypeId.eLogCommon);
+                        }
+                    }
+                    */
+                }
             }
 
             return len;
