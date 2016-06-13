@@ -14,15 +14,17 @@ namespace SDK.Lib
      */
     public class DownloadParam
     {
-        public string mLoadPath = "";               // 真正的资源加载目录
-        public string mOrigPath = "";              // 原始资源加载目录，就是直接传递进来的目录
-        public string mLogicPath;                   // 逻辑传递进来的目录，这个目录可能是没有扩展名字的，而 m_origPath 就是有扩展名字的，如果 mLogicPath 有扩展名字，就是和 m_origPath 完全一样了
-        public string mResUniqueId;                 // 资源唯一 Id，查找资源的索引
+        public string mLoadPath;
+        public string mOrigPath;
+        public string mLogicPath;
+        public string mResUniqueId;
+        public string m_extName;
+        public string mVersion = "";
 
-        public string m_version = "";               // 加载的资源的版本号
-        public MAction<IDispatchObject> m_loadEventHandle;    // 加载事件回调函数
-
-        public DownloadType mDownloadType;     // 加载类型
+        public MAction<IDispatchObject> m_loadEventHandle;
+        public DownloadType mDownloadType;
+        public ResLoadType mResLoadType;
+        public ResPackType mResPackType;
 
         public LuaTable mLuaTable;
         public LuaFunction mLuaFunction;
@@ -34,12 +36,28 @@ namespace SDK.Lib
 
         public void reset()
         {
-            mDownloadType = DownloadType.eHttpWeb;
+            mResLoadType = ResLoadType.eLoadWeb;
+            mDownloadType = DownloadType.eWWW;
         }
 
         public void setPath(string origPath)
         {
+            mOrigPath = origPath;
+            mLoadPath = mOrigPath;
+            mLogicPath = mOrigPath;
+            mResUniqueId = mOrigPath;
+            mVersion = "4";
 
+            m_extName = UtilPath.getFileExt(mOrigPath);
+
+            if(m_extName == UtilApi.UNITY3D)
+            {
+                mResPackType = ResPackType.eBundleType;
+            }
+            else
+            {
+                mResPackType = ResPackType.eDataType;
+            }
         }
     }
 }

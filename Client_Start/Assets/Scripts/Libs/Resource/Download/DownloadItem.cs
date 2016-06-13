@@ -10,23 +10,28 @@ namespace SDK.Lib
     public class DownloadItem : ITask, IDispatchObject
     {
         protected byte[] mBytes;
+        protected string mText;
         protected string mVersion = "";
         protected bool mIsRunSuccess = true;
-        protected string mLocalPath;
 
-        protected string mLoadPath;            // 完整的目录
-        protected string mOrigPath;            // 原始的资源目录
-        protected string mLogicPath;
+        protected string mLocalPath;            // 本地文件系统目录
+        protected string mLoadPath;             // 加载目录
+        protected string mOrigPath;             // 原始的加载目录
+        protected string mLogicPath;            // 逻辑获取的目录
+        protected string mResUniqueId;          // 资源 Unique Id
+        protected string mDownloadNoVerPath;         // 下载目录，没有版本号
+        protected string mDownloadVerPath;         // 下载目录，有版本号
 
         protected WWW m_w3File;
-        protected DownloadType mDownloadType;     // 加载类型
-        protected string mResUniqueId;
-
+        protected DownloadType mDownloadType;   // 加载类型
+        protected ResLoadType mResLoadType;
+        protected ResPackType mResPackType;
 
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
 
         public DownloadItem()
         {
+            mResLoadType = ResLoadType.eLoadWeb;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
         }
 
@@ -139,12 +144,12 @@ namespace SDK.Lib
         // 检查加载成功
         protected bool isLoadedSuccess(WWW www)
         {
-            if (www.error != null)
+            if (string.IsNullOrEmpty(www.error) && www.isDone)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         // 加载完成回调处理
@@ -166,6 +171,9 @@ namespace SDK.Lib
             this.loadPath = param.mLoadPath;
             this.origPath = param.mOrigPath;
             this.mDownloadType = param.mDownloadType;
+            this.mResLoadType = param.mResLoadType;
+            this.mResPackType = param.mResPackType;
+            this.mVersion = param.mVersion;
             this.setLogicPath(param.mLogicPath);
             this.setResUniqueId(param.mResUniqueId);
         }
@@ -180,6 +188,9 @@ namespace SDK.Lib
                 mLocalPath = UtilLogic.combineVerPath(mLocalPath, mVersion);
             }
 
+            mDownloadNoVerPath = ResPathResolve.msLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
+            mDownloadVerPath = ResPathResolve.msLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath + "?ver=" + mVersion;
+
             Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", mLoadPath));
         }
 
@@ -191,6 +202,29 @@ namespace SDK.Lib
         public virtual void handleResult()
         {
 
+        }
+
+        // 加载完成写入本地文件系统
+        public virtual void writeFile()
+        {
+            if (mBytes != null)
+            {
+                if (UtilPath.existFile(mLocalPath))
+                {
+                    UtilPath.deleteFile(mLocalPath);
+                }
+                else
+                {
+                    string path = UtilPath.getFilePathNoName(mLocalPath);
+                    if (!UtilPath.existDirectory(path))
+                    {
+                        UtilPath.createDirectory(path);
+                    }
+                }
+                MDataStream dataStream = new MDataStream(mLocalPath);
+                dataStream.writeByte(mBytes);
+                dataStream.dispose();
+            }
         }
     }
 }

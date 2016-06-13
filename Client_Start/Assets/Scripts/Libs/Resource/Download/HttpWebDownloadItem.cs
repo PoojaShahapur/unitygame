@@ -26,7 +26,7 @@ namespace SDK.Lib
         // 协程下载
         protected IEnumerator coroutWebDown()
         {
-            string uri = UtilLogic.webFullPath(mLoadPath);
+            string uri = ResPathResolve.msLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
             string saveFile = Path.Combine(MFileSys.getLocalWriteDir(), mLoadPath);
 
             //try

@@ -120,8 +120,11 @@ namespace SDK.Lib
             {
                 try
                 {
-                    // 这个接口默认就支持创建所有没有的目录
-                    Directory.CreateDirectory(pathAndName);
+                    if (!Directory.Exists(pathAndName))
+                    {
+                        // 这个接口默认就支持创建所有没有的目录
+                        Directory.CreateDirectory(pathAndName);
+                    }
                 }
                 catch (Exception err)
                 {
@@ -181,6 +184,7 @@ namespace SDK.Lib
             return ret;
         }
 
+        // 获取扩展名
         static public string getFileExt(string path)
         {
             int dotIdx = path.LastIndexOf('.');

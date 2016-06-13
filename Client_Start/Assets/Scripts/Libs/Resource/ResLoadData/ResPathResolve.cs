@@ -12,7 +12,8 @@
             msLoadRootPathList[(int)ResLoadType.eLoadResource] = "";
             msLoadRootPathList[(int)ResLoadType.eLoadStreamingAssets] = MFileSys.msStreamingAssetsPath;
             msLoadRootPathList[(int)ResLoadType.eLoadLocalPersistentData] = MFileSys.msPersistentDataPath;
-            msLoadRootPathList[(int)ResLoadType.eLoadWeb] = "http://127.0.0.1/Monster";
+
+            msLoadRootPathList[(int)ResLoadType.eLoadWeb] = "http://127.0.0.1/GameWebServer/" + PlatformDefine.PlatformFolder;
         }
     }
 }

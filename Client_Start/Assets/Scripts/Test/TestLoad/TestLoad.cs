@@ -21,7 +21,7 @@ namespace UnitTest
 
             //testLoadPreafab();
             //testLoadText();
-            testDownload();
+            this.testDownload();
         }
 
         protected void testModelLoad()
@@ -194,7 +194,7 @@ namespace UnitTest
         protected void testDownload()
         {
             AuxDownload auxDownload = new AuxDownload();
-            auxDownload.load("aaaa", null);
+            auxDownload.load("XmlConfig/ReamMe.txt", null);
         }
     }
 }

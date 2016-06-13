@@ -19,6 +19,7 @@ namespace SDK.Lib
         {
             m_maxParral = 8;
             m_curNum = 0;
+            m_LoadData = new DownloadData();
             m_zeroRefResIDList = new List<string>();
             m_loadingDepth = 0;
 
@@ -123,7 +124,14 @@ namespace SDK.Lib
             DownloadItem loadItem = findDownloadItemFormPool();
             if (loadItem == null)
             {
-                loadItem = new DownloadItem();
+                if (param.mDownloadType == DownloadType.eWWW)
+                {
+                    loadItem = new WWWDownloadItem();
+                }
+                else if (param.mDownloadType == DownloadType.eHttpWeb)
+                {
+                    loadItem = new HttpWebDownloadItem();
+                }
             }
             loadItem.setLoadParam(param);
             loadItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, onLoadEventHandle);
