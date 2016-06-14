@@ -8,14 +8,14 @@ namespace SDK.Lib
      */
     public class LocalVer : FileVerBase
     {
-        public Dictionary<string, FileVerInfo> m_path2Ver_R_Dic;
-        public Dictionary<string, FileVerInfo> m_path2Ver_S_Dic;
-        public Dictionary<string, FileVerInfo> m_path2Ver_P_Dic;
+        public Dictionary<string, FileVerInfo> m_path2Ver_R_Dic;    // Resources 文件夹版本
+        public Dictionary<string, FileVerInfo> m_path2Ver_S_Dic;    // StreamingAssets 文件夹版本
+        public Dictionary<string, FileVerInfo> m_path2Ver_P_Dic;    // Persistent 文件夹版本
 
-        protected MDataStream mMiniDataStream;
-        protected MDataStream mRDataStream;
-        protected MDataStream mSDataStream;
-        protected MDataStream mPDataStream;
+        protected MDataStream mMiniDataStream;      // Mini 版本
+        protected MDataStream mRDataStream;         // Resources 版本
+        protected MDataStream mSDataStream;         // StreamingAssets 版本
+        protected MDataStream mPDataStream;         // Persistent 版本
 
         public Action m_miniLoadedDisp;
         public Action m_miniFailedDisp;
@@ -44,6 +44,14 @@ namespace SDK.Lib
 
         protected void onMiniLoadEventHandle(IDispatchObject dispObj)
         {
+            mMiniDataStream = dispObj as MDataStream;
+            if (mMiniDataStream.isValid())
+            {
+                loadFormText(mMiniDataStream.readText(), m_path2Ver_R_Dic);
+            }
+            mMiniDataStream.dispose();
+            mMiniDataStream = null;
+
             m_miniLoadedDisp();
         }
 
@@ -54,35 +62,52 @@ namespace SDK.Lib
 
         public void loadLocalRVer()
         {
-            AuxTextLoader textLoader = new AuxTextLoader();
-            textLoader.syncLoad("Version_R.txt");
+            mRDataStream = new MDataStream("Version_R.txt", onRVerLoaded);
+        }
 
-            loadFormText(textLoader.getText(), m_path2Ver_R_Dic);
-
-            textLoader.dispose();
-            textLoader = null;
+        public void onRVerLoaded(IDispatchObject dispObj)
+        {
+            mRDataStream = dispObj as MDataStream;
+            if (mRDataStream.isValid())
+            {
+                loadFormText(mRDataStream.readText(), m_path2Ver_R_Dic);
+            }
+            mRDataStream.dispose();
+            mRDataStream = null;
         }
 
         public void loadLocalSVer()
         {
-            AuxTextLoader textLoader = new AuxTextLoader();
-            textLoader.syncLoad("Version_S.txt");
+            mSDataStream = new MDataStream(MFileSys.msStreamingAssetsPath + "/Version_S.txt", onSVerLoaded);
+        }
 
-            loadFormText(textLoader.getText(), m_path2Ver_S_Dic);
+        public void onSVerLoaded(IDispatchObject dispObj)
+        {
+            mSDataStream = dispObj as MDataStream;
+            if (mSDataStream.isValid())
+            {
+                loadFormText(mSDataStream.readText(), m_path2Ver_S_Dic);
+            }
 
-            textLoader.dispose();
-            textLoader = null;
+            mSDataStream.dispose();
+            mSDataStream = null;
         }
 
         public void loadLocalPVer()
         {
-            AuxTextLoader textLoader = new AuxTextLoader();
-            textLoader.syncLoad("Version_P.txt");
+            mPDataStream = new MDataStream(MFileSys.msPersistentDataPath + "/Version_P.txt", onPVerLoaded);
+        }
 
-            loadFormText(textLoader.getText(), m_path2Ver_P_Dic);
+        public void onPVerLoaded(IDispatchObject dispObj)
+        {
+            mPDataStream = dispObj as MDataStream;
+            if (mPDataStream.isValid())
+            {
+                loadFormText(mPDataStream.readText(), m_path2Ver_P_Dic);
+            }
 
-            textLoader.dispose();
-            textLoader = null;
+            mPDataStream.dispose();
+            mPDataStream = null;
 
             m_LoadedDisp();
         }

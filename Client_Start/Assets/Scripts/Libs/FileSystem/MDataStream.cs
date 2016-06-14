@@ -13,7 +13,7 @@ namespace SDK.Lib
     {
         public enum eFilePlatformAndPath
         {
-            eResourcesPath = 0,
+            eResourcesPath = 0,                 // Resources 文件夹下的文件操作
             eAndroidStreamingAssetsPath = 1,    // Android 平台下 StreamingAssetsPath 目录下
             eOther,                             // 其它
         }
@@ -77,6 +77,7 @@ namespace SDK.Lib
             {
                 mOpenedEvtDisp = new AddOnceAndCallOnceEventDispatch();
             }
+
             mOpenedEvtDisp.addEventHandle(null, openedDisp);
         }
 
@@ -160,20 +161,26 @@ namespace SDK.Lib
 
         public void syncOpenResourcesFile()
         {
-            TextAsset textAsset = null;
-            try
+            if (!mIsValid)
             {
-                textAsset = Resources.Load<TextAsset>(mFilePath);
-                mText = textAsset.text;
-                mBytes = textAsset.bytes;
-                Resources.UnloadAsset(textAsset);
-            }
-            catch(Exception exp)
-            {
-                mIsValid = false;
-            }
+                mIsValid = true;
 
-            onAsyncOpened();
+                TextAsset textAsset = null;
+                try
+                {
+                    string fileNoExt = UtilPath.getFileNameNoExt(mFilePath);
+                    textAsset = Resources.Load<TextAsset>(fileNoExt);
+                    mText = textAsset.text;
+                    mBytes = textAsset.bytes;
+                    Resources.UnloadAsset(textAsset);
+                }
+                catch (Exception exp)
+                {
+                    mIsValid = false;
+                }
+
+                onAsyncOpened();
+            }
         }
 
         // 异步打开结束
@@ -198,7 +205,7 @@ namespace SDK.Lib
                 {
                     syncOpenResourcesFile();
                 }
-                if (isWWWStream())
+                else if (isWWWStream())
                 {
                     Ctx.m_instance.m_coroutineMgr.StartCoroutine(asyncOpen());
                 }
