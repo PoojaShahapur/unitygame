@@ -682,11 +682,28 @@ public class LuaScriptMgr
         fileList.Add(name);
 
 #if !LUA_ZIP
-        string path = Util.LuaPath(name);
-
-        if (File.Exists(path))
+        if (!MacroDef.LUA_EDITOR)
         {
-            str = File.ReadAllBytes(path);
+            string path = Util.LuaPath(name);
+
+            if (File.Exists(path))
+            {
+                str = File.ReadAllBytes(path);
+            }
+        }
+        else
+        {
+            AuxBytesLoader auxBytesLoader = new AuxBytesLoader();
+            if (name.EndsWith(".lua"))
+            {
+                int index = name.LastIndexOf('.');
+                name = name.Substring(0, index);
+            }
+            string path = "Lua/" + name;
+            path = path.Replace('.', '/');
+            path = path + ".txt";
+            auxBytesLoader.syncLoad(path);
+            str = auxBytesLoader.getBytes();
         }
 #else
         IAssetFile zipFile = null;

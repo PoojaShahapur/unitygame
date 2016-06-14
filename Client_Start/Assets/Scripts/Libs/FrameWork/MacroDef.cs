@@ -57,6 +57,9 @@
         // 多线程裁剪场景
         static public bool MULTITHREADING_CULL = false;
 
+        // Lua 加载方式
+        static public bool LUA_EDITOR = true;
+
         // 宏定义结束
     }
 }

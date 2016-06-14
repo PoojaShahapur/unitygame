@@ -236,8 +236,7 @@
 
         protected void interInit()
         {
-            m_luaSystem.init();
-            m_uiMgr.init();
+
         }
 
         public void postInit()
@@ -268,6 +267,9 @@
             m_versionSys.loadLocalVer();    // 加载版本文件
             m_depResMgr.init();             // 加载依赖文件
             mCoroutineTaskMgr.start();
+
+            m_luaSystem.init();
+            m_uiMgr.init();
         }
 
         public void init()

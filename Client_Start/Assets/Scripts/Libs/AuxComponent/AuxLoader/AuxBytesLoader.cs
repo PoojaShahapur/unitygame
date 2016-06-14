@@ -31,6 +31,24 @@ namespace SDK.Lib
             return mPath;
         }
 
+        // 同步加载
+        override public void syncLoad(string path, MAction<IDispatchObject> dispObj = null)
+        {
+            if (needUnload(path))
+            {
+                unload();
+            }
+
+            this.setPath(path);
+
+            if (this.isInvalid())
+            {
+                mEvtHandle = new ResEventDispatch();
+                mEvtHandle.addEventHandle(null, dispObj);
+                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onTexLoaded);
+            }
+        }
+
         // 异步加载对象
         override public void asyncLoad(string path, MAction<IDispatchObject> dispObj)
         {
