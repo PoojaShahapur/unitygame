@@ -45,7 +45,7 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, dispObj);
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndSyncLoadRes(path);
             }
         }
 
@@ -63,11 +63,11 @@ namespace SDK.Lib
             {
                 mEvtHandle = new ResEventDispatch();
                 mEvtHandle.addEventHandle(null, dispObj);
-                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onTexLoaded);
+                mBytesRes = Ctx.m_instance.m_bytesResMgr.getAndAsyncLoadRes(path, onBytesLoaded);
             }
         }
 
-        public void onTexLoaded(IDispatchObject dispObj)
+        public void onBytesLoaded(IDispatchObject dispObj)
         {
             mBytesRes = dispObj as BytesRes;
             if (mBytesRes.hasSuccessLoaded())
@@ -77,7 +77,7 @@ namespace SDK.Lib
             else if (mBytesRes.hasFailed())
             {
                 mIsSuccess = false;
-                Ctx.m_instance.m_texMgr.unload(mBytesRes.getResUniqueId(), onTexLoaded);
+                Ctx.m_instance.m_texMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
                 mBytesRes = null;
             }
 
@@ -91,7 +91,7 @@ namespace SDK.Lib
         {
             if(mBytesRes != null)
             {
-                Ctx.m_instance.m_texMgr.unload(mBytesRes.getResUniqueId(), onTexLoaded);
+                Ctx.m_instance.m_texMgr.unload(mBytesRes.getResUniqueId(), onBytesLoaded);
                 mBytesRes = null;
             }
 
