@@ -84,7 +84,7 @@ namespace UnitTest
             //m_pTestEncrypt.run();
             //m_filterTest.run();
             //m_testVersion.run();
-            m_pTestAutoUpdate.run();
+            //m_pTestAutoUpdate.run();
             //m_pTestAssetBundles.run();
 
             //m_pTestDataStruct.run();

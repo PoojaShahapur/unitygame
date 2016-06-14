@@ -22,6 +22,7 @@ namespace UnitTest
             //testLoadPreafab();
             //testLoadText();
             //this.testDownload();
+            this.testLuaLoad();
         }
 
         protected void testModelLoad()
@@ -195,6 +196,19 @@ namespace UnitTest
         {
             AuxDownload auxDownload = new AuxDownload();
             auxDownload.download("XmlConfig/ReadMe.txt", null);
+        }
+
+        // 测试加载 Lua 
+        protected void testLuaLoad()
+        {
+            TextAsset textAsset = Resources.Load<TextAsset>("AuxComponent");
+            if(textAsset != null)
+            {
+                if(textAsset.bytes != null || textAsset.text != null)
+                {
+                    string str = textAsset.text;
+                }
+            }
         }
     }
 }
