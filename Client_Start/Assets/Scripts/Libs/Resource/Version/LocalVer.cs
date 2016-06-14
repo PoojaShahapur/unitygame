@@ -39,7 +39,7 @@ namespace SDK.Lib
 
         public void loadMiniVerFile()
         {
-            mMiniDataStream = new MDataStream(UtilPath.combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME), onMiniLoadEventHandle);
+            mMiniDataStream = new MDataStream(UtilPath.combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), onMiniLoadEventHandle);
         }
 
         protected void onMiniLoadEventHandle(IDispatchObject dispObj)
@@ -47,7 +47,7 @@ namespace SDK.Lib
             mMiniDataStream = dispObj as MDataStream;
             if (mMiniDataStream.isValid())
             {
-                loadFormText(mMiniDataStream.readText(), m_path2Ver_R_Dic);
+                parseMiniFile(mMiniDataStream.readText());
             }
             mMiniDataStream.dispose();
             mMiniDataStream = null;
@@ -62,7 +62,7 @@ namespace SDK.Lib
 
         public void loadLocalRVer()
         {
-            mRDataStream = new MDataStream("Version_R.txt", onRVerLoaded);
+            mRDataStream = new MDataStream(VerFileName.VER_R, onRVerLoaded);
         }
 
         public void onRVerLoaded(IDispatchObject dispObj)
@@ -78,7 +78,7 @@ namespace SDK.Lib
 
         public void loadLocalSVer()
         {
-            mSDataStream = new MDataStream(MFileSys.msStreamingAssetsPath + "/Version_S.txt", onSVerLoaded);
+            mSDataStream = new MDataStream(MFileSys.msStreamingAssetsPath + "/" + VerFileName.VER_S, onSVerLoaded);
         }
 
         public void onSVerLoaded(IDispatchObject dispObj)
@@ -95,7 +95,7 @@ namespace SDK.Lib
 
         public void loadLocalPVer()
         {
-            mPDataStream = new MDataStream(MFileSys.msPersistentDataPath + "/Version_P.txt", onPVerLoaded);
+            mPDataStream = new MDataStream(MFileSys.msPersistentDataPath + "/" + VerFileName.VER_P, onPVerLoaded);
         }
 
         public void onPVerLoaded(IDispatchObject dispObj)

@@ -6,7 +6,7 @@
     public class ResLoadResultNotify
     {
         protected ResLoadState m_resLoadState;          // 资源加载状态
-        protected ResEventDispatch m_loadResEventDispatch;    // 事件分发器
+        protected ResEventDispatch m_loadResEventDispatch;      // 事件分发器
 
         public ResLoadResultNotify()
         {

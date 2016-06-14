@@ -1460,7 +1460,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		LuaScriptMgr.PushObject(L, obj.m_pAutoUpdateSys);
+		LuaScriptMgr.PushObject(L, obj.mAutoUpdateSys);
 		return 1;
 	}
 
@@ -3507,7 +3507,7 @@ public class SDK_Lib_CtxWrap
 			}
 		}
 
-		obj.m_pAutoUpdateSys = (SDK.Lib.AutoUpdateSys)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.AutoUpdateSys));
+		obj.mAutoUpdateSys = (SDK.Lib.AutoUpdateSys)LuaScriptMgr.GetNetObject(L, 3, typeof(SDK.Lib.AutoUpdateSys));
 		return 0;
 	}
 

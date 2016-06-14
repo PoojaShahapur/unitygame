@@ -9,14 +9,7 @@ namespace SDK.Lib
     public class ServerVer : FileVerBase
     {
         // MiniVersion 必须每一次从服务器上下载
-        public const string MINIFILENAME = "VerMini.txt";
-        public const string MINIFILENAMENOEXT = "VerMini";
-
-        public const string FILENAME = "VerFile.txt";
-        public const string FILENAMENOEXT = "VerFile";
-
-        public Dictionary<string, FileVerInfo> m_miniPath2HashDic = new Dictionary<string, FileVerInfo>();
-        public Dictionary<string, FileVerInfo> m_path2HashDic = new Dictionary<string, FileVerInfo>();
+        public Dictionary<string, FileVerInfo> m_path2HashDic;
 
         public FilesVerType m_type;
 
@@ -26,10 +19,15 @@ namespace SDK.Lib
         public Action m_LoadedDisp;
         public Action m_FailedDisp;
 
+        public ServerVer()
+        {
+            m_path2HashDic = new Dictionary<string, FileVerInfo>();
+        }
+
         virtual public void loadMiniVerFile(string ver = "")
         {
             AuxDownload auxDownload = new AuxDownload();
-            auxDownload.load(MINIFILENAME, onMiniLoadEventHandle, false, 0);
+            auxDownload.load(VerFileName.VER_MINI, onMiniLoadEventHandle, 0, false, 0);
         }
 
         // 加载一个表完成
@@ -45,18 +43,13 @@ namespace SDK.Lib
                     //byte[] outBytes = null;
                     //uint outLen = 0;
                     //MLzma.DecompressStrLZMA(textAsset, (uint)textAsset.Length, ref outBytes, ref outLen);
-                    loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_miniPath2HashDic);
+                    parseMiniFile(System.Text.Encoding.UTF8.GetString(textAsset));
                 }
-
-                // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME, onMiniLoadEventHandle);
 
                 m_miniLoadedDisp();
             }
             else if (downloadItem.refCountResLoadResultNotify.resLoadState.hasFailed())
             {
-                // 卸载
-                Ctx.m_instance.m_resLoadMgr.unload(MINIFILENAME, onMiniLoadEventHandle);
                 m_miniFailedDisp();
             }
         }
@@ -65,7 +58,7 @@ namespace SDK.Lib
         public void loadVerFile(string ver = "")
         {
             AuxDownload auxDownload = new AuxDownload();
-            auxDownload.load(FILENAME, onLoadEventHandle, false, 0);
+            auxDownload.load(VerFileName.VER_P, onLoadEventHandle, 0, false, 0);
         }
 
         // 加载一个表完成

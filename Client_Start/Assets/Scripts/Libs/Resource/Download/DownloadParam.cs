@@ -28,7 +28,8 @@ namespace SDK.Lib
 
         public LuaTable mLuaTable;
         public LuaFunction mLuaFunction;
-        public bool mIsWriteFile;
+        public bool mIsWriteFile;       // 下载完成是否写入文件
+        public long mFileLen;           // 文件长度，如果使用 HttpWeb 下载，使用这个字段判断文件长度
 
         public DownloadParam()
         {
@@ -39,6 +40,8 @@ namespace SDK.Lib
         {
             mResLoadType = ResLoadType.eLoadWeb;
             mDownloadType = DownloadType.eHttpWeb;
+            mIsWriteFile = true;
+            mFileLen = 0;
         }
 
         public void setPath(string origPath)

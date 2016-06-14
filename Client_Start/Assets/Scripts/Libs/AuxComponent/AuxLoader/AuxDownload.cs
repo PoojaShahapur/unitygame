@@ -6,7 +6,7 @@
     public class AuxDownload
     {
         // 下载一个资源
-        public void load(string origPath, MAction<IDispatchObject> dispObj = null, bool isWriteFile = true, int downloadType = 1)
+        public void load(string origPath, MAction<IDispatchObject> dispObj = null, long fileLen = 0, bool isWriteFile = true, int downloadType = (int)DownloadType.eHttpWeb)
         {
             DownloadParam param = new DownloadParam();
 

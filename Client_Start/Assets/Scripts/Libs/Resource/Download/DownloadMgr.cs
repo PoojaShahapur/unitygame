@@ -135,6 +135,7 @@ namespace SDK.Lib
             }
             loadItem.setLoadParam(param);
             loadItem.refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, onLoadEventHandle);
+            loadItem.allLoadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
 
             return loadItem;
         }
@@ -153,7 +154,7 @@ namespace SDK.Lib
             {
                 if (param.m_loadEventHandle != null)
                 {
-                    m_LoadData.m_path2LDItem[param.mResUniqueId].refCountResLoadResultNotify.loadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
+                    m_LoadData.m_path2LDItem[param.mResUniqueId].allLoadResEventDispatch.addEventHandle(null, param.m_loadEventHandle);
                 }
             }
 
@@ -314,6 +315,8 @@ namespace SDK.Lib
             {
                 onFailed(item);
             }
+
+            item.allLoadResEventDispatch.dispatchEvent(item);
 
             releaseLoadItem(item);
             --m_curNum;

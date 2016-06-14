@@ -1,4 +1,6 @@
-﻿namespace UnitTest
+﻿using SDK.Lib;
+
+namespace UnitTest
 {
     public class TestAutoUpdate
     {
@@ -9,7 +11,7 @@
 
         protected void testAutoUpdate()
         {
-            //Ctx.m_instance.m_pAutoUpdateSys.startUpdate();
+            Ctx.m_instance.mAutoUpdateSys.startUpdate();
         }
     }
 }

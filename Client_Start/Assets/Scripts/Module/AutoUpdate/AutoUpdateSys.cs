@@ -18,8 +18,8 @@ namespace Game.AutoUpdate
 
         protected void startAutoUpdate()
         {
-            Ctx.m_instance.m_pAutoUpdateSys.m_onUpdateEndDisp = onAutoUpdateEnd;
-            Ctx.m_instance.m_pAutoUpdateSys.startUpdate();
+            Ctx.m_instance.mAutoUpdateSys.m_onUpdateEndDisp = onAutoUpdateEnd;
+            Ctx.m_instance.mAutoUpdateSys.startUpdate();
             //onAutoUpdateEnd();
         }
 

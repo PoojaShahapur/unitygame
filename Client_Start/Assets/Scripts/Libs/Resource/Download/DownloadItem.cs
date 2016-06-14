@@ -27,12 +27,15 @@ namespace SDK.Lib
         protected ResPackType mResPackType;
 
         protected RefCountResLoadResultNotify m_refCountResLoadResultNotify;
+        protected ResEventDispatch mAllLoadResEventDispatch;    // 事件分发器，这个是记录逻辑的事件分发器
+
         protected bool mIsWriteFile;
 
         public DownloadItem()
         {
             mResLoadType = ResLoadType.eLoadWeb;
             m_refCountResLoadResultNotify = new RefCountResLoadResultNotify();
+            mAllLoadResEventDispatch = new ResEventDispatch();
         }
 
         public RefCountResLoadResultNotify refCountResLoadResultNotify
@@ -44,6 +47,18 @@ namespace SDK.Lib
             set
             {
                 m_refCountResLoadResultNotify = value;
+            }
+        }
+
+        public ResEventDispatch allLoadResEventDispatch
+        {
+            get
+            {
+                return mAllLoadResEventDispatch;
+            }
+            set
+            {
+                mAllLoadResEventDispatch = value;
             }
         }
 

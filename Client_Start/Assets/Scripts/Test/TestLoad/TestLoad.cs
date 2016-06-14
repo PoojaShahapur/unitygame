@@ -21,7 +21,7 @@ namespace UnitTest
 
             //testLoadPreafab();
             //testLoadText();
-            this.testDownload();
+            //this.testDownload();
         }
 
         protected void testModelLoad()

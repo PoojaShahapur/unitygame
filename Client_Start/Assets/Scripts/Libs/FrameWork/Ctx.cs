@@ -70,7 +70,7 @@
         public ILoginSys m_loginSys;
         public WordFilterManager m_wordFilterManager;
         public VersionSys m_versionSys;
-        public AutoUpdateSys m_pAutoUpdateSys;
+        public AutoUpdateSys mAutoUpdateSys;
 
         public TaskQueue m_TaskQueue;
         public TaskThreadPool m_TaskThreadPool;
@@ -159,7 +159,7 @@
             m_poolSys = new PoolSys();
             m_wordFilterManager = new WordFilterManager();
             m_versionSys = new VersionSys();
-            m_pAutoUpdateSys = new AutoUpdateSys();
+            mAutoUpdateSys = new AutoUpdateSys();
 
             m_TaskQueue = new TaskQueue("TaskQueue");
             m_TaskThreadPool = new TaskThreadPool();

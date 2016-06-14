@@ -84,14 +84,14 @@ namespace UnitTest
             //m_pTestEncrypt.run();
             //m_filterTest.run();
             //m_testVersion.run();
-            //m_pTestAutoUpdate.run();
+            m_pTestAutoUpdate.run();
             //m_pTestAssetBundles.run();
 
             //m_pTestDataStruct.run();
             //m_pTestTable.run();
             //m_pTestXml.run();
             //m_pTestResources.run();
-            m_pTestLoad.run();
+            //m_pTestLoad.run();
             //m_pTestNet.run();
             //m_pTestAni.run();
 

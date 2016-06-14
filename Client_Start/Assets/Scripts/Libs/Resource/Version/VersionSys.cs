@@ -38,7 +38,6 @@ namespace SDK.Lib
             m_localVer.m_LoadedDisp = onVerLoaded;
             m_localVer.m_FailedDisp = onVerFailed;
 
-            string ver = m_localVer.m_path2Ver_P_Dic[ServerVer.FILENAME].m_fileMd5;
             m_localVer.loadVerFile();
         }
 
@@ -59,11 +58,11 @@ namespace SDK.Lib
         public void onWebMiniLoaded()
         {
             // 删除旧 mini 版本，修改新版本文件名字
-            UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), ServerVer.FILENAME));
+            //UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_P));
             // 修改新的版本文件名字
-            UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), ServerVer.MINIFILENAME));
+            //UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI));
 
-            m_needUpdateVerFile = (m_localVer.m_path2Ver_P_Dic[ServerVer.FILENAME].m_fileMd5 != m_serverVer.m_miniPath2HashDic[ServerVer.FILENAME].m_fileMd5);      // 如果版本不一致，需要重新加载
+            m_needUpdateVerFile = (m_localVer.mFileVerInfo.m_fileMd5 != m_serverVer.mFileVerInfo.m_fileMd5);      // 如果版本不一致，需要重新加载
             //m_needUpdateVerFile = true;         // 测试强制更新
             m_miniLoadResultDisp();
         }
@@ -79,7 +78,7 @@ namespace SDK.Lib
             {
                 m_serverVer.m_LoadedDisp = onWebVerLoaded;
                 m_serverVer.m_FailedDisp = onWebVerFailed;
-                string ver = m_serverVer.m_miniPath2HashDic[ServerVer.FILENAME].m_fileMd5;
+                string ver = m_serverVer.mFileVerInfo.m_fileMd5;
                 m_serverVer.loadVerFile(ver);
             }
             else
@@ -94,7 +93,7 @@ namespace SDK.Lib
             {
                 m_serverVer.m_LoadedDisp = onWebVerLoaded;
                 m_serverVer.m_FailedDisp = onWebVerFailed;
-                string ver = m_serverVer.m_miniPath2HashDic[ServerVer.FILENAME].m_fileMd5;
+                string ver = m_serverVer.mFileVerInfo.m_fileMd5;
                 m_serverVer.loadVerFile(ver);
             }
             else

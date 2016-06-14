@@ -170,13 +170,21 @@ namespace SDK.Lib
                 {
                     string fileNoExt = UtilPath.getFileNameNoExt(mFilePath);
                     textAsset = Resources.Load<TextAsset>(fileNoExt);
-                    mText = textAsset.text;
-                    mBytes = textAsset.bytes;
-                    Resources.UnloadAsset(textAsset);
+                    if (textAsset != null)
+                    {
+                        mText = textAsset.text;
+                        mBytes = textAsset.bytes;
+                        Resources.UnloadAsset(textAsset);
+                    }
+                    else
+                    {
+                        mIsValid = false;
+                    }
                 }
                 catch (Exception exp)
                 {
                     mIsValid = false;
+                    Ctx.m_instance.m_logSys.log("MDataStream Load Failed, FileName is " + mFilePath + " Exception is" + exp.Message);
                 }
 
                 onAsyncOpened();
