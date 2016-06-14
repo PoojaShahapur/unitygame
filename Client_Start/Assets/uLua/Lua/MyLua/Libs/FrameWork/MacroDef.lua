@@ -1,15 +1,6 @@
-require "MyLua.Libs.Core.GlobalNS"
-require "MyLua.Libs.Core.StaticClass"
+MacroDef = {};
 
-local M = GlobalNS.StaticClass();
-local this = M;
-M.clsName = "MacroDef";
-GlobalNS[M.clsName] = M;
+MacroDef.UNIT_TEST = true;
+MacroDef.UNITY_EDITOR = false;
 
-function M.ctor()
-	M.UNIT_TEST = true;
-end
-
-M.ctor();
-
-return M;
+return MacroDef;

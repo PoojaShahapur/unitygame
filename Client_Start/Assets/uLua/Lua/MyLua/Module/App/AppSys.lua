@@ -1,5 +1,9 @@
+--加载宏定义
+require "MyLua.Libs.FrameWork.MacroDef"
 --启动调试服务器连接
-require("mobdebug").start()
+if(MacroDef.UNITY_EDITOR) then
+    require("mobdebug").start()
+end
 --导入公用文件
 require "MyLua.Libs.FrameWork.GCtx"
 --导入登陆模块

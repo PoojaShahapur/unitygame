@@ -704,6 +704,7 @@ public class LuaScriptMgr
             path = path + ".txt";
             auxBytesLoader.syncLoad(path);
             str = auxBytesLoader.getBytes();
+            auxBytesLoader.dispose();
         }
 #else
         IAssetFile zipFile = null;

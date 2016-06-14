@@ -97,12 +97,17 @@ namespace SDK.Lib
             return absPath;
         }
 
+        // 下面这几个接口尽量不要使用，Lua 中加载 PB 文件有使用
         static public byte[] readFileAllBytes(string fileName)
         {
             byte[] ret = null;
             try
             {
-                ret = File.ReadAllBytes(msRWDataPath + "/" + fileName);
+                //ret = File.ReadAllBytes(msRWDataPath + "/" + fileName);
+                AuxBytesLoader auxBytesLoader = new AuxBytesLoader();
+                auxBytesLoader.syncLoad(fileName);
+                ret = auxBytesLoader.getBytes();
+                auxBytesLoader.dispose();
             }
             catch
             {
