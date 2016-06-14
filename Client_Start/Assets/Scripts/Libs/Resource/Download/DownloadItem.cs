@@ -30,6 +30,7 @@ namespace SDK.Lib
         protected ResEventDispatch mAllLoadResEventDispatch;    // 事件分发器，这个是记录逻辑的事件分发器
 
         protected bool mIsWriteFile;
+        protected long mFileLen;
 
         public DownloadItem()
         {
@@ -205,6 +206,7 @@ namespace SDK.Lib
             this.mResPackType = param.mResPackType;
             this.mVersion = param.mVersion;
             this.mIsWriteFile = param.mIsWriteFile;
+            this.mFileLen = param.mFileLen;
             this.setLogicPath(param.mLogicPath);
             this.setResUniqueId(param.mResUniqueId);
         }
