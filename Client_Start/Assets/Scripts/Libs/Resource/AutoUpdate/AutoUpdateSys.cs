@@ -9,10 +9,19 @@ namespace SDK.Lib
      */
     public class AutoUpdateSys
     {
-        public List<string> m_loadingPath = new List<string>();
-        public List<string> m_loadedPath = new List<string>();
-        public List<string> m_failedPath = new List<string>();
-        public Action m_onUpdateEndDisp;
+        public List<string> m_loadingPath;
+        public List<string> m_loadedPath;
+        public List<string> m_failedPath;
+        public AddOnceAndCallOnceEventDispatch mOnUpdateEndDisp;
+
+        public AutoUpdateSys()
+        {
+            m_loadingPath = new List<string>();
+            m_loadedPath = new List<string>();
+            m_failedPath = new List<string>();
+
+            mOnUpdateEndDisp = new AddOnceAndCallOnceEventDispatch();
+        }
 
         public void startUpdate()
         {
@@ -21,12 +30,12 @@ namespace SDK.Lib
 
         public void loadMiniVersion()
         {
-            Ctx.m_instance.m_versionSys.m_miniLoadResultDisp = miniVerLoadResult;
-            Ctx.m_instance.m_versionSys.m_LoadResultDisp = verLoadResult;
+            Ctx.m_instance.m_versionSys.mMiniLoadResultDisp.addEventHandle(null, miniVerLoadResult);
+            Ctx.m_instance.m_versionSys.mLoadResultDisp.addEventHandle(null, verLoadResult);
             Ctx.m_instance.m_versionSys.loadMiniVerFile();
         }
 
-        public void miniVerLoadResult()
+        public void miniVerLoadResult(IDispatchObject dispObj)
         {
             //if (Ctx.m_instance.m_versionSys.m_needUpdateVerFile)
             //{
@@ -39,7 +48,7 @@ namespace SDK.Lib
             //}
         }
 
-        public void verLoadResult()
+        public void verLoadResult(IDispatchObject idspObj)
         {
             if (Ctx.m_instance.m_versionSys.m_needUpdateVerFile) // 如果需要更新
             {
@@ -125,10 +134,7 @@ namespace SDK.Lib
         protected void onUpdateEnd()
         {
             // 进入游戏
-            if(m_onUpdateEndDisp != null)
-            {
-                m_onUpdateEndDisp();
-            }
+            mOnUpdateEndDisp.dispatchEvent(null);
         }
     }
 }

@@ -116,6 +116,16 @@ namespace SDK.Lib
             }
         }
 
+        public bool hasSuccessLoaded()
+        {
+            return m_refCountResLoadResultNotify.resLoadState.hasSuccessLoaded();
+        }
+
+        public bool hasFailed()
+        {
+            return m_refCountResLoadResultNotify.resLoadState.hasFailed();
+        }
+
         public void setLogicPath(string value)
         {
             mLogicPath = value;

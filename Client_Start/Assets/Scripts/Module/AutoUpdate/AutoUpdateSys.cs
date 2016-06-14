@@ -18,13 +18,13 @@ namespace Game.AutoUpdate
 
         protected void startAutoUpdate()
         {
-            Ctx.m_instance.mAutoUpdateSys.m_onUpdateEndDisp = onAutoUpdateEnd;
+            Ctx.m_instance.mAutoUpdateSys.mOnUpdateEndDisp.addEventHandle(null, onAutoUpdateEnd);
             Ctx.m_instance.mAutoUpdateSys.startUpdate();
             //onAutoUpdateEnd();
         }
 
         // 调用这个函数，说明文件已经更新到本地，版本文件也加载完成
-        public void onAutoUpdateEnd()
+        public void onAutoUpdateEnd(IDispatchObject dispObj)
         {
             loadPakCfg();
         }

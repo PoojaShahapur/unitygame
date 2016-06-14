@@ -8,10 +8,22 @@ namespace SDK.Lib
         public string mCurVer;
         public FileVerInfo mFileVerInfo;     // 这个主要是记录文件版本的版本
 
+        public bool mIsMiniLoadSuccess;
+        public bool mIsVerLoadSuccess;
+
+        public AddOnceAndCallOnceEventDispatch mMiniLoadedDisp;
+        public AddOnceAndCallOnceEventDispatch mLoadedDisp;
+
         public FileVerBase()
         {
+            mIsMiniLoadSuccess = false;
+            mIsVerLoadSuccess = false;
+
             mCurVer = "";           // 当前版本，当前日期，例如 201606091136
             mFileVerInfo = new FileVerInfo();
+
+            mMiniLoadedDisp = new AddOnceAndCallOnceEventDispatch();
+            mLoadedDisp = new AddOnceAndCallOnceEventDispatch();
         }
 
         public void parseMiniFile(string text)

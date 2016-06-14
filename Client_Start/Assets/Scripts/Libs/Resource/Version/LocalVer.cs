@@ -17,12 +17,6 @@ namespace SDK.Lib
         protected MDataStream mSDataStream;         // StreamingAssets 版本
         protected MDataStream mPDataStream;         // Persistent 版本
 
-        public Action m_miniLoadedDisp;
-        public Action m_miniFailedDisp;
-
-        public Action m_LoadedDisp;
-        public Action m_FailedDisp;
-
         public LocalVer()
         {
             m_path2Ver_R_Dic = new Dictionary<string, FileVerInfo>();
@@ -52,7 +46,7 @@ namespace SDK.Lib
             mMiniDataStream.dispose();
             mMiniDataStream = null;
 
-            m_miniLoadedDisp();
+            mMiniLoadedDisp.dispatchEvent(null);
         }
 
         public void loadVerFile()
@@ -109,7 +103,7 @@ namespace SDK.Lib
             mPDataStream.dispose();
             mPDataStream = null;
 
-            m_LoadedDisp();
+            mLoadedDisp.dispatchEvent(null);
         }
 
         public int getFileVerInfo(string origPath, ref FileVerInfo fileVerInfo)

@@ -35,7 +35,7 @@ UI/UITest/UITest.prefab=UI/UITest/UITest=UI/UITest/UITest=0b7edb5a3fc0f0e21a48bf
 Word/forbidWords.txt=Word/forbidWords=Word/forbidWords=b60714b97315c8a5f2519a44e343a0aa=25
 Word/RandName.txt=Word/RandName=Word/RandName=d91d739e29bd4095d9659eec783db669=112
 XmlConfig/marketconfig.xml=XmlConfig/marketconfig=XmlConfig/marketconfig=d8bc3fe8828f4899240bf725c1ef4abf=668
-XmlConfig/ReamMe.txt=XmlConfig/ReamMe=XmlConfig/ReamMe=7d87ca3cd6216730e078f7abefe6600f=84
+XmlConfig/ReadMe.txt=XmlConfig/ReadMe=XmlConfig/ReadMe=7d87ca3cd6216730e078f7abefe6600f=84
 XmlConfig/Test.txt=XmlConfig/Test=XmlConfig/Test=7ffe5dc0524a2f705c1d4ae44a658665=16
 Scenes/Entry.unity=Scenes/Entry=Scenes/Entry=28870e098c374e50be617e605a2ff7c1=8044
 Scenes/Game.unity=Scenes/Game=Scenes/Game=9b9cc9b16305fcc860dc75b687cf5b4c=15540

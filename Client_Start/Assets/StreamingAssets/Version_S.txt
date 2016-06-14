@@ -46,5 +46,6 @@ TerrainData/Terrain.xml=TerrainData/Terrain=TerrainData/Terrain.xml=4345023f1b9d
 Word/forbidWords.txt=Word/forbidWords=Word/forbidWords.txt=b60714b97315c8a5f2519a44e343a0aa=25
 Word/RandName.txt=Word/RandName=Word/RandName.txt=d91d739e29bd4095d9659eec783db669=112
 XmlConfig/marketconfig.xml=XmlConfig/marketconfig=XmlConfig/marketconfig.xml=d8bc3fe8828f4899240bf725c1ef4abf=668
+XmlConfig/ReadMe.txt=XmlConfig/ReadMe=XmlConfig/ReadMe.txt=7d87ca3cd6216730e078f7abefe6600f=84
 XmlConfig/ReamMe.txt=XmlConfig/ReamMe=XmlConfig/ReamMe.txt=7d87ca3cd6216730e078f7abefe6600f=84
 XmlConfig/Test.txt=XmlConfig/Test=XmlConfig/Test.txt=7ffe5dc0524a2f705c1d4ae44a658665=16

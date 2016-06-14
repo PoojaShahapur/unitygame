@@ -188,13 +188,13 @@ namespace UnitTest
         protected void testLoadText()
         {
             AuxTextLoader loader = new AuxTextLoader();
-            loader.syncLoad("XmlConfig/ReamMe.txt");
+            loader.syncLoad("XmlConfig/ReadMe.txt");
         }
 
         protected void testDownload()
         {
             AuxDownload auxDownload = new AuxDownload();
-            auxDownload.load("XmlConfig/ReamMe.txt", null);
+            auxDownload.download("XmlConfig/ReadMe.txt", null);
         }
     }
 }

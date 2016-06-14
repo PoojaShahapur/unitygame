@@ -11,14 +11,6 @@ namespace SDK.Lib
         // MiniVersion 必须每一次从服务器上下载
         public Dictionary<string, FileVerInfo> m_path2HashDic;
 
-        public FilesVerType m_type;
-
-        public Action m_miniLoadedDisp;
-        public Action m_miniFailedDisp;
-
-        public Action m_LoadedDisp;
-        public Action m_FailedDisp;
-
         public ServerVer()
         {
             m_path2HashDic = new Dictionary<string, FileVerInfo>();
@@ -27,14 +19,14 @@ namespace SDK.Lib
         virtual public void loadMiniVerFile(string ver = "")
         {
             AuxDownload auxDownload = new AuxDownload();
-            auxDownload.load(VerFileName.VER_MINI, onMiniLoadEventHandle, 0, false, 0);
+            auxDownload.download(VerFileName.VER_MINI, onMiniLoadEventHandle, 0, false, 0);
         }
 
         // 加载一个表完成
         protected void onMiniLoadEventHandle(IDispatchObject dispObj)
         {
-            DownloadItem downloadItem = dispObj as DownloadItem;
-            if (downloadItem.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            AuxDownload downloadItem = dispObj as AuxDownload;
+            if (downloadItem.hasSuccessLoaded())
             {
                 byte[] textAsset = downloadItem.getBytes();
                 if (textAsset != null)
@@ -46,28 +38,30 @@ namespace SDK.Lib
                     parseMiniFile(System.Text.Encoding.UTF8.GetString(textAsset));
                 }
 
-                m_miniLoadedDisp();
+                mIsMiniLoadSuccess = true;
             }
-            else if (downloadItem.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (downloadItem.hasFailed())
             {
-                m_miniFailedDisp();
+                mIsMiniLoadSuccess = false;
             }
+
+            mMiniLoadedDisp.dispatchEvent(null);
         }
 
         // 加载版本文件
         public void loadVerFile(string ver = "")
         {
             AuxDownload auxDownload = new AuxDownload();
-            auxDownload.load(VerFileName.VER_P, onLoadEventHandle, 0, false, 0);
+            auxDownload.download(VerFileName.VER_P, onLoadEventHandle, 0, false, 0);
         }
 
         // 加载一个表完成
         protected void onLoadEventHandle(IDispatchObject dispObj)
         {
-            DownloadItem downloadItem = dispObj as DownloadItem;
-            if (downloadItem.refCountResLoadResultNotify.resLoadState.hasSuccessLoaded())
+            AuxDownload downloadItem = dispObj as AuxDownload;
+            if (downloadItem.hasSuccessLoaded())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, downloadItem.getLoadPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem0, downloadItem.getLogicPath());
 
                 byte[] textAsset = downloadItem.getBytes();
                 if (textAsset != null)
@@ -75,14 +69,16 @@ namespace SDK.Lib
                     loadFormText(System.Text.Encoding.UTF8.GetString(textAsset), m_path2HashDic);
                 }
 
-                m_LoadedDisp();
+                mIsVerLoadSuccess = true;
             }
-            else if (downloadItem.refCountResLoadResultNotify.resLoadState.hasFailed())
+            else if (downloadItem.hasFailed())
             {
-                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, downloadItem.getLoadPath());
+                Ctx.m_instance.m_logSys.debugLog_1(LangItemID.eItem1, downloadItem.getLogicPath());
 
-                m_FailedDisp();
+                mIsVerLoadSuccess = false;
             }
+
+            mLoadedDisp.dispatchEvent(null);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace SDK.Lib
 {
@@ -11,16 +10,17 @@ namespace SDK.Lib
         public ServerVer m_serverVer = new ServerVer();
         public LocalVer m_localVer;
 
-        public Action m_miniLoadResultDisp;
-        public Action m_LoadResultDisp;
+        public AddOnceAndCallOnceEventDispatch mMiniLoadResultDisp;
+        public AddOnceAndCallOnceEventDispatch mLoadResultDisp;
         public bool m_needUpdateVerFile;
 
         public string m_miniVer;    // mini 版本文件版本号
 
         public VersionSys()
         {
-            m_serverVer.m_type = FilesVerType.eWebVer;
             m_miniVer = UtilApi.Range(0, int.MaxValue).ToString();
+            mMiniLoadResultDisp = new AddOnceAndCallOnceEventDispatch();
+            mLoadResultDisp = new AddOnceAndCallOnceEventDispatch();
 
             m_serverVer = new ServerVer();
             m_localVer = new LocalVer();
@@ -28,88 +28,83 @@ namespace SDK.Lib
 
         public void loadMiniVerFile()
         {
-            m_localVer.m_miniLoadedDisp = onLocalMiniLoaded;
-            m_localVer.m_miniFailedDisp = onLocalMiniFailed;
+            m_localVer.mMiniLoadedDisp.addEventHandle(null, onLocalMiniLoaded);
             m_localVer.loadMiniVerFile();
         }
 
         public void loadVerFile()
         {
-            m_localVer.m_LoadedDisp = onVerLoaded;
-            m_localVer.m_FailedDisp = onVerFailed;
+            m_localVer.mLoadedDisp.addEventHandle(null, onVerLoaded);
 
             m_localVer.loadVerFile();
         }
 
-        public void onLocalMiniLoaded()
+        public void onLocalMiniLoaded(IDispatchObject dispObj)
         {
-            m_serverVer.m_miniLoadedDisp = onWebMiniLoaded;
-            m_serverVer.m_miniFailedDisp = onWebMiniFailed;
-            m_serverVer.loadMiniVerFile(m_miniVer);
-        }
-
-        public void onLocalMiniFailed()
-        {
-            m_serverVer.m_miniLoadedDisp = onWebMiniLoaded;
-            m_serverVer.m_miniFailedDisp = onWebMiniFailed;
-            m_serverVer.loadMiniVerFile(m_miniVer);
-        }
-
-        public void onWebMiniLoaded()
-        {
-            // 删除旧 mini 版本，修改新版本文件名字
-            //UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_P));
-            // 修改新的版本文件名字
-            //UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI));
-
-            m_needUpdateVerFile = (m_localVer.mFileVerInfo.m_fileMd5 != m_serverVer.mFileVerInfo.m_fileMd5);      // 如果版本不一致，需要重新加载
-            //m_needUpdateVerFile = true;         // 测试强制更新
-            m_miniLoadResultDisp();
-        }
-
-        public void onWebMiniFailed()
-        {
-
-        }
-
-        public void onVerLoaded()
-        {
-            if (m_needUpdateVerFile)
+            if (m_localVer.mIsMiniLoadSuccess)
             {
-                m_serverVer.m_LoadedDisp = onWebVerLoaded;
-                m_serverVer.m_FailedDisp = onWebVerFailed;
-                string ver = m_serverVer.mFileVerInfo.m_fileMd5;
-                m_serverVer.loadVerFile(ver);
+                m_serverVer.mMiniLoadedDisp.addEventHandle(null, onWebMiniLoaded);
             }
             else
             {
-                m_LoadResultDisp();
+                m_serverVer.mMiniLoadedDisp.addEventHandle(null, onWebMiniLoaded);
             }
+
+            m_serverVer.loadMiniVerFile(m_miniVer);
         }
 
-        public void onVerFailed()
+        public void onWebMiniLoaded(IDispatchObject dispObj)
         {
-            if (m_needUpdateVerFile)
+            if (m_serverVer.mIsMiniLoadSuccess)
             {
-                m_serverVer.m_LoadedDisp = onWebVerLoaded;
-                m_serverVer.m_FailedDisp = onWebVerFailed;
-                string ver = m_serverVer.mFileVerInfo.m_fileMd5;
-                m_serverVer.loadVerFile(ver);
+                // 删除旧 mini 版本，修改新版本文件名字
+                //UtilPath.deleteFile(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_P));
+                // 修改新的版本文件名字
+                //UtilPath.renameFile(UtilLogic.combineVerPath(Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), m_miniVer), Path.Combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI));
+
+                m_needUpdateVerFile = (m_localVer.mFileVerInfo.m_fileMd5 != m_serverVer.mFileVerInfo.m_fileMd5);      // 如果版本不一致，需要重新加载
+                                                                                                           //m_needUpdateVerFile = true;         // 测试强制更新
+                mMiniLoadResultDisp.dispatchEvent(null);
             }
             else
             {
-                m_LoadResultDisp();
+
             }
         }
 
-        public void onWebVerLoaded()
+        public void onVerLoaded(IDispatchObject dispObj)
         {
-            m_LoadResultDisp();
+            if (m_localVer.mIsVerLoadSuccess)
+            {
+                if (m_needUpdateVerFile)
+                {
+                    m_serverVer.mLoadedDisp.addEventHandle(null, onWebVerLoaded);
+                    string ver = m_serverVer.mFileVerInfo.m_fileMd5;
+                    m_serverVer.loadVerFile(ver);
+                }
+                else
+                {
+                    mLoadResultDisp.dispatchEvent(null);
+                }
+            }
+            else
+            {
+                if (m_needUpdateVerFile)
+                {
+                    m_serverVer.mLoadedDisp.addEventHandle(null, onWebVerLoaded);
+                    string ver = m_serverVer.mFileVerInfo.m_fileMd5;
+                    m_serverVer.loadVerFile(ver);
+                }
+                else
+                {
+                    mLoadResultDisp.dispatchEvent(null);
+                }
+            }
         }
 
-        public void onWebVerFailed()
+        public void onWebVerLoaded(IDispatchObject dispObj)
         {
-            m_LoadResultDisp();
+            mLoadResultDisp.dispatchEvent(null);
         }
 
         public string getFileVer(string path)
