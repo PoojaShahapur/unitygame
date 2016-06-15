@@ -71,7 +71,7 @@ class StreamingAssetsLoad : MonoBehaviour
 
     protected IEnumerator TestLoadText()
     {
-        //string path = getLocalReadDir() + "aaa.txt";
+        //string path = getLocalReadDir() + "/aaa.txt";
         string path = getWWWStreamingAssetsPath() + "/aaa.txt";
 
         Debug.Log(string.Format("Path {0}", path));
@@ -97,7 +97,7 @@ class StreamingAssetsLoad : MonoBehaviour
 
     protected IEnumerator TestLoadAssetBundles()
     {
-        //string path = getLocalReadDir() + "testcube.unity3d";
+        //string path = getLocalReadDir() + "/testcube.unity3d";
         string path = getAssetBundlesStreamingAssetsPath() + "/testcube.unity3d";
         string assetPath = "assets/resources/model/testcube.prefab";
         AssetBundle assetBundle = null;
