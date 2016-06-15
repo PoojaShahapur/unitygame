@@ -22,23 +22,22 @@ namespace SDK.Lib
             return Application.dataPath;
         }
 
-        // 获取本地可以读取的 StreamingAssets 目录，不同平台下 StreamingAssets 是不同的，但是不能写
+        // 获取本地可以读取的 StreamingAssets 目录，不同平台下 StreamingAssets 是不同的，但是不能写，这个目录主要使用 WWW 读取资源。这个接口和接口 getWWWStreamingAssetsPath 是相同的功能，只不过是不同的写法，以后都是用 getWWWStreamingAssetsPath 这个接口，不要再使用这个接口了
         static public string getLocalReadDir()
         {
 #if UNITY_EDITOR
-            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+            string filepath = "file://" + Application.dataPath + "/StreamingAssets";
 #elif UNITY_IPHONE
-              string filepath = Application.dataPath +"/Raw/";
+            string filepath = "file://" + Application.dataPath + "/Raw";
 #elif UNITY_ANDROID
-              string filepath = "jar:file://" + Application.dataPath + "!/assets/";
+            string filepath = "jar:file://" + Application.dataPath + "!/assets";
 #elif UNITY_STANDALONE_WIN
-            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+            string filepath = "file://" + Application.dataPath + "/StreamingAssets";
 #elif UNITY_WEBPLAYER
-            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+            string filepath = "file://" + Application.dataPath + "/StreamingAssets";
 #else
-            string filepath = "file://" + Application.dataPath +"/StreamingAssets/";
+            string filepath = "file://" + Application.dataPath + "/StreamingAssets";
 #endif
-
             return filepath;
         }
 
@@ -48,6 +47,47 @@ namespace SDK.Lib
             // get_persistentDataPath can only be called from the main thread
             //return Application.persistentDataPath;      // 这个目录是可读写的
             return msPersistentDataPath;
+        }
+
+        // http://docs.unity3d.com/ScriptReference/WWW.html
+        protected string getWWWStreamingAssetsPath()
+        {
+#if UNITY_EDITOR
+            // 实际测试 string filepath = "file://" + Application.streamingAssetsPath; 也是可以的
+            string filepath = "file:///" + Application.streamingAssetsPath;
+#elif UNITY_IPHONE
+            // 实际测试 string filepath = "file://" + Application.streamingAssetsPath; 也是可以的，并且官方文档说使用 string filepath = "file://" + Application.streamingAssetsPath;
+            string filepath = "file:///" + Application.streamingAssetsPath;
+#elif UNITY_ANDROID
+            // 千万不能使用 string filepath = "file:///" + Application.streamingAssetsPath; 或者 string filepath = "file://" + Application.streamingAssetsPath;
+            string filepath = Application.streamingAssetsPath;
+#elif UNITY_STANDALONE_WIN
+            string filepath = "file:///" + Application.streamingAssetsPath;
+#elif UNITY_WEBPLAYER
+            string filepath = "file:///" + Application.streamingAssetsPath;
+#else
+            string filepath = "file:///" + Application.streamingAssetsPath;
+#endif
+            return filepath;
+        }
+
+        protected string getAssetBundlesStreamingAssetsPath()
+        {
+#if UNITY_EDITOR
+            string filepath = Application.streamingAssetsPath;
+#elif UNITY_IPHONE
+            string filepath = Application.streamingAssetsPath;
+#elif UNITY_ANDROID
+            // Android 一定要是这个，否则加载失败， 5.3.4 测试过，其它版本未知
+            string filepath = Application.dataPath + "!assets";
+#elif UNITY_STANDALONE_WIN
+            string filepath = Application.streamingAssetsPath;
+#elif UNITY_WEBPLAYER
+            string filepath = Application.streamingAssetsPath;
+#else
+            string filepath = Application.streamingAssetsPath;
+#endif
+            return filepath;
         }
 
         // 获取编辑器工作目录

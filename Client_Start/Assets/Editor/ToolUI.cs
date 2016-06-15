@@ -44,6 +44,12 @@ namespace EditorTool
             BuildScript.BuildPlayer(BuildTarget.Android, false);
         }
 
+        [MenuItem("MyNew/ExportMacDebugPackage")]
+        public static void BuildMacDebug()
+        {
+            BuildScript.BuildPlayer(BuildTarget.StandaloneOSXUniversal, false);
+        }
+
         // 测试命令行
         [MenuItem("MyNew/TestCmdSys")]
         public static void TestCmdSys()
