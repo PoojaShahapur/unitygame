@@ -1,7 +1,7 @@
 require "MyLua.Libs.Core.GlobalNS"
 require "MyLua.Libs.Core.StaticClass"
 
-if(GlobalNS.MacroDef.UNIT_TEST) then
+if(MacroDef.UNIT_TEST) then
 	require "MyLua.Test.TestMain"
 end
 
@@ -27,7 +27,7 @@ end
 
 -- 场景加载完成
 function M.onSceneLoaded()
-	if(GlobalNS.MacroDef.UNIT_TEST) then
+	if(MacroDef.UNIT_TEST) then
 		pTestMain = GlobalNS.new(GlobalNS.TestMain);
 		pTestMain:run();
 	end

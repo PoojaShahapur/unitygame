@@ -164,6 +164,16 @@ namespace SDK.Lib
                 AuxBytesLoader auxBytesLoader = new AuxBytesLoader();
                 auxBytesLoader.syncLoad(fileName);
                 ret = auxBytesLoader.getBytes();
+
+                if(ret == null)
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("MFileSys::readFileAllBytes, Path is {0}, Failed", fileName), LogTypeId.eLogResLoader);
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("MFileSys::readFileAllBytes, Path is {0}, Success", fileName), LogTypeId.eLogResLoader);
+                }
+
                 auxBytesLoader.dispose();
             }
             catch

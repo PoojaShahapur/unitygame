@@ -1,6 +1,6 @@
 PBFileList = 
 {
-    "Pb/Test.pb",
-    "Pb/login.pb",
-    "Pb/rpc.pb",
+    "Pb/Test.bytes",
+    "Pb/login.bytes",
+    "Pb/rpc.bytes",
 };
