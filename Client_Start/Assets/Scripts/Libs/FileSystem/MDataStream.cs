@@ -222,6 +222,41 @@ namespace SDK.Lib
             }
         }
 
+        public void asyncOpenResourcesFile()
+        {
+            if (mFileOpState == eFileOpState.eNoOp)
+            {
+                mFileOpState = eFileOpState.eOpening;
+
+                TextAsset textAsset = null;
+                try
+                {
+                    string fileNoExt = UtilPath.getFilePathNoExt(mFilePath);
+                    textAsset = Resources.Load<TextAsset>(fileNoExt);
+                    if (textAsset != null)
+                    {
+                        mFileOpState = eFileOpState.eOpenSuccess;
+
+                        mText = textAsset.text;
+                        mBytes = textAsset.bytes;
+                        Resources.UnloadAsset(textAsset);
+                    }
+                    else
+                    {
+                        mFileOpState = eFileOpState.eOpenFail;
+                    }
+                }
+                catch (Exception exp)
+                {
+                    mFileOpState = eFileOpState.eOpenFail;
+
+                    Ctx.m_instance.m_logSys.log("MDataStream Load Failed, FileName is " + mFilePath + " Exception is" + exp.Message);
+                }
+
+                onAsyncOpened();
+            }
+        }
+
         // 异步打开结束
         public void onAsyncOpened()
         {
@@ -242,7 +277,16 @@ namespace SDK.Lib
             {
                 if(isResourcesFile())
                 {
-                    syncOpenResourcesFile();
+                    if(mIsSyncMode)
+                    {
+                        // 同步模式
+                        syncOpenResourcesFile();
+                    }
+                    else
+                    {
+                        // 异步模式
+                        asyncOpenResourcesFile();
+                    }
                 }
                 else if (isWWWStream())
                 {
