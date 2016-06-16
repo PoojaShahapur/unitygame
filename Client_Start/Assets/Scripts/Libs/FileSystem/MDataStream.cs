@@ -97,7 +97,7 @@ namespace SDK.Lib
 
         public void checkPlatformAndPath(string path)
         {
-            if(isResourcesFile())
+            if(checkResourcesFile())
             {
                 mFilePlatformAndPath = eFilePlatformAndPath.eResourcesPath;
             }
@@ -111,10 +111,20 @@ namespace SDK.Lib
             }
         }
 
+        protected bool checkResourcesFile()
+        {
+            if (mFilePath.Substring(0, MFileSys.msDataStreamResourcesPath.Length) == MFileSys.msDataStreamResourcesPath)
+            {
+                mFilePath = mFilePath.Substring(MFileSys.msDataStreamResourcesPath.Length + 1);
+                return true;
+            }
+
+            return false;
+        }
+
         public bool isResourcesFile()
         {
-            if(mFilePath.IndexOf(MFileSys.msDataStreamStreamingAssetsPath) != 0 && 
-               mFilePath.IndexOf(MFileSys.msDataStreamPersistentDataPath) != 0)
+            if(mFilePlatformAndPath == eFilePlatformAndPath.eResourcesPath)
             {
                 return true;
             }

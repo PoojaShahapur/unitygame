@@ -41,7 +41,7 @@ namespace SDK.Lib
             msWWWPersistentDataPath = getWWWPersistentDataPath();
             msAssetBundlesPersistentDataPath = getAssetBundlesPersistentDataPath();
 
-            msDataStreamResourcesPath = "";
+            msDataStreamResourcesPath = ":";
             msDataStreamStreamingAssetsPath = getDataStreamStreamingAssetsPath();
             msDataStreamPersistentDataPath = getDataStreamPersistentDataPath();
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDK.Lib
 {
@@ -78,6 +79,10 @@ namespace SDK.Lib
                 item.mFileVerInfo = fileVerInfo;
             }
 
+            if(item.mFileVerInfo == null)
+            {
+                Debug.Log("aaa");
+            }
             Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, Path is {0}, ResLoadType is {1}", item.mFileVerInfo.mOrigPath, item.mResLoadType), LogTypeId.eLogResLoader);
 
             return item;

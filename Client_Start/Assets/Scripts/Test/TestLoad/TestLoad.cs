@@ -232,14 +232,14 @@ namespace UnitTest
 
 
             AuxTextLoader async_loader_a = new AuxTextLoader();
-            async_loader_a.syncLoad("XmlConfig/Test_a.txt", onAsyncLoad_a);
+            async_loader_a.asyncLoad("XmlConfig/Test_a.txt", onAsyncLoad_a);
 
 
             AuxTextLoader async_loader_b = new AuxTextLoader();
-            async_loader_b.syncLoad("XmlConfig/Test_b.txt", onAsyncLoad_b);
+            async_loader_b.asyncLoad("XmlConfig/Test_b.txt", onAsyncLoad_b);
 
 
-            MDataStream dataStream_a = new MDataStream("XmlConfig/Test_a.txt", onDataStreamResourceLoaded);
+            MDataStream dataStream_a = new MDataStream(MFileSys.msDataStreamResourcesPath + "/XmlConfig/Test_a.txt", onDataStreamResourceLoaded);
 
             MDataStream dataStream_b = new MDataStream(MFileSys.msDataStreamStreamingAssetsPath + "/XmlConfig/Test_b.txt", onDataStreamStreamingAssetsLoaded);
         }

@@ -56,7 +56,7 @@ namespace SDK.Lib
 
         public void loadLocalRVer()
         {
-            mRDataStream = new MDataStream(VerFileName.VER_R, onRVerLoaded);
+            mRDataStream = new MDataStream(UtilPath.combine(MFileSys.msDataStreamResourcesPath, VerFileName.VER_R), onRVerLoaded);
         }
 
         public void onRVerLoaded(IDispatchObject dispObj)
@@ -73,8 +73,8 @@ namespace SDK.Lib
         public void loadLocalSVer()
         {
             // 不要从 StreamingAssets 这个目录下加载 VerFileName.VER_S ，因为在 Android 上是异步加载的，因此直接放在 Resources 目录下
-            mSDataStream = new MDataStream(MFileSys.msStreamingAssetsPath + "/" + VerFileName.VER_S, onSVerLoaded);
-            mSDataStream = new MDataStream(VerFileName.VER_S, onSVerLoaded);
+            //mSDataStream = new MDataStream(MFileSys.msStreamingAssetsPath + "/" + VerFileName.VER_S, onSVerLoaded);
+            mSDataStream = new MDataStream(UtilPath.combine(MFileSys.msDataStreamResourcesPath, VerFileName.VER_S), onSVerLoaded);
         }
 
         public void onSVerLoaded(IDispatchObject dispObj)
