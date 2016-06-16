@@ -57,13 +57,19 @@ namespace SDK.Lib
 
         public ResRedirectItem getResRedirectItem(string origPath)
         {
+            Ctx.m_instance.m_logSys.log(string.Format("ResRedirectItem::getResRedirectItem, origPath is {0}", origPath), LogTypeId.eLogResLoader);
+
             ResRedirectItem item = null;
             if (mOrigPath2ItemDic.ContainsKey(origPath))
             {
+                Ctx.m_instance.m_logSys.log("ResRedirectItem::getResRedirectItem, Cached", LogTypeId.eLogResLoader);
+
                 item = mOrigPath2ItemDic[origPath];
             }
             else
             {
+                Ctx.m_instance.m_logSys.log("ResRedirectItem::getResRedirectItem, Not Cached", LogTypeId.eLogResLoader);
+
                 // 从版本系统中获取
                 item = new ResRedirectItem(origPath, (int)ResLoadType.eLoadResource);
                 mOrigPath2ItemDic[origPath] = item;

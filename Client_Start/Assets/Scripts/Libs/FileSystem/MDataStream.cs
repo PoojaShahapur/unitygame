@@ -18,13 +18,22 @@ namespace SDK.Lib
             eOther,                             // 其它
         }
 
+        public enum eFileOpState
+        {
+            eNoOp = 0,      // 无操作
+            eOpening = 1,   // 打开中
+            eOpenSuccess = 2,   // 打开成功
+            eOpenFail = 3,      // 打开失败
+            eOpenClose = 4,     // 关闭
+        }
+
         public FileStream mFileStream;
         protected WWW mWWW;
 
         protected string mFilePath;
         protected FileMode mMode;
         protected FileAccess mAccess;
-        protected bool mIsValid;
+        protected eFileOpState mFileOpState;
 
         protected eFilePlatformAndPath mFilePlatformAndPath;
 
@@ -44,7 +53,7 @@ namespace SDK.Lib
             mFilePath = filePath;
             mMode = mode;
             mAccess = access;
-            mIsValid = false;
+            mFileOpState = eFileOpState.eNoOp;
             mIsSyncMode = isSyncMode;
 
             checkPlatformAndPath(mFilePath);
@@ -54,7 +63,7 @@ namespace SDK.Lib
 
         public void seek(long offset, SeekOrigin origin)
         {
-            if(mIsValid)
+            if(mFileOpState == eFileOpState.eOpenSuccess)
             {
                 if(isResourcesFile())
                 {
@@ -123,12 +132,21 @@ namespace SDK.Lib
 
         protected void syncOpen()
         {
-            if (!mIsValid)
+            if (mFileOpState == eFileOpState.eNoOp)
             {
-                mIsValid = true;
+                mFileOpState = eFileOpState.eOpening;
                 if(!isWWWStream())
                 {
-                    mFileStream = new FileStream(mFilePath, mMode, mAccess);
+                    try
+                    {
+                        mFileStream = new FileStream(mFilePath, mMode, mAccess);
+                        mFileOpState = eFileOpState.eOpenSuccess;
+                    }
+                    catch(Exception exp)
+                    {
+                        mFileOpState = eFileOpState.eOpenFail;
+                        Ctx.m_instance.m_logSys.log(string.Format("Open File Fail, FileName is {0}, Exception is ", mFilePath, exp.Message));
+                    }
                 }
 
                 onAsyncOpened();
@@ -138,15 +156,25 @@ namespace SDK.Lib
         // 异步打开
         public IEnumerator asyncOpen()
         {
-            if (!mIsValid)
+            if (mFileOpState == eFileOpState.eNoOp)
             {
-                mIsValid = true;
+                mFileOpState = eFileOpState.eOpening;
+
                 if (isWWWStream())
                 {
                     // Android 平台
                     string path = UtilPath.getRuntimeWWWStreamingAssetsPath(mFilePath);
                     mWWW = new WWW(path);   // 同步加载资源
                     yield return mWWW;
+
+                    if(UtilApi.isWWWNoError(mWWW))
+                    {
+                        mFileOpState = eFileOpState.eOpenSuccess;
+                    }
+                    else
+                    {
+                        mFileOpState = eFileOpState.eOpenFail;
+                    }
 
                     onAsyncOpened();
                 }
@@ -161,29 +189,32 @@ namespace SDK.Lib
 
         public void syncOpenResourcesFile()
         {
-            if (!mIsValid)
+            if (mFileOpState == eFileOpState.eNoOp)
             {
-                mIsValid = true;
+                mFileOpState = eFileOpState.eOpening;
 
                 TextAsset textAsset = null;
                 try
                 {
-                    string fileNoExt = UtilPath.getFileNameNoExt(mFilePath);
+                    string fileNoExt = UtilPath.getFilePathNoExt(mFilePath);
                     textAsset = Resources.Load<TextAsset>(fileNoExt);
                     if (textAsset != null)
                     {
+                        mFileOpState = eFileOpState.eOpenSuccess;
+
                         mText = textAsset.text;
                         mBytes = textAsset.bytes;
                         Resources.UnloadAsset(textAsset);
                     }
                     else
                     {
-                        mIsValid = false;
+                        mFileOpState = eFileOpState.eOpenFail;
                     }
                 }
                 catch (Exception exp)
                 {
-                    mIsValid = false;
+                    mFileOpState = eFileOpState.eOpenFail;
+
                     Ctx.m_instance.m_logSys.log("MDataStream Load Failed, FileName is " + mFilePath + " Exception is" + exp.Message);
                 }
 
@@ -207,7 +238,7 @@ namespace SDK.Lib
                 this.addOpenedHandle(openedDisp);
             }
 
-            if(!mIsValid)
+            if (mFileOpState == eFileOpState.eNoOp)
             {
                 if(isResourcesFile())
                 {
@@ -226,14 +257,14 @@ namespace SDK.Lib
 
         public bool isValid()
         {
-            return mIsValid;
+            return mFileOpState == eFileOpState.eOpenSuccess;
         }
 
         // 获取总共长度
         public int getLength()
         {
             int len = 0;
-            if (mIsValid)
+            if (mFileOpState == eFileOpState.eOpenSuccess)
             {
                 if(isResourcesFile())
                 {
@@ -281,7 +312,7 @@ namespace SDK.Lib
 
         protected void close()
         {
-            if (mIsValid)
+            if (mFileOpState == eFileOpState.eOpenSuccess)
             {
                 if (isResourcesFile())
                 {
@@ -305,7 +336,8 @@ namespace SDK.Lib
                     }
                 }
 
-                mIsValid = false;
+                mFileOpState = eFileOpState.eOpenClose;
+                mFileOpState = eFileOpState.eNoOp;
             }
         }
 
@@ -326,38 +358,41 @@ namespace SDK.Lib
                 count = getLength();
             }
 
-            if (isResourcesFile())
+            if (mFileOpState == eFileOpState.eOpenSuccess)
             {
-                retStr = mText;
-            }
-            else if (isWWWStream())
-            {
-                if (UtilApi.isWWWNoError(mWWW))
+                if (isResourcesFile())
                 {
-                    if (mWWW.text != null)
+                    retStr = mText;
+                }
+                else if (isWWWStream())
+                {
+                    if (UtilApi.isWWWNoError(mWWW))
                     {
-                        retStr = mWWW.text;
-                    }
-                    else if (mWWW.bytes != null)
-                    {
-                        retStr = encode.GetString(bytes);
+                        if (mWWW.text != null)
+                        {
+                            retStr = mWWW.text;
+                        }
+                        else if (mWWW.bytes != null)
+                        {
+                            retStr = encode.GetString(bytes);
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (mFileStream.CanRead)
+                else
                 {
-                    try
+                    if (mFileStream.CanRead)
                     {
-                        bytes = new byte[count];
-                        mFileStream.Read(bytes, 0, count);
+                        try
+                        {
+                            bytes = new byte[count];
+                            mFileStream.Read(bytes, 0, count);
 
-                        retStr = encode.GetString(bytes);
-                    }
-                    catch (Exception err)
-                    {
-                        Ctx.m_instance.m_logSys.log(err.Message);
+                            retStr = encode.GetString(bytes);
+                        }
+                        catch (Exception err)
+                        {
+                            Ctx.m_instance.m_logSys.log(err.Message);
+                        }
                     }
                 }
             }

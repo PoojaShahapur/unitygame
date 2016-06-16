@@ -5,6 +5,8 @@ namespace UnitTest
 {
     public class TestLoad
     {
+        protected MDataStream mDataStream;
+
         public void run()
         {
             //testModelLoad();
@@ -22,7 +24,9 @@ namespace UnitTest
             //testLoadPreafab();
             //testLoadText();
             //this.testDownload();
-            this.testLuaLoad();
+            //this.testLuaLoad();
+
+            this.testTextLoaderAndStream();
         }
 
         protected void testModelLoad()
@@ -208,6 +212,30 @@ namespace UnitTest
                 {
                     string str = textAsset.text;
                 }
+            }
+        }
+
+        protected void testTextLoaderAndStream()
+        {
+            AuxTextLoader loader = new AuxTextLoader();
+            loader.syncLoad("XmlConfig/ReadMe.txt");
+
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/ReadMe.txt Content {0} ", loader.getText()), LogTypeId.eLogTestRL);
+
+            mDataStream = new MDataStream("XmlConfig/Test.txt", onLoaded);
+        }
+
+        protected void onLoaded(IDispatchObject dispObj)
+        {
+            mDataStream = dispObj as MDataStream;
+            if (mDataStream.isValid())
+            {
+                string text = mDataStream.readText();
+                Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/ReadMe.txt Content {0} ", text), LogTypeId.eLogResLoader);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("Open File Failed", LogTypeId.eLogResLoader);
             }
         }
     }

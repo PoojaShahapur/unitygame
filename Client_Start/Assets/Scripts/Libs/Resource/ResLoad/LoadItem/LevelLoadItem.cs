@@ -27,6 +27,8 @@ namespace SDK.Lib
             base.load();
             if(ResLoadType.eLoadResource == m_resLoadType)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Level", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
                 m_nonRefCountResLoadResultNotify.loadResEventDispatch.dispatchEvent(this);
             }
@@ -45,6 +47,8 @@ namespace SDK.Lib
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "Level", m_origPath), LogTypeId.eLogResLoader);
+
                 Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
             }
         }
@@ -79,6 +83,15 @@ namespace SDK.Lib
 
             path = ResPathResolve.msABLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
 
+            if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "Level", path), LogTypeId.eLogResLoader);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "Level", path), LogTypeId.eLogResLoader);
+            }
+
             req = AssetBundle.LoadFromFileAsync(path);
             yield return req;
 
@@ -90,8 +103,18 @@ namespace SDK.Lib
 
         protected void loadFromAssetBundle()
         {
-            string path;
+            string path = "";
             path = ResPathResolve.msABLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
+
+            if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "Level", path), LogTypeId.eLogResLoader);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("LevelLoadItem::loadFromAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "Level", path), LogTypeId.eLogResLoader);
+            }
+
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             m_assetBundle = AssetBundle.CreateFromFile(path);

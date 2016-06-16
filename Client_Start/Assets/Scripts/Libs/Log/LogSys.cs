@@ -13,10 +13,11 @@ namespace SDK.Lib
         public string m_tmpStr;
         public bool m_bOutLog = true;          // 是否输出日志
 
-        protected List<LogDeviceBase> m_logDeviceList = new List<LogDeviceBase>();
-        protected List<LogDeviceBase> m_fightLogDeviceList = new List<LogDeviceBase>();
+        protected MList<LogDeviceBase> m_logDeviceList = new MList<LogDeviceBase>();
+        protected MList<LogDeviceBase> m_fightLogDeviceList = new MList<LogDeviceBase>();
 
-        protected bool mEnableLog;
+        protected MList<LogTypeId> mEnableLogTypeList;
+        protected bool mEnableLog;      // 全局开关
 
         public LogSys()
         {
@@ -27,6 +28,8 @@ namespace SDK.Lib
             Application.RegisterLogCallback(onDebugLogCallbackHandler);
             Application.RegisterLogCallbackThreaded(onDebugLogCallbackThreadHandler);
 #endif
+            mEnableLogTypeList = new MList<LogTypeId>();
+            mEnableLogTypeList.Add(LogTypeId.eLogResLoader);
             mEnableLog = true;
             registerDevice();
             registerFileLogDevice();
@@ -82,7 +85,7 @@ namespace SDK.Lib
 
         protected void unRegisterFileLogDevice()
         {
-            foreach(var item in m_logDeviceList)
+            foreach(var item in m_logDeviceList.list())
             {
                 if(typeof(FileLogDevice) == item.GetType())
                 {
@@ -128,7 +131,7 @@ namespace SDK.Lib
         {
             if (MThread.isMainThread())
             {
-                foreach (LogDeviceBase logDevice in m_fightLogDeviceList)
+                foreach (LogDeviceBase logDevice in m_fightLogDeviceList.list())
                 {
                     logDevice.logout(message, LogColor.LOG);
                 }
@@ -137,10 +140,14 @@ namespace SDK.Lib
 
         protected bool isInFilter(LogTypeId logTypeId)
         {
-            if(logTypeId == LogTypeId.eLogCommon ||
-               logTypeId == LogTypeId.eLogTest)
+            if (mEnableLog)
             {
-                return mEnableLog;
+                if (mEnableLogTypeList.IndexOf(logTypeId) != -1)
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             return false;
@@ -265,7 +272,7 @@ namespace SDK.Lib
 
             if (m_bOutLog)
             {
-                foreach (LogDeviceBase logDevice in m_logDeviceList)
+                foreach (LogDeviceBase logDevice in m_logDeviceList.list())
                 {
                     logDevice.logout(message, type);
                 }
@@ -330,7 +337,7 @@ namespace SDK.Lib
 
         public void closeDevice()
         {
-            foreach (LogDeviceBase logDevice in m_logDeviceList)
+            foreach (LogDeviceBase logDevice in m_logDeviceList.list())
             {
                 logDevice.closeDevice();
             }

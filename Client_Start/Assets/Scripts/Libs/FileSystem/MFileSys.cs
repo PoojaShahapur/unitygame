@@ -168,7 +168,7 @@ namespace SDK.Lib
             }
             catch
             {
-                Debug.Log("Not Find File " + fileName);
+                Ctx.m_instance.m_logSys.log("Not Find File " + fileName, LogTypeId.eLogCommon);
             }
 
             return ret;

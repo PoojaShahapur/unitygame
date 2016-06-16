@@ -29,6 +29,8 @@ namespace SDK.Lib
 
         public T getAndAsyncLoad<T>(string path, LuaTable luaTable = null, LuaFunction luaFunction = null, bool isLoadAll = false) where T : InsResBase, new()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::getAndAsyncLoad Path is {0}", path), LogTypeId.eLogResLoader);
+
             T ret = null;
             LoadParam param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.setPath(path);
@@ -67,6 +69,8 @@ namespace SDK.Lib
         // 同步加载，立马加载完成，并且返回加载的资源， syncLoad 同步加载资源不能喝异步加载资源的接口同时去加载一个资源，如果异步加载一个资源，这个时候资源还没有加载完成，然后又同步加载一个资源，这个时候获取的资源是没有加载完成的，由于同步加载资源没有回调，因此即使同步加载的资源加载完成，也不可能获取加载完成事件
         public void syncLoad<T>(string path, bool isLoadAll = false) where T : InsResBase, new()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("InsResMgrBase::syncLoad Path is {0}", path), LogTypeId.eLogResLoader);
+
             LoadParam param;
             param = Ctx.m_instance.m_poolSys.newObject<LoadParam>();
             param.setPath(path);

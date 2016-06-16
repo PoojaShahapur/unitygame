@@ -11,6 +11,7 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
+
             if (ResLoadType.eLoadStreamingAssets == m_resLoadType ||
                 ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
@@ -27,6 +28,8 @@ namespace SDK.Lib
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("BundleLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "AssetBundles", m_origPath), LogTypeId.eLogResLoader);
+
                 Ctx.m_instance.m_coroutineMgr.StartCoroutine(downloadAsset());
             }
         }
@@ -68,6 +71,16 @@ namespace SDK.Lib
             AssetBundleCreateRequest req = null;
 
             path = ResPathResolve.msABLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
+
+            if (m_resLoadType == ResLoadType.eLoadStreamingAssets)
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("BundleLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadStreamingAssets", "AssetBundles", path), LogTypeId.eLogResLoader);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log(string.Format("BundleLoadItem::loadFromAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, FullPath is {2}", "LoadLocalPersistentData", "AssetBundles", path), LogTypeId.eLogResLoader);
+            }
+
             req = AssetBundle.LoadFromFileAsync(path);
             yield return req;
 

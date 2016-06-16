@@ -23,6 +23,9 @@ namespace SDK.Lib
         override public void load()
         {
             base.load();
+
+            string fullLoadPath = "";
+
             if (ResLoadType.eLoadResource == m_resLoadType)  // 如果从 Resources 加载
             {
                 if (m_loadNeedCoroutine)
@@ -37,11 +40,24 @@ namespace SDK.Lib
             else if(ResLoadType.eLoadStreamingAssets == m_resLoadType ||
                     ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
+                fullLoadPath = ResPathResolve.msFileLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
+
+                if (ResLoadType.eLoadStreamingAssets == m_resLoadType)
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, fullLoadPath is {2}", "LoadStreamingAssets", "Data", fullLoadPath), LogTypeId.eLogResLoader);
+                }
+                else
+                {
+                    Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, fullLoadPath is {2}", "LoadLocalPersistentData", "Data", fullLoadPath), LogTypeId.eLogResLoader);
+                }
+
                 // 暂时只支持同步加载
-                mDataStream = new MDataStream(ResPathResolve.msFileLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened);
+                mDataStream = new MDataStream(fullLoadPath, onFileOpened);
             }
             else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::load, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadWeb", "Data", m_origPath), LogTypeId.eLogResLoader);
+
                 // Web 服务器加载
             }
         }
@@ -61,6 +77,8 @@ namespace SDK.Lib
         // Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时动态加载，可以指定路径和来源的。
         protected void loadFromDefaultAssetBundle()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::loadFromDefaultAssetBundle, ResLoadType is {0}, ResPackType is {1}, Load Not Need Coroutine, m_origPath is {2}", "LoadResource", "Data", m_origPath), LogTypeId.eLogResLoader);
+
             bool isSuccess = false;
             mTextAsset = Resources.Load<TextAsset>(m_loadPath);
             if (mTextAsset != null)
@@ -82,6 +100,8 @@ namespace SDK.Lib
 
         protected IEnumerator loadFromDefaultAssetBundleByCoroutine()
         {
+            Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::loadFromDefaultAssetBundleByCoroutine, ResLoadType is {0}, ResPackType is {1}, Load Need Coroutine, m_loadPath is {2}", "LoadResource", "Data", m_loadPath), LogTypeId.eLogResLoader);
+
             ResourceRequest req = Resources.LoadAsync<TextAsset>(m_loadPath);
             yield return req;
 
@@ -102,16 +122,23 @@ namespace SDK.Lib
         protected void onFileOpened(IDispatchObject dispObj)
         {
             mDataStream = dispObj as MDataStream;   // 因为返回之前就回调了，因此这里需要赋值一下，然后才能使用 mDataStream
-            mBytes = mDataStream.readByte();
+            if (mDataStream.isValid())
+            {
+                mBytes = mDataStream.readByte();
+            }
             mDataStream.dispose();
             mDataStream = null;
 
             if(mBytes != null)
             {
+                Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::onFileOpened, m_origPath is {0}, Open Success", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setSuccessLoaded();
             }
             else
             {
+                Ctx.m_instance.m_logSys.log(string.Format("DataLoadItem::onFileOpened, m_origPath is {0}, Open Failed", m_origPath), LogTypeId.eLogResLoader);
+
                 m_nonRefCountResLoadResultNotify.resLoadState.setFailed();
             }
 
