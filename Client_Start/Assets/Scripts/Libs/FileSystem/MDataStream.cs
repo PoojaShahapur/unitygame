@@ -113,8 +113,8 @@ namespace SDK.Lib
 
         public bool isResourcesFile()
         {
-            if(mFilePath.IndexOf(MFileSys.msPersistentDataPath) != 0 && 
-               mFilePath.IndexOf(MFileSys.msStreamingAssetsPath) != 0)
+            if(mFilePath.IndexOf(MFileSys.msDataStreamStreamingAssetsPath) != 0 && 
+               mFilePath.IndexOf(MFileSys.msDataStreamPersistentDataPath) != 0)
             {
                 return true;
             }

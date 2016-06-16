@@ -5,8 +5,6 @@ namespace UnitTest
 {
     public class TestLoad
     {
-        protected MDataStream mDataStream;
-
         public void run()
         {
             //testModelLoad();
@@ -217,26 +215,83 @@ namespace UnitTest
 
         protected void testTextLoaderAndStream()
         {
-            AuxTextLoader loader = new AuxTextLoader();
-            loader.syncLoad("XmlConfig/ReadMe.txt");
+            AuxTextLoader sync_loader_a = new AuxTextLoader();
+            sync_loader_a.syncLoad("XmlConfig/Test_a.txt");
 
-            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/ReadMe.txt Content {0} ", loader.getText()), LogTypeId.eLogTestRL);
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a Sync Content {0} ", sync_loader_a.getText()), LogTypeId.eLogTestRL);
 
-            mDataStream = new MDataStream("XmlConfig/Test.txt", onLoaded);
+            sync_loader_a.dispose();
+
+
+            AuxTextLoader sync_loader_b = new AuxTextLoader();
+            sync_loader_b.syncLoad("XmlConfig/Test_b.txt");
+
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b Sync Content {0} ", sync_loader_b.getText()), LogTypeId.eLogTestRL);
+
+            sync_loader_b.dispose();
+
+
+            AuxTextLoader async_loader_a = new AuxTextLoader();
+            async_loader_a.syncLoad("XmlConfig/Test_a.txt", onAsyncLoad_a);
+
+
+            AuxTextLoader async_loader_b = new AuxTextLoader();
+            async_loader_b.syncLoad("XmlConfig/Test_b.txt", onAsyncLoad_b);
+
+
+            MDataStream dataStream_a = new MDataStream("XmlConfig/Test_a.txt", onDataStreamResourceLoaded);
+
+            MDataStream dataStream_b = new MDataStream(MFileSys.msDataStreamStreamingAssetsPath + "/XmlConfig/Test_b.txt", onDataStreamStreamingAssetsLoaded);
         }
 
-        protected void onLoaded(IDispatchObject dispObj)
+        protected void onAsyncLoad_a(IDispatchObject dispObj)
         {
-            mDataStream = dispObj as MDataStream;
-            if (mDataStream.isValid())
+            AuxTextLoader async_loader_a = dispObj as AuxTextLoader;
+
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a Async Content {0} ", async_loader_a.getText()), LogTypeId.eLogTestRL);
+
+            async_loader_a.dispose();
+        }
+
+        protected void onAsyncLoad_b(IDispatchObject dispObj)
+        {
+            AuxTextLoader async_loader_b = dispObj as AuxTextLoader;
+
+            Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b Async Content {0} ", async_loader_b.getText()), LogTypeId.eLogTestRL);
+
+            async_loader_b.dispose();
+        }
+
+        protected void onDataStreamResourceLoaded(IDispatchObject dispObj)
+        {
+            MDataStream dataStream = dispObj as MDataStream;
+            if (dataStream.isValid())
             {
-                string text = mDataStream.readText();
-                Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/ReadMe.txt Content {0} ", text), LogTypeId.eLogResLoader);
+                string text = dataStream.readText();
+                Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_a.txt DataStream Content {0} ", text), LogTypeId.eLogResLoader);
             }
             else
             {
                 Ctx.m_instance.m_logSys.log("Open File Failed", LogTypeId.eLogResLoader);
             }
+
+            dataStream.dispose();
+        }
+
+        protected void onDataStreamStreamingAssetsLoaded(IDispatchObject dispObj)
+        {
+            MDataStream dataStream = dispObj as MDataStream;
+            if (dataStream.isValid())
+            {
+                string text = dataStream.readText();
+                Ctx.m_instance.m_logSys.log(string.Format("XmlConfig/Test_b.txt DataStream Content {0} ", text), LogTypeId.eLogResLoader);
+            }
+            else
+            {
+                Ctx.m_instance.m_logSys.log("Open File Failed", LogTypeId.eLogResLoader);
+            }
+
+            dataStream.dispose();
         }
     }
 }

@@ -682,7 +682,7 @@ namespace SDK.Lib
         static public bool isStreamingAssetsPath(string path)
         {
             path = UtilPath.normalPath(path);
-            return path.IndexOf(MFileSys.msWWWStreamingAssetsPath) == 0;
+            return path.IndexOf(MFileSys.msDataStreamStreamingAssetsPath) == 0;
         }
 
         static public string getRuntimeWWWStreamingAssetsPath(string path)

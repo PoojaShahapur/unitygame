@@ -15,6 +15,13 @@ namespace SDK.Lib
         public static string msWWWStreamingAssetsPath;  // www 读取 StreamingAssets 文件系统时候不同平台的目录
         public static string msAssetBundlesStreamingAssetsPath;     // AssetBundles CreateFromFile 直接从 StreamingAssets 目录下读取 AssetBundles 资源的目录
 
+        public static string msWWWPersistentDataPath;   // 使用 WWW 读取 PersistentDataPath 的路径
+        public static string msAssetBundlesPersistentDataPath;    // AssetBundles CreateFromFile 直接从 StreamingAssets 目录下读取 AssetBundles 资源的目录
+
+        public static string msDataStreamResourcesPath;     // 使用 MDataStream 读取 Resources 目录下的资源
+        public static string msDataStreamStreamingAssetsPath;     // 使用 MDataStream 读取 StreamingAssetsPath 目录下的资源
+        public static string msDataStreamPersistentDataPath;     // 使用 MDataStream 读取 PersistentDataPath 目录下的资源
+
         // 可读写目录
         //#if UNITY_EDITOR
         //public static string msRWDataPath = msStreamingAssetsPath;
@@ -30,6 +37,13 @@ namespace SDK.Lib
 
             msWWWStreamingAssetsPath = getWWWStreamingAssetsPath();
             msAssetBundlesStreamingAssetsPath = getAssetBundlesStreamingAssetsPath();
+
+            msWWWPersistentDataPath = getWWWPersistentDataPath();
+            msAssetBundlesPersistentDataPath = getAssetBundlesPersistentDataPath();
+
+            msDataStreamResourcesPath = "";
+            msDataStreamStreamingAssetsPath = getDataStreamStreamingAssetsPath();
+            msDataStreamPersistentDataPath = getDataStreamPersistentDataPath();
         }
 
         // 获取本地 Data 目录
@@ -105,6 +119,26 @@ namespace SDK.Lib
             string filepath = Application.streamingAssetsPath;
 #endif
             return filepath;
+        }
+
+        static public string getWWWPersistentDataPath()
+        {
+            return msPersistentDataPath;
+        }
+
+        static public string getAssetBundlesPersistentDataPath()
+        {
+            return msPersistentDataPath;
+        }
+
+        static public string getDataStreamStreamingAssetsPath()
+        {
+            return msStreamingAssetsPath;
+        }
+
+        static public string getDataStreamPersistentDataPath()
+        {
+            return msPersistentDataPath;
         }
 
         // 获取编辑器工作目录

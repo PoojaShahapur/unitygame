@@ -40,7 +40,7 @@ namespace SDK.Lib
             else if(ResLoadType.eLoadStreamingAssets == m_resLoadType ||
                     ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
-                fullLoadPath = ResPathResolve.msFileLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
+                fullLoadPath = ResPathResolve.msDataStreamLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
 
                 if (ResLoadType.eLoadStreamingAssets == m_resLoadType)
                 {
