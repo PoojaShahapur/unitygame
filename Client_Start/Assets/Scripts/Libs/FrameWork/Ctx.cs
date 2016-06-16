@@ -130,6 +130,7 @@
 
         protected void preInit()
         {
+            MFileSys.init();            // 初始化本地文件系统的一些数据
             PlatformDefine.init();      // 初始化平台相关的定义
             UtilByte.checkEndian();     // 检查系统大端小端
             MThread.getMainThreadID();  // 获取主线程 ID

@@ -14,11 +14,7 @@ public class SDK_Lib_MFileSysWrap
 			new LuaMethod("getDebugWorkPath", getDebugWorkPath),
 			new LuaMethod("getAbsPathByRelPath", getAbsPathByRelPath),
 			new LuaMethod("readFileAllBytes", readFileAllBytes),
-			new LuaMethod("writeBytesToFile", writeBytesToFile),
-			new LuaMethod("readFileAllText", readFileAllText),
-			new LuaMethod("writeTextToFile", writeTextToFile),
 			new LuaMethod("readLuaBufferToFile", readLuaBufferToFile),
-			new LuaMethod("writeLuaBufferToFile", writeLuaBufferToFile),
 			new LuaMethod("New", _CreateSDK_Lib_MFileSys),
 			new LuaMethod("GetClassType", GetClassType),
 		};
@@ -27,7 +23,6 @@ public class SDK_Lib_MFileSysWrap
 		{
 			new LuaField("msStreamingAssetsPath", get_msStreamingAssetsPath, set_msStreamingAssetsPath),
 			new LuaField("msPersistentDataPath", get_msPersistentDataPath, set_msPersistentDataPath),
-			new LuaField("msRWDataPath", get_msRWDataPath, set_msRWDataPath),
 		};
 
 		LuaScriptMgr.RegisterLib(L, "SDK.Lib.MFileSys", typeof(SDK.Lib.MFileSys), regs, fields, typeof(object));
@@ -76,13 +71,6 @@ public class SDK_Lib_MFileSysWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_msRWDataPath(IntPtr L)
-	{
-		LuaScriptMgr.Push(L, SDK.Lib.MFileSys.msRWDataPath);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int set_msStreamingAssetsPath(IntPtr L)
 	{
 		SDK.Lib.MFileSys.msStreamingAssetsPath = LuaScriptMgr.GetString(L, 3);
@@ -93,13 +81,6 @@ public class SDK_Lib_MFileSysWrap
 	static int set_msPersistentDataPath(IntPtr L)
 	{
 		SDK.Lib.MFileSys.msPersistentDataPath = LuaScriptMgr.GetString(L, 3);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_msRWDataPath(IntPtr L)
-	{
-		SDK.Lib.MFileSys.msRWDataPath = LuaScriptMgr.GetString(L, 3);
 		return 0;
 	}
 
@@ -172,36 +153,6 @@ public class SDK_Lib_MFileSysWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int writeBytesToFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		byte[] objs1 = LuaScriptMgr.GetArrayNumber<byte>(L, 2);
-		SDK.Lib.MFileSys.writeBytesToFile(arg0,objs1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int readFileAllText(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string o = SDK.Lib.MFileSys.readFileAllText(arg0);
-		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int writeTextToFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string arg1 = LuaScriptMgr.GetLuaString(L, 2);
-		SDK.Lib.MFileSys.writeTextToFile(arg0,arg1);
-		return 0;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int readLuaBufferToFile(IntPtr L)
 	{
 		LuaScriptMgr.CheckArgsCount(L, 1);
@@ -209,16 +160,6 @@ public class SDK_Lib_MFileSysWrap
 		LuaStringBuffer o = SDK.Lib.MFileSys.readLuaBufferToFile(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int writeLuaBufferToFile(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 2);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		LuaStringBuffer arg1 = LuaScriptMgr.GetStringBuffer(L, 2);
-		SDK.Lib.MFileSys.writeLuaBufferToFile(arg0,arg1);
-		return 0;
 	}
 }
 

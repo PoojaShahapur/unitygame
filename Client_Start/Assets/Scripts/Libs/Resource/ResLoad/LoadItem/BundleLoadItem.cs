@@ -47,27 +47,40 @@ namespace SDK.Lib
         protected IEnumerator loadFromAssetBundleByCoroutine()
         {
             string path = "";
-            path = ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
             // UNITY_5_2 没有
-            AssetBundleCreateRequest req = null;
+            //AssetBundleCreateRequest req = null;
 
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
-            byte[] bytes = Ctx.m_instance.m_fileSys.LoadFileByte(path);
-            req = AssetBundle.CreateFromMemory(bytes);
-            yield return req;
+            //byte[] bytes = Ctx.m_instance.m_fileSys.LoadFileByte(path);
+            //req = AssetBundle.CreateFromMemory(bytes);
+            //yield return req;
+
+            // UNITY_5_2 没有异步从文件加载的 LoadFromFileAsync 接口，只有从内存异步加载的 CreateFromMemory 接口，因此直接使用 WWW 读取，就不先从文件系统将二进制读取进来，然后再调用 CreateFromMemory 了，不知道 WWW 和 从文件系统读取二进制再 CreateFromMemory 哪个更快。
+            WWW www = null;
+            path = ResPathResolve.msFileLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
+            www = new WWW(path);
+            yield return www;
+            m_assetBundle = www.assetBundle;
+
+            www.Dispose();
+            www = null;
 #else
+            AssetBundleCreateRequest req = null;
+
+            path = ResPathResolve.msABLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
             req = AssetBundle.LoadFromFileAsync(path);
             yield return req;
-#endif
 
             m_assetBundle = req.assetBundle;
+#endif
+
             assetBundleLoaded();
         }
 
         protected void loadFromAssetBundle()
         {
             string path;
-            path = ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
+            path = ResPathResolve.msABLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath;
             // UNITY_5_2 没有
 #if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             m_assetBundle = AssetBundle.CreateFromFile(path);

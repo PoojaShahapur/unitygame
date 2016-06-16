@@ -8,14 +8,30 @@ namespace SDK.Lib
      */
     public class MFileSys
     {
-        public static string msStreamingAssetsPath = Application.streamingAssetsPath;
-        public static string msPersistentDataPath = Application.persistentDataPath;
+        // 使用目录都直接使用这四个目录
+        public static string msStreamingAssetsPath;
+        public static string msPersistentDataPath;
+
+        public static string msWWWStreamingAssetsPath;  // www 读取 StreamingAssets 文件系统时候不同平台的目录
+        public static string msAssetBundlesStreamingAssetsPath;     // AssetBundles CreateFromFile 直接从 StreamingAssets 目录下读取 AssetBundles 资源的目录
+
         // 可读写目录
-#if UNITY_EDITOR
-        public static string msRWDataPath = msStreamingAssetsPath;
-#else
-        public static string msRWDataPath = msPersistentDataPath;
-#endif
+        //#if UNITY_EDITOR
+        //public static string msRWDataPath = msStreamingAssetsPath;
+        //#else
+        //public static string msRWDataPath = msPersistentDataPath;
+        //#endif
+
+        // 初始化资源目录
+        static public void init()
+        {
+            msStreamingAssetsPath = Application.streamingAssetsPath;
+            msPersistentDataPath = Application.persistentDataPath;
+
+            msWWWStreamingAssetsPath = getWWWStreamingAssetsPath();
+            msAssetBundlesStreamingAssetsPath = getAssetBundlesStreamingAssetsPath();
+        }
+
         // 获取本地 Data 目录
         static public string getLocalDataDir()
         {
@@ -50,7 +66,7 @@ namespace SDK.Lib
         }
 
         // http://docs.unity3d.com/ScriptReference/WWW.html
-        protected string getWWWStreamingAssetsPath()
+        static protected string getWWWStreamingAssetsPath()
         {
 #if UNITY_EDITOR
             // 实际测试 string filepath = "file://" + Application.streamingAssetsPath; 也是可以的
@@ -62,6 +78,7 @@ namespace SDK.Lib
             // 千万不能使用 string filepath = "file:///" + Application.streamingAssetsPath; 或者 string filepath = "file://" + Application.streamingAssetsPath;
             string filepath = Application.streamingAssetsPath;
 #elif UNITY_STANDALONE_WIN
+            // 实际测试 string filepath = "file://" + Application.streamingAssetsPath; 也是可以的
             string filepath = "file:///" + Application.streamingAssetsPath;
 #elif UNITY_WEBPLAYER
             string filepath = "file:///" + Application.streamingAssetsPath;
@@ -71,7 +88,7 @@ namespace SDK.Lib
             return filepath;
         }
 
-        protected string getAssetBundlesStreamingAssetsPath()
+        static protected string getAssetBundlesStreamingAssetsPath()
         {
 #if UNITY_EDITOR
             string filepath = Application.streamingAssetsPath;
@@ -157,30 +174,30 @@ namespace SDK.Lib
             return ret;
         }
 
-        static public void writeBytesToFile(string fileName, byte[] buf)
-        {
-            File.WriteAllBytes(msRWDataPath + "/" + fileName, buf);
-        }
+        //static public void writeBytesToFile(string fileName, byte[] buf)
+        //{
+        //    File.WriteAllBytes(msRWDataPath + "/" + fileName, buf);
+        //}
 
-        static public string readFileAllText(string fileName)
-        {
-            string ret = null;
-            try
-            {
-                ret = File.ReadAllText(msRWDataPath + "/" + fileName);
-            }
-            catch
-            {
-                Debug.Log("Not Find File " + fileName);
-            }
+        //static public string readFileAllText(string fileName)
+        //{
+        //    string ret = null;
+        //    try
+        //    {
+        //        ret = File.ReadAllText(msRWDataPath + "/" + fileName);
+        //    }
+        //    catch
+        //    {
+        //        Debug.Log("Not Find File " + fileName);
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        static public void writeTextToFile(string fileName, string text)
-        {
-            File.WriteAllText(msRWDataPath + "/" + fileName, text);
-        }
+        //static public void writeTextToFile(string fileName, string text)
+        //{
+        //    File.WriteAllText(msRWDataPath + "/" + fileName, text);
+        //}
 
         static public LuaStringBuffer readLuaBufferToFile(string fileName)
         {
@@ -189,9 +206,9 @@ namespace SDK.Lib
             return buffer;
         }
 
-        static public void writeLuaBufferToFile(string fileName, LuaStringBuffer text)
-        {
-            writeBytesToFile(fileName, text.buffer);
-        }
+        //static public void writeLuaBufferToFile(string fileName, LuaStringBuffer text)
+        //{
+        //    writeBytesToFile(fileName, text.buffer);
+        //}
     }
 }

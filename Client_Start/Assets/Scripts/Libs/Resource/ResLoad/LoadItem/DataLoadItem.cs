@@ -34,17 +34,13 @@ namespace SDK.Lib
                     loadFromDefaultAssetBundle();
                 }
             }
-            else if((ResLoadType.eLoadStreamingAssets == m_resLoadType))
+            else if(ResLoadType.eLoadStreamingAssets == m_resLoadType ||
+                    ResLoadType.eLoadLocalPersistentData == m_resLoadType)
             {
                 // 暂时只支持同步加载
-                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened);
+                mDataStream = new MDataStream(ResPathResolve.msFileLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened);
             }
-            else if ((ResLoadType.eLoadLocalPersistentData == m_resLoadType))
-            {
-                // 暂时只支持同步加载
-                mDataStream = new MDataStream(ResPathResolve.msLoadRootPathList[(int)m_resLoadType] + "/" + m_loadPath, onFileOpened);
-            }
-            else if ((ResLoadType.eLoadWeb == m_resLoadType))
+            else if (ResLoadType.eLoadWeb == m_resLoadType)
             {
                 // Web 服务器加载
             }

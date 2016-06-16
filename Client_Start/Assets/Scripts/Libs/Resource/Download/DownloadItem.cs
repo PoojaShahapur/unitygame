@@ -231,8 +231,8 @@ namespace SDK.Lib
                 mLocalPath = UtilLogic.combineVerPath(mLocalPath, mVersion);
             }
 
-            mDownloadNoVerPath = ResPathResolve.msLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
-            mDownloadVerPath = ResPathResolve.msLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath + "?ver=" + mVersion;
+            mDownloadNoVerPath = ResPathResolve.msFileLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath;
+            mDownloadVerPath = ResPathResolve.msFileLoadRootPathList[(int)mResLoadType] + "/" + mLoadPath + "?ver=" + mVersion;
 
             Ctx.m_instance.m_logSys.log(string.Format("添加下载任务 {0}", mLoadPath));
         }
