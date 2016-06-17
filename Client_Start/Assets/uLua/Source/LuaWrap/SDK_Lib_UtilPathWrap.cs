@@ -40,7 +40,6 @@ public class SDK_Lib_UtilPathWrap
 			new LuaMethod("recureCreateSubDir", recureCreateSubDir),
 			new LuaMethod("isAndroidRuntime", isAndroidRuntime),
 			new LuaMethod("isStreamingAssetsPath", isStreamingAssetsPath),
-			new LuaMethod("getRuntimeWWWStreamingAssetsPath", getRuntimeWWWStreamingAssetsPath),
 			new LuaMethod("getCurrentDirectory", getCurrentDirectory),
 			new LuaMethod("New", _CreateSDK_Lib_UtilPath),
 			new LuaMethod("GetClassType", GetClassType),
@@ -453,16 +452,6 @@ public class SDK_Lib_UtilPathWrap
 		LuaScriptMgr.CheckArgsCount(L, 1);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		bool o = SDK.Lib.UtilPath.isStreamingAssetsPath(arg0);
-		LuaScriptMgr.Push(L, o);
-		return 1;
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int getRuntimeWWWStreamingAssetsPath(IntPtr L)
-	{
-		LuaScriptMgr.CheckArgsCount(L, 1);
-		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
-		string o = SDK.Lib.UtilPath.getRuntimeWWWStreamingAssetsPath(arg0);
 		LuaScriptMgr.Push(L, o);
 		return 1;
 	}

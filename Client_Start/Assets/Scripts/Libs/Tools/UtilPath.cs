@@ -685,53 +685,6 @@ namespace SDK.Lib
             return path.IndexOf(MFileSys.msDataStreamStreamingAssetsPath) == 0;
         }
 
-        static public string getRuntimeWWWStreamingAssetsPath(string path)
-        {
-            string filepath = "";
-            if (Application.platform == RuntimePlatform.WindowsEditor)
-            {
-                // 文档说 Windows 必须使用 3 个斜杠，但是自己测试两个也可以
-                if (path.IndexOf("file:///") != 0)
-                {
-                    filepath = "file:///" + path;
-                }
-                else
-                {
-                    filepath = path;
-                }
-            }
-            else if (Application.platform == RuntimePlatform.OSXEditor)
-            {
-                // 苹果下两个
-                if (path.IndexOf("file://") != 0)
-                {
-                    filepath = "file://" + path;
-                }
-                else
-                {
-                    filepath = path;
-                }
-            }
-            else if (Application.platform == RuntimePlatform.Android ||
-                     Application.platform == RuntimePlatform.IPhonePlayer)
-            {
-                if (path.IndexOf("file://") != 0)
-                {
-                    filepath = "file://" + path;
-                }
-                else
-                {
-                    filepath = path;
-                }
-            }
-            else
-            {
-                filepath = path;
-            }
-
-            return filepath;
-        }
-
         static public string getCurrentDirectory()
         {
             string curPath = System.Environment.CurrentDirectory;

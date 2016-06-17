@@ -215,6 +215,7 @@ namespace UnitTest
 
         protected void testTextLoaderAndStream()
         {
+            /*
             AuxTextLoader sync_loader_a = new AuxTextLoader();
             sync_loader_a.syncLoad("XmlConfig/Test_a.txt");
 
@@ -240,7 +241,7 @@ namespace UnitTest
 
 
             MDataStream dataStream_a = new MDataStream(MFileSys.msDataStreamResourcesPath + "/XmlConfig/Test_a.txt", onDataStreamResourceLoaded);
-
+            */
             MDataStream dataStream_b = new MDataStream(MFileSys.msDataStreamStreamingAssetsPath + "/XmlConfig/Test_b.txt", onDataStreamStreamingAssetsLoaded);
         }
 

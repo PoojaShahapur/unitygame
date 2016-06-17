@@ -33,7 +33,7 @@ namespace SDK.Lib
 
         public void loadMiniVerFile()
         {
-            mMiniDataStream = new MDataStream(UtilPath.combine(MFileSys.getLocalWriteDir(), VerFileName.VER_MINI), onMiniLoadEventHandle);
+            mMiniDataStream = new MDataStream(UtilPath.combine(MFileSys.msPersistentDataPath, VerFileName.VER_MINI), onMiniLoadEventHandle);
         }
 
         protected void onMiniLoadEventHandle(IDispatchObject dispObj)
