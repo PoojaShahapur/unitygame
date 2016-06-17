@@ -2,16 +2,16 @@
 {
     public class MyNcParticleSystem : AuxComponent
     {
-        protected NcParticleSystem m_ncParticleSystem;
+        //protected NcParticleSystem m_ncParticleSystem;
 
         public void play()
         {
-            m_ncParticleSystem.enabled = true;
+            //m_ncParticleSystem.enabled = true;
         }
 
         public void stop()
         {
-            m_ncParticleSystem.enabled = false;
+            //m_ncParticleSystem.enabled = false;
         }
     }
 }
